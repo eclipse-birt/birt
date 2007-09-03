@@ -92,7 +92,7 @@
 	{
 		if( !parameterBean.isRequired( ) || ( parameterBean.isCascade( ) && DataUtil.trimString( defaultValue ).length( )<=0 ) )
 		{
-			if( allowMultiValue && DataUtil.contain( values, "" ) )
+			if( allowMultiValue && DataUtil.contain( values, "", true ) )
 			{
 %>
 		<OPTION SELECTED></OPTION>
@@ -111,7 +111,7 @@
 			boolean flag = false;
 			if( allowMultiValue )
 			{
-				flag = DataUtil.contain( values, defaultValue );
+				flag = DataUtil.contain( values, defaultValue, true );
 			}
 			else
 			{
@@ -137,7 +137,7 @@
 
 			if( allowMultiValue )
 			{
-				if( DataUtil.contain( values, value ) )
+				if( DataUtil.contain( values, value, true ) )
 				{
 %>
 			<OPTION VALUE="<%= ParameterAccessor.htmlEncode( value ) %>" SELECTED><%= ParameterAccessor.htmlEncode( label ) %></OPTION>
@@ -174,7 +174,7 @@
 	{
 		if( allowMultiValue )
 		{
-			if( DataUtil.contain( values, null ) )
+			if( DataUtil.contain( values, null, true ) )
 			{
 %>
 		<OPTION VALUE="" SELECTED >Null Value</OPTION>

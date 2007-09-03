@@ -900,7 +900,7 @@ public class ParamDefTag extends BodyTagSupport
 		if ( !paramDef.isRequired( ) )
 		{
 			writer.write( "<option value='' " ); //$NON-NLS-1$
-			if ( DataUtil.contain( this.valueStringList, "" ) ) //$NON-NLS-1$
+			if ( DataUtil.contain( this.valueStringList, "", true ) ) //$NON-NLS-1$
 				writer.write( " selected " ); //$NON-NLS-1$
 			writer.write( "></option>\n" ); //$NON-NLS-1$
 		}
@@ -937,7 +937,7 @@ public class ParamDefTag extends BodyTagSupport
 			label = label != null ? label : ""; //$NON-NLS-1$
 			writer.write( "<option value=\"" //$NON-NLS-1$
 					+ ParameterAccessor.htmlEncode( displayValue ) + "\"" ); //$NON-NLS-1$
-			if ( DataUtil.contain( this.valueStringList, displayValue ) )
+			if ( DataUtil.contain( this.valueStringList, displayValue, true ) )
 				writer.write( " selected" ); //$NON-NLS-1$
 			writer.write( ">" ); //$NON-NLS-1$
 			writer.write( ParameterAccessor.htmlEncode( label ) );
@@ -948,7 +948,7 @@ public class ParamDefTag extends BodyTagSupport
 		if ( !paramDef.isRequired( ) )
 		{
 			writer.write( "<option value=''" ); //$NON-NLS-1$
-			if ( DataUtil.contain( this.valueStringList, null ) )
+			if ( DataUtil.contain( this.valueStringList, null, true ) )
 				writer.write( " selected" ); //$NON-NLS-1$					
 			writer.write( " >" ); //$NON-NLS-1$
 			writer.write( IBirtConstants.NULL_VALUE + "</option>\n" ); //$NON-NLS-1$

@@ -404,9 +404,10 @@ public class DataUtil
 	 * 
 	 * @param values
 	 * @param value
+	 * @param ifDelete
 	 * @return
 	 */
-	public static boolean contain( List values, String value )
+	public static boolean contain( List values, String value, boolean ifDelete )
 	{
 		if ( values == null )
 			return false;
@@ -417,13 +418,21 @@ public class DataUtil
 			if ( obj == null )
 			{
 				if ( value == null )
+				{
+					if ( ifDelete )
+						values.remove( obj );
 					return true;
-				
+				}
+
 				continue;
 			}
 
 			if ( obj instanceof String && ( (String) obj ).equals( value ) )
+			{
+				if ( ifDelete )
+					values.remove( obj );
 				return true;
+			}
 		}
 
 		return false;

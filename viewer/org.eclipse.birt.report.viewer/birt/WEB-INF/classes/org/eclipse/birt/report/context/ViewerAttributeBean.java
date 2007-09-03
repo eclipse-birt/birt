@@ -245,10 +245,15 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		this.parameterDefList = getReportService( ).getParameterDefinitions(
 				this.reportDesignHandle, options, false );
 
-		// when in preview model, parse parameters from config file
+		// when use run/parameter in designer and not SOAP requestF, parse
+		// parameters from
+		// config file
 		if ( this.isDesigner
-				&& !IBirtConstants.SERVLET_PATH_FRAMESET
+				&& ( IBirtConstants.SERVLET_PATH_RUN.equalsIgnoreCase( request
+						.getServletPath( ) ) || IBirtConstants.SERVLET_PATH_PARAMETER
 						.equalsIgnoreCase( request.getServletPath( ) ) )
+				&& !ParameterAccessor.HEADER_REQUEST_TYPE_SOAP
+						.equalsIgnoreCase( this.requestType ) )
 			parseConfigVars( request, parameterDefList );
 
 		// Get parameters as String Map
