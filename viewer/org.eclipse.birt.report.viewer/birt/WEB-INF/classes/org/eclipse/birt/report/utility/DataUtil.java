@@ -23,9 +23,12 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.exception.CoreException;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
+import org.eclipse.birt.report.exception.ViewerValidationException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.ValidationValueException;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
+import org.eclipse.birt.report.resource.BirtResources;
+import org.eclipse.birt.report.resource.ResourceConstants;
 
 /**
  * Provides data convert and format services
@@ -122,6 +125,75 @@ public class DataUtil
 		}
 
 		return defFormat;
+	}
+
+	/**
+	 * 
+	 * Convert parameter to Object
+	 * 
+	 * @param paramName
+	 * @param dataType
+	 * @param format
+	 * @param value
+	 * @param locale
+	 * @param isLocale
+	 *            indicate whether it is a locale string
+	 * @return Object
+	 * @throws ViewerValidationException
+	 */
+	public static Object validate( String paramName, String dataType,
+			String format, String value, Locale locale, boolean isLocale )
+			throws ViewerValidationException
+	{
+		if ( paramName == null )
+			return null;
+
+		try
+		{
+			return validate( dataType, format, value, locale, isLocale );
+		}
+		catch ( ValidationValueException e )
+		{
+			throw new ViewerValidationException( BirtResources.getMessage(
+					ResourceConstants.GENERAL_ERROR_PARAMETER_INVALID,
+					new String[]{paramName} )
+					+ " " + e.getLocalizedMessage( ), e ); //$NON-NLS-1$
+		}
+	}
+
+	/**
+	 * 
+	 * Convert parameter to Object with pattern
+	 * 
+	 * @param paramName
+	 * @param dataType
+	 * @param format
+	 * @param value
+	 * @param locale
+	 * @param isLocale
+	 *            indicate whether it is a locale string
+	 * @return Object
+	 * @throws ViewerValidationException
+	 */
+	public static Object validateWithPattern( String paramName,
+			String dataType, String format, String value, Locale locale,
+			boolean isLocale ) throws ViewerValidationException
+	{
+		if ( paramName == null )
+			return null;
+
+		try
+		{
+			return validateWithPattern( dataType, format, value, locale,
+					isLocale );
+		}
+		catch ( ValidationValueException e )
+		{
+			throw new ViewerValidationException( BirtResources.getMessage(
+					ResourceConstants.GENERAL_ERROR_PARAMETER_INVALID,
+					new String[]{paramName} )
+					+ " " + e.getLocalizedMessage( ), e ); //$NON-NLS-1$
+		}
 	}
 
 	/**

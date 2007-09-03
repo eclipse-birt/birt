@@ -270,9 +270,9 @@ public class ParamDefTag extends BodyTagSupport
 			if ( param.getValue( ) instanceof String )
 			{
 				// convert parameter value to object
-				Object valueObj = DataUtil.validateWithPattern( dataType,
-						this.pattern, (String) param.getValue( ), locale,
-						isLocale );
+				Object valueObj = DataUtil.validateWithPattern(
+						param.getName( ), dataType, this.pattern,
+						(String) param.getValue( ), locale, isLocale );
 				if ( this.paramDef.isMultiValue( ) )
 					param.setValue( new Object[]{valueObj} );
 				else
@@ -286,8 +286,9 @@ public class ParamDefTag extends BodyTagSupport
 				Object[] values = new Object[sValues.length];
 				for ( int i = 0; i < sValues.length; i++ )
 				{
-					Object valueObj = DataUtil.validateWithPattern( dataType,
-							this.pattern, sValues[i], locale, isLocale );
+					Object valueObj = DataUtil.validateWithPattern( param
+							.getName( ), dataType, this.pattern, sValues[i],
+							locale, isLocale );
 					values[i] = valueObj;
 				}
 				param.setValue( values );

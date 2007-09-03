@@ -111,8 +111,8 @@ public class BirtGetCascadeParameterActionHandler
 			String format = parameter.getPattern( );
 			String dataType = ParameterDataTypeConverter
 					.ConvertDataType( parameter.getDataType( ) );
-			Object paramValue = DataUtil.validate( dataType, format, param
-					.getValue( ), attrBean.getLocale( ), isLocale );
+			Object paramValue = DataUtil.validate( paramName, dataType, format,
+					param.getValue( ), attrBean.getLocale( ), isLocale );
 
 			paramMap.put( paramName, paramValue );
 		}

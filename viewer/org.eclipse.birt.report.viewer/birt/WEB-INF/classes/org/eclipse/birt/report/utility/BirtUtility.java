@@ -534,9 +534,9 @@ public class BirtUtility
 				// multi parameter value
 				for ( int i = 0; i < paramValues.size( ); i++ )
 				{
-					Object paramValueObj = DataUtil.validate( dataType,
-							pattern, (String) paramValues.get( i ), bean
-									.getLocale( ), isLocale );
+					Object paramValueObj = DataUtil.validate( paramName,
+							dataType, pattern, (String) paramValues.get( i ),
+							bean.getLocale( ), isLocale );
 					values.add( paramValueObj );
 				}
 
@@ -546,9 +546,9 @@ public class BirtUtility
 			else
 			{
 				// single parameter value
-				Object paramValueObj = DataUtil.validate( dataType, pattern,
-						(String) paramValues.get( 0 ), bean.getLocale( ),
-						isLocale );
+				Object paramValueObj = DataUtil.validate( paramName, dataType,
+						pattern, (String) paramValues.get( 0 ), bean
+								.getLocale( ), isLocale );
 
 				// push to parameter map
 				parameterMap.put( paramName, paramValueObj );

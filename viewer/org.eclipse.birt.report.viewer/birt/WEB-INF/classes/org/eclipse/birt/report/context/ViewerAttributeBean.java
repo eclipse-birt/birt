@@ -25,13 +25,13 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.exception.ViewerException;
+import org.eclipse.birt.report.exception.ViewerValidationException;
 import org.eclipse.birt.report.model.api.ConfigVariableHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
-import org.eclipse.birt.report.model.api.metadata.ValidationValueException;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
 import org.eclipse.birt.report.service.BirtReportServiceFactory;
@@ -818,12 +818,12 @@ public class ViewerAttributeBean extends BaseAttributeBean
 					try
 					{
 						// convert parameter to object
-						Object paramValueObj = DataUtil.validate( dataType,
-								format, (String) paramList.get( i ), locale,
-								isLocale );
+						Object paramValueObj = DataUtil.validate( paramName,
+								dataType, format, (String) paramList.get( i ),
+								locale, isLocale );
 						paramList.set( i, paramValueObj );
 					}
-					catch ( ValidationValueException e )
+					catch ( ViewerValidationException e )
 					{
 						// if in PREVIEW mode, then throw exception directly
 						if ( IBirtConstants.SERVLET_PATH_PREVIEW

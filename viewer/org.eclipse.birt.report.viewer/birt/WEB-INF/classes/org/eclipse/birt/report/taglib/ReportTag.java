@@ -669,8 +669,8 @@ public class ReportTag extends AbstractViewerTag
 			pattern = handle.getPattern( );
 		}
 
-		return DataUtil.validate( handle.getDataType( ), pattern, value,
-				this.locale, field.isLocale( ) );
+		return DataUtil.validate( handle.getName( ), handle.getDataType( ),
+				pattern, value, this.locale, field.isLocale( ) );
 	}
 
 	/**
