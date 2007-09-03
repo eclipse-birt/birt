@@ -384,7 +384,7 @@ class ResultSetProcessUtil extends RowProcessUtil
 		IResultClass newMeta = rebuildResultClass( populator.getResultSetMetadata( ) );
 		populator.setResultSetMetadata( newMeta );
 		populator.getCache( ).setResultClass( newMeta );
-		/*PassUtil.pass( populator,
+		PassUtil.pass( populator,
 				new OdiResultSetWrapper( populator.getResultIterator( ) ),
 				false, session );
 
@@ -393,7 +393,7 @@ class ResultSetProcessUtil extends RowProcessUtil
 		populator.getGroupProcessorManager( )
 				.getGroupCalculationUtil( )
 				.getGroupInformationUtil( )
-				.setLeaveGroupIndex( 0 );*/
+				.setLeaveGroupIndex( 0 );
 	}
 
 	/**

@@ -27,6 +27,7 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
@@ -36,6 +37,7 @@ import org.eclipse.birt.data.engine.api.querydefn.ParameterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
@@ -941,6 +943,43 @@ public class FeaturesTest extends APITestCase
 				bindingExprRow );
 
 		checkOutputFile( );
+	}
+	
+	/**
+	 * 
+	 */
+	public void test17( )
+	{
+		try
+		{
+			QueryDefinition query = new QueryDefinition( );
+			query.setDataSetName( this.dataSet.getName( ) );
+			query.setAutoBinding( true );
+
+			GroupDefinition group = new GroupDefinition( "G1" );
+			group.setKeyExpression( "row.SALE_DATE" );
+			query.addGroup( group );
+
+			GroupDefinition group1 = new GroupDefinition( "G2" );
+			group1.setKeyExpression( "row.COUNTRY" );
+			query.addGroup( group1 );
+			SubqueryDefinition subQuery = new SubqueryDefinition( "Sub1", query );
+			Binding binding = new Binding( "COUNTRY_1",
+					new ScriptExpression( "dataSetRow.COUNTRY" ) );
+			subQuery.addBinding( binding );
+			GroupDefinition gd = new GroupDefinition( "G2" );
+			gd.setKeyExpression( "row.COUNTRY_1" );
+			subQuery.addGroup( gd );
+			group.addSubquery( subQuery );
+
+			IResultIterator it = this.executeQuery( query );
+			it.next( );
+			it = it.getSecondaryIterator( "Sub1", null );
+		}
+		catch ( Exception e )
+		{
+			fail( "Should not throw exception" );
+		}
 	}
 	
 	/**
