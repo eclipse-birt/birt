@@ -16,6 +16,7 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
@@ -25,6 +26,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IHierarchyModel;
@@ -317,7 +319,7 @@ public class GroupDialog extends TitleAreaDialog
 							.newTabularLevel( (DimensionHandle) hierarchy.getContainer( ),
 									dataField );
 					level.setColumnName( dataField );
-					level.setDataType( OlapUtil.getDataField( hierarchy.getDataSet( ),
+					level.setDataType( OlapUtil.getDataField( OlapUtil.getHierarchyDataset(hierarchy),
 							dataField )
 							.getDataType( ) );
 					hierarchy.add( IHierarchyModel.LEVELS_PROP, level );
@@ -547,9 +549,12 @@ public class GroupDialog extends TitleAreaDialog
 
 	}
 
+
+	
 	private boolean isDateType( TabularHierarchyHandle hierarchy,String columnName )
 	{
-		ResultSetColumnHandle column = OlapUtil.getDataField( hierarchy.getDataSet( ),
+		
+		ResultSetColumnHandle column = OlapUtil.getDataField( OlapUtil.getHierarchyDataset(hierarchy),
 				columnName );
 		if ( column == null )
 			return false;

@@ -392,7 +392,7 @@ public class CubeGroupContent extends Composite implements Listener
 
 						if ( element instanceof LevelHandle )
 						{
-							DataSetHandle temp = ( (TabularHierarchyHandle) ( (LevelHandle) element ).getContainer( ) ).getDataSet( );
+							DataSetHandle temp = OlapUtil.getHierarchyDataset( ( (TabularHierarchyHandle) ( (LevelHandle) element ).getContainer( ) ));
 							if ( temp != null
 									&& dataset != null
 									&& dataset != temp )
@@ -400,7 +400,6 @@ public class CubeGroupContent extends Composite implements Listener
 								event.detail = DND.DROP_NONE;
 								return;
 							}
-
 							// if ( dataField != null
 							// && isDateType( dataField.getDataType( ) ) )
 							// {
@@ -440,7 +439,7 @@ public class CubeGroupContent extends Composite implements Listener
 								}
 							}
 
-							DataSetHandle temp = ( (TabularHierarchyHandle) dimension.getDefaultHierarchy( ) ).getDataSet( );
+							DataSetHandle temp = OlapUtil.getHierarchyDataset( (TabularHierarchyHandle) dimension.getDefaultHierarchy( ) );
 							if ( temp != null
 									&& dataset != null
 									&& dataset != temp )
@@ -470,7 +469,7 @@ public class CubeGroupContent extends Composite implements Listener
 								|| ( element instanceof VirtualField && ( (VirtualField) element ).getType( )
 										.equals( VirtualField.TYPE_MEASURE_GROUP ) ) )
 						{
-							DataSetHandle primary = ( input ).getDataSet( );
+							DataSetHandle primary = input.getDataSet( );
 							if ( primary == null || primary != dataset )
 							{
 								event.detail = DND.DROP_NONE;
@@ -718,11 +717,11 @@ public class CubeGroupContent extends Composite implements Listener
 									SessionHandleAdapter.getInstance( )
 											.getCommandStack( )
 											.startTrans( "" );
-									if ( hierarchy.getDataSet( ) == null
-											&& dataset != null )
-									{
-										hierarchy.setDataSet( dataset );
-									}
+//									if ( hierarchy.getDataSet( ) == null
+//											&& dataset != null )
+//									{
+//										hierarchy.setDataSet( dataset );
+//									}
 
 									int index = ( (LevelHandle) element ).getIndex( );
 									TabularLevelHandle level = DesignElementFactory.getInstance( )
@@ -786,10 +785,10 @@ public class CubeGroupContent extends Composite implements Listener
 									TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) dimension.getDefaultHierarchy( );
 
 									if ( hierarchy.getDataSet( ) == null
-											&& dataset != null )
+											&& hierarchy.getLevelCount( ) == 0
+											&& ( dataset != null && dataset != input.getDataSet( ) ) )
 									{
 										hierarchy.setDataSet( dataset );
-
 									}
 
 									if ( isDateType( dataField.getDataType( ) )
@@ -1151,8 +1150,7 @@ public class CubeGroupContent extends Composite implements Listener
 
 				if ( dimenTemp != null )
 				{
-					DataSetHandle table = ( (TabularHierarchyHandle) dimenTemp.getDefaultHierarchy( ) ).getDataSet( );
-
+					DataSetHandle table = OlapUtil.getHierarchyDataset(  (TabularHierarchyHandle) dimenTemp.getDefaultHierarchy( ) );
 					if ( table == null && dataField != null )
 						addBtn.setEnabled( true );
 					else if ( table != null && dataset != table )
@@ -1247,8 +1245,8 @@ public class CubeGroupContent extends Composite implements Listener
 						&& level.attributesIterator( ).hasNext( ) )
 				{
 					String name = level.getName( ) + " ("; //$NON-NLS-1$
-//							+ level.getColumnName( )
-//							+ ": "; //$NON-NLS-1$
+					// + level.getColumnName( )
+					// + ": "; //$NON-NLS-1$
 					Iterator attrIter = level.attributesIterator( );
 					while ( attrIter.hasNext( ) )
 					{
@@ -1620,27 +1618,30 @@ public class CubeGroupContent extends Composite implements Listener
 					if ( dimension.isTimeType( ) )
 						continue;
 
-					DataSetHandle dasetTemp = hierarchy.getDataSet( );
+					DataSetHandle dasetTemp = OlapUtil.getHierarchyDataset( hierarchy );
 					if ( dasetTemp != null
 							&& dataset != null
 							&& dataset != dasetTemp )
 					{
 						continue;
 					}
+
 					SessionHandleAdapter.getInstance( )
 							.getCommandStack( )
 							.startTrans( "" );
-					if ( hierarchy.getDataSet( ) == null )
-					{
-						try
-						{
-							hierarchy.setDataSet( dataset );
-						}
-						catch ( SemanticException e )
-						{
-							ExceptionHandler.handle( e );
-						}
-					}
+//					if ( hierarchy.getDataSet( ) == null )
+//					{
+//						try
+//						{
+//							if ( hierarchy.getLevelCount( ) == 0
+//									&& dataset != primary )
+//								hierarchy.setDataSet( dataset );
+//						}
+//						catch ( SemanticException e )
+//						{
+//							ExceptionHandler.handle( e );
+//						}
+//					}
 					TabularLevelHandle level = DesignElementFactory.getInstance( )
 							.newTabularLevel( dimension,
 									dataField.getColumnName( ) );
@@ -1714,7 +1715,7 @@ public class CubeGroupContent extends Composite implements Listener
 					TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) dimension.getContent( IDimensionModel.HIERARCHIES_PROP,
 							0 );
 
-					DataSetHandle dasetTemp = hierarchy.getDataSet( );
+					DataSetHandle dasetTemp = OlapUtil.getHierarchyDataset( hierarchy );
 					if ( dasetTemp != null
 							&& dataset != null
 							&& dataset != dasetTemp )
@@ -1729,8 +1730,9 @@ public class CubeGroupContent extends Composite implements Listener
 					{
 						try
 						{
-							hierarchy.setDataSet( dataset );
-
+							if ( hierarchy.getLevelCount( ) == 0
+									&& dataset != primary )
+								hierarchy.setDataSet( dataset );
 						}
 						catch ( SemanticException e )
 						{
@@ -1748,7 +1750,7 @@ public class CubeGroupContent extends Composite implements Listener
 									dataField.getColumnName( ) );
 							if ( dialog.open( ) == Window.CANCEL )
 							{
-							SessionHandleAdapter.getInstance( )
+								SessionHandleAdapter.getInstance( )
 										.getCommandStack( )
 										.rollback( );
 							}

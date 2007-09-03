@@ -27,6 +27,8 @@ import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
+import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.ui.PlatformUI;
 
@@ -214,4 +216,11 @@ public class OlapUtil
 		return false;
 	}
 
+	public static DataSetHandle getHierarchyDataset( TabularHierarchyHandle hierarchy ){
+		DataSetHandle dataset = hierarchy.getDataSet( );
+		if(dataset == null && hierarchy.getLevelCount( )>0){
+			dataset = ((TabularCubeHandle)hierarchy.getContainer( ).getContainer( )).getDataSet( );
+		}
+		return dataset;
+	}
 }

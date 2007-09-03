@@ -92,13 +92,13 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 
 	public boolean performOk( )
 	{
-		if ( checkCubeLinke( ) )
+		if ( checkCubeLink( ) )
 			return true;
 		else
 			return false;
 	}
 
-	private boolean checkCubeLinke( )
+	private boolean checkCubeLink( )
 	{
 		List childList = new ArrayList( );
 		if ( input != null )
@@ -108,9 +108,8 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 			for ( int i = 0; i < dimensions.length; i++ )
 			{
 				TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) dimensions[i].getDefaultHierarchy( );
-				if ( hierarchy != null
-						&& hierarchy.getDataSet( ) != null
-						&& hierarchy.getDataSet( ) != input.getDataSet( ) )
+				if ( hierarchy != null && hierarchy.getDataSet( ) != null )
+					// && hierarchy.getDataSet( ) != input.getDataSet( ) )
 					childList.add( hierarchy );
 			}
 		}

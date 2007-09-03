@@ -9,12 +9,9 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.joins.commands;
 
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
-import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -48,9 +45,6 @@ public class SetConstraintCommand extends org.eclipse.gef.commands.Command
 		if ( module instanceof ModuleHandle )
 		{
 			ModuleHandle module = (ModuleHandle)this.module;
-			CommandStack stack = SessionHandleAdapter.getInstance( )
-					.getCommandStack( );
-			stack.startTrans( Messages.getString("SetConstraintCommand.setUserProperty") ); //$NON-NLS-1$
 			try
 			{
 				UIHelper.setIntProperty( module,
@@ -69,12 +63,10 @@ public class SetConstraintCommand extends org.eclipse.gef.commands.Command
 						id,
 						BuilderConstancts.SIZE_HEIGHT,
 						newSize.height );
-				stack.commit( );
 			}
 			catch ( SemanticException e )
 			{
 				ExceptionHandler.handle( e );
-				stack.rollback( );
 			}
 		}
 	}
