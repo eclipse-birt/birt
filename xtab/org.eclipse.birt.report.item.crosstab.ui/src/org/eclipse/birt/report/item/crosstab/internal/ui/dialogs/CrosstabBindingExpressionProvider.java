@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
@@ -91,10 +92,6 @@ public class CrosstabBindingExpressionProvider extends
 						}
 					}
 				}
-				if ( element instanceof LevelViewHandle )
-				{
-					return ( (LevelViewHandle) element ).getIndex( ) == 0;
-				}
 				if ( element instanceof MeasureHandle )
 				{
 					try
@@ -143,6 +140,39 @@ public class CrosstabBindingExpressionProvider extends
 					if ( dimensionHandle.getCubeDimension( ).equals( handle ) )
 						children.add( dimensionHandle.getLevel( 0 )
 								.getCubeLevel( ) );
+				}
+			}
+			catch ( ExtendedElementException e )
+			{
+			}
+			return children;
+		}
+		else if ( parent instanceof LevelHandle )
+		{
+			List children = new ArrayList( );
+			LevelHandle levelHandle = (LevelHandle) parent;
+			try
+			{
+				CrosstabReportItemHandle xtabHandle = getCrosstabReportItemHandle( );
+				for ( int i = 0; i < xtabHandle.getDimensionCount( ICrosstabConstants.ROW_AXIS_TYPE ); i++ )
+				{
+					DimensionViewHandle dimensionHandle = xtabHandle.getDimension( ICrosstabConstants.ROW_AXIS_TYPE,
+							i );
+					LevelViewHandle levelViewHandle = dimensionHandle.getLevel( levelHandle.getQualifiedName( ) );
+					if ( levelViewHandle != null )
+						if ( dimensionHandle.getLevelCount( ) > levelViewHandle.getIndex( ) + 1 )
+							children.add( dimensionHandle.getLevel( levelViewHandle.getIndex( ) + 1 )
+									.getCubeLevel( ) );
+				}
+				for ( int i = 0; i < xtabHandle.getDimensionCount( ICrosstabConstants.COLUMN_AXIS_TYPE ); i++ )
+				{
+					DimensionViewHandle dimensionHandle = xtabHandle.getDimension( ICrosstabConstants.COLUMN_AXIS_TYPE,
+							i );
+					LevelViewHandle levelViewHandle = dimensionHandle.getLevel( levelHandle.getQualifiedName( ) );
+					if ( levelViewHandle != null )
+						if ( dimensionHandle.getLevelCount( ) > levelViewHandle.getIndex( ) + 1 )
+							children.add( dimensionHandle.getLevel( levelViewHandle.getIndex( ) + 1 )
+									.getCubeLevel( ) );
 				}
 			}
 			catch ( ExtendedElementException e )
