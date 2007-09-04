@@ -68,6 +68,10 @@ public class ReportCreationTool extends CreationTool
 				.getReportDesignHandle( )
 				.getCommandStack( )
 				.startTrans( MODEL_CREATE_ELEMENT_TRANS );
+
+		Command command = getCurrentCommand( );
+		boolean hasCommand = command != null && command.canExecute( );
+
 		if ( getTargetEditPart( ) != null )
 		{
 			if ( preHandle != null )
@@ -75,8 +79,7 @@ public class ReportCreationTool extends CreationTool
 				preHandle.setRequest( this.getCreateRequest( ) );
 				preHandle.setTargetEditPart( getTargetEditPart( ) );
 
-				Command command = getCurrentCommand( );
-				if ( command != null && command.canExecute( ) )
+				if ( hasCommand )
 				{
 					if ( !preHandle.preHandleMouseUp( ) )
 					{
@@ -96,7 +99,8 @@ public class ReportCreationTool extends CreationTool
 		super.performCreation( button );
 
 		// fix bugzilla#145284
-		if ( preHandle != null && !preHandle.postHandleCreation( ) )
+		if ( !hasCommand
+				|| ( preHandle != null && !preHandle.postHandleCreation( ) ) )
 		{
 			SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( )
@@ -193,7 +197,9 @@ public class ReportCreationTool extends CreationTool
 	public static void selectAddedObject( final Object model,
 			final EditPartViewer viewer )
 	{
-		selectAddedObject( model, viewer, new Request( ReportRequest.CREATE_ELEMENT ));
+		selectAddedObject( model,
+				viewer,
+				new Request( ReportRequest.CREATE_ELEMENT ) );
 	}
 
 	/**
@@ -293,7 +299,7 @@ public class ReportCreationTool extends CreationTool
 		{
 			if ( template.startsWith( IReportElementConstants.REPORT_ELEMENT_EXTENDED ) )
 			{
-//				type = ReportDesignConstants.EXTENDED_ITEM;
+// type = ReportDesignConstants.EXTENDED_ITEM;
 				type = template.substring( IReportElementConstants.REPORT_ELEMENT_EXTENDED.length( ) );
 			}
 		}
