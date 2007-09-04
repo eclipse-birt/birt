@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report>
+<styles>
+<style css-text="text-indent: 0em; line-height: normal; text-overline: none; text-underline: none; color: black; text-linethrough: none; letter-spacing: normal; font-weight: normal; font-variant: normal; text-transform: none; font-size: medium; font-style: normal; white-space: normal; orphans: 2; word-spacing: normal; page-break-inside: auto; font-family: serif; widows: 2" name="style_0"/>
+</styles>
+<page-setup>
+<simple-master-page bottom-margin="1in" floating-footer="false" height="11in" id="2" left-margin="1.25in" name="Simple MasterPage" orientation="auto" right-margin="1.25in" show-footer-on-last="true" show-header-on-first="true" top-margin="1in" type="us-letter" width="8.5in">
+<header/>
+<footer>
+<text id="3" type="html">&lt;value-of&gt;new Date()&lt;/value-of&gt;</text>
+</footer>
+</simple-master-page>
+</page-setup>
+<body>
+<table page-break-interval="200" repeat-header="true">
+<columns>
+<column has-data-in-detail="true" id="55" supress-duplicate="false"/>
+<column has-data-in-detail="true" id="56" supress-duplicate="false"/>
+<column has-data-in-detail="true" id="57" supress-duplicate="false"/>
+<column has-data-in-detail="true" id="58" supress-duplicate="false"/>
+<column has-data-in-detail="true" id="59" supress-duplicate="false"/>
+<column has-data-in-detail="true" id="60" supress-duplicate="false"/>
+<column has-data-in-detail="true" id="61" supress-duplicate="false"/>
+<column has-data-in-detail="true" id="62" supress-duplicate="false"/>
+<column has-data-in-detail="true" id="63" supress-duplicate="false"/>
+</columns>
+<band>
+<row id="7" start-of-group="false">
+<cell id="8">
+<label id="9">OFFICECODE</label>
+</cell>
+<cell column="1" id="10">
+<label id="11">CITY</label>
+</cell>
+<cell column="2" id="12">
+<label id="13">PHONE</label>
+</cell>
+<cell column="3" id="14">
+<label id="15">ADDRESSLINE1</label>
+</cell>
+<cell column="4" id="16">
+<label id="17">ADDRESSLINE2</label>
+</cell>
+<cell column="5" id="18">
+<label id="19">STATE</label>
+</cell>
+<cell column="6" id="20">
+<label id="21">COUNTRY</label>
+</cell>
+<cell column="7" id="22">
+<label id="23">POSTALCODE</label>
+</cell>
+<cell column="8" id="24">
+<label id="25">TERRITORY</label>
+</cell>
+</row>
+</band>
+<group id="66" name="NewTableGroup1">
+<band>
+<row id="67" start-of-group="false">
+<cell drop="none" id="68">
+<data id="87" supress-duplicate="false">COUNTRY</data>
+</cell>
+<cell column="1" drop="none" id="69"/>
+<cell column="2" drop="none" id="70"/>
+<cell column="3" drop="none" id="71"/>
+<cell column="4" drop="none" id="72"/>
+<cell column="5" drop="none" id="73"/>
+<cell column="6" drop="none" id="74"/>
+<cell column="7" drop="none" id="75"/>
+<cell column="8" drop="none" id="76"/>
+</row>
+</band>
+<band>
+<row id="77" start-of-group="false">
+<cell id="78"/>
+<cell column="1" id="79"/>
+<cell column="2" id="80"/>
+<cell column="3" id="81"/>
+<cell column="4" id="82"/>
+<cell column="5" id="83"/>
+<cell column="6" id="84"/>
+<cell column="7" id="85"/>
+<cell column="8" id="86"/>
+</row>
+</band>
+</group>
+<band>
+<row id="26" start-of-group="false">
+<cell id="27">
+<data id="28" supress-duplicate="false">OFFICECODE</data>
+</cell>
+<cell column="1" id="29">
+<data id="30" supress-duplicate="false">CITY</data>
+</cell>
+<cell column="2" id="31">
+<data id="32" supress-duplicate="false">PHONE</data>
+</cell>
+<cell column="3" id="33">
+<data id="34" supress-duplicate="false">ADDRESSLINE1</data>
+</cell>
+<cell column="4" id="35">
+<data id="36" supress-duplicate="false">ADDRESSLINE2</data>
+</cell>
+<cell column="5" id="37">
+<data id="38" supress-duplicate="false">STATE</data>
+</cell>
+<cell column="6" id="39">
+<data id="40" supress-duplicate="false">COUNTRY</data>
+</cell>
+<cell column="7" id="41">
+<data id="42" supress-duplicate="false">POSTALCODE</data>
+</cell>
+<cell column="8" id="43">
+<data id="44" supress-duplicate="false">TERRITORY</data>
+</cell>
+</row>
+</band>
+<band>
+<row id="45" start-of-group="false">
+<cell id="46"/>
+<cell column="1" id="47"/>
+<cell column="2" id="48"/>
+<cell column="3" id="49"/>
+<cell column="4" id="50"/>
+<cell column="5" id="51"/>
+<cell column="6" id="52"/>
+<cell column="7" id="53"/>
+<cell column="8" id="54"/>
+</row>
+</band>
+</table>
+<label id="64">Action</label>
+<label id="65">Visibility</label>
+<text id="88" type="auto">AUTO TEXT</text>
+<text id="89" type="html">HTML TEXT</text>
+<text id="90" type="plain">PLAIN TEXT</text>
+<label id="91">label with key</label>
+<image id="92" image-uri="&quot;http://www.google.com&quot;">
+<action target-window="_self">
+<drill-though bookmark="row[&quot;CUSTOMERNUMBER&quot;]" bookmark-type="true" format="pdf" report-name="1grouping.rptdesign"/>
+</action>
+</image>
+<grid id="94" width="100%">
+<columns>
+<column has-data-in-detail="false" id="95" supress-duplicate="false"/>
+<column has-data-in-detail="false" id="96" supress-duplicate="false"/>
+<column has-data-in-detail="false" id="97" supress-duplicate="false"/>
+</columns>
+<row id="98" start-of-group="false">
+<cell id="99"/>
+<cell column="1" id="100"/>
+<cell column="2" id="101"/>
+</row>
+<row id="102" start-of-group="false">
+<cell id="103"/>
+<cell column="1" id="104"/>
+<cell column="2" id="105"/>
+</row>
+<row id="106" start-of-group="false">
+<cell id="107"/>
+<cell column="1" id="108"/>
+<cell column="2" id="109"/>
+</row>
+</grid>
+<data expressions="A:&quot;Expression&quot;" id="110" properties="A:&quot;Expression&quot;" supress-duplicate="false">
+<map>
+<rule expression="&quot;TEST&quot;" operator="eq" value1="&quot;DD&quot;">"orginal value"</rule>
+</map>
+<map>
+<rule expression="1" operator="between" value1="A" value2="B">color: rgb(0, 0, 0); background-color: rgb(0, 0, 0)</rule>
+</map>
+</data>
+<dynamic-text content-type="html" id="111"/>
+</body>
+</report>

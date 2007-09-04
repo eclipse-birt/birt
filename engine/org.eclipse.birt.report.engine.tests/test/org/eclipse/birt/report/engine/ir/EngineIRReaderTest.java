@@ -25,35 +25,40 @@ public class EngineIRReaderTest extends EngineCase
 {
 
 	static final String DESIGN_STREAM = "ir_io_test.rptdesign";
+	static final String VALUE_V1_STREAM = "org/eclipse/birt/report/engine/ir/ir_io_test_V1.xml";
+	static final String VALUE_V2_STREAM = "org/eclipse/birt/report/engine/ir/ir_io_test_V2.xml";
+	static final String VALUE_V3_STREAM = "org/eclipse/birt/report/engine/ir/ir_io_test_V3.xml";
 	static final String GOLDEN_V1_STREAM = "ir_io_test_V1.golden";
 	static final String GOLDEN_V2_STREAM = "ir_io_test_V2.golden";
-
-	String value = "";
-
-	public EngineIRReaderTest( )
-	{
-		try
-		{
-			value = getCurrentStream( );
-		}
-		catch ( Exception e )
-		{
-			e.printStackTrace( );
-		}
-	}
+	static final String GOLDEN_V3_STREAM = "ir_io_test_V3.golden";
 
 	public void testV1( ) throws Exception
 	{
+		String value = getValue( VALUE_V1_STREAM );
 		String golden = getGolden( GOLDEN_V1_STREAM );
 		assertEquals( golden, value );
 	}
 
 	public void testV2( ) throws Exception
 	{
+		String value = getValue( VALUE_V2_STREAM );
 		String golden = getGolden( GOLDEN_V2_STREAM );
 		assertEquals( golden, value );
 	}
 
+	public void testV3( ) throws Exception
+	{
+		String value = getValue( VALUE_V3_STREAM );
+		String golden = getGolden( GOLDEN_V3_STREAM );
+		assertEquals( golden, value );
+	}
+
+	private String getValue( String value )
+	{
+		assert ( value != null );
+		return new String( loadResource( value ) );
+	}
+	
 	public String getCurrentStream( ) throws Exception
 	{
 		// load the report design
