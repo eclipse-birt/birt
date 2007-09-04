@@ -25,12 +25,14 @@ import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
+import org.eclipse.birt.data.engine.api.querydefn.JointDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 
@@ -100,16 +102,10 @@ public class SelectValueFetcher
 							: dataSetHandle.getModuleHandle( ) ) );
 			if ( dataSetHandle != null )
 			{
-				if ( dataSetHandle.getDataSource( ) != null )
-					session.defineDataSource( session.getModelAdaptor( )
-							.adaptDataSource( dataSetHandle.getDataSource( ) ) );
-				BaseDataSetDesign dSet = session.getModelAdaptor( ).adaptDataSet( dataSetHandle );
-				if ( !inclFilter )
-				{
-					if ( dSet.getFilters( )!= null )
-						dSet.getFilters( ).clear( );
-				}
-				session.defineDataSet( dSet );
+				defineSourceAndDataSets( session,
+						dataSetHandle,
+						session.getModelAdaptor( ).adaptDataSet( dataSetHandle ),
+						inclFilter );
 			}
 
 			IPreparedQuery preparedQuery = session.prepare( query );
@@ -135,6 +131,78 @@ public class SelectValueFetcher
 		}
 		return selectValueList;
 
+	}
+	
+	/**
+	 * A private method that helps to define all the children data sets'
+	 * data sources and data sets themselves
+	 * 
+	 * @param session
+	 * @param dataSet
+	 * @param dataSetDesign
+	 * @param inclFilter
+	 * 
+	 * @throws BirtException
+	 */
+	private static void defineSourceAndDataSets( DataRequestSession session,
+			DataSetHandle dataSet, BaseDataSetDesign dataSetDesign,
+			boolean inclFilter ) throws BirtException
+	{
+		if ( dataSet.getDataSource( ) != null )
+		{
+			session.defineDataSource( session.getModelAdaptor( ).adaptDataSource( dataSet.getDataSource( ) ) );
+		}
+		if ( !inclFilter )
+		{
+			if ( dataSetDesign.getFilters( ) != null )
+			{
+				dataSetDesign.getFilters( ).clear( );
+			}
+		}
+		session.defineDataSet( dataSetDesign );
+		if ( dataSetDesign instanceof JointDataSetDesign )
+		{
+			defineChildDSetAndDSource( session,
+					(JointDataSetDesign) dataSetDesign,
+					dataSet.getModuleHandle( ),
+					inclFilter,
+					true );
+
+			defineChildDSetAndDSource( session,
+					(JointDataSetDesign) dataSetDesign,
+					dataSet.getModuleHandle( ),
+					inclFilter,
+					false );
+		}
+	}
+
+	/**
+	 * To help to define the children data sets of a JointDataSet
+	 * 
+	 * @param session
+	 * @param dataSetDesign
+	 * @param modulehandle
+	 * @param modelAdapter
+	 * @param inclFilter
+	 * @param isLeft
+	 * 
+	 * @throws BirtException
+	 */
+	private static void defineChildDSetAndDSource( DataRequestSession session,
+			JointDataSetDesign dataSetDesign, ModuleHandle modulehandle,
+			boolean inclFilter, boolean isLeft ) throws BirtException
+	{
+		DataSetHandle dataSetHandle;
+		if ( isLeft )
+		{
+			dataSetHandle = modulehandle.findDataSet( dataSetDesign.getLeftDataSetDesignName( ) );
+		}
+		else
+		{
+			dataSetHandle = modulehandle.findDataSet( dataSetDesign.getRightDataSetDesignName( ) );
+		}
+		defineSourceAndDataSets( session, dataSetHandle, session.getModelAdaptor( )
+				.adaptDataSet( dataSetHandle ), inclFilter );
 	}
 
 	/**
