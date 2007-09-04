@@ -369,21 +369,12 @@ public class PDFEmitter implements IContentEmitter
 		protected int vTextSpace = 100;
 		
 		protected float lToP;
-		
-		private Stack containerStack = new Stack();
-		
+				
 		private Set bookmarks = new HashSet();
 		
-		private class ContainerPosition
-		{
-			private int x;
-			private int y;
-			public ContainerPosition(int x, int y)
-			{
-				this.x = x;
-				this.y = y;
-			}
-		}
+		private int currentX;
+		private int currentY;
+				
 		
 		/**
 		 * Gets the output format. always returns "pdf".
@@ -527,19 +518,14 @@ public class PDFEmitter implements IContentEmitter
 
 		public void visitText(ITextArea textArea)
 		{
-			ContainerPosition curPos;
-			if ( !containerStack.isEmpty() )
-				curPos = (ContainerPosition)containerStack.peek();	
-			else 
-				curPos = new ContainerPosition(0, 0);
-			int x = curPos.x + textArea.getX();
-			int y = curPos.y + textArea.getY();
+			int x = currentX + textArea.getX();
+			int y = currentY + textArea.getY();
 			drawTextAt(textArea, x, y, cb, pageHeight);
 			//Checks if itself is the destination of a bookmark.
 			//if so, make a bookmark; if not, do nothing
-			makeBookmark(textArea, curPos);
+			makeBookmark(textArea, currentY);
 			//handle hyper-link action
-			handleHyperlinkAction(textArea, curPos);
+			handleHyperlinkAction(textArea, currentX, currentY);
 		}
 
 		public void visitImage(IImageArea imageArea)
@@ -557,13 +543,8 @@ public class PDFEmitter implements IContentEmitter
 				tpl = cb.createTemplate(pdfMeasure(tplWidth), pdfMeasure(tplHeight));
 			}
 			cb.saveState();
-			ContainerPosition curPos;
-			if ( !containerStack.isEmpty() )
-				curPos = (ContainerPosition)containerStack.peek();	
-			else 
-				curPos = new ContainerPosition(0, 0);
-			float x = layoutAreaX2PDF(curPos.x + templateArea.getX());
-			float y = layoutAreaY2PDF(curPos.y + templateArea.getY(),  tplHeight);
+			float x = layoutAreaX2PDF(currentX + templateArea.getX());
+			float y = layoutAreaY2PDF(currentY + templateArea.getY(),  tplHeight);
 			cb.addTemplate(tpl, x, y);
 			cb.restoreState();
 		}
@@ -586,7 +567,8 @@ public class PDFEmitter implements IContentEmitter
 				
 				newPage(container);
 				
-				containerStack.push(new ContainerPosition(0, 0));
+				currentX = 0;
+				currentY = 0;
 			}
 			else
 			{
@@ -596,19 +578,9 @@ public class PDFEmitter implements IContentEmitter
 					clip( container );
 				}
 				drawContainer(container);
-				ContainerPosition pos;
-				if ( ! containerStack.isEmpty() )
-				{
-					pos = (ContainerPosition)containerStack.peek();
-					ContainerPosition current = new ContainerPosition(
-							pos.x+container.getX(), pos.y+container.getY());
-					containerStack.push(current);
-				}
-				else
-				{
-					containerStack.push(new ContainerPosition(
-							container.getX(), container.getY()));
-				}
+				
+				currentX += container.getX( );
+				currentY += container.getY( );
 			}
 		}
 		
@@ -622,21 +594,14 @@ public class PDFEmitter implements IContentEmitter
 			{
 				cb.restoreState( );
 			}
-			if (!containerStack.isEmpty())
-			{
-				containerStack.pop();	
-			}
+			currentX -= container.getX( );
+			currentY -= container.getY( );
 		}
 
 		private void clip( IContainerArea container )
 		{
-			ContainerPosition curPos;
-			if ( !containerStack.isEmpty( ) )
-				curPos = (ContainerPosition) containerStack.peek( );
-			else
-				curPos = new ContainerPosition( 0, 0 );
-			int startX = curPos.x + container.getX( );
-			int startY = curPos.y + container.getY( );
+			int startX = currentX + container.getX( );
+			int startY = currentY + container.getY( );
 			int width = container.getWidth( );
 			int height = container.getHeight( );
 			clip( startX, startY, width, height );
@@ -782,17 +747,12 @@ public class PDFEmitter implements IContentEmitter
 			{
 				return;
 			}
-			ContainerPosition curPos;
-			if ( !containerStack.isEmpty() )
-				curPos = (ContainerPosition)containerStack.peek();	
-			else 
-				curPos = new ContainerPosition(0, 0);
 			//content is null means it is the internal line area which has no
 			//content mapping, so it has no background/border etc.
 			if ( container.getContent( ) != null )
 			{
-				int layoutX = curPos.x + container.getX();
-				int layoutY = curPos.y + container.getY();
+				int layoutX = currentX + container.getX();
+				int layoutY = currentY + container.getY();
 				//the container's start position (the left top corner of the container)
 				float startX = layoutPointX2PDF (layoutX);
 				float startY = layoutPointY2PDF (layoutY);
@@ -884,9 +844,9 @@ public class PDFEmitter implements IContentEmitter
 
 				// Checks if itself is the destination of a bookmark.
 				// if so, make a bookmark; if not, do nothing
-				makeBookmark( container, curPos );
+				makeBookmark( container, currentY );
 				// Handles hyper-link action
-				handleHyperlinkAction( container, curPos );
+				handleHyperlinkAction( container, currentX, currentY );
 			}
 		}
 		
@@ -927,39 +887,54 @@ public class PDFEmitter implements IContentEmitter
 			
 			contentByte.beginText();
 			Color color = PropertyUtil.getColor(style.getProperty(StyleConstants.STYLE_COLOR));   
-			if (null != color)
+			if (null != color && !Color.BLACK.equals( color ))
 		    {
 		    	contentByte.setColorFill(color);
 		    	contentByte.setColorStroke( color );
 		    }
 			BaseFont font = text.getFontInfo().getBaseFont();
 			contentByte.setFontAndSize(font, fontSize); 
-			contentByte.setCharacterSpacing(characterSpacing);
-			contentByte.setWordSpacing(wordSpacing);
+			if(characterSpacing!=0)
+			{
+				contentByte.setCharacterSpacing(characterSpacing);
+			}
+			if(wordSpacing!=0)
+			{
+				contentByte.setWordSpacing(wordSpacing);
+			}
 		    placeText(contentByte, text.getFontInfo(), layoutAreaX2PDF(textX), 
 		    		layoutAreaY2PDFEx(textY, text.getFontInfo().getBaseline(), contentByteHeight));
-		    CSSValue align = text.getStyle( ).getProperty(
-					StyleConstants.STYLE_TEXT_ALIGN );
-			if ( ( font.getFontType( ) == BaseFont.FONT_TYPE_TTUNI )
-					&& IStyle.JUSTIFY_VALUE.equals( align ) && wordSpacing > 0 )
+
+			if ( wordSpacing > 0
+					&& ( font.getFontType( ) == BaseFont.FONT_TYPE_TTUNI ) )
 			{
 				String s = text.getText( );
-				int idx = s.indexOf( ' ' );
-				if ( idx >= 0 )
+				CSSValue align = text.getStyle( ).getProperty(
+						StyleConstants.STYLE_TEXT_ALIGN );
+				if ( IStyle.JUSTIFY_VALUE.equals( align ) )
 				{
-					float spaceCorrection = -wordSpacing * 1000 / fontSize;
-					PdfTextArray textArray = new PdfTextArray( s.substring( 0,
-							idx ) );
-					int lastIdx = idx;
-					while ( ( idx = s.indexOf( ' ', lastIdx + 1 ) ) >= 0 )
+					
+					int idx = s.indexOf( ' ' );
+					if ( idx >= 0 )
 					{
+						float spaceCorrection = -wordSpacing * 1000 / fontSize;
+						PdfTextArray textArray = new PdfTextArray( s.substring(
+								0, idx ) );
+						int lastIdx = idx;
+						while ( ( idx = s.indexOf( ' ', lastIdx + 1 ) ) >= 0 )
+						{
+							textArray.add( spaceCorrection );
+							textArray.add( s.substring( lastIdx, idx ) );
+							lastIdx = idx;
+						}
 						textArray.add( spaceCorrection );
-						textArray.add( s.substring( lastIdx, idx ) );
-						lastIdx = idx;
+						textArray.add( s.substring( lastIdx ) );
+						contentByte.showText( textArray );
 					}
-					textArray.add( spaceCorrection );
-					textArray.add( s.substring( lastIdx ) );
-					contentByte.showText( textArray );
+					else
+					{
+						contentByte.showText( s );
+					}
 				}
 				else
 				{
@@ -1032,13 +1007,8 @@ public class PDFEmitter implements IContentEmitter
 			Image img = null;
 			TranscoderInput ti = null;
 			cb.saveState();
-			ContainerPosition curPos;
-			if ( !containerStack.isEmpty() )
-				curPos = (ContainerPosition)containerStack.peek();	
-			else 
-				curPos = new ContainerPosition(0, 0);
-			int imageX = curPos.x + image.getX();
-			int imageY = curPos.y + image.getY();
+			int imageX = currentX + image.getX();
+			int imageY = currentY + image.getY();
 			IImageContent imageContent = ((IImageContent) image.getContent());
 			
 			try
@@ -1153,10 +1123,10 @@ public class PDFEmitter implements IContentEmitter
 			
 			//Check if itself is the destination of a bookmark.
 			//if so, make a bookmark; if not, do nothing
-			makeBookmark(image, curPos);
+			makeBookmark(image, currentY);
 			
 			//handle hyper-link action
-			handleHyperlinkAction(image, curPos);
+			handleHyperlinkAction(image, currentX, currentY);
 		}
 		/**
 		 * Draws the borders of a container.
@@ -1846,12 +1816,12 @@ public class PDFEmitter implements IContentEmitter
 		 * @param area			the area which may need to be marked. 
 		 * @param curPos 		the position, relative to the page, of the area's container.
 		 */
-		private void makeBookmark(IArea area, ContainerPosition curPos) 
+		private void makeBookmark(IArea area, int y) 
 		{
 			IContent content = area.getContent();
 			if( null != content )
 			{
-				int areaY = curPos.y + area.getY();
+				int areaY = y + area.getY();
 				String bookmark = content.getBookmark();
 				if (null != bookmark)
 				{
@@ -1868,20 +1838,20 @@ public class PDFEmitter implements IContentEmitter
 		 * @param area			the area which needs to handle the hyperlink action.
 		 * @param curPos		the position of the container of current area.
 		 */
-		private void handleHyperlinkAction(IArea area, ContainerPosition curPos)
+		private void handleHyperlinkAction(IArea area, int x, int y)
 		{
 			IContent content = area.getContent();
 			if( null != content )
 			{
-				int areaX = curPos.x + area.getX();
-				int areaY = curPos.y + area.getY();
 				IHyperlinkAction hlAction = content.getHyperlinkAction();
-				String systemId = reportRunnable == null
-						? null
-						: reportRunnable.getReportName( );
 				if ( null != hlAction )
 				try
 				{
+					int areaX = x + area.getX();
+					int areaY = y + area.getY();
+					String systemId = reportRunnable == null
+							? null
+							: reportRunnable.getReportName( );
 					switch (hlAction.getType())
 					{
 					case IHyperlinkAction.ACTION_BOOKMARK: 

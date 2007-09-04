@@ -80,6 +80,18 @@ public class BorderConflictResolver
 		styleMap.put( IStyle.DOUBLE_VALUE, new Integer( 8 ) );
 	}
 
+	final static int[] BORDER_COLOR_POPERTIES = new int[]{
+			IStyle.STYLE_BORDER_LEFT_COLOR, IStyle.STYLE_BORDER_TOP_COLOR,
+			IStyle.STYLE_BORDER_RIGHT_COLOR, IStyle.STYLE_BORDER_BOTTOM_COLOR};
+
+	final static int[] BORDER_WIDTH_POPERTIES = new int[]{
+			IStyle.STYLE_BORDER_LEFT_WIDTH, IStyle.STYLE_BORDER_TOP_WIDTH,
+			IStyle.STYLE_BORDER_RIGHT_WIDTH, IStyle.STYLE_BORDER_BOTTOM_WIDTH};
+
+	final static int[] BORDER_STYLE_POPERTIES = new int[]{
+			IStyle.STYLE_BORDER_LEFT_STYLE, IStyle.STYLE_BORDER_TOP_STYLE,
+			IStyle.STYLE_BORDER_RIGHT_STYLE, IStyle.STYLE_BORDER_BOTTOM_STYLE};
+
 	/**
 	 * The used style should be style of area which is writable, and the others
 	 * are styles of content which is read-only.
@@ -140,17 +152,18 @@ public class BorderConflictResolver
 				new BorderStyleInfo( tableBottom, POSITION_BOTTOM )},
 				new BorderStyleInfo( usedStyle, POSITION_BOTTOM ) );
 	}
-	
-	public void resolvePagenatedTableTopBorder(IStyle rowTop, IStyle cellTop, IStyle usedStyle)
+
+	public void resolvePagenatedTableTopBorder( IStyle rowTop, IStyle cellTop,
+			IStyle usedStyle )
 	{
 		resolveBorder( new BorderStyleInfo[]{
 				new BorderStyleInfo( cellTop, POSITION_TOP ),
 				new BorderStyleInfo( rowTop, POSITION_TOP )},
 				new BorderStyleInfo( usedStyle, POSITION_TOP ) );
 	}
-	
-	public void resolvePagenatedTableBottomBorder( IStyle rowBottom, IStyle cellBottom,
-			IStyle usedStyle )
+
+	public void resolvePagenatedTableBottomBorder( IStyle rowBottom,
+			IStyle cellBottom, IStyle usedStyle )
 	{
 		resolveBorder( new BorderStyleInfo[]{
 				new BorderStyleInfo( cellBottom, POSITION_BOTTOM ),
@@ -234,8 +247,8 @@ public class BorderConflictResolver
 				return;
 			}
 		}
-		
-		//resolve border width
+
+		// resolve border width
 		int maxWidth = 0;
 		int maxCount = 1;
 		int maxFirstIndex = 0;
@@ -258,14 +271,16 @@ public class BorderConflictResolver
 			}
 		}
 
-		if ( maxCount == 1 )
+		if ( maxWidth == 0 || maxCount == 1 )
 		{
-			usedStyle.setBorder( borderStyles[maxFirstIndex], borderWidths[maxFirstIndex], styles[maxFirstIndex].getBorderColor( ) );
+			usedStyle.setBorder( borderStyles[maxFirstIndex],
+					borderWidths[maxFirstIndex], styles[maxFirstIndex]
+							.getBorderColor( ) );
 			return;
 		}
 		else
 		{
-			//resolve border style
+			// resolve border style
 			int max = 0;
 			int maxStyleIndex = 0;
 			int[] ss = new int[styles.length];
@@ -273,8 +288,8 @@ public class BorderConflictResolver
 			{
 				if ( ws[i] == maxWidth )
 				{
-					ss[i] = ( (Integer) styleMap.get( styles[i].getBorderStyle( ) ) )
-					.intValue( );
+					ss[i] = ( (Integer) styleMap.get( styles[i]
+							.getBorderStyle( ) ) ).intValue( );
 					if ( ss[i] > max )
 					{
 						max = ss[i];
@@ -282,7 +297,9 @@ public class BorderConflictResolver
 					}
 				}
 			}
-			usedStyle.setBorder( borderStyles[maxStyleIndex], borderWidths[maxStyleIndex], styles[maxStyleIndex].getBorderColor( ) );
+			usedStyle.setBorder( borderStyles[maxStyleIndex],
+					borderWidths[maxStyleIndex], styles[maxStyleIndex]
+							.getBorderColor( ) );
 		}
 	}
 
@@ -299,157 +316,43 @@ public class BorderConflictResolver
 			this.position = position;
 		}
 
-		public void setBorderColor( CSSValue value )
-		{
-			assert ( style != null );
-			switch ( position )
-			{
-				case POSITION_LEFT :
-					style.setProperty( IStyle.STYLE_BORDER_LEFT_COLOR, value );
-					break;
-				case POSITION_RIGHT :
-					style.setProperty( IStyle.STYLE_BORDER_RIGHT_COLOR, value );
-					break;
-				case POSITION_TOP :
-					style.setProperty( IStyle.STYLE_BORDER_TOP_COLOR, value );
-					break;
-				case POSITION_BOTTOM :
-					style.setProperty( IStyle.STYLE_BORDER_BOTTOM_COLOR, value );
-					break;
-				default :
-					assert false;
-
-			}
-
-		}
-
 		public CSSValue getBorderColor( )
 		{
-			if ( style == null )
+			if ( style != null )
 			{
-				return IStyle.BLACK_RGB_VALUE;
+				return style.getProperty( BORDER_COLOR_POPERTIES[position] );
 			}
-			switch ( position )
-			{
-				case POSITION_LEFT :
-					return style.getProperty( IStyle.STYLE_BORDER_LEFT_COLOR );
-				case POSITION_RIGHT :
-					return style.getProperty( IStyle.STYLE_BORDER_RIGHT_COLOR );
-				case POSITION_TOP :
-					return style.getProperty( IStyle.STYLE_BORDER_TOP_COLOR );
-				case POSITION_BOTTOM :
-					return style.getProperty( IStyle.STYLE_BORDER_BOTTOM_COLOR );
-				default :
-					assert false;
-
-			}
-			return IStyle.BLACK_RGB_VALUE;
+			return IStyle.BLACK_VALUE;
 		}
 
 		public CSSValue getBorderStyle( )
 		{
-			if ( style == null )
+			if ( style != null )
 			{
-				return IStyle.NONE_VALUE;
-			}
-			switch ( position )
-			{
-				case POSITION_LEFT :
-					return style.getProperty( IStyle.STYLE_BORDER_LEFT_STYLE );
-				case POSITION_RIGHT :
-					return style.getProperty( IStyle.STYLE_BORDER_RIGHT_STYLE );
-				case POSITION_TOP :
-					return style.getProperty( IStyle.STYLE_BORDER_TOP_STYLE );
-				case POSITION_BOTTOM :
-					return style.getProperty( IStyle.STYLE_BORDER_BOTTOM_STYLE );
-				default :
-					assert false;
-
+				return style.getProperty( BORDER_STYLE_POPERTIES[position] );
 			}
 			return IStyle.NONE_VALUE;
 		}
 
 		public CSSValue getBorderWidth( )
 		{
-			if ( style == null )
+			if ( style != null )
 			{
-				return null;
+				return style.getProperty( BORDER_WIDTH_POPERTIES[position] );
 			}
-			switch ( position )
-			{
-				case POSITION_LEFT :
-					return style
-							.getProperty( StyleConstants.STYLE_BORDER_LEFT_WIDTH );
-				case POSITION_RIGHT :
-					return style
-							.getProperty( StyleConstants.STYLE_BORDER_RIGHT_WIDTH );
-				case POSITION_TOP :
-					return style
-							.getProperty( StyleConstants.STYLE_BORDER_TOP_WIDTH );
-				case POSITION_BOTTOM :
-					return style
-							.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH );
-				default :
-					assert false;
-
-			}
-			return null;
+			return IStyle.NUMBER_0;
 		}
 
-		private void setBorderStyle( CSSValue value )
+		public void setBorderStyle( CSSValue border )
 		{
-			switch ( position )
-			{
-				case POSITION_LEFT :
-					style.setProperty( IStyle.STYLE_BORDER_LEFT_STYLE, value );
-					break;
-				case POSITION_RIGHT :
-					style.setProperty( IStyle.STYLE_BORDER_RIGHT_STYLE, value );
-					break;
-				case POSITION_TOP :
-					style.setProperty( IStyle.STYLE_BORDER_TOP_STYLE, value );
-					break;
-				case POSITION_BOTTOM :
-					style.setProperty( IStyle.STYLE_BORDER_BOTTOM_STYLE, value );
-					break;
-				default :
-					assert false;
-
-			}
+			style.setProperty( BORDER_STYLE_POPERTIES[position], border );
 		}
 
-		private void setBorderWidth( CSSValue value )
+		public void setBorder( CSSValue border, CSSValue width, CSSValue color )
 		{
-			switch ( position )
-			{
-				case POSITION_LEFT :
-					style.setProperty( StyleConstants.STYLE_BORDER_LEFT_WIDTH,
-							value );
-					break;
-				case POSITION_RIGHT :
-					style.setProperty( StyleConstants.STYLE_BORDER_RIGHT_WIDTH,
-							value );
-					break;
-				case POSITION_TOP :
-					style.setProperty( StyleConstants.STYLE_BORDER_TOP_WIDTH,
-							value );
-					break;
-				case POSITION_BOTTOM :
-					style.setProperty(
-							StyleConstants.STYLE_BORDER_BOTTOM_WIDTH, value );
-					break;
-				default :
-					assert false;
-
-			}
-
-		}
-
-		public void setBorder(CSSValue style, CSSValue width, CSSValue color)
-		{
-			setBorderStyle( style );
-			setBorderWidth( width );
-			setBorderColor( color );
+			style.setProperty( BORDER_STYLE_POPERTIES[position], border );
+			style.setProperty( BORDER_WIDTH_POPERTIES[position], width );
+			style.setProperty( BORDER_COLOR_POPERTIES[position], color );
 		}
 	}
 }

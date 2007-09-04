@@ -54,6 +54,10 @@ public class StringValue extends Value
 	 */
 	public boolean equals( Object obj )
 	{
+		if (obj == this)
+		{
+			return true;
+		}
 		if ( obj == null || !( obj instanceof StringValue ) )
 		{
 			return false;
