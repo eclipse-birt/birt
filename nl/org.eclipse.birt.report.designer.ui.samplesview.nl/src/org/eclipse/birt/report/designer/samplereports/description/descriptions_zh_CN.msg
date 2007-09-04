@@ -50,6 +50,7 @@ CustomerListAfter_Mapping=本示例示范如何使用 BIRT 的“映射”和“排序”功能。映射
 EmployeeAfter=本示例示范如何用平行区域生成报表。它也使用采集已显示数据的表筛选器进行说明。报表使用网格元素对列进行布局。在每列中添加一组嵌套表以检索员工信息并按位置层次进行分组。这些表格按照办公室代码进行筛选。 
 
 #Query Modification
+NullParameter=This example demonstrates how to modify the query based on report parameters using data set events. As an example, the query gets modified if a value is provided for the report parameter. 
 OrderDetailsAfter=本示例示范如何使用“属性绑定”或“脚本”修改 JDBC 查询。“属性绑定”是 BIRT 中的一个功能，该功能允许对“数据源”和“数据集”公共属性的运行时间进行修改。这可用于将上下文相关的信息添加到任一个元素。作为示例，可对 where 子句进行修改以从会话中检索用户名，或者可根据报表参数在开发和生产间切换数据库 URL。 
 
 #Report Elements
