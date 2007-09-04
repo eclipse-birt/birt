@@ -1,14 +1,14 @@
 !**************** BIRT DATA ********************
-plugin@org.eclipse.birt.data=r22x_v20070903,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data
-plugin@org.eclipse.birt.report.data.adapter=r22x_v20070903,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.adapter
-plugin@org.eclipse.birt.report.data.oda.jdbc=r22x_v20070903,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc
-plugin@org.eclipse.birt.report.data.oda.jdbc.ui=r22x_v20070903,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.ui
-plugin@org.eclipse.birt.report.data.oda.sampledb=r22x_v20070903,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.sampledb
-plugin@org.eclipse.birt.report.data.oda.sampledb.ui=r22x_v20070903,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.sampledb.ui
-plugin@org.eclipse.birt.report.data.oda.xml=r22x_v20070903,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.xml
-plugin@org.eclipse.birt.report.data.oda.xml.ui=r22x_v20070903,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.xml.ui
+plugin@org.eclipse.birt.data=r22x_v20070904,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data
+plugin@org.eclipse.birt.report.data.adapter=r22x_v20070904,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.adapter
+plugin@org.eclipse.birt.report.data.oda.jdbc=r22x_v20070904,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc
+plugin@org.eclipse.birt.report.data.oda.jdbc.ui=r22x_v20070904,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.ui
+plugin@org.eclipse.birt.report.data.oda.sampledb=r22x_v20070904,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.sampledb
+plugin@org.eclipse.birt.report.data.oda.sampledb.ui=r22x_v20070904,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.sampledb.ui
+plugin@org.eclipse.birt.report.data.oda.xml=r22x_v20070904,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.xml
+plugin@org.eclipse.birt.report.data.oda.xml.ui=r22x_v20070904,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.xml.ui
 
 !**************** data test  *******************
-plugin@org.eclipse.birt.data.tests=r22x_v20070903,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data.tests
-plugin@org.eclipse.birt.report.data.oda.jdbc.tests=r22x_v20070903,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.tests
+plugin@org.eclipse.birt.data.tests=r22x_v20070904,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data.tests
+plugin@org.eclipse.birt.report.data.oda.jdbc.tests=r22x_v20070904,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.tests
 
