@@ -24,6 +24,7 @@ birt.viewer.restore=Mostrar parámetros de informe
 
 birt.viewer.error=Mensaje de error
 birt.viewer.error.noparameter=No hay ningún parámetro para este informe.
+birt.viewer.error.parameter.invalid=The parameter "{0}" is invalid.
 birt.viewer.error.noprinter=No se puede encontrar ninguna impresora disponible compatible con el formato postscript.
 birt.viewer.error.unknownerror=Unknown error.
 birt.viewer.error.generatereportfirst=Report document should be generated first.

@@ -24,6 +24,7 @@ birt.viewer.restore=レポートパラメタを表示します。
 
 birt.viewer.error=エラーメッセージ
 birt.viewer.error.noparameter=このレポートにはパラメタがありません。
+birt.viewer.error.parameter.invalid=The parameter "{0}" is invalid.
 birt.viewer.error.noprinter=PostScript 形式をサポートする使用可能なプリンタが見つかりません。
 birt.viewer.error.unknownerror=Unknown error.
 birt.viewer.error.generatereportfirst=Report document should be generated first.

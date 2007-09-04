@@ -24,6 +24,7 @@ birt.viewer.restore=보고서 매개 변수 표시
 
 birt.viewer.error=오류 메시지
 birt.viewer.error.noparameter=이 보고서에 대한 매개 변수가 없습니다.
+birt.viewer.error.parameter.invalid=The parameter "{0}" is invalid.
 birt.viewer.error.noprinter=PostScript 형식을 지원하는 프린터를 찾을 수 없습니다.
 birt.viewer.error.unknownerror=Unknown error.
 birt.viewer.error.generatereportfirst=Report document should be generated first.

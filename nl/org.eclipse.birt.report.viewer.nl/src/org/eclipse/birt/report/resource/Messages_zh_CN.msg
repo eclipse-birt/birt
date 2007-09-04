@@ -24,6 +24,7 @@ birt.viewer.restore=显示报表参数
 
 birt.viewer.error=错误消息
 birt.viewer.error.noparameter=此报表无参数。
+birt.viewer.error.parameter.invalid=The parameter "{0}" is invalid.
 birt.viewer.error.noprinter=无法找到支持 PostScript 格式的任何可用打印机。
 birt.viewer.error.unknownerror=Unknown error.
 birt.viewer.error.generatereportfirst=Report document should be generated first.
