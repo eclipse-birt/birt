@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.adapter.oda.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -22,6 +23,7 @@ import org.eclipse.birt.report.model.adapter.oda.IODADesignFactory;
 import org.eclipse.birt.report.model.adapter.oda.ODADesignFactory;
 import org.eclipse.birt.report.model.adapter.oda.util.IdentifierUtility;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
@@ -75,6 +77,12 @@ class ResultSetsAdapter
 	 */
 
 	private List setDefinedColumnHints = null;
+
+	/**
+	 * Column hints for computed columns.
+	 */
+
+	private List columnHintsForComputedColumns = null;
 
 	/**
 	 * 
@@ -209,8 +217,8 @@ class ResultSetsAdapter
 			if ( !isValueSet )
 			{
 				ValueFormatHints formatHints = outputAttrs.getFormattingHints( );
-				if ( formatHints != null
-						&& formatHints.getDisplayFormat( ) != null )
+				if ( formatHints != null &&
+						formatHints.getDisplayFormat( ) != null )
 					isValueSet = true;
 			}
 
@@ -377,8 +385,8 @@ class ResultSetsAdapter
 		oldValue = cachedDataAttrs == null ? null : new Integer(
 				cachedDataAttrs.getNativeDataTypeCode( ) );
 		newValue = new Integer( dataAttrs.getNativeDataTypeCode( ) );
-		if ( oldValue == null || !oldValue.equals( newValue )
-				|| newColumn.getNativeDataType( ) == null )
+		if ( oldValue == null || !oldValue.equals( newValue ) ||
+				newColumn.getNativeDataType( ) == null )
 		{
 			newColumn.setNativeDataType( (Integer) newValue );
 		}
@@ -425,8 +433,8 @@ class ResultSetsAdapter
 					column.getNativeDataType( ).intValue( ), null );
 
 		Integer tmpNativeCodeType = tmpParam.getNativeDataType( );
-		if ( tmpNativeCodeType == null
-				|| tmpNativeCodeType.equals( column.getNativeDataType( ) ) )
+		if ( tmpNativeCodeType == null ||
+				tmpNativeCodeType.equals( column.getNativeDataType( ) ) )
 			return tmpParam.getDataType( );
 
 		String oldDataType = tmpParam.getDataType( );
@@ -495,9 +503,9 @@ class ResultSetsAdapter
 			Integer tmpNativeDataType = column.getNativeDataType( );
 			String nativeName = column.getNativeName( );
 			if ( ( StringUtil.isBlank( nativeName ) || nativeName
-					.equalsIgnoreCase( paramName ) )
-					&& position.equals( column.getPosition( ) )
-					&& ( tmpNativeDataType == null || nativeDataType
+					.equalsIgnoreCase( paramName ) ) &&
+					position.equals( column.getPosition( ) ) &&
+					( tmpNativeDataType == null || nativeDataType
 							.equals( tmpNativeDataType ) ) )
 				return column;
 
@@ -537,8 +545,8 @@ class ResultSetsAdapter
 			if ( dataAttrs == null )
 				continue;
 
-			if ( columnName.equals( dataAttrs.getName( ) )
-					&& ( position == null || position.intValue( ) == dataAttrs
+			if ( columnName.equals( dataAttrs.getName( ) ) &&
+					( position == null || position.intValue( ) == dataAttrs
 							.getPosition( ) ) )
 				return columnDefn;
 		}
@@ -571,8 +579,8 @@ class ResultSetsAdapter
 		if ( resultDefn == null )
 		{
 			ResultSets resultSets = setDesign.getResultSets( );
-			if ( resultSets != null
-					&& !resultSets.getResultSetDefinitions( ).isEmpty( ) )
+			if ( resultSets != null &&
+					!resultSets.getResultSetDefinitions( ).isEmpty( ) )
 				resultDefn = (ResultSetDefinition) resultSets
 						.getResultSetDefinitions( ).get( 0 );
 		}
@@ -653,6 +661,10 @@ class ResultSetsAdapter
 		// create unique column names if native names is null or empty.
 
 		createUniqueResultSetColumnNames( columns );
+
+		// retrieve column hints for computed columns.
+		
+		updateHintsForComputedColumn( );
 
 		return retList;
 	}
@@ -850,6 +862,52 @@ class ResultSetsAdapter
 	}
 
 	/**
+	 * Updates column hints for computed columns. Saved in the field.
+	 * 
+	 */
+
+	private void updateHintsForComputedColumn( )
+	{
+		Iterator columns = setHandle.computedColumnsIterator( );
+		List columnNames = new ArrayList( );
+		while ( columns.hasNext( ) )
+		{
+			ComputedColumnHandle tmpColumn = (ComputedColumnHandle) columns
+					.next( );
+			columnNames.add( tmpColumn.getName( ) );
+		}
+
+		for ( int i = 0; i < columnNames.size( ); i++ )
+		{
+			String columnName = (String) columnNames.get( i );
+			ColumnHintHandle hintHandle = findColumnHint( columnName,
+					setDefinedColumnHints.iterator( ) );
+			if ( hintHandle == null )
+				continue;
+
+			if ( columnHintsForComputedColumns == null )
+				columnHintsForComputedColumns = new ArrayList( );
+
+			columnHintsForComputedColumns.add( hintHandle.getStructure( )
+					.copy( ) );
+		}
+	}
+
+	/**
+	 * Returns column hints for computed columns.
+	 * 
+	 * @return a list containing column hints structures.
+	 */
+
+	List getHintsForComputedColumn( )
+	{
+		if ( columnHintsForComputedColumns == null )
+			return Collections.EMPTY_LIST;
+
+		return columnHintsForComputedColumns;
+	}
+
+	/**
 	 * The data strcuture to hold a result set column and its column hint.
 	 * 
 	 */
@@ -859,6 +917,11 @@ class ResultSetsAdapter
 
 		private OdaResultSetColumn column;
 		private ColumnHint hint;
+
+		/**
+		 * @param column
+		 * @param hint
+		 */
 
 		ResultSetColumnInfo( OdaResultSetColumn column, ColumnHint hint )
 		{

@@ -901,8 +901,11 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	 */
 
 	private void updateROMResultSets( OdaDataSetHandle setHandle,
-			List structList ) throws SemanticException
+			ResultSetsAdapter tmpAdapter, ResultSetDefinition cachedResultDefn )
+			throws SemanticException
 	{
+		List structList = tmpAdapter.newROMResultSets( cachedResultDefn );
+
 		List columns = new ArrayList( );
 		List hints = new ArrayList( );
 
@@ -945,6 +948,14 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 							ColumnHint.FORMAT_MEMBER ) );
 				}
 			}
+		}
+
+		// add column hints for the computed column
+
+		List hints4ComputedColumn = tmpAdapter.getHintsForComputedColumn( );
+		for ( int i = 0; i < hints4ComputedColumn.size( ); i++ )
+		{
+			propHandle.addItem( (ColumnHint) hints4ComputedColumn.get( i ) );
 		}
 	}
 
@@ -1042,8 +1053,8 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 
 		// if one parameter in newParams has the corresponding data set
 		// parameter in data set handle, use the new parameter to update the one
-		// on set handle. 
-		
+		// on set handle.
+
 		setParamAdapter.updateRomDataSetParamsWithNewParams( newParams );
 	}
 
@@ -1215,13 +1226,14 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 
 			ResultSetDefinition cachedResultDefn = null;
 
-			if ( requestResultSets != null
-					&& !requestResultSets.getResultSetDefinitions( ).isEmpty( ) )
+			if ( requestResultSets != null &&
+					!requestResultSets.getResultSetDefinitions( ).isEmpty( ) )
 				cachedResultDefn = (ResultSetDefinition) requestResultSets
 						.getResultSetDefinitions( ).get( 0 );
 
-			updateROMResultSets( setHandle, new ResultSetsAdapter( setHandle,
-					setDesign ).newROMResultSets( cachedResultDefn ) );
+			ResultSetsAdapter tmpAdapter = new ResultSetsAdapter( setHandle,
+					setDesign );
+			updateROMResultSets( setHandle, tmpAdapter, cachedResultDefn );
 
 			setHandle.setResultSetName( setDesign.getPrimaryResultSetName( ) );
 
@@ -1250,8 +1262,8 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 
 				// only the local data source can be used.
 
-				if ( isSourceChanged && sourceHandle != null
-						&& !sourceHandle.getModuleHandle( ).isReadOnly( ) )
+				if ( isSourceChanged && sourceHandle != null &&
+						!sourceHandle.getModuleHandle( ).isReadOnly( ) )
 				{
 					setHandle.setDataSource( sourceDesign.getName( ) );
 					updateDataSourceHandle( sourceDesign, sourceHandle );
@@ -1260,10 +1272,10 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 				// if the source is not changed, and it is not in the included
 				// library, then we can update it.
 
-				if ( !isSourceChanged
-						&& sourceHandle != null
-						&& !sourceHandle.getModuleHandle( ).isReadOnly( )
-						&& !( isEqualDataSourceDesign(
+				if ( !isSourceChanged &&
+						sourceHandle != null &&
+						!sourceHandle.getModuleHandle( ).isReadOnly( ) &&
+						!( isEqualDataSourceDesign(
 								createDataSourceDesign( sourceHandle ),
 								sourceDesign ) ) )
 				{
