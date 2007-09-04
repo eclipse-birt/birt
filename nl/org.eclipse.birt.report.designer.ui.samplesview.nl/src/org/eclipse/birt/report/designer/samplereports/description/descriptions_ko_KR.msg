@@ -50,6 +50,7 @@ CustomerListAfter_Mapping=이 예제는 BIRT의 매핑과 정렬 기능을 보여 줍니다. 매핑�
 EmployeeAfter=이 예제는 보고서에서 병렬 섹션을 만드는 것을 보여 줍니다. 또한 테이블 필터를 사용하여 표시될 데이터를 추려냅니다. 이 보고서는 눈금 요소를 사용하여 두 열을 구분합니다. 각 열에 중첩 테이블이 추가되어 직원 정보를 보여주며 직급 계층별로 그룹화되어 있습니다. 테이블은 사무실 코드로 필터링되어 있습니다. 
 
 #Query Modification
+NullParameter=This example demonstrates how to modify the query based on report parameters using data set events. As an example, the query gets modified if a value is provided for the report parameter. 
 OrderDetailsAfter=이 예제는 속성 바인딩이나 스크립트를 사용하여 JDBC 쿼리를 수정하는 방법을 보여 줍니다. BIRT의 속성 바인딩은 데이터 원본과 데이터 집합의 공용 속성을 런타임으로 수정할 수 있도록 해 줍니다. 이 기능은 민감한 정보를 요소에 추가할 때 유용합니다. 예를 들어, 보고서 매개 변수를 기준으로 Where 절을 수정하여 사용자 이름을 세션에서 가져올 수 있고, 데이터베이스 URL을 변경하여 개발 서버 또는 운영 서버를 선택할 수 있습니다. 
 
 #Report Elements

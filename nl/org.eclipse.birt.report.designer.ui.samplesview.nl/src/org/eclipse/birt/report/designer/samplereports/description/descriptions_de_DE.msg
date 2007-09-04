@@ -50,6 +50,7 @@ CustomerListAfter_Mapping=Dieses Beispiel veranschaulicht die Verwendung der Zuo
 EmployeeAfter=Dieses Beispiel veranschaulicht die Erstellung eines Berichts mit parallelen Bereichen. Es veranschaulicht auch die Verwendung von Tabellenfiltern zum Filtern angezeigter Daten. Der Bericht verwendet ein Rasterelement zum grafischen Darstellen zweier Spalten. Jeder Spalte wird eine Reihe verschachtelter Tabellen hinzugefügt, um Mitarbeiterinformationen abrufen und nach Positionshierarchie gruppieren zu können. Die Tabellen werden nach Zweigstellencode gefiltert. 
 
 #Query Modification
+NullParameter=This example demonstrates how to modify the query based on report parameters using data set events. As an example, the query gets modified if a value is provided for the report parameter. 
 OrderDetailsAfter=Dieses Beispiel veranschaulicht das Ändern einer JDBC-Abfrage mithilfe der Eigenschaftsbindung oder eines Skripts. Die Eigenschaftsbindung ist eine Funktion von BIRT, mit der Laufzeitänderungen an öffentlichen Einstellungen von Datenquellen und Datensätzen vorgenommen werden können. Dies kann nützlich sein, wenn Sie diesen beiden Elementen kontextsensitive Informationen hinzufügen möchten. Beispielsweise kann die Where-Klausel zum Abrufen des Benutzernamens aus einer Sitzung geändert oder die Datenbank-URL basierend auf einem Berichtparameter zwischen Entwicklung und Produktion umgeschaltet werden. 
 
 #Report Elements

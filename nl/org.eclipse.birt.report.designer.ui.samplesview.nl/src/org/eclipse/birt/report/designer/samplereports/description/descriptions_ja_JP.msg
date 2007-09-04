@@ -50,6 +50,7 @@ CustomerListAfter_Mapping=‚±‚Ì—á‚ÍABIRT ‚Ìƒ}ƒbƒv‚Æƒ\[ƒg‚Ì‹@”\‚ğ¦‚µ‚½‚à‚Ì‚Å‚·
 EmployeeAfter=‚±‚Ì—á‚Å‚ÍA•À—ñƒZƒNƒVƒ‡ƒ“‚ğ‚ÂƒŒƒ|[ƒg‚ğ\’z‚µAƒe[ƒuƒ‹ƒtƒBƒ‹ƒ^‚ğg‚Á‚Ä•\¦ƒf[ƒ^‚ğ‘I”²‚·‚é•û–@‚ğ¦‚µ‚Ü‚·B‚±‚ÌƒTƒ“ƒvƒ‹ƒŒƒ|[ƒg‚ÍƒOƒŠƒbƒh—v‘f‚Å 2 —ñ‚É•ª‚¯A‚»‚ê‚¼‚ê‚Ì—ñ‚ÉƒlƒXƒg‰»‚µ‚½ƒe[ƒuƒ‹‚ª’Ç‰Á‚³‚ê‚Ä‚¢‚Ü‚·B‚±‚±‚ÉA–ğE‚ÌŠK‘w‚²‚Æ‚ÉƒOƒ‹[ƒv‰»‚µ‚½Ğˆõî•ñ‚ªæ‚è‚Ü‚ê‚Ü‚·Bƒe[ƒuƒ‹‚ÍƒIƒtƒBƒXƒR[ƒh‚É‚æ‚Á‚ÄƒtƒBƒ‹ƒ^‚³‚ê‚Ü‚·B 
 
 #Query Modification
+NullParameter=This example demonstrates how to modify the query based on report parameters using data set events. As an example, the query gets modified if a value is provided for the report parameter. 
 OrderDetailsAfter=‚±‚Ì—á‚Å‚ÍAƒvƒƒpƒeƒB‚ÌƒoƒCƒ“ƒh‚Ü‚½‚ÍƒXƒNƒŠƒvƒg‚ğg‚Á‚Ä JDBC ‚ÌƒNƒGƒŠ‚ğ•ÏX‚·‚é•û–@‚ğ¦‚µ‚Ü‚·BƒvƒƒpƒeƒB‚ÌƒoƒCƒ“ƒh‚ÍAƒf[ƒ^ƒ\[ƒX‚âƒf[ƒ^ƒZƒbƒg‚ÌƒpƒuƒŠƒbƒNƒvƒƒpƒeƒB‚ğÀs‚É•ÏX‚Å‚«‚é BIRT ‚Ì‹@”\‚ÅAƒRƒ“ƒeƒLƒXƒg‚É‘Î‰‚µ‚½î•ñ‚ğ—v‘f‚É’Ç‰Á‚·‚éÛ‚É•Ö—˜‚Å‚·B‚½‚Æ‚¦‚ÎAƒŒƒ|[ƒgƒpƒ‰ƒƒ^‚ÉŠî‚Ã‚¢‚ÄAŠJ”­‚ÆÀÛ‚Ìg—pŠÂ‹«‚Å WHERE ‹å‚ğ•ÏX‚·‚é‚±‚Æ‚ÅAƒ†[ƒU–¼‚ğƒZƒbƒVƒ‡ƒ“‚Æƒf[ƒ^ƒx[ƒX‚Ì URL ‚Ì‚Ç‚¿‚ç‚©‚©‚çæ“¾‚·‚é‚æ‚¤‚ÉØ‚è‘Ö‚¦‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·B 
 
 #Report Elements
