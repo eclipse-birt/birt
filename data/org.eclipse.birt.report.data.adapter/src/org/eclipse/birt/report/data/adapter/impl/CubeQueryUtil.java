@@ -126,11 +126,16 @@ public class CubeQueryUtil implements ICubeQueryUtil
 							{
 								DimLevel next = OlapExpressionUtil.getTargetDimLevel( aggrOns.get( j+1 )
 										.toString( ) );
-								if ( getAxisQualifierLevel( next,
-										cubeDefn.getEdge( getAxisQualifierEdgeType( dimLevel,
-												cubeDefn ) ) ) != null )
-									result.add( new BindingMetaInfo( binding.getBindingName( ),
-											IBindingMetaInfo.SUB_TOTAL_TYPE ) );
+								
+								int candidateEdge = getAxisQualifierEdgeType( dimLevel,
+										cubeDefn );
+								if ( candidateEdge != -1 )
+								{
+									if ( getAxisQualifierLevel( next,
+											cubeDefn.getEdge( candidateEdge ) ) != null )
+										result.add( new BindingMetaInfo( binding.getBindingName( ),
+												IBindingMetaInfo.SUB_TOTAL_TYPE ) );
+								}
 							}
 							break;
 						}
@@ -254,8 +259,13 @@ public class CubeQueryUtil implements ICubeQueryUtil
 				isMeasure = this.getReferencedMeasureName( binding.getExpression( ) ) != null;
 			}
 			
-			IEdgeDefinition axisQualifierEdge = queryDefn.getEdge( this.getAxisQualifierEdgeType( target,
-					queryDefn ) );
+			int candidateEdge = this.getAxisQualifierEdgeType( target,
+					queryDefn );
+			
+			if( candidateEdge == -1 )
+				return result;
+			
+			IEdgeDefinition axisQualifierEdge = queryDefn.getEdge( candidateEdge );
 			if ( isMeasure )
 			{
 				for ( int i = 0; i < axisQualifierEdge.getDimensions( ).size( ); i++ )
@@ -321,19 +331,33 @@ public class CubeQueryUtil implements ICubeQueryUtil
 	private int getAxisQualifierEdgeType( DimLevel dimLevel, ICubeQueryDefinition queryDefn )
 	{
 		IEdgeDefinition edge = queryDefn.getEdge( ICubeQueryDefinition.COLUMN_EDGE );
-		if( edge == null )
-			return ICubeQueryDefinition.ROW_EDGE;
-		List dims = edge.getDimensions( );
-		for( int i = 0; i < dims.size( ); i++ )
+		if ( edge != null )
 		{
-			IDimensionDefinition dim = (IDimensionDefinition)dims.get( i );
-			if( dim.getName( ).equals( dimLevel.getDimensionName( ) ))
+			List dims = edge.getDimensions( );
+			for ( int i = 0; i < dims.size( ); i++ )
 			{
-				return ICubeQueryDefinition.ROW_EDGE;
+				IDimensionDefinition dim = (IDimensionDefinition) dims.get( i );
+				if ( dim.getName( ).equals( dimLevel.getDimensionName( ) ) )
+				{
+					return ICubeQueryDefinition.ROW_EDGE;
+				}
 			}
 		}
 		
-		return ICubeQueryDefinition.COLUMN_EDGE;
+		edge = queryDefn.getEdge( ICubeQueryDefinition.ROW_EDGE );
+		if ( edge != null )
+		{
+			List dims = edge.getDimensions( );
+			for ( int i = 0; i < dims.size( ); i++ )
+			{
+				IDimensionDefinition dim = (IDimensionDefinition) dims.get( i );
+				if ( dim.getName( ).equals( dimLevel.getDimensionName( ) ) )
+				{
+					return ICubeQueryDefinition.COLUMN_EDGE;
+				}
+			}
+		}
+		return -1;
 	}
 
 	/**

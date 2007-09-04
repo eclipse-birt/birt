@@ -177,33 +177,9 @@ public abstract class BaseDimensionFilterEvalHelper implements IJSFilterHelper
 					List levelList = new ArrayList( );
 					// get all levels from the row edge and column edge
 					IEdgeDefinition rowEdge = queryDefn.getEdge( ICubeQueryDefinition.ROW_EDGE );
-					List rowDims = rowEdge.getDimensions( );
-					for ( Iterator i = rowDims.iterator( ); i.hasNext( ); )
-					{
-						IDimensionDefinition dim = (IDimensionDefinition) i.next( );
-						IHierarchyDefinition hirarchy = (IHierarchyDefinition) dim.getHierarchy( )
-								.get( 0 );
-						for ( Iterator j = hirarchy.getLevels( ).iterator( ); j.hasNext( ); )
-						{
-							ILevelDefinition level = (ILevelDefinition) j.next( );
-							levelList.add( new DimLevel( dim.getName( ),
-									level.getName( ) ) );
-						}
-					}
+					populateDimLevel( levelList, rowEdge );
 					IEdgeDefinition colEdge = queryDefn.getEdge( ICubeQueryDefinition.COLUMN_EDGE );
-					List colDims = colEdge.getDimensions( );
-					for ( Iterator i = colDims.iterator( ); i.hasNext( ); )
-					{
-						IDimensionDefinition dim = (IDimensionDefinition) i.next( );
-						IHierarchyDefinition hirarchy = (IHierarchyDefinition) dim.getHierarchy( )
-								.get( 0 );
-						for ( Iterator j = hirarchy.getLevels( ).iterator( ); j.hasNext( ); )
-						{
-							ILevelDefinition level = (ILevelDefinition) j.next( );
-							levelList.add( new DimLevel( dim.getName( ),
-									level.getName( ) ) );
-						}
-					}
+					populateDimLevel( levelList, colEdge );
 					DimLevel[] levels = new DimLevel[levelList.size( )];
 					levelList.toArray( levels );
 					return levels;
@@ -221,6 +197,30 @@ public abstract class BaseDimensionFilterEvalHelper implements IJSFilterHelper
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * 
+	 * @param levelList
+	 * @param edge
+	 */
+	private void populateDimLevel( List levelList, IEdgeDefinition edge )
+	{
+		if( edge == null )
+			return;
+		List rowDims = edge.getDimensions( );
+		for ( Iterator i = rowDims.iterator( ); i.hasNext( ); )
+		{
+			IDimensionDefinition dim = (IDimensionDefinition) i.next( );
+			IHierarchyDefinition hirarchy = (IHierarchyDefinition) dim.getHierarchy( )
+					.get( 0 );
+			for ( Iterator j = hirarchy.getLevels( ).iterator( ); j.hasNext( ); )
+			{
+				ILevelDefinition level = (ILevelDefinition) j.next( );
+				levelList.add( new DimLevel( dim.getName( ),
+						level.getName( ) ) );
+			}
+		}
 	}
 
 	/* (non-Javadoc)
