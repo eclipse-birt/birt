@@ -602,10 +602,13 @@ public abstract class EngineTask implements IEngineTask
 				Object[] paramValueList = (Object[]) paramValue;
 				for ( int i = 0; i < paramValueList.length; i++ )
 				{
-					if ( !validateParameterValueType( paramName,
-							paramValueList[i], type, paramHandle ) )
+					if ( paramValueList[i] != null )
 					{
-						isValid = false;
+						if ( !validateParameterValueType( paramName,
+								paramValueList[i], type, paramHandle ) )
+						{
+							isValid = false;
+						}
 					}
 				}
 				return isValid;
@@ -613,7 +616,7 @@ public abstract class EngineTask implements IEngineTask
 			throw new ParameterValidationException(
 					MessageConstants.INVALID_PARAMETER_TYPE_EXCEPTION,
 					new String[]{paramName, "Object[]",
-							paramValue.getClass( ).getName( )} );
+							"Array"} );
 		}
 		else
 		{
