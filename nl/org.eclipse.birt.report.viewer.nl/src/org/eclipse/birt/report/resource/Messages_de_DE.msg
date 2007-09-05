@@ -28,7 +28,9 @@ birt.viewer.error.parameter.invalid=The parameter "{0}" is invalid.
 birt.viewer.error.noprinter=Es kann kein verfügbarer Drucker gefunden werden, der das Postscript-Format unterstützt.
 birt.viewer.error.unknownerror=Unknown error.
 birt.viewer.error.generatereportfirst=Report document should be generated first.
-birt.viewer.error.parameterrequired={0} is required.
+birt.viewer.error.parameterrequired=The parameter "{0}" is required.
+birt.viewer.error.parameternotallowblank=The parameter "{0}" cannot be blank.
+birt.viewer.error.parameternotselected=Please select value for parameter "{0}".
 
 ###############################################################################
 # Toolbar
