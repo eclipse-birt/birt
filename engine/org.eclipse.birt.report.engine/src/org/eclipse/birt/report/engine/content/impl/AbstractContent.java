@@ -234,11 +234,12 @@ abstract public class AbstractContent extends AbstractElement
 				{
 					ComputedStyle pcs = (ComputedStyle) ( (IContent) parent )
 							.getComputedStyle( );
-					ComputedStyle cs = pcs.getCachedStyle( styleClass );
+					String cacheKey = getStyleClass( );
+					ComputedStyle cs = pcs.getCachedStyle( cacheKey );
 					if ( cs == null )
 					{
 						cs = new ComputedStyle( this );
-						pcs.addCachedStyle( styleClass, cs );
+						pcs.addCachedStyle( cacheKey, cs );
 					}
 					computedStyle = cs;
 				}
