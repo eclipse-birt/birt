@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.internal.document.v4;
 
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.ILabelContent;
 
 /**
  * DataItemExecutor
@@ -27,8 +28,12 @@ public class TextItemExecutor extends ReportItemExecutor
 
 	protected IContent doCreateContent( )
 	{
-		throw new IllegalStateException(
-				"can't re-generate content for text item" );
+		// the text item may generate a foreign content or a label content.
+		// for foreign content, it must be saved into the report document.
+		// for label content, if the text is not empty, it will be saved into
+		// the document.
+		// so, here is a empty label content.
+		return report.createLabelContent( );
 	}
 
 	protected void doExecute( ) throws Exception
