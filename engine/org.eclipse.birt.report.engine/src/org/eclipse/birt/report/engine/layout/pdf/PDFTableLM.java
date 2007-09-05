@@ -586,7 +586,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 				IStyle rowStyle = ((IContent)cellContent.getParent()).getComputedStyle( ) ;
 				IStyle cellContentStyle = cellContent.getComputedStyle( );
 				IStyle cellAreaStyle = cell.getStyle( );
-				bcr.resolvePagenatedTableBottomBorder( rowStyle,
+				bcr.resolveTableBottomBorder( null, rowStyle, null,
 						cellContentStyle, cellAreaStyle );
 				return getDimensionValue( cellAreaStyle
 								.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH ) );
@@ -671,7 +671,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 			// resolve top border
 			if ( tablepaginated )
 			{
-				bcr.resolvePagenatedTableTopBorder( rowStyle, cellContentStyle,
+				bcr.resolveTableTopBorder( null, rowStyle, null, cellContentStyle,
 						cellAreaStyle );
 				tablepaginated = false;
 			}
