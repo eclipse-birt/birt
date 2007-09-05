@@ -58,6 +58,7 @@
 	<TD NOWRAP></TD>
 	<TD NOWRAP WIDTH="100%">
 		<INPUT TYPE="HIDDEN" ID="control_type" VALUE="select">
+		<INPUT TYPE="HIDDEN" ID="data_type" VALUE="<%="" + parameterBean.getParameter( ).getDataType( ) %>">
 		<INPUT TYPE="HIDDEN"
 			ID="<%= encodedParameterName + "_value" %>"
 			NAME="<%= encodedParameterName %>"

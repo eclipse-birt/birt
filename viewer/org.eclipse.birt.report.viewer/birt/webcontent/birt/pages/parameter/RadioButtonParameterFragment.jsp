@@ -49,6 +49,7 @@
 	<TD NOWRAP></TD>
 	<TD NOWRAP WIDTH="100%">
 	<INPUT TYPE="HIDDEN" ID="control_type" VALUE="radio">
+	<INPUT TYPE="HIDDEN" ID="data_type" VALUE="<%="" + parameterBean.getParameter( ).getDataType( ) %>">
 	<%-- Parameter control --%>
 <%
 	if (parameterBean.getSelectionList( ) != null)

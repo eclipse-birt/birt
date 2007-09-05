@@ -47,6 +47,7 @@
 	<TD NOWRAP></TD>
 	<TD NOWRAP WIDTH="100%">
 	<INPUT TYPE="HIDDEN" ID="control_type" VALUE="text">
+	<INPUT TYPE="HIDDEN" ID="data_type" VALUE="<%="" + parameterBean.getParameter( ).getDataType( ) %>">
 <%
 	if ( !parameterBean.isRequired( ) )
 	{

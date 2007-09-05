@@ -60,6 +60,11 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	 */
 	__is_parameter_required : null,
 	
+	/**
+	 *	Check if allow parameter blank or not.
+	 */
+	__is_parameter_allowblank : null,
+	
     /**
 	 *	if previous is visible.
 	 */	 
@@ -276,34 +281,46 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			// deal with "text" parameter
 			if( oType == 'text' )
 			{
+				// data type of current parameter
+				var dataType = oIEC[1].value;
+				
 				// allow null
-				if( oIEC[1] && oIEC[1].type == 'radio' )
+				if( oIEC[2] && oIEC[2].type == 'radio' )
 				{
-					if( oIEC[1].checked )
+					if( oIEC[2].checked )
 					{
-						var paramName = oIEC[2].name;
-						var paramValue = oIEC[3].value;
-						var displayText = oIEC[4].value;
-						
-						if( displayText != oIEC[2].value )
+						var paramName = oIEC[3].name;
+						var paramValue = oIEC[4].value;
+						var displayText = oIEC[5].value;
+
+						if( displayText != oIEC[3].value )
 						{
 							// change the text field value,regard as a locale string
-							paramValue = oIEC[2].value;
+							paramValue = oIEC[3].value;
 							
 							// set isLocale flag							
 							this.__parameter[k].name = this.__islocale;
 							this.__parameter[k].value = paramName;
 							k++;	
 						}
-						
+																		
 						// check if required
 						if( this.__is_parameter_required( oIEC ) 
 							&& birtUtility.trim( paramValue ) == '' && this.visible )
 						{
-							oIEC[2].focus( );
+							oIEC[3].focus( );
 							alert( birtUtility.formatMessage( Constants.error.parameterRequired, paramName ) );
 							return false;
 						}
+						
+						// check if allow blank
+						if( !this.__is_parameter_allowblank( dataType )
+							&& birtUtility.trim( paramValue ) == '' && this.visible )
+						{
+							oIEC[3].focus( );
+							alert( birtUtility.formatMessage( Constants.error.parameterNotAllowBlank, paramName ) );
+							return false;							
+						}	
 													
 						// set parameter value
 						if( !this.__parameter[k] )
@@ -320,44 +337,53 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 							this.__parameter[k] = { };
 						}
 						this.__parameter[k].name = this.__isdisplay + this.__parameter[k-1].name;
-						this.__parameter[k].value = oIEC[2].value;
+						this.__parameter[k].value = oIEC[3].value;
 						k++;						
 					}
 					else
 					{
 						// select null value
 						this.__parameter[k].name = this.__isnull;
-						this.__parameter[k].value = oIEC[1].value;
+						this.__parameter[k].value = oIEC[2].value;
 						k++;
 					}										
 				}
 				// not allow null
 				else
 				{
-					var paramName = oIEC[1].name;
-					var paramValue = oIEC[2].value;
-					var displayText = oIEC[3].value;
-					
-					if( displayText != oIEC[1].value )
+					var paramName = oIEC[2].name;
+					var paramValue = oIEC[3].value;
+					var displayText = oIEC[4].value;
+
+					if( displayText != oIEC[2].value )
 					{
 						// change the text field value,regard as a locale string
-						paramValue = oIEC[1].value;
+						paramValue = oIEC[2].value;
 						
 						// set isLocale flag							
 						this.__parameter[k].name = this.__islocale;
 						this.__parameter[k].value = paramName;
 						k++;	
 					}
-					
+															
 					// check if required
 					if( this.__is_parameter_required( oIEC ) 
 						&& birtUtility.trim( paramValue ) == '' && this.visible )
 					{
-						oIEC[1].focus( );
+						oIEC[2].focus( );
 						alert( birtUtility.formatMessage( Constants.error.parameterRequired, paramName ) );
 						return false;
 					}
-						
+
+					// check if allow blank
+					if( !this.__is_parameter_allowblank( dataType )
+						&& birtUtility.trim( paramValue ) == '' && this.visible )
+					{
+						oIEC[2].focus( );
+						alert( birtUtility.formatMessage( Constants.error.parameterNotAllowBlank, paramName ) );
+						return false;							
+					}	
+												
 					// set parameter value
 					if( !this.__parameter[k] )
 					{
@@ -373,7 +399,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 						this.__parameter[k] = { };
 					}
 					this.__parameter[k].name = this.__isdisplay + this.__parameter[k-1].name;
-					this.__parameter[k].value = oIEC[1].value;
+					this.__parameter[k].value = oIEC[2].value;
 					k++;					
 				}
 				
@@ -383,9 +409,11 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			// deal with "radio" parameter
 			if( oType == 'radio' )
 			{
-				if( oIEC.length > 1 )
+				var dataType = oIEC[1].value;
+				
+				if( oIEC.length > 2 )
 				{
-					for( var j = 1; j < oIEC.length; j++ )
+					for( var j = 2; j < oIEC.length; j++ )
 					{
 						// deal with radio
 						if( oIEC[j].type == 'radio' && oIEC[j].checked )
@@ -399,6 +427,15 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 							}
 							else
 							{
+								// check if allow blank
+								if( !this.__is_parameter_allowblank( dataType )
+									&& birtUtility.trim( oIEC[j].value ) == '' && this.visible )
+								{
+									oIEC[j].focus( );
+									alert( birtUtility.formatMessage( Constants.error.parameterNotAllowBlank, oIEC[j].name ) );
+									return false;							
+								}	
+							
 								// common radio value
 								this.__parameter[k].name = oIEC[j].name;
 								this.__parameter[k].value = oIEC[j].value;	
@@ -429,10 +466,11 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			// deal with "select" parameter
 			if( oType == 'select' && oSEC.length == 1 )
 			{
-				var paramName = oIEC[1].name;
+				var dataType = oIEC[1].value;
+				var paramName = oIEC[2].name;
 				
 				var flag = true;
-				if( oIEC[2] && oIEC[2].type == 'radio' && !oIEC[2].checked )
+				if( oIEC[3] && oIEC[3].type == 'radio' && !oIEC[3].checked )
 				{
 					flag = false;
 				}
@@ -443,41 +481,56 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 					if ( oSEC[0].selectedIndex < 0 && this.visible )
 					{
 						oSEC[0].focus( );
-						alert( birtUtility.formatMessage( Constants.error.parameterRequired, paramName ) );
+						alert( birtUtility.formatMessage( Constants.error.parameterNotSelected, paramName ) );
 						return false;
 					}
 																									
 					if( oSEC[0].multiple )
 					{
-						if( this.__is_parameter_required( oIEC ) )						
+						var options = oSEC[0].options;
+						for( var l = 0; l < options.length; l++ )
 						{
-							var options = oSEC[0].options;
-							for( var l = 0; l < options.length; l++ )
+							if( !options[l].selected )
+								continue;
+							
+							var tempText = options[l].text;
+							var tempValue = options[l].value;
+															
+							// check if isRequired
+							if( this.__is_parameter_required( oIEC ) 
+								&& birtUtility.trim( tempValue ) == '' && this.visible )
 							{
-								if( !options[l].selected )
-									continue;
-								
-								var tempValue = options[l].value;								
-								if( birtUtility.trim( tempValue ) == '' && this.visible )
-								{
-									oSEC[0].focus( );
-									alert( birtUtility.formatMessage( Constants.error.parameterRequired, paramName ) );
-									return false;									
-								}
+								oSEC[0].focus( );
+								alert( birtUtility.formatMessage( Constants.error.parameterRequired, paramName ) );
+								return false;									
 							}
+							
+							if( tempText == this.__display_null && tempValue == '' )
+								continue;
+								
+							// check if allow blank
+							if( !this.__is_parameter_allowblank( dataType )
+								&& birtUtility.trim( tempValue ) == '' && this.visible )
+							{
+								oSEC[0].focus( );
+								alert( birtUtility.formatMessage( Constants.error.parameterNotAllowBlank, paramName ) );
+								return false;							
+							}									
 						}
 					}
 					else
 					{
 						var tempText = oSEC[0].options[oSEC[0].selectedIndex].text;
 						var tempValue = oSEC[0].options[oSEC[0].selectedIndex].value;
-					
-						if ( this.__is_parameter_required( oIEC ) && birtUtility.trim( tempValue ) == '' && this.visible )
+											
+						// check if isRequired
+						if ( this.__is_parameter_required( oIEC )
+							 && birtUtility.trim( tempValue ) == '' && this.visible )
 						{
 							oSEC[0].focus( );
 							alert( birtUtility.formatMessage( Constants.error.parameterRequired, paramName ) );
 							return false;
-						}	
+						}
 
 						// Check if select 'Null Value' option for single parameter
 						if( tempText == this.__display_null && tempValue == '' )
@@ -487,18 +540,27 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 							k++;	
 							continue;
 						}
+							
+						// check if allow blank
+						if( !this.__is_parameter_allowblank( dataType )
+							&& birtUtility.trim( tempValue ) == '' && this.visible )
+						{
+							oSEC[0].focus( );
+							alert( birtUtility.formatMessage( Constants.error.parameterNotAllowBlank, paramName ) );
+							return false;							
+						}							
 					}					
 				}
 				
 				// allow new value
-				if( oIEC[2] && oIEC[2].type == 'radio' )
+				if( oIEC[3] && oIEC[3].type == 'radio' )
 				{					
-					if( oIEC[2].checked )
+					if( oIEC[3].checked )
 					{
 						// select value
 						var tempText = oSEC[0].options[oSEC[0].selectedIndex].text;
 						var tempValue = oSEC[0].options[oSEC[0].selectedIndex].value;
-						
+											
 						// set value
 						this.__parameter[k].name = paramName;
 						this.__parameter[k].value = tempValue;
@@ -515,12 +577,12 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 					}
 					else
 					{
-						var inputValue = oIEC[4].value;
-						var paramValue = oIEC[1].value;
-						var displayText = oIEC[5].value;
+						var inputValue = oIEC[5].value;
+						var paramValue = oIEC[2].value;
+						var displayText = oIEC[6].value;
 						
 						// if change the text field value or input text field isn't focus default,regard as a locale string 
-						if( displayText != inputValue || oIEC[4].name.length <= 0 )
+						if( displayText != inputValue || oIEC[5].name.length <= 0 )
 						{							
 							paramValue = inputValue;
 							
@@ -530,14 +592,24 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 							k++;	
 						}
 						
-						// text value
-						if ( this.__is_parameter_required( oIEC ) && birtUtility.trim( paramValue ) == '' && this.visible )
+						// check if isRequired
+						if ( this.__is_parameter_required( oIEC ) 
+							 && birtUtility.trim( paramValue ) == '' && this.visible )
 						{
-							oIEC[4].focus( );
+							oIEC[5].focus( );
 							alert( birtUtility.formatMessage( Constants.error.parameterRequired, paramName ) );
 							return false;
 						}						
 
+						// check if allow blank
+						if( !this.__is_parameter_allowblank( dataType )
+							&& birtUtility.trim( paramValue ) == '' && this.visible )
+						{
+							oIEC[5].focus( );
+							alert( birtUtility.formatMessage( Constants.error.parameterNotAllowBlank, paramName ) );
+							return false;							
+						}	
+						
 						// set value
 						if( !this.__parameter[k] )
 						{
@@ -584,8 +656,8 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 								this.__parameter[k].value = paramName;
 								k++;	
 								continue;
-							}
-					
+							}		
+
 							// set value
 							if( !this.__parameter[k] )
 							{
@@ -610,7 +682,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 						// allow single value
 						var tempText = oSEC[0].options[oSEC[0].selectedIndex].text;
 						var tempValue = oSEC[0].options[oSEC[0].selectedIndex].value;
-						
+													
 						// set value
 						this.__parameter[k].name = paramName;
 						this.__parameter[k].value = tempValue;
@@ -659,6 +731,27 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 		return flag;
 	},
 
+	/**
+	 *	Check if current parameter allows blank value.
+	 *  Currently, only any and string data type parameter can allow blank value.
+	 *
+	 *	@dataType, data type for parameter 
+	 *	@return, true or false
+	 */
+	__is_parameter_allowblank : function( dataType )
+	{
+		if( !dataType )
+			return false;
+		
+		if( dataType == Constants.TYPE_ANY )
+			return true;
+		
+		if( dataType == Constants.TYPE_STRING )
+			return true;
+
+		return false;		
+	},
+	
 	/**
 	 *	Handle mouseover event on select.
 	 *
