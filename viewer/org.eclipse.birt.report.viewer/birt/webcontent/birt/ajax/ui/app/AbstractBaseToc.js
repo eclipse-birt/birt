@@ -146,7 +146,8 @@ AbstractBaseToc.prototype = Object.extend( new AbstractUIComponent( ),
 			spantmp.value = s_displayname;
 			spantmp.title = "TOC Link " + s_displayname;
 			spantmp.id =  'span_' + imgid;			
-			spantmp.size = s_displayname.length;
+			if( s_displayname.length > 0 )			
+				spantmp.size = s_displayname.length;	
 			
 			var cssText = "cursor:pointer;border:0px;font-family:Verdana;font-size:9pt;background-color:#FFFFFF;overflow:visible;";			
 			var styles = tmp.getElementsByTagName( 'Style' );
