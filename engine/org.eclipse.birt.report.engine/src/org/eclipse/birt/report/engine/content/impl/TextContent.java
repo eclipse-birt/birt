@@ -114,7 +114,11 @@ public class TextContent extends AbstractContent implements ITextContent
 	
 	public boolean needSave()
 	{
-		return true;
+		if ( text != null )
+		{
+			return true;
+		}
+		return super.needSave( );
 	}
 
 }
