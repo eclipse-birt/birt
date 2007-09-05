@@ -133,7 +133,7 @@ class ResultSetsAdapter
 
 	private ColumnHint newROMColumnHintFromColumnDefinition(
 			ColumnDefinition columnDefn, ColumnDefinition cachedColumnDefn,
-			ColumnHint oldHint )
+			ColumnHint oldHint, String columnName )
 	{
 		if ( columnDefn == null )
 			return null;
@@ -179,8 +179,7 @@ class ResultSetsAdapter
 		if ( StringUtil.isBlank( (String) newHint.getProperty( null,
 				ColumnHint.COLUMN_NAME_MEMBER ) ) )
 		{
-			newHint.setProperty( ColumnHint.COLUMN_NAME_MEMBER, newHint
-					.getProperty( null, ColumnHint.COLUMN_NAME_MEMBER ) );
+			newHint.setProperty( ColumnHint.COLUMN_NAME_MEMBER, columnName );
 		}
 		return newHint;
 	}
@@ -647,7 +646,8 @@ class ResultSetsAdapter
 				oldHint = (ColumnHint) oldHintHandle.getStructure( );
 
 			ColumnHint newHint = newROMColumnHintFromColumnDefinition(
-					columnDefn, cachedColumnDefn, oldHint );
+					columnDefn, cachedColumnDefn, oldHint, newColumn
+							.getColumnName( ) );
 
 			ResultSetColumnInfo setInfo = new ResultSetColumnInfo( newColumn,
 					newHint );
@@ -663,7 +663,7 @@ class ResultSetsAdapter
 		createUniqueResultSetColumnNames( columns );
 
 		// retrieve column hints for computed columns.
-		
+
 		updateHintsForComputedColumn( );
 
 		return retList;
@@ -748,7 +748,7 @@ class ResultSetsAdapter
 			OdaResultSetColumnHandle setColumn = (OdaResultSetColumnHandle) romSets
 					.next( );
 
-			// get the colum hint
+			// get the column hint
 
 			ColumnHintHandle hint = findColumnHint(
 					(OdaResultSetColumn) setColumn.getStructure( ),
@@ -757,11 +757,10 @@ class ResultSetsAdapter
 			ColumnDefinition columnDefn = designFactory
 					.createColumnDefinition( );
 
-			String newName = setColumn.getNativeName( );
-			if ( StringUtil.isBlank( newName ) )
-				newName = setColumn.getColumnName( );
 			DataElementAttributes dataAttrs = designFactory
 					.createDataElementAttributes( );
+
+			String newName = setColumn.getNativeName( );
 			dataAttrs.setName( newName );
 
 			Integer position = setColumn.getPosition( );
