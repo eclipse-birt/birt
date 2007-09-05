@@ -18,12 +18,14 @@ import java.io.IOException;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IColumn;
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.css.dom.CellComputedStyle;
+import org.eclipse.birt.report.engine.css.dom.ComputedStyle;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 
 /**
@@ -161,7 +163,37 @@ public class CellContent extends AbstractContent implements ICellContent
 	{
 		if ( computedStyle == null )
 		{
-			computedStyle = new CellComputedStyle( this );
+			if ( inlineStyle == null || inlineStyle.isEmpty( ) )
+			{
+				String cacheKey = styleClass;
+				ITableContent table = ( (IRowContent) parent ).getTable( );
+				if ( column >= 0 && column < table.getColumnCount( ) )
+				{
+					IColumn tblColumn = table.getColumn( column );
+					if ( tblColumn != null )
+					{
+						String columnStyleClass = tblColumn.getStyleClass( );
+						if ( columnStyleClass != null )
+						{
+							cacheKey = cacheKey + columnStyleClass;
+						}
+					}
+				}
+
+				ComputedStyle pcs = (ComputedStyle) ( (IContent) parent )
+						.getComputedStyle( );
+				ComputedStyle cs = pcs.getCachedStyle( cacheKey );
+				if ( cs == null )
+				{
+					cs = new CellComputedStyle( this );
+					pcs.addCachedStyle( styleClass, cs );
+				}
+				computedStyle = cs;
+			}
+			else
+			{
+				computedStyle = new CellComputedStyle( this );
+			}
 		}
 		return computedStyle;
 	}

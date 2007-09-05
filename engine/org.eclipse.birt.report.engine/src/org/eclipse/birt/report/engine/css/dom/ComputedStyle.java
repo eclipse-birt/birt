@@ -1,5 +1,17 @@
+/*******************************************************************************
+ * Copyright (c) 2004,2007 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.css.dom;
+
+import java.util.HashMap;
 
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.CSSStylableElement;
@@ -9,6 +21,7 @@ import org.w3c.dom.css.CSSValue;
 public class ComputedStyle extends AbstractStyle
 {
 
+	HashMap cachedStyles = new HashMap( );
 	boolean[] caculated;
 	CSSStylableElement elt;
 	CSSValue[] values;
@@ -17,6 +30,16 @@ public class ComputedStyle extends AbstractStyle
 	{
 		super( elt.getCSSEngine( ) );
 		this.elt = elt;
+	}
+
+	public void addCachedStyle( String styleClass, ComputedStyle style )
+	{
+		cachedStyles.put( styleClass, style );
+	}
+
+	public ComputedStyle getCachedStyle( String styleClass )
+	{
+		return (ComputedStyle) cachedStyles.get( styleClass );
 	}
 
 	public CSSValue getProperty( int index )

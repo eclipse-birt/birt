@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -25,7 +25,6 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.dom.CompositeStyle;
 import org.eclipse.birt.report.engine.css.dom.ComputedStyle;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
-import org.eclipse.birt.report.engine.css.engine.BIRTCSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -225,16 +224,29 @@ abstract public class AbstractContent extends AbstractElement
 	{
 		if ( computedStyle == null )
 		{
-			CSSEngine cssEngine = null;
-			if ( report != null )
+			if ( parent == null )
 			{
-				cssEngine = report.getCSSEngine( );
+				computedStyle = new ComputedStyle( this );
 			}
-			if ( cssEngine == null )
+			else
 			{
-				cssEngine = new BIRTCSSEngine( );
+				if ( inlineStyle == null || inlineStyle.isEmpty( ) )
+				{
+					ComputedStyle pcs = (ComputedStyle) ( (IContent) parent )
+							.getComputedStyle( );
+					ComputedStyle cs = pcs.getCachedStyle( styleClass );
+					if ( cs == null )
+					{
+						cs = new ComputedStyle( this );
+						pcs.addCachedStyle( styleClass, cs );
+					}
+					computedStyle = cs;
+				}
+				else
+				{
+					computedStyle = new ComputedStyle( this );
+				}
 			}
-			computedStyle = new ComputedStyle( this );
 		}
 		return computedStyle;
 	}
