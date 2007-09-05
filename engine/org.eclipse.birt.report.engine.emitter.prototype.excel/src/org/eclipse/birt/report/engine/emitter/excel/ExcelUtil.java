@@ -90,10 +90,15 @@ public class ExcelUtil
     	{
     		return "yyyy-M-d HH:ss:mm AM/PM";
     	}
-    	else if(val != null && data instanceof Number)
-    	{
-    	   return new NumberFormatter(val).getPattern( );	
-    	}
+    	else if ( val != null && data instanceof Number )
+		{
+			if ( val.indexOf( "E" ) >= 0 )
+			{
+				return "Scientific";
+			}
+			return new NumberFormatter( val ).getPattern( );
+
+		}
     	
     	else if(val != null && data instanceof String)
     	{
