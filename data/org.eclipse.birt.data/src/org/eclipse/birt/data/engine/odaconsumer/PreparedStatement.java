@@ -1017,11 +1017,17 @@ public class PreparedStatement
 				throw new DataException( ResourceConstants.SAME_PARAM_NAME_FOR_DIFFERENT_HINTS,
 										 existingParamHintName );
 			}
+			
+			// no validation is done on their native names, even if both are defined, 
+			// as it is considered a hint attribute, and not an unique identifier
 
 			// same parameter hint name and parameter hint index, so we're 
 			// referring to the same hint, just update the existing one with 
 			// the new info
 			existingParamHint.updateHint( newParameterHint );
+            sm_logger.logp( Level.FINE, sm_className, methodName, 
+                    "Updating parameter hint with attributes in another hint that has the same name ({0}).", 
+                    existingParamHintName ); //$NON-NLS-1$
 			
 			sm_logger.exiting( sm_className, methodName );			
 			return;
@@ -1599,7 +1605,7 @@ public class PreparedStatement
 	{
         String paramHintNativeName = paramHint.getNativeName();
         int position = 0;
-        if( paramHintNativeName != null && paramHintNativeName.length() > 0 )
+        if( hasValue( paramHintNativeName ) )
         {
             ParameterMetaData paramMd = 
                 findParameterMetaDataByName( parametersMetaData, paramHintNativeName, true );
@@ -1647,7 +1653,7 @@ public class PreparedStatement
             paramMd = findParameterMetaDataByName( parametersMetaData,
                     paramName.getRomName(), false );
         
-        // still not found, try find a match by its effective name used to
+        // still not found, try find a match by its effective name that will be used to
         // interact with underlying ODA driver
         if( paramMd == null )
             paramMd = findParameterMetaDataByName( parametersMetaData,
@@ -1661,7 +1667,7 @@ public class PreparedStatement
     {
         // empty name is not unique and cannot be used to find a unique match
         if( parametersMetaData == null || parametersMetaData.isEmpty() ||
-            paramName == null || paramName.length() <= 0 )    
+            ! hasValue( paramName ) )    
             return null;    // nothing to match against
         
         Iterator iter = parametersMetaData.iterator();
@@ -4392,6 +4398,11 @@ public class PreparedStatement
         }
     }
 
+    private static boolean hasValue( String value )
+    {
+        return ( value != null && value.length() > 0 );
+    }
+    
     private void handleError( final String errorCode, Object[] msgArgs,
                                 final String methodName ) throws DataException
     {
@@ -4512,7 +4523,8 @@ public class PreparedStatement
         private String getEffectiveName()
         {
             String nativeName = getNativeName();
-            return ( nativeName != null ) ? nativeName : getRomName();
+            return ( nativeName != null && nativeName.length() > 0 ) ? 
+                    nativeName : getRomName();
         }
         
         private void logNullNativeName()
