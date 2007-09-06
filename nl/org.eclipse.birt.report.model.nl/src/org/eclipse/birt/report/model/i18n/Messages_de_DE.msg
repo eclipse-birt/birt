@@ -3244,7 +3244,7 @@ Message.RemoveItem=Objekt entfernen
 Message.ReplaceElement=Element ersetzen
 Message.TransformTemplate=Vorlage umwandeln
 Message.SetTheme=Thema festlegen
-Message.ChangePropertyEncryption=Change encryption for property:{0}
+Message.ChangePropertyEncryption=Verschlüsselung ändern für Eigenschaft:{0}
 
 ###########################################################
 #Element new names.
@@ -3550,5 +3550,5 @@ Info.VersionInfo.CONVERT_INFO=Die Designdatei wurde von einer früheren Version v
 Info.VersionInfo.INVALID_VERSION=Die Berichtdatei für Version {0} wird nicht unterstützt.
 
 #EncryptionException
-Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY=The property {1} in {0} is not encryptable, so can not change encryption.
-Error.EncryptionException.INVALID_ENCRYPTION=The encryption id "{0}" is invalid, for no such encryption exists.
+Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY=Die Eigenschaft {1} in {0} kann nicht verschlüsselt werden. Daher kann die Verschlüsselung nicht geändert werden.
+Error.EncryptionException.INVALID_ENCRYPTION=Die Verschlüsselungs-ID '{0}' ist ungültig, da keine entsprechende Verschlüsselung existiert.

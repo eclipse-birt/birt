@@ -129,16 +129,16 @@ FilterConditionBuilder.button.edit.tooltip=Editar la selección en lista de valor
 FilterConditionBuilder.button.delete.tooltip=Eliminar el valor seleccionado de la lista
 FilterConditionBuilder.button.deleteall.tooltip=Eliminar todos los valores de la lista
 FilterConditionBuilder.button.add.tooltip=Añadir el valor a la lista de valores
-CrosstabFilterConditionBuilder.DialogMessage.New=Select the group level to apply the filter on, then set filter condition.
-CrosstabFilterConditionBuilder.DialogMessage.Edit=Select the group level to apply the filter on, then set filter condition.
+CrosstabFilterConditionBuilder.DialogMessage.New=Seleccione el nivel de grupo al que aplicar el filtro y, a continuación, establezca la condición de filtro.
+CrosstabFilterConditionBuilder.DialogMessage.Edit=Seleccione el nivel de grupo al que aplicar el filtro y, a continuación, establezca la condición de filtro.
 
-FilterbyTree.Bindings.Catogory.Measures=Measures
-FilterbyTree.Bindings.Catogory.Dimension=Dimension
+FilterbyTree.Bindings.Catogory.Measures=Medidas
+FilterbyTree.Bindings.Catogory.Dimension=Dimensión
 FilterbyTree.Bindings.Catogory.GrandTotal=Total general
 FilterbyTree.Bindings.Catogory.SubTotal=Subtotal
-FilterbyTree.Bindings.Catogory.Undefined=Undefined
-FilterbyTree.Title=Filter By
-FilterbyTree.Message=Filter By
+FilterbyTree.Bindings.Catogory.Undefined=sin definir
+FilterbyTree.Title=Filtrar por
+FilterbyTree.Message=Filtrar por
 
 ###########################################################
 #VirtualCellEditPart.java
@@ -193,7 +193,7 @@ CrosstabSectionPage.RepeatColumnHeader=Repetir encabezado de columna
 
 ExpressionValueCellEditor.buildExpressionAction=<Compilar expresión...>
 ExpressionValueCellEditor.selectValueAction=<Seleccionar valor...>
-ExpressionValueCellEditor.filterBy=<Filter by...>
+ExpressionValueCellEditor.filterBy=<Filtrar por...>
 ExpressionValueCellEditor.title=Seleccionar valor
 CrosstabSortKeyBuilder.Label.SelColumnMemberValue=Seleccionar columna Valor de miembro
 CrosstabSortKeyBuilder.Label.SelRowMemberValue=Seleccionar fila Valor de miembro

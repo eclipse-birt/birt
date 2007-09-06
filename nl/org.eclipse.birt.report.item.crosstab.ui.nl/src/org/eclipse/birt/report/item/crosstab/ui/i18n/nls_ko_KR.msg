@@ -129,16 +129,16 @@ FilterConditionBuilder.button.edit.tooltip=값 목록에서 선택한 값 편집
 FilterConditionBuilder.button.delete.tooltip=목록에서 선택한 값 삭제
 FilterConditionBuilder.button.deleteall.tooltip=목록에서 모든 값 삭제
 FilterConditionBuilder.button.add.tooltip=값 목록에 값 추가
-CrosstabFilterConditionBuilder.DialogMessage.New=Select the group level to apply the filter on, then set filter condition.
-CrosstabFilterConditionBuilder.DialogMessage.Edit=Select the group level to apply the filter on, then set filter condition.
+CrosstabFilterConditionBuilder.DialogMessage.New=필터를 적용할 그룹 수준을 선택한 다음 필터 조건을 설정합니다.
+CrosstabFilterConditionBuilder.DialogMessage.Edit=필터를 적용할 그룹 수준을 선택한 다음 필터 조건을 설정합니다.
 
-FilterbyTree.Bindings.Catogory.Measures=Measures
-FilterbyTree.Bindings.Catogory.Dimension=Dimension
+FilterbyTree.Bindings.Catogory.Measures=측정값
+FilterbyTree.Bindings.Catogory.Dimension=차원
 FilterbyTree.Bindings.Catogory.GrandTotal=총합계
 FilterbyTree.Bindings.Catogory.SubTotal=부분합
-FilterbyTree.Bindings.Catogory.Undefined=Undefined
-FilterbyTree.Title=Filter By
-FilterbyTree.Message=Filter By
+FilterbyTree.Bindings.Catogory.Undefined=정의되지 않음
+FilterbyTree.Title=필터링 기준
+FilterbyTree.Message=필터링 기준
 
 ###########################################################
 #VirtualCellEditPart.java
@@ -193,7 +193,7 @@ CrosstabSectionPage.RepeatColumnHeader=열 머리글 반복
 
 ExpressionValueCellEditor.buildExpressionAction=<식 빌드...>
 ExpressionValueCellEditor.selectValueAction=<값 선택...>
-ExpressionValueCellEditor.filterBy=<Filter by...>
+ExpressionValueCellEditor.filterBy=<필터링 기준...>
 ExpressionValueCellEditor.title=값 선택
 CrosstabSortKeyBuilder.Label.SelColumnMemberValue=열 구성원 값 선택
 CrosstabSortKeyBuilder.Label.SelRowMemberValue=행 구성원 값 선택

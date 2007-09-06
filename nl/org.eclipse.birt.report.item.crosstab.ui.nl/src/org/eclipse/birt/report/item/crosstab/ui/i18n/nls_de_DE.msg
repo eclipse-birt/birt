@@ -129,16 +129,16 @@ FilterConditionBuilder.button.edit.tooltip=Ausgewählten Wert in Werteliste bearb
 FilterConditionBuilder.button.delete.tooltip=Ausgewählten Wert aus Liste löschen
 FilterConditionBuilder.button.deleteall.tooltip=Alle Werte aus Liste löschen
 FilterConditionBuilder.button.add.tooltip=Wert zur Werteliste hinzufügen
-CrosstabFilterConditionBuilder.DialogMessage.New=Select the group level to apply the filter on, then set filter condition.
-CrosstabFilterConditionBuilder.DialogMessage.Edit=Select the group level to apply the filter on, then set filter condition.
+CrosstabFilterConditionBuilder.DialogMessage.New=Wählen Sie die Gruppenebene, auf die der Filter angewendet werden soll, und legen Sie dann die Filterbedingung fest.
+CrosstabFilterConditionBuilder.DialogMessage.Edit=Wählen Sie die Gruppenebene, auf die der Filter angewendet werden soll, und legen Sie dann die Filterbedingung fest.
 
-FilterbyTree.Bindings.Catogory.Measures=Measures
+FilterbyTree.Bindings.Catogory.Measures=Einheiten
 FilterbyTree.Bindings.Catogory.Dimension=Dimension
 FilterbyTree.Bindings.Catogory.GrandTotal=Gesamtsumme
 FilterbyTree.Bindings.Catogory.SubTotal=Zwischensumme
-FilterbyTree.Bindings.Catogory.Undefined=Undefined
-FilterbyTree.Title=Filter By
-FilterbyTree.Message=Filter By
+FilterbyTree.Bindings.Catogory.Undefined=Nicht definiert
+FilterbyTree.Title=Filtern nach
+FilterbyTree.Message=Filtern nach
 
 ###########################################################
 #VirtualCellEditPart.java
@@ -193,7 +193,7 @@ CrosstabSectionPage.RepeatColumnHeader=Spaltenüberschrift wiederholen
 
 ExpressionValueCellEditor.buildExpressionAction=<Ausdruckserstellung ...>
 ExpressionValueCellEditor.selectValueAction=<Wert auswählen ...>
-ExpressionValueCellEditor.filterBy=<Filter by...>
+ExpressionValueCellEditor.filterBy=<Filtern nach...>
 ExpressionValueCellEditor.title=Wert auswählen
 CrosstabSortKeyBuilder.Label.SelColumnMemberValue=Mitgliedswert der Spalte auswählen
 CrosstabSortKeyBuilder.Label.SelRowMemberValue=Mitgliedswert der Zeile auswählen

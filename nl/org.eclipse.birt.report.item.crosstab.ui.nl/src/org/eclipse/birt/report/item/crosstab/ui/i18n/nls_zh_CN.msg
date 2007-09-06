@@ -129,16 +129,16 @@ FilterConditionBuilder.button.edit.tooltip=编辑值列表中的选定值
 FilterConditionBuilder.button.delete.tooltip=从列表中删除选定值
 FilterConditionBuilder.button.deleteall.tooltip=从列表中删除所有值
 FilterConditionBuilder.button.add.tooltip=将值添加到值列表
-CrosstabFilterConditionBuilder.DialogMessage.New=Select the group level to apply the filter on, then set filter condition.
-CrosstabFilterConditionBuilder.DialogMessage.Edit=Select the group level to apply the filter on, then set filter condition.
+CrosstabFilterConditionBuilder.DialogMessage.New=选择要应用筛选的组级别，然后设置筛选条件。
+CrosstabFilterConditionBuilder.DialogMessage.Edit=选择要应用筛选的组级别，然后设置筛选条件。
 
-FilterbyTree.Bindings.Catogory.Measures=Measures
-FilterbyTree.Bindings.Catogory.Dimension=Dimension
+FilterbyTree.Bindings.Catogory.Measures=度量
+FilterbyTree.Bindings.Catogory.Dimension=维
 FilterbyTree.Bindings.Catogory.GrandTotal=总计
 FilterbyTree.Bindings.Catogory.SubTotal=小计
-FilterbyTree.Bindings.Catogory.Undefined=Undefined
-FilterbyTree.Title=Filter By
-FilterbyTree.Message=Filter By
+FilterbyTree.Bindings.Catogory.Undefined=未定义
+FilterbyTree.Title=筛选依据
+FilterbyTree.Message=筛选依据
 
 ###########################################################
 #VirtualCellEditPart.java
@@ -193,7 +193,7 @@ CrosstabSectionPage.RepeatColumnHeader=重复列标题
 
 ExpressionValueCellEditor.buildExpressionAction=<生成表达式...>
 ExpressionValueCellEditor.selectValueAction=<选择值...>
-ExpressionValueCellEditor.filterBy=<Filter by...>
+ExpressionValueCellEditor.filterBy=<筛选依据...>
 ExpressionValueCellEditor.title=选择值
 CrosstabSortKeyBuilder.Label.SelColumnMemberValue=选择列成员值
 CrosstabSortKeyBuilder.Label.SelRowMemberValue=选择行成员值
