@@ -923,8 +923,10 @@ public class TriggerDataComposite extends Composite
 		{
 			try
 			{
+				// Bugzilla#202386: Tooltips never support chart
+				// variables. Use COMMAND_EXPRESSION_TRIGGERS_SIMPLE
 				String sExpr = wizardContext.getUIServiceProvider( )
-						.invoke( getExpressionBuilderCommand( ),
+						.invoke( IUIServiceProvider.COMMAND_EXPRESSION_TRIGGERS_SIMPLE,
 								txtTooltipText.getText( ),
 								wizardContext.getExtendedItem( ),
 								null );
