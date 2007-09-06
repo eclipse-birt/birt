@@ -27,7 +27,7 @@ CustomerOrdersFinal=本示例示范如何在 BIRT 内创建“组合图”。此外，本示例还说明如
 cascade=本示例示范如何生成 BIRT 报表使用层叠参数组。层叠参数组允许一组参数交互链接，其中第一个参数值的选择会影响到随后参数的选择。层叠参数可与一个或多个数据集连接。数据集将填充各个层叠层。通过与数据集参数组合，将为报表返回数据的筛选提供极大灵活性。
 
 #Drill to details
-MasterDetailOneReport=This example illustrates building a report with master and detail information in one report.
+MasterDetailOneReport=此示例说明如何生成在一个报表中具有主要和详细信息的报表。
 OrderMasterAfter=本示例示范如何生成主报表和详细报表。主报表列出所有订单并允许订单用户单击特定订单号追溯选定订单的详细报表。本示例说明如何使用简单参数对详细报表中的结果进行筛选，以及如何使用主报表内的超级链接属性将此参数传输到详细报表。主报表内的超级链接基于查询检索的结果而动态生成。
 OrderDetailAfter=详细报表通过单击主报表进行追溯。
 
@@ -67,19 +67,19 @@ Contribute_Samples=请将 bugzilla 条目提交到 https://bugs.eclipse.org/bugs/enter_
 #Scripting
 
 #Dynamic Map Rule
-DynamicMapRule=This example illustrates calling the Design Engine API within the beforeFactory script to add a map rule to a report element.  
+DynamicMapRule=此示例说明如何调用 beforeFactory 脚本内部的设计引擎 API 将映射规则添加到报表元素。  
 
 #Group Spearator
-GroupSeparator=This example illustrates adding a separator every 3 rows within a group. This count is reset on a page break.  
+GroupSeparator=此示例说明如何在组中每 3 行添加一个分隔符。  
 
 #Retrieve Session Information
-Application_Session_IntegrationBF=This example illustrates using a JavaScript to retrieve information from Session.
+Application_Session_IntegrationBF=此示例说明如何使用 JavaScript 从会话中检索信息。
 
 #Scripted Data Source
 ScriptedDatasourceExampleAfter=该部分示例集中在 BIRT 内的脚本上。使用简单报表说明脚本功能。大多数示例都将有可下载的前后报表。此外，示例采用 Flash 演示文稿进行说明。要加载已导出的 java 对象并允许报表使用它，请在打开此示例报表后重新启动 BIRT。  
 
 #Visibility Rule
-Addvisrule=This example illustrates adding a visibility rule in script.  
+Addvisrule=此示例说明如何在脚本中添加可见性规则。  
 
 ###########################################################
 #Extending BIRT
