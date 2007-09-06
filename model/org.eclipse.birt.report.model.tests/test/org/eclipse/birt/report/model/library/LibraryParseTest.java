@@ -132,6 +132,54 @@ public class LibraryParseTest extends BaseTestCase
 	}
 
 	/**
+	 * Test Semantic error when reload css style sheet. See bugzilla
+	 * #201991.There is a label named 'label3' first can't find style, so size
+	 * of semantic error is one. Then reload the new css file which contains
+	 * such style , then this label can find style, so size of semantic error is
+	 * zero.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testReloadAndCheckSemanticError( ) throws Exception
+	{
+		// copy file
+
+		List fileNames = new ArrayList( );
+		fileNames.add( INPUT_FOLDER + "LibraryParserWithCss_Reload.xml" );//$NON-NLS-1$
+		fileNames.add( INPUT_FOLDER + "base.css" ); //$NON-NLS-1$
+		fileNames.add( INPUT_FOLDER + "new2.css" ); //$NON-NLS-1$
+
+		List filePaths = dumpDesignAndLibrariesToFile( fileNames );
+		String designFilePath = (String) filePaths.get( 0 );
+		String baseFilePath = (String) filePaths.get( 1 );
+		String newFilePath = (String) filePaths.get( 2 );
+
+		openDesign( designFilePath, false );
+
+		// 'captionfigcolumn2'
+		LabelHandle labelHandle = (LabelHandle) designHandle
+				.findElement( "label3" );//$NON-NLS-1$
+
+		assertNull( labelHandle.getStyle( ) );
+		assertEquals( 1, labelHandle.getSemanticErrors( ).size( ) );
+		// copy new2.css to base.css
+		copyContentToFile( newFilePath, baseFilePath );
+
+		// reload css only exist four kind of styles
+		CssStyleSheetHandle sheetHandle = (CssStyleSheetHandle) designHandle
+				.getAllCssStyleSheets( ).get( 0 );
+
+		designHandle.reloadCss( sheetHandle );
+
+		// 'code' style name is the same.
+		assertNotNull( labelHandle.getStyle( ) );
+		assertEquals( "captionfigcolumn2", labelHandle.getStyle( ).getName( ) );//$NON-NLS-1$
+
+		assertEquals( 0, labelHandle.getSemanticErrors( ).size( ) );
+	}
+
+	/**
 	 * Tests reload css style sheet
 	 * 
 	 * @throws Exception
@@ -210,23 +258,24 @@ public class LibraryParseTest extends BaseTestCase
 		// 'uilabel'
 		LabelHandle labelHandle4 = (LabelHandle) designHandle
 				.findElement( "label4" ); //$NON-NLS-1$
-		
-		//theme is read-only in library , so can't be drop
-		LibraryHandle libHandle = designHandle.getLibrary( "LibParserWithCss_Lib" );//$NON-NLS-1$
+
+		// theme is read-only in library , so can't be drop
+		LibraryHandle libHandle = designHandle
+				.getLibrary( "LibParserWithCss_Lib" );//$NON-NLS-1$
 		ThemeHandle themeHandle = libHandle.findTheme( "theme1" );//$NON-NLS-1$
 		List csses = themeHandle.getAllCssStyleSheets( );
-		CssStyleSheetHandle sheetHandle = (CssStyleSheetHandle)csses.get( 0 );
-		
-		assertFalse( themeHandle.canAddCssStyleSheet( sheetHandle ));
-		assertFalse( themeHandle.canAddCssStyleSheet( "base.css" ));//$NON-NLS-1$
-		assertFalse( themeHandle.canDropCssStyleSheet( sheetHandle ));
-		
+		CssStyleSheetHandle sheetHandle = (CssStyleSheetHandle) csses.get( 0 );
+
+		assertFalse( themeHandle.canAddCssStyleSheet( sheetHandle ) );
+		assertFalse( themeHandle.canAddCssStyleSheet( "base.css" ) );//$NON-NLS-1$
+		assertFalse( themeHandle.canDropCssStyleSheet( sheetHandle ) );
+
 		// get style from report design
 		assertEquals( "center", labelHandle.getStyle( ).getTextAlign( ) );//$NON-NLS-1$
 		// get style from report design css style
 		assertEquals( "right", labelHandle2.getStyle( ).getTextAlign( ) );//$NON-NLS-1$
 		// get style from theme style.
-		
+
 		assertNull( labelHandle3.getStyle( ).getTextAlign( ) );
 		// get style from theme css style
 		assertNull( labelHandle4.getStyle( ).getTextAlign( ) );

@@ -330,6 +330,9 @@ public class CssCommand extends AbstractElementCommand
 		module.setSaveState( 0 );
 		activityStack.sendNotifcations( new ActivityStackEvent( activityStack,
 				ActivityStackEvent.DONE ) );
+		
+		//Recheck module.
+		module.getModuleHandle( ).checkReport( );
 	}
 
 }
