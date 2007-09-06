@@ -544,7 +544,7 @@ DataSetParameterPage.toolTipText.Edit=编辑参数
 DataSetParameterPage.toolTipText.Remove=删除参数
 DataSetParameterPage.toolTipText.Up=参数上移
 DataSetParameterPage.toolTipText.Down=参数下移
-DataSetParameterPage.WarningMessage.updatePosition=Some or all of the data set parameters have invalid position values.Updating their positions based on their sequence.
+DataSetParameterPage.WarningMessage.updatePosition=某些或所有数据集参数具有无效的位置值。正在根据其序列更新其位置。
 
 ###########################################################
 #PropertyBindingpage properties
@@ -3786,13 +3786,13 @@ DataItemBindingDialog.Button.Delete=删除
 DataColumBindingDialog.title.CreateNewDataBinding=新建数据绑定
 DataColumBindingDialog.title.EditDataBinding=编辑数据绑定
 DataColumBindingDialog.title.AggBuilder=聚合生成器
-DataColumnBindingDialog.NewBindingDialogInputNewNameMessage=New data binding name:
-DataColumnBindingDialog.NewBindingDialogInputNewNameTitle=Input New Data Binding Name
-DataColumnBindingDialog.NewBindingDialogMessage=This data binding is used by more than one report item and cell, do you want to create a new expression for this report item? Click Yes to create a new data binding, click No to change the data binding for all places.
+DataColumnBindingDialog.NewBindingDialogInputNewNameMessage=新数据绑定名称:
+DataColumnBindingDialog.NewBindingDialogInputNewNameTitle=输入新数据绑定名称
+DataColumnBindingDialog.NewBindingDialogMessage=此数据绑定由多个报表项和单元使用，是否要为此报表项创建新表达式? 单击“是”创建新的数据绑定，单击“否”更改所有位置的数据绑定。
 DataColumnBindingDialog.NewBindingDialogButtonYes=是
 DataColumnBindingDialog.NewBindingDialogButtonNo=否
 DataColumnBindingDialog.NewBindingDialogButtonCancel=取消
-DataColumnBindingDialog.NewBindingDialogTitle=Create new data binding?
+DataColumnBindingDialog.NewBindingDialogTitle=创建新的数据绑定?
 
 ###########################################################
 #CreatePlaceHolderAction properties

@@ -3244,7 +3244,7 @@ Message.RemoveItem=項目を削除してください。
 Message.ReplaceElement=要素の置換
 Message.TransformTemplate=テンプレートの変換
 Message.SetTheme=テーマの設定
-Message.ChangePropertyEncryption=Change encryption for property:{0}
+Message.ChangePropertyEncryption=プロパティ {0} の暗号化を変更します。
 
 ###########################################################
 #Element new names.
@@ -3550,5 +3550,5 @@ Info.VersionInfo.CONVERT_INFO=このデザインファイルは、以前のバージョンの BIRT で
 Info.VersionInfo.INVALID_VERSION=バージョン "{0}" のレポートファイルは使用できません。
 
 #EncryptionException
-Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY=The property {1} in {0} is not encryptable, so can not change encryption.
-Error.EncryptionException.INVALID_ENCRYPTION=The encryption id "{0}" is invalid, for no such encryption exists.
+Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY={0} のプロパティ {1} は暗号化できないため、暗号化を変更できません。
+Error.EncryptionException.INVALID_ENCRYPTION=この暗号は存在しないため、暗号化 ID "{0}" は無効です。

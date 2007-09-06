@@ -129,16 +129,16 @@ FilterConditionBuilder.button.edit.tooltip=Modifier la valeur sélectionnée dans 
 FilterConditionBuilder.button.delete.tooltip=Supprimer la valeur sélectionnée de la liste
 FilterConditionBuilder.button.deleteall.tooltip=Supprimer toutes les valeurs de la liste
 FilterConditionBuilder.button.add.tooltip=Ajouter la valeur à la liste
-CrosstabFilterConditionBuilder.DialogMessage.New=Select the group level to apply the filter on, then set filter condition.
-CrosstabFilterConditionBuilder.DialogMessage.Edit=Select the group level to apply the filter on, then set filter condition.
+CrosstabFilterConditionBuilder.DialogMessage.New=Sélectionnez le niveau de groupe sur lequel vous souhaitez appliquer le filtre, puis définissez la condition de filtre.
+CrosstabFilterConditionBuilder.DialogMessage.Edit=Sélectionnez le niveau de groupe sur lequel vous souhaitez appliquer le filtre, puis définissez la condition de filtre.
 
-FilterbyTree.Bindings.Catogory.Measures=Measures
+FilterbyTree.Bindings.Catogory.Measures=Mesures
 FilterbyTree.Bindings.Catogory.Dimension=Dimension
 FilterbyTree.Bindings.Catogory.GrandTotal=Total global
 FilterbyTree.Bindings.Catogory.SubTotal=Sous-total
-FilterbyTree.Bindings.Catogory.Undefined=Undefined
-FilterbyTree.Title=Filter By
-FilterbyTree.Message=Filter By
+FilterbyTree.Bindings.Catogory.Undefined=Non défini
+FilterbyTree.Title=Filtrer par
+FilterbyTree.Message=Filtrer par
 
 ###########################################################
 #VirtualCellEditPart.java
@@ -193,7 +193,7 @@ CrosstabSectionPage.RepeatColumnHeader=Répéter l'en-tête de colonne
 
 ExpressionValueCellEditor.buildExpressionAction=<Générer une expression...>
 ExpressionValueCellEditor.selectValueAction=<Sélectionner une valeur...>
-ExpressionValueCellEditor.filterBy=<Filter by...>
+ExpressionValueCellEditor.filterBy=<Filtrer par...>
 ExpressionValueCellEditor.title=Sélectionner une valeur
 CrosstabSortKeyBuilder.Label.SelColumnMemberValue=Sélectionnez une valeur de membre de colonne
 CrosstabSortKeyBuilder.Label.SelRowMemberValue=Sélectionnez une valeur de membre de ligne

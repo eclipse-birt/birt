@@ -3244,7 +3244,7 @@ Message.RemoveItem=항목 제거
 Message.ReplaceElement=요소 바꾸기
 Message.TransformTemplate=템플릿 변환
 Message.SetTheme=테마 설정
-Message.ChangePropertyEncryption=Change encryption for property:{0}
+Message.ChangePropertyEncryption=속성 {0}의 암호화 변경
 
 ###########################################################
 #Element new names.
@@ -3550,5 +3550,5 @@ Info.VersionInfo.CONVERT_INFO=이전 버전의 BIRT에서 만든 디자인 파일입니다. 현재 
 Info.VersionInfo.INVALID_VERSION=버전 {0}의 보고서 파일이 지원되지 않습니다.
 
 #EncryptionException
-Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY=The property {1} in {0} is not encryptable, so can not change encryption.
-Error.EncryptionException.INVALID_ENCRYPTION=The encryption id "{0}" is invalid, for no such encryption exists.
+Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY={0}의 속성 {1}이(가) 암호화 가능 상태가 아니므로 암호화를 변경할 수 없습니다.
+Error.EncryptionException.INVALID_ENCRYPTION=암호화 ID "{0}"이(가) 잘못되었습니다. 존재하지 않는 암호화입니다.

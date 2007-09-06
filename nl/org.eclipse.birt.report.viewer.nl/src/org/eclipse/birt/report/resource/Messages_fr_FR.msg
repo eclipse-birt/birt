@@ -26,9 +26,9 @@ birt.viewer.error=Message d'erreur
 birt.viewer.error.noparameter=Il n'existe aucun paramètre pour cet état.
 birt.viewer.error.parameter.invalid=The parameter "{0}" is invalid.
 birt.viewer.error.noprinter=Impossible de trouver une imprimante disponible qui prend en charge le format postscript.
-birt.viewer.error.unknownerror=Unknown error.
-birt.viewer.error.generatereportfirst=Report document should be generated first.
-birt.viewer.error.parameterrequired=The parameter "{0}" is required.
+birt.viewer.error.unknownerror=Erreur inconnue.
+birt.viewer.error.generatereportfirst=L'état doit être généré en premier.
+birt.viewer.error.parameterrequired={0} est requis.
 birt.viewer.error.parameternotallowblank=The parameter "{0}" cannot be blank.
 birt.viewer.error.parameternotselected=Please select value for parameter "{0}".
 
@@ -74,7 +74,7 @@ birt.viewer.dialog.page.all=Toutes les pages
 birt.viewer.dialog.page.current=Page en cours
 birt.viewer.dialog.page.range=Pages :
 birt.viewer.dialog.page.range.description=(Entrez le(s) numéro(s) de page et/ou la(les) série(s) de pages. Par exemple : 1-6 ou 1,3,6)
-birt.viewer.dialog.page.error.invalidpagerange=Invalid page range
+birt.viewer.dialog.page.error.invalidpagerange=Série de page incorrecte
 
 ###############################################################################
 # Dialog title
@@ -107,7 +107,7 @@ birt.viewer.dialog.export.pdf.fittowhole=Ajuster à la page
 birt.viewer.dialog.print.format=Format d'impression
 birt.viewer.dialog.print.format.html=HTML
 birt.viewer.dialog.print.format.pdf=PDF
-birt.viewer.dialog.print.printpreviewalreadyopen=A print preview window is already open.
+birt.viewer.dialog.print.printpreviewalreadyopen=Une fenêtre Aperçu avant impression est déjà ouverte.
 
 ###############################################################################
 # Print report on the server dialog 
@@ -133,7 +133,7 @@ birt.viewer.dialog.printserver.settings.pagesize=Format de papier :
 birt.viewer.dialog.printserver.settings.print=Imprimer :
 
 birt.viewer.dialog.printserver.complete=Fichier de document envoyé à l'imprimante sélectionnée sur le serveur.
-birt.viewer.dialog.printserver.error.noprinter=No printer
+birt.viewer.dialog.printserver.error.noprinter=Aucune imprimante
 ###############################################################################
 # Confirmation dialog 
 ###############################################################################

@@ -27,7 +27,7 @@ CustomerOrdersFinal=이 예제는 BIRT에서 복합 차트를 만드는 것을 보여 줍니다. 또한
 cascade=이 예제에서는 계단식 매개 변수 그룹을 사용하는 BIRT 보고서를 보여 줍니다. 계단식 매개 변수 그룹을 사용하면 매개 변수 그룹을 서로 연결하는데, 첫 번째 매개 변수의 값을 선택하면 그 다음 매개 변수의 선택 항목이 달라집니다. 계단식 매개 변수는 한 개 이상의 데이터 집합에 연동될 수 있습니다. 데이터 집합의 값이 계단의 각 수준의 값으로 지정됩니다. 데이터 집합 매개 변수와 결합하면 보고서에서 항목 선택 기능을 유연하게 구현할 수 있습니다.
 
 #Drill to details
-MasterDetailOneReport=This example illustrates building a report with master and detail information in one report.
+MasterDetailOneReport=이 예는 보고서 하나에 마스터 정보와 상세 정보를 모두 포함하도록 작성하는 방법을 보여 줍니다.
 OrderMasterAfter=이 예제는 마스터 보고서와 상세 보고서를 만드는 것을 보여 줍니다. 마스터 보고서에는 주문의 목록이 표시되는데, 특정 주문 번호를 클릭하면 해당 주문에 대한 상세 보고서로 드릴다운합니다. 이 예제에서 단순한 매개 변수를 사용하여 상세 보고서에서 결과를 추려내고, 마스터 보고서에 있는 하이퍼링크 속성을 상세 보고서로 전달하는 방법을 보여 줍니다. 마스터 보고서에 있는 하이퍼링크 속성은 쿼리 결과를 기준으로 동적으로 생성됩니다.
 OrderDetailAfter=마스터 보고서를 클릭하여 드릴다운한 상세 보고서입니다.
 
@@ -67,19 +67,19 @@ Contribute_Samples=Bugzilla 항목을 다음 주소로 제출해 주십시오. https://bugs.ecl
 #Scripting
 
 #Dynamic Map Rule
-DynamicMapRule=This example illustrates calling the Design Engine API within the beforeFactory script to add a map rule to a report element.  
+DynamicMapRule=이 예는 beforeFactory 스크립트 내에서 디자인 엔진 API를 호출하여 맵 규칙에 보고서 요소를 추가하는 방법을 보여 줍니다.  
 
 #Group Spearator
-GroupSeparator=This example illustrates adding a separator every 3 rows within a group. This count is reset on a page break.  
+GroupSeparator=이 예는 그룹 내에서 매 3행마다 구분 기호를 하나씩 추가하는 방법을 보여 줍니다. 이 수는 페이지 나누기에서 다시 설정됩니다.  
 
 #Retrieve Session Information
-Application_Session_IntegrationBF=This example illustrates using a JavaScript to retrieve information from Session.
+Application_Session_IntegrationBF=이 예는 JavaScript를 사용하여 세션에서 정보를 검색하는 방법을 보여 줍니다.
 
 #Scripted Data Source
 ScriptedDatasourceExampleAfter=이 예제 섹션은 BIRT에서 스크립트를 작성하는 것을 주로 보여 줍니다. 간단한 보고서를 사용해 스크립트 작성 기능을 보여 줍니다. 대부분의 예제에는 이전 보고서 및 이후 보고서가 포함되며 다운로드하실 수 있습니다. 예제는 Flash 프리젠테이션으로 시연됩니다. 내보낸 Java 개체를 로드하고 보고서에서 이를 사용할 수 있도록 이 예제 보고서를 연 후에 BIRT를 다시 시작해 주십시오.  
 
 #Visibility Rule
-Addvisrule=This example illustrates adding a visibility rule in script.  
+Addvisrule=이 예는 스크립트에 표시 규칙을 추가하는 방법을 보여 줍니다.  
 
 ###########################################################
 #Extending BIRT

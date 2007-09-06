@@ -27,7 +27,7 @@ CustomerOrdersFinal=Dieses Beispiel veranschaulicht, wie Sie in BIRT ein Kombina
 cascade=Dieses Beispiel veranschaulicht die Erstellung eines BIRT-Berichts, der eine Verschachtelungsparametergruppe verwendet. Eine Verschachtelungsparametergruppe lässt das Verknüpfen einer Parametergruppe zu, wobei die Auswahl eines Werts für den ersten Parameter die für die nachfolgenden Parameter zur Verfügung stehende Auswahl beeinflusst. Verschachtelungsparameter können mit einem oder mehreren Datensätzen verknüpft werden. Die Datensätze füllen jede Ebene der Verschachtelung. In Kombination mit Datensatz-Parametern erweist sich diese Vorgehensweise beim Filtern zurückgegebener Daten für einen Bericht als besonders flexibel.
 
 #Drill to details
-MasterDetailOneReport=This example illustrates building a report with master and detail information in one report.
+MasterDetailOneReport=Dieses Beispiel veranschaulicht die Erstellung eines einzigen Berichts mit sowohl Master- als auch Detailinformationen.
 OrderMasterAfter=Dieses Beispiel veranschaulicht die Erstellung eines Master- und eines detaillierten Berichts. Der Master-Bericht listet Aufträge auf und ermöglicht es dem Benutzer des Berichts, auf eine bestimmte Auftragsnummer zu klicken, um einen detaillierten Bericht für den ausgewählten Auftrag abzufragen. Dieses Beispiel veranschaulicht die Verwendung eines einfachen Parameters zum Filtern von Ergebnissen im detaillierten Bericht und die Verwendung der Hyperlink-Eigenschaft im Master-Bericht zum Übergeben dieses Parameters an den detaillierten Bericht. Die Hyperlink-Eigenschaft im Master-Bericht wird basierend auf den bei einer Abfrage abgerufenen Ergebnissen dynamisch generiert.
 OrderDetailAfter=Der detaillierte Bericht, der durch Klicken auf Master-Bericht abgefragt wurde.
 
@@ -67,19 +67,19 @@ Contribute_Samples=Reichen Sie einen Bugzilla-Eintrag unter https://bugs.eclipse
 #Scripting
 
 #Dynamic Map Rule
-DynamicMapRule=This example illustrates calling the Design Engine API within the beforeFactory script to add a map rule to a report element.  
+DynamicMapRule=Dieses Beispiel veranschaulicht die Design Engine-API innerhalb des vorFactory-Skripts, um einem Berichtselement eine Zuordnungsregel hinzuzufügen.  
 
 #Group Spearator
-GroupSeparator=This example illustrates adding a separator every 3 rows within a group. This count is reset on a page break.  
+GroupSeparator=Dieses Beispiel veranschaulicht, wie ein Trennzeichen alle 3 Reihen innerhalb einer Gruppe hinzugefügt wird. Diese Zahl wird bei jedem Seitenumbruch zurückgesetzt.  
 
 #Retrieve Session Information
-Application_Session_IntegrationBF=This example illustrates using a JavaScript to retrieve information from Session.
+Application_Session_IntegrationBF=Dieses Beispiel veranschaulicht die Verwendung von JavaScript, um Informationen über eine Sitzung zu erhalten.
 
 #Scripted Data Source
 ScriptedDatasourceExampleAfter=Dieser Abschnitt mit Beispielen konzentriert sich auf das Scripting innerhalb von BIRT. Einfache Berichte veranschaulichen die Scripting-Funktionalität. Die meisten Beispiele enthalten einen Vorher-/Nachher-Bericht, den Sie herunterladen können. Außerdem wird das Beispiel in einer Flash-Präsentation veranschaulicht. Um das exportierte Java-Objekt zu laden und es dem Bericht zu ermöglichen, es zu verwenden, starten Sie BIRT nach dem Öffnen dieses Beispielberichts neu.  
 
 #Visibility Rule
-Addvisrule=This example illustrates adding a visibility rule in script.  
+Addvisrule=Dieses Beispiel veranschaulicht, wie eine Sichtbarkeitsregel in einem Skript hinzugefügt wird.  
 
 ###########################################################
 #Extending BIRT

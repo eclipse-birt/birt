@@ -27,7 +27,7 @@ CustomerOrdersFinal=‚±‚Ì—á‚Å‚ÍABIRT ‚ğg‚Á‚½•¡‡ƒOƒ‰ƒt‚Ìì¬•û–@‚ğ¦‚µ‚Ü‚·B‚Ü‚
 cascade=‚±‚Ì—á‚Å‚ÍAƒJƒXƒP[ƒhƒpƒ‰ƒƒ^ƒOƒ‹[ƒv‚ğg—p‚·‚é BIRT ƒŒƒ|[ƒg‚Ì\’z•û–@‚ğ¦‚µ‚Ü‚·BƒJƒXƒP[ƒhƒpƒ‰ƒƒ^ƒOƒ‹[ƒv‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚éƒpƒ‰ƒƒ^‚ÍA‘ŠŒİ‚ÉŠÖ˜A•t‚¯‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·B‚Â‚Ü‚èA1 ‚Â–Ú‚Ìƒpƒ‰ƒƒ^‚É’l‚ğŠ„‚è“–‚Ä‚é‚ÆA‚»‚ÌŒã‚Ìƒpƒ‰ƒƒ^‚ÉŠ„‚è“–‚Ä‚ç‚ê‚é’l‚Ì‘I‘ğˆ‚ªŒˆ‚Ü‚è‚Ü‚·BƒJƒXƒP[ƒhƒpƒ‰ƒƒ^‚ÍA1 ‚Â‚Ü‚½‚Í•¡”‚Ìƒf[ƒ^ƒZƒbƒg‚ÉŠÖ˜A•t‚¯‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·BƒJƒXƒP[ƒh‚ÌŠeƒŒƒxƒ‹‚É‚Íƒf[ƒ^ƒZƒbƒg‚ªŠ„‚è“–‚Ä‚ç‚ê‚Ü‚·B‚±‚Ìƒf[ƒ^ƒZƒbƒgƒpƒ‰ƒƒ^‚Æ‘g‚İ‡‚í‚¹‚é‚±‚Æ‚ÅAƒŒƒ|[ƒg‚É•Ô‚³‚ê‚éƒf[ƒ^‚Ì‘I”²‚ğ_“î‚És‚¤‚±‚Æ‚ª‚Å‚«‚Ü‚·B
 
 #Drill to details
-MasterDetailOneReport=This example illustrates building a report with master and detail information in one report.
+MasterDetailOneReport=‚±‚Ì—á‚Å‚ÍAƒ}ƒXƒ^î•ñ‚ÆÚ×î•ñ‚ğ 1 ‚Â‚ÌƒŒƒ|[ƒg‚É‚Ü‚Æ‚ß‚Ä¶¬‚·‚é•û–@‚ğ¦‚µ‚Ü‚·B
 OrderMasterAfter=‚±‚Ì—á‚Å‚ÍAƒ}ƒXƒ^[ƒŒƒ|[ƒg‚ÆÚ×ƒŒƒ|[ƒg‚Ì\’z•û–@‚ğ¦‚µ‚Ü‚·Bƒ}ƒXƒ^[ƒŒƒ|[ƒg‚É‚Í’•¶‚ªˆê——‚É¦‚³‚êA‚»‚±‚Å’•¶‚ğƒNƒŠƒbƒN‚·‚é‚ÆÚ×ƒŒƒ|[ƒg‚ª•\¦‚³‚ê‚Ü‚·B‚±‚±‚Å‚ÍAÚ×ƒŒƒ|[ƒg‚É•Ô‚³‚ê‚éƒf[ƒ^‚âƒ}ƒXƒ^[ƒŒƒ|[ƒg“à‚ÌƒnƒCƒp[ƒŠƒ“ƒN‚ÌƒvƒƒpƒeƒB‚ğAŠÈ’P‚Èƒpƒ‰ƒƒ^‚É‚æ‚Á‚Ä‘I”²‚µA‚»‚Ìƒpƒ‰ƒƒ^‚ğÚ×ƒŒƒ|[ƒg‚É“n‚µ‚Ü‚·BƒnƒCƒp[ƒŠƒ“ƒN‚ÌƒvƒƒpƒeƒB‚ÍAƒNƒGƒŠŒ‹‰Ê‚ÉŠî‚Ã‚¢‚Ä“®“I‚É¶¬‚³‚ê‚Ü‚·B
 OrderDetailAfter=ƒ}ƒXƒ^ƒŒƒ|[ƒg‚Ì€–Ú‚ğƒNƒŠƒbƒN‚µ‚Ä‚¢‚­‚ÆÚ×ƒŒƒ|[ƒg‚ª•\¦‚³‚ê‚Ü‚·B
 
@@ -67,19 +67,19 @@ Contribute_Samples=Bugzilla ‚ÌƒGƒ“ƒgƒŠ‚ÍAhttps://bugs.eclipse.org/bugs/enter_bu
 #Scripting
 
 #Dynamic Map Rule
-DynamicMapRule=This example illustrates calling the Design Engine API within the beforeFactory script to add a map rule to a report element.  
+DynamicMapRule=‚±‚Ì—á‚Å‚ÍAbeforeFactory ƒXƒNƒŠƒvƒg‚©‚çƒfƒUƒCƒ“ƒGƒ“ƒWƒ“ API ‚ğŒÄ‚Ño‚µAƒŒƒ|[ƒg—v‘f‚Éƒ}ƒbƒv‹K‘¥‚ğ’Ç‰Á‚·‚é•û–@‚ğ¦‚µ‚Ü‚·B  
 
 #Group Spearator
-GroupSeparator=This example illustrates adding a separator every 3 rows within a group. This count is reset on a page break.  
+GroupSeparator=‚±‚Ì—á‚Å‚ÍAƒOƒ‹[ƒv“à‚Å 3 s‚²‚Æ‚É‹æØ‚è‚ğ’Ç‰Á‚·‚é•û–@‚ğ¦‚µ‚Ü‚·B‚±‚ÌŒvZ‚Í‰üƒy[ƒW‚²‚Æ‚ÉƒŠƒZƒbƒg‚³‚ê‚Ü‚·B  
 
 #Retrieve Session Information
-Application_Session_IntegrationBF=This example illustrates using a JavaScript to retrieve information from Session.
+Application_Session_IntegrationBF=‚±‚Ì—á‚Å‚ÍAJavaScript ‚ğg‚Á‚ÄƒZƒbƒVƒ‡ƒ“‚©‚çî•ñ‚ğæ“¾‚·‚é•û–@‚ğ¦‚µ‚Ü‚·B
 
 #Scripted Data Source
 ScriptedDatasourceExampleAfter=‚±‚±‚Å‚ÍABIRT ‚ÌƒXƒNƒŠƒvƒg‹@”\‚É‚Â‚¢‚ÄAƒVƒ“ƒvƒ‹‚ÈƒŒƒ|[ƒg‚ğg‚Á‚Äà–¾‚µ‚Ü‚·B‚Ù‚Æ‚ñ‚Ç‚ÌƒTƒ“ƒvƒ‹ƒŒƒ|[ƒg‚ÍAƒXƒNƒŠƒvƒg‚ğg—p‚·‚é‘O‚ÆŒã‚Ìó‘Ô‚Åƒ_ƒEƒ“ƒ[ƒh‚Å‚«AFlash Œ`®‚ÅŒ©‚é‚±‚Æ‚à‚Å‚«‚Ü‚·BƒGƒNƒXƒ|[ƒg‚µ‚½ Java ƒIƒuƒWƒFƒNƒg‚ğƒŒƒ|[ƒg‚Éƒ[ƒh‚µ‚Äg—p‚·‚é‚É‚ÍA‚±‚ÌƒTƒ“ƒvƒ‹ƒŒƒ|[ƒg‚ğŠJ‚¢‚½Œã‚Å BIRT ‚ğÄ‹N“®‚µ‚Ä‚­‚¾‚³‚¢B  
 
 #Visibility Rule
-Addvisrule=This example illustrates adding a visibility rule in script.  
+Addvisrule=‚±‚Ì—á‚Å‚ÍAƒXƒNƒŠƒvƒg‚É‰Â‹«‹K‘¥‚ğ’Ç‰Á‚·‚é•û–@‚ğ¦‚µ‚Ü‚·B  
 
 ###########################################################
 #Extending BIRT

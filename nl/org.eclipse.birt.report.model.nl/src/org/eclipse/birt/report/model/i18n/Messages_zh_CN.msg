@@ -3244,7 +3244,7 @@ Message.RemoveItem=删除项
 Message.ReplaceElement=替换元素
 Message.TransformTemplate=转换模板
 Message.SetTheme=设置主题
-Message.ChangePropertyEncryption=Change encryption for property:{0}
+Message.ChangePropertyEncryption=更改属性的加密:{0}
 
 ###########################################################
 #Element new names.
@@ -3550,5 +3550,5 @@ Info.VersionInfo.CONVERT_INFO=设计文件是使用较早版本的 BIRT 创建的。单击“确定”
 Info.VersionInfo.INVALID_VERSION=不支持版本“{0}”的报表文件。
 
 #EncryptionException
-Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY=The property {1} in {0} is not encryptable, so can not change encryption.
-Error.EncryptionException.INVALID_ENCRYPTION=The encryption id "{0}" is invalid, for no such encryption exists.
+Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY={0} 中的属性 {1} 不可加密，因此不能更改加密。
+Error.EncryptionException.INVALID_ENCRYPTION=加密 ID“{0}”无效，因为不存在此类加密。

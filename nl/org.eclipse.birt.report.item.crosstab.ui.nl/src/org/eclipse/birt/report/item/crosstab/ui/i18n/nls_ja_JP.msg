@@ -129,16 +129,16 @@ FilterConditionBuilder.button.edit.tooltip=値リストで選択した値を編集します。
 FilterConditionBuilder.button.delete.tooltip=リストから選択した値を削除します。
 FilterConditionBuilder.button.deleteall.tooltip=リストからすべての値を削除します。
 FilterConditionBuilder.button.add.tooltip=値リストに値を追加します。
-CrosstabFilterConditionBuilder.DialogMessage.New=Select the group level to apply the filter on, then set filter condition.
-CrosstabFilterConditionBuilder.DialogMessage.Edit=Select the group level to apply the filter on, then set filter condition.
+CrosstabFilterConditionBuilder.DialogMessage.New=フィルタを適用するグループレベルを選択してから、フィルタの条件を設定してください。
+CrosstabFilterConditionBuilder.DialogMessage.Edit=フィルタを適用するグループレベルを選択してから、フィルタの条件を設定してください。
 
-FilterbyTree.Bindings.Catogory.Measures=Measures
-FilterbyTree.Bindings.Catogory.Dimension=Dimension
+FilterbyTree.Bindings.Catogory.Measures=計測
+FilterbyTree.Bindings.Catogory.Dimension=次元
 FilterbyTree.Bindings.Catogory.GrandTotal=総計
 FilterbyTree.Bindings.Catogory.SubTotal=小計
-FilterbyTree.Bindings.Catogory.Undefined=Undefined
-FilterbyTree.Title=Filter By
-FilterbyTree.Message=Filter By
+FilterbyTree.Bindings.Catogory.Undefined=未定義
+FilterbyTree.Title=フィルタの条件
+FilterbyTree.Message=フィルタの条件
 
 ###########################################################
 #VirtualCellEditPart.java
@@ -193,7 +193,7 @@ CrosstabSectionPage.RepeatColumnHeader=列のヘッダの繰り返し
 
 ExpressionValueCellEditor.buildExpressionAction=<式の構築...>
 ExpressionValueCellEditor.selectValueAction=<値の選択...>
-ExpressionValueCellEditor.filterBy=<Filter by...>
+ExpressionValueCellEditor.filterBy=<フィルタの条件...>
 ExpressionValueCellEditor.title=値の選択
 CrosstabSortKeyBuilder.Label.SelColumnMemberValue=列のメンバ値の選択
 CrosstabSortKeyBuilder.Label.SelRowMemberValue=行のメンバ値の選択

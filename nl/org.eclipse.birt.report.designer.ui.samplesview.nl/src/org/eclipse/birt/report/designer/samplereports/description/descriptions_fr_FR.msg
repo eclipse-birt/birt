@@ -27,7 +27,7 @@ CustomerOrdersFinal=Cet exemple explique comment créer un graphique de combinais
 cascade=Cet exemple décrit comment créer un état BIRT avec un groupe de paramètres en cascade. Ce type de groupe permet de lier un groupe de paramètres de sorte que la valeur sélectionnée pour le premier paramètre affecte les choix disponibles pour les paramètres suivants. Il est possible de lier les paramètres en cascade à un ou plusieurs jeux de données. Ces derniers peuvent être utilisés à tous les niveaux du groupe. Combinée avec les paramètres des jeux de données, cette fonctionnalité est une solution particulièrement pratique pour récupérer les données renvoyées d'un état.
 
 #Drill to details
-MasterDetailOneReport=This example illustrates building a report with master and detail information in one report.
+MasterDetailOneReport=Cet exemple décrit comment créer un état réunissant des informations générales et des informations plus précises.
 OrderMasterAfter=Cet exemple illustre la création d'un état principal et d'un état détaillé. L'état principal répertorie les commandes et permet à l'utilisateur de cliquer sur un numéro de commande afin d'explorer les détails de celle-ci. Cet exemple décrit comment utiliser un paramètre simple pour rassembler les résultats dans l'état détaillé et comment utiliser les propriétés des liens hypertexte dans l'état principal pour transmettre ce paramètre à l'état détaillé. Les propriétés des hyperliens de l'état principal sont générées dynamiquement en fonction des résultats renvoyés par une requête.
 OrderDetailAfter=L'état détaillé accessible en cliquant sur l'état principal.
 
@@ -67,19 +67,19 @@ Contribute_Samples=Veuillez soumettre une entrée bugzilla à l'adresse https://bu
 #Scripting
 
 #Dynamic Map Rule
-DynamicMapRule=This example illustrates calling the Design Engine API within the beforeFactory script to add a map rule to a report element.  
+DynamicMapRule=Cet exemple décrit comment appeler l'outil de conception de rapports API dans le script avant génération pour ajouter une règle de mappage à un élément d'état.  
 
 #Group Spearator
-GroupSeparator=This example illustrates adding a separator every 3 rows within a group. This count is reset on a page break.  
+GroupSeparator=Cet exemple décrit comment ajouter, dans un groupe, un séparateur toutes les 3 lignes. Ce nombre est réinitialisé lors d'un saut de page.  
 
 #Retrieve Session Information
-Application_Session_IntegrationBF=This example illustrates using a JavaScript to retrieve information from Session.
+Application_Session_IntegrationBF=Cet exemple décrit comment utiliser un JavaScript pour récupérer des informations à partir d'une session Windows.
 
 #Scripted Data Source
 ScriptedDatasourceExampleAfter=Les exemples présentés dans cette section illustrent l'utilisation de scripts dans BIRT, à l'aide d'états simples. La plupart de ces exemples comportent un pré-état et un post-état, qu'il est possible de télécharger. En outre, les exemples sont disponibles sous la forme de présentations Flash. Pour charger l'objet Java exporté et faire en sorte que l'état puisse l'utiliser, veuillez redémarrer BIRT après avoir ouvert cet exemple d'état.  
 
 #Visibility Rule
-Addvisrule=This example illustrates adding a visibility rule in script.  
+Addvisrule=Cet exemple décrit comment ajouter une règle de visibilité à un script.  
 
 ###########################################################
 #Extending BIRT
