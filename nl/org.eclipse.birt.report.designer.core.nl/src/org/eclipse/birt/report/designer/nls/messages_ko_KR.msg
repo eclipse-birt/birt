@@ -544,7 +544,7 @@ DataSetParameterPage.toolTipText.Edit=매개변수 편집
 DataSetParameterPage.toolTipText.Remove=매개 변수 제거
 DataSetParameterPage.toolTipText.Up=매개 변수를 위로 이동
 DataSetParameterPage.toolTipText.Down=매개 변수를 아래로 이동
-DataSetParameterPage.WarningMessage.updatePosition=Some or all of the data set parameters have invalid position values.Updating their positions based on their sequence.
+DataSetParameterPage.WarningMessage.updatePosition=일부 또는 모든 데이터 집합 매개 변수에 잘못된 위치값이 지정되었습니다. 순서를 기준으로 위치를 업데이트하고 있습니다.
 
 ###########################################################
 #PropertyBindingpage properties
@@ -3786,13 +3786,13 @@ DataItemBindingDialog.Button.Delete=삭제
 DataColumBindingDialog.title.CreateNewDataBinding=새 데이터 바인딩
 DataColumBindingDialog.title.EditDataBinding=데이터 바인딩 편집
 DataColumBindingDialog.title.AggBuilder=집계 빌더
-DataColumnBindingDialog.NewBindingDialogInputNewNameMessage=New data binding name:
-DataColumnBindingDialog.NewBindingDialogInputNewNameTitle=Input New Data Binding Name
-DataColumnBindingDialog.NewBindingDialogMessage=This data binding is used by more than one report item and cell, do you want to create a new expression for this report item? Click Yes to create a new data binding, click No to change the data binding for all places.
+DataColumnBindingDialog.NewBindingDialogInputNewNameMessage=새 데이터 바인딩 이름:
+DataColumnBindingDialog.NewBindingDialogInputNewNameTitle=새 데이터 바인딩 이름 입력
+DataColumnBindingDialog.NewBindingDialogMessage=이 데이터 바인딩을 하나 이상의 보고서 항목 및 셀에서 사용하고 있습니다. 이 보고서 항목에 대한 새로운 식을 생성하시겠습니까? 새 데이터 바인딩을 생성하려면 '예'를, 모든 위치에서 데이터 바인딩을 변경하려면 '아니오'를 클릭하십시오.
 DataColumnBindingDialog.NewBindingDialogButtonYes=예
 DataColumnBindingDialog.NewBindingDialogButtonNo=아니오
 DataColumnBindingDialog.NewBindingDialogButtonCancel=취소
-DataColumnBindingDialog.NewBindingDialogTitle=Create new data binding?
+DataColumnBindingDialog.NewBindingDialogTitle=새 데이터 바인딩을 생성하시겠습니까?
 
 ###########################################################
 #CreatePlaceHolderAction properties

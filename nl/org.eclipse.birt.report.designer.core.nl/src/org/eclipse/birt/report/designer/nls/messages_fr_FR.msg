@@ -544,7 +544,7 @@ DataSetParameterPage.toolTipText.Edit=Modifier le paramètre
 DataSetParameterPage.toolTipText.Remove=Supprimer le paramètre
 DataSetParameterPage.toolTipText.Up=Déplacer le paramètre vers le haut
 DataSetParameterPage.toolTipText.Down=Déplacer le paramètre vers le bas
-DataSetParameterPage.WarningMessage.updatePosition=Some or all of the data set parameters have invalid position values.Updating their positions based on their sequence.
+DataSetParameterPage.WarningMessage.updatePosition=Les valeurs de position de la totalité ou d'une partie des paramètres du jeu de données sont incorrectes. Mise à jour de leurs positions selon leur séquence.
 
 ###########################################################
 #PropertyBindingpage properties
@@ -3786,13 +3786,13 @@ DataItemBindingDialog.Button.Delete=Supprimer
 DataColumBindingDialog.title.CreateNewDataBinding=Nouvelle liaison de données
 DataColumBindingDialog.title.EditDataBinding=Modifier la liaison de données
 DataColumBindingDialog.title.AggBuilder=Générateur d'agrégation
-DataColumnBindingDialog.NewBindingDialogInputNewNameMessage=New data binding name:
-DataColumnBindingDialog.NewBindingDialogInputNewNameTitle=Input New Data Binding Name
-DataColumnBindingDialog.NewBindingDialogMessage=This data binding is used by more than one report item and cell, do you want to create a new expression for this report item? Click Yes to create a new data binding, click No to change the data binding for all places.
+DataColumnBindingDialog.NewBindingDialogInputNewNameMessage=Nouveau nom de liaison de données :
+DataColumnBindingDialog.NewBindingDialogInputNewNameTitle=Saisir un nouveau nom de liaison de données
+DataColumnBindingDialog.NewBindingDialogMessage=Cette liaison de données est utilisée par plusieurs éléments d'état et cellules, souhaitez-vous créer une nouvelle expression pour cet élément d'état ? Cliquez sur Oui pour créer une nouvelle liaison de données ou cliquez sur Non pour modifier la liaison de données de façon globale.
 DataColumnBindingDialog.NewBindingDialogButtonYes=Oui
 DataColumnBindingDialog.NewBindingDialogButtonNo=Non
 DataColumnBindingDialog.NewBindingDialogButtonCancel=Annuler
-DataColumnBindingDialog.NewBindingDialogTitle=Create new data binding?
+DataColumnBindingDialog.NewBindingDialogTitle=Créer une nouvelle liaison de données ?
 
 ###########################################################
 #CreatePlaceHolderAction properties

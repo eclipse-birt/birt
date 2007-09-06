@@ -544,7 +544,7 @@ DataSetParameterPage.toolTipText.Edit=パラメタの編集
 DataSetParameterPage.toolTipText.Remove=パラメタの削除
 DataSetParameterPage.toolTipText.Up=パラメタを上に移動
 DataSetParameterPage.toolTipText.Down=パラメタを下に移動
-DataSetParameterPage.WarningMessage.updatePosition=Some or all of the data set parameters have invalid position values.Updating their positions based on their sequence.
+DataSetParameterPage.WarningMessage.updatePosition=一部またはすべてのデータセットパラメタの位置の値が無効です。パラメタの順序に従って位置を更新しています。
 
 ###########################################################
 #PropertyBindingpage properties
@@ -3786,13 +3786,13 @@ DataItemBindingDialog.Button.Delete=削除
 DataColumBindingDialog.title.CreateNewDataBinding=データバインドの新規作成
 DataColumBindingDialog.title.EditDataBinding=データバインドの編集
 DataColumBindingDialog.title.AggBuilder=集計ビルダ
-DataColumnBindingDialog.NewBindingDialogInputNewNameMessage=New data binding name:
-DataColumnBindingDialog.NewBindingDialogInputNewNameTitle=Input New Data Binding Name
-DataColumnBindingDialog.NewBindingDialogMessage=This data binding is used by more than one report item and cell, do you want to create a new expression for this report item? Click Yes to create a new data binding, click No to change the data binding for all places.
+DataColumnBindingDialog.NewBindingDialogInputNewNameMessage=データバインドの新しい名前 :
+DataColumnBindingDialog.NewBindingDialogInputNewNameTitle=データバインドの新しい名前の入力
+DataColumnBindingDialog.NewBindingDialogMessage=このデータバインドは、複数のレポート項目やセルで使用されています。このレポート項目に新しい式を作成しますか ? 新しいデータバインドを作成するには [はい] をクリックしてください。データバインドを全体で変更するには [いいえ] をクリックしてください。
 DataColumnBindingDialog.NewBindingDialogButtonYes=はい
 DataColumnBindingDialog.NewBindingDialogButtonNo=いいえ
 DataColumnBindingDialog.NewBindingDialogButtonCancel=キャンセル
-DataColumnBindingDialog.NewBindingDialogTitle=Create new data binding?
+DataColumnBindingDialog.NewBindingDialogTitle=データバインドの新規作成
 
 ###########################################################
 #CreatePlaceHolderAction properties
