@@ -650,6 +650,7 @@ public class ParameterDialog extends BaseDialog
 		distinct = new Button( checkBoxArea, SWT.CHECK );
 		distinct.setText( CHECKBOX_DISTINCT );
 		distinct.setSelection( false );
+		addCheckBoxListener( distinct, CHECKBOX_DISTINCT );
 	}
 
 	private void createValuesDefineSection( Composite composite )
@@ -1961,7 +1962,8 @@ public class ParameterDialog extends BaseDialog
 			inputParameter.setName( nameEditor.getText( ) );
 			inputParameter.setPromptText( UIUtil.convertToModelString( promptTextEditor.getText( ),
 					true ) );
-
+			
+			inputParameter.setParamType( DesignChoiceConstants.SCALAR_PARAM_TYPE_SIMPLE );
 			String newControlType = getSelectedControlType( );
 			if ( PARAM_CONTROL_COMBO.equals( newControlType ) )
 			{
@@ -1978,11 +1980,7 @@ public class ParameterDialog extends BaseDialog
 				if(allowMultiChoice.isVisible( ) && allowMultiChoice.getSelection( ))
 				{
 					inputParameter.setParamType( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE );
-				}else
-				{
-					inputParameter.setParamType( DesignChoiceConstants.SCALAR_PARAM_TYPE_SIMPLE );
 				}
-
 			}
 			else
 			{
@@ -2213,7 +2211,7 @@ public class ParameterDialog extends BaseDialog
 	protected void checkBoxChange( Button checkBox, String key )
 	{
 		dirtyProperties.put( key, new Boolean( checkBox.getSelection( ) ) );
-		if ( CHECKBOX_ISREQUIRED.equals( key ) )
+		if ( CHECKBOX_ISREQUIRED.equals( key ) || CHECKBOX_DISTINCT.equals( key ))
 		{
 			if ( isStatic( ) )
 			{
@@ -2955,6 +2953,14 @@ public class ParameterDialog extends BaseDialog
 			return errorMessage;
 		}
 		String newValue = convertToStandardFormat( value );
+		if(distinct.isEnabled( ) && distinct.getSelection( ) )
+		{
+			if ( containValue( choice, displayLabelKey, COLUMN_DISPLAY_TEXT_KEY ) )
+			{
+				return ERROR_MSG_DUPLICATED_LABELKEY;
+			}else
+			return null;
+		}
 		if ( containValue( choice, newValue, COLUMN_VALUE ) )
 		{
 			return ERROR_MSG_DUPLICATED_VALUE;
