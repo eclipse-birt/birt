@@ -23,6 +23,7 @@ import org.eclipse.birt.data.engine.cache.BasicCachedArray;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.RowSaveUtil;
+import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.impl.document.viewing.RowIndexUtil;
 
 /**
@@ -33,11 +34,12 @@ import org.eclipse.birt.data.engine.impl.document.viewing.RowIndexUtil;
  */
 class ExprDataReader2 implements IExprDataReader
 {
+	private int version;
 	private RAInputStream rowExprsIs;
 	private RAInputStream rowLenIs;
 	
 	private DataInputStream rowExprsDis;
-	
+	private DataInputStream rowLenDis;
 	protected int rowCount;
 	
 	private int lastRowIndex;
@@ -59,8 +61,9 @@ class ExprDataReader2 implements IExprDataReader
 	 * @param rowLenIs
 	 * @throws DataException 
 	 */
-	protected ExprDataReader2( RAInputStream rowExprsIs, RAInputStream rowLenIs, int rowCount ) throws DataException
+	protected ExprDataReader2( RAInputStream rowExprsIs, RAInputStream rowLenIs, int rowCount, int version ) throws DataException
 	{
+		this.version = version;
 		initialize( rowExprsIs, rowLenIs, rowCount );
 	}
 
@@ -71,8 +74,9 @@ class ExprDataReader2 implements IExprDataReader
 	 * @throws DataException
 	 */
 	ExprDataReader2( RAInputStream rowExprsIs, RAInputStream rowLenIs,
-			RAInputStream rowInfoIs ) throws DataException
+			RAInputStream rowInfoIs, int version ) throws DataException
 	{
+		this.version = version;
 		this.rowIndexUtil = new RowIndexUtil( rowInfoIs );
 		
 		try
@@ -104,6 +108,7 @@ class ExprDataReader2 implements IExprDataReader
 			int exprCount = IOUtil.readInt( rowExprsIs );
 			this.exprKeys = new ArrayList();
 			this.rowExprsDis = new DataInputStream( rowExprsIs );
+			this.rowLenDis = new DataInputStream( rowLenIs );
 			for( int i = 0; i < exprCount; i++ )
 			{
 				this.exprKeys.add( IOUtil.readString( this.rowExprsDis ) );
@@ -226,9 +231,13 @@ class ExprDataReader2 implements IExprDataReader
 		
 		currRowLenReadIndex = absoluteIndex + 1;
 		
-		rowLenIs.seek( absoluteIndex * 4 );
-		
-		rowExprsIs.seek( IOUtil.readInt( rowLenIs ) + this.metaOffset );
+		//Before 2.2.1.1 we use Integer, after that we use long.
+		rowLenIs.seek( absoluteIndex * ((this.version > VersionManager.VERSION_2_2_1_1)?8:4) );
+		if( this.version <= VersionManager.VERSION_2_2_1_1)
+			rowExprsIs.seek( IOUtil.readInt( rowLenIs ) + this.metaOffset );
+		else
+			rowExprsIs.seek( IOUtil.readLong( this.rowLenDis ) + this.metaOffset );
+			
 		rowExprsDis = new DataInputStream( rowExprsIs );
 	}
 
@@ -263,6 +272,12 @@ class ExprDataReader2 implements IExprDataReader
 			{
 				rowExprsDis.close( );
 				rowExprsDis = null;
+			}
+			
+			if ( rowLenDis != null )
+			{
+				rowLenDis.close( );
+				rowLenDis = null;
 			}
 		}
 		catch ( IOException e )

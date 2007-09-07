@@ -74,7 +74,7 @@ public class ExprResultSet2 extends ExprResultSet
 				StreamManager.SELF_SCOPE );
 		this.exprResultReader = new ExprDataReader2( rowExprsRAIs,
 				rowLenRAIs,
-				rowInfoRAIs );
+				rowInfoRAIs, version );
 		
 		this.rowCount = this.exprResultReader.getCount( );
 	}

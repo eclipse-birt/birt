@@ -36,7 +36,7 @@ public class ExprResultSet implements IExprResultSet
 	protected RAInputStream rowInfoRAIs;
 
 	protected int rowCount;
-	private int version;
+	protected int version;
 
 	private boolean isBasedOnSecondRD;
 	
@@ -101,7 +101,7 @@ public class ExprResultSet implements IExprResultSet
 					StreamManager.SELF_SCOPE );
 			this.exprResultReader = new ExprDataReader2( rowExprsRAIs,
 					rowLenRAIs,
-					rowInfoRAIs );
+					rowInfoRAIs, version );
 			this.rowCount = this.exprResultReader.getCount( );			
 		}
 	}
