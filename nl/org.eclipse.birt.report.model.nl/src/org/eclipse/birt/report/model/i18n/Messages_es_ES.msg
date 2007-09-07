@@ -185,6 +185,8 @@ Choices.mapOperator.top-percent=Porcentaje superior
 Choices.mapOperator.bottom-percent=Porcentaje inferior
 Choices.mapOperator.not-like=No como
 Choices.mapOperator.not-match=No coincide
+Choices.mapOperator.not-in=Not In
+Choices.mapOperator.in=En
   
 #15.imageRefType
 Choices.imageRefType.none=Sin imagen
@@ -402,6 +404,7 @@ Choices.filterOperator.any=Cualquiera
 Choices.filterOperator.match=Coincidencia
 Choices.filterOperator.not-match=No coincide
 Choices.filterOperator.in=En
+Choices.filterOperator.not-in=Not In
 
 #53. propertyMaskType
 Choices.propertyMaskType.change=Cambiar
@@ -3352,6 +3355,7 @@ Error.CircularExtendsException.CIRCULAR=Se ha encontrado la extensión circular, 
 Error.ExtendsForbiddenException.PARENT_NOT_IN_COMPONENT=El elemento principal "{0}" no es el elemento de informe de nivel superior de los componentes.
 Error.ExtendsForbiddenException.EXTENDS_FORBIDDEN="{0}" está dentro de un elemento secundario o ya tiene un elemento principal; no puede ampliarse.
 Error.ExtendsForbiddenException.CANT_EXTEND=No se permite derivar al elemento "{0}".
+Error.ExtendsForbiddenException.RESULT_SET_SHARED_CANT_EXTEND=The shared result set report item  "{0}" is not allowed to derive.
     
 #NameException
 Error.NameException.NAME_REQUIRED=Es necesario el nombre de {0}.

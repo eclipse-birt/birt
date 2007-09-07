@@ -185,6 +185,8 @@ Choices.mapOperator.top-percent=상위 퍼센트
 Choices.mapOperator.bottom-percent=하위 퍼센트
 Choices.mapOperator.not-like=유사하지 않음
 Choices.mapOperator.not-match=일치하지 않음
+Choices.mapOperator.not-in=Not In
+Choices.mapOperator.in=확대
   
 #15.imageRefType
 Choices.imageRefType.none=이미지 없음
@@ -402,6 +404,7 @@ Choices.filterOperator.any=모두
 Choices.filterOperator.match=일치
 Choices.filterOperator.not-match=일치하지 않음
 Choices.filterOperator.in=확대
+Choices.filterOperator.not-in=Not In
 
 #53. propertyMaskType
 Choices.propertyMaskType.change=변경
@@ -3352,6 +3355,7 @@ Error.CircularExtendsException.CIRCULAR={0}이(가) {1}에서 이미 확장되었으므로 순
 Error.ExtendsForbiddenException.PARENT_NOT_IN_COMPONENT=상위 요소 "{0}"이(가) 구성 요소에서 최상위 보고서 항목이 아닙니다.
 Error.ExtendsForbiddenException.EXTENDS_FORBIDDEN=요소 "{0}"은(는) 자식 요소 내부에 있거나 이미 부모가 있으므로 확장할 수 없습니다.
 Error.ExtendsForbiddenException.CANT_EXTEND=요소 "{0}"을(를) 파생할 수 없습니다.
+Error.ExtendsForbiddenException.RESULT_SET_SHARED_CANT_EXTEND=The shared result set report item  "{0}" is not allowed to derive.
     
 #NameException
 Error.NameException.NAME_REQUIRED={0}의 이름이 필요합니다.

@@ -185,6 +185,8 @@ Choices.mapOperator.top-percent=ãˆÊ %
 Choices.mapOperator.bottom-percent=‰ºˆÊ %
 Choices.mapOperator.not-like=Ÿ‚Ì’l‚ğŠÜ‚Ü‚È‚¢
 Choices.mapOperator.not-match=Ÿ‚Ì’l‚Éˆê’v‚µ‚È‚¢
+Choices.mapOperator.not-in=Not In
+Choices.mapOperator.in=ŠÜ‚Ü‚ê‚é
   
 #15.imageRefType
 Choices.imageRefType.none=ƒCƒ[ƒW‚È‚µ
@@ -402,6 +404,7 @@ Choices.filterOperator.any=”CˆÓ
 Choices.filterOperator.match=ŒŸõğŒ
 Choices.filterOperator.not-match=Ÿ‚Ì’l‚Éˆê’v‚µ‚È‚¢
 Choices.filterOperator.in=ŠÜ‚Ü‚ê‚é
+Choices.filterOperator.not-in=Not In
 
 #53. propertyMaskType
 Choices.propertyMaskType.change=•ÏX
@@ -3352,6 +3355,7 @@ Error.CircularExtendsException.CIRCULAR=zŠÂŠg’£‚Å‚·B{0} ‚ÍA‚·‚Å‚É {1} ‚©‚çŠg’
 Error.ExtendsForbiddenException.PARENT_NOT_IN_COMPONENT=e—v‘f "{0}" ‚ÍAƒRƒ“ƒ|[ƒlƒ“ƒg“à‚Å‚ÌÅãˆÊ‚ÌƒŒƒ|[ƒg€–Ú‚Å‚Í‚ ‚è‚Ü‚¹‚ñB
 Error.ExtendsForbiddenException.EXTENDS_FORBIDDEN=—v‘f "{0}" ‚ÍAq—v‘f‚Ì“à‘¤‚É‚ ‚é‚©‚·‚Å‚Ée—v‘f‚ª‚ ‚é‚½‚ßAŠg’£‚Å‚«‚Ü‚¹‚ñB
 Error.ExtendsForbiddenException.CANT_EXTEND=—v‘f "{0}" ‚ğ”h¶‚³‚¹‚é‚±‚Æ‚Í‚Å‚«‚Ü‚¹‚ñB
+Error.ExtendsForbiddenException.RESULT_SET_SHARED_CANT_EXTEND=The shared result set report item  "{0}" is not allowed to derive.
     
 #NameException
 Error.NameException.NAME_REQUIRED={0} ‚É–¼‘O‚ğw’è‚·‚é•K—v‚ª‚ ‚è‚Ü‚·B
