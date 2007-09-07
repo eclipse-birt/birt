@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.chart.internal.datafeed;
 
-import java.util.ResourceBundle;
-
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.datafeed.IResultSetDataSet;
@@ -23,10 +21,8 @@ import org.eclipse.birt.chart.model.data.impl.DateTimeDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.NumberDataSetImpl;
 import org.eclipse.birt.chart.model.data.impl.TextDataSetImpl;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
-import org.eclipse.birt.chart.util.ChartUtil;
 
 import com.ibm.icu.util.Calendar;
-import com.ibm.icu.util.ULocale;
 
 /**
  * An internal processor which populates the user datasets.
@@ -98,7 +94,7 @@ public class UserDataSetProcessor
 					switch ( rsds.getDataType( k ) )
 					{
 						case IConstants.TEXT :
-							value = (String)row[k];
+							value = row[k];
 							break;
 
 						case IConstants.DATE_TIME :
