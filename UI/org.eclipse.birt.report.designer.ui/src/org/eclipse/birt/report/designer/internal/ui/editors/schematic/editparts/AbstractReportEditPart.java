@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractModelEventProcessor.IModelEventFactory;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.gef.EditPart;
 
@@ -89,6 +88,8 @@ public abstract class AbstractReportEditPart extends ReportElementEditPart imple
 					}
 				};
 			}
+			
+			case NotificationEvent.CSS_RELOADED_EVENT:
 			case NotificationEvent.LIBRARY_RELOADED_EVENT :
 			{
 				return new EditpartReportEventRunnable( focus, type, args ) {

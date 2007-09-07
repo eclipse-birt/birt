@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
 import org.eclipse.birt.report.model.activity.ActivityStack;
+import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -74,8 +75,9 @@ public class CssCommand extends AbstractElementCommand
 		}
 		catch ( StyleSheetException e )
 		{
-			throw new CssException( module, new String[]{fileName},
-					CssException.DESIGN_EXCEPTION_BADCSSFILE );
+			String errorCode = ModuleUtil.changeSheetErrorCodeToCssErrorCode( e
+					.getErrorCode( ) );
+			throw new CssException( module, new String[]{fileName}, errorCode );
 		}
 	}
 
@@ -96,8 +98,8 @@ public class CssCommand extends AbstractElementCommand
 			return;
 		}
 
-		//must be absolute file path.
-		
+		// must be absolute file path.
+
 		String fileName = sheet.getFileName( );
 		if ( getCssStyleSheetByLocation( fileName ) != null )
 		{
@@ -124,7 +126,7 @@ public class CssCommand extends AbstractElementCommand
 			activityStack.rollback( );
 			throw e;
 		}
-		
+
 		activityStack.commit( );
 	}
 
@@ -282,8 +284,9 @@ public class CssCommand extends AbstractElementCommand
 		}
 		catch ( StyleSheetException e )
 		{
-			throw new CssException( module, new String[]{fileName},
-					CssException.DESIGN_EXCEPTION_BADCSSFILE );
+			String errorCode = ModuleUtil.changeSheetErrorCodeToCssErrorCode( e
+					.getErrorCode( ) );
+			throw new CssException( module, new String[]{fileName}, errorCode );
 		}
 
 		List csses = ( (ICssStyleSheetOperation) element ).getCsses( );
@@ -330,8 +333,8 @@ public class CssCommand extends AbstractElementCommand
 		module.setSaveState( 0 );
 		activityStack.sendNotifcations( new ActivityStackEvent( activityStack,
 				ActivityStackEvent.DONE ) );
-		
-		//Recheck module.
+
+		// Recheck module.
 		module.getModuleHandle( ).checkReport( );
 	}
 

@@ -30,6 +30,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.eclipse.birt.report.model.api.command.CssException;
+import org.eclipse.birt.report.model.api.css.StyleSheetException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
@@ -136,7 +138,8 @@ public class ModuleUtil
 
 			public AbstractParseState startElement( String tagName )
 			{
-				if ( DesignSchemaConstants.STRUCTURE_TAG.equalsIgnoreCase( tagName ) )
+				if ( DesignSchemaConstants.STRUCTURE_TAG
+						.equalsIgnoreCase( tagName ) )
 					return new ActionStructureState( ActionParserHandler.this,
 							element );
 				return super.startElement( tagName );
@@ -183,8 +186,8 @@ public class ModuleUtil
 		DesignElement e = element == null ? image : element.getElement( );
 		ActionParserHandler handler = new ActionParserHandler( image );
 
-		Module module = element == null ? handler.getModule( )
-				: element.getModule( );
+		Module module = element == null ? handler.getModule( ) : element
+				.getModule( );
 
 		if ( streamData == null )
 		{
@@ -201,9 +204,8 @@ public class ModuleUtil
 		parse( handler, streamData, "" ); //$NON-NLS-1$
 
 		if ( element != null )
-			e.setProperty( IImageItemModel.ACTION_PROP,
-					image.getProperty( handler.getModule( ),
-							IImageItemModel.ACTION_PROP ) );
+			e.setProperty( IImageItemModel.ACTION_PROP, image.getProperty(
+					handler.getModule( ), IImageItemModel.ACTION_PROP ) );
 
 		return getActionHandle( e.getHandle( module ) );
 	}
@@ -217,7 +219,8 @@ public class ModuleUtil
 
 	private static ActionHandle getActionHandle( DesignElementHandle element )
 	{
-		PropertyHandle propHandle = element.getPropertyHandle( IImageItemModel.ACTION_PROP );
+		PropertyHandle propHandle = element
+				.getPropertyHandle( IImageItemModel.ACTION_PROP );
 		Action action = (Action) propHandle.getValue( );
 
 		if ( action == null )
@@ -316,7 +319,8 @@ public class ModuleUtil
 		{
 			try
 			{
-				is = new ByteArrayInputStream( streamToOpen.getBytes( UnicodeUtil.SIGNATURE_UTF_8 ) );
+				is = new ByteArrayInputStream( streamToOpen
+						.getBytes( UnicodeUtil.SIGNATURE_UTF_8 ) );
 			}
 			catch ( UnsupportedEncodingException e )
 			{
@@ -419,8 +423,8 @@ public class ModuleUtil
 		{
 			ModuleOption options = new ModuleOption( );
 			options.setSemanticCheck( false );
-			design = DesignReader.getInstance( )
-					.read( sessionHandle.getSession( ), fileName, is, options );
+			design = DesignReader.getInstance( ).read(
+					sessionHandle.getSession( ), fileName, is, options );
 			return design != null;
 		}
 		catch ( DesignFileException e )
@@ -450,8 +454,8 @@ public class ModuleUtil
 		{
 			ModuleOption options = new ModuleOption( );
 			options.setSemanticCheck( false );
-			lib = LibraryReader.getInstance( )
-					.read( sessionHandle.getSession( ), fileName, is, options );
+			lib = LibraryReader.getInstance( ).read(
+					sessionHandle.getSession( ), fileName, is, options );
 			return lib != null;
 		}
 		catch ( DesignFileException e )
@@ -484,8 +488,8 @@ public class ModuleUtil
 		{
 			ModuleOption options = new ModuleOption( );
 			options.setSemanticCheck( false );
-			rtnModule = GenericModuleReader.getInstance( )
-					.read( sessionHandle.getSession( ), fileName, is, options );
+			rtnModule = GenericModuleReader.getInstance( ).read(
+					sessionHandle.getSession( ), fileName, is, options );
 		}
 		catch ( DesignFileException e )
 		{
@@ -527,8 +531,10 @@ public class ModuleUtil
 
 			public AbstractParseState startElement( String tagName )
 			{
-				if ( DesignSchemaConstants.REPORT_TAG.equalsIgnoreCase( tagName )
-						|| DesignSchemaConstants.LIBRARY_TAG.equalsIgnoreCase( tagName ) )
+				if ( DesignSchemaConstants.REPORT_TAG
+						.equalsIgnoreCase( tagName )
+						|| DesignSchemaConstants.LIBRARY_TAG
+								.equalsIgnoreCase( tagName ) )
 					return new VersionState( );
 				return super.startElement( tagName );
 			}
@@ -544,7 +550,8 @@ public class ModuleUtil
 			public void parseAttrs( Attributes attrs )
 					throws XMLParserException
 			{
-				String version = attrs.getValue( DesignSchemaConstants.VERSION_ATTRIB );
+				String version = attrs
+						.getValue( DesignSchemaConstants.VERSION_ATTRIB );
 				VersionParserHandler.this.version = version;
 			}
 
@@ -613,7 +620,9 @@ public class ModuleUtil
 		}
 		catch ( IOException e )
 		{
-			rtnList.add( new VersionInfo( null, VersionInfo.INVALID_DESIGN_FILE ) );
+			rtnList
+					.add( new VersionInfo( null,
+							VersionInfo.INVALID_DESIGN_FILE ) );
 			return rtnList;
 		}
 
@@ -638,7 +647,9 @@ public class ModuleUtil
 		}
 		catch ( DesignFileException e1 )
 		{
-			rtnList.add( new VersionInfo( null, VersionInfo.INVALID_DESIGN_FILE ) );
+			rtnList
+					.add( new VersionInfo( null,
+							VersionInfo.INVALID_DESIGN_FILE ) );
 		}
 		finally
 		{
@@ -752,7 +763,8 @@ public class ModuleUtil
 			DesignElementHandle elementHandle, String propName, String nameValue )
 	{
 		ModuleHandle module = elementHandle.getModuleHandle( );
-		PropertyDefn propDefn = (PropertyDefn) elementHandle.getPropertyDefn( propName );
+		PropertyDefn propDefn = (PropertyDefn) elementHandle
+				.getPropertyDefn( propName );
 
 		if ( propDefn == null )
 			return false;
@@ -773,7 +785,8 @@ public class ModuleUtil
 		{
 			propType.validateValue( module.getModule( ), propDefn, nameValue );
 
-			DesignElement existedElement = new NameExecutor( elementHandle.getElement( ) ).getNameSpace( elementHandle.module )
+			DesignElement existedElement = new NameExecutor( elementHandle
+					.getElement( ) ).getNameSpace( elementHandle.module )
 					.getElement( nameValue );
 
 			if ( existedElement == null )
@@ -802,8 +815,7 @@ public class ModuleUtil
 	{
 
 		return isValidElementName( elementHandle,
-				IDesignElementModel.NAME_PROP,
-				elementHandle.getName( ) );
+				IDesignElementModel.NAME_PROP, elementHandle.getName( ) );
 
 	}
 
@@ -821,7 +833,8 @@ public class ModuleUtil
 		if ( filter == null )
 			return false;
 
-		if ( DesignChoiceConstants.FILTER_OPERATOR_IN.equals( filter.getOperator( ) ) )
+		if ( DesignChoiceConstants.FILTER_OPERATOR_IN.equals( filter
+				.getOperator( ) ) )
 			return true;
 
 		return false;
@@ -842,10 +855,28 @@ public class ModuleUtil
 		if ( filter == null )
 			return false;
 
-		if ( DesignChoiceConstants.FILTER_OPERATOR_IN.equals( filter.getOperator( ) ) )
+		if ( DesignChoiceConstants.FILTER_OPERATOR_IN.equals( filter
+				.getOperator( ) ) )
 			return true;
 
 		return false;
 
+	}
+
+	/**
+	 * Change error code of style sheet exception to error code of css
+	 * exception.
+	 * 
+	 * @param sheetErrorCode
+	 * @return
+	 */
+
+	public static String changeSheetErrorCodeToCssErrorCode(
+			String sheetErrorCode )
+	{
+		if ( StyleSheetException.DESIGN_EXCEPTION_STYLE_SHEET_NOT_FOUND
+				.equalsIgnoreCase( sheetErrorCode ) )
+			return CssException.DESIGN_EXCEPTION_CSS_NOT_FOUND;
+		return CssException.DESIGN_EXCEPTION_BADCSSFILE;
 	}
 }

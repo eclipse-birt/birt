@@ -253,7 +253,9 @@
     <Choice displayNameID="Choices.mapOperator.top-percent" name="top-percent"/>
     <Choice displayNameID="Choices.mapOperator.bottom-percent" name="bottom-percent"/>
     <Choice displayNameID="Choices.mapOperator.not-like" name="not-like"/>
-    <Choice displayNameID="Choices.mapOperator.not-match" name="not-match"/>    
+    <Choice displayNameID="Choices.mapOperator.not-match" name="not-match"/>   
+    <Choice displayNameID="Choices.mapOperator.not-in" name="not-in"/>
+    <Choice displayNameID="Choices.mapOperator.in" name="in"/>   
   </ChoiceType>
   <ChoiceType name="filterOperator">
     <Choice displayNameID="Choices.filterOperator.eq" name="eq" />
@@ -277,6 +279,7 @@
     <Choice displayNameID="Choices.filterOperator.not-like" name="not-like" />    
     <Choice displayNameID="Choices.filterOperator.not-match" name="not-match" />
     <Choice displayNameID="Choices.filterOperator.in" name="in" />
+    <Choice displayNameID="Choices.filterOperator.not-in" name="not-in"/>
   </ChoiceType>
   <ChoiceType name="imageSize">
     <Choice displayNameID="Choices.imageSize.size-to-image" name="size-to-image"/>

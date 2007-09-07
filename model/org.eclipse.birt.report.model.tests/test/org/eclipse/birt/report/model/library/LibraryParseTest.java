@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.library;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
+import org.eclipse.birt.report.model.api.command.CssException;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
@@ -231,6 +233,19 @@ public class LibraryParseTest extends BaseTestCase
 		SharedStyleHandle styleHandle2 = labelHandle2.getStyle( );
 		assertNotNull( styleHandle2 );
 		assertEquals( "oblique", styleHandle2.getFontStyle( ) );//$NON-NLS-1$
+
+		File file = new File( baseFilePath );
+		file.delete( );
+		
+		try
+		{
+			designHandle.reloadCss( sheetHandle );
+		}
+		catch ( CssException e )
+		{
+			assertEquals( CssException.DESIGN_EXCEPTION_CSS_NOT_FOUND, e
+					.getErrorCode( ) );
+		}
 	}
 
 	/**
