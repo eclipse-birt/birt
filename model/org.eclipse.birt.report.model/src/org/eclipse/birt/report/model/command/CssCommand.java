@@ -75,9 +75,8 @@ public class CssCommand extends AbstractElementCommand
 		}
 		catch ( StyleSheetException e )
 		{
-			String errorCode = ModelUtil.changeSheetErrorCodeToCssErrorCode( e
-					.getErrorCode( ) );
-			throw new CssException( module, new String[]{fileName}, errorCode );
+			throw ModelUtil.convertSheetExceptionToCssException( module,
+					fileName, e );
 		}
 	}
 
@@ -284,9 +283,8 @@ public class CssCommand extends AbstractElementCommand
 		}
 		catch ( StyleSheetException e )
 		{
-			String errorCode = ModelUtil.changeSheetErrorCodeToCssErrorCode( e
-					.getErrorCode( ) );
-			throw new CssException( module, new String[]{fileName}, errorCode );
+			throw ModelUtil.convertSheetExceptionToCssException( module,
+					fileName, e );
 		}
 
 		List csses = ( (ICssStyleSheetOperation) element ).getCsses( );

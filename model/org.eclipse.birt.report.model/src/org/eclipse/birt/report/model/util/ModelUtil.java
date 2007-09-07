@@ -1695,19 +1695,28 @@ public class ModelUtil
 	}
 
 	/**
-	 * Change error code of style sheet exception to error code of css
-	 * exception.
+	 * Converts the <code>sheetException</code> to CssException.
 	 * 
-	 * @param sheetErrorCode
-	 * @return
+	 * @param module
+	 *            the module
+	 * @param fileName
+	 *            the css file name
+	 * @param sheetException
+	 *            the style sheet exception
+	 * 
+	 * @return the CssException
 	 */
 
-	public static String changeSheetErrorCodeToCssErrorCode(
-			String sheetErrorCode )
+	public static CssException convertSheetExceptionToCssException(
+			Module module, String fileName, StyleSheetException sheetException )
 	{
+		String tmpErrorCode = sheetException.getErrorCode( );
 		if ( StyleSheetException.DESIGN_EXCEPTION_STYLE_SHEET_NOT_FOUND
-				.equalsIgnoreCase( sheetErrorCode ) )
-			return CssException.DESIGN_EXCEPTION_CSS_NOT_FOUND;
-		return CssException.DESIGN_EXCEPTION_BADCSSFILE;
+				.equalsIgnoreCase( tmpErrorCode ) )
+			tmpErrorCode = CssException.DESIGN_EXCEPTION_CSS_NOT_FOUND;
+		else
+			tmpErrorCode = CssException.DESIGN_EXCEPTION_BADCSSFILE;
+
+		return new CssException( module, new String[]{fileName}, tmpErrorCode );
 	}
 }

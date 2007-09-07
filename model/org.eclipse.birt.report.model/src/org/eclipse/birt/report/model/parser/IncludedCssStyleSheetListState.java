@@ -32,6 +32,7 @@ import org.xml.sax.SAXException;
 
 public class IncludedCssStyleSheetListState extends ListPropertyState
 {
+
 	IncludedCssStyleSheetListState( ModuleParserHandler theHandler,
 			DesignElement element )
 	{
@@ -113,10 +114,9 @@ public class IncludedCssStyleSheetListState extends ListPropertyState
 			}
 			catch ( StyleSheetException e )
 			{
-				String errorCode = ModelUtil
-						.changeSheetErrorCodeToCssErrorCode( e.getErrorCode( ) );
-				CssException ex = new CssException( handler.module,
-						new String[]{fileName}, errorCode );
+				CssException ex = ModelUtil
+						.convertSheetExceptionToCssException( handler.module,
+								fileName, e );
 				handler.getErrorHandler( ).semanticWarning( ex );
 			}
 		}
