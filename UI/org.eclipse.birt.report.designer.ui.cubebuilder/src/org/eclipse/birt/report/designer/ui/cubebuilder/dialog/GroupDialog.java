@@ -319,13 +319,14 @@ public class GroupDialog extends TitleAreaDialog
 							.newTabularLevel( (DimensionHandle) hierarchy.getContainer( ),
 									dataField );
 					level.setColumnName( dataField );
-					level.setDataType( OlapUtil.getDataField( OlapUtil.getHierarchyDataset(hierarchy),
+					DataSetHandle dataset = hierarchy.getDataSet( );
+					if(dataset == null){
+						dataset = ((TabularCubeHandle)hierarchy.getContainer( ).getContainer( )).getDataSet( );
+					}
+					level.setDataType( OlapUtil.getDataField( dataset,
 							dataField )
 							.getDataType( ) );
 					hierarchy.add( IHierarchyModel.LEVELS_PROP, level );
-					LevelPropertyDialog dialog = new LevelPropertyDialog( true );
-					dialog.setInput( level );
-					dialog.open( );
 				}
 			}
 			catch ( SemanticException e )
