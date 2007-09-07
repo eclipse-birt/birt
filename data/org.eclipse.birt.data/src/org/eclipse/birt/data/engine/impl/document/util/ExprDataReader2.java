@@ -273,12 +273,6 @@ class ExprDataReader2 implements IExprDataReader
 				rowExprsDis.close( );
 				rowExprsDis = null;
 			}
-			
-			if ( rowLenDis != null )
-			{
-				rowLenDis.close( );
-				rowLenDis = null;
-			}
 		}
 		catch ( IOException e )
 		{

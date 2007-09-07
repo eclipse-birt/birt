@@ -234,12 +234,6 @@ class ExprDataReader1 implements IExprDataReader
 				rowExprsDis.close( );
 				rowExprsDis = null;
 			}
-			
-			if ( this.rowLenDis != null )
-			{
-				this.rowLenDis.close( );
-				this.rowLenDis = null;
-			}
 		}
 		catch ( IOException e )
 		{
