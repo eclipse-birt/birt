@@ -47,7 +47,7 @@ feature@org.eclipse.birt.nl=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroo
 *******
 
 !*** Apache Xerces**************************************************************************** 
-feature@org.apache.commons.codec=r22x_v20070906,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.apache.commons.codec.feature 
+feature@org.apache.commons.codec=v20070907,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.apache.commons.codec.feature 
 
 feature@com.lowagie.itext=v20070608,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/com.lowagie.itext.feature 
 plugin@com.lowagie.itext=v20070710,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/com.lowagie.itext
