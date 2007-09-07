@@ -38,7 +38,7 @@ feature@org.eclipse.birt.chart.integration.wtp=v20070709,:pserver:anonymous@dev.
 feature@org.eclipse.birt.integration.wtp.sdk=v20070709,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.integration.wtp.sdk.feature
 
 !*************** Third Party Features  ***********
-feature@org.eclipse.birt.thirdparty=v20070709,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.thirdparty.feature
+feature@org.eclipse.birt.thirdparty=v20070405,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.thirdparty.feature
 plugin@org.eclipse.birt.thirdparty=v20070530,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.thirdparty
 feature@org.eclipse.birt.nl=v20070529,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.nl.feature
 
