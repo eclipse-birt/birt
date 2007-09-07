@@ -33,7 +33,7 @@ public class RowSaveUtil
 {
 	public static Integer EXCEPTION_INDICATOR = new Integer(Integer.MAX_VALUE - 100);
 	private int lastRowIndex;
-	private int currentOffset;
+	private long currentOffset;
 
 	private int rowCount;
 	
@@ -77,9 +77,8 @@ public class RowSaveUtil
 			saveNullRowsBetween( lastRowIndex, currIndex );
 			
 			int rowBytes = saveExprValue( valueMap );
-			IOUtil.writeInt( this.rowLenDos, currentOffset );
+			IOUtil.writeLong( this.rowLenDos, currentOffset );
 			currentOffset += rowBytes;
-
 			lastRowIndex = currIndex;
 		}
 		catch ( IOException e )
@@ -210,7 +209,7 @@ public class RowSaveUtil
 		for ( int i = 0; i < gapRows; i++ )
 		{
 			IOUtil.writeInt( this.rowExprsDos, 0 );
-			IOUtil.writeInt( this.rowLenDos, currentOffset );
+			IOUtil.writeLong( this.rowLenDos, currentOffset );
 			currentOffset += IOUtil.INT_LENGTH;
 		}
 	}

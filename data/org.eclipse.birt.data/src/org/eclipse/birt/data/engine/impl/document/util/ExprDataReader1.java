@@ -35,10 +35,11 @@ class ExprDataReader1 implements IExprDataReader
 	private int currRowIndex;
 
 	private int INT_LENGTH;
-
+	
 	private DataInputStream rowExprsDis;
 	private RAInputStream rowExprsRAIs;
 	private RAInputStream rowLenRAIs;
+	private DataInputStream rowLenDis;
 	
 	private int rowCount;
 	
@@ -80,7 +81,7 @@ class ExprDataReader1 implements IExprDataReader
 		
 		this.rowExprsRAIs = rowExprsRAIs;
 		this.rowLenRAIs = rowLenRAIs;
-				
+		this.rowLenDis = new DataInputStream( rowLenRAIs );
 		this.version = version;
 
 		this.currReadIndex = 0;
@@ -183,10 +184,18 @@ class ExprDataReader1 implements IExprDataReader
 				}
 			}
 		}
-		else
+		else if ( version <= VersionManager.VERSION_2_2_1_1 )
 		{
 			rowLenRAIs.seek( absoluteRowIndex * INT_LENGTH );
 			int rowOffsetAbsolute = IOUtil.readInt( rowLenRAIs );
+			// metaOffset is the first bytes of row length + expr name string length.
+			rowExprsRAIs.seek( rowOffsetAbsolute + this.metaOffset ); 
+			rowExprsDis = new DataInputStream( rowExprsRAIs );
+		}
+		else
+		{
+			rowLenRAIs.seek( absoluteRowIndex * 8 /*long length*/ );
+			long rowOffsetAbsolute = IOUtil.readLong( this.rowLenDis );
 			// metaOffset is the first bytes of row length + expr name string length.
 			rowExprsRAIs.seek( rowOffsetAbsolute + this.metaOffset ); 
 			rowExprsDis = new DataInputStream( rowExprsRAIs );
@@ -224,6 +233,12 @@ class ExprDataReader1 implements IExprDataReader
 			{
 				rowExprsDis.close( );
 				rowExprsDis = null;
+			}
+			
+			if ( this.rowLenDis != null )
+			{
+				this.rowLenDis.close( );
+				this.rowLenDis = null;
 			}
 		}
 		catch ( IOException e )

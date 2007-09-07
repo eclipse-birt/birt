@@ -172,7 +172,7 @@ public class RDLoad
 					streamManager.getInStream( DataEngineContext.ROW_INDEX_STREAM,
 							StreamManager.ROOT_STREAM,
 							StreamManager.PARENT_SCOPE ),
-					exprMetas );
+					exprMetas, version );
 
 		return exprDataResultSet;
 	}
