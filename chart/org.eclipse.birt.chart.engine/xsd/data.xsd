@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by aa (ORiON) -->
-<!-- edited with XML Spy v4.1 U (http://www.xmlspy.com) by David Michonneau (Actuate Corporation) -->
 <xsd:schema targetNamespace="http://www.birt.eclipse.org/ChartModelData" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:type="http://www.birt.eclipse.org/ChartModelType" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:component="http://www.birt.eclipse.org/ChartModelComponent" xmlns:chart="http://www.birt.eclipse.org/ChartModel" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns="http://www.birt.eclipse.org/ChartModelData">
 	<xsd:import namespace="http://www.birt.eclipse.org/ChartModel" schemaLocation="model.xsd"/>
 	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelAttribute" schemaLocation="attribute.xsd"/>
@@ -51,6 +49,18 @@
 		<xsd:annotation>
 			<xsd:documentation xml:lang="en">
 			This type holds the text data associated with a series.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="DataSet">
+				<xsd:sequence/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="NullDataSet">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			This type holds the null data associated with a series.
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexContent>

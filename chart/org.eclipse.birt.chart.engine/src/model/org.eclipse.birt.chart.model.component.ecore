@@ -14,8 +14,7 @@
       <details key="name" value="Axis"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" unique="false" lowerBound="1"
-        eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//AxisType"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//AxisType"
         defaultValueLiteral="Linear" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Holds the type of Axis.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -45,8 +44,7 @@
         <details key="name" value="SubTitle"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="titlePosition" unique="false"
-        eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//Position"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="titlePosition" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//Position"
         defaultValueLiteral="Above" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies where the title for the axis should be displayed.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -87,8 +85,8 @@
         <details key="name" value="SeriesDefinitions"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="gapWidth" unique="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double" unsettable="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="gapWidth" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double"
+        unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Holds the spacing between the first (or last) series marker and the edge of the unit on the axis. This is specified as a percentage.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
@@ -97,8 +95,7 @@
         <details key="name" value="GapWidth"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="orientation" unique="false"
-        eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//Orientation"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="orientation" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//Orientation"
         defaultValueLiteral="Horizontal" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the orientation of the Axis.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -139,8 +136,7 @@
         <details key="name" value="FormatSpecifier"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="labelPosition" unique="false"
-        eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//Position"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="labelPosition" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//Position"
         defaultValueLiteral="Above" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies where the labels for the axis should be displayed.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -150,8 +146,8 @@
         <details key="name" value="LabelPosition"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="staggered" unique="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="staggered" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the position to be used for the labels. (Staggered/Straight)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -161,9 +157,8 @@
         <details key="name" value="Staggered"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="interval" unique="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int" defaultValueLiteral="1"
-        unsettable="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="interval" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
+        defaultValueLiteral="1" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Specifies the showing interval for the labels."/>
       </eAnnotations>
@@ -244,8 +239,8 @@
         <details key="name" value="Origin"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="primaryAxis" unique="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="primaryAxis" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies whether or not this is a primary axis.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -255,8 +250,8 @@
         <details key="name" value="PrimaryAxis"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="categoryAxis" unique="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="categoryAxis" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies whether or not this is a category axis.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -266,8 +261,8 @@
         <details key="name" value="CategoryAxis"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="percent" unique="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="percent" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies whether or not this is a percentage axis.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -337,8 +332,7 @@
         <details key="name" value="Label"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="labelAnchor" unique="false"
-        eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//Anchor"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="labelAnchor" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//Anchor"
         defaultValueLiteral="North" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Specifies where the labels for the curve should be displayed.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -357,9 +351,8 @@
       <details key="name" value="Dial"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="startAngle" unique="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double" defaultValueLiteral="0"
-        unsettable="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="startAngle" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double"
+        defaultValueLiteral="0" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Specifies the start angle of the dial."/>
       </eAnnotations>
@@ -368,9 +361,8 @@
         <details key="name" value="StartAngle"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stopAngle" unique="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double" defaultValueLiteral="180"
-        unsettable="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stopAngle" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double"
+        defaultValueLiteral="180" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Specifies the stop angle of the dial."/>
       </eAnnotations>
@@ -379,8 +371,8 @@
         <details key="name" value="StopAngle"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="radius" unique="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double" unsettable="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="radius" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double"
+        unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Specifies the radius of the dial."/>
       </eAnnotations>
@@ -450,8 +442,8 @@
         <details key="name" value="Scale"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="inverseScale" unique="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="inverseScale" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         defaultValueLiteral="false" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Defines if invert the scale during rendering(right to left)"/>
@@ -487,8 +479,8 @@
       <details key="name" value="DialRegion"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="innerRadius" unique="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double" unsettable="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="innerRadius" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double"
+        unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Specifies the percentage value of the inner radius of the dial region."/>
       </eAnnotations>
@@ -497,8 +489,8 @@
         <details key="name" value="InnerRadius"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="outerRadius" unique="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double" unsettable="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="outerRadius" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double"
+        unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Specifies the percentage value of the outer radius of the dial region."/>
       </eAnnotations>
@@ -513,8 +505,7 @@
       <details key="name" value="EStringToDataSetMapEntry"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" unique="false" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
         <details key="name" value="Key"/>
@@ -547,8 +538,8 @@
         <details key="name" value="LineAttributes"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tickStyle" unique="false"
-        lowerBound="1" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//TickStyle"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tickStyle" lowerBound="1"
+        eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//TickStyle"
         defaultValueLiteral="Left" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies how the tick is to be marked for the grid line.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -568,8 +559,8 @@
         <details key="name" value="TickAttributes"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tickSize" unique="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double" unsettable="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tickSize" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double"
+        unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the formatting information for the tick.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
@@ -578,9 +569,8 @@
         <details key="name" value="TickSize"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tickCount" unique="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
-        unsettable="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="tickCount" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the frequency of the grid lines per unit of the scale.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
@@ -653,8 +643,8 @@
         <details key="name" value="Insets"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="visible" unique="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="visible" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies whether or not the label is visible on the chart.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -704,8 +694,8 @@
         <details key="name" value="Label"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="labelAnchor" unique="false"
-        lowerBound="1" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//Anchor"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="labelAnchor" lowerBound="1"
+        eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//Anchor"
         defaultValueLiteral="North" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies where the label associated with this line is to be positioned with respect to the line itself.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -798,8 +788,8 @@
         <details key="name" value="Label"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="labelAnchor" unique="false"
-        lowerBound="1" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//Anchor"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="labelAnchor" lowerBound="1"
+        eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//Anchor"
         defaultValueLiteral="North" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies where the label associated with this line is to be positioned within respect to the marker range itself.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -850,8 +840,8 @@
         <details key="name" value="LineAttributes"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="decorator" unique="false"
-        lowerBound="1" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//LineDecorator"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="decorator" lowerBound="1"
+        eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//LineDecorator"
         defaultValueLiteral="Arrow" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Specify the line decorator for the needle."/>
@@ -890,8 +880,8 @@
         <details key="name" value="Max"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="step" unique="false" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double" unsettable="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="step" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double"
+        unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Step size in the values shown on the axis.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
@@ -900,8 +890,7 @@
         <details key="name" value="Step"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unit" unique="false" lowerBound="1"
-        eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//ScaleUnitType"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unit" lowerBound="1" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//ScaleUnitType"
         defaultValueLiteral="Seconds" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Step unit in the values shown on the axis.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -911,9 +900,8 @@
         <details key="name" value="Unit"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="minorGridsPerUnit" unique="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
-        unsettable="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="minorGridsPerUnit" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the number of minor grids per unit of the scale.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
@@ -922,9 +910,8 @@
         <details key="name" value="MinorGridsPerUnit"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stepNumber" unique="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
-        unsettable="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stepNumber" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Number of steps in the values shown on the axis."/>
       </eAnnotations>
@@ -933,8 +920,8 @@
         <details key="name" value="StepNumber"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="showOutside" unique="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="showOutside" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         defaultValueLiteral="true" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Indicates if it shows values outside Axis range."/>
@@ -945,7 +932,7 @@
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="tickBetweenCategories"
-        unique="false" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         defaultValueLiteral="true" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Specifes if the major tick is rendered at the category value or between two categories. This only affects the category and text style axis."/>
@@ -964,8 +951,7 @@
       <details key="name" value="Series"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="visible" unique="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="visible" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         defaultValueLiteral="true" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Determines visibility of the series.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -996,8 +982,8 @@
         <details key="name" value="DataDefinition"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="seriesIdentifier" unique="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//AnySimpleType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="seriesIdentifier" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//AnySimpleType">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies an identifier to link the series with its definition at runtime. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
@@ -1027,8 +1013,7 @@
         <details key="name" value="DataSets"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="labelPosition" unique="false"
-        eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//Position"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="labelPosition" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//Position"
         defaultValueLiteral="Above" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies where the data label for the series should be displayed.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -1038,8 +1023,7 @@
         <details key="name" value="LabelPosition"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stacked" unique="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stacked" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies whether the series is to be rendered stacked.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -1060,8 +1044,8 @@
         <details key="name" value="Triggers"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="translucent" unique="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="translucent" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies whether the series elements are to be rendered translucent. This setting is only applicable for elements with solid color fills.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>

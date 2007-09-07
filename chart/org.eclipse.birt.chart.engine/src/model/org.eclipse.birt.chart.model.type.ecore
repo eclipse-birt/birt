@@ -23,7 +23,7 @@
       <details key="name" value="BarSeries"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="riser" unique="false" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//RiserType"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="riser" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//RiserType"
         defaultValueLiteral="Rectangle" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the 'Riser' to be used for displaying the data values in the chart.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -62,8 +62,7 @@
         <details key="name" value="AccLineAttributes"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="accOrientation" unique="false"
-        eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//Orientation"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="accOrientation" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//Orientation"
         defaultValueLiteral="Horizontal" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Specifies the orientation of the acceleration line."/>
@@ -151,8 +150,8 @@
         <details key="name" value="StartMarker"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="startMarkerPosition" unique="false"
-        lowerBound="1" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//Position"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="startMarkerPosition" lowerBound="1"
+        eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//Position"
         defaultValueLiteral="Above" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Specifies the position of the start marker relative to the connection line start point."/>
@@ -173,8 +172,8 @@
         <details key="name" value="EndMarker"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="endMarkerPosition" unique="false"
-        lowerBound="1" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//Position"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="endMarkerPosition" lowerBound="1"
+        eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//Position"
         defaultValueLiteral="Above" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Specifies the position of the end marker relative to the connection line end point."/>
@@ -217,7 +216,7 @@
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="useDecorationLabelValue"
-        unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Specifies if use decoration value as the datapoint label value"/>
@@ -239,7 +238,7 @@
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="decorationLabelPosition"
-        unique="false" lowerBound="1" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//Position"
+        lowerBound="1" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//Position"
         defaultValueLiteral="Above" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Holds the position property for the decoration label.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -249,8 +248,8 @@
         <details key="name" value="DecorationLabelPosition"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="paletteLineColor" unique="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="paletteLineColor" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Indicates if use the series palette color to draw the line instead of the color in ConnectionLine"/>
@@ -300,8 +299,8 @@
         <details key="name" value="LineAttributes"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="paletteLineColor" unique="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="paletteLineColor" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Indicates if use the series palette color to draw the line instead of the color in LineAttributes"/>
@@ -311,8 +310,7 @@
         <details key="name" value="PaletteLineColor"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="curve" unique="false" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="curve" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Indicates whether the line segments joining data points in the series are to be drawn as curves or as straight lines.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -333,8 +331,7 @@
         <details key="name" value="ShadowColor"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="connectMissingValue" unique="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="connectMissingValue" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         defaultValueLiteral="true" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Specifies if connect the missing values in the line or just skip drawing."/>
@@ -353,8 +350,8 @@
       <details key="name" value="PieSeries"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="explosion" unique="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int" unsettable="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="explosion" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
+        unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the 'Explosion' value to be used while displaying the pie slices.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
@@ -363,8 +360,7 @@
         <details key="name" value="Explosion"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="explosionExpression" unique="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="explosionExpression" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Specifies an expression to determine if the explosion will be applied to each slice."/>
       </eAnnotations>
@@ -383,8 +379,8 @@
         <details key="name" value="Title"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="titlePosition" unique="false"
-        lowerBound="1" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//Position"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="titlePosition" lowerBound="1"
+        eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//Position"
         defaultValueLiteral="Above" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Holds the position property for a series title.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -405,8 +401,8 @@
         <details key="name" value="LeaderLineAttributes"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="leaderLineStyle" unique="false"
-        lowerBound="1" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//LeaderLineStyle"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="leaderLineStyle" lowerBound="1"
+        eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//LeaderLineStyle"
         defaultValueLiteral="Fixed_Length" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies how the leader lines are to be shown.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -416,8 +412,8 @@
         <details key="name" value="LeaderLineStyle"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="leaderLineLength" unique="false"
-        lowerBound="1" eType="ecore:EDataType org.eclipse.birt.chart.model.attribute.ecore#//Percentage"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="leaderLineLength" lowerBound="1"
+        eType="ecore:EDataType org.eclipse.birt.chart.model.attribute.ecore#//Percentage"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Length for the leader lines. Used only if style is 'FIXED_LENGTH'.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -437,9 +433,8 @@
         <details key="name" value="SliceOutline"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ratio" unique="false" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double" defaultValueLiteral="1"
-        unsettable="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ratio" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double"
+        defaultValueLiteral="1" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Defines the ratio(height/width) of the oval, 1 means it's a circle, 0 means stretch automatically."/>
       </eAnnotations>
@@ -486,8 +481,7 @@
         <details key="name" value="LineAttributes"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="showAsBarStick" unique="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="showAsBarStick" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         defaultValueLiteral="false" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Specifies if show graph as bar-stick look."/>
@@ -497,9 +491,8 @@
         <details key="name" value="ShowAsBarStick"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stickLength" unique="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int" defaultValueLiteral="5"
-        unsettable="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stickLength" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
+        defaultValueLiteral="5" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Specifies the length of the stick when show as bar-stick look."/>
       </eAnnotations>

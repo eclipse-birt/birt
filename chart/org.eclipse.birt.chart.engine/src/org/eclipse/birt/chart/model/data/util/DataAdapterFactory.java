@@ -138,6 +138,11 @@ public class DataAdapterFactory extends AdapterFactoryImpl
 			return createGanttDataSetAdapter( );
 		}
 
+		public Object caseNullDataSet( NullDataSet object )
+		{
+			return createNullDataSetAdapter( );
+		}
+
 		public Object caseNumberDataElement( NumberDataElement object )
 		{
 			return createNumberDataElementAdapter( );
@@ -335,6 +340,21 @@ public class DataAdapterFactory extends AdapterFactoryImpl
 	 * @generated
 	 */
 	public Adapter createGanttDataSetAdapter( )
+	{
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.birt.chart.model.data.NullDataSet <em>Null Data Set</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.birt.chart.model.data.NullDataSet
+	 * @generated
+	 */
+	public Adapter createNullDataSetAdapter( )
 	{
 		return null;
 	}

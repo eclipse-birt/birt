@@ -14,8 +14,7 @@
       <details key="name" value="Action"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" unique="false" lowerBound="1"
-        eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//ActionType"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//ActionType"
         defaultValueLiteral="URL_Redirect" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the type of Action. This value determines the way the Action Value is processed.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -45,7 +44,7 @@
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="dataSetRepresentation"
-        unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Holds the sample data for a single data set as a string in the form expected by the DataSetProcessor for the series.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
@@ -86,8 +85,8 @@
       <details key="name" value="DataSet"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="values" unique="false"
-        lowerBound="1" eType="#//Data">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="values" lowerBound="1"
+        eType="#//Data">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Holds data values for the series.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
@@ -105,8 +104,8 @@
       <details key="name" value="DateTimeDataElement"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" unique="false" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Long" unsettable="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Long"
+        unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Holds a single date value as a long.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
@@ -143,6 +142,15 @@
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NullDataSet" eSuperTypes="#//DataSet">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type holds the null data associated with a series.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
+    </eAnnotations>
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="NullDataSet"/>
+      <details key="kind" value="elementOnly"/>
+    </eAnnotations>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NumberDataElement" eSuperTypes="#//DataElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;This type defines a single element of numerical data.&#xD;&#xA;&#x9;&#x9;&#x9;"/>
@@ -151,8 +159,8 @@
       <details key="name" value="NumberDataElement"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" unique="false" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double" unsettable="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double"
+        unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Holds a single numeric value as a double.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
@@ -180,7 +188,7 @@
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="dataSetRepresentation"
-        unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Holds the sample data for a single data set as a string in the form expected by the DataSetProcessor for the series.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
@@ -190,7 +198,7 @@
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="seriesDefinitionIndex"
-        unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Holds the index for the series definition for which this sample data is applicable.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -209,8 +217,8 @@
       <details key="name" value="Query"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="definition" unique="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="definition" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
         <details key="name" value="Definition"/>
@@ -232,16 +240,14 @@
       <details key="name" value="Rule"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" unique="false" lowerBound="1"
-        eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//RuleType"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//RuleType"
         defaultValueLiteral="Filter" unsettable="true">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
         <details key="name" value="Type"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" unique="false" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
         <details key="name" value="Value"/>
@@ -343,8 +349,7 @@
         <details key="name" value="Grouping"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sorting" unique="false"
-        eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//SortOption"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="sorting" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//SortOption"
         defaultValueLiteral="Ascending" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Defines if and how the series data is to be sorted for display. This should only be applied to Base Series.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -363,8 +368,8 @@
       <details key="name" value="SeriesGrouping"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="enabled" unique="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="enabled" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies whether grouping is enabled for the series.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -374,8 +379,8 @@
         <details key="name" value="Enabled"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="groupingUnit" unique="false"
-        lowerBound="1" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="groupingUnit" lowerBound="1"
+        eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType"
         defaultValueLiteral="Seconds" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the unit of grouping.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -395,9 +400,8 @@
         <details key="name" value="GroupingOrigin"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="groupingInterval" unique="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
-        unsettable="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="groupingInterval" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the interval of grouping.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
@@ -406,8 +410,8 @@
         <details key="name" value="GroupingInterval"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="groupType" unique="false"
-        lowerBound="1" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//DataType"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="groupType" lowerBound="1"
+        eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//DataType"
         defaultValueLiteral="Numeric" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the type of data to be grouped.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -417,8 +421,8 @@
         <details key="name" value="GroupType"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="aggregateExpression" unique="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="aggregateExpression" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the aggregate function to be applied on orthogonal values for each grouped unit.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
@@ -454,8 +458,8 @@
       <details key="name" value="Trigger"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="condition" unique="false"
-        lowerBound="1" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//TriggerCondition"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="condition" lowerBound="1"
+        eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//TriggerCondition"
         defaultValueLiteral="Mouse_Hover" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the condition for the Trigger. This value determines when the Action is processed.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -475,8 +479,7 @@
         <details key="name" value="Action"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="triggerFlow" unique="false"
-        eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//TriggerFlow"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="triggerFlow" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//TriggerFlow"
         defaultValueLiteral="Capture" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Specifies the bubbling behavior of the Trigger."/>

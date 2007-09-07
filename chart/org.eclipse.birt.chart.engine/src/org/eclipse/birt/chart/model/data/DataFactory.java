@@ -106,6 +106,15 @@ public interface DataFactory extends EFactory
 	GanttDataSet createGanttDataSet( );
 
 	/**
+	 * Returns a new object of class '<em>Null Data Set</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Null Data Set</em>'.
+	 * @generated
+	 */
+	NullDataSet createNullDataSet( );
+
+	/**
 	 * Returns a new object of class '<em>Number Data Element</em>'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return a new object of class '<em>Number Data Element</em>'.

@@ -14,9 +14,9 @@
       <details key="name" value="Chart"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="version" unique="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"
-        defaultValueLiteral="1.0.0" unsettable="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="version" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String" defaultValueLiteral="1.0.0"
+        unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the version number of this chart.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
@@ -25,8 +25,7 @@
         <details key="name" value="Version"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" unique="false" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the type of this chart.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
@@ -35,8 +34,8 @@
         <details key="name" value="Type"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="subType" unique="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="subType" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the sub-type of this chart.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
@@ -65,8 +64,8 @@
         <details key="name" value="Block"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dimension" unique="false"
-        lowerBound="1" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//ChartDimension"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dimension" lowerBound="1"
+        eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//ChartDimension"
         defaultValueLiteral="Two_Dimensional" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the dimensions for the chart.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -76,8 +75,8 @@
         <details key="name" value="Dimension"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="script" unique="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="script" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Holds the script for the chart.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
@@ -86,7 +85,7 @@
         <details key="name" value="Script"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="units" unique="false" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="units" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Holds the units of measurement for the model. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
@@ -95,8 +94,8 @@
         <details key="name" value="Units"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="seriesThickness" unique="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double" unsettable="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="seriesThickness" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double"
+        unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the thickness to be used while rendering the chart with depth or in 3D. &#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
@@ -105,9 +104,8 @@
         <details key="name" value="SeriesThickness"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="gridColumnCount" unique="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int"
-        unsettable="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="gridColumnCount" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Int" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the number of columns to use if multiple series are to be plotted in a single chart.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
@@ -201,9 +199,9 @@
         <details key="name" value="FloorFill"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="orientation" unique="false"
-        lowerBound="1" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//Orientation"
-        defaultValueLiteral="Vertical" unsettable="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="orientation" lowerBound="1"
+        eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//Orientation"
+        defaultValueLiteral="Horizontal" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies whether the chart is a vertical or horizontal chart.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
@@ -212,8 +210,8 @@
         <details key="name" value="Orientation"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unitSpacing" unique="false"
-        lowerBound="1" eType="ecore:EDataType org.eclipse.birt.chart.model.attribute.ecore#//Percentage"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unitSpacing" lowerBound="1"
+        eType="ecore:EDataType org.eclipse.birt.chart.model.attribute.ecore#//Percentage"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Specifies the spacing between the last series element of one unit and the first series element of the next unit in the chart. This should be given as a percentage.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
@@ -253,8 +251,8 @@
         <details key="name" value="SeriesDefinitions"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="minSlice" unique="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double" unsettable="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="minSlice" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Double"
+        unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Defines the minimum value of a slice"/>
       </eAnnotations>
@@ -263,8 +261,8 @@
         <details key="name" value="MinSlice"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="minSlicePercent" unique="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="minSlicePercent" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Defines if the MinSlice value is a percentage value"/>
@@ -274,8 +272,8 @@
         <details key="name" value="MinSlicePercent"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="minSliceLabel" unique="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="minSliceLabel" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="Defines the label for MinSlice"/>
       </eAnnotations>
@@ -290,8 +288,7 @@
       <details key="name" value="DialChart"/>
       <details key="kind" value="elementOnly"/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dialSuperimposition" unique="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dialSuperimposition" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Boolean"
         defaultValueLiteral="true" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="If true, all dials are superimposed, otherwise they are rendered next to each other."/>

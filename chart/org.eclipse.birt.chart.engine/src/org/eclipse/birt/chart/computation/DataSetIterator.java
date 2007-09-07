@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.birt.chart.model.data.DateTimeDataSet;
+import org.eclipse.birt.chart.model.data.NullDataSet;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
 import org.eclipse.birt.chart.model.data.TextDataSet;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
@@ -266,6 +267,12 @@ public final class DataSetIterator implements Iterator
 				iContentType = IConstants.NON_PRIMITIVE_ARRAY;
 				sa = (String[]) oContent;
 			}
+		}
+		else if ( ds instanceof NullDataSet )
+		{
+			iDataType = IConstants.OTHER;
+			iContentType = IConstants.NON_PRIMITIVE_ARRAY;
+			oa = (Object[]) oContent;
 		}
 		else
 		{

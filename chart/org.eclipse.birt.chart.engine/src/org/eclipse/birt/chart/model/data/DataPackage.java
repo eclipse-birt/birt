@@ -308,13 +308,41 @@ public interface DataPackage extends EPackage
 	int GANTT_DATA_SET_FEATURE_COUNT = DATA_SET_FEATURE_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.birt.chart.model.data.impl.NullDataSetImpl <em>Null Data Set</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.birt.chart.model.data.impl.NullDataSetImpl
+	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getNullDataSet()
+	 * @generated
+	 */
+	int NULL_DATA_SET = 9;
+
+	/**
+	 * The feature id for the '<em><b>Values</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NULL_DATA_SET__VALUES = DATA_SET__VALUES;
+
+	/**
+	 * The number of structural features of the '<em>Null Data Set</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NULL_DATA_SET_FEATURE_COUNT = DATA_SET_FEATURE_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl <em>Number Data Element</em>}' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getNumberDataElement()
 	 * @generated
 	 */
-	int NUMBER_DATA_ELEMENT = 9;
+	int NUMBER_DATA_ELEMENT = 10;
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' attribute. <!--
@@ -341,7 +369,7 @@ public interface DataPackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getNumberDataSet()
 	 * @generated
 	 */
-	int NUMBER_DATA_SET = 10;
+	int NUMBER_DATA_SET = 11;
 
 	/**
 	 * The feature id for the '<em><b>Values</b></em>' attribute. <!--
@@ -367,7 +395,7 @@ public interface DataPackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getOrthogonalSampleData()
 	 * @generated
 	 */
-	int ORTHOGONAL_SAMPLE_DATA = 11;
+	int ORTHOGONAL_SAMPLE_DATA = 12;
 
 	/**
 	 * The feature id for the '<em><b>Data Set Representation</b></em>' attribute.
@@ -401,7 +429,7 @@ public interface DataPackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getQuery()
 	 * @generated
 	 */
-	int QUERY = 12;
+	int QUERY = 13;
 
 	/**
 	 * The feature id for the '<em><b>Definition</b></em>' attribute. <!--
@@ -435,7 +463,7 @@ public interface DataPackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getRule()
 	 * @generated
 	 */
-	int RULE = 13;
+	int RULE = 14;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute. <!--
@@ -470,7 +498,7 @@ public interface DataPackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getSampleData()
 	 * @generated
 	 */
-	int SAMPLE_DATA = 14;
+	int SAMPLE_DATA = 15;
 
 	/**
 	 * The feature id for the '<em><b>Base Sample Data</b></em>' containment reference list.
@@ -512,7 +540,7 @@ public interface DataPackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getSeriesDefinition()
 	 * @generated
 	 */
-	int SERIES_DEFINITION = 15;
+	int SERIES_DEFINITION = 16;
 
 	/**
 	 * The feature id for the '<em><b>Query</b></em>' containment reference.
@@ -586,7 +614,7 @@ public interface DataPackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getSeriesGrouping()
 	 * @generated
 	 */
-	int SERIES_GROUPING = 16;
+	int SERIES_GROUPING = 17;
 
 	/**
 	 * The feature id for the '<em><b>Enabled</b></em>' attribute. <!--
@@ -653,7 +681,7 @@ public interface DataPackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getStockDataSet()
 	 * @generated
 	 */
-	int STOCK_DATA_SET = 17;
+	int STOCK_DATA_SET = 18;
 
 	/**
 	 * The feature id for the '<em><b>Values</b></em>' attribute. <!--
@@ -679,7 +707,7 @@ public interface DataPackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getTextDataSet()
 	 * @generated
 	 */
-	int TEXT_DATA_SET = 18;
+	int TEXT_DATA_SET = 19;
 
 	/**
 	 * The feature id for the '<em><b>Values</b></em>' attribute. <!--
@@ -705,7 +733,7 @@ public interface DataPackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getTrigger()
 	 * @generated
 	 */
-	int TRIGGER = 19;
+	int TRIGGER = 20;
 
 	/**
 	 * The feature id for the '<em><b>Condition</b></em>' attribute. <!--
@@ -749,7 +777,7 @@ public interface DataPackage extends EPackage
 	 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getData()
 	 * @generated
 	 */
-	int DATA = 20;
+	int DATA = 21;
 
 	/**
 	 * Returns the meta object for class '
@@ -888,6 +916,16 @@ public interface DataPackage extends EPackage
 	 * @generated
 	 */
 	EClass getGanttDataSet( );
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.data.NullDataSet <em>Null Data Set</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Null Data Set</em>'.
+	 * @see org.eclipse.birt.chart.model.data.NullDataSet
+	 * @generated
+	 */
+	EClass getNullDataSet( );
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.data.NumberDataElement <em>Number Data Element</em>}'.
@@ -1419,6 +1457,16 @@ public interface DataPackage extends EPackage
 		 * @generated
 		 */
 		EClass GANTT_DATA_SET = eINSTANCE.getGanttDataSet( );
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.data.impl.NullDataSetImpl <em>Null Data Set</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.birt.chart.model.data.impl.NullDataSetImpl
+		 * @see org.eclipse.birt.chart.model.data.impl.DataPackageImpl#getNullDataSet()
+		 * @generated
+		 */
+		EClass NULL_DATA_SET = eINSTANCE.getNullDataSet( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl <em>Number Data Element</em>}' class.
