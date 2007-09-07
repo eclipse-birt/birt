@@ -15,7 +15,6 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
 import org.eclipse.birt.report.model.activity.ActivityStack;
-import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -32,6 +31,7 @@ import org.eclipse.birt.report.model.css.CssStyleSheetAdapter;
 import org.eclipse.birt.report.model.elements.ICssStyleSheetOperation;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Represents the command for adding and dropping css from report design or
@@ -75,7 +75,7 @@ public class CssCommand extends AbstractElementCommand
 		}
 		catch ( StyleSheetException e )
 		{
-			String errorCode = ModuleUtil.changeSheetErrorCodeToCssErrorCode( e
+			String errorCode = ModelUtil.changeSheetErrorCodeToCssErrorCode( e
 					.getErrorCode( ) );
 			throw new CssException( module, new String[]{fileName}, errorCode );
 		}
@@ -284,7 +284,7 @@ public class CssCommand extends AbstractElementCommand
 		}
 		catch ( StyleSheetException e )
 		{
-			String errorCode = ModuleUtil.changeSheetErrorCodeToCssErrorCode( e
+			String errorCode = ModelUtil.changeSheetErrorCodeToCssErrorCode( e
 					.getErrorCode( ) );
 			throw new CssException( module, new String[]{fileName}, errorCode );
 		}

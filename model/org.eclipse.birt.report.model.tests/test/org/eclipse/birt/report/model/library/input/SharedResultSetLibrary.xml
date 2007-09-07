@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<library xmlns="http://www.eclipse.com/schemas/BIRT_schema.xsd" version="1">
+    <components>
+        <table name="table1">
+        </table>       
+        <table name="table2">
+        	<property name="dataBindingRef">table1</property>
+        </table>      
+    </components>
+</library>

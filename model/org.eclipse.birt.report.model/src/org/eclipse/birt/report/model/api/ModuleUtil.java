@@ -30,8 +30,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.eclipse.birt.report.model.api.command.CssException;
-import org.eclipse.birt.report.model.api.css.StyleSheetException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
@@ -861,22 +859,5 @@ public class ModuleUtil
 
 		return false;
 
-	}
-
-	/**
-	 * Change error code of style sheet exception to error code of css
-	 * exception.
-	 * 
-	 * @param sheetErrorCode
-	 * @return
-	 */
-
-	public static String changeSheetErrorCodeToCssErrorCode(
-			String sheetErrorCode )
-	{
-		if ( StyleSheetException.DESIGN_EXCEPTION_STYLE_SHEET_NOT_FOUND
-				.equalsIgnoreCase( sheetErrorCode ) )
-			return CssException.DESIGN_EXCEPTION_CSS_NOT_FOUND;
-		return CssException.DESIGN_EXCEPTION_BADCSSFILE;
 	}
 }

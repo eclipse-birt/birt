@@ -104,7 +104,8 @@ public interface MessageConstants
 	public static final String EXTENDS_FORBIDDEN_EXCEPTION_EXTENDS_FORBIDDEN = "Error.ExtendsForbiddenException.EXTENDS_FORBIDDEN"; //$NON-NLS-1$
 	public static final String EXTENDS_FORBIDDEN_EXCEPTION_CANT_EXTEND = "Error.ExtendsForbiddenException.CANT_EXTEND"; //$NON-NLS-1$
 	public static final String EXTENDS_FORBIDDEN_EXCEPTION_PARENT_NOT_IN_COMPONENT = "Error.ExtendsForbiddenException.PARENT_NOT_IN_COMPONENT"; //$NON-NLS-1$
-
+	public static final String EXTENDS_FORBIDDEN_EXCEPTION_RESULT_SET_SHARED_CANT_EXTEND = "Error.ExtendsForbiddenException.RESULT_SET_SHARED_CANT_EXTEND"; //$NON-NLS-1$
+	
 	// CircularExtendsException
 	public static final String CIRCULAR_EXTENDS_EXCEPTION_SELF_EXTEND = "Error.CircularExtendsException.SELF_EXTEND"; //$NON-NLS-1$
 	public static final String CIRCULAR_EXTENDS_EXCEPTION_CIRCULAR = "Error.CircularExtendsException.CIRCULAR"; //$NON-NLS-1$

@@ -30,51 +30,6 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
  * 
- * <tr>
- * <td>{@link #testDataSet()}</td>
- * <td>check free-form element which contains attribute data-set</td>
- * <td>dataset name is myDataSet</td>
- * </tr>
- * 
- * <tr>
- * <td></td>
- * <td>check list element which doesn't contain attribute data-set</td>
- * <td>null</td>
- * </tr>
- * 
- * <tr>
- * <td>testReadVisibilityRules()</td>
- * <td>Gets visibility rules in elements and tests whether values match with
- * those defined the design file.</td>
- * <td>Returned values match with the design file. If "format" values are not
- * defined, the default value "all" is used.</td>
- * </tr>
- * 
- * <tr>
- * <td></td>
- * <td>The number of visibility rules in elements.</td>
- * <td>The number is 2.</td>
- * </tr>
- * 
- * <tr>
- * <td>testWriteVisibilityRules</td>
- * <td>The default format value in the visibility rule.</td>
- * <td>The default value can be written out to the design file.</td>
- * </tr>
- * 
- * <tr>
- * <td></td>
- * <td>Sets "format" and "valueExpr" properties of a visibility rule.</td>
- * <td>"format" and "valueExpr" can be written out and the output file matches
- * with the golden file.</td>
- * </tr>
- * 
- * <tr>
- * <td>{@link #testCssProperties()}</td>
- * <td>Tests the special "vertical-align" property.</td>
- * <td>If the property is defined on the row, cell, elements in cells can get
- * the "vertical-align" value.</td>
- * </tr>
  * 
  * </table>
  */

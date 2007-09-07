@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.parser;
 import java.net.URL;
 
 import org.eclipse.birt.report.model.api.IResourceLocator;
-import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.command.CssException;
 import org.eclipse.birt.report.model.api.css.StyleSheetException;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
@@ -24,6 +23,7 @@ import org.eclipse.birt.report.model.css.CssStyleSheetAdapter;
 import org.eclipse.birt.report.model.elements.ICssStyleSheetOperation;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.ModelUtil;
 import org.xml.sax.SAXException;
 
 /**
@@ -113,7 +113,7 @@ public class IncludedCssStyleSheetListState extends ListPropertyState
 			}
 			catch ( StyleSheetException e )
 			{
-				String errorCode = ModuleUtil
+				String errorCode = ModelUtil
 						.changeSheetErrorCodeToCssErrorCode( e.getErrorCode( ) );
 				CssException ex = new CssException( handler.module,
 						new String[]{fileName}, errorCode );
