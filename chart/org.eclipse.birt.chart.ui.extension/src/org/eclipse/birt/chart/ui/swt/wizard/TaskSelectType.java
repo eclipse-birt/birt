@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -1313,10 +1314,14 @@ public class TaskSelectType extends SimpleTask implements
 
 	private void checkDataTypeForChartWithAxes( )
 	{
-		List osds = ChartUIUtil.getAllOrthogonalSeriesDefinitions( chartModel );
-		for ( int i = 0; i < osds.size( ); i++ )
+		// To check the data type of base series and orthogonal series in chart
+		// with axes
+		List sdList = new ArrayList( );
+		sdList.addAll( ChartUIUtil.getBaseSeriesDefinitions( chartModel ) );
+		sdList.addAll( ChartUIUtil.getAllOrthogonalSeriesDefinitions( chartModel ) );
+		for ( int i = 0; i < sdList.size( ); i++ )
 		{
-			SeriesDefinition sd = (SeriesDefinition) osds.get( i );
+			SeriesDefinition sd = (SeriesDefinition) sdList.get( i );
 			Series series = sd.getDesignTimeSeries( );
 			checkDataType( ChartUIUtil.getDataQuery( sd, 0 ), series );
 		}
