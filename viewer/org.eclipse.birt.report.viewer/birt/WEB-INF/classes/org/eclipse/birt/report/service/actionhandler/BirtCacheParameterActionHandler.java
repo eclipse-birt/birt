@@ -195,6 +195,7 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 			{
 				for ( int i = 0; i < paramValues.size( ); i++ )
 				{
+					String paramValue = null;
 					try
 					{
 						// convert parameter
@@ -202,24 +203,28 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 								pattern, (String) paramValues.get( i ),
 								attrBean.getLocale( ), isLocale );
 
-						String paramValue = DataUtil
-								.getDisplayValue( paramValueObj );
+						paramValue = DataUtil.getDisplayValue( paramValueObj );
 
-						// add parameter to config file
+					}
+					catch ( Exception err )
+					{
+						paramValue = (String) paramValues.get( i );
+					}
+
+					// add parameter to config file
+					if ( paramValue != null )
+					{
 						ConfigVariable configVar = new ConfigVariable( );
 						configVar.setName( getConfigName( paramName
 								+ "_" + parameter.getId( ) ) ); //$NON-NLS-1$
 						configVar.setValue( paramValue );
 						handle.addConfigVariable( configVar );
 					}
-					catch ( Exception err )
-					{
-						// do nothing
-					}
 				}
 			}
 			else
 			{
+				String paramValue = null;
 				try
 				{
 					// convert parameter
@@ -227,19 +232,22 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 							pattern, (String) paramValues.get( 0 ), attrBean
 									.getLocale( ), isLocale );
 
-					String paramValue = DataUtil
-							.getDisplayValue( paramValueObj );
+					paramValue = DataUtil.getDisplayValue( paramValueObj );
 
-					// add parameter to config file
+				}
+				catch ( Exception err )
+				{
+					paramValue = (String) paramValues.get( 0 );
+				}
+
+				// add parameter to config file
+				if ( paramValue != null )
+				{
 					ConfigVariable configVar = new ConfigVariable( );
 					configVar.setName( getConfigName( paramName
 							+ "_" + parameter.getId( ) ) ); //$NON-NLS-1$
 					configVar.setValue( paramValue );
 					handle.addConfigVariable( configVar );
-				}
-				catch ( Exception err )
-				{
-					// do nothing
 				}
 			}
 
