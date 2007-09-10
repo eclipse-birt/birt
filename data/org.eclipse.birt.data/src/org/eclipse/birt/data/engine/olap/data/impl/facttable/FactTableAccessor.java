@@ -107,7 +107,7 @@ public class FactTableAccessor
 		DocumentObjectCache documentObjectManager = new DocumentObjectCache( documentManager );
 		CombinedPositionContructor combinedPositionCalculator = new CombinedPositionContructor( subDimensions );
 		
-		FTSUNameSaveHelper helper = new FTSUNameSaveHelper( documentManager, factTableName );
+		FTSUNameSaveHelper saveHelper = new FTSUNameSaveHelper( documentManager, factTableName );
 		Object popObject = sortedFactTableRows.pop( );
 		while ( popObject != null && !stopSign.isStopped( ) )
 		{
@@ -134,7 +134,7 @@ public class FactTableAccessor
 			String FTSUDocName = FTSUDocumentObjectNamingUtil.getDocumentObjectName( 
 					NamingUtil.getFactTableName( factTableName ),
 					subDimensionIndex );
-			helper.add( FTSUDocName );
+			saveHelper.add( FTSUDocName );
 			
 			IDocumentObject documentObject = documentObjectManager.getIDocumentObject( FTSUDocName );
 			documentObject.writeBytes( new Bytes( combinedPositionCalculator.
@@ -148,7 +148,7 @@ public class FactTableAccessor
 			popObject = sortedFactTableRows.pop( );
 			lastRow = currentRow;
 		}
-		helper.save( );
+		saveHelper.save( );
 		documentObjectManager.closeAll( );
 		documentManager.flush( );
 		return new FactTable( factTableName,
@@ -385,28 +385,32 @@ public class FactTableAccessor
 		while ( iterator.next( ) && !stopSign.isStopped( ) )
 		{
 			FactTableRow factTableRow = new FactTableRow( );
-			factTableRow.setDimensionKeys( new DimensionKey[levelKeyColumnIndex.length] );
+			DimensionKey[] dimensionKeys = new DimensionKey[levelKeyColumnIndex.length];
 			for ( int i = 0; i < levelKeyColumnIndex.length; i++ )
 			{
-				factTableRow.getDimensionKeys()[i] = 
+				dimensionKeys[i] = 
 					new DimensionKey( levelKeyColumnIndex[i].length );
 				for( int j=0;j<levelKeyColumnIndex[i].length;j++)
 				{
 					if ( levelKeyColumnIndex[i][j] >= 0 )
-						factTableRow.getDimensionKeys()[i].getKeyValues()[j] =
+						dimensionKeys[i].getKeyValues()[j] =
 								iterator.getValue( levelKeyColumnIndex[i][j] );
 				}
 			}
-			factTableRow.setMeasures( new Object[measureColumnIndex.length] );
+			factTableRow.setDimensionKeys( dimensionKeys );
+			
+			Object[] measures = new Object[measureColumnIndex.length];
 			for ( int i = 0; i < measureColumnIndex.length; i++ )
 			{
-				factTableRow.getMeasures()[i] = iterator.getValue( measureColumnIndex[i] );
-				if(factTableRow.getMeasures()[i]==null)
+				measures[i] = iterator.getValue( measureColumnIndex[i] );
+				if(measures[i]==null)
 				{
+					factTableRow.setMeasures( measures );
 					throw new DataException( ResourceConstants.FACTTABLE_NULL_MEASURE_VALUE,
 							factTableRow.toString( ) );
 				}
 			}
+			factTableRow.setMeasures( measures );
 			result.push( factTableRow );
 		}
 		return result;
@@ -776,14 +780,6 @@ class DimensionPositionSeeker
 			return memberArray[result].getDimensionPos();
 		}
 		return -1;
-//		for (int i = 0; i < memberArray.length; i++) 
-//		{
-//			if( memberArray[i].compareTo(key) == 0 )
-//			{
-//				return i;
-//			}
-//		}
-//		return -1;
 	}
 	
 	/**
