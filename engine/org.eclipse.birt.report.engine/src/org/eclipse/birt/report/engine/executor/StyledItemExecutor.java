@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.executor;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.report.engine.adapter.ExpressionUtil;
@@ -27,9 +28,11 @@ import org.eclipse.birt.report.engine.ir.MapRuleDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.StyledElementDesign;
 import org.eclipse.birt.report.model.api.DataItemHandle;
-import org.eclipse.birt.report.model.api.MapRuleHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.FactoryPropertyHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 
 /**
  * Defines an abstract base class for all styled element executors, including
@@ -163,7 +166,9 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	{
 		MapDesign map = item.getMap( );
 
-		if ( item.getHandle( ) instanceof DataItemHandle )
+		DesignElementHandle handle = item.getHandle( );
+
+		if ( handle instanceof DataItemHandle )
 		{
 			// TODO this is a temp hack fix for 201496 and should be removed
 			// after we have better onprepare support for extended item, which
@@ -171,21 +176,21 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 
 			// try find the special map rule dynamically created by XTAB and
 			// process it first
-			DataItemHandle dataHandle = (DataItemHandle) item.getHandle( );
+			DataItemHandle dataHandle = (DataItemHandle) handle;
 
-			StyleHandle sh = dataHandle.getPrivateStyle( );
+			FactoryPropertyHandle fph = dataHandle.getFactoryPropertyHandle( StyleHandle.MAP_RULES_PROP );
 
-			if ( sh != null )
+			if ( fph != null )
 			{
-				Iterator itr = sh.mapRulesIterator( );
+				Object val = fph.getValue( );
 
-				if ( itr != null )
+				if ( val instanceof List && ( (List) val ).size( ) > 0 )
 				{
 					String testExpr = org.eclipse.birt.core.data.ExpressionUtil.createJSDataExpression( dataHandle.getResultSetColumn( ) );
 
-					for ( itr = sh.mapRulesIterator( ); itr.hasNext( ); )
+					for ( Iterator itr = ( (List) val ).iterator( ); itr.hasNext( ); )
 					{
-						MapRuleHandle mrh = (MapRuleHandle) itr.next( );
+						MapRule mrh = (MapRule) itr.next( );
 
 						if ( testExpr.equals( mrh.getTestExpression( ) )
 								&& DesignChoiceConstants.MAP_OPERATOR_NULL.equals( mrh.getOperator( ) ) )
