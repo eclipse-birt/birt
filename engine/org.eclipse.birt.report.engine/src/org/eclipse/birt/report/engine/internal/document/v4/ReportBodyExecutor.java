@@ -25,7 +25,10 @@ public class ReportBodyExecutor extends ContainerExecutor
 		// the next offset to 0, else use the one defined in the fragment.
 		if ( fragment == null )
 		{
-			nextOffset = 0;
+			if ( !reader.isEmpty( ) )
+			{
+				nextOffset = 0;
+			}
 		}
 		else
 		{
