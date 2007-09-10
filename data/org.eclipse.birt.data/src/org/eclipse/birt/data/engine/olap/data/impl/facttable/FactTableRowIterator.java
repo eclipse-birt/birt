@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.olap.data.impl.facttable;
 import java.io.EOFException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -253,29 +254,12 @@ public class FactTableRowIterator implements IFactTableRowIterator
 	 */
 	private boolean isSelectedRow( ) throws IOException
 	{
-		//this method can be made performance enhancement.
-		boolean find;
 		for ( int i = 0; i < currentPos.length; i++ )
 		{
 			if ( dimensionIndex[i] != -1 )
 			{
-				find = false;
-				for ( int j = 0; j < selectedPosOfCurSegment[i].length; j++ )
-				{
-					if ( selectedPosOfCurSegment[i][j] > currentPos[i] )
-					{
-						return false;
-					}
-					if ( selectedPosOfCurSegment[i][j] == currentPos[i] )
-					{
-						find = true;
-						break;
-					}
-				}
-				if ( !find )
-				{
+				if( Arrays.binarySearch( selectedPosOfCurSegment[i], currentPos[i] ) < 0 )
 					return false;
-				}
 			}
 		}
 		return true;
