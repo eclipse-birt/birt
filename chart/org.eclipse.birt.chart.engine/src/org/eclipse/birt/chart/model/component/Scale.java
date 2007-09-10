@@ -260,7 +260,7 @@ public interface Scale extends EObject
 	 * @see #unsetStepNumber()
 	 * @see #setStepNumber(int)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getScale_StepNumber()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
 	 *        extendedMetaData="kind='element' name='StepNumber'"
 	 * @generated
 	 */
@@ -303,7 +303,7 @@ public interface Scale extends EObject
 
 	/**
 	 * Returns the value of the '<em><b>Show Outside</b></em>' attribute.
-	 * The default value is <code>"true"</code>.
+	 * The default value is <code>"false"</code>.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
@@ -314,7 +314,7 @@ public interface Scale extends EObject
 	 * @see #unsetShowOutside()
 	 * @see #setShowOutside(boolean)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getScale_ShowOutside()
-	 * @model default="true" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
+	 * @model default="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
 	 *        extendedMetaData="kind='element' name='ShowOutside'"
 	 * @generated
 	 */
@@ -368,7 +368,7 @@ public interface Scale extends EObject
 	 * @see #unsetTickBetweenCategories()
 	 * @see #setTickBetweenCategories(boolean)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getScale_TickBetweenCategories()
-	 * @model default="true" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
+	 * @model default="true" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
 	 *        extendedMetaData="kind='element' name='TickBetweenCategories'"
 	 * @generated
 	 */
