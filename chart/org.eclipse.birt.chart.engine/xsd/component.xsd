@@ -527,7 +527,7 @@
 					<xsd:documentation>Number of steps in the values shown on the axis.</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="ShowOutside" type="xsd:boolean" default="true">
+			<xsd:element name="ShowOutside" type="xsd:boolean" default="false">
 				<xsd:annotation>
 					<xsd:documentation>Indicates if it shows values outside Axis range.</xsd:documentation>
 				</xsd:annotation>
@@ -536,7 +536,7 @@
 				<xsd:annotation>
 					<xsd:documentation>Specifes if the major tick is rendered at the category value or between two categories. This only affects the category and text style axis.</xsd:documentation>
 				</xsd:annotation>
-			</xsd:element>			
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="ChartPreferences">
