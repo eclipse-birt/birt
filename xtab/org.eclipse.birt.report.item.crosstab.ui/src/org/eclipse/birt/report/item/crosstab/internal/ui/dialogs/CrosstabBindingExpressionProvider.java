@@ -203,4 +203,13 @@ public class CrosstabBindingExpressionProvider extends
 		return super.getImage( element );
 	}
 
+	public boolean hasChildren( Object element )
+	{
+		if ( element instanceof LevelHandle )
+		{
+			return getChildrenList( element ).size( ) > 0;
+		}
+		return super.hasChildren( element );
+	}
+
 }
