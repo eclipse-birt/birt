@@ -45,12 +45,10 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
@@ -449,7 +447,8 @@ public class NewReportWizard extends Wizard implements
 									tmpList.add( Boolean.TRUE );
 								}
 							}
-							else if(name.equalsIgnoreCase( ( (IFile) resource ).getName( ) )){
+							else if ( name.equalsIgnoreCase( ( (IFile) resource ).getName( ) ) )
+							{
 								tmpList.add( Boolean.TRUE );
 							}
 						}
@@ -586,12 +585,7 @@ public class NewReportWizard extends Wizard implements
 					BasicNewProjectResourceWizard.updatePerspective( configElement );
 					if ( showCheat && !cheatId.equals( "" ) ) //$NON-NLS-1$
 					{
-						Display.getCurrent( ).getActiveShell( ).setData( page );
 						new OpenCheatSheetAction( cheatId ).run( );
-						// OpenCheatSheetAction action = null;
-						// action = new OpenCheatSheetAction( cheatId );
-						//
-						// action.run( );
 					}
 				}
 				catch ( Exception e )
@@ -690,7 +684,7 @@ public class NewReportWizard extends Wizard implements
 		}
 
 		String predifinedDir = UIUtil.getFragmentDirectory( );
-		Assert.isNotNull( predifinedDir );
+		assert predifinedDir!=null;
 		File predifinedFile = new File( predifinedDir );
 		File sourceFile = new File( sourceFileName );
 		if ( sourceFile.getAbsolutePath( )

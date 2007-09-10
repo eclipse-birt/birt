@@ -12,13 +12,7 @@
 package org.eclipse.birt.report.designer.ui.internal.rcp.wizards;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URL;
 import java.util.Locale;
 
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
@@ -30,7 +24,6 @@ import org.eclipse.birt.report.designer.internal.ui.wizards.WizardTemplateChoice
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
-import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.core.runtime.CoreException;
@@ -38,14 +31,12 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExecutableExtension;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
@@ -81,7 +72,8 @@ public class NewReportWizard extends Wizard implements
 
 	private static final String NEW_REPORT_FILE_NAME_PREFIX = Messages.getString( "NewReportWizard.displayName.NewReportFileNamePrefix" ); //$NON-NLS-1$
 
-	private String fileExtension = "."+IReportElementConstants.DESIGN_FILE_EXTENSION;
+	private String fileExtension = "."
+			+ IReportElementConstants.DESIGN_FILE_EXTENSION;
 
 	private WizardNewReportCreationPage newReportFileWizardPage;
 
@@ -208,7 +200,7 @@ public class NewReportWizard extends Wizard implements
 			{
 				fileName = fn;
 			}
-		}	
+		}
 
 		String cheatSheetIdFromPage = "";//$NON-NLS-1$
 		boolean showCheatSheetFromPage = false;
@@ -349,11 +341,11 @@ public class NewReportWizard extends Wizard implements
 
 					if ( showCheatSheet && !cheatSheetId.equals( "" ) ) //$NON-NLS-1$
 					{
+						// this is to ensure the cheatshet is opened in the
+						// view, not the dialog.
 						Display.getCurrent( ).getActiveShell( ).setData( page );
+						
 						new OpenCheatSheetAction( cheatSheetId ).run( );
-						// OpenCheatSheetAction action = new
-						// OpenCheatSheetAction( cheatSheetId );
-						// action.run( );
 					}
 				}
 				catch ( Exception e )
