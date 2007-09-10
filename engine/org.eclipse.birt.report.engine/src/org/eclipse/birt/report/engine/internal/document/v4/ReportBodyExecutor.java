@@ -25,12 +25,15 @@ public class ReportBodyExecutor extends ContainerExecutor
 		// the next offset to 0, else use the one defined in the fragment.
 		if ( fragment == null )
 		{
-			nextOffset = 0;
+			if ( !reader.isEmpty( ) )
+			{
+				nextOffset = 0;
+			}
 		}
 		else
 		{
 			setFragment( fragment );
-			// the first nextOffset alwasy start from 0 or fragment.leftEdge.
+			// the first nextOffset always start from 0 or fragment.leftEdge.
 			Object[][] sections = fragment.getSections( );
 			if ( sections != null && sections.length > 0 )
 			{
