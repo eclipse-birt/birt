@@ -150,8 +150,34 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 				context.setOutputDisplayNone( true );
 			}
 		}
+//		context.setTextWrapping(false);
+//		context.setFontSubstitution(false);
+//		context.setBidiProcessing(false);
+		Object textWrapping = options.get(IPDFRenderOption.PDF_TEXT_WRAPPING);
+		if(textWrapping!=null && textWrapping instanceof Boolean)
+		{
+			if(!((Boolean)textWrapping).booleanValue())
+			{
+				context.setTextWrapping(false);
+			}
+		}
+		Object fontSubstitution = options.get(IPDFRenderOption.PDF_FONT_SUBSTITUTION);
+		if(fontSubstitution!=null && fontSubstitution instanceof Boolean)
+		{
+			if(!((Boolean)fontSubstitution).booleanValue())
+			{
+				context.setFontSubstitution(false);
+			}
+		}
+		Object bidiProcessing = options.get(IPDFRenderOption.PDF_BIDI_PROCESSING);
+		if(bidiProcessing!=null && bidiProcessing instanceof Boolean)
+		{
+			if(!((Boolean)bidiProcessing).booleanValue())
+			{
+				context.setBidiProcessing(false);
+			}
+		}
 	}
-	
 	
 	public void setOption(String name, Object value)
 	{

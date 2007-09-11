@@ -334,22 +334,16 @@ public class PDFPageLM extends PDFBlockContainerLM
 
 			IArea totalPageArea = null;
 			String format = context.getFormat( );
-			ChunkGenerator cg = new ChunkGenerator( totalPageContent, format );
+			ChunkGenerator cg = new ChunkGenerator( totalPageContent, true, true, format );
 			if ( cg.hasMore( ) )
 			{
-				FontSplitter fontSplitter = new FontSplitter( cg.getNext( ),
-						totalPageContent, format );
-				if ( fontSplitter.hasMore( ) )
-				{
-					Chunk c = fontSplitter.getNext( );
-					Dimension d = new Dimension(
-							(int) ( c.getFontInfo( )
-									.getWordWidth( c.getText( ) ) * PDFConstants.LAYOUT_TO_PDF_RATIO ),
-							(int) ( c.getFontInfo( ).getWordHeight( ) * PDFConstants.LAYOUT_TO_PDF_RATIO ) );
-					totalPageArea = createBlockTextArea( c.getText( ),
-							totalPageContent, c.getFontInfo( ), d );
-				}
-
+				Chunk c = cg.getNext( );
+				Dimension d = new Dimension(
+						(int) ( c.getFontInfo( )
+								.getWordWidth( c.getText( ) ) * PDFConstants.LAYOUT_TO_PDF_RATIO ),
+						(int) ( c.getFontInfo( ).getWordHeight( ) * PDFConstants.LAYOUT_TO_PDF_RATIO ) );
+				totalPageArea = createBlockTextArea( c.getText( ),
+						totalPageContent, c.getFontInfo( ), d );
 			}
 			totalPageContent.setExtension( IContent.LAYOUT_EXTENSION,
 					totalPageArea );

@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITextContent;
@@ -24,6 +23,7 @@ import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
+import org.w3c.dom.css.CSSValue;
 import org.w3c.dom.css.CSSValueList;
 
 import com.lowagie.text.Font;
@@ -85,8 +85,12 @@ public class FontHandler
 	 * 
 	 * @param textContent
 	 *            the textContent whose font need to be handled
+	 * @param fontSubstitution 		
+	 * 			  If it set to false, we needn¡¯t check if the character exists in the selected font.
+	 * @param format 
+	 * 			  the output format type
 	 */
-	public FontHandler( ITextContent textContent, String format )
+	public FontHandler( ITextContent textContent, boolean fontSubstitution, String format )
 	{
 		IStyle style = textContent.getComputedStyle( );
 
@@ -110,6 +114,20 @@ public class FontHandler
 				.getProperty( StyleConstants.STYLE_FONT_SIZE ) )
 				/ PDFConstants.LAYOUT_TO_PDF_RATIO;
 		setFormat( format );
+		
+        if(!fontSubstitution)
+        {
+        	if ( fontFamilies.getLength() == 0 )
+        	{
+        		bf = fontManager.createFont(FontMappingManager.DEFAULT_FONT, 
+        				fontStyle);
+        	}
+        	else
+        	{
+        		String fontName = fontManager.getLogicalFont( fontFamilies.item(0).getCssText() );
+        		bf = fontManager.createFont(fontName, fontStyle);	
+        	}
+        }
 	}
 
 	/**

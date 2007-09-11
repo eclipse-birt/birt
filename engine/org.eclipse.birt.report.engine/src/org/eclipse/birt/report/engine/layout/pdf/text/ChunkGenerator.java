@@ -18,50 +18,82 @@ import org.eclipse.birt.report.engine.layout.pdf.font.FontSplitter;
 public class ChunkGenerator
 {	
 	private ITextContent textContent;
+	private boolean bidiProcessing;
+	private boolean fontSubstitution;
+	private String text;
 	
 	private ISplitter bidiSplitter = null;
 	private ISplitter fontSplitter = null;
 	private String format = null;
 	
-	public ChunkGenerator(ITextContent textContent, String format )
+	public ChunkGenerator(ITextContent textContent, 
+			boolean bidiProcessing, boolean fontSubstitution, String format)
 	{
 		this.textContent = textContent;
-		bidiSplitter = new BidiSplitter(new Chunk(textContent.getText()));
+		this.text = textContent.getText();
+		this.bidiProcessing = bidiProcessing;
+		this.fontSubstitution = fontSubstitution;
 		this.format = format;
-		if (bidiSplitter.hasMore())
+		
+		if (text == null || text.length()==0)
+			return;
+		if (bidiProcessing)
 		{
-			fontSplitter = new FontSplitter( bidiSplitter.getNext( ),
-					textContent, format );
+			bidiSplitter = new BidiSplitter(new Chunk(text));
 		}
+		
+		if (null==bidiSplitter)
+		{
+			fontSplitter = new FontSplitter(new Chunk(text), 
+					textContent, fontSubstitution, format);
+		}
+		else
+		{
+			if (bidiSplitter.hasMore())
+			{
+				fontSplitter = new FontSplitter(bidiSplitter.getNext(), 
+						textContent, fontSubstitution, format);
+			}	
+		}		
+				
 	}
 	
 	public boolean hasMore()
 	{
-		if (null == bidiSplitter)
+		if (text == null || text.length()==0)
 			return false;
-		if (bidiSplitter.hasMore())
-			return true;
+		if (bidiProcessing)
+		{
+			if (null == bidiSplitter)
+				return false;
+			if (bidiSplitter.hasMore())
+				return true;
+		}
 		if (null == fontSplitter)
 			return false;
 		if (fontSplitter.hasMore())
 			return true;
-		else 
-			return false;
+		else
+			return false;	
 	}
 	
 	public Chunk getNext()
 	{		
 		while ( null != fontSplitter )
 		{
-			if (fontSplitter.hasMore()){
+			if (fontSplitter.hasMore())
+			{
 				return fontSplitter.getNext();
-			}else{
+			}else
+			{
 				fontSplitter = null;
 			}
-			if (bidiSplitter.hasMore()){
-				fontSplitter = new FontSplitter( bidiSplitter.getNext( ),
-						textContent, format );
-			}else{
+			if ( null != bidiSplitter && bidiSplitter.hasMore())
+			{
+				fontSplitter = new FontSplitter(bidiSplitter.getNext(), 
+						textContent, fontSubstitution, format);
+			}else
+			{
 				return null;
 			}	
 		}

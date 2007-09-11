@@ -26,6 +26,7 @@ public class FontSplitter implements ISplitter
 	public static final char MISSING_CHAR = '?';
 	
 	private FontHandler fh = null;
+	private boolean fontSubstitution;
 	
 	private int baseLevel = Bidi.DIRECTION_LEFT_TO_RIGHT;
 	private int runDirection = Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT;
@@ -39,17 +40,27 @@ public class FontSplitter implements ISplitter
 	
 	private boolean encounteredReturn = false;
 
-	public FontSplitter(Chunk inputChunk, ITextContent textContent, String format )
+	public FontSplitter(Chunk inputChunk, ITextContent textContent, 
+			boolean fontSubstitution, String format)
 	{
+		this.fontSubstitution = fontSubstitution;
 		this.chunkText = inputChunk.getText().toCharArray();
 		baseOffset = inputChunk.getOffset();
 		baseLevel = inputChunk.getBaseLevel();
 		runDirection = inputChunk.getRunDirection();
-		this.fh = new FontHandler(textContent, format );
+		this.fh = new FontHandler(textContent, fontSubstitution, format);
 	}
 	
 	private Chunk buildChunk()
 	{
+		if (!fontSubstitution)
+		{
+			Chunk c = new Chunk(new String(chunkText),
+					baseOffset, baseLevel, runDirection, fh.getFontInfo());
+			chunkStartPos = chunkText.length;
+			return c;	
+		}
+		
 		if (encounteredReturn)
 		{
 			encounteredReturn = false;
