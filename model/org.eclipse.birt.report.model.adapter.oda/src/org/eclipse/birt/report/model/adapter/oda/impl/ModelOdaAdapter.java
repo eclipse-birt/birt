@@ -471,6 +471,11 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 				.equalsIgnoreCase( propertyName ) )
 			setDesign.setPrimaryResultSet( new ResultSetsAdapter( setHandle,
 					setDesign ).newOdaResultSetDefinition( ) );
+
+		else if ( OdaDataSetHandle.COLUMN_HINTS_PROP
+				.equalsIgnoreCase( propertyName ) )
+			new ResultSetsAdapter( setHandle, setDesign )
+					.updateOdaColumnHints( );
 	}
 
 	/*
