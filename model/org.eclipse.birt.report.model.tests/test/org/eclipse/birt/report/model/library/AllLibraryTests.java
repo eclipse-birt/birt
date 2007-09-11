@@ -42,6 +42,7 @@ public class AllLibraryTests
 		test.addTestSuite( LibraryWithTableTest.class );
 		test.addTestSuite( ReferenceValueUtilTest.class );
 		test.addTestSuite( ReloadLibraryTest.class );
+		test.addTestSuite( LibrarySharedResultSetTest.class );
 		
 		// add all test classes here
 

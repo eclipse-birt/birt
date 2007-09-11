@@ -48,6 +48,12 @@ public class ExtendsForbiddenException extends ExtendsException
 	public static final String DESIGN_EXCEPTION_PARENT_NOT_IN_COMPONENT = MessageConstants.EXTENDS_FORBIDDEN_EXCEPTION_PARENT_NOT_IN_COMPONENT;
 
 	/**
+	 * The shared result set report item cannot be extended.
+	 */
+
+	public static final String DESIGN_EXCEPTION_RESULT_SET_SHARED_CANT_EXTEND = MessageConstants.EXTENDS_FORBIDDEN_EXCEPTION_RESULT_SET_SHARED_CANT_EXTEND;
+
+	/**
 	 * Constructor.
 	 * 
 	 * @param obj
@@ -89,8 +95,9 @@ public class ExtendsForbiddenException extends ExtendsException
 
 	public String getLocalizedMessage( )
 	{
-		if ( sResourceKey == DESIGN_EXCEPTION_CANT_EXTEND
-				|| sResourceKey == DESIGN_EXCEPTION_PARENT_NOT_IN_COMPONENT )
+		if ( sResourceKey == DESIGN_EXCEPTION_CANT_EXTEND ||
+				sResourceKey == DESIGN_EXCEPTION_PARENT_NOT_IN_COMPONENT ||
+				sResourceKey == DESIGN_EXCEPTION_RESULT_SET_SHARED_CANT_EXTEND )
 		{
 			return ModelMessages.getMessage( sResourceKey,
 					new String[]{extendsName} );
