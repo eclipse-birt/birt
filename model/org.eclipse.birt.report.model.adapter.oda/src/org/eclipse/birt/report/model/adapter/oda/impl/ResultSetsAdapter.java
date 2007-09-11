@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaResultSetColumnHandle;
+import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -133,7 +134,7 @@ class ResultSetsAdapter
 
 	private ColumnHint newROMColumnHintFromColumnDefinition(
 			ColumnDefinition columnDefn, ColumnDefinition cachedColumnDefn,
-			ColumnHint oldHint, String columnName )
+			ColumnHint oldHint )
 	{
 		if ( columnDefn == null )
 			return null;
@@ -179,7 +180,8 @@ class ResultSetsAdapter
 		if ( StringUtil.isBlank( (String) newHint.getProperty( null,
 				ColumnHint.COLUMN_NAME_MEMBER ) ) )
 		{
-			newHint.setProperty( ColumnHint.COLUMN_NAME_MEMBER, columnName );
+			newHint.setProperty( ColumnHint.COLUMN_NAME_MEMBER, newHint
+					.getProperty( null, ColumnHint.COLUMN_NAME_MEMBER ) );
 		}
 		return newHint;
 	}
@@ -646,8 +648,7 @@ class ResultSetsAdapter
 				oldHint = (ColumnHint) oldHintHandle.getStructure( );
 
 			ColumnHint newHint = newROMColumnHintFromColumnDefinition(
-					columnDefn, cachedColumnDefn, oldHint, newColumn
-							.getColumnName( ) );
+					columnDefn, cachedColumnDefn, oldHint );
 
 			ResultSetColumnInfo setInfo = new ResultSetColumnInfo( newColumn,
 					newHint );
@@ -713,6 +714,32 @@ class ResultSetsAdapter
 	}
 
 	/**
+	 * Returns the matched column hint with the given result set column.
+	 * 
+	 * @param name
+	 *            the name of the column hint
+	 * @param columns
+	 *            the iterator that includes column hints
+	 * @return the matched column hint
+	 */
+
+	static ResultSetColumnHandle findColumn( String name, Iterator columns )
+	{
+		if ( name == null )
+			return null;
+
+		while ( columns.hasNext( ) )
+		{
+			ResultSetColumnHandle column = (ResultSetColumnHandle) columns
+					.next( );
+			if ( name.equals( column.getColumnName( ) ) )
+				return column;
+		}
+
+		return null;
+	}
+
+	/**
 	 * Creates a ResultSetDefinition with the given ROM ResultSet columns.
 	 * 
 	 * @param setHandle
@@ -748,7 +775,7 @@ class ResultSetsAdapter
 			OdaResultSetColumnHandle setColumn = (OdaResultSetColumnHandle) romSets
 					.next( );
 
-			// get the column hint
+			// get the colum hint
 
 			ColumnHintHandle hint = findColumnHint(
 					(OdaResultSetColumn) setColumn.getStructure( ),
@@ -757,10 +784,11 @@ class ResultSetsAdapter
 			ColumnDefinition columnDefn = designFactory
 					.createColumnDefinition( );
 
+			String newName = setColumn.getNativeName( );
+			if ( StringUtil.isBlank( newName ) )
+				newName = setColumn.getColumnName( );
 			DataElementAttributes dataAttrs = designFactory
 					.createDataElementAttributes( );
-
-			String newName = setColumn.getNativeName( );
 			dataAttrs.setName( newName );
 
 			Integer position = setColumn.getPosition( );
@@ -777,38 +805,8 @@ class ResultSetsAdapter
 			if ( hint == null )
 				continue;
 
-			// update display name
+			updateOdaColumnHint( columnDefn, hint );
 
-			String displayName = hint.getDisplayName( );
-			if ( displayName != null )
-			{
-				DataElementUIHints uiHints = designFactory
-						.createDataElementUIHints( );
-				uiHints.setDisplayName( displayName );
-				dataAttrs.setUiHints( uiHints );
-			}
-			else
-				dataAttrs.setUiHints( null );
-
-			// update usage hints.
-
-			OutputElementAttributes outputAttrs = null;
-
-			String helpText = hint.getHelpText( );
-			String format = hint.getFormat( );
-			if ( helpText != null || format != null )
-			{
-				outputAttrs = designFactory.createOutputElementAttributes( );
-				outputAttrs.setHelpText( helpText );
-				if ( format != null )
-				{
-					ValueFormatHints formatHint = designFactory
-							.createValueFormatHints( );
-					formatHint.setDisplayFormat( format );
-					outputAttrs.setFormattingHints( formatHint );
-				}
-			}
-			columnDefn.setUsageHints( outputAttrs );
 		}
 
 		if ( odaSetDefn != null )
@@ -904,6 +902,85 @@ class ResultSetsAdapter
 			return Collections.EMPTY_LIST;
 
 		return columnHintsForComputedColumns;
+	}
+
+	/**
+	 * Updates hint-related information on ODA column definitions.
+	 * 
+	 */
+
+	void updateOdaColumnHints( )
+	{
+
+		ResultSetDefinition columnDefns = setDesign.getPrimaryResultSet( );
+		if ( columnDefns == null )
+			return;
+
+		for ( int i = 0; i < setDefinedColumnHints.size( ); i++ )
+		{
+			ColumnHintHandle hint = (ColumnHintHandle) setDefinedColumnHints
+					.get( i );
+			OdaResultSetColumnHandle column = (OdaResultSetColumnHandle) findColumn(
+					hint.getColumnName( ), setDefinedResults.iterator( ) );
+
+			if ( column == null )
+				continue;
+
+			ColumnDefinition odaColumn = findColumnDefinition( columnDefns
+					.getResultSetColumns( ), column.getNativeName( ), column
+					.getPosition( ) );
+
+			if ( odaColumn == null )
+				continue;
+
+			updateOdaColumnHint( odaColumn, hint );
+		}
+	}
+
+	/**
+	 * Updates hint-related information on the ODA <code>columnDefn</code>.
+	 * 
+	 * @param columnDefn
+	 * @param hint
+	 */
+
+	private void updateOdaColumnHint( ColumnDefinition columnDefn,
+			ColumnHintHandle hint )
+	{
+		DataElementAttributes dataAttrs = columnDefn.getAttributes( );
+
+		// update display name
+
+		String displayName = hint.getDisplayName( );
+		if ( displayName != null )
+		{
+			DataElementUIHints uiHints = designFactory
+					.createDataElementUIHints( );
+			uiHints.setDisplayName( displayName );
+			dataAttrs.setUiHints( uiHints );
+		}
+		else
+			dataAttrs.setUiHints( null );
+
+		// update usage hints.
+
+		OutputElementAttributes outputAttrs = null;
+
+		String helpText = hint.getHelpText( );
+		String format = hint.getFormat( );
+		if ( helpText != null || format != null )
+		{
+			outputAttrs = designFactory.createOutputElementAttributes( );
+			outputAttrs.setHelpText( helpText );
+			if ( format != null )
+			{
+				ValueFormatHints formatHint = designFactory
+						.createValueFormatHints( );
+				formatHint.setDisplayFormat( format );
+				outputAttrs.setFormattingHints( formatHint );
+			}
+		}
+		columnDefn.setUsageHints( outputAttrs );
 	}
 
 	/**
