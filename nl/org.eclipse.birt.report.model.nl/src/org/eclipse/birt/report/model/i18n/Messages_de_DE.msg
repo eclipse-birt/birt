@@ -3352,6 +3352,7 @@ Error.CircularExtendsException.CIRCULAR=Eine Kreiserweiterung wurde gefunden, we
 Error.ExtendsForbiddenException.PARENT_NOT_IN_COMPONENT=Das übergeordnete Element "{0}" ist in Komponenten kein Berichtobjekt auf oberster Ebene.
 Error.ExtendsForbiddenException.EXTENDS_FORBIDDEN=Element "{0}" kann nicht erweitert werden. Es befindet sich innerhalb eines untergeordneten Elements oder hat bereits ein übergeordnetes Element.
 Error.ExtendsForbiddenException.CANT_EXTEND=Das Element "{0}" darf keine Ableitungen aufweisen.
+Error.ExtendsForbiddenException.RESULT_SET_SHARED_CANT_EXTEND=The shared result set report item  "{0}" is not allowed to derive.
     
 #NameException
 Error.NameException.NAME_REQUIRED=Der Name von {0} ist erforderlich.
