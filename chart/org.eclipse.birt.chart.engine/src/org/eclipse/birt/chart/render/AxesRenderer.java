@@ -3162,18 +3162,23 @@ public abstract class AxesRenderer extends BaseRenderer
 			final double[] faY, final boolean bShowAsTape )
 	{
 		final AutoScale scaleOrth = getInternalOrthogonalAxis( ).getScale( );	
-		final Bounds boClientArea = srh.getClientAreaBounds( true );
+		final Bounds clipArea = srh.getClientAreaBounds( true );
+		final Bounds boClientArea = BoundsImpl.copyInstance( clipArea );
 		// Adjust the position in 2d+
 		if ( bShowAsTape )
 		{
 			final double dSeriesThickness = srh.getSeriesThickness( );
-			boClientArea.delta( -dSeriesThickness,
-					-dSeriesThickness,
+			clipArea.delta( -dSeriesThickness,
+					0,
 					2 * dSeriesThickness,
-					2 * dSeriesThickness );
+					dSeriesThickness );
+			boClientArea.delta( -dSeriesThickness,
+					dSeriesThickness,
+					0,
+					0 );
 		}
 		
-		renderClipping( ipr, boClientArea );
+		renderClipping( ipr, clipArea );
 		
 		if ( ( scaleOrth.getType( ) & IConstants.PERCENT ) == IConstants.PERCENT )
 		{
