@@ -14,6 +14,9 @@ package org.eclipse.birt.report.designer.internal.ui.resourcelocator;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
+import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
@@ -27,6 +30,14 @@ public abstract class BaseResourceEntity implements ResourceEntry
 
 	public Image getImage( )
 	{
+		Object adapter = getAdapter( LibraryHandle.class );
+		if ( adapter != null )
+			return ProviderFactory.createProvider( adapter )
+					.getNodeIcon( adapter );
+		adapter = getAdapter( CssStyleSheetHandle.class );
+		if ( adapter != null )
+			return ProviderFactory.createProvider( adapter )
+					.getNodeIcon( adapter );
 		return PlatformUI.getWorkbench( )
 				.getSharedImages( )
 				.getImage( ISharedImages.IMG_OBJ_FILE );
