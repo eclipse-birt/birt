@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.engine.internal.document.v4;
 
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
@@ -35,11 +34,7 @@ import org.eclipse.birt.report.engine.presentation.InstanceIndex;
  */
 public class ExtendedItemExecutor extends ContainerExecutor
 {
-	/**
-	 * the logger
-	 */
-	protected static Logger logger = Logger.getLogger( ExtendedItemExecutor.class.getName( ) );
-	
+
 	public ExtendedItemExecutor( ExecutorManager manager )
 	{
 		super( manager, ExecutorManager.EXTENDEDITEM );

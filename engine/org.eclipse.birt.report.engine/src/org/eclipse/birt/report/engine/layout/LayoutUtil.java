@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.engine.layout;
 
 import org.eclipse.birt.report.engine.content.IBandContent;
+import org.eclipse.birt.report.engine.content.ICellContent;
+import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.IListContent;
@@ -20,8 +22,10 @@ import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
+import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.PageSetupDesign;
+import org.w3c.dom.css.CSSValueList;
 
 public class LayoutUtil
 {
@@ -52,7 +56,7 @@ public class LayoutUtil
 		return null;
 	}
 
-	public static boolean isRowHidden( Object rowContent, String format,
+/*	public static boolean isContentHidden( IContent content, String format,
 			boolean outputDisplayNone )
 	{
 		if ( rowContent != null && rowContent instanceof IRowContent )
@@ -74,6 +78,109 @@ public class LayoutUtil
 		}
 		return false;
 	}
+*/	
+	public static boolean isHidden( IContent content, String format, boolean outputDisplayNone)
+	{
+		if ( content != null )
+		{
+			if ( !outputDisplayNone )
+			{
+				IStyle style = content.getStyle( );
+				if ( IStyle.NONE_VALUE == style
+						.getProperty( IStyle.STYLE_DISPLAY ) )
+				{
+					return true;
+				}
+			}
+			return isHiddenByVisibility( content, format );
+		}
+		return false;
+	}
+
+	/**
+	 * if the content is hidden
+	 * 
+	 * @return
+	 */
+	static private boolean isHiddenByVisibility( IContent content, String format )
+	{
+		assert content != null;
+
+		IStyle style = content.getStyle( );
+		CSSValueList formats = (CSSValueList) style
+				.getProperty( IStyle.STYLE_VISIBLE_FORMAT );
+		if ( formats != null )
+		{
+			if ( contains( formats, format ) )
+			{
+				return true;
+			}
+		}
+		if ( content.getContentType( ) == IContent.CELL_CONTENT )
+		{
+			ICellContent cell = (ICellContent) content;
+			IColumn column = cell.getColumnInstance( );
+			String columnFormats = column.getVisibleFormat( );
+			if ( columnFormats != null )
+			{
+				if ( contains( columnFormats,
+						EngineIRConstants.FORMAT_TYPE_VIEWER ) ||
+						contains( columnFormats, BIRTConstants.BIRT_ALL_VALUE ) ||
+						contains( columnFormats, format ) )
+				{
+					return true;
+				}
+
+			}
+		}
+		return false;
+	}
+
+	static private boolean contains( CSSValueList formats, String format )
+	{
+		int length = formats.getLength( );
+		for ( int i = 0; i < length; i++ )
+		{
+			String fmt = formats.item( i ).getCssText( );
+
+			if ( EngineIRConstants.FORMAT_TYPE_VIEWER.equals( format ) ||
+					BIRTConstants.BIRT_ALL_VALUE.equals( format ) ||
+					format.equals( fmt ) )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	static private boolean contains( String formats, String format )
+	{
+		int index = formats.indexOf( format );
+		if ( index != -1 )
+		{
+			if ( index > 0 )
+			{
+				if ( formats.charAt( index - 1 ) != ';' )
+				{
+					return false;
+				}
+			}
+			int lastIndex = index + format.length( );
+			if ( lastIndex < formats.length( ) )
+			{
+				if ( formats.charAt( lastIndex ) != ';' )
+				{
+					return false;
+				}
+			}
+			return true;
+
+		}
+		return false;
+	}
+	
+	
+
 
 	public static boolean isRepeatableBand(IBandContent band)
 	{

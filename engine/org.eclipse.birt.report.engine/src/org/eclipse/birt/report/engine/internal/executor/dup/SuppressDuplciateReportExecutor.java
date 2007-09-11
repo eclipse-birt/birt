@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,8 +10,6 @@
  *******************************************************************************/
 
 package org.eclipse.birt.report.engine.internal.executor.dup;
-
-import java.util.LinkedList;
 
 import org.eclipse.birt.report.engine.content.ContentVisitorAdapter;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -29,6 +27,7 @@ import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.GroupDesign;
 import org.eclipse.birt.report.engine.ir.ListingDesign;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
+import org.eclipse.birt.report.engine.util.FastPool;
 
 public class SuppressDuplciateReportExecutor extends WrappedReportExecutor
 {
@@ -37,7 +36,7 @@ public class SuppressDuplciateReportExecutor extends WrappedReportExecutor
 
 	private SuppressDuplicateVisitor visitor;
 
-	private LinkedList executors = new LinkedList( );
+	private FastPool executors = new FastPool( );
 
 	public SuppressDuplciateReportExecutor( IReportExecutor executor )
 	{
@@ -47,7 +46,10 @@ public class SuppressDuplciateReportExecutor extends WrappedReportExecutor
 
 	public IReportContent execute( )
 	{
-		report = super.execute( );
+		if ( report == null )
+		{
+			report = super.execute( );
+		}
 		return report;
 	}
 
@@ -68,7 +70,7 @@ public class SuppressDuplciateReportExecutor extends WrappedReportExecutor
 		else
 		{
 			wrappedExecutor = (SuppressDuplicateItemExecutor) executors
-					.removeLast( );
+					.remove( );
 			wrappedExecutor.setExecutor( executor );
 		}
 		return wrappedExecutor;
@@ -76,7 +78,7 @@ public class SuppressDuplciateReportExecutor extends WrappedReportExecutor
 
 	protected void closeWrappedExecutor( IReportItemExecutor executor )
 	{
-		executors.addLast( executor );
+		executors.add( executor );
 	}
 
 	IContent suppressDuplicate( IContent content )
@@ -107,9 +109,8 @@ public class SuppressDuplciateReportExecutor extends WrappedReportExecutor
 					if ( state != null )
 					{
 						Object lastValue = state.lastValue;
-						if ( lastValue == value
-								|| ( lastValue != null && lastValue
-										.equals( value ) ) )
+						if ( lastValue == value ||
+								( lastValue != null && lastValue.equals( value ) ) )
 						{
 							return null;
 						}

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,6 +13,7 @@ package org.eclipse.birt.core.archive.compound;
 
 import java.io.EOFException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -37,15 +38,6 @@ class AllocTable implements ArchiveConstants
 {
 
 	/**
-	 * the increase step of the size of the link list.
-	 */
-	private final static int BLOCK_COUNT_INCREASE = 32;
-	/**
-	 * the last block indicator.
-	 */
-	private final static int LAST_BLOCK = -1;
-
-	/**
 	 * the archive file which use this allocation table.
 	 */
 	protected ArchiveFileV2 af;
@@ -54,21 +46,9 @@ class AllocTable implements ArchiveConstants
 
 	final int INDEX_PER_BLOCK;
 
-	/**
-	 * the list saves the blocks of the allocat table.
-	 */
-	protected int[] allocBlocks;
-	/**
-	 * total blocks in the allocat table.
-	 */
-	protected int totalAllocBlocks;
+	protected AllocEntry fatEntry;
 
-	/**
-	 * free blocks in the table
-	 */
-	protected int[] freeBlocks;
-
-	protected int totalFreeBlocks;
+	protected AllocEntry freeEntry;
 
 	protected HashMap entries = new HashMap( );
 
@@ -77,13 +57,8 @@ class AllocTable implements ArchiveConstants
 		this.af = af;
 		BLOCK_SIZE = af.BLOCK_SIZE;
 		INDEX_PER_BLOCK = BLOCK_SIZE / 4;
-		allocBlocks = new int[BLOCK_COUNT_INCREASE];
-		allocBlocks[0] = ALLOC_TABLE_BLOCK;
-		totalAllocBlocks = 1;
-
-		freeBlocks = new int[BLOCK_COUNT_INCREASE];
-		totalFreeBlocks = 0;
-
+		fatEntry = new AllocEntry( ALLOC_TABLE_BLOCK );
+		freeEntry = new AllocEntry( 0 );
 		entries.put( new Integer( ENTRY_TABLE_BLOCK ), new AllocEntry(
 				ENTRY_TABLE_BLOCK ) );
 	}
@@ -97,8 +72,32 @@ class AllocTable implements ArchiveConstants
 	static AllocTable loadTable( ArchiveFileV2 af ) throws IOException
 	{
 		AllocTable table = new AllocTable( af );
-		table.refresh( );
+		table.load( );
 		return table;
+	}
+
+	synchronized void load( ) throws IOException
+	{
+		AllocTableLoader loader = new AllocTableLoader( );
+		loader.load( af );
+		ArrayList loadedEntries = loader.getEntryies( );
+		for ( int i = 0; i < loadedEntries.size( ); i++ )
+		{
+			AllocEntry entry = (AllocEntry) loadedEntries.get( i );
+			int blockId = entry.getFirstBlock( );
+			if ( blockId == ALLOC_TABLE_BLOCK )
+			{
+				fatEntry = entry;
+			}
+			else if ( blockId == 0 )
+			{
+				freeEntry = entry;
+			}
+			else
+			{
+				entries.put( new Integer( entry.getFirstBlock( ) ), entry );
+			}
+		}
 	}
 
 	/**
@@ -116,26 +115,11 @@ class AllocTable implements ArchiveConstants
 			entry.flush( this );
 		}
 
-		// flush the free block list
-		if ( totalFreeBlocks != 0 )
-		{
-			for ( int i = 1; i < totalFreeBlocks; i++ )
-			{
-				writeFATInt( freeBlocks[i - 1] * 4, freeBlocks[i] );
-			}
-			writeFATInt( freeBlocks[totalFreeBlocks - 1] * 4, LAST_BLOCK );
-		}
-		else
-		{
-			writeFATInt( 0, LAST_BLOCK );
-		}
-
 		// flush the total blocks
-		for ( int i = 1; i < totalAllocBlocks; i++ )
-		{
-			writeFATInt( allocBlocks[i - 1] * 4, allocBlocks[i] );
-		}
-		writeFATInt( allocBlocks[totalAllocBlocks - 1] * 4, LAST_BLOCK );
+		fatEntry.flush( this );
+
+		// flush the free block list
+		freeEntry.flush( this );
 	}
 
 	/**
@@ -146,15 +130,7 @@ class AllocTable implements ArchiveConstants
 	synchronized void refresh( ) throws IOException
 	{
 		// reload the fat tables
-		int lastBlockId = allocBlocks[totalAllocBlocks - 1];
-		int blockId = readFATInt( lastBlockId * 4 );
-		while ( blockId != -1 )
-		{
-			ensureFATBlocks( totalAllocBlocks + 1 );
-			allocBlocks[totalAllocBlocks] = blockId;
-			totalAllocBlocks++;
-			blockId = readFATInt( blockId * 4 );
-		}
+		fatEntry.refresh( this );
 
 		// the free blocks is only used by the writer, so we needn't refresh it.
 
@@ -177,10 +153,9 @@ class AllocTable implements ArchiveConstants
 	synchronized int getFreeBlock( ) throws IOException
 	{
 		// get the free block
-		if ( totalFreeBlocks > 0 )
+		if ( freeEntry.getTotalBlocks( ) > 1 )
 		{
-			int freeBlockId = freeBlocks[totalFreeBlocks - 1];
-			totalFreeBlocks--;
+			int freeBlockId = freeEntry.removeLastBlock( );
 			return freeBlockId;
 		}
 		else
@@ -224,25 +199,24 @@ class AllocTable implements ArchiveConstants
 	synchronized void removeEntry( AllocEntry entry ) throws IOException
 	{
 		int totalBlocks = entry.getTotalBlocks( );
-		ensureFreeBlocks( totalFreeBlocks + totalBlocks );
 		for ( int i = 0; i < totalBlocks; i++ )
 		{
 			int freeBlock = entry.getBlock( i );
-			freeBlocks[totalFreeBlocks] = freeBlock;
-			totalFreeBlocks++;
+			freeEntry.appendBlock( freeBlock );
 		}
 		entries.remove( new Integer( entry.getFirstBlock( ) ) );
 	}
 
 	int readFATInt( long offset ) throws IOException
 	{
-		if ( offset > (long) totalAllocBlocks * BLOCK_SIZE )
+		int totalBlocks = fatEntry.getTotalBlocks( );
+		if ( offset > (long) totalBlocks * BLOCK_SIZE )
 		{
 			throw new EOFException( );
 		}
 		int blockId = (int) ( offset / BLOCK_SIZE );
 		int off = (int) ( offset % BLOCK_SIZE );
-		int phyBlockId = getFATBlock( blockId );
+		int phyBlockId = fatEntry.getBlock( blockId );
 		byte[] b = new byte[4];
 		af.read( phyBlockId, off, b, 0, 4 );
 		return ArchiveUtil.bytesToInteger( b );
@@ -250,66 +224,35 @@ class AllocTable implements ArchiveConstants
 
 	void writeFATInt( long offset, int block ) throws IOException
 	{
+		int totalBlocks = fatEntry.getTotalBlocks( );
 		int blockId = (int) ( offset / BLOCK_SIZE );
 		int off = (int) ( offset % BLOCK_SIZE );
-		if ( blockId >= totalAllocBlocks )
+		if ( blockId >= totalBlocks )
 		{
 			int newTotalBlocks = blockId + 1;
-			ensureFATBlocks( newTotalBlocks );
-			for ( int i = totalAllocBlocks; i < newTotalBlocks; i++ )
+			for ( int i = totalBlocks; i < newTotalBlocks; i++ )
 			{
-				allocBlocks[totalAllocBlocks] = INDEX_PER_BLOCK * totalAllocBlocks;
-				totalAllocBlocks++;
+				fatEntry.appendBlock( INDEX_PER_BLOCK * i );
 			}
 		}
-		int phyBlockId = getFATBlock( blockId );
+		int phyBlockId = fatEntry.getBlock( blockId );
 		byte[] b = new byte[4];
 		ArchiveUtil.integerToBytes( block, b );
 		af.write( phyBlockId, off, b, 0, 4 );
 	}
 
-	private void ensureFATBlocks( int size )
-	{
-		// ensure the buffer is larger enough.
-		if ( allocBlocks.length < size )
-		{
-			int length = ( size / BLOCK_COUNT_INCREASE + 1 )
-					* BLOCK_COUNT_INCREASE;
-			int[] blocks = new int[length];
-			System.arraycopy( allocBlocks, 0, blocks, 0, totalAllocBlocks );
-			allocBlocks = blocks;
-		}
-	}
-
-	private void ensureFreeBlocks( int size )
-	{
-		// ensure the buffer is larger enough.
-		if ( freeBlocks.length < size )
-		{
-			int length = ( size / BLOCK_COUNT_INCREASE + 1 )
-					* BLOCK_COUNT_INCREASE;
-			int[] blocks = new int[length];
-			System.arraycopy( freeBlocks, 0, blocks, 0, totalFreeBlocks );
-			freeBlocks = blocks;
-		}
-	}
-
-	private int getFATBlock( int blockId ) throws IOException
-	{
-		return allocBlocks[blockId];
-	}
-
 	void debug_dump( )
 	{
 		System.out.println( "ALLOC:" );
-		for ( int i = 0; i < totalAllocBlocks; i++ )
+		for ( int i = 0; i < fatEntry.getTotalBlocks( ); i++ )
 		{
-			System.out.print( allocBlocks[i] + "," );
+			System.out.print( fatEntry.getBlock( i ) + "," );
 		}
+		System.out.println( );
 		System.out.println( "FREE:" );
-		for ( int i = 0; i < totalFreeBlocks; i++ )
+		for ( int i = 0; i < freeEntry.getTotalBlocks( ); i++ )
 		{
-			System.out.print( freeBlocks[i] + "," );
+			System.out.print( freeEntry.getBlock( i ) + "," );
 		}
 		System.out.println( );
 		Iterator iter = entries.values( ).iterator( );

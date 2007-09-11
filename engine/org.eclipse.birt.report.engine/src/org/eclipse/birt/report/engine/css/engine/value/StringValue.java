@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -48,12 +48,15 @@ public class StringValue extends Value
 
 	/**
 	 * Indicates whether some other object is "equal to" this one.
-	 * 
 	 * @param obj
 	 *            the reference object with which to compare.
 	 */
 	public boolean equals( Object obj )
 	{
+		if ( this == obj )
+		{
+			return true;
+		}
 		if ( obj == null || !( obj instanceof StringValue ) )
 		{
 			return false;

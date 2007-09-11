@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.engine.layout.html;
 
-import java.util.LinkedList;
-
 import org.eclipse.birt.report.engine.content.ContentVisitorAdapter;
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -27,6 +25,7 @@ import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
+import org.eclipse.birt.report.engine.util.FastPool;
 
 public class HTMLLayoutManagerFactory
 {
@@ -52,42 +51,42 @@ public class HTMLLayoutManagerFactory
 		return layout;
 	}
 
-	LinkedList freeLeaf = new LinkedList( );
-	LinkedList freeBlock = new LinkedList( );
-	LinkedList freeTable = new LinkedList( );
-	LinkedList freeTableBand = new LinkedList( );
-	LinkedList freeRow = new LinkedList( );
-	LinkedList freeList = new LinkedList( );
-	LinkedList freeGroup = new LinkedList( );
-	LinkedList freeListBand = new LinkedList( );
+	FastPool freeLeaf = new FastPool( );
+	FastPool freeBlock = new FastPool( );
+	FastPool freeTable = new FastPool( );
+	FastPool freeTableBand = new FastPool( );
+	FastPool freeRow = new FastPool( );
+	FastPool freeList = new FastPool( );
+	FastPool freeGroup = new FastPool( );
+	FastPool freeListBand = new FastPool( );
 
 	public void releaseLayoutManager( HTMLAbstractLM manager )
 	{
 		switch ( manager.getType( ) )
 		{
 			case HTMLAbstractLM.LAYOUT_MANAGER_LEAF :
-				freeLeaf.addLast( manager );
+				freeLeaf.add( manager );
 				break;
 			case HTMLAbstractLM.LAYOUT_MANAGER_BLOCK :
-				freeBlock.addLast( manager );
+				freeBlock.add( manager );
 				break;
 			case HTMLAbstractLM.LAYOUT_MANAGER_TABLE :
-				freeTable.addLast( manager );
+				freeTable.add( manager );
 				break;
 			case HTMLAbstractLM.LAYOUT_MANAGER_TABLE_BAND :
-				freeTableBand.addLast( manager );
+				freeTableBand.add( manager );
 				break;
 			case HTMLAbstractLM.LAYOUT_MANAGER_ROW :
-				freeRow.addLast( manager );
+				freeRow.add( manager );
 				break;
 			case HTMLAbstractLM.LAYOUT_MANAGER_LIST :
-				freeList.addLast( manager );
+				freeList.add( manager );
 				break;
 			case HTMLAbstractLM.LAYOUT_MANAGER_GROUP :
-				freeGroup.addLast( manager );
+				freeGroup.add( manager );
 				break;
 			case HTMLAbstractLM.LAYOUT_MANAGER_LIST_BAND :
-				freeListBand.addLast( manager );
+				freeListBand.add( manager );
 				break;
 		}
 	}
@@ -110,7 +109,7 @@ public class HTMLLayoutManagerFactory
 		{
 			if ( !freeLeaf.isEmpty( ) )
 			{
-				return (HTMLLeafItemLM) freeLeaf.removeFirst( );
+				return (HTMLLeafItemLM) freeLeaf.remove( );
 			}
 			return new HTMLLeafItemLM( HTMLLayoutManagerFactory.this );
 		}
@@ -125,7 +124,7 @@ public class HTMLLayoutManagerFactory
 		{
 			if ( !freeBlock.isEmpty( ) )
 			{
-				return (HTMLBlockStackingLM) freeBlock.removeFirst( );
+				return (HTMLBlockStackingLM) freeBlock.remove( );
 			}
 			return new HTMLBlockStackingLM( HTMLLayoutManagerFactory.this );
 		}
@@ -134,7 +133,7 @@ public class HTMLLayoutManagerFactory
 		{
 			if ( !freeTable.isEmpty( ) )
 			{
-				return (HTMLTableLM) freeTable.removeFirst( );
+				return (HTMLTableLM) freeTable.remove( );
 			}
 			return new HTMLTableLM( HTMLLayoutManagerFactory.this );
 		}
@@ -143,7 +142,7 @@ public class HTMLLayoutManagerFactory
 		{
 			if ( !freeGroup.isEmpty( ) )
 			{
-				return (HTMLGroupLM) freeGroup.removeFirst( );
+				return (HTMLGroupLM) freeGroup.remove( );
 			}
 			return new HTMLGroupLM( HTMLLayoutManagerFactory.this );
 		}
@@ -152,7 +151,7 @@ public class HTMLLayoutManagerFactory
 		{
 			if ( !freeTableBand.isEmpty( ) )
 			{
-				return (HTMLTableBandLM) freeTableBand.removeFirst( );
+				return (HTMLTableBandLM) freeTableBand.remove( );
 			}
 			return new HTMLTableBandLM( HTMLLayoutManagerFactory.this );
 		}
@@ -161,7 +160,7 @@ public class HTMLLayoutManagerFactory
 		{
 			if ( !freeRow.isEmpty( ) )
 			{
-				return (HTMLRowLM) freeRow.removeFirst( );
+				return (HTMLRowLM) freeRow.remove( );
 			}
 			return new HTMLRowLM( HTMLLayoutManagerFactory.this );
 		}
@@ -170,7 +169,7 @@ public class HTMLLayoutManagerFactory
 		{
 			if ( !freeList.isEmpty( ) )
 			{
-				return (HTMLListLM) freeList.removeFirst( );
+				return (HTMLListLM) freeList.remove( );
 			}
 			return new HTMLListLM( HTMLLayoutManagerFactory.this );
 
@@ -180,7 +179,7 @@ public class HTMLLayoutManagerFactory
 		{
 			if ( !freeGroup.isEmpty( ) )
 			{
-				return (HTMLGroupLM) freeGroup.removeFirst( );
+				return (HTMLGroupLM) freeGroup.remove( );
 			}
 			return new HTMLGroupLM( HTMLLayoutManagerFactory.this );
 		}
@@ -189,7 +188,7 @@ public class HTMLLayoutManagerFactory
 		{
 			if ( !freeListBand.isEmpty( ) )
 			{
-				return (HTMLListingBandLM) freeListBand.removeFirst( );
+				return (HTMLListingBandLM) freeListBand.remove( );
 			}
 			return new HTMLListingBandLM( HTMLLayoutManagerFactory.this );
 		}

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,23 +11,22 @@
 
 package org.eclipse.birt.report.engine.internal.executor.emitter;
 
-import java.util.LinkedList;
-
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.wrap.WrappedReportExecutor;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
+import org.eclipse.birt.report.engine.util.FastPool;
 
 public class ReportEmitterExecutor extends WrappedReportExecutor
 {
 
-	LinkedList executors = new LinkedList( );
-
 	IReportContent report;
 
 	IContentEmitter emitter;
+
+	private FastPool executors = new FastPool( );
 
 	public ReportEmitterExecutor( IReportExecutor executor,
 			IContentEmitter emitter )
@@ -38,7 +37,7 @@ public class ReportEmitterExecutor extends WrappedReportExecutor
 
 	protected void closeWrappedExecutor( IReportItemExecutor executor )
 	{
-		executors.addLast( executor );
+		executors.add( executor );
 	}
 
 	protected IReportItemExecutor createWrappedExecutor(
@@ -51,8 +50,7 @@ public class ReportEmitterExecutor extends WrappedReportExecutor
 		}
 		else
 		{
-			emitterExecutor = (ReportItemEmitterExecutor) executors
-					.removeLast( );
+			emitterExecutor = (ReportItemEmitterExecutor) executors.remove( );
 			emitterExecutor.setExecutor( executor );
 		}
 		return emitterExecutor;

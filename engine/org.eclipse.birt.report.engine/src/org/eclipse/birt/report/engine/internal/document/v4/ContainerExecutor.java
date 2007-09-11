@@ -1,15 +1,23 @@
+/*******************************************************************************
+ * Copyright (c) 2004, 2007 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.engine.internal.document.v4;
 
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
-import org.eclipse.birt.report.engine.internal.document.OffsetIndexReader;
 import org.eclipse.birt.report.engine.internal.executor.doc.Fragment;
 import org.eclipse.birt.report.engine.internal.executor.doc.Segment;
 import org.eclipse.birt.report.engine.presentation.InstanceIndex;
@@ -43,11 +51,6 @@ import org.eclipse.birt.report.engine.presentation.InstanceIndex;
  */
 abstract public class ContainerExecutor extends ReportItemExecutor
 {
-	/**
-	 * the logger
-	 */
-	protected static Logger logger = Logger.getLogger( ContainerExecutor.class.getName( ) );
-	
 	/**
 	 * we need prepare the next executable child
 	 */

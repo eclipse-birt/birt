@@ -13,19 +13,15 @@ package org.eclipse.birt.report.engine.layout.html;
 
 import java.util.logging.Logger;
 
-import org.eclipse.birt.report.engine.content.ICellContent;
-import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.content.impl.LabelContent;
-import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
-import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.PageSetupDesign;
 import org.eclipse.birt.report.engine.layout.ILayoutManager;
+import org.eclipse.birt.report.engine.layout.LayoutUtil;
 import org.w3c.dom.css.CSSValue;
 
 public abstract class HTMLAbstractLM implements ILayoutManager
@@ -132,7 +128,7 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 				//it is the first time we handle the content
 			case STATUS_INPROGRESS :
 
-				start( status==STATUS_START || status==STATUS_INTIALIZE);
+				start( status != STATUS_INPROGRESS );
 				boolean hasNext = layoutChildren( );
 				end( !hasNext );
 				
@@ -147,7 +143,7 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 				if ( hasNext )
 				{
 					// there are sill some content to output,
-					// return to caller to creat the new page.
+					// return to caller to create the new page.
 					return true;
 				}
 				// We need create an extra page for the following elements, so
@@ -199,31 +195,35 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 	}
 
 	
+	private Boolean allowPageBreak;
+
 	protected boolean canPageBreak( )
 	{
-		//if the context disable the page-break, return directly
+		// if the context disable the page-break, return directly
 		if ( !context.allowPageBreak( ) )
 		{
 			return false;
 		}
 
-		//test if it allow page break.
-		if ( !allowPageBreak( ) )
+		if ( allowPageBreak == null )
 		{
-			return false;
-		}
-		
-		//then test it's parent
-		HTMLAbstractLM p = parent;
-		while ( p != null )
-		{
-			if ( !p.allowPageBreak( ) )
+			if ( !allowPageBreak( ) )
 			{
-				return false;
+				allowPageBreak = Boolean.FALSE;
 			}
-			p = p.getParent( );
+			else
+			{
+				if ( parent != null )
+				{
+					allowPageBreak = Boolean.valueOf( parent.canPageBreak( ) );
+				}
+				else
+				{
+					allowPageBreak = Boolean.TRUE;
+				}
+			}
 		}
-		return true;
+		return allowPageBreak.booleanValue( );
 	}
 
 	protected boolean needPageBreakBefore( )
@@ -232,20 +232,23 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 		{
 			return false;
 		}
-		boolean ret = hasMasterPageChanged( );
-
+		if ( hasMasterPageChanged( ) )
+		{
+			return true;
+		}
 		IStyle style = content.getStyle( );
 		CSSValue pageBreak = style.getProperty( IStyle.STYLE_PAGE_BREAK_BEFORE );
-		if ( IStyle.ALWAYS_VALUE.equals( pageBreak )
-				|| IStyle.RIGHT_VALUE.equals( pageBreak )
-				|| IStyle.LEFT_VALUE.equals( pageBreak )
-				|| IStyle.SOFT_VALUE.equals( pageBreak ) )
+		if ( IStyle.ALWAYS_VALUE == pageBreak ||
+				IStyle.RIGHT_VALUE == pageBreak ||
+				IStyle.LEFT_VALUE == pageBreak ||
+				IStyle.SOFT_VALUE == pageBreak )
 		{
-			//style.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE, IStyle.AUTO_VALUE );
+			// style.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
+			// IStyle.AUTO_VALUE );
 			return true;
 		}
 
-		return ret;
+		return false;
 	}
 
 	protected boolean needPageBreakAfter( )
@@ -255,12 +258,13 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 			return false;
 		}
 		IStyle style = content.getStyle( );
-		CSSValue pageBreak = style.getProperty( IStyle.STYLE_PAGE_BREAK_AFTER);
-		if ( IStyle.ALWAYS_VALUE.equals( pageBreak )
-				|| IStyle.RIGHT_VALUE.equals( pageBreak )
-				|| IStyle.LEFT_VALUE.equals( pageBreak ))
+		CSSValue pageBreak = style.getProperty( IStyle.STYLE_PAGE_BREAK_AFTER );
+		if ( IStyle.ALWAYS_VALUE == pageBreak ||
+				IStyle.RIGHT_VALUE == pageBreak ||
+				IStyle.LEFT_VALUE == pageBreak )
 		{
-			//style.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE, IStyle.AUTO_VALUE );
+			// style.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
+			// IStyle.AUTO_VALUE );
 			return true;
 		}
 		return false;
@@ -273,12 +277,8 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 			return false;
 		}
 		IStyle style = content.getStyle( );
-		if ( style == null )
-		{
-			return false;
-		}
 		String newMasterPage = style.getMasterPage( );
-		if ( newMasterPage == null || "".equals( newMasterPage ) ) //$NON-NLS-1$
+		if ( newMasterPage == null || newMasterPage.length( ) == 0 )
 		{
 			return false;
 		}
@@ -330,80 +330,13 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 		return null;
 	}
 	
-	protected boolean isHidden( IContent content )
-	{
-		if ( content != null )
-		{
-			IStyle style = content.getStyle( );
-			boolean outputDisplayNone = context.getOutputDisplayNone( );
-			if ( !outputDisplayNone
-					&& IStyle.NONE_VALUE.equals( style
-							.getProperty( IStyle.STYLE_DISPLAY ) ) )
-			{
-				return true;
-			}
-			return isHiddenByVisibility( content );
-		}
-		return false;
-	}
-
-	/**
-	 * if the content is hidden
-	 * 
-	 * @return
-	 */
-	private boolean isHiddenByVisibility( IContent content )
-	{
-		assert content != null;
-		IStyle style = content.getStyle( );
-		String formats = style.getVisibleFormat( );
-		String format = null;
-		if(emitter!=null)
-		{
-			format = emitter.getOutputFormat( );
-			if(format!=null)
-			{
-				format = format.toLowerCase( );
-			}
-		}
-		if ( format!=null && contains(formats, format))
-		{
-			return true;
-		}
-		if ( content.getContentType( ) == IContent.CELL_CONTENT )
-		{
-			ICellContent cell = (ICellContent) content;
-			IColumn column = cell.getColumnInstance( );
-			if ( column != null )
-			{
-				formats = column.getVisibleFormat( );
-				if ( format!=null && contains(formats, format) )
-				{
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-	
-	private boolean contains(String formats, String format)
-	{
-		if ( formats != null
-				&& ( formats.indexOf( EngineIRConstants.FORMAT_TYPE_VIEWER ) >= 0
-						|| formats.indexOf( BIRTConstants.BIRT_ALL_VALUE ) >= 0 || formats
-						.indexOf( format ) >= 0 ) )
-		{
-			return true;
-		}
-		return false;
-	}
-	
 
 	protected boolean handleVisibility( )
 	{
 		assert content != null;
 		assert executor != null;
-		if ( isHidden( content ) )
+		if ( LayoutUtil.isHidden( content, emitter.getOutputFormat( ), context
+				.getOutputDisplayNone( ) ) )
 		{
 			traverse( executor, content );
 			return true;
@@ -511,7 +444,7 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 
 	public void close( )
 	{
-
+		engine.getFactory( ).releaseLayoutManager( this );
 	}
 
 	public void cancel( )
