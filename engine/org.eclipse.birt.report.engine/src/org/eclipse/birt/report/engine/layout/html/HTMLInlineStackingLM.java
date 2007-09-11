@@ -83,7 +83,8 @@ public abstract class HTMLInlineStackingLM extends HTMLStackingLM
 	protected boolean resumeLayout( )
 	{
 		boolean hasNextPage = false;
-		for ( int i = 0; i < childrenLayouts.size( ); i++ )
+		int length = childrenLayouts.size( );
+		for ( int i = 0; i < length; i++ )
 		{
 			boolean childFinished = ( (Boolean) childrenFinished.get( i ) )
 					.booleanValue( );
@@ -92,12 +93,12 @@ public abstract class HTMLInlineStackingLM extends HTMLStackingLM
 				ILayoutManager childLayout = (ILayoutManager) childrenLayouts
 						.get( i );
 				boolean childHasNewPage = childLayout.layout( );
-				if (childHasNewPage)
+				if ( childHasNewPage )
 				{
 					hasNextPage = true;
 				}
 				childFinished = childLayout.isFinished( );
-				if (childFinished)
+				if ( childFinished )
 				{
 					childLayout.close( );
 					IReportItemExecutor childExecutor = (IReportItemExecutor) childrenExecutors

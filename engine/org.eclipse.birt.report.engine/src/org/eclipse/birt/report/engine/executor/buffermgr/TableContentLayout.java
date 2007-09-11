@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IColumn;
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
@@ -585,18 +586,14 @@ public class TableContentLayout
 		return rowCount - 1;
 	}
 	
-	public boolean isRowHidden( Object rowContent)
-	{
-		return LayoutUtil.isRowHidden( rowContent, format, context
-				.getOutputDisplayNone( ) );
-	}
 
 	public boolean isVisible( ICellContent cell )
 	{
 		IElement parent = cell.getParent( );
-		if ( parent instanceof IRowContent )
+		if ( parent instanceof IContent )
 		{
-			if ( isRowHidden( parent ) )
+			if ( LayoutUtil.isHidden( ( (IContent) parent ), format, context
+					.getOutputDisplayNone( ) ) )
 			{
 				return false;
 			}

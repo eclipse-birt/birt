@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import java.util.LinkedList;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
@@ -43,6 +42,7 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
 import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
+import org.eclipse.birt.report.engine.util.FastPool;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -103,7 +103,7 @@ public class ExecutorManager
 	/**
 	 * array of free list
 	 */
-	protected LinkedList[] freeList = new LinkedList[NUMBER];
+	protected FastPool[] freeList = new FastPool[NUMBER];
 
 	/**
 	 * constructor
@@ -118,7 +118,7 @@ public class ExecutorManager
 		this.executorContext = new ExecutorContext( context );
 		for ( int i = 0; i < NUMBER; i++ )
 		{
-			freeList[i] = new LinkedList( );
+			freeList[i] = new FastPool( );
 		}
 		executorFactory = new ExecutorFactory( );
 	}
@@ -146,7 +146,7 @@ public class ExecutorManager
 		if ( !freeList[type].isEmpty( ) )
 		{
 			// the free list is non-empty
-			return (ReportItemExecutor) freeList[type].removeFirst( );
+			return (ReportItemExecutor) freeList[type].remove( );
 		}
 		switch ( type )
 		{
@@ -210,8 +210,8 @@ public class ExecutorManager
 		return executor;
 	}
 
-	public ReportItemExecutor createExtendedExecutor( IReportItemExecutor parent,
-			IReportItemExecutor executor )
+	public ReportItemExecutor createExtendedExecutor(
+			IReportItemExecutor parent, IReportItemExecutor executor )
 	{
 		ExtendedItemExecutor wrapper = (ExtendedItemExecutor) getItemExecutor( EXTENDEDITEM );
 		if ( wrapper != null )
@@ -400,7 +400,8 @@ public class ExecutorManager
 						useCache = true;
 					}
 				}
-				IBaseResultSet rset = dataEngine.execute( parent, query, useCache );
+				IBaseResultSet rset = dataEngine.execute( parent, query,
+						useCache );
 				context.setResultSet( rset );
 				return rset;
 			}

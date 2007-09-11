@@ -50,12 +50,12 @@ public class HTMLListingBandLM extends HTMLBlockStackingLM
 
 	public void close( )
 	{
-		super.close( );
 		if ( repeatHeader )
 		{
 			assert executor instanceof DOMReportItemExecutor;
 			executor.close( );
 		}
+		super.close( );
 	}
 
 	private void intializeHeaderContent( )

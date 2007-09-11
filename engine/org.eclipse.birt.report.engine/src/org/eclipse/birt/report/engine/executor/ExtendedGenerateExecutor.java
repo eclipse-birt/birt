@@ -184,13 +184,13 @@ public class ExtendedGenerateExecutor extends QueryItemExecutor
 	{
 		ExtendedItemDesign extItem = (ExtendedItemDesign) design;
 		IDataEngine dataEngine = context.getDataEngine( );
-		IBaseResultSet parent = getParentResultSet( );
 
 		boolean useCache = extItem.useCachedResult( );
-		
+
 		IDataQueryDefinition[] queries = extItem.getQueries( );
 		if ( queries != null )
 		{
+			IBaseResultSet parent = getParentResultSet( );
 			rsets = new IBaseResultSet[queries.length];
 			for ( int i = 0; i < rsets.length; i++ )
 			{

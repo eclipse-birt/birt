@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -58,6 +58,7 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
  * Reset the state of report item executor by calling <code>reset()</code>
  * 
  */
+//TODO: can we reuse the content object instead of create different content object for the same report design element?
 public abstract class ReportItemExecutor implements IReportItemExecutor
 {
 	
@@ -95,7 +96,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	protected IContent content;
 	
 	/**
-	 * rset used to execute the parent
+	 * rset used to execute the item
 	 */
 	protected IQueryResultSet rset;
 	
@@ -507,9 +508,19 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	{
 		if ( parent != null )
 		{
+			//if result set is not null, it is a normal executor.
+			IQueryResultSet prset = parent.rset;
+			if ( prset != null )
+			{
+				DataSetID dataSetID = prset.getID( );
+				long position = prset.getRowIndex( );
+				return new DataID( dataSetID, position );
+			}
+			// the result set is NULL or it may be a extended item executor, try
+			// getQueryResults
 			IBaseResultSet[] rsets = parent.getQueryResults( );
-			if ( ( rsets != null ) && ( rsets.length > 0 )
-					&& ( rsets[0] != null ) )
+			if ( ( rsets != null ) && ( rsets.length > 0 ) &&
+					( rsets[0] != null ) )
 			{
 				if ( rsets[0] instanceof IQueryResultSet )
 				{
@@ -608,11 +619,12 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		{
 			if ( content != null )
 			{
-				TOCEntry parentTOCEntry = getParentTOCEntry( );
-				String hiddenFormats = content.getStyle( ).getVisibleFormat( );
 				Object tocValue = content.getTOC( );
 				if ( tocValue != null )
 				{
+					TOCEntry parentTOCEntry = getParentTOCEntry( );
+					String hiddenFormats = content.getStyle( )
+							.getVisibleFormat( );
 					long elementId = getElementId( );
 					String bookmark = content.getBookmark( );
 					tocEntry = tocBuilder.startEntry( parentTOCEntry, tocValue,
@@ -624,10 +636,16 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 					}
 					return;
 				}
-				else if ( hiddenFormats != null )
+				else
 				{
-					tocEntry = tocBuilder.startDummyEntry( parentTOCEntry,
-							hiddenFormats );
+					String hiddenFormats = content.getStyle( )
+							.getVisibleFormat( );
+					if ( hiddenFormats != null )
+					{
+						TOCEntry parentTOCEntry = getParentTOCEntry( );
+						tocEntry = tocBuilder.startDummyEntry( parentTOCEntry,
+								hiddenFormats );
+					}
 				}
 			}
 		}
@@ -698,19 +716,30 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		return null;
 	}
 	
+	private IBaseResultSet[] prset;
+
 	IBaseResultSet getParentResultSet( )
 	{
-		IReportItemExecutor pExecutor = parent;
-		while ( pExecutor != null )
+		if ( prset == null )
 		{
-			IBaseResultSet[] rsets = pExecutor.getQueryResults( );
-			if ( rsets != null && rsets.length > 0 )
+			prset = new IBaseResultSet[]{null};
+			if ( parent != null )
 			{
-				return rsets[0];
+				if ( parent.rset == null )
+				{
+					IBaseResultSet[] prsets = parent.getQueryResults( );
+					if ( prsets != null && prsets.length > 0 )
+					{
+						prset = prsets;
+					}
+				}
+				else
+				{
+					prset = new IBaseResultSet[]{parent.rset};
+				}
 			}
-			pExecutor = pExecutor.getParent( );
 		}
-		return null;
+		return prset[0];
 	}
 	
 	protected void restoreResultSet()
@@ -723,7 +752,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		// for CrossTAB has not design
 		if ( content.getGenerateBy( ) != null )
 		{
-			onCreateVisitor.onCreate( content );
+			//onCreateVisitor.onCreate( content );
 		}
 	}
 }
