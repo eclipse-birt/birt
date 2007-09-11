@@ -3167,7 +3167,10 @@ public abstract class AxesRenderer extends BaseRenderer
 		if ( bShowAsTape )
 		{
 			final double dSeriesThickness = srh.getSeriesThickness( );
-			boClientArea.delta( -dSeriesThickness, dSeriesThickness, 0, 0 );
+			boClientArea.delta( -dSeriesThickness,
+					-dSeriesThickness,
+					2 * dSeriesThickness,
+					2 * dSeriesThickness );
 		}
 		
 		renderClipping( ipr, boClientArea );
@@ -3312,17 +3315,20 @@ public abstract class AxesRenderer extends BaseRenderer
 		if ( bFirstInSequence && !isDimension3D( )
 				&& ( !isShowOutside( ) || !baseIsShowOutside( ) ) )
 		{
+			//Bugzilla #202875 Enlarge clipping area for curve lines
+			final int DIFF = 5;
 			ClipRenderEvent clip = new ClipRenderEvent( this );
 			Location[] locations = new Location[4];
-			locations[0] = LocationImpl.create( boClientArea.getLeft( ),
-					boClientArea.getTop( ) );
-			locations[1] = LocationImpl.create( boClientArea.getLeft( ),
-					boClientArea.getTop( ) + boClientArea.getHeight( ) );
+			locations[0] = LocationImpl.create( boClientArea.getLeft( ) - DIFF,
+					boClientArea.getTop( ) - DIFF );
+			locations[1] = LocationImpl.create( boClientArea.getLeft( ) - DIFF,
+					boClientArea.getTop( ) + boClientArea.getHeight( ) + DIFF );
 			locations[2] = LocationImpl.create( boClientArea.getLeft( )
-					+ boClientArea.getWidth( ), boClientArea.getTop( )
-					+ boClientArea.getHeight( ) );
+					+ boClientArea.getWidth( ) + DIFF, boClientArea.getTop( )
+					+ boClientArea.getHeight( ) + DIFF );
 			locations[3] = LocationImpl.create( boClientArea.getLeft( )
-					+ boClientArea.getWidth( ), boClientArea.getTop( ) );
+					+ boClientArea.getWidth( ) + DIFF, boClientArea.getTop( )
+					- DIFF );
 			clip.setVertices( locations );
 			ipr.setClip( clip );
 		}
