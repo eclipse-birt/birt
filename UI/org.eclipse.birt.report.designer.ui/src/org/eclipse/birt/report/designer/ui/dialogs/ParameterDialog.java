@@ -370,7 +370,7 @@ public class ParameterDialog extends BaseDialog
 				text = choice.getLabel( );
 				if ( text == null )
 				{
-//					text = format( choice.getValue( ) );
+					// text = format( choice.getValue( ) );
 					text = "";
 				}
 			}
@@ -665,7 +665,7 @@ public class ParameterDialog extends BaseDialog
 		choiceArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 4, true ) );
 		staticRadio = new Button( choiceArea, SWT.RADIO );
 		staticRadio.setText( RADIO_STATIC );
-		GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
+		GridData gd = new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING );
 		staticRadio.setLayoutData( gd );
 		staticRadio.addSelectionListener( new SelectionAdapter( ) {
 
@@ -686,12 +686,12 @@ public class ParameterDialog extends BaseDialog
 			}
 		} );
 
-		Label dummy = new Label(choiceArea, SWT.NONE);
-		dummy.setLayoutData( new GridData(GridData.FILL_HORIZONTAL) );
-		
+		Label dummy = new Label( choiceArea, SWT.NONE );
+		dummy.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
 		allowMultiChoice = new Button( choiceArea, SWT.CHECK );
 		allowMultiChoice.setText( CHECK_ALLOW_MULTI );
-		gd = new GridData(GridData.HORIZONTAL_ALIGN_END);
+		gd = new GridData( GridData.HORIZONTAL_ALIGN_END );
 		staticRadio.setLayoutData( gd );
 
 		valueArea = new Composite( valuesDefineSection, SWT.NONE );
@@ -771,7 +771,9 @@ public class ParameterDialog extends BaseDialog
 		{
 			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
 			{
-				defaultValue = DataTypeUtil.toString( DataTypeUtil.toDate( defaultValue ) );
+				// not use DataTypeUtil.toString() for datetime here, it has a
+				// bug loses seconds.
+				defaultValue = convertToStandardFormat( DataTypeUtil.toDate( defaultValue ) );
 			}
 			else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( getSelectedDataType( ) ) )
 			{
@@ -1353,15 +1355,17 @@ public class ParameterDialog extends BaseDialog
 	private boolean makeUniqueAndValid( )
 	{
 		boolean change = false;
-		Set set = new HashSet();	
+		Set set = new HashSet( );
 		for ( Iterator iter = choiceList.iterator( ); iter.hasNext( ); )
 		{
 			SelectionChoice choice = (SelectionChoice) iter.next( );
-			if ( set.contains( choice.getValue( ) ) || isValidValue( choice.getValue( ) ) != null )
+			if ( set.contains( choice.getValue( ) )
+					|| isValidValue( choice.getValue( ) ) != null )
 			{
 				iter.remove( );
 				change = true;
-			}else
+			}
+			else
 			{
 				set.add( choice.getValue( ) );
 			}
@@ -1417,15 +1421,16 @@ public class ParameterDialog extends BaseDialog
 			staticRadio.setEnabled( radioEnable );
 			dynamicRadio.setEnabled( radioEnable );
 		}
-		
-		if(PARAM_CONTROL_LIST.equals( getSelectedControlType( ) ))
+
+		if ( PARAM_CONTROL_LIST.equals( getSelectedControlType( ) ) )
 		{
 			allowMultiChoice.setVisible( true );
-		}else
+		}
+		else
 		{
 			allowMultiChoice.setVisible( false );
 		}
-		
+
 	}
 
 	private void switchParamterType( )
@@ -1601,15 +1606,17 @@ public class ParameterDialog extends BaseDialog
 				changeDefault.getParent( ).layout( );
 			}
 		} );
-		
-		int width1 = UIUtil.getStringWidth( BUTTON_LABEL_REMOVE_DEFAULT, changeDefault )+ 10;
-		int width2 = UIUtil.getStringWidth( BUTTON_LABEL_SET_DEFAULT, changeDefault ) + 10;
+
+		int width1 = UIUtil.getStringWidth( BUTTON_LABEL_REMOVE_DEFAULT,
+				changeDefault ) + 10;
+		int width2 = UIUtil.getStringWidth( BUTTON_LABEL_SET_DEFAULT,
+				changeDefault ) + 10;
 		int width = width1 >= width2 ? width1 : width2;
-		
-		GridData gd = new GridData();
+
+		GridData gd = new GridData( );
 		gd.widthHint = width;
-		changeDefault.setLayoutData( gd );		
-		
+		changeDefault.setLayoutData( gd );
+
 		createPromptLine( tableAreaComposite );
 		updateTableButtons( );
 		createSortingArea( valueArea );
@@ -1962,7 +1969,7 @@ public class ParameterDialog extends BaseDialog
 			inputParameter.setName( nameEditor.getText( ) );
 			inputParameter.setPromptText( UIUtil.convertToModelString( promptTextEditor.getText( ),
 					true ) );
-			
+
 			inputParameter.setParamType( DesignChoiceConstants.SCALAR_PARAM_TYPE_SIMPLE );
 			String newControlType = getSelectedControlType( );
 			if ( PARAM_CONTROL_COMBO.equals( newControlType ) )
@@ -1976,8 +1983,9 @@ public class ParameterDialog extends BaseDialog
 				newControlType = DesignChoiceConstants.PARAM_CONTROL_LIST_BOX;
 				// inputParameter.setMustMatch( false );
 				inputParameter.setMustMatch( true );
-				
-				if(allowMultiChoice.isVisible( ) && allowMultiChoice.getSelection( ))
+
+				if ( allowMultiChoice.isVisible( )
+						&& allowMultiChoice.getSelection( ) )
 				{
 					inputParameter.setParamType( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE );
 				}
@@ -2211,15 +2219,16 @@ public class ParameterDialog extends BaseDialog
 	protected void checkBoxChange( Button checkBox, String key )
 	{
 		dirtyProperties.put( key, new Boolean( checkBox.getSelection( ) ) );
-		if ( CHECKBOX_ISREQUIRED.equals( key ) || CHECKBOX_DISTINCT.equals( key ))
+		if ( CHECKBOX_ISREQUIRED.equals( key )
+				|| CHECKBOX_DISTINCT.equals( key ) )
 		{
 			if ( isStatic( ) )
 			{
 				boolean change = makeUniqueAndValid( );
-				if(change)
+				if ( change )
 				{
 					refreshValueTable( );
-				}				
+				}
 			}
 			if ( getSelectedDataType( ).equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
 			{
@@ -2953,13 +2962,14 @@ public class ParameterDialog extends BaseDialog
 			return errorMessage;
 		}
 		String newValue = convertToStandardFormat( value );
-		if(distinct.isEnabled( ) && distinct.getSelection( ) )
+		if ( distinct.isEnabled( ) && distinct.getSelection( ) )
 		{
 			if ( containValue( choice, displayLabelKey, COLUMN_DISPLAY_TEXT_KEY ) )
 			{
 				return ERROR_MSG_DUPLICATED_LABELKEY;
-			}else
-			return null;
+			}
+			else
+				return null;
 		}
 		if ( containValue( choice, newValue, COLUMN_VALUE ) )
 		{
