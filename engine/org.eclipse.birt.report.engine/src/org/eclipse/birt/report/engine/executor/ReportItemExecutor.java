@@ -752,7 +752,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		// for CrossTAB has not design
 		if ( content.getGenerateBy( ) != null )
 		{
-			//onCreateVisitor.onCreate( content );
+			onCreateVisitor.onCreate( content );
 		}
 	}
 }
