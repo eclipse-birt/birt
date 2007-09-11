@@ -1046,7 +1046,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			if ( !strEquals( binding.getFilterExpression( ),
 					txtFilter.getText( ) ) )
 				return true;
-			if ( btnTable.getSelection( ) == ( binding.getAggregateOn( ) == null ) )
+			if ( btnTable.getSelection( ) == ( binding.getAggregateOn( ) != null ) )
 				return true;
 		}
 		else
