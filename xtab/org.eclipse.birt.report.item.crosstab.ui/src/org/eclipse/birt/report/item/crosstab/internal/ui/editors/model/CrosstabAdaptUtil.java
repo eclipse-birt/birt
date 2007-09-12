@@ -21,6 +21,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -51,6 +52,7 @@ import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 
@@ -59,7 +61,9 @@ import org.eclipse.jface.dialogs.MessageDialogWithToggle;
  */
 public class CrosstabAdaptUtil
 {
+
 	protected static Logger logger = Logger.getLogger( CrosstabAdaptUtil.class.getName( ) );
+
 	/**
 	 * Gets the row or column count after the handel, now include the current
 	 * handle
@@ -102,11 +106,52 @@ public class CrosstabAdaptUtil
 		return bindingColumn;
 	}
 
+	public static ComputedColumn createLevelDisplayComputedColumn(
+			ReportItemHandle owner, LevelHandle levelHandle )
+	{
+		ComputedColumn bindingColumn = StructureFactory.newComputedColumn( owner,
+				levelHandle.getName( ) );
+
+		if ( levelHandle instanceof TabularLevelHandle
+				&& ( (TabularLevelHandle) levelHandle ).getDisplayColumnName( ) != null
+				&& ( (TabularLevelHandle) levelHandle ).getDisplayColumnName( )
+						.trim( )
+						.length( ) > 0 )
+		{
+			DesignElementHandle temp = levelHandle.getContainer( );
+			String dimensionName = "";
+			while ( temp != null )
+			{
+				if ( temp instanceof org.eclipse.birt.report.model.api.olap.DimensionHandle )
+				{
+					dimensionName = ( (org.eclipse.birt.report.model.api.olap.DimensionHandle) temp ).getName( );
+					break;
+				}
+				temp = temp.getContainer( );
+			}
+
+			String expr = ExpressionUtil.createJSDimensionExpression( dimensionName,
+					levelHandle.getName( ),
+					ICubeQueryUtil.DISPLAY_NAME_ATTR );
+
+			bindingColumn.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING );
+			bindingColumn.setExpression( expr );
+		}
+		else
+		{
+			bindingColumn.setDataType( levelHandle.getDataType( ) );
+			bindingColumn.setExpression( DEUtil.getExpression( levelHandle ) );
+		}
+
+		return bindingColumn;
+	}
+
 	public static DataItemHandle createColumnBindingAndDataItem(
 			ReportItemHandle owner, LevelHandle levelHandle )
 			throws SemanticException
 	{
-		ComputedColumn bindingColumn = createComputedColumn( owner, levelHandle );
+		ComputedColumn bindingColumn = createLevelDisplayComputedColumn( owner,
+				levelHandle );
 
 		ComputedColumnHandle bindingHandle = owner.addColumnBinding( bindingColumn,
 				false );
@@ -377,56 +422,63 @@ public class CrosstabAdaptUtil
 		catch ( BirtException e )
 		{
 			// donothing
-			logger.log(Level.SEVERE, e.getMessage(),e);
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 	}
-	
-	/**Adds the measreview handle to the CrosstabReportItemHandle.
+
+	/**
+	 * Adds the measreview handle to the CrosstabReportItemHandle.
+	 * 
 	 * @param reportHandle
 	 * @param measureHandle
 	 * @param position
 	 * @throws SemanticException
 	 */
-	public static void addMeasureHandle(CrosstabReportItemHandle reportHandle, 
-			MeasureHandle measureHandle, int position)throws SemanticException
+	public static void addMeasureHandle( CrosstabReportItemHandle reportHandle,
+			MeasureHandle measureHandle, int position )
+			throws SemanticException
 	{
 		MeasureViewHandle measureViewHandle = reportHandle.insertMeasure( measureHandle,
 				position );
 		measureViewHandle.addHeader( );
-		
-		ComputedColumn bindingColumn = CrosstabAdaptUtil.createComputedColumn( (ExtendedItemHandle)reportHandle.getModelHandle( ), measureHandle );
-		ComputedColumnHandle bindingHandle = ((ExtendedItemHandle)reportHandle.getModelHandle( )).addColumnBinding( bindingColumn, false );
-		
+
+		ComputedColumn bindingColumn = CrosstabAdaptUtil.createComputedColumn( (ExtendedItemHandle) reportHandle.getModelHandle( ),
+				measureHandle );
+		ComputedColumnHandle bindingHandle = ( (ExtendedItemHandle) reportHandle.getModelHandle( ) ).addColumnBinding( bindingColumn,
+				false );
+
 		CrosstabCellHandle cellHandle = measureViewHandle.getCell( );
-		
-		
+
 		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 				.newDataItem( measureHandle.getName( ) );
 
 		dataHandle.setResultSetColumn( bindingHandle.getName( ) );
-		
+
 		cellHandle.addContent( dataHandle );
 
-		LabelHandle labelHandle = DesignElementFactory.getInstance( ).newLabel(  null );
+		LabelHandle labelHandle = DesignElementFactory.getInstance( )
+				.newLabel( null );
 		labelHandle.setText( measureHandle.getName( ) );
 
 		measureViewHandle.getHeader( ).addContent( labelHandle );
 	}
-	
+
 	/**
 	 * @param objects
 	 * @return
 	 */
-	public static boolean canCreateMultipleCommand(Object[] objects)
+	public static boolean canCreateMultipleCommand( Object[] objects )
 	{
-		if (objects == null || objects.length <= 1)
+		if ( objects == null || objects.length <= 1 )
 		{
 			return false;
 		}
-		//There are have some other logic, but when allow to drag the ,ignore  the logic  here.
-		for (int i=0; i<objects.length; i++)
+		// There are have some other logic, but when allow to drag the ,ignore
+		// the logic here.
+		for ( int i = 0; i < objects.length; i++ )
 		{
-			if (objects[i] instanceof MeasureHandle || objects[i] instanceof MeasureGroupHandle)
+			if ( objects[i] instanceof MeasureHandle
+					|| objects[i] instanceof MeasureGroupHandle )
 			{
 				continue;
 			}
