@@ -202,7 +202,7 @@ public class OlapExpressionUtil
 	 */
 	public static String getDisplayColumnName( String level )
 	{
-		return level + "/" + "/_${DISPLAYNAME}$_/";
+		return level + "/" + "DisplayName";
 	}
 	
 	/**
