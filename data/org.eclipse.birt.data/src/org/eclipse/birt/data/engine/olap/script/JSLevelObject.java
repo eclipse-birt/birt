@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.olap.script;
 
 import javax.olap.OLAPException;
 import javax.olap.cursor.DimensionCursor;
+import javax.olap.cursor.RowDataMetaData;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
@@ -32,24 +33,24 @@ public class JSLevelObject extends ScriptableObject
 	private static final long serialVersionUID = 1L;
 	private DimensionCursor cursor;
 	private String levelName;
-	private String defaultColumnName;
+	private String displayName;
 	
 	JSLevelObject( DimensionCursor cursor, String levelName ) throws OLAPException
 	{
 		this.cursor = cursor;
 		this.levelName = levelName;
-		/*		RowDataMetaData meta = this.cursor.getMetaData( );
+		RowDataMetaData meta = this.cursor.getMetaData( );
 		String defaultName = OlapExpressionUtil.getDisplayColumnName( this.levelName );
 		for( int i = 0; i < meta.getColumnCount( ); i++ )
 		{
 			if ( meta.getColumnName( i ).equals( defaultName ) )
 			{
-				this.defaultColumnName = defaultName;
+				this.displayName = defaultName;
 				break;
 			}
 		}
-		if ( this.defaultColumnName == null )*/
-		this.defaultColumnName = this.levelName;
+		if ( this.displayName == null )
+			this.displayName = this.levelName;
 	}
 	
 	public String getClassName( )
@@ -66,7 +67,7 @@ public class JSLevelObject extends ScriptableObject
 	{
 		try
 		{
-			return this.cursor.getObject( this.defaultColumnName );
+			return this.cursor.getObject( this.levelName );
 		}
 		catch ( OLAPException e )
 		{
@@ -82,7 +83,11 @@ public class JSLevelObject extends ScriptableObject
 	{
 		try
 		{	
-			return this.cursor.getObject( OlapExpressionUtil.getAttributeColumnName( levelName , name ));
+			if ( "DisplayName".equals( name ) )
+				return this.cursor.getObject( OlapExpressionUtil.getAttributeColumnName( levelName,
+						this.displayName ) );
+			return this.cursor.getObject( OlapExpressionUtil.getAttributeColumnName( levelName,
+					name ) );
 		}
 		catch ( OLAPException e )
 		{
