@@ -21,6 +21,7 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
+import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.HighlightDesign;
 import org.eclipse.birt.report.engine.ir.HighlightRuleDesign;
 import org.eclipse.birt.report.engine.ir.MapDesign;
@@ -28,7 +29,6 @@ import org.eclipse.birt.report.engine.ir.MapRuleDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.StyledElementDesign;
 import org.eclipse.birt.report.model.api.DataItemHandle;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.FactoryPropertyHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -165,60 +165,67 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 			IDataContent dataObj )
 	{
 		MapDesign map = item.getMap( );
-
-		DesignElementHandle handle = item.getHandle( );
-
-		if ( handle instanceof DataItemHandle )
+		
+		if ( item instanceof DataItemDesign )
 		{
-			// TODO this is a temp hack fix for 201496 and should be removed
-			// after we have better onprepare support for extended item, which
-			// is the best timing to do this.
-
-			// try find the special map rule dynamically created by XTAB and
-			// process it first
-			DataItemHandle dataHandle = (DataItemHandle) handle;
-
-			FactoryPropertyHandle fph = dataHandle.getFactoryPropertyHandle( StyleHandle.MAP_RULES_PROP );
-
-			if ( fph != null )
+			if ( ( (DataItemDesign) item ).needRefreshMapping( ) )
 			{
-				Object val = fph.getValue( );
+				// TODO this is a temp hack fix for 201496 and should be removed
+				// after we have better onprepare support for extended item,
+				// which
+				// is the best timing to do this.
 
-				if ( val instanceof List && ( (List) val ).size( ) > 0 )
+				// try find the special map rule dynamically created by XTAB and
+				// process it first
+				DataItemHandle dataHandle = (DataItemHandle) item.getHandle( );
+
+				FactoryPropertyHandle fph = dataHandle
+						.getFactoryPropertyHandle( StyleHandle.MAP_RULES_PROP );
+
+				if ( fph != null )
 				{
-					String testExpr = org.eclipse.birt.core.data.ExpressionUtil.createJSDataExpression( dataHandle.getResultSetColumn( ) );
+					Object val = fph.getValue( );
 
-					for ( Iterator itr = ( (List) val ).iterator( ); itr.hasNext( ); )
+					if ( val instanceof List && ( (List) val ).size( ) > 0 )
 					{
-						MapRule mrh = (MapRule) itr.next( );
+						String testExpr = org.eclipse.birt.core.data.ExpressionUtil
+								.createJSDataExpression( dataHandle
+										.getResultSetColumn( ) );
 
-						if ( testExpr.equals( mrh.getTestExpression( ) )
-								&& DesignChoiceConstants.MAP_OPERATOR_NULL.equals( mrh.getOperator( ) ) )
+						for ( Iterator itr = ( (List) val ).iterator( ); itr
+								.hasNext( ); )
 						{
-							Object value = null;
+							MapRule mrh = (MapRule) itr.next( );
 
-							IConditionalExpression newExpression = expressionUtil.createConditionalExpression( mrh.getTestExpression( ),
-									mrh.getOperator( ),
-									mrh.getValue1( ),
-									mrh.getValue2( ) );
-
-							value = evaluate( newExpression );
-
-							if ( ( value != null )
-									&& ( value instanceof Boolean )
-									&& ( ( (Boolean) value ).booleanValue( ) ) )
+							if ( testExpr.equals( mrh.getTestExpression( ) )
+									&& DesignChoiceConstants.MAP_OPERATOR_NULL
+											.equals( mrh.getOperator( ) ) )
 							{
-								dataObj.setLabelText( mrh.getDisplay( ) );
-								dataObj.setLabelKey( mrh.getDisplayKey( ) );
-							}
+								Object value = null;
 
-							break;
+								IConditionalExpression newExpression = expressionUtil
+										.createConditionalExpression( mrh
+												.getTestExpression( ), mrh
+												.getOperator( ), mrh
+												.getValue1( ), mrh.getValue2( ) );
+
+								value = evaluate( newExpression );
+
+								if ( ( value != null )
+										&& ( value instanceof Boolean )
+										&& ( ( (Boolean) value ).booleanValue( ) ) )
+								{
+									dataObj.setLabelText( mrh.getDisplay( ) );
+									dataObj.setLabelKey( mrh.getDisplayKey( ) );
+								}
+
+								break;
+							}
 						}
 					}
 				}
 			}
 		}
-
 		if ( map != null )
 		{
 			for ( int i = 0; i < map.getRuleCount( ); i++ )

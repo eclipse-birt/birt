@@ -107,6 +107,7 @@ public interface IOConstants
 	// data
 	static final short FIELD_VALUE = 120;
 	static final short FIELD_BINDING_COLUMN = 121;
+	static final short FIELD_NEED_REFRESH_MAPPING = 122;
 
 	// text
 	static final short FIELD_TEXT_TYPE = 130;

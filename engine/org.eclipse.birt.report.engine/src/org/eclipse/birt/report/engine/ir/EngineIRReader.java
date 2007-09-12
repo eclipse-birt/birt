@@ -1070,6 +1070,10 @@ public class EngineIRReader implements IOConstants
 				String helpText = IOUtil.readString( in );
 				data.setHelpText( helpTextKey, helpText );
 				break;
+			case FIELD_NEED_REFRESH_MAPPING:
+				boolean needRefreshMapping = IOUtil.readBool( in );
+				data.setNeedRefreshMapping( needRefreshMapping );
+				break;
 			default :
 				readReportItemField( in, data, fieldType );
 

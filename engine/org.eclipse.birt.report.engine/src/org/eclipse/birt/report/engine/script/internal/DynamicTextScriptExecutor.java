@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation.
+ * Copyright (c) 2005, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -48,6 +48,10 @@ public class DynamicTextScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign textItemDesign = (ReportItemDesign) content
 					.getGenerateBy( );
+			if ( !needOnCreate( textItemDesign ) )
+			{
+				return;
+			}
 			IDynamicTextInstance text = createDynamicTextInstance( content,
 					context );
 			if ( handleJS( text, textItemDesign.getOnCreate( ), context )
@@ -71,6 +75,10 @@ public class DynamicTextScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign textItemDesign = (ReportItemDesign) content
 					.getGenerateBy( );
+			if ( !needOnRender( textItemDesign ) )
+			{
+				return;
+			}
 			IDynamicTextInstance text = createDynamicTextInstance( content,
 					context );
 			if ( handleJS( text, textItemDesign.getOnRender( ), context )
@@ -94,6 +102,10 @@ public class DynamicTextScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign textItemDesign = (ReportItemDesign) content
 					.getGenerateBy( );
+			if ( !needOnPageBreak( textItemDesign ) )
+			{
+				return;
+			}
 			IDynamicTextInstance text = createDynamicTextInstance( content,
 					context );
 			if ( handleJS( text, textItemDesign.getOnPageBreak( ), context )
@@ -119,25 +131,30 @@ public class DynamicTextScriptExecutor extends ScriptExecutor
 	private static IDynamicTextEventHandler getEventHandler(
 			ReportItemDesign design, ExecutionContext context )
 	{
-		TextDataHandle handle = (TextDataHandle) design.getHandle( );
-		if ( handle == null )
-			return null;
-		return getEventHandler( handle, context );
+		try
+		{
+			return (IDynamicTextEventHandler) getInstance( design, context );
+		}
+		catch ( ClassCastException e )
+		{
+			addClassCastException( context, e, design.getJavaClass( ),
+					IDynamicTextEventHandler.class );
+		}
+		return null;
 	}
 
 	private static IDynamicTextEventHandler getEventHandler(
 			TextDataHandle handle, ExecutionContext context )
 	{
-		IDynamicTextEventHandler eh = null;
 		try
 		{
-			eh = (IDynamicTextEventHandler) getInstance( handle, context );
+			return (IDynamicTextEventHandler) getInstance( handle, context );
 		}
 		catch ( ClassCastException e )
 		{
 			addClassCastException( context, e, handle.getEventHandlerClass( ),
 					IDynamicTextEventHandler.class );
 		}
-		return eh;
+		return null;
 	}
 }

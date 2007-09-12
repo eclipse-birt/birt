@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation.
+ * Copyright (c) 2005, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -45,6 +45,10 @@ public class TableScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign tableDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
+			if ( !needOnCreate( tableDesign ) )
+			{
+				return;
+			}
 			ITableInstance table = new TableInstance( content, context );
 			if ( handleJS( table, tableDesign.getOnCreate( ), context )
 					.didRun( ) )
@@ -65,6 +69,10 @@ public class TableScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign tableDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
+			if ( !needOnRender( tableDesign ) )
+			{
+				return;
+			}
 			ITableInstance table = new TableInstance( content, context );
 			if ( handleJS( table, tableDesign.getOnRender( ), context )
 					.didRun( ) )
@@ -85,6 +93,10 @@ public class TableScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign tableDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
+			if ( !needOnPageBreak( tableDesign ) )
+			{
+				return;
+			}
 			ITableInstance table = new TableInstance( content, context );
 			if ( handleJS( table, tableDesign.getOnPageBreak( ), context )
 					.didRun( ) )
@@ -101,24 +113,30 @@ public class TableScriptExecutor extends ScriptExecutor
 	private static ITableEventHandler getEventHandler( ReportItemDesign design,
 			ExecutionContext context )
 	{
-		TableHandle handle = ( TableHandle ) design.getHandle( );
-		if ( handle == null )
-			return null;
-		return getEventHandler( handle, context );
+		try
+		{
+			return (ITableEventHandler) getInstance( design, context );
+		}
+		catch ( ClassCastException e )
+		{
+			addClassCastException( context, e, design.getJavaClass( ),
+					ITableEventHandler.class );
+		}
+		return null;
 	}
 
 	private static ITableEventHandler getEventHandler( TableHandle handle,
 			ExecutionContext context )
 	{
-		ITableEventHandler eh = null;
 		try
 		{
-			eh = ( ITableEventHandler ) getInstance( handle, context );
-		} catch ( ClassCastException e )
+			return (ITableEventHandler) getInstance( handle, context );
+		}
+		catch ( ClassCastException e )
 		{
 			addClassCastException( context, e, handle.getEventHandlerClass( ),
 					ITableEventHandler.class );
 		}
-		return eh;
+		return null;
 	}
 }

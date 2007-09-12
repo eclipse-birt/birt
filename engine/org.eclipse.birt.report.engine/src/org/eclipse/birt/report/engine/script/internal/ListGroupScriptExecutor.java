@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation.
+ * Copyright (c) 2005, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -44,6 +44,10 @@ public class ListGroupScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign listGroupDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
+			if ( !needOnPageBreak( listGroupDesign ) )
+			{
+				return;
+			}
 			ReportElementInstance list = new ReportElementInstance( content, context );
 			if ( handleJS( list, listGroupDesign.getOnPageBreak( ), context ).didRun( ) )
 				return;
@@ -59,26 +63,31 @@ public class ListGroupScriptExecutor extends ScriptExecutor
 	private static IListGroupEventHandler getEventHandler(
 			ListGroupHandle handle, ExecutionContext context )
 	{
-		IListGroupEventHandler eh = null;
 		try
 		{
-			eh = ( IListGroupEventHandler ) getInstance( handle, context );
-		} catch ( ClassCastException e )
+			return (IListGroupEventHandler) getInstance( handle, context );
+		}
+		catch ( ClassCastException e )
 		{
 			addClassCastException( context, e, handle.getEventHandlerClass( ),
 					IListGroupEventHandler.class );
 		}
-		return eh;
+		return null;
 	}
-	
 
-	private static IListGroupEventHandler getEventHandler( ReportItemDesign design,
-			ExecutionContext context )
+	private static IListGroupEventHandler getEventHandler(
+			ReportItemDesign design, ExecutionContext context )
 	{
-		ListGroupHandle handle = ( ListGroupHandle ) design.getHandle( );
-		if ( handle == null )
-			return null;
-		return getEventHandler( handle, context );
+		try
+		{
+			return (IListGroupEventHandler) getInstance( design, context );
+		}
+		catch ( ClassCastException e )
+		{
+			addClassCastException( context, e, design.getJavaClass( ),
+					IListGroupEventHandler.class );
+		}
+		return null;
 	}
 
 }

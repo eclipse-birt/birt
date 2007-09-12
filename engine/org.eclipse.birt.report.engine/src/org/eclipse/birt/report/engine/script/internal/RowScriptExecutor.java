@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation.
+ * Copyright (c) 2005, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -46,6 +46,10 @@ public class RowScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign rowDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
+			if ( !needOnCreate( rowDesign ) )
+			{
+				return;
+			}
 			IRowInstance row = new RowInstance( content,  context );
 			if ( handleJS( row, rowDesign.getOnCreate( ), context ).didRun( ) )
 				return;
@@ -65,6 +69,10 @@ public class RowScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign rowDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
+			if ( !needOnRender( rowDesign ) )
+			{
+				return;
+			}
 			IRowInstance row = new RowInstance( content, context );
 			if ( handleJS( row, rowDesign.getOnRender( ), context ).didRun( ) )
 				return;
@@ -84,6 +92,10 @@ public class RowScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign rowDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
+			if ( !needOnPageBreak( rowDesign ) )
+			{
+				return;
+			}
 			IRowInstance row = new RowInstance( content, context );
 			if ( handleJS( row, rowDesign.getOnPageBreak( ), context ).didRun( ) )
 				return;
@@ -99,24 +111,30 @@ public class RowScriptExecutor extends ScriptExecutor
 	private static IRowEventHandler getEventHandler( ReportItemDesign design,
 			ExecutionContext context )
 	{
-		RowHandle handle = ( RowHandle ) design.getHandle( );
-		if ( handle == null )
-			return null;
-		return getEventHandler( handle, context );
+		try
+		{
+			return (IRowEventHandler) getInstance( design, context );
+		}
+		catch ( ClassCastException e )
+		{
+			addClassCastException( context, e, design.getJavaClass( ),
+					IRowEventHandler.class );
+		}
+		return null;
 	}
 
 	private static IRowEventHandler getEventHandler( RowHandle handle,
 			ExecutionContext context )
 	{
-		IRowEventHandler eh = null;
 		try
 		{
-			eh = ( IRowEventHandler ) getInstance( handle, context );
-		} catch ( ClassCastException e )
+			return (IRowEventHandler) getInstance( handle, context );
+		}
+		catch ( ClassCastException e )
 		{
 			addClassCastException( context, e, handle.getEventHandlerClass( ),
 					IRowEventHandler.class );
 		}
-		return eh;
+		return null;
 	}
 }

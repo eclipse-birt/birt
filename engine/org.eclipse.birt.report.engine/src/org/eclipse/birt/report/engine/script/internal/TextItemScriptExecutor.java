@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation.
+ * Copyright (c) 2005, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -49,6 +49,10 @@ public class TextItemScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign textItemDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
+			if ( !needOnCreate( textItemDesign ) )
+			{
+				return;
+			}
 			ITextItemInstance textItem = null;
 			if ( content instanceof TextContent )
 				textItem = new TextItemInstance( ( ITextContent ) content,
@@ -78,6 +82,10 @@ public class TextItemScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign textItemDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
+			if ( !needOnRender( textItemDesign ) )
+			{
+				return;
+			}
 			ITextItemInstance textItem = null;
 			if ( content instanceof TextContent )
 				textItem = new TextItemInstance( ( ITextContent ) content,
@@ -106,6 +114,10 @@ public class TextItemScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign textItemDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
+			if ( !needOnPageBreak( textItemDesign ) )
+			{
+				return;
+			}
 			ITextItemInstance textItem = null;
 			if ( content instanceof TextContent )
 				textItem = new TextItemInstance( ( ITextContent ) content,
@@ -130,12 +142,14 @@ public class TextItemScriptExecutor extends ScriptExecutor
 	private static ITextItemEventHandler getEventHandler(
 			ReportItemDesign design, ExecutionContext context )
 	{
-		if (design.getHandle() instanceof TextItemHandle)
+		try
 		{
-			TextItemHandle handle = ( TextItemHandle ) design.getHandle( );
-			if ( handle == null )
-				return null;
-			return getEventHandler( handle, context );
+			return (ITextItemEventHandler) getInstance( design, context );
+		}
+		catch ( ClassCastException e )
+		{
+			addClassCastException( context, e, design.getJavaClass( ),
+					ITextItemEventHandler.class );
 		}
 		return null;
 	}
@@ -143,15 +157,15 @@ public class TextItemScriptExecutor extends ScriptExecutor
 	private static ITextItemEventHandler getEventHandler(
 			TextItemHandle handle, ExecutionContext context )
 	{
-		ITextItemEventHandler eh = null;
 		try
 		{
-			eh = ( ITextItemEventHandler ) getInstance( handle, context );
-		} catch ( ClassCastException e )
+			return (ITextItemEventHandler) getInstance( handle, context );
+		}
+		catch ( ClassCastException e )
 		{
 			addClassCastException( context, e, handle.getEventHandlerClass( ),
 					ITextItemEventHandler.class );
 		}
-		return eh;
+		return null;
 	}
 }

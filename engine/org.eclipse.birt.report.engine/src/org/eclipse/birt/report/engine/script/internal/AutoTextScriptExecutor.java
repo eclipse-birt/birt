@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -50,6 +50,10 @@ public class AutoTextScriptExecutor extends ScriptExecutor
 				return;
 			}
 			ReportItemDesign autoTextItemDesign = ( ReportItemDesign ) generateBy;
+			if ( !needOnCreate( autoTextItemDesign ) )
+			{
+				return;
+			}
 			IAutoTextInstance autoText = new AutoTextInstance( content, context );
 			if ( handleJS( autoText, autoTextItemDesign.getOnCreate( ), context ).didRun( ) )
 				return;
@@ -74,7 +78,10 @@ public class AutoTextScriptExecutor extends ScriptExecutor
 				return;
 			}
 			ReportItemDesign autoTextDesign = ( ReportItemDesign ) generateBy; 
-			
+			if ( !needOnRender( autoTextDesign ) )
+			{
+				return;
+			}
 			//fromGrid doesn't matter here since row data is null
 			IAutoTextInstance autoText = new AutoTextInstance( content, context );
 			if ( handleJS( autoText, autoTextDesign.getOnRender( ), context ).didRun( ) )
@@ -99,7 +106,10 @@ public class AutoTextScriptExecutor extends ScriptExecutor
 				return;
 			}
 			ReportItemDesign autoTextDesign = ( ReportItemDesign ) generateBy; 
-			
+			if ( !needOnPageBreak( autoTextDesign ) )
+			{
+				return;
+			}
 			//fromGrid doesn't matter here since row data is null
 			IAutoTextInstance autoText = new AutoTextInstance( content, context );
 			if ( handleJS( autoText, autoTextDesign.getOnPageBreak( ), context ).didRun( ) )
@@ -113,27 +123,33 @@ public class AutoTextScriptExecutor extends ScriptExecutor
 		}
 	}
 
-	private static IAutoTextEventHandler getEventHandler( ReportItemDesign design,
-			ExecutionContext context )
+	private static IAutoTextEventHandler getEventHandler(
+			ReportItemDesign design, ExecutionContext context )
 	{
-		AutoTextHandle handle = ( AutoTextHandle ) design.getHandle( );
-		if ( handle == null )
-			return null;
-		return getEventHandler( handle, context );
-	}
-
-	private static IAutoTextEventHandler getEventHandler( AutoTextHandle handle,
-			ExecutionContext context )
-	{
-		IAutoTextEventHandler eh = null;
 		try
 		{
-			eh = ( IAutoTextEventHandler ) getInstance( handle, context );
-		} catch ( ClassCastException e )
+			return (IAutoTextEventHandler) getInstance( design, context );
+		}
+		catch ( ClassCastException e )
+		{
+			addClassCastException( context, e, design.getJavaClass( ),
+					IAutoTextEventHandler.class );
+		}
+		return null;
+	}
+
+	private static IAutoTextEventHandler getEventHandler(
+			AutoTextHandle handle, ExecutionContext context )
+	{
+		try
+		{
+			return (IAutoTextEventHandler) getInstance( handle, context );
+		}
+		catch ( ClassCastException e )
 		{
 			addClassCastException( context, e, handle.getEventHandlerClass( ),
 					IAutoTextEventHandler.class );
 		}
-		return eh;
+		return null;
 	}
 }
