@@ -39,7 +39,6 @@ public class HTMLTableBandLM extends HTMLListingBandLM
 	public void initialize( HTMLAbstractLM parent, IContent content,
 			IReportItemExecutor executor, IContentEmitter emitter )
 	{
-		// TODO Auto-generated method stub
 		super.initialize( parent, content, executor, emitter );
 		ITableBandContent tableBand = (ITableBandContent) content;
 		bandType = tableBand.getBandType( );

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -39,12 +39,99 @@ public class ContentEmitterUtil
 
 	static public void startContent( IContent content, IContentEmitter emitter )
 	{
-		starter.visit( content, emitter);
+		switch ( content.getContentType( ) )
+		{
+			case IContent.PAGE_CONTENT :
+				emitter.startPage( (IPageContent) content );
+				break;
+			case IContent.TABLE_CONTENT :
+				emitter.startTable( (ITableContent) content );
+				break;
+			case IContent.TABLE_BAND_CONTENT :
+				emitter.startTableBand( (ITableBandContent) content );
+				break;
+			case IContent.ROW_CONTENT :
+				emitter.startRow( (IRowContent) content );
+				break;
+			case IContent.CELL_CONTENT :
+				emitter.startCell( (ICellContent) content );
+				break;
+			case IContent.TEXT_CONTENT :
+				emitter.startText( (ITextContent) content );
+				break;
+			case IContent.LABEL_CONTENT :
+				emitter.startLabel( (ILabelContent) content );
+				break;
+			case IContent.AUTOTEXT_CONTENT :
+				emitter.startAutoText( (IAutoTextContent) content );
+				break;
+			case IContent.DATA_CONTENT :
+				emitter.startData( (IDataContent) content );
+				break;
+			case IContent.IMAGE_CONTENT :
+				emitter.startImage( (IImageContent) content );
+				break;
+			case IContent.FOREIGN_CONTENT :
+				emitter.startForeign( (IForeignContent) content );
+				break;
+			case IContent.LIST_CONTENT :
+				emitter.startList( (IListContent) content );
+				break;
+			case IContent.LIST_BAND_CONTENT :
+				emitter.startListBand( (IListBandContent) content );
+				break;
+			case IContent.LIST_GROUP_CONTENT :
+				emitter.startListGroup( (IListGroupContent) content );
+				break;
+			case IContent.TABLE_GROUP_CONTENT :
+				emitter.startTableGroup( (ITableGroupContent) content );
+				break;
+			default :
+				starter.visit( content, emitter );
+		}
 	}
-	
-	static public void endContent(IContent content, IContentEmitter emitter)
+
+	static public void endContent( IContent content, IContentEmitter emitter )
 	{
-		ender.visit( content, emitter );
+		switch ( content.getContentType( ) )
+		{
+			case IContent.PAGE_CONTENT :
+				emitter.endPage( (IPageContent) content );
+				break;
+			case IContent.TABLE_CONTENT :
+				emitter.endTable( (ITableContent) content );
+				break;
+			case IContent.TABLE_BAND_CONTENT :
+				emitter.endTableBand( (ITableBandContent) content );
+				break;
+			case IContent.ROW_CONTENT :
+				emitter.endRow( (IRowContent) content );
+				break;
+			case IContent.CELL_CONTENT :
+				emitter.endCell( (ICellContent) content );
+				break;
+			case IContent.TEXT_CONTENT :
+			case IContent.LABEL_CONTENT :
+			case IContent.AUTOTEXT_CONTENT :
+			case IContent.DATA_CONTENT :
+			case IContent.IMAGE_CONTENT :
+			case IContent.FOREIGN_CONTENT :
+				break;
+			case IContent.LIST_CONTENT :
+				emitter.endList( (IListContent) content );
+				break;
+			case IContent.LIST_BAND_CONTENT :
+				emitter.endListBand( (IListBandContent) content );
+				break;
+			case IContent.LIST_GROUP_CONTENT :
+				emitter.endListGroup( (IListGroupContent) content );
+				break;
+			case IContent.TABLE_GROUP_CONTENT :
+				emitter.endTableGroup( (ITableGroupContent) content );
+				break;
+			default :
+				ender.visit( content, emitter );
+		}
 	}
 
 	private static class StartContentVisitor implements IContentVisitor

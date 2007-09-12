@@ -80,7 +80,8 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 		this.content = content;
 		this.executor = executor;
 		this.emitter = emitter;
-		status = STATUS_INTIALIZE;
+		this.status = STATUS_INTIALIZE;
+		this.allowPageBreak = null;
 	}
 
 	public HTMLAbstractLM getParent( )

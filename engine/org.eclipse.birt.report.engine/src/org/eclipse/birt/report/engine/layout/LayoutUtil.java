@@ -79,20 +79,30 @@ public class LayoutUtil
 		return false;
 	}
 */	
-	public static boolean isHidden( IContent content, String format, boolean outputDisplayNone)
+	public static boolean isHidden( IContent content, String format,
+			boolean outputDisplayNone )
 	{
 		if ( content != null )
 		{
+			IStyle style = content.getStyle( );
 			if ( !outputDisplayNone )
 			{
-				IStyle style = content.getStyle( );
 				if ( IStyle.NONE_VALUE == style
 						.getProperty( IStyle.STYLE_DISPLAY ) )
 				{
 					return true;
 				}
 			}
-			return isHiddenByVisibility( content, format );
+			if ( isHiddenByVisibility( style, format ) )
+			{
+				return true;
+			}
+			if ( content.getContentType( ) == IContent.CELL_CONTENT )
+			{
+				ICellContent cell = (ICellContent) content;
+				IColumn column = cell.getColumnInstance( );
+				return isHiddenByVisibility( column, format );
+			}
 		}
 		return false;
 	}
@@ -102,11 +112,8 @@ public class LayoutUtil
 	 * 
 	 * @return
 	 */
-	static private boolean isHiddenByVisibility( IContent content, String format )
+	static private boolean isHiddenByVisibility( IStyle style, String format )
 	{
-		assert content != null;
-
-		IStyle style = content.getStyle( );
 		CSSValueList formats = (CSSValueList) style
 				.getProperty( IStyle.STYLE_VISIBLE_FORMAT );
 		if ( formats != null )
@@ -116,21 +123,19 @@ public class LayoutUtil
 				return true;
 			}
 		}
-		if ( content.getContentType( ) == IContent.CELL_CONTENT )
-		{
-			ICellContent cell = (ICellContent) content;
-			IColumn column = cell.getColumnInstance( );
-			String columnFormats = column.getVisibleFormat( );
-			if ( columnFormats != null )
-			{
-				if ( contains( columnFormats,
-						EngineIRConstants.FORMAT_TYPE_VIEWER ) ||
-						contains( columnFormats, BIRTConstants.BIRT_ALL_VALUE ) ||
-						contains( columnFormats, format ) )
-				{
-					return true;
-				}
+		return false;
+	}
 
+	static private boolean isHiddenByVisibility( IColumn column, String format )
+	{
+		String columnFormats = column.getVisibleFormat( );
+		if ( columnFormats != null )
+		{
+			if ( contains( columnFormats, EngineIRConstants.FORMAT_TYPE_VIEWER ) ||
+					contains( columnFormats, BIRTConstants.BIRT_ALL_VALUE ) ||
+					contains( columnFormats, format ) )
+			{
+				return true;
 			}
 		}
 		return false;

@@ -70,8 +70,16 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	 */
 	protected void processStyle( ReportItemDesign design, IContent content )
 	{
-		StyleDeclaration inlineStyle = createHighlightStyle( design.getHighlight( ) );
-		content.setInlineStyle( inlineStyle );
+		HighlightDesign highlight = design.getHighlight( );
+		if ( highlight != null )
+		{
+			StyleDeclaration inlineStyle = createHighlightStyle( design
+					.getHighlight( ) );
+			if ( inlineStyle != null )
+			{
+				content.setInlineStyle( inlineStyle );
+			}
+		}
 	}
 
 	/**
@@ -86,8 +94,15 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	 */
 	protected void processColumnStyle( ColumnDesign columnDesign, IColumn column )
 	{
-		StyleDeclaration inlineStyle = createHighlightStyle( columnDesign.getHighlight( ) );
-		column.setInlineStyle( inlineStyle );
+		HighlightDesign highlight = columnDesign.getHighlight( );
+		if ( highlight != null )
+		{
+			StyleDeclaration inlineStyle = createHighlightStyle( highlight );
+			if ( inlineStyle != null )
+			{
+				column.setInlineStyle( inlineStyle );
+			}
+		}
 	}
 
 	/**
@@ -101,12 +116,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	 */
 	private StyleDeclaration createHighlightStyle( HighlightDesign highlight )
 	{
-		if ( highlight == null )
-		{
-			return null;
-		}
-
-		StyleDeclaration style = null;
+		StyleDeclaration style = (StyleDeclaration) report.createStyle( );
 		for ( int i = 0; i < highlight.getRuleCount( ); i++ )
 		{
 			HighlightRuleDesign rule = highlight.getRule( i );
@@ -127,25 +137,16 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 				}
 				else
 				{
-					IConditionalExpression newExpression = expressionUtil.createConditionalExpression( rule.getTestExpression( ),
-							rule.getOperator( ),
-							rule.getValue1( ),
-							rule.getValue2( ) );
+					IConditionalExpression newExpression = expressionUtil
+							.createConditionalExpression( rule
+									.getTestExpression( ), rule.getOperator( ),
+									rule.getValue1( ), rule.getValue2( ) );
 					value = evaluate( newExpression );
 				}
-				if ( ( value != null )
-						&& ( value instanceof Boolean )
-						&& ( ( (Boolean) value ).booleanValue( ) ) )
+				if ( ( value != null ) && ( value instanceof Boolean ) &&
+						( ( (Boolean) value ).booleanValue( ) ) )
 				{
-					StyleDeclaration highlightStyle = new StyleDeclaration( (StyleDeclaration) rule.getStyle( ) );
-					if ( style != null )
-					{
-						style.setProperties( highlightStyle );
-					}
-					else
-					{
-						style = highlightStyle;
-					}
+					style.setProperties( rule.getStyle( ) );
 				}
 			}
 		}
@@ -165,7 +166,7 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 			IDataContent dataObj )
 	{
 		MapDesign map = item.getMap( );
-		
+
 		if ( item instanceof DataItemDesign )
 		{
 			if ( ( (DataItemDesign) item ).needRefreshMapping( ) )
@@ -197,8 +198,8 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 						{
 							MapRule mrh = (MapRule) itr.next( );
 
-							if ( testExpr.equals( mrh.getTestExpression( ) )
-									&& DesignChoiceConstants.MAP_OPERATOR_NULL
+							if ( testExpr.equals( mrh.getTestExpression( ) ) &&
+									DesignChoiceConstants.MAP_OPERATOR_NULL
 											.equals( mrh.getOperator( ) ) )
 							{
 								Object value = null;
@@ -211,9 +212,9 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 
 								value = evaluate( newExpression );
 
-								if ( ( value != null )
-										&& ( value instanceof Boolean )
-										&& ( ( (Boolean) value ).booleanValue( ) ) )
+								if ( ( value != null ) &&
+										( value instanceof Boolean ) &&
+										( ( (Boolean) value ).booleanValue( ) ) )
 								{
 									dataObj.setLabelText( mrh.getDisplay( ) );
 									dataObj.setLabelKey( mrh.getDisplayKey( ) );
@@ -248,15 +249,15 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 					}
 					else
 					{
-						IConditionalExpression newExpression = expressionUtil.createConditionalExpression( rule.getTestExpression( ),
-								rule.getOperator( ),
-								rule.getValue1( ),
-								rule.getValue2( ) );
+						IConditionalExpression newExpression = expressionUtil
+								.createConditionalExpression( rule
+										.getTestExpression( ), rule
+										.getOperator( ), rule.getValue1( ),
+										rule.getValue2( ) );
 						value = evaluate( newExpression );
 					}
-					if ( ( value != null )
-							&& ( value instanceof Boolean )
-							&& ( ( (Boolean) value ).booleanValue( ) ) )
+					if ( ( value != null ) && ( value instanceof Boolean ) &&
+							( ( (Boolean) value ).booleanValue( ) ) )
 					{
 						dataObj.setLabelText( rule.getDisplayText( ) );
 						dataObj.setLabelKey( rule.getDisplayKey( ) );
