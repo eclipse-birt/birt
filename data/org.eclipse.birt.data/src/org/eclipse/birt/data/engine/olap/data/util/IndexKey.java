@@ -154,9 +154,8 @@ class IndexKeyObjectCreator implements IStructureCreator
 
 	public IStructure createInstance( Object[] fields )
 	{
-		assert fields.length > 3;
 		IndexKey obj = new IndexKey( );
-		obj.setKey( new Object[fields.length - 1] );
+		obj.setKey( new Object[fields.length - 2] );
 		System.arraycopy( fields, 0, obj.getKey(), 0, obj.getKey().length );
 		obj.setOffset( ( (Integer) fields[fields.length-2] ).intValue( ) );
 		obj.setDimensionPos( ( (Integer) fields[fields.length-1] ).intValue( ) );
