@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -79,7 +79,8 @@ public class UserDataSetProcessor
 					default :
 						throw new ChartException( ChartEnginePlugin.ID,
 								ChartException.DATA_SET,
-								"exception.unknown.trigger.datatype" ); //$NON-NLS-1$
+								"exception.unknown.trigger.datatype", //$NON-NLS-1$
+								Messages.getResourceBundle( ) );
 				}
 			}
 
@@ -108,7 +109,8 @@ public class UserDataSetProcessor
 						default :
 							throw new ChartException( ChartEnginePlugin.ID,
 									ChartException.DATA_SET,
-									"exception.unknown.trigger.datatype" ); //$NON-NLS-1$
+									"exception.unknown.trigger.datatype", //$NON-NLS-1$
+									Messages.getResourceBundle( ) );
 					}
 					((Object[])ds[k].getValues( ))[i] = value;
 				}

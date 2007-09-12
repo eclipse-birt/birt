@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,19 +14,14 @@ package org.eclipse.birt.chart.ui.swt.series;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
-import org.eclipse.birt.chart.model.attribute.ColorDefinition;
-import org.eclipse.birt.chart.model.attribute.LineDecorator;
-import org.eclipse.birt.chart.model.attribute.LineStyle;
+import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.DialSeries;
-import org.eclipse.birt.chart.model.type.LineSeries;
 import org.eclipse.birt.chart.model.type.impl.DialSeriesImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIExtensionPlugin;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
-import org.eclipse.birt.chart.ui.swt.composites.HeadStyleAttributeComposite;
 import org.eclipse.birt.chart.ui.swt.composites.IntegerSpinControl;
-import org.eclipse.birt.chart.ui.swt.composites.LineAttributesComposite;
 import org.eclipse.birt.chart.ui.swt.composites.LocalizedNumberEditorComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -38,7 +33,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
@@ -49,17 +43,17 @@ public class MeterSeriesAttributeComposite extends Composite implements
 		Listener,
 		ModifyListener
 {
-	private transient LocalizedNumberEditorComposite txtRadius = null;
+	private LocalizedNumberEditorComposite txtRadius = null;
 
-	private transient IntegerSpinControl iscStartAngle = null;
+	private IntegerSpinControl iscStartAngle = null;
 
-	private transient IntegerSpinControl iscStopAngle = null;
+	private IntegerSpinControl iscStopAngle = null;
 
-	private transient DialSeries series = null;
+	private DialSeries series = null;
 	
-	private transient FillChooserComposite fcc = null;
+	private FillChooserComposite fcc = null;
 
-	private transient ChartWizardContext wizardContext;
+	private ChartWizardContext wizardContext;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.series" ); //$NON-NLS-1$
 
@@ -140,9 +134,9 @@ public class MeterSeriesAttributeComposite extends Composite implements
 		fcc = new FillChooserComposite( cmpLeft,
 				SWT.NONE,
 				wizardContext,
-				( (DialSeries) series ).getDial( ).getFill( ),
-				false,
-				false );
+				series.getDial( ).getFill( ),
+				true,
+				true );
 		fcc.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		fcc.addListener( this );
 
@@ -221,7 +215,7 @@ public class MeterSeriesAttributeComposite extends Composite implements
 		}
 		else if ( event.widget.equals( fcc ) )
 		{
-			( (DialSeries) series ).getDial( ).setFill( (ColorDefinition) event.data );
+			series.getDial( ).setFill( (Fill) event.data );
 		}
 	}
 
