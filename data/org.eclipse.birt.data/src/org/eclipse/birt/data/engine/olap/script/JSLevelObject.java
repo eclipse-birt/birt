@@ -13,7 +13,6 @@ package org.eclipse.birt.data.engine.olap.script;
 
 import javax.olap.OLAPException;
 import javax.olap.cursor.DimensionCursor;
-import javax.olap.cursor.RowDataMetaData;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
@@ -39,7 +38,7 @@ public class JSLevelObject extends ScriptableObject
 	{
 		this.cursor = cursor;
 		this.levelName = levelName;
-		RowDataMetaData meta = this.cursor.getMetaData( );
+		/*		RowDataMetaData meta = this.cursor.getMetaData( );
 		String defaultName = OlapExpressionUtil.getDisplayColumnName( this.levelName );
 		for( int i = 0; i < meta.getColumnCount( ); i++ )
 		{
@@ -49,8 +48,8 @@ public class JSLevelObject extends ScriptableObject
 				break;
 			}
 		}
-		if ( this.defaultColumnName == null )
-			this.defaultColumnName = this.levelName;
+		if ( this.defaultColumnName == null )*/
+		this.defaultColumnName = this.levelName;
 	}
 	
 	public String getClassName( )

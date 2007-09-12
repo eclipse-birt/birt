@@ -25,6 +25,8 @@ import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 
 public interface ICubeQueryUtil
 {
+	public static String DISPLAY_NAME_ATTR = "DisplayName";
+
 	/**
 	 * Utility method to acquire referable bindings, either in cube filter or
 	 * cube sort.
