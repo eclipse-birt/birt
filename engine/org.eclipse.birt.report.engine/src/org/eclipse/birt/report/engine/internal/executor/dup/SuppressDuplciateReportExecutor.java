@@ -83,7 +83,16 @@ public class SuppressDuplciateReportExecutor extends WrappedReportExecutor
 
 	IContent suppressDuplicate( IContent content )
 	{
-		return (IContent) content.accept( visitor, content );
+		switch ( content.getContentType( ) )
+		{
+			case IContent.TABLE_CONTENT :
+			case IContent.LIST_CONTENT :
+			case IContent.TABLE_GROUP_CONTENT :
+			case IContent.LIST_GROUP_CONTENT :
+			case IContent.DATA_CONTENT :
+				return (IContent) content.accept( visitor, content );
+		}
+		return content;
 	}
 
 	private class SuppressDuplicateVisitor extends ContentVisitorAdapter

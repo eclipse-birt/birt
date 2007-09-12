@@ -39,7 +39,7 @@ public class SuppressDuplicateItemExecutor extends WrappedReportItemExecutor
 	{
 		if ( executed == false )
 		{
-			content = super.execute( );
+			content = executor.execute( );
 			if ( content != null )
 			{
 				content = ( (SuppressDuplciateReportExecutor) reportExecutor )

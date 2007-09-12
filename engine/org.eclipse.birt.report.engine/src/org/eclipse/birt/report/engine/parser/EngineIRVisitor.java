@@ -1506,18 +1506,17 @@ public class EngineIRVisitor extends DesignVisitor
 	{
 		if ( visibilityRulesIterator != null )
 		{
-			VisibilityDesign visibility = new VisibilityDesign( );
-			while ( visibilityRulesIterator.hasNext( ) )
+			if ( visibilityRulesIterator.hasNext( ) )
 			{
-				VisibilityRuleDesign hide = createHide( (HideRuleHandle) visibilityRulesIterator
-						.next( ) );
-				visibility.addRule( hide );
+				VisibilityDesign visibility = new VisibilityDesign( );
+				do
+				{
+					VisibilityRuleDesign hide = createHide( (HideRuleHandle) visibilityRulesIterator
+							.next( ) );
+					visibility.addRule( hide );
+				} while ( visibilityRulesIterator.hasNext( ) );
+				return visibility;
 			}
-			if ( visibility.count( ) == 0 )
-			{
-				return null;
-			}
-			return visibility;
 		}
 		return null;
 	}
@@ -1799,29 +1798,31 @@ public class EngineIRVisitor extends DesignVisitor
 		{
 			return;
 		}
-		// hightlight Rules
+		// highlight Rules
 		Iterator iter = handle.highlightRulesIterator( );
 
 		if ( iter == null )
 		{
 			return;
 		}
-		HighlightDesign highlight = new HighlightDesign( );
 
-		while ( iter.hasNext( ) )
+		if ( iter.hasNext( ) )
 		{
-			HighlightRuleHandle ruleHandle = (HighlightRuleHandle) iter.next( );
-			HighlightRuleDesign rule = createHighlightRule( ruleHandle,
-					defaultStr );
-			if ( rule != null )
+			HighlightDesign highlight = new HighlightDesign( );
+
+			do
 			{
-				highlight.addRule( rule );
-			}
-		}
-
-		if ( highlight.getRuleCount( ) > 0 )
-		{
+				HighlightRuleHandle ruleHandle = (HighlightRuleHandle) iter
+						.next( );
+				HighlightRuleDesign rule = createHighlightRule( ruleHandle,
+						defaultStr );
+				if ( rule != null )
+				{
+					highlight.addRule( rule );
+				}
+			} while ( iter.hasNext( ) );
 			item.setHighlight( highlight );
+
 		}
 	}
 

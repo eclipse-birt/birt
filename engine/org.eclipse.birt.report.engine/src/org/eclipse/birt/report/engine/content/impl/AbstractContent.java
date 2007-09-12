@@ -270,9 +270,15 @@ abstract public class AbstractContent extends AbstractElement
 			{
 				inlineStyle = report.createStyle( );
 			}
-			String styleClass = getStyleClass( );
-			IStyle classStyle = report.findStyle( styleClass );
-			style = new CompositeStyle( classStyle, inlineStyle );
+			String styleClass = getStyleClass();
+			if (styleClass != null) {
+				IStyle classStyle = report.findStyle(styleClass);
+				style = new CompositeStyle(classStyle, inlineStyle);
+			}
+			else
+			{
+				style = inlineStyle;
+			}
 		}
 		return style;
 	}

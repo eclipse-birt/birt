@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.engine.layout.html.buffer;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterUtil;
@@ -20,7 +20,7 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 public class ContainerBufferNode extends AbstractNode implements IContainerNode
 {
 
-	protected LinkedList children = new LinkedList( );
+	protected ArrayList children = new ArrayList( );
 
 	public ContainerBufferNode( IContent content, IContentEmitter emitter,
 			PageHintGenerator generator, boolean isVisible )
@@ -32,13 +32,11 @@ public class ContainerBufferNode extends AbstractNode implements IContainerNode
 
 	protected void flushChildren( )
 	{
-		if ( children.size( )>0 )
+		int size = children.size( );
+		for ( int i = 0; i < size; i++ )
 		{
-			for ( int i = 0; i < children.size( ); i++ )
-			{
-				INode child = (INode) children.get( i );
-				child.flush( );
-			}
+			INode child = (INode) children.get( i );
+			child.flush( );
 		}
 	}
 	
@@ -55,14 +53,13 @@ public class ContainerBufferNode extends AbstractNode implements IContainerNode
 	
 	protected void flushUnStartedChildren( )
 	{
-		if ( children.size( )>0 )
+		int size = children.size( );
+		for ( int i = 0; i < size; i++ )
 		{
-			while(children.size( )>1)
-			{
-				INode child = (INode) children.removeFirst( );
-				child.flush( );
-			}
+			INode child = (INode) children.get( i );
+			child.flush( );
 		}
+		children.clear( );
 	}
 
 	public void start( )
@@ -86,7 +83,7 @@ public class ContainerBufferNode extends AbstractNode implements IContainerNode
 
 	public void addChild( INode node )
 	{
-		children.addLast( node );
+		children.add( node );
 	}
 
 	public void removeChildren( )
