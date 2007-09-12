@@ -938,6 +938,8 @@
         outputs="org.eclipse.birt.chart.model.ecore#//ChartWithAxes/unitSpacing"/>
     <nested inputs="../../xsd/model.xsd#//ChartWithAxes;XSDComplexTypeDefinition=1/XSDParticle/XSDModelGroup/XSDParticle=5"
         outputs="org.eclipse.birt.chart.model.ecore#//ChartWithAxes/rotation"/>
+    <nested inputs="../../xsd/model.xsd#//ChartWithAxes;XSDComplexTypeDefinition=1/XSDParticle/XSDModelGroup/XSDParticle=6"
+        outputs="org.eclipse.birt.chart.model.ecore#//ChartWithAxes/reverseCategory"/>
   </nested>
   <nested inputs="../../xsd/model.xsd#//ChartWithoutAxes;XSDComplexTypeDefinition=2"
       outputs="org.eclipse.birt.chart.model.ecore#//ChartWithoutAxes">
