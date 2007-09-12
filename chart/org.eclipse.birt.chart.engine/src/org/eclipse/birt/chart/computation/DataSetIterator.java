@@ -12,8 +12,11 @@
 package org.eclipse.birt.chart.computation;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -59,6 +62,8 @@ public final class DataSetIterator implements Iterator
 	private Calendar cReused = null;
 
 	private Object[] oa = null;
+
+	private boolean isReverse = false;
 
 	/**
 	 * 
@@ -369,7 +374,7 @@ public final class DataSetIterator implements Iterator
 	 */
 	public final double nextPrimitiveDouble( )
 	{
-		return da[iCursor++];
+		return da[getIndex( )];
 	}
 
 	/**
@@ -382,7 +387,7 @@ public final class DataSetIterator implements Iterator
 			iCursor++;
 			return (Double) it.next( );
 		}
-		return dda[iCursor++];
+		return dda[getIndex( )];
 	}
 
 	/**
@@ -395,7 +400,7 @@ public final class DataSetIterator implements Iterator
 			iCursor++;
 			return (Calendar) it.next( );
 		}
-		return ca[iCursor++];
+		return ca[getIndex( )];
 	}
 
 	/**
@@ -408,7 +413,7 @@ public final class DataSetIterator implements Iterator
 			iCursor++;
 			return (String) it.next( );
 		}
-		return sa[iCursor++];
+		return sa[getIndex( )];
 	}
 
 	/**
@@ -416,7 +421,7 @@ public final class DataSetIterator implements Iterator
 	 */
 	public final Object nextObject( )
 	{
-		return oa[iCursor++];
+		return oa[getIndex( )];
 	}
 
 	/**
@@ -424,7 +429,7 @@ public final class DataSetIterator implements Iterator
 	 */
 	public final Calendar nextPrimitiveDateTime( )
 	{
-		cReused.setTimeInMillis( la[iCursor++] );
+		cReused.setTimeInMillis( la[getIndex( )] );
 		return cReused;
 	}
 
@@ -523,10 +528,7 @@ public final class DataSetIterator implements Iterator
 	public final void reset( )
 	{
 		iCursor = 0;
-		if ( co != null )
-		{
-			it = co.iterator( );
-		}
+		resetIterator( );
 	}
 
 	/**
@@ -638,6 +640,41 @@ public final class DataSetIterator implements Iterator
 	 */
 	public final int getIndex( )
 	{
-		return iCursor;
+		return isReverse ? iRowCount - 1 - iCursor++ : iCursor++;
+	}
+
+	/**
+	 * Reverses the series categories.
+	 * 
+	 * @param bReverse
+	 */
+	public void reverse( boolean bReverse )
+	{
+		this.isReverse = bReverse;
+		if ( bReverse )
+		{
+			// Reset iterator since it's reverse
+			resetIterator( );
+		}
+	}
+	
+	private void resetIterator( )
+	{
+		if ( co != null )
+		{
+			if ( isReverse )
+			{
+				// Always create a new list to keep original collection
+				// immutable
+				List list = new ArrayList( co.size( ) );
+				list.addAll( co );
+				Collections.reverse( list );
+				it = list.iterator( );
+			}
+			else
+			{
+				it = co.iterator( );
+			}
+		}
 	}
 }

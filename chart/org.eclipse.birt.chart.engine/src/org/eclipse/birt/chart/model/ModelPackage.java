@@ -383,12 +383,21 @@ public interface ModelPackage extends EPackage
 	int CHART_WITH_AXES__ROTATION = CHART_FEATURE_COUNT + 5;
 
 	/**
+	 * The feature id for the '<em><b>Reverse Category</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CHART_WITH_AXES__REVERSE_CATEGORY = CHART_FEATURE_COUNT + 6;
+
+	/**
 	 * The number of structural features of the '<em>Chart With Axes</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CHART_WITH_AXES_FEATURE_COUNT = CHART_FEATURE_COUNT + 6;
+	int CHART_WITH_AXES_FEATURE_COUNT = CHART_FEATURE_COUNT + 7;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl <em>Chart Without Axes</em>}' class.
@@ -979,6 +988,17 @@ public interface ModelPackage extends EPackage
 	EReference getChartWithAxes_Rotation( );
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.ChartWithAxes#isReverseCategory <em>Reverse Category</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Reverse Category</em>'.
+	 * @see org.eclipse.birt.chart.model.ChartWithAxes#isReverseCategory()
+	 * @see #getChartWithAxes()
+	 * @generated
+	 */
+	EAttribute getChartWithAxes_ReverseCategory( );
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.ChartWithoutAxes <em>Chart Without Axes</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Chart Without Axes</em>'.
@@ -1254,6 +1274,14 @@ public interface ModelPackage extends EPackage
 		 * @generated
 		 */
 		EReference CHART_WITH_AXES__ROTATION = eINSTANCE.getChartWithAxes_Rotation( );
+
+		/**
+		 * The meta object literal for the '<em><b>Reverse Category</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CHART_WITH_AXES__REVERSE_CATEGORY = eINSTANCE.getChartWithAxes_ReverseCategory( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl <em>Chart Without Axes</em>}' class.

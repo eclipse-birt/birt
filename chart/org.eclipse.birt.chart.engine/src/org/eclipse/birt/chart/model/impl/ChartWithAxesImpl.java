@@ -47,24 +47,24 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getAxes <em>Axes</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getWallFill <em>Wall Fill</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getFloorFill <em>Floor Fill</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getOrientation <em>Orientation</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getUnitSpacing <em>Unit Spacing</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getRotation <em>Rotation</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getAxes <em>Axes</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getWallFill <em>Wall Fill</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getFloorFill <em>Floor Fill</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getOrientation <em>Orientation</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getUnitSpacing <em>Unit Spacing</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#getRotation <em>Rotation</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.impl.ChartWithAxesImpl#isReverseCategory <em>Reverse Category</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
 public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 {
 
 	/**
-	 * The cached value of the '{@link #getAxes() <em>Axes</em>}' containment
-	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getAxes() <em>Axes</em>}' containment reference list.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getAxes()
 	 * @generated
 	 * @ordered
@@ -72,9 +72,8 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	protected EList axes = null;
 
 	/**
-	 * The cached value of the '{@link #getWallFill() <em>Wall Fill</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getWallFill() <em>Wall Fill</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getWallFill()
 	 * @generated
 	 * @ordered
@@ -82,9 +81,8 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	protected Fill wallFill = null;
 
 	/**
-	 * The cached value of the '{@link #getFloorFill() <em>Floor Fill</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getFloorFill() <em>Floor Fill</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getFloorFill()
 	 * @generated
 	 * @ordered
@@ -92,19 +90,17 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	protected Fill floorFill = null;
 
 	/**
-	 * The default value of the '{@link #getOrientation() <em>Orientation</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getOrientation() <em>Orientation</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getOrientation()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Orientation ORIENTATION_EDEFAULT = Orientation.VERTICAL_LITERAL;
+	protected static final Orientation ORIENTATION_EDEFAULT = Orientation.HORIZONTAL_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getOrientation() <em>Orientation</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getOrientation() <em>Orientation</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getOrientation()
 	 * @generated
 	 * @ordered
@@ -132,9 +128,8 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	protected static final double UNIT_SPACING_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getUnitSpacing() <em>Unit Spacing</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getUnitSpacing() <em>Unit Spacing</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getUnitSpacing()
 	 * @generated
 	 * @ordered
@@ -151,9 +146,8 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	protected boolean unitSpacingESet = false;
 
 	/**
-	 * The cached value of the '{@link #getRotation() <em>Rotation</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getRotation() <em>Rotation</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getRotation()
 	 * @generated
 	 * @ordered
@@ -161,8 +155,36 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	protected Rotation3D rotation = null;
 
 	/**
+	 * The default value of the '{@link #isReverseCategory() <em>Reverse Category</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isReverseCategory()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean REVERSE_CATEGORY_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isReverseCategory() <em>Reverse Category</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isReverseCategory()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean reverseCategory = REVERSE_CATEGORY_EDEFAULT;
+
+	/**
+	 * This is true if the Reverse Category attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean reverseCategoryESet = false;
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected ChartWithAxesImpl( )
@@ -172,7 +194,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	protected EClass eStaticClass( )
@@ -182,7 +203,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EList getAxes( )
@@ -198,7 +218,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Fill getWallFill( )
@@ -208,7 +227,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetWallFill( Fill newWallFill,
@@ -233,7 +251,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setWallFill( Fill newWallFill )
@@ -267,7 +284,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Fill getFloorFill( )
@@ -277,7 +293,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetFloorFill( Fill newFloorFill,
@@ -302,7 +317,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setFloorFill( Fill newFloorFill )
@@ -336,7 +350,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Orientation getOrientation( )
@@ -346,7 +359,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setOrientation( Orientation newOrientation )
@@ -367,7 +379,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetOrientation( )
@@ -387,7 +398,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetOrientation( )
@@ -397,7 +407,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public double getUnitSpacing( )
@@ -407,7 +416,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setUnitSpacing( double newUnitSpacing )
@@ -427,7 +435,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void unsetUnitSpacing( )
@@ -447,7 +454,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean isSetUnitSpacing( )
@@ -457,7 +463,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Rotation3D getRotation( )
@@ -467,7 +472,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain basicSetRotation( Rotation3D newRotation,
@@ -492,7 +496,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void setRotation( Rotation3D newRotation )
@@ -525,8 +528,67 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isReverseCategory( )
+	{
+		return reverseCategory;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setReverseCategory( boolean newReverseCategory )
+	{
+		boolean oldReverseCategory = reverseCategory;
+		reverseCategory = newReverseCategory;
+		boolean oldReverseCategoryESet = reverseCategoryESet;
+		reverseCategoryESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					ModelPackage.CHART_WITH_AXES__REVERSE_CATEGORY,
+					oldReverseCategory,
+					reverseCategory,
+					!oldReverseCategoryESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetReverseCategory( )
+	{
+		boolean oldReverseCategory = reverseCategory;
+		boolean oldReverseCategoryESet = reverseCategoryESet;
+		reverseCategory = REVERSE_CATEGORY_EDEFAULT;
+		reverseCategoryESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					ModelPackage.CHART_WITH_AXES__REVERSE_CATEGORY,
+					oldReverseCategory,
+					REVERSE_CATEGORY_EDEFAULT,
+					oldReverseCategoryESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetReverseCategory( )
+	{
+		return reverseCategoryESet;
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
@@ -549,7 +611,6 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
@@ -568,13 +629,14 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 				return new Double( getUnitSpacing( ) );
 			case ModelPackage.CHART_WITH_AXES__ROTATION :
 				return getRotation( );
+			case ModelPackage.CHART_WITH_AXES__REVERSE_CATEGORY :
+				return isReverseCategory( ) ? Boolean.TRUE : Boolean.FALSE;
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eSet( int featureID, Object newValue )
@@ -600,13 +662,15 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 			case ModelPackage.CHART_WITH_AXES__ROTATION :
 				setRotation( (Rotation3D) newValue );
 				return;
+			case ModelPackage.CHART_WITH_AXES__REVERSE_CATEGORY :
+				setReverseCategory( ( (Boolean) newValue ).booleanValue( ) );
+				return;
 		}
 		super.eSet( featureID, newValue );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public void eUnset( int featureID )
@@ -631,13 +695,15 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 			case ModelPackage.CHART_WITH_AXES__ROTATION :
 				setRotation( (Rotation3D) null );
 				return;
+			case ModelPackage.CHART_WITH_AXES__REVERSE_CATEGORY :
+				unsetReverseCategory( );
+				return;
 		}
 		super.eUnset( featureID );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean eIsSet( int featureID )
@@ -656,13 +722,14 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 				return isSetUnitSpacing( );
 			case ModelPackage.CHART_WITH_AXES__ROTATION :
 				return rotation != null;
+			case ModelPackage.CHART_WITH_AXES__REVERSE_CATEGORY :
+				return isSetReverseCategory( );
 		}
 		return super.eIsSet( featureID );
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String toString( )
@@ -679,6 +746,11 @@ public class ChartWithAxesImpl extends ChartImpl implements ChartWithAxes
 		result.append( ", unitSpacing: " ); //$NON-NLS-1$
 		if ( unitSpacingESet )
 			result.append( unitSpacing );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", reverseCategory: " ); //$NON-NLS-1$
+		if ( reverseCategoryESet )
+			result.append( reverseCategory );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );

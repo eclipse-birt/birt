@@ -76,12 +76,15 @@ import com.ibm.icu.util.TimeZone;
  * Axis subtask
  * 
  */
-abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
-		Listener,
-		SelectionListener
+abstract class AbstractAxisSubtask extends SubtaskSheetImpl
+		implements
+			Listener,
+			SelectionListener
 {
 
 	private Button btnCategoryAxis;
+
+	private Button btnReverse;
 
 	private ExternalizedTextEditorComposite txtTitle;
 
@@ -142,13 +145,21 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 		{
 			btnCategoryAxis = new Button( cmpBasic, SWT.CHECK );
 			{
-				GridData gd = new GridData( );
-				gd.horizontalSpan = 3;
-				btnCategoryAxis.setLayoutData( gd );
 				btnCategoryAxis.setText( Messages.getString( "AbstractAxisSubtask.Lbl.IsCategoryAxis" ) ); //$NON-NLS-1$
 				btnCategoryAxis.addSelectionListener( this );
 				btnCategoryAxis.setSelection( getAxisForProcessing( ).isCategoryAxis( ) );
 				btnCategoryAxis.setEnabled( !AxisType.TEXT_LITERAL.equals( getAxisForProcessing( ).getType( ) ) );
+			}
+
+			btnReverse = new Button( cmpBasic, SWT.CHECK );
+			{
+				GridData gd = new GridData( );
+				gd.horizontalSpan = 2;
+				btnCategoryAxis.setLayoutData( gd );
+				btnReverse.setText( Messages.getString( "AbstractAxisSubtask.Label.ReverseCategory" ) ); //$NON-NLS-1$
+				btnReverse.addSelectionListener( this );
+				btnReverse.setSelection( ( (ChartWithAxes) getChart( ) ).isReverseCategory( ) );
+				btnReverse.setEnabled( btnCategoryAxis.getSelection( ) );
 			}
 		}
 
@@ -609,6 +620,16 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 					.cacheCategory( ( (ChartWithAxes) getChart( ) ).getType( ),
 							btnCategoryAxis.getSelection( ) );
 			refreshPopupSheet( );
+
+			// Reset reverse category settings which is only available when axis
+			// is category
+			btnReverse.setEnabled( btnCategoryAxis.getSelection( ) );
+			( (ChartWithAxes) getChart( ) ).setReverseCategory( false );
+			btnReverse.setSelection( false );
+		}
+		else if ( e.widget.equals( btnReverse ) )
+		{
+			( (ChartWithAxes) getChart( ) ).setReverseCategory( btnReverse.getSelection( ) );
 		}
 		else if ( e.widget.equals( btnTitleVisible ) )
 		{

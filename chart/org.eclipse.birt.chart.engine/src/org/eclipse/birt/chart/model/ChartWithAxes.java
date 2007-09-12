@@ -37,6 +37,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.birt.chart.model.ChartWithAxes#getOrientation <em>Orientation</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.ChartWithAxes#getUnitSpacing <em>Unit Spacing</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.ChartWithAxes#getRotation <em>Rotation</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.ChartWithAxes#isReverseCategory <em>Reverse Category</em>}</li>
  * </ul>
  * </p>
  *
@@ -236,7 +237,7 @@ public interface ChartWithAxes extends Chart
 	 * @return the value of the '<em>Rotation</em>' containment reference.
 	 * @see #setRotation(Rotation3D)
 	 * @see org.eclipse.birt.chart.model.ModelPackage#getChartWithAxes_Rotation()
-	 * @model containment="true" resolveProxies="false"
+	 * @model containment="true"
 	 *        extendedMetaData="kind='element' name='Rotation'"
 	 * @generated
 	 */
@@ -251,6 +252,60 @@ public interface ChartWithAxes extends Chart
 	 * @generated
 	 */
 	void setRotation( Rotation3D value );
+
+	/**
+	 * Returns the value of the '<em><b>Reverse Category</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Specifies if the categories are in reverse order
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Reverse Category</em>' attribute.
+	 * @see #isSetReverseCategory()
+	 * @see #unsetReverseCategory()
+	 * @see #setReverseCategory(boolean)
+	 * @see org.eclipse.birt.chart.model.ModelPackage#getChartWithAxes_ReverseCategory()
+	 * @model default="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
+	 *        extendedMetaData="kind='element' name='ReverseCategory'"
+	 * @generated
+	 */
+	boolean isReverseCategory( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.ChartWithAxes#isReverseCategory <em>Reverse Category</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Reverse Category</em>' attribute.
+	 * @see #isSetReverseCategory()
+	 * @see #unsetReverseCategory()
+	 * @see #isReverseCategory()
+	 * @generated
+	 */
+	void setReverseCategory( boolean value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.ChartWithAxes#isReverseCategory <em>Reverse Category</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetReverseCategory()
+	 * @see #isReverseCategory()
+	 * @see #setReverseCategory(boolean)
+	 * @generated
+	 */
+	void unsetReverseCategory( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.ChartWithAxes#isReverseCategory <em>Reverse Category</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Reverse Category</em>' attribute is set.
+	 * @see #unsetReverseCategory()
+	 * @see #isReverseCategory()
+	 * @see #setReverseCategory(boolean)
+	 * @generated
+	 */
+	boolean isSetReverseCategory( );
 
 	/**
 	 * This method returns all base axes associated with the chart model

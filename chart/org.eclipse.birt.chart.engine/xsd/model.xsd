@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by aa (ORiON) -->
 <xsd:schema targetNamespace="http://www.birt.eclipse.org/ChartModel" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.birt.eclipse.org/ChartModel" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:component="http://www.birt.eclipse.org/ChartModelComponent" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
 	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelAttribute" schemaLocation="attribute.xsd"/>
 	<xsd:import namespace="http://www.birt.eclipse.org/ChartModelComponent" schemaLocation="component.xsd"/>
@@ -162,6 +161,11 @@
 					<xsd:element name="Rotation" type="attribute:Rotation3D" minOccurs="0">
 						<xsd:annotation>
 							<xsd:documentation>Specifies the rotation angle by three directions for the chart. </xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="ReverseCategory" type="xsd:boolean" default="false">
+						<xsd:annotation>
+							<xsd:documentation>Specifies if the categories are in reverse order</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
 				</xsd:sequence>

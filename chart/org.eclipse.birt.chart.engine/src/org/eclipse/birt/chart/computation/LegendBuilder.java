@@ -643,17 +643,7 @@ public final class LegendBuilder implements IConstants
 		// OK TO ASSUME THAT 1 BASE RUNTIME SERIES EXISTS
 		Series seBase = (Series) sdBase.getRunTimeSeries( ).get( 0 );
 
-		DataSetIterator dsiBase = null;
-		try
-		{
-			dsiBase = new DataSetIterator( seBase.getDataSet( ) );
-		}
-		catch ( Exception ex )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.GENERATION,
-					ex );
-		}
+		DataSetIterator dsiBase = createDataSetIterator( seBase, cm );
 
 		FormatSpecifier fs = null;
 		if ( sdBase != null )
@@ -1044,17 +1034,7 @@ public final class LegendBuilder implements IConstants
 
 				if ( cm.getLegend( ).isShowValue( ) )
 				{
-					DataSetIterator dsiBase = null;
-					try
-					{
-						dsiBase = new DataSetIterator( se.getDataSet( ) );
-					}
-					catch ( Exception ex )
-					{
-						throw new ChartException( ChartEnginePlugin.ID,
-								ChartException.GENERATION,
-								ex );
-					}
+					DataSetIterator dsiBase = createDataSetIterator( se, cm );
 
 					// Use first value for each series.
 					if ( dsiBase.hasNext( ) )
@@ -1338,17 +1318,7 @@ public final class LegendBuilder implements IConstants
 
 				if ( cm.getLegend( ).isShowValue( ) )
 				{
-					DataSetIterator dsiBase = null;
-					try
-					{
-						dsiBase = new DataSetIterator( se.getDataSet( ) );
-					}
-					catch ( Exception ex )
-					{
-						throw new ChartException( ChartEnginePlugin.ID,
-								ChartException.GENERATION,
-								ex );
-					}
+					DataSetIterator dsiBase = createDataSetIterator( se, cm );
 
 					// Use first value for each series.
 					if ( dsiBase.hasNext( ) )
@@ -1548,17 +1518,7 @@ public final class LegendBuilder implements IConstants
 		// OK TO ASSUME THAT 1 BASE RUNTIME SERIES EXISTS
 		Series seBase = (Series) sdBase.getRunTimeSeries( ).get( 0 );
 
-		DataSetIterator dsiBase = null;
-		try
-		{
-			dsiBase = new DataSetIterator( seBase.getDataSet( ) );
-		}
-		catch ( Exception ex )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.GENERATION,
-					ex );
-		}
+		DataSetIterator dsiBase = createDataSetIterator( seBase, cm );
 
 		FormatSpecifier fs = null;
 		if ( sdBase != null )
@@ -1838,17 +1798,7 @@ public final class LegendBuilder implements IConstants
 
 				if ( cm.getLegend( ).isShowValue( ) )
 				{
-					DataSetIterator dsiBase = null;
-					try
-					{
-						dsiBase = new DataSetIterator( se.getDataSet( ) );
-					}
-					catch ( Exception ex )
-					{
-						throw new ChartException( ChartEnginePlugin.ID,
-								ChartException.GENERATION,
-								ex );
-					}
+					DataSetIterator dsiBase = createDataSetIterator( se, cm );
 
 					// Use first value for each series.
 					if ( dsiBase.hasNext( ) )
@@ -2059,17 +2009,7 @@ public final class LegendBuilder implements IConstants
 
 				if ( cm.getLegend( ).isShowValue( ) )
 				{
-					DataSetIterator dsiBase = null;
-					try
-					{
-						dsiBase = new DataSetIterator( se.getDataSet( ) );
-					}
-					catch ( Exception ex )
-					{
-						throw new ChartException( ChartEnginePlugin.ID,
-								ChartException.GENERATION,
-								ex );
-					}
+					DataSetIterator dsiBase = createDataSetIterator( se, cm );
 
 					// Use first value for each series.
 					if ( dsiBase.hasNext( ) )
@@ -2363,5 +2303,27 @@ public final class LegendBuilder implements IConstants
 					legendItem2.getCategoryIndex( ) ) );
 		}
 		return (LegendItemHints[]) legendItem.toArray( new LegendItemHints[liha.length] );
+	}
+	
+	private DataSetIterator createDataSetIterator( Series se, Chart cm )
+			throws ChartException
+	{
+		DataSetIterator dsi = null;
+		try
+		{
+			dsi = new DataSetIterator( se.getDataSet( ) );
+			// Reverse Legend items if needed
+			if ( cm instanceof ChartWithAxes )
+			{
+				dsi.reverse( ( (ChartWithAxes) cm ).isReverseCategory( ) );
+			}
+		}
+		catch ( Exception ex )
+		{
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.GENERATION,
+					ex );
+		}
+		return dsi;
 	}
 }

@@ -683,6 +683,8 @@ public abstract class PlotWithAxes extends Methods
 			}
 		}
 
+		// Reverse the series categories if needed.
+		dsi.reverse( cwa.isReverseCategory( ) );
 		return dsi;
 	}
 
