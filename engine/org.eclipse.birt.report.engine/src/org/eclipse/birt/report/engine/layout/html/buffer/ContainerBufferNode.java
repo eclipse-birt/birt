@@ -23,9 +23,9 @@ public class ContainerBufferNode extends AbstractNode implements IContainerNode
 	protected LinkedList children = new LinkedList( );
 
 	public ContainerBufferNode( IContent content, IContentEmitter emitter,
-			PageHintGenerator generator )
+			PageHintGenerator generator, boolean isVisible )
 	{
-		super( content, emitter, generator );
+		super( content, emitter, generator, isVisible );
 	}
 	
 	
@@ -75,7 +75,10 @@ public class ContainerBufferNode extends AbstractNode implements IContainerNode
 		{
 			parent.start( );
 		}
-		ContentEmitterUtil.startContent( content, emitter );
+		if( isVisible )
+		{
+			ContentEmitterUtil.startContent( content, emitter );
+		}
 		generator.start( content, isFirst );
 		isStarted = true;
 		flushUnStartedChildren( );

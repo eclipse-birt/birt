@@ -19,15 +19,18 @@ public class PageNode extends ContainerBufferNode implements IContainerNode
 {
 
 	public PageNode( IContent content, IContentEmitter emitter,
-			PageHintGenerator generator )
+			PageHintGenerator generator, boolean isVisible )
 	{
-		super( content, emitter, generator );
+		super( content, emitter, generator, isVisible );
 	}
 
 	public void end( )
 	{
 		flushUnStartedChildren( );
-		ContentEmitterUtil.endContent( content, emitter );
+		if( isVisible )
+		{
+			ContentEmitterUtil.endContent( content, emitter );
+		}
 	}
 
 	public void start( )
@@ -40,7 +43,10 @@ public class PageNode extends ContainerBufferNode implements IContainerNode
 		{
 			parent.start( );
 		}
-		ContentEmitterUtil.startContent( content, emitter );
+		if( isVisible )
+		{
+			ContentEmitterUtil.startContent( content, emitter );
+		}
 		isStarted = true;
 		flushUnStartedChildren( );
 	}

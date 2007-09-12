@@ -19,9 +19,9 @@ public class LeafBufferNode extends AbstractNode implements INode
 {
 
 	LeafBufferNode( IContent content, IContentEmitter emitter,
-			PageHintGenerator generator )
+			PageHintGenerator generator, boolean isVisible )
 	{
-		super( content, emitter, generator );
+		super( content, emitter, generator, isVisible );
 	}
 
 	protected void flushChildren( )
