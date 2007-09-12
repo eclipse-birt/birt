@@ -119,4 +119,40 @@ public class SetUtil
 		}
 		return getIntersection( stacks );
 	}
+	
+	/**
+	 * get the intersection from two disk arrays which have been sorted.
+	 * 
+	 * @param array1
+	 * @param array2
+	 * @return
+	 * @throws IOException
+	 */
+	public static IDiskArray getIntersection( IDiskArray array1, IDiskArray array2 )
+			throws IOException
+	{
+		IDiskArray result = new BufferedPrimitiveDiskArray( Constants.LIST_BUFFER_SIZE );
+		int i = 0, j = 0;
+		while ( i < array1.size( ) && j < array2.size( ) )
+		{
+			Comparable key1 = (Comparable) array1.get( i );
+			Comparable key2 = (Comparable) array2.get( j );
+			int ret = key1.compareTo( key2 );
+			if ( ret == 0 )
+			{
+				result.add( key1 );
+				i++;
+				j++;
+			}
+			else if ( ret < 0 )
+			{
+				i++;
+			}
+			else
+				j++;
+		}
+		array1.close( );
+		array2.close( );
+		return result;
+	}
 }
