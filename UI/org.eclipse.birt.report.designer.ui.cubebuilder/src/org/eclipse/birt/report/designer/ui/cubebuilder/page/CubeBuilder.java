@@ -108,8 +108,7 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 			for ( int i = 0; i < dimensions.length; i++ )
 			{
 				TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) dimensions[i].getDefaultHierarchy( );
-				if ( hierarchy != null && hierarchy.getDataSet( ) != null )
-					// && hierarchy.getDataSet( ) != input.getDataSet( ) )
+				if ( hierarchy != null && hierarchy.getDataSet( ) != null && hierarchy.getDataSet( ) != input.getDataSet( ) )
 					childList.add( hierarchy );
 			}
 		}
