@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<font>
+	<composite-font name="testForCharacterMapping">
+		<block name="Basic Latin" range-start="0" range-end="7f" index="0" font-family="Courier"/>
+		<block name="default" font-family="Times-Roman"/>
+		<character value="a" font-family="Helvetica"/>
+		<character value="\u0062" font-family="Times-Roman"/>
+	</composite-font>
+
+	<composite-font name="testForDefaultFont" font-family="Symbol">
+		<block name="default" font-family="Times-Roman"/>
+	</composite-font>
+</font>
