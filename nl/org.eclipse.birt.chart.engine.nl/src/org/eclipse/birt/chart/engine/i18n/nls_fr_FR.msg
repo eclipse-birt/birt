@@ -101,6 +101,7 @@ exception.dataset.non.numerical.to.numerical=Type de données non numérique {0} i
 exception.dataset.non.datetime=Le type de données lié à l'axe horizontal ne correspond pas au format date/heure
 exception.scale.tick.max=Rendu de plusieurs escaliers impossible. Ajustez l'échelle (escalier ou unité).
 exception.unknown.axis.type.tick.computations=Impossible de déterminer le type d'axe nécessaire pour calculer les repères
+exception.unknown.trigger.datatype=The trigger data is invalid or its type is unknown.
 exception.unsupported.compare.unknown.objects=Eléments de données non pris en charge fournis pour la comparaison de DE1={0} et DE2={1}
 exception.unsupported.compare.different.objects=Eléments de données mélangés fournis pour la comparaison de DE1={0} et DE2={1}
 exception.resultset.data.type.retrieval.failed=Impossible de déterminer les types de données à partir du jeu de résultats
