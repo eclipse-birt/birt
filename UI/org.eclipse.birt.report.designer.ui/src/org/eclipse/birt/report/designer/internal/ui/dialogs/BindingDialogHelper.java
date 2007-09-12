@@ -1031,7 +1031,11 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	{
 		if ( isAggregate( ) )
 		{
-			if ( !strEquals( binding.getName( ), txtName.getText( ) ) )
+			if ( txtName != null
+					&& !strEquals( txtName.getText( ), binding.getName( ) ) )
+				return true;
+			if ( cmbName != null
+					&& !strEquals( cmbName.getText( ), binding.getName( ) ) )
 				return true;
 			if ( !strEquals( binding.getDisplayName( ),
 					txtDisplayName.getText( ) ) )
@@ -1051,7 +1055,11 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		}
 		else
 		{
-			if ( !strEquals( txtName.getText( ), binding.getName( ) ) )
+			if ( txtName != null
+					&& !strEquals( txtName.getText( ), binding.getName( ) ) )
+				return true;
+			if ( cmbName != null
+					&& !strEquals( cmbName.getText( ), binding.getName( ) ) )
 				return true;
 			if ( !strEquals( txtDisplayName.getText( ),
 					binding.getDisplayName( ) ) )
