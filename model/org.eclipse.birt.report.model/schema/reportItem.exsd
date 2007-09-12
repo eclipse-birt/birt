@@ -136,21 +136,21 @@
          <attribute name="name" type="string" use="required">
             <annotation>
                <documentation>
-                  
+                  Internal unique name of the property extension element
                </documentation>
             </annotation>
          </attribute>
          <attribute name="displayNameID" type="string">
             <annotation>
                <documentation>
-                  
+                  Resource key for the display name
                </documentation>
             </annotation>
          </attribute>
          <attribute name="type" use="required">
             <annotation>
                <documentation>
-                  Generally, if property is of simple type(string, number, integer, dimension, color, boolean, expression, html, uri, dateTime, xml, name, float, literalString, resourceKey), then it is useless to set &quot;subType&quot; and &quot;detailType&quot; for the property; If type is &quot;choice&quot;, then either define customized choices or set &quot;detailType&quot; to name of the preferred choice set in rom.def; If type is &quot;list&quot;, the &quot;subType&quot; is required to determine the item type in the list value and by default its value is &quot;string&quot;; If type is &quot;structure&quot;, &quot;detailType&quot; is required to refer a structure definition name in rom.def and set &quot;isList&quot; to true if value is not single; If type is &quot;elementRef&quot;, &quot;detailType&quot; is required to refer an element definition name in  rom.def or an extension name of any report item extension; If type is &quot;element&quot;, then set &quot;isList&quot; to true if the property value list is not single.
+                  Property data type, such as integer or string. Generally, if property is of simple type(string, number, integer, dimension, color, boolean, expression, html, uri, dateTime, xml, name, float, literalString, resourceKey), then it is useless to set &quot;subType&quot; and &quot;detailType&quot; for the property; If type is &quot;choice&quot;, then either define customized choices or set &quot;detailType&quot; to name of the preferred choice set in rom.def; If type is &quot;list&quot;, the &quot;subType&quot; is required to determine the item type in the list value and by default its value is &quot;string&quot;; If type is &quot;structure&quot;, &quot;detailType&quot; is required to refer a structure definition name in rom.def and set &quot;isList&quot; to true if value is not single; If type is &quot;elementRef&quot;, &quot;detailType&quot; is required to refer an element definition name in  rom.def or an extension name of any report item extension; If type is &quot;element&quot;, then set &quot;isList&quot; to true if the property value list is not single.
 choice:
 list:
 structure, elementRef and element
@@ -206,8 +206,7 @@ structure, elementRef and element
          <attribute name="detailType" type="string">
             <annotation>
                <documentation>
-                  When the &quot;type&quot; is &quot;choice&quot;, extension can define &quot;detailType&quot; to refer a choice set in original meta-data of Model;
-When &quot;type&quot; is &quot;structure&quot;, extension must define &quot;detailType&quot; to refer a structure in original meta-data of Model.
+                  Detail data type, such as boolean or string. When the &quot;type&quot; is &quot;choice&quot;, extension can define &quot;detailType&quot; to refer a choice set in original meta-data of Model; When &quot;type&quot; is &quot;structure&quot;, extension must define &quot;detailType&quot; to refer a structure in original meta-data of Model.
                </documentation>
             </annotation>
          </attribute>
@@ -237,14 +236,16 @@ When &quot;type&quot; is &quot;structure&quot;, extension must define &quot;deta
          <attribute name="canInherit" type="boolean" use="default" value="true">
             <annotation>
                <documentation>
-                  
+                  Flag indicating whether the property extension element can inherit
+properties from another element
                </documentation>
             </annotation>
          </attribute>
          <attribute name="defaultValue" type="string">
             <annotation>
                <documentation>
-                  
+                  Default value of the property extension element in the BIRT Report
+Designer UI
                </documentation>
             </annotation>
          </attribute>
@@ -292,14 +293,14 @@ When &quot;type&quot; is &quot;structure&quot;, extension must define &quot;deta
          <attribute name="displayNameID" type="string">
             <annotation>
                <documentation>
-                  
+                  Resource key for the display name
                </documentation>
             </annotation>
          </attribute>
          <attribute name="name" type="string" use="required">
             <annotation>
                <documentation>
-                  
+                  Internal unique name of the property group
                </documentation>
             </annotation>
          </attribute>
@@ -327,42 +328,42 @@ When &quot;type&quot; is &quot;structure&quot;, extension must define &quot;deta
          <attribute name="name" type="string" use="required">
             <annotation>
                <documentation>
-                  
+                  Internal unique name of the method
                </documentation>
             </annotation>
          </attribute>
          <attribute name="displayNameID" type="string">
             <annotation>
                <documentation>
-                  
+                  Resource key for the display name
                </documentation>
             </annotation>
          </attribute>
          <attribute name="toolTipID" type="string">
             <annotation>
                <documentation>
-                  
+                  Resource key for tool-tip of this method
                </documentation>
             </annotation>
          </attribute>
          <attribute name="returnType" type="string">
             <annotation>
                <documentation>
-                  
+                  Data type of the method return value
                </documentation>
             </annotation>
          </attribute>
          <attribute name="isStatic" type="boolean" use="default" value="false">
             <annotation>
                <documentation>
-                  
+                  Field indicating whether this method is static or not
                </documentation>
             </annotation>
          </attribute>
          <attribute name="context" type="string">
             <annotation>
                <documentation>
-                  
+                  Execution context of this method
                </documentation>
             </annotation>
          </attribute>
@@ -379,21 +380,21 @@ When &quot;type&quot; is &quot;structure&quot;, extension must define &quot;deta
          <attribute name="name" type="string" use="required">
             <annotation>
                <documentation>
-                  
+                  Internal unique name of this argument
                </documentation>
             </annotation>
          </attribute>
          <attribute name="type" type="string">
             <annotation>
                <documentation>
-                  
+                  Data type of this argument, such as string or integer
                </documentation>
             </annotation>
          </attribute>
          <attribute name="tagID" type="string">
             <annotation>
                <documentation>
-                  
+                  Resource key for tag of this argument
                </documentation>
             </annotation>
          </attribute>
@@ -410,21 +411,21 @@ When &quot;type&quot; is &quot;structure&quot;, extension must define &quot;deta
          <attribute name="name" type="string" use="required">
             <annotation>
                <documentation>
-                  
+                  Internal unique name of the choice
                </documentation>
             </annotation>
          </attribute>
          <attribute name="value" type="string">
             <annotation>
                <documentation>
-                  
+                  Value for this choice
                </documentation>
             </annotation>
          </attribute>
          <attribute name="displayNameID" type="string">
             <annotation>
                <documentation>
-                  
+                  Resource key for the display name
                </documentation>
             </annotation>
          </attribute>
@@ -448,7 +449,7 @@ When &quot;type&quot; is &quot;structure&quot;, extension must define &quot;deta
          <attribute name="name" type="string" use="required">
             <annotation>
                <documentation>
-                  
+                  Internal name of the property that is set the visibility.
                </documentation>
             </annotation>
          </attribute>
@@ -479,7 +480,7 @@ When &quot;type&quot; is &quot;structure&quot;, extension must define &quot;deta
          <attribute name="displayNameID" type="string">
             <annotation>
                <documentation>
-                  
+                  Resource key for the display name
                </documentation>
             </annotation>
          </attribute>
@@ -513,7 +514,7 @@ When &quot;type&quot; is &quot;structure&quot;, extension must define &quot;deta
          <attribute name="propertyName" type="string" use="required">
             <annotation>
                <documentation>
-                  
+                  Internal name of the property that is overridden by extension.
                </documentation>
             </annotation>
          </attribute>
