@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation.
+ * Copyright (c) 2005, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -45,6 +45,10 @@ public class LabelScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign labelDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
+			if ( !needOnCreate( labelDesign ) )
+			{
+				return;
+			}
 			ILabelInstance label = new LabelInstance( content, context );
 			if ( handleJS( label, labelDesign.getOnCreate( ), context )
 					.didRun( ) )
@@ -65,6 +69,10 @@ public class LabelScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign labelDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
+			if ( !needOnRender( labelDesign ) )
+			{
+				return;
+			}
 			ILabelInstance label = new LabelInstance( content, context );
 			if ( handleJS( label, labelDesign.getOnRender( ), context )
 					.didRun( ) )
@@ -85,6 +93,10 @@ public class LabelScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign labelDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
+			if ( !needOnPageBreak( labelDesign ) )
+			{
+				return;
+			}
 			ILabelInstance label = new LabelInstance( content, context );
 			if ( handleJS( label, labelDesign.getOnPageBreak( ), context )
 					.didRun( ) )
@@ -102,24 +114,30 @@ public class LabelScriptExecutor extends ScriptExecutor
 	private static ILabelEventHandler getEventHandler( ReportItemDesign design,
 			ExecutionContext context )
 	{
-		LabelHandle handle = ( LabelHandle ) design.getHandle( );
-		if ( handle == null )
-			return null;
-		return getEventHandler( handle, context );
+		try
+		{
+			return (ILabelEventHandler) getInstance( design, context );
+		}
+		catch ( ClassCastException e )
+		{
+			addClassCastException( context, e, design.getJavaClass( ),
+					ILabelEventHandler.class );
+		}
+		return null;
 	}
 
 	private static ILabelEventHandler getEventHandler( LabelHandle handle,
 			ExecutionContext context )
 	{
-		ILabelEventHandler eh = null;
 		try
 		{
-			eh = ( ILabelEventHandler ) getInstance( handle, context );
-		} catch ( ClassCastException e )
+			return (ILabelEventHandler) getInstance( handle, context );
+		}
+		catch ( ClassCastException e )
 		{
 			addClassCastException( context, e, handle.getEventHandlerClass( ),
 					ILabelEventHandler.class );
 		}
-		return eh;
+		return null;
 	}
 }

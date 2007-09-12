@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation.
+ * Copyright (c) 2005, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -21,7 +21,6 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.script.internal.element.Image;
 import org.eclipse.birt.report.engine.script.internal.instance.ImageInstance;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 
 public class ImageScriptExecutor extends ScriptExecutor
@@ -48,6 +47,10 @@ public class ImageScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign imageDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
+			if ( !needOnCreate( imageDesign ) )
+			{
+				return;
+			}
 			IImageInstance image = new ImageInstance( content, context );
 			if ( handleJS( image, imageDesign.getOnCreate( ), context )
 					.didRun( ) )
@@ -68,6 +71,10 @@ public class ImageScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign imageDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
+			if ( !needOnRender( imageDesign ) )
+			{
+				return;
+			}
 			IImageInstance image = new ImageInstance( content, context );
 			if ( handleJS( image, imageDesign.getOnRender( ), context )
 					.didRun( ) )
@@ -88,6 +95,10 @@ public class ImageScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign imageDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
+			if ( !needOnPageBreak( imageDesign ) )
+			{
+				return;
+			}
 			IImageInstance image = new ImageInstance( content, context );
 			if ( handleJS( image, imageDesign.getOnPageBreak( ), context )
 					.didRun( ) )
@@ -104,29 +115,30 @@ public class ImageScriptExecutor extends ScriptExecutor
 	private static IImageEventHandler getEventHandler( ReportItemDesign design,
 			ExecutionContext context )
 	{
-		DesignElementHandle designHandle = design.getHandle( );
-		if ( !( designHandle instanceof ImageHandle ))
+		try
 		{
-			return null;
+			return (IImageEventHandler) getInstance( design, context );
 		}
-		ImageHandle handle = ( ImageHandle ) designHandle;
-		if ( handle == null )
-			return null;
-		return getEventHandler( handle, context );
+		catch ( ClassCastException e )
+		{
+			addClassCastException( context, e, design.getJavaClass( ),
+					IImageEventHandler.class );
+		}
+		return null;
 	}
 
 	private static IImageEventHandler getEventHandler( ImageHandle handle,
 			ExecutionContext context )
 	{
-		IImageEventHandler eh = null;
 		try
 		{
-			eh = ( IImageEventHandler ) getInstance( handle, context );
-		} catch ( ClassCastException e )
+			return (IImageEventHandler) getInstance( handle, context );
+		}
+		catch ( ClassCastException e )
 		{
 			addClassCastException( context, e, handle.getEventHandlerClass( ),
 					IImageEventHandler.class );
 		}
-		return eh;
+		return null;
 	}
 }

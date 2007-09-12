@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation.
+ * Copyright (c) 2005, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,6 +18,7 @@ import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 
 /**
@@ -67,6 +68,33 @@ public class ScriptExecutor
 		}
 		return JSScriptStatus.NO_RUN;
 	}
+	
+	protected static boolean needOnCreate( ReportItemDesign design )
+	{
+		if ( design == null )
+		{
+			return false;
+		}
+		return design.getOnCreate( ) != null || design.getJavaClass( ) != null;
+	}
+	
+	protected static boolean needOnRender( ReportItemDesign design )
+	{
+		if ( design == null )
+		{
+			return false;
+		}
+		return design.getOnRender( ) != null || design.getJavaClass( ) != null;
+	}
+	
+	protected static boolean needOnPageBreak( ReportItemDesign design )
+	{
+		if ( design == null )
+		{
+			return false;
+		}
+		return design.getOnPageBreak( ) != null || design.getJavaClass( ) != null;
+	}
 
 	protected static Object getInstance( DesignElementHandle element,
 			ExecutionContext context )
@@ -74,6 +102,15 @@ public class ScriptExecutor
 		if ( element == null )
 			return null;
 		String className = element.getEventHandlerClass( );
+		return getInstance( className, context );
+	}
+	
+	protected static Object getInstance( ReportItemDesign element,
+			ExecutionContext context )
+	{
+		if ( element == null )
+			return null;
+		String className = element.getJavaClass( );
 		return getInstance( className, context );
 	}
 

@@ -1271,6 +1271,7 @@ public class EngineIRWriter implements IOConstants
 		String helpText = data.getHelpText( );
 		String helpTextKey = data.getHelpTextKey( );
 		boolean suppressDuplicate = data.getSuppressDuplicate( );
+		boolean needRefreshMapping = data.needRefreshMapping( );
 		if ( bindingColumn != null )
 		{
 			IOUtil.writeShort( out, FIELD_BINDING_COLUMN);
@@ -1286,6 +1287,11 @@ public class EngineIRWriter implements IOConstants
 		{
 			IOUtil.writeShort( out, FIELD_SUPPRESS_DUPLICATE );
 			IOUtil.writeBool( out, suppressDuplicate );
+		}
+		if ( needRefreshMapping )
+		{
+			IOUtil.writeShort( out, FIELD_NEED_REFRESH_MAPPING );
+			IOUtil.writeBool( out, needRefreshMapping );
 		}
 	}
 

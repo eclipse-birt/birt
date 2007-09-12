@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation.
+ * Copyright (c) 2005, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -45,6 +45,10 @@ public class GridScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign gridDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
+			if ( !needOnCreate( gridDesign ) )
+			{
+				return;
+			}
 			IGridInstance grid = new GridInstance( content, context );
 			if ( handleJS( grid, gridDesign.getOnCreate( ), context ).didRun( ) )
 				return;
@@ -64,6 +68,10 @@ public class GridScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign gridDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
+			if ( !needOnRender( gridDesign ) )
+			{
+				return;
+			}
 			IGridInstance grid = new GridInstance( content, context );
 			if ( handleJS( grid, gridDesign.getOnRender( ), context ).didRun( ) )
 				return;
@@ -83,6 +91,10 @@ public class GridScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign gridDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
+			if ( !needOnPageBreak( gridDesign ) )
+			{
+				return;
+			}
 			IGridInstance grid = new GridInstance( content, context );
 			if ( handleJS( grid, gridDesign.getOnPageBreak( ), context ).didRun( ) )
 				return;
@@ -98,24 +110,30 @@ public class GridScriptExecutor extends ScriptExecutor
 	private static IGridEventHandler getEventHandler( ReportItemDesign design,
 			ExecutionContext context )
 	{
-		GridHandle handle = ( GridHandle ) design.getHandle( );
-		if ( handle == null )
-			return null;
-		return getEventHandler( handle, context );
+		try
+		{
+			return (IGridEventHandler) getInstance( design, context );
+		}
+		catch ( ClassCastException e )
+		{
+			addClassCastException( context, e, design.getJavaClass( ),
+					IGridEventHandler.class );
+		}
+		return null;
 	}
 
 	private static IGridEventHandler getEventHandler( GridHandle handle,
 			ExecutionContext context )
 	{
-		IGridEventHandler eh = null;
 		try
 		{
-			eh = ( IGridEventHandler ) getInstance( handle, context );
-		} catch ( ClassCastException e )
+			return (IGridEventHandler) getInstance( handle, context );
+		}
+		catch ( ClassCastException e )
 		{
 			addClassCastException( context, e, handle.getEventHandlerClass( ),
 					IGridEventHandler.class );
 		}
-		return eh;
+		return null;
 	}
 }

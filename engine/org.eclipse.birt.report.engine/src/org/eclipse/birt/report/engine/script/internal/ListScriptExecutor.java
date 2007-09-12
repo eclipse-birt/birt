@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation.
+ * Copyright (c) 2005, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -45,6 +45,10 @@ public class ListScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign listDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
+			if ( !needOnCreate( listDesign ) )
+			{
+				return;
+			}
 			IListInstance list = new ListInstance( content, context );
 			if ( handleJS( list, listDesign.getOnCreate( ), context ).didRun( ) )
 				return;
@@ -64,6 +68,10 @@ public class ListScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign listDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
+			if ( !needOnRender( listDesign ) )
+			{
+				return;
+			}
 			IListInstance list = new ListInstance( content, context );
 			if ( handleJS( list, listDesign.getOnRender( ), context ).didRun( ) )
 				return;
@@ -83,6 +91,10 @@ public class ListScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign listDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
+			if ( !needOnPageBreak( listDesign ) )
+			{
+				return;
+			}
 			IListInstance list = new ListInstance( content, context );
 			if ( handleJS( list, listDesign.getOnPageBreak( ), context ).didRun( ) )
 				return;
@@ -98,24 +110,30 @@ public class ListScriptExecutor extends ScriptExecutor
 	private static IListEventHandler getEventHandler( ReportItemDesign design,
 			ExecutionContext context )
 	{
-		ListHandle handle = ( ListHandle ) design.getHandle( );
-		if ( handle == null )
-			return null;
-		return getEventHandler( handle, context );
+		try
+		{
+			return (IListEventHandler) getInstance( design, context );
+		}
+		catch ( ClassCastException e )
+		{
+			addClassCastException( context, e, design.getJavaClass( ),
+					IListEventHandler.class );
+		}
+		return null;
 	}
 
 	private static IListEventHandler getEventHandler( ListHandle handle,
 			ExecutionContext context )
 	{
-		IListEventHandler eh = null;
 		try
 		{
-			eh = ( IListEventHandler ) getInstance( handle, context );
-		} catch ( ClassCastException e )
+			return (IListEventHandler) getInstance( handle, context );
+		}
+		catch ( ClassCastException e )
 		{
 			addClassCastException( context, e, handle.getEventHandlerClass( ),
 					IListEventHandler.class );
 		}
-		return eh;
+		return null;
 	}
 }

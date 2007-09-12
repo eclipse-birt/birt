@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation.
+ * Copyright (c) 2005, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -50,6 +50,10 @@ public class CellScriptExecutor extends ScriptExecutor
 				return;
 			}
 			ReportItemDesign cellDesign = ( ReportItemDesign ) generateBy;
+			if ( !needOnCreate( cellDesign ) )
+			{
+				return;
+			}
 			ICellInstance cell = new CellInstance( content, context,
 					fromGrid );
 			if ( handleJS( cell, cellDesign.getOnCreate( ), context ).didRun( ) )
@@ -75,6 +79,10 @@ public class CellScriptExecutor extends ScriptExecutor
 				return;
 			}
 			ReportItemDesign cellDesign = ( ReportItemDesign ) generateBy; 
+			if ( !needOnRender( cellDesign ) )
+			{
+				return;
+			}
 			
 			//fromGrid doesn't matter here since row data is null
 			ICellInstance cell = new CellInstance( content, context,
@@ -101,6 +109,10 @@ public class CellScriptExecutor extends ScriptExecutor
 				return;
 			}
 			ReportItemDesign cellDesign = ( ReportItemDesign ) generateBy; 
+			if ( !needOnPageBreak( cellDesign ) )
+			{
+				return;
+			}
 			
 			//fromGrid doesn't matter here since row data is null
 			ICellInstance cell = new CellInstance( content, context,
@@ -119,24 +131,30 @@ public class CellScriptExecutor extends ScriptExecutor
 	private static ICellEventHandler getEventHandler( ReportItemDesign design,
 			ExecutionContext context )
 	{
-		CellHandle handle = ( CellHandle ) design.getHandle( );
-		if ( handle == null )
-			return null;
-		return getEventHandler( handle, context );
+		try
+		{
+			return (ICellEventHandler) getInstance( design, context );
+		}
+		catch ( ClassCastException e )
+		{
+			addClassCastException( context, e, design.getJavaClass( ),
+					ICellEventHandler.class );
+		}
+		return null;
 	}
 
 	private static ICellEventHandler getEventHandler( CellHandle handle,
 			ExecutionContext context )
 	{
-		ICellEventHandler eh = null;
 		try
 		{
-			eh = ( ICellEventHandler ) getInstance( handle, context );
-		} catch ( ClassCastException e )
+			return (ICellEventHandler) getInstance( handle, context );
+		}
+		catch ( ClassCastException e )
 		{
 			addClassCastException( context, e, handle.getEventHandlerClass( ),
 					ICellEventHandler.class );
 		}
-		return eh;
+		return null;
 	}
 }

@@ -213,6 +213,12 @@ public class EngineIRVisitor extends DesignVisitor
 	long newCellId = -1;
 	
 	/**
+	 * used to remember the nesting count of the extended items. and change the
+	 * data item's needRefreshMapping while it is in a extended item.
+	 */
+	int extendedItemNestingCount = 0;
+	
+	/**
 	 * constructor
 	 * 
 	 * @param handle
@@ -622,6 +628,12 @@ public class EngineIRVisitor extends DesignVisitor
 
 		setupHighlight( data, expr );
 		setMap( data, expr );
+		
+		if ( extendedItemNestingCount > 0 )
+		{
+			data.setNeedRefreshMapping( true );
+		}
+		
 		currentElement = data;
 	}
 
@@ -1371,8 +1383,10 @@ public class EngineIRVisitor extends DesignVisitor
 		// Alternative text for extendedItem
 		extendedItem.setAltText( obj.getAltTextKey( ), obj.getAltText( ) );
 		
+		extendedItemNestingCount++;
 		handleExtendedItemChildren( extendedItem, obj );
-
+		extendedItemNestingCount--;
+		
 		currentElement = extendedItem;
 	}
 	

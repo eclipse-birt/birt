@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation.
+ * Copyright (c) 2005, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -44,6 +44,10 @@ public class TableGroupScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign tableGroupDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
+			if ( !needOnPageBreak( tableGroupDesign ) )
+			{
+				return;
+			}
 			ReportElementInstance table = new ReportElementInstance( content, context );
 			if ( handleJS( table, tableGroupDesign.getOnPageBreak( ), context ).didRun( ) )
 				return;
@@ -59,24 +63,30 @@ public class TableGroupScriptExecutor extends ScriptExecutor
 	private static ITableGroupEventHandler getEventHandler(
 			TableGroupHandle handle, ExecutionContext context )
 	{
-		ITableGroupEventHandler eh = null;
 		try
 		{
-			eh = ( ITableGroupEventHandler ) getInstance( handle, context );
-		} catch ( ClassCastException e )
+			return (ITableGroupEventHandler) getInstance( handle, context );
+		}
+		catch ( ClassCastException e )
 		{
 			addClassCastException( context, e, handle.getEventHandlerClass( ),
 					ITableGroupEventHandler.class );
 		}
-		return eh;
+		return null;
 	}
-	
-	private static ITableGroupEventHandler getEventHandler( ReportItemDesign design,
-			ExecutionContext context )
+
+	private static ITableGroupEventHandler getEventHandler(
+			ReportItemDesign design, ExecutionContext context )
 	{
-		TableGroupHandle handle = ( TableGroupHandle ) design.getHandle( );
-		if ( handle == null )
-			return null;
-		return getEventHandler( handle, context );
+		try
+		{
+			return (ITableGroupEventHandler) getInstance( design, context );
+		}
+		catch ( ClassCastException e )
+		{
+			addClassCastException( context, e, design.getJavaClass( ),
+					ITableGroupEventHandler.class );
+		}
+		return null;
 	}
 }

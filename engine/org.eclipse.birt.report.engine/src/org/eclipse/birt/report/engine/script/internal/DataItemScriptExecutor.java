@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation.
+ * Copyright (c) 2005, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -45,6 +45,11 @@ public class DataItemScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign dataItemDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
+			if ( !needOnCreate( dataItemDesign ) )
+			{
+				return;
+			}
+			
 			IDataItemInstance dataItem = new DataItemInstance( content, context );
 			if ( handleJS( dataItem, dataItemDesign.getOnCreate( ), context )
 					.didRun( ) )
@@ -65,6 +70,11 @@ public class DataItemScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign dataItemDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
+			if ( !needOnRender( dataItemDesign ) )
+			{
+				return;
+			}
+			
 			IDataItemInstance dataItem = new DataItemInstance( content, context );
 			if ( handleJS( dataItem, dataItemDesign.getOnRender( ), context )
 					.didRun( ) )
@@ -85,6 +95,10 @@ public class DataItemScriptExecutor extends ScriptExecutor
 		{
 			ReportItemDesign dataItemDesign = ( ReportItemDesign ) content
 					.getGenerateBy( );
+			if ( !needOnPageBreak( dataItemDesign ) )
+			{
+				return;
+			}
 			IDataItemInstance dataItem = new DataItemInstance( content, context );
 			if ( handleJS( dataItem, dataItemDesign.getOnPageBreak( ), context )
 					.didRun( ) )
@@ -101,23 +115,30 @@ public class DataItemScriptExecutor extends ScriptExecutor
 	private static IDataItemEventHandler getEventHandler(
 			ReportItemDesign design, ExecutionContext context )
 	{
-		DataItemHandle handle = ( DataItemHandle ) design.getHandle( );
-		if ( handle == null )
-			return null;
-		return getEventHandler( handle, context );
+		try
+		{
+			return (IDataItemEventHandler) getInstance( design, context );
+		}
+		catch ( ClassCastException e )
+		{
+			addClassCastException( context, e, design.getJavaClass( ),
+					IDataItemEventHandler.class );
+		}
+		return null;
 	}
 
 	private static IDataItemEventHandler getEventHandler(
 			DataItemHandle handle, ExecutionContext context )
 	{
-		IDataItemEventHandler eh = null;
 		try
 		{
-			eh = ( IDataItemEventHandler ) getInstance( handle, context );
-		} catch ( ClassCastException e )
-		{
-			addClassCastException( context, e, handle.getEventHandlerClass( ), IDataItemEventHandler.class );
+			return (IDataItemEventHandler) getInstance( handle, context );
 		}
-		return eh;
+		catch ( ClassCastException e )
+		{
+			addClassCastException( context, e, handle.getEventHandlerClass( ),
+					IDataItemEventHandler.class );
+		}
+		return null;
 	}
 }

@@ -727,10 +727,19 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 			{
 				if ( parent.rset == null )
 				{
-					IBaseResultSet[] prsets = parent.getQueryResults( );
-					if ( prsets != null && prsets.length > 0 )
+					IBaseResultSet[] parentRsets = parent.getQueryResults( );
+					if ( parentRsets == null
+							|| ( parentRsets.length > 0 && parentRsets[0] == null ) )
 					{
-						prset = prsets;
+						IBaseResultSet prset_ = parent.getParentResultSet( );
+						if ( prset_ != null )
+						{
+							prset = new IBaseResultSet[]{prset_};
+						}
+					}
+					else
+					{
+						prset = new IBaseResultSet[]{parentRsets[0]};
 					}
 				}
 				else
