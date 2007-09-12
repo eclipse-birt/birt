@@ -70,8 +70,8 @@ public class BirtCompTest extends TestCase
 		String script5 = "BirtComp.anyOf(new Date(99,10,10),100,\"ABC\", \"1999-11-10\",null)";
 		String script6 = "BirtComp.anyOf(\"1999-11-10\",100,\"ABC\", \"1999-11-10\",null)";
 		String script7 = "BirtComp.anyOf(20,100,\"ABC\", \"1999-11-10\",null)";
-		
-
+		String script8 = "array = new Array(3);array[0]=0;array[1]=1;array[2]=2;BirtComp.anyOf(1,array);";
+		String script9 = "array = new Array(3);array[0]=0;array[1]=1;array[2]=2;BirtComp.anyOf(4,array);";
 		assertTrue( ( (Boolean) cx.evaluateString( scope,
 				script2,
 				"inline",
@@ -104,6 +104,18 @@ public class BirtCompTest extends TestCase
 
 		assertFalse( ( (Boolean) cx.evaluateString( scope,
 				script7,
+				"inline",
+				1,
+				null ) ).booleanValue( ) );
+		
+		assertTrue( ( (Boolean) cx.evaluateString( scope,
+				script8,
+				"inline",
+				1,
+				null ) ).booleanValue( ) );
+		
+		assertFalse( ( (Boolean) cx.evaluateString( scope,
+				script9,
 				"inline",
 				1,
 				null ) ).booleanValue( ) );
