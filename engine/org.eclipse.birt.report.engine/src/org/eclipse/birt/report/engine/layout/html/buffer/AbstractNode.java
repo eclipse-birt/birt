@@ -25,13 +25,15 @@ public abstract class AbstractNode implements INode
 	protected IContainerNode parent;
 	protected boolean isStarted = false;
 	protected PageHintGenerator generator;
+	protected boolean isVisible;
 
 	AbstractNode( IContent content, IContentEmitter emitter,
-			PageHintGenerator generator )
+			PageHintGenerator generator, boolean isVisible )
 	{
 		this.content = content;
 		this.emitter = emitter;
 		this.generator = generator;
+		this.isVisible = isVisible;
 	}
 
 	public void setFirst( boolean isFirst )
@@ -56,7 +58,10 @@ public abstract class AbstractNode implements INode
 
 	public void end( )
 	{
-		ContentEmitterUtil.endContent( content, emitter );
+		if( isVisible )
+		{
+			ContentEmitterUtil.endContent( content, emitter );
+		}
 		generator.end( content, finished );
 	}
 
@@ -81,7 +86,10 @@ public abstract class AbstractNode implements INode
 		{
 			parent.start( );
 		}
-		ContentEmitterUtil.startContent( content, emitter );
+		if( isVisible )
+		{
+			ContentEmitterUtil.startContent( content, emitter );
+		}
 		generator.start( content, isFirst );
 		isStarted = true;
 

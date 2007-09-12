@@ -151,7 +151,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	/**
 	 * the output format
 	 */
-	public static final String OUTPUT_FORMAT_HTML = "HTML"; //$NON-NLS-1$
+	public static final String OUTPUT_FORMAT_HTML = "html"; //$NON-NLS-1$
 
 	/**
 	 * the default target report file name

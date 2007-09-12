@@ -24,7 +24,6 @@ public class HTMLPageBuffer implements IPageBuffer
 	protected PageHintGenerator generator;
 
 	protected HTMLLayoutContext context;
-	protected PageNode pageNode;
 
 	protected boolean isRepeated = false;
 
@@ -44,13 +43,13 @@ public class HTMLPageBuffer implements IPageBuffer
 			case IContent.LIST_BAND_CONTENT :
 				boolean first = isFirst && !isRepeated;
 				ContainerBufferNode bandNode = new ContainerBufferNode(
-						content, emitter, generator );
+						content, emitter, generator, visible );
 				setup( bandNode, first );
 				currentNode = bandNode;
 				break;
 			case IContent.CELL_CONTENT :
 				ContainerBufferNode cellNode = new ContainerBufferNode(
-						content, emitter, generator );
+						content, emitter, generator, visible );
 				setup( cellNode, isFirst );
 				if ( currentNode.isStarted( ) )
 				{
@@ -59,44 +58,47 @@ public class HTMLPageBuffer implements IPageBuffer
 				currentNode = cellNode;
 				break;
 			case IContent.PAGE_CONTENT :
-				PageNode pageNode = new PageNode( content, emitter, generator );
+				PageNode pageNode = new PageNode( content, emitter, generator, visible );
 				setup( pageNode, isFirst );
 				currentNode = pageNode;
-				this.pageNode = pageNode;
 				break;
 			default :
 				ContainerBufferNode node = new ContainerBufferNode( content,
-						emitter, generator );
+						emitter, generator, visible );
 				setup( node, isFirst );
 				currentNode = node;
 				break;
 		}
 	}
 	
-	protected boolean isPageStarted()
+	protected boolean isParentStarted()
 	{
-		if( pageNode!=null )
+		INode parentNode = currentNode.getParent( );
+		if( parentNode!=null )
 		{
-			return pageNode.isStarted( );
+			return parentNode.isStarted( );
 		}
 		return false;
 	}
 
 	public void startContent( IContent content, IContentEmitter emitter, boolean visible )
 	{
-		if ( isRepeated || ( !visible && !isPageStarted( ) ) )
+		if ( isRepeated || ( !visible && !currentNode.isStarted( ) ) )
 		{
 			LeafBufferNode leafNode = new LeafBufferNode( content, emitter,
-					generator );
+					generator, visible );
 			setup( leafNode, true );
 		}
 		else
 		{
 			LeafBufferNode leafNode = new LeafBufferNode( content, emitter,
-					generator );
+					generator, visible );
 			setup( leafNode, true );
 			currentNode.start( );
-			ContentEmitterUtil.startContent( content, emitter );
+			if( visible )
+			{
+				ContentEmitterUtil.startContent( content, emitter );
+			}
 			generator.start( content, true );
 			generator.end( content, true );
 			currentNode.removeChildren( );
@@ -144,7 +146,7 @@ public class HTMLPageBuffer implements IPageBuffer
 				{
 					currentNode.flush( );
 				}
-				else if ( isPageStarted( ) )
+				else if ( isParentStarted( ) )
 				{
 					currentNode.flush( );
 				}
@@ -158,7 +160,7 @@ public class HTMLPageBuffer implements IPageBuffer
 			{
 				currentNode.removeChildren( );
 			}
-			else if ( isPageStarted( ) )
+			else if ( isParentStarted( ) )
 			{
 				currentNode.removeChildren( );
 			}
