@@ -65,15 +65,22 @@ public class DimensionFilterHelper
 	private static BaseDiskSortedStack find(Level level, ISelection[] filter) throws IOException, DataException
 	{
 		IDiskArray indexKeyArray = level.getDiskIndex().find( filter );
-		PrimitiveDiskSortedStack resultStack = new PrimitiveDiskSortedStack( Constants.LIST_BUFFER_SIZE, true, true );
 		if ( indexKeyArray != null )
 		{
+			PrimitiveDiskSortedStack resultStack = new PrimitiveDiskSortedStack( Math.min( indexKeyArray.size( ),
+					Constants.MAX_LIST_BUFFER_SIZE ),
+					true,
+					true );
 			for ( int i = 0; i < indexKeyArray.size( ); i++ )
 			{
 				IndexKey key = (IndexKey) indexKeyArray.get( i );
 				resultStack.push( new Integer( key.getDimensionPos( ) ) );
 			}
+			return resultStack;
 		}
-		return resultStack;
+		else
+		{
+			return new PrimitiveDiskSortedStack( 1, true, true );
+		}
 	}
 }

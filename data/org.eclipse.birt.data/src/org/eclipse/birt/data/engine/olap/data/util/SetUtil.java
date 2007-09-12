@@ -29,12 +29,24 @@ public class SetUtil
 	 */
 	public static IDiskArray getIntersection( PrimitiveDiskSortedStack[] stacks ) throws IOException
 	{
-		IDiskArray result = new BufferedPrimitiveDiskArray( Constants.LIST_BUFFER_SIZE );
+		int bufferSize = Constants.MAX_LIST_BUFFER_SIZE;
+		if ( stacks == null || stacks.length < 1 )
+		{
+			bufferSize = 0;
+		}
+		int i = 0;
+		for ( i = 0; i < stacks.length; i++ )
+		{
+			if( stacks[i].size( ) < bufferSize )
+			{
+				bufferSize = stacks[i].size( );
+			}
+		}
+		IDiskArray result = new BufferedPrimitiveDiskArray( bufferSize + 1 );
 		Object[] tmpObjects = new Object[stacks.length];
 		
 		Object currentObject = null;
 		
-		int i = 0;
 		for ( i = 0; i < tmpObjects.length; i++ )
 		{
 			tmpObjects[i] = stacks[i].pop( );
@@ -92,7 +104,8 @@ public class SetUtil
 		PrimitiveDiskSortedStack[] stacks = new PrimitiveDiskSortedStack[arrays.length];
 		for ( int i = 0; i < arrays.length; i++ )
 		{
-			stacks[i] = new PrimitiveDiskSortedStack( Constants.LIST_BUFFER_SIZE,
+			stacks[i] = new PrimitiveDiskSortedStack( Math.min( arrays[i].size( ),
+					Constants.MAX_LIST_BUFFER_SIZE ),
 					true,
 					true );
 			if ( arrays[i] == null || arrays[i].size( ) == 0 )

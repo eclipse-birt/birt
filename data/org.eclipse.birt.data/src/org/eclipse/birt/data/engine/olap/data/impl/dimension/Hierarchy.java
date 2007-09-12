@@ -320,7 +320,8 @@ public class Hierarchy implements IHierarchy
 			int[][] attributesDataType, DiskSortedStack sortedDimensionSet )
 			throws IOException, BirtException
 	{
-		DiskSortedStack sortedDimMembers = new DiskSortedStack( Constants.LIST_BUFFER_SIZE,
+		DiskSortedStack sortedDimMembers = new DiskSortedStack( Math.min( sortedDimensionSet.size( ),
+				Constants.MAX_LIST_BUFFER_SIZE ),
 				true,
 				false,
 				Member.getCreator( ) );
@@ -329,7 +330,7 @@ public class Hierarchy implements IHierarchy
 		for( int i=0;i<indexKeyLists.length;i++)
 		{
 			indexKeyLists[i] = new BufferedStructureArray( IndexKey.getCreator( ),
-				Constants.LIST_BUFFER_SIZE );
+				Math.min( sortedDimensionSet.size( ), Constants.MAX_LIST_BUFFER_SIZE ) );
 		}
 
 		Object obj = sortedDimensionSet.pop( );
@@ -505,10 +506,10 @@ public class Hierarchy implements IHierarchy
 	 */
 	public IDiskArray readAllRows( ) throws IOException
 	{
-		BufferedStructureArray resultArray = new BufferedStructureArray( DimensionRow.getCreator( ),
-				Constants.LIST_BUFFER_SIZE );
 		documentObj.seek( 0 );
 		int size = documentObj.readInt( );
+		BufferedStructureArray resultArray = new BufferedStructureArray( DimensionRow.getCreator( ),
+				size + 1 );
 		if( size == 0 )
 			return resultArray;
 		offsetDocObj.seek( 0 );

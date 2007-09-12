@@ -236,7 +236,7 @@ public class FactTableAccessor
 	private static IDiskArray getDimCombinatedKey( int[][] columnIndex , IDiskArray dimRowArray ) throws IOException
 	{
 		BufferedStructureArray resultArray = new BufferedStructureArray( DimensionKey.getCreator( ),
-				Constants.LIST_BUFFER_SIZE );
+				Math.min( dimRowArray.size( ), Constants.MAX_LIST_BUFFER_SIZE ) );
 		for ( int i = 0; i < dimRowArray.size( ); i++ )
 		{
 			DimensionRow dimRow = (DimensionRow)dimRowArray.get( i );
@@ -710,13 +710,13 @@ class DimensionPositionSeeker
 	DimensionPositionSeeker( IDiskArray member ) throws IOException
 	{
 		IDiskArray members = getSortedDimensionKeys( member );
-		this.memberArray = new DimensionKey[Math.min( Constants.LIST_BUFFER_SIZE,
+		this.memberArray = new DimensionKey[Math.min( Constants.MAX_LIST_BUFFER_SIZE,
 				members.size( ) )];
 		for ( int i = 0; i < memberArray.length; i++ )
 		{
 			memberArray[i] = (DimensionKey) members.get( i );
 		}
-		if ( members.size( ) > Constants.LIST_BUFFER_SIZE )
+		if ( members.size( ) > Constants.MAX_LIST_BUFFER_SIZE )
 		{
 			this.diskMemberArray = members;
 			this.diskPostion = memberArray.length;
@@ -736,7 +736,7 @@ class DimensionPositionSeeker
 			sortedStack.push( members.get( i ) );
 		}
 		IDiskArray resultArray = new BufferedStructureArray( DimensionKey.getCreator( ),
-				Constants.LIST_BUFFER_SIZE );
+				Math.min( Constants.MAX_LIST_BUFFER_SIZE, sortedStack.size( ) ) );
 		Object key = sortedStack.pop( );
 		while( key != null )
 		{

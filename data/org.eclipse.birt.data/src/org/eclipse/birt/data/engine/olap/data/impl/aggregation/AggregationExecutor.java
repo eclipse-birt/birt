@@ -420,7 +420,7 @@ public class AggregationExecutor
 					index = find( columns, paraColumns[i].getColumnName( ) );
 					if ( index >= 0 )
 					{
-						// is key column
+						// is attribute column
 						parameterColIndexs[i][0] = 1;
 						parameterColIndexs[i][1] = j;
 						parameterColIndexs[i][2] = k;

@@ -289,7 +289,8 @@ public class DiskIndex
 	private IDiskArray writeLeafNode( IDiskArray sortedKeyArray, int interval )
 			throws IOException, DataException
 	{
-		BufferedPrimitiveDiskArray offset = new BufferedPrimitiveDiskArray( Constants.LIST_BUFFER_SIZE );
+		BufferedPrimitiveDiskArray offset = new BufferedPrimitiveDiskArray( Math.min( sortedKeyArray.size( ),
+				Constants.MAX_LIST_BUFFER_SIZE ) );
 		for ( int i = 0; i < sortedKeyArray.size( ); i++ )
 		{
 			if ( i % interval == 0 )
@@ -318,7 +319,7 @@ public class DiskIndex
 			throws IOException, DataException
 	{
 		int interval = pow( degree, level );
-		BufferedPrimitiveDiskArray sonStartOffset = new BufferedPrimitiveDiskArray( Math.min( Constants.LIST_BUFFER_SIZE,
+		BufferedPrimitiveDiskArray sonStartOffset = new BufferedPrimitiveDiskArray( Math.min( Constants.MAX_LIST_BUFFER_SIZE,
 				startOffset.size( ) / degree + 1 ) );
 
 		for ( int i = 0; i < startOffset.size( ); i++ )
@@ -461,7 +462,8 @@ public class DiskIndex
 	 */
 	private IDiskArray sortKeys( IDiskArray keyList ) throws IOException
 	{
-		DiskSortedStack sortStack = new DiskSortedStack( Constants.LIST_BUFFER_SIZE,
+		DiskSortedStack sortStack = new DiskSortedStack( Math.min( keyList.size( ),
+				Constants.MAX_LIST_BUFFER_SIZE ),
 				false,
 				IndexKey.getKeyComparator( ),
 				IndexKey.getCreator( ) );
@@ -470,7 +472,7 @@ public class DiskIndex
 			sortStack.push( (IComparableStructure) ( keyList.get( i ) ) );
 		}
 		BufferedStructureArray reList = new BufferedStructureArray( IndexKey.getCreator( ),
-				Constants.LIST_BUFFER_SIZE );
+				Math.min( keyList.size( ), Constants.MAX_LIST_BUFFER_SIZE ) );
 		for ( int i = 0; i < keyList.size( ); i++ )
 		{
 			reList.add( sortStack.pop( ) );

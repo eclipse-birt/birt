@@ -125,7 +125,7 @@ public class Dimension implements IDimension
 			IDiskArray positionArray ) throws IOException
 	{
 		BufferedStructureArray resultArray = new BufferedStructureArray( DimensionRow.getCreator( ),
-				Constants.LIST_BUFFER_SIZE );
+				Math.min( Constants.MAX_LIST_BUFFER_SIZE, positionArray.size( ) ) );
 
 		for ( int i = 0; i < positionArray.size( ); i++ )
 		{
@@ -185,7 +185,7 @@ public class Dimension implements IDimension
 	 */
 	public IDiskArray findAll( ) throws IOException
 	{
-		IDiskArray result = new BufferedPrimitiveDiskArray( Constants.LIST_BUFFER_SIZE );
+		IDiskArray result = new BufferedPrimitiveDiskArray( Math.min( Constants.MAX_LIST_BUFFER_SIZE, length ) );
 		int lastPos = length( ) - 1;
 		for ( int i = 0; i <= lastPos; i++ )
 		{
