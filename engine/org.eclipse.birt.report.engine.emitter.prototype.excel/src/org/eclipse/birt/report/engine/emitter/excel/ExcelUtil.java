@@ -2,6 +2,7 @@
 package org.eclipse.birt.report.engine.emitter.excel;
 
 import java.util.List;
+import java.text.NumberFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.Calendar;
@@ -153,7 +154,19 @@ public class ExcelUtil
 			return 0;
 		}
 	}
-
+    public static boolean isNumber( String val )
+	{
+		NumberFormat nf = NumberFormat.getInstance( );
+		try
+		{
+			Number num = nf.parse( val );
+			return true;
+		}
+		catch ( Exception e )
+		{
+			return false;
+		}
+	}
 	public static String getColumnOfExp( String exp )
 	{
 		return exp.substring( exp.indexOf( "dataSetRow[" ), exp

@@ -30,24 +30,25 @@ public class ExcelWriter
 		{
 			return printWriter;
 		}
-		
-		protected String getEscapedStr( String s, boolean whitespace ) {
-			s = super.getEscapedStr(s, whitespace);
-			
+
+		protected String getEscapedStr( String s, boolean whitespace )
+		{
+			s = super.getEscapedStr( s, whitespace );
+
 			StringBuffer result = null;
-			
+
 			char[] s2char = s.toCharArray( );
 
 			for ( int i = 0, max = s2char.length, delta = 0; i < max; i++ )
 			{
 				char c = s2char[i];
 				String replacement = null;
-				
+
 				if ( c == '\n' )
 				{
 					replacement = "&#10;"; //$NON-NLS-1$
 				}
-				
+
 				if ( replacement != null )
 				{
 					if ( result == null )
@@ -78,14 +79,14 @@ public class ExcelWriter
 	{
 		writer.open( out, encoding );
 	}
-	
-	
-	//If possible, we can pass a format according the data type
+
+	// If possible, we can pass a format according the data type
 	public void writeText( Data d )
 	{
 		writer.openTag( "Data" );
 
-		if ( d.getDatatype( ).equals( Data.NUMBER ) )
+		if ( d.getDatatype( ).equals( Data.NUMBER )
+				&& ExcelUtil.isNumber( d.getText( ) ) )
 		{
 			writer.attribute( "ss:Type", "Number" );
 		}
@@ -100,9 +101,9 @@ public class ExcelWriter
 
 		writer.text( d.getText( ) );
 
-		writer.closeTag( "Data" );	
-		
-    }
+		writer.closeTag( "Data" );
+
+	}
 
 	public void startRow( )
 	{
@@ -114,35 +115,39 @@ public class ExcelWriter
 		writer.closeTag( "Row" );
 	}
 
-	public void startCell( int cellindex, int colspan, int rowspan, int styleid,
-			HyperlinkDef hyperLink )
+	public void startCell( int cellindex, int colspan, int rowspan,
+			int styleid, HyperlinkDef hyperLink )
 	{
 		writer.openTag( "Cell" );
 		writer.attribute( "ss:Index", cellindex );
 		writer.attribute( "ss:StyleID", styleid );
-		
+
 		if ( hyperLink != null )
 		{
-			if(hyperLink.getType( ) == IHyperlinkAction.ACTION_BOOKMARK) {
-				
-				writer.attribute( "ss:HRef", "#Sheet1!" + hyperLink.getUrl( ));
+			if ( hyperLink.getType( ) == IHyperlinkAction.ACTION_BOOKMARK )
+			{
+
+				writer.attribute( "ss:HRef", "#Sheet1!" + hyperLink.getUrl( ) );
 			}
-			else{
-			   writer.attribute( "ss:HRef", hyperLink.getUrl( ) );
+			else
+			{
+				writer.attribute( "ss:HRef", hyperLink.getUrl( ) );
 			}
 		}
 
 		writer.attribute( "ss:MergeAcross", colspan );
 		writer.attribute( "ss:MergeDown", rowspan );
 	}
-	
-	public void writeDefaultCell(Data d) {
-		writer.openTag("Cell");
-		
-		if(d.getStyleId( ) != 0) {
-			writer.attribute( "ss:StyleID", d.getStyleId() );
+
+	public void writeDefaultCell( Data d )
+	{
+		writer.openTag( "Cell" );
+
+		if ( d.getStyleId( ) != 0 )
+		{
+			writer.attribute( "ss:StyleID", d.getStyleId( ) );
 		}
-		writeText(d);
+		writeText( d );
 		writer.closeTag( "Cell" );
 	}
 
@@ -214,10 +219,11 @@ public class ExcelWriter
 		writer.attribute( "ss:Bold", bold );
 		writer.attribute( "ss:Italic", italic );
 		writer.attribute( "ss:StrikeThrough", strikeThrough );
-		
-		if(!"0".equalsIgnoreCase( underline )) {
+
+		if ( !"0".equalsIgnoreCase( underline ) )
+		{
 			writer.attribute( "ss:Underline", "Single" );
-		}	
+		}
 
 		if ( isValid( color ) )
 		{
@@ -311,10 +317,10 @@ public class ExcelWriter
 
 		writer.closeTag( "Style" );
 	}
-    
+
 	public void writeDataFormat( StyleEntry style )
 	{
-		if ( style.getProperty(StyleConstant.DATA_TYPE_PROP ) == Data.DATE
+		if ( style.getProperty( StyleConstant.DATA_TYPE_PROP ) == Data.DATE
 				&& style.getProperty( StyleConstant.DATE_FORMAT_PROP ) != null )
 		{
 			writer.openTag( "NumberFormat" );
@@ -323,8 +329,8 @@ public class ExcelWriter
 			writer.closeTag( "NumberFormat" );
 
 		}
-		
-		if ( style.getProperty(StyleConstant.DATA_TYPE_PROP ) == Data.NUMBER
+
+		if ( style.getProperty( StyleConstant.DATA_TYPE_PROP ) == Data.NUMBER
 				&& style.getProperty( StyleConstant.NUMBER_FORMAT_PROP ) != null )
 		{
 			writer.openTag( "NumberFormat" );
@@ -335,7 +341,7 @@ public class ExcelWriter
 		}
 
 	}
-	
+
 	public void writeDeclarations( )
 	{
 		writer.startWriter( );
@@ -357,7 +363,7 @@ public class ExcelWriter
 	public void declareStyles( Map style2id )
 	{
 		writer.openTag( "Styles" );
-		
+
 		for ( Iterator it = style2id.entrySet( ).iterator( ); it.hasNext( ); )
 		{
 			Map.Entry entry = (Map.Entry) it.next( );
@@ -366,7 +372,7 @@ public class ExcelWriter
 			int id = ( (Integer) entry.getValue( ) ).intValue( );
 			declareStyle( (StyleEntry) style, id );
 		}
-		
+
 		writer.closeTag( "Styles" );
 	}
 
@@ -457,15 +463,15 @@ public class ExcelWriter
 		{
 			BufferedReader reader = new BufferedReader( new FileReader( file ) );
 			String line = reader.readLine( );
-			
-			while(line != null)			
+
+			while ( line != null )
 			{
 				writer.literal( line );
-				line = reader.readLine();
-			}			
-			
+				line = reader.readLine( );
+			}
+
 			reader.close( );
-			
+
 		}
 		catch ( IOException e )
 		{
