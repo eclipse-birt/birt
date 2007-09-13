@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -456,13 +456,18 @@ public class AreaChart extends DefaultChartTypeImpl
 						.get( 0 ) ).getAssociatedAxes( );
 				for ( int i = 0, seriesIndex = 0; i < axes.size( ); i++ )
 				{
+					// Buzilla#200885. For the usable sake, if data is not
+					// bound, always set Linear axis type for Area chart. If
+					// data is bound, the actual axis type will be reset
+					// correctly according to the real data type.
+					if ( !ChartPreviewPainter.isLivePreviewActive( )
+							&& !isNumbericAxis( (Axis) axes.get( i ) ) )
+					{
+						( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
+					}
+					
 					if ( sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) )
 					{
-						if ( !ChartPreviewPainter.isLivePreviewActive( )
-								&& !isNumbericAxis( (Axis) axes.get( i ) ) )
-						{
-							( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
-						}
 						( (Axis) axes.get( i ) ).setPercent( true );
 					}
 					else
@@ -476,11 +481,6 @@ public class AreaChart extends DefaultChartTypeImpl
 						series = getConvertedSeries( series, seriesIndex++ );
 						if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) )
 						{
-							if ( !ChartPreviewPainter.isLivePreviewActive( )
-									&& !isNumbericAxis( (Axis) axes.get( i ) ) )
-							{
-								( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
-							}
 							series.setStacked( true );
 						}
 						else
@@ -846,6 +846,6 @@ public class AreaChart extends DefaultChartTypeImpl
 	 */
 	public Series getSeries( )
 	{
-		return (AreaSeries) AreaSeriesImpl.create( );
+		return AreaSeriesImpl.create( );
 	}	
 }

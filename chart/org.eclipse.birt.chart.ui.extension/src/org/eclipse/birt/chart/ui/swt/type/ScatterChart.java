@@ -1,13 +1,13 @@
 /*******************************************************************************
- * Copyright (c) Oct 22, 2004 Actuate Corporation {ADD OTHER COPYRIGHT OWNERS}.
- * All rights reserved. This program and the accompanying materials are made
- * available under the terms of the Eclipse Public License v1.0 which
- * accompanies this distribution, and is available at
+ * Copyright (c) 2004, 2007 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: Actuate Corporation - initial API and implementation {ADD
- * SUBSEQUENT AUTHOR & CONTRIBUTION}
- ******************************************************************************/
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.chart.ui.swt.type;
 
@@ -43,6 +43,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.data.DefaultBaseSeriesComponent;
+import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
@@ -285,6 +286,16 @@ public class ScatterChart extends DefaultChartTypeImpl
 						.get( 0 ) ).getAssociatedAxes( );
 				for ( int i = 0, seriesIndex = 0; i < axes.size( ); i++ )
 				{
+					// Buzilla#200885. For the usable sake, if data is not
+					// bound, always set Linear axis type for Scatter chart. If
+					// data is bound, the actual axis type will be reset
+					// correctly according to the real data type.
+					if ( !ChartPreviewPainter.isLivePreviewActive( )
+							&& !isNumbericAxis( (Axis) axes.get( i ) ) )
+					{
+						( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
+					}
+					
 					( (Axis) axes.get( i ) ).setPercent( false );
 					EList seriesdefinitions = ( (Axis) axes.get( i ) ).getSeriesDefinitions( );
 					for ( int j = 0; j < seriesdefinitions.size( ); j++ )
@@ -561,8 +572,13 @@ public class ScatterChart extends DefaultChartTypeImpl
 	 */
 	public Series getSeries( )
 	{
-		return (ScatterSeries) ScatterSeriesImpl.create( );
+		return ScatterSeriesImpl.create( );
 	}
 
+	private boolean isNumbericAxis( Axis axis )
+	{
+		return ( axis.getType( ).getValue( ) == AxisType.LINEAR )
+				|| ( axis.getType( ).getValue( ) == AxisType.LOGARITHMIC );
+	}
 
 }
