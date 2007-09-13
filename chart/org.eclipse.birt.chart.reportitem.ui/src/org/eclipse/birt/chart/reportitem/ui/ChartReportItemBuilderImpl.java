@@ -435,7 +435,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 						| SWT.RESIZE | SWT.APPLICATION_MODAL );
 				ChartUIUtil.bindHelp( shell,
 						ChartHelpContextIds.DIALOG_EDIT_URL );
-				HyperlinkBuilder hb = new HyperlinkBuilder( shell ) {
+				HyperlinkBuilder hb = new HyperlinkBuilder( shell, true ) {
 
 					protected void configureExpressionBuilder(
 							ExpressionBuilder builder )
