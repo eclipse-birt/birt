@@ -75,6 +75,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Listener;
@@ -515,19 +516,78 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		layout.numColumns = 4;
 		valueListComposite.setLayout( layout );
 
+		Group group = new Group(valueListComposite, SWT.NONE);
+		GridData data = new GridData( );
+		data.heightHint = 118;
+		data.horizontalSpan = 3;
+		data.horizontalIndent = 0;
+		data.horizontalAlignment = SWT.BEGINNING;
+		data.grabExcessHorizontalSpace = true;
+		group.setLayoutData( data );
+		layout = new GridLayout( );
+		layout.numColumns = 4;
+		group.setLayout( layout);
+		
+		new Label(group, SWT.NONE).setText( Messages.getString( "FilterConditionBuilder.label.value" ));
+		
+		addExpressionValue = new ExpressionValue( group,
+				SWT.NONE,
+				expression );
+
+		addExpressionValue.getValueText( )
+				.addModifyListener( new ModifyListener( ) {
+
+					public void modifyText( ModifyEvent e )
+					{
+						checkAddButtonStatus( );
+					}
+				} );
+
+		addBtn = new Button( group, SWT.PUSH );
+		addBtn.setText( Messages.getString( "FilterConditionBuilder.button.add" ) );
+		addBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.add.tooltip" ) );
+		setButtonLayoutData( addBtn );
+		addBtn.addSelectionListener( new SelectionListener( ) {
+
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+				// TODO Auto-generated method stub
+
+			}
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				// TODO Auto-generated method stub
+				String value = addExpressionValue.getValueText( ).getText( );
+				if ( valueList.indexOf( value ) < 0 )
+				{
+					valueList.add( value );
+					tableViewer.refresh( );
+					updateButtons( );
+					addExpressionValue.getValueText( ).setFocus( );
+					addExpressionValue.getValueText( ).setText( "" );
+				}
+				else
+				{
+					addBtn.setEnabled( false );
+				}
+
+			}
+		} );		
+		
+		new Label(group, SWT.NONE);
+		
 		int tableStyle = SWT.SINGLE
 				| SWT.BORDER
 				| SWT.H_SCROLL
 				| SWT.V_SCROLL
 				| SWT.FULL_SELECTION;
-		table = new Table( valueListComposite, tableStyle );
-		GridData data = new GridData( );
-		data.heightHint = 80;
-		data.horizontalSpan = 3;
-		data.grabExcessHorizontalSpace = true;
+		table = new Table(group , tableStyle );
+		data = new GridData( GridData.FILL_VERTICAL);
+		data.horizontalSpan = 4;
 		table.setLayoutData( data );
 
-		table.setHeaderVisible( true );
+		table.setHeaderVisible( false );
 		table.setLinesVisible( true );
 		TableColumn column;
 		int i;
@@ -535,7 +595,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 			Messages.getString( "FilterConditionBuilder.list.item1" ),
 		};
 		int[] columLength = new int[]{
-			290
+			278
 		};
 		for ( i = 0; i < columNames.length; i++ )
 		{
@@ -640,11 +700,11 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		tableViewer.setContentProvider( tableContentProvider );
 
 		Composite rightPart = new Composite( valueListComposite, SWT.NONE );
-		data = new GridData( GridData.FILL_BOTH );
+		data = new GridData( GridData.FILL_BOTH | GridData.VERTICAL_ALIGN_END );		
 		rightPart.setLayoutData( data );
 		layout = new GridLayout( );
-		layout.makeColumnsEqualWidth = true;
-		rightPart.setLayout( layout );
+		layout.makeColumnsEqualWidth = true;		
+		rightPart.setLayout( layout );		
 
 		editBtn = new Button( rightPart, SWT.PUSH );
 		editBtn.setText( Messages.getString( "FilterConditionBuilder.button.edit" ) );
@@ -765,50 +825,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 
 		} );
 
-		addExpressionValue = new ExpressionValue( valueListComposite,
-				SWT.NONE,
-				expression );
 
-		addExpressionValue.getValueText( )
-				.addModifyListener( new ModifyListener( ) {
-
-					public void modifyText( ModifyEvent e )
-					{
-						checkAddButtonStatus( );
-					}
-				} );
-
-		addBtn = new Button( valueListComposite, SWT.PUSH );
-		addBtn.setText( Messages.getString( "FilterConditionBuilder.button.add" ) );
-		addBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.add.tooltip" ) );
-		setButtonLayoutData( addBtn );
-		addBtn.addSelectionListener( new SelectionListener( ) {
-
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-				// TODO Auto-generated method stub
-
-			}
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				// TODO Auto-generated method stub
-				String value = addExpressionValue.getValueText( ).getText( );
-				if ( valueList.indexOf( value ) < 0 )
-				{
-					valueList.add( value );
-					tableViewer.refresh( );
-					updateButtons( );
-					addExpressionValue.getValueText( ).setFocus( );
-					addExpressionValue.getValueText( ).setText( "" );
-				}
-				else
-				{
-					addBtn.setEnabled( false );
-				}
-
-			}
-		} );
 
 		parent.getParent( ).layout( true, true );
 
