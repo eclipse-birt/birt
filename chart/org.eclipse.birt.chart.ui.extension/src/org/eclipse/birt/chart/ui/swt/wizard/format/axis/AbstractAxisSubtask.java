@@ -579,7 +579,11 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl implements
 
 			// Set type and refresh the preview
 			getAxisForProcessing( ).setType( axisType );
-			btnCategoryAxis.setEnabled( !AxisType.TEXT_LITERAL.equals( axisType ) );
+			if ( btnCategoryAxis != null )
+			{
+				btnCategoryAxis.setEnabled( !AxisType.TEXT_LITERAL.equals( axisType ) );
+			}
+			
 			// Update popup UI
 			refreshPopupSheet( );
 		}
