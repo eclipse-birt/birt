@@ -53,13 +53,18 @@ public class ContainerBufferNode extends AbstractNode implements IContainerNode
 	
 	protected void flushUnStartedChildren( )
 	{
-		int size = children.size( );
-		for ( int i = 0; i < size; i++ )
+		int flushSize = children.size( ) - 1;
+		if ( flushSize > 0 )
 		{
-			INode child = (INode) children.get( i );
-			child.flush( );
+			for ( int i = 0; i < flushSize; i++ )
+			{
+				INode child = (INode) children.get( i );
+				child.flush( );
+			}
+			Object lastChild = children.get( flushSize );
+			children.clear( );
+			children.add( lastChild );
 		}
-		children.clear( );
 	}
 
 	public void start( )
