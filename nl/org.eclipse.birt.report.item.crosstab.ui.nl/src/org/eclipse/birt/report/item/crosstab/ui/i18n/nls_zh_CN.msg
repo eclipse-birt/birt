@@ -131,6 +131,7 @@ FilterConditionBuilder.button.deleteall.tooltip=从列表中删除所有值
 FilterConditionBuilder.button.add.tooltip=将值添加到值列表
 CrosstabFilterConditionBuilder.DialogMessage.New=选择要应用筛选的组级别，然后设置筛选条件。
 CrosstabFilterConditionBuilder.DialogMessage.Edit=选择要应用筛选的组级别，然后设置筛选条件。
+CrosstabFilterConditionBuilder.label.value=值
 
 FilterbyTree.Bindings.Catogory.Measures=度量
 FilterbyTree.Bindings.Catogory.Dimension=维

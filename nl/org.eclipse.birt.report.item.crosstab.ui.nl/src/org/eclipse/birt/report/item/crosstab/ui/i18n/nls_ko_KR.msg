@@ -131,6 +131,7 @@ FilterConditionBuilder.button.deleteall.tooltip=목록에서 모든 값 삭제
 FilterConditionBuilder.button.add.tooltip=값 목록에 값 추가
 CrosstabFilterConditionBuilder.DialogMessage.New=필터를 적용할 그룹 수준을 선택한 다음 필터 조건을 설정합니다.
 CrosstabFilterConditionBuilder.DialogMessage.Edit=필터를 적용할 그룹 수준을 선택한 다음 필터 조건을 설정합니다.
+CrosstabFilterConditionBuilder.label.value=값
 
 FilterbyTree.Bindings.Catogory.Measures=측정값
 FilterbyTree.Bindings.Catogory.Dimension=차원

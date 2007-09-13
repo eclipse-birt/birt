@@ -131,6 +131,7 @@ FilterConditionBuilder.button.deleteall.tooltip=Eliminar todos los valores de la
 FilterConditionBuilder.button.add.tooltip=Añadir el valor a la lista de valores
 CrosstabFilterConditionBuilder.DialogMessage.New=Seleccione el nivel de grupo al que aplicar el filtro y, a continuación, establezca la condición de filtro.
 CrosstabFilterConditionBuilder.DialogMessage.Edit=Seleccione el nivel de grupo al que aplicar el filtro y, a continuación, establezca la condición de filtro.
+CrosstabFilterConditionBuilder.label.value=Valor
 
 FilterbyTree.Bindings.Catogory.Measures=Medidas
 FilterbyTree.Bindings.Catogory.Dimension=Dimensión

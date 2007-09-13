@@ -131,6 +131,7 @@ FilterConditionBuilder.button.deleteall.tooltip=リストからすべての値を削除します
 FilterConditionBuilder.button.add.tooltip=値リストに値を追加します。
 CrosstabFilterConditionBuilder.DialogMessage.New=フィルタを適用するグループレベルを選択してから、フィルタの条件を設定してください。
 CrosstabFilterConditionBuilder.DialogMessage.Edit=フィルタを適用するグループレベルを選択してから、フィルタの条件を設定してください。
+CrosstabFilterConditionBuilder.label.value=値
 
 FilterbyTree.Bindings.Catogory.Measures=計測
 FilterbyTree.Bindings.Catogory.Dimension=次元
