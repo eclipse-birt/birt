@@ -1139,6 +1139,30 @@ public abstract class EngineTask implements IEngineTask
 						IPDFRenderOption.OUTPUT_DISPLAY_NONE,
 						outputDisplayNone );
 			}
+			Object pdfTextWrapping = renderOptions
+					.getOption( IPDFRenderOption.PDF_TEXT_WRAPPING );
+			if ( pdfTextWrapping != null )
+			{
+				layoutEngine.setOption(
+						IPDFRenderOption.PDF_TEXT_WRAPPING,
+						pdfTextWrapping );
+			}
+			Object pdfFontSubstitution = renderOptions
+					.getOption( IPDFRenderOption.PDF_FONT_SUBSTITUTION );
+			if ( pdfFontSubstitution != null )
+			{
+				layoutEngine.setOption(
+						IPDFRenderOption.PDF_FONT_SUBSTITUTION,
+						pdfFontSubstitution );
+			}
+			Object pdfBidiProcessing = renderOptions
+					.getOption( IPDFRenderOption.PDF_BIDI_PROCESSING );
+			if ( pdfBidiProcessing != null )
+			{
+				layoutEngine.setOption(
+						IPDFRenderOption.PDF_BIDI_PROCESSING,
+						pdfBidiProcessing );
+			}
 		}
 		layoutEngine.setOption( TASK_TYPE,  new Integer(taskType));
 		return layoutEngine;

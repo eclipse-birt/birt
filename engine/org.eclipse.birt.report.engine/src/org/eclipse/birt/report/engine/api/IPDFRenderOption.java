@@ -30,6 +30,22 @@ public interface IPDFRenderOption extends IRenderOption
 	public static final String PAGEBREAK_PAGINATION_ONLY = "pdfRenderOption.pagebreakPaginationOnly";
 
 	/**
+	 * PDF_TEXT_WRAPPING, if it is set to false, all the text should be displayed into one line,
+	 * so there is no need to do the wrapping.
+	 */
+	public static final String PDF_TEXT_WRAPPING = "pdfRenderOption.textWrapping";
+	
+	/**
+	 * If it is set to false, we needn¡¯t check if the character exits in the selected font.
+	 */
+	public static final String PDF_FONT_SUBSTITUTION = "pdfRenderOption.fontSubstitution";
+	
+	/**
+	 * If it is set to false, no BIDI processing is used.
+	 */
+	public static final String PDF_BIDI_PROCESSING = "pdfRenderOption.bidiProcessing";
+	
+	/**
 	 * 
 	 * @param isEmbededFont
 	 */

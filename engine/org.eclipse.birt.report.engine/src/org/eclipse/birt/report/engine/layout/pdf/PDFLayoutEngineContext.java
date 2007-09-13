@@ -510,13 +510,44 @@ public class PDFLayoutEngineContext
 		return this.preferenceWidth;
 	}
 
+	protected boolean textWrapping = true;
+	public void setTextWrapping(boolean textWrapping)
+	{
+		this.textWrapping = textWrapping;
+	}
 	
+	public boolean getTextWrapping()
+	{
+		return this.textWrapping;
+	}
+	
+	protected boolean fontSubstitution = true;
+	public void setFontSubstitution(boolean fontSubstitution)
+	{
+		this.fontSubstitution = fontSubstitution;
+	}
+	
+	public boolean getFontSubstitution()
+	{
+		return this.fontSubstitution;
+	}
+
+	protected boolean bidiProcessing = true;
+	public void setBidiProcessing(boolean bidiProcessing)
+	{
+		this.bidiProcessing = bidiProcessing;
+	}
+	
+	public boolean getBidiProcessing()
+	{
+		return this.bidiProcessing;
+	}
+
 	public Locale getLocale( )
 	{
 		return locale;
 	}
 
-	
 	public void setLocale( Locale locale )
 	{
 		this.locale = locale;

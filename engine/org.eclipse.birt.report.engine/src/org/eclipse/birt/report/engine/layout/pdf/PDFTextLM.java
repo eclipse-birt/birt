@@ -29,6 +29,7 @@ import org.eclipse.birt.report.engine.layout.area.IArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
+import org.eclipse.birt.report.engine.layout.pdf.font.FontHandler;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.layout.pdf.hyphen.DefaultHyphenationManager;
 import org.eclipse.birt.report.engine.layout.pdf.hyphen.DummyHyphenationManager;
@@ -184,6 +185,12 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 		private boolean isInline;
 		private boolean isNew = true;
 		
+		/**
+		 * if it is set to false, all the text should be displayed into one line, 
+		 * so there is no need to do the wrapping.
+		 */
+		private boolean pdfTextWrapping;
+		
 		private int leftSpaceHolder = 0; 
 		private int rightSpaceHolder = 0;
 		
@@ -230,7 +237,10 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 		public Compositor()
 		{
 			this.content = textContent;
-			cg = new ChunkGenerator( content, context.getFormat( ) );
+			boolean bidiProcessing = context.getBidiProcessing();
+			boolean fontSubstitution = context.getFontSubstitution();
+			this.pdfTextWrapping = context.getTextWrapping();
+			cg = new ChunkGenerator(content, bidiProcessing, fontSubstitution, context.getFormat( ));
 			this.isInline = PropertyUtil.isInlineElement(content);
 			this.maxLineSpace = lineLM.maxAvaWidth;		
 			IStyle style = content.getComputedStyle();
@@ -308,21 +318,29 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 					chunk = cg.getNext();
 					if (chunk == Chunk.HARD_LINE_BREAK)
 					{
-						currentPos = chunk.getText().length();
-						AbstractArea con = (AbstractArea)createInlineContainer(content, false, false);
-						con.setWidth(0);
-						if (null == chunk.getFontInfo())
-						{
-							IStyle style = content.getComputedStyle();
-							con.setHeight( getDimensionValue(style.getProperty(StyleConstants.STYLE_FONT_SIZE))
-									+ topBorder + topPadding + bottomBorder + bottomPadding);
-						}else
-						{
-							con.setHeight( (int)(chunk.getFontInfo().getWordHeight()*PDFConstants.LAYOUT_TO_PDF_RATIO)
-									+ topBorder + topPadding + bottomBorder + bottomPadding);
-						}
+						FontHandler handler = new FontHandler(content, false, context.getFormat( ));
+						Dimension d = new Dimension( 0,
+								(int)(handler.getFontInfo().getWordHeight()*PDFConstants.LAYOUT_TO_PDF_RATIO));	
+						IArea con = buildArea( "", content, handler.getFontInfo(), d);
 						PDFTextLM.this.addSpaceHolder(con);
 						PDFTextLM.this.newLine();
+						currentPos = chunk.getText().length();
+						vestigeIndex = -1;
+						return;
+					}
+					if (!pdfTextWrapping)
+					{
+						// Word spacing is disabled.
+						String originalText = chunk.getText();
+						int areaWidth = (int)(chunk.getFontInfo().getWordWidth(originalText)
+								* PDFConstants.LAYOUT_TO_PDF_RATIO) + letterSpacing *originalText.length();
+						Dimension d = new Dimension( areaWidth,
+								(int)(chunk.getFontInfo().getWordHeight() * PDFConstants.LAYOUT_TO_PDF_RATIO));	
+						
+						IArea builtArea = buildArea(getReverseText(originalText), content, chunk.getFontInfo(), d);
+						PDFTextLM.this.addTextLine(builtArea);
+						PDFTextLM.this.newLine();
+						currentPos = chunk.getText().length();
 						vestigeIndex = -1;
 						return;
 					}
