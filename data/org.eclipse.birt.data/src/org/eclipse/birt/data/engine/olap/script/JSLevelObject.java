@@ -83,7 +83,7 @@ public class JSLevelObject extends ScriptableObject
 	{
 		try
 		{	
-			if ( "DisplayName".equals( name ) )
+			if ( this.displayName.equals( name ) )
 				return this.cursor.getObject( OlapExpressionUtil.getAttributeColumnName( levelName,
 						this.displayName ) );
 			return this.cursor.getObject( OlapExpressionUtil.getAttributeColumnName( levelName,
