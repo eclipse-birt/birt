@@ -2203,6 +2203,7 @@ FilterConditionBuilder.button.edit.tooltip=値リストで選択した値を編集します。
 FilterConditionBuilder.button.delete.tooltip=リストから選択した値を削除します。
 FilterConditionBuilder.button.deleteall.tooltip=リストからすべての値を削除します。
 FilterConditionBuilder.button.add.tooltip=値リストに値を追加します。
+FilterConditionBuilder.label.value=値
 
 ###########################################################
 #MarignPropertyDescriptor properties
