@@ -1,5 +1,5 @@
 /*************************************************************************************
- * Copyright (c) 2004 Actuate Corporation and others.
+ * Copyright (c) 2004, 2007 Actuate Corporation and others.
  * All rights reserved. This program and the accompanying materials 
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -28,7 +28,11 @@ import com.ibm.icu.util.ULocale;
 public class ReportParameterConverter
 {
 	private String format = null;
-	private Locale locale = null;
+	private ULocale uLocale = null;
+	
+	private StringFormatter sf = null;
+	private DateFormatter df = null;
+	private NumberFormatter nf = null;
 
 	/**
 	 * @param format format to format report parameter, or recover parameter value as object
@@ -37,13 +41,52 @@ public class ReportParameterConverter
 	 */
 	public ReportParameterConverter( String format, Locale locale )
 	{
+		this( format, ULocale.forLocale( locale ) );
+	}
+
+	public ReportParameterConverter( String format, ULocale uLocale )
+	{
 		this.format = format;
-		this.locale = locale;
+		this.uLocale = uLocale;
 	}
 	
-	public ReportParameterConverter( String format, ULocale locale )
+	private StringFormatter getStringFormatter( )
 	{
-		this(format, locale.toLocale( ));
+		if ( sf == null && uLocale != null )
+		{
+			sf = new StringFormatter( uLocale );
+			if ( format != null )
+			{
+				sf.applyPattern( format );
+			}
+		}
+		return sf;
+	}
+	
+	private NumberFormatter getNumberFormatter( )
+	{
+		if ( nf == null && uLocale != null )
+		{
+			nf = new NumberFormatter( uLocale );
+			if ( format != null )
+			{
+				nf.applyPattern( format );
+			}
+		}
+		return nf;
+	}
+	
+	private DateFormatter getDateFormatter( )
+	{
+		if ( df == null && uLocale != null )
+		{
+			df = new DateFormatter( uLocale );
+			if ( format != null )
+			{
+				df.applyPattern( format );
+			}
+		}
+		return df;
 	}
 
 	/**
@@ -56,51 +99,57 @@ public class ReportParameterConverter
 	{
 		String reportParameterValue = null;
 		
-		if ( reportParameterObj != null && locale != null )
+		if ( reportParameterObj != null && uLocale != null )
 		{
 			if ( reportParameterObj instanceof String )
 			{
-				StringFormatter sf = new StringFormatter( locale );
-				
-				if ( format != null )
+				StringFormatter sf = getStringFormatter( );
+				if ( sf != null )
 				{
-					sf.applyPattern( format );
+					reportParameterValue = sf.format( ( String ) reportParameterObj );
 				}
-				
-				reportParameterValue = sf.format( ( String ) reportParameterObj );
+				else
+				{
+					reportParameterValue = reportParameterObj.toString( );
+				}
 			}
 			else if ( reportParameterObj instanceof Date )
 			{
-				DateFormatter df = new DateFormatter( locale );
-				
-				if ( format != null )
+				DateFormatter df = getDateFormatter( );
+				if ( df != null )
 				{
-					df.applyPattern( format );
+					reportParameterValue = df.format( ( Date ) reportParameterObj );
 				}
-				
-				reportParameterValue = df.format( ( Date ) reportParameterObj );
+				else
+				{
+					reportParameterValue = reportParameterObj.toString( );
+				}				
 			}
 			else if ( reportParameterObj instanceof Double )
 			{
-				NumberFormatter nf = new NumberFormatter( locale );
-				
-				if ( format != null )
+				NumberFormatter nf = getNumberFormatter( );
+				if ( nf != null )
 				{
-					nf.applyPattern( format );
+					reportParameterValue = nf
+							.format( ( (Double) reportParameterObj )
+									.doubleValue( ) );
 				}
-
-				reportParameterValue = nf.format( ( ( Double ) reportParameterObj ).doubleValue( ) );
+				else
+				{
+					reportParameterValue = reportParameterObj.toString( );
+				}						
 			}
 			else if ( reportParameterObj instanceof BigDecimal )
 			{
-				NumberFormatter nf = new NumberFormatter( locale );
-
-				if ( format != null )
+				NumberFormatter nf = getNumberFormatter( );				
+				if ( nf != null )
 				{
-					nf.applyPattern( format );
+					reportParameterValue = nf.format( ( BigDecimal ) reportParameterObj );
 				}
-				
-				reportParameterValue = nf.format( ( BigDecimal ) reportParameterObj );
+				else
+				{
+					reportParameterValue = reportParameterObj.toString( );
+				}
 			}
 			else if ( reportParameterObj instanceof Boolean )
 			{
@@ -108,14 +157,15 @@ public class ReportParameterConverter
 			}
 			else if ( reportParameterObj instanceof Number )
 			{
-				NumberFormatter nf = new NumberFormatter( locale );
-				
-				if ( format != null )
+				NumberFormatter nf = getNumberFormatter( );				
+				if ( nf != null )
 				{
-					nf.applyPattern( format );
+					reportParameterValue = nf.format( ( ( Number ) reportParameterObj ) );
 				}
-
-				reportParameterValue = nf.format( ( ( Number ) reportParameterObj ) );
+				else
+				{
+					reportParameterValue = reportParameterObj.toString( );
+				}
 			}
 			else
 			{
@@ -140,17 +190,17 @@ public class ReportParameterConverter
 	{
 		Object parameterValueObj = null;
 		
-		if ( reportParameterValue != null && locale != null )
+		if ( reportParameterValue != null && uLocale != null )
 		{
 			switch ( parameterValueType )
 			{
 				case IScalarParameterDefn.TYPE_STRING:
 				{
-					StringFormatter sf = new StringFormatter( locale );
-					
-					if ( format != null )
+					StringFormatter sf = getStringFormatter( );
+					if ( sf == null )
 					{
-						sf.applyPattern( format );
+						parameterValueObj = reportParameterValue;
+						break;
 					}
 	
 					try
@@ -166,11 +216,11 @@ public class ReportParameterConverter
 				
 				case IScalarParameterDefn.TYPE_DATE_TIME:
 				{
-					DateFormatter df = new DateFormatter( locale );
-					
-					if ( format != null )
+					DateFormatter df = getDateFormatter( );
+					if ( df == null )
 					{
-						df.applyPattern( format );
+						parameterValueObj = reportParameterValue;
+						break;
 					}
 	
 					try
@@ -205,11 +255,11 @@ public class ReportParameterConverter
 	
 				case IScalarParameterDefn.TYPE_FLOAT:
 				{
-					NumberFormatter nf = new NumberFormatter( locale );
-
-					if ( format != null )
+					NumberFormatter nf = getNumberFormatter( );				
+					if ( nf == null )
 					{
-						nf.applyPattern( format );
+						parameterValueObj = reportParameterValue;
+						break;
 					}
 					
 					try
@@ -245,11 +295,11 @@ public class ReportParameterConverter
 				
 				case IScalarParameterDefn.TYPE_DECIMAL:
 				{
-					NumberFormatter nf = new NumberFormatter( locale );
-						
-					if ( format != null )
+					NumberFormatter nf = getNumberFormatter( );				
+					if ( nf == null )
 					{
-						nf.applyPattern( format );
+						parameterValueObj = reportParameterValue;
+						break;
 					}
 
 					try
@@ -292,11 +342,11 @@ public class ReportParameterConverter
 				//can use class DataTypeUtil to convert
 				case IScalarParameterDefn.TYPE_INTEGER:
 				{
-					NumberFormatter nf = new NumberFormatter( locale );
-					
-					if ( format != null )
+					NumberFormatter nf = getNumberFormatter( );				
+					if ( nf == null )
 					{
-						nf.applyPattern( format );
+						parameterValueObj = reportParameterValue;
+						break;
 					}
 					
 					try
