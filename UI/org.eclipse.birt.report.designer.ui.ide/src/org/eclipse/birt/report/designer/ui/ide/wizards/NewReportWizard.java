@@ -44,11 +44,13 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
@@ -585,7 +587,22 @@ public class NewReportWizard extends Wizard implements
 					BasicNewProjectResourceWizard.updatePerspective( configElement );
 					if ( showCheat && !cheatId.equals( "" ) ) //$NON-NLS-1$
 					{
+						Object oldData = Display.getCurrent( )
+								.getActiveShell( )
+								.getData( );
+
+						if ( oldData instanceof TrayDialog )
+						{
+							Display.getCurrent( )
+									.getActiveShell( )
+									.setData( null );
+						}
+
 						new OpenCheatSheetAction( cheatId ).run( );
+
+//						Display.getCurrent( )
+//								.getActiveShell( )
+//								.setData( oldData );
 					}
 				}
 				catch ( Exception e )
@@ -684,7 +701,7 @@ public class NewReportWizard extends Wizard implements
 		}
 
 		String predifinedDir = UIUtil.getFragmentDirectory( );
-		assert predifinedDir!=null;
+		assert predifinedDir != null;
 		File predifinedFile = new File( predifinedDir );
 		File sourceFile = new File( sourceFileName );
 		if ( sourceFile.getAbsolutePath( )
