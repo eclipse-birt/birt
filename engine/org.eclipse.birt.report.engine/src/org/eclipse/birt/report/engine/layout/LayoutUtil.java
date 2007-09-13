@@ -148,8 +148,8 @@ public class LayoutUtil
 		{
 			String fmt = formats.item( i ).getCssText( );
 
-			if ( EngineIRConstants.FORMAT_TYPE_VIEWER.equals( format ) ||
-					BIRTConstants.BIRT_ALL_VALUE.equals( format ) ||
+			if ( EngineIRConstants.FORMAT_TYPE_VIEWER.equals( fmt ) ||
+					BIRTConstants.BIRT_ALL_VALUE.equals( fmt ) ||
 					format.equals( fmt ) )
 			{
 				return true;
