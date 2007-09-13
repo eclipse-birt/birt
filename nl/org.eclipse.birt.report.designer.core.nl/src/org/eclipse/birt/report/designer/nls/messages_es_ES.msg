@@ -2203,6 +2203,7 @@ FilterConditionBuilder.button.edit.tooltip=Editar la selección en lista de valor
 FilterConditionBuilder.button.delete.tooltip=Eliminar el valor seleccionado de la lista
 FilterConditionBuilder.button.deleteall.tooltip=Eliminar todos los valores de la lista
 FilterConditionBuilder.button.add.tooltip=Añadir el valor a la lista de valores
+FilterConditionBuilder.label.value=Valor
 
 ###########################################################
 #MarignPropertyDescriptor properties

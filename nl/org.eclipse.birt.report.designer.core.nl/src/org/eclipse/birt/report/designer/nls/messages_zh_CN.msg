@@ -2203,6 +2203,7 @@ FilterConditionBuilder.button.edit.tooltip=编辑值列表中的选定值
 FilterConditionBuilder.button.delete.tooltip=从列表中删除选定值
 FilterConditionBuilder.button.deleteall.tooltip=从列表中删除所有值
 FilterConditionBuilder.button.add.tooltip=将值添加到值列表
+FilterConditionBuilder.label.value=值
 
 ###########################################################
 #MarignPropertyDescriptor properties

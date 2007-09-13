@@ -2203,6 +2203,7 @@ FilterConditionBuilder.button.edit.tooltip=값 목록에서 선택한 값 편집
 FilterConditionBuilder.button.delete.tooltip=목록에서 선택한 값 삭제
 FilterConditionBuilder.button.deleteall.tooltip=목록에서 모든 값 삭제
 FilterConditionBuilder.button.add.tooltip=값 목록에 값 추가
+FilterConditionBuilder.label.value=값
 
 ###########################################################
 #MarignPropertyDescriptor properties
