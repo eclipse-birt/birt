@@ -518,7 +518,6 @@ public class AggregationFilterHelper
 	private IDiskArray fetchLevelKeys( IDiskArray aggrValueArray,
 			IJSTopBottomFilterHelper filterHelper ) throws IOException
 	{
-		IDiskArray levelKeyArray = new BufferedPrimitiveDiskArray( Constants.LIST_BUFFER_SIZE );
 		int start = 0; // level key start index in aggrValueArray
 		int end = aggrValueArray.size( ); // level key end index (not
 		// including) in aggrValueArray
@@ -531,6 +530,9 @@ public class AggregationFilterHelper
 			else
 				end = n;
 		}
+		IDiskArray levelKeyArray = new BufferedPrimitiveDiskArray( Math.min( ( end -
+				start + 1 ),
+				Constants.LIST_BUFFER_SIZE ) );
 		for ( int i = start; i < end; i++ )
 		{
 			ValueObject aggrValue = (ValueObject) aggrValueArray.get( i );

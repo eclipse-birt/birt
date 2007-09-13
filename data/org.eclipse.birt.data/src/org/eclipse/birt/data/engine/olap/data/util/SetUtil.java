@@ -131,7 +131,9 @@ public class SetUtil
 	public static IDiskArray getIntersection( IDiskArray array1, IDiskArray array2 )
 			throws IOException
 	{
-		IDiskArray result = new BufferedPrimitiveDiskArray( Constants.LIST_BUFFER_SIZE );
+		IDiskArray result = new BufferedPrimitiveDiskArray( min( array1.size( ),
+				array2.size( ),
+				Constants.LIST_BUFFER_SIZE ) );
 		int i = 0, j = 0;
 		while ( i < array1.size( ) && j < array2.size( ) )
 		{
@@ -154,5 +156,22 @@ public class SetUtil
 		array1.close( );
 		array2.close( );
 		return result;
+	}
+	
+	/**
+	 * 
+	 * @param a
+	 * @param b
+	 * @param c
+	 * @return
+	 */
+	private static int min( int a, int b, int c )
+	{
+		int min = a;
+		if ( b < min )
+			min = b;
+		if ( c < min )
+			min = c;
+		return min;
 	}
 }
