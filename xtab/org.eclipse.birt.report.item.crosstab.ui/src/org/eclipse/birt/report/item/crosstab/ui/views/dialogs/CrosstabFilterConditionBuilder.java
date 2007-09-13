@@ -221,19 +221,77 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		layout.numColumns = 4;
 		valueListComposite.setLayout( layout );
 
+		Group group = new Group( valueListComposite, SWT.NONE );
+		GridData data = new GridData( );
+		data.heightHint = 106;
+		data.horizontalSpan = 3;
+		data.horizontalIndent = 0;
+		data.horizontalAlignment = SWT.BEGINNING;
+		data.grabExcessHorizontalSpace = true;
+		group.setLayoutData( data );
+		layout = new GridLayout( );
+		layout.numColumns = 4;
+		group.setLayout( layout );
+
+		new Label( group, SWT.NONE ).setText( Messages.getString( "CrosstabFilterConditionBuilder.label.value" ) );
+
+		addExpressionValue = new ExpressionValue( group, SWT.NONE );
+
+		addExpressionValue.getValueText( )
+				.addModifyListener( new ModifyListener( ) {
+
+					public void modifyText( ModifyEvent e )
+					{
+						checkAddButtonStatus( );
+					}
+				} );
+
+		addBtn = new Button( group, SWT.PUSH );
+		addBtn.setText( Messages.getString( "FilterConditionBuilder.button.add" ) );
+		addBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.add.tooltip" ) );
+		setButtonLayoutData( addBtn );
+		addBtn.addSelectionListener( new SelectionListener( ) {
+
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+				// TODO Auto-generated method stub
+
+			}
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				// TODO Auto-generated method stub
+				String value = addExpressionValue.getValueText( ).getText( );
+				if ( valueList.indexOf( value ) < 0 )
+				{
+					valueList.add( value );
+					tableViewer.refresh( );
+					updateButtons( );
+					addExpressionValue.getValueText( ).setFocus( );
+					addExpressionValue.getValueText( ).setText( "" );
+				}
+				else
+				{
+					addBtn.setEnabled( false );
+				}
+
+			}
+		} );
+		
+		new Label(group, SWT.NONE);
+		
 		int tableStyle = SWT.SINGLE
 				| SWT.BORDER
 				| SWT.H_SCROLL
 				| SWT.V_SCROLL
 				| SWT.FULL_SELECTION;
-		table = new Table( valueListComposite, tableStyle );
-		GridData data = new GridData( );
-		data.heightHint = 80;
-		data.horizontalSpan = 3;
+		table = new Table( group, tableStyle );
+		data = new GridData( GridData.FILL_VERTICAL );
+		data.horizontalSpan = 4;
 		data.grabExcessHorizontalSpace = true;
 		table.setLayoutData( data );
 
-		table.setHeaderVisible( true );
+		table.setHeaderVisible( false );
 		table.setLinesVisible( true );
 		TableColumn column;
 		int i;
@@ -241,7 +299,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 			Messages.getString( "FilterConditionBuilder.list.item1" ),
 		};
 		int[] columLength = new int[]{
-			290
+			278
 		};
 		for ( i = 0; i < columNames.length; i++ )
 		{
@@ -348,7 +406,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		tableViewer.setContentProvider( tableContentProvider );
 
 		Composite rightPart = new Composite( valueListComposite, SWT.NONE );
-		data = new GridData( GridData.FILL_BOTH );
+		data = new GridData( GridData.FILL_BOTH | GridData.VERTICAL_ALIGN_END);
 		rightPart.setLayoutData( data );
 		layout = new GridLayout( );
 		layout.makeColumnsEqualWidth = true;
@@ -473,49 +531,6 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 				}
 			}
 
-		} );
-
-		addExpressionValue = new ExpressionValue( valueListComposite, SWT.NONE );
-
-		addExpressionValue.getValueText( )
-				.addModifyListener( new ModifyListener( ) {
-
-					public void modifyText( ModifyEvent e )
-					{
-						checkAddButtonStatus( );
-					}
-				} );
-
-		addBtn = new Button( valueListComposite, SWT.PUSH );
-		addBtn.setText( Messages.getString( "FilterConditionBuilder.button.add" ) );
-		addBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.add.tooltip" ) );
-		setButtonLayoutData( addBtn );
-		addBtn.addSelectionListener( new SelectionListener( ) {
-
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-				// TODO Auto-generated method stub
-
-			}
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				// TODO Auto-generated method stub
-				String value = addExpressionValue.getValueText( ).getText( );
-				if ( valueList.indexOf( value ) < 0 )
-				{
-					valueList.add( value );
-					tableViewer.refresh( );
-					updateButtons( );
-					addExpressionValue.getValueText( ).setFocus( );
-					addExpressionValue.getValueText( ).setText( "" );
-				}
-				else
-				{
-					addBtn.setEnabled( false );
-				}
-
-			}
 		} );
 
 		parent.getParent( ).layout( true, true );
@@ -701,7 +716,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		expressionValue.removeBtnListener( );
 		Button expressionBtn = expressionValue.getPopupButton( );
 		expressionBtn.addListener( SWT.Selection, exprValuePopBtnListener );
-		
+
 		Composite container = expression.getParent( );
 		gdata = (GridData) container.getLayoutData( );
 		gdata.horizontalSpan = 2;
@@ -739,14 +754,14 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 					.getShell( ) );
 			popup.setItems( expActions );
 			String value = popup.open( rect );
-//			int selectionIndex = popup.getSelectionIndex( );
+			// int selectionIndex = popup.getSelectionIndex( );
 
 			if ( value != null )
 			{
 				String newValue = null;
 				if ( value.equals( ( expActions[0] ) ) )
 				{
-//					String exprText = expression.getText( );
+					// String exprText = expression.getText( );
 
 					LevelViewHandle level = null;
 					if ( comboGroupLevel.getSelectionIndex( ) != -1
@@ -791,10 +806,10 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 
 					dialog.setInput( bindingGroup );
 					dialog.setValidator( vialidator );
-					dialog.setTitle( Messages.getString( "FilterbyTree.Title" ));
+					dialog.setTitle( Messages.getString( "FilterbyTree.Title" ) );
 					dialog.setMessage( Messages.getString( "FilterbyTree.Message" ) );
 					if ( dialog.open( ) == IDialogConstants.OK_ID )
-					{						
+					{
 						String string = (String) dialog.getResult( )[0];
 						newValue = ExpressionUtil.createJSDataExpression( string );
 					}
@@ -836,11 +851,11 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 						null );
 			}
 
-				return new Status( IStatus.ERROR,
-						CrosstabPlugin.ID,
-						IStatus.ERROR,
-						"",
-						null );
+			return new Status( IStatus.ERROR,
+					CrosstabPlugin.ID,
+					IStatus.ERROR,
+					"",
+					null );
 		}
 	};
 
@@ -930,14 +945,15 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 			}
 			else if ( element instanceof BindingGroup )
 			{
-				if(((BindingGroup)element).getBindings( ).size( ) > 0)
+				if ( ( (BindingGroup) element ).getBindings( ).size( ) > 0 )
 				{
 					return true;
-				}else
+				}
+				else
 				{
 					return false;
 				}
-				
+
 			}
 			if ( element instanceof String )
 			{
@@ -1003,7 +1019,6 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		}
 	};
 
-	
 	protected void createMemberValuesGroup( Composite content )
 	{
 		group = new Group( content, SWT.NONE );
@@ -1136,7 +1151,15 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 			}
 			else if ( columnIndex == 1 )
 			{
-				return ( (MemberValueHandle) element ).getLevel( ).getName( );
+				LevelHandle level = ( (MemberValueHandle) element ).getLevel( );
+				if ( level != null )
+				{
+					return DEUtil.resolveNull( level.getName( ) );
+				}
+				else
+				{
+					return "";
+				}
 			}
 			else if ( columnIndex == 2 )
 			{
