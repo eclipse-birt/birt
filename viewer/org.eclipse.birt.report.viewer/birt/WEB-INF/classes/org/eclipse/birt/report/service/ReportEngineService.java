@@ -721,6 +721,11 @@ public class ReportEngineService
 			}
 			else
 			{
+				// If format isn't HTML, force SVG to false
+				if ( !IBirtConstants.HTML_RENDER_FORMAT
+						.equalsIgnoreCase( format ) )
+					svgFlag = false;
+
 				renderOption = createHTMLRenderOption( svgFlag, servletPath,
 						request );
 			}
@@ -1048,6 +1053,10 @@ public class ReportEngineService
 		}
 		else
 		{
+			// If format isn't HTML, force SVG to false
+			if ( !IBirtConstants.HTML_RENDER_FORMAT.equalsIgnoreCase( format ) )
+				svgFlag = false;
+
 			renderOption = createHTMLRenderOption( svgFlag, servletPath,
 					request );
 		}
@@ -1291,6 +1300,10 @@ public class ReportEngineService
 		}
 		else
 		{
+			// If format isn't HTML, force SVG to false
+			if ( !IBirtConstants.HTML_RENDER_FORMAT.equalsIgnoreCase( format ) )
+				svgFlag = false;
+
 			renderOption = createHTMLRenderOption( svgFlag, servletPath,
 					request );
 		}
