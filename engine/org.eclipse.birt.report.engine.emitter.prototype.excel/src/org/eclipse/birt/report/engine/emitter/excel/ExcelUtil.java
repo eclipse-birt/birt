@@ -2,6 +2,7 @@
 package org.eclipse.birt.report.engine.emitter.excel;
 
 import java.util.List;
+import java.text.NumberFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.Calendar;
@@ -205,7 +206,20 @@ public class ExcelUtil
 		}
 		throw new RuntimeException( "Cannot parse the expression" + expression );
 	}
-
+	
+	public static boolean isNumber( String val )
+	{
+		NumberFormat nf = NumberFormat.getInstance( );
+		try
+		{
+			Number num = nf.parse( val );
+			return true;
+		}
+		catch ( Exception e )
+		{
+			return false;
+		}
+	}
 	private static final String reg1 = "Total." + "(count|ave|sum|max|min)"
 			+ "\\(", reg2 = "\\)", reg3 = "\\[", reg4 = "\\]";
 
