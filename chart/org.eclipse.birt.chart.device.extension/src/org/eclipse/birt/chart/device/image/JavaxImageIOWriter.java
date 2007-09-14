@@ -808,15 +808,18 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 
 	private String generateJSContent( Action ac )
 	{
-		if ( ac.getType( ).getValue( ) == ActionType.INVOKE_SCRIPT )
+		if ( ac != null )
 		{
-			ScriptValue sv = (ScriptValue) ac.getValue( );
-			return sv.getScript( );
-		}
-		if ( ac.getType( ).getValue( ) == ActionType.URL_REDIRECT )
-		{
-			URLValue uv = (URLValue) ac.getValue( );
-			return getJsURLRedirect( uv );
+			if ( ac.getType( ).getValue( ) == ActionType.INVOKE_SCRIPT )
+			{
+				ScriptValue sv = (ScriptValue) ac.getValue( );
+				return sv.getScript( );
+			}
+			if ( ac.getType( ).getValue( ) == ActionType.URL_REDIRECT )
+			{
+				URLValue uv = (URLValue) ac.getValue( );
+				return getJsURLRedirect( uv );
+			}
 		}
 		return ""; //$NON-NLS-1$
 	}
@@ -830,8 +833,11 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	
 	private String getJSMethodName( TriggerCondition tc, ShapedAction sa )
 	{
-		// Append timestamp to distinguish multiple callback methods
-		return "userCallBack_" + tc.getLiteral( ) + sa.getSource( ).getClass( ).hashCode( ); //$NON-NLS-1$
+		// Bugzilla#203044
+		// Always use hashcode of script content to generate function name in
+		// case that the functions of two charts may have the same name
+		return "userCallBack" //$NON-NLS-1$
+				+ Math.abs( generateJSContent( sa.getActionForCondition( tc ) ).hashCode( ) );
 	}
 
 }
