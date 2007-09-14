@@ -111,6 +111,10 @@ public class EncryptionRecord extends SimpleRecord
 			// old value is not null
 			if ( oldLocalValue != null )
 			{
+				// if has local value, it must have encryption too.
+				if ( encryptionID == null )
+					encryptionID = element.getEncryptionID( prop );
+
 				Object newValue = ModelUtil.encryptProperty( element, prop,
 						encryptionID, oldLocalValue );
 				element.setProperty( prop, newValue );
@@ -118,6 +122,11 @@ public class EncryptionRecord extends SimpleRecord
 			}
 			else
 			{
+				// if not undo(do or redo) and want to set the local value, it
+				// must have encryption too.
+				if ( !undo && encryptionID == null )
+					encryptionID = element.getEncryptionID( prop );
+
 				// if do then get value and encrypt it and set; if undo, then
 				// set null
 				Object newValue = undo ? null : ModelUtil.encryptProperty(

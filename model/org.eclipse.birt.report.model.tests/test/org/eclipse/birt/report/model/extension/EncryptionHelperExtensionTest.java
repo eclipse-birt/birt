@@ -73,6 +73,19 @@ public class EncryptionHelperExtensionTest extends BaseTestCase
 		assertEquals( helper, SimpleEncryptionHelper.getInstance( ) );
 
 		assertNull( dd.getEncryptionHelper( "wrong_en" ) ); //$NON-NLS-1$
+
+		// test default encryption
+		assertEquals( "oneEncryptionHelper", dd.getDefaultEncryptionHelperID( ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * 
+	 * @param item
+	 * @return
+	 */
+	private ElementPropertyDefn getPropertyDefn( DesignElementHandle item )
+	{
+		return (ElementPropertyDefn) item.getPropertyDefn( propName );
 	}
 
 	/**
@@ -88,13 +101,11 @@ public class EncryptionHelperExtensionTest extends BaseTestCase
 		DesignElementHandle item = designHandle.findElement( "item_1" ); //$NON-NLS-1$
 		assertEquals( "New Password", item.getStringProperty( propName ) ); //$NON-NLS-1$
 		assertEquals( SimpleEncryptionHelper.ENCRYPTION_ID, item.getElement( )
-				.getLocalEncryptionID(
-						(ElementPropertyDefn) item.getPropertyDefn( propName ) ) );
+				.getLocalEncryptionID( getPropertyDefn( item ) ) );
 		assertEquals(
 				"TmV3IFBhc3N3b3Jk", ExtensionTestUtil.getLocalExtensionMapValue( (ExtendedItem) item.getElement( ), propName ) ); //$NON-NLS-1$
 		assertEquals( SimpleEncryptionHelper.ENCRYPTION_ID, item.getElement( )
-				.getLocalEncryptionID(
-						(ElementPropertyDefn) item.getPropertyDefn( propName ) ) );
+				.getLocalEncryptionID( getPropertyDefn( item ) ) );
 		assertEquals(
 				"New Password", SimpleEncryptionHelper.getInstance( ).decrypt( "TmV3IFBhc3N3b3Jk" ) ); //$NON-NLS-1$//$NON-NLS-2$
 
@@ -105,22 +116,29 @@ public class EncryptionHelperExtensionTest extends BaseTestCase
 		assertEquals(
 				"_b_myown", ExtensionTestUtil.getLocalExtensionMapValue( (ExtendedItem) item.getElement( ).getExtendsElement( ), propName ) ); //$NON-NLS-1$
 		assertNull( item.getElement( ).getLocalEncryptionID(
-				(ElementPropertyDefn) item.getPropertyDefn( propName ) ) );
+				getPropertyDefn( item ) ) );
+		assertEquals(
+				"encryption_b", item.getElement( ).getEncryptionID( getPropertyDefn( item ) ) ); //$NON-NLS-1$
 
-		// item2 has local value, however not specify local encryption
+		// item2 has local value and no parent, however not specify local
+		// encryption: use default encryption to encrypt-decrypt property
 		item = designHandle.findElement( "item_2" ); //$NON-NLS-1$
-		assertEquals( "_ab_mypswd", item.getStringProperty( propName ) ); //$NON-NLS-1$
+		assertEquals( "mypswd", item.getStringProperty( propName ) ); //$NON-NLS-1$
 		assertNull( item.getElement( ).getLocalEncryptionID(
 				(ElementPropertyDefn) item.getPropertyDefn( propName ) ) );
 		assertEquals(
 				"_ab_mypswd", ExtensionTestUtil.getLocalExtensionMapValue( (ExtendedItem) item.getElement( ), propName ) ); //$NON-NLS-1$
+		assertEquals(
+				"oneEncryptionHelper", item.getElement( ).getEncryptionID( getPropertyDefn( item ) ) ); //$NON-NLS-1$
 
 		// item4 has local value and it has library parent, however not specify
 		// local encryption
 		item = designHandle.findElement( "item_4" ); //$NON-NLS-1$
-		assertEquals( "_b_mypswd", item.getStringProperty( propName ) ); //$NON-NLS-1$
+		assertEquals( "mypswd", item.getStringProperty( propName ) ); //$NON-NLS-1$
 		assertNull( item.getElement( ).getLocalEncryptionID(
 				(ElementPropertyDefn) item.getPropertyDefn( propName ) ) );
+		assertEquals(
+				"encryption_b", item.getElement( ).getEncryptionID( getPropertyDefn( item ) ) ); //$NON-NLS-1$
 		assertEquals(
 				"_b_mypswd", ExtensionTestUtil.getLocalExtensionMapValue( (ExtendedItem) item.getElement( ), propName ) ); //$NON-NLS-1$
 
@@ -213,7 +231,7 @@ public class EncryptionHelperExtensionTest extends BaseTestCase
 
 		// item2 has local value, however not specify local encryption
 		item = designHandle.findElement( "item_2" ); //$NON-NLS-1$
-		assertEquals( "_ab_mypswd", item.getStringProperty( propName ) ); //$NON-NLS-1$
+		assertEquals( "mypswd", item.getStringProperty( propName ) ); //$NON-NLS-1$
 		assertNull( item.getElement( ).getLocalEncryptionID(
 				(ElementPropertyDefn) item.getPropertyDefn( propName ) ) );
 		assertEquals(
@@ -221,11 +239,11 @@ public class EncryptionHelperExtensionTest extends BaseTestCase
 
 		// change encryption
 		item.setEncryption( propName, "encryption_b" ); //$NON-NLS-1$
-		assertEquals( "_ab_mypswd", item.getStringProperty( propName ) ); //$NON-NLS-1$
+		assertEquals( "mypswd", item.getStringProperty( propName ) ); //$NON-NLS-1$
 		assertEquals( "encryption_b", item.getElement( ).getLocalEncryptionID( //$NON-NLS-1$
 				(ElementPropertyDefn) item.getPropertyDefn( propName ) ) );
 		assertEquals(
-				"_b__ab_mypswd", ExtensionTestUtil.getLocalExtensionMapValue( (ExtendedItem) item.getElement( ), propName ) ); //$NON-NLS-1$
+				"_b_mypswd", ExtensionTestUtil.getLocalExtensionMapValue( (ExtendedItem) item.getElement( ), propName ) ); //$NON-NLS-1$
 
 		// test setEncryption for item3: its value and encryption all extend
 		// from parent
@@ -296,7 +314,7 @@ public class EncryptionHelperExtensionTest extends BaseTestCase
 		// item2 has local value and no local encryption
 		item = designHandle.findElement( "item_2" ); //$NON-NLS-1$
 		assertEquals(
-				"_ab_mypswd", item.getElement( ).getLocalProperty( design, propName ) ); //$NON-NLS-1$
+				"mypswd", item.getElement( ).getLocalProperty( design, propName ) ); //$NON-NLS-1$
 		assertEquals(
 				"_ab_mypswd", ExtensionTestUtil.getLocalExtensionMapValue( (ExtendedItem) item.getElement( ), propName ) ); //$NON-NLS-1$
 		assertNull( item.getElement( ).getLocalEncryptionID(
@@ -305,18 +323,21 @@ public class EncryptionHelperExtensionTest extends BaseTestCase
 		item.setProperty( propName, value );
 		assertEquals( value, item.getElement( ).getLocalProperty( design,
 				propName ) );
-		assertEquals( value, ExtensionTestUtil.getLocalExtensionMapValue(
-				(ExtendedItem) item.getElement( ), propName ) );
-		assertNull( item.getElement( ).getLocalEncryptionID(
-				(ElementPropertyDefn) item.getPropertyDefn( propName ) ) );
+		assertEquals(
+				"_ab_" + value, ExtensionTestUtil.getLocalExtensionMapValue( //$NON-NLS-1$
+						(ExtendedItem) item.getElement( ), propName ) );
+		assertEquals(
+				"oneEncryptionHelper", item.getElement( ).getLocalEncryptionID( //$NON-NLS-1$
+						(ElementPropertyDefn) item.getPropertyDefn( propName ) ) );
 		// undo
 		stack.undo( );
 		assertEquals(
-				"_ab_mypswd", item.getElement( ).getLocalProperty( design, propName ) ); //$NON-NLS-1$
+				"mypswd", item.getElement( ).getLocalProperty( design, propName ) ); //$NON-NLS-1$
 		assertEquals(
 				"_ab_mypswd", ExtensionTestUtil.getLocalExtensionMapValue( (ExtendedItem) item.getElement( ), propName ) ); //$NON-NLS-1$
-		assertNull( item.getElement( ).getLocalEncryptionID(
-				(ElementPropertyDefn) item.getPropertyDefn( propName ) ) );
+		assertEquals(
+				"oneEncryptionHelper", item.getElement( ).getLocalEncryptionID( //$NON-NLS-1$
+						(ElementPropertyDefn) item.getPropertyDefn( propName ) ) );
 
 		// item3: all value and encryption extend from parent
 		item = designHandle.findElement( "item_3" ); //$NON-NLS-1$
@@ -330,9 +351,10 @@ public class EncryptionHelperExtensionTest extends BaseTestCase
 		item.setProperty( propName, value );
 		assertEquals( value, item.getElement( ).getLocalProperty( design,
 				propName ) );
-		assertEquals( value, ExtensionTestUtil.getLocalExtensionMapValue(
-				(ExtendedItem) item.getElement( ), propName ) );
-		assertNull( item.getElement( ).getLocalEncryptionID(
+		assertEquals(
+				"_b_" + value, ExtensionTestUtil.getLocalExtensionMapValue( //$NON-NLS-1$
+						(ExtendedItem) item.getElement( ), propName ) );
+		assertEquals( "encryption_b", item.getElement( ).getLocalEncryptionID( //$NON-NLS-1$
 				(ElementPropertyDefn) item.getPropertyDefn( propName ) ) );
 		// undo
 		stack.undo( );
@@ -340,7 +362,7 @@ public class EncryptionHelperExtensionTest extends BaseTestCase
 		assertNull( item.getElement( ).getLocalProperty( design, propName ) );
 		assertEquals(
 				"_b_myown", ExtensionTestUtil.getLocalExtensionMapValue( (ExtendedItem) item.getElement( ).getExtendsElement( ), propName ) ); //$NON-NLS-1$
-		assertNull( item.getElement( ).getLocalEncryptionID(
+		assertEquals( "encryption_b", item.getElement( ).getLocalEncryptionID( //$NON-NLS-1$
 				(ElementPropertyDefn) item.getPropertyDefn( propName ) ) );
 	}
 
