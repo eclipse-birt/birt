@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Data Plug-in
 Bundle-SymbolicName: org.eclipse.birt.tests.data
 Bundle-ClassPath: DtEtests.jar
-Bundle-Version: 2.2.0.qualifier
+Bundle-Version: 2.3.0.qualifier
 Bundle-Activator: org.eclipse.birt.tests.data.engine.plugin.DataPlugin
 Bundle-Localization: plugin
 Require-Bundle: org.junit;resolution:=optional,
