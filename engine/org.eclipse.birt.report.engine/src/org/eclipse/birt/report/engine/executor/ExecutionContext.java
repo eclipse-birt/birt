@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -1694,11 +1694,18 @@ public class ExecutionContext
 	
 	public void setResultSet( IBaseResultSet rset )
 	{
-		if ( rsets != null && rsets.length == 1 && rsets[0] == rset )
+		if ( rset != null )
 		{
-			return;
+			if ( rsets != null && rsets.length == 1 && rsets[0] == rset )
+			{
+				return;
+			}
+			setResultSets( new IBaseResultSet[]{rset} );
 		}
-		setResultSets( new IBaseResultSet[]{rset} );
+		else
+		{
+			setResultSets( null );
+		}
 	}
 
 	public IBaseResultSet[] getResultSets( )
@@ -1712,12 +1719,23 @@ public class ExecutionContext
 		{
 			return;
 		}
-		this.rsets = rsets;
-		if ( rsets[0] != null )
+		if ( rsets != null )
 		{
-			Scriptable scope = scriptContext.getRootScope( );
-			DataAdapterUtil.registerJSObject( scope, new ResultIteratorTree(
-					rsets[0] ) );
+			this.rsets = rsets;
+			if ( rsets[0] != null )
+			{
+				Scriptable scope = scriptContext.getRootScope( );
+				DataAdapterUtil.registerJSObject( scope,
+						new ResultIteratorTree( rsets[0] ) );
+			}
+		}
+		else
+		{
+			this.rsets = null;
+			// FIXME: we should also remove the JSObject from scope
+			// Scriptable scope = scriptContext.getRootScope( );
+			// DataAdapterUtil.registerJSObject( scope,
+			// new ResultIteratorTree( rsets[0] ) );
 		}
 	}
 	
