@@ -2,8 +2,10 @@
 <HTML>
 <HEAD><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <title>BIRT Report Item Extension Point</title>
-<style>@import url("file:/C:/Program Files/EclipseBIRT220/eclipse/plugins/org.eclipse.sdk_3.3.0.v20070228-0800/book.css");</style>
-<style>@import url("file:/C:/Program Files/EclipseBIRT220/eclipse/configuration/org.eclipse.osgi/bundles/355/1/.cp/schema.css");</style>
+<!-- default platform documentation stylesheets -->
+<style>@import url("book.css");</style>
+<!-- default schema documentation stylesheets -->
+<style>@import url("schema.css");</style>
 </HEAD>
 <BODY>
 <H1><CENTER>BIRT Report Item Extension Point</CENTER></H1>
@@ -57,17 +59,18 @@ Element definition</p>
 (no description available)</p>
 <br>
 <ul class=ConfigMarkup id=attlistDesc>
-<li><b>name</b> - </li>
-<li><b>displayNameID</b> - </li>
-<li><b>type</b> - Generally, if property is of simple type(string, number, integer, dimension, color, boolean, expression, html, uri, dateTime, xml, name, float, literalString, resourceKey), then it is useless to set "subType" and "detailType" for the property; If type is "choice", then either define customized choices or set "detailType" to name of the preferred choice set in rom.def; If type is "list", the "subType" is required to determine the item type in the list value and by default its value is "string"; If type is "structure", "detailType" is required to refer a structure definition name in rom.def and set "isList" to true if value is not single; If type is "elementRef", "detailType" is required to refer an element definition name in  rom.def or an extension name of any report item extension; If type is "element", then set "isList" to true if the property value list is not single.
+<li><b>name</b> - Internal unique name of the property extension element</li>
+<li><b>displayNameID</b> - Resource key for the display name</li>
+<li><b>type</b> - Property data type, such as integer or string. Generally, if property is of simple type(string, number, integer, dimension, color, boolean, expression, html, uri, dateTime, xml, name, float, literalString, resourceKey), then it is useless to set "subType" and "detailType" for the property; If type is "choice", then either define customized choices or set "detailType" to name of the preferred choice set in rom.def; If type is "list", the "subType" is required to determine the item type in the list value and by default its value is "string"; If type is "structure", "detailType" is required to refer a structure definition name in rom.def and set "isList" to true if value is not single; If type is "elementRef", "detailType" is required to refer an element definition name in  rom.def or an extension name of any report item extension; If type is "element", then set "isList" to true if the property value list is not single.
 choice:
 list:
 structure, elementRef and element</li>
-<li><b>detailType</b> - When the "type" is "choice", extension can define "detailType" to refer a choice set in original meta-data of Model;
-When "type" is "structure", extension must define "detailType" to refer a structure in original meta-data of Model.</li>
+<li><b>detailType</b> - Detail data type, such as boolean or string. When the "type" is "choice", extension can define "detailType" to refer a choice set in original meta-data of Model; When "type" is "structure", extension must define "detailType" to refer a structure in original meta-data of Model.</li>
 <li><b>subType</b> - When the "type" is "list", the "subType" is required and must be defined as one of the restriction choices. By default it is "string".</li>
-<li><b>canInherit</b> - </li>
-<li><b>defaultValue</b> - </li>
+<li><b>canInherit</b> - Flag indicating whether the property extension element can inherit
+properties from another element</li>
+<li><b>defaultValue</b> - Default value of the property extension element in the BIRT Report
+Designer UI</li>
 <li><b>isEncryptable</b> - The flag indicating whether this property is encrypted.</li>
 <li><b>defaultDisplayName</b> - The default display name, which is used if no localized display name is found with I18N.</li>
 <li><b>isList</b> - When "type" is "structure", you will define "isList" to indicate whether property value is a single structure or a structure list.</li>
@@ -81,8 +84,8 @@ When "type" is "structure", extension must define "detailType" to refer a struct
 (no description available)</p>
 <br>
 <ul class=ConfigMarkup id=attlistDesc>
-<li><b>displayNameID</b> - </li>
-<li><b>name</b> - </li>
+<li><b>displayNameID</b> - Resource key for the display name</li>
+<li><b>name</b> - Internal unique name of the property group</li>
 <li><b>defaultDisplayName</b> - The default display name, which is used if no localized display name is found with I18N.</li>
 </ul>
 <br><p class=code id=dtd>&lt;!ELEMENT <a name="e.method">method</a> (<a href="#e.argument">argument</a> , <a href="#e.javaDoc">javaDoc</a>?)*&gt;</p>
@@ -93,12 +96,12 @@ When "type" is "structure", extension must define "detailType" to refer a struct
 (no description available)</p>
 <br>
 <ul class=ConfigMarkup id=attlistDesc>
-<li><b>name</b> - </li>
-<li><b>displayNameID</b> - </li>
-<li><b>toolTipID</b> - </li>
-<li><b>returnType</b> - </li>
-<li><b>isStatic</b> - </li>
-<li><b>context</b> - </li>
+<li><b>name</b> - Internal unique name of the method</li>
+<li><b>displayNameID</b> - Resource key for the display name</li>
+<li><b>toolTipID</b> - Resource key for tool-tip of this method</li>
+<li><b>returnType</b> - Data type of the method return value</li>
+<li><b>isStatic</b> - Field indicating whether this method is static or not</li>
+<li><b>context</b> - Execution context of this method</li>
 </ul>
 <br><p class=code id=dtd>&lt;!ELEMENT <a name="e.argument">argument</a> EMPTY&gt;</p>
 <p class=code id=dtd>&lt;!ATTLIST argument</p>
@@ -108,9 +111,9 @@ When "type" is "structure", extension must define "detailType" to refer a struct
 (no description available)</p>
 <br>
 <ul class=ConfigMarkup id=attlistDesc>
-<li><b>name</b> - </li>
-<li><b>type</b> - </li>
-<li><b>tagID</b> - </li>
+<li><b>name</b> - Internal unique name of this argument</li>
+<li><b>type</b> - Data type of this argument, such as string or integer</li>
+<li><b>tagID</b> - Resource key for tag of this argument</li>
 </ul>
 <br><p class=code id=dtd>&lt;!ELEMENT <a name="e.choice">choice</a> EMPTY&gt;</p>
 <p class=code id=dtd>&lt;!ATTLIST choice</p>
@@ -120,9 +123,9 @@ When "type" is "structure", extension must define "detailType" to refer a struct
 (no description available)</p>
 <br>
 <ul class=ConfigMarkup id=attlistDesc>
-<li><b>name</b> - </li>
-<li><b>value</b> - </li>
-<li><b>displayNameID</b> - </li>
+<li><b>name</b> - Internal unique name of the choice</li>
+<li><b>value</b> - Value for this choice</li>
+<li><b>displayNameID</b> - Resource key for the display name</li>
 <li><b>defaultDisplayName</b> - The default display name, which is used if no localized display name is found with I18N.</li>
 </ul>
 <br><p class=code id=dtd>&lt;!ELEMENT <a name="e.propertyVisibility">propertyVisibility</a> EMPTY&gt;</p>
@@ -133,7 +136,7 @@ When "type" is "structure", extension must define "detailType" to refer a struct
 To set the visible level of this property when it is shown in the property sheet.</p>
 <br>
 <ul class=ConfigMarkup id=attlistDesc>
-<li><b>name</b> - </li>
+<li><b>name</b> - Internal name of the property that is set the visibility.</li>
 <li><b>visibility</b> - Two options are: hide, readonly.</li>
 </ul>
 <br><p class=code id=dtd>&lt;!ELEMENT <a name="e.style">style</a> EMPTY&gt;</p>
@@ -145,7 +148,7 @@ Extension element default style -- selector.</p>
 <br>
 <ul class=ConfigMarkup id=attlistDesc>
 <li><b>name</b> - </li>
-<li><b>displayNameID</b> - </li>
+<li><b>displayNameID</b> - Resource key for the display name</li>
 </ul>
 <br><p class=code id=dtd>&lt;!ELEMENT <a name="e.elementType">elementType</a> EMPTY&gt;</p>
 <p class=code id=dtd>&lt;!ATTLIST elementType</p>
@@ -165,7 +168,7 @@ Define all the allowed element types in this slot.</p>
 override allowed units.</p>
 <br>
 <ul class=ConfigMarkup id=attlistDesc>
-<li><b>propertyName</b> - </li>
+<li><b>propertyName</b> - Internal name of the property that is overridden by extension.</li>
 <li><b>allowedChoices</b> - units choices that use ',' as seperator. For example: if only allowed 'in' and 'cm' as allowed units, can set it as 'in,cm'.</li>
 <li><b>useOwnModel</b> - The proposal of 'useOwnModel' property is to extend the extension schema to allow extended items to 
 override some predefined properties such as "onRender","onCreate" property.</li>
