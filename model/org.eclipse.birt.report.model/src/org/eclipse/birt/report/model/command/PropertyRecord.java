@@ -224,10 +224,21 @@ public class PropertyRecord extends SimpleRecord
 		{
 			if ( propDefn.isEncryptable( ) && value instanceof String )
 			{
-				String encryption = element.getLocalEncryptionID( propDefn );
+				String localEncryption = element
+						.getLocalEncryptionID( propDefn );
+
+				// if value is not null, must specify encryption; so if local
+				// encryption is not set, we will search the inheritance and
+				// default and get a non-empty encryption
+				String encryption = localEncryption == null ? element
+						.getEncryptionID( propDefn ) : localEncryption;
+				assert encryption != null;
+				
 				value = ModelUtil.encryptProperty( element, propDefn,
 						encryption, value );
 				element.setProperty( propDefn, value );
+				if ( localEncryption == null )
+					element.setEncryptionHelper( propDefn, encryption );
 				return;
 			}
 

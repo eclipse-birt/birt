@@ -11,13 +11,13 @@
             <encrypted-property name="pswd" encryptionID="base64">TmV3IFBhc3N3b3Jk</encrypted-property>
         </extended-item>
         <extended-item extensionName="TestingTable" name="item_2" id="3">
-            <encrypted-property name="pswd">_ab_mypswd</encrypted-property>
+            <encrypted-property name="pswd" encryptionID="oneEncryptionHelper">_ab_mypswd</encrypted-property>
         </extended-item>
         <extended-item extensionName="TestingTable" name="item_3" extends="lib.item"
  id="4"/>
         <extended-item extensionName="TestingTable" name="item_4" extends="lib.item"
  id="5">
-            <encrypted-property name="pswd">_b_mypswd</encrypted-property>
+            <encrypted-property name="pswd" encryptionID="encryption_b">_b_mypswd</encrypted-property>
         </extended-item>
         <extended-item extensionName="TestingTable" name="item_5" id="6">
             <encrypted-property name="pswd" encryptionID="no_encryption">_ab_mypswd</encrypted-property>
@@ -26,13 +26,13 @@
             <encrypted-property name="pswd" encryptionID="base64">TmV3IFBhc3N3b3Jk</encrypted-property>
         </extended-item>
         <extended-item extensionName="TestingTable" name="copyOfitem_2" id="8">
-            <encrypted-property name="pswd">_ab_mypswd</encrypted-property>
+            <encrypted-property name="pswd" encryptionID="oneEncryptionHelper">_ab_mypswd</encrypted-property>
         </extended-item>
         <extended-item extensionName="TestingTable" name="copyOfitem_3" id="9">
             <encrypted-property name="pswd" encryptionID="encryption_b">_b_myown</encrypted-property>
         </extended-item>
         <extended-item extensionName="TestingTable" name="copyOfitem_4" id="10">
-            <encrypted-property name="pswd">_b_mypswd</encrypted-property>
+            <encrypted-property name="pswd" encryptionID="encryption_b">_b_mypswd</encrypted-property>
         </extended-item>
         <extended-item extensionName="TestingTable" name="copyOfitem_5" id="11">
             <encrypted-property name="pswd" encryptionID="no_encryption">_ab_mypswd</encrypted-property>

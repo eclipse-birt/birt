@@ -3504,6 +3504,26 @@ public abstract class DesignElement
 	}
 
 	/**
+	 * Gets the effective encryption id for the given property.
+	 * 
+	 * @param propDefn
+	 * @return
+	 */
+	public String getEncryptionID( ElementPropertyDefn propDefn )
+	{
+		DesignElement e = this;
+		while ( e != null )
+		{
+			String encryption = e.getLocalEncryptionID( propDefn );
+			if ( encryption != null )
+				return encryption;
+			e = e.getExtendsElement( ) == null ? e.getVirtualParent( ) : e
+					.getExtendsElement( );
+		}
+		return MetaDataDictionary.getInstance( ).getDefaultEncryptionHelperID( );
+	}
+
+	/**
 	 * 
 	 * @param propDefn
 	 * @return

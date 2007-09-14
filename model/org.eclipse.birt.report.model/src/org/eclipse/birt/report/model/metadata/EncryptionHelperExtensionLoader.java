@@ -65,6 +65,9 @@ public class EncryptionHelperExtensionLoader extends ExtensionLoader
 
 	class EncryptionHelperElementLoader extends ExtensionElementLoader
 	{
+
+		private static final String IS_DEFAULT_ATTRIB = "isDefault"; //$NON-NLS-1$
+
 		/**
 		 * Loads the extension.
 		 * 
@@ -82,12 +85,30 @@ public class EncryptionHelperExtensionLoader extends ExtensionLoader
 					|| !checkRequiredAttribute( CLASS_ATTRIB, className ) )
 				return;
 
+			boolean isDefault = getBooleanAttrib( elementTag,
+					IS_DEFAULT_ATTRIB, false );
 			try
 			{
 				IEncryptionHelper helper = (IEncryptionHelper) elementTag
 						.createExecutableExtension( CLASS_ATTRIB );
 
-				MetaDataDictionary.getInstance( ).addEncryptionHelper( extensionName, helper );
+				MetaDataDictionary dd = MetaDataDictionary.getInstance( );
+				dd.addEncryptionHelper( extensionName, helper );
+
+				// set default
+				if ( isDefault )
+				{
+					String defaultEncryption = dd
+							.getDefaultEncryptionHelperID( );
+					if ( SimpleEncryptionHelper.ENCRYPTION_ID
+							.equals( defaultEncryption ) )
+						dd.setDefaultEncryptionHelper( extensionName );
+					else
+						handleError( new ExtensionException(
+								new String[]{extensionName, defaultEncryption},
+								ExtensionException.DESIGN_EXCEPTION_DEFAULT_ENCRYPTION_EXIST ) );
+
+				}
 			}
 			catch ( FrameworkException e )
 			{

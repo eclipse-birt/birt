@@ -113,7 +113,15 @@ public class CopyForPastePolicy extends CopyPolicy
 				continue;
 
 			if ( destination.getLocalProperty( null, propDefn ) != null )
+			{
+				// if destination has local value and no local encryption, then
+				// set encryption for this encryption maybe inherits from parent
+				if ( propDefn.isEncryptable( )
+						&& destination.getLocalEncryptionID( propDefn ) == null )
+					destination.setEncryptionHelper( propDefn, source
+							.getEncryptionID( propDefn ) );
 				continue;
+			}
 
 			current = source.isVirtualElement( )
 					? source.getVirtualParent( )
@@ -126,8 +134,7 @@ public class CopyForPastePolicy extends CopyPolicy
 					Object copyValue = ModelUtil.copyValue( propDefn, value );
 
 					// if this local property has encryption id, then set it
-					String encryptionID = current
-							.getLocalEncryptionID( propDefn );
+					String encryptionID = current.getEncryptionID( propDefn );
 					if ( encryptionID != null )
 					{
 						destination

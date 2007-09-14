@@ -60,8 +60,14 @@ public class ExtensionException extends MetaDataException
 	 * Error code indicating that an extension choice property defines both
 	 * "detailType" to refer a rom-defined choice set and its own choice list.
 	 */
-	
+
 	public static final String DESIGN_EXCEPTION_INVALID_CHOICE_PROPERTY = "INVALID_CHOICE_PROPERTY"; //$NON-NLS-1$
+
+	/**
+	 * Error code indicating that an encryption extension wants to set itself
+	 * default when the default is specified.
+	 */
+	public static final String DESIGN_EXCEPTION_DEFAULT_ENCRYPTION_EXIST = "DEFAULT_ENCRYPTION_EXIST"; //$NON-NLS-1$
 
 	/**
 	 * Constructs an extension exception with error code.

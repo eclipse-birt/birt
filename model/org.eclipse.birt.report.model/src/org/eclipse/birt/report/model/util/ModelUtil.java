@@ -38,10 +38,12 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.CssException;
 import org.eclipse.birt.report.model.api.command.LibraryException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
+import org.eclipse.birt.report.model.api.css.StyleSheetException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.table.LayoutUtil;
@@ -354,11 +356,24 @@ public class ModelUtil
 						.getPropertyExceptRomDefault( propHandle.getModule( ),
 								propHandle.getElement( ), propDefn );
 
-			Object valueToSet = ModelUtil.copyValue( propHandle.getDefn( ),
-					value );
+			if ( propDefn.isEncryptable( ) )
+			{
+				String encryption = propHandle.getElement( ).getEncryptionID(
+						propDefn );
+				Object valueToSet = ModelUtil.encryptProperty( destination
+						.getElement( ), propDefn, encryption, ModelUtil
+						.copyValue( propHandle.getDefn( ), value ) );
+				destination.getElement( ).setProperty( propName, valueToSet );
+				destination.getElement( ).setEncryptionHelper( propDefn,
+						encryption );
+			}
+			else
+			{
+				Object valueToSet = ModelUtil.copyValue( propHandle.getDefn( ),
+						value );
 
-			destination.getElement( ).setProperty( propName, valueToSet );
-
+				destination.getElement( ).setProperty( propName, valueToSet );
+			}
 		}
 	}
 
@@ -1653,17 +1668,19 @@ public class ModelUtil
 	/**
 	 * Gets the decrypted value of the Encryptable property value. Now, in
 	 * memory, we stores the encrypted value, that is what is in the xml.
+	 * 
 	 * @param element
 	 * @param propDefn
 	 * @param value
 	 * @return
 	 */
-	public static Object decryptLocalProperty( DesignElement element, ElementPropertyDefn propDefn, Object value )
+	public static Object decryptLocalProperty( DesignElement element,
+			ElementPropertyDefn propDefn, Object value )
 	{
 		if ( !( value instanceof String ) || !propDefn.isEncryptable( ) )
 			return value;
 		String encryptedStr = (String) value;
-		String encryption = element.getLocalEncryptionID( propDefn );
+		String encryption = element.getEncryptionID( propDefn );
 		if ( encryption == null )
 			return encryptedStr;
 		IEncryptionHelper helper = MetaDataDictionary.getInstance( )
@@ -1690,5 +1707,31 @@ public class ModelUtil
 				.getEncryptionHelper( encryptionID );
 		return helper == null ? value : helper.encrypt( str );
 
+	}
+
+	/**
+	 * Converts the <code>sheetException</code> to CssException.
+	 * 
+	 * @param module
+	 *            the module
+	 * @param fileName
+	 *            the css file name
+	 * @param sheetException
+	 *            the style sheet exception
+	 * 
+	 * @return the CssException
+	 */
+
+	public static CssException convertSheetExceptionToCssException(
+			Module module, String fileName, StyleSheetException sheetException )
+	{
+		String tmpErrorCode = sheetException.getErrorCode( );
+		if ( StyleSheetException.DESIGN_EXCEPTION_STYLE_SHEET_NOT_FOUND
+				.equalsIgnoreCase( tmpErrorCode ) )
+			tmpErrorCode = CssException.DESIGN_EXCEPTION_CSS_NOT_FOUND;
+		else
+			tmpErrorCode = CssException.DESIGN_EXCEPTION_BADCSSFILE;
+
+		return new CssException( module, new String[]{fileName}, tmpErrorCode );
 	}
 }

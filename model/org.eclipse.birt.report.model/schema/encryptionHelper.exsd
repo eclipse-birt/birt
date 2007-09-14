@@ -65,6 +65,13 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="isDefault" type="boolean" use="default" value="false">
+            <annotation>
+               <documentation>
+                  Field indicating that whether this encryption extension is the default for all encryptable property.
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 

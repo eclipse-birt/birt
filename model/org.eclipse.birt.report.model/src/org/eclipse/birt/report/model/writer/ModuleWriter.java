@@ -672,8 +672,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		String encryptionID = null;
 		if ( propDefn.isEncryptable( ) )
 		{
-			encryptionID = obj
-					.getLocalEncryptionID( (ElementPropertyDefn) propDefn );
+			encryptionID = obj.getEncryptionID( (ElementPropertyDefn) propDefn );
 			tag = DesignSchemaConstants.ENCRYPTED_PROPERTY_TAG;
 			// getLocalProperty will return decrypted value, so encrypt it here
 			xml = (String) ModelUtil.encryptProperty( obj,

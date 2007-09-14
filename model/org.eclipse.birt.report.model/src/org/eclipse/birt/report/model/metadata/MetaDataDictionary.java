@@ -217,6 +217,11 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	private Map encryptionHelperMap = null;
 
 	/**
+	 * Default encryption helper id for the whole birt.
+	 */
+	private String defaultEncryptionHelperID = SimpleEncryptionHelper.ENCRYPTION_ID;
+
+	/**
 	 * The factory to create scriptable classes.
 	 */
 
@@ -970,6 +975,42 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 			encryptions.addAll( encryptionHelperMap.values( ) );
 		}
 		return encryptions;
+	}
+
+	/**
+	 * Returns the encryption helper with the extension id.
+	 * 
+	 * @param id
+	 *            the extension id for the encryption helper to find
+	 * @return the encryption helper if found, otherwise false.
+	 */
+
+	public IEncryptionHelper getDefaultEncryptionHelper( )
+	{
+		return getEncryptionHelper( defaultEncryptionHelperID );
+	}
+
+	/**
+	 * Gets the default encryption id.
+	 * 
+	 * @return
+	 */
+	public String getDefaultEncryptionHelperID( )
+	{
+		return defaultEncryptionHelperID;
+	}
+
+	/**
+	 * Sets the default encryption id.
+	 * 
+	 * @param encryptionID
+	 */
+	public void setDefaultEncryptionHelper( String encryptionID )
+	{
+		if ( getEncryptionHelper( encryptionID ) != null )
+		{
+			defaultEncryptionHelperID = encryptionID;
+		}
 	}
 
 	/**
