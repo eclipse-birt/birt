@@ -2,8 +2,8 @@
 plugin@org.eclipse.birt.chart.tests=v20070726,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.tests
 
 !**************** engine test *******************
-plugin@org.eclipse.birt.core.tests=r22x_v20070913,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.core.tests
-plugin@org.eclipse.birt.report.engine.tests=r22x_v20070904,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.tests
+plugin@org.eclipse.birt.core.tests=r22x_v20070914,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.core.tests
+plugin@org.eclipse.birt.report.engine.tests=r22x_v20070914,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.tests
 fragment@org.eclipse.birt.report.engine.testhelper=v20070720,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.testhelper
 plugin@org.eclipse.birt.report.engine.emitter.html.tests=r22x_v20070907,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.html.tests
 plugin@org.eclipse.birt.report.engine.emitter.pdf.tests=v20070530,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.pdf.tests
