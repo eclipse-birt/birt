@@ -21,6 +21,7 @@ odajdbc.CannotGetDataSourceProductName=ƒf[ƒ^ƒ\[ƒX‚Ì»•i‚Ì–¼‘O‚ğæ“¾‚Å‚«‚Ü‚¹‚ñ
 odajdbc.CannotGetDataSourceProductVersion=ƒf[ƒ^ƒ\[ƒX‚Ì»•i‚Ìƒo[ƒWƒ‡ƒ“‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
 odajdbc.CannotGetSQLStateType=SQL state ‚ÌŒ^‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
 odajdbc.CannotParseURL=‚±‚Ìƒhƒ‰ƒCƒo‚Å‚ÍAw’è‚³‚ê‚½ URL ‚ğ‰ğÍ‚Å‚«‚Ü‚¹‚ñB
+odajdbc.CannotParseJNDI=The selected driver cannot parse the given JNDI Data Source URL
 odajdbc.NoSuitableDriver=“K‚µ‚½ƒhƒ‰ƒCƒo‚ª‚ ‚è‚Ü‚¹‚ñB
 
 odajdbc.CannotGetParameterCount=ƒpƒ‰ƒƒ^”‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB

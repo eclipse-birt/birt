@@ -21,6 +21,7 @@ odajdbc.CannotGetDataSourceProductName=No se puede obtener el nombre de producto
 odajdbc.CannotGetDataSourceProductVersion=No se puede obtener la versión del producto de la fuente de datos.
 odajdbc.CannotGetSQLStateType=No se puede obtener el tipo de estado de SQL.
 odajdbc.CannotParseURL=El controlador seleccionado no puede analizar el url proporcionado.
+odajdbc.CannotParseJNDI=The selected driver cannot parse the given JNDI Data Source URL
 odajdbc.NoSuitableDriver=Sin controlador adecuado.
 
 odajdbc.CannotGetParameterCount=No se puede obtener el recuento de parámetros.
