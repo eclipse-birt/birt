@@ -518,6 +518,19 @@ public class JDBCSelectionPageHelper
 				updateTestButton( );
 			}
 		} );
+		jndiName.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				if ( !jndiName.isFocusControl( )
+						&& jndiName.getText( ).trim( ).length( ) == 0 )
+				{
+					return;
+				}
+                verifyJDBCProperties();
+				updateTestButton( );
+			}
+		} );
 		testButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -662,7 +675,7 @@ public class JDBCSelectionPageHelper
 	 */
 	private boolean isValidDataSource( )
 	{
-		return isURLBlank();
+		return !isURLBlank() || !isJNDIBlank( );
 	}
 
 	/**
@@ -670,15 +683,30 @@ public class JDBCSelectionPageHelper
 	 *
 	 * @return true url is blank
 	 */
-	private boolean isURLBlank()
+	private boolean isURLBlank( )
 	{
-		String value = jdbcUrl.getText( );
-		if ( value == null )
-			return false;
-		value = value.trim( );
-		if ( value.length( ) == 0 )
-			return false;
-		return true;
+		return jdbcUrl == null || jdbcUrl.getText( ).trim( ).length( ) == 0;
+	}
+	
+	/**
+	 *	Test if the input JNDI is blank 
+	 *
+	 * @return true JNDI is blank
+	 */
+	private boolean isJNDIBlank( )
+	{
+		return jndiName == null || jndiName.getText( ).trim( ).length( ) == 0;
+	}
+	
+	/**
+	 *	Check if the driver class is blank 
+	 *
+	 * @return true driver class is blank
+	 */
+	private boolean isDriverClassBlank( )
+	{
+		return getSelectedDriverClassName( ) == null
+				|| getSelectedDriverClassName( ).trim( ).length( ) == 0;
 	}
 	
 	/**
@@ -688,7 +716,7 @@ public class JDBCSelectionPageHelper
 	 */
 	private void updateTestButton( )
 	{
-		if ( !isURLBlank( ) )
+		if ( isDriverClassBlank( ) || ( isURLBlank( ) && isJNDIBlank( ) ) )
 		{
 			// Jdbc Url cannot be blank
 			setMessage( EMPTY_URL, IMessageProvider.ERROR );
@@ -707,7 +735,7 @@ public class JDBCSelectionPageHelper
 	 */
 	protected void resetTestAndMngButton( )
 	{
-		if ( !isURLBlank( ) )
+		if ( isURLBlank( ) && isJNDIBlank( ) )
 		{
 			// Jdbc Url cannot be blank
 			setMessage( EMPTY_URL, IMessageProvider.ERROR );
@@ -742,17 +770,21 @@ public class JDBCSelectionPageHelper
 	
 	private void verifyJDBCProperties( )
 	{
-		if ( driverChooserCombo != null
-				&& jdbcUrl != null )
+		if ( !isDriverClassBlank( ) )
 		{
-			if ( getSelectedDriverClassName( ) != null
-					&& getSelectedDriverClassName( ).trim( ).length( ) > 0
-					&& jdbcUrl.getText( ) != null
-					&& jdbcUrl.getText( ).trim( ).length( ) > 0 )
+			if ( !isJNDIBlank( ) )
+			{
 				setPageComplete( true );
+			}
+			else if ( !isURLBlank( ) )
+			{
+				setPageComplete( true );
+			}
 			else
 				setPageComplete( false );
 		}
+		else
+			setPageComplete( false );
 	}
 	
 	/**

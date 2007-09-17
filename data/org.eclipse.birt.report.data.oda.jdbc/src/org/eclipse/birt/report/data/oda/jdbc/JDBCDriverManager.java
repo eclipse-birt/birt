@@ -446,15 +446,20 @@ public class JDBCDriverManager
                     getJndiDSConnection( driverClassName, jndiNameUrl, 
                             addUserAuthenticationProperties( null, userId, password ) );            
 
-                if ( jndiDSConnection != null )      // test connection successful
-                {
-                    closeConnection( jndiDSConnection );
-                    return true;
-                }
+                if ( jndiDSConnection != null ) // test connection successful
+				{
+					closeConnection( jndiDSConnection );
+					return true;
+				}
+				else
+				{
+					throw new JDBCException( ResourceConstants.CANNOT_PARSE_JNDI,
+							null );
+				}
             }
 			
-            // no JNDI Data Source URL defined, or 
-            // not able to get a JNDI data source connection, 
+            // no JNDI Data Source URL defined, or
+            // not able to get a JNDI data source connection,
             // use the JDBC DriverManager instead to get a JDBC connection
 			loadAndRegisterDriver( driverClassName, null );
 
