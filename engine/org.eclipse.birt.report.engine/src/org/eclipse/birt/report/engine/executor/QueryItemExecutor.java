@@ -44,6 +44,7 @@ abstract public class QueryItemExecutor extends StyledItemExecutor
 		{
 			rset.close( );
 			rset = null;
+			context.setResultSets( parentRsets );
 		}
 	}
 
