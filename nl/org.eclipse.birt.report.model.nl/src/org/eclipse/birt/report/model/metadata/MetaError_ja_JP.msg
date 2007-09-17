@@ -54,7 +54,7 @@ VALUE_REQUIRED=[{0}] に値を指定する必要があります。
 DUPLICATE_CHOICE_NAME=[{0}] という名前の選択項目は、すでに使用されています。
 INVALID_PROPERTY_TYPE=プロパティの種類 [{0}] が無効です。
 INVALID_UNIT=プロパティ "{0}" のデフォルトの単位 "{1}" は無効です。
-ENCYRPTION_EXTENSION_EXISTS=暗号化拡張 "{0}" はすでに存在します。
+ENCYRPTION_EXTENSION_EXISTS=暗号化拡張 (ID = "{0}") はすでに存在します。
 VISIBILITY_PROPERTY_NOT_FOUND=Property visibility:[{1}] on element: [{0}] doesn't point to an exsiting property.
 REPORT_MISSING=ルート要素 : レポートデザインが定義されていません。
 INVALID_CHOICE_VALUE=プロパティ "{1}" に指定された選択値 "{0}" は無効です。  
@@ -65,3 +65,4 @@ MISSING_XML_NAME=具象要素 "{0}" で xml 名が定義されていません。
 INVALID_ELEMENT_TYPE=要素型 "{0}" が無効です。
 INVALID_CHOICE_PROPERTY=拡張 "{1}" の choice プロパティ "{0}" が無効です。detailType と、独自の選択リストの両方が定義されています。 
 EXTENDED_ITEM_MISSING=メタデータディクショナリに拡張項目が見つかりません。
+DEFAULT_ENCRYPTION_EXIST=Encryption "{0}" can not be set to be default, for the default encryption "{1}" exists.
