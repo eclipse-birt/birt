@@ -34,6 +34,7 @@ import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.MemberHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
@@ -135,29 +136,34 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 						public Map getParameterBindings( )
 						{
 							Map map = new HashMap( );
-
-							for ( Iterator itr = handle.getParamBindings( )
-									.iterator( ); itr.hasNext( ); )
+							MemberHandle params = handle.getParamBindings( );
+							// Parameters may be null except for DrillThrough
+							if ( params != null )
 							{
-								ParamBindingHandle pbh = (ParamBindingHandle) itr.next( );
-								map.put( pbh.getParamName( ),
-										dph.getUserValue( pbh.getExpression( ) ) );
+								for ( Iterator itr = params.iterator( ); itr.hasNext( ); )
+								{
+									ParamBindingHandle pbh = (ParamBindingHandle) itr.next( );
+									map.put( pbh.getParamName( ),
+											dph.getUserValue( pbh.getExpression( ) ) );
+								}
 							}
-
 							return map;
 						}
 
 						public Map getSearchCriteria( )
 						{
 							Map map = new HashMap( );
-
-							for ( Iterator itr = handle.getSearch( ).iterator( ); itr.hasNext( ); )
+							MemberHandle searches = handle.getSearch( );
+							// Searches may be null except for DrillThrough
+							if ( searches != null )
 							{
-								SearchKeyHandle skh = (SearchKeyHandle) itr.next( );
-								map.put( skh.getExpression( ),
-										dph.getUserValue( skh.getExpression( ) ) );
+								for ( Iterator itr = searches.iterator( ); itr.hasNext( ); )
+								{
+									SearchKeyHandle skh = (SearchKeyHandle) itr.next( );
+									map.put( skh.getExpression( ),
+											dph.getUserValue( skh.getExpression( ) ) );
+								}
 							}
-
 							return map;
 						}
 
@@ -245,29 +251,34 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 						public Map getParameterBindings( )
 						{
 							Map map = new HashMap( );
-
-							for ( Iterator itr = handle.getParamBindings( )
-									.iterator( ); itr.hasNext( ); )
+							MemberHandle params = handle.getParamBindings( );
+							// Parameters may be null except for DrillThrough
+							if ( params != null )
 							{
-								ParamBindingHandle pbh = (ParamBindingHandle) itr.next( );
-								map.put( pbh.getParamName( ),
-										evaluator.evaluate( pbh.getExpression( ) ) );
+								for ( Iterator itr = params.iterator( ); itr.hasNext( ); )
+								{
+									ParamBindingHandle pbh = (ParamBindingHandle) itr.next( );
+									map.put( pbh.getParamName( ),
+											evaluator.evaluate( pbh.getExpression( ) ) );
+								}
 							}
-
 							return map;
 						}
 
 						public Map getSearchCriteria( )
 						{
 							Map map = new HashMap( );
-
-							for ( Iterator itr = handle.getSearch( ).iterator( ); itr.hasNext( ); )
+							MemberHandle searches = handle.getSearch( );
+							// Searches may be null except for DrillThrough
+							if ( searches != null )
 							{
-								SearchKeyHandle skh = (SearchKeyHandle) itr.next( );
-								map.put( skh.getExpression( ),
-										evaluator.evaluate( skh.getExpression( ) ) );
+								for ( Iterator itr = searches.iterator( ); itr.hasNext( ); )
+								{
+									SearchKeyHandle skh = (SearchKeyHandle) itr.next( );
+									map.put( skh.getExpression( ),
+											evaluator.evaluate( skh.getExpression( ) ) );
+								}
 							}
-
 							return map;
 						}
 
