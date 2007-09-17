@@ -165,6 +165,10 @@ public class JavascriptEvalUtil
      */
     public static Object convertToJavascriptValue( Object value, Scriptable scope  )
     {
+    	if ( value instanceof java.sql.Date || value instanceof java.sql.Time )
+    	{
+    		return value;
+    	}
     	if ( value instanceof Date)
     	{
     		// Wrap in Javascript native Date class
