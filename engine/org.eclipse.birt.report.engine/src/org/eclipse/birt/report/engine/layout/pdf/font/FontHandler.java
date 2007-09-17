@@ -117,16 +117,15 @@ public class FontHandler
 		
         if(!fontSubstitution)
         {
-        	if ( fontFamilies.getLength() == 0 )
+        	for (int i=0; i<fontFamilies.getLength(); i++)
         	{
-        		bf = fontManager.createFont(FontMappingManager.DEFAULT_FONT, 
-        				fontStyle);
-        	}
-        	else
-        	{
-        		String fontName = fontManager.getLogicalFont( fontFamilies.item(0).getCssText() );
-        		bf = fontManager.createFont(fontName, fontStyle);	
-        	}
+        		String fontName = fontManager.getLogicalFont( fontFamilies.item(i).getCssText() );
+        		bf = fontManager.createFont(fontName, fontStyle);
+        		if (bf != null)
+        			return;
+        	}	
+        	bf = fontManager.createFont(FontMappingManager.DEFAULT_FONT, 
+        			fontStyle);
         }
 	}
 
