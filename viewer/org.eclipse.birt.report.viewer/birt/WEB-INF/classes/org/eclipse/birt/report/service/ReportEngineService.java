@@ -1595,9 +1595,9 @@ public class ReportEngineService
 
 						try
 						{
-							value = csvConvertor( (String) DataTypeUtil
-									.convert( iData.getValue( columnNames[0] ),
-											DataType.STRING_TYPE ), sep );
+							value = csvConvertor( DataUtil
+									.getDisplayValue( iData
+											.getValue( columnNames[0] ) ), sep );
 						}
 						catch ( Exception e )
 						{
@@ -1615,10 +1615,10 @@ public class ReportEngineService
 
 							try
 							{
-								value = csvConvertor( (String) DataTypeUtil
-										.convert( iData
-												.getValue( columnNames[i] ),
-												DataType.STRING_TYPE ), sep );
+								value = csvConvertor( DataUtil
+										.getDisplayValue( iData
+												.getValue( columnNames[i] ) ),
+										sep );
 							}
 							catch ( Exception e )
 							{
