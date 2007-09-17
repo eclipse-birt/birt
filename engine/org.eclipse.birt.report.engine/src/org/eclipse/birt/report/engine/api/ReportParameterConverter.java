@@ -201,7 +201,7 @@ public class ReportParameterConverter
 					StringFormatter sf = getStringFormatter( );
 					if ( sf == null )
 					{
-						parameterValueObj = reportParameterValue;
+						parameterValueObj = null;
 						break;
 					}
 	
@@ -218,40 +218,7 @@ public class ReportParameterConverter
 				
 				case IScalarParameterDefn.TYPE_DATE_TIME:
 				{
-					DateFormatter df = getDateFormatter( );
-					if ( df == null )
-					{
-						parameterValueObj = reportParameterValue;
-						break;
-					}
-					
-					try
-					{
-						parameterValueObj = df.parse( reportParameterValue );
-					}
-					catch ( ParseException e )
-					{
-						df.applyPattern( "Short Date" );
-						
-						try
-						{
-							parameterValueObj = df.parse( reportParameterValue );
-						}
-						catch ( ParseException ex )
-						{
-							df.applyPattern( "Medium Time" );
-							
-							try
-							{
-								parameterValueObj = df.parse( reportParameterValue );
-							}
-							catch ( ParseException exx )
-							{
-								parameterValueObj = null;
-							}
-						}
-					}
-	
+					parameterValueObj = parseDateTime( reportParameterValue );
 					break;
 				}
 	
@@ -260,7 +227,7 @@ public class ReportParameterConverter
 					NumberFormatter nf = getNumberFormatter( );
 					if ( nf == null )
 					{
-						parameterValueObj = reportParameterValue;
+						parameterValueObj = null;
 						break;
 					}
 					
@@ -300,7 +267,7 @@ public class ReportParameterConverter
 					NumberFormatter nf = getNumberFormatter( );
 					if ( nf == null )
 					{
-						parameterValueObj = reportParameterValue;
+						parameterValueObj = null;
 						break;
 					}
 
@@ -341,15 +308,41 @@ public class ReportParameterConverter
 					break;
 				}
 				
-				case IScalarParameterDefn.TYPE_DATE:
+				case IScalarParameterDefn.TYPE_DATE :
 				{
-					parameterValueObj = java.sql.Date.valueOf( reportParameterValue );
+					try
+					{
+						parameterValueObj = java.sql.Date
+								.valueOf( reportParameterValue );
+					}
+					catch ( IllegalArgumentException ie )
+					{
+						parameterValueObj = parseDateTime( reportParameterValue );
+						if ( parameterValueObj != null )
+						{
+							parameterValueObj = new java.sql.Date(
+									( (Date) parameterValueObj ).getTime( ) );
+						}
+					}
 					break;
 				}
-				
-				case IScalarParameterDefn.TYPE_TIME:
+
+				case IScalarParameterDefn.TYPE_TIME :
 				{
-					parameterValueObj = java.sql.Time.valueOf( reportParameterValue );
+					try
+					{
+						parameterValueObj = java.sql.Time
+								.valueOf( reportParameterValue );
+					}
+					catch ( IllegalArgumentException ie )
+					{
+						parameterValueObj = parseDateTime( reportParameterValue );
+						if ( parameterValueObj != null )
+						{
+							parameterValueObj = new java.sql.Time(
+									( (Date) parameterValueObj ).getTime( ) );
+						}
+					}
 					break;
 				}
 				
@@ -359,7 +352,7 @@ public class ReportParameterConverter
 					NumberFormatter nf = getNumberFormatter( );
 					if ( nf == null )
 					{
-						parameterValueObj = reportParameterValue;
+						parameterValueObj = null;
 						break;
 					}
 					
@@ -402,5 +395,41 @@ public class ReportParameterConverter
 		}
 		
 		return parameterValueObj;
+	}
+	
+	protected Object parseDateTime( String reportParameterValue )
+	{
+		DateFormatter df = getDateFormatter( );
+		if ( df == null )
+		{
+			return null;
+		}
+		
+		try
+		{
+			return df.parse( reportParameterValue );
+		}
+		catch ( ParseException e )
+		{
+			df.applyPattern( "Short Date" );
+			
+			try
+			{
+				return df.parse( reportParameterValue );
+			}
+			catch ( ParseException ex )
+			{
+				df.applyPattern( "Medium Time" );
+				
+				try
+				{
+					return df.parse( reportParameterValue );
+				}
+				catch ( ParseException exx )
+				{
+					return null;
+				}
+			}
+		}
 	}
 }
