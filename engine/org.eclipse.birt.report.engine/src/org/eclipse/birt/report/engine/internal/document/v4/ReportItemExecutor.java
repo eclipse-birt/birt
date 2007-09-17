@@ -123,6 +123,11 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	protected boolean executed;
 
 	protected long uniqueId;
+	
+	/**
+	 * the current result set before execute this report item.
+	 */
+	protected IBaseResultSet[] parentRsets;
 
 	/**
 	 * construct a report item executor by giving execution context and report
@@ -151,6 +156,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		this.content = null;
 		this.instanceId = null;
 		this.uniqueId = 0;
+		this.parentRsets = null;
 	}
 
 	int getExecutorType( )
@@ -334,6 +340,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		this.content = null;
 		this.instanceId = null;
 		this.uniqueId = 0;
+		this.parentRsets = null;
 		if ( executorType != -1 )
 		{
 			manager.releaseExecutor( this );
@@ -363,6 +370,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 				}
 			}
 			rsets = null;
+			context.setResultSets( parentRsets );
 		}
 	}
 
@@ -381,6 +389,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	 */
 	protected void executeQuery( )
 	{
+		getParentResultSet( );
 		if ( design != null )
 		{
 			IDataQueryDefinition[] queries = design.getQueries( );			
@@ -551,6 +560,45 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 			}
 		}
 		return false;
+	}
+	
+	protected IBaseResultSet getParentResultSet( )
+	{
+		if ( parentRsets == null )
+		{
+			if ( parent != null )
+			{
+				if ( parent.rsets == null )
+				{
+					IBaseResultSet[] pRsets = parent.getQueryResults( );
+					if ( pRsets == null
+							|| ( pRsets.length > 0 && pRsets[0] == null ) )
+					{
+						IBaseResultSet prset_ = parent.getParentResultSet( );
+						if ( prset_ != null )
+						{
+							parentRsets = new IBaseResultSet[]{prset_};
+						}
+					}
+					else
+					{
+						parentRsets = new IBaseResultSet[]{pRsets[0]};
+					}
+				}
+				else
+				{
+					parentRsets = parent.rsets;
+				}
+			}
+		}
+		if ( parentRsets != null )
+		{
+			return parentRsets[0];
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 }

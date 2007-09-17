@@ -44,6 +44,9 @@ public class ExtendedItemExecutor extends ReportItemExecutor
 
 		if ( executor != null )
 		{
+			// initialize the parent result sets.
+			getParentResultSet( );
+			
 			// user implement the IReportItemExecutor.
 			if ( executor instanceof ExtendedGenerateExecutor )
 			{
@@ -139,6 +142,9 @@ public class ExtendedItemExecutor extends ReportItemExecutor
 		{
 			executor.close( );
 			finishTOCEntry( );
+			
+			// restore the parent result set to context.
+			context.setResultSets( parentRsets );
 		}
 		executor = null;
 		super.close( );

@@ -228,6 +228,7 @@ public class ExtendedItemExecutor extends ContainerExecutor
 	
 	protected void executeQuery( )
 	{
+		getParentResultSet( );
 		/*
 		 * we needn't skip to the first row as other report items.
 		 */

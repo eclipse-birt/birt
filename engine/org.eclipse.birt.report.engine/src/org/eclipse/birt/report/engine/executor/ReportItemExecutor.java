@@ -134,7 +134,11 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	 * the instance id of the generated content.
 	 */
 	protected InstanceID instanceId;
-
+	
+	/**
+	 * the current result set before execute this report item.
+	 */
+	protected IBaseResultSet[] parentRsets;
 
 	/**
 	 * construct a report item executor by giving execution context and report
@@ -161,6 +165,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		this.tocEntry = null;
 		this.uniqueId = 0;
 		this.instanceId = null;
+		this.parentRsets = null;
 	}
 	
 	public void setContext( IExecutorContext context )
@@ -235,7 +240,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		this.uniqueId = 0;
 		this.instanceId = null;
 		this.design = null;
-		this.prset = null;
+		this.parentRsets = null;
 
 		manager.releaseExecutor( type, this );
 	}
@@ -717,39 +722,44 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		return null;
 	}
 	
-	private IBaseResultSet[] prset;
-
-	IBaseResultSet getParentResultSet( )
+	protected IBaseResultSet getParentResultSet( )
 	{
-		if ( prset == null )
+		if ( parentRsets == null )
 		{
-			prset = new IBaseResultSet[]{null};
 			if ( parent != null )
 			{
 				if ( parent.rset == null )
 				{
-					IBaseResultSet[] parentRsets = parent.getQueryResults( );
-					if ( parentRsets == null
-							|| ( parentRsets.length > 0 && parentRsets[0] == null ) )
+					IBaseResultSet[] pRsets = parent.getQueryResults( );
+					if ( pRsets == null
+							|| ( pRsets.length > 0 && pRsets[0] == null ) )
 					{
 						IBaseResultSet prset_ = parent.getParentResultSet( );
 						if ( prset_ != null )
 						{
-							prset = new IBaseResultSet[]{prset_};
+							parentRsets = new IBaseResultSet[]{prset_};
 						}
 					}
 					else
 					{
-						prset = new IBaseResultSet[]{parentRsets[0]};
+						parentRsets = new IBaseResultSet[]{pRsets[0]};
 					}
 				}
 				else
 				{
-					prset = new IBaseResultSet[]{parent.rset};
+					parentRsets = new IBaseResultSet[]{parent.rset};
 				}
 			}
 		}
-		return prset[0];
+
+		if ( parentRsets != null )
+		{
+			return parentRsets[0];
+		}
+		else
+		{
+			return null;
+		}
 	}
 	
 	protected void restoreResultSet()
