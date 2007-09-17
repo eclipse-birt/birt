@@ -199,7 +199,7 @@ public class ReportParameterConverter
 					StringFormatter sf = getStringFormatter( );
 					if ( sf == null )
 					{
-						parameterValueObj = reportParameterValue;
+						parameterValueObj = null;
 						break;
 					}
 	
@@ -219,7 +219,7 @@ public class ReportParameterConverter
 					DateFormatter df = getDateFormatter( );
 					if ( df == null )
 					{
-						parameterValueObj = reportParameterValue;
+						parameterValueObj = null;
 						break;
 					}
 	
@@ -258,7 +258,7 @@ public class ReportParameterConverter
 					NumberFormatter nf = getNumberFormatter( );				
 					if ( nf == null )
 					{
-						parameterValueObj = reportParameterValue;
+						parameterValueObj = null;
 						break;
 					}
 					
@@ -298,7 +298,7 @@ public class ReportParameterConverter
 					NumberFormatter nf = getNumberFormatter( );				
 					if ( nf == null )
 					{
-						parameterValueObj = reportParameterValue;
+						parameterValueObj = null;
 						break;
 					}
 
@@ -345,7 +345,7 @@ public class ReportParameterConverter
 					NumberFormatter nf = getNumberFormatter( );				
 					if ( nf == null )
 					{
-						parameterValueObj = reportParameterValue;
+						parameterValueObj = null;
 						break;
 					}
 					
