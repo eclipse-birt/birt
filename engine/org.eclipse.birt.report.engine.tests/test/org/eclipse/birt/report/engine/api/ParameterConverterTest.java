@@ -494,6 +494,13 @@ public class ParameterConverterTest extends TestCase
 		rpc = new ReportParameterConverter( "MM/dd/yyyy hh:mm:ss a", locale );
 		assertEquals( date, rpc.parse( "09/13/1998 08:01:44 PM",
 				IScalarParameterDefn.TYPE_DATE_TIME ) );
+		
+		String date1 = "2005/05/06 03:45:25";
+		ReportParameterConverter converter = new ReportParameterConverter( "yyyy/MM/dd hh:mm:ss", Locale.US );
+		assertEquals( "2005-05-06", converter.parse( date1,
+				IScalarParameterDefn.TYPE_DATE ).toString( ) );
+		assertEquals( "03:45:25", converter.parse( date1,
+				IScalarParameterDefn.TYPE_TIME ).toString( ) );
 	}
 
 	/*
