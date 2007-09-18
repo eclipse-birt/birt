@@ -239,7 +239,13 @@ public final class ChartReportItemPresentationImpl extends
 		}
 		else if ( sOutputFormat.equalsIgnoreCase( "PDF" ) ) //$NON-NLS-1$
 		{
-			if ( isOutputRendererSupported( outputFormat ) )
+			if ( outputFormat != null
+					&& outputFormat.toUpperCase( ).equals( "SVG" ) ) //$NON-NLS-1$
+			{
+				// Since engine doesn't support embedding SVG, always embed PNG
+				sExtension = "PNG"; //$NON-NLS-1$
+			}
+			else if ( isOutputRendererSupported( outputFormat ) )
 			{
 				sExtension = outputFormat;
 			}
