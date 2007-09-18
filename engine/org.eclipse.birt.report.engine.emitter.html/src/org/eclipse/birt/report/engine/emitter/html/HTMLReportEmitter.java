@@ -467,6 +467,32 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.writeCode( "      }" ); //$NON-NLS-1$
 		writer.writeCode( "</script>" ); //$NON-NLS-1$
 	}
+	
+	/**
+	 * Fixes the security issues when redirecting page in IE7.
+	 */
+	protected void fixRedirect( )
+	{
+		writer.writeCode( "<script language=\"javascript\">" ); //$NON-NLS-1$
+		writer.writeCode( "          function redirect(target, url){\n" ); //$NON-NLS-1$
+		writer.writeCode( "                          if (target =='_blank'){\n" ); //$NON-NLS-1$
+		writer.writeCode( "                                          open(url);\n" ); //$NON-NLS-1$
+		writer.writeCode( "                          }\n" ); //$NON-NLS-1$
+		writer.writeCode( "                          else if (target == '_top'){\n" ); //$NON-NLS-1$
+		writer.writeCode( "          window.top.location.href=url;\n" ); //$NON-NLS-1$                                                                                                                                         
+		writer.writeCode( "                          }\n" ); //$NON-NLS-1$
+		writer.writeCode( "                          else if (target == '_parent'){\n" ); //$NON-NLS-1$
+		writer.writeCode( "          location.href=url;\n" ); //$NON-NLS-1$                                                                                                                                    
+		writer.writeCode( "                          }\n" ); //$NON-NLS-1$
+		writer.writeCode( "                          else if (target == '_self'){\n" );//$NON-NLS-1$
+		writer.writeCode( "          location.href =url;\n" ); //$NON-NLS-1$                                                                                                                                   
+		writer.writeCode( "                          }\n" ); //$NON-NLS-1$                                    
+		writer.writeCode( "                          else{\n" );//$NON-NLS-1$
+		writer.writeCode( "                                          open(url);\n" ); //$NON-NLS-1$
+		writer.writeCode( "                          }\n" ); //$NON-NLS-1$
+		writer.writeCode( "          }\n" ); //$NON-NLS-1$  
+		writer.writeCode( "</script>" ); //$NON-NLS-1$
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -548,6 +574,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		if ( isEmbeddable )
 		{
 			fixTransparentPNG( );
+			fixRedirect( );
 
 			writer.openTag( HTMLTags.TAG_DIV );
 
@@ -627,6 +654,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		writer.closeTag( HTMLTags.TAG_STYLE );
 		fixTransparentPNG( );
+		fixRedirect( );
 		writer.closeTag( HTMLTags.TAG_HEAD );
 
 		writer.openTag( HTMLTags.TAG_BODY );
