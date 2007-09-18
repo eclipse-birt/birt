@@ -19,6 +19,7 @@ import java.sql.Timestamp;
 import java.sql.Types;
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -440,13 +441,13 @@ public final class DataTypeUtil
 
         if ( source instanceof Date )
         {
-       		return new Time( ((Date)source).getTime( ));
+       		return toSqlTime( (Date)source);
         }
         else if ( source instanceof String )
         {
             try
             {
-                return new Time( toDate((String ) source).getTime() );
+                return toSqlTime( toDate((String ) source) );
             }
             catch( Exception e )
             {
@@ -469,6 +470,22 @@ public final class DataTypeUtil
     }
 
     /**
+     * 
+     * @param date
+     * @return
+     */
+    private static java.sql.Time toSqlTime( Date date )
+    {
+    	Calendar calendar = Calendar.getInstance( );
+		calendar.clear( );
+		calendar.setTimeInMillis( date.getTime( ) );
+		calendar.set( Calendar.YEAR, 1970 );
+		calendar.set( Calendar.MONTH, 0 );
+		calendar.set( Calendar.DAY_OF_MONTH, 1 );
+		return new java.sql.Time( calendar.getTimeInMillis( ) );
+    }
+    
+    /**
      * Date -> Time
      * String -> Time
      * @param source
@@ -482,13 +499,13 @@ public final class DataTypeUtil
 
         if ( source instanceof Date )
         {
-    		return new java.sql.Date( ((Date)source).getTime( ));
+    		return toSqlDate( (Date)source );
         }
         else if ( source instanceof String )
         {
             try
             {
-                return new java.sql.Date( toDate((String ) source).getTime() );
+                return toSqlDate( toDate((String ) source) );
             }
             catch( Exception e )
             {
@@ -509,7 +526,23 @@ public final class DataTypeUtil
                             source.toString( ), "java.sql.Date"
                     } );
     }
-
+    
+    /**
+     * 
+     * @param date
+     * @return
+     */
+    private static java.sql.Date toSqlDate( Date date )
+    {
+    	Calendar calendar = Calendar.getInstance( );
+		calendar.clear( );
+		calendar.setTimeInMillis( date.getTime( ) );
+		calendar.set( Calendar.HOUR_OF_DAY, 0 );
+		calendar.set( Calendar.MINUTE, 0 );
+		calendar.set( Calendar.SECOND, 0 );
+		return new java.sql.Date( calendar.getTimeInMillis( ) );
+    }
+    
     /**
 	 * A temp solution to the adoption of ICU4J to BIRT. Simply delegate
 	 * toDate( String, Locale) method.
