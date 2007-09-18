@@ -418,7 +418,10 @@ public class CubeQueryUtil implements ICubeQueryUtil
 
 			TabularHierarchyHandle hierHandle = (TabularHierarchyHandle) ( cubeHandle.getDimension( target.getDimensionName( ) ).getContent( TabularDimensionHandle.HIERARCHIES_PROP,
 					0 ) );
-			defineDataSourceAndDataSet( hierHandle.getDataSet( ) );
+			if ( hierHandle.getDataSet( ) != null )
+				defineDataSourceAndDataSet( hierHandle.getDataSet( ) );
+			else
+				defineDataSourceAndDataSet( cubeHandle.getDataSet( ) );
 			Map levelValueMap = new HashMap( );
 
 			DataSetIterator it = new DataSetIterator( this.session, hierHandle, appContext );
@@ -464,7 +467,10 @@ public class CubeQueryUtil implements ICubeQueryUtil
 			DimLevel target = OlapExpressionUtil.getTargetDimLevel( targetLevel );
 			TabularHierarchyHandle hierHandle = (TabularHierarchyHandle) ( cubeHandle.getDimension( target.getDimensionName( ) ).getContent( TabularDimensionHandle.HIERARCHIES_PROP,
 					0 ) );
-			defineDataSourceAndDataSet( hierHandle.getDataSet( ));
+			if ( hierHandle.getDataSet( ) != null )
+				defineDataSourceAndDataSet( hierHandle.getDataSet( ) );
+			else
+				defineDataSourceAndDataSet( cubeHandle.getDataSet( ) );
 			Map levelValueMap = new HashMap( );
 			if ( higherLevelDefns != null )
 			{
