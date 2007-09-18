@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * Utility class to validate the property value.
@@ -95,8 +96,8 @@ public class PropertyValueValidationUtil
 		for ( Iterator iter = structDefn.propertiesIterator( ); iter.hasNext( ); )
 		{
 			PropertyDefn memberDefn = (PropertyDefn) iter.next( );
-			if ( memberDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE
-					&& memberDefn.isList( ) )
+			if ( memberDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE &&
+					memberDefn.isList( ) )
 				validateList( element, propDefn, item, memberDefn,
 						( (Structure) item ).getLocalProperty( element
 								.getModule( ), memberDefn ) );
@@ -255,6 +256,17 @@ public class PropertyValueValidationUtil
 			default :
 				retValue = propDefn.validateValue( element.getModule( ),
 						propValue );
+
+				if ( retValue != null && propDefn.isEncryptable( ) )
+				{
+					String encrptID = element.getElement( ).getEncryptionID(
+							propDefn );
+					retValue = ModelUtil
+							.encryptProperty( element.getElement( ), propDefn,
+									encrptID, retValue );
+					element.setEncryption( propName, encrptID );
+				}
+
 		}
 
 		return retValue;
