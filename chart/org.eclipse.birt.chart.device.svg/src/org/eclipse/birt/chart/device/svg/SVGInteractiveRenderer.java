@@ -600,9 +600,15 @@ public class SVGInteractiveRenderer
 								String target = urlValue.getTarget( );
 								if ( target == null )
 									target = "null"; //$NON-NLS-1$
+								// To resolve security issue in IE7, call parent
+								// method to redirect
+								String jsRedirect = "redirect('"//$NON-NLS-1$ 
+										+ target + "','"//$NON-NLS-1$ 
+										+ urlValue.getBaseUrl( ) + "');";//$NON-NLS-1$ 
 								elm.setAttribute( scriptEvent,
-										wrapJS( bDblClick,
-												"redirect('" + target + "','" + urlValue.getBaseUrl( ) + "')" ) ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+										wrapJS( bDblClick, "try { parent."//$NON-NLS-1$
+												+ jsRedirect + " } catch(e) { "//$NON-NLS-1$
+												+ jsRedirect + " }" ) );//$NON-NLS-1$
 
 							}
 							break;
