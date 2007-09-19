@@ -23,12 +23,13 @@
       </topic>
       </topic>
   <topic label="Connecting to a Data Source" href="birt/birt-02-1.html" >
-    <topic label="How to create a BIRT data source" href="birt/birt-02-2.html" />
-    <topic label="How to modify an existing BIRT data source" href="birt/birt-02-3.html" />
-    <topic label="How to delete a BIRT Report Designer data source" href="birt/birt-02-4.html" />
-    <topic label="How to specify the connection information for a database or other JDBC data source" href="birt/birt-02-5.html" />
-    <topic label="How to add a JDBC driver" href="birt/birt-02-6.html" />
-    <topic label="How to delete all JDBC drivers that are in a JAR file" href="birt/birt-02-7.html" />
+    <topic label="Working with data sources" href="birt/birt-02-2.html" />
+    <topic label="How to create a BIRT data source" href="birt/birt-02-3.html" />
+    <topic label="How to modify an existing BIRT data source" href="birt/birt-02-4.html" />
+    <topic label="How to delete a BIRT Report Designer data source" href="birt/birt-02-5.html" />
+    <topic label="How to specify the connection information for a database or other JDBC data source" href="birt/birt-02-6.html" />
+    <topic label="How to add a JDBC driver" href="birt/birt-02-7.html" />
+    <topic label="How to delete all JDBC drivers that are in a JAR file" href="birt/birt-02-8.html" />
     </topic>
   <topic label="Retrieving Data" href="birt/birt-03-01.html" >
     <topic label="How to create a data set" href="birt/birt-03-02.html" />
@@ -249,12 +250,7 @@
   <topic label="Using Java to Write an Event Handler" href="birt/birt-24-1.html" >
     <topic label="How to create an event handler class and add it to the Java project" href="birt/birt-24-2.html" />
     <topic label="How to associate a Java class with a report element" href="birt/birt-24-3.html" />
-    <topic label="Understanding the Simple Design Engine API" href="birt/birt-24-4.html" >
-      <topic label="Understanding the IReportDesign interface" href="birt/birt-24-4.html#wp216867" />
-      <topic label="Creating elements with the SimpleElementFactory class" href="birt/birt-24-4.html#wp217315" />
-      <topic label="Understanding the report element interfaces" href="birt/birt-24-4.html#wp216885" />
-      </topic>
-      </topic>
+    </topic>
   <topic label="Scripting reference" href="birt/birt-25-1.html" >
     <topic label="Class  DateTimeSpan" href="birt/birt-25-2.html" >
       <topic label="DateTimeSpan.addDate" href="birt/birt-25-2.html#wp188223" />
