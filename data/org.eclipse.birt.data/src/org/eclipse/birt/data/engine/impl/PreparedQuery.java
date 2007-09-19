@@ -239,6 +239,7 @@ final class PreparedQuery
 							.get( o ) == null )
 					{	
 						IBinding binding = new Binding( o.toString( ) );
+						binding.setDataType( expr.getDataType( ) );
 						binding.setExpression( copyScriptExpr( expr ) );
 						baseQueryDefn.addBinding( binding );
 					}
