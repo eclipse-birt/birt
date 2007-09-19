@@ -46,10 +46,10 @@ import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.elements.olap.Hierarchy;
 import org.eclipse.birt.report.model.elements.olap.Level;
-import org.eclipse.birt.report.model.elements.olap.TabularDimension;
 import org.eclipse.birt.report.model.elements.olap.TabularHierarchy;
 import org.eclipse.birt.report.model.elements.olap.TabularLevel;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
@@ -504,13 +504,14 @@ public class ReportDesignHandleTest extends BaseTestCase
 
 		libraryHandle.getRoot( ).rename( hierarchyHandle, levelHandle );
 		assertEquals( "ORDERNUMBER", levelHandle.getName( ) );//$NON-NLS-1$
-		
+
 		// hierarchy not in the tree, but can find dimension
 		// in this case name change in level
 
-		Dimension dimension = (Dimension)dimensionHandle.copy( );
-		dimensionHandle = (DimensionHandle)dimension.getHandle( libraryHandle.getModule() );
-		
+		Dimension dimension = (Dimension) dimensionHandle.copy( );
+		dimensionHandle = (DimensionHandle) dimension.getHandle( libraryHandle
+				.getModule( ) );
+
 		hierarchy = new TabularHierarchy( "NewTabularHierarchy" );//$NON-NLS-1$
 		hierarchyHandle = (HierarchyHandle) hierarchy.getHandle( libraryHandle
 				.getModule( ) );
@@ -525,11 +526,12 @@ public class ReportDesignHandleTest extends BaseTestCase
 
 		// rename about 'hierarchy': hierarchy is managed by module however
 		// the content level is managed by dimension
-		
+
 		dimensionHandle = cubeHandle.getDimension( "Group" );//$NON-NLS-1$	
-		dimension = (Dimension)dimensionHandle.copy( );
-		dimensionHandle = (DimensionHandle)dimension.getHandle( libraryHandle.getModule() );
-		
+		dimension = (Dimension) dimensionHandle.copy( );
+		dimensionHandle = (DimensionHandle) dimension.getHandle( libraryHandle
+				.getModule( ) );
+
 		hierarchy = new TabularHierarchy( "NewTabularHierarchy" );//$NON-NLS-1$
 		hierarchyHandle = (HierarchyHandle) hierarchy.getHandle( libraryHandle
 				.getModule( ) );
@@ -539,7 +541,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 				.getHandle( libraryHandle.getModule( ) );
 		hierarchyHandle.add( HierarchyHandle.LEVELS_PROP, levelHandle );
 
-		libraryHandle.getRoot( ).rename( dimensionHandle , hierarchyHandle );
+		libraryHandle.getRoot( ).rename( dimensionHandle, hierarchyHandle );
 
 		assertEquals( "NewTabularHierarchy2", hierarchyHandle.getName( ) );//$NON-NLS-1$
 		assertEquals( "ORDERNUMBER1", levelHandle.getName( ) );//$NON-NLS-1$
@@ -872,8 +874,8 @@ public class ReportDesignHandleTest extends BaseTestCase
 
 		// resources with relative uri file path
 
-		designHandle.setFileName( getResource( INPUT_FOLDER ).toString( )
-				+ "NoExistedDesign.xml" ); //$NON-NLS-1$
+		designHandle.setFileName( getResource( INPUT_FOLDER ).toString( ) +
+				"NoExistedDesign.xml" ); //$NON-NLS-1$
 
 		url = designHandle.findResource( "ReportDesignHandleTest.xml", //$NON-NLS-1$
 				IResourceLocator.LIBRARY );
@@ -1281,6 +1283,21 @@ public class ReportDesignHandleTest extends BaseTestCase
 		assertEquals(
 				"\"Arial\"", styleHandle.getFontFamilyHandle( ).getStringValue( ) );//$NON-NLS-1$
 
+	}
+
+	/**
+	 * Tests the method to get the version number of the report design.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testGetVersionNo( ) throws Exception
+	{
+		assertEquals( "3.2.8", designHandle.getVersion( ) ); //$NON-NLS-1$
+
+		createDesign( );
+
+		assertNull( designHandle.getVersion( ) );
 	}
 
 }

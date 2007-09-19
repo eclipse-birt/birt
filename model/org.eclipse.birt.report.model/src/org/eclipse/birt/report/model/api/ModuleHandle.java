@@ -3052,4 +3052,21 @@ public abstract class ModuleHandle extends DesignElementHandle
 		return resultList;
 	}
 
+	/**
+	 * Returns the version for the opened design file. If the report/library is
+	 * newly created, the version is <code>null</code>. Only the opened/saved
+	 * report/library have the version information.
+	 * <p>
+	 * Whenever the report/library is save, the version becomes
+	 * <code>DesignSchemaConstants.REPORT_VERSION</code>. That is, the saved
+	 * report/library always have the latest version.
+	 * 
+	 * @return the design file version number
+	 */
+
+	public String getVersion( )
+	{
+		String retVersion = module.getVersionManager( ).getVersion( );
+		return retVersion;
+	}
 }
