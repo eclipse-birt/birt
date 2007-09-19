@@ -100,6 +100,11 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 		pause = false;
 		return comp.compose( );
 	}
+	
+	protected boolean checkAvailableSpace( )
+	{
+		return false;
+	}
 
 	public void addSpaceHolder( IArea con )
 	{
