@@ -1061,14 +1061,31 @@ public class TableAreaLayout
 	{
 		int rowSpan = cell.getRowSpan();
 		IContent rowContent = rowArea.getContent();
+		InstanceID id = row.getInstanceID( );
+		InstanceID contentId = rowContent.getInstanceID( );
 		
-		if ( rowSpan > 1
-				&& ( !row.getInstanceID( ).toUniqueString( ).equals(
-						rowContent.getInstanceID( ).toUniqueString( ) ) ) )
+		if(id!=null && contentId!=null)
 		{
-			return rowSpan - 1;
+			if ( rowSpan > 1
+					&& ( !id.toUniqueString( ).equals(
+							contentId.toUniqueString( ) ) ) )
+			{
+				return rowSpan - 1;
+			}
+			return rowSpan;
 		}
-		return rowSpan;
+		else //FIX 203576
+		{
+			if(row!=rowContent && rowSpan > 1)
+			{
+				return rowSpan-1;
+			}
+			else
+			{
+				return rowSpan;
+			}
+		}
+		
 	}
 	
 	protected CellArea getReference()
