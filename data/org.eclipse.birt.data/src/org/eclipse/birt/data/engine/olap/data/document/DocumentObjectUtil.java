@@ -85,10 +85,16 @@ public class DocumentObjectUtil
 				documentObject.writeBytes( (Bytes) value );
 				break;
 			case DataType.SQL_DATE_TYPE :
-				documentObject.writeDate( DataTypeUtil.toSqlDate( value ) );
+				if( value instanceof java.sql.Date )
+					documentObject.writeDate( (Date)value );
+				else
+					documentObject.writeDate( DataTypeUtil.toSqlDate( value ) );
 				break;
 			case DataType.SQL_TIME_TYPE :
-				documentObject.writeDate( DataTypeUtil.toSqlTime( value ) );
+				if( value instanceof java.sql.Time )
+					documentObject.writeDate( (Date)value );
+				else
+					documentObject.writeDate( DataTypeUtil.toSqlTime( value ) );
 				break;
 			default :
 				assert false;
