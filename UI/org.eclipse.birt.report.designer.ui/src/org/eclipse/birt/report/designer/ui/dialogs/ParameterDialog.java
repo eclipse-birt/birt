@@ -1044,7 +1044,8 @@ public class ParameterDialog extends BaseDialog
 			ArrayList valueList = new ArrayList( );
 
 			valueList.addAll( SelectValueFetcher.getSelectValueList( queryExpr,
-					getDataSetHandle( ) ) );
+					getDataSetHandle( ),
+					true ) );
 
 			return valueList;
 		}

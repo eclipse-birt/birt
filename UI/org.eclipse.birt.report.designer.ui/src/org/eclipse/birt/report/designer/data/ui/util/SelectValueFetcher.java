@@ -28,8 +28,10 @@ import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.JointDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -53,10 +55,14 @@ public class SelectValueFetcher
 	private SelectValueFetcher( )
 	{
 	}
-
+	
 	public static List getSelectValueList( String expression,
-			DataSetHandle dataSetHandle, boolean inclFilter ) throws BirtException
+			DataSetHandle dataSetHandle, boolean inclFilter, boolean mode ) throws BirtException
 	{
+		if ( !ExpressionUtility.isColumnExpression( expression, mode ) )
+		{
+			throw new DataException( Messages.getString( "SelectValueDialog.messages.info.DataCube.selectVauleUnavailable" ) );
+		}
 		List selectValueList = new ArrayList( );
 		if ( expression != null && expression.trim( ).length( ) > 0 )
 		{
@@ -128,6 +134,7 @@ public class SelectValueFetcher
 				}
 				results.close( );
 			}
+			session.shutdown( );
 		}
 		return selectValueList;
 
@@ -213,8 +220,8 @@ public class SelectValueFetcher
 	 * @throws BirtException
 	 */
 	public static List getSelectValueList( String expression,
-			DataSetHandle dataSetHandle ) throws BirtException
+			DataSetHandle dataSetHandle, boolean mode ) throws BirtException
 	{
-		return getSelectValueList( expression, dataSetHandle, true );
+		return getSelectValueList( expression, dataSetHandle, true, mode );
 	}
 }

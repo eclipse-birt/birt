@@ -1609,7 +1609,8 @@ public class FilterConditionBuilder extends TitleAreaDialog
 								try
 								{
 									List selectValueList = SelectValueFetcher.getSelectValueList( expression,
-											dataSet );
+											dataSet,
+											false );
 									SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
 											.getDisplay( )
 											.getActiveShell( ),

@@ -841,7 +841,8 @@ public class CascadingParametersDialog extends BaseDialog
 			String queryExpr = selectedParameter.getValueExpr( );
 
 			valueList.addAll( SelectValueFetcher.getSelectValueList( queryExpr,
-					dataSet ) );
+					dataSet,
+					true ) );
 
 		}
 		catch ( Exception e )
