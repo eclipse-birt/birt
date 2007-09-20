@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.data.engine.impl.document;
 
+import java.io.DataOutputStream;
 import java.io.OutputStream;
 
 import org.eclipse.birt.data.engine.api.DataEngineContext;
@@ -23,10 +24,11 @@ import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 public class StreamWrapper
 {
 	private OutputStream streamForResultClass;
-	private OutputStream streamForDataSet;
+	private DataOutputStream streamForDataSet;
 	private OutputStream streamForGroupInfo;
 	private OutputStream streamForRowIndexInfo;
 	private OutputStream streamForParentIndex;
+	private DataOutputStream streamForDataSetLens;
 	private StreamManager manager;
 	/**
 	 * @param streamForResultClass
@@ -58,17 +60,31 @@ public class StreamWrapper
 	 * @return
 	 * @throws DataException 
 	 */
-	public OutputStream getStreamForDataSet( ) throws DataException
+	public DataOutputStream getStreamForDataSet( ) throws DataException
 	{
 		if( this.streamForResultClass!= null && this.streamForDataSet == null )
 		{
-			this.streamForDataSet = manager.getOutStream( DataEngineContext.DATASET_DATA_STREAM,
+			this.streamForDataSet = new DataOutputStream( manager.getOutStream( DataEngineContext.DATASET_DATA_STREAM,
 					StreamManager.ROOT_STREAM,
-					StreamManager.SELF_SCOPE );
+					StreamManager.SELF_SCOPE ) );
 		}
 		return this.streamForDataSet;
 	}
 
+	/**
+	 * @return
+	 * @throws DataException 
+	 */
+	public DataOutputStream getStreamForDataSetRowLens( ) throws DataException
+	{
+		if( this.streamForResultClass!= null && this.streamForDataSetLens == null )
+		{
+			this.streamForDataSetLens = new DataOutputStream( manager.getOutStream( DataEngineContext.DATASET_DATA_LEN_STREAM,
+					StreamManager.ROOT_STREAM,
+					StreamManager.SELF_SCOPE ));
+		}
+		return this.streamForDataSetLens;
+	}
 	/**
 	 * @return
 	 */

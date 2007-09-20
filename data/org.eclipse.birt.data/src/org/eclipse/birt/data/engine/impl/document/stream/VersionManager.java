@@ -35,7 +35,7 @@ public class VersionManager
 	public final static int VERSION_2_2_1 = 20;
 	public final static int VERSION_2_2_1_1 = 25;
 	public final static int VERSION_2_2_1_2 = 30;
-	
+	public final static int VERSION_2_2_1_3 = 50;
 	private DataEngineContext dataEngineContext;
 	private static Logger logger = Logger.getLogger( VersionManager.class.getName( ) );
 	
@@ -109,7 +109,7 @@ public class VersionManager
 	 */
 	public static int getLatestVersion( )
 	{
-		return VERSION_2_2_1_2;
+		return VERSION_2_2_1_3;
 	}
 
 }

@@ -13,8 +13,8 @@ package org.eclipse.birt.data.engine.impl.document.viewing;
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
+import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetUtil;
@@ -32,22 +32,39 @@ public class DataSetResultSet implements IDataSetPopulator
 	private int rowIndex;
 	private int rowCount;
 	
-	private InputStream inputStream;
+	private RAInputStream inputStream;
 	private BufferedInputStream bis;
 	private DataInputStream dis;
 	
 	private IResultClass rsMetaData;
 	private int colCount;
 	
+	private IResultObject currentObject; 
+	private RAInputStream dataSetRowLensStream;
+	private DataInputStream disRowLensStream;
+	private long initPos;
 	/**
 	 * @param inputStream
 	 */
-	public DataSetResultSet( InputStream inputStream, IResultClass rsMetaData )
+	public DataSetResultSet( RAInputStream inputStream, RAInputStream lensStream, IResultClass rsMetaData )
 	{
 		assert inputStream != null;
 		assert rsMetaData != null;
 		
 		this.inputStream = inputStream;
+		
+		this.dataSetRowLensStream = lensStream; 
+		if( lensStream!= null )
+			this.disRowLensStream = new DataInputStream( this.dataSetRowLensStream);
+		try
+		{
+			this.initPos = this.inputStream.getOffset( );
+		}
+		catch ( IOException e )
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.rsMetaData = rsMetaData;
 		this.colCount = rsMetaData.getFieldCount( );
 	}
@@ -65,7 +82,8 @@ public class DataSetResultSet implements IDataSetPopulator
 		try
 		{
 			rowIndex++;
-			return ResultSetUtil.readResultObject( dis, rsMetaData, colCount );
+			this.currentObject = ResultSetUtil.readResultObject( dis, rsMetaData, colCount );
+			return this.currentObject;
 		}
 		catch ( IOException e )
 		{
@@ -73,6 +91,38 @@ public class DataSetResultSet implements IDataSetPopulator
 					e,
 					"Result Data" );
 		}
+	}
+	
+	public IResultObject getResultObject()
+	{
+		return this.currentObject;
+	}
+	
+	public int getCurrentIndex()
+	{
+		return rowIndex - 1;
+	}
+	
+	public void skipTo( int index ) throws DataException, IOException
+	{
+		this.initLoad( );
+		
+		if ( this.rowIndex < this.rowCount )
+		{
+			if( this.dataSetRowLensStream!= null )
+			{
+				this.dataSetRowLensStream.seek( index * 8 );
+				long position = IOUtil.readLong( this.disRowLensStream );
+				this.rowIndex = index;
+				this.inputStream.seek( position + this.initPos );
+				this.dis = new DataInputStream( inputStream );
+				this.currentObject = ResultSetUtil.readResultObject( dis, rsMetaData, colCount );
+				return;
+			}
+		}
+		/*
+		while( this.rowIndex - 1 < index && this.rowIndex < this.rowCount )
+			this.next( );*/
 	}
 	
 	/**
@@ -87,6 +137,7 @@ public class DataSetResultSet implements IDataSetPopulator
 			{
 				dis = new DataInputStream( bis );
 				this.rowCount = IOUtil.readInt( dis );
+			//	this.initPos = inputStream.getOffset( );
 			}
 			catch ( IOException e )
 			{

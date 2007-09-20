@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.executor.cache;
 
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -44,20 +46,39 @@ public class ResultSetUtil
 	 * @throws DataException
 	 * @throws IOException
 	 */
-	public static void writeResultObject( DataOutputStream dos,
+	public static int writeResultObject( DataOutputStream dos,
 			IResultObject resultObject, int count, Set nameSet )
 			throws DataException, IOException
 	{
 		if ( resultObject.getResultClass( ) == null )
-			return;
+			return 0;
+		
+		ByteArrayOutputStream tempBaos = new ByteArrayOutputStream( );
+		BufferedOutputStream tempBos = new BufferedOutputStream( tempBaos );
+		DataOutputStream tempDos = new DataOutputStream( tempBos );
+
 		for ( int i = 1; i <= count; i++ )
 		{
 			if ( nameSet != null
 					&& ( nameSet.contains( resultObject.getResultClass( )
 							.getFieldName( i ) ) || nameSet.contains( resultObject.getResultClass( )
 							.getFieldAlias( i ) ) ) )
-				IOUtil.writeObject( dos, resultObject.getFieldValue( i ) );
+				IOUtil.writeObject( tempDos, resultObject.getFieldValue( i ) );
 		}
+		
+		tempDos.flush( );
+		tempBos.flush( );
+		tempBaos.flush( );
+
+		byte[] bytes = tempBaos.toByteArray( );
+		int rowBytes = bytes.length;
+		IOUtil.writeRawBytes( dos, bytes );
+
+		tempBaos = null;
+		tempBos = null;
+		tempDos = null;
+		
+		return rowBytes;
 	}
 
 	/**

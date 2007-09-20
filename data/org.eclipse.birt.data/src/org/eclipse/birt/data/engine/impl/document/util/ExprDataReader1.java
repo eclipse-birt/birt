@@ -24,6 +24,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.RowSaveUtil;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
+import org.eclipse.birt.data.engine.impl.document.viewing.DataSetResultSet;
 
 /**
  * Read the raw expression data from report document. This instance only read
@@ -46,7 +47,9 @@ class ExprDataReader1 implements IExprDataReader
 	private int version;
 	private Map exprValueMap;
 	private List exprKeys;
+	private Map dataSetExprKeys;
 	private int metaOffset;
+	private DataSetResultSet dataSetData;
 
 	/**
 	 * @param rowExprsRAIs
@@ -54,7 +57,7 @@ class ExprDataReader1 implements IExprDataReader
 	 * @param version
 	 */
 	ExprDataReader1( RAInputStream rowExprsRAIs, RAInputStream rowLenRAIs,
-			int version ) throws DataException
+			int version, DataSetResultSet dataSetData ) throws DataException
 	{
 		this.INT_LENGTH = IOUtil.INT_LENGTH;
 		
@@ -63,12 +66,24 @@ class ExprDataReader1 implements IExprDataReader
 			this.rowCount = IOUtil.readInt( rowExprsRAIs );
 			int exprCount = IOUtil.readInt( rowExprsRAIs );
 			this.exprKeys = new ArrayList();
+			this.dataSetExprKeys = new HashMap();
 			this.rowExprsDis = new DataInputStream( rowExprsRAIs );
 			for( int i = 0; i < exprCount; i++ )
 			{
 				this.exprKeys.add( IOUtil.readString( this.rowExprsDis ) );
 			}
+			
+			if( version >= VersionManager.VERSION_2_2_1_3 )
+			{
+				int dataSetColumnExprCount = IOUtil.readInt( this.rowExprsDis );
+				for( int i = 0; i < dataSetColumnExprCount; i++ )
+				{
+					this.dataSetExprKeys.put( IOUtil.readObject( this.rowExprsDis ),
+							IOUtil.readObject( this.rowExprsDis ) );
+				}
+			}
 			this.metaOffset = INT_LENGTH + IOUtil.readInt( this.rowExprsDis ) + INT_LENGTH;
+			this.dataSetData = dataSetData;
 			
 		}
 		catch ( IOException e )
@@ -125,6 +140,8 @@ class ExprDataReader1 implements IExprDataReader
 		if( this.currRowIndex < this.rowCount - 1)
 		{
 			this.currRowIndex++;
+			if( this.dataSetData!= null )
+				this.dataSetData.next( );
 			return true;
 		}
 		else
@@ -169,7 +186,12 @@ class ExprDataReader1 implements IExprDataReader
 	{
 		if ( currReadIndex == absoluteRowIndex )
 			return;
-
+		
+		if ( this.dataSetData!= null )
+		{
+			this.dataSetData.skipTo( absoluteRowIndex );
+		}		
+		
 		if ( version == VersionManager.VERSION_2_0 )
 		{
 			int exprCount;
@@ -192,7 +214,7 @@ class ExprDataReader1 implements IExprDataReader
 			rowExprsRAIs.seek( rowOffsetAbsolute + this.metaOffset ); 
 			rowExprsDis = new DataInputStream( rowExprsRAIs );
 		}
-		else
+		else 
 		{
 			rowLenRAIs.seek( absoluteRowIndex * 8 /*long length*/ );
 			long rowOffsetAbsolute = IOUtil.readLong( this.rowLenDis );
@@ -204,8 +226,9 @@ class ExprDataReader1 implements IExprDataReader
 	
 	/**
 	 * @throws IOException
+	 * @throws DataException 
 	 */
-	private Map getValueMap( ) throws IOException
+	private Map getValueMap( ) throws IOException, DataException
 	{
 		Map valueMap = new HashMap( );
 
@@ -214,11 +237,18 @@ class ExprDataReader1 implements IExprDataReader
 		{
 			String exprID = this.exprKeys.get( i ).toString( );
 			Object exprValue = IOUtil.readObject( rowExprsDis );
-			if( RowSaveUtil.EXCEPTION_INDICATOR.equals( exprValue ))
+			if ( RowSaveUtil.EXCEPTION_INDICATOR.equals( exprValue ) )
 				continue;
 			valueMap.put( exprID, exprValue );
 		}
 
+		java.util.Iterator it = this.dataSetExprKeys.keySet( ).iterator( );
+		while( it.hasNext( ))
+		{
+			String key = it.next( ).toString( );
+			String value = (String)this.dataSetExprKeys.get( key );
+			valueMap.put( key, this.dataSetData.getResultObject( ).getFieldValue( value ) );
+		}
 		return valueMap;
 	}
 

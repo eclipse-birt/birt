@@ -13,7 +13,6 @@ package org.eclipse.birt.data.engine.executor.cache;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Map;
@@ -160,7 +159,7 @@ public class MemoryCache implements ResultSetCache
 	/*
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#saveToStream(java.io.OutputStream)
 	 */
-	public void doSave( OutputStream outputStream,  Map cacheRequestMap ) throws DataException
+	public void doSave( DataOutputStream outputStream, DataOutputStream rowLensStream, Map cacheRequestMap ) throws DataException
 	{
 		DataOutputStream dos = new DataOutputStream( outputStream );
 		Set resultSetNameSet = ResultSetUtil.getRsColumnRequestMap( cacheRequestMap );
@@ -171,10 +170,11 @@ public class MemoryCache implements ResultSetCache
 			int colCount = this.rsMeta.getFieldCount( );
 
 			IOUtil.writeInt( dos, rowCount );
-			
+			long offset = 4;
 			for ( int i = 0; i < rowCount; i++ )
 			{
-				ResultSetUtil.writeResultObject( dos,
+				IOUtil.writeLong( rowLensStream, offset );
+				offset += ResultSetUtil.writeResultObject( dos,
 						resultObjects[i],
 						colCount,
 						resultSetNameSet );

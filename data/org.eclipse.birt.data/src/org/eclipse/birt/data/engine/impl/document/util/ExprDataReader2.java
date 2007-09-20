@@ -24,6 +24,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.RowSaveUtil;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
+import org.eclipse.birt.data.engine.impl.document.viewing.DataSetResultSet;
 import org.eclipse.birt.data.engine.impl.document.viewing.RowIndexUtil;
 
 /**
@@ -55,6 +56,8 @@ class ExprDataReader2 implements IExprDataReader
 	private BasicCachedArray rowIDMap;
 	private List exprKeys;
 	private int metaOffset;
+	private Map dataSetExprKeys;
+	private DataSetResultSet dataSetResultSet;
 	
 	/**
 	 * @param rowExprsIs
@@ -64,7 +67,7 @@ class ExprDataReader2 implements IExprDataReader
 	protected ExprDataReader2( RAInputStream rowExprsIs, RAInputStream rowLenIs, int rowCount, int version ) throws DataException
 	{
 		this.version = version;
-		initialize( rowExprsIs, rowLenIs, rowCount );
+		initialize( rowExprsIs, rowLenIs, rowCount, null );
 	}
 
 	/**
@@ -74,7 +77,7 @@ class ExprDataReader2 implements IExprDataReader
 	 * @throws DataException
 	 */
 	ExprDataReader2( RAInputStream rowExprsIs, RAInputStream rowLenIs,
-			RAInputStream rowInfoIs, int version ) throws DataException
+			RAInputStream rowInfoIs, int version, DataSetResultSet dataSetResultSet ) throws DataException
 	{
 		this.version = version;
 		this.rowIndexUtil = new RowIndexUtil( rowInfoIs );
@@ -82,7 +85,7 @@ class ExprDataReader2 implements IExprDataReader
 		try
 		{
 			int rowCount = (int) ( rowInfoIs.length( ) / 4 );
-			initialize( rowExprsIs, rowLenIs, rowCount );
+			initialize( rowExprsIs, rowLenIs, rowCount, dataSetResultSet );
 		}
 		catch ( IOException e )
 		{
@@ -98,7 +101,7 @@ class ExprDataReader2 implements IExprDataReader
 	 * @param rowLenIs
 	 * @throws DataException
 	 */
-	private void initialize( RAInputStream rowExprsIs, RAInputStream rowLenIs, int rowCount ) throws DataException
+	private void initialize( RAInputStream rowExprsIs, RAInputStream rowLenIs, int rowCount, DataSetResultSet dataSetResultSet ) throws DataException
 	{
 		try
 		{
@@ -107,12 +110,25 @@ class ExprDataReader2 implements IExprDataReader
 			
 			int exprCount = IOUtil.readInt( rowExprsIs );
 			this.exprKeys = new ArrayList();
+			this.dataSetExprKeys = new HashMap();
+			this.dataSetResultSet = dataSetResultSet;
 			this.rowExprsDis = new DataInputStream( rowExprsIs );
 			this.rowLenDis = new DataInputStream( rowLenIs );
 			for( int i = 0; i < exprCount; i++ )
 			{
 				this.exprKeys.add( IOUtil.readString( this.rowExprsDis ) );
 			}
+			
+			if( version >= VersionManager.VERSION_2_2_1_3 )
+			{
+				int dataSetColumnExprCount = IOUtil.readInt( this.rowExprsDis );
+				for( int i = 0; i < dataSetColumnExprCount; i++ )
+				{
+					this.dataSetExprKeys.put( IOUtil.readObject( this.rowExprsDis ),
+							IOUtil.readObject( this.rowExprsDis ) );
+				}
+			}
+			
 			this.metaOffset = IOUtil.INT_LENGTH
 					+ IOUtil.readInt( this.rowExprsDis ) + IOUtil.INT_LENGTH;
 			
@@ -226,6 +242,11 @@ class ExprDataReader2 implements IExprDataReader
 	 */
 	private void skipTo( int absoluteIndex ) throws IOException, DataException
 	{
+		if ( this.dataSetResultSet!= null )
+		{
+			this.dataSetResultSet.skipTo( absoluteIndex );
+		}
+		
 		if ( currRowLenReadIndex == absoluteIndex )
 			return;
 		
@@ -243,8 +264,9 @@ class ExprDataReader2 implements IExprDataReader
 
 	/**
 	 * @throws IOException
+	 * @throws DataException 
 	 */
-	private Map getValueMap( ) throws IOException
+	private Map getValueMap( ) throws IOException, DataException
 	{
 		Map valueMap = new HashMap( );
 
@@ -256,6 +278,14 @@ class ExprDataReader2 implements IExprDataReader
 			if ( RowSaveUtil.EXCEPTION_INDICATOR.equals( exprValue ) )
 				exprValue = null;
 			valueMap.put( exprID, exprValue );
+		}
+		
+		java.util.Iterator it = this.dataSetExprKeys.keySet( ).iterator( );
+		while( it.hasNext( ))
+		{
+			String key = it.next( ).toString( );
+			String value = (String)this.dataSetExprKeys.get( key );
+			valueMap.put( key, this.dataSetResultSet.getResultObject( ).getFieldValue( value ) );
 		}
 
 		return valueMap;

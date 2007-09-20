@@ -36,7 +36,7 @@ public class ExprResultSet2 extends ExprResultSet
 	public ExprResultSet2( StreamManager streamManager, int version,
 			boolean isBasedOnSecondRD ) throws DataException
 	{
-		super( streamManager, version, isBasedOnSecondRD );
+		super( streamManager, version, isBasedOnSecondRD, null );
 	}
 
 	/*
@@ -74,7 +74,7 @@ public class ExprResultSet2 extends ExprResultSet
 				StreamManager.SELF_SCOPE );
 		this.exprResultReader = new ExprDataReader2( rowExprsRAIs,
 				rowLenRAIs,
-				rowInfoRAIs, version );
+				rowInfoRAIs, version, null );
 		
 		this.rowCount = this.exprResultReader.getCount( );
 	}
