@@ -521,7 +521,8 @@ public class BirtUtility
 			if ( parameter.isMultiValue( ) )
 			{
 				List values = new ArrayList( );
-				// multi parameter value
+
+				// convert multi-value parameter
 				for ( int i = 0; i < paramValues.size( ); i++ )
 				{
 					Object paramValueObj = DataUtil.validate( dataType,
@@ -531,7 +532,13 @@ public class BirtUtility
 				}
 
 				// push to parameter map
-				parameterMap.put( paramName, values.toArray( ) );
+				// FIXME: if list is empty or only contains null value, regard it
+				// as NULL object
+				if ( values.size( ) == 0
+						|| ( values.size( ) == 1 && values.get( 0 ) == null ) )
+					parameterMap.put( paramName, null );
+				else
+					parameterMap.put( paramName, values.toArray( ) );
 			}
 			else
 			{
