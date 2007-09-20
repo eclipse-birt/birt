@@ -39,6 +39,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.Library;
@@ -191,7 +192,7 @@ public class ModuleUtil
 		{
 			Action action = StructureFactory.createAction( );
 			e.setProperty( ImageHandle.ACTION_PROP, action );
-
+			action.setContext( new StructureContext( e, ImageHandle.ACTION_PROP) );
 			return getActionHandle( e.getHandle( module ) );
 		}
 
@@ -202,8 +203,12 @@ public class ModuleUtil
 		parse( handler, streamData, "" ); //$NON-NLS-1$
 
 		if ( element != null )
-			e.setProperty( IImageItemModel.ACTION_PROP, image.getProperty(
-					handler.getModule( ), IImageItemModel.ACTION_PROP ) );
+		{
+			Action action = (Action) image.getProperty( handler.getModule( ),
+					IImageItemModel.ACTION_PROP );
+			e.setProperty( IImageItemModel.ACTION_PROP, action );
+			action.setContext( new StructureContext( e, ImageHandle.ACTION_PROP) );
+		}
 
 		return getActionHandle( e.getHandle( module ) );
 	}
