@@ -33,10 +33,12 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.DataPointComponent;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.impl.SerializerImpl;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
@@ -54,6 +56,7 @@ import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.extension.ReportItem;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.RhinoException;
@@ -282,6 +285,9 @@ public final class ChartReportItemImpl extends ReportItem implements
 			{
 				return;
 			}
+
+			adjustSingleNumberFormat( baseAxis[0].getFormatSpecifier( ) );
+
 			Axis[] yAxis = cwa.getOrthogonalAxes( baseAxis[0], true );
 			if ( yAxis.length <= 0 )
 			{
@@ -290,21 +296,62 @@ public final class ChartReportItemImpl extends ReportItem implements
 
 			for ( int i = 0; i < yAxis.length; i++ )
 			{
-				FormatSpecifier sf = yAxis[i].getFormatSpecifier( );
-				if ( !( sf instanceof NumberFormatSpecifier ) )
+				adjustSingleNumberFormat( yAxis[i].getFormatSpecifier( ) );
+
+				EList sds = yAxis[i].getSeriesDefinitions( );
+				for ( int j = 0; j < sds.size( ); j++ )
 				{
-					continue;
-				}
-				NumberFormatSpecifier nfs = (NumberFormatSpecifier) sf;
-				String suffix = nfs.getSuffix( );
-				if ( "%".equals( suffix ) ) //$NON-NLS-1$
-				{
-					double multiplier = nfs.getMultiplier( );
-					if ( !Double.isNaN( multiplier ) && multiplier == 0.01 )
+					SeriesDefinition sd = (SeriesDefinition) sds.get( j );
+					adjustSingleNumberFormat( sd.getFormatSpecifier( ) );
+
+					EList dpcs = sd.getDesignTimeSeries( )
+							.getDataPoint( )
+							.getComponents( );
+					for ( int k = 0; k < dpcs.size( ); k++ )
 					{
-						nfs.setMultiplier( 100 * multiplier );
+						adjustSingleNumberFormat( ( (DataPointComponent) dpcs.get( k ) ).getFormatSpecifier( ) );
 					}
 				}
+			}
+		}
+		else if ( cm instanceof ChartWithoutAxes )
+		{
+			ChartWithoutAxes cwa = (ChartWithoutAxes) cm;
+			EList categories = cwa.getSeriesDefinitions( );
+			if ( categories.size( ) > 0 )
+			{
+				EList sds = ( (SeriesDefinition) categories.get( 0 ) ).getSeriesDefinitions( );
+				for ( int j = 0; j < sds.size( ); j++ )
+				{
+					SeriesDefinition sd = (SeriesDefinition) sds.get( j );
+					adjustSingleNumberFormat( sd.getFormatSpecifier( ) );
+
+					EList dpcs = sd.getDesignTimeSeries( )
+							.getDataPoint( )
+							.getComponents( );
+					for ( int k = 0; k < dpcs.size( ); k++ )
+					{
+						adjustSingleNumberFormat( ( (DataPointComponent) dpcs.get( k ) ).getFormatSpecifier( ) );
+					}
+				}
+			}
+		}
+	}
+	
+	private void adjustSingleNumberFormat(FormatSpecifier fs)
+	{
+		if ( !( fs instanceof NumberFormatSpecifier ) )
+		{
+			return;
+		}
+		NumberFormatSpecifier nfs = (NumberFormatSpecifier) fs;
+		String suffix = nfs.getSuffix( );
+		if ( "%".equals( suffix ) ) //$NON-NLS-1$
+		{
+			double multiplier = nfs.getMultiplier( );
+			if ( !Double.isNaN( multiplier ) && multiplier == 0.01 )
+			{
+				nfs.setMultiplier( 100 * multiplier );
 			}
 		}
 	}
