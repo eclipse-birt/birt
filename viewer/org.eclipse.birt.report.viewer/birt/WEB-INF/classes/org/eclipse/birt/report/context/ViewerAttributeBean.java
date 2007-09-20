@@ -837,7 +837,15 @@ public class ViewerAttributeBean extends BaseAttributeBean
 
 				if ( paramObj instanceof List )
 				{
-					params.put( paramName, paramList.toArray( ) );
+					List list = (List) paramObj;
+					
+					// FIXME:if list is empty or only contains null value, regard it
+					// as NULL object
+					if ( list.size( ) == 0
+							|| ( list.size( ) == 1 && list.get( 0 ) == null ) )
+						params.put( paramName, null );
+					else
+						params.put( paramName, paramList.toArray( ) );
 				}
 				else
 				{
@@ -847,6 +855,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			else
 			{
 				Object paramValueObj = null;
+
 				// null parameter value
 				if ( !this.parametersAsString.containsKey( paramName ) )
 				{
@@ -856,7 +865,12 @@ public class ViewerAttributeBean extends BaseAttributeBean
 
 				if ( parameter.isMultiValue( ) )
 				{
-					params.put( paramName, new Object[]{paramValueObj} );
+					// FIXME: if multi-value only contains null value, regard it as
+					// NULL object
+					if ( paramValueObj == null )
+						params.put( paramName, null );
+					else
+						params.put( paramName, new Object[]{paramValueObj} );
 				}
 				else
 				{
