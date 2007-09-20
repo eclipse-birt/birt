@@ -15,6 +15,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -32,7 +33,12 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.DataPointComponent;
+import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
+import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Position;
+import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.impl.SerializerImpl;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
@@ -50,6 +56,7 @@ import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.extension.ReportItem;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.RhinoException;
@@ -237,6 +244,11 @@ public final class ChartReportItemImpl extends ReportItem implements
 			try
 			{
 				cm = SerializerImpl.instance( ).fromXml( data, true );
+				
+				// This fix is only for SCR 95978, for the version 3.2.10 of
+				// report design file and previous version.
+				String reportVer = handle.getModuleHandle( ).getVersion( );
+				adjustNumberFormat( reportVer );
 			}
 			catch ( IOException e )
 			{
@@ -246,6 +258,154 @@ public final class ChartReportItemImpl extends ReportItem implements
 		}
 	}
 
+	/**
+	 * Adjust number format specifier for old version number.
+	 * 
+	 * @param reportVer
+	 *            the version number of report.
+	 */
+	private void adjustNumberFormat( String reportVer )
+	{
+		// If the version of report design file is less than 3.2.10, use old
+		// logic to make the multiplier to multiple 100 for % suffix.
+		if ( reportVer == null || compareVersion( reportVer, "3.2.9" ) > 0 ) //$NON-NLS-1$
+		{
+			// Version is larger than 3.2.9, directly return.
+			return;
+		}
+
+		// Version is older than 3.2.10, change Number format to use old logic
+		// to
+		// format multiplier of 0.01.
+		if ( cm instanceof ChartWithAxes )
+		{
+			ChartWithAxes cwa = (ChartWithAxes) cm;
+			Axis[] baseAxis = cwa.getBaseAxes( );
+			if ( baseAxis.length <= 0 )
+			{
+				return;
+			}
+
+			adjustSingleNumberFormat( baseAxis[0].getFormatSpecifier( ) );
+
+			Axis[] yAxis = cwa.getOrthogonalAxes( baseAxis[0], true );
+			if ( yAxis.length <= 0 )
+			{
+				return;
+			}
+
+			for ( int i = 0; i < yAxis.length; i++ )
+			{
+				adjustSingleNumberFormat( yAxis[i].getFormatSpecifier( ) );
+
+				EList sds = yAxis[i].getSeriesDefinitions( );
+				for ( int j = 0; j < sds.size( ); j++ )
+				{
+					SeriesDefinition sd = (SeriesDefinition) sds.get( j );
+					adjustSingleNumberFormat( sd.getFormatSpecifier( ) );
+
+					EList dpcs = sd.getDesignTimeSeries( )
+							.getDataPoint( )
+							.getComponents( );
+					for ( int k = 0; k < dpcs.size( ); k++ )
+					{
+						adjustSingleNumberFormat( ( (DataPointComponent) dpcs.get( k ) ).getFormatSpecifier( ) );
+					}
+				}
+			}
+		}
+		else if ( cm instanceof ChartWithoutAxes )
+		{
+			ChartWithoutAxes cwa = (ChartWithoutAxes) cm;
+			EList categories = cwa.getSeriesDefinitions( );
+			if ( categories.size( ) > 0 )
+			{
+				EList sds = ( (SeriesDefinition) categories.get( 0 ) ).getSeriesDefinitions( );
+				for ( int j = 0; j < sds.size( ); j++ )
+				{
+					SeriesDefinition sd = (SeriesDefinition) sds.get( j );
+					adjustSingleNumberFormat( sd.getFormatSpecifier( ) );
+
+					EList dpcs = sd.getDesignTimeSeries( )
+							.getDataPoint( )
+							.getComponents( );
+					for ( int k = 0; k < dpcs.size( ); k++ )
+					{
+						adjustSingleNumberFormat( ( (DataPointComponent) dpcs.get( k ) ).getFormatSpecifier( ) );
+					}
+				}
+			}
+		}
+	}
+	
+	private void adjustSingleNumberFormat(FormatSpecifier fs)
+	{
+		if ( !( fs instanceof NumberFormatSpecifier ) )
+		{
+			return;
+		}
+		NumberFormatSpecifier nfs = (NumberFormatSpecifier) fs;
+		String suffix = nfs.getSuffix( );
+		if ( "%".equals( suffix ) ) //$NON-NLS-1$
+		{
+			double multiplier = nfs.getMultiplier( );
+			if ( !Double.isNaN( multiplier ) && multiplier == 0.01 )
+			{
+				nfs.setMultiplier( 100 * multiplier );
+			}
+		}
+	}
+
+	/**
+	 * Compare version number, the format of version number should be X.X.X
+	 * style.
+	 * 
+	 * @param va
+	 *            version number 1.
+	 * @param vb
+	 *            version number 2.
+	 * @return
+	 */
+	private static int compareVersion( String va, String vb )
+	{
+		String[] vas = va.split( "\\." ); //$NON-NLS-1$
+		String[] vbs = vb.split( "\\." ); //$NON-NLS-1$
+
+		List vsList = Arrays.asList( vas );
+		List vbList = Arrays.asList( vbs );
+
+		if ( vas.length < vbs.length )
+		{
+			for ( int i = vas.length; i < vbs.length; i++ )
+			{
+				vsList.add( "0" ); //$NON-NLS-1$
+			}
+		}
+		else if ( vas.length > vbs.length )
+		{
+			for ( int i = vbs.length; i < vas.length; i++ )
+			{
+				vbList.add( "0" ); //$NON-NLS-1$
+			}
+		}
+
+		for ( int i = 0; i < vsList.size( ); i++ )
+		{
+			int a = Integer.valueOf( (String) vsList.get( i ) ).intValue( );
+			int b = Integer.valueOf( (String) vbList.get( i ) ).intValue( );
+			if ( a == b )
+			{
+				continue;
+			}
+			else
+			{
+				return a - b;
+			}
+		}
+
+		return 0;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
