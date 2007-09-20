@@ -105,6 +105,7 @@ public class StreamManager
 	
 	private HashMap cachedStreamManagers;
 	private HashMap metaManagers;
+	private HashMap dataMetaManagers;
 	private int version;
 	private static Logger logger = Logger.getLogger( StreamManager.class.getName( ) );
 
@@ -126,6 +127,7 @@ public class StreamManager
 						queryResultInfo.getIndex( ) );
 		this.cachedStreamManagers = new HashMap();
 		this.metaManagers = new HashMap();
+		this.dataMetaManagers = new HashMap();
 		VersionManager vm = new VersionManager( context );
 		if ( context.getMode( ) == DataEngineContext.MODE_GENERATION )
 		{
@@ -268,16 +270,19 @@ public class StreamManager
 	 */
 	private StreamReader getMetaManager( StreamID id, int sType ) throws DataException
 	{
-		if ( this.metaManagers.get( id ) == null )
+		if ( sType == DataEngineContext.DATASET_DATA_STREAM
+				|| sType == DataEngineContext.DATASET_META_STREAM )
 		{
-			if ( sType == DataEngineContext.DATASET_DATA_STREAM
-					|| sType == DataEngineContext.DATASET_META_STREAM )
-				this.metaManagers.put( id, new DataStreamReader( this.context, id ) );
-			else
-				this.metaManagers.put( id, new MetaStreamReader( this.context, id ) );
-				
+			if( this.dataMetaManagers.get( id ) == null )
+				this.dataMetaManagers.put( id, new DataStreamReader( this.context, id ) );
+			return (StreamReader)this.dataMetaManagers.get( id );
 		}
 		
+		if ( this.metaManagers.get( id ) == null )
+		{
+			this.metaManagers.put( id, new MetaStreamReader( this.context, id ) );
+				
+		}
 		return (StreamReader)this.metaManagers.get( id );
 	}
 	
@@ -475,6 +480,8 @@ public class StreamManager
 				return false;
 			case DataEngineContext.DATASET_META_STREAM :
 				return !(this.version < VersionManager.VERSION_2_2_0 );
+			case DataEngineContext.DATASET_DATA_LEN_STREAM :
+				return false;
 			case DataEngineContext.EXPR_VALUE_STREAM :
 				return false;
 			case DataEngineContext.EXPR_ROWLEN_STREAM :

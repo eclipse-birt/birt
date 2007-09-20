@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.data.engine.executor.cache;
 
-import java.io.OutputStream;
+import java.io.DataOutputStream;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.core.DataException;
@@ -89,7 +89,7 @@ public interface ResultSetCache
 	 * 
 	 * @param outputStream
 	 */
-	public void doSave( OutputStream outputStream, Map cacheRequestMapping )
+	public void doSave( DataOutputStream outputStream, DataOutputStream lensStream, Map cacheRequestMapping )
 			throws DataException;
 	
 	/**

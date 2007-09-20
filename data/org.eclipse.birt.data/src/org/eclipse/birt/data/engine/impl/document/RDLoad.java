@@ -18,6 +18,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBaseTransform;
@@ -112,7 +113,9 @@ public class RDLoad
 
 		return new ExprResultSet( streamManager,
 				version,
-				streamManager.isSecondRD( ) );
+				streamManager.isSecondRD( ),
+				( streamManager.isSubquery( ) || this.version < VersionManager.VERSION_2_2_1_3 )
+						? null : this.loadDataSetData( ) );
 	}
 	
 	/**
@@ -161,7 +164,8 @@ public class RDLoad
 					StreamManager.ROOT_STREAM,
 					StreamManager.BASE_SCOPE ),
 					exprMetas,
-					streamManager.getVersion( ));
+					version,
+					version < VersionManager.VERSION_2_2_1_3?null:this.loadDataSetData( ));
 		else
 			exprDataResultSet = new ExprDataResultSet2( streamManager.getInStream( DataEngineContext.EXPR_VALUE_STREAM,
 					StreamManager.ROOT_STREAM,
@@ -172,7 +176,7 @@ public class RDLoad
 					streamManager.getInStream( DataEngineContext.ROW_INDEX_STREAM,
 							StreamManager.ROOT_STREAM,
 							StreamManager.PARENT_SCOPE ),
-					exprMetas, version );
+					exprMetas, version, version < VersionManager.VERSION_2_2_1_3?null:this.loadDataSetData( ) );
 
 		return exprDataResultSet;
 	}
@@ -209,11 +213,17 @@ public class RDLoad
 	 */
 	public DataSetResultSet loadDataSetData( ) throws DataException
 	{
-		InputStream stream = streamManager.getInStream( DataEngineContext.DATASET_DATA_STREAM,
+		RAInputStream stream = streamManager.getInStream( DataEngineContext.DATASET_DATA_STREAM,
 				StreamManager.ROOT_STREAM,
 				StreamManager.BASE_SCOPE );
-		BufferedInputStream buffStream = new BufferedInputStream( stream );
-		DataSetResultSet populator = new DataSetResultSet( buffStream,
+	
+		RAInputStream lensStream = null;
+		if( version >= VersionManager.VERSION_2_2_1_3 )
+			lensStream = streamManager.getInStream( DataEngineContext.DATASET_DATA_LEN_STREAM,
+				StreamManager.ROOT_STREAM,
+				StreamManager.BASE_SCOPE );
+		
+		DataSetResultSet populator = new DataSetResultSet( stream, lensStream, 
 				this.loadResultClass( ) );
 
 		return populator;

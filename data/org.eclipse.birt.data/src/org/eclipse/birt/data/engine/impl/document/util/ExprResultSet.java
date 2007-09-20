@@ -23,6 +23,7 @@ import org.eclipse.birt.data.engine.impl.document.RDGroupUtil;
 import org.eclipse.birt.data.engine.impl.document.RDLoadUtil;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
+import org.eclipse.birt.data.engine.impl.document.viewing.DataSetResultSet;
 
 /**
  * Read the data of expression and meantime provide the group related service.
@@ -44,19 +45,20 @@ public class ExprResultSet implements IExprResultSet
 	protected IExprDataReader exprResultReader;
 
 	protected StreamManager streamManager;
-
+	
+	protected DataSetResultSet dataSetResultSet;
 	/**
 	 * @param streamManager
 	 * @param rdGroupUtil
 	 * @throws DataException
 	 */
 	public ExprResultSet( StreamManager streamManager, int version,
-			boolean isBasedOnSecondRD ) throws DataException
+			boolean isBasedOnSecondRD,  DataSetResultSet dataSetResultSet ) throws DataException
 	{
 		this.streamManager = streamManager;
 		this.version = version;
 		this.isBasedOnSecondRD = isBasedOnSecondRD;
-		
+		this.dataSetResultSet = dataSetResultSet;
 		this.prepare( );
 		
 		this.rdGroupUtil.setCacheProvider( new CacheProviderImpl( this ) );
@@ -85,7 +87,7 @@ public class ExprResultSet implements IExprResultSet
 			
 			this.exprResultReader = new ExprDataReader1( this.rowExprsRAIs,
 					this.rowLenRAIs,
-					this.version );
+					this.version, this.dataSetResultSet );
 			this.rowCount = exprResultReader.getCount( );
 		}
 		else
@@ -101,7 +103,7 @@ public class ExprResultSet implements IExprResultSet
 					StreamManager.SELF_SCOPE );
 			this.exprResultReader = new ExprDataReader2( rowExprsRAIs,
 					rowLenRAIs,
-					rowInfoRAIs, version );
+					rowInfoRAIs, version, this.dataSetResultSet );
 			this.rowCount = this.exprResultReader.getCount( );			
 		}
 	}

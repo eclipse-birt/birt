@@ -12,13 +12,18 @@ package org.eclipse.birt.data.engine.impl.document;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
@@ -97,8 +102,55 @@ class RDSave implements IRDSave
 		rowLenOs = streamManager.getOutStream( DataEngineContext.EXPR_ROWLEN_STREAM,
 				StreamManager.ROOT_STREAM,
 				StreamManager.SELF_SCOPE );
+		
+		Map bindingNameColumnName = new HashMap();
+		Set bindingNamesToSave = new HashSet();
+		Iterator it = this.queryDefn.getBindings( ).keySet( ).iterator( );
+		while( it.hasNext( ) )
+		{
+			String key = it.next( ).toString( );
+			IBinding binding = (IBinding)this.queryDefn.getBindings( ).get( key );
+			if ( this.queryDefn instanceof QueryDefinition
+					&& ( (QueryDefinition) this.queryDefn ).getQueryResultsID( ) == null
+					&& binding.getAggregatOns( ).size( ) == 0
+					&& binding.getAggrFunction( ) == null )
+			{
+				IBaseExpression expr = binding.getExpression( );
+				if( expr instanceof IScriptExpression )
+				{
+					String expression = ((IScriptExpression)expr).getText( );
+					String dataSetColumnName = this.getDataSetColumnName( expression );
+					if( dataSetColumnName!= null )
+					{
+						bindingNameColumnName.put( binding.getBindingName( ),
+								dataSetColumnName );
+					}
+				}
+			}
+			if( bindingNameColumnName.get( binding.getBindingName( ) ) == null )
+				bindingNamesToSave.add( binding.getBindingName( ) );
+		}
+		this.rowSaveUtil = new RowSaveUtil( rowCount,
+				rowExprsOs,
+				rowLenOs,
+				bindingNamesToSave,
+				bindingNameColumnName );
+	}
+	
+	/**
+	 * 
+	 * @param expr
+	 * @return
+	 */
+	private String getDataSetColumnName ( String expr )
+	{
+		if( expr == null || expr.trim( ).length( )== 0 || !(expr.matches( "\\QdataSetRow[\"\\E.*\\Q\"]\\E" ) || expr.matches( "\\QdataSetRow.\\E.*" )))
+			return null;
 
-		this.rowSaveUtil = new RowSaveUtil( rowCount, rowExprsOs, rowLenOs, this.getExprNameSet( ) );
+		if( expr.matches( "\\QdataSetRow[\"\\E.*\\Q\"]\\E" ))
+			return expr.replace( "dataSetRow[\"", "" ).replace( "\"]", "" );
+		else
+			return expr.replace( "dataSetRow.", "" );
 	}
 	
 	/*
@@ -109,7 +161,7 @@ class RDSave implements IRDSave
 		if ( rowSaveUtil == null )
 			this.initSaveRowUtil( );
 
-		exprNameSet = rowSaveUtil.getExprNameSet( );
+		exprNameSet = this.getExprNameSet( );
 		rowSaveUtil.saveFinish( currIndex );
 
 		this.closeSaveRowUtil( );

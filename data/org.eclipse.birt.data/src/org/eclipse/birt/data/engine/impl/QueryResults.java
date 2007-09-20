@@ -374,6 +374,11 @@ public class QueryResults implements IQueryResults, IQueryService
 								0 );
 						streamsWrapper.getStreamForDataSet( ).close( );
 					}
+					if ( streamsWrapper.getStreamForDataSetRowLens( ) != null )
+					{
+						IOUtil.writeLong( streamsWrapper.getStreamForDataSetRowLens( ), 0 );
+						streamsWrapper.getStreamForDataSetRowLens( ).close( );
+					}
 				}
 				IOUtil.writeInt( streamsWrapper.getStreamForGroupInfo( ), 0 );
 			}

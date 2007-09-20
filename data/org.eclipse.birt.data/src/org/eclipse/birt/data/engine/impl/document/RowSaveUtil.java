@@ -44,14 +44,15 @@ public class RowSaveUtil
 	private boolean inited;
 
 	private Set exprNameSet;
-	
+	private Map directColumnReferenceBinding;
+
 	/**
 	 * @param rowCount
 	 * @param rowExprsOs
 	 * @param rowLenOs
 	 */
 	RowSaveUtil( int rowCount, OutputStream rowExprsOs,
-			OutputStream rowLenOs, Set exprNameSet )
+			OutputStream rowLenOs, Set exprNameSet, Map directColumnReferenceExpr )
 	{
 		this.rowCount = rowCount;
 
@@ -60,6 +61,7 @@ public class RowSaveUtil
 		this.lastRowIndex = -1;
 		
 		this.exprNameSet = exprNameSet;
+		this.directColumnReferenceBinding = directColumnReferenceExpr;
 	}
 
 	/**
@@ -89,6 +91,54 @@ public class RowSaveUtil
 		}
 	}
 	
+	private int initSave( Map valueMap ) throws DataException
+	{
+		ByteArrayOutputStream tempBaos = new ByteArrayOutputStream( );
+		BufferedOutputStream tempBos = new BufferedOutputStream( tempBaos );
+		DataOutputStream tempDos = new DataOutputStream( tempBos );
+
+		try
+		{
+			IOUtil.writeInt( tempDos, exprNameSet.size( ) );
+			Iterator it = exprNameSet.iterator( );
+			while ( it.hasNext( ) )
+			{
+				Object key = it.next( );
+				IOUtil.writeObject( tempDos, key );
+			}
+			
+			IOUtil.writeInt( tempDos, this.directColumnReferenceBinding.size( ) );
+			it = this.directColumnReferenceBinding.keySet( ).iterator( );
+			while( it.hasNext( ) )
+			{
+				Object key = it.next( );
+				Object value = this.directColumnReferenceBinding.get( key );
+				IOUtil.writeObject( tempDos, key );
+				IOUtil.writeObject(  tempDos, value );
+			}
+			
+			tempDos.flush( );
+			tempBos.flush( );
+			tempBaos.flush( );
+
+			byte[] bytes = tempBaos.toByteArray( );
+			int rowBytes = bytes.length;
+			IOUtil.writeRawBytes( this.rowExprsDos, bytes );
+
+			tempBaos = null;
+			tempBos = null;
+			tempDos = null;
+			
+			return rowBytes;
+		}
+		catch ( IOException e )
+		{
+			throw new DataException( ResourceConstants.RD_SAVE_ERROR,
+					e,
+					"Result Data" );
+		}
+	}
+	
 	/**
 	 * @param currIndex
 	 * @param exprID
@@ -103,7 +153,7 @@ public class RowSaveUtil
 
 		try
 		{
-			IOUtil.writeInt( tempDos, valueMap.size( ) );
+			IOUtil.writeInt( tempDos, exprNameSet.size( ) );
 			Iterator it = exprNameSet.iterator( );
 			while ( it.hasNext( ) )
 			{
@@ -188,7 +238,7 @@ public class RowSaveUtil
 				Object value = it.next( );
 				map.put( value, value );
 			}
-			int rowBytes = this.saveExprValue( map );
+			int rowBytes = this.initSave( map );
 			IOUtil.writeInt( this.rowExprsDos, rowBytes );
 		}
 		catch ( IOException e )

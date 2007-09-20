@@ -238,9 +238,13 @@ public class CachedResultSet implements IResultIterator
 				if ( streamsWrapper.getStreamForDataSet( ) != null )
 				{
 					this.resultSetPopulator.getCache( )
-							.doSave( streamsWrapper.getStreamForDataSet( ), resultSetPopulator.getEventHandler( ).getAllColumnBindings( )  );
+							.doSave( streamsWrapper.getStreamForDataSet( ),
+									streamsWrapper.getStreamForDataSetRowLens( ),
+									resultSetPopulator.getEventHandler( )
+											.getAllColumnBindings( ) );
 				}
 				streamsWrapper.getStreamForDataSet( ).close( );
+				streamsWrapper.getStreamForDataSetRowLens( ).close( );
 			}
 			catch ( IOException e )
 			{

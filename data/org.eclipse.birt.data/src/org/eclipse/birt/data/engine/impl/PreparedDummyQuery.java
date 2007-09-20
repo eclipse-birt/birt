@@ -951,6 +951,11 @@ public class PreparedDummyQuery implements IPreparedQuery
 							0 );
 						streamWrapper.getStreamForDataSet( ).close( );
 					}
+					if ( streamWrapper.getStreamForDataSetRowLens( ) != null )
+					{
+						IOUtil.writeLong( streamWrapper.getStreamForDataSetRowLens( ), 0 );
+						streamWrapper.getStreamForDataSetRowLens( ).close( );
+					}
 				}
 				IOUtil.writeInt( streamWrapper.getStreamForGroupInfo( ), 0 );
 			}

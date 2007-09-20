@@ -88,49 +88,31 @@ public class DataEngineContext
 	
 	public final static int DATASET_META_STREAM = 22;
 	
+	public final static int DATASET_DATA_LEN_STREAM = 23;
+	
 	public final static int EXPR_VALUE_STREAM = 31;
 	
-	/**
-	 *@deprecated
-	 */
 	public final static int EXPR_META_STREAM = 32;
 	
-	/**
-	 */
 	public final static int EXPR_ROWLEN_STREAM = 33;
 	
-	/**
-	 *@deprecated
-	 */
 	public final static int GROUP_INFO_STREAM = 41;
 	
 	public final static int SUBQUERY_INFO_STREAM = 42;
 	
 	// current query definition
-	/**
-	 *@deprecated
-	 */
 	public final static int QUERY_DEFN_STREAM = 43;
 	
 	// original query defintion
 	public final static int ORIGINAL_QUERY_DEFN_STREAM = 44;
 	
 	// row index to the base rd
-	/**
-	 *@deprecated
-	 */
 	public final static int ROW_INDEX_STREAM = 51;
 	
 	// manage query running on based rd
-	/**
-	 *@deprecated
-	 */
 	public final static int QUERYID_INFO_STREAM = 61;
 	
 	// parent index to the base subquery rd
-	/**
-	 *@deprecated
-	 */
 	public final static int SUBQUERY_PARENTINDEX_STREAM = 71;
 	
 	public final static int META_STREAM = 99;
@@ -462,6 +444,9 @@ public class DataEngineContext
 				break;
 			case DATASET_META_STREAM :
 				relativePath = "ResultClass";
+				break;
+			case DATASET_DATA_LEN_STREAM :
+				relativePath = "DataSetLens";
 				break;
 			case EXPR_VALUE_STREAM :
 				relativePath = "ExprValue";
