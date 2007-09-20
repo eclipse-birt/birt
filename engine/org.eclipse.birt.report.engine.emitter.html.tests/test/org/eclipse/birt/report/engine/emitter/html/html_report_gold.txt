@@ -24,6 +24,27 @@
 		         }
 		      }
 		</script>
+		<script language="javascript">
+			function redirect(target, url)
+			{
+			if (target =='_blank')
+			{
+				open(url);
+			}else if (target == '_top')
+			{
+				window.top.location.href=url;
+			}else if (target == '_parent')
+			{
+				location.href=url;
+			}else if (target == '_self')
+			{
+				location.href =url;
+			}else
+			{
+				open(url);
+			}
+			}
+		</script>
 	</head>
 	<body style=" margin:0px;">
 		<div>
