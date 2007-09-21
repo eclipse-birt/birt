@@ -19,12 +19,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.archive.RAInputStream;
+import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.RowSaveUtil;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.impl.document.viewing.DataSetResultSet;
+import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
  * Read the raw expression data from report document. This instance only read
@@ -50,7 +53,8 @@ class ExprDataReader1 implements IExprDataReader
 	private Map dataSetExprKeys;
 	private int metaOffset;
 	private DataSetResultSet dataSetData;
-
+	private Map bindingNameTypeMap;
+	
 	/**
 	 * @param rowExprsRAIs
 	 * @param rowLenRAIs
@@ -68,9 +72,16 @@ class ExprDataReader1 implements IExprDataReader
 			this.exprKeys = new ArrayList();
 			this.dataSetExprKeys = new HashMap();
 			this.rowExprsDis = new DataInputStream( rowExprsRAIs );
+			this.bindingNameTypeMap = new HashMap();
 			for( int i = 0; i < exprCount; i++ )
 			{
-				this.exprKeys.add( IOUtil.readString( this.rowExprsDis ) );
+				String key = IOUtil.readString( this.rowExprsDis );
+				this.exprKeys.add( key );
+				if( version >= VersionManager.VERSION_2_2_1_3 )
+				{
+					this.bindingNameTypeMap.put( key,
+							new Integer( IOUtil.readInt( this.rowExprsDis ) ) );
+				}
 			}
 			
 			if( version >= VersionManager.VERSION_2_2_1_3 )
@@ -78,8 +89,10 @@ class ExprDataReader1 implements IExprDataReader
 				int dataSetColumnExprCount = IOUtil.readInt( this.rowExprsDis );
 				for( int i = 0; i < dataSetColumnExprCount; i++ )
 				{
-					this.dataSetExprKeys.put( IOUtil.readObject( this.rowExprsDis ),
+					String key = IOUtil.readObject( this.rowExprsDis ).toString( );
+					this.dataSetExprKeys.put( key,
 							IOUtil.readObject( this.rowExprsDis ) );
+					this.bindingNameTypeMap.put( key, new Integer(IOUtil.readInt( this.rowExprsDis )));
 				}
 			}
 			this.metaOffset = INT_LENGTH + IOUtil.readInt( this.rowExprsDis ) + INT_LENGTH;
@@ -247,7 +260,21 @@ class ExprDataReader1 implements IExprDataReader
 		{
 			String key = it.next( ).toString( );
 			String value = (String)this.dataSetExprKeys.get( key );
-			valueMap.put( key, this.dataSetData.getResultObject( ).getFieldValue( value ) );
+			IResultObject o = this.dataSetData.getResultObject( );
+			
+			try
+			{
+				valueMap.put( key,
+						o == null
+								? null
+								: DataTypeUtil.convert( o.getFieldValue( value ),
+										( (Integer) this.bindingNameTypeMap.get( key ) ).intValue( ) ) );
+			}
+			catch ( BirtException e )
+			{
+				// Should not arrive here
+				e.printStackTrace( );
+			}
 		}
 		return valueMap;
 	}

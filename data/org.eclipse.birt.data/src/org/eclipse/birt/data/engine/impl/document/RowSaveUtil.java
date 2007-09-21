@@ -46,6 +46,7 @@ public class RowSaveUtil
 	private Set exprNameSet;
 	private Map directColumnReferenceBinding;
 	private int version;
+	private Map bindingNameType;
 	
 	/**
 	 * @param rowCount
@@ -53,7 +54,7 @@ public class RowSaveUtil
 	 * @param rowLenOs
 	 */
 	RowSaveUtil( int rowCount, OutputStream rowExprsOs,
-			OutputStream rowLenOs, Set exprNameSet, Map directColumnReferenceExpr, int version )
+			OutputStream rowLenOs, Set exprNameSet, Map directColumnReferenceExpr, Map bindingNameType, int version )
 	{
 		this.rowCount = rowCount;
 
@@ -63,6 +64,7 @@ public class RowSaveUtil
 		
 		this.exprNameSet = exprNameSet;
 		this.directColumnReferenceBinding = directColumnReferenceExpr;
+		this.bindingNameType = bindingNameType;
 		this.version = version;
 	}
 
@@ -107,6 +109,7 @@ public class RowSaveUtil
 			{
 				Object key = it.next( );
 				IOUtil.writeObject( tempDos, key );
+				IOUtil.writeInt( tempDos, ((Integer)this.bindingNameType.get( key )).intValue( ) );
 			}
 			
 			IOUtil.writeInt( tempDos, this.directColumnReferenceBinding.size( ) );
@@ -117,7 +120,9 @@ public class RowSaveUtil
 				Object value = this.directColumnReferenceBinding.get( key );
 				IOUtil.writeObject( tempDos, key );
 				IOUtil.writeObject(  tempDos, value );
+				IOUtil.writeInt( tempDos, ((Integer)this.bindingNameType.get( key )).intValue( ) );
 			}
+			
 			
 			tempDos.flush( );
 			tempBos.flush( );
