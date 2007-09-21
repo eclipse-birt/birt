@@ -15,7 +15,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -371,14 +370,22 @@ public final class ChartReportItemImpl extends ReportItem implements
 		String[] vas = va.split( "\\." ); //$NON-NLS-1$
 		String[] vbs = vb.split( "\\." ); //$NON-NLS-1$
 
-		List vsList = Arrays.asList( vas );
-		List vbList = Arrays.asList( vbs );
+		List vaList = new ArrayList( );
+		for ( int i = 0; i < vas.length; i++ )
+		{
+			vaList.add( vas[i].trim( ).equals( "" ) ? "0" : vas[i] ); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		List vbList = new ArrayList( );
+		for ( int i = 0; i < vbs.length; i++ )
+		{
+			vbList.add( vbs[i].trim( ).equals( "" ) ? "0" : vbs[i] ); //$NON-NLS-1$ //$NON-NLS-2$
+		}
 
 		if ( vas.length < vbs.length )
 		{
 			for ( int i = vas.length; i < vbs.length; i++ )
 			{
-				vsList.add( "0" ); //$NON-NLS-1$
+				vaList.add( "0" ); //$NON-NLS-1$
 			}
 		}
 		else if ( vas.length > vbs.length )
@@ -389,9 +396,9 @@ public final class ChartReportItemImpl extends ReportItem implements
 			}
 		}
 
-		for ( int i = 0; i < vsList.size( ); i++ )
+		for ( int i = 0; i < vaList.size( ); i++ )
 		{
-			int a = Integer.valueOf( (String) vsList.get( i ) ).intValue( );
+			int a = Integer.valueOf( (String) vaList.get( i ) ).intValue( );
 			int b = Integer.valueOf( (String) vbList.get( i ) ).intValue( );
 			if ( a == b )
 			{
