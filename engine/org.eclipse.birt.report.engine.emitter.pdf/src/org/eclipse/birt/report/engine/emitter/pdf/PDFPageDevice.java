@@ -49,7 +49,7 @@ public class PDFPageDevice implements IPageDevice
 	
 	private IReportContent report;
 	
-	private Logger logger = Logger.getLogger( PDFPageDevice.class.getName( ) );
+	private static Logger logger = Logger.getLogger( PDFPageDevice.class.getName( ) );
 
 	private PDFPage currentPage = null;
 	
@@ -59,7 +59,6 @@ public class PDFPageDevice implements IPageDevice
 		this.context = context;
 		this.report = report;
 		doc = new Document();
-		PDFPage.reset( );
 		try
 		{
 			writer = PdfWriter.getInstance( doc, new BufferedOutputStream(

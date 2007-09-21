@@ -52,14 +52,14 @@ public class PDFPage extends AbstractPage
 	/**
 	 * Template for totalpage
 	 */
-	private static PdfTemplate totalPageTemplate = null;
+	private PdfTemplate totalPageTemplate = null;
 
 	/**
 	 * ContentByte layer for pdf, cb covers cbUnder.
 	 */
 	private PdfContentByte contentByte, cbUnder = null;
 
-	private Logger logger = Logger.getLogger( PDFPage.class.getName( ) );
+	private static Logger logger = Logger.getLogger( PDFPage.class.getName( ) );
 
 	//Current text is total page.
 	boolean isTotalPage = false;
@@ -87,10 +87,6 @@ public class PDFPage extends AbstractPage
 		}
 	}
 
-	static void reset( )
-	{
-		totalPageTemplate = null;
-	}
 
 	protected void clip( float startX, float startY, float width, float height )
 	{
