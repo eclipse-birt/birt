@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+* Copyright (c) 2004,2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -146,6 +146,9 @@ public class DateFormatter
 		try
 		{
 			this.formatPattern = formatString;
+			this.dateTimeFormat = null;
+			this.dateFormat = null;
+			this.timeFormat = null;
 
 			/*
 			 * we can seperate these single name-based patterns form those
@@ -191,9 +194,19 @@ public class DateFormatter
 				switch ( patternTemp )
 				{
 					case 'G' :
-						dateTimeFormat = com.ibm.icu.text.DateFormat.getDateTimeInstance( com.ibm.icu.text.DateFormat.LONG,
-								com.ibm.icu.text.DateFormat.LONG,
-								locale );
+						dateTimeFormat = com.ibm.icu.text.DateFormat
+								.getDateTimeInstance(
+										com.ibm.icu.text.DateFormat.LONG,
+										com.ibm.icu.text.DateFormat.LONG,
+										locale );
+						dateFormat = com.ibm.icu.text.DateFormat
+								.getDateInstance(
+										com.ibm.icu.text.DateFormat.LONG,
+										locale );
+						timeFormat = com.ibm.icu.text.DateFormat
+								.getTimeInstance(
+										com.ibm.icu.text.DateFormat.LONG,
+										locale );
 						return;
 					case 'D' :
 
@@ -234,42 +247,23 @@ public class DateFormatter
 						// DateTime factory gives us
 					case 'i' :
 					case 'I' :
-						int timeForm = ( patternTemp == 'i' ) ? com.ibm.icu.text.DateFormat.MEDIUM
+						int timeForm = ( patternTemp == 'i' )
+								? com.ibm.icu.text.DateFormat.MEDIUM
 								: com.ibm.icu.text.DateFormat.LONG;
+						timeFormat = com.ibm.icu.text.DateFormat
+								.getTimeInstance( timeForm, locale );
 
-						com.ibm.icu.text.DateFormat factoryFormat = com.ibm.icu.text.DateFormat.getDateTimeInstance( com.ibm.icu.text.DateFormat.SHORT,
-								timeForm,
-								locale );
-						// Try cast this to SimpleDateFormat - DateFormat
-						// JavaDoc says this should
-						// succeed in most cases
-						SimpleDateFormat factorySimpleFormat;
-						try
-						{
-							factorySimpleFormat = (SimpleDateFormat) factoryFormat;
-						}
-						catch ( ClassCastException e )
-						{
-							// no help; stuck with what the factory gives us
-							dateTimeFormat = factoryFormat;
-							return;
-						}
+						com.ibm.icu.text.DateFormat factoryFormat = com.ibm.icu.text.DateFormat
+								.getDateInstance(
+										com.ibm.icu.text.DateFormat.SHORT,
+										locale );
+						dateFormat = hackYear( factoryFormat );
 
-						String pattern = factorySimpleFormat.toPattern( );
-						// Search for 'yy', then add a 'y' to make the year 4
-						// digits
-						if ( pattern.indexOf( "yyyy" ) == -1 )
-						{
-							int idx = pattern.indexOf( "yy" );
-							if ( idx >= 0 )
-							{
-								StringBuffer strBuf = new StringBuffer( pattern );
-								strBuf.insert( idx, 'y' );
-								pattern = strBuf.toString( );
-							}
-						}
-
-						dateTimeFormat = new SimpleDateFormat( pattern, locale );
+						factoryFormat = com.ibm.icu.text.DateFormat
+								.getDateTimeInstance(
+										com.ibm.icu.text.DateFormat.SHORT,
+										timeForm, locale );
+						dateTimeFormat = hackYear( factoryFormat );
 						return;
 
 					case 'g' :
@@ -371,6 +365,33 @@ public class DateFormatter
 		}
 	}
 
+	private com.ibm.icu.text.DateFormat hackYear(
+			com.ibm.icu.text.DateFormat factoryFormat )
+	{
+		// Try cast this to SimpleDateFormat - DateFormat
+		// JavaDoc says this should
+		// succeed in most cases
+		if ( factoryFormat instanceof SimpleDateFormat )
+		{
+			SimpleDateFormat factorySimpleFormat = (SimpleDateFormat) factoryFormat;
+
+			String pattern = factorySimpleFormat.toPattern( );
+			// Search for 'yy', then add a 'y' to make the year 4
+			// digits
+			if ( pattern.indexOf( "yyyy" ) == -1 )
+			{
+				int idx = pattern.indexOf( "yy" );
+				if ( idx >= 0 )
+				{
+					StringBuffer strBuf = new StringBuffer( pattern );
+					strBuf.insert( idx, 'y' );
+					pattern = strBuf.toString( );
+				}
+			}
+			return new SimpleDateFormat( pattern, locale );
+		}
+		return factoryFormat;
+	}
 	/*
 	 * transfer the format string pattern from msdn to the string pattern which
 	 * java can recognize
@@ -379,14 +400,16 @@ public class DateFormatter
 	{
 		try
 		{
-			//we can use UNFORMATTED here as we have assign this to formatPattern in applyPattern.
-			if ( formatPattern == UNFORMATTED)
+			if ( date instanceof java.sql.Date )
 			{
-				if ( date instanceof java.sql.Date )
+				if ( dateFormat != null )
 				{
 					return dateFormat.format( date );
 				}
-				else if ( date instanceof java.sql.Time )
+			}
+			else if ( date instanceof java.sql.Time )
+			{
+				if ( timeFormat != null )
 				{
 					return timeFormat.format( date );
 				}
