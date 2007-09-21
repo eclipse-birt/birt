@@ -106,6 +106,7 @@ class RDSave implements IRDSave
 		
 		Map bindingNameColumnName = new HashMap();
 		Set bindingNamesToSave = new HashSet();
+		Map bindingNameType = new HashMap();
 		Iterator it = this.queryDefn.getBindings( ).keySet( ).iterator( );
 		while( it.hasNext( ) )
 		{
@@ -131,12 +132,13 @@ class RDSave implements IRDSave
 			}
 			if( bindingNameColumnName.get( binding.getBindingName( ) ) == null )
 				bindingNamesToSave.add( binding.getBindingName( ) );
+			bindingNameType.put( binding.getBindingName( ), new Integer(binding.getDataType( )) );
 		}
 		this.rowSaveUtil = new RowSaveUtil( rowCount,
 				rowExprsOs,
 				rowLenOs,
 				bindingNamesToSave,
-				bindingNameColumnName, this.streamManager.getVersion( ) );
+				bindingNameColumnName, bindingNameType, this.streamManager.getVersion( ) );
 	}
 	
 	/**
