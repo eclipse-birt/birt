@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionCondition;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondition;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
@@ -145,6 +146,12 @@ public class ReportDesignSerializer extends ElementVisitor
 	private DesignElement currentNewElement = null;
 
 	/**
+	 * Saves all property bindings.
+	 */
+
+	private List propertyBindings = new ArrayList( );
+
+	/**
 	 * Returns the newly created report design.
 	 * 
 	 * @return the newly created report design.
@@ -176,6 +183,12 @@ public class ReportDesignSerializer extends ElementVisitor
 		// handle dimension conditions
 		localizeDimensionConditions( );
 
+		// add property bindings to the design, do this after external elements
+		// have been added to the target design
+
+		targetDesign.setProperty( IModuleModel.PROPERTY_BINDINGS_PROP,
+				propertyBindings );
+
 		// do some memory release
 		release( );
 
@@ -196,6 +209,7 @@ public class ReportDesignSerializer extends ElementVisitor
 		externalStructs = null;
 		currentNewElement = null;
 		cubes = null;
+		propertyBindings = null;
 	}
 
 	/**
@@ -335,6 +349,10 @@ public class ReportDesignSerializer extends ElementVisitor
 
 		addElement( targetDesign, context, tmpElement );
 		targetDesign.manageId( tmpElement, true );
+
+		// after the id is adjusted, the property binding can be added.
+
+		localizePropertyBindings( originalElement, tmpElement );
 	}
 
 	/**
@@ -381,8 +399,8 @@ public class ReportDesignSerializer extends ElementVisitor
 			return;
 
 		int ns = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
-		if ( element.getName( ) != null
-				&& ns != MetaDataConstants.NO_NAME_SPACE )
+		if ( element.getName( ) != null &&
+				ns != MetaDataConstants.NO_NAME_SPACE )
 		{
 			NameSpace namespace = new NameExecutor( element )
 					.getNameSpace( targetDesign );
@@ -861,7 +879,45 @@ public class ReportDesignSerializer extends ElementVisitor
 	{
 		DesignElement newElement = createNewElement( element );
 		localizePropertyValues( element, newElement );
+		localizePropertyBindings( element, newElement );
 		return newElement;
+	}
+
+	/**
+	 * Copies property bindings from <code>element</code> to the cached list.
+	 * <p>
+	 * The id in the bindings is changed from <code>element</code> to
+	 * <code>newElement</code>. The binding that is near to the report design
+	 * takes the higher priority.
+	 * 
+	 * @param element
+	 *            the source element
+	 * @param newElement
+	 *            the target element
+	 */
+
+	private void localizePropertyBindings( DesignElement element,
+			DesignElement newElement )
+	{
+		DesignElementHandle tmpElementHandle = element.getHandle( sourceDesign );
+		List elementBindings = tmpElementHandle.getPropertyBindings( );
+
+		List newList = new ArrayList( );
+		long newID = newElement.getID( );
+
+		for ( int i = 0; i < elementBindings.size( ); i++ )
+		{
+			PropertyBinding propBinding = (PropertyBinding) elementBindings
+					.get( i );
+
+			// use the copy one instead of the source
+
+			PropertyBinding newBinding = (PropertyBinding) propBinding.copy( );
+			newBinding.setID( newID );
+			newList.add( newBinding );
+		}
+
+		propertyBindings.addAll( newList );
 	}
 
 	/**
@@ -1157,7 +1213,7 @@ public class ReportDesignSerializer extends ElementVisitor
 		if ( element instanceof IExtendableElement )
 			ModelUtil.duplicateExtensionIdentifier( element, newElement, root );
 
-		// get proerties from ascendants.
+		// get properties from ascendants.
 
 		Iterator iter = element.getPropertyDefns( ).iterator( );
 		while ( iter.hasNext( ) )
@@ -1170,17 +1226,17 @@ public class ReportDesignSerializer extends ElementVisitor
 			// The properties inherited from style or parent will be
 			// flatten to new element.
 
-			if ( IDesignElementModel.EXTENDS_PROP.equals( propName )
-					|| IDesignElementModel.USER_PROPERTIES_PROP
-							.equals( propName )
-					|| IModuleModel.THEME_PROP.equals( propName )
-					|| IModuleModel.LIBRARIES_PROP.equals( propName ) )
+			if ( IDesignElementModel.EXTENDS_PROP.equals( propName ) ||
+					IDesignElementModel.USER_PROPERTIES_PROP.equals( propName ) ||
+					IModuleModel.THEME_PROP.equals( propName ) ||
+					IModuleModel.LIBRARIES_PROP.equals( propName ) ||
+					IModuleModel.PROPERTY_BINDINGS_PROP.equals( propName ) )
 				continue;
 
 			// style properties are handled in styledElement.
 
-			if ( ( propDefn.isStyleProperty( ) && !( element instanceof Style ) )
-					|| IStyledElementModel.STYLE_PROP.equals( propName ) )
+			if ( ( propDefn.isStyleProperty( ) && !( element instanceof Style ) ) ||
+					IStyledElementModel.STYLE_PROP.equals( propName ) )
 				continue;
 
 			Object value = element.getStrategy( ).getPropertyFromElement( root,
@@ -1218,10 +1274,10 @@ public class ReportDesignSerializer extends ElementVisitor
 					// extends a library x-tab, and the library x-tab refers a
 					// library cube; in this case, no need special handle for
 					// dimension condition, so call handleStructureValue is ok.
-					if ( newElement instanceof Cube
-							&& ITabularCubeModel.DIMENSION_CONDITIONS_PROP
-									.equals( propDefn.getName( ) )
-							&& element.getRoot( ) == sourceDesign )
+					if ( newElement instanceof Cube &&
+							ITabularCubeModel.DIMENSION_CONDITIONS_PROP
+									.equals( propDefn.getName( ) ) &&
+							element.getRoot( ) == sourceDesign )
 						handleDimensionConditions( (Cube) newElement,
 								(Cube) element );
 					else
@@ -1313,8 +1369,8 @@ public class ReportDesignSerializer extends ElementVisitor
 					List joinConditionList = (List) dimensionCond.getProperty(
 							sourceDesign,
 							DimensionCondition.JOIN_CONDITIONS_MEMBER );
-					if ( joinConditionList == null
-							|| joinConditionList.isEmpty( ) )
+					if ( joinConditionList == null ||
+							joinConditionList.isEmpty( ) )
 						continue;
 					List newJoinConditionList = (List) newDimensionCond
 							.getProperty( targetDesign,
@@ -1422,9 +1478,8 @@ public class ReportDesignSerializer extends ElementVisitor
 	private void handleStructureValue( DesignElement newElement,
 			PropertyDefn propDefn, Object valueList )
 	{
-		if ( propDefn.isList( )
-				&& IModuleModel.IMAGES_PROP.equalsIgnoreCase( propDefn
-						.getName( ) ) )
+		if ( propDefn.isList( ) &&
+				IModuleModel.IMAGES_PROP.equalsIgnoreCase( propDefn.getName( ) ) )
 		{
 			List images = newElement.getListProperty( targetDesign,
 					IModuleModel.IMAGES_PROP );
@@ -1709,8 +1764,8 @@ public class ReportDesignSerializer extends ElementVisitor
 			EmbeddedImage sourceEmbeddedImage, EmbeddedImage targetEmeddedImage )
 	{
 		EmbeddedImage tmpEmeddedImage = sourceEmbeddedImage;
-		while ( tmpEmeddedImage != null
-				&& ( targetEmeddedImage.getData( null ) == null || targetEmeddedImage
+		while ( tmpEmeddedImage != null &&
+				( targetEmeddedImage.getData( null ) == null || targetEmeddedImage
 						.getType( null ) == null ) )
 		{
 			targetEmeddedImage

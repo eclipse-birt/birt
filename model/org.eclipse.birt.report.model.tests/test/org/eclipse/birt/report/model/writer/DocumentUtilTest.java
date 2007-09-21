@@ -241,12 +241,13 @@ public class DocumentUtilTest extends BaseTestCase
 		// user property is in report design directly.
 		assertEquals( "1.0", designHandle.getProperty( "version" ) );//$NON-NLS-1$//$NON-NLS-2$
 
-		//user property is set in label.
+		// user property is set in label.
 		LabelHandle labelHandle = (LabelHandle) designHandle.getBody( ).get( 0 );
 		assertEquals( "label 1.0", labelHandle.getProperty( "version" ) );//$NON-NLS-1$//$NON-NLS-2$
-		
+
 		// user property is set in label in library.
-		LabelHandle labelHandle1 = (LabelHandle) designHandle.getBody( ).get( 1 );
+		LabelHandle labelHandle1 = (LabelHandle) designHandle.getBody( )
+				.get( 1 );
 		assertEquals( "2.0", labelHandle1.getProperty( "version" ) );//$NON-NLS-1$//$NON-NLS-2$
 	}
 
@@ -432,11 +433,28 @@ public class DocumentUtilTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
+	
 	public void testSerializeWithElementRefer( ) throws Exception
 	{
 		openDesign( "DocumentUtilTest_9.xml" ); //$NON-NLS-1$
 		serializeDocument( );
 		assertTrue( compareFile( "DocumentUtilTest_golden_7.xml" ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Tests property bindings defined in the library, and the data set uses the
+	 * binding. After the serialization, the output document should have the
+	 * property binding.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testSerializeExternalPropertyBindings( ) throws Exception
+	{
+		openDesign( "DocumentUtilTest_PropBindings.xml" ); //$NON-NLS-1$
+		serializeDocument( );
+		
+		assertTrue( compareFile( "DocumentUtilTest_propBindings_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/*
