@@ -148,9 +148,9 @@ class RDSave implements IRDSave
 			return null;
 
 		if( expr.matches( "\\QdataSetRow[\"\\E.*\\Q\"]\\E" ))
-			return expr.replaceAll( "dataSetRow[\"", "" ).replaceAll( "\"]", "" );
+			return expr.replaceAll( "\\QdataSetRow[\"\\E", "" ).replaceAll( "\\Q\"]\\E", "" );
 		else
-			return expr.replaceAll( "dataSetRow.", "" );
+			return expr.replaceAll( "\\QdataSetRow.\\E", "" );
 	}
 	
 	/*
