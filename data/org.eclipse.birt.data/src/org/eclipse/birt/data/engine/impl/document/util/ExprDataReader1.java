@@ -251,7 +251,12 @@ class ExprDataReader1 implements IExprDataReader
 			String exprID = this.exprKeys.get( i ).toString( );
 			Object exprValue = IOUtil.readObject( rowExprsDis );
 			if ( RowSaveUtil.EXCEPTION_INDICATOR.equals( exprValue ) )
+			{
+				valueMap.put( exprID,
+						new DataException( ResourceConstants.READ_COLUMN_VALUE_FROM_DOCUMENT_ERROR,
+								exprID ) );
 				continue;
+			}
 			valueMap.put( exprID, exprValue );
 		}
 
