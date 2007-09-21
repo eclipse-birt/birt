@@ -118,19 +118,24 @@ public class TableProcessor
 	{
 		protected Element element;
 		protected Map cssStyles;
-		protected IContent parent, inlineParent, content;
+		protected IContent inlineParent, content;
 		protected ActionContent action;
 
-		public State( Element element, Map cssStyles,
-				IContent parent, IContent inlineParent, ActionContent action )
+		public State(Element element, Map cssStyles, IContent inlineParent,
+				ActionContent action) 
 		{
 			this.element = element;
 			this.cssStyles = cssStyles;
-			this.parent = parent;
 			this.inlineParent = inlineParent;
 			this.action = action;
 		}
 
+		protected void setParent( IContent parent )
+		{
+			parent.getChildren( ).add( content );
+			content.setParent( parent );
+		}
+		
 		public IContent getContent( )
 		{
 			return content;
@@ -147,9 +152,10 @@ public class TableProcessor
 		public TableState( Element element, Map cssStyles,
 				IContent parent, IContent inlineParent, ActionContent action )
 		{
-			super( element, cssStyles, parent, inlineParent, action );
+			super( element, cssStyles, inlineParent, action );
 			content = new TableContent( (ReportContent) parent
 					.getReportContent( ) );
+			setParent( parent );
 			content.setWidth( PropertyUtil.getDimensionAttribute( element, "width" ) );
 			HTML2Content.handleStyle( element, cssStyles, content );
 			columnWidth = new ArrayList( );
@@ -159,8 +165,6 @@ public class TableProcessor
 		{
 			Element ele = element;
 			processNodes( ele );
-			parent.getChildren( ).add( content );
-			content.setParent( parent );
 		}
 
 		private void processNodes( Element ele )
@@ -218,8 +222,9 @@ public class TableProcessor
 		public RowState( Element element, Map cssStyles,
 				IContent parent, IContent inlineParent, ActionContent action )
 		{
-			super( element, cssStyles, parent, inlineParent, action );
+			super( element, cssStyles, inlineParent, action );
 			content = new RowContent( (ReportContent) parent.getReportContent( ) );
+			setParent( parent );
 			HTML2Content.handleStyle( element, cssStyles, content );
 			content.setHeight( PropertyUtil.getDimensionAttribute( element, "height" ) );
 		}
@@ -237,8 +242,6 @@ public class TableProcessor
 				cellState.processNodes( );
 				columnCount += cellState.getColSpan( );
 			}
-			parent.getChildren( ).add( content );
-			content.setParent( parent );
 		}
 		
 		public int getColumnCount( )
@@ -254,9 +257,10 @@ public class TableProcessor
 		public CellState( Element element, Map cssStyles,
 				IContent parent, IContent inlineParent, ActionContent action )
 		{
-			super( element, cssStyles, parent, inlineParent, action );
+			super( element, cssStyles, inlineParent, action );
 			cell = new CellContent( (ReportContent) parent.getReportContent( ) );
 			content = cell;
+			setParent( parent );
 			HTML2Content.handleStyle( element, cssStyles, content );
 			cell.setRowSpan( PropertyUtil.getIntAttribute( element,
 					ATTRIBUTE_ROWSPAN ) );
@@ -268,8 +272,6 @@ public class TableProcessor
 		{
 			HTML2Content.processNodes( element, cssStyles, content,
 					inlineParent, action );
-			parent.getChildren( ).add( content );
-			content.setParent( parent );
 		}
 		
 		public int getColSpan( )
