@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,9 +16,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import com.ibm.icu.util.ULocale;
-
 import junit.framework.TestCase;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * DateFormatterTest.
@@ -169,5 +169,23 @@ public class DateFormatterTest extends TestCase
 		assertEquals( "20:01", sample.format( date ) );
 		sample.applyPattern( "Medium Time" );
 		assertEquals( "8:01:44 PM", sample.format( date ) );
+	}
+	
+	public void testIFormat( )
+	{
+		Calendar dateCal = Calendar.getInstance( Locale.US );
+		dateCal.set( 1998, 8, 13, 20, 1, 44 );
+		Date dateTime = dateCal.getTime( );
+		java.sql.Date date = new java.sql.Date( dateTime.getTime( ) );
+		java.sql.Time time = new java.sql.Time( dateTime.getTime( ) );
+
+		DateFormatter format = new DateFormatter( "i", ULocale.US );
+		String strDateTime = format.format( dateTime );
+		String strTime = format.format( time );
+		String strDate = format.format( date );
+
+		assertEquals( "9/13/1998 8:01:44 PM", strDateTime );
+		assertEquals( "9/13/1998", strDate );
+		assertEquals( "8:01:44 PM", strTime );
 	}
 }
