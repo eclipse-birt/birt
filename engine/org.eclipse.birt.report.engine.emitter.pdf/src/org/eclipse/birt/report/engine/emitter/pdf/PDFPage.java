@@ -49,10 +49,6 @@ public class PDFPage extends AbstractPage
 	 */
 	private PdfWriter writer = null;
 
-	/**
-	 * Template for totalpage
-	 */
-	private PdfTemplate totalPageTemplate = null;
 
 	/**
 	 * ContentByte layer for pdf, cb covers cbUnder.
@@ -64,11 +60,14 @@ public class PDFPage extends AbstractPage
 	//Current text is total page.
 	boolean isTotalPage = false;
 	
+	private PDFPageDevice pageDevice;
+	
 	public PDFPage( int pageWidth, int pageHeight, Document document,
-			PdfWriter writer )
+			PdfWriter writer, PDFPageDevice pageDevice )
 	{
 		super( pageWidth, pageHeight );
 		this.writer = writer;
+		this.pageDevice = pageDevice;
 		// Creates a pdf page, get its contentByte and contentByteUnder
 		try
 		{
@@ -470,7 +469,7 @@ public class PDFPage extends AbstractPage
 	public void drawTotalPage( String text, int textX, int textY, int width,
 			int height, TextStyle textInfo )
 	{
-		if ( totalPageTemplate != null )
+		if ( pageDevice.getPDFTemplate( ) != null )
 		{
 			isTotalPage = true;
 			drawText( text, textX, textY, width, height, textInfo );
@@ -518,13 +517,13 @@ public class PDFPage extends AbstractPage
 	private void createTotalPageTemplate( float x, float y, float width,
 			float height )
 	{
-		if ( totalPageTemplate == null )
+		if ( pageDevice.getPDFTemplate( ) == null )
 		{
-			totalPageTemplate = contentByte.createTemplate( width, height );
+			pageDevice.setPDFTemplate( contentByte.createTemplate( width, height ));
 		}
 		y = transformY( y, height );
 		contentByte.saveState( );
-		contentByte.addTemplate( totalPageTemplate, x, y );
+		contentByte.addTemplate( pageDevice.getPDFTemplate( ), x, y );
 		contentByte.restoreState( );
 	}
 
@@ -567,10 +566,10 @@ public class PDFPage extends AbstractPage
 			Color color, CSSValue align )
 	{
 		PdfContentByte currentContentByte = isTotalPage
-				? totalPageTemplate
+				? pageDevice.getPDFTemplate( )
 				: contentByte;
 		float containerHeight = isTotalPage
-				? totalPageTemplate.getHeight( )
+				? pageDevice.getPDFTemplate( ).getHeight( )
 				: pageHeight;
 		isTotalPage = false;
 		currentContentByte.saveState( );

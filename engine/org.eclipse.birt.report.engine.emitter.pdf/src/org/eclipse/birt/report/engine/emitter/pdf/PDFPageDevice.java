@@ -29,6 +29,7 @@ import org.eclipse.birt.report.engine.layout.emitter.IPageDevice;
 import com.ibm.icu.util.ULocale;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
+import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
 
 
@@ -52,6 +53,8 @@ public class PDFPageDevice implements IPageDevice
 	private static Logger logger = Logger.getLogger( PDFPageDevice.class.getName( ) );
 
 	private PDFPage currentPage = null;
+	
+	private PdfTemplate totalPageTemplate = null;
 	
 	public PDFPageDevice( OutputStream output, String title,
 			IReportContext context, IReportContent report )
@@ -77,6 +80,16 @@ public class PDFPageDevice implements IPageDevice
 		}
 	}
 	
+	public void setPDFTemplate(PdfTemplate totalPageTemplate)
+	{
+		this.totalPageTemplate = totalPageTemplate;
+	}
+	
+	public PdfTemplate getPDFTemplate()
+	{
+		return this.totalPageTemplate;
+	}
+	
 	public void close( ) throws Exception
 	{
 		writer.setPageEmpty( false );
@@ -88,7 +101,7 @@ public class PDFPageDevice implements IPageDevice
 
 	public IPage newPage( int width, int height, Color backgroundColor )
 	{
-		currentPage = new PDFPage( width, height, doc, writer );
+		currentPage = new PDFPage( width, height, doc, writer, this );
 		currentPage.drawBackgroundColor( backgroundColor, 0, 0, width, height );
 		return currentPage;
 	}
