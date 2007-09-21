@@ -404,23 +404,21 @@ public class ReportParameterConverter
 		{
 			return null;
 		}
-		
+
 		try
 		{
 			return df.parse( reportParameterValue );
 		}
 		catch ( ParseException e )
 		{
-			df.applyPattern( "Short Date" );
-			
+			df = new DateFormatter( "Short Date", uLocale );
 			try
 			{
 				return df.parse( reportParameterValue );
 			}
 			catch ( ParseException ex )
 			{
-				df.applyPattern( "Medium Time" );
-				
+				df = new DateFormatter( "Medium Time", uLocale );
 				try
 				{
 					return df.parse( reportParameterValue );
