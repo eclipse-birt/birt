@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.script;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
@@ -161,6 +162,9 @@ public class JSResultSetRow extends ScriptableObject
 						this.odiResult.getCurrentResultIndex( ),
 						this.odiResult.getCurrentResult( ),
 						this.scope );
+				value = JavascriptEvalUtil.convertToJavascriptValue( DataTypeUtil.convert( value,
+						binding.getDataType( ) ),
+						this.scope );
 			}
 			catch ( BirtException e )
 			{
@@ -171,8 +175,6 @@ public class JSResultSetRow extends ScriptableObject
 				this.valueCacheMap.clear( );
 				this.currRowIndex = rowIndex;
 			}
-
-			value = JavascriptEvalUtil.convertToJavascriptValue( value, this.scope );
 			valueCacheMap.put( name, value );
 			return value;
 		}
