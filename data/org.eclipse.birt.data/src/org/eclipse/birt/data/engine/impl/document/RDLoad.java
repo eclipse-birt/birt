@@ -224,7 +224,7 @@ public class RDLoad
 				StreamManager.BASE_SCOPE );
 		
 		DataSetResultSet populator = new DataSetResultSet( stream, lensStream, 
-				this.loadResultClass( ) );
+				this.loadResultClass( ), version );
 
 		return populator;
 	}

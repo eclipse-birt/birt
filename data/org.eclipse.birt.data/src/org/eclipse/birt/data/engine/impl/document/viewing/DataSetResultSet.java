@@ -43,10 +43,11 @@ public class DataSetResultSet implements IDataSetPopulator
 	private RAInputStream dataSetRowLensStream;
 	private DataInputStream disRowLensStream;
 	private long initPos;
+	private int version;
 	/**
 	 * @param inputStream
 	 */
-	public DataSetResultSet( RAInputStream inputStream, RAInputStream lensStream, IResultClass rsMetaData )
+	public DataSetResultSet( RAInputStream inputStream, RAInputStream lensStream, IResultClass rsMetaData, int version )
 	{
 		assert inputStream != null;
 		assert rsMetaData != null;
@@ -65,6 +66,7 @@ public class DataSetResultSet implements IDataSetPopulator
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		this.version = version;
 		this.rsMetaData = rsMetaData;
 		this.colCount = rsMetaData.getFieldCount( );
 	}
@@ -82,7 +84,7 @@ public class DataSetResultSet implements IDataSetPopulator
 		try
 		{
 			rowIndex++;
-			this.currentObject = ResultSetUtil.readResultObject( dis, rsMetaData, colCount );
+			this.currentObject = ResultSetUtil.readResultObject( dis, rsMetaData, colCount, version );
 			return this.currentObject;
 		}
 		catch ( IOException e )
@@ -116,7 +118,7 @@ public class DataSetResultSet implements IDataSetPopulator
 				this.rowIndex = index;
 				this.inputStream.seek( position + this.initPos );
 				this.dis = new DataInputStream( inputStream );
-				this.currentObject = ResultSetUtil.readResultObject( dis, rsMetaData, colCount );
+				this.currentObject = ResultSetUtil.readResultObject( dis, rsMetaData, colCount, version );
 				return;
 			}
 		}
