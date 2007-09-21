@@ -12,6 +12,7 @@ package org.eclipse.birt.report.engine.emitter.ppt;
 
 import java.awt.Color;
 import java.awt.Image;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -590,9 +591,7 @@ public class PPTWriter
 		{
 			URL url = new URL( imageURI );
 			imageStream = url.openStream( );
-			imageData = new byte[imageStream.available( )];
-			imageStream.read( imageData );
-			imageStream.close( );
+			imageData = getImageData( imageStream );
 			imageStream = url.openStream( );
 			Image image = ImageIO.read( imageStream );
 			ImageIcon imageIcon = new ImageIcon( image );
@@ -652,5 +651,18 @@ public class PPTWriter
 			exportImageDefn( imageName, imageTitle, imageWidth, imageHeight,
 					position.getX( ), position.getY( ) );
 		}
+	}
+
+	private byte[] getImageData( InputStream imageStream ) throws IOException
+	{
+		byte[] imageData;
+		ByteArrayOutputStream byteArrayStream = new ByteArrayOutputStream();
+		int data = -1;
+		while( (data = imageStream.read( ) ) >=0)
+		{
+			byteArrayStream.write( data );
+		}
+		imageData = byteArrayStream.toByteArray( );
+		return imageData;
 	}
 }
