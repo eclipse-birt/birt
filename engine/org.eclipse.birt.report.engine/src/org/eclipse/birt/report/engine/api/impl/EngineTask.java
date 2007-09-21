@@ -164,7 +164,7 @@ public abstract class EngineTask implements IEngineTask
 
 		setReportRunnable( runnable );
 		// set the default app context
-		executionContext.setAppContext( engine.getConfig( ).getAppContext( ) );
+		setAppContext( engine.getConfig( ).getAppContext( ) );
 
 		cancelFlag = false;
 		runningStatus = STATUS_NOT_STARTED;
