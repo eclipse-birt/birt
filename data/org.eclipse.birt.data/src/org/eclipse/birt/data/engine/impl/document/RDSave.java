@@ -27,6 +27,7 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
+import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 
 /**
@@ -110,7 +111,8 @@ class RDSave implements IRDSave
 		{
 			String key = it.next( ).toString( );
 			IBinding binding = (IBinding)this.queryDefn.getBindings( ).get( key );
-			if ( this.queryDefn instanceof QueryDefinition
+			if ( this.streamManager.getVersion( ) >= VersionManager.VERSION_2_2_1_3
+					&& this.queryDefn instanceof QueryDefinition
 					&& ( (QueryDefinition) this.queryDefn ).getQueryResultsID( ) == null
 					&& binding.getAggregatOns( ).size( ) == 0
 					&& binding.getAggrFunction( ) == null )
@@ -134,7 +136,7 @@ class RDSave implements IRDSave
 				rowExprsOs,
 				rowLenOs,
 				bindingNamesToSave,
-				bindingNameColumnName );
+				bindingNameColumnName, this.streamManager.getVersion( ) );
 	}
 	
 	/**

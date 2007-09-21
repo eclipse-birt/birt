@@ -17,7 +17,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
-
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -25,6 +24,7 @@ import java.util.Set;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 
 /**
  * Save util class
@@ -45,14 +45,15 @@ public class RowSaveUtil
 
 	private Set exprNameSet;
 	private Map directColumnReferenceBinding;
-
+	private int version;
+	
 	/**
 	 * @param rowCount
 	 * @param rowExprsOs
 	 * @param rowLenOs
 	 */
 	RowSaveUtil( int rowCount, OutputStream rowExprsOs,
-			OutputStream rowLenOs, Set exprNameSet, Map directColumnReferenceExpr )
+			OutputStream rowLenOs, Set exprNameSet, Map directColumnReferenceExpr, int version )
 	{
 		this.rowCount = rowCount;
 
@@ -62,6 +63,7 @@ public class RowSaveUtil
 		
 		this.exprNameSet = exprNameSet;
 		this.directColumnReferenceBinding = directColumnReferenceExpr;
+		this.version = version;
 	}
 
 	/**
@@ -238,7 +240,8 @@ public class RowSaveUtil
 				Object value = it.next( );
 				map.put( value, value );
 			}
-			int rowBytes = this.initSave( map );
+			int rowBytes = this.version >= VersionManager.VERSION_2_2_1_3
+					? this.initSave( map ) : this.saveExprValue( map );
 			IOUtil.writeInt( this.rowExprsDos, rowBytes );
 		}
 		catch ( IOException e )
