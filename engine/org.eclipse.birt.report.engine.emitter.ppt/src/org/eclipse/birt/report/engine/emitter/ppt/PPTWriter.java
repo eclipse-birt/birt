@@ -592,6 +592,7 @@ public class PPTWriter
 			URL url = new URL( imageURI );
 			imageStream = url.openStream( );
 			imageData = getImageData( imageStream );
+			imageStream.close( );
 			imageStream = url.openStream( );
 			Image image = ImageIO.read( imageStream );
 			ImageIcon imageIcon = new ImageIcon( image );
