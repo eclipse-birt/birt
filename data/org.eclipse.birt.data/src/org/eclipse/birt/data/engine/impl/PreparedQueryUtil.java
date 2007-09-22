@@ -41,6 +41,7 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
@@ -330,6 +331,8 @@ class PreparedQueryUtil
 
 		if ( hasSubquery( queryDefn ) )
 		{
+			if ( hasSubQueryInDetail( queryDefn.getSubqueries( ) ) )
+				return false;
 			if ( !QueryDefnUtil.isEqualSorts( queryDefn.getSorts( ),
 					qd.getSorts( ) ) )
 			{
@@ -391,6 +394,27 @@ class PreparedQueryUtil
 		return runningOnRS;
 	}
 	
+	/**
+	 * 
+	 * @param queryDefn
+	 * @return
+	 */
+	private static boolean hasSubQueryInDetail( Collection col )
+	{
+		if( col == null || col.size( ) == 0 )
+			return false;
+		Iterator it = col.iterator( );
+		while( it.hasNext( ) )
+		{
+			ISubqueryDefinition sub = (ISubqueryDefinition)it.next( );
+			if( !sub.applyOnGroup( ) )
+				return true;
+			if( hasSubQueryInDetail( sub.getSubqueries( )))
+				return true;
+		}
+		return false;
+	}
+
 	/**
 	 * 
 	 * @param oldFilter
