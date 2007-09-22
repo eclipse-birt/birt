@@ -331,7 +331,7 @@ class PreparedQueryUtil
 
 		if ( hasSubquery( queryDefn ) )
 		{
-			if ( hasSubQueryInDetail( queryDefn ) )
+			if ( hasSubQueryInDetail( queryDefn.getSubqueries( ) ) )
 				return false;
 			if ( !QueryDefnUtil.isEqualSorts( queryDefn.getSorts( ),
 					qd.getSorts( ) ) )
@@ -399,16 +399,17 @@ class PreparedQueryUtil
 	 * @param queryDefn
 	 * @return
 	 */
-	private static boolean hasSubQueryInDetail( IQueryDefinition queryDefn )
+	private static boolean hasSubQueryInDetail( Collection col )
 	{
-		Collection col = queryDefn.getSubqueries( );
-		if( col.size( ) == 0 )
+		if( col == null || col.size( ) == 0 )
 			return false;
 		Iterator it = col.iterator( );
 		while( it.hasNext( ) )
 		{
 			ISubqueryDefinition sub = (ISubqueryDefinition)it.next( );
 			if( !sub.applyOnGroup( ) )
+				return true;
+			if( hasSubQueryInDetail( sub.getSubqueries( )))
 				return true;
 		}
 		return false;
