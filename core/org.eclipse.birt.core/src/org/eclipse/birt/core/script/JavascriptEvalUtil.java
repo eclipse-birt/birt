@@ -226,7 +226,7 @@ public class JavascriptEvalUtil
 			String jsClass = ((Scriptable) inputObj).getClassName();
 			if ( "Date".equals(jsClass) ) 
 			{
-				return new Date( (long) Context.toNumber( inputObj ) );
+				return Context.toType( inputObj, Date.class );
 			} 
 			else if ( "Boolean".equals(jsClass)) 
 			{
