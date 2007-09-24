@@ -20,7 +20,7 @@ import junit.framework.TestCase;
 
 public class ResultSetUtilTest extends TestCase
 {
-	public void testCreateLeadingBytes( )
+/*	public void testCreateLeadingBytes( )
 	{
 		byte[] indicator1 = {0,0,0,0,0};
 		assertTrue( twoByteArrayEqual( ResultSetUtil.createLeadingBytes( indicator1 ),
@@ -84,7 +84,7 @@ public class ResultSetUtilTest extends TestCase
 		byte[] indicator6 = { -105,1,-128	};
 		assertTrue( twoByteArrayEqual( ResultSetUtil.readLeadingBytes( indicator6, 16 ),
 				new byte[] {0,2,0,2,2,2,0,0,0,0,0,0,0,2,2,0 }) );
-	}
+	}*/
 	private boolean twoByteArrayEqual( byte[] array1, byte[] array2)
 	{
 		if( array1.length!= array2.length )
