@@ -62,7 +62,7 @@ public class SelectValueFetcher
 		if ( !ExpressionUtility.isColumnExpression( expression, true )
 				&& !ExpressionUtility.isColumnExpression( expression, false ) )
 		{
-			throw new DataException( Messages.getString( "SelectValueDialog.messages.info.DataCube.selectVauleUnavailable" ) );
+			throw new DataException( Messages.getString( "SelectValueDialog.messages.info.invalidSelectVauleExpression" ) );
 		}
 		List selectValueList = new ArrayList( );
 		if ( expression != null && expression.trim( ).length( ) > 0 )
