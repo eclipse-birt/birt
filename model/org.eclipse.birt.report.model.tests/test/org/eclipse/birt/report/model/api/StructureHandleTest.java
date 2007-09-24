@@ -590,4 +590,32 @@ public class StructureHandleTest extends BaseTestCase
 
 	}
 
+	/**
+	 * When copies a design element, its structure values are also copied. This
+	 * requires a non-null structure context. It is established in
+	 * DesignElement.copy().
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testContextWhenCopingElements( ) throws Exception
+	{
+		createDesign( );
+
+		TableHandle tableHandle = designHandle.getElementFactory( )
+				.newTableItem( null );
+		HideRule rule = StructureFactory.createHideRule( );
+		rule.setExpression( "value1" ); //$NON-NLS-1$
+		rule.setFormat( DesignChoiceConstants.FORMAT_TYPE_ALL );
+
+		tableHandle.getPropertyHandle( TableHandle.VISIBILITY_PROP ).addItem(
+				rule );
+
+		TableHandle newTable = (TableHandle) tableHandle.copy( ).getHandle(
+				design );
+		newTable.getPropertyHandle( TableHandle.VISIBILITY_PROP )
+				.removeItem( 0 );
+
+	}
+
 }

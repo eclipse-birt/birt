@@ -959,12 +959,12 @@ public abstract class DesignElement
 		ContentElementInfo info = null;
 		if ( this instanceof ContentElement )
 			info = ( (ContentElement) this ).getValueContainer( );
-		else if ( prop.getTypeCode( ) == IPropertyType.CONTENT_ELEMENT_TYPE
-				|| prop.getSubTypeCode( ) == IPropertyType.CONTENT_ELEMENT_TYPE )
+		else if ( prop.getTypeCode( ) == IPropertyType.CONTENT_ELEMENT_TYPE ||
+				prop.getSubTypeCode( ) == IPropertyType.CONTENT_ELEMENT_TYPE )
 			info = new ContentElementInfo( this, prop );
 
-		if ( prop.getTypeCode( ) != IPropertyType.CONTENT_ELEMENT_TYPE
-				&& prop.getSubTypeCode( ) != IPropertyType.CONTENT_ELEMENT_TYPE )
+		if ( prop.getTypeCode( ) != IPropertyType.CONTENT_ELEMENT_TYPE &&
+				prop.getSubTypeCode( ) != IPropertyType.CONTENT_ELEMENT_TYPE )
 			return;
 
 		if ( value instanceof ContentElement )
@@ -2436,8 +2436,8 @@ public abstract class DesignElement
 
 	public boolean canEdit( Module module )
 	{
-		if ( isRootIncludedByModule( )
-				|| ( module != null && module.isReadOnly( ) ) )
+		if ( isRootIncludedByModule( ) ||
+				( module != null && module.isReadOnly( ) ) )
 			return false;
 		return true;
 	}
@@ -2455,8 +2455,8 @@ public abstract class DesignElement
 	{
 		// if the root of element is included by report/library. Do not allow
 		// drop; if module is read-only, forbide drop too
-		if ( isRootIncludedByModule( )
-				|| ( module != null && module.isReadOnly( ) ) )
+		if ( isRootIncludedByModule( ) ||
+				( module != null && module.isReadOnly( ) ) )
 			return false;
 
 		// Can not change the structure of child element or a virtual element(
@@ -2501,8 +2501,8 @@ public abstract class DesignElement
 	public boolean isRootIncludedByModule( )
 	{
 		DesignElement tmpContainer = getRoot( );
-		if ( tmpContainer instanceof Library
-				&& ( (Library) tmpContainer ).getHost( ) != null )
+		if ( tmpContainer instanceof Library &&
+				( (Library) tmpContainer ).getHost( ) != null )
 		{
 			return true;
 		}
@@ -3068,8 +3068,8 @@ public abstract class DesignElement
 		if ( container != null )
 		{
 			ContainerContext containerInfor = getContainerInfo( );
-			return containerInfor.canContain( module, templateReportItem )
-					|| containerInfor.canContain( module, templateDataSet );
+			return containerInfor.canContain( module, templateReportItem ) ||
+					containerInfor.canContain( module, templateDataSet );
 		}
 
 		return true;
@@ -3199,6 +3199,29 @@ public abstract class DesignElement
 				else
 				{
 					( (DesignElement) clonedValue ).setContainer( element, key );
+				}
+			}
+
+			// if the property is structure type, then set-up the container
+			// relationship
+
+			if ( propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
+			{
+				if ( propDefn.isList( ) )
+				{
+					List values = (ArrayList) clonedValue;
+					for ( int i = 0; i < values.size( ); i++ )
+					{
+						Structure item = (Structure) values.get( i );
+						item.setContext( new StructureContext( element,
+								propDefn.getName( ) ) );
+					}
+				}
+				else
+				{
+					( (Structure) clonedValue )
+							.setContext( new StructureContext( element,
+									propDefn.getName( ) ) );
 				}
 			}
 		}
@@ -3395,8 +3418,8 @@ public abstract class DesignElement
 		Object value = propValues.get( prop.getName( ) );
 
 		assert value == null || value instanceof List;
-		assert prop.getTypeCode( ) == IPropertyType.LIST_TYPE
-				&& prop.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE;
+		assert prop.getTypeCode( ) == IPropertyType.LIST_TYPE &&
+				prop.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE;
 
 		if ( value == null )
 			return null;
@@ -3493,8 +3516,8 @@ public abstract class DesignElement
 	 */
 	public String getLocalEncryptionID( ElementPropertyDefn propDefn )
 	{
-		if ( encryptionMap != null
-				&& encryptionMap.get( propDefn.getName( ) ) != null )
+		if ( encryptionMap != null &&
+				encryptionMap.get( propDefn.getName( ) ) != null )
 		{
 			String encryptionID = (String) encryptionMap.get( propDefn
 					.getName( ) );
