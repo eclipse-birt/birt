@@ -767,30 +767,30 @@ public class ParameterDialog extends BaseDialog
 			allowMultiChoice.setVisible( false );
 		}
 
-		try
-		{
-			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
-			{
-				// not use DataTypeUtil.toString() for datetime here, it has a
-				// bug loses seconds.
-				defaultValue = convertToStandardFormat( DataTypeUtil.toDate( defaultValue ) );
-			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( getSelectedDataType( ) ) )
-			{
-				defaultValue = DataTypeUtil.toString( DataTypeUtil.toSqlDate( defaultValue ) );
-			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( getSelectedDataType( ) ) )
-			{
-				defaultValue = DataTypeUtil.toString( DataTypeUtil.toSqlTime( defaultValue ) );
-			}
-
-		}
-		catch ( BirtException e )
-		{
-			// TODO Auto-generated catch block
-			ExceptionHandler.handle( e );
-			logger.log( Level.SEVERE, e.getMessage( ), e );
-		}
+//		try
+//		{
+//			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
+//			{
+//				// not use DataTypeUtil.toString() for datetime here, it has a
+//				// bug loses seconds.
+//				defaultValue = convertToStandardFormat( DataTypeUtil.toDate( defaultValue ) );
+//			}
+//			else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( getSelectedDataType( ) ) )
+//			{
+//				defaultValue = DataTypeUtil.toString( DataTypeUtil.toSqlDate( defaultValue ) );
+//			}
+//			else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( getSelectedDataType( ) ) )
+//			{
+//				defaultValue = DataTypeUtil.toString( DataTypeUtil.toSqlTime( defaultValue ) );
+//			}
+//
+//		}
+//		catch ( BirtException e )
+//		{
+//			// TODO Auto-generated catch block
+//			ExceptionHandler.handle( e );
+//			logger.log( Level.SEVERE, e.getMessage( ), e );
+//		}
 
 		if ( inputParameter.getPropertyHandle( ScalarParameterHandle.LIST_LIMIT_PROP )
 				.isSet( ) )
@@ -1931,9 +1931,9 @@ public class ParameterDialog extends BaseDialog
 			}
 
 			return ParameterValidationUtil.validate( getSelectedDataType( ),
-					formatCategroy,
+					STANDARD_DATE_TIME_PATTERN,
 					tempdefaultValue,
-					ULocale.US );
+					ULocale.getDefault( ) );
 
 		}
 		if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( getSelectedDataType( ) ) )
@@ -2000,18 +2000,18 @@ public class ParameterDialog extends BaseDialog
 			inputParameter.setControlType( newControlType );
 
 			// Save default value
-			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
-			{
-				defaultValue = convertToStandardFormat( DataTypeUtil.toDate( defaultValue ) );
-			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( getSelectedDataType( ) ) )
-			{
-				defaultValue = convertToStandardFormat( DataTypeUtil.toSqlDate( defaultValue ) );
-			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( getSelectedDataType( ) ) )
-			{
-				defaultValue = convertToStandardFormat( DataTypeUtil.toSqlTime( defaultValue ) );
-			}
+//			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
+//			{
+//				defaultValue = convertToStandardFormat( DataTypeUtil.toDate( defaultValue ) );
+//			}
+//			else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( getSelectedDataType( ) ) )
+//			{
+//				defaultValue = convertToStandardFormat( DataTypeUtil.toSqlDate( defaultValue ) );
+//			}
+//			else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( getSelectedDataType( ) ) )
+//			{
+//				defaultValue = convertToStandardFormat( DataTypeUtil.toSqlTime( defaultValue ) );
+//			}
 			inputParameter.setDefaultValue( defaultValue );
 
 			// Set data type
@@ -2895,7 +2895,7 @@ public class ParameterDialog extends BaseDialog
 		{
 			return null;
 		}
-		return new DateFormatter( STANDARD_DATE_TIME_PATTERN, ULocale.US ).format( date );
+		return new DateFormatter( STANDARD_DATE_TIME_PATTERN, ULocale.getDefault( ) ).format( date );
 	}
 
 	private String getExpression( String columnName )
