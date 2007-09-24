@@ -47,9 +47,9 @@ public class Regression_78796 extends BaseTestCase
 		IChoiceSet choiceset = instance.getChoiceSet( "filterOperator" ); //$NON-NLS-1$
 
 		IChoice[] naturedSortedChoices = choiceset.getChoices( null );
-		assertEquals( "is-null", naturedSortedChoices[8].getName( ) ); //$NON-NLS-1$
-		assertEquals( "is-not-null", naturedSortedChoices[7].getName( ) );//$NON-NLS-1$
-		assertEquals( "is-true", naturedSortedChoices[9].getName( ) );//$NON-NLS-1$
-		assertEquals( "is-false", naturedSortedChoices[6].getName( ) );//$NON-NLS-1$
+		assertEquals( "is-null", naturedSortedChoices[9].getName( ) ); //$NON-NLS-1$
+		assertEquals( "is-not-null", naturedSortedChoices[8].getName( ) );//$NON-NLS-1$
+		assertEquals( "is-true", naturedSortedChoices[10].getName( ) );//$NON-NLS-1$
+		assertEquals( "is-false", naturedSortedChoices[7].getName( ) );//$NON-NLS-1$
 	}
 }

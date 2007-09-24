@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.14" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.15" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 1.0.1 Build &lt;20051014-0742></property>
     <property name="units">in</property>
     <parameters>
@@ -17,8 +17,14 @@
             <property name="defaultValue">10/15/2005</property>
             <structure name="format">
                 <property name="category">Long Date</property>
-                <property name="pattern">Unformatted</property>
+                <property name="pattern">Long Date</property>
             </structure>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">ORDERDATE</property>
+                    <expression name="expression">dataSetRow["ORDERDATE"]</expression>
+                </structure>
+            </list-property>
         </scalar-parameter>
         <scalar-parameter name="Param 2" id="3">
             <property name="hidden">false</property>
@@ -36,6 +42,12 @@
                 <property name="category">Custom</property>
                 <property name="pattern">##,###.##</property>
             </structure>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">Amount</property>
+                    <expression name="expression">dataSetRow["Amount"]</expression>
+                </structure>
+            </list-property>
         </scalar-parameter>
     </parameters>
     <data-sources>
