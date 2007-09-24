@@ -13,8 +13,10 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 
+import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -30,6 +32,8 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Presents a list of values from dataset, allows user to select to define
  * default value for dynamic parameter
@@ -37,7 +41,7 @@ import org.eclipse.ui.PlatformUI;
  */
 public class SelectParameterDefaultValueDialog extends BaseDialog
 {
-
+	private static final String STANDARD_DATE_TIME_PATTERN = "MM/dd/yyyy hh:mm:ss a"; //$NON-NLS-1$
 	private List selectValueList = null;
 	private java.util.List columnValueList = new ArrayList( );;
 
@@ -114,6 +118,15 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 		super.okPressed( );
 	}
 
+	private String convertToStandardFormat( Date date )
+	{
+		if ( date == null )
+		{
+			return null;
+		}
+		return new DateFormatter( STANDARD_DATE_TIME_PATTERN, ULocale.US ).format( date );
+	}
+	
 	/**
 	 * populate all available value in selectValueList
 	 */
@@ -129,7 +142,16 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 				Iterator iter = columnValueList.iterator( );
 				while ( iter.hasNext( ) )
 				{
-					String candiateValue = String.valueOf( iter.next( ) );
+					Object obj = iter.next( );
+					String candiateValue = null;
+					if(obj instanceof Date)
+					{
+						candiateValue = convertToStandardFormat((Date)obj);
+					}else
+					{
+						candiateValue = String.valueOf( obj );
+					}
+					
 					selectValueList.add( candiateValue );
 				}
 			}
@@ -145,3 +167,4 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 		}
 	}
 }
+
