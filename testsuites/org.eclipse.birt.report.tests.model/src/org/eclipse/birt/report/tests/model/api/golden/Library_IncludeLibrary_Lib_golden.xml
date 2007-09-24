@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.14" id="1">
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.15" id="1">
     <property name="theme">defaultTheme</property>
     <list-property name="libraries">
         <structure>
@@ -24,7 +24,7 @@
             <property name="odaDriverClass">com.ibm.db2.jcc.DB2Driver</property>
             <property name="odaURL">jdbc:db2://spmdb:1527/gui</property>
             <property name="odaUser">root</property>
-            <encrypted-property name="odaPassword">cm9vdA==</encrypted-property>
+            <encrypted-property name="odaPassword" encryptionID="base64">cm9vdA==</encrypted-property>
         </oda-data-source>
         <oda-data-source name="mysql" id="33"/>
     </data-sources>

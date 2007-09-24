@@ -17,7 +17,7 @@
             <property name="fixedOrder">true</property>
             <expression name="defaultValue">10/15/2005</expression>
         </scalar-parameter>
-        <scalar-parameter name="Param 1">
+        <scalar-parameter name="Param 2">
             <property name="hidden">false</property>
             <text-property name="helpText" key="help">scalar para help</text-property>
             <property name="valueType">dynamic</property>
