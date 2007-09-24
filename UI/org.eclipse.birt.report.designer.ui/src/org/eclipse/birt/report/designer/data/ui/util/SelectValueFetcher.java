@@ -57,9 +57,10 @@ public class SelectValueFetcher
 	}
 	
 	public static List getSelectValueList( String expression,
-			DataSetHandle dataSetHandle, boolean inclFilter, boolean mode ) throws BirtException
+			DataSetHandle dataSetHandle, boolean inclFilter ) throws BirtException
 	{
-		if ( !ExpressionUtility.isColumnExpression( expression, mode ) )
+		if ( !ExpressionUtility.isColumnExpression( expression, true )
+				&& !ExpressionUtility.isColumnExpression( expression, false ) )
 		{
 			throw new DataException( Messages.getString( "SelectValueDialog.messages.info.DataCube.selectVauleUnavailable" ) );
 		}
@@ -220,8 +221,8 @@ public class SelectValueFetcher
 	 * @throws BirtException
 	 */
 	public static List getSelectValueList( String expression,
-			DataSetHandle dataSetHandle, boolean mode ) throws BirtException
+			DataSetHandle dataSetHandle ) throws BirtException
 	{
-		return getSelectValueList( expression, dataSetHandle, true, mode );
+		return getSelectValueList( expression, dataSetHandle, true );
 	}
 }

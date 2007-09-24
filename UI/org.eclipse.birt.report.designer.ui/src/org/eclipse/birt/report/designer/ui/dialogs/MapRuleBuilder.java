@@ -600,8 +600,7 @@ public class MapRuleBuilder extends BaseDialog
 					try
 					{
 						List selectValueList = SelectValueFetcher.getSelectValueList( expressionString,
-								dataSet,
-								false );
+								dataSet );
 						SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
 								.getDisplay( )
 								.getActiveShell( ),
