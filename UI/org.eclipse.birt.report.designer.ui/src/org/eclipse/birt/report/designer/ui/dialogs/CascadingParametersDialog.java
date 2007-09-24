@@ -19,6 +19,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
@@ -345,9 +346,10 @@ public class CascadingParametersDialog extends BaseDialog
 			return null;
 		}
 		String tempDefaultValue = defaultValueChooser.getText( );
+		
+		
 		String tempType = DATA_TYPE_CHOICE_SET.findChoiceByDisplayName( dataTypeChooser.getText( ) )
 				.getName( );
-		String tempformat = formatCategroy;
 
 		if ( DesignChoiceConstants.PARAM_TYPE_STRING.endsWith( tempType )
 				|| DesignChoiceConstants.PARAM_TYPE_BOOLEAN.endsWith( tempType ) )
@@ -359,10 +361,28 @@ public class CascadingParametersDialog extends BaseDialog
 		{
 			try
 			{
-				ParameterValidationUtil.validate( tempType,
-						tempformat,
-						tempDefaultValue,
-						ULocale.US );
+				
+				if ( !( ( DesignChoiceConstants.PARAM_TYPE_STRING.endsWith( getSelectedDataType( ) ) ) || ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.endsWith( getSelectedDataType( ) ) ) ) )
+				{
+					if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
+					{
+						tempDefaultValue = convertToStandardFormat( DataTypeUtil.toDate( tempDefaultValue ) );
+					}
+					else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( getSelectedDataType( ) ) )
+					{
+						tempDefaultValue = convertToStandardFormat( DataTypeUtil.toSqlDate( tempDefaultValue ) );
+					}
+					else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( getSelectedDataType( ) ) )
+					{
+						tempDefaultValue = convertToStandardFormat( DataTypeUtil.toSqlTime( tempDefaultValue ) );
+					}
+
+					ParameterValidationUtil.validate( getSelectedDataType( ),
+							STANDARD_DATE_TIME_PATTERN,
+							tempDefaultValue,
+							ULocale.getDefault( ) );
+
+				}
 			}
 			catch ( BirtException e )
 			{
@@ -379,7 +399,7 @@ public class CascadingParametersDialog extends BaseDialog
 		{
 			return null;
 		}
-		return new DateFormatter( STANDARD_DATE_TIME_PATTERN, ULocale.US ).format( date );
+		return new DateFormatter( STANDARD_DATE_TIME_PATTERN, ULocale.getDefault( ) ).format( date );
 	}
 
 	private void updateMessageLine( )
@@ -1046,7 +1066,7 @@ public class CascadingParametersDialog extends BaseDialog
 		return true;
 	}
 
-	private void validateDefaultValues( ) throws ValidationValueException
+	private void validateDefaultValues( ) throws BirtException
 	{
 		ArrayList elementsList = new ArrayList( inputParameterGroup.getParameters( )
 				.getContents( ) );
@@ -1060,17 +1080,35 @@ public class CascadingParametersDialog extends BaseDialog
 			ScalarParameterHandle handle = (ScalarParameterHandle) iter.next( );
 			String tempDefaultValue = handle.getDefaultValue( );
 			String tempType = handle.getDataType( );
-			String tempformat = handle.getCategory( );
 
 			if ( DesignChoiceConstants.PARAM_TYPE_STRING.endsWith( tempType )
 					|| DesignChoiceConstants.PARAM_TYPE_BOOLEAN.endsWith( tempType ) )
 			{
 				continue;
 			}
-			ParameterValidationUtil.validate( tempType,
-					tempformat,
-					tempDefaultValue,
-					ULocale.US );
+			
+			if ( !( ( DesignChoiceConstants.PARAM_TYPE_STRING.endsWith( getSelectedDataType( ) ) ) || ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.endsWith( getSelectedDataType( ) ) ) ) )
+			{
+				if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
+				{
+					tempDefaultValue = convertToStandardFormat( DataTypeUtil.toDate( tempDefaultValue ) );
+				}
+				else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( getSelectedDataType( ) ) )
+				{
+					tempDefaultValue = convertToStandardFormat( DataTypeUtil.toSqlDate( tempDefaultValue ) );
+				}
+				else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( getSelectedDataType( ) ) )
+				{
+					tempDefaultValue = convertToStandardFormat( DataTypeUtil.toSqlTime( tempDefaultValue ) );
+				}
+
+				ParameterValidationUtil.validate( getSelectedDataType( ),
+						STANDARD_DATE_TIME_PATTERN,
+						tempDefaultValue,
+						ULocale.getDefault( ) );
+
+			}
+			
 		}
 	}
 
@@ -1096,7 +1134,7 @@ public class CascadingParametersDialog extends BaseDialog
 				inputParameterGroup.setDataSetMode( DesignChoiceConstants.DATA_SET_MODE_MULTIPLE );
 			}
 		}
-		catch ( SemanticException e )
+		catch ( BirtException e )
 		{
 			ExceptionHandler.handle( e );
 			refreshParameterProperties( );
