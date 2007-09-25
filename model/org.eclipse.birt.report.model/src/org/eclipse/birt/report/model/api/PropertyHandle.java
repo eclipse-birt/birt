@@ -195,8 +195,8 @@ public class PropertyHandle extends SimpleValueHandle
 
 	public List getReferenceableElementList( )
 	{
-		if ( propDefn.getTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE
-				&& propDefn.getSubTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE )
+		if ( propDefn.getTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE &&
+				propDefn.getSubTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE )
 			return Collections.EMPTY_LIST;
 
 		List list = new ArrayList( );
@@ -211,8 +211,8 @@ public class PropertyHandle extends SimpleValueHandle
 				.getName( ) ) )
 			return moduleHandle.getVisibleDataSets( );
 
-		else if ( getElementHandle( ) instanceof ReportItemHandle
-				&& ReportItemHandle.DATA_BINDING_REF_PROP
+		else if ( getElementHandle( ) instanceof ReportItemHandle &&
+				ReportItemHandle.DATA_BINDING_REF_PROP
 						.equalsIgnoreCase( propDefn.getName( ) ) )
 			return ( (ReportItemHandle) getElementHandle( ) )
 					.getAvailableDataBindingReferenceList( );
@@ -364,8 +364,8 @@ public class PropertyHandle extends SimpleValueHandle
 			if ( !masterPage.isCustomType( getModule( ) ) )
 			{
 				String propName = propDefn.getName( );
-				if ( IMasterPageModel.HEIGHT_PROP.equals( propName )
-						|| IMasterPageModel.WIDTH_PROP.equals( propName ) )
+				if ( IMasterPageModel.HEIGHT_PROP.equals( propName ) ||
+						IMasterPageModel.WIDTH_PROP.equals( propName ) )
 					return true;
 			}
 		}
@@ -697,8 +697,9 @@ public class PropertyHandle extends SimpleValueHandle
 		if ( content == null )
 			return;
 		ContentCommand cmd = new ContentCommand( getModule( ),
-				new ContainerContext( getElement( ), propDefn.getName( ) ) );
-		cmd.remove( content.getElement( ), false );
+				new ContainerContext( getElement( ), propDefn.getName( ) ),
+				false, false );
+		cmd.remove( content.getElement( ) );
 	}
 
 	/**
@@ -716,8 +717,9 @@ public class PropertyHandle extends SimpleValueHandle
 		if ( content == null )
 			return;
 		ContentCommand cmd = new ContentCommand( getModule( ),
-				new ContainerContext( getElement( ), propDefn.getName( ) ) );
-		cmd.remove( content.getElement( ), true );
+				new ContainerContext( getElement( ), propDefn.getName( ) ),
+				false, true );
+		cmd.remove( content.getElement( ) );
 	}
 
 	/**

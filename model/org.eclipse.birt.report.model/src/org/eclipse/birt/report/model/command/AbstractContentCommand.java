@@ -121,9 +121,9 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 			return;
 		}
 
-		if ( content instanceof GroupElement &&
-				element instanceof ListingElement &&
-				!( this instanceof GroupElementCommand ) )
+		if ( content instanceof GroupElement
+				&& element instanceof ListingElement
+				&& !( this instanceof GroupElementCommand ) )
 		{
 			GroupElementCommand attrCmd = new GroupElementCommand( module,
 					focus );
@@ -184,8 +184,8 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 
 		// If this is a single-item slot, ensure that the slot is empty.
 
-		if ( !focus.isContainerMultipleCardinality( ) &&
-				focus.getContentCount( module ) > 0 )
+		if ( !focus.isContainerMultipleCardinality( )
+				&& focus.getContentCount( module ) > 0 )
 		{
 			throw ContentExceptionFactory.createContentException( focus,
 					ContentException.DESIGN_EXCEPTION_SLOT_IS_FULL );
@@ -282,13 +282,15 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 			return;
 		}
 
-		if ( content instanceof GroupElement &&
-				element instanceof ListingElement &&
-				!( this instanceof GroupElementCommand ) )
+		if ( content instanceof GroupElement
+				&& element instanceof ListingElement
+				&& !( this instanceof GroupElementCommand ) )
 		{
+
 			boolean flag = ( (ContentCommand) this ).flag;
+			boolean unresolveReference = ( (ContentCommand) this ).unresolveReference;
 			GroupElementCommand attrCmd = new GroupElementCommand( module,
-					focus, flag );
+					focus, flag, unresolveReference );
 
 			attrCmd.remove( content );
 			return;
@@ -362,8 +364,6 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 	 * 
 	 * @param content
 	 *            the content to remove
-	 * @param unresolveReference
-	 *            status whether to un-resolve the references
 	 * @throws SemanticException
 	 */
 
@@ -381,9 +381,16 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 		while ( iter.hasNext( ) )
 		{
 			DesignElement tmpContent = (DesignElement) iter.next( );
-			ContentCommand cmd = new ContentCommand( module, tmpContent
-					.getContainerInfo( ) );
-			cmd.remove( tmpContent, false, true );
+			AbstractContentCommand cmd = null;
+			if ( this instanceof ContentCommand )
+				cmd = new ContentCommand( module,
+						tmpContent.getContainerInfo( ), true,
+						( (ContentCommand) this ).unresolveReference );
+			else if ( this instanceof ContentElementCommand )
+				cmd = new ContentElementCommand( module, tmpContent
+						.getContainerInfo( ) );
+			if ( cmd != null )
+				cmd.remove( tmpContent );
 		}
 	}
 
@@ -525,8 +532,8 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 			throw ContentExceptionFactory.createContentException(
 					toContainerInfor, content,
 					ContentException.DESIGN_EXCEPTION_WRONG_TYPE );
-		if ( !toContainerInfor.isContainerMultipleCardinality( ) &&
-				toContainerInfor.getContentCount( module ) > 0 )
+		if ( !toContainerInfor.isContainerMultipleCardinality( )
+				&& toContainerInfor.getContentCount( module ) > 0 )
 			throw ContentExceptionFactory.createContentException(
 					toContainerInfor,
 					ContentException.DESIGN_EXCEPTION_SLOT_IS_FULL );
@@ -566,9 +573,9 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 			return;
 		}
 
-		if ( content instanceof GroupElement &&
-				element instanceof ListingElement &&
-				!( this instanceof GroupElementCommand ) )
+		if ( content instanceof GroupElement
+				&& element instanceof ListingElement
+				&& !( this instanceof GroupElementCommand ) )
 		{
 			GroupElementCommand attrCmd = new GroupElementCommand( module,
 					focus );
@@ -670,8 +677,8 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 		{
 			retTarget.pushStep( tmpPropDefn, -1 );
 
-			if ( tmpPropDefn.getTypeCode( ) == IPropertyType.CONTENT_ELEMENT_TYPE &&
-					!( tmpElement instanceof ContentElement ) )
+			if ( tmpPropDefn.getTypeCode( ) == IPropertyType.CONTENT_ELEMENT_TYPE
+					&& !( tmpElement instanceof ContentElement ) )
 			{
 				retTarget.setTopElement( tmpElement );
 				return retTarget;

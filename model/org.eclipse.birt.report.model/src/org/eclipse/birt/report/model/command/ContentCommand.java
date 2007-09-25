@@ -69,7 +69,11 @@ import org.eclipse.birt.report.model.util.LevelContentIterator;
 public class ContentCommand extends AbstractContentCommand
 {
 
-	private boolean unresolveReference;
+	/**
+	 * 
+	 */
+
+	protected boolean unresolveReference;
 
 	/**
 	 * <code>true</code> is to manipulate group elements that refers to other
@@ -106,6 +110,25 @@ public class ContentCommand extends AbstractContentCommand
 	{
 		super( module, containerInfo );
 		this.flag = flag;
+	}
+
+	/**
+	 * Constructs the content command with container element.
+	 * 
+	 * @param module
+	 *            the module
+	 * @param containerInfo
+	 *            the container information
+	 * @param flag
+	 * @param unresolveReference
+	 */
+
+	public ContentCommand( Module module, ContainerContext containerInfo,
+			boolean flag, boolean unresolveReference )
+	{
+		super( module, containerInfo );
+		this.flag = flag;
+		this.unresolveReference = unresolveReference;
 	}
 
 	/**
@@ -270,76 +293,6 @@ public class ContentCommand extends AbstractContentCommand
 				addElementNames( tmpElement );
 			}
 		}
-	}
-
-	/**
-	 * Removes an item from its container. This is equivalent to deleting the
-	 * element from the design. Because the element is being deleted, we must
-	 * clean up all references to or from the element. References include:
-	 * <p>
-	 * <ul>
-	 * <li>The elements that this content extends.
-	 * <li>The elements that extend this content.
-	 * <li>The style that this content uses.
-	 * <li>The elements that use this style.
-	 * <li>The elements that this content contains.
-	 * <li>The name space that contains this content.
-	 * </ul>
-	 * 
-	 * @param content
-	 *            the element to remove
-	 * @param slotID
-	 *            the slot from which to remove the content
-	 * @param unresolveReference
-	 *            status whether to un-resolve the references
-	 * @throws SemanticException
-	 *             if this content cannot be removed from container.
-	 */
-
-	public void remove( DesignElement content, boolean unresolveReference )
-			throws SemanticException
-	{
-		this.unresolveReference = unresolveReference;
-		this.flag = false;
-
-		super.remove( content );
-	}
-
-	/**
-	 * Removes an item from its container. This is equivalent to deleting the
-	 * element from the design. Because the element is being deleted, we must
-	 * clean up all references to or from the element. References include:
-	 * <p>
-	 * <ul>
-	 * <li>The elements that this content extends.
-	 * <li>The elements that extend this content.
-	 * <li>The style that this content uses.
-	 * <li>The elements that use this style.
-	 * <li>The elements that this content contains.
-	 * <li>The name space that contains this content.
-	 * </ul>
-	 * 
-	 * @param content
-	 *            the element to remove
-	 * @param slotID
-	 *            the slot from which to remove the content
-	 * @param unresolveReference
-	 *            status whether to un-resolve the references
-	 * @param flag
-	 *            <code>true</code> to avoid the exception when the
-	 *            <code>content</code> is a virtual element. Otherwise,
-	 *            <code>false</code>.
-	 * @throws SemanticException
-	 *             if this content cannot be removed from container.
-	 */
-
-	public void remove( DesignElement content, boolean unresolveReference,
-			boolean flag ) throws SemanticException
-	{
-		this.unresolveReference = unresolveReference;
-		this.flag = flag;
-
-		super.remove( content );
 	}
 
 	/**

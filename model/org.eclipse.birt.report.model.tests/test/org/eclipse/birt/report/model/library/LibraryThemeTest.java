@@ -36,6 +36,7 @@ import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
@@ -396,20 +397,23 @@ public class LibraryThemeTest extends BaseTestCase
 				.getProperty( Style.COLOR_PROP ) );
 		assertEquals( ColorPropertyType.BLACK, label2
 				.getProperty( Style.COLOR_PROP ) );
+		// unresolve the back-ref for all the styles in the dropped theme
+		assertNotNull( label3.getProperty( IStyledElementModel.STYLE_PROP ) );
 
 		// theme is added.
-
 		libraryHandle.getCommandStack( ).undo( );
-
 		assertEquals( ColorPropertyType.RED, label1
 				.getProperty( Style.COLOR_PROP ) );
 
 		// drop the theme
-
 		libraryHandle.getCommandStack( ).redo( );
-
 		assertEquals( ColorPropertyType.BLACK, label1
 				.getProperty( Style.COLOR_PROP ) );
+		
+		// test dropAndClear
+		libraryHandle.getCommandStack( ).undo( );
+		libraryHandle.getThemes( ).dropAndClear( theme1 );
+		assertNull( label3.getProperty( IStyledElementModel.STYLE_PROP ) );
 
 	}
 
@@ -824,6 +828,7 @@ public class LibraryThemeTest extends BaseTestCase
 
 		/**
 		 * Returns counter.
+		 * 
 		 * @return
 		 */
 		public int getCounter( )

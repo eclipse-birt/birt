@@ -449,7 +449,7 @@ public class SlotHandle extends ElementDetailHandle
 			return;
 		ContentCommand cmd = new ContentCommand( getModule( ),
 				new ContainerContext( getElement( ), slotID ) );
-		cmd.remove( content.getElement( ), false );
+		cmd.remove( content.getElement( ) );
 	}
 
 	/**
@@ -467,8 +467,8 @@ public class SlotHandle extends ElementDetailHandle
 		if ( content == null )
 			return;
 		ContentCommand cmd = new ContentCommand( getModule( ),
-				new ContainerContext( getElement( ), slotID ) );
-		cmd.remove( content.getElement( ), true );
+				new ContainerContext( getElement( ), slotID ), false, true );
+		cmd.remove( content.getElement( ) );
 	}
 
 	/**
@@ -487,7 +487,7 @@ public class SlotHandle extends ElementDetailHandle
 				posn );
 		ContentCommand cmd = new ContentCommand( getModule( ),
 				new ContainerContext( getElement( ), slotID ) );
-		cmd.remove( content, false );
+		cmd.remove( content  );
 	}
 
 	/**
@@ -505,8 +505,8 @@ public class SlotHandle extends ElementDetailHandle
 		DesignElement content = getElement( ).getSlot( slotID ).getContent(
 				posn );
 		ContentCommand cmd = new ContentCommand( getModule( ),
-				new ContainerContext( getElement( ), slotID ) );
-		cmd.remove( content, true );
+				new ContainerContext( getElement( ), slotID ), false ,true );
+		cmd.remove( content );
 	}
 
 	/**

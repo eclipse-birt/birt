@@ -13,10 +13,12 @@ package org.eclipse.birt.report.model.command;
 
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.IReferencableElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
@@ -36,7 +38,7 @@ public class ElementBackRefRecord extends BackRefRecord
 	protected IReferencableElement referred = null;
 
 	private DesignElement target;
-	
+
 	/**
 	 * Constructor.
 	 * 
@@ -59,9 +61,8 @@ public class ElementBackRefRecord extends BackRefRecord
 		super( module, reference, propName );
 		this.referred = referred;
 
-		
 		assert referred != null;
-		
+
 		target = reference;
 	}
 
@@ -90,7 +91,7 @@ public class ElementBackRefRecord extends BackRefRecord
 		this.referred = referred;
 
 		assert referred != null;
-		
+
 		target = reference.getElement( );
 	}
 
@@ -111,8 +112,16 @@ public class ElementBackRefRecord extends BackRefRecord
 						.getPropertyDefn( propName );
 
 				// To add client is done in resolving element reference.
-
-				tmpElement.getLocalProperty( module, propDefn );
+				if ( IStyledElementModel.STYLE_PROP.equals( propName ) )
+				{
+					tmpElement.getStyle( module );
+				}
+				else if ( IModuleModel.THEME_PROP.equals( propName ) )
+				{
+					( (Module) tmpElement ).getTheme( module );
+				}
+				else
+					tmpElement.getLocalProperty( module, propDefn );
 			}
 			else
 			{
@@ -159,7 +168,7 @@ public class ElementBackRefRecord extends BackRefRecord
 	private void removeElementRefOfProperty( )
 	{
 		DesignElement tmpElement = (DesignElement) reference;
-		
+
 		Object value = tmpElement.getLocalProperty( module, propName );
 		if ( value instanceof ElementRefValue )
 		{
@@ -183,7 +192,7 @@ public class ElementBackRefRecord extends BackRefRecord
 			}
 		}
 	}
-	
+
 	public DesignElement getTarget( )
 	{
 		return target;

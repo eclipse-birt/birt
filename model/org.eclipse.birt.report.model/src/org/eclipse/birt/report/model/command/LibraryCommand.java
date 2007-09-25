@@ -107,8 +107,8 @@ public class LibraryCommand extends AbstractElementCommand
 
 		URL url = module.findResource( libraryFileName,
 				IResourceLocator.LIBRARY );
-		if ( url != null
-				&& module.getLibraryByLocation( url.toString( ) ) != null )
+		if ( url != null &&
+				module.getLibraryByLocation( url.toString( ) ) != null )
 		{
 			throw new LibraryException( module, new String[]{url.toString( )},
 					LibraryException.DESIGN_EXCEPTION_LIBRARY_ALREADY_INCLUDED );
@@ -148,7 +148,7 @@ public class LibraryCommand extends AbstractElementCommand
 		}
 
 		ActivityStack stack = getActivityStack( );
-		
+
 		LibraryRecord record = new LibraryRecord( module, library, false );
 		stack.startTrans( record.getLabel( ) );
 		try
@@ -176,7 +176,6 @@ public class LibraryCommand extends AbstractElementCommand
 				}
 			}
 
-			
 			getActivityStack( ).execute( record );
 
 			// Remove the include library structure.
@@ -536,14 +535,14 @@ public class LibraryCommand extends AbstractElementCommand
 
 		library.setReadOnly( );
 
-		ActivityStack activityStack = getActivityStack( );		
+		ActivityStack activityStack = getActivityStack( );
 
 		LibraryRecord record = null;
 		if ( action == SIMPLE_ACTION )
 			record = new LibraryRecord( module, library, true );
 		if ( action == RELOAD_ACTION )
 			record = new LibraryRecord( module, library, overriddenValues );
-		
+
 		assert record != null;
 		activityStack.startTrans( record.getLabel( ) );
 		getActivityStack( ).execute( record );
@@ -643,8 +642,8 @@ public class LibraryCommand extends AbstractElementCommand
 		{
 			DesignElement tmpElement = (DesignElement) contentIter.next( );
 			ContentCommand command = new ContentCommand( module, tmpElement
-					.getContainerInfo( ) );
-			command.remove( tmpElement, false, true );
+					.getContainerInfo( ), true, true );
+			command.remove( tmpElement );
 		}
 
 		activityStack.commit( );
