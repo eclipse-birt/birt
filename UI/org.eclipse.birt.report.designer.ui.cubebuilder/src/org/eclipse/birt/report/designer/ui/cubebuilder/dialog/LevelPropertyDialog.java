@@ -235,7 +235,17 @@ public class LevelPropertyDialog extends TitleAreaDialog
 
 			displayKeyCombo.setItems( OlapUtil.getDataFieldNames( dataset ) );
 			displayKeyCombo.add( Messages.getString( "LevelPropertyDialog.None" ), 0 ); //$NON-NLS-1$
-			
+			displayKeyCombo.addSelectionListener( new SelectionAdapter( ) {
+
+				public void widgetSelected( SelectionEvent e )
+				{
+					if ( displayKeyCombo.getSelectionIndex( ) > 0 )
+					{
+						displayKeyCombo.setText( DEUtil.getResultSetColumnExpression( displayKeyCombo.getText( ) ) );
+
+					}
+				}
+			} );
 			if ( input.getDisplayColumnName( ) != null )
 			{
 				displayKeyCombo.setText( input.getDisplayColumnName( ) );
@@ -762,17 +772,6 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
 		displayKeyCombo.setLayoutData( gd );
-		displayKeyCombo.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				if ( displayKeyCombo.getSelectionIndex( ) > 0 )
-				{
-					displayKeyCombo.setText( DEUtil.getResultSetColumnExpression( displayKeyCombo.getText( ) ) );
-
-				}
-			}
-		} );
 		Button expressionButton = new Button( groupGroup, SWT.PUSH );
 		UIUtil.setExpressionButtonImage( expressionButton );
 		expressionButton.addSelectionListener( new SelectionAdapter( ) {
