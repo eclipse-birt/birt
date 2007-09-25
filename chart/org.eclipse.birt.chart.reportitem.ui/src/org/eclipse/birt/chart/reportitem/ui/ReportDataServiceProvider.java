@@ -53,6 +53,8 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
+import org.eclipse.birt.report.model.api.DesignConfig;
+import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
@@ -65,6 +67,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
+import org.eclipse.birt.report.model.metadata.PredefinedStyle;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -557,9 +560,47 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			names[i] = handles[i].getQualifiedName( );
 		}
+		
+		// Filter predefined styles to make its logic same with report design side.
+		names = filterPreStyles( names );
 		return names;
 	}
 
+	/**
+	 * Filter predefined styles.
+	 * 
+	 * @param items all available styles
+	 * @return filtered styles.
+	 */
+	private String[] filterPreStyles( String items[] )
+	{
+		String[] newItems = items;
+		if ( items == null ) {
+			newItems = new String[]{};
+		}
+		
+		List preStyles = new DesignEngine( new DesignConfig( ) ).getMetaData( )
+				.getPredefinedStyles( );
+		List preStyleNames = new ArrayList( );
+
+		for ( int i = 0; i < preStyles.size( ); i++ )
+		{
+			preStyleNames.add( ( (PredefinedStyle) preStyles.get( i ) ).getName( ) );
+		}
+
+		List sytleNames = new ArrayList( );
+		for ( int i = 0; i < newItems.length; i++ )
+		{
+			if ( preStyleNames.indexOf( newItems[i] ) == -1 )
+			{
+				sytleNames.add( newItems[i] );
+			}
+		}
+
+		return (String[]) ( sytleNames.toArray( new String[]{} ) );
+
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -567,11 +608,16 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 */
 	public String[] getAllStyleDisplayNames( )
 	{
+		List styles = Arrays.asList( getAllStyles( ) );
 		StyleHandle[] handles = getAllStyleHandles( );
-		String[] names = new String[handles.length];
-		for ( int i = 0; i < names.length; i++ )
+		String[] names = new String[ styles.size( ) ];
+		for ( int i = 0, j = 0; i < handles.length; i++ )
 		{
-			names[i] = handles[i].getDisplayLabel( );
+			// Remove predefined styles to make its logic same with report design side.
+			if ( styles.contains( handles[i].getQualifiedName( ) ) )
+			{
+				names[j++] = handles[i].getDisplayLabel( );
+			}
 		}
 		return names;
 	}
