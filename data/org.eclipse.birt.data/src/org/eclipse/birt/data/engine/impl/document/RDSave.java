@@ -148,10 +148,13 @@ class RDSave implements IRDSave
 	 */
 	private String getDataSetColumnName ( String expr )
 	{
-		if( expr == null || expr.trim( ).length( )== 0 || !(expr.matches( "\\QdataSetRow[\"\\E.*\\Q\"]\\E" ) || expr.matches( "\\QdataSetRow.\\E.*" )))
+		if ( expr == null
+				|| expr.trim( ).length( ) == 0
+				|| expr.split( "\\QdataSetRow\\E" ).length != 2
+				|| !( expr.matches( "\\QdataSetRow[\"\\E.*\\Q\"]\\E" ) || expr.matches( "\\QdataSetRow.\\E.*" ) ) )
 			return null;
 
-		if( expr.matches( "\\QdataSetRow[\"\\E.*\\Q\"]\\E" ))
+		if( expr.matches( "\\QdataSetRow[\"\\E.*\\Q\"]\\E" ) )
 			return expr.replaceAll( "\\QdataSetRow[\"\\E", "" ).replaceAll( "\\Q\"]\\E", "" );
 		else
 			return expr.replaceAll( "\\QdataSetRow.\\E", "" );
