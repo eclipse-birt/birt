@@ -3201,6 +3201,29 @@ public abstract class DesignElement
 					( (DesignElement) clonedValue ).setContainer( element, key );
 				}
 			}
+
+			// if the property is structure type, then set-up the container
+			// relationship
+
+			if ( propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
+			{
+				if ( propDefn.isList( ) )
+				{
+					List values = (ArrayList) clonedValue;
+					for ( int i = 0; i < values.size( ); i++ )
+					{
+						Structure item = (Structure) values.get( i );
+						item.setContext( new StructureContext( element,
+								propDefn.getName( ) ) );
+					}
+				}
+				else
+				{
+					( (Structure) clonedValue )
+							.setContext( new StructureContext( element,
+									propDefn.getName( ) ) );
+				}
+			}
 		}
 
 		return element;

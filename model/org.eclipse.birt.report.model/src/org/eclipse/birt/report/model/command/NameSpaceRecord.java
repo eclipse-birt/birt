@@ -245,7 +245,7 @@ public class NameSpaceRecord extends SimpleRecord
 		if ( propDefn.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 		{
 			ElementRefValue tempRefValue = (ElementRefValue) struct
-					.getProperty( root, (PropertyDefn) propDefn );
+					.getLocalProperty( root, (PropertyDefn) propDefn );
 
 			if ( referred == tempRefValue.getElement( ) )
 			{
