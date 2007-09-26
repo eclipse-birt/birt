@@ -14,7 +14,9 @@ package org.eclipse.birt.report.model.parser;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.ColorHandle;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.DimensionHandle;
@@ -22,6 +24,7 @@ import org.eclipse.birt.report.model.api.FontHandle;
 import org.eclipse.birt.report.model.api.HighlightRuleHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.TOCHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.DateFormatValue;
@@ -259,14 +262,14 @@ public class StyleParseTest extends BaseTestCase
 
 		DateFormatValue dateFormatValue = (DateFormatValue) style.getProperty(
 				design, Style.DATE_FORMAT_PROP );
-		assertEquals( "yyyy/mm/dd" , dateFormatValue.getPattern( ) );//$NON-NLS-1$
-		assertEquals( "Short Date" , dateFormatValue.getCategory( ) );//$NON-NLS-1$
-		
+		assertEquals( "yyyy/mm/dd", dateFormatValue.getPattern( ) );//$NON-NLS-1$
+		assertEquals( "Short Date", dateFormatValue.getCategory( ) );//$NON-NLS-1$
+
 		TimeFormatValue timeFormatValue = (TimeFormatValue) style.getProperty(
 				design, Style.TIME_FORMAT_PROP );
-		assertEquals( "hh/mm" , timeFormatValue.getPattern( ) );//$NON-NLS-1$
-		assertEquals( "Short Time" , timeFormatValue.getCategory( ) );//$NON-NLS-1$
-		
+		assertEquals( "hh/mm", timeFormatValue.getPattern( ) );//$NON-NLS-1$
+		assertEquals( "Short Time", timeFormatValue.getCategory( ) );//$NON-NLS-1$
+
 		assertEquals(
 				"fantasy", style.getStringProperty( design, Style.FONT_FAMILY_PROP ) ); //$NON-NLS-1$
 		assertEquals( "red", style.getStringProperty( design, Style.COLOR_PROP ) ); //$NON-NLS-1$
@@ -404,7 +407,8 @@ public class StyleParseTest extends BaseTestCase
 				( (MapRule) mapRules.get( 2 ) ).getOperator( ) );
 		assertEquals( "Unknown", ( (MapRule) mapRules.get( 2 ) ).getDisplay( ) ); //$NON-NLS-1$
 
-		NameSpace ns = design.getNameHelper( ).getNameSpace( Module.STYLE_NAME_SPACE );
+		NameSpace ns = design.getNameHelper( ).getNameSpace(
+				Module.STYLE_NAME_SPACE );
 		assertEquals( 18, ns.getCount( ) );
 
 		// Predefined style is defined by user.
@@ -1238,5 +1242,43 @@ public class StyleParseTest extends BaseTestCase
 		style.getFontFamilyHandle( ).setValue( value );
 		assertEquals(
 				"\"a b\", \"cd\", " + DesignChoiceConstants.FONT_FAMILY_FANTASY, style.getStringProperty( IStyleModel.FONT_FAMILY_PROP ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Tests the 'style' in toc or highlight rule.
+	 * 
+	 * @throws Exception
+	 */
+	public void testTOC( ) throws Exception
+	{
+		openDesign( fileName );
+		LabelHandle label = designHandle.getElementFactory( ).newLabel( null );
+		designHandle.getBody( ).add( label );
+
+		label.setTocExpression( "label toc expression" ); //$NON-NLS-1$
+		TOCHandle tocHandle = label.getTOC( );
+
+		CommandStack stack = designHandle.getCommandStack( );
+		stack.startTrans( null );
+		StyleHandle style = designHandle.getElementFactory( ).newStyle(
+				"newTocStyle" ); //$NON-NLS-1$
+		designHandle.getStyles( ).add( style );
+		tocHandle.setStyleName( style.getName( ) );
+		stack.commit( );
+
+		assertEquals( style.getName( ), tocHandle.getStyleName( ) );
+		stack.undo( );
+
+		assertNull( tocHandle.getStyleName( ) );
+
+		// add style and set toc style
+		designHandle.getStyles( ).add( style );
+		tocHandle.setStyleName( style.getName( ) );
+		assertEquals( 1, ( (Style) style.getElement( ) ).getClientList( )
+				.size( ) );
+
+		stack.undo( );
+		assertEquals( 0, ( (Style) style.getElement( ) ).getClientList( )
+				.size( ) );
 	}
 }
