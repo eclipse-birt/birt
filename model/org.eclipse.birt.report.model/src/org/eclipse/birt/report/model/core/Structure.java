@@ -254,7 +254,7 @@ public abstract class Structure implements IStructure
 
 	protected void updateReference( PropertyDefn prop, Object value )
 	{
-		if ( value instanceof ElementRefValue
+		if ( ( value instanceof ElementRefValue || value == null )
 				&& prop.getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
 		{
 			ElementRefValue oldRef = (ElementRefValue) getLocalProperty( null,
