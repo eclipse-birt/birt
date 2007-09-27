@@ -1290,7 +1290,17 @@ public class ReportDesignSerializer extends ElementVisitor
 					break;
 				default :
 					if ( newElement.getLocalProperty( null, propDefn ) == null )
+					{
+						if ( propDefn.isEncryptable( ) )
+						{
+							String encryption = element.getEncryptionID( propDefn );
+							newElement.setEncryptionHelper( propDefn, encryption );
+							value = ModelUtil.encryptProperty( newElement, propDefn, encryption, value );
+							newElement.setProperty( propDefn, value );							
+						}
+						else
 						newElement.setProperty( propDefn, value );
+					}
 			}
 		}
 	}
