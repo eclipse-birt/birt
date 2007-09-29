@@ -59,11 +59,11 @@ public class CacheUtil
 	/**
 	 * @return
 	 */
-	public static int computeMemoryBufferSize( Map appContext )
+	public static long computeMemoryBufferSize( Map appContext )
 	{
 		//here a simple assumption, that 1M memory can accommodate 2000 rows
 		if ( appContext == null )
-			return 10*1024*1024*8;
+			return 10*1024*1024;
 		if ( appContext.get( TEST_MEM_BUFFER_SIZE )!= null )
 		{
 			//For unit test.The unit is 1 byte.
@@ -71,7 +71,7 @@ public class CacheUtil
 		}
 		
 		//The unit is 1M.
-		return populateMemBufferSize( appContext.get( DataEngine.MEMORY_BUFFER_SIZE )) * 1024 * 1024 * 8;
+		return populateMemBufferSize( appContext.get( DataEngine.MEMORY_BUFFER_SIZE )) * 1024 * 1024;
 	}
 
 	/**
@@ -79,18 +79,18 @@ public class CacheUtil
 	 * @param propValue
 	 * @return
 	 */
-	private static int populateMemBufferSize( Object propValue )
+	private static long populateMemBufferSize( Object propValue )
 	{
 		String targetBufferSize =  propValue == null
 				? "10" : propValue
 						.toString( );
 		
-		int memoryCacheSize = 10; 
+		long memoryCacheSize = 10; 
 		
 		if ( targetBufferSize != null )
-			memoryCacheSize = Integer.parseInt( targetBufferSize );
+			memoryCacheSize = Long.parseLong( targetBufferSize );
 
-		return memoryCacheSize;
+		return memoryCacheSize == 0?1:memoryCacheSize;
 	}
 	
 	// ------------------------service for DiskCache-------------------------
