@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -76,9 +76,8 @@ public class PDFRender extends PageDeviceRender
 
 	public void visitImage( IImageArea imageArea )
 	{
-		ContainerPosition curPos = getContainerPosition( );
-		int imageX = curPos.x + getX( imageArea );
-		int imageY = curPos.y + getY( imageArea );
+		int imageX = currentX + getX( imageArea );
+		int imageY = currentY + getY( imageArea );
 		super.visitImage( imageArea );
 		createBookmark( imageArea, imageX, imageY );
 		createHyperlink( imageArea, imageX, imageY );
@@ -87,9 +86,8 @@ public class PDFRender extends PageDeviceRender
 	public void visitText( ITextArea textArea )
 	{
 		super.visitText( textArea );
-		ContainerPosition curPos = getContainerPosition( );
-		int x = curPos.x + getX( textArea );
-		int y = curPos.y + getY( textArea );
+		int x = currentX + getX( textArea );
+		int y = currentY + getY( textArea );
 		createBookmark( textArea, x, y );
 		createHyperlink( textArea, x, y );
 	}
@@ -97,9 +95,8 @@ public class PDFRender extends PageDeviceRender
 	public void visitAutoText( ITemplateArea templateArea )
 	{
 		super.visitAutoText( templateArea );
-		ContainerPosition curPos = getContainerPosition( );
-		int x = curPos.x + getX( templateArea );
-		int y = curPos.y + getY( templateArea );
+		int x = currentX + getX( templateArea );
+		int y = currentY + getY( templateArea );
 		createTotalPageTemplate( x, y, getWidth( templateArea ),
 				getHeight( templateArea ) );
 	}
@@ -107,9 +104,8 @@ public class PDFRender extends PageDeviceRender
 	public void setTotalPage( ITextArea totalPage )
 	{
 		super.setTotalPage( totalPage );
-		ContainerPosition curPos = getContainerPosition( );
-		int x = curPos.x + getX( totalPage );
-		int y = curPos.y + getY( totalPage );
+		int x = currentX + getX( totalPage );
+		int y = currentY + getY( totalPage );
 		isTotalPage = true;
 		drawTextAt( totalPage, x, y );
 		isTotalPage = false;
@@ -130,9 +126,8 @@ public class PDFRender extends PageDeviceRender
 	protected void drawContainer( IContainerArea container )
 	{
 		super.drawContainer( container );
-		ContainerPosition curPos = getContainerPosition( );
-		int x = curPos.x + getX( container );
-		int y = curPos.y + getY( container );
+		int x = currentX + getX( container );
+		int y = currentY + getY( container );
 		createBookmark( container, x, y );
 		createHyperlink( container, x, y );
 	}
@@ -229,11 +224,12 @@ public class PDFRender extends PageDeviceRender
 		if ( null != content )
 		{
 			IHyperlinkAction hlAction = content.getHyperlinkAction( );
-			String systemId = reportRunnable == null ? null : reportRunnable
-					.getReportName( );
 			if ( null != hlAction )
 				try
 				{
+					String systemId = reportRunnable == null
+							? null
+							: reportRunnable.getReportName( );
 					int width = getWidth( area );
 					int height = getHeight( area );
 					String bookmark = hlAction.getBookmark( );
@@ -284,14 +280,14 @@ public class PDFRender extends PageDeviceRender
 
 	private void createBookmark( IArea area, int x, int y )
 	{
-		int height = getHeight( area );
-		int width = getWidth( area );
 		IContent content = area.getContent( );
 		if ( null != content )
 		{
 			String bookmark = content.getBookmark( );
 			if ( null != bookmark )
 			{
+				int height = getHeight( area );
+				int width = getWidth( area );
 				currentPage.createBookmark( bookmark, x, y, width, height );
 				bookmarks.add(bookmark);
 			}

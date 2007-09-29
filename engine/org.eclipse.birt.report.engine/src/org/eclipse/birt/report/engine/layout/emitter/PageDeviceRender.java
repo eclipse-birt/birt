@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -19,7 +19,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -85,7 +84,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 
 	protected IEmitterServices services;
 
-	private Stack containerStack = new Stack( );
+	protected int currentX;
+	protected int currentY;
 
 	protected Logger logger = Logger.getLogger( PageDeviceRender.class
 			.getName( ) );
@@ -93,19 +93,6 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	protected IPageDevice pageDevice;
 
 	protected IPage pageGraphic;
-
-	protected class ContainerPosition
-	{
-
-		public int x;
-		public int y;
-
-		public ContainerPosition( int x, int y )
-		{
-			this.x = x;
-			this.y = y;
-		}
-	}
 
 	/**
 	 * Gets the output format. always returns "postscript".
@@ -164,9 +151,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 
 	public void visitText( ITextArea textArea )
 	{
-		ContainerPosition curPos = getContainerPosition( );
-		int x = curPos.x + getX( textArea );
-		int y = curPos.y + getY( textArea );
+		int x = currentX + textArea.getX();
+		int y = currentY + textArea.getY();
 		drawTextAt( textArea, x, y );
 	}
 
@@ -208,7 +194,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			hTextSpace = (int) ( H_TEXT_SPACE * scale );
 			vTextSpace = (int) ( V_TEXT_SPACE * scale );
 			newPage( container );
-			containerStack.push( new ContainerPosition( 0, 0 ) );
+			currentX = 0;
+			currentY = 0;
 		}
 		else
 		{
@@ -218,27 +205,15 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				clip( container );
 			}
 			drawContainer( container );
-			ContainerPosition pos;
-			if ( !containerStack.isEmpty( ) )
-			{
-				pos = (ContainerPosition) containerStack.peek( );
-				ContainerPosition current = new ContainerPosition( pos.x
-						+ getX( container ), pos.y + getY( container ) );
-				containerStack.push( current );
-			}
-			else
-			{
-				containerStack.push( new ContainerPosition( getX( container ),
-						getY( container ) ) );
-			}
+			currentX += getX( container );
+			currentY += getY( container );
 		}
 	}
 
 	private void clip( IContainerArea container )
 	{
-		ContainerPosition curPos = getContainerPosition( );
-		int startX = curPos.x + getX( container );
-		int startY = curPos.y + getY( container );
+		int startX = currentX + getX( container );
+		int startY = currentY + getY( container );
 		int width = getWidth( container );
 		int height = getHeight( container );
 		pageGraphic.clip( startX, startY, width, height );
@@ -263,10 +238,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				pageGraphic.clipRestore( );
 			}
 		}
-		if ( !containerStack.isEmpty( ) )
-		{
-			containerStack.pop( );
-		}
+		currentX -= container.getX( );
+		currentY -= container.getY( );
 	}
 
 
@@ -289,16 +262,6 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		// Draws background image for the new page. if the background image is
 		// NOT set, draw nothing.
 		drawBackgroundImage( page.getStyle( ), 0, 0, pageWidth, pageHeight );
-	}
-
-	protected ContainerPosition getContainerPosition( )
-	{
-		ContainerPosition curPos;
-		if ( !containerStack.isEmpty( ) )
-			curPos = (ContainerPosition) containerStack.peek( );
-		else
-			curPos = new ContainerPosition( 0, 0 );
-		return curPos;
 	}
 
 	/**
@@ -418,13 +381,12 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		{
 			return;
 		}
-		ContainerPosition curPos = getContainerPosition( );
 		// content is null means it is the internal line area which has no
 		// content mapping, so it has no background/border etc.
 		if ( container.getContent( ) != null )
 		{
-			int layoutX = curPos.x + getX( container );
-			int layoutY = curPos.y + getY( container );
+			int layoutX = currentX + getX( container );
+			int layoutY = currentY + getY( container );
 			// the container's start position (the left top corner of the
 			// container)
 			int startX = layoutX;
@@ -556,7 +518,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		Color color = PropertyUtil.getColor( style
 				.getProperty( StyleConstants.STYLE_COLOR ) );
 
-		CSSValue align = text.getStyle( ).getProperty(
+		CSSValue align = style.getProperty(
 				StyleConstants.STYLE_TEXT_ALIGN );
 
 		// draw the overline,throughline or underline for the text if it has
@@ -599,9 +561,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	protected void drawImage( IImageArea image )
 	{
 		// TODO: drawimage
-		ContainerPosition curPos = getContainerPosition( );
-		int imageX = curPos.x + getX( image );
-		int imageY = curPos.y + getY( image );
+		int imageX = currentX + getX( image );
+		int imageY = currentY + getY( image );
 		IImageContent imageContent = ( (IImageContent) image.getContent( ) );
 
 		InputStream in = null;

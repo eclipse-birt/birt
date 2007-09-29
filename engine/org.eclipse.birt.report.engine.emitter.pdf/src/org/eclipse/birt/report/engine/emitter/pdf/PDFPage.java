@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -575,7 +575,7 @@ public class PDFPage extends AbstractPage
 		currentContentByte.saveState( );
 		// start drawing the text content
 		currentContentByte.beginText( );
-		if ( null != color )
+		if ( null != color && !Color.BLACK.equals( color ) )
 		{
 			currentContentByte.setColorFill( color );
 			currentContentByte.setColorStroke( color );
@@ -583,8 +583,14 @@ public class PDFPage extends AbstractPage
 		BaseFont font = fontInfo.getBaseFont( );
 		float fontSize = fontInfo.getFontSize( );
 		currentContentByte.setFontAndSize( font, fontSize );
-		currentContentByte.setCharacterSpacing( characterSpacing );
-		currentContentByte.setWordSpacing( wordSpacing );
+		if ( characterSpacing != 0 )
+		{
+			currentContentByte.setCharacterSpacing( characterSpacing );
+		}
+		if ( wordSpacing != 0 )
+		{
+			currentContentByte.setWordSpacing( wordSpacing );
+		}
 		placeText( currentContentByte, fontInfo, textX, transformY( textY, 0,
 				containerHeight ) );
 		if ( ( font.getFontType( ) == BaseFont.FONT_TYPE_TTUNI )
