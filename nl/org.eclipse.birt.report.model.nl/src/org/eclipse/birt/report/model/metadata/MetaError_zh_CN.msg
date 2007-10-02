@@ -65,4 +65,4 @@ MISSING_XML_NAME=实际元素“{0}”未定义 xml 名称。
 INVALID_ELEMENT_TYPE=属性类型“{0}”无效。
 INVALID_CHOICE_PROPERTY=扩展“{1}”中的选项属性“{0}”无效，因为它同时定义了详细类型和它自己的选项列表。 
 EXTENDED_ITEM_MISSING=元数据词典中缺少扩展项。
-DEFAULT_ENCRYPTION_EXIST=Encryption "{0}" can not be set to be default, for the default encryption "{1}" exists.
+DEFAULT_ENCRYPTION_EXIST=加密“{0}”不能设置为默认值，因为默认加密“{1}”存在。

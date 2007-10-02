@@ -65,4 +65,4 @@ MISSING_XML_NAME=구체적인 요소 "{0}"은(는) xml 이름을 정의하지 않습니다.
 INVALID_ELEMENT_TYPE=요소 형식 "{0}" 이(가) 잘못되었습니다.
 INVALID_CHOICE_PROPERTY=상세 정보 형식과 그 고유의 선택 목록 모두를 정의하므로 "{0}" 선택 속성("{1}" 확장명 내)이 잘못되었습니다. 
 EXTENDED_ITEM_MISSING=메타데이터 사전 내의 누락된 확장 항목
-DEFAULT_ENCRYPTION_EXIST=Encryption "{0}" can not be set to be default, for the default encryption "{1}" exists.
+DEFAULT_ENCRYPTION_EXIST=기본 암호화 "{1}"이(가) 존재하므로 암호화 "{0}"은(는) 기본값으로 설정될 수 없습니다.
