@@ -3090,7 +3090,7 @@ UseCssInReportDialog.Wizard.Filename=ファイル名(&F) :
 UseCssInReportDialog.Label.Styles={0} の使用可能なスタイル(&A)
 UseCssInReportDialog.Label.notifications=通知(&N) :
 UseCssInReportDialog.TitleArea.Title=レポートデザインで CSS ファイルを使用
-UseCssInReportDialog.TitleArea.Message=共有ライブラリフォルダから CSS ファイルを選択し、レポートデザインのスタイルとして使用します。
+UseCssInReportDialog.TitleArea.Message=Select a CSS file from shared libraries folder and use its styles in report design.
 UseCssInReportDialog.Label.No.File=CSS ファイルが選択されていません。
 UseCssInReportDialog.Dialog.Browse=参照
 UseCssInReportDialog.Dialog.Browse.Title=レポートに含める CSS ファイルを選択します。
@@ -3104,7 +3104,8 @@ UseCssInThemeDialog.TitleArea.Message=CSS ファイルのスタイルを配置するテーマを選
 #SelectValueDialog properties
 
 SelectValueDialog.errorRetrievinglist=リストを検索する際にエラーが発生しました。
-SelectValueDialog.messages.info.selectVauleUnavailable=値の一覧を取得できるのは、row["name"]、row[index]、または row.name という形式の式だけです。 
+SelectValueDialog.messages.info.selectVauleUnavailable=Only the expression with format like row["name"] or row.name can get its value list. 
+SelectValueDialog.messages.info.invalidSelectVauleExpression="Select Value" function only accepts a simple column expression. A complicated expression is rejected. 
 SelectValueDialog.messages.error.selectVauleUnavailable=式の値を取得できません。
 SelectValueDialog.noExpressionSet=式が設定されていません。
 SelectValueDialog.retrieving=リストの取得中...

@@ -3090,7 +3090,7 @@ UseCssInReportDialog.Wizard.Filename=&Dateiname:
 UseCssInReportDialog.Label.Styles=&Verfügbare Stile von {0}
 UseCssInReportDialog.Label.notifications=&Benachrichtigungen:
 UseCssInReportDialog.TitleArea.Title=CSS-Datei in Berichtdesign verwenden
-UseCssInReportDialog.TitleArea.Message=Wählen Sie eine CSS-Datei aus dem Ordner "Gemeinsam genutzte Bibliotheken", und verwenden Sie die Stile im Berichtdesign.
+UseCssInReportDialog.TitleArea.Message=Select a CSS file from shared libraries folder and use its styles in report design.
 UseCssInReportDialog.Label.No.File=Keine CSS-Datei ausgewählt
 UseCssInReportDialog.Dialog.Browse=Durchsuchen
 UseCssInReportDialog.Dialog.Browse.Title=Wählen Sie eine CSS-Datei, die in den Bericht aufgenommen werden soll.
@@ -3104,7 +3104,8 @@ UseCssInThemeDialog.TitleArea.Message=Wählen Sie ein Thema, in dem die Stile der
 #SelectValueDialog properties
 
 SelectValueDialog.errorRetrievinglist=Fehler beim Abrufen der Liste
-SelectValueDialog.messages.info.selectVauleUnavailable=Die den Ausdrücken zugeordneten Wertlisten können nur für Ausdrücke im Format "Reihe["Name"]", "Reihe[Index]" und "Reihe.Name" abgerufen werden. 
+SelectValueDialog.messages.info.selectVauleUnavailable=Only the expression with format like row["name"] or row.name can get its value list. 
+SelectValueDialog.messages.info.invalidSelectVauleExpression="Select Value" function only accepts a simple column expression. A complicated expression is rejected. 
 SelectValueDialog.messages.error.selectVauleUnavailable=Der Wert für den Ausdruck kann nicht abgerufen werden.
 SelectValueDialog.noExpressionSet=Ein Ausdruck wurde nicht festgelegt
 SelectValueDialog.retrieving=Liste wird abgerufen ...

@@ -3090,7 +3090,7 @@ UseCssInReportDialog.Wizard.Filename=파일 이름(&F):
 UseCssInReportDialog.Label.Styles={0}에 있는 스타일(&A)
 UseCssInReportDialog.Label.notifications=알림(&N):
 UseCssInReportDialog.TitleArea.Title=보고서 디자인에 CSS 파일 사용...
-UseCssInReportDialog.TitleArea.Message=공유 라이브러리 폴더에서 CSS 파일을 선택해 그 파일의 스타일을 보고서 디자인에 사용합니다.
+UseCssInReportDialog.TitleArea.Message=Select a CSS file from shared libraries folder and use its styles in report design.
 UseCssInReportDialog.Label.No.File=선택된 CSS 파일이 없습니다.
 UseCssInReportDialog.Dialog.Browse=찾아보기
 UseCssInReportDialog.Dialog.Browse.Title=보고서에 포함할 CSS 파일 선택
@@ -3104,7 +3104,8 @@ UseCssInThemeDialog.TitleArea.Message=CSS 파일의 스타일을 교체할 테마를 선택합니
 #SelectValueDialog properties
 
 SelectValueDialog.errorRetrievinglist=목록을 검색하는 도중 오류가 발생했습니다.
-SelectValueDialog.messages.info.selectVauleUnavailable=행["이름"], 행[index] 또는 row.name 형식의 식만이 값 목록을 가져올 수 있습니다. 
+SelectValueDialog.messages.info.selectVauleUnavailable=Only the expression with format like row["name"] or row.name can get its value list. 
+SelectValueDialog.messages.info.invalidSelectVauleExpression="Select Value" function only accepts a simple column expression. A complicated expression is rejected. 
 SelectValueDialog.messages.error.selectVauleUnavailable=식의 값을 검색할 수 없습니다.
 SelectValueDialog.noExpressionSet=식이 설정되지 않았습니다.
 SelectValueDialog.retrieving=목록 검색...
