@@ -65,4 +65,4 @@ MISSING_XML_NAME=Der XML-Name wird nicht durch das konkrete Element "{0}" defini
 INVALID_ELEMENT_TYPE=Der Elementtyp "{0}" ist ungültig.
 INVALID_CHOICE_PROPERTY=Auswahleigenschaft "{0}" in der Erweiterung "{1}" ist ungültig, da sie sowohl den Detailtyp als auch ihre eigene Auswahlliste definiert. 
 EXTENDED_ITEM_MISSING=In der Metadatensammlung fehlt ein erweitertes Element.
-DEFAULT_ENCRYPTION_EXIST=Encryption "{0}" can not be set to be default, for the default encryption "{1}" exists.
+DEFAULT_ENCRYPTION_EXIST=Verschlüsselung "{0}" kann nicht als Standard eingestellt werden, da die Standardverschlüsselung "{1}" bereits vorhanden ist.
