@@ -27,7 +27,7 @@ birt.viewer.error.noparameter=이 보고서에 대한 매개 변수가 없습니다.
 birt.viewer.error.noprinter=PostScript 형식을 지원하는 프린터를 찾을 수 없습니다.
 birt.viewer.error.unknownerror=알 수 없는 오류입니다.
 birt.viewer.error.generatereportfirst=보고서 문서가 먼저 생성되어야 합니다.
-birt.viewer.error.parameterrequired={0}이(가) 필요합니다.
+birt.viewer.error.parameterrequired=매개변수 "{0}"이(가) 필요합니다.
 
 ###############################################################################
 # Toolbar

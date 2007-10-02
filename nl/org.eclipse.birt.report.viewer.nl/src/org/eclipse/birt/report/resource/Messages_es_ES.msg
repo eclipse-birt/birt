@@ -27,7 +27,7 @@ birt.viewer.error.noparameter=No hay ningún parámetro para este informe.
 birt.viewer.error.noprinter=No se puede encontrar ninguna impresora disponible compatible con el formato postscript.
 birt.viewer.error.unknownerror=Error desconocido.
 birt.viewer.error.generatereportfirst=Se debe generar antes un documento de informe.
-birt.viewer.error.parameterrequired=Se requiere {0}.
+birt.viewer.error.parameterrequired=Se requiere el parámetro "{0}".
 
 ###############################################################################
 # Toolbar

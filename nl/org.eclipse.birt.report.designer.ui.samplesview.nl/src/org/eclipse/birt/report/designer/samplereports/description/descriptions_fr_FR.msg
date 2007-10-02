@@ -50,7 +50,7 @@ CustomerListAfter_Mapping=Cet exemple décrit les fonctions de mise en correspond
 EmployeeAfter=Cet exemple explique comment créer un état avec des sections parallèles. Il explique également comment créer des filtres de tableau afin de rassembler les données affichées. Dans cet état, un élément de grille est utilisé pour mettre en page deux colonnes. Dans chaque colonne, un jeu de tables imbriquées est ajouté afin de récupérer des informations sur les employés et les regrouper par position hiérarchique. Les tables sont filtrées par code de bureau. 
 
 #Query Modification
-NullParameter=This example demonstrates how to modify the query based on report parameters using data set events. As an example, the query gets modified if a value is provided for the report parameter. 
+NullParameter=Cet exemple décrit comment modifier une requête en fonction de paramètres d'état utilisant des événements de jeu de données. Par exemple, la requête est modifiée si une valeur est fournie pour le paramètre d'état. 
 OrderDetailsAfter=Cet exemple décrit comment modifier une requête JDBC via une liaison de propriété ou un script. La liaison de propriété est une fonction de BIRT qui permet d'effectuer des modifications en cours d'exécution des propriétés publiques des sources et jeux de données. Elle est particulièrement utile pour ajouter des informations contextuelles à un élément. Par exemple, il est possible de modifier la clause Where pour récupérer le nom d'utilisateur d'une session ou pour faire passer l'URL d'une base de données du développement en production en fonction d'un paramètre d'état. 
 
 #Report Elements

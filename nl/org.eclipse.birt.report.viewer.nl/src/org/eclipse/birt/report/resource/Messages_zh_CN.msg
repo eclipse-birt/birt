@@ -27,7 +27,7 @@ birt.viewer.error.noparameter=此报表无参数。
 birt.viewer.error.noprinter=无法找到支持 PostScript 格式的任何可用打印机。
 birt.viewer.error.unknownerror=未知错误。
 birt.viewer.error.generatereportfirst=应首先生成报表文档。
-birt.viewer.error.parameterrequired={0} 是必需的。
+birt.viewer.error.parameterrequired=参数“{0}”是必需的。
 
 ###############################################################################
 # Toolbar

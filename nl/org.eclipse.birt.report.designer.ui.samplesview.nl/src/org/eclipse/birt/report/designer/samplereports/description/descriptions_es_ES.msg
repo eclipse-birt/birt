@@ -50,7 +50,7 @@ CustomerListAfter_Mapping=En este ejemplo se muestra el uso de las funciones de 
 EmployeeAfter=En este ejemplo se muestra cómo compilar un informe con secciones paralelas. También se ilustra el uso de filtros de tabla para descartar los datos mostrados. El informe utiliza un elemento de cuadrícula para diseñar dos columnas. En cada columna, se añade un conjunto de tablas anidadas para recuperar información de empleados y agruparla por jerarquía de posición. Las tablas se filtran por código de oficina. 
 
 #Query Modification
-NullParameter=This example demonstrates how to modify the query based on report parameters using data set events. As an example, the query gets modified if a value is provided for the report parameter. 
+NullParameter=En este ejemplo se muestra cómo modificar la consulta basada en los parámetros de informe utilizando eventos de conjuntos de datos. Por ejemplo, la consulta se modifica si se proporciona un valor para el parámetro de informe. 
 OrderDetailsAfter=En este ejemplo se muestra cómo modificar una consulta JDBC usando Enlace de propiedades o Script. Enlace de propiedades es una función dentro de BIRT que permite ejecutar la modificación de hora de propiedades públicas de Fuente de datos o Conjunto de datos. Esto puede resultar útil para añadir información sensible al contexto a cualquier elemento. Como ejemplo, la cláusula 'where' puede modificarse para recuperar el nombre de usuario de la sesión o se puede cambiar la URL de la base de datos entre desarrollo y producción basándose en un parámetro de informe. 
 
 #Report Elements

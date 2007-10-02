@@ -27,7 +27,7 @@ birt.viewer.error.noparameter=Il n'existe aucun paramètre pour cet état.
 birt.viewer.error.noprinter=Impossible de trouver une imprimante disponible qui prend en charge le format postscript.
 birt.viewer.error.unknownerror=Erreur inconnue.
 birt.viewer.error.generatereportfirst=L'état doit être généré en premier.
-birt.viewer.error.parameterrequired={0} est requis.
+birt.viewer.error.parameterrequired=Le paramètre "{0}" est nécessaire.
 
 ###############################################################################
 # Toolbar

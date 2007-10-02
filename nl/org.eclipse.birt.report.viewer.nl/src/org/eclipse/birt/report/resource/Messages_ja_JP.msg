@@ -27,7 +27,7 @@ birt.viewer.error.noparameter=このレポートにはパラメタがありません。
 birt.viewer.error.noprinter=PostScript 形式をサポートする使用可能なプリンタが見つかりません。
 birt.viewer.error.unknownerror=不明なエラーです。
 birt.viewer.error.generatereportfirst=先にレポート文書を生成してください。
-birt.viewer.error.parameterrequired={0} を指定してください。
+birt.viewer.error.parameterrequired=パラメタ "{0}" が必要です。
 
 ###############################################################################
 # Toolbar
