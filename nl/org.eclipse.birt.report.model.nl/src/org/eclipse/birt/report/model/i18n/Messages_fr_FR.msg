@@ -3352,7 +3352,7 @@ Error.CircularExtendsException.CIRCULAR=L'extension circulaire est trouvée car l
 Error.ExtendsForbiddenException.PARENT_NOT_IN_COMPONENT=L'élément parent "{0}" n'est pas l'élément d'état de premier niveau parmi les composants.
 Error.ExtendsForbiddenException.EXTENDS_FORBIDDEN=L'élément "{0}" est contenu dans un élément enfant ou a déjà un élément parent. Il ne peut s'étendre.
 Error.ExtendsForbiddenException.CANT_EXTEND=L'élément "{0}" n'est pas autorisé à dériver.
-Error.ExtendsForbiddenException.RESULT_SET_SHARED_CANT_EXTEND=The shared result set report item  "{0}" is not allowed to derive.
+Error.ExtendsForbiddenException.RESULT_SET_SHARED_CANT_EXTEND=L''élément d''état défini du résultat partagé "{0}" n''est pas autorisé à dériver.
     
 #NameException
 Error.NameException.NAME_REQUIRED=Le nom de {0} est requis.

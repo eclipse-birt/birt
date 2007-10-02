@@ -3352,7 +3352,7 @@ Error.CircularExtendsException.CIRCULAR={0}이(가) {1}에서 이미 확장되었으므로 순
 Error.ExtendsForbiddenException.PARENT_NOT_IN_COMPONENT=상위 요소 "{0}"이(가) 구성 요소에서 최상위 보고서 항목이 아닙니다.
 Error.ExtendsForbiddenException.EXTENDS_FORBIDDEN=요소 "{0}"은(는) 자식 요소 내부에 있거나 이미 부모가 있으므로 확장할 수 없습니다.
 Error.ExtendsForbiddenException.CANT_EXTEND=요소 "{0}"을(를) 파생할 수 없습니다.
-Error.ExtendsForbiddenException.RESULT_SET_SHARED_CANT_EXTEND=The shared result set report item  "{0}" is not allowed to derive.
+Error.ExtendsForbiddenException.RESULT_SET_SHARED_CANT_EXTEND=공유 결과 집합 보고서 항목 "{0}"(은)는 파생이 허용되지 않습니다.
     
 #NameException
 Error.NameException.NAME_REQUIRED={0}의 이름이 필요합니다.

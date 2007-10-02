@@ -3352,7 +3352,7 @@ Error.CircularExtendsException.CIRCULAR=zŠÂŠg’£‚Å‚·B{0} ‚ÍA‚·‚Å‚É {1} ‚©‚çŠg’
 Error.ExtendsForbiddenException.PARENT_NOT_IN_COMPONENT=e—v‘f "{0}" ‚ÍAƒRƒ“ƒ|[ƒlƒ“ƒg“à‚Å‚ÌÅãˆÊ‚ÌƒŒƒ|[ƒg€–Ú‚Å‚Í‚ ‚è‚Ü‚¹‚ñB
 Error.ExtendsForbiddenException.EXTENDS_FORBIDDEN=—v‘f "{0}" ‚ÍAŽq—v‘f‚Ì“à‘¤‚É‚ ‚é‚©‚·‚Å‚Ée—v‘f‚ª‚ ‚é‚½‚ßAŠg’£‚Å‚«‚Ü‚¹‚ñB
 Error.ExtendsForbiddenException.CANT_EXTEND=—v‘f "{0}" ‚ð”h¶‚³‚¹‚é‚±‚Æ‚Í‚Å‚«‚Ü‚¹‚ñB
-Error.ExtendsForbiddenException.RESULT_SET_SHARED_CANT_EXTEND=The shared result set report item  "{0}" is not allowed to derive.
+Error.ExtendsForbiddenException.RESULT_SET_SHARED_CANT_EXTEND=‹¤—L‚µ‚Ä‚¢‚éŒ‹‰ÊƒZƒbƒg‚ÌƒŒƒ|[ƒg€–Ú "{0}" ‚ð”h¶‚³‚¹‚é‚±‚Æ‚Í‚Å‚«‚Ü‚¹‚ñB
     
 #NameException
 Error.NameException.NAME_REQUIRED={0} ‚É–¼‘O‚ðŽw’è‚·‚é•K—v‚ª‚ ‚è‚Ü‚·B
