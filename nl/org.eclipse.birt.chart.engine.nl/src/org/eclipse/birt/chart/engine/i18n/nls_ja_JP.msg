@@ -101,7 +101,7 @@ exception.dataset.non.numerical.to.numerical=データセットに数値以外のデータ型 {0
 exception.dataset.non.datetime=X 軸にバインドされているデータ型は、DateTime の書式ではありません。
 exception.scale.tick.max=ステップが多すぎて表示できません。目盛りの間隔か、単位を調整してください。
 exception.unknown.axis.type.tick.computations=目盛を計算するために必要な軸の型を識別できません。
-exception.unknown.trigger.datatype=The trigger data is invalid or its type is unknown.
+exception.unknown.trigger.datatype=トリガデータが無効か、不明なデータ型です。
 exception.unsupported.compare.unknown.objects=DE1={0} と DE2={1} を比較するために指定したデータ要素はサポートされていません。
 exception.unsupported.compare.different.objects=DE1={0} と DE2={1} を比較するために指定したデータ要素が混在してます。
 exception.resultset.data.type.retrieval.failed=結果セットのデータ型を識別できません。

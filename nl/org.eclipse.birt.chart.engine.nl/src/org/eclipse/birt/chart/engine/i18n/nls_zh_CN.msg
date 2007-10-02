@@ -101,7 +101,7 @@ exception.dataset.non.numerical.to.numerical=ÔÚÊı¾İ¼¯ÖĞ·¢ÏÖÁËÒâÍâµÄ·ÇÊıÖµÊı¾İÀàĞ
 exception.dataset.non.datetime=ÊÜ X ÖáÔ¼ÊøµÄÊı¾İÀàĞÍ²»ÊÇ DateTime ¸ñÊ½
 exception.scale.tick.max=ÎŞ·¨»æÖÆÌ«¶à²½¡£Çëµ÷Õû¿Ì¶È²½³¤»òµ¥Î»¡£
 exception.unknown.axis.type.tick.computations=ÎŞ·¨È·¶¨ÓÃÓÚ¼ÆËã¿Ì¶ÈÏßµÄÖáÀàĞÍ
-exception.unknown.trigger.datatype=The trigger data is invalid or its type is unknown.
+exception.unknown.trigger.datatype=´¥·¢Æ÷Êı¾İÎŞĞ§»òÆäÀàĞÍÎ´Öª¡£
 exception.unsupported.compare.unknown.objects=Îª±È½Ï DE1={0} ºÍ DE2={1}£¬Ìá¹©ÁË²»Ö§³ÖµÄÊı¾İÔªËØ
 exception.unsupported.compare.different.objects=Îª±È½Ï DE1={0} ºÍ DE2={1} Ìá¹©ÁË»ìºÏµÄÊı¾İÔªËØ
 exception.resultset.data.type.retrieval.failed=ÎŞ·¨´Ó½á¹û¼¯ÖĞÈ·¶¨Êı¾İÀàĞÍ

@@ -185,7 +185,7 @@ Choices.mapOperator.top-percent=×î¸ß°Ù·Ö±È
 Choices.mapOperator.bottom-percent=×îµÍ°Ù·Ö±È
 Choices.mapOperator.not-like=·ÇÀàËÆÓÚ
 Choices.mapOperator.not-match=²»Æ¥Åä
-Choices.mapOperator.not-in=Not In
+Choices.mapOperator.not-in=²»ÔÚÒÔÏÂ·¶Î§ÄÚ
 Choices.mapOperator.in=ÔÚÆäÖĞ
   
 #15.imageRefType
@@ -404,7 +404,7 @@ Choices.filterOperator.any=ÈÎºÎ
 Choices.filterOperator.match=Æ¥Åä
 Choices.filterOperator.not-match=²»Æ¥Åä
 Choices.filterOperator.in=ÔÚÆäÖĞ
-Choices.filterOperator.not-in=Not In
+Choices.filterOperator.not-in=²»ÔÚÒÔÏÂ·¶Î§ÄÚ
 
 #53. propertyMaskType
 Choices.propertyMaskType.change=¸ü¸Ä
@@ -3355,7 +3355,7 @@ Error.CircularExtendsException.CIRCULAR=ÓÉÓÚ {0} ÒÑÀ©Õ¹×Ô {1}£¬Òò´ËÕÒµ½Ñ­»·À©Õ¹¡
 Error.ExtendsForbiddenException.PARENT_NOT_IN_COMPONENT=¸¸ÔªËØ¡°{0}¡±²»ÊÇ×é¼şÖĞµÄ¶¥²ã±¨±íÏî¡£
 Error.ExtendsForbiddenException.EXTENDS_FORBIDDEN=ÔªËØ¡°{0}¡±ÔÚ×ÓÔªËØÄÚ»òÒÑÓĞ¸¸ÔªËØ£¬ÎŞ·¨À©Õ¹¡£
 Error.ExtendsForbiddenException.CANT_EXTEND=²»ÔÊĞíÑÜÉúÔªËØ¡°{0}¡±¡£
-Error.ExtendsForbiddenException.RESULT_SET_SHARED_CANT_EXTEND=The shared result set report item  "{0}" is not allowed to derive.
+Error.ExtendsForbiddenException.RESULT_SET_SHARED_CANT_EXTEND=²»ÔÊĞíÑÜÉú¹²Ïí½á¹û¼¯±¨±íÏî¡°{0}¡±¡£
     
 #NameException
 Error.NameException.NAME_REQUIRED=ÒªÇóÌá¹© {0} µÄÃû³Æ¡£

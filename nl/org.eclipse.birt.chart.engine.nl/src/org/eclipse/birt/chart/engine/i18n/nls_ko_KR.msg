@@ -101,7 +101,7 @@ exception.dataset.non.numerical.to.numerical=데이터 집합에 숫자가 아닌 예상치 못
 exception.dataset.non.datetime=X 축에 바인딩된 데이터 형식이 날짜 시간 형식이 아닙니다.
 exception.scale.tick.max=단계가 너무 많아 렌더링할 수 없습니다. 배율 단계 또는 단위를 조정하십시오.
 exception.unknown.axis.type.tick.computations=틱을 계산하는 데 필요한 축 유형을 확인할 수 없습니다.
-exception.unknown.trigger.datatype=The trigger data is invalid or its type is unknown.
+exception.unknown.trigger.datatype=트리거 데이터가 잘못되었거나 형식을 알 수 없습니다.
 exception.unsupported.compare.unknown.objects=비교 DE1={0} 및 DE2={1}에 지원되지 않은 데이터 요소가 제공되었습니다.
 exception.unsupported.compare.different.objects=비교 DE1={0} 및 DE2={1}에 혼합된 데이터 요소가 제공되었습니다.
 exception.resultset.data.type.retrieval.failed=결과 집합에서 데이터 형식을 확인할 수 없습니다.

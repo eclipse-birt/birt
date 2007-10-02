@@ -101,7 +101,7 @@ exception.dataset.non.numerical.to.numerical=Unerwarteter nicht numerischer Date
 exception.dataset.non.datetime=Der an die X-Achse gebundene Datentyp hat nicht das Format "Datum/Uhrzeit"
 exception.scale.tick.max=Rendern zu vieler Raster nicht möglich. Passen Sie den Skalenschritt oder die Skaleneinheit an.
 exception.unknown.axis.type.tick.computations=Achsentyp zur Berechnung der Skalenunterteilung kann nicht bestimmt werden
-exception.unknown.trigger.datatype=The trigger data is invalid or its type is unknown.
+exception.unknown.trigger.datatype=Die Auslöserdaten sind ungültig, oder der Typ ist unbekannt.
 exception.unsupported.compare.unknown.objects=Nicht unterstützte Datenelemente für Vergleich DE1={0} und DE2={1} angegeben
 exception.unsupported.compare.different.objects=Gemischte Datenelemente für Vergleich DE1={0} und DE2={1} angegeben
 exception.resultset.data.type.retrieval.failed=Datentypen können aus Ergebnis nicht bestimmt werden

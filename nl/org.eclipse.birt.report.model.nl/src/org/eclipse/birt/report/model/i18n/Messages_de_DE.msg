@@ -185,7 +185,7 @@ Choices.mapOperator.top-percent=Oberste %
 Choices.mapOperator.bottom-percent=Unterste %
 Choices.mapOperator.not-like=Nicht wie
 Choices.mapOperator.not-match=Stimmt nicht überein
-Choices.mapOperator.not-in=Not In
+Choices.mapOperator.not-in=Nicht in
 Choices.mapOperator.in=In
   
 #15.imageRefType
@@ -404,7 +404,7 @@ Choices.filterOperator.any=Beliebig
 Choices.filterOperator.match=Übereinstimmung
 Choices.filterOperator.not-match=Stimmt nicht überein
 Choices.filterOperator.in=In
-Choices.filterOperator.not-in=Not In
+Choices.filterOperator.not-in=Nicht in
 
 #53. propertyMaskType
 Choices.propertyMaskType.change=Ändern
@@ -3355,7 +3355,7 @@ Error.CircularExtendsException.CIRCULAR=Eine Kreiserweiterung wurde gefunden, we
 Error.ExtendsForbiddenException.PARENT_NOT_IN_COMPONENT=Das übergeordnete Element "{0}" ist in Komponenten kein Berichtobjekt auf oberster Ebene.
 Error.ExtendsForbiddenException.EXTENDS_FORBIDDEN=Element "{0}" kann nicht erweitert werden. Es befindet sich innerhalb eines untergeordneten Elements oder hat bereits ein übergeordnetes Element.
 Error.ExtendsForbiddenException.CANT_EXTEND=Das Element "{0}" darf keine Ableitungen aufweisen.
-Error.ExtendsForbiddenException.RESULT_SET_SHARED_CANT_EXTEND=The shared result set report item  "{0}" is not allowed to derive.
+Error.ExtendsForbiddenException.RESULT_SET_SHARED_CANT_EXTEND=Das freigegebene Ergebnis-Berichtsobjekt "{0}" darf nicht abweichen.
     
 #NameException
 Error.NameException.NAME_REQUIRED=Der Name von {0} ist erforderlich.
