@@ -92,6 +92,7 @@ data.engine.ColumnBindingNotExist=Die Spaltenbindung "{0}" existiert nicht.
 data.engine.ColumnBindingCycle=Die Spaltenbindung "{0}" hat einen Abhängigkeitszyklus.
 data.engine.ColumnBindingReferToInexistColumn=Spaltenbindung "{0}" hat auf eine Datensatzspalte "{1}" verwiesen, die nicht existiert.
 data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=Die Spaltenbindung "{0}" ist nicht korrekt: die übergeordneten Abfragespaltenbindungen, zu denen Aggregate gehören, können nicht als Spaltenbindung von Teilabfragen verwendet werden.
+data.engine.ReadColumnValueFromDocumentError=Error happens when try to read value of column: {0}. This might cause by a runtime error in the evaluation of binding's expression, i.e. a divide 0 error.
 #computed column value
 data.engine.BadCompColExpr=Der Ausdruck für die berechnete Spalte "{0}" ist ungültig.
 data.engine.CompCol.WrongDataType=Der Datentyp der berechneten Spalte "{0}" lautet {1}, einer ihrer Werte ist jedoch "{2}". Dieser kann nicht in {1} konvertiert werden.
