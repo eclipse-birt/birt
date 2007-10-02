@@ -24,13 +24,13 @@ birt.viewer.restore=显示报表参数
 
 birt.viewer.error=错误消息
 birt.viewer.error.noparameter=此报表无参数。
-birt.viewer.error.parameter.invalid=The parameter "{0}" is invalid.
+birt.viewer.error.parameter.invalid=参数“{0}”无效。
 birt.viewer.error.noprinter=无法找到支持 PostScript 格式的任何可用打印机。
 birt.viewer.error.unknownerror=未知错误。
 birt.viewer.error.generatereportfirst=应首先生成报表文档。
-birt.viewer.error.parameterrequired={0} 是必需的。
-birt.viewer.error.parameternotallowblank=The parameter "{0}" cannot be blank.
-birt.viewer.error.parameternotselected=Please select value for parameter "{0}".
+birt.viewer.error.parameterrequired=参数“{0}”是必需的。
+birt.viewer.error.parameternotallowblank=参数“{0}”不能为空白。
+birt.viewer.error.parameternotselected=请为参数“{0}”选择值。
 
 ###############################################################################
 # Toolbar

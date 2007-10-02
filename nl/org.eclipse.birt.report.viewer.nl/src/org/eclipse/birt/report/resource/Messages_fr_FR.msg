@@ -24,13 +24,13 @@ birt.viewer.restore=Afficher les paramètres de l'état
 
 birt.viewer.error=Message d'erreur
 birt.viewer.error.noparameter=Il n'existe aucun paramètre pour cet état.
-birt.viewer.error.parameter.invalid=The parameter "{0}" is invalid.
+birt.viewer.error.parameter.invalid=Le paramètre "{0}" n''est pas valide.
 birt.viewer.error.noprinter=Impossible de trouver une imprimante disponible qui prend en charge le format postscript.
 birt.viewer.error.unknownerror=Erreur inconnue.
 birt.viewer.error.generatereportfirst=L'état doit être généré en premier.
-birt.viewer.error.parameterrequired={0} est requis.
-birt.viewer.error.parameternotallowblank=The parameter "{0}" cannot be blank.
-birt.viewer.error.parameternotselected=Please select value for parameter "{0}".
+birt.viewer.error.parameterrequired=Le paramètre "{0}" est nécessaire.
+birt.viewer.error.parameternotallowblank=Le paramètre "{0}" doit être renseigné.
+birt.viewer.error.parameternotselected=Veuillez sélectionner une valeur pour le paramètre "{0}".
 
 ###############################################################################
 # Toolbar

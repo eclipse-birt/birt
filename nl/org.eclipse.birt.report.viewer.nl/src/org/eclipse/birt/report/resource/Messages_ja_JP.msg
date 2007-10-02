@@ -24,13 +24,13 @@ birt.viewer.restore=レポートパラメタを表示します。
 
 birt.viewer.error=エラーメッセージ
 birt.viewer.error.noparameter=このレポートにはパラメタがありません。
-birt.viewer.error.parameter.invalid=The parameter "{0}" is invalid.
+birt.viewer.error.parameter.invalid=パラメタ "{0}" は無効です。
 birt.viewer.error.noprinter=PostScript 形式をサポートする使用可能なプリンタが見つかりません。
 birt.viewer.error.unknownerror=不明なエラーです。
 birt.viewer.error.generatereportfirst=先にレポート文書を生成してください。
-birt.viewer.error.parameterrequired={0} を指定してください。
-birt.viewer.error.parameternotallowblank=The parameter "{0}" cannot be blank.
-birt.viewer.error.parameternotselected=Please select value for parameter "{0}".
+birt.viewer.error.parameterrequired=パラメタ "{0}" が必要です。
+birt.viewer.error.parameternotallowblank=パラメタ "{0}" は空白にできません。
+birt.viewer.error.parameternotselected=パラメタ "{0}" の値を選択してください。
 
 ###############################################################################
 # Toolbar

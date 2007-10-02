@@ -24,13 +24,13 @@ birt.viewer.restore=Berichtparameter anzeigen
 
 birt.viewer.error=Fehlermeldung
 birt.viewer.error.noparameter=Für diesen Bericht sind keine Parameter vorhanden.
-birt.viewer.error.parameter.invalid=The parameter "{0}" is invalid.
+birt.viewer.error.parameter.invalid=Der Parameter "{0}" ist ungültig.
 birt.viewer.error.noprinter=Es kann kein verfügbarer Drucker gefunden werden, der das Postscript-Format unterstützt.
 birt.viewer.error.unknownerror=Unbekannter Fehler.
 birt.viewer.error.generatereportfirst=Berichtdokument muss zuerst generiert werden.
-birt.viewer.error.parameterrequired={0} ist erforderlich.
-birt.viewer.error.parameternotallowblank=The parameter "{0}" cannot be blank.
-birt.viewer.error.parameternotselected=Please select value for parameter "{0}".
+birt.viewer.error.parameterrequired=Der Parameter "{0}" ist erforderlich.
+birt.viewer.error.parameternotallowblank=Der Parameter "{0}" darf nicht leer sein.
+birt.viewer.error.parameternotselected=Wählen Sie den Wert für den Parameter "{0}" aus.
 
 ###############################################################################
 # Toolbar

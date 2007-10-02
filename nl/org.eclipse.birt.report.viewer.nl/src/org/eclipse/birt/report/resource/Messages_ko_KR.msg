@@ -24,13 +24,13 @@ birt.viewer.restore=보고서 매개 변수 표시
 
 birt.viewer.error=오류 메시지
 birt.viewer.error.noparameter=이 보고서에 대한 매개 변수가 없습니다.
-birt.viewer.error.parameter.invalid=The parameter "{0}" is invalid.
+birt.viewer.error.parameter.invalid=매개변수 "{0}"이(가) 잘못되었습니다.
 birt.viewer.error.noprinter=PostScript 형식을 지원하는 프린터를 찾을 수 없습니다.
 birt.viewer.error.unknownerror=알 수 없는 오류입니다.
 birt.viewer.error.generatereportfirst=보고서 문서가 먼저 생성되어야 합니다.
-birt.viewer.error.parameterrequired={0}이(가) 필요합니다.
-birt.viewer.error.parameternotallowblank=The parameter "{0}" cannot be blank.
-birt.viewer.error.parameternotselected=Please select value for parameter "{0}".
+birt.viewer.error.parameterrequired=매개변수 "{0}"이(가) 필요합니다.
+birt.viewer.error.parameternotallowblank=매개변수 "{0}"은(는) 비워둘 수 없습니다.
+birt.viewer.error.parameternotselected=매개변수 "{0}" 값을 선택하십시오.
 
 ###############################################################################
 # Toolbar
