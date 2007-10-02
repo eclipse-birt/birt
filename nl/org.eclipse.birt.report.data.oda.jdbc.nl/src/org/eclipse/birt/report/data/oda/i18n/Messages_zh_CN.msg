@@ -21,7 +21,7 @@ odajdbc.CannotGetDataSourceProductName=无法获得数据源产品名称。
 odajdbc.CannotGetDataSourceProductVersion=无法获得数据源产品版本。
 odajdbc.CannotGetSQLStateType=无法获得 SQL 状态类型。
 odajdbc.CannotParseURL=选定的驱动程序无法分析给定的 url。
-odajdbc.CannotParseJNDI=The selected driver cannot parse the given JNDI Data Source URL
+odajdbc.CannotParseJNDI=选择的驱动程序无法分析给定的 JNDI 数据源 URL
 odajdbc.NoSuitableDriver=没有适合的驱动程序。
 
 odajdbc.CannotGetParameterCount=无法获得参数计数。

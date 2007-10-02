@@ -21,7 +21,7 @@ odajdbc.CannotGetDataSourceProductName=데이터 원본 제품 이름을 가져올 수 없습니�
 odajdbc.CannotGetDataSourceProductVersion=데이터 원본 제품 버전을 가져올 수 없습니다.
 odajdbc.CannotGetSQLStateType=SQL state 형식을 가져올 수 없습니다.
 odajdbc.CannotParseURL=선택한 드라이버가 지정한 URL의 구문을 분석할 수 없습니다.
-odajdbc.CannotParseJNDI=The selected driver cannot parse the given JNDI Data Source URL
+odajdbc.CannotParseJNDI=선택한 드라이버가 주어진 JNDI 데이터 소스 URL을 분석할 수 없습니다.
 odajdbc.NoSuitableDriver=적합한 드라이버가 없습니다.
 
 odajdbc.CannotGetParameterCount=매개 변수 수를 가져올 수 없습니다.
