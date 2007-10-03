@@ -93,21 +93,21 @@ public class PDFPage extends AbstractPage
 		contentByte.clip( );
 		contentByte.rectangle( startX, startY, width, height );
 		contentByte.newPath( );
-		cbUnder.clip( );
-		cbUnder.rectangle( startX, startY, width, height );
-		cbUnder.newPath( );
+		//cbUnder.clip( );
+		//cbUnder.rectangle( startX, startY, width, height );
+		//cbUnder.newPath( );
 	}
 
 	public void clipRestore( )
 	{
-		cbUnder.restoreState( );
 		contentByte.restoreState( );
+		//cbUnder.restoreState( );
 	}
 
 	public void clipSave( )
 	{
-		cbUnder.saveState( );
 		contentByte.saveState( );
+		//cbUnder.saveState( );
 	}
 
 	public void dispose( )
