@@ -156,10 +156,7 @@ public class DataAdapterTopLevelScope extends ImporterTopLevel
 			// Return a fixed default value appropriate for the data type
 			if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) )
 			{
-				if ( sp.allowBlank( ) )
-					return "";
-				else
-					return "null";
+				return "";
 			}
 			if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type ) )
 				return new Double( 0 );
