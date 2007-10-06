@@ -51,9 +51,12 @@ import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.metadata.PredefinedStyle;
+import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.resource.JFaceColors;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.ModifyEvent;
@@ -81,7 +84,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
-import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 
 /**
@@ -260,7 +262,22 @@ public class GroupDialog extends BaseDialog
 			sytleChoicesAll = getAllStyleChoices( );
 		}
 
-		Composite topComposite = (Composite) super.createDialogArea( parent );
+		//		Composite topComposite = (Composite) super.createDialogArea( parent );
+
+		ScrolledComposite sc = new ScrolledComposite( parent, SWT.H_SCROLL
+				| SWT.V_SCROLL );
+		sc.setLayout( new FillLayout( ) );
+		sc.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		applyDialogFont( sc );
+
+		Composite topComposite = new Composite( sc, SWT.NONE );
+		GridLayout layout = new GridLayout( );
+		layout.marginHeight = convertVerticalDLUsToPixels( IDialogConstants.VERTICAL_MARGIN );
+		layout.marginWidth = convertHorizontalDLUsToPixels( IDialogConstants.HORIZONTAL_MARGIN );
+		layout.verticalSpacing = convertVerticalDLUsToPixels( IDialogConstants.VERTICAL_SPACING );
+		layout.horizontalSpacing = convertHorizontalDLUsToPixels( IDialogConstants.HORIZONTAL_SPACING );
+		topComposite.setLayout( layout );
+
 		createTitleArea( topComposite );
 
 		Composite composite = new Composite( topComposite, SWT.NONE );
@@ -272,7 +289,14 @@ public class GroupDialog extends BaseDialog
 		createTOCArea( topComposite );
 		createFilterSortingArea( topComposite );
 		UIUtil.bindHelp( parent, IHelpContextIds.GROUP_DIALOG_ID );
-		return topComposite;
+
+		sc.setContent( topComposite );
+		sc.setExpandHorizontal( true );
+		sc.setExpandVertical( true );
+		sc.setMinWidth(500);
+		sc.setMinHeight(650);
+		
+		return sc;
 	}
 
 	private void createBookmarkArea( Composite parent )
@@ -299,7 +323,7 @@ public class GroupDialog extends BaseDialog
 		GridLayout layout = new GridLayout( );
 		layout.numColumns = 2;
 		group.setLayout( layout );
-		group.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		group.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		// Creates TOC expression name Label
 		new Label( group, SWT.NONE ).setText( Messages.getString( "GroupDialog.Dialog.TOC" ) ); //$NON-NLS-1$
@@ -714,7 +738,10 @@ public class GroupDialog extends BaseDialog
 		Group group = new Group( parent, SWT.NONE );
 		group.setText( GROUP_DLG_GROUP_FILTER_SORTING );
 		group.setLayout( new GridLayout( ) );
-		group.setLayoutData( new GridData( 550, 250 ) );
+		group.setLayoutData( GridDataFactory.fillDefaults( )
+				.grab( true, true )
+				.minSize( 500, 250 )
+				.create( ) );
 		ArrayList list = new ArrayList( 1 );
 		list.add( inputGroup );
 
@@ -895,7 +922,8 @@ public class GroupDialog extends BaseDialog
 				if ( inputGroup.getTOC( ).getStyleName( ) != null )
 					tocStyleType.setText( inputGroup.getTOC( ).getStyleName( ) );
 			}
-			if(tocStyleType.getText( )== null ||tocStyleType.getText( ).trim( ).length( )==0)
+			if ( tocStyleType.getText( ) == null
+					|| tocStyleType.getText( ).trim( ).length( ) == 0 )
 				tocStyleType.setEnabled( false );
 		}
 		if ( checkReadOnlyControl( IGroupElementModel.TOC_PROP, tocEditor ) )
