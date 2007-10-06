@@ -129,13 +129,19 @@ public class DataException extends BirtException
 		currentLocale = locale;
 		if ( resourceBundle != null )
 		{
-			if ( ( locale == null && !ULocale.getDefault( )
-					.toLocale( )
-					.equals( resourceBundle.getLocale( ) ) )
-					|| ( locale != null && !locale.toLocale( )
-							.equals( resourceBundle.getLocale( ) ) ) )
+			synchronized ( resourceBundle )
 			{
-				resourceBundle = null;
+				if ( resourceBundle == null )
+					return;
+				
+				if ( ( locale == null && !ULocale.getDefault( )
+						.toLocale( )
+						.equals( resourceBundle.getLocale( ) ) )
+						|| ( locale != null && !locale.toLocale( )
+								.equals( resourceBundle.getLocale( ) ) ) )
+				{
+					resourceBundle = null;
+				}
 			}
 		}
 	}
@@ -149,12 +155,17 @@ public class DataException extends BirtException
 	{
 		if ( resourceBundle == null )
 		{
-			if ( currentLocale != null )
-				resourceBundle = DataResourceHandle.getInstance( currentLocale )
-						.getUResourceBundle( );
-			else
-				resourceBundle = DataResourceHandle.getInstance( )
-						.getUResourceBundle( );
+			synchronized ( resourceBundle )
+			{
+				if ( resourceBundle != null )
+					return resourceBundle;
+				if ( currentLocale != null )
+					resourceBundle = DataResourceHandle.getInstance( currentLocale )
+							.getUResourceBundle( );
+				else
+					resourceBundle = DataResourceHandle.getInstance( )
+							.getUResourceBundle( );
+			}
 		}
 		return resourceBundle;
 	}
