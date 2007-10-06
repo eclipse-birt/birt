@@ -64,7 +64,27 @@ public class BirtMathTest extends TestCase
 	
 	public void testAdd()
 	{
+		String script1 = "BirtMath.add( null, 1 )";
+		String script2 = "BirtMath.add( 1,  null)";
+		String script3 = "BirtMath.add( 1,  1   )";
 		
+		assertEquals( ((Number)cx.evaluateString( scope,
+				script1,
+				"inline",
+				1,
+				null )).doubleValue( ) ,1,0 );
+		
+		assertEquals( ((Number)cx.evaluateString( scope,
+				script2,
+				"inline",
+				1,
+				null )).doubleValue( ) ,1,0 );
+		
+		assertEquals( ((Number)cx.evaluateString( scope,
+				script3,
+				"inline",
+				1,
+				null )).doubleValue( ) ,2,0 );
 	}
 	
 	public void testRound()
