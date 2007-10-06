@@ -108,6 +108,7 @@
 				<include name="org.eclipse.birt.chart.device.svg_*.jar" />
 				<include name="org.eclipse.birt.chart.device.pdf_*.jar" />
 				<include name="org.mozilla.rhino_*/lib/*.jar" />
+				<include name="../org.apache.xalan/xalan*.jar"/>
 				<!-- batik.pdf has been moved to Orbit -->
 				<!--
 				<include name="org.apache.batik.pdf_*/lib/*.jar" />
