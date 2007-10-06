@@ -55,20 +55,24 @@
 				<antcall target="pushUpdateSiteLocal"/>
 			</sequential>
 			<sequential>
+				<!--
 				<antcall target="generateJavaCrossReference"/>
 				<antcall target="generateDocumentCheck"/>
 				<antcall target="generateJavaDoc"/>
+				-->
 			</sequential>
 		</parallel>
+		<!--
 		<antcall target="runBirtTest"/>
 		<antcall target="runBirtPerformance"/>
+		-->
 	</target>
 
 	<target name="init">
 		<ant antfile="build.xml" target="init" />
 		<property file="${buildDirectory}/label.properties" />
 		
-		<condition property="fetchTag" value="HEAD">
+		<condition property="fetchTag" value="BIRT_2_2_1_Branch">
 			<equals arg1="${buildType}" arg2="N" />
 		</condition>
 		<condition property="forceContextQualifier" value="${buildId}">

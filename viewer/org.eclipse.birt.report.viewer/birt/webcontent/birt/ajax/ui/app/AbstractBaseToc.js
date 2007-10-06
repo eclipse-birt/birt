@@ -144,7 +144,7 @@ AbstractBaseToc.prototype = Object.extend( new AbstractUIComponent( ),
 			spantmp.type = "text";
 			spantmp.readOnly = true;			
 			spantmp.value = s_displayname;
-			spantmp.title = s_displayname;
+			spantmp.title = "TOC Link " + s_displayname;
 			spantmp.id =  'span_' + imgid;			
 			if( s_displayname.length > 0 )			
 				spantmp.size = s_displayname.length;	

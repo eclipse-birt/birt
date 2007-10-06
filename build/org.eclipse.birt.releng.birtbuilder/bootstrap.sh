@@ -189,7 +189,7 @@ echo recipients=$recipients >> monitor.properties
 echo log=$postingDirectory/$buildLabel/index.php >> monitor.properties
 
 #the base command used to run AntRunner headless
-antRunner="/usr/local/j2sdk1.4.2_13/bin/java -Xmx500m -jar ../BaseBuilder/startup.jar -Dosgi.os=linux -Dosgi.ws=gtk -Dosgi.arch=ppc -application org.eclipse.ant.core.antRunner"
+antRunner="/usr/local/j2sdk1.4.2_13/bin/java -Xmx500m -jar ../BaseBuilder/plugins/org.eclipse.equinox.launcher.jar -Dosgi.os=linux -Dosgi.ws=gtk -Dosgi.arch=ppc -application org.eclipse.ant.core.antRunner"
 
 echo "==========[antRunner]: $antRunner" >> adb.log
 
@@ -202,12 +202,12 @@ ant -buildfile eclipse/helper.xml getDTPDownloads -propertyfile build.properties
 ant -buildfile eclipse/helper.xml CheckoutFromP4 >> adb.log
 
 #full command with args
-#buildId=v20061201-0710
+#buildId=v20070927-1514
 echo $tagMaps >> adb.log
 echo $compareMaps >> adb.log
 
-#full command with args
-buildCommand="$antRunner -q -buildfile buildAll.xml $mail $testBuild $compareMaps -DmapVersionTag=$mapVersionTag -DpostingDirectory=$postingDirectory -Dbootclasspath=$bootclasspath -DbuildType=$buildType -D$buildType=true -DbuildId=$buildId -Dbuildid=$buildId -DbuildLabel=$buildId -Dtimestamp=$timestamp $skipPerf $skipTest $tagMaps -DJ2SE-1.5=$bootclasspath_15  -DlogExtension=.xml $javadoc $updateSite $sign -Djava15-home=$bootclasspath_15 -DbuildDirectory=/home/adb/releng/src -DbaseLocation=/home/adb/releng/baseLocation -DbaseLocation.emf=/home/adb/releng/baseLocation.emf -DgroupConfiguration=true -DjavacSource=1.4 -DjavacTarget=1.4 -DjavacVerbose=true -Dbasebuilder=/home/adb/releng/BaseBuilder -DpostPackage=BIRTOutput  -Dtest.dir=/home/adb/unittest -Dp4.home=/home/adb/releng/P4 -Djvm15_home=$jvm15_home  -DmapTag.properties=/home/adb/releng/BIRTBuilder/mapTag.properties -Dbuild.date=$builddate -DmapCvsRoot=:pserver:anonymous@dev.eclipse.org:/cvsroot/birt"
+
+buildCommand="$antRunner -q -buildfile buildAll.xml $mail $testBuild $compareMaps -DmapVersionTag=$mapVersionTag -DpostingDirectory=$postingDirectory -Dbootclasspath=$bootclasspath -DbuildType=$buildType -D$buildType=true -DbuildId=$buildId -Dbuildid=$buildId -DbuildLabel=$buildId -Dtimestamp=$timestamp $skipPerf $skipTest $tagMaps -DJ2SE-1.5=$bootclasspath_15  -DlogExtension=.xml $javadoc $updateSite $sign  -Djava15-home=$bootclasspath_15 -DbuildDirectory=/home/adb/releng/src -DbaseLocation=/home/adb/releng/baseLocation -DbaseLocation.emf=/home/adb/releng/baseLocation.emf -DgroupConfiguration=true -DjavacSource=1.4 -DjavacTarget=1.4 -DjavacVerbose=true -Dbasebuilder=/home/adb/releng/BaseBuilder -DpostPackage=BIRTOutput  -Dtest.dir=/home/adb/unittest -Dp4.home=/home/adb/releng/P4 -Djvm15_home=$jvm15_home  -DmapTag.properties=/home/adb/releng/BIRTBuilder/mapTag.properties -Dbuild.date=$builddate -DmapCvsRoot=:ext:xgu@dev.eclipse.org:/cvsroot/birt -Dpackage.version=2_2_1 -DmapVersionTag=BIRT_2_2_1_Branch"
 
 #skipPreBuild
 
