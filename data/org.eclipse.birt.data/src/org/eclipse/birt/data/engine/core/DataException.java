@@ -129,7 +129,7 @@ public class DataException extends BirtException
 		currentLocale = locale;
 		if ( resourceBundle != null )
 		{
-			synchronized ( resourceBundle )
+			synchronized ( Thread.currentThread( ) )
 			{
 				if ( resourceBundle == null )
 					return;
