@@ -1642,6 +1642,11 @@ public class CascadingParametersDialog extends BaseDialog
 					formatCategroy = choiceSet.findChoice( DesignChoiceConstants.DATE_FORMAT_TYPE_UNFORMATTED )
 							.getName( );
 				}
+				else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( selectedDataType ) )
+				{
+					formatCategroy = choiceSet.findChoice( DesignChoiceConstants.DATE_FORMAT_TYPE_UNFORMATTED )
+							.getName( );
+				}
 				else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( selectedDataType )
 						|| DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( selectedDataType )
 						|| DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( selectedDataType ) )
