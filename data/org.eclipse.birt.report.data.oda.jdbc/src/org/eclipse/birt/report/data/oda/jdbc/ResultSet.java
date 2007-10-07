@@ -528,6 +528,8 @@ public class ResultSet implements IResultSet
 			try
 			{
 				byte[] bytes = rs.getBytes( columnName );
+				if( bytes == null )
+					return null;
 				return new Blob( SqlBlobUtil.newBlob( new ByteArrayInputStream( bytes ) ) );
 			}
 			catch ( SQLException e2 )
