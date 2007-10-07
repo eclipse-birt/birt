@@ -211,7 +211,25 @@ public final class ExpressionUtil
 			return null;
 		return ( (IColumnBinding) columnsLists.get( 0 ) ).getResultSetColumnName( );
 	}
-	
+
+	/**
+	 * Get the simplest column binding name. Such as dataSetRow["col1"] pattern, we
+	 * will return the column name "col1"
+	 * 
+	 * @param oldExpression
+	 * @return
+	 * @throws BirtException
+	 */
+	public static String getColumnName( String oldExpression )
+			throws BirtException
+	{
+		List columnsLists = extractColumnExpressions( oldExpression, false );
+		if ( columnsLists.size( ) != 1
+				|| !ExpressionParserUtility.isDirectColumnRef( oldExpression,
+						false ) )
+			return null;
+		return ( (IColumnBinding) columnsLists.get( 0 ) ).getResultSetColumnName( );
+	}
 	/**
 	 * Extract all column expression info
 	 * 

@@ -15,9 +15,13 @@ import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.data.IColumnBinding;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
@@ -148,13 +152,14 @@ class RDSave implements IRDSave
 	 */
 	private String getDataSetColumnName ( String expr )
 	{
-		if( expr == null || expr.trim( ).length( )== 0 || !(expr.matches( "\\QdataSetRow[\"\\E.*\\Q\"]\\E" ) || expr.matches( "\\QdataSetRow.\\E.*" )))
+		try
+		{
+			return ExpressionUtil.getColumnName( expr );
+		}
+		catch ( BirtException e )
+		{
 			return null;
-
-		if( expr.matches( "\\QdataSetRow[\"\\E.*\\Q\"]\\E" ))
-			return expr.replaceAll( "\\QdataSetRow[\"\\E", "" ).replaceAll( "\\Q\"]\\E", "" );
-		else
-			return expr.replaceAll( "\\QdataSetRow.\\E", "" );
+		}
 	}
 	
 	/*

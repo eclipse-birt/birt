@@ -283,7 +283,7 @@ class SmartCacheHelper
 		List resultObjectsList = new ArrayList( );
 
 		int dataCount = 0;
-		int usedMemorySize = 0;
+		long usedMemorySize = 0;
 
 		while ( ( odaObject = rowResultSet.next( ) ) != null )
 		{
