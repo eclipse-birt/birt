@@ -31,7 +31,8 @@
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.core.resources"/>
       <import plugin="org.eclipse.jdt.core"/>
-      <import feature="org.eclipse.emf" version="2.2" match="greaterOrEqual"/>
+      <import feature="org.eclipse.emf.common" version="2.3" match="greaterOrEqual"/>
+      <import feature="org.eclipse.emf.ecore" version="2.3" match="greaterOrEqual"/>
       <import feature="org.eclipse.wst.common_ui.feature" version="1.0.0" match="greaterOrEqual"/>
       <import feature="org.eclipse.wst.web_ui.feature" version="1.0.0" match="greaterOrEqual"/>
       <import feature="org.eclipse.jst.common_core.feature" version="1.0.0" match="greaterOrEqual"/>
