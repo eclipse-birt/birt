@@ -22,9 +22,9 @@ import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
-import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IJoinCondition;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
@@ -380,7 +380,7 @@ public class DataSourceAndDataSet
 		if ( !isEqualString( dataSourceDesign.getName( ), dataSourceDesign2.getName( )) )
 			return false;
 		
-		if ( isEqualString( dataSourceDesign.getBeforeOpenScript( ),
+		/*if ( isEqualString( dataSourceDesign.getBeforeOpenScript( ),
 				dataSourceDesign2.getBeforeOpenScript( ) ) == false
 				|| isEqualString( dataSourceDesign.getAfterOpenScript( ),
 						dataSourceDesign2.getAfterOpenScript( ) ) == false
@@ -388,6 +388,17 @@ public class DataSourceAndDataSet
 						dataSourceDesign2.getBeforeCloseScript( ) ) == false
 				|| isEqualString( dataSourceDesign.getAfterCloseScript( ),
 						dataSourceDesign2.getAfterCloseScript( ) ) == false )
+					return false;
+		*/
+		// Two data source designs may be not equal to each other if only their
+		// share the same script text, because their evaluated results may be
+		// different. Here below we define they are different data source designs
+		// if both of them have scripts. So that cache will not to be used in
+		// script data source designs.
+		if ( dataSourceDesign2.getBeforeOpenScript( ) != null
+				|| dataSourceDesign2.getAfterOpenScript( ) != null
+				|| dataSourceDesign2.getBeforeCloseScript( ) != null
+				|| dataSourceDesign2.getAfterCloseScript( ) != null )
 			return false;
 
 		if ( dataSourceDesign instanceof IOdaDataSourceDesign
@@ -444,14 +455,29 @@ public class DataSourceAndDataSet
 			return false;
 		}
 		
-		if ( isEqualString( dataSetDesign.getBeforeOpenScript( ),
+		/*if ( isEqualString( dataSetDesign.getBeforeOpenScript( ),
 				dataSetDesign2.getBeforeOpenScript( ) ) == false
 				|| isEqualString( dataSetDesign.getAfterOpenScript( ),
 						dataSetDesign2.getAfterOpenScript( ) ) == false
 				|| isEqualString( dataSetDesign.getBeforeCloseScript( ),
 						dataSetDesign2.getBeforeCloseScript( ) ) == false
 				|| isEqualString( dataSetDesign.getAfterCloseScript( ),
-						dataSetDesign2.getAfterCloseScript( ) ) == false )
+						dataSetDesign2.getAfterCloseScript( ) ) == false
+				|| isEqualString( dataSetDesign.getOnFetchScript( ),
+						dataSetDesign2.getOnFetchScript( ) ) == false )
+					return false;
+		*/
+		
+		// Two data set designs may be not equal to each other if only their
+		// share the same script text, because their evaluated results may be
+		// different. Here below we define they are different data set designs if
+		// both of them have scripts. So that cache will not to be used in script
+		// data set designs.
+		if ( dataSetDesign2.getBeforeOpenScript( ) != null
+				|| dataSetDesign2.getAfterOpenScript( ) != null
+				|| dataSetDesign2.getBeforeCloseScript( ) != null
+				|| dataSetDesign2.getAfterCloseScript( ) != null
+				|| dataSetDesign2.getOnFetchScript( ) != null )
 			return false;
 
 		if ( isEqualComputedColumns( dataSetDesign.getComputedColumns( ),
