@@ -55,6 +55,7 @@ data.engine.InvalidFieldName=无效的字段名称: {1}
 data.engine.DupColumnName=重复的列名称: {1}
 data.engine.DupAlias=重复的列名称或别名:{0}
 data.engine.InvalidFieldIndex=无效的字段索引:{0}
+data.engine.InvalidPercentileColumn=Not all the values for percentile can be null.
 
 data.engine.MatchError=检查模式语法。将字符串与模式匹配时出错: {0} 
 data.engine.BadOperandType=意外的操作数数据类型：{0}

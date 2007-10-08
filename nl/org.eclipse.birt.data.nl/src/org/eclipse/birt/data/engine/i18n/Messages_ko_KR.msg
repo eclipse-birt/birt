@@ -55,6 +55,7 @@ data.engine.InvalidFieldName=필드 이름이 잘못되었습니다: {0}
 data.engine.DupColumnName=열 이름이 중복되었습니다: {0}
 data.engine.DupAlias=열 이름 또는 별칭이 중복되었습니다: {0}
 data.engine.InvalidFieldIndex=필드 인덱스가 잘못되었습니다: {0}
+data.engine.InvalidPercentileColumn=Not all the values for percentile can be null.
 
 data.engine.MatchError=패턴 구문을 확인하십시오. 문자열을 패턴과 일치시키는 중 오류가 발생했습니다: {0} 
 data.engine.BadOperandType=예기치 못한 피연산자 데이터 형식: {0}

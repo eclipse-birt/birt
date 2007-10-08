@@ -55,6 +55,7 @@ data.engine.InvalidFieldName=Ungültiger Feldname: {0}
 data.engine.DupColumnName=Doppelter Spaltenname: {0}
 data.engine.DupAlias=Doppelter Spaltenname oder -alias: {0}
 data.engine.InvalidFieldIndex=Ungültiger Feldindex: {0}
+data.engine.InvalidPercentileColumn=Not all the values for percentile can be null.
 
 data.engine.MatchError=Überprüfen Sie die Syntax des Musters. Fehler beim Abgleichen der Zeichenfolge mit dem Muster: {0} 
 data.engine.BadOperandType=Unerwarteter Datentyp des Operanden: {0}
