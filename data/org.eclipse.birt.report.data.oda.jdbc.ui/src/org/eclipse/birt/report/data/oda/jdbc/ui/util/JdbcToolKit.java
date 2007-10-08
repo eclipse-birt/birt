@@ -64,7 +64,13 @@ public class JdbcToolKit
 	{
 		if ( !failLoadFileList.isEmpty( ) )
 		{
-			fileList.addAll( failLoadFileList );
+			for( int i = 0; i < failLoadFileList.size( ); i++ )
+			{
+				if( !fileList.contains( failLoadFileList.get( i ) ) )
+				{
+					fileList.add( failLoadFileList.get( i ) );
+				}
+			}
 		}
 		URLClassLoader urlClassLoader = createClassLoader( fileList );
 		jdbcDriverInfos.addAll( getJDBCDriverInfoList( fileList, urlClassLoader ) );
