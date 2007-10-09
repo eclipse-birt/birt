@@ -1134,7 +1134,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			{
 				String arg = (String) iterator.next( );
 				AggregationArgument argHandle = StructureFactory.createAggregationArgument( );
-				argHandle.setName( getArgumentByDisplayName( this.binding.getAggregateFunction( ),
+				argHandle.setName( getArgumentByDisplayName( binding.getAggregateFunction( ),
 						arg ) );
 				argHandle.setValue( ( (Text) argsMap.get( arg ) ).getText( ) );
 				binding.addArgument( argHandle );
