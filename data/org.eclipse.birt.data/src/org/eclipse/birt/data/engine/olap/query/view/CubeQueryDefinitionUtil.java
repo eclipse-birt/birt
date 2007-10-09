@@ -17,6 +17,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IExpressionCollection;
+import org.eclipse.birt.data.engine.api.IFilterDefinition;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -30,6 +37,7 @@ import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.impl.query.LevelDefiniton;
 import org.eclipse.birt.data.engine.olap.impl.query.MeasureDefinition;
 import org.eclipse.birt.data.engine.olap.util.ICubeAggrDefn;
+import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSMeasureFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.JSMeasureFilterEvalHelper;
@@ -64,6 +72,9 @@ class CubeQueryDefinitionUtil
 				cubeAggrBindingList.add( cubeAggrs[i] );
 		}
 		
+		populateMeasureFromBinding( queryDefn );
+		populateMeasureFromFilter( queryDefn );
+		populateMeasureFromSort( queryDefn );
 
 		if ( measureList == null )
 			return new CalculatedMember[0];
@@ -127,6 +138,126 @@ class CubeQueryDefinitionUtil
 		return calculatedMember;
 	}
 
+	/**
+	 * To populate the relational measures from Sort list of queryDefn
+	 * 
+	 * @param queryDefn
+	 */
+	private static void populateMeasureFromSort( ICubeQueryDefinition queryDefn )
+			throws DataException
+	{
+		for ( int i = 0; i < queryDefn.getSorts( ).size( ); i++ )
+		{
+			createRelationalMeasures( queryDefn,
+					(IBaseExpression) ( (ISortDefinition) queryDefn.getSorts( )
+							.get( i ) ).getExpression( ) );
+		}
+	}
+
+	/**
+	 * To populate the relational measures from filter list of queryDefn
+	 * 
+	 * @param queryDefn
+	 */
+	private static void populateMeasureFromFilter(
+			ICubeQueryDefinition queryDefn ) throws DataException
+	{
+		for ( int i = 0; i < queryDefn.getFilters( ).size( ); i++ )
+		{
+			createRelationalMeasures( queryDefn,
+					(IBaseExpression) ( (IFilterDefinition) queryDefn.getFilters( )
+							.get( i ) ).getExpression( ) );
+		}
+	}
+
+	/**
+	 * To populate the relational measures from binding list of queryDefn
+	 * 
+	 * @param queryDefn
+	 */
+	private static void populateMeasureFromBinding(
+			ICubeQueryDefinition queryDefn ) throws DataException
+	{
+		for ( int i = 0; i < queryDefn.getBindings( ).size( ); i++ )
+		{
+			createRelationalMeasures( queryDefn,
+					(IBaseExpression) ( (IBinding) queryDefn.getBindings( )
+							.get( i ) ).getExpression( ) );
+		}
+	}
+
+	/**
+	 * To create all the rational measures for CubeQueryDefinition according to the expression
+	 * 
+	 * @param queryDefn, expression
+	 * @return List
+	 * @throws DataException 
+	 */
+	private static List createRelationalMeasures(
+			ICubeQueryDefinition queryDefn, IBaseExpression expression )
+			throws DataException
+	{
+		List measures = new ArrayList( );
+		List exprTextList = getExprTextList( expression );
+		for ( int i = 0; i < exprTextList.size( ); i++ )
+		{
+			String exprText = (String) exprTextList.get( i );
+			String measureName = OlapExpressionCompiler.getReferencedScriptObject( exprText,
+					"measure" );
+			if ( measureName != null && measureName.trim( ).length( ) > 0 )
+			{
+				//if current measure list doesn't contain this measure, then add it to the list
+				List existMeasures = queryDefn.getMeasures( );
+				boolean exist = false;
+				for ( int j = 0; j < existMeasures.size( ); j++ )
+				{
+					if ( ( (IMeasureDefinition) existMeasures.get( j ) ).getName( )
+							.equals( measureName ) )
+					{
+						exist = true;
+						break;
+					}
+				}				
+				if ( !exist )
+				{
+					measures.add( queryDefn.createMeasure( measureName ) );
+				}
+			}
+		}
+		return measures;
+	}
+	
+	/**
+	 * To get all the sub expressions' text list of the given expression
+	 * 
+	 * @param queryDefn, expression
+	 * @return List
+	 */
+	private static List getExprTextList( IBaseExpression expression )
+	{
+		List textList = new ArrayList( );
+		if ( expression instanceof IScriptExpression )
+		{
+			textList.add( ( (IScriptExpression) expression ).getText( ) );
+		}
+		else if ( expression instanceof IExpressionCollection )
+		{
+			List exprList = (List) ( (IExpressionCollection) expression ).getExpressions( );
+			for ( int i = 0; i < exprList.size( ); i++ )
+			{
+				IBaseExpression baseExpr = (IBaseExpression) exprList.get( i );
+				textList.addAll( getExprTextList( expression ) );
+			}
+		}
+		else if ( expression instanceof IConditionalExpression )
+		{
+			textList.add( ( (IScriptExpression) ( (IConditionalExpression) expression ).getExpression( ) ).getText( ) );
+			textList.addAll( getExprTextList( ( (IConditionalExpression) expression ).getOperand1( ) ) );
+			textList.addAll( getExprTextList( ( (IConditionalExpression) expression ).getOperand2( ) ) );
+		}
+		return textList;
+	}
+	
 	/**
 	 * Populate the list of measure aggregation ons.
 	 * @param queryDefn
