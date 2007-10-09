@@ -395,10 +395,10 @@ public class DataSourceAndDataSet
 		// different. Here below we define they are different data source designs
 		// if both of them have scripts. So that cache will not to be used in
 		// script data source designs.
-		if ( dataSourceDesign2.getBeforeOpenScript( ) != null
-				|| dataSourceDesign2.getAfterOpenScript( ) != null
-				|| dataSourceDesign2.getBeforeCloseScript( ) != null
-				|| dataSourceDesign2.getAfterCloseScript( ) != null )
+		if ( dataSourceDesign.getBeforeOpenScript( ) != null
+				|| dataSourceDesign.getAfterOpenScript( ) != null
+				|| dataSourceDesign.getBeforeCloseScript( ) != null
+				|| dataSourceDesign.getAfterCloseScript( ) != null )
 			return false;
 
 		if ( dataSourceDesign instanceof IOdaDataSourceDesign
@@ -473,11 +473,11 @@ public class DataSourceAndDataSet
 		// different. Here below we define they are different data set designs if
 		// both of them have scripts. So that cache will not to be used in script
 		// data set designs.
-		if ( dataSetDesign2.getBeforeOpenScript( ) != null
-				|| dataSetDesign2.getAfterOpenScript( ) != null
-				|| dataSetDesign2.getBeforeCloseScript( ) != null
-				|| dataSetDesign2.getAfterCloseScript( ) != null
-				|| dataSetDesign2.getOnFetchScript( ) != null )
+		if ( dataSetDesign.getBeforeOpenScript( ) != null
+				|| dataSetDesign.getAfterOpenScript( ) != null
+				|| dataSetDesign.getBeforeCloseScript( ) != null
+				|| dataSetDesign.getAfterCloseScript( ) != null
+				|| dataSetDesign.getOnFetchScript( ) != null )
 			return false;
 
 		if ( isEqualComputedColumns( dataSetDesign.getComputedColumns( ),
