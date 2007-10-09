@@ -144,7 +144,7 @@
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="Orientation" type="attribute:Orientation">
+					<xsd:element name="Orientation" type="attribute:Orientation" default="Vertical">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
 							Specifies whether the chart is a vertical or horizontal chart.
