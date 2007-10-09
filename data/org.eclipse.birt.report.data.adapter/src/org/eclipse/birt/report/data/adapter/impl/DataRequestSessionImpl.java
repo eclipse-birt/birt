@@ -261,7 +261,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @see org.eclipse.birt.report.data.adaptor.api.DataRequestSession#executeQuery(org.eclipse.birt.data.engine.api.IQueryDefinition,
 	 *      java.util.Iterator, java.util.Iterator, java.util.Iterator)
 	 */
-	public IQueryResults executeQuery( QueryDefinition queryDefn,
+	public IQueryResults executeQuery( IQueryDefinition queryDefn,
 			Iterator paramBindingIt, Iterator filterIt, Iterator bindingIt )
 			throws BirtException
 	{

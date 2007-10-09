@@ -414,7 +414,7 @@ public final class DataSetProvider
 	 * @throws BirtException
 	 */
 	public IQueryResults execute( DataSetHandle dataSet,
-			QueryDefinition queryDefn, boolean useColumnHints,
+			IQueryDefinition queryDefn, boolean useColumnHints,
 			boolean useFilters, boolean clearCache,
 			DataRequestSession session ) throws BirtException
 	{
@@ -546,7 +546,7 @@ public final class DataSetProvider
 	 * @throws BirtException
 	 */
 	private IQueryResults executeQuery( DataRequestSession session,
-			QueryDefinition queryDefn ) throws BirtException
+			IQueryDefinition queryDefn ) throws BirtException
 	{
 		IQueryResults resultSet = session.executeQuery( queryDefn,
 				null,

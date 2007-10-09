@@ -21,11 +21,11 @@ import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
+import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
-import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
@@ -86,7 +86,7 @@ class QueryExecutionHelper
 	 * @return
 	 * @throws BirtException
 	 */
-	IQueryResults executeQuery( QueryDefinition queryDefn )
+	IQueryResults executeQuery( IQueryDefinition queryDefn )
 			throws BirtException
 	{
 		return executeQuery( queryDefn, null, null, null );
@@ -101,7 +101,7 @@ class QueryExecutionHelper
 	 * @return
 	 * @throws BirtException
 	 */
-	IQueryResults executeQuery( QueryDefinition queryDefn,
+	IQueryResults executeQuery( IQueryDefinition queryDefn,
 			Iterator paramBindingIt, Iterator filterIt, Iterator bindingIt )
 			throws BirtException
 	{
@@ -118,7 +118,7 @@ class QueryExecutionHelper
 	 * @throws AdapterException
 	 * @throws BirtException
 	 */
-	private void defineDataSourceDataSet( QueryDefinition queryDefn )
+	private void defineDataSourceDataSet( IQueryDefinition queryDefn )
 			throws AdapterException, BirtException
 	{
 		String dataSetName = queryDefn.getDataSetName( );
@@ -149,7 +149,7 @@ class QueryExecutionHelper
 	 * @param bindingIt
 	 * @throws AdapterException 
 	 */
-	private void populateQueryDefn( QueryDefinition queryDefn,
+	private void populateQueryDefn( IQueryDefinition queryDefn,
 			Iterator paramBindingIt, Iterator filterIt, Iterator bindingIt ) throws AdapterException
 	{
 		try

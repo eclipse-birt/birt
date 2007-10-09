@@ -23,8 +23,15 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
+import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.data.engine.impl.DataEngineImpl;
+import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.data.ui.dataset.DataSetEditor;
+import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -490,7 +497,7 @@ public class ImportValueDialog extends BaseDialog
 			ResultSetColumnHandle selectedColumn = null;
 			try
 			{
-				BaseQueryDefinition query = (BaseQueryDefinition) DataUtil.getPreparedQuery( engine,
+				IQueryDefinition query = DataUtil.getPreparedQuery( engine,
 						getDataSetHandle( ) )
 						.getReportQueryDefn( );
 				String queryExpr = null;
@@ -510,12 +517,22 @@ public class ImportValueDialog extends BaseDialog
 					return;
 				}
 				ScriptExpression expression = new ScriptExpression( queryExpr );
-				String columnBindingName = "_$_COLUMNBINDINGNAME_$_";
-				query.addResultSetExpression( columnBindingName, expression );
-				// query.addExpression( expression, BaseTransform.ON_EACH_ROW );
-
-				IPreparedQuery preparedQuery = engine.prepare( (IQueryDefinition) query );
-				IQueryResults results = preparedQuery.execute( null );
+				String columnBindingName = "_$_COLUMNBINDINGNAME_$_";				
+				Binding binding = new Binding( columnBindingName );
+				binding.setExpression(expression );
+				if ( expression != null )
+					binding.setDataType( expression.getDataType( ) );
+				query.addBinding( binding );
+				DataSessionContext context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
+						getDataSetHandle( ).getModuleHandle( ) );
+				DataRequestSession session = DataRequestSession.newSession( context );
+				IQueryResults results = DataSetProvider.getCurrentInstance( )
+						.execute( getDataSetHandle( ),
+								query,
+								true,
+								true,
+								true,
+								session );
 				if ( results != null )
 				{
 					IResultIterator iter = results.getResultIterator( );
@@ -542,8 +559,8 @@ public class ImportValueDialog extends BaseDialog
 							}
 						}
 					}
-
 					results.close( );
+					session.shutdown( );
 				}
 			}
 			catch ( Exception e )

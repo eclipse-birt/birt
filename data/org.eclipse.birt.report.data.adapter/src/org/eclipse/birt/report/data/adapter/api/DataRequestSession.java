@@ -256,7 +256,7 @@ public abstract class DataRequestSession
 	 * @exception BirtException
 	 *                any error in execute query to get the query results
 	 */
-	public abstract IQueryResults executeQuery( QueryDefinition queryDefn,
+	public abstract IQueryResults executeQuery( IQueryDefinition queryDefn,
 			Iterator inputParamBindings, Iterator filterIt,
 			Iterator columnBindings ) throws BirtException;
 	
