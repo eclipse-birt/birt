@@ -34,6 +34,7 @@ import org.eclipse.birt.report.designer.ui.dialogs.TreeValueDialog;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.ui.widget.PopupSelectionList;
+import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ILevelViewConstants;
@@ -129,7 +130,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 	{
 		IChoiceSet chset = ChoiceSetFactory.getElementChoiceSet( ReportDesignConstants.FILTER_CONDITION_ELEMENT,
 				IFilterConditionElementModel.OPERATOR_PROP );
-		IChoice[] chs = chset.getChoices( );
+		IChoice[] chs = chset.getChoices( new AlphabeticallyComparator() );
 		OPERATOR = new String[chs.length][2];
 
 		for ( int i = 0; i < chs.length; i++ )
@@ -261,7 +262,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 			public void widgetSelected( SelectionEvent e )
 			{
 				// TODO Auto-generated method stub
-				String value = addExpressionValue.getValueText( ).getText( );
+				String value = addExpressionValue.getValueText( ).getText( ).trim( );
 				if ( valueList.indexOf( value ) < 0 )
 				{
 					valueList.add( value );
@@ -1708,10 +1709,14 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 	protected void checkAddButtonStatus( )
 	{
 		String value = addExpressionValue.getValueText( ).getText( );
-		if ( value == null || value.length( ) == 0 )
+		if ( value == null || value.length( ) == 0 || value.trim( ).length( ) == 0)
 		{
 			addBtn.setEnabled( false );
 			return;
+		}
+		if(value != null)
+		{
+			value = value.trim( );
 		}
 		if ( valueList.indexOf( value ) < 0 )
 		{

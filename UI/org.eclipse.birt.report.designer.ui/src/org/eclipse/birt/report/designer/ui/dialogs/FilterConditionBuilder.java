@@ -27,6 +27,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.ui.widget.PopupSelectionList;
+import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
@@ -186,7 +187,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 	{
 		IChoiceSet chset = ChoiceSetFactory.getStructChoiceSet( FilterCondition.FILTER_COND_STRUCT,
 				FilterCondition.OPERATOR_MEMBER );
-		IChoice[] chs = chset.getChoices( );
+		IChoice[] chs = chset.getChoices( new AlphabeticallyComparator() );
 		OPERATOR = new String[chs.length][2];
 
 		for ( int i = 0; i < chs.length; i++ )
@@ -244,7 +245,8 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		{
 			return 2;
 		}
-		else if ( DesignChoiceConstants.FILTER_OPERATOR_IN.equals( operatorValue ) )
+		else if ( DesignChoiceConstants.FILTER_OPERATOR_IN.equals( operatorValue ) 
+			|| DesignChoiceConstants.FILTER_OPERATOR_NOT_IN.equals( operatorValue ))
 		{
 			return 3;
 		}
@@ -558,7 +560,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 			public void widgetSelected( SelectionEvent e )
 			{
 				// TODO Auto-generated method stub
-				String value = addExpressionValue.getValueText( ).getText( );
+				String value = addExpressionValue.getValueText( ).getText( ).trim( );
 				if ( valueList.indexOf( value ) < 0 )
 				{
 					valueList.add( value );
@@ -1202,10 +1204,14 @@ public class FilterConditionBuilder extends TitleAreaDialog
 	protected void checkAddButtonStatus( )
 	{
 		String value = addExpressionValue.getValueText( ).getText( );
-		if ( value == null || value.length( ) == 0 )
+		if ( value == null || value.length( ) == 0 || value.trim( ).length( ) == 0)
 		{
 			addBtn.setEnabled( false );
 			return;
+		}
+		if(value != null)
+		{
+			value = value.trim( );
 		}
 		if ( valueList.indexOf( value ) < 0 )
 		{
