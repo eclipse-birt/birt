@@ -3,6 +3,7 @@ package org.eclipse.birt.report.engine.emitter.excel;
 
 import java.util.List;
 import java.text.NumberFormat;
+import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.Calendar;
@@ -31,15 +32,22 @@ public class ExcelUtil
 
 		return val;
 	}
-    public static String formatDate( Object date )
+    public static String formatDate( Object data )
 	{
        
 		SimpleDateFormat dateFormat = new SimpleDateFormat(
 				"yyyy-MM-dd'T'HH:mm:ss" );
-		return  dateFormat.format( (Date) date );
+		return  dateFormat.format( (Date) data );
         
 	}
     
+    public static String formatNumber( Object data )
+	{
+       
+    	DecimalFormat numberFormat = new DecimalFormat("0.00E00");
+		return  numberFormat.format( (Number) data );
+        
+	}
     public static String getType(Object val)
     {
     	if ( val instanceof Number )
