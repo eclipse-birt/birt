@@ -203,15 +203,18 @@ public class DataSetCacheManager
 	 */
 	private void setRowFetchLimit( )
 	{
-		Object rowLimit = appContext.get( DataEngine.DATA_SET_CACHE_ROW_LIMIT );
-		if ( rowLimit != null )
+		if ( appContext != null )
 		{
-			try
+			Object rowLimit = appContext.get( DataEngine.DATA_SET_CACHE_ROW_LIMIT );
+			if ( rowLimit != null )
 			{
-				this.dataSetDesign.setRowFetchLimit( Integer.parseInt( rowLimit.toString( ) ) );
-			}
-			catch ( NumberFormatException e )
-			{
+				try
+				{
+					this.dataSetDesign.setRowFetchLimit( Integer.parseInt( rowLimit.toString( ) ) );
+				}
+				catch ( NumberFormatException e )
+				{
+				}
 			}
 		}
 	}
