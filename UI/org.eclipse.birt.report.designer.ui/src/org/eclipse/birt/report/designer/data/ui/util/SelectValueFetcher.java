@@ -85,7 +85,7 @@ public class SelectValueFetcher
 						if ( paramDefn instanceof OdaDataSetParameterHandle
 								&& ( (OdaDataSetParameterHandle) paramDefn ).getParamName( ) != null )
 						{
-							defaultValue = DataUtil.getParamValueFromConfig( dataSetHandle, (OdaDataSetParameterHandle) paramDefn );
+							defaultValue = DataUtil.getParamValue( dataSetHandle, (OdaDataSetParameterHandle) paramDefn );
 						}
 						if ( defaultValue != null )
 						{

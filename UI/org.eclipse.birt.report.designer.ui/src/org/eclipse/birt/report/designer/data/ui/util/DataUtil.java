@@ -158,7 +158,7 @@ public class DataUtil
 	 * 
 	 * @return the parameter value
 	 */
-	public static String getParamValueFromConfig( DataSetHandle dataSetHandle, OdaDataSetParameterHandle paramDefn )
+	public static String getParamValue( DataSetHandle dataSetHandle, OdaDataSetParameterHandle paramDefn )
 			throws DesignFileException
 	{
 		ModuleHandle moduleHandle = dataSetHandle.getModuleHandle( );
@@ -214,7 +214,7 @@ public class DataUtil
 				}
 			}
 		}
-		return paramDefn.getParamName( );
+		return paramDefn.getDefaultValue( );
 	}	
 	
 	/**
