@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -37,6 +38,7 @@ import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
@@ -174,7 +176,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 			DataSessionContext dsc = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
 					getReportDesignHandle( ) );
-			dsc.setCacheOption( DataSessionContext.CACHE_USE_ALWAYS, maxRow );
+
+			Map appContext = new HashMap( );
+			appContext.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT,
+					new Integer( maxRow ) );
+			dsc.setAppContext( appContext );
 
 			DataRequestSession session = DataRequestSession.newSession( dsc );
 			for ( int i = 0; i < columnExpression.length; i++ )
@@ -489,8 +495,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	protected int invokeEditFilter( )
 	{
-		ExtendedItemFilterDialog page = new ExtendedItemFilterDialog( itemHandle,
-				this );
+		ExtendedItemFilterDialog page = new ExtendedItemFilterDialog( itemHandle );
 		return page.open( );
 	}
 
