@@ -61,6 +61,10 @@ public class Data implements Serializable, Cloneable
        { 
     	  return ExcelUtil.formatDate( txt );
        }
+       else if(datatype.equals(Data.NUMBER) && txt.toString( ).length( ) > 31)
+       {
+    	  return ExcelUtil.formatNumber(txt);    
+       }
        else
        {
     	   return txt.toString( );

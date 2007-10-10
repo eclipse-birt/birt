@@ -18,6 +18,7 @@ import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.chart.util.CDateTime;
 
+import com.ibm.icu.text.DecimalFormat;
 import com.ibm.icu.text.SimpleDateFormat;
 public class ExcelUtil
 {
@@ -31,16 +32,20 @@ public class ExcelUtil
 
 		return val;
 	}
-    public static String formatDate( Object date )
+    public static String formatDate( Object data )
 	{
        
 		SimpleDateFormat dateFormat = new SimpleDateFormat(
 				"yyyy-MM-dd'T'HH:mm:ss" );
-		return  dateFormat.format( (Date) date );
+		return  dateFormat.format( (Date) data );
         
 	}
-    
-    public static String getType(Object val)
+    public static String formatNumber( Object data)
+    {
+       DecimalFormat numberFormat = new DecimalFormat("0.00E00");
+       return numberFormat.format( (Number)data);
+    }
+      public static String getType(Object val)
     {
     	if ( val instanceof Number )
     	{
@@ -93,12 +98,12 @@ public class ExcelUtil
     	}
     	else if(val != null && data instanceof Number)
     	{
+    	   
     	   if(val.indexOf( "E" ) >= 0){
     	      return "Scientific";
     	   }
     	   return new NumberFormatter(val).getPattern( );	
     	}
-    	
     	else if(val != null && data instanceof String)
     	{
     		return new StringFormatter(val).getPattern( );
