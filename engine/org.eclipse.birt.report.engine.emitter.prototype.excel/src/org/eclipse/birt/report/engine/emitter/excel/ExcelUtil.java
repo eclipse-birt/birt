@@ -3,7 +3,6 @@ package org.eclipse.birt.report.engine.emitter.excel;
 
 import java.util.List;
 import java.text.NumberFormat;
-import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.Calendar;
@@ -19,6 +18,7 @@ import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.chart.util.CDateTime;
 
+import com.ibm.icu.text.DecimalFormat;
 import com.ibm.icu.text.SimpleDateFormat;
 public class ExcelUtil
 {
