@@ -38,8 +38,10 @@ import org.eclipse.birt.report.engine.emitter.excel.layout.PageDef;
 import org.eclipse.birt.report.engine.emitter.excel.layout.Rule;
 import org.eclipse.birt.report.engine.emitter.excel.layout.TableInfo;
 import org.eclipse.birt.report.engine.emitter.excel.chart.ChartConverter;
+import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
+import org.eclipse.birt.report.engine.ir.StyledElementDesign;
 import org.eclipse.birt.report.engine.layout.pdf.util.HTML2Content;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -212,10 +214,26 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	}	
 
 	public void startData( IDataContent data )
-	{		
+	{
 		super.startData( data );
 		HyperlinkDef url = parseHyperLink( data );
-		engine.addData( data, data.getComputedStyle( ), url );
+		if ( ( (StyledElementDesign) data.getGenerateBy( ) ).getMap( ) != null
+				&& ( (StyledElementDesign) data.getGenerateBy( ) ).getMap( )
+						.getRuleCount( ) > 0 )
+		{
+			engine.addData( data.getText( ).trim( ), data.getComputedStyle( ),
+					url );
+		}
+		else if ( !ExcelUtil.getType( data.getValue() ).equals( Data.NUMBER )
+				&& !ExcelUtil.getType( data.getValue() ).equals( Data.DATE ) )
+		{
+			engine.addData( data.getText( ), data.getComputedStyle( ), url );
+		}
+		else 
+		{
+			engine.addData( data.getValue( ), data.getComputedStyle( ), url );
+		}
+
 	}
 	
 	public void startImage( IImageContent image )
