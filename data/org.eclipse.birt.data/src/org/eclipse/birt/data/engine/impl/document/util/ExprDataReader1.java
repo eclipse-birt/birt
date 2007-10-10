@@ -278,7 +278,6 @@ class ExprDataReader1 implements IExprDataReader
 			catch ( BirtException e )
 			{
 				// Should not arrive here
-				e.printStackTrace( );
 			}
 		}
 		return valueMap;
