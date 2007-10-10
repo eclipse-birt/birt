@@ -214,7 +214,7 @@ public class DataUtil
 				}
 			}
 		}
-		return paramDefn.getDefaultValue( );
+		return ExpressionUtil.createJSParameterExpression( ( (OdaDataSetParameterHandle) paramDefn ).getParamName( ) );
 	}	
 	
 	/**
