@@ -84,9 +84,9 @@ public class SelectValueFetcher
 						String defaultValue = null;
 						if ( paramDefn instanceof OdaDataSetParameterHandle
 								&& ( (OdaDataSetParameterHandle) paramDefn ).getParamName( ) != null )
-							defaultValue = ExpressionUtil.createJSParameterExpression( ( (OdaDataSetParameterHandle) paramDefn ).getParamName( ) );
-						else
-							defaultValue = paramDefn.getDefaultValue( );
+						{
+							defaultValue = DataUtil.getParamValueFromConfig( dataSetHandle, (OdaDataSetParameterHandle) paramDefn );
+						}
 						if ( defaultValue != null )
 						{
 							InputParameterBinding binding = new InputParameterBinding( paramDefn.getName( ),
