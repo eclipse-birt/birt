@@ -451,6 +451,14 @@ public class JDBCDriverManager
 					closeConnection( jndiDSConnection );
 					return true;
 				}
+				else if ( connectionString != null
+						&& connectionString.trim( ).length( ) > 0 )
+				{
+					return testConnection( driverClassName,
+							connectionString,
+							userId,
+							password );
+				}
 				else
 				{
 					throw new JDBCException( ResourceConstants.CANNOT_PARSE_JNDI,
