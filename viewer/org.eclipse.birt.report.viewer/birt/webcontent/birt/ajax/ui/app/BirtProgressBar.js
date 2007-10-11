@@ -220,10 +220,31 @@ BirtProgressBar.prototype = Object.extend( new AbstractUIComponent( ),
 	__neh_click: function( event )
 	{
 		var oTaskId = document.getElementById( this.__task_id );
-		if( oTaskId && window.confirm( "Do you want to cancel current task?" ) )
+		if( oTaskId && window.confirm( Constants.error.confirmCancelTask ) )
 		{
+			/*
 			birtEventDispatcher.broadcastEvent( birtEvent.__E_CANCEL_TASK, { name : Constants.PARAM_TASKID, value : oTaskId.value } );
 			Event.element( event ).disabled = true;
+			*/
+			var hiddenForm = document.createElement( 'form' );
+			hiddenForm.method = 'post';
+			hiddenForm.target = '_self';
+			var url = soapURL;
+			url = url.replace( /[\/][a-zA-Z]+[?]/, '/CancelTask.jsp?' );
+			hiddenForm.action = url;
+		
+			var taskidInput = document.createElement( 'input' );
+			taskidInput.type = 'hidden';
+			taskidInput.name = Constants.PARAM_TASKID;
+			taskidInput.value = oTaskId.value;
+			hiddenForm.appendChild( taskidInput );
+			
+			var divObj = document.createElement( "DIV" );
+			document.body.appendChild( divObj );
+			divObj.style.display = "none";
+			divObj.appendChild( hiddenForm );
+			
+			hiddenForm.submit( );			
 		}
 	},
 
