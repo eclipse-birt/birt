@@ -92,7 +92,7 @@ data.engine.ColumnBindingNotExist=El enlace de columna "{0}" no existe.
 data.engine.ColumnBindingCycle=El enlace de columna "{0}" tiene un ciclo de dependencia.
 data.engine.ColumnBindingReferToInexistColumn=El enlace de columna "{0}" hace referencia a una columna de conjunto de datos "{1}" que no existe.
 data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=El enlace de columna "{0}" es incorrecto: los enlaces de la columna de consulta principal que incluyen agregaciones no pueden utilizarse en enlaces de columnas de subconsulta.
-data.engine.ReadColumnValueFromDocumentError=Error happens when try to read value of column: {0}. This might cause by a runtime error in the evaluation of binding's expression, i.e. a divide 0 error.
+data.engine.ReadColumnValueFromDocumentError=Se produce un error al intentar leer un valor de la columna: {0}. Puede deberse a un error de tiempo de ejecución en la evaluación de una expresión de enlace, por ejemplo, un error de división entre 0.
 #computed column value
 data.engine.BadCompColExpr=La expresión de la columna procesada "{0}" no es válida.
 data.engine.CompCol.WrongDataType=El tipo de datos de la columna procesada "{0}" es {1}, pero uno de sus valores es "{2}", que no se puede convertir en {1}.

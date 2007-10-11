@@ -92,7 +92,7 @@ data.engine.ColumnBindingNotExist=열 바인딩 "{0}"이(가) 없습니다.
 data.engine.ColumnBindingCycle="{0}" 열 바인딩에 종속 사이클이 형성되어 있습니다.
 data.engine.ColumnBindingReferToInexistColumn=열 바인딩 "{0}"이(가) 존재하지 않는 데이터 집합 열 "{1}"을(를) 참조합니다.
 data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=열 바인딩"{0}"이 잘못되었습니다:집계를 포함한 부모 쿼리 열 바인딩은 하위 쿼리 열 바인딩에 사용될 수 없습니다.
-data.engine.ReadColumnValueFromDocumentError=Error happens when try to read value of column: {0}. This might cause by a runtime error in the evaluation of binding's expression, i.e. a divide 0 error.
+data.engine.ReadColumnValueFromDocumentError=열 값을 읽는 동안 오류가 발생했습니다: {0}. 바인딩 식 평가에서 0으로 나누기 오류와 같은 런타임 오류가 발생했을 수 있습니다.
 #computed column value
 data.engine.BadCompColExpr=계산된 열 "{0}"에 대한 식이 잘못되었습니다.
 data.engine.CompCol.WrongDataType=계산된 열 "{0}"의 데이터 형식이 {1}이지만 값 중 하나가 "{2}"이므로 {1}(으)로 변환할 수 없습니다.

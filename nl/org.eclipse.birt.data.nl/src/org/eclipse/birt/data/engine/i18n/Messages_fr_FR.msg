@@ -92,7 +92,7 @@ data.engine.ColumnBindingNotExist=La liaison de colonne "{0}" n'existe pas.
 data.engine.ColumnBindingCycle=La liaison de colonne "{0}" possède un cycle de dépendance.
 data.engine.ColumnBindingReferToInexistColumn=La liaison de colonne "{0}" a renvoyé vers une colonne de jeu de données "{1}" qui n''existe pas.
 data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=La liaison de colonne "{0}" est incorrecte : les liaisons de colonne de requête parent qui incluent des agrégations ne peuvent pas être utilisées dans les liaisons de colonne d'une sous-requête.
-data.engine.ReadColumnValueFromDocumentError=Error happens when try to read value of column: {0}. This might cause by a runtime error in the evaluation of binding's expression, i.e. a divide 0 error.
+data.engine.ReadColumnValueFromDocumentError=Une erreur s'est produite lors de la tentative de lecture de la valeur de la colonne : {0}. Une erreur d'exécution s'est peut-être produite lors de l'évaluation d'une expression de liaison, c'est-à-dire une erreur causée par une division par 0.
 #computed column value
 data.engine.BadCompColExpr=L''expression de la colonne de calcul "{0}" est incorrecte.
 data.engine.CompCol.WrongDataType=Le type de données de la colonne de calcul "{0}" est {1}, mais l''une de ses valeurs est "{2}" et ne peut pas être convertie en {1}.
