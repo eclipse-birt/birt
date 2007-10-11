@@ -102,7 +102,7 @@ public class PPTWriter
 		println( "Content-Type: multipart/related; boundary=\"___Actuate_Content_Boundary___\"" ); //$NON-NLS-1$
 		println( "" ); //$NON-NLS-1$
 		println( "--___Actuate_Content_Boundary___" ); //$NON-NLS-1$
-		println( "Content-Location: file:///C:/___Actuate___/slide-show" ); //$NON-NLS-1$
+		println( "Content-Location: slide-show" ); //$NON-NLS-1$
 		println( "Content-Transfer-Encoding: quoted-printable" ); //$NON-NLS-1$
 		println( "Content-Type: text/html; charset=\"utf-8\"" ); //$NON-NLS-1$
 		println( "" ); //$NON-NLS-1$
@@ -146,7 +146,7 @@ public class PPTWriter
 	public void end( )
 	{
 		println( "--___Actuate_Content_Boundary___" ); //$NON-NLS-1$
-		println( "Content-Location: file:///C:/___Actuate___/presentation" ); //$NON-NLS-1$
+		println( "Content-Location: presentation" ); //$NON-NLS-1$
 		println( "Content-Transfer-Encoding: quoted-printable" ); //$NON-NLS-1$
 		println( "Content-Type: text/xml; charset=\"utf-8\"" ); //$NON-NLS-1$
 		println( "" ); //$NON-NLS-1$
@@ -164,7 +164,7 @@ public class PPTWriter
 		println( "</p:presentation></xml>" ); //$NON-NLS-1$
 		println( "" ); //$NON-NLS-1$
 		println( "--___Actuate_Content_Boundary___" ); //$NON-NLS-1$
-		println( "Content-Location: file:///C:/___Actuate___/file-list" ); //$NON-NLS-1$
+		println( "Content-Location: file-list" ); //$NON-NLS-1$
 		println( "Content-Transfer-Encoding: quoted-printable" ); //$NON-NLS-1$
 		println( "Content-Type: text/xml; charset=\"utf-8\"" ); //$NON-NLS-1$
 		println( "<xml" ); //$NON-NLS-1$
@@ -220,7 +220,7 @@ public class PPTWriter
 	{
 		println( "" );
 		println( "--___Actuate_Content_Boundary___" ); //$NON-NLS-1$
-		println( "Content-Location: file:///C:/___Actuate___/"
+		println( "Content-Location: "
 				+ (String) imageNames.get( imagekey ) + "" );
 		println( "Content-Transfer-Encoding: base64" );
 		println( "Content-Type: image/"
@@ -252,7 +252,7 @@ public class PPTWriter
 		this.pageHeight = pageHeight;
 
 		println( "--___Actuate_Content_Boundary___" ); //$NON-NLS-1$
-		println( "Content-Location: file:///C:/___Actuate___/s" + currentPageNum + "" ); //$NON-NLS-1$ //$NON-NLS-2$
+		println( "Content-Location: s" + currentPageNum + "" ); //$NON-NLS-1$ //$NON-NLS-2$
 		println( "Content-Transfer-Encoding: quoted-printable" ); //$NON-NLS-1$
 		println( "Content-Type: text/html; charset=\"utf-8\"" ); //$NON-NLS-1$
 		println( "" ); //$NON-NLS-1$
