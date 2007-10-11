@@ -13,6 +13,7 @@ birt.viewer.title=BIRT Report Viewer
 birt.viewer.title.navigation=ナビゲーション
 birt.viewer.title.error=エラー
 birt.viewer.title.complete=完了
+birt.viewer.title.message=Message
 
 birt.viewer.parameter=パラメタ
 birt.viewer.runreport=レポートの実行
@@ -31,6 +32,8 @@ birt.viewer.error.generatereportfirst=先にレポート文書を生成してください。
 birt.viewer.error.parameterrequired=パラメタ "{0}" が必要です。
 birt.viewer.error.parameternotallowblank=パラメタ "{0}" は空白にできません。
 birt.viewer.error.parameternotselected=パラメタ "{0}" の値を選択してください。
+
+birt.viewer.message.taskcanceled=Current operation has been canceled.
 
 ###############################################################################
 # Toolbar
@@ -61,6 +64,7 @@ birt.viewer.navbar.error.blankpagenum=有効なページ番号を入力してください。
 # progress bar
 ###############################################################################
 birt.viewer.progressbar.prompt=処理中です。しばらくお待ちください...
+birt.viewer.progressbar.confirmcanceltask=Do you want to cancel current operation?
 
 ###############################################################################
 # Dialog 

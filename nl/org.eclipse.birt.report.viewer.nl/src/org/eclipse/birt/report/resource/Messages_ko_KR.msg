@@ -13,6 +13,7 @@ birt.viewer.title=BIRT Report Viewer
 birt.viewer.title.navigation=탐색
 birt.viewer.title.error=오류
 birt.viewer.title.complete=완료
+birt.viewer.title.message=Message
 
 birt.viewer.parameter=매개 변수
 birt.viewer.runreport=보고서 실행
@@ -31,6 +32,8 @@ birt.viewer.error.generatereportfirst=보고서 문서가 먼저 생성되어야 합니다.
 birt.viewer.error.parameterrequired=매개변수 "{0}"이(가) 필요합니다.
 birt.viewer.error.parameternotallowblank=매개변수 "{0}"은(는) 비워둘 수 없습니다.
 birt.viewer.error.parameternotselected=매개변수 "{0}" 값을 선택하십시오.
+
+birt.viewer.message.taskcanceled=Current operation has been canceled.
 
 ###############################################################################
 # Toolbar
@@ -61,6 +64,7 @@ birt.viewer.navbar.error.blankpagenum=올바른 페이지 번호를 입력하십시오.
 # progress bar
 ###############################################################################
 birt.viewer.progressbar.prompt=처리 중입니다. 잠시 기다려 주십시오...
+birt.viewer.progressbar.confirmcanceltask=Do you want to cancel current operation?
 
 ###############################################################################
 # Dialog 

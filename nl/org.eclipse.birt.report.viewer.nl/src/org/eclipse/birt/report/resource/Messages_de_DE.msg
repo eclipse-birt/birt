@@ -13,6 +13,7 @@ birt.viewer.title=BIRT Report Viewer
 birt.viewer.title.navigation=Navigation
 birt.viewer.title.error=Fehler
 birt.viewer.title.complete=Abgeschlossen
+birt.viewer.title.message=Message
 
 birt.viewer.parameter=Parameter
 birt.viewer.runreport=Bericht ausführen
@@ -31,6 +32,8 @@ birt.viewer.error.generatereportfirst=Berichtdokument muss zuerst generiert werd
 birt.viewer.error.parameterrequired=Der Parameter "{0}" ist erforderlich.
 birt.viewer.error.parameternotallowblank=Der Parameter "{0}" darf nicht leer sein.
 birt.viewer.error.parameternotselected=Wählen Sie den Wert für den Parameter "{0}" aus.
+
+birt.viewer.message.taskcanceled=Current operation has been canceled.
 
 ###############################################################################
 # Toolbar
@@ -61,6 +64,7 @@ birt.viewer.navbar.error.blankpagenum=Geben Sie eine gültige Seitenzahl ein.
 # progress bar
 ###############################################################################
 birt.viewer.progressbar.prompt=Vorgang läuft. Bitte warten ...
+birt.viewer.progressbar.confirmcanceltask=Do you want to cancel current operation?
 
 ###############################################################################
 # Dialog 
