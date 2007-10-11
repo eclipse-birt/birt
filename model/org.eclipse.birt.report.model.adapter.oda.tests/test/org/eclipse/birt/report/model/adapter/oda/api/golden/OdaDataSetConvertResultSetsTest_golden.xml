@@ -48,6 +48,7 @@
                 <structure>
                     <property name="position">2</property>
                     <property name="name">date</property>
+                    <property name="nativeName">date</property>                    
                     <property name="dataType">date-time</property>
                     <property name="nativeDataType">0</property>
                 </structure>

@@ -23,7 +23,7 @@
         </design:resultColumnDefinitions>
         <design:resultColumnDefinitions>
           <design:attributes>
-            <design:name></design:name>
+            <design:name>date</design:name>
             <design:position>2</design:position>
           </design:attributes>
         </design:resultColumnDefinitions>

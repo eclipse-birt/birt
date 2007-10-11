@@ -103,26 +103,6 @@
                     <property name="isOutput">true</property>
                 </structure>
             </list-property>            
-            <list-property name="resultSet">
-                <structure>
-                    <property name="position">1</property>
-                    <property name="name">name</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">10</property>
-                </structure>
-                <structure>
-                    <property name="position">2</property>
-                    <property name="name">date</property>
-                    <property name="dataType">date-time</property>
-                    <property name="nativeDataType">0</property>
-                </structure>
-                <structure>
-                    <property name="position">3</property>
-                    <property name="name">id</property>
-                    <property name="dataType">integer</property>
-                    <property name="nativeDataType">0</property>
-                </structure>
-            </list-property>
             <property name="queryText">select * from user</property>
             <property name="resultSetName">userid</property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
@@ -153,102 +133,7 @@
             </design:scalarValues>
           </design:staticValueChoices>
           <design:dynamicValueChoices>
-            <design:dataSetDesign>
-              <design:name>myDataSet1</design:name>
-              <design:odaExtensionDataSetId>org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet</design:odaExtensionDataSetId>
-              <design:dataSourceDesign>
-                <design:name>myDataSource1</design:name>
-                <design:odaExtensionId>org.eclipse.birt.report.data.oda.jdbc</design:odaExtensionId>
-                <design:displayName>data source display name</design:displayName>
-                <design:publicProperties>
-                  <design:properties>
-                    <design:nameValue>
-                      <design:name>odaDriverClass</design:name>
-                      <design:value>new drivers</design:value>
-                    </design:nameValue>
-                  </design:properties>
-                  <design:properties>
-                    <design:nameValue>
-                      <design:name>odaURL</design:name>
-                      <design:value>jdbc:sqlserver://localhost</design:value>
-                    </design:nameValue>
-                  </design:properties>
-                  <design:properties>
-                    <design:nameValue>
-                      <design:name>odaUser</design:name>
-                      <design:value>new user</design:value>
-                    </design:nameValue>
-                  </design:properties>
-                </design:publicProperties>
-                <design:privateProperties>
-                  <design:properties>
-                    <design:nameValue>
-                      <design:name>odaDriverClass</design:name>
-                      <design:value>new drivers</design:value>
-                    </design:nameValue>
-                  </design:properties>
-                  <design:properties>
-                    <design:nameValue>
-                      <design:name>odaPassword</design:name>
-                      <design:value>new password</design:value>
-                    </design:nameValue>
-                  </design:properties>
-                </design:privateProperties>
-              </design:dataSourceDesign>
-              <design:query>
-                <design:queryText>new query text</design:queryText>
-              </design:query>
-              <design:displayName>data set display name</design:displayName>
-              <design:publicProperties>
-                <design:properties>
-                  <design:nameValue>
-                    <design:name>queryTimeOut</design:name>
-                    <design:value>new public query time out</design:value>
-                  </design:nameValue>
-                </design:properties>
-              </design:publicProperties>
-              <design:privateProperties>
-                <design:properties>
-                  <design:nameValue>
-                    <design:name>queryTimeOut</design:name>
-                    <design:value>new private query time out</design:value>
-                  </design:nameValue>
-                </design:properties>
-              </design:privateProperties>
-              <design:resultSets>
-                <design:resultSetDefinitions>
-                  <design:resultSetColumns>
-                    <design:resultColumnDefinitions>
-                      <design:attributes>
-                        <design:name>column1</design:name>
-                        <design:position>2</design:position>
-                        <design:nativeDataTypeCode>3</design:nativeDataTypeCode>
-                      </design:attributes>
-                    </design:resultColumnDefinitions>
-                  </design:resultSetColumns>
-                </design:resultSetDefinitions>
-              </design:resultSets>
-              <design:primaryResultSetName>resultset1</design:primaryResultSetName>
-              <design:parameters>
-                <design:parameterDefinitions>
-                  <design:inOutMode>InOut</design:inOutMode>
-                  <design:attributes>
-                    <design:name>param1</design:name>
-                    <design:position>2</design:position>
-                    <design:nativeDataTypeCode>1</design:nativeDataTypeCode>
-                    <design:nullability>NotNullable</design:nullability>
-                  </design:attributes>
-                  <design:inputAttributes>
-                    <design:elementAttributes>
-                      <design:defaultScalarValue>default param value</design:defaultScalarValue>
-                      <design:optional>false</design:optional>
-                    </design:elementAttributes>
-                  </design:inputAttributes>
-                </design:parameterDefinitions>
-              </design:parameters>
-            </design:dataSetDesign>
-            <design:valueColumn>new value column 1</design:valueColumn>
-            <design:displayNameColumn>new lable column 1</design:displayNameColumn>
+            <design:enabled>false</design:enabled>
           </design:dynamicValueChoices>
           <design:uiHints>
             <design:promptStyle>RadioButton</design:promptStyle>
@@ -271,76 +156,7 @@
           <design:optional>true</design:optional>
           <design:masksValue>false</design:masksValue>
           <design:dynamicValueChoices>
-            <design:dataSetDesign>
-              <design:name>myDataSet2</design:name>
-              <design:odaExtensionDataSetId>org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet</design:odaExtensionDataSetId>
-              <design:dataSourceDesign>
-                <design:name>myDataSource1</design:name>
-                <design:odaExtensionId>org.eclipse.birt.report.data.oda.jdbc</design:odaExtensionId>
-                <design:displayName>My Data Source One</design:displayName>
-                <design:publicProperties>
-                  <design:properties>
-                    <design:nameValue>
-                      <design:name>odaDriverClass</design:name>
-                      <design:value>com.mysql.jdbc.Driver</design:value>
-                    </design:nameValue>
-                  </design:properties>
-                  <design:properties>
-                    <design:nameValue>
-                      <design:name>odaURL</design:name>
-                      <design:value>jdbc:mysql://localhost:3306/birt</design:value>
-                    </design:nameValue>
-                  </design:properties>
-                  <design:properties>
-                    <design:nameValue>
-                      <design:name>odaDataSource</design:name>
-                    </design:nameValue>
-                  </design:properties>
-                  <design:properties>
-                    <design:nameValue>
-                      <design:name>odaUser</design:name>
-                    </design:nameValue>
-                  </design:properties>
-                  <design:properties>
-                    <design:nameValue>
-                      <design:name>odaPassword</design:name>
-                    </design:nameValue>
-                  </design:properties>
-                  <design:properties>
-                    <design:nameValue>
-                      <design:name>odaJndiName</design:name>
-                    </design:nameValue>
-                  </design:properties>
-                </design:publicProperties>
-                <design:privateProperties>
-                  <design:properties>
-                    <design:nameValue>
-                      <design:name>odaUser</design:name>
-                      <design:value>User</design:value>
-                    </design:nameValue>
-                  </design:properties>
-                  <design:properties>
-                    <design:nameValue>
-                      <design:name>odaPassword</design:name>
-                      <design:value>Password</design:value>
-                    </design:nameValue>
-                  </design:properties>
-                </design:privateProperties>
-              </design:dataSourceDesign>
-              <design:query>
-                <design:queryText>select * from user</design:queryText>
-              </design:query>
-              <design:publicProperties>
-                <design:properties>
-                  <design:nameValue>
-                    <design:name>queryTimeOut</design:name>
-                  </design:nameValue>
-                </design:properties>
-              </design:publicProperties>
-            </design:dataSetDesign>
-            <design:enabled>true</design:enabled>
-            <design:valueColumn>row[&quot;test&quot;]</design:valueColumn>
-            <design:displayNameColumn>test column</design:displayNameColumn>
+            <design:enabled>false</design:enabled>
           </design:dynamicValueChoices>
           <design:uiHints>
             <design:promptStyle>SelectableList</design:promptStyle>
@@ -364,76 +180,7 @@
           <design:optional>true</design:optional>
           <design:masksValue>false</design:masksValue>
           <design:dynamicValueChoices>
-            <design:dataSetDesign>
-              <design:name>myDataSet2</design:name>
-              <design:odaExtensionDataSetId>org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet</design:odaExtensionDataSetId>
-              <design:dataSourceDesign>
-                <design:name>myDataSource1</design:name>
-                <design:odaExtensionId>org.eclipse.birt.report.data.oda.jdbc</design:odaExtensionId>
-                <design:displayName>My Data Source One</design:displayName>
-                <design:publicProperties>
-                  <design:properties>
-                    <design:nameValue>
-                      <design:name>odaDriverClass</design:name>
-                      <design:value>com.mysql.jdbc.Driver</design:value>
-                    </design:nameValue>
-                  </design:properties>
-                  <design:properties>
-                    <design:nameValue>
-                      <design:name>odaURL</design:name>
-                      <design:value>jdbc:mysql://localhost:3306/birt</design:value>
-                    </design:nameValue>
-                  </design:properties>
-                  <design:properties>
-                    <design:nameValue>
-                      <design:name>odaDataSource</design:name>
-                    </design:nameValue>
-                  </design:properties>
-                  <design:properties>
-                    <design:nameValue>
-                      <design:name>odaUser</design:name>
-                    </design:nameValue>
-                  </design:properties>
-                  <design:properties>
-                    <design:nameValue>
-                      <design:name>odaPassword</design:name>
-                    </design:nameValue>
-                  </design:properties>
-                  <design:properties>
-                    <design:nameValue>
-                      <design:name>odaJndiName</design:name>
-                    </design:nameValue>
-                  </design:properties>
-                </design:publicProperties>
-                <design:privateProperties>
-                  <design:properties>
-                    <design:nameValue>
-                      <design:name>odaUser</design:name>
-                      <design:value>User</design:value>
-                    </design:nameValue>
-                  </design:properties>
-                  <design:properties>
-                    <design:nameValue>
-                      <design:name>odaPassword</design:name>
-                      <design:value>Password</design:value>
-                    </design:nameValue>
-                  </design:properties>
-                </design:privateProperties>
-              </design:dataSourceDesign>
-              <design:query>
-                <design:queryText>select * from user</design:queryText>
-              </design:query>
-              <design:publicProperties>
-                <design:properties>
-                  <design:nameValue>
-                    <design:name>queryTimeOut</design:name>
-                  </design:nameValue>
-                </design:properties>
-              </design:publicProperties>
-            </design:dataSetDesign>
-            <design:enabled>true</design:enabled>
-            <design:valueColumn>row[&quot;test&quot;]</design:valueColumn>
-            <design:displayNameColumn>test column</design:displayNameColumn>
+            <design:enabled>false</design:enabled>
           </design:dynamicValueChoices>
           <design:uiHints>
             <design:promptStyle>SelectableListWithTextField</design:promptStyle>
@@ -442,32 +189,6 @@
       </design:inputAttributes>
     </design:parameterDefinitions>
   </design:DataSetParameters>
-  <design:ResultSets>
-    <design:resultSetDefinitions>
-      <design:name>userid</design:name>
-      <design:resultSetColumns>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:name>name</design:name>
-            <design:position>1</design:position>
-            <design:nativeDataTypeCode>10</design:nativeDataTypeCode>
-          </design:attributes>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:name>date</design:name>
-            <design:position>2</design:position>
-          </design:attributes>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:name>id</design:name>
-            <design:position>3</design:position>
-          </design:attributes>
-        </design:resultColumnDefinitions>
-      </design:resultSetColumns>
-    </design:resultSetDefinitions>
-  </design:ResultSets>
 </model:DesignValues>]]></xml-property>
             <list-property name="privateDriverProperties">
                 <ex-property>
