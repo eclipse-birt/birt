@@ -13,6 +13,7 @@ birt.viewer.title=BIRT Report Viewer
 birt.viewer.title.navigation=ƒiƒrƒQ[ƒVƒ‡ƒ“
 birt.viewer.title.error=ƒGƒ‰[
 birt.viewer.title.complete=Š®—¹
+birt.viewer.title.message=Message
 
 birt.viewer.parameter=ƒpƒ‰ƒƒ^
 birt.viewer.runreport=ƒŒƒ|[ƒg‚ÌÀs
@@ -28,6 +29,7 @@ birt.viewer.error.noprinter=PostScript Œ`®‚ğƒTƒ|[ƒg‚·‚ég—p‰Â”\‚ÈƒvƒŠƒ“ƒ^‚ªŒ©‚
 birt.viewer.error.unknownerror=•s–¾‚ÈƒGƒ‰[‚Å‚·B
 birt.viewer.error.generatereportfirst=æ‚ÉƒŒƒ|[ƒg•¶‘‚ğ¶¬‚µ‚Ä‚­‚¾‚³‚¢B
 birt.viewer.error.parameterrequired=ƒpƒ‰ƒƒ^ "{0}" ‚ª•K—v‚Å‚·B
+birt.viewer.message.taskcanceled=Current operation has been canceled.
 
 ###############################################################################
 # Toolbar
@@ -58,6 +60,7 @@ birt.viewer.navbar.error.blankpagenum=—LŒø‚Èƒy[ƒW”Ô†‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B
 # progress bar
 ###############################################################################
 birt.viewer.progressbar.prompt=ˆ—’†‚Å‚·B‚µ‚Î‚ç‚­‚¨‘Ò‚¿‚­‚¾‚³‚¢...
+birt.viewer.progressbar.confirmcanceltask=Do you want to cancel current operation?
 
 ###############################################################################
 # Dialog 

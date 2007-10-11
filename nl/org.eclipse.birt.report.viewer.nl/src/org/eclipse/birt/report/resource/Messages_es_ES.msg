@@ -13,6 +13,7 @@ birt.viewer.title=BIRT Report Viewer
 birt.viewer.title.navigation=Navegación
 birt.viewer.title.error=Error
 birt.viewer.title.complete=Completado
+birt.viewer.title.message=Message
 
 birt.viewer.parameter=Parámetro
 birt.viewer.runreport=Ejecutar informe
@@ -28,6 +29,7 @@ birt.viewer.error.noprinter=No se puede encontrar ninguna impresora disponible c
 birt.viewer.error.unknownerror=Error desconocido.
 birt.viewer.error.generatereportfirst=Se debe generar antes un documento de informe.
 birt.viewer.error.parameterrequired=Se requiere el parámetro "{0}".
+birt.viewer.message.taskcanceled=Current operation has been canceled.
 
 ###############################################################################
 # Toolbar
@@ -58,6 +60,7 @@ birt.viewer.navbar.error.blankpagenum=Introduzca un número de página válido.
 # progress bar
 ###############################################################################
 birt.viewer.progressbar.prompt=Procesando, espere...
+birt.viewer.progressbar.confirmcanceltask=Do you want to cancel current operation?
 
 ###############################################################################
 # Dialog 
