@@ -9,6 +9,7 @@
 	Constants.error.invalidPageNumber = '<%= BirtResources.getMessage( "birt.viewer.navbar.error.blankpagenum" )%>';
 	Constants.error.unknownError = '<%= BirtResources.getMessage( "birt.viewer.error.unknownerror" )%>';
 	Constants.error.generateReportFirst = '<%= BirtResources.getMessage( "birt.viewer.error.generatereportfirst" )%>';
-	Constants.error.printPreviewAlreadyOpen = '<%= BirtResources.getMessage( "birt.viewer.dialog.print.printpreviewalreadyopen" )%>';	
+	Constants.error.printPreviewAlreadyOpen = '<%= BirtResources.getMessage( "birt.viewer.dialog.print.printpreviewalreadyopen" )%>';
+	Constants.error.confirmCancelTask = '<%= BirtResources.getMessage( "birt.viewer.progressbar.confirmcanceltask" )%>';	
 // ]]>
 </script>
