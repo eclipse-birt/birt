@@ -32,14 +32,30 @@ public class ExcelUtil
 
 		return val;
 	}
+	
     public static String formatDate( Object data )
 	{
-       
+    	if(data == null) {
+    		return null;
+    	}
+    	
 		SimpleDateFormat dateFormat = new SimpleDateFormat(
 				"yyyy-MM-dd'T'HH:mm:ss" );
-		return  dateFormat.format( (Date) data );
-        
+		Date date = null;
+		
+		if(data instanceof com.ibm.icu.util.Calendar) {
+			date = ((com.ibm.icu.util.Calendar) data).getTime( );
+		}
+		else if(data instanceof Date) {
+			date = (Date) data;
+		}
+		else {
+			return null;
+		}
+		
+		return  dateFormat.format( date );        
 	}
+    
     public static String formatNumber( Object data)
     {
        DecimalFormat numberFormat = new DecimalFormat("0.00E00");
