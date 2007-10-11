@@ -433,7 +433,7 @@ public class DocumentUtilTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	
+
 	public void testSerializeWithElementRefer( ) throws Exception
 	{
 		openDesign( "DocumentUtilTest_9.xml" ); //$NON-NLS-1$
@@ -453,8 +453,22 @@ public class DocumentUtilTest extends BaseTestCase
 	{
 		openDesign( "DocumentUtilTest_PropBindings.xml" ); //$NON-NLS-1$
 		serializeDocument( );
-		
+
 		assertTrue( compareFile( "DocumentUtilTest_propBindings_golden.xml" ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Tests the serialization when the design defines local translation table
+	 * and included libraries.
+	 * 
+	 * @throws Exception
+	 */
+	public void testLocalTranslationTable( ) throws Exception
+	{
+		openDesign( "DocumentUtilTest_10.xml" ); //$NON-NLS-1$
+		serializeDocument( );
+
+		assertTrue( compareFile( "DocumentUtilTest_golden_8.xml" ) ); //$NON-NLS-1$
 	}
 
 	/*

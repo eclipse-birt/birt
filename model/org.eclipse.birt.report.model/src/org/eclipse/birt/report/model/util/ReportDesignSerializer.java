@@ -71,6 +71,7 @@ import org.eclipse.birt.report.model.elements.TableColumn;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.elements.ValueAccessControl;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
@@ -399,8 +400,8 @@ public class ReportDesignSerializer extends ElementVisitor
 			return;
 
 		int ns = ( (ElementDefn) element.getDefn( ) ).getNameSpaceID( );
-		if ( element.getName( ) != null &&
-				ns != MetaDataConstants.NO_NAME_SPACE )
+		if ( element.getName( ) != null
+				&& ns != MetaDataConstants.NO_NAME_SPACE )
 		{
 			NameSpace namespace = new NameExecutor( element )
 					.getNameSpace( targetDesign );
@@ -933,6 +934,7 @@ public class ReportDesignSerializer extends ElementVisitor
 		design.setFileName( source.getFileName( ) );
 		design.setSystemId( source.getSystemId( ) );
 
+		// handle module options
 		ModuleOption options = source.getOptions( );
 		try
 		{
@@ -945,6 +947,35 @@ public class ReportDesignSerializer extends ElementVisitor
 		}
 
 		localizePropertyValues( source, design );
+
+		// handle local translation table
+		String[] resourceKeys = source.getTranslationResourceKeys( );
+		if ( resourceKeys != null )
+		{
+			for ( int i = 0; i < resourceKeys.length; i++ )
+			{
+				String key = resourceKeys[i];
+				List transList = source.getTranslations( key );
+				if ( transList != null )
+				{
+					try
+					{
+						for ( int j = 0; j < transList.size( ); j++ )
+						{
+							Translation trans = (Translation) transList.get( j );
+							design
+									.addTranslation( (Translation) trans
+											.clone( ) );
+						}
+					}
+					catch ( CloneNotSupportedException e )
+					{
+						assert false;
+					}
+				}
+
+			}
+		}
 
 		// css style sheet must be treated here. It is different from other
 		// elements and property values.
@@ -1226,17 +1257,18 @@ public class ReportDesignSerializer extends ElementVisitor
 			// The properties inherited from style or parent will be
 			// flatten to new element.
 
-			if ( IDesignElementModel.EXTENDS_PROP.equals( propName ) ||
-					IDesignElementModel.USER_PROPERTIES_PROP.equals( propName ) ||
-					IModuleModel.THEME_PROP.equals( propName ) ||
-					IModuleModel.LIBRARIES_PROP.equals( propName ) ||
-					IModuleModel.PROPERTY_BINDINGS_PROP.equals( propName ) )
+			if ( IDesignElementModel.EXTENDS_PROP.equals( propName )
+					|| IDesignElementModel.USER_PROPERTIES_PROP
+							.equals( propName )
+					|| IModuleModel.THEME_PROP.equals( propName )
+					|| IModuleModel.LIBRARIES_PROP.equals( propName )
+					|| IModuleModel.PROPERTY_BINDINGS_PROP.equals( propName ) )
 				continue;
 
 			// style properties are handled in styledElement.
 
-			if ( ( propDefn.isStyleProperty( ) && !( element instanceof Style ) ) ||
-					IStyledElementModel.STYLE_PROP.equals( propName ) )
+			if ( ( propDefn.isStyleProperty( ) && !( element instanceof Style ) )
+					|| IStyledElementModel.STYLE_PROP.equals( propName ) )
 				continue;
 
 			Object value = element.getStrategy( ).getPropertyFromElement( root,
@@ -1274,10 +1306,10 @@ public class ReportDesignSerializer extends ElementVisitor
 					// extends a library x-tab, and the library x-tab refers a
 					// library cube; in this case, no need special handle for
 					// dimension condition, so call handleStructureValue is ok.
-					if ( newElement instanceof Cube &&
-							ITabularCubeModel.DIMENSION_CONDITIONS_PROP
-									.equals( propDefn.getName( ) ) &&
-							element.getRoot( ) == sourceDesign )
+					if ( newElement instanceof Cube
+							&& ITabularCubeModel.DIMENSION_CONDITIONS_PROP
+									.equals( propDefn.getName( ) )
+							&& element.getRoot( ) == sourceDesign )
 						handleDimensionConditions( (Cube) newElement,
 								(Cube) element );
 					else
@@ -1293,13 +1325,16 @@ public class ReportDesignSerializer extends ElementVisitor
 					{
 						if ( propDefn.isEncryptable( ) )
 						{
-							String encryption = element.getEncryptionID( propDefn );
-							newElement.setEncryptionHelper( propDefn, encryption );
-							value = ModelUtil.encryptProperty( newElement, propDefn, encryption, value );
-							newElement.setProperty( propDefn, value );							
+							String encryption = element
+									.getEncryptionID( propDefn );
+							newElement.setEncryptionHelper( propDefn,
+									encryption );
+							value = ModelUtil.encryptProperty( newElement,
+									propDefn, encryption, value );
+							newElement.setProperty( propDefn, value );
 						}
 						else
-						newElement.setProperty( propDefn, value );
+							newElement.setProperty( propDefn, value );
 					}
 			}
 		}
@@ -1379,8 +1414,8 @@ public class ReportDesignSerializer extends ElementVisitor
 					List joinConditionList = (List) dimensionCond.getProperty(
 							sourceDesign,
 							DimensionCondition.JOIN_CONDITIONS_MEMBER );
-					if ( joinConditionList == null ||
-							joinConditionList.isEmpty( ) )
+					if ( joinConditionList == null
+							|| joinConditionList.isEmpty( ) )
 						continue;
 					List newJoinConditionList = (List) newDimensionCond
 							.getProperty( targetDesign,
@@ -1488,8 +1523,9 @@ public class ReportDesignSerializer extends ElementVisitor
 	private void handleStructureValue( DesignElement newElement,
 			PropertyDefn propDefn, Object valueList )
 	{
-		if ( propDefn.isList( ) &&
-				IModuleModel.IMAGES_PROP.equalsIgnoreCase( propDefn.getName( ) ) )
+		if ( propDefn.isList( )
+				&& IModuleModel.IMAGES_PROP.equalsIgnoreCase( propDefn
+						.getName( ) ) )
 		{
 			List images = newElement.getListProperty( targetDesign,
 					IModuleModel.IMAGES_PROP );
@@ -1774,8 +1810,8 @@ public class ReportDesignSerializer extends ElementVisitor
 			EmbeddedImage sourceEmbeddedImage, EmbeddedImage targetEmeddedImage )
 	{
 		EmbeddedImage tmpEmeddedImage = sourceEmbeddedImage;
-		while ( tmpEmeddedImage != null &&
-				( targetEmeddedImage.getData( null ) == null || targetEmeddedImage
+		while ( tmpEmeddedImage != null
+				&& ( targetEmeddedImage.getData( null ) == null || targetEmeddedImage
 						.getType( null ) == null ) )
 		{
 			targetEmeddedImage

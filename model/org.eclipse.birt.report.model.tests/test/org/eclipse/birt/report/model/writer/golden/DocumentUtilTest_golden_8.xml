@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.15" id="1">
+    <translations>
+        <resource key="label.key">
+            <translation>My Sample design(default)</translation>
+            <translation locale="zh_CN">zh_CN:简单报表.</translation>
+            <translation locale="en">EN: My Sample design.</translation>
+        </resource>
+        <resource key="ResourceKey.ReportDesign.Description">
+            <translation>sample report(default)</translation>
+            <translation locale="zh_CN">实例报表</translation>
+            <translation locale="en">Sample report(en)</translation>
+        </resource>
+    </translations>
+    <body>
+        <label name="label" id="8">
+            <text-property name="text" key="label.key">Default text.</text-property>
+        </label>
+    </body>
+</report>
