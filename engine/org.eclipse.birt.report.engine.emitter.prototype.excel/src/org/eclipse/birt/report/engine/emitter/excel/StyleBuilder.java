@@ -129,7 +129,9 @@ public class StyleBuilder
 				.getNumberFormat( ));
 		entry.setProperty( StyleConstant.STRING_FORMAT_PROP, style
 				.getStringFormat( ) );
-       
+		
+        entry.setProperty( StyleConstant.TEXT_TRANSFORM, style
+				.getTextTransform( ) );
 		return entry;
 	}
 

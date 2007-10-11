@@ -2,7 +2,7 @@ package org.eclipse.birt.report.engine.emitter.excel;
 
 public interface StyleConstant {
     
-    public static final int COUNT = 26;
+    public static final int COUNT = 27;
     
     public static final int FONT_FAMILY_PROP = 0;
     public static final int FONT_SIZE_PROP = 1;
@@ -38,6 +38,7 @@ public interface StyleConstant {
     public static final int NUMBER_FORMAT_PROP = 23;
     public static final int STRING_FORMAT_PROP = 24;
     public static final int DATA_TYPE_PROP = 25;
+    public static final int TEXT_TRANSFORM = 26;
     
 	public static final String NULL = "NULL";  
 		

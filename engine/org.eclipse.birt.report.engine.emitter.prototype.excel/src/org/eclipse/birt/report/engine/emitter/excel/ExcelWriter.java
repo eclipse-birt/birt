@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
@@ -17,12 +18,23 @@ import org.eclipse.birt.report.engine.emitter.XMLWriter;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 
 public class ExcelWriter
 {
 
 	private XMLWriterXLS writer = new XMLWriterXLS( );
-
+	
+	private static HashSet splitChar = new HashSet();
+		
+		static 
+		{
+			splitChar.add( new Character( ' ' ) );
+			splitChar.add( new Character( '\r') );
+			splitChar.add( new Character( '\n') );
+		};
+	
 	private class XMLWriterXLS extends XMLWriter
 	{
 
@@ -84,7 +96,7 @@ public class ExcelWriter
 	public void writeText( Data d )
 	{
 		writer.openTag( "Data" );
-
+        
 		if ( d.getDatatype( ).equals( Data.NUMBER )
 				&& ExcelUtil.isNumber( d.getText( ) ) )
 		{
@@ -98,13 +110,47 @@ public class ExcelWriter
 		{
 			writer.attribute( "ss:Type", "String" );
 		}
-
-		writer.text( d.getText( ) );
+        
+		
+		String txt = d.getText( );
+		if ( CSSConstants.CSS_CAPITALIZE_VALUE.equalsIgnoreCase( d
+				.getStyleEntry( ).getProperty( StyleConstant.TEXT_TRANSFORM ) ) )
+		{
+			txt = capitalize( txt );
+		}
+		else if ( CSSConstants.CSS_UPPERCASE_VALUE.equalsIgnoreCase( d
+				.getStyleEntry( ).getProperty( StyleConstant.TEXT_TRANSFORM ) ) )
+		{
+			txt = txt.toUpperCase( );
+		}
+		else if ( CSSConstants.CSS_LOWERCASE_VALUE.equalsIgnoreCase( d
+				.getStyleEntry( ).getProperty( StyleConstant.TEXT_TRANSFORM ) ) )
+		{
+			txt = txt.toLowerCase( );
+		}
+		
+		writer.text( txt );
 
 		writer.closeTag( "Data" );
 
 	}
-
+	private String capitalize( String text )
+	{
+		boolean capitalizeNextChar = true;
+		char[] array = text.toCharArray( );
+		for ( int i = 0; i < array.length; i++ )
+		{
+			Character c = new Character( text.charAt( i ) );
+			if ( splitChar.contains( c ) )
+				capitalizeNextChar = true;
+			else if (capitalizeNextChar)
+			{
+				array[i] = Character.toUpperCase( array[i] );
+				capitalizeNextChar = false;
+			}
+		}
+		return new String(array);
+	}
 	public void startRow( )
 	{
 		writer.openTag( "Row" );
