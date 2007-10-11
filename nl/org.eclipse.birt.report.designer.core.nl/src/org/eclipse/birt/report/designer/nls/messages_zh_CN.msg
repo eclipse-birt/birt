@@ -3090,7 +3090,7 @@ UseCssInReportDialog.Wizard.Filename=文件名(&F):
 UseCssInReportDialog.Label.Styles=来自 {0} 的可用样式(&A)
 UseCssInReportDialog.Label.notifications=通知(&N):
 UseCssInReportDialog.TitleArea.Title=在报表设计中使用 CSS 文件
-UseCssInReportDialog.TitleArea.Message=Select a CSS file from shared libraries folder and use its styles in report design.
+UseCssInReportDialog.TitleArea.Message=从共享库文件夹中选择一个 CSS 文件并在报表设计中使用其样式。
 UseCssInReportDialog.Label.No.File=未选择 CSS 文件
 UseCssInReportDialog.Dialog.Browse=浏览
 UseCssInReportDialog.Dialog.Browse.Title=选择要包括在报表中的 CSS 文件
@@ -3104,8 +3104,8 @@ UseCssInThemeDialog.TitleArea.Message=选择要放置 CSS 文件样式的主题。
 #SelectValueDialog properties
 
 SelectValueDialog.errorRetrievinglist=检索列表时出错
-SelectValueDialog.messages.info.selectVauleUnavailable=Only the expression with format like row["name"] or row.name can get its value list. 
-SelectValueDialog.messages.info.invalidSelectVauleExpression="Select Value" function only accepts a simple column expression. A complicated expression is rejected. 
+SelectValueDialog.messages.info.selectVauleUnavailable=只有 row["name"] 或 row.name 之类格式的表达式才能获得值列表。 
+SelectValueDialog.messages.info.invalidSelectVauleExpression=“选择值”函数仅接受简单列表达式。拒绝复杂表达式。 
 SelectValueDialog.messages.error.selectVauleUnavailable=无法检索该表达式的值。
 SelectValueDialog.noExpressionSet=尚未设置表达式
 SelectValueDialog.retrieving=正在检索列表...

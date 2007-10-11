@@ -3090,7 +3090,7 @@ UseCssInReportDialog.Wizard.Filename=&Nom de fichier :
 UseCssInReportDialog.Label.Styles=&Styles disponibles à partir de {0}
 UseCssInReportDialog.Label.notifications=&Notifications :
 UseCssInReportDialog.TitleArea.Title=Utiliser le fichier CSS dans le modèle d'état
-UseCssInReportDialog.TitleArea.Message=Select a CSS file from shared libraries folder and use its styles in report design.
+UseCssInReportDialog.TitleArea.Message=Sélectionnez un fichier CSS dans le dossier des bibliothèques partagées et utilisez ses styles dans le modèle d'état.
 UseCssInReportDialog.Label.No.File=Aucun fichier CSS sélectionné
 UseCssInReportDialog.Dialog.Browse=Parcourir
 UseCssInReportDialog.Dialog.Browse.Title=Sélectionnez un fichier CSS à inclure dans l'état
@@ -3104,8 +3104,8 @@ UseCssInThemeDialog.TitleArea.Message=Sélectionnez un thème dans lequel les styl
 #SelectValueDialog properties
 
 SelectValueDialog.errorRetrievinglist=Erreur de récupération de la liste
-SelectValueDialog.messages.info.selectVauleUnavailable=Only the expression with format like row["name"] or row.name can get its value list. 
-SelectValueDialog.messages.info.invalidSelectVauleExpression="Select Value" function only accepts a simple column expression. A complicated expression is rejected. 
+SelectValueDialog.messages.info.selectVauleUnavailable=Seules les expressions aux formats de type ligne["nom"] ou ligne.nom peuvent récupérer leur liste de valeurs. 
+SelectValueDialog.messages.info.invalidSelectVauleExpression=La fonction "Sélectionner une valeur" accepte uniquement une expression de colonne simple. Toute expression compliquée est rejetée. 
 SelectValueDialog.messages.error.selectVauleUnavailable=La valeur de l'expression ne peut pas être récupérée.
 SelectValueDialog.noExpressionSet=Une expression n'a pas été définie
 SelectValueDialog.retrieving=Récupération de la liste...

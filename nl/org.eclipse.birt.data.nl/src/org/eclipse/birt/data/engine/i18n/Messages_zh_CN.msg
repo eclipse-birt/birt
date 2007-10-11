@@ -93,7 +93,7 @@ data.engine.ColumnBindingNotExist=列绑定“{0}”不存在。
 data.engine.ColumnBindingCycle=列绑定“{0}”具有相关性循环。
 data.engine.ColumnBindingReferToInexistColumn=列绑定“{0}”引用了一个不存在的数据集列“{1}”。
 data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=列绑定“{0}”不正确: 包含聚合的父查询列绑定不能用于子查询的列绑定。
-data.engine.ReadColumnValueFromDocumentError=Error happens when try to read value of column: {0}. This might cause by a runtime error in the evaluation of binding's expression, i.e. a divide 0 error.
+data.engine.ReadColumnValueFromDocumentError=尝试读取列 {0} 的值时出错。这可能由绑定表达式的判定中的运行时错误(即除数为 0 错误)引起。
 #computed column value
 data.engine.BadCompColExpr=计算列 "{0}" 的表达式无效。
 data.engine.CompCol.WrongDataType=计算列 "{0}" 的数据类型为 {1}，但是其某个值为 "{2}"，不能转换为 {1}。
