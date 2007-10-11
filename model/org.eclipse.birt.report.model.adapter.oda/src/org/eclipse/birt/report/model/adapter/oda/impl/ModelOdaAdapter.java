@@ -45,7 +45,11 @@ import org.eclipse.datatools.connectivity.oda.design.DataSetParameters;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
 import org.eclipse.datatools.connectivity.oda.design.DesignSessionRequest;
 import org.eclipse.datatools.connectivity.oda.design.DesignerState;
+import org.eclipse.datatools.connectivity.oda.design.DynamicValuesQuery;
+import org.eclipse.datatools.connectivity.oda.design.InputElementAttributes;
+import org.eclipse.datatools.connectivity.oda.design.InputParameterAttributes;
 import org.eclipse.datatools.connectivity.oda.design.OdaDesignSession;
+import org.eclipse.datatools.connectivity.oda.design.ParameterDefinition;
 import org.eclipse.datatools.connectivity.oda.design.Properties;
 import org.eclipse.datatools.connectivity.oda.design.Property;
 import org.eclipse.datatools.connectivity.oda.design.ResultSetDefinition;
@@ -840,7 +844,7 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 
 		DesignValues designerValues = null;
 
-		// update designvalues.
+		// update design values.
 
 		DataSetParameters setDefinedParams = setDesign.getParameters( );
 
@@ -872,6 +876,9 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 				EList params = dsParams.getParameterDefinitions( );
 				params.clear( );
 				params.addAll( resultList );
+
+				clearReportParameterRelatedValues( params, setHandle
+						.getModuleHandle( ) );
 			}
 		}
 
@@ -882,6 +889,7 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 		}
 
 		designerValues.setResultSets( requestResultSets );
+
 		// Set DesignerValues
 
 		try
@@ -895,14 +903,58 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	}
 
 	/**
-	 * Updates a strucutre list with the corresponding property handle.
+	 * Removes ODA data set parameter information that relates to the report
+	 * parameter. In the design value, do not need to save data for the report
+	 * parameter.
+	 * 
+	 * @param dsParams
+	 */
+
+	private static void clearReportParameterRelatedValues( EList params,
+			ModuleHandle module )
+	{
+		if ( params == null )
+			return;
+
+		for ( int i = 0; i < params.size( ); i++ )
+		{
+			ParameterDefinition param = (ParameterDefinition) params.get( i );
+
+			InputParameterAttributes paramAttrs = param.getInputAttributes( );
+			if ( paramAttrs == null )
+				continue;
+
+			InputElementAttributes elementAttrs = paramAttrs
+					.getElementAttributes( );
+			if ( elementAttrs == null )
+				continue;
+
+			DynamicValuesQuery query = elementAttrs.getDynamicValueChoices( );
+			if ( query == null )
+				continue;
+
+			DataSetDesign setDesign = query.getDataSetDesign( );
+			String setName = setDesign.getName( );
+
+			if ( module.findDataSet( setName ) != null )
+			{
+				query.setDataSetDesign( null );
+				query.setDisplayNameColumn( null );
+				query.setValueColumn( null );
+				query.setEnabled( false );
+			}
+		}
+	}
+
+	/**
+	 * Updates a structure list with the corresponding property handle.
 	 * 
 	 * @param propHandle
 	 *            the property handle
 	 * @param structList
 	 *            the structure list
 	 * @throws SemanticException
-	 *             if any strucutre has invalid value.
+	 *             if any structure has invalid value.
 	 */
 
 	private void updateROMResultSets( OdaDataSetHandle setHandle,

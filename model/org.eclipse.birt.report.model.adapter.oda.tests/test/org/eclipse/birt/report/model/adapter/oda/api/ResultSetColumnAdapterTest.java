@@ -63,7 +63,7 @@ public class ResultSetColumnAdapterTest extends BaseTestCase
 		DesignValues values = ModelFactory.eINSTANCE.createDesignValues( );
 		values.setResultSets( setDesign.getResultSets( ) );
 
-		saveDesignValuesToFile( values ); 
+		saveDesignValuesToFile( values );
 
 		assertTrue( compareTextFile( "ResultSetsWithHint_golden.xml" ) ); //$NON-NLS-1$
 
@@ -107,7 +107,8 @@ public class ResultSetColumnAdapterTest extends BaseTestCase
 		new ModelOdaAdapter( )
 				.updateDataSetHandle( setDesign, setHandle, false );
 
-		save(  );
+		save( );
+		assertTrue( compareTextFile( "OdaDataSetConvertResultSetsTest_golden.xml" ) ); //$NON-NLS-1$
 
 		openDesign( "OdaDataSetConvertResultSetsTest_1.xml" ); //$NON-NLS-1$
 		setHandle = (OdaDataSetHandle) designHandle.findDataSet( "myDataSet1" ); //$NON-NLS-1$
@@ -128,7 +129,8 @@ public class ResultSetColumnAdapterTest extends BaseTestCase
 		new ModelOdaAdapter( )
 				.updateDataSetHandle( setDesign, setHandle, false );
 
-		save( ); 
+		save( );
+		assertTrue( compareTextFile( "OdaDataSetConvertResultSetsTest_1_golden.xml" ) ); //$NON-NLS-1$
 
 		// the oda data set design is not changed. ROM values are changed.
 		// Should keep rom values.
@@ -150,7 +152,8 @@ public class ResultSetColumnAdapterTest extends BaseTestCase
 		new ModelOdaAdapter( )
 				.updateDataSetHandle( setDesign, setHandle, false );
 
-		save( ); 
+		save( );
+		assertTrue( compareTextFile( "OdaDataSetConvertResultSetsTest_2_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**

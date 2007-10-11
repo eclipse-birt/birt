@@ -78,11 +78,11 @@ public class ReportParameterAdapterTest extends BaseTestCase
 	 * Converts ODA data set parameters to ROM data set parameters.
 	 * 
 	 * <ul>
-	 * <li>no the latest design session reponse, update ROM values. Default
+	 * <li>no the latest design session response, update ROM values. Default
 	 * value is not copied to data set parameter since it has linked report
 	 * parameter.
-	 * <li>if the latest design session reponse changed, update ROM values.
-	 * <li>if the latest design session reponse didn't change and ROM values
+	 * <li>if the latest design session response changed, update ROM values.
+	 * <li>if the latest design session response didn't change and ROM values
 	 * changed, don't update ROM values.
 	 * <li>update native type and default value on data set parameter
 	 * <li>update the data set handle in the reportParameter.dataSet value
@@ -143,7 +143,6 @@ public class ReportParameterAdapterTest extends BaseTestCase
 
 		save( );
 		
-		saveOutputFile( "OdaDataSetConvertReportParamTest_1_out.xml" );
 		compareTextFile( "OdaDataSetConvertReportParamTest_1_golden.xml" ); //$NON-NLS-1$
 
 		openDesign( "OdaDataSetConvertReportParamTest_1.xml" ); //$NON-NLS-1$
