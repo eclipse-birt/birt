@@ -12,12 +12,26 @@
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.figures;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.CellFigure;
+import org.eclipse.birt.report.designer.util.ColorManager;
+import org.eclipse.draw2d.Graphics;
 
 /**
  * Crosstab cell figure
  */
-//NOTE if this class have bo code, will be remove 
+// NOTE if this class have bo code, will be remove
 public class CrosstabCellFigure extends CellFigure
 {
-	
+
+	protected void paintFigure( Graphics graphics )
+	{
+		super.paintFigure( graphics );
+
+		if ( getBlankString( ) != null && getBlankString( ).length( ) > 0 )
+		{
+			graphics.setForegroundColor( ColorManager.getColor( 128, 128, 128 ) );
+			drawBlankString( graphics, getBlankString( ) );
+			graphics.restoreState( );
+		}
+
+	}
 }
