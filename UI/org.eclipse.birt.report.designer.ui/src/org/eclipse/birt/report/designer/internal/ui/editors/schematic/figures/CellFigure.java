@@ -82,4 +82,10 @@ public class CellFigure extends ReportElementFigure
 	{
 		this.blankString = blankString;
 	}
+
+	
+	public String getBlankString( )
+	{
+		return blankString;
+	}
 }
