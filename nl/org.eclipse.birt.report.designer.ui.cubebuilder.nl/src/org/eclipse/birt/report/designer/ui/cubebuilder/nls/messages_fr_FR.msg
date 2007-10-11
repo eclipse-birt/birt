@@ -71,7 +71,7 @@ GroupsPage.Clients=\ a les clients suivants
 GroupsPage.Dlg.Confirm=Voulez-vous vraiment supprimer cet élément ?
 LinkGroupsPage.Container.Title.Message=Lier les groupes
 LinkGroupsPage.Title.Title=Générateur de cube de tableau croisé
-LinkGroupsPage.Title.Message=Créez des liens en sélectionnant un champ à partir d'une dimension et en le faisant glisser vers un champ de jeu de données.
+LinkGroupsPage.Title.Message=To link a group from another data set to the primary data set, drag a field form the group to a field in the primary data set
 LevelDialog.Title=Propriété
 LevelDialog.Label.Name=Nom :
 LevelDialog.Label.Field=Sélection de champ :
@@ -112,7 +112,7 @@ LevelPropertyDialog.DataType=Type de données :
 LevelPropertyDialog.Label.Expression=Expression de condition
 LevelPropertyDialog.MSG.Dynamic.CreateNew=<Créer un nouvel attribut>
 MissLinkDialog.Title=Lien manquant entre les jeux de données
-MissLinkDialog.Question=Lier le champ de données du jeu de données principal aux autres jeux de données pour créer un cube
+MissLinkDialog.Question=Link all groups from other data sets to the primary data set to complete the cube
 SetConstraintCommand.setUserProperty=setUserProperty
 ###########################################################
 #RenameInputDialog properties

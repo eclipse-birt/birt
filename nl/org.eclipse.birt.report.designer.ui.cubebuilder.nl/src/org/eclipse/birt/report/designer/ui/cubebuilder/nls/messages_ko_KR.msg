@@ -71,7 +71,7 @@ GroupsPage.Clients=\이(가) 다음 클라이언트 포함
 GroupsPage.Dlg.Confirm=삭제하시겠습니까?
 LinkGroupsPage.Container.Title.Message=그룹 링크
 LinkGroupsPage.Title.Title=크로스 탭 큐브 빌더
-LinkGroupsPage.Title.Message=차원에서 필드를 선택하여 데이터 집합 필드로 끌어서 링크를 생성하십시오.
+LinkGroupsPage.Title.Message=To link a group from another data set to the primary data set, drag a field form the group to a field in the primary data set
 LevelDialog.Title=속성
 LevelDialog.Label.Name=이름:
 LevelDialog.Label.Field=필드 선택:
@@ -112,7 +112,7 @@ LevelPropertyDialog.DataType=데이터 형식:
 LevelPropertyDialog.Label.Expression=조건 식
 LevelPropertyDialog.MSG.Dynamic.CreateNew=<새 특성 생성>
 MissLinkDialog.Title=데이터 집합 간 링크 없음
-MissLinkDialog.Question=큐브를 빌드하기 위해 기본 데이터 집합의 데이터 필드를 다른 데이터 집합에 링크
+MissLinkDialog.Question=Link all groups from other data sets to the primary data set to complete the cube
 SetConstraintCommand.setUserProperty=setUserProperty
 ###########################################################
 #RenameInputDialog properties

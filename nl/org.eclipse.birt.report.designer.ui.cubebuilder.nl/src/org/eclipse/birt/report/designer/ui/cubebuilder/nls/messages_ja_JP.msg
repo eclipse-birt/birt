@@ -71,7 +71,7 @@ GroupsPage.Clients=\ には次のクライアントがあります。
 GroupsPage.Dlg.Confirm=削除しますか ?
 LinkGroupsPage.Container.Title.Message=リンクグループ
 LinkGroupsPage.Title.Title=クロスタブキューブビルダ
-LinkGroupsPage.Title.Message=リンクを作成するには、次元からフィールドを選択してデータセットフィールドにドラッグします。
+LinkGroupsPage.Title.Message=To link a group from another data set to the primary data set, drag a field form the group to a field in the primary data set
 LevelDialog.Title=プロパティ
 LevelDialog.Label.Name=名前 :
 LevelDialog.Label.Field=フィールドの選択 :
@@ -112,7 +112,7 @@ LevelPropertyDialog.DataType=データ型 :
 LevelPropertyDialog.Label.Expression=条件式
 LevelPropertyDialog.MSG.Dynamic.CreateNew=<属性の新規作成>
 MissLinkDialog.Title=データセット間のリンク作成
-MissLinkDialog.Question=プライマリデータセットのデータフィールドを別のデータセットにリンクすることによって、キューブをビルドします。
+MissLinkDialog.Question=Link all groups from other data sets to the primary data set to complete the cube
 SetConstraintCommand.setUserProperty=setUserProperty
 ###########################################################
 #RenameInputDialog properties

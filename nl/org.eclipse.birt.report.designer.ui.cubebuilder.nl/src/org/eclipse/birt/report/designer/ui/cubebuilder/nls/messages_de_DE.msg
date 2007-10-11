@@ -71,7 +71,7 @@ GroupsPage.Clients=\ hat folgende Clients
 GroupsPage.Dlg.Confirm=Möchten Sie das Element wirklich löschen?
 LinkGroupsPage.Container.Title.Message=Gruppen verknüpfen
 LinkGroupsPage.Title.Title=Kreuztabellen-Cube Builder
-LinkGroupsPage.Title.Message=Verknüpfungen erstellen, indem ein Feld aus der Dimension ausgewählt und im Datensatzfeld abgelegt wird
+LinkGroupsPage.Title.Message=To link a group from another data set to the primary data set, drag a field form the group to a field in the primary data set
 LevelDialog.Title=Eigenschaft
 LevelDialog.Label.Name=Name:
 LevelDialog.Label.Field=Feld wählen:
@@ -112,7 +112,7 @@ LevelPropertyDialog.DataType=Datentyp:
 LevelPropertyDialog.Label.Expression=Bedingungsausdruck
 LevelPropertyDialog.MSG.Dynamic.CreateNew=<Neues Attribut erstellen>
 MissLinkDialog.Title=Fehlende Verknüpfung zwischen Datensätzen
-MissLinkDialog.Question=Verknüpfen Sie das Datenfeld des primären Datensatzes mit anderen Datensätzen, um einen Quader zu erstellen.
+MissLinkDialog.Question=Link all groups from other data sets to the primary data set to complete the cube
 SetConstraintCommand.setUserProperty=setUserProperty
 ###########################################################
 #RenameInputDialog properties
