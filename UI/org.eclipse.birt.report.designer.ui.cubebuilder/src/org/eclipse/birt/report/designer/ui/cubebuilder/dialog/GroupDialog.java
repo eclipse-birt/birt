@@ -43,9 +43,12 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -186,7 +189,8 @@ public class GroupDialog extends TitleAreaDialog
 			dateButton.setSelection( true );
 			handleButtonSelection( dateButton );
 		}
-		if(!isNew){
+		if ( !isNew )
+		{
 			WidgetUtil.setExcludeGridData( regularButton, true );
 			WidgetUtil.setExcludeGridData( dateButton, true );
 		}
@@ -206,6 +210,21 @@ public class GroupDialog extends TitleAreaDialog
 		if ( levelList.contains( topNode.getData( ) ) )
 			topNode.setChecked( true );
 		checkOKButtonStatus( );
+	}
+
+	private TreeItem getItem( String text )
+	{
+		TreeItem topNode = (TreeItem) levelViewer.getTree( ).getItem( 0 );
+		do
+		{
+			if ( text.equals( topNode.getData( ) ) )
+				return topNode;
+			topNode = topNode.getItem( 0 );
+		} while ( topNode.getItemCount( ) > 0 );
+		if ( text.equals( topNode.getData( ) ) )
+			return topNode;
+		else
+			return null;
 	}
 
 	private IChoice[] DATE_TIME_LEVEL_TYPE_ALL = MetaDataDictionary.getInstance( )
@@ -320,12 +339,13 @@ public class GroupDialog extends TitleAreaDialog
 									dataField );
 					level.setColumnName( dataField );
 					DataSetHandle dataset = hierarchy.getDataSet( );
-					if(dataset == null){
-						dataset = ((TabularCubeHandle)hierarchy.getContainer( ).getContainer( )).getDataSet( );
+					if ( dataset == null )
+					{
+						dataset = ( (TabularCubeHandle) hierarchy.getContainer( )
+								.getContainer( ) ).getDataSet( );
 					}
 					level.setDataType( OlapUtil.getDataField( dataset,
-							dataField )
-							.getDataType( ) );
+							dataField ).getDataType( ) );
 					hierarchy.add( IHierarchyModel.LEVELS_PROP, level );
 				}
 			}
@@ -487,25 +507,30 @@ public class GroupDialog extends TitleAreaDialog
 		DateLevelProvider provider = new DateLevelProvider( );
 		levelViewer.setContentProvider( provider );
 		levelViewer.setLabelProvider( provider );
+		
+		/**
+		 * The two listener behaviors are so special behaviors, because they are used to fix the bug 205934
+		 */
 		levelViewer.addCheckStateListener( new ICheckStateListener( ) {
 
 			public void checkStateChanged( CheckStateChangedEvent event )
 			{
-				String item = (String) event.getElement( );
-				if ( event.getChecked( ) )
-				{
-					if ( !dateTypeSelectedList.contains( item ) )
-						dateTypeSelectedList.add( item );
-				}
-				else
-				{
-					if ( dateTypeSelectedList.contains( item ) )
-						dateTypeSelectedList.remove( item );
-				}
-
-				checkOKButtonStatus( );
+				String itemText = (String) event.getElement( );
+				TreeItem item = getItem( itemText );
+				checkItem( item );
 			}
 		} );
+
+		levelViewer.getTree( ).addMouseListener( new MouseAdapter( ) {
+
+			public void mouseDown( MouseEvent e )
+			{
+				TreeItem item = levelViewer.getTree( ).getItem( new Point( e.x,
+						e.y ) );
+				checkItem( item );
+			}
+		} );
+
 	}
 
 	protected void checkOKButtonStatus( )
@@ -541,7 +566,8 @@ public class GroupDialog extends TitleAreaDialog
 			setInput( hierarchy, null );
 		else
 		{
-			if ( !isDateType( hierarchy,( (TabularLevelHandle) hierarchy.getLevel( 0 ) ).getColumnName( ) ) )
+			if ( !isDateType( hierarchy,
+					( (TabularLevelHandle) hierarchy.getLevel( 0 ) ).getColumnName( ) ) )
 				setInput( hierarchy, null );
 			else
 				setInput( hierarchy,
@@ -550,12 +576,11 @@ public class GroupDialog extends TitleAreaDialog
 
 	}
 
-
-	
-	private boolean isDateType( TabularHierarchyHandle hierarchy,String columnName )
+	private boolean isDateType( TabularHierarchyHandle hierarchy,
+			String columnName )
 	{
-		
-		ResultSetColumnHandle column = OlapUtil.getDataField( OlapUtil.getHierarchyDataset(hierarchy),
+
+		ResultSetColumnHandle column = OlapUtil.getDataField( OlapUtil.getHierarchyDataset( hierarchy ),
 				columnName );
 		if ( column == null )
 			return false;
@@ -563,6 +588,29 @@ public class GroupDialog extends TitleAreaDialog
 		return dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME )
 				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE )
 				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME );
+	}
+
+	private void checkItem( TreeItem item )
+	{
+		if ( item != null )
+		{
+			item.setChecked( !item.getChecked( ) );
+			levelViewer.getTree( ).setSelection( item );
+			if ( item.getChecked( ) )
+			{
+				if ( !dateTypeSelectedList.contains( item.getData( ) ) )
+				{
+					dateTypeSelectedList.add( item.getData( ) );
+				}
+
+			}
+			else
+			{
+				if ( dateTypeSelectedList.contains( item.getData( ) ) )
+					dateTypeSelectedList.remove( item.getData( ) );
+			}
+			checkOKButtonStatus( );
+		}
 	}
 
 }
