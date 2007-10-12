@@ -105,7 +105,8 @@ public class ParameterDialog extends BaseDialog
 
 	private static final String CHOICE_NO_DEFAULT = Messages.getString( "ParameterDialog.Choice.NoDefault" ); //$NON-NLS-1$
 
-	private static final String CHOICE_NULL_VALUE = Messages.getString( "ParameterDialog.Choice.NullValue" ); //$NON-NLS-1$
+	// private static final String CHOICE_NULL_VALUE = Messages.getString(
+	// "ParameterDialog.Choice.NullValue" ); //$NON-NLS-1$
 
 	private static final String CHOICE_NONE = Messages.getString( "ParameterDialog.Choice.None" ); //$NON-NLS-1$
 
@@ -119,7 +120,8 @@ public class ParameterDialog extends BaseDialog
 
 	private static final String CHOICE_SELECT_VALUE = Messages.getString( "ParameterDialog.Choice.SelectValue" ); //$NON-NLS-1$
 
-	private static final String CHOICE_BLANK_VALUE = Messages.getString( "ParameterDialog.Choice.BlankValue" ); //$NON-NLS-1$
+	// private static final String CHOICE_BLANK_VALUE = Messages.getString(
+	// "ParameterDialog.Choice.BlankValue" ); //$NON-NLS-1$
 
 	private static final String GROUP_MORE_OPTION = Messages.getString( "ParameterDialog.Group.MoreOption" ); //$NON-NLS-1$
 
@@ -312,6 +314,8 @@ public class ParameterDialog extends BaseDialog
 	private Composite valueArea, sorttingArea;
 
 	private List columnList;
+
+	private Button textRadio, blankRadio, nullRadio;
 
 	private IStructuredContentProvider contentProvider = new IStructuredContentProvider( ) {
 
@@ -767,30 +771,36 @@ public class ParameterDialog extends BaseDialog
 			allowMultiChoice.setVisible( false );
 		}
 
-//		try
-//		{
-//			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
-//			{
-//				// not use DataTypeUtil.toString() for datetime here, it has a
-//				// bug loses seconds.
-//				defaultValue = convertToStandardFormat( DataTypeUtil.toDate( defaultValue ) );
-//			}
-//			else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( getSelectedDataType( ) ) )
-//			{
-//				defaultValue = DataTypeUtil.toString( DataTypeUtil.toSqlDate( defaultValue ) );
-//			}
-//			else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( getSelectedDataType( ) ) )
-//			{
-//				defaultValue = DataTypeUtil.toString( DataTypeUtil.toSqlTime( defaultValue ) );
-//			}
-//
-//		}
-//		catch ( BirtException e )
-//		{
-//			// TODO Auto-generated catch block
-//			ExceptionHandler.handle( e );
-//			logger.log( Level.SEVERE, e.getMessage( ), e );
-//		}
+		// try
+		// {
+		// if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(
+		// getSelectedDataType( ) ) )
+		// {
+		// // not use DataTypeUtil.toString() for datetime here, it has a
+		// // bug loses seconds.
+		// defaultValue = convertToStandardFormat( DataTypeUtil.toDate(
+		// defaultValue ) );
+		// }
+		// else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals(
+		// getSelectedDataType( ) ) )
+		// {
+		// defaultValue = DataTypeUtil.toString( DataTypeUtil.toSqlDate(
+		// defaultValue ) );
+		// }
+		// else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals(
+		// getSelectedDataType( ) ) )
+		// {
+		// defaultValue = DataTypeUtil.toString( DataTypeUtil.toSqlTime(
+		// defaultValue ) );
+		// }
+		//
+		// }
+		// catch ( BirtException e )
+		// {
+		// // TODO Auto-generated catch block
+		// ExceptionHandler.handle( e );
+		// logger.log( Level.SEVERE, e.getMessage( ), e );
+		// }
 
 		if ( inputParameter.getPropertyHandle( ScalarParameterHandle.LIST_LIMIT_PROP )
 				.isSet( ) )
@@ -827,6 +837,10 @@ public class ParameterDialog extends BaseDialog
 				}
 				else
 				{
+					if(defaultValue == null)
+					{
+						defaultValueChooser.select( defaultValueChooser.indexOf( CHOICE_NO_DEFAULT ) );
+					}else
 					if ( Boolean.valueOf( defaultValue ).booleanValue( ) )
 					{
 						defaultValueChooser.select( 1 );
@@ -841,13 +855,37 @@ public class ParameterDialog extends BaseDialog
 			{
 				if ( getSelectedDataType( ).equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
 				{
+
 					if ( defaultValue == null )
 					{
-						defaultValueChooser.select( 0 );
+						if ( isRequired.getSelection( ) )
+						{
+							// won't execute this code for ever.
+							defaultValueChooser.setText( "" );
+						}
+						else
+						{
+							defaultValueChooser.setEnabled( false );
+							textRadio.setSelection( false );
+							blankRadio.setSelection( false );
+							nullRadio.setSelection( true );
+						}
+						// defaultValueChooser.select( 0 );
 					}
 					else if ( defaultValue.equals( "" ) ) //$NON-NLS-1$
 					{
-						defaultValueChooser.select( 1 );
+						if ( isRequired.getSelection( ) )
+						{
+							defaultValueChooser.setText( "" );
+						}
+						else
+						{
+							defaultValueChooser.setEnabled( false );
+							textRadio.setSelection( false );
+							blankRadio.setSelection( true );
+							nullRadio.setSelection( false );
+						}
+						// defaultValueChooser.select( 1 );
 					}
 					else if ( ( defaultValue.equals( Boolean.toString( true ) ) || defaultValue.equals( Boolean.toString( false ) ) ) )
 					{
@@ -855,6 +893,12 @@ public class ParameterDialog extends BaseDialog
 					}
 					else
 					{
+						if ( !isRequired.getSelection( ) )
+						{
+							textRadio.setSelection( true );
+							blankRadio.setSelection( false );
+							nullRadio.setSelection( false );
+						}
 						defaultValueChooser.setText( defaultValue );
 					}
 				}
@@ -907,14 +951,44 @@ public class ParameterDialog extends BaseDialog
 			{
 				if ( defaultValue == null )
 				{
-					defaultValueChooser.select( 1 );
+					if ( isRequired.getSelection( ) )
+					{
+						// won't execute this code for ever.
+						defaultValueChooser.setText( "" );
+					}
+					else
+					{
+						defaultValueChooser.setEnabled( false );
+						textRadio.setSelection( false );
+						blankRadio.setSelection( false );
+						nullRadio.setSelection( true );
+					}
+					// defaultValueChooser.select( 0 );
 				}
 				else if ( defaultValue.equals( "" ) ) //$NON-NLS-1$
 				{
-					defaultValueChooser.select( 2 );
+					if ( isRequired.getSelection( ) )
+					{
+						defaultValueChooser.setText( "" );
+					}
+					else
+					{
+						defaultValueChooser.setEnabled( false );
+						textRadio.setSelection( false );
+						blankRadio.setSelection( true );
+						nullRadio.setSelection( false );
+					}
+					// defaultValueChooser.select( 1 );
 				}
 				else
 				{
+					if ( !isRequired.getSelection( ) )
+					{
+						textRadio.setSelection( true );
+						blankRadio.setSelection( false );
+						nullRadio.setSelection( false );
+					}
+
 					defaultValueChooser.setText( defaultValue );
 				}
 			}
@@ -1256,8 +1330,9 @@ public class ParameterDialog extends BaseDialog
 		{
 			return;
 		}
-		
-		// When data type is changed, validate the default value first. if the old default value is invalid,
+
+		// When data type is changed, validate the default value first. if the
+		// old default value is invalid,
 		// then set the default value to null, else let in remain it unchanged.
 		// -- Begin --
 		try
@@ -1267,24 +1342,26 @@ public class ParameterDialog extends BaseDialog
 		catch ( BirtException e1 )
 		{
 			defaultValue = null;
-		}		
-		//  -- End --
-		
+		}
+		// -- End --
+
 		if ( buildControlTypeList( type ) )
 		{
 			changeControlType( );
 		}
-		lastDataType = type;
-		if ( type.equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
-		{
-			clearDefaultValueChooser( isRequired.getSelection( ) );
-		}
-		else if ( !type.equals( DesignChoiceConstants.PARAM_TYPE_BOOLEAN ) )
-		{
-			clearDefaultValueText( );
-			clearDefaultValueChooserSelections( );
-		}
+
 		initFormatField( );
+
+		// if ( type.equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
+		// {
+		// clearDefaultValueChooser( isRequired.getSelection( ) );
+		// }
+		// else if ( !type.equals( DesignChoiceConstants.PARAM_TYPE_BOOLEAN ) )
+		// {
+		// clearDefaultValueText( );
+		// clearDefaultValueChooserSelections( );
+		// }
+
 		if ( isStatic( ) )
 		{
 			makeUniqueAndValid( );
@@ -1294,6 +1371,8 @@ public class ParameterDialog extends BaseDialog
 		{
 			refreshColumns( true );
 		}
+
+		lastDataType = type;
 		updateMessageLine( );
 	}
 
@@ -1362,6 +1441,24 @@ public class ParameterDialog extends BaseDialog
 				controlTypeChooser.setText( originalSelection );
 			}
 		}
+
+		if ( isStatic( )
+				&& ( !isRequired.getSelection( ) )
+				&& ( !getSelectedDataType( ).equals( lastDataType ) )
+				&& ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) ) ) )
+		{
+			// note: lastDataType != type
+			if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( lastDataType ) )
+			{
+				return true;
+			}
+			else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
+			{
+				return true;
+			}
+
+		}
+
 		return false;
 	}
 
@@ -1392,7 +1489,9 @@ public class ParameterDialog extends BaseDialog
 		if ( isStatic( ) )
 		{
 			String type = getSelectedControlType( );
-			if ( !type.equals( lastControlType ) )
+			if (( !type.equals( lastControlType ) )
+			|| ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( lastDataType ))
+			|| ( getSelectedDataType( ).equals(DesignChoiceConstants.PARAM_TYPE_STRING)))
 			{
 				if ( DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals( type ) )
 				{
@@ -1638,7 +1737,17 @@ public class ParameterDialog extends BaseDialog
 
 	private void switchToText( )
 	{
-		createDefaultEditor( );
+		String type = getSelectedDataType( );
+		if ( ( !isRequired.getSelection( ) )
+				&& ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) ) )
+		{
+			createDefaultEditorTextRequired( );
+		}
+		else
+		{
+			createDefaultEditor( );
+		}
+
 		createLabel( valueArea, null );
 		createPromptLine( valueArea );
 	}
@@ -1822,22 +1931,23 @@ public class ParameterDialog extends BaseDialog
 		if ( defaultValueChooser == null || defaultValueChooser.isDisposed( ) )
 			return;
 		String textValue = defaultValueChooser.getText( );
-		if ( textValue != null
-				&& ( textValue.equals( CHOICE_NULL_VALUE ) || textValue.equals( CHOICE_BLANK_VALUE ) ) )
-		{
-			defaultValueChooser.setText( "" ); //$NON-NLS-1$
-		}
+		// if ( textValue != null
+		// && ( textValue.equals( CHOICE_NULL_VALUE ) || textValue.equals(
+		// CHOICE_BLANK_VALUE ) ) )
+		// {
+		// defaultValueChooser.setText( "" ); //$NON-NLS-1$
+		// }
 	}
 
 	private void clearDefaultValueChooserSelections( )
 	{
 		if ( defaultValueChooser == null || defaultValueChooser.isDisposed( ) )
 			return;
-		if ( defaultValueChooser.getItemCount( ) > 1 )
-		{
-			defaultValueChooser.remove( CHOICE_NULL_VALUE );
-			defaultValueChooser.remove( CHOICE_BLANK_VALUE );
-		}
+		// if ( defaultValueChooser.getItemCount( ) > 1 )
+		// {
+		// defaultValueChooser.remove( CHOICE_NULL_VALUE );
+		// defaultValueChooser.remove( CHOICE_BLANK_VALUE );
+		// }
 	}
 
 	private void createDefaultEditor( )
@@ -1849,12 +1959,13 @@ public class ParameterDialog extends BaseDialog
 		{
 			defaultValueChooser.add( CHOICE_SELECT_VALUE );
 		}
-		if ( getSelectedDataType( ).equals( DesignChoiceConstants.PARAM_TYPE_STRING )
-				&& !isRequired.getSelection( ) )
-		{
-			defaultValueChooser.add( CHOICE_NULL_VALUE );
-			defaultValueChooser.add( CHOICE_BLANK_VALUE );
-		}
+		// if ( getSelectedDataType( ).equals(
+		// DesignChoiceConstants.PARAM_TYPE_STRING )
+		// && !isRequired.getSelection( ) )
+		// {
+		// defaultValueChooser.add( CHOICE_NULL_VALUE );
+		// defaultValueChooser.add( CHOICE_BLANK_VALUE );
+		// }
 		defaultValueChooser.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -1887,14 +1998,14 @@ public class ParameterDialog extends BaseDialog
 				}
 				else
 				{
-					if ( selection.equals( CHOICE_NULL_VALUE ) )
-					{
-						changeDefaultValue( null );
-					}
-					else if ( selection.equals( CHOICE_BLANK_VALUE ) )
-					{
-						changeDefaultValue( "" ); //$NON-NLS-1$
-					}
+					// if ( selection.equals( CHOICE_NULL_VALUE ) )
+					// {
+					// changeDefaultValue( null );
+					// }
+					// else if ( selection.equals( CHOICE_BLANK_VALUE ) )
+					// {
+					// changeDefaultValue( "" ); //$NON-NLS-1$
+					// }
 					if ( isStatic( ) )
 					{
 						refreshValueTable( );
@@ -1907,9 +2018,13 @@ public class ParameterDialog extends BaseDialog
 			public void modifyText( ModifyEvent e )
 			{
 				String value = defaultValueChooser.getText( );
-				if ( value.equals( CHOICE_NULL_VALUE )
-						|| value.equals( CHOICE_BLANK_VALUE ) )
+				// if ( value.equals( CHOICE_NULL_VALUE )
+				// || value.equals( CHOICE_BLANK_VALUE ) )
+				// return;
+				if ( value.length( ) == 0 )
+				{
 					return;
+				}
 				changeDefaultValue( UIUtil.convertToModelString( value, false ) );
 				if ( isStatic( ) )
 				{
@@ -1917,6 +2032,159 @@ public class ParameterDialog extends BaseDialog
 				}
 			}
 		} );
+	}
+
+	private void createDefaultEditorTextRequired( )
+	{
+		// createLabel( valueArea, LABEL_DEFAULT_VALUE );
+
+		Label label = new Label( valueArea, SWT.NONE );
+		label.setText( LABEL_DEFAULT_VALUE );
+		GridData gd = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
+		label.setLayoutData( gd );
+
+		Composite composite = new Composite( valueArea, SWT.NONE );
+		composite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		composite.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
+
+		textRadio = new Button( composite, SWT.RADIO );
+		textRadio.setText(Messages.getString( "ParameterDialog.checkBox.InputValue" ) );
+		textRadio.addSelectionListener( new SelectionListener( ) {
+
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+				// TODO Auto-generated method stub
+
+			}
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				// TODO Auto-generated method stub
+				defaultValueChooser.setEnabled( textRadio.isEnabled( )
+						&& textRadio.getSelection( ) );
+			}
+		} );
+
+		defaultValueChooser = new Combo( composite, SWT.BORDER );
+		defaultValueChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		if ( !isStatic( ) )
+		{
+			defaultValueChooser.add( CHOICE_SELECT_VALUE );
+		}
+		// if ( getSelectedDataType( ).equals(
+		// DesignChoiceConstants.PARAM_TYPE_STRING )
+		// && !isRequired.getSelection( ) )
+		// {
+		// defaultValueChooser.add( CHOICE_NULL_VALUE );
+		// defaultValueChooser.add( CHOICE_BLANK_VALUE );
+		// }
+		defaultValueChooser.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				if ( defaultValueChooser.getSelectionIndex( ) == -1 )
+					return;
+				String selection = defaultValueChooser.getItem( defaultValueChooser.getSelectionIndex( ) );
+				if ( selection.equals( CHOICE_SELECT_VALUE ) )
+				{
+					defaultValueChooser.setText( "" ); //$NON-NLS-1$
+
+					List columnValueList = getColumnValueList( );
+					if ( columnValueList.isEmpty( ) )
+						return;
+					SelectParameterDefaultValueDialog dialog = new SelectParameterDefaultValueDialog( Display.getCurrent( )
+							.getActiveShell( ),
+							Messages.getString( "SelectParameterDefaultValueDialog.Title" ) ); //$NON-NLS-1$
+					dialog.setColumnValueList( columnValueList );
+					int status = dialog.open( );
+					if ( status == Window.OK )
+					{
+						String selectedValue = dialog.getSelectedValue( );
+						if ( selectedValue != null )
+							defaultValueChooser.setText( selectedValue );
+					}
+					else if ( status == Window.CANCEL )
+					{
+						defaultValueChooser.setText( "" ); //$NON-NLS-1$
+					}
+				}
+				else
+				{
+					// if ( selection.equals( CHOICE_NULL_VALUE ) )
+					// {
+					// changeDefaultValue( null );
+					// }
+					// else if ( selection.equals( CHOICE_BLANK_VALUE ) )
+					// {
+					// changeDefaultValue( "" ); //$NON-NLS-1$
+					// }
+					if ( isStatic( ) )
+					{
+						refreshValueTable( );
+					}
+				}
+			}
+		} );
+		defaultValueChooser.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				String value = defaultValueChooser.getText( );
+				// if ( value.equals( CHOICE_NULL_VALUE )
+				// || value.equals( CHOICE_BLANK_VALUE ) )
+				// return;
+				if ( value.length( ) == 0 )
+				{
+					return;
+				}
+				changeDefaultValue( UIUtil.convertToModelString( value, false ) );
+				if ( isStatic( ) )
+				{
+					refreshValueTable( );
+				}
+			}
+		} );
+
+		blankRadio = new Button( composite, SWT.RADIO );
+		blankRadio.setText( Messages.getString( "ParameterDialog.checkBox.BlankValue" ) );
+		blankRadio.addSelectionListener( new SelectionListener( ) {
+
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+				// TODO Auto-generated method stub
+
+			}
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				// TODO Auto-generated method stub
+				changeDefaultValue( "" );
+				defaultValueChooser.setEnabled( textRadio.isEnabled( )
+						&& textRadio.getSelection( ) );
+			}
+		} );
+
+		createLabel( composite, "" );
+		nullRadio = new Button( composite, SWT.RADIO );
+		nullRadio.setText( Messages.getString( "ParameterDialog.checkBox.NullValue" ) );
+		nullRadio.addSelectionListener( new SelectionListener( ) {
+
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+				// TODO Auto-generated method stub
+
+			}
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				// TODO Auto-generated method stub
+				changeDefaultValue( null );
+				defaultValueChooser.setEnabled( textRadio.isEnabled( )
+						&& textRadio.getSelection( ) );
+			}
+		} );
+
+		createLabel( composite, "" );
 	}
 
 	private void createPromptLine( Composite parent )
@@ -2014,18 +2282,51 @@ public class ParameterDialog extends BaseDialog
 			inputParameter.setControlType( newControlType );
 
 			// Save default value
-//			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
-//			{
-//				defaultValue = convertToStandardFormat( DataTypeUtil.toDate( defaultValue ) );
-//			}
-//			else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( getSelectedDataType( ) ) )
-//			{
-//				defaultValue = convertToStandardFormat( DataTypeUtil.toSqlDate( defaultValue ) );
-//			}
-//			else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( getSelectedDataType( ) ) )
-//			{
-//				defaultValue = convertToStandardFormat( DataTypeUtil.toSqlTime( defaultValue ) );
-//			}
+			// if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(
+			// getSelectedDataType( ) ) )
+			// {
+			// defaultValue = convertToStandardFormat( DataTypeUtil.toDate(
+			// defaultValue ) );
+			// }
+			// else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals(
+			// getSelectedDataType( ) ) )
+			// {
+			// defaultValue = convertToStandardFormat( DataTypeUtil.toSqlDate(
+			// defaultValue ) );
+			// }
+			// else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals(
+			// getSelectedDataType( ) ) )
+			// {
+			// defaultValue = convertToStandardFormat( DataTypeUtil.toSqlTime(
+			// defaultValue ) );
+			// }
+			if ( getSelectedDataType( ).equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
+			{
+				if ( isRequired.getSelection( ) )
+				{
+					if ( defaultValue == null )
+					{
+						defaultValue = "";
+					}
+				}
+				else
+				// not selection
+				{
+					if ( textRadio.getSelection( ) && defaultValue == null )
+					{
+						defaultValue = "";
+					}
+					else if ( blankRadio.getSelection( ) )
+					{
+						defaultValue = "";
+					}
+					else if ( nullRadio.getSelection( ) )
+					{
+						defaultValue = null;
+					}
+				}
+			}
+
 			inputParameter.setDefaultValue( defaultValue );
 
 			// Set data type
@@ -2246,6 +2547,22 @@ public class ParameterDialog extends BaseDialog
 			}
 			if ( getSelectedDataType( ).equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
 			{
+				if ( checkBox == isRequired
+						&& DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) ) )
+				{
+					if ( isRequired.getSelection( ) )
+					{
+						clearArea( valueArea );
+						createDefaultEditor( );
+					}
+					else
+					{
+						clearArea( valueArea );
+						createDefaultEditorTextRequired( );
+					}
+					valueArea.layout( );
+					initValueArea( );
+				}
 				clearDefaultValueChooser( checkBox.getSelection( ) );
 			}
 			updateMessageLine( );
@@ -2265,8 +2582,8 @@ public class ParameterDialog extends BaseDialog
 					|| defaultValueChooser.isDisposed( )
 					|| defaultValueChooser.getItemCount( ) > 1 )
 				return;
-			defaultValueChooser.add( CHOICE_NULL_VALUE );
-			defaultValueChooser.add( CHOICE_BLANK_VALUE );
+			// defaultValueChooser.add( CHOICE_NULL_VALUE );
+			// defaultValueChooser.add( CHOICE_BLANK_VALUE );
 		}
 	}
 
@@ -2671,6 +2988,10 @@ public class ParameterDialog extends BaseDialog
 		}
 		else
 		{
+			if(formatCategroy == null)
+			{
+				return;
+			}
 			displayFormat = choiceSet.findChoice( formatCategroy )
 					.getDisplayName( );
 			if ( isCustom( ) )
@@ -2909,7 +3230,8 @@ public class ParameterDialog extends BaseDialog
 		{
 			return null;
 		}
-		return new DateFormatter( STANDARD_DATE_TIME_PATTERN, ULocale.getDefault( ) ).format( date );
+		return new DateFormatter( STANDARD_DATE_TIME_PATTERN,
+				ULocale.getDefault( ) ).format( date );
 	}
 
 	private String getExpression( String columnName )
