@@ -2541,6 +2541,10 @@ ParameterDialog.datetime.prompt=Introduzca valores de fecha y hora como: {0}
 ParameterDialog.date.prompt=Introduzca valores de fecha como: {0}
 ParameterDialog.time.prompt=Introduzca valores de hora como: {0}
 ParameterDialog.Check.AllowMulti=Permitir valores múltipl&es
+ParameterDialog.checkBox.InputValue=Input Value
+ParameterDialog.checkBox.BlankValue=Valor en blanco
+ParameterDialog.checkBox.NullValue=Valor nulo
+
 ###########################################################
 #SelectParameterDefaultValueDialog properties
 SelectParameterDefaultValueDialog.Title=Seleccionar valor:

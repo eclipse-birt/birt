@@ -2541,6 +2541,10 @@ ParameterDialog.datetime.prompt=日時は、{0} の形式で入力してください
 ParameterDialog.date.prompt=日付は、{0} の形式で入力してください
 ParameterDialog.time.prompt=時間は、{0} の形式で入力してください
 ParameterDialog.Check.AllowMulti=複数の値を許可する(&E)
+ParameterDialog.checkBox.InputValue=Input Value
+ParameterDialog.checkBox.BlankValue=空白値
+ParameterDialog.checkBox.NullValue=NULL 値
+
 ###########################################################
 #SelectParameterDefaultValueDialog properties
 SelectParameterDefaultValueDialog.Title=値の選択

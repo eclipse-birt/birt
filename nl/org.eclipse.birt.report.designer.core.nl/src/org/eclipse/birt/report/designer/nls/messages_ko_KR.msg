@@ -2541,6 +2541,10 @@ ParameterDialog.datetime.prompt=날짜/시간 값을 다음 형식으로 입력하십시오. {0}
 ParameterDialog.date.prompt=날짜 값을 다음 형식으로 입력하십시오. {0}
 ParameterDialog.time.prompt=시간 값을 다음 형식으로 입력하십시오. {0}
 ParameterDialog.Check.AllowMulti=복수 값 허용(&E)
+ParameterDialog.checkBox.InputValue=Input Value
+ParameterDialog.checkBox.BlankValue=빈 값
+ParameterDialog.checkBox.NullValue=널(null) 값
+
 ###########################################################
 #SelectParameterDefaultValueDialog properties
 SelectParameterDefaultValueDialog.Title=값 선택
