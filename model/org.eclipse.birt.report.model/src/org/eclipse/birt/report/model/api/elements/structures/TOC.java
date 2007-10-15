@@ -171,7 +171,7 @@ public class TOC extends PropertyStructure
 
 	public void setExpression( String expression ) throws SemanticException
 	{
-		setProperty( TOC_EXPRESSION, null );
+		setProperty( TOC_EXPRESSION, expression );
 	}
 
 	/**

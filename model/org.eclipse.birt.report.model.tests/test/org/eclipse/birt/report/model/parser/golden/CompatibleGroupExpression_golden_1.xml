@@ -140,6 +140,9 @@ from CLASSICMODELS.OFFICES</property>
                 <property name="interval">none</property>
                 <property name="sortDirection">asc</property>
                 <expression name="keyExpr">row["COLUMN_4"]</expression>
+                <structure name="toc">
+                    <expression name="expressionValue">row["COLUMN_4"]</expression>
+                </structure>                
                 <property name="repeatHeader">true</property>
                 <property name="hideDetail">false</property>
                 <property name="pageBreakAfter">auto</property>
