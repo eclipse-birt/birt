@@ -177,7 +177,8 @@
 		var birtReportDocument = new BirtReportDocument( "Document" );
 		
 		<%
-		if ( "/parameter".equalsIgnoreCase( request.getServletPath( ) ) )
+		String servletPath = (String)request.getAttribute( "ServletPath" );
+		if ( "/parameter".equalsIgnoreCase( servletPath ) )
 		{
 		%>
 			var birtParameterDialog = new BirtParameterDialog( 'parameterDialog', 'parameter' );
