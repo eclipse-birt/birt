@@ -56,7 +56,8 @@ public class ClobAndBlobTest extends APITestCase
 			for ( int i = 0; i < beArray.length; i++ )
 			{
 				if ( md.getColumnTypeName( i + 1 )
-						.equals( DataType.BINARY_TYPE_NAME ) )
+						.equals( DataType.BINARY_TYPE_NAME )||md.getColumnTypeName( i + 1 )
+						.equals( DataType.BLOB_TYPE_NAME ) )
 					str += new String( ri.getBytes( beName[i] ) );
 				else
 					str += ri.getValue( beName[i] );
