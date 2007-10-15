@@ -475,7 +475,7 @@ public class CrosstabHeaderRowExecutor extends BaseCrosstabExecutor
 								.getAggregationHeader( ),
 						rowSpan,
 						colSpan,
-						currentColIndex );
+						currentColIndex - colSpan + 1 );
 
 				( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
 
