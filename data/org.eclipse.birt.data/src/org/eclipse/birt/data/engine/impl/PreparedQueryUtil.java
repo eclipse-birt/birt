@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
@@ -41,6 +42,7 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -328,14 +330,19 @@ class PreparedQueryUtil
 		// If the following conditions hold, running on data set
 		// 1.There are sorts that different from that of original design
 		// 2.The query has subqueries.
+		// 3.The sorts are not direct reference to binding
 
+		if ( !isBindingReferenceSort( queryDefn.getSorts( )))
+			return false;	
+		
 		if ( hasSubquery( queryDefn ) )
 		{
 			if ( hasSubQueryInDetail( queryDefn.getSubqueries( ) ) )
 				return false;
+			
 			if ( !QueryDefnUtil.isEqualSorts( queryDefn.getSorts( ),
 					qd.getSorts( ) ) )
-			{
+			{   
 				runningOnRS = false;
 			}
 
@@ -374,9 +381,6 @@ class PreparedQueryUtil
 				if ( runningOnRS == false )
 					break;
 			}
-			
-			
-
 		}
 
 		if ( runningOnRS == false )
@@ -394,6 +398,28 @@ class PreparedQueryUtil
 		return runningOnRS;
 	}
 	
+	private static boolean isBindingReferenceSort( List sorts )
+	{
+		if( sorts == null || sorts.size() == 0 )
+			return true;
+		for( int i = 0; i < sorts.size( ); i++ )
+		{
+			ISortDefinition sort = (ISortDefinition) sorts.get( i );
+			if( sort.getExpression( )!= null )
+			{
+				try
+				{
+					if(ExpressionUtil.getColumnBindingName( sort.getExpression().getText( )) == null )
+						return false;
+				}
+				catch ( BirtException e )
+				{
+				}
+			}
+		}
+		return true;
+	}
+
 	/**
 	 * 
 	 * @param queryDefn
