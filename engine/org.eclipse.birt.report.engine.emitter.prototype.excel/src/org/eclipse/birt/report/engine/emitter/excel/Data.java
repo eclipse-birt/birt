@@ -26,6 +26,10 @@ public class Data implements Serializable, Cloneable
 
 	Span span;
 	
+	int rspan = 0;
+	
+	boolean processed = false;
+	
 	Rule rule;
 
 	HyperlinkDef url;
@@ -163,5 +167,23 @@ public class Data implements Serializable, Cloneable
 	public Span getSpan()
 	{
 		return span;
-	}    	
+	} 
+	
+	public int getRowSpan() {
+		return rspan;
+	}
+	
+	public void setRowSpan(int rs) {
+		if(rs > 0) {
+			this.rspan = rs;
+		}
+	}
+	
+	public void setProcessed(boolean pro) {
+		this.processed = pro;
+	}
+	
+	public boolean isProcessed() {
+		return processed;
+	}
 }

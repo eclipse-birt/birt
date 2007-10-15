@@ -3,9 +3,8 @@ package org.eclipse.birt.report.engine.emitter.excel;
 
 import java.io.Serializable;
 
-public class StyleEntry implements StyleConstant,Serializable
+public class StyleEntry implements StyleConstant,Serializable,Cloneable
 {
-
 	private static final long serialVersionUID = 6959747237392429540L;
 
 	public StyleEntry( )
@@ -95,10 +94,27 @@ public class StyleEntry implements StyleConstant,Serializable
 	{
 		return value == null ? true : StyleConstant.NULL
 				.equalsIgnoreCase( value );
-	}
+	}	
 	
+	public Object clone( ) 
+	{
+		StyleEntry o = null;
+        try{
+            o = (StyleEntry)super.clone();
+        }catch(CloneNotSupportedException e){
+           
+        }
+        
+        for(int i = 0; i < props.length; i++) {
+        	o.setProperty( i, getProperty(i) );
+        }
+        
+        return o;        
+	}
+
+
+
 	private String[] props = null;	
 	
-	private boolean start = false;
-	private String dataType = "String";
+	private boolean start = false;		
 }

@@ -195,15 +195,30 @@ public class ExcelLayoutEngine
 
 		for ( int i = startcol; i < endcol; i++ )
 		{
-			int times = max - len[i - startcol];
+			int rowspan = max - len[i - startcol];
+			int last = len[i - startcol] - 1;
 
-			while ( ( times-- ) > 0 )
-			{
-				Rule colrule = axis.getRule( i );
-				Data data = new Data( EMPTY, engine
-						.createHorizionStyle( colrule ), Data.STRING );
-				data.setRule( colrule );
-				cache.addData( i - detal, data );
+			if(rowspan > 0)
+			{				
+				Object data = null;				
+				Object upstair =  cache.getData( i - detal, last );
+				
+				if ( upstair != null && upstair != waste )
+				{
+					Data predata = (Data) upstair;
+					int rs = predata.getRowSpan( ) + rowspan;
+					predata.setRowSpan( rs );
+					data = predata;
+				}
+				else
+				{
+					data = waste;
+					
+				}
+				
+				for(int p =0 ; p < rowspan; p++) {
+					cache.addData( i - detal, data );
+				}	
 			}
 		}
 	}
@@ -358,6 +373,11 @@ public class ExcelLayoutEngine
 			}
 
 			Data d = (Data) row[i];
+			
+			if(d.isProcessed()) {
+				continue;
+			}
+			
 			HyperlinkDef def = d.getHyperlinkDef( );
 
 			if ( def != null
@@ -365,10 +385,11 @@ public class ExcelLayoutEngine
 			{
 				def.setUrl( (String) links.get( def.getUrl( ) ) );
 			}
-
+			
+			d.setProcessed( true );
 			data.add( row[i] );
-		}
-
+		}		
+		
 		return (Data[]) data.toArray( new Data[0] );
 	}
 

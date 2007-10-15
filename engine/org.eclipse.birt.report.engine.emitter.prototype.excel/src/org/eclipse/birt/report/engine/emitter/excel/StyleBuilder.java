@@ -199,25 +199,29 @@ public class StyleBuilder
 		return fsize;
 	}
 
-	public static String convertBorderWeight( String weight )
+	public static String convertBorderWeight( String linestyle )
 	{
 		String w = StyleConstant.NULL;
 
-		if ( weight != null && !"0".equalsIgnoreCase( weight ) )
+		if ( linestyle != null && !"0".equalsIgnoreCase( linestyle ) )
 		{
-			weight = ExcelUtil.getValue( weight );
+			linestyle = ExcelUtil.getValue( linestyle );
+			int weight = (int)Double.parseDouble( linestyle );
 
-			if ( "thin".equalsIgnoreCase( weight ) )
+			if (  weight >= 749 && weight < 2249 )
 			{
 				w = "1";
 			}
-			else if ( "medium".equalsIgnoreCase( weight ) )
+			else if ( weight >= 2249 && weight < 3750 )
 			{
 				w = "2";
 			}
-			else
+			else if(weight >= 3750)
 			{
 				w = "3";
+			}
+			else {
+				w = "2";
 			}
 		}
 
@@ -341,7 +345,7 @@ public class StyleBuilder
 	private static void overwriteProp( StyleEntry cEntry, StyleEntry entry,
 			int id )
 	{
-		if ( !( StyleEntry.isNull( cEntry.getProperty( id ) ) ))
+		if (  StyleEntry.isNull( entry.getProperty( id ) ) )
 		{
 			entry.setProperty( id, cEntry.getProperty( id ) );
 		}

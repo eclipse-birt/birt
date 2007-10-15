@@ -199,7 +199,7 @@ public class ExcelWriter
 
 	protected void writeTxtData( Data d )
 	{
-		startCell( d.span.getCol( ), d.span.getColSpan( ), 0, d.styleId, d.url );
+		startCell( d.span.getCol( ), d.span.getColSpan( ), d.getRowSpan( ), d.styleId, d.url );
 		writeText( d );
 		endCell( );
 	}
