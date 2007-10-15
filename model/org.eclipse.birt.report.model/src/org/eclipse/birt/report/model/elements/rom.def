@@ -383,6 +383,7 @@
 	<Choice displayNameID="Choices.columnDataType.boolean" name="boolean"/>	 
 	<Choice displayNameID="Choices.columnDataType.date" name="date"/>
 	<Choice displayNameID="Choices.columnDataType.time" name="time"/> 
+	<Choice displayNameID="Choices.columnDataType.blob" name="blob"/>
     <!-- not supported now
     <Choice displayNameID="Choices.columnDataType.structure" name="structure"/>
     <Choice displayNameID="Choices.columnDataType.table" name="table"/>

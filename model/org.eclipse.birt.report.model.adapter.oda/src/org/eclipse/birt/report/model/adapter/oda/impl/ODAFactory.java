@@ -98,6 +98,7 @@ class ODAFactory implements IODAFactory
 			case DataType.BOOLEAN_TYPE :
 				return DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN;
 			case DataType.BLOB_TYPE :
+				return DesignChoiceConstants.COLUMN_DATA_TYPE_BLOB;
 			case DataType.BINARY_TYPE :
 			default :
 				return DesignChoiceConstants.COLUMN_DATA_TYPE_ANY;
