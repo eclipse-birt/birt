@@ -931,7 +931,7 @@ public final class DataTypeUtil
 		else if ( Blob.class.isAssignableFrom( clazz )
 				|| clazz.getName( )
 						.equals( "org.eclipse.datatools.connectivity.oda.IBlob" ) )
-			return DataType.BINARY_TYPE;
+			return DataType.BLOB_TYPE;
 		else if ( clazz == Boolean.class )
 			return DataType.BOOLEAN_TYPE;
 		// any other types are not recognized nor supported;
