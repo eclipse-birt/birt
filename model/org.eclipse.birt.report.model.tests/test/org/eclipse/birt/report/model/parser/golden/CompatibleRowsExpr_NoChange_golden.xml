@@ -149,6 +149,9 @@ from CUSTOMERS</property>
                 <property name="interval">none</property>
                 <property name="sortDirection">asc</property>
                 <expression name="keyExpr">row["country"]</expression>
+                <structure name="toc">
+                    <expression name="expressionValue">row["country"]</expression>
+                </structure>                
                 <property name="repeatHeader">true</property>
                 <property name="hideDetail">false</property>
                 <property name="pageBreakAfter">always</property>

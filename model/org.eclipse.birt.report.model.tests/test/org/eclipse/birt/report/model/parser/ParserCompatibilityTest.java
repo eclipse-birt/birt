@@ -581,7 +581,12 @@ public class ParserCompatibilityTest extends BaseTestCase
 	}
 
 	/**
-	 * Tests toc backward.This function apply after version 3.2.9.
+	 * <ul>
+	 * <li>Tests toc backward.This function apply after version 3.2.9. TOC
+	 * expression string to the TOC structure.
+	 * <li>for version between 3 and 3.2.8, if no TOC specified, uses key
+	 * expression as TOC.
+	 * </ul>
 	 * 
 	 * @throws Exception
 	 */
@@ -591,6 +596,20 @@ public class ParserCompatibilityTest extends BaseTestCase
 		openDesign( "CompatibleTOC.xml" ); //$NON-NLS-1$
 		save( );
 		assertTrue( compareFile( "CompatibleTOC_golden.xml" ) ); //$NON-NLS-1$	
+
+		openDesign( "CompatibleTOC_1.xml" ); //$NON-NLS-1$
+		TableHandle table1 = (TableHandle) designHandle
+				.findElement( "My table" );//$NON-NLS-1$
+
+		GroupHandle group = (GroupHandle) table1.getGroups( ).get( 0 );
+		assertEquals( "[Country]", group.getTocExpression( ) ); //$NON-NLS-1$	
+		assertEquals( "[Country]", group.getTOC( ).getExpression( ) ); //$NON-NLS-1$	
+
+		ListHandle list1 = (ListHandle) designHandle.findElement( "My List" );//$NON-NLS-1$
+		group = (GroupHandle) list1.getGroups( ).get( 0 );
+		assertEquals( "[Country]", group.getTocExpression( ) ); //$NON-NLS-1$	
+		assertEquals( "[Country]", group.getTOC( ).getExpression( ) ); //$NON-NLS-1$	
+
 	}
 
 	/**
@@ -640,7 +659,7 @@ public class ParserCompatibilityTest extends BaseTestCase
 		save( );
 
 		assertTrue( compareFile( "CompatibleScalarParamAllowPropsTest_golden.xml" ) ); //$NON-NLS-1$
-		
+
 	}
 
 	/**

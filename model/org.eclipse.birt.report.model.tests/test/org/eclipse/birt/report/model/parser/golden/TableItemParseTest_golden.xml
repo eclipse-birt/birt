@@ -274,6 +274,9 @@
                 <property name="intervalRange">3.0</property>
                 <property name="sortDirection">desc</property>
                 <expression name="keyExpr">[Country]</expression>
+                <structure name="toc">
+            		<expression name="expressionValue">[Country]</expression>
+           		</structure>
                 <header>
                     <table name="listgroupHeaderTable" id="40">
                         <property name="dataSet">firstDataSet</property>
