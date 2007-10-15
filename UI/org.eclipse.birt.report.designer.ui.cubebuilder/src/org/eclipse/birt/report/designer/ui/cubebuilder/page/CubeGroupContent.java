@@ -364,14 +364,7 @@ public class CubeGroupContent extends Composite implements Listener
 				{
 					TreeItem item = (TreeItem) event.item;
 					Object element = item.getData( );
-					if ( element instanceof CubeHandle
-							|| element instanceof PropertyHandle )
-					{
-						event.detail = DND.DROP_NONE;
-						return;
-					}
-					else
-						event.detail = DND.DROP_MOVE;
+					event.detail = DND.DROP_MOVE;
 
 					Object obj = (Object) dragSourceItems[0].getData( );
 					ResultSetColumnHandle dataField = null;
@@ -392,7 +385,7 @@ public class CubeGroupContent extends Composite implements Listener
 
 						if ( element instanceof LevelHandle )
 						{
-							DataSetHandle temp = OlapUtil.getHierarchyDataset( ( (TabularHierarchyHandle) ( (LevelHandle) element ).getContainer( ) ));
+							DataSetHandle temp = OlapUtil.getHierarchyDataset( ( (TabularHierarchyHandle) ( (LevelHandle) element ).getContainer( ) ) );
 							if ( temp != null
 									&& dataset != null
 									&& dataset != temp )
@@ -467,7 +460,10 @@ public class CubeGroupContent extends Composite implements Listener
 										.equals( VirtualField.TYPE_MEASURE ) )
 								|| element instanceof MeasureHandle
 								|| ( element instanceof VirtualField && ( (VirtualField) element ).getType( )
-										.equals( VirtualField.TYPE_MEASURE_GROUP ) ) )
+										.equals( VirtualField.TYPE_MEASURE_GROUP ) )
+								|| ( element instanceof PropertyHandle && ( (PropertyHandle) element ).getPropertyDefn( )
+										.getName( )
+										.equals( ICubeModel.MEASURE_GROUPS_PROP ) ) )
 						{
 							DataSetHandle primary = input.getDataSet( );
 							if ( primary == null || primary != dataset )
@@ -580,12 +576,6 @@ public class CubeGroupContent extends Composite implements Listener
 											.getCommandStack( )
 											.commit( );
 								}
-								else if ( element instanceof CubeHandle
-										|| element instanceof PropertyHandle )
-								{
-									event.detail = DND.DROP_NONE;
-									return;
-								}
 								else if ( element instanceof LevelHandle )
 								{
 									DesignElementHandle hierarchy = ( (TabularLevelHandle) element ).getContainer( );
@@ -651,14 +641,20 @@ public class CubeGroupContent extends Composite implements Listener
 										|| ( element instanceof VirtualField && ( (VirtualField) element ).getType( )
 												.equals( VirtualField.TYPE_MEASURE ) )
 										|| ( element instanceof VirtualField && ( (VirtualField) element ).getType( )
-												.equals( VirtualField.TYPE_MEASURE_GROUP ) ) )
+												.equals( VirtualField.TYPE_MEASURE_GROUP ) )
+										|| ( element instanceof PropertyHandle && ( (PropertyHandle) element ).getPropertyDefn( )
+												.getName( )
+												.equals( ICubeModel.MEASURE_GROUPS_PROP ) ) )
 								{
 									MeasureGroupHandle measureGroup = null;
 									SessionHandleAdapter.getInstance( )
 											.getCommandStack( )
 											.startTrans( "" );
 									if ( ( element instanceof VirtualField && ( (VirtualField) element ).getType( )
-											.equals( VirtualField.TYPE_MEASURE_GROUP ) ) )
+											.equals( VirtualField.TYPE_MEASURE_GROUP ) )
+											|| ( element instanceof PropertyHandle && ( (PropertyHandle) element ).getPropertyDefn( )
+													.getName( )
+													.equals( ICubeModel.MEASURE_GROUPS_PROP ) ) )
 									{
 										measureGroup = DesignElementFactory.getInstance( )
 												.newTabularMeasureGroup( null ); //$NON-NLS-1$
@@ -691,12 +687,6 @@ public class CubeGroupContent extends Composite implements Listener
 											.getCommandStack( )
 											.commit( );
 								}
-								else if ( element instanceof CubeHandle
-										|| element instanceof PropertyHandle )
-								{
-									event.detail = DND.DROP_NONE;
-									return;
-								}
 								else if ( element instanceof LevelHandle )
 								{
 									// if ( isDateType( dataField.getDataType( )
@@ -717,11 +707,11 @@ public class CubeGroupContent extends Composite implements Listener
 									SessionHandleAdapter.getInstance( )
 											.getCommandStack( )
 											.startTrans( "" );
-//									if ( hierarchy.getDataSet( ) == null
-//											&& dataset != null )
-//									{
-//										hierarchy.setDataSet( dataset );
-//									}
+									// if ( hierarchy.getDataSet( ) == null
+									// && dataset != null )
+									// {
+									// hierarchy.setDataSet( dataset );
+									// }
 
 									int index = ( (LevelHandle) element ).getIndex( );
 									TabularLevelHandle level = DesignElementFactory.getInstance( )
@@ -749,15 +739,20 @@ public class CubeGroupContent extends Composite implements Listener
 										|| ( element instanceof VirtualField && ( (VirtualField) element ).getType( )
 												.equals( VirtualField.TYPE_LEVEL ) )
 										|| ( element instanceof VirtualField && ( (VirtualField) element ).getType( )
-												.equals( VirtualField.TYPE_DIMENSION ) ) )
+												.equals( VirtualField.TYPE_DIMENSION ) )
+										|| ( element instanceof PropertyHandle && ( (PropertyHandle) element ).getPropertyDefn( )
+												.getName( )
+												.equals( ICubeModel.DIMENSIONS_PROP ) ) )
 								{
 									DimensionHandle dimension = null;
 									SessionHandleAdapter.getInstance( )
 											.getCommandStack( )
 											.startTrans( "" );
-									if ( element instanceof VirtualField
-											&& ( (VirtualField) element ).getType( )
-													.equals( VirtualField.TYPE_DIMENSION ) )
+									if ( ( element instanceof VirtualField && ( (VirtualField) element ).getType( )
+											.equals( VirtualField.TYPE_DIMENSION ) )
+											|| ( element instanceof PropertyHandle && ( (PropertyHandle) element ).getPropertyDefn( )
+													.getName( )
+													.equals( ICubeModel.DIMENSIONS_PROP ) ) )
 									{
 										dimension = DesignElementFactory.getInstance( )
 												.newTabularDimension( null ); //$NON-NLS-1$
@@ -1150,7 +1145,7 @@ public class CubeGroupContent extends Composite implements Listener
 
 				if ( dimenTemp != null )
 				{
-					DataSetHandle table = OlapUtil.getHierarchyDataset(  (TabularHierarchyHandle) dimenTemp.getDefaultHierarchy( ) );
+					DataSetHandle table = OlapUtil.getHierarchyDataset( (TabularHierarchyHandle) dimenTemp.getDefaultHierarchy( ) );
 					if ( table == null && dataField != null )
 						addBtn.setEnabled( true );
 					else if ( table != null && dataset != table )
@@ -1462,121 +1457,122 @@ public class CubeGroupContent extends Composite implements Listener
 					refresh( );
 					return;
 				}
-			}
 
-			if ( obj instanceof PropertyHandle
-					|| ( dataField == null && obj instanceof VirtualField && ( (VirtualField) obj ).getModel( ) instanceof PropertyHandle ) )
-			{
-				PropertyHandle model;
-				if ( obj instanceof PropertyHandle )
-					model = (PropertyHandle) obj;
-				else
-					model = (PropertyHandle) ( (VirtualField) obj ).getModel( );
-				if ( model.getPropertyDefn( )
-						.getName( )
-						.equals( ICubeModel.DIMENSIONS_PROP ) )
+				if ( obj instanceof PropertyHandle
+						|| ( obj instanceof VirtualField && ( (VirtualField) obj ).getModel( ) instanceof PropertyHandle ) )
 				{
-					SessionHandleAdapter.getInstance( )
-							.getCommandStack( )
-							.startTrans( "" );
-					DimensionHandle dimension = DesignElementFactory.getInstance( )
-							.newTabularDimension( null );
-					try
+					PropertyHandle model;
+					if ( obj instanceof PropertyHandle )
+						model = (PropertyHandle) obj;
+					else
+						model = (PropertyHandle) ( (VirtualField) obj ).getModel( );
+					if ( model.getPropertyDefn( )
+							.getName( )
+							.equals( ICubeModel.DIMENSIONS_PROP ) )
 					{
-						model.getElementHandle( )
-								.add( ICubeModel.DIMENSIONS_PROP, dimension );
-					}
-					catch ( SemanticException e1 )
-					{
-						ExceptionHandler.handle( e1 );
-					}
-
-					RenameInputDialog inputDialog = new RenameInputDialog( getShell( ),
-							Messages.getString( "CubeGroupContent.Group.Add.Title" ), //$NON-NLS-1$
-							Messages.getString( "CubeGroupContent.Group.Add.Message" ), //$NON-NLS-1$
-							( (DesignElementHandle) dimension ).getName( ),
-							null );
-					inputDialog.create( );
-					if ( inputDialog.open( ) == Window.OK )
-					{
+						SessionHandleAdapter.getInstance( )
+								.getCommandStack( )
+								.startTrans( "" );
+						DimensionHandle dimension = DesignElementFactory.getInstance( )
+								.newTabularDimension( null );
 						try
 						{
-							( (DesignElementHandle) dimension ).setName( inputDialog.getValue( )
-									.trim( ) );
-							SessionHandleAdapter.getInstance( )
-									.getCommandStack( )
-									.commit( );
+							model.getElementHandle( )
+									.add( ICubeModel.DIMENSIONS_PROP, dimension );
 						}
-						catch ( Exception e1 )
+						catch ( SemanticException e1 )
 						{
 							ExceptionHandler.handle( e1 );
+						}
+
+						RenameInputDialog inputDialog = new RenameInputDialog( getShell( ),
+								Messages.getString( "CubeGroupContent.Group.Add.Title" ), //$NON-NLS-1$
+								Messages.getString( "CubeGroupContent.Group.Add.Message" ), //$NON-NLS-1$
+								( (DesignElementHandle) dimension ).getName( ),
+								null );
+						inputDialog.create( );
+						if ( inputDialog.open( ) == Window.OK )
+						{
+							try
+							{
+								( (DesignElementHandle) dimension ).setName( inputDialog.getValue( )
+										.trim( ) );
+								SessionHandleAdapter.getInstance( )
+										.getCommandStack( )
+										.commit( );
+							}
+							catch ( Exception e1 )
+							{
+								ExceptionHandler.handle( e1 );
+								SessionHandleAdapter.getInstance( )
+										.getCommandStack( )
+										.rollback( );
+							}
+						}
+						else
 							SessionHandleAdapter.getInstance( )
 									.getCommandStack( )
 									.rollback( );
-						}
+
+						refresh( );
 					}
-					else
+					else if ( model.getPropertyDefn( )
+							.getName( )
+							.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
+					{
 						SessionHandleAdapter.getInstance( )
 								.getCommandStack( )
-								.rollback( );
-
-					refresh( );
-				}
-				else if ( model.getPropertyDefn( )
-						.getName( )
-						.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
-				{
-					SessionHandleAdapter.getInstance( )
-							.getCommandStack( )
-							.startTrans( "" );
-					MeasureGroupHandle measureGroup = DesignElementFactory.getInstance( )
-							.newTabularMeasureGroup( null );
-					try
-					{
-						model.getElementHandle( )
-								.add( ICubeModel.MEASURE_GROUPS_PROP,
-										measureGroup );
-						if ( model.getElementHandle( )
-								.getContentCount( ICubeModel.MEASURE_GROUPS_PROP ) == 1 )
-							( (CubeHandle) model.getElementHandle( ) ).setDefaultMeasureGroup( measureGroup );
-					}
-					catch ( SemanticException e1 )
-					{
-						ExceptionHandler.handle( e1 );
-					}
-
-					RenameInputDialog inputDialog = new RenameInputDialog( getShell( ),
-							Messages.getString( "CubeGroupContent.Measure.Add.Title" ), //$NON-NLS-1$
-							Messages.getString( "CubeGroupContent.Message.Add.Message" ), //$NON-NLS-1$
-							( (DesignElementHandle) measureGroup ).getName( ),
-							null );
-					inputDialog.create( );
-					if ( inputDialog.open( ) == Window.OK )
-					{
+								.startTrans( "" );
+						MeasureGroupHandle measureGroup = DesignElementFactory.getInstance( )
+								.newTabularMeasureGroup( null );
 						try
 						{
-							( (DesignElementHandle) measureGroup ).setName( inputDialog.getValue( )
-									.trim( ) );
-							SessionHandleAdapter.getInstance( )
-									.getCommandStack( )
-									.commit( );
+							model.getElementHandle( )
+									.add( ICubeModel.MEASURE_GROUPS_PROP,
+											measureGroup );
+							if ( model.getElementHandle( )
+									.getContentCount( ICubeModel.MEASURE_GROUPS_PROP ) == 1 )
+								( (CubeHandle) model.getElementHandle( ) ).setDefaultMeasureGroup( measureGroup );
 						}
-						catch ( Exception e1 )
+						catch ( SemanticException e1 )
 						{
 							ExceptionHandler.handle( e1 );
+						}
+
+						RenameInputDialog inputDialog = new RenameInputDialog( getShell( ),
+								Messages.getString( "CubeGroupContent.Measure.Add.Title" ), //$NON-NLS-1$
+								Messages.getString( "CubeGroupContent.Message.Add.Message" ), //$NON-NLS-1$
+								( (DesignElementHandle) measureGroup ).getName( ),
+								null );
+						inputDialog.create( );
+						if ( inputDialog.open( ) == Window.OK )
+						{
+							try
+							{
+								( (DesignElementHandle) measureGroup ).setName( inputDialog.getValue( )
+										.trim( ) );
+								SessionHandleAdapter.getInstance( )
+										.getCommandStack( )
+										.commit( );
+							}
+							catch ( Exception e1 )
+							{
+								ExceptionHandler.handle( e1 );
+								SessionHandleAdapter.getInstance( )
+										.getCommandStack( )
+										.rollback( );
+							}
+						}
+						else
 							SessionHandleAdapter.getInstance( )
 									.getCommandStack( )
 									.rollback( );
-						}
-					}
-					else
-						SessionHandleAdapter.getInstance( )
-								.getCommandStack( )
-								.rollback( );
 
-					refresh( );
+						refresh( );
+					}
 				}
 			}
+
 		}
 	}
 
@@ -1629,19 +1625,19 @@ public class CubeGroupContent extends Composite implements Listener
 					SessionHandleAdapter.getInstance( )
 							.getCommandStack( )
 							.startTrans( "" );
-//					if ( hierarchy.getDataSet( ) == null )
-//					{
-//						try
-//						{
-//							if ( hierarchy.getLevelCount( ) == 0
-//									&& dataset != primary )
-//								hierarchy.setDataSet( dataset );
-//						}
-//						catch ( SemanticException e )
-//						{
-//							ExceptionHandler.handle( e );
-//						}
-//					}
+					// if ( hierarchy.getDataSet( ) == null )
+					// {
+					// try
+					// {
+					// if ( hierarchy.getLevelCount( ) == 0
+					// && dataset != primary )
+					// hierarchy.setDataSet( dataset );
+					// }
+					// catch ( SemanticException e )
+					// {
+					// ExceptionHandler.handle( e );
+					// }
+					// }
 					TabularLevelHandle level = DesignElementFactory.getInstance( )
 							.newTabularLevel( dimension,
 									dataField.getColumnName( ) );
@@ -1674,15 +1670,20 @@ public class CubeGroupContent extends Composite implements Listener
 						|| ( obj instanceof VirtualField && ( (VirtualField) obj ).getType( )
 								.equals( VirtualField.TYPE_LEVEL ) )
 						|| ( obj instanceof VirtualField && ( (VirtualField) obj ).getType( )
-								.equals( VirtualField.TYPE_DIMENSION ) ) )
+								.equals( VirtualField.TYPE_DIMENSION ) )
+						|| ( obj instanceof PropertyHandle && ( (PropertyHandle) obj ).getPropertyDefn( )
+								.getName( )
+								.equals( ICubeModel.DIMENSIONS_PROP ) ) )
 				{
 					SessionHandleAdapter.getInstance( )
 							.getCommandStack( )
 							.startTrans( "" );
 					TabularDimensionHandle dimension = null;
-					if ( obj instanceof VirtualField
-							&& ( (VirtualField) obj ).getType( )
-									.equals( VirtualField.TYPE_DIMENSION ) )
+					if ( ( obj instanceof VirtualField && ( (VirtualField) obj ).getType( )
+							.equals( VirtualField.TYPE_DIMENSION ) )
+							|| ( obj instanceof PropertyHandle && ( (PropertyHandle) obj ).getPropertyDefn( )
+									.getName( )
+									.equals( ICubeModel.DIMENSIONS_PROP ) ) )
 					{
 						dimension = DesignElementFactory.getInstance( )
 								.newTabularDimension( null ); //$NON-NLS-1$
@@ -1799,14 +1800,20 @@ public class CubeGroupContent extends Composite implements Listener
 							|| ( obj instanceof VirtualField && ( (VirtualField) obj ).getType( )
 									.equals( VirtualField.TYPE_MEASURE ) )
 							|| ( obj instanceof VirtualField && ( (VirtualField) obj ).getType( )
-									.equals( VirtualField.TYPE_MEASURE_GROUP ) ) )
+									.equals( VirtualField.TYPE_MEASURE_GROUP ) )
+							|| ( obj instanceof PropertyHandle && ( (PropertyHandle) obj ).getPropertyDefn( )
+									.getName( )
+									.equals( ICubeModel.MEASURE_GROUPS_PROP ) ) )
 					{
 						MeasureGroupHandle measureGroup = null;
 						SessionHandleAdapter.getInstance( )
 								.getCommandStack( )
 								.startTrans( "" );
 						if ( ( obj instanceof VirtualField && ( (VirtualField) obj ).getType( )
-								.equals( VirtualField.TYPE_MEASURE_GROUP ) ) )
+								.equals( VirtualField.TYPE_MEASURE_GROUP ) )
+								|| ( obj instanceof PropertyHandle && ( (PropertyHandle) obj ).getPropertyDefn( )
+										.getName( )
+										.equals( ICubeModel.MEASURE_GROUPS_PROP ) ) )
 						{
 							measureGroup = DesignElementFactory.getInstance( )
 									.newTabularMeasureGroup( null ); //$NON-NLS-1$
