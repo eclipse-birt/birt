@@ -157,6 +157,36 @@ public class ResultSetColumnAdapterTest extends BaseTestCase
 	}
 
 	/**
+	 * Converts ODA result set columns to ROM result set columns.
+	 * 
+	 * <ul>
+	 * <li>the data type is BLOB.
+	 * </ul>
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testToROMResultSetsWithBlobType( ) throws Exception
+	{
+		openDesign( "OdaDataSetConvertResultSetsTest_2.xml" ); //$NON-NLS-1$
+
+		OdaDataSetHandle setHandle = (OdaDataSetHandle) designHandle
+				.findDataSet( "myDataSet1" ); //$NON-NLS-1$
+
+		// get the latest data set design.
+
+		DataSetDesign setDesign = new ModelOdaAdapter( )
+				.createDataSetDesign( setHandle );
+
+		updateResultSetDefinition2( setHandle );
+		new ModelOdaAdapter( )
+				.updateDataSetHandle( setDesign, setHandle, false );
+
+		save( );
+		assertTrue( compareTextFile( "OdaDataSetConvertResultSetsTest_3_golden.xml" ) ); //$NON-NLS-1$
+	}
+
+	/**
 	 * Updates a oda result set definition.
 	 * 
 	 * @param param
@@ -211,5 +241,23 @@ public class ResultSetColumnAdapterTest extends BaseTestCase
 		usageHints.setFormattingHints( format );
 		column2.setUsageHints( usageHints );
 
+	}
+
+	/**
+	 * Updates a ROM result set definition. To make sure that
+	 * convertNativeTypeToROMDataType() will be called. So that can verify blob
+	 * conversion.
+	 * 
+	 * @param param
+	 */
+
+	private void updateResultSetDefinition2( OdaDataSetHandle setHandle )
+			throws SemanticException
+	{
+		Iterator iter1 = setHandle.resultSetIterator( );
+		OdaResultSetColumnHandle column = (OdaResultSetColumnHandle) iter1
+				.next( );
+
+		column.setNativeDataType( new Integer( 10 ) );
 	}
 }
