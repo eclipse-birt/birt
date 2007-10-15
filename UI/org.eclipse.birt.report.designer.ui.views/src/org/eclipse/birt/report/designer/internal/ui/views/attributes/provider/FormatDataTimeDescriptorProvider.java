@@ -97,9 +97,11 @@ public class FormatDataTimeDescriptorProvider implements IDescriptorProvider
 				catch ( SemanticException e )
 				{
 					ExceptionHandler.handle( e );
+					e.printStackTrace( );
 					SessionHandleAdapter.getInstance( )
 							.getCommandStack( )
 							.rollbackAll( );
+					return;
 				}
 			}
 			SessionHandleAdapter.getInstance( ).getCommandStack( ).commit( );
@@ -116,7 +118,13 @@ public class FormatDataTimeDescriptorProvider implements IDescriptorProvider
 
 	}
 
-	private Date defaultDate = new Date( );
+	private Date defaultDate ;
+	
+	public FormatDataTimeDescriptorProvider(){
+		defaultDate = new Date( );
+		Thread.dumpStack( );
+		System.out.println(defaultDate);
+	}
 
 	private String getDisplayName4Category( String category )
 	{
@@ -193,7 +201,7 @@ public class FormatDataTimeDescriptorProvider implements IDescriptorProvider
 		return displayName;
 	}
 
-	private static String[][] choiceArray = null;
+	private String[][] choiceArray = null;
 
 	public String[][] initChoiceArray( )
 	{
@@ -226,7 +234,7 @@ public class FormatDataTimeDescriptorProvider implements IDescriptorProvider
 	 * Gets the format types for display names.
 	 */
 
-	private static String[] formatTypes = null;
+	private String[] formatTypes = null;
 
 	public String[] getFormatTypes( )
 	{
