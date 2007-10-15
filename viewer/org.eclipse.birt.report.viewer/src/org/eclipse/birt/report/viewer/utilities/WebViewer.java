@@ -23,7 +23,6 @@ import java.util.regex.Pattern;
 import org.eclipse.birt.report.viewer.ViewerPlugin;
 import org.eclipse.birt.report.viewer.browsers.BrowserAccessor;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.swt.browser.Browser;
 
 /**
@@ -366,8 +365,7 @@ public class WebViewer
 				ViewerClassPathHelper.setWorkspaceClassPath( );
 			}
 
-			WebappAccessor.start( ViewerPlugin.WEBAPP_CONTEXT, WebAppPlugin,
-					Path.EMPTY );
+			WebappAccessor.start( ViewerPlugin.WEBAPP_CONTEXT );
 		}
 		catch ( CoreException e )
 		{

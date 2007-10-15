@@ -11,12 +11,15 @@
 
 package org.eclipse.birt.report.viewer;
 
+import java.io.IOException;
+import java.net.URL;
 import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.birt.report.viewer.utilities.WebappAccessor;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
@@ -62,6 +65,16 @@ public class ViewerPlugin extends Plugin
 	 * BIRT Viewer plugin working path
 	 */
 	public final static String BIRT_VIEWER_WORKING_PATH = "birt.viewer.working.path"; //$NON-NLS-1$
+
+	/**
+	 * BIRT Viewer web application root path
+	 */
+	public final static String BIRT_VIEWER_ROOT_PATH = "birt.viewer.root.path"; //$NON-NLS-1$
+
+	/**
+	 * Indicate whether start as designer
+	 */
+	public final static String BIRT_IS_DESIGNER = "birt.designer"; //$NON-NLS-1$
 
 	/**
 	 * The shared instance.
@@ -121,6 +134,35 @@ public class ViewerPlugin extends Plugin
 		if ( plugin.getStateLocation( ) != null )
 			System.setProperty( BIRT_VIEWER_WORKING_PATH, plugin
 					.getStateLocation( ).toOSString( ) );
+
+		// set viewer root path
+		String rootPath = getFilePath( "/birt" ); //$NON-NLS-1$
+		if ( rootPath != null )
+			System.setProperty( BIRT_VIEWER_ROOT_PATH, rootPath );
+
+		// set designer flag
+		System.setProperty( BIRT_IS_DESIGNER, "true" ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Returns the file path
+	 * 
+	 * @param path
+	 * @return
+	 */
+	private String getFilePath( String path )
+	{
+		try
+		{
+			Bundle bundle = getBundle( );
+			URL url = new URL( bundle.getEntry( "/" ), path ); //$NON-NLS-1$
+			return FileLocator.toFileURL( url ).getFile( );
+		}
+		catch ( IOException e )
+		{
+		}
+
+		return null;
 	}
 
 	/**

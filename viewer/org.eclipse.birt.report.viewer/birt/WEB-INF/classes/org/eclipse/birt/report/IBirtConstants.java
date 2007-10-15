@@ -111,6 +111,7 @@ public interface IBirtConstants
 	public static final String DEFAULT_DOCUMENT_FOLDER = "documents";//$NON-NLS-1$
 	public static final String DEFAULT_IMAGE_FOLDER = "report/images"; //$NON-NLS-1$
 	public static final String DEFAULT_LOGS_FOLDER = "logs"; //$NON-NLS-1$
+	public static final String DEFAULT_LOGS_LEVEL = "WARNING"; //$NON-NLS-1$
 	public static final String DEFAULT_SCRIPTLIB_FOLDER = "scriptlib"; //$NON-NLS-1$
 	
 	// Open type
@@ -130,4 +131,9 @@ public interface IBirtConstants
 	
 	// Null Value
 	public static final String NULL_VALUE = "Null Value"; //$NON-NLS-1$
+	
+	// System property name
+	public static final String SYS_PROP_WORKING_PATH = "birt.viewer.working.path"; //$NON-NLS-1$
+	public static final String SYS_PROP_ROOT_PATH = "birt.viewer.root.path"; //$NON-NLS-1$
+	public static final String SYS_PROP_BIRT_ISDESIGNER = "birt.designer"; //$NON-NLS-1$
 }

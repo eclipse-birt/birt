@@ -3,11 +3,23 @@ Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Web Viewer
 Bundle-SymbolicName: org.eclipse.birt.report.viewer; singleton:=true
 Bundle-Version: 2.3.0.qualifier
-Bundle-ClassPath: viewer.jar
+Bundle-ClassPath: ., viewer.jar, viewerservlets.jar,
+ birt/WEB-INF/classes,
+ birt/WEB-INF/lib/axis.jar,
+ birt/WEB-INF/lib/axis-ant.jar,
+ birt/WEB-INF/lib/commons-discovery-0.2.jar,
+ birt/WEB-INF/lib/jaxrpc.jar,
+ birt/WEB-INF/lib/saaj.jar,
+ birt/WEB-INF/lib/wsdl4j-1.5.1.jar
 Bundle-Activator: org.eclipse.birt.report.viewer.ViewerPlugin
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.4
+Import-Package: javax.servlet;version="2.4.0",
+ javax.servlet.http;version="2.4.0",
+ org.apache.commons.logging,
+ org.eclipse.equinox.http.jetty,
+ org.osgi.service.http;version="1.2.0"
 Export-Package: org.eclipse.birt.report,
  org.eclipse.birt.report.context,
  org.eclipse.birt.report.exception,
@@ -35,11 +47,12 @@ Export-Package: org.eclipse.birt.report,
  org.eclipse.birt.report.viewer.browsers.system,
  org.eclipse.birt.report.viewer.utilities
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.2.0,4.0.0)",
- org.eclipse.tomcat;bundle-version="[4.1.130,5.0.0)",
+ org.apache.jasper;bundle-version="5.5.17",
+ org.eclipse.equinox.jsp.jasper.registry;bundle-version="[1.0.0,2.0.0)",
+ org.eclipse.equinox.http.registry;bundle-version="[1.0.0,2.0.0)",
  org.eclipse.birt.core;bundle-version="[2.1.0,3.0.0)",
  org.eclipse.birt.report.engine;bundle-version="[2.1.0,3.0.0)",
  org.eclipse.help.base;bundle-version="[3.2.0,4.0.0)",
- org.eclipse.help.appserver;bundle-version="[3.1.100,4.0.0)",
  org.eclipse.ui;bundle-version="[3.2.0,4.0.0)",
  org.eclipse.birt.report.model;bundle-version="[2.1.0,3.0.0)",
  org.eclipse.birt.data;bundle-version="[2.1.0,3.0.0)",

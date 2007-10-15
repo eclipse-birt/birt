@@ -1406,34 +1406,54 @@ public class ParameterAccessor
 		if ( isInitContext )
 			return;
 
+		boolean isDesigner = false;
+		if ( "true".equalsIgnoreCase( System.getProperty( IBirtConstants.SYS_PROP_BIRT_ISDESIGNER ) ) ) //$NON-NLS-1$
+			isDesigner = true;
+
+		String workingPath = "${" + IBirtConstants.SYS_PROP_WORKING_PATH + "}/"; //$NON-NLS-1$//$NON-NLS-2$
+
 		// Working folder setting
 		workingFolder = processWorkingFolder( context, context
 				.getInitParameter( INIT_PARAM_WORKING_DIR ) );
 
 		// Document folder setting
-		documentFolder = processRealPath( context, context
-				.getInitParameter( INIT_PARAM_DOCUMENT_FOLDER ),
+		String initDocumentFolder = context
+				.getInitParameter( INIT_PARAM_DOCUMENT_FOLDER );
+		if ( isDesigner && initDocumentFolder == null )
+			initDocumentFolder = workingPath
+					+ IBirtConstants.DEFAULT_DOCUMENT_FOLDER;
+		documentFolder = processRealPath( context, initDocumentFolder,
 				IBirtConstants.DEFAULT_DOCUMENT_FOLDER, true );
 
 		// Image folder setting
-		imageFolder = processRealPath( context, context
-				.getInitParameter( ParameterAccessor.INIT_PARAM_IMAGE_DIR ),
+		String initImageFolder = context
+				.getInitParameter( ParameterAccessor.INIT_PARAM_IMAGE_DIR );
+		if ( isDesigner && initImageFolder == null )
+			initImageFolder = workingPath + IBirtConstants.DEFAULT_IMAGE_FOLDER;
+		imageFolder = processRealPath( context, initImageFolder,
 				IBirtConstants.DEFAULT_IMAGE_FOLDER, true );
 
 		// Log folder setting
-		logFolder = processRealPath( context, context
-				.getInitParameter( ParameterAccessor.INIT_PARAM_LOG_DIR ),
+		String initLogFolder = context
+				.getInitParameter( ParameterAccessor.INIT_PARAM_LOG_DIR );
+		if ( isDesigner && initLogFolder == null )
+			initLogFolder = workingPath + IBirtConstants.DEFAULT_LOGS_FOLDER;
+		logFolder = processRealPath( context, initLogFolder,
 				IBirtConstants.DEFAULT_LOGS_FOLDER, true );
 
 		// Log level setting
 		logLevel = context
 				.getInitParameter( ParameterAccessor.INIT_PARAM_LOG_LEVEL );
+		if ( logLevel == null )
+			logLevel = IBirtConstants.DEFAULT_LOGS_LEVEL;
 
 		// Script lib folder setting
-		scriptLibDir = processRealPath(
-				context,
-				context
-						.getInitParameter( ParameterAccessor.INIT_PARAM_SCRIPTLIB_DIR ),
+		String initScriptlibFolder = context
+				.getInitParameter( ParameterAccessor.INIT_PARAM_SCRIPTLIB_DIR );
+		if ( isDesigner && initScriptlibFolder == null )
+			initScriptlibFolder = workingPath
+					+ IBirtConstants.DEFAULT_SCRIPTLIB_FOLDER;
+		scriptLibDir = processRealPath( context, initScriptlibFolder,
 				IBirtConstants.DEFAULT_SCRIPTLIB_FOLDER, false );
 
 		// WebApp Locale setting
@@ -2627,9 +2647,21 @@ public class ParameterAccessor
 			realPath = context.getRealPath( path );
 			if ( realPath == null )
 			{
-				URL url = context.getResource( "/" ); //$NON-NLS-1$
-				if ( url != null )
-					realPath = DataUtil.trimString( url.getFile( ) ) + path;
+				// try to get root path from system properties
+				String rootPath = System
+						.getProperty( IBirtConstants.SYS_PROP_ROOT_PATH );
+				if ( rootPath != null && !isRelativePath( rootPath ) )
+				{
+					path = path.substring( 1 );
+					realPath = DataUtil.trimSepEnd( rootPath ) + File.separator
+							+ path;
+				}
+				else
+				{
+					URL url = context.getResource( "/" ); //$NON-NLS-1$
+					if ( url != null )
+						realPath = DataUtil.trimString( url.getFile( ) ) + path;
+				}
 			}
 		}
 		catch ( Exception e )

@@ -11,19 +11,11 @@
 
 package org.eclipse.birt.report.viewer.utilities;
 
-import java.io.IOException;
-import java.net.URL;
-
 import org.eclipse.birt.report.viewer.ViewerPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.help.internal.appserver.IWebappServer;
-import org.eclipse.help.internal.appserver.PluginClassLoaderWrapper;
-import org.osgi.framework.Bundle;
 
 /**
  * Singleton class for web application.
@@ -32,15 +24,41 @@ import org.osgi.framework.Bundle;
 public class WebappAccessor
 {
 
+	/**
+	 * indicate whether startup application
+	 */
 	private static boolean applicationsStarted = false;
 
 	/**
-	 * Private constructor, so no instances can be created.
+	 * Startup web application on the server.
+	 * <p>
+	 * It is assumed that webapp names are unique. It is suggested to create
+	 * unique web app names.
+	 * </p>
 	 * 
-	 * @see java.lang.Object#Object()
+	 * @param webappName
+	 * @throws CoreException
 	 */
-	private WebappAccessor( )
+	public synchronized static void start( String webappName )
+			throws CoreException
 	{
+		if ( applicationsStarted )
+			return;
+
+		try
+		{
+			AppServerWrapper.getInstance( ).start( webappName );
+		}
+		catch ( Exception e )
+		{
+			throw new CoreException( new Status( IStatus.ERROR,
+					ViewerPlugin.PLUGIN_ID, IStatus.OK, ViewerPlugin
+							.getFormattedResourceString(
+									"viewer.appserver.errorstart", //$NON-NLS-1$
+									new Object[]{} ), null ) );
+		}
+
+		applicationsStarted = true;
 	}
 
 	/**
@@ -57,24 +75,13 @@ public class WebappAccessor
 	 *            plugin that defines the webapp
 	 * @param path
 	 *            webapp relative path to the plugin directory
+	 * @deprecated
 	 * @exception CoreException
 	 */
 	public synchronized static void start( String webappName, String pluginId,
 			IPath path ) throws CoreException
 	{
-		if ( applicationsStarted )
-			return;
-
-		IPath webappPath = getWebappPath( pluginId, path );
-
-		// we get the server before constructing the class loader, so
-		// class loader exposed by the server is available to the webapps.
-		IWebappServer server = AppServerWrapper.getInstance( ).getAppServer( );
-		PluginClassLoaderWrapper loader = new PluginClassLoaderWrapper(
-				pluginId );
-		server.start( webappName, webappPath, loader );
-		applicationsStarted = true;
-
+		start( webappName );
 	}
 
 	/**
@@ -84,15 +91,22 @@ public class WebappAccessor
 	 *            web application name
 	 * @exception CoreException
 	 */
-	public static void stop( String webappName ) throws CoreException
+	public synchronized static void stop( String webappName )
+			throws CoreException
 	{
 		if ( !applicationsStarted )
-		{
-			// do not obtain (start) appserver when no reason
 			return;
+
+		try
+		{
+			AppServerWrapper.getInstance( ).stop( webappName );
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace( );
 		}
 
-		AppServerWrapper.getInstance( ).getAppServer( ).stop( webappName );
+		applicationsStarted = false;
 	}
 
 	/**
@@ -102,86 +116,17 @@ public class WebappAccessor
 	 */
 	public static int getPort( )
 	{
-		try
-		{
-			return AppServerWrapper.getInstance( ).getAppServer( ).getPort( );
-		}
-		catch ( CoreException e )
-		{
-			return 0;
-		}
+		return AppServerWrapper.getInstance( ).getPort( );
 	}
 
 	/**
 	 * Returns the host name or ip the app server runs on.
 	 * 
-	 * @return String representaion of host name of IP, null if server not
+	 * @return String representation of host name of IP, null if server not
 	 *         started yet
 	 */
 	public static String getHost( )
 	{
-		try
-		{
-			return AppServerWrapper.getInstance( ).getAppServer( ).getHost( );
-		}
-		catch ( CoreException e )
-		{
-			return null;
-		}
+		return AppServerWrapper.getInstance( ).getHost( );
 	}
-
-	/**
-	 * Get path of web applcation.
-	 * 
-	 * @param pluginId
-	 *            Embedded web application id
-	 * @param path
-	 *            webapp path relative to the plugin directory
-	 * @return String absolute webapp path
-	 * @exception CoreException
-	 */
-	private static IPath getWebappPath( String pluginId, IPath path )
-			throws CoreException
-	{
-		Bundle bundle = Platform.getBundle( pluginId );
-
-		if ( bundle == null )
-		{
-			throw new CoreException( new Status( IStatus.ERROR,
-					ViewerPlugin.PLUGIN_ID, IStatus.OK, ViewerPlugin
-							.getFormattedResourceString(
-									"viewer.appserver.cannotfindplugin", //$NON-NLS-1$
-									new Object[]{pluginId} ), null ) );
-		}
-
-		// Note: we just look for one webapp directory.
-		// If needed, may want to use the locale specific path.
-		URL webappURL = Platform.find( bundle, path );
-
-		if ( webappURL == null )
-		{
-			throw new CoreException( new Status( IStatus.ERROR,
-					ViewerPlugin.PLUGIN_ID, IStatus.OK,
-					ViewerPlugin.getFormattedResourceString(
-							"viewer.appserver.cannotfindpath", //$NON-NLS-1$
-							new Object[]{pluginId, path.toOSString( )} ), null ) );
-		}
-
-		try
-		{
-			String webappLocation = Platform.asLocalURL(
-					Platform.resolve( webappURL ) ).getFile( );
-			webappLocation += "birt/"; //$NON-NLS-1$
-			return new Path( webappLocation );
-		}
-		catch ( IOException ioe )
-		{
-			throw new CoreException( new Status( IStatus.ERROR,
-					ViewerPlugin.PLUGIN_ID, IStatus.OK,
-					ViewerPlugin.getFormattedResourceString(
-							"viewer.appserver.cannotresolvepath", //$NON-NLS-1$
-							new Object[]{pluginId, path.toOSString( )} ), ioe ) );
-		}
-	}
-
 }
