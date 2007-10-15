@@ -17,12 +17,12 @@ import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.data.ui.util.ReportDataHandle;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.IReportPageBookViewPage;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportEventRunnable;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractModelEventProcessor.IModelEventFactory;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.DataViewEventProcessor;
-import org.eclipse.birt.report.designer.internal.ui.views.DesignerOutlineEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.views.RenameListener;
 import org.eclipse.birt.report.designer.internal.ui.views.ViewContextMenuProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
@@ -47,15 +47,13 @@ import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.command.ContentEvent;
-import org.eclipse.birt.report.model.api.command.NameEvent;
-import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.validators.IValidationListener;
 import org.eclipse.birt.report.model.api.validators.ValidationEvent;
 import org.eclipse.gef.dnd.TemplateTransfer;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
@@ -82,7 +80,7 @@ import org.eclipse.swt.widgets.Widget;
  */
 public class DataViewTreeViewerPage extends DataViewPage implements
 		IModelEventFactory,
-		IValidationListener
+		IValidationListener, IReportPageBookViewPage
 {
 
 	private static final String LABEL_DOUBLE_CLICK = Messages.getString( "DataViewTreeViewerPage.tooltip.DoubleClickToEdit" ); //$NON-NLS-1$
@@ -586,5 +584,10 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 			return true;
 		else
 			return getTreeViewer( ).getTree( ).isDisposed( );
+	}
+
+	public ISelectionProvider getSelectionProvider( )
+	{
+		return getTreeViewer( );
 	}
 }

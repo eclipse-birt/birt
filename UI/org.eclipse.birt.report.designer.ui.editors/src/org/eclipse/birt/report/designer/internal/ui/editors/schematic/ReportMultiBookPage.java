@@ -45,10 +45,19 @@ public class ReportMultiBookPage extends Page implements
 	private IPageBookViewPage currentPage;
 	private IPageBookViewPage emptyPage;
 	private IActionBars actionBars;
+	private ISelectionChangedListener selectionChangedListener;
 
 	public ReportMultiBookPage( )
 	{
+		selectionChangedListener = new ISelectionChangedListener( ) {
 
+			public void selectionChanged( SelectionChangedEvent event )
+			{
+				ReportMultiBookPage.this.getSite( )
+						.getSelectionProvider( )
+						.setSelection( event.getSelection( ) );
+			}
+		};
 	}
 
 	public void addFocusListener( FocusListener listener )
@@ -74,7 +83,7 @@ public class ReportMultiBookPage extends Page implements
 			emptyPage.dispose( );
 			emptyPage = null;
 		}
-		if (currentPage != null)
+		if ( currentPage != null )
 		{
 			currentPage.dispose( );
 		}
@@ -182,13 +191,20 @@ public class ReportMultiBookPage extends Page implements
 		{
 			page = getEmptyPage( );
 		}
+
+		if ( previousPage instanceof IReportPageBookViewPage )
+		{
+			( (IReportPageBookViewPage) previousPage ).getSelectionProvider( )
+					.removeSelectionChangedListener( selectionChangedListener );
+		}
+
 		if ( currentPage != null
 				&& currentPage != getEmptyPage( )
 				&& !( currentPage instanceof PalettePage )
 				&& page != currentPage )
 		{
 			// currentPage.getControl( ).dispose( );
-			//currentPage.dispose( );
+			// currentPage.dispose( );
 			previousPage = currentPage;
 		}
 		this.currentPage = page;
@@ -223,6 +239,13 @@ public class ReportMultiBookPage extends Page implements
 			page.createControl( pagebook );
 			page.setActionBars( getActionBars( ) );
 			control = page.getControl( );
+
+			if ( page instanceof IReportPageBookViewPage )
+			{
+				( (IReportPageBookViewPage) page ).getSelectionProvider( )
+						.addSelectionChangedListener( selectionChangedListener );
+			}
+			getSite( ).setSelectionProvider( this );
 		}
 		pagebook.showPage( control );
 		this.currentPage = page;

@@ -20,6 +20,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.request.IRequestConvert;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.IReportPageBookViewPage;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportEventRunnable;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractModelEventProcessor.IModelEventFactory;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedElementUIPoint;
@@ -53,6 +54,7 @@ import org.eclipse.birt.report.model.api.validators.IValidationListener;
 import org.eclipse.birt.report.model.api.validators.ValidationEvent;
 import org.eclipse.gef.dnd.TemplateTransfer;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
@@ -84,7 +86,7 @@ import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
  */
 public class DesignerOutlinePage extends ContentOutlinePage implements
 		IValidationListener,
-		IModelEventFactory
+		IModelEventFactory, IReportPageBookViewPage
 {
 
 	/**
@@ -657,5 +659,10 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 	public void setBackupState( ITreeViewerBackup backup )
 	{
 		this.backup = backup;
+	}
+
+	public ISelectionProvider getSelectionProvider( )
+	{
+		return getTreeViewer( );
 	}
 }
