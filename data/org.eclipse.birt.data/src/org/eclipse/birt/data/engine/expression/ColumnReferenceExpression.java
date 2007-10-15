@@ -87,6 +87,8 @@ public final class ColumnReferenceExpression extends CompiledExpression
 		
 		ColumnReferenceExpression expr2 = (ColumnReferenceExpression) other;
 		
+		if ( dataType != expr2.dataType )
+			return false;
 		if ( m_columnName != null )
 			return ( m_columnName.equals( expr2.m_columnName)); 
 		else 
