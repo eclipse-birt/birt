@@ -366,7 +366,7 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 		// deactivate the current cell editor
 		if ( cellEditor != null )
 		{
-			applyValue( );
+			//applyValue( );
 			deactivateCellEditor( );
 		}
 

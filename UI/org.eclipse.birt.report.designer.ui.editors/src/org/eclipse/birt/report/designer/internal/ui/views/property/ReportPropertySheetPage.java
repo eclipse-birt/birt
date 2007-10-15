@@ -403,7 +403,7 @@ public class ReportPropertySheetPage extends Page implements
 		// deactivate the current cell editor
 		if ( cellEditor != null )
 		{
-			applyValue( );
+			//applyValue( );
 			deactivateCellEditor( );
 		}
 
