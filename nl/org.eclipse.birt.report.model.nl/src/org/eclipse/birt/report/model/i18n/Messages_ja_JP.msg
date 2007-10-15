@@ -420,6 +420,7 @@ Choices.columnDataType.table=テーブル
 Choices.columnDataType.boolean=論理
 Choices.columnDataType.time=時間
 Choices.columnDataType.date=日付
+Choices.columnDataType.blob=Blob
 
 #54. searchType
 Choices.searchType.any=任意
@@ -3473,7 +3474,7 @@ Error.DesignParserException.INVALID_PROPERTY_SYNTAX=プロパティは、要素の属性とし
 Error.DesignParserException.UNDEFINED_PROPERTY=プロパティ "{0}" が定義されていません。
 Error.DesignParserException.UNSUPPORTED_ENCODING=この XML ファイルのエンコード型はサポートされていません。
 Error.DesignParserException.PROPERTY_IS_NOT_ENCRYPTABLE=プロパティ "{0}" を暗号化できません。
-Error.DesignParserException.UNSUPPORTED_VERSION=バージョン "{0}" のレポートファイルは使用できません。
+Error.DesignParserException.UNSUPPORTED_VERSION=The report file of version "{0}" is invalid for it is greater than the latest supported one.
 Error.DesignParserException.INVALID_VERSION=バージョン "{0}" のレポートは無効です。
 Error.DesignParserException.INVALID_ELEMENT_ID={0} の ID ({1}) が無効です。
 Error.DesignParserException.VIRTUAL_PARENT_NOT_FOUND=BaseID "{0}" が仮想の親要素を参照できないか、参照した親が親要素にありません。  

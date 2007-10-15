@@ -420,6 +420,7 @@ Choices.columnDataType.table=테이블
 Choices.columnDataType.boolean=부울
 Choices.columnDataType.time=시간
 Choices.columnDataType.date=날짜
+Choices.columnDataType.blob=Blob
 
 #54. searchType
 Choices.searchType.any=모두
@@ -3473,7 +3474,7 @@ Error.DesignParserException.INVALID_PROPERTY_SYNTAX=속성이 요소의 특성으로 정의�
 Error.DesignParserException.UNDEFINED_PROPERTY=속성 "{0}"이(가) 정의되지 않았습니다.
 Error.DesignParserException.UNSUPPORTED_ENCODING=이 XML 파일의 인코딩 형식은 지원되지 않습니다.
 Error.DesignParserException.PROPERTY_IS_NOT_ENCRYPTABLE=속성 "{0}"을(를) 암호화할 수 없습니다.
-Error.DesignParserException.UNSUPPORTED_VERSION=버전 "{0}"의 보고서 파일이 지원되지 않습니다.
+Error.DesignParserException.UNSUPPORTED_VERSION=The report file of version "{0}" is invalid for it is greater than the latest supported one.
 Error.DesignParserException.INVALID_VERSION=보고서 버전 "{0}"이(가) 잘못되었습니다.
 Error.DesignParserException.INVALID_ELEMENT_ID={0}의 ID {1}이(가) 잘못되었습니다.
 Error.DesignParserException.VIRTUAL_PARENT_NOT_FOUND=BaseID "{0}"은(는) 가상 부모나 부모에 없는 참조 부모를 참조할 수 없습니다.  

@@ -420,6 +420,7 @@ Choices.columnDataType.table=Tabelle
 Choices.columnDataType.boolean=Boolesch
 Choices.columnDataType.time=Time
 Choices.columnDataType.date=Datum
+Choices.columnDataType.blob=Blob
 
 #54. searchType
 Choices.searchType.any=Beliebig
@@ -3473,7 +3474,7 @@ Error.DesignParserException.INVALID_PROPERTY_SYNTAX=Die Eigenschaft muss als Att
 Error.DesignParserException.UNDEFINED_PROPERTY=Die Eigenschaft "{0}" ist nicht definiert.
 Error.DesignParserException.UNSUPPORTED_ENCODING=Das Codierungsformat dieser XML-Datei wird nicht unterstützt.
 Error.DesignParserException.PROPERTY_IS_NOT_ENCRYPTABLE=Die Eigenschaft "{0}"kann nicht verschlüsselt werden.
-Error.DesignParserException.UNSUPPORTED_VERSION=Die Berichtdatei für Version {0} wird nicht unterstützt.
+Error.DesignParserException.UNSUPPORTED_VERSION=The report file of version "{0}" is invalid for it is greater than the latest supported one.
 Error.DesignParserException.INVALID_VERSION=Die Berichtversion {0} ist ungültig.
 Error.DesignParserException.INVALID_ELEMENT_ID=Die ID {1} in {0} ist ungültig.
 Error.DesignParserException.VIRTUAL_PARENT_NOT_FOUND=BaseID "{0}" kann nicht auf ein virtuelles übergeordnetes Element verweisen, oder das angegebene Element befindet sich nicht im übergeordneten Element.  
