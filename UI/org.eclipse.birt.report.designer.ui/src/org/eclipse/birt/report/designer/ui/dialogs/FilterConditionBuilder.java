@@ -26,7 +26,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
-import org.eclipse.birt.report.designer.ui.widget.PopupSelectionList;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
@@ -67,8 +66,6 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -78,7 +75,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
@@ -111,6 +107,9 @@ public class FilterConditionBuilder extends TitleAreaDialog
 	protected Label label1, label2;
 
 	protected List valueList = new ArrayList( );
+	
+	protected List selValueList = new ArrayList( );
+	
 	/**
 	 * Usable operators for building map rule conditions.
 	 */
@@ -187,7 +186,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 	{
 		IChoiceSet chset = ChoiceSetFactory.getStructChoiceSet( FilterCondition.FILTER_COND_STRUCT,
 				FilterCondition.OPERATOR_MEMBER );
-		IChoice[] chs = chset.getChoices( new AlphabeticallyComparator() );
+		IChoice[] chs = chset.getChoices( new AlphabeticallyComparator( ) );
 		OPERATOR = new String[chs.length][2];
 
 		for ( int i = 0; i < chs.length; i++ )
@@ -245,8 +244,8 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		{
 			return 2;
 		}
-		else if ( DesignChoiceConstants.FILTER_OPERATOR_IN.equals( operatorValue ) 
-			|| DesignChoiceConstants.FILTER_OPERATOR_NOT_IN.equals( operatorValue ))
+		else if ( DesignChoiceConstants.FILTER_OPERATOR_IN.equals( operatorValue )
+				|| DesignChoiceConstants.FILTER_OPERATOR_NOT_IN.equals( operatorValue ) )
 		{
 			return 3;
 		}
@@ -294,16 +293,11 @@ public class FilterConditionBuilder extends TitleAreaDialog
 
 	protected Combo expression, operator;
 
-	protected Button valBuilder1, valBuilder2;
-
 	protected Button addBtn, editBtn, delBtn, delAllBtn;
 
-	protected ExpressionValue expressionValue1, expressionValue2,
-			addExpressionValue;
+	protected Combo expressionValue1, expressionValue2, addExpressionValue;
 
 	protected Composite valueListComposite;
-
-	protected Text value1, value2;
 
 	protected Label andLable;
 
@@ -360,14 +354,14 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		anotherParent.setLayoutData( gd );
 		GridLayout glayout = new GridLayout( 4, false );
 		anotherParent.setLayout( glayout );
-		
+
 		Label lb = new Label( anotherParent, SWT.NONE );
 		lb.setText( Messages.getString( "FilterConditionBuilder.text.Condition" ) ); //$NON-NLS-1$
 
-		Label lb2 = new Label(anotherParent, SWT.NONE);
-		lb2.setLayoutData( new GridData(GridData.FILL_HORIZONTAL) );
-		
-		new Label(anotherParent, SWT.NONE);
+		Label lb2 = new Label( anotherParent, SWT.NONE );
+		lb2.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
+		new Label( anotherParent, SWT.NONE );
 
 		Composite condition = new Composite( innerParent, SWT.NONE );
 		gd = new GridData( GridData.FILL_BOTH );
@@ -440,6 +434,147 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		lb.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 	}
 
+	
+	protected Listener expValueVerifyListener = new Listener( ) {
+
+		public void handleEvent( Event event )
+		{
+			// TODO Auto-generated method stub
+			Combo thisCombo = (Combo) event.widget;
+			String text = event.text;
+			if(text != null && thisCombo.indexOf( text)>= 0)
+			{
+				event.doit = false;
+			}else
+			{
+				event.doit = true;
+			}
+		}};
+	
+	private Listener expValueSelectionListener = new Listener( ) {
+
+		public void handleEvent( Event event )
+		{
+			// TODO Auto-generated method stub
+			Combo thisCombo = (Combo) event.widget;
+			int selectionIndex = thisCombo.getSelectionIndex( );
+			if(selectionIndex < 0)
+			{
+				return;
+			}
+			String value = popupItems[selectionIndex];
+
+			bindingName = null;
+			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
+			{
+				String columnName = ( (ComputedColumnHandle) ( iter.next( ) ) ).getName( );
+				if ( DEUtil.getColumnExpression( columnName )
+						.equals( expression.getText( ) ) )
+				{
+					bindingName = columnName;
+					break;
+				}
+			}
+
+			if ( value != null )
+			{
+				String newValue = null;
+				if ( value.equals( ( actions[0] ) ) )
+				{
+					if ( bindingName != null )
+					{
+						try
+						{
+							List selectValueList = getSelectValueList( );
+							SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
+									.getDisplay( )
+									.getActiveShell( ),
+									Messages.getString( "ExpressionValueCellEditor.title" ) ); //$NON-NLS-1$
+							dialog.setSelectedValueList( selectValueList );
+							if ( bindingParams != null )
+							{
+								dialog.setBindingParams( bindingParams );
+							}
+							if ( dialog.open( ) == IDialogConstants.OK_ID )
+							{
+								newValue = dialog.getSelectedExprValue( );
+							}
+						}
+						catch ( Exception ex )
+						{
+							MessageDialog.openError( null,
+									Messages.getString( "SelectValueDialog.selectValue" ),
+									Messages.getString( "SelectValueDialog.messages.error.selectVauleUnavailable" )
+											+ "\n"
+											+ ex.getMessage( ) );
+						}
+					}
+					else if ( designHandle instanceof TabularCubeHandle )
+					{
+						DataSetHandle dataSet = ( (TabularCubeHandle) designHandle ).getDataSet( );
+						String expressionString = expression.getText( );
+						try
+						{
+							List selectValueList = SelectValueFetcher.getSelectValueList( expressionString,
+									dataSet );
+							SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
+									.getDisplay( )
+									.getActiveShell( ),
+									Messages.getString( "ExpressionValueCellEditor.title" ) ); //$NON-NLS-1$
+							dialog.setSelectedValueList( selectValueList );
+							if ( dialog.open( ) == IDialogConstants.OK_ID )
+							{
+								newValue = dialog.getSelectedExprValue( );
+							}
+
+						}
+						catch ( BirtException e1 )
+						{
+							// TODO Auto-generated catch block
+							MessageDialog.openError( null,
+									Messages.getString( "SelectValueDialog.selectValue" ),
+									Messages.getString( "SelectValueDialog.messages.error.selectVauleUnavailable" )
+											+ "\n"
+											+ e1.getMessage( ) );
+						}
+					}
+					else
+					{
+						MessageDialog.openInformation( null,
+								Messages.getString( "SelectValueDialog.selectValue" ),
+								Messages.getString( "SelectValueDialog.messages.info.selectVauleUnavailable" ) );
+					}
+				}
+				else if ( value.equals( actions[1] ) )
+				{
+					ExpressionBuilder dialog = new ExpressionBuilder( PlatformUI.getWorkbench( )
+							.getDisplay( )
+							.getActiveShell( ),
+							thisCombo.getText( ) );
+
+					if ( expressionProvider == null )
+						dialog.setExpressionProvier( new ExpressionProvider( designHandle ) );
+					else
+						dialog.setExpressionProvier( expressionProvider );
+
+					if ( dialog.open( ) == IDialogConstants.OK_ID )
+					{
+						newValue = dialog.getResult( );
+					}
+				}
+				else if ( selectionIndex > 3 )
+				{
+					newValue = "params[\"" + value + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
+				}
+				if ( newValue != null )
+				{
+					thisCombo.setText( newValue );
+				}
+			}
+		}
+
+	};
+
 	private void create2ValueComposite( Composite condition )
 	{
 
@@ -454,9 +589,24 @@ public class FilterConditionBuilder extends TitleAreaDialog
 			valueListComposite = null;
 		}
 
-		expressionValue1 = new ExpressionValue( condition, SWT.NONE, expression );
-		value1 = expressionValue1.getValueText( );
-		valBuilder1 = expressionValue1.getPopupButton( );
+		GridData expgd = new GridData();
+		expgd.widthHint = 100;
+		
+		expressionValue1 = new Combo( condition, SWT.NONE );
+		expressionValue1.setLayoutData( expgd );
+		expressionValue1.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				updateButtons( );
+			}
+		} );
+		
+		expressionValue1.addListener( SWT.Verify, expValueVerifyListener );
+		expressionValue1.addListener( SWT.Selection, expValueSelectionListener );		
+		
+		refreshList( );
+		expressionValue1.setItems( popupItems );
 
 		dummy1 = createDummy( condition, 3 );
 
@@ -466,12 +616,22 @@ public class FilterConditionBuilder extends TitleAreaDialog
 
 		dummy2 = createDummy( condition, 3 );
 
-		expressionValue2 = new ExpressionValue( condition, SWT.NONE, expression );
-		value2 = expressionValue2.getValueText( );
-		valBuilder2 = expressionValue2.getPopupButton( );
+		expressionValue2 = new Combo( condition, SWT.NONE );
+		expressionValue2.setLayoutData( expgd );
+		expressionValue2.addModifyListener( new ModifyListener( ) {
 
-		value2.setVisible( false );
-		valBuilder2.setVisible( false );
+			public void modifyText( ModifyEvent e )
+			{
+				updateButtons( );
+			}
+		} );
+		
+		expressionValue2.addListener( SWT.Verify, expValueVerifyListener );
+		expressionValue2.addListener( SWT.Selection, expValueSelectionListener );
+
+		expressionValue2.setItems( popupItems );
+
+		expressionValue2.setVisible( false );
 
 		if ( operator.getItemCount( ) > 0
 				&& operator.getSelectionIndex( ) == -1 )
@@ -511,15 +671,14 @@ public class FilterConditionBuilder extends TitleAreaDialog
 
 		valueListComposite = new Composite( parent, SWT.NONE );
 		GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
-		gdata.widthHint = 300;
 		gdata.horizontalSpan = 4;
 		valueListComposite.setLayoutData( gdata );
 		GridLayout layout = new GridLayout( );
 		layout.numColumns = 4;
 		valueListComposite.setLayout( layout );
 
-		Group group = new Group(valueListComposite, SWT.NONE);
-		GridData data = new GridData( );
+		Group group = new Group( valueListComposite, SWT.NONE );
+		GridData data = new GridData( GridData.FILL_HORIZONTAL);
 		data.heightHint = 118;
 		data.horizontalSpan = 3;
 		data.horizontalIndent = 0;
@@ -528,22 +687,15 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		group.setLayoutData( data );
 		layout = new GridLayout( );
 		layout.numColumns = 4;
-		group.setLayout( layout);
-		
-		new Label(group, SWT.NONE).setText( Messages.getString( "FilterConditionBuilder.label.value" ));
-		
-		addExpressionValue = new ExpressionValue( group,
-				SWT.NONE,
-				expression );
+		group.setLayout( layout );
 
-		addExpressionValue.getValueText( )
-				.addModifyListener( new ModifyListener( ) {
+		new Label( group, SWT.NONE ).setText( Messages.getString( "FilterConditionBuilder.label.value" ) );
 
-					public void modifyText( ModifyEvent e )
-					{
-						checkAddButtonStatus( );
-					}
-				} );
+		GridData expgd = new GridData();
+		expgd.widthHint = 100;
+		
+		addExpressionValue = new Combo( group, SWT.NONE );
+		addExpressionValue.setLayoutData( expgd );
 
 		addBtn = new Button( group, SWT.PUSH );
 		addBtn.setText( Messages.getString( "FilterConditionBuilder.button.add" ) );
@@ -560,14 +712,14 @@ public class FilterConditionBuilder extends TitleAreaDialog
 			public void widgetSelected( SelectionEvent e )
 			{
 				// TODO Auto-generated method stub
-				String value = addExpressionValue.getValueText( ).getText( ).trim( );
+				String value = addExpressionValue.getText( ).trim( );
 				if ( valueList.indexOf( value ) < 0 )
 				{
 					valueList.add( value );
 					tableViewer.refresh( );
 					updateButtons( );
-					addExpressionValue.getValueText( ).setFocus( );
-					addExpressionValue.getValueText( ).setText( "" );
+					addExpressionValue.setFocus( );
+					addExpressionValue.setText( "" );
 				}
 				else
 				{
@@ -575,17 +727,17 @@ public class FilterConditionBuilder extends TitleAreaDialog
 				}
 
 			}
-		} );		
-		
-		new Label(group, SWT.NONE);
-		
+		} );
+
+		new Label( group, SWT.NONE );
+
 		int tableStyle = SWT.SINGLE
 				| SWT.BORDER
 				| SWT.H_SCROLL
 				| SWT.V_SCROLL
 				| SWT.FULL_SELECTION;
-		table = new Table(group , tableStyle );
-		data = new GridData( GridData.FILL_VERTICAL);
+		table = new Table( group, tableStyle );
+		data = new GridData( GridData.FILL_VERTICAL );
 		data.horizontalSpan = 4;
 		table.setLayoutData( data );
 
@@ -597,7 +749,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 			Messages.getString( "FilterConditionBuilder.list.item1" ),
 		};
 		int[] columLength = new int[]{
-			278
+			288
 		};
 		for ( i = 0; i < columNames.length; i++ )
 		{
@@ -702,11 +854,11 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		tableViewer.setContentProvider( tableContentProvider );
 
 		Composite rightPart = new Composite( valueListComposite, SWT.NONE );
-		data = new GridData( GridData.FILL_BOTH | GridData.VERTICAL_ALIGN_END );		
+		data = new GridData( GridData.FILL_BOTH | GridData.VERTICAL_ALIGN_END );
 		rightPart.setLayoutData( data );
 		layout = new GridLayout( );
-		layout.makeColumnsEqualWidth = true;		
-		rightPart.setLayout( layout );		
+		layout.makeColumnsEqualWidth = true;
+		rightPart.setLayout( layout );
 
 		editBtn = new Button( rightPart, SWT.PUSH );
 		editBtn.setText( Messages.getString( "FilterConditionBuilder.button.edit" ) );
@@ -827,7 +979,20 @@ public class FilterConditionBuilder extends TitleAreaDialog
 
 		} );
 
+		addExpressionValue.addModifyListener( new ModifyListener( ) {
 
+			public void modifyText( ModifyEvent e )
+			{
+				checkAddButtonStatus( );
+				updateButtons( );
+			}
+		} );
+
+		addExpressionValue.addListener( SWT.Verify, expValueVerifyListener);
+		addExpressionValue.addListener( SWT.Selection,
+				expValueSelectionListener );
+		refreshList( );
+		addExpressionValue.setItems( popupItems );
 
 		parent.getParent( ).layout( true, true );
 
@@ -930,34 +1095,28 @@ public class FilterConditionBuilder extends TitleAreaDialog
 				create2ValueComposite( operator.getParent( ) );
 				if ( inputHandle != null )
 				{
-					value1.setText( DEUtil.resolveNull( inputHandle.getValue1( ) ) );
-					value2.setText( DEUtil.resolveNull( inputHandle.getValue2( ) ) );
+					expressionValue1.setText( DEUtil.resolveNull( inputHandle.getValue1( ) ) );
+					expressionValue2.setText( DEUtil.resolveNull( inputHandle.getValue2( ) ) );
 				}
 
 			}
 
 			if ( valueVisible == 0 )
 			{
-				value1.setVisible( false );
-				valBuilder1.setVisible( false );
-				value2.setVisible( false );
-				valBuilder2.setVisible( false );
+				expressionValue1.setVisible( false );
+				expressionValue2.setVisible( false );
 				andLable.setVisible( false );
 			}
 			else if ( valueVisible == 1 )
 			{
-				value1.setVisible( true );
-				valBuilder1.setVisible( true );
-				value2.setVisible( false );
-				valBuilder2.setVisible( false );
+				expressionValue1.setVisible( true );
+				expressionValue2.setVisible( false );
 				andLable.setVisible( false );
 			}
 			else if ( valueVisible == 2 )
 			{
-				value1.setVisible( true );
-				valBuilder1.setVisible( true );
-				value2.setVisible( true );
-				valBuilder2.setVisible( true );
+				expressionValue1.setVisible( true );
+				expressionValue2.setVisible( true );
 				andLable.setVisible( true );
 			}
 			updateButtons( );
@@ -1082,11 +1241,11 @@ public class FilterConditionBuilder extends TitleAreaDialog
 	{
 		operator.setEnabled( val );
 		if ( valueVisible != 3 )
-		{			
-			value1.setEnabled( val );
-			value2.setEnabled( val );
-			valBuilder1.setEnabled( val );
-			valBuilder2.setEnabled( val );
+		{
+			if ( expressionValue1 != null )
+				expressionValue1.setEnabled( val );
+			if ( expressionValue2 != null )
+				expressionValue2.setEnabled( val );
 		}
 		else
 		{
@@ -1176,22 +1335,22 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		}
 		else
 		{
-			assert ( !value1.isDisposed( ) );
-			assert ( !value2.isDisposed( ) );
+			assert ( !expressionValue1.isDisposed( ) );
+			assert ( !expressionValue2.isDisposed( ) );
 
-			if ( value1.getVisible( ) )
+			if ( expressionValue1.getVisible( ) )
 			{
-				if ( value1.getText( ) == null
-						|| value1.getText( ).trim( ).length( ) == 0 )
+				if ( expressionValue1.getText( ) == null
+						|| expressionValue1.getText( ).trim( ).length( ) == 0 )
 				{
 					return false;
 				}
 			}
 
-			if ( value2.getVisible( ) )
+			if ( expressionValue2.getVisible( ) )
 			{
-				if ( value2.getText( ) == null
-						|| value2.getText( ).trim( ).length( ) == 0 )
+				if ( expressionValue2.getText( ) == null
+						|| expressionValue2.getText( ).trim( ).length( ) == 0 )
 				{
 					return false;
 				}
@@ -1203,28 +1362,37 @@ public class FilterConditionBuilder extends TitleAreaDialog
 
 	protected void checkAddButtonStatus( )
 	{
-		String value = addExpressionValue.getValueText( ).getText( );
-		if ( value == null || value.length( ) == 0 || value.trim( ).length( ) == 0)
+		if ( addExpressionValue != null )
 		{
-			addBtn.setEnabled( false );
-			return;
-		}
-		if(value != null)
-		{
-			value = value.trim( );
-		}
-		if ( valueList.indexOf( value ) < 0 )
-		{
-			addBtn.setEnabled( true );
-		}
-		else
-		{
-			addBtn.setEnabled( false );
+			String value = addExpressionValue.getText( );
+			if ( value == null
+					|| value.length( ) == 0
+					|| value.trim( ).length( ) == 0 )
+			{
+				addBtn.setEnabled( false );
+				return;
+			}
+			if ( value != null )
+			{
+				value = value.trim( );
+			}
+			if ( valueList.indexOf( value ) < 0 )
+			{
+				addBtn.setEnabled( true );
+			}
+			else
+			{
+				addBtn.setEnabled( false );
+			}
 		}
 	}
 
 	protected void checkEditDelButtonStatus( )
 	{
+		if ( tableViewer == null )
+		{
+			return;
+		}
 		boolean enabled = ( tableViewer.getSelection( ) == null ) ? false
 				: true;
 		if ( enabled == true
@@ -1263,32 +1431,27 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		else
 		{
 			create2ValueComposite( operator.getParent( ) );
-			value1.setText( DEUtil.resolveNull( inputHandle.getValue1( ) ) );
-			value2.setText( DEUtil.resolveNull( inputHandle.getValue2( ) ) );
+			expressionValue1.setText( DEUtil.resolveNull( inputHandle.getValue1( ) ) );
+			expressionValue2.setText( DEUtil.resolveNull( inputHandle.getValue2( ) ) );
 		}
 
 		if ( valueVisible == 0 )
 		{
-			value1.setVisible( false );
-			valBuilder1.setVisible( false );
-			value2.setVisible( false );
-			valBuilder2.setVisible( false );
+			expressionValue1.setVisible( false );
+			expressionValue2.setVisible( false );
 			andLable.setVisible( false );
 		}
 		else if ( valueVisible == 1 )
 		{
-			value1.setVisible( true );
-			valBuilder1.setVisible( true );
-			value2.setVisible( false );
-			valBuilder2.setVisible( false );
+			expressionValue1.setVisible( true );
+			expressionValue2.setVisible( false );
+
 			andLable.setVisible( false );
 		}
 		else if ( valueVisible == 2 )
 		{
-			value1.setVisible( true );
-			valBuilder1.setVisible( true );
-			value2.setVisible( true );
-			valBuilder2.setVisible( true );
+			expressionValue1.setVisible( true );
+			expressionValue2.setVisible( true );;
 			andLable.setVisible( true );
 		}
 		else if ( valueVisible == 3 )
@@ -1326,12 +1489,12 @@ public class FilterConditionBuilder extends TitleAreaDialog
 				}
 				else
 				{
-					assert ( !value1.isDisposed( ) );
-					assert ( !value2.isDisposed( ) );
-					filter.setValue1( DEUtil.resolveNull( value1.getText( ) ) );
-					if ( value2.getVisible( ) )
+					assert ( !expressionValue1.isDisposed( ) );
+					assert ( !expressionValue2.isDisposed( ) );
+					filter.setValue1( DEUtil.resolveNull( expressionValue1.getText( ) ) );
+					if ( expressionValue2.getVisible( ) )
 					{
-						filter.setValue2( DEUtil.resolveNull( value2.getText( ) ) );
+						filter.setValue2( DEUtil.resolveNull( expressionValue2.getText( ) ) );
 					}
 				}
 
@@ -1350,20 +1513,20 @@ public class FilterConditionBuilder extends TitleAreaDialog
 				}
 				else
 				{
-					assert ( !value1.isDisposed( ) );
-					assert ( !value2.isDisposed( ) );
-					if ( value1.getVisible( ) )
+					assert ( !expressionValue1.isDisposed( ) );
+					assert ( !expressionValue2.isDisposed( ) );
+					if ( expressionValue1.getVisible( ) )
 					{
-						inputHandle.setValue1( DEUtil.resolveNull( value1.getText( ) ) );
+						inputHandle.setValue1( DEUtil.resolveNull( expressionValue1.getText( ) ) );
 					}
 					else
 					{
 						inputHandle.setValue1( "" );
 					}
 
-					if ( value2.getVisible( ) )
+					if ( expressionValue2.getVisible( ) )
 					{
-						inputHandle.setValue2( DEUtil.resolveNull( value2.getText( ) ) );
+						inputHandle.setValue2( DEUtil.resolveNull( expressionValue2.getText( ) ) );
 					}
 					else
 					{
@@ -1486,239 +1649,6 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		}
 		updateButtons( );
 		return super.open( );
-	}
-
-	private class ExpressionValue
-	{
-
-		Text valueText;
-		Button btnPopup;
-
-		Text getValueText( )
-		{
-			return valueText;
-		}
-
-		public void dispose( )
-		{
-			if ( isDisposed( ) )
-			{
-				return;
-			}
-			Composite container = valueText.getParent( );
-			container.dispose( );
-
-			valueText = null;
-			btnPopup = null;
-		}
-
-		public boolean isDisposed( )
-		{
-			if ( valueText != null && !valueText.isDisposed( ) )
-			{
-				return false;
-			}
-			return true;
-		}
-
-		Button getPopupButton( )
-		{
-			return btnPopup;
-		}
-
-		ExpressionValue( Composite parent, int style, final Combo expressionText )
-		{
-			Composite composite = new Composite( parent, SWT.NONE );
-			composite.setLayout( new ExpressionLayout( ) );
-			GridData gdata = new GridData( GridData.END );
-			gdata.widthHint = 120;
-			gdata.heightHint = 20;
-			composite.setLayoutData( gdata );
-			// GridLayout layout = new GridLayout(2,false);
-			// composite.setLayout(layout);
-			valueText = createText( composite );
-			valueText.addModifyListener( new ModifyListener( ) {
-
-				public void modifyText( ModifyEvent e )
-				{
-					updateButtons( );
-				}
-			} );
-			btnPopup = new Button( composite, SWT.ARROW | SWT.DOWN );
-			btnPopup.addSelectionListener( new SelectionListener( ) {
-
-				public void widgetSelected( SelectionEvent e )
-				{
-					refreshList( );
-					Rectangle textBounds = valueText.getBounds( );
-					Point pt = valueText.toDisplay( textBounds.x, textBounds.y );
-					Rectangle rect = new Rectangle( pt.x,
-							pt.y,
-							valueText.getParent( ).getBounds( ).width,
-							textBounds.height );
-
-					PopupSelectionList popup = new PopupSelectionList( valueText.getParent( )
-							.getShell( ) );
-					popup.setItems( popupItems );
-					String value = popup.open( rect );
-					int selectionIndex = popup.getSelectionIndex( );
-
-					bindingName = null;
-					for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
-					{
-						String columnName = ( (ComputedColumnHandle) ( iter.next( ) ) ).getName( );
-						if ( DEUtil.getColumnExpression( columnName )
-								.equals( expressionText.getText( ) ) )
-						{
-							bindingName = columnName;
-							break;
-						}
-					}
-
-					if ( value != null )
-					{
-						String newValue = null;
-						if ( value.equals( ( actions[0] ) ) )
-						{
-							if ( bindingName != null )
-							{
-								try
-								{
-									List selectValueList = getSelectValueList( );
-									SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
-											.getDisplay( )
-											.getActiveShell( ),
-											Messages.getString( "ExpressionValueCellEditor.title" ) ); //$NON-NLS-1$
-									dialog.setSelectedValueList( selectValueList );
-									if ( bindingParams != null )
-									{
-										dialog.setBindingParams( bindingParams );
-									}
-									if ( dialog.open( ) == IDialogConstants.OK_ID )
-									{
-										newValue = dialog.getSelectedExprValue( );
-									}
-								}
-								catch ( Exception ex )
-								{
-									MessageDialog.openError( null,
-											Messages.getString( "SelectValueDialog.selectValue" ),
-											Messages.getString( "SelectValueDialog.messages.error.selectVauleUnavailable" )
-													+ "\n"
-													+ ex.getMessage( ) );
-								}
-							}
-							else if ( designHandle instanceof TabularCubeHandle )
-							{
-								DataSetHandle dataSet = ( (TabularCubeHandle) designHandle ).getDataSet( );
-								String expression = expressionText.getText( );
-								try
-								{
-									List selectValueList = SelectValueFetcher.getSelectValueList( expression,
-											dataSet );
-									SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
-											.getDisplay( )
-											.getActiveShell( ),
-											Messages.getString( "ExpressionValueCellEditor.title" ) ); //$NON-NLS-1$
-									dialog.setSelectedValueList( selectValueList );
-									if ( dialog.open( ) == IDialogConstants.OK_ID )
-									{
-										newValue = dialog.getSelectedExprValue( );
-									}
-
-								}
-								catch ( BirtException e1 )
-								{
-									// TODO Auto-generated catch block
-									MessageDialog.openError( null,
-											Messages.getString( "SelectValueDialog.selectValue" ),
-											Messages.getString( "SelectValueDialog.messages.error.selectVauleUnavailable" )
-													+ "\n"
-													+ e1.getMessage( ) );
-								}
-							}
-							else
-							{
-								MessageDialog.openInformation( null,
-										Messages.getString( "SelectValueDialog.selectValue" ),
-										Messages.getString( "SelectValueDialog.messages.info.selectVauleUnavailable" ) );
-							}
-						}
-						else if ( value.equals( actions[1] ) )
-						{
-							ExpressionBuilder dialog = new ExpressionBuilder( PlatformUI.getWorkbench( )
-									.getDisplay( )
-									.getActiveShell( ),
-									valueText.getText( ) );
-
-							if ( expressionProvider == null )
-								dialog.setExpressionProvier( new ExpressionProvider( designHandle ) );
-							else
-								dialog.setExpressionProvier( expressionProvider );
-
-							if ( dialog.open( ) == IDialogConstants.OK_ID )
-							{
-								newValue = dialog.getResult( );
-							}
-						}
-						else if ( selectionIndex > 3 )
-						{
-							newValue = "params[\"" + value + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
-						}
-						if ( newValue != null )
-						{
-							valueText.setText( newValue );
-						}
-					}
-				}
-
-				public void widgetDefaultSelected( SelectionEvent e )
-				{
-					// TODO Auto-generated method stub
-
-				}
-
-			} );
-
-		}
-
-		private class ExpressionLayout extends Layout
-		{
-
-			public void layout( Composite editor, boolean force )
-			{
-				Rectangle bounds = editor.getClientArea( );
-				Point size = btnPopup.computeSize( SWT.DEFAULT,
-						SWT.DEFAULT,
-						force );
-				valueText.setBounds( 0, 0, bounds.width - size.x, bounds.height );
-				btnPopup.setBounds( bounds.width - size.x,
-						0,
-						size.x,
-						bounds.height );
-			}
-
-			public Point computeSize( Composite editor, int wHint, int hHint,
-					boolean force )
-			{
-				if ( wHint != SWT.DEFAULT && hHint != SWT.DEFAULT )
-					return new Point( wHint, hHint );
-				Point contentsSize = valueText.computeSize( SWT.DEFAULT,
-						SWT.DEFAULT,
-						force );
-				Point buttonSize = btnPopup.computeSize( SWT.DEFAULT,
-						SWT.DEFAULT,
-						force );
-				// Just return the button width to ensure the button is not
-				// clipped
-				// if the label is long.
-				// The label will just use whatever extra width there is
-				Point result = new Point( buttonSize.x,
-						Math.max( contentsSize.y, buttonSize.y ) );
-				return result;
-			}
-		}
-
 	}
 
 }
