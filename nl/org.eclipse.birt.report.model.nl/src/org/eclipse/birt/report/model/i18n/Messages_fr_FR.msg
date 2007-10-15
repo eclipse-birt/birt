@@ -423,6 +423,7 @@ Choices.columnDataType.table=Table
 Choices.columnDataType.boolean=Booléen
 Choices.columnDataType.time=Heure
 Choices.columnDataType.date=Date
+Choices.columnDataType.blob=Blob
 
 #54. searchType
 Choices.searchType.any=Indifférent
@@ -3476,7 +3477,7 @@ Error.DesignParserException.INVALID_PROPERTY_SYNTAX=La propriété doit être défin
 Error.DesignParserException.UNDEFINED_PROPERTY=La propriété "{0}" n''est pas définie.
 Error.DesignParserException.UNSUPPORTED_ENCODING=Le format de codage de ce fichier XML n'est pas pris en charge.
 Error.DesignParserException.PROPERTY_IS_NOT_ENCRYPTABLE=La propriété "{0}" ne peut pas être chiffrée.
-Error.DesignParserException.UNSUPPORTED_VERSION=Le fichier d''état de la version "{0}" n''est pas pris en charge.
+Error.DesignParserException.UNSUPPORTED_VERSION=The report file of version "{0}" is invalid for it is greater than the latest supported one.
 Error.DesignParserException.INVALID_VERSION=La version d''état "{0}" est incorrecte.
 Error.DesignParserException.INVALID_ELEMENT_ID=L''ID {1} dans {0} est incorrect.
 Error.DesignParserException.VIRTUAL_PARENT_NOT_FOUND=L''ID de base "{0}" ne peut pas référencer un élément parent virtuel ou l''élément parent référencé n''est pas l''élément parent.  
