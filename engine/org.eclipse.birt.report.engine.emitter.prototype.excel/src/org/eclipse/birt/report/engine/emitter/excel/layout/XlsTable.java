@@ -23,11 +23,6 @@ public class XlsTable extends XlsContainer
 		this(table, container.getStyle( ), container.getRule( ));
 	}
 	
-	public boolean isEmpty()
-	{
-		return false;
-	}
-	
 	public Rule getColumnRule(int column, int span)
 	{
 		int sp = getRule().getStart( );
