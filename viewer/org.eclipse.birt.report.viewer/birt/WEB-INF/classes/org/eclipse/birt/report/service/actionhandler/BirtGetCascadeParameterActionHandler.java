@@ -224,16 +224,29 @@ public class BirtGetCascadeParameterActionHandler
 				Object[] keyValue = new Object[params.size( )];
 
 				Set values = params.keySet( );
+				Object lastKey = null;
+
 				int i = 0;
 				for ( Iterator it = values.iterator( ); it.hasNext( ); )
 				{
-					keyValue[i] = params.get( it.next( ) );
+					lastKey = it.next( );
+					keyValue[i] = params.get( lastKey );
 					i++;
 				}
 
+				Object lastParamValue = params.get( lastKey );
+				Object lastParamDefValue = attrBean.getDefaultValues( ).get(
+						lastKey );
+
+				boolean keepDefValue = false;
+				if ( lastParamDefValue != null
+						&& lastParamDefValue.equals( lastParamValue ) )
+					keepDefValue = true;
+
 				paramList = doQueryCascadeParameterSelectionList(
 						remainingParamNames.get( 0 ).toString( ), design, group
-								.getName( ), keyValue, options, attrBean );
+								.getName( ), keyValue, options, attrBean,
+						keepDefValue );
 				ret.put( remainingParamNames.get( 0 ), paramList );
 			}
 		}
@@ -245,29 +258,22 @@ public class BirtGetCascadeParameterActionHandler
 	}
 
 	/**
-	 * Add default value into list
+	 * Prepare handle cascading parameter list
 	 * 
-	 * @param paramName
-	 * @param attrBean
+	 * @param parameter
+	 * @param defaultValue
+	 * @param defaultLabel
 	 * @return
 	 * @throws RemoteException
 	 * @throws ReportServiceException
 	 */
 	private List preHandleCascadeParameterSelectionList(
-			ParameterDefinition parameter, ViewerAttributeBean attrBean )
-			throws RemoteException, ReportServiceException
+			ParameterDefinition parameter, String defaultValue,
+			String defaultLabel ) throws RemoteException,
+			ReportServiceException
 	{
 		int index = 0;
 		List selectionList = new ArrayList( );
-		Object obj = attrBean.getDefaultValues( ).get( parameter.getName( ) );
-		String defaultValue = null;
-		String defaultLabel = null;
-		if ( obj != null )
-		{
-			defaultValue = DataUtil.getDisplayValue( obj );
-			defaultLabel = ParameterValidationUtil.getDisplayValue( null,
-					parameter.getPattern( ), obj, attrBean.getLocale( ) );
-		}
 
 		if ( defaultValue != null )
 		{
@@ -314,6 +320,7 @@ public class BirtGetCascadeParameterActionHandler
 	 * @param groupKeys
 	 * @param options
 	 * @param attrBean
+	 * @param keepDefValue
 	 * @return
 	 * @throws RemoteException
 	 * @throws ReportServiceException
@@ -321,16 +328,30 @@ public class BirtGetCascadeParameterActionHandler
 	private List doQueryCascadeParameterSelectionList( String paramName,
 			IViewerReportDesignHandle design, String groupName,
 			Object[] groupKeys, InputOptions options,
-			ViewerAttributeBean attrBean ) throws RemoteException,
-			ReportServiceException
+			ViewerAttributeBean attrBean, boolean keepDefValue )
+			throws RemoteException, ReportServiceException
 	{
 		// Get parameter definition object
 		ParameterDefinition parameter = attrBean
 				.findParameterDefinition( paramName );
 
+		String defaultValue = null;
+		String defaultLabel = null;
+		if ( keepDefValue )
+		{
+			Object obj = attrBean.getDefaultValues( )
+					.get( parameter.getName( ) );
+			if ( obj != null )
+			{
+				defaultValue = DataUtil.getDisplayValue( obj );
+				defaultLabel = ParameterValidationUtil.getDisplayValue( null,
+						parameter.getPattern( ), obj, attrBean.getLocale( ) );
+			}
+		}
+
 		// Add default value
 		List selectionList = preHandleCascadeParameterSelectionList( parameter,
-				attrBean );
+				defaultValue, defaultLabel );
 		int index = selectionList.size( );
 
 		Collection list = getReportService( )
@@ -376,6 +397,15 @@ public class BirtGetCascadeParameterActionHandler
 
 				if ( label != null )
 				{
+					// check whether equal to default value
+					if ( keepDefValue )
+					{
+						if ( displayValue.equals( defaultValue )
+								&& ( label.equals( defaultLabel ) || parameter
+										.isDistinct( ) ) )
+							continue;
+					}
+					
 					SelectItemChoice selectItemChoice = new SelectItemChoice( );
 					selectItemChoice.setLabel( label );
 					selectItemChoice.setValue( displayValue );
