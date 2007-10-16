@@ -43,6 +43,14 @@ interface IExprDataReader
 	boolean next( ) throws DataException;
 
 	/**
+	 * Move the cursor forward
+	 * 
+	 * @param index
+	 * @throws DataException
+	 */
+	void moveTo( int index ) throws DataException;
+
+	/**
 	 * @return value map of current row
 	 * @throws DataException
 	 */
