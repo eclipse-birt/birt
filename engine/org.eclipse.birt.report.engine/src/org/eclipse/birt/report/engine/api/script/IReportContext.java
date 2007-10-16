@@ -17,6 +17,7 @@ import java.util.Map;
 
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 /**
  * An interface used to share information between the event methods in
@@ -195,4 +196,10 @@ public interface IReportContext
 	 * <li><b>-1</b> default value for unknown task</li>
 	 */
 	int getTaskType();
+	
+	/**
+	 * get the report design handle.
+	 * @return report design handle
+	 */
+	ReportDesignHandle getDesignHandle( );
 }

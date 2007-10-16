@@ -21,6 +21,7 @@ import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 import com.ibm.icu.text.MessageFormat;
 
@@ -161,5 +162,10 @@ public class ReportContextImpl implements IReportContext
 			return task.getTaskType( );
 		}
 		return IEngineTask.TASK_UNKNOWN;
+	}
+	
+	public ReportDesignHandle getDesignHandle( )
+	{
+		return (ReportDesignHandle) getReportRunnable( ).getDesignHandle( );
 	}
 }
