@@ -54,8 +54,10 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 				|| !( getHost( ) instanceof ColumnEditPart )
 				|| getHost( ) == sourcePart
 				|| getHost( ).getParent( ) == sourcePart.getParent( ) )
-			return new org.eclipse.gef.commands.Command( ) {
-			};
+		{
+			this.connectionFeedback.invalidate( );
+			return new org.eclipse.gef.commands.Command( ) {};
+		}
 		ColumnEditPart targetPart = (ColumnEditPart) getHost( );
 		command.setTarget( targetPart );
 
@@ -64,10 +66,9 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 		return addJoinConditionCommand;
 	}
 
-
 	protected EditPart getSourceEditPart( )
 	{
-		return  getHost( );
+		return getHost( );
 	}
 
 	/*
