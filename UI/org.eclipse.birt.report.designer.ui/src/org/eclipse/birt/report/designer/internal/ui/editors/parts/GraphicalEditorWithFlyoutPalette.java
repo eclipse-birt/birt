@@ -86,6 +86,9 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.contexts.IContextActivation;
+import org.eclipse.ui.contexts.IContextService;
 
 /**
  * This class serves as a quick starting point for clients who are new to GEF.
@@ -98,6 +101,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		IColleague
 {
 
+	private static final String VIEW_CONTEXT_ID = "org.eclipse.birt.report.designer.internal.ui.editors.parts.graphicaleditorwithflyoutpalette.context";
 	private PaletteViewerProvider provider;
 	private FlyoutPaletteComposite splitter;
 	private CustomPalettePage page;
@@ -150,6 +154,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 			updateActions( editPartActionIDs );
 		}
 	};
+	private static IContextActivation contextActivation;
 
 	/**
 	 * Creates a PaletteViewerProvider that will be used to create palettes for
@@ -325,7 +330,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 				GroupRequest deleteReq = new GroupRequest( RequestConstants.REQ_DELETE );
 				deleteReq.setEditParts( objects );
 
-				List temp = TableUtil.filletCellModel(objects);
+				List temp = TableUtil.filletCellModel( objects );
 				List list = new ArrayList( );
 				for ( int i = 0; i < temp.size( ); i++ )
 				{
@@ -371,7 +376,6 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		// bPane = new ButtonPaneComposite( parent, 0, hasRuler( ) );
 		// parent = bPane;
 		// }
-
 		splitter = new FlyoutPaletteComposite( parent,
 				SWT.NONE,
 				getSite( ).getPage( ),
@@ -392,7 +396,16 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		{
 			splitter.setExternalViewer( page.getPaletteViewer( ) );
 			page = null;
-		}		
+		}
+		activateDesignerEditPart( );
+	}
+
+	private void activateDesignerEditPart( )
+	{
+		IContextService contextService = (IContextService) PlatformUI.getWorkbench( )
+				.getService( IContextService.class );
+		if ( contextActivation == null )
+			contextActivation = contextService.activateContext( VIEW_CONTEXT_ID );
 	}
 
 	/**
@@ -404,31 +417,47 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		SessionHandleAdapter.getInstance( )
 				.getMediator( )
 				.removeColleague( this );
-			
+
 		// remove selection listener
 
 		getSite( ).getWorkbenchWindow( )
 				.getSelectionService( )
 				.removeSelectionListener( getSelectionListener( ) );
 		// dispose the ActionRegistry (will dispose all actions)
-		super.dispose();
+		super.dispose( );
 		if ( splitter != null )
 			splitter.setExternalViewer( null );
 		splitter = null;
-		getSelectionActions().clear();
+		getSelectionActions( ).clear( );
 		getActionRegistry( ).dispose( );
-		List list = new ArrayList();
-		Iterator actions = getActionRegistry( ).getActions();
-		while (actions.hasNext()) {
-			IAction action = (IAction)actions.next();
-			list.add(action);
-			//getActionRegistry( ).removeAction(action);
-		}
-		for (int i=0;i<list.size(); i++)
+		List list = new ArrayList( );
+		Iterator actions = getActionRegistry( ).getActions( );
+		while ( actions.hasNext( ) )
 		{
-			getActionRegistry( ).removeAction((IAction)list.get(i));
+			IAction action = (IAction) actions.next( );
+			list.add( action );
+			// getActionRegistry( ).removeAction(action);
 		}
-		//( (ReportMultiPageEditorSite)getSite()).dispose();
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			getActionRegistry( ).removeAction( (IAction) list.get( i ) );
+		}
+		// ( (ReportMultiPageEditorSite)getSite()).dispose();
+		deActivateDesignerEditPart( );
+	}
+
+	private void deActivateDesignerEditPart( )
+	{
+		if ( !UIUtil.isReportEditorActivated( ) )
+		{
+			IContextService contextService = (IContextService) PlatformUI.getWorkbench( )
+					.getService( IContextService.class );
+			if ( contextActivation != null )
+			{
+				contextService.deactivateContext( contextActivation );
+				contextActivation = null;
+			}
+		}
 	}
 
 	/**
@@ -525,7 +554,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 	protected void createGraphicalViewer( Composite parent )
 	{
 		DeferredGraphicalViewer viewer = new DeferredGraphicalViewer( );
-		
+
 		viewer.createControl( parent );
 		setGraphicalViewer( viewer );
 		configureGraphicalViewer( );
@@ -778,7 +807,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 	 */
 	private List convertEventToGFE( ReportRequest event )
 	{
-		if ( event.getSource( ) == getGraphicalViewer())
+		if ( event.getSource( ) == getGraphicalViewer( ) )
 		{
 			return null;
 		}
@@ -795,7 +824,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 					.getRowHandleAdapter( handle );
 
 			Object tableParent = adapter.getTableParent( );
-			if (tableParent == null)
+			if ( tableParent == null )
 			{
 				return null;
 			}
@@ -865,25 +894,26 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 			else
 			{
 				Object part = null;
-//				if ( obj instanceof ReportElementModel )
-//				{
-//					obj = ( ( (ReportElementModel) obj ).getSlotHandle( ) );
-//					part = getGraphicalViewer( ).getEditPartRegistry( )
-//							.get( new ListBandProxy( (SlotHandle) obj ) );
-//				}else
-					if ( obj instanceof SlotHandle )
-					{
-						obj = ( (SlotHandle) obj );
-						part = getGraphicalViewer( ).getEditPartRegistry( )
-								.get( new ListBandProxy( (SlotHandle) obj ) );
-					}
+				// if ( obj instanceof ReportElementModel )
+				// {
+				// obj = ( ( (ReportElementModel) obj ).getSlotHandle( ) );
+				// part = getGraphicalViewer( ).getEditPartRegistry( )
+				// .get( new ListBandProxy( (SlotHandle) obj ) );
+				// }else
+				if ( obj instanceof SlotHandle )
+				{
+					obj = ( (SlotHandle) obj );
+					part = getGraphicalViewer( ).getEditPartRegistry( )
+							.get( new ListBandProxy( (SlotHandle) obj ) );
+				}
 				else
 				{
 					part = getGraphicalViewer( ).getEditPartRegistry( )
 							.get( obj );
-					if (part == null)
+					if ( part == null )
 					{
-						part = getInterestEditPart( getGraphicalViewer( ).getRootEditPart( ), obj );
+						part = getInterestEditPart( getGraphicalViewer( ).getRootEditPart( ),
+								obj );
 					}
 				}
 				if ( part instanceof EditPart )
@@ -900,21 +930,21 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 
 		return tempList;
 	}
-	
-	private EditPart getInterestEditPart(EditPart part, Object obj)
+
+	private EditPart getInterestEditPart( EditPart part, Object obj )
 	{
 		List chList = part.getChildren( );
-		for (int i=0; i<chList.size( ); i++)
+		for ( int i = 0; i < chList.size( ); i++ )
 		{
-			ReportElementEditPart reportEditPart = (ReportElementEditPart)chList.get( i );
-			if (reportEditPart.isinterestSelection( obj ))
+			ReportElementEditPart reportEditPart = (ReportElementEditPart) chList.get( i );
+			if ( reportEditPart.isinterestSelection( obj ) )
 			{
 				return reportEditPart;
 			}
 			else
 			{
-				EditPart retValue = getInterestEditPart(reportEditPart, obj);
-				if (retValue != null)
+				EditPart retValue = getInterestEditPart( reportEditPart, obj );
+				if ( retValue != null )
 				{
 					return retValue;
 				}
@@ -922,9 +952,11 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		}
 		return null;
 	}
+
 	public void setFocus( )
 	{
-		if(getGraphicalViewer()!=null && getGraphicalViewer().getControl()!=null)
+		if ( getGraphicalViewer( ) != null
+				&& getGraphicalViewer( ).getControl( ) != null )
 		{
 			super.setFocus( );
 		}

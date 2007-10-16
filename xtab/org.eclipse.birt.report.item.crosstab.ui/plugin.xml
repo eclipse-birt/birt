@@ -49,6 +49,7 @@
          point="org.eclipse.ui.bindings">
       <key
             commandId="org.eclipse.birt.report.item.crosstab.ui.createCrosstab"
+            contextId="org.eclipse.birt.report.designer.internal.ui.editors.parts.graphicaleditorwithflyoutpalette.context"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M1+R C">
       </key>

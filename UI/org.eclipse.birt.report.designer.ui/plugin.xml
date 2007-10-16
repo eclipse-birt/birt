@@ -368,4 +368,13 @@
          </adapter>
       </adaptable>
    </extension>
+   <extension
+	point="org.eclipse.ui.contexts">
+	<context
+		name="reportdesignereditpart.context"
+		id="org.eclipse.birt.report.designer.internal.ui.editors.parts.graphicaleditorwithflyoutpalette.context"
+		parentId="org.eclipse.ui.contexts.window">
+	</context>
+  </extension>
+   
 </plugin>
