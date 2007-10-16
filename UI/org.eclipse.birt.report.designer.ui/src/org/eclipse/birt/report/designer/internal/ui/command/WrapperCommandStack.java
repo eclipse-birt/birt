@@ -17,7 +17,6 @@ import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CommandStackListener;
 
-
 /**
  * @author David Michonneau
  * 
@@ -33,8 +32,7 @@ public class WrapperCommandStack extends org.eclipse.gef.commands.CommandStack
 
 	public WrapperCommandStack( )
 	{
-		this( SessionHandleAdapter.getInstance( )
-				.getCommandStack( ) );
+		this( SessionHandleAdapter.getInstance( ).getCommandStack( ) );
 	}
 
 	public WrapperCommandStack(
@@ -82,7 +80,12 @@ public class WrapperCommandStack extends org.eclipse.gef.commands.CommandStack
 
 	public void execute( Command command )
 	{
-		ar.startTrans( command.getLabel() );
+		if ( command == null )
+		{
+			return;
+		}
+		
+		ar.startTrans( command.getLabel( ) );
 		command.execute( );
 		ar.commit( );
 
@@ -112,10 +115,10 @@ public class WrapperCommandStack extends org.eclipse.gef.commands.CommandStack
 	public void addCommandStackListener( CommandStackListener listener )
 	{
 		// use addCommandStackListener(ActivityStackListener) instead
-		//this method will called by GEF.
-		//can't assert false.
-		//see bugzilla 147687
-//		assert false;
+		// this method will called by GEF.
+		// can't assert false.
+		// see bugzilla 147687
+		// assert false;
 	}
 
 	/*
@@ -127,7 +130,7 @@ public class WrapperCommandStack extends org.eclipse.gef.commands.CommandStack
 	public void removeCommandStackListener( CommandStackListener listener )
 	{
 		// use removeCommandStackListener(ActivityStackListener) instead
-//		assert false;
+		// assert false;
 	}
 
 	public void setActivityStack( CommandStack ar )
@@ -139,8 +142,8 @@ public class WrapperCommandStack extends org.eclipse.gef.commands.CommandStack
 	{
 		// TODO Auto-generated method stub
 		super.dispose( );
-		ar.flush();
-		ar.clearListeners();
+		ar.flush( );
+		ar.clearListeners( );
 		ar = null;
 	}
 }
