@@ -333,8 +333,11 @@ class ParameterUtil
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S"); //$NON-NLS-1$
 				return sdf.format( (Date)paramValue );
 			}
-			
-			return DataTypeUtil.toString( paramValue );
+			if( paramValue != null )
+			{
+				return paramValue.toString( );
+			}
+			return null;
 		}
 		catch ( BirtException e )
 		{
