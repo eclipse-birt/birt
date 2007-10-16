@@ -51,6 +51,7 @@
 					<include name="javax.servlet*.jar" />
 					<include name="org.apache.jasper*.jar" />
 					<include name="org.apache.commons.logging*.jar" />
+					<include name="org.apache.commons.el*.jar"/>
 				</fileset>
 				<pathelement path="${core.dir}/@dot" />
 			</classpath>
@@ -62,6 +63,7 @@
 					<include name="javax.servlet*.jar" />
 					<include name="org.apache.jasper*.jar" />
 					<include name="org.apache.commons.logging*.jar" />
+					<include name="org.apache.commons.el*.jar"/>
 					<include name="com.ibm.icu_*.jar" />
 				</fileset>
 				<pathelement path="${viewer.model.dir}/@dot" />

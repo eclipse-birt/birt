@@ -321,6 +321,7 @@
 				<include name="javax.servlet*.jar" />
 				<include name="org.apache.jasper*.jar" />
 				<include name="org.apache.commons.logging*.jar" />
+				<include name="org.apache.commons.el*.jar"/>
 			</fileset>
 		</classpath>
 	</taskdef>
@@ -334,6 +335,7 @@
 				<include name="javax.servlet*.jar" />
 				<include name="org.apache.jasper*.jar" />
 				<include name="org.apache.commons.logging*.jar" />
+				<include name="org.apache.commons.el*.jar"/>
 			</fileset>
 			<fileset dir="${birt.dir}/WEB-INF/lib">
 				<include name="*.jar" />
