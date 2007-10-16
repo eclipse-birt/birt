@@ -210,4 +210,32 @@ public class Memento implements IMemento
 		this.builder = builder;
 	}
 
+
+	public String[] getAttributeKeys( )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public Boolean getBoolean( String key )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public String getType( )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public void putBoolean( String key, boolean value )
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }
