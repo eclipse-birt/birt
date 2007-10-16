@@ -2,29 +2,22 @@
 package org.eclipse.birt.report.engine.emitter.excel.layout;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import org.eclipse.birt.core.format.DateFormatter;
-import org.eclipse.birt.core.format.NumberFormatter;
-import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.emitter.excel.Data;
 import org.eclipse.birt.report.engine.emitter.excel.DataCache;
+import org.eclipse.birt.report.engine.emitter.excel.ExcelUtil;
 import org.eclipse.birt.report.engine.emitter.excel.HyperlinkDef;
 import org.eclipse.birt.report.engine.emitter.excel.Span;
+import org.eclipse.birt.report.engine.emitter.excel.StyleBuilder;
 import org.eclipse.birt.report.engine.emitter.excel.StyleConstant;
 import org.eclipse.birt.report.engine.emitter.excel.StyleEngine;
 import org.eclipse.birt.report.engine.emitter.excel.StyleEntry;
-import org.eclipse.birt.report.engine.emitter.excel.ExcelUtil;
-import org.w3c.dom.css.CSSValue;
-import org.eclipse.birt.report.engine.content.IDataContent;
-import org.eclipse.birt.report.engine.ir.DataItemDesign;
 
 public class ExcelLayoutEngine
 {
@@ -266,7 +259,6 @@ public class ExcelLayoutEngine
 
 	public void addData( Object txt, IStyle style, HyperlinkDef link )
 	{
-
 		Rule rule = getCurrentContainer( ).getRule( );
 		StyleEntry entry = engine.getStyle( style, rule );
 		Data data = createData(txt, entry);
@@ -275,13 +267,22 @@ public class ExcelLayoutEngine
 
 		addData( data );
 	}
+	
+	public void addCaption(String text) {
+		Rule rule = getCurrentContainer( ).getRule( );
+		StyleEntry entry = StyleBuilder.createEmptyStyleEntry( );
+		entry.setProperty( StyleEntry.H_ALIGN_PROP, "Center" );
+		Data data = createData(text, entry);		
+		data.setRule( rule );
 
+		addData( data );		
+	}	
+	
 	public Data createData( Object txt, StyleEntry entry )
 	{
 
 		if ( ExcelUtil.getType( txt ).equals( Data.NUMBER ) )
 		{
-
 			String format = ExcelUtil.getPattern( txt, entry
 					.getProperty( StyleConstant.NUMBER_FORMAT_PROP ) );
 			entry.setProperty( StyleConstant.NUMBER_FORMAT_PROP, format );

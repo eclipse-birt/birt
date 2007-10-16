@@ -6,13 +6,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.List;
-import java.util.ArrayList;
 
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
-import org.eclipse.birt.report.engine.api.RenderOptionBase;
+import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.impl.Action;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
@@ -32,20 +32,18 @@ import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
+import org.eclipse.birt.report.engine.emitter.excel.chart.ChartConverter;
 import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelLayoutEngine;
 import org.eclipse.birt.report.engine.emitter.excel.layout.LayoutUtil;
 import org.eclipse.birt.report.engine.emitter.excel.layout.PageDef;
 import org.eclipse.birt.report.engine.emitter.excel.layout.Rule;
 import org.eclipse.birt.report.engine.emitter.excel.layout.TableInfo;
-import org.eclipse.birt.report.engine.emitter.excel.chart.ChartConverter;
-import org.eclipse.birt.report.engine.ir.DataItemDesign;
-import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
+import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.StyledElementDesign;
 import org.eclipse.birt.report.engine.layout.pdf.util.HTML2Content;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 public class ExcelEmitter extends ContentEmitterAdapter
 {
@@ -75,7 +73,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		if ( service != null )
 		{
 			Object fd = this.service
-					.getOption( RenderOptionBase.OUTPUT_FILE_NAME );
+					.getOption( IRenderOption.OUTPUT_FILE_NAME );
 			File file = null;
 
 			if ( fd != null )
@@ -100,7 +98,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		if ( out == null )
 		{
 			Object val = this.service
-					.getOption( RenderOptionBase.OUTPUT_STREAM );
+					.getOption( IRenderOption.OUTPUT_STREAM );
 			if ( val != null && val instanceof OutputStream )
 			{
 				out = (OutputStream) val;
@@ -136,6 +134,13 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		
 		if( info == null ) {
 		   return;	
+		}
+		
+		String caption = table.getCaption( );
+		
+		if(caption != null) 
+		{			
+			engine.addCaption( caption );
 		}
 		
 		engine.addTable( info, table.getComputedStyle( ));
@@ -353,7 +358,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 			{
 				Action act = new Action( linkaction );
 				IHTMLActionHandler actionHandler = null;
-				Object ac = service.getOption( RenderOptionBase.ACTION_HANDLER );
+				Object ac = service.getOption( IRenderOption.ACTION_HANDLER );
 
 				if ( ac != null && ac instanceof IHTMLActionHandler )
 				{

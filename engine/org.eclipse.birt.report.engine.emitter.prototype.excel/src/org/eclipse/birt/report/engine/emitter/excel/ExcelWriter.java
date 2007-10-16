@@ -14,27 +14,23 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
-import org.eclipse.birt.report.engine.emitter.XMLWriter;
-import org.eclipse.birt.core.format.DateFormatter;
-import org.eclipse.birt.core.format.NumberFormatter;
-import org.eclipse.birt.core.format.StringFormatter;
-import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
+import org.eclipse.birt.report.engine.emitter.XMLWriter;
 
 public class ExcelWriter
 {
 
 	private XMLWriterXLS writer = new XMLWriterXLS( );
-	
-	private static HashSet splitChar = new HashSet();
-		
-		static 
-		{
-			splitChar.add( new Character( ' ' ) );
-			splitChar.add( new Character( '\r') );
-			splitChar.add( new Character( '\n') );
-		};
-	
+
+	private static HashSet splitChar = new HashSet( );
+
+	static
+	{
+		splitChar.add( new Character( ' ' ) );
+		splitChar.add( new Character( '\r' ) );
+		splitChar.add( new Character( '\n' ) );
+	};
+
 	private class XMLWriterXLS extends XMLWriter
 	{
 
@@ -96,7 +92,7 @@ public class ExcelWriter
 	public void writeText( Data d )
 	{
 		writer.openTag( "Data" );
-        
+
 		if ( d.getDatatype( ).equals( Data.NUMBER )
 				&& ExcelUtil.isNumber( d.getText( ) ) )
 		{
@@ -110,8 +106,7 @@ public class ExcelWriter
 		{
 			writer.attribute( "ss:Type", "String" );
 		}
-        
-		
+
 		String txt = d.getText( );
 		if ( CSSConstants.CSS_CAPITALIZE_VALUE.equalsIgnoreCase( d
 				.getStyleEntry( ).getProperty( StyleConstant.TEXT_TRANSFORM ) ) )
@@ -128,12 +123,12 @@ public class ExcelWriter
 		{
 			txt = txt.toLowerCase( );
 		}
-		
+
 		writer.text( txt );
 
 		writer.closeTag( "Data" );
-
 	}
+
 	private String capitalize( String text )
 	{
 		boolean capitalizeNextChar = true;
@@ -143,14 +138,15 @@ public class ExcelWriter
 			Character c = new Character( text.charAt( i ) );
 			if ( splitChar.contains( c ) )
 				capitalizeNextChar = true;
-			else if (capitalizeNextChar)
+			else if ( capitalizeNextChar )
 			{
 				array[i] = Character.toUpperCase( array[i] );
 				capitalizeNextChar = false;
 			}
 		}
-		return new String(array);
+		return new String( array );
 	}
+
 	public void startRow( )
 	{
 		writer.openTag( "Row" );
@@ -193,13 +189,15 @@ public class ExcelWriter
 		{
 			writer.attribute( "ss:StyleID", d.getStyleId( ) );
 		}
+
 		writeText( d );
 		writer.closeTag( "Cell" );
 	}
 
 	protected void writeTxtData( Data d )
 	{
-		startCell( d.span.getCol( ), d.span.getColSpan( ), d.getRowSpan( ), d.styleId, d.url );
+		startCell( d.span.getCol( ), d.span.getColSpan( ), d.getRowSpan( ),
+				d.styleId, d.url );
 		writeText( d );
 		endCell( );
 	}
@@ -222,8 +220,17 @@ public class ExcelWriter
 	public void writeAlignment( String horizontal, String vertical )
 	{
 		writer.openTag( "Alignment" );
-		writer.attribute( "ss:Horizontal", horizontal );
-		writer.attribute( "ss:Vertical", vertical );
+
+		if ( isValid( horizontal ) )
+		{
+			writer.attribute( "ss:Horizontal", horizontal );
+		}
+		
+		if ( isValid( vertical ) )
+		{
+			writer.attribute( "ss:Vertical", vertical );
+		}
+		
 		writer.attribute( "ss:WrapText", "1" );
 		writer.closeTag( "Alignment" );
 	}
@@ -261,12 +268,27 @@ public class ExcelWriter
 			writer.attribute( "ss:FontName", fontName );
 		}
 
-		writer.attribute( "ss:Size", size );
-		writer.attribute( "ss:Bold", bold );
-		writer.attribute( "ss:Italic", italic );
-		writer.attribute( "ss:StrikeThrough", strikeThrough );
+		if ( isValid( size ) )
+		{
+			writer.attribute( "ss:Size", size );
+		}
+		
+		if ( isValid( bold ) )
+		{
+			writer.attribute( "ss:Bold", bold );
+		}
+		
+		if ( isValid( italic ) )
+		{
+			writer.attribute( "ss:Italic", italic );
+		}
+		
+		if ( isValid( strikeThrough ) )
+		{
+			writer.attribute( "ss:StrikeThrough", strikeThrough );
+		}
 
-		if ( !"0".equalsIgnoreCase( underline ) )
+		if ( isValid(underline) && !"0".equalsIgnoreCase( underline ) )
 		{
 			writer.attribute( "ss:Underline", "Single" );
 		}
@@ -275,6 +297,7 @@ public class ExcelWriter
 		{
 			writer.attribute( "ss:Color", color );
 		}
+
 		writer.closeTag( "Font" );
 	}
 
@@ -291,7 +314,7 @@ public class ExcelWriter
 
 	private boolean isValid( String value )
 	{
-		return StyleConstant.NULL != value;
+		return !StyleEntry.isNull(  value );
 	}
 
 	private void declareStyle( StyleEntry style, int id )
@@ -299,7 +322,7 @@ public class ExcelWriter
 		writer.openTag( "Style" );
 		writer.attribute( "ss:ID", id );
 
-		if ( id >= 20 )
+		if ( id >= StyleEngine.RESERVE_STYLE_ID )
 		{
 			String horizontalAlign = style
 					.getProperty( StyleConstant.H_ALIGN_PROP );
@@ -359,6 +382,7 @@ public class ExcelWriter
 					.getProperty( StyleConstant.BACKGROUND_COLOR_PROP );
 			writeBackGroudColor( bgColor );
 		}
+
 		writeDataFormat( style );
 
 		writer.closeTag( "Style" );

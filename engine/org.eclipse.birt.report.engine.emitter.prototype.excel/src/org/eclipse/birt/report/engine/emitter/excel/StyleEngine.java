@@ -27,8 +27,10 @@ import org.eclipse.birt.report.engine.emitter.excel.layout.XlsContainer;
 public class StyleEngine
 {
 	public static final int DEFAULT_DATE_STYLE = 1;
+	
+	public static final int RESERVE_STYLE_ID = 20;
 
-	private int styleID = 20;	
+	private int styleID = RESERVE_STYLE_ID;	
 	private Hashtable style2id = new Hashtable( );
 	private ExcelLayoutEngine engine;
 
