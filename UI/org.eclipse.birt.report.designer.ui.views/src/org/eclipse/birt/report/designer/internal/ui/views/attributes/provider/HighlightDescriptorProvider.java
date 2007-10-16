@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.HighlightRuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -298,6 +299,10 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 
 			builder.setDesignHandle( getDesignElementHandle( ) );
 			
+			if( getDesignElementHandle( ) instanceof RowHandle)
+			{
+				builder.setReportElement((ReportItemHandle)((RowHandle)getDesignElementHandle( )).getContainer( ));
+			}else 
 			if ( getDesignElementHandle( ) instanceof ReportItemHandle )
 			{
 				builder.setReportElement( (ReportItemHandle) getDesignElementHandle( ) );
@@ -361,7 +366,10 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 		builder.updateHandle( null, handleCount );
 
 		builder.setDesignHandle( getDesignElementHandle( ) );
-		if ( getDesignElementHandle( ) instanceof ReportItemHandle )
+		if( getDesignElementHandle( ) instanceof RowHandle)
+		{
+			builder.setReportElement((ReportItemHandle)((RowHandle)getDesignElementHandle( )).getContainer( ));
+		}else if ( getDesignElementHandle( ) instanceof ReportItemHandle )
 		{
 			builder.setReportElement( (ReportItemHandle) getDesignElementHandle( ) );
 		}
