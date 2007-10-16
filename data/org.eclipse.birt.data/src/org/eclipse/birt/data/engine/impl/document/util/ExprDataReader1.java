@@ -146,6 +146,21 @@ class ExprDataReader1 implements IExprDataReader
 	}
 	
 	/*
+	 * @see org.eclipse.birt.data.engine.impl.document.util.IExprDataReader#setRowIndex(int)
+	 */
+	public void moveTo( int index ) throws DataException
+	{
+		if ( index < 0 || index >= this.rowCount )
+			throw new DataException( ResourceConstants.INVALID_ROW_INDEX,
+					new Integer( index ) );
+		else if ( index < currRowIndex )
+			throw new DataException( ResourceConstants.BACKWARD_SEEK_ERROR );
+		else if ( index == currRowIndex )
+			return;
+		this.currRowIndex = index;
+	}
+	
+	/*
 	 * @see org.eclipse.birt.data.engine.impl.document.IExprResultReader#next()
 	 */
 	public boolean next( ) throws DataException
@@ -197,14 +212,14 @@ class ExprDataReader1 implements IExprDataReader
 	 */
 	private void skipTo( int absoluteRowIndex ) throws IOException, DataException
 	{
-		if ( currReadIndex == absoluteRowIndex )
-			return;
-		
 		if ( this.dataSetData!= null )
 		{
 			this.dataSetData.skipTo( absoluteRowIndex );
-		}		
+		}
 		
+		if ( currReadIndex == absoluteRowIndex )
+			return;
+				
 		if ( version == VersionManager.VERSION_2_0 )
 		{
 			int exprCount;

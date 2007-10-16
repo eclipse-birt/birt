@@ -207,6 +207,21 @@ class ExprDataReader2 implements IExprDataReader
 		return hasNext;
 	}
 	
+	/*
+	 * @see org.eclipse.birt.data.engine.impl.document.util.IExprDataReader#setRowIndex(int)
+	 */
+	public void moveTo( int index ) throws DataException
+	{
+		if ( index < 0 || index >= this.rowCount )
+			throw new DataException( ResourceConstants.INVALID_ROW_INDEX,
+					new Integer( index ) );
+		else if ( index < currRowIndex )
+			throw new DataException( ResourceConstants.BACKWARD_SEEK_ERROR );
+		else if ( index == currRowIndex )
+			return;
+		this.currRowIndex = index;
+	}
+	
 	/**
 	 *
 	 */

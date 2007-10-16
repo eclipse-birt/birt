@@ -140,18 +140,8 @@ public class ExprResultSet implements IExprResultSet
 	public void moveTo( int rowIndex ) throws DataException
 	{
 		int currIndex = this.getCurrentIndex( );
-
-		if ( rowIndex < 0 || rowIndex >= this.rowCount )
-			throw new DataException( ResourceConstants.INVALID_ROW_INDEX,
-					new Integer( rowIndex ) );
-		else if ( rowIndex < currIndex )
-			throw new DataException( ResourceConstants.BACKWARD_SEEK_ERROR );
-		else if ( rowIndex == currIndex )
-			return;
-
-		int gapValue = rowIndex - currIndex;
-		for ( int i = 0; i < gapValue; i++ )
-			this.next( );
+		exprResultReader.moveTo( rowIndex );
+		this.rdGroupUtil.move( rowIndex - currIndex );
 	}
 
 	/* (non-Javadoc)

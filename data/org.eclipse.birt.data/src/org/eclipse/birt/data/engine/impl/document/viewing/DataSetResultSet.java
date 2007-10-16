@@ -53,6 +53,7 @@ public class DataSetResultSet implements IDataSetPopulator
 		assert rsMetaData != null;
 		
 		this.inputStream = inputStream;
+		this.rowIndex = -1;
 		
 		this.dataSetRowLensStream = lensStream; 
 		if( lensStream!= null )
@@ -78,21 +79,25 @@ public class DataSetResultSet implements IDataSetPopulator
 	{
 		initLoad( );
 
-		if ( this.rowIndex == this.rowCount )
+		if ( this.rowIndex < this.rowCount - 1 )
+		{
+			try
+			{
+				rowIndex++;
+				this.currentObject = ResultSetUtil.readResultObject( dis,
+						rsMetaData,
+						colCount );
+				return this.currentObject;
+			}
+			catch ( IOException e )
+			{
+				throw new DataException( ResourceConstants.RD_LOAD_ERROR,
+						e,
+						"Result Data" );
+			}
+		}
+		else
 			return null;
-
-		try
-		{
-			rowIndex++;
-			this.currentObject = ResultSetUtil.readResultObject( dis, rsMetaData, colCount );
-			return this.currentObject;
-		}
-		catch ( IOException e )
-		{
-			throw new DataException( ResourceConstants.RD_LOAD_ERROR,
-					e,
-					"Result Data" );
-		}
 	}
 	
 	public IResultObject getResultObject()
@@ -102,11 +107,13 @@ public class DataSetResultSet implements IDataSetPopulator
 	
 	public int getCurrentIndex()
 	{
-		return rowIndex - 1;
+		return rowIndex;
 	}
 	
 	public void skipTo( int index ) throws DataException, IOException
 	{
+		if( this.rowIndex == index )
+			return;
 		this.initLoad( );
 		
 		if ( this.rowIndex < this.rowCount )

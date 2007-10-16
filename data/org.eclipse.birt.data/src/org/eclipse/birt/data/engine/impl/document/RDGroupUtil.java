@@ -359,8 +359,29 @@ public final class RDGroupUtil
 			if ( nextLeafGroup != null
 					&& cacheProvider.getCurrentIndex( ) >= nextLeafGroup.firstChild )
 			{
-				// Move to next leaft group
+				// Move to next leaf group
 				++leafGroupIdx;
+			}
+		}
+	}
+	
+	/**
+	 * Advance the leaf group with offset.
+	 * @param offset
+	 */
+	public void move( int offset )
+	{
+		if ( groups.length > 0 )
+		{
+			for ( int i = 0; i < offset; i++ )
+			{
+				GroupInfo nextLeafGroup = findGroup( groups.length - 1,
+						leafGroupIdx + 1 );
+				if ( nextLeafGroup != null &&
+						cacheProvider.getCurrentIndex( ) >= nextLeafGroup.firstChild )
+				{
+					++leafGroupIdx;
+				}
 			}
 		}
 	}
