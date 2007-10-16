@@ -41,8 +41,6 @@ import org.eclipse.birt.report.model.api.elements.structures.LevelAttribute;
 import org.eclipse.birt.report.model.api.elements.structures.Rule;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
-import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ILevelModel;
@@ -287,6 +285,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		{
 			attrList.add( attrIter.next( ) );
 		}
+		dynamicViewer.refresh( );
 		dynamicViewer.setInput( attrList );
 	}
 
@@ -298,6 +297,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		{
 			valuesList.add( valuesIter.next( ) );
 		}
+		staticViewer.refresh( );
 		staticViewer.setInput( valuesList );
 	}
 
