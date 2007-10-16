@@ -42,6 +42,7 @@ import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
+import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -350,7 +351,32 @@ public class InsertInLayoutUtil
 			Assert.isTrue( object instanceof ResultSetColumnHandle );
 			Assert.isTrue( object == dataSetColumn || object == null );
 
-			getGroupContainer( container ).setDataSet( getDataSetHandle( dataSetColumn ) );
+			ReportItemHandle groupContainer = getGroupContainer( container );
+			
+			DataSetHandle dataSetHandle = null;
+			
+			if ( groupContainer instanceof ReportItemHandle )
+			{
+				dataSetHandle = ( (ReportItemHandle) groupContainer ).getDataSet( );
+			}
+			if ( dataSetHandle == null )
+			{
+				for ( DesignElementHandle elementHandle = groupContainer; elementHandle != null; elementHandle = elementHandle.getContainer( ) )
+				{
+					if ( elementHandle instanceof ListingHandle
+							&& ( dataSetHandle = ( (ListingHandle) elementHandle ).getDataSet( ) ) != null 
+							&& ( dataSetHandle == getDataSetHandle( dataSetColumn ) ))
+					{
+						break;
+					}
+				}
+			}
+			
+			if( dataSetHandle == null || dataSetHandle != getDataSetHandle( dataSetColumn ))
+			{
+				getGroupContainer( container ).setDataSet( getDataSetHandle( dataSetColumn ) );
+			}
+			
 			getGroupHandle( container ).setKeyExpr( DEUtil.getColumnExpression( dataSetColumn.getColumnName( ) ) );
 
 		}
