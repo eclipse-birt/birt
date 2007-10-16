@@ -48,7 +48,8 @@
 		<taskdef classname="org.apache.jasper.JspC" name="jasper2">
 			<classpath>
 				<fileset dir="${baseLocation}/plugins">
-					<include name="${plugin.tomcat}_*/*.jar" />
+					<include name="javax.servlet*.jar" />
+					<include name="org.apache.jasper*.jar" />
 				</fileset>
 				<pathelement path="${core.dir}/@dot" />
 			</classpath>
@@ -57,7 +58,9 @@
 		<javac destdir="${birt.temp.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar.bin" source="1.4">
 			<classpath>
 				<fileset dir="${baseLocation}/plugins">
-					<include name="${plugin.tomcat}_*/*.jar" />
+					<include name="javax.servlet*.jar" />
+					<include name="org.apache.jasper*.jar" />
+					<include name="org.apache.commons.logging*.jar" />
 					<include name="com.ibm.icu_*.jar" />
 				</fileset>
 				<pathelement path="${viewer.model.dir}/@dot" />

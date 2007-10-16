@@ -177,6 +177,7 @@
 		var birtReportDocument = new BirtReportDocument( "Document" );
 		
 		<%
+		//FIXME: workaround for Jetty
 		String servletPath = (String)request.getAttribute( "ServletPath" );
 		if ( "/parameter".equalsIgnoreCase( servletPath ) )
 		{

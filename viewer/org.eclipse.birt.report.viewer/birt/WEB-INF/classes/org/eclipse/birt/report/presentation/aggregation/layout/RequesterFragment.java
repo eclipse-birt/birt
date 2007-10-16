@@ -16,6 +16,7 @@ public class RequesterFragment extends BirtBaseFragment
 	protected String doPostService( HttpServletRequest request, HttpServletResponse response )
 		throws ServletException, IOException
 	{
+		//FIXME: workaround for Jetty
 		request.setAttribute( "ServletPath", request.getServletPath( ) ); //$NON-NLS-1$
 		String className = getClass( ).getName( )
 				.substring( getClass( ).getName( ).lastIndexOf( '.' ) + 1 );
