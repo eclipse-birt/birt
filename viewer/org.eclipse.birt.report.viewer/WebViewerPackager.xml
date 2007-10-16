@@ -75,7 +75,7 @@
 	<!--property name="compilerArg" value="" /-->
 
 	<!-- Eclipse related. Default version 3.0.0 -->
-	<property name="plugin.tomcat" value="org.eclipse.tomcat" />
+	<!--property name="plugin.tomcat" value="org.eclipse.tomcat" /-->
 	<property name="plugin.runtime" value="org.eclipse.core.runtime" />
 	<property name="plugin.emf.ecore" value="org.eclipse.emf.ecore" />
 	<property name="plugin.emf.ecore.xml" value="org.eclipse.emf.ecore.xmi" />
@@ -225,7 +225,9 @@
 					<include name="${plugin.help.base}*.jar" />
 					<include name="${plugin.help.appserver}_*/appserver.jar" />
 					<include name="${plugin.help.appserver}*.jar" />
-					<include name="${plugin.tomcat}_*/servlet.jar" />
+					<include name="javax.servlet*.jar" />
+					<include name="org.apache.jasper*.jar" />
+					<include name="org.apache.commons.logging*.jar" />
 					<include name="com.ibm.icu_*.jar" />
 				</fileset>
 				<pathelement path="${build.result.folder}/${birt.dir}/WEB-INF/lib/model.jar" />
@@ -316,7 +318,9 @@
 	<taskdef classname="org.apache.jasper.JspC" name="jasper2">
 		<classpath>
 			<fileset dir="${baseLocation}/plugins">
-				<include name="${plugin.tomcat}_*/*.jar" />
+				<include name="javax.servlet*.jar" />
+				<include name="org.apache.jasper*.jar" />
+				<include name="org.apache.commons.logging*.jar" />
 			</fileset>
 		</classpath>
 	</taskdef>
@@ -327,7 +331,9 @@
 		<!--compilerarg line="${compilerArg}" /-->
 		<classpath>
 			<fileset dir="${baseLocation}/plugins">
-				<include name="${plugin.tomcat}_*/*.jar" />
+				<include name="javax.servlet*.jar" />
+				<include name="org.apache.jasper*.jar" />
+				<include name="org.apache.commons.logging*.jar" />
 			</fileset>
 			<fileset dir="${birt.dir}/WEB-INF/lib">
 				<include name="*.jar" />
