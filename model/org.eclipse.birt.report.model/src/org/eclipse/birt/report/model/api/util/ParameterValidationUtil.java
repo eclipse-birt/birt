@@ -72,6 +72,41 @@ public class ParameterValidationUtil
 	public static final String DISPLAY_DATE_FORMAT = "Long Date"; //$NON-NLS-1$
 	public static final String DISPLAY_TIME_FORMAT = "Medium Time"; //$NON-NLS-1$
 
+	private static final int DATETIME_FORMAT_TYPE = 0;
+	private static final int DATE_FORMAT_TYPE = 1;
+	private static final int TIME_FORMAT_TYPE = 2;
+	private static DateFormatter[] defaultDateFormatters = null;
+	private static NumberFormatter defaultNumberFormatter = null;
+	private static StringFormatter defaultStringFormatter = null;
+
+	static
+	{
+		// initialize the default formatters
+
+		// date-time formatter
+		defaultDateFormatters = new DateFormatter[3];
+		DateFormatter dateFormatter = new DateFormatter( DEFAULT_LOCALE );
+		dateFormatter.applyPattern( DEFAULT_DATETIME_FORMAT );
+		defaultDateFormatters[DATETIME_FORMAT_TYPE] = dateFormatter;
+
+		// date formatter
+		dateFormatter = new DateFormatter( DEFAULT_LOCALE );
+		dateFormatter.applyPattern( DEFAULT_DATE_FORMAT );
+		defaultDateFormatters[DATE_FORMAT_TYPE] = dateFormatter;
+
+		// time formatter
+		dateFormatter = new DateFormatter( DEFAULT_LOCALE );
+		dateFormatter.applyPattern( DEFAULT_TIME_FORMAT );
+		defaultDateFormatters[TIME_FORMAT_TYPE] = dateFormatter;
+
+		// number formatter
+		defaultNumberFormatter = new NumberFormatter( DEFAULT_LOCALE );
+
+		// string formatter
+		defaultStringFormatter = new StringFormatter( DEFAULT_LOCALE );
+		defaultStringFormatter.setTrim( false );
+	}
+
 	/**
 	 * Validates a input parameter value with the given data type. The returned
 	 * value is locale and format independent. The data type can be one of the
@@ -949,42 +984,39 @@ public class ParameterValidationUtil
 		if ( value instanceof Date
 				&& !( value instanceof java.sql.Date || value instanceof java.sql.Time ) )
 		{
-			DateFormatter formatter = new DateFormatter( DEFAULT_LOCALE );
-			formatter.applyPattern( DEFAULT_DATETIME_FORMAT );
+			DateFormatter formatter = defaultDateFormatters[DATETIME_FORMAT_TYPE];
 			return formatter.format( (Date) value );
 		}
 		else if ( value instanceof java.sql.Date )
 		{
-			DateFormatter formatter = new DateFormatter( DEFAULT_LOCALE );
-			formatter.applyPattern( DEFAULT_DATE_FORMAT );
+			DateFormatter formatter = defaultDateFormatters[DATE_FORMAT_TYPE];
 			return formatter.format( new Date( ( (java.sql.Date) value )
 					.getTime( ) ) );
 		}
 		else if ( value instanceof java.sql.Time )
 		{
-			DateFormatter formatter = new DateFormatter( DEFAULT_LOCALE );
-			formatter.applyPattern( DEFAULT_TIME_FORMAT );
+			DateFormatter formatter = defaultDateFormatters[TIME_FORMAT_TYPE];
 			return formatter.format( new Date( ( (java.sql.Time) value )
 					.getTime( ) ) );
 		}
 		else if ( value instanceof Float )
 		{
-			NumberFormatter formatter = new NumberFormatter( DEFAULT_LOCALE );
+			NumberFormatter formatter = defaultNumberFormatter;
 			return formatter.format( ( (Number) value ).floatValue( ) );
 		}
 		else if ( value instanceof Double )
 		{
-			NumberFormatter formatter = new NumberFormatter( DEFAULT_LOCALE );
+			NumberFormatter formatter = defaultNumberFormatter;
 			return formatter.format( ( (Number) value ).doubleValue( ) );
 		}
 		else if ( value instanceof BigDecimal )
 		{
-			NumberFormatter formatter = new NumberFormatter( DEFAULT_LOCALE );
+			NumberFormatter formatter = defaultNumberFormatter;
 			return formatter.format( ( (BigDecimal) value ) );
 		}
 		else if ( value instanceof Integer || value instanceof Long )
 		{
-			NumberFormatter formatter = new NumberFormatter( DEFAULT_LOCALE );
+			NumberFormatter formatter = defaultNumberFormatter;
 			return formatter.format( ( (Number) value ).longValue( ) );
 		}
 		else if ( value instanceof Boolean )
@@ -1000,14 +1032,12 @@ public class ParameterValidationUtil
 		}
 		else if ( value instanceof String )
 		{
-			StringFormatter formatter = new StringFormatter( DEFAULT_LOCALE );
-			formatter.setTrim( false );
+			StringFormatter formatter = defaultStringFormatter;
 			return formatter.format( (String) value );
 		}
 		else
 		{
-			StringFormatter formatter = new StringFormatter( DEFAULT_LOCALE );
-			formatter.setTrim( false );
+			StringFormatter formatter = defaultStringFormatter;
 			return formatter.format( value.toString( ) );
 		}
 	}
