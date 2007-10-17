@@ -45,8 +45,45 @@ public class DteMetaInfoIOUtil
 	{
 		IOUtil.writeString( dos, VERSION_1 );
 	}
+	
+	static public ArrayList loadAllDteMetaInfo( IDocArchiveReader archive)
+	throws IOException
+	{
+		ArrayList result = new ArrayList( );
 
-	static public ArrayList loadDteMetaInfo( IDocArchiveReader archive )
+		if ( archive.exists( ReportDocumentConstants.DATA_META_STREAM ) )
+		{
+			InputStream in = archive
+					.getStream( ReportDocumentConstants.DATA_META_STREAM );
+			try
+			{
+				loadDteMetaInfo( result, new DataInputStream( in ) );
+			}
+			finally
+			{
+				in.close( );
+			}
+		}
+		
+		if ( archive.exists( ReportDocumentConstants.DATA_SNAP_META_STREAM ) )
+		{
+			InputStream in = archive
+					.getStream( ReportDocumentConstants.DATA_SNAP_META_STREAM );
+			try
+			{
+				loadDteMetaInfo( result, new DataInputStream( in ) );
+			}
+			finally
+			{
+				in.close( );
+			}
+		}
+		
+		return result;
+	}
+
+	
+	static public ArrayList loadDteMetaInfo( IDocArchiveReader archive)
 			throws IOException
 	{
 		ArrayList result = new ArrayList( );

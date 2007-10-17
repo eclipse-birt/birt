@@ -147,7 +147,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 	
 	private void loadDteMetaInfo( ) throws IOException
 	{
-		ArrayList result = DteMetaInfoIOUtil.loadDteMetaInfo( reader );
+		ArrayList result = DteMetaInfoIOUtil.loadAllDteMetaInfo( reader);
 		if ( result != null )
 		{
 			StringBuffer buffer = new StringBuffer( );
