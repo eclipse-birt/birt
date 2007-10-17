@@ -1362,7 +1362,8 @@ public class ParameterDialog extends BaseDialog
 		// clearDefaultValueChooserSelections( );
 		// }
 
-		if ( isStatic( ) )
+		if ( (isStatic( ) && !distinct.isEnabled(  ))
+				|| (distinct.isEnabled( ) && !distinct.getSelection( )))
 		{
 			makeUniqueAndValid( );
 			refreshValueTable( );
@@ -2300,7 +2301,8 @@ public class ParameterDialog extends BaseDialog
 			// defaultValue = convertToStandardFormat( DataTypeUtil.toSqlTime(
 			// defaultValue ) );
 			// }
-			if ( getSelectedDataType( ).equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
+			if ( getSelectedDataType( ).equals( DesignChoiceConstants.PARAM_TYPE_STRING ) 
+			&& getSelectedControlType( ).equals( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX ))
 			{
 				if ( isRequired.getSelection( ) )
 				{
@@ -2537,7 +2539,8 @@ public class ParameterDialog extends BaseDialog
 		if ( CHECKBOX_ISREQUIRED.equals( key )
 				|| CHECKBOX_DISTINCT.equals( key ) )
 		{
-			if ( isStatic( ) )
+			if ( (isStatic( ) && !distinct.isEnabled(  ))
+			|| (distinct.isEnabled( ) && !distinct.getSelection( )))
 			{
 				boolean change = makeUniqueAndValid( );
 				if ( change )
