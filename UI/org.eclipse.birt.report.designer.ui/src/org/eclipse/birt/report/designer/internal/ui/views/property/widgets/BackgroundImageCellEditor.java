@@ -15,9 +15,20 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.jface.viewers.DialogCellEditor;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusAdapter;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.TraverseEvent;
+import org.eclipse.swt.events.TraverseListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Text;
 
 public class BackgroundImageCellEditor extends DialogCellEditor
 {
@@ -38,6 +49,8 @@ public class BackgroundImageCellEditor extends DialogCellEditor
 
 	private static final int defaultStyle = SWT.SINGLE;
 
+	private Text text;
+
 	public BackgroundImageCellEditor( Composite parent )
 	{
 		super( parent );
@@ -47,6 +60,69 @@ public class BackgroundImageCellEditor extends DialogCellEditor
 	public BackgroundImageCellEditor( Composite parent, int style )
 	{
 		super( parent, style );
+	}
+
+	protected Control createContents( Composite cell )
+	{
+
+		Color bg = cell.getBackground( );
+		Composite composite = new Composite( cell, getStyle( ) );
+		composite.setBackground( bg );
+		composite.setLayout( new FillLayout( ) );
+
+		text = new Text( composite, SWT.NONE );
+		text.setBackground( bg );
+		text.setFont( cell.getFont( ) );
+
+		text.addKeyListener( new KeyAdapter( ) {
+
+			// hook key pressed - see PR 14201
+			public void keyPressed( KeyEvent e )
+			{
+				if ( e.character == '\u001b' )
+				{ // Escape character
+					fireCancelEditor( );
+				}
+				else if ( e.character == '\r' )
+				{ // Return key
+					doSetValue( text.getText( ) );
+					fireApplyEditorValue( );
+					deactivate( );
+				}
+			}
+		} );
+
+		text.addTraverseListener( new TraverseListener( ) {
+
+			public void keyTraversed( TraverseEvent e )
+			{
+				if ( e.detail == SWT.TRAVERSE_ESCAPE
+						|| e.detail == SWT.TRAVERSE_RETURN )
+				{
+					e.doit = false;
+				}
+			}
+		} );
+
+		text.addFocusListener( new FocusAdapter( ) {
+
+			public void focusLost( FocusEvent e )
+			{
+				doSetValue( text.getText( ) );
+				BackgroundImageCellEditor.this.focusLost( );
+			}
+		} );
+
+		text.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				markDirty( );
+			}
+
+		} );
+
+		return composite;
 	}
 
 	protected Object openDialogBox( Control cellEditorWindow )
@@ -86,4 +162,18 @@ public class BackgroundImageCellEditor extends DialogCellEditor
 		}
 		return false;
 	}
+
+	protected void updateContents( Object value )
+	{
+		if ( text == null )
+			return;
+		if ( value != null )
+			text.setText( value.toString( ) );
+	}
+
+	protected void doSetFocus( )
+	{
+		text.setFocus( );
+	}
+
 }
