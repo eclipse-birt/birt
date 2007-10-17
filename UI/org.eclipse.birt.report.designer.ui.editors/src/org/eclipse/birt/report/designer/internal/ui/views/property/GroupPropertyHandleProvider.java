@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.property;
 import org.eclipse.birt.report.model.api.GroupPropertyHandle;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 
 /**
  * This handler is used to access the underlying IR model properties for the
@@ -446,6 +447,16 @@ public class GroupPropertyHandleProvider
 			return ( (GroupPropertyHandle) o ).getPropertyDefn( ).isEncryptable( );
 		}
 
+		return false;
+	}
+	
+	public boolean isBackgroundImageProperty( Object o )
+	{
+		if ( o instanceof GroupPropertyHandle )
+		{
+			return ( (GroupPropertyHandle) o ).getPropertyDefn( ).getName( )
+					.equals( IStyleModel.BACKGROUND_IMAGE_PROP );
+		}
 		return false;
 	}
 }
