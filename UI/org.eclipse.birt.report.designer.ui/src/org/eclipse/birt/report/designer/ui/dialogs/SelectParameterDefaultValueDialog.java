@@ -41,7 +41,7 @@ import com.ibm.icu.util.ULocale;
  */
 public class SelectParameterDefaultValueDialog extends BaseDialog
 {
-	private static final String STANDARD_DATE_TIME_PATTERN = "MM/dd/yyyy hh:mm:ss a"; //$NON-NLS-1$
+//	private static final String STANDARD_DATE_TIME_PATTERN = "MM/dd/yyyy hh:mm:ss a"; //$NON-NLS-1$
 	private List selectValueList = null;
 	private java.util.List columnValueList = new ArrayList( );;
 
@@ -124,7 +124,20 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 		{
 			return null;
 		}
-		return new DateFormatter( STANDARD_DATE_TIME_PATTERN, ULocale.US ).format( date );
+		if ( date instanceof java.sql.Date )
+		{
+			return new DateFormatter( "MM/dd/yyyy" , ULocale.US ).format( date );
+		}
+		else if ( date instanceof java.sql.Time )
+		{
+			return new DateFormatter( "HH:mm:ss", ULocale.US ).format( date );
+		}
+		else
+		{
+			return new DateFormatter( "MM/dd/yyyy HH:mm:ss.SSS", ULocale.US ).format( date );
+		}
+		
+		
 	}
 	
 	/**
