@@ -315,6 +315,8 @@
 
 <!-- Precompile the jsp pages -->
 <target name="precompile" depends="init" description="Precompile jsp pages.">
+	
+	<!-- Jetty doesn't need precompile jsp files
 	<taskdef classname="org.apache.jasper.JspC" name="jasper2">
 		<classpath>
 			<fileset dir="${baseLocation}/plugins">
@@ -325,8 +327,9 @@
 			</fileset>
 		</classpath>
 	</taskdef>
-
+		
 	<jasper2 validateXml="false" uriroot="${build.result.folder}/${birt.dir}" webXmlFragment="${build.result.folder}/${birt.dir}/WEB-INF/generated_web.xml" outputDir="${temp.folder}/${birt.dir}/WEB-INF/classes" />
+	-->	
 
 	<javac destdir="${birt.dir}/WEB-INF/classes" source="1.4">
 		<!--compilerarg line="${compilerArg}" /-->
@@ -345,15 +348,17 @@
 		<src path="${temp.folder}/${birt.dir}/WEB-INF/classes" />
 	</javac>
 
+	<!-- Jetty doesn't need precompile jsp files
 	<loadfile property="file" srcFile="${birt.dir}/WEB-INF/generated_web.xml" />
 	<copy file="${birt.dir}/WEB-INF/web-template.xml" toFile="${birt.dir}/WEB-INF/web.xml" filtering="on" overwrite="yes">
 		<filterset>
 			<filter token="generated" value="${file}" />
 		</filterset>
 	</copy>
-
-	<delete dir="${temp.folder}/${birt.dir}/WEB-INF/classes" />
 	<delete file="${birt.dir}/WEB-INF/generated_web.xml" />
+	-->
+	
+	<delete dir="${temp.folder}/${birt.dir}/WEB-INF/classes" />	
 </target>
 
 

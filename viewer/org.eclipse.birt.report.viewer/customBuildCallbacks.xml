@@ -45,6 +45,7 @@
 			<fileset dir="${birt.dir}/WEB-INF/classes/" excludes="**/package.htm*" />
 		</copy>
 
+		<!-- Jetty doesn't need precompile jsp files		
 		<taskdef classname="org.apache.jasper.JspC" name="jasper2">
 			<classpath>
 				<fileset dir="${baseLocation}/plugins">
@@ -56,7 +57,10 @@
 				<pathelement path="${core.dir}/@dot" />
 			</classpath>
 		</taskdef>
+		
 		<jasper2 validateXml="false" uriroot="${build.result.folder}/${birt.dir}" webXmlFragment="${build.result.folder}/${birt.dir}/WEB-INF/generated_web.xml" outputDir="${birt.temp.folder}/${birt.dir}/WEB-INF/classes" />
+		-->
+		
 		<javac destdir="${birt.temp.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar.bin" source="1.4">
 			<classpath>
 				<fileset dir="${baseLocation}/plugins">
@@ -83,21 +87,23 @@
 			<src path="${birt.temp.folder}/${birt.dir}/WEB-INF/classes/" />
 		</javac>
 
+		<!-- Jetty doesn't need precompile jsp files
 		<loadfile property="file" srcFile="${birt.dir}/WEB-INF/generated_web.xml" />
 		<copy file="${birt.dir}/WEB-INF/web-template.xml" toFile="${birt.dir}/WEB-INF/web.xml" filtering="on" overwrite="yes">
 			<filterset>
 				<filter token="generated" value="${file}" />
 			</filterset>
 		</copy>
-
+		<delete file="${birt.dir}/WEB-INF/generated_web.xml" />
+		-->
+		
 		<copy todir="${birt.temp.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar.bin" failonerror="true">
 			<fileset dir="${birt.temp.folder}/${birt.dir}/WEB-INF/classes/" excludes="**/*.java, **/package.htm*" />
 		</copy>
 		<mkdir dir="${build.result.folder}/${birt.dir}/WEB-INF/lib" />
 		<echo message="${build.result.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar" />
 		<jar jarfile="${build.result.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar" basedir="${birt.temp.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar.bin" />
-
-		<delete file="${birt.dir}/WEB-INF/generated_web.xml" />
+		
 		<delete dir="${birt.temp.folder}" />
 	</target>
 	<!-- ===================================================================== -->
