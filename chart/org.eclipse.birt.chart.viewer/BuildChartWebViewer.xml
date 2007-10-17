@@ -125,6 +125,10 @@
 				<include name="org.apache.commons.codec_*.jar"/>
 				<include name="com.ibm.icu_*.jar" />
 				<include name="javax.servlet_*.jar" />
+				<include name="javax.servlet.jsp_*.jar" />
+				<include name="org.apache.jasper_*.jar" />
+				<include name="org.apache.commons.logging_*.jar" />
+				<include name="org.apache.commons.el_*.jar"/>
 			</fileset>
 			<fileset dir="${baseLocation.emf}/plugins">
 				<include name="org.eclipse.emf.common_*.jar" />
