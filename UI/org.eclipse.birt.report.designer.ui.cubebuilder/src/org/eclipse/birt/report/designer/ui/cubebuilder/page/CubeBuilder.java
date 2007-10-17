@@ -17,6 +17,8 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.data.ui.property.AbstractTitlePropertyDialog;
 import org.eclipse.birt.report.designer.data.ui.property.PropertyNode;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.ui.cubebuilder.BuilderPlugin;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
@@ -30,6 +32,7 @@ import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.preference.IPreferencePageContainer;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.graphics.Point;
@@ -92,7 +95,30 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 	public boolean performOk( )
 	{
 		if ( checkCubeLink( ) )
+		{
+			String prompt = BuilderPlugin.getDefault( )
+			.getPreferenceStore( )
+			.getString( BuilderPlugin.CUBE_BUILDER_WARNING_PREFERENCE );
+			if ( prompt == null || prompt.length( ) == 0 || ( prompt.equals( MessageDialogWithToggle.PROMPT )) )
+			{
+				MessageDialogWithToggle opendialog = MessageDialogWithToggle.openInformation( UIUtil.getDefaultShell( ),
+						Messages.getString( "CubeBuilder.warning.title" ), //$NON-NLS-1$
+						Messages.getString( "CubeBuilder.warning.message" ), //$NON-NLS-1$
+						Messages.getString( "CubeBuilder.warning.prompt" ), //$NON-NLS-1$
+						false,
+						BuilderPlugin.getDefault( ).getPreferenceStore( ),
+						BuilderPlugin.CUBE_BUILDER_WARNING_PREFERENCE );
+				
+				if(opendialog.getToggleState( ) == true)
+				{
+					opendialog.getPrefStore( ).setValue( BuilderPlugin.CUBE_BUILDER_WARNING_PREFERENCE , MessageDialogWithToggle.NEVER );
+				}else
+				{
+					opendialog.getPrefStore( ).setValue( BuilderPlugin.CUBE_BUILDER_WARNING_PREFERENCE , MessageDialogWithToggle.PROMPT );
+				}
+			}
 			return true;
+		}			
 		else
 			return false;
 	}

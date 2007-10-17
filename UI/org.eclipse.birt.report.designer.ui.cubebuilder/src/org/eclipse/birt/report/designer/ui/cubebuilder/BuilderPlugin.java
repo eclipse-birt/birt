@@ -21,6 +21,8 @@ public class BuilderPlugin extends AbstractUIPlugin
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.eclipse.birt.report.designer.ui.cubebuilder";
+	
+	public static final String CUBE_BUILDER_WARNING_PREFERENCE="org.eclipse.birt.report.designer.ui.cubebuilder.warning";
 
 	// The shared instance
 	private static BuilderPlugin plugin;
