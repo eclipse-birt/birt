@@ -58,6 +58,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.BidiSegmentEvent;
 import org.eclipse.swt.custom.BidiSegmentListener;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.events.ControlAdapter;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseEvent;
@@ -73,7 +76,10 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -675,7 +681,23 @@ public class ExpressionBuilder extends TitleAreaDialog
 		table.setLayoutData( gd );
 		table.setToolTipText( null );
 
-		new TableColumn( table, SWT.NONE ).setWidth( 200 );
+		final TableColumn column = new TableColumn( table, SWT.NONE );
+		column.setWidth( 200 );
+		table.getShell( ).addControlListener( new ControlAdapter(){
+
+			public void controlResized( ControlEvent e )
+			{
+				Display.getCurrent( ).asyncExec( new Runnable(){
+					public void run( )
+					{
+						column.setWidth( table.getSize( ).x > 204 ? table.getSize( ).x-4
+								: 200 );
+					}
+				} );
+				
+			}
+			
+		} );
 
 		table.addMouseTrackListener( new MouseTrackAdapter( ) {
 
