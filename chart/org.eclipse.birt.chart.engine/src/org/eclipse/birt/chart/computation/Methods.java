@@ -366,12 +366,18 @@ public class Methods implements IConstants
 		final double dSineTheta = Math.abs( Math.sin( dAngleInRadians ) );
 		final double dCosTheta = Math.abs( Math.cos( dAngleInRadians ) );
 		final ITextMetrics itm = xs.getTextMetrics( la );
-		double dW = itm.getFullWidth( )
-				* dCosTheta
-				+ itm.getFullHeight( )
-				* dSineTheta;
-		itm.dispose( );
-		return dW;
+		try
+		{
+			double dW = itm.getFullWidth( ) *
+					dCosTheta +
+					itm.getFullHeight( ) *
+					dSineTheta;
+			return dW;
+		}
+		finally
+		{
+			itm.dispose( );
+		}
 	}
 
 	/**
@@ -389,12 +395,18 @@ public class Methods implements IConstants
 		final double dSineTheta = Math.abs( Math.sin( dAngleInRadians ) );
 		final double dCosTheta = Math.abs( Math.cos( dAngleInRadians ) );
 		final ITextMetrics itm = xs.getTextMetrics( la );
-		double dH = itm.getFullWidth( )
-				* dSineTheta
-				+ itm.getFullHeight( )
-				* dCosTheta;
-		itm.dispose( );
-		return dH;
+		try
+		{
+			double dH = itm.getFullWidth( ) *
+					dSineTheta +
+					itm.getFullHeight( ) *
+					dCosTheta;
+			return dH;
+		}
+		finally
+		{
+			itm.dispose( );
+		}
 	}
 
 	/**
@@ -418,287 +430,313 @@ public class Methods implements IConstants
 		final double dCosTheta = Math.abs( Math.cos( dAngleInRadians ) );
 
 		final ITextMetrics itm = xs.getTextMetrics( la );
-		double dW = itm.getFullWidth( );
-		double dH = itm.getFullHeight( );
+		try
+		{
+			double dW = itm.getFullWidth( );
+			double dH = itm.getFullHeight( );
 
-		RotatedRectangle rr = null;
-		if ( iLabelLocation == LEFT )
-		{
-			// ZERO : HORIZONTAL
-			if ( dAngleInDegrees == 0 )
+			RotatedRectangle rr = null;
+			if ( iLabelLocation == LEFT )
 			{
-				rr = new RotatedRectangle( dX - dW, dY - dH / 2, // TL
-						dX,
-						dY - dH / 2, // TR
-						dX,
-						dY + dH / 2, // BR
-						dX - dW,
-						dY + dH / 2 // BL
-				);
+				// ZERO : HORIZONTAL
+				if ( dAngleInDegrees == 0 )
+				{
+					rr = new RotatedRectangle( dX - dW, dY - dH / 2, // TL
+							dX,
+							dY - dH / 2, // TR
+							dX,
+							dY + dH / 2, // BR
+							dX - dW,
+							dY + dH / 2 // BL
+					);
+				}
+				// POSITIVE
+				else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
+				{
+					rr = new RotatedRectangle( dX -
+							dH *
+							dSineTheta -
+							dW *
+							dCosTheta, dY - dH * dCosTheta + dW * dSineTheta, // TL
+							dX - dH * dSineTheta,
+							dY - dH * dCosTheta, // TR
+							dX,
+							dY, // BR
+							dX - dW * dCosTheta,
+							dY + dW * dSineTheta // BL
+					);
+				}
+				// NEGATIVE
+				else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
+				{
+					rr = new RotatedRectangle( dX - dW * dCosTheta, dY -
+							dW *
+							dSineTheta, // TL
+							dX,
+							dY, // TR
+							dX - dH * dSineTheta,
+							dY + dH * dCosTheta, // BR
+							dX - dH * dSineTheta - dW * dCosTheta,
+							dY + dH * dCosTheta - dW * dSineTheta // BL
+					);
+				}
+				// ?90 : VERTICALLY UP OR DOWN
+				else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
+				{
+					rr = new RotatedRectangle( dX - dH, dY - dW / 2, // TL
+							dX,
+							dY - dW / 2, // TR
+							dX,
+							dY + dW / 2, // BR
+							dX - dH,
+							dY + dW / 2 // BL
+					);
+				}
 			}
-			// POSITIVE
-			else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
+			else if ( iLabelLocation == RIGHT )
 			{
-				rr = new RotatedRectangle( dX
-						- dH
-						* dSineTheta
-						- dW
-						* dCosTheta, dY - dH * dCosTheta + dW * dSineTheta, // TL
-						dX - dH * dSineTheta,
-						dY - dH * dCosTheta, // TR
-						dX,
-						dY, // BR
-						dX - dW * dCosTheta,
-						dY + dW * dSineTheta // BL
-				);
+				// ZERO : HORIZONTAL
+				if ( dAngleInDegrees == 0 )
+				{
+					rr = new RotatedRectangle( dX, dY - dH / 2, // TL
+							dX + dW,
+							dY - dH / 2, // TR
+							dX + dW,
+							dY + dH / 2, // BR
+							dX,
+							dY + dH / 2 // BL
+					);
+				}
+				// POSITIVE
+				else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
+				{
+					rr = new RotatedRectangle( dX, dY, // TL
+							dX + dW * dCosTheta,
+							dY - dW * dSineTheta, // TR
+							dX + dW * dCosTheta + dH * dSineTheta,
+							dY - dW * dSineTheta + dH * dCosTheta, // BR
+							dX + dH * dSineTheta,
+							dY + dH * dCosTheta // BL
+					);
+				}
+				// NEGATIVE
+				else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
+				{
+					rr = new RotatedRectangle( dX + dH * dSineTheta, dY -
+							dH *
+							dCosTheta, // TL
+							dX + dH * dSineTheta + dW * dCosTheta,
+							dY - dH * dCosTheta + dW * dSineTheta, // TR
+							dX + dW * dCosTheta,
+							dY + dW * dSineTheta, // BR
+							dX,
+							dY // BL
+					);
+				}
+				// ?90 : VERTICALLY UP OR DOWN
+				else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
+				{
+					rr = new RotatedRectangle( dX, dY - dW / 2, // TL
+							dX + dH,
+							dY - dW / 2, // TR
+							dX + dH,
+							dY + dW / 2, // BR
+							dX,
+							dY + dW / 2 // BL
+					);
+				}
 			}
-			// NEGATIVE
-			else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
+			else if ( iLabelLocation == BOTTOM )
 			{
-				rr = new RotatedRectangle( dX - dW * dCosTheta, dY
-						- dW
-						* dSineTheta, // TL
-						dX,
-						dY, // TR
-						dX - dH * dSineTheta,
-						dY + dH * dCosTheta, // BR
-						dX - dH * dSineTheta - dW * dCosTheta,
-						dY + dH * dCosTheta - dW * dSineTheta // BL
-				);
+				// ZERO : HORIZONTAL
+				if ( dAngleInDegrees == 0 )
+				{
+					rr = new RotatedRectangle( dX - dW / 2, dY, // TL
+							dX + dW / 2,
+							dY, // TR
+							dX + dW / 2,
+							dY + dH, // BR
+							dX - dW / 2,
+							dY + dH // BL
+					);
+				}
+				// POSITIVE
+				else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
+				{
+					rr = new RotatedRectangle( dX - dW * dCosTheta, dY +
+							dW *
+							dSineTheta, // TL
+							dX,
+							dY, // TR
+							dX + dH * dSineTheta,
+							dY + dH * dCosTheta, // BR
+							dX + dH * dSineTheta - dW * dCosTheta,
+							dY + dH * dCosTheta + dW * dSineTheta // BL
+					);
+				}
+				// NEGATIVE
+				else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
+				{
+					rr = new RotatedRectangle( dX, dY, // TL
+							dX + dW * dCosTheta,
+							dY + dW * dSineTheta, // TR
+							dX + dW * dCosTheta - dH * dSineTheta,
+							dY + dW * dSineTheta + dH * dCosTheta, // BR
+							dX - dH * dSineTheta,
+							dY + dH * dCosTheta // BL
+					);
+				}
+				// ?90 : VERTICALLY UP OR DOWN
+				else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
+				{
+					rr = new RotatedRectangle( dX - dH / 2, dY, // TL
+							dX + dH / 2,
+							dY, // TR
+							dX + dH / 2,
+							dY + dW, // BR
+							dX - dH / 2,
+							dY + dW // BL
+					);
+				}
 			}
-			// ?90 : VERTICALLY UP OR DOWN
-			else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
+			else if ( iLabelLocation == TOP )
 			{
-				rr = new RotatedRectangle( dX - dH, dY - dW / 2, // TL
-						dX,
-						dY - dW / 2, // TR
-						dX,
-						dY + dW / 2, // BR
-						dX - dH,
-						dY + dW / 2 // BL
-				);
+				// ZERO : HORIZONTAL
+				if ( dAngleInDegrees == 0 )
+				{
+					rr = new RotatedRectangle( dX - dW / 2, dY - dH, // TL
+							dX + dW / 2,
+							dY - dH, // TR
+							dX + dW / 2,
+							dY, // BR
+							dX - dW / 2,
+							dY // BL
+					);
+				}
+				// POSITIVE
+				else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
+				{
+					rr = new RotatedRectangle( dX - dH * dSineTheta, dY -
+							dH *
+							dCosTheta, // TL
+							dX - dH * dSineTheta + dW * dCosTheta,
+							dY - dH * dCosTheta - dW * dSineTheta, // TR
+							dX + dW * dCosTheta,
+							dY - dW * dSineTheta, // BR
+							dX,
+							dY // BL
+					);
+				}
+				// NEGATIVE
+				else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
+				{
+					rr = new RotatedRectangle( dX -
+							dW *
+							dCosTheta +
+							dH *
+							dSineTheta, dY - dW * dSineTheta - dH * dCosTheta, // TL
+							dX + dH * dSineTheta,
+							dY - dH * dCosTheta, // TR
+							dX,
+							dY, // BR
+							dX - dW * dCosTheta,
+							dY - dW * dSineTheta // BL
+					);
+				}
+				// ?90 : VERTICALLY UP OR DOWN
+				else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
+				{
+					rr = new RotatedRectangle( dX - dH / 2, dY - dW, // TL
+							dX + dH / 2,
+							dY - dW, // TR
+							dX + dH / 2,
+							dY, // BR
+							dX - dH / 2,
+							dY // BL
+					);
+				}
 			}
+			else if ( iLabelLocation == INSIDE )
+			{
+				// ZERO : HORIZONTAL
+				if ( dAngleInDegrees == 0 )
+				{
+					rr = new RotatedRectangle( dX - dW / 2, dY - dH / 2, // TL
+							dX + dW / 2,
+							dY - dH / 2, // TR
+							dX + dW / 2,
+							dY + dH / 2, // BR
+							dX - dW / 2,
+							dY + dH / 2 // BL
+					);
+				}
+				// POSITIVE
+				else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
+				{
+					rr = new RotatedRectangle( dX -
+							dH /
+							2 *
+							dSineTheta -
+							dW /
+							2 *
+							dCosTheta, dY -
+							dH /
+							2 *
+							dCosTheta +
+							dW /
+							2 *
+							dSineTheta, // TL
+							dX - dH / 2 * dSineTheta + dW / 2 * dCosTheta,
+							dY - dH / 2 * dCosTheta - dW / 2 * dSineTheta, // TR
+							dX + dH / 2 * dSineTheta + dW / 2 * dCosTheta,
+							dY + dH / 2 * dCosTheta - dW / 2 * dSineTheta, // BR
+							dX + dH / 2 * dSineTheta - dW / 2 * dCosTheta,
+							dY + dH / 2 * dCosTheta + dW / 2 * dSineTheta // BL
+					);
+				}
+				// NEGATIVE
+				else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
+				{
+					rr = new RotatedRectangle( dX -
+							dW /
+							2 *
+							dCosTheta +
+							dH /
+							2 *
+							dSineTheta, dY -
+							dW /
+							2 *
+							dSineTheta -
+							dH /
+							2 *
+							dCosTheta, // TL
+							dX + dH / 2 * dSineTheta + dW / 2 * dCosTheta,
+							dY - dH / 2 * dCosTheta + dW / 2 * dSineTheta, // TR
+							dX + dW / 2 * dCosTheta - dH / 2 * dSineTheta,
+							dY + dH / 2 * dCosTheta + dW / 2 * dSineTheta, // BR
+							dX - dW / 2 * dCosTheta - dH / 2 * dSineTheta,
+							dY - dW / 2 * dSineTheta + dH / 2 * dCosTheta // BL
+					);
+				}
+				// ?90 : VERTICALLY UP OR DOWN
+				else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
+				{
+					rr = new RotatedRectangle( dX - dH / 2, dY - dW / 2, // TL
+							dX + dH / 2,
+							dY - dW / 2, // TR
+							dX + dH / 2,
+							dY + dW / 2, // BR
+							dX - dH / 2,
+							dY + dW / 2 // BL
+					);
+				}
+			}
+			return rr;
 		}
-		else if ( iLabelLocation == RIGHT )
+		finally
 		{
-			// ZERO : HORIZONTAL
-			if ( dAngleInDegrees == 0 )
-			{
-				rr = new RotatedRectangle( dX, dY - dH / 2, // TL
-						dX + dW,
-						dY - dH / 2, // TR
-						dX + dW,
-						dY + dH / 2, // BR
-						dX,
-						dY + dH / 2 // BL
-				);
-			}
-			// POSITIVE
-			else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
-			{
-				rr = new RotatedRectangle( dX, dY, // TL
-						dX + dW * dCosTheta,
-						dY - dW * dSineTheta, // TR
-						dX + dW * dCosTheta + dH * dSineTheta,
-						dY - dW * dSineTheta + dH * dCosTheta, // BR
-						dX + dH * dSineTheta,
-						dY + dH * dCosTheta // BL
-				);
-			}
-			// NEGATIVE
-			else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
-			{
-				rr = new RotatedRectangle( dX + dH * dSineTheta, dY
-						- dH
-						* dCosTheta, // TL
-						dX + dH * dSineTheta + dW * dCosTheta,
-						dY - dH * dCosTheta + dW * dSineTheta, // TR
-						dX + dW * dCosTheta,
-						dY + dW * dSineTheta, // BR
-						dX,
-						dY // BL
-				);
-			}
-			// ?90 : VERTICALLY UP OR DOWN
-			else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
-			{
-				rr = new RotatedRectangle( dX, dY - dW / 2, // TL
-						dX + dH,
-						dY - dW / 2, // TR
-						dX + dH,
-						dY + dW / 2, // BR
-						dX,
-						dY + dW / 2 // BL
-				);
-			}
+			itm.dispose( );
 		}
-		else if ( iLabelLocation == BOTTOM )
-		{
-			// ZERO : HORIZONTAL
-			if ( dAngleInDegrees == 0 )
-			{
-				rr = new RotatedRectangle( dX - dW / 2, dY, // TL
-						dX + dW / 2,
-						dY, // TR
-						dX + dW / 2,
-						dY + dH, // BR
-						dX - dW / 2,
-						dY + dH // BL
-				);
-			}
-			// POSITIVE
-			else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
-			{
-				rr = new RotatedRectangle( dX - dW * dCosTheta, dY
-						+ dW
-						* dSineTheta, // TL
-						dX,
-						dY, // TR
-						dX + dH * dSineTheta,
-						dY + dH * dCosTheta, // BR
-						dX + dH * dSineTheta - dW * dCosTheta,
-						dY + dH * dCosTheta + dW * dSineTheta // BL
-				);
-			}
-			// NEGATIVE
-			else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
-			{
-				rr = new RotatedRectangle( dX, dY, // TL
-						dX + dW * dCosTheta,
-						dY + dW * dSineTheta, // TR
-						dX + dW * dCosTheta - dH * dSineTheta,
-						dY + dW * dSineTheta + dH * dCosTheta, // BR
-						dX - dH * dSineTheta,
-						dY + dH * dCosTheta // BL
-				);
-			}
-			// ?90 : VERTICALLY UP OR DOWN
-			else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
-			{
-				rr = new RotatedRectangle( dX - dH / 2, dY, // TL
-						dX + dH / 2,
-						dY, // TR
-						dX + dH / 2,
-						dY + dW, // BR
-						dX - dH / 2,
-						dY + dW // BL
-				);
-			}
-		}
-		else if ( iLabelLocation == TOP )
-		{
-			// ZERO : HORIZONTAL
-			if ( dAngleInDegrees == 0 )
-			{
-				rr = new RotatedRectangle( dX - dW / 2, dY - dH, // TL
-						dX + dW / 2,
-						dY - dH, // TR
-						dX + dW / 2,
-						dY, // BR
-						dX - dW / 2,
-						dY // BL
-				);
-			}
-			// POSITIVE
-			else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
-			{
-				rr = new RotatedRectangle( dX - dH * dSineTheta, dY
-						- dH
-						* dCosTheta, // TL
-						dX - dH * dSineTheta + dW * dCosTheta,
-						dY - dH * dCosTheta - dW * dSineTheta, // TR
-						dX + dW * dCosTheta,
-						dY - dW * dSineTheta, // BR
-						dX,
-						dY // BL
-				);
-			}
-			// NEGATIVE
-			else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
-			{
-				rr = new RotatedRectangle( dX
-						- dW
-						* dCosTheta
-						+ dH
-						* dSineTheta, dY - dW * dSineTheta - dH * dCosTheta, // TL
-						dX + dH * dSineTheta,
-						dY - dH * dCosTheta, // TR
-						dX,
-						dY, // BR
-						dX - dW * dCosTheta,
-						dY - dW * dSineTheta // BL
-				);
-			}
-			// ?90 : VERTICALLY UP OR DOWN
-			else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
-			{
-				rr = new RotatedRectangle( dX - dH / 2, dY - dW, // TL
-						dX + dH / 2,
-						dY - dW, // TR
-						dX + dH / 2,
-						dY, // BR
-						dX - dH / 2,
-						dY // BL
-				);
-			}
-		}
-		else if ( iLabelLocation == INSIDE )
-		{
-			// ZERO : HORIZONTAL
-			if ( dAngleInDegrees == 0 )
-			{
-				rr = new RotatedRectangle( dX - dW / 2, dY - dH / 2, // TL
-						dX + dW / 2,
-						dY - dH / 2, // TR
-						dX + dW / 2,
-						dY + dH / 2, // BR
-						dX - dW / 2,
-						dY + dH / 2 // BL
-				);
-			}
-			// POSITIVE
-			else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
-			{
-				rr = new RotatedRectangle( dX
-						- dH / 2 * dSineTheta - dW / 2 * dCosTheta, dY
-						- dH / 2 * dCosTheta + dW / 2 * dSineTheta, // TL
-						dX - dH / 2 * dSineTheta + dW / 2 * dCosTheta,
-						dY - dH / 2 * dCosTheta - dW / 2 * dSineTheta, // TR
-						dX + dH / 2 * dSineTheta + dW / 2 * dCosTheta,
-						dY + dH / 2 * dCosTheta - dW / 2 * dSineTheta, // BR
-						dX + dH / 2 * dSineTheta - dW / 2 * dCosTheta,
-						dY + dH / 2 * dCosTheta + dW / 2 * dSineTheta // BL
-				);
-			}
-			// NEGATIVE
-			else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
-			{
-				rr = new RotatedRectangle( dX
-						- dW / 2 * dCosTheta + dH / 2 * dSineTheta, dY
-						- dW / 2 * dSineTheta - dH / 2 * dCosTheta, // TL
-						dX + dH / 2 * dSineTheta + dW / 2 * dCosTheta,
-						dY - dH / 2 * dCosTheta + dW / 2 * dSineTheta, // TR
-						dX + dW / 2 * dCosTheta - dH / 2 * dSineTheta,
-						dY + dH / 2 * dCosTheta + dW / 2 * dSineTheta, // BR
-						dX - dW / 2 * dCosTheta - dH / 2 * dSineTheta,
-						dY - dW / 2 * dSineTheta + dH / 2 * dCosTheta // BL
-				);
-			}
-			// ?90 : VERTICALLY UP OR DOWN
-			else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
-			{
-				rr = new RotatedRectangle( dX - dH / 2, dY - dW / 2, // TL
-						dX + dH / 2,
-						dY - dW / 2, // TR
-						dX + dH / 2,
-						dY + dW / 2, // BR
-						dX - dH / 2,
-						dY + dW / 2 // BL
-				);
-			}
-		}
-		itm.dispose( );
-		return rr;
 	}
 
 	/**
@@ -826,200 +864,239 @@ public class Methods implements IConstants
 		final double dCosTheta = Math.abs( Math.cos( dAngleInRadians ) );
 
 		final ITextMetrics itm = xs.getTextMetrics( la );
+
+		
+		try
+		{
 		if ( dWrapping > 0 )
-		{
-			itm.reuse( la, dWrapping );
-		}
-		double dW = itm.getFullWidth( );
-		double dH = itm.getFullHeight( );
+			{
+				itm.reuse( la, dWrapping );
+			}
+			double dW = itm.getFullWidth( );
+			double dH = itm.getFullHeight( );
+			
+			BoundingBox bb = null;
+			if ( iLabelLocation == LEFT )
+			{
+				// ZERO : HORIZONTAL
+				if ( dAngleInDegrees == 0 )
+				{
+					bb = new BoundingBox( LEFT,
+							dX - dW,
+							dY - dH / 2,
+							dW,
+							dH,
+							dH / 2 );
+				}
+				// POSITIVE
+				else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
+				{
+					bb = new BoundingBox( LEFT, dX -
+							( dH * dSineTheta + dW * dCosTheta ), dY -
+							dH *
+							dCosTheta, dH * dSineTheta + dW * dCosTheta, dH *
+							dCosTheta +
+							dW *
+							dSineTheta, dH * dCosTheta );
+				}
+				// NEGATIVE
+				else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
+				{
+					bb = new BoundingBox( LEFT, dX -
+							( dH * dSineTheta + dW * dCosTheta ), dY -
+							dW *
+							dSineTheta, dH * dSineTheta + dW * dCosTheta, dH *
+							dCosTheta +
+							dW *
+							dSineTheta, dW * dSineTheta );
+				}
+				// ?90 : VERTICALLY UP OR DOWN
+				else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
+				{
+					bb = new BoundingBox( LEFT,
+							dX - dH,
+							dY - dW / 2,
+							dH,
+							dW,
+							dW / 2 );
+				}
+			}
+			else if ( iLabelLocation == RIGHT )
+			{
+				// ZERO : HORIZONTAL
+				if ( dAngleInDegrees == 0 )
+				{
+					bb = new BoundingBox( RIGHT,
+							dX,
+							dY - dH / 2,
+							dW,
+							dH,
+							dH / 2 );
+				}
+				// POSITIVE
+				else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
+				{
+					bb = new BoundingBox( RIGHT, dX, dY - dW * dSineTheta, dH *
+							dSineTheta +
+							dW *
+							dCosTheta, dH * dCosTheta + dW * dSineTheta, dW *
+							dSineTheta );
+				}
+				// NEGATIVE
+				else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
+				{
+					bb = new BoundingBox( RIGHT, dX, dY - dH * dCosTheta, dH *
+							dSineTheta +
+							dW *
+							dCosTheta, dH * dCosTheta + dW * dSineTheta, dH *
+							dCosTheta );
+				}
+				// ?90 : VERTICALLY UP OR DOWN
+				else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
+				{
+					bb = new BoundingBox( RIGHT,
+							dX,
+							dY - dW / 2,
+							dH,
+							dW,
+							dW / 2 );
+				}
+			}
+			else if ( iLabelLocation == BOTTOM )
+			{
+				// ZERO : HORIZONTAL
+				if ( dAngleInDegrees == 0 )
+				{
+					bb = new BoundingBox( BOTTOM,
+							dX - dW / 2,
+							dY,
+							dW,
+							dH,
+							dW / 2 );
+				}
+				// POSITIVE
+				else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
+				{
+					bb = new BoundingBox( BOTTOM, dX - dW * dCosTheta, dY, dH *
+							dSineTheta +
+							dW *
+							dCosTheta, dH * dCosTheta + dW * dSineTheta, dW *
+							dCosTheta );
+				}
+				// NEGATIVE
+				else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
+				{
+					bb = new BoundingBox( BOTTOM, dX - dH * dSineTheta, dY, dH *
+							dSineTheta +
+							dW *
+							dCosTheta, dH * dCosTheta + dW * dSineTheta, dH *
+							dSineTheta );
+				}
+				// ?90 : VERTICALLY UP OR DOWN
+				else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
+				{
+					bb = new BoundingBox( BOTTOM,
+							dX - dH / 2,
+							dY,
+							dH,
+							dW,
+							dH / 2 );
+				}
+			}
+			else if ( iLabelLocation == TOP )
+			{
+				// ZERO : HORIZONTAL
+				if ( dAngleInDegrees == 0 )
+				{
+					bb = new BoundingBox( TOP,
+							dX - dW / 2,
+							dY - dH,
+							dW,
+							dH,
+							dW / 2 );
+				}
+				// POSITIVE
+				else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
+				{
+					bb = new BoundingBox( TOP, dX - dH * dSineTheta, dY -
+							( dH * dCosTheta + dW * dSineTheta ), dH *
+							dSineTheta +
+							dW *
+							dCosTheta, dH * dCosTheta + dW * dSineTheta, dH *
+							dSineTheta );
+				}
+				// NEGATIVE
+				else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
+				{
+					bb = new BoundingBox( TOP, dX - dW * dCosTheta, dY -
+							( dH * dCosTheta + dW * dSineTheta ), dH *
+							dSineTheta +
+							dW *
+							dCosTheta, dH * dCosTheta + dW * dSineTheta, dW *
+							dCosTheta );
+				}
+				// ?90 : VERTICALLY UP OR DOWN
+				else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
+				{
+					bb = new BoundingBox( TOP,
+							dX - dH / 2,
+							dY - dW,
+							dH,
+							dW,
+							dH / 2 );
+				}
+			}
+			else if ( iLabelLocation == INSIDE )
+			{
+				// ZERO : HORIZONTAL
+				if ( dAngleInDegrees == 0 )
+				{
+					bb = new BoundingBox( INSIDE,
+							dX - dW / 2,
+							dY - dH / 2,
+							dW,
+							dH,
+							0 );
+				}
+				// POSITIVE
+				else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
+				{
+					bb = new BoundingBox( INSIDE,
+							dX - ( dH * dSineTheta + dW * dCosTheta ) / 2,
+							dY - ( dH * dCosTheta + dW * dSineTheta ) / 2,
+							dH * dSineTheta + dW * dCosTheta,
+							dH * dCosTheta + dW * dSineTheta,
+							0 );
+				}
+				// NEGATIVE
+				else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
+				{
+					bb = new BoundingBox( INSIDE,
+							dX - ( dW * dCosTheta + dH * dSineTheta ) / 2,
+							dY - ( dH * dCosTheta + dW * dSineTheta ) / 2,
+							dH * dSineTheta + dW * dCosTheta,
+							dH * dCosTheta + dW * dSineTheta,
+							0 );
+				}
+				// ?90 : VERTICALLY UP OR DOWN
+				else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
+				{
+					bb = new BoundingBox( INSIDE,
+							dX - dH / 2,
+							dY - dW / 2,
+							dH,
+							dW,
+							0 );
+				}
+			}
+			
 
-		BoundingBox bb = null;
-		if ( iLabelLocation == LEFT )
-		{
-			// ZERO : HORIZONTAL
-			if ( dAngleInDegrees == 0 )
-			{
-				bb = new BoundingBox( LEFT,
-						dX - dW,
-						dY - dH / 2,
-						dW,
-						dH,
-						dH / 2 );
-			}
-			// POSITIVE
-			else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
-			{
-				bb = new BoundingBox( LEFT, dX
-						- ( dH * dSineTheta + dW * dCosTheta ), dY
-						- dH
-						* dCosTheta, dH * dSineTheta + dW * dCosTheta, dH
-						* dCosTheta
-						+ dW
-						* dSineTheta, dH * dCosTheta );
-			}
-			// NEGATIVE
-			else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
-			{
-				bb = new BoundingBox( LEFT, dX
-						- ( dH * dSineTheta + dW * dCosTheta ), dY
-						- dW
-						* dSineTheta, dH * dSineTheta + dW * dCosTheta, dH
-						* dCosTheta
-						+ dW
-						* dSineTheta, dW * dSineTheta );
-			}
-			// ?90 : VERTICALLY UP OR DOWN
-			else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
-			{
-				bb = new BoundingBox( LEFT,
-						dX - dH,
-						dY - dW / 2,
-						dH,
-						dW,
-						dW / 2 );
-			}
+			return bb;
 		}
-		else if ( iLabelLocation == RIGHT )
+		finally
 		{
-			// ZERO : HORIZONTAL
-			if ( dAngleInDegrees == 0 )
-			{
-				bb = new BoundingBox( RIGHT, dX, dY - dH / 2, dW, dH, dH / 2 );
-			}
-			// POSITIVE
-			else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
-			{
-				bb = new BoundingBox( RIGHT, dX, dY - dW * dSineTheta, dH
-						* dSineTheta
-						+ dW
-						* dCosTheta, dH * dCosTheta + dW * dSineTheta, dW
-						* dSineTheta );
-			}
-			// NEGATIVE
-			else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
-			{
-				bb = new BoundingBox( RIGHT, dX, dY - dH * dCosTheta, dH
-						* dSineTheta
-						+ dW
-						* dCosTheta, dH * dCosTheta + dW * dSineTheta, dH
-						* dCosTheta );
-			}
-			// ?90 : VERTICALLY UP OR DOWN
-			else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
-			{
-				bb = new BoundingBox( RIGHT, dX, dY - dW / 2, dH, dW, dW / 2 );
-			}
+			itm.dispose( );
 		}
-		else if ( iLabelLocation == BOTTOM )
-		{
-			// ZERO : HORIZONTAL
-			if ( dAngleInDegrees == 0 )
-			{
-				bb = new BoundingBox( BOTTOM, dX - dW / 2, dY, dW, dH, dW / 2 );
-			}
-			// POSITIVE
-			else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
-			{
-				bb = new BoundingBox( BOTTOM, dX - dW * dCosTheta, dY, dH
-						* dSineTheta
-						+ dW
-						* dCosTheta, dH * dCosTheta + dW * dSineTheta, dW
-						* dCosTheta );
-			}
-			// NEGATIVE
-			else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
-			{
-				bb = new BoundingBox( BOTTOM, dX - dH * dSineTheta, dY, dH
-						* dSineTheta
-						+ dW
-						* dCosTheta, dH * dCosTheta + dW * dSineTheta, dH
-						* dSineTheta );
-			}
-			// ?90 : VERTICALLY UP OR DOWN
-			else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
-			{
-				bb = new BoundingBox( BOTTOM, dX - dH / 2, dY, dH, dW, dH / 2 );
-			}
-		}
-		else if ( iLabelLocation == TOP )
-		{
-			// ZERO : HORIZONTAL
-			if ( dAngleInDegrees == 0 )
-			{
-				bb = new BoundingBox( TOP, dX - dW / 2, dY - dH, dW, dH, dW / 2 );
-			}
-			// POSITIVE
-			else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
-			{
-				bb = new BoundingBox( TOP, dX - dH * dSineTheta, dY
-						- ( dH * dCosTheta + dW * dSineTheta ), dH
-						* dSineTheta
-						+ dW
-						* dCosTheta, dH * dCosTheta + dW * dSineTheta, dH
-						* dSineTheta );
-			}
-			// NEGATIVE
-			else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
-			{
-				bb = new BoundingBox( TOP, dX - dW * dCosTheta, dY
-						- ( dH * dCosTheta + dW * dSineTheta ), dH
-						* dSineTheta
-						+ dW
-						* dCosTheta, dH * dCosTheta + dW * dSineTheta, dW
-						* dCosTheta );
-			}
-			// ?90 : VERTICALLY UP OR DOWN
-			else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
-			{
-				bb = new BoundingBox( TOP, dX - dH / 2, dY - dW, dH, dW, dH / 2 );
-			}
-		}
-		else if ( iLabelLocation == INSIDE )
-		{
-			// ZERO : HORIZONTAL
-			if ( dAngleInDegrees == 0 )
-			{
-				bb = new BoundingBox( INSIDE,
-						dX - dW / 2,
-						dY - dH / 2,
-						dW,
-						dH,
-						0 );
-			}
-			// POSITIVE
-			else if ( dAngleInDegrees > 0 && dAngleInDegrees < 90 )
-			{
-				bb = new BoundingBox( INSIDE, dX
-						- ( dH * dSineTheta + dW * dCosTheta )
-						/ 2, dY - ( dH * dCosTheta + dW * dSineTheta ) / 2, dH
-						* dSineTheta
-						+ dW
-						* dCosTheta, dH * dCosTheta + dW * dSineTheta, 0 );
-			}
-			// NEGATIVE
-			else if ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
-			{
-				bb = new BoundingBox( INSIDE, dX
-						- ( dW * dCosTheta + dH * dSineTheta )
-						/ 2, dY - ( dH * dCosTheta + dW * dSineTheta ) / 2, dH
-						* dSineTheta
-						+ dW
-						* dCosTheta, dH * dCosTheta + dW * dSineTheta, 0 );
-			}
-			// ?90 : VERTICALLY UP OR DOWN
-			else if ( dAngleInDegrees == 90 || dAngleInDegrees == -90 )
-			{
-				bb = new BoundingBox( INSIDE,
-						dX - dH / 2,
-						dY - dW / 2,
-						dH,
-						dW,
-						0 );
-			}
-		}
-		itm.dispose( );
-
-		return bb;
 	}
 
 	/**
