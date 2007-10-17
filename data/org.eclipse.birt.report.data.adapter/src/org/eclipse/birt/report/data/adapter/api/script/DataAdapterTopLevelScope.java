@@ -13,10 +13,13 @@
  */ 
 package org.eclipse.birt.report.data.adapter.api.script;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -24,12 +27,21 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.eclipse.birt.report.model.api.ConfigVariableHandle;
+import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
+import org.eclipse.birt.report.model.api.SelectionChoiceHandle;
+import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.Scriptable;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Top-level scope created by Data Adaptor. This scope provides implementation of some
@@ -124,7 +136,20 @@ public class DataAdapterTopLevelScope extends ImporterTopLevel
 			Object parameterObject = paramsList.get( i );
 			if ( parameterObject instanceof ScalarParameterHandle )
 			{
-				Object value = getParamDefaultValue( parameterObject );
+				ScalarParameterHandle parameterHandle = (ScalarParameterHandle) parameterObject;
+				Object value = getParamValue( parameterHandle );
+				if ( value == null )
+				{
+					if ( parameterHandle.getParamType( )
+							.equals( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE ) )
+					{
+						value = getStaticParamValue( parameterHandle );
+					}
+					else
+					{
+						value = getParamDefaultValue( parameterHandle );
+					}
+				}
 				parameters.put( ( (ScalarParameterHandle) parameterObject ).getQualifiedName( ),
 						new DummyParameterAttribute( value, "" ) );
 			}
@@ -133,6 +158,29 @@ public class DataAdapterTopLevelScope extends ImporterTopLevel
 		return paramsProp;
 	}
 	
+	/**
+	 * Get the parameter value from the static report parameter
+	 * 
+	 * @return Object[] the static parameter values
+	 */
+	private Object[] getStaticParamValue( ScalarParameterHandle handle )
+	{
+		Iterator it = handle.choiceIterator( );
+		if ( it == null )
+		{
+			return null;
+		}
+		
+		List values = new ArrayList( );
+		
+		while ( it.hasNext( ) )
+		{
+			SelectionChoiceHandle choice = (SelectionChoiceHandle) it.next( );
+			values.add( choice.getValue( ) );
+		}
+		
+		return values.toArray( );
+	}
     
 	/**
 	 * Gets the default value of a parameter. If a usable default value is
@@ -201,6 +249,110 @@ public class DataAdapterTopLevelScope extends ImporterTopLevel
 		{
 			return null;
 		}
+	}
+	
+	/**
+	 * Get the parameter value from .rptconfig file if it does exist
+	 * 
+	 * @return Object[] the parameter value
+	 */
+	private Object[] getParamValue( ScalarParameterHandle paramHandle )
+	{
+		String designFileName = designModule.getFileName( );
+		// replace the file extension
+		String reportConfigName = designFileName.substring( 0,
+				designFileName.length( ) - "rptdesign".length( ) )
+				+ "rptconfig";
+		File file = new File( reportConfigName );
+		if ( file.exists( ) )
+		{
+			String paraName = paramHandle.getName( );
+			ScalarParameterHandle parameterHandle = (ScalarParameterHandle) designModule.findParameter( paraName );
+			paraName = paraName + "_" + parameterHandle.getID( );
+			SessionHandle sessionHandle = new DesignEngine( null ).newSessionHandle( ULocale.US );
+			ReportDesignHandle rdHandle = null;
+			// Open report config file
+			try
+			{
+				rdHandle = sessionHandle.openDesign( reportConfigName );
+			}
+			catch ( DesignFileException e )
+			{
+				return null;
+			}
+			// handle config vars
+			if ( rdHandle != null )
+			{
+				List values = new ArrayList( );
+				Iterator configVars = rdHandle.configVariablesIterator( );
+				while ( configVars != null && configVars.hasNext( ) )
+				{
+					ConfigVariableHandle configVar = (ConfigVariableHandle) configVars.next( );
+					if ( configVar != null )
+					{
+						String varName = prepareConfigVarName( configVar.getName( ) );
+						Object varValue = configVar.getValue( );
+						if ( varName == null || varValue == null )
+						{
+							continue;
+						}
+						if ( varName.equals( paraName ) )
+						{
+							String value = (String) varValue;
+							// if the value actually is in String type, convert
+							// it by adding quotation marks
+							if ( isToBeConverted( parameterHandle.getDataType( ) ) )
+							{
+								value = "\""
+										+ JavascriptEvalUtil.transformToJsConstants( value )
+										+ "\"";
+							}
+							values.add( value );
+							// return value;
+						}
+						if ( isNullValue( varName, (String) varValue, paraName ) )
+						{
+							return new Object[0];
+						}
+					}
+				}
+				return values.toArray( );
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * To check whether the object with the specific type should be converted
+	 * 
+	 * @param type
+	 * @return true if should be converted
+	 */
+	private static boolean isToBeConverted( String type )
+	{
+		return type.equals( DesignChoiceConstants.PARAM_TYPE_STRING )
+				|| type.equals( DesignChoiceConstants.PARAM_TYPE_DATETIME )
+				|| type.equals( DesignChoiceConstants.PARAM_TYPE_TIME )
+				|| type.equals( DesignChoiceConstants.PARAM_TYPE_DATE );
+	}
+
+	/**
+	 * Delete the last "_" part
+	 * 
+	 * @param name
+	 * @return String
+	 */
+	private static String prepareConfigVarName( String name )
+	{
+		int index = name.lastIndexOf( "_" ); //$NON-NLS-1$
+		return name.substring( 0, index );
+	}
+
+	private static boolean isNullValue( String varName, String varValue,
+			String newParaName )
+	{
+		return varName.toLowerCase( ).startsWith( "__isnull" )
+				&& varValue.equals( newParaName );
 	}
     	
 }
