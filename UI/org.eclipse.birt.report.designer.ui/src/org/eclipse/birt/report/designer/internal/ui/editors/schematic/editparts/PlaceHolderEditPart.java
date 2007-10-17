@@ -79,7 +79,8 @@ public class PlaceHolderEditPart extends ReportElementEditPart
 		StyleHandle style = ( (DesignElementHandle) getDefaultHandle( ) )
 				.getPrivateStyle( );
 
-		( (LabelFigure) getFigure( ) ).setFont( getFont( ) );
+		//TODO:fixed the bug 191874
+		//( (LabelFigure) getFigure( ) ).setFont( getFont( ) ); 
 		( (LabelFigure) getFigure( ) ).setImage( getImage( ) );
 		( (LabelFigure) getFigure( ) ).setAlignment( PositionConstants.WEST );
 		( (LabelFigure) getFigure( ) ).setText( getTemplateModel( )
