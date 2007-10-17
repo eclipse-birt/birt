@@ -297,6 +297,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		{
 			attrList.add( attrIter.next( ) );
 		}
+		dynamicViewer.refresh( );
 		dynamicViewer.setInput( attrList );
 	}
 
@@ -308,6 +309,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		{
 			valuesList.add( valuesIter.next( ) );
 		}
+		staticViewer.refresh( );
 		staticViewer.setInput( valuesList );
 	}
 
