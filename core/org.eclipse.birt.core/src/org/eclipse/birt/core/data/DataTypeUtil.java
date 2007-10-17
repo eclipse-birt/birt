@@ -50,7 +50,7 @@ public final class DataTypeUtil
 
 	// cache DateFormatter of ICU
 	private static Map dfMap = new HashMap( );
-	
+	private static Map nfMap = new HashMap( );
 	// Default Date/Time Style
 	private static int DEFAULT_DATE_STYLE = DateFormat.FULL;
 
@@ -824,7 +824,7 @@ public final class DataTypeUtil
 		}
 		else if ( source instanceof Number )
 		{
-			return NumberFormat.getInstance( locale ).format( source );
+			return toString( (Number) source, locale );
 		}
 		else 
 		{
@@ -854,6 +854,30 @@ public final class DataTypeUtil
 		}
 	}
 
+	/**
+	 * 
+	 * @param source
+	 * @param locale
+	 * @return
+	 */
+	private static String toString( Number source, ULocale locale )
+	{
+		NumberFormat nf = (NumberFormat)nfMap.get( locale );
+		if( nf == null )
+		{
+			synchronized( nfMap )
+			{
+				nf = (NumberFormat)nfMap.get( locale );
+				if( nf == null )
+				{
+					nf = NumberFormat.getInstance( locale );
+					nfMap.put( locale, nf );
+				}
+			}
+		}
+		return nf.format( source );
+	}
+	
 	/**
 	 * Converting Blob to/from other types is not currently supported
 	 * @param source
