@@ -2196,6 +2196,7 @@ public class CascadingParametersDialog extends BaseDialog
 				public void modifyText( ModifyEvent e )
 				{
 					updateEditErrorMsg( );
+					updateButtons();
 				}
 
 			} );
