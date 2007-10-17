@@ -12,6 +12,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.property;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.views.property.widgets.BackgroundImageCellEditor;
 import org.eclipse.birt.report.designer.internal.ui.views.property.widgets.ComboBoxColorCellEditor;
 import org.eclipse.birt.report.designer.internal.ui.views.property.widgets.ComboBoxDimensionCellEditor;
 import org.eclipse.birt.report.designer.internal.ui.views.property.widgets.DateTimeCellEditor;
@@ -199,7 +200,11 @@ public class PropertyEditorFactory
 			editor = new TextCellEditor( parent, SWT.PASSWORD );
 			editor.setValue( value );
 		}
-
+		else if ( handle.isBackgroundImageProperty( o ) )
+		{
+			editor = new BackgroundImageCellEditor( parent );
+			editor.setValue( value );
+		}
 		else if ( values.length > 0 )
 		{
 			if ( handle.isEditable( o ) )
