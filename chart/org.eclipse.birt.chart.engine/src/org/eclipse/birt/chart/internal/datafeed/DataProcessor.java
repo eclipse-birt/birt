@@ -300,11 +300,11 @@ public class DataProcessor
 	protected ResultSetWrapper mapToChartResultSet(
 			IDataRowExpressionEvaluator idre, Chart cm ) throws ChartException
 	{
-		// Collect all used data expressions
+		// 1. Collect all used data expressions
 		GroupingLookupHelper lhmLookup = new GroupingLookupHelper( cm, iae, rtc.getULocale( ) );
 		Collection co = lhmLookup.getExpressions( );
 
-		// WALK THROUGH RESULTS
+		// 2. WALK THROUGH RESULTS
 		final int iColumnCount = co.size( );
 		final List liResultSet = new ArrayList( );
 		Object[] oaTuple;
@@ -345,7 +345,7 @@ public class DataProcessor
 		// !Don't close evaluator here, let creator close it.
 		// idre.close( );
 
-		// Prepare orthogonal grouping keys
+		// 3. Prepare orthogonal grouping keys
 		final GroupKey[] groupKeys = findGroupKeys( cm, lhmLookup );
 
 		// create resultset wrapper
@@ -353,6 +353,7 @@ public class DataProcessor
 				liResultSet,
 				groupKeys );
 
+		// 4. Check if base grouping is set.
 		SeriesDefinition sdBase = null;
 		boolean bBaseGrouping = false;
 
@@ -397,6 +398,7 @@ public class DataProcessor
 					lhmLookup );
 		}
 
+		// 4.1. If base grouping is set???
 		if ( bBaseGrouping
 				&& aggHelper.getDataDefinitionsForBaseGrouping( ).size( ) > 0 )
 		{
@@ -406,7 +408,7 @@ public class DataProcessor
 					aggHelper.getDataDefinitionsForBaseGrouping( ) );
 		}
 
-		// apply all sorting and groupings
+		// 5. apply all sorting and groupings
 		rsw.applyBaseSeriesSortingAndGrouping( sdBase,
 					aggHelper.getAggregations( ),
 					aggHelper.getDataDefinitions( ) );

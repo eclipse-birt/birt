@@ -185,14 +185,6 @@ public final class SwingTextMetrics extends TextAdapter
 	}
 
 	/**
-	 * Disposal of the internal image
-	 */
-	public final void finalize( )
-	{
-		dispose( );
-	}
-
-	/**
 	 * 
 	 * @param fm
 	 * @return

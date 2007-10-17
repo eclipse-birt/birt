@@ -312,90 +312,98 @@ public final class AxesRenderHelper
 
 		public void close( ) throws ChartException
 		{
-			// ONE LAST TICK
-			if ( bTickBetweenCategories )
+			try
 			{
-				if ( context.isVertical )
+				// ONE LAST TICK
+				if ( bTickBetweenCategories )
 				{
-					int y = (int) da.getEnd( );
-					if ( bRendering3D )
+					if ( context.isVertical )
 					{
-						context.y3d = (int) da3D.getEnd( );
-					}
-					if ( context.dTick1 != context.dTick2 )
-					{
-						if ( bRenderOrthogonal3DAxis )
+						int y = (int) da.getEnd( );
+						if ( bRendering3D )
 						{
-							// !NOT RENDER TICKS FOR 3D AXES
-							// l3dre.setLineAttributes( liaMajorTick );
-							// l3dre.setStart3D( dXTick1, y3d, dZ );
-							// l3dre.setEnd3D( dXTick2, y3d, dZ );
-							// dc.addLine( l3dre );
+							context.y3d = (int) da3D.getEnd( );
 						}
-						else
-						{
-							lre.setLineAttributes( liaMajorTick );
-							lre.getStart( ).set( context.dTick1, y );
-							lre.getEnd( ).set( context.dTick2, y );
-							ipr.drawLine( lre );
-						}
-
-						if ( iv != null
-								&& iDimension == IConstants.TWO_5_D
-								&& iv.getType( ) == IntersectionValue.VALUE )
-						{
-							lre.setStart( LocationImpl.create( context.dX, y ) );
-							lre.setEnd( LocationImpl.create( context.dX
-									+ dSeriesThickness, y - dSeriesThickness ) );
-							ipr.drawLine( lre );
-						}
-					}
-				}
-				else
-				{
-					int x = (int) da.getEnd( );
-					if ( ( iWhatToDraw & IConstants.AXIS ) == IConstants.AXIS )
-					{
 						if ( context.dTick1 != context.dTick2 )
 						{
-							if ( bRenderBase3DAxis )
+							if ( bRenderOrthogonal3DAxis )
 							{
 								// !NOT RENDER TICKS FOR 3D AXES
 								// l3dre.setLineAttributes( liaMajorTick );
-								// l3dre.setStart3D( x3d, dYTick1, dZ );
-								// l3dre.setEnd3D( x3d, dYTick2, dZ );
-								// dc.addLine( l3dre );
-							}
-							else if ( bRenderAncillary3DAxis )
-							{
-								// !NOT RENDER TICKS FOR 3D AXES
-								// l3dre.setLineAttributes( liaMajorTick );
-								// l3dre.setStart3D( dX, dYTick1, z3d );
-								// l3dre.setEnd3D( dX, dYTick2, z3d );
+								// l3dre.setStart3D( dXTick1, y3d, dZ );
+								// l3dre.setEnd3D( dXTick2, y3d, dZ );
 								// dc.addLine( l3dre );
 							}
 							else
 							{
 								lre.setLineAttributes( liaMajorTick );
-								lre.getStart( ).set( x, context.dTick1 );
-								lre.getEnd( ).set( x, context.dTick2 );
+								lre.getStart( ).set( context.dTick1, y );
+								lre.getEnd( ).set( context.dTick2, y );
 								ipr.drawLine( lre );
 							}
 
-							if ( iv != null
-									&& iDimension == IConstants.TWO_5_D
-									&& iv.getType( ) == IntersectionValue.VALUE )
+							if ( iv != null &&
+									iDimension == IConstants.TWO_5_D &&
+									iv.getType( ) == IntersectionValue.VALUE )
 							{
-								lre.getStart( ).set( x, context.dY );
-								lre.getEnd( ).set( x + dSeriesThickness,
-										context.dY - dSeriesThickness );
+								lre.setStart( LocationImpl.create( context.dX,
+										y ) );
+								lre.setEnd( LocationImpl.create( context.dX +
+										dSeriesThickness, y - dSeriesThickness ) );
 								ipr.drawLine( lre );
 							}
 						}
 					}
+					else
+					{
+						int x = (int) da.getEnd( );
+						if ( ( iWhatToDraw & IConstants.AXIS ) == IConstants.AXIS )
+						{
+							if ( context.dTick1 != context.dTick2 )
+							{
+								if ( bRenderBase3DAxis )
+								{
+									// !NOT RENDER TICKS FOR 3D AXES
+									// l3dre.setLineAttributes( liaMajorTick );
+									// l3dre.setStart3D( x3d, dYTick1, dZ );
+									// l3dre.setEnd3D( x3d, dYTick2, dZ );
+									// dc.addLine( l3dre );
+								}
+								else if ( bRenderAncillary3DAxis )
+								{
+									// !NOT RENDER TICKS FOR 3D AXES
+									// l3dre.setLineAttributes( liaMajorTick );
+									// l3dre.setStart3D( dX, dYTick1, z3d );
+									// l3dre.setEnd3D( dX, dYTick2, z3d );
+									// dc.addLine( l3dre );
+								}
+								else
+								{
+									lre.setLineAttributes( liaMajorTick );
+									lre.getStart( ).set( x, context.dTick1 );
+									lre.getEnd( ).set( x, context.dTick2 );
+									ipr.drawLine( lre );
+								}
+
+								if ( iv != null &&
+										iDimension == IConstants.TWO_5_D &&
+										iv.getType( ) == IntersectionValue.VALUE )
+								{
+									lre.getStart( ).set( x, context.dY );
+									lre.getEnd( ).set( x + dSeriesThickness,
+											context.dY - dSeriesThickness );
+									ipr.drawLine( lre );
+								}
+							}
+						}
+					}
 				}
+
 			}
-			itmText.dispose( ); // DISPOSED
+			finally
+			{
+				itmText.dispose( ); // DISPOSED	
+			}
 		}
 
 		public void handlePostEachTick( int i ) throws ChartException

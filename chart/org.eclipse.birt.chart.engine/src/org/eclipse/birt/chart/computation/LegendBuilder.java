@@ -105,422 +105,436 @@ public final class LegendBuilder implements IConstants
 	public final Size compute( IDisplayServer xs, Chart cm,
 			SeriesDefinition[] seda, RunTimeContext rtc ) throws ChartException
 	{
-		// THREE CASES:
-		// 1. ALL SERIES IN ONE ARRAYLIST
-		// 2. ONE SERIES PER ARRAYLIST
-		// 3. ALL OTHERS
-
-		final Legend lg = cm.getLegend( );
-		LegendData legendData = new LegendData( );
-		if ( !lg.isSetOrientation( ) )
+		ITextMetrics itm = null;
+		try
 		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.GENERATION,
-					"exception.legend.orientation.horzvert", //$NON-NLS-1$
-					Messages.getResourceBundle( xs.getULocale( ) ) );
-		}
-		if ( !lg.isSetDirection( ) )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.GENERATION,
-					"exception.legend.direction.tblr", //$NON-NLS-1$
-					Messages.getResourceBundle( xs.getULocale( ) ) );
-		}
+			// THREE CASES:
+			// 1. ALL SERIES IN ONE ARRAYLIST
+			// 2. ONE SERIES PER ARRAYLIST
+			// 3. ALL OTHERS
 
-		// INITIALIZATION OF VARS USED IN FOLLOWING LOOPS
-		final Orientation orientation = lg.getOrientation( );
-		final Direction direction = lg.getDirection( );
-		final Position lgPosition = lg.getPosition( );
-		final boolean bPaletteByCategory = ( lg.getItemType( ).getValue( ) == LegendItemType.CATEGORIES );
-
-		Label la = LabelImpl.create( );
-		la.setCaption( TextImpl.copyInstance( lg.getText( ) ) );
-
-		ClientArea ca = lg.getClientArea( );
-		LineAttributes lia = ca.getOutline( );
-		legendData.dSeparatorThickness = lia.getThickness( );
-		la.getCaption( ).setValue( "X" ); //$NON-NLS-1$
-		final ITextMetrics itm = xs.getTextMetrics( la );
-		legendData.dItemHeight = itm.getFullHeight( );
-
-		la.getCaption( ).setValue( ELLIPSIS_STRING );
-		itm.reuse( la );
-		legendData.dEllipsisWidth = itm.getFullWidth( );
-
-		legendData.dScale = xs.getDpiResolution( ) / 72d;
-		legendData.insCa = ca.getInsets( ).scaledInstance( legendData.dScale );
-
-		legendData.maxWrappingSize = lg.getWrappingSize( ) * legendData.dScale;
-
-		legendData.dHorizontalSpacing = 3 * legendData.dScale;
-		legendData.dVerticalSpacing = 3 * legendData.dScale;
-
-		legendData.dSafeSpacing = 3 * legendData.dScale;
-
-		legendData.dHorizonalReservedSpace = legendData.insCa.getLeft( )
-				+ legendData.insCa.getRight( )
-				+ ( 3 * legendData.dItemHeight )
-				/ 2
-				+ legendData.dHorizontalSpacing;
-		legendData.dVerticalReservedSpace = legendData.insCa.getTop( )
-				+ legendData.insCa.getBottom( )
-				+ legendData.dVerticalSpacing;
-
-		// Get maximum block width/height available
-		final Block bl = cm.getBlock( );
-		final Bounds boFull = bl.getBounds( )
-				.scaledInstance( legendData.dScale );
-		final Insets ins = bl.getInsets( ).scaledInstance( legendData.dScale );
-		final Insets lgIns = lg.getInsets( ).scaledInstance( legendData.dScale );
-
-		int titleWPos = 0;
-		int titleHPos = 0;
-
-		final TitleBlock titleBlock = cm.getTitle( );
-		final Bounds titleBounds = titleBlock.getBounds( )
-				.scaledInstance( legendData.dScale );
-
-		if ( titleBlock.isVisible( ) )
-		{
-			switch ( titleBlock.getAnchor( ).getValue( ) )
-			{
-				case Anchor.EAST :
-				case Anchor.WEST :
-					titleWPos = 1;
-					break;
-				case Anchor.NORTH :
-				case Anchor.NORTH_EAST :
-				case Anchor.NORTH_WEST :
-				case Anchor.SOUTH :
-				case Anchor.SOUTH_EAST :
-				case Anchor.SOUTH_WEST :
-					titleHPos = 1;
-					break;
-			}
-		}
-
-		legendData.dAvailableWidth = boFull.getWidth( )
-				- ins.getLeft( )
-				- ins.getRight( )
-				- lgIns.getLeft( )
-				- lgIns.getRight( )
-				- titleBounds.getWidth( )
-				* titleWPos;
-
-		legendData.dAvailableHeight = boFull.getHeight( )
-				- ins.getTop( )
-				- ins.getBottom( )
-				- lgIns.getTop( )
-				- lgIns.getBottom( )
-				- titleBounds.getHeight( )
-				* titleHPos;
-
-		// TODO ...
-		// check 1/3 chart block size constraint for legend block
-		double dMaxLegendWidth = boFull.getWidth( ) / 3;
-		double dMaxLegendHeight = boFull.getHeight( ) / 3;
-
-		switch ( lgPosition.getValue( ) )
-		{
-			case Position.LEFT :
-			case Position.RIGHT :
-			case Position.OUTSIDE :
-				if ( legendData.dAvailableWidth > dMaxLegendWidth )
-				{
-					legendData.dAvailableWidth = dMaxLegendWidth;
-				}
-				break;
-			case Position.ABOVE :
-			case Position.BELOW :
-				if ( legendData.dAvailableHeight > dMaxLegendHeight )
-				{
-					legendData.dAvailableHeight = dMaxLegendHeight;
-				}
-				break;
-		}
-
-		// Calculate if minSlice applicable.
-		boolean bMinSliceDefined = false;
-
-		if ( cm instanceof ChartWithoutAxes )
-		{
-			bMinSliceDefined = ( (ChartWithoutAxes) cm ).isSetMinSlice( );
-			legendData.sMinSliceLabel = ( (ChartWithoutAxes) cm ).getMinSliceLabel( );
-			if ( legendData.sMinSliceLabel == null
-					|| legendData.sMinSliceLabel.length( ) == 0 )
-			{
-				legendData.sMinSliceLabel = IConstants.UNDEFINED_STRING;
-			}
-			else
-			{
-				legendData.sMinSliceLabel = rtc.externalizedMessage( legendData.sMinSliceLabel );
-			}
-		}
-
-		// calculate if need an extra legend item when minSlice defined.
-		if ( bMinSliceDefined
-				&& bPaletteByCategory
-				&& cm instanceof ChartWithoutAxes )
-		{
-			calculateExtraLegend( cm, rtc, legendData );
-		}
-
-		// consider legend title size.
-		Label lgTitle = lg.getTitle( );
-
-		Size titleSize = null;
-		BoundingBox titleBounding = null;
-		int iTitlePos = -1;
-
-		if ( lgTitle != null && lgTitle.isSetVisible( ) && lgTitle.isVisible( ) )
-		{
-			lgTitle = LabelImpl.copyInstance( lgTitle );
-
-			// handle external resource string
-			final String sPreviousValue = lgTitle.getCaption( ).getValue( );
-			lgTitle.getCaption( )
-					.setValue( rtc.externalizedMessage( sPreviousValue ) );
-
-			try
-			{
-				titleBounding = Methods.computeBox( xs,
-						IConstants.ABOVE,
-						lgTitle,
-						0,
-						0 );
-			}
-			catch ( IllegalArgumentException uiex )
-			{
-				throw new ChartException( ChartEnginePlugin.ID,
-						ChartException.RENDERING,
-						uiex );
-			}
-
-			iTitlePos = lg.getTitlePosition( ).getValue( );
-
-			// swap left/right
-			if ( rtc.isRightToLeft( ) )
-			{
-				if ( iTitlePos == Position.LEFT )
-				{
-					iTitlePos = Position.RIGHT;
-				}
-				else if ( iTitlePos == Position.RIGHT )
-				{
-					iTitlePos = Position.LEFT;
-				}
-			}
-
-			double shadowness = 3 * legendData.dScale;
-
-			switch ( iTitlePos )
-			{
-				case Position.ABOVE :
-				case Position.BELOW :
-					legendData.dAvailableHeight -= titleBounding.getHeight( )
-							+ 2
-							* shadowness;
-					break;
-				case Position.LEFT :
-				case Position.RIGHT :
-					legendData.dAvailableWidth -= titleBounding.getWidth( )
-							+ 2
-							* shadowness;
-					break;
-			}
-
-			titleSize = SizeImpl.create( titleBounding.getWidth( )
-					+ 2
-					* shadowness, titleBounding.getHeight( ) + 2 * shadowness );
-		}
-		double[] size = null;
-		// COMPUTATIONS HERE MUST BE IN SYNC WITH THE ACTUAL RENDERER
-		if ( orientation.getValue( ) == Orientation.VERTICAL )
-		{
-
-			if ( bPaletteByCategory )
-			{
-				size = computeVerticalByCategory( xs,
-						cm,
-						rtc,
-						itm,
-						la,
-						legendData );
-			}
-			else if ( direction.getValue( ) == Direction.TOP_BOTTOM )
-			{
-				size = computeVerticalByTopBottomValue( xs,
-						cm,
-						seda,
-						rtc,
-						itm,
-						la,
-						legendData );
-			}
-			else if ( direction.getValue( ) == Direction.LEFT_RIGHT )
-			{
-				size = computeVerticalByLeftRightValue( xs,
-						cm,
-						seda,
-						rtc,
-						itm,
-						la,
-						legendData );
-			}
-			else
+			final Legend lg = cm.getLegend( );
+			LegendData legendData = new LegendData( );
+			if ( !lg.isSetOrientation( ) )
 			{
 				throw new ChartException( ChartEnginePlugin.ID,
 						ChartException.GENERATION,
-						"exception.illegal.rendering.direction", //$NON-NLS-1$
-						new Object[]{
-							direction.getName( )
-						},
+						"exception.legend.orientation.horzvert", //$NON-NLS-1$
 						Messages.getResourceBundle( xs.getULocale( ) ) );
 			}
-		}
-		else if ( orientation.getValue( ) == Orientation.HORIZONTAL )
-		{
-			if ( bPaletteByCategory )
-			{
-				size = computeHorizalByCategory( xs,
-						cm,
-						rtc,
-						itm,
-						la,
-						legendData );
-			}
-			else if ( direction.getValue( ) == Direction.TOP_BOTTOM )
-			{
-				size = computeHorizalByTopBottomValue( xs,
-						cm,
-						seda,
-						rtc,
-						itm,
-						la,
-						legendData );
-			}
-			else if ( direction.getValue( ) == Direction.LEFT_RIGHT )
-			{
-				size = computeHorizalByLeftRightValue( xs,
-						cm,
-						seda,
-						rtc,
-						itm,
-						la,
-						legendData );
-			}
-			else
+			if ( !lg.isSetDirection( ) )
 			{
 				throw new ChartException( ChartEnginePlugin.ID,
 						ChartException.GENERATION,
-						"exception.illegal.rendering.direction", //$NON-NLS-1$
-						new Object[]{
-							direction
-						},
+						"exception.legend.direction.tblr", //$NON-NLS-1$
 						Messages.getResourceBundle( xs.getULocale( ) ) );
 			}
-		}
-		else
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.GENERATION,
-					"exception.illegal.rendering.orientation", //$NON-NLS-1$
-					new Object[]{
-						orientation
-					},
-					Messages.getResourceBundle( xs.getULocale( ) ) );
-		}
-		if ( size == null )
-		{
-			return SizeImpl.create( 0, 0 );
-		}
 
-		double dWidth = size[0], dHeight = size[1];
-		if ( iTitlePos != -1 )
-		{
+			// INITIALIZATION OF VARS USED IN FOLLOWING LOOPS
+			final Orientation orientation = lg.getOrientation( );
+			final Direction direction = lg.getDirection( );
+			final Position lgPosition = lg.getPosition( );
+			final boolean bPaletteByCategory = ( lg.getItemType( ).getValue( ) == LegendItemType.CATEGORIES );
 
-			double shadowness = 3 * legendData.dScale;
+			Label la = LabelImpl.create( );
+			la.setCaption( TextImpl.copyInstance( lg.getText( ) ) );
 
-			switch ( iTitlePos )
+			ClientArea ca = lg.getClientArea( );
+			LineAttributes lia = ca.getOutline( );
+			legendData.dSeparatorThickness = lia.getThickness( );
+			la.getCaption( ).setValue( "X" ); //$NON-NLS-1$
+			itm = xs.getTextMetrics( la );
+			legendData.dItemHeight = itm.getFullHeight( );
+
+			la.getCaption( ).setValue( ELLIPSIS_STRING );
+			itm.reuse( la );
+			legendData.dEllipsisWidth = itm.getFullWidth( );
+
+			legendData.dScale = xs.getDpiResolution( ) / 72d;
+			legendData.insCa = ca.getInsets( )
+					.scaledInstance( legendData.dScale );
+
+			legendData.maxWrappingSize = lg.getWrappingSize( ) *
+					legendData.dScale;
+
+			legendData.dHorizontalSpacing = 3 * legendData.dScale;
+			legendData.dVerticalSpacing = 3 * legendData.dScale;
+
+			legendData.dSafeSpacing = 3 * legendData.dScale;
+
+			legendData.dHorizonalReservedSpace = legendData.insCa.getLeft( ) +
+					legendData.insCa.getRight( ) +
+					( 3 * legendData.dItemHeight ) /
+					2 +
+					legendData.dHorizontalSpacing;
+			legendData.dVerticalReservedSpace = legendData.insCa.getTop( ) +
+					legendData.insCa.getBottom( ) +
+					legendData.dVerticalSpacing;
+
+			// Get maximum block width/height available
+			final Block bl = cm.getBlock( );
+			final Bounds boFull = bl.getBounds( )
+					.scaledInstance( legendData.dScale );
+			final Insets ins = bl.getInsets( )
+					.scaledInstance( legendData.dScale );
+			final Insets lgIns = lg.getInsets( )
+					.scaledInstance( legendData.dScale );
+
+			int titleWPos = 0;
+			int titleHPos = 0;
+
+			final TitleBlock titleBlock = cm.getTitle( );
+			final Bounds titleBounds = titleBlock.getBounds( )
+					.scaledInstance( legendData.dScale );
+
+			if ( titleBlock.isVisible( ) )
 			{
-				case Position.ABOVE :
-				case Position.BELOW :
-					dHeight += titleBounding.getHeight( ) + 2 * shadowness;
-					dWidth = Math.max( dWidth, titleBounding.getWidth( )
-							+ 2
-							* shadowness );
-					break;
+				switch ( titleBlock.getAnchor( ).getValue( ) )
+				{
+					case Anchor.EAST :
+					case Anchor.WEST :
+						titleWPos = 1;
+						break;
+					case Anchor.NORTH :
+					case Anchor.NORTH_EAST :
+					case Anchor.NORTH_WEST :
+					case Anchor.SOUTH :
+					case Anchor.SOUTH_EAST :
+					case Anchor.SOUTH_WEST :
+						titleHPos = 1;
+						break;
+				}
+			}
+
+			legendData.dAvailableWidth = boFull.getWidth( ) -
+					ins.getLeft( ) -
+					ins.getRight( ) -
+					lgIns.getLeft( ) -
+					lgIns.getRight( ) -
+					titleBounds.getWidth( ) *
+					titleWPos;
+
+			legendData.dAvailableHeight = boFull.getHeight( ) -
+					ins.getTop( ) -
+					ins.getBottom( ) -
+					lgIns.getTop( ) -
+					lgIns.getBottom( ) -
+					titleBounds.getHeight( ) *
+					titleHPos;
+
+			// TODO ...
+			// check 1/3 chart block size constraint for legend block
+			double dMaxLegendWidth = boFull.getWidth( ) / 3;
+			double dMaxLegendHeight = boFull.getHeight( ) / 3;
+
+			switch ( lgPosition.getValue( ) )
+			{
 				case Position.LEFT :
 				case Position.RIGHT :
-					dWidth += titleBounding.getWidth( ) + 2 * shadowness;
-					dHeight = Math.max( dHeight, titleBounding.getHeight( )
-							+ 2
-							* shadowness );
-					break;
-			}
-		}
-
-		itm.dispose( ); // DISPOSE RESOURCE AFTER USE
-
-		if ( rtc != null )
-		{
-			List legendItems = legendData.legendItems;
-			LegendItemHints[] liha = (LegendItemHints[]) legendItems.toArray( new LegendItemHints[legendItems.size( )] );
-
-			if ( liha.length > 1 )
-			{
-				// Check if the legend item needs inverting
-				boolean needInvert = false;
-				// invert when the chart is transposed
-				if ( cm instanceof ChartWithAxes )
-				{
-					needInvert = ( (ChartWithAxes) cm ).isTransposed( );
-				}
-				
-				boolean isStack = true;
-				for ( int i = 0; i < seda.length; i++ )
-				{					
-					if ( isStack )
+				case Position.OUTSIDE :
+					if ( legendData.dAvailableWidth > dMaxLegendWidth )
 					{
-						//check if the chart is stacked
-						//TODO the logic of series stack may be changed.
-						for ( Iterator iter = seda[i].getSeries( ).iterator( ); iter.hasNext( ); )
+						legendData.dAvailableWidth = dMaxLegendWidth;
+					}
+					break;
+				case Position.ABOVE :
+				case Position.BELOW :
+					if ( legendData.dAvailableHeight > dMaxLegendHeight )
+					{
+						legendData.dAvailableHeight = dMaxLegendHeight;
+					}
+					break;
+			}
+
+			// Calculate if minSlice applicable.
+			boolean bMinSliceDefined = false;
+
+			if ( cm instanceof ChartWithoutAxes )
+			{
+				bMinSliceDefined = ( (ChartWithoutAxes) cm ).isSetMinSlice( );
+				legendData.sMinSliceLabel = ( (ChartWithoutAxes) cm ).getMinSliceLabel( );
+				if ( legendData.sMinSliceLabel == null ||
+						legendData.sMinSliceLabel.length( ) == 0 )
+				{
+					legendData.sMinSliceLabel = IConstants.UNDEFINED_STRING;
+				}
+				else
+				{
+					legendData.sMinSliceLabel = rtc.externalizedMessage( legendData.sMinSliceLabel );
+				}
+			}
+
+			// calculate if need an extra legend item when minSlice defined.
+			if ( bMinSliceDefined &&
+					bPaletteByCategory &&
+					cm instanceof ChartWithoutAxes )
+			{
+				calculateExtraLegend( cm, rtc, legendData );
+			}
+
+			// consider legend title size.
+			Label lgTitle = lg.getTitle( );
+
+			Size titleSize = null;
+			BoundingBox titleBounding = null;
+			int iTitlePos = -1;
+
+			if ( lgTitle != null &&
+					lgTitle.isSetVisible( ) &&
+					lgTitle.isVisible( ) )
+			{
+				lgTitle = LabelImpl.copyInstance( lgTitle );
+
+				// handle external resource string
+				final String sPreviousValue = lgTitle.getCaption( ).getValue( );
+				lgTitle.getCaption( )
+						.setValue( rtc.externalizedMessage( sPreviousValue ) );
+
+				try
+				{
+					titleBounding = Methods.computeBox( xs,
+							IConstants.ABOVE,
+							lgTitle,
+							0,
+							0 );
+				}
+				catch ( IllegalArgumentException uiex )
+				{
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.RENDERING,
+							uiex );
+				}
+
+				iTitlePos = lg.getTitlePosition( ).getValue( );
+
+				// swap left/right
+				if ( rtc.isRightToLeft( ) )
+				{
+					if ( iTitlePos == Position.LEFT )
+					{
+						iTitlePos = Position.RIGHT;
+					}
+					else if ( iTitlePos == Position.RIGHT )
+					{
+						iTitlePos = Position.LEFT;
+					}
+				}
+
+				double shadowness = 3 * legendData.dScale;
+
+				switch ( iTitlePos )
+				{
+					case Position.ABOVE :
+					case Position.BELOW :
+						legendData.dAvailableHeight -= titleBounding.getHeight( ) +
+								2 *
+								shadowness;
+						break;
+					case Position.LEFT :
+					case Position.RIGHT :
+						legendData.dAvailableWidth -= titleBounding.getWidth( ) +
+								2 *
+								shadowness;
+						break;
+				}
+
+				titleSize = SizeImpl.create( titleBounding.getWidth( ) +
+						2 *
+						shadowness, titleBounding.getHeight( ) + 2 * shadowness );
+			}
+			double[] size = null;
+			// COMPUTATIONS HERE MUST BE IN SYNC WITH THE ACTUAL RENDERER
+			if ( orientation.getValue( ) == Orientation.VERTICAL )
+			{
+
+				if ( bPaletteByCategory )
+				{
+					size = computeVerticalByCategory( xs,
+							cm,
+							rtc,
+							itm,
+							la,
+							legendData );
+				}
+				else if ( direction.getValue( ) == Direction.TOP_BOTTOM )
+				{
+					size = computeVerticalByTopBottomValue( xs,
+							cm,
+							seda,
+							rtc,
+							itm,
+							la,
+							legendData );
+				}
+				else if ( direction.getValue( ) == Direction.LEFT_RIGHT )
+				{
+					size = computeVerticalByLeftRightValue( xs,
+							cm,
+							seda,
+							rtc,
+							itm,
+							la,
+							legendData );
+				}
+				else
+				{
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.GENERATION,
+							"exception.illegal.rendering.direction", //$NON-NLS-1$
+							new Object[]{
+								direction.getName( )
+							},
+							Messages.getResourceBundle( xs.getULocale( ) ) );
+				}
+			}
+			else if ( orientation.getValue( ) == Orientation.HORIZONTAL )
+			{
+				if ( bPaletteByCategory )
+				{
+					size = computeHorizalByCategory( xs,
+							cm,
+							rtc,
+							itm,
+							la,
+							legendData );
+				}
+				else if ( direction.getValue( ) == Direction.TOP_BOTTOM )
+				{
+					size = computeHorizalByTopBottomValue( xs,
+							cm,
+							seda,
+							rtc,
+							itm,
+							la,
+							legendData );
+				}
+				else if ( direction.getValue( ) == Direction.LEFT_RIGHT )
+				{
+					size = computeHorizalByLeftRightValue( xs,
+							cm,
+							seda,
+							rtc,
+							itm,
+							la,
+							legendData );
+				}
+				else
+				{
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.GENERATION,
+							"exception.illegal.rendering.direction", //$NON-NLS-1$
+							new Object[]{
+								direction
+							},
+							Messages.getResourceBundle( xs.getULocale( ) ) );
+				}
+			}
+			else
+			{
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.GENERATION,
+						"exception.illegal.rendering.orientation", //$NON-NLS-1$
+						new Object[]{
+							orientation
+						},
+						Messages.getResourceBundle( xs.getULocale( ) ) );
+			}
+			if ( size == null )
+			{
+				return SizeImpl.create( 0, 0 );
+			}
+
+			double dWidth = size[0], dHeight = size[1];
+			if ( iTitlePos != -1 )
+			{
+
+				double shadowness = 3 * legendData.dScale;
+
+				switch ( iTitlePos )
+				{
+					case Position.ABOVE :
+					case Position.BELOW :
+						dHeight += titleBounding.getHeight( ) + 2 * shadowness;
+						dWidth = Math.max( dWidth, titleBounding.getWidth( ) +
+								2 *
+								shadowness );
+						break;
+					case Position.LEFT :
+					case Position.RIGHT :
+						dWidth += titleBounding.getWidth( ) + 2 * shadowness;
+						dHeight = Math.max( dHeight,
+								titleBounding.getHeight( ) + 2 * shadowness );
+						break;
+				}
+			}
+
+			if ( rtc != null )
+			{
+				List legendItems = legendData.legendItems;
+				LegendItemHints[] liha = (LegendItemHints[]) legendItems.toArray( new LegendItemHints[legendItems.size( )] );
+
+				if ( liha.length > 1 )
+				{
+					// Check if the legend item needs inverting
+					boolean needInvert = false;
+					// invert when the chart is transposed
+					if ( cm instanceof ChartWithAxes )
+					{
+						needInvert = ( (ChartWithAxes) cm ).isTransposed( );
+					}
+
+					boolean isStack = true;
+					for ( int i = 0; i < seda.length; i++ )
+					{
+						if ( isStack )
 						{
-							Series series = (Series) iter.next( );
-							if ( !series.isStacked( ) )
+							// check if the chart is stacked
+							// TODO the logic of series stack may be changed.
+							for ( Iterator iter = seda[i].getSeries( )
+									.iterator( ); iter.hasNext( ); )
 							{
-								
-								isStack = false;
-								break;
+								Series series = (Series) iter.next( );
+								if ( !series.isStacked( ) )
+								{
+
+									isStack = false;
+									break;
+								}
 							}
 						}
 					}
-				}
-				// invert when the chart is stacked
-				if ( isStack )
-				{
-					// prevent duplicated invert
-					needInvert = !needInvert;
+					// invert when the chart is stacked
+					if ( isStack )
+					{
+						// prevent duplicated invert
+						needInvert = !needInvert;
+					}
+
+					if ( needInvert )
+					{
+						liha = invertLegendItems( liha );
+					}
 				}
 
-				if ( needInvert )
-				{
-					liha = invertLegendItems( liha );
-				}
+				// update context hints here.
+				LegendLayoutHints lilh = new LegendLayoutHints( SizeImpl.create( dWidth,
+						dHeight ),
+						titleSize,
+						legendData.bMinSliceApplied,
+						legendData.sMinSliceLabel,
+						liha );
+
+				rtc.setLegendLayoutHints( lilh );
 			}
 
-			// update context hints here.
-			LegendLayoutHints lilh = new LegendLayoutHints( SizeImpl.create( dWidth,
-					dHeight ),
-					titleSize,
-					legendData.bMinSliceApplied,
-					legendData.sMinSliceLabel,
-					liha );
+			sz = SizeImpl.create( dWidth, dHeight );
 
-			rtc.setLegendLayoutHints( lilh );
+		}
+		finally
+		{
+			itm.dispose( ); // DISPOSE RESOURCE AFTER USE
 		}
 
-		sz = SizeImpl.create( dWidth, dHeight );
 		return sz;
 	}
 
