@@ -31,7 +31,7 @@ public class SampleIncludedSourceEntry
 
 	private static final String librariesFragmentPath = "/samplereports/Reporting Feature Examples/Libraries";
 
-	private static final String scriptedDataSourceFragmentPath = "/samplereports.ide/Scripted Data Source";
+	private static final String scriptedDataSourceFragmentPath = "/samplereports.ide/Scripting/Scripted Data Source";
 
 	private static final String extendingFragmentPath = "/samplereports.ide/Extending BIRT";
 
