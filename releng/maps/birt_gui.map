@@ -2,7 +2,7 @@
 plugin@org.eclipse.birt.report.debug.ui=r221_v20070831,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.debug.ui
 plugin@org.eclipse.birt.report.designer.core=r221_v20070913,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.core
 plugin@org.eclipse.birt.report.designer.samplereports=r221_v20070904,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.samplereports
-plugin@org.eclipse.birt.report.designer.ui=r221_v20071017,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui
+plugin@org.eclipse.birt.report.designer.ui=r221_v20071018,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui
 plugin@org.eclipse.birt.report.designer.ui.cubebuilder=r221_v20071017,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui.cubebuilder
 plugin@org.eclipse.birt.report.designer.ui.editor.xml.wtp=r221_v20070831,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui.editor.xml.wtp
 plugin@org.eclipse.birt.report.designer.ui.editors=r221_v20070831,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer.ui.editors
