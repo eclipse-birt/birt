@@ -423,6 +423,7 @@ dataset.editor.error.noDataSource=ƒf[ƒ^ƒZƒbƒg {0} ‚Éƒf[ƒ^ƒ\[ƒX‚ª‚ ‚è‚Ü‚¹‚ñBƒ
 dataset.editor.error.nonmatchedDataSource=‚±‚Ìƒf[ƒ^ƒ\[ƒX‚ÍAƒf[ƒ^ƒZƒbƒg "{0}" ‚Éˆê’v‚µ‚Ü‚¹‚ñBƒf[ƒ^ƒZƒbƒg‚ÌŒ^ "{1}" ‚Éˆê’v‚·‚éƒf[ƒ^ƒ\[ƒX‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B
 dataset.editor.error.noEditorsFound=ƒf[ƒ^ƒZƒbƒg‚ÌƒGƒfƒBƒ^‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ {0}B
 dataset.editor.error.noInputParameterDefaultValue=“ü—Íƒpƒ‰ƒƒ^ {0} ‚É‹ó”’ˆÈŠO‚ÌƒfƒtƒHƒ‹ƒg’l‚ğİ’è‚µ‚Ä‚­‚¾‚³‚¢B
+dataset.editor.error.invalidLinkedParameter=The report parameter '{0}' allows multiple values, which can not be used to link with data set parameter.
 dataset.editor.error.title=Œx
 dataset.editor.error.unsupportedDataSet=‚±‚Ìƒf[ƒ^ƒZƒbƒgŒ^‚Íg—p‚Å‚«‚Ü‚¹‚ñ - {0}B
 dataset.editor.error.validationParameter=“ü—Íƒpƒ‰ƒƒ^ [{0}] ‚Ì’l‚ª‹ó‚Å‚·B‹ó‚Ì‚Ü‚Ü‚É‚µ‚Ä‚¨‚«‚Ü‚·‚© ?

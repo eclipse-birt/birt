@@ -423,6 +423,7 @@ dataset.editor.error.noDataSource=데이터 집합 {0}에 사용할 수 있는 데이터 원본이
 dataset.editor.error.nonmatchedDataSource=데이터 집합 "{0}"에 일치하지 않는 데이터 원본이 있습니다. 데이터 집합 형식 "{1}"에 일치하는 데이터 원본을 선택하십시오.
 dataset.editor.error.noEditorsFound=데이터 집합에 대한 편집기 없음 {0}.
 dataset.editor.error.noInputParameterDefaultValue=입력 매개 변수 {0}에 비어 있지 않은 기본값이 있어야 합니다.
+dataset.editor.error.invalidLinkedParameter=The report parameter '{0}' allows multiple values, which can not be used to link with data set parameter.
 dataset.editor.error.title=경고
 dataset.editor.error.unsupportedDataSet=지원되지 않는 데이터 집합 형식 - {0}.
 dataset.editor.error.validationParameter=입력 매개 변수 [{0}]의 값이 비어 있습니다. 값을 그대로 비워두시겠습니까?
