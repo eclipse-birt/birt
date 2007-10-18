@@ -41,17 +41,17 @@ CrosstabReportItemQuery.error.crosstab.loading=Laden des Kreuztabellenelements a
 CrosstabReportItemQuery.error.query.building=Ungültiges Kreuztabellenmodell zum Erstellen der Abfrage.
 CrosstabReportItemQuery.error.register.empty.cell.value=Fehler beim Registrieren des leeren Zellenwerts.
 
-CrosstabQueryHelper.error.invalid.measure=Die Kreuztabelle enthält keine Definition der Maßeinheit, oder die spezifische Maßeinheit '{0}' ist nicht im zugehörigen Quader enthalten.
-CrosstabQueryHelper.error.invalid.dimension.row=Der Zeilenbereich der Kreuztabelle enthält keine Definition der Dimension, oder die spezifische Dimension '{0}' ist nicht im zugehörigen Quader enthalten.
-CrosstabQueryHelper.error.invalid.level.row=Der Zeilenbereich der Kreuztabelle enthält keine Definition der Ebene, oder die spezifische Ebene '{0}' ist nicht im zugehörigen Quader enthalten.
-CrosstabQueryHelper.error.invalid.dimension.column=Der Spaltenbereich der Kreuztabelle enthält keine Definition der Dimension, oder die spezifische Dimension '{0}' ist nicht im zugehörigen Quader enthalten.
-CrosstabQueryHelper.error.invalid.level.column=Der Spaltenbereich der Kreuztabelle enthält keine Definition der Ebene, oder die spezifische Ebene '{0}' ist nicht im zugehörigen Quader enthalten.
+CrosstabQueryHelper.error.invalid.measure=Crosstab contains null measure definition or the specific measure "{0}" does not exist in associated cube.
+CrosstabQueryHelper.error.invalid.dimension.row=Crosstab row area contains null dimension definition or the specific dimension "{0}" does not exist in associated cube.
+CrosstabQueryHelper.error.invalid.level.row=Crosstab row area contains null level definition or the specific level "{0}" does not exist in associated cube.
+CrosstabQueryHelper.error.invalid.dimension.column=Crosstab column area contains null dimension definition or the specific dimension "{0}" does not exist in associated cube.
+CrosstabQueryHelper.error.invalid.level.column=Crosstab column area contains null level definition or the specific level "{0}" does not exist in associated cube.
 
 BaseCrosstabExecutor.error.process.visibility=Beim Verarbeiten der Sichtbarkeit ist ein Fehler aufgetreten.
 BaseCrosstabExecutor.error.process.bookmark=Beim Verarbeiten des Lesezeichens ist ein Fehler aufgetreten.
 BaseCrosstabExecutor.error.process.row.height=Beim Verarbeiten der Zeilenhöhe ist ein Fehler aufgetreten.
 
-CrosstabCellExecutor.error.restor.data.position=Beim Wiederherstellen der Datenposition ist ein Fehler aufgetreten.
+CrosstabCellExecutor.error.restor.data.position=Error happened when restore data position.
 
 CrosstabGrandTotalRowExecutor.error.generate.child.executor=Beim Generieren des untergeordneten ausführenden Programms ist ein Fehler aufgetreten.
 CrosstabGrandTotalRowExecutor.error.check.child.executor=Beim Überprüfen des Status des untergeordneten ausführenden Programms ist ein Fehler aufgetreten.

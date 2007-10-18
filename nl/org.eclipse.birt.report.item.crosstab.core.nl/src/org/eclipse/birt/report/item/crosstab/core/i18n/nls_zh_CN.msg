@@ -41,17 +41,17 @@ CrosstabReportItemQuery.error.crosstab.loading=从扩展项加载交叉表项失败。
 CrosstabReportItemQuery.error.query.building=用于查询生成的交叉表模型无效。
 CrosstabReportItemQuery.error.register.empty.cell.value=注册空单元格值时出错。
 
-CrosstabQueryHelper.error.invalid.measure=交叉表包含空度量定义，或者特定度量“{0}”在关联的多维数据集内不存在。
-CrosstabQueryHelper.error.invalid.dimension.row=交叉表行区域包含空维定义，或者特定维“{0}”在关联的多维数据集内不存在。
-CrosstabQueryHelper.error.invalid.level.row=交叉表行区域包含空级别定义，或者特定级别“{0}”在关联的多维数据集内不存在。
-CrosstabQueryHelper.error.invalid.dimension.column=交叉表列区域包含空维定义，或者特定维“{0}”在关联的多维数据集内不存在。
-CrosstabQueryHelper.error.invalid.level.column=交叉表列区域包含空级别定义，或者特定级别“{0}”在关联的多维数据集内不存在。
+CrosstabQueryHelper.error.invalid.measure=Crosstab contains null measure definition or the specific measure "{0}" does not exist in associated cube.
+CrosstabQueryHelper.error.invalid.dimension.row=Crosstab row area contains null dimension definition or the specific dimension "{0}" does not exist in associated cube.
+CrosstabQueryHelper.error.invalid.level.row=Crosstab row area contains null level definition or the specific level "{0}" does not exist in associated cube.
+CrosstabQueryHelper.error.invalid.dimension.column=Crosstab column area contains null dimension definition or the specific dimension "{0}" does not exist in associated cube.
+CrosstabQueryHelper.error.invalid.level.column=Crosstab column area contains null level definition or the specific level "{0}" does not exist in associated cube.
 
 BaseCrosstabExecutor.error.process.visibility=处理可见性时出错。
 BaseCrosstabExecutor.error.process.bookmark=处理书签时出错。
 BaseCrosstabExecutor.error.process.row.height=处理行高时出错。
 
-CrosstabCellExecutor.error.restor.data.position=还原数据位置时出错。
+CrosstabCellExecutor.error.restor.data.position=Error happened when restore data position.
 
 CrosstabGrandTotalRowExecutor.error.generate.child.executor=生成子执行程序时出错。
 CrosstabGrandTotalRowExecutor.error.check.child.executor=检查子执行程序的状态时出错。

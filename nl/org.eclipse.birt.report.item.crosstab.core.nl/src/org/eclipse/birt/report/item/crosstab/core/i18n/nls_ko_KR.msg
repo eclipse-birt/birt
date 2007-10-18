@@ -41,17 +41,17 @@ CrosstabReportItemQuery.error.crosstab.loading=확장 항목을 크로스 탭 항목에 로드
 CrosstabReportItemQuery.error.query.building=쿼리 생성에 맞지 않는 크로스 탭 모델입니다.
 CrosstabReportItemQuery.error.register.empty.cell.value=빈 셀 값을 등록하는 중에 오류가 발생했습니다.
 
-CrosstabQueryHelper.error.invalid.measure=크로스 탭에 널(null) 측정 정의가 있거나 관련 큐브에 특정 측정 "{0}"이(가) 없습니다.
-CrosstabQueryHelper.error.invalid.dimension.row=크로스 탭 행 영역에 널(null) 차원 정의가 있거나 관련 큐브에 특정 차원 "{0}"이(가) 없습니다.
-CrosstabQueryHelper.error.invalid.level.row=크로스 탭 행 영역에 널(null) 수준 정의가 있거나 관련 큐브에 특정 수준 "{0}"이(가) 없습니다.
-CrosstabQueryHelper.error.invalid.dimension.column=크로스 탭 열 영역에 널(null) 차원 정의가 있거나 관련 큐브에 특정 차원 "{0}"이(가) 없습니다.
-CrosstabQueryHelper.error.invalid.level.column=크로스 탭 열 영역에 널(null) 수준 정의가 있거나 관련 큐브에 특정 수준 "{0}"이(가) 없습니다.
+CrosstabQueryHelper.error.invalid.measure=Crosstab contains null measure definition or the specific measure "{0}" does not exist in associated cube.
+CrosstabQueryHelper.error.invalid.dimension.row=Crosstab row area contains null dimension definition or the specific dimension "{0}" does not exist in associated cube.
+CrosstabQueryHelper.error.invalid.level.row=Crosstab row area contains null level definition or the specific level "{0}" does not exist in associated cube.
+CrosstabQueryHelper.error.invalid.dimension.column=Crosstab column area contains null dimension definition or the specific dimension "{0}" does not exist in associated cube.
+CrosstabQueryHelper.error.invalid.level.column=Crosstab column area contains null level definition or the specific level "{0}" does not exist in associated cube.
 
 BaseCrosstabExecutor.error.process.visibility=표시 유형을 처리하는 중에 오류가 발생했습니다.
 BaseCrosstabExecutor.error.process.bookmark=책갈피를 처리하는 중에 오류가 발생했습니다.
 BaseCrosstabExecutor.error.process.row.height=행 높이를 처리하는 중에 오류가 발생했습니다.
 
-CrosstabCellExecutor.error.restor.data.position=데이터 위치를 복원하는 중에 오류가 발생했습니다.
+CrosstabCellExecutor.error.restor.data.position=Error happened when restore data position.
 
 CrosstabGrandTotalRowExecutor.error.generate.child.executor=하위 실행기를 생성하는 중에 오류가 발생했습니다.
 CrosstabGrandTotalRowExecutor.error.check.child.executor=하위 실행기의 상태를 확인하는 중에 오류가 발생했습니다.
