@@ -40,6 +40,9 @@ public class ResourceConstants
 
 	/** Error: Statement is null. */
 	public final static int ERROR_NO_STATEMENT = ERROR_BASE + 7;
+	
+	/** Error: Statement is invalid. */
+	public final static int ERROR_INVALID_STATEMENT = ERROR_BASE + 8;
 
 	/** start constant string */
 	public final static String CONN_CANNOT_CLOSE = "odajdbc.CannotCloseConn";

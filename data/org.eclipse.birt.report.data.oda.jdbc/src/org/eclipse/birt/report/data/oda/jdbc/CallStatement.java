@@ -72,6 +72,7 @@ public class CallStatement implements IAdvancedQuery
 	
 	private IResultSetMetaData cachedResultMetaData;
 	private IResultSet cachedResultSet;
+	private IParameterMetaData cachedParameterMetaData;
 
 	protected String procedureName;
 
@@ -150,6 +151,7 @@ public class CallStatement implements IAdvancedQuery
 			this.callStat = conn.prepareCall( command );
 			this.cachedResultMetaData = null;
 			this.cachedResultSet = null;
+			this.cachedParameterMetaData = null;
 			paramUtil = new SPParameterPositionUtil( command, '@' );
 		}
 		catch ( SQLException e )
@@ -419,9 +421,9 @@ public class CallStatement implements IAdvancedQuery
 	}
 	
 	/**
-	 * get paremeter metadata for callableStatement, if metadata is null or data
+	 * get parameter metadata for callableStatement, if metadata is null or data
 	 * mode is unknown or SQLException is thrown, register output parameter on
-	 * DatabaseMetadata, else register output paremeter on statement's metadata.
+	 * DatabaseMetadata, else register output parameter on statement's metadata.
 	 * 
 	 * @throws OdaException
 	 */
@@ -454,9 +456,9 @@ public class CallStatement implements IAdvancedQuery
 		if ( parameterDefn.getParameterType( i ) != Types.CHAR )
 			return parameterDefn.getParameterType( i );
 
-		List paramMetaDataList = getCallableParamMetaData( );
-		if ( paramMetaDataList != null && !paramMetaDataList.isEmpty( ) )
-			return ( (ParameterDefn) paramMetaDataList.get( i ) ).getParamType( );
+		IParameterMetaData paramMetaData = getParameterMetaData( );
+		if ( paramMetaData != null && paramMetaData.getParameterCount( ) > i )
+			return paramMetaData.getParameterType( i + 1 );
 		else
 			return parameterDefn.getParameterType( i );
 	}
@@ -1428,18 +1430,20 @@ public class CallStatement implements IAdvancedQuery
 	{
 		/* redirect the call to JDBC callableStatement.getParameterMetaData */
 		assertNotNull( callStat );
+
+		if ( this.cachedParameterMetaData != null )
+			return this.cachedParameterMetaData;
 		int[] positionArray = paramUtil.getParameterPositions( );
 
 		List paramMetaList1 = this.getCallableParamMetaData( );
 		List paramMetaList2 = new ArrayList( );
-		if( positionArray.length!= paramMetaList1.size( ) )
-			throw new OdaException( ResourceConstants.INVALID_STORED_PRECEDURE);
 		for ( int i = 0; i < positionArray.length; i++ )
 		{
 			int index = positionArray[i]; // 1-based
 			paramMetaList2.add( paramMetaList1.get( index - 1 ) );
 		}
-		return new SPParameterMetaData( paramMetaList2 );
+		cachedParameterMetaData = new SPParameterMetaData( paramMetaList2 );
+		return cachedParameterMetaData;
 	}
 
 	/**
