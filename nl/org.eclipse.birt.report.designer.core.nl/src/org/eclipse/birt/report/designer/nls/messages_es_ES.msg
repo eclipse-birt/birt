@@ -423,6 +423,7 @@ dataset.editor.error.noDataSource=No hay ninguna fuente de datos disponible para
 dataset.editor.error.nonmatchedDataSource=Fuente de datos sin coincidencia para conjunto de datos "{0}", seleccione una fuente de datos que coincida con el tipo de conjunto de datos "{1}".
 dataset.editor.error.noEditorsFound=No se han encontrado editores para el conjunto de datos {0}.
 dataset.editor.error.noInputParameterDefaultValue=El parámetro de entrada {0} debe tener un valor predeterminado que no esté vacío.
+dataset.editor.error.invalidLinkedParameter=The report parameter '{0}' allows multiple values, which can not be used to link with data set parameter. 
 dataset.editor.error.title=Advertencia
 dataset.editor.error.unsupportedDataSet=Tipo de conjunto de datos no admitido - {0}.
 dataset.editor.error.validationParameter=El parámetro de entrada [{0}] tiene un valor vacío. ¿Desea dejarlo vacío?
