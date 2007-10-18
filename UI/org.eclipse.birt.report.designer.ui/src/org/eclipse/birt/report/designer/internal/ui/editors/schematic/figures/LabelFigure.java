@@ -115,21 +115,23 @@ public class LabelFigure extends ReportElementFigure {
 	 * @see org.eclipse.draw2d.IFigure#getPreferredSize(int, int)
 	 */
 	public Dimension getPreferredSize(int wHint, int hHint) {
-		Dimension dim = super.getPreferredSize(wHint, hHint);
-
+		//Dimension dim = super.getPreferredSize(wHint, hHint);
+		
 		int rx = recommendSize != null ? recommendSize.width : 0;
 		int ry = recommendSize != null ? recommendSize.height : 0;
+		Dimension dim = super.getPreferredSize(rx == 0? wHint:rx, hHint);
+		
+//		if (DesignChoiceConstants.DISPLAY_BLOCK.equals(display)) {
+//			return new Dimension(dim.width, Math.max(dim.height, ry));
+//		}
 
-		if (DesignChoiceConstants.DISPLAY_BLOCK.equals(display)) {
-			return new Dimension(dim.width, Math.max(dim.height, ry));
-		}
-
-		if (DesignChoiceConstants.DISPLAY_INLINE.equals(display)) {
-			return new Dimension(Math.max(dim.width, rx), Math.max(dim.height,
+		//if (DesignChoiceConstants.DISPLAY_INLINE.equals(display)) 
+		//{
+		return new Dimension(Math.max(dim.width, rx), Math.max(dim.height,
 					ry));
-		}
+		//}
 
-		return dim;
+		//return dim;
 	}
 
 	/*
