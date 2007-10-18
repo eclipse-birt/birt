@@ -254,6 +254,8 @@ public class ParameterDialog extends BaseDialog
 
 	private static final String STANDARD_DATE_TIME_PATTERN = "MM/dd/yyyy hh:mm:ss a"; //$NON-NLS-1$
 
+	private boolean allowMultiValueVisible = true;
+
 	private HashMap dirtyProperties = new HashMap( 5 );
 
 	private ArrayList choiceList = new ArrayList( );
@@ -501,6 +503,12 @@ public class ParameterDialog extends BaseDialog
 		super( parentShell, title );
 	}
 
+	public ParameterDialog( Shell parentShell, String title, boolean allowMultiValueVisible)
+	{
+		super( parentShell, title );
+		this.allowMultiValueVisible = allowMultiValueVisible;
+	}
+	
 	protected Control createDialogArea( Composite parent )
 	{
 		Composite parentComposite = (Composite) super.createDialogArea( parent );
@@ -749,7 +757,8 @@ public class ParameterDialog extends BaseDialog
 		}
 		defaultValue = inputParameter.getDefaultValue( );
 
-		if ( PARAM_CONTROL_LIST.endsWith( getSelectedControlType( ) ) )
+		if ( PARAM_CONTROL_LIST.endsWith( getSelectedControlType( ) ) 
+			&& allowMultiValueVisible)
 		{
 			allowMultiChoice.setVisible( true );
 			if ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.endsWith( inputParameter.getParamType( ) ) )
@@ -1422,7 +1431,8 @@ public class ParameterDialog extends BaseDialog
 			dynamicRadio.setEnabled( radioEnable );
 		}
 
-		if ( PARAM_CONTROL_LIST.equals( getSelectedControlType( ) ) )
+		if ( PARAM_CONTROL_LIST.equals( getSelectedControlType( ) ) 
+		&& allowMultiValueVisible)
 		{
 			allowMultiChoice.setVisible( true );
 		}
