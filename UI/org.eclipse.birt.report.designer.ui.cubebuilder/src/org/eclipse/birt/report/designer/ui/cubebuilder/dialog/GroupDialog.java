@@ -15,13 +15,11 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
-import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
@@ -30,8 +28,6 @@ import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IHierarchyModel;
-import org.eclipse.birt.report.model.elements.interfaces.ILevelModel;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
@@ -198,7 +194,7 @@ public class GroupDialog extends TitleAreaDialog
 				&& !( (DimensionHandle) hierarchy.getContainer( ) ).isTimeType( ) )
 			levelViewer.getTree( ).setVisible( false );
 
-		levelViewer.setInput( getDateTypeNames( ) );
+		levelViewer.setInput( getDateTypeNames( getLevelTypesByDateType( ) ) );
 		levelViewer.expandAll( );
 		TreeItem topNode = (TreeItem) levelViewer.getTree( ).getItem( 0 );
 		do
@@ -227,15 +223,10 @@ public class GroupDialog extends TitleAreaDialog
 			return null;
 	}
 
-	private IChoice[] DATE_TIME_LEVEL_TYPE_ALL = MetaDataDictionary.getInstance( )
-			.getElement( ReportDesignConstants.TABULAR_LEVEL_ELEMENT )
-			.getProperty( DesignChoiceConstants.CHOICE_DATE_TIME_LEVEL_TYPE )
-			.getAllowedChoices( )
-			.getChoices( );
+	
 
-	private List getDateTypeNames( )
+	private List getDateTypeNames( IChoice[] choices )
 	{
-		IChoice[] choices = DATE_TIME_LEVEL_TYPE_ALL;
 		List dateTypeList = new ArrayList( );
 		if ( choices == null )
 			return dateTypeList;
@@ -248,11 +239,7 @@ public class GroupDialog extends TitleAreaDialog
 
 	private String getDateTypeDisplayName( String name )
 	{
-		return ChoiceSetFactory.getDisplayNameFromChoiceSet( name,
-				DEUtil.getMetaDataDictionary( )
-						.getElement( ReportDesignConstants.LEVEL_ELEMENT )
-						.getProperty( ILevelModel.DATA_TYPE_PROP )
-						.getAllowedChoices( ) );
+		return ChoiceSetFactory.getDisplayNameFromChoiceSet( name, OlapUtil.getDateTimeLevelTypeChoiceSet( ) );
 	}
 
 	class DateLevelProvider extends LabelProvider implements
@@ -261,25 +248,25 @@ public class GroupDialog extends TitleAreaDialog
 
 		public Object[] getChildren( Object parentElement )
 		{
-			int index = getDateTypeNames( ).indexOf( parentElement );
+			int index = getDateTypeNames( getLevelTypesByDateType( ) ).indexOf( parentElement );
 			return new Object[]{
-				getDateTypeNames( ).get( index + 1 )
+				getDateTypeNames( getLevelTypesByDateType( ) ).get( index + 1 )
 			};
 		}
 
 		public Object getParent( Object element )
 		{
-			int index = getDateTypeNames( ).indexOf( element );
+			int index = getDateTypeNames( getLevelTypesByDateType( ) ).indexOf( element );
 			if ( index == 0 )
 				return null;
 			else
-				return getDateTypeNames( ).get( index - 1 );
+				return getDateTypeNames( getLevelTypesByDateType( ) ).get( index - 1 );
 		}
 
 		public boolean hasChildren( Object element )
 		{
-			int index = getDateTypeNames( ).indexOf( element );
-			if ( index >= getDateTypeNames( ).size( ) - 1 )
+			int index = getDateTypeNames( getLevelTypesByDateType( ) ).indexOf( element );
+			if ( index >= getDateTypeNames( getLevelTypesByDateType( ) ).size( ) - 1 )
 				return false;
 			return true;
 		}
@@ -287,7 +274,7 @@ public class GroupDialog extends TitleAreaDialog
 		public Object[] getElements( Object inputElement )
 		{
 			return new Object[]{
-				getDateTypeNames( ).get( 0 )
+				getDateTypeNames( getLevelTypesByDateType( ) ).get( 0 )
 			};
 		}
 
@@ -375,9 +362,9 @@ public class GroupDialog extends TitleAreaDialog
 			// remove unused level
 			if ( levelList.size( ) > 0 )
 			{
-				for ( int i = 0; i < DATE_TIME_LEVEL_TYPE_ALL.length; i++ )
+				for ( int i = 0; i < OlapUtil.getDateTimeLevelTypeChoices( ).length; i++ )
 				{
-					String dateType = DATE_TIME_LEVEL_TYPE_ALL[i].getName( );
+					String dateType = OlapUtil.getDateTimeLevelTypeChoices( )[i].getName( );
 					if ( levelList.contains( dateType )
 							&& !dateTypeSelectedList.contains( dateType ) )
 					{
@@ -427,7 +414,7 @@ public class GroupDialog extends TitleAreaDialog
 						// in the old level list: month in (year,day)
 						for ( ; j < levelList.size( ); j++ )
 						{
-							if ( getDateTypeNames( ).indexOf( dateType ) < getDateTypeNames( ).indexOf( levelList.get( j ) ) )
+							if ( getDateTypeNames( getLevelTypesByDateType( ) ).indexOf( dateType ) < getDateTypeNames( getLevelTypesByDateType( ) ).indexOf( levelList.get( j ) ) )
 							{
 								TabularLevelHandle level = DesignElementFactory.getInstance( )
 										.newTabularLevel( (DimensionHandle) hierarchy.getContainer( ),
@@ -507,9 +494,10 @@ public class GroupDialog extends TitleAreaDialog
 		DateLevelProvider provider = new DateLevelProvider( );
 		levelViewer.setContentProvider( provider );
 		levelViewer.setLabelProvider( provider );
-		
+
 		/**
-		 * The two listener behaviors are so special behaviors, because they are used to fix the bug 205934
+		 * The two listener behaviors are so special behaviors, because they are
+		 * used to fix the bug 205934
 		 */
 		levelViewer.addCheckStateListener( new ICheckStateListener( ) {
 
@@ -574,6 +562,23 @@ public class GroupDialog extends TitleAreaDialog
 						( (TabularLevelHandle) hierarchy.getLevel( 0 ) ).getColumnName( ) );
 		}
 
+	}
+
+	private IChoice[] getLevelTypesByDateType( )
+	{
+		if ( hierarchy == null || dataField == null )
+			return null;
+		ResultSetColumnHandle column = OlapUtil.getDataField( OlapUtil.getHierarchyDataset( hierarchy ),
+				dataField );
+		if ( column == null )
+			return null;
+		String dataType = column.getDataType( );
+		if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
+			return OlapUtil.getDateTimeLevelTypeChoices( );
+		else if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE ) )
+			return OlapUtil.getDateLevelTypeChoices( );
+		else
+			return OlapUtil.getTimeLevelTypeChoices( );
 	}
 
 	private boolean isDateType( TabularHierarchyHandle hierarchy,

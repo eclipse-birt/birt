@@ -799,6 +799,7 @@ public class CubeGroupContent extends Composite implements Listener
 										// {
 
 										GroupDialog dialog = new GroupDialog( true );
+										hierarchy.setDataSet( dataset );
 										dialog.setInput( hierarchy,
 												dataField.getColumnName( ) );
 										if ( dialog.open( ) != Window.OK )
@@ -1747,6 +1748,7 @@ public class CubeGroupContent extends Composite implements Listener
 						{
 
 							GroupDialog dialog = new GroupDialog( true );
+							hierarchy.setDataSet( dataset );
 							dialog.setInput( hierarchy,
 									dataField.getColumnName( ) );
 							if ( dialog.open( ) == Window.CANCEL )

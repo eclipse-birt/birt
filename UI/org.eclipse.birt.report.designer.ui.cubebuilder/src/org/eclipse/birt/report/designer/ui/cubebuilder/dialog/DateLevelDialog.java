@@ -12,15 +12,14 @@ import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
-import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IHierarchyModel;
-import org.eclipse.birt.report.model.elements.interfaces.ILevelModel;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
@@ -176,19 +175,12 @@ public class DateLevelDialog extends TitleAreaDialog
 	{
 		this.input = level;
 	}
-
-	private IChoice[] DATE_TIME_LEVEL_TYPE_ALL = MetaDataDictionary.getInstance( )
-			.getElement( ReportDesignConstants.TABULAR_LEVEL_ELEMENT )
-			.getProperty( DesignChoiceConstants.CHOICE_DATE_TIME_LEVEL_TYPE )
-			.getAllowedChoices( )
-			.getChoices( );
 	// private Button noneIntervalButton;
 	// private Button intervalButton;
 	private Combo formatCombo;
 
-	private List getDateTypeNames( )
+	private List getDateTypeNames( IChoice[] choices )
 	{
-		IChoice[] choices = DATE_TIME_LEVEL_TYPE_ALL;
 		List dateTypeList = new ArrayList( );
 		if ( choices == null )
 			return dateTypeList;
@@ -211,10 +203,29 @@ public class DateLevelDialog extends TitleAreaDialog
 		return (String[]) dateTypeDisplayList.toArray( new String[0] );
 	}
 
+	private IChoice[] getLevelTypesByDateType( )
+	{
+		TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) input.getContainer( );
+		String dataField = input.getColumnName( );
+		if ( hierarchy == null || dataField == null )
+			return null;
+		ResultSetColumnHandle column = OlapUtil.getDataField( OlapUtil.getHierarchyDataset( hierarchy ),
+				dataField );
+		if ( column == null )
+			return null;
+		String dataType = column.getDataType( );
+		if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
+			return OlapUtil.getDateTimeLevelTypeChoices( );
+		else if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE ) )
+			return OlapUtil.getDateLevelTypeChoices( );
+		else
+			return OlapUtil.getTimeLevelTypeChoices( );
+	}
+
 	private List getAvailableDateTypeNames( )
 	{
 		List dateTypeList = new ArrayList( );
-		dateTypeList.addAll( getDateTypeNames( ) );
+		dateTypeList.addAll( getDateTypeNames( getLevelTypesByDateType( ) ) );
 		List levels = input.getContainer( )
 				.getContents( IHierarchyModel.LEVELS_PROP );
 		for ( int i = 0; i < levels.size( ); i++ )
@@ -229,10 +240,7 @@ public class DateLevelDialog extends TitleAreaDialog
 	public String getDateTypeDisplayName( String name )
 	{
 		return ChoiceSetFactory.getDisplayNameFromChoiceSet( name,
-				DEUtil.getMetaDataDictionary( )
-						.getElement( ReportDesignConstants.LEVEL_ELEMENT )
-						.getProperty( ILevelModel.DATA_TYPE_PROP )
-						.getAllowedChoices( ) );
+				OlapUtil.getDateTimeLevelTypeChoiceSet( ) );
 	}
 
 	protected Control createDialogArea( Composite parent )

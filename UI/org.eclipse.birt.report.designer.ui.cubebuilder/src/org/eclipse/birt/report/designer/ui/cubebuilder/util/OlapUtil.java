@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.ui.cubebuilder.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -27,8 +28,13 @@ import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.ui.PlatformUI;
 
@@ -201,7 +207,7 @@ public class OlapUtil
 		}
 		return false;
 	}
-	
+
 	public static boolean isFromLibrary( Object model )
 	{
 		if ( model instanceof DesignElementHandle )
@@ -216,11 +222,57 @@ public class OlapUtil
 		return false;
 	}
 
-	public static DataSetHandle getHierarchyDataset( TabularHierarchyHandle hierarchy ){
+	public static DataSetHandle getHierarchyDataset(
+			TabularHierarchyHandle hierarchy )
+	{
 		DataSetHandle dataset = hierarchy.getDataSet( );
-		if(dataset == null && hierarchy.getLevelCount( )>0){
-			dataset = ((TabularCubeHandle)hierarchy.getContainer( ).getContainer( )).getDataSet( );
+		if ( dataset == null && hierarchy.getLevelCount( ) > 0 )
+		{
+			dataset = ( (TabularCubeHandle) hierarchy.getContainer( )
+					.getContainer( ) ).getDataSet( );
 		}
 		return dataset;
 	}
+
+	private static IChoiceSet choiceSet = MetaDataDictionary.getInstance( )
+			.getElement( ReportDesignConstants.TABULAR_LEVEL_ELEMENT )
+			.getProperty( DesignChoiceConstants.CHOICE_DATE_TIME_LEVEL_TYPE )
+			.getAllowedChoices( );
+	private static IChoice[] DATE_TIME_LEVEL_TYPE_ALL = choiceSet.getChoices( );
+
+	private static IChoice[] DATE_LEVEL_TYPE_ALL;
+
+	private static IChoice[] TIME_LEVEL_TYPE_ALL;
+	static {
+		List choiceList = new ArrayList( );
+		choiceList.addAll( Arrays.asList( choiceSet.getChoices( ) ) );
+		choiceList.remove( choiceSet.findChoice( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_HOUR ) );
+		choiceList.remove( choiceSet.findChoice( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MINUTE ) );
+		choiceList.remove( choiceSet.findChoice( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_SECOND ) );
+		DATE_LEVEL_TYPE_ALL = (IChoice[]) choiceList.toArray( new IChoice[0] );
+
+		choiceList.clear( );
+		choiceList.add( choiceSet.findChoice( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_HOUR ) );
+		choiceList.add( choiceSet.findChoice( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MINUTE ) );
+		choiceList.add( choiceSet.findChoice( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_SECOND ) );
+		TIME_LEVEL_TYPE_ALL = (IChoice[]) choiceList.toArray( new IChoice[0] );
+	}
+	
+	public static IChoiceSet getDateTimeLevelTypeChoiceSet(){
+		return choiceSet;
+	}
+	
+	public static IChoice[] getDateTimeLevelTypeChoices(){
+		return DATE_TIME_LEVEL_TYPE_ALL;
+	}
+	
+	public static IChoice[] getDateLevelTypeChoices(){
+		return DATE_LEVEL_TYPE_ALL;
+	}
+	
+	public static IChoice[] getTimeLevelTypeChoices(){
+		return TIME_LEVEL_TYPE_ALL;
+	}
+	
+	
 }
