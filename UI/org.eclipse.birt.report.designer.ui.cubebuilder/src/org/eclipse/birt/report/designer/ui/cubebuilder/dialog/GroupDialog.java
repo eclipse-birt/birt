@@ -223,8 +223,6 @@ public class GroupDialog extends TitleAreaDialog
 			return null;
 	}
 
-	
-
 	private List getDateTypeNames( IChoice[] choices )
 	{
 		List dateTypeList = new ArrayList( );
@@ -239,7 +237,8 @@ public class GroupDialog extends TitleAreaDialog
 
 	private String getDateTypeDisplayName( String name )
 	{
-		return ChoiceSetFactory.getDisplayNameFromChoiceSet( name, OlapUtil.getDateTimeLevelTypeChoiceSet( ) );
+		return ChoiceSetFactory.getDisplayNameFromChoiceSet( name,
+				OlapUtil.getDateTimeLevelTypeChoiceSet( ) );
 	}
 
 	class DateLevelProvider extends LabelProvider implements
@@ -568,7 +567,13 @@ public class GroupDialog extends TitleAreaDialog
 	{
 		if ( hierarchy == null || dataField == null )
 			return null;
-		ResultSetColumnHandle column = OlapUtil.getDataField( OlapUtil.getHierarchyDataset( hierarchy ),
+		DataSetHandle dataset = hierarchy.getDataSet( );
+		if ( dataset == null )
+		{
+			dataset = ( (TabularCubeHandle) hierarchy.getContainer( )
+					.getContainer( ) ).getDataSet( );
+		}
+		ResultSetColumnHandle column = OlapUtil.getDataField( dataset,
 				dataField );
 		if ( column == null )
 			return null;
