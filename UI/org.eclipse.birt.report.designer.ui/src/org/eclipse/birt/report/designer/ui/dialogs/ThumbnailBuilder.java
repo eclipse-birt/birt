@@ -230,18 +230,30 @@ public class ThumbnailBuilder extends BaseDialog
 		switch ( type )
 		{
 			case GENERATE_TYPE :
+				
+				radioBtnGenerate.setSelection( true );
+				radioBtnBrowse.setSelection( false );
+				radioBtnImport.setSelection( false );
+				
 				btnImport.setText( BUTTON_TEXT_GENERATE );
 				LayoutButtons( );
 				currentListener = btnGenerateListener;
 				btnImport.addListener( SWT.Selection, currentListener );
 				break;
 			case BROWSER_TYPE :
+				radioBtnGenerate.setSelection( false );
+				radioBtnBrowse.setSelection( true );
+				radioBtnImport.setSelection( false );
+				
 				btnImport.setText( Messages.getString( "ThumbnailBuilder.Button.Text.Browse" ) );
 				LayoutButtons( );
 				currentListener = btnBrowseListener;
 				btnImport.addListener( SWT.Selection, currentListener );
 				break;
 			case IMPORT_TYPE :
+				radioBtnGenerate.setSelection( false );
+				radioBtnBrowse.setSelection( false );
+				radioBtnImport.setSelection( true );
 				btnImport.setText( BUTTON_TEXT_IMPORT );
 				LayoutButtons( );
 				currentListener = btnImportListener;
