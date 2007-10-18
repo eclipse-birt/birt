@@ -50,8 +50,7 @@ public class InputParameterHtmlDialog extends Dialog
 	/**
 	 * Default dialog title
 	 */
-	public static final String TITLE = Messages
-			.getString( "InputParameterDailog.dialog.title" ); //$NON-NLS-1$
+	public static final String TITLE = Messages.getString( "InputParameterDailog.dialog.title" ); //$NON-NLS-1$
 
 	/**
 	 * File URI String
@@ -166,7 +165,8 @@ public class InputParameterHtmlDialog extends Dialog
 			{
 				( (Browser) event.widget ).getShell( ).close( );
 				List parameters = SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( ).getParameters( )
+						.getReportDesignHandle( )
+						.getParameters( )
 						.getContents( );
 				if ( parameters != null && parameters.size( ) > 0 )
 				{
@@ -184,7 +184,8 @@ public class InputParameterHtmlDialog extends Dialog
 				{
 					( (Browser) event.widget ).getShell( ).close( );
 					List parameters = SessionHandleAdapter.getInstance( )
-							.getReportDesignHandle( ).getParameters( )
+							.getReportDesignHandle( )
+							.getParameters( )
 							.getContents( );
 					if ( parameters != null && parameters.size( ) > 0 )
 					{
@@ -218,8 +219,8 @@ public class InputParameterHtmlDialog extends Dialog
 				this.options.put( WebViewer.SERVLET_NAME_KEY, VIEWER_PARAMETER );
 				this.options.put( WebViewer.FORMAT_KEY, WebViewer.HTML );
 			}
-			this.options.put( WebViewer.RESOURCE_FOLDER_KEY, ReportPlugin
-					.getDefault( ).getResourceFolder( ) );
+			this.options.put( WebViewer.RESOURCE_FOLDER_KEY,
+					ReportPlugin.getDefault( ).getResourceFolder( ) );
 			WebViewer.display( uri, browser, this.options );
 		}
 	}
@@ -275,5 +276,15 @@ public class InputParameterHtmlDialog extends Dialog
 	public String getTitle( )
 	{
 		return title;
+	}
+
+	public String getUri( )
+	{
+		return uri;
+	}
+
+	public void setUri( String uri )
+	{
+		this.uri = uri;
 	}
 }

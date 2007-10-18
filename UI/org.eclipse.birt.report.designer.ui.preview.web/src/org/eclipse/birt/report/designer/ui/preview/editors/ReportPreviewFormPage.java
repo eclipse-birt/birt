@@ -44,13 +44,11 @@ import org.eclipse.ui.forms.editor.FormEditor;
 /**
  * Preview page.
  */
-public class ReportPreviewFormPage extends ReportPreviewEditor
-		implements
-			IReportEditorPage
+public class ReportPreviewFormPage extends ReportPreviewEditor implements
+		IReportEditorPage
 {
 
-	protected static Logger logger = Logger
-			.getLogger( ReportPreviewFormPage.class.getName( ) );
+	protected static Logger logger = Logger.getLogger( ReportPreviewFormPage.class.getName( ) );
 
 	public static final String ID = "org.eclipse.birt.report.designer.ui.editors.preview.web"; //$NON-NLS-1$
 
@@ -138,8 +136,9 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 		request.setType( ReportRequest.SELECTION );
 
 		// SessionHandleAdapter.getInstance().getMediator().pushState();
-		SessionHandleAdapter.getInstance( ).getMediator( ).notifyRequest(
-				request );
+		SessionHandleAdapter.getInstance( )
+				.getMediator( )
+				.notifyRequest( request );
 		return true;
 	}
 
@@ -216,8 +215,7 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 
 	protected IReportProvider getProvider( )
 	{
-		IReportProvider provider = (IReportProvider) editor
-				.getAdapter( IReportProvider.class );
+		IReportProvider provider = (IReportProvider) editor.getAdapter( IReportProvider.class );
 
 		if ( provider == null )
 		{
@@ -351,6 +349,8 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 	public void setInput( IEditorInput input )
 	{
 		super.setInput( input );
+		if ( parameterDialog != null )
+			parameterDialog.setUri( getFileUri( ) );
 	}
 
 	/**
@@ -378,7 +378,8 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 			File configFile = new File( configFileName );
 
 			// if config file existed, then delete it
-			if ( configFile != null && configFile.exists( )
+			if ( configFile != null
+					&& configFile.exists( )
 					&& configFile.isFile( ) )
 			{
 				handle = sessionHandle.openDesign( configFileName );
@@ -389,12 +390,10 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 					Iterator it = handle.configVariablesIterator( );
 					while ( it != null && it.hasNext( ) )
 					{
-						ConfigVariableHandle configVar = (ConfigVariableHandle) it
-								.next( );
+						ConfigVariableHandle configVar = (ConfigVariableHandle) it.next( );
 						if ( configVar != null && configVar.getName( ) != null )
 						{
-							String varName = prepareConfigVarName( configVar
-									.getName( ) );
+							String varName = prepareConfigVarName( configVar.getName( ) );
 
 							// check the parameter whether exist or not
 							String paramName = getParameterName( varName );
@@ -406,25 +405,23 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 							{
 								// get cached parameter type
 								String typeVarName = varName + "_" //$NON-NLS-1$
-										+ PROP_TYPE + "_"; //$NON-NLS-1$
-								ConfigVariable typeVar = handle
-										.findConfigVariable( typeVarName );
+										+ PROP_TYPE
+										+ "_"; //$NON-NLS-1$
+								ConfigVariable typeVar = handle.findConfigVariable( typeVarName );
 								String dataType = null;
 								if ( typeVar != null )
 									dataType = typeVar.getValue( );
 
 								// if null or data type changed, skip it
 								if ( dataType == null
-										|| !dataType
-												.equalsIgnoreCase( parameter
-														.getDataType( ) ) )
+										|| !dataType.equalsIgnoreCase( parameter.getDataType( ) ) )
 									continue;
 
 								// find cached parameter value expression
 								String exprVarName = varName + "_" //$NON-NLS-1$
-										+ PROP_EXPR + "_"; //$NON-NLS-1$
-								ConfigVariable exprVar = handle
-										.findConfigVariable( exprVarName );
+										+ PROP_EXPR
+										+ "_"; //$NON-NLS-1$
+								ConfigVariable exprVar = handle.findConfigVariable( exprVarName );
 								String expr = parameter.getValueExpr( );
 								String cachedExpr = null;
 								if ( exprVar != null )
@@ -442,13 +439,10 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 
 							if ( paramName != null && paramName.length( ) > 0 )
 							{
-								if ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE
-										.equalsIgnoreCase( parameter
-												.getParamType( ) ) )
+								if ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.equalsIgnoreCase( parameter.getParamType( ) ) )
 								{
 									// handle multi-value parameter
-									List values = (List) configVars
-											.get( paramName );
+									List values = (List) configVars.get( paramName );
 									if ( values == null )
 									{
 										values = new ArrayList( );
@@ -458,8 +452,8 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 								}
 								else
 								{
-									configVars.put( paramName, configVar
-											.getValue( ) );
+									configVars.put( paramName,
+											configVar.getValue( ) );
 								}
 							}
 						}
@@ -610,8 +604,7 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 			{
 				if ( parameters.get( i ) instanceof ScalarParameterHandle )
 				{
-					ScalarParameterHandle parameter = ( (ScalarParameterHandle) parameters
-							.get( i ) );
+					ScalarParameterHandle parameter = ( (ScalarParameterHandle) parameters.get( i ) );
 
 					if ( parameter.isHidden( ) || !parameter.isRequired( ) )
 					{
@@ -645,8 +638,7 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 								break;
 							}
 
-							if ( DesignChoiceConstants.PARAM_TYPE_STRING
-									.equalsIgnoreCase( parameter.getDataType( ) )
+							if ( DesignChoiceConstants.PARAM_TYPE_STRING.equalsIgnoreCase( parameter.getDataType( ) )
 									&& ( (String) value ).length( ) <= 0 )
 							{
 								missingParameter = true;
@@ -659,8 +651,7 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 					}
 					else
 					{
-						if ( DesignChoiceConstants.PARAM_TYPE_STRING
-								.equalsIgnoreCase( parameter.getDataType( ) )
+						if ( DesignChoiceConstants.PARAM_TYPE_STRING.equalsIgnoreCase( parameter.getDataType( ) )
 								&& ( (String) valueObj ).length( ) <= 0 )
 						{
 							missingParameter = true;
@@ -689,9 +680,8 @@ public class ReportPreviewFormPage extends ReportPreviewEditor
 
 		String[] result = reportDesignName.split( "\\." ); //$NON-NLS-1$
 		String extensionName = result[result.length - 1];
-		String configFileName = reportDesignName.substring( 0, reportDesignName
-				.length( )
-				- extensionName.length( ) )
+		String configFileName = reportDesignName.substring( 0,
+				reportDesignName.length( ) - extensionName.length( ) )
 				+ SUFFIX_DESIGN_CONFIG;
 
 		return configFileName;
