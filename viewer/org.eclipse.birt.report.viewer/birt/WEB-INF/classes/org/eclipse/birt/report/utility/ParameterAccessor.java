@@ -555,7 +555,7 @@ public class ParameterAccessor
 	/**
 	 * Optimized HTML output flag
 	 */
-	public static boolean isAgentStyle;
+	public static boolean isAgentStyle = false;
 
 	/**
 	 * Get bookmark. If page exists, ignore bookmark.
@@ -1561,13 +1561,11 @@ public class ParameterAccessor
 		String s_agentstyle = context
 				.getInitParameter( INIT_PARAM_AGENTSTYLE_ENGINE );
 		if ( "true".equalsIgnoreCase( s_agentstyle ) ) //$NON-NLS-1$
-		{
 			isAgentStyle = true;
-		}
-		else
-		{
-			isAgentStyle = false;
-		}
+
+		// FIXME: workaround for Jetty, set default value as true
+		if ( s_agentstyle == null && isDesigner )
+			isAgentStyle = true;
 
 		// clear temp files
 		clearTempFiles( );
