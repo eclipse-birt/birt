@@ -204,7 +204,7 @@ public class GroupDialog extends BaseDialog
 
 	private Button exprButton;
 
-	private Button tocExprButton;
+	private Button tocExprButton,bookmarkExprButton;
 
 	/**
 	 * Constructor.
@@ -305,15 +305,32 @@ public class GroupDialog extends BaseDialog
 		bookmakrComposite.setLayout( new GridLayout( ) );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		GridLayout layout = new GridLayout( );
-		layout.numColumns = 2;
+		layout.numColumns = 3;
 		bookmakrComposite.setLayoutData( gd );
 		bookmakrComposite.setLayout( layout );
 
 		new Label( bookmakrComposite, SWT.NONE ).setText( Messages.getString( "GroupDialog.Label.Bookmark" ) );
 		bookmarkEditor = new Text( bookmakrComposite, SWT.SINGLE | SWT.BORDER );
 		gd = new GridData( );
-		gd.widthHint = 200;
+		gd.widthHint = 180;
 		bookmarkEditor.setLayoutData( gd );
+		
+		bookmarkExprButton = new Button( bookmakrComposite, SWT.PUSH );
+		UIUtil.setExpressionButtonImage( bookmarkExprButton );
+		bookmarkExprButton.setToolTipText( Messages.getString( "GroupDialog.toolTipText.openExprButton" ) );
+		bookmarkExprButton.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent event )
+			{
+				ExpressionBuilder expressionBuilder = new ExpressionBuilder( bookmarkEditor.getText( ) );
+				expressionBuilder.setExpressionProvier( new ExpressionProvider( inputGroup ) );
+
+				if ( expressionBuilder.open( ) == OK )
+				{
+					bookmarkEditor.setText( expressionBuilder.getResult( ).trim( ) );
+				}
+			}
+		} );
 	}
 
 	private void createTOCArea( Composite parent )
