@@ -221,12 +221,11 @@
 	</target>
 
 	<target name="verifyCompile" if="eclipse.running">
-		
-		<echo message="Convert compile log DTD to local file..."/>
+		<!--
 		<exec executable="${eclipse.build.configs}/../../extras/replaceDTD.sh">
 			<arg line="${postingDirectory}/${buildId}/compilelogs/plugins" />
 		</exec>
-		
+		-->
 		<echo message="Checking for compile errors..." />
 		<!--create html output for compile logs-->
 		<eclipse.convert input="${postingDirectory}/${buildId}/compilelogs/plugins" validation="true"/>
@@ -507,8 +506,8 @@
 			<include name="org.eclipse.datatools.oda.cshelp_*.jar"/>
 			<include name="org.eclipse.datatools.enablement.oda.ws.ui_*.jar"/>
 			<include name="org.eclipse.datatools.enablement.oda.ws_*.jar"/>
-            <include name="org.eclipse.datatools.help_*.jar"/>
-            <include name="org.eclipse.datatools.doc.isv_*.jar"/>
+			<include name="org.eclipse.datatools.help_*.jar"/>
+			<include name="org.eclipse.datatools.doc.isv_*.jar"/>
 			<include name="org.apache.xerces_*.jar"/>
 			<include name="org.apache.xml.resolver_*.jar"/>
 			<include name="javax.wsdl_*.jar"/>
@@ -718,7 +717,7 @@
 	
 	<target name="InformQA" unless="nomail">
         <property file="${eclipse.build.configs}/../../config.properties" />
-        <mail mailport="${mail.port}" tolist="${QA.members}" from="${mail.from}" replyto="${replyto.address}" subject="Build Is Ready (BuildId: ${buildId})" >
+        <mail mailport="${mail.port}" tolist="${QA.members}" from="${mail.from}" replyto="${replyto.address}" subject="${BranchVersion} Build Is Ready (BuildId: ${buildId})" >
                 <message>
 Hi All,
 
@@ -740,7 +739,7 @@ NL pack from ${QA.test.dir}\BIRT2.2-download\${buildId}\
 
 Internal Update Site URL: http://qa-build/UpdateSite 
 
-Please visit [ http://qabee:8080/BuildCentral ] for more information.
+Please visit [ http://qa-build:8080/BuildCentral ] for more information.
                 	
 Have a nice day!
                 </message>
@@ -752,12 +751,12 @@ Have a nice day!
 			rcp=\\${QA.test.dir}\\BIRT2.2-download\\${buildId}\\birt-rcp-report-designer-2_2_1.zip
 			frameworkSDK=\\${QA.test.dir}\\BIRT2.2-download\\${buildId}\\birt-report-framework-sdk-2_2_1.zip
 		</echo>
-		<copy tofile="${postingDirectory}/../download.properties" file="download.properties" overwrite="true" />
+		<copy tofile="${postingDirectory}/download.properties" file="download.properties" overwrite="true" />
 	</target>
 	
 	<target name="InformPerformance">
 		<property file="${eclipse.build.configs}/../../config.properties" />			
-        <mail mailport="${mail.port}" subject="Performance Test Reporting (BuildId: ${buildId} ) " tolist="${QA.PERFORMANCE}">
+        <mail mailport="${mail.port}" subject="${BranchVersion} Performance Test Reporting (BuildId: ${buildId} ) " tolist="${QA.PERFORMANCE}">
 			<from address="${mail.from}"/>
 			<replyto address="${replyto.address}"/>
 			<message>
@@ -765,7 +764,7 @@ Hi All,
 
 Please see the attachments for performance test (BuildId: ${buildId}) results.
 
-Please visit [ http://qabee:8080/BuildCentral ] for more information.
+Please visit [ http://qa-build:8080/BuildCentral ] for more information.
 				
 Have a nice day!
 			</message>
@@ -808,7 +807,7 @@ Have a nice day!
 	
 	<target name="InformAutomation">
 		<property file="${eclipse.build.configs}/../../config.properties" />			
-        <mail mailport="${mail.port}" subject="Test Suite Projects Reporting (BuildId: ${buildId} ) " tolist="${QA.AUTOMATION}">
+        <mail mailport="${mail.port}" subject="${BranchVersion} Test Suite Projects Reporting (BuildId: ${buildId} ) " tolist="${QA.AUTOMATION}">
 			<from address="${mail.from}"/>
 			<replyto address="${replyto.address}"/>
 			<message>
@@ -818,7 +817,7 @@ Please see the attachments for test results.
 The automation test output data can be found under: ${QA.test.dir}\automationTestOutput\${build.date}
 The repository of junit test reports can be found under: 	${QA.test.dir}\unitTestReport
 
-Please visit [ http://qabee:8080/BuildCentral ] for more information.
+Please visit [ http://qa-build:8080/BuildCentral ] for more information.
 				
 Have a nice day!
 			</message>
@@ -869,7 +868,7 @@ Have a nice day!
 		
         <property file="config.properties" />
         <property name="tool.lib.path" value="${p4.home}/dailybuild/source/org.eclipse.birt.build"/>
-		<property name="compile.log.summary" value="${postingDirectory}/../compileSummary.properties"/>
+	<property name="compile.log.summary" value="${postingDirectory}/compileSummary.properties"/>
 		
         <path id="customjar.classpath">
                 <path location="${tool.lib.path}/customtask.jar" />
@@ -878,7 +877,7 @@ Have a nice day!
                 </fileset>
         </path>
 		
-        <delete file="/home/adb/releng/BIRTOutput/rollingCompile.properties"  failonerror="false" />
+        <delete file="${compile.log.summary}"  failonerror="false" />
          <!-- Using custom build tools to get failure/error summary of test result -->
          <java classname="org.eclipse.birt.build.ParseCompileSummary">
              <classpath refid="customjar.classpath" />
