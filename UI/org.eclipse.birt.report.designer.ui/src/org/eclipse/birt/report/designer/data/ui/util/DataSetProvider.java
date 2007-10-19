@@ -229,6 +229,19 @@ public final class DataSetProvider
 		return items;
 	}
 	
+	/**
+	 * update the columns of the DataSetHandle and put the new DataSetViewData[] into htColumns
+	 * 
+	 * @param dataSet
+	 * @param dsItemModel
+	 */
+	public void updateColumnsOfDataSetHandle( DataSetHandle dataSet,
+			DataSetViewData[] dsItemModel )
+	{
+		if ( dataSet == null || dsItemModel == null || dsItemModel.length == 0 )
+			return;
+		htColumns.put( dataSet, dsItemModel );
+	}
 	
 	/**
 	 * This function should be called very carefully. Presently it is only
