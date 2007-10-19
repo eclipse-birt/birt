@@ -55,7 +55,7 @@ data.engine.InvalidFieldName=Nom de champ incorrect : {0}
 data.engine.DupColumnName=Nom de colonne en double : {0}
 data.engine.DupAlias=Alias ou nom de colonne en double : {0}
 data.engine.InvalidFieldIndex=Index de champ incorrect : {0}
-data.engine.InvalidPercentileColumn=Not all the values for percentile can be null.
+data.engine.InvalidPercentileColumn=Toutes les valeurs des percentiles ne peuvent pas être nulles.
 
 data.engine.MatchError=Vérifiez la syntaxe du motif. Erreur de correspondance entre la chaîne et le motif : {0} 
 data.engine.BadOperandType=Type de données de l''opérande inattendu : {0}

@@ -71,7 +71,7 @@ GroupsPage.Clients=\ tiene los siguientes clientes
 GroupsPage.Dlg.Confirm=¿Desea eliminarlo?
 LinkGroupsPage.Container.Title.Message=Grupos de link
 LinkGroupsPage.Title.Title=Compilador de cubos de tabla de referencias cruzadas
-LinkGroupsPage.Title.Message=To link a group from another data set to the primary data set, drag a field form the group to a field in the primary data set
+LinkGroupsPage.Title.Message=Para enlazar un grupo de otro conjunto de datos al conjunto de datos primario, arrastre un campo del grupo hasta otro campo del conjunto primario.
 LevelDialog.Title=Propiedad
 LevelDialog.Label.Name=Nombre:
 LevelDialog.Label.Field=Seleccionar campo:
@@ -112,7 +112,7 @@ LevelPropertyDialog.DataType=Tipo de datos:
 LevelPropertyDialog.Label.Expression=Expresión condicional
 LevelPropertyDialog.MSG.Dynamic.CreateNew=<Crear nuevo atributo>
 MissLinkDialog.Title=Falta el link entre los conjuntos de datos
-MissLinkDialog.Question=Link all groups from other data sets to the primary data set to complete the cube
+MissLinkDialog.Question=Enlace todos los grupos de otros conjuntos de datos al conjunto de datos primario para completar el cubo.
 SetConstraintCommand.setUserProperty=setUserProperty
 ###########################################################
 #RenameInputDialog properties

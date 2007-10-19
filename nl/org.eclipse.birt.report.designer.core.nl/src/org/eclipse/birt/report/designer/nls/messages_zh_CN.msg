@@ -2542,7 +2542,7 @@ ParameterDialog.datetime.prompt=请输入以下形式的日期时间值: {0}
 ParameterDialog.date.prompt=请输入以下形式的日期值: {0}
 ParameterDialog.time.prompt=请输入以下形式的时间值: {0}
 ParameterDialog.Check.AllowMulti=允许多个值(&E)
-ParameterDialog.checkBox.InputValue=Input Value
+ParameterDialog.checkBox.InputValue=输入值
 ParameterDialog.checkBox.BlankValue=空白值
 ParameterDialog.checkBox.NullValue=空值
 

@@ -13,7 +13,7 @@ birt.viewer.title=BIRT Report Viewer
 birt.viewer.title.navigation=导航　
 birt.viewer.title.error=错误
 birt.viewer.title.complete=完成
-birt.viewer.title.message=Message
+birt.viewer.title.message=消息
 
 birt.viewer.parameter=参数
 birt.viewer.runreport=运行报表
@@ -33,7 +33,7 @@ birt.viewer.error.parameterrequired=参数“{0}”是必需的。
 birt.viewer.error.parameternotallowblank=参数“{0}”不能为空白。
 birt.viewer.error.parameternotselected=请为参数“{0}”选择值。
 
-birt.viewer.message.taskcanceled=Current operation has been canceled.
+birt.viewer.message.taskcanceled=当前操作已取消。
 
 ###############################################################################
 # Toolbar
@@ -64,7 +64,7 @@ birt.viewer.navbar.error.blankpagenum=请输入有效页码。
 # progress bar
 ###############################################################################
 birt.viewer.progressbar.prompt=正在处理，请稍候 ...
-birt.viewer.progressbar.confirmcanceltask=Do you want to cancel current operation?
+birt.viewer.progressbar.confirmcanceltask=您要取消当前操作吗?
 
 ###############################################################################
 # Dialog 

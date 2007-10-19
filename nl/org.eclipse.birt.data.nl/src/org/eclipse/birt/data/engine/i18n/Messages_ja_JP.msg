@@ -55,7 +55,7 @@ data.engine.InvalidFieldName=フィールド名が無効です : {0}
 data.engine.DupColumnName=列名が重複しています : {0}
 data.engine.DupAlias=列名またはエイリアスが重複しています : {0}
 data.engine.InvalidFieldIndex=フィールドのインデックスが無効です : {0}
-data.engine.InvalidPercentileColumn=Not all the values for percentile can be null.
+data.engine.InvalidPercentileColumn=百分位数はすべてをNULLにすることができません。
 
 data.engine.MatchError=パターンの構文を確認してください。文字列とパターンを照合中にエラーが発生しました : {0} 
 data.engine.BadOperandType=このデータ型の演算子は使用できません : {0}

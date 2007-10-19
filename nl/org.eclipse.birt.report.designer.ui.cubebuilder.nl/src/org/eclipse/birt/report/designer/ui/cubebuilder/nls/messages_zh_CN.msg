@@ -71,7 +71,7 @@ GroupsPage.Clients=\ 具有以下客户端
 GroupsPage.Dlg.Confirm=是否确实要将其删除？
 LinkGroupsPage.Container.Title.Message=链接组
 LinkGroupsPage.Title.Title=交叉表多维数据集生成器
-LinkGroupsPage.Title.Message=To link a group from another data set to the primary data set, drag a field form the group to a field in the primary data set
+LinkGroupsPage.Title.Message=要将另一个数据集内的一个组链接到主数据集，请将组中的一个字段拖动到主数据集内的一个字段
 LevelDialog.Title=属性
 LevelDialog.Label.Name=名称:
 LevelDialog.Label.Field=选择字段:
@@ -112,7 +112,7 @@ LevelPropertyDialog.DataType=数据类型:
 LevelPropertyDialog.Label.Expression=条件表达式
 LevelPropertyDialog.MSG.Dynamic.CreateNew=<创建新的属性>
 MissLinkDialog.Title=数据集之间缺少链接
-MissLinkDialog.Question=Link all groups from other data sets to the primary data set to complete the cube
+MissLinkDialog.Question=将其它数据集内的所有组链接到主数据集以完成多维数据集
 SetConstraintCommand.setUserProperty=设置用户属性
 ###########################################################
 #RenameInputDialog properties

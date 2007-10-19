@@ -2542,7 +2542,7 @@ ParameterDialog.datetime.prompt=Entrez les valeurs de date et d''heure selon le 
 ParameterDialog.date.prompt=Entrez les valeurs de date selon le modèle suivant : {0}
 ParameterDialog.time.prompt=Entrez les valeurs d''heure selon le modèle suivant : {0}
 ParameterDialog.Check.AllowMulti=Autoriser les valeurs multipl&es
-ParameterDialog.checkBox.InputValue=Input Value
+ParameterDialog.checkBox.InputValue=Valeur d'entrée
 ParameterDialog.checkBox.BlankValue=Valeur vierge
 ParameterDialog.checkBox.NullValue=Valeur nulle
 

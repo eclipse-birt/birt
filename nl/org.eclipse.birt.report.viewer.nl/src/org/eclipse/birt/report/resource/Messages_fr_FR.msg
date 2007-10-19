@@ -33,7 +33,7 @@ birt.viewer.error.parameterrequired=Le paramètre "{0}" est nécessaire.
 birt.viewer.error.parameternotallowblank=Le paramètre "{0}" doit être renseigné.
 birt.viewer.error.parameternotselected=Veuillez sélectionner une valeur pour le paramètre "{0}".
 
-birt.viewer.message.taskcanceled=Current operation has been canceled.
+birt.viewer.message.taskcanceled=L'opération en cours a été annulée.
 
 ###############################################################################
 # Toolbar
@@ -64,7 +64,7 @@ birt.viewer.navbar.error.blankpagenum=Entrez un numéro de page valide.
 # progress bar
 ###############################################################################
 birt.viewer.progressbar.prompt=Traitement en cours, patientez...
-birt.viewer.progressbar.confirmcanceltask=Do you want to cancel current operation?
+birt.viewer.progressbar.confirmcanceltask=Souhaitez-vous annuler l'opération en cours ?
 
 ###############################################################################
 # Dialog 

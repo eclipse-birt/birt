@@ -2542,7 +2542,7 @@ ParameterDialog.datetime.prompt=Datums-/Uhrzeitwerte im folgenden Format eingebe
 ParameterDialog.date.prompt=Kalenderdatenwerte im folgenden Format eingeben: {0}
 ParameterDialog.time.prompt=Uhrzeitwerte im folgenden Format eingeben: {0}
 ParameterDialog.Check.AllowMulti=&Mehrere Werte zulassen
-ParameterDialog.checkBox.InputValue=Input Value
+ParameterDialog.checkBox.InputValue=Eingabewert
 ParameterDialog.checkBox.BlankValue=Leerwert
 ParameterDialog.checkBox.NullValue=Null-Wert
 

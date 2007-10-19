@@ -13,4 +13,4 @@
 ###############################################################################
 # General Info
 ###############################################################################
-ReportAndChartDesign=Report and Chart Design
+ReportAndChartDesign=Diseño de informes y diagramas

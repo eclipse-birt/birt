@@ -55,7 +55,7 @@ data.engine.InvalidFieldName=Nombre de campo no válido: {0}
 data.engine.DupColumnName=Nombre de columna duplicado: {0}
 data.engine.DupAlias=Nombre o alias de columna duplicado: {0}
 data.engine.InvalidFieldIndex=Índice de campo no válido: {0}
-data.engine.InvalidPercentileColumn=Not all the values for percentile can be null.
+data.engine.InvalidPercentileColumn=No todos los valores de percentil pueden ser nulos.
 
 data.engine.MatchError=Compruebe la sintaxis del patrón. Error al hacer coincidir string con el patrón: {0} 
 data.engine.BadOperandType=Tipo de datos de operando inesperado: {0}
