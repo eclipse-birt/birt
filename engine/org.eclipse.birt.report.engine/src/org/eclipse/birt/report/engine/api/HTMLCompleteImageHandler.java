@@ -51,9 +51,9 @@ public class HTMLCompleteImageHandler extends HTMLImageHandler
 	{
 	}
 
-	/*
+	/**
 	 * (non-Javadoc)
-	 * 
+	 * @deprecated
 	 * @see org.eclipse.birt.report.engine.api2.IHTMLImageHandler#onDesignImage(org.eclipse.birt.report.engine.api2.IImage,
 	 *      java.lang.Object)
 	 */
@@ -62,9 +62,9 @@ public class HTMLCompleteImageHandler extends HTMLImageHandler
 		return handleImage( image, context, "design", true ); //$NON-NLS-1$
 	}
 
-	/*
+	/**
 	 * (non-Javadoc)
-	 * 
+	 * @deprecated
 	 * @see org.eclipse.birt.report.engine.api2.IHTMLImageHandler#onDocImage(org.eclipse.birt.report.engine.api2.IImage,
 	 *      java.lang.Object)
 	 */
@@ -73,9 +73,9 @@ public class HTMLCompleteImageHandler extends HTMLImageHandler
 		return null;
 	}
 
-	/*
+	/**
 	 * (non-Javadoc)
-	 * 
+	 * @deprecated
 	 * @see org.eclipse.birt.report.engine.api2.IHTMLImageHandler#onURLImage(org.eclipse.birt.report.engine.api2.IImage,
 	 *      java.lang.Object)
 	 */
@@ -85,9 +85,9 @@ public class HTMLCompleteImageHandler extends HTMLImageHandler
 		return image.getID( );
 	}
 
-	/*
+	/**
 	 * (non-Javadoc)
-	 * 
+	 * @deprecated
 	 * @see org.eclipse.birt.report.engine.api2.IHTMLImageHandler#onCustomImage(org.eclipse.birt.report.engine.api2.IImage,
 	 *      java.lang.Object)
 	 */
@@ -125,9 +125,9 @@ public class HTMLCompleteImageHandler extends HTMLImageHandler
 		return new File( imageDir, prefix + count + postfix ); //$NON-NLS-1$
 	}
 
-	/*
+	/**
 	 * (non-Javadoc)
-	 * 
+	 * @deprecated
 	 * @see org.eclipse.birt.report.engine.api2.IHTMLImageHandler#onFileImage(org.eclipse.birt.report.engine.api2.IImage,
 	 *      java.lang.Object)
 	 */

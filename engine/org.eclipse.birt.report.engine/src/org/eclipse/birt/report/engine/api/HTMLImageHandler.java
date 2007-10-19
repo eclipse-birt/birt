@@ -18,6 +18,9 @@ import org.eclipse.birt.report.engine.api.script.IReportContext;
 public class HTMLImageHandler implements IHTMLImageHandler
 {
 
+	/**
+	 * @deprecated
+	 */
 	public String onCustomImage( IImage image, Object context )
 	{
 		return null;
@@ -28,6 +31,9 @@ public class HTMLImageHandler implements IHTMLImageHandler
 		return onCustomImage( image, getRenderContext( context ) );
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public String onDesignImage( IImage image, Object context )
 	{
 		return null;
@@ -38,6 +44,9 @@ public class HTMLImageHandler implements IHTMLImageHandler
 		return onDesignImage( image, getRenderContext( context ) );
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public String onDocImage( IImage image, Object context )
 	{
 		return null;
@@ -48,6 +57,9 @@ public class HTMLImageHandler implements IHTMLImageHandler
 		return onDocImage( image, getRenderContext( context ) );
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public String onFileImage( IImage image, Object context )
 	{
 		return null;
@@ -58,6 +70,9 @@ public class HTMLImageHandler implements IHTMLImageHandler
 		return onFileImage( image, getRenderContext( context ) );
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public String onURLImage( IImage image, Object context )
 	{
 		return null;

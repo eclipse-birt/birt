@@ -44,9 +44,9 @@ public class HTMLServerImageHandler extends HTMLImageHandler
 		handlerId = codePart + timePart;
 	}
 
-	/*
+	/**
 	 * (non-Javadoc)
-	 * 
+	 * @deprecated
 	 * @see org.eclipse.birt.report.engine.api2.IHTMLImageHandler#onDesignImage(org.eclipse.birt.report.engine.api2.IImage,
 	 *      java.lang.Object)
 	 */
@@ -55,9 +55,9 @@ public class HTMLServerImageHandler extends HTMLImageHandler
 		return handleImage( image, context, "design", true ); //$NON-NLS-1$
 	}
 
-	/*
+	/**
 	 * (non-Javadoc)
-	 * 
+	 * @deprecated
 	 * @see org.eclipse.birt.report.engine.api2.IHTMLImageHandler#onDocImage(org.eclipse.birt.report.engine.api2.IImage,
 	 *      java.lang.Object)
 	 */
@@ -67,9 +67,9 @@ public class HTMLServerImageHandler extends HTMLImageHandler
 		return null;
 	}
 
-	/*
+	/**
 	 * (non-Javadoc)
-	 * 
+	 * @deprecated
 	 * @see org.eclipse.birt.report.engine.api2.IHTMLImageHandler#onURLImage(org.eclipse.birt.report.engine.api2.IImage,
 	 *      java.lang.Object)
 	 */
@@ -84,9 +84,9 @@ public class HTMLServerImageHandler extends HTMLImageHandler
 		return handleImage( image, context, "uri", true ); //$NON-NLS-1$
 	}
 
-	/*
+	/**
 	 * (non-Javadoc)
-	 * 
+	 * @deprecated
 	 * @see org.eclipse.birt.report.engine.api2.IHTMLImageHandler#onCustomImage(org.eclipse.birt.report.engine.api2.IImage,
 	 *      java.lang.Object)
 	 */
@@ -148,9 +148,9 @@ public class HTMLServerImageHandler extends HTMLImageHandler
 		return handlerId + count;
 	}
 
-	/*
+	/**
 	 * (non-Javadoc)
-	 * 
+	 * @deprecated
 	 * @see org.eclipse.birt.report.engine.api2.IHTMLImageHandler#onFileImage(org.eclipse.birt.report.engine.api2.IImage,
 	 *      java.lang.Object)
 	 */
