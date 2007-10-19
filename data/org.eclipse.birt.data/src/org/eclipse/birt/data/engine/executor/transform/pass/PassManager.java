@@ -32,6 +32,7 @@ import org.eclipse.birt.data.engine.expression.ExpressionCompiler;
 import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.FilterByRow;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.script.OnFetchScriptHelper;
 import org.mozilla.javascript.Context;
@@ -64,20 +65,22 @@ public class PassManager
 	 * 
 	 * @param populator
 	 * @param odaResultSet
+	 * @param stopSign
 	 * @throws DataException
 	 */
 	public static void populateResultSet( ResultSetPopulator populator,
-			OdiResultSetWrapper odaResultSet, DataEngineSession session ) throws DataException
+			OdiResultSetWrapper odaResultSet, DataEngineSession session, StopSign stopSign ) throws DataException
 	{
-		new PassManager( populator, session ).pass( odaResultSet );
+		new PassManager( populator, session ).pass( odaResultSet, stopSign );
 	}
 	
 	/**
 	 * Pass the oda result set.
 	 * @param odaResultSet
+	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void pass( OdiResultSetWrapper odaResultSet ) throws DataException
+	private void pass( OdiResultSetWrapper odaResultSet, StopSign stopSign ) throws DataException
 	{
 		prepareFetchEventList( );
 
@@ -87,11 +90,11 @@ public class PassManager
 
 		if ( !psController.needMultipassProcessing( ) )
 		{
-			doSinglePass( odaResultSet );
+			doSinglePass( odaResultSet, stopSign );
 		}
 		else
 		{
-			doMultiPass( odaResultSet, psController );
+			doMultiPass( odaResultSet, psController, stopSign );
 		}
 		
 		//TODO remove me
@@ -176,13 +179,14 @@ public class PassManager
 	/**
 	 * 
 	 * @param odaResultSet
+	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void doSinglePass( OdiResultSetWrapper odaResultSet ) throws DataException
+	private void doSinglePass( OdiResultSetWrapper odaResultSet, StopSign stopSign ) throws DataException
 	{
 		if ( computedColumnHelper != null )
 			computedColumnHelper.setModel( TransformationConstants.DATA_SET_MODEL );
-		PassUtil.pass( this.populator, odaResultSet, false, this.session );
+		PassUtil.pass( this.populator, odaResultSet, false, this.session, stopSign );
 		this.populator.getExpressionProcessor( ).setDataSetMode( false );
 		
 		removeOnFetchScriptHelper( );
@@ -211,9 +215,10 @@ public class PassManager
 	 * @param odaResultSet
 	 * @param iccState
 	 * @param psController
+	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void doMultiPass( OdiResultSetWrapper odaResultSet, PassStatusController psController ) throws DataException
+	private void doMultiPass( OdiResultSetWrapper odaResultSet, PassStatusController psController, StopSign stopSign ) throws DataException
 	{
 		// The data member which record the state of each computed column.
 		// The order that computed columns are cached in iccState is significant
@@ -227,7 +232,7 @@ public class PassManager
 		{
 			iccState = new ComputedColumnsState( computedColumnHelper );
 		}
-		doPopulation( odaResultSet, iccState, psController );
+		doPopulation( odaResultSet, iccState, psController, stopSign );
 	}
 
 	/**
@@ -259,10 +264,12 @@ public class PassManager
 	 * @param odaResultSet
 	 * @param iccState
 	 * @param psController
+	 * @param stopSign
 	 * @throws DataException
 	 */
 	private void doPopulation( OdiResultSetWrapper odaResultSet,
-			ComputedColumnsState iccState, PassStatusController psController )
+			ComputedColumnsState iccState, PassStatusController psController,
+			StopSign stopSign)
 			throws DataException
 	{
 		List cachedSorting = Arrays.asList( this.populator.getQuery( )
@@ -273,14 +280,15 @@ public class PassManager
 
 		this.populator.getExpressionProcessor( ).setDataSetMode( true );
 		
-		populateResultSetCacheInResultSetPopulator( odaResultSet );
+		populateResultSetCacheInResultSetPopulator( odaResultSet, stopSign );
 
 		DataSetProcessUtil.doPopulate( this.populator,
 				iccState,
 				computedColumnHelper,
 				filterByRow,
 				psController,
-				this.session);
+				this.session,
+				stopSign);
 	
 		handleEndOfDataSetProcess( );
 		//		
@@ -292,16 +300,18 @@ public class PassManager
 				filterByRow,
 				psController,
 				cachedSorting,
-				this.session);
+				this.session,
+				stopSign);
 	}
 
 	/**
 	 * 
 	 * @param odaResultSet
+	 * @param stopSign
 	 * @throws DataException
 	 */
 	private void populateResultSetCacheInResultSetPopulator(
-			OdiResultSetWrapper odaResultSet ) throws DataException
+			OdiResultSetWrapper odaResultSet, StopSign stopSign ) throws DataException
 	{
 		int max = 0;
 		
@@ -318,7 +328,7 @@ public class PassManager
 		if ( filterByRow != null )
 			this.populator.getQuery( ).setMaxRows( 0 );
 		
-		PassUtil.pass( this.populator, odaResultSet, false, this.session );
+		PassUtil.pass( this.populator, odaResultSet, false, this.session, stopSign );
 		this.removeOnFetchScriptHelper( );
 		this.populator.getQuery( ).setMaxRows( max );
 	}

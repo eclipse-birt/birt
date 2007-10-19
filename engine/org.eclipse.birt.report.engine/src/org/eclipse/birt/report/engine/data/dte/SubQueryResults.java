@@ -56,4 +56,10 @@ public class SubQueryResults implements IQueryResults
 	{
 		return null;
 	}
+
+	public void cancel( )
+	{
+		// TODO Auto-generated method stub
+		
+	}
 }

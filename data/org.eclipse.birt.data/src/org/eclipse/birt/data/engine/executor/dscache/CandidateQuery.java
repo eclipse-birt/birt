@@ -16,6 +16,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
@@ -47,12 +48,12 @@ public class CandidateQuery extends BaseQuery implements ICandidateQuery
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.ICandidateQuery#execute()
 	 */
-	public IResultIterator execute( IEventHandler eventHandler ) throws DataException
+	public IResultIterator execute( IEventHandler eventHandler, StopSign stopSign ) throws DataException
 	{
 		return new CachedResultSet( this,
 				getOdaCacheResultSet( ).getResultClass( ),
 				getOdaCacheResultSet( ),
-				eventHandler, session );
+				eventHandler, session, stopSign );
 	}
 
 	/*

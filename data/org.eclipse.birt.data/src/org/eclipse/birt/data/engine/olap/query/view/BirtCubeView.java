@@ -22,6 +22,7 @@ import javax.olap.cursor.CubeCursor;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.cursor.CubeCursorImpl;
@@ -92,17 +93,18 @@ public class BirtCubeView
 
 	/**
 	 * Get cubeCursor for current cubeView.
+	 * @param stopSign
 	 * @return CubeCursor
 	 * @throws OLAPException
 	 * @throws DataException 
 	 */
-	public CubeCursor getCubeCursor( ) throws OLAPException, DataException
+	public CubeCursor getCubeCursor( StopSign stopSign ) throws OLAPException, DataException
 	{
 		Map relationMap = CubeQueryDefinitionUtil.getRelationWithMeasure( queryDefn );
 		IResultSet result;
 		try
 		{
-			result = new QueryExecutor( ).execute( this, executor, manager );
+			result = new QueryExecutor( ).execute( this, executor, manager, stopSign );
 		}
 		catch ( IOException e )
 		{

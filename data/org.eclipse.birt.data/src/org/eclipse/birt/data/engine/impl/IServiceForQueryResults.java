@@ -91,7 +91,7 @@ interface IServiceForQueryResults
 	/**
 	 * @return
 	 */
-	public IResultIterator executeQuery( ) throws DataException;
+	public IResultIterator executeQuery( StopSign stopSign ) throws DataException;
 
 	
 	/**

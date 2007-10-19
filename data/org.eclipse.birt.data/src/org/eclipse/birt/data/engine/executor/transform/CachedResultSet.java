@@ -29,6 +29,7 @@ import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
 import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.IExecutorHelper;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.IAggrValueHolder;
@@ -64,43 +65,58 @@ public class CachedResultSet implements IResultIterator
 	
 	/**
 	 * Constructs and intializes OdiResultSet based on data in a ODA result set
+	 * @param query
+	 * @param meta
+	 * @param odaResultSet
+	 * @param eventHandler
+	 * @param session
+	 * @param stopSign
+	 * @throws DataException
 	 */
 	public CachedResultSet( BaseQuery query, IResultClass meta,
-			ResultSet odaResultSet, IEventHandler eventHandler, DataEngineSession session )
-			throws DataException
+			ResultSet odaResultSet, IEventHandler eventHandler,
+			DataEngineSession session, StopSign stopSign ) throws DataException
 	{
 		this.handler = eventHandler;
 		this.resultSetPopulator = new ResultSetPopulator( query,
 				meta,
 				this,
 				eventHandler, session );
-		resultSetPopulator.populateResultSet( new OdiResultSetWrapper( odaResultSet) );
+		resultSetPopulator.populateResultSet( new OdiResultSetWrapper( odaResultSet), stopSign );
 	}
 
 	/**
 	 * Constructs and intializes OdiResultSet based on data in an IJointDataSetPopulator
+	 * @param query
+	 * @param meta
+	 * @param odaResultSet
+	 * @param eventHandler
+	 * @param session
+	 * @param stopSign
+	 * @throws DataException
 	 */
 	public CachedResultSet( BaseQuery query, IResultClass meta,
-			IDataSetPopulator odaResultSet, IEventHandler eventHandler, DataEngineSession session )
-			throws DataException
+			IDataSetPopulator odaResultSet, IEventHandler eventHandler,
+			DataEngineSession session, StopSign stopSign ) throws DataException
 	{
 		this.handler = eventHandler;
 		this.resultSetPopulator = new ResultSetPopulator( query,
 				meta,
 				this,
 				eventHandler, session );
-		resultSetPopulator.populateResultSet( new OdiResultSetWrapper( odaResultSet) );
+		resultSetPopulator.populateResultSet( new OdiResultSetWrapper( odaResultSet), stopSign );
 	}
 	
 	/**
 	 * @param query
 	 * @param meta
 	 * @param odaCacheResultSet
+	 * @param stopSign
 	 * @throws DataException
 	 */
 	public CachedResultSet( BaseQuery query, IResultClass meta,
 			DataSetResultCache odaCacheResultSet, IEventHandler eventHandler,
-			DataEngineSession session )
+			DataEngineSession session, StopSign stopSign )
 			throws DataException
 	{
 		this.handler = eventHandler;
@@ -109,18 +125,23 @@ public class CachedResultSet implements IResultIterator
 				this,
 				eventHandler,
 				session );
-		resultSetPopulator.populateResultSet( new OdiResultSetWrapper( odaCacheResultSet ));
+		resultSetPopulator.populateResultSet( new OdiResultSetWrapper( odaCacheResultSet ), stopSign);
 		odaCacheResultSet.close( );
 	}
 
 	/**
+	 * 
 	 * @param query
 	 * @param customDataSet
+	 * @param eventHandler
+	 * @param session
+	 * @param stopSign
 	 * @throws DataException
 	 */
 	public CachedResultSet( BaseQuery query, ICustomDataSet customDataSet,
 			IEventHandler eventHandler,
-			DataEngineSession session ) throws DataException
+			DataEngineSession session,
+			StopSign stopSign) throws DataException
 	{
 		this.handler = eventHandler;
 		assert customDataSet != null;
@@ -129,18 +150,23 @@ public class CachedResultSet implements IResultIterator
 				this,
 				eventHandler,
 				session );
-		resultSetPopulator.populateResultSet(new OdiResultSetWrapper( customDataSet));
+		resultSetPopulator.populateResultSet(new OdiResultSetWrapper( customDataSet), stopSign);
 	}
 
 	/**
+	 * 
+	 * @param query
+	 * @param meta
 	 * @param parentResultIterator
-	 * @param resultMetadata
-	 * @param groupingLevel
+	 * @param groupLevel
+	 * @param eventHandler
+	 * @param session
+	 * @param stopSign
 	 * @throws DataException
 	 */
 	public CachedResultSet( BaseQuery query, IResultClass meta,
 			IResultIterator parentResultIterator, int groupLevel, IEventHandler eventHandler,
-			DataEngineSession session )
+			DataEngineSession session, StopSign stopSign )
 			throws DataException
 	{
 		this.handler = eventHandler;
@@ -156,7 +182,7 @@ public class CachedResultSet implements IResultIterator
 				eventHandler, session );
 		this.resultSetPopulator.populateResultSet( new OdiResultSetWrapper( new Object[]{
 				parentResultSet.resultSetPopulator.getCache( ), groupInfo
-		} ));
+		} ), stopSign);
 	}
 
 	private IResultClass createCustomDataSetMetaData(BaseQuery query,

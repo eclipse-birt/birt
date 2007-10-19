@@ -15,6 +15,7 @@
 package org.eclipse.birt.data.engine.odi;
 
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.StopSign;
 
 /**
  * A type of IQuery that supports data transforms
@@ -78,12 +79,13 @@ public interface ICandidateQuery extends IQuery
 	 * applying to the current group of the result iterator.
 	 * 
 	 * @param eventHandler
+	 * @param stopSign
 	 * @return An IResultIterator of query result instances which the user can
 	 *         iterate to get results.
 	 * @throws DataException
 	 *             if query execution error(s) occur.
 	 */
-	public IResultIterator execute( IEventHandler eventHandler )
+	public IResultIterator execute( IEventHandler eventHandler, StopSign stopSign )
 			throws DataException;
 
     /**

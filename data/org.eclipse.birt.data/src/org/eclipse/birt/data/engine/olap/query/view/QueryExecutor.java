@@ -25,6 +25,7 @@ import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -37,7 +38,6 @@ import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 import org.eclipse.birt.data.engine.olap.data.api.cube.DocManagerMap;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
-import org.eclipse.birt.data.engine.olap.data.api.cube.StopSign;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentManagerFactory;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
@@ -60,12 +60,13 @@ public class QueryExecutor
 	/**
 	 * @param view
 	 * @param query
+	 * @param stopSign
 	 * @return
 	 * @throws IOException
 	 * @throws BirtException
 	 */
 	public IResultSet execute( BirtCubeView view, CubeQueryExecutor executor,
-			MeasureNameManager manager ) throws IOException, BirtException
+			MeasureNameManager manager, StopSign stopSign ) throws IOException, BirtException
 	{
 		AggregationDefinition[] aggrDefns = prepareCube( executor.getCubeQueryDefinition( ),
 				manager.getCalculatedMembers( ) );
@@ -103,7 +104,7 @@ public class QueryExecutor
 		else
 		{
 			//In Interactive viewing mode, we always re-execute the query.
-			rs = cubeQueryExcutorHelper.execute( aggrDefns, new StopSign( ) );
+			rs = cubeQueryExcutorHelper.execute( aggrDefns, stopSign );
 		}
 		cube.close( );
 		return new CubeResultSet( rs, view, manager, cubeQueryExcutorHelper );

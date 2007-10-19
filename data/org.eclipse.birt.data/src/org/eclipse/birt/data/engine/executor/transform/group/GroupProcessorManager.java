@@ -18,6 +18,7 @@ import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.mozilla.javascript.Context;
 
@@ -58,11 +59,13 @@ public class GroupProcessorManager
 
 	/**
 	 * Do group filtering and Sorting job.
-	 * 
+	 * @param rsCache
+	 * @param exprProc
+	 * @param stopSign
 	 * @throws DataException
 	 */
 	public void doGroupFiltering( ResultSetCache rsCache,
-			IExpressionProcessor exprProc )
+			IExpressionProcessor exprProc, StopSign stopSign )
 			throws DataException
 	{
 		this.populator.setCache( rsCache );
@@ -73,7 +76,7 @@ public class GroupProcessorManager
 		Context cx = Context.enter( );
 		try
 		{
-			new GroupInstanceFilter( this ).doGroupFiltering( cx );
+			new GroupInstanceFilter( this ).doGroupFiltering( cx, stopSign );
 			//new GroupInstanceSorter( this ).doGroupSorting( cx );
 		}
 		finally
@@ -84,11 +87,13 @@ public class GroupProcessorManager
 	
 	/**
 	 * Do group filtering and Sorting job.
-	 * 
+	 * @param rsCache
+	 * @param exprProc
+	 * @param stopSign
 	 * @throws DataException
 	 */
 	public void doGroupSorting( ResultSetCache rsCache,
-			IExpressionProcessor exprProc )
+			IExpressionProcessor exprProc, StopSign stopSign )
 			throws DataException
 	{
 		this.populator.setCache( rsCache );
@@ -99,7 +104,7 @@ public class GroupProcessorManager
 		Context cx = Context.enter( );
 		try
 		{
-			new GroupInstanceSorter( this ).doGroupSorting( cx );
+			new GroupInstanceSorter( this ).doGroupSorting( cx, stopSign );
 		}
 		finally
 		{

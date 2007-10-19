@@ -20,6 +20,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.executor.cache.disk.DiskCache;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -52,10 +53,11 @@ class SmartCacheHelper
 	 * @param query
 	 * @param rsMeta
 	 * @param sortSpec
+	 * @param stopSign
 	 * @throws DataException
 	 */
 	ResultSetCache getResultSetCache( CacheRequest cacheRequest,
-			ResultSet odaResultSet, IResultClass rsMeta ) throws DataException
+			ResultSet odaResultSet, IResultClass rsMeta, StopSign stopSign ) throws DataException
 	{
 		assert cacheRequest != null;
 		assert odaResultSet != null;
@@ -66,14 +68,15 @@ class SmartCacheHelper
 			SmartCacheHelper smartCacheHelper = new SmartCacheHelper( session );
 			ResultSetCache smartCache = smartCacheHelper.getDistinctResultSetCache( cacheRequest,
 					odaResultSet,
-					rsMeta );
+					rsMeta,
+					stopSign);
 
 			cacheRequest.setDistinctValueFlag( false );
-			initInstance( cacheRequest, new OdiAdapter( smartCache ), rsMeta );
+			initInstance( cacheRequest, new OdiAdapter( smartCache ), rsMeta, stopSign );
 		}
 		else
 		{
-			initOdaResult( cacheRequest, odaResultSet, rsMeta );
+			initOdaResult( cacheRequest, odaResultSet, rsMeta, stopSign );
 		}
 
 		return this.resultSetCache;
@@ -84,11 +87,12 @@ class SmartCacheHelper
 	 * @param odaResultSet
 	 * @param rsMeta
 	 * @param ob
+	 * @param stopSign
 	 * @throws DataException
 	 */
 	private ResultSetCache getDistinctResultSetCache(
 			CacheRequest cacheRequest, ResultSet odaResultSet,
-			IResultClass rsMeta ) throws DataException
+			IResultClass rsMeta, StopSign stopSign ) throws DataException
 	{
 		SmartCacheHelper smartCacheHelper = new SmartCacheHelper( this.session );
 		ResultSetCache smartCache = smartCacheHelper.getSortedResultSetCache( new CacheRequest( 0,
@@ -97,9 +101,10 @@ class SmartCacheHelper
 				cacheRequest.getEventHandler( ),
 				true ),
 				odaResultSet,
-				rsMeta );
+				rsMeta,
+				stopSign);
 
-		initInstance( cacheRequest, new OdiAdapter( smartCache ), rsMeta );
+		initInstance( cacheRequest, new OdiAdapter( smartCache ), rsMeta, stopSign );
 		return this.resultSetCache;
 	}
 	
@@ -130,9 +135,9 @@ class SmartCacheHelper
 	 * @throws DataException
 	 */
 	private ResultSetCache getSortedResultSetCache( CacheRequest cacheRequest,
-			ResultSet odaResultSet, IResultClass rsMeta ) throws DataException
+			ResultSet odaResultSet, IResultClass rsMeta, StopSign stopSign ) throws DataException
 	{
-		initOdaResult( cacheRequest, odaResultSet, rsMeta );
+		initOdaResult( cacheRequest, odaResultSet, rsMeta, stopSign );
 		return this.resultSetCache;
 	}
 
@@ -140,13 +145,14 @@ class SmartCacheHelper
 	 * @param cacheRequest
 	 * @param odaResultSet
 	 * @param rsMeta
+	 * @param stopSign
 	 * @throws DataException
 	 */
 	private void initOdaResult( CacheRequest cacheRequest,
-			ResultSet odaResultSet, IResultClass rsMeta ) throws DataException
+			ResultSet odaResultSet, IResultClass rsMeta, StopSign stopSign ) throws DataException
 	{
 		OdiAdapter odiAdpater = new OdiAdapter( odaResultSet );
-		initInstance( cacheRequest, odiAdpater, rsMeta );
+		initInstance( cacheRequest, odiAdpater, rsMeta, stopSign );
 	}
 
 	/**
@@ -161,11 +167,12 @@ class SmartCacheHelper
 	 *            excluded
 	 * @param rsMeta
 	 * @param sortSpec
+	 * @param stopSign
 	 * @throws DataException
 	 */
 	ResultSetCache getResultSetCache( CacheRequest cacheRequest,
 			ResultSetCache resultCache, int startIndex, int endIndex,
-			IResultClass rsMeta ) throws DataException
+			IResultClass rsMeta, StopSign stopSign ) throws DataException
 	{
 		assert cacheRequest != null;
 		assert resultCache != null;
@@ -177,7 +184,8 @@ class SmartCacheHelper
 				odiAdpater,
 				startIndex,
 				endIndex,
-				rsMeta );
+				rsMeta,
+				stopSign);
 
 		return this.resultSetCache;
 	}
@@ -192,11 +200,12 @@ class SmartCacheHelper
 	 * @param endIndex
 	 * @param rsMeta
 	 * @param sortSpec
+	 * @param stopSign
 	 * @throws DataException
 	 */
 	private void initSubResult( CacheRequest cacheRequest,
 			ResultSetCache resultCache, OdiAdapter odiAdpater, int startIndex,
-			int endIndex, IResultClass rsMeta ) throws DataException
+			int endIndex, IResultClass rsMeta, StopSign stopSign ) throws DataException
 	{
 		int length = endIndex - startIndex;
 		if ( cacheRequest.getMaxRow( ) <= 0
@@ -207,7 +216,7 @@ class SmartCacheHelper
 
 		// In OdiAdapter, it fetches the next row, not current row.
 		resultCache.moveTo( startIndex - 1 );
-		initInstance( cacheRequest, odiAdpater, rsMeta );
+		initInstance( cacheRequest, odiAdpater, rsMeta, stopSign );
 
 		resultCache.moveTo( oldIndex );
 	}
@@ -219,9 +228,9 @@ class SmartCacheHelper
 	 * @throws DataException
 	 */
 	ResultSetCache getResultSetCache( CacheRequest cacheRequest,
-			OdiAdapter odiAdapter, IResultClass rsMeta ) throws DataException
+			OdiAdapter odiAdapter, IResultClass rsMeta, StopSign stopSign ) throws DataException
 	{
-		initInstance( cacheRequest, odiAdapter, rsMeta );
+		initInstance( cacheRequest, odiAdapter, rsMeta, stopSign );
 		return this.resultSetCache;
 	}
 
@@ -232,11 +241,11 @@ class SmartCacheHelper
 	 * @throws DataException
 	 */
 	ResultSetCache getResultSetCache( CacheRequest cacheRequest,
-			IRowResultSet rowResultSet, IResultClass rsMeta )
+			IRowResultSet rowResultSet, IResultClass rsMeta, StopSign stopSign )
 			throws DataException
 	{
 		this.eventHandler = cacheRequest.getEventHandler( );
-		populateData( rowResultSet, rsMeta, cacheRequest.getSortSpec( ) );
+		populateData( rowResultSet, rsMeta, cacheRequest.getSortSpec( ), stopSign );
 		return this.resultSetCache;
 	}
 
@@ -247,10 +256,11 @@ class SmartCacheHelper
 	 * @param query
 	 * @param rsMeta
 	 * @param sortSpec
+	 * @param stopSign
 	 * @throws DataException
 	 */
 	private void initInstance( CacheRequest cacheRequest,
-			OdiAdapter odiAdpater, IResultClass rsMeta ) throws DataException
+			OdiAdapter odiAdpater, IResultClass rsMeta, StopSign stopSign ) throws DataException
 	{
 		this.eventHandler = cacheRequest.getEventHandler( );
 		IRowResultSet rowResultSet = new ExpandableRowResultSet( new SmartCacheRequest( cacheRequest.getMaxRow( ),
@@ -258,7 +268,7 @@ class SmartCacheHelper
 				odiAdpater,
 				rsMeta,
 				cacheRequest.getDistinctValueFlag( ) ) );
-		populateData( rowResultSet, rsMeta, cacheRequest.getSortSpec( ) );
+		populateData( rowResultSet, rsMeta, cacheRequest.getSortSpec( ), stopSign );
 	}
 
 	/**
@@ -267,10 +277,11 @@ class SmartCacheHelper
 	 * @param rsMeta
 	 * @param rowResultSet
 	 * @param sortSpec
+	 * @param stopSign
 	 * @throws DataException
 	 */
 	private void populateData( IRowResultSet rowResultSet, IResultClass rsMeta,
-			SortSpec sortSpec ) throws DataException
+			SortSpec sortSpec, StopSign stopSign ) throws DataException
 	{
 		long startTime = System.currentTimeMillis( );
 		SizeOfUtil sizeOfUtil = new SizeOfUtil( rsMeta );
@@ -285,7 +296,7 @@ class SmartCacheHelper
 		int dataCount = 0;
 		long usedMemorySize = 0;
 
-		while ( ( odaObject = rowResultSet.next( ) ) != null )
+		while ( ( odaObject = rowResultSet.next( ) ) != null && !stopSign.isStopped( ) )
 		{
 			if ( usedMemorySize < memoryCacheSize )
 			{
@@ -325,7 +336,8 @@ class SmartCacheHelper
 						rsMeta,
 						getComparator( sortSpec, eventHandler ),
 						dataCount,
-						this.session );
+						this.session,
+						stopSign );
 				break;
 			}
 		}

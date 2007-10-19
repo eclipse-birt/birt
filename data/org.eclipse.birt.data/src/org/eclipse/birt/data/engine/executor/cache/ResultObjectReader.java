@@ -70,7 +70,7 @@ public class ResultObjectReader
 			try
 			{
 				curIndex++;
-				return roUtil.readData( intputStream, 1 )[0];
+				return roUtil.readData( intputStream, 1, null )[0];
 			}
 			catch ( IOException e )
 			{

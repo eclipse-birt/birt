@@ -30,6 +30,7 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultObject;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.datatools.connectivity.oda.IBlob;
@@ -115,10 +116,11 @@ public class ResultObjectUtil
 	 *            input stream
 	 * @param length
 	 *            how many objects needs to be read
+	 * @param stopSign
 	 * @return result object array
 	 * @throws IOException
 	 */
-	public IResultObject[] readData( InputStream bis, int length )
+	public IResultObject[] readData( InputStream bis, int length, StopSign stopSign )
 			throws IOException
 	{
 		ResultObject[] rowDatas = new ResultObject[length];
@@ -131,6 +133,8 @@ public class ResultObjectUtil
 
 		for ( int i = 0; i < length; i++ )
 		{
+			if( stopSign != null && stopSign.isStopped( ) )
+				break;
 			rowLen = IOUtil.readInt( bis );
 			rowDataBytes = new byte[rowLen];
 			bis.read( rowDataBytes );
@@ -213,13 +217,18 @@ public class ResultObjectUtil
 	 * @param bos output stream
 	 * @param resultObjects result objects needs to be deserialized
 	 * @param length how many objects to be deserialized
+	 * @param stopSign
 	 * @throws IOException
 	 */
 	public void writeData( OutputStream bos,
-			IResultObject[] resultObjects, int length ) throws IOException
+			IResultObject[] resultObjects, int length, StopSign stopSign ) throws IOException
 	{		
 		for ( int i = 0; i < length; i++ )
+		{
 			writeData( bos, resultObjects[i] );
+			if( stopSign != null && stopSign.isStopped( ) )
+				return;
+		}
 	}
 	
 	/**

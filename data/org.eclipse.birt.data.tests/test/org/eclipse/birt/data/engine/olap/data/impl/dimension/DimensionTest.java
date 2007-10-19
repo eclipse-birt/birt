@@ -19,6 +19,7 @@ import junit.framework.TestCase;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.ISelection;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
@@ -965,7 +966,7 @@ public class DimensionTest extends TestCase
 		indexArray.add( new Integer( 11 ) );
 		indexArray.add( new Integer( 14 ) );
 		IDiskArray result = realDimension.getDimensionRowByPositions( 
-				indexArray );
+				indexArray, new StopSign( ) );
 		assertEquals( ( (DimensionRow) ( result.get( 0 ) ) ).getMembers()[3].getKeyValues()[0],
 				"1131" );
 		assertEquals( ( (DimensionRow) ( result.get( 1 ) ) ).getMembers()[3].getKeyValues()[0],
@@ -1024,7 +1025,7 @@ public class DimensionTest extends TestCase
 		indexArray.add( new Integer( 11 ) );
 		indexArray.add( new Integer( 14 ) );
 		IDiskArray result = realDimension.getDimensionRowByPositions(
-				indexArray );
+				indexArray, new StopSign( ) );
 		assertEquals( ( (DimensionRow) ( result.get( 0 ) ) ).getMembers()[2].getKeyValues()[0],
 				"113" );
 		assertEquals( ( (DimensionRow) ( result.get( 1 ) ) ).getMembers()[2].getKeyValues()[0],
@@ -1067,7 +1068,7 @@ public class DimensionTest extends TestCase
 
 		Dimension realDimension = (Dimension) dimension;
 
-		IDiskArray result = realDimension.getAllRows( );
+		IDiskArray result = realDimension.getAllRows( new StopSign( ) );
 		for ( int i = 0; i < result.size( ); i++ )
 		{
 			DimensionRow dimRow = (DimensionRow) ( result.get( i ) );

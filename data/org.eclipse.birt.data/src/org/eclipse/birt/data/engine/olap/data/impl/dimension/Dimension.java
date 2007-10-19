@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.data.api.ISelection;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IHierarchy;
@@ -110,9 +111,9 @@ public class Dimension implements IDimension
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.olap.api.cube.IDimension#getAllRows()
 	 */
-	public IDiskArray getAllRows( ) throws IOException
+	public IDiskArray getAllRows( StopSign stopSign ) throws IOException
 	{
-		return hierarchy.readAllRows( );
+		return hierarchy.readAllRows( stopSign );
 	}
 
 	public DimensionRow getRowByPosition( int position )
@@ -122,13 +123,15 @@ public class Dimension implements IDimension
 	}
 	
 	public IDiskArray getDimensionRowByPositions(
-			IDiskArray positionArray ) throws IOException
+			IDiskArray positionArray, StopSign stopSign ) throws IOException
 	{
 		BufferedStructureArray resultArray = new BufferedStructureArray( DimensionRow.getCreator( ),
 				Math.min( Constants.MAX_LIST_BUFFER_SIZE, positionArray.size( ) ) );
 
 		for ( int i = 0; i < positionArray.size( ); i++ )
 		{
+			if( stopSign.isStopped( ) )
+				break;
 			int pos = ( (Integer) positionArray.get( i ) ).intValue( );
 			resultArray.add( hierarchy.readRowByPosition( pos ) );
 		}

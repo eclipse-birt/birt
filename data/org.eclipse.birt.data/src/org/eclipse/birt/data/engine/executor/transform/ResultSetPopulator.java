@@ -20,6 +20,7 @@ import org.eclipse.birt.data.engine.executor.cache.SmartRowResultSet;
 import org.eclipse.birt.data.engine.executor.transform.group.GroupProcessorManager;
 import org.eclipse.birt.data.engine.executor.transform.pass.PassManager;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 
@@ -201,34 +202,37 @@ public class ResultSetPopulator
 	 * carry out the actual population job.
 	 * 
 	 * @param odaResultSet
+	 * @param stopSign
 	 * @throws DataException
 	 */
-	public void populateResultSet( OdiResultSetWrapper odaResultSet ) throws DataException
+	public void populateResultSet( OdiResultSetWrapper odaResultSet, StopSign stopSign ) throws DataException
 	{
-		PassManager.populateResultSet( this, odaResultSet, this.session );
+		PassManager.populateResultSet( this, odaResultSet, this.session, stopSign );
 	}
 
 	/**
 	 * Use the given OrderingInfo, re-set the smartCache
 	 * 
 	 * @param odInfo
+	 * @param stopSign
 	 * @throws DataException
 	 */
-	public void reSetSmartCacheUsingOrderingInfo( OrderingInfo odInfo )
+	public void reSetSmartCacheUsingOrderingInfo( OrderingInfo odInfo, StopSign stopSign )
 			throws DataException
 	{
-		reSetCache( odInfo );
+		reSetCache( odInfo, stopSign );
 		this.groupProcessorManager.getGroupCalculationUtil( )
 				.getGroupInformationUtil( )
-				.doGrouping( );
+				.doGrouping( stopSign );
 		this.getCache( ).next( );
 	}
 
 	/**
 	 * @param odInfo
+	 * @param stopSign
 	 * @throws DataException
 	 */
-	public void reSetCache( OrderingInfo odInfo ) throws DataException
+	public void reSetCache( OrderingInfo odInfo, StopSign stopSign ) throws DataException
 	{
 		this.getCache( ).reset( );
 		this.getCache( ).next( );
@@ -239,7 +243,8 @@ public class ResultSetPopulator
 				this.getEventHandler( ) ),
 				new SmartRowResultSet( this.getCache( ), rsMeta, odInfo ),
 				this.rsMeta,
-				this.session) );
+				this.session,
+				stopSign) );
 		
 		this.groupProcessorManager.getGroupCalculationUtil( )
 				.setResultSetCache( this.getCache( ) );

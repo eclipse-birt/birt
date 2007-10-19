@@ -213,14 +213,14 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#executeOdiQuery()
 		 */
-		protected IResultIterator executeOdiQuery( IEventHandler eventHandler )
+		protected IResultIterator executeOdiQuery( IEventHandler eventHandler, StopSign stopSign )
 				throws DataException
 		{	
 			// prepareOdiQuery must be called before			
 			customDataSet.open();
 			dataSet.afterOpen();
 			ICandidateQuery candidateQuery = (ICandidateQuery) odiQuery;
-			return candidateQuery.execute( eventHandler );
+			return candidateQuery.execute( eventHandler, stopSign );
 		}
 	
 		/**

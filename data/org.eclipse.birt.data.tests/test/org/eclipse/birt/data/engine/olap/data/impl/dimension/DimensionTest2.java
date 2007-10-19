@@ -18,6 +18,7 @@ import junit.framework.TestCase;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.ISelection;
@@ -264,7 +265,7 @@ public class DimensionTest2 extends TestCase
 				filter );
 		assertEquals( positionArray.size( ), 4 );
 		DimensionResultIterator dimesionResultSet = new DimensionResultIterator( dimension,
-				positionArray);
+				positionArray, new StopSign() );
 		dimLevel11 = new DimLevel(dimension.getName( ),"l1");
 		dimLevel12 = new DimLevel(dimension.getName( ),"l2");
 		assertEquals(dimesionResultSet.getLevelIndex( dimLevel12.getLevelName( ) ), 1 );

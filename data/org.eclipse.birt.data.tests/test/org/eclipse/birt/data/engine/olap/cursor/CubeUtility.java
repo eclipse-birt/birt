@@ -22,6 +22,7 @@ import javax.olap.cursor.EdgeCursor;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
@@ -34,7 +35,6 @@ import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IHierarchy;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ILevelDefn;
-import org.eclipse.birt.data.engine.olap.data.api.cube.StopSign;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentManagerFactory;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 import org.eclipse.birt.data.engine.olap.data.impl.Cube;
@@ -94,7 +94,7 @@ public class CubeUtility
 				levelDefs,
 				false );
 		IHierarchy hierarchy = dimensions[0].getHierarchy( );
-		IDiskArray allRow = dimensions[0].getAllRows( );
+		IDiskArray allRow = dimensions[0].getAllRows( new StopSign( ) );
 		
 		// dimension1
         levelNames = new String[1];
@@ -112,7 +112,7 @@ public class CubeUtility
 				levelDefs,
 				false );
 		hierarchy = dimensions[1].getHierarchy( );
-		allRow = dimensions[1].getAllRows( );		
+		allRow = dimensions[1].getAllRows( new StopSign( ) );		
 		
 		// dimension2
         levelNames = new String[1];
@@ -130,7 +130,7 @@ public class CubeUtility
 				levelDefs,
 				false );
 		hierarchy = dimensions[2].getHierarchy( );
-		allRow = dimensions[2].getAllRows( );
+		allRow = dimensions[2].getAllRows( new StopSign( ) );
 		
 		// dimension3
         levelNames = new String[1];
@@ -148,7 +148,7 @@ public class CubeUtility
 				levelDefs,
 				false );
 		hierarchy = dimensions[3].getHierarchy( );
-		allRow = dimensions[3].getAllRows( );
+		allRow = dimensions[3].getAllRows( new StopSign( ) );
 		
 		// dimension4
         levelNames = new String[1];
@@ -166,7 +166,7 @@ public class CubeUtility
 				levelDefs,
 				false );
 		hierarchy = dimensions[4].getHierarchy( );
-		allRow = dimensions[4].getAllRows( );
+		allRow = dimensions[4].getAllRows( new StopSign( ) );
 		
 		// dimension5
 		levelNames = new String[]{
@@ -188,7 +188,7 @@ public class CubeUtility
 				levelDefs,
 				false );
 		hierarchy = dimensions[5].getHierarchy( );
-		allRow = dimensions[5].getAllRows( );
+		allRow = dimensions[5].getAllRows( new StopSign( ) );
 		
 		TestFactTable1 factTable2 = new TestFactTable1( );
 		String[] measureColumnName = new String[1];

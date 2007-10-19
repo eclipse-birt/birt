@@ -20,6 +20,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
 import org.eclipse.birt.data.engine.olap.script.JSLevelAccessor;
@@ -39,6 +40,7 @@ public class CubeQueryResults implements ICubeQueryResults
 	private DataEngineSession session;
 	private String queryResultsId;
 	private Map appContext;
+	private StopSign stopSign;
 	
 	/**
 	 * 
@@ -53,6 +55,7 @@ public class CubeQueryResults implements ICubeQueryResults
 		this.session = session;
 		this.appContext = appContext;
 		this.queryResultsId = preparedQuery.getCubeQueryDefinition( ).getQueryResultsID( );
+		this.stopSign = new StopSign( );
 	}
 
 	/*
@@ -63,11 +66,12 @@ public class CubeQueryResults implements ICubeQueryResults
 	{
 		try
 		{
+			stopSign.start( );
 			CubeQueryExecutor executor = new CubeQueryExecutor( preparedQuery.getCubeQueryDefinition( ), this.session,
 					this.scope,
 					this.context );
 			BirtCubeView bcv = new BirtCubeView( executor, appContext );
-			CubeCursor cubeCursor = bcv.getCubeCursor( );
+			CubeCursor cubeCursor = bcv.getCubeCursor( stopSign );
 			String newResultSetId = executor.getQueryResultsId( );
 			if ( newResultSetId != null )
 			{
@@ -111,4 +115,14 @@ public class CubeQueryResults implements ICubeQueryResults
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.api.ICubeQueryResults#cancel()
+	 */
+	public void cancel( )
+	{
+		stopSign.stop( );
+	}
+	
+	
 }

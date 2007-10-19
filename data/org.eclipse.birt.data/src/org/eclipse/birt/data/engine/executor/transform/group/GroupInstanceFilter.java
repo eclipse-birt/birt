@@ -26,6 +26,7 @@ import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
 import org.eclipse.birt.data.engine.executor.transform.OrderingInfo;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.script.FilterPassController;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
@@ -51,9 +52,10 @@ class GroupInstanceFilter
 	 * Do group filtering job.
 	 * 
 	 * @param cx
+	 * @param stopSign
 	 * @throws DataException
 	 */
-	public void doGroupFiltering( Context cx )
+	public void doGroupFiltering( Context cx,StopSign stopSign )
 			throws DataException
 	{
 		List groupLevels = new ArrayList( );
@@ -78,7 +80,7 @@ class GroupInstanceFilter
 					.getGroupInformationUtil( )
 					.getOrderingInfo( groupBoundaryInfos );
 
-			this.populator.reSetSmartCacheUsingOrderingInfo( odInfo );
+			this.populator.reSetSmartCacheUsingOrderingInfo( odInfo, stopSign );
 		}
 	}
 

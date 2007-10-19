@@ -48,6 +48,7 @@ import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
@@ -96,6 +97,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	private IModelAdapter modelAdaptor;
 	private DataSessionContext sessionContext;
 	private Map cubeHandleMap;
+	private StopSign stopSign;
 
 	/**
 	 * Constructs the data request session with the provided session context
@@ -492,9 +494,10 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * 
 	 * @param cubeHandle
 	 * @param appContext
+	 * @param stopSign
 	 * @throws BirtException
 	 */
-	private void materializeCube( CubeHandle cubeHandle, Map appContext ) throws BirtException
+	private void materializeCube( CubeHandle cubeHandle, Map appContext, StopSign stopSign ) throws BirtException
 	{
 		int mode = this.sessionContext.getDataEngineContext( ).getMode( );
 		try
@@ -517,13 +520,14 @@ public class DataRequestSessionImpl extends DataRequestSession
 				cubeMaterializer = createCubeMaterializer( cubeHandle, size );
 				createCube( (TabularCubeHandle) cubeHandle,
 						cubeMaterializer,
-						appContext );
+						appContext,
+						stopSign);
 				cubeMaterializer.close( );
 			}
 			else if ( mode == DataEngineContext.MODE_GENERATION )
 			{
 				cubeMaterializer = createCubeMaterializer( cubeHandle, 0 );
-				createCube(  (TabularCubeHandle)cubeHandle, cubeMaterializer, appContext );
+				createCube(  (TabularCubeHandle)cubeHandle, cubeMaterializer, appContext, stopSign );
 				cubeMaterializer.saveCubeToReportDocument( cubeHandle.getQualifiedName( ),
 						this.sessionContext.getDocumentWriter( ),
 						null );
@@ -558,12 +562,13 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * 
 	 * @param cubeHandle
 	 * @param cubeMaterializer
+	 * @param stopSign
 	 * @throws IOException
 	 * @throws BirtException
 	 * @throws DataException
 	 */
 	private void createCube( TabularCubeHandle cubeHandle,
-			CubeMaterializer cubeMaterializer, Map appContext )
+			CubeMaterializer cubeMaterializer, Map appContext, StopSign stopSign )
 			throws IOException, BirtException, DataException
 	{
 		boolean doPerfTuning = this.needCachedDataSetToEnhancePerformance( cubeHandle )
@@ -593,7 +598,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 
 		IDimension[] dimensions = populateDimensions( cubeMaterializer,
 				cubeHandle,
-				candidateAppContext );
+				candidateAppContext,
+				stopSign );
 		String[][] factTableKey = new String[dimensions.length][];
 		String[][] dimensionKey = new String[dimensions.length][];
 
@@ -671,7 +677,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				dimensions,
 				new DataSetIterator( this, cubeHandle, candidateAppContext ),
 				this.toStringArray( measureNames ),
-				null );
+				stopSign );
 	} 
 
 	/**
@@ -748,13 +754,14 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * Populate all dimensions.
 	 * @param cubeMaterializer
 	 * @param dimHandles
+	 * @param stopSign
 	 * @return
 	 * @throws IOException
 	 * @throws BirtException
 	 * @throws DataException
 	 */
 	private IDimension[] populateDimensions( CubeMaterializer cubeMaterializer,
-			TabularCubeHandle cubeHandle, Map appContext ) throws IOException, BirtException, DataException
+			TabularCubeHandle cubeHandle, Map appContext, StopSign stopSign ) throws IOException, BirtException, DataException
 	{
 		List dimHandles = cubeHandle.getContents( CubeHandle.DIMENSIONS_PROP );
 		List result = new ArrayList( );
@@ -763,7 +770,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 			result.add( populateDimension( cubeMaterializer,
 					(DimensionHandle) dimHandles.get( i ),
 					cubeHandle,
-					appContext ) );
+					appContext,
+					stopSign) );
 		}
 		
 		IDimension[] dimArray = new IDimension[dimHandles.size( )];
@@ -779,13 +787,14 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * 
 	 * @param cubeMaterializer
 	 * @param dim
+	 * @param stopSign
 	 * @return
 	 * @throws IOException
 	 * @throws BirtException
 	 * @throws DataException
 	 */
 	private IDimension populateDimension( CubeMaterializer cubeMaterializer,
-			DimensionHandle dim, TabularCubeHandle cubeHandle, Map appContext ) throws IOException,
+			DimensionHandle dim, TabularCubeHandle cubeHandle, Map appContext, StopSign stopSign ) throws IOException,
 			BirtException, DataException
 	{
 		List hiers = dim.getContents( DimensionHandle.HIERARCHIES_PROP );
@@ -831,7 +840,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		
 			iHiers.add( cubeMaterializer.createHierarchy( dim.getName( ), hierhandle.getName( ),
 					new DataSetIterator( this, hierhandle, appContext ),
-					levelInHier ) );
+					levelInHier, stopSign ) );
 		}
 		return cubeMaterializer.createDimension( dim.getName( ),
 				(IHierarchy) iHiers.get( 0 ) ) ;
@@ -883,10 +892,12 @@ public class DataRequestSessionImpl extends DataRequestSession
 	public IPreparedCubeQuery prepare( ICubeQueryDefinition query,
 			Map appContext ) throws BirtException
 	{
+		stopSign.start( );
+		
 		if ( this.cubeHandleMap.get( query.getName( ) ) != null )
 		{
 			this.materializeCube( (CubeHandle) this.cubeHandleMap.get( query.getName( ) ),
-					appContext );
+					appContext, stopSign );
 			this.cubeHandleMap.remove( query.getName( ) );
 		}
 		if ( this.sessionContext.getDataEngineContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION )
@@ -1003,5 +1014,14 @@ public class DataRequestSessionImpl extends DataRequestSession
 			fetchLimit = Integer.parseInt( fetchLimitSize );
 
 		return fetchLimit;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#cancel()
+	 */
+	public void cancel( )
+	{
+		stopSign.stop( );
 	}
 }

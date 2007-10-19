@@ -20,6 +20,7 @@ import org.eclipse.birt.data.engine.executor.cache.CacheRequest;
 import org.eclipse.birt.data.engine.executor.cache.OdiAdapter;
 import org.eclipse.birt.data.engine.executor.cache.SmartCache;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.impl.document.viewing.DummyEventHandler;
 import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
@@ -348,7 +349,7 @@ public class BaseJointDataSetPopulator implements IDataSetPopulator
 				null,
 				new DummyEventHandler( ) ),
 				new OdiAdapter( resultSet ),
-				secondaryIterator.getResultClass( ), this.session );
+				secondaryIterator.getResultClass( ), this.session, new StopSign( ) );
 		
 		beSecondaryUsed = false;
 	}

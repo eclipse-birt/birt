@@ -19,6 +19,7 @@ import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentManagerFactory;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
@@ -105,16 +106,21 @@ public class CubeMaterializer
 	 * @param hierarchyName
 	 * @param iterator
 	 * @param levelDefs
+	 * @param stopSign
 	 * @return
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	public IHierarchy createHierarchy( String dimensionName, String hierarchyName, IDatasetIterator iterator, ILevelDefn[] levelDefs ) throws IOException, BirtException
+	public IHierarchy createHierarchy( String dimensionName,
+			String hierarchyName, IDatasetIterator iterator,
+			ILevelDefn[] levelDefs, StopSign stopSign ) throws IOException,
+			BirtException
 	{
 		Hierarchy hierarchy = new Hierarchy( documentManager, dimensionName, hierarchyName ); 
 		hierarchy.createAndSaveHierarchy( 
 				iterator,
-				levelDefs );
+				levelDefs,
+				stopSign );
 		return hierarchy;
 	}
 	

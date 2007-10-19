@@ -15,9 +15,10 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionFilterDefn;
-import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionResultIterator;
+import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
@@ -36,7 +37,9 @@ public class DimensionResultIterator implements IDimensionResultIterator
 	private ILevel[] levels;
 	private static Logger logger = Logger.getLogger( DimensionResultIterator.class.getName( ) );
 	
-	public DimensionResultIterator( Dimension dimension, IDiskArray dimensionPosition) throws IOException
+	public DimensionResultIterator( Dimension dimension,
+			IDiskArray dimensionPosition, StopSign stopSign )
+			throws IOException
 	{
 		Object[] params = {
 				dimension, dimensionPosition
@@ -47,7 +50,7 @@ public class DimensionResultIterator implements IDimensionResultIterator
 		this.dimension = dimension;
 		this.dimensionPosition = dimensionPosition;
 		this.levels = dimension.getHierarchy( ).getLevels( );
-		dimensionRows = dimension.getDimensionRowByPositions( dimensionPosition );		
+		dimensionRows = dimension.getDimensionRowByPositions( dimensionPosition, stopSign );		
 		this.currentPosition = 0;
 		logger.exiting( DimensionResultIterator.class.getName( ),
 				"DimensionResultIterator" );

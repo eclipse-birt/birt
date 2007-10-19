@@ -75,8 +75,15 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 	private static Logger logger = Logger.getLogger( ServiceForQueryResults.class.getName( ) );
 
 	/**
+	 * 
+	 * @param context
+	 * @param scope
+	 * @param nestedLevel
 	 * @param reportQuery
 	 * @param query
+	 * @param queryExecutor
+	 * @param queryDefn
+	 * @param exprManager
 	 */
 	public ServiceForQueryResults( DataEngineContext context, Scriptable scope,
 			int nestedLevel, PreparedDataSourceQuery reportQuery,
@@ -212,9 +219,9 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IQueryService#getResultIterator()
 	 */
-	public IResultIterator executeQuery( ) throws DataException
+	public IResultIterator executeQuery( StopSign stopSign ) throws DataException
 	{
-		queryExecutor.execute( new EventHandler( ) );
+		queryExecutor.execute( new EventHandler( ), stopSign );
 		return queryExecutor.getOdiResultSet( );
 	}
 	

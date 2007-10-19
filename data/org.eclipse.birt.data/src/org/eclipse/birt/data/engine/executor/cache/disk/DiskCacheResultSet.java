@@ -19,6 +19,7 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.executor.cache.ResultObjectUtil;
 import org.eclipse.birt.data.engine.executor.cache.IRowResultSet;
+import org.eclipse.birt.data.engine.impl.StopSign;
 
 /**
  * When available memory can not accomodate existing data, it will rely on this
@@ -46,10 +47,11 @@ class DiskCacheResultSet
 	/**
 	 * @param resultObjects
 	 * @param comparator
+	 * @param stopSign
 	 * @throws IOException, file writer exception
 	 */
 	public void processStartResultObjects( IResultObject[] resultObjects,
-			Comparator comparator ) throws IOException
+			Comparator comparator, StopSign stopSign ) throws IOException
 	{
 		IResultClass rsMetaData = resultObjects[0].getResultClass( );
 		assert rsMetaData != null;
@@ -59,20 +61,21 @@ class DiskCacheResultSet
 				comparator,
 				rsMetaData,
 				resultObjectUtil );		
-		databaseExport.exportStartDataToDisk( resultObjects );
+		databaseExport.exportStartDataToDisk( resultObjects, stopSign );
 		dataCount = resultObjects.length;
 	}
 	
 	/**
 	 * @param resultObject, the start resultObject
 	 * @param rs, follows the resultObject
+	 * @param stopSign
 	 * @throws DataException
 	 * @throws IOException
 	 */
 	public void processRestResultObjects( IResultObject resultObject,
-			IRowResultSet rs ) throws DataException, IOException
+			IRowResultSet rs, StopSign stopSign ) throws DataException, IOException
 	{
-		dataCount += databaseExport.exportRestDataToDisk( resultObject, rs );
+		dataCount += databaseExport.exportRestDataToDisk( resultObject, rs, stopSign );
 		rowIterator = databaseExport.getRowIterator( );
 	}
 	

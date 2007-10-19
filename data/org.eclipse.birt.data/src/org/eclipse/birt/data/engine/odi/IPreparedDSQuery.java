@@ -17,6 +17,7 @@ package org.eclipse.birt.data.engine.odi;
 import java.util.Collection;
 
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.StopSign;
 
 /**
  * A prepared IDataSourceQuery that is ready for input parameter
@@ -109,11 +110,12 @@ public interface IPreparedDSQuery
 	 * Executes this prepared query applying the specified transforms,  
 	 * and returns an iterator of the result set. <p>
 	 * @param eventHandler 
+	 * @param stopSign
      * @return	An IResultIterator of query result instances which  
      * 			the user can iterate to get results.
      * @throws DataException	if query execution error(s) occur.
      */
-    public IResultIterator execute( IEventHandler eventHandler )
+    public IResultIterator execute( IEventHandler eventHandler, StopSign stopSign )
 			throws DataException;
 
     /** 

@@ -21,6 +21,7 @@ import org.eclipse.birt.data.engine.executor.transform.OdiResultSetWrapper;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 
@@ -59,26 +60,28 @@ class ComputedColumnCalculator
 	 * @param odaResultSet
 	 * @param iccState
 	 * @param computedColumnHelper
+	 * @param stopSign
 	 * @throws DataException
 	 */
 	static void populateComputedColumns( ResultSetPopulator populator,
 			OdiResultSetWrapper odaResultSet, ComputedColumnsState iccState,
-			ComputedColumnHelper computedColumnHelper, DataEngineSession session ) throws DataException
+			ComputedColumnHelper computedColumnHelper, DataEngineSession session, StopSign stopSign ) throws DataException
 	{
-		new ComputedColumnCalculator( populator, iccState, computedColumnHelper, session ).doPopulate( odaResultSet.getWrappedOdiResultSet( ) instanceof ICustomDataSet );
+		new ComputedColumnCalculator( populator, iccState, computedColumnHelper, session ).doPopulate( odaResultSet.getWrappedOdiResultSet( ) instanceof ICustomDataSet, stopSign );
 
 	}
 
 	/**
 	 * 
 	 * @param isCustomDataSet
+	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void doPopulate( boolean isCustomDataSet ) throws DataException
+	private void doPopulate( boolean isCustomDataSet, StopSign stopSign ) throws DataException
 	{
 		while ( needMoreExpressionProcessOnComputedColumns( ) )
 		{
-			makeAPassToComputedColumn( isCustomDataSet );
+			makeAPassToComputedColumn( isCustomDataSet, stopSign );
 		}
 	}
 	/**
@@ -109,7 +112,7 @@ class ComputedColumnCalculator
 	 * @param backupFetchEvents
 	 * @throws DataException
 	 */
-	private void makeAPassToComputedColumn( boolean isCustomDataSet )
+	private void makeAPassToComputedColumn( boolean isCustomDataSet, StopSign stopSign )
 			throws DataException
 	{
 		// ICustomDataSet need special treatment.
@@ -124,7 +127,7 @@ class ComputedColumnCalculator
 			populator.setResultSetMetadata( rebuildCustomedResultClass( populator.getResultSetMetadata( ),
 					true ) );
 
-		PassUtil.pass( populator, new OdiResultSetWrapper( populator.getResultIterator( )), true, session);
+		PassUtil.pass( populator, new OdiResultSetWrapper( populator.getResultIterator( )), true, session, stopSign);
 	}
 
 	/**

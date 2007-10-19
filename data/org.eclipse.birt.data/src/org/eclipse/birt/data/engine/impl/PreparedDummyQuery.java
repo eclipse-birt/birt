@@ -427,6 +427,12 @@ public class PreparedDummyQuery implements IPreparedQuery
 		{
 			return null;
 		}
+
+		public void cancel( )
+		{
+			// TODO Auto-generated method stub
+			
+		}
 	}
 
 	/**

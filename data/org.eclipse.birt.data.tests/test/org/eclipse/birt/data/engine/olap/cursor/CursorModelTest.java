@@ -30,6 +30,7 @@ import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
@@ -99,7 +100,7 @@ public class CursorModelTest extends BaseTestCase
 		// Create cube view.
 		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor(cqd,de.getSession( ),this.scope,de.getContext( )) );
 
-		CubeCursor dataCursor = cubeView.getCubeCursor( );
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) );
 
 		List columnEdgeBindingNames = new ArrayList();
 		columnEdgeBindingNames.add( "level11" );
@@ -166,7 +167,7 @@ public class CursorModelTest extends BaseTestCase
 				this.scope,
 				de.getContext( ) ) );
 
-		CubeCursor dataCursor = cubeView.getCubeCursor( );
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) );
 
 		// retrieve the edge cursors
 		EdgeCursor columnCursor = cubeView.getColumnEdgeView( ).getEdgeCursor( );
@@ -222,7 +223,7 @@ public class CursorModelTest extends BaseTestCase
 				this.scope,
 				de.getContext( ) ) );
 
-		CubeCursor dataCursor = cubeView.getCubeCursor( );
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) );
 
 		// retrieve the edge cursors
 		// EdgeCursor pageCursor = cubeView.getMeasureEdgeView( );
@@ -283,7 +284,7 @@ public class CursorModelTest extends BaseTestCase
 				this.scope,
 				de.getContext( ) ) );
 
-		CubeCursor dataCursor = cubeView.getCubeCursor( );
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) );
 
 		List columnEdgeBindingNames = new ArrayList( );
 		columnEdgeBindingNames.add( "level11" );
@@ -352,7 +353,7 @@ public class CursorModelTest extends BaseTestCase
 		// Create cube view.
 		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor(cqd,de.getSession( ),this.scope,de.getContext( )) );
 
-		CubeCursor dataCursor = cubeView.getCubeCursor( );
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) );
 
 		List columnEdgeBindingNames = new ArrayList();
 		columnEdgeBindingNames.add( "level11" );
@@ -411,7 +412,7 @@ public class CursorModelTest extends BaseTestCase
 		// Create cube view.
 		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor(cqd,de.getSession( ),this.scope,de.getContext( )) );
 
-		CubeCursor dataCursor = cubeView.getCubeCursor( );
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) );
 
 		List columnEdgeBindingNames = new ArrayList();
 		columnEdgeBindingNames.add( "level11" );
@@ -468,7 +469,7 @@ public class CursorModelTest extends BaseTestCase
 		// Create cube view.
 		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor(cqd,de.getSession( ),this.scope,de.getContext( )) );
 
-		CubeCursor dataCursor = cubeView.getCubeCursor( );
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) );
 
 		List columnEdgeBindingNames = new ArrayList();
 		columnEdgeBindingNames.add( "level11" );
@@ -538,7 +539,7 @@ public class CursorModelTest extends BaseTestCase
 		// Create cube view.
 		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor(cqd,de.getSession( ),this.scope,de.getContext( )) );
 
-		CubeCursor dataCursor = cubeView.getCubeCursor( );
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) );
 
 		List columnEdgeBindingNames = new ArrayList();
 		columnEdgeBindingNames.add( "level11" );
@@ -616,7 +617,7 @@ public class CursorModelTest extends BaseTestCase
 		// Create cube view.
 		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor(cqd,de.getSession( ),this.scope,de.getContext( )) );
 
-		CubeCursor dataCursor = cubeView.getCubeCursor( );
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) );
 
 		List columnEdgeBindingNames = new ArrayList();
 		columnEdgeBindingNames.add( "level11" );
@@ -687,7 +688,7 @@ public class CursorModelTest extends BaseTestCase
 		// Create cube view.
 		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor(cqd,de.getSession( ),this.scope,de.getContext( )) );
 
-		CubeCursor dataCursor = cubeView.getCubeCursor( );
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) );
 
 		List columnEdgeBindingNames = new ArrayList();
 		columnEdgeBindingNames.add( "level11" );
@@ -765,7 +766,7 @@ public class CursorModelTest extends BaseTestCase
 				this.scope,
 				de.getContext( ) ), appContext );
 
-		CubeCursor dataCursor = cubeView.getCubeCursor( );
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) );
 
 		List columnEdgeBindingNames = new ArrayList();
 		columnEdgeBindingNames.add( "level11" );

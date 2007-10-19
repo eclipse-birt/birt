@@ -18,6 +18,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.eclipse.birt.data.engine.executor.cache.ResultObjectUtil;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
@@ -78,10 +79,11 @@ class DataFileReader
 	 * caller has responsibility to design a good algorithm to achive this goal.
 	 * 
 	 * @param length
+	 * @param stopSign
 	 * @throws IOException, exception of reading file
 	 * @return ResultObject array
 	 */
-	IResultObject[] read( int length ) throws IOException
+	IResultObject[] read( int length, StopSign stopSign ) throws IOException
 	{
 		if ( isOpen == false )
 		{
@@ -98,7 +100,7 @@ class DataFileReader
 			isOpen = true;
 		}
 
-		return resultObjectUtil.readData( bis, length );
+		return resultObjectUtil.readData( bis, length, stopSign );
 	}
 
 	/**

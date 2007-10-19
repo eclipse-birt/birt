@@ -17,6 +17,7 @@ import java.util.Map;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.cache.IRowResultSet;
 import org.eclipse.birt.data.engine.executor.cache.ResultObjectUtil;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
@@ -58,9 +59,10 @@ abstract class DiskDataExport
 	 * the first step of export.
 	 * 
 	 * @param rs
+	 * @param stopSign
 	 * @throws IOException, file writer exception
 	 */
-	public abstract void exportStartDataToDisk( IResultObject[] resultObjects )
+	public abstract void exportStartDataToDisk( IResultObject[] resultObjects, StopSign stopSign )
 			throws IOException;
 	
 	/**
@@ -69,11 +71,12 @@ abstract class DiskDataExport
 	 * 
 	 * @param resultObject, the start resultObject
 	 * @param rs, follows the resultObject
+	 * @param stopSign
 	 * @throws DataException, fetch data exception
 	 * @throws IOException, file writer exception
 	 */
 	public abstract int exportRestDataToDisk( IResultObject resultObject,
-			IRowResultSet rs ) throws DataException, IOException;
+			IRowResultSet rs, StopSign stopSign ) throws DataException, IOException;
 	
 	/**
 	 * get a ObjectFileWithCache object for goal file 
@@ -89,13 +92,15 @@ abstract class DiskDataExport
 	
 	/**
 	 * A util method for sub class
-	 * 
-	 * @throws IOException, file writer exception
+	 * @param resultObjects
+	 * @param stopSign
+	 * @return
+	 * @throws IOException
 	 */
-	protected int innerExportStartData( IResultObject[] resultObjects )
+	protected int innerExportStartData( IResultObject[] resultObjects, StopSign stopSign )
 			throws IOException
 	{
-		outputResultObjects( resultObjects, 0 );
+		outputResultObjects( resultObjects, 0, stopSign );
 		return resultObjects.length;
 	}
 	 
@@ -105,12 +110,13 @@ abstract class DiskDataExport
 	 * @param resultObject
 	 * @param rs
 	 * @param dataCountOfUnit
+	 * @param stopSign
 	 * @throws DataException, fetch data exception
 	 * @throws IOException, file writer exception
 	 * @return how much data is exported
 	 */
 	protected int innerExportRestData( IResultObject resultObject,
-			IRowResultSet rs, int dataCountOfUnit ) throws DataException,
+			IRowResultSet rs, int dataCountOfUnit, StopSign stopSign ) throws DataException,
 			IOException
 	{
 		int columnCount = rs.getMetaData( ).getFieldCount( );
@@ -121,7 +127,7 @@ abstract class DiskDataExport
 		int dataIndex = 1;
 		
 		IResultObject odaObject = null;
-		while ( ( odaObject = rs.next( ) ) != null )
+		while ( ( odaObject = rs.next( ) ) != null && !stopSign.isStopped( ) )
 		{
 			Object[] ob = new Object[columnCount];
 			for ( int i = 0; i < columnCount; i++ )
@@ -132,7 +138,7 @@ abstract class DiskDataExport
 			{
 				int indexOfUnit = currDataCount / dataCountOfUnit - 1;
 				if ( indexOfUnit >= 0 )
-					outputResultObjects( rowDatas, indexOfUnit + 1 );
+					outputResultObjects( rowDatas, indexOfUnit + 1, stopSign );
 				dataIndex = 0;
 			}
 
@@ -150,7 +156,7 @@ abstract class DiskDataExport
 			rowDatas2 = new IResultObject[length];
 			System.arraycopy( rowDatas, 0, rowDatas2, 0, length );
 		}
-		outputResultObjects( rowDatas2, indexOfUnit + 1 );
+		outputResultObjects( rowDatas2, indexOfUnit + 1, stopSign );
 
 		return currDataCount;
 	}
@@ -161,9 +167,10 @@ abstract class DiskDataExport
 	 * 
 	 * @param resultObjects
 	 * @param indexOfUnit
+	 * @param stopSign
 	 * @throws IOException, file writer exception
 	 */
 	protected abstract void outputResultObjects( IResultObject[] resultObjects,
-			int indexOfUnit ) throws IOException;
+			int indexOfUnit, StopSign stopSign ) throws IOException;
 
 }

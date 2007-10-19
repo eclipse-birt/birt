@@ -23,9 +23,9 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
-import org.eclipse.birt.data.engine.olap.data.api.cube.StopSign;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentObjectCache;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentObjectUtil;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
@@ -98,7 +98,7 @@ public class FactTableAccessor
 		for ( int i = 0; i < dimensionSeekers.length; i++ )
 		{
 			dimensionSeekers[i] = new DimensionPositionSeeker( getDimCombinatedKey( columnIndex[i],
-					dimensions[i].getAllRows( ) ) );
+					dimensions[i].getAllRows( stopSign ) ) );
 		}
 
 		FactTableRow currentRow = null;

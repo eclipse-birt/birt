@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.birt.data.engine.executor.cache.ResultObjectUtil;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
@@ -100,10 +101,11 @@ class SortDataProvider
 	 * 
 	 * @param begin
 	 * @param end
+	 * @param stopSign
 	 * @return ResultObject[]
 	 * @throws IOException, file reader exception
 	 */
-	IResultObject[] readData( int begin, int end ) throws IOException
+	IResultObject[] readData( int begin, int end, StopSign stopSign ) throws IOException
 	{
 		if ( begin == end )
 			return new IResultObject[0];
@@ -129,7 +131,7 @@ class SortDataProvider
 				|| offsetOfBegin >= cacheLength )
 		{
 			// no any loaded data
-			cachedResultObjects[readerIndex] = dfrArray[readerIndex].read( length );
+			cachedResultObjects[readerIndex] = dfrArray[readerIndex].read( length, stopSign );
 			sortedData = cachedResultObjects[readerIndex];
 			indexOfCachedRowData[readerIndex] = begin;
 		}
@@ -147,7 +149,7 @@ class SortDataProvider
 							+ i];
 
 				int nextReadLength = offsetOfEnd - cacheLength;
-				IResultObject[] nextSortData = dfrArray[readerIndex].read( nextReadLength );
+				IResultObject[] nextSortData = dfrArray[readerIndex].read( nextReadLength, stopSign );
 				for ( int i = 0; i < nextReadLength; i++ )
 					tempCachedData[fromBeginCachedLength + i] = nextSortData[i];
 
@@ -179,10 +181,11 @@ class SortDataProvider
 	 *            the result objects array needs to be written
 	 * @param count
 	 *            how many data of array will be written
+	 * @param stopSign
 	 * @throws IOException, file writer exception
 	 */
 	void writeData( int hint, int currPos, IResultObject[] resultObjects,
-			int count ) throws IOException
+			int count, StopSign stopSign ) throws IOException
 	{
 		if ( hint == SortDataProvider.SORT_ITSELF )
 		{
@@ -193,7 +196,7 @@ class SortDataProvider
 			else if ( currPos % dataCountOfUnit == 0 )
 				dfw.setWriteFile( outputFile );
 
-			dfw.write( resultObjects, count );
+			dfw.write( resultObjects, count, stopSign );
 			dfw.close( );
 		}
 		else
@@ -201,7 +204,7 @@ class SortDataProvider
 			if ( currPos == 0 )
 				dfw.setWriteFile( goalFile );
 
-			dfw.write( resultObjects, count );
+			dfw.write( resultObjects, count, stopSign );
 		}
 	}
 

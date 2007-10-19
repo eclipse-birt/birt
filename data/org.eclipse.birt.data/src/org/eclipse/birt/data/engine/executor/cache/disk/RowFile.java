@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.birt.data.engine.executor.cache.ResultObjectUtil;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
@@ -70,7 +71,7 @@ class RowFile implements IRowIterator
 	{
 		IResultObject[] resultObjects = new IResultObject[1];
 		resultObjects[0] = resultObject;
-		writeRows( resultObjects, 1 );
+		writeRows( resultObjects, 1, null );
 	}
 
 	/**
@@ -78,9 +79,10 @@ class RowFile implements IRowIterator
 	 *  
 	 * @param resultObjects
 	 * @param count
+	 * @param stopSign
 	 * @throws IOException
 	 */
-	void writeRows( IResultObject[] resultObjects, int count )
+	void writeRows( IResultObject[] resultObjects, int count, StopSign stopSign )
 			throws IOException
 	{
 		int cacheFreeSize = memoryRowCache.length - rowCount;
@@ -94,11 +96,11 @@ class RowFile implements IRowIterator
 			{
 				writeRowsToCache( resultObjects, 0, cacheFreeSize );
 				writeRowsToFile( resultObjects, cacheFreeSize, count
-						- cacheFreeSize );
+						- cacheFreeSize, stopSign );
 			}
 			else
 			{
-				writeRowsToFile( resultObjects, 0, count );
+				writeRowsToFile( resultObjects, 0, count, stopSign );
 			}
 		}
 	}
@@ -125,13 +127,13 @@ class RowFile implements IRowIterator
 	 * @throws IOException
 	 */
 	private void writeRowsToFile( IResultObject[] resultObjects, int from,
-			int count ) throws IOException
+			int count, StopSign stopSign ) throws IOException
 	{
 		if ( dfw == null )
 		{
 			createWriter( );
 		}
-		dfw.write( getSubArray( resultObjects, from, count ), count );
+		dfw.write( getSubArray( resultObjects, from, count ), count, stopSign );
 		rowCount += count;
 	}
 	
@@ -234,7 +236,7 @@ class RowFile implements IRowIterator
 			createReader( );
 		}
 		readPos++;
-		return ( dfr.read( 1 ) )[0];
+		return ( dfr.read( 1, null ) )[0];
 	}
 	
 	/**

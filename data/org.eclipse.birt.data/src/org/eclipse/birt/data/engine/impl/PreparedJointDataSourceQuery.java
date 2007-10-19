@@ -570,7 +570,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#executeOdiQuery()
 		 */
 		protected org.eclipse.birt.data.engine.odi.IResultIterator executeOdiQuery(
-				IEventHandler eventHandler ) throws DataException
+				IEventHandler eventHandler, StopSign stopSign ) throws DataException
 		{
 			if ( doesLoadFromCache( ) == true )
 			{
@@ -587,7 +587,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 				dsQuery.setOrdering( toList( jointQuery.getOrdering( ) ) );
 				dsQuery.setGrouping( toList( jointQuery.getGrouping( ) ) );
 
-				return dsQuery.execute( eventHandler );
+				return dsQuery.execute( eventHandler, stopSign );
 			}
 
 			initialize( dataEngine, appContext );
@@ -600,18 +600,20 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 					jrm,
 					matcher,
 					joinType, dataEngine.getSession( ),
-					dataSetDesign.getRowFetchLimit( ));
+					dataSetDesign.getRowFetchLimit( ) );
 
 			if ( doesSaveToCache( ) == false )
 				return new CachedResultSet( (BaseQuery) this.odiQuery,
 						resultClass,
 						populator,
-						eventHandler, dataEngine.getSession( ) );
+						eventHandler, dataEngine.getSession( ),
+						stopSign);
 			else
 				return new CachedResultSet( (BaseQuery) this.odiQuery,
 						resultClass,
 						new DataSetResultCache( populator, resultClass, dataEngine.getSession( ) ),
-						eventHandler, dataEngine.getSession( ) );
+						eventHandler, dataEngine.getSession( ),
+						stopSign);
 		}
 
 		/**

@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.olap.data.api.cube;
 
 import java.io.IOException;
 
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 
 
@@ -68,10 +69,10 @@ public interface IDimension
 	public void close( ) throws IOException;
 	
 	/**
-	 * 
+	 * @param stopSign
 	 * @return
 	 * @throws IOException
 	 */
-	public IDiskArray getAllRows( ) throws IOException;
+	public IDiskArray getAllRows( StopSign stopSign ) throws IOException;
 	
 }

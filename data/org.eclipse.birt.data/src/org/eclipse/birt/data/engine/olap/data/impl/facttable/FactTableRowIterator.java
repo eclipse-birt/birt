@@ -18,9 +18,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.data.api.IComputedMeasureHelper;
 import org.eclipse.birt.data.engine.olap.data.api.IMeasureList;
-import org.eclipse.birt.data.engine.olap.data.api.cube.StopSign;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentObjectUtil;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentObject;
 import org.eclipse.birt.data.engine.olap.data.impl.NamingUtil;

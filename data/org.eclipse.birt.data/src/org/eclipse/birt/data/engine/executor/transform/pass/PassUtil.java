@@ -22,6 +22,7 @@ import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
 import org.eclipse.birt.data.engine.executor.transform.OdiResultSetWrapper;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
 import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
@@ -52,22 +53,23 @@ class PassUtil
 	 * @param populator
 	 * @param resultSource
 	 * @param doGroup
+	 * @param stopSign
 	 * @throws DataException
 	 */
 	public static void pass( ResultSetPopulator populator,
-			OdiResultSetWrapper resultSource, boolean doGroup, DataEngineSession session )
+			OdiResultSetWrapper resultSource, boolean doGroup, DataEngineSession session, StopSign stopSign )
 			throws DataException
 	{
 		populateOdiResultSet( populator, resultSource, doGroup
 				? populator.getGroupProcessorManager( )
 						.getGroupCalculationUtil( )
-						.getSortSpec( ) : null, session );
+						.getSortSpec( ) : null, session, stopSign );
 
 		if ( doGroup )
 			populator.getGroupProcessorManager( )
 					.getGroupCalculationUtil( )
 					.getGroupInformationUtil( )
-					.doGrouping( );
+					.doGrouping( stopSign );
 
 		populator.getCache( ).next( );
 		
@@ -79,10 +81,11 @@ class PassUtil
 	 * @param populator
 	 * @param rsWrapper
 	 * @param sortSpec
+	 * @param stopSign
 	 * @throws DataException
 	 */
 	private static void populateOdiResultSet( ResultSetPopulator populator,
-			OdiResultSetWrapper rsWrapper, SortSpec sortSpec, DataEngineSession session )
+			OdiResultSetWrapper rsWrapper, SortSpec sortSpec, DataEngineSession session, StopSign stopSign )
 			throws DataException
 	{
 		Object resultSource = rsWrapper.getWrappedOdiResultSet( );
@@ -101,7 +104,8 @@ class PassUtil
 					query.getDistinctValueFlag( ) ),
 					(ResultSet) resultSource,
 					rsMeta,
-					session);
+					session,
+					stopSign);
 		}
 		else if ( resultSource instanceof ICustomDataSet )
 		{
@@ -112,7 +116,8 @@ class PassUtil
 					query.getDistinctValueFlag( ) ),
 					new OdiAdapter( (ICustomDataSet) resultSource ),
 					rsMeta,
-					session);
+					session,
+					stopSign);
 		}
 		else if ( resultSource instanceof IDataSetPopulator )
 		{
@@ -123,7 +128,8 @@ class PassUtil
 					query.getDistinctValueFlag( ) ),
 					new OdiAdapter( (IDataSetPopulator) resultSource ),
 					rsMeta,
-					session);
+					session,
+					stopSign);
 		}
 		else if ( resultSource instanceof DataSetResultCache )
 		{
@@ -133,7 +139,7 @@ class PassUtil
 					populator.getEventHandler( ),
 					false ), // must be true
 					new OdiAdapter( (DataSetResultCache) resultSource ),
-					rsMeta,session );
+					rsMeta,session, stopSign );
 		}
 		else if ( resultSource instanceof IResultIterator )
 		{
@@ -143,7 +149,7 @@ class PassUtil
 					populator.getEventHandler( ),
 					false ), // must be true
 					new OdiAdapter( (IResultIterator) resultSource ),
-					rsMeta,session );
+					rsMeta,session, stopSign );
 		}
 		else if ( resultSource instanceof Object[] )
 		{
@@ -156,7 +162,7 @@ class PassUtil
 					(ResultSetCache) obs[0],
 					( (int[]) obs[1] )[0],
 					( (int[]) obs[1] )[1],
-					rsMeta,session );
+					rsMeta,session, stopSign );
 		}
 
 		populator.getGroupProcessorManager( )

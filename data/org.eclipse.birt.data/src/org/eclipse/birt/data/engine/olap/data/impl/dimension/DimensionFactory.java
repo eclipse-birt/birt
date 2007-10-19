@@ -15,6 +15,7 @@ import java.io.IOException;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ILevelDefn;
@@ -26,15 +27,24 @@ import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 
 public class DimensionFactory
 {
-
+	public static IDimension createDimension( String name,
+			IDocumentManager documentManager, IDatasetIterator iterator,
+			ILevelDefn[] levelDefs, boolean isTime ) throws IOException,
+			BirtException
+	{
+		return createDimension( name,  documentManager, iterator,
+				levelDefs, isTime, new StopSign() );
+	}
+	
     //TODO : to refactor to use different name between dimension name and hierarcy name.
 	public static IDimension createDimension( String name,IDocumentManager documentManager, IDatasetIterator iterator,
-			ILevelDefn[] levelDefs, boolean isTime ) throws IOException, BirtException
+			ILevelDefn[] levelDefs, boolean isTime, StopSign stopSign ) throws IOException, BirtException
 	{
 		Hierarchy hierarchy = new Hierarchy( documentManager, name, name ); 
 		hierarchy.createAndSaveHierarchy( 
 				iterator,
-				levelDefs );
+				levelDefs,
+				stopSign );
 		return new Dimension( name, documentManager, hierarchy, isTime );
 	}
 	

@@ -25,6 +25,7 @@ import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odaconsumer.ColumnHint;
 import org.eclipse.birt.data.engine.odaconsumer.ParameterHint;
 import org.eclipse.birt.data.engine.odaconsumer.PreparedStatement;
@@ -482,7 +483,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IPreparedDSQuery#execute()
 	 */
-    public IResultIterator execute( IEventHandler eventHandler )
+    public IResultIterator execute( IEventHandler eventHandler, StopSign stopSign )
 			throws DataException
 	{
     	assert odaStatement != null;
@@ -510,21 +511,21 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 				ri = new CachedResultSet( this,
 						resultMetadata,
 						rs,
-						eventHandler, session );
+						eventHandler, session, stopSign );
 			else
 			{
 				IDataSetPopulator populator = new OdaResultSet( rs );
 				ri = new CachedResultSet( this,
 						resultMetadata,
 						populator,
-						eventHandler, session );
+						eventHandler, session, stopSign );
 			}
 		}
 		else
 			ri = new CachedResultSet( this,
 					resultMetadata,
 					new DataSetResultCache( rs, resultMetadata, session ),
-					eventHandler, session );
+					eventHandler, session, stopSign );
 		
 		if ( ri != null && ri instanceof CachedResultSet )
 			( (CachedResultSet) ri ).setOdaResultSet( rs );

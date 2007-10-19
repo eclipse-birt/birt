@@ -220,7 +220,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#executeOdiQuery()
 		 */
-		protected IResultIterator executeOdiQuery( IEventHandler eventHandler )
+		protected IResultIterator executeOdiQuery( IEventHandler eventHandler, StopSign stopSign )
 				throws DataException
 		{
 			RDLoad rdLoad = RDUtil.newLoad( engine.getContext( ),
@@ -233,7 +233,8 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 			IResultIterator resultIterator = new CachedResultSet( query,
 					populateResultClass( meta ),
 					dataSetResult,
-					eventHandler, engine.getSession( ) );
+					eventHandler, engine.getSession( ),
+					stopSign);
 			dataSetResult.close( );
 			
 			return resultIterator;

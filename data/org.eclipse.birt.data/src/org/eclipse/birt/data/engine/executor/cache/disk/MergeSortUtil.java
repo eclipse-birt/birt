@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.executor.cache.disk;
 import java.util.Arrays;
 import java.util.Comparator;
 
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
@@ -103,10 +104,11 @@ class MergeSortUtil
 	 *            the array of resultobjects needs to be sorted
 	 * @param sortedResultObjects,
 	 *            the sorted result
+	 * @param stopSign
 	 * @return MergeSortInfo, the related merge info
 	 */
 	MergeSortInfo mergeSort( IResultObject[][] resultObjects,
-			IResultObject[] sortedResultObjects )
+			IResultObject[] sortedResultObjects, StopSign stopSign )
 	{
 		int mergeCount = resultObjects.length;
 		int[] indexOfAllUnits = new int[mergeCount];
@@ -145,6 +147,8 @@ class MergeSortUtil
 
 			if ( toBeSortData[indexUnitOfMinValue].length == indexOfUnit[indexUnitOfMinValue] )
 				isDone = true;
+			if( stopSign.isStopped( ) )
+				break;
 		}
 
 		for ( int i = 0, j = 0; i < mergeCount; i++ )

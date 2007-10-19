@@ -56,4 +56,9 @@ public interface IQueryResults extends IBaseQueryResults
      * @throws 	DataException if error occurs in Data Engine
      */
     public IResultIterator getResultIterator() throws BirtException;
+    
+    /**
+     * Cancel the current operation.
+     */
+    public void cancel();
  }

@@ -25,6 +25,7 @@ import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutor;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
@@ -84,7 +85,7 @@ public class CursorNavigatorTest extends TestCase
 		// Create cube view.
 		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor(cqd,de.getSession( ),this.scope,de.getContext( )) );
 
-		CubeCursor dataCursor = cubeView.getCubeCursor( );
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) );
 
 		// retrieve the edge cursors
 		// EdgeCursor pageCursor = cubeView.getMeasureEdgeView( );

@@ -18,6 +18,7 @@ import java.util.Map;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IHierarchy;
@@ -107,11 +108,12 @@ public class Hierarchy implements IHierarchy
 	 * 
 	 * @param datasetIterator
 	 * @param levelDefs
+	 * @param stopSign
 	 * @throws IOException
 	 * @throws BirtException
 	 */
 	public void createAndSaveHierarchy( IDatasetIterator datasetIterator,
-			ILevelDefn[] levelDefs ) throws IOException, BirtException
+			ILevelDefn[] levelDefs, StopSign stopSign ) throws IOException, BirtException
 	{
 		documentObj = createHierarchyDocumentObject( );
 		offsetDocObj = createLevelOffsetDocumentObject( );
@@ -145,7 +147,8 @@ public class Hierarchy implements IHierarchy
 		int size = saveHierarchyRows( levelDefs,
 				keyDataType,
 				attributesDataType,
-				sortedDimensionSet );
+				sortedDimensionSet,
+				stopSign );
 		// save dimension member size
 		int savedPointer = (int) documentObj.getFilePointer( );
 		documentObj.seek( 0 );
@@ -311,13 +314,15 @@ public class Hierarchy implements IHierarchy
 	 * @param keyDataType
 	 * @param attributesDataType
 	 * @param sortedDimensionSet
+	 * @param stopSign
 	 * @throws IOException
 	 * @throws BirtException
 	 */
 	private int saveHierarchyRows(
 			ILevelDefn[] levelDefs,
 			int[][] keyDataType,
-			int[][] attributesDataType, DiskSortedStack sortedDimensionSet )
+			int[][] attributesDataType, DiskSortedStack sortedDimensionSet,
+			StopSign stopSign )
 			throws IOException, BirtException
 	{
 		DiskSortedStack sortedDimMembers = new DiskSortedStack( Math.min( sortedDimensionSet.size( ),
@@ -338,6 +343,8 @@ public class Hierarchy implements IHierarchy
 		IndexKey indexKey = null;
 		while ( obj != null )
 		{
+			if ( stopSign.isStopped( ) )
+				break;
 			DimensionRow dimRows = (DimensionRow) obj;
 			Member[] levelMembers = dimRows.getMembers();
 			for ( int i = 0; i < indexKeyLists.length; i++ )
@@ -500,11 +507,11 @@ public class Hierarchy implements IHierarchy
 	}
 	
 	/**
-	 * 
+	 * @param stopSign
 	 * @return
 	 * @throws IOException
 	 */
-	public IDiskArray readAllRows( ) throws IOException
+	public IDiskArray readAllRows( StopSign stopSign ) throws IOException
 	{
 		documentObj.seek( 0 );
 		int size = documentObj.readInt( );
@@ -516,6 +523,8 @@ public class Hierarchy implements IHierarchy
 		documentObj.seek( offsetDocObj.readInt( ) );
 		for ( int i = 0; i < size; i++ )
 		{
+			if( stopSign.isStopped( ) )
+				break;
 			resultArray.add( readDimensionRow( ) );
 		}
 		

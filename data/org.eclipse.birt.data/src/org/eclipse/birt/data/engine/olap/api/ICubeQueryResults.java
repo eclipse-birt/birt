@@ -30,4 +30,9 @@ public interface ICubeQueryResults extends IBaseQueryResults
 	 * @throws DataException
 	 */
 	public CubeCursor getCubeCursor() throws DataException;
+	
+	/**
+	 * Cancel the current operation.
+	 */
+	public void cancel();
 }

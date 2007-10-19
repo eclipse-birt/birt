@@ -178,4 +178,10 @@ public class QueryResults implements IQueryResults
 		return this.queryResultID;
 	}
 
+	public void cancel( )
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }

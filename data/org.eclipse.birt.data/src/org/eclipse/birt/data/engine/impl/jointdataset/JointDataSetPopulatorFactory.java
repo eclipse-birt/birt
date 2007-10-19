@@ -45,6 +45,8 @@ public class JointDataSetPopulatorFactory
 	 * @param meta
 	 * @param jcm
 	 * @param joinType
+	 * @param session
+	 * @param rowFetchLimit
 	 * @return
 	 * @throws DataException
 	 */

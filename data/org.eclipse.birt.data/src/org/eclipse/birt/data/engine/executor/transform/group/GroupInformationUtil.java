@@ -21,6 +21,7 @@ import org.eclipse.birt.data.engine.cache.CachedList;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.OrderingInfo;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
@@ -409,9 +410,10 @@ public class GroupInformationUtil
 	/**
 	 * Do grouping, and fill group indexes
 	 * 
+	 * @param stopsign
 	 * @throws DataException
 	 */
-	public void doGrouping( ) throws DataException
+	public void doGrouping( StopSign stopSign ) throws DataException
 	{
 		assert this.groupCalculationUtil.getResultSetCache( ) != null;
 		// Pass through sorted data set to process group indexes
@@ -429,6 +431,8 @@ public class GroupInformationUtil
 		for ( int rowID = 0; rowID < this.groupCalculationUtil.getResultSetCache( )
 				.getCount( ); rowID++ )
 		{
+			if( stopSign.isStopped( ) )
+				break;
 			IResultObject currRow = this.groupCalculationUtil.getResultSetCache( )
 					.fetch( );
 

@@ -26,6 +26,7 @@ import org.eclipse.birt.data.engine.executor.transform.TransformationConstants;
 import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.FilterByRow;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 
 /**
@@ -73,7 +74,7 @@ class ResultSetProcessUtil extends RowProcessUtil
 	public static void doPopulate( ResultSetPopulator populator,
 			ComputedColumnsState iccState,
 			ComputedColumnHelper computedColumnHelper, FilterByRow filterByRow,
-			PassStatusController psController, List sortList, DataEngineSession session )
+			PassStatusController psController, List sortList, DataEngineSession session, StopSign stopSign )
 			throws DataException
 	{
 		ResultSetProcessUtil instance = new ResultSetProcessUtil( populator,
@@ -82,15 +83,16 @@ class ResultSetProcessUtil extends RowProcessUtil
 				filterByRow,
 				psController, session );
 		instance.cachedSort = sortList;
-		instance.populateResultSet( );
+		instance.populateResultSet( stopSign );
 
 	}
 
 	/**
 	 * 
+	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void populateResultSet( ) throws DataException
+	private void populateResultSet( StopSign stopSign ) throws DataException
 	{
 		//The computed columns that need multipass
 		List aggCCList = prepareComputedColumns( TransformationConstants.RESULT_SET_MODEL );
@@ -98,34 +100,35 @@ class ResultSetProcessUtil extends RowProcessUtil
 		//Grouping will also be done in this method, for currently we only support simple group keys
 		//that is, group keys cannot contain aggregation.
 				
-		doRowFiltering( );
+		doRowFiltering( stopSign );
 		
 		//TODO remove me
-		populateTempComputedColumns( this.getAggrComputedColumns( aggCCList, false ) );
+		populateTempComputedColumns( this.getAggrComputedColumns( aggCCList, false ), stopSign );
 		///////////////
 		
 		List aggrDefns = this.populator.getEventHandler( ).getAggrDefinitions( );
 		
-		prepareAggregations( aggrDefns );
+		prepareAggregations( aggrDefns, stopSign );
 		
 		//Filter group instances.
-		doGroupFiltering( );
+		doGroupFiltering( stopSign );
 
 		//Do row sorting
-		doRowSorting( );
+		doRowSorting( stopSign );
 		
 		//Do group sorting
-		doGroupSorting( );
+		doGroupSorting( stopSign );
 		
-		clearTemporaryComputedColumns( iccState );
+		clearTemporaryComputedColumns( iccState, stopSign );
 	}
 
 	/**
 	 * 
 	 * @param aggrDefns
+	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void prepareAggregations( List aggrDefns ) throws DataException
+	private void prepareAggregations( List aggrDefns, StopSign stopSign ) throws DataException
 	{
 		boolean needGroupFiltering = this.needDoGroupFiltering( );
 		boolean needGroupSorting = this.needDoGroupSorting( );
@@ -138,7 +141,8 @@ class ResultSetProcessUtil extends RowProcessUtil
 				PassUtil.pass( this.populator,
 						new OdiResultSetWrapper( populator.getResultIterator( ) ),
 						true,
-						session );
+						session,
+						stopSign);
 			}
 			this.populator.getExpressionProcessor( )
 					.setResultIterator( this.populator.getResultIterator( ) );
@@ -197,9 +201,10 @@ class ResultSetProcessUtil extends RowProcessUtil
 	/**
 	 * 
 	 * @param aggCCList
+	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void populateTempComputedColumns( List aggCCList ) throws DataException
+	private void populateTempComputedColumns( List aggCCList, StopSign stopSign ) throws DataException
 	{
 		if ( psController.needDoOperation( PassStatusController.RESULT_SET_TEMP_COMPUTED_COLUMN_POPULATING ) )
 		{
@@ -209,7 +214,8 @@ class ResultSetProcessUtil extends RowProcessUtil
 				PassUtil.pass( this.populator,
 						new OdiResultSetWrapper( populator.getResultIterator( ) ),
 						true,
-						session );
+						session,
+						stopSign);
 				this.groupingDone = true;
 			}
 			if ( aggCCList.size( ) != 0 )
@@ -230,21 +236,21 @@ class ResultSetProcessUtil extends RowProcessUtil
 				}
 			}
 
-			doGroupRowFilter( );
+			doGroupRowFilter( stopSign );
 		}
 	}
 
 	/**
-	 * 
+	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void doGroupSorting( ) throws DataException
+	private void doGroupSorting( StopSign stopSign ) throws DataException
 	{
 		if( !groupingDone )
 		{
 			PassUtil.pass( this.populator,
 					new OdiResultSetWrapper( populator.getResultIterator( ) ),
-					true, session );
+					true, session, stopSign );
 			groupingDone = true;
 		}
 		if ( this.populator.getQuery( ).getGrouping( ) != null
@@ -252,15 +258,15 @@ class ResultSetProcessUtil extends RowProcessUtil
 		{
 			this.populator.getGroupProcessorManager( )
 					.doGroupSorting( this.populator.getCache( ),
-							this.populator.getExpressionProcessor( ) );
+							this.populator.getExpressionProcessor( ), stopSign );
 		}
 	}
 
 	/**
-	 * 
+	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void doRowSorting( ) throws DataException
+	private void doRowSorting( StopSign stopSign ) throws DataException
 	{
 		this.populator.getQuery( ).setOrdering( this.cachedSort );
 		
@@ -275,22 +281,23 @@ class ResultSetProcessUtil extends RowProcessUtil
 			PassUtil.pass( this.populator,
 					new OdiResultSetWrapper( populator.getResultIterator( ) ),
 					true,
-					session );
+					session,
+					stopSign);
 			this.groupingDone = true;
 		}
 	}
 
 	/**
-	 * 
+	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void doGroupFiltering( ) throws DataException
+	private void doGroupFiltering( StopSign stopSign ) throws DataException
 	{
 		if ( ! groupingDone )
 		{
 			PassUtil.pass( this.populator,
 					new OdiResultSetWrapper( populator.getResultIterator( ) ),
-					true, session );
+					true, session, stopSign );
 			groupingDone = true;
 		}
 		if ( this.populator.getQuery( ).getGrouping( ) != null
@@ -298,22 +305,22 @@ class ResultSetProcessUtil extends RowProcessUtil
 		{
 			this.populator.getGroupProcessorManager( )
 					.doGroupFiltering( this.populator.getCache( ),
-							this.populator.getExpressionProcessor( ) );
+							this.populator.getExpressionProcessor( ), stopSign );
 		}
 	}
 
 	/**
-	 * 
+	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void doRowFiltering( ) throws DataException
+	private void doRowFiltering( StopSign stopSign ) throws DataException
 	{
 		if(!psController.needDoOperation( PassStatusController.RESULT_SET_FILTERING ))
 			return;
 		
 		boolean changeMaxRows = filterByRow.getFilterList( FilterByRow.GROUP_FILTER )
 				.size( ) > 0;
-		applyFilters( FilterByRow.QUERY_FILTER, changeMaxRows );
+		applyFilters( FilterByRow.QUERY_FILTER, changeMaxRows, stopSign );
 		filterByRow.setWorkingFilterSet( FilterByRow.NO_FILTER );
 	}
 
@@ -332,17 +339,17 @@ class ResultSetProcessUtil extends RowProcessUtil
 	}
 
 	/**
-	 * 
+	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void doGroupRowFilter( ) throws DataException
+	private void doGroupRowFilter( StopSign stopSign ) throws DataException
 	{
 		if ( !psController.needDoOperation( PassStatusController.GROUP_ROW_FILTERING ) )
 			return;
 		// Apply group row filters (Total.isTopN, Total.isBottomN..)
 		filterByRow.setWorkingFilterSet( FilterByRow.GROUP_FILTER );
 		PassUtil.pass( this.populator,
-				new OdiResultSetWrapper( populator.getResultIterator( ) ), true, session );
+				new OdiResultSetWrapper( populator.getResultIterator( ) ), true, session, stopSign );
 
 		filterByRow.setWorkingFilterSet( FilterByRow.NO_FILTER );
 
@@ -351,9 +358,10 @@ class ResultSetProcessUtil extends RowProcessUtil
 	/**
 	 * 
 	 * @param iccState
+	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void clearTemporaryComputedColumns( ComputedColumnsState iccState )
+	private void clearTemporaryComputedColumns( ComputedColumnsState iccState, StopSign stopSign )
 			throws DataException
 	{
 		if( !psController.needDoOperation( PassStatusController.RESULT_SET_TEMP_COMPUTED_COLUMN_POPULATING ) )
@@ -371,22 +379,23 @@ class ResultSetProcessUtil extends RowProcessUtil
 		// and all temporary computed columns are exclued.
 		//restoreComputedColumns( iccState, computedColumnHelper );
 
-		cleanTempColumns( );
+		cleanTempColumns( stopSign );
 	}
 
 	/**
 	 * Clean the temporary data.
 	 * 
+	 * @param stopSign
 	 * @throws DataException
 	 */
-	private void cleanTempColumns( ) throws DataException
+	private void cleanTempColumns( StopSign stopSign ) throws DataException
 	{
 		IResultClass newMeta = rebuildResultClass( populator.getResultSetMetadata( ) );
 		populator.setResultSetMetadata( newMeta );
 		populator.getCache( ).setResultClass( newMeta );
 		PassUtil.pass( populator,
 				new OdiResultSetWrapper( populator.getResultIterator( ) ),
-				false, session );
+				false, session, stopSign );
 
 		populator.getCache( ).reset( );
 		populator.getCache( ).next( );

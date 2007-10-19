@@ -327,7 +327,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#executeOdiQuery()
 		 */
-		protected IResultIterator executeOdiQuery( IEventHandler eventHandler )
+		protected IResultIterator executeOdiQuery( IEventHandler eventHandler, StopSign stopSign )
 				 throws DataException
 		{
 			dataSet.afterOpen();
@@ -335,7 +335,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			assert odaDataSet != null;
 			
 			assert odiPreparedQuery != null;
-			return odiPreparedQuery.execute( eventHandler );			
+			return odiPreparedQuery.execute( eventHandler, stopSign );			
 		}
 		
 		/*

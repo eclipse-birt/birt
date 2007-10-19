@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.olap.data.impl.facttable;
 
 import java.io.IOException;
 
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionResultIterator;
@@ -31,10 +32,10 @@ public class FactTableRowIteratorWithFilter implements IFactTableRowIterator
 	private IDimension[] dimensions;
 	
 	FactTableRowIteratorWithFilter( IDimension[] dimensions,
-			IFactTableRowIterator facttableRowIterator ) throws IOException
+			IFactTableRowIterator facttableRowIterator, StopSign stopSign ) throws IOException
 	{
 		this.dimensions = dimensions;
-		this.dimesionResultIterators = getDimesionResultIterators( );
+		this.dimesionResultIterators = getDimesionResultIterators( stopSign );
 		this.facttableRowIterator = facttableRowIterator;
 		this.currentPos = new int[dimesionResultIterators.length];
 		this.currentMeasures = new Object[facttableRowIterator.getMeasureCount( )];
@@ -46,13 +47,13 @@ public class FactTableRowIteratorWithFilter implements IFactTableRowIterator
 	 * @return
 	 * @throws IOException
 	 */
-	private DimensionResultIterator[] getDimesionResultIterators( ) throws IOException
+	private DimensionResultIterator[] getDimesionResultIterators( StopSign stopSign ) throws IOException
 	{
 		DimensionResultIterator[] dimesionResultIterators = new DimensionResultIterator[dimensions.length];
 		for( int i=0;i<dimensions.length;i++)
 		{
 			dimesionResultIterators[i] = new DimensionResultIterator( (Dimension) dimensions[i],
-					dimensions[i].findAll( ));
+					dimensions[i].findAll( ), stopSign);
 		}
 		return dimesionResultIterators;
 	}

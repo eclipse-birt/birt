@@ -19,11 +19,11 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.cursor.CubeUtility;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IHierarchy;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ILevelDefn;
-import org.eclipse.birt.data.engine.olap.data.api.cube.StopSign;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentManagerFactory;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 import org.eclipse.birt.data.engine.olap.data.impl.NamingUtil;
@@ -156,7 +156,7 @@ public class FactTableRowIteratorWithFilterTest extends TestCase
 		dimensionPosition[0].add( new Integer(1) );
 		dimensionPosition[0].add( new Integer(2) );
 		IFactTableRowIterator facttableRowIterator = new FactTableRowIterator( factTable, dimensionNames, dimensionPosition, new StopSign() );
-		facttableRowIterator = new FactTableRowIteratorWithFilter( dimensions, facttableRowIterator );
+		facttableRowIterator = new FactTableRowIteratorWithFilter( dimensions, facttableRowIterator, new StopSign() );
 		assertTrue( facttableRowIterator != null );
 		
 		assertTrue( facttableRowIterator.next( ));

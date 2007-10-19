@@ -25,6 +25,7 @@ import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutor;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
@@ -91,7 +92,7 @@ public class MirrorCursorModelTest  extends BaseTestCase
 		// Create cube view.
 		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor(cqd,de.getSession( ),this.scope,de.getContext( )) );
 
-		CubeCursor dataCursor = cubeView.getCubeCursor( );
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) );
 
 		List columnEdgeBindingNames = new ArrayList();
 		columnEdgeBindingNames.add( "level11" );
@@ -149,7 +150,7 @@ public class MirrorCursorModelTest  extends BaseTestCase
 		// Create cube view.
 		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor(cqd,de.getSession( ),this.scope,de.getContext( )) );
 
-		CubeCursor dataCursor = cubeView.getCubeCursor( );
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) );
 
 		List columnEdgeBindingNames = new ArrayList();
 		columnEdgeBindingNames.add( "level11" );

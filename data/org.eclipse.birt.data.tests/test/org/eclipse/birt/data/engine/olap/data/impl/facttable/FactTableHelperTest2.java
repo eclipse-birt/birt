@@ -22,6 +22,7 @@ import junit.framework.TestCase;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.cursor.CubeUtility;
 import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
@@ -34,7 +35,6 @@ import org.eclipse.birt.data.engine.olap.data.api.cube.CubeMaterializer;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IHierarchy;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ILevelDefn;
-import org.eclipse.birt.data.engine.olap.data.api.cube.StopSign;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentManagerFactory;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
@@ -474,10 +474,10 @@ public class FactTableHelperTest2 extends TestCase
 		assertEquals( positionArray.size( ), 2 );
 		DimensionResultIterator[] dimesionResultSets = new DimensionResultIterator[2];
 		dimesionResultSets[0] = new DimensionResultIterator( dimensions[1],
-				positionArray);
+				positionArray, new StopSign());
 		positionArray = dimensions[2].findAll( );
 		dimesionResultSets[1] = new DimensionResultIterator( dimensions[2],
-				positionArray);
+				positionArray, new StopSign());
 		
 		String[] dimensionNamesForFilter = new String[2];
 		dimensionNamesForFilter[0] = "dimension2";
@@ -734,7 +734,7 @@ public class FactTableHelperTest2 extends TestCase
 				null );
 		IHierarchy hierarchy = cubeMaterializer.createHierarchy( "dimension1",
 				"hir1", iterator,
-				levelDefs );
+				levelDefs, new StopSign() );
 		dimensions[0] = (Dimension) cubeMaterializer.createDimension( "dimension1",
 				hierarchy );
 		assertEquals( hierarchy.getName( ), "hir1" );
@@ -753,7 +753,8 @@ public class FactTableHelperTest2 extends TestCase
 		hierarchy = cubeMaterializer.createHierarchy( "dimension2",
 				"hir2",
 				iterator,
-				levelDefs );
+				levelDefs,
+				new StopSign() );
 		dimensions[1] = (Dimension) cubeMaterializer.createDimension( "dimension2",
 				hierarchy );
 		hierarchy = dimensions[1].getHierarchy( );
@@ -771,7 +772,8 @@ public class FactTableHelperTest2 extends TestCase
 		levelDefs[0] = new LevelDefinition( "level31", new String[]{"level31"}, null );
 		hierarchy = cubeMaterializer.createHierarchy( "dimension3","hir3",
 				iterator,
-				levelDefs );
+				levelDefs,
+				new StopSign() );
 		dimensions[2] = (Dimension) cubeMaterializer.createDimension( "dimension3",
 				hierarchy );
 		hierarchy = dimensions[2].getHierarchy( );

@@ -22,6 +22,7 @@ import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutor;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
@@ -61,7 +62,7 @@ public class MirrorCursorNavigatorTest extends TestCase
 				this.scope,
 				de.getContext( ) ) );
 
-		CubeCursor dataCursor = cubeView.getCubeCursor( );
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) );
 
 		// retrieve the edge cursors
 		// EdgeCursor pageCursor = cubeView.getMeasureEdgeView( );

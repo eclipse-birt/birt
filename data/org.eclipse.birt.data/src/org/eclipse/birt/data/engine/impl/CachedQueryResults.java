@@ -101,4 +101,10 @@ public class CachedQueryResults implements IQueryResults
 		return queryResultID;
 	}
 
+	public void cancel( )
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }

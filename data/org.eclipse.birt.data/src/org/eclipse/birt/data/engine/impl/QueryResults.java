@@ -71,6 +71,7 @@ public class QueryResults implements IQueryResults, IQueryService
 		
 	private static Logger logger = Logger.getLogger( QueryResults.class.getName( ) );
 	
+	private StopSign stopSign;
 	/**
 	 * @param queryService
 	 * @param queryScope
@@ -88,6 +89,7 @@ public class QueryResults implements IQueryResults, IQueryService
 		this.context = queryService.getContext( );
 		this.queryScope = queryService.getScope( );
 		this.nestedLevel = queryService.getNestedLevel( );
+		this.stopSign = new StopSign( );
 		
 		logger.exiting( QueryResults.class.getName( ), "QueryResults" );
 	}
@@ -142,7 +144,7 @@ public class QueryResults implements IQueryResults, IQueryService
 	 */
 	public IResultIterator getResultIterator( ) throws DataException
 	{ 
-		
+		stopSign.start( );
 		if ( queryService == null )
 			throw new DataException( ResourceConstants.RESULT_CLOSED );
 
@@ -154,7 +156,7 @@ public class QueryResults implements IQueryResults, IQueryService
 				this.queryService.initAutoBinding( );
 				this.queryService.validateQuery( );
 
-				org.eclipse.birt.data.engine.odi.IResultIterator odiIterator = queryService.executeQuery( );
+				org.eclipse.birt.data.engine.odi.IResultIterator odiIterator = queryService.executeQuery( stopSign );
 				if ( isDummyQuery( odiIterator ) )
 				{
 					iterator = new DummyResultIterator( new ResultService( context,
@@ -606,6 +608,15 @@ public class QueryResults implements IQueryResults, IQueryService
 		{
 			return queryResults.queryService.getAllAutoBindingExprs( );
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IQueryResults#cancel()
+	 */
+	public void cancel( )
+	{
+		stopSign.stop( );
 	}
 	
 }

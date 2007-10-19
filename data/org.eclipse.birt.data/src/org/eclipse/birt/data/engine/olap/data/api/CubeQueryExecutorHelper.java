@@ -25,10 +25,10 @@ import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
-import org.eclipse.birt.data.engine.olap.data.api.cube.StopSign;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationResultSetSaveUtil;
@@ -430,7 +430,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 				computedMeasureHelper,
 				stopSign );
 
-		DimensionResultIterator[] dimensionResultIterator = populateDimensionResultIterator( dimPosition );
+		DimensionResultIterator[] dimensionResultIterator = populateDimensionResultIterator( dimPosition, stopSign );
 
 		AggregationExecutor aggregationCalculatorExecutor = new AggregationExecutor( dimensionResultIterator,
 				facttableRowIterator,
@@ -442,11 +442,12 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	 * 
 	 * @param resultLevels
 	 * @param position
+	 * @param stopSign
 	 * @return
 	 * @throws DataException
 	 * @throws IOException
 	 */
-	private DimensionResultIterator[] populateDimensionResultIterator( IDiskArray[] position ) throws DataException, IOException
+	private DimensionResultIterator[] populateDimensionResultIterator( IDiskArray[] position, StopSign stopSign ) throws DataException, IOException
 	{
 		IDimension[] dimensions = cube.getDimesions( );
 		DimensionResultIterator[] dimResultSet = new DimensionResultIterator[dimensions.length];
@@ -456,12 +457,12 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			if ( position[i] == null )
 				{
 					dimResultSet[i] = new DimensionResultIterator( (Dimension) dimensions[i],
-							dimensions[i].findAll( ));
+							dimensions[i].findAll( ), stopSign);
 				}
 				else
 				{
 					dimResultSet[i] = new DimensionResultIterator( (Dimension) dimensions[i],
-							position[i] );
+							position[i], stopSign);
 				}
 				count++;			
 		}

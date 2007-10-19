@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
@@ -53,7 +54,7 @@ class MergeSortImpl
 	 * @param startIndex
 	 * @throws Exception
 	 */
-	IRowIterator mergeSortOnUnits( ) throws IOException
+	IRowIterator mergeSortOnUnits( StopSign stopSign ) throws IOException
 	{
 		IRowIterator goalFile = null;
 		
@@ -73,7 +74,7 @@ class MergeSortImpl
 			}
 			else
 			{
-				levelMergeSort( granularity );
+				levelMergeSort( granularity, stopSign );
 			}
 		} while ( !finish );
 		
@@ -97,7 +98,7 @@ class MergeSortImpl
 	 * @param targetFile
 	 * @throws IOException
 	 */
-	private void levelMergeSort( int granularity ) throws IOException
+	private void levelMergeSort( int granularity, StopSign stopSign ) throws IOException
 	{		
 		int mergeCount = 0;
 		List newTempList = new ArrayList( );
@@ -111,6 +112,8 @@ class MergeSortImpl
 					( mergeCount + 1 ) * granularity - 1 ), targetFile );
 			newTempList.add( targetFile );
 			mergeCount++;
+			if( stopSign.isStopped( ) )
+				break;
 		} while ( mergeCount * granularity <= tempRowFiles.size( ) - 1 );
 		
 		tempRowFiles.clear( );
