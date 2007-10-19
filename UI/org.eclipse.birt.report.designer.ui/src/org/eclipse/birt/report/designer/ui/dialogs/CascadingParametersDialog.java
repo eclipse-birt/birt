@@ -2446,7 +2446,7 @@ public class CascadingParametersDialog extends BaseDialog
 				}
 
 				// name.setText( parameter.getName( ) );
-				if ( getFirstParameter( ) != null )
+				if ( getFirstParameter( ) != null && !(multiDataSet.isEnabled( ) && multiDataSet.getSelection( )))
 				{
 					try
 					{
