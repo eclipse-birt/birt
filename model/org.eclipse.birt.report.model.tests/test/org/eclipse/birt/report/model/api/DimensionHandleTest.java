@@ -702,4 +702,23 @@ public class DimensionHandleTest extends BaseTestCase
 		assertEquals(
 				"12" + dimensionHandle.getDefaultUnit( ), freeFormHandle1.getX( ).getStringValue( ) ); //$NON-NLS-1$
 	}
+
+	/**
+	 * DesignSession.initDefaultTOCStyle() set the locale as English in default.
+	 * This was wrong. Adds this test case to use DesignSession.locale instead.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testLocale( ) throws Exception
+	{
+		createDesign( new ULocale( "fi", "FI" ) ); //$NON-NLS-1$//$NON-NLS-2$
+
+		ImageHandle image = designHandle.getElementFactory( ).newImage(
+				"image1" ); //$NON-NLS-1$
+		designHandle.getBody( ).add( image );
+
+		image.setWidth( "3,3cm" ); //$NON-NLS-1$
+		assertEquals( "3.3cm", image.getWidth( ).getStringValue( ) ); //$NON-NLS-1$
+	}
 }

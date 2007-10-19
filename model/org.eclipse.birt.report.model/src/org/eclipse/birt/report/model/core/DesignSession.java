@@ -1246,7 +1246,7 @@ public class DesignSession
 		ReportDesign tocDesign = null;
 		try
 		{
-			DesignSession session = new DesignSession( ULocale.ENGLISH );
+			DesignSession session = new DesignSession( locale );
 			tocDesign = session.openDesign( url, url.openStream( ) );
 			tocDesign.setReadOnly( );
 		}
