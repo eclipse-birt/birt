@@ -63,7 +63,14 @@ public class Data implements Serializable, Cloneable
        }
        else if(datatype.equals( Data.NUMBER))
        {
-    	  return ExcelUtil.formatNumber( txt );   
+    	  //Number length must be less than 31 in Excel  
+    	  if(txt.toString( ).length( ) > 31) 
+    	  { 
+    		  return ExcelUtil.formatNumber( txt );
+    	  }
+    	  else {
+    		  return txt.toString( );
+    	  }
        }
        else
        {
