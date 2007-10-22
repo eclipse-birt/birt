@@ -16,13 +16,13 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
+import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
@@ -34,7 +34,6 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
@@ -187,7 +186,7 @@ public class DataSetMetaDataHelper
 						meta.getColumnName( i ),
 						i - 1 );
 				rsColumn.setColumnName( uniqueName );
-				rsColumn.setDataType( toModelDataType( meta.getColumnType( i ) ) );
+				rsColumn.setDataType( DataAdapterUtil.adapterToModelDataType( meta.getColumnType( i ) ) );
 				rsColumn.setNativeName( meta.getColumnName( i ) );
 				rsColumn.setPosition( new Integer( i ) );
 
@@ -319,7 +318,7 @@ public class DataSetMetaDataHelper
 				{
 					ResultSetColumn rsc = StructureFactory.createResultSetColumn( );
 					rsc.setColumnName( getColumnName( rsMeta, i ) );
-					rsc.setDataType( toModelDataType( rsMeta.getColumnType( i ) ) );
+					rsc.setDataType( DataAdapterUtil.adapterToModelDataType( rsMeta.getColumnType( i ) ) );
 					rsc.setPosition( new Integer( i ) );
 
 					columnList.add( rsc );
@@ -383,7 +382,7 @@ public class DataSetMetaDataHelper
 					|| !handle.getColumnName( ).equals( getColumnName( rsMeta,
 							i ) )
 					|| !handle.getDataType( )
-							.equals( toModelDataType( rsMeta.getColumnType( i ) ) ) )
+							.equals( DataAdapterUtil.adapterToModelDataType( rsMeta.getColumnType( i ) ) ) )
 				return true;
 		}
 
@@ -405,33 +404,5 @@ public class DataSetMetaDataHelper
 				.trim( )
 				.length( ) == 0 ) ? rsMeta.getColumnName( index )
 				: rsMeta.getColumnAlias( index );
-	}
-	
-	/**
-	 * Map oda data type to model data type.
-	 * 
-	 * @param modelDataType
-	 * @return
-	 */
-	private static String toModelDataType( int modelDataType )
-	{
-		if ( modelDataType == DataType.INTEGER_TYPE )
-			return DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER;
-		else if ( modelDataType == DataType.STRING_TYPE )
-			return DesignChoiceConstants.COLUMN_DATA_TYPE_STRING;
-		else if ( modelDataType == DataType.DATE_TYPE )
-			return DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME;
-		else if ( modelDataType == DataType.DECIMAL_TYPE )
-			return DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL;
-		else if ( modelDataType == DataType.DOUBLE_TYPE )
-			return DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT;
-		else if ( modelDataType == DataType.SQL_DATE_TYPE)
-			return DesignChoiceConstants.COLUMN_DATA_TYPE_DATE;
-		else if ( modelDataType == DataType.SQL_TIME_TYPE)
-			return DesignChoiceConstants.COLUMN_DATA_TYPE_TIME;
-		else if ( modelDataType == DataType.BOOLEAN_TYPE )
-			return DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN;
-
-		return DesignChoiceConstants.COLUMN_DATA_TYPE_ANY;
 	}
 }

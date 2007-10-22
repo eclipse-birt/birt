@@ -218,6 +218,34 @@ public class DataAdapterUtil
 	}
 	
 	/**
+	 * Adapter dte's data type to model data type
+	 * @param apiDataType
+	 * @return
+	 */
+	public static String adapterToModelDataType( int apiDataType )
+	{
+		if ( apiDataType == DataType.INTEGER_TYPE )
+			return DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER;
+		else if ( apiDataType == DataType.STRING_TYPE )
+			return DesignChoiceConstants.COLUMN_DATA_TYPE_STRING;
+		else if ( apiDataType == DataType.DATE_TYPE )
+			return DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME;
+		else if ( apiDataType == DataType.DECIMAL_TYPE )
+			return DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL;
+		else if ( apiDataType == DataType.DOUBLE_TYPE )
+			return DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT;
+		else if ( apiDataType == DataType.SQL_DATE_TYPE)
+			return DesignChoiceConstants.COLUMN_DATA_TYPE_DATE;
+		else if ( apiDataType == DataType.SQL_TIME_TYPE)
+			return DesignChoiceConstants.COLUMN_DATA_TYPE_TIME;
+		else if ( apiDataType == DataType.BOOLEAN_TYPE )
+			return DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN;
+		else if ( apiDataType == DataType.BLOB_TYPE )
+			return DesignChoiceConstants.COLUMN_DATA_TYPE_BLOB;
+
+		return DesignChoiceConstants.COLUMN_DATA_TYPE_ANY;
+	}	
+	/**
 	 * 
 	 * @param modelAggrType
 	 * @return
