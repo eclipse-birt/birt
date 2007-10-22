@@ -266,12 +266,6 @@
 		<echo message="You must specify a target when invoking this file" />
 	</target>
 
-	<target name="cvsUp">
-		<exec dir="." executable="/home/users/releng/cvsup/upload_snz.pl"/>
-		<cvsUp flagString="http://dev.eclipse.org/builds/snz_complete.flag" />
-		<echo message="cvsUp complete." />
-	</target>
-
 	<target name="buildUpdateJars">
 		<property name="updateJarWorkingDir" value="${buildDirectory}/updateJars" />
 		<mkdir dir="${updateJarWorkingDir}" />
@@ -280,7 +274,7 @@
 		<!--eclipse-master-${buildId}.bak.zip contains the signed update jars. eclipse-master-${buildId}.zip contains the
 		features and plug-ins unpacked.  Need features in directory structures for tool to work. -->
 
-		<unzip src="${buildDirectory}/${buildId}/birt-report-framework-sdk-2_2_1.zip" dest="${updateJarWorkingDir}" />
+		<unzip src="${buildDirectory}/${buildId}/birt-report-framework-sdk-${package.version}.zip" dest="${updateJarWorkingDir}" />
 
 		<!--
 		<delete includeemptydirs="true">
@@ -315,7 +309,7 @@
 		</exec>
 		-->
 		<exec executable="unzip" dir=".">
-			<arg line="-j ${buildDirectory}/${buildId}/birt-report-framework-sdk-2_2_1.bak.zip -i */features/* -d ${updateSite}/features" />
+			<arg line="-j ${buildDirectory}/${buildId}/birt-report-framework-sdk-${package.version}.bak.zip -i */features/* -d ${updateSite}/features" />
 		</exec>
 	    <java jar="${eclipse.home}/startup.jar"
 	           fork="true"
@@ -506,8 +500,8 @@
 			<include name="org.eclipse.datatools.oda.cshelp_*.jar"/>
 			<include name="org.eclipse.datatools.enablement.oda.ws.ui_*.jar"/>
 			<include name="org.eclipse.datatools.enablement.oda.ws_*.jar"/>
-                        <include name="org.eclipse.datatools.help_*.jar"/>
-                        <include name="org.eclipse.datatools.doc.isv_*.jar"/>
+			<include name="org.eclipse.datatools.help_*.jar"/>
+			<include name="org.eclipse.datatools.doc.isv_*.jar"/>
 			<include name="org.apache.xerces_*.jar"/>
 			<include name="org.apache.xml.resolver_*.jar"/>
 			<include name="javax.wsdl_*.jar"/>
@@ -614,19 +608,19 @@
 		<!-- prepare unit test components -->
 		<copy todir="${test.dir}">
 			<fileset dir="${postingDirectory}/${buildId}">
-				<include name="birt-report-designer-all-in-one-2_2_1-linux-gtk.tar.gz"/>
-				<include name="birt-tests-suite-2_2_1.zip"/>
+				<include name="birt-report-designer-all-in-one-${package.version}-linux-gtk.tar.gz"/>
+				<include name="birt-tests-suite-${package.version}.zip"/>
 			</fileset>
 		</copy>
 		
 		<exec executable="gunzip" dir="${test.dir}">
-			<arg line="birt-report-designer-all-in-one-2_2_1-linux-gtk.tar.gz" />
+			<arg line="birt-report-designer-all-in-one-${package.version}-linux-gtk.tar.gz" />
 		</exec>
 		<exec executable="tar" dir="${test.dir}">
-			<arg line="-xvf birt-report-designer-all-in-one-2_2_1-linux-gtk.tar" />
+			<arg line="-xvf birt-report-designer-all-in-one-${package.version}-linux-gtk.tar" />
 		</exec>
 		<exec executable="unzip" dir="${test.dir}">
-			<arg line="-o -q birt-tests-suite-2_2_1.zip -d ${test.dir}" />
+			<arg line="-o -q birt-tests-suite-${package.version}.zip -d ${test.dir}" />
 		</exec>
 		<exec executable="unzip" dir="${postingDirectory}/${buildId}/../../platform/2.2.0_release_platform">
 			<arg line="-o -q eclipse-test-framework-I20070625-1500.zip -d ${test.dir}" />
@@ -673,8 +667,8 @@
 		<!-- XSLT trasform-->
 		<exec executable="${test.dir}/unitTestReport/processXML.sh"/>
 		<ant dir="${test.dir}/unitTestReport" antfile="build.xml"/>
-		<mkdir dir="${postingDirectory}/../unitTestReport/${buildId}"/>
-		<copy todir="${postingDirectory}/../unitTestReport/${buildId}" overwrite="true">
+		<mkdir dir="${postingDirectory}/../unitTestReport/${package.version}/${buildId}"/>
+		<copy todir="${postingDirectory}/../unitTestReport/${package.version}/${buildId}" overwrite="true">
 			<fileset dir="${test.dir}/unitTestReport/html">
 				<include name="*.html"/>
 			</fileset>
@@ -717,7 +711,7 @@
 	
 	<target name="InformQA" unless="nomail">
         <property file="${eclipse.build.configs}/../../config.properties" />
-        <mail mailport="${mail.port}" tolist="${QA.members}" from="${mail.from}" replyto="${replyto.address}" subject="Build Is Ready (BuildId: ${buildId})" >
+        <mail mailport="${mail.port}" tolist="${QA.members}" from="${mail.from}" replyto="${replyto.address}" subject="${BranchVersion} Build Is Ready (BuildId: ${buildId})" >
                 <message>
 Hi All,
 
@@ -751,12 +745,12 @@ Have a nice day!
 			rcp=\\${QA.test.dir}\\BIRT2.2-download\\${buildId}\\birt-rcp-report-designer-2_2_1.zip
 			frameworkSDK=\\${QA.test.dir}\\BIRT2.2-download\\${buildId}\\birt-report-framework-sdk-2_2_1.zip
 		</echo>
-		<copy tofile="${postingDirectory}/../download.properties" file="download.properties" overwrite="true" />
+		<copy tofile="${postingDirectory}/download.properties" file="download.properties" overwrite="true" />
 	</target>
 	
 	<target name="InformPerformance">
 		<property file="${eclipse.build.configs}/../../config.properties" />			
-        <mail mailport="${mail.port}" subject="Performance Test Reporting (BuildId: ${buildId} ) " tolist="${QA.PERFORMANCE}">
+        <mail mailport="${mail.port}" subject="${BranchVersion} Performance Test Reporting (BuildId: ${buildId} ) " tolist="${QA.PERFORMANCE}">
 			<from address="${mail.from}"/>
 			<replyto address="${replyto.address}"/>
 			<message>
@@ -807,7 +801,7 @@ Have a nice day!
 	
 	<target name="InformAutomation">
 		<property file="${eclipse.build.configs}/../../config.properties" />			
-        <mail mailport="${mail.port}" subject="Test Suite Projects Reporting (BuildId: ${buildId} ) " tolist="${QA.AUTOMATION}">
+        <mail mailport="${mail.port}" subject="${BranchVersion} Test Suite Projects Reporting (BuildId: ${buildId} ) " tolist="${QA.AUTOMATION}">
 			<from address="${mail.from}"/>
 			<replyto address="${replyto.address}"/>
 			<message>
@@ -868,7 +862,7 @@ Have a nice day!
 		
         <property file="config.properties" />
         <property name="tool.lib.path" value="${p4.home}/dailybuild/source/org.eclipse.birt.build"/>
-	<property name="compile.log.summary" value="${postingDirectory}/../compileSummary.properties"/>
+	<property name="compile.log.summary" value="${postingDirectory}/compileSummary.properties"/>
 		
         <path id="customjar.classpath">
                 <path location="${tool.lib.path}/customtask.jar" />

@@ -188,13 +188,13 @@
 		<mkdir dir="${updateJarWorkingDir}/site" />
 		
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
-			<arg line="-o -q birt-wtp-2_2_1.bak.zip -d ${updateJarWorkingDir}" />
+			<arg line="-o -q birt-wtp-${package.version}.bak.zip -d ${updateJarWorkingDir}" />
 		</exec>
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
-			<arg line="-o -q birt-report-framework-sdk-2_2_1.bak.zip -d ${updateJarWorkingDir}" />
+			<arg line="-o -q birt-report-framework-sdk-${package.version}.bak.zip -d ${updateJarWorkingDir}" />
 		</exec>
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
-			<arg line="-o -q birt-third-party-2_2_1.bak.zip -d ${updateJarWorkingDir}" />
+			<arg line="-o -q birt-third-party-${package.version}.bak.zip -d ${updateJarWorkingDir}" />
 		</exec>
 		<copy todir="${updateJarWorkingDir}/eclipse/plugins">
 			<fileset dir="${baseLocation}/plugins">
@@ -284,17 +284,17 @@
 			</fileset>
 		</copy>
 		<!-- copy to internal update site -->
-		<copy todir="${postingDirectory}/../../../UpdateSite/plugins" overwrite="true">
+		<copy todir="${postingDirectory}/../../../UpdateSite/${package.version}/plugins" overwrite="true">
 			<fileset dir="${updateJarWorkingDir}/eclipse/plugins">
 				<include name="**"/>
 			</fileset>
 		</copy>
-		<copy todir="${postingDirectory}/../../../UpdateSite/features" overwrite="true">
+		<copy todir="${postingDirectory}/../../../UpdateSite/${package.version}/features" overwrite="true">
 			<fileset dir="${updateJarWorkingDir}/eclipse/features/">
 				<include name="**"/>
 			</fileset>
 		</copy>
-		<copy tofile="${postingDirectory}/../../../UpdateSite/site.xml" file="${updateJarWorkingDir}/site/site.xml" overwrite="true"/>
+		<copy tofile="${postingDirectory}/../../../UpdateSite/${package.version}/site.xml" file="${updateJarWorkingDir}/site/site.xml" overwrite="true"/>
 	</target>
 	
 	<target name="runBirtTest">
@@ -393,50 +393,50 @@
 
 		<!-- BIRT framework-->
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
-			<arg line="-q birt-report-framework-sdk-2_2_1.zip -d ${tmpsite}" />
+			<arg line="-q birt-report-framework-sdk-${package.version}.zip -d ${tmpsite}" />
 		</exec>
 		<unpackUpdateJars site="${tmpsite}/eclipse" output="${tmpsite}/new/eclipse"/>
 		<!-- BIRT third party -->
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
-			<arg line="-q birt-third-party-2_2_1.zip -d ${tmpsite2}" />
+			<arg line="-q birt-third-party-${package.version}.zip -d ${tmpsite2}" />
 		</exec>
 		<unpackUpdateJars site="${tmpsite2}/eclipse" output="${tmpsite2}/new/eclipse"/>
 		<!-- BIRT wtp -->
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
-			<arg line="-q birt-wtp-2_2_1.zip -d ${tmpsite1}" />
+			<arg line="-q birt-wtp-${package.version}.zip -d ${tmpsite1}" />
 		</exec>
 		<unpackUpdateJars site="${tmpsite1}/eclipse" output="${tmpsite1}/new/eclipse"/>
 
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
-			<arg line="-o -q birt-report-framework-sdk-2_2_1.zip -d ${tmpsite}" />
+			<arg line="-o -q birt-report-framework-sdk-${package.version}.zip -d ${tmpsite}" />
 		</exec>
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
-			<arg line="-o -q birt-third-party-2_2_1.zip -d ${tmpsite2}" />
+			<arg line="-o -q birt-third-party-${package.version}.zip -d ${tmpsite2}" />
 		</exec>
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
-			<arg line="-o -q birt-wtp-2_2_1.zip -d ${tmpsite1}" />
+			<arg line="-o -q birt-wtp-${package.version}.zip -d ${tmpsite1}" />
 		</exec>
 
-		<move file="${buildDirectory}/${buildId}/birt-report-framework-sdk-2_2_1.zip" tofile="${buildDirectory}/${buildId}/birt-report-framework-sdk-2_2_1.bak.zip" />
-		<move file="${buildDirectory}/${buildId}/birt-third-party-2_2_1.zip" tofile="${buildDirectory}/${buildId}/birt-third-party-2_2_1.bak.zip" />
-		<move file="${buildDirectory}/${buildId}/birt-wtp-2_2_1.zip" tofile="${buildDirectory}/${buildId}/birt-wtp-2_2_1.bak.zip" />
+		<move file="${buildDirectory}/${buildId}/birt-report-framework-sdk-${package.version}.zip" tofile="${buildDirectory}/${buildId}/birt-report-framework-sdk-2_2_1.bak.zip" />
+		<move file="${buildDirectory}/${buildId}/birt-third-party-${package.version}.zip" tofile="${buildDirectory}/${buildId}/birt-third-party-2_2_1.bak.zip" />
+		<move file="${buildDirectory}/${buildId}/birt-wtp-${package.version}.zip" tofile="${buildDirectory}/${buildId}/birt-wtp-2_2_1.bak.zip" />
 
 		<exec executable="zip" dir="${tmpsite}/new">
-			<arg line="-q ${buildDirectory}/${buildId}/birt-report-framework-sdk-2_2_1.zip -r eclipse" />
+			<arg line="-q ${buildDirectory}/${buildId}/birt-report-framework-sdk-${package.version}.zip -r eclipse" />
 		</exec>
 		<exec executable="zip" dir="${tmpsite1}/new">
-			<arg line="-q ${buildDirectory}/${buildId}/birt-wtp-2_2_1.zip -r eclipse" />
+			<arg line="-q ${buildDirectory}/${buildId}/birt-wtp-${package.version}.zip -r eclipse" />
 		</exec>	
 		<exec executable="zip" dir="${tmpsite2}/new">
-			<arg line="-q ${buildDirectory}/${buildId}/birt-third-party-2_2_1.zip -r eclipse" />
+			<arg line="-q ${buildDirectory}/${buildId}/birt-third-party-${package.version}.zip -r eclipse" />
 		</exec>	
 	</target>
 
 	<target name="integrateBirtFeatures" >
 
-		<property name="birtFramePackageName" value="birt-report-framework-sdk-2_2_1" />
-		<property name="birtThirdPartyPackageName" value="birt-third-party-2_2_1" />
-		<property name="birtWtpPackageName" value="birt-wtp-2_2_1" />
+		<property name="birtFramePackageName" value="birt-report-framework-sdk-${package.version}" />
+		<property name="birtThirdPartyPackageName" value="birt-third-party-${package.version}" />
+		<property name="birtWtpPackageName" value="birt-wtp-${package.version}" />
 		
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-o -q ${birtFramePackageName}.zip -d ${buildDirectory}/${buildId}" />
