@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.MapRuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -271,13 +272,26 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 
 			builder.setDesignHandle( getDesignElementHandle( ) );
 
-			if ( getDesignElementHandle( ) instanceof ReportItemHandle )
-			{
-				builder.setReportElement( (ReportItemHandle) getDesignElementHandle( ) );
+			DesignElementHandle reportElement = getDesignElementHandle( );
+			if( getDesignElementHandle( ) instanceof RowHandle)
+			{			
+				DesignElementHandle designElement = ((RowHandle)getDesignElementHandle( )).getContainer( );
+				if(designElement instanceof ReportItemHandle)
+				{
+					reportElement = (ReportItemHandle)designElement;
+				}else
+				if(designElement instanceof GroupHandle)
+				{
+					reportElement = (ReportItemHandle) ( (GroupHandle) designElement ).getContainer( );
+				}			
 			}
-			else if ( getDesignElementHandle( ) instanceof GroupHandle )
+			if ( reportElement instanceof ReportItemHandle )
 			{
-				builder.setReportElement( (ReportItemHandle) ( (GroupHandle) getDesignElementHandle( ) ).getContainer( ) );
+				builder.setReportElement( (ReportItemHandle) reportElement );
+			}
+			else if ( reportElement instanceof GroupHandle )
+			{
+				builder.setReportElement( (ReportItemHandle) ( (GroupHandle) reportElement ).getContainer( ) );
 			}
 			
 			if ( builder.open( ) == Window.OK )
@@ -337,13 +351,26 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 
 		builder.setDesignHandle( getDesignElementHandle( ) );
 		
-		if ( getDesignElementHandle( ) instanceof ReportItemHandle )
-		{
-			builder.setReportElement( (ReportItemHandle) getDesignElementHandle( ) );
+		DesignElementHandle reportElement = getDesignElementHandle( );
+		if( getDesignElementHandle( ) instanceof RowHandle)
+		{			
+			DesignElementHandle designElement = ((RowHandle)getDesignElementHandle( )).getContainer( );
+			if(designElement instanceof ReportItemHandle)
+			{
+				reportElement = (ReportItemHandle)designElement;
+			}else
+			if(designElement instanceof GroupHandle)
+			{
+				reportElement = (ReportItemHandle) ( (GroupHandle) designElement ).getContainer( );
+			}			
 		}
-		else if ( getDesignElementHandle( ) instanceof GroupHandle )
+		if ( reportElement instanceof ReportItemHandle )
 		{
-			builder.setReportElement( (ReportItemHandle) ( (GroupHandle) getDesignElementHandle( ) ).getContainer( ) );
+			builder.setReportElement( (ReportItemHandle) reportElement );
+		}
+		else if ( reportElement instanceof GroupHandle )
+		{
+			builder.setReportElement( (ReportItemHandle) ( (GroupHandle) reportElement ).getContainer( ) );
 		}
 		
 		return builder;

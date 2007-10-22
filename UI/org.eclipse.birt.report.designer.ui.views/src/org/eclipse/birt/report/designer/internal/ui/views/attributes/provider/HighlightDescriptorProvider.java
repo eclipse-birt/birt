@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.HighlightRuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
@@ -299,17 +300,26 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 
 			builder.setDesignHandle( getDesignElementHandle( ) );
 			
+			DesignElementHandle reportElement = getDesignElementHandle( );
 			if( getDesignElementHandle( ) instanceof RowHandle)
-			{
-				builder.setReportElement((ReportItemHandle)((RowHandle)getDesignElementHandle( )).getContainer( ));
-			}else 
-			if ( getDesignElementHandle( ) instanceof ReportItemHandle )
-			{
-				builder.setReportElement( (ReportItemHandle) getDesignElementHandle( ) );
+			{			
+				DesignElementHandle designElement = ((RowHandle)getDesignElementHandle( )).getContainer( );
+				if(designElement instanceof ReportItemHandle)
+				{
+					reportElement = (ReportItemHandle)designElement;
+				}else
+				if(designElement instanceof GroupHandle)
+				{
+					reportElement = (ReportItemHandle) ( (GroupHandle) designElement ).getContainer( );
+				}			
 			}
-			else if ( getDesignElementHandle( ) instanceof GroupHandle )
+			if ( reportElement instanceof ReportItemHandle )
 			{
-				builder.setReportElement( (ReportItemHandle) ( (GroupHandle) getDesignElementHandle( ) ).getContainer( ) );
+				builder.setReportElement( (ReportItemHandle) reportElement );
+			}
+			else if ( reportElement instanceof GroupHandle )
+			{
+				builder.setReportElement( (ReportItemHandle) ( (GroupHandle) reportElement ).getContainer( ) );
 			}
 
 			if ( builder.open( ) == Window.OK )
@@ -366,16 +376,26 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 		builder.updateHandle( null, handleCount );
 
 		builder.setDesignHandle( getDesignElementHandle( ) );
+		DesignElementHandle reportElement = getDesignElementHandle( );
 		if( getDesignElementHandle( ) instanceof RowHandle)
-		{
-			builder.setReportElement((ReportItemHandle)((RowHandle)getDesignElementHandle( )).getContainer( ));
-		}else if ( getDesignElementHandle( ) instanceof ReportItemHandle )
-		{
-			builder.setReportElement( (ReportItemHandle) getDesignElementHandle( ) );
+		{			
+			DesignElementHandle designElement = ((RowHandle)getDesignElementHandle( )).getContainer( );
+			if(designElement instanceof ReportItemHandle)
+			{
+				reportElement = (ReportItemHandle)designElement;
+			}else
+			if(designElement instanceof GroupHandle)
+			{
+				reportElement = (ReportItemHandle) ( (GroupHandle) designElement ).getContainer( );
+			}			
 		}
-		else if ( getDesignElementHandle( ) instanceof GroupHandle )
+		if ( reportElement instanceof ReportItemHandle )
 		{
-			builder.setReportElement( (ReportItemHandle) ( (GroupHandle) getDesignElementHandle( ) ).getContainer( ) );
+			builder.setReportElement( (ReportItemHandle) reportElement );
+		}
+		else if ( reportElement instanceof GroupHandle )
+		{
+			builder.setReportElement( (ReportItemHandle) ( (GroupHandle) reportElement ).getContainer( ) );
 		}
 		return builder;
 	}
