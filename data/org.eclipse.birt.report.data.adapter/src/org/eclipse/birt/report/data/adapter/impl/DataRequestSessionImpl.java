@@ -499,6 +499,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 */
 	private void materializeCube( CubeHandle cubeHandle, Map appContext, StopSign stopSign ) throws BirtException
 	{
+		if ( stopSign == null )
+			stopSign = new StopSign( );
 		int mode = this.sessionContext.getDataEngineContext( ).getMode( );
 		try
 		{
@@ -892,7 +894,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 	public IPreparedCubeQuery prepare( ICubeQueryDefinition query,
 			Map appContext ) throws BirtException
 	{
-		stopSign.start( );
+		if(stopSign!=null)
+			stopSign.start( );
 		
 		if ( this.cubeHandleMap.get( query.getName( ) ) != null )
 		{
