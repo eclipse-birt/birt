@@ -14,6 +14,7 @@ package org.eclipse.birt.core.data;
 import java.math.BigDecimal;
 import java.sql.Blob;
 import java.sql.Clob;
+import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
@@ -103,7 +104,7 @@ public final class DataTypeUtil
 			case DataType.STRING_TYPE :
 				return toString( source );
 			case DataType.BLOB_TYPE :
-				return toBlob( source );
+				return toBytes( source );
 			case DataType.BINARY_TYPE :
 				return toBytes( source );
 			case DataType.SQL_DATE_TYPE:
@@ -913,9 +914,24 @@ public final class DataTypeUtil
 
 		if ( source instanceof byte[] )
 			return (byte[]) source;
+		else if ( source instanceof Blob )
+		{
+			try
+			{
+				return ( (Blob) source ).getBytes( (long) 1,
+						(int) ( (Blob) source ).length( ) );
+			}
+			catch ( SQLException e )
+			{
+				throw new CoreException( ResourceConstants.CONVERT_FAILS,
+						new Object[]{
+								source.toString( ), "Binary"
+						} );
+
+			}
+		}
 		else
-			throw new CoreException(
-					ResourceConstants.CONVERT_FAILS,
+			throw new CoreException( ResourceConstants.CONVERT_FAILS,
 					new Object[]{
 							source.toString( ), "Binary"
 					} );
