@@ -127,7 +127,7 @@ abstract class DiskDataExport
 		int dataIndex = 1;
 		
 		IResultObject odaObject = null;
-		while ( ( odaObject = rs.next( ) ) != null && !stopSign.isStopped( ) )
+		while ( ( odaObject = rs.next( stopSign ) ) != null && !stopSign.isStopped( ) )
 		{
 			Object[] ob = new Object[columnCount];
 			for ( int i = 0; i < columnCount; i++ )

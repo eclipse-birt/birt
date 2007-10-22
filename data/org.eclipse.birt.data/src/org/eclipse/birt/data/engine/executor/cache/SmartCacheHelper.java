@@ -296,7 +296,7 @@ class SmartCacheHelper
 		int dataCount = 0;
 		long usedMemorySize = 0;
 
-		while ( ( odaObject = rowResultSet.next( ) ) != null && !stopSign.isStopped( ) )
+		while ( ( odaObject = rowResultSet.next( stopSign ) ) != null && !stopSign.isStopped( ) )
 		{
 			if ( usedMemorySize < memoryCacheSize )
 			{

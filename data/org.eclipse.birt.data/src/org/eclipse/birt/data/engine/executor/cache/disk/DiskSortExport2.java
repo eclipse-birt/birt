@@ -124,7 +124,7 @@ class DiskSortExport2 extends DiskDataExport
 		int currDataCount = 1;
 		IResultObject odaObject = null;
 		
-		while ( ( odaObject = rs.next( ) ) != null )
+		while ( ( odaObject = rs.next( stopSign ) ) != null )
 		{
 			if( stopSign.isStopped( ) )
 				return 0;

@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.executor.cache;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
 import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
@@ -130,10 +131,12 @@ public class OdiAdapter
 	/**
 	 * Fetch data from Oda or Odi. After the fetch is done, the cursor
 	 * must stay at the row which is fetched.
-	 * @return IResultObject
+	 * 
+	 * @param stopSign
+	 * @return
 	 * @throws DataException
 	 */
-	IResultObject fetch( ) throws DataException
+	IResultObject fetch( StopSign stopSign ) throws DataException
 	{
 		try
 		{
@@ -143,7 +146,7 @@ public class OdiAdapter
 			}
 			if ( datasetCache != null )
 			{
-				return datasetCache.fetch( );
+				return datasetCache.fetch( stopSign );
 			}
 			else if ( customDataSet != null )
 			{

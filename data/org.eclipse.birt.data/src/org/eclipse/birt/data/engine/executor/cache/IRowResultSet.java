@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.executor.cache;
 
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
@@ -31,8 +32,9 @@ public interface IRowResultSet
 	 * Notice the return value of this function is IResultObject. The null value
 	 * indicates the cursor exceeds the end of result set.
 	 * 
+	 * @param stopSign
 	 * @return next result data
 	 * @throws DataException
 	 */
-	IResultObject next( ) throws DataException;
+	IResultObject next( StopSign stopSign ) throws DataException;
 }

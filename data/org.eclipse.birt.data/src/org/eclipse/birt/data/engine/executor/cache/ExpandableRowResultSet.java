@@ -12,6 +12,7 @@ package org.eclipse.birt.data.engine.executor.cache;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultObject;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
@@ -54,12 +55,13 @@ class ExpandableRowResultSet implements IRowResultSet
 	 * Notice the return value of this function is IResultObject. The null value
 	 * indicates the cursor exceeds the end of result set.
 	 * 
+	 * @param stopSign
 	 * @return next result data
 	 * @throws DataException
 	 */
-	public IResultObject next( ) throws DataException
+	public IResultObject next( StopSign stopSign ) throws DataException
 	{
-		IResultObject ro = this.rowResultSet.next( );
+		IResultObject ro = this.rowResultSet.next( stopSign );
 		if( ro == null )
 			return null;
 		Object[] objs = new Object[this.resultClass.getFieldCount( )];

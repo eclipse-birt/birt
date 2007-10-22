@@ -131,6 +131,40 @@ public class DataSetCacheTest extends APITestCase
 		getDataSetCacheManager( myDataEngine ).resetForTest( );
 		myDataEngine.shutdown( );
 	}
+	
+	public void testCancelCache( ) throws BirtException
+	{
+		this.dataSet.setCacheRowCount( 4 );
+		myDataEngine = newDataEngine( );
+
+		assertFalse( getDataSetCacheManager( myDataEngine ).doesLoadFromCache( ) );
+		assertFalse( getDataSetCacheManager( myDataEngine ).doesSaveToCache( ) );
+
+		QueryDefinition qd = this.newReportQuery( );
+		rowBeArray = getRowExpr( );
+		totalBeArray = getAggrExpr( );
+		bindingNameRow = getRowExprName( );
+		bindingExprRow = getAggrExprName( );
+
+		prepareExprNameAndQuery( rowBeArray,
+				bindingNameRow,
+				totalBeArray,
+				bindingExprRow,
+				qd );
+		IQueryResults qr = myDataEngine.prepare( qd, appContextMap )
+				.execute( null );
+		CancelCacheThread cancelThread = new CancelCacheThread( qr );
+		cancelThread.start( );
+		IResultIterator iterator = qr.getResultIterator( );
+		if ( iterator != null )
+			iterator.next( );
+		qr.close( );
+
+		assertFalse( getDataSetCacheManager( myDataEngine ).doesLoadFromCache( ) );
+		assertTrue( getDataSetCacheManager( myDataEngine ).doesSaveToCache( ) );
+		getDataSetCacheManager( myDataEngine ).resetForTest( );
+		myDataEngine.shutdown( );
+	}
 
 	/**
 	 * Test feature of whether cache will be used
@@ -1077,5 +1111,35 @@ public class DataSetCacheTest extends APITestCase
 			DataEngineImpl dataEngine )
 	{
 		return dataEngine.getSession( ).getDataSetCacheManager( );
+	}
+}
+
+class CancelCacheThread extends Thread 
+{
+	IQueryResults queryResults;
+	
+	CancelCacheThread( IQueryResults queryResults )
+	{
+		this.queryResults = queryResults;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Thread#run()
+	 */
+	public void run( )
+	{
+		while ( true )
+		{
+			try
+			{
+//				Thread.sleep( 10 );
+				queryResults.cancel( );
+			}
+			catch ( Exception e )
+			{
+				System.out.println( e );
+			}
+		}
 	}
 }

@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.executor.cache;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
@@ -77,10 +78,11 @@ class RowResultSet implements IRowResultSet
 	 * Notice the return value of this function is IResultObject. The null value
 	 * indicates the cursor exceeds the end of result set.
 	 * 
+	 * @param stopSign
 	 * @return next result data
 	 * @throws DataException
 	 */
-	public IResultObject next( ) throws DataException
+	public IResultObject next( StopSign stopSign ) throws DataException
 	{
 		if ( currIndex >= maxRows )
 			return null;
@@ -88,7 +90,7 @@ class RowResultSet implements IRowResultSet
 		IResultObject odaObject = null;
 		while ( true )
 		{
-			odaObject = odiAdpater.fetch( );
+			odaObject = odiAdpater.fetch( stopSign );
 			if ( odaObject == null )
 			{
 				break;
