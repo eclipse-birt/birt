@@ -212,6 +212,8 @@ public class DataAdapterUtil
 			return DataType.SQL_DATE_TYPE;
 		if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN ) )
 			return DataType.BOOLEAN_TYPE;
+		if ( modelDataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_BLOB ) )
+			return DataType.BLOB_TYPE;
 		return DataType.UNKNOWN_TYPE;
 	}
 	
