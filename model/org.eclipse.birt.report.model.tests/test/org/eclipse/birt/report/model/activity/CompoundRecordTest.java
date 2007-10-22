@@ -121,7 +121,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * </tr>
  * 
  * </table>
- *  
+ * 
  */
 public class CompoundRecordTest extends BaseTestCase
 {
@@ -197,7 +197,7 @@ public class CompoundRecordTest extends BaseTestCase
 		activityStack.execute( record1 );
 		activityStack.execute( record2 );
 
-		//after execute, make sure state of activityrecord is done_state
+		// after execute, make sure state of activityrecord is done_state
 
 		assertEquals( ActivityRecord.DONE_STATE, record1.getState( ) );
 		assertEquals( ActivityRecord.DONE_STATE, record2.getState( ) );
@@ -207,7 +207,7 @@ public class CompoundRecordTest extends BaseTestCase
 
 		compoundRecord.undo( );
 
-		//after undo, check state of activityrecord is become undone_state
+		// after undo, check state of activityrecord is become undone_state
 
 		assertEquals( ActivityRecord.UNDONE_STATE, record1.getState( ) );
 		assertEquals( ActivityRecord.UNDONE_STATE, record2.getState( ) );
@@ -238,7 +238,7 @@ public class CompoundRecordTest extends BaseTestCase
 		activityStack.execute( record1 );
 		activityStack.execute( record2 );
 
-		//      after execute, make sure state of activityrecord is done_state
+		// after execute, make sure state of activityrecord is done_state
 
 		assertEquals( ActivityRecord.DONE_STATE, record1.getState( ) );
 		assertEquals( ActivityRecord.DONE_STATE, record2.getState( ) );
@@ -248,14 +248,14 @@ public class CompoundRecordTest extends BaseTestCase
 
 		compoundRecord.undo( );
 
-		//after undo, check state of activityrecord is undone_state
+		// after undo, check state of activityrecord is undone_state
 
 		assertEquals( ActivityRecord.UNDONE_STATE, record1.getState( ) );
 		assertEquals( ActivityRecord.UNDONE_STATE, record2.getState( ) );
 
 		compoundRecord.redo( );
 
-		//after redo, check state of activityrecord is redone_state
+		// after redo, check state of activityrecord is redone_state
 
 		assertEquals( ActivityRecord.REDONE_STATE, record1.getState( ) );
 		assertEquals( ActivityRecord.REDONE_STATE, record2.getState( ) );
@@ -291,13 +291,13 @@ public class CompoundRecordTest extends BaseTestCase
 		assertEquals( true, record1.canUndo );
 		assertEquals( true, record2.canUndo );
 
-		//CanUndo only when all ActivityRecords inside canUndo.
+		// CanUndo only when all ActivityRecords inside canUndo.
 		assertEquals( true, compoundRecord.canUndo( ) );
 
 		record1.canUndo = true;
 		record2.canUndo = false;
 
-		//CanUndo only when all ActivityRecords inside canUndo.
+		// CanUndo only when all ActivityRecords inside canUndo.
 		assertEquals( false, compoundRecord.canUndo( ) );
 	}
 
@@ -331,7 +331,7 @@ public class CompoundRecordTest extends BaseTestCase
 		record1.canRedo = true;
 		record2.canRedo = true;
 
-		//CanUndo only when all ActivityRecords inside the CompoundRecord
+		// CanUndo only when all ActivityRecords inside the CompoundRecord
 		// canUndo.
 		assertEquals( true, compoundRecord.canRedo( ) );
 	}
@@ -380,12 +380,12 @@ public class CompoundRecordTest extends BaseTestCase
 
 	public void testExecute( )
 	{
-		//when list is empty , it is true
+		// when list is empty , it is true
 
 		compoundRecord.execute( );
 
-		//when state of every element in list is done_state
-		//it is true , else assert false error
+		// when state of every element in list is done_state
+		// it is true , else assert false error
 
 		MockupActivityRecord record1 = new MockupActivityRecord( 1 );
 		MockupActivityRecord record2 = new MockupActivityRecord( 2 );
@@ -405,7 +405,7 @@ public class CompoundRecordTest extends BaseTestCase
 	 * 
 	 * Mockup ElementRecord. The target of the ActivityRecord is linked to a
 	 * MockupDesignElement, and suppose execute operation is always successful.
-	 *  
+	 * 
 	 */
 
 	class MockupActivityRecord extends AbstractElementRecord
@@ -521,9 +521,10 @@ public class CompoundRecordTest extends BaseTestCase
 		}
 
 		/**
-		 * Returns <code>true</code> if need to hold the event at this time. We
-		 * need to hold the event if it is sent inside a transaction that declared
-		 * to filter notification events( <code>FilterEventsCompoundRecord</code>).
+		 * Returns <code>true</code> if need to hold the event at this time.
+		 * We need to hold the event if it is sent inside a transaction that
+		 * declared to filter notification events(
+		 * <code>FilterEventsCompoundRecord</code>).
 		 * 
 		 * @param transStack
 		 *            the transaction stack.
@@ -538,7 +539,7 @@ public class CompoundRecordTest extends BaseTestCase
 				if ( cr instanceof FilterEventsCompoundRecord )
 					return true;
 			}
-		
+
 			return false;
 		}
 	}
@@ -598,7 +599,7 @@ public class CompoundRecordTest extends BaseTestCase
 			return null;
 		}
 	}
-	
+
 	class MockupEvent extends NotificationEvent
 	{
 

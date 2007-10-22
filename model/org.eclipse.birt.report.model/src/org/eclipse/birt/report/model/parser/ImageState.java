@@ -11,11 +11,13 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ImageItem;
@@ -123,15 +125,20 @@ public class ImageState extends ReportItemState
 			}
 			catch ( MalformedURLException e )
 			{
-				setProperty( IImageItemModel.SOURCE_PROP,
-						DesignChoiceConstants.IMAGE_REF_TYPE_FILE );
+
+				if ( isFileProtocol( uri ) )
+					setProperty( IImageItemModel.SOURCE_PROP,
+							DesignChoiceConstants.IMAGE_REF_TYPE_FILE );
+				else
+					setProperty( IImageItemModel.SOURCE_PROP,
+							DesignChoiceConstants.IMAGE_REF_TYPE_EXPR );
 			}
 
 			type++;
 		}
 
-		StructRefValue imageName = (StructRefValue) image.getLocalProperty(
-				module, IImageItemModel.IMAGE_NAME_PROP );
+		StructRefValue imageName = (StructRefValue) image.getLocalProperty( module,
+				IImageItemModel.IMAGE_NAME_PROP );
 		if ( imageName != null )
 		{
 			setProperty( IImageItemModel.SOURCE_PROP,
@@ -152,11 +159,8 @@ public class ImageState extends ReportItemState
 		}
 
 		if ( type > 1 )
-			handler
-					.getErrorHandler( )
-					.semanticError(
-							new DesignParserException(
-									DesignParserException.DESIGN_EXCEPTION_IMAGE_REF_CONFLICT ) );
+			handler.getErrorHandler( )
+					.semanticError( new DesignParserException( DesignParserException.DESIGN_EXCEPTION_IMAGE_REF_CONFLICT ) );
 	}
 
 	/*
@@ -176,52 +180,75 @@ public class ImageState extends ReportItemState
 		String refType = image.getStringProperty( module,
 				IImageItemModel.SOURCE_PROP );
 
-		if ( DesignChoiceConstants.IMAGE_REF_TYPE_EXPR
-				.equalsIgnoreCase( refType ) )
+		if ( DesignChoiceConstants.IMAGE_REF_TYPE_EXPR.equalsIgnoreCase( refType ) )
 		{
 			String valueExpr = image.getStringProperty( module,
 					IImageItemModel.VALUE_EXPR_PROP );
 			if ( StringUtil.isEmpty( valueExpr ) )
 			{
-				handler
-						.getErrorHandler( )
-						.semanticError(
-								new DesignParserException(
-										DesignParserException.DESIGN_EXCEPTION_INVALID_IMAGEREF_EXPR_VALUE ) );
+				handler.getErrorHandler( )
+						.semanticError( new DesignParserException( DesignParserException.DESIGN_EXCEPTION_INVALID_IMAGEREF_EXPR_VALUE ) );
 			}
 		}
-		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_URL
-				.equalsIgnoreCase( refType )
-				|| DesignChoiceConstants.IMAGE_REF_TYPE_FILE
-						.equalsIgnoreCase( refType ) )
+		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_URL.equalsIgnoreCase( refType )
+				|| DesignChoiceConstants.IMAGE_REF_TYPE_FILE.equalsIgnoreCase( refType ) )
 		{
 			String uri = image.getStringProperty( module,
 					IImageItemModel.URI_PROP );
 			if ( StringUtil.isEmpty( uri ) )
 			{
-				handler
-						.getErrorHandler( )
-						.semanticError(
-								new DesignParserException(
-										DesignParserException.DESIGN_EXCEPTION_INVALID_IMAGE_URL_VALUE ) );
+				handler.getErrorHandler( )
+						.semanticError( new DesignParserException( DesignParserException.DESIGN_EXCEPTION_INVALID_IMAGE_URL_VALUE ) );
 			}
 		}
-		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_EMBED
-				.equalsIgnoreCase( refType ) )
+		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_EMBED.equalsIgnoreCase( refType ) )
 		{
 			String name = image.getStringProperty( module,
 					IImageItemModel.IMAGE_NAME_PROP );
 
 			if ( StringUtil.isEmpty( name ) )
 			{
-				handler
-						.getErrorHandler( )
-						.semanticError(
-								new DesignParserException(
-										DesignParserException.DESIGN_EXCEPTION_INVALID_IMAGE_NAME_VALUE ) );
+				handler.getErrorHandler( )
+						.semanticError( new DesignParserException( DesignParserException.DESIGN_EXCEPTION_INVALID_IMAGE_NAME_VALUE ) );
 			}
 		}
 
 		super.end( );
+	}
+
+	/**
+	 * Checks whether <code>filePath</code> is a valid file on the disk.
+	 * <code>filePath</code> can follow these scheme.
+	 * <ul>
+	 * <li>./../hello/
+	 * <li>C:\\hello\..\
+	 * <li>/C:/../hello/.
+	 * </ul>
+	 * 
+	 * @param filePath
+	 *            the input filePath
+	 * @return true if filePath exists on the disk. Otherwise false.
+	 */
+
+	private static boolean isFileProtocol( String filePath )
+	{
+		try
+		{
+			URL fileUrl = new URL( filePath );
+			if ( URIUtil.FILE_SCHEMA.equalsIgnoreCase( fileUrl.getProtocol( ) ) )
+				return true;
+
+			return false;
+		}
+		catch ( MalformedURLException e )
+		{
+			// ignore the error since this string is not in URL format
+		}
+		File file = new File( filePath );
+		if ( file.toURI( ).getScheme( ).equalsIgnoreCase( URIUtil.FILE_SCHEMA ) )
+		{
+			return true;
+		}
+		return false;
 	}
 }

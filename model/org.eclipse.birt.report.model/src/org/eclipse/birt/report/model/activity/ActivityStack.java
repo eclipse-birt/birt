@@ -271,6 +271,8 @@ public class ActivityStack implements CommandStack
 
 	private Stack transStack = new Stack( );
 
+	private Stack needUndoPersistentRecords = new Stack( );
+
 	/**
 	 * The stack size limit. The limit applies to the undo stack. Since the redo
 	 * stack holds items from the undo stack, by definition the redo stack can
@@ -734,8 +736,23 @@ public class ActivityStack implements CommandStack
 			// and send out notifications.
 
 			record.setTransNo( ++transCount );
-
 			undoStack.push( record );
+
+			if ( !needUndoPersistentRecords.isEmpty( ) )
+			{
+				ArrayList needToUndoRecords = null;
+
+				while ( !needUndoPersistentRecords.isEmpty( ) )
+				{
+					needToUndoRecords = (ArrayList) needUndoPersistentRecords.pop( );
+					for ( int j = 0; j < needToUndoRecords.size( ); j++ )
+					{
+						( (ActivityRecord) needToUndoRecords.get( j ) ).setTransNo( ++transCount );
+						undoStack.push( needToUndoRecords.get( j ) );
+					}
+				}
+
+			}
 			trimUndoStack( );
 
 			sendNotifcations( new ActivityStackEvent( this,
@@ -768,7 +785,26 @@ public class ActivityStack implements CommandStack
 
 		trans.rollback( );
 		trans.destroy( );
+		
+		ArrayList persistentRecord = (ArrayList) trans.getDonePersistentTrans();
 
+		if ( persistentRecord.size( ) != 0 )
+		{
+			if ( !transStack.isEmpty( ) )
+			{
+				needUndoPersistentRecords.push( persistentRecord );
+			}
+			else
+			{
+				for ( int i = 0; i < persistentRecord.size( ); i++ )
+				{
+					( (ActivityRecord) persistentRecord.get( i ) ).setTransNo( ++transCount );
+					undoStack.push( persistentRecord.get( i ) );
+				}
+
+				trimUndoStack( );
+			}
+		}
 		// if the trans stack is empty now, then send the notifications
 
 		if ( transStack.empty( ) )
@@ -861,8 +897,7 @@ public class ActivityStack implements CommandStack
 			Iterator iter = listeners.iterator( );
 			while ( iter.hasNext( ) )
 			{
-				ActivityStackListener listener = ( (ActivityStackListener) iter
-						.next( ) );
+				ActivityStackListener listener = ( (ActivityStackListener) iter.next( ) );
 
 				listener.stackChanged( event );
 			}
@@ -931,14 +966,13 @@ public class ActivityStack implements CommandStack
 				&& transStack.peek( ) instanceof LayoutCompoundRecord )
 			outerMost = false;
 
-		transStack
-				.push( new LayoutCompoundRecord( label, outerMost, filterAll ) );
+		transStack.push( new LayoutCompoundRecord( label, outerMost, filterAll ) );
 	}
 
 	/**
 	 * Starts a filter events transaction, all the events within the transaction
-	 * will be held. They will be filtered and sent out once the transaction is
-	 * committed.
+	 * will be holden. They will be filtered and sent out once the transaction
+	 * is committed.
 	 * 
 	 * @param label
 	 *            localized label for the transaction
@@ -956,8 +990,7 @@ public class ActivityStack implements CommandStack
 					&& transStack.peek( ) instanceof FilterEventsCompoundRecord )
 				outerMost = false;
 
-			transStack
-					.push( new FilterEventsCompoundRecord( label, outerMost ) );
+			transStack.push( new FilterEventsCompoundRecord( label, outerMost ) );
 		}
 	}
 

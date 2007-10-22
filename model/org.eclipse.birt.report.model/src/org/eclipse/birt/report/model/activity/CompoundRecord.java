@@ -245,6 +245,39 @@ public class CompoundRecord extends ActivityRecord
 		assert record != null;
 		assert record.getState( ) == ActivityRecord.DONE_STATE;
 		recordList.add( record );
+
+	}
+
+	/**
+	 * return the list contains persistent transactions which are all doen
+	 * status.
+	 * 
+	 * @return List list contains the collected persistent records.
+	 */
+
+	public List getDonePersistentTrans( )
+	{
+		List allDonePersistentRecords = new ArrayList( );
+		ActivityRecord record = null;
+
+		for ( int i = 0; i < this.recordList.size( ); i++ )
+		{
+			record = (ActivityRecord) recordList.get( i );
+
+			if ( ( record.isPersistent     )
+					&& ( record.state == ActivityRecord.DONE_STATE ) )
+				allDonePersistentRecords.add( record );
+
+			else
+			{
+				if ( ( record instanceof CompoundRecord ) )
+				{
+					allDonePersistentRecords.addAll( ( (CompoundRecord) record ).getDonePersistentTrans( ) );
+				}
+			}
+		}
+
+		return allDonePersistentRecords;
 	}
 
 	/**
@@ -335,6 +368,7 @@ public class CompoundRecord extends ActivityRecord
 				record.performPostTasks( stack );
 			}
 		}
+
 	}
 
 	/*
@@ -373,7 +407,7 @@ public class CompoundRecord extends ActivityRecord
 				validationTasks.add( task );
 		}
 
-		// if this record is FilterEventsCompoundRecord and stask is empty, we
+		// if this record is FilterEventsCompoundRecord and stack is empty, we
 		// can do the filter operation by the event filter directly, not need
 		// recusively call getFilterNotificationTask like the following 'else
 		// if'; it is a special case
@@ -385,8 +419,8 @@ public class CompoundRecord extends ActivityRecord
 			assert options != null;
 			IEventFilter filter = options.getEventFilter( );
 			assert filter != null;
-			doTasks( transStack, filter
-					.filter( getNotificationTask( getPostTasks( ) ) ) );
+			doTasks( transStack,
+					filter.filter( getNotificationTask( simpleTasks ) ) );
 
 		}
 		else if ( options != null
@@ -423,10 +457,20 @@ public class CompoundRecord extends ActivityRecord
 				// is empty; otherwise the notifications must already be send
 
 				CompoundRecord cr = (CompoundRecord) record;
-				TransactionOption options = cr.getOptions( );
-				if ( options != null
-						&& options.getSendTime( ) == TransactionOption.OUTMOST_TRANSACTION_SEND_TIME )
-					events.addAll( cr.getFilterNotificationTask( ) );
+
+				if ( ( cr instanceof FilterEventsCompoundRecord )
+						|| ( cr instanceof LayoutCompoundRecord ) )
+				{
+					if ( !( (FilterEventsCompoundRecord) cr ).isOutermostFilterTrans )
+						events.addAll( cr.getFilterNotificationTask( ) );
+				}
+				else
+				{
+					TransactionOption options = cr.getOptions( );
+					if ( options != null
+							&& options.getSendTime( ) == TransactionOption.OUTMOST_TRANSACTION_SEND_TIME )
+						events.addAll( cr.getFilterNotificationTask( ) );
+				}
 
 			}
 		}

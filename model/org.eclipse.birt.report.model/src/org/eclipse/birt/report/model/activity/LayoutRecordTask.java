@@ -51,7 +51,7 @@ public class LayoutRecordTask extends RecordTask
 	/**
 	 * Returns <code>true</code> if need to hold the event at this time. We
 	 * need to hold the event if it is sent inside a transaction that declared
-	 * to filter notification events( <code>FilterEventsCompoundRecord</code>).
+	 * to filter notification events( <code>LayoutCompoundRecord</code>).
 	 * 
 	 * @param transStack
 	 *            the transaction stack.

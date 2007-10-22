@@ -224,6 +224,7 @@ public abstract class ActivityRecord
 
 	public static final int DISCARD_STATE = 4;
 
+
 	/**
 	 * Record state. Used to verify the record life-cycle, and to send the
 	 * correct notification events.
