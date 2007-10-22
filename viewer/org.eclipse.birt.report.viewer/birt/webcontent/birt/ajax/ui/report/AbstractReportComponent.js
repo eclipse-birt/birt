@@ -71,15 +71,18 @@ AbstractReportComponent.prototype =
 		for( var i = 0; i < scripts.length; i++ )
 		{
 		    if( scripts[i].src )
-		    {
-		    	var head = document.getElementsByTagName( "head" )[0];
-		    	
-		    	var scriptObj = document.createElement( "script" );
-				scriptObj.setAttribute( "type", "text/javascript" );
-				scriptObj.setAttribute( "src", scripts[i].src );
+		    {		
+		    	// workaround for IE, need append these scripts in head    			    					
+				if( BrowserUtility.__isIE( ) )
+				{
+				   	var scriptObj = document.createElement( "script" );
+					scriptObj.setAttribute( "type", "text/javascript" );
+					scriptObj.setAttribute( "src", scripts[i].src );
 				
-				if( head )
-					head.appendChild( scriptObj );
+					var head = document.getElementsByTagName( "head" )[0];	
+					if( head )
+						head.appendChild( scriptObj );
+				}	
 		    }
 		    else if ( scripts[i].innerHTML )
 		    {	    	

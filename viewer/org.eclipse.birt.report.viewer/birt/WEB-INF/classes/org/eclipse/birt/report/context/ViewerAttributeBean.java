@@ -245,9 +245,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		this.parameterDefList = getReportService( ).getParameterDefinitions(
 				this.reportDesignHandle, options, false );
 
-		// when use run/parameter in designer and not SOAP requestF, parse
-		// parameters from
-		// config file
+		// when use run/parameter in designer and not SOAP request, parse
+		// parameters from config file
 		if ( this.isDesigner
 				&& ( IBirtConstants.SERVLET_PATH_RUN.equalsIgnoreCase( request
 						.getServletPath( ) ) || IBirtConstants.SERVLET_PATH_PARAMETER
