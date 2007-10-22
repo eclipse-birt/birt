@@ -245,10 +245,14 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		this.parameterDefList = getReportService( ).getParameterDefinitions(
 				this.reportDesignHandle, options, false );
 
-		// when in preview model, parse parameters from config file
+		// when use run/parameter in designer and not SOAP request, parse
+		// parameters from config file
 		if ( this.isDesigner
-				&& !IBirtConstants.SERVLET_PATH_FRAMESET
+				&& ( IBirtConstants.SERVLET_PATH_RUN.equalsIgnoreCase( request
+						.getServletPath( ) ) || IBirtConstants.SERVLET_PATH_PARAMETER
 						.equalsIgnoreCase( request.getServletPath( ) ) )
+				&& !ParameterAccessor.HEADER_REQUEST_TYPE_SOAP
+						.equalsIgnoreCase( this.requestType ) )
 			parseConfigVars( request, parameterDefList );
 
 		// Get parameters as String Map
@@ -834,7 +838,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 				{
 					List list = (List) paramObj;
 
-					// FIXME: if list is empty or only contains null value, regard it
+					// FIXME: if list is empty or only contains null value,
+					// regard it
 					// as NULL object
 					if ( list.size( ) == 0
 							|| ( list.size( ) == 1 && list.get( 0 ) == null ) )
@@ -860,7 +865,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 
 				if ( parameter.isMultiValue( ) )
 				{
-					// FIXME: if multi-value only contains null value, regard it as
+					// FIXME: if multi-value only contains null value, regard it
+					// as
 					// NULL object
 					if ( paramValueObj == null )
 						params.put( paramName, null );
