@@ -94,4 +94,25 @@ public class ResourceEntryWrapper implements ResourceEntry
 		return proxy.getAdapter( adapter );
 	}
 
+	public boolean equals( Object object )
+	{
+		if ( object == null )
+			return false;
+		if ( !( object instanceof ResourceEntryWrapper ) )
+			return false;
+		if ( object == this )
+			return true;
+		else
+		{
+			ResourceEntryWrapper temp = (ResourceEntryWrapper) object;
+			if ( temp.proxy.equals( this.proxy ) && temp.type == this.type )
+				return true;
+		}
+		return false;
+	}
+
+	public int hashCode( )
+	{
+		return proxy.hashCode( ) * 7 + type;
+	}
 }

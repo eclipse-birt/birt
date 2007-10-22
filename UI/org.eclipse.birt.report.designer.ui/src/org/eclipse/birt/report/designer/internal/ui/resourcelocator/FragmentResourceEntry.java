@@ -20,11 +20,9 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
-import org.eclipse.birt.report.model.api.css.StyleSheetException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
@@ -273,4 +271,20 @@ public class FragmentResourceEntry extends BaseResourceEntity
 		return super.getAdapter( adapter );
 	}
 
+	
+	public boolean equals(Object object){
+		if(object == null)return false;
+		if(!(object instanceof FragmentResourceEntry))return false;
+		if(object == this)return true;
+		else{
+			FragmentResourceEntry temp = (FragmentResourceEntry)object;
+			if(temp.getName( ).equals( this.getName( ) ))
+				return true;
+		}
+		return false;
+	}
+	
+	public int hashCode(){
+		return this.getName( ).hashCode( );
+	}
 }

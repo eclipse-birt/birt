@@ -24,6 +24,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.lib.explorer.dnd.LibraryDragListener;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ResourceEntryWrapper;
+import org.eclipse.birt.report.designer.ui.widget.TreeViewerBackup;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -57,10 +58,13 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseTrackAdapter;
+import org.eclipse.swt.events.TreeEvent;
+import org.eclipse.swt.events.TreeListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
@@ -83,6 +87,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 	private IEclipsePreferences reportPreferenceNode;
 	private TreeViewer treeViewer;
+	private TreeViewerBackup libraryBackup;
 
 	private static final String[] LIBRARY_FILENAME_PATTERN = new String[]{
 			"*.rptlibrary", //$NON-NLS-1$
@@ -170,6 +175,28 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 			}
 
 		} );
+
+		TreeListener libraryTreeListener = new TreeListener( ) {
+
+			public void treeCollapsed( TreeEvent e )
+			{
+				Item item = (Item) e.item;
+				if ( libraryBackup != null )
+					libraryBackup.updateCollapsedStatus( treeViewer,
+							item.getData( ) );
+
+			}
+
+			public void treeExpanded( TreeEvent e )
+			{
+				Item item = (Item) e.item;
+				if ( libraryBackup != null )
+					libraryBackup.updateExpandedStatus( treeViewer,
+							item.getData( ) );
+			}
+
+		};
+		treeViewer.getTree( ).addTreeListener( libraryTreeListener );
 	}
 
 	/**
@@ -192,7 +219,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 		// }
 		//
 		// } );
-		
+
 		treeViewer.getTree( ).addMouseTrackListener( new MouseTrackAdapter( ) {
 
 			public void mouseHover( MouseEvent event )
@@ -335,6 +362,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 		SessionHandleAdapter.getInstance( )
 				.getSessionHandle( )
 				.removeResourceChangeListener( this );
+		libraryBackup.dispose( );
 		super.dispose( );
 	}
 
@@ -354,7 +382,25 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 			ValidationEvent ev )
 	{
 		if ( treeViewer != null && !treeViewer.getTree( ).isDisposed( ) )
+		{
 			treeViewer.refresh( );
+			treeViewer.setInput( ResourceLocator.getRootEntries( LIBRARY_FILENAME_PATTERN ) );
+			handleTreeViewerRefresh( );
+		}
+	}
+
+	private void handleTreeViewerRefresh( )
+	{
+		if ( libraryBackup != null )
+		{
+			libraryBackup.restoreBackup( treeViewer );
+		}
+		else
+		{
+			libraryBackup = new TreeViewerBackup( );
+			treeViewer.expandToLevel( 2 );
+			libraryBackup.updateStatus( treeViewer );
+		}
 	}
 
 	public void refreshRoot( )
@@ -365,7 +411,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 			// new ResourceFolderLibNode( ), new FragmentsLibNode( )
 			// } );
 			treeViewer.setInput( ResourceLocator.getRootEntries( LIBRARY_FILENAME_PATTERN ) );
-			treeViewer.expandToLevel( 2 );
+			handleTreeViewerRefresh( );
 		}
 	}
 

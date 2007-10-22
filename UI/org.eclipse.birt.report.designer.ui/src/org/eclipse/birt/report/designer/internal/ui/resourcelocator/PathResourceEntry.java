@@ -77,6 +77,8 @@ public class PathResourceEntry extends BaseResourceEntity
 
 				public boolean accept( File pathname )
 				{
+					if(pathname.getName( ).startsWith( "." ) || pathname.getName( ).startsWith( "CVS" ))
+						return false;
 					if ( pathname.isDirectory( ) )
 						return true;
 					for ( int i = 0; i < filePattern.length; i++ )
@@ -102,6 +104,8 @@ public class PathResourceEntry extends BaseResourceEntity
 
 				public boolean accept( File pathname )
 				{
+					if(checkSystemFile( pathname ))
+						return false;
 					if ( pathname.isDirectory( ) )
 						return true;
 					return showFiles;
@@ -299,4 +303,24 @@ public class PathResourceEntry extends BaseResourceEntity
 		return null;
 	}
 
+	private boolean checkSystemFile( File pathname )
+	{
+		return pathname.getName( ).startsWith( "." ) || pathname.getName( ).startsWith( "CVS" );
+	}
+
+	public boolean equals(Object object){
+		if(object == null)return false;
+		if(!(object instanceof PathResourceEntry))return false;
+		if(object == this)return true;
+		else{
+			PathResourceEntry temp = (PathResourceEntry)object;
+			if(temp.getName( ).equals( this.getName( ) ))
+				return true;
+		}
+		return false;
+	}
+	
+	public int hashCode(){
+		return this.getName( ).hashCode( );
+	}
 }
