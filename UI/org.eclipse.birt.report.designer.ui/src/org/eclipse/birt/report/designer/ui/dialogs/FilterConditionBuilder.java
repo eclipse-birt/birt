@@ -612,7 +612,8 @@ public class FilterConditionBuilder extends TitleAreaDialog
 
 		andLable = new Label( condition, SWT.NONE );
 		andLable.setText( Messages.getString( "FilterConditionBuilder.text.AND" ) ); //$NON-NLS-1$
-		andLable.setVisible( false );
+		andLable.setEnabled( false );
+//		andLable.setVisible( false );
 
 		dummy2 = createDummy( condition, 3 );
 
@@ -626,12 +627,14 @@ public class FilterConditionBuilder extends TitleAreaDialog
 			}
 		} );
 		
+		
+		
 		expressionValue2.addListener( SWT.Verify, expValueVerifyListener );
 		expressionValue2.addListener( SWT.Selection, expValueSelectionListener );
 
 		expressionValue2.setItems( popupItems );
 
-		expressionValue2.setVisible( false );
+//		expressionValue2.setVisible( false );
 
 		if ( operator.getItemCount( ) > 0
 				&& operator.getSelectionIndex( ) == -1 )
@@ -1118,6 +1121,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 				expressionValue1.setVisible( true );
 				expressionValue2.setVisible( true );
 				andLable.setVisible( true );
+				andLable.setEnabled( true );
 			}
 			updateButtons( );
 		}
@@ -1246,6 +1250,11 @@ public class FilterConditionBuilder extends TitleAreaDialog
 				expressionValue1.setEnabled( val );
 			if ( expressionValue2 != null )
 				expressionValue2.setEnabled( val );
+			if( andLable != null)
+			{
+				andLable.setEnabled( val );
+			}
+				
 		}
 		else
 		{
@@ -1453,6 +1462,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 			expressionValue1.setVisible( true );
 			expressionValue2.setVisible( true );;
 			andLable.setVisible( true );
+			andLable.setEnabled( true );
 		}
 		else if ( valueVisible == 3 )
 		{

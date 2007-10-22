@@ -580,12 +580,13 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 
 		andLable = new Label( condition, SWT.NONE );
 		andLable.setText( Messages.getString( "FilterConditionBuilder.text.AND" ) ); //$NON-NLS-1$
-		andLable.setVisible( false );
+//		andLable.setVisible( false );
+		andLable.setEnabled( false );
 		dummy2 = createDummy( condition, 3 );
 
 		expressionValue2 = new Combo( condition, SWT.NONE );
 		expressionValue2.setItems( popupItems );
-		expressionValue2.setVisible( false );
+//		expressionValue2.setVisible( false );
 		expressionValue2.setLayoutData( expgd );
 		expressionValue2.addModifyListener( new ModifyListener(){
 
@@ -656,6 +657,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 				expressionValue1.setVisible( true );
 				expressionValue2.setVisible( true );
 				andLable.setVisible( true );
+				andLable.setEnabled( true );
 			}
 			updateButtons( );
 		}
@@ -1314,6 +1316,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 				expressionValue1.setVisible( true );
 				expressionValue2.setVisible( true );
 				andLable.setVisible( true );
+				andLable.setEnabled( true );
 			}
 			else if ( valueVisible == 3 )
 			{
