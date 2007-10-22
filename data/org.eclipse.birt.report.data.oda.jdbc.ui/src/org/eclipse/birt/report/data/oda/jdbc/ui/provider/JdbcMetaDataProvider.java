@@ -16,6 +16,7 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,8 +27,9 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.util.DriverLoader;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Procedure;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.ProcedureParameter;
+import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
-import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
 import org.eclipse.ui.PlatformUI;
 
 
@@ -122,29 +124,29 @@ public class JdbcMetaDataProvider implements IMetaDataProvider
 	 *  (non-Javadoc)
 	 * @see org.eclipse.birt.report.data.oda.jdbc.ui.provider.IMetadataProvider#connect(org.eclipse.birt.report.model.api.DataSourceHandle)
 	 */
-	public Connection connect(DataSourceDesign dataSourceHandle)
+	public Connection connect( DataSourceDesign dataSourceDesign )
 	{		
 		
-		DataSourceDesign handle = (DataSourceDesign) dataSourceHandle;
+		Properties props;
+		try
+		{
+			props = DesignSessionUtil.getEffectiveDataSourceProperties( dataSourceDesign );
+		}
+		catch ( OdaException e )
+		{
+			props = new Properties( );
+		}
 	
-		String userName = (String) handle.getPublicProperties( )
-				.findProperty( Constants.ODAUser )
-				.getValue( );
-		String passWord = (String) handle.getPublicProperties( )
-				.findProperty( Constants.ODAPassword )
-				.getValue( );
-		String url = (String) handle.getPublicProperties( )
-				.findProperty( Constants.ODAURL )
-				.getValue( );
-		String driver = (String) handle.getPublicProperties( )
-				.findProperty( Constants.ODADriverClass )
-				.getValue( );
+		String userName = props.getProperty( Constants.ODAUser );
+		String passWord = props.getProperty( Constants.ODAPassword );
+		String url = props.getProperty( Constants.ODAURL );
+		String driver = props.getProperty( Constants.ODADriverClass );
 		
 		jdbcConnection = connect( userName,
 				passWord,
 				url,
 				driver,
-				handle.getOdaExtensionId( ) ); 
+				dataSourceDesign.getOdaExtensionId( ) ); 
 		
 		return jdbcConnection;
 	}
