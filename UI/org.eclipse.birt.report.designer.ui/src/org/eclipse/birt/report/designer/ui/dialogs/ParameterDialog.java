@@ -130,12 +130,12 @@ public class ParameterDialog extends BaseDialog
 	// private static final String LABEL_DATETIME_PROMPT = Messages.getString(
 	// "ParameterDialog.Label.DateTImePrompt" ); //$NON-NLS-1$
 
-	private static final String LABEL_DATETIME_PROMPT = Messages.getFormattedString( "ParameterDialog.datetime.prompt", new String[]{"MM/DD/YYYY hh:mm:ss AM/PM"} ); //$NON-NLS-1$ //$NON-NLS-2$
+	private static final String LABEL_DATETIME_PROMPT = Messages.getFormattedString( "ParameterDialog.datetime.prompt", new String[]{"yyyy-MM-dd HH:mm:ss.SSS"} ); //$NON-NLS-1$ //$NON-NLS-2$
 
 	// private static final String LABEL_DATE_PROMPT =
 	// Messages.getFormattedString( "ParameterDialog.date.prompt", new
 	// String[]{"MM/DD/YYYY"} ); //$NON-NLS-1$ //$NON-NLS-2$
-	private static final String LABEL_DATE_PROMPT = Messages.getFormattedString( "ParameterDialog.date.prompt", new String[]{"MM/DD/YYYY"} ); //$NON-NLS-1$ //$NON-NLS-2$
+	private static final String LABEL_DATE_PROMPT = Messages.getFormattedString( "ParameterDialog.date.prompt", new String[]{"yyyy-MM-dd"} ); //$NON-NLS-1$ //$NON-NLS-2$
 
 	// private static final String LABEL_TIME_PROMPT =
 	// Messages.getFormattedString( "ParameterDialog.time.prompt", new
@@ -561,6 +561,7 @@ public class ParameterDialog extends BaseDialog
 			{
 				changeDataType( );
 				updateCheckBoxArea( );
+				refreshColumns( false );
 			}
 		} );
 		createLabel( propertiesSection, LABEL_DISPALY_TYPE );
@@ -1977,6 +1978,28 @@ public class ParameterDialog extends BaseDialog
 		// defaultValueChooser.add( CHOICE_NULL_VALUE );
 		// defaultValueChooser.add( CHOICE_BLANK_VALUE );
 		// }
+		
+		defaultValueChooser.addVerifyListener( new VerifyListener(){
+
+			public void verifyText( VerifyEvent e )
+			{
+				// TODO Auto-generated method stub
+				String selection = e.text;
+				if ( defaultValueChooser.indexOf( selection ) == -1 )
+				{
+					e.doit = true;
+					return;
+				}					
+
+				if ( selection.equals( CHOICE_SELECT_VALUE ) )
+				{
+					e.doit = false;
+				}else
+				{
+					e.doit = true;
+				}
+			}} );
+		
 		defaultValueChooser.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -1986,7 +2009,7 @@ public class ParameterDialog extends BaseDialog
 				String selection = defaultValueChooser.getItem( defaultValueChooser.getSelectionIndex( ) );
 				if ( selection.equals( CHOICE_SELECT_VALUE ) )
 				{
-					defaultValueChooser.setText( "" ); //$NON-NLS-1$
+//					defaultValueChooser.setText( "" ); //$NON-NLS-1$
 
 					List columnValueList = getColumnValueList( );
 					if ( columnValueList.isEmpty( ) )
@@ -2004,7 +2027,7 @@ public class ParameterDialog extends BaseDialog
 					}
 					else if ( status == Window.CANCEL )
 					{
-						defaultValueChooser.setText( "" ); //$NON-NLS-1$
+//						defaultValueChooser.setText( "" ); //$NON-NLS-1$
 					}
 				}
 				else

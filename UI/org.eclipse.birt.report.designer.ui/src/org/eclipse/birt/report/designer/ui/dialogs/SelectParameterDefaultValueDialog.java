@@ -126,7 +126,7 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 		}
 		if ( date instanceof java.sql.Date )
 		{
-			return new DateFormatter( "MM/dd/yyyy" , ULocale.US ).format( date );
+			return new DateFormatter( "yyyy-MM-dd" , ULocale.US ).format( date );
 		}
 		else if ( date instanceof java.sql.Time )
 		{
@@ -134,7 +134,7 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 		}
 		else
 		{
-			return new DateFormatter( "MM/dd/yyyy HH:mm:ss.SSS", ULocale.US ).format( date );
+			return new DateFormatter( "yyyy-MM-dd HH:mm:ss.SSS", ULocale.US ).format( date );
 		}
 		
 		

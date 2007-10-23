@@ -39,6 +39,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -789,6 +790,26 @@ public class CascadingParametersDialog extends BaseDialog
 		defaultValueChooser = new Combo( propertiesGroup, SWT.BORDER );
 		defaultValueChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		defaultValueChooser.add( CHOICE_SELECT_VALUE );
+		defaultValueChooser.addVerifyListener( new VerifyListener(){
+
+			public void verifyText( VerifyEvent e )
+			{
+				// TODO Auto-generated method stub
+				String selection = e.text;
+				if(defaultValueChooser.indexOf( selection ) == -1)
+				{
+					e.doit = true;
+					return;
+				}
+				if(selection.equals( CHOICE_SELECT_VALUE ))
+				{
+					e.doit = false;
+				}else
+				{
+					e.doit = true;
+				}
+				
+			}} );
 		defaultValueChooser.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -798,7 +819,7 @@ public class CascadingParametersDialog extends BaseDialog
 				String selection = defaultValueChooser.getItem( defaultValueChooser.getSelectionIndex( ) );
 				if ( selection.equals( CHOICE_SELECT_VALUE ) )
 				{
-					defaultValueChooser.setText( "" ); //$NON-NLS-1$
+//					defaultValueChooser.setText( "" ); //$NON-NLS-1$
 
 					List columnValueList = getColumnValueList( );
 					if ( columnValueList.isEmpty( ) )
@@ -816,7 +837,7 @@ public class CascadingParametersDialog extends BaseDialog
 					}
 					else if ( status == Window.CANCEL )
 					{
-						defaultValueChooser.setText( "" ); //$NON-NLS-1$
+//						defaultValueChooser.setText( "" ); //$NON-NLS-1$
 					}
 				}
 
@@ -2386,8 +2407,7 @@ public class CascadingParametersDialog extends BaseDialog
 			{
 				ResultSetColumnHandle columnHandle = (ResultSetColumnHandle) iter.next( );
 				valueList.add( columnHandle.getColumnName( ) );
-				dataTypeList.add( columnHandle.getDataType( ) );
-
+				dataTypeList.add( ModuleUtil.convertColumnTypeToParamType( columnHandle.getDataType( ) ));
 			}
 
 			dataTypes = (String[]) dataTypeList.toArray( new String[0] );
