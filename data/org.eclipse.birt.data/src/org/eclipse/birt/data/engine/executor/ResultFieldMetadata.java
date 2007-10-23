@@ -87,7 +87,7 @@ public class ResultFieldMetadata
 	
 	public void setDataType( Class dataType )
 	{
-		assert( dataType == Integer.class ||
+/*		assert( dataType == Integer.class ||
 		        dataType == Double.class ||
 		        dataType == String.class ||
 		        dataType == BigDecimal.class ||
@@ -97,7 +97,7 @@ public class ResultFieldMetadata
 		        dataType == Timestamp.class ||
 		        dataType == IBlob.class ||
 		        dataType == IClob.class ||
-                dataType == Boolean.class ); 
+                dataType == Boolean.class ); */
 		
 		m_dataType = dataType;
 	}
