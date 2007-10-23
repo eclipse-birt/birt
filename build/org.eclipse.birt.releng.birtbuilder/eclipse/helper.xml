@@ -808,8 +808,7 @@ Have a nice day!
 Hi All,
 
 Please see the attachments for test results.
-The automation test output data can be found under: ${QA.test.dir}\automationTestOutput\${build.date}
-The repository of junit test reports can be found under: 	${QA.test.dir}\unitTestReport
+The repository of junit test reports can be found under: 	${QA.test.dir}\unitTestReport\${package.version}\
 
 Please visit [ http://qa-build:8080/BuildCentral ] for more information.
 				
