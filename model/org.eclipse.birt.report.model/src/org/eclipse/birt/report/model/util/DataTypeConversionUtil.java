@@ -56,6 +56,8 @@ public class DataTypeConversionUtil
 			return DesignChoiceConstants.PARAM_TYPE_INTEGER;
 		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING.equals( columnType ) )
 			return DesignChoiceConstants.PARAM_TYPE_STRING;
+		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_BLOB.equals( columnType ) )
+			return DesignChoiceConstants.PARAM_TYPE_ANY;
 
 		return columnType;
 	}

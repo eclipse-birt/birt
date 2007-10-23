@@ -57,6 +57,7 @@ import org.eclipse.birt.report.model.parser.LibraryReader;
 import org.eclipse.birt.report.model.parser.ModuleParserErrorHandler;
 import org.eclipse.birt.report.model.parser.ModuleParserHandler;
 import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.DataTypeConversionUtil;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.VersionInfo;
 import org.eclipse.birt.report.model.util.XMLParserException;
@@ -192,7 +193,9 @@ public class ModuleUtil
 		{
 			Action action = StructureFactory.createAction( );
 			e.setProperty( ImageHandle.ACTION_PROP, action );
-			action.setContext( new StructureContext( e, ImageHandle.ACTION_PROP) );
+			action
+					.setContext( new StructureContext( e,
+							ImageHandle.ACTION_PROP ) );
 			return getActionHandle( e.getHandle( module ) );
 		}
 
@@ -207,7 +210,9 @@ public class ModuleUtil
 			Action action = (Action) image.getProperty( handler.getModule( ),
 					IImageItemModel.ACTION_PROP );
 			e.setProperty( IImageItemModel.ACTION_PROP, action );
-			action.setContext( new StructureContext( e, ImageHandle.ACTION_PROP) );
+			action
+					.setContext( new StructureContext( e,
+							ImageHandle.ACTION_PROP ) );
 		}
 
 		return getActionHandle( e.getHandle( module ) );
@@ -865,4 +870,29 @@ public class ModuleUtil
 		return false;
 
 	}
+
+	/**
+	 * Convert param type to column data type.
+	 * 
+	 * @param type
+	 * @return
+	 */
+	public static String convertParamTypeToColumnType( String type )
+	{
+		return DataTypeConversionUtil.converToColumnDataType( type );
+
+	}
+
+	/**
+	 * Convert column data type to param type.
+	 * 
+	 * @param type
+	 * @return
+	 */
+
+	public static String convertColumnTypeToParamType( String type )
+	{
+		return DataTypeConversionUtil.converToParamType( type );
+	}
+
 }

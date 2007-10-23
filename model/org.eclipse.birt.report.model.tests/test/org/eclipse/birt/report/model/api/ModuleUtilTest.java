@@ -46,7 +46,8 @@ public class ModuleUtilTest extends BaseTestCase
 	public void testDeserialize( ) throws XMLParserException, IOException,
 			DesignFileException
 	{
-		InputStream is = ModuleUtilTest.class.getResourceAsStream( "input/ActionDeserializeTest.xml" ); //$NON-NLS-1$
+		InputStream is = ModuleUtilTest.class
+				.getResourceAsStream( "input/ActionDeserializeTest.xml" ); //$NON-NLS-1$
 		ActionHandle action = ModuleUtil.deserializeAction( is );
 		assertEquals( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH,
 				action.getLinkType( ) );
@@ -54,24 +55,28 @@ public class ModuleUtilTest extends BaseTestCase
 
 		MemberHandle paramBindings = action.getParamBindings( );
 		assertEquals( 2, paramBindings.getListValue( ).size( ) );
-		ParamBindingHandle paramBinding1 = (ParamBindingHandle) paramBindings.getAt( 0 );
+		ParamBindingHandle paramBinding1 = (ParamBindingHandle) paramBindings
+				.getAt( 0 );
 		assertEquals( "param1", paramBinding1.getParamName( ) ); //$NON-NLS-1$
 		assertEquals( "1+1=3", paramBinding1.getExpression( ) ); //$NON-NLS-1$
 
 		MemberHandle searchKeys = action.getSearch( );
 		assertEquals( 2, searchKeys.getListValue( ).size( ) );
 		SearchKeyHandle key1 = (SearchKeyHandle) searchKeys.getAt( 0 );
-		assertEquals( "\"E001\".equals(row[\"studentId\"])", key1.getExpression( ) ); //$NON-NLS-1$
+		assertEquals(
+				"\"E001\".equals(row[\"studentId\"])", key1.getExpression( ) ); //$NON-NLS-1$
 
 		// with chinese character inside.
 
-		is = ModuleUtilTest.class.getResourceAsStream( "input/ActionDeserializeTest_1.xml" ); //$NON-NLS-1$
+		is = ModuleUtilTest.class
+				.getResourceAsStream( "input/ActionDeserializeTest_1.xml" ); //$NON-NLS-1$
 
 		action = ModuleUtil.deserializeAction( is );
 		assertNotNull( action );
 		assertEquals( "/BIRT/\u4e2d\u6587.html", action.getURI( ) ); //$NON-NLS-1$
 
-		ActionHandle actionHandle = ModuleUtil.deserializeAction( (String) null );
+		ActionHandle actionHandle = ModuleUtil
+				.deserializeAction( (String) null );
 		assertNotNull( actionHandle );
 		assertEquals( "hyperlink", actionHandle.getLinkType( ) ); //$NON-NLS-1$
 
@@ -122,35 +127,32 @@ public class ModuleUtilTest extends BaseTestCase
 
 	public void testCheckModule( ) throws Exception
 	{
-		sessionHandle = new DesignEngine( null ).newSessionHandle( ULocale.ENGLISH );
+		sessionHandle = new DesignEngine( null )
+				.newSessionHandle( ULocale.ENGLISH );
 		assertNotNull( sessionHandle );
 
 		String fileName = INPUT_FOLDER + "CellHandleTest.xml"; //$NON-NLS-1$
 		InputStream inputStream = getResourceAStream( fileName );
-		int rtnType = ModuleUtil.checkModule( sessionHandle,
-				getResource( fileName ).toString( ),
-				inputStream );
+		int rtnType = ModuleUtil.checkModule( sessionHandle, getResource(
+				fileName ).toString( ), inputStream );
 		assertEquals( ModuleUtil.REPORT_DESIGN, rtnType );
 
 		fileName = INPUT_FOLDER + "Library_1.xml"; //$NON-NLS-1$
 		inputStream = getResourceAStream( fileName );
-		rtnType = ModuleUtil.checkModule( sessionHandle,
-				getResource( fileName ).toString( ),
-				inputStream );
+		rtnType = ModuleUtil.checkModule( sessionHandle, getResource( fileName )
+				.toString( ), inputStream );
 		assertEquals( ModuleUtil.LIBRARY, rtnType );
 
 		fileName = INPUT_FOLDER + "InValidDesign.xml"; //$NON-NLS-1$
 		inputStream = getResourceAStream( fileName );
-		rtnType = ModuleUtil.checkModule( sessionHandle,
-				getResource( fileName ).toString( ),
-				inputStream );
+		rtnType = ModuleUtil.checkModule( sessionHandle, getResource( fileName )
+				.toString( ), inputStream );
 		assertEquals( ModuleUtil.INVALID_MODULE, rtnType );
 
 		fileName = INPUT_FOLDER + "InValidLibrary.xml"; //$NON-NLS-1$
 		inputStream = getResourceAStream( fileName );
-		rtnType = ModuleUtil.checkModule( sessionHandle,
-				getResource( fileName ).toString( ),
-				inputStream );
+		rtnType = ModuleUtil.checkModule( sessionHandle, getResource( fileName )
+				.toString( ), inputStream );
 		assertEquals( ModuleUtil.INVALID_MODULE, rtnType );
 	}
 
@@ -170,25 +172,27 @@ public class ModuleUtilTest extends BaseTestCase
 	{
 		ThreadResources.setLocale( ULocale.ENGLISH );
 
-		List infos = ModuleUtil.checkVersion( getResource( INPUT_FOLDER
-				+ "DesignWithoutLibrary.xml" ).toString( ) );//$NON-NLS-1$
+		List infos = ModuleUtil.checkVersion( getResource(
+				INPUT_FOLDER + "DesignWithoutLibrary.xml" ).toString( ) );//$NON-NLS-1$
 		assertEquals( 1, infos.size( ) );
 
 		IVersionInfo versionInfo = (IVersionInfo) infos.get( 0 );
 		assertEquals( "1", versionInfo.getDesignFileVersion( ) ); //$NON-NLS-1$
-		assertEquals( "The design file was created by an earlier version of BIRT. Click OK to convert it to a format supported by the current version of the product.", versionInfo.getLocalizedMessage( ) ); //$NON-NLS-1$
+		assertEquals(
+				"The design file was created by an earlier version of BIRT. Click OK to convert it to a format supported by the current version of the product.", versionInfo.getLocalizedMessage( ) ); //$NON-NLS-1$
 
-		infos = ModuleUtil.checkVersion( getResource( INPUT_FOLDER
-				+ "ScalarParameterHandleTest.xml" ).toString( ) ); //$NON-NLS-1$
+		infos = ModuleUtil.checkVersion( getResource(
+				INPUT_FOLDER + "ScalarParameterHandleTest.xml" ).toString( ) ); //$NON-NLS-1$
 		assertEquals( 0, infos.size( ) );
 
-		infos = ModuleUtil.checkVersion( getResource( INPUT_FOLDER
-				+ "CheckVersionDesign.xml" ).toString( ) ); //$NON-NLS-1$
+		infos = ModuleUtil.checkVersion( getResource(
+				INPUT_FOLDER + "CheckVersionDesign.xml" ).toString( ) ); //$NON-NLS-1$
 		assertEquals( 1, infos.size( ) );
 		versionInfo = (IVersionInfo) infos.get( 0 );
 
 		assertEquals( "3.2.19", versionInfo.getDesignFileVersion( ) ); //$NON-NLS-1$
-		assertEquals( "The report file of version \"3.2.19\" is not supported.", //$NON-NLS-1$
+		assertEquals(
+				"The report file of version \"3.2.19\" is not supported.", //$NON-NLS-1$
 				versionInfo.getLocalizedMessage( ) );
 	}
 
@@ -205,24 +209,28 @@ public class ModuleUtilTest extends BaseTestCase
 	public void testIsEqualHierarchyForJointCondition( )
 			throws DesignFileException
 	{
-		openDesign( "testIsEqualHierarchyForJointCondition_report.xml" );
+		openDesign( "testIsEqualHierarchyForJointCondition_report.xml" );//$NON-NLS-1$
 
-		TabularCubeHandle cube1 = (TabularCubeHandle) designHandle.findCube( "Customer Cube" );
+		TabularCubeHandle cube1 = (TabularCubeHandle) designHandle
+				.findCube( "Customer Cube" );//$NON-NLS-1$
 		assertNotNull( cube1 );
-		TabularCubeHandle cube2 = (TabularCubeHandle) designHandle.findCube( "Customer Cube1" );
+		TabularCubeHandle cube2 = (TabularCubeHandle) designHandle
+				.findCube( "Customer Cube1" );//$NON-NLS-1$
 		assertNotNull( cube2 );
 
 		Iterator iter = cube1.joinConditionsIterator( );
-		DimensionConditionHandle condition = (DimensionConditionHandle) iter.next( );
-		HierarchyHandle conditionHierarchy = (HierarchyHandle) condition.getHierarchy( );
+		DimensionConditionHandle condition = (DimensionConditionHandle) iter
+				.next( );
+		HierarchyHandle conditionHierarchy = (HierarchyHandle) condition
+				.getHierarchy( );
 
-		HierarchyHandle cubeHierarchy = cube1.getDimension( "Group1" )
+		HierarchyHandle cubeHierarchy = cube1.getDimension( "Group1" )//$NON-NLS-1$
 				.getDefaultHierarchy( );
 
 		assertNotNull( cubeHierarchy );
 
-		assertTrue( ModuleUtil.isEqualHierarchiesForJointCondition( conditionHierarchy,
-				cubeHierarchy ) );
+		assertTrue( ModuleUtil.isEqualHierarchiesForJointCondition(
+				conditionHierarchy, cubeHierarchy ) );
 
 		// cube2
 
@@ -230,32 +238,32 @@ public class ModuleUtilTest extends BaseTestCase
 		condition = (DimensionConditionHandle) iter.next( );
 		conditionHierarchy = (HierarchyHandle) condition.getHierarchy( );
 
-		cubeHierarchy = cube2.getDimension( "Group4" ).getDefaultHierarchy( );
+		cubeHierarchy = cube2.getDimension( "Group4" ).getDefaultHierarchy( );//$NON-NLS-1$
 
 		assertNotNull( cubeHierarchy );
 
-		assertTrue( ModuleUtil.isEqualHierarchiesForJointCondition( conditionHierarchy,
-				cubeHierarchy ) );
+		assertTrue( ModuleUtil.isEqualHierarchiesForJointCondition(
+				conditionHierarchy, cubeHierarchy ) );
 
 		condition = (DimensionConditionHandle) iter.next( );
 		conditionHierarchy = (HierarchyHandle) condition.getHierarchy( );
 
-		cubeHierarchy = cube2.getDimension( "Group3" ).getDefaultHierarchy( );
+		cubeHierarchy = cube2.getDimension( "Group3" ).getDefaultHierarchy( );//$NON-NLS-1$
 
 		assertNotNull( cubeHierarchy );
 
-		assertTrue( ModuleUtil.isEqualHierarchiesForJointCondition( conditionHierarchy,
-				cubeHierarchy ) );
+		assertTrue( ModuleUtil.isEqualHierarchiesForJointCondition(
+				conditionHierarchy, cubeHierarchy ) );
 	}
 
 	public void testIsValidElementName( ) throws DesignFileException,
 			ContentException, NameException
 	{
 
-		openDesign( "emptyDesign.xml" );
+		openDesign( "emptyDesign.xml" );//$NON-NLS-1$
 
 		DataSetHandle dataset = designHandle.getElementFactory( )
-				.newOdaDataSet( "validName" );
+				.newOdaDataSet( "validName" );//$NON-NLS-1$
 
 		assertTrue( ModuleUtil.isValidElementName( dataset ) );
 
@@ -268,38 +276,71 @@ public class ModuleUtilTest extends BaseTestCase
 
 		assertFalse( ModuleUtil.isValidElementName( datasetA ) );
 
-		datasetA.getElement( ).setName( "name/" );
+		datasetA.getElement( ).setName( "name/" );//$NON-NLS-1$
 
 		assertFalse( ModuleUtil.isValidElementName( datasetA ) );
 
-		datasetA.getElement( ).setName( "name\\" );
+		datasetA.getElement( ).setName( "name\\" );//$NON-NLS-1$
 		assertFalse( ModuleUtil.isValidElementName( datasetA ) );
 
-		datasetA.getElement( ).setName( "name." );
+		datasetA.getElement( ).setName( "name." );//$NON-NLS-1$
 		assertFalse( ModuleUtil.isValidElementName( datasetA ) );
 
-		datasetA.getElement( ).setName( "name!" );
+		datasetA.getElement( ).setName( "name!" );//$NON-NLS-1$
 		assertFalse( ModuleUtil.isValidElementName( datasetA ) );
 
-		datasetA.getElement( ).setName( "name;" );
+		datasetA.getElement( ).setName( "name;" );//$NON-NLS-1$
 		assertFalse( ModuleUtil.isValidElementName( datasetA ) );
 
-		datasetA.getElement( ).setName( "name," );
+		datasetA.getElement( ).setName( "name," );//$NON-NLS-1$
 		assertFalse( ModuleUtil.isValidElementName( datasetA ) );
 
-		datasetA.getElement( ).setName( "" );
+		datasetA.getElement( ).setName( "" );//$NON-NLS-1$
 		assertFalse( ModuleUtil.isValidElementName( datasetA ) );
 
 		datasetA.getElement( ).setName( null );
 		assertFalse( ModuleUtil.isValidElementName( datasetA ) );
 
 		LabelHandle label = designHandle.getElementFactory( )
-				.newLabel( "style" );
-		label.getElement( ).setName( "" );
+				.newLabel( "style" );//$NON-NLS-1$
+		label.getElement( ).setName( "" );//$NON-NLS-1$
 		assertTrue( ModuleUtil.isValidElementName( label ) );
 
 		label.getElement( ).setName( null );
 		assertTrue( ModuleUtil.isValidElementName( label ) );
 
+	}
+
+	/**
+	 * Test convert param type to column data type and convert column data type
+	 * to param type.
+	 */
+
+	public void testTransferParamTypeAndColumnType( )
+	{
+		assertEquals(
+				DesignChoiceConstants.COLUMN_DATA_TYPE_STRING,
+				ModuleUtil
+						.convertParamTypeToColumnType( DesignChoiceConstants.PARAM_TYPE_STRING ) );
+
+		assertEquals(
+				DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME,
+				ModuleUtil
+						.convertParamTypeToColumnType( DesignChoiceConstants.PARAM_TYPE_DATETIME ) );
+
+		assertEquals(
+				DesignChoiceConstants.PARAM_TYPE_STRING,
+				ModuleUtil
+						.convertColumnTypeToParamType( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING ) );
+
+		assertEquals(
+				DesignChoiceConstants.PARAM_TYPE_DATETIME,
+				ModuleUtil
+						.convertColumnTypeToParamType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) );
+
+		assertEquals(
+				DesignChoiceConstants.COLUMN_DATA_TYPE_ANY,
+				ModuleUtil
+						.convertColumnTypeToParamType( DesignChoiceConstants.COLUMN_DATA_TYPE_BLOB ) );
 	}
 }
