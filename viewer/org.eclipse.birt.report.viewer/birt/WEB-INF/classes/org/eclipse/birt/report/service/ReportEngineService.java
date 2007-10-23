@@ -1595,9 +1595,8 @@ public class ReportEngineService
 
 						try
 						{
-							value = csvConvertor( DataUtil
-									.getDisplayValue( iData
-											.getValue( columnNames[0] ) ), sep );
+							value = csvConvertor( DataTypeUtil.toString( iData
+									.getValue( columnNames[0] ) ), sep );
 						}
 						catch ( Exception e )
 						{
@@ -1615,8 +1614,8 @@ public class ReportEngineService
 
 							try
 							{
-								value = csvConvertor( DataUtil
-										.getDisplayValue( iData
+								value = csvConvertor( DataTypeUtil
+										.toString( iData
 												.getValue( columnNames[i] ) ),
 										sep );
 							}
