@@ -2251,7 +2251,9 @@ public abstract class AxesRenderer extends BaseRenderer
 			{
 				if ( isDimension3D( ) )
 				{
-					getDeferredCache( ).process3DEvent( get3DEngine( ),
+					// Null of first argument means all deferred caches should be
+					// processed, else only process specified.
+					fDeferredCacheManager.process3DEvent( null, get3DEngine( ),
 							panningOffset.getX( ),
 							panningOffset.getY( ) );
 				}
