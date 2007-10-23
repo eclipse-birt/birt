@@ -36,6 +36,8 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
 public abstract class AbstractViewerTag extends AbstractBaseTag
 {
 
+	private static final long serialVersionUID = -7188886543126605745L;
+
 	/**
 	 * Locale information
 	 */
@@ -235,17 +237,14 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 
 		writer.write( "</div>\n" ); //$NON-NLS-1$
 
+		// create form
+		String formId = "form_" + viewer.getId( ); //$NON-NLS-1$
+		writer.write( "<form id=\"" + formId + "\" method=\"post\"></form>\n" ); //$NON-NLS-1$ //$NON-NLS-2$
+
 		writer.write( "<script type=\"text/javascript\">\n" ); //$NON-NLS-1$
 		writer.write( "function loadViewer" + viewer.getId( ) + "(){\n" ); //$NON-NLS-1$//$NON-NLS-2$
-		writer.write( "var divObj = document.createElement( \"DIV\" );\n" ); //$NON-NLS-1$
-		writer.write( "var bodyObj = document.body;\n" ); //$NON-NLS-1$
-		writer.write( "if( !bodyObj )\n" ); //$NON-NLS-1$
-		writer.write( "  bodyObj = document.createElement(\"BODY\");\n" ); //$NON-NLS-1$
-		writer.write( "bodyObj.appendChild( divObj );\n" ); //$NON-NLS-1$
-		writer.write( "divObj.style.display = \"none\";\n" ); //$NON-NLS-1$
-		writer.write( "var formObj = document.createElement( \"FORM\" );\n" ); //$NON-NLS-1$
-		writer.write( "divObj.appendChild( formObj );\n" ); //$NON-NLS-1$
-
+		writer
+				.write( "var formObj = document.getElementById( \"" + formId + "\" );\n" ); //$NON-NLS-1$ //$NON-NLS-2$
 		writer.write( "var paramContainer = document.getElementById(\"" //$NON-NLS-1$
 				+ paramContainerId + "\");\n" ); //$NON-NLS-1$
 		writer
@@ -263,8 +262,6 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 		writer.write( "}\n" ); //$NON-NLS-1$
 
 		writer.write( "formObj.action = \"" + src + "\";\n" ); //$NON-NLS-1$ //$NON-NLS-2$
-		writer.write( "formObj.method = \"post\";\n" ); //$NON-NLS-1$
-
 		if ( target != null )
 			writer.write( "formObj.target = \"" + target + "\";\n" ); //$NON-NLS-1$ //$NON-NLS-2$
 
