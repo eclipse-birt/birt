@@ -368,16 +368,10 @@ class PreparedQueryUtil
 					runningOnRS = false;
 					break;
 				}
+				//If there is group definition in subquery, do the query based on data source
 				List groups = query.getGroups( );
-				for ( int i = 0; i < groups.size( ); i++ )
-				{
-					List groupFilters = ( (IGroupDefinition) groups.get( i ) ).getFilters( );
-					if ( groupFilters != null && groupFilters.size( ) > 0 )
-					{
-						runningOnRS = false;
-						break;
-					}
-				}
+				if ( groups != null && !groups.isEmpty( ) )
+					runningOnRS = false;
 				if ( runningOnRS == false )
 					break;
 			}
