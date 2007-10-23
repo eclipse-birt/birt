@@ -15,13 +15,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.birt.chart.computation.Engine3D;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 
 /**
- * The class is used to manange runtime DeferredCache of series, it assures the
+ * The class is used to manage runtime DeferredCache of series, it assures the
  * correct painting z-order of series for 2D case.
  * @since 2.2.1
  */
@@ -256,5 +257,40 @@ public final class DeferredCacheManager
 	public DeferredCache getLastDeferredCache( )
 	{
 		return fLastDC;
+	}
+	
+	/**
+	 * Pre-process all the 3D rendering events. This must be called before
+	 * {@link #flushAll()}.
+	 * 
+	 * @param deferredCache
+	 *            specified deferred cache instance.
+	 * @param engine
+	 * @param xOffset
+	 * @param yOffset
+	 * @since 2.3
+	 */
+	public void process3DEvent( DeferredCache deferredCache, Engine3D engine,
+			double xOffset, double yOffset )
+	{
+		if ( deferredCache != null )
+		{
+			deferredCache.process3DEvent( engine, xOffset, yOffset );
+		}
+		else
+		{
+			fFirstDC.process3DEvent( engine, xOffset, yOffset );
+
+			for ( java.util.Iterator iter = fDeferredCacheList.iterator( ); iter.hasNext( ); )
+			{
+				Object obj = iter.next( );
+				if ( obj instanceof DeferredCache )
+				{
+					( (DeferredCache) obj ).process3DEvent( engine, xOffset, yOffset );
+				}
+			}
+
+			fLastDC.process3DEvent( engine, xOffset, yOffset );
+		}
 	}
 }
