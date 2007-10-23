@@ -9,9 +9,9 @@ plugin@org.eclipse.birt.report.engine.emitter.html.tests=r22x_v20070920,:pserver
 plugin@org.eclipse.birt.report.engine.emitter.pdf.tests=v20070530,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.pdf.tests
 plugin@org.eclipse.birt.report.engine.emitter.postscript.tests=v20070823,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.postscript.tests
 !**************** model test  *******************
-plugin@org.eclipse.birt.report.model.tests=r22x_v20071015,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.model.tests
-plugin@org.eclipse.birt.report.model.adapter.oda.tests=r22x_v20071015,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.model.adapter.oda.tests
-fragment@org.eclipse.birt.report.model.testhelper=r22x_v20070831,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.model.testhelper
+plugin@org.eclipse.birt.report.model.tests=r22x_v20071023,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.model.tests
+plugin@org.eclipse.birt.report.model.adapter.oda.tests=r22x_v20071023,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.model.adapter.oda.tests
+fragment@org.eclipse.birt.report.model.testhelper=r22x_v20071023,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.model.testhelper
 
 !**************** automated test suite  *******************
 plugin@org.eclipse.birt.report.tests.chart=v20070531,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.tests.chart
