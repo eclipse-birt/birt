@@ -305,7 +305,7 @@
 		<!--use original signed update jars-->
 		<!-- back up 
 		<exec executable="unzip" dir=".">
-			<arg line="-j ${buildDirectory}/${buildId}/birt-report-framework-sdk-2_2_1.bak.zip -i */features/* -x */master-equinox* */com.ibm.icu.base* -d ${updateSite}/features" />
+			<arg line="-j ${buildDirectory}/${buildId}/birt-report-framework-sdk-${package.version}.bak.zip -i */features/* -x */master-equinox* */com.ibm.icu.base* -d ${updateSite}/features" />
 		</exec>
 		-->
 		<exec executable="unzip" dir=".">
@@ -500,8 +500,8 @@
 			<include name="org.eclipse.datatools.oda.cshelp_*.jar"/>
 			<include name="org.eclipse.datatools.enablement.oda.ws.ui_*.jar"/>
 			<include name="org.eclipse.datatools.enablement.oda.ws_*.jar"/>
-			<include name="org.eclipse.datatools.help_*.jar"/>
-			<include name="org.eclipse.datatools.doc.isv_*.jar"/>
+                        <include name="org.eclipse.datatools.help_*.jar"/>
+                        <include name="org.eclipse.datatools.doc.isv_*.jar"/>
 			<include name="org.apache.xerces_*.jar"/>
 			<include name="org.apache.xml.resolver_*.jar"/>
 			<include name="javax.wsdl_*.jar"/>
@@ -721,13 +721,13 @@ ${build.environment}
                 	
 Please download :
                 	
-AllInOne from ${QA.test.dir}\BIRT2.2-download\${buildId}\birt-report-designer-all-in-one-2_2_1.zip${rtn}               	
-AllInOne for linux from: ${QA.test.dir}\BIRT2.2-download\${buildId}\birt-report-designer-all-in-one-2_2_1-linux-gtk.tar.gz${rtn}               	
-RCP from ${QA.test.dir}\BIRT2.2-download\${buildId}\birt-rcp-report-designer-2_2_1.zip${rtn}            	
-Runtime from ${QA.test.dir}\BIRT2.2-download\${buildId}\birt-runtime-2_2_1.zip${rtn}           	
-Framework from ${QA.test.dir}\BIRT2.2-download\${buildId}\birt-report-framework-2_2_1.zip${rtn}
-Source drops from ${QA.test.dir}\BIRT2.2-download\${buildId}\birt-source-2_2_1.zip${rtn}              	
-JUnit Test Suite Framework from ${QA.test.dir}\BIRT2.2-download\${buildId}\birt-tests-suite-2_2_1.zip${rtn}
+AllInOne from ${QA.test.dir}\BIRT2.2-download\${buildId}\birt-report-designer-all-in-one-${package.version}.zip${rtn}               	
+AllInOne for linux from: ${QA.test.dir}\BIRT2.2-download\${buildId}\birt-report-designer-all-in-one-${package.version}-linux-gtk.tar.gz${rtn}               	
+RCP from ${QA.test.dir}\BIRT2.2-download\${buildId}\birt-rcp-report-designer-${package.version}.zip${rtn}            	
+Runtime from ${QA.test.dir}\BIRT2.2-download\${buildId}\birt-runtime-${package.version}.zip${rtn}           	
+Framework from ${QA.test.dir}\BIRT2.2-download\${buildId}\birt-report-framework-${package.version}.zip${rtn}
+Source drops from ${QA.test.dir}\BIRT2.2-download\${buildId}\birt-source-${package.version}.zip${rtn}              	
+JUnit Test Suite Framework from ${QA.test.dir}\BIRT2.2-download\${buildId}\birt-tests-suite-${package.version}.zip${rtn}
                 	
 NL pack from ${QA.test.dir}\BIRT2.2-download\${buildId}\
 
@@ -740,10 +740,10 @@ Have a nice day!
         </mail>
 		<!-- create download info file -->
 		<echo file="download.properties" append="false">
-			allInOne=\\${QA.test.dir}\\BIRT2.2-download\\${buildId}\\birt-report-designer-all-in-one-2_2_1.zip
-			runtime=\\${QA.test.dir}\\BIRT2.2-download\\${buildId}\\birt-runtime-2_2_1.zip
-			rcp=\\${QA.test.dir}\\BIRT2.2-download\\${buildId}\\birt-rcp-report-designer-2_2_1.zip
-			frameworkSDK=\\${QA.test.dir}\\BIRT2.2-download\\${buildId}\\birt-report-framework-sdk-2_2_1.zip
+			allInOne=\\${QA.test.dir}\\BIRT2.2-download\\${buildId}\\birt-report-designer-all-in-one-${package.version}.zip
+			runtime=\\${QA.test.dir}\\BIRT2.2-download\\${buildId}\\birt-runtime-${package.version}.zip
+			rcp=\\${QA.test.dir}\\BIRT2.2-download\\${buildId}\\birt-rcp-report-designer-${package.version}.zip
+			frameworkSDK=\\${QA.test.dir}\\BIRT2.2-download\\${buildId}\\birt-report-framework-sdk-${package.version}.zip
 		</echo>
 		<copy tofile="${postingDirectory}/download.properties" file="download.properties" overwrite="true" />
 	</target>
@@ -796,7 +796,7 @@ Have a nice day!
         </java>
 	-->
     	<move file="${test.dir}/unitTestReport/html/result.properties" 
-    		tofile="${postingDirectory}/../result.properties"/>
+    		tofile="${postingDirectory}/result.properties"/>
     </target>
 	
 	<target name="InformAutomation">
@@ -815,8 +815,10 @@ Please visit [ http://qa-build:8080/BuildCentral ] for more information.
 Have a nice day!
 			</message>
 			<fileset dir="${test.dir}/unitTestReport/html">
+				<!--
 				<include name="TESTS-EngineSmokeTests.html"/>
 				<include name="TESTS-DtESmokeTests.html"/>
+				-->
 				<include name="org.eclipse.birt.report.tests.model.AllTests.html"/>
 				<include name="org.eclipse.birt.report.tests.engine.AllTests.html"/>
 				<include name="org.eclipse.birt.report.tests.chart.AllTests.html"/>
@@ -837,7 +839,7 @@ Have a nice day!
 		<property file="${eclipse.build.configs}/../../config.properties" />
 		<property file="${eclipse.build.configs}/../../monitor.properties" />
 
-		<mail mailport="${mail.port}" subject="Compile errors found in Today's Build (BuildId: ${buildId} ) " tolist="${COMPILE.ERROR.RECIPIENTS}">
+		<mail mailport="${mail.port}" subject="Compile errors found in Today's ${BranchVersion} Build (BuildId: ${buildId} ) " tolist="${COMPILE.ERROR.RECIPIENTS}">
                     <from address="${mail.from}"/>
                     <replyto address="${replyto.address}"/>
                     <message>
