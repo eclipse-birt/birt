@@ -55,13 +55,17 @@
 				<antcall target="pushUpdateSiteLocal"/>
 			</sequential>
 			<sequential>
+				<!--
 				<antcall target="generateJavaCrossReference"/>
 				<antcall target="generateDocumentCheck"/>
 				<antcall target="generateJavaDoc"/>
+				-->
 			</sequential>
 		</parallel>
 		<antcall target="runBirtTest"/>
+		<!--
 		<antcall target="runBirtPerformance"/>
+		-->
 	</target>
 
 	<target name="init">
@@ -154,8 +158,8 @@
 		<!-- copy directory.txt to output directory -->
 		<copy tofile="${postingDirectory}/${buildId}/directory.txt" file="${buildDirectory}/directory.txt"/>
 		
-		<copy tofile="${postingDirectory}/../monitor.properties" file="monitor.properties" overwrite="true" />
-		<copy tofile="${postingDirectory}/../finalPluginsVersions.properties" file="${buildDirectory}/finalPluginsVersions.properties" overwrite="true" />
+		<copy tofile="${postingDirectory}/monitor.properties" file="monitor.properties" overwrite="true" />
+		<copy tofile="${postingDirectory}/finalPluginsVersions.properties" file="${buildDirectory}/finalPluginsVersions.properties" overwrite="true" />
 		<!-- Send build ready mail to QA -->
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="InformQA"/>
 	</target>
@@ -169,7 +173,7 @@
                 <!--copy all packages to upload area-->
 		<echo message="start copying to download area..."/>
 	        <echo message="from dir: ${postingDirectory}/${buildId}"/>
-                <copy todir="${test.dir}/../downloads" failonerror="false" overwrite="true">
+                <copy todir="${test.dir}/../../downloads/${package.version}" failonerror="false" overwrite="true">
 	              <fileset dir="${postingDirectory}/${buildId}" >
                                <include name="*.zip"/>
                                <include name="*.txt"/>
@@ -279,6 +283,14 @@
 				<include name="**"/>
 			</fileset>
 		</copy>
+		<!-- clean last content -->
+		<delete failonerror="false">
+			<fileset dir="${postingDirectory}/../../../UpdateSite/${package.version}">
+				<include name="plugins/**"/>
+				<include name="features/**"/>
+				<include name="site.xml"/>
+			</fileset>
+		</delete>
 		<!-- copy to internal update site -->
 		<copy todir="${postingDirectory}/../../../UpdateSite/${package.version}/plugins" overwrite="true">
 			<fileset dir="${updateJarWorkingDir}/eclipse/plugins">
@@ -353,20 +365,19 @@
                 </ant>
 	</target>
 	<target name="BuildChartViewer">
-        <!-- Get Xalan jar for chart viewer -->
-        <cvs cvsRoot=":pserver:anonymous@dev.eclipse.org:/cvsroot/tptp"
-                package="monitoring/org.apache.xalan"
-                dest="${buildDirectory}/plugins/"
-                tag="HEAD"
-        />
-        <copy todir="${buildDirectory}/plugins/org.apache.xalan">
-            <fileset dir="${buildDirectory}/plugins/monitoring/org.apache.xalan">
-                <include name="**/*"/>
-            </fileset>
-        </copy>
-        <delete dir="${buildDirectory}/plugins/monitoring"/>
+                <!-- Get Xalan jar for chart viewer -->
+                <cvs cvsRoot=":pserver:anonymous@dev.eclipse.org:/cvsroot/tptp"
+                        package="monitoring/org.apache.xalan"
+                        dest="${buildDirectory}/plugins/"
+                        tag="HEAD"
+                />
+                <copy todir="${buildDirectory}/plugins/org.apache.xalan">
+                    <fileset dir="${buildDirectory}/plugins/monitoring/org.apache.xalan">
+                        <include name="**/*"/>
+                    </fileset>
+                </copy>
+                <delete dir="${buildDirectory}/plugins/monitoring"/>
 
-		
 		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="preBuild">
 			<property name="builder" value="${eclipse.build.configs}/birt.chart.viewer" />
 		</ant>
@@ -427,9 +438,9 @@
 			<arg line="-o -q birt-wtp-${package.version}.zip -d ${tmpsite1}" />
 		</exec>
 
-		<move file="${buildDirectory}/${buildId}/birt-report-framework-sdk-${package.version}.zip" tofile="${buildDirectory}/${buildId}/birt-report-framework-sdk-2_2_1.bak.zip" />
-		<move file="${buildDirectory}/${buildId}/birt-third-party-${package.version}.zip" tofile="${buildDirectory}/${buildId}/birt-third-party-2_2_1.bak.zip" />
-		<move file="${buildDirectory}/${buildId}/birt-wtp-${package.version}.zip" tofile="${buildDirectory}/${buildId}/birt-wtp-2_2_1.bak.zip" />
+		<move file="${buildDirectory}/${buildId}/birt-report-framework-sdk-${package.version}.zip" tofile="${buildDirectory}/${buildId}/birt-report-framework-sdk-${package.version}.bak.zip" />
+		<move file="${buildDirectory}/${buildId}/birt-third-party-${package.version}.zip" tofile="${buildDirectory}/${buildId}/birt-third-party-${package.version}.bak.zip" />
+		<move file="${buildDirectory}/${buildId}/birt-wtp-${package.version}.zip" tofile="${buildDirectory}/${buildId}/birt-wtp-${package.version}.bak.zip" />
 
 		<exec executable="zip" dir="${tmpsite}/new">
 			<arg line="-q ${buildDirectory}/${buildId}/birt-report-framework-sdk-${package.version}.zip -r eclipse" />
