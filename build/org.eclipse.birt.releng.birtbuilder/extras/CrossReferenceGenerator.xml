@@ -294,6 +294,27 @@
 		<projectInfo>
 		    <property name="projectName" value="org.eclipse.birt.sdk" />
 		</projectInfo>
+		<projectInfo>
+		    <property name="projectName" value="org.eclipse.birt.report.engine.emitter.postscript" />
+		</projectInfo>
+		<projectInfo>
+		    <property name="projectName" value="org.eclipse.birt.report.engine.emitter.ppt" />
+		</projectInfo>
+		<projectInfo>
+		    <property name="projectName" value="org.eclipse.birt.report.engine.emitter.prototype.excel" />
+		</projectInfo>
+		<projectInfo>
+		    <property name="projectName" value="org.eclipse.birt.chart.integration.wtp.ui" />
+		</projectInfo>
+		<projectInfo>
+		    <property name="projectName" value="org.eclipse.birt.report.designer.ui.preview.web" />
+		</projectInfo>
+		<projectInfo>
+		    <property name="projectName" value="org.eclipse.birt.report.item.crosstab.ui" />
+		</projectInfo>
+		<projectInfo>
+		    <property name="projectName" value="org.eclipse.birt.report.item.crosstab.core" />
+		</projectInfo>
 	</projectList>
 	
 </project>
