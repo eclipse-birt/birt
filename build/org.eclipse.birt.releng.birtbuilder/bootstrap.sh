@@ -64,7 +64,7 @@ builderDir=/home/adb/releng.230/BIRTBuilder/
 buildType=I
 
 # directory where to copy build
-postingDirectory=/home/adb/releng.230/BIRTOutput/BIRT2.3-download
+postingDirectory=/home/adb/releng/BIRTOutput/BIRT2.3-download
 
 # flag to indicate if test build
 testBuild=""
@@ -189,7 +189,7 @@ echo recipients=$recipients >> monitor.properties
 echo log=$postingDirectory/$buildLabel/index.php >> monitor.properties
 
 #the base command used to run AntRunner headless
-antRunner="/usr/local/j2sdk1.4.2_13/bin/java -Xmx500m -jar ../BaseBuilder/startup.jar -Dosgi.os=linux -Dosgi.ws=gtk -Dosgi.arch=ppc -application org.eclipse.ant.core.antRunner"
+antRunner="/usr/local/j2sdk1.4.2_13/bin/java -Xmx500m -jar ../BaseBuilder/plugins/org.eclipse.equinox.launcher.jar -Dosgi.os=linux -Dosgi.ws=gtk -Dosgi.arch=ppc -application org.eclipse.ant.core.antRunner"
 
 echo "==========[antRunner]: $antRunner" >> adb.log
 
@@ -202,21 +202,24 @@ ant -buildfile eclipse/helper.xml getDTPDownloads -propertyfile build.properties
 ant -buildfile eclipse/helper.xml CheckoutFromP4 >> adb.log
 
 #full command with args
-#buildId=v20061201-0710
+#buildId=v20070626-1010
 echo $tagMaps >> adb.log
 echo $compareMaps >> adb.log
 
-#full command with args
-buildCommand="$antRunner -q -buildfile buildAll.xml $mail $testBuild $compareMaps -DmapVersionTag=$mapVersionTag \
--DpostingDirectory=$postingDirectory -Dbootclasspath=$bootclasspath -DbuildType=$buildType -D$buildType=true \
+
+buildCommand="$antRunner -q -buildfile buildAll.xml $mail $testBuild $compareMaps \
+-DmapVersionTag=$mapVersionTag -DpostingDirectory=$postingDirectory \
+-Dbootclasspath=$bootclasspath -DbuildType=$buildType -D$buildType=true \
 -DbuildId=$buildId -Dbuildid=$buildId -DbuildLabel=$buildId -Dtimestamp=$timestamp $skipPerf $skipTest $tagMaps \
--DJ2SE-1.5=$bootclasspath_15  -DlogExtension=.xml $javadoc $updateSite $sign -Djava15-home=$bootclasspath_15 \
--DbuildDirectory=/home/adb/releng.230/src -DbaseLocation=/home/adb/releng.230/baseLocation \
--DbaseLocation.emf=/home/adb/releng.230/baseLocation.emf -DgroupConfiguration=true -DjavacSource=1.4 -DjavacTarget=1.4 \
--DjavacVerbose=true -Dbasebuilder=/home/adb/releng.230/BaseBuilder -DpostPackage=BIRTOutput  \
--Dtest.dir=/home/adb/unittest -Dp4.home=/home/adb/releng.230/P4 -Djvm15_home=$jvm15_home  \
--DmapTag.properties=/home/adb/releng.230/BIRTBuilder/mapTag.properties -Dbuild.date=$builddate \
--DmapCvsRoot=:pserver:anonymous@dev.eclipse.org:/cvsroot/birt -Dpackage.version=2_3_0 -DmapVersionTag=HEAD -DBranchVersion=2.3.0"
+-DJ2SE-1.5=$bootclasspath_15  -DlogExtension=.xml $javadoc $updateSite $sign  \
+-Djava15-home=$bootclasspath_15 -DbuildDirectory=/home/adb/releng.230/src \
+-DbaseLocation=/home/adb/releng.230/baseLocation -DbaseLocation.emf=/home/adb/releng.230/baseLocation.emf \
+-DgroupConfiguration=true -DjavacSource=1.4 -DjavacTarget=1.4 -DjavacVerbose=true \
+-Dbasebuilder=/home/adb/releng.230/BaseBuilder -DpostPackage=BIRTOutput  \
+-Dtest.dir=/home/adb/releng.230/unittest -Dp4.home=/home/adb/releng.230/P4 \
+-Djvm15_home=$jvm15_home  -DmapTag.properties=/home/adb/releng.230/BIRTBuilder/mapTag.properties \
+-Dbuild.date=$builddate -DmapCvsRoot=:ext:xgu@dev.eclipse.org:/cvsroot/birt -Dpackage.version=2_3_0 \
+-DmapVersionTag=HEAD -DBranchVersion=2.3.0"
 
 #skipPreBuild
 
