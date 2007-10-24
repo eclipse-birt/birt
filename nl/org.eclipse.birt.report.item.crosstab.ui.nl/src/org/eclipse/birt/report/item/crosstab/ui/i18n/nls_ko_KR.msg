@@ -220,7 +220,7 @@ CrosstabPreferencePage.filterLimit.prompt=표시할 최대 값 수:
 CrosstabPreferencePage.Error.MaxRowInvalid=숫자 값이 잘못되었습니다.
 CrosstabPreferencePage.autoDelBindings.Text=사용하지 않는 바인딩을 제거하기 전에 항상 확인
 CrosstabPreferencePage.promptGroup=묻기
-
+CrosstabPreferencePage.cubePopup.Text=Hint after dropping fields to crosstab and creating a cube successfully.
 
 ###########################################################
 #Crosstab DataBinding properties
@@ -230,3 +230,7 @@ CrosstabDataBinding.message.changeCube=교차 테이블의 데이터 바인딩을 변경하려고 
 ###########################################################
 #Crosstab DropAdapter properties
 DataColumnXTabDropAdapter.DataCube=데이터 큐브
+
+CubeBuilder.warning.title=크로스 탭
+CubeBuilder.warning.message=A data cube has been created successfully.\nTo finish creating a cross tab, drag the fields from the created data cube to the cross tab container.
+CubeBuilder.warning.prompt=이 메시지를 다시 표시 안 함

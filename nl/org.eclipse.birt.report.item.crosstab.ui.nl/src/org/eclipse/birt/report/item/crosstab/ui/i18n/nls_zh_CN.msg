@@ -220,7 +220,7 @@ CrosstabPreferencePage.filterLimit.prompt=ÒªÏÔÊ¾µÄ×î´óÖµÊı:
 CrosstabPreferencePage.Error.MaxRowInvalid=ÊıÖµÎŞĞ§
 CrosstabPreferencePage.autoDelBindings.Text=É¾³ıÎ´Ê¹ÓÃµÄ°ó¶¨Ö®Ç°Ê¼ÖÕÑ¯ÎÊ¡£
 CrosstabPreferencePage.promptGroup=ÌáÊ¾
-
+CrosstabPreferencePage.cubePopup.Text=Hint after dropping fields to crosstab and creating a cube successfully.
 
 ###########################################################
 #Crosstab DataBinding properties
@@ -230,3 +230,7 @@ CrosstabDataBinding.message.changeCube=Äú½«Òª¸ü¸Ä½»²æ±íµÄÊı¾İ°ó¶¨¡£\n\nÊÇ·ñÒªÇå³
 ###########################################################
 #Crosstab DropAdapter properties
 DataColumnXTabDropAdapter.DataCube=¶àÎ¬Êı¾İ¼¯
+
+CubeBuilder.warning.title=½»²æ±í
+CubeBuilder.warning.message=A data cube has been created successfully.\nTo finish creating a cross tab, drag the fields from the created data cube to the cross tab container.
+CubeBuilder.warning.prompt=²»ÔÙÏÔÊ¾´ËÏûÏ¢
