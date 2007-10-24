@@ -14,8 +14,9 @@ package org.eclipse.birt.report.designer.ui.lib.explorer;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.LibraryFileFilterAction;
-import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.birt.report.designer.ui.lib.explorer.action.RefreshLibExplorerAction;
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
@@ -48,6 +49,8 @@ public class LibraryExplorerView extends PageBookView
 
 	private LibraryFileFilterAction filterAction;
 
+	private RefreshLibExplorerAction refreshAction;
+
 	/**
 	 * default constructor
 	 */
@@ -60,6 +63,15 @@ public class LibraryExplorerView extends PageBookView
 	{
 		super.createPartControl( parent );
 		createMenu( );
+		createToolBar( );
+	}
+
+	private void createToolBar( )
+	{
+		refreshAction = new RefreshLibExplorerAction( this );
+		IToolBarManager tbmgr = getViewSite( ).getActionBars( )
+				.getToolBarManager( );
+		tbmgr.add( refreshAction );
 	}
 
 	protected void createMenu( )
@@ -67,15 +79,6 @@ public class LibraryExplorerView extends PageBookView
 		filterAction = new LibraryFileFilterAction( this );
 		IMenuManager mgr = getViewSite( ).getActionBars( ).getMenuManager( );
 		mgr.add( filterAction );
-		mgr.addMenuListener( new IMenuListener(){
-
-			public void menuAboutToShow( IMenuManager manager )
-			{
-				filterAction.updateStatus( );
-				getViewSite( ).getActionBars( ).updateActionBars( );
-			}
-			
-		} );
 	}
 
 	/**
@@ -110,6 +113,20 @@ public class LibraryExplorerView extends PageBookView
 					.getResourceFolder( );
 		}
 		return super.getPageRec( part );
+	}
+	
+	public void partActivated(IWorkbenchPart part) {
+		super.partActivated( part );
+		refreshAction.updateStatus( );
+		filterAction.updateStatus( );
+		getViewSite( ).getActionBars( ).updateActionBars( );
+	}
+	
+	public void partClosed(IWorkbenchPart part) {
+		super.partClosed( part );
+		refreshAction.updateStatus( );
+		filterAction.updateStatus( );
+		getViewSite( ).getActionBars( ).updateActionBars( );
 	}
 
 	/**
@@ -245,5 +262,5 @@ public class LibraryExplorerView extends PageBookView
 			};
 		return super.getAdapter( key );
 	}
-	
+
 }

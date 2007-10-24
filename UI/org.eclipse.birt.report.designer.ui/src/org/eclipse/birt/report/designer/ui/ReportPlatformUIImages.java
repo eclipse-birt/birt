@@ -560,6 +560,14 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_PREVIEW_REFRESH, ICONS_PATH
 				+ ETOOL16_PATH
 				+ "refresh.gif" ); //$NON-NLS-1$
+		
+		declareImage( IReportGraphicConstants.ICON_REFRESH, ICONS_PATH
+				+ ETOOL16_PATH
+				+ "refresh_nav.gif" ); //$NON-NLS-1$
+		
+		declareImage( IReportGraphicConstants.ICON_REFRESH_DISABLE, ICONS_PATH
+				+ DTOOL16_PATH
+				+ "refresh_nav.gif" ); //$NON-NLS-1$
 
 		// Auto Text Icon
 		declareImage( IReportGraphicConstants.ICON_AUTOTEXT, ICONS_PATH

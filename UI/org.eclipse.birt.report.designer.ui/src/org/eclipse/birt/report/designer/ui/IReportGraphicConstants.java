@@ -336,7 +336,11 @@ public interface IReportGraphicConstants
 	public final static String ICON_PREVIEW_PARAMETERS = "PreviewParameters"; //$NON-NLS-1$	
 	public final static String ICON_PREVIEW_PARAMETERS_HIDE = "PreviewParametersHide"; //$NON-NLS-1$	
 
-	public final static String ICON_PREVIEW_REFRESH = "Refresh";//$NON-NLS-1$
+	public final static String ICON_PREVIEW_REFRESH = "RreviewRefresh";//$NON-NLS-1$
+	
+	public final static String ICON_REFRESH = "Refresh";//$NON-NLS-1$
+	
+	public final static String ICON_REFRESH_DISABLE = "DisableRefresh";//$NON-NLS-1$
 
 	// Parameter dialog icon
 	public final static String ICON_DEFAULT = "Default"; //$NON-NLS-1$

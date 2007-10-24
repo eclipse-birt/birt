@@ -97,8 +97,6 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 		if ( selection != null && selection.getFirstElement( ) != null )
 		{
 			Object selected = selection.getFirstElement( );
-
-			refreshExplorerAction.setSelectedElement( selected );
 			menu.add( refreshExplorerAction );
 			menu.add( new Separator( ) );
 
@@ -159,7 +157,6 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 		}
 		else
 		{
-			refreshExplorerAction.setSelectedElement( null );
 			menu.add( refreshExplorerAction );
 			menu.add( new Separator( ) );
 			menu.add( addCSSAction );
