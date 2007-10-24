@@ -209,6 +209,9 @@ public class BundleHelper
 		final String country = locale.getCountry( );
 		final int countryLength = country.length( );
 
+		final String variant = locale.getVariant( );
+		final int variantLength = variant.length( );
+
 		if ( languageLength > 0 && countryLength > 0 )
 		{
 			// LANGUAGE_COUNTRY
@@ -218,6 +221,19 @@ public class BundleHelper
 			temp.append( language );
 			temp.append( "_" ); //$NON-NLS-1$
 			temp.append( country );
+
+			// LANGUAGE_COUNTRY_VARIANT
+			
+			StringBuffer variantTmp = new StringBuffer( temp.toString( ) );
+			if ( variantLength > 0 )
+			{
+				variantTmp.append( "_" ); //$NON-NLS-1$
+				variantTmp.append( variant );
+				
+				variantTmp.append( ".properties" ); //$NON-NLS-1$
+				bundleNames.add( variantTmp.toString( ) );
+			}
+
 			temp.append( ".properties" ); //$NON-NLS-1$
 
 			bundleNames.add( temp.toString( ) );
