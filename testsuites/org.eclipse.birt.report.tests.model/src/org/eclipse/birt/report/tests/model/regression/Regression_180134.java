@@ -46,5 +46,7 @@ public class Regression_180134 extends BaseTestCase
 		SharedStyleHandle styleHandle = (SharedStyleHandle) designHandle
 				.getStyles( ).get( 0 );
 		assertFalse( styleHandle instanceof CssSharedStyleHandle );
+		
+		saveAs( "regression_180134.rptdesign" );
 	}
 }
