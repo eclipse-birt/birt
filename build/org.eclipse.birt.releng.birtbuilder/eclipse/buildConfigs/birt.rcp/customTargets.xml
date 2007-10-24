@@ -1,7 +1,7 @@
 <project name="Build specific targets and properties" default="noDefault" basedir=".">
 
 	<property name="postingDirectory" value="${buildDirectory}" />
-	<property name="package.version" value="2_2_1" />
+	<property name="package.version" value="2_2_0" />
 	<property name="archiveName" value="birt-rcp-report-designer-${package.version}.zip"/>
 
 	
