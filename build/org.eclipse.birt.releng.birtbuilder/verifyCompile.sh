@@ -40,11 +40,11 @@ if [ $count -gt 0 ] ; then
         awk -F "_" '{print " "$1"\\n\\"}' $1/notify.list > $1/notify.list.tmp
         mv $1/notify.list.tmp $1/notify.list
 
-        echo "compileHasError=true" >> /home/adb/releng/BIRTBuilder/monitor.properties
-        echo "error.plugin.list=\\" >> /home/adb/releng/BIRTBuilder/monitor.properties
-        cat $1/notify.list >> /home/adb/releng/BIRTBuilder/monitor.properties
-        echo " "  >> /home/adb/releng/BIRTBuilder/monitor.properties
+        echo "compileHasError=true" >> /home/adb/releng.230/BIRTBuilder/monitor.properties
+        echo "error.plugin.list=\\" >> /home/adb/releng.230/BIRTBuilder/monitor.properties
+        cat $1/notify.list >> /home/adb/releng.230/BIRTBuilder/monitor.properties
+        echo " "  >> /home/adb/releng.230/BIRTBuilder/monitor.properties
 else
         echo "No compile error in $1"
-        echo "compileHasError=false" >> /home/adb/releng/BIRTBuilder/monitor.properties
+        echo "compileHasError=false" >> /home/adb/releng.230/BIRTBuilder/monitor.properties
 fi

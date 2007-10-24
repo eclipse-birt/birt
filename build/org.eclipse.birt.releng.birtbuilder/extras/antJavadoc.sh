@@ -10,3 +10,4 @@ eclipseDir=$1
 classpath=`find $eclipseDir/plugins -name "*.jar" -printf "%p:"`; 
 
 echo "classpath=" $classpath > $2/classpath.properties
+

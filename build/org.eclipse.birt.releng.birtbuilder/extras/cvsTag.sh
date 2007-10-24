@@ -22,3 +22,4 @@ echo "================== Tagging tests feature =======================" >> cvsTa
 ant -f src/fetch_org.eclipse.birt.tests.xml -propertyfile cvsTag.properties >> cvsTag.log
 
 echo "================== Tagging birt finished!! =======================" >> cvsTag.log
+

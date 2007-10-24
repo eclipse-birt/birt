@@ -16,3 +16,4 @@ chmod +x compilelog.sh
 
 rm -f compilelog.sh
 rm -f compilelog.list
+
