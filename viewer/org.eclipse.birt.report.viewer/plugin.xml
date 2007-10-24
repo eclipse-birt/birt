@@ -67,6 +67,12 @@
 			load-on-startup="true">         	
 	  </servlet>
 	  <servlet 
+			alias="/output" 
+			class="org.eclipse.birt.report.servlet.BirtEngineServlet"
+			httpcontextId="viewer"
+			load-on-startup="true">         	
+	  </servlet>
+	  <servlet 
 			alias="/parameter" 
 			class="org.eclipse.birt.report.servlet.BirtEngineServlet"
 			httpcontextId="viewer"
