@@ -22,7 +22,6 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
-import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.aggregation.IAggregationFactory;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
@@ -307,10 +306,10 @@ public class DataUtil
 				IColumnBinding cb = (IColumnBinding) referredBindings.get( i );
 				for ( int j = 0; j < availableHandles.size( ); j++ )
 				{
-					IBinding binding = (IBinding) availableHandles.get( j );
-					if ( originalBindingName.contains( binding.getBindingName( ) ) )
+					ComputedColumnHandle binding = (ComputedColumnHandle) availableHandles.get( j );
+					if ( originalBindingName.contains( binding.getName( ) ) )
 						continue;
-					if ( binding.getBindingName( )
+					if ( binding.getName( )
 							.equals( cb.getResultSetColumnName( ) ) )
 						candidateBindings.add( binding );
 				}
