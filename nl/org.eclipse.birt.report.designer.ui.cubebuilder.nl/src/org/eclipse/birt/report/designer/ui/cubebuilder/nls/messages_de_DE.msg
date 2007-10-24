@@ -135,7 +135,3 @@ FilterListDialog.Shell.Title=Filters
 ############################################################
 #Cube Action properties
 NewCubeAction.DataCube=Datenquader
-
-CubeBuilder.warning.title=Cross Tab
-CubeBuilder.warning.message=A data cube has been created successfully.\nTo finish creating a cross tab, drag the fields from the created data cube to the cross tab container.
-CubeBuilder.warning.prompt=Don't show this message again
