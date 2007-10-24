@@ -45,13 +45,15 @@ public class CrosstabPreferencePage extends PreferencePage implements
 
 	private transient IntegerFieldEditor txtMaxLimit;
 
-	private Button autoDelBindings;
+	private Button autoDelBindings, cubePopup;
 
 	public static final int FILTER_LIMIT_DEFAULT = 100;
 
 	public static final int MAX_FILTER_LIMIT = 10000;
 
 	public static final boolean AUTO_DEL_BINDING_DEFAULT = true;
+	
+	public static final boolean CUBE_PUP_UP_DEFAULT = true;
 
 	protected Control createContents( Composite parent )
 	{
@@ -81,16 +83,19 @@ public class CrosstabPreferencePage extends PreferencePage implements
 		txtMaxLimit.setPage( this );
 		txtMaxLimit.setPropertyChangeListener( this );
 
-		Group promptGroup = new Group(cmpTop, SWT.NONE);
+		Group promptGroup = new Group( cmpTop, SWT.NONE );
 		promptGroup.setText( Messages.getString( "CrosstabPreferencePage.promptGroup" ) );
 		promptGroup.setLayout( new GridLayout( 1, false ) );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		promptGroup.setLayoutData( gd );
-		
+
 		autoDelBindings = new Button( promptGroup, SWT.CHECK );
 		autoDelBindings.setText( Messages.getString( "CrosstabPreferencePage.autoDelBindings.Text" ) );
-//		new Label(promptGroup, SWT.NONE);
-		
+		// new Label(promptGroup, SWT.NONE);
+
+		cubePopup = new Button( promptGroup, SWT.CHECK );
+		cubePopup.setText( Messages.getString( "CrosstabPreferencePage.cubePopup.Text" ) );
+
 		initControlValues( );
 
 		return cmpTop;
@@ -104,6 +109,20 @@ public class CrosstabPreferencePage extends PreferencePage implements
 		autoDelBindings.setSelection( CrosstabPlugin.getDefault( )
 				.getPluginPreferences( )
 				.getBoolean( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS ) );
+		String prompt = CrosstabPlugin.getDefault( )
+				.getPluginPreferences( )
+				.getString( CrosstabPlugin.CUBE_BUILDER_WARNING_PREFERENCE );
+		if ( prompt == null
+				|| prompt.length( ) == 0
+				|| prompt.equals( MessageDialogWithToggle.PROMPT ) )
+		{
+			cubePopup.setSelection( true );
+		}
+		else
+		{
+			cubePopup.setSelection( false );
+		}
+
 	}
 
 	public void init( IWorkbench workbench )
@@ -130,7 +149,8 @@ public class CrosstabPreferencePage extends PreferencePage implements
 	{
 		txtMaxLimit.setStringValue( String.valueOf( FILTER_LIMIT_DEFAULT ) );
 		autoDelBindings.setSelection( AUTO_DEL_BINDING_DEFAULT );
-
+		cubePopup.setSelection( CUBE_PUP_UP_DEFAULT );
+		
 		super.performDefaults( );
 	}
 
@@ -146,8 +166,22 @@ public class CrosstabPreferencePage extends PreferencePage implements
 				.setValue( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS,
 						autoDelBindings.getSelection( ) );
 
+		if(cubePopup.getSelection( ))
+		{
+			CrosstabPlugin.getDefault( )
+			.getPluginPreferences( )
+			.setValue( CrosstabPlugin.CUBE_BUILDER_WARNING_PREFERENCE,
+					MessageDialogWithToggle.PROMPT );
+		}else
+		{
+			CrosstabPlugin.getDefault( )
+			.getPluginPreferences( )
+			.setValue( CrosstabPlugin.CUBE_BUILDER_WARNING_PREFERENCE,
+					MessageDialogWithToggle.NEVER );
+		}
+
+
 		CrosstabPlugin.getDefault( ).savePluginPreferences( );
-	
 
 		return super.performOk( );
 	}
@@ -159,32 +193,34 @@ public class CrosstabPreferencePage extends PreferencePage implements
 			setValid( txtMaxLimit.isValid( ) );
 		}
 	}
-	
-	
-	private void temp()
+
+	private void temp( )
 	{
-		if(!CrosstabPlugin.getDefault( )
-				.getPluginPreferences( ).getBoolean( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS ))
+		if ( !CrosstabPlugin.getDefault( )
+				.getPluginPreferences( )
+				.getBoolean( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS ) )
 		{
 			return;
 		}
-		MessageDialogWithToggle msgDlg = MessageDialogWithToggle.openYesNoQuestion(  UIUtil.getDefaultShell( ),
+		MessageDialogWithToggle msgDlg = MessageDialogWithToggle.openYesNoQuestion( UIUtil.getDefaultShell( ),
 				"Remove Unused Bindings?",
-				"This action will result in unused data bindings.\n\nDo you wish to remove unused bindings?", 
-				"Don't show this message again", 
+				"This action will result in unused data bindings.\n\nDo you wish to remove unused bindings?",
+				"Don't show this message again",
 				!CrosstabPlugin.getDefault( )
-				.getPluginPreferences( ).getBoolean( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS ),
+						.getPluginPreferences( )
+						.getBoolean( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS ),
 				null,
-				null);
-		
-		if(msgDlg.getReturnCode( ) == IDialogConstants.YES_ID || msgDlg.getReturnCode( ) == IDialogConstants.NO_ID)
+				null );
+
+		if ( msgDlg.getReturnCode( ) == IDialogConstants.YES_ID
+				|| msgDlg.getReturnCode( ) == IDialogConstants.NO_ID )
 		{
 			CrosstabPlugin.getDefault( )
-			.getPluginPreferences( )
-			.setValue( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS,
-					!msgDlg.getToggleState( ) );
+					.getPluginPreferences( )
+					.setValue( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS,
+							!msgDlg.getToggleState( ) );
 		}
-		
+
 	}
 
 }

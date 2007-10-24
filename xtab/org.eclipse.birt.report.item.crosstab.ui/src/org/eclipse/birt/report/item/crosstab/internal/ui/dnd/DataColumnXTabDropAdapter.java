@@ -21,10 +21,12 @@ import org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.page.SimpleCubeBuilder;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabCellEditPart;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabTableEditPart;
+import org.eclipse.birt.report.item.crosstab.plugin.CrosstabPlugin;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -36,6 +38,7 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
+import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.window.Window;
 import org.eclipse.ui.PlatformUI;
 
@@ -54,7 +57,8 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 		DesignElementHandle handle = getExtendedItemHandle( target );
 		if ( handle != null )
 		{
-			//when xtab has not bind with Cube, data item can drop on everywhere in xtab.
+			// when xtab has not bind with Cube, data item can drop on
+			// everywhere in xtab.
 			if ( handle.getProperty( IReportItemModel.CUBE_PROP ) == null
 					&& ( target instanceof CrosstabTableEditPart || target instanceof CrosstabCellEditPart ) )
 			{
@@ -152,6 +156,8 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 							SessionHandleAdapter.getInstance( )
 									.getMediator( )
 									.notifyRequest( request );
+
+							storePreference( );
 						}
 						else
 						{
@@ -207,5 +213,39 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 	private CommandStack getActionStack( )
 	{
 		return SessionHandleAdapter.getInstance( ).getCommandStack( );
+	}
+
+	private void storePreference( )
+	{
+		String prompt = CrosstabPlugin.getDefault( )
+				.getPluginPreferences( )
+				.getString( CrosstabPlugin.CUBE_BUILDER_WARNING_PREFERENCE );
+		if ( prompt == null
+				|| prompt.length( ) == 0
+				|| ( prompt.equals( MessageDialogWithToggle.PROMPT ) ) )
+		{
+			MessageDialogWithToggle opendialog = MessageDialogWithToggle.openInformation( UIUtil.getDefaultShell( ),
+					Messages.getString( "CubeBuilder.warning.title" ), //$NON-NLS-1$
+					Messages.getString( "CubeBuilder.warning.message" ), //$NON-NLS-1$
+					Messages.getString( "CubeBuilder.warning.prompt" ), //$NON-NLS-1$
+					false,
+					null,
+					null );
+
+			if ( opendialog.getToggleState( ) == true )
+			{
+				CrosstabPlugin.getDefault( )
+						.getPluginPreferences( )
+						.setValue( CrosstabPlugin.CUBE_BUILDER_WARNING_PREFERENCE,
+								MessageDialogWithToggle.NEVER );
+			}
+			else
+			{
+				CrosstabPlugin.getDefault( )
+						.getPluginPreferences( )
+						.setValue( CrosstabPlugin.CUBE_BUILDER_WARNING_PREFERENCE,
+								MessageDialogWithToggle.PROMPT );
+			}
+		}
 	}
 }

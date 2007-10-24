@@ -29,6 +29,9 @@ public class CrosstabPlugin extends Plugin
 	public static final String PREFERENCE_FILTER_LIMIT = "Filter.Limit"; //$NON-NLS-1$
 	
 	public static final String PREFERENCE_AUTO_DEL_BINDINGS="Auto.Del.Bindings";
+	
+	public static final String CUBE_BUILDER_WARNING_PREFERENCE="org.eclipse.birt.report.designer.ui.cubebuilder.warning";
+
 
 	// The shared instance.
 	private static CrosstabPlugin plugin;
