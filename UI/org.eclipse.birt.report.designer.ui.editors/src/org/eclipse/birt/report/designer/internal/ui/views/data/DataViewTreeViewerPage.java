@@ -68,6 +68,7 @@ import org.eclipse.swt.events.TreeListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Tree;
@@ -431,26 +432,33 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 	 * @param ev
 	 *            delete event
 	 */
-	private void deleteConfigVariable( Map args )
+	private void deleteConfigVariable(final Map args )
 	{
-		String variableName = null;
-		variableName = (String)args.get( DataViewEventProcessor.VARIABLE_NAME );
-		if ( variableName != null )
-		{
-			ConfigVariable cv = getRoot( ).findConfigVariable( variableName );
-			try
+		Display.getCurrent( ).asyncExec(new Runnable(){
+
+			public void run( )
 			{
-				if ( cv != null )
+				// TODO Auto-generated method stub
+				String variableName = null;
+				variableName = (String)args.get( DataViewEventProcessor.VARIABLE_NAME );
+				if ( variableName != null )
 				{
-					getRoot( ).getPropertyHandle( ReportDesignHandle.CONFIG_VARS_PROP )
-							.removeItem( cv );
+					ConfigVariable cv = getRoot( ).findConfigVariable( variableName );
+					try
+					{
+						if ( cv != null )
+						{
+							getRoot( ).getPropertyHandle( ReportDesignHandle.CONFIG_VARS_PROP )
+									.removeItem( cv );
+						}
+					}
+					catch ( SemanticException e )
+					{
+						ExceptionHandler.handle( e );
+					}
 				}
-			}
-			catch ( SemanticException e )
-			{
-				ExceptionHandler.handle( e );
-			}
-		}
+			}}  );
+
 	}
 
 
