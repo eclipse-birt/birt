@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site pack200="true">         
-		<feature url="features/com.lowagie.itext_@FEATURE.ITEXT@.jar" id="com.lowagie.itext" version="@FEATURE.ITEXT@">
+	<feature url="features/com.lowagie.itext_@FEATURE.ITEXT@.jar" id="com.lowagie.itext" version="@FEATURE.ITEXT@">
 	            <category name="BIRT" />
         </feature>
         <feature url="features/org.apache.commons.codec_@FEATURE.CODEC@.jar" id="org.apache.commons.codec" version="@FEATURE.CODEC@">
