@@ -861,16 +861,22 @@ public class ParameterAccessor
 			return null;
 		}
 
-		int index = locale.indexOf( '_' );
-
-		if ( index != -1 )
+		String[] sp = locale.split( "_" ); //$NON-NLS-1$
+		if ( sp.length == 1 )
 		{
-			String language = locale.substring( 0, index );
-			String country = locale.substring( index + 1 );
-			return new Locale( language, country );
+			// language
+			return new Locale( locale );
 		}
-
-		return new Locale( locale );
+		else if ( sp.length == 2 )
+		{
+			// language, country
+			return new Locale( sp[0], sp[1] );
+		}
+		else
+		{
+			// language, country, variant
+			return new Locale( sp[0], sp[1], sp[2] );
+		}
 	}
 
 	/**
