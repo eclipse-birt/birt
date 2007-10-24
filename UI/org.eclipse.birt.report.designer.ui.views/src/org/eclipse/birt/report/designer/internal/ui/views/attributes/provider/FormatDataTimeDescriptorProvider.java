@@ -97,7 +97,6 @@ public class FormatDataTimeDescriptorProvider implements IDescriptorProvider
 				catch ( SemanticException e )
 				{
 					ExceptionHandler.handle( e );
-					e.printStackTrace( );
 					SessionHandleAdapter.getInstance( )
 							.getCommandStack( )
 							.rollbackAll( );
@@ -122,8 +121,6 @@ public class FormatDataTimeDescriptorProvider implements IDescriptorProvider
 	
 	public FormatDataTimeDescriptorProvider(){
 		defaultDate = new Date( );
-		Thread.dumpStack( );
-		System.out.println(defaultDate);
 	}
 
 	private String getDisplayName4Category( String category )
