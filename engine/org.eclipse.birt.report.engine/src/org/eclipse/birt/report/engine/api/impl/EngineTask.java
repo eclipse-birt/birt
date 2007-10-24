@@ -613,8 +613,8 @@ public abstract class EngineTask implements IEngineTask
 			}
 			throw new ParameterValidationException(
 					MessageConstants.INVALID_PARAMETER_TYPE_EXCEPTION,
-					new String[]{paramName, "Object[]",
-							"Array"} );
+					new String[] { paramName, "Object[]",
+							paramValue.getClass().getName() });
 		}
 		else
 		{
