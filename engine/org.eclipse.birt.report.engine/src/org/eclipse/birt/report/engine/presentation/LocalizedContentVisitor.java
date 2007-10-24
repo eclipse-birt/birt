@@ -293,6 +293,20 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		else
 		{
 			Object value = data.getValue( );
+
+			if ( value instanceof Object[] )
+			{
+				Object[] values = (Object[]) value;
+				if ( values.length > 0 )
+				{
+					value = values[0];
+				}
+				else
+				{
+					value = null;
+				}
+			}
+			
 			if ( value != null )
 			{
 				IStyle style = data.getComputedStyle( );
@@ -328,8 +342,8 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 				}
 			}
 		}
-		//text can be null value after applying format
-		if(text!=null)
+		// text can be null value after applying format
+		if ( text != null )
 		{
 			data.setText( text );
 		}
@@ -337,9 +351,6 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		{
 			data.setText( "" ); //$NON-NLS-1$
 		}
-			
-			
-
 	}
 
 	/**
