@@ -176,7 +176,7 @@
 			<include name="org.eclipse.birt.doc_*/**" />
 			<include name="org.eclipse.birt.chart.cshelp_*/**"/>
 			<include name="org.eclipse.birt.chart.doc.isv_*/**"/>
-            <include name="org.eclipse.birt.chart.examples_*.jar"/>
+			<include name="<include name="org.eclipse.birt.chart.examples_*.jar"/>
 			-->
 		</patternset>
 
@@ -349,7 +349,7 @@
 			</zipfileset>
 			<zipfileset dir="${template.dir}/legal" prefix="eclipse">
 				<include name="**/*" />
-                <exclude name="eclipse.ini" />
+				<exclude name="eclipse.ini" />
 			</zipfileset>
 		</zip>
 	</target>
@@ -452,9 +452,8 @@
 			<zipfileset dir="${package.files.dir}/dtp" includes="**/*"/>
 			<zipfileset dir="${package.files.dir}/wst" includes="**/*"/>
                         <zipfileset dir="${baseLocation}/plugins" prefix="${ZipPrefix}">
-                                <patternset refid="orbit.include.jars" />
-                        </zipfileset>
-
+				<patternset refid="orbit.include.jars" />
+			</zipfileset>
 		</zip>
 	</target>
 
@@ -489,9 +488,10 @@
 			<zipfileset dir="${package.files.dir}/gef" includes="**/*"/>
 			<zipfileset dir="${package.files.dir}/dtp" includes="**/*"/>
 			<zipfileset dir="${package.files.dir}/wtp-sdk" includes="**/*"/>
-            <zipfileset dir="${baseLocation}/plugins" prefix="${ZipPrefix}">
-                <patternset refid="orbit.include.jars" />
-            </zipfileset>
+                        <zipfileset dir="${baseLocation}/plugins" prefix="${ZipPrefix}">
+                                <patternset refid="orbit.include.jars" />
+                        </zipfileset>
+
 		</zip>
 	</target>
 	<!-- - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - - -
@@ -591,7 +591,7 @@
 		<zip destfile="${OutputDir}/${birt.dtp.integration.name}">
 			<zipfileset dir="${package.files.dir}/dtp/eclipse/plugins" prefix="eclipse/plugins">
 				<include name="org.eclipse.datatools*/**" />
-                <include name="javax.wsdl_1.4.0*.jar"/>
+				<include name="javax.wsdl_1.4.0*.jar"/>
 			</zipfileset>
 			<zipfileset dir="${package.files.dir}/dtp/eclipse/features" prefix="eclipse/features">
 				<include name="org.eclipse.datatools*/**" />
@@ -693,8 +693,8 @@
 	
 	<target name="createBirtRCP">
 		<exec executable="unzip" dir="${OutputDir}/">
-        	<arg line="-o -q ${birt.rcp.zip.name}.zip -d ${OutputDir}" />
-        </exec>
+			<arg line="-o -q ${birt.rcp.zip.name}.zip -d ${OutputDir}" />
+		</exec>
 		<delete file="${OutputDir}/${birt.rcp.zip.name}.zip"/>
 		<delete failonerror="false">
 			<fileset dir="${OutputDir}/${birt.rcp.zip.name}/plugins">
@@ -756,7 +756,7 @@
 		</ant>
 		<!-- export chart.viewer war -->
 		<ant antfile="BuildChartWebViewer.xml" dir="${buildDirectory}/plugins/org.eclipse.birt.chart.viewer" target="Export">
-			<property name="export.dir" value="${runtime.tmp}" />
+			<property name="export.dir" value="${runtime.tmp}"/>
 			<property name="integrate.dir" value="${buildDirectory}/${buildId}/eclipse"/>
 		</ant>
 	</target>
@@ -997,7 +997,7 @@
     	<copy todir="${OutputDir}/${wtp.integration.zip.name}_tmp/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}">
     		<fileset dir="${deposit}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}"/>
     	</copy>
-    	<copy tofile="${OutputDir}/${wtp.integration.zip.name}_tmp/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}/plugin.xml"
+	<copy tofile="${OutputDir}/${wtp.integration.zip.name}_tmp/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}/plugin.xml"
     	file="${buildDirectory}/plugins/org.eclipse.birt.integration.wtp.ui/plugin_sdk.xml" overwrite="true" />
     	<!--  Make BIRT SDK ZIP file-->
 		<zip destfile="${OutputDir}/${wtp.integration.zip.name}">
@@ -1089,7 +1089,7 @@
 		        <include name="org.eclipse.birt.chart.cshelp*/**"/>
 		        <include name="org.eclipse.birt.chart.*source*/**"/>
 		        <include name="org.eclipse.birt.chart.integration*/**"/>
-         	</fileset>			
+		    </fileset>			
 		</copy>
 		<copy todir="${runtime.download.tmp}/ChartSDK/eclipse" overwrite="true">
 			<fileset dir="${template.dir}/legal">
