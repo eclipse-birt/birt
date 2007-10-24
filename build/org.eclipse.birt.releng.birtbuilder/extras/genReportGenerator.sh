@@ -14,7 +14,6 @@ rm -f lib.path.count
 ########################################
 #Generate $2/genReport.sh
 ########################################
-
 ########################PRINT USAGE OF REPORTRUNNER###########################
 echo echo \"org.eclipse.birt.report.engine.impl.ReportRunner Usage:\"\; > $2/genReport.sh
 echo echo \"--mode/-m [ run \| render \| runrender] the default is runrender \" >> $2/genReport.sh
@@ -81,6 +80,7 @@ chmod +x $2/genReport.sh
 
 echo ECHO off > $2/genReport.bat
 echo "" >> $2/genReport.bat
+
 ##################USAGE OF REPORT ENGINE################
 echo REM org.eclipse.birt.report.engine.impl.ReportRunner Usage: > $2/genReport.bat
 echo REM --mode/-m [ run \| render \| runrender] the default is runrender >> $2/genReport.bat
@@ -117,7 +117,6 @@ echo "REM    " "--locale /-l <locale>" >> $2/genReport.bat
 echo REM >> $2/genReport.bat
 echo REM Locale: default is english >> $2/genReport.bat
 ##################USAGE OF REPORT ENGINE END################
-
 
 echo IF not \"%BIRT_HOME%\" == \"\" GOTO runBirt >> $2/genReport.bat
 echo   ECHO \"Please set BIRT_HOME first.\" >> $2/genReport.bat
