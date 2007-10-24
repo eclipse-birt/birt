@@ -18,6 +18,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.PropertyResourceBundle;
@@ -100,9 +101,11 @@ public class BundleHelper
 	public Collection getMessageKeys( ULocale locale )
 	{
 		Set keys = new LinkedHashSet( );
-		PropertyResourceBundle bundle = gatherMessageBundles( locale );
-		if ( bundle != null )
+		Iterator bundleIter = gatherMessageBundles( locale ).iterator( );
+		while ( bundleIter.hasNext( ) )
 		{
+			PropertyResourceBundle bundle = (PropertyResourceBundle) bundleIter
+					.next( );
 			Enumeration enumeration = bundle.getKeys( );
 			while ( enumeration.hasMoreElements( ) )
 			{
@@ -131,11 +134,11 @@ public class BundleHelper
 
 	public String getMessage( String resourceKey, ULocale locale )
 	{
-		PropertyResourceBundle bundle = gatherMessageBundles( locale );
-		if ( bundle != null )
+		Iterator bundleIter = gatherMessageBundles( locale ).iterator( );
+		while ( bundleIter.hasNext( ) )
 		{
-			String translation = (String) bundle.handleGetObject( resourceKey );
-
+			String translation = (String) ( (PropertyResourceBundle) bundleIter
+					.next( ) ).handleGetObject( resourceKey );
 			if ( translation != null )
 				return translation;
 		}
@@ -157,22 +160,20 @@ public class BundleHelper
 	 * @return a message file list for the given locale.
 	 */
 
-	private PropertyResourceBundle gatherMessageBundles( ULocale locale )
+	private List gatherMessageBundles( ULocale locale )
 	{
+		List bundleHierarchy = new ArrayList( );
 
 		List bundleNames = getMessageFilenames( locale );
 		for ( int i = 0; i < bundleNames.size( ); i++ )
 		{
 			String bundleName = (String) bundleNames.get( i );
 			PropertyResourceBundle bundle = populateBundle( bundleName );
-
 			if ( bundle != null )
-			{
-				return bundle;
-			}
+				bundleHierarchy.add( bundle );
 		}
 
-		return null;
+		return bundleHierarchy;
 	}
 
 	/**

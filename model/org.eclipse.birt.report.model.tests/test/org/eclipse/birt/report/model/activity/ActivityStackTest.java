@@ -1839,8 +1839,6 @@ public class ActivityStackTest extends BaseTestCase
 				NotificationEvent ev )
 		{
 			this.notifications.add( new Notification( focus, ev ) );
-			System.out.println( ev.getEventType( ) );
-			System.out.println( ev.getTarget( ).getDefn( ).getName( ) );
 		}
 
 		/**
