@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,12 +11,39 @@
 
 package org.eclipse.birt.report.engine.content;
 
+/**
+ * Provides the interfaces for the AutoText Content.
+ * <p>
+ * AutoText Content is created at the start of the process, but the text value
+ * is set at the end of the process. The typical implementation of AutoText is
+ * total page of report.
+ * <p>
+ * The following types of the AutoText content are predefined:
+ * <li><code>TOTAL_PAGE</code></li>
+ * <li><code>PAGE_NUMBER</code></li>
+ */
 public interface IAutoTextContent extends ITextContent
 {
 	public static final int TOTAL_PAGE = 0;
 	public static final int PAGE_NUMBER = 1;
 	
+	/**
+	 * Set the type of the AutoText Content. This type must be one of the
+	 * predefines.
+	 * <li><code>TOTAL_PAGE</code></li>
+	 * <li><code>PAGE_NUMBER</code></li>
+	 * @param type
+	 *            the type of the AutoText Content.
+	 */
 	void setType ( int type );
 	
+	/**
+	 * Get the type of the AutoText Content. 
+	 * <p>
+	 * The return value must be on of the
+	 * predefines.
+	 * <li><code>TOTAL_PAGE</code></li>
+	 * <li><code>PAGE_NUMBER</code></li>
+	 */
 	int getType ( );
 }

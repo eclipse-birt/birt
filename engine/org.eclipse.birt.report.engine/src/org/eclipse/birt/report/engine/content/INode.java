@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,13 +18,24 @@ import java.util.Iterator;
  * 
  * implement memory management policy. The node may exist in disk or keep in the
  * memory.
- * 
  */
 public interface INode
 {
 
+	/**
+	 * Get the parent of the node, or return null if the node is in tree top
+	 * level.
+	 * 
+	 * @return the parent of the node.
+	 */
 	INode getParent( );
 
+	/**
+	 * Set the parent of the node.
+	 * 
+	 * @param parent
+	 *            the parent of the node.
+	 */
 	void setParent( INode parent );
 
 	INode getPrevious();
@@ -35,9 +46,20 @@ public interface INode
 	
 	void setNext(INode next);
 	
+	/**
+	 * Append a child to this node.
+	 * @param child the child need to be appended.
+	 */
 	void appendChild( INode child );
 
+	/**
+	 * Get the children of the node.
+	 * @return the children of the node.
+	 */
 	Iterator getChildren( );
 
+	/**
+	 * Remove all children of the node.
+	 */
 	void removeChildren( );
 }

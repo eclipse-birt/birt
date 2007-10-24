@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -20,18 +20,20 @@ package org.eclipse.birt.report.engine.content;
  * is treated as "INLINE-BLOCK" otherwise it is "INLINE".
  * 
  * If the display is "block", it is "BLOCK" always.
- * 
- 
  */
 public interface ITextContent extends IContent
 {
 
 	/**
-	 * string content
+	 * Get the string value of the Text Content.
 	 * 
-	 * @return Returns the value.
+	 * @return Returns the text value.
 	 */
 	public String getText( );
 
+	/**
+	 * Set the value of the text of the Text Content.
+	 * @param text the text value.
+	 */
 	public void setText( String text );
 }
