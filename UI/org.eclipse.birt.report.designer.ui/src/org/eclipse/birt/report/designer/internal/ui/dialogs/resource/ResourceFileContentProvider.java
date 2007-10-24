@@ -14,6 +14,9 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs.resource;
 import java.io.File;
 
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
+import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntryFilter;
+import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceFilter;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
@@ -48,11 +51,17 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 
 			public boolean accept( ResourceEntry entity )
 			{
+				ResourceEntryFilter filter = new ResourceEntryFilter( (ResourceFilter[]) ReportPlugin.getFilterMap( )
+						.values( )
+						.toArray( new ResourceFilter[0] ) );
 				if ( entity.getChildren( ).length > 0 )
 				{
-					return true;
+					return filter.accept( entity );
 				}
-				return showFiles;
+				if ( showFiles )
+					return filter.accept( entity );
+				else
+					return false;
 			}
 		};
 	}
@@ -72,9 +81,13 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 
 			public boolean accept( ResourceEntry entity )
 			{
+				ResourceEntryFilter filter = new ResourceEntryFilter( (ResourceFilter[]) ReportPlugin.getFilterMap( )
+						.values( )
+						.toArray( new ResourceFilter[0] ) );
+				
 				if ( entity.getChildren( ).length > 0 )
 				{
-					return true;
+					return filter.accept( entity );
 				}
 				for ( int i = 0; i < extension.length; i++ )
 				{
@@ -82,7 +95,7 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 							.toLowerCase( )
 							.endsWith( extension[i] ) )
 					{
-						return true;
+						if(filter.accept( entity ))return true;
 					}
 				}
 				return false;
@@ -96,9 +109,12 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 
 			public boolean accept( ResourceEntry entity )
 			{
+				ResourceEntryFilter filter = new ResourceEntryFilter( (ResourceFilter[]) ReportPlugin.getFilterMap( )
+						.values( )
+						.toArray( new ResourceFilter[0] ) );
 				if ( entity.getChildren( ).length > 0 )
 				{
-					return true;
+					return filter.accept( entity );
 				}
 				for ( int i = 0; i < fileNamePattern.length; i++ )
 				{
@@ -108,7 +124,7 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 							.toLowerCase( )
 							.endsWith( fileNamePattern[i].substring( 1 ) ) )
 					{
-						return true;
+						if(filter.accept( entity ))return true;
 					}
 				}
 				return false;

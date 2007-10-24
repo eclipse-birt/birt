@@ -132,6 +132,12 @@ public class ReportPlatformUIImages
 		declareImage( ISharedImages.IMG_TOOL_DELETE, ICONS_PATH
 				+ ETOOL16_PATH
 				+ "delete_edit.gif" ); //$NON-NLS-1$
+		declareImage( IReportGraphicConstants.ICON_TOOL_FILTER, ICONS_PATH
+				+ ETOOL16_PATH
+				+ "filter_ps.gif" ); //$NON-NLS-1$
+		declareImage( IReportGraphicConstants.ICON_VIEW_MENU, ICONS_PATH
+				+ ETOOL16_PATH
+				+ "view_menu.gif" );  //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_TEMPLATEITEM,
 				ICONS_PATH + OBJ16_PATH + "templatereportitem.gif" );

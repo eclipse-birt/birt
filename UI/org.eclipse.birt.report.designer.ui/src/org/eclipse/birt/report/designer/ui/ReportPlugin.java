@@ -16,6 +16,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -25,6 +26,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.report.designer.core.CorePlugin;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
+import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceFilter;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -214,6 +216,7 @@ public class ReportPlugin extends AbstractUIPlugin
 		
 		Platform.getExtensionRegistry( ).addRegistryChangeListener( DNDService.getInstance( ) );
 		
+
 	}
 
 	/**
@@ -474,6 +477,11 @@ public class ReportPlugin extends AbstractUIPlugin
 		store.setDefault( DEFAULT_NAME_PREFERENCE, bufferDefaultName.toString( ) );
 		store.setDefault( CUSTOM_NAME_PREFERENCE, bufferCustomName.toString( ) );
 		store.setDefault( DESCRIPTION_PREFERENCE, bufferPreference.toString( ) );
+		
+		initFilterMap( store, ResourceFilter.generateCVSFilter( ) );
+		initFilterMap( store, ResourceFilter.generateDotResourceFilter( ) );
+		initFilterMap( store, ResourceFilter.generateEmptyFolderFilter( ) );
+		//initFilterMap( store, ResourceFilter.generateNoResourceInFolderFilter( ) );
 	}
 
 	private boolean filteName( IElementDefn elementDefn )
@@ -1112,5 +1120,20 @@ public class ReportPlugin extends AbstractUIPlugin
 					.getResourceFolder( );
 		}
 		return resourceFolder;
+	}
+	
+	private static LinkedHashMap filterMap = new LinkedHashMap( );
+
+	private static void initFilterMap( IPreferenceStore store,
+			ResourceFilter filter )
+	{
+		if ( store.contains( filter.getType( ) ) )
+			filter.setEnabled( store.getBoolean( filter.getType( ) ) );
+		filterMap.put( filter.getType( ), filter );
+	}
+
+	public static LinkedHashMap getFilterMap( )
+	{
+		return filterMap;
 	}
 }

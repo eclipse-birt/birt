@@ -17,15 +17,36 @@ import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntr
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceLocator;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.dialogs.action.ResourceFileFolderSelectionAction;
+import org.eclipse.birt.report.designer.ui.widget.TreeViewerBackup;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseTrackAdapter;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.TreeEvent;
+import org.eclipse.swt.events.TreeListener;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Item;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
@@ -87,9 +108,14 @@ public class ResourceFileFolderSelectionDialog extends
 				new ResourceFileLabelProvider( ),
 				new ResourceFileContentProvider( showFiles ) );
 		if ( includeFragments )
-			setInput( ResourceLocator.getRootEntries( fileNamePattern ) );
+		{
+			this.input = ResourceLocator.getRootEntries( fileNamePattern );
+		}
 		else
-			setInput( ResourceLocator.getResourceFolder( fileNamePattern ) );
+		{
+			this.input = ResourceLocator.getResourceFolder( fileNamePattern );
+		}
+		setInput( input );
 	}
 
 	private ResourceFileFolderSelectionDialog( Shell parent,
@@ -99,14 +125,41 @@ public class ResourceFileFolderSelectionDialog extends
 		setSorter( new FileViewerSorter( ) );
 	}
 
+	public void refreshRoot( )
+	{
+		getTreeViewer( ).remove( input );
+		getTreeViewer( ).setInput( input );
+		handleTreeViewerRefresh( );
+	}
+
+	private TreeViewerBackup treeViewerBackup;
+
+	private void handleTreeViewerRefresh( )
+	{
+		if ( treeViewerBackup != null )
+		{
+			treeViewerBackup.restoreBackup( getTreeViewer( ) );
+		}
+		else
+		{
+			treeViewerBackup = new TreeViewerBackup( );
+			getTreeViewer( ).expandToLevel( 2 );
+			treeViewerBackup.updateStatus( getTreeViewer( ) );
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.ui.dialogs.ElementTreeSelectionDialog#setInput(java.lang.Object)
 	 */
+
+	private Object input;
+
 	public void setInput( Object input )
 	{
 		rootFile = new File( input.toString( ) );
+		this.input = input;
 		super.setInput( input );
 	}
 
@@ -121,7 +174,7 @@ public class ResourceFileFolderSelectionDialog extends
 		if ( selected.length > 0 && rootFile != null )
 		{
 			ResourceEntry entry = (ResourceEntry) selected[0];
-			if(entry == null || entry.getURL( ) == null)
+			if ( entry == null || entry.getURL( ) == null )
 			{
 				return null;
 			}
@@ -154,9 +207,119 @@ public class ResourceFileFolderSelectionDialog extends
 	{
 		UIUtil.bindHelp( parent, IHelpContextIds.RESOURCE_SELECT_DIALOG_ID );
 		Control control = super.createDialogArea( parent );
+		getTreeViewer( ).getTree( ).setFocus( );
+
+		TreeListener treeListener = new TreeListener( ) {
+
+			public void treeCollapsed( TreeEvent e )
+			{
+				Item item = (Item) e.item;
+				if ( treeViewerBackup != null )
+					treeViewerBackup.updateCollapsedStatus( getTreeViewer( ),
+							item.getData( ) );
+
+			}
+
+			public void treeExpanded( TreeEvent e )
+			{
+				Item item = (Item) e.item;
+				if ( treeViewerBackup != null )
+					treeViewerBackup.updateExpandedStatus( getTreeViewer( ),
+							item.getData( ) );
+			}
+
+		};
+		getTreeViewer( ).getTree( ).addTreeListener( treeListener );
 		addToolTip( );
 		return control;
 
+	}
+
+	protected Label createMessageArea( Composite composite )
+	{
+		Composite infoContent = new Composite( composite, SWT.NONE );
+
+		GridData data = new GridData( );
+		data.grabExcessVerticalSpace = false;
+		data.grabExcessHorizontalSpace = true;
+		data.horizontalAlignment = GridData.FILL;
+		data.verticalAlignment = GridData.BEGINNING;
+		infoContent.setLayoutData( data );
+
+		GridLayout layout = new GridLayout( );
+		layout.marginTop = layout.marginBottom = layout.marginLeft = layout.marginRight = layout.marginHeight = layout.marginWidth = 0;
+		layout.numColumns = 2;
+		infoContent.setLayout( layout );
+
+		Label label = new Label( infoContent, SWT.NONE );
+		if ( getMessage( ) != null )
+		{
+			label.setText( getMessage( ) );
+		}
+		label.setFont( composite.getFont( ) );
+		label.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
+		createViewMenu( infoContent );
+
+		return label;
+	}
+
+	private MenuManager menuManager;
+
+	private ToolItem toolItem;
+
+	private ToolBar toolBar;
+
+	private void createViewMenu( Composite parent )
+	{
+		toolBar = new ToolBar( parent, SWT.FLAT );
+		toolItem = new ToolItem( toolBar, SWT.PUSH, 0 );
+		GridData data = new GridData( );
+		data.horizontalAlignment = GridData.END;
+		toolBar.setLayoutData( data );
+
+		toolBar.addMouseListener( new MouseAdapter( ) {
+
+			public void mouseDown( MouseEvent e )
+			{
+				showViewMenu( );
+			}
+		} );
+
+		toolItem.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_VIEW_MENU ) );
+		toolItem.setToolTipText( Messages.getString("ResourceFileFolderSelectionDialog.Text.Menu") ); //$NON-NLS-1$
+		toolItem.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				showViewMenu( );
+			}
+		} );
+
+		menuManager = new MenuManager( );
+		fillViewMenu( menuManager );
+	}
+
+	/**
+	 * Fills the menu of the dialog.
+	 * 
+	 * @param menuManager
+	 *            the menu manager
+	 */
+	protected void fillViewMenu( IMenuManager menuManager )
+	{
+		ResourceFileFolderSelectionAction action = new ResourceFileFolderSelectionAction( this );
+		menuManager.add( action );
+	}
+
+	private void showViewMenu( )
+	{
+		Menu menu = menuManager.createContextMenu( getShell( ) );
+		Rectangle bounds = toolItem.getBounds( );
+		Point topLeft = new Point( bounds.x, bounds.y + bounds.height );
+		topLeft = toolBar.toDisplay( topLeft );
+		menu.setLocation( topLeft.x, topLeft.y );
+		menu.setVisible( true );
 	}
 
 	/**
@@ -193,6 +356,7 @@ public class ResourceFileFolderSelectionDialog extends
 				}
 			}
 		} );
+		refreshRoot( );
 	}
 
 }

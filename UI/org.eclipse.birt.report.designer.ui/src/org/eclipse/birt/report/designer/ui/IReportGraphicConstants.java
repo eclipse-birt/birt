@@ -388,4 +388,8 @@ public interface IReportGraphicConstants
 	
 	//Level attribute icon
 	public static final String ICON_LEVEL_ATTRI = "levelAttribute";//$NON-NLS-1$
+	
+	public final static String ICON_TOOL_FILTER = "resource filter"; //$NON-NLS-1$
+	
+	public final static String ICON_VIEW_MENU = "view menu"; //$NON-NLS-1$
 }

@@ -19,16 +19,35 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.dialogs.action.ProjectFilterAction;
+import org.eclipse.birt.report.designer.ui.widget.TreeViewerBackup;
 import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseTrackAdapter;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.TreeEvent;
+import org.eclipse.swt.events.TreeListener;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Item;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
@@ -41,9 +60,8 @@ import org.eclipse.ui.dialogs.ISelectionStatusValidator;
  * 
  */
 
-public class ProjectFileDialog  extends ElementTreeSelectionDialog
+public class ProjectFileDialog extends ElementTreeSelectionDialog
 {
-
 
 	protected String newFileName = ""; //$NON-NLS-1$
 
@@ -59,9 +77,8 @@ public class ProjectFileDialog  extends ElementTreeSelectionDialog
 	private Status ErrorStatusNoSelection = new Status( IStatus.ERROR,
 			ReportPlugin.REPORT_UI,
 			IStatus.ERROR,
-			Messages.getString( "" ), //$NON-NLS-1$
+			"",  //$NON-NLS-1$
 			null );
-	
 
 	private class Validator implements ISelectionStatusValidator
 	{
@@ -82,18 +99,17 @@ public class ProjectFileDialog  extends ElementTreeSelectionDialog
 			{
 				return OKStatus;
 			}
-			else 
+			else
 				return ErrorStatus;
 		}
 	}
-	
-	
+
 	public String getPath( )
 	{
 		Object[] selected = getResult( );
-		if ( selected.length > 0  )
+		if ( selected.length > 0 )
 		{
-			return getPath(0);
+			return getPath( 0 );
 		}
 		return null;
 	}
@@ -101,48 +117,157 @@ public class ProjectFileDialog  extends ElementTreeSelectionDialog
 	public String getPath( int index )
 	{
 		Object[] selected = getResult( );
-		if ( index < 0 || index >= selected.length ||  input == null )
+		if ( index < 0 || index >= selected.length || input == null )
 		{
 			return null;
 		}
 		FilePathEntry entry = (FilePathEntry) selected[index];
-		
+
 		String path = entry.getURL( ).getFile( );
-		if ( entry.getURL( ) .getProtocol( ).equals( "file" ) ) //$NON-NLS-1$
+		if ( entry.getURL( ).getProtocol( ).equals( "file" ) ) //$NON-NLS-1$
 		{
-			return URIUtil.resolveAbsolutePath( input, URIUtil.getRelativePath( input , path ));
+			return URIUtil.resolveAbsolutePath( input,
+					URIUtil.getRelativePath( input, path ) );
 		}
 		return path;
 
 	}
 
 	private String input;
-	public ProjectFileDialog( String input)
+
+	private String[] filePattern;
+
+	private MenuManager menuManager;
+
+	private ToolItem toolItem;
+
+	private ToolBar toolBar;
+
+	public ProjectFileDialog( String input )
 	{
-		super(UIUtil.getDefaultShell( ),
+		super( UIUtil.getDefaultShell( ),
 				new FileLabelProvider( input ),
-				new FileContentProvider( true ));
+				new FileContentProvider( true ) );
 		this.input = input;
-		setInput( new ResourceEntry[]{ new FilePathEntry( input ) } );
+		setInput( new ResourceEntry[]{
+			new FilePathEntry( input )
+		} );
 		setDoubleClickSelects( true );
 		setValidator( new Validator( ) );
 		setAllowMultiple( false );
 		setTitle( Messages.getString( "ProjectFileDialog.Title" ) ); //$NON-NLS-1$
 		setMessage( Messages.getString( "ProjectFileDialog.Message" ) ); //$NON-NLS-1$
 	}
-	
-	public ProjectFileDialog( String input ,String[] filePattern)
+
+	public void refreshRoot( )
 	{
-		super(UIUtil.getDefaultShell( ),
+		if ( filePattern == null )
+			getTreeViewer( ).setInput( new ResourceEntry[]{
+				new FilePathEntry( input )
+			} );
+		else
+			getTreeViewer( ).setInput( new ResourceEntry[]{
+				new FilePathEntry( input, filePattern )
+			} );
+		handleTreeViewerRefresh( );
+	}
+
+	public ProjectFileDialog( String input, String[] filePattern )
+	{
+		super( UIUtil.getDefaultShell( ),
 				new FileLabelProvider( input ),
-				new FileContentProvider( true ));
+				new FileContentProvider( true ) );
 		this.input = input;
-		setInput( new ResourceEntry[]{ new FilePathEntry( input ,filePattern ) } );
+		this.filePattern = filePattern;
+		setInput( new ResourceEntry[]{
+			new FilePathEntry( input, filePattern )
+		} );
 		setDoubleClickSelects( true );
 		setValidator( new Validator( ) );
 		setAllowMultiple( false );
 		setTitle( Messages.getString( "ProjectFileDialog.Title" ) ); //$NON-NLS-1$
 		setMessage( Messages.getString( "ProjectFileDialog.Message" ) ); //$NON-NLS-1$
+	}
+
+	protected Label createMessageArea( Composite composite )
+	{
+		Composite infoContent = new Composite( composite, SWT.NONE );
+
+		GridData data = new GridData( );
+		data.grabExcessVerticalSpace = false;
+		data.grabExcessHorizontalSpace = true;
+		data.horizontalAlignment = GridData.FILL;
+		data.verticalAlignment = GridData.BEGINNING;
+		infoContent.setLayoutData( data );
+
+		GridLayout layout = new GridLayout( );
+		layout.marginTop = layout.marginBottom = layout.marginLeft = layout.marginRight = layout.marginHeight = layout.marginWidth = 0;
+		layout.numColumns = 2;
+		infoContent.setLayout( layout );
+
+		Label label = new Label( infoContent, SWT.NONE );
+		if ( getMessage( ) != null )
+		{
+			label.setText( getMessage( ) );
+		}
+		label.setFont( composite.getFont( ) );
+		label.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
+		createViewMenu( infoContent );
+
+		return label;
+	}
+
+	private void createViewMenu( Composite parent )
+	{
+		toolBar = new ToolBar( parent, SWT.FLAT );
+		toolItem = new ToolItem( toolBar, SWT.PUSH, 0 );
+		GridData data = new GridData( );
+		data.horizontalAlignment = GridData.END;
+		toolBar.setLayoutData( data );
+
+		toolBar.addMouseListener( new MouseAdapter( ) {
+
+			public void mouseDown( MouseEvent e )
+			{
+				showViewMenu( );
+			}
+		} );
+
+		toolItem.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_VIEW_MENU ) );
+		toolItem.setToolTipText( Messages.getString("ProjectFileDialog.Text.Menu") ); //$NON-NLS-1$
+		toolItem.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				showViewMenu( );
+			}
+		} );
+
+		menuManager = new MenuManager( );
+		fillViewMenu( menuManager );
+	}
+
+	/**
+	 * Fills the menu of the dialog.
+	 * 
+	 * @param menuManager
+	 *            the menu manager
+	 */
+	protected void fillViewMenu( IMenuManager menuManager )
+	{
+		ProjectFilterAction action = new ProjectFilterAction( this );
+		menuManager.add( action );
+	}
+
+	private void showViewMenu( )
+	{
+		Menu menu = menuManager.createContextMenu( getShell( ) );
+		Rectangle bounds = toolItem.getBounds( );
+		Point topLeft = new Point( bounds.x, bounds.y + bounds.height );
+		topLeft = toolBar.toDisplay( topLeft );
+		menu.setLocation( topLeft.x, topLeft.y );
+		menu.setVisible( true );
 	}
 
 	/*
@@ -156,9 +281,48 @@ public class ProjectFileDialog  extends ElementTreeSelectionDialog
 		addToolTip( );
 		rt.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		getTreeViewer( ).expandToLevel( 2 );
-		UIUtil.bindHelp( parent,
-				IHelpContextIds.PROJECT_FILES_DIALOG_ID );
+		getTreeViewer( ).getTree( ).setFocus( );
+
+		TreeListener treeListener = new TreeListener( ) {
+
+			public void treeCollapsed( TreeEvent e )
+			{
+				Item item = (Item) e.item;
+				if ( treeViewerBackup != null )
+					treeViewerBackup.updateCollapsedStatus( getTreeViewer( ),
+							item.getData( ) );
+
+			}
+
+			public void treeExpanded( TreeEvent e )
+			{
+				Item item = (Item) e.item;
+				if ( treeViewerBackup != null )
+					treeViewerBackup.updateExpandedStatus( getTreeViewer( ),
+							item.getData( ) );
+			}
+
+		};
+		getTreeViewer( ).getTree( ).addTreeListener( treeListener );
+
+		UIUtil.bindHelp( parent, IHelpContextIds.PROJECT_FILES_DIALOG_ID );
 		return rt;
+	}
+
+	private TreeViewerBackup treeViewerBackup;
+
+	private void handleTreeViewerRefresh( )
+	{
+		if ( treeViewerBackup != null )
+		{
+			treeViewerBackup.restoreBackup( getTreeViewer( ) );
+		}
+		else
+		{
+			treeViewerBackup = new TreeViewerBackup( );
+			getTreeViewer( ).expandToLevel( 2 );
+			treeViewerBackup.updateStatus( getTreeViewer( ) );
+		}
 	}
 
 	/*
@@ -184,8 +348,6 @@ public class ProjectFileDialog  extends ElementTreeSelectionDialog
 			}
 		}
 	}
-
-
 
 	/**
 	 * Add Tooltip for root TreeItem.
@@ -221,7 +383,7 @@ public class ProjectFileDialog  extends ElementTreeSelectionDialog
 				}
 			}
 		} );
+		refreshRoot( );
 	}
-
 
 }

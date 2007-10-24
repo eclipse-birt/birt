@@ -13,6 +13,10 @@ package org.eclipse.birt.report.designer.ui.lib.explorer;
 
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.lib.explorer.action.LibraryFileFilterAction;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
@@ -42,12 +46,36 @@ public class LibraryExplorerView extends PageBookView
 
 	private String resourceFolder;
 
+	private LibraryFileFilterAction filterAction;
+
 	/**
 	 * default constructor
 	 */
 	public LibraryExplorerView( )
 	{
 		super( );
+	}
+
+	public void createPartControl( Composite parent )
+	{
+		super.createPartControl( parent );
+		createMenu( );
+	}
+
+	protected void createMenu( )
+	{
+		filterAction = new LibraryFileFilterAction( this );
+		IMenuManager mgr = getViewSite( ).getActionBars( ).getMenuManager( );
+		mgr.add( filterAction );
+		mgr.addMenuListener( new IMenuListener(){
+
+			public void menuAboutToShow( IMenuManager manager )
+			{
+				filterAction.updateStatus( );
+				getViewSite( ).getActionBars( ).updateActionBars( );
+			}
+			
+		} );
 	}
 
 	/**
@@ -217,4 +245,5 @@ public class LibraryExplorerView extends PageBookView
 			};
 		return super.getAdapter( key );
 	}
+	
 }

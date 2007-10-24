@@ -17,6 +17,8 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.FragmentResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
+import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntryFilter;
+import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceFilter;
 import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ResourceEntryWrapper;
@@ -56,7 +58,9 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 
 		if ( parentElement instanceof ResourceEntry )
 		{
-			ResourceEntry[] children = ( (ResourceEntry) parentElement ).getChildren( );
+			ResourceEntry[] children = ( (ResourceEntry) parentElement ).getChildren( new ResourceEntryFilter( (ResourceFilter[]) LibraryExplorerPlugin.getFilterMap( )
+					.values( )
+					.toArray( new ResourceFilter[0] ) ) );
 			List childrenList = new ArrayList( );
 			for ( int i = 0; i < children.length; i++ )
 			{
