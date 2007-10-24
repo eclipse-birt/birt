@@ -38,6 +38,7 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.window.Window;
 import org.eclipse.ui.PlatformUI;
@@ -231,7 +232,10 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 					false,
 					null,
 					null );
-
+			if(opendialog.getReturnCode( ) != Window.OK)
+			{
+				return;
+			}
 			if ( opendialog.getToggleState( ) == true )
 			{
 				CrosstabPlugin.getDefault( )
