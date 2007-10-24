@@ -69,6 +69,7 @@ import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.api.IRequestInfo;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
+import org.eclipse.birt.report.data.adapter.internal.adapter.CubeQueryDefinitionAdapter;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
@@ -903,24 +904,25 @@ public class DataRequestSessionImpl extends DataRequestSession
 					appContext, stopSign );
 			this.cubeHandleMap.remove( query.getName( ) );
 		}
+		ICubeQueryDefinition cubeQueryDefn = new CubeQueryDefinitionAdapter( query );
 		if ( this.sessionContext.getDataEngineContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION )
 		{
 			int size = 0;
 			if ( appContext != null )
 			{
 				size = populateFetchLimitSize( appContext.get( DataEngine.CUBECURSOR_FETCH_LIMIT_ON_LEVEL ) );
-				if ( size >= 0 )
+				if ( size > 0 )
 				{
-					query.getFilters( )
-							.addAll( fetchFilterList( query.getEdge( ICubeQueryDefinition.COLUMN_EDGE ),
+					cubeQueryDefn.getFilters( )
+							.addAll( fetchFilterList( cubeQueryDefn.getEdge( ICubeQueryDefinition.COLUMN_EDGE ),
 									size ) );
-					query.getFilters( )
-							.addAll( fetchFilterList( query.getEdge( ICubeQueryDefinition.ROW_EDGE ),
+					cubeQueryDefn.getFilters( )
+							.addAll( fetchFilterList( cubeQueryDefn.getEdge( ICubeQueryDefinition.ROW_EDGE ),
 									size ) );
 				}
 			}
 		}
-		return this.dataEngine.prepare( query, appContext );
+		return this.dataEngine.prepare( cubeQueryDefn, appContext );
 	}
 
 	/*
