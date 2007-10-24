@@ -52,6 +52,11 @@ PublishCSSAction.wizard.notvalidfolder=İ’è‚É–³Œø‚ÈƒŠƒ\[ƒXƒtƒHƒ‹ƒ_‚ª’è‹`‚³‚ê‚Ä‚
 ###########################################################
 #DeleteLibraryAction properties
 DeleteLibraryAction.Text=íœ
+
+###########################################################
+#LibraryFileFilterAction properties
+LibraryFileFilterAction.Text=Filter...
+
 ###########################################################
 #AddStyleRuleAction properties
 
@@ -2381,6 +2386,14 @@ NewResourceFileDialog.ErrorMessageInvalid=ƒtƒ@ƒCƒ‹–¼‚ª–³Œø‚Å‚·B
 ProjectFileDialog.ErrorMessage=ƒfƒBƒŒƒNƒgƒŠ‚Å‚Í‚È‚­Aƒtƒ@ƒCƒ‹‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢B
 ProjectFileDialog.Title=ƒvƒƒWƒFƒNƒgƒtƒ@ƒCƒ‹‚Ì‘I‘ğ
 ProjectFileDialog.Message=Œ»İ‚ÌƒvƒƒWƒFƒNƒg‚Ìƒtƒ@ƒCƒ‹‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B
+ProjectFileDialog.Text.Menu=menu
+
+###########################################################
+#ResourceFilterDialog properties
+
+ResourceFilterDialog.Title=Report Elements Filter
+ResourceFilterDialog.Lable.Description=Filter description:
+ResourceFilterDialog.Lable.Viewer=Select the elements to exclude from the view:
 
 ###########################################################
 #NewSectionDialog properties
@@ -3123,6 +3136,17 @@ SetConstraintCommand.Error.SetConstraintError=An error occured when setting a co
 SetConstraintCommand.transLabel.setConstraint=§–ñ‚Ìİ’è
 
 ###########################################################
+#ProjectFilterAction properties
+
+ProjectFilterAction.text=Filter...
+
+###########################################################
+#ResourceFileFolderSelectionAction properties
+
+ResourceFileFolderSelectionAction.text=Filter...
+ResourceFileFolderSelectionDialog.Text.Menu=menu
+
+###########################################################
 #ShowPropertyAction properties
 
 ShowPropertyAction.text=ƒvƒƒpƒeƒB
@@ -3829,6 +3853,15 @@ FragmentResourceEntry.RootDisplayName=‘g‚İ‚İ‚Ìƒ‰ƒCƒuƒ‰ƒŠ
 #PathResourceEntry properties
 PathResourceEntry.RootName=ƒŠƒ\[ƒXƒtƒHƒ‹ƒ_
 PathResourceEntry.RootDisplayName=‹¤—Lƒ‰ƒCƒuƒ‰ƒŠ
+
+###########################################################
+#ResourceFilter properties
+ResourceFilter.DisplayName.CVS=CVS resources
+ResourceFilter.DisplayName.Dot=.* resources
+ResourceFilter.DisplayName.EmptyFolder=Empty folders
+ResourceFilter.Description.CVS=Hides resources with names that start with \"CVS\"
+ResourceFilter.Description.Dot=Hides resources with names that start with a '.'
+ResourceFilter.Description.EmptyFolder=Hides empty folders
 
 ###########################################################
 #BIRTGotoMarker properties

@@ -52,6 +52,11 @@ PublishCSSAction.wizard.notvalidfolder=La carpeta del archivo CSS definida como 
 ###########################################################
 #DeleteLibraryAction properties
 DeleteLibraryAction.Text=Eliminar
+
+###########################################################
+#LibraryFileFilterAction properties
+LibraryFileFilterAction.Text=Filter...
+
 ###########################################################
 #AddStyleRuleAction properties
 
@@ -2381,6 +2386,14 @@ NewResourceFileDialog.ErrorMessageInvalid=El nombre de archivo no es válido.
 ProjectFileDialog.ErrorMessage=El archivo debe ser un archivo, no un directorio.
 ProjectFileDialog.Title=Seleccionar archivo de proyecto
 ProjectFileDialog.Message=Seleccione un archivo del proyecto actual.
+ProjectFileDialog.Text.Menu=menu
+
+###########################################################
+#ResourceFilterDialog properties
+
+ResourceFilterDialog.Title=Report Elements Filter
+ResourceFilterDialog.Lable.Description=Filter description:
+ResourceFilterDialog.Lable.Viewer=Select the elements to exclude from the view:
 
 ###########################################################
 #NewSectionDialog properties
@@ -3123,6 +3136,17 @@ SetConstraintCommand.Error.SetConstraintError=An error occured when setting a co
 SetConstraintCommand.transLabel.setConstraint=Establecer restricción
 
 ###########################################################
+#ProjectFilterAction properties
+
+ProjectFilterAction.text=Filter...
+
+###########################################################
+#ResourceFileFolderSelectionAction properties
+
+ResourceFileFolderSelectionAction.text=Filter...
+ResourceFileFolderSelectionDialog.Text.Menu=menu
+
+###########################################################
 #ShowPropertyAction properties
 
 ShowPropertyAction.text=Propiedades
@@ -3829,6 +3853,15 @@ FragmentResourceEntry.RootDisplayName=Librerías integradas
 #PathResourceEntry properties
 PathResourceEntry.RootName=Carpeta de recursos
 PathResourceEntry.RootDisplayName=Librerías compartidas
+
+###########################################################
+#ResourceFilter properties
+ResourceFilter.DisplayName.CVS=CVS resources
+ResourceFilter.DisplayName.Dot=.* resources
+ResourceFilter.DisplayName.EmptyFolder=Empty folders
+ResourceFilter.Description.CVS=Hides resources with names that start with \"CVS\"
+ResourceFilter.Description.Dot=Hides resources with names that start with a '.'
+ResourceFilter.Description.EmptyFolder=Hides empty folders
 
 ###########################################################
 #BIRTGotoMarker properties

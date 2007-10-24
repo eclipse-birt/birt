@@ -52,6 +52,11 @@ PublishCSSAction.wizard.notvalidfolder=首选项中定义的资源文件夹无效。
 ###########################################################
 #DeleteLibraryAction properties
 DeleteLibraryAction.Text=删除
+
+###########################################################
+#LibraryFileFilterAction properties
+LibraryFileFilterAction.Text=Filter...
+
 ###########################################################
 #AddStyleRuleAction properties
 
@@ -2381,6 +2386,14 @@ NewResourceFileDialog.ErrorMessageInvalid=文件名无效
 ProjectFileDialog.ErrorMessage=文件必须是文件，而不是目录。
 ProjectFileDialog.Title=选择项目文件
 ProjectFileDialog.Message=选择当前项目中的文件。
+ProjectFileDialog.Text.Menu=menu
+
+###########################################################
+#ResourceFilterDialog properties
+
+ResourceFilterDialog.Title=Report Elements Filter
+ResourceFilterDialog.Lable.Description=Filter description:
+ResourceFilterDialog.Lable.Viewer=Select the elements to exclude from the view:
 
 ###########################################################
 #NewSectionDialog properties
@@ -3123,6 +3136,17 @@ SetConstraintCommand.Error.SetConstraintError=An error occured when setting a co
 SetConstraintCommand.transLabel.setConstraint=设置约束
 
 ###########################################################
+#ProjectFilterAction properties
+
+ProjectFilterAction.text=Filter...
+
+###########################################################
+#ResourceFileFolderSelectionAction properties
+
+ResourceFileFolderSelectionAction.text=Filter...
+ResourceFileFolderSelectionDialog.Text.Menu=menu
+
+###########################################################
 #ShowPropertyAction properties
 
 ShowPropertyAction.text=属性
@@ -3829,6 +3853,15 @@ FragmentResourceEntry.RootDisplayName=内置库
 #PathResourceEntry properties
 PathResourceEntry.RootName=资源文件夹
 PathResourceEntry.RootDisplayName=共享库
+
+###########################################################
+#ResourceFilter properties
+ResourceFilter.DisplayName.CVS=CVS resources
+ResourceFilter.DisplayName.Dot=.* resources
+ResourceFilter.DisplayName.EmptyFolder=Empty folders
+ResourceFilter.Description.CVS=Hides resources with names that start with \"CVS\"
+ResourceFilter.Description.Dot=Hides resources with names that start with a '.'
+ResourceFilter.Description.EmptyFolder=Hides empty folders
 
 ###########################################################
 #BIRTGotoMarker properties
