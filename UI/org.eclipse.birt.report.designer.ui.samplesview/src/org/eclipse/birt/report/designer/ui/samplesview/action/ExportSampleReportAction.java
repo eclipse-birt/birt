@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.designer.ui.samplesview.action;
 
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.samplesview.util.PlaceResources;
 import org.eclipse.birt.report.designer.ui.samplesview.view.ReportExamples;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -37,6 +39,8 @@ public class ExportSampleReportAction extends Action implements Listener
 	{
 		super( ACTION_TEXT );
 		setToolTipText( Messages.getString( "SampleReportsView.Action.exportSampleReport.toolTipText" ) );
+		setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ENABLE_EXPORT ) );
+		setDisabledImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_DISABLE_EXPORT ) );
 		setEnabled( false );
 		this.composite = composite;
 		composite.addSelectedListener( this );

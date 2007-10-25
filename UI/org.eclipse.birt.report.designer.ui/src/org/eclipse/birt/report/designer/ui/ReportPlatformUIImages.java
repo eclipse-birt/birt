@@ -616,6 +616,18 @@ public class ReportPlatformUIImages
 		
 		declareImage( IReportGraphicConstants.ICON_LEVEL_ATTRI,
 				ICONS_PATH + OBJ16_PATH + "levelAttribute-16.gif" ); //$NON-NLS-1$
+		
+		declareImage( IReportGraphicConstants.ICON_ENABLE_EXPORT,
+				ICONS_PATH + ETOOL16_PATH + "export_wiz.gif" ); //$NON-NLS-1$
+		
+		declareImage( IReportGraphicConstants.ICON_ENABLE_IMPORT,
+				ICONS_PATH + ETOOL16_PATH + "import_wiz.gif" ); //$NON-NLS-1$
+		
+		declareImage( IReportGraphicConstants.ICON_DISABLE_EXPORT,
+				ICONS_PATH + DTOOL16_PATH + "export_wiz.gif" ); //$NON-NLS-1$
+		
+		declareImage( IReportGraphicConstants.ICON_DISABLE_IMPORT,
+				ICONS_PATH + DTOOL16_PATH + "import_wiz.gif" ); //$NON-NLS-1$
 	}
 
 	/**

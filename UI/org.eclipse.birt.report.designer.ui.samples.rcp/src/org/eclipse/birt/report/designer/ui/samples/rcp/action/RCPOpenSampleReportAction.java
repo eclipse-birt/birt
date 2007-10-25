@@ -11,17 +11,38 @@
 
 package org.eclipse.birt.report.designer.ui.samples.rcp.action;
 
+import java.io.File;
+
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.editors.ReportEditorInput;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
 import org.eclipse.birt.report.designer.ui.samplesview.action.IOpenSampleReportAction;
 import org.eclipse.birt.report.designer.ui.samplesview.util.PlaceResources;
 import org.eclipse.birt.report.designer.ui.samplesview.view.ReportExamples;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 
 public class RCPOpenSampleReportAction extends Action implements
 		IOpenSampleReportAction,
@@ -38,6 +59,8 @@ public class RCPOpenSampleReportAction extends Action implements
 	{
 		super( ACTION_TEXT );
 		setToolTipText( Messages.getString( "SampleReportsView.Action.openSampleReport.toolTipText.rcp" ) );
+		setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ENABLE_IMPORT ) );
+		setDisabledImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_DISABLE_IMPORT ) );
 		setEnabled( false );
 	}
 
@@ -50,7 +73,7 @@ public class RCPOpenSampleReportAction extends Action implements
 	public void run( )
 	{
 		TreeItem item = (TreeItem) composite.getSelectedElement( );
-		Object selectedElement = item.getData( );
+		final Object selectedElement = item.getData( );
 		if ( selectedElement == null
 				|| !( selectedElement instanceof ReportDesignHandle ) )
 		{
@@ -90,6 +113,56 @@ public class RCPOpenSampleReportAction extends Action implements
 			PlaceResources.copyIncludedPng( composite.getShell( ),
 					getDefaultLocation( ) );
 		}
+
+		ISafeRunnable op = new ISafeRunnable( ) {
+
+			public void run( )
+			{
+				String fileName = ( (ReportDesignHandle) selectedElement ).getFileName( );
+				doFinish( getDefaultLocation( ),
+						fileName.substring( fileName.lastIndexOf( '/' ) + 1 ) );
+			}
+
+			public void handleException( Throwable exception )
+			{
+				ExceptionHandler.handle( exception );
+			}
+		};
+		SafeRunner.run( op );
+
+	}
+
+	private void doFinish( String locationPath, String fileName )
+	{
+
+		final File file = new File( locationPath, fileName );
+		Display.getDefault( ).asyncExec( new Runnable( ) {
+
+			public void run( )
+			{
+				IWorkbench workbench = PlatformUI.getWorkbench( );
+				IWorkbenchWindow window = workbench.getActiveWorkbenchWindow( );
+
+				IWorkbenchPage page = window.getActivePage( );
+				try
+				{
+					// sanity checks
+					if ( page == null )
+					{
+						throw new IllegalArgumentException( );
+					}
+
+					// open the editor on the file
+					page.openEditor( new ReportEditorInput( file ),
+							IReportEditorContants.DESIGN_EDITOR_ID,
+							true );
+				}
+				catch ( Exception e )
+				{
+					ExceptionHandler.handle( e );
+				}
+			}
+		} );
 	}
 
 	private String getDefaultLocation( )
@@ -111,4 +184,5 @@ public class RCPOpenSampleReportAction extends Action implements
 		else
 			super.setEnabled( selectedElement instanceof ReportDesignHandle );
 	}
+
 }

@@ -116,11 +116,10 @@ public interface IReportGraphicConstants
 	public final static String ICON_ELEMENT_CSS_STYLE_SHEET_LINK = ICON_ELEMENT_CSS_STYLE_SHEET
 			+ "_"
 			+ LINK;
-	
-	
+
 	public final static String ICON_ELEMENT_STYLE_LINK = ICON_ELEMENT_STYLE
-	+ "_"
-	+ LINK;
+			+ "_"
+			+ LINK;
 
 	public final static String ICON_ELEMENT_DATA_LINK = ICON_ELEMENT_DATA
 			+ "_"
@@ -337,9 +336,9 @@ public interface IReportGraphicConstants
 	public final static String ICON_PREVIEW_PARAMETERS_HIDE = "PreviewParametersHide"; //$NON-NLS-1$	
 
 	public final static String ICON_PREVIEW_REFRESH = "RreviewRefresh";//$NON-NLS-1$
-	
+
 	public final static String ICON_REFRESH = "Refresh";//$NON-NLS-1$
-	
+
 	public final static String ICON_REFRESH_DISABLE = "DisableRefresh";//$NON-NLS-1$
 
 	// Parameter dialog icon
@@ -360,7 +359,7 @@ public interface IReportGraphicConstants
 
 	// Template preview image
 	public static final String ICON_TEMPLATE_NO_PREVIEW = "no_preview";//$NON-NLS-1$
-	
+
 	public static final String ICON_SCRIPTS_NODE = "Scripts Node";
 
 	public final static String[] IMAGE_FILTER_NAMES = {
@@ -384,16 +383,24 @@ public interface IReportGraphicConstants
 	};
 
 	public static final String REPORT_KEY_WORD = "report";
-	
-	//Quick tools aggregation icon
+
+	// Quick tools aggregation icon
 	public static final String ICON_ELEMENT_AGGREGATION = "aggregation";//$NON-NLS-1$
-	
+
 	public static final String REPORT_LAYOUT_PROPERTY = "layout";//$NON-NLS-1$
-	
-	//Level attribute icon
+
+	// Level attribute icon
 	public static final String ICON_LEVEL_ATTRI = "levelAttribute";//$NON-NLS-1$
-	
+
 	public final static String ICON_TOOL_FILTER = "resource filter"; //$NON-NLS-1$
-	
+
 	public final static String ICON_VIEW_MENU = "view menu"; //$NON-NLS-1$
+
+	public static final String ICON_ENABLE_EXPORT = "export_enable";
+
+	public static final String ICON_ENABLE_IMPORT = "import_enable";
+
+	public static final String ICON_DISABLE_EXPORT = "export_disable";
+	
+	public static final String ICON_DISABLE_IMPORT = "import_edisable";
 }

@@ -11,12 +11,17 @@
 
 package org.eclipse.birt.report.designer.ui.samples.ide.action;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.Enumeration;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.ReportEditorInput;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
 import org.eclipse.birt.report.designer.ui.samplesview.action.IOpenSampleReportAction;
 import org.eclipse.birt.report.designer.ui.samplesview.sampleslocator.SampleIncludedSourceEntry;
 import org.eclipse.birt.report.designer.ui.samplesview.util.PlaceResources;
@@ -33,8 +38,10 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
@@ -45,14 +52,20 @@ import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 
 public class IDEOpenSampleReportAction extends Action implements
-		IOpenSampleReportAction,Listener
+		IOpenSampleReportAction,
+		Listener
 {
 
 	private static final String ACTION_TEXT = Messages.getString( "SampleReportsView.Action.openSampleReport" );
@@ -79,7 +92,9 @@ public class IDEOpenSampleReportAction extends Action implements
 	{
 		super( ACTION_TEXT );
 		setToolTipText( Messages.getString( "SampleReportsView.Action.openSampleReport.toolTipText.ide" ) );
-		setEnabled( false );		
+		setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ENABLE_IMPORT ) );
+		setDisabledImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_DISABLE_IMPORT ) );
+		setEnabled( false );
 	}
 
 	public void setMainComposite( ReportExamples composite )
@@ -91,7 +106,7 @@ public class IDEOpenSampleReportAction extends Action implements
 	public void run( )
 	{
 		TreeItem item = (TreeItem) composite.getSelectedElement( );
-		Object selectedElement = item.getData( );
+		final Object selectedElement = item.getData( );
 		if ( selectedElement == null
 				|| !( selectedElement instanceof ReportDesignHandle ) )
 		{
@@ -200,6 +215,56 @@ public class IDEOpenSampleReportAction extends Action implements
 		{
 			PlaceExtendedPlugin( item.getParentItem( ).getText( ) );
 		}
+
+		ISafeRunnable op = new ISafeRunnable( ) {
+
+			public void run( )
+			{
+				String fileName = ( (ReportDesignHandle) selectedElement ).getFileName( );
+				doFinish( reportProject.getLocation( ).toOSString( ),
+						fileName.substring( fileName.lastIndexOf( '/' ) + 1 ) );
+			}
+
+			public void handleException( Throwable exception )
+			{
+				ExceptionHandler.handle( exception );
+			}
+		};
+		SafeRunner.run( op );
+
+	}
+
+	private void doFinish( String locationPath, String fileName )
+	{
+
+		final File file = new File( locationPath, fileName );
+		Display.getDefault( ).asyncExec( new Runnable( ) {
+
+			public void run( )
+			{
+				IWorkbench workbench = PlatformUI.getWorkbench( );
+				IWorkbenchWindow window = workbench.getActiveWorkbenchWindow( );
+
+				IWorkbenchPage page = window.getActivePage( );
+				try
+				{
+					// sanity checks
+					if ( page == null )
+					{
+						throw new IllegalArgumentException( );
+					}
+
+					// open the editor on the file
+					page.openEditor( new ReportEditorInput( file ),
+							IReportEditorContants.DESIGN_EDITOR_ID,
+							true );
+				}
+				catch ( Exception e )
+				{
+					ExceptionHandler.handle( e );
+				}
+			}
+		} );
 	}
 
 	private void PlaceExtendedPlugin( String categoryName )
@@ -434,7 +499,7 @@ public class IDEOpenSampleReportAction extends Action implements
 		entries[0] = JavaCore.newSourceEntry( path );
 		return entries;
 	}
-	
+
 	public void handleEvent( Event event )
 	{
 		if ( event.widget == null || !( event.widget instanceof TreeItem ) )
