@@ -231,6 +231,10 @@ BoxPreferencePage.text.Margin=Marge
 BoxPreferencePage.text.Padding=Remplissage
 
 ###########################################################
+#CommentsPreferencePage properties
+CommentsPreferencePage.displayname.Title=Commentaires
+
+###########################################################
 #ButtonPaneComposite properties
 
 ButtonPaneComposite.tooltip.MasterPage=Page maître

@@ -231,6 +231,10 @@ BoxPreferencePage.text.Margin=±ß¾à
 BoxPreferencePage.text.Padding=Ìî³ä
 
 ###########################################################
+#CommentsPreferencePage properties
+CommentsPreferencePage.displayname.Title=±¸×¢
+
+###########################################################
 #ButtonPaneComposite properties
 
 ButtonPaneComposite.tooltip.MasterPage=Ö÷Ò³

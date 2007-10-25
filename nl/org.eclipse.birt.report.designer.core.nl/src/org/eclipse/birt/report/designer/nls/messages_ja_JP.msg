@@ -231,6 +231,10 @@ BoxPreferencePage.text.Margin=余白
 BoxPreferencePage.text.Padding=パディング
 
 ###########################################################
+#CommentsPreferencePage properties
+CommentsPreferencePage.displayname.Title=コメント
+
+###########################################################
 #ButtonPaneComposite properties
 
 ButtonPaneComposite.tooltip.MasterPage=マスタページ

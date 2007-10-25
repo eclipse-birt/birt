@@ -231,6 +231,10 @@ BoxPreferencePage.text.Margin=여백
 BoxPreferencePage.text.Padding=안쪽 여백
 
 ###########################################################
+#CommentsPreferencePage properties
+CommentsPreferencePage.displayname.Title=설명
+
+###########################################################
 #ButtonPaneComposite properties
 
 ButtonPaneComposite.tooltip.MasterPage=마스터 페이지

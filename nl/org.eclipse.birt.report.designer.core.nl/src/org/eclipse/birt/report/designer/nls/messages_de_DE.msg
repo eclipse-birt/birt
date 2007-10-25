@@ -231,6 +231,10 @@ BoxPreferencePage.text.Margin=Rand
 BoxPreferencePage.text.Padding=Umrandungsfüllung
 
 ###########################################################
+#CommentsPreferencePage properties
+CommentsPreferencePage.displayname.Title=Kommentare
+
+###########################################################
 #ButtonPaneComposite properties
 
 ButtonPaneComposite.tooltip.MasterPage=Master-Seite

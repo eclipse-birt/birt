@@ -231,6 +231,10 @@ BoxPreferencePage.text.Margin=Margen
 BoxPreferencePage.text.Padding=Relleno
 
 ###########################################################
+#CommentsPreferencePage properties
+CommentsPreferencePage.displayname.Title=Comentarios
+
+###########################################################
 #ButtonPaneComposite properties
 
 ButtonPaneComposite.tooltip.MasterPage=Página maestra
