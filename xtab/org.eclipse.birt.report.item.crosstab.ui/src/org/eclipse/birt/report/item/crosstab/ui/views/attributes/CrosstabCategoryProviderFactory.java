@@ -14,6 +14,7 @@ package org.eclipse.birt.report.item.crosstab.ui.views.attributes;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AdvancePropertyPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BookMarkExpressionPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BordersPage;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.CommentsPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FontPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.ItemMarginPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.NamedExpressionsPage;
@@ -60,6 +61,7 @@ public class CrosstabCategoryProviderFactory extends CategoryProviderFactory
 	{
 		CategoryProvider provider = new CategoryProvider( new String[]{
 				CategoryProviderFactory.CATEGORY_KEY_GENERAL,
+				CategoryProviderFactory.CATEGORY_KEY_COMMENTS,
 				CategoryProviderFactory.CATEGORY_KEY_MARGIN,
 				CategoryProviderFactory.CATEGORY_KEY_FONT,
 				CategoryProviderFactory.CATEGORY_KEY_BORDERS,
@@ -72,6 +74,7 @@ public class CrosstabCategoryProviderFactory extends CategoryProviderFactory
 				CategoryProviderFactory.CATEGORY_KEY_ADVANCEPROPERTY,
 		}, new String[]{
 				"CrosstabPageGenerator.List.General", //$NON-NLS-1$
+				"ReportPageGenerator.List.Comments", //$NON-NLS-1$
 				"CrosstabPageGenerator.List.Margin", //$NON-NLS-1$
 				"CrosstabPageGenerator.List.Font", //$NON-NLS-1$
 				"CrosstabPageGenerator.List.Borders", //$NON-NLS-1$
@@ -84,6 +87,7 @@ public class CrosstabCategoryProviderFactory extends CategoryProviderFactory
 				"CrosstabPageGenerator.List.AdvancedProperty", //$NON-NLS-1$
 		}, new Class[]{
 				CrosstabGeneralPage.class,
+				CommentsPage.class,
 				ItemMarginPage.class,
 				FontPage.class,
 				BordersPage.class,

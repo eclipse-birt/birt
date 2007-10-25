@@ -291,4 +291,7 @@ public interface IHelpContextIds
 	public static final String RESOURCE_FILTER_DIALOG_ID = PREFIX
 	+ "ResourceFilterDialog_ID";
 
+	public static final String STYLE_BUILDER_COMMENTS_ID = PREFIX
+			+ "StyleBuilderComments_ID";
+
 }

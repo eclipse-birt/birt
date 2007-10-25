@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.BackgroundPreference
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BlockPreferencePage;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BorderPreferencePage;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BoxPreferencePage;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.CommentsPreferencePage;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.FontPreferencePage;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.FormatDateTimePreferencePage;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.FormatNumberPreferencePage;
@@ -140,7 +141,9 @@ public class StyleBuilder extends PreferenceDialog
 				new MapPreferencePage( handle ) ) );
 		pageContributions.add( new PreferenceNode( "Highlights", //$NON-NLS-1$
 				new HighlightsPreferencePage( handle ) ) );
-
+		pageContributions.add( new PreferenceNode( "Comments", //$NON-NLS-1$
+				new CommentsPreferencePage( handle ) ) );
+		
 		// Add the contributions to the manager
 		Iterator it = pageContributions.iterator( );
 		while ( it.hasNext( ) )
