@@ -108,6 +108,10 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 		{
 			child = childLM;
 		}
+		else
+		{
+			child = null;
+		}
 		return hasNextPage;
 	}
 
