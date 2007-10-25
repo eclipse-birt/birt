@@ -897,10 +897,11 @@ public class ParameterDialog extends BaseDialog
 						}
 						// defaultValueChooser.select( 1 );
 					}
-					else if ( ( defaultValue.equals( Boolean.toString( true ) ) || defaultValue.equals( Boolean.toString( false ) ) ) )
-					{
-						defaultValue = null;
-					}
+					// To fix bug 207402, set the following code to comments
+//					else if ( ( defaultValue.equals( Boolean.toString( true ) ) || defaultValue.equals( Boolean.toString( false ) ) ) )
+//					{
+//						defaultValue = null;
+//					}
 					else
 					{
 						if ( !isRequired.getSelection( ) )
