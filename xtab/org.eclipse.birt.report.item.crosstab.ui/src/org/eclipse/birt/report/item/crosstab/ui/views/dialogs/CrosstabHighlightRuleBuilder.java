@@ -21,10 +21,8 @@ import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.HighlightHandleProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
-import org.eclipse.birt.report.designer.ui.dialogs.ExpressionValue;
 import org.eclipse.birt.report.designer.ui.dialogs.HighlightRuleBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.SelectValueDialog;
-import org.eclipse.birt.report.designer.ui.widget.PopupSelectionList;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.CrosstabBindingExpressionProvider;
@@ -38,10 +36,8 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
 
@@ -62,20 +58,11 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 		super( parentShell, title, provider );
 	}
 
-	protected void popBtnSelectionAction(ExpressionValue expressionValue)
+	protected void popBtnSelectionAction(Combo comboWidget)
 	{
-		Text valueText =  expressionValue.getTextControl( );
-		Rectangle textBounds = valueText.getBounds( );
-		Point pt = valueText.toDisplay( textBounds.x, textBounds.y );
-		Rectangle rect = new Rectangle( pt.x, pt.y, valueText.getParent( )
-				.getBounds( ).width, textBounds.height );
-
-		PopupSelectionList popup = new PopupSelectionList( valueText.getParent( )
-				.getShell( ) );
-		popup.setItems( popupItems );
-		String value = popup.open( rect );
-		int selectionIndex = popup.getSelectionIndex( );
-
+		int selectionIndex = comboWidget.getSelectionIndex( );
+		String value = comboWidget.getItem( selectionIndex );
+		
 		for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 		{
 			String columnName = ( (ComputedColumnHandle) ( iter.next( ) ) ).getName( );
@@ -120,7 +107,7 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 				ExpressionBuilder dialog = new ExpressionBuilder( PlatformUI.getWorkbench( )
 						.getDisplay( )
 						.getActiveShell( ),
-						valueText.getText( ) );
+						comboWidget.getText( ) );
 
 				if (expressionProvider == null ||( !( expressionProvider instanceof CrosstabBindingExpressionProvider) ))
 				{
@@ -140,7 +127,7 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 			}
 			if ( newValue != null )
 			{
-				valueText.setText( newValue );
+				comboWidget.setText( newValue );
 			}
 		}
 	}

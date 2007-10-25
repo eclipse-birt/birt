@@ -35,7 +35,6 @@ import org.eclipse.birt.report.designer.ui.views.attributes.providers.AttributeC
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.ui.widget.ColorBuilder;
 import org.eclipse.birt.report.designer.ui.widget.FontSizeBuilder;
-import org.eclipse.birt.report.designer.ui.widget.PopupSelectionList;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -69,7 +68,6 @@ import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
@@ -84,6 +82,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.PlatformUI;
 
 /**
@@ -234,8 +233,10 @@ public class HighlightRuleBuilder extends BaseDialog
 
 	private Combo operator;
 
-	private ExpressionValue value1, value2;
+//	private ExpressionValue value1, value2;
 
+	private Combo expressionValue1, expressionValue2;
+	
 	private Label andLable;
 
 	private Combo font;
@@ -408,30 +409,39 @@ public class HighlightRuleBuilder extends BaseDialog
 
 				if ( vv == 0 )
 				{
-					value1.setVisible( false );
-					value2.setVisible( false );
+					expressionValue1.setVisible( false );
+					expressionValue2.setVisible( false );
 					andLable.setVisible( false );
 				}
 				else if ( vv == 1 )
 				{
-					value1.setVisible( true );
-					value2.setVisible( false );
+					expressionValue1.setVisible( true );
+					expressionValue2.setVisible( false );
 					andLable.setVisible( false );
 				}
 				else if ( vv == 2 )
 				{
-					value1.setVisible( true );
-					value2.setVisible( true );
+					expressionValue1.setVisible( true );
+					expressionValue2.setVisible( true );
 					andLable.setVisible( true );
 				}
 				updateButtons( );
 			}
 		} );
+		
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		
+		refreshList();
 
-		value1 = new ExpressionValue( condition, expression );
-		value1.addTextControlListener( SWT.Modify, textModifyListener );
-		value1.addButtonControlListener( SWT.Selection,
-				popBtnSelectionListener1 );
+		expressionValue1 = new Combo( condition, SWT.NONE );
+		expressionValue1.setLayoutData( gd );
+		
+		expressionValue1.setItems( popupItems );
+		
+		expressionValue1.addListener( SWT.Verify, expValueVerifyListener);
+		expressionValue1.addListener( SWT.Modify, textModifyListener );
+		expressionValue1.addListener( SWT.Selection,
+				popBtnSelectionListener );
 
 		createDummy( condition, 3 );
 
@@ -441,11 +451,16 @@ public class HighlightRuleBuilder extends BaseDialog
 
 		createDummy( condition, 3 );
 
-		value2 = new ExpressionValue( condition, expression );
-		value2.addTextControlListener( SWT.Modify, textModifyListener );
-		value2.addButtonControlListener( SWT.Selection,
-				popBtnSelectionListener2 );
-		value2.setVisible( false );
+		expressionValue2 = new Combo( condition, SWT.NONE );
+		expressionValue2.setLayoutData( gd );
+		
+		expressionValue2.setItems( popupItems );
+		
+		expressionValue2.addListener( SWT.Verify, expValueVerifyListener);
+		expressionValue2.addListener( SWT.Modify, textModifyListener );
+		expressionValue2.addListener( SWT.Selection,
+				popBtnSelectionListener );
+		expressionValue2.setVisible( false );
 		if ( operator.getItemCount( ) > 0 )
 		{
 			operator.select( 0 );
@@ -739,19 +754,11 @@ public class HighlightRuleBuilder extends BaseDialog
 		return selectValueList;
 	}
 
-	protected void popBtnSelectionAction( ExpressionValue expressionValue )
+	protected void popBtnSelectionAction( Combo comboWidget )
 	{
-		Text valueText = expressionValue.getTextControl( );
-		Rectangle textBounds = valueText.getBounds( );
-		Point pt = valueText.toDisplay( textBounds.x, textBounds.y );
-		Rectangle rect = new Rectangle( pt.x, pt.y, valueText.getParent( )
-				.getBounds( ).width, textBounds.height );
 
-		PopupSelectionList popup = new PopupSelectionList( valueText.getParent( )
-				.getShell( ) );
-		popup.setItems( popupItems );
-		String value = popup.open( rect );
-		int selectionIndex = popup.getSelectionIndex( );
+		int selectionIndex = comboWidget.getSelectionIndex( );
+		String value = comboWidget.getItem( selectionIndex );
 
 		for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 		{
@@ -841,7 +848,7 @@ public class HighlightRuleBuilder extends BaseDialog
 				ExpressionBuilder dialog = new ExpressionBuilder( PlatformUI.getWorkbench( )
 						.getDisplay( )
 						.getActiveShell( ),
-						valueText.getText( ) );
+						comboWidget.getText( ) );
 
 				if ( expressionProvider == null )
 					dialog.setExpressionProvier( new ExpressionProvider( designHandle ) );
@@ -859,28 +866,37 @@ public class HighlightRuleBuilder extends BaseDialog
 			}
 			if ( newValue != null )
 			{
-				valueText.setText( newValue );
+				comboWidget.setText( newValue );
 			}
 		}
 	}
 
-	private Listener popBtnSelectionListener1 = new Listener( ) {
+	private Listener popBtnSelectionListener = new Listener( ) {
 
 		public void handleEvent( Event event )
 		{
-			popBtnSelectionAction( value1 );
+			Widget widget = event.widget;
+			assert(widget instanceof Combo);
+			popBtnSelectionAction( (Combo)widget );
 		}
 
 	};
 
-	private Listener popBtnSelectionListener2 = new Listener( ) {
+	protected Listener expValueVerifyListener = new Listener( ) {
 
 		public void handleEvent( Event event )
 		{
-			popBtnSelectionAction( value2 );
-		}
-
-	};
+			// TODO Auto-generated method stub
+			Combo thisCombo = (Combo) event.widget;
+			String text = event.text;
+			if(text != null && thisCombo.indexOf( text)>= 0)
+			{
+				event.doit = false;
+			}else
+			{
+				event.doit = true;
+			}
+		}};
 
 	private Composite createTitleArea( Composite parent )
 	{
@@ -1193,8 +1209,8 @@ public class HighlightRuleBuilder extends BaseDialog
 		backColor.setEnabled( val2 );
 
 		operator.setEnabled( val );
-		value1.setEnabled( val );
-		value2.setEnabled( val );
+		expressionValue1.setEnabled( val );
+		expressionValue2.setEnabled( val );
 	}
 
 	/**
@@ -1239,17 +1255,17 @@ public class HighlightRuleBuilder extends BaseDialog
 	 */
 	private boolean checkValues( )
 	{
-		if ( value1.getVisible( ) )
+		if ( expressionValue1.getVisible( ) )
 		{
-			if ( value1.getText( ) == null || value1.getText( ).length( ) == 0 )
+			if ( expressionValue1.getText( ) == null || expressionValue1.getText( ).length( ) == 0 )
 			{
 				return false;
 			}
 		}
 
-		if ( value2.getVisible( ) )
+		if ( expressionValue2.getVisible( ) )
 		{
-			if ( value2.getText( ) == null || value2.getText( ).length( ) == 0 )
+			if ( expressionValue2.getText( ) == null || expressionValue2.getText( ).length( ) == 0 )
 			{
 				return false;
 			}
@@ -1292,28 +1308,28 @@ public class HighlightRuleBuilder extends BaseDialog
 
 			operator.select( getIndexForOperatorValue( handle.getOperator( ) ) );
 
-			value1.setText( DEUtil.resolveNull( handle.getValue1( ) ) );
+			expressionValue1.setText( DEUtil.resolveNull( handle.getValue1( ) ) );
 
-			value2.setText( DEUtil.resolveNull( handle.getValue2( ) ) );
+			expressionValue2.setText( DEUtil.resolveNull( handle.getValue2( ) ) );
 
 			int vv = determineValueVisible( handle.getOperator( ) );
 
 			if ( vv == 0 )
 			{
-				value1.setVisible( false );
-				value2.setVisible( false );
+				expressionValue1.setVisible( false );
+				expressionValue2.setVisible( false );
 				andLable.setVisible( false );
 			}
 			else if ( vv == 1 )
 			{
-				value1.setVisible( true );
-				value2.setVisible( false );
+				expressionValue1.setVisible( true );
+				expressionValue2.setVisible( false );
 				andLable.setVisible( false );
 			}
 			else if ( vv == 2 )
 			{
-				value1.setVisible( true );
-				value2.setVisible( true );
+				expressionValue1.setVisible( true );
+				expressionValue2.setVisible( true );
 				andLable.setVisible( true );
 			}
 		}
@@ -1537,15 +1553,15 @@ public class HighlightRuleBuilder extends BaseDialog
 
 				rule.setProperty( HighlightRule.OPERATOR_MEMBER,
 						DEUtil.resolveNull( getValueForOperator( operator.getText( ) ) ) );
-				if ( value1.isVisible( ) )
+				if ( expressionValue1.isVisible( ) )
 				{
 					rule.setProperty( HighlightRule.VALUE1_MEMBER,
-							DEUtil.resolveNull( value1.getText( ) ) );
+							DEUtil.resolveNull( expressionValue1.getText( ) ) );
 				}
-				if ( value2.isVisible( ) )
+				if ( expressionValue2.isVisible( ) )
 				{
 					rule.setProperty( HighlightRule.VALUE2_MEMBER,
-							DEUtil.resolveNull( value2.getText( ) ) );
+							DEUtil.resolveNull( expressionValue2.getText( ) ) );
 				}
 				// set test expression into highlight rule.
 				rule.setTestExpression( DEUtil.resolveNull( expression.getText( ) ) );
@@ -1609,13 +1625,13 @@ public class HighlightRuleBuilder extends BaseDialog
 				handle.setTestExpression( DEUtil.resolveNull( expression.getText( ) ) );
 				handle.setOperator( DEUtil.resolveNull( getValueForOperator( operator.getText( ) ) ) );
 
-				if ( value1.isVisible( ) )
+				if ( expressionValue1.isVisible( ) )
 				{
-					handle.setValue1( DEUtil.resolveNull( value1.getText( ) ) );
+					handle.setValue1( DEUtil.resolveNull( expressionValue1.getText( ) ) );
 				}
-				if ( value2.isVisible( ) )
+				if ( expressionValue2.isVisible( ) )
 				{
-					handle.setValue2( DEUtil.resolveNull( value2.getText( ) ) );
+					handle.setValue2( DEUtil.resolveNull( expressionValue2.getText( ) ) );
 				}
 
 				if ( !stylesChooser.getText( ).equals( NONE_DISPLAY_TEXT ) )
