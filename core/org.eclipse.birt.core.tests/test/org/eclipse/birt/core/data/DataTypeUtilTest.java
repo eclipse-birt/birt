@@ -770,7 +770,7 @@ public class DataTypeUtilTest extends TestCase
                 DataTypeUtil.toApiDataType( Types.TIME ) );
         assertEquals( DataType.DATE_TYPE, 
                 DataTypeUtil.toApiDataType( Types.TIMESTAMP ) );
-        assertEquals( DataType.BINARY_TYPE, 
+        assertEquals( DataType.BLOB_TYPE, 
                 DataTypeUtil.toApiDataType( Types.BLOB ) );
         assertEquals( DataType.STRING_TYPE, 
                 DataTypeUtil.toApiDataType( Types.CLOB ) );
