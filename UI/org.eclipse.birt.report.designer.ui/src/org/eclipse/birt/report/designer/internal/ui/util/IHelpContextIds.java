@@ -288,4 +288,7 @@ public interface IHelpContextIds
 	public static final String USE_CSS_IN_REPORT_DIALOG_ID = PREFIX
 			+ "UseCssInReportDialog_ID";
 
+	public static final String RESOURCE_FILTER_DIALOG_ID = PREFIX
+	+ "ResourceFilterDialog_ID";
+
 }

@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceFilter;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
@@ -55,7 +57,7 @@ public class ResourceFilterDialog extends BaseDialog
 		initViewer( );
 
 		// TODO: need to add a help context id here
-		// UIUtil.bindHelp( composite, IHelpContextIds.FORMAT_BUILDER_ID );
+		UIUtil.bindHelp( composite, IHelpContextIds.RESOURCE_FILTER_DIALOG_ID );
 		return composite;
 	}
 
