@@ -61,9 +61,9 @@ public class LibraryExplorerView extends PageBookView
 
 	public void createPartControl( Composite parent )
 	{
-		super.createPartControl( parent );
 		createMenu( );
 		createToolBar( );
+		super.createPartControl( parent );
 	}
 
 	private void createToolBar( )
