@@ -835,17 +835,9 @@ public class MapRuleBuilder extends BaseDialog
 		currentItem = reportItem;
 	}
 	
-	private void inilializeColumnList( DesignElementHandle handle )
+	protected void inilializeColumnList( DesignElementHandle handle )
 	{
-		if(handle instanceof ExtendedItemHandle)
-		{
-			// Don't return any bindings currently. Update later. 
-			columnList = new ArrayList();
-		}
-		else
-		{
-			columnList = DEUtil.getVisiableColumnBindingsList( handle );
-		}
+		columnList = DEUtil.getVisiableColumnBindingsList( handle );
 	}
 
 	private void initializeParamterBinding( DesignElementHandle handle )

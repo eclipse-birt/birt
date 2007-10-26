@@ -30,6 +30,7 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.item.crosstab.plugin.CrosstabPlugin;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
@@ -59,6 +60,11 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder
 		super( parentShell, title, provider );
 	}
 
+	protected void inilializeColumnList( DesignElementHandle handle )
+	{
+		columnList = new ArrayList( );
+	}
+	
 	protected void popBtnSelectionAction(Combo comboWidget)
 	{
 

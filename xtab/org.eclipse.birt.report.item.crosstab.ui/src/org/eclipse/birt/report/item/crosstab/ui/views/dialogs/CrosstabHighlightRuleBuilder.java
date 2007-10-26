@@ -30,6 +30,7 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.item.crosstab.plugin.CrosstabPlugin;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
@@ -40,13 +41,13 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
-
 /**
  * 
  */
 
 public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 {
+
 	/**
 	 * @param parentShell
 	 * @param title
@@ -58,11 +59,16 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 		super( parentShell, title, provider );
 	}
 
-	protected void popBtnSelectionAction(Combo comboWidget)
+	protected void inilializeColumnList( DesignElementHandle handle )
+	{
+		columnList = new ArrayList( );
+	}
+
+	protected void popBtnSelectionAction( Combo comboWidget )
 	{
 		int selectionIndex = comboWidget.getSelectionIndex( );
 		String value = comboWidget.getItem( selectionIndex );
-		
+
 		for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 		{
 			String columnName = ( (ComputedColumnHandle) ( iter.next( ) ) ).getName( );
@@ -80,8 +86,7 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 			if ( value.equals( ( actions[0] ) ) )
 			{
 				List selectValueList = getSelectedValueList( );
-				if ( selectValueList == null
-						|| selectValueList.size( ) == 0 )
+				if ( selectValueList == null || selectValueList.size( ) == 0 )
 				{
 					MessageDialog.openInformation( null,
 							Messages.getString( "SelectValueDialog.selectValue" ),
@@ -109,7 +114,8 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 						.getActiveShell( ),
 						comboWidget.getText( ) );
 
-				if (expressionProvider == null ||( !( expressionProvider instanceof CrosstabBindingExpressionProvider) ))
+				if ( expressionProvider == null
+						|| ( !( expressionProvider instanceof CrosstabBindingExpressionProvider ) ) )
 				{
 					expressionProvider = new CrosstabBindingExpressionProvider( designHandle );
 				}
@@ -152,7 +158,7 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 			catch ( ExtendedElementException e )
 			{
 				// TODO Auto-generated catch block
-				logger.log(Level.SEVERE, e.getMessage(),e);
+				logger.log( Level.SEVERE, e.getMessage( ), e );
 			}
 
 		}
@@ -179,7 +185,7 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 		catch ( Exception e )
 		{
 			// TODO Auto-generated catch block
-			logger.log(Level.SEVERE, e.getMessage(),e);
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 		List valueList = new ArrayList( );
 		int count = 0;
@@ -199,7 +205,6 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 						break;
 					}
 				}
-
 
 			}
 

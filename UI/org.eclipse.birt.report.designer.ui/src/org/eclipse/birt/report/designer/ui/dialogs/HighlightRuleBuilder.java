@@ -233,10 +233,10 @@ public class HighlightRuleBuilder extends BaseDialog
 
 	private Combo operator;
 
-//	private ExpressionValue value1, value2;
+	// private ExpressionValue value1, value2;
 
 	private Combo expressionValue1, expressionValue2;
-	
+
 	private Label andLable;
 
 	private Combo font;
@@ -428,20 +428,19 @@ public class HighlightRuleBuilder extends BaseDialog
 				updateButtons( );
 			}
 		} );
-		
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-		
-		refreshList();
+
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+
+		refreshList( );
 
 		expressionValue1 = new Combo( condition, SWT.NONE );
 		expressionValue1.setLayoutData( gd );
-		
+
 		expressionValue1.setItems( popupItems );
-		
-		expressionValue1.addListener( SWT.Verify, expValueVerifyListener);
+
+		expressionValue1.addListener( SWT.Verify, expValueVerifyListener );
 		expressionValue1.addListener( SWT.Modify, textModifyListener );
-		expressionValue1.addListener( SWT.Selection,
-				popBtnSelectionListener );
+		expressionValue1.addListener( SWT.Selection, popBtnSelectionListener );
 
 		createDummy( condition, 3 );
 
@@ -453,13 +452,12 @@ public class HighlightRuleBuilder extends BaseDialog
 
 		expressionValue2 = new Combo( condition, SWT.NONE );
 		expressionValue2.setLayoutData( gd );
-		
+
 		expressionValue2.setItems( popupItems );
-		
-		expressionValue2.addListener( SWT.Verify, expValueVerifyListener);
+
+		expressionValue2.addListener( SWT.Verify, expValueVerifyListener );
 		expressionValue2.addListener( SWT.Modify, textModifyListener );
-		expressionValue2.addListener( SWT.Selection,
-				popBtnSelectionListener );
+		expressionValue2.addListener( SWT.Selection, popBtnSelectionListener );
 		expressionValue2.setVisible( false );
 		if ( operator.getItemCount( ) > 0 )
 		{
@@ -876,8 +874,8 @@ public class HighlightRuleBuilder extends BaseDialog
 		public void handleEvent( Event event )
 		{
 			Widget widget = event.widget;
-			assert(widget instanceof Combo);
-			popBtnSelectionAction( (Combo)widget );
+			assert ( widget instanceof Combo );
+			popBtnSelectionAction( (Combo) widget );
 		}
 
 	};
@@ -889,14 +887,16 @@ public class HighlightRuleBuilder extends BaseDialog
 			// TODO Auto-generated method stub
 			Combo thisCombo = (Combo) event.widget;
 			String text = event.text;
-			if(text != null && thisCombo.indexOf( text)>= 0)
+			if ( text != null && thisCombo.indexOf( text ) >= 0 )
 			{
 				event.doit = false;
-			}else
+			}
+			else
 			{
 				event.doit = true;
 			}
-		}};
+		}
+	};
 
 	private Composite createTitleArea( Composite parent )
 	{
@@ -1077,17 +1077,9 @@ public class HighlightRuleBuilder extends BaseDialog
 		initializeParamterBinding( handle );
 	}
 
-	private void inilializeColumnList( DesignElementHandle handle )
+	protected void inilializeColumnList( DesignElementHandle handle )
 	{
-		if ( handle instanceof ExtendedItemHandle )
-		{
-			columnList = new ArrayList( );
-		}
-		else
-		{
-			columnList = DEUtil.getVisiableColumnBindingsList( handle );
-		}
-
+		columnList = DEUtil.getVisiableColumnBindingsList( handle );
 	}
 
 	private void initializeParamterBinding( DesignElementHandle handle )
@@ -1257,7 +1249,8 @@ public class HighlightRuleBuilder extends BaseDialog
 	{
 		if ( expressionValue1.getVisible( ) )
 		{
-			if ( expressionValue1.getText( ) == null || expressionValue1.getText( ).length( ) == 0 )
+			if ( expressionValue1.getText( ) == null
+					|| expressionValue1.getText( ).length( ) == 0 )
 			{
 				return false;
 			}
@@ -1265,7 +1258,8 @@ public class HighlightRuleBuilder extends BaseDialog
 
 		if ( expressionValue2.getVisible( ) )
 		{
-			if ( expressionValue2.getText( ) == null || expressionValue2.getText( ).length( ) == 0 )
+			if ( expressionValue2.getText( ) == null
+					|| expressionValue2.getText( ).length( ) == 0 )
 			{
 				return false;
 			}
