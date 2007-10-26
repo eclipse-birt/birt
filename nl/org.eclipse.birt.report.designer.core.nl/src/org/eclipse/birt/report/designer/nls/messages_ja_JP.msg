@@ -3977,4 +3977,5 @@ FormatDateTimePattern.datetiem_format_type_day_of_month=’Ê“ú (ŒŽ)
 FormatDateTimePattern.datetiem_format_type_medium_day_of_year=’Ê“ú (”N)
 FormatDateTimePattern.datetiem_format_type_minutes=•ª
 FormatDateTimePattern.datetiem_format_type_secontds=•b
+FormatDateTimePattern.datetiem_format_type_general_time=General Time
 

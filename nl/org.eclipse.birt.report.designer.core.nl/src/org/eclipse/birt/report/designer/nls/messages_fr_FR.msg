@@ -3977,4 +3977,5 @@ FormatDateTimePattern.datetiem_format_type_day_of_month=Jour du mois
 FormatDateTimePattern.datetiem_format_type_medium_day_of_year=Jour de l'année moyen
 FormatDateTimePattern.datetiem_format_type_minutes=Minutes
 FormatDateTimePattern.datetiem_format_type_secontds=Secondes
+FormatDateTimePattern.datetiem_format_type_general_time=General Time
 

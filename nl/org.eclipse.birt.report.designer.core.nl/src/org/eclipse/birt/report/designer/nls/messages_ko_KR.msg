@@ -3977,4 +3977,5 @@ FormatDateTimePattern.datetiem_format_type_day_of_month=월 일
 FormatDateTimePattern.datetiem_format_type_medium_day_of_year=월 일 연도
 FormatDateTimePattern.datetiem_format_type_minutes=분
 FormatDateTimePattern.datetiem_format_type_secontds=초
+FormatDateTimePattern.datetiem_format_type_general_time=General Time
 
