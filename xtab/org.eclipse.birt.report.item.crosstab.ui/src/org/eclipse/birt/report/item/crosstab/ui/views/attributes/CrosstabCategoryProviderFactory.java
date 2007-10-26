@@ -61,7 +61,6 @@ public class CrosstabCategoryProviderFactory extends CategoryProviderFactory
 	{
 		CategoryProvider provider = new CategoryProvider( new String[]{
 				CategoryProviderFactory.CATEGORY_KEY_GENERAL,
-				CategoryProviderFactory.CATEGORY_KEY_COMMENTS,
 				CategoryProviderFactory.CATEGORY_KEY_MARGIN,
 				CategoryProviderFactory.CATEGORY_KEY_FONT,
 				CategoryProviderFactory.CATEGORY_KEY_BORDERS,
@@ -69,12 +68,12 @@ public class CrosstabCategoryProviderFactory extends CategoryProviderFactory
 				CategoryProviderFactory.CATEGORY_KEY_VISIBILITY,
 				CategoryProviderFactory.CATEGORY_KEY_TOC,
 				CategoryProviderFactory.CATEGORY_KEY_BOOKMARK,
+				CategoryProviderFactory.CATEGORY_KEY_COMMENTS,
 				CategoryProviderFactory.CATEGORY_KEY_USERPROPERTIES,
 				CategoryProviderFactory.CATEGORY_KEY_NAMEDEXPRESSIONS,
 				CategoryProviderFactory.CATEGORY_KEY_ADVANCEPROPERTY,
 		}, new String[]{
 				"CrosstabPageGenerator.List.General", //$NON-NLS-1$
-				"ReportPageGenerator.List.Comments", //$NON-NLS-1$
 				"CrosstabPageGenerator.List.Margin", //$NON-NLS-1$
 				"CrosstabPageGenerator.List.Font", //$NON-NLS-1$
 				"CrosstabPageGenerator.List.Borders", //$NON-NLS-1$
@@ -82,12 +81,12 @@ public class CrosstabCategoryProviderFactory extends CategoryProviderFactory
 				"CrosstabPageGenerator.List.Visibility", //$NON-NLS-1$
 				"CrosstabPageGenerator.List.TOC", //$NON-NLS-1$
 				"CrosstabPageGenerator.List.Bookmark", //$NON-NLS-1$
+				"ReportPageGenerator.List.Comments", //$NON-NLS-1$
 				"CrosstabPageGenerator.List.UserProperties", //$NON-NLS-1$
 				"CrosstabPageGenerator.List.NamedExpressions", //$NON-NLS-1$
 				"CrosstabPageGenerator.List.AdvancedProperty", //$NON-NLS-1$
 		}, new Class[]{
 				CrosstabGeneralPage.class,
-				CommentsPage.class,
 				ItemMarginPage.class,
 				FontPage.class,
 				BordersPage.class,
@@ -95,6 +94,7 @@ public class CrosstabCategoryProviderFactory extends CategoryProviderFactory
 				VisibilityPage.class,
 				TOCExpressionPage.class,
 				BookMarkExpressionPage.class,
+				CommentsPage.class,
 				UserPropertiesPage.class,
 				NamedExpressionsPage.class,
 				AdvancePropertyPage.class,
