@@ -554,10 +554,11 @@ public abstract class PDFAbstractLM implements ILayoutManager
 		if ( content != null )
 		{
 			int calHeight = getDimensionValue( content.getHeight( ) );
+//			this.specifiedHeight = Math.min( calHeight, context.getMaxHeight() );
 			if ( calHeight > 0 && calHeight < context.getMaxHeight( ) )
 			{
 				this.specifiedHeight = calHeight;
-			}
+			} 
 		}
 	}
 
@@ -716,6 +717,12 @@ public abstract class PDFAbstractLM implements ILayoutManager
 			else if ( units.equals( EngineIRConstants.UNITS_PERCENTAGE ) )
 			{
 				double point = referenceLength * d.getMeasure( )/100.0;
+				return (int) point;
+			}
+			else if ( units.equals( EngineIRConstants.UNITS_EM )
+					|| units.equals( EngineIRConstants.UNITS_EX ) )
+			{
+				double point = referenceLength * d.getMeasure( );
 				return (int) point;
 			}
 		}

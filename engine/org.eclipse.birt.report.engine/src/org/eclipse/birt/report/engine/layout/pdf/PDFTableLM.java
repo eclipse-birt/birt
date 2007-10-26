@@ -35,6 +35,7 @@ import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
+import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
@@ -339,6 +340,13 @@ public class PDFTableLM extends PDFBlockStackingLM
 					percentageList.add(new Integer(i));
 					total += columns[i].getMeasure();
 				}
+				else if( EngineIRConstants.UNITS_EM.equals(columns[i].getUnits())
+						||EngineIRConstants.UNITS_EX.equals(columns[i].getUnits()) )
+				{
+					int len = PDFTableLM.this.getDimensionValue(columns[i], 
+							PropertyUtil.getDimensionValue( table.getComputedStyle().getProperty( StyleConstants.STYLE_FONT_SIZE ) ) );
+					fixedLength += len;
+				}
 				else
 				{
 					int len = PDFTableLM.this.getDimensionValue(columns[i], tableWidth);
@@ -415,7 +423,16 @@ public class PDFTableLM extends PDFBlockStackingLM
 			{
 				if(!EngineIRConstants.UNITS_PERCENTAGE.equals(columns[i].getUnits()))
 				{
-					cols[i] = PDFTableLM.this.getDimensionValue(columns[i], tableWidth);
+					if( EngineIRConstants.UNITS_EM.equals(columns[i].getUnits())
+							||EngineIRConstants.UNITS_EX.equals(columns[i].getUnits()) )
+					{
+						cols[i]= PDFTableLM.this.getDimensionValue(columns[i], 
+								PropertyUtil.getDimensionValue( table.getComputedStyle().getProperty( StyleConstants.STYLE_FONT_SIZE ) ) );
+					}
+					else
+					{
+						cols[i] = PDFTableLM.this.getDimensionValue(columns[i], tableWidth);
+					}
 					total += cols[i];
 				}
 			}
