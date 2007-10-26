@@ -207,7 +207,19 @@ echo $tagMaps >> adb.log
 echo $compareMaps >> adb.log
 
 
-buildCommand="$antRunner -q -buildfile buildAll.xml $mail $testBuild $compareMaps -DmapVersionTag=$mapVersionTag -DpostingDirectory=$postingDirectory -Dbootclasspath=$bootclasspath -DbuildType=$buildType -D$buildType=true -DbuildId=$buildId -Dbuildid=$buildId -DbuildLabel=$buildId -Dtimestamp=$timestamp $skipPerf $skipTest $tagMaps -DJ2SE-1.5=$bootclasspath_15  -DlogExtension=.xml $javadoc $updateSite $sign  -Djava15-home=$bootclasspath_15 -DbuildDirectory=/home/adb/releng/src -DbaseLocation=/home/adb/releng/baseLocation -DbaseLocation.emf=/home/adb/releng/baseLocation.emf -DgroupConfiguration=true -DjavacSource=1.4 -DjavacTarget=1.4 -DjavacVerbose=true -Dbasebuilder=/home/adb/releng/BaseBuilder -DpostPackage=BIRTOutput  -Dtest.dir=/home/adb/unittest -Dp4.home=/home/adb/releng/P4 -Djvm15_home=$jvm15_home  -DmapTag.properties=/home/adb/releng/BIRTBuilder/mapTag.properties -Dbuild.date=$builddate -DmapCvsRoot=:ext:xgu@dev.eclipse.org:/cvsroot/birt -Dpackage.version=2_2_1 -DmapVersionTag=BIRT_2_2_1_Branch"
+buildCommand="$antRunner -q -buildfile buildAll.xml $mail $testBuild $compareMaps \
+-DmapVersionTag=$mapVersionTag -DpostingDirectory=$postingDirectory -Dbootclasspath=$bootclasspath \
+-DbuildType=$buildType -D$buildType=true -DbuildId=$buildId -Dbuildid=$buildId -DbuildLabel=$buildId \
+-Dtimestamp=$timestamp $skipPerf $skipTest $tagMaps -DJ2SE-1.5=$bootclasspath_15  \
+-DlogExtension=.xml $javadoc $updateSite $sign  -Djava15-home=$bootclasspath_15 \
+-DbuildDirectory=/home/adb/releng/src -DbaseLocation=/home/adb/releng/baseLocation \
+-DbaseLocation.emf=/home/adb/releng/baseLocation.emf -DgroupConfiguration=true \
+-DjavacSource=1.4 -DjavacTarget=1.4 -DjavacVerbose=true -Dbasebuilder=/home/adb/releng/BaseBuilder \
+-DpostPackage=BIRTOutput  \
+-Dtest.dir=/home/adb/releng/unittest -Dp4.home=/home/adb/releng/P4 \
+-Djvm15_home=$jvm15_home  -DmapTag.properties=/home/adb/releng/BIRTBuilder/mapTag.properties \
+-Dbuild.date=$builddate -DmapCvsRoot=:ext:xgu@dev.eclipse.org:/cvsroot/birt \
+-Dpackage.version=2_2_2 -DmapVersionTag=BIRT_2_2_1_Branch -DBranchVersion=2.2.2"
 
 #skipPreBuild
 
