@@ -202,7 +202,7 @@ public class ResourceConstants
 	public static final String RESULT_CLASS_SAVE_ERROR="data.engine.resultClassSaveError";
 	public static final String INVALID_MEMORY_BUFFER_SIZE = "data.engine.invalidMemBufferSize";
 	public static final String DOCUMENT_ERROR_CANNOT_LOAD_STREAM = "data.engine.document.error.cannotLoadStream";
-
+	public static final String FAIL_TO_CREATE_TEMP_DIR = "data.engine.failToCreateTempDir";
 	// ODA Consumer
 	public final static String COLUMN_NAME_CANNOT_BE_EMPTY_OR_NULL = "odaconsumer.ColumnNameCannotBeEmptyOrNull";
 	public final static String COLUMN_POSITION_CANNOT_BE_LESS_THAN_ONE = "odaconsumer.ColumnPositionIsOneBased";

@@ -650,8 +650,9 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 
 		/**
 		 * @return
+		 * @throws DataException 
 		 */
-		private boolean doesSaveToCache( )
+		private boolean doesSaveToCache( ) throws DataException
 		{
 			return getDataSetCacheManager().doesSaveToCache( );
 		}

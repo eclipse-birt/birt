@@ -252,8 +252,9 @@ public class DiskCache implements ResultSetCache
 	 * 		tempDir, to generated temp file in DiskMergeSort
 	 * 		goalFile, to generate the end result file
 	 * 		dataCountOfUnit, to indicate how many rows can be loaded into memory
+	 * @throws DataException 
 	 */
-	private Map getInfoMap( )
+	private Map getInfoMap( ) throws DataException
 	{
 		Map infoMap = new HashMap( );
 
@@ -268,16 +269,18 @@ public class DiskCache implements ResultSetCache
 	/**
 	 * @return temp directory string, this folder is used to store the temporary
 	 *         result in merge sort
+	 * @throws DataException 
 	 */
-	private String getTempDirStr( )
+	private String getTempDirStr( ) throws DataException
 	{
 		return getSessionTempDirStr( ) + File.separator + "temp";
 	}
 	
 	/**
 	 * @return goal file of the end result, 
+	 * @throws DataException 
 	 */
-	private String getGoalFileStr( )
+	private String getGoalFileStr( ) throws DataException
 	{
 		return getSessionTempDirStr( ) + File.separator + "goalFile";
 	}	
@@ -286,8 +289,9 @@ public class DiskCache implements ResultSetCache
 	 * @return temp directory string, this folder name is unique and then
 	 *         different session will not influence each other, which can
 	 *         support multi-thread
+	 * @throws DataException 
 	 */
-	private String getSessionTempDirStr( )
+	private String getSessionTempDirStr( ) throws DataException
 	{
 		if ( sessionRootDirStr != null )
 			return sessionRootDirStr;
@@ -297,7 +301,7 @@ public class DiskCache implements ResultSetCache
 			tempRootDirStr = createTempRootDir( );
 
 		sessionRootDirStr = CacheUtil.createSessionTempDir( tempRootDirStr );
-		return sessionRootDirStr;
+		return sessionRootDirStr; 
 	}
 	
 	/**

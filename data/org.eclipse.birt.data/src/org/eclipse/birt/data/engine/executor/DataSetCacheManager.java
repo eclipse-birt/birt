@@ -221,8 +221,9 @@ public class DataSetCacheManager
 
 	/**
 	 * @return
+	 * @throws DataException 
 	 */
-	public boolean doesSaveToCache( )
+	public boolean doesSaveToCache( ) throws DataException
 	{
 		if ( needsToCache( dataSetDesign, cacheOption, alwaysCacheRowCount ) == false )
 			return false;

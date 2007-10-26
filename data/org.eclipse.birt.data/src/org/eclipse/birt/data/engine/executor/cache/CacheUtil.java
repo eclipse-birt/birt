@@ -31,6 +31,7 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
  */
 public class CacheUtil
 {
+	private static final int MAX_DIR_CREATION_ATTEMPT = 100000;
 	private static final String PATH_SEP = File.separator;
 	private static final String TEST_MEM_BUFFER_SIZE = "birt.data.engine.test.memcachesize";
 	
@@ -122,9 +123,10 @@ public class CacheUtil
 
 	/**
 	 * @return session temp dir
+	 * @throws DataException 
 	 * @throws IOException 
 	 */
-	public static String createSessionTempDir( String tempRootDir )
+	public static String createSessionTempDir( String tempRootDir ) throws DataException
 	{
 
 		final String prefix = "session_";
@@ -145,6 +147,9 @@ public class CacheUtil
 				i++;
 				sessionTempDir = sessionTempDir + "_" + i;
 				sessionFile = new File( sessionTempDir );
+				if( i > MAX_DIR_CREATION_ATTEMPT )
+					throw new DataException( ResourceConstants.FAIL_TO_CREATE_TEMP_DIR,
+							sessionFile.getAbsolutePath( ) );
 			}
 			sessionFile.deleteOnExit( );
 		}
