@@ -24,8 +24,6 @@ import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.TableItem;
 
 public class FormatDataTimeDescriptorProvider implements IDescriptorProvider
 {
@@ -117,9 +115,10 @@ public class FormatDataTimeDescriptorProvider implements IDescriptorProvider
 
 	}
 
-	private Date defaultDate ;
-	
-	public FormatDataTimeDescriptorProvider(){
+	private Date defaultDate;
+
+	public FormatDataTimeDescriptorProvider( )
+	{
 		defaultDate = new Date( );
 	}
 
@@ -180,7 +179,7 @@ public class FormatDataTimeDescriptorProvider implements IDescriptorProvider
 					FormatDateTimePattern.getCustormFormatPattern( customPatterns[i] )
 			} );
 		}
-		return (String[][])itemList.toArray( new String[0][3] );
+		return (String[][]) itemList.toArray( new String[0][3] );
 	}
 
 	public String getCategory4UIDisplayName( String displayName )
