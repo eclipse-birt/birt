@@ -12,10 +12,12 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.regex.PatternSyntaxException;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
@@ -56,6 +58,8 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Text;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * The dialog used to import values from data sets
@@ -533,8 +537,17 @@ public class ImportValueDialog extends BaseDialog
 //							}
 //							else
 //							{
-								result = iter.getString( columnBindingName );
+//								result = iter.getString( columnBindingName );
 //							}
+								Object data = iter.getValue( columnBindingName );						
+								if(data instanceof Date)
+								{
+									result = convertToStandardFormat((Date)data);
+								}else
+								{
+									result = String.valueOf( data );
+								}
+								
 							if ( !StringUtil.isBlank( result )
 									&& !resultList.contains( result ) )
 							{
@@ -563,6 +576,27 @@ public class ImportValueDialog extends BaseDialog
 		}
 	}
 
+	private String convertToStandardFormat( Date date )
+	{
+		if ( date == null )
+		{
+			return null;
+		}
+		if ( date instanceof java.sql.Date )
+		{
+			return new DateFormatter( "yyyy-MM-dd" , ULocale.US ).format( date );
+		}
+		else if ( date instanceof java.sql.Time )
+		{
+			return new DateFormatter( "HH:mm:ss", ULocale.US ).format( date );
+		}
+		else
+		{
+			return new DateFormatter( "yyyy-MM-dd HH:mm:ss.SSS", ULocale.US ).format( date );
+		}	
+		
+	}
+	
 	private void filteValues( )
 	{
 		valueList.removeAll( );
