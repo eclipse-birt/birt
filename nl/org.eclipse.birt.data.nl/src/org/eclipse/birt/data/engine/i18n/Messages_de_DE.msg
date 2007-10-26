@@ -191,6 +191,7 @@ data.engine.possibleMixedDataTypeInColumn=Beim Übernehmen der Daten ist ein Fehl
 data.engine.resultClassSaveError=Die folgenden Spaltenbezüge können nicht gefunden werden: {0}.
 data.engine.invalidMemBufferSize=Die Speicher-Puffergröße "{0}" ist ungültig. Die Speicher-Puffergröße muss eine Ganzzahl größer Null sein.
 data.engine.document.error.cannotLoadStream=Der Dokumentenstrom "{0}" ist ungültig.
+data.engine.failToCreateTempDir=Fail to create temporary directory in "{0}"; 
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=Der Spaltenname darf nicht leer oder gleich Null sein.
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.

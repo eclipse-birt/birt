@@ -191,6 +191,7 @@ data.engine.possibleMixedDataTypeInColumn=데이터 모집단 중에 오류가 발생했습니다
 data.engine.resultClassSaveError=다음 열 참조를 찾을 수 없음: {0}.
 data.engine.invalidMemBufferSize=메모리 버퍼 크기 "{0}"은(는) 잘못되었습니다. 메모리 버퍼 크기는 0보다 큰 정수여야 합니다.
 data.engine.document.error.cannotLoadStream=문서 스트림 "{0}"은(는) 잘못되었습니다.
+data.engine.failToCreateTempDir=Fail to create temporary directory in "{0}"; 
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=열 이름은 비워 두거나 널(null)이 될 수 없습니다.
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.
