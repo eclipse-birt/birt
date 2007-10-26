@@ -117,15 +117,15 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 		container.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
 		viewer = new CustomTreeViewer( container, SWT.FULL_SELECTION );
-//		viewer.addSelectionChangedListener( new ISelectionChangedListener(){
-//
-//			public void selectionChanged( SelectionChangedEvent event )
-//			{
-//				if ( cellEditor != null )
-//					deactivateCellEditor( );
-//			}
-//			
-//		} );
+		// viewer.addSelectionChangedListener( new ISelectionChangedListener(){
+		//
+		// public void selectionChanged( SelectionChangedEvent event )
+		// {
+		// if ( cellEditor != null )
+		// deactivateCellEditor( );
+		// }
+		//			
+		// } );
 		tableTree = viewer.getTree( );
 		tableTree.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		tableTree.setHeaderVisible( true );
@@ -200,6 +200,8 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 	{
 		editorListener = new ICellEditorListener( ) {
 
+			private boolean valueChanged = false;
+
 			public void cancelEditor( )
 			{
 				deactivateCellEditor( );
@@ -208,12 +210,16 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 			public void editorValueChanged( boolean oldValidState,
 					boolean newValidState )
 			{
-				// Do nothing
+				valueChanged = true;
 			}
 
 			public void applyEditorValue( )
 			{
-				applyValue( );
+				if ( valueChanged )
+				{
+					valueChanged = false;
+					applyValue( );
+				}
 				if ( changed )
 					refresh( );
 			}
@@ -366,7 +372,7 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 		// deactivate the current cell editor
 		if ( cellEditor != null )
 		{
-			//applyValue( );
+			// applyValue( );
 			deactivateCellEditor( );
 		}
 
@@ -412,7 +418,7 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 	 */
 	private void applyValue( )
 	{
-		if (cellEditor == null || !cellEditor.isDirty( ) )
+		if ( cellEditor == null || !cellEditor.isDirty( ) )
 		{
 			return;
 		}
@@ -600,7 +606,6 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 
 		changed = false;
 	}
-
 
 	private void expandTreeFromMemento( Memento memento )
 	{

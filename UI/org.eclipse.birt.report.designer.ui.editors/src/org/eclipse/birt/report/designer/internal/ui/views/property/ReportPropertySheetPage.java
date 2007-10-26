@@ -24,8 +24,8 @@ import org.eclipse.birt.report.designer.internal.ui.views.AlphabeticallyViewSort
 import org.eclipse.birt.report.designer.internal.ui.views.actions.GlobalActionFactory;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormWidgetFactory;
 import org.eclipse.birt.report.designer.internal.ui.views.memento.Memento;
-import org.eclipse.birt.report.designer.internal.ui.views.memento.MementoElement;
 import org.eclipse.birt.report.designer.internal.ui.views.memento.MementoBuilder;
+import org.eclipse.birt.report.designer.internal.ui.views.memento.MementoElement;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.widget.ExpressionDialogCellEditor;
@@ -180,7 +180,7 @@ public class ReportPropertySheetPage extends Page implements
 
 		IWorkbenchPage page = getSite( ).getPage( );
 
-		MementoBuilder builder = new MementoBuilder();
+		MementoBuilder builder = new MementoBuilder( );
 		if ( ( propertySheetMemento = builder.getRootMemento( )
 				.getChild( IPageLayout.ID_PROP_SHEET ) ) == null )
 		{
@@ -214,6 +214,8 @@ public class ReportPropertySheetPage extends Page implements
 	{
 		editorListener = new ICellEditorListener( ) {
 
+			private boolean valueChanged = false;
+
 			public void cancelEditor( )
 			{
 				deactivateCellEditor( );
@@ -222,13 +224,18 @@ public class ReportPropertySheetPage extends Page implements
 			public void editorValueChanged( boolean oldValidState,
 					boolean newValidState )
 			{
-				// Do nothing
+				valueChanged = true;
 			}
 
 			public void applyEditorValue( )
 			{
-				applyValue( );
-				if(changed)refresh( );
+				if ( valueChanged )
+				{
+					valueChanged = false;
+					applyValue( );
+				}
+				if ( changed )
+					refresh( );
 			}
 		};
 	}
@@ -403,7 +410,7 @@ public class ReportPropertySheetPage extends Page implements
 		// deactivate the current cell editor
 		if ( cellEditor != null )
 		{
-			//applyValue( );
+			// applyValue( );
 			deactivateCellEditor( );
 		}
 
@@ -615,7 +622,8 @@ public class ReportPropertySheetPage extends Page implements
 	{
 		getControl( ).setFocus( );
 
-		if(changed)refresh( );
+		if ( changed )
+			refresh( );
 
 	}
 
@@ -649,7 +657,7 @@ public class ReportPropertySheetPage extends Page implements
 				}
 			}
 		}
-		
+
 		changed = false;
 	}
 
@@ -864,6 +872,7 @@ public class ReportPropertySheetPage extends Page implements
 	}
 
 	private boolean changed = false;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -874,7 +883,7 @@ public class ReportPropertySheetPage extends Page implements
 	{
 		if ( !viewer.getTree( ).isDisposed( ) )
 		{
-//			viewer.refresh( true );
+			// viewer.refresh( true );
 			if ( getControl( ).isFocusControl( ) )
 			{
 				IMemento memento = viewerMemento.getChild( PropertyMementoUtil.getElementType( (DesignElementHandle) focus ) );
@@ -895,9 +904,12 @@ public class ReportPropertySheetPage extends Page implements
 					expandTreeFromMemento( (Memento) memento );
 				}
 				changed = false;
-			}else{
+			}
+			else
+			{
 				changed = true;
-				if(changed == true)refresh();
+				if ( changed == true )
+					refresh( );
 			}
 		}
 	}
