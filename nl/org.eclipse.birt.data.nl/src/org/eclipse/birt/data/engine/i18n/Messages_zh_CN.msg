@@ -190,6 +190,7 @@ data.engine.possibleMixedDataTypeInColumn=Ìî³äÊı¾İÆÚ¼ä³ö´í¡£Ô­Òò¿ÉÄÜÊÇÔÚ "ANY" À
 data.engine.resultClassSaveError=ÕÒ²»µ½ÒÔÏÂÁĞÒıÓÃ: {0}¡£
 data.engine.invalidMemBufferSize=ÄÚ´æ»º³åÇø´óĞ¡¡°{0}¡±ÎŞĞ§¡£ÄÚ´æ»º³åÇø´óĞ¡±ØĞëÎª´óÓÚÁãµÄÕûÊı¡£
 data.engine.document.error.cannotLoadStream=ÎÄµµÁ÷¡°{0}¡±ÎŞĞ§¡£
+data.engine.failToCreateTempDir=Fail to create temporary directory in "{0}"; 
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=ÁĞÃû³Æ²»ÄÜÎª¿Õ»ò null¡£
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.

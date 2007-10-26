@@ -190,6 +190,7 @@ data.engine.possibleMixedDataTypeInColumn=データを収集中にエラーが発生しました。
 data.engine.resultClassSaveError=列の参照 {0} が見つかりません。
 data.engine.invalidMemBufferSize=メモリバッファサイズ "{0}" が無効です。メモリバッファサイズには、1 以上の整数を指定してください。
 data.engine.document.error.cannotLoadStream=文書ストリーム "{0}" が無効です。
+data.engine.failToCreateTempDir=Fail to create temporary directory in "{0}"; 
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=列名は空白または null にできません。
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.
