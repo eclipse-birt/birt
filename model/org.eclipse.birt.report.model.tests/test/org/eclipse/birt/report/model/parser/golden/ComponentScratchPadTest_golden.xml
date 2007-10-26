@@ -42,7 +42,9 @@
                 <structure>
                     <expression name="testExpr">[somefield]</expression>
                     <property name="operator">eq</property>
-                    <expression name="value1">"X"</expression>
+                    <simple-property-list name="value1">
+                    	<value>"X"</value>
+                    </simple-property-list>
                     <text-property name="display">Closed</text-property>
                 </structure>
             </list-property>

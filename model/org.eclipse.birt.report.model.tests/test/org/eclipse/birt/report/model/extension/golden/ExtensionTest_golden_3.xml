@@ -150,7 +150,9 @@
                     <list-property name="mapRules">
                         <structure>
                             <property name="operator">eq</property>
-                            <expression name="value1">"X"</expression>
+                            <simple-property-list name="value1">
+                            	<value>"X"</value>
+                            </simple-property-list>
                             <property name="display">Closed</property>
                         </structure>
                         <structure>
@@ -173,7 +175,9 @@
                     <list-property name="highlightRules">
                         <structure>
                             <property name="operator">eq</property>
-                            <expression name="value1">"10"</expression>
+                            <simple-property-list name="value1">
+                            	<value>"10"</value>
+                            </simple-property-list>
                             <expression name="value2">"20"</expression>
                             <property name="borderTopStyle">solid</property>
                             <property name="borderTopWidth">thin</property>

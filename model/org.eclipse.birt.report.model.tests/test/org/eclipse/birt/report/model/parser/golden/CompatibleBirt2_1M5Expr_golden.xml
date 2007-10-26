@@ -33,7 +33,9 @@
                 <structure>
                     <property name="operator">is-null</property>
                     <expression name="testExpr">row["Total"]</expression>
-                    <expression name="value1">row["10"]</expression>
+                    <simple-property-list name="value1">
+                    	<value>row["10"]</value>
+                    </simple-property-list>
                     <expression name="value2">row["20"]</expression>
                 </structure>
             </list-property>
@@ -100,7 +102,9 @@
                 <structure>
                     <property name="operator">is-null</property>
                     <expression name="testExpr">[count]</expression>
-                    <expression name="value1">"10"</expression>
+                    <simple-property-list name="value1">
+                    	<value>"10"</value>
+                    </simple-property-list>
                     <expression name="value2">"20"</expression>
                 </structure>
             </list-property>

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -235,5 +236,44 @@ public class HighlightRuleHandleTest extends BaseTestCase
 
 		assertNull( rule1.getProperty( design, IStyleModel.COLOR_PROP ) );
 		assertNull( rule1.getStyle( ) );
+	}
+
+	/**
+	 * Tests set list value when map operator is 'in'.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testOperatorIn( ) throws Exception
+	{
+		createDesign( );
+		StyleHandle style = designHandle.getElementFactory( )
+				.newStyle( "style" ); //$NON-NLS-1$
+		designHandle.getStyles( ).add( style );
+
+		PropertyHandle propHandle = style
+				.getPropertyHandle( IStyleModel.HIGHLIGHT_RULES_PROP );
+
+		HighlightRule rule = StructureFactory.createHighlightRule( );
+		propHandle.addItem( rule );
+		HighlightRuleHandle ruleHandle = (HighlightRuleHandle) propHandle
+				.get( 0 );
+
+		ruleHandle.setOperator( DesignChoiceConstants.MAP_OPERATOR_IN );
+		List values = new ArrayList( );
+		values.add( "a" );//$NON-NLS-1$
+		values.add( "b" );//$NON-NLS-1$
+		ruleHandle.setValue1( values );
+		ruleHandle.setTestExpression( "expr" );//$NON-NLS-1$
+		
+		HighlightRule rule2 = StructureFactory.createHighlightRule( );
+		List values2 = new ArrayList( );
+		values2.add( "a" );//$NON-NLS-1$
+		values2.add( "b" );//$NON-NLS-1$
+		rule2.setValue1( values );
+		rule2.setTestExpression( "expr2" );//$NON-NLS-1$
+		rule2.setOperator( DesignChoiceConstants.MAP_OPERATOR_IN );
+		
+		propHandle.addItem( rule2 );
 	}
 }

@@ -121,7 +121,9 @@
                     <property name="operator">eq</property>
                     <property name="backgroundColor">#E6EBD1</property>
                     <expression name="testExpr">Total.runningCount() % 2</expression>
-                    <expression name="value1">0</expression>
+                    <simple-property-list name="value1">
+                    	<value>0</value>
+                    </simple-property-list>
                 </structure>
             </list-property>
         </style>

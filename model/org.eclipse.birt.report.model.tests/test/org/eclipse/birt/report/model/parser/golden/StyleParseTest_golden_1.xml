@@ -45,7 +45,9 @@
                         <property name="pattern">string-format</property>
                     </structure>
                     <expression name="testExpr">[this]</expression>
-                    <expression name="value1">dataSet.name</expression>
+                    <simple-property-list name="value1">
+                    	<value>dataSet.name</value>
+                    </simple-property-list>
                     <expression name="value2">table.column</expression>
                 </structure>
                 <structure>
@@ -55,7 +57,9 @@
                     <property name="color">blue</property>
                     <property name="textTransform">lowercase</property>
                     <expression name="testExpr">[this]</expression>
-                    <expression name="value1">"data.item"</expression>
+                     <simple-property-list name="value1">
+                    	<value>"data.item"</value>
+                    </simple-property-list>
                     <expression name="value2">"1*200"</expression>
                     <property name="style">Empty Style</property>
                 </structure>
@@ -64,7 +68,9 @@
                 <structure>
                     <expression name="testExpr">[somefield]</expression>
                     <property name="operator">eq</property>
-                    <expression name="value1">"X"</expression>
+                    <simple-property-list name="value1">
+                    	<value>"X"</value>
+                    </simple-property-list>
                     <text-property name="display">Closed</text-property>
                 </structure>
                 <structure>

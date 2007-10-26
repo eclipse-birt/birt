@@ -2408,7 +2408,7 @@ public abstract class ModuleWriter extends ElementVisitor
 				writeStructure( rule, HighlightRule.STRING_FORMAT_MEMBER );
 
 				property( rule, StyleRule.TEST_EXPR_MEMBER );
-				property( rule, StyleRule.VALUE1_MEMBER );
+				writeSimplePropertyList( rule , StyleRule.VALUE1_MEMBER  );
 				property( rule, StyleRule.VALUE2_MEMBER );
 
 				property( rule, HighlightRule.STYLE_MEMBER );
@@ -2435,7 +2435,7 @@ public abstract class ModuleWriter extends ElementVisitor
 				property( rule, StyleRule.IS_DESIGN_TIME_MEMBER );
 				property( rule, StyleRule.TEST_EXPR_MEMBER );
 				property( rule, StyleRule.OPERATOR_MEMBER );
-				property( rule, StyleRule.VALUE1_MEMBER );
+				writeSimplePropertyList( rule , StyleRule.VALUE1_MEMBER  );
 				property( rule, StyleRule.VALUE2_MEMBER );
 
 				resourceKey( rule, MapRule.DISPLAY_ID_MEMBER,

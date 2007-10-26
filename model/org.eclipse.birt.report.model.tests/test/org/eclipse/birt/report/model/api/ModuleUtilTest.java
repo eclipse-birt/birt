@@ -21,6 +21,7 @@ import org.eclipse.birt.core.i18n.ThreadResources;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.util.BaseTestCase;
@@ -343,4 +344,34 @@ public class ModuleUtilTest extends BaseTestCase
 				ModuleUtil
 						.convertColumnTypeToParamType( DesignChoiceConstants.COLUMN_DATA_TYPE_BLOB ) );
 	}
+
+	/**
+	 * Test isListStyleRuleValue method.
+	 * 
+	 * @throws Exception
+	 */
+	
+	public void testIsListStyleRuleValue( ) throws Exception
+	{
+		createDesign( );
+		StyleHandle style = (StyleHandle) designHandle.getElementFactory( )
+				.newStyle( "table" ); //$NON-NLS-1$
+		designHandle.getStyles( ).add( style );
+		PropertyHandle propHandle = style
+				.getPropertyHandle( StyleHandle.HIGHLIGHT_RULES_PROP );
+
+		HighlightRule rule = StructureFactory.createHighlightRule( );
+		rule.setOperator( DesignChoiceConstants.MAP_OPERATOR_IN );
+		propHandle.addItem( rule );
+
+		HighlightRule rule2 = StructureFactory.createHighlightRule( );
+		rule2.setOperator( DesignChoiceConstants.MAP_OPERATOR_EQ );
+		propHandle.addItem( rule2 );
+
+		HighlightRuleHandle handle = (HighlightRuleHandle) propHandle.get( 0 );
+		assertTrue( ModuleUtil.isListStyleRuleValue( handle ) );
+		HighlightRuleHandle handle2 = (HighlightRuleHandle) propHandle.get( 1 );
+		assertFalse( ModuleUtil.isListStyleRuleValue( handle2 ) );
+	}
+
 }

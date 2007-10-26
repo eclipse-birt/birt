@@ -73,7 +73,9 @@
                         <property name="category">noformat</property>
                     </structure>
                     <expression name="testExpr">[this]</expression>
-                    <expression name="value1">"10"</expression>
+                    <simple-property-list name="value1">
+                    	<value>"10"</value>
+                    </simple-property-list>
                     <expression name="value2">"20"</expression>
                 </structure>
                 <structure>

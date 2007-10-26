@@ -850,6 +850,27 @@ public class ModuleUtil
 	}
 
 	/**
+	 * Determine if the value1 of this map rule condition is a list.
+	 * 
+	 * @param rule
+	 *            the map rule need to check
+	 * @return true if the value1 value is a list, false if it is a single
+	 *         value.
+	 * 
+	 */
+	public static boolean isListStyleRuleValue( StyleRuleHandle rule )
+	{
+		if ( rule == null )
+			return false;
+
+		if ( DesignChoiceConstants.MAP_OPERATOR_IN.equals( rule.getOperator( ) ) )
+			return true;
+
+		return false;
+
+	}
+
+	/**
 	 * Determine if the value1 of this filter condition is a list.
 	 * 
 	 * @param filter

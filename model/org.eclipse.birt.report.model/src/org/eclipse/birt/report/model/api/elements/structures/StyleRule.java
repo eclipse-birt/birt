@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.model.api.elements.structures;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.core.PropertyStructure;
 
@@ -65,7 +69,7 @@ public abstract class StyleRule extends PropertyStructure
 	 * Expression for the first operand.
 	 */
 
-	protected String value1 = null;
+	protected List value1 = null;
 
 	/**
 	 * Expression for the second operand.
@@ -107,7 +111,8 @@ public abstract class StyleRule extends PropertyStructure
 	public StyleRule( String op, String v1, String v2, String testExpr )
 	{
 		operator = op;
-		value1 = v1;
+		value1 = new ArrayList( );
+		value1.add( v1 );
 		value2 = v2;
 		testExpression = testExpr;
 	}
@@ -144,7 +149,7 @@ public abstract class StyleRule extends PropertyStructure
 		if ( OPERATOR_MEMBER.equals( propName ) )
 			operator = (String) value;
 		else if ( VALUE1_MEMBER.equals( propName ) )
-			value1 = (String) value;
+			value1 = (List) value;
 		else if ( VALUE2_MEMBER.equals( propName ) )
 			value2 = (String) value;
 		else if ( TEST_EXPR_MEMBER.equals( propName ) )
@@ -222,7 +227,25 @@ public abstract class StyleRule extends PropertyStructure
 
 	public String getValue1( )
 	{
-		return (String) getProperty( null, VALUE1_MEMBER );
+		List valueList = getValue1List( );
+		if ( valueList == null || valueList.isEmpty( ) )
+			return null;
+		return (String) valueList.get( 0 );
+	}
+
+	/**
+	 * Gets the value1 expression list. For most map operator, there is only one
+	 * expression in the returned list. However, map operator 'in' may contain
+	 * more than one expression.
+	 * 
+	 * @return the value1 expression list.
+	 */
+	public List getValue1List( )
+	{
+		List valueList = (List) getProperty( null, VALUE1_MEMBER );
+		if ( valueList == null || valueList.isEmpty( ) )
+			return Collections.EMPTY_LIST;
+		return Collections.unmodifiableList( valueList );
 	}
 
 	/**
@@ -233,8 +256,27 @@ public abstract class StyleRule extends PropertyStructure
 	 */
 
 	public void setValue1( String value )
+	{	
+		if ( value == null )
+		{
+			setProperty( VALUE1_MEMBER, null );
+			return;
+		}
+		List valueList = new ArrayList( );
+		valueList.add( value );
+		setProperty( VALUE1_MEMBER, valueList );
+	}
+
+	/**
+	 * Sets the value 1 expression.
+	 * 
+	 * @param value1List
+	 *            the value 1 expression list to set
+	 */
+
+	public void setValue1( List value1List )
 	{
-		setProperty( VALUE1_MEMBER, value );
+		setProperty( VALUE1_MEMBER, value1List );
 	}
 
 	/**

@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
@@ -113,7 +116,7 @@ public abstract class StyleRuleHandle extends StructureHandle
 					break;
 				case OperatorUtil.OPERATOR_LEVEL_ZERO :
 					setValue2( null );
-					setValue1( null );
+					setValue1( (List) null );
 					break;
 				case OperatorUtil.OPERATOR_LEVEL_NOT_EXIST :
 					break;
@@ -137,7 +140,26 @@ public abstract class StyleRuleHandle extends StructureHandle
 
 	public String getValue1( )
 	{
-		return getStringProperty( StyleRule.VALUE1_MEMBER );
+		List valueList = getValue1List( );
+		if ( valueList == null || valueList.isEmpty( ) )
+			return null;
+		return (String) valueList.get( 0 );
+	}
+
+	/**
+	 * Gets the value1 expression list. For most map operator, there is only one
+	 * expression in the returned list. However, map operator 'in' may contain
+	 * more than one expression.
+	 * 
+	 * @return the value1 expression list.
+	 */
+	
+	public List getValue1List( )
+	{
+		List valueList = (List) getProperty( StyleRule.VALUE1_MEMBER );
+		if ( valueList == null || valueList.isEmpty( ) )
+			return Collections.EMPTY_LIST;
+		return Collections.unmodifiableList( valueList );
 	}
 
 	/**
@@ -150,6 +172,20 @@ public abstract class StyleRuleHandle extends StructureHandle
 	public void setValue1( String value1 )
 	{
 		setPropertySilently( StyleRule.VALUE1_MEMBER, value1 );
+	}
+
+	/**
+	 * Sets the value 1 expression list.
+	 * 
+	 * @param value1List
+	 *            the value 1 expression list to set
+	 * @throws SemanticException
+	 *             if the instance in the list is not valid
+	 */
+
+	public void setValue1( List value1List ) throws SemanticException
+	{
+		setProperty( StyleRule.VALUE1_MEMBER, value1List );
 	}
 
 	/**

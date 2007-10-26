@@ -1503,7 +1503,7 @@
       <Default>eq</Default>
     </Member>
     <Member displayNameID="Structure.MapRule.testExpr" isIntrinsic="true" name="testExpr" returnType="any" since="1.0" type="expression"/>
-    <Member displayNameID="Structure.MapRule.value1" isIntrinsic="true" name="value1" returnType="any" since="1.0" type="expression"/>
+    <Member displayNameID="Structure.MapRule.value1" isIntrinsic="true" name="value1" returnType="any" since="1.0" subType="expression" type="list"/>
     <Member displayNameID="Structure.MapRule.value2" isIntrinsic="true" name="value2" returnType="any" since="1.0" type="expression"/>
     <Member displayNameID="Structure.MapRule.display" isIntrinsic="true" name="display" since="1.0" type="string"/>
     <Member displayNameID="Structure.MapRule.displayID" isIntrinsic="true" name="displayID" since="1.0" type="resourceKey"/>
@@ -1519,7 +1519,7 @@
       <Default>true</Default>
     </Member>
     <Member displayNameID="Structure.HighlightRule.testExpr" isIntrinsic="true" name="testExpr" returnType="any" since="1.0" type="expression"/>
-    <Member displayNameID="Structure.HighlightRule.value1" isIntrinsic="true" name="value1" returnType="any" since="1.0" type="expression"/>
+    <Member displayNameID="Structure.HighlightRule.value1" isIntrinsic="true" name="value1" returnType="any" since="1.0" subType="expression" type="list"/>
     <Member displayNameID="Structure.HighlightRule.value2" isIntrinsic="true" name="value2" returnType="any" since="1.0" type="expression"/>
     <Member detailType="lineStyle" displayNameID="Structure.HighlightRule.border.top.style" name="borderTopStyle" since="1.0" type="choice"/>
     <Member detailType="lineWidth" displayNameID="Structure.HighlightRule.border.top.width" name="borderTopWidth" since="1.0" type="dimension" validator="NonNegativeValueValidator"/>
