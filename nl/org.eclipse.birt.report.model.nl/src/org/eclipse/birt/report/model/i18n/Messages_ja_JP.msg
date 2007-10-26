@@ -420,7 +420,7 @@ Choices.columnDataType.table=テーブル
 Choices.columnDataType.boolean=論理
 Choices.columnDataType.time=時間
 Choices.columnDataType.date=日付
-Choices.columnDataType.blob=Blob
+Choices.columnDataType.blob=BLOB
 
 #54. searchType
 Choices.searchType.any=任意

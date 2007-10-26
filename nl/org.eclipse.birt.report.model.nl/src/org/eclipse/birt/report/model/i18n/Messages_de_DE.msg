@@ -420,7 +420,7 @@ Choices.columnDataType.table=Tabelle
 Choices.columnDataType.boolean=Boolesch
 Choices.columnDataType.time=Time
 Choices.columnDataType.date=Datum
-Choices.columnDataType.blob=Blob
+Choices.columnDataType.blob=BLOB
 
 #54. searchType
 Choices.searchType.any=Beliebig
