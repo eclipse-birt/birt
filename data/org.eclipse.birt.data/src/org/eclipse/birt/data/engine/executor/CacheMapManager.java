@@ -17,6 +17,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -41,7 +42,7 @@ class CacheMapManager
 	 * Please notice that we must use static variable here for the sharing of
 	 * cached data set would be cross data set session.
 	 */
-	private static Map cacheMap = new HashMap( );
+	private static Map cacheMap = Collections.synchronizedMap( new HashMap( ) );
 	
 	/**
 	 * cache directory map for disk based cache( disk cache and incremental
@@ -64,11 +65,12 @@ class CacheMapManager
 	 * @param baseDataSetDesign 
 	 * @param baseDataSourceDesign 
 	 * @return
+	 * @throws DataException 
 	 */
 	boolean doesSaveToCache( DataSourceAndDataSet dsAndDs, int mode,
 			IBaseDataSourceDesign baseDataSourceDesign,
 			IBaseDataSetDesign baseDataSetDesign, Collection parameterHints,
-			Map appContext )
+			Map appContext ) throws DataException
 	{
 		Object cacheObject = null;
 		
@@ -275,16 +277,19 @@ class CacheMapManager
 	 */
 	private Object getKey ( DataSourceAndDataSet dsAndDs )
 	{
-		for ( Iterator it = cacheMap.keySet().iterator(); it.hasNext(); )
+		synchronized ( cacheMap )
 		{
-			DataSourceAndDataSet temp = ( DataSourceAndDataSet )it.next();
-			if( temp.isDataSourceDataSetEqual( dsAndDs, false ) )
+			for ( Iterator it = cacheMap.keySet( ).iterator( ); it.hasNext( ); )
 			{
-				return temp;
+				DataSourceAndDataSet temp = (DataSourceAndDataSet) it.next( );
+				if ( temp.isDataSourceDataSetEqual( dsAndDs, false ) )
+				{
+					return temp;
+				}
+
 			}
-			
+			return null;
 		}
-		return null;
 	}
 	
 	/**
