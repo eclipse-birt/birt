@@ -103,5 +103,58 @@ class AllocTableLoader implements ArchiveConstants
 			}
 			readBlocks++;
 		}
+		
+		// merge the forward reference links
+		merge( nodes );
+	}
+	
+	void merge( Node nodes )
+	{
+		// the node to be merged
+		Node entryNode = nodes.next;
+		// the node before the node to be merged
+		Node prevNode = nodes;
+
+		// node compared
+		while ( entryNode != null )
+		{
+			boolean hasMerged = false;
+			Node compareNode = nodes.next;
+			int blockIndex = entryNode.entry.getFirstBlock( );
+			while ( compareNode != null )
+			{
+				if ( compareNode == entryNode )
+				{
+					compareNode = compareNode.next;
+					continue;
+				}
+
+				if ( compareNode.entry.getLastBlock( ) == blockIndex )
+				{
+					// merge nodes.
+					for ( int i = 1; i < entryNode.entry.getTotalBlocks( ); i++ )
+					{
+						int blockId = entryNode.entry.getBlock( i );
+						compareNode.entry.appendBlock( blockId );
+					}
+
+					// remove the node which has been merged.
+					prevNode.next = entryNode.next;
+					hasMerged = true;
+					break;
+				}
+				compareNode = compareNode.next;
+			}
+			// If the node has been merged, the preNode needn't been changed
+			// since we change the current node to it's next which will be
+			// merged.
+			// Otherwise, it means the node needn't be merged, so current node
+			// will be set to its next and the preNode be itself.
+			if ( !hasMerged )
+			{
+				prevNode = entryNode;
+			}
+			entryNode = entryNode.next;
+		}
 	}
 }
