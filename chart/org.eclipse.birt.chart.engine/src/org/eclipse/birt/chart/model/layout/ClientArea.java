@@ -145,4 +145,58 @@ public interface ClientArea extends EObject
 	 */
 	void setInsets( Insets value );
 
+	/**
+	 * Returns the value of the '<em><b>Visible</b></em>' attribute.
+	 * The default value is <code>"true"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Specifies whether client area is visible
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Visible</em>' attribute.
+	 * @see #isSetVisible()
+	 * @see #unsetVisible()
+	 * @see #setVisible(boolean)
+	 * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getClientArea_Visible()
+	 * @model default="true" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
+	 *        extendedMetaData="kind='element' name='Visible'"
+	 * @generated
+	 */
+	boolean isVisible( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.ClientArea#isVisible <em>Visible</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Visible</em>' attribute.
+	 * @see #isSetVisible()
+	 * @see #unsetVisible()
+	 * @see #isVisible()
+	 * @generated
+	 */
+	void setVisible( boolean value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.ClientArea#isVisible <em>Visible</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetVisible()
+	 * @see #isVisible()
+	 * @see #setVisible(boolean)
+	 * @generated
+	 */
+	void unsetVisible( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.layout.ClientArea#isVisible <em>Visible</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Visible</em>' attribute is set.
+	 * @see #unsetVisible()
+	 * @see #isVisible()
+	 * @see #setVisible(boolean)
+	 * @generated
+	 */
+	boolean isSetVisible( );
+
 } // ClientArea

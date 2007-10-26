@@ -262,12 +262,21 @@ public interface LayoutPackage extends EPackage
 	int CLIENT_AREA__INSETS = 3;
 
 	/**
+	 * The feature id for the '<em><b>Visible</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLIENT_AREA__VISIBLE = 4;
+
+	/**
 	 * The number of structural features of the '<em>Client Area</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CLIENT_AREA_FEATURE_COUNT = 4;
+	int CLIENT_AREA_FEATURE_COUNT = 5;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.layout.impl.LabelBlockImpl <em>Label Block</em>}' class.
@@ -1278,6 +1287,17 @@ public interface LayoutPackage extends EPackage
 	EReference getClientArea_Insets( );
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.layout.ClientArea#isVisible <em>Visible</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Visible</em>'.
+	 * @see org.eclipse.birt.chart.model.layout.ClientArea#isVisible()
+	 * @see #getClientArea()
+	 * @generated
+	 */
+	EAttribute getClientArea_Visible( );
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.layout.LabelBlock <em>Label Block</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Label Block</em>'.
@@ -1714,6 +1734,14 @@ public interface LayoutPackage extends EPackage
 		 * @generated
 		 */
 		EReference CLIENT_AREA__INSETS = eINSTANCE.getClientArea_Insets( );
+
+		/**
+		 * The meta object literal for the '<em><b>Visible</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CLIENT_AREA__VISIBLE = eINSTANCE.getClientArea_Visible( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.layout.impl.LabelBlockImpl <em>Label Block</em>}' class.

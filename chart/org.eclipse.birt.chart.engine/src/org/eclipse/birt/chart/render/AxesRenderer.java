@@ -2183,10 +2183,6 @@ public abstract class AxesRenderer extends BaseRenderer
 			return;
 		}
 
-		// final ClipRenderEvent cre = (ClipRenderEvent) ( (EventObjectCache)
-		// getDevice( ) ).getEventObject( StructureSource.createPlot( p ),
-		// ClipRenderEvent.class );
-
 		final boolean bFirstInSequence = ( iSeriesIndex == 0 );
 		final boolean bLastInSequence = ( iSeriesIndex == iSeriesCount - 1 );
 
@@ -2200,27 +2196,6 @@ public abstract class AxesRenderer extends BaseRenderer
 
 		if ( getSeries( ) != null )
 		{
-
-			// try
-			// {
-			// Bounds boClipping = p.getBounds( )
-			// .scaledInstance( getDevice( ).getDisplayServer( )
-			// .getDpiResolution( ) / 72d );
-			//
-			// Location[] loaClipping = new Location[4];
-			// loaClipping[0] = LocationImpl.create( boClipping.getLeft( ),
-			// boClipping.getTop( ) );
-			// loaClipping[1] = LocationImpl.create( boClipping.getLeft( )
-			// + boClipping.getWidth( ), boClipping.getTop( ) );
-			// loaClipping[2] = LocationImpl.create( boClipping.getLeft( )
-			// + boClipping.getWidth( ), boClipping.getTop( )
-			// + boClipping.getHeight( ) );
-			// loaClipping[3] = LocationImpl.create( boClipping.getLeft( ),
-			// boClipping.getTop( ) + boClipping.getHeight( ) );
-			//
-			// cre.setVertices( loaClipping );
-			// getDevice( ).setClip( cre );
-
 			ScriptHandler.callFunction( getRunTimeContext( ).getScriptHandler( ),
 					ScriptHandler.BEFORE_DRAW_SERIES,
 					getSeries( ),
@@ -2228,8 +2203,13 @@ public abstract class AxesRenderer extends BaseRenderer
 					getRunTimeContext( ).getScriptContext( ) );
 			getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_SERIES,
 					getSeries( ) );
+			
 			// CALLS THE APPROPRIATE SUBCLASS FOR GRAPHIC ELEMENT RENDERING
-			renderSeries( ipr, p, srh );
+			if ( p.getClientArea( ).isVisible( ) )
+			{
+				// Only render plot within axes when it's visible
+				renderSeries( ipr, p, srh );
+			}
 			
 			ScriptHandler.callFunction( getRunTimeContext( ).getScriptHandler( ),
 					ScriptHandler.AFTER_DRAW_SERIES,
@@ -2282,10 +2262,6 @@ public abstract class AxesRenderer extends BaseRenderer
 			{
 				oaxa[2 + aax.getOverlayCount( )] = aax.getAncillaryBase( );
 			}
-
-			// // restore clipping.
-			// cre.setVertices( null );
-			// getDevice( ).setClip( cre );
 
 			// RENDER AXIS LABELS LAST
 			renderAxesLabels( ipr, p, oaxa );

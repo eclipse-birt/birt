@@ -87,6 +87,35 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 	protected Insets insets = null;
 
 	/**
+	 * The default value of the '{@link #isVisible() <em>Visible</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isVisible()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean VISIBLE_EDEFAULT = true;
+
+	/**
+	 * The cached value of the '{@link #isVisible() <em>Visible</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isVisible()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean visible = VISIBLE_EDEFAULT;
+
+	/**
+	 * This is true if the Visible attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean visibleESet = false;
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -373,6 +402,66 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isVisible( )
+	{
+		return visible;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setVisible( boolean newVisible )
+	{
+		boolean oldVisible = visible;
+		visible = newVisible;
+		boolean oldVisibleESet = visibleESet;
+		visibleESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					LayoutPackage.CLIENT_AREA__VISIBLE,
+					oldVisible,
+					visible,
+					!oldVisibleESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetVisible( )
+	{
+		boolean oldVisible = visible;
+		boolean oldVisibleESet = visibleESet;
+		visible = VISIBLE_EDEFAULT;
+		visibleESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					LayoutPackage.CLIENT_AREA__VISIBLE,
+					oldVisible,
+					VISIBLE_EDEFAULT,
+					oldVisibleESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetVisible( )
+	{
+		return visibleESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -407,6 +496,8 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 				return getShadowColor( );
 			case LayoutPackage.CLIENT_AREA__INSETS :
 				return getInsets( );
+			case LayoutPackage.CLIENT_AREA__VISIBLE :
+				return isVisible( ) ? Boolean.TRUE : Boolean.FALSE;
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -431,6 +522,9 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 				return;
 			case LayoutPackage.CLIENT_AREA__INSETS :
 				setInsets( (Insets) newValue );
+				return;
+			case LayoutPackage.CLIENT_AREA__VISIBLE :
+				setVisible( ( (Boolean) newValue ).booleanValue( ) );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -457,6 +551,9 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 			case LayoutPackage.CLIENT_AREA__INSETS :
 				setInsets( (Insets) null );
 				return;
+			case LayoutPackage.CLIENT_AREA__VISIBLE :
+				unsetVisible( );
+				return;
 		}
 		super.eUnset( featureID );
 	}
@@ -478,8 +575,30 @@ public class ClientAreaImpl extends EObjectImpl implements ClientArea
 				return shadowColor != null;
 			case LayoutPackage.CLIENT_AREA__INSETS :
 				return insets != null;
+			case LayoutPackage.CLIENT_AREA__VISIBLE :
+				return isSetVisible( );
 		}
 		return super.eIsSet( featureID );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String toString( )
+	{
+		if ( eIsProxy( ) )
+			return super.toString( );
+
+		StringBuffer result = new StringBuffer( super.toString( ) );
+		result.append( " (visible: " ); //$NON-NLS-1$
+		if ( visibleESet )
+			result.append( visible );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ')' );
+		return result.toString( );
 	}
 
 	/**

@@ -133,7 +133,8 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 			return (LayoutPackage) EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI );
 
 		// Obtain or create and register package
-		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( eNS_URI ) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( eNS_URI )
+		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( eNS_URI ) instanceof LayoutPackageImpl
+				? EPackage.Registry.INSTANCE.getEPackage( eNS_URI )
 				: new LayoutPackageImpl( ) );
 
 		isInited = true;
@@ -142,32 +143,37 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 		XMLTypePackage.eINSTANCE.eClass( );
 
 		// Obtain or create and register interdependencies
-		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI ) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI )
-				: ComponentPackage.eINSTANCE );
-		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
-				: DataPackage.eINSTANCE );
-		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI ) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI )
+		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI ) instanceof AttributePackageImpl
+				? EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI )
 				: AttributePackage.eINSTANCE );
-		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
-				: ModelPackage.eINSTANCE );
-		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
+		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl
+				? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
+				: DataPackage.eINSTANCE );
+		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl
+				? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
 				: TypePackage.eINSTANCE );
+		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI ) instanceof ComponentPackageImpl
+				? EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI )
+				: ComponentPackage.eINSTANCE );
+		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl
+				? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
+				: ModelPackage.eINSTANCE );
 
 		// Create package meta-data objects
 		theLayoutPackage.createPackageContents( );
-		theComponentPackage.createPackageContents( );
-		theDataPackage.createPackageContents( );
 		theAttributePackage.createPackageContents( );
-		theModelPackage.createPackageContents( );
+		theDataPackage.createPackageContents( );
 		theTypePackage.createPackageContents( );
+		theComponentPackage.createPackageContents( );
+		theModelPackage.createPackageContents( );
 
 		// Initialize created meta-data
 		theLayoutPackage.initializePackageContents( );
-		theComponentPackage.initializePackageContents( );
-		theDataPackage.initializePackageContents( );
 		theAttributePackage.initializePackageContents( );
-		theModelPackage.initializePackageContents( );
+		theDataPackage.initializePackageContents( );
 		theTypePackage.initializePackageContents( );
+		theComponentPackage.initializePackageContents( );
+		theModelPackage.initializePackageContents( );
 
 		// Mark meta-data to indicate it can't be changed
 		theLayoutPackage.freeze( );
@@ -373,6 +379,16 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 	public EReference getClientArea_Insets( )
 	{
 		return (EReference) clientAreaEClass.getEStructuralFeatures( ).get( 3 );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getClientArea_Visible( )
+	{
+		return (EAttribute) clientAreaEClass.getEStructuralFeatures( ).get( 4 );
 	}
 
 	/**
@@ -638,6 +654,7 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 		createEReference( clientAreaEClass, CLIENT_AREA__OUTLINE );
 		createEReference( clientAreaEClass, CLIENT_AREA__SHADOW_COLOR );
 		createEReference( clientAreaEClass, CLIENT_AREA__INSETS );
+		createEAttribute( clientAreaEClass, CLIENT_AREA__VISIBLE );
 
 		labelBlockEClass = createEClass( LABEL_BLOCK );
 		createEReference( labelBlockEClass, LABEL_BLOCK__LABEL );
@@ -717,26 +734,26 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 				"bounds", null, 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getBlock_Anchor( ),
 				theAttributePackage.getAnchor( ),
-				"anchor", "North", 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+				"anchor", "North", 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute( getBlock_Stretch( ),
 				theAttributePackage.getStretch( ),
-				"stretch", "Horizontal", 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+				"stretch", "Horizontal", 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEReference( getBlock_Insets( ),
 				theAttributePackage.getInsets( ),
 				null,
 				"insets", null, 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getBlock_Row( ),
 				theXMLTypePackage.getInt( ),
-				"row", null, 1, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+				"row", null, 1, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getBlock_Column( ),
 				theXMLTypePackage.getInt( ),
-				"column", null, 1, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+				"column", null, 1, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getBlock_Rowspan( ),
 				theXMLTypePackage.getInt( ),
-				"rowspan", null, 1, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+				"rowspan", null, 1, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getBlock_Columnspan( ),
 				theXMLTypePackage.getInt( ),
-				"columnspan", null, 1, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+				"columnspan", null, 1, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getBlock_MinSize( ),
 				theAttributePackage.getSize( ),
 				null,
@@ -751,17 +768,17 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 				"background", null, 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getBlock_Visible( ),
 				theXMLTypePackage.getBoolean( ),
-				"visible", null, 1, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+				"visible", null, 1, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getBlock_Triggers( ),
 				theDataPackage.getTrigger( ),
 				null,
 				"triggers", null, 0, -1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getBlock_WidthHint( ),
 				theXMLTypePackage.getDouble( ),
-				"widthHint", "-1", 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+				"widthHint", "-1", 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute( getBlock_HeightHint( ),
 				theXMLTypePackage.getDouble( ),
-				"heightHint", "-1", 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+				"heightHint", "-1", 0, 1, Block.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		initEClass( clientAreaEClass,
 				ClientArea.class,
@@ -782,6 +799,9 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 				theAttributePackage.getInsets( ),
 				null,
 				"insets", null, 1, 1, ClientArea.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getClientArea_Visible( ),
+				theXMLTypePackage.getBoolean( ),
+				"visible", "true", 1, 1, ClientArea.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		initEClass( labelBlockEClass,
 				LabelBlock.class,
@@ -796,10 +816,10 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 				"Legend", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getLegend_HorizontalSpacing( ),
 				theXMLTypePackage.getInt( ),
-				"horizontalSpacing", null, 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+				"horizontalSpacing", null, 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getLegend_VerticalSpacing( ),
 				theXMLTypePackage.getInt( ),
-				"verticalSpacing", null, 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+				"verticalSpacing", null, 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getLegend_ClientArea( ),
 				this.getClientArea( ),
 				null,
@@ -810,49 +830,49 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 				"text", null, 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getLegend_Orientation( ),
 				theAttributePackage.getOrientation( ),
-				"orientation", "Horizontal", 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+				"orientation", "Horizontal", 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute( getLegend_Direction( ),
 				theAttributePackage.getDirection( ),
-				"direction", "Left_Right", 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+				"direction", "Left_Right", 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEReference( getLegend_Separator( ),
 				theAttributePackage.getLineAttributes( ),
 				null,
 				"separator", null, 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getLegend_Position( ),
 				theAttributePackage.getPosition( ),
-				"position", "Above", 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+				"position", "Above", 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute( getLegend_ItemType( ),
 				theAttributePackage.getLegendItemType( ),
-				"itemType", "Series", 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+				"itemType", "Series", 1, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEReference( getLegend_Title( ),
 				theComponentPackage.getLabel( ),
 				null,
 				"title", null, 0, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getLegend_TitlePosition( ),
 				theAttributePackage.getPosition( ),
-				"titlePosition", "Above", 0, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+				"titlePosition", "Above", 0, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute( getLegend_ShowValue( ),
 				theXMLTypePackage.getBoolean( ),
-				"showValue", null, 0, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+				"showValue", null, 0, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getLegend_ShowPercent( ),
 				theXMLTypePackage.getBoolean( ),
-				"showPercent", null, 0, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+				"showPercent", null, 0, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getLegend_ShowTotal( ),
 				theXMLTypePackage.getBoolean( ),
-				"showTotal", null, 0, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+				"showTotal", null, 0, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getLegend_WrappingSize( ),
 				theXMLTypePackage.getDouble( ),
-				"wrappingSize", null, 0, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+				"wrappingSize", null, 0, 1, Legend.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( plotEClass,
 				Plot.class,
 				"Plot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getPlot_HorizontalSpacing( ),
 				theXMLTypePackage.getInt( ),
-				"horizontalSpacing", null, 1, 1, Plot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+				"horizontalSpacing", null, 1, 1, Plot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getPlot_VerticalSpacing( ),
 				theXMLTypePackage.getInt( ),
-				"verticalSpacing", null, 1, 1, Plot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+				"verticalSpacing", null, 1, 1, Plot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getPlot_ClientArea( ),
 				this.getClientArea( ),
 				null,
@@ -967,6 +987,10 @@ public class LayoutPackageImpl extends EPackageImpl implements LayoutPackage
 		addAnnotation( getClientArea_Insets( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "Insets" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getClientArea_Visible( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Visible" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( labelBlockEClass, source, new String[]{
 				"name", "LabelBlock", //$NON-NLS-1$ //$NON-NLS-2$
