@@ -51,7 +51,7 @@ public class TableItemState extends ListingItemState
 	{
 		super( handler, theContainer, slot );
 	}
-	
+
 	/**
 	 * Constructs table item state with the design parser handler, the container
 	 * element and the container property name of the report element.
@@ -95,13 +95,13 @@ public class TableItemState extends ListingItemState
 			return new TableColumnState( handler, element,
 					TableItem.COLUMN_SLOT );
 		if ( ParserSchemaConstants.HEADER_TAG == tagValue )
-			return new TableBandState( element, TableItem.HEADER_SLOT );
+			return new TableBandState( handler, element, TableItem.HEADER_SLOT );
 		if ( ParserSchemaConstants.GROUP_TAG == tagValue )
 			return new TableGroupState( handler, element, TableItem.GROUP_SLOT );
 		if ( ParserSchemaConstants.DETAIL_TAG == tagValue )
-			return new TableBandState( element, TableItem.DETAIL_SLOT );
+			return new TableBandState( handler, element, TableItem.DETAIL_SLOT );
 		if ( ParserSchemaConstants.FOOTER_TAG == tagValue )
-			return new TableBandState( element, TableItem.FOOTER_SLOT );
+			return new TableBandState( handler, element, TableItem.FOOTER_SLOT );
 		return super.startElement( tagName );
 	}
 
@@ -134,7 +134,8 @@ public class TableItemState extends ListingItemState
 		if ( onRowValue == null )
 			return;
 
-		ContainerSlot detail = element.getSlot( IListingElementModel.DETAIL_SLOT );
+		ContainerSlot detail = element
+				.getSlot( IListingElementModel.DETAIL_SLOT );
 		for ( int i = 0; i < detail.getCount( ); i++ )
 		{
 			TableRow row = (TableRow) detail.getContent( i );
@@ -195,29 +196,27 @@ public class TableItemState extends ListingItemState
 		{
 			int tagValue = tagName.toLowerCase( ).hashCode( );
 			if ( ParserSchemaConstants.HEADER_TAG == tagValue )
-				return new TableBandState( group, TableGroup.HEADER_SLOT );
+				return new TableBandState( handler, group,
+						TableGroup.HEADER_SLOT );
 			if ( ParserSchemaConstants.FOOTER_TAG == tagValue )
-				return new TableBandState( group, TableGroup.FOOTER_SLOT );
+				return new TableBandState( handler, group,
+						TableGroup.FOOTER_SLOT );
 			return super.startElement( tagName );
 		}
 
 	}
 
 	/**
-	 * Parses the contents of the list of tablebands.
+	 * Parses the contents of the list of table bands.
 	 */
 
-	class TableBandState extends AbstractParseState
+	static class TableBandState extends SlotState
 	{
 
-		protected int rowSlotID;
-
-		protected DesignElement table;
-
-		public TableBandState( DesignElement container, int slot )
+		TableBandState( ModuleParserHandler handler, DesignElement container,
+				int slot )
 		{
-			table = container;
-			rowSlotID = slot;
+			super( handler, container, slot );
 		}
 
 		public XMLParserHandler getHandler( )
@@ -235,7 +234,7 @@ public class TableItemState extends ListingItemState
 		{
 			int tagValue = tagName.toLowerCase( ).hashCode( );
 			if ( ParserSchemaConstants.ROW_TAG == tagValue )
-				return new TableRowState( handler, table, rowSlotID );
+				return new TableRowState( handler, container, slotID );
 			return super.startElement( tagName );
 		}
 

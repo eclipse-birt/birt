@@ -13,8 +13,11 @@ package org.eclipse.birt.report.model.util;
 
 import java.util.HashMap;
 
+import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
+import org.eclipse.birt.report.model.api.util.XPathUtil;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
@@ -22,7 +25,7 @@ import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
- * Holds line number infomation for a module.
+ * Holds line number information for a module.
  */
 
 public class LineNumberInfo
@@ -33,6 +36,12 @@ public class LineNumberInfo
 	 */
 
 	private HashMap elementMap = null;
+
+	/**
+	 * The hash map for the slot xpath string-to-lineNumber lookup.
+	 */
+
+	private HashMap slotMap = null;
 
 	/**
 	 * The hash map for the <code>IncludeLibrary</code> structures
@@ -65,6 +74,7 @@ public class LineNumberInfo
 		elementMap = new HashMap( );
 		includeLibStructMap = new HashMap( );
 		embeddedImageStructMap = new HashMap( );
+		slotMap = new HashMap( );
 	}
 
 	/**
@@ -100,6 +110,17 @@ public class LineNumberInfo
 			embeddedImageStructMap.put( ( (EmbeddedImage) obj ).getName( ),
 					lineNo );
 		}
+		else if ( obj instanceof ContainerContext )
+		{
+			String xpath = convertSlotContextToXPath( (ContainerContext) obj,
+					( (ContainerContext) obj ).getElement( ).getRoot( ) );
+			if ( xpath == null )
+			{
+				assert false;
+				return;
+			}
+			slotMap.put( xpath, lineNo );
+		}
 		else
 			return;
 	}
@@ -124,14 +145,14 @@ public class LineNumberInfo
 			return intValue( (Integer) embeddedImageStructMap
 					.get( ( (EmbeddedImage) obj ).getName( ) ) );
 		}
-		else if ( obj instanceof Theme
-				&& ( tmpModule = ( (Theme) obj ).getRoot( ) ) instanceof Library
-				&& ( (Library) tmpModule ).getHost( ) != null )
+		else if ( obj instanceof Theme &&
+				( tmpModule = ( (Theme) obj ).getRoot( ) ) instanceof Library &&
+				( (Library) tmpModule ).getHost( ) != null )
 		{
 			return themeProp;
 		}
-		else if ( obj instanceof Library
-				&& ( (Library) obj ).getHost( ) != null )
+		else if ( obj instanceof Library &&
+				( (Library) obj ).getHost( ) != null )
 		{
 			return intValue( (Integer) includeLibStructMap
 					.get( ( (Library) obj ).getNamespace( ) ) );
@@ -140,9 +161,35 @@ public class LineNumberInfo
 		{
 			return getElementLineNo( ( (DesignElement) obj ).getID( ) );
 		}
+		else if ( obj instanceof ContainerContext )
+		{
+			return getSlotLineNo( (ContainerContext) obj );
+		}
+
 		else
 			return 1;
 
+	}
+
+	/**
+	 * Returns the line number for the given slot.
+	 * 
+	 * @param obj
+	 *            the container context for the slot
+	 * @return line number
+	 */
+
+	private int getSlotLineNo( ContainerContext obj )
+	{
+		String xpath = convertSlotContextToXPath( obj, obj.getElement( )
+				.getRoot( ) );
+		if ( xpath == null )
+		{
+			assert false;
+			return 1;
+		}
+
+		return intValue( (Integer) slotMap.get( xpath ) );
 	}
 
 	/**
@@ -169,5 +216,22 @@ public class LineNumberInfo
 	int intValue( Integer obj )
 	{
 		return obj == null ? 1 : obj.intValue( );
+	}
+
+	/**
+	 * @param context
+	 * @param module
+	 * @return
+	 */
+
+	public static String convertSlotContextToXPath( ContainerContext context,
+			Module module )
+	{
+		if ( !context.isROMSlot( ) )
+			return null;
+
+		SlotHandle slot = new SlotHandle( context.getElement( ).getHandle(
+				module ), context.getSlotID( ) );
+		return XPathUtil.getXPath( slot );
 	}
 }

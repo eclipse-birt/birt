@@ -60,7 +60,8 @@ import org.eclipse.birt.report.model.util.xpathparser.XPathParser;
  * /report/body/text[@id="19"]/text-property[@name="content"]/@key</td>
  * <tr>
  * <tr>
- * <td> structure (EmbeddedImageHandle/IncludedLibraryHandle/ResultSetColumnHandle) </td>
+ * <td> structure
+ * (EmbeddedImageHandle/IncludedLibraryHandle/ResultSetColumnHandle) </td>
  * <td> /report/list-property[@name="images"]/structure[2]<br>
  * /report/list-property[@name="images"]/structure </td>
  * <tr> </table>
@@ -254,9 +255,9 @@ public class XPathUtil
 
 		if ( !tmpPropDefn.isList( ) && tmpPropDefn.getStructDefn( ) != null )
 		{
-			sb.append( SEPARATOR
-					+ DesignSchemaConstants.STRUCTURE_TAG
-					+ formatXPathProperty( DesignSchemaConstants.NAME_ATTRIB,
+			sb.append( SEPARATOR +
+					DesignSchemaConstants.STRUCTURE_TAG +
+					formatXPathProperty( DesignSchemaConstants.NAME_ATTRIB,
 							tmpPropDefn.getName( ) ) );
 
 			tmpPropDefn = memberRef.getMemberDefn( );
@@ -264,9 +265,9 @@ public class XPathUtil
 
 		if ( tmpPropDefn.isList( ) )
 		{
-			sb.append( SEPARATOR
-					+ DesignSchemaConstants.LIST_PROPERTY_TAG
-					+ formatXPathProperty( DesignSchemaConstants.NAME_ATTRIB,
+			sb.append( SEPARATOR +
+					DesignSchemaConstants.LIST_PROPERTY_TAG +
+					formatXPathProperty( DesignSchemaConstants.NAME_ATTRIB,
 							tmpPropDefn.getName( ) ) );
 		}
 
@@ -327,15 +328,23 @@ public class XPathUtil
 			if ( container != null )
 			{
 				SlotHandle slot = tmpElement.getContainerSlotHandle( );
-				String slotTagName = slot.getDefn( ).getXmlName( );
-
-				if ( !StringUtil.isBlank( slotTagName ) )
-					slotInfo = SEPARATOR + slotTagName;
-
-				if ( slot.getCount( ) > 1 )
+				if ( slot != null )
 				{
-					idInfo = formatXPathProperty( "id", Long //$NON-NLS-1$
-							.toString( tmpElement.getID( ) ) );
+					String slotTagName = slot.getDefn( ).getXmlName( );
+
+					if ( !StringUtil.isBlank( slotTagName ) )
+						slotInfo = SEPARATOR + slotTagName;
+
+					if ( slot.getCount( ) > 1 )
+					{
+						idInfo = formatXPathProperty( "id", Long //$NON-NLS-1$
+								.toString( tmpElement.getID( ) ) );
+					}
+				}
+				else
+				{
+					formatXPathProperty( "property", tmpElement //$NON-NLS-1$
+							.getContainerPropertyHandle( ).getDefn( ).getName( ) );
 				}
 			}
 
@@ -381,12 +390,12 @@ public class XPathUtil
 
 	private static boolean isEnclosedAttr( String propName )
 	{
-		if ( DesignElement.NAME_PROP.equalsIgnoreCase( propName )
-				|| DesignSchemaConstants.EXTENDS_ATTRIB
-						.equalsIgnoreCase( propName )
-				|| IExtendedItemModel.EXTENSION_NAME_PROP
-						.equalsIgnoreCase( propName )
-				|| IOdaExtendableElementModel.EXTENSION_ID_PROP
+		if ( DesignElement.NAME_PROP.equalsIgnoreCase( propName ) ||
+				DesignSchemaConstants.EXTENDS_ATTRIB
+						.equalsIgnoreCase( propName ) ||
+				IExtendedItemModel.EXTENSION_NAME_PROP
+						.equalsIgnoreCase( propName ) ||
+				IOdaExtendableElementModel.EXTENSION_ID_PROP
 						.equalsIgnoreCase( propName ) )
 			return true;
 
@@ -451,8 +460,8 @@ public class XPathUtil
 		if ( tmpPropDefn == null )
 			return null;
 
-		if ( isKeyDefn
-				&& tmpPropDefn.getTypeCode( ) != IPropertyType.RESOURCE_KEY_TYPE )
+		if ( isKeyDefn &&
+				tmpPropDefn.getTypeCode( ) != IPropertyType.RESOURCE_KEY_TYPE )
 			return null;
 
 		return ( isKeyDefn ? propDefn : tmpPropDefn );

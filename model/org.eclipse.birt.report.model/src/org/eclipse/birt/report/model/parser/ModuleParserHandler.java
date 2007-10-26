@@ -19,9 +19,12 @@ import java.util.Map;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleOption;
+import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.api.util.XPathUtil;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
@@ -294,16 +297,12 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 		}
 
 		// build the line number information of design elements if needed.
+		// this has to be done after element id has been set since slots uses
+		// xpath as keys.
 
 		if ( markLineNumber && tempLineNumbers != null )
 		{
-			Iterator iter = tempLineNumbers.entrySet( ).iterator( );
-			while ( iter.hasNext( ) )
-			{
-				Map.Entry entry = (Map.Entry) iter.next( );
-				module.addLineNo( entry.getKey( ), (Integer) entry.getValue( ) );
-			}
-			tempLineNumbers = null;
+			handleLineNumber( );
 		}
 
 		// if module options not set the parser-semantic check options or set it
@@ -438,6 +437,22 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 					.get( i );
 			RecoverDataGroupUtil.checkListingGroup( tmpElement, this );
 		}
+	}
+
+	private void handleLineNumber( )
+	{
+			Iterator iter = tempLineNumbers.entrySet( ).iterator( );
+			while ( iter.hasNext( ) )
+			{
+				Map.Entry entry = (Map.Entry) iter.next( );
+
+				Object key = entry.getKey( );
+				module.addLineNo( key, (Integer) entry.getValue( ) );
+			}
+
+			tempLineNumbers.clear( );
+			tempLineNumbers = null;
+		
 	}
 
 	/**

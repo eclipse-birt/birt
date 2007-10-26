@@ -136,7 +136,7 @@ public abstract class ModuleState extends DesignParseState
 	 * Parses the contents of the list of data sources.
 	 */
 
-	class DataSourcesState extends InnerParseState
+	static class DataSourcesState extends SlotState
 	{
 
 		/*
@@ -145,13 +145,19 @@ public abstract class ModuleState extends DesignParseState
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
 		 */
 
+		protected DataSourcesState( ModuleParserHandler handler,
+				DesignElement container, int slot )
+		{
+			super( handler, container, slot );
+		}
+
 		public AbstractParseState startElement( String tagName )
 		{
 			int tagValue = tagName.toLowerCase( ).hashCode( );
 			if ( ParserSchemaConstants.SCRIPT_DATA_SOURCE_TAG == tagValue )
 				return new ScriptDataSourceState( handler );
-			if ( ParserSchemaConstants.ODA_DATA_SOURCE_TAG == tagValue
-					|| ParserSchemaConstants.EXTENDED_DATA_SOURCE_TAG == tagValue )
+			if ( ParserSchemaConstants.ODA_DATA_SOURCE_TAG == tagValue ||
+					ParserSchemaConstants.EXTENDED_DATA_SOURCE_TAG == tagValue )
 			{
 				return new OdaDataSourceState( handler );
 			}
@@ -163,8 +169,20 @@ public abstract class ModuleState extends DesignParseState
 	 * Parses the contents of the list of data sets.
 	 */
 
-	class DataSetsState extends InnerParseState
+	static class DataSetsState extends SlotState
 	{
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+		 */
+
+		protected DataSetsState( ModuleParserHandler handler,
+				DesignElement container, int slot )
+		{
+			super( handler, container, slot );
+		}
 
 		/*
 		 * (non-Javadoc)
@@ -177,8 +195,8 @@ public abstract class ModuleState extends DesignParseState
 			int tagValue = tagName.toLowerCase( ).hashCode( );
 			if ( ParserSchemaConstants.SCRIPT_DATA_SET_TAG == tagValue )
 				return new ScriptDataSetState( handler );
-			if ( ParserSchemaConstants.ODA_DATA_SET_TAG == tagValue
-					|| ParserSchemaConstants.EXTENDED_DATA_SET_TAG == tagValue )
+			if ( ParserSchemaConstants.ODA_DATA_SET_TAG == tagValue ||
+					ParserSchemaConstants.EXTENDED_DATA_SET_TAG == tagValue )
 			{
 				return new OdaDataSetState( handler );
 			}
@@ -319,9 +337,22 @@ public abstract class ModuleState extends DesignParseState
 	 * Parses the contents of the page setup tag.
 	 */
 
-	class PageSetupState extends InnerParseState
+	static class PageSetupState extends SlotState
 	{
 
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+		 */
+
+		protected PageSetupState( ModuleParserHandler handler,
+				DesignElement container, int slot )
+		{
+			super( handler, container, slot );
+		}
+
+		
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -346,21 +377,19 @@ public abstract class ModuleState extends DesignParseState
 	 * shared elements, which can be derived from.
 	 */
 
-	class SlotState extends InnerParseState
+	static class ComponentsState extends SlotState
 	{
 
-		private int slotID;
-
-		/**
-		 * Constructor
+		/*
+		 * (non-Javadoc)
 		 * 
-		 * @param slotID
-		 *            the slot ID of the element
+		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
 		 */
 
-		public SlotState( int slotID )
+		protected ComponentsState( ModuleParserHandler handler,
+				DesignElement container, int slot )
 		{
-			this.slotID = slotID;
+			super( handler, container, slot );
 		}
 
 		/*
@@ -376,37 +405,37 @@ public abstract class ModuleState extends DesignParseState
 			if ( ParserSchemaConstants.BROWSER_CONTROL_TAG == tagValue )
 				return new AnyElementState( handler );
 			if ( ParserSchemaConstants.FREE_FORM_TAG == tagValue )
-				return new FreeFormState( handler, module, slotID );
+				return new FreeFormState( handler, container, slotID );
 			if ( ParserSchemaConstants.DATA_TAG == tagValue )
-				return new DataItemState( handler, module, slotID );
+				return new DataItemState( handler, container, slotID );
 			if ( ParserSchemaConstants.EXTENDED_ITEM_TAG == tagValue )
-				return new ExtendedItemState( handler, module, slotID );
+				return new ExtendedItemState( handler, container, slotID );
 			if ( ParserSchemaConstants.GRID_TAG == tagValue )
-				return new GridItemState( handler, module, slotID );
+				return new GridItemState( handler, container, slotID );
 			if ( ParserSchemaConstants.IMAGE_TAG == tagValue )
-				return new ImageState( handler, module, slotID );
+				return new ImageState( handler, container, slotID );
 			if ( ParserSchemaConstants.INCLUDE_TAG == tagValue )
 				return new AnyElementState( handler );
 			if ( ParserSchemaConstants.LABEL_TAG == tagValue )
-				return new LabelState( handler, module, slotID );
+				return new LabelState( handler, container, slotID );
 			if ( ParserSchemaConstants.TEXT_TAG == tagValue )
-				return new TextItemState( handler, module, slotID );
+				return new TextItemState( handler, container, slotID );
 			if ( ParserSchemaConstants.LINE_TAG == tagValue )
-				return new LineItemState( handler, module, slotID );
+				return new LineItemState( handler, container, slotID );
 			if ( ParserSchemaConstants.LIST_TAG == tagValue )
-				return new ListItemState( handler, module, slotID );
+				return new ListItemState( handler, container, slotID );
 			if ( ParserSchemaConstants.RECTANGLE_TAG == tagValue )
-				return new RectangleState( handler, module, slotID );
+				return new RectangleState( handler, container, slotID );
 			if ( ParserSchemaConstants.TABLE_TAG == tagValue )
-				return new TableItemState( handler, module, slotID );
+				return new TableItemState( handler, container, slotID );
 			if ( ParserSchemaConstants.TEXT_TAG == tagValue )
-				return new TextItemState( handler, module, slotID );
+				return new TextItemState( handler, container, slotID );
 			if ( ParserSchemaConstants.TOC_TAG == tagValue )
 				return new AnyElementState( handler );
-			if ( ParserSchemaConstants.MULTI_LINE_DATA_TAG == tagValue
-					|| ParserSchemaConstants.TEXT_DATA_TAG == tagValue )
-				return new TextDataItemState( handler, module, slotID );
-			return super.startElement( tagName );			
+			if ( ParserSchemaConstants.MULTI_LINE_DATA_TAG == tagValue ||
+					ParserSchemaConstants.TEXT_DATA_TAG == tagValue )
+				return new TextDataItemState( handler, container, slotID );
+			return super.startElement( tagName );
 		}
 	}
 
@@ -414,20 +443,20 @@ public abstract class ModuleState extends DesignParseState
 	 * Parses the contents of the list of styles.
 	 */
 
-	class CubesState extends InnerParseState
+	static class CubesState extends SlotState
 	{
-
-		private int slotID = -1;
-
-		/**
+		/*
+		 * (non-Javadoc)
 		 * 
-		 * @param slot
+		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
 		 */
-		public CubesState( int slot )
-		{
-			this.slotID = slot;
-		}
 
+		protected CubesState( ModuleParserHandler handler,
+				DesignElement container, int slot )
+		{
+			super( handler, container, slot );
+		}
+		
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -438,10 +467,10 @@ public abstract class ModuleState extends DesignParseState
 		{
 			if ( tagName
 					.equalsIgnoreCase( DesignSchemaConstants.TABULAR_CUBE_TAG ) )
-				return new TabularCubeState( handler, module, slotID );
+				return new TabularCubeState( handler, container, slotID );
 
 			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.ODA_CUBE_TAG ) )
-				return new OdaCubeState( handler, module, slotID );
+				return new OdaCubeState( handler, container, slotID );
 
 			return super.startElement( tagName );
 		}

@@ -1,17 +1,16 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.model.parser;
 
-import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -23,31 +22,12 @@ import org.eclipse.birt.report.model.util.XMLParserHandler;
  * 
  */
 
-public class ParametersState extends AbstractParseState
+class ParametersState extends SlotState
 {
 
-	private ModuleParserHandler handler;
-	private DesignElement container;
-	private int slotID;
-	private boolean isReport = true;
-
 	/**
-	 * Constructs the parameters state with the design file parser handler.
-	 * 
-	 * @param handler
-	 *            the design file parser handler
-	 */
-
-	public ParametersState( ModuleParserHandler handler )
-	{
-		this.handler = handler;
-		container = handler.getModule( );
-		slotID = IModuleModel.PARAMETER_SLOT;
-	}
-
-	/**
-	 * Constructs the parameters state with the design parser handler, the container
-	 * element and the container slot of the parameters.
+	 * Constructs the parameters state with the design parser handler, the
+	 * container element and the container slot of the parameters.
 	 * 
 	 * @param handler
 	 *            the design file parser handler.
@@ -59,14 +39,11 @@ public class ParametersState extends AbstractParseState
 	 *            the slot id of the slot where the parameter/parametergroup is
 	 *            stored.
 	 */
-	
+
 	public ParametersState( ModuleParserHandler handler,
 			DesignElement container, int slotID )
 	{
-		this.handler = handler;
-		this.container = container;
-		this.slotID = slotID;
-		isReport = container instanceof ReportDesign;
+		super( handler, container, slotID );
 	}
 
 	/*
@@ -78,13 +55,11 @@ public class ParametersState extends AbstractParseState
 	public AbstractParseState startElement( String tagName )
 	{
 		int tagValue = tagName.toLowerCase( ).hashCode( );
-		if ( isReport )
-		{
-			if ( ParserSchemaConstants.PARAMETER_GROUP_TAG == tagValue )
-				return new ParameterGroupState( handler );
-			if ( ParserSchemaConstants.CASCADING_PARAMETER_GROUP_TAG == tagValue )
-				return new CascadingParameterGroupState( handler );
-		}
+
+		if ( ParserSchemaConstants.PARAMETER_GROUP_TAG == tagValue )
+			return new ParameterGroupState( handler );
+		if ( ParserSchemaConstants.CASCADING_PARAMETER_GROUP_TAG == tagValue )
+			return new CascadingParameterGroupState( handler );
 		if ( ParserSchemaConstants.SCALAR_PARAMETER_TAG == tagValue )
 			return new ScalarParameterState( handler, container, slotID );
 		if ( ParserSchemaConstants.FILTER_PARAMETER_TAG == tagValue )
@@ -101,7 +76,7 @@ public class ParametersState extends AbstractParseState
 	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#getHandler()
 	 */
-	
+
 	public XMLParserHandler getHandler( )
 	{
 		return handler;

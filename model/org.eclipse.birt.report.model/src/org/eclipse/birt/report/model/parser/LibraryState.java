@@ -98,24 +98,30 @@ public class LibraryState extends ModuleState
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TRANSLATIONS_TAG ) )
 			return new TranslationsState( );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PARAMETERS_TAG ) )
-			return new ParametersState( handler );
+			return new ParametersState( handler, getElement( ),
+					IModuleModel.PARAMETER_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.DATA_SOURCES_TAG ) )
-			return new DataSourcesState( );
+			return new DataSourcesState( handler, getElement( ),
+					IModuleModel.DATA_SOURCE_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.DATA_SETS_TAG ) )
-			return new DataSetsState( );
+			return new DataSetsState( handler, getElement( ),
+					IModuleModel.DATA_SET_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.THEMES_TAG ) )
 			return new ThemesState( );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STYLES_TAG ) )
 			return new CompatibleLibraryStylesState( handler, getElement( ),
 					ILibraryModel.THEMES_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PAGE_SETUP_TAG ) )
-			return new PageSetupState( );
+			return new PageSetupState( handler, getElement( ),
+					IModuleModel.PAGE_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.COMPONENTS_TAG ) )
-			return new SlotState( IModuleModel.COMPONENT_SLOT );
+			return new ComponentsState( handler, getElement( ),
+					IModuleModel.COMPONENT_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
 			return new PropertyState( handler, getElement( ) );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.CUBES_TAG ) )
-			return new CubesState( ILibraryModel.CUBE_SLOT );
+			return new CubesState( handler, getElement( ),
+					ILibraryModel.CUBE_SLOT );
 		return super.startElement( tagName );
 	}
 
@@ -136,9 +142,9 @@ public class LibraryState extends ModuleState
 		public AbstractParseState startElement( String tagName )
 		{
 			int tagValue = tagName.toLowerCase( ).hashCode( );
-			if ( ParserSchemaConstants.THEME_TAG == tagValue  )
+			if ( ParserSchemaConstants.THEME_TAG == tagValue )
 				return new ThemeState( handler, module, Library.THEMES_SLOT );
-			
+
 			return super.startElement( tagName );
 		}
 	}

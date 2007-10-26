@@ -30,6 +30,7 @@ import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ScriptLibHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
@@ -876,6 +877,18 @@ public class ReportDesignParseTest extends BaseTestCase
 		// test theme property
 		ThemeHandle theme = designHandle.getTheme( );
 		assertEquals( 6, designHandle.getLineNo( theme ) );
+		
+		// test slot of table
+		SlotHandle footer = table.getFooter( );
+		assertEquals( 392, designHandle.getLineNo( footer ) );
+		
+		// test slot of design 
+		SlotHandle body = designHandle.getBody( );
+		assertEquals( 372, designHandle.getLineNo( body ) );
+		
+		SlotHandle pages = designHandle.getMasterPages( );
+		assertEquals( 362, designHandle.getLineNo( pages ) );
+		
 	}
 	
 	/**

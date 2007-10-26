@@ -49,6 +49,7 @@ import org.eclipse.birt.report.model.api.util.PropertyValueValidationUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
+import org.eclipse.birt.report.model.api.util.XPathUtil;
 import org.eclipse.birt.report.model.api.validators.IValidationListener;
 import org.eclipse.birt.report.model.api.validators.ValidationEvent;
 import org.eclipse.birt.report.model.command.ComplexPropertyCommand;
@@ -57,6 +58,7 @@ import org.eclipse.birt.report.model.command.LibraryCommand;
 import org.eclipse.birt.report.model.command.ShiftLibraryCommand;
 import org.eclipse.birt.report.model.command.ThemeCommand;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
@@ -2976,6 +2978,12 @@ public abstract class ModuleHandle extends DesignElementHandle
 		{
 			return module
 					.getLineNo( ( (DesignElementHandle) obj ).getElement( ) );
+		}
+		else if ( obj instanceof SlotHandle )
+		{
+			SlotHandle slot = (SlotHandle) obj;
+			return module.getLineNo( new ContainerContext( slot.getElement( ),
+					slot.getSlotID( ) ) );
 		}
 		else
 			return 1;

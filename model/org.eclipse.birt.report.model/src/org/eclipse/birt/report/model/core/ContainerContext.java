@@ -623,6 +623,16 @@ public final class ContainerContext
 		return newContext;
 	}
 
+	
+	/**
+	 * @return the isSlot
+	 */
+	
+	public boolean isROMSlot( )
+	{
+		return isSlot;
+	}
+	
 	/**
 	 * 
 	 */
@@ -974,5 +984,4 @@ public final class ContainerContext
 			return true;
 		}
 	}
-
 }

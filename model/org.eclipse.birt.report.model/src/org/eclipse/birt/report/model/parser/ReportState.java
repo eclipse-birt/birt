@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.api.core.IModuleModel;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -48,28 +49,37 @@ public class ReportState extends ModuleState
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TRANSLATIONS_TAG ) )
 			return new TranslationsState( );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PARAMETERS_TAG ) )
-			return new ParametersState( handler );
+			return new ParametersState( handler, getElement( ),
+					IModuleModel.PARAMETER_SLOT  );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.DATA_SOURCES_TAG ) )
-			return new DataSourcesState( );
+			return new DataSourcesState( handler, getElement( ),
+					IModuleModel.DATA_SOURCE_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.DATA_SETS_TAG ) )
-			return new DataSetsState( );
+			return new DataSetsState( handler, getElement( ),
+					IModuleModel.DATA_SET_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STYLES_TAG ) )
-			return new StylesState( );
+			return new StylesState( handler, getElement( ),
+					IReportDesignModel.STYLE_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PAGE_SETUP_TAG ) )
-			return new PageSetupState( );
+			return new PageSetupState( handler, getElement( ),
+					IModuleModel.PAGE_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.COMPONENTS_TAG ) )
-			return new SlotState( IModuleModel.COMPONENT_SLOT );
+			return new ComponentsState( handler, getElement( ),
+					IModuleModel.COMPONENT_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.BODY_TAG ) )
-			return new BodyState( );
+			return new BodyState(  handler, getElement( ),
+					IReportDesignModel.BODY_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.SCRATCH_PAD_TAG ) )
-			return new SlotState( IReportDesignModel.SCRATCH_PAD_SLOT );
+			return new ComponentsState( handler, getElement( ),
+					IReportDesignModel.SCRATCH_PAD_SLOT );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
 			return new PropertyState( handler, getElement( ) );
 		if ( tagName
 				.equalsIgnoreCase( DesignSchemaConstants.TEMPLATE_PARAMETER_DEFINITIONS_TAG ) )
 			return new TemplateParameterDefinitionsState( );
 		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.CUBES_TAG ) )
-			return new CubesState( IReportDesignModel.CUBE_SLOT );
+			return new CubesState( handler, getElement( ),
+					IReportDesignModel.CUBE_SLOT );
 		return super.startElement( tagName );
 	}
 
@@ -78,8 +88,20 @@ public class ReportState extends ModuleState
 	 * sections.
 	 */
 
-	class BodyState extends InnerParseState
+	static class BodyState extends SlotState
 	{
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+		 */
+
+		protected BodyState( ModuleParserHandler handler,
+				DesignElement container, int slot )
+		{
+			super( handler, container, slot );
+		}
 
 		/*
 		 * (non-Javadoc)
@@ -91,40 +113,41 @@ public class ReportState extends ModuleState
 		{
 			int tagValue = tagName.toLowerCase( ).hashCode( );
 			if ( ParserSchemaConstants.TEXT_TAG == tagValue )
-				return new TextItemState( handler, module,
+				return new TextItemState( handler, container,
 						ReportDesign.BODY_SLOT );
-			if ( ParserSchemaConstants.GRID_TAG == tagValue  )
-				return new GridItemState( handler, module,
+			if ( ParserSchemaConstants.GRID_TAG == tagValue )
+				return new GridItemState( handler, container,
 						ReportDesign.BODY_SLOT );
-			if ( ParserSchemaConstants.FREE_FORM_TAG == tagValue  )
-				return new FreeFormState( handler, module,
+			if ( ParserSchemaConstants.FREE_FORM_TAG == tagValue )
+				return new FreeFormState( handler, container,
 						ReportDesign.BODY_SLOT );
-			if ( ParserSchemaConstants.LIST_TAG == tagValue  )
-				return new ListItemState( handler, module,
+			if ( ParserSchemaConstants.LIST_TAG == tagValue )
+				return new ListItemState( handler, container,
 						ReportDesign.BODY_SLOT );
-			if ( ParserSchemaConstants.TABLE_TAG == tagValue  )
-				return new TableItemState( handler, module,
+			if ( ParserSchemaConstants.TABLE_TAG == tagValue )
+				return new TableItemState( handler, container,
 						ReportDesign.BODY_SLOT );
-			if ( ParserSchemaConstants.LABEL_TAG == tagValue  )
-				return new LabelState( handler, module, ReportDesign.BODY_SLOT );
-			if ( ParserSchemaConstants.IMAGE_TAG == tagValue  )
-				return new ImageState( handler, module, ReportDesign.BODY_SLOT );
-			if ( ParserSchemaConstants.DATA_TAG == tagValue  )
-				return new DataItemState( handler, module,
+			if ( ParserSchemaConstants.LABEL_TAG == tagValue )
+				return new LabelState( handler, container, ReportDesign.BODY_SLOT );
+			if ( ParserSchemaConstants.IMAGE_TAG == tagValue )
+				return new ImageState( handler, container, ReportDesign.BODY_SLOT );
+			if ( ParserSchemaConstants.DATA_TAG == tagValue )
+				return new DataItemState( handler, container,
 						ReportDesign.BODY_SLOT );
-			if ( ParserSchemaConstants.INCLUDE_TAG == tagValue  )
+			if ( ParserSchemaConstants.INCLUDE_TAG == tagValue )
 				return new AnyElementState( handler );
-			if ( ParserSchemaConstants.TOC_TAG == tagValue  )
+			if ( ParserSchemaConstants.TOC_TAG == tagValue )
 				return new AnyElementState( handler );
-			if ( ParserSchemaConstants.EXTENDED_ITEM_TAG == tagValue  )
-				return new ExtendedItemState( handler, module,
+			if ( ParserSchemaConstants.EXTENDED_ITEM_TAG == tagValue )
+				return new ExtendedItemState( handler, container,
 						ReportDesign.BODY_SLOT );
-			if ( ParserSchemaConstants.MULTI_LINE_DATA_TAG == tagValue 
-					|| ParserSchemaConstants.TEXT_DATA_TAG == tagValue  )
-				return new TextDataItemState( handler, module,
+			if ( ParserSchemaConstants.MULTI_LINE_DATA_TAG == tagValue ||
+					ParserSchemaConstants.TEXT_DATA_TAG == tagValue )
+				return new TextDataItemState( handler, container,
 						ReportDesign.BODY_SLOT );
-			if ( ParserSchemaConstants.TEMPLATE_REPORT_ITEM_TAG == tagValue  )
-				return new TemplateReportItemState( handler, module, ReportDesign.BODY_SLOT );
+			if ( ParserSchemaConstants.TEMPLATE_REPORT_ITEM_TAG == tagValue )
+				return new TemplateReportItemState( handler, container,
+						ReportDesign.BODY_SLOT );
 			return super.startElement( tagName );
 		}
 	}
@@ -133,9 +156,22 @@ public class ReportState extends ModuleState
 	 * Parses the contents of the list of styles.
 	 */
 
-	private class StylesState extends InnerParseState
+	private static class StylesState extends SlotState
 	{
 
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+		 */
+
+		protected StylesState( ModuleParserHandler handler,
+				DesignElement container, int slot )
+		{
+			super( handler, container, slot );
+		}
+
+		
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -145,7 +181,7 @@ public class ReportState extends ModuleState
 		public AbstractParseState startElement( String tagName )
 		{
 			int tagValue = tagName.toLowerCase( ).hashCode( );
-			if ( ParserSchemaConstants.STYLE_TAG == tagValue  )
+			if ( ParserSchemaConstants.STYLE_TAG == tagValue )
 				return new StyleState( handler );
 			return super.startElement( tagName );
 		}
@@ -168,7 +204,8 @@ public class ReportState extends ModuleState
 		{
 			int tagValue = tagName.toLowerCase( ).hashCode( );
 			if ( ParserSchemaConstants.TEMPLATE_PARAMETER_DEFINITION_TAG == tagValue )
-				return new TemplateParameterDefinitionState( handler, module, ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT );
+				return new TemplateParameterDefinitionState( handler, module,
+						ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT );
 			return super.startElement( tagName );
 		}
 	}
