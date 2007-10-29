@@ -18,7 +18,7 @@ import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.ReportGraphicsViewComposite;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.ReportGraphicsViewPainter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.AddImageResourceFileFolderSelectionDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -29,14 +29,13 @@ import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -52,9 +51,8 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- * 
+ * ThumbnailBuilder
  */
-
 public class ThumbnailBuilder extends BaseDialog
 {
 
@@ -63,42 +61,43 @@ public class ThumbnailBuilder extends BaseDialog
 	private final static int BROWSER_TYPE = 1;
 	private final static int IMPORT_TYPE = 2;
 
-	private static String DEFAULT_TEXT = Messages.getString( "ThumbnailBuilder.Text.Title" );
+	private static String DEFAULT_TEXT = Messages.getString( "ThumbnailBuilder.Text.Title" ); //$NON-NLS-1$
 
-	private static String BUTTON_TEXT_GENERATE = Messages.getString( "ThumbnailBuilder.Button.Text.Generate" );
+	private static String BUTTON_TEXT_GENERATE = Messages.getString( "ThumbnailBuilder.Button.Text.Generate" ); //$NON-NLS-1$
 
-	private static String BUTTON_TEXT_REMOVE = Messages.getString( "ThumbnailBuilder.Button.Text.Remove" );
+	private static String BUTTON_TEXT_REMOVE = Messages.getString( "ThumbnailBuilder.Button.Text.Remove" ); //$NON-NLS-1$
 
-	private static String BUTTON_TEXT_IMPORT = Messages.getString( "ThumbnailBuilder.Button.Text.Import" );
+	private static String BUTTON_TEXT_IMPORT = Messages.getString( "ThumbnailBuilder.Button.Text.Import" ); //$NON-NLS-1$
 
 	private ImageCanvas previewCanvas;
-
-	private Composite previewThumbnail;
 
 	private Button radioBtnGenerate, radioBtnBrowse, radioBtnImport;
 
 	private Button btnImport, btnRemove;
 
+	private String imageName;
+
 	private Image image;
 
-	boolean isGenerated;
+	private boolean hasThumbnail;
 
-	boolean hasThumbnail;
-
-	String IMAGE_FILTER[] = new String[]{
-		"*.gif;*.jpg;*.png;*.ico;*.bmp" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+	private static final String IMAGE_FILTER[] = new String[]{
+		"*.gif;*.jpg;*.png;*.ico;*.bmp" //$NON-NLS-1$
 	};
 
-	public Image getImage( )
-	{
-		return image;
-	}
-
 	private static final String[] IMAGE_TYPES = new String[]{
-			".bmp", ".jpg", ".gif", ".png", ".ico"
+			".bmp", ".jpg", ".gif", ".png", ".ico" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 	};
 
 	private ReportDesignHandle handle;
+
+	/**
+	 * @param title
+	 */
+	public ThumbnailBuilder( )
+	{
+		super( UIUtil.getDefaultShell( ), DEFAULT_TEXT );
+	}
 
 	/**
 	 * @param parentShell
@@ -110,7 +109,10 @@ public class ThumbnailBuilder extends BaseDialog
 
 	}
 
-	private String imageName;
+	public Image getImage( )
+	{
+		return image;
+	}
 
 	public String getImageName( )
 	{
@@ -120,14 +122,6 @@ public class ThumbnailBuilder extends BaseDialog
 	public void setImageName( String imageName )
 	{
 		this.imageName = imageName;
-	}
-
-	/**
-	 * @param title
-	 */
-	public ThumbnailBuilder( )
-	{
-		super( UIUtil.getDefaultShell( ), DEFAULT_TEXT );
 	}
 
 	/*
@@ -159,15 +153,6 @@ public class ThumbnailBuilder extends BaseDialog
 
 	protected void okPressed( )
 	{
-
-		if ( hasThumbnail )
-		{
-			if ( isGenerated )
-			{
-				image = UIUtil.newImageFromComposite( previewThumbnail );
-			}
-			Assert.isNotNull( image );
-		}
 		if ( currentListener != null )
 		{
 			btnImport.removeListener( SWT.Selection, currentListener );
@@ -189,7 +174,7 @@ public class ThumbnailBuilder extends BaseDialog
 		selectionArea.setLayout( new GridLayout( ) );
 
 		radioBtnGenerate = new Button( selectionArea, SWT.RADIO );
-		radioBtnGenerate.setText( Messages.getString( "ThumbnailBuilder.Button.GenerateFromReport" ) );
+		radioBtnGenerate.setText( Messages.getString( "ThumbnailBuilder.Button.GenerateFromReport" ) ); //$NON-NLS-1$
 		radioBtnGenerate.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -199,7 +184,7 @@ public class ThumbnailBuilder extends BaseDialog
 		} );
 
 		radioBtnBrowse = new Button( selectionArea, SWT.RADIO );
-		radioBtnBrowse.setText( Messages.getString( "ThumbnailBuilder.Button.BrowseFromFileSystem" ) );
+		radioBtnBrowse.setText( Messages.getString( "ThumbnailBuilder.Button.BrowseFromFileSystem" ) ); //$NON-NLS-1$
 		radioBtnBrowse.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -209,7 +194,7 @@ public class ThumbnailBuilder extends BaseDialog
 		} );
 
 		radioBtnImport = new Button( selectionArea, SWT.RADIO );
-		radioBtnImport.setText( Messages.getString( "ThumbnailBuilder.Button.ImportFromResource" ) );
+		radioBtnImport.setText( Messages.getString( "ThumbnailBuilder.Button.ImportFromResource" ) ); //$NON-NLS-1$
 		radioBtnImport.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -230,11 +215,11 @@ public class ThumbnailBuilder extends BaseDialog
 		switch ( type )
 		{
 			case GENERATE_TYPE :
-				
+
 				radioBtnGenerate.setSelection( true );
 				radioBtnBrowse.setSelection( false );
 				radioBtnImport.setSelection( false );
-				
+
 				btnImport.setText( BUTTON_TEXT_GENERATE );
 				LayoutButtons( );
 				currentListener = btnGenerateListener;
@@ -244,8 +229,8 @@ public class ThumbnailBuilder extends BaseDialog
 				radioBtnGenerate.setSelection( false );
 				radioBtnBrowse.setSelection( true );
 				radioBtnImport.setSelection( false );
-				
-				btnImport.setText( Messages.getString( "ThumbnailBuilder.Button.Text.Browse" ) );
+
+				btnImport.setText( Messages.getString( "ThumbnailBuilder.Button.Text.Browse" ) ); //$NON-NLS-1$
 				LayoutButtons( );
 				currentListener = btnBrowseListener;
 				btnImport.addListener( SWT.Selection, currentListener );
@@ -260,7 +245,7 @@ public class ThumbnailBuilder extends BaseDialog
 				btnImport.addListener( SWT.Selection, currentListener );
 				break;
 			default :
-				;
+				break;
 		}
 
 	}
@@ -269,27 +254,22 @@ public class ThumbnailBuilder extends BaseDialog
 	{
 		Composite previewArea = new Composite( composite, SWT.BORDER );
 		GridData gd = new GridData( GridData.BEGINNING );
-		gd.widthHint = 180;
+		gd.widthHint = 184;
 		gd.heightHint = 229;
 		previewArea.setLayoutData( gd );
 		previewArea.setLayout( new FormLayout( ) );
 
 		previewCanvas = new ImageCanvas( previewArea );
-		previewThumbnail = new Composite( previewArea, SWT.NONE );
 
 		FormData formData = new FormData( 180, 229 );
 		formData.left = new FormAttachment( previewArea );
 		formData.top = new FormAttachment( previewArea );
 
 		previewCanvas.setLayoutData( formData );
-
-		previewThumbnail.setLayoutData( formData );
-		previewThumbnail.setLayout( new FillLayout( ) );
 	}
 
 	protected boolean initDialog( )
 	{
-		isGenerated = false;
 		hasThumbnail = false;
 		ModuleHandle moduleHandle = getModuleHandle( );
 		if ( ( moduleHandle == null )
@@ -312,11 +292,9 @@ public class ThumbnailBuilder extends BaseDialog
 		{
 			ByteArrayInputStream inputStream = new ByteArrayInputStream( thumbnailData );
 			image = new Image( null, inputStream );
-			previewCanvas.setVisible( true );
-			previewThumbnail.setVisible( false );
 
 			previewCanvas.clear( );
-			previewCanvas.loadImage( ( (Image) image ) );
+			previewCanvas.loadImage( image );
 			hasThumbnail = true;
 		}
 		switchTo( GENERATE_TYPE );
@@ -361,27 +339,27 @@ public class ThumbnailBuilder extends BaseDialog
 		btnRemove.addListener( SWT.Selection, btnRemoveListener );
 
 	}
-	
-	private void LayoutButtons()
+
+	private void LayoutButtons( )
 	{
-		
+
 		GridData gd = new GridData( );
 		gd.horizontalAlignment = GridData.FILL_HORIZONTAL;
-		
-		Point pnt1 = btnImport.computeSize(SWT.DEFAULT, SWT.DEFAULT, true);
-		Point pnt2 = btnRemove.computeSize(SWT.DEFAULT, SWT.DEFAULT, true);
+
+		Point pnt1 = btnImport.computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
+		Point pnt2 = btnRemove.computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
 		gd.widthHint = Math.max( pnt1.x, pnt2.x );
 
 		btnImport.setLayoutData( gd );
 		btnRemove.setLayoutData( gd );
-		
-		Control control = getDialogArea();
-		
-		if(control instanceof Composite)
+
+		Control control = getDialogArea( );
+
+		if ( control instanceof Composite )
 		{
-			((Composite)control).layout( );
+			( (Composite) control ).layout( );
 		}
-		getShell( ).pack( );			
+		getShell( ).pack( );
 	}
 
 	private Listener btnGenerateListener = new Listener( ) {
@@ -390,18 +368,22 @@ public class ThumbnailBuilder extends BaseDialog
 		{
 			removeImage( );
 
-			previewCanvas.setVisible( false );
-			previewThumbnail.setVisible( true );
+			ReportGraphicsViewPainter painter = new ReportGraphicsViewPainter( getModuleHandle( ) );
 
-			ReportGraphicsViewComposite thumbnail = new ReportGraphicsViewComposite( previewThumbnail,
-					SWT.NULL,
-					getModuleHandle( ) );
+			previewCanvas.layout( );
 
-			previewThumbnail.layout( );
+			Rectangle rect = previewCanvas.getBounds( );
+			image = new Image( null, rect.width, rect.height );
+
+			painter.paint( image, previewCanvas.getDisplay( ), rect );
+
+			painter.dispose( );
+
+			previewCanvas.loadImage( image );
+
 			btnRemove.setEnabled( true );
-			isGenerated = true;
 			hasThumbnail = true;
-			imageName = Messages.getString( "ThumbnailBuilder.Image.DefaultName" );
+			imageName = Messages.getString( "ThumbnailBuilder.Image.DefaultName" ); //$NON-NLS-1$
 		}
 	};
 
@@ -411,7 +393,7 @@ public class ThumbnailBuilder extends BaseDialog
 		{
 			removeImage( );
 			hasThumbnail = false;
-			imageName = "";
+			imageName = ""; //$NON-NLS-1$
 		}
 	};
 
@@ -432,19 +414,15 @@ public class ThumbnailBuilder extends BaseDialog
 
 			if ( checkExtensions( fileName ) == false )
 			{
-				ExceptionHandler.openErrorMessageBox( Messages.getString( "ThumbnailBuilder.FileDialog.FileNameError.Title" ),
-						Messages.getString( "ThumbnailBuilder.FileDialog.FileNameError.Message" ) );
+				ExceptionHandler.openErrorMessageBox( Messages.getString( "ThumbnailBuilder.FileDialog.FileNameError.Title" ), //$NON-NLS-1$
+						Messages.getString( "ThumbnailBuilder.FileDialog.FileNameError.Message" ) ); //$NON-NLS-1$
 				return;
 			}
 
 			removeImage( );
-			isGenerated = false;
 			hasThumbnail = true;
 
 			image = new Image( null, fileName );
-
-			previewThumbnail.setVisible( false );
-			previewCanvas.setVisible( true );
 
 			previewCanvas.loadImage( image );
 			btnRemove.setEnabled( true );
@@ -469,9 +447,8 @@ public class ThumbnailBuilder extends BaseDialog
 			{
 				return;
 			}
-			URL url = SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( )
-					.findResource( fileName, IResourceLocator.IMAGE );
+			URL url = getModuleHandle( ).findResource( fileName,
+					IResourceLocator.IMAGE );
 			imageName = fileName;
 			try
 			{
@@ -479,24 +456,19 @@ public class ThumbnailBuilder extends BaseDialog
 			}
 			catch ( IOException e )
 			{
-				// TODO Auto-generated catch block
-				logger.log(Level.SEVERE, e.getMessage(),e);
+				logger.log( Level.SEVERE, e.getMessage( ), e );
 			}
 			if ( checkExtensions( fileName ) == false )
 			{
-				ExceptionHandler.openErrorMessageBox( Messages.getString( "ThumbnailBuilder.FileDialog.FileNameError.Title" ),
-						Messages.getString( "ThumbnailBuilder.FileDialog.FileNameError.Message" ) );
+				ExceptionHandler.openErrorMessageBox( Messages.getString( "ThumbnailBuilder.FileDialog.FileNameError.Title" ), //$NON-NLS-1$
+						Messages.getString( "ThumbnailBuilder.FileDialog.FileNameError.Message" ) ); //$NON-NLS-1$
 				return;
 			}
 
 			removeImage( );
-			isGenerated = false;
 			hasThumbnail = true;
 
 			image = new Image( null, fileName );
-
-			previewThumbnail.setVisible( false );
-			previewCanvas.setVisible( true );
 
 			previewCanvas.loadImage( image );
 			btnRemove.setEnabled( true );
@@ -513,25 +485,11 @@ public class ThumbnailBuilder extends BaseDialog
 			image = null;
 		}
 
-		if ( isGenerated == false )
-		{
-			previewCanvas.clear( );
-		}
-		else // if it's generated
-		if ( isGenerated )
-		{
-			Control[] children = previewThumbnail.getChildren( );
-			for ( int i = 0; i < children.length; i++ )
-			{
-				children[i].dispose( );
-			}
-		}
+		previewCanvas.clear( );
 
-		isGenerated = false;
 		hasThumbnail = false;
 
 		btnRemove.setEnabled( false );
-
 	}
 
 	private boolean checkExtensions( String fileName )

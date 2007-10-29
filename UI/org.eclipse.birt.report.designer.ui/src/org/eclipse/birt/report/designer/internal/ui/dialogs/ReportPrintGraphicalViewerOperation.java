@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -29,18 +30,19 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
+import org.eclipse.swt.graphics.Drawable;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Composite;
 
 /**
  * Paint the figure to the composite.
  */
-
 public class ReportPrintGraphicalViewerOperation
 {
 
-	private Composite drawable;
+	private Drawable drawable;
+	private Device device;
+	private Rectangle region;
 	private GraphicalViewer viewer;
 	private List selectedEditParts;
 	private IFigure printSource;
@@ -50,25 +52,18 @@ public class ReportPrintGraphicalViewerOperation
 	private CompositePrinterGraphics printerGraphics;
 
 	public ReportPrintGraphicalViewerOperation( GraphicalViewer g,
-			Composite able )
+			Drawable drawable, Device device, Rectangle region )
 	{
-		setDrawable( able );
-		viewer = g;
+		this.device = device;
+		this.region = region;
+		this.drawable = drawable;
+		this.viewer = g;
+
 		LayerManager lm = (LayerManager) viewer.getEditPartRegistry( )
 				.get( LayerManager.ID );
 		IFigure f = lm.getLayer( LayerConstants.PRINTABLE_LAYERS );
-		setPrintSource( f );
-	}
 
-	/**
-	 * Sets the printSource.
-	 * 
-	 * @param printSource
-	 *            The printSource to set
-	 */
-	protected void setPrintSource( IFigure printSource )
-	{
-		this.printSource = printSource;
+		this.printSource = f;
 	}
 
 	/**
@@ -86,19 +81,9 @@ public class ReportPrintGraphicalViewerOperation
 	 * 
 	 * @return
 	 */
-	public Composite getDrawable( )
+	protected Drawable getDrawable( )
 	{
 		return drawable;
-	}
-
-	/**
-	 * Sets the composite.
-	 * 
-	 * @param drawable
-	 */
-	public void setDrawable( Composite drawable )
-	{
-		this.drawable = drawable;
 	}
 
 	/**
@@ -202,8 +187,7 @@ public class ReportPrintGraphicalViewerOperation
 		}
 		g = new SWTGraphics( printerGC );
 
-		printerGraphics = new CompositePrinterGraphics( g,
-				getDrawable( ).getDisplay( ) );
+		printerGraphics = new CompositePrinterGraphics( g, device );
 		setupGraphicsForPage( printerGraphics );
 		return printerGraphics;
 	}
@@ -256,9 +240,9 @@ public class ReportPrintGraphicalViewerOperation
 	 * 
 	 * @return the print region
 	 */
-	public Rectangle getPrintRegion( )
+	protected Rectangle getPrintRegion( )
 	{
-		return new Rectangle( getDrawable( ).getBounds( ) );
+		return region;
 	}
 
 	public static class CompositePrinterGraphics extends ScaledGraphics
@@ -280,6 +264,16 @@ public class ReportPrintGraphicalViewerOperation
 		{
 			super( g );
 			printer = p;
+		}
+
+		public void dispose( )
+		{
+			for ( Iterator itr = imageCache.values( ).iterator( ); itr.hasNext( ); )
+			{
+				( (Image) itr.next( ) ).dispose( );
+			}
+
+			super.dispose( );
 		}
 
 		private Image printerImage( Image image )

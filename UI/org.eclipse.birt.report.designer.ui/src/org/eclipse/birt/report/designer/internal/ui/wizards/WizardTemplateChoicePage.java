@@ -26,7 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.ReportGraphicsViewComposite;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.ReportGraphicsViewPainter;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.graphics.ImageCanvas;
@@ -43,7 +43,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -51,7 +51,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
@@ -64,20 +63,21 @@ import org.osgi.framework.Bundle;
  */
 public class WizardTemplateChoicePage extends WizardPage
 {
+
 	protected static Logger logger = Logger.getLogger( WizardTemplateChoicePage.class.getName( ) );
 
 	private static final String[] IMAGE_TYPES = new String[]{
-			".bmp",
-			".jpg",
-			".jpeg",
-			".jpe",
-			".jfif",
-			".gif",
-			".png",
-			".tif",
-			".tiff",
-			".ico",
-			".svg"
+			".bmp", //$NON-NLS-1$
+			".jpg", //$NON-NLS-1$
+			".jpeg", //$NON-NLS-1$
+			".jpe", //$NON-NLS-1$
+			".jfif", //$NON-NLS-1$
+			".gif", //$NON-NLS-1$
+			".png", //$NON-NLS-1$
+			".tif", //$NON-NLS-1$
+			".tiff", //$NON-NLS-1$
+			".ico", //$NON-NLS-1$
+			".svg" //$NON-NLS-1$
 	};
 
 	private static final String MESSAGE_DESCRIPTION = Messages.getString( "WizardTemplateChoicePage.label.Description" ); //$NON-NLS-1$
@@ -103,8 +103,6 @@ public class WizardTemplateChoicePage extends WizardPage
 	protected Map imageMap;
 
 	private Composite previewPane;
-
-	private Composite previewThumbnail;
 
 	private List templateList;
 
@@ -152,7 +150,7 @@ public class WizardTemplateChoicePage extends WizardPage
 			return;
 		}
 		ReportDesignHandle[] predefinedTemplateArray = getAllTemplates( UIUtil.getFragmentDirectory( ),
-				"/templates/" );
+				"/templates/" ); //$NON-NLS-1$
 		SortPredefinedTemplates( predefinedTemplateArray );
 		if ( predefinedTemplateArray != null
 				&& predefinedTemplateArray.length > 0 )
@@ -212,7 +210,7 @@ public class WizardTemplateChoicePage extends WizardPage
 					if ( moduleHandle != null
 							&& moduleHandle instanceof ReportDesignHandle )
 					{
-						reportDesingHandleList.add( (ReportDesignHandle) moduleHandle );
+						reportDesingHandleList.add( moduleHandle );
 					}
 				}
 				catch ( Exception e )
@@ -310,14 +308,10 @@ public class WizardTemplateChoicePage extends WizardPage
 		previewComposite.setLayout( new FormLayout( ) );
 
 		previewCanvas = new ImageCanvas( previewComposite );
-		previewThumbnail = new Composite( previewComposite, SWT.NONE );
 		FormData formData = new FormData( 184, 229 );
 		formData.left = new FormAttachment( previewComposite );
 		formData.top = new FormAttachment( previewComposite );
 		previewCanvas.setLayoutData( formData );
-		previewThumbnail.setLayoutData( formData );
-
-		previewThumbnail.setLayout( new FillLayout( ) );
 
 		Label descriptionTitle = new Label( previewPane, SWT.NONE );
 		descriptionTitle.setText( MESSAGE_DESCRIPTION );
@@ -379,7 +373,7 @@ public class WizardTemplateChoicePage extends WizardPage
 		// If the custom template folder is the same with predefined folder,
 		// then return
 		File preTemplateDirectory = new File( UIUtil.getFragmentDirectory( ),
-				"/templates/" );
+				"/templates/" ); //$NON-NLS-1$
 		File cusTemplateDirectory = new File( templateRoot.trim( ) );
 		if ( preTemplateDirectory != null
 				&& cusTemplateDirectory != null
@@ -427,7 +421,7 @@ public class WizardTemplateChoicePage extends WizardPage
 			}
 			else
 			{
-				description.setText( "" );
+				description.setText( "" ); //$NON-NLS-1$
 			}
 
 			// we need to relayout if the new text has different number of lines
@@ -445,9 +439,6 @@ public class WizardTemplateChoicePage extends WizardPage
 			if ( handle.getThumbnail( ) != null
 					&& handle.getThumbnail( ).length != 0 )
 			{
-				previewCanvas.setVisible( true );
-				previewThumbnail.setVisible( false );
-
 				byte[] thumbnailData = handle.getThumbnail( );
 				ByteArrayInputStream inputStream = new ByteArrayInputStream( thumbnailData );
 				if ( thumbnailImage != null )
@@ -458,7 +449,7 @@ public class WizardTemplateChoicePage extends WizardPage
 				thumbnailImage = new Image( null, inputStream );
 
 				previewCanvas.clear( );
-				previewCanvas.loadImage( ( (Image) thumbnailImage ) );
+				previewCanvas.loadImage( thumbnailImage );
 			}
 			else if ( ( key != null ) && ( !"".equals( key.trim( ) ) ) ) //$NON-NLS-1$
 			{
@@ -494,9 +485,6 @@ public class WizardTemplateChoicePage extends WizardPage
 
 					}
 
-					previewCanvas.setVisible( true );
-					previewThumbnail.setVisible( false );
-
 					previewCanvas.clear( );
 					previewCanvas.loadImage( ( (Image) img ) );
 					// previewCanvas.showOriginal( );
@@ -512,25 +500,32 @@ public class WizardTemplateChoicePage extends WizardPage
 			if ( ( handle.getThumbnail( ) == null || handle.getThumbnail( ).length == 0 )
 					&& key == null )
 			{
-				previewCanvas.setVisible( false );
-				previewThumbnail.setVisible( true );
-
-				Control[] children = previewThumbnail.getChildren( );
-				for ( int i = 0; i < children.length; i++ )
+				if ( thumbnailImage != null )
 				{
-					children[i].dispose( );
+					thumbnailImage.dispose( );
+					thumbnailImage = null;
 				}
-				ReportGraphicsViewComposite thumbnail = new ReportGraphicsViewComposite( previewThumbnail,
-						SWT.NULL,
-						handle );
 
-				previewThumbnail.layout( );
+				Rectangle rect = previewCanvas.getBounds( );
+
+				thumbnailImage = new Image( null, rect.width, rect.height );
+
+				ReportGraphicsViewPainter painter = new ReportGraphicsViewPainter( handle );
+
+				painter.paint( thumbnailImage,
+						previewCanvas.getDisplay( ),
+						rect );
+
+				painter.dispose( );
+
+				previewCanvas.clear( );
+				previewCanvas.loadImage( thumbnailImage );
 			}
 
 			if ( handle.getCheatSheet( ) != null
 					&& handle.getCheatSheet( ).trim( ).length( ) != 0 )
 			{
-				chkBox.setEnabled( !( handle.getCheatSheet( ).equals( "" ) || handle.getCheatSheet( )
+				chkBox.setEnabled( !( handle.getCheatSheet( ).equals( "" ) || handle.getCheatSheet( ) //$NON-NLS-1$
 						.equals( "org.eclipse.birt.report.designer.ui.cheatsheet.firstreport" ) ) ); //$NON-NLS-1$
 				// if ( handle.getCheatSheet( )
 				// .equals(
@@ -581,7 +576,7 @@ public class WizardTemplateChoicePage extends WizardPage
 	{
 		if ( ( (ReportDesignHandle) templates.get( selectedIndex ) ).getCheatSheet( ) != null
 				&& ( (ReportDesignHandle) templates.get( selectedIndex ) ).getCheatSheet( )
-						.equals( "org.eclipse.birt.report.designer.ui.cheatsheet.firstreport" ) )
+						.equals( "org.eclipse.birt.report.designer.ui.cheatsheet.firstreport" ) ) //$NON-NLS-1$
 		{
 			return true;
 		}
@@ -647,15 +642,15 @@ public class WizardTemplateChoicePage extends WizardPage
 		}
 
 		final String[] predefinedTemplateFileName = {
-				"blank_report.rpttemplate",
-				"my_first_report.rpttemplate",
-				"simple_listing.rpttemplate",
-				"grouped_listing.rpttemplate",
-				"grouped_listing_column_heading.rpttemplate",
-				"dual_column_listing.rpttemplate",
-				"chart_listing.rpttemplate",
-				"dual_column_chart_listing.rpttemplate",
-				"sidebyside_chart_listing.rpttemplate",
+				"blank_report.rpttemplate", //$NON-NLS-1$
+				"my_first_report.rpttemplate", //$NON-NLS-1$
+				"simple_listing.rpttemplate", //$NON-NLS-1$
+				"grouped_listing.rpttemplate", //$NON-NLS-1$
+				"grouped_listing_column_heading.rpttemplate", //$NON-NLS-1$
+				"dual_column_listing.rpttemplate", //$NON-NLS-1$
+				"chart_listing.rpttemplate", //$NON-NLS-1$
+				"dual_column_chart_listing.rpttemplate", //$NON-NLS-1$
+				"sidebyside_chart_listing.rpttemplate", //$NON-NLS-1$
 		};
 
 		int predefinedTemplateCount = predefinedTemplateFileName.length;
@@ -698,21 +693,33 @@ public class WizardTemplateChoicePage extends WizardPage
 		if ( url == null )
 		{
 			String path = ReportPlugin.getDefault( ).getResourceFolder( );
-			File file = new File( path, key );
-			if ( file.exists( ) && file.isFile( ) )
+
+			url = resolveURL( new File( path, key ) );
+
+			if ( url == null )
 			{
-				try
-				{
-					url = file.toURL( );
-				}
-				catch ( MalformedURLException e )
-				{
-					logger.log(Level.SEVERE, e.getMessage(),e);
-				}
+				url = resolveURL( new File( key ) );
 			}
 		}
 
 		return url;
+	}
+
+	private URL resolveURL( File file )
+	{
+		if ( file.exists( ) && file.isFile( ) )
+		{
+			try
+			{
+				return file.toURL( );
+			}
+			catch ( MalformedURLException e )
+			{
+				logger.log( Level.SEVERE, e.getMessage( ), e );
+			}
+		}
+
+		return null;
 	}
 
 	private boolean checkExtensions( String fileName )
