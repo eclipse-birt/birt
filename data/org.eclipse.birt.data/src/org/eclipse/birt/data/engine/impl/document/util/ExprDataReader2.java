@@ -219,7 +219,10 @@ class ExprDataReader2 implements IExprDataReader
 			throw new DataException( ResourceConstants.BACKWARD_SEEK_ERROR );
 		else if ( index == currRowIndex )
 			return;
-		this.currRowIndex = index;
+		while( this.currRowIndex < index )
+		{
+			this.next( );
+		}
 	}
 	
 	/**
