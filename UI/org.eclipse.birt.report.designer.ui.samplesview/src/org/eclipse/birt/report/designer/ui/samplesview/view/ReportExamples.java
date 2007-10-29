@@ -13,12 +13,14 @@ package org.eclipse.birt.report.designer.ui.samplesview.view;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.samplereports.description.DescriptionMessages;
@@ -30,6 +32,12 @@ import org.eclipse.birt.report.designer.ui.samplesview.util.SampleReportsSorter;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.core.runtime.IAdapterManager;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.TitleAreaDialog;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -42,15 +50,22 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.browser.IWebBrowser;
+import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 
 public class ReportExamples
 {
@@ -237,6 +252,22 @@ public class ReportExamples
 			}
 		} );
 
+		samplesTree.addDoubleClickListener( new IDoubleClickListener(){
+
+			public void doubleClick( DoubleClickEvent event )
+			{
+				// TODO Auto-generated method stub
+				Object obj = getSelectedElement();
+				if ( obj instanceof TreeItem )
+				{		
+					TreeItem item = (TreeItem)obj;
+					if(item != null && item.getText( ).equals( CONTRIBUTION_ITEM_TEXT ))
+					{
+						ContributeDialog dialog = new ContributeDialog(getShell());
+						dialog.open( );
+					}
+				}
+			}} );
 		samplesTree.setSorter( new SampleReportsSorter( ) );
 	}
 
@@ -400,5 +431,114 @@ public class ReportExamples
 	public void addSelectedListener( Listener selectedListener )
 	{
 		listenerList.add( selectedListener );
+	}
+	
+	private class ContributeDialog extends TitleAreaDialog
+	{
+		/**
+		 * @param shell
+		 */
+		public ContributeDialog( Shell shell )
+		{
+			super( shell );			
+		}
+		
+		protected Control createDialogArea(Composite parent) {
+			Composite container = (Composite)super.createDialogArea( parent );
+			setTitle( Messages.getString( "ReportExamples.ContributeSamples.title" ) );
+			setMessage( Messages.getString("ReportExamples.ContributeSamples.messages" ));			
+			getShell().setText( Messages.getString( "ReportExamples.ContributeSamples.title" ) );
+			
+			Composite composite = new Composite(container, SWT.NONE);			
+			GridData gd = new GridData(GridData.FILL_BOTH | GridData.VERTICAL_ALIGN_BEGINNING);
+			gd.widthHint = 380;
+			gd.heightHint = 200;
+			gd.horizontalIndent = 10;
+			composite.setLayoutData( gd );
+			composite.setLayout( new GridLayout() );
+			new Label(composite, SWT.NONE);
+			Link link = new Link(composite, SWT.WRAP);
+			link.setLayoutData( new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING) );
+			String []arguments = new String[2];
+			arguments[0] = "<a>";
+			arguments[1] = "</a>";
+			String linkText = Messages.getFormattedString( "ReportExamples.ContributeSamples.description", arguments );
+			link.setText(linkText);
+			link.addListener (SWT.Selection, new Listener () {
+				public void handleEvent(Event event) {
+					openLink("https://bugs.eclipse.org/bugs/enter_bug.cgi?product=BIRT&bug_severity=enhancement");				
+				}
+			});
+			link.setSize(300, 50);
+			return container;
+			
+			
+		}
+
+		
+		protected void createButtonsForButtonBar(Composite parent) {
+			// create OK button by default
+			createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL,
+					true);
+		}
+		
+	    /**
+	     * Open a link
+	     */
+	    protected void openLink(String href) {
+	        // format the href for an html file (file:///<filename.html>
+	        // required for Mac only.
+	        if (href.startsWith("file:")) { //$NON-NLS-1$
+	            href = href.substring(5);
+	            while (href.startsWith("/")) { //$NON-NLS-1$
+	                href = href.substring(1);
+	            }
+	            href = "file:///" + href; //$NON-NLS-1$
+	        }
+			IWorkbenchBrowserSupport support = PlatformUI.getWorkbench().getBrowserSupport();
+			try {
+				IWebBrowser browser = support.getExternalBrowser();
+				browser.openURL(new URL(urlEncodeForSpaces(href.toCharArray())));
+			}
+			catch (MalformedURLException e) {
+				openWebBrowserError(href, e);
+			}
+			catch (PartInitException e) {
+				openWebBrowserError(href, e);
+			}
+	    }
+	    
+	    /**
+	     * This method encodes the url, removes the spaces from the url and replaces
+	     * the same with <code>"%20"</code>. This method is required to fix Bug
+	     * 77840.
+	     * 
+	     * @since 3.0.2
+	     */
+	    private String urlEncodeForSpaces(char[] input) {
+	       StringBuffer retu = new StringBuffer(input.length);
+	       for (int i = 0; i < input.length; i++) {
+	           if (input[i] == ' ') {
+				retu.append("%20"); //$NON-NLS-1$
+			} else {
+				retu.append(input[i]);
+			}
+	       }
+	       return retu.toString();
+	    }
+	    
+	    /**
+	     * display an error message
+	     */
+	    private void openWebBrowserError(final String href, final Throwable t) {
+	        String title = Messages.getString( "ReportExamples.OpenBrowser.Error.title" );
+			String msg = Messages.getString( "ReportExamples.OpenBrowser.Error.message" );
+			
+			MessageBox messageBox = new MessageBox(UIUtil.getDefaultShell( ), SWT.OK | SWT.ICON_ERROR);
+			messageBox.setText( title );
+			messageBox.setMessage( msg );
+			messageBox.open( );
+	    }
+		
 	}
 }
