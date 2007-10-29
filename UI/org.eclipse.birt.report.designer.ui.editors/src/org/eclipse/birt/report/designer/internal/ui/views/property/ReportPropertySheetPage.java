@@ -214,8 +214,6 @@ public class ReportPropertySheetPage extends Page implements
 	{
 		editorListener = new ICellEditorListener( ) {
 
-			private boolean valueChanged = false;
-
 			public void cancelEditor( )
 			{
 				deactivateCellEditor( );
@@ -224,16 +222,11 @@ public class ReportPropertySheetPage extends Page implements
 			public void editorValueChanged( boolean oldValidState,
 					boolean newValidState )
 			{
-				valueChanged = true;
 			}
 
 			public void applyEditorValue( )
 			{
-				if ( valueChanged )
-				{
-					valueChanged = false;
-					applyValue( );
-				}
+				applyValue( );
 				if ( changed )
 					refresh( );
 			}
