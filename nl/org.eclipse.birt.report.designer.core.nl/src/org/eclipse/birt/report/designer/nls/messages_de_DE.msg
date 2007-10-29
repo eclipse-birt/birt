@@ -3979,3 +3979,8 @@ FormatDateTimePattern.datetiem_format_type_minutes=Minuten
 FormatDateTimePattern.datetiem_format_type_secontds=Sekunden
 FormatDateTimePattern.datetiem_format_type_general_time=General Time
 
+ReportExamples.ContributeSamples.description=Please submit a bugzilla entry at {0}Submit a Bug to BIRT{1}.\nAttach the report design file and the screen shot of report output.\n\n Note: The screen shot should be:\n  1. In *.png image format;\n  2. 800*600 resolution;\n  3. No larger than 250 KB.
+ReportExamples.ContributeSamples.title=Beispiele beitragen
+ReportExamples.ContributeSamples.messages=Following infomation will guide you to contribute samples.
+ReportExamples.OpenBrowser.Error.title=Fehler
+ReportExamples.OpenBrowser.Error.message=Cannot open web browser.
