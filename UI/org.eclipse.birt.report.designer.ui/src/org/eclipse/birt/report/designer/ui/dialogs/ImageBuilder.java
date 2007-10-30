@@ -764,6 +764,10 @@ public class ImageBuilder extends BaseDialog
 				ExceptionHandler.handle( e );
 			}
 		}
+		/* 
+		 * I don't understand the downward code, the dialog cancels then we don't should do anything. The author hlin had left company now. Comments it.
+		 * /
+		/*
 		else
 		{
 			if ( inputImage.getDataSet( ) == null )
@@ -771,6 +775,7 @@ public class ImageBuilder extends BaseDialog
 				uriEditor.setText( "" );
 			}
 		}
+		*/
 	}
 
 	private java.util.List unionDataSets( )

@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -37,7 +36,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
@@ -795,26 +793,17 @@ public class ColumnBindingDialog extends BaseDialog
 
 	private String getColumnName( String expression )
 	{
-		DataSetHandle dataSetHandle = inputElement.getDataSet( );
-		List columnList = new ArrayList( );
-		try
-		{
-			columnList = DataUtil.getColumnList( dataSetHandle );
-		}
-		catch ( SemanticException e )
-		{
-			ExceptionHandler.handle( e );
-		}
-
+		List columnList = DEUtil.getVisiableColumnBindingsList( inputElement );
 		for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 		{
-			ResultSetColumnHandle cachedColumn = (ResultSetColumnHandle) iter.next( );
-			String columnName = cachedColumn.getColumnName( );
+			ComputedColumnHandle cachedColumn = (ComputedColumnHandle) iter.next( );
+			String columnName = cachedColumn.getName( );
 			if ( DEUtil.getColumnExpression( columnName ).equals( expression ) )
 			{
 				return columnName;
 			}
 		}
+		
 		return null;
 	}
 
