@@ -31,7 +31,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
@@ -390,6 +389,18 @@ public class IOUtil
 			if ( obValue instanceof Scriptable )
 			{
 				return TYPE_JSObject;
+			}
+			if ( Timestamp.class.isAssignableFrom( obValue.getClass( ) ) )
+			{
+				return TYPE_TIME_STAMP;
+			}
+			if( Time.class.isAssignableFrom( obValue.getClass( ) ) )
+			{
+				return TYPE_TIME;
+			}
+			if( Date.class.isAssignableFrom( obValue.getClass( ) ) )
+			{
+				return TYPE_DATE;
 			}
 			if ( obValue instanceof Serializable )
 			{
