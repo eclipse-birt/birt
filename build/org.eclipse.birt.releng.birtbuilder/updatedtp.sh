@@ -85,7 +85,6 @@ buildDirectory=/home/adb/farrah/BIRT_Build_Dir
 cd $builderDir
 
 
-mkdir -p $postingDirectory/$buildLabel
 chmod -R 755 $builderDir
 
 #default value of the bootclasspath attribute used in ant javac calls.  
