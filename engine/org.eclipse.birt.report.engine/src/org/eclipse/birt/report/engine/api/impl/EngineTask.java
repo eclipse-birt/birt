@@ -586,7 +586,7 @@ public abstract class EngineTask implements IEngineTask
 					|| !((Boolean) result).booleanValue()) {
 				throw new ParameterValidationException(
 						MessageConstants.PARAMETER_SCRIPT_VALIDATION_EXCEPTION,
-						new String[] { paramName, source });
+						new String[] { paramName });
 			}
 		}
 		
