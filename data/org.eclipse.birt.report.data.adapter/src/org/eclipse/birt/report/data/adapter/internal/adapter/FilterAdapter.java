@@ -45,7 +45,8 @@ public class FilterAdapter extends FilterDefinition
 			else
 			{
 				// Condition filter with operator and operands
-				if ( !filterOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_IN ) )
+				if ( !filterOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_IN )
+						&& !filterOpr.equals( DesignChoiceConstants.FILTER_OPERATOR_NOT_IN ) )
 				{
 					String operand1 = modelFilter.getValue1( );
 					String operand2 = modelFilter.getValue2( );

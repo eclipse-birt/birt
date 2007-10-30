@@ -152,6 +152,8 @@ public class DataAdapterUtil
 				new Integer( IConditionalExpression.OP_NOT_MATCH ) );
 		filterOptMap.put( DesignChoiceConstants.FILTER_OPERATOR_IN,
 				new Integer( IConditionalExpression.OP_IN ) );
+		filterOptMap.put( DesignChoiceConstants.FILTER_OPERATOR_NOT_IN,
+				new Integer( IConditionalExpression.OP_NOT_IN ) );
 	}
 
 	/**
