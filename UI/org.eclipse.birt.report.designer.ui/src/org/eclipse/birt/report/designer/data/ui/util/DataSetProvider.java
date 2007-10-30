@@ -167,7 +167,7 @@ public final class DataSetProvider
 		if ( columns == null )
 		{
 			columns = new DataSetViewData[]{};
-			updateModel( dataSet, columns );
+			//updateModel( dataSet, columns );
 			htColumns.put( dataSet, columns );
 		}
 		return columns;
