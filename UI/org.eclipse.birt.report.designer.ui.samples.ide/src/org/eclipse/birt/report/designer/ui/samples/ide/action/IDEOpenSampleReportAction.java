@@ -18,6 +18,7 @@ import java.util.Enumeration;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportEditorInput;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
@@ -29,6 +30,7 @@ import org.eclipse.birt.report.designer.ui.samplesview.view.ReportExamples;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
@@ -62,6 +64,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
+import org.eclipse.ui.ide.IDE;
 
 public class IDEOpenSampleReportAction extends Action implements
 		IOpenSampleReportAction,
@@ -221,7 +224,7 @@ public class IDEOpenSampleReportAction extends Action implements
 			public void run( )
 			{
 				String fileName = ( (ReportDesignHandle) selectedElement ).getFileName( );
-				doFinish( reportProject.getLocation( ).toOSString( ),
+				doFinish( reportProject,
 						fileName.substring( fileName.lastIndexOf( '/' ) + 1 ) );
 			}
 
@@ -234,10 +237,9 @@ public class IDEOpenSampleReportAction extends Action implements
 
 	}
 
-	private void doFinish( String locationPath, String fileName )
+	private void doFinish( final IContainer locationPath, final String fileName )
 	{
 
-		final File file = new File( locationPath, fileName );
 		Display.getDefault( ).asyncExec( new Runnable( ) {
 
 			public void run( )
@@ -249,14 +251,14 @@ public class IDEOpenSampleReportAction extends Action implements
 				try
 				{
 					// sanity checks
-					if ( page == null )
+					if ( page == null || locationPath == null )
 					{
 						throw new IllegalArgumentException( );
 					}
 
 					// open the editor on the file
-					page.openEditor( new ReportEditorInput( file ),
-							IReportEditorContants.DESIGN_EDITOR_ID,
+					IDE.openEditor( page,
+							locationPath.getFile( new Path( fileName ) ),
 							true );
 				}
 				catch ( Exception e )
