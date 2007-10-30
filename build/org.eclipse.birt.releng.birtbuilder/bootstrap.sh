@@ -198,7 +198,7 @@ echo "==========[antRunner]: $antRunner" >> adb.log
 
 #clean drop directories
 #ant -buildfile eclipse/helper.xml cleanBuild -propertyfile build.properties>> adb.log
-ant -buildfile eclipse/helper.xml getDTPDownloads -propertyfile build.properties>> adb.log
+#ant -buildfile eclipse/helper.xml getDTPDownloads -propertyfile build.properties>> adb.log
 ant -buildfile eclipse/helper.xml CheckoutFromP4 >> adb.log
 
 #full command with args
