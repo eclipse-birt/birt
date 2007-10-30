@@ -12,16 +12,18 @@
 package org.eclipse.birt.chart.examples.view.util;
 
 import java.io.File;
-import org.eclipse.birt.chart.examples.view.ChartExamples;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import org.eclipse.birt.chart.examples.view.ChartExamples;
+import org.eclipse.birt.chart.examples.view.description.Messages;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.Serializer;
 import org.eclipse.birt.chart.model.impl.SerializerImpl;
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.MessageBox;
 
 public class SaveXMLAction extends Action
@@ -36,10 +38,11 @@ public class SaveXMLAction extends Action
 		String id = tool.group + '.' + tool.name;
 		setId( id );
 
-		setEnabled( tool.isEnabled( ));
-		setText( "Save" ); //$NON-NLS-1$
-		setToolTipText( "Save XML Source" ); //$NON-NLS-1$
-		setDescription( "Save XML Source to the designated directory" ); //$NON-NLS-1$
+		setEnabled( tool.isEnabled( ) );
+		setImageDescriptor( UIHelper.getImageDescriptor( ExampleConstants.IMAGE_ENABLE_EXPORT ) ); //$NON-NLS-1$
+		setDisabledImageDescriptor( UIHelper.getImageDescriptor( ExampleConstants.IMAGE_DISABLE_EXPORT ) );
+		setToolTipText( Messages.getDescription( "SaveXMLAction.Text.ToolTip" ) ); //$NON-NLS-1$
+		setDescription( Messages.getDescription( "SaveXMLAction.Text.Description" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -68,8 +71,8 @@ public class SaveXMLAction extends Action
 					{
 						MessageBox box = new MessageBox( cmp.getShell( ),
 								SWT.ICON_WARNING | SWT.YES | SWT.NO );
-						box.setText( "Save XML Source" ); //$NON-NLS-1$
-						box.setMessage( "The XML source already exists in the directory. \nDo you want to replace it?" ); //$NON-NLS-1$
+						box.setText( Messages.getDescription( "SaveXMLAction.MessageBox.Text" ) ); //$NON-NLS-1$
+						box.setMessage( Messages.getDescription( "SaveXMLAction.MessageBox.Message" ) ); //$NON-NLS-1$
 						if ( box.open( ) != SWT.YES )
 						{
 							return;

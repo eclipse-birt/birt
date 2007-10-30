@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 import org.eclipse.birt.chart.examples.ChartExamplesPlugin;
 import org.eclipse.birt.chart.examples.view.ChartExamples;
+import org.eclipse.birt.chart.examples.view.description.Messages;
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
 
@@ -59,9 +60,10 @@ public class OpenJavaSourceAction extends Action
 		setId( id );
 		// action = tool.action;
 		setEnabled( tool.isEnabled( ));
-		setText( "Open" ); //$NON-NLS-1$
-		setToolTipText( "Open Java Source" ); //$NON-NLS-1$
-		setDescription( "Open Java Source from the relevant directory" ); //$NON-NLS-1$
+		setImageDescriptor( UIHelper.getImageDescriptor( ExampleConstants.IMAGE_ENABLE_IMPORT ) ); //$NON-NLS-1$
+		setDisabledImageDescriptor( UIHelper.getImageDescriptor( ExampleConstants.IMAGE_DISABLE_IMPORT ) );
+		setToolTipText( Messages.getDescription("OpenJavaSourceAction.Text.ToolTip") ); //$NON-NLS-1$
+		setDescription( Messages.getDescription("OpenJavaSourceAction.Text.Description") ); //$NON-NLS-1$
 	}
 
 	public void run( )

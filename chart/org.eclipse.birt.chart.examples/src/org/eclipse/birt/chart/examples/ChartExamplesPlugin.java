@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.examples;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.osgi.framework.BundleContext;
 
 /**
  * The main plugin class to be used in the desktop.
@@ -33,10 +34,32 @@ public class ChartExamplesPlugin extends AbstractUIPlugin
 	 */
 	public ChartExamplesPlugin( )
 	{
-		super( );
+		
+	}
+
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
+	 */
+	public void start( BundleContext context ) throws Exception
+	{
+		super.start( context );
 		plugin = this;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
+	 */
+	public void stop( BundleContext context ) throws Exception
+	{
+		plugin = null;
+		super.stop( context );
+	}
+	
 	/**
 	 * Log an error to the ILog for this plugin
 	 * 
@@ -51,4 +74,13 @@ public class ChartExamplesPlugin extends AbstractUIPlugin
 				.getSymbolicName( ), 0, message, exception ) );
 	}
 
+	/**
+	 * Returns the shared instance
+	 * 
+	 * @return the shared instance
+	 */
+	public static ChartExamplesPlugin getDefault( )
+	{
+		return plugin;
+	}
 }
