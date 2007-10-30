@@ -390,15 +390,15 @@ public class IOUtil
 			{
 				return TYPE_JSObject;
 			}
-			if ( obValue.getClass( ).isAssignableFrom( Timestamp.class ) )
+			if ( Timestamp.class.isAssignableFrom( obValue.getClass( ) ) )
 			{
 				return TYPE_TIME_STAMP;
 			}
-			if( obValue.getClass( ).isAssignableFrom( Time.class ) )
+			if( Time.class.isAssignableFrom( obValue.getClass( ) ) )
 			{
 				return TYPE_TIME;
 			}
-			if( obValue.getClass( ).isAssignableFrom( Date.class ) )
+			if( Date.class.isAssignableFrom( obValue.getClass( ) ) )
 			{
 				return TYPE_DATE;
 			}
