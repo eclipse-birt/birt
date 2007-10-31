@@ -108,8 +108,8 @@ public class ResourceConstants
 	// computed column value
 	public final static String EXPR_INVALID_COMPUTED_COLUMN= "data.engine.BadCompColExpr";
 	// Data Type of computed column is not correct
-	public final static String WRONG_DATA_TYPE_COMPUTED_COLUMN= "data.engine.CompCol.WrongDataType";
-	public final static String WRONG_DATA_TYPE_SCRIPT_RESULT= "data.engine.ScriptResult.WrongDataType";
+	public final static String FAIL_RETRIEVE_VALUE_COMPUTED_COLUMN= "data.engine.CompCol.FailRetrieveValueComputedColumn";
+	public final static String WRONG_SYSTEM_COMPUTED_COLUMN= "data.engine.ScriptResult.WrongSystemComputedColumn";
 	
 	// invalid expression
 	public final static String INVALID_EXPRESSION_IN_FILTER = "data.engine.BadFilterExpr";

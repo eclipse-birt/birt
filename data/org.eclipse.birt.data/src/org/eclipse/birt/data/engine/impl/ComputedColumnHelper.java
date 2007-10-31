@@ -40,6 +40,7 @@ import org.mozilla.javascript.Context;
 
 public class ComputedColumnHelper implements IResultObjectEvent
 {
+
 	private ComputedColumnHelperInstance dataSetInstance;
 	private ComputedColumnHelperInstance resultSetInstance;
 	private ComputedColumnHelperInstance availableModeInstance;
@@ -47,6 +48,7 @@ public class ComputedColumnHelper implements IResultObjectEvent
 	private List allCC;
 
 	private static Logger logger = Logger.getLogger( ComputedColumnHelper.class.getName( ) );
+
 	// private Object groupMethod.
 
 	/**
@@ -54,16 +56,18 @@ public class ComputedColumnHelper implements IResultObjectEvent
 	 * @param dataSet
 	 * @param dataSetCCList
 	 * @param resultSetCCList
-	 * @throws  
+	 * @throws
 	 */
 	ComputedColumnHelper( DataSetRuntime dataSet, List dataSetCCList,
 			List resultSetCCList ) throws DataException
 	{
-		Object[] params = { dataSet, dataSetCCList, resultSetCCList };
+		Object[] params = {
+				dataSet, dataSetCCList, resultSetCCList
+		};
 		logger.entering( ComputedColumnHelper.class.getName( ),
 				"ComputedColumnHelper",
 				params );
-		
+
 		this.dataSetInstance = new ComputedColumnHelperInstance( dataSet,
 				dataSetCCList );
 		this.resultSetInstance = new ComputedColumnHelperInstance( dataSet,
@@ -78,7 +82,8 @@ public class ComputedColumnHelper implements IResultObjectEvent
 		this.allCC = new ArrayList( );
 		this.allCC.addAll( dataSetCCList );
 		this.allCC.addAll( resultSetCCList );
-		logger.exiting( ComputedColumnHelper.class.getName( ), "ComputedColumnHelper" );
+		logger.exiting( ComputedColumnHelper.class.getName( ),
+				"ComputedColumnHelper" );
 	}
 
 	/**
@@ -160,7 +165,7 @@ public class ComputedColumnHelper implements IResultObjectEvent
 		else
 			this.currentModel = null;
 	}
-		
+
 	/**
 	 * 
 	 * @param dataSetCCList
@@ -175,12 +180,13 @@ public class ComputedColumnHelper implements IResultObjectEvent
 			result.add( column.getName( ) );
 		}
 		return result;
-	}	
+	}
+
 	/**
 	 * 
 	 * @param dataSetCCList
 	 * @return
-	 * @throws DataException 
+	 * @throws DataException
 	 */
 	private void getAvailableComputedList( List refernceNameList,
 			List dataSetCCList, List result ) throws DataException
@@ -195,8 +201,8 @@ public class ComputedColumnHelper implements IResultObjectEvent
 					continue;
 				}
 
-				if ( ExpressionCompilerUtil.hasAggregationInExpr( column.getExpression( ) ) ||
-						column.getAggregateFunction( ) != null )
+				if ( ExpressionCompilerUtil.hasAggregationInExpr( column.getExpression( ) )
+						|| column.getAggregateFunction( ) != null )
 				{
 					continue;
 				}
@@ -248,16 +254,16 @@ public class ComputedColumnHelper implements IResultObjectEvent
 				for ( int i = 0; i < dataSetCCList.size( ); i++ )
 				{
 					column = (IComputedColumn) dataSetCCList.get( i );
-					if ( column.getName( ) != null &&
-							column.getName( ).equals( nameList.get( k ) ) )
+					if ( column.getName( ) != null
+							&& column.getName( ).equals( nameList.get( k ) ) )
 						break;
 					else
 						column = null;
 				}
 				if ( column != null )
 				{
-					if ( ExpressionCompilerUtil.hasAggregationInExpr( column.getExpression( ) ) ||
-							column.getAggregateFunction( ) != null )
+					if ( ExpressionCompilerUtil.hasAggregationInExpr( column.getExpression( ) )
+							|| column.getAggregateFunction( ) != null )
 					{
 						return true;
 					}
@@ -393,31 +399,23 @@ class ComputedColumnHelperInstance
 					}
 					catch ( BirtException e )
 					{
-						if ( resultClass.wasAnyType( columnIndexArray[i] ) )
-							throw new DataException( ResourceConstants.POSSIBLE_MIXED_DATA_TYPE_IN_COLUMN );
-						
 						String fieldName = resultClass.getFieldName( columnIndexArray[i] );
+						// Exception from System computed column for Sort, Group or Filter
 						if ( fieldName != null
 								&& fieldName.startsWith( "_{$TEMP_" ) )
 						{
-							// Data Type of computed column is not correct
-							throw new DataException( ResourceConstants.WRONG_DATA_TYPE_SCRIPT_RESULT,
-									new Object[]{
-											resultClass.getFieldValueClass( columnIndexArray[i] )
-													.getName( ),
-											value == null ? value
-													: value.toString( ),
-									} );
+							throw new DataException( ResourceConstants.WRONG_SYSTEM_COMPUTED_COLUMN,
+									e );
 						}
-						// Data Type of computed column is not correct
-						throw new DataException( ResourceConstants.WRONG_DATA_TYPE_COMPUTED_COLUMN,
-								new Object[]{
-										resultClass.getFieldName( columnIndexArray[i] ),
-										resultClass.getFieldValueClass( columnIndexArray[i] )
-												.getName( ),
-										value == null ? value
-												: value.toString( ),
-								} );
+						//Exception from "Any" type
+						if ( resultClass.wasAnyType( columnIndexArray[i] ))
+							throw new DataException( ResourceConstants.POSSIBLE_MIXED_DATA_TYPE_IN_COLUMN,
+									e );
+
+						//All other exceptions
+						throw new DataException( ResourceConstants.FAIL_RETRIEVE_VALUE_COMPUTED_COLUMN,
+								e,
+								resultClass.getFieldName( columnIndexArray[i] ) );
 					}
 
 					resultObject.setCustomFieldValue( columnIndexArray[i],
