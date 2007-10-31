@@ -860,9 +860,12 @@ public class TableAreaLayout
 					&& ( ( lastCell.getRowSpan( ) > 1  ) || isDropCell( lastCell ) ) )
 			{
 				//should remove conflict area. 
-				if(cell!=null && ( lastCell instanceof DummyCell ))
+				if ( isDropCell( lastCell ) )
 				{
-					row.remove( i );
+					if( cell != null )
+					{
+						row.remove( i );
+					}
 				}
 				
 				if(lastCell.getRowSpan( )==2)
