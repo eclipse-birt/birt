@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.runtime.GUIException;
@@ -536,9 +537,10 @@ public class ImageBuilder extends BaseDialog
 		catch ( Exception e )
 		{
 			clearPreview( );
-			ExceptionHandler.handle( e,
-					DLG_TITLE_LOADING_FAIL,
-					DLG_ERROR_MSG_LOADING_FAIL );
+			logger.log( Level.WARNING, e.getLocalizedMessage( ) );
+//			ExceptionHandler.handle( e,
+//					DLG_TITLE_LOADING_FAIL,
+//					DLG_ERROR_MSG_LOADING_FAIL );
 		}
 	}
 
