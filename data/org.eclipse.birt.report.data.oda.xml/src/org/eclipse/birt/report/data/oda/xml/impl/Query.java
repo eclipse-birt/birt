@@ -23,7 +23,7 @@ public class Query extends org.eclipse.datatools.enablement.oda.xml.impl.Query
 	 * @param creator
 	 */
 	public Query(
-			org.eclipse.datatools.enablement.oda.xml.util.XMLDataInputStreamCreator creator )
+			org.eclipse.datatools.enablement.oda.xml.util.XMLCreatorContent creator )
 	{
 		super( creator );
 	}

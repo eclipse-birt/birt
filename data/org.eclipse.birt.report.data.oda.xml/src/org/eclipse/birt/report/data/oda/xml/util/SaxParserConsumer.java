@@ -13,7 +13,7 @@ package org.eclipse.birt.report.data.oda.xml.util;
 import org.eclipse.birt.report.data.oda.xml.impl.ResultSet;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.enablement.oda.xml.util.RelationInformation;
-import org.eclipse.datatools.enablement.oda.xml.util.XMLDataInputStream;
+import org.eclipse.datatools.enablement.oda.xml.util.XMLCreatorContent;
 
 /**
  * This class is an implementation of ISaxParserConsumer. The instance of this class deligate the communication
@@ -30,7 +30,7 @@ public class SaxParserConsumer extends org.eclipse.datatools.enablement.oda.xml.
 	 * @param tName
 	 * @throws OdaException
 	 */
-	public SaxParserConsumer( ResultSet rs, RelationInformation rinfo, XMLDataInputStream is, String tName ) throws OdaException
+	public SaxParserConsumer( ResultSet rs, RelationInformation rinfo, XMLCreatorContent is, String tName ) throws OdaException
 	{
 		super( rinfo, is, tName );
 	}
