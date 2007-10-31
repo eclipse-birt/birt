@@ -145,8 +145,17 @@ public class DataUtil
 			String format, String value, Locale locale, boolean isLocale )
 			throws ViewerValidationException
 	{
-		if ( paramName == null )
+		if ( paramName == null || value == null )
 			return null;
+
+		if ( !DesignChoiceConstants.PARAM_TYPE_STRING
+				.equalsIgnoreCase( dataType )
+				&& value.trim( ).length( ) <= 0 )
+		{
+			throw new ViewerValidationException( BirtResources.getMessage(
+					ResourceConstants.GENERAL_ERROR_PARAMETER_NOTBLANK,
+					new String[]{paramName} ) );
+		}
 
 		try
 		{

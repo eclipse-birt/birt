@@ -30,7 +30,8 @@ public interface ResourceConstants
 
 	// errors
 	public static final String GENERAL_ERROR_PARAMETER_INVALID = "birt.viewer.error.parameter.invalid"; //$NON-NLS-1$
-
+	public static final String GENERAL_ERROR_PARAMETER_NOTBLANK = "birt.viewer.error.parameternotallowblank"; //$NON-NLS-1$
+	
 	// general exception
 	public static final String GENERAL_EXCEPTION_DOCUMENT_FILE_ERROR = "birt.viewer.generalException.DOCUMENT_FILE_ERROR"; //$NON-NLS-1$
 	public static final String GENERAL_EXCEPTION_DOCUMENT_ACCESS_ERROR = "birt.viewer.generalException.DOCUMENT_ACCESS_ERROR"; //$NON-NLS-1$

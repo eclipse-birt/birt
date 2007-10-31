@@ -831,6 +831,9 @@ public class ViewerAttributeBean extends BaseAttributeBean
 							this.exception = e;
 							break;
 						}
+
+						// set the wrong parameter
+						paramList.set( i, paramList.get( i ) );
 					}
 				}
 
