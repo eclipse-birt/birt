@@ -33,7 +33,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.MapHandleProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
-import org.eclipse.birt.report.designer.ui.widget.PopupSelectionList;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
@@ -47,7 +46,6 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
@@ -64,8 +62,8 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
@@ -100,6 +98,7 @@ public class MapRuleBuilder extends BaseDialog
 	public static final String DLG_TITLE_NEW = Messages.getString( "MapRuleBuilder.DialogTitle.New" ); //$NON-NLS-1$
 	public static final String DLG_TITLE_EDIT = Messages.getString( "MapRuleBuilder.DialogTitle.Edit" ); //$NON-NLS-1$
 
+	
 	/**
 	 * Usable operators for building map rule conditions.
 	 */
@@ -231,7 +230,7 @@ public class MapRuleBuilder extends BaseDialog
 
 	protected DesignElementHandle designHandle;
 
-	private static final String VALUE_OF_THIS_DATA_ITEM = Messages.getString( "HighlightRuleBuilderDialog.choice.ValueOfThisDataItem" ); //$NON-NLS-1$
+	protected static final String VALUE_OF_THIS_DATA_ITEM = Messages.getString( "HighlightRuleBuilderDialog.choice.ValueOfThisDataItem" ); //$NON-NLS-1$
 
 	protected static String[] actions = new String[]{
 			Messages.getString( "ExpressionValueCellEditor.selectValueAction" ), //$NON-NLS-1$
@@ -277,7 +276,7 @@ public class MapRuleBuilder extends BaseDialog
 		return values;
 	}
 
-	private Object getResultSetColumn( String name )
+	protected Object getResultSetColumn( String name )
 	{
 		if ( columnList.isEmpty( ) )
 		{
@@ -294,6 +293,28 @@ public class MapRuleBuilder extends BaseDialog
 		return null;
 	}
 
+	protected SelectionListener expSelListener = new  SelectionAdapter( ) {
+
+		public void widgetSelected( SelectionEvent e )
+		{
+			if ( expression.getText( ).equals( VALUE_OF_THIS_DATA_ITEM )
+					&& designHandle instanceof DataItemHandle )
+			{
+				expression.setText( DEUtil.getColumnExpression( ( (DataItemHandle) designHandle ).getResultSetColumn( ) ) );
+			}
+			else
+			{
+				String newValue = expression.getText( );
+				String value = DEUtil.getExpression( getResultSetColumn( newValue ) );
+				if ( value != null )
+					newValue = value;
+				expression.setText( newValue );
+			}
+
+			updateButtons( );
+		}
+	};
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -339,27 +360,7 @@ public class MapRuleBuilder extends BaseDialog
 		expression.setLayoutData( gdata );
 		expression.setItems( getDataSetColumns( ) );
 		fillExpression( expression );
-		expression.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				if ( expression.getText( ).equals( VALUE_OF_THIS_DATA_ITEM )
-						&& designHandle instanceof DataItemHandle )
-				{
-					expression.setText( DEUtil.getColumnExpression( ( (DataItemHandle) designHandle ).getResultSetColumn( ) ) );
-				}
-				else
-				{
-					String newValue = expression.getText( );
-					String value = DEUtil.getExpression( getResultSetColumn( newValue ) );
-					if ( value != null )
-						newValue = value;
-					expression.setText( newValue );
-				}
-
-				updateButtons( );
-			}
-		} );
+		expression.addSelectionListener( expSelListener );
 		expression.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
@@ -565,6 +566,10 @@ public class MapRuleBuilder extends BaseDialog
 //		comboWidget.setItems( popupItems );
 		
 		int selectionIndex = comboWidget.getSelectionIndex( );
+		if(selectionIndex < 0)
+		{
+			return;
+		}
 		String value = comboWidget.getItem( selectionIndex );
 		
 		for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
@@ -893,7 +898,7 @@ public class MapRuleBuilder extends BaseDialog
 	 * Refreshes the OK button state.
 	 * 
 	 */
-	private void updateButtons( )
+	protected void updateButtons( )
 	{
 		enableInput( isExpressionOK( ) );
 
@@ -1026,16 +1031,16 @@ public class MapRuleBuilder extends BaseDialog
 			{
 				MapRule rule = StructureFactory.createMapRule( );
 
-				rule.setProperty( HighlightRule.OPERATOR_MEMBER,
+				rule.setProperty( MapRule.OPERATOR_MEMBER,
 						DEUtil.resolveNull( getValueForOperator( operator.getText( ) ) ) );
 				if ( expressionValue1.isVisible( ) )
 				{
-					rule.setProperty( HighlightRule.VALUE1_MEMBER,
+					rule.setProperty( MapRule.VALUE1_MEMBER,
 							DEUtil.resolveNull( expressionValue1.getText( ) ) );
 				}
 				if ( expressionValue2.isVisible( ) )
 				{
-					rule.setProperty( HighlightRule.VALUE2_MEMBER,
+					rule.setProperty( MapRule.VALUE2_MEMBER,
 							DEUtil.resolveNull( expressionValue2.getText( ) ) );
 				}
 

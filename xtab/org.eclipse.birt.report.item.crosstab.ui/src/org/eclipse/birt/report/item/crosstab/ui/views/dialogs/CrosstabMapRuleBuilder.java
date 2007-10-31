@@ -30,6 +30,7 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.item.crosstab.plugin.CrosstabPlugin;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -37,6 +38,8 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
@@ -48,6 +51,8 @@ import org.eclipse.ui.PlatformUI;
 
 public class CrosstabMapRuleBuilder extends MapRuleBuilder
 {
+	
+
 
 	/**
 	 * @param parentShell
@@ -62,13 +67,41 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder
 
 	protected void inilializeColumnList( DesignElementHandle handle )
 	{
-		columnList = new ArrayList( );
-	}
+		super.inilializeColumnList( handle );
+		expSelListener = new  SelectionAdapter( ) {
+			public void widgetSelected( SelectionEvent e )
+			{
+				if ( expression.getText( ).equals( VALUE_OF_THIS_DATA_ITEM )
+						&& designHandle instanceof DataItemHandle )
+				{
+					expression.setText( DEUtil.getDataExpression( ( (DataItemHandle) designHandle ).getResultSetColumn( ) ) );
+				}
+				else
+				{
+					String newValue = expression.getText( );
+					Object computedColumn = getResultSetColumn( newValue );
+					if(computedColumn != null)
+					{
+						String value = DEUtil.getDataExpression( ((ComputedColumnHandle)computedColumn).getName( ) );
+						if ( value != null )
+							newValue = value;
+						expression.setText( newValue );
+					}
+				}
+				updateButtons( );
+			}
+		};
+	}	
+	
 	
 	protected void popBtnSelectionAction(Combo comboWidget)
 	{
 
 		int selectionIndex = comboWidget.getSelectionIndex( );
+		if(selectionIndex < 0)
+		{
+			return;
+		}
 		String value = comboWidget.getItem( selectionIndex );
 		
 		for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )

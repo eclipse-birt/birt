@@ -67,6 +67,7 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FormLayout;
@@ -260,7 +261,7 @@ public class HighlightRuleBuilder extends BaseDialog
 
 	private static final String[] SYSTEM_FONT_LIST = DEUtil.getSystemFontNames( );
 
-	private static final String VALUE_OF_THIS_DATA_ITEM = Messages.getString( "HighlightRuleBuilderDialog.choice.ValueOfThisDataItem" ); //$NON-NLS-1$
+	protected static final String VALUE_OF_THIS_DATA_ITEM = Messages.getString( "HighlightRuleBuilderDialog.choice.ValueOfThisDataItem" ); //$NON-NLS-1$
 
 	private Map styles = new HashMap( );
 
@@ -301,6 +302,29 @@ public class HighlightRuleBuilder extends BaseDialog
 		currentItem = reportItem;
 	}
 
+	
+	protected SelectionListener expSelListener = new SelectionAdapter( ) {
+
+		public void widgetSelected( SelectionEvent e )
+		{
+			if ( expression.getText( ).equals( VALUE_OF_THIS_DATA_ITEM )
+					&& designHandle instanceof DataItemHandle )
+			{
+				expression.setText( DEUtil.getColumnExpression( ( (DataItemHandle) designHandle ).getResultSetColumn( ) ) );
+			}
+			else
+			{
+				String newValue = expression.getText( );
+				String value = DEUtil.getExpression( getResultSetColumn( newValue ) );
+				if ( value != null )
+					newValue = value;
+				expression.setText( newValue );
+			}
+
+			updateButtons( );
+		}
+	};
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -348,27 +372,7 @@ public class HighlightRuleBuilder extends BaseDialog
 		expression.setLayoutData( gdata );
 		expression.setItems( getDataSetColumns( ) );
 		fillExpression( expression );
-		expression.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				if ( expression.getText( ).equals( VALUE_OF_THIS_DATA_ITEM )
-						&& designHandle instanceof DataItemHandle )
-				{
-					expression.setText( DEUtil.getColumnExpression( ( (DataItemHandle) designHandle ).getResultSetColumn( ) ) );
-				}
-				else
-				{
-					String newValue = expression.getText( );
-					String value = DEUtil.getExpression( getResultSetColumn( newValue ) );
-					if ( value != null )
-						newValue = value;
-					expression.setText( newValue );
-				}
-
-				updateButtons( );
-			}
-		} );
+		expression.addSelectionListener( expSelListener );
 		expression.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
@@ -665,7 +669,7 @@ public class HighlightRuleBuilder extends BaseDialog
 		return composite;
 	}
 
-	private Object getResultSetColumn( String name )
+	protected Object getResultSetColumn( String name )
 	{
 		if ( columnList.isEmpty( ) )
 		{
@@ -756,6 +760,10 @@ public class HighlightRuleBuilder extends BaseDialog
 	{
 
 		int selectionIndex = comboWidget.getSelectionIndex( );
+		if(selectionIndex < 0)
+		{
+			return;
+		}
 		String value = comboWidget.getItem( selectionIndex );
 
 		for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
@@ -1173,7 +1181,7 @@ public class HighlightRuleBuilder extends BaseDialog
 	 * Refreshes the OK button state.
 	 * 
 	 */
-	private void updateButtons( )
+	protected void updateButtons( )
 	{
 		enableInput( isExpressionOK( ) );
 
