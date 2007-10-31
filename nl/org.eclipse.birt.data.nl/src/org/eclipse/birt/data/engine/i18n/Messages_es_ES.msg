@@ -96,8 +96,8 @@ data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=El enlace 
 data.engine.ReadColumnValueFromDocumentError=Se produce un error al intentar leer un valor de la columna: {0}. Esto puede deberse a un error de tiempo de ejecución en la evaluación de una expresión de enlace, por ejemplo, un error de división entre 0.
 #computed column value
 data.engine.BadCompColExpr=La expresión de la columna procesada "{0}" no es válida.
-data.engine.CompCol.WrongDataType=El tipo de datos de la columna procesada "{0}" es {1}, pero uno de sus valores es "{2}", que no se puede convertir en {1}.
-data.engine.ScriptResult.WrongDataType=El tipo de datos del resultado de la expresión de script es {0}, pero uno de sus valores es "{1}", que no se puede convertir en {0}.
+data.engine.CompCol.FailRetrieveValueComputedColumn=Fail to compute value for computed column "{0}".
+data.engine.ScriptResult.WrongSystemComputedColumn=Fail to compute value from sort, group or filter expression.
 
 data.engine.BadFilterExpr=La expresión de filtro "{0}" no es válida.
 data.engine.BadFilterDefn=La definición de filtro mediante la expresión "{0}" no es válida.
