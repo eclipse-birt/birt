@@ -243,6 +243,7 @@
 		else
 		{
 		%>
+			birtUtility.initDPI( );
 			navigationBar.__init_page( );
 		<%
 		}

@@ -199,6 +199,7 @@
 		else
 		{
 		%>
+			birtUtility.initDPI( );
 			birtParameterDialog.__init_page_all( );
 		<%
 		}
