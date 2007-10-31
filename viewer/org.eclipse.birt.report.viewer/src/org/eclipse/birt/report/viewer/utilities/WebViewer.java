@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.viewer.utilities;
 
+import java.awt.Toolkit;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Locale;
@@ -325,6 +326,9 @@ public class WebViewer
 		if ( POSTSCRIPT.equalsIgnoreCase( format ) )
 			asattachment = "&__asattachment=true"; //$NON-NLS-1$	
 
+		// get the local DPI setting
+		int dpi = Toolkit.getDefaultToolkit( ).getScreenResolution( );
+
 		// So far, only report name is encoded as utf-8 format
 		return getBaseURL( )
 				+ servletName
@@ -346,7 +350,8 @@ public class WebViewer
 						&& cubeMemorySize.trim( ).length( ) > 0
 						? "&__cubememsize=" + cubeMemorySize : "" ) //$NON-NLS-1$ //$NON-NLS-2$
 				+ "&__resourceFolder=" + encodedResourceFolder //$NON-NLS-1$
-				+ ( asattachment != null ? asattachment : "" ); //$NON-NLS-1$
+				+ ( asattachment != null ? asattachment : "" ) //$NON-NLS-1$
+				+ "&__dpi=" + dpi; //$NON-NLS-1$
 	}
 
 	/**
