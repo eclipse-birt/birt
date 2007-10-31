@@ -11,16 +11,12 @@
 
 package org.eclipse.birt.report.engine.data.dte;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
-import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
@@ -30,7 +26,6 @@ import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
-import org.eclipse.birt.report.engine.ir.Report;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -41,12 +36,7 @@ import org.mozilla.javascript.Scriptable;
 public class DteDataEngine extends AbstractDataEngine
 {
 	
-	//FIXME: code review. throw out all exceptions in data engines.
-
-	/*
-	 * need not be stored in report document.
-	 */
-	protected HashMap queryMap = new HashMap( );
+	//FIXME: code review. throw out all exceptions in data engines. And throw exception not return null.	
 
 	/**
 	 * creates data engine, by first look into the directory specified by
@@ -86,46 +76,18 @@ public class DteDataEngine extends AbstractDataEngine
 			logger.log( Level.SEVERE, "can't create the DTE data engine", ex );
 		}
 	}
-
-	protected void doPrepareQuery( Report report, Map appContext )
+	
+	/**
+	 * this constructor is used 
+	 * @param context
+	 * @param obj
+	 */
+	protected DteDataEngine( ExecutionContext context, Object obj )
 	{
-		this.appContext = appContext;
-		// prepare report queries
-		List queries = report.getQueries( );
-		for ( int i = 0; i < queries.size( ); i++ )
-		{
-			IDataQueryDefinition query = (IDataQueryDefinition) queries.get( i );
-			try
-			{
-				IBasePreparedQuery preparedQuery = dteSession.prepare( query,
-						appContext );
-				queryMap.put( query, preparedQuery );
-			}
-			catch ( BirtException e )
-			{
-				logger.log( Level.SEVERE, e.getMessage( ), e );
-				context.addException( e );
-			}
-		} // end of prepare
+		super( context );
 	}
 
-	protected IBaseResultSet doExecuteQuery( IBaseResultSet resultSet,
-			IDataQueryDefinition query, boolean useCache )
-	{
-		if ( query instanceof IQueryDefinition )
-		{
-			return doExecuteQuery( resultSet, (IQueryDefinition) query,
-					useCache );
-		}
-		else if ( query instanceof ICubeQueryDefinition )
-		{
-			return doExecuteCube( resultSet, (ICubeQueryDefinition) query,
-					useCache );
-		}
-		return null;
-	}
-
-	protected IBaseResultSet doExecuteQuery( IBaseResultSet resultSet,
+	protected IBaseResultSet doExecuteQuery( IBaseResultSet parentResultSet,
 			IQueryDefinition query, boolean useCache )
 	{
 		IPreparedQuery pQuery = (IPreparedQuery) queryMap.get( query );
@@ -139,51 +101,46 @@ public class DteDataEngine extends AbstractDataEngine
 			Scriptable scope = context.getSharedScope( );
 
 			IBaseQueryResults dteResults = null; // the dteResults of this query
-			if ( resultSet == null )
+			if ( useCache )
 			{
-				// this is the root query
-				if ( useCache )
+				dteResults = getCachedQueryResult( query );
+			}
+			if ( dteResults == null )
+			{
+				if ( parentResultSet == null )
 				{
-					dteResults = getCachedQueryResult( query );
+					// this is the root query
+					dteResults = dteSession.execute( pQuery, null, scope );
 				}
-				if ( dteResults == null )
+				else
 				{
-					dteResults = dteSession.execute( pQuery, null, scope );					
-					if ( query.cacheQueryResults( ) )
-					{
-						cachedQueryIdMap.put( query, dteResults.getID( ) );
-					}	
-				}				
-				resultSet = new QueryResultSet( this,
+					// this is the nest query, execute the query in the
+					// parent results
+					dteResults = dteSession.execute( pQuery, parentResultSet
+							.getQueryResults( ), scope );
+				}
+				if ( query.cacheQueryResults( ) )
+				{
+					cachedQueryToResults.put( query, dteResults.getID( ) );
+				}
+			}		
+			if ( parentResultSet == null )
+			{
+				// this is the root query						
+				return new QueryResultSet( this,
 						context,
 						query,
 						(IQueryResults) dteResults );
 			}
 			else
 			{
-				// this is the nest query, execute the query in the
-				// parent results
-				if ( useCache )
-				{
-					dteResults = getCachedQueryResult( query );
-				}
-				if ( dteResults == null )
-				{
-					dteResults = dteSession.execute( pQuery, resultSet
-							.getQueryResults( ), scope );					
-					if ( query.cacheQueryResults( ) )
-					{
-						cachedQueryIdMap.put( query, dteResults.getID( ) );
-					}
-				}
-				resultSet = new QueryResultSet( this,
+				// this is the nest query		
+				return new QueryResultSet( this,
 						context,
-						resultSet,
+						parentResultSet,
 						query,
 						(IQueryResults) dteResults );
 			}
-
-			return resultSet;
 		}
 		catch ( BirtException be )
 		{
@@ -194,12 +151,12 @@ public class DteDataEngine extends AbstractDataEngine
 		return null;
 	}
 
-	protected IBaseResultSet doExecuteCube( IBaseResultSet resultSet,
+	protected IBaseResultSet doExecuteCube( IBaseResultSet parentResultSet,
 			ICubeQueryDefinition query, boolean useCache )
 	{
 		if ( useCache )
 		{
-			String rsetId = String.valueOf( cachedQueryIdMap.get( query ) );
+			String rsetId = String.valueOf( cachedQueryToResults.get( query ) );
 			query.setQueryResultsID( rsetId );
 		}
 		else
@@ -226,9 +183,10 @@ public class DteDataEngine extends AbstractDataEngine
 		try
 		{
 			Scriptable scope = context.getSharedScope( );
+			IBaseResultSet resultSet;
 
 			ICubeQueryResults dteResults; // the dteResults of this query
-			if ( resultSet == null )
+			if ( parentResultSet == null )
 			{
 				// this is the root query
 				dteResults = (ICubeQueryResults) dteSession.execute( pQuery,
@@ -243,15 +201,15 @@ public class DteDataEngine extends AbstractDataEngine
 				// this is the nest query, execute the query in the
 				// parent results
 				dteResults = (ICubeQueryResults) dteSession.execute( pQuery,
-						resultSet.getQueryResults( ), scope );
-				resultSet = new CubeResultSet( this, context, resultSet, query,
+						parentResultSet.getQueryResults( ), scope );
+				resultSet = new CubeResultSet( this, context, parentResultSet, query,
 						(ICubeQueryResults) dteResults );
 			}
 
 			// persist the queryResults witch need cached. 
 			if ( query.cacheQueryResults( ) )
 			{
-				cachedQueryIdMap.put( query, dteResults.getID( ) );
+				cachedQueryToResults.put( query, dteResults.getID( ) );
 			}
 			
 			return resultSet;

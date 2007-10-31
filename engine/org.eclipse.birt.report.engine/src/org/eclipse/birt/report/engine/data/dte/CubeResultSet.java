@@ -53,6 +53,11 @@ public class CubeResultSet implements ICubeResultSet
 	private CubeCursor cube;
 
 	private ICubeQueryResults queryResults;
+	
+	/**
+	 * DTE's QueryResults's ID.
+	 */
+	private String queryResultsID;
 
 	protected static Logger logger = Logger.getLogger( CubeResultSet.class
 			.getName( ) );
@@ -77,6 +82,7 @@ public class CubeResultSet implements ICubeResultSet
 		}
 		this.cube = rsets.getCubeCursor( );
 		this.queryResults = rsets;
+		this.queryResultsID = rsets.getID( );
 	}
 
 	// Nest query
@@ -100,6 +106,12 @@ public class CubeResultSet implements ICubeResultSet
 		this.queryDefn = queryDefn;
 		this.cube = rsets.getCubeCursor( );
 		this.queryResults = rsets;
+		this.queryResultsID = rsets.getID( );
+	}
+	
+	public String getQueryResultsID( )
+	{
+		return queryResultsID;
 	}
 
 	public CubeCursor getCubeCursor( )
@@ -124,13 +136,20 @@ public class CubeResultSet implements ICubeResultSet
 	public void close( )
 	{
 		// remove the data set from the data set list
-		dataEngine.close( this );
 		try
 		{
 			if ( queryResults != null )
 			{
 				queryResults.close( );
 			}
+		}
+		catch ( Exception ex )
+		{
+			logger.log( Level.SEVERE, ex.getMessage( ), ex );
+			// context.addException( ex );
+		}
+		try
+		{
 			if ( cube != null )
 			{
 				cube.close( );

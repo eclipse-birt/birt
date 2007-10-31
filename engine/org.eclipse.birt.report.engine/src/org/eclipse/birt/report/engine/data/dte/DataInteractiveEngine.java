@@ -24,7 +24,6 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
-import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
@@ -45,11 +44,6 @@ import org.mozilla.javascript.Scriptable;
 
 public class DataInteractiveEngine extends AbstractDataEngine
 {
-	/**
-	 * data is geting from this archive.
-	 */
-	private IDocArchiveReader reader;
-		
 	/**
 	 * output stream used to save the resultset relations
 	 */
@@ -98,9 +92,8 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		}
 
 		dteSession = DataRequestSession.newSession( dteSessionContext );
-		this.reader = reader;
-
-		loadDteMetaInfo( );
+		
+		loadDteMetaInfo( reader );
 
 		if ( writer != null && dos == null )
 		{
@@ -145,7 +138,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		}
 	}
 	
-	private void loadDteMetaInfo( ) throws IOException
+	private void loadDteMetaInfo( IDocArchiveReader reader ) throws IOException
 	{
 		ArrayList result = DteMetaInfoIOUtil.loadDteMetaInfo( reader );
 		if ( result != null )
@@ -179,7 +172,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		keyBuffer.append( rowId );
 		keyBuffer.append( "." );
 		keyBuffer.append( queryId );
-		// try to search the ret
+		// try to search the rset id
 		String rsetId = (String) rsetRelations.get( keyBuffer.toString( ) );
 		if ( rsetId == null )
 		{
@@ -209,22 +202,6 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		queryIDMap.putAll( report.getQueryIDs( ) );
 	}
 	
-	protected IBaseResultSet doExecuteQuery( IBaseResultSet resultSet,
-			IDataQueryDefinition query, boolean useCache )
-	{
-		if ( query instanceof IQueryDefinition )
-		{
-			return doExecuteQuery( resultSet, (IQueryDefinition) query,
-					useCache );
-		}
-		else if ( query instanceof ICubeQueryDefinition )
-		{
-			return doExecuteCube( resultSet, (ICubeQueryDefinition) query,
-					useCache );
-		}
-		return null;
-	}
-	
 	protected IBaseResultSet doExecuteQuery( IBaseResultSet parentResult,
 			IQueryDefinition query, boolean useCache )
 	{
@@ -237,7 +214,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 				parentQueryResults = parentResult.getQueryResults( );
 			}
 			
-			String resultSetID = loadResultSetID( parentResult, parentQueryResults, queryID );		
+			String resultSetID = loadResultSetID( parentResult, queryID );		
 			if ( resultSetID == null )
 			{
 				logger.log( Level.SEVERE, "Can't load the report query" );
@@ -267,7 +244,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 					dteResults = dteSession.execute( pQuery, null, scope );
 					if ( query.cacheQueryResults( ) )
 					{
-						cachedQueryIdMap.put( query, dteResults.getID( ) );
+						cachedQueryToResults.put( query, dteResults.getID( ) );
 					}					
 				}
 				resultSet = new QueryResultSet( this, context,
@@ -276,7 +253,16 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			}
 			else
 			{
-				pRsetId = parentResult.getQueryResults( ).getID( );
+				if ( parentResult instanceof QueryResultSet )
+				{
+					pRsetId = ( (QueryResultSet) parentResult )
+							.getQueryResultsID( );
+				}
+				else
+				{
+					pRsetId = ( (CubeResultSet) parentResult )
+							.getQueryResultsID( );
+				}
 				rowId = parentResult.getRawID( );
 				
 				// this is the nest query, execute the query in the
@@ -290,7 +276,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 					dteResults = dteSession.execute( pQuery, parentQueryResults, scope );
 					if ( query.cacheQueryResults( ) )
 					{
-						cachedQueryIdMap.put( query, dteResults.getID( ) );
+						cachedQueryToResults.put( query, dteResults.getID( ) );
 					}
 				}
 				resultSet = new QueryResultSet( this, context, parentResult,
@@ -325,8 +311,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 				parentQueryResults = parentResult.getQueryResults( );
 			}
 
-			String resultSetID = loadResultSetID( parentResult,
-					parentQueryResults, queryID );
+			String resultSetID = loadResultSetID( parentResult, queryID );
 			if ( resultSetID == null )
 			{
 				logger.log( Level.SEVERE, "Can't load the report query" );
@@ -335,7 +320,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 
 			if ( useCache )
 			{
-				String rsetId = String.valueOf( cachedQueryIdMap.get( query ) );
+				String rsetId = String.valueOf( cachedQueryToResults.get( query ) );
 				query.setQueryResultsID( rsetId );
 			}
 			else
@@ -381,7 +366,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			// persist the queryResults witch need cached.
 			if ( query.cacheQueryResults( ) )
 			{
-				cachedQueryIdMap.put( query, dteResults.getID( ) );
+				cachedQueryToResults.put( query, dteResults.getID( ) );
 			}
 
 			return resultSet;
@@ -394,12 +379,11 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		}
 	}
 	
-	private String loadResultSetID( IBaseResultSet parentResult,
-			IBaseQueryResults queryResults, String queryID )
+	private String loadResultSetID( IBaseResultSet parentResult, String queryID )
 			throws BirtException
 	{
 		String resultSetID = null;
-		if ( queryResults == null )
+		if ( parentResult == null )
 		{
 			// if the query is used in master page, the row id is set as page
 			// number
@@ -421,13 +405,15 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		else
 		{
 			String pRsetId;
-			if ( parentResult.getType( ) == IBaseResultSet.QUERY_RESULTSET )
+			if ( parentResult instanceof QueryResultSet )
 			{
-				pRsetId = ( (QueryResultSet) parentResult ).getBaseRSetID( );
+				pRsetId = ( (QueryResultSet) parentResult )
+						.getQueryResultsID( );
 			}
 			else
 			{
-				pRsetId = queryResults.getID( );
+				pRsetId = ( (CubeResultSet) parentResult )
+						.getQueryResultsID( );
 			}
 			String rowid = parentResult.getRawID( );
 			resultSetID = getResultID( pRsetId, rowid, queryID );

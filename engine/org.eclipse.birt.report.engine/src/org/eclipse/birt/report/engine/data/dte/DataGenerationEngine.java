@@ -13,38 +13,24 @@ package org.eclipse.birt.report.engine.data.dte;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
-import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
-import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
-import org.eclipse.birt.data.engine.api.IQueryResults;
-import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
-import org.eclipse.birt.report.engine.extension.ICubeResultSet;
-import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.ir.Report;
-import org.mozilla.javascript.Scriptable;
 
-public class DataGenerationEngine extends AbstractDataEngine
+public class DataGenerationEngine extends DteDataEngine
 {
-
-	/*
-	 * need not be stored in report document.
-	 */
-	protected HashMap queryMap = new HashMap( );
-
 	/**
 	 * output stream used to save the resultset relations
 	 */
@@ -53,7 +39,7 @@ public class DataGenerationEngine extends AbstractDataEngine
 	public DataGenerationEngine( ExecutionContext context,
 			IDocArchiveWriter writer ) throws Exception
 	{
-		super( context );
+		super( context, writer );
 
 		// create the DteData session.
 		DataSessionContext dteSessionContext = new DataSessionContext(
@@ -82,18 +68,63 @@ public class DataGenerationEngine extends AbstractDataEngine
 
 	protected void doPrepareQuery( Report report, Map appContext )
 	{
-		this.appContext = appContext;
-		// prepare report queries
 		queryIDMap.putAll( report.getQueryIDs( ) );
-		for ( int i = 0; i < report.getQueries( ).size( ); i++ )
+		super.doPrepareQuery( report, appContext );
+	}
+
+	protected IBaseResultSet doExecuteQuery( IBaseResultSet parentResultSet,
+			IQueryDefinition query, boolean useCache )
+	{
+		IBaseResultSet resultSet = super.doExecuteQuery( parentResultSet,
+				query, useCache );
+		if ( resultSet != null )
 		{
-			IDataQueryDefinition queryDef = (IDataQueryDefinition) report.getQueries( )
-					.get( i );
+			storeMetaInfo( parentResultSet, query, resultSet );
+		}
+
+		return resultSet;
+	}
+
+	protected IBaseResultSet doExecuteCube( IBaseResultSet parentResultSet,
+			ICubeQueryDefinition query, boolean useCache )
+	{
+		IBaseResultSet resultSet = super.doExecuteCube( parentResultSet, query,
+				useCache );
+		if ( resultSet != null )
+		{
+			storeMetaInfo( parentResultSet, query, resultSet );
+		}
+
+		return resultSet;
+	}
+
+	/**
+	 * save the meta information
+	 * 
+	 * @param parentResultSet
+	 * @param query
+	 * @param resultSet
+	 */
+	protected void storeMetaInfo( IBaseResultSet parentResultSet,
+			IDataQueryDefinition query, IBaseResultSet resultSet )
+	{
+		String pRsetId = null; // id of the parent query restuls
+		String rowId = "-1"; // row id of the parent query results
+		if ( parentResultSet != null )
+		{
+			if ( parentResultSet instanceof QueryResultSet )
+			{
+				pRsetId = ( (QueryResultSet) parentResultSet )
+						.getQueryResultsID( );
+			}
+			else
+			{
+				pRsetId = ( (CubeResultSet) parentResultSet )
+						.getQueryResultsID( );
+			}
 			try
 			{
-				IBasePreparedQuery preparedQuery = dteSession.prepare( queryDef,
-						appContext );
-				queryMap.put( queryDef, preparedQuery );
+				rowId = parentResultSet.getRawID( );
 			}
 			catch ( BirtException be )
 			{
@@ -101,173 +132,9 @@ public class DataGenerationEngine extends AbstractDataEngine
 				context.addException( be );
 			}
 		}
-	}	
-	
-	protected IBaseResultSet doExecuteQuery( IBaseResultSet resultSet,
-			IDataQueryDefinition query, boolean useCache )
-	{
-		if ( query instanceof IQueryDefinition )
-		{
-			return doExecuteQuery( resultSet, (IQueryDefinition) query,
-					useCache );
-		}
-		else if ( query instanceof ICubeQueryDefinition )
-		{
-			return doExecuteCube( resultSet, (ICubeQueryDefinition) query,
-					useCache );
-		}
-		return null;
-	}
-
-	protected IQueryResultSet doExecuteQuery( IBaseResultSet resultSet,
-			IQueryDefinition query, boolean useCache )
-	{		
-		IBasePreparedQuery pQuery = (IBasePreparedQuery) queryMap.get( query );
-		if ( pQuery == null )
-		{
-			return null;
-		}
-
-		try
-		{
-			String queryID = (String) queryIDMap.get( query );
-			Scriptable scope = context.getSharedScope( );
-
-			String pRsetId = null; // id of the parent query restuls
-			String rowId = "-1"; // row id of the parent query results
-			IBaseQueryResults dteResults = null; // the dteResults of this query
-			IQueryResultSet curRSet = null;
-			if ( resultSet == null )
-			{
-				// this is the root query
-				if ( useCache )
-				{
-					dteResults = getCachedQueryResult( query );
-				}
-				if ( dteResults == null )
-				{
-					dteResults = dteSession.execute( pQuery, null, scope );
-					if ( query.cacheQueryResults( ) )
-					{
-						cachedQueryIdMap.put( query, dteResults.getID( ) );
-					}
-				}
-				curRSet = new QueryResultSet( this, context, query,
-						(IQueryResults) dteResults );
-			}
-			else
-			{
-				pRsetId = resultSet.getQueryResults( ).getID( );
-				rowId = resultSet.getRawID( );
-
-				if ( useCache )
-				{
-					dteResults = getCachedQueryResult( query );
-				}
-				if ( dteResults == null )
-				{
-					// this is the nest query, execute the query in the
-					// parent results
-					dteResults = dteSession.execute( pQuery, resultSet
-							.getQueryResults( ), scope );
-					if ( query.cacheQueryResults( ) )
-					{
-						cachedQueryIdMap.put( query, dteResults.getID( ) );
-					}
-				}
-				curRSet = new QueryResultSet( this, context, resultSet, query,
-						(IQueryResults) dteResults );
-			}
-
-			// save the meta infomation
-			storeDteMetaInfo( pRsetId, rowId, queryID, dteResults.getID( ) );
-
-			return curRSet;
-		}
-		catch ( BirtException be )
-		{
-			logger.log( Level.SEVERE, be.getMessage( ) );
-			context.addException( be );
-		}
-
-		return null;
-	}
-	
-	protected ICubeResultSet doExecuteCube( IBaseResultSet resultSet,
-			ICubeQueryDefinition query, boolean useCache )
-	{			
-		if ( useCache )
-		{
-			String rsetId = String.valueOf( cachedQueryIdMap.get( query ) );
-			query.setQueryResultsID( rsetId );
-		}
-		else
-		{
-			query.setQueryResultsID( null );
-		}
-		
-		// the cube query must be re-prepared before executing.
-		IBasePreparedQuery pQuery = null;
-		try
-		{
-			pQuery = dteSession.prepare( query, appContext );
-		}
-		catch ( BirtException be )
-		{
-			logger.log( Level.SEVERE, be.getMessage( ) );
-			context.addException( be );
-		}		
-		if ( pQuery == null )
-		{
-			return null;
-		}
-		
-		try
-		{
-			String queryID = (String) queryIDMap.get( query );
-			Scriptable scope = context.getSharedScope( );
-
-			String pRsetId = null; // id of the parent query restuls
-			String rowId = "-1"; // row id of the parent query results
-			IBaseQueryResults dteResults; // the dteResults of this query
-			ICubeResultSet curRSet = null;
-			if ( resultSet == null )
-			{
-				// this is the root query
-				dteResults = dteSession.execute( pQuery, null, scope );
-				curRSet = new CubeResultSet( this, context, query,
-						(ICubeQueryResults) dteResults );
-			}
-			else
-			{
-				pRsetId = resultSet.getQueryResults( ).getID( );
-				rowId = resultSet.getRawID( );
-
-				// this is the nest query, execute the query in the
-				// parent results
-				dteResults = dteSession.execute( pQuery, resultSet.getQueryResults( ), scope );
-				curRSet = new CubeResultSet( this, context, resultSet, query,
-						(ICubeQueryResults) dteResults );
-			}
-
-			// save the meta infomation
-			storeDteMetaInfo( pRsetId, rowId, queryID, dteResults.getID( ) );
-			
-			// persist the queryResults witch need cached. 
-			if ( query.cacheQueryResults( ) )
-			{
-				cachedQueryIdMap.put( query, dteResults.getID( ) );
-			}
-			
-			return curRSet;
-		}
-		catch ( BirtException be )
-		{
-			logger.log( Level.SEVERE, be.getMessage( ) );
-			context.addException( be );
-		}
-
-		return null;
+		String queryID = (String) queryIDMap.get( query );
+		storeDteMetaInfo( pRsetId, rowId, queryID, resultSet.getQueryResults( )
+				.getID( ) );
 	}
 
 	public void shutdown( )

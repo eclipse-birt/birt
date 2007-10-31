@@ -18,13 +18,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
-import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IResultIterator;
-import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
@@ -44,26 +42,48 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
 public abstract class AbstractDataEngine implements IDataEngine
 {
 
+	/**
+	 * DTE's api, used to prepare query, execute query.
+	 */
 	protected DataRequestSession dteSession;
 
+	/**
+	 * execution context, holding some engine information.
+	 */
 	protected ExecutionContext context;
 
+	/**
+	 * use to find the query IDs.(query, query id) pair.
+	 * get from Report.
+	 */
 	protected HashMap queryIDMap = new HashMap( );
 	
-	protected HashMap cachedQueryIdMap = new HashMap( );
+	/**
+	 * holding the query to result set id's relation. 
+	 * used in result set reference. 
+	 */
+	protected HashMap cachedQueryToResults = new HashMap( );
 
+	/**
+	 * application context. used in preparing query. be transfered to dte.
+	 */
 	protected Map appContext;
-
-	protected String reportArchName = null;
-
+	
+	/**
+	 * An adapter class used to define data set and data source objects for DTE.
+	 */
 	private ModelDteApiAdapter adapter = null;
+	
+	/**
+	 * holding the query and prepared query relation.
+	 * need not be stored in report document.
+	 */
+	protected HashMap queryMap = new HashMap( );
 
 	/**
 	 * the logger
 	 */
 	protected static Logger logger = Logger.getLogger( IDataEngine.class.getName( ) );
-
-	protected final static String VERSION_1 = "__version__1"; //$NON-NLS-1$
 
 	public AbstractDataEngine( ExecutionContext context )
 	{
@@ -103,6 +123,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 			DataSetHandle dataset = (DataSetHandle) dataSetList.get( i );
 			try
 			{
+				// FIXME: change to use dteSession
 				adapter.defineDataSet( dataset, dteSession );
 			}
 			catch ( BirtException be )
@@ -143,7 +164,28 @@ public abstract class AbstractDataEngine implements IDataEngine
 	 * @param report
 	 * @param appContext
 	 */
-	abstract protected void doPrepareQuery( Report report, Map appContext );
+	//abstract protected void doPrepareQuery( Report report, Map appContext );
+	protected void doPrepareQuery( Report report, Map appContext )
+	{
+		this.appContext = appContext;
+		// prepare report queries
+		List queries = report.getQueries( );
+		for ( int i = 0; i < queries.size( ); i++ )
+		{
+			IDataQueryDefinition query = (IDataQueryDefinition) queries.get( i );
+			try
+			{
+				IBasePreparedQuery preparedQuery = dteSession.prepare( query,
+						appContext );
+				queryMap.put( query, preparedQuery );
+			}
+			catch ( BirtException e )
+			{
+				logger.log( Level.SEVERE, e.getMessage( ), e );
+				context.addException( e );
+			}
+		} // end of prepare
+	}
 
 	/*
 	 * @see org.eclipse.birt.report.engine.data.IDataEngine#execute(org.eclipse.birt.data.engine.api.IBaseQueryDefinition)
@@ -160,6 +202,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 	public IBaseResultSet execute( IBaseResultSet parent,
 			IDataQueryDefinition query, boolean useCache )
 	{
+		// FIXME: DTE may provide an API to get the query type.
 		if ( query instanceof ISubqueryDefinition )
 		{
 			if ( parent == null )
@@ -173,20 +216,28 @@ public abstract class AbstractDataEngine implements IDataEngine
 				context.addException( new EngineException( "Incorrect parent resultSet for subQuery:" //$NON-NLS-1$
 						+ ( (ISubqueryDefinition) query ).getName( ) ) );
 			}
-			return doExecuteSubQuery( (QueryResultSet) parent, query );
+			return doExecuteSubQuery( (QueryResultSet) parent,
+					(ISubqueryDefinition) query );
 		}
-		else if ( query instanceof IQueryDefinition
-				|| query instanceof ICubeQueryDefinition )
+		else if ( query instanceof IQueryDefinition )
 		{
-			//FIXME: code review. move the source code of the method here.
-			return doExecuteQuery( parent, query, useCache );
+			return doExecuteQuery( parent, (IQueryDefinition) query,
+					useCache );
+		}
+		else if ( query instanceof ICubeQueryDefinition )
+		{
+			return doExecuteCube( parent, (ICubeQueryDefinition) query,
+					useCache );
 		}
 		//FIXME: code review. throw exception, "Unsupport query"
 		return null;
 	}
 
 	abstract protected IBaseResultSet doExecuteQuery( IBaseResultSet parent,
-			IDataQueryDefinition query, boolean useCache );
+			IQueryDefinition query, boolean useCache );
+	
+	abstract protected IBaseResultSet doExecuteCube( IBaseResultSet parent,
+			ICubeQueryDefinition query, boolean useCache );
 
 	/**
 	 * get the sub query result from the current query.
@@ -194,17 +245,13 @@ public abstract class AbstractDataEngine implements IDataEngine
 	 * @param query
 	 * @return
 	 */
-	//FIXME: code review. change IDataQueryDefinition to be ISubQUeryDefinition
 	protected IBaseResultSet doExecuteSubQuery( QueryResultSet parent,
-			IDataQueryDefinition query )
+			ISubqueryDefinition subQuery )
 	{
 		// Extension Item may used to create the query stack, so we must do
 		// error handling.
-		assert query instanceof ISubqueryDefinition;
-
 		try
 		{
-			ISubqueryDefinition subQuery = (ISubqueryDefinition) query;
 			String subQueryName = subQuery.getName( );
 			IResultIterator parentRI = parent.getResultIterator( );
 			IResultIterator ri = parentRI.getSecondaryIterator( subQueryName,
@@ -222,52 +269,11 @@ public abstract class AbstractDataEngine implements IDataEngine
 	}
 
 	/*
-	 * @see org.eclipse.birt.report.engine.data.IDataEngine#close(org.eclipse.birt.report.engine.data.IResultSet)
-	 */
-	// FIXME: code review: remove this method.
-	public void close( IBaseResultSet rs )
-	{
-	}
-
-	/*
 	 * @see org.eclipse.birt.report.engine.data.IDataEngine#shutdown()
 	 */
 	public void shutdown( )
 	{
 		dteSession.shutdown( );
-	}
-
-	/**
-	 * @deprecated need to be deleted by LiangYu
-	 * @return
-	 */
-	// FIXME: code review: remove this method.
-	public Object evaluate( IBaseExpression expr )
-	{
-		if ( expr == null )
-		{
-			return null;
-		}
-
-		// Rhino handles evaluation
-		if ( expr instanceof IScriptExpression )
-		{
-			return context.evaluate( ( (IScriptExpression) expr ).getText( ) );
-		}
-		if ( expr instanceof IConditionalExpression )
-		{
-			return context.evaluateCondExpr( (IConditionalExpression) expr );
-		}
-
-		// unsupported expression type
-		assert ( false );
-		return null;
-	}
-
-	// FIXME: code review: remove this method.
-	public Object evaluate( String expr )
-	{
-		return context.evaluate( expr );
 	}
 
 	public DataRequestSession getDTESession( )
@@ -295,7 +301,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 	protected IBaseQueryResults getCachedQueryResult( IDataQueryDefinition query )
 			throws BirtException
 	{
-		Object rsetId = cachedQueryIdMap.get( query );
+		Object rsetId = cachedQueryToResults.get( query );
 
 		if ( rsetId != null )
 		{

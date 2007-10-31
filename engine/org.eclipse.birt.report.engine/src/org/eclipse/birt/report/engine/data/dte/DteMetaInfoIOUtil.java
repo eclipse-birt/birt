@@ -24,7 +24,10 @@ import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 
 public class DteMetaInfoIOUtil
 {
-
+	/**
+	 * Meta information's version. From version 1, rowId will be stored as a
+	 * String by supporting cube result set, while it is Long before.
+	 */
 	protected final static String VERSION_1 = "__version__1";
 
 	/**

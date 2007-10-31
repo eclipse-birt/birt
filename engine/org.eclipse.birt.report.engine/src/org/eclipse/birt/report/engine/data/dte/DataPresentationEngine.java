@@ -22,7 +22,6 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
-import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
@@ -35,9 +34,6 @@ import org.eclipse.birt.report.engine.ir.Report;
 
 public class DataPresentationEngine extends AbstractDataEngine
 {
-
-	private IDocArchiveReader reader;
-
 	/*
 	 * store relations of various query ResultSet. Such as relations between
 	 * parent ResultSet and nested query ResultSet.
@@ -68,11 +64,9 @@ public class DataPresentationEngine extends AbstractDataEngine
 		}
 
 		dteSession = DataRequestSession.newSession( dteSessionContext );
-
-		this.reader = reader;
 		
 		// try to load the meta data informations
-		loadDteMetaInfo( );
+		loadDteMetaInfo( reader );
 	}
 
 	/**
@@ -92,7 +86,7 @@ public class DataPresentationEngine extends AbstractDataEngine
 		queryIDMap.putAll( report.getQueryIDs( ) );
 	}
 
-	private void loadDteMetaInfo( ) throws IOException
+	private void loadDteMetaInfo( IDocArchiveReader reader ) throws IOException
 	{
 		ArrayList result = DteMetaInfoIOUtil.loadDteMetaInfo( reader );
 		if ( result != null )
@@ -102,13 +96,13 @@ public class DataPresentationEngine extends AbstractDataEngine
 			{
 				String[] rsetRelation = (String[]) result.get( i );
 				String pRsetId = rsetRelation[0];
-				String rowId = rsetRelation[1];
+				String rawId = rsetRelation[1];
 				String queryId = rsetRelation[2];
 				String rsetId = rsetRelation[3];
 				buffer.setLength( 0 );
 				buffer.append( pRsetId );
 				buffer.append( "." );
-				buffer.append( rowId );
+				buffer.append( rawId );
 				buffer.append( "." );
 				buffer.append( queryId );
 				rsetRelations.put( buffer.toString( ), rsetId );
@@ -118,52 +112,21 @@ public class DataPresentationEngine extends AbstractDataEngine
 
 	private StringBuffer keyBuffer = new StringBuffer( );
 
-	protected String getResultID( String pRsetId, String rowId, String queryId )
+	protected String getResultID( String pRsetId, String rawId, String queryId )
 	{
 		keyBuffer.setLength( 0 );
 		keyBuffer.append( pRsetId );
 		keyBuffer.append( "." );
-		keyBuffer.append( rowId );
+		keyBuffer.append( rawId );
 		keyBuffer.append( "." );
 		keyBuffer.append( queryId );
-		// try to search the ret
-		String rsetId = (String) rsetRelations.get( keyBuffer.toString( ) );
-		if ( rsetId == null )
-		{
-			if ( pRsetId != null )
-			{
-				int charAt = pRsetId.indexOf( "_" );
-				if ( charAt != -1 )
-				{
-					String rootId = pRsetId.substring( 0, charAt );
-					keyBuffer.setLength( 0 );
-					keyBuffer.append( rootId );
-					keyBuffer.append( "." );
-					keyBuffer.append( rowId );
-					keyBuffer.append( "." );
-					keyBuffer.append( queryId );
-					rsetId = (String) rsetRelations.get( keyBuffer.toString( ) );
-				}
-			}
-		}
+		// try to search the rset id
+		String rsetId = (String) rsetRelations.get( keyBuffer.toString( ) );		
 		return rsetId;
 	}
-	
-	protected IBaseResultSet doExecuteQuery( IBaseResultSet resultSet,
-			IDataQueryDefinition query, boolean useCache )
-	{
-		if ( query instanceof IQueryDefinition )
-		{
-			return doExecuteQuery( resultSet, (IQueryDefinition) query );
-		}
-		else if ( query instanceof ICubeQueryDefinition )
-		{
-			return doExecuteCube( resultSet, (ICubeQueryDefinition) query );
-		}
-		return null;
-	}
 
-	protected IBaseResultSet doExecuteQuery( IBaseResultSet parentResult, IQueryDefinition query )
+	protected IBaseResultSet doExecuteQuery( IBaseResultSet parentResult,
+			IQueryDefinition query, boolean useCache )
 	{
 		String queryID = (String) queryIDMap.get( query );
 
@@ -204,7 +167,8 @@ public class DataPresentationEngine extends AbstractDataEngine
 		}
 	}
 	
-	protected IBaseResultSet doExecuteCube( IBaseResultSet parentResult, ICubeQueryDefinition query )
+	protected IBaseResultSet doExecuteCube( IBaseResultSet parentResult,
+			ICubeQueryDefinition query, boolean useCache )
 	{
 		String queryID = (String) queryIDMap.get( query );
 
@@ -257,12 +221,7 @@ public class DataPresentationEngine extends AbstractDataEngine
 			String queryID )
 	{
 		String resultSetID = null;
-		IBaseQueryResults queryResults = null;
-		if ( parentResult != null )
-		{
-			queryResults = parentResult.getQueryResults( );
-		}
-		if ( queryResults == null )
+		if ( parentResult == null )
 		{
 			// if the query is used in master page, the row id is set as page
 			// number
@@ -284,7 +243,18 @@ public class DataPresentationEngine extends AbstractDataEngine
 		}
 		else
 		{
-			String pRsetId = queryResults.getID( );
+			//FIXME: test nest query of sub-query to see if we need get the base query result id.
+			String pRsetId;
+			if ( parentResult instanceof QueryResultSet )
+			{
+				pRsetId = ( (QueryResultSet) parentResult )
+						.getQueryResultsID( );
+			}
+			else
+			{
+				pRsetId = ( (CubeResultSet) parentResult )
+						.getQueryResultsID( );
+			}
 			String rowid;
 			try
 			{

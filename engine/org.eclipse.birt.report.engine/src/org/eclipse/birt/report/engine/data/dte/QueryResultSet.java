@@ -42,6 +42,7 @@ public class QueryResultSet implements IQueryResultSet
 
 	protected DataSetID id;
 
+	// FIXME: See if we can remove it and use dTE's getRowIndex().
 	protected long rowId = -1;
 
 	/**
@@ -49,6 +50,9 @@ public class QueryResultSet implements IQueryResultSet
 	 */
 	protected IResultIterator rs = null;
 
+	/**
+	 * holding the start row index of each group.
+	 */
 	protected long[] rowIdOfGroups;
 
 	/**
@@ -63,6 +67,11 @@ public class QueryResultSet implements IQueryResultSet
 	private IQueryResults queryResults;
 
 	private static IResultMetaData emptyResultMetaData = new EmptyResultMetaData( );
+	
+	/**
+	 * DTE's QueryResults's ID.
+	 */
+	private String queryResultsID;
 
 	/**
 	 * 
@@ -82,6 +91,7 @@ public class QueryResultSet implements IQueryResultSet
 		this.id = new DataSetID( rsets.getID( ) );
 		this.rs = rsets.getResultIterator( );
 		this.queryResults = rsets;
+		this.queryResultsID = rsets.getID( );
 		initializeRowIdOfGroups( getGroupCount( ) );
 	}
 
@@ -98,6 +108,7 @@ public class QueryResultSet implements IQueryResultSet
 		this.queryDefn = queryDefn;
 		this.rs = rsets.getResultIterator( );
 		this.queryResults = rsets;
+		this.queryResultsID = rsets.getID( );
 		initializeRowIdOfGroups( getGroupCount( ) );
 	}
 
@@ -108,6 +119,7 @@ public class QueryResultSet implements IQueryResultSet
 		assert parent != null;
 		assert queryDefn != null;
 		this.parent = parent;
+		// FIXME: why use parent's getRowIndex() not getRawId()?
 		this.id = new DataSetID( parent.getID( ), parent.getRowIndex( ),
 				queryDefn.getName( ) );
 		this.context = parent.context;
@@ -115,7 +127,13 @@ public class QueryResultSet implements IQueryResultSet
 		this.queryDefn = queryDefn;
 		this.rs = ri;
 		this.queryResults = this.rs.getQueryResults( );
+		this.queryResultsID = "S" + queryDefn.getName( ) + queryResults.getID( );
 		initializeRowIdOfGroups( queryDefn.getGroups( ).size( ) );
+	}
+	
+	public String getQueryResultsID( )
+	{
+		return queryResultsID;
 	}
 
 	private void initializeRowIdOfGroups( int groupCount )
@@ -203,6 +221,7 @@ public class QueryResultSet implements IQueryResultSet
 		}
 	}
 
+	// FIXME: need find another solution to reset row ids.
 	private void resetRowIdOfGroups( )
 	{
 		for ( int i = 0; i < rowIdOfGroups.length; i++ )
@@ -244,14 +263,22 @@ public class QueryResultSet implements IQueryResultSet
 
 	public void close( )
 	{
+		// FIXME: use try-catch for each close.
 		// remove the data set from the data set list
-		dataEngine.close( this );
 		try
 		{
 			if ( rs != null )
 			{
 				rs.close( );
 			}
+		}
+		catch ( BirtException ex )
+		{
+			logger.log( Level.SEVERE, ex.getMessage( ), ex );
+			// context.addException( ex );
+		}
+		try
+		{
 			if ( queryResults != null )
 			{
 				queryResults.close( );
@@ -296,6 +323,7 @@ public class QueryResultSet implements IQueryResultSet
 
 	public String getRawID( ) throws BirtException
 	{
+		// getRowId() returns rawId, while getRowIndex() return the row index. 
 		return String.valueOf( rs.getRowId( ) );
 	}
 

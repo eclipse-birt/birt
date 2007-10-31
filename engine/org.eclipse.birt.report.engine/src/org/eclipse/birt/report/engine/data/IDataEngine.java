@@ -79,11 +79,6 @@ public interface IDataEngine
 			boolean useCache );
 
 	/**
-	 * close the IResultSet of the last executing operator
-	 */
-	void close( IBaseResultSet rs );
-
-	/**
 	 * shut down the data engine
 	 */
 	void shutdown( );
