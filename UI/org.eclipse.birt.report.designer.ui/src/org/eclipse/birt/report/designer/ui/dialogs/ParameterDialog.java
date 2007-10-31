@@ -257,7 +257,7 @@ public class ParameterDialog extends BaseDialog
 	private static final String STANDARD_DATE_TIME_PATTERN = "MM/dd/yyyy hh:mm:ss a"; //$NON-NLS-1$
 
 	private boolean allowMultiValueVisible = true;
-	
+
 	private HashMap dirtyProperties = new HashMap( 5 );
 
 	private ArrayList choiceList = new ArrayList( );
@@ -507,12 +507,13 @@ public class ParameterDialog extends BaseDialog
 		super( parentShell, title );
 	}
 
-	public ParameterDialog( Shell parentShell, String title, boolean allowMultiValueVisible)
+	public ParameterDialog( Shell parentShell, String title,
+			boolean allowMultiValueVisible )
 	{
 		super( parentShell, title );
 		this.allowMultiValueVisible = allowMultiValueVisible;
 	}
-	
+
 	protected Control createDialogArea( Composite parent )
 	{
 		Composite parentComposite = (Composite) super.createDialogArea( parent );
@@ -762,8 +763,8 @@ public class ParameterDialog extends BaseDialog
 		}
 		defaultValue = inputParameter.getDefaultValue( );
 
-		if ( PARAM_CONTROL_LIST.endsWith( getSelectedControlType( ) ) 
-			&& allowMultiValueVisible)
+		if ( PARAM_CONTROL_LIST.endsWith( getSelectedControlType( ) )
+				&& allowMultiValueVisible )
 		{
 			allowMultiChoice.setVisible( true );
 			if ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.endsWith( inputParameter.getParamType( ) ) )
@@ -847,11 +848,11 @@ public class ParameterDialog extends BaseDialog
 				}
 				else
 				{
-					if(defaultValue == null)
+					if ( defaultValue == null )
 					{
 						defaultValueChooser.select( defaultValueChooser.indexOf( CHOICE_NO_DEFAULT ) );
-					}else
-					if ( Boolean.valueOf( defaultValue ).booleanValue( ) )
+					}
+					else if ( Boolean.valueOf( defaultValue ).booleanValue( ) )
 					{
 						defaultValueChooser.select( 1 );
 					}
@@ -898,10 +899,11 @@ public class ParameterDialog extends BaseDialog
 						// defaultValueChooser.select( 1 );
 					}
 					// To fix bug 207402, set the following code to comments
-//					else if ( ( defaultValue.equals( Boolean.toString( true ) ) || defaultValue.equals( Boolean.toString( false ) ) ) )
-//					{
-//						defaultValue = null;
-//					}
+					// else if ( ( defaultValue.equals( Boolean.toString( true )
+					// ) || defaultValue.equals( Boolean.toString( false ) ) ) )
+					// {
+					// defaultValue = null;
+					// }
 					else
 					{
 						if ( !isRequired.getSelection( ) )
@@ -1373,8 +1375,8 @@ public class ParameterDialog extends BaseDialog
 		// clearDefaultValueChooserSelections( );
 		// }
 
-		if ( (isStatic( ) && !distinct.isEnabled(  ))
-				|| (distinct.isEnabled( ) && !distinct.getSelection( )))
+		if ( ( isStatic( ) && !distinct.isEnabled( ) )
+				|| ( distinct.isEnabled( ) && !distinct.getSelection( ) ) )
 		{
 			makeUniqueAndValid( );
 			refreshValueTable( );
@@ -1501,9 +1503,9 @@ public class ParameterDialog extends BaseDialog
 		if ( isStatic( ) )
 		{
 			String type = getSelectedControlType( );
-			if (( !type.equals( lastControlType ) )
-			|| ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( lastDataType ))
-			|| ( getSelectedDataType( ).equals(DesignChoiceConstants.PARAM_TYPE_STRING)))
+			if ( ( !type.equals( lastControlType ) )
+					|| ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( lastDataType ) )
+					|| ( getSelectedDataType( ).equals( DesignChoiceConstants.PARAM_TYPE_STRING ) ) )
 			{
 				if ( DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals( type ) )
 				{
@@ -1547,8 +1549,8 @@ public class ParameterDialog extends BaseDialog
 			dynamicRadio.setEnabled( radioEnable );
 		}
 
-		if ( PARAM_CONTROL_LIST.equals( getSelectedControlType( ) ) 
-		&& allowMultiValueVisible)
+		if ( PARAM_CONTROL_LIST.equals( getSelectedControlType( ) )
+				&& allowMultiValueVisible )
 		{
 			allowMultiChoice.setVisible( true );
 		}
@@ -1979,8 +1981,8 @@ public class ParameterDialog extends BaseDialog
 		// defaultValueChooser.add( CHOICE_NULL_VALUE );
 		// defaultValueChooser.add( CHOICE_BLANK_VALUE );
 		// }
-		
-		defaultValueChooser.addVerifyListener( new VerifyListener(){
+
+		defaultValueChooser.addVerifyListener( new VerifyListener( ) {
 
 			public void verifyText( VerifyEvent e )
 			{
@@ -1990,17 +1992,19 @@ public class ParameterDialog extends BaseDialog
 				{
 					e.doit = true;
 					return;
-				}					
+				}
 
 				if ( selection.equals( CHOICE_SELECT_VALUE ) )
 				{
 					e.doit = false;
-				}else
+				}
+				else
 				{
 					e.doit = true;
 				}
-			}} );
-		
+			}
+		} );
+
 		defaultValueChooser.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -2010,7 +2014,6 @@ public class ParameterDialog extends BaseDialog
 				String selection = defaultValueChooser.getItem( defaultValueChooser.getSelectionIndex( ) );
 				if ( selection.equals( CHOICE_SELECT_VALUE ) )
 				{
-//					defaultValueChooser.setText( "" ); //$NON-NLS-1$
 
 					List columnValueList = getColumnValueList( );
 					if ( columnValueList.isEmpty( ) )
@@ -2025,10 +2028,6 @@ public class ParameterDialog extends BaseDialog
 						String selectedValue = dialog.getSelectedValue( );
 						if ( selectedValue != null )
 							defaultValueChooser.setText( selectedValue );
-					}
-					else if ( status == Window.CANCEL )
-					{
-//						defaultValueChooser.setText( "" ); //$NON-NLS-1$
 					}
 				}
 				else
@@ -2083,7 +2082,7 @@ public class ParameterDialog extends BaseDialog
 		composite.setLayout( UIUtil.createGridLayoutWithoutMargin( 2, false ) );
 
 		textRadio = new Button( composite, SWT.RADIO );
-		textRadio.setText(Messages.getString( "ParameterDialog.checkBox.InputValue" ) );
+		textRadio.setText( Messages.getString( "ParameterDialog.checkBox.InputValue" ) );
 		textRadio.addSelectionListener( new SelectionListener( ) {
 
 			public void widgetDefaultSelected( SelectionEvent e )
@@ -2335,8 +2334,8 @@ public class ParameterDialog extends BaseDialog
 			// defaultValue = convertToStandardFormat( DataTypeUtil.toSqlTime(
 			// defaultValue ) );
 			// }
-			if ( getSelectedDataType( ).equals( DesignChoiceConstants.PARAM_TYPE_STRING ) 
-			&& getSelectedControlType( ).equals( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX ))
+			if ( getSelectedDataType( ).equals( DesignChoiceConstants.PARAM_TYPE_STRING )
+					&& getSelectedControlType( ).equals( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX ) )
 			{
 				if ( isRequired.getSelection( ) )
 				{
@@ -2573,8 +2572,8 @@ public class ParameterDialog extends BaseDialog
 		if ( CHECKBOX_ISREQUIRED.equals( key )
 				|| CHECKBOX_DISTINCT.equals( key ) )
 		{
-			if ( (isStatic( ) && !distinct.isEnabled(  ))
-			|| (distinct.isEnabled( ) && !distinct.getSelection( )))
+			if ( ( isStatic( ) && !distinct.isEnabled( ) )
+					|| ( distinct.isEnabled( ) && !distinct.getSelection( ) ) )
 			{
 				boolean change = makeUniqueAndValid( );
 				if ( change )
@@ -2626,10 +2625,44 @@ public class ParameterDialog extends BaseDialog
 
 	private void clearArea( Composite area )
 	{
+		saveTmpDefaultValue( );
+
 		Control[] children = area.getChildren( );
 		for ( int i = 0; i < children.length; i++ )
 		{
 			children[i].dispose( );
+		}
+	}
+
+	private void saveTmpDefaultValue( )
+	{
+		if ( defaultValueChooser != null
+				&& ( !defaultValueChooser.isDisposed( ) ) )
+		{
+
+			if ( textRadio != null
+					&& ( !textRadio.isDisposed( ) )
+					&& textRadio.getSelection( ) )
+			{
+				changeDefaultValue( defaultValueChooser.getText( ) );
+			}
+			else if ( blankRadio != null
+					&& ( !blankRadio.isDisposed( ) )
+					&& blankRadio.getSelection( ) )
+			{
+				changeDefaultValue( "" );
+			}
+			else if ( nullRadio != null
+					&& ( !nullRadio.isDisposed( ) )
+					&& nullRadio.getSelection( ) )
+			{
+				changeDefaultValue( null );
+			}
+			else
+			{
+				changeDefaultValue( defaultValueChooser.getText( ) );
+			}
+
 		}
 	}
 
@@ -3025,7 +3058,7 @@ public class ParameterDialog extends BaseDialog
 		}
 		else
 		{
-			if(formatCategroy == null)
+			if ( formatCategroy == null )
 			{
 				return;
 			}
