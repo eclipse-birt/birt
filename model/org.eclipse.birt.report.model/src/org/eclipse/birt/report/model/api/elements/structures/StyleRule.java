@@ -149,7 +149,23 @@ public abstract class StyleRule extends PropertyStructure
 		if ( OPERATOR_MEMBER.equals( propName ) )
 			operator = (String) value;
 		else if ( VALUE1_MEMBER.equals( propName ) )
-			value1 = (List) value;
+		{
+			if ( value == null )
+			{
+				value1 = null;
+				return;
+			}
+
+			if ( value instanceof List )
+			{
+				value1 = (List) value;
+			}
+			else
+			{
+				value1 = new ArrayList( );
+				value1.add( value );
+			}
+		}
 		else if ( VALUE2_MEMBER.equals( propName ) )
 			value2 = (String) value;
 		else if ( TEST_EXPR_MEMBER.equals( propName ) )
@@ -256,7 +272,7 @@ public abstract class StyleRule extends PropertyStructure
 	 */
 
 	public void setValue1( String value )
-	{	
+	{
 		if ( value == null )
 		{
 			setProperty( VALUE1_MEMBER, null );

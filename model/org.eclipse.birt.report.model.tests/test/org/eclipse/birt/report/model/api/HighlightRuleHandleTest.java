@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
+import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
 import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.ReferenceableElement;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
@@ -267,6 +268,9 @@ public class HighlightRuleHandleTest extends BaseTestCase
 		ruleHandle.setTestExpression( "expr" );//$NON-NLS-1$
 		
 		HighlightRule rule2 = StructureFactory.createHighlightRule( );
+		
+		rule2.setProperty( StyleRule.VALUE1_MEMBER , "C" );//$NON-NLS-1$
+		
 		List values2 = new ArrayList( );
 		values2.add( "a" );//$NON-NLS-1$
 		values2.add( "b" );//$NON-NLS-1$
