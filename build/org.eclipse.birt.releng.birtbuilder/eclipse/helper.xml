@@ -796,7 +796,7 @@ Have a nice day!
         </java>
 	-->
     	<move file="${test.dir}/unitTestReport/html/result.properties" 
-    		tofile="${postingDirectory}/result.properties"/>
+    		tofile="${postingDirectory}/${package.version}/result.properties"/>
     </target>
 	
 	<target name="InformAutomation">
