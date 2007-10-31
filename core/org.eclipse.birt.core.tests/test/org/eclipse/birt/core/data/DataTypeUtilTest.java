@@ -403,30 +403,58 @@ public class DataTypeUtilTest extends TestCase
 		}
 	}
 	
+	/**
+	 * 
+	 * @throws BirtException
+	 */
 	public void testToSqlTime( ) throws BirtException
 	{
-		Time time = DataTypeUtil.toSqlTime( "12:11:25" );
-		Calendar cal = Calendar.getInstance( );
-		cal.clear( );
-		cal.set( 0, 0, 0, 12,11,25 );
-		Time temp = new Time(cal.getTime( ).getTime( ));
+		Time temp = getTime( 11,11,25 );
+		Time time = DataTypeUtil.toSqlTime( "11:11:25" );
+		assertEquals ( time.toString( ), temp.toString( ) );
+		time = DataTypeUtil.toSqlTime( "11:11:25 am" );
+		assertEquals ( time.toString( ), temp.toString( ) );
+		time = DataTypeUtil.toSqlTime( "11:11:25am" );
 		assertEquals ( time.toString( ), temp.toString( ) );
 		
+		temp = getTime( 18,11,25 );
 		time = DataTypeUtil.toSqlTime( "18:11:25" );
-		cal = Calendar.getInstance( );
-		cal.clear( );
-		cal.set( 0, 0, 0, 18,11,25 );
-		temp = new Time(cal.getTime( ).getTime( ));
 		assertEquals ( time.toString( ), temp.toString( ) );
+		time = DataTypeUtil.toSqlTime( "6:11:25 pm" );
+		assertEquals ( time, temp );
+		time = DataTypeUtil.toSqlTime( "6:11:25pm" );
+		assertEquals ( time, temp );
+		failSqlTimeString( "99dfa-2-11" );
+		failSqlTimeString( "18:11:25 pm" );
+		failSqlTimeString( "18:11:25 am" );
+		failSqlTimeString( "1:11:25 pmm" );
+		failSqlTimeString( "1:11:65 am" );
+		failSqlTimeString( "1:61:25 pm" );
+	}
+	
+	private Time getTime( int hour, int minute, int second )
+	{
+		Calendar calendar = Calendar.getInstance( );
+		calendar.clear( );
+		calendar.set( Calendar.HOUR_OF_DAY, hour );
+		calendar.set( Calendar.MINUTE, minute );
+		calendar.set( Calendar.SECOND, second );
+		return new java.sql.Time( calendar.getTimeInMillis( ) );
+	}
+	
+	/**
+	 * 
+	 * @param value
+	 */
+	private void failSqlTimeString( String value )
+	{
 		try
 		{
-			DataTypeUtil.toSqlTime( "99dfa-2-11" );
+			DataTypeUtil.toSqlTime( value );
 			fail("Should not arrive here");
 		}
 		catch ( BirtException e )
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		{	
 		}
 	}
 	

@@ -455,7 +455,7 @@ public final class DataTypeUtil
             {
                 try
                 {
-                	return Time.valueOf( (String)source );
+                	return toSqlTime( (String)source );
                 }
                 catch ( Exception e1 )
                 {
@@ -471,6 +471,103 @@ public final class DataTypeUtil
                     } );
     }
 
+    /**
+     * 
+     * @param value
+     * @return
+     */
+    private static Time toSqlTime( String s )
+    {
+		int hour;
+		int addHour;
+		int minute;
+		int second;
+		int firstColon;
+		int secondColon;
+		int marker;
+		
+		if ( s == null )
+			throw new java.lang.IllegalArgumentException( );
+
+		firstColon = s.indexOf( ':' );
+		secondColon = s.indexOf( ':', firstColon + 1 );
+		for ( marker = secondColon + 1; marker < s.length( ); marker++ )
+		{
+			if ( !isDigitTen( s.charAt( marker ) ) )
+				break;
+		}
+		addHour = 0;
+		String markerValue = null;
+		if ( marker < s.length( ) )
+		{
+			markerValue = s.substring( marker ).trim( );
+			if ( "am".compareToIgnoreCase( markerValue ) == 0 ) //$NON-NLS-1$
+			{
+				addHour = 0;
+			}
+			else if ( "pm".compareToIgnoreCase( markerValue ) == 0 ) //$NON-NLS-1$
+			{
+				addHour = 12;
+			}
+			else
+			{
+				throw new java.lang.IllegalArgumentException( );
+			}
+		}
+		if ( firstColon <= 0  ||
+				secondColon <= 0 || secondColon >= s.length( ) - 1 )
+		{
+			throw new java.lang.IllegalArgumentException( );
+		}
+		hour = Integer.parseInt( s.substring( 0, firstColon ) );
+		if ( hour < 0 ||
+				( hour > 12 && markerValue != null && markerValue.length( ) > 0 ) )
+			throw new java.lang.IllegalArgumentException( );
+		hour += addHour;
+		if( hour > 24 )
+			throw new java.lang.IllegalArgumentException( );
+		minute = Integer.parseInt( s.substring( firstColon + 1, secondColon ) );
+		if( minute < 0 || minute > 60 )
+			throw new java.lang.IllegalArgumentException( );
+		if ( marker < s.length( ) )
+			second = Integer.parseInt( s.substring( secondColon + 1, marker ) );
+		else
+			second = Integer.parseInt( s.substring( secondColon + 1 ) );
+		if( second < 0 || second > 60 )
+			throw new java.lang.IllegalArgumentException( );
+		
+		return toSqlTime( hour, minute, second );
+	}
+    
+    /**
+     * 
+     * @param c
+     * @return
+     */
+    private static boolean isDigitTen( char c )
+	{
+		if ( c <= '9' && c >= '0' )
+			return true;
+		return false;
+	}
+    
+    /**
+     * 
+     * @param hour
+     * @param minute
+     * @param second
+     * @return
+     */
+    private static Time toSqlTime( int hour, int minute, int second )
+    {
+    	Calendar calendar = Calendar.getInstance( );
+		calendar.clear( );
+		calendar.set( Calendar.HOUR_OF_DAY, hour );
+		calendar.set( Calendar.MINUTE, minute );
+		calendar.set( Calendar.SECOND, second );
+		return new java.sql.Time( calendar.getTimeInMillis( ) );
+    }
+    
     /**
      * 
      * @param date
