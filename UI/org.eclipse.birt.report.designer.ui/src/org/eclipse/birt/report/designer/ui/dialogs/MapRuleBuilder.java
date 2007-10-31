@@ -33,6 +33,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.MapHandleProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
@@ -108,7 +109,7 @@ public class MapRuleBuilder extends BaseDialog
 	{
 		IChoiceSet chset = ChoiceSetFactory.getStructChoiceSet( MapRule.STRUCTURE_NAME,
 				MapRule.OPERATOR_MEMBER );
-		IChoice[] chs = chset.getChoices( );
+		IChoice[] chs = chset.getChoices( new AlphabeticallyComparator( ) );
 		OPERATOR = new String[chs.length][2];
 
 		for ( int i = 0; i < chs.length; i++ )
@@ -394,29 +395,7 @@ public class MapRuleBuilder extends BaseDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				String value = getValueForOperator( operator.getText( ) );
-
-				int vv = determineValueVisible( value );
-
-				if ( vv == 0 )
-				{
-					expressionValue1.setVisible( false );
-					expressionValue2.setVisible( false );
-					andLable.setVisible( false );
-				}
-				else if ( vv == 1 )
-				{
-					expressionValue1.setVisible( true );
-					expressionValue2.setVisible( false );
-					andLable.setVisible( false );
-				}
-				else if ( vv == 2 )
-				{
-					expressionValue1.setVisible( true );
-					expressionValue2.setVisible( true );
-					andLable.setVisible( true );
-				}
-				updateButtons( );
+				update2ValueStatus();
 			}
 		} );
 
@@ -482,16 +461,42 @@ public class MapRuleBuilder extends BaseDialog
 		if ( handle != null )
 		{
 			syncViewProperties( );
+		}else
+		{
+			update2ValueStatus( );
 		}
-		
-
-		
 		
 		updateButtons( );
 
 		return composite;
 	}
 	
+	private void update2ValueStatus()
+	{
+		String value = getValueForOperator( operator.getText( ) );
+
+		int vv = determineValueVisible( value );
+
+		if ( vv == 0 )
+		{
+			expressionValue1.setVisible( false );
+			expressionValue2.setVisible( false );
+			andLable.setVisible( false );
+		}
+		else if ( vv == 1 )
+		{
+			expressionValue1.setVisible( true );
+			expressionValue2.setVisible( false );
+			andLable.setVisible( false );
+		}
+		else if ( vv == 2 )
+		{
+			expressionValue1.setVisible( true );
+			expressionValue2.setVisible( true );
+			andLable.setVisible( true );
+		}
+		updateButtons( );
+	}
 	
 	private Listener textModifyListener = new Listener( ) {
 
@@ -910,6 +915,7 @@ public class MapRuleBuilder extends BaseDialog
 		operator.setEnabled( val );
 		expressionValue1.setEnabled( val );
 		expressionValue2.setEnabled( val );
+		andLable.setEnabled( val );
 		display.setEnabled( val );
 	}
 

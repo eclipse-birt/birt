@@ -126,7 +126,7 @@ public class HighlightRuleBuilder extends BaseDialog
 	{
 		IChoiceSet chset = ChoiceSetFactory.getStructChoiceSet( HighlightRule.STRUCTURE_NAME,
 				HighlightRule.OPERATOR_MEMBER );
-		IChoice[] chs = chset.getChoices( );
+		IChoice[] chs = chset.getChoices( new AlphabeticallyComparator( ) );
 		OPERATOR = new String[chs.length][2];
 
 		for ( int i = 0; i < chs.length; i++ )
@@ -302,7 +302,6 @@ public class HighlightRuleBuilder extends BaseDialog
 		currentItem = reportItem;
 	}
 
-	
 	protected SelectionListener expSelListener = new SelectionAdapter( ) {
 
 		public void widgetSelected( SelectionEvent e )
@@ -324,7 +323,7 @@ public class HighlightRuleBuilder extends BaseDialog
 			updateButtons( );
 		}
 	};
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -407,29 +406,7 @@ public class HighlightRuleBuilder extends BaseDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				String value = getValueForOperator( operator.getText( ) );
-
-				int vv = determineValueVisible( value );
-
-				if ( vv == 0 )
-				{
-					expressionValue1.setVisible( false );
-					expressionValue2.setVisible( false );
-					andLable.setVisible( false );
-				}
-				else if ( vv == 1 )
-				{
-					expressionValue1.setVisible( true );
-					expressionValue2.setVisible( false );
-					andLable.setVisible( false );
-				}
-				else if ( vv == 2 )
-				{
-					expressionValue1.setVisible( true );
-					expressionValue2.setVisible( true );
-					andLable.setVisible( true );
-				}
-				updateButtons( );
+				update2ValueStatus( );
 			}
 		} );
 
@@ -661,12 +638,47 @@ public class HighlightRuleBuilder extends BaseDialog
 		lb = new Label( innerParent, SWT.SEPARATOR | SWT.HORIZONTAL );
 		lb.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		syncViewProperties( );
+		if ( handle != null )
+		{
+			syncViewProperties( );
+		}
+		else
+		{
+			update2ValueStatus( );
+		}
+
 		updatePreview( );
 
 		updateButtons( );
 
 		return composite;
+	}
+
+	private void update2ValueStatus( )
+	{
+		String value = getValueForOperator( operator.getText( ) );
+
+		int vv = determineValueVisible( value );
+
+		if ( vv == 0 )
+		{
+			expressionValue1.setVisible( false );
+			expressionValue2.setVisible( false );
+			andLable.setVisible( false );
+		}
+		else if ( vv == 1 )
+		{
+			expressionValue1.setVisible( true );
+			expressionValue2.setVisible( false );
+			andLable.setVisible( false );
+		}
+		else if ( vv == 2 )
+		{
+			expressionValue1.setVisible( true );
+			expressionValue2.setVisible( true );
+			andLable.setVisible( true );
+		}
+		updateButtons( );
 	}
 
 	protected Object getResultSetColumn( String name )
@@ -760,7 +772,7 @@ public class HighlightRuleBuilder extends BaseDialog
 	{
 
 		int selectionIndex = comboWidget.getSelectionIndex( );
-		if(selectionIndex < 0)
+		if ( selectionIndex < 0 )
 		{
 			return;
 		}
@@ -1211,6 +1223,7 @@ public class HighlightRuleBuilder extends BaseDialog
 		operator.setEnabled( val );
 		expressionValue1.setEnabled( val );
 		expressionValue2.setEnabled( val );
+		andLable.setEnabled( val );
 	}
 
 	/**
