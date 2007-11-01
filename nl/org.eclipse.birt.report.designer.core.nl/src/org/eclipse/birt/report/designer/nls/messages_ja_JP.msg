@@ -744,6 +744,8 @@ designer.preview.previewaction.label.webviewer=Web ビューアでレポートを表示する
 designer.preview.previewaction.label=レポートを {0} として表示する
 designer.preview.previewaction.ErrorMessage=iText がインストールされていないか見つからないため、PDF の生成は有効になっていません。
 designer.preview.previewaction.ErrorMessage.title=警告
+designer.preview.run.webviewer=In Web Viewer
+designer.preview.run=As {0}
 
 ###########################################################
 #DesignerActionBarContributor properties
@@ -1995,11 +1997,15 @@ JSDocumentProvider.document.newName=コンテンツの新規作成
 
 JSEditor.cmb.NewEventFunction=イベント関数の新規作成...
 JSEditor.Label.Script=スクリプト : 
+JSEditor.Button.Validate=Validate Script
 JSEditor.Button.Reset=スクリプトのリセット
 JSEditor.Display.DefaultText=//JS スクリプトエディタ \n
 JSEditor.Display.NoExpression=この要素にはメソッドがありません。
 JSEditor.Input.trial=試用
 JSEditor.Text.NoText=No text
+JSEditor.Validate.Title=Validation
+JSEditor.Validate.NoError=No syntax error was found in the current script.
+
 
 ###########################################################
 #label properties

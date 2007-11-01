@@ -744,6 +744,8 @@ designer.preview.previewaction.label.webviewer=在 Web 查看器中查看报表
 designer.preview.previewaction.label=以 {0} 格式查看报表
 designer.preview.previewaction.ErrorMessage=由于未安装或未找到 iText，不支持 PDF 生成。
 designer.preview.previewaction.ErrorMessage.title=警告
+designer.preview.run.webviewer=In Web Viewer
+designer.preview.run=As {0}
 
 ###########################################################
 #DesignerActionBarContributor properties
@@ -1995,11 +1997,15 @@ JSDocumentProvider.document.newName=新内容
 
 JSEditor.cmb.NewEventFunction=新建事件函数...
 JSEditor.Label.Script=脚本: 
+JSEditor.Button.Validate=Validate Script
 JSEditor.Button.Reset=重置脚本
 JSEditor.Display.DefaultText=//JS 脚本编辑器 \n
 JSEditor.Display.NoExpression=此元素无方法。
 JSEditor.Input.trial=试用版
 JSEditor.Text.NoText=No text
+JSEditor.Validate.Title=Validation
+JSEditor.Validate.NoError=No syntax error was found in the current script.
+
 
 ###########################################################
 #label properties

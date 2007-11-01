@@ -744,6 +744,8 @@ designer.preview.previewaction.label.webviewer=Ver informe en Web Viewer
 designer.preview.previewaction.label=Ver informe como {0}
 designer.preview.previewaction.ErrorMessage=La generación de PDF no está activada ya que no se encuentra iText o no está instalado.
 designer.preview.previewaction.ErrorMessage.title=Advertencia
+designer.preview.run.webviewer=In Web Viewer
+designer.preview.run=As {0}
 
 ###########################################################
 #DesignerActionBarContributor properties
@@ -1995,11 +1997,15 @@ JSDocumentProvider.document.newName=Nuevo contenido
 
 JSEditor.cmb.NewEventFunction=Función del nuevo evento...
 JSEditor.Label.Script=Script: 
+JSEditor.Button.Validate=Validate Script
 JSEditor.Button.Reset=Restablecer script
 JSEditor.Display.DefaultText=//Editor de script JS\n
 JSEditor.Display.NoExpression=Este elemento no tiene métodos.
 JSEditor.Input.trial=prueba
 JSEditor.Text.NoText=No text
+JSEditor.Validate.Title=Validation
+JSEditor.Validate.NoError=No syntax error was found in the current script.
+
 
 ###########################################################
 #label properties

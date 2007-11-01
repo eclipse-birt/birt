@@ -744,6 +744,8 @@ designer.preview.previewaction.label.webviewer=웹 뷰어에서 보고서 보기
 designer.preview.previewaction.label={0}(으)로 보고서 보기
 designer.preview.previewaction.ErrorMessage=iText가 설치되지 않았거나 찾을 수 없어서 PDF 생성 기능을 사용할 수 없습니다.
 designer.preview.previewaction.ErrorMessage.title=경고
+designer.preview.run.webviewer=In Web Viewer
+designer.preview.run=As {0}
 
 ###########################################################
 #DesignerActionBarContributor properties
@@ -1995,11 +1997,15 @@ JSDocumentProvider.document.newName=새 내용
 
 JSEditor.cmb.NewEventFunction=새 이벤트 함수...
 JSEditor.Label.Script=스크립트: 
+JSEditor.Button.Validate=Validate Script
 JSEditor.Button.Reset=스크립트 재설정
 JSEditor.Display.DefaultText=//JS 스크립트 편집기 \n
 JSEditor.Display.NoExpression=이 요소에 메소드가 없습니다.
 JSEditor.Input.trial=시도
 JSEditor.Text.NoText=No text
+JSEditor.Validate.Title=Validation
+JSEditor.Validate.NoError=No syntax error was found in the current script.
+
 
 ###########################################################
 #label properties

@@ -744,6 +744,8 @@ designer.preview.previewaction.label.webviewer=Bericht in Web Viewer anzeigen
 designer.preview.previewaction.label=Bericht als {0} anzeigen
 designer.preview.previewaction.ErrorMessage=Die PDF-Erzeugung ist nicht aktiviert, da iText weder installiert ist noch gefunden wurde.
 designer.preview.previewaction.ErrorMessage.title=Warnung
+designer.preview.run.webviewer=In Web Viewer
+designer.preview.run=As {0}
 
 ###########################################################
 #DesignerActionBarContributor properties
@@ -1995,11 +1997,15 @@ JSDocumentProvider.document.newName=Neuer Inhalt
 
 JSEditor.cmb.NewEventFunction=Neue Ereignisfunktion...
 JSEditor.Label.Script=Skript: 
+JSEditor.Button.Validate=Validate Script
 JSEditor.Button.Reset=Skript zurücksetzen
 JSEditor.Display.DefaultText=//JS Script-Editor \n
 JSEditor.Display.NoExpression=Dieses Element verfügt über keine Methoden.
 JSEditor.Input.trial=Test
 JSEditor.Text.NoText=No text
+JSEditor.Validate.Title=Validation
+JSEditor.Validate.NoError=No syntax error was found in the current script.
+
 
 ###########################################################
 #label properties
