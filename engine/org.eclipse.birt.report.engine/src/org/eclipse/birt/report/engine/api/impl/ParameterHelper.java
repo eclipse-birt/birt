@@ -129,7 +129,7 @@ public class ParameterHelper
 			throws BirtException
 	{
 		Object value = resultIterator.getString( valueColumnName );
-		return EngineTask.convertToType( value, valueType );
+		return EngineTask.convertParameterType( value, valueType );
 	}
 	
 	public static void addParameterBinding( QueryDefinition queryDefn,
