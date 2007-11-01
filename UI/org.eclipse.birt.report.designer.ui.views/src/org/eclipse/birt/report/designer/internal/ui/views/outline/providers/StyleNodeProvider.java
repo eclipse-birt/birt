@@ -20,6 +20,7 @@ import org.eclipse.birt.report.designer.ui.dialogs.StyleBuilder;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -46,7 +47,7 @@ public class StyleNodeProvider extends DefaultNodeProvider
 			IMenuManager menu )
 	{
 		Object parent = getParent( object );
-		if(parent != null)
+		if ( parent != null )
 		{
 			menu.add( new InsertAction( parent,
 					Messages.getString( "StyleNodeProvider.action.New" ) ) ); //$NON-NLS-1$
@@ -79,7 +80,11 @@ public class StyleNodeProvider extends DefaultNodeProvider
 
 		StyleBuilder builder = new StyleBuilder( PlatformUI.getWorkbench( )
 				.getDisplay( )
-				.getActiveShell( ), handle, StyleBuilder.DLG_TITLE_EDIT );
+				.getActiveShell( ),
+				handle,
+				handle.getContainer( ) instanceof ThemeHandle ? (ThemeHandle) handle.getContainer( )
+						: null,
+				StyleBuilder.DLG_TITLE_EDIT );
 		return builder.open( ) == Window.OK;
 	}
 
