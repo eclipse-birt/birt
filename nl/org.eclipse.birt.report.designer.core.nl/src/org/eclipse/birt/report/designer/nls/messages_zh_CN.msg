@@ -55,7 +55,7 @@ DeleteLibraryAction.Text=删除
 
 ###########################################################
 #LibraryFileFilterAction properties
-LibraryFileFilterAction.Text=Filter...
+LibraryFileFilterAction.Text=筛选...
 
 ###########################################################
 #AddStyleRuleAction properties
@@ -1036,7 +1036,7 @@ Element.Parameter.helpText=帮助文本:
 Element.Parameter.helpTextID=帮助文本关键字
 Element.Parameter.hidden=隐藏:
 Element.ParameterGroup.helpText=帮助文本:
-Element.ParameterGroup.helpTextID=Help text key:
+Element.ParameterGroup.helpTextID=帮助文本关键字:
 Element.ParameterGroup.slot.parameters=参数:
 Element.ParameterGroup.startExpanded=开始展开:
 Element.ReportDesign.afterCloseDoc.toolTip=仅在生成阶段关闭报表文档文件之后调用。
@@ -1103,7 +1103,7 @@ Element.ScalarParameter.selectionList.fixedOrder=固定顺序:
 Element.ScalarParameter.selectionList.mustMatch=必须匹配:
 Element.ScalarParameter.selectionList.selectionList=选择列表:
 Element.ScalarParameter.selectionList=选择列表:
-Element.ScalarParameter.promptTextID=Prompt &text key:
+Element.ScalarParameter.promptTextID=提示文本关键字(&T):
 Element.ScriptDataSet.close.toolTip=关闭数据集。
 Element.ScriptDataSet.close=关闭:
 Element.ScriptDataSet.describe.toolTip=说明结果集。
@@ -2396,14 +2396,14 @@ NewResourceFileDialog.ErrorMessageInvalid=文件名无效
 ProjectFileDialog.ErrorMessage=文件必须是文件，而不是目录。
 ProjectFileDialog.Title=选择项目文件
 ProjectFileDialog.Message=选择当前项目中的文件。
-ProjectFileDialog.Text.Menu=menu
+ProjectFileDialog.Text.Menu=菜单
 
 ###########################################################
 #ResourceFilterDialog properties
 
-ResourceFilterDialog.Title=Report Elements Filter
-ResourceFilterDialog.Lable.Description=Filter description:
-ResourceFilterDialog.Lable.Viewer=Select the elements to exclude from the view:
+ResourceFilterDialog.Title=报表元素筛选器
+ResourceFilterDialog.Lable.Description=筛选器描述:
+ResourceFilterDialog.Lable.Viewer=选择要从视图中排除的元素:
 
 ###########################################################
 #NewSectionDialog properties
@@ -3148,13 +3148,13 @@ SetConstraintCommand.transLabel.setConstraint=设置约束
 ###########################################################
 #ProjectFilterAction properties
 
-ProjectFilterAction.text=Filter...
+ProjectFilterAction.text=筛选...
 
 ###########################################################
 #ResourceFileFolderSelectionAction properties
 
-ResourceFileFolderSelectionAction.text=Filter...
-ResourceFileFolderSelectionDialog.Text.Menu=menu
+ResourceFileFolderSelectionAction.text=筛选...
+ResourceFileFolderSelectionDialog.Text.Menu=菜单
 
 ###########################################################
 #ShowPropertyAction properties
@@ -3866,12 +3866,12 @@ PathResourceEntry.RootDisplayName=共享库
 
 ###########################################################
 #ResourceFilter properties
-ResourceFilter.DisplayName.CVS=CVS resources
-ResourceFilter.DisplayName.Dot=.* resources
-ResourceFilter.DisplayName.EmptyFolder=Empty folders
-ResourceFilter.Description.CVS=Hides resources with names that start with \"CVS\"
-ResourceFilter.Description.Dot=Hides resources with names that start with a '.'
-ResourceFilter.Description.EmptyFolder=Hides empty folders
+ResourceFilter.DisplayName.CVS=CVS 资源
+ResourceFilter.DisplayName.Dot=.* 资源
+ResourceFilter.DisplayName.EmptyFolder=空文件夹
+ResourceFilter.Description.CVS=隐藏其名称以 \"CVS\" 开头的资源
+ResourceFilter.Description.Dot=隐藏其名称以 '.' 开头的资源
+ResourceFilter.Description.EmptyFolder=隐藏空文件夹
 
 ###########################################################
 #BIRTGotoMarker properties
@@ -3983,7 +3983,7 @@ FormatDateTimePattern.datetiem_format_type_day_of_month=月中第几天
 FormatDateTimePattern.datetiem_format_type_medium_day_of_year=中等格式年中第几天
 FormatDateTimePattern.datetiem_format_type_minutes=分钟
 FormatDateTimePattern.datetiem_format_type_secontds=秒
-FormatDateTimePattern.datetiem_format_type_general_time=General Time
+FormatDateTimePattern.datetiem_format_type_general_time=常规时间
 
 ReportExamples.ContributeSamples.description=Please submit a bugzilla entry at {0}Submit a Bug to BIRT{1}.\nAttach the report design file and the screen shot of report output.\n\n Note: The screen shot should be:\n  1. In *.png image format;\n  2. 800*600 resolution;\n  3. No larger than 250 KB.
 ReportExamples.ContributeSamples.title=提供示例

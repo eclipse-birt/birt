@@ -55,7 +55,7 @@ DeleteLibraryAction.Text=삭제
 
 ###########################################################
 #LibraryFileFilterAction properties
-LibraryFileFilterAction.Text=Filter...
+LibraryFileFilterAction.Text=필터...
 
 ###########################################################
 #AddStyleRuleAction properties
@@ -1036,7 +1036,7 @@ Element.Parameter.helpText=도움말 텍스트:
 Element.Parameter.helpTextID=도움말 텍스트 키
 Element.Parameter.hidden=숨김:
 Element.ParameterGroup.helpText=도움말 텍스트:
-Element.ParameterGroup.helpTextID=Help text key:
+Element.ParameterGroup.helpTextID=도움말 텍스트 키:
 Element.ParameterGroup.slot.parameters=매개 변수:
 Element.ParameterGroup.startExpanded=시작 확장됨:
 Element.ReportDesign.afterCloseDoc.toolTip=생성 단계에서 보고서 문서 파일을 닫은 직후 호출됩니다.
@@ -1103,7 +1103,7 @@ Element.ScalarParameter.selectionList.fixedOrder=고정된 순서:
 Element.ScalarParameter.selectionList.mustMatch=일치해야 함:
 Element.ScalarParameter.selectionList.selectionList=선택 목록:
 Element.ScalarParameter.selectionList=선택 목록:
-Element.ScalarParameter.promptTextID=Prompt &text key:
+Element.ScalarParameter.promptTextID=프롬프트 텍스트 키(&T):
 Element.ScriptDataSet.close.toolTip=데이터 집합을 닫습니다.
 Element.ScriptDataSet.close=닫기:
 Element.ScriptDataSet.describe.toolTip=결과 집합을 설명합니다.
@@ -2396,14 +2396,14 @@ NewResourceFileDialog.ErrorMessageInvalid=잘못된 파일 이름
 ProjectFileDialog.ErrorMessage=파일은 디렉터리가 아닌 파일이어야 합니다.
 ProjectFileDialog.Title=프로젝트 파일 선택
 ProjectFileDialog.Message=현재 프로젝트에서 파일을 선택합니다.
-ProjectFileDialog.Text.Menu=menu
+ProjectFileDialog.Text.Menu=메뉴
 
 ###########################################################
 #ResourceFilterDialog properties
 
-ResourceFilterDialog.Title=Report Elements Filter
-ResourceFilterDialog.Lable.Description=Filter description:
-ResourceFilterDialog.Lable.Viewer=Select the elements to exclude from the view:
+ResourceFilterDialog.Title=보고서 요소 필터
+ResourceFilterDialog.Lable.Description=필터 설명:
+ResourceFilterDialog.Lable.Viewer=보기에서 제외할 요소를 선택합니다.
 
 ###########################################################
 #NewSectionDialog properties
@@ -3148,13 +3148,13 @@ SetConstraintCommand.transLabel.setConstraint=제약 조건 설정
 ###########################################################
 #ProjectFilterAction properties
 
-ProjectFilterAction.text=Filter...
+ProjectFilterAction.text=필터...
 
 ###########################################################
 #ResourceFileFolderSelectionAction properties
 
-ResourceFileFolderSelectionAction.text=Filter...
-ResourceFileFolderSelectionDialog.Text.Menu=menu
+ResourceFileFolderSelectionAction.text=필터...
+ResourceFileFolderSelectionDialog.Text.Menu=메뉴
 
 ###########################################################
 #ShowPropertyAction properties
@@ -3866,12 +3866,12 @@ PathResourceEntry.RootDisplayName=공유 라이브러리
 
 ###########################################################
 #ResourceFilter properties
-ResourceFilter.DisplayName.CVS=CVS resources
-ResourceFilter.DisplayName.Dot=.* resources
-ResourceFilter.DisplayName.EmptyFolder=Empty folders
-ResourceFilter.Description.CVS=Hides resources with names that start with \"CVS\"
-ResourceFilter.Description.Dot=Hides resources with names that start with a '.'
-ResourceFilter.Description.EmptyFolder=Hides empty folders
+ResourceFilter.DisplayName.CVS=CVS 리소스
+ResourceFilter.DisplayName.Dot=.* 리소스
+ResourceFilter.DisplayName.EmptyFolder=비어 있는 폴더
+ResourceFilter.Description.CVS=\"CVS\"로 시작하는 이름을 가진 리소스를 숨깁니다.
+ResourceFilter.Description.Dot='.'로 시작하는 이름을 가진 리소스를 숨깁니다.
+ResourceFilter.Description.EmptyFolder=비어 있는 폴더를 숨깁니다.
 
 ###########################################################
 #BIRTGotoMarker properties
@@ -3983,7 +3983,7 @@ FormatDateTimePattern.datetiem_format_type_day_of_month=월 일
 FormatDateTimePattern.datetiem_format_type_medium_day_of_year=월 일 연도
 FormatDateTimePattern.datetiem_format_type_minutes=분
 FormatDateTimePattern.datetiem_format_type_secontds=초
-FormatDateTimePattern.datetiem_format_type_general_time=General Time
+FormatDateTimePattern.datetiem_format_type_general_time=일반 시간
 
 ReportExamples.ContributeSamples.description=Please submit a bugzilla entry at {0}Submit a Bug to BIRT{1}.\nAttach the report design file and the screen shot of report output.\n\n Note: The screen shot should be:\n  1. In *.png image format;\n  2. 800*600 resolution;\n  3. No larger than 250 KB.
 ReportExamples.ContributeSamples.title=기여 예제

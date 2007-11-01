@@ -1036,7 +1036,7 @@ Element.Parameter.helpText=Hilfetext:
 Element.Parameter.helpTextID=Hilfetextschlüssel
 Element.Parameter.hidden=Verborgen:
 Element.ParameterGroup.helpText=Hilfetext:
-Element.ParameterGroup.helpTextID=Help text key:
+Element.ParameterGroup.helpTextID=Hilfetextschlüssel:
 Element.ParameterGroup.slot.parameters=Parameter:
 Element.ParameterGroup.startExpanded=Erweiterte starten:
 Element.ReportDesign.afterCloseDoc.toolTip=Wird direkt nach dem Schließen des Berichtdokuments in der Erstellungsphase aufgerufen.
@@ -1103,7 +1103,7 @@ Element.ScalarParameter.selectionList.fixedOrder=Feste Reihenfolge:
 Element.ScalarParameter.selectionList.mustMatch=Muss übereinstimmen mit:
 Element.ScalarParameter.selectionList.selectionList=Auswahlliste:
 Element.ScalarParameter.selectionList=Auswahlliste:
-Element.ScalarParameter.promptTextID=Prompt &text key:
+Element.ScalarParameter.promptTextID=Aufforderungs&textschlüssel:
 Element.ScriptDataSet.close.toolTip=Schließt den Datensatz.
 Element.ScriptDataSet.close=Schließen:
 Element.ScriptDataSet.describe.toolTip=Beschreibt das Ergebnis.
@@ -2396,14 +2396,14 @@ NewResourceFileDialog.ErrorMessageInvalid=Ungültiger Dateiname
 ProjectFileDialog.ErrorMessage=Datei muss eine Datei sein, kein Verzeichnis.
 ProjectFileDialog.Title=Projektdatei wählen
 ProjectFileDialog.Message=Wählen Sie eine Datei im aktuellen Projekt.
-ProjectFileDialog.Text.Menu=menu
+ProjectFileDialog.Text.Menu=Menü
 
 ###########################################################
 #ResourceFilterDialog properties
 
-ResourceFilterDialog.Title=Report Elements Filter
-ResourceFilterDialog.Lable.Description=Filter description:
-ResourceFilterDialog.Lable.Viewer=Select the elements to exclude from the view:
+ResourceFilterDialog.Title=Filter für Berichtselemente
+ResourceFilterDialog.Lable.Description=Filterbeschreibung:
+ResourceFilterDialog.Lable.Viewer=Wählen Sie die von der Anzeige auszublendenden Elemente aus:
 
 ###########################################################
 #NewSectionDialog properties
@@ -3154,7 +3154,7 @@ ProjectFilterAction.text=Filter...
 #ResourceFileFolderSelectionAction properties
 
 ResourceFileFolderSelectionAction.text=Filter...
-ResourceFileFolderSelectionDialog.Text.Menu=menu
+ResourceFileFolderSelectionDialog.Text.Menu=Menü
 
 ###########################################################
 #ShowPropertyAction properties
@@ -3866,12 +3866,12 @@ PathResourceEntry.RootDisplayName=Gemeinsam genutzte Bibliotheken
 
 ###########################################################
 #ResourceFilter properties
-ResourceFilter.DisplayName.CVS=CVS resources
-ResourceFilter.DisplayName.Dot=.* resources
-ResourceFilter.DisplayName.EmptyFolder=Empty folders
-ResourceFilter.Description.CVS=Hides resources with names that start with \"CVS\"
-ResourceFilter.Description.Dot=Hides resources with names that start with a '.'
-ResourceFilter.Description.EmptyFolder=Hides empty folders
+ResourceFilter.DisplayName.CVS=CVS-Ressourcen
+ResourceFilter.DisplayName.Dot=.* Ressourcen
+ResourceFilter.DisplayName.EmptyFolder=Leere Ordner
+ResourceFilter.Description.CVS=Blendet Ressourcen aus, deren Name mit \"CVS\" beginnt
+ResourceFilter.Description.Dot=Blendet Ressourcen aus, deren Name mit einem '.' beginnt
+ResourceFilter.Description.EmptyFolder=Blendet leere Ordner aus
 
 ###########################################################
 #BIRTGotoMarker properties
@@ -3983,7 +3983,7 @@ FormatDateTimePattern.datetiem_format_type_day_of_month=Tag des Monats
 FormatDateTimePattern.datetiem_format_type_medium_day_of_year=Tag des Jahres (mittel)
 FormatDateTimePattern.datetiem_format_type_minutes=Minuten
 FormatDateTimePattern.datetiem_format_type_secontds=Sekunden
-FormatDateTimePattern.datetiem_format_type_general_time=General Time
+FormatDateTimePattern.datetiem_format_type_general_time=Allgemeine Zeit
 
 ReportExamples.ContributeSamples.description=Please submit a bugzilla entry at {0}Submit a Bug to BIRT{1}.\nAttach the report design file and the screen shot of report output.\n\n Note: The screen shot should be:\n  1. In *.png image format;\n  2. 800*600 resolution;\n  3. No larger than 250 KB.
 ReportExamples.ContributeSamples.title=Beispiele beitragen

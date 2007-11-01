@@ -55,7 +55,7 @@ DeleteLibraryAction.Text=削除
 
 ###########################################################
 #LibraryFileFilterAction properties
-LibraryFileFilterAction.Text=Filter...
+LibraryFileFilterAction.Text=フィルタ...
 
 ###########################################################
 #AddStyleRuleAction properties
@@ -1036,7 +1036,7 @@ Element.Parameter.helpText=ヘルプテキスト :
 Element.Parameter.helpTextID=ヘルプテキストキー
 Element.Parameter.hidden=非表示 :
 Element.ParameterGroup.helpText=ヘルプテキスト :
-Element.ParameterGroup.helpTextID=Help text key:
+Element.ParameterGroup.helpTextID=ヘルプテキストキー :
 Element.ParameterGroup.slot.parameters=パラメタ :
 Element.ParameterGroup.startExpanded=開始時に展開 :
 Element.ReportDesign.afterCloseDoc.toolTip=生成フェーズでレポート文書ファイルを閉じた直後に呼び出されます。
@@ -1103,7 +1103,7 @@ Element.ScalarParameter.selectionList.fixedOrder=固定順序 :
 Element.ScalarParameter.selectionList.mustMatch=必ず一致 :
 Element.ScalarParameter.selectionList.selectionList=選択リスト :
 Element.ScalarParameter.selectionList=選択リスト :
-Element.ScalarParameter.promptTextID=Prompt &text key:
+Element.ScalarParameter.promptTextID=プロンプトテキストキー (&T):
 Element.ScriptDataSet.close.toolTip=データセットを閉じます。
 Element.ScriptDataSet.close=閉じる :
 Element.ScriptDataSet.describe.toolTip=結果セットを記述します。
@@ -2396,14 +2396,14 @@ NewResourceFileDialog.ErrorMessageInvalid=ファイル名が無効です。
 ProjectFileDialog.ErrorMessage=ディレクトリではなく、ファイルを指定してください。
 ProjectFileDialog.Title=プロジェクトファイルの選択
 ProjectFileDialog.Message=現在のプロジェクトのファイルを選択してください。
-ProjectFileDialog.Text.Menu=menu
+ProjectFileDialog.Text.Menu=メニュー
 
 ###########################################################
 #ResourceFilterDialog properties
 
-ResourceFilterDialog.Title=Report Elements Filter
-ResourceFilterDialog.Lable.Description=Filter description:
-ResourceFilterDialog.Lable.Viewer=Select the elements to exclude from the view:
+ResourceFilterDialog.Title=レポート要素のフィルタ
+ResourceFilterDialog.Lable.Description=フィルタの説明 :
+ResourceFilterDialog.Lable.Viewer=ビューから除外する要素を選択してください :
 
 ###########################################################
 #NewSectionDialog properties
@@ -3148,13 +3148,13 @@ SetConstraintCommand.transLabel.setConstraint=制約の設定
 ###########################################################
 #ProjectFilterAction properties
 
-ProjectFilterAction.text=Filter...
+ProjectFilterAction.text=フィルタ...
 
 ###########################################################
 #ResourceFileFolderSelectionAction properties
 
-ResourceFileFolderSelectionAction.text=Filter...
-ResourceFileFolderSelectionDialog.Text.Menu=menu
+ResourceFileFolderSelectionAction.text=フィルタ...
+ResourceFileFolderSelectionDialog.Text.Menu=メニュー
 
 ###########################################################
 #ShowPropertyAction properties
@@ -3866,12 +3866,12 @@ PathResourceEntry.RootDisplayName=共有ライブラリ
 
 ###########################################################
 #ResourceFilter properties
-ResourceFilter.DisplayName.CVS=CVS resources
-ResourceFilter.DisplayName.Dot=.* resources
-ResourceFilter.DisplayName.EmptyFolder=Empty folders
-ResourceFilter.Description.CVS=Hides resources with names that start with \"CVS\"
-ResourceFilter.Description.Dot=Hides resources with names that start with a '.'
-ResourceFilter.Description.EmptyFolder=Hides empty folders
+ResourceFilter.DisplayName.CVS=CVS リソース
+ResourceFilter.DisplayName.Dot=.* リソース
+ResourceFilter.DisplayName.EmptyFolder=空のフォルダ
+ResourceFilter.Description.CVS=名前が \"CVS\" から始まるリソースを非表示にする
+ResourceFilter.Description.Dot=名前が次の文字列から始まるリソースを非表示にする
+ResourceFilter.Description.EmptyFolder=空のフォルダを非表示にする
 
 ###########################################################
 #BIRTGotoMarker properties
@@ -3983,7 +3983,7 @@ FormatDateTimePattern.datetiem_format_type_day_of_month=通日 (月)
 FormatDateTimePattern.datetiem_format_type_medium_day_of_year=通日 (年)
 FormatDateTimePattern.datetiem_format_type_minutes=分
 FormatDateTimePattern.datetiem_format_type_secontds=秒
-FormatDateTimePattern.datetiem_format_type_general_time=General Time
+FormatDateTimePattern.datetiem_format_type_general_time=標準時間
 
 ReportExamples.ContributeSamples.description=Please submit a bugzilla entry at {0}Submit a Bug to BIRT{1}.\nAttach the report design file and the screen shot of report output.\n\n Note: The screen shot should be:\n  1. In *.png image format;\n  2. 800*600 resolution;\n  3. No larger than 250 KB.
 ReportExamples.ContributeSamples.title=サンプルの提供

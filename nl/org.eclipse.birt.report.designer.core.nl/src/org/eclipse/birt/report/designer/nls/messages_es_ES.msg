@@ -55,7 +55,7 @@ DeleteLibraryAction.Text=Eliminar
 
 ###########################################################
 #LibraryFileFilterAction properties
-LibraryFileFilterAction.Text=Filter...
+LibraryFileFilterAction.Text=Filtrar...
 
 ###########################################################
 #AddStyleRuleAction properties
@@ -1036,7 +1036,7 @@ Element.Parameter.helpText=Texto de ayuda:
 Element.Parameter.helpTextID=Clave de texto de ayuda
 Element.Parameter.hidden=Oculto:
 Element.ParameterGroup.helpText=Texto de ayuda:
-Element.ParameterGroup.helpTextID=Help text key:
+Element.ParameterGroup.helpTextID=Clave de texto de ayuda:
 Element.ParameterGroup.slot.parameters=Parámetros:
 Element.ParameterGroup.startExpanded=Iniciar expandido:
 Element.ReportDesign.afterCloseDoc.toolTip=Llamado justo después de cerrar el documento de informe en la fase de generación.
@@ -1103,7 +1103,7 @@ Element.ScalarParameter.selectionList.fixedOrder=Orden fijo:
 Element.ScalarParameter.selectionList.mustMatch=Debe coincidir:
 Element.ScalarParameter.selectionList.selectionList=Lista de selección:
 Element.ScalarParameter.selectionList=Lista de selección:
-Element.ScalarParameter.promptTextID=Prompt &text key:
+Element.ScalarParameter.promptTextID=Solicitar &clave de texto:
 Element.ScriptDataSet.close.toolTip=Cierra el conjunto de datos.
 Element.ScriptDataSet.close=Cerrar:
 Element.ScriptDataSet.describe.toolTip=Describe el conjunto de resultados.
@@ -2396,14 +2396,14 @@ NewResourceFileDialog.ErrorMessageInvalid=El nombre de archivo no es válido.
 ProjectFileDialog.ErrorMessage=El archivo debe ser un archivo, no un directorio.
 ProjectFileDialog.Title=Seleccionar archivo de proyecto
 ProjectFileDialog.Message=Seleccione un archivo del proyecto actual.
-ProjectFileDialog.Text.Menu=menu
+ProjectFileDialog.Text.Menu=menú
 
 ###########################################################
 #ResourceFilterDialog properties
 
-ResourceFilterDialog.Title=Report Elements Filter
-ResourceFilterDialog.Lable.Description=Filter description:
-ResourceFilterDialog.Lable.Viewer=Select the elements to exclude from the view:
+ResourceFilterDialog.Title=Filtro de elementos de informe
+ResourceFilterDialog.Lable.Description=Descripción de filtro:
+ResourceFilterDialog.Lable.Viewer=Seleccionar los elementos que se van a excluir de la vista:
 
 ###########################################################
 #NewSectionDialog properties
@@ -3148,13 +3148,13 @@ SetConstraintCommand.transLabel.setConstraint=Establecer restricción
 ###########################################################
 #ProjectFilterAction properties
 
-ProjectFilterAction.text=Filter...
+ProjectFilterAction.text=Filtrar...
 
 ###########################################################
 #ResourceFileFolderSelectionAction properties
 
-ResourceFileFolderSelectionAction.text=Filter...
-ResourceFileFolderSelectionDialog.Text.Menu=menu
+ResourceFileFolderSelectionAction.text=Filtrar...
+ResourceFileFolderSelectionDialog.Text.Menu=menú
 
 ###########################################################
 #ShowPropertyAction properties
@@ -3866,12 +3866,12 @@ PathResourceEntry.RootDisplayName=Librerías compartidas
 
 ###########################################################
 #ResourceFilter properties
-ResourceFilter.DisplayName.CVS=CVS resources
-ResourceFilter.DisplayName.Dot=.* resources
-ResourceFilter.DisplayName.EmptyFolder=Empty folders
-ResourceFilter.Description.CVS=Hides resources with names that start with \"CVS\"
-ResourceFilter.Description.Dot=Hides resources with names that start with a '.'
-ResourceFilter.Description.EmptyFolder=Hides empty folders
+ResourceFilter.DisplayName.CVS=Recursos CVS
+ResourceFilter.DisplayName.Dot=.* recursos
+ResourceFilter.DisplayName.EmptyFolder=Vaciar carpetas
+ResourceFilter.Description.CVS=Oculta recursos con nombres que comienzan por \"CVS\"
+ResourceFilter.Description.Dot=Oculta recursos con nombres que comienzan por "."
+ResourceFilter.Description.EmptyFolder=Oculta carpetas vacías
 
 ###########################################################
 #BIRTGotoMarker properties
@@ -3983,7 +3983,7 @@ FormatDateTimePattern.datetiem_format_type_day_of_month=Día del mes
 FormatDateTimePattern.datetiem_format_type_medium_day_of_year=Día medio del año
 FormatDateTimePattern.datetiem_format_type_minutes=Minutos
 FormatDateTimePattern.datetiem_format_type_secontds=Segundos
-FormatDateTimePattern.datetiem_format_type_general_time=General Time
+FormatDateTimePattern.datetiem_format_type_general_time=Tiempo general
 
 ReportExamples.ContributeSamples.description=Please submit a bugzilla entry at {0}Submit a Bug to BIRT{1}.\nAttach the report design file and the screen shot of report output.\n\n Note: The screen shot should be:\n  1. In *.png image format;\n  2. 800*600 resolution;\n  3. No larger than 250 KB.
 ReportExamples.ContributeSamples.title=Muestras de aportación

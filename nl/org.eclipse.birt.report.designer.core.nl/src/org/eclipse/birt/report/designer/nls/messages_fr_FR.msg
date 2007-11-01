@@ -55,7 +55,7 @@ DeleteLibraryAction.Text=Supprimer
 
 ###########################################################
 #LibraryFileFilterAction properties
-LibraryFileFilterAction.Text=Filter...
+LibraryFileFilterAction.Text=Filtre...
 
 ###########################################################
 #AddStyleRuleAction properties
@@ -1036,7 +1036,7 @@ Element.Parameter.helpText=Texte d'aide :
 Element.Parameter.helpTextID=Clé du texte d'aide
 Element.Parameter.hidden=Masqué :
 Element.ParameterGroup.helpText=Texte d'aide :
-Element.ParameterGroup.helpTextID=Help text key:
+Element.ParameterGroup.helpTextID=Clé du texte d'aide :
 Element.ParameterGroup.slot.parameters=Paramètres :
 Element.ParameterGroup.startExpanded=Lancement développé :
 Element.ReportDesign.afterCloseDoc.toolTip=Commande appelée juste après la fermeture de l'état pendant le processus de génération.
@@ -1103,7 +1103,7 @@ Element.ScalarParameter.selectionList.fixedOrder=Ordre fixe :
 Element.ScalarParameter.selectionList.mustMatch=Doit correspondre :
 Element.ScalarParameter.selectionList.selectionList=Liste de sélection :
 Element.ScalarParameter.selectionList=Liste de sélection :
-Element.ScalarParameter.promptTextID=Prompt &text key:
+Element.ScalarParameter.promptTextID=Clé du &texte de l'invite :
 Element.ScriptDataSet.close.toolTip=Ferme le jeu de données.
 Element.ScriptDataSet.close=Fermer :
 Element.ScriptDataSet.describe.toolTip=Décrit le jeu de résultats.
@@ -2401,9 +2401,9 @@ ProjectFileDialog.Text.Menu=menu
 ###########################################################
 #ResourceFilterDialog properties
 
-ResourceFilterDialog.Title=Report Elements Filter
-ResourceFilterDialog.Lable.Description=Filter description:
-ResourceFilterDialog.Lable.Viewer=Select the elements to exclude from the view:
+ResourceFilterDialog.Title=Filtre des éléments d'état
+ResourceFilterDialog.Lable.Description=Description du filtre :
+ResourceFilterDialog.Lable.Viewer=Sélectionnez les éléments à exclure de la vue :
 
 ###########################################################
 #NewSectionDialog properties
@@ -3148,12 +3148,12 @@ SetConstraintCommand.transLabel.setConstraint=Définir une contrainte
 ###########################################################
 #ProjectFilterAction properties
 
-ProjectFilterAction.text=Filter...
+ProjectFilterAction.text=Filtre...
 
 ###########################################################
 #ResourceFileFolderSelectionAction properties
 
-ResourceFileFolderSelectionAction.text=Filter...
+ResourceFileFolderSelectionAction.text=Filtre...
 ResourceFileFolderSelectionDialog.Text.Menu=menu
 
 ###########################################################
@@ -3866,12 +3866,12 @@ PathResourceEntry.RootDisplayName=Bibliothèques partagées
 
 ###########################################################
 #ResourceFilter properties
-ResourceFilter.DisplayName.CVS=CVS resources
-ResourceFilter.DisplayName.Dot=.* resources
-ResourceFilter.DisplayName.EmptyFolder=Empty folders
-ResourceFilter.Description.CVS=Hides resources with names that start with \"CVS\"
-ResourceFilter.Description.Dot=Hides resources with names that start with a '.'
-ResourceFilter.Description.EmptyFolder=Hides empty folders
+ResourceFilter.DisplayName.CVS=Ressources CVS
+ResourceFilter.DisplayName.Dot=Ressources .*
+ResourceFilter.DisplayName.EmptyFolder=Dossiers vides
+ResourceFilter.Description.CVS=Masque les ressources dont le nom commence par \"CVS\"
+ResourceFilter.Description.Dot=Masque les ressources dont le nom commence par un '.'
+ResourceFilter.Description.EmptyFolder=Masque les dossiers vides
 
 ###########################################################
 #BIRTGotoMarker properties
@@ -3983,7 +3983,7 @@ FormatDateTimePattern.datetiem_format_type_day_of_month=Jour du mois
 FormatDateTimePattern.datetiem_format_type_medium_day_of_year=Jour de l'année moyen
 FormatDateTimePattern.datetiem_format_type_minutes=Minutes
 FormatDateTimePattern.datetiem_format_type_secontds=Secondes
-FormatDateTimePattern.datetiem_format_type_general_time=General Time
+FormatDateTimePattern.datetiem_format_type_general_time=Heure standard
 
 ReportExamples.ContributeSamples.description=Please submit a bugzilla entry at {0}Submit a Bug to BIRT{1}.\nAttach the report design file and the screen shot of report output.\n\n Note: The screen shot should be:\n  1. In *.png image format;\n  2. 800*600 resolution;\n  3. No larger than 250 KB.
 ReportExamples.ContributeSamples.title=Exemples de contribution
