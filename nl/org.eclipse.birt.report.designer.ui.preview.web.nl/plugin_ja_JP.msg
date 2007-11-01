@@ -2,7 +2,7 @@
 # Preview Framework
 ###############################################################################
 designer.preview.previewtoolbarmenuaction.label=レポートの表示
-designer.preview.previewcascadingmenugroup.label=レポートの表示(&R)
+designer.preview.previewcascadingmenugroup.label=Run &Report
 ActionSet.Preview=プレビュー
 
 template.preview=プレビュー(&V)
