@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.script;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -30,6 +31,8 @@ import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewe
 import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlinePage;
 import org.eclipse.birt.report.designer.internal.ui.views.property.ReportPropertySheetPage;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -47,12 +50,10 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.views.palette.PalettePage;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextListener;
 import org.eclipse.jface.text.TextEvent;
-import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -69,6 +70,7 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Font;
@@ -84,13 +86,14 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.editor.IFormPage;
+import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.MultiPageEditorSite;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
-import org.eclipse.ui.texteditor.ITextEditorActionDefinitionIds;
-import org.eclipse.ui.texteditor.StatusTextEditor;
-import org.eclipse.ui.texteditor.TextOperationAction;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 
@@ -99,8 +102,7 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
  * 
  */
 
-public class JSEditor extends StatusTextEditor implements
-		ISelectionChangedListener,
+public class JSEditor extends EditorPart implements
 		IColleague
 {
 	protected static Logger logger = Logger.getLogger( JSEditor.class.getName( ) );
@@ -121,8 +123,6 @@ public class JSEditor extends StatusTextEditor implements
 	 */
 	private boolean settingText = false;
 
-	JSEditorInput editorInput = new JSEditorInput( "" ); //$NON-NLS-1$
-
 	Combo cmbExpList = null;
 
 	Combo cmbSubFunctions = null;
@@ -133,17 +133,21 @@ public class JSEditor extends StatusTextEditor implements
 
 	boolean editorUIEnabled = true;
 
-	private ActionRegistry actionRegistry = null;
-
 	private Button butReset;
+
+	private Button butValidate;
+
+	/** the icon for validator, default hide */
+	private Label validateIcon = null;
+
+	/** the tool bar pane */
+	private Composite controller = null;
 
 	private Label ano;
 
 	private final HashMap selectionMap = new HashMap( );
 
 	private boolean isModified;
-
-	private JSSyntaxContext context = new JSSyntaxContext( );
 
 	private Object editObject;
 
@@ -154,6 +158,12 @@ public class JSEditor extends StatusTextEditor implements
 
 	public ComboViewer cmbSubFunctionsViewer;
 
+	/** the script editor, dosen't include controller. */
+	private final IScriptEditor scriptEditor = createScriptEditor( );
+
+	/** the script validator */
+	private final ScriptValidator scriptValidator = new ScriptValidator( scriptEditor );
+
 	/**
 	 * JSEditor - constructor
 	 */
@@ -161,17 +171,17 @@ public class JSEditor extends StatusTextEditor implements
 	{
 		super( );
 		this.editingDomainEditor = parent;
-		setSourceViewerConfiguration( new JSSourceViewerConfiguration( context ) );
-		// try
-		// {
-		// context.setVariable( IReportGraphicConstants.REPORT_KEY_WORD,
-		// IReportContext.class ); //$NON-NLS-1$
-		// }
-		// catch ( ClassNotFoundException e )
-		// {
-		// }
-		setDocumentProvider( new JSDocumentProvider( ) );
 		setSite( parent.getEditorSite( ) );
+	}
+
+	/**
+	 * Creates script editor, dosen't include controller
+	 * 
+	 * @return a script editor
+	 */
+	protected IScriptEditor createScriptEditor( )
+	{
+		return new ScriptEditor( );
 	}
 
 	/**
@@ -179,6 +189,7 @@ public class JSEditor extends StatusTextEditor implements
 	 */
 	public void doSave( IProgressMonitor monitor )
 	{
+		saveModel( );
 	}
 
 	public boolean isDirty( )
@@ -252,6 +263,8 @@ public class JSEditor extends StatusTextEditor implements
 	private void updateScriptContext( DesignElementHandle handle, String method )
 	{
 		List args = DEUtil.getDesignElementMethodArgumentsInfo( handle, method );
+		JSSyntaxContext context = scriptEditor.getContext();
+		
 		context.clear( );
 
 		for ( Iterator iter = args.iterator( ); iter.hasNext( ); )
@@ -305,8 +318,6 @@ public class JSEditor extends StatusTextEditor implements
 	public void createPartControl( Composite parent )
 	{
 		Composite child = this.initEditorLayout( parent );
-
-		setInput( editorInput );
 
 		// Script combo
 		cmbExprListViewer = new ComboViewer( cmbExpList );
@@ -390,7 +401,7 @@ public class JSEditor extends StatusTextEditor implements
 
 		} );
 
-		super.createPartControl( child );
+		scriptEditor.createPartControl( child );
 
 		getViewer( ).addTextListener( new ITextListener( ) {
 
@@ -403,7 +414,7 @@ public class JSEditor extends StatusTextEditor implements
 			}
 		} );
 
-		this.getSourceViewer( )
+		this.getViewer( )
 				.getTextWidget( )
 				.addModifyListener( new ModifyListener( ) {
 
@@ -430,41 +441,6 @@ public class JSEditor extends StatusTextEditor implements
 		return editObject;
 	}
 
-	protected void createActions( )
-	{
-		super.createActions( );
-		IAction contentAssistAction = new TextOperationAction( Messages.getReportResourceBundle( ),
-				"ContentAssistProposal_", this, ISourceViewer.CONTENTASSIST_PROPOSALS, true );//$NON-NLS-1$
-		contentAssistAction.setActionDefinitionId( ITextEditorActionDefinitionIds.CONTENT_ASSIST_PROPOSALS );
-		setAction( "ContentAssistProposal", contentAssistAction );//$NON-NLS-1$
-		// TODO: rewirte those actions
-		// Add page actions
-		// Action action = LayoutPageAction.getInstance( );
-		// getActionRegistry( ).registerAction( action );
-		//		
-		// action = NormalPageAction.getInstance( );
-		// getActionRegistry( ).registerAction( action );
-		//
-		// action = MasterPageAction.getInstance( );
-		// getActionRegistry( ).registerAction( action );
-		//
-		// action = PreviewPageAction.getInstance( );
-		// getActionRegistry( ).registerAction( action );
-		//
-		// action = CodePageAction.getInstance( );
-		// getActionRegistry( ).registerAction( action );
-	}
-
-	public void setAction( String actionID, IAction action )
-	{
-		super.setAction( actionID, action );
-		if ( action.getId( ) == null )
-		{
-			action.setId( actionID );
-		}
-		getActionRegistry( ).registerAction( action );
-	}
-
 	private void updateAnnotationLabel( Object handle )
 	{
 		String name = ProviderFactory.createProvider( handle )
@@ -489,7 +465,7 @@ public class JSEditor extends StatusTextEditor implements
 	{
 		if ( adapter == ActionRegistry.class )
 		{
-			return this.getActionRegistry( );
+			return scriptEditor.getActionRegistry( );
 		}
 		else if ( adapter == PalettePage.class )
 		{
@@ -552,15 +528,34 @@ public class JSEditor extends StatusTextEditor implements
 		layout.verticalSpacing = 0;
 		mainPane.setLayout( layout );
 
-		final Composite barPane = new Composite( mainPane, SWT.NONE );
-		layout = new GridLayout( 6, false );
-		barPane.setLayout( layout );
+		controller = createController( mainPane );
+
+		// Create the code editor pane.
+		Composite jsEditorContainer = new Composite( mainPane, SWT.NONE );
+		GridData gdata = new GridData( GridData.FILL_HORIZONTAL | GridData.FILL_VERTICAL );
+		jsEditorContainer.setLayoutData( gdata );
+		jsEditorContainer.setLayout( new FillLayout( ) );
+
+		return jsEditorContainer;
+	}
+
+	/**
+	 * Creates tool bar pane.
+	 * 
+	 * @param parent
+	 *            the parent of controller
+	 * @return a tool bar pane
+	 */
+	protected Composite createController( Composite parent )
+	{
+		Composite barPane = new Composite( parent, SWT.NONE );
+		GridLayout layout = new GridLayout( 8, false );
 		GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
+
+		barPane.setLayout( layout );
 		barPane.setLayoutData( gdata );
 
 		initScriptLabel( barPane );
-
-		// Init combo boxes with scripts and subfunctions
 		initComboBoxes( barPane );
 
 		// Creates Reset button
@@ -583,6 +578,28 @@ public class JSEditor extends StatusTextEditor implements
 			}
 		} );
 
+		// Creates Validate button
+		butValidate = new Button( barPane, SWT.PUSH );
+		butValidate.setText( Messages.getString( "JSEditor.Button.Validate" ) ); //$NON-NLS-1$
+		layoutData = new GridData( );
+		layoutData.horizontalIndent = 6;
+		butValidate.setLayoutData( layoutData );
+		butValidate.addSelectionListener( new SelectionAdapter( ) {
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+			 */
+			public void widgetSelected( SelectionEvent e )
+			{
+				doValidate( );
+			}
+		} );
+
+		// Creates Validate icon, default empty.
+		validateIcon = new Label( barPane, SWT.NULL );
+
 		Label column = new Label( barPane, SWT.SEPARATOR | SWT.VERTICAL );
 		layoutData = new GridData( );
 		layoutData.heightHint = 20;
@@ -594,7 +611,7 @@ public class JSEditor extends StatusTextEditor implements
 				| GridData.VERTICAL_ALIGN_CENTER );
 		ano.setLayoutData( layoutData );
 
-		final Composite sep = new Composite( mainPane, 0 );
+		final Composite sep = new Composite( parent, 0 );
 		layoutData = new GridData( GridData.FILL_HORIZONTAL );
 		layoutData.heightHint = 1;
 		sep.setLayoutData( layoutData );
@@ -608,14 +625,8 @@ public class JSEditor extends StatusTextEditor implements
 				gc.drawLine( 0, 0, rect.width, 0 );
 			}
 		} );
-
-		// Create the code editor pane.
-		Composite jsEditorContainer = new Composite( mainPane, SWT.NONE );
-		gdata = new GridData( GridData.FILL_HORIZONTAL | GridData.FILL_VERTICAL );
-		jsEditorContainer.setLayoutData( gdata );
-		jsEditorContainer.setLayout( new FillLayout( ) );
-
-		return jsEditorContainer;
+		
+		return barPane;
 	}
 
 	private void initScriptLabel( Composite parent )
@@ -645,11 +656,6 @@ public class JSEditor extends StatusTextEditor implements
 		// Create the subfunction combo box
 		cmbSubFunctions = new Combo( parent, SWT.DROP_DOWN | SWT.READ_ONLY );
 		cmbSubFunctions.setLayoutData( layoutData );
-
-	}
-
-	public void selectionChanged( SelectionChangedEvent event )
-	{
 	}
 
 	/*
@@ -667,11 +673,6 @@ public class JSEditor extends StatusTextEditor implements
 	public void handleSelectionChanged( ISelection selection )
 	{
 
-		if ( getSourceViewer( ) == null
-				|| !getSourceViewer( ).getTextWidget( ).isVisible( ) )
-		{
-			return;
-		}
 		if ( editorUIEnabled == true )
 		{
 			// save the previous editor content.
@@ -787,11 +788,7 @@ public class JSEditor extends StatusTextEditor implements
 	 */
 	private void setEditorText( String text )
 	{
-		if ( text == null )
-			text = ""; //$NON-NLS-1$
-		( (JSDocumentProvider) this.getDocumentProvider( ) ).getDocument( editorInput )
-				.set( text );
-
+		scriptEditor.setScript( text );
 	}
 
 	/**
@@ -800,7 +797,7 @@ public class JSEditor extends StatusTextEditor implements
 	 */
 	private String getEditorText( )
 	{
-		return this.getDocumentProvider( ).getDocument( editorInput ).get( );
+		return scriptEditor.getScript( );
 	}
 
 	/**
@@ -890,7 +887,7 @@ public class JSEditor extends StatusTextEditor implements
 	{
 		if ( editorUIEnabled == false )
 		{
-			getSourceViewer( ).getTextWidget( ).setEnabled( true );
+			getViewer( ).setEditable( true );
 			cmbExpList.setEnabled( true );
 			butReset.setEnabled( true );
 			editorUIEnabled = true;
@@ -907,7 +904,7 @@ public class JSEditor extends StatusTextEditor implements
 	{
 		if ( editorUIEnabled == true )
 		{
-			getSourceViewer( ).getTextWidget( ).setEnabled( false );
+			getViewer( ).setEditable( false );
 			cmbExpList.setEnabled( false );
 			cmbSubFunctions.setEnabled( false );
 			butReset.setEnabled( false );
@@ -919,23 +916,13 @@ public class JSEditor extends StatusTextEditor implements
 	}
 
 	/**
-	 * @return Returns the actionRegisty.
-	 */
-	public ActionRegistry getActionRegistry( )
-	{
-		if ( actionRegistry == null )
-			actionRegistry = new ActionRegistry( );
-		return actionRegistry;
-	}
-
-	/**
 	 * Gets source viewer in the editor
 	 * 
 	 * @return source viewer
 	 */
 	public SourceViewer getViewer( )
 	{
-		return (SourceViewer) getSourceViewer( );
+		return (SourceViewer) scriptEditor.getViewer( );
 	}
 
 	/*
@@ -994,19 +981,91 @@ public class JSEditor extends StatusTextEditor implements
 	 */
 	public void handleSelectionChange( List list )
 	{
-		SelectionChangedEvent event = new SelectionChangedEvent( getSelectionProvider( ),
-				new StructuredSelection( list ) );
-		handleSelectionChanged( event );
+		if ( scriptEditor instanceof AbstractTextEditor )
+		{
+			SelectionChangedEvent event = new SelectionChangedEvent( ( (AbstractTextEditor) scriptEditor ).getSelectionProvider( ),
+					new StructuredSelection( list ) );
+
+			handleSelectionChanged( event );
+		}
 	}
 
-	protected void handleCursorPositionChanged( )
+	/**
+	 * Returns the current script editor.
+	 * 
+	 * @return the current script editor.
+	 */
+	protected IScriptEditor getScriptEditor( )
 	{
-		super.handleCursorPositionChanged( );
-
-		// TODO monitor cursor position to implement function-wise content
-		// assistant.
+		return scriptEditor;
 	}
 
+	/**
+	 * Validates the contents of this editor.
+	 */
+	public void doValidate( )
+	{
+		Image image = null;
+		String message = null;
+
+		try
+		{
+			scriptValidator.validate( );
+			image = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_JSEDITOR_NOERROR );
+			message = Messages.getString( "JSEditor.Validate.NoError" );
+		}
+		catch ( ParseException e )
+		{
+			image = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_JSEDITOR_ERROR );
+			message = e.getLocalizedMessage( );
+		}
+		finally
+		{
+			if ( validateIcon != null )
+			{
+				validateIcon.setImage( image );
+				validateIcon.setToolTipText( message );
+			}
+			if ( controller != null )
+			{
+				controller.layout( );
+			}
+			setFocus( );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.part.EditorPart#doSaveAs()
+	 */
+	public void doSaveAs( )
+	{
+		scriptEditor.doSaveAs( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.part.EditorPart#init(org.eclipse.ui.IEditorSite, org.eclipse.ui.IEditorInput)
+	 */
+	public void init( IEditorSite site, IEditorInput input )
+			throws PartInitException
+	{
+		setSite( site );
+		setInput( input );
+		scriptEditor.init( site, input );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
+	 */
+	public void setFocus( )
+	{
+		scriptEditor.setFocus( );
+	}
 }
 
 /**
@@ -1241,11 +1300,19 @@ class JSSubFunctionListProvider implements
 
 						try
 						{
-							IDocument doc = ( editor.getDocumentProvider( ) ).getDocument( editor.getEditorInput( ) );
-							int length = doc.getLength( );
-							doc.replace( length, 0, signature );
-							editor.selectAndReveal( length + 1,
-									signature.length( ) );
+							IScriptEditor viewer = editor.getScriptEditor( );
+
+							if ( viewer instanceof AbstractTextEditor )
+							{
+								AbstractTextEditor editor = (AbstractTextEditor) viewer;
+
+								IDocument doc = ( editor.getDocumentProvider( ) ).getDocument( viewer.getEditorInput( ) );
+								int length = doc.getLength( );
+
+								doc.replace( length, 0, signature );
+								editor.selectAndReveal( length + 1,
+										signature.length( ) );
+							}
 							editor.setIsModified( true );
 						}
 						catch ( BadLocationException e )

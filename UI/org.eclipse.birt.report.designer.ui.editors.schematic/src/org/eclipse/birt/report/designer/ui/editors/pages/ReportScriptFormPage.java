@@ -58,7 +58,7 @@ public class ReportScriptFormPage extends ReportFormPage
 	private ModelEventManager manager = getModelEventManager( );
 	public static final String ID = "org.eclipse.birt.report.designer.ui.editors.script"; //$NON-NLS-1$
 
-	private JSEditor jsEditor;
+	private IEditorPart jsEditor;
 
 	private Control control;
 
@@ -78,16 +78,19 @@ public class ReportScriptFormPage extends ReportFormPage
 			throws PartInitException
 	{
 		super.init( site, input );
-		try
-		{
-			jsEditor = new JSEditor( this );
-			jsEditor.init( site, input );
-		}
-		catch ( Exception e )
-		{
-		}
+		jsEditor = createJSEditor( );
+		jsEditor.init( site, input );
 	}
 
+	/**
+	 * Creates javascript editor for the page.
+	 * 
+	 * @return the javascript editor
+	 */
+	protected IEditorPart createJSEditor( )
+	{
+		return new JSEditor( this );
+	}
 	
 	protected void hookModelEventManager(Object model)
 	{	
@@ -222,7 +225,7 @@ public class ReportScriptFormPage extends ReportFormPage
 	 */
 	public void doSave( IProgressMonitor monitor )
 	{
-		jsEditor.saveModel( );
+		jsEditor.doSave( monitor );
 		IReportProvider provider = getProvider( );
 		if ( provider != null )
 		{
@@ -391,7 +394,7 @@ public class ReportScriptFormPage extends ReportFormPage
 	{
 		if ( adapter == ActionRegistry.class )
 		{
-			return jsEditor.getActionRegistry( );
+			return jsEditor.getAdapter( ActionRegistry.class );
 		}
 		if ( adapter == PalettePage.class )
 		{

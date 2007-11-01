@@ -403,4 +403,9 @@ public interface IReportGraphicConstants
 	public static final String ICON_DISABLE_EXPORT = "export_disable";
 	
 	public static final String ICON_DISABLE_IMPORT = "import_edisable";
+	
+	// JSEditor icons
+	public final static String ICON_JSEDITOR_ERROR = "JSEditor Error";//$NON-NLS-1$
+
+	public final static String ICON_JSEDITOR_NOERROR = "JSEditor NoError";//$NON-NLS-1$
 }

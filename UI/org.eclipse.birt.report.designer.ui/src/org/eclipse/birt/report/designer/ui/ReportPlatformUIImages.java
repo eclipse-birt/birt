@@ -599,6 +599,14 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_TEMPLATE_NO_PREVIEW,
 				ICONS_PATH + MISC_PATH + "no_preview.gif" ); //$NON-NLS-1$
 
+		// JSEditor Icons
+		declareImage( IReportGraphicConstants.ICON_JSEDITOR_ERROR, ICONS_PATH +
+				OBJ16_PATH +
+				"script_error.gif" ); //$NON-NLS-1$
+
+		declareImage( IReportGraphicConstants.ICON_JSEDITOR_NOERROR,
+				ICONS_PATH + OBJ16_PATH + "script_noerror.gif" ); //$NON-NLS-1$
+
 		// Other icons
 		declareImage( IReportGraphicConstants.ICON_DISABLE_EXPRESSION_BUILDERS,
 				ICONS_PATH + OTHERS_PATH + "exp-builder-fx-disabled.gif" ); //$NON-NLS-1$
