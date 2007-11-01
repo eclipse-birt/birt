@@ -112,7 +112,7 @@ public class RowExecutor extends QueryItemExecutor
 		if ( currentCell < rowDesign.getCellCount( ) )
 		{
 			CellDesign cellDesign = rowDesign.getCell( currentCell++ );
-			CellExecutor executor = (CellExecutor) manager.createExecutor(
+			ReportItemExecutor executor = manager.createExecutor(
 					this, cellDesign );
 			return executor;
 		}

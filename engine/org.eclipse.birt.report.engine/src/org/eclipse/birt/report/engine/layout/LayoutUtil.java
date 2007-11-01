@@ -85,17 +85,20 @@ public class LayoutUtil
 		if ( content != null )
 		{
 			IStyle style = content.getStyle( );
-			if ( !outputDisplayNone )
+			if ( !style.isEmpty( ) )
 			{
-				if ( IStyle.NONE_VALUE == style
-						.getProperty( IStyle.STYLE_DISPLAY ) )
+				if ( !outputDisplayNone )
+				{
+					if ( IStyle.NONE_VALUE == style
+							.getProperty( IStyle.STYLE_DISPLAY ) )
+					{
+						return true;
+					}
+				}
+				if ( isHiddenByVisibility( style, format ) )
 				{
 					return true;
 				}
-			}
-			if ( isHiddenByVisibility( style, format ) )
-			{
-				return true;
 			}
 			if ( content.getContentType( ) == IContent.CELL_CONTENT )
 			{

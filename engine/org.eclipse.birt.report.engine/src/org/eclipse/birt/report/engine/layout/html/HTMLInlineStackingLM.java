@@ -19,6 +19,8 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.ILayoutManager;
 
+// FIXME: 1. don't cache the nodes if not necessary.
+// FIXME: 2. cache the isFinished so we needn't do an extra loop.
 public abstract class HTMLInlineStackingLM extends HTMLStackingLM
 {
 
@@ -38,7 +40,7 @@ public abstract class HTMLInlineStackingLM extends HTMLStackingLM
 	/**
 	 * the current finish status of all the chidren.
 	 */
-	protected List childrenFinished = new ArrayList();
+	protected List childrenFinished = new ArrayList( );
 
 	public HTMLInlineStackingLM( HTMLLayoutManagerFactory factory )
 	{
@@ -56,7 +58,7 @@ public abstract class HTMLInlineStackingLM extends HTMLStackingLM
 	{
 		childrenLayouts.clear( );
 		childrenExecutors.clear( );
-		childrenFinished.clear();
+		childrenFinished.clear( );
 		super.close( );
 	}
 
@@ -67,17 +69,25 @@ public abstract class HTMLInlineStackingLM extends HTMLStackingLM
 			IReportItemExecutor childExecutor = (IReportItemExecutor) executor
 					.getNextChild( );
 			IContent childContent = childExecutor.execute( );
-			ILayoutManager childLayout = engine.createLayoutManager( this,
-					childContent, childExecutor, emitter );
-			childrenLayouts.add( childLayout );
+			if ( childContent == null )
+			{
+				childrenLayouts.add( null );
+			}
+			else
+			{
+				ILayoutManager childLayout = engine.createLayoutManager( this,
+						childContent, childExecutor, emitter );
+				childrenLayouts.add( childLayout );
+			}
 			childrenExecutors.add( childExecutor );
 			childrenFinished.add( Boolean.FALSE );
 		}
 	}
 
 	/**
-	 * layout the children, return if it should create a 
-	 * new page after this layout.
+	 * layout the children, return if it should create a new page after this
+	 * layout.
+	 * 
 	 * @return
 	 */
 	protected boolean resumeLayout( )
@@ -92,15 +102,25 @@ public abstract class HTMLInlineStackingLM extends HTMLStackingLM
 			{
 				ILayoutManager childLayout = (ILayoutManager) childrenLayouts
 						.get( i );
-				boolean childHasNewPage = childLayout.layout( );
-				if ( childHasNewPage )
+				if ( childLayout != null )
 				{
-					hasNextPage = true;
+					boolean childHasNewPage = childLayout.layout( );
+					if ( childHasNewPage )
+					{
+						hasNextPage = true;
+					}
+					childFinished = childLayout.isFinished( );
 				}
-				childFinished = childLayout.isFinished( );
+				else
+				{
+					childFinished = true;
+				}
 				if ( childFinished )
 				{
-					childLayout.close( );
+					if ( childLayout != null )
+					{
+						childLayout.close( );
+					}
 					IReportItemExecutor childExecutor = (IReportItemExecutor) childrenExecutors
 							.get( i );
 					childExecutor.close( );
@@ -110,7 +130,7 @@ public abstract class HTMLInlineStackingLM extends HTMLStackingLM
 		}
 		return hasNextPage;
 	}
-	
+
 	protected boolean isChildrenFinished( )
 	{
 		for ( int i = 0; i < childrenLayouts.size( ); i++ )
@@ -124,7 +144,7 @@ public abstract class HTMLInlineStackingLM extends HTMLStackingLM
 		}
 		return true;
 	}
-	
+
 	protected boolean layoutNodes( )
 	{
 		if ( !initializedChildren )
@@ -134,5 +154,5 @@ public abstract class HTMLInlineStackingLM extends HTMLStackingLM
 		}
 		return resumeLayout( );
 	}
-	
+
 }

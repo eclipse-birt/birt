@@ -107,6 +107,7 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 	 */
 	public boolean layout( )
 	{
+		boolean hasStyle = !content.getStyle( ).isEmpty( );
 		switch ( status )
 		{
 			case STATUS_INTIALIZE:
@@ -118,13 +119,17 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 					status = STATUS_END;
 					return false;
 				}
-				// we need put it in the new page or there is no
-				// space for the content.
-				if ( isPageBreakBefore( ) )
+
+				if ( hasStyle )
 				{
-					status = STATUS_START;
-					return true;
-				}				
+					// we need put it in the new page or there is no
+					// space for the content.
+					if ( isPageBreakBefore( ) )
+					{
+						status = STATUS_START;
+						return true;
+					}
+				}
 			case STATUS_START :
 				//it is the first time we handle the content
 			case STATUS_INPROGRESS :
@@ -147,11 +152,15 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 					// return to caller to create the new page.
 					return true;
 				}
-				// We need create an extra page for the following elements, so
-				// return true for next element.
-				if ( isPageBreakAfter( ) )
+				if ( hasStyle )
 				{
-					return true;
+					// We need create an extra page for the following elements,
+					// so
+					// return true for next element.
+					if ( isPageBreakAfter( ) )
+					{
+						return true;
+					}
 				}
 				return false;
 		}

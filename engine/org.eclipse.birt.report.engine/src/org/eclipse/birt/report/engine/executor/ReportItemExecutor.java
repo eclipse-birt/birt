@@ -25,6 +25,7 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IReportContent;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.impl.Column;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
@@ -597,16 +598,15 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	}
 
 	
-	TOCEntry getParentTOCEntry()
+	TOCEntry getParentTOCEntry( )
 	{
-		if (parent instanceof ReportItemExecutor)
+		if ( parent != null )
 		{
-			ReportItemExecutor parentExecutor = (ReportItemExecutor)parent;
-			if (parentExecutor.tocEntry != null)
+			if ( parent.tocEntry != null )
 			{
-				return parentExecutor.tocEntry;
+				return parent.tocEntry;
 			}
-			return parentExecutor.getParentTOCEntry();
+			return parent.getParentTOCEntry( );
 		}
 		return null;
 	}
@@ -644,13 +644,17 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 				}
 				else
 				{
-					String hiddenFormats = content.getStyle( )
-							.getVisibleFormat( );
-					if ( hiddenFormats != null )
+					IStyle style = content.getStyle( );
+					if ( !style.isEmpty( ) )
 					{
-						TOCEntry parentTOCEntry = getParentTOCEntry( );
-						tocEntry = tocBuilder.startDummyEntry( parentTOCEntry,
-								hiddenFormats );
+						String hiddenFormats = content.getStyle( )
+								.getVisibleFormat( );
+						if ( hiddenFormats != null )
+						{
+							TOCEntry parentTOCEntry = getParentTOCEntry( );
+							tocEntry = tocBuilder.startDummyEntry(
+									parentTOCEntry, hiddenFormats );
+						}
 					}
 				}
 			}
@@ -770,9 +774,15 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	protected void handleOnCreate( IContent content )
 	{
 		// for CrossTAB has not design
-		if ( content.getGenerateBy( ) != null )
+		Object genBy = content.getGenerateBy( );
+		if ( genBy instanceof ReportItemDesign )
 		{
-			onCreateVisitor.onCreate( content );
+			ReportItemDesign design = (ReportItemDesign) genBy;
+			if ( design.getOnCreate( ) != null ||
+					design.getJavaClass( ) != null )
+			{
+				onCreateVisitor.onCreate( content );
+			}
 		}
 	}
 }

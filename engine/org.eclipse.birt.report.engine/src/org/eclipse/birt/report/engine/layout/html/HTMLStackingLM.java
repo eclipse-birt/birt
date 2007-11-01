@@ -11,9 +11,6 @@
 
 package org.eclipse.birt.report.engine.layout.html;
 
-import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.emitter.IContentEmitter;
-
 public abstract class HTMLStackingLM extends HTMLAbstractLM
 {
 
@@ -21,32 +18,34 @@ public abstract class HTMLStackingLM extends HTMLAbstractLM
 	{
 		super( factory );
 	}
-		
-	protected boolean layoutChildren()
+
+	protected boolean layoutChildren( )
 	{
-		boolean hasNext = layoutNodes();
-		if(hasNext)
+		boolean hasNext = layoutNodes( );
+		if ( hasNext )
 		{
 			context.addLayoutHint( content, false );
 		}
 		return hasNext;
 	}
-	
+
 	protected void end( boolean finished )
 	{
-		if(emitter!=null)
+		if ( emitter != null )
 		{
-			context.getPageBufferManager( ).endContainer( content, finished, emitter, true);
+			context.getPageBufferManager( ).endContainer( content, finished,
+					emitter, true );
 		}
 	}
 
 	protected void start( boolean isFirst )
 	{
-		if(emitter!=null)
+		if ( emitter != null )
 		{
-			context.getPageBufferManager( ).startContainer( content, isFirst, emitter, true );
+			context.getPageBufferManager( ).startContainer( content, isFirst,
+					emitter, true );
 		}
 	}
 
-	protected abstract boolean layoutNodes();
+	protected abstract boolean layoutNodes( );
 }

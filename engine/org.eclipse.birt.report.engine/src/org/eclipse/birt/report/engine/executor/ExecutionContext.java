@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -66,6 +66,8 @@ import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.data.DataEngineFactory;
 import org.eclipse.birt.report.engine.data.IDataEngine;
+import org.eclipse.birt.report.engine.executor.optimize.ExecutionOptimize;
+import org.eclipse.birt.report.engine.executor.optimize.ExecutionPolicy;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
@@ -1917,5 +1919,20 @@ public class ExecutionContext
 	public void setLogger( Logger logger )
 	{
 		log = logger;
+	}
+	
+	protected ExecutionPolicy executionPolicy;
+
+	public void optimizeExecution( )
+	{
+		if ( ( task != null ) && ( task.getTaskType( ) == IEngineTask.TASK_RUN ) )
+		{
+			executionPolicy = new ExecutionOptimize( ).optimize( getReport( ) );
+		}
+	}
+
+	public ExecutionPolicy getExecutionPolicy( )
+	{
+		return executionPolicy;
 	}
 }
