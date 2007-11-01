@@ -28,6 +28,7 @@ import org.eclipse.birt.report.soapengine.api.Oprand;
 import org.eclipse.birt.report.soapengine.api.TOC;
 import org.eclipse.birt.report.soapengine.api.Update;
 import org.eclipse.birt.report.soapengine.api.UpdateData;
+import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
  * Abstract action handler for GetToc event.
@@ -158,7 +159,8 @@ public abstract class AbstractGetTOCActionHandler
 				ToC child = (ToC) children.get( i );
 				childTOCNodes[i] = new TOC( );
 				childTOCNodes[i].setId( child.getID( ) );
-				childTOCNodes[i].setDisplayName( child.getDisplayName( ) );
+				childTOCNodes[i].setDisplayName( ParameterAccessor
+						.htmlEncode( child.getDisplayName( ) ) );
 				childTOCNodes[i].setBookmark( child.getBookmark( ) );
 				childTOCNodes[i].setStyle( child.getStyle( ) );
 				childTOCNodes[i].setIsLeaf( new Boolean(

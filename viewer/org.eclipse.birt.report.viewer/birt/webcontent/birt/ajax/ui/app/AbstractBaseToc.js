@@ -104,8 +104,15 @@ AbstractBaseToc.prototype = Object.extend( new AbstractUIComponent( ),
 
 			var tmp = datas[i];
 
+			var displaynames = tmp.getElementsByTagName( 'DisplayName' );
+			var displayname = displaynames[0].firstChild;
+			var s_displayname = "";
+			if( displayname )
+				s_displayname = displayname.data;			
+			
 			var isLeafs = tmp.getElementsByTagName( 'IsLeaf' );
-			var img = document.createElement( "img" );
+			var img = document.createElement( "input" );
+			img.type = "image";
 			img.style.backgroundRepeat = 'no-repeat';
 			img.style.paddingLeft = '0px';
 			img.style.width = '8px';
@@ -113,18 +120,22 @@ AbstractBaseToc.prototype = Object.extend( new AbstractUIComponent( ),
 			img.plusMinus = '+';	//default it is collapsed
 			img.id = imgid;
 			img.query = '0';		//default it needs to communicate with the server.
+			img.title = s_displayname;
 			
 			if ( isLeafs[0].firstChild.data == "false" )
 			{
 				img.src = "birt/images/Expand.gif" ;
-				img.style.cursor = 'pointer';
-				Event.observe( img, 'click', this.__neh_img_click_closure, false );
+				img.style.cursor = 'pointer';			
+				Event.observe( img, 'click', this.__neh_img_click_closure, false );				
 			}
 			else
 			{
 				img.src = "birt/images/Leaf.gif" ;
 				img.style.cursor = 'default';
+				Event.observe( img, 'click', this.__neh_item_click, false );				
 			}
+			
+			Event.observe( img, 'keydown', this.__neh_item_click, false );
 
 			var nodeIds = tmp.getElementsByTagName( 'Id' );
 			img.nodeId = nodeIds[0].firstChild.data;
@@ -134,21 +145,11 @@ AbstractBaseToc.prototype = Object.extend( new AbstractUIComponent( ),
 			td1.appendChild( img );
 			td1.appendChild( document.createTextNode( " " ) );
 
-			var spantmp = document.createElement( "input" );
-			var displaynames = tmp.getElementsByTagName( 'DisplayName' );
-			var displayname = displaynames[0].firstChild;
-			var s_displayname = "";
-			if( displayname )
-				s_displayname = displayname.data;
-				
-			spantmp.type = "text";
-			spantmp.readOnly = true;			
-			spantmp.value = s_displayname;
+			var spantmp = document.createElement( "span" );			
 			spantmp.title = s_displayname;
 			spantmp.id =  'span_' + imgid;
-			if( s_displayname.length > 0 )			
-				spantmp.size = s_displayname.length;			
-			
+			spantmp.innerHTML = s_displayname;
+						
 			var cssText = "cursor:pointer;border:0px;font-family:Verdana;font-size:9pt;background-color:#FFFFFF;overflow:visible;";			
 			var styles = tmp.getElementsByTagName( 'Style' );
 			if( styles && styles.length > 0 )
@@ -157,7 +158,8 @@ AbstractBaseToc.prototype = Object.extend( new AbstractUIComponent( ),
 					spantmp.style.cssText = cssText + styles[0].firstChild.data;
 				else
 					spantmp.style.cssText = cssText;							
-			}							
+			}
+							
 			td1.appendChild( spantmp );
 			td1.noWrap = true;
 			
@@ -174,10 +176,10 @@ AbstractBaseToc.prototype = Object.extend( new AbstractUIComponent( ),
 			tbody.appendChild( tr2 );
 			
 			//observe the text so that when click the text ,we can expand or collapse the toc
-			Event.observe( spantmp , 'mouseover', this.__neh_item_mouse_over, false );
-			Event.observe( spantmp , 'mouseout', this.__neh_item_mouse_out, false );	
-			Event.observe( spantmp , 'click', this.__neh_item_click, false );
-			Event.observe( spantmp , 'keydown', this.__neh_item_click, false );
+			Event.observe( spantmp, 'mouseover', this.__neh_item_mouse_over, false );
+			Event.observe( spantmp, 'mouseout', this.__neh_item_mouse_out, false );	
+			Event.observe( spantmp, 'click', this.__neh_item_click, false );
+			Event.observe( spantmp, 'keydown', this.__neh_item_click, false );
 		}
 		tableEle.appendChild( tbody );
 		var displayid = 'display' + this.__nodeid;
@@ -200,17 +202,48 @@ AbstractBaseToc.prototype = Object.extend( new AbstractUIComponent( ),
 	 */
 	__neh_text_click : function ( event )
 	{
+		var clickElement = Event.element( event );
+		var clickId = clickElement.id;
+		var imgid;
+		
+		if( clickElement.type == "image" )
+		{
+			//get the img id
+			imgid = clickId;
+			
+			if( clickElement.src.indexOf( "Expand" ) > -1 )
+			{
+				// keydown on Expand img
+				if( event.type == 'keydown' )
+				{
+					if( event.keyCode == 39 )
+						this.__neh_img_click( event );
+				}		
+			}
+			else if( clickElement.src.indexOf( "Collapse" ) > -1 )
+			{
+				// keydown on Collapse img
+				if( event.type == 'keydown' )
+				{
+					if( event.keyCode == 37 )
+						this.__neh_img_click( event );
+				}
+			}			
+		}
+		else
+		{
+			//as the clicktextid is 'span_' + id, so we need to substr to get the imgid
+			var len = "span_".length;
+			imgid = clickId.substr( len );
+		}
+		
 		if( event.type == 'keydown' )
 		{
 			// Press "Enter" and "Space"
 			if( event.keyCode != 13 && event.keyCode != 32)
-				return;					
+				return;									
 		}
-		var clickText = Event.element( event );
-		var clickId = clickText.id;
-		//as the clicktextid is 'span_' + id, so we need to substr to get the imgid
-		var spanlength = "span_".length;
-		var imgid = clickId.substr( spanlength );
+			
 		var clickImg = $( imgid );
 		var query = clickImg.query;
 		var plusMinus = clickImg.plusMinus;
