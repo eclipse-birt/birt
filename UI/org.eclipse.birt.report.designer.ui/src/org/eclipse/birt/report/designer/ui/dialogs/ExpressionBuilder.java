@@ -42,6 +42,7 @@ import org.eclipse.jface.text.source.LineNumberRulerColumn;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -132,7 +133,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 			{
 				return provider.getCategory( );
 			}
-			//does not show groups/measures in third column. 
+			// does not show groups/measures in third column.
 			if ( inputElement instanceof PropertyHandle
 					|| inputElement instanceof TabularMeasureGroupHandle
 					|| inputElement instanceof TabularDimensionHandle )
@@ -211,7 +212,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 				if ( table.getSelectionCount( ) == 1 )
 				{
 					String message = table.getSelection( )[0].getText( );
-					message = message.replaceAll( "&", "&&" );  //$NON-NLS-1$//$NON-NLS-2$
+					message = message.replaceAll( "&", "&&" ); //$NON-NLS-1$//$NON-NLS-2$
 					messageLine.setText( message );
 				}
 				else
@@ -223,7 +224,10 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 	};
 
-	private ITableLabelProvider tableLabelProvider = new ITableLabelProvider( ) {
+	private class ExpressionLabelProvider implements
+			ITableLabelProvider,
+			ILabelProvider
+	{
 
 		public Image getColumnImage( Object element, int columnIndex )
 		{
@@ -250,6 +254,16 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 		public void removeListener( ILabelProviderListener listener )
 		{
+		}
+
+		public Image getImage( Object element )
+		{
+			return provider.getImage( element );
+		}
+
+		public String getText( Object element )
+		{
+			return provider.getDisplayText( element );
 		}
 	};
 
@@ -616,7 +630,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 		tree.setLayoutData( gd );
 		tree.setToolTipText( null );
 
-		treeViewer.setLabelProvider( tableLabelProvider );
+		treeViewer.setLabelProvider( new ExpressionLabelProvider( ) );
 		treeViewer.setContentProvider( new ITreeContentProvider( ) {
 
 			public Object[] getChildren( Object parentElement )
@@ -685,7 +699,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 			}
 		} );
 
-		tableViewer.setLabelProvider( tableLabelProvider );
+		tableViewer.setLabelProvider( new ExpressionLabelProvider( ) );
 		tableViewer.setContentProvider( new TableContentProvider( tableViewer ) );
 		tableViewer.addSelectionChangedListener( selectionListener );
 		tableViewer.addDoubleClickListener( doubleClickListener );

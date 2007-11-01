@@ -1,3 +1,0 @@
-Download dom4j jars from: 
-  http://dom4j.org/download.html 
-  Copy the dom4j jars to org.eclipse.birt.build/lib

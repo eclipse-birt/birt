@@ -110,6 +110,15 @@ from CLASSICMODELS.OFFICES</property>
                     </structure>
                 </list-property>
             </column>
+            <header>
+                <row id="7">
+                    <cell id="8">
+                        <label id="9">
+                            <text-property name="text">CITY</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
             <detail>
                 <row id="10">
                     <cell id="11">
@@ -119,6 +128,11 @@ from CLASSICMODELS.OFFICES</property>
                     </cell>
                 </row>
             </detail>
+            <footer>
+                <row id="13">
+                    <cell id="14"/>
+                </row>
+            </footer>
         </table>
     </body>
 </report>

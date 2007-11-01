@@ -4,7 +4,6 @@ package org.eclipse.birt.report.tests.engine.api;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
@@ -31,6 +30,7 @@ import org.eclipse.birt.report.tests.engine.EngineCase;
  * <b>IRenderTask test</b>
  * <p>
  * This case tests methods in IRenderTask API.
+ * 
  */
 public class RenderTaskTest extends EngineCase
 {
@@ -40,15 +40,14 @@ public class RenderTaskTest extends EngineCase
 	private IReportDocument reportDoc;
 	private String outputFileName;
 	private String separator = System.getProperty( "file.separator" );
-	private List errors = null;
-
+	
 	protected String path = this.getInputResourceFolder( ) + File.separator
-			+ getFullQualifiedClassName( ) //$NON-NLS-1$
-			+ File.separator;
-// private String outputPath = path + OUTPUT_FOLDER + separator;
+	+ getFullQualifiedClassName( ) //$NON-NLS-1$
+	+ File.separator;
+//	private String outputPath = path + OUTPUT_FOLDER + separator;
 	private String inputPath = path + INPUT_FOLDER + separator;
-
-// String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
+	
+//	String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
 	String outputPath = this.genOutputFolder( ) + "/";
 
 	public RenderTaskTest( String name )
@@ -69,7 +68,7 @@ public class RenderTaskTest extends EngineCase
 				this.genOutputFolder( ) + "/",
 				Level.WARNING );
 	}
-
+	
 	public void tearDown( )
 	{
 		removeResource( );
@@ -77,8 +76,7 @@ public class RenderTaskTest extends EngineCase
 
 	public void testRender_orderreport( )
 	{
-		errors = renderReport( "OrderReport", "All" );
-		assertNull( errors );
+		renderReport( "OrderReport", "All" );
 	}
 
 	/**
@@ -86,100 +84,84 @@ public class RenderTaskTest extends EngineCase
 	 */
 	public void testRender_simple( )
 	{
-		errors = renderReport( "case1", "All" );
-		assertNull( errors );
+		renderReport( "case1", "All" );
 	}
 
 	public void testRender_table( )
 	{
-		errors = renderReport( "table_pages", "All" );
-		assertNull( errors );
+		renderReport( "table_pages", "All" );
 	}
 
 	public void testRender_longtext( )
 	{
-		errors = renderReport( "long_text", "All" );
-		assertNull( errors );
+		renderReport( "long_text", "All" );
 	}
 
 	public void testRender_multiple_datasets( )
 	{
 
-		errors = renderReport( "multiple_datasets", "All" );
-		assertNull( errors );
+		renderReport( "multiple_datasets", "All" );
 	}
 
 	public void testRender_nesttable( )
 	{
-		errors = renderReport( "table_nest_pages", "All" );
-		assertNull( errors );
+		renderReport( "table_nest_pages", "All" );
 	}
 
 	public void testRender_oncreate( )
 	{
-		errors = renderReport( "oncreate-style-label", "All" );
-		assertNull( errors );
+		renderReport( "oncreate-style-label", "All" );
 	}
 
 	public void testRender_script( )
 	{
-		errors = renderReport( "javascript-support-data", "All" );
-		assertNull( errors );
+		renderReport( "javascript-support-data", "All" );
 	}
 
 	public void testRender_masterpage( )
 	{
-		errors = renderReport( "master_page", "All" );
-		assertNull( errors );
+		renderReport( "master_page", "All" );
 	}
 
 	public void testRender_chart( )
 	{
-		errors = renderReport( "chart", "All" );
-		assertNull( errors );
+		renderReport( "chart", "All" );
 	}
 
 	public void testRender_complex( )
 	{
-		errors = renderReport( "complex_report", "All" );
-		assertNull( errors );
+		renderReport( "complex_report", "All" );
 	}
 
 	public void testRender_areachart( )
 	{
-		errors = renderReport( "area3dChart", "All" );
-		assertNull( errors );
+		renderReport( "area3dChart", "All" );
 	}
 
 	public void testRender_meterchart( )
 	{
-		errors = renderReport( "MeterChart", "All" );
-		assertNull( errors );
+		renderReport( "MeterChart", "All" );
 	}
 
 	public void testRender_dynamic_image( )
 	{
-		errors = renderReport( "image_in_DB", "All" );
-		assertNull( errors );
+		renderReport( "image_in_DB", "All" );
 	}
 
 	public void testRender_multiple_masterpage( )
 	{
-		errors = renderReport( "multiple_masterpage", "All" );
-		assertNull( errors );
+		renderReport( "multiple_masterpage", "All" );
 	}
 
 	public void testRender_data( )
 	{
-		errors = renderReport( "smoke_data", "All" );
-		assertNull( errors );
+		renderReport( "smoke_data", "All" );
 	}
 
 	public void testRender_library( )
 	{
-		copyResource_INPUT( "library1.rptlibrary", "library1.rptlibrary" );
+		copyResource_INPUT( "library1.rptlibrary" , "library1.rptlibrary" );
 		renderReport( "report_from_library1", "All" );
-		assertNull( errors );
 	}
 
 	/*
@@ -187,56 +169,47 @@ public class RenderTaskTest extends EngineCase
 	 */
 	public void testRenderPageRange_all( )
 	{
-		errors = renderReport( "pages9", "All" );
-		assertNull( errors );
+		renderReport( "pages9", "All" );
 	}
 
 	public void testRenderPageRange_null( )
 	{
-		errors = renderReport( "pages9", null );
-		assertNull( errors );
+		renderReport( "pages9", null );
 	}
 
 	public void testRenderPageRange_blank( )
 	{
-		errors = renderReport( "pages9", "" );
-		assertNull( errors );
+		renderReport( "pages9", "" );
 	}
 
 	public void testRenderPageRange_number( )
 	{
-		errors = renderReport( "pages9", "2" );
-		assertNull( errors );
+		renderReport( "pages9", "2" );
 	}
 
 	public void testRenderPageRange_comma( )
 	{
-		errors = renderReport( "pages9", "3,5" );
-		assertNull( errors );
+		renderReport( "pages9", "3,5" );
 	}
 
 	public void testRenderPageRange_dash1( )
 	{
-		errors = renderReport( "pages9", "2-9" );
-		assertNull( errors );
+		renderReport( "pages9", "2-9" );
 	}
 
 	public void testRenderPageRange_dash2( )
 	{
-		errors = renderReport( "pages9", "0-100" );
-		assertNull( errors );
+		renderReport( "pages9", "0-100" );
 	}
 
 	public void testRenderPageRange_0( )
 	{
-		errors = renderReport( "pages9", "0" );
-		assertTrue( errors.size( ) >= 1 );
+		renderReport( "pages9", "0" );
 	}
 
 	public void testRenderPageRange_invalid( )
 	{
-		errors = renderReport( "pages9", "abc" );
-		assertTrue( errors.size( ) >= 1 );
+		renderReport( "pages9", "abc" );
 	}
 
 	/*
@@ -328,7 +301,7 @@ public class RenderTaskTest extends EngineCase
 	{
 		report_design = inputPath + "case1.rptdesign";
 		report_document = outputPath + "pdfbug_reportdocument";
-		copyResource_INPUT( "case1.rptdesign", "case1.rptdesign" );
+		copyResource_INPUT( "case1.rptdesign" , "case1.rptdesign" );
 
 		IRenderTask task;
 		try
@@ -341,14 +314,12 @@ public class RenderTaskTest extends EngineCase
 			HTMLRenderContext renderContext = new HTMLRenderContext( );
 			renderContext.setImageDirectory( "image" );
 			HashMap appContext = new HashMap( );
-			appContext.put(
-					EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
+			appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
 					renderContext );
 
 			pdfRenderOptions.setOutputFormat( "pdf" );
 			pdfRenderOptions.getOutputSetting( ).put(
-					HTMLRenderOption.URL_ENCODING,
-					"UTF-8" );
+					HTMLRenderOption.URL_ENCODING, "UTF-8" );
 
 			outputFileName = outputPath + "pdfbug/pdf/page1" + ".pdf";
 			removeFile( outputFileName );
@@ -360,11 +331,9 @@ public class RenderTaskTest extends EngineCase
 			task.render( );
 			task.close( );
 			File pdfFile = new File( outputFileName );
-			assertTrue(
-					"Render pdf failed when target path doesn't exist",
+			assertTrue( "Render pdf failed when target path doesn't exist",
 					pdfFile.exists( ) );
-			assertTrue(
-					"Render pdf failed when target path doesn't exist",
+			assertTrue( "Render pdf failed when target path doesn't exist",
 					pdfFile.length( ) != 0 );
 		}
 		catch ( Exception e )
@@ -383,7 +352,7 @@ public class RenderTaskTest extends EngineCase
 		InstanceID iid = null;
 		report_document = outputPath + fileName + ".rptdocument";
 		report_design = inputPath + fileName + ".rptdesign";
-		copyResource_INPUT( fileName + ".rptdesign", fileName + ".rptdesign" );
+		copyResource_INPUT( fileName + ".rptdesign" , fileName + ".rptdesign" );
 		IRenderTask task;
 
 		try
@@ -396,8 +365,7 @@ public class RenderTaskTest extends EngineCase
 			HashMap appContext = new HashMap( );
 			HTMLRenderContext renderContext = new HTMLRenderContext( );
 			renderContext.setImageDirectory( outputPath + "image" );
-			appContext.put(
-					EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
+			appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
 					renderContext );
 			task.setAppContext( appContext );
 
@@ -437,8 +405,7 @@ public class RenderTaskTest extends EngineCase
 	/*
 	 * render reportlet according to docfile and instance id
 	 */
-	protected void renderReportlet( String docName, InstanceID iid, String type )
-			throws Exception
+	protected void renderReportlet( String docName, InstanceID iid, String type ) throws Exception
 	{
 		if ( iid == null )
 		{
@@ -446,9 +413,8 @@ public class RenderTaskTest extends EngineCase
 		}
 		else
 		{
-
-			copyFile( this.genOutputFile( docName + ".rptdocument" ), inputPath
-					+ docName + ".rptdocument" );
+			
+			copyFile( this.genOutputFile( docName + ".rptdocument" ) , inputPath + docName + ".rptdocument" );
 			report_document = inputPath + docName + ".rptdocument";
 
 			IRenderTask task;
@@ -463,8 +429,7 @@ public class RenderTaskTest extends EngineCase
 				HTMLRenderContext renderContext = new HTMLRenderContext( );
 				renderContext.setImageDirectory( "image" );
 				HashMap appContext = new HashMap( );
-				appContext.put(
-						EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
+				appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
 						renderContext );
 				outputFileName = outputPath + docName + "/html/" + type
 						+ ".html";
@@ -490,8 +455,7 @@ public class RenderTaskTest extends EngineCase
 				assertEquals( "Exception when render reportlet-" + docName
 						+ " to pdf.", 0, task.getErrors( ).size( ) );
 				task.close( );
-				assertTrue(
-						"Render reportlet-" + docName + " to pdf failed. ",
+				assertTrue( "Render reportlet-" + docName + " to pdf failed. ",
 						new File( outputFileName ).exists( ) );
 			}
 			catch ( Exception e )
@@ -510,7 +474,7 @@ public class RenderTaskTest extends EngineCase
 	{
 		report_document = outputPath + docName + ".rptdocument";
 		report_design = inputPath + docName + ".rptdesign";
-		copyResource_INPUT( docName + ".rptdesign", docName + ".rptdesign" );
+		copyResource_INPUT( docName + ".rptdesign" , docName + ".rptdesign" );
 
 		IRenderTask task;
 
@@ -531,8 +495,7 @@ public class RenderTaskTest extends EngineCase
 			HTMLRenderContext renderContext = new HTMLRenderContext( );
 			renderContext.setImageDirectory( "image" );
 			HashMap appContext = new HashMap( );
-			appContext.put(
-					EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
+			appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
 					renderContext );
 			task.setAppContext( appContext );
 			outputFileName = outputPath + docName + "/html/" + bookmark
@@ -555,8 +518,7 @@ public class RenderTaskTest extends EngineCase
 			task.render( );
 			assertEquals( "Exception when render reportlet-" + docName
 					+ " to html.", 0, task.getErrors( ).size( ) );
-			assertTrue(
-					"Render reportlet-" + docName + " to html failed. ",
+			assertTrue( "Render reportlet-" + docName + " to html failed. ",
 					new File( outputFileName ).exists( ) );
 
 			outputFileName = outputPath + docName + "/pdf/" + bookmark + ".pdf";
@@ -568,8 +530,7 @@ public class RenderTaskTest extends EngineCase
 			assertEquals( "Exception when render reportlet-" + docName
 					+ " to pdf.", 0, task.getErrors( ).size( ) );
 			task.close( );
-			assertTrue(
-					"Render reportlet-" + docName + " to pdf failed. ",
+			assertTrue( "Render reportlet-" + docName + " to pdf failed. ",
 					new File( outputFileName ).exists( ) );
 		}
 		catch ( Exception e )
@@ -581,11 +542,11 @@ public class RenderTaskTest extends EngineCase
 
 	}
 
-	protected List renderReport( String fileName, String pageRange )
+	protected void renderReport( String fileName, String pageRange )
 	{
 		report_design = inputPath + fileName + ".rptdesign";
 		report_document = outputPath + fileName + "_reportdocument";
-		copyResource_INPUT( fileName + ".rptdesign", fileName + ".rptdesign" );
+		copyResource_INPUT( fileName + ".rptdesign" , fileName + ".rptdesign" );
 
 		IRenderTask task;
 
@@ -600,17 +561,14 @@ public class RenderTaskTest extends EngineCase
 			HTMLRenderContext renderContext = new HTMLRenderContext( );
 			renderContext.setImageDirectory( "image" );
 			HashMap appContext = new HashMap( );
-			appContext.put(
-					EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
+			appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
 					renderContext );
 			htmlRenderOptions.setOutputFormat( "html" );
 			pdfRenderOptions.setOutputFormat( "pdf" );
 			htmlRenderOptions.getOutputSetting( ).put(
-					HTMLRenderOption.URL_ENCODING,
-					"UTF-8" );
+					HTMLRenderOption.URL_ENCODING, "UTF-8" );
 			pdfRenderOptions.getOutputSetting( ).put(
-					HTMLRenderOption.URL_ENCODING,
-					"UTF-8" );
+					HTMLRenderOption.URL_ENCODING, "UTF-8" );
 
 			if ( pageRange != null && pageRange.equals( "no" ) )
 			{
@@ -629,17 +587,13 @@ public class RenderTaskTest extends EngineCase
 				task.render( );
 				assertEquals(
 						"Exception when render the first page to html from "
-								+ fileName,
-						0,
-						task.getErrors( ).size( ) );
+								+ fileName, 0, task.getErrors( ).size( ) );
 				task.close( );
 
 				File htmlFile = new File( outputFileName );
-				assertTrue(
-						"Render " + fileName + " to html failed. ",
+				assertTrue( "Render " + fileName + " to html failed. ",
 						htmlFile.exists( ) );
-				assertTrue(
-						"Render " + fileName + " to html failed. ",
+				assertTrue( "Render " + fileName + " to html failed. ",
 						htmlFile.length( ) != 0 );
 				// render pdf output
 				outputFileName = outputPath + fileName + "/pdf/page1" + ".pdf";
@@ -653,9 +607,7 @@ public class RenderTaskTest extends EngineCase
 				task.render( );
 				assertEquals(
 						"Exception when render the first page to pdf from "
-								+ fileName,
-						0,
-						task.getErrors( ).size( ) );
+								+ fileName, 0, task.getErrors( ).size( ) );
 				task.close( );
 				File pdfFile = new File( outputFileName );
 				assertTrue( "Render " + fileName + " to pdf failed. ", pdfFile
@@ -679,8 +631,8 @@ public class RenderTaskTest extends EngineCase
 				task.setRenderOption( htmlRenderOptions );
 				task.setPageRange( pageRange );
 				task.render( );
-				if ( task.getErrors( ).size( ) > 0 )
-					return task.getErrors( );
+				assertEquals( "Exception when render html from " + fileName, 0,
+						task.getErrors( ).size( ) );
 				task.close( );
 
 				File htmlFile = new File( outputFileName );
@@ -709,8 +661,8 @@ public class RenderTaskTest extends EngineCase
 				task.setRenderOption( pdfRenderOptions );
 				task.setPageRange( pageRange );
 				task.render( );
-				if ( task.getErrors( ).size( ) > 0 )
-					return task.getErrors( );
+				assertEquals( "Exception when render pdf from " + fileName, 0,
+						task.getErrors( ).size( ) );
 				task.close( );
 
 				File pdfFile = new File( outputFileName );
@@ -728,7 +680,6 @@ public class RenderTaskTest extends EngineCase
 							+ pageRange, pdfFile.length( ) != 0 );
 				}
 			}
-			return null;
 		}
 		catch ( Exception e )
 		{
@@ -736,14 +687,13 @@ public class RenderTaskTest extends EngineCase
 			assertTrue( "Render " + fileName + " failed. "
 					+ e.getLocalizedMessage( ), false );
 		}
-		return null;
 	}
 
 	protected void renderReportBookmark( String fileName, String bookmark )
 	{
 		report_design = inputPath + fileName + ".rptdesign";
 		report_document = outputPath + fileName + "_reportdocument";
-		copyResource_INPUT( fileName + ".rptdesign", fileName + ".rptdesign" );
+		copyResource_INPUT( fileName + ".rptdesign" , fileName + ".rptdesign" );
 
 		IRenderTask task;
 
@@ -757,12 +707,10 @@ public class RenderTaskTest extends EngineCase
 			HTMLRenderContext renderContext = new HTMLRenderContext( );
 			renderContext.setImageDirectory( "image" );
 			HashMap appContext = new HashMap( );
-			appContext.put(
-					EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
+			appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
 					renderContext );
 			options.setOutputFormat( "html" );
-			options.getOutputSetting( ).put(
-					HTMLRenderOption.URL_ENCODING,
+			options.getOutputSetting( ).put( HTMLRenderOption.URL_ENCODING,
 					"UTF-8" );
 
 			outputFileName = outputPath + fileName + "/html/bookmark_"
@@ -778,9 +726,7 @@ public class RenderTaskTest extends EngineCase
 			task.render( );
 			assertEquals(
 					"Exception when render html with given bookmark from "
-							+ fileName,
-					0,
-					task.getErrors( ).size( ) );
+							+ fileName, 0, task.getErrors( ).size( ) );
 			task.close( );
 
 			File htmlFile = new File( outputFileName );
@@ -832,7 +778,7 @@ public class RenderTaskTest extends EngineCase
 		IDocArchiveWriter archive = new FileArchiveWriter( reportdocument );
 		// open the report runnable to execute.
 		IReportRunnable report = engine.openReportDesign( reportdesign );
-
+	
 		// create an IRunTask
 		IRunTask runTask = engine.createRunTask( report );
 		// execute the report to create the report document.
@@ -840,14 +786,11 @@ public class RenderTaskTest extends EngineCase
 		runTask.run( archive );
 
 		int i = runTask.getErrors( ).size( );
-		if ( i > 0 )
-			System.out.println( "error is "
-					+ runTask.getErrors( ).get( 0 ).toString( ) );
-		assertEquals(
-				"Exception when generate document from " + reportdesign,
-				0,
-				i );
-
+		if( i > 0 )
+			System.out.println("error is " + runTask.getErrors( ).get( 0 ).toString( ));
+		assertEquals( "Exception when generate document from " + reportdesign,
+				0, i  );
+		
 		// close the task, release the resource.
 		runTask.close( );
 	}

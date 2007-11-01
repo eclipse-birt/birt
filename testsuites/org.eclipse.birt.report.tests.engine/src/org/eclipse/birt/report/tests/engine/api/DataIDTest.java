@@ -41,7 +41,7 @@ public class DataIDTest extends EngineCase
 	{
 		removeResource( );
 	}
-
+	
 	public void testDataIDFromReport( ) throws EngineException, IOException
 	{
 		String inputFile = this.genInputFile( INPUT );
@@ -84,28 +84,21 @@ public class DataIDTest extends EngineCase
 			iids.add( strIid );
 		}
 
-		InstanceID iid = InstanceID.parse( iids.get( 1 ).toString( ) );
 		// DataID: dataSet:0
-		iid = iid.getParentID( ).getParentID( ).getParentID( );
+		InstanceID iid = InstanceID.parse( iids.get( 0 ).toString( ) );
 		DataID dataID = iid.getDataID( );
-		assertEquals( iid.toString( ), "/0.-2(" + dataID.getDataSetID( ) + ":"
+		assertEquals( iid.toString( ), "/6(" + dataID.getDataSetID( ) + ":"
 				+ dataID.getRowID( ) + ")" );
-
-		iid = iid.getParentID( );
-		dataID = iid.getDataID( );
-		assertNotNull( dataID );
-		assertEquals( iid.toString( ), "/0.28(" + dataID.getDataSetID( ) + ":"
-				+ dataID.getRowID( ) + ")" );
-
 		// DataID: {dataSet}.0.group:0
-		iid = InstanceID.parse( iids.get( 2 ).toString( ) );
-		iid = iid.getParentID( ).getParentID( ).getParentID( );
+		iid = InstanceID.parse( iids.get( 1 ).toString( ) );
 		dataID = iid.getDataID( );
-		assertNotNull( dataID );
-		assertEquals( iid.toString( ), "/0.-3(" + dataID.getDataSetID( ) + ":"
+		assertEquals( iid.toString( ), "/52(" + dataID.getDataSetID( ) + ":"
 				+ dataID.getRowID( ) + ")" );
-
-		// TODO: add case for DataID:{{dataSet}.0.group}.0.group1:0
+		// DataID:{{dataSet}.0.group}.0.group1:0
+		iid = InstanceID.parse( iids.get( 2 ).toString( ) );
+		dataID = iid.getDataID( );
+		assertEquals( iid.toString( ), "/61(" + dataID.getDataSetID( ) + ":"
+				+ dataID.getRowID( ) + ")" );
 	}
 
 	/**
