@@ -44,7 +44,7 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor
 	private ActionRegistry actionRegistry = null;
 
 	/**
-	 * Constracts an script editor.
+	 * Constructs an script editor.
 	 */
 	public ScriptEditor( )
 	{
@@ -52,7 +52,7 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor
 	}
 
 	/**
-	 * Constracts an script editor with the specfied script.
+	 * Constructs an script editor with the specified script.
 	 * 
 	 * @param script
 	 *            the script to edit
@@ -72,7 +72,10 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor
 	 */
 	public void createPartControl( Composite parent )
 	{
-		setInput( input );
+		if ( input != null )
+		{
+			setInput( input );
+		}
 		super.createPartControl( parent );
 	}
 
@@ -110,22 +113,6 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor
 
 		contentAssistAction.setActionDefinitionId( ITextEditorActionDefinitionIds.CONTENT_ASSIST_PROPOSALS );
 		setAction( "ContentAssistProposal", contentAssistAction );//$NON-NLS-1$
-		// TODO: rewirte those actions
-		// Add page actions
-		// Action action = LayoutPageAction.getInstance( );
-		// getActionRegistry( ).registerAction( action );
-		//		
-		// action = NormalPageAction.getInstance( );
-		// getActionRegistry( ).registerAction( action );
-		//
-		// action = MasterPageAction.getInstance( );
-		// getActionRegistry( ).registerAction( action );
-		//
-		// action = PreviewPageAction.getInstance( );
-		// getActionRegistry( ).registerAction( action );
-		//
-		// action = CodePageAction.getInstance( );
-		// getActionRegistry( ).registerAction( action );
 	}
 
 	/*
