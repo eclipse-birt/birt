@@ -220,7 +220,7 @@ CrosstabPreferencePage.filterLimit.prompt=Número máximo de valores que mostrar:
 CrosstabPreferencePage.Error.MaxRowInvalid=El valor de número no es válido.
 CrosstabPreferencePage.autoDelBindings.Text=Preguntar siempre antes de eliminar los enlaces no utilizados.
 CrosstabPreferencePage.promptGroup=Solicitar
-CrosstabPreferencePage.cubePopup.Text=Hint after dropping fields to crosstab and creating a cube successfully.
+CrosstabPreferencePage.cubePopup.Text=Sugerencia después de colocar los campos en la tabla de referencias cruzadas y crear un cubo correctamente.
 
 ###########################################################
 #Crosstab DataBinding properties
@@ -232,5 +232,5 @@ CrosstabDataBinding.message.changeCube=Va a cambiar el enlace de datos de la tab
 DataColumnXTabDropAdapter.DataCube=Cubo de datos
 
 CubeBuilder.warning.title=Tabla de referencias cruzadas
-CubeBuilder.warning.message=A data cube has been created successfully.\nTo finish creating a cross tab, drag the fields from the created data cube to the cross tab container.
+CubeBuilder.warning.message=Se ha creado un cubo de datos correctamente.\nPara terminar de crear una tabla de referencias cruzadas, arrastre los campos desde el cubo de datos que ha creado hasta el contenedor de tablas de referencias cruzadas.
 CubeBuilder.warning.prompt=No volver a mostrar este mensaje

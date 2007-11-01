@@ -191,7 +191,7 @@ data.engine.possibleMixedDataTypeInColumn=Une erreur s'est produite pendant la d
 data.engine.resultClassSaveError=Impossible de trouver les références des colonnes suivantes : {0}.
 data.engine.invalidMemBufferSize=La taille du tampon de la mémoire "{0}" est incorrecte. La taille du tampon de la mémoire doit être un entier supérieur à zéro.
 data.engine.document.error.cannotLoadStream=Le flux de document "{0}" est incorrect.
-data.engine.failToCreateTempDir=Fail to create temporary directory in "{0}"; 
+data.engine.failToCreateTempDir=Echec de la création du répertoire temporaire dans "{0}"; 
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=Le nom de colonne ne peut être ni vide ni nul.
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.
