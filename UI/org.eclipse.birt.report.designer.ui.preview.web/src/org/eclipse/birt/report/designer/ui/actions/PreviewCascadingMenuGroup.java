@@ -105,7 +105,7 @@ public class PreviewCascadingMenuGroup implements
 		String[] supportedFormats = engine.getSupportedFormats( );
 
 		MenuItem previewWebViewer = new MenuItem( menu, SWT.PUSH );
-		previewWebViewer.setText( Messages.getString( "designer.preview.previewaction.label.webviewer" ) ); //$NON-NLS-1$
+		previewWebViewer.setText( Messages.getString( "designer.preview.run.webviewer" ) ); //$NON-NLS-1$
 		previewWebViewer.setImage( previewIcon ); //$NON-NLS-1$		
 		previewWebViewer.addSelectionListener( new SelectionAdapter( ) {
 
@@ -119,7 +119,7 @@ public class PreviewCascadingMenuGroup implements
 		{
 			final String format = supportedFormats[i];
 			MenuItem previewOption = new MenuItem( menu, SWT.PUSH );
-			previewOption.setText( Messages.getFormattedString( "designer.preview.previewaction.label",
+			previewOption.setText( Messages.getFormattedString( "designer.preview.run",
 					new Object[]{
 						format.toUpperCase( )
 					} ) );
