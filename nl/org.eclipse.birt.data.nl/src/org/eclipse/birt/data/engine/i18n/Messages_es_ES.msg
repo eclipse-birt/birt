@@ -190,7 +190,7 @@ data.engine.possibleMixedDataTypeInColumn=Se ha producido un error durante la ap
 data.engine.resultClassSaveError=No se pueden encontrar las referencias de columna siguientes: {0}.
 data.engine.invalidMemBufferSize=El tamaño de búfer de memoria "{0}" no es válido. El tamaño de búfer de memoria debe ser un número entero superior a cero. 
 data.engine.document.error.cannotLoadStream=La secuencia de documento "{0}" no es válida.
-data.engine.failToCreateTempDir=Fail to create temporary directory in "{0}"; 
+data.engine.failToCreateTempDir=Error al crear el directorio temporal en "{0}"; 
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=El nombre de columna no puede ser nulo ni estar vacío.
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.
