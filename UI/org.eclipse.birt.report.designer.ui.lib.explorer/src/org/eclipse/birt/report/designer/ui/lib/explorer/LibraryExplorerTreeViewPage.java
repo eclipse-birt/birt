@@ -48,6 +48,7 @@ import org.eclipse.core.runtime.preferences.IEclipsePreferences.IPreferenceChang
 import org.eclipse.core.runtime.preferences.IEclipsePreferences.PreferenceChangeEvent;
 import org.eclipse.gef.dnd.TemplateTransfer;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
@@ -410,8 +411,11 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 			// treeViewer.setInput( new Object[]{
 			// new ResourceFolderLibNode( ), new FragmentsLibNode( )
 			// } );
+			ISelection selection = getSelection( );
+			treeViewer.setSelection( null );
 			treeViewer.setInput( ResourceLocator.getRootEntries( LIBRARY_FILENAME_PATTERN ) );
 			handleTreeViewerRefresh( );
+			if(selection!=null)setSelection( selection );
 		}
 	}
 

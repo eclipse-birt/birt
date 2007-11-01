@@ -14,6 +14,8 @@ package org.eclipse.birt.report.designer.ui.lib.explorer;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.model.views.outline.EmbeddedImageNode;
+import org.eclipse.birt.report.designer.core.model.views.outline.LibraryNode;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.FragmentResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
@@ -21,8 +23,19 @@ import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntr
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceFilter;
 import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.lib.explorer.resource.DesignElementEntry;
+import org.eclipse.birt.report.designer.ui.lib.explorer.resource.EmbeddedImagesEntry;
+import org.eclipse.birt.report.designer.ui.lib.explorer.resource.LibraryNodeEntry;
+import org.eclipse.birt.report.designer.ui.lib.explorer.resource.PropertyEntry;
+import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ReportResourceEntry;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ResourceEntryWrapper;
+import org.eclipse.birt.report.designer.ui.lib.explorer.resource.SlotEntry;
+import org.eclipse.birt.report.designer.ui.lib.explorer.resource.StructureEntry;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.graphics.Image;
@@ -42,17 +55,23 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 	 */
 	public Object[] getChildren( Object parentElement )
 	{
+		if ( parentElement instanceof ReportResourceEntry )
+		{
+			return getElementChildren( parentElement,
+					( (ReportResourceEntry) parentElement ).getReportElement( ) );
+		}
+
 		if ( parentElement instanceof ResourceEntryWrapper )
 		{
 			if ( ( (ResourceEntryWrapper) parentElement ).getType( ) == ResourceEntryWrapper.LIBRARY )
 			{
 				Object object = ( (ResourceEntryWrapper) parentElement ).getAdapter( LibraryHandle.class );
-				return super.getChildren( object );
+				return getElementChildren( parentElement, object );
 			}
 			else if ( ( (ResourceEntryWrapper) parentElement ).getType( ) == ResourceEntryWrapper.CSS_STYLE_SHEET )
 			{
 				Object object = ( (ResourceEntryWrapper) parentElement ).getAdapter( CssStyleSheetHandle.class );
-				return super.getChildren( object );
+				return getElementChildren( parentElement, object );
 			}
 		}
 
@@ -88,6 +107,40 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 			return childrenList.toArray( );
 		}
 		return super.getChildren( parentElement );
+	}
+
+	private Object[] getElementChildren( Object parentElement, Object object )
+	{
+		Object[] children = super.getChildren( object );
+		List entryList = new ArrayList( );
+		int index = 0;
+		for ( int i = 0; i < children.length; i++ )
+		{
+			if ( children[i] instanceof DesignElementHandle )
+				entryList.add( new DesignElementEntry( (DesignElementHandle) children[i],
+						(ResourceEntry) parentElement ) );
+			else if ( children[i] instanceof SlotHandle )
+				entryList.add( new SlotEntry( (SlotHandle) children[i],
+						(ResourceEntry) parentElement ) );
+			else if ( children[i] instanceof EmbeddedImageNode )
+				entryList.add( new EmbeddedImagesEntry( (EmbeddedImageNode) children[i],
+						(ResourceEntry) parentElement ) );
+			else if ( children[i] instanceof LibraryNode )
+				entryList.add( new LibraryNodeEntry( (LibraryNode) children[i],
+						(ResourceEntry) parentElement ) );
+			else if ( children[i] instanceof PropertyHandle )
+				entryList.add( new PropertyEntry( (PropertyHandle) children[i],
+						(ResourceEntry) parentElement ) );
+			else if ( children[i] instanceof StructureHandle )
+			{
+				entryList.add( new StructureEntry( (StructureHandle) children[i],
+						(ResourceEntry) parentElement,
+						index++ ) );
+			}
+			else
+				entryList.add( children[i] );
+		}
+		return entryList.toArray( );
 	}
 
 	/*
@@ -179,7 +232,7 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 	{
 		if ( element instanceof ResourceEntry )
 		{
-			return true;
+			return getChildren( element ).length > 0;
 		}
 		return super.hasChildren( element );
 	}
