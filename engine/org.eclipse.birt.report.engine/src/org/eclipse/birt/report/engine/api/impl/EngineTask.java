@@ -406,7 +406,7 @@ public abstract class EngineTask implements IEngineTask
 		return taskID;
 	}
 
-	protected Object convertToType( Object value, String type )
+	protected static Object convertToType( Object value, String type )
 	{
 		try
 		{
@@ -446,7 +446,8 @@ public abstract class EngineTask implements IEngineTask
 		}
 		catch ( BirtException e )
 		{
-			log.log( Level.SEVERE, e.getLocalizedMessage( ), e );
+			Logger.getLogger( EngineTask.class.getName( ) ).log( Level.SEVERE,
+					e.getLocalizedMessage( ), e );
 		}
 		return null;
 	}

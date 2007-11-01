@@ -12,11 +12,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -25,11 +23,12 @@ import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
-import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.ICascadingParameterSelectionChoice;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
@@ -43,7 +42,6 @@ import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignVisitor;
-import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -63,23 +61,12 @@ public class GetParameterDefinitionTask extends EngineTask
 			IGetParameterDefinitionTask
 {
 
-	private static final String VALUE_PREFIX = "__VALUE__";
-
-	private static final String LABEL_PREFIX = "__LABEL__";
-
 	// stores all parameter definitions. Each task clones the parameter
 	// definition information
 	// so that Engine IR (repor runnable) can keep a task-independent of the
 	// parameter definitions.
 	protected Collection parameterDefns = null;
 
-	protected HashMap dataCache = null;
-
-//	protected HashMap labelMap = null;
-
-//	protected HashMap valueMap = null;
-
-	private List labelColumnBindingNames = null;
 	/**
 	 * @param engine
 	 *            reference to the report engine
@@ -409,135 +396,61 @@ public class GetParameterDefinitionTask extends EngineTask
 		return getChoicesFromParameterGroup ( parameter, parameterValuesAhead );
 	}
 
-	/**
-	 * get selection choices from the data set.
-	 * 
-	 * @param dataSetName
-	 *            data set name
-	 * @param labelStmt
-	 *            label statement
-	 * @param valueStmt
-	 *            value statement
-	 * @param dataType
-	 *            value type
-	 * @return
-	 */
-	private Collection createDynamicSelectionChoices( String pattern,
-			String dataSetName, String labelStmt, String valueStmt,
-			String dataType, int limit, boolean fixedOrder, boolean isDistinct,
-			String sortDirection, String sortBy )
+	private Collection populateToList( IResultIterator iterator,
+			ScalarParameterHandle parameter, SelectionFilter filter )
 	{
-		boolean sortDirectionValue = "asc".equalsIgnoreCase( sortDirection );
-		boolean sortByLabel = "label".equalsIgnoreCase( sortBy );
-
-		ArrayList choices = new ArrayList( );
-		ReportDesignHandle report = (ReportDesignHandle) this.runnable
-				.getDesignHandle( );
-
-		DataSetHandle dataSet = report.findDataSet( dataSetName );
-		if ( dataSet != null )
+		ParameterHelper parameterHelper = new ParameterHelper( parameter, locale );
+		Collection choices = parameterHelper.createSelectionCollection( );
+		int limit = parameter.getListlimit( );
+		try
 		{
-			try
+			while ( iterator.next( )
+					&& ( limit <= 0 || choices.size( ) <= limit ) )
 			{
-				IDataEngine dataEngine = executionContext.getDataEngine( );
-				DataRequestSession dteSession = getDataSession();
-				// Define data source and data set
-				dataEngine.defineDataSet(dataSet);
-				ScriptExpression labelExpr = null;
-				if ( labelStmt != null && labelStmt.length( ) > 0 )
+				// skip duplicated values.
+				if ( filter != null && !filter.accept( iterator ) )
 				{
-					labelExpr = new ScriptExpression( labelStmt );
+					continue;
 				}
-				ScriptExpression valueExpr = new ScriptExpression( valueStmt );
-
-				QueryDefinition queryDefn = new QueryDefinition( );
-				queryDefn.setDataSetName( dataSetName );
-				if( limit > 0)
-				{
-					queryDefn.setMaxRows( limit );
-				}
-
-				// add parameters if have any
-				Iterator paramIter = dataSet.paramBindingsIterator( );
-				while ( paramIter.hasNext( ) )
-				{
-					ParamBindingHandle binding = (ParamBindingHandle) paramIter
-							.next( );
-					String paramName = binding.getParamName( );
-					String paramExpr = binding.getExpression( );
-					queryDefn.getInputParamBindings( ).add(
-							new InputParameterBinding( paramName,
-									new ScriptExpression( paramExpr ) ) );
-				}
-				
-				String labelColumnName = LABEL_PREFIX;;
-				String valueColumnName = VALUE_PREFIX;;
-				
-				if ( labelExpr != null )
-				{
-					IBinding binding = new Binding( labelColumnName, labelExpr );
-					queryDefn.addBinding( binding );
-				}
-				
-				IBinding binding = new Binding( valueColumnName, valueExpr );
-				queryDefn.addBinding( binding );
-				
-				queryDefn.setAutoBinding( true );
-
-				IPreparedQuery query = dteSession.prepare( queryDefn,
-						getAppContext( ) );
-
-				IQueryResults result = query.execute( executionContext
-						.getSharedScope( ) );
-				IResultIterator iter = result.getResultIterator( );
-				int count = 0;
-				Set checkPool = new HashSet( );
-				while ( iter.next( ) )
-				{
-					String label = null;
-					if ( labelExpr != null )
-					{
-						label = iter.getString( labelColumnName );
-					}
-					Object value = iter.getValue( valueColumnName );
-										
-					value = convertToType( value, dataType );
-
-					// skip duplicated values.
-					if ( isDistinct )
-					{
-						if ( !checkPool.contains( value ) )
-						{
-							checkPool.add( value );
-							choices.add( new SelectionChoice( label, value ) );
-							count++;
-						}
-					}
-					else
-					{
-						choices.add( new SelectionChoice( label, value ) );
-						count++;
-					}
-					if ( ( limit != 0 ) && ( count >= limit ) )
-					{
-						break;
-					}
-				}
-			}
-			catch ( BirtException ex )
-			{
-				log.log( Level.WARNING, ex.getMessage( ), ex );
-				executionContext.addException( ex );
+				String label = parameterHelper.getLabel( iterator );
+				Object value = parameterHelper.getValue( iterator );
+				choices.add( new SelectionChoice( label, value ) );
 			}
 		}
-		if ( !fixedOrder )
-			Collections.sort( choices, new SelectionChoiceComparator(
-					sortByLabel, pattern, sortDirectionValue, ULocale
-							.forLocale( locale ) ) );
+		catch ( BirtException ex )
+		{
+			log.log( Level.WARNING, ex.getMessage( ), ex );
+			executionContext.addException( ex );
+		}
 		return choices;
-
 	}
 
+	private DataRequestSession createDataSession( DataSetHandle dataSet )
+	{
+		IDataEngine dataEngine = executionContext.getDataEngine( );
+		DataRequestSession dteSession = getDataSession();
+		// Define data source and data set
+		dataEngine.defineDataSet(dataSet);
+		return dteSession;
+	}
+	
+	private QueryDefinition createQueryDefinition( DataSetHandle dataSet )
+	{
+		QueryDefinition queryDefn = new QueryDefinition( );
+		queryDefn.setDataSetName( dataSet.getName( ) );
+		queryDefn.setAutoBinding( true );
+		return queryDefn;
+	}
+	
+	private IResultIterator executeQuery( DataRequestSession dteSession,
+			QueryDefinition queryDefn ) throws BirtException
+	{
+		IPreparedQuery query = dteSession.prepare( queryDefn, getAppContext( ) );
+		IQueryResults result = query
+				.execute( executionContext.getSharedScope( ) );
+		return result.getResultIterator( );
+	}
+	
 	/**
 	 * The first step to work with the cascading parameters. Create the query
 	 * definition, prepare and execute the query. Cache the iterator of the
@@ -550,124 +463,6 @@ public class GetParameterDefinitionTask extends EngineTask
 	{
 	}
 	
-	/**
-	 * The first step to work with the cascading parameters. Create the query
-	 * definition, prepare and execute the query. Cache the iterator of the
-	 * result set and also cache the IBaseExpression used in the prepare.
-	 * 
-	 * @param parameterGroupName -
-	 *            the cascading parameter group name
-	 */
-	private void evaluateGroupQuery( String parameterGroupName )
-	{
-		CascadingParameterGroupHandle parameterGroup = getCascadingParameterGroup( parameterGroupName );
-
-		if ( dataCache == null )
-			dataCache = new HashMap( );
-
-		if ( parameterGroup == null )
-			return;
-
-		//If a IResultIterator with the same name has already existed in the dataCache,
-		//this IResultIterator and its IQueryResults should be closed.
-		IResultIterator iterOld = (IResultIterator) dataCache.get( parameterGroup.getName( ) );
-		if ( iterOld != null )
-		{
-			dataCache.remove( parameterGroup.getName( ) );
-			try
-			{
-				IQueryResults iresultOld = iterOld.getQueryResults();
-				iterOld.close( );
-				iresultOld.close( );
-			}
-			catch ( BirtException ex )
-			{
-				log.log( Level.WARNING, ex.getMessage( ) );
-			}
-		}
-		
-		DataSetHandle dataSet = parameterGroup.getDataSet( );
-		if ( dataSet != null )
-		{
-			try
-			{
-				// Handle data source and data set
-				DataRequestSession dteSession = getDataSession( );
-				IDataEngine dataEngine = executionContext.getDataEngine( );
-				dataEngine.defineDataSet( dataSet );
-
-				QueryDefinition queryDefn = new QueryDefinition( );
-				queryDefn.setDataSetName( dataSet.getQualifiedName( ) );
-				SlotHandle parameters = parameterGroup.getParameters( );
-				Iterator iter = parameters.iterator( );
-
-/*				if ( labelMap == null )
-					labelMap = new HashMap( );
-				if ( valueMap == null )
-					valueMap = new HashMap( );*/
-				
-				if ( labelColumnBindingNames == null )
-					labelColumnBindingNames = new ArrayList();
-				
-				while ( iter.hasNext( ) )
-				{
-					Object param = iter.next( );
-					if ( param instanceof ScalarParameterHandle )
-					{
-						String valueExpString = ( (ScalarParameterHandle) param )
-								.getValueExpr( );
-						ScriptExpression valueExpObject = new ScriptExpression(
-								valueExpString );
-						
-						String keyValue = VALUE_PREFIX+parameterGroup.getName( ) + "_"
-						+ ( (ScalarParameterHandle) param ).getName( );
-						
-	/*					valueMap.put( keyValue,
-								valueExpObject );*/
-						IBinding binding = new Binding( keyValue, valueExpObject );
-						queryDefn.addBinding( binding );
-						//queryDefn.getRowExpressions( ).add( valueExpObject );
-
-						String labelExpString = ( (ScalarParameterHandle) param )
-								.getLabelExpr( );
-
-						if ( labelExpString != null
-								&& labelExpString.length( ) > 0 )
-						{
-							ScriptExpression labelExpObject = new ScriptExpression(
-									labelExpString );
-							
-							String keyLabel = LABEL_PREFIX+parameterGroup.getName( ) + "_"
-							+ ( (ScalarParameterHandle) param ).getName( );
-	/*						labelMap.put( keyLabel, labelExpObject );
-							queryDefn.getRowExpressions( ).add( labelExpObject );*/
-							labelColumnBindingNames.add( keyLabel );
-							IBinding labelBinding = new Binding( keyLabel, labelExpObject );
-							queryDefn.addBinding( labelBinding );
-						}
-					}
-				}
-
-				queryDefn.setAutoBinding( true );
-				
-				IPreparedQuery query = dteSession.prepare( queryDefn,
-						getAppContext( ) );
-				IQueryResults result = query.execute( executionContext
-						.getSharedScope( ) );
-				IResultIterator resultIter = result.getResultIterator( );
-				dataCache.put( parameterGroup.getName( ), resultIter );
-				return;
-			}
-			catch ( BirtException ex )
-			{
-				log.log( Level.WARNING, ex.getMessage( ), ex );
-				executionContext.addException( ex );
-			}
-		}
-
-		dataCache.put( parameterGroup.getName( ), null );
-	}
-
 	/**
 	 * The second step to work with the cascading parameters. Get the selection
 	 * choices for a parameter in the cascading group. The parameter to work on
@@ -720,118 +515,238 @@ public class GetParameterDefinitionTask extends EngineTask
 		return this.getSelectionList( requestedParam.getName( ) );
 	}
 
-	private Collection getChoicesFromParameterGroup( ScalarParameterHandle parameter, Object[] groupKeyValues )
+	public Collection getSelectionTreeForCascadingGroup(
+			String parameterGroupName )
 	{
-		assert isCascadingParameter( parameter );
-		String paramDataType = parameter.getDataType( );
-		CascadingParameterGroupHandle parameterGroup = getCascadingGroup( parameter );
-		String parameterGroupName = parameterGroup.getName( );
-		IResultIterator iter = null;
-		if ( dataCache != null )
+		CascadingParameterGroupHandle parameterGroup = getCascadingParameterGroup( parameterGroupName );
+		if ( parameterGroup == null )
+			return Collections.EMPTY_LIST;
+		SlotHandle parameters = parameterGroup.getParameters( );
+		int parameterCount = parameters.getCount( );
+		if ( DesignChoiceConstants.DATA_SET_MODE_SINGLE.equals( parameterGroup
+				.getDataSetMode( ) ) )
 		{
-			iter = (IResultIterator) dataCache.get( parameterGroupName );
-		}
-		if ( iter == null )
-		{
-			evaluateGroupQuery( parameterGroupName );
-			iter = (IResultIterator) dataCache.get( parameterGroupName );
-			if ( iter == null )
+			// single dataSet
+			IResultIterator resultIterator = getResultSetOfCascadingGroup( parameterGroup );
+			if ( resultIterator == null )
 			{
 				return Collections.EMPTY_LIST;
 			}
+			Collection selectionTree = populateToSelectionTree( resultIterator,
+					parameterGroup );
+			close( resultIterator );
+			return selectionTree;
 		}
-		
-		// get the group's value name and data type if the parameter in one or
-		// more groups.
-		SlotHandle parameterSlots = parameterGroup.getParameters( );
-		String[] groupValueNames = new String[groupKeyValues.length];
-		String[] groupTypes = new String[groupKeyValues.length];
-		for ( int i = 0; i < groupKeyValues.length; i++ )
+		else
 		{
-			ScalarParameterHandle tempParameter = (ScalarParameterHandle) parameterSlots
-					.get( i );
-			if ( tempParameter == parameter )
-			{
-				break;
-			}
-			groupValueNames[i] = VALUE_PREFIX + parameterGroupName + "_"
-					+ tempParameter.getName( );
-			groupTypes[i] = tempParameter.getDataType( );
+			ParameterHelper[] parameterHelpers = getParameterHelpers( parameterGroup );
+			ChoiceListCache cache = new ChoiceListCache( parameterHelpers );
+			assert( parameterCount > 0 );
+			return getSelectionTree( parameters, parameterHelpers, cache,
+					new Object[0] );
 		}
+	}
 
-		String labelColumnName = LABEL_PREFIX + parameterGroupName + "_" + parameter.getName( );
-		String valueColumnName = VALUE_PREFIX + parameterGroupName + "_" + parameter.getName( );
-			
-		int listLimit = parameter.getListlimit( );
-		ArrayList choices = new ArrayList( );
+	private Collection getSelectionTree( SlotHandle parameters,
+			ParameterHelper[] parameterHelpers, ChoiceListCache cache,
+			Object[] parameterValueAhead )
+	{
+		int parameterIndex = parameterValueAhead.length;
+		int parameterCount = parameters.getCount( );
+		ScalarParameterHandle parameter = (ScalarParameterHandle) parameters
+				.get( parameterIndex );
+		Collection choices = getChoicesFromParameterQuery( parameter );
+		Iterator iterator = choices.iterator( );
+		Collection result = null;
+		while ( iterator.hasNext( ) )
+		{
+			Object[] values = new Object[parameterIndex + 1];
+			for ( int i = 0; i < parameterValueAhead.length; i++ )
+			{
+				values[i] = parameterValueAhead[i];
+			}
+			IParameterSelectionChoice choice = (IParameterSelectionChoice) iterator
+					.next( );
+			Object value = choice.getValue( );
+			values[parameterIndex] = value;
+			Collection children = null;
+			if ( parameterIndex == parameterCount - 1 )
+			{
+				children = Collections.EMPTY_LIST;
+			}
+			else if ( cache.containsChildren( values, parameterIndex ) )
+			{
+				children = cache.getChildren( values, parameterIndex );
+			}
+			else
+			{
+				executionContext.setParameter( parameter.getName( ), value,
+						choice.getLabel( ) );
+				children = getSelectionTree( parameters, parameterHelpers, cache, values );
+			}
+			result = cache.getParent( values, parameterIndex );
+			CascadingParameterSelectionChoice groupChoice = parameterHelpers[parameterIndex]
+					.createCascadingParameterSelectionChoice( choice );
+			result.add( groupChoice );
+			groupChoice.setChildren( children );
+		}
+		return result;
+	}
+
+	private void close( IResultIterator resultIterator )
+	{
 		try
 		{
-			int count = 0;
-			
-			Set checkPool = new HashSet( );
-			while ( iter.next( ) )
-			{
-				String label = (  labelColumnBindingNames.contains( labelColumnName )
-						? iter.getString( labelColumnName )
-						: null );
-				Object value = iter.getValue( valueColumnName );
-				value = convertToType( value, paramDataType );
-
-				// skip duplicated values.
-				if ( !checkPool.contains( value ) )
-				{
-					boolean isInGroup = checkInGroup( groupKeyValues,
-							groupValueNames, groupTypes, iter );
-					if ( isInGroup )
-					{
-						checkPool.add( value );
-						choices.add( new SelectionChoice( label, value ) );
-						count++;
-					}
-				}
-				if ( ( listLimit != 0 ) && ( count >= listLimit ) )
-				{
-					break;
-				}
-			}
+			resultIterator.close( );
 		}
 		catch ( BirtException e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
-			executionContext.addException( e );
+			e.printStackTrace();
 		}
-		if ( !parameter.isFixedOrder( ) )
-			Collections.sort( choices, new SelectionChoiceComparator( true, parameter.getPattern( ), ULocale.forLocale( locale ) ) );
-		return choices;
-	}
-	
-	/**
-	 * Check if the 
-	 * @param groupKeyValues
-	 * @param groupValueNames
-	 * @param groupTypes
-	 * @param iter
-	 * @return
-	 * @throws BirtException
-	 */
-	private boolean checkInGroup( Object[] groupKeyValues,
-			String[] groupValueNames, String[] groupTypes, IResultIterator iter )
-			throws BirtException
-	{
-		for ( int i = 0; i < groupValueNames.length; i++ )
-		{
-			Object valueParent = iter.getValue( groupValueNames[i] );
-			valueParent = convertToType( valueParent, groupTypes[i] );
-			if ( ( valueParent == null && groupKeyValues[i] != null )
-					|| ( valueParent != null && !valueParent
-							.equals( groupKeyValues[i] ) ) )
-			{
-				return false;
-			}
-		}
-		return true;
 	}
 
+	private Collection populateToSelectionTree( IResultIterator iterator,
+			CascadingParameterGroupHandle parameterGroup )
+	{
+		assert iterator != null;
+		ParameterHelper[] parameterHelpers = getParameterHelpers( parameterGroup );
+		ChoiceListCache cache = new ChoiceListCache( parameterHelpers );
+		int parameterCount = parameterHelpers.length;
+		try
+		{
+			while ( iterator.next( ) )
+			{
+				Object[] values = new Object[parameterCount];
+				for ( int i = 0; i < parameterCount; i++ )
+				{
+					ParameterHelper parameterHelper = parameterHelpers[i];
+					CascadingParameterSelectionChoice choice = parameterHelper
+							.createCascadingParameterSelectionChoice( iterator );
+					values[i] = choice.getValue( );
+					cache.getParent( values, i ).add( choice );
+					choice.setChildren( cache.getChildren( values, i ) );
+				}
+			}
+		}
+		catch ( BirtException ex )
+		{
+			log.log( Level.WARNING, ex.getMessage( ), ex );
+			executionContext.addException( ex );
+		}
+		return cache.getRoot( );
+	}
+
+	private ParameterHelper[] getParameterHelpers(
+			CascadingParameterGroupHandle parameterGroup )
+	{
+		SlotHandle parameters = parameterGroup.getParameters( );
+		int parameterCount = parameters.getCount( );
+		ParameterHelper[] parameterHelpers = new ParameterHelper[parameterCount];
+		for ( int i = 0; i < parameterCount; i++ )
+		{
+			ScalarParameterHandle parameter = (ScalarParameterHandle) parameters.get( i );
+			parameterHelpers[i] = new ParameterHelper( parameter, locale );
+		}
+		return parameterHelpers;
+	}
+	
+	private Collection getChoicesFromParameterGroup(
+			ScalarParameterHandle parameter, Object[] groupKeyValues )
+	{
+		assert isCascadingParameter( parameter );
+		CascadingParameterGroupHandle parameterGroup = getCascadingGroup( parameter );
+		IResultIterator iterator = getResultSetOfCascadingGroup( parameterGroup );
+		if ( iterator == null )
+		{
+			return Collections.EMPTY_LIST;
+		}
+		return populateToList( iterator, parameter, new ParameterGroupFilter(
+				groupKeyValues, parameterGroup ) );
+	}
+
+	private interface SelectionFilter
+	{
+		boolean accept( IResultIterator iterator ) throws BirtException;
+	}
+	
+	private class ParameterGroupFilter implements SelectionFilter
+	{
+		Object[] keyValues;
+		String[] valueColumnNames;
+		String[] valueTypes;
+		
+		public ParameterGroupFilter( Object[] keyValues,
+				CascadingParameterGroupHandle parameterGroup )
+		{
+			this.keyValues = keyValues;
+			valueColumnNames = new String[keyValues.length];
+			valueTypes = new String[keyValues.length];
+			SlotHandle parameterSlots = parameterGroup.getParameters( );
+			for ( int i = 0; i < keyValues.length; i++ )
+			{
+				ScalarParameterHandle tempParameter = (ScalarParameterHandle) parameterSlots
+						.get( i );
+				valueColumnNames[i] = ParameterHelper.getValueColumnName( tempParameter );
+				valueTypes[i] = tempParameter.getDataType( );
+			}
+
+		}
+		
+		public boolean accept( IResultIterator iterator ) throws BirtException
+		{
+			for ( int i = 0; i < valueColumnNames.length; i++ )
+			{
+				Object value = iterator.getValue( valueColumnNames[i] );
+				value = convertToType( value, valueTypes[i] );
+				if ( ( value == null && keyValues[i] != null )
+						|| ( value != null && !value.equals( keyValues[i] ) ) )
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+	}
+	
+	private IResultIterator getResultSetOfCascadingGroup(
+			CascadingParameterGroupHandle parameterGroup )
+	{
+		if ( parameterGroup == null )
+			return null;
+		
+		//If a IResultIterator with the same name has already existed in the dataCache,
+		//this IResultIterator and its IQueryResults should be closed.
+		DataSetHandle dataSet = parameterGroup.getDataSet( );
+		if ( dataSet != null )
+		{
+			try
+			{
+				// Handle data source and data set
+				QueryDefinition queryDefn = createQueryDefinition( dataSet );
+		
+				Iterator iter = parameterGroup.getParameters( ).iterator( );
+				while ( iter.hasNext( ) )
+				{
+					Object parameter = iter.next( );
+					if ( parameter instanceof ScalarParameterHandle )
+					{
+						ParameterHelper.addParameterBinding( queryDefn,
+								(ScalarParameterHandle) parameter );
+					}
+				}
+		
+				DataRequestSession dteSession = createDataSession( dataSet );
+				return executeQuery( dteSession, queryDefn );
+			}
+			catch ( BirtException ex )
+			{
+				log.log( Level.WARNING, ex.getMessage( ), ex );
+				executionContext.addException( ex );
+			}
+		}
+		return  null;
+	}
+	
 	private CascadingParameterGroupHandle getCascadingParameterGroup(
 			String name )
 	{
@@ -863,36 +778,196 @@ public class GetParameterDefinitionTask extends EngineTask
 		{
 			return this.value;
 		}
+		
+		public boolean equals( Object obj )
+		{
+			if ( obj == this )
+			{
+				return true;
+			}
+			if ( !(obj instanceof SelectionChoice ) )
+			{
+				return false;
+			}
+			SelectionChoice choice = (SelectionChoice)obj;
+			if ( value == null )
+			{
+				return choice.value == null;
+			}
+			return value.equals( choice.value );
+		}
 	}
 	
-	public void close( )
+	static class CascadingParameterSelectionChoice extends SelectionChoice
+			implements
+				ICascadingParameterSelectionChoice
 	{
-		if ( dataCache != null )
-		{
-			Iterator it = dataCache.entrySet( ).iterator( );
-	        while (it.hasNext())
-	        {
-	            Map.Entry entry = (Map.Entry)it.next();
-	            IResultIterator iter = (IResultIterator) entry.getValue();
-	            if( null == iter)
-	            	continue;
-	            try
-				{
-					IQueryResults iresult = iter.getQueryResults();
-					iter.close( );
-					iresult.close( );
-				}
-				catch ( BirtException ex )
-				{
-					log.log( Level.WARNING, ex.getMessage( ) );
-				}
-	        }
-			dataCache.clear( );
-			dataCache = null;
-		}
-		super.close( );
-	}
+		Collection children;
 
+		public CascadingParameterSelectionChoice( String label, Object value )
+		{
+			super( label, value );
+		}
+
+		public void setChildren( Collection children )
+		{
+			this.children = children;
+		}
+		
+		public Collection getChildSelectionList( )
+		{
+			return children;
+		}
+
+		public boolean equals( Object obj )
+		{
+			if ( obj == this )
+			{
+				return true;
+			}
+			if ( !(obj instanceof CascadingParameterSelectionChoice ) )
+			{
+				return false;
+			}
+			CascadingParameterSelectionChoice choice = (CascadingParameterSelectionChoice)obj;
+			if ( value == null )
+			{
+				return choice.value == null;
+			}
+			return value.equals( choice.value );
+		}
+	}
+	
+	static class ChoiceListCache
+	{
+		private ParameterHelper[] parameterHelpers;
+		private Map[] cachedLists;
+		private Collection root;
+		private int parameterCount;
+		
+		public ChoiceListCache( ParameterHelper[] parameterHelpers )
+		{
+			this.parameterHelpers = parameterHelpers;
+			this.parameterCount = parameterHelpers.length;
+			cachedLists = new Map[parameterCount - 1];
+			for ( int i = 0; i < cachedLists.length; i++ )
+			{
+				cachedLists[i] = new HashMap( );
+			}
+			root = parameterHelpers[0].createSelectionCollection( );
+		}
+		
+		public Collection getParent( Object[] values, int parameterIndex )
+		{
+			if ( parameterIndex == 0 )
+			{
+				return root;
+			}
+			int parentIndex = parameterIndex - 1;
+			ValueGroup valueGroup = new ValueGroup( values, parentIndex );
+			Map cache = cachedLists[parentIndex];
+			Collection parent = (Collection)cache.get( valueGroup );
+			if ( parent == null )
+			{
+				parent = parameterHelpers[parameterIndex]
+						.createSelectionCollection( );
+				cache.put( valueGroup, parent );
+			}
+			return parent;
+		}
+
+		public boolean containsChildren( Object[] values, int parameterIndex )
+		{
+			if ( parameterIndex == parameterCount - 1 )
+			{
+				return false;
+			}
+
+			ValueGroup valueGroup = new ValueGroup( values, parameterIndex );
+			Map cache = cachedLists[parameterIndex];
+			return cache.containsKey( valueGroup );
+		}
+		
+		public Collection getChildren( Object[] values, int parameterIndex )
+		{
+			if ( parameterIndex == parameterCount - 1 )
+			{
+				return Collections.EMPTY_LIST;
+			}
+
+			ValueGroup valueGroup = new ValueGroup( values, parameterIndex );
+			Map cache = cachedLists[parameterIndex];
+			Collection parent = (Collection)cache.get( valueGroup );
+			if ( parent == null )
+			{
+				parent = parameterHelpers[parameterIndex + 1]
+						.createSelectionCollection( );
+				cache.put( valueGroup, parent );
+			}
+			return parent;
+		}
+		
+		public Collection getRoot( )
+		{
+			return root;
+		}
+	}
+	
+	static class ValueGroup
+	{
+		private Object[] values;
+		private int parameterIndex;
+		
+		public ValueGroup( Object[] values, int parameterIndex )
+		{
+			this.values = values;
+			this.parameterIndex = parameterIndex;
+		}
+		
+		public int hashCode( )
+		{
+			int hashCode = 0;
+			for ( int i = 0; i <= parameterIndex; i++ ){
+				hashCode += 13 * values[i].hashCode( );
+			}
+			return hashCode;
+		}
+		
+		public boolean equals( Object obj )
+		{
+			if ( obj == this )
+			{
+				return true;
+			}
+			if ( !(obj instanceof ValueGroup ) )
+			{
+				return false;
+			}
+			ValueGroup valueGroup = (ValueGroup)obj;
+			if ( parameterIndex != valueGroup.parameterIndex )
+			{
+				return false;
+			}
+			for ( int i = 0; i <= parameterIndex; i++ )
+			{
+				if ( !(equal(values[i], valueGroup.values[i])))
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+		
+		private boolean equal(Object obj1, Object obj2 )
+		{
+			if ( obj1 == null )
+			{
+				return obj2 == null;
+			}
+			return obj1.equals( obj2 );
+		}
+	}
+	
 	private boolean isCascadingParameter( ScalarParameterHandle parameter )
 	{
 		return parameter.getContainer( ) instanceof CascadingParameterGroupHandle;
@@ -926,21 +1001,38 @@ public class GetParameterDefinitionTask extends EngineTask
 
 	private Collection getChoicesFromParameterQuery( ScalarParameterHandle parameter)
 	{
-		String dataType = parameter.getDataType( );
-		boolean fixedOrder = parameter.isFixedOrder( );
-		String dataSetName = parameter.getDataSetName( );
-		String valueExpr = parameter.getValueExpr( );
-		String labelExpr = parameter.getLabelExpr( );
-		boolean isDistinct = parameter.distinct( );
-		String sortDirection = parameter.getSortDirection( );
-		String sortBy = parameter.getSortBy( );
-		int limit = parameter.getListlimit( );
-		String pattern = parameter.getPattern( );
+		IResultIterator iter = getResultSetForParameter( parameter );
+		if ( iter == null )
+		{
+			return Collections.EMPTY_LIST;
+		}
+		return populateToList( iter, parameter, null);
+	}
 
-		return createDynamicSelectionChoices( pattern, dataSetName, labelExpr,
-				valueExpr, dataType, limit, fixedOrder, isDistinct,
-				sortDirection, sortBy );
-
+	private IResultIterator getResultSetForParameter(
+			ScalarParameterHandle parameter )
+	{
+		ReportDesignHandle report = (ReportDesignHandle) this.runnable
+				.getDesignHandle( );
+		DataSetHandle dataSet = report.findDataSet( parameter.getDataSetName( ) );
+		IResultIterator iterator = null;
+		if ( dataSet != null )
+		{
+			try
+			{
+				QueryDefinition queryDefn = createQueryDefinition( dataSet );
+				ParameterHelper.addParameterBinding( queryDefn, parameter );
+		
+				DataRequestSession dteSession = createDataSession( dataSet );
+				iterator = executeQuery( dteSession, queryDefn );
+			}
+			catch ( BirtException ex )
+			{
+				log.log( Level.WARNING, ex.getMessage( ), ex );
+				executionContext.addException( ex );
+			}
+		}
+		return iterator;
 	}
 	
 	private IParameterDefnBase getParamDefnBaseByName( ParameterDefnBase param,
@@ -1054,6 +1146,20 @@ public class GetParameterDefinitionTask extends EngineTask
 		}
 		
 		return allParameters;
+	}
+	
+	class ParameterBinding
+	{
+		String labelColumnName;
+		String valueColumnName;
+		String valueType;
+		
+		public ParameterBinding( String labelColumnName, String valueColumnName, String valueType )
+		{
+			this.labelColumnName = labelColumnName;
+			this.valueColumnName = valueColumnName;
+			this.valueType = valueType;
+		}
 	}
 	
 	class ParameterIRVisitor extends DesignVisitor

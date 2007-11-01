@@ -12,6 +12,9 @@
 package org.eclipse.birt.report.engine.api;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import org.eclipse.birt.report.engine.EngineCase;
 import org.eclipse.birt.report.engine.api.impl.ScalarParameterDefn;
@@ -25,12 +28,17 @@ public class GetParameterDefinitionTaskTest extends EngineCase
 	protected IScalarParameterDefn scalarParam = null;
 
 	static final String REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/GetParameterDefinitionTaskTest.rptdesign";
-	static final String REPORT_DESIGN = "GetParameterDefinitionTaskTest.rptdesign";
+//	static final String REPORT_DESIGN = "GetParameterDefinitionTaskTest.rptdesign";
 
 	public void setUp( ) throws Exception
 	{
-		removeFile( REPORT_DESIGN );
-		copyResource( REPORT_DESIGN_RESOURCE, REPORT_DESIGN );
+		String reportDesign = REPORT_DESIGN_RESOURCE;
+		initialize( reportDesign );
+	}
+
+	private void initialize( String reportDesign ) throws EngineException
+	{
+		useDesignFile( reportDesign );
 
 		engine = createReportEngine( );
 		runnable = engine.openReportDesign( REPORT_DESIGN );
@@ -40,7 +48,12 @@ public class GetParameterDefinitionTaskTest extends EngineCase
 	public void tearDown( )
 	{
 		// shut down the engine.
-		if( engine != null )
+		destroy( );
+	}
+
+	private void destroy( )
+	{
+		if ( engine != null )
 		{
 			engine.shutdown( );
 		}
@@ -113,8 +126,7 @@ public class GetParameterDefinitionTaskTest extends EngineCase
 //			"paramListDynamic"
 //		};
 //		boolean[] results = new boolean[]
-//		{
-//			true,
+//		{//			true,
 //			true,
 //			true,
 //			true,
@@ -341,6 +353,64 @@ public class GetParameterDefinitionTaskTest extends EngineCase
 		{
 			IParameterDefnBase base = gpdTask.getParameterDefn( paramNames[index] );
 			assertTrue(goldenTypeNames[index].equals( base.getTypeName( ) ));
+		}
+	}
+	
+	public void testGetSelectionTree( ) throws EngineException
+	{
+		destroy( );
+		initialize( "org/eclipse/birt/report/engine/api/GetSelectionTreeTest.rptdesign" );
+		Map parentToChildren = new HashMap( );
+		parentToChildren.put( "Singapore", new Object[]{"1,621", "1,612", null});
+		parentToChildren.put( "Hong Kong", new Object[]{"1,621"});
+
+		String[] parent = new String[]{"Singapore", "Hong Kong"};
+		checkTree( "DistinctFixedOrder", parent, parentToChildren );
+		checkTree( "MultiDataSetDistinctFixedOrder", parent, parentToChildren );
+		
+		parent = new String[]{"Singapore", "Singapore", "Singapore", "Hong Kong"};
+		checkTree( "NotDistinctFixedOrder", parent, parentToChildren );
+		checkTree( "MultiDataSetNotDistinctFixedOrder", parent, parentToChildren );
+		
+		parent = new String[]{"Hong Kong", "Singapore"};
+		checkTree( "DistinctNotFixedOrder", parent, parentToChildren );
+		checkTree( "MultiDataSetDistinctNotFixedOrder", parent, parentToChildren );
+		
+		parent = new String[]{"Hong Kong", "Singapore", "Singapore", "Singapore"};
+		checkTree( "NotDistinctNotFixedOrder", parent, parentToChildren );
+		checkTree( "MultiDataSetNotDistinctNotFixedOrder", parent, parentToChildren );
+	}
+
+	private void checkTree( String parameterName, String[] parent,
+			Map parentToChildren )
+	{
+		Collection tree = gpdTask.getSelectionTreeForCascadingGroup( parameterName );
+		Iterator iterator = tree.iterator( );
+		assertEquals( parent.length, tree.size( ) );
+		for ( int i = 0; i < parent.length; i++ )
+		{
+			ICascadingParameterSelectionChoice choice = (ICascadingParameterSelectionChoice) iterator
+					.next( );
+			Object value = choice.getValue( );
+			assertEquals( parent[i], value );
+			checkChildren( (Object[]) parentToChildren.get( value ),
+					choice.getChildSelectionList( ) );
+		}
+	}
+
+	private void checkChildren( Object[] expectedChildren,
+			Collection children )
+	{
+		assertEquals( expectedChildren.length, children.size( ) );
+		Iterator iterator = children.iterator( );
+		for ( int i = 0; i < expectedChildren.length; i++ )
+		{
+			ICascadingParameterSelectionChoice choice = (ICascadingParameterSelectionChoice) iterator
+					.next( );
+			if ( expectedChildren[i] != null )
+				assertEquals( expectedChildren[i], choice.getValue( ) );
+			else
+				assertNull( choice.getValue( ) );
 		}
 	}
 }
