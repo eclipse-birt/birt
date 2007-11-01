@@ -238,8 +238,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				pageGraphic.clipRestore( );
 			}
 		}
-		currentX -= container.getX( );
-		currentY -= container.getY( );
+		currentX -= getX( container );
+		currentY -= getY( container );
 	}
 
 
