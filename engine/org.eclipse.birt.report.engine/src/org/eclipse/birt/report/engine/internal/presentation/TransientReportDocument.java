@@ -23,6 +23,7 @@ import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.TOCNode;
 
+import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 public class TransientReportDocument implements IReportDocument
@@ -165,4 +166,9 @@ public class TransientReportDocument implements IReportDocument
 	{
 		return null;
 	}
+	
+	public ITOCTree getTOCTree( String format, ULocale locale, TimeZone timeZone )
+	{
+		return null;
+	} 
 }

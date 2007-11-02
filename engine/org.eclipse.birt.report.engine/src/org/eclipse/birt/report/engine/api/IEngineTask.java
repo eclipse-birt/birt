@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 
+import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -50,6 +51,17 @@ public interface IEngineTask {
 	 * @param locale the task locale
 	 */
 	public abstract void setLocale(ULocale locale);
+	
+	/**
+	 * Set the time zone information for the task.
+	 * <p>
+	 * Only following tasks have the meaningful implementations:
+	 * <li>RunAndRenderTask</li>
+	 * <li>RenderTask</li>
+	 * <li>GetParameterDefinitionTask</li> 
+	 * @param timeZone the time zone information for the task
+	 */
+	public abstract void setTimeZone( TimeZone timeZone );
 
 	/**
 	 * sets the task context.

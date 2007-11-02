@@ -62,6 +62,7 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.TOCNodeTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.TOCStyleTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.TOCTest.class );
+		suite.addTestSuite( org.eclipse.birt.report.engine.api.TimeZoneTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.document.ReportDocumentTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.impl.DataExtractionTaskTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.api.impl.GetParameterDefinitionTaskTest.class );

@@ -63,6 +63,7 @@ import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
+import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -97,6 +98,11 @@ public abstract class EngineTask implements IEngineTask
 	 * Comment for <code>locale</code>
 	 */
 	protected Locale locale = Locale.getDefault( );
+	
+	/**
+	 * define a time zone, and set a default value 
+	 */
+	protected TimeZone timeZone = TimeZone.getDefault( );
 
 	/**
 	 * the execution context
@@ -227,6 +233,12 @@ public abstract class EngineTask implements IEngineTask
 		log.log( Level.FINE, "EngineTask.setLocale: uLocale={0}",
 				uLocale == null ? null : uLocale.getDisplayName( ) );
 		doSetLocale( uLocale.toLocale( ) );
+	}
+	
+	public void setTimeZone( TimeZone timeZone )
+	{
+		this.timeZone = timeZone;
+		executionContext.setTimeZone( timeZone );
 	}
 
 	/**

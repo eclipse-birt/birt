@@ -45,6 +45,7 @@ import org.eclipse.birt.report.engine.toc.TOCBuilder;
 import org.eclipse.birt.report.engine.toc.TOCTree;
 import org.eclipse.birt.report.model.api.ModuleOption;
 
+import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 public class ReportDocumentReader
@@ -715,13 +716,18 @@ public class ReportDocumentReader
 
 	public ITOCTree getTOCTree( String format, ULocale locale )
 	{
+		return getTOCTree( format, locale, TimeZone.getDefault( ) );
+	}
+	
+	public ITOCTree getTOCTree( String format, ULocale locale, TimeZone timeZone )
+	{
 		if ( !isComplete( ) )
 		{
 			return null;
 		}
 		intializeTOC( );
 		TOCTree result = new TOCTree( tocTree.getTOCRoot( ), format, locale,
-				( (ReportRunnable) getReportRunnable( ) ).getReport( ) );
+				timeZone, ( (ReportRunnable) getReportRunnable( ) ).getReport( ) );
 		return result;
 	}
 

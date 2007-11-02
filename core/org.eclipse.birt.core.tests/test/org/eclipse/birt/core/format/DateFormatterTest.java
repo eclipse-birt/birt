@@ -19,6 +19,7 @@ import java.util.Locale;
 import junit.framework.TestCase;
 
 import com.ibm.icu.util.ULocale;
+import com.ibm.icu.util.TimeZone;
 
 /**
  * DateFormatterTest.
@@ -187,5 +188,27 @@ public class DateFormatterTest extends TestCase
 		assertEquals( "9/13/1998 8:01:44 PM", strDateTime );
 		assertEquals( "9/13/1998", strDate );
 		assertEquals( "8:01:44 PM", strTime );
+	}
+	
+	public void testTimeZone()
+	{
+		String result = null;
+		DateFormatter df = null;
+
+		Calendar dateCal = Calendar.getInstance( );
+		dateCal.set( 1998, 8, 13, 20, 1, 44 );
+		Date dateTime = dateCal.getTime( );
+
+		String goldenUTC = "13 Sep 1998 12:01";
+		TimeZone UTCTimeZone = TimeZone.getTimeZone( "UTC" );
+		df = new DateFormatter( ULocale.UK, UTCTimeZone );
+		result = df.format( dateTime );
+		assertTrue( goldenUTC.equalsIgnoreCase( result ) );
+
+		String goldenJapan = "1998/09/13 21:01";
+		TimeZone japanTimeZone = TimeZone.getTimeZone( "Japan" );
+		df = new DateFormatter( ULocale.JAPAN, japanTimeZone );
+		result = df.format( dateTime );
+		assertTrue( goldenJapan.equalsIgnoreCase( result ) );
 	}
 }

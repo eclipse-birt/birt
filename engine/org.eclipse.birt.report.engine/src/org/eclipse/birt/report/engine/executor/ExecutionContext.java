@@ -85,6 +85,7 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.WrapFactory;
 
+import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -191,6 +192,11 @@ public class ExecutionContext
 	 * the current locale, used to localize the report content
 	 */
 	private Locale locale;
+	
+	/**
+	 * define a time zone
+	 */
+	private TimeZone timeZone;
 
 	// at last the output objects
 	/**
@@ -296,6 +302,8 @@ public class ExecutionContext
 		}
 
 		locale = Locale.getDefault( );
+		
+		timeZone = TimeZone.getDefault( );
 
 		ScriptableObject rootScope = null;
 		if ( engine != null )
@@ -670,7 +678,16 @@ public class ExecutionContext
 		this.locale = locale;
 		this.scriptContext.getContext( ).setLocale( locale );
 	}
+	
+	public TimeZone getTimeZone()
+	{
+		return this.timeZone;
+	}
 
+	public void setTimeZone( TimeZone timeZone )
+	{
+		this.timeZone = timeZone;
+	}
 	/**
 	 * @return Returns the report.
 	 */
@@ -1380,12 +1397,13 @@ public class ExecutionContext
 			fmt = (DateFormatter) dateFormatters.get( value );
 			if ( fmt == null )
 			{
-				fmt = new DateFormatter( value, ULocale.forLocale( locale ) );
+				fmt = new DateFormatter( value, ULocale.forLocale( locale ),
+						timeZone );
 				dateFormatters.put( value, fmt );
 			}
 			return fmt;
 		}
-		return new DateFormatter( value, ULocale.forLocale( locale ) );
+		return new DateFormatter( value, ULocale.forLocale( locale ), timeZone );
 	}
 
 	/**

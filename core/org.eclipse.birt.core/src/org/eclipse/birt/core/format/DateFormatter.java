@@ -56,6 +56,8 @@ public class DateFormatter
 	 * Comment for <code>locale</code> used for record Locale information
 	 */
 	private ULocale locale = ULocale.getDefault( );
+	
+	private TimeZone timeZone = TimeZone.getDefault( );
 
 	/**
 	 * logger used to log syntax errors.
@@ -67,7 +69,12 @@ public class DateFormatter
 	 */
 	public DateFormatter( )
 	{
-		applyPattern( null );
+		this( null, null, null );
+	}
+	
+	public DateFormatter( TimeZone timeZone )
+	{
+		this( null, null, timeZone );
 	}
 
 	/**
@@ -77,7 +84,7 @@ public class DateFormatter
 	 */
 	public DateFormatter( String pattern )
 	{
-		applyPattern( pattern );
+		this( pattern, null, null );
 	}
 
 	/**
@@ -87,10 +94,12 @@ public class DateFormatter
 	 */
 	public DateFormatter( ULocale localeLoc )
 	{
-		// Leave locale to default if none provided
-		if ( localeLoc != null )
-			locale = localeLoc;
-		applyPattern( null );
+		this( null, localeLoc, null );
+	}
+	
+	public DateFormatter( ULocale localeLoc, TimeZone timeZone )
+	{
+		this( null, localeLoc, timeZone );
 	}
 
 	/**
@@ -99,7 +108,7 @@ public class DateFormatter
 	 */
 	public DateFormatter( Locale localeLoc )
 	{
-		this( ULocale.forLocale( localeLoc ) );
+		this( null, ULocale.forLocale( localeLoc ), null );
 	}
 
 	/**
@@ -111,9 +120,15 @@ public class DateFormatter
 	 */
 	public DateFormatter( String pattern, ULocale localeLoc )
 	{
-		// Leave locale to default if none provided
+		this( pattern, localeLoc, null );
+	}
+	
+	public DateFormatter( String pattern, ULocale localeLoc, TimeZone timeZone )
+	{
 		if ( localeLoc != null )
 			locale = localeLoc;
+		if ( timeZone != null )
+			this.timeZone = timeZone;
 		applyPattern( pattern );
 	}
 
@@ -136,12 +151,17 @@ public class DateFormatter
 		return this.formatPattern;
 	}
 
+	public void applyPattern( String formatString )
+	{
+		createPattern( formatString );
+		applyTimeZone( );
+	}
 	/**
 	 * define pattern and locale here
 	 * 
 	 * @param formatString
 	 */
-	public void applyPattern( String formatString )
+	private void createPattern( String formatString )
 	{
 		try
 		{
@@ -365,6 +385,22 @@ public class DateFormatter
 		}
 	}
 
+	private void applyTimeZone()
+	{
+		if ( this.dateFormat != null )
+		{
+			this.dateFormat.setTimeZone( timeZone );
+		}
+		if ( this.dateTimeFormat != null )
+		{
+			this.dateTimeFormat.setTimeZone( timeZone );
+		}
+		if ( this.timeFormat != null )
+		{
+			this.timeFormat.setTimeZone( timeZone );
+		}
+	}
+	
 	private com.ibm.icu.text.DateFormat hackYear(
 			com.ibm.icu.text.DateFormat factoryFormat )
 	{

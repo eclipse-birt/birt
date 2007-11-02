@@ -27,12 +27,15 @@ import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.InstanceID;
 
+import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 public class DataExtractionTask implements IDataExtractionTask
 {
 
 	IDataExtractionTask task;
+	
+	TimeZone timeZone = TimeZone.getDefault( );
 
 	public DataExtractionTask( IReportEngine engine, IReportRunnable runnable,
 			IReportDocument reader ) throws EngineException
@@ -184,6 +187,15 @@ public class DataExtractionTask implements IDataExtractionTask
 	public void setLocale( ULocale locale )
 	{
 		task.setLocale( locale );
+	}
+	
+	public void setTimeZone( TimeZone timeZone )
+	{
+		if ( timeZone != null )
+		{
+			this.timeZone = timeZone;
+		}
+		task.setTimeZone( this.timeZone );
 	}
 
 	public void setParameter( String name, Object value, String displayText )

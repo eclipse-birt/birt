@@ -17,6 +17,7 @@ import java.util.Map;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 
+import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -177,7 +178,17 @@ public interface IReportDocument
 	public void refresh( );
 
 	/**
-	 * Gets the TOC tree.
+	 * Get the TOC tree
+	 * @param format the format to generate the report
+	 * @param locale the locale information to generate the report
 	 */
 	ITOCTree getTOCTree( String format, ULocale locale );
+	
+	/**
+	 * Get the TOC tree
+	 * @param format the format to generate the report
+	 * @param locale the locale information to generate the report
+	 * @param timeZone the time zone information to generate the report
+	 */
+	ITOCTree getTOCTree( String format, ULocale locale, TimeZone timeZone );
 }

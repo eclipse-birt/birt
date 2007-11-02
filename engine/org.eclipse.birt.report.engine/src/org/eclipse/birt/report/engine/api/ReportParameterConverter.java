@@ -20,6 +20,7 @@ import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
 
+import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -29,6 +30,7 @@ public class ReportParameterConverter
 {
 	private String format = null;
 	private ULocale uLocale = null;
+	private TimeZone timeZone = TimeZone.getDefault( );
 	
 	private StringFormatter sf = null;
 	private DateFormatter df = null;
@@ -46,8 +48,18 @@ public class ReportParameterConverter
 	
 	public ReportParameterConverter( String format, ULocale uLocale )
 	{
+		this( format, uLocale, null );
+	}
+	
+	public ReportParameterConverter( String format, ULocale uLocale,
+			TimeZone timeZone )
+	{
 		this.format = format;
 		this.uLocale = uLocale;
+		if ( timeZone != null )
+		{
+			this.timeZone = timeZone;
+		}
 	}
 	
 	private StringFormatter getStringFormatter( )
@@ -80,7 +92,7 @@ public class ReportParameterConverter
 	{
 		if ( df == null && uLocale != null )
 		{
-			df = new DateFormatter( uLocale );
+			df = new DateFormatter( uLocale, timeZone );
 			if ( format != null )
 			{
 				df.applyPattern( format );

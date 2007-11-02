@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
-import java.util.List;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -28,7 +27,6 @@ import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.OnPageBreakLayoutPageHandle;
 import org.eclipse.birt.report.engine.executor.ReportExecutor;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
-import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.executor.dup.SuppressDuplciateReportExecutor;
 import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExecutor;
 import org.eclipse.birt.report.engine.layout.CompositeLayoutPageHandler;

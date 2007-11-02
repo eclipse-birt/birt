@@ -19,6 +19,8 @@ import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
+import com.ibm.icu.util.TimeZone;
+
 /**
  * An interface used to share information between the event methods in
  * scripting. Gives access to report parameters and configuration values. Also
@@ -67,6 +69,12 @@ public interface IReportContext
 	 * @return
 	 */
 	Locale getLocale( );
+	
+	/**
+	 * Get time zone informations.
+	 * @return
+	 */
+	TimeZone getTimeZone( );
 
 	/**
 	 * 

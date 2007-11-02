@@ -24,6 +24,7 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 import com.ibm.icu.text.MessageFormat;
+import com.ibm.icu.util.TimeZone;
 
 /**
  * Implementation of the IReportContext interface
@@ -101,6 +102,11 @@ public class ReportContextImpl implements IReportContext
 	public Locale getLocale( )
 	{
 		return context.getLocale( );
+	}
+	
+	public TimeZone getTimeZone( )
+	{
+		return context.getTimeZone( );
 	}
 
 	public String getOutputFormat( )
