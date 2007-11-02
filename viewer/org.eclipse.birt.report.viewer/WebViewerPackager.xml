@@ -489,6 +489,9 @@
 		<fileset dir="../org.eclipse.birt.report.data.adapter">
 			<include name="dataadapterapi.jar" />
 		</fileset>
+		<fileset dir="../org.eclipse.birt.report.item.crosstab.core">
+			<include name="crosstabcoreapi.jar" />
+		</fileset>
 		<fileset dir="../org.eclipse.birt.report.engine/lib">
 			<include name="commons-cli*.jar" />
 		</fileset>

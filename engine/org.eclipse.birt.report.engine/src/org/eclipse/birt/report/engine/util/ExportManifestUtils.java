@@ -21,6 +21,7 @@ public class ExportManifestUtils
 		"flute.jar", 
 		"js.jar",
 		"modelapi.jar", 
+		"crosstabcoreapi.jar",
 		"org.eclipse.emf.common_.*.jar",
 		"org.eclipse.emf.ecore.xmi_.*.jar", 
 		"org.eclipse.emf.ecore_.*.jar",
