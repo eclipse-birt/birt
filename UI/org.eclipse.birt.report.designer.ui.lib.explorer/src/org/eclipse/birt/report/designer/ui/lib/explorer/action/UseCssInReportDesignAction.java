@@ -70,7 +70,11 @@ public class UseCssInReportDesignAction extends Action
 		if ( selection != null )
 		{
 			Object selected = selection.getFirstElement( );
-			if ( selected instanceof ReportResourceEntry
+			if ( selected instanceof CssStyleSheetHandle )
+			{
+				return (CssStyleSheetHandle) selected;
+			}
+			else if ( selected instanceof ReportResourceEntry
 					&& ( (ReportResourceEntry) selected ).getReportElement( ) instanceof CssStyleSheetHandle )
 			{
 				return (CssStyleSheetHandle) ( (ReportResourceEntry) selected ).getReportElement( );

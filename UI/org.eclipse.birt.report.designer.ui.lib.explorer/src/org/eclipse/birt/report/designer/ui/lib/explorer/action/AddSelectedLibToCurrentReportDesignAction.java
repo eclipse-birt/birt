@@ -87,7 +87,11 @@ public class AddSelectedLibToCurrentReportDesignAction extends Action
 		{
 			Object selected = selection.getFirstElement( );
 
-			if ( selected instanceof ReportResourceEntry && ((ReportResourceEntry)selected).getReportElement( ) instanceof LibraryHandle )
+			if ( selected instanceof LibraryHandle )
+			{
+				return (LibraryHandle) selected;
+			}
+			else if ( selected instanceof ReportResourceEntry && ((ReportResourceEntry)selected).getReportElement( ) instanceof LibraryHandle )
 			{
 				return (LibraryHandle) ((ReportResourceEntry)selected).getReportElement( );
 			}
