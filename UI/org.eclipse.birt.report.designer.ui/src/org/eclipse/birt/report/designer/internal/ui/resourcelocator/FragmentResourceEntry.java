@@ -78,56 +78,43 @@ public class FragmentResourceEntry extends BaseResourceEntity
 						Enumeration enumeration = bundle.findEntries( "/", //$NON-NLS-1$
 								patterns[j],
 								true );
-						while ( enumeration != null
-								&& enumeration.hasMoreElements( ) )
-						{
-							URL element = (URL) enumeration.nextElement( );
-							String path = element.getPath( )
-									+ ( element.getRef( ) != null ? "#"
-											+ element.getRef( ) : "" );
-							String[] pathtoken = path.split( "/" ); //$NON-NLS-1$
-							FragmentResourceEntry parent = this;
-							for ( int m = 0; m < pathtoken.length; m++ )
-							{
-								if ( pathtoken[m].equals( "" ) ) //$NON-NLS-1$
-									continue;
-								FragmentResourceEntry child = parent.getChild( pathtoken[m] );
-								if ( child == null )
-								{
-									child = new FragmentResourceEntry( pathtoken[m],
-											( parent.path.equals( "/" ) ? "" //$NON-NLS-1$//$NON-NLS-2$
-													: parent.path ) + "/" //$NON-NLS-1$
-													+ pathtoken[m],
-											parent,
-											m == pathtoken.length - 1 );
-								}
-								parent = child;
-							}
-						}
+						parseResourceEntry( enumeration );
 					}
 				}
 			}
 			else
 			{
 				Enumeration enumeration = bundle.findEntries( "/", "*", true ); //$NON-NLS-1$//$NON-NLS-2$
-				while ( enumeration != null && enumeration.hasMoreElements( ) )
+				parseResourceEntry( enumeration );
+			}
+		}
+	}
+
+	private void parseResourceEntry( Enumeration enumeration )
+	{
+		while ( enumeration != null && enumeration.hasMoreElements( ) )
+		{
+			URL element = (URL) enumeration.nextElement( );
+			String path = element.getPath( )
+					+ ( element.getRef( ) != null ? "#" + element.getRef( )
+							: "" );
+			String[] pathtoken = path.split( "/" ); //$NON-NLS-1$
+			FragmentResourceEntry parent = this;
+			for ( int m = 0; m < pathtoken.length; m++ )
+			{
+				if ( pathtoken[m].equals( "" ) ) //$NON-NLS-1$
+					continue;
+				FragmentResourceEntry child = parent.getChild( pathtoken[m] );
+				if ( child == null )
 				{
-					URL element = (URL) enumeration.nextElement( );
-					String[] path = element.getPath( ).split( "/" ); //$NON-NLS-1$
-					FragmentResourceEntry parent = this;
-					for ( int i = 0; i < path.length; i++ )
-					{
-						if ( path[i].equals( "" ) ) //$NON-NLS-1$
-							continue;
-						FragmentResourceEntry child = parent.getChild( path[i] );
-						if ( child == null )
-							child = new FragmentResourceEntry( path[i],
-									path[i],
-									parent,
-									i == path.length - 1 );
-						parent = child;
-					}
+					child = new FragmentResourceEntry( pathtoken[m],
+							( parent.path.equals( "/" ) ? "" //$NON-NLS-1$//$NON-NLS-2$
+									: parent.path ) + "/" //$NON-NLS-1$
+									+ pathtoken[m],
+							parent,
+							m == pathtoken.length - 1 );
 				}
+				parent = child;
 			}
 		}
 	}
@@ -253,8 +240,6 @@ public class FragmentResourceEntry extends BaseResourceEntity
 			if ( this.cssStyleHandle == null
 					&& getURL( ).toString( ).toLowerCase( ).endsWith( ".css" ) )
 			{
-				String projectFolder = UIUtil.getProjectFolder( );
-
 				try
 				{
 					cssStyleHandle = SessionHandleAdapter.getInstance( )
@@ -271,20 +256,25 @@ public class FragmentResourceEntry extends BaseResourceEntity
 		return super.getAdapter( adapter );
 	}
 
-	
-	public boolean equals(Object object){
-		if(object == null)return false;
-		if(!(object instanceof FragmentResourceEntry))return false;
-		if(object == this)return true;
-		else{
-			FragmentResourceEntry temp = (FragmentResourceEntry)object;
-			if(temp.path.equals( this.path ))
+	public boolean equals( Object object )
+	{
+		if ( object == null )
+			return false;
+		if ( !( object instanceof FragmentResourceEntry ) )
+			return false;
+		if ( object == this )
+			return true;
+		else
+		{
+			FragmentResourceEntry temp = (FragmentResourceEntry) object;
+			if ( temp.path.equals( this.path ) )
 				return true;
 		}
 		return false;
 	}
-	
-	public int hashCode(){
+
+	public int hashCode( )
+	{
 		return this.path.hashCode( );
 	}
 }
