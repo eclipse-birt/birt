@@ -573,7 +573,10 @@ public class DefaultNodeProvider implements INodeProvider
 	{
 		if ( type == null )
 		{
+			//TODO filter auto-text
 			List supportList = DEUtil.getElementSupportList( slotHandle );
+			//bug#207731
+			supportList.remove( DEUtil.getElementDefn( "AutoText" ) );
 			if ( supportList.size( ) == 0 )
 			{
 				ExceptionHandler.openMessageBox( WARNING_DIALOG_TITLE,
@@ -598,17 +601,18 @@ public class DefaultNodeProvider implements INodeProvider
 				type = (String) dialog.getResult( )[0];
 			}
 		}
-		
+
 		PaletteEntryExtension[] entries = EditpartExtensionManager.getPaletteEntries( );
 		for ( int i = 0; i < entries.length; i++ )
 		{
 			if ( entries[i].getItemName( ).equals( type ) )
 			{
-				extendData.put( IRequestConstants.REQUEST_KEY_RESULT, entries[i].executeCreate( ) );
+				extendData.put( IRequestConstants.REQUEST_KEY_RESULT,
+						entries[i].executeCreate( ) );
 				return true;
 			}
 		}
-		
+
 		DesignElementHandle elementHandle = createElement( slotHandle, type );
 
 		if ( extendData != null )
