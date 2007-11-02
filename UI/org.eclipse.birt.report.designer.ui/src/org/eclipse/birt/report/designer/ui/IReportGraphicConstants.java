@@ -404,8 +404,14 @@ public interface IReportGraphicConstants
 	
 	public static final String ICON_DISABLE_IMPORT = "import_edisable";
 	
-	// JSEditor icons
-	public final static String ICON_JSEDITOR_ERROR = "JSEditor Error";//$NON-NLS-1$
+	// Script icons
+	public final static String ICON_SCRIPT_ERROR = "Script Error";//$NON-NLS-1$
 
-	public final static String ICON_JSEDITOR_NOERROR = "JSEditor NoError";//$NON-NLS-1$
+	public final static String ICON_SCRIPT_NOERROR = "Script NoError";//$NON-NLS-1$
+
+	/** The width of the vertical ruler. */
+	public final static int VERTICAL_RULER_WIDTH= 12;
+
+	// Annotation type
+	public final static String ANNOTATION_ERROR = "org.eclipse.ui.workbench.texteditor.error"; //$NON-NLS-1$
 }

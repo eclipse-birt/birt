@@ -38,7 +38,7 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor
 	private final JSSyntaxContext context = new JSSyntaxContext( );
 
 	/** The editor input for javascript. */
-	private IEditorInput input = new JSEditorInput( null );
+	private IEditorInput input = createScriptInput( null );
 
 	/** The action registry */
 	private ActionRegistry actionRegistry = null;
@@ -77,6 +77,18 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor
 			setInput( input );
 		}
 		super.createPartControl( parent );
+	}
+
+	/**
+	 * Creates an editor input with the specified script.
+	 * 
+	 * @param script
+	 *            the script to edit.
+	 * @return an editor input with the specified script.
+	 */
+	protected IEditorInput createScriptInput( String script )
+	{
+		return new JSEditorInput( script );
 	}
 
 	/*
@@ -192,11 +204,12 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor
 
 			if ( document != null )
 			{
-				document.set( script );
+				document.set( script == null ? "" : script ); //$NON-NLS-1$
+				
 				return;
 			}
 		}
-		input = new JSEditorInput( script );
+		input = createScriptInput( script );
 	}
 
 	/*

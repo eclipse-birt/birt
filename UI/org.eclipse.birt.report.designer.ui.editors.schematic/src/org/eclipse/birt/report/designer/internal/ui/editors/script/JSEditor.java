@@ -162,7 +162,7 @@ public class JSEditor extends EditorPart implements
 	private final IScriptEditor scriptEditor = createScriptEditor( );
 
 	/** the script validator */
-	private final ScriptValidator scriptValidator = new ScriptValidator( scriptEditor );
+	private ScriptValidator scriptValidator = null;
 
 	/**
 	 * JSEditor - constructor
@@ -402,6 +402,7 @@ public class JSEditor extends EditorPart implements
 		} );
 
 		scriptEditor.createPartControl( child );
+		scriptValidator = new ScriptValidator( getViewer( ) );
 
 		getViewer( ).addTextListener( new ITextListener( ) {
 
@@ -789,6 +790,8 @@ public class JSEditor extends EditorPart implements
 	private void setEditorText( String text )
 	{
 		scriptEditor.setScript( text );
+		scriptValidator.init( );
+		setValidateIcon( null, null );
 	}
 
 	/**
@@ -890,6 +893,7 @@ public class JSEditor extends EditorPart implements
 			getViewer( ).setEditable( true );
 			cmbExpList.setEnabled( true );
 			butReset.setEnabled( true );
+			butValidate.setEnabled( true );
 			editorUIEnabled = true;
 		}
 		settingText = true;
@@ -908,6 +912,7 @@ public class JSEditor extends EditorPart implements
 			cmbExpList.setEnabled( false );
 			cmbSubFunctions.setEnabled( false );
 			butReset.setEnabled( false );
+			butValidate.setEnabled( false );
 			editorUIEnabled = false;
 		}
 		settingText = true;
@@ -1011,26 +1016,40 @@ public class JSEditor extends EditorPart implements
 		try
 		{
 			scriptValidator.validate( );
-			image = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_JSEDITOR_NOERROR );
+			image = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_SCRIPT_NOERROR );
 			message = Messages.getString( "JSEditor.Validate.NoError" );
 		}
 		catch ( ParseException e )
 		{
-			image = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_JSEDITOR_ERROR );
+			image = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_SCRIPT_ERROR );
 			message = e.getLocalizedMessage( );
 		}
 		finally
 		{
-			if ( validateIcon != null )
-			{
-				validateIcon.setImage( image );
-				validateIcon.setToolTipText( message );
-			}
+			setValidateIcon( image, message );
+			setFocus( );
+		}
+	}
+
+	/**
+	 * Sets the validate icon with the specified image and tool tip text.
+	 * 
+	 * 
+	 * @param image
+	 *            the icon image
+	 * @param tip
+	 *            the tool tip text
+	 */
+	private void setValidateIcon( Image image, String tip )
+	{
+		if ( validateIcon != null )
+		{
+			validateIcon.setImage( image );
+			validateIcon.setToolTipText( tip );
 			if ( controller != null )
 			{
 				controller.layout( );
 			}
-			setFocus( );
 		}
 	}
 
