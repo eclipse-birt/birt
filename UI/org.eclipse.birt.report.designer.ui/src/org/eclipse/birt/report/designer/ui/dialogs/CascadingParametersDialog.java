@@ -49,10 +49,10 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
-import org.eclipse.birt.report.model.api.metadata.ValidationValueException;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -69,6 +69,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.KeyAdapter;
@@ -80,6 +81,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -308,7 +310,22 @@ public class CascadingParametersDialog extends BaseDialog
 
 	protected Control createDialogArea( Composite parent )
 	{
-		Composite composite = (Composite) super.createDialogArea( parent );
+		//		Composite composite = (Composite) super.createDialogArea( parent );
+
+		ScrolledComposite sc = new ScrolledComposite( (Composite) super.createDialogArea( parent ),
+				SWT.H_SCROLL | SWT.V_SCROLL );
+		sc.setLayout( new FillLayout( ) );
+		sc.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		applyDialogFont( sc );
+
+		Composite composite = new Composite( sc, SWT.NONE );
+		GridLayout layout = new GridLayout( );
+		layout.marginHeight = convertVerticalDLUsToPixels( IDialogConstants.VERTICAL_MARGIN );
+		layout.marginWidth = convertHorizontalDLUsToPixels( IDialogConstants.HORIZONTAL_MARGIN );
+		layout.verticalSpacing = convertVerticalDLUsToPixels( IDialogConstants.VERTICAL_SPACING );
+		layout.horizontalSpacing = convertHorizontalDLUsToPixels( IDialogConstants.HORIZONTAL_SPACING );
+		composite.setLayout( layout );
+
 		UIUtil.bindHelp( parent, IHelpContextIds.CASCADING_PARAMETER_DIALOG_ID );
 
 		GridData data = new GridData( );
@@ -337,7 +354,13 @@ public class CascadingParametersDialog extends BaseDialog
 		msgLineGridData.horizontalSpan = 2;
 		errorMessageLine.setLayoutData( msgLineGridData );
 
-		return composite;
+		sc.setContent( composite );
+		sc.setExpandHorizontal( true );
+		sc.setExpandVertical( true );
+		sc.setMinWidth( 600 );
+		sc.setMinHeight( 570 );
+
+		return sc;
 	}
 
 	private String validateDefaultValue( )
@@ -347,8 +370,7 @@ public class CascadingParametersDialog extends BaseDialog
 			return null;
 		}
 		String tempDefaultValue = defaultValueChooser.getText( );
-		
-		
+
 		String tempType = DATA_TYPE_CHOICE_SET.findChoiceByDisplayName( dataTypeChooser.getText( ) )
 				.getName( );
 
@@ -362,7 +384,7 @@ public class CascadingParametersDialog extends BaseDialog
 		{
 			try
 			{
-				
+
 				if ( !( ( DesignChoiceConstants.PARAM_TYPE_STRING.endsWith( getSelectedDataType( ) ) ) || ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.endsWith( getSelectedDataType( ) ) ) ) )
 				{
 					if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
@@ -400,7 +422,8 @@ public class CascadingParametersDialog extends BaseDialog
 		{
 			return null;
 		}
-		return new DateFormatter( STANDARD_DATE_TIME_PATTERN, ULocale.getDefault( ) ).format( date );
+		return new DateFormatter( STANDARD_DATE_TIME_PATTERN,
+				ULocale.getDefault( ) ).format( date );
 	}
 
 	private void updateMessageLine( )
@@ -790,26 +813,28 @@ public class CascadingParametersDialog extends BaseDialog
 		defaultValueChooser = new Combo( propertiesGroup, SWT.BORDER );
 		defaultValueChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		defaultValueChooser.add( CHOICE_SELECT_VALUE );
-		defaultValueChooser.addVerifyListener( new VerifyListener(){
+		defaultValueChooser.addVerifyListener( new VerifyListener( ) {
 
 			public void verifyText( VerifyEvent e )
 			{
 				// TODO Auto-generated method stub
 				String selection = e.text;
-				if(defaultValueChooser.indexOf( selection ) == -1)
+				if ( defaultValueChooser.indexOf( selection ) == -1 )
 				{
 					e.doit = true;
 					return;
 				}
-				if(selection.equals( CHOICE_SELECT_VALUE ))
+				if ( selection.equals( CHOICE_SELECT_VALUE ) )
 				{
 					e.doit = false;
-				}else
+				}
+				else
 				{
 					e.doit = true;
 				}
-				
-			}} );
+
+			}
+		} );
 		defaultValueChooser.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -819,7 +844,7 @@ public class CascadingParametersDialog extends BaseDialog
 				String selection = defaultValueChooser.getItem( defaultValueChooser.getSelectionIndex( ) );
 				if ( selection.equals( CHOICE_SELECT_VALUE ) )
 				{
-//					defaultValueChooser.setText( "" ); //$NON-NLS-1$
+					//					defaultValueChooser.setText( "" ); //$NON-NLS-1$
 
 					List columnValueList = getColumnValueList( );
 					if ( columnValueList.isEmpty( ) )
@@ -837,7 +862,7 @@ public class CascadingParametersDialog extends BaseDialog
 					}
 					else if ( status == Window.CANCEL )
 					{
-//						defaultValueChooser.setText( "" ); //$NON-NLS-1$
+						//						defaultValueChooser.setText( "" ); //$NON-NLS-1$
 					}
 				}
 
@@ -1107,7 +1132,7 @@ public class CascadingParametersDialog extends BaseDialog
 			{
 				continue;
 			}
-			
+
 			if ( !( ( DesignChoiceConstants.PARAM_TYPE_STRING.endsWith( getSelectedDataType( ) ) ) || ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.endsWith( getSelectedDataType( ) ) ) ) )
 			{
 				if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
@@ -1129,7 +1154,7 @@ public class CascadingParametersDialog extends BaseDialog
 						ULocale.getDefault( ) );
 
 			}
-			
+
 		}
 	}
 
@@ -2217,7 +2242,7 @@ public class CascadingParametersDialog extends BaseDialog
 				public void modifyText( ModifyEvent e )
 				{
 					updateEditErrorMsg( );
-					updateButtons();
+					updateButtons( );
 				}
 
 			} );
@@ -2298,8 +2323,8 @@ public class CascadingParametersDialog extends BaseDialog
 					try
 					{
 						if ( displayText.getSelectionIndex( ) == 0 ) // it
-																		// means
-																		// DISPLAY_TEXT_NONE
+						// means
+						// DISPLAY_TEXT_NONE
 						{
 							parameter.setLabelExpr( null );
 						}
@@ -2407,7 +2432,7 @@ public class CascadingParametersDialog extends BaseDialog
 			{
 				ResultSetColumnHandle columnHandle = (ResultSetColumnHandle) iter.next( );
 				valueList.add( columnHandle.getColumnName( ) );
-				dataTypeList.add( ModuleUtil.convertColumnTypeToParamType( columnHandle.getDataType( ) ));
+				dataTypeList.add( ModuleUtil.convertColumnTypeToParamType( columnHandle.getDataType( ) ) );
 			}
 
 			dataTypes = (String[]) dataTypeList.toArray( new String[0] );
@@ -2466,7 +2491,8 @@ public class CascadingParametersDialog extends BaseDialog
 				}
 
 				// name.setText( parameter.getName( ) );
-				if ( getFirstParameter( ) != null && !(multiDataSet.isEnabled( ) && multiDataSet.getSelection( )))
+				if ( getFirstParameter( ) != null
+						&& !( multiDataSet.isEnabled( ) && multiDataSet.getSelection( ) ) )
 				{
 					try
 					{
