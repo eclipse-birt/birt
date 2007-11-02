@@ -36,16 +36,16 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 		PreviewPropertyDescriptorProvider
 {
 
-	public MapDescriptorProvider()
-	{		
-		super();
+	public MapDescriptorProvider( )
+	{
+		super( );
 	}
-	
-	public MapDescriptorProvider(int expressionType)
-	{		
-		super(expressionType);
+
+	public MapDescriptorProvider( int expressionType )
+	{
+		super( expressionType );
 	}
-	
+
 	class MapLabelProvider extends LabelProvider implements ITableLabelProvider
 	{
 
@@ -75,9 +75,9 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 		{
 			Object[] elements = MapDescriptorProvider.this.getElements( inputElement );
 
-			deRegisterEventManager();
-			registerEventManager();
-			
+			deRegisterEventManager( );
+			registerEventManager( );
+
 			return elements;
 		}
 
@@ -88,13 +88,14 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 
 		public void dispose( )
 		{
-			deRegisterEventManager();
+			deRegisterEventManager( );
 		}
-		
+
 		protected void deRegisterEventManager( )
 		{
 			if ( UIUtil.getModelEventManager( ) != null )
-				UIUtil.getModelEventManager( ).removeModelEventProcessor( listener );
+				UIUtil.getModelEventManager( )
+						.removeModelEventProcessor( listener );
 		}
 
 		/**
@@ -103,7 +104,8 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 		protected void registerEventManager( )
 		{
 			if ( UIUtil.getModelEventManager( ) != null )
-				UIUtil.getModelEventManager( ).addModelEventProcessor( listener );
+				UIUtil.getModelEventManager( )
+						.addModelEventProcessor( listener );
 		}
 
 	}
@@ -136,6 +138,21 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 							+ resolveNull( handle.getValue1( ) )
 							+ " , " //$NON-NLS-1$
 							+ resolveNull( handle.getValue2( ) );
+				}
+				else if ( vv == 3 )
+				{
+					exp += " ";
+					int count = handle.getValue1List( ).size( );
+					for ( int i = 0; i < count; i++ )
+					{
+						if(i == 0 )
+						{
+							exp += handle.getValue1List( ).get( i ).toString( );
+						}else
+						{
+							exp += "; " + handle.getValue1List( ).get( i ).toString( );
+						}
+					}
 				}
 
 				return exp;
@@ -178,7 +195,8 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 		return true;
 	}
 
-	public IStructuredContentProvider getContentProvider( IModelEventProcessor listener )
+	public IStructuredContentProvider getContentProvider(
+			IModelEventProcessor listener )
 	{
 		return new MapContentProvider( listener );
 	}
@@ -273,17 +291,17 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 			builder.setDesignHandle( getDesignElementHandle( ) );
 
 			DesignElementHandle reportElement = getDesignElementHandle( );
-			if( getDesignElementHandle( ) instanceof RowHandle)
-			{			
-				DesignElementHandle designElement = ((RowHandle)getDesignElementHandle( )).getContainer( );
-				if(designElement instanceof ReportItemHandle)
+			if ( getDesignElementHandle( ) instanceof RowHandle )
+			{
+				DesignElementHandle designElement = ( (RowHandle) getDesignElementHandle( ) ).getContainer( );
+				if ( designElement instanceof ReportItemHandle )
 				{
-					reportElement = (ReportItemHandle)designElement;
-				}else
-				if(designElement instanceof GroupHandle)
+					reportElement = (ReportItemHandle) designElement;
+				}
+				else if ( designElement instanceof GroupHandle )
 				{
 					reportElement = (ReportItemHandle) ( (GroupHandle) designElement ).getContainer( );
-				}			
+				}
 			}
 			if ( reportElement instanceof ReportItemHandle )
 			{
@@ -293,14 +311,13 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 			{
 				builder.setReportElement( (ReportItemHandle) ( (GroupHandle) reportElement ).getContainer( ) );
 			}
-			
+
 			if ( builder.open( ) == Window.OK )
 			{
 				result = true;
 			}
 			stack.commit( );
-			
-			
+
 		}
 		catch ( Exception e )
 		{
@@ -329,8 +346,7 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 			}
 
 			stack.commit( );
-			
-			
+
 		}
 		catch ( Exception e )
 		{
@@ -350,19 +366,19 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 		builder.updateHandle( null, handleCount );
 
 		builder.setDesignHandle( getDesignElementHandle( ) );
-		
+
 		DesignElementHandle reportElement = getDesignElementHandle( );
-		if( getDesignElementHandle( ) instanceof RowHandle)
-		{			
-			DesignElementHandle designElement = ((RowHandle)getDesignElementHandle( )).getContainer( );
-			if(designElement instanceof ReportItemHandle)
+		if ( getDesignElementHandle( ) instanceof RowHandle )
+		{
+			DesignElementHandle designElement = ( (RowHandle) getDesignElementHandle( ) ).getContainer( );
+			if ( designElement instanceof ReportItemHandle )
 			{
-				reportElement = (ReportItemHandle)designElement;
-			}else
-			if(designElement instanceof GroupHandle)
+				reportElement = (ReportItemHandle) designElement;
+			}
+			else if ( designElement instanceof GroupHandle )
 			{
 				reportElement = (ReportItemHandle) ( (GroupHandle) designElement ).getContainer( );
-			}			
+			}
 		}
 		if ( reportElement instanceof ReportItemHandle )
 		{
@@ -372,7 +388,7 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 		{
 			builder.setReportElement( (ReportItemHandle) ( (GroupHandle) reportElement ).getContainer( ) );
 		}
-		
+
 		return builder;
 	}
 
@@ -391,8 +407,7 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 			stack.commit( );
 
 			result = true;
-			
-			
+
 		}
 		catch ( Exception e )
 		{
@@ -418,8 +433,7 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 			stack.commit( );
 
 			result = true;
-			
-			
+
 		}
 		catch ( Exception e )
 		{
@@ -446,8 +460,7 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 			stack.commit( );
 
 			result = true;
-			
-			
+
 		}
 		catch ( Exception e )
 		{
@@ -515,6 +528,5 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 	{
 		return ( (MapRuleHandle) handle ).getDisplay( );
 	}
-	
 
 }

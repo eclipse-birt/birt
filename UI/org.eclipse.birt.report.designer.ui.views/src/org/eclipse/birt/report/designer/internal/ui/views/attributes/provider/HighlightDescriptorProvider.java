@@ -143,6 +143,21 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 							+ " , " //$NON-NLS-1$
 							+ resolveNull( handle.getValue2( ) );
 				}
+				else if ( vv == 3 )
+				{
+					exp += " ";
+					int count = handle.getValue1List( ).size( );
+					for ( int i = 0; i < count; i++ )
+					{
+						if(i == 0 )
+						{
+							exp += handle.getValue1List( ).get( i ).toString( );
+						}else
+						{
+							exp += "; " + handle.getValue1List( ).get( i ).toString( );
+						}
+					}
+				}
 
 				return exp;
 
