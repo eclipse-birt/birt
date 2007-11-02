@@ -30,7 +30,7 @@ feature@org.eclipse.birt.crosstab=r22x_v20071015,:pserver:anonymous@dev.eclipse.
 
 feature@org.eclipse.birt.testhelper=r22x_v20071029,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.testhelper.feature
 feature@org.eclipse.birt.tests=r22x_v20071015,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.tests.feature
-plugin@org.eclipse.birt.tests=v20070718,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.tests
+plugin@org.eclipse.birt.tests=r22x_v20071102,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.tests
 
 feature@org.eclipse.birt.integration.wtp=r22x_v20071015,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.integration.wtp.feature
 feature@org.eclipse.birt.rcp=r22x_v20071015,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.rcp.feature
