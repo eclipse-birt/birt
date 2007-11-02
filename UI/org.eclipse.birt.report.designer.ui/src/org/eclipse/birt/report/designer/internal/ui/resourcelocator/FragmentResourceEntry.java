@@ -278,13 +278,13 @@ public class FragmentResourceEntry extends BaseResourceEntity
 		if(object == this)return true;
 		else{
 			FragmentResourceEntry temp = (FragmentResourceEntry)object;
-			if(temp.getName( ).equals( this.getName( ) ))
+			if(temp.path.equals( this.path ))
 				return true;
 		}
 		return false;
 	}
 	
 	public int hashCode(){
-		return this.getName( ).hashCode( );
+		return this.path.hashCode( );
 	}
 }

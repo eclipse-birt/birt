@@ -15,6 +15,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ReportResourceEntry;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
@@ -42,7 +43,13 @@ public class AddElementtoReport extends Action
 
 	public void setSelectedElement( Object element )
 	{
-		this.element = element;
+		if ( element instanceof ReportResourceEntry )
+		{
+			this.element = ( (ReportResourceEntry) element ).getReportElement( );
+		}
+		else
+			this.element = element;
+
 	}
 
 	private int canContain;

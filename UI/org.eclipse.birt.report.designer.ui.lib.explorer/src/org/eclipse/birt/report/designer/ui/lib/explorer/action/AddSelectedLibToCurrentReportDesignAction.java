@@ -15,6 +15,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ReportResourceEntry;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ResourceEntryWrapper;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -86,9 +87,9 @@ public class AddSelectedLibToCurrentReportDesignAction extends Action
 		{
 			Object selected = selection.getFirstElement( );
 
-			if ( selected instanceof LibraryHandle )
+			if ( selected instanceof ReportResourceEntry && ((ReportResourceEntry)selected).getReportElement( ) instanceof LibraryHandle )
 			{
-				return (LibraryHandle) selected;
+				return (LibraryHandle) ((ReportResourceEntry)selected).getReportElement( );
 			}
 			else if ( selected instanceof ResourceEntryWrapper
 					&& ( (ResourceEntryWrapper) selected ).getType( ) == ResourceEntryWrapper.LIBRARY )

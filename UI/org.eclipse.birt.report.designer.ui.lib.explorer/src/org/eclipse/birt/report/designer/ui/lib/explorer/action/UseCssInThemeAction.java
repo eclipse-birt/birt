@@ -18,6 +18,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.UseCssInThemeDialog;
 import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerTreeViewPage;
+import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ReportResourceEntry;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ResourceEntryWrapper;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -28,23 +29,22 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
-
 /**
  * UseCssInThemeAction
  */
 public class UseCssInThemeAction extends Action
 {
+
 	private LibraryExplorerTreeViewPage viewer;
 
-	private static final String ACTION_TEXT = Messages
-			.getString( "UseCssInThemeAction.Text" ); //$NON-NLS-1$
+	private static final String ACTION_TEXT = Messages.getString( "UseCssInThemeAction.Text" ); //$NON-NLS-1$
 
 	public UseCssInThemeAction( LibraryExplorerTreeViewPage page )
 	{
 		super( ACTION_TEXT );
 		this.viewer = page;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -52,40 +52,42 @@ public class UseCssInThemeAction extends Action
 	 */
 	public boolean isEnabled( )
 	{
-		Object obj = SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
+		Object obj = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
 		LibraryHandle moduleHandle;
-		if((obj == null) || (! (obj instanceof LibraryHandle)))
+		if ( ( obj == null ) || ( !( obj instanceof LibraryHandle ) ) )
 		{
 			return false;
 		}
-		moduleHandle = (LibraryHandle)obj;
-		CssStyleSheetHandle cssHandle = getSelectedCssStyleHandle();
-		if(cssHandle == null)
-		{			
+		moduleHandle = (LibraryHandle) obj;
+		CssStyleSheetHandle cssHandle = getSelectedCssStyleHandle( );
+		if ( cssHandle == null )
+		{
 			return false;
 		}
 		SlotHandle slotHandle = moduleHandle.getThemes( );
-		for(Iterator iter = slotHandle.iterator( ); iter.hasNext( );)
+		for ( Iterator iter = slotHandle.iterator( ); iter.hasNext( ); )
 		{
-			ThemeHandle theme = (ThemeHandle)iter.next( );
-			if(theme.canAddCssStyleSheet( cssHandle ))
+			ThemeHandle theme = (ThemeHandle) iter.next( );
+			if ( theme.canAddCssStyleSheet( cssHandle ) )
 			{
 				return true;
 			}
 		}
 		return false;
-		
+
 	}
-	
+
 	private CssStyleSheetHandle getSelectedCssStyleHandle( )
 	{
 		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection( );
 		if ( selection != null )
 		{
 			Object selected = selection.getFirstElement( );
-			if ( selected instanceof CssStyleSheetHandle )
+			if ( selected instanceof ReportResourceEntry
+					&& ( (ReportResourceEntry) selected ).getReportElement( ) instanceof CssStyleSheetHandle )
 			{
-				return (CssStyleSheetHandle) selected;
+				return (CssStyleSheetHandle) ( (ReportResourceEntry) selected ).getReportElement( );
 			}
 			else if ( selected instanceof ResourceEntryWrapper
 					&& ( (ResourceEntryWrapper) selected ).getType( ) == ResourceEntryWrapper.CSS_STYLE_SHEET )
@@ -95,7 +97,7 @@ public class UseCssInThemeAction extends Action
 		}
 		return null;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -103,14 +105,14 @@ public class UseCssInThemeAction extends Action
 	 */
 	public void run( )
 	{
-		CssStyleSheetHandle cssHandle = getSelectedCssStyleHandle();
-		UseCssInThemeDialog dialog = new UseCssInThemeDialog();
+		CssStyleSheetHandle cssHandle = getSelectedCssStyleHandle( );
+		UseCssInThemeDialog dialog = new UseCssInThemeDialog( );
 		String relativeFileName = cssHandle.getFileName( );
 		dialog.setFileName( relativeFileName );
-	
-		if(dialog.open( ) == Dialog.OK)
+
+		if ( dialog.open( ) == Dialog.OK )
 		{
-			ThemeHandle themeHandle = dialog.getTheme();
+			ThemeHandle themeHandle = dialog.getTheme( );
 			try
 			{
 				themeHandle.addCss( cssHandle.getFileName( ) );
@@ -122,5 +124,5 @@ public class UseCssInThemeAction extends Action
 			}
 		}
 	}
-	
+
 }

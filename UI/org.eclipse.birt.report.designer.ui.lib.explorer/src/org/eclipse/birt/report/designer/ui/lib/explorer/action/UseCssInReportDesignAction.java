@@ -16,6 +16,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.UseCssInReportDialog;
 import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerTreeViewPage;
+import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ReportResourceEntry;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ResourceEntryWrapper;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -69,9 +70,10 @@ public class UseCssInReportDesignAction extends Action
 		if ( selection != null )
 		{
 			Object selected = selection.getFirstElement( );
-			if ( selected instanceof CssStyleSheetHandle )
+			if ( selected instanceof ReportResourceEntry
+					&& ( (ReportResourceEntry) selected ).getReportElement( ) instanceof CssStyleSheetHandle )
 			{
-				return (CssStyleSheetHandle) selected;
+				return (CssStyleSheetHandle) ( (ReportResourceEntry) selected ).getReportElement( );
 			}
 			else if ( selected instanceof ResourceEntryWrapper
 					&& ( (ResourceEntryWrapper) selected ).getType( ) == ResourceEntryWrapper.CSS_STYLE_SHEET )

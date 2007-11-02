@@ -32,7 +32,7 @@ public abstract class DesignElementDragAdapter extends DragSourceAdapter
 	private StructuredViewer viewer;
 
 	// added this member to fix bug 116180
-	private List selectionList = new ArrayList( );
+	protected List selectionList = new ArrayList( );
 
 	/**
 	 * Constructor

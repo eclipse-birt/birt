@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.ui.lib.explorer.action.DeleteLibraryandC
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.RefreshLibExplorerAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.UseCssInReportDesignAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.UseCssInThemeAction;
+import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ReportResourceEntry;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ResourceEntryWrapper;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
@@ -97,6 +98,9 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 		if ( selection != null && selection.getFirstElement( ) != null )
 		{
 			Object selected = selection.getFirstElement( );
+			if ( selected instanceof ReportResourceEntry )
+				selected = ( (ReportResourceEntry) selected ).getReportElement( );
+
 			menu.add( refreshExplorerAction );
 			menu.add( new Separator( ) );
 
@@ -166,6 +170,8 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 
 	protected boolean canAddtoReport( Object transfer )
 	{
+		if ( transfer instanceof ReportResourceEntry )
+			transfer = ( (ReportResourceEntry) transfer ).getReportElement( );
 		if ( transfer instanceof ReportElementHandle
 				|| transfer instanceof EmbeddedImageHandle )
 		{
