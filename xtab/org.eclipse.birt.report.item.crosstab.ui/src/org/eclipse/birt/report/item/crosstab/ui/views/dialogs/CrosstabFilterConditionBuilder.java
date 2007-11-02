@@ -184,12 +184,12 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 
 	}
 
-	protected void createValueListComposite( Composite parent )
+	private int createValueListComposite( Composite parent )
 	{
 
 		if ( addExpressionValue != null && !addExpressionValue.isDisposed( ) )
 		{
-			return;
+			return 0;
 		}
 
 		if ( expressionValue1 != null && !expressionValue1.isDisposed( ) )
@@ -546,13 +546,14 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		addExpressionValue.addListener( SWT.Selection, btnSelListener );
 
 		parentComposite.layout( true, true );
+		return 1;
 	}
 
-	private void create2ValueComposite( Composite condition )
+	private int create2ValueComposite( Composite condition )
 	{
 		if ( expressionValue1 != null && !expressionValue1.isDisposed( ) )
 		{
-			return;
+			return 0;
 		}
 
 //		if ( valueListComposite != null && !valueListComposite.isDisposed( ) )
@@ -567,7 +568,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 			for(int i =0 ; i < count; i ++)
 			{
 				Object obj = valueListConList.get( i );
-				if( obj != null && obj instanceof Widget)
+				if( obj != null && obj instanceof Widget && (!((Widget)obj).isDisposed( ) ))
 				{
 					((Widget) obj ).dispose( );
 				}
@@ -628,6 +629,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 
 		parentComposite.layout( true, true );
 
+		return 1;
 	}
 
 	protected SelectionListener OpoertorSelection = new SelectionListener( ) {
@@ -641,18 +643,22 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 
 			if ( valueVisible == 3 )
 			{
-				createValueListComposite( operator.getParent( ) );
-				if ( inputHandle != null )
+				int ret = createValueListComposite( operator.getParent( ) );
+				if(ret != 0)
 				{
-					valueList = new ArrayList( inputHandle.getValue1List( ) );
+					if ( inputHandle != null )
+					{
+						valueList = new ArrayList( inputHandle.getValue1List( ) );
+					}
+
+					tableViewer.setInput( valueList );
 				}
 
-				tableViewer.setInput( valueList );
 			}
 			else
 			{
-				create2ValueComposite( operator.getParent( ) );
-				if ( inputHandle != null )
+				int ret = create2ValueComposite( operator.getParent( ) );
+				if ( ret != 0 && inputHandle != null )
 				{
 					expressionValue1.setText( DEUtil.resolveNull( inputHandle.getValue1( ) ) );
 					expressionValue2.setText( DEUtil.resolveNull( inputHandle.getValue2( ) ) );

@@ -575,12 +575,12 @@ public class FilterConditionBuilder extends TitleAreaDialog
 
 	};
 
-	private void create2ValueComposite( Composite condition )
+	private int create2ValueComposite( Composite condition )
 	{
 
 		if ( expressionValue1 != null && !expressionValue1.isDisposed( ) )
 		{
-			return;
+			return 0;
 		}
 
 		if ( valueListComposite != null && !valueListComposite.isDisposed( ) )
@@ -643,15 +643,15 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		}
 
 		condition.getParent( ).layout( true, true );
-
+		return 1;
 	}
 
-	private void createValueListComposite( Composite parent )
+	private int createValueListComposite( Composite parent )
 	{
 
 		if ( valueListComposite != null && !valueListComposite.isDisposed( ) )
 		{
-			return;
+			return 0;
 		}
 
 		if ( expressionValue1 != null && !expressionValue1.isDisposed( ) )
@@ -998,6 +998,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		addExpressionValue.setItems( popupItems );
 
 		parent.getParent( ).layout( true, true );
+		return 1;
 
 	}
 
@@ -1085,18 +1086,21 @@ public class FilterConditionBuilder extends TitleAreaDialog
 
 			if ( valueVisible == 3 )
 			{
-				createValueListComposite( operator.getParent( ) );
-				if ( inputHandle != null )
+				int ret = createValueListComposite( operator.getParent( ) );
+				if(ret != 0)
 				{
-					valueList = new ArrayList( inputHandle.getValue1List( ) );
-				}
+					if ( inputHandle != null )
+					{
+						valueList = new ArrayList( inputHandle.getValue1List( ) );
+					}
 
-				tableViewer.setInput( valueList );
+					tableViewer.setInput( valueList );
+				}
 			}
 			else
 			{
-				create2ValueComposite( operator.getParent( ) );
-				if ( inputHandle != null )
+				int ret = create2ValueComposite( operator.getParent( ) );
+				if ( ret != 0 && inputHandle != null )
 				{
 					expressionValue1.setText( DEUtil.resolveNull( inputHandle.getValue1( ) ) );
 					expressionValue2.setText( DEUtil.resolveNull( inputHandle.getValue2( ) ) );
