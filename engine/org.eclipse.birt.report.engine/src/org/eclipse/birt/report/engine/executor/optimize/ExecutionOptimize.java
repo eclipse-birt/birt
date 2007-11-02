@@ -34,6 +34,7 @@ import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
+import org.eclipse.birt.report.engine.ir.TemplateDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
 import org.w3c.dom.css.CSSValue;
 
@@ -316,6 +317,12 @@ public class ExecutionOptimize
 			}
 			parentNode = parent;
 			return Boolean.TRUE;
+		}
+		
+		public Object visitTemplate( TemplateDesign template, Object value )
+		{
+			visitReportItem( template, Boolean.TRUE );
+			return value;
 		}
 
 		/*
