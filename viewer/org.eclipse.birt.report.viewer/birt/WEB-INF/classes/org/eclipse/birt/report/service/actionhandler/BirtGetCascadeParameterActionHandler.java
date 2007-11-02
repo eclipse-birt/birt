@@ -248,6 +248,12 @@ public class BirtGetCascadeParameterActionHandler
 								.getName( ), keyValue, options, attrBean,
 						keepDefValue );
 				ret.put( remainingParamNames.get( 0 ), paramList );
+				
+				// empty the child list
+				for ( int j = 1; j < remainingParamNames.size( ); j++ )
+				{
+					ret.put( remainingParamNames.get( j ), new ArrayList( ) );
+				}
 			}
 		}
 		catch ( RemoteException e )
@@ -274,7 +280,8 @@ public class BirtGetCascadeParameterActionHandler
 	{
 		int index = 0;
 		List selectionList = new ArrayList( );
-
+		
+		/*
 		if ( defaultValue != null )
 		{
 			// add default value item
@@ -306,6 +313,18 @@ public class BirtGetCascadeParameterActionHandler
 			{
 				selectionList.add( index++, new SelectItemChoice( "", "" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 			}
+		}
+		*/
+		
+		if ( !parameter.isRequired( ) )
+		{
+			selectionList.add( index++, new SelectItemChoice( "", //$NON-NLS-1$
+					IBirtConstants.NULL_VALUE ) );
+			selectionList.add( index++, new SelectItemChoice( "", "" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		else
+		{
+			selectionList.add( index++, new SelectItemChoice( "", "" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		return selectionList;
