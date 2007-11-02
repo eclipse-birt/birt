@@ -1,8 +1,6 @@
 
 package org.eclipse.birt.report.engine.internal.document.v4;
 
-import org.eclipse.birt.report.engine.content.IContent;
-
 public class TableGroupExecutor extends GroupExecutor
 {
 
@@ -22,10 +20,5 @@ public class TableGroupExecutor extends GroupExecutor
 					.setTableExecutor( (TableItemExecutor) getListingExecutor( ) );
 		}
 		return executor;
-	}
-	
-	protected IContent doCreateContent( )
-	{
-		return report.createTableGroupContent( );
 	}
 }
