@@ -1032,7 +1032,7 @@ public class ExecutionContext
 	 * 
 	 * 
 	 */
-	private class ReportObject
+	public class ReportObject
 	{
 
 		/**
