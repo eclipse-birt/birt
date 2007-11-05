@@ -54,6 +54,7 @@ import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextListener;
 import org.eclipse.jface.text.TextEvent;
+import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -66,8 +67,6 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -115,14 +114,6 @@ public class JSEditor extends EditorPart implements
 
 	private IEditorPart editingDomainEditor;
 
-	/**
-	 * Check if text setting by selection changed.
-	 * <p>
-	 * Do not mark dirty when text setting by selection changed.
-	 * </p>
-	 */
-	private boolean settingText = false;
-
 	Combo cmbExpList = null;
 
 	Combo cmbSubFunctions = null;
@@ -163,6 +154,26 @@ public class JSEditor extends EditorPart implements
 
 	/** the script validator */
 	private ScriptValidator scriptValidator = null;
+
+	/** the flag if the text listener is enabled. */
+	private boolean isTextListenerEnable = true;
+
+	/** the listener for text chaged. */
+	private final ITextListener textListener = new ITextListener( ) {
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.jface.text.ITextListener#textChanged(org.eclipse.jface.text.TextEvent)
+		 */
+		public void textChanged( TextEvent event )
+		{
+			if ( isTextListenerEnable )
+			{
+				markDirty( );
+			}
+		}
+	};
 
 	/**
 	 * JSEditor - constructor
@@ -364,8 +375,6 @@ public class JSEditor extends EditorPart implements
 				ISelection selection = event.getSelection( );
 				if ( selection != null )
 				{
-
-					settingText = true;
 					Object[] sel = ( (IStructuredSelection) selection ).toArray( );
 					if ( sel.length == 1 )
 					{
@@ -386,7 +395,9 @@ public class JSEditor extends EditorPart implements
 							IPropertyDefn elePropDefn = (IPropertyDefn) sel[0];
 							cmbItemLastSelected = elePropDefn;
 
+							setTextListenerEnable( false );
 							setEditorText( desHandle.getStringProperty( elePropDefn.getName( ) ) );
+							setTextListenerEnable( true );
 							setIsModified( false );
 							selectionMap.put( getModel( ), selection );
 
@@ -395,7 +406,6 @@ public class JSEditor extends EditorPart implements
 							updateScriptContext( desHandle, method );
 						}
 					}
-					settingText = false;
 				}
 			}
 
@@ -404,31 +414,31 @@ public class JSEditor extends EditorPart implements
 		scriptEditor.createPartControl( child );
 		scriptValidator = new ScriptValidator( getViewer( ) );
 
-		getViewer( ).addTextListener( new ITextListener( ) {
-
-			public void textChanged( TextEvent event )
-			{
-				if ( !settingText && !isModified && event.getOffset( ) != 0 )
-				{
-					markDirty( );
-				}
-			}
-		} );
-
-		this.getViewer( )
-				.getTextWidget( )
-				.addModifyListener( new ModifyListener( ) {
-
-					public void modifyText( ModifyEvent e )
-					{
-						markDirty( );
-					}
-				} );
-
 		// suport the mediator
 		SessionHandleAdapter.getInstance( ).getMediator( ).addColleague( this );
 
 		disableEditor( );
+		getViewer( ).addTextListener( textListener );
+	}
+
+	/**
+	 * Sets the status of the text listener.
+	 * 
+	 * @param enabled
+	 *            <code>true</code> if enable, <code>false</code> otherwise.
+	 */
+	private void setTextListenerEnable( boolean enabled )
+	{
+		if ( isTextListenerEnable != enabled )
+		{
+			SourceViewer viewer = getViewer( );
+
+			if ( viewer != null )
+			{
+				viewer.getUndoManager( ).reset( );
+			}
+			isTextListenerEnable = enabled;
+		}
 	}
 
 	/**
@@ -683,7 +693,6 @@ public class JSEditor extends EditorPart implements
 
 		if ( selection != null )
 		{
-			settingText = true;
 			Object[] sel = ( (IStructuredSelection) selection ).toArray( );
 			if ( sel.length == 1 )
 			{
@@ -702,19 +711,27 @@ public class JSEditor extends EditorPart implements
 
 				// clear the latest selected item.
 				cmbItemLastSelected = null;
-				setEditorText( "" ); //$NON-NLS-1$
+				try
+				{
+					setTextListenerEnable( false );
+					setEditorText( "" ); //$NON-NLS-1$
 
-				// enable/disable editor based on the items in the
-				// expression list.
-				if ( cmbExpList.getItemCount( ) > 0 )
-				{
-					enableEditor( );
-					// Selects the first item in the expression list.
-					selectItemInComboExpList( (ISelection) selectionMap.get( getModel( ) ) );
+					// enable/disable editor based on the items in the
+					// expression list.
+					if ( cmbExpList.getItemCount( ) > 0 )
+					{
+						enableEditor( );
+						// Selects the first item in the expression list.
+						selectItemInComboExpList( (ISelection) selectionMap.get( getModel( ) ) );
+					}
+					else
+					{
+						disableEditor( );
+					}
 				}
-				else
+				finally
 				{
-					disableEditor( );
+					setTextListenerEnable( true );
 				}
 
 				/*
@@ -739,7 +756,6 @@ public class JSEditor extends EditorPart implements
 			{
 				updateAnnotationLabel( sel[0] );
 			}
-			settingText = false;
 		}
 	}
 
@@ -872,10 +888,14 @@ public class JSEditor extends EditorPart implements
 
 	protected void markDirty( )
 	{
-		this.isModified = true;
-		( (IFormPage) editingDomainEditor ).getEditor( )
-				.editorDirtyStateChanged( );
-		firePropertyChange( PROP_DIRTY );
+		if ( !isModified )
+		{
+			setIsModified( true );
+			( (IFormPage) editingDomainEditor ).getEditor( )
+					.editorDirtyStateChanged( );
+
+			firePropertyChange( PROP_DIRTY );
+		}
 	}
 
 	protected boolean checkEditorActive( )
@@ -890,15 +910,13 @@ public class JSEditor extends EditorPart implements
 	{
 		if ( editorUIEnabled == false )
 		{
-			getViewer( ).setEditable( true );
+			getViewer( ).getTextWidget( ).setEnabled( true );
 			cmbExpList.setEnabled( true );
 			butReset.setEnabled( true );
 			butValidate.setEnabled( true );
 			editorUIEnabled = true;
 		}
-		settingText = true;
 		setEditorText( "" ); //$NON-NLS-1$
-		settingText = false;
 	}
 
 	/**
@@ -908,16 +926,14 @@ public class JSEditor extends EditorPart implements
 	{
 		if ( editorUIEnabled == true )
 		{
-			getViewer( ).setEditable( false );
+			getViewer( ).getTextWidget( ).setEnabled( false );
 			cmbExpList.setEnabled( false );
 			cmbSubFunctions.setEnabled( false );
 			butReset.setEnabled( false );
 			butValidate.setEnabled( false );
 			editorUIEnabled = false;
 		}
-		settingText = true;
 		setEditorText( NO_EXPRESSION );
-		settingText = false;
 	}
 
 	/**
