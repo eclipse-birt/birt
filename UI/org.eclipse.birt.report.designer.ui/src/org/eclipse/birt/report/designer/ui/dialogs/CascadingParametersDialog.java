@@ -78,6 +78,7 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.graphics.Image;
@@ -105,6 +106,18 @@ import com.ibm.icu.util.ULocale;
 
 public class CascadingParametersDialog extends BaseDialog
 {
+	
+	private Composite sorttingArea;
+	private Label sortKeyLabel,sortDirectionLabel;
+	private Combo sortDirectionChooser,sortKeyChooser;
+	private static final String LABEL_SORT_GROUP = Messages.getString( "ParameterDialog.Label.SortGroup" ); //$NON-NLS-1$
+	private static final String LABEL_SORT_KEY = Messages.getString( "ParameterDialog.Label.SortKey" ); //$NON-NLS-1$
+	private static final String CHOICE_NONE = Messages.getString( "ParameterDialog.Choice.None" ); //$NON-NLS-1$
+	private static final String CHOICE_DISPLAY_TEXT = Messages.getString( "ParameterDialog.Choice.DisplayText" ); //$NON-NLS-1$
+	private static final String CHOICE_VALUE_COLUMN = Messages.getString( "ParameterDialog.Choice.ValueColumn" ); //$NON-NLS-1$
+	private static final String LABEL_SORT_DIRECTION = Messages.getString( "ParameterDialog.Label.SortDirection" ); //$NON-NLS-1$
+	private static final String CHOICE_ASCENDING = Messages.getString( "ParameterDialog.Choice.ASCENDING" ); //$NON-NLS-1$
+	private static final String CHOICE_DESCENDING = Messages.getString( "ParameterDialog.Choice.DESCENDING" ); //$NON-NLS-1$
 
 	private static final Image ERROR_ICON = ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
 
@@ -345,7 +358,9 @@ public class CascadingParametersDialog extends BaseDialog
 		createDynamicParamsPart( composite );
 
 		createPropertiesPart( composite );
-
+		
+		createSortingArea( composite );
+		
 		createOptionsPart( composite );
 
 		createLabel( composite, null );
@@ -608,6 +623,7 @@ public class CascadingParametersDialog extends BaseDialog
 						try
 						{
 							saveParameterProperties( );
+							saveSortingProperties( );
 							selectedParameter = (ScalarParameterHandle) param;
 						}
 						catch ( SemanticException e )
@@ -616,6 +632,7 @@ public class CascadingParametersDialog extends BaseDialog
 							valueTable.setSelection( new StructuredSelection( selectedParameter ) );
 						}
 						refreshParameterProperties( );
+						initSorttingArea( );
 						updateButtons( );
 					}
 				}
@@ -708,6 +725,7 @@ public class CascadingParametersDialog extends BaseDialog
 		}
 		refreshValueTable( );
 		refreshParameterProperties( );
+		initSorttingArea( );
 		updateButtons( );
 	}
 
@@ -1108,6 +1126,7 @@ public class CascadingParametersDialog extends BaseDialog
 		valueTable.setInput( inputParameterGroup );
 
 		refreshParameterProperties( );
+		initSorttingArea( );
 		updateButtons( );
 		return true;
 	}
@@ -1164,6 +1183,7 @@ public class CascadingParametersDialog extends BaseDialog
 		try
 		{
 			saveParameterProperties( );
+			saveSortingProperties();
 			// Validate default value first -- begin -- bug 164765
 			validateDefaultValues( );
 			// Validate default value first -- end --
@@ -1184,6 +1204,7 @@ public class CascadingParametersDialog extends BaseDialog
 		{
 			ExceptionHandler.handle( e );
 			refreshParameterProperties( );
+			initSorttingArea( );
 			return;
 		}
 		setResult( inputParameterGroup );
@@ -2515,5 +2536,193 @@ public class CascadingParametersDialog extends BaseDialog
 
 		}
 	}
+	
+	private void createSortingArea( Composite parent )
+	{
+		// Sorting conditions here
+		sorttingArea = new Composite( parent, SWT.NONE );
+		GridData sorttingAreaGridData = new GridData( GridData.FILL_HORIZONTAL
+				| GridData.VERTICAL_ALIGN_END );
+		sorttingAreaGridData.horizontalSpan = 2;
+		sorttingArea.setLayoutData( sorttingAreaGridData );
+		sorttingArea.setLayout( UIUtil.createGridLayoutWithoutMargin( 1, false ) );
 
+		Group sortGroup = new Group( sorttingArea, SWT.NONE );
+		sortGroup.setText( LABEL_SORT_GROUP );
+		sortGroup.setLayout( new GridLayout( 2, false ) );
+		sortGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
+		Composite sortKeyArea = new Composite( sortGroup, SWT.NONE );
+		sortKeyArea.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		sortKeyArea.setLayout( new GridLayout( 2, false ) );
+		// createLabel( sortKeyArea, LABEL_SORT_KEY );
+		sortKeyLabel = new Label( sortKeyArea, SWT.NONE );
+		sortKeyLabel.setText( LABEL_SORT_KEY );
+		sortKeyChooser = new Combo( sortKeyArea, SWT.BORDER | SWT.READ_ONLY );
+		sortKeyChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		sortKeyChooser.add( CHOICE_NONE );
+		sortKeyChooser.add( CHOICE_DISPLAY_TEXT );
+		sortKeyChooser.add( CHOICE_VALUE_COLUMN );
+		sortKeyChooser.setText( CHOICE_NONE );
+		sortKeyChooser.addSelectionListener( new SelectionListener( ) {
+
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+			}
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				if ( !( (Combo) e.widget ).getText( ).equals( CHOICE_NONE ) )
+				{
+					sortDirectionLabel.setEnabled( true );
+					sortDirectionChooser.setEnabled( true );
+				}
+				else
+				{
+					sortDirectionLabel.setEnabled( false );
+					sortDirectionChooser.setEnabled( false );
+				}
+			}
+
+		} );
+
+		Composite sortDirectionArea = new Composite( sortGroup, SWT.NONE );
+		sortDirectionArea.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		sortDirectionArea.setLayout( new GridLayout( 2, false ) );
+		// createLabel( sortDirectionArea, LABEL_SORT_DIRECTION );
+		sortDirectionLabel = new Label( sortDirectionArea, SWT.NONE );
+		sortDirectionLabel.setText( LABEL_SORT_DIRECTION );
+		sortDirectionChooser = new Combo( sortDirectionArea, SWT.BORDER
+				| SWT.READ_ONLY );
+		sortDirectionChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		sortDirectionChooser.add( CHOICE_ASCENDING );
+		sortDirectionChooser.add( CHOICE_DESCENDING );
+		sortDirectionChooser.setText( CHOICE_ASCENDING );
+	}
+
+	private void setSortingDefault()
+	{
+		sortKeyChooser.setText( CHOICE_NONE );
+		sortDirectionChooser.setText( CHOICE_ASCENDING );
+	}
+	
+	private void initSorttingArea( )
+	{
+		if ( selectedParameter == null )
+		{
+			setSortingDefault();
+			sortKeyLabel.setEnabled( false );
+			sortKeyChooser.setEnabled( false );
+			sortDirectionLabel.setEnabled( false );
+			sortDirectionChooser.setEnabled( false );
+			return;
+		}
+		
+		if ( !selectedParameter.isFixedOrder( ) )
+		{
+			sortKeyLabel.setEnabled( true );
+			sortKeyChooser.setEnabled( true );
+			sortDirectionLabel.setEnabled( true );
+			sortDirectionChooser.setEnabled( true );
+
+			String sortKey = selectedParameter.getSortBy( );
+			if ( sortKey == null
+					|| sortKey.equals( DesignChoiceConstants.PARAM_SORT_VALUES_LABEL ) )
+			{
+				sortKeyChooser.setText( CHOICE_DISPLAY_TEXT );
+			}
+			else
+			{
+				sortKeyChooser.setText( CHOICE_VALUE_COLUMN );
+			}
+
+			String sortDirection = selectedParameter.getSortDirection( );
+			if ( sortDirection == null
+					|| sortDirection.equals( DesignChoiceConstants.SORT_DIRECTION_ASC ) )
+			{
+				sortDirectionChooser.setText( CHOICE_ASCENDING );
+			}
+			else
+			{
+				sortDirectionChooser.setText( CHOICE_DESCENDING );
+			}
+		}
+		else
+		{
+			setSortingDefault();
+			
+			sortKeyLabel.setEnabled( true );
+			sortKeyChooser.setEnabled( true );
+			sortDirectionLabel.setEnabled( false );
+			sortDirectionChooser.setEnabled( false );
+		}
+	}
+	
+	private void saveSortingProperties()
+	{
+		
+		if(selectedParameter == null)
+		{
+			return;
+		}
+		
+		if ( sorttingArea != null
+				&& !sorttingArea.isDisposed( )
+				&& sorttingArea.isVisible( ) )
+		{
+			try
+			{
+			if ( !sortKeyChooser.getText( ).equals( CHOICE_NONE ) )
+			{
+
+					selectedParameter.setFixedOrder( false );
+			
+				if ( sortKeyChooser.getText( ).equals( CHOICE_DISPLAY_TEXT ) )
+				{
+					selectedParameter.setSortBy( DesignChoiceConstants.PARAM_SORT_VALUES_LABEL );
+				}
+				else if ( sortKeyChooser.getText( )
+						.equals( CHOICE_VALUE_COLUMN ) )
+				{
+					selectedParameter.setSortBy( DesignChoiceConstants.PARAM_SORT_VALUES_VALUE );
+				}
+
+				if ( sortDirectionChooser.getText( )
+						.equals( CHOICE_ASCENDING ) )
+				{
+					selectedParameter.setSortDirection( DesignChoiceConstants.SORT_DIRECTION_ASC );
+				}
+				else if ( sortDirectionChooser.getText( )
+						.equals( CHOICE_DESCENDING ) )
+				{
+					selectedParameter.setSortDirection( DesignChoiceConstants.SORT_DIRECTION_DESC );
+				}
+			}
+			else
+			{
+				selectedParameter.setFixedOrder( true );
+				selectedParameter.setSortBy( null );
+				selectedParameter.setSortDirection( null );
+			}
+			}
+			catch ( SemanticException e )
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else
+		{
+			try
+			{
+				selectedParameter.setProperty( ScalarParameterHandle.FIXED_ORDER_PROP,
+						null );
+			}
+			catch ( SemanticException e )
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 }
