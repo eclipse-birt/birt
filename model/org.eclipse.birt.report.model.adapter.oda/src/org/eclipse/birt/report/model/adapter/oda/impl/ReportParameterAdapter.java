@@ -82,7 +82,7 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 	 */
 
 	private final IODADesignFactory designFactory;
-	
+
 	/**
 	 * Default constructor.
 	 */
@@ -128,7 +128,8 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 		if ( !DesignChoiceConstants.PARAM_TYPE_ANY
 				.equalsIgnoreCase( newDataType ) )
 		{
-			if ( !isEquals( newDataType, reportParam.getDataType( ) ) )
+			if ( !CompareUtil
+					.isEquals( newDataType, reportParam.getDataType( ) ) )
 				return false;
 		}
 
@@ -138,10 +139,12 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 			String newPromptText = dataUiHints.getDisplayName( );
 			String newHelpText = dataUiHints.getDescription( );
 
-			if ( !isEquals( newPromptText, reportParam.getPromptText( ) ) )
+			if ( !CompareUtil.isEquals( newPromptText, reportParam
+					.getPromptText( ) ) )
 				return false;
 
-			if ( !isEquals( newHelpText, reportParam.getHelpText( ) ) )
+			if ( !CompareUtil
+					.isEquals( newHelpText, reportParam.getHelpText( ) ) )
 				return false;
 		}
 
@@ -169,8 +172,7 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 			}
 		}
 		else
-			tmpParamDefn = designFactory
-					.createInputParameterAttributes( );
+			tmpParamDefn = designFactory.createInputParameterAttributes( );
 
 		InputParameterAttributes tmpParamDefn1 = designFactory
 				.createInputParameterAttributes( );
@@ -193,25 +195,6 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 			return false;
 
 		return EcoreUtil.equals( tmpParamDefn, tmpParamDefn1 );
-	}
-
-	static boolean isEquals( String value1, String value2 )
-	{
-		// may be same string or both null.
-
-		if ( value1 == value2 )
-			return true;
-
-		if ( value1 != null && value2 == null )
-			return false;
-
-		if ( value1 == null && value2 != null )
-			return false;
-
-		if ( !value1.equals( value2 ) )
-			return false;
-
-		return true;
 	}
 
 	/**
@@ -243,8 +226,12 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.adapter.oda.IReportParameterAdapter#updateLinkedReportParameter(org.eclipse.birt.report.model.api.ScalarParameterHandle, org.eclipse.birt.report.model.api.OdaDataSetParameterHandle, org.eclipse.datatools.connectivity.oda.design.DataSetDesign)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.adapter.oda.IReportParameterAdapter#updateLinkedReportParameter(org.eclipse.birt.report.model.api.ScalarParameterHandle,
+	 *      org.eclipse.birt.report.model.api.OdaDataSetParameterHandle,
+	 *      org.eclipse.datatools.connectivity.oda.design.DataSetDesign)
 	 */
 
 	public void updateLinkedReportParameter( ScalarParameterHandle reportParam,
@@ -336,8 +323,8 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 		String defaultValue = dataSetParam.getDefaultValue( );
 		String paramName = dataSetParam.getParamName( );
 
-		if ( !StringUtil.isBlank( defaultValue )
-				&& StringUtil.isBlank( paramName ) )
+		if ( !StringUtil.isBlank( defaultValue ) &&
+				StringUtil.isBlank( paramName ) )
 		{
 			setROMDefaultValue( reportParam, defaultValue );
 		}
@@ -467,8 +454,11 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 		cmdStack.commit( );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.adapter.oda.IReportParameterAdapter#updateLinkedReportParameter(org.eclipse.birt.report.model.api.ScalarParameterHandle, org.eclipse.birt.report.model.api.OdaDataSetParameterHandle)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.adapter.oda.IReportParameterAdapter#updateLinkedReportParameter(org.eclipse.birt.report.model.api.ScalarParameterHandle,
+	 *      org.eclipse.birt.report.model.api.OdaDataSetParameterHandle)
 	 */
 
 	public void updateLinkedReportParameter( ScalarParameterHandle reportParam,
@@ -528,8 +518,8 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 			return;
 
 		boolean allowsNull = dataAttrs.allowsNull( );
-		if ( cachedDataAttrs == null
-				|| cachedDataAttrs.allowsNull( ) != allowsNull )
+		if ( cachedDataAttrs == null ||
+				cachedDataAttrs.allowsNull( ) != allowsNull )
 			setReportParamIsRequired( reportParam, ALLOW_NULL_PROP_NAME,
 					dataAttrs.allowsNull( ) );
 
@@ -545,16 +535,16 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 			String cachedDisplayName = cachedDataUiHints == null
 					? null
 					: cachedDataUiHints.getDisplayName( );
-			if ( cachedDisplayName == null
-					|| !cachedDisplayName.equals( displayName ) )
+			if ( cachedDisplayName == null ||
+					!cachedDisplayName.equals( displayName ) )
 				reportParam.setPromptText( displayName );
 
 			String description = dataUiHints.getDescription( );
 			String cachedDescription = cachedDataUiHints == null
 					? null
 					: cachedDataUiHints.getDescription( );
-			if ( cachedDescription == null
-					|| !cachedDescription.equals( description ) )
+			if ( cachedDescription == null ||
+					!cachedDescription.equals( description ) )
 				reportParam.setHelpText( description );
 		}
 
@@ -584,8 +574,8 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 			return;
 
 		InputParameterUIHints paramUiHints = inputParamAttrs.getUiHints( );
-		if ( paramUiHints != null
-				&& reportParam.getContainer( ) instanceof ParameterGroupHandle )
+		if ( paramUiHints != null &&
+				reportParam.getContainer( ) instanceof ParameterGroupHandle )
 		{
 			ParameterGroupHandle paramGroup = (ParameterGroupHandle) reportParam
 					.getContainer( );
@@ -601,8 +591,8 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 			String groupPromptDisplayName = paramUiHints
 					.getGroupPromptDisplayName( );
 
-			if ( cachedGroupPromptDisplayName == null
-					|| !cachedGroupPromptDisplayName
+			if ( cachedGroupPromptDisplayName == null ||
+					!cachedGroupPromptDisplayName
 							.equals( groupPromptDisplayName ) )
 				paramGroup.setDisplayName( paramUiHints
 						.getGroupPromptDisplayName( ) );
@@ -644,8 +634,7 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 		String cachedDefaultValue = cachedElementAttrs == null
 				? null
 				: cachedElementAttrs.getDefaultScalarValue( );
-		if ( cachedDefaultValue == null
-				|| !cachedDefaultValue.equals( defaultValue ) )
+		if ( !CompareUtil.isEquals( cachedDefaultValue, defaultValue ) )
 		{
 			// only update when the value is not internal value.
 
@@ -658,7 +647,7 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 		Boolean isOptional = Boolean.valueOf( elementAttrs.isOptional( ) );
 		Boolean cachedIsOptional = cachedElementAttrs == null ? null : Boolean
 				.valueOf( cachedElementAttrs.isOptional( ) );
-		if ( cachedIsOptional == null || !cachedIsOptional.equals( isOptional ) )
+		if ( !CompareUtil.isEquals( cachedIsOptional, isOptional ) )
 			setReportParamIsRequired( reportParam, ALLOW_BLANK_PROP_NAME,
 					isOptional.booleanValue( ) );
 
@@ -669,8 +658,7 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 		Boolean masksValue = Boolean.valueOf( elementAttrs.isMasksValue( ) );
 		Boolean cachedMasksValues = cachedElementAttrs == null ? null : Boolean
 				.valueOf( cachedElementAttrs.isMasksValue( ) );
-		if ( cachedMasksValues == null
-				|| !cachedMasksValues.equals( masksValue ) )
+		if ( !CompareUtil.isEquals( cachedMasksValues, masksValue ) )
 			reportParam.setConcealValue( masksValue.booleanValue( ) );
 
 		updateROMSelectionList( elementAttrs.getStaticValueChoices( ),
@@ -693,8 +681,8 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 					? null
 					: cachedUiHints.getPromptStyle( );
 
-			if ( cachedStyle == null
-					|| ( style != null && cachedStyle.getValue( ) != style
+			if ( cachedStyle == null ||
+					( style != null && cachedStyle.getValue( ) != style
 							.getValue( ) ) )
 				reportParam.setControlType( style == null
 						? null
@@ -885,8 +873,7 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 		DataElementAttributes retDataAttrs = dataAttrs;
 
 		if ( retDataAttrs == null )
-			retDataAttrs = designFactory
-					.createDataElementAttributes( );
+			retDataAttrs = designFactory.createDataElementAttributes( );
 
 		// retDataAttrs.setNullability( DataSetParameterAdapter
 		// .newElementNullability( paramHandle.allowNll( ) ) );
@@ -895,8 +882,7 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 				.newElementNullability( getReportParamAllowMumble( paramHandle,
 						ALLOW_NULL_PROP_NAME ) ) );
 
-		DataElementUIHints uiHints = designFactory
-				.createDataElementUIHints( );
+		DataElementUIHints uiHints = designFactory.createDataElementUIHints( );
 		uiHints.setDisplayName( paramHandle.getPromptText( ) );
 		uiHints.setDescription( paramHandle.getHelpText( ) );
 
@@ -924,8 +910,7 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 		InputParameterAttributes retInputParamAttrs = inputParamAttrs;
 
 		if ( inputParamAttrs == null )
-			retInputParamAttrs = designFactory
-					.createInputParameterAttributes( );
+			retInputParamAttrs = designFactory.createInputParameterAttributes( );
 
 		InputElementAttributes inputAttrs = retInputParamAttrs
 				.getElementAttributes( );
@@ -944,8 +929,7 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 		while ( selectionList.hasNext( ) )
 		{
 			if ( staticChoices == null )
-				staticChoices = designFactory
-						.createScalarValueChoices( );
+				staticChoices = designFactory.createScalarValueChoices( );
 			SelectionChoiceHandle choice = (SelectionChoiceHandle) selectionList
 					.next( );
 
@@ -962,8 +946,8 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 		String valueExpr = paramHandle.getValueExpr( );
 		String labelExpr = paramHandle.getLabelExpr( );
 
-		if ( setHandle instanceof OdaDataSetHandle
-				&& ( valueExpr != null || labelExpr != null ) )
+		if ( setHandle instanceof OdaDataSetHandle &&
+				( valueExpr != null || labelExpr != null ) )
 		{
 			DynamicValuesQuery valueQuery = designFactory
 					.createDynamicValuesQuery( );
@@ -988,8 +972,7 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 			inputAttrs.setDynamicValueChoices( valueQuery );
 		}
 
-		InputElementUIHints uiHints = designFactory
-				.createInputElementUIHints( );
+		InputElementUIHints uiHints = designFactory.createInputElementUIHints( );
 		uiHints.setPromptStyle( newPromptStyle( paramHandle.getControlType( ),
 				paramHandle.isMustMatch( ) ) );
 		inputAttrs.setUiHints( uiHints );

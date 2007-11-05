@@ -1011,7 +1011,7 @@ class DataSetParameterAdapter
 
 			if ( StringUtil.isBlank( paramName ) )
 			{
-				if ( !ReportParameterAdapter.isEquals( paramName, dataAttrs
+				if ( !CompareUtil.isEquals( paramName, dataAttrs
 						.getName( ) ) )
 					continue;
 
