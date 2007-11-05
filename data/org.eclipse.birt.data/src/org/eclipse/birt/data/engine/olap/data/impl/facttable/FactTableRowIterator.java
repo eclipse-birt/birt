@@ -26,6 +26,7 @@ import org.eclipse.birt.data.engine.olap.data.document.IDocumentObject;
 import org.eclipse.birt.data.engine.olap.data.impl.NamingUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.Traversalor;
 import org.eclipse.birt.data.engine.olap.data.util.Bytes;
+import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 
 /**
@@ -36,6 +37,7 @@ public class FactTableRowIterator implements IFactTableRowIterator
 {
 	private FactTable factTable;
 	private MeasureInfo[] measureInfo;
+	private MeasureInfo[] computedMeasureInfo;
 	
 	private IDiskArray[] selectedPos;
 	private int[] dimensionIndex;
@@ -58,6 +60,7 @@ public class FactTableRowIterator implements IFactTableRowIterator
 
 	private static Logger logger = Logger.getLogger( FactTableRowIterator.class.getName( ) );
 
+	private boolean isFirtRow;
 	/**
 	 * 
 	 * @param factTable
@@ -121,6 +124,7 @@ public class FactTableRowIterator implements IFactTableRowIterator
 		}
 
 		nextSegment( );
+		isFirtRow = true;
 		logger.exiting( FactTableRowIterator.class.getName( ),
 				"FactTableRowIterator" );
 	}
@@ -211,6 +215,13 @@ public class FactTableRowIterator implements IFactTableRowIterator
 				{
 					measureList.setMeasureValue( currentMeasures );
 					currentComputedMeasures = computedMeasureHelper.computeMeasureValues( measureList );
+					if( isFirtRow )
+					{
+						if( computedMeasureInfo == null )
+							produceComputedMeasureInfo( );
+						else
+							setComputedMeasureDataType( );
+					}
 				}
 				if ( !isSelectedRow( ) )
 				{
@@ -218,6 +229,7 @@ public class FactTableRowIterator implements IFactTableRowIterator
 				}
 				else
 				{
+					isFirtRow = false;
 					return true;
 				}
 			}
@@ -393,7 +405,62 @@ public class FactTableRowIterator implements IFactTableRowIterator
 	 */
 	public MeasureInfo[] getMeasureInfo( )
 	{
-		return measureInfo;
+		if( computedMeasureInfo == null )
+			produceComputedMeasureInfo( );
+		return computedMeasureInfo;
+	}
+	
+	/**
+	 * 
+	 */
+	private void produceComputedMeasureInfo( )
+	{
+		if ( computedMeasureHelper != null )
+		{
+			computedMeasureInfo = new MeasureInfo[measureInfo.length +
+					computedMeasureHelper.getAllComputedMeasureNames( ).length];
+			System.arraycopy( measureInfo,
+					0,
+					computedMeasureInfo,
+					0,
+					measureInfo.length );
+			for ( int i = measureInfo.length; i < computedMeasureInfo.length; i++ )
+			{
+				computedMeasureInfo[i] = new MeasureInfo( );
+				computedMeasureInfo[i].measureName = computedMeasureHelper.getAllComputedMeasureNames( )[i-measureInfo.length];
+				if ( currentComputedMeasures != null &&
+						currentComputedMeasures[i - measureInfo.length] != null )
+				{
+					computedMeasureInfo[i].dataType = 
+						DataType.getDataType( currentComputedMeasures[i-measureInfo.length].getClass( ) );
+				}
+				else
+				{
+					computedMeasureInfo[i].dataType = DataType.UNKNOWN_TYPE;
+				}
+			}
+		}
+		else
+		{
+			computedMeasureInfo = measureInfo;
+		}
+	}
+	
+	/**
+	 * 
+	 */
+	private void setComputedMeasureDataType( )
+	{
+		for ( int i = measureInfo.length; i < computedMeasureInfo.length; i++ )
+		{
+			if ( currentComputedMeasures != null &&
+					currentComputedMeasures[i - measureInfo.length] != null &&
+					computedMeasureInfo[i].dataType == DataType.UNKNOWN_TYPE )
+			{
+				computedMeasureInfo[i].dataType = 
+					DataType.getDataType( currentComputedMeasures[i-measureInfo.length].getClass( ) );
+			}
+		}
 	}
 }
 
