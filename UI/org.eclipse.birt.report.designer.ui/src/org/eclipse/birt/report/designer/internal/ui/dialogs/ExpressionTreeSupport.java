@@ -571,7 +571,9 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	public void addDragSupportToTree( )
 	{
 		Assert.isNotNull( tree );
-		DragSource dragSource = new DragSource( tree, DND.DROP_COPY );
+		DragSource dragSource = new DragSource( tree, DND.DROP_COPY |
+				DND.DROP_MOVE );
+
 		dragSource.setTransfer( new Transfer[]{
 			TextTransfer.getInstance( )
 		} );
@@ -654,6 +656,14 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 		if ( dropTarget == null || dropTarget.isDisposed( ) )
 		{
 			final StyledText text = expressionViewer.getTextWidget( );
+
+			// Doesn't add again if a drop target has been created in the
+			// viewer.
+			if ( text.getData( "DropTarget" ) != null ) //$NON-NLS-1$
+			{
+				return;
+			}
+
 			dropTarget = new DropTarget( text, DND.DROP_COPY | DND.DROP_DEFAULT );
 			dropTarget.setTransfer( new Transfer[]{
 				TextTransfer.getInstance( )
