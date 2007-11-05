@@ -22,6 +22,10 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.gef.dnd.TemplateTransfer;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
@@ -59,10 +63,13 @@ public class LibraryDragListener extends DesignElementDragAdapter
 			{
 				return false;
 			}
-			// else if (transfer instanceof ThemeHandle)
-			// {
-			// return false;
-			// }
+			else if ( transfer instanceof DimensionHandle
+					|| transfer instanceof LevelHandle
+					|| transfer instanceof MeasureHandle
+					|| transfer instanceof MeasureGroupHandle )
+			{
+				return false;
+			}
 			else
 			{
 				return true;
