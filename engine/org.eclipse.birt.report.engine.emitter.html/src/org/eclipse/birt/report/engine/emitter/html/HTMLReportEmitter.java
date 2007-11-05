@@ -1862,6 +1862,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	
 	private void outputHtmlText(IForeignContent foreign)
 	{
+		boolean bIndent = writer.isIndent( );
+		writer.setIndent( false );
 		Object rawValue = foreign.getRawValue( );
 		String text = rawValue == null ? null : rawValue.toString( );
 		Document doc = new TextParser( ).parse( text,
@@ -1886,6 +1888,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			htmlProcessor.execute( body, styleMap );
 			processNodes( body, styleMap );
 		}
+		writer.setIndent( bIndent );
 	}
 
 	/**
