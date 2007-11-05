@@ -1480,20 +1480,31 @@ public class ParameterDialog extends BaseDialog
 	private boolean makeUniqueAndValid( )
 	{
 		boolean change = false;
-		Set set = new HashSet( );
-		for ( Iterator iter = choiceList.iterator( ); iter.hasNext( ); )
+		try
 		{
-			SelectionChoice choice = (SelectionChoice) iter.next( );
-			if ( set.contains( choice.getValue( ) )
-					|| isValidValue( choice.getValue( ) ) != null )
+
+			Set set = new HashSet( );
+			for ( Iterator iter = choiceList.iterator( ); iter.hasNext( ); )
 			{
-				iter.remove( );
-				change = true;
+				SelectionChoice choice = (SelectionChoice) iter.next( );
+				if ( set.contains( validateValue( choice.getValue( ) ) )
+						|| isValidValue( choice.getValue( ) ) != null )
+				{
+					iter.remove( );
+					change = true;
+				}
+				else
+				{
+
+					set.add( validateValue( choice.getValue( ) ) );
+
+				}
 			}
-			else
-			{
-				set.add( choice.getValue( ) );
-			}
+		}
+		catch ( BirtException e )
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace( );
 		}
 		return change;
 	}
