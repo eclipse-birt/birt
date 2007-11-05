@@ -10,8 +10,7 @@
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>
-                    <property name="name">blob</property>
-                    <property name="nativeName">blob</property>
+                    <property name="name">UNNAMED_1</property>
                     <property name="dataType">blob</property>
                     <property name="nativeDataType">2004</property>
                 </structure>

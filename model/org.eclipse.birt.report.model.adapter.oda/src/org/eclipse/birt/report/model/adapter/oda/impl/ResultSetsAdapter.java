@@ -134,7 +134,7 @@ class ResultSetsAdapter
 
 	private ColumnHint newROMColumnHintFromColumnDefinition(
 			ColumnDefinition columnDefn, ColumnDefinition cachedColumnDefn,
-			ColumnHint oldHint )
+			ColumnHint oldHint, String columnName )
 	{
 		if ( columnDefn == null )
 			return null;
@@ -158,8 +158,8 @@ class ResultSetsAdapter
 		DataElementUIHints dataUIHints = dataAttrs.getUiHints( );
 		OutputElementAttributes outputAttrs = columnDefn.getUsageHints( );
 
-		boolean isValueSet = isEmptyColumnHintValue( dataUIHints, outputAttrs );
-		if ( !isValueSet )
+		boolean hasValue = hasColumnHintValue( dataUIHints, outputAttrs );
+		if ( !hasValue )
 		{
 			if ( oldHint == null )
 				return null;
@@ -180,8 +180,7 @@ class ResultSetsAdapter
 		if ( StringUtil.isBlank( (String) newHint.getProperty( null,
 				ColumnHint.COLUMN_NAME_MEMBER ) ) )
 		{
-			newHint.setProperty( ColumnHint.COLUMN_NAME_MEMBER, newHint
-					.getProperty( null, ColumnHint.COLUMN_NAME_MEMBER ) );
+			newHint.setProperty( ColumnHint.COLUMN_NAME_MEMBER, columnName );
 		}
 		return newHint;
 	}
@@ -197,7 +196,7 @@ class ResultSetsAdapter
 	 *         <code>false</code>.
 	 */
 
-	private boolean isEmptyColumnHintValue( DataElementUIHints dataUIHints,
+	private boolean hasColumnHintValue( DataElementUIHints dataUIHints,
 			OutputElementAttributes outputAttrs )
 	{
 		if ( dataUIHints == null && outputAttrs == null )
@@ -599,6 +598,7 @@ class ResultSetsAdapter
 
 		List retList = new ArrayList( );
 
+		ResultSetColumnInfo setInfo = null;
 		for ( int i = 0; i < odaSetColumns.size( ); i++ )
 		{
 
@@ -648,10 +648,10 @@ class ResultSetsAdapter
 				oldHint = (ColumnHint) oldHintHandle.getStructure( );
 
 			ColumnHint newHint = newROMColumnHintFromColumnDefinition(
-					columnDefn, cachedColumnDefn, oldHint );
+					columnDefn, cachedColumnDefn, oldHint, newColumn
+							.getColumnName( ) );
 
-			ResultSetColumnInfo setInfo = new ResultSetColumnInfo( newColumn,
-					newHint );
+			setInfo = new ResultSetColumnInfo( newColumn, newHint );
 			retList.add( setInfo );
 		}
 
@@ -661,7 +661,7 @@ class ResultSetsAdapter
 
 		// create unique column names if native names is null or empty.
 
-		createUniqueResultSetColumnNames( columns );
+		createUniqueResultSetColumnNames( retList );
 
 		// retrieve column hints for computed columns.
 
@@ -784,11 +784,10 @@ class ResultSetsAdapter
 			ColumnDefinition columnDefn = designFactory
 					.createColumnDefinition( );
 
-			String newName = setColumn.getNativeName( );
-			if ( StringUtil.isBlank( newName ) )
-				newName = setColumn.getColumnName( );
 			DataElementAttributes dataAttrs = designFactory
 					.createDataElementAttributes( );
+
+			String newName = setColumn.getNativeName( );
 			dataAttrs.setName( newName );
 
 			Integer position = setColumn.getPosition( );
@@ -822,26 +821,30 @@ class ResultSetsAdapter
 	 *            a list containing result set columns
 	 */
 
-	private static void createUniqueResultSetColumnNames( List resultSetColumn )
+	private static void createUniqueResultSetColumnNames( List columnInfo )
 	{
-		if ( resultSetColumn == null || resultSetColumn.isEmpty( ) )
+		if ( columnInfo == null || columnInfo.isEmpty( ) )
 			return;
 
 		Set names = new HashSet( );
-		for ( int i = 0; i < resultSetColumn.size( ); i++ )
+		for ( int i = 0; i < columnInfo.size( ); i++ )
 		{
-			OdaResultSetColumn column = (OdaResultSetColumn) resultSetColumn
+			ResultSetColumnInfo tmpInfo = (ResultSetColumnInfo) columnInfo
 					.get( i );
+			OdaResultSetColumn column = tmpInfo.column;
+
 			String nativeName = column.getNativeName( );
 			if ( nativeName != null )
 				names.add( nativeName );
 		}
 
 		Set newNames = new HashSet( );
-		for ( int i = 0; i < resultSetColumn.size( ); i++ )
+		for ( int i = 0; i < columnInfo.size( ); i++ )
 		{
-			OdaResultSetColumn column = (OdaResultSetColumn) resultSetColumn
+			ResultSetColumnInfo tmpInfo = (ResultSetColumnInfo) columnInfo
 					.get( i );
+
+			OdaResultSetColumn column = tmpInfo.column;
 			String nativeName = column.getNativeName( );
 			String name = column.getColumnName( );
 
@@ -852,6 +855,9 @@ class ResultSetsAdapter
 					newNames, nativeName, i );
 
 			column.setColumnName( newName );
+			if ( tmpInfo.hint != null )
+				tmpInfo.hint.setProperty( ColumnHint.COLUMN_NAME_MEMBER,
+						newName );
 		}
 
 		names.clear( );
