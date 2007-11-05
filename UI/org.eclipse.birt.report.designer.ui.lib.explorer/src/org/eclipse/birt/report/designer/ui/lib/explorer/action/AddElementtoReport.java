@@ -17,10 +17,16 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ReportResourceEntry;
 import org.eclipse.birt.report.designer.util.DNDUtil;
+import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
+import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ParameterGroupHandle;
+import org.eclipse.birt.report.model.api.ParameterHandle;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -38,6 +44,8 @@ public class AddElementtoReport extends Action
 
 	private StructuredViewer viewer;
 	private Object element;
+	private int canContain;
+	private Object target;
 
 	private static final String ACTION_TEXT = Messages.getString( "AddElementtoAction.Text" ); //$NON-NLS-1$
 
@@ -48,13 +56,11 @@ public class AddElementtoReport extends Action
 			this.element = ( (ReportResourceEntry) element ).getReportElement( );
 		}
 		else
+		{
 			this.element = element;
+		}
 
 	}
-
-	private int canContain;
-
-	private Object target;
 
 	/**
 	 * @param text
@@ -63,7 +69,6 @@ public class AddElementtoReport extends Action
 	public AddElementtoReport( StructuredViewer viewer )
 	{
 		super( ACTION_TEXT );
-		// TODO Auto-generated constructor stub
 		this.viewer = viewer;
 		canContain = DNDUtil.CONTAIN_NO;
 	}
@@ -75,6 +80,7 @@ public class AddElementtoReport extends Action
 	{
 		Object target = getTarget( );
 		this.target = target;
+
 		if ( canContain( target, element ) )
 		{
 			return true;
@@ -113,6 +119,15 @@ public class AddElementtoReport extends Action
 
 	protected boolean canContain( Object target, Object transfer )
 	{
+		//bug#192319
+		if ( transfer instanceof DataSetHandle
+				|| transfer instanceof DataSourceHandle
+				|| transfer instanceof ParameterHandle
+				|| transfer instanceof ParameterGroupHandle
+				|| transfer instanceof CascadingParameterGroupHandle
+				|| transfer instanceof CubeHandle )
+			return true;
+
 		if ( DNDUtil.handleValidateTargetCanContainMore( target,
 				DNDUtil.getObjectLength( transfer ) ) )
 		{
@@ -139,6 +154,30 @@ public class AddElementtoReport extends Action
 
 	protected boolean copyData( Object target, Object transfer )
 	{
+
+		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
+
+		//bug#192319
+		if ( transfer instanceof DataSetHandle )
+		{
+			target = moduleHandle.getDataSets( );
+		}
+		else if ( transfer instanceof DataSourceHandle )
+		{
+			target = moduleHandle.getDataSources( );
+		}
+		else if ( transfer instanceof ParameterHandle
+				|| transfer instanceof ParameterGroupHandle
+				|| transfer instanceof CascadingParameterGroupHandle )
+		{
+			target = moduleHandle.getParameters( );
+		}
+		else if ( transfer instanceof CubeHandle )
+		{
+			target = moduleHandle.getCubes( );
+		}
+
 		// When get position, change target value if need be
 		int position = getPosition( target );
 		boolean result = false;
@@ -150,8 +189,6 @@ public class AddElementtoReport extends Action
 			{
 				// transfer element from a library.
 				LibraryHandle library = (LibraryHandle) sourceHandle.getRoot( );
-				ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( );
 				try
 				{
 					if ( moduleHandle != library )
@@ -160,7 +197,7 @@ public class AddElementtoReport extends Action
 						// extended element.
 						if ( UIUtil.includeLibrary( moduleHandle, library ) )
 						{
-							DNDUtil.addElementHandle( this.target,
+							DNDUtil.addElementHandle( target,
 									moduleHandle.getElementFactory( )
 											.newElementFrom( sourceHandle,
 													sourceHandle.getName( ) ) );
@@ -170,7 +207,7 @@ public class AddElementtoReport extends Action
 					else
 					{
 						result = DNDUtil.copyHandles( transfer,
-								this.target,
+								target,
 								position );
 					}
 				}
@@ -181,15 +218,14 @@ public class AddElementtoReport extends Action
 			}
 			else
 			{
-				result = DNDUtil.copyHandles( transfer, this.target, position );
+				result = DNDUtil.copyHandles( transfer, target, position );
 			}
 		}
 		else if ( transfer != null && transfer instanceof EmbeddedImageHandle )
 		{
-
 			result = DNDUtil.copyHandles( transfer, target, position );
-
 		}
+
 		if ( result )
 		{
 			viewer.reveal( this.target );
