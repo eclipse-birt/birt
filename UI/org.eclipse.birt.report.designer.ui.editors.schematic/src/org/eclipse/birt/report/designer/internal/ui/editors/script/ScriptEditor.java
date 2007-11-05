@@ -14,6 +14,8 @@ package org.eclipse.birt.report.designer.internal.ui.editors.script;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.swt.widgets.Composite;
@@ -21,6 +23,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.texteditor.IDocumentProvider;
+import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 import org.eclipse.ui.texteditor.ITextEditorActionDefinitionIds;
 import org.eclipse.ui.texteditor.StatusTextEditor;
 import org.eclipse.ui.texteditor.TextOperationAction;
@@ -77,6 +80,52 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor
 			setInput( input );
 		}
 		super.createPartControl( parent );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#editorContextMenuAboutToShow(org.eclipse.jface.action.IMenuManager)
+	 */
+	protected void editorContextMenuAboutToShow( IMenuManager menu )
+	{
+		menu.add( new Separator( ITextEditorActionConstants.GROUP_UNDO ) );
+		menu.add( new Separator( ITextEditorActionConstants.GROUP_COPY ) );
+
+		if ( isEditable( ) )
+		{
+			addAction( menu,
+					ITextEditorActionConstants.GROUP_UNDO,
+					ITextEditorActionConstants.UNDO );
+
+			addAction( menu,
+					ITextEditorActionConstants.GROUP_COPY,
+					ITextEditorActionConstants.CUT );
+
+			addAction( menu,
+					ITextEditorActionConstants.GROUP_COPY,
+					ITextEditorActionConstants.COPY );
+
+			addAction( menu,
+					ITextEditorActionConstants.GROUP_COPY,
+					ITextEditorActionConstants.PASTE );
+		}
+		else
+		{
+			addAction( menu,
+					ITextEditorActionConstants.GROUP_COPY,
+					ITextEditorActionConstants.COPY );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#isEditorInputIncludedInContextMenu()
+	 */
+	protected boolean isEditorInputIncludedInContextMenu( )
+	{
+		return false;
 	}
 
 	/**
@@ -200,12 +249,11 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor
 
 		if ( provider != null )
 		{
-			IDocument document = provider.getDocument( input );
+			IDocument document = provider.getDocument( getEditorInput( ) );
 
 			if ( document != null )
 			{
 				document.set( script == null ? "" : script ); //$NON-NLS-1$
-				
 				return;
 			}
 		}
