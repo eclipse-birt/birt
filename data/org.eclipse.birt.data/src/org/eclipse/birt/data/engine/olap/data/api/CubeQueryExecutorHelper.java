@@ -37,6 +37,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationExecut
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.AggregationFilterHelper;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.LevelFilter;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.LevelFilterHelper;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.SimpleLevelFilter;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortHelper;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
@@ -53,6 +54,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 {
 	private Cube cube;
 	private List levelFilters = null;
+	private List simpleLevelFilters = null;	// list for SimepleLevelFilter
 	private Map dimJSFilterMap = null;
 	private Map dimRowForFilterMap = null;
 	
@@ -78,6 +80,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 				"CubeQueryExecutorHelper",//$NON-NLS-1$
 				cube );
 		this.cube = (Cube) cube;
+		this.simpleLevelFilters = new ArrayList( );
 		this.levelFilters = new ArrayList( );
 		this.aggrFilterHelpers = new ArrayList( );
 		this.dimJSFilterMap = new HashMap( );
@@ -254,6 +257,15 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	public void addFilter( LevelFilter levelFilter )
 	{		
 		levelFilters.add( levelFilter );
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.api.ICubeQueryExcutorHelper#addSimpleLevelFilter(org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.SimpleLevelFilter)
+	 */
+	public void addSimpleLevelFilter( SimpleLevelFilter simpleLevelFilter )
+	{		
+		simpleLevelFilters.add( simpleLevelFilter );
 	}
 	
 	/*
@@ -511,7 +523,9 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		{
 			Dimension dimension = (Dimension) dimensions[i];
 			List jsFilters = getDimensionJSFilterList( dimension.getName( ) );
-			LevelFilterHelper filterHelper = new LevelFilterHelper( dimension, levelFilters );
+			LevelFilterHelper filterHelper = new LevelFilterHelper( dimension,
+					simpleLevelFilters,
+					levelFilters );
 			dimPosition[i] = filterHelper.getJSFilterResult( jsFilters, isBreakHierarchy );
 		}
 		return dimPosition;

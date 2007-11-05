@@ -46,9 +46,24 @@ public class SelectionFactory
 	 * @param selectedObjects
 	 * @return
 	 */
-	public static ISelection createMutiKeySelection( Object[][] selectedObjects )
+	public static ISelection createMutiKeySelection( Object[][] keys )
 	{
-		return new MultiKeySelection( selectedObjects );
+		return new MultiKeySelection( keys );
+	}
+	
+	/**
+	 * 
+	 * @param selectedObjects
+	 * @return
+	 */
+	public static ISelection[] createSelectionArray( Object[][] keys )
+	{
+		ISelection[] result = new ISelection[keys.length];
+		for ( int i = 0; i < keys.length; i++ )
+		{
+			result[i] = new OneKeySelection( keys[i] );
+		}
+		return result;
 	}
 
 	/**

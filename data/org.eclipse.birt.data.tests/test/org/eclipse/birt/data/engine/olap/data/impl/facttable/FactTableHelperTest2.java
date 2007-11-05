@@ -44,6 +44,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.NamingUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.SelectionFactory;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationExecutor;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.LevelFilter;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.SimpleLevelFilter;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionFactory;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionForTest;
@@ -628,7 +629,7 @@ public class FactTableHelperTest2 extends TestCase
 				 new Object[]{new Integer( 3 )},
 				true,
 				false );
-		cubeQueryExcutorHelper.addFilter( new LevelFilter( dimLevel21,
+		cubeQueryExcutorHelper.addSimpleLevelFilter( new SimpleLevelFilter( dimLevel21,
 				filter[0] ) );
 		
 		
@@ -788,12 +789,16 @@ public class FactTableHelperTest2 extends TestCase
 		
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = 
 			new CubeQueryExecutorHelper( CubeQueryExecutorHelper.loadCube( "cube", cubeMaterializer.getDocumentManager( ), new StopSign( ) ) );
-		ISelection[][] filter = new ISelection[1][1];
+		ISelection[][] filter = new ISelection[1][2];
 		filter[0][0] = SelectionFactory.createRangeSelection(  new Object[]{new Integer( 1 )},
+				 new Object[]{new Integer( 2 )},
+				true,
+				false );
+		filter[0][1] = SelectionFactory.createRangeSelection(  new Object[]{new Integer( 2 )},
 				 new Object[]{new Integer( 3 )},
 				true,
 				false );
-		cubeQueryExcutorHelper.addFilter( new LevelFilter(dimLevel21, filter[0]) );
+		cubeQueryExcutorHelper.addSimpleLevelFilter( new SimpleLevelFilter(dimLevel21, filter[0]) );
 		
 		AggregationDefinition[] aggregations = new AggregationDefinition[2];
 		int[] sortType = new int[1];

@@ -19,6 +19,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.LevelFilter;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.SimpleLevelFilter;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper;
 
 /**
@@ -27,7 +28,12 @@ import org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper;
 
 public interface ICubeQueryExcutorHelper
 {
-
+	/**
+	 * 
+	 * @param simpleLevelFilter
+	 */
+	public void addSimpleLevelFilter( SimpleLevelFilter simpleLevelFilter );
+	
 	/**
 	 * 
 	 * @param levelFilter

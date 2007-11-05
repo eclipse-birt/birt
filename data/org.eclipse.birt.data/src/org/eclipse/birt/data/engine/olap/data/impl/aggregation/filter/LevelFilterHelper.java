@@ -25,11 +25,13 @@ import org.eclipse.birt.data.engine.olap.data.api.ISelection;
 import org.eclipse.birt.data.engine.olap.data.impl.Constants;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionRow;
+import org.eclipse.birt.data.engine.olap.data.impl.dimension.Level;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedPrimitiveDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.OrderedDiskArray;
+import org.eclipse.birt.data.engine.olap.data.util.SelectionUtil;
 import org.eclipse.birt.data.engine.olap.data.util.SetUtil;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSDimensionFilterHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper;
@@ -44,6 +46,7 @@ public class LevelFilterHelper
 
 	private Dimension dimension;
 	private IDiskArray dimPosition;
+	private List simplelevelFilters;
 	private List levelFilters;
 
 	/**
@@ -51,10 +54,11 @@ public class LevelFilterHelper
 	 * @throws DataException
 	 * 
 	 */
-	public LevelFilterHelper( Dimension dimension, List levelFilters )
+	public LevelFilterHelper( Dimension dimension, List simpleLevelFilters, List levelFilters )
 			throws DataException, IOException
 	{
 		this.dimension = dimension;
+		this.simplelevelFilters = simpleLevelFilters;
 		this.levelFilters = levelFilters;
 		populatePositions( );
 	}
@@ -380,9 +384,9 @@ public class LevelFilterHelper
 	{
 		IDiskArray selectedPositions = new BufferedPrimitiveDiskArray( );
 		ILevel[] levels = dimension.getHierarchy( ).getLevels( );
-		for ( int i = 0; i < dimension.length( ); i++ )
+		for ( int i = 0; i < dimPosition.size( ); i++ )
 		{
-			DimensionRow row = (DimensionRow) dimension.getRowByPosition( i );
+			DimensionRow row = (DimensionRow) dimension.getRowByPosition( ( (Integer) dimPosition.get( i ) ).intValue( ) );
 			Member[] curMembers = row.getMembers( );
 			// the filters in different level will be intersected in our
 			// definition, so that if current position i is selected by all
@@ -443,21 +447,90 @@ public class LevelFilterHelper
 	 */
 	private void populatePositions( ) throws DataException, IOException
 	{
-		if ( levelFilters.isEmpty( ) )
+		if( simplelevelFilters != null && simplelevelFilters.size( ) > 0 )
+		{
+			getSimpleFilterResult();
+		}
+		else
 		{
 			this.dimPosition = dimension.findAll( );
 		}
 
 		Map validFilterMap = getValidFilterMap( );
 
-		if ( validFilterMap.isEmpty( ) )
-		{// no filter for this dimension
-			this.dimPosition = dimension.findAll( );
-		}
-
 		this.dimPosition = populateValidPositions( validFilterMap );
 	}
 
+	/**
+	 * 
+	 * @throws DataException
+	 * @throws IOException
+	 */
+	private void getSimpleFilterResult( ) throws DataException, IOException
+	{
+		ILevel[] levels = dimension.getHierarchy( ).getLevels( );
+		ISelection[][] selections = new ISelection[levels.length][];
+		int filterCount = 0;
+		for ( int i = 0; i < simplelevelFilters.size( ); i++ )
+		{
+			SimpleLevelFilter filter = (SimpleLevelFilter)simplelevelFilters.get( i );
+			if ( filter.getDimensionName( ).equals( dimension.getName( ) ) == false )
+			{
+				continue;
+			}
+			int index = getIndex( levels, filter.getLevelName( ) );
+			if ( index >= 0 )
+			{
+				if ( selections[index] == null )
+				{
+					selections[index] = filter.getSelections( );
+					filterCount++;
+				}
+				else
+				{
+					selections[index] = SelectionUtil.intersect( selections[index],
+							filter.getSelections( ) );
+				}
+			}
+		}
+		if(filterCount==0)
+		{
+			dimPosition = dimension.findAll( );
+			return;
+		}
+		Level[] filterLevel = new Level[filterCount];
+		ISelection[][] selects = new ISelection[filterCount][];
+		int pos = 0;
+		for( int i=0;i<selections.length;i++)
+		{
+			if ( selections[i] != null )
+			{
+				filterLevel[pos] = (Level)levels[i];
+				selects[pos] = selections[i];
+				pos++;
+			}
+		}
+		dimPosition = dimension.find( filterLevel, selects );
+	}
+	
+	/**
+	 * 
+	 * @param levels
+	 * @param levelName
+	 * @return
+	 */
+	private int getIndex( ILevel[] levels, String levelName )
+	{
+		for( int i=0;i<levels.length;i++)
+		{
+			if( levels[i].getName( ).equals( levelName ))
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
+	
 	/**
 	 * @return
 	 */
