@@ -269,7 +269,7 @@
 
 		<replace file="${OutputDir}\${birt.info}" token="#buildType#" value="Nightly"/>
 		<replace file="${OutputDir}\${birt.info}" token="#timeStamp#" value="${buildId}"/>
-		<replace file="${OutputDir}\${birt.info}" token="#branch#" value="2.3.0"/>
+		<replace file="${OutputDir}\${birt.info}" token="#branch#" value="${package.version}"/>
 		<replace file="${OutputDir}\${birt.info}" token="#ECLIPSEVERSION#" value="3.4 M2 SDK"/>
 		<replace file="${OutputDir}\${birt.info}" token="#EMFVERSION#" value="2.4 M2 EMF+SDO+XSD"/>
 		<replace file="${OutputDir}\${birt.info}" token="#GEFVERSION#" value="3.4 M2 runtime"/>
