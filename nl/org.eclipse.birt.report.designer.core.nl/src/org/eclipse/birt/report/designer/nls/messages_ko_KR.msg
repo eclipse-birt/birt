@@ -479,6 +479,8 @@ dataset.wizard.label.datasetName=데이터 집합 이름(&M):
 dataset.wizard.label.datasetType=데이터 집합 형식(&T):
 dataset.wizard.label.dataSource=데이터 원본(&S):
 dataSourceSelectionPage.title=데이터 원본과 연결
+dataset.error.title.noReportDesign=오류
+dataset.error.msg.noReportDesign=No report design available.
 
 ###########################################################
 #DataSetBasePage properties
@@ -590,6 +592,8 @@ datasource.wizard.message.selectType=새 데이터 원본에 대해 모든 설정을 제공하거�
 datasource.wizard.title.select=데이터 원본 형식 선택 또는 연결 프로파일 선택
 datasource.editor.property=속성 바인딩
 datasource.editor.duplicatedName=데이터 원본 이름 "{0}"이(가) 중복됨
+datasource.error.title.noReportDesign=오류
+datasource.error.msg.noReportDesign=No report design available.
 
 ###########################################################
 #DataSourceProcess properties
@@ -2004,7 +2008,7 @@ JSEditor.Display.NoExpression=이 요소에 메소드가 없습니다.
 JSEditor.Input.trial=시도
 JSEditor.Text.NoText=No text
 JSEditor.Validate.Title=Validation
-JSEditor.Validate.NoError=No syntax error was found in the current script.
+JSEditor.Validate.NoError=No syntax error was found in current script.
 
 
 ###########################################################

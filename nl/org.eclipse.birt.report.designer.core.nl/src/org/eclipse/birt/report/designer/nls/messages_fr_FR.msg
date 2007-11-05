@@ -479,6 +479,8 @@ dataset.wizard.label.datasetName=No&m du jeu de données :
 dataset.wizard.label.datasetType=&Type de jeu de données :
 dataset.wizard.label.dataSource=&Source de données :
 dataSourceSelectionPage.title=Lien avec la source de données
+dataset.error.title.noReportDesign=Erreur
+dataset.error.msg.noReportDesign=No report design available.
 
 ###########################################################
 #DataSetBasePage properties
@@ -590,6 +592,8 @@ datasource.wizard.message.selectType=Indiquer tous les paramètres pour une nouve
 datasource.wizard.title.select=Sélectionner un type de source de données ou choisir un profil de connexion
 datasource.editor.property=Liaison de propriété
 datasource.editor.duplicatedName=Le nom de la source de données "{0}" est dupliqué
+datasource.error.title.noReportDesign=Erreur
+datasource.error.msg.noReportDesign=No report design available.
 
 ###########################################################
 #DataSourceProcess properties
@@ -2004,7 +2008,7 @@ JSEditor.Display.NoExpression=Cet élément ne contient pas de méthode.
 JSEditor.Input.trial=évaluation
 JSEditor.Text.NoText=No text
 JSEditor.Validate.Title=Validation
-JSEditor.Validate.NoError=No syntax error was found in the current script.
+JSEditor.Validate.NoError=No syntax error was found in current script.
 
 
 ###########################################################

@@ -479,6 +479,8 @@ dataset.wizard.label.datasetName=ƒf[ƒ^ƒZƒbƒg–¼(&M) :
 dataset.wizard.label.datasetType=ƒf[ƒ^ƒZƒbƒg‚ÌŒ^(&T) :
 dataset.wizard.label.dataSource=ƒf[ƒ^ƒ\[ƒX(&S) :
 dataSourceSelectionPage.title=ƒf[ƒ^ƒZƒbƒg‚Æ‚ÌƒŠƒ“ƒN
+dataset.error.title.noReportDesign=ƒGƒ‰[
+dataset.error.msg.noReportDesign=No report design available.
 
 ###########################################################
 #DataSetBasePage properties
@@ -590,6 +592,8 @@ datasource.wizard.message.selectType=V‚µ‚¢ƒf[ƒ^ƒ\[ƒX‚Ì‚·‚×‚Ä‚Ìİ’è‚ğw’è‚·‚é‚
 datasource.wizard.title.select=ƒf[ƒ^ƒ\[ƒX‚Ìí—Ş‚Ü‚½‚ÍÚ‘±ƒvƒƒtƒ@ƒCƒ‹‚Ì‘I‘ğ
 datasource.editor.property=ƒvƒƒpƒeƒB‚ÌƒoƒCƒ“ƒh
 datasource.editor.duplicatedName=ƒf[ƒ^ƒ\[ƒX–¼ "{0}" ‚ªd•¡‚µ‚Ä‚¢‚Ü‚·B
+datasource.error.title.noReportDesign=ƒGƒ‰[
+datasource.error.msg.noReportDesign=No report design available.
 
 ###########################################################
 #DataSourceProcess properties
@@ -2004,7 +2008,7 @@ JSEditor.Display.NoExpression=‚±‚Ì—v‘f‚É‚Íƒƒ\ƒbƒh‚ª‚ ‚è‚Ü‚¹‚ñB
 JSEditor.Input.trial=—p
 JSEditor.Text.NoText=No text
 JSEditor.Validate.Title=Validation
-JSEditor.Validate.NoError=No syntax error was found in the current script.
+JSEditor.Validate.NoError=No syntax error was found in current script.
 
 
 ###########################################################

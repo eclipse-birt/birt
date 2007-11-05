@@ -479,6 +479,8 @@ dataset.wizard.label.datasetName=Nombre de conjunto de dato&s:
 dataset.wizard.label.datasetType=Tipo de conjunto de dat&os:
 dataset.wizard.label.dataSource=Fuente de dat&os:
 dataSourceSelectionPage.title=Link con fuente de datos
+dataset.error.title.noReportDesign=Error
+dataset.error.msg.noReportDesign=No report design available.
 
 ###########################################################
 #DataSetBasePage properties
@@ -590,6 +592,8 @@ datasource.wizard.message.selectType=Suministre todos los ajustes para una nueva
 datasource.wizard.title.select=Seleccione un tipo de fuente de datos o un perfil de conexión
 datasource.editor.property=Enlace de propiedades
 datasource.editor.duplicatedName=El nombre de fuente de datos "{0}" está duplicado
+datasource.error.title.noReportDesign=Error
+datasource.error.msg.noReportDesign=No report design available.
 
 ###########################################################
 #DataSourceProcess properties
@@ -2004,7 +2008,7 @@ JSEditor.Display.NoExpression=Este elemento no tiene métodos.
 JSEditor.Input.trial=prueba
 JSEditor.Text.NoText=No text
 JSEditor.Validate.Title=Validation
-JSEditor.Validate.NoError=No syntax error was found in the current script.
+JSEditor.Validate.NoError=No syntax error was found in current script.
 
 
 ###########################################################

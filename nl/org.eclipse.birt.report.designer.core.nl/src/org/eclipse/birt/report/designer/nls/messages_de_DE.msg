@@ -479,6 +479,8 @@ dataset.wizard.label.datasetName=&Datensatzname:
 dataset.wizard.label.datasetType=&Datensatztyp:
 dataset.wizard.label.dataSource=&Datenquelle:
 dataSourceSelectionPage.title=Verknüpfung mit Datenquelle
+dataset.error.title.noReportDesign=Fehler
+dataset.error.msg.noReportDesign=No report design available.
 
 ###########################################################
 #DataSetBasePage properties
@@ -590,6 +592,8 @@ datasource.wizard.message.selectType=Geben Sie alle Einstellungen für eine neue 
 datasource.wizard.title.select=Wählen Sie einen Datenquellentyp, oder wählen Sie ein Verbindungsprofil.
 datasource.editor.property=Eigenschaftenbindung
 datasource.editor.duplicatedName=Datenquellname "{0}" ist bereits vorhanden
+datasource.error.title.noReportDesign=Fehler
+datasource.error.msg.noReportDesign=No report design available.
 
 ###########################################################
 #DataSourceProcess properties
@@ -2004,7 +2008,7 @@ JSEditor.Display.NoExpression=Dieses Element verfügt über keine Methoden.
 JSEditor.Input.trial=Test
 JSEditor.Text.NoText=No text
 JSEditor.Validate.Title=Validation
-JSEditor.Validate.NoError=No syntax error was found in the current script.
+JSEditor.Validate.NoError=No syntax error was found in current script.
 
 
 ###########################################################
