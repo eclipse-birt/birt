@@ -651,7 +651,11 @@ public final class Generator implements IGenerator
 		}
 		sh.setRunTimeModel( cmRunTime );
 
-		final String sScriptContent = cmRunTime.getScript( );
+		/* The following code can cause exceptions with bad script. no meaning
+		 * to register the script in prepare until we can make the prepare call work
+		 
+		 
+		 final String sScriptContent = cmRunTime.getScript( );
 		if ( sScriptContent != null )
 		{
 			sh.register( sScriptContent );
