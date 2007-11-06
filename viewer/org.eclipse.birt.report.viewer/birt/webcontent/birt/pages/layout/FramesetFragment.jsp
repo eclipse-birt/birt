@@ -243,7 +243,7 @@
 		else
 		{
 		%>
-			birtUtility.initDPI( );
+			soapURL = birtUtility.initDPI( soapURL );
 			navigationBar.__init_page( );
 		<%
 		}

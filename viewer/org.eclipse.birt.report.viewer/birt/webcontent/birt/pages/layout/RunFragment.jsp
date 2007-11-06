@@ -199,7 +199,7 @@
 		else
 		{
 		%>
-			birtUtility.initDPI( );
+			soapURL = birtUtility.initDPI( soapURL );
 			birtParameterDialog.__init_page_all( );
 		<%
 		}

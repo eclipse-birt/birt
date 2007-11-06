@@ -514,28 +514,40 @@ BirtUtility.prototype =
 	
 	/**
 	 * Initialize the client DPI setting
+	 * 
+	 * @param, url
+	 * @return, string
 	 */
-	initDPI : function( )
+	initDPI : function( url )
 	{
+		var href;
+		
 		try
 		{
+			if( url )
+			{
+				href = url;
+			}
+			else
+			{
+				href = document.location.href;
+			}
+			
 			var dpi;
 			if( screen.deviceXDPI )
 				dpi = screen.deviceXDPI;
 			
-			if( !dpi )
-				return;
-					
-			var href = window.location.href;
-			var reg = new RegExp( "([&|?]{1}" + this.__PARAM_DPI + "\s*)=([^&|^#]*)", "gi" );
-			if( href.search( reg ) < 0 )
+			if( dpi )
 			{
-				href = href + "&" + this.__PARAM_DPI + "=" + dpi;
-				window.location.href = href;
-			}
+				var reg = new RegExp( "([&|?]{1}" + this.__PARAM_DPI + "\s*)=([^&|^#]*)", "gi" );
+				if( href.search( reg ) < 0 )
+					href = href + "&" + this.__PARAM_DPI + "=" + dpi;
+			}			
 		}
 		catch(e)
-		{}		
+		{}
+		
+		return href;		
 	},
 	
 	/**
