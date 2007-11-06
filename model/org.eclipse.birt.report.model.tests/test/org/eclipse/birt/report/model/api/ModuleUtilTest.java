@@ -350,7 +350,7 @@ public class ModuleUtilTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	
+
 	public void testIsListStyleRuleValue( ) throws Exception
 	{
 		createDesign( );
@@ -372,6 +372,75 @@ public class ModuleUtilTest extends BaseTestCase
 		assertTrue( ModuleUtil.isListStyleRuleValue( handle ) );
 		HighlightRuleHandle handle2 = (HighlightRuleHandle) propHandle.get( 1 );
 		assertFalse( ModuleUtil.isListStyleRuleValue( handle2 ) );
+	}
+
+	/**
+	 * Test transfer script uid to script value and transfer script instance to
+	 * script uid.
+	 * 
+	 * @throws Exception
+	 */
+	public void testScriptuid( ) throws Exception
+	{
+		openDesign( "ModuleUtilTest.xml" ); //$NON-NLS-1$
+
+		//transfer script instance to script uid.
+		LabelHandle label1 = (LabelHandle) designHandle.getElementByID( 62l );
+		PropertyHandle propHandle = label1
+				.getPropertyHandle( LabelHandle.ON_PREPARE_METHOD );
+		String path = ModuleUtil.getScriptUID( propHandle );
+		assertEquals(
+				"/report/body/label[@id=\"62\"]/method[@name=\"onPrepare\"]", //$NON-NLS-1$
+				path );
+
+//		propHandle = label1
+//				.getPropertyHandle( StyleHandle.HIGHLIGHT_RULES_PROP );
+//		StructureHandle structHandle = (StructureHandle) propHandle.get( 0 );
+//		MemberHandle member = (MemberHandle) structHandle
+//				.getMember( StyleRule.TEST_EXPR_MEMBER );
+//		path = ModuleUtil.getScriptUID( member );
+//		assertEquals(
+//				"/report/body/label[@id=\"62\"]/list-property[@name=\"highlightRules\"]/structure[1]/expression[@name=\"testExpr\"]", //$NON-NLS-1$
+//				path );
+//
+//		member = (MemberHandle) structHandle
+//				.getMember( StyleRule.VALUE1_MEMBER );
+//		path = ModuleUtil.getScriptUID( member, 0 );
+//		assertEquals(
+//				"/report/body/label[@id=\"62\"]/list-property[@name=\"highlightRules\"]/structure[1]/list-property[@name=\"value1\"]/value[1]", //$NON-NLS-1$
+//				path );
+//
+//		LabelHandle label2 = (LabelHandle) designHandle.getElementByID( 63l );
+//		TOCHandle tochandle = label2.getTOC( );
+//		member = tochandle.getMember( TOC.TOC_EXPRESSION );
+//		path = ModuleUtil.getScriptUID( member );
+//		assertEquals(
+//				"/report/body/label[@id=\"63\"]/structure[@name=\"toc\"]/expression[@name=\"expressionValue\"]", //$NON-NLS-1$
+//				path );
+
+		//transfer script uid to script value
+		String value = ModuleUtil.getScript( designHandle,
+				"/report/body/label[@id=\"62\"]/method[@name=\"onPrepare\"]" ); //$NON-NLS-1$
+		assertEquals( "\"prepare\"", value );//$NON-NLS-1$
+
+//		value = ModuleUtil
+//				.getScript(
+//						designHandle,
+//						"/report/body/label[@id=\"62\"]/list-property[@name=\"highlightRules\"]/structure[1]/expression[@name=\"testExpr\"]" ); //$NON-NLS-1$
+//		assertEquals( "row[\"LASTNAME\"]", value );//$NON-NLS-1$
+//
+//		value = ModuleUtil
+//				.getScript(
+//						designHandle,
+//						"/report/body/label[@id=\"63\"]/structure[@name=\"toc\"]/expression[@name=\"expressionValue\"]" ); //$NON-NLS-1$
+//		assertEquals( "toc expression", value );//$NON-NLS-1$
+//
+//		value = ModuleUtil
+//				.getScript(
+//						designHandle,
+//						"/report/body/label[@id=\"62\"]/list-property[@name=\"highlightRules\"]/structure[1]/list-property[@name=\"value1\"]/value[1]" ); //$NON-NLS-1$
+//
+//		assertEquals( "\"Tseng\"", value );//$NON-NLS-1$
 	}
 
 }

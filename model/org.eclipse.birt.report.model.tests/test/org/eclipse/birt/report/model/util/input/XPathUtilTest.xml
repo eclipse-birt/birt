@@ -88,7 +88,7 @@
             <property name="source">file</property>
             <expression name="uri">c:/nofile/nofile.data</expression>
         </image>
-        <table name="My table1">
+        <table name="My table1" id="10">
             <property name="dataSet">firstDataSet</property>
             <group>
 				<property name="keyExpr">row.state</property>
@@ -107,24 +107,43 @@
                 <row>
                     <cell>
                     </cell>
-                    <cell>
+                    <cell id="17">
                     	<label name="My table1 nested label1"/>
                     </cell>                    
                 </row>
             </detail>
         </table>               
-        <text name="My text1">
+        <text name="My text1" id="19">
             <text-property name="content" key="dynamic"><![CDATA[    text value expr    ]]></text-property>
         </text>
-        <extended-item name="matrix1" extensionName="TestingMatrix"/>      
-        <list name="My list1">       
+        <extended-item name="matrix1" extensionName="TestingMatrix" id="20"/>      
+        <list name="My list1" id="21">       
             <detail>
                 <label/>
             </detail>
             <footer>
                 <label/>
             </footer>
-        </list>          
+        </list>  
+        <label id="62">
+            <method name="onPrepare"><![CDATA["prepare"]]></method>
+            <text-property name="text">label value</text-property>
+             <list-property name="highlightRules">
+                <structure>
+                    <expression name="testExpr">row["LASTNAME"]</expression>
+                    <simple-property-list name="value1">
+                        <value>"Tseng"</value>
+                        <value>row["LASTNAME"]</value>
+                    </simple-property-list>
+                </structure>
+            </list-property>
+        </label>
+        <label id="63">
+            <structure name="toc">
+                <expression name="expressionValue">toc expression</expression>
+            </structure>
+            <text-property name="text">toc text</text-property>
+        </label>              
     </body>
     <list-property name="images">
         <structure>

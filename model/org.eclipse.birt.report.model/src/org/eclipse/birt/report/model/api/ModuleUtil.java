@@ -32,11 +32,13 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
+import org.eclipse.birt.report.model.api.util.XPathUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StructureContext;
@@ -914,6 +916,77 @@ public class ModuleUtil
 	public static String convertColumnTypeToParamType( String type )
 	{
 		return DataTypeConversionUtil.converToParamType( type );
+	}
+
+	/**
+	 * Gets the script id if instance has expression. Now only support
+	 * <code>PropertyHandle</code>.
+	 * 
+	 * @param instance
+	 *            <code>PropertyHandle</code>
+	 * @return the script uid
+	 */
+
+	public static String getScriptUID( Object instance )
+	{
+		if ( isValidScript( instance ) )
+			return XPathUtil.getXPath( instance );
+		return null;
+	}
+
+	/**
+	 * Gets the script value.
+	 * 
+	 * @param module
+	 *            module handle
+	 * @param uid
+	 *            the script uid
+	 * @return the script value.
+	 */
+
+	public static String getScript( ModuleHandle module, String uid )
+	{
+		Object instance = XPathUtil.getInstance( module, uid );
+		if ( instance == null )
+			return null;
+
+		if ( instance instanceof String )
+			return (String) instance;
+
+		if ( isValidScript( instance ) )
+			return ( (SimpleValueHandle) instance ).getStringValue( );
+		return null;
+	}
+
+	/**
+	 * Checks instance's type is script or not.
+	 * 
+	 * @param instance
+	 *            <code>MemberHandle</code> or <code>PropertyHandle</code>
+	 * @return return true if it is script,else return false.
+	 */
+
+	private static boolean isValidScript( Object instance )
+	{
+		if ( instance instanceof MemberHandle
+				|| instance instanceof PropertyHandle )
+		{
+			SimpleValueHandle temp = (SimpleValueHandle) instance;
+			PropertyDefn defn = (PropertyDefn) temp.getDefn( );
+			if ( defn.getTypeCode( ) == IPropertyType.LIST_TYPE )
+			{
+				if ( defn.getSubType( ).getTypeCode( ) == IPropertyType.EXPRESSION_TYPE )
+					return true;
+			}
+			else
+			{
+				if ( defn.getTypeCode( ) == IPropertyType.EXPRESSION_TYPE
+						|| defn.getTypeCode( ) == IPropertyType.SCRIPT_TYPE )
+					return true;
+			}
+		}
+		return false;
+
 	}
 
 }
