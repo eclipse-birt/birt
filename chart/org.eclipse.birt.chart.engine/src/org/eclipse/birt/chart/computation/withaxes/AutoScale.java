@@ -2468,9 +2468,7 @@ public final class AutoScale extends Methods implements Cloneable
 				: BACKWARD )
 				: iScaleDirection;
 
-		// If axis labels should be within axes, do not adjust start and end
-		// position
-		if ( !bLabelWithinAxes && ( bConsiderStartLabel || bConsiderEndLabel ) )
+		if ( bConsiderStartLabel || bConsiderEndLabel )
 		{
 			computeAxisStartEndShifts( xs,
 					la,
@@ -2478,7 +2476,9 @@ public final class AutoScale extends Methods implements Cloneable
 					iLabelLocation,
 					aax );
 
-			if ( bConsiderStartLabel )
+			// If axis labels should be within axes, do not adjust start
+			// position
+			if ( !bLabelWithinAxes && bConsiderStartLabel )
 			{
 				dStart += dStartShift * iDirection;
 			}
