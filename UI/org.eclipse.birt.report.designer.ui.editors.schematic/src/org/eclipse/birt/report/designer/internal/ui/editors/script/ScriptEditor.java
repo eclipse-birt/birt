@@ -18,6 +18,7 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.source.ISourceViewer;
+import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IWorkbenchPartSite;
@@ -245,19 +246,31 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor
 	 */
 	public void setScript( String script )
 	{
-		IDocumentProvider provider = getDocumentProvider( );
-
-		if ( provider != null )
+		try
 		{
-			IDocument document = provider.getDocument( getEditorInput( ) );
+			IDocumentProvider provider = getDocumentProvider( );
 
-			if ( document != null )
+			if ( provider != null )
 			{
-				document.set( script == null ? "" : script ); //$NON-NLS-1$
-				return;
+				IDocument document = provider.getDocument( getEditorInput( ) );
+
+				if ( document != null )
+				{
+					document.set( script == null ? "" : script ); //$NON-NLS-1$
+					return;
+				}
+			}
+			input = createScriptInput( script );
+		}
+		finally
+		{
+			ISourceViewer viewer = getSourceViewer( );
+
+			if ( viewer instanceof SourceViewer )
+			{
+				( (SourceViewer) viewer ).getUndoManager( ).reset( );
 			}
 		}
-		input = createScriptInput( script );
 	}
 
 	/*

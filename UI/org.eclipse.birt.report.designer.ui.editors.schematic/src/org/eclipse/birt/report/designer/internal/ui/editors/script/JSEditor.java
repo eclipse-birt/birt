@@ -54,7 +54,6 @@ import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextListener;
 import org.eclipse.jface.text.TextEvent;
-import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -429,16 +428,7 @@ public class JSEditor extends EditorPart implements
 	 */
 	private void setTextListenerEnable( boolean enabled )
 	{
-		if ( isTextListenerEnable != enabled )
-		{
-			SourceViewer viewer = getViewer( );
-
-			if ( viewer != null )
-			{
-				viewer.getUndoManager( ).reset( );
-			}
-			isTextListenerEnable = enabled;
-		}
+		isTextListenerEnable = enabled;
 	}
 
 	/**
@@ -805,9 +795,18 @@ public class JSEditor extends EditorPart implements
 	 */
 	private void setEditorText( String text )
 	{
+		if ( scriptEditor == null )
+		{
+			return;
+		}
+
 		scriptEditor.setScript( text );
-		scriptValidator.init( );
-		setValidateIcon( null, null );
+
+		if ( scriptValidator != null )
+		{
+			scriptValidator.init( );
+			setValidateIcon( null, null );
+		}
 	}
 
 	/**
@@ -1028,6 +1027,11 @@ public class JSEditor extends EditorPart implements
 	{
 		Image image = null;
 		String message = null;
+		
+		if ( scriptValidator == null )
+		{
+			return;
+		}
 
 		try
 		{
