@@ -284,12 +284,21 @@ public interface ComponentPackage extends EPackage
 	int AXIS__PERCENT = 24;
 
 	/**
+	 * The feature id for the '<em><b>Label Within Axes</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int AXIS__LABEL_WITHIN_AXES = 25;
+
+	/**
 	 * The number of structural features of the '<em>Axis</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int AXIS_FEATURE_COUNT = 25;
+	int AXIS_FEATURE_COUNT = 26;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.component.impl.ChartPreferencesImpl <em>Chart Preferences</em>}' class.
@@ -1415,6 +1424,17 @@ public interface ComponentPackage extends EPackage
 	EAttribute getAxis_Percent( );
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Axis#isLabelWithinAxes <em>Label Within Axes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Label Within Axes</em>'.
+	 * @see org.eclipse.birt.chart.model.component.Axis#isLabelWithinAxes()
+	 * @see #getAxis()
+	 * @generated
+	 */
+	EAttribute getAxis_LabelWithinAxes( );
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.component.ChartPreferences <em>Chart Preferences</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Chart Preferences</em>'.
@@ -2201,7 +2221,7 @@ public interface ComponentPackage extends EPackage
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>EString To Data Set Map Entry</em>'.
 	 * @see java.util.Map.Entry
-	 * @model keyType="java.lang.String" keyUnique="false" keyDataType="org.eclipse.emf.ecore.xml.type.String" keyRequired="true"
+	 * @model keyType="java.lang.String" keyDataType="org.eclipse.emf.ecore.xml.type.String" keyRequired="true"
 	 *        keyExtendedMetaData="kind='element' name='Key'"
 	 *        valueType="org.eclipse.birt.chart.model.data.DataSet" valueContainment="true" valueRequired="true"
 	 *        valueExtendedMetaData="kind='element' name='Value'"
@@ -2465,6 +2485,14 @@ public interface ComponentPackage extends EPackage
 		 * @generated
 		 */
 		EAttribute AXIS__PERCENT = eINSTANCE.getAxis_Percent( );
+
+		/**
+		 * The meta object literal for the '<em><b>Label Within Axes</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute AXIS__LABEL_WITHIN_AXES = eINSTANCE.getAxis_LabelWithinAxes( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.component.impl.ChartPreferencesImpl <em>Chart Preferences</em>}' class.

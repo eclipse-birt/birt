@@ -475,6 +475,16 @@ public class ComponentPackageImpl extends EPackageImpl
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAxis_LabelWithinAxes( )
+	{
+		return (EAttribute) axisEClass.getEStructuralFeatures( ).get( 25 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -1275,6 +1285,7 @@ public class ComponentPackageImpl extends EPackageImpl
 		createEAttribute( axisEClass, AXIS__PRIMARY_AXIS );
 		createEAttribute( axisEClass, AXIS__CATEGORY_AXIS );
 		createEAttribute( axisEClass, AXIS__PERCENT );
+		createEAttribute( axisEClass, AXIS__LABEL_WITHIN_AXES );
 
 		chartPreferencesEClass = createEClass( CHART_PREFERENCES );
 		createEReference( chartPreferencesEClass, CHART_PREFERENCES__LABELS );
@@ -1497,6 +1508,9 @@ public class ComponentPackageImpl extends EPackageImpl
 		initEAttribute( getAxis_Percent( ),
 				theXMLTypePackage.getBoolean( ),
 				"percent", null, 1, 1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getAxis_LabelWithinAxes( ),
+				theXMLTypePackage.getBoolean( ),
+				"labelWithinAxes", "false", 1, 1, Axis.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		initEClass( chartPreferencesEClass,
 				ChartPreferences.class,
@@ -1909,6 +1923,10 @@ public class ComponentPackageImpl extends EPackageImpl
 		addAnnotation( getAxis_Percent( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "Percent" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getAxis_LabelWithinAxes( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "LabelWithinAxes" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( chartPreferencesEClass, source, new String[]{
 				"name", "ChartPreferences", //$NON-NLS-1$ //$NON-NLS-2$

@@ -677,6 +677,8 @@
         outputs="org.eclipse.birt.chart.model.component.ecore#//Axis/categoryAxis"/>
     <nested inputs="../../xsd/component.xsd#//Axis;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=24"
         outputs="org.eclipse.birt.chart.model.component.ecore#//Axis/percent"/>
+    <nested inputs="../../xsd/component.xsd#//Axis;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=25"
+        outputs="org.eclipse.birt.chart.model.component.ecore#//Axis/labelWithinAxes"/>
   </nested>
   <nested inputs="../../xsd/attribute.xsd#//RiserType;XSDSimpleTypeDefinition=23"
       outputs="org.eclipse.birt.chart.model.attribute.ecore#//RiserType">

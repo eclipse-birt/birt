@@ -142,6 +142,7 @@ public final class AxesRenderHelper
 	private Line3DRenderEvent l3dre;
 
 	private boolean bTickBetweenCategories;
+	private boolean bLabelWithinAxes;
 
 	AxesRenderHelper( AxesRenderer renderer, IPrimitiveRenderer ipr, Plot pl,
 			OneAxis ax, int iWhatToDraw )
@@ -219,6 +220,7 @@ public final class AxesRenderHelper
 		l3dre = null;
 
 		bTickBetweenCategories = axModel.getScale( ).isTickBetweenCategories( );
+		bLabelWithinAxes = ax.getModelAxis( ).isLabelWithinAxes( );
 	}
 
 	private RunTimeContext getRunTimeContext( )
@@ -787,6 +789,20 @@ public final class AxesRenderHelper
 					{
 						lo.set( sx, y + dOffset );
 						tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+						// Adjust the first label's position if labels should be
+						// within axes
+						if ( bLabelWithinAxes )
+						{
+							if ( i == 0 )
+							{
+								tre.setTextPosition( iLabelLocation
+										| IConstants.POSITION_MOVE_ABOVE );
+							}
+							else
+							{
+								tre.setTextPosition( iLabelLocation );
+							}
+						}
 						ipr.drawText( tre );
 					}
 				}
@@ -981,6 +997,20 @@ public final class AxesRenderHelper
 					{
 						lo.set( x + dOffset, sy );
 						tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+						// Adjust the first label's position if labels should be
+						// within axes
+						if ( bLabelWithinAxes )
+						{
+							if ( i == 0 )
+							{
+								tre.setTextPosition( iLabelLocation
+										| IConstants.POSITION_MOVE_RIGHT );
+							}
+							else
+							{
+								tre.setTextPosition( iLabelLocation );
+							}
+						}
 						ipr.drawText( tre );
 					}
 				}

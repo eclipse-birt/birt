@@ -614,6 +614,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.component.ecore#//Axis/primaryAxis"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.component.ecore#//Axis/categoryAxis"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.component.ecore#//Axis/percent"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.component.ecore#//Axis/labelWithinAxes"/>
     </genClasses>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.component.ecore#//ChartPreferences">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.component.ecore#//ChartPreferences/labels"/>

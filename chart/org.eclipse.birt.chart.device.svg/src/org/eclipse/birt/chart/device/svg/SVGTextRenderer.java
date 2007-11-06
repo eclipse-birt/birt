@@ -95,22 +95,22 @@ final public class SVGTextRenderer extends TextRendererAdapter
 		g2d.setFont( (java.awt.Font) _sxs.createFont( la.getCaption( )
 				.getFont( ) ) );
 
-		switch ( iLabelPosition )
+		switch ( iLabelPosition & POSITION_MASK )
 		{
 			case ABOVE :
-				showTopValue( idr, lo, la, true );
+				showTopValue( idr, lo, la, iLabelPosition, true );
 				break;
 
 			case BELOW :
-				showBottomValue( idr, lo, la, true );
+				showBottomValue( idr, lo, la, iLabelPosition, true );
 				break;
 
 			case LEFT :
-				showLeftValue( idr, lo, la, true );
+				showLeftValue( idr, lo, la, iLabelPosition, true );
 				break;
 
 			case RIGHT :
-				showRightValue( idr, lo, la, true );
+				showRightValue( idr, lo, la, iLabelPosition, true );
 				break;
 		}
 	}
@@ -142,38 +142,38 @@ final public class SVGTextRenderer extends TextRendererAdapter
 		g2d.setFont( (java.awt.Font) _sxs.createFont( la.getCaption( )
 				.getFont( ) ) );
 
-		switch ( iLabelPosition )
+		switch ( iLabelPosition & POSITION_MASK )
 		{
 			case ABOVE :
 				if ( ChartUtil.isShadowDefined( la ) )
 				{
-					showTopValue( ipr, lo, la, true );
+					showTopValue( ipr, lo, la, iLabelPosition, true );
 				}
-				showTopValue( ipr, lo, la, false );
+				showTopValue( ipr, lo, la, iLabelPosition, false );
 				break;
 
 			case BELOW :
 				if ( ChartUtil.isShadowDefined( la ) )
 				{
-					showBottomValue( ipr, lo, la, true );
+					showBottomValue( ipr, lo, la, iLabelPosition, true );
 				}
-				showBottomValue( ipr, lo, la, false );
+				showBottomValue( ipr, lo, la, iLabelPosition, false );
 				break;
 
 			case LEFT :
 				if ( ChartUtil.isShadowDefined( la ) )
 				{
-					showLeftValue( ipr, lo, la, true );
+					showLeftValue( ipr, lo, la, iLabelPosition, true );
 				}
-				showLeftValue( ipr, lo, la, false );
+				showLeftValue( ipr, lo, la, iLabelPosition, false );
 				break;
 
 			case RIGHT :
 				if ( ChartUtil.isShadowDefined( la ) )
 				{
-					showRightValue( ipr, lo, la, true );
+					showRightValue( ipr, lo, la, iLabelPosition, true );
 				}
-				showRightValue( ipr, lo, la, false );
+				showRightValue( ipr, lo, la, iLabelPosition, false );
 				break;
 			case INSIDE :
 				if ( ChartUtil.isShadowDefined( la ) )
@@ -267,25 +267,16 @@ final public class SVGTextRenderer extends TextRendererAdapter
 		if ( ChartUtil.isShadowDefined( la ) )
 		{
 			showTopValue( idr, LocationImpl.create( bb.getLeft( ), bb.getTop( )
-					+ bb.getHeight( ) ), la, true );
+					+ bb.getHeight( ) ), la, 0, true );
 		}
 		showTopValue( idr, LocationImpl.create( bb.getLeft( ), bb.getTop( )
-				+ bb.getHeight( ) ), la, false );
+				+ bb.getHeight( ) ), la, 0, false );
 	}
 
-	/**
-	 * 
-	 * @param g2d
-	 * @param dX
-	 * @param dY
-	 * @param sText
-	 * @param dAngleInDegrees
-	 */
 	private final void showLeftValue( IPrimitiveRenderer ipr, Location lo,
-			Label la, boolean bShadow )
+			Label la, int iLabelPosition, boolean bShadow )
 	{
 		SVGGraphics2D g2d = (SVGGraphics2D) ( (IDeviceRenderer) ipr ).getGraphicsContext( );
-		double dX = lo.getX( ), dY = lo.getY( );
 		FontDefinition fd = la.getCaption( ).getFont( );
 		double dAngleInDegrees = fd.getRotation( );
 		if ( bShadow ) // UPDATE TO FALSE IF SHADOW COLOR UNDEFINED BUT SHADOW
@@ -304,6 +295,9 @@ final public class SVGTextRenderer extends TextRendererAdapter
 		final double dCosTheta = ( Math.cos( dAngleInRadians ) );
 
 		final ITextMetrics itm = new SVGTextMetrics( _sxs, la );
+		// Tune text position if needed. Location instance may be changed
+		lo = adjustTextPosition( iLabelPosition, lo, itm, dAngleInDegrees );
+		double dX = lo.getX( ), dY = lo.getY( );
 		try
 		{
 			final double dFW = itm.getFullWidth( );
@@ -684,20 +678,10 @@ final public class SVGTextRenderer extends TextRendererAdapter
 		}
 	}
 
-	/**
-	 * 
-	 * @param g2d
-	 * @param f
-	 * @param dX
-	 * @param dY
-	 * @param sText
-	 * @param iAngleInDegrees
-	 */
 	private final void showRightValue( IPrimitiveRenderer ipr, Location lo,
-			Label la, boolean bShadow )
+			Label la, int iLabelPosition, boolean bShadow )
 	{
 		SVGGraphics2D g2d = (SVGGraphics2D) ( (IDeviceRenderer) ipr ).getGraphicsContext( );
-		double dX = lo.getX( ), dY = lo.getY( );
 		FontDefinition fd = la.getCaption( ).getFont( );
 		double dAngleInDegrees = fd.getRotation( );
 		if ( bShadow ) // UPDATE TO FALSE IF SHADOW COLOR UNDEFINED BUT SHADOW
@@ -712,10 +696,14 @@ final public class SVGTextRenderer extends TextRendererAdapter
 			clrBackground = (Color) _sxs.getColor( (ColorDefinition) la.getBackground( ) );
 		}
 
+		final ITextMetrics itm = new SVGTextMetrics( _sxs, la );
+		// Tune text position if needed. Location instance may be changed
+		lo = adjustTextPosition( iLabelPosition, lo, itm, dAngleInDegrees );
+		double dX = lo.getX( ), dY = lo.getY( );
+		
 		// dX += 2;
 		dY += 1;
 
-		final ITextMetrics itm = new SVGTextMetrics( _sxs, la );
 		try
 		{
 			final double dFW = itm.getFullWidth( );
@@ -1108,20 +1096,10 @@ final public class SVGTextRenderer extends TextRendererAdapter
 		}
 	}
 
-	/**
-	 * 
-	 * @param g2d
-	 * @param f
-	 * @param dX
-	 * @param dY
-	 * @param sText
-	 * @param iAngleInDegrees
-	 */
 	private final void showBottomValue( IPrimitiveRenderer ipr, Location lo,
-			Label la, boolean bShadow )
+			Label la, int iLabelPosition, boolean bShadow )
 	{
 		SVGGraphics2D g2d = (SVGGraphics2D) ( (IDeviceRenderer) ipr ).getGraphicsContext( );
-		double dX = lo.getX( ), dY = lo.getY( );
 		FontDefinition fd = la.getCaption( ).getFont( );
 		// Color clrShadow = bShadow ? (Color)
 		// _sxs.getColor(la.getShadowColor()) : null;
@@ -1135,6 +1113,9 @@ final public class SVGTextRenderer extends TextRendererAdapter
 		double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
 
 		final ITextMetrics itm = new SVGTextMetrics( _sxs, la );
+		// Tune text position if needed. Location instance may be changed
+		lo = adjustTextPosition( iLabelPosition, lo, itm, dAngleInDegrees );
+		double dX = lo.getX( ), dY = lo.getY( );
 		try
 		{
 			final double dFW = itm.getFullWidth( );
@@ -1517,20 +1498,10 @@ final public class SVGTextRenderer extends TextRendererAdapter
 		}
 	}
 
-	/**
-	 * 
-	 * @param g2d
-	 * @param f
-	 * @param dX
-	 * @param dY
-	 * @param sText
-	 * @param iAngleInDegrees
-	 */
 	private final void showTopValue( IPrimitiveRenderer ipr, Location lo,
-			Label la, boolean bShadow )
+			Label la, int iLabelPosition, boolean bShadow )
 	{
 		final SVGGraphics2D g2d = (SVGGraphics2D) ( (IDeviceRenderer) ipr ).getGraphicsContext( );
-		double dX = lo.getX( ), dY = lo.getY( );
 		final FontDefinition fd = la.getCaption( ).getFont( );
 		// final Color clrShadow = bShadow ? (Color)
 		// _sxs.getColor(la.getShadowColor()) : null;
@@ -1545,6 +1516,9 @@ final public class SVGTextRenderer extends TextRendererAdapter
 		double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
 
 		final ITextMetrics itm = new SVGTextMetrics( _sxs, la );
+		// Tune text position if needed. Location instance may be changed
+		lo = adjustTextPosition( iLabelPosition, lo, itm, dAngleInDegrees );
+		double dX = lo.getX( ), dY = lo.getY( );
 		try
 		{
 			final double dFW = itm.getFullWidth( );

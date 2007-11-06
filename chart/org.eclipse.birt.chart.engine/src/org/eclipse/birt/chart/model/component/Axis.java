@@ -58,6 +58,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.birt.chart.model.component.Axis#isPrimaryAxis <em>Primary Axis</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Axis#isCategoryAxis <em>Category Axis</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Axis#isPercent <em>Percent</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Axis#isLabelWithinAxes <em>Label Within Axes</em>}</li>
  * </ul>
  * </p>
  *
@@ -617,7 +618,7 @@ public interface Axis extends EObject
 	 * @see #unsetInterval()
 	 * @see #setInterval(int)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getAxis_Interval()
-	 * @model default="1" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int"
+	 * @model default="1" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int"
 	 *        extendedMetaData="kind='element' name='Interval'"
 	 * @generated
 	 */
@@ -927,7 +928,7 @@ public interface Axis extends EObject
 	 * @see #unsetPercent()
 	 * @see #setPercent(boolean)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getAxis_Percent()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
 	 *        extendedMetaData="kind='element' name='Percent'"
 	 * @generated
 	 */
@@ -964,6 +965,60 @@ public interface Axis extends EObject
 	 * @generated
 	 */
 	boolean isSetPercent( );
+
+	/**
+	 * Returns the value of the '<em><b>Label Within Axes</b></em>' attribute.
+	 * The default value is <code>"false"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Specifies whether axis labels are within axes, i.e. inside the axis delimited area.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Label Within Axes</em>' attribute.
+	 * @see #isSetLabelWithinAxes()
+	 * @see #unsetLabelWithinAxes()
+	 * @see #setLabelWithinAxes(boolean)
+	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getAxis_LabelWithinAxes()
+	 * @model default="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
+	 *        extendedMetaData="kind='element' name='LabelWithinAxes'"
+	 * @generated
+	 */
+	boolean isLabelWithinAxes( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#isLabelWithinAxes <em>Label Within Axes</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Label Within Axes</em>' attribute.
+	 * @see #isSetLabelWithinAxes()
+	 * @see #unsetLabelWithinAxes()
+	 * @see #isLabelWithinAxes()
+	 * @generated
+	 */
+	void setLabelWithinAxes( boolean value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Axis#isLabelWithinAxes <em>Label Within Axes</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetLabelWithinAxes()
+	 * @see #isLabelWithinAxes()
+	 * @see #setLabelWithinAxes(boolean)
+	 * @generated
+	 */
+	void unsetLabelWithinAxes( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Axis#isLabelWithinAxes <em>Label Within Axes</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Label Within Axes</em>' attribute is set.
+	 * @see #unsetLabelWithinAxes()
+	 * @see #isLabelWithinAxes()
+	 * @see #setLabelWithinAxes(boolean)
+	 * @generated
+	 */
+	boolean isSetLabelWithinAxes( );
 
 	/**
 	 * 

@@ -83,6 +83,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isPrimaryAxis <em>Primary Axis</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isCategoryAxis <em>Category Axis</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isPercent <em>Percent</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.AxisImpl#isLabelWithinAxes <em>Label Within Axes</em>}</li>
  * </ul>
  * </p>
  *
@@ -510,6 +511,35 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * @ordered
 	 */
 	protected boolean percentESet = false;
+
+	/**
+	 * The default value of the '{@link #isLabelWithinAxes() <em>Label Within Axes</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isLabelWithinAxes()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean LABEL_WITHIN_AXES_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isLabelWithinAxes() <em>Label Within Axes</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isLabelWithinAxes()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean labelWithinAxes = LABEL_WITHIN_AXES_EDEFAULT;
+
+	/**
+	 * This is true if the Label Within Axes attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean labelWithinAxesESet = false;
 
 	/*
 	 * private static int iLastID = Integer.MIN_VALUE; private final int iID;
@@ -1783,6 +1813,66 @@ public class AxisImpl extends EObjectImpl implements Axis
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isLabelWithinAxes( )
+	{
+		return labelWithinAxes;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setLabelWithinAxes( boolean newLabelWithinAxes )
+	{
+		boolean oldLabelWithinAxes = labelWithinAxes;
+		labelWithinAxes = newLabelWithinAxes;
+		boolean oldLabelWithinAxesESet = labelWithinAxesESet;
+		labelWithinAxesESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					ComponentPackage.AXIS__LABEL_WITHIN_AXES,
+					oldLabelWithinAxes,
+					labelWithinAxes,
+					!oldLabelWithinAxesESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetLabelWithinAxes( )
+	{
+		boolean oldLabelWithinAxes = labelWithinAxes;
+		boolean oldLabelWithinAxesESet = labelWithinAxesESet;
+		labelWithinAxes = LABEL_WITHIN_AXES_EDEFAULT;
+		labelWithinAxesESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					ComponentPackage.AXIS__LABEL_WITHIN_AXES,
+					oldLabelWithinAxes,
+					LABEL_WITHIN_AXES_EDEFAULT,
+					oldLabelWithinAxesESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetLabelWithinAxes( )
+	{
+		return labelWithinAxesESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -1887,6 +1977,8 @@ public class AxisImpl extends EObjectImpl implements Axis
 				return isCategoryAxis( ) ? Boolean.TRUE : Boolean.FALSE;
 			case ComponentPackage.AXIS__PERCENT :
 				return isPercent( ) ? Boolean.TRUE : Boolean.FALSE;
+			case ComponentPackage.AXIS__LABEL_WITHIN_AXES :
+				return isLabelWithinAxes( ) ? Boolean.TRUE : Boolean.FALSE;
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -1981,6 +2073,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 			case ComponentPackage.AXIS__PERCENT :
 				setPercent( ( (Boolean) newValue ).booleanValue( ) );
 				return;
+			case ComponentPackage.AXIS__LABEL_WITHIN_AXES :
+				setLabelWithinAxes( ( (Boolean) newValue ).booleanValue( ) );
+				return;
 		}
 		super.eSet( featureID, newValue );
 	}
@@ -2069,6 +2164,9 @@ public class AxisImpl extends EObjectImpl implements Axis
 			case ComponentPackage.AXIS__PERCENT :
 				unsetPercent( );
 				return;
+			case ComponentPackage.AXIS__LABEL_WITHIN_AXES :
+				unsetLabelWithinAxes( );
+				return;
 		}
 		super.eUnset( featureID );
 	}
@@ -2133,6 +2231,8 @@ public class AxisImpl extends EObjectImpl implements Axis
 				return isSetCategoryAxis( );
 			case ComponentPackage.AXIS__PERCENT :
 				return isSetPercent( );
+			case ComponentPackage.AXIS__LABEL_WITHIN_AXES :
+				return isSetLabelWithinAxes( );
 		}
 		return super.eIsSet( featureID );
 	}
@@ -2195,6 +2295,11 @@ public class AxisImpl extends EObjectImpl implements Axis
 		result.append( ", percent: " ); //$NON-NLS-1$
 		if ( percentESet )
 			result.append( percent );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", labelWithinAxes: " ); //$NON-NLS-1$
+		if ( labelWithinAxesESet )
+			result.append( labelWithinAxes );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );

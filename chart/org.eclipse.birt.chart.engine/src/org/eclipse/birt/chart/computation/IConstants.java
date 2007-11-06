@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -89,17 +89,33 @@ public interface IConstants
 
 	public final int CENTER = 3;
 
-	public final int TOP = 3;
+	public final int TOP = 4;
 
-	public final int BOTTOM = 4;
+	public final int BOTTOM = 8;
 
 	public final int ABOVE = TOP;
 
 	public final int BELOW = BOTTOM;
 
-	public final int OUTSIDE = 5;
+	public final int OUTSIDE = 16;
 
-	public final int INSIDE = 6;
+	public final int INSIDE = 32;
+	
+	/**
+	 * Used to calculate base position via AND operation.
+	 */
+	public final int POSITION_MASK = 63;// 2<<5-1
+	
+	/**
+	 * Used to adjust the position by one half of width or height.
+	 */
+	public final int POSITION_MOVE_LEFT = 2 << 5;
+
+	public final int POSITION_MOVE_RIGHT = 2 << 6;
+
+	public final int POSITION_MOVE_ABOVE = 2 << 7;
+
+	public final int POSITION_MOVE_BELOW = 2 << 8;
 
 	public final int MAX = 1;
 

@@ -86,19 +86,21 @@ public final class AutoScale extends Methods implements Cloneable
 
 	private int iMarginPercent = 0;
 
-	private transient double dStart, dEnd;
+	private double dStart, dEnd;
 
 	private AxisTickCoordinates atcTickCoordinates;
 
-	private transient boolean[] baTickLabelVisible;
+	private boolean[] baTickLabelVisible;
 
-	private transient boolean[] baTickLabelStaggered;
+	private boolean[] baTickLabelStaggered;
 
-	private transient DataSetIterator dsiData;
+	private DataSetIterator dsiData;
 
-	private transient boolean bCategoryScale = false;
+	private boolean bCategoryScale = false;
 
-	private transient boolean bTickBetweenCategories = true;
+	private boolean bTickBetweenCategories = true;
+	
+	private boolean bLabelWithinAxes = false;
 
 	private RunTimeContext rtc;;
 
@@ -273,6 +275,7 @@ public final class AutoScale extends Methods implements Cloneable
 		sc.bAxisLabelStaggered = bAxisLabelStaggered;
 		sc.iLabelShowingInterval = iLabelShowingInterval;
 		sc.bTickBetweenCategories = bTickBetweenCategories;
+		sc.bLabelWithinAxes = bLabelWithinAxes;
 
 		return sc;
 	}
@@ -2265,6 +2268,9 @@ public final class AutoScale extends Methods implements Cloneable
 			oMinValue = null;
 			oMaxValue = null;
 		}
+		
+		// Set if the axis label should be within axes.
+		sc.bLabelWithinAxes = ax.getModelAxis( ).isLabelWithinAxes( );
 
 		// Compute the scale of non-category axis
 		if ( ( iType & TEXT ) != TEXT && !ax.isCategoryScale( ) )
@@ -2462,7 +2468,9 @@ public final class AutoScale extends Methods implements Cloneable
 				: BACKWARD )
 				: iScaleDirection;
 
-		if ( bConsiderStartLabel || bConsiderEndLabel )
+		// If axis labels should be within axes, do not adjust start and end
+		// position
+		if ( !bLabelWithinAxes && ( bConsiderStartLabel || bConsiderEndLabel ) )
 		{
 			computeAxisStartEndShifts( xs,
 					la,
@@ -3068,7 +3076,9 @@ public final class AutoScale extends Methods implements Cloneable
 					Messages.getResourceBundle( rtc.getULocale( ) ) );
 		}
 
-		if ( !la.isVisible( ) )
+		// Bugzilla#207270 Even if labels are invisible but if within axes,
+		// still need to compute label thickness
+		if ( !la.isVisible( ) && !bLabelWithinAxes )
 		{
 			return 0;
 		}

@@ -110,7 +110,7 @@ final class SwtTextRenderer extends TextRendererAdapter
 					Messages.getResourceBundle( _sxs.getULocale( ) ) );
 		}
 
-		switch ( iLabelPosition )
+		switch ( iLabelPosition & POSITION_MASK )
 		{
 			case ABOVE :
 				showTopValue( ipr, lo, la, false );
@@ -371,7 +371,7 @@ final class SwtTextRenderer extends TextRendererAdapter
 					uiex );
 		}
 
-		switch ( iLabelPosition )
+		switch ( iLabelPosition & POSITION_MASK )
 		{
 			case ABOVE :
 				bb.setTop( lo.getY( ) - bb.getHeight( ) );
@@ -398,6 +398,9 @@ final class SwtTextRenderer extends TextRendererAdapter
 				bb.setLeft( lo.getX( ) - bb.getWidth( ) / 2 );
 				break;
 		}
+		
+		// Adjust the position.
+		adjustTextPosition( iLabelPosition, bb );
 
 		// RENDER Shadow around the text label
 		if ( ChartUtil.isShadowDefined( la ) )
@@ -1028,5 +1031,36 @@ final class SwtTextRenderer extends TextRendererAdapter
 
 		// BUILD THE IMAGE USING THE NEWLY MANIPULATED BYTES
 		return new Image( getDevice( ), imgdtaT );
-	};
+	}
+	
+	/**
+	 * Adjusts the text by one half of width or height. Currently use HotPoint
+	 * as adjustment.
+	 * 
+	 * @param iLabelPosition
+	 *            position state
+	 * @param bb
+	 */
+	protected void adjustTextPosition( int iLabelPosition, BoundingBox bb )
+	{
+		if ( iLabelPosition > POSITION_MASK )
+		{
+			if ( ( iLabelPosition & POSITION_MOVE_ABOVE ) == POSITION_MOVE_ABOVE )
+			{
+				bb.setTop( bb.getTop( ) - bb.getHotPoint( ) );
+			}
+			else if ( ( iLabelPosition & POSITION_MOVE_BELOW ) == POSITION_MOVE_BELOW )
+			{
+				bb.setTop( bb.getTop( ) + bb.getHotPoint( ) );
+			}
+			else if ( ( iLabelPosition & POSITION_MOVE_LEFT ) == POSITION_MOVE_LEFT )
+			{
+				bb.setLeft( bb.getLeft( ) - bb.getHotPoint( ) );
+			}
+			else if ( ( iLabelPosition & POSITION_MOVE_RIGHT ) == POSITION_MOVE_RIGHT )
+			{
+				bb.setLeft( bb.getLeft( ) + bb.getHotPoint( ) );
+			}
+		}
+	}
 }

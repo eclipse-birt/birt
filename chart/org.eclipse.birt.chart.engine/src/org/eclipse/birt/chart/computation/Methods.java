@@ -436,7 +436,7 @@ public class Methods implements IConstants
 			double dH = itm.getFullHeight( );
 
 			RotatedRectangle rr = null;
-			if ( iLabelLocation == LEFT )
+			if ( ( iLabelLocation & LEFT ) == LEFT )
 			{
 				// ZERO : HORIZONTAL
 				if ( dAngleInDegrees == 0 )
@@ -493,7 +493,7 @@ public class Methods implements IConstants
 					);
 				}
 			}
-			else if ( iLabelLocation == RIGHT )
+			else if ( ( iLabelLocation & RIGHT ) == RIGHT )
 			{
 				// ZERO : HORIZONTAL
 				if ( dAngleInDegrees == 0 )
@@ -546,7 +546,7 @@ public class Methods implements IConstants
 					);
 				}
 			}
-			else if ( iLabelLocation == BOTTOM )
+			else if ( ( iLabelLocation & BOTTOM ) == BOTTOM )
 			{
 				// ZERO : HORIZONTAL
 				if ( dAngleInDegrees == 0 )
@@ -599,7 +599,7 @@ public class Methods implements IConstants
 					);
 				}
 			}
-			else if ( iLabelLocation == TOP )
+			else if ( ( iLabelLocation & TOP ) == TOP )
 			{
 				// ZERO : HORIZONTAL
 				if ( dAngleInDegrees == 0 )
@@ -656,7 +656,7 @@ public class Methods implements IConstants
 					);
 				}
 			}
-			else if ( iLabelLocation == INSIDE )
+			else if ( ( iLabelLocation & INSIDE ) == INSIDE )
 			{
 				// ZERO : HORIZONTAL
 				if ( dAngleInDegrees == 0 )
@@ -876,7 +876,7 @@ public class Methods implements IConstants
 			double dH = itm.getFullHeight( );
 			
 			BoundingBox bb = null;
-			if ( iLabelLocation == LEFT )
+			if ( ( iLabelLocation & LEFT ) == LEFT )
 			{
 				// ZERO : HORIZONTAL
 				if ( dAngleInDegrees == 0 )
@@ -921,7 +921,7 @@ public class Methods implements IConstants
 							dW / 2 );
 				}
 			}
-			else if ( iLabelLocation == RIGHT )
+			else if ( ( iLabelLocation & RIGHT ) == RIGHT )
 			{
 				// ZERO : HORIZONTAL
 				if ( dAngleInDegrees == 0 )
@@ -962,7 +962,7 @@ public class Methods implements IConstants
 							dW / 2 );
 				}
 			}
-			else if ( iLabelLocation == BOTTOM )
+			else if ( ( iLabelLocation & BOTTOM ) == BOTTOM )
 			{
 				// ZERO : HORIZONTAL
 				if ( dAngleInDegrees == 0 )
@@ -1003,7 +1003,7 @@ public class Methods implements IConstants
 							dH / 2 );
 				}
 			}
-			else if ( iLabelLocation == TOP )
+			else if ( ( iLabelLocation & TOP ) == TOP )
 			{
 				// ZERO : HORIZONTAL
 				if ( dAngleInDegrees == 0 )
@@ -1046,7 +1046,7 @@ public class Methods implements IConstants
 							dH / 2 );
 				}
 			}
-			else if ( iLabelLocation == INSIDE )
+			else if ( ( iLabelLocation & INSIDE ) == INSIDE )
 			{
 				// ZERO : HORIZONTAL
 				if ( dAngleInDegrees == 0 )

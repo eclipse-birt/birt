@@ -869,8 +869,12 @@ public abstract class PlotWithAxes extends Methods
 		// AXIS-PLOT SPACING
 		final boolean bTicksLeft = ( iYTickStyle & TICK_LEFT ) == TICK_LEFT;
 		final boolean bTicksRight = ( iYTickStyle & TICK_RIGHT ) == TICK_RIGHT;
-		final double dAppliedYAxisPlotSpacing = ( iv.iType == IntersectionValue.MAX || iv.iType == IntersectionValue.MIN ) ? dYAxisPlotSpacing
-				: 0;
+		// If axis labels should be within axes, do not set default spacing, so
+		// value axis labels can be aligned with category axis.
+		final double dAppliedYAxisPlotSpacing = ( iv.iType == IntersectionValue.MAX || iv.iType == IntersectionValue.MIN )
+				&& !aax.getPrimaryOrthogonal( )
+						.getModelAxis( )
+						.isLabelWithinAxes( ) ? dYAxisPlotSpacing : 0;
 
 		// UPDATE Y-AXIS ENDPOINTS DUE TO AXIS LABEL SHIFTS
 		double dStart = scY.getStart( ), dEnd = scY.getEnd( );

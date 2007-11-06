@@ -183,6 +183,11 @@
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
+			<xsd:element name="LabelWithinAxes" type="xsd:boolean" default="false">
+				<xsd:annotation>
+					<xsd:documentation>Specifies whether axis labels are within axes, i.e. inside the axis delimited area.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="Series">
