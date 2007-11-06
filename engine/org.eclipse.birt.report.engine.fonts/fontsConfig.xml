@@ -15,7 +15,7 @@
 		"fantasy" to "Times-Roman" 
 		"sans-serif" to "Helvetica"
 		"monospace" to "Courier"
-		"cursive" to "ZapfDingbats"
+		"cursive" to "Times-Roman"
 		If the font can not be built, it will go to the unicode block of that character,
 		and try the font defined in that block.
 		If this also fails, the character will be replaced with '?' using the default font, 
@@ -50,26 +50,26 @@
 	</font-aliases>
 	
 <!--
-	<composite-font> section is used to define a composite font, that is a font consists of many physical
-	fonts which are used for different characters. The component fonts are defined by <block> entries.
-	Each <block> entry defines a UNICODE range and a font family name, which means, the font family will
+	<composite-font> section is used to define a composite font, which is a font consists of many physical
+	fonts used for different characters. The component fonts are defined by <block> entries. Each <block>
+	entry defines a mapping from a UNICODE range to a font family name, which means the font family will 
 	be applied for the characters with UNICODE in the range.
 	
-	Different characters in one block may need different fonts. One example is, in block "Currency Symbols",
+	Characters in one block may need different fonts. One example is, in block "Currency Symbols",
 	characters are currency symbols in different language, the fonts specified for which should be fonts
-	for the corresponding languages. For these characters, special fonts can be specified by <character>
-	entry as following:
+	for the corresponding languages. For these characters, special fonts can be specified for characters
+	one by one using <character> entry:
 	<composite-font>
 	    ......
 		<character value="฿" font-family="Angsana New"/>
 		<character value="\u0068" font-family="Time Roman"/>
 	    ......
 	</composite-font>
-	Note that the characters are represented by attribute "value", which can be of two forms: the character
+	Note that characters are represented by attribute "value", which can be of two forms, the character
 	itself or its UNICODE.
 	
-	A composite font named "all-fonts" will be applied as a default font, that is, when	a character is
-	not defined in desired font, the font defined in "all-fonts" is used.
+	A composite font named "all-fonts" will be applied as default font, that is, when a character is not 
+	defined in desired font, the font defined in "all-fonts" will be used.
 -->
 
 	<composite-font name="all-fonts">
@@ -234,9 +234,7 @@
 
 
 <!--
-	For <font-paths> section, If you just need to use the system defined font folder, you can simply
-	ignore this. 
-	In this section, you can set the font path you want PDF emitter to read, ranging from one font
+	In this section, you can set the font path you want PDF layout engine to read, ranging from one font
 	file to a whole font folder.
 		for example: 
 		add a font folder
@@ -245,11 +243,11 @@
 		<path path="/usr/X11R6/lib/X11/fonts/TTF/arial.ttf"/>
 
 	But please NOTE:
- 		If this section is set, PDF emitter will ONLY load the font files in these paths and ignore
+ 		If this section is set, PDF layout engine will ONLY load the font files in these paths and ignore
 	the system defined font folder. If you want to use the system font folder as well, please include
 	it in this section. 
  	
- 	On some systems, BIRT PDF emitter may not recognize the system defined font folder. If you encounter
+ 	On some systems, BIRT PDF layout engine may not recognize the system defined font folder. If you encounter
 	this issue, please add the font path to this section.
 -->
 	<font-paths>
