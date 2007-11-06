@@ -82,6 +82,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IEditorInput;
@@ -628,6 +629,41 @@ public class JSEditor extends EditorPart implements
 		} );
 		
 		return barPane;
+	}
+
+	/**
+	 * Hides validate button & icon.
+	 */
+	protected void hideValidateButtonIcon( )
+	{
+		hideControl( butValidate );
+		hideControl( validateIcon );
+	}
+
+	/**
+	 * Hides a control from its parent composite.
+	 * 
+	 * @param control
+	 *            the control to hide
+	 */
+	private void hideControl( Control control )
+	{
+		Object layoutData = control.getLayoutData( );
+
+		if ( layoutData == null )
+		{
+			layoutData = new GridData( );
+			control.setLayoutData( layoutData );
+		}
+
+		if ( layoutData instanceof GridData )
+		{
+			GridData gridData = (GridData) layoutData;
+
+			gridData.exclude = true;
+			control.setLayoutData( gridData );
+			control.setVisible( false );
+		}
 	}
 
 	private void initScriptLabel( Composite parent )
