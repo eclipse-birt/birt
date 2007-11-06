@@ -522,7 +522,7 @@ public class DataSetIterator implements IDatasetIterator
 				
 				String levelName = createLevelName( dimName, level.getName( ));
 				query.addBinding( new Binding( levelName ,
-						new ScriptExpression( exprString ) ));
+						new ScriptExpression( exprString, type )));
 
 				GroupDefinition gd = new GroupDefinition( String.valueOf( query.getGroups( ).size( )));
 				gd.setKeyExpression( ExpressionUtil.createJSRowExpression( levelName ) );
