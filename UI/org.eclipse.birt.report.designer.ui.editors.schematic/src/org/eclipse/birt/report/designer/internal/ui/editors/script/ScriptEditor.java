@@ -21,6 +21,7 @@ import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.texteditor.IDocumentProvider;
@@ -92,6 +93,7 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor
 	{
 		menu.add( new Separator( ITextEditorActionConstants.GROUP_UNDO ) );
 		menu.add( new Separator( ITextEditorActionConstants.GROUP_COPY ) );
+		menu.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 
 		if ( isEditable( ) )
 		{
