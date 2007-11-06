@@ -253,11 +253,11 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 		writer.write( "{\n" ); //$NON-NLS-1$
 		writer.write( "  for( var i=0;i<oParams.length;i++ )  \n" ); //$NON-NLS-1$
 		writer.write( "  {\n" ); //$NON-NLS-1$
-		writer.write( "    var param = document.createElement( \"INPUT\" );\n" ); //$NON-NLS-1$
-		writer.write( "    formObj.appendChild( param );\n" ); //$NON-NLS-1$
-		writer.write( "    param.TYPE = \"HIDDEN\";\n" ); //$NON-NLS-1$
+		writer.write( "    var param = document.createElement( \"INPUT\" );\n" ); //$NON-NLS-1$		
+		writer.write( "    param.type = \"HIDDEN\";\n" ); //$NON-NLS-1$
 		writer.write( "    param.name= oParams[i].name;\n" ); //$NON-NLS-1$
 		writer.write( "    param.value= oParams[i].value;\n" ); //$NON-NLS-1$
+		writer.write( "    formObj.appendChild( param );\n" ); //$NON-NLS-1$
 		writer.write( "  }\n" ); //$NON-NLS-1$
 		writer.write( "}\n" ); //$NON-NLS-1$
 
