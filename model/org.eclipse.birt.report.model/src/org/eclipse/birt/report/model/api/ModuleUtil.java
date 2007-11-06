@@ -542,8 +542,8 @@ public class ModuleUtil
 			public AbstractParseState startElement( String tagName )
 			{
 				if ( DesignSchemaConstants.REPORT_TAG
-						.equalsIgnoreCase( tagName )
-						|| DesignSchemaConstants.LIBRARY_TAG
+						.equalsIgnoreCase( tagName ) ||
+						DesignSchemaConstants.LIBRARY_TAG
 								.equalsIgnoreCase( tagName ) )
 					return new VersionState( );
 				return super.startElement( tagName );
@@ -847,6 +847,10 @@ public class ModuleUtil
 				.getOperator( ) ) )
 			return true;
 
+		if ( DesignChoiceConstants.FILTER_OPERATOR_NOT_IN.equals( filter
+				.getOperator( ) ) )
+			return true;
+
 		return false;
 
 	}
@@ -868,6 +872,10 @@ public class ModuleUtil
 		if ( DesignChoiceConstants.MAP_OPERATOR_IN.equals( rule.getOperator( ) ) )
 			return true;
 
+		if ( DesignChoiceConstants.MAP_OPERATOR_NOT_IN.equals( rule
+				.getOperator( ) ) )
+			return true;
+
 		return false;
 
 	}
@@ -887,6 +895,10 @@ public class ModuleUtil
 			return false;
 
 		if ( DesignChoiceConstants.FILTER_OPERATOR_IN.equals( filter
+				.getOperator( ) ) )
+			return true;
+
+		if ( DesignChoiceConstants.FILTER_OPERATOR_NOT_IN.equals( filter
 				.getOperator( ) ) )
 			return true;
 
@@ -968,8 +980,8 @@ public class ModuleUtil
 
 	private static boolean isValidScript( Object instance )
 	{
-		if ( instance instanceof MemberHandle
-				|| instance instanceof PropertyHandle )
+		if ( instance instanceof MemberHandle ||
+				instance instanceof PropertyHandle )
 		{
 			SimpleValueHandle temp = (SimpleValueHandle) instance;
 			PropertyDefn defn = (PropertyDefn) temp.getDefn( );
@@ -980,8 +992,8 @@ public class ModuleUtil
 			}
 			else
 			{
-				if ( defn.getTypeCode( ) == IPropertyType.EXPRESSION_TYPE
-						|| defn.getTypeCode( ) == IPropertyType.SCRIPT_TYPE )
+				if ( defn.getTypeCode( ) == IPropertyType.EXPRESSION_TYPE ||
+						defn.getTypeCode( ) == IPropertyType.SCRIPT_TYPE )
 					return true;
 			}
 		}
