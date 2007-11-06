@@ -69,7 +69,7 @@ public class XPathParser
 	private String propertyName = null;
 
 	/**
-	 * Default constrcutor.
+	 * Default constructor.
 	 * 
 	 * @param module
 	 *            the report/library
@@ -131,8 +131,9 @@ public class XPathParser
 
 			ElementDefn elementDefn = (ElementDefn) currentElement.getDefn( );
 
-			if ( i == 0 && tagName.equalsIgnoreCase( elementDefn.getXmlName( ) )
-					&& module == currentElement )
+			if ( i == 0 &&
+					tagName.equalsIgnoreCase( elementDefn.getXmlName( ) ) &&
+					module == currentElement )
 			{
 				valueType = ELEMENT;
 				continue;
@@ -157,16 +158,25 @@ public class XPathParser
 					slotID = getSlotId( elementDefn, tagName );
 					if ( slotID != DesignElement.NO_SLOT )
 						valueType = ELEMENT;
+
+					if ( propertyName != null )
+					{
+						int typeCode = elementDefn.getProperty( propertyName )
+								.getTypeCode( );
+						if ( typeCode == IPropertyType.ELEMENT_TYPE ||
+								typeCode == IPropertyType.CONTENT_ELEMENT_TYPE )
+							valueType = ELEMENT;
+					}
 				}
 
 				// try contents then.
 
 				if ( valueType == ELEMENT )
 				{
-					if ( attrName == null
-							|| DesignSchemaConstants.ID_ATTRIB
-									.equalsIgnoreCase( attrName )
-							|| XPathUtil.SLOT_NAME_PROPERTY
+					if ( attrName == null ||
+							DesignSchemaConstants.ID_ATTRIB
+									.equalsIgnoreCase( attrName ) ||
+							XPathUtil.SLOT_NAME_PROPERTY
 									.equalsIgnoreCase( attrName ) )
 					{
 						currentElement = findElement( tagName, attrName,
@@ -185,8 +195,8 @@ public class XPathParser
 				}
 			}
 
-			if ( ( ( valueType & ELEMENT ) != 0 || ( valueType & PROPERTY ) != 0 )
-					&& isPropertyTag( tagName ) )
+			if ( ( ( valueType & ELEMENT ) != 0 || ( valueType & PROPERTY ) != 0 ) &&
+					isPropertyTag( tagName ) )
 			{
 				ref = parsePropertyValue( tagName, attrValue, index );
 				valueType = PROPERTY;
@@ -275,7 +285,7 @@ public class XPathParser
 				retValueType = SLOT | PROPERTY | ELEMENT;
 				break;
 			case PROPERTY :
-				retValueType = PROPERTY;
+				retValueType = PROPERTY | ELEMENT;
 				break;
 			default :
 				retValueType = ELEMENT | SLOT | PROPERTY;
@@ -340,8 +350,8 @@ public class XPathParser
 			return ref;
 		}
 
-		if ( ref == null && propertyName != null
-				&& DesignSchemaConstants.KEY_ATTRIB.equalsIgnoreCase( propName ) )
+		if ( ref == null && propertyName != null &&
+				DesignSchemaConstants.KEY_ATTRIB.equalsIgnoreCase( propName ) )
 		{
 			String newPropName = propertyName + XPathUtil.RESOURCE_KEY_SUFFIX;
 			ElementDefn elementDefn = (ElementDefn) currentElement.getDefn( );
@@ -356,9 +366,8 @@ public class XPathParser
 
 		assert ref != null;
 
-		if ( ref.refType == CachedMemberRef.PROPERTY
-				&& DesignSchemaConstants.STRUCTURE_TAG
-						.equalsIgnoreCase( tagName ) )
+		if ( ref.refType == CachedMemberRef.PROPERTY &&
+				DesignSchemaConstants.STRUCTURE_TAG.equalsIgnoreCase( tagName ) )
 		{
 			ElementDefn elementDefn = (ElementDefn) currentElement.getDefn( );
 			IPropertyDefn propDefn = elementDefn.getProperty( ref.getPropDefn( )
@@ -369,17 +378,16 @@ public class XPathParser
 			return ref;
 		}
 
-		if ( ref.refType == CachedMemberRef.PROPERTY
-				&& DesignSchemaConstants.LIST_PROPERTY_TAG
+		if ( ref.refType == CachedMemberRef.PROPERTY &&
+				DesignSchemaConstants.LIST_PROPERTY_TAG
 						.equalsIgnoreCase( tagName ) )
 		{
 			ref = new CachedMemberRef( ref, propName );
 			return ref;
 		}
 
-		if ( ref.refType == CachedMemberRef.PROPERTY_MEMBER
-				&& DesignSchemaConstants.STRUCTURE_TAG
-						.equalsIgnoreCase( tagName ) )
+		if ( ref.refType == CachedMemberRef.PROPERTY_MEMBER &&
+				DesignSchemaConstants.STRUCTURE_TAG.equalsIgnoreCase( tagName ) )
 		{
 			ref = new CachedMemberRef( ref, index < 0 ? 0 : index );
 			return ref;
@@ -445,17 +453,37 @@ public class XPathParser
 
 		}
 
-		SlotHandle slot = currentElement.getSlot( slotID );
-		for ( int i = 0; i < slot.getCount( ); i++ )
+		if ( slotID != DesignElement.NO_SLOT )
 		{
-			DesignElementHandle tmpElement = slot.get( i );
-			ElementDefn tmpDefn = (ElementDefn) tmpElement.getDefn( );
+			SlotHandle slot = currentElement.getSlot( slotID );
+			for ( int i = 0; i < slot.getCount( ); i++ )
+			{
+				DesignElementHandle tmpElement = slot.get( i );
+				ElementDefn tmpDefn = (ElementDefn) tmpElement.getDefn( );
 
-			if ( ( DesignElement.NO_ID == id || tmpElement.getID( ) == id )
-					&& tmpDefn.getXmlName( ).equalsIgnoreCase( contentDefnName ) )
-				return tmpElement;
+				if ( ( DesignElement.NO_ID == id || tmpElement.getID( ) == id ) &&
+						tmpDefn.getXmlName( )
+								.equalsIgnoreCase( contentDefnName ) )
+					return tmpElement;
+			}
 		}
 
+		PropertyHandle prop = currentElement.getPropertyHandle( propertyName );
+		if ( propertyName != null && prop != null )
+		{
+			List contents = prop.getContents( );
+			for ( int i = 0; i < contents.size( ); i++ )
+			{
+				DesignElementHandle tmpElement = (DesignElementHandle) contents
+						.get( i );
+				ElementDefn tmpDefn = (ElementDefn) tmpElement.getDefn( );
+				if ( ( DesignElement.NO_ID == id || tmpElement.getID( ) == id ) &&
+						tmpDefn.getXmlName( )
+								.equalsIgnoreCase( contentDefnName ) )
+					return tmpElement;
+			}
+		}
+		
 		return null;
 	}
 

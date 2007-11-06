@@ -15,6 +15,7 @@ import java.util.Iterator;
 
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
@@ -116,39 +117,56 @@ public class XPathUtilTest extends BaseTestCase
 				"/report/data-sets/oda-data-set/structure[@name=\"cachedMetaData\"]/list-property[@name=\"resultSet\"]/structure[2]", //$NON-NLS-1$
 				XPathUtil.getXPath( setColumn ) );
 
-		LabelHandle label1 = (LabelHandle) designHandle.getElementByID( 62l );
+		// cases on scripts
+
+		LabelHandle label1 = (LabelHandle) designHandle.findElement( "label1" ); //$NON-NLS-1$
 		propHandle = label1.getPropertyHandle( LabelHandle.ON_PREPARE_METHOD );
 		String path = XPathUtil.getXPath( propHandle );
 		assertEquals(
-				"/report/body/label[@id=\"62\"]/method[@name=\"onPrepare\"]", //$NON-NLS-1$
+				"/report/body/label[@id=\"24\"]/method[@name=\"onPrepare\"]", //$NON-NLS-1$
 				path );
 
-//		propHandle = label1
-//				.getPropertyHandle( StyleHandle.HIGHLIGHT_RULES_PROP );
-//		StructureHandle structHandle = (StructureHandle) propHandle.get( 0 );
-//		MemberHandle member = (MemberHandle) structHandle
-//				.getMember( StyleRule.TEST_EXPR_MEMBER );
-//		path = XPathUtil.getXPath( member );
-//		assertEquals(
-//				"/report/body/label[@id=\"62\"]/list-property[@name=\"highlightRules\"]/structure[1]/expression[@name=\"testExpr\"]", //$NON-NLS-1$
-//				path );
-//
-//		member = (MemberHandle) structHandle
-//				.getMember( StyleRule.VALUE1_MEMBER );
-//		path = XPathUtil.getXPath( member, 0 );
-//		assertEquals(
-//				"/report/body/label[@id=\"62\"]/list-property[@name=\"highlightRules\"]/structure[1]/list-property[@name=\"value1\"]/value[1]", //$NON-NLS-1$
-//				path );
-//
-//		LabelHandle label2 = (LabelHandle) designHandle.getElementByID( 63l );
-//
-//		TOCHandle tochandle = label2.getTOC( );
-//		member = tochandle.getMember( TOC.TOC_EXPRESSION );
-//
-//		path = XPathUtil.getXPath( member );
-//		assertEquals(
-//				"/report/body/label[@id=\"63\"]/structure[@name=\"toc\"]/expression[@name=\"expressionValue\"]", //$NON-NLS-1$
-//				path );
+		// propHandle = label1
+		// .getPropertyHandle( StyleHandle.HIGHLIGHT_RULES_PROP );
+		// StructureHandle structHandle = (StructureHandle) propHandle.get( 0 );
+		// MemberHandle member = (MemberHandle) structHandle
+		// .getMember( StyleRule.TEST_EXPR_MEMBER );
+		// path = XPathUtil.getXPath( member );
+		// assertEquals(
+		// "/report/body/label[@id=\"62\"]/list-property[@name=\"highlightRules\"]/structure[1]/expression[@name=\"testExpr\"]",
+		// //$NON-NLS-1$
+		// path );
+		//
+		// member = (MemberHandle) structHandle
+		// .getMember( StyleRule.VALUE1_MEMBER );
+		// path = XPathUtil.getXPath( member, 0 );
+		// assertEquals(
+		// "/report/body/label[@id=\"62\"]/list-property[@name=\"highlightRules\"]/structure[1]/list-property[@name=\"value1\"]/value[1]",
+		// //$NON-NLS-1$
+		// path );
+		//
+		// LabelHandle label2 = (LabelHandle) designHandle.getElementByID( 63l );
+		//
+		// TOCHandle tochandle = label2.getTOC( );
+		// member = tochandle.getMember( TOC.TOC_EXPRESSION );
+		//
+		// path = XPathUtil.getXPath( member );
+		// assertEquals(
+		// "/report/body/label[@id=\"63\"]/structure[@name=\"toc\"]/expression[@name=\"expressionValue\"]",
+		// //$NON-NLS-1$
+		// path );
+
+		// cases on extension elements that has content elements.
+
+		ExtendedItemHandle tmpTable = (ExtendedItemHandle) designHandle
+				.findElement( "extensionTable" ); //$NON-NLS-1$
+		propHandle = tmpTable.getPropertyHandle( "filter" ); //$NON-NLS-1$
+		FilterConditionElementHandle tmpFilter = (FilterConditionElementHandle) propHandle
+				.get( 0 );
+		assertEquals(
+				"/report/body/extended-item[@id=\"26\"]/property[@name=\"filter\"]/filter-condition-element", //$NON-NLS-1$
+				XPathUtil.getXPath( tmpFilter ) );
+
 	}
 
 	/**
@@ -255,30 +273,42 @@ public class XPathUtilTest extends BaseTestCase
 		assertNull( XPathUtil.getInstance( designHandle,
 				"/report/list-property[@name=\"images\"]/structure[3]" ) ); //$NON-NLS-1$
 
-		PropertyHandle prop = (PropertyHandle) XPathUtil.getInstance(
-				designHandle,
-				"/report/body/label[@id=\"62\"]/method[@name=\"onPrepare\"]" ); //$NON-NLS-1$
+		// cases on scripts
 
-		assertEquals( "\"prepare\"", prop.getValue( ) );//$NON-NLS-1$
+		retValue = XPathUtil.getInstance( designHandle,
+				"/report/body/label[@id=\"24\"]/method[@name=\"onPrepare\"]" ); //$NON-NLS-1$
 
-//		MemberHandle member = (MemberHandle) XPathUtil
-//				.getInstance(
-//						designHandle,
-//						"/report/body/label[@id=\"62\"]/list-property[@name=\"highlightRules\"]/structure[1]/expression[@name=\"testExpr\"]" ); //$NON-NLS-1$
-//		assertEquals( "row[\"LASTNAME\"]", member.getValue( ) );//$NON-NLS-1$
-//
-//		member = (MemberHandle) XPathUtil
-//				.getInstance(
-//						designHandle,
-//						"/report/body/label[@id=\"63\"]/structure[@name=\"toc\"]/expression[@name=\"expressionValue\"]" ); //$NON-NLS-1$
-//		assertEquals( "toc expression", member.getValue( ) );//$NON-NLS-1$
-//
-//		String value = (String) XPathUtil
-//				.getInstance(
-//						designHandle,
-//						"/report/body/label[@id=\"62\"]/list-property[@name=\"highlightRules\"]/structure[1]/list-property[@name=\"value1\"]/value[1]" ); //$NON-NLS-1$
-//
-//		assertEquals( "\"Tseng\"", value );//$NON-NLS-1$
+		assertTrue( retValue instanceof PropertyHandle );
+		assertEquals( "\"prepare\"", ( (PropertyHandle) retValue ).getValue( ) );//$NON-NLS-1$
 
+		// MemberHandle member = (MemberHandle) XPathUtil
+		// .getInstance(
+		// designHandle,
+		// "/report/body/label[@id=\"62\"]/list-property[@name=\"highlightRules\"]/structure[1]/expression[@name=\"testExpr\"]"
+		// ); //$NON-NLS-1$
+		// assertEquals( "row[\"LASTNAME\"]", member.getValue( ) );//$NON-NLS-1$
+		//
+		// member = (MemberHandle) XPathUtil
+		// .getInstance(
+		// designHandle,
+		// "/report/body/label[@id=\"63\"]/structure[@name=\"toc\"]/expression[@name=\"expressionValue\"]"
+		// ); //$NON-NLS-1$
+		// assertEquals( "toc expression", member.getValue( ) );//$NON-NLS-1$
+		//
+		// String value = (String) XPathUtil
+		// .getInstance(
+		// designHandle,
+		// "/report/body/label[@id=\"62\"]/list-property[@name=\"highlightRules\"]/structure[1]/list-property[@name=\"value1\"]/value[1]"
+		// ); //$NON-NLS-1$
+		//
+		// assertEquals( "\"Tseng\"", value );//$NON-NLS-1$
+
+		// cases on extension elements that has content elements.
+
+		retValue = XPathUtil
+				.getInstance(
+						designHandle,
+						"/report/body/extended-item[@id=\"26\"]/property[@name=\"filter\"]/filter-condition-element" ); //$NON-NLS-1$
+		assertTrue( retValue instanceof FilterConditionElementHandle );
 	}
 }

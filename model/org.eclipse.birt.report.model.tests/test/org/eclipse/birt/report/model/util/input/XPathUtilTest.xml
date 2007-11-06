@@ -88,7 +88,7 @@
             <property name="source">file</property>
             <expression name="uri">c:/nofile/nofile.data</expression>
         </image>
-        <table name="My table1" id="10">
+        <table name="My table1">
             <property name="dataSet">firstDataSet</property>
             <group>
 				<property name="keyExpr">row.state</property>
@@ -107,25 +107,25 @@
                 <row>
                     <cell>
                     </cell>
-                    <cell id="17">
+                    <cell>
                     	<label name="My table1 nested label1"/>
                     </cell>                    
                 </row>
             </detail>
         </table>               
-        <text name="My text1" id="19">
+        <text name="My text1">
             <text-property name="content" key="dynamic"><![CDATA[    text value expr    ]]></text-property>
         </text>
-        <extended-item name="matrix1" extensionName="TestingMatrix" id="20"/>      
-        <list name="My list1" id="21">       
+        <extended-item name="matrix1" extensionName="TestingMatrix"/>      
+        <list name="My list1">       
             <detail>
                 <label/>
             </detail>
             <footer>
                 <label/>
             </footer>
-        </list>  
-        <label id="62">
+        </list>
+        <label name="label1">
             <method name="onPrepare"><![CDATA["prepare"]]></method>
             <text-property name="text">label value</text-property>
              <list-property name="highlightRules">
@@ -138,12 +138,37 @@
                 </structure>
             </list-property>
         </label>
-        <label id="63">
+        <label name="label2">
             <structure name="toc">
                 <expression name="expressionValue">toc expression</expression>
             </structure>
             <text-property name="text">toc text</text-property>
-        </label>              
+        </label>
+    	<extended-item extensionName="TestingTable" name="extensionTable">
+    		<property name="filter">
+    			<filter-condition-element>
+    				<property name="operator">lt</property>
+                    <expression name="expr">filter expression</expression>
+                    <simple-property-list name="value1">
+                    	<value>value1 expression</value>
+                    	<value>value1 expression1</value>
+                    </simple-property-list>
+                    <property name="filterTarget">ResultSet</property>
+                    <property name="isOptional">true</property>
+                    <property name="member">
+                    	<member-value>
+                    		<property name="value">value_1</property>
+                    		<property name="level">testDimension/testLevel</property>
+                    		<property name="memberValues">
+                    			<member-value>
+                    				<property name="value">value_2</property>
+                    			</member-value>
+                    		</property>
+                    	</member-value>
+                    </property>
+    			</filter-condition-element>
+    		</property>
+    	</extended-item>                  
     </body>
     <list-property name="images">
         <structure>

@@ -343,8 +343,17 @@ public class XPathUtil
 				}
 				else
 				{
-					formatXPathProperty( "property", tmpElement //$NON-NLS-1$
-							.getContainerPropertyHandle( ).getDefn( ).getName( ) );
+					PropertyHandle tmpProp = tmpElement
+							.getContainerPropertyHandle( );
+					String slotTagName = getTagByPropertyType( (ElementPropertyDefn) tmpProp
+							.getDefn( ) );
+
+					slotInfo = SEPARATOR +
+							slotTagName +
+							formatXPathProperty(
+									DesignSchemaConstants.NAME_ATTRIB,
+									tmpElement.getContainerPropertyHandle( )
+											.getDefn( ).getName( ) );
 				}
 			}
 
