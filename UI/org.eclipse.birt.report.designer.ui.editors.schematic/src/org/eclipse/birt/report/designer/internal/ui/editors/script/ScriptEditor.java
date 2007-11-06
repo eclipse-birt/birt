@@ -93,7 +93,7 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor
 	{
 		menu.add( new Separator( ITextEditorActionConstants.GROUP_UNDO ) );
 		menu.add( new Separator( ITextEditorActionConstants.GROUP_COPY ) );
-		menu.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
+		menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS ) );
 
 		if ( isEditable( ) )
 		{
