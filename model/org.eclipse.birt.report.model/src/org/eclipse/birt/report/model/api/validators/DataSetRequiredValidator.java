@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITabularCubeModel;
 import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
@@ -140,6 +141,7 @@ public class DataSetRequiredValidator extends AbstractElementValidator
 				? IDesignElementModel.NO_SLOT
 				: containerInfo.getSlotID( );
 		if ( !dataSetFound && IModuleModel.COMPONENT_SLOT != slot &&
+				IReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT != slot &&
 				!isDataBindingRef )
 		{
 			list.add( new SemanticError( toValidate,
