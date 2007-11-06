@@ -240,6 +240,7 @@ public class LibraryParseTest extends BaseTestCase
 		try
 		{
 			designHandle.reloadCss( sheetHandle );
+			fail();			
 		}
 		catch ( CssException e )
 		{

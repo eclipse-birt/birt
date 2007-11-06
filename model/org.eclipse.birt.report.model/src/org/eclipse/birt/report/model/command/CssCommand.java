@@ -93,9 +93,7 @@ public class CssCommand extends AbstractElementCommand
 	public void addCss( CssStyleSheet sheet ) throws SemanticException
 	{
 		if ( sheet == null )
-		{
 			return;
-		}
 
 		// must be absolute file path.
 
@@ -106,27 +104,7 @@ public class CssCommand extends AbstractElementCommand
 					CssException.DESIGN_EXCEPTION_DUPLICATE_CSS );
 		}
 
-		ActivityStack activityStack = getActivityStack( );
-		activityStack.startTrans( );
-
-		CssRecord record = new CssRecord( module, element, sheet, true );
-		getActivityStack( ).execute( record );
-
-		// Add includedCsses
-		try
-		{
-			IncludedCssStyleSheet css = StructureFactory
-					.createIncludedCssStyleSheet( );
-			css.setFileName( fileName );
-			doAddCss( css );
-		}
-		catch ( SemanticException e )
-		{
-			activityStack.rollback( );
-			throw e;
-		}
-
-		activityStack.commit( );
+		doAddCssSheet( sheet );
 	}
 
 	/**
@@ -137,7 +115,8 @@ public class CssCommand extends AbstractElementCommand
 	 * @throws SemanticException
 	 */
 
-	private void doAddCss( IncludedCssStyleSheet css ) throws SemanticException
+	private void doAddCssStruct( IncludedCssStyleSheet css )
+			throws SemanticException
 	{
 		assert css != null;
 
@@ -146,6 +125,44 @@ public class CssCommand extends AbstractElementCommand
 		ComplexPropertyCommand propCommand = new ComplexPropertyCommand(
 				module, element );
 		propCommand.addItem( new CachedMemberRef( propDefn ), css );
+	}
+
+	/**
+	 * Adds one css style in the module.
+	 * 
+	 * @param fileName
+	 *            css file name
+	 * @throws SemanticException
+	 */
+
+	private void doAddCssSheet( CssStyleSheet sheet ) throws SemanticException
+	{
+		if ( sheet == null )
+			return;
+
+		ActivityStack activityStack = getActivityStack( );
+		activityStack.startTrans( );
+
+		CssRecord record = new CssRecord( module, element, sheet, true );
+		getActivityStack( ).execute( record );
+
+		IncludedCssStyleSheet css = StructureFactory
+				.createIncludedCssStyleSheet( );
+		css.setFileName( sheet.getFileName( ) );
+
+		// Add includedCsses
+
+		try
+		{
+			doAddCssStruct( css );
+		}
+		catch ( SemanticException e )
+		{
+			activityStack.rollback( );
+			throw e;
+		}
+
+		activityStack.commit( );
 	}
 
 	/**
@@ -160,25 +177,33 @@ public class CssCommand extends AbstractElementCommand
 	public void dropCss( CssStyleSheet sheet ) throws SemanticException
 	{
 		if ( sheet == null )
-		{
 			return;
+
+		String fileName = sheet.getFileName( );
+		if ( fileName == null )
+			return;
+
+		// find position in css style sheets, position of include css style
+		// sheet is the same as css style sheet.
+
+		IncludedCssStyleSheet css = getIncludedCssStyleSheetByLocation( fileName );
+
+		ICssStyleSheetOperation cssOperation = (ICssStyleSheetOperation) element;
+		boolean contains = cssOperation.getCsses( ).contains( sheet );
+
+		if ( css == null || !contains )
+		{
+			throw new CssException( module, new String[]{fileName},
+					CssException.DESIGN_EXCEPTION_CSS_NOT_FOUND );
 		}
 
 		ActivityStack stack = getActivityStack( );
 		stack.startTrans( );
-		String fileName = sheet.getFileName( );
-		try
-		{
-			removeIncludeCss( fileName );
-		}
-		catch ( SemanticException ex )
-		{
-			stack.rollback( );
-			throw ex;
-		}
 
 		CssRecord record = new CssRecord( module, element, sheet, false );
 		getActivityStack( ).execute( record );
+
+		removeIncludeCss( css );
 
 		getActivityStack( ).commit( );
 	}
@@ -192,21 +217,9 @@ public class CssCommand extends AbstractElementCommand
 	 * @throws PropertyValueException
 	 */
 
-	private void removeIncludeCss( String fileName ) throws SemanticException
+	private void removeIncludeCss( IncludedCssStyleSheet css )
+			throws SemanticException
 	{
-		if ( fileName == null )
-			return;
-
-		// find position in css style sheets, position of include css style
-		// sheet is the same as css style sheet.
-
-		IncludedCssStyleSheet css = getIncludedCssStyleSheetByLocation( fileName );
-		if ( css == null )
-		{
-			throw new CssException( module, new String[]{fileName},
-					CssException.DESIGN_EXCEPTION_CSS_NOT_FOUND );
-		}
-
 		ElementPropertyDefn propDefn = element
 				.getPropertyDefn( IReportDesignModel.CSSES_PROP );
 		ComplexPropertyCommand propCommand = new ComplexPropertyCommand(
@@ -271,37 +284,48 @@ public class CssCommand extends AbstractElementCommand
 		if ( sheet == null )
 			return;
 
-		String fileName = sheet.getFileName( );
+		ActivityStack stack = module.getActivityStack( );
+		stack.startSilentTrans( true );
 
-		// if exist such css style sheet, but now css file is removed. should
-		// drop such css.
-
-		CssStyleSheet newStyleSheet;
+		CssStyleSheet newStyleSheet = null;
 		try
 		{
-			newStyleSheet = module.loadCss( fileName );
+			dropCss( sheet );
+
+			String fileName = sheet.getFileName( );
+
+			// if exist such css style sheet, but now css file is removed.
+			// should drop such css.
+
+			try
+			{
+				newStyleSheet = module.loadCss( fileName );
+			}
+			catch ( StyleSheetException e )
+			{
+				newStyleSheet = null;
+			}
+
+			if ( newStyleSheet == null )
+			{
+				// if failed, just add the structure into the list.
+
+				IncludedCssStyleSheet css = StructureFactory
+						.createIncludedCssStyleSheet( );
+				css.setFileName( sheet.getFileName( ) );
+
+				doAddCssStruct( css );
+			}
+
+			// if failed, newStyleSheet == null, this method should do nothing.
+
+			doAddCssSheet( newStyleSheet );
 		}
-		catch ( StyleSheetException e )
+		catch ( SemanticException e )
 		{
-			throw ModelUtil.convertSheetExceptionToCssException( module,
-					fileName, e );
+			stack.rollback( );
+			throw e;
 		}
-
-		List csses = ( (ICssStyleSheetOperation) element ).getCsses( );
-		int pos = csses.indexOf( sheet );
-
-		ActivityStack activityStack = getActivityStack( );
-		activityStack.startSilentTrans( );
-
-		// reload new css file
-
-		// drop css
-		CssRecord record = new CssRecord( module, element, sheet, false );
-		getActivityStack( ).execute( record );
-
-		// insert css to same position
-		record = new CssRecord( module, element, newStyleSheet, true, pos );
-		getActivityStack( ).execute( record );
 
 		doPostReloadAction( newStyleSheet );
 	}
@@ -333,6 +357,7 @@ public class CssCommand extends AbstractElementCommand
 				ActivityStackEvent.DONE ) );
 
 		// Recheck module.
+
 		module.getModuleHandle( ).checkReport( );
 	}
 

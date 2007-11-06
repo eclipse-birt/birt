@@ -382,7 +382,7 @@ public class LibraryCommand extends AbstractElementCommand
 			throw e;
 		}
 
-		// send the libraryreloadedevent first, and then commit transaction
+		// send the library reloaded event first, and then commit transaction
 
 		URL url = module.findResource( path, IResourceLocator.LIBRARY );
 		Library lib = null;
