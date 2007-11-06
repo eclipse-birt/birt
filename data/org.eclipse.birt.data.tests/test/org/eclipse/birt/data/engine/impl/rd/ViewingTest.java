@@ -565,7 +565,7 @@ public class ViewingTest extends RDTestCase
 			{
 				abc = "          [" + subRi.getValue("sub1") + "]" + "["
 						+ subRi.getValue("sub2") + "]" + "["
-						+ subRi.getValue("sub2") + "]";
+						+ subRi.getValue("sub2") + "]" + "  " + subRi.getRowId( );
 				this.testPrintln( abc );
 			}
 		} while ( ri.next( ) );

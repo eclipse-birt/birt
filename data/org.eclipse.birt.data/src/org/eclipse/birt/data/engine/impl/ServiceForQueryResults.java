@@ -71,6 +71,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 	
 	private Scriptable 					scope;
 	private int 						nestedLevel;
+	private int 						startingRawId;
 	
 	private static Logger logger = Logger.getLogger( ServiceForQueryResults.class.getName( ) );
 
@@ -84,11 +85,12 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 	 * @param queryExecutor
 	 * @param queryDefn
 	 * @param exprManager
+	 * @throws DataException 
 	 */
 	public ServiceForQueryResults( DataEngineContext context, Scriptable scope,
 			int nestedLevel, PreparedDataSourceQuery reportQuery,
-			IPreparedQueryService query, QueryExecutor queryExecutor,
-			IBaseQueryDefinition queryDefn, ExprManager exprManager )
+			IPreparedQueryService query, IQueryExecutor queryExecutor,
+			IBaseQueryDefinition queryDefn, ExprManager exprManager ) throws DataException
 	{
 		Object[] params = {
 				context,
@@ -113,8 +115,23 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 		this.queryExecutor = queryExecutor;
 		this.queryDefn = queryDefn;
 		this.exprManager = exprManager;
+		this.startingRawId = calculateStartingIndex( queryExecutor );
 		logger.exiting( ServiceForQueryResults.class.getName( ),
 				"ServiceForQueryResults" );
+	}
+
+	/**
+	 * 
+	 * @param queryExecutor
+	 * @return
+	 * @throws DataException
+	 */
+	private int calculateStartingIndex( IQueryExecutor queryExecutor )
+			throws DataException
+	{
+		return ( queryExecutor instanceof ISubQueryExecutor )
+				? ( ( (ISubQueryExecutor) queryExecutor ).getSubQueryStartingIndex( ) )
+				: 0;
 	}
 	
 	/*
@@ -904,10 +921,10 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 	 * @see org.eclipse.birt.data.engine.impl.IQueryService#execSubquery(org.eclipse.birt.data.engine.odi.IResultIterator,
 	 *      java.lang.String, org.mozilla.javascript.Scriptable)
 	 */
-	public IQueryResults execSubquery( IResultIterator iterator,
+	public IQueryResults execSubquery( IResultIterator iterator, IQueryExecutor parentExecutor,
 			String subQueryName, Scriptable subScope ) throws DataException
 	{
-		return queryService.execSubquery( iterator, subQueryName, subScope );
+		return queryService.execSubquery( iterator, parentExecutor, subQueryName, subScope );
 	}
 	
 	/*
@@ -1112,5 +1129,23 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 				return true;
 		}
 		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.impl.IServiceForQueryResults#getStartingRawID()
+	 */
+	public int getStartingRawID( ) throws DataException
+	{
+		return this.startingRawId;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.impl.IServiceForQueryResults#getQueryExecutor()
+	 */
+	public IQueryExecutor getQueryExecutor( ) throws DataException
+	{
+		return this.queryExecutor;
 	}
 }

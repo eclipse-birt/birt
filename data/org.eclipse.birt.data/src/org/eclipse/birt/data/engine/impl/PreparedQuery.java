@@ -541,7 +541,7 @@ final class PreparedQuery
 	 * @return
 	 * @throws DataException
 	 */
-	QueryResults execSubquery( IResultIterator iterator, String subQueryName,
+	QueryResults execSubquery( IResultIterator iterator, IQueryExecutor executor, String subQueryName,
 			Scriptable subScope ) throws DataException
 	{
 		assert subQueryName != null;
@@ -559,7 +559,7 @@ final class PreparedQuery
 			throw e;
 		}
 
-		return subquery.execute( iterator, subScope );
+		return subquery.execute( iterator, executor, subScope );
 	}
 	
 	/**

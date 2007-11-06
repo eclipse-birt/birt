@@ -84,7 +84,7 @@ public class QueryResults implements IQueryResults, IQueryService
 				"QueryResults",
 				queryService );
 		assert queryService != null;
-
+		
 		this.queryService = queryService;
 		this.context = queryService.getContext( );
 		this.queryScope = queryService.getScope( );
@@ -162,7 +162,7 @@ public class QueryResults implements IQueryResults, IQueryService
 					iterator = new DummyResultIterator( new ResultService( context,
 							this ),
 							odiIterator,
-							this.queryScope );
+							this.queryScope, this.queryService.getStartingRawID( ) );
 				}
 				else
 				{
@@ -173,13 +173,13 @@ public class QueryResults implements IQueryResults, IQueryService
 							//First create the cache. The cache is created when 
 							//a ResultIterator is closed;
 							new ResultIterator( new ResultService( context,
-									this ), odiIterator, this.queryScope ).close( );
+									this ), odiIterator, this.queryScope, this.queryService.getStartingRawID( ) ).close( );
 							iterator = new CacheResultIterator( context,
 									this );
 						}else
 						{
 							iterator = new ResultIterator( new ResultService( context,
-									this ), odiIterator, this.queryScope );
+									this ), odiIterator, this.queryScope, this.queryService.getStartingRawID( )  );
 						}
 					}
 					else
@@ -191,7 +191,7 @@ public class QueryResults implements IQueryResults, IQueryService
 							//a ResultIterator is closed;Please note that whether usesDetails or
 							//not, we should always create a complete ResultIterator.
 							new ResultIterator( new ResultService( context,
-									this ), odiIterator, this.queryScope ).close( );
+									this ), odiIterator, this.queryScope, this.queryService.getStartingRawID( )  ).close( );
 							iterator = new CacheResultIterator( context,
 									this );
 						}
@@ -200,7 +200,7 @@ public class QueryResults implements IQueryResults, IQueryService
 							iterator = new ResultIterator2( new ResultService( context,
 									this ),
 									odiIterator,
-									this.queryScope );
+									this.queryScope, this.queryService.getStartingRawID( )  );
 
 						}
 					}
@@ -476,9 +476,9 @@ public class QueryResults implements IQueryResults, IQueryService
 	{
 		DummyResultIterator( IServiceForResultSet rService,
 				org.eclipse.birt.data.engine.odi.IResultIterator odiResult,
-				Scriptable scope ) throws DataException
+				Scriptable scope, int staringRawId ) throws DataException
 		{
-			super( rService, new DummyOdiResultIterator( odiResult ), scope );
+			super( rService, new DummyOdiResultIterator( odiResult ), scope, staringRawId );
 		}
 		
 		public boolean next( ) throws DataException
@@ -573,6 +573,7 @@ public class QueryResults implements IQueryResults, IQueryService
 				String subQueryName, Scriptable subScope ) throws DataException
 		{
 			return queryResults.queryService.execSubquery( iterator,
+					this.queryResults.queryService.getQueryExecutor( ),
 					subQueryName,
 					subScope );
 		}

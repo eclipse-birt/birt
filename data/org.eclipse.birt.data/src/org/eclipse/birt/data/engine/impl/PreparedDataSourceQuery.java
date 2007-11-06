@@ -242,10 +242,10 @@ abstract class PreparedDataSourceQuery
 	 * @see org.eclipse.birt.data.engine.impl.IPreparedQueryService#execSubquery(org.eclipse.birt.data.engine.odi.IResultIterator,
 	 *      java.lang.String, org.mozilla.javascript.Scriptable)
 	 */
-	public IQueryResults execSubquery( IResultIterator iterator,
+	public IQueryResults execSubquery( IResultIterator iterator, IQueryExecutor parentExecutor,
 			String subQueryName, Scriptable subScope ) throws DataException
 	{
-		return this.preparedQuery.execSubquery( iterator,
+		return this.preparedQuery.execSubquery( iterator, parentExecutor,
 				subQueryName,
 				subScope );
 	}

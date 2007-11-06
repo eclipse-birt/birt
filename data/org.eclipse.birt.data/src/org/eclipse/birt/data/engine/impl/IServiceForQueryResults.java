@@ -101,7 +101,7 @@ interface IServiceForQueryResults
 	 * @return
 	 * @throws DataException
 	 */
-	public IQueryResults execSubquery( IResultIterator iterator,
+	public IQueryResults execSubquery( IResultIterator iterator, IQueryExecutor parentQueryExecutor,
 			String subQueryName, Scriptable subScope ) throws DataException;
 	
 	/**
@@ -144,5 +144,19 @@ interface IServiceForQueryResults
 	 * @throws DataException
 	 */
 	public void initAutoBinding( ) throws DataException;
+	
+	/**
+	 * Return the query executor.
+	 */
+	public IQueryExecutor getQueryExecutor( ) throws DataException;
+	
+	/**
+	 * Return the starting raw id for the query results. For ordinary query the starting raw id will
+	 * always be 0. For subquery the starting raw id will be the very first row id of its parent result
+	 * iterator.
+	 * @return
+	 * @throws DataException
+	 */
+	public int getStartingRawID( ) throws DataException;
 	
 }

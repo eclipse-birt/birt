@@ -42,9 +42,9 @@ class ResultIterator2 extends ResultIterator
 	 */
 	ResultIterator2( IServiceForResultSet rService,
 			org.eclipse.birt.data.engine.odi.IResultIterator odiResult,
-			Scriptable scope ) throws DataException
+			Scriptable scope, int rawIdStartingValue ) throws DataException
 	{
-		super( rService, odiResult, scope );
+		super( rService, odiResult, scope, rawIdStartingValue );
 		Object[] params = {
 				rService, odiResult, scope
 		};

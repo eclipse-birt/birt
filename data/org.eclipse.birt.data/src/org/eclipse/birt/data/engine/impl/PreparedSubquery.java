@@ -106,9 +106,9 @@ class PreparedSubquery implements IPreparedQueryService
 	 * @see org.eclipse.birt.data.engine.impl.IPreparedQueryService#execSubquery(org.eclipse.birt.data.engine.odi.IResultIterator,
 	 *      java.lang.String, org.mozilla.javascript.Scriptable)
 	 */
-	public IQueryResults execSubquery( IResultIterator iterator, String subQueryName, Scriptable subScope ) throws DataException
+	public IQueryResults execSubquery( IResultIterator iterator, IQueryExecutor parentExecutor, String subQueryName, Scriptable subScope ) throws DataException
 	{
-		return this.preparedQuery.execSubquery( iterator, subQueryName, subScope );
+		return this.preparedQuery.execSubquery( iterator, parentExecutor, subQueryName, subScope );
 	}
 	
 	/**
@@ -127,7 +127,7 @@ class PreparedSubquery implements IPreparedQueryService
 	 * @return
 	 * @throws DataException
 	 */
-	QueryResults execute( IResultIterator parentIterator, Scriptable scope ) 
+	QueryResults execute( IResultIterator parentIterator, IQueryExecutor parentExecutor, Scriptable scope ) 
 		throws DataException
 	{
 		logger.logp( Level.FINER,
@@ -138,7 +138,7 @@ class PreparedSubquery implements IPreparedQueryService
 		{
 			return preparedQuery.doPrepare( null,
 					scope,
-					new SubQueryExecutor( parentIterator ),
+					new SubQueryExecutor( parentIterator, parentExecutor ),
 					getDataSourceQuery( ) );
 		}
 		finally
@@ -153,14 +153,14 @@ class PreparedSubquery implements IPreparedQueryService
 	/**
 	 * Concrete class of PreparedQuery.Executor used in PreparedSubquery
 	 */
-	private class SubQueryExecutor extends QueryExecutor
+	private class SubQueryExecutor extends QueryExecutor implements ISubQueryExecutor
 	{
 		private IResultIterator parentIterator;
-		
+		private IQueryExecutor parentExecutor;
 		/**
 		 * @param parentIterator
 		 */
-		public SubQueryExecutor( IResultIterator parentIterator )
+		public SubQueryExecutor( IResultIterator parentIterator, IQueryExecutor parentExecutor )
 		{	
 			super( preparedQuery.getSharedScope( ),
 					preparedQuery.getBaseQueryDefn( ),
@@ -168,6 +168,7 @@ class PreparedSubquery implements IPreparedQueryService
 					session);
 			
 			this.parentIterator = parentIterator;
+			this.parentExecutor = parentExecutor;
 			this.setParentExecutorHelper( parentIterator.getExecutorHelper( ) );
 		}
 		
@@ -226,7 +227,7 @@ class PreparedSubquery implements IPreparedQueryService
 						getMergedResultClass( ) ) );
 			
 			ret = cdQuery.execute( eventHandler, stopSign );
-			parentIterator = null;
+			//parentIterator = null;
 			return ret;
 		}
 		
@@ -272,6 +273,25 @@ class PreparedSubquery implements IPreparedQueryService
 			}
 
 			return new ResultClass( columnsList );
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.impl.ISubQueryExecutor#getSubQueryStartingIndex()
+		 */
+		public int getSubQueryStartingIndex( ) throws DataException
+		{
+			
+			int groupIndex = this.parentIterator.getCurrentGroupIndex( groupLevel );
+			
+			int[] groupStartingEndingIndex = this.parentIterator.getGroupStartAndEndIndex( groupLevel );
+			
+			//For the subquery of subquery, the starting index should still point to the ultimate
+			//parent.
+			return ( this.parentExecutor instanceof ISubQueryExecutor )
+					? ( (ISubQueryExecutor) this.parentExecutor ).getSubQueryStartingIndex( )
+							+ groupStartingEndingIndex[groupIndex * 2]
+					: groupStartingEndingIndex[groupIndex * 2];
 		}
 	}
 	

@@ -110,6 +110,8 @@ public class ResultIterator implements IResultIterator
 	private List columnList = null;
 	private List preparedList = null;
 	
+	private int rawIdStartingValue = 0;
+	
 	/**
 	 * Constructor for report query (which produces a QueryResults)
 	 * 
@@ -122,7 +124,7 @@ public class ResultIterator implements IResultIterator
 	 */
 	ResultIterator( IServiceForResultSet rService,
 			org.eclipse.birt.data.engine.odi.IResultIterator odiResult,
-			Scriptable scope ) throws DataException
+			Scriptable scope, int rawIdStartingValue ) throws DataException
 	{
 		Object[] params = {
 				rService, odiResult, scope
@@ -137,7 +139,7 @@ public class ResultIterator implements IResultIterator
 		this.resultService = rService;
 		this.odiResult = odiResult;
 		this.scope = scope;
-
+		this.rawIdStartingValue = rawIdStartingValue;
 		this.context = rService.getContext( );
 		
 		if ( this.resultService.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION
@@ -448,11 +450,10 @@ public class ResultIterator implements IResultIterator
 		
 		if ( rowIDUtil == null )
 			rowIDUtil = new RowIDUtil( );
-		if ( rowIDUtil == null )
-			rowIDUtil = new RowIDUtil( );
 		
 		if ( this.rowIDUtil.getMode( this.odiResult ) == RowIDUtil.MODE_NORMAL )
-			return this.odiResult.getCurrentResultIndex( );
+			return this.odiResult.getCurrentResultIndex( )
+					+ this.rawIdStartingValue;
 		else
 		{
 			IResultObject ob = this.odiResult.getCurrentResult( );
@@ -461,6 +462,15 @@ public class ResultIterator implements IResultIterator
 			else
 				return ( (Integer) ob.getFieldValue( rowIDUtil.getRowIdPos( ) ) ).intValue( );
 		}
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	int getRawIdStartingValue( )
+	{
+		return this.rawIdStartingValue;
 	}
 	
 	/*

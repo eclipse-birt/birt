@@ -8,31 +8,21 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.data.engine.impl;
 
-import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.odi.IResultIterator;
-import org.mozilla.javascript.Scriptable;
 
 /**
- * Mainly provided for subquery execution
+ * Interface for Sub Query Executor, which defines some behavior that only needed for subqueries.
+ * 
  */
-public interface IPreparedQueryService
+public interface ISubQueryExecutor extends IQueryExecutor
 {
 	/**
-	 * @return the associated data source query
-	 */
-	PreparedDataSourceQuery getDataSourceQuery( );
-
-	/**
-	 * @param iterator
-	 * @param subQueryName
-	 * @param subScope
-	 * @return query execution result of sub query
+	 * Return the starting row index of the group instance in which the subquery is defined. 
+	 * @return
 	 * @throws DataException
 	 */
-	IQueryResults execSubquery( IResultIterator iterator, IQueryExecutor parentExecutor, String subQueryName,
-			Scriptable subScope ) throws DataException;
-	
+	public int getSubQueryStartingIndex() throws DataException;
 }
