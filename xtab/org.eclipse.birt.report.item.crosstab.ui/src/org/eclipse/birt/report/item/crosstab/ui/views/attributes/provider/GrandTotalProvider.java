@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetF
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
@@ -92,7 +93,7 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 		catch ( ExtendedElementException e )
 		{
 			// TODO Auto-generated catch block
-			logger.log(Level.SEVERE, e.getMessage(),e);
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 		CrosstabGrandTotalDialog grandTotalDialog = new CrosstabGrandTotalDialog( reportHandle,
 				axis );
@@ -370,19 +371,19 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 		return displayNames;
 	}
 
-//	public String getFunctionDisplayName( String name )
-//	{
-//		return ChoiceSetFactory.getDisplayNameFromChoiceSet( name,
-//				DEUtil.getMetaDataDictionary( )
-//						.getChoiceSet( DesignChoiceConstants.CHOICE_MEASURE_FUNCTION ) );
-//	}
-//
-//	private IChoice[] getFunctions( )
-//	{
-//		return DEUtil.getMetaDataDictionary( )
-//				.getChoiceSet( DesignChoiceConstants.CHOICE_MEASURE_FUNCTION )
-//				.getChoices( );
-//	}
+	// public String getFunctionDisplayName( String name )
+	// {
+	// return ChoiceSetFactory.getDisplayNameFromChoiceSet( name,
+	// DEUtil.getMetaDataDictionary( )
+	// .getChoiceSet( DesignChoiceConstants.CHOICE_MEASURE_FUNCTION ) );
+	// }
+	//
+	// private IChoice[] getFunctions( )
+	// {
+	// return DEUtil.getMetaDataDictionary( )
+	// .getChoiceSet( DesignChoiceConstants.CHOICE_MEASURE_FUNCTION )
+	// .getChoices( );
+	// }
 	public String getFunctionDisplayName( String name )
 
 	{
@@ -446,7 +447,28 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 		if ( measureCount == 0
 				|| getGrandTotalInfo( crossTab ).length >= measureCount )
 			return false;
+
+		// fix bug 202113
+		int dimCount = getDimensionCount( crosstabReportItemHandle );
+		if ( dimCount == 0 )
+		{
+			return false;
+		}
+
 		return true;
+	}
+
+	private int getDimensionCount( CrosstabReportItemHandle crosstab )
+	{
+		CrosstabViewHandle crosstabView = crosstab.getCrosstabView( axis );
+		if ( crosstabView == null )
+		{
+			return 0;
+		}
+		else
+		{
+			return crosstabView.getDimensionCount( );
+		}
 	}
 
 	public static class GrandTotalInfo
