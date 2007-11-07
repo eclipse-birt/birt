@@ -288,6 +288,11 @@
             id="org.eclipse.birt.report.designer.ui.command.reloadCssStyleCommand"
             name="reloadCssStyleCommand">
       </command>
+      <command
+            defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.CopyCellContentsHandler"
+            id="org.eclipse.birt.report.designer.ui.command.copyCellContentsCommand"
+            name="CopyCellContentsAction">
+      </command>
    </extension>
    <extension
          point="org.eclipse.birt.report.designer.ui.DNDServices">

@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddThemeStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.ChangeDataColumnPartAction;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CopyCellContentsContextAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CreatePlaceHolderPartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteColumnAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteGroupAction;
@@ -117,8 +118,8 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 	private static final String EDIT_GROUP_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.EditGroup" ); //$NON-NLS-1$
 
-	private static final String INSERT_GROUP_HEADER_FOOTER_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter");
-	
+	private static final String INSERT_GROUP_HEADER_FOOTER_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter" );
+
 	private static final String DELETE_GROUP_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.DeleteGroup" ); //$NON-NLS-1$
 
 	private static final String APPLY_STYLE_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.Apply" ); //$NON-NLS-1$
@@ -134,7 +135,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	private static final String DELETE_STYLE_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.DeleteStyle" ); //$NON-NLS-1$
 
 	private static final String NEW_STYLE_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.NewStyle" ); //$NON-NLS-1$
-	
+
 	/** the action registry */
 	private final ActionRegistry actionRegistry;
 
@@ -219,7 +220,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		boolean isExtended = false;
 		if ( firstSelectedElement instanceof IAdaptable )
 		{
-			if(( (IAdaptable) firstSelectedElement ).getAdapter( DesignElementHandle.class ) instanceof ExtendedItemHandle)
+			if ( ( (IAdaptable) firstSelectedElement ).getAdapter( DesignElementHandle.class ) instanceof ExtendedItemHandle )
 				isExtended = true;
 		}
 
@@ -262,7 +263,8 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		}
 
 		// -----------------------------------------------------------------
-		else if ( firstSelectedElement instanceof DesignElementHandle || isExtended)
+		else if ( firstSelectedElement instanceof DesignElementHandle
+				|| isExtended )
 		{
 			menuManager.appendToGroup( GEFActionConstants.GROUP_UNDO,
 					getAction( ActionFactory.UNDO.getId( ) ) );
@@ -284,7 +286,8 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				if ( element instanceof LabelEditPart
 						|| element instanceof ImageEditPart )
 				{
-					if ( element instanceof DataEditPart ){
+					if ( element instanceof DataEditPart )
+					{
 						IAction action = getAction( ChangeDataColumnPartAction.ID );
 						menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
 								action );
@@ -309,13 +312,13 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 					menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
 							action );
 
-//					action = getAction( RevertToReportItemPartAction.ID );
-//					menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
-//							action );
+					//					action = getAction( RevertToReportItemPartAction.ID );
+					//					menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+					//							action );
 
-//					action = getAction( RevertToTemplatePartAction.ID );
-//					menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
-//							action );
+					//					action = getAction( RevertToTemplatePartAction.ID );
+					//					menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+					//							action );
 				}
 
 				if ( firstSelectedElement instanceof TemplateReportItemHandle )
@@ -330,7 +333,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			{
 				if ( getRowHandles( ).size( ) != 0 )
 				{
-					MenuManager insertMenu = new MenuManager( INSERT_MENU_ITEM_TEXT);
+					MenuManager insertMenu = new MenuManager( INSERT_MENU_ITEM_TEXT );
 					MenuManager rowMenu = new MenuManager( INSERT_ROW_MENU_ITEM_TEXT );
 					rowMenu.add( getAction( InsertRowAboveAction.ID ) );
 					rowMenu.add( getAction( InsertRowBelowAction.ID ) );
@@ -378,6 +381,8 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			{
 				createInsertElementMenu( menuManager,
 						GEFActionConstants.GROUP_EDIT );
+				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+						getAction( CopyCellContentsContextAction.ID ) );
 				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
 						getAction( MergeAction.ID ) );
 				menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
@@ -437,7 +442,8 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				createDeleteGroupMenus( menuManager,
 						GEFActionConstants.GROUP_ADD );
 				createEditGroupMenu( menuManager, GEFActionConstants.GROUP_ADD );
-				createInsertGroupHeaderFooter(menuManager, GEFActionConstants.GROUP_ADD);
+				createInsertGroupHeaderFooter( menuManager,
+						GEFActionConstants.GROUP_ADD );
 				Separator separator = new Separator( EditBindingAction.ID );
 				menuManager.add( separator );
 				menuManager.appendToGroup( EditBindingAction.ID,
@@ -637,7 +643,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				subMenu.add( action );
 			}
 		}
-		
+
 		PaletteEntryExtension[] entries = EditpartExtensionManager.getPaletteEntries( );
 		for ( int i = 0; i < entries.length; i++ )
 		{
@@ -714,7 +720,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		{
 			LibraryHandle libraryHandle = (LibraryHandle) SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( );
-			MenuManager subMenu = new MenuManager(NEW_STYLE_MENU_ITEM_TEXT );
+			MenuManager subMenu = new MenuManager( NEW_STYLE_MENU_ITEM_TEXT );
 
 			// AddThemeStyleAction
 			SlotHandle themeSlot = libraryHandle.getThemes( );
@@ -1064,7 +1070,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			{
 				editPart = getTableEditPart( );
 				Action action = new DeleteGroupAction( editPart,
-						(TableGroupHandle) container);
+						(TableGroupHandle) container );
 				action.setText( DELETE_GROUP_MENU_ITEM_TEXT );
 				menuManager.appendToGroup( group_name, action );
 				return;
@@ -1078,7 +1084,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			{
 				editPart = getListEditPart( );
 				Action action = new DeleteGroupAction( editPart,
-						(ListGroupHandle) container);
+						(ListGroupHandle) container );
 				action.setText( DELETE_GROUP_MENU_ITEM_TEXT );
 				menuManager.appendToGroup( group_name, action );
 				return;
@@ -1104,7 +1110,6 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			return;
 		}
 
-		
 		SlotHandle handle = parentHandle.getGroups( );
 		Iterator iter = handle.iterator( );
 		while ( iter.hasNext( ) )
@@ -1112,7 +1117,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			GroupHandle groupHandle = (GroupHandle) iter.next( );
 			subMenu.add( new DeleteGroupAction( editPart, groupHandle ) );
 		}
-		
+
 		menuManager.appendToGroup( group_name, subMenu );
 	}
 
@@ -1173,8 +1178,6 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		return part;
 	}
 
-
-
 	/**
 	 * Creats sub menu in the specified action group of the specified menu
 	 * manager.
@@ -1209,18 +1212,20 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		{
 			return;
 		}
-		
+
 		SlotHandle handle = parentHandle.getGroups( );
 		Iterator iter = handle.iterator( );
 		while ( iter.hasNext( ) )
 		{
 			GroupHandle groupHandle = (GroupHandle) iter.next( );
 			MenuManager groupMenu = new MenuManager( groupHandle.getName( ) );
-			groupMenu.add(  new InsertGroupHeaderFooterAction(groupHandle, InsertGroupHeaderFooterAction.HEADER) );
-			groupMenu.add(  new InsertGroupHeaderFooterAction(groupHandle, InsertGroupHeaderFooterAction.FOOTER) );
-			subMenu.add(groupMenu );
+			groupMenu.add( new InsertGroupHeaderFooterAction( groupHandle,
+					InsertGroupHeaderFooterAction.HEADER ) );
+			groupMenu.add( new InsertGroupHeaderFooterAction( groupHandle,
+					InsertGroupHeaderFooterAction.FOOTER ) );
+			subMenu.add( groupMenu );
 		}
 		menuManager.appendToGroup( group_name, subMenu );
 	}
-	
+
 }

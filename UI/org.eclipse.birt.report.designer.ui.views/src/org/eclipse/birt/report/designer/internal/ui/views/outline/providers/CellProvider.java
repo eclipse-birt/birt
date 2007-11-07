@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.views.outline.providers;
 
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.CopyCellContentsAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertAction;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.jface.action.IMenuManager;
@@ -36,6 +37,7 @@ public class CellProvider extends DefaultNodeProvider
 			IMenuManager menu )
 	{
 		menu.add( new InsertAction( object ) );
+		menu.add( new CopyCellContentsAction( object ) );
 		super.createContextMenu( sourceViewer, object, menu );
 	}
 

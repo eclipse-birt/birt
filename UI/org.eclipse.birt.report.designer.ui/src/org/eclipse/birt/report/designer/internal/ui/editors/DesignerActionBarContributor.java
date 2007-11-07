@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddStyleAction;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CopyCellContentsContextAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CreatePlaceHolderPartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertColumnLeftAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertColumnRightAction;
@@ -133,6 +134,8 @@ public class DesignerActionBarContributor extends
 					Messages.getString( "DesignerActionBarContributor.element.merge" ) ), //$NON-NLS-1$
 			new RegisterActions( SplitAction.ID,
 					Messages.getString( "DesignerActionBarContributor.element.split" ) ), //$NON-NLS-1$
+			new RegisterActions( CopyCellContentsContextAction.ID,
+					"CopyContentsAction" ), //$NON-NLS-1$
 			null,
 			new RegisterActions( CreatePlaceHolderPartAction.ID,
 					Messages.getString( "CreatePlaceHolderAction.text" ) ),
