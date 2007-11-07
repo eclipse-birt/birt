@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.olap.data.api;
 
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.olap.util.filter.IFacttableRow;
 
 /**
  * 
@@ -29,7 +30,7 @@ public interface IComputedMeasureHelper
 	 * 
 	 * @return
 	 */
-	public Object[] computeMeasureValues( IMeasureMap measureMap ) throws DataException;
+	public Object[] computeMeasureValues( IFacttableRow factTableRow ) throws DataException;
 	
 	
 }

@@ -22,7 +22,6 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.data.api.IComputedMeasureHelper;
-import org.eclipse.birt.data.engine.olap.data.api.IMeasureMap;
 import org.eclipse.birt.data.engine.olap.data.api.MeasureInfo;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentObjectUtil;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentObject;
@@ -30,6 +29,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.NamingUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.Traversalor;
 import org.eclipse.birt.data.engine.olap.data.util.Bytes;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
+import org.eclipse.birt.data.engine.olap.util.filter.IFacttableRow;
 
 /**
  * An iterator on a result set from a executed fact table query.
@@ -436,7 +436,7 @@ class SelectedSubDimension
 	int end;
 }
 
-class MeasureMap implements IMeasureMap
+class MeasureMap implements IFacttableRow
 {
 	private MeasureInfo[] measureInfos = null;
 	private Object[] measureValues = null;

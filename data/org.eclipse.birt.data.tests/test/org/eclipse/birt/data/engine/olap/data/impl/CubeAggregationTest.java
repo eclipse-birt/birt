@@ -44,7 +44,6 @@ import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.api.IComputedMeasureHelper;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
-import org.eclipse.birt.data.engine.olap.data.api.IMeasureMap;
 import org.eclipse.birt.data.engine.olap.data.api.ISelection;
 import org.eclipse.birt.data.engine.olap.data.api.MeasureInfo;
 import org.eclipse.birt.data.engine.olap.data.api.cube.CubeMaterializer;
@@ -1524,10 +1523,10 @@ class TestFactTable implements IDatasetIterator
 class ComputedMeasureHelper implements IComputedMeasureHelper
 {
 	private MeasureInfo[] measureInfos = {new MeasureInfo("C_Measure1", DataType.INTEGER_TYPE)};
-	public Object[] computeMeasureValues( IMeasureMap measureList )
+	public Object[] computeMeasureValues( IFacttableRow factTableRow ) throws DataException
 	{
 		Object[] result = new Object[1];
-		Integer value = new Integer( ( (Integer) measureList.getMeasureValue( "measure1" ) ).intValue( ) + 1 );
+		Integer value = new Integer( ( (Integer) factTableRow.getMeasureValue( "measure1" ) ).intValue( ) + 1 );
 		result[0] = value;
 		return result;
 	}
