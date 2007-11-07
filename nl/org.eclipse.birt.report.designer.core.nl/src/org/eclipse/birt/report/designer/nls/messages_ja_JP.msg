@@ -1303,6 +1303,9 @@ ExpressionBuilder.Label.Operators=演算子 :
 ExpressionBuilder.Label.SubCategory=サブカテゴリ :
 ExpressionBuilder.Message.Prompt=[式] フィールドに式を入力してください。使用可能なオブジェクトの一覧を参照し、式に使用する項目をダブルクリックしてコピーします。
 ExpressionBuilder.ToolTip=式ビルダを開く
+ExpressionBuilder.toolTipText.validate=Validate
+ExpressionBuilder.Script.NoError=No syntax error was found in current script.
+ExpressionBuilder.Script.Error=[Row:{0}, Column:{1}] {2}
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
@@ -3994,3 +3997,11 @@ ReportExamples.ContributeSamples.title=サンプルの提供
 ReportExamples.ContributeSamples.messages=Following infomation will guide you to contribute samples.
 ReportExamples.OpenBrowser.Error.title=エラー
 ReportExamples.OpenBrowser.Error.message=Cannot open web browser.
+
+###########################################################
+#CopyCellContentsContextAction
+CopyCellContentsContextAction.actionText=Copy contents
+
+###########################################################
+#CopyCellContentsAction
+CopyCellContentsAction.actionText=Copy contents

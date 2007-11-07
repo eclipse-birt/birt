@@ -1303,6 +1303,9 @@ ExpressionBuilder.Label.Operators=运算符:
 ExpressionBuilder.Label.SubCategory=子类别:
 ExpressionBuilder.Message.Prompt=在“表达式”字段中输入一个表达式。浏览可用对象列表并双击对象以将其复制到表达式中。
 ExpressionBuilder.ToolTip=打开表达式生成器
+ExpressionBuilder.toolTipText.validate=Validate
+ExpressionBuilder.Script.NoError=No syntax error was found in current script.
+ExpressionBuilder.Script.Error=[Row:{0}, Column:{1}] {2}
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
@@ -3994,3 +3997,11 @@ ReportExamples.ContributeSamples.title=提供示例
 ReportExamples.ContributeSamples.messages=Following infomation will guide you to contribute samples.
 ReportExamples.OpenBrowser.Error.title=错误
 ReportExamples.OpenBrowser.Error.message=Cannot open web browser.
+
+###########################################################
+#CopyCellContentsContextAction
+CopyCellContentsContextAction.actionText=Copy contents
+
+###########################################################
+#CopyCellContentsAction
+CopyCellContentsAction.actionText=Copy contents

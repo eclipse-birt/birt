@@ -1303,6 +1303,9 @@ ExpressionBuilder.Label.Operators=연산자:
 ExpressionBuilder.Label.SubCategory=하위 범주:
 ExpressionBuilder.Message.Prompt=식 필드에 식을 입력하십시오. 사용 가능한 객체 목록을 찾아보고 식으로 복사하려면 두 번 클릭하십시오.
 ExpressionBuilder.ToolTip=식 빌더 열기
+ExpressionBuilder.toolTipText.validate=Validate
+ExpressionBuilder.Script.NoError=No syntax error was found in current script.
+ExpressionBuilder.Script.Error=[Row:{0}, Column:{1}] {2}
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
@@ -3994,3 +3997,11 @@ ReportExamples.ContributeSamples.title=기여 예제
 ReportExamples.ContributeSamples.messages=Following infomation will guide you to contribute samples.
 ReportExamples.OpenBrowser.Error.title=오류
 ReportExamples.OpenBrowser.Error.message=Cannot open web browser.
+
+###########################################################
+#CopyCellContentsContextAction
+CopyCellContentsContextAction.actionText=Copy contents
+
+###########################################################
+#CopyCellContentsAction
+CopyCellContentsAction.actionText=Copy contents

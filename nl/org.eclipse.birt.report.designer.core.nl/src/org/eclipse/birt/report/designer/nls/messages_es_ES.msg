@@ -1303,6 +1303,9 @@ ExpressionBuilder.Label.Operators=Operadores:
 ExpressionBuilder.Label.SubCategory=Subcategoría:
 ExpressionBuilder.Message.Prompt=Introduzca una expresión en el campo Expresión. Busque la lista de objetos disponibles y haga doble clic para copiarla en la expresión.
 ExpressionBuilder.ToolTip=Abrir el compilador de expresiones
+ExpressionBuilder.toolTipText.validate=Validate
+ExpressionBuilder.Script.NoError=No syntax error was found in current script.
+ExpressionBuilder.Script.Error=[Row:{0}, Column:{1}] {2}
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
@@ -3994,3 +3997,11 @@ ReportExamples.ContributeSamples.title=Muestras de aportación
 ReportExamples.ContributeSamples.messages=Following infomation will guide you to contribute samples.
 ReportExamples.OpenBrowser.Error.title=Error
 ReportExamples.OpenBrowser.Error.message=Cannot open web browser.
+
+###########################################################
+#CopyCellContentsContextAction
+CopyCellContentsContextAction.actionText=Copy contents
+
+###########################################################
+#CopyCellContentsAction
+CopyCellContentsAction.actionText=Copy contents
