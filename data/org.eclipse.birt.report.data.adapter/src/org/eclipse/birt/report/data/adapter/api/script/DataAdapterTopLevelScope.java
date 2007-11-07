@@ -137,6 +137,7 @@ public class DataAdapterTopLevelScope extends ImporterTopLevel
 			if ( parameterObject instanceof ScalarParameterHandle )
 			{
 				ScalarParameterHandle parameterHandle = (ScalarParameterHandle) parameterObject;
+				String str = parameterHandle.getDefaultValue( );
 				Object value = getParamValue( parameterHandle );
 				if ( value == null )
 				{
@@ -256,7 +257,7 @@ public class DataAdapterTopLevelScope extends ImporterTopLevel
 	 * 
 	 * @return Object[] the parameter value
 	 */
-	private Object[] getParamValue( ScalarParameterHandle paramHandle )
+	private Object getParamValue( ScalarParameterHandle paramHandle )
 	{
 		String designFileName = designModule.getFileName( );
 		// replace the file extension
@@ -301,22 +302,29 @@ public class DataAdapterTopLevelScope extends ImporterTopLevel
 							String value = (String) varValue;
 							// if the value actually is in String type, convert
 							// it by adding quotation marks
-							if ( isToBeConverted( parameterHandle.getDataType( ) ) )
-							{
-								value = "\""
-										+ JavascriptEvalUtil.transformToJsConstants( value )
-										+ "\"";
-							}
 							values.add( value );
 							// return value;
 						}
 						if ( isNullValue( varName, (String) varValue, paraName ) )
 						{
+							if ( !parameterHandle.getParamType( )
+									.equals( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE ) )
+							{
+								return null;
+							}
 							return new Object[0];
 						}
 					}
 				}
-				return values.toArray( );
+				if( values.size( ) > 0 )
+				{
+					if ( parameterHandle.getParamType( )
+							.equals( DesignChoiceConstants.SCALAR_PARAM_TYPE_SIMPLE ) )
+					{
+						return values.get( 0 );
+					}
+					return values.toArray( );
+				}
 			}
 		}
 		return null;
