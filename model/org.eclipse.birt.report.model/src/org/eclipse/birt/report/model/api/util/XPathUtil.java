@@ -96,7 +96,8 @@ public class XPathUtil
 	 * 
 	 * @param instance
 	 *            can be <code>DesignElementHandle</code>,
-	 *            <code>SlotHandle</code>, <code>StructureHandle</code>.
+	 *            <code>SlotHandle</code>, <code>StructureHandle</code> ,
+	 *            <code>PropertyHandle</code>.
 	 * @return the XPath in string
 	 */
 
@@ -124,6 +125,80 @@ public class XPathUtil
 			return serializeToXPath( (PropertyHandle) instance );
 		}
 		return null;
+	}
+
+	/**
+	 * Returns the script path of the given instance.
+	 * 
+	 * @param instance
+	 *            <code>PropertyHandle</code> which type or sub type must be
+	 *            expression or script.
+	 * @index index of property should be in valid range.
+	 * @return the path in string
+	 */
+
+	public static String getXPath( Object instance, int index )
+	{
+		if ( instance == null )
+			return EMPTY_STRING;
+
+		if ( instance instanceof PropertyHandle )
+		{
+			PropertyHandle temp = (PropertyHandle) instance;
+			if ( isValidIndex( temp, index ) )
+				return serializeToXPath( temp, index );
+		}
+
+		return EMPTY_STRING;
+	}
+
+	/**
+	 * Checks index is valid. If it is not list type or index less than zero or
+	 * index larger than property list value size, it is invalid index.
+	 * 
+	 * @param propHandle
+	 *            property handle.
+	 * @param index
+	 *            index of property
+	 * @return If it is not list type or index less than zero or index larger
+	 *         than property list value size, return false. else return true.
+	 */
+	private static boolean isValidIndex( PropertyHandle propHandle, int index )
+	{
+		PropertyDefn defn = (PropertyDefn) propHandle.getDefn( );
+		if ( !defn.isListType( ) )
+			return false;
+		if ( index < 0 && index >= propHandle.getListValue( ).size( ) )
+			return false;
+		// don't support structure list.
+		if( defn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
+			return false;
+
+		return true;
+	}
+
+	/**
+	 * Returns the path of the given property with index.
+	 * 
+	 * @param prop
+	 *            property handle
+	 * @param index
+	 *            index of property handle
+	 * 
+	 * @return the path in string
+	 */
+
+	private static String serializeToXPath( PropertyHandle prop, int index )
+	{
+		StringBuffer sb = new StringBuffer( );
+		sb.append( serializeToXPath( prop ) );
+		sb.append( SEPARATOR );
+		sb.append( DesignSchemaConstants.VALUE_TAG );
+		sb.append( "[" ); //$NON-NLS-1$
+		sb.append( index + 1 );
+		sb.append( "]" );//$NON-NLS-1$
+
+		return sb.toString( );
 	}
 
 	/**
@@ -189,9 +264,13 @@ public class XPathUtil
 
 		sb.append( SEPARATOR );
 		PropertyDefn tmpPropDefn = (PropertyDefn) prop.getDefn( );
-		if ( tmpPropDefn.isList( ) )
+
+		if ( tmpPropDefn.isListType( ) )
 		{
-			sb.append( DesignSchemaConstants.LIST_PROPERTY_TAG );
+			if ( tmpPropDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
+				sb.append( DesignSchemaConstants.LIST_PROPERTY_TAG );
+			else
+				sb.append( DesignSchemaConstants.SIMPLE_PROPERTY_LIST_TAG );
 			sb.append( formatXPathProperty( DesignSchemaConstants.NAME_ATTRIB,
 					tmpPropDefn.getName( ) ) );
 
@@ -255,9 +334,9 @@ public class XPathUtil
 
 		if ( !tmpPropDefn.isList( ) && tmpPropDefn.getStructDefn( ) != null )
 		{
-			sb.append( SEPARATOR +
-					DesignSchemaConstants.STRUCTURE_TAG +
-					formatXPathProperty( DesignSchemaConstants.NAME_ATTRIB,
+			sb.append( SEPARATOR
+					+ DesignSchemaConstants.STRUCTURE_TAG
+					+ formatXPathProperty( DesignSchemaConstants.NAME_ATTRIB,
 							tmpPropDefn.getName( ) ) );
 
 			tmpPropDefn = memberRef.getMemberDefn( );
@@ -265,9 +344,9 @@ public class XPathUtil
 
 		if ( tmpPropDefn.isList( ) )
 		{
-			sb.append( SEPARATOR +
-					DesignSchemaConstants.LIST_PROPERTY_TAG +
-					formatXPathProperty( DesignSchemaConstants.NAME_ATTRIB,
+			sb.append( SEPARATOR
+					+ DesignSchemaConstants.LIST_PROPERTY_TAG
+					+ formatXPathProperty( DesignSchemaConstants.NAME_ATTRIB,
 							tmpPropDefn.getName( ) ) );
 		}
 
@@ -348,9 +427,9 @@ public class XPathUtil
 					String slotTagName = getTagByPropertyType( (ElementPropertyDefn) tmpProp
 							.getDefn( ) );
 
-					slotInfo = SEPARATOR +
-							slotTagName +
-							formatXPathProperty(
+					slotInfo = SEPARATOR
+							+ slotTagName
+							+ formatXPathProperty(
 									DesignSchemaConstants.NAME_ATTRIB,
 									tmpElement.getContainerPropertyHandle( )
 											.getDefn( ).getName( ) );
@@ -399,12 +478,12 @@ public class XPathUtil
 
 	private static boolean isEnclosedAttr( String propName )
 	{
-		if ( DesignElement.NAME_PROP.equalsIgnoreCase( propName ) ||
-				DesignSchemaConstants.EXTENDS_ATTRIB
-						.equalsIgnoreCase( propName ) ||
-				IExtendedItemModel.EXTENSION_NAME_PROP
-						.equalsIgnoreCase( propName ) ||
-				IOdaExtendableElementModel.EXTENSION_ID_PROP
+		if ( DesignElement.NAME_PROP.equalsIgnoreCase( propName )
+				|| DesignSchemaConstants.EXTENDS_ATTRIB
+						.equalsIgnoreCase( propName )
+				|| IExtendedItemModel.EXTENSION_NAME_PROP
+						.equalsIgnoreCase( propName )
+				|| IOdaExtendableElementModel.EXTENSION_ID_PROP
 						.equalsIgnoreCase( propName ) )
 			return true;
 
@@ -469,8 +548,8 @@ public class XPathUtil
 		if ( tmpPropDefn == null )
 			return null;
 
-		if ( isKeyDefn &&
-				tmpPropDefn.getTypeCode( ) != IPropertyType.RESOURCE_KEY_TYPE )
+		if ( isKeyDefn
+				&& tmpPropDefn.getTypeCode( ) != IPropertyType.RESOURCE_KEY_TYPE )
 			return null;
 
 		return ( isKeyDefn ? propDefn : tmpPropDefn );

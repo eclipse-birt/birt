@@ -39,6 +39,8 @@ public class XPathParser
 	private static final int ELEMENT = XDepthParser.ELEMENT;
 	private static final int SLOT = XDepthParser.SLOT;
 	private static final int PROPERTY = XDepthParser.PROPERTY;
+	private static final int VALUE = 16;
+	private static final int STRUCTURE = 32;
 
 	// ******** keep the property *****
 
@@ -67,6 +69,7 @@ public class XPathParser
 	private int slotID = DesignElement.NO_SLOT;
 
 	private String propertyName = null;
+	private int propertyOwnerType = INVALID;
 
 	/**
 	 * Default constructor.
@@ -109,9 +112,7 @@ public class XPathParser
 		// ******** the index in the XPath tags *****
 
 		int index = -1;
-
 		currentElement = module;
-
 		int lastValueType = INVALID;
 
 		for ( int i = 0; i < depthInfo.size( ); i++ )
@@ -131,12 +132,20 @@ public class XPathParser
 
 			ElementDefn elementDefn = (ElementDefn) currentElement.getDefn( );
 
-			if ( i == 0 &&
-					tagName.equalsIgnoreCase( elementDefn.getXmlName( ) ) &&
-					module == currentElement )
+			if ( i == 0 && tagName.equalsIgnoreCase( elementDefn.getXmlName( ) )
+					&& module == currentElement )
 			{
 				valueType = ELEMENT;
 				continue;
+			}
+
+			if ( ( ( valueType & VALUE ) != 0 )
+					&& tagName != null
+					&& tagName
+							.equalsIgnoreCase( DesignSchemaConstants.VALUE_TAG ) )
+			{
+				valueType = VALUE;
+				break;
 			}
 
 			// try slot first.
@@ -151,6 +160,15 @@ public class XPathParser
 				}
 			}
 
+			// if current tag name is property type , and last
+			// property name owner is not structure , should
+			// clean property name value.
+
+			if ( tagName != null && isPropertyTag( tagName )
+					&& propertyOwnerType != STRUCTURE
+					&& propertyOwnerType != INVALID )
+				propertyName = null;
+
 			if ( ( valueType & ELEMENT ) != 0 )
 			{
 				if ( lastValueType != SLOT )
@@ -163,8 +181,8 @@ public class XPathParser
 					{
 						int typeCode = elementDefn.getProperty( propertyName )
 								.getTypeCode( );
-						if ( typeCode == IPropertyType.ELEMENT_TYPE ||
-								typeCode == IPropertyType.CONTENT_ELEMENT_TYPE )
+						if ( typeCode == IPropertyType.ELEMENT_TYPE
+								|| typeCode == IPropertyType.CONTENT_ELEMENT_TYPE )
 							valueType = ELEMENT;
 					}
 				}
@@ -173,10 +191,10 @@ public class XPathParser
 
 				if ( valueType == ELEMENT )
 				{
-					if ( attrName == null ||
-							DesignSchemaConstants.ID_ATTRIB
-									.equalsIgnoreCase( attrName ) ||
-							XPathUtil.SLOT_NAME_PROPERTY
+					if ( attrName == null
+							|| DesignSchemaConstants.ID_ATTRIB
+									.equalsIgnoreCase( attrName )
+							|| XPathUtil.SLOT_NAME_PROPERTY
 									.equalsIgnoreCase( attrName ) )
 					{
 						currentElement = findElement( tagName, attrName,
@@ -195,11 +213,19 @@ public class XPathParser
 				}
 			}
 
-			if ( ( ( valueType & ELEMENT ) != 0 || ( valueType & PROPERTY ) != 0 ) &&
-					isPropertyTag( tagName ) )
+			if ( ( ( valueType & STRUCTURE ) != 0 ) && isStructureTag( tagName ) )
 			{
+				valueType = STRUCTURE;
 				ref = parsePropertyValue( tagName, attrValue, index );
+				propertyOwnerType = STRUCTURE;
+			}
+
+			if ( ( ( valueType & ELEMENT ) != 0 || ( valueType & PROPERTY ) != 0 )
+					&& isPropertyTag( tagName ) )
+			{
 				valueType = PROPERTY;
+				ref = parsePropertyValue( tagName, attrValue, index );
+				propertyOwnerType = PROPERTY;
 			}
 
 			if ( valueType == INVALID )
@@ -214,7 +240,16 @@ public class XPathParser
 			case ELEMENT :
 				return currentElement;
 			case PROPERTY :
+			case STRUCTURE :
 				return getRespectivePropertyHandle( index );
+			case VALUE :
+				if ( lastValueType == PROPERTY )
+				{
+					Object temp = getRespectivePropertyHandle( -1 );
+					assert temp instanceof PropertyHandle;
+					return ( (PropertyHandle) temp ).get( index );
+				}
+				return null;
 			default :
 				return null;
 		}
@@ -282,10 +317,13 @@ public class XPathParser
 				retValueType = ELEMENT;
 				break;
 			case ELEMENT :
-				retValueType = SLOT | PROPERTY | ELEMENT;
+				retValueType = SLOT | PROPERTY | ELEMENT | STRUCTURE;
 				break;
 			case PROPERTY :
-				retValueType = PROPERTY | ELEMENT;
+				retValueType = PROPERTY | ELEMENT | VALUE | STRUCTURE;
+				break;
+			case STRUCTURE :
+				retValueType = PROPERTY;
 				break;
 			default :
 				retValueType = ELEMENT | SLOT | PROPERTY;
@@ -333,8 +371,6 @@ public class XPathParser
 	private CachedMemberRef parsePropertyValue( String tagName,
 			String propName, int index )
 	{
-		valueType = PROPERTY;
-
 		if ( propertyName == null )
 		{
 			ElementDefn elementDefn = (ElementDefn) currentElement.getDefn( );
@@ -350,8 +386,8 @@ public class XPathParser
 			return ref;
 		}
 
-		if ( ref == null && propertyName != null &&
-				DesignSchemaConstants.KEY_ATTRIB.equalsIgnoreCase( propName ) )
+		if ( ref == null && propertyName != null
+				&& DesignSchemaConstants.KEY_ATTRIB.equalsIgnoreCase( propName ) )
 		{
 			String newPropName = propertyName + XPathUtil.RESOURCE_KEY_SUFFIX;
 			ElementDefn elementDefn = (ElementDefn) currentElement.getDefn( );
@@ -366,8 +402,9 @@ public class XPathParser
 
 		assert ref != null;
 
-		if ( ref.refType == CachedMemberRef.PROPERTY &&
-				DesignSchemaConstants.STRUCTURE_TAG.equalsIgnoreCase( tagName ) )
+		if ( ref.refType == CachedMemberRef.PROPERTY
+				&& DesignSchemaConstants.STRUCTURE_TAG
+						.equalsIgnoreCase( tagName ) )
 		{
 			ElementDefn elementDefn = (ElementDefn) currentElement.getDefn( );
 			IPropertyDefn propDefn = elementDefn.getProperty( ref.getPropDefn( )
@@ -378,16 +415,17 @@ public class XPathParser
 			return ref;
 		}
 
-		if ( ref.refType == CachedMemberRef.PROPERTY &&
-				DesignSchemaConstants.LIST_PROPERTY_TAG
+		if ( ref.refType == CachedMemberRef.PROPERTY
+				&& DesignSchemaConstants.LIST_PROPERTY_TAG
 						.equalsIgnoreCase( tagName ) )
 		{
 			ref = new CachedMemberRef( ref, propName );
 			return ref;
 		}
 
-		if ( ref.refType == CachedMemberRef.PROPERTY_MEMBER &&
-				DesignSchemaConstants.STRUCTURE_TAG.equalsIgnoreCase( tagName ) )
+		if ( ref.refType == CachedMemberRef.PROPERTY_MEMBER
+				&& DesignSchemaConstants.STRUCTURE_TAG
+						.equalsIgnoreCase( tagName ) )
 		{
 			ref = new CachedMemberRef( ref, index < 0 ? 0 : index );
 			return ref;
@@ -461,9 +499,9 @@ public class XPathParser
 				DesignElementHandle tmpElement = slot.get( i );
 				ElementDefn tmpDefn = (ElementDefn) tmpElement.getDefn( );
 
-				if ( ( DesignElement.NO_ID == id || tmpElement.getID( ) == id ) &&
-						tmpDefn.getXmlName( )
-								.equalsIgnoreCase( contentDefnName ) )
+				if ( ( DesignElement.NO_ID == id || tmpElement.getID( ) == id )
+						&& tmpDefn.getXmlName( ).equalsIgnoreCase(
+								contentDefnName ) )
 					return tmpElement;
 			}
 		}
@@ -477,18 +515,34 @@ public class XPathParser
 				DesignElementHandle tmpElement = (DesignElementHandle) contents
 						.get( i );
 				ElementDefn tmpDefn = (ElementDefn) tmpElement.getDefn( );
-				if ( ( DesignElement.NO_ID == id || tmpElement.getID( ) == id ) &&
-						tmpDefn.getXmlName( )
-								.equalsIgnoreCase( contentDefnName ) )
+				if ( ( DesignElement.NO_ID == id || tmpElement.getID( ) == id )
+						&& tmpDefn.getXmlName( ).equalsIgnoreCase(
+								contentDefnName ) )
 					return tmpElement;
 			}
 		}
-		
+
 		return null;
 	}
 
 	/**
-	 * Checks whehter the input tag is the property tag.
+	 * Checks if tag is structure tag
+	 * 
+	 * @param tagName
+	 *            tag name
+	 * @return if tag is property tag or list property tag return true; else
+	 *         return false.
+	 */
+	private static boolean isStructureTag( String tagName )
+	{
+		if ( DesignSchemaConstants.STRUCTURE_TAG.equalsIgnoreCase( tagName ) )
+			return true;
+
+		return false;
+	}
+
+	/**
+	 * Checks whether the input tag is the property tag.
 	 * 
 	 * @param tagName
 	 *            the tag
@@ -527,9 +581,6 @@ public class XPathParser
 				.equalsIgnoreCase( tagName ) )
 			return true;
 		else if ( DesignSchemaConstants.EX_PROPERTY_TAG
-				.equalsIgnoreCase( tagName ) )
-			return true;
-		else if ( DesignSchemaConstants.STRUCTURE_TAG
 				.equalsIgnoreCase( tagName ) )
 			return true;
 

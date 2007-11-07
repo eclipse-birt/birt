@@ -542,8 +542,8 @@ public class ModuleUtil
 			public AbstractParseState startElement( String tagName )
 			{
 				if ( DesignSchemaConstants.REPORT_TAG
-						.equalsIgnoreCase( tagName ) ||
-						DesignSchemaConstants.LIBRARY_TAG
+						.equalsIgnoreCase( tagName )
+						|| DesignSchemaConstants.LIBRARY_TAG
 								.equalsIgnoreCase( tagName ) )
 					return new VersionState( );
 				return super.startElement( tagName );
@@ -931,12 +931,13 @@ public class ModuleUtil
 	}
 
 	/**
-	 * Gets the script id if instance has expression. Now only support
-	 * <code>PropertyHandle</code>.
+	 * Gets the script id if instance has expression.
 	 * 
 	 * @param instance
-	 *            <code>PropertyHandle</code>
-	 * @return the script uid
+	 *            <code>PropertyHandle</code> which type or sub type should be
+	 *            script or expression.
+	 * @return the script uid if type or sub type is script or expression, null
+	 *         if not or meet error.
 	 */
 
 	public static String getScriptUID( Object instance )
@@ -947,13 +948,34 @@ public class ModuleUtil
 	}
 
 	/**
+	 * Gets the script id if instance has expression. Support list-value which
+	 * sub type is expression.
+	 * 
+	 * @param instance
+	 *            <code>PropertyHandle</code> which type or sub type should be
+	 *            script or expression.
+	 * @param index
+	 *            index should be in valid range, should be more than zero and
+	 *            less than list value size.
+	 * @return the script uid if type or sub type is script or expression, null
+	 *         if not or meet error.
+	 */
+
+	public static String getScriptUID( Object instance, int index )
+	{
+		if ( isValidScript( instance ) )
+			return XPathUtil.getXPath( instance, index );
+		return null;
+	}
+
+	/**
 	 * Gets the script value.
 	 * 
 	 * @param module
 	 *            module handle
 	 * @param uid
 	 *            the script uid
-	 * @return the script value.
+	 * @return the script value if script uid is valid;else return null.
 	 */
 
 	public static String getScript( ModuleHandle module, String uid )
@@ -974,14 +996,13 @@ public class ModuleUtil
 	 * Checks instance's type is script or not.
 	 * 
 	 * @param instance
-	 *            <code>MemberHandle</code> or <code>PropertyHandle</code>
+	 *            <code>PropertyHandle</code> which type need to be checked.
 	 * @return return true if it is script,else return false.
 	 */
 
 	private static boolean isValidScript( Object instance )
 	{
-		if ( instance instanceof MemberHandle ||
-				instance instanceof PropertyHandle )
+		if ( instance instanceof PropertyHandle )
 		{
 			SimpleValueHandle temp = (SimpleValueHandle) instance;
 			PropertyDefn defn = (PropertyDefn) temp.getDefn( );
@@ -992,8 +1013,8 @@ public class ModuleUtil
 			}
 			else
 			{
-				if ( defn.getTypeCode( ) == IPropertyType.EXPRESSION_TYPE ||
-						defn.getTypeCode( ) == IPropertyType.SCRIPT_TYPE )
+				if ( defn.getTypeCode( ) == IPropertyType.EXPRESSION_TYPE
+						|| defn.getTypeCode( ) == IPropertyType.SCRIPT_TYPE )
 					return true;
 			}
 		}
