@@ -37,7 +37,6 @@ import org.eclipse.birt.report.engine.layout.area.impl.LogicContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.PageArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.layout.content.BlockStackingExecutor;
-import org.eclipse.birt.report.engine.layout.pdf.font.FontSplitter;
 import org.eclipse.birt.report.engine.layout.pdf.text.Chunk;
 import org.eclipse.birt.report.engine.layout.pdf.text.ChunkGenerator;
 
@@ -378,6 +377,7 @@ public class PDFPageLM extends PDFBlockContainerLM
 		 */
 		ContainerArea pageRoot = new LogicContainerArea( report );
 		pageRoot.setClip( true );
+		pageRoot.setIsClippingContainer( true );
 		int rootLeft = getDimensionValue( pageContent.getMarginLeft( ),
 				pageWidth );
 		int rootTop = getDimensionValue( pageContent.getMarginTop( ), pageWidth );

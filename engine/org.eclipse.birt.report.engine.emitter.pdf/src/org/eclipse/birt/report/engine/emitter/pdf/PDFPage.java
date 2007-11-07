@@ -49,11 +49,10 @@ public class PDFPage extends AbstractPage
 	 */
 	private PdfWriter writer = null;
 
-
 	/**
 	 * ContentByte layer for pdf, cb covers cbUnder.
 	 */
-	private PdfContentByte contentByte, cbUnder = null;
+	private PdfContentByte contentByte = null;
 
 	private static Logger logger = Logger.getLogger( PDFPage.class.getName( ) );
 
@@ -78,7 +77,6 @@ public class PDFPage extends AbstractPage
 			else
 				document.newPage( );
 			this.contentByte = writer.getDirectContent( );
-			this.cbUnder = writer.getDirectContentUnder( );
 		}
 		catch ( DocumentException de )
 		{
@@ -93,20 +91,15 @@ public class PDFPage extends AbstractPage
 		contentByte.clip( );
 		contentByte.rectangle( startX, startY, width, height );
 		contentByte.newPath( );
-		cbUnder.clip( );
-		cbUnder.rectangle( startX, startY, width, height );
-		cbUnder.newPath( );
 	}
 
 	public void clipRestore( )
 	{
-		cbUnder.restoreState( );
 		contentByte.restoreState( );
 	}
 
 	public void clipSave( )
 	{
-		cbUnder.saveState( );
 		contentByte.saveState( );
 	}
 
@@ -122,11 +115,11 @@ public class PDFPage extends AbstractPage
 			return;
 		}
 		y = transformY( y, height );
-		cbUnder.saveState( );
-		cbUnder.setColorFill( color );
-		cbUnder.rectangle( x, y, width, height );
-		cbUnder.fill( );
-		cbUnder.restoreState( );
+		contentByte.saveState( );
+		contentByte.setColorFill( color );
+		contentByte.rectangle( x, y, width, height );
+		contentByte.fill( );
+		contentByte.restoreState( );
 	}
 
 	protected void drawBackgroundImage( float x, float y, float width,
@@ -134,7 +127,7 @@ public class PDFPage extends AbstractPage
 			float absPosY ) throws IOException
 	{
 		y = transformY( y );
-		cbUnder.saveState( );
+		contentByte.saveState( );
 		Image img = null;
 		try
 		{
@@ -152,11 +145,11 @@ public class PDFPage extends AbstractPage
 				float tplHeight = triple.getTplSize( );
 				float translationY = triple.getTranslation( );
 
-				PdfTemplate templateWhole = cbUnder.createTemplate( tplWidth,
+				PdfTemplate templateWhole = contentByte.createTemplate( tplWidth,
 						tplHeight );
 				templateWhole.addImage( img, img.scaledWidth( ), 0, 0, img
 						.scaledHeight( ), translationX, translationY );
-				cbUnder.addTemplate( templateWhole, tplOriginX, tplOrininY );
+				contentByte.addTemplate( templateWhole, tplOriginX, tplOrininY );
 
 			}
 			// "repeat-x":
@@ -171,14 +164,14 @@ public class PDFPage extends AbstractPage
 				{
 					if ( height - absPosY > img.scaledHeight( ) )
 					{
-						template = cbUnder.createTemplate( img.scaledWidth( ),
+						template = contentByte.createTemplate( img.scaledWidth( ),
 								img.scaledHeight( ) );
 						template.addImage( img, img.scaledWidth( ), 0, 0, img
 								.scaledHeight( ), 0, 0 );
 					}
 					else
 					{
-						template = cbUnder.createTemplate( img.scaledWidth( ),
+						template = contentByte.createTemplate( img.scaledWidth( ),
 								height );
 						template.addImage( img, img.scaledWidth( ), 0, 0, img
 								.scaledHeight( ), 0, -img.scaledHeight( )
@@ -192,22 +185,22 @@ public class PDFPage extends AbstractPage
 
 						if ( height - absPosY > img.scaledHeight( ) )
 						{
-							PdfTemplate templateX = cbUnder.createTemplate(
+							PdfTemplate templateX = contentByte.createTemplate(
 									remainX, img.scaledHeight( ) );
 							templateX.addImage( img, img.scaledWidth( ), 0, 0,
 									img.scaledHeight( ), 0, 0 );
-							cbUnder.addTemplate( templateX,
+							contentByte.addTemplate( templateX,
 									x + width - remainX, y - absPosY
 											- img.scaledHeight( ) );
 						}
 						else
 						{
-							PdfTemplate templateX = cbUnder.createTemplate(
+							PdfTemplate templateX = contentByte.createTemplate(
 									remainX, height );
 							templateX.addImage( img, img.scaledWidth( ), 0, 0,
 									img.scaledHeight( ), 0, -img.scaledHeight( )
 											+ height - absPosY );
-							cbUnder.addTemplate( templateX,
+							contentByte.addTemplate( templateX,
 									x + width - remainX, y - absPosY - height );
 						}
 						remainX = 0;
@@ -215,10 +208,10 @@ public class PDFPage extends AbstractPage
 					else
 					{
 						if ( height - absPosY > img.scaledHeight( ) )
-							cbUnder.addTemplate( template, x + width - remainX,
+							contentByte.addTemplate( template, x + width - remainX,
 									y - absPosY - img.scaledHeight( ) );
 						else
-							cbUnder.addTemplate( template, x + width - remainX,
+							contentByte.addTemplate( template, x + width - remainX,
 									y - absPosY - height );
 						remainX -= img.scaledWidth( );
 					}
@@ -234,7 +227,7 @@ public class PDFPage extends AbstractPage
 				PdfTemplate template = null;
 				if ( height > img.scaledHeight( ) )
 				{
-					template = cbUnder.createTemplate( width - absPosX > img
+					template = contentByte.createTemplate( width - absPosX > img
 							.scaledWidth( ) ? img.scaledWidth( ) : width
 							- absPosX, img.scaledHeight( ) );
 					template.addImage( img, img.scaledWidth( ), 0, 0, img
@@ -244,21 +237,21 @@ public class PDFPage extends AbstractPage
 				{
 					if ( remainY < img.scaledHeight( ) )
 					{
-						PdfTemplate templateY = cbUnder.createTemplate( width
+						PdfTemplate templateY = contentByte.createTemplate( width
 								- absPosX > img.scaledWidth( ) ? img
 								.scaledWidth( ) : width - absPosX, remainY );
 						templateY.addImage( img, width > img.scaledWidth( )
 								? img.scaledWidth( )
 								: width - absPosX, 0, 0, img.scaledHeight( ),
 								0, -( img.scaledHeight( ) - remainY ) );
-						cbUnder
+						contentByte
 								.addTemplate( templateY, x + absPosX, y
 										- height );
 						remainY = 0;
 					}
 					else
 					{
-						cbUnder.addTemplate( template, x + absPosX, y - height
+						contentByte.addTemplate( template, x + absPosX, y - height
 								+ remainY - img.scaledHeight( ) );
 						remainY -= img.scaledHeight( );
 					}
@@ -275,7 +268,7 @@ public class PDFPage extends AbstractPage
 				// necessary to build a template for futher usage.
 				if ( width > img.scaledWidth( ) && height > img.scaledHeight( ) )
 				{
-					template = cbUnder.createTemplate( img.scaledWidth( ), img
+					template = contentByte.createTemplate( img.scaledWidth( ), img
 							.scaledHeight( ) );
 					template.addImage( img, img.scaledWidth( ), 0, 0, img
 							.scaledHeight( ), 0, 0 );
@@ -292,26 +285,26 @@ public class PDFPage extends AbstractPage
 							// the right-bottom one
 							if ( remainX < img.scaledWidth( ) )
 							{
-								PdfTemplate templateXY = cbUnder
+								PdfTemplate templateXY = contentByte
 										.createTemplate( remainX, remainY );
 								templateXY.addImage( img, img.scaledWidth( ),
 										0, 0, img.scaledHeight( ), 0, -img
 												.scaledHeight( )
 												+ remainY );
-								cbUnder.addTemplate( templateXY, x + width
+								contentByte.addTemplate( templateXY, x + width
 										- remainX, y - height );
 								remainX = 0;
 							}
 							else
 							// non-right bottom line
 							{
-								PdfTemplate templateY = cbUnder.createTemplate(
+								PdfTemplate templateY = contentByte.createTemplate(
 										img.scaledWidth( ), remainY );
 								templateY.addImage( img, img.scaledWidth( ), 0,
 										0, img.scaledHeight( ), 0, -img
 												.scaledHeight( )
 												+ remainY );
-								cbUnder.addTemplate( templateY, x + width
+								contentByte.addTemplate( templateY, x + width
 										- remainX, y - height );
 								remainX -= img.scaledWidth( );
 							}
@@ -326,18 +319,18 @@ public class PDFPage extends AbstractPage
 							// the right ones
 							if ( remainX < img.scaledWidth( ) )
 							{
-								PdfTemplate templateX = cbUnder.createTemplate(
+								PdfTemplate templateX = contentByte.createTemplate(
 										remainX, img.scaledHeight( ) );
 								templateX.addImage( img, img.scaledWidth( ), 0,
 										0, img.scaledHeight( ), 0, 0 );
-								cbUnder.addTemplate( templateX, x + width
+								contentByte.addTemplate( templateX, x + width
 										- remainX, y - height + remainY
 										- img.scaledHeight( ) );
 								remainX = 0;
 							}
 							else
 							{
-								cbUnder.addTemplate( template, x + width
+								contentByte.addTemplate( template, x + width
 										- remainX, y - height + remainY
 										- img.scaledHeight( ) );
 								remainX -= img.scaledWidth( );
@@ -364,7 +357,7 @@ public class PDFPage extends AbstractPage
 		{
 			logger.log( Level.WARNING, re.getMessage( ), re );
 		}
-		cbUnder.restoreState( );
+		contentByte.restoreState( );
 	}
 
 	protected void drawImage( byte[] imageData, String extension, float imageX,

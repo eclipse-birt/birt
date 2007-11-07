@@ -27,6 +27,7 @@ public abstract class ContainerArea extends AbstractArea
 			IContainerArea
 {
 	protected boolean needClip;
+	protected boolean isClippingContainer;
 	
 	ContainerArea( IContent content )
 	{
@@ -47,6 +48,12 @@ public abstract class ContainerArea extends AbstractArea
 
 	public void addChild( IArea area )
 	{
+		if ( area.getX( ) < 0 || area.getX( ) + area.getWidth( ) > width
+				|| area.getY( ) < 0
+				|| area.getY( ) + area.getHeight( ) > height )
+		{
+			needClip = true;
+		}
 		children.add( area );
 	}
 
@@ -105,11 +112,16 @@ public abstract class ContainerArea extends AbstractArea
 
 	public boolean needClip( )
 	{
-		return needClip;
+		return isClippingContainer && needClip;
 	}
 	
-	public void setClip(boolean needClip)
+	public void setClip( boolean needClip )
 	{
 		this.needClip = needClip;
+	}
+
+	public void setIsClippingContainer( boolean isClippingContainer )
+	{
+		this.isClippingContainer = isClippingContainer;
 	}
 }

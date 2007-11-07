@@ -227,19 +227,20 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	 */
 	protected void endContainer( IContainerArea container )
 	{
+		currentX -= getX( container );
+		currentY -= getY( container );
 		if ( container instanceof PageArea )
 		{
 			pageGraphic.dispose( );
 		}
 		else
 		{
+			drawBorder( container );
 			if ( container.needClip( ) )
 			{
 				pageGraphic.clipRestore( );
 			}
 		}
-		currentX -= getX( container );
-		currentY -= getY( container );
 	}
 
 
@@ -385,12 +386,10 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		// content mapping, so it has no background/border etc.
 		if ( container.getContent( ) != null )
 		{
-			int layoutX = currentX + getX( container );
-			int layoutY = currentY + getY( container );
+			int startX = currentX + getX( container );
+			int startY = currentY + getY( container );
 			// the container's start position (the left top corner of the
 			// container)
-			int startX = layoutX;
-			int startY = layoutY;
 
 			// the dimension of the container
 			int width = getWidth( container );
@@ -405,7 +404,21 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			// Draws background image for the container. if the background
 			// image is NOT set, draw nothing.
 			drawBackgroundImage( style, startX, startY, width, height );
+		}
+	}
 
+	private void drawBorder( IContainerArea container )
+	{
+		// get the style of the container
+		IStyle style = container.getStyle( );
+		if ( null == style )
+		{
+			return;
+		}
+		if ( container.getContent( ) != null )
+		{
+			int startX = currentX + getX( container );
+			int startY = currentY + getY( container );
 			// the width of each border
 			int borderTopWidth = getScaledValue( style
 					.getProperty( StyleConstants.STYLE_BORDER_TOP_WIDTH ) );
@@ -434,42 +447,40 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				// Caches the border info
 				BorderInfo[] borders = new BorderInfo[4];
 				borders[BorderInfo.TOP_BORDER] = new BorderInfo(
-						layoutX + borderLeftWidth / 2,
-						layoutY + borderTopWidth / 2,
-						layoutX + getWidth( container ) - borderRightWidth / 2,
-						layoutY + borderTopWidth / 2,
+						startX + borderLeftWidth / 2,
+						startY + borderTopWidth / 2,
+						startX + getWidth( container ) - borderRightWidth / 2,
+						startY + borderTopWidth / 2,
 						borderTopWidth,
 						borderTopColor,
 						style
 								.getProperty( StyleConstants.STYLE_BORDER_TOP_STYLE ),
 						BorderInfo.TOP_BORDER );
 				borders[BorderInfo.RIGHT_BORDER] = new BorderInfo(
-						layoutX + getWidth( container ) - borderRightWidth / 2,
-						layoutY + borderTopWidth / 2,
-						layoutX + getWidth( container ) - borderRightWidth / 2,
-						layoutY + getHeight( container )- borderBottomWidth / 2,
+						startX + getWidth( container ) - borderRightWidth / 2,
+						startY + borderTopWidth / 2,
+						startX + getWidth( container ) - borderRightWidth / 2,
+						startY + getHeight( container ) - borderBottomWidth / 2,
 						borderRightWidth,
 						borderRightColor,
 						style
 								.getProperty( StyleConstants.STYLE_BORDER_RIGHT_STYLE ),
 						BorderInfo.RIGHT_BORDER );
 				borders[BorderInfo.BOTTOM_BORDER] = new BorderInfo(
-						layoutX + borderLeftWidth / 2,
-						layoutY + getHeight( container ) - borderBottomWidth
-								/ 2,
-						layoutX + getWidth( container ) - borderRightWidth / 2,
-						layoutY + getHeight( container ) - borderBottomWidth
-								/ 2,
+						startX + borderLeftWidth / 2,
+						startY + getHeight( container ) - borderBottomWidth / 2,
+						startX + getWidth( container ) - borderRightWidth / 2,
+						startY + getHeight( container ) - borderBottomWidth / 2,
 						borderBottomWidth,
 						borderBottomColor,
 						style
 								.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_STYLE ),
 						BorderInfo.BOTTOM_BORDER );
 				borders[BorderInfo.LEFT_BORDER] = new BorderInfo(
-						layoutX + borderLeftWidth / 2,
-						layoutY + borderTopWidth / 2,
-						layoutX + borderLeftWidth / 2,
-						layoutY + getHeight( container ) - borderBottomWidth / 2,
+						startX + borderLeftWidth / 2,
+						startY + borderTopWidth / 2,
+						startX + borderLeftWidth / 2,
+						startY + getHeight( container ) - borderBottomWidth / 2,
 						borderLeftWidth,
 						borderLeftColor,
 						style
