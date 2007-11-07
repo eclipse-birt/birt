@@ -17,7 +17,12 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.source.AnnotationModel;
+import org.eclipse.jface.text.source.CompositeRuler;
 import org.eclipse.jface.text.source.ISourceViewer;
+import org.eclipse.jface.text.source.IVerticalRuler;
+import org.eclipse.jface.text.source.IVerticalRulerColumn;
+import org.eclipse.jface.text.source.LineNumberRulerColumn;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
@@ -283,5 +288,50 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor
 	public JSSyntaxContext getContext( )
 	{
 		return context;
+	}
+
+	/**
+	 * Creates a new line number ruler column that is appropriately initialized.
+	 * @param annotationModel 
+	 * 
+	 * @return the created line number column
+	 */
+	private IVerticalRulerColumn createLineNumberRulerColumn( )
+	{
+		LineNumberRulerColumn column = new LineNumberRulerColumn( );
+
+		column.setForeground( JSSourceViewerConfiguration.getColorByCategory( PreferenceNames.P_LINENUMBER_COLOR ) );
+		return column;
+	}
+
+	/**
+	 * Creates a new line number ruler column that is appropriately initialized.
+	 * 
+	 * @return the created line number column
+	 */
+	private CompositeRuler createCompositeRuler( )
+	{
+		CompositeRuler ruler = new CompositeRuler( );
+
+		ruler.setModel( new AnnotationModel( ) );
+		return ruler;
+	}
+
+	/**
+	 * Creates the vertical ruler to be used by this editor.
+	 * 
+	 * @return the vertical ruler
+	 */
+	protected IVerticalRuler createVerticalRuler( )
+	{
+		IVerticalRuler ruler = createCompositeRuler( );
+
+		if ( ruler instanceof CompositeRuler )
+		{
+			CompositeRuler compositeRuler = (CompositeRuler) ruler;
+
+			compositeRuler.addDecorator( 0, createLineNumberRulerColumn( ) );
+		}
+		return ruler;
 	}
 }
