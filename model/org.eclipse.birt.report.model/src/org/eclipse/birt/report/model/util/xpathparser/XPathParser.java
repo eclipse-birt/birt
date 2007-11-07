@@ -102,7 +102,7 @@ public class XPathParser
 		{
 			parser_1.parse( );
 		}
-		catch ( ParseException e )
+		catch ( Throwable e )
 		{
 			return null;
 		}
