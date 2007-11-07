@@ -2,8 +2,8 @@ Index	Name	Alias	Label	Type	TypeName
 1:	intCol,	null,	intCol,	2,	Integer
 2:	bigintCol,	null,	bigintCol,	4,	Decimal
 3:	smallintCol,	null,	smallintCol,	2,	Integer
-4:	floatCol,	null,	floatCol,	3,	Double
-5:	realCol,	null,	realCol,	3,	Double
+4:	floatCol,	null,	floatCol,	3,	Float
+5:	realCol,	null,	realCol,	3,	Float
 6:	charCol,	null,	charCol,	5,	String
 7:	varcharCol,	null,	varcharCol,	5,	String
 8:	textCol,	null,	textCol,	5,	String

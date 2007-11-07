@@ -40,7 +40,7 @@ public abstract class DataType
 			"Any",
 			"Boolean",
 			"Integer",
-			"Double",
+			"Float",
 			"Decimal",
 			"String",
 			"DateTime",
