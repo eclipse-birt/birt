@@ -11,25 +11,51 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.data.api;
 
-import org.eclipse.birt.data.engine.core.DataException;
-
 /**
  * 
  */
 
-public interface IComputedMeasureHelper
+public class MeasureInfo
 {
-	/**
-	 * 
-	 * @return
-	 */
-	public MeasureInfo[] getAllComputedMeasureInfos( );
+	private String measureName;
+	private int dataType;
+
 	
-	/**
-	 * 
-	 * @return
-	 */
-	public Object[] computeMeasureValues( IMeasureMap measureMap ) throws DataException;
+	public MeasureInfo( )
+	{
+	}
+
+
+	public MeasureInfo( String measureName, int dataType)
+	{
+		this.dataType = dataType;
+		this.measureName = measureName;
+	}
+
+	
+	public String getMeasureName( )
+	{
+		return measureName;
+	}
+
+	
+	public void setMeasureName( String measureName )
+	{
+		this.measureName = measureName;
+	}
+
+	
+	public int getDataType( )
+	{
+		return dataType;
+	}
+
+	
+	public void setDataType( int dataType )
+	{
+		this.dataType = dataType;
+	}
+	
 	
 	
 }

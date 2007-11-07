@@ -13,6 +13,9 @@ package org.eclipse.birt.data.engine.olap.data.impl.facttable;
 
 import java.io.IOException;
 
+import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.olap.data.api.MeasureInfo;
+
 /**
  * 
  */
@@ -69,7 +72,8 @@ public interface IFactTableRowIterator
 	 * 
 	 * @return
 	 * @throws IOException
+	 * @throws DataException 
 	 */
-	public boolean next( ) throws IOException;
+	public boolean next( ) throws IOException, DataException;
 	
 }

@@ -44,8 +44,9 @@ import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.api.IComputedMeasureHelper;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
-import org.eclipse.birt.data.engine.olap.data.api.IMeasureList;
+import org.eclipse.birt.data.engine.olap.data.api.IMeasureMap;
 import org.eclipse.birt.data.engine.olap.data.api.ISelection;
+import org.eclipse.birt.data.engine.olap.data.api.MeasureInfo;
 import org.eclipse.birt.data.engine.olap.data.api.cube.CubeMaterializer;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IHierarchy;
@@ -332,14 +333,13 @@ public class CubeAggregationTest extends TestCase
 	{
 		//query
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
-				CubeQueryExecutorHelper.loadCube( "cube1", documentManager, new StopSign( ) ) );
+				CubeQueryExecutorHelper.loadCube( "cube1", documentManager, new StopSign( ) ), new ComputedMeasureHelper( ));
 		ISelection[][] filter = new ISelection[1][1];
 		filter[0][0] = SelectionFactory.createRangeSelection(  new Object[]{"1"},
 				 new Object[]{"3"},
 				true,
 				false );
 		cubeQueryExcutorHelper.addFilter( new LevelFilter(dimLevel21, filter[0]) );
-		cubeQueryExcutorHelper.setComputedMeasure( new ComputedMeasureHelper( ) );
 		
 		AggregationDefinition[] aggregations = new AggregationDefinition[4];
 		int[] sortType = new int[1];
@@ -1523,8 +1523,8 @@ class TestFactTable implements IDatasetIterator
 
 class ComputedMeasureHelper implements IComputedMeasureHelper
 {
-	private String[] measureNames = {"C_Measure1"};
-	public Object[] computeMeasureValues( IMeasureList measureList )
+	private MeasureInfo[] measureInfos = {new MeasureInfo("C_Measure1", DataType.INTEGER_TYPE)};
+	public Object[] computeMeasureValues( IMeasureMap measureList )
 	{
 		Object[] result = new Object[1];
 		Integer value = new Integer( ( (Integer) measureList.getMeasureValue( "measure1" ) ).intValue( ) + 1 );
@@ -1532,9 +1532,9 @@ class ComputedMeasureHelper implements IComputedMeasureHelper
 		return result;
 	}
 
-	public String[] getAllComputedMeasureNames( )
+	public MeasureInfo[] getAllComputedMeasureInfos( )
 	{
-		return measureNames;
+		return measureInfos;
 	}
 }
 

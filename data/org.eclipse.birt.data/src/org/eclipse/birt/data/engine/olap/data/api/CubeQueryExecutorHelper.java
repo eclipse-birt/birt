@@ -15,8 +15,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.FileArchiveReader;
@@ -25,6 +27,7 @@ import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
@@ -74,12 +77,27 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	 * 
 	 * @param cube
 	 */
-	public CubeQueryExecutorHelper( ICube cube )
+	public CubeQueryExecutorHelper( ICube cube ) throws DataException
 	{
+		this(cube, null);
+	}
+	
+	/**
+	 * 
+	 * @param cube
+	 */
+	public CubeQueryExecutorHelper( ICube cube, IComputedMeasureHelper computedMeasureHelper ) throws DataException
+	{
+		Object[] params = {cube, computedMeasureHelper};
 		logger.entering( CubeQueryExecutorHelper.class.getName( ),
 				"CubeQueryExecutorHelper",//$NON-NLS-1$
-				cube );
+				params );
 		this.cube = (Cube) cube;
+		this.computedMeasureHelper = computedMeasureHelper;
+		if (this.computedMeasureHelper != null) 
+		{
+			validateComputedMeasureNames();
+		}
 		this.simpleLevelFilters = new ArrayList( );
 		this.levelFilters = new ArrayList( );
 		this.aggrFilterHelpers = new ArrayList( );
@@ -205,14 +223,6 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		return pathName + File.separator + "cubequeryresult" +name;//$NON-NLS-1$
 	}
 	
-	/**
-	 * 
-	 * @param computedMeasureHelper
-	 */
-	public void setComputedMeasure( IComputedMeasureHelper computedMeasureHelper )
-	{
-		this.computedMeasureHelper = computedMeasureHelper;
-	}
 	
 	/**
 	 * 
@@ -570,5 +580,30 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	public void setBreakHierarchy( boolean isBreakHierarchy )
 	{
 		this.isBreakHierarchy = isBreakHierarchy;
+	}
+	
+	/**
+	 * 
+	 * @throws DataException
+	 */
+	private void validateComputedMeasureNames() throws DataException
+	{
+		Set existNames = new HashSet();
+		String[] measureNames = cube.getMeasureNames( );
+		for (int i=0; i<measureNames.length; i++)
+		{
+			existNames.add( measureNames[i] );
+		}
+		MeasureInfo[] mis = computedMeasureHelper.getAllComputedMeasureInfos( );
+		for (int i=0; i<mis.length; i++) 
+		{
+			String name = mis[i].getMeasureName( );
+			if (existNames.contains( name ))
+			{
+				throw new DataException(ResourceConstants.DUPLICATE_MEASURE_NAME, name);
+			}
+			existNames.add( name );
+		}
+		
 	}
 }

@@ -18,15 +18,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.data.api.IComputedMeasureHelper;
-import org.eclipse.birt.data.engine.olap.data.api.IMeasureList;
+import org.eclipse.birt.data.engine.olap.data.api.IMeasureMap;
+import org.eclipse.birt.data.engine.olap.data.api.MeasureInfo;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentObjectUtil;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentObject;
 import org.eclipse.birt.data.engine.olap.data.impl.NamingUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.Traversalor;
 import org.eclipse.birt.data.engine.olap.data.util.Bytes;
-import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 
 /**
@@ -36,8 +38,8 @@ import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 public class FactTableRowIterator implements IFactTableRowIterator
 {
 	private FactTable factTable;
-	private MeasureInfo[] measureInfo;
 	private MeasureInfo[] computedMeasureInfo;
+	private MeasureInfo[] allMeasureInfo;	//include measures and computed measures
 	
 	private IDiskArray[] selectedPos;
 	private int[] dimensionIndex;
@@ -46,10 +48,9 @@ public class FactTableRowIterator implements IFactTableRowIterator
 
 	private IDocumentObject currentSegment;
 	private int[] currentPos;
-	private Object[] currentMeasures;
-	private MeasureList measureList;
-	private Object[] computedMeasureNames;
-	private Object[] currentComputedMeasures;
+	private Object[] currentMeasureValues;		//current values for measures
+	private MeasureMap currentMeasureMap;	//<name, value> map for current measures
+	private Object[] currentComputedMeasureValues;	//current values for computed measures
 
 	private Traversalor traversalor;
 	private StopSign stopSign;
@@ -60,7 +61,6 @@ public class FactTableRowIterator implements IFactTableRowIterator
 
 	private static Logger logger = Logger.getLogger( FactTableRowIterator.class.getName( ) );
 
-	private boolean isFirtRow;
 	/**
 	 * 
 	 * @param factTable
@@ -92,7 +92,6 @@ public class FactTableRowIterator implements IFactTableRowIterator
 				"FactTableRowIterator",
 				params );
 		this.factTable = factTable;
-		this.measureInfo = factTable.getMeasureInfo( );
 		this.selectedPos = dimensionPos;
 		this.selectedSubDim = new List[factTable.getDimensionInfo( ).length];
 		this.selectedPosOfCurSegment = new int[factTable.getDimensionInfo( ).length][];
@@ -116,15 +115,15 @@ public class FactTableRowIterator implements IFactTableRowIterator
 		}
 		filterSubDimension( );
 		this.currentPos = new int[factTable.getDimensionInfo( ).length];
-		this.currentMeasures = new Object[factTable.getMeasureInfo( ).length];
-		this.measureList = new MeasureList( this.measureInfo );
+		this.currentMeasureValues = new Object[factTable.getMeasureInfo( ).length];
+		this.currentMeasureMap = new MeasureMap( this.factTable.getMeasureInfo( ) );
 		if ( this.computedMeasureHelper != null )
 		{
-			computedMeasureNames = this.computedMeasureHelper.getAllComputedMeasureNames( );
+			computedMeasureInfo = this.computedMeasureHelper.getAllComputedMeasureInfos( );
 		}
+		computeAllMeasureInfo();
 
 		nextSegment( );
-		isFirtRow = true;
 		logger.exiting( FactTableRowIterator.class.getName( ),
 				"FactTableRowIterator" );
 	}
@@ -190,7 +189,7 @@ public class FactTableRowIterator implements IFactTableRowIterator
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator#next()
 	 */
-	public boolean next( ) throws IOException
+	public boolean next( ) throws IOException, DataException
 	{
 		while ( !stopSign.isStopped( ) )
 		{
@@ -206,21 +205,21 @@ public class FactTableRowIterator implements IFactTableRowIterator
 						.calculateDimensionPosition( getSubDimensionIndex( ),
 								combinedDimensionPosition.bytesValue( ) );
 				 
-				for ( int i = 0; i < this.currentMeasures.length; i++ )
+				for ( int i = 0; i < this.currentMeasureValues.length; i++ )
 				{
-					currentMeasures[i] = DocumentObjectUtil.readValue( currentSegment,
-							measureInfo[i].dataType );
+					currentMeasureValues[i] = DocumentObjectUtil.readValue( currentSegment,
+							factTable.getMeasureInfo()[i].getDataType( ) );
 				}
+				currentMeasureMap.setMeasureValue( currentMeasureValues );
 				if ( computedMeasureHelper != null )
 				{
-					measureList.setMeasureValue( currentMeasures );
-					currentComputedMeasures = computedMeasureHelper.computeMeasureValues( measureList );
-					if( isFirtRow )
+					try
 					{
-						if( computedMeasureInfo == null )
-							produceComputedMeasureInfo( );
-						else
-							setComputedMeasureDataType( );
+						currentComputedMeasureValues = computedMeasureHelper.computeMeasureValues( currentMeasureMap );
+					}
+					catch ( DataException e )
+					{
+						throw new DataException(ResourceConstants.FAIL_COMPUTE_COMPUTED_MEASURE_VALUE, e);
 					}
 				}
 				if ( !isSelectedRow( ) )
@@ -229,7 +228,6 @@ public class FactTableRowIterator implements IFactTableRowIterator
 				}
 				else
 				{
-					isFirtRow = false;
 					return true;
 				}
 			}
@@ -339,12 +337,15 @@ public class FactTableRowIterator implements IFactTableRowIterator
 	public int getMeasureIndex( String measureName )
 	{
 		int reValue = factTable.getMeasureIndex( measureName );
-		if( reValue < 0 && computedMeasureNames != null )
+		if( reValue < 0 && computedMeasureInfo != null )
 		{
-			for ( int i = 0; i < computedMeasureNames.length; i++ )
+			for ( int i = 0; i < computedMeasureInfo.length; i++ )
 			{
-				if( measureName.equals( computedMeasureNames[i] ) )
-					reValue = i + measureInfo.length;
+				if( measureName.equals( computedMeasureInfo[i].getMeasureName( ) ) )
+				{
+					reValue = i + factTable.getMeasureInfo( ).length;
+					break;
+				}
 			}
 		}
 		return reValue;
@@ -365,13 +366,13 @@ public class FactTableRowIterator implements IFactTableRowIterator
 	 */
 	public int getMeasureCount( )
 	{
-		if( computedMeasureNames != null )
+		if( computedMeasureInfo != null )
 		{
-			return currentMeasures.length + computedMeasureNames.length;
+			return factTable.getMeasureInfo( ).length + computedMeasureInfo.length;
 		}
 		else
 		{
-			return currentMeasures.length;
+			return factTable.getMeasureInfo( ).length;
 		}
 	}
 	
@@ -381,16 +382,16 @@ public class FactTableRowIterator implements IFactTableRowIterator
 	 */
 	public Object getMeasure( int measureIndex )
 	{
-		if ( measureIndex < currentMeasures.length )
+		if ( measureIndex < currentMeasureValues.length )
 		{
-			return currentMeasures[measureIndex];
+			return currentMeasureValues[measureIndex];
 		}
 		else
 		{
-			if ( ( measureIndex - currentMeasures.length ) < currentComputedMeasures.length )
+			if ( currentComputedMeasureValues != null 
+					&& ( measureIndex - currentMeasureValues.length ) < currentComputedMeasureValues.length )
 			{
-				return currentComputedMeasures[measureIndex -
-						currentMeasures.length];
+				return currentComputedMeasureValues[measureIndex - currentMeasureValues.length];
 			}
 			else
 			{
@@ -405,63 +406,27 @@ public class FactTableRowIterator implements IFactTableRowIterator
 	 */
 	public MeasureInfo[] getMeasureInfo( )
 	{
-		if( computedMeasureInfo == null )
-			produceComputedMeasureInfo( );
-		return computedMeasureInfo;
+		return allMeasureInfo;
 	}
 	
 	/**
 	 * 
 	 */
-	private void produceComputedMeasureInfo( )
+	private void computeAllMeasureInfo() 
 	{
-		if ( computedMeasureHelper != null )
+		int len = factTable.getMeasureInfo( ).length;
+		if (computedMeasureInfo != null)
 		{
-			computedMeasureInfo = new MeasureInfo[measureInfo.length +
-					computedMeasureHelper.getAllComputedMeasureNames( ).length];
-			System.arraycopy( measureInfo,
-					0,
-					computedMeasureInfo,
-					0,
-					measureInfo.length );
-			for ( int i = measureInfo.length; i < computedMeasureInfo.length; i++ )
-			{
-				computedMeasureInfo[i] = new MeasureInfo( );
-				computedMeasureInfo[i].measureName = computedMeasureHelper.getAllComputedMeasureNames( )[i-measureInfo.length];
-				if ( currentComputedMeasures != null &&
-						currentComputedMeasures[i - measureInfo.length] != null )
-				{
-					computedMeasureInfo[i].dataType = 
-						DataType.getDataType( currentComputedMeasures[i-measureInfo.length].getClass( ) );
-				}
-				else
-				{
-					computedMeasureInfo[i].dataType = DataType.UNKNOWN_TYPE;
-				}
-			}
+			len = len + computedMeasureInfo.length;
 		}
-		else
+		allMeasureInfo = new MeasureInfo[len];
+		System.arraycopy( factTable.getMeasureInfo( ), 0, allMeasureInfo, 0, factTable.getMeasureInfo( ).length );
+		if (computedMeasureInfo != null)
 		{
-			computedMeasureInfo = measureInfo;
+			System.arraycopy( computedMeasureInfo, 0, allMeasureInfo, factTable.getMeasureInfo( ).length, computedMeasureInfo.length );
 		}
 	}
 	
-	/**
-	 * 
-	 */
-	private void setComputedMeasureDataType( )
-	{
-		for ( int i = measureInfo.length; i < computedMeasureInfo.length; i++ )
-		{
-			if ( currentComputedMeasures != null &&
-					currentComputedMeasures[i - measureInfo.length] != null &&
-					computedMeasureInfo[i].dataType == DataType.UNKNOWN_TYPE )
-			{
-				computedMeasureInfo[i].dataType = 
-					DataType.getDataType( currentComputedMeasures[i-measureInfo.length].getClass( ) );
-			}
-		}
-	}
 }
 
 class SelectedSubDimension
@@ -471,26 +436,26 @@ class SelectedSubDimension
 	int end;
 }
 
-class MeasureList implements IMeasureList
+class MeasureMap implements IMeasureMap
 {
-	private MeasureInfo[] measureInfo = null;
-	private Object[] measureValue = null;
+	private MeasureInfo[] measureInfos = null;
+	private Object[] measureValues = null;
 	/**
 	 * 
 	 * @param measureInfo
 	 */
-	MeasureList( MeasureInfo[] measureInfo )
+	MeasureMap( MeasureInfo[] measureInfo )
 	{
-		this.measureInfo = measureInfo;
+		this.measureInfos = measureInfo;
 	}
 	
 	/**
 	 * 
-	 * @param measureValue
+	 * @param measureValues
 	 */
-	void setMeasureValue( Object[] measureValue )
+	void setMeasureValue( Object[] measureValues )
 	{
-		this.measureValue = measureValue;
+		this.measureValues = measureValues;
 	}
 	
 	/*
@@ -499,11 +464,11 @@ class MeasureList implements IMeasureList
 	 */
 	public Object getMeasureValue( String measureName )
 	{
-		for ( int i = 0; i < measureInfo.length; i++ )
+		for ( int i = 0; i < measureInfos.length; i++ )
 		{
-			if ( measureInfo[i].measureName.equals( measureName ) )
+			if ( measureInfos[i].getMeasureName().equals( measureName ) )
 			{
-				return measureValue[i];
+				return measureValues[i];
 			}
 		}
 		return null;

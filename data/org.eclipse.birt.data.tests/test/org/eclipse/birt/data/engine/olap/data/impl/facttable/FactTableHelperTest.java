@@ -281,10 +281,10 @@ public class FactTableHelperTest extends TestCase
 		assertEquals(factTable.getDimensionInfo( )[1].dimensionLength, 7 );
 		assertEquals(factTable.getDimensionInfo( )[2].dimensionName, "dimension3" );
 		assertEquals(factTable.getDimensionInfo( )[2].dimensionLength, 14 );
-		assertEquals(factTable.getMeasureInfo( )[0].measureName, "measure1" );
-		assertEquals( factTable.getMeasureInfo( )[0].dataType, DataType.INTEGER_TYPE );
-		assertEquals(factTable.getMeasureInfo( )[1].measureName, "measure2" );
-		assertEquals( factTable.getMeasureInfo( )[1].dataType, DataType.DOUBLE_TYPE );
+		assertEquals(factTable.getMeasureInfo( )[0].getMeasureName(), "measure1" );
+		assertEquals( factTable.getMeasureInfo( )[0].getDataType(), DataType.INTEGER_TYPE );
+		assertEquals(factTable.getMeasureInfo( )[1].getMeasureName(), "measure2" );
+		assertEquals( factTable.getMeasureInfo( )[1].getDataType(), DataType.DOUBLE_TYPE );
 		String[] dimensionNames = new String[1];
 		dimensionNames[0] = "dimension2";
 		IDiskArray[] dimensionPosition = new IDiskArray[1];
@@ -392,10 +392,10 @@ public class FactTableHelperTest extends TestCase
 		assertEquals(factTable.getDimensionInfo( )[1].dimensionLength, 7 );
 		assertEquals(factTable.getDimensionInfo( )[2].dimensionName, "dimension3" );
 		assertEquals(factTable.getDimensionInfo( )[2].dimensionLength, 14 );
-		assertEquals(factTable.getMeasureInfo( )[0].measureName, "measure1" );
-		assertEquals( factTable.getMeasureInfo( )[0].dataType, DataType.INTEGER_TYPE );
-		assertEquals(factTable.getMeasureInfo( )[1].measureName, "measure2" );
-		assertEquals( factTable.getMeasureInfo( )[1].dataType, DataType.DOUBLE_TYPE );
+		assertEquals(factTable.getMeasureInfo( )[0].getMeasureName(), "measure1" );
+		assertEquals( factTable.getMeasureInfo( )[0].getDataType(), DataType.INTEGER_TYPE );
+		assertEquals(factTable.getMeasureInfo( )[1].getMeasureName(), "measure2" );
+		assertEquals( factTable.getMeasureInfo( )[1].getDataType(), DataType.DOUBLE_TYPE );
 		String[] dimensionNames = new String[3];
 		dimensionNames[0] = "dimension1";
 		dimensionNames[1] = "dimension2";
@@ -533,10 +533,10 @@ public class FactTableHelperTest extends TestCase
 		assertEquals(factTable.getDimensionInfo( )[2].dimensionName, "dimension3" );
 		assertEquals(factTable.getDimensionInfo( )[2].dimensionLength,
 				BigLevelsAndFactTableDataset.dimensionPositionLength[2] );
-		assertEquals(factTable.getMeasureInfo( )[0].measureName, "measure1" );
-		assertEquals( factTable.getMeasureInfo( )[0].dataType, DataType.INTEGER_TYPE );
-		assertEquals(factTable.getMeasureInfo( )[1].measureName, "measure2" );
-		assertEquals( factTable.getMeasureInfo( )[1].dataType, DataType.DOUBLE_TYPE );
+		assertEquals(factTable.getMeasureInfo( )[0].getMeasureName(), "measure1" );
+		assertEquals( factTable.getMeasureInfo( )[0].getDataType(), DataType.INTEGER_TYPE );
+		assertEquals(factTable.getMeasureInfo( )[1].getMeasureName(), "measure2" );
+		assertEquals( factTable.getMeasureInfo( )[1].getDataType(), DataType.DOUBLE_TYPE );
 		String[] dimensionNames = new String[3];
 		dimensionNames[0] = "dimension1";
 		dimensionNames[1] = "dimension2";

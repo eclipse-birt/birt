@@ -13,7 +13,9 @@ package org.eclipse.birt.data.engine.olap.data.impl.facttable;
 
 import java.io.IOException;
 
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.StopSign;
+import org.eclipse.birt.data.engine.olap.data.api.MeasureInfo;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionResultIterator;
@@ -124,7 +126,7 @@ public class FactTableRowIteratorWithFilter implements IFactTableRowIterator
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator#next()
 	 */
-	public boolean next( ) throws IOException
+	public boolean next( ) throws IOException, DataException
 	{
 		boolean hasNext = facttableRowIterator.next( );
 		while( hasNext )

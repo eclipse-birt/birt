@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.olap.data.impl.facttable;
 
 import java.util.logging.Logger;
 
+import org.eclipse.birt.data.engine.olap.data.api.MeasureInfo;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 
 /**
@@ -111,7 +112,7 @@ public class FactTable
 		String[] measureNames = new String[measureInfo.length];
 		for ( int i = 0; i < measureNames.length; i++ )
 		{
-			measureNames[i] = measureInfo[i].measureName;
+			measureNames[i] = measureInfo[i].getMeasureName();
 		}
 		return measureNames;
 	}
@@ -173,7 +174,7 @@ public class FactTable
 	{
 		for ( int i = 0; i < measureInfo.length; i++ )
 		{
-			if(measureInfo[i].measureName.equals( measureName ))
+			if(measureInfo[i].getMeasureName().equals( measureName ))
 			{
 				return i;
 			}

@@ -40,5 +40,5 @@ public interface ICube
 	 * 
 	 * @return
 	 */
-	public String[] getAllMeasureNames( );
+	public String[] getMeasureNames( );
 }

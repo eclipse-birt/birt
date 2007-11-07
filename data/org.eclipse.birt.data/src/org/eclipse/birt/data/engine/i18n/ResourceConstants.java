@@ -344,6 +344,8 @@ public class ResourceConstants
 	public final static String AXIS_LEVEL_CANNOT_BE_NULL = "data.olap.axis.level.CantBeNull";
 	public final static String AXIS_VALUE_CANNOT_BE_NULL = "data.olap.axis.value.CantBeNull";
 	public final static String CONFIG_EDGE_FETCH_LIMIT_WARNING = "data.olap.fetchlimitWarning";
+	public final static String FAIL_COMPUTE_COMPUTED_MEASURE_VALUE = "data.olap.failComputeComputedMeasureValue";
+	public final static String DUPLICATE_MEASURE_NAME = "data.olap.duplicateMeasureName";
 	
 	public final static String CONFIG_FILE_PARSER_MODE_FAIL = "data.executor.configFileParser.getModeByID";
 	public final static String CONFIG_FILE_PARSER_TIMESTAMP_FORMAT_FAIL = "data.executor.configFileParser.getTSFormatByID";

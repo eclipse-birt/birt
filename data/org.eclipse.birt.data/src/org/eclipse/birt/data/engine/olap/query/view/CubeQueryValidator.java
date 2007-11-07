@@ -72,7 +72,7 @@ class CubeQueryValidator
 		{
 			findMeasure = false;
 			String measureName = calculatedMember[i].getMeasureName( );
-			String[] names = cube.getAllMeasureNames( );
+			String[] names = cube.getMeasureNames( );
 			if ( names != null && names.length > 0 )
 			{
 				for ( int k = 0; k < names.length; k++ )

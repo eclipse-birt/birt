@@ -25,6 +25,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
+import org.eclipse.birt.data.engine.olap.data.api.MeasureInfo;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDatasetIterator;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentObjectCache;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentObjectUtil;
@@ -142,7 +143,7 @@ public class FactTableAccessor
 			for( int i=0;i<measureInfo.length;i++)
 			{
 				DocumentObjectUtil.writeValue( documentObject,
-						measureInfo[i].dataType,
+						measureInfo[i].getDataType(),
 						currentRow.getMeasures()[i] );
 			}
 			popObject = sortedFactTableRows.pop( );
@@ -306,9 +307,7 @@ public class FactTableAccessor
 		MeasureInfo[] measureInfo = new MeasureInfo[measureColumnName.length];
 		for ( int i = 0; i < measureColumnName.length; i++ )
 		{
-			measureInfo[i] = new MeasureInfo( );
-			measureInfo[i].measureName = measureColumnName[i];
-			measureInfo[i].dataType = iterator.getFieldType( measureColumnName[i] );
+			measureInfo[i] = new MeasureInfo(measureColumnName[i], iterator.getFieldType( measureColumnName[i] ));
 		}
 		return measureInfo;
 	}
@@ -339,8 +338,8 @@ public class FactTableAccessor
 		documentObject.writeInt( measureInfo.length );
 		for ( int i = 0; i < measureInfo.length; i++ )
 		{
-			documentObject.writeString( measureInfo[i].measureName );
-			documentObject.writeInt( measureInfo[i].dataType );
+			documentObject.writeString( measureInfo[i].getMeasureName() );
+			documentObject.writeInt( measureInfo[i].getDataType());
 		}
 		// write segment count
 		documentObject.writeInt( segmentNumber );
@@ -494,9 +493,7 @@ public class FactTableAccessor
 		MeasureInfo[] measureInfo = new MeasureInfo[documentObject.readInt( )];
 		for ( int i = 0; i < measureInfo.length; i++ )
 		{
-			measureInfo[i] = new MeasureInfo( );
-			measureInfo[i].measureName = documentObject.readString( );
-			measureInfo[i].dataType = documentObject.readInt( );
+			measureInfo[i] = new MeasureInfo(documentObject.readString( ), documentObject.readInt( ));
 		}
 		segmentNumber = documentObject.readInt( );
 		

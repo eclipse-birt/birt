@@ -20,13 +20,13 @@ import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
+import org.eclipse.birt.data.engine.olap.data.api.MeasureInfo;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.Constants;
 import org.eclipse.birt.data.engine.olap.data.impl.DimColumn;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 import org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator;
-import org.eclipse.birt.data.engine.olap.data.impl.facttable.MeasureInfo;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.util.filter.IFacttableRow;
@@ -326,7 +326,7 @@ class FacttableRow implements IFacttableRow
 	{
 		for ( int i = 0; i < measureInfo.length; i++ )
 		{
-			if(measureInfo[i].measureName.equals( measureName ))
+			if(measureInfo[i].getMeasureName().equals( measureName ))
 			{
 				return measureValues[i];
 			}
