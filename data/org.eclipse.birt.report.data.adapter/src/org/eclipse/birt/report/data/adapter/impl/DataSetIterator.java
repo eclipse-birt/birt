@@ -596,7 +596,10 @@ public class DataSetIterator implements IDatasetIterator
 		{
 			return this.metadata.getNullValueReplacer( fieldIndex );
 		} 
-		
+		if( byte[].class.equals( value.getClass( ) ) )
+		{
+			return value;
+		}
 		return DataTypeUtil.convert( this.metadata.getDataProcessor( fieldIndex )
 				.process( value ),
 				value.getClass( ) );

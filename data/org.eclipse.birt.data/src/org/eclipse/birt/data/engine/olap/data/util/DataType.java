@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.olap.data.util;
 
 import java.math.BigDecimal;
+import java.sql.Blob;
 import java.util.Date;
 
 /**
@@ -28,6 +29,7 @@ public class DataType
 	public static final int STRING_TYPE = org.eclipse.birt.core.data.DataType.STRING_TYPE;
 	public static final int DATE_TYPE = org.eclipse.birt.core.data.DataType.DATE_TYPE;
 	public static final int BIGDECIMAL_TYPE = org.eclipse.birt.core.data.DataType.DECIMAL_TYPE;
+	public static final int BLOB_TYPE = org.eclipse.birt.core.data.DataType.BLOB_TYPE;
 	public static final int BYTES_TYPE = 102;
 	public static final int SQL_DATE_TYPE = org.eclipse.birt.core.data.DataType.SQL_DATE_TYPE;
 	public static final int SQL_TIME_TYPE = org.eclipse.birt.core.data.DataType.SQL_TIME_TYPE;
@@ -40,6 +42,7 @@ public class DataType
 			"String",
 			"DateTime",
 			"Decimal",
+			"Blob",
 			"Bytes",
 			"Date",
 			"Time"
@@ -52,6 +55,7 @@ public class DataType
 			STRING_TYPE,
 			DATE_TYPE,
 			BIGDECIMAL_TYPE,
+			BLOB_TYPE,
 			BYTES_TYPE,
 			SQL_DATE_TYPE,
 			SQL_TIME_TYPE
@@ -63,9 +67,10 @@ public class DataType
 	public static final String STRING_TYPE_NAME = names[3];
 	public static final String DATE_TYPE_NAME = names[4];
 	public static final String BIGDECIMAL_TYPE_NAME = names[5];
-	public static final String BYTES_TYPE_NAME = names[6];
-	public static final String SQL_DATE_TYPE_NAME = names[7];
-	public static final String SQL_TIME_TYPE_NAMW = names[8];
+	public static final String BLOB_TYPE_NAME = names[6];
+	public static final String BYTES_TYPE_NAME = names[7];
+	public static final String SQL_DATE_TYPE_NAME = names[8];
+	public static final String SQL_TIME_TYPE_NAMW = names[9];
 
 	private static final Class[] classes = {
 			Boolean.class,
@@ -74,6 +79,7 @@ public class DataType
 			String.class,
 			Date.class,
 			BigDecimal.class,
+			Blob.class,
 			Bytes.class,
 			java.sql.Date.class,
 			java.sql.Time.class,
@@ -132,6 +138,8 @@ public class DataType
 	 */
 	public static int getDataType( Class objClass )
 	{
+		if( objClass.equals( byte[].class ))
+			return typeCodes[6];
 		for ( int i = 0; i < classes.length; i++ )
 		{
 			if ( classes[i].equals( objClass ) )

@@ -40,6 +40,8 @@ public class IOUtil
 				return new StringRandomWriter( );
 			case DataType.DATE_TYPE :
 				return new DateRandomWriter( );
+			case DataType.BLOB_TYPE :
+				return new BlobRandomWriter( );
 			case DataType.BIGDECIMAL_TYPE :
 				return new BigDecimalRandomWriter( );
 			case DataType.SQL_DATE_TYPE :
@@ -67,6 +69,8 @@ public class IOUtil
 				return new StringRandomReader( );
 			case DataType.DATE_TYPE :
 				return new DateTimeRandomReader( );
+			case DataType.BLOB_TYPE :
+				return new BlobRandomReader( );
 			case DataType.BIGDECIMAL_TYPE :
 				return new BigDecimalRandomReader( );
 			case DataType.SQL_DATE_TYPE :
@@ -88,6 +92,24 @@ class IntegerRandomWriter implements IObjectWriter
 		try
 		{
 			file.writeInt( ( (Integer) obj ).intValue( ) );
+		}
+		catch( ClassCastException ce )
+		{
+			file.writeInt( Integer.MAX_VALUE );
+		}
+	}
+}
+
+class BlobRandomWriter implements IObjectWriter
+{
+
+	public void write( BufferedRandomAccessFile file, Object obj )
+			throws IOException
+	{
+		try
+		{
+			byte[] bytesValue = (byte[]) obj;
+			file.writeBytes( new Bytes( bytesValue ) );
 		}
 		catch( ClassCastException ce )
 		{
@@ -210,6 +232,15 @@ class IntegerRandomReader implements IObjectReader
 	public Object read( BufferedRandomAccessFile file ) throws IOException
 	{
 		return new Integer( file.readInt( ) );
+	}
+}
+
+class BlobRandomReader implements IObjectReader
+{
+
+	public Object read( BufferedRandomAccessFile file ) throws IOException
+	{
+		return file.readBytes( ).bytesValue( );
 	}
 }
 
