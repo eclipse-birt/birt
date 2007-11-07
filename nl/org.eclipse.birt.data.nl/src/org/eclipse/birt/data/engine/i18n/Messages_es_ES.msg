@@ -330,6 +330,8 @@ data.olap.InvalidDimensionPositionFacttableRow=El valor clave de dimensión"{0}" 
 data.olap.measureNameNotFound=No se ha encontrado el nombre de medida "{0}".
 data.olap.levelNameNotFound=No se ha encontrado el nombre de nivel "{0}".
 data.olap.dimensionNameNotFound=No se ha encontrado el nombre de dimensión "{0}".
+data.olap.ReferencedDimensionNotFound=Referenced dimension definition:{0} does not exist.
+data.olap.ReferencedLevelNotFound=Referenced level does not exist.
 data.olap.cursorPositionError=El cursor no puede navegar a la posición objetivo.
 data.olap.cursorSeekError=El cursor no puede navegar a la posición de búsqueda.
 data.olap.CannotGetMeasureValue=No se puede encontrar la definición "{0}" de medida en el cubo, la medida no existe o no es válida.
@@ -346,6 +348,8 @@ data.olap.invalidAggrArgument=Sólo el atributo de nivel puede servir como argume
 data.olap.axis.level.CantBeNull=El nivel de los elementos de la columna no puede ser nulo.
 data.olap.axis.value.CantBeNull=El valor de los elementos de la columna del nivel \"{0}\" no puede ser nulo.
 data.olap.fetchlimitWarning=El tamaño de recuperación es {0}, menor que la longitud de todo el conjunto de resultados[{1}].
+data.olap.failComputeComputedMeasureValue=Fail to compute values for computed measure.
+data.olap.duplicateMeasureName=Duplicate measure name \"{0}\".
 
 data.cache.UnsupportedIncrementalCacheMode=El modo \"{0}\" de caché de incremento no se admite aún.
 # Configuration file parser error code

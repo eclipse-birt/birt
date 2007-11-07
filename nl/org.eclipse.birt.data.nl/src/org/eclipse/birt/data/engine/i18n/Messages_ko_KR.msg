@@ -330,6 +330,8 @@ data.olap.InvalidDimensionPositionFacttableRow=차원 키 값 "{0}"이(가) 차원 "{1}"
 data.olap.measureNameNotFound=측정값 이름 "{0}"을(를) 찾을 수 없습니다.
 data.olap.levelNameNotFound=수준 이름 "{0}"을(를) 찾을 수 없습니다.
 data.olap.dimensionNameNotFound=차원 이름 "{0}"을(를) 찾을 수 없습니다.
+data.olap.ReferencedDimensionNotFound=Referenced dimension definition:{0} does not exist.
+data.olap.ReferencedLevelNotFound=Referenced level does not exist.
 data.olap.cursorPositionError=커서가 대상 위치로 이동하지 못합니다.
 data.olap.cursorSeekError=커서가 검색 위치로 이동하지 못합니다.
 data.olap.CannotGetMeasureValue=측정 "{0}"의 정의를 큐브에서 찾을 수 없습니다. 이 측정이 없거나 유효하지 않습니다.
@@ -346,6 +348,8 @@ data.olap.invalidAggrArgument=수준 특성만 집계 인수로 사용될 수 있습니다.
 data.olap.axis.level.CantBeNull=열 구성원의 수준은 널(null)이 될 수 없습니다!
 data.olap.axis.value.CantBeNull=수준 \"{0}\"의 열 구성원 값은 널(null)이 될 수 없습니다!
 data.olap.fetchlimitWarning=반입 크기는 {0}(으)로, 전체 결과 집합 [{1}]의 길이보다 작습니다.
+data.olap.failComputeComputedMeasureValue=Fail to compute values for computed measure.
+data.olap.duplicateMeasureName=Duplicate measure name \"{0}\".
 
 data.cache.UnsupportedIncrementalCacheMode=증가 캐시의 \"{0}\" 모드는 아직 지원되지 않습니다.
 # Configuration file parser error code

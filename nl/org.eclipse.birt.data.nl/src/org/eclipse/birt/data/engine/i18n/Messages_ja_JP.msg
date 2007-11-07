@@ -330,6 +330,8 @@ data.olap.InvalidDimensionPositionFacttableRow=ŸŒ³‚ÌƒL[’l "{0}" ‚ªŸŒ³ "{1}" ‚
 data.olap.measureNameNotFound=Œv‘ª–¼ "{0}" ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
 data.olap.levelNameNotFound=ƒŒƒxƒ‹–¼ "{0}" ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
 data.olap.dimensionNameNotFound=ŸŒ³–¼ "{0}" ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
+data.olap.ReferencedDimensionNotFound=Referenced dimension definition:{0} does not exist.
+data.olap.ReferencedLevelNotFound=Referenced level does not exist.
 data.olap.cursorPositionError=ƒJ[ƒ\ƒ‹‚Å‚Í–Ú“I‚ÌˆÊ’u‚ÉƒiƒrƒQ[ƒg‚Å‚«‚Ü‚¹‚ñB
 data.olap.cursorSeekError=ƒJ[ƒ\ƒ‹‚Å‚ÍQÆ‚ÌˆÊ’u‚ÉƒiƒrƒQ[ƒg‚Å‚«‚Ü‚¹‚ñB
 data.olap.CannotGetMeasureValue=ƒLƒ…[ƒu‚ÉŒv‘ª "{0}" ‚Ì’è‹`‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB‚±‚ÌŒv‘ª‚Í‘¶İ‚µ‚È‚¢‚©A–³Œø‚Å‚·B
@@ -346,6 +348,8 @@ data.olap.invalidAggrArgument=WŒvˆø”‚Éw’è‚Å‚«‚é‚Ì‚ÍƒŒƒxƒ‹‚Ì‘®«‚¾‚¯‚Å‚·B
 data.olap.axis.level.CantBeNull=—ñƒƒ“ƒo‚ÌƒŒƒxƒ‹‚Í null ‚É‚Å‚«‚Ü‚¹‚ñB
 data.olap.axis.value.CantBeNull=—ñƒƒ“ƒo‚ÌƒŒƒxƒ‹ \"{0}\" ‚Ì’l‚Í null ‚É‚Å‚«‚Ü‚¹‚ñB
 data.olap.fetchlimitWarning=Œ‹‰ÊƒZƒbƒg‚Ì‘S‘Ì‚ÌƒTƒCƒY‚Í [{1}] ‚Å‚·‚ªA{0} ‚µ‚©ƒtƒFƒbƒ`‚³‚ê‚Ü‚¹‚ñ‚Å‚µ‚½B
+data.olap.failComputeComputedMeasureValue=Fail to compute values for computed measure.
+data.olap.duplicateMeasureName=Duplicate measure name \"{0}\".
 
 data.cache.UnsupportedIncrementalCacheMode=‘•ªƒLƒƒƒbƒVƒ…‚Ì \"{0}\" ƒ‚[ƒh‚Í‚Ü‚¾ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
 # Configuration file parser error code

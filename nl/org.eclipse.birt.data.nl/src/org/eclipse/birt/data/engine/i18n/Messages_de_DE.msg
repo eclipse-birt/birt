@@ -330,6 +330,8 @@ data.olap.InvalidDimensionPositionFacttableRow=Der Schlüsselwert der Dimension '
 data.olap.measureNameNotFound=Der Einheitsname "{0}" wurde nicht gefunden.
 data.olap.levelNameNotFound=Der Ebenenname "{0}" wurde nicht gefunden.
 data.olap.dimensionNameNotFound=Der Dimensionsname "{0}" wurde nicht gefunden.
+data.olap.ReferencedDimensionNotFound=Referenced dimension definition:{0} does not exist.
+data.olap.ReferencedLevelNotFound=Referenced level does not exist.
 data.olap.cursorPositionError=Der Cursor kann nicht zur Zielposition navigieren.
 data.olap.cursorSeekError=Der Cursor kann nicht zur Wunschposition navigieren.
 data.olap.CannotGetMeasureValue=Definition der Maßeinheit "{0}" in Quader nicht gefunden. Die Maßeinheit existiert nicht oder ist ungültig.
@@ -346,6 +348,8 @@ data.olap.invalidAggrArgument=Nur ein Ebenenattribut kann als Aggregat-Argument 
 data.olap.axis.level.CantBeNull=Mitgliedsebene der Spalte darf nicht Null sein.
 data.olap.axis.value.CantBeNull=Wert von Mitgliedsebene \"{0}\" der Spalte darf nicht Null sein.
 data.olap.fetchlimitWarning=Die Anzahl der abzurufenden Datensätze beträgt {0} und ist somit geringer als die Länge des gesamten Ergebnissatzes[{1}].
+data.olap.failComputeComputedMeasureValue=Fail to compute values for computed measure.
+data.olap.duplicateMeasureName=Duplicate measure name \"{0}\".
 
 data.cache.UnsupportedIncrementalCacheMode=Der \"{0}\"-Modus der inkrementellen Zwischenspeicherung wird noch nicht unterstützt!
 # Configuration file parser error code

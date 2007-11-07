@@ -330,6 +330,8 @@ data.olap.InvalidDimensionPositionFacttableRow=La valeur de la clé de dimension 
 data.olap.measureNameNotFound=Le nom de mesure "{0}" est introuvable.
 data.olap.levelNameNotFound=Le nom de niveau "{0}" est introuvable.
 data.olap.dimensionNameNotFound=Le nom de dimension "{0}" est introuvable.
+data.olap.ReferencedDimensionNotFound=Referenced dimension definition:{0} does not exist.
+data.olap.ReferencedLevelNotFound=Referenced level does not exist.
 data.olap.cursorPositionError=Impossible de placer le curseur en position cible.
 data.olap.cursorSeekError=Impossible de placer le curseur en position de recherche.
 data.olap.CannotGetMeasureValue=Impossible de trouver la définition de mesure "{0}" dans le cube, la mesure n''existe pas ou est incorrecte.
@@ -346,6 +348,8 @@ data.olap.invalidAggrArgument=Seul l'attribut de niveau peut servir d'argument d
 data.olap.axis.level.CantBeNull=Le niveau de membre de colonne ne peut pas être nul.
 data.olap.axis.value.CantBeNull=La valeur de membre de colonne du niveau \"{0}\" ne peut pas être nulle.
 data.olap.fetchlimitWarning=La taille d''extraction est {0}, elle est donc inférieure à la longueur totale du jeu de résultats[{1}].
+data.olap.failComputeComputedMeasureValue=Fail to compute values for computed measure.
+data.olap.duplicateMeasureName=Duplicate measure name \"{0}\".
 
 data.cache.UnsupportedIncrementalCacheMode=Le mode \"{0}\" de cache incrémentiel n''est pas encore pris en charge !
 # Configuration file parser error code
