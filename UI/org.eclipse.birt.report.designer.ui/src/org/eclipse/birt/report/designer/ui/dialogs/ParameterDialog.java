@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -46,6 +47,7 @@ import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
@@ -1073,21 +1075,41 @@ public class ParameterDialog extends BaseDialog
 			dataSetList.add( 0, inputParameter.getDataSetName( ) );
 		}
 
-		if ( oldList.length != dataSetList.size( ) )
+		if ( oldList.length != dataSetList.size( ) ) // it means new data set is created.
 		{
+			String newName = findNewDataSet(Arrays.asList( oldList ),dataSetList);
+			if(newName != null)
+			{
+				selectedDataSetName = newName;
+			}
+			
 			dataSetChooser.setItems( (String[]) dataSetList.toArray( new String[]{} ) );
 			if ( StringUtil.isBlank( selectedDataSetName ) )
 			{
 				dataSetChooser.select( 0 );
 				refreshColumns( false );
 			}
-			else
+			else if(selectedDataSetName != null && dataSetChooser.indexOf( selectedDataSetName ) != -1)
 			{
-				dataSetChooser.setText( selectedDataSetName );
+				dataSetChooser.select( dataSetChooser.indexOf( selectedDataSetName ) );
+				refreshColumns( false );
 			}
 		}
 	}
 
+
+	private String findNewDataSet( List existingDataSets, List newDataSets )
+	{
+		for ( int i = 0; i < newDataSets.size( ); i++ )
+		{
+			if ( !existingDataSets.contains( newDataSets.get( i ) ) )
+			{
+				return (String) newDataSets.get( i );
+			}
+		}
+		return null;
+	}
+	
 	private DataSetHandle getDataSetHandle( )
 	{
 		return inputParameter.getModuleHandle( )
