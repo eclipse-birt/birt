@@ -131,10 +131,13 @@ public class ReportRunner
 		}
 		try
 		{
+			// Process command line arguments
+			parseOptions( );
+			
 			// startup the platform
 			if ( engine == null )
 			{
-				EngineConfig config = new EngineConfig( );
+				EngineConfig config = createEngineConfig( );
 				Platform.startup( config );
 				IReportEngineFactory factory = (IReportEngineFactory) Platform
 						.createFactoryObject( IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY );
@@ -146,8 +149,6 @@ public class ReportRunner
 				engine.changeLogLevel( Level.WARNING );
 			}
 
-			// Process command line arguments
-			parseOptions( );
 			if ( "Run".equalsIgnoreCase( mode ) )
 			{
 				return runReport( );
@@ -357,35 +358,46 @@ public class ReportRunner
 		System.out.println( "\t --htmlType/-t < HTML | ReportletNoCSS >" ); //$NON-NLS-1$
 		System.out.println( "\t --locale /-l<locale>" ); //$NON-NLS-1$
 		System.out.println( "\t --parameter/-p <\"parameterName=parameterValue\">" ); //$NON-NLS-1$
-		System.out.println( "\t --file/-F <parameter file>" ); //$NON-NLS-1$
+		System.out.println( "\t --config/-c <\"configName=configValue\">" );
+		System.out.println( "\t --renderOption/-r <\"optionName=optionValue\">" );
+		System.out.println( "\t --file/-F <file>" ); //$NON-NLS-1$
 		System.out.println( "\t --encoding/-e <target encoding>" ); //$NON-NLS-1$
 
 		System.out.println( "\nLocale: default is english\n" ); //$NON-NLS-1$
 		System.out
-				.println( "\nparameters in command line will overide parameters in parameter file" ); //$NON-NLS-1$
+				.println( "\nparameters/configs/renderOptions in command line will overide those in file" ); //$NON-NLS-1$
 		System.out
-				.println( "\nparameter name can't include characters such as ' ', '=', ':' " ); //$NON-NLS-1$
+				.println( "\nparameter/config/renderOption name can't include characters such as ' ', '=', ':' " ); //$NON-NLS-1$
 
 		System.out.println( "For RUN mode:" );
 		System.out.println( "\t we should add it in the end<design file>" ); //$NON-NLS-1$
 		System.out.println( "\t --output/-o <target file>" ); //$NON-NLS-1$
 		System.out.println( "\t --locale /-l<locale>" ); //$NON-NLS-1$
 		System.out.println( "\t --parameter/-p <parameterName=parameterValue>" ); //$NON-NLS-1$
-		System.out.println( "\t --file/-F <parameter file>" ); //$NON-NLS-1$
+		System.out.println( "\t --config/-c <\"configName=configValue\">" );
+		System.out.println( "\t --renderOption/-r <\"optionName=optionValue\">" );
+		System.out.println( "\t --file/-F <file>" ); //$NON-NLS-1$
 
 		System.out.println( "\nLocale: default is english\n" ); //$NON-NLS-1$
 		System.out
-				.println( "\nparameters in command line will overide parameters in parameter file" ); //$NON-NLS-1$
+				.println( "\nparameters/configs/renderOptions in command line will overide those in file" ); //$NON-NLS-1$
 		System.out
-				.println( "\nparameter name can't include characters such as ' ', '=', ':' " ); //$NON-NLS-1$
+				.println( "\nparameter/config/renderOption name can't include characters such as ' ', '=', ':' " ); //$NON-NLS-1$
 
 		System.out.println( "For RENDER mode:" );
 		System.out.println( "\t we should add it in the end<design file>" ); //$NON-NLS-1$
 		System.out.println( "\t --output/-o <target file>" ); //$NON-NLS-1$
 		System.out.println( "\\t --page/-p <pageNumber>" );
+		System.out.println( "\t --config/-c <\"configName=configValue\">" );
+		System.out.println( "\t --renderOption/-r <\"optionName=optionValue\">" );
+		System.out.println( "\t --file/-F <file>" ); //$NON-NLS-1$
 		System.out.println( "\t --locale /-l<locale>" ); //$NON-NLS-1$
 
 		System.out.println( "\nLocale: default is english\n" ); //$NON-NLS-1$
+		System.out
+				.println( "\nconfigs/renderOptions in command line will overide those in file" ); //$NON-NLS-1$
+		System.out
+				.println( "\nconfig/renderOption name can't include characters such as ' ', '=', ':' " ); //$NON-NLS-1$
 
 	}
 
@@ -415,45 +427,81 @@ public class ReportRunner
 
 	protected void parseRunOptions( ) throws Exception
 	{
+		assert ( mode.equalsIgnoreCase( "Run" ) );
+		
+		// targetFile
+		if ( params.get( "output") != null)
+		{
+			targetFile = (String)params.get( "output" );
+		}
 		if ( results.hasOption( 'o' ) )
 		{
 			targetFile = results.getOptionValue( 'o' );
 		}
-
-		parseParameterOptions( );
-
 	}
 
 	protected void parseRenderOptions( ) throws Exception
 	{
 		assert ( mode.equalsIgnoreCase( "Render" ) );
-
+		
+		// format
+		if ( params.get( "format" ) != null )
+		{
+			format = (String)params.get( "format" );
+		}
 		if ( results.hasOption( 'f' ) )
 		{
 			format = results.getOptionValue( 'f' );
 		}
-
+		
+		// htmlType
+		if ( params.get( "htmlType" ) != null )
+		{
+			htmlType = (String)params.get( "htmlType" );
+		}
 		if ( results.hasOption( 't' ) )
 		{
 			htmlType = results.getOptionValue( 't' );
 		}
-
+		
+		// targetFile
+		if ( params.get( "output" ) != null )
+		{
+			targetFile = (String)params.get( "output" );
+		}
 		if ( results.hasOption( 'o' ) )
 		{
 			targetFile = results.getOptionValue( 'o' );
 		}
-
+		
+		// locale
+		if ( params.get( "locale" ) != null )
+		{
+			locale = (String)params.get( "locale" );
+		}
 		if ( results.hasOption( 'l' ) )
 		{
 			locale = results.getOptionValue( 'l' );
+		}
+		
+		// encoding
+		if ( params.get( "encoding" ) != null)
+		{
+			encoding = (String)params.get( "encoding" );
 		}
 		if ( results.hasOption( 'e' ) )
 		{
 			encoding = results.getOptionValue( 'e' );
 		}
+		
+		// pageNumber
+		String paramPageNumber = (String)params.get( "page" );
 		if ( results.hasOption( 'p' ) )
 		{
-			String paramPageNumber = results.getOptionValue( 'p' );
+			paramPageNumber = results.getOptionValue( 'p' );
+		}
+		if (paramPageNumber != null)
+		{
 			try
 			{
 				pageNumber = Long.parseLong( paramPageNumber );
@@ -464,38 +512,61 @@ public class ReportRunner
 						"Can not parse parameter(page number) \"" + paramPageNumber + "\"" ); //$NON-NLS-1$
 			}
 		}
-		parseParameterOptions( );
-
 	}
 
 	protected void parseRunAndRenderOptions( ) throws Exception
 	{
 		assert ( mode.equalsIgnoreCase( "RunAndRender" ) );
 
+		// format
+		if ( params.get( "format" ) != null )
+		{
+			format = (String)params.get( "format" );
+		}
 		if ( results.hasOption( 'f' ) )
 		{
 			format = results.getOptionValue( 'f' );
 		}
-
+		
+		// htmlType
+		if ( params.get( "htmlType" ) != null )
+		{
+			htmlType = (String)params.get( "htmlType" );
+		}
 		if ( results.hasOption( 't' ) )
 		{
 			htmlType = results.getOptionValue( 't' );
 		}
-
+		
+		// targetFile
+		if ( params.get( "output" ) != null )
+		{
+			targetFile = (String)params.get( "output" );
+		}
 		if ( results.hasOption( 'o' ) )
 		{
 			targetFile = results.getOptionValue( 'o' );
 		}
-
+		
+		// locale
+		if ( params.get( "locale" ) != null )
+		{
+			locale = (String)params.get( "locale" );
+		}
 		if ( results.hasOption( 'l' ) )
 		{
 			locale = results.getOptionValue( 'l' );
+		}
+		
+		// encoding
+		if ( params.get( "encoding" ) != null)
+		{
+			encoding = (String)params.get( "encoding" );
 		}
 		if ( results.hasOption( 'e' ) )
 		{
 			encoding = results.getOptionValue( 'e' );
 		}
-		parseParameterOptions( );
 	}
 
 	/**
@@ -528,9 +599,20 @@ public class ReportRunner
 			option.addOption( "e", "encoding", true, "" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			option.addOption( "p", "parameter", true, "" );
 			option.addOption( "p", "page", true, "" );
-			option.addOption( "F", "file", true, "parameter file" );
+			// CHANGE: change file's desc since --file is used for config,parameter and renderoption
+			option.addOption( "F", "file", true, "" );
+			option.addOption( "c", "config", true, "");
+			option.addOption( "r", "renderOption", true, "" );
 
 			results = new BasicParser( ).parse( option, args, true );
+			
+			if (results.hasOption( 'F' ))
+			{
+				String fileName = results.getOptionValue( 'F' );
+				readConfigurationFile( fileName, params );
+			}
+			parseConfigurationOptions( );
+
 			if ( results.hasOption( 'm' ) )
 			{
 				mode = results.getOptionValue( 'm' );
@@ -587,32 +669,36 @@ public class ReportRunner
 	}
 
 	/**
-	 * paraser the paramter command line inputs.
+	 * paraser the config/paramter/renderoption command line inputs.
 	 * 
 	 * @return the HashMap contains all the paramter name and values.
 	 */
-	protected void parseParameterOptions( )
+	protected void parseConfigurationOptions( )
 	{
-		if ( results.hasOption( 'F' ) )
+		// FIXME: maybe it's better to make options as a ReportRunner's final member?
+		char[] options = {'c', 'r', 'p'};
+		for (int optIndex = 0; optIndex < options.length; optIndex++)
 		{
-			String fileName = results.getOptionValue( 'F' );
-			readParamFile( fileName, params );
-		}
-		if ( results.hasOption( 'p' ) )
-		{
-			String[] stringParams = results.getOptionValues( 'p' );
-
-			if ( stringParams != null )
+			char currentOption = options[optIndex];
+			if ( results.hasOption( currentOption ) )
 			{
-				for ( int i = 0; i < stringParams.length; i++ )
+				String[] stringParams = results.getOptionValues( currentOption );
+
+				if ( stringParams != null )
 				{
-					readParamString( stringParams[i], params );
-				}
+					for ( int i = 0; i < stringParams.length; i++ )
+					{
+						readParamString( stringParams[i], params );
+					}
+				}				
 			}
 		}
 	}
 
-	protected void readParamFile( String fileName, HashMap params )
+	/**
+	 * read Config-Parameter-Render file
+	 */
+	protected void readConfigurationFile( String fileName, HashMap params )
 	{
 		File file = new File( fileName );
 		Properties ps = new Properties( );
@@ -756,5 +842,71 @@ public class ReportRunner
 				file.getParentFile( ).mkdir( );
 			}
 		}
+	}
+	
+	/**
+	 * new a EngineConfig and config it with user's setting
+	 * 
+	 */
+	protected EngineConfig createEngineConfig( )
+	{
+		EngineConfig config = new EngineConfig( );
+
+		String resourcePath = (String) params.get( "resourceDir" );
+		if ( resourcePath != null )
+			config.setResourcePath( resourcePath.trim( ) );
+
+		String tempDir = (String) params.get( "tempDir" );
+		if ( tempDir != null )
+			config.setTempDir( tempDir.trim() );
+
+		String logDir = (String) params.get( "logDir" );
+		String logLevel = (String) params.get( "logLevel" );
+		Level level = null;
+		if ( logLevel != null )
+		{
+			logLevel = logLevel.trim( );
+			if ( "all".equalsIgnoreCase( logLevel ) )
+			{
+				level = Level.ALL;
+			}
+			else if ( "config".equalsIgnoreCase( logLevel ) )
+			{
+				level = Level.CONFIG;
+			}
+			else if ( "fine".equalsIgnoreCase( logLevel ) )
+			{
+				level = Level.FINE;
+			}
+			else if ( "finer".equalsIgnoreCase( logLevel ) )
+			{
+				level = Level.FINER;
+			}
+			else if ( "finest".equalsIgnoreCase( logLevel ) )
+			{
+				level = Level.FINEST;
+			}
+			else if ( "info".equalsIgnoreCase( logLevel ) )
+			{
+				level = Level.INFO;
+			}
+			else if ( "off".equalsIgnoreCase( logLevel ) )
+			{
+				level = Level.OFF;
+			}
+			else if ( "severe".equalsIgnoreCase( logLevel ) )
+			{
+				level = Level.SEVERE;
+			}
+			else if ( "warning".equalsIgnoreCase( logLevel ) )
+			{
+				level = Level.WARNING;
+			}
+		}
+		String logD = ( logDir == null ) ? config.getLogDirectory( ) : logDir;
+		Level logL = ( level == null ) ? config.getLogLevel( ) : level;
+		config.setLogConfig( logD, logL );
+		
+		return config;
 	}
 }
