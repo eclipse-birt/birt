@@ -228,7 +228,7 @@ public class AddElementtoReport extends Action
 
 		if ( result )
 		{
-			viewer.reveal( this.target );
+			viewer.reveal( target );
 		}
 
 		return result;
