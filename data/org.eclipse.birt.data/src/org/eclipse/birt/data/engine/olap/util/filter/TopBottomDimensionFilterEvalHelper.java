@@ -21,6 +21,7 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
+import org.eclipse.birt.data.engine.olap.util.IJSObjectPopulator;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
@@ -138,8 +139,7 @@ public class TopBottomDimensionFilterEvalHelper
 	 */
 	public Object evaluateFilterExpr( IResultRow resultRow ) throws DataException
 	{
-		this.dimObj.setResultRow( resultRow );
-		this.dataObj.setResultRow( resultRow );
+		super.setResultRow( resultRow );
 		Context cx = Context.enter( );
 		try
 		{
@@ -150,7 +150,7 @@ public class TopBottomDimensionFilterEvalHelper
 					0 );
 			return result;
 		}
-		catch ( InMatchDimensionIndicator e )
+		catch ( IJSObjectPopulator.InMatchDimensionIndicator e )
 		{
 			throw new DataException( e.getMessage( ));
 		}

@@ -18,6 +18,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
+import org.eclipse.birt.data.engine.olap.util.IJSObjectPopulator;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -58,8 +59,8 @@ BaseDimensionFilterEvalHelper implements IJSDimensionFilterHelper
 			throws DataException
 	{
 
-		this.dimObj.setResultRow( resultRow );
-		this.dataObj.setResultRow( resultRow );
+		super.setResultRow( resultRow );
+		
 		Context cx = Context.enter( );
 		try
 		{
@@ -78,7 +79,7 @@ BaseDimensionFilterEvalHelper implements IJSDimensionFilterHelper
 			Object result = ScriptEvalUtil.evalExpr( expr, cx, scope, null, 0 );
 			return DataTypeUtil.toBoolean( result ).booleanValue( );
 		}
-		catch ( InMatchDimensionIndicator e )
+		catch ( IJSObjectPopulator.InMatchDimensionIndicator e )
 		{
 			return true;
 		}

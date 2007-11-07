@@ -130,12 +130,21 @@ public class OlapExpressionUtil
 	public static DimLevel getTargetDimLevel( String expr ) throws DataException
 	{
 		final String[] target = getTargetLevel( expr );
-		if ( target == null || target.length != 2 )
+		if ( target == null || target.length < 2 )
 		{
 			throw new DataException( ResourceConstants.LEVEL_NAME_NOT_FOUND,
 					expr );
 		}
-		return new DimLevel( target[0], target[1] );
+		switch ( target.length )
+		{
+			case 2 :
+				return new DimLevel( target[0], target[1] );
+			case 3 :
+				return new DimLevel( target[0], target[1], target[2] );
+			default :
+				throw new DataException( ResourceConstants.LEVEL_NAME_NOT_FOUND,
+						expr );
+		}
 	}
 
 	/**
@@ -388,5 +397,20 @@ public class OlapExpressionUtil
 			return this.filterExpression;
 		}
 
+	}
+
+	/**
+	 * 
+	 * @param expr
+	 * @return
+	 */
+	public static boolean isComplexDimensionExpr( String expr )
+	{
+		if ( expr == null )
+			return false;
+		if ( expr.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E\\S+?" )
+				|| expr.matches( "\\S+?\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) )
+			return true;
+		return false;
 	}
 }

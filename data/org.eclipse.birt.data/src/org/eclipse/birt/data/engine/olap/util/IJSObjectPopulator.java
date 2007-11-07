@@ -1,0 +1,362 @@
+/*******************************************************************************
+ * Copyright (c) 2004, 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.data.engine.olap.util;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
+import org.eclipse.birt.data.engine.olap.util.filter.IResultRow;
+import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
+
+/**
+ * 
+ */
+
+public interface IJSObjectPopulator
+{
+
+	/**
+	 * @throws DataException
+	 * 
+	 */
+	public void doInit( ) throws DataException;
+
+	/**
+	 * 
+	 * @param resultRow
+	 */
+	public void setResultRow( IResultRow resultRow );
+
+	/**
+	 * clean up the registered Javascript objects from the scope.
+	 */
+	public void cleanUp( );
+
+	/**
+	 * Dummy Java Script Object, used to access "dimension".
+	 * 
+	 */
+	class DummyJSDimensionAccessor extends ScriptableObject
+	{
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 6340543910367862168L;
+		//
+		private String dimensionName;
+		private DummyJSDimensionObject dimObj;
+
+		/**
+		 * Constructor
+		 * 
+		 * @param name
+		 * @param dimObj
+		 */
+		public DummyJSDimensionAccessor( String name,
+				DummyJSDimensionObject dimObj )
+		{
+			assert name != null;
+			assert dimObj != null;
+
+			this.dimensionName = name;
+			this.dimObj = dimObj;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.mozilla.javascript.ScriptableObject#getClassName()
+		 */
+		public String getClassName( )
+		{
+			return "DummyJSDimensionAccessor";//$NON-NLS-1$
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String,
+		 *      org.mozilla.javascript.Scriptable)
+		 */
+		public Object get( String value, Scriptable scope )
+		{
+			if ( !this.dimensionName.equals( value ) )
+				throw new InMatchDimensionIndicator( );
+			else
+				return this.dimObj;
+		}
+	}
+
+	/**
+	 * A middle layer to access levels in an expression.
+	 * 
+	 */
+	class DummyJSDimensionObject extends ScriptableObject
+	{
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -5318363452556444748L;
+		//
+		private DummyJSLevels levels;
+		private List levelNames;
+
+		/**
+		 * 
+		 * @param levels
+		 * @param levelNames
+		 */
+		public DummyJSDimensionObject( DummyJSLevels levels, List levelNames )
+		{
+			this.levels = levels;
+			this.levelNames = levelNames;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.mozilla.javascript.ScriptableObject#getClassName()
+		 */
+		public String getClassName( )
+		{
+			return "DummyJSDimensionObject";//$NON-NLS-1$
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String,
+		 *      org.mozilla.javascript.Scriptable)
+		 */
+		public Object get( String value, Scriptable scope )
+		{
+			if ( this.levelNames.contains( value ) )
+			{
+				this.levels.setCurrentKey( value );
+				return this.levels;
+			}
+			else
+				throw new RuntimeException( "Invalid level Name:" + value );//$NON-NLS-1$
+		}
+	}
+
+	/**
+	 * 
+	 * @author Administrator
+	 * 
+	 */
+	class DummyJSLevels extends ScriptableObject
+	{
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 2025085361323969740L;
+		//
+		private IResultRow resultRow;
+		private String key;
+		private String dimName;
+
+		public DummyJSLevels( String dimName )
+		{
+			this.dimName = dimName;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.mozilla.javascript.ScriptableObject#getClassName()
+		 */
+		public String getClassName( )
+		{
+			return "DummyJSLevels";//$NON-NLS-1$
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.mozilla.javascript.ScriptableObject#getDefaultValue(java.lang.Class)
+		 */
+		public Object getDefaultValue( Class hint )
+		{
+			try
+			{
+				return resultRow.getFieldValue( CubeQueryExecutorHelper.getAttrReference( this.dimName,
+						this.key,
+						this.key ) );
+			}
+			catch ( DataException e )
+			{
+				return null;
+			}
+
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String,
+		 *      org.mozilla.javascript.Scriptable)
+		 */
+		public Object get( String value, Scriptable scope )
+		{
+			try
+			{
+				return resultRow.getFieldValue( CubeQueryExecutorHelper.getAttrReference( this.dimName,
+						this.key,
+						value ) );
+			}
+			catch ( DataException e )
+			{
+				return null;
+			}
+		}
+
+		/**
+		 * Set the current proceeding level key name.
+		 * 
+		 * @param key
+		 */
+		public void setCurrentKey( String key )
+		{
+			this.key = key;
+		}
+
+		/**
+		 * 
+		 * @param result
+		 */
+		public void setResultRow( IResultRow result )
+		{
+			this.resultRow = result;
+		}
+	}
+
+	class InMatchDimensionIndicator extends RuntimeException
+	{
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1231475871896514362L;
+	}
+
+	/**
+	 * Wrapper for "data" script object.
+	 * 
+	 */
+	class DummyJSDataAccessor extends ScriptableObject
+	{
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1151785733090446202L;
+		private Map bindingMap;
+		private Scriptable scope;
+
+		public DummyJSDataAccessor( List bindings, Scriptable scope )
+				throws DataException
+		{
+			this.bindingMap = new HashMap( );
+			for ( int i = 0; i < bindings.size( ); i++ )
+			{
+				this.bindingMap.put( ( (IBinding) bindings.get( i ) ).getBindingName( ),
+						bindings.get( i ) );
+			}
+			this.scope = scope;
+		}
+
+		public Object get( String aggrName, Scriptable scope )
+		{
+			try
+			{
+				Context cx = Context.enter( );
+				if ( !this.bindingMap.containsKey( aggrName ) )
+					return null;
+				return ScriptEvalUtil.evalExpr( ( (IBinding) this.bindingMap.get( aggrName ) ).getExpression( ),
+						cx,
+						this.scope,
+						null,
+						0 );
+			}
+			catch ( DataException e )
+			{
+				return null;
+			}
+			finally
+			{
+				Context.exit( );
+			}
+
+		}
+
+		public String getClassName( )
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+	}
+
+	class DummyJSAggregationAccessor extends ScriptableObject
+	{
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -7910516821739958908L;
+		private IResultRow resultRow;
+
+		public DummyJSAggregationAccessor( )
+		{
+
+		}
+
+		public Object get( String aggrName, Scriptable scope )
+		{
+			if ( this.resultRow != null )
+			{
+				try
+				{
+					return this.resultRow.getAggrValue( aggrName );
+				}
+				catch ( DataException e )
+				{
+					return null;
+				}
+			}
+			else
+				return null;
+		}
+
+		public void setResultRow( IResultRow row )
+		{
+			this.resultRow = row;
+		}
+
+		public String getClassName( )
+		{
+			return "DummyJSAggregationAccessor";//$NON-NLS-1$
+		}
+
+	}
+
+}
