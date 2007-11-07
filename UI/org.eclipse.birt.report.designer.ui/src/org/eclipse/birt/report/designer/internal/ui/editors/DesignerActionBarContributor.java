@@ -135,7 +135,7 @@ public class DesignerActionBarContributor extends
 			new RegisterActions( SplitAction.ID,
 					Messages.getString( "DesignerActionBarContributor.element.split" ) ), //$NON-NLS-1$
 			new RegisterActions( CopyCellContentsContextAction.ID,
-					"CopyContentsAction" ), //$NON-NLS-1$
+					Messages.getString( "CopyCellContentsContextAction.actionText" ) ), //$NON-NLS-1$
 			null,
 			new RegisterActions( CreatePlaceHolderPartAction.ID,
 					Messages.getString( "CreatePlaceHolderAction.text" ) ),

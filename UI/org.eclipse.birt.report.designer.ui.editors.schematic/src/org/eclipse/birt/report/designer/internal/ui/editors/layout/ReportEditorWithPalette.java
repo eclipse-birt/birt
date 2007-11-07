@@ -25,6 +25,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.ModelEve
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.ChangeDataColumnPartAction;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CopyCellContentsContextAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CopyPartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CreatePlaceHolderPartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CutPartAction;
@@ -128,7 +129,7 @@ abstract public class ReportEditorWithPalette extends
 	//private CommandStack commandStack;
 
 	private ModuleHandle model;
-	
+
 	private ModelEventManager manager = createModelEventManager( );
 
 	private FileReportProvider provider;
@@ -150,19 +151,19 @@ abstract public class ReportEditorWithPalette extends
 	{
 		this( );
 	}
-	
+
 	/**
 	 * @return
 	 */
-	protected ModelEventManager createModelEventManager()
+	protected ModelEventManager createModelEventManager( )
 	{
-		return new ModelEventManager();
+		return new ModelEventManager( );
 	}
-	
+
 	/**
 	 * @return
 	 */
-	protected ModelEventManager getModelEventManager()
+	protected ModelEventManager getModelEventManager( )
 	{
 		return manager;
 	}
@@ -272,11 +273,11 @@ abstract public class ReportEditorWithPalette extends
 		action = new InsertGroupMenuAction( this );
 		getActionRegistry( ).registerAction( action );
 		getSelectionActions( ).add( action.getId( ) );
-		
+
 		action = new ChangeDataColumnPartAction( this );
 		getActionRegistry( ).registerAction( action );
 		getSelectionActions( ).add( action.getId( ) );
-		
+
 		// add create place holder actions
 		action = new CreatePlaceHolderPartAction( this );
 		getActionRegistry( ).registerAction( action );
@@ -326,7 +327,7 @@ abstract public class ReportEditorWithPalette extends
 		action = new EditStyleMenuAction( this );
 		getActionRegistry( ).registerAction( action );
 		getSelectionActions( ).add( action.getId( ) );
-		
+
 		// Add menu update action -- delete style
 		action = new DeleteStyleMenuAction( this );
 		getActionRegistry( ).registerAction( action );
@@ -389,20 +390,17 @@ abstract public class ReportEditorWithPalette extends
 		getSelectionActions( ).add( action.getId( ) );
 		addEditPartAction( (SelectionAction) action );
 
-		action = new NewParameterAction(
-				NewParameterAction.INSERT_SCALAR_PARAMETER,
+		action = new NewParameterAction( NewParameterAction.INSERT_SCALAR_PARAMETER,
 				ReportDesignConstants.SCALAR_PARAMETER_ELEMENT );
 		getActionRegistry( ).registerAction( action );
-		getSelectionActions( ).add( action.getId( ) );		
-		
-		action = new NewParameterAction(
-				NewParameterAction.INSERT_PARAMETER_GROUP,
+		getSelectionActions( ).add( action.getId( ) );
+
+		action = new NewParameterAction( NewParameterAction.INSERT_PARAMETER_GROUP,
 				ReportDesignConstants.PARAMETER_GROUP_ELEMENT );
 		getActionRegistry( ).registerAction( action );
-		getSelectionActions( ).add( action.getId( ) );		
-		
-		action = new NewParameterAction(
-				NewParameterAction.INSERT_CASCADING_PARAMETER_GROUP,
+		getSelectionActions( ).add( action.getId( ) );
+
+		action = new NewParameterAction( NewParameterAction.INSERT_CASCADING_PARAMETER_GROUP,
 				ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT );
 		getActionRegistry( ).registerAction( action );
 		getSelectionActions( ).add( action.getId( ) );
@@ -418,7 +416,7 @@ abstract public class ReportEditorWithPalette extends
 		action = new NewDataSetAction( );
 		getActionRegistry( ).registerAction( action );
 		getSelectionActions( ).add( action.getId( ) );
-		
+
 		action = new NewJointDataSetAction( );
 		getActionRegistry( ).registerAction( action );
 		getSelectionActions( ).add( action.getId( ) );
@@ -451,11 +449,15 @@ abstract public class ReportEditorWithPalette extends
 		action = new SelectRowAction( this );
 		getActionRegistry( ).registerAction( action );
 		getSelectionActions( ).add( action.getId( ) );
-		
+
 		action = new SelectColumnAction( this );
 		getActionRegistry( ).registerAction( action );
 		getSelectionActions( ).add( action.getId( ) );
-		
+
+		action = new CopyCellContentsContextAction( this );
+		getActionRegistry( ).registerAction( action );
+		getSelectionActions( ).add( action.getId( ) );
+
 		registerInsertExtElementActions( );
 	}
 
@@ -480,7 +482,7 @@ abstract public class ReportEditorWithPalette extends
 				addEditPartAction( (SelectionAction) action );
 			}
 		}
-		
+
 		PaletteEntryExtension[] entries = EditpartExtensionManager.getPaletteEntries( );
 		for ( int i = 0; i < entries.length; i++ )
 		{
@@ -513,39 +515,40 @@ abstract public class ReportEditorWithPalette extends
 		if ( getModel( ) != null )
 		{
 			setContents( );
-			hookModelEventManager( getModel());
+			hookModelEventManager( getModel( ) );
 		}
 		viewer.addDropTargetListener( createTemplateTransferDropTargetListener( viewer ) );
 	}
-	
+
 	/**
 	 * 
 	 */
-	protected void setContents()
+	protected void setContents( )
 	{
 		getGraphicalViewer( ).setContents( getModel( ) );
 	}
-	
-	protected void hookModelEventManager(Object model)
-	{	
-		manager.hookRoot( model);
-		Object processor = getGraphicalViewer( ).getRootEditPart( ).getAdapter(IModelEventProcessor.class);
-		if (processor instanceof IModelEventProcessor)
+
+	protected void hookModelEventManager( Object model )
+	{
+		manager.hookRoot( model );
+		Object processor = getGraphicalViewer( ).getRootEditPart( )
+				.getAdapter( IModelEventProcessor.class );
+		if ( processor instanceof IModelEventProcessor )
 		{
-			manager.addModelEventProcessor( (IModelEventProcessor)processor );
+			manager.addModelEventProcessor( (IModelEventProcessor) processor );
 		}
-		if (getCommandStack( ) instanceof WrapperCommandStack)
+		if ( getCommandStack( ) instanceof WrapperCommandStack )
 		{
-			manager.hookCommandStack( (WrapperCommandStack)getCommandStack( ) );
+			manager.hookCommandStack( (WrapperCommandStack) getCommandStack( ) );
 		}
 	}
-	
-	protected void unhookModelEventManager(Object model)
-	{	
-		manager.unhookRoot( model);
-		if (getCommandStack( ) instanceof WrapperCommandStack)
+
+	protected void unhookModelEventManager( Object model )
+	{
+		manager.unhookRoot( model );
+		if ( getCommandStack( ) instanceof WrapperCommandStack )
 		{
-			manager.unhookCommandStack( (WrapperCommandStack)getCommandStack( ) );
+			manager.unhookCommandStack( (WrapperCommandStack) getCommandStack( ) );
 		}
 	}
 
@@ -605,8 +608,6 @@ abstract public class ReportEditorWithPalette extends
 		return editPartFactoy;
 	}
 
-
-
 	// /*
 	// * (non-Javadoc)
 	// *
@@ -642,12 +643,12 @@ abstract public class ReportEditorWithPalette extends
 	 */
 	protected ModuleHandle getModel( )
 	{
-		if(model == null)
+		if ( model == null )
 		{
 			IReportProvider reportProvider = getProvider( );
 			model = reportProvider.getReportModuleHandle( getEditorInput( ) );
 		}
-		
+
 		return model;
 	}
 
@@ -716,8 +717,8 @@ abstract public class ReportEditorWithPalette extends
 		// // TODO: fire model changes.
 		// }
 
-		IReportProvider provider = getProvider();
-		
+		IReportProvider provider = getProvider( );
+
 		if ( provider != null )
 		{
 			provider.saveReport( getModel( ), getEditorInput( ), monitor );
@@ -727,11 +728,11 @@ abstract public class ReportEditorWithPalette extends
 
 	protected IReportProvider getProvider( )
 	{
-		if(provider == null)
+		if ( provider == null )
 		{
-			provider = new FileReportProvider();
+			provider = new FileReportProvider( );
 		}
-		
+
 		return provider;
 	}
 
@@ -742,17 +743,17 @@ abstract public class ReportEditorWithPalette extends
 	 */
 	public void doSaveAs( )
 	{
-		final IReportProvider provider = getProvider();
-		
+		final IReportProvider provider = getProvider( );
+
 		if ( provider != null )
 		{
 			IPath path = provider.getSaveAsPath( getEditorInput( ) );
 
-			if(path == null)
+			if ( path == null )
 			{
 				return;
 			}
-			
+
 			final IEditorInput input = provider.createNewEditorInput( path );
 
 			setInput( input );
@@ -932,18 +933,18 @@ abstract public class ReportEditorWithPalette extends
 			manager.addModelEventProcessor( page.getModelProcessor( ) );
 			return page;
 		}
-		
+
 		if ( type == AttributeViewPage.class )
 		{
 			AttributeViewPage page = new AttributeViewPage( );
 			return page;
 		}
-		
+
 		if ( type == ModelEventManager.class )
 		{
 			return manager;
 		}
-		
+
 		return super.getAdapter( type );
 	}
 
@@ -956,11 +957,11 @@ abstract public class ReportEditorWithPalette extends
 	{
 		if ( getCommandStack( ) != null )
 		{
-			getCommandStack( ).flush( );		
+			getCommandStack( ).flush( );
 		}
 		unhookModelEventManager( getModel( ) );
 		super.dispose( );
-		
+
 		manager = null;
 	}
 }
