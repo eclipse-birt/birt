@@ -460,6 +460,9 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_EXPRESSION_BUILDER,
 				ICONS_PATH + OBJ16_PATH + "expression.gif" ); //$NON-NLS-1$
 
+		declareImage( IReportGraphicConstants.ICON_EXPRESSION_VALIDATE,
+				ICONS_PATH + OBJ16_PATH + "validate.gif" ); //$NON-NLS-1$
+
 		// data wizards
 		declareImage( IReportGraphicConstants.ICON_WIZARD_DATASOURCE,
 				ICONS_PATH + WIZBAN_PATH + "datasource_wizard.gif" ); //$NON-NLS-1$

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -19,10 +20,13 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.js.JSDocumentProvider;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.js.JSEditorInput;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.js.JSSourceViewerConfiguration;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.js.PreferenceNames;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.js.ScriptValidator;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -34,10 +38,13 @@ import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
-import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextOperationTarget;
+import org.eclipse.jface.text.source.AnnotationModel;
 import org.eclipse.jface.text.source.CompositeRuler;
+import org.eclipse.jface.text.source.IVerticalRuler;
+import org.eclipse.jface.text.source.IVerticalRulerColumn;
 import org.eclipse.jface.text.source.LineNumberRulerColumn;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -117,6 +124,8 @@ public class ExpressionBuilder extends TitleAreaDialog
 	private static final String TOOL_TIP_TEXT_CUT = Messages.getString( "TextEditDialog.toolTipText.cut" ); //$NON-NLS-1$
 
 	private static final String TOOL_TIP_TEXT_COPY = Messages.getString( "TextEditDialog.toolTipText.copy" ); //$NON-NLS-1$
+
+	private static final String TOOL_TIP_TEXT_VALIDATE = Messages.getString( "ExpressionBuilder.toolTipText.validate" ); //$NON-NLS-1$
 
 	private class TableContentProvider implements IStructuredContentProvider
 	{
@@ -456,6 +465,22 @@ public class ExpressionBuilder extends TitleAreaDialog
 				sourceViewer.doOperation( ITextOperationTarget.REDO );
 			}
 		} );
+
+		ToolItem validate = new ToolItem( toolBar, SWT.NONE );
+		validate.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_EXPRESSION_VALIDATE ) );
+		validate.setToolTipText( TOOL_TIP_TEXT_VALIDATE );
+		validate.addSelectionListener( new SelectionAdapter( ) {
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+			 */
+			public void widgetSelected( SelectionEvent e )
+			{
+				validateScript( );
+			}
+		} );
 	}
 
 	private void createExpressionField( Composite parent )
@@ -464,44 +489,8 @@ public class ExpressionBuilder extends TitleAreaDialog
 		expressionArea.setLayout( new GridLayout( 2, false ) );
 		expressionArea.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
-		Composite composite = new Composite( expressionArea, SWT.BORDER
-				| SWT.LEFT_TO_RIGHT );
-		composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		composite.setLayout( UIUtil.createGridLayoutWithoutMargin( ) );
+		sourceViewer = createSourceViewer( expressionArea );
 
-		CompositeRuler ruler = new CompositeRuler( );
-		ruler.addDecorator( 0, new LineNumberRulerColumn( ) );
-		sourceViewer = new SourceViewer( composite, ruler, SWT.H_SCROLL
-				| SWT.V_SCROLL );
-		// JSSyntaxContext context = new JSSyntaxContext( );
-		// try
-		// {
-		// context.setVariable( IReportGraphicConstants.REPORT_KEY_WORD,
-		// IReportDesign.class ); //$NON-NLS-1$
-		// }
-		// catch ( ClassNotFoundException e )
-		// {
-		// }
-		// sourceViewer.configure( new JSSourceViewerConfiguration( context ) );
-		sourceViewer.configure( new JSSourceViewerConfiguration( ) );
-		// Document doc = new Document( expression );
-		// sourceViewer.setDocument( doc );
-		if ( expression != null )
-		{
-			JSEditorInput editorInput = new JSEditorInput( expression );
-			JSDocumentProvider documentProvider = new JSDocumentProvider( );
-			try
-			{
-				documentProvider.connect( editorInput );
-			}
-			catch ( CoreException e )
-			{
-				ExceptionHandler.handle( e );
-			}
-
-			IDocument document = documentProvider.getDocument( editorInput );
-			sourceViewer.setDocument( document );
-		}
 		GridData gd = new GridData( GridData.FILL_BOTH );
 		gd.heightHint = 150;
 		sourceViewer.getControl( ).setLayoutData( gd );
@@ -844,6 +833,133 @@ public class ExpressionBuilder extends TitleAreaDialog
 		if ( text.endsWith( "()" ) ) //$NON-NLS-1$
 		{
 			textWidget.setCaretOffset( textWidget.getCaretOffset( ) - 1 ); // Move
+		}
+	}
+
+	/**
+	 * Creates the source viewer to be used by this editor.
+	 * 
+	 * @param parent
+	 *            the parent control
+	 * @return the source viewer
+	 */
+	protected SourceViewer createSourceViewer( Composite parent )
+	{
+		IVerticalRuler ruler = createVerticalRuler( );
+		Composite composite = new Composite( parent, SWT.BORDER |
+				SWT.LEFT_TO_RIGHT );
+
+		composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		composite.setLayout( UIUtil.createGridLayoutWithoutMargin( ) );
+
+		int styles = SWT.V_SCROLL |
+				SWT.H_SCROLL |
+				SWT.MULTI |
+				SWT.BORDER |
+				SWT.FULL_SELECTION;
+
+		SourceViewer viewer = new SourceViewer( composite, ruler, styles );
+
+		viewer.configure( new JSSourceViewerConfiguration( ) );
+
+		JSEditorInput editorInput = new JSEditorInput( expression );
+		JSDocumentProvider documentProvider = new JSDocumentProvider( );
+
+		try
+		{
+			documentProvider.connect( editorInput );
+		}
+		catch ( CoreException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+
+		viewer.setDocument( documentProvider.getDocument( editorInput ),
+				ruler == null ? null : ruler.getModel( ) );
+
+		return viewer;
+	}
+
+	/**
+	 * Creates a new line number ruler column that is appropriately initialized.
+	 * @param annotationModel 
+	 * 
+	 * @return the created line number column
+	 */
+	private IVerticalRulerColumn createLineNumberRulerColumn( )
+	{
+		LineNumberRulerColumn column = new LineNumberRulerColumn( );
+
+		column.setForeground( JSSourceViewerConfiguration.getColorByCategory( PreferenceNames.P_LINENUMBER_COLOR ) );
+		return column;
+	}
+
+	/**
+	 * Creates a new line number ruler column that is appropriately initialized.
+	 * 
+	 * @return the created line number column
+	 */
+	private CompositeRuler createCompositeRuler( )
+	{
+		CompositeRuler ruler = new CompositeRuler( );
+
+		ruler.setModel( new AnnotationModel( ) );
+		return ruler;
+	}
+
+	/**
+	 * Creates the vertical ruler to be used by this editor.
+	 * 
+	 * @return the vertical ruler
+	 */
+	private IVerticalRuler createVerticalRuler( )
+	{
+		IVerticalRuler ruler = createCompositeRuler( );
+
+		if ( ruler instanceof CompositeRuler )
+		{
+			CompositeRuler compositeRuler = (CompositeRuler) ruler;
+
+			compositeRuler.addDecorator( 0, createLineNumberRulerColumn( ) );
+		}
+		return ruler;
+	}
+
+	/**
+	 * Validates the current script.
+	 * 
+	 * @return <code>true</code> if no error was found, <code>false</code>
+	 *         otherwise.
+	 */
+	protected boolean validateScript( )
+	{
+		if ( sourceViewer == null )
+		{
+			return false;
+		}
+
+		String errorMessage = null;
+
+		try
+		{
+			new ScriptValidator( sourceViewer ).validate( );
+			setMessage( Messages.getString( "ExpressionBuilder.Script.NoError" ), IMessageProvider.INFORMATION ); //$NON-NLS-1$
+			return true;
+		}
+		catch ( ParseException e )
+		{
+			int offset = e.getErrorOffset( );
+			int row = sourceViewer.getTextWidget( ).getLineAtOffset( offset ) + 1;
+			int column = offset -
+					sourceViewer.getTextWidget( ).getOffsetAtLine( row - 1 ) +
+					1;
+
+			errorMessage = Messages.getFormattedString( "ExpressionBuilder.Script.Error", new Object[]{Integer.toString( row ), Integer.toString( column ), e.getLocalizedMessage( )} ); //$NON-NLS-1$
+			return false;
+		}
+		finally
+		{
+			setErrorMessage( errorMessage );
 		}
 	}
 }

@@ -277,6 +277,8 @@ public interface IReportGraphicConstants
 
 	public final static String ICON_EXPRESSION_STATIC_MEMBER = "Static Member";//$NON-NLS-1$
 
+	public final static String ICON_EXPRESSION_VALIDATE = "Validate Expression";//$NON-NLS-1$
+
 	// data wizards
 	public final static String ICON_WIZARD_DATASOURCE = "DataSourceBasePage";//$NON-NLS-1$
 
