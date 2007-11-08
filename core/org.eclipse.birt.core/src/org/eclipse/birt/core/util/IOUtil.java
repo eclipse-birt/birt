@@ -318,7 +318,7 @@ public class IOUtil
 	private static final int TYPE_FLOAT = 2;
 	private static final int TYPE_DOUBLE = 3;
 	private static final int TYPE_BIG_DECIMAL = 4;
-	private static final int TYPE_DATE = 5;
+	private static final int TYPE_DATE_TIME = 5;
 	private static final int TYPE_TIME = 6;
 	private static final int TYPE_TIME_STAMP = 7;
 	private static final int TYPE_BOOLEAN = 8;
@@ -330,6 +330,7 @@ public class IOUtil
 	
 	private static final int TYPE_JSObject = 14;
 	private static final int TYPE_LONG_STRING = 15;
+	private static final int TYPE_DATE = 16;
 
 	static
 	{
@@ -338,7 +339,7 @@ public class IOUtil
 		type2IndexMap.put( Float.class, new Integer( TYPE_FLOAT ) );
 		type2IndexMap.put( Double.class, new Integer( TYPE_DOUBLE ) );
 		type2IndexMap.put( BigDecimal.class, new Integer( TYPE_BIG_DECIMAL ) );
-		type2IndexMap.put( Date.class, new Integer( TYPE_DATE ) );
+		type2IndexMap.put( Date.class, new Integer( TYPE_DATE_TIME ) );
 		type2IndexMap.put( Time.class, new Integer( TYPE_TIME ) );
 		type2IndexMap.put( Timestamp.class, new Integer( TYPE_TIME_STAMP ) );
 		type2IndexMap.put( Boolean.class, new Integer( TYPE_BOOLEAN ) );
@@ -348,6 +349,7 @@ public class IOUtil
 		type2IndexMap.put( Map.class, new Integer( TYPE_MAP ) );
 		type2IndexMap.put( Serializable.class, new Integer( TYPE_SERIALIZABLE ) );
 		type2IndexMap.put( null, new Integer( TYPE_NULL ) );
+		type2IndexMap.put( java.sql.Date.class, new Integer( TYPE_DATE ) );
 		
 		type2IndexMap.put( IdScriptableObject.class, new Integer( TYPE_JSObject ) );
 	}
@@ -398,9 +400,13 @@ public class IOUtil
 			{
 				return TYPE_TIME;
 			}
-			if( Date.class.isAssignableFrom( obValue.getClass( ) ) )
+			if( java.sql.Date.class.isAssignableFrom( obValue.getClass( ) ) )
 			{
 				return TYPE_DATE;
+			}
+			if( Date.class.isAssignableFrom( obValue.getClass( ) ) )
+			{
+				return TYPE_DATE_TIME;
 			}
 			if ( obValue instanceof Serializable )
 			{
@@ -443,11 +449,14 @@ public class IOUtil
 			case TYPE_BIG_DECIMAL :
 				obValue = new BigDecimal( dis.readUTF( ) );
 				break;
-			case TYPE_DATE :
+			case TYPE_DATE_TIME :
 				obValue = new Date( dis.readLong( ) );
 				break;
 			case TYPE_TIME :
 				obValue = new Time( dis.readLong( ) );
+				break;
+			case TYPE_DATE :
+				obValue = new java.sql.Date( dis.readLong( ) );
 				break;
 			case TYPE_TIME_STAMP :
 				obValue = new Timestamp( dis.readLong( ) );
@@ -541,11 +550,14 @@ public class IOUtil
 			case TYPE_BIG_DECIMAL :
 				dos.writeUTF( ( (BigDecimal) obValue ).toString( ) );
 				break;
-			case TYPE_DATE :
+			case TYPE_DATE_TIME :
 				dos.writeLong( ( (Date) obValue ).getTime( ) );
 				break;
 			case TYPE_TIME :
 				dos.writeLong( ( (Time) obValue ).getTime( ) );
+				break;
+			case TYPE_DATE :
+				dos.writeLong( ( ( java.sql.Date ) obValue ).getTime( ) );
 				break;
 			case TYPE_TIME_STAMP :
 				dos.writeLong( ( (Timestamp) obValue ).getTime( ) );
