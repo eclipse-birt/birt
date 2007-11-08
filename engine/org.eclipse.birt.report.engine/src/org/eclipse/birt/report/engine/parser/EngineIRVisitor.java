@@ -2150,7 +2150,11 @@ public class EngineIRVisitor extends DesignVisitor
 		style.setNumberAlign( getElementProperty( handle,
 				Style.NUMBER_ALIGN_PROP ) );
 		style.setDateFormat( getElementProperty( handle,
+						Style.DATE_FORMAT_PROP ) );
+		style.setDateTimeFormat( getElementProperty( handle,
 				Style.DATE_TIME_FORMAT_PROP ) );
+		style.setTimeFormat( getElementProperty( handle,
+						Style.TIME_FORMAT_PROP ) );
 		style.setNumberFormat( getElementProperty( handle,
 				Style.NUMBER_FORMAT_PROP ) );
 		style.setStringFormat( getElementProperty( handle,

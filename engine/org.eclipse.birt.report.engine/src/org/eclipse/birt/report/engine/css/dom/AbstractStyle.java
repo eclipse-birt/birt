@@ -942,6 +942,16 @@ abstract public class AbstractStyle implements IStyle
 	{
 		setCssText( STYLE_DATE_FORMAT, format );
 	}
+	
+	public void setDateTimeFormat( String format ) throws DOMException
+	{
+		setCssText( STYLE_DATETIME_FORMAT, format );
+	}
+	
+	public void setTimeFormat( String format ) throws DOMException
+	{
+		setCssText( STYLE_TIME_FORMAT, format );
+	}
 
 	public void setNumberAlign( String align ) throws DOMException
 	{
@@ -966,6 +976,16 @@ abstract public class AbstractStyle implements IStyle
 	public String getDateFormat( )
 	{
 		return getCssText( STYLE_DATE_FORMAT );
+	}
+	
+	public String getDateTimeFormat( )
+	{
+		return getCssText( STYLE_DATETIME_FORMAT );
+	}
+	
+	public String getTimeFormat( )
+	{
+		return getCssText( STYLE_TIME_FORMAT );
 	}
 
 	public String getNumberAlign( )

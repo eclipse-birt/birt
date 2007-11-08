@@ -59,6 +59,10 @@ public interface IStyle
 	public String getNumberFormat( );
 
 	public String getDateFormat( );
+	
+	public String getDateTimeFormat( );
+
+	public String getTimeFormat( );
 
 	public String getNumberAlign( );
 

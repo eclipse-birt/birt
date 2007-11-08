@@ -20,7 +20,6 @@ import java.lang.ref.SoftReference;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
@@ -330,11 +329,23 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 					text = fmt.format( (String) value );
 
 				}
-				else if ( value instanceof Date )
+				else if ( value instanceof java.util.Date )
 				{
-					DateFormatter fmt = context.getDateFormatter( style
-							.getDateFormat( ) );
-					text = fmt.format( (Date) value );
+					String dateFormat = null;
+					if ( value instanceof java.sql.Date )
+					{
+						dateFormat = style.getDateFormat( );
+					}
+					else if ( value instanceof java.sql.Time )
+					{
+						dateFormat = style.getTimeFormat( );
+					}
+					if ( dateFormat == null )
+					{
+						dateFormat = style.getDateTimeFormat( );
+					}
+					DateFormatter fmt = context.getDateFormatter( dateFormat );
+					text = fmt.format( (java.util.Date) value );
 				}
 				else
 				{
