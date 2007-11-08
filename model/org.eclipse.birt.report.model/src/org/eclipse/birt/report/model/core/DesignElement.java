@@ -959,12 +959,12 @@ public abstract class DesignElement
 		ContentElementInfo info = null;
 		if ( this instanceof ContentElement )
 			info = ( (ContentElement) this ).getValueContainer( );
-		else if ( prop.getTypeCode( ) == IPropertyType.CONTENT_ELEMENT_TYPE ||
-				prop.getSubTypeCode( ) == IPropertyType.CONTENT_ELEMENT_TYPE )
+		else if ( prop.getTypeCode( ) == IPropertyType.CONTENT_ELEMENT_TYPE
+				|| prop.getSubTypeCode( ) == IPropertyType.CONTENT_ELEMENT_TYPE )
 			info = new ContentElementInfo( this, prop );
 
-		if ( prop.getTypeCode( ) != IPropertyType.CONTENT_ELEMENT_TYPE &&
-				prop.getSubTypeCode( ) != IPropertyType.CONTENT_ELEMENT_TYPE )
+		if ( prop.getTypeCode( ) != IPropertyType.CONTENT_ELEMENT_TYPE
+				&& prop.getSubTypeCode( ) != IPropertyType.CONTENT_ELEMENT_TYPE )
 			return;
 
 		if ( value instanceof ContentElement )
@@ -1427,7 +1427,8 @@ public abstract class DesignElement
 			UserPropertyDefn p = e.getLocalUserPropertyDefn( propName );
 			if ( p != null )
 				return p;
-			e = e.getExtendsElement( );
+			e = e.getExtendsElement( ) == null ? e.getVirtualParent( ) : e
+					.getExtendsElement( );
 		}
 		return null;
 	}
@@ -1855,7 +1856,8 @@ public abstract class DesignElement
 			{
 				props.addAll( prop );
 			}
-			e = e.getExtendsElement( );
+			e = e.getExtendsElement( ) == null ? e.getVirtualParent( ) : e
+					.getExtendsElement( );
 		}
 		return props;
 	}
@@ -2373,13 +2375,9 @@ public abstract class DesignElement
 	public List getPropertyDefns( )
 	{
 		List list = getDefn( ).getProperties( );
-		DesignElement e = this;
-		while ( e != null )
-		{
-			if ( e.userProperties != null )
-				list.addAll( e.userProperties.values( ) );
-			e = e.getExtendsElement( );
-		}
+		List userProps = getUserProperties( );
+		if ( userProps != null )
+			list.addAll( userProps );
 		return list;
 	}
 
@@ -2436,8 +2434,8 @@ public abstract class DesignElement
 
 	public boolean canEdit( Module module )
 	{
-		if ( isRootIncludedByModule( ) ||
-				( module != null && module.isReadOnly( ) ) )
+		if ( isRootIncludedByModule( )
+				|| ( module != null && module.isReadOnly( ) ) )
 			return false;
 		return true;
 	}
@@ -2455,8 +2453,8 @@ public abstract class DesignElement
 	{
 		// if the root of element is included by report/library. Do not allow
 		// drop; if module is read-only, forbide drop too
-		if ( isRootIncludedByModule( ) ||
-				( module != null && module.isReadOnly( ) ) )
+		if ( isRootIncludedByModule( )
+				|| ( module != null && module.isReadOnly( ) ) )
 			return false;
 
 		// Can not change the structure of child element or a virtual element(
@@ -2501,8 +2499,8 @@ public abstract class DesignElement
 	public boolean isRootIncludedByModule( )
 	{
 		DesignElement tmpContainer = getRoot( );
-		if ( tmpContainer instanceof Library &&
-				( (Library) tmpContainer ).getHost( ) != null )
+		if ( tmpContainer instanceof Library
+				&& ( (Library) tmpContainer ).getHost( ) != null )
 		{
 			return true;
 		}
@@ -3068,8 +3066,8 @@ public abstract class DesignElement
 		if ( container != null )
 		{
 			ContainerContext containerInfor = getContainerInfo( );
-			return containerInfor.canContain( module, templateReportItem ) ||
-					containerInfor.canContain( module, templateDataSet );
+			return containerInfor.canContain( module, templateReportItem )
+					|| containerInfor.canContain( module, templateDataSet );
 		}
 
 		return true;
@@ -3418,8 +3416,8 @@ public abstract class DesignElement
 		Object value = propValues.get( prop.getName( ) );
 
 		assert value == null || value instanceof List;
-		assert prop.getTypeCode( ) == IPropertyType.LIST_TYPE &&
-				prop.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE;
+		assert prop.getTypeCode( ) == IPropertyType.LIST_TYPE
+				&& prop.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE;
 
 		if ( value == null )
 			return null;
@@ -3516,8 +3514,8 @@ public abstract class DesignElement
 	 */
 	public String getLocalEncryptionID( ElementPropertyDefn propDefn )
 	{
-		if ( encryptionMap != null &&
-				encryptionMap.get( propDefn.getName( ) ) != null )
+		if ( encryptionMap != null
+				&& encryptionMap.get( propDefn.getName( ) ) != null )
 		{
 			String encryptionID = (String) encryptionMap.get( propDefn
 					.getName( ) );
