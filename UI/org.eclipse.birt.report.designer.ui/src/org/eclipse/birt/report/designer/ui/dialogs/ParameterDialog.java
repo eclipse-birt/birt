@@ -562,7 +562,7 @@ public class ParameterDialog extends BaseDialog
 			{
 				changeDataType( );
 				updateCheckBoxArea( );
-				refreshColumns( false );
+				refreshColumns( true );
 			}
 		} );
 		createLabel( propertiesSection, LABEL_DISPALY_TYPE );
