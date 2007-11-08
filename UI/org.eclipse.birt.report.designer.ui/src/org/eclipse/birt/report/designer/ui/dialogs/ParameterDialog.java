@@ -23,7 +23,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -44,10 +43,10 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
+import org.eclipse.birt.report.designer.ui.parameters.ParameterUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
@@ -107,9 +106,6 @@ public class ParameterDialog extends BaseDialog
 
 	private static final String CHOICE_NO_DEFAULT = Messages.getString( "ParameterDialog.Choice.NoDefault" ); //$NON-NLS-1$
 
-	// private static final String CHOICE_NULL_VALUE = Messages.getString(
-	// "ParameterDialog.Choice.NullValue" ); //$NON-NLS-1$
-
 	private static final String CHOICE_NONE = Messages.getString( "ParameterDialog.Choice.None" ); //$NON-NLS-1$
 
 	private static final String CHOICE_DISPLAY_TEXT = Messages.getString( "ParameterDialog.Choice.DisplayText" ); //$NON-NLS-1$
@@ -122,26 +118,14 @@ public class ParameterDialog extends BaseDialog
 
 	private static final String CHOICE_SELECT_VALUE = Messages.getString( "ParameterDialog.Choice.SelectValue" ); //$NON-NLS-1$
 
-	// private static final String CHOICE_BLANK_VALUE = Messages.getString(
-	// "ParameterDialog.Choice.BlankValue" ); //$NON-NLS-1$
-
 	private static final String GROUP_MORE_OPTION = Messages.getString( "ParameterDialog.Group.MoreOption" ); //$NON-NLS-1$
 
 	private static final String LABEL_NAME = Messages.getString( "ParameterDialog.Label.Name" ); //$NON-NLS-1$
 
-	// private static final String LABEL_DATETIME_PROMPT = Messages.getString(
-	// "ParameterDialog.Label.DateTImePrompt" ); //$NON-NLS-1$
-
 	private static final String LABEL_DATETIME_PROMPT = Messages.getFormattedString( "ParameterDialog.datetime.prompt", new String[]{"yyyy-MM-dd HH:mm:ss.SSS"} ); //$NON-NLS-1$ //$NON-NLS-2$
 
-	// private static final String LABEL_DATE_PROMPT =
-	// Messages.getFormattedString( "ParameterDialog.date.prompt", new
-	// String[]{"MM/DD/YYYY"} ); //$NON-NLS-1$ //$NON-NLS-2$
 	private static final String LABEL_DATE_PROMPT = Messages.getFormattedString( "ParameterDialog.date.prompt", new String[]{"yyyy-MM-dd"} ); //$NON-NLS-1$ //$NON-NLS-2$
 
-	// private static final String LABEL_TIME_PROMPT =
-	// Messages.getFormattedString( "ParameterDialog.time.prompt", new
-	// String[]{"hh:mm:ss AM/PM"} ); //$NON-NLS-1$ //$NON-NLS-2$
 	private static final String LABEL_TIME_PROMPT = Messages.getFormattedString( "ParameterDialog.time.prompt", new String[]{"hh:mm:ss"} ); //$NON-NLS-1$ //$NON-NLS-2$
 
 	private static final String LABEL_PROMPT_TEXT = Messages.getString( "ParameterDialog.Label.PromptText" ); //$NON-NLS-1$
@@ -164,7 +148,7 @@ public class ParameterDialog extends BaseDialog
 
 	private static final String LABEL_LIST_LIMIT = Messages.getString( "ParameterDialog.Label.Listlimit" ); //$NON-NLS-1$
 
-	private static final String LABEL_NULL = Messages.getString( "ParameterDialog.Label.Null" ); //$NON-NLS-1$
+	private static final String LABEL_NULL = ParameterUtil.LABEL_NULL;
 
 	private static final String LABEL_SELECT_DISPLAY_TEXT = Messages.getString( "ParameterDialog.Label.SelectDisplayText" ); //$NON-NLS-1$
 
@@ -256,7 +240,7 @@ public class ParameterDialog extends BaseDialog
 
 	private static final Image ERROR_ICON = ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
 
-	private static final String STANDARD_DATE_TIME_PATTERN = "MM/dd/yyyy hh:mm:ss a"; //$NON-NLS-1$
+	private static final String STANDARD_DATE_TIME_PATTERN = ParameterUtil.STANDARD_DATE_TIME_PATTERN;
 
 	private boolean allowMultiValueVisible = true;
 
@@ -377,7 +361,7 @@ public class ParameterDialog extends BaseDialog
 				if ( text == null )
 				{
 					// text = format( choice.getValue( ) );
-					text = "";
+					text = ""; //$NON-NLS-1$
 				}
 			}
 			else if ( columnIndex == valueIndex + 2 )
@@ -782,37 +766,6 @@ public class ParameterDialog extends BaseDialog
 			allowMultiChoice.setVisible( false );
 		}
 
-		// try
-		// {
-		// if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(
-		// getSelectedDataType( ) ) )
-		// {
-		// // not use DataTypeUtil.toString() for datetime here, it has a
-		// // bug loses seconds.
-		// defaultValue = convertToStandardFormat( DataTypeUtil.toDate(
-		// defaultValue ) );
-		// }
-		// else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals(
-		// getSelectedDataType( ) ) )
-		// {
-		// defaultValue = DataTypeUtil.toString( DataTypeUtil.toSqlDate(
-		// defaultValue ) );
-		// }
-		// else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals(
-		// getSelectedDataType( ) ) )
-		// {
-		// defaultValue = DataTypeUtil.toString( DataTypeUtil.toSqlTime(
-		// defaultValue ) );
-		// }
-		//
-		// }
-		// catch ( BirtException e )
-		// {
-		// // TODO Auto-generated catch block
-		// ExceptionHandler.handle( e );
-		// logger.log( Level.SEVERE, e.getMessage( ), e );
-		// }
-
 		if ( inputParameter.getPropertyHandle( ScalarParameterHandle.LIST_LIMIT_PROP )
 				.isSet( ) )
 		{
@@ -820,11 +773,8 @@ public class ParameterDialog extends BaseDialog
 		}
 
 		isHidden.setSelection( inputParameter.isHidden( ) );
-		// allowNull.setSelection( inputParameter.allowNull( ) );
-		// allowBlank.setSelection( inputParameter.allowBlank( ) );
 		isRequired.setSelection( inputParameter.isRequired( ) );
 		doNotEcho.setSelection( inputParameter.isConcealValue( ) );
-		// needSort.setSelection( !inputParameter.isFixedOrder( ) );
 		distinct.setSelection( !inputParameter.distinct( ) );
 		changeDataType( );
 		dataTypeChooser.setText( DATA_TYPE_CHOICE_SET.findChoice( inputParameter.getDataType( ) )
@@ -1075,28 +1025,30 @@ public class ParameterDialog extends BaseDialog
 			dataSetList.add( 0, inputParameter.getDataSetName( ) );
 		}
 
-		if ( oldList.length != dataSetList.size( ) ) // it means new data set is created.
+		if ( oldList.length != dataSetList.size( ) ) // it means new data set
+		// is created.
 		{
-			String newName = findNewDataSet(Arrays.asList( oldList ),dataSetList);
-			if(newName != null)
+			String newName = findNewDataSet( Arrays.asList( oldList ),
+					dataSetList );
+			if ( newName != null )
 			{
 				selectedDataSetName = newName;
 			}
-			
+
 			dataSetChooser.setItems( (String[]) dataSetList.toArray( new String[]{} ) );
 			if ( StringUtil.isBlank( selectedDataSetName ) )
 			{
 				dataSetChooser.select( 0 );
 				refreshColumns( false );
 			}
-			else if(selectedDataSetName != null && dataSetChooser.indexOf( selectedDataSetName ) != -1)
+			else if ( selectedDataSetName != null
+					&& dataSetChooser.indexOf( selectedDataSetName ) != -1 )
 			{
 				dataSetChooser.select( dataSetChooser.indexOf( selectedDataSetName ) );
 				refreshColumns( false );
 			}
 		}
 	}
-
 
 	private String findNewDataSet( List existingDataSets, List newDataSets )
 	{
@@ -1109,7 +1061,7 @@ public class ParameterDialog extends BaseDialog
 		}
 		return null;
 	}
-	
+
 	private DataSetHandle getDataSetHandle( )
 	{
 		return inputParameter.getModuleHandle( )
@@ -1157,10 +1109,7 @@ public class ParameterDialog extends BaseDialog
 		{
 			columnChooser.setText( originalSelection );
 		}
-		// else if ( columnChooser.getItemCount( ) > 0 )
-		// {
-		// columnChooser.select( 0 );
-		// }
+		
 		columnChooser.setEnabled( columnChooser.getItemCount( ) > 0 );
 		valueColumnExprButton.setEnabled( columnChooser.getItemCount( ) > 0 );
 		updateMessageLine( );
@@ -1216,12 +1165,10 @@ public class ParameterDialog extends BaseDialog
 		{
 			if ( inputParameter.isMustMatch( ) )
 			{
-				// type = PARAM_CONTROL_COMBO;
 				type = PARAM_CONTROL_LIST;
 			}
 			else
 			{
-				// type = PARAM_CONTROL_LIST;
 				type = PARAM_CONTROL_COMBO;
 			}
 		}
@@ -1871,10 +1818,10 @@ public class ParameterDialog extends BaseDialog
 	{
 		if ( defaultValueChooser == null || defaultValueChooser.isDisposed( ) )
 			return;
-		 if ( defaultValueChooser.getItemCount( ) > 1 )
-		 {
-			 defaultValueChooser.removeAll( );
-		 }
+		if ( defaultValueChooser.getItemCount( ) > 1 )
+		{
+			defaultValueChooser.removeAll( );
+		}
 	}
 
 	private void createDefaultEditor( )
@@ -1990,15 +1937,15 @@ public class ParameterDialog extends BaseDialog
 		{
 			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
 			{
-				tempdefaultValue = convertToStandardFormat( DataTypeUtil.toDate( tempdefaultValue ) );
+				tempdefaultValue = ParameterUtil.convertToStandardFormat( DataTypeUtil.toDate( tempdefaultValue ) );
 			}
 			else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( getSelectedDataType( ) ) )
 			{
-				tempdefaultValue = convertToStandardFormat( DataTypeUtil.toSqlDate( tempdefaultValue ) );
+				tempdefaultValue = ParameterUtil.convertToStandardFormat( DataTypeUtil.toSqlDate( tempdefaultValue ) );
 			}
 			else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( getSelectedDataType( ) ) )
 			{
-				tempdefaultValue = convertToStandardFormat( DataTypeUtil.toSqlTime( tempdefaultValue ) );
+				tempdefaultValue = ParameterUtil.convertToStandardFormat( DataTypeUtil.toSqlTime( tempdefaultValue ) );
 			}
 
 			return ParameterValidationUtil.validate( getSelectedDataType( ),
@@ -2069,26 +2016,6 @@ public class ParameterDialog extends BaseDialog
 
 			// Save control type
 			inputParameter.setControlType( newControlType );
-
-			// Save default value
-			// if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(
-			// getSelectedDataType( ) ) )
-			// {
-			// defaultValue = convertToStandardFormat( DataTypeUtil.toDate(
-			// defaultValue ) );
-			// }
-			// else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals(
-			// getSelectedDataType( ) ) )
-			// {
-			// defaultValue = convertToStandardFormat( DataTypeUtil.toSqlDate(
-			// defaultValue ) );
-			// }
-			// else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals(
-			// getSelectedDataType( ) ) )
-			// {
-			// defaultValue = convertToStandardFormat( DataTypeUtil.toSqlTime(
-			// defaultValue ) );
-			// }
 
 			inputParameter.setDefaultValue( defaultValue );
 
@@ -2355,10 +2282,6 @@ public class ParameterDialog extends BaseDialog
 		else
 		{
 			selectedChoice = (SelectionChoice) ( (IStructuredSelection) valueTable.getSelection( ) ).getFirstElement( );
-			// if ( selectedChoice == dummyChoice )
-			// {
-			// isEnable = false;
-			// }
 		}
 		boolean isDefault = isEnable && isDefaultChoice( selectedChoice );
 		if ( isDefault )
@@ -2514,60 +2437,14 @@ public class ParameterDialog extends BaseDialog
 		return ( (Boolean) dirtyProperties.get( key ) ).booleanValue( );
 	}
 
-	private String format( String string )
-	{
-		if ( canBeNull( ) && string == null )
-		{
-			return LABEL_NULL;
-		}
-		if ( StringUtil.isBlank( string ) || formatCategroy == null )
-		{
-			return string;
-		}
-		try
-		{
-			String pattern = formatPattern;
-			if ( formatPattern == null )
-			{
-				if ( isCustom( ) )
-				{
-					return string;
-				}
-				pattern = formatCategroy;
-			}
-			String type = getSelectedDataType( );
-			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
-			{
-				string = convertToStandardFormat( DataTypeUtil.toDate( string ) );
-			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( type ) )
-			{
-				string = convertToStandardFormat( DataTypeUtil.toSqlDate( string ) );
-			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( type ) )
-			{
-				string = convertToStandardFormat( DataTypeUtil.toSqlTime( string ) );
-			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type ) )
-			{
-				string = new NumberFormatter( pattern ).format( DataTypeUtil.toDouble( string )
-						.doubleValue( ) );
-			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( type ) )
-			{
-				string = new NumberFormatter( pattern ).format( DataTypeUtil.toBigDecimal( string ) );
-			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) )
-			{
-				string = new StringFormatter( pattern ).format( string );
-			}
-		}
-		catch ( BirtException e )
-		{
-			logger.log( Level.SEVERE, e.getMessage( ), e );
-		}
-		return string;
-	}
+	// private String format( String string )
+	// {
+	// return ParameterUtil.format( string,
+	// getSelectedDataType( ),
+	// formatCategroy,
+	// formatPattern,
+	// canBeNull( ) );
+	// }
 
 	/**
 	 * Check if the specified value is valid
@@ -2654,39 +2531,6 @@ public class ParameterDialog extends BaseDialog
 		return v1.equals( v2 );
 	}
 
-	private Object getValue( String value ) throws BirtException
-	{
-		if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( getSelectedDataType( ) ) )
-		{
-			return DataTypeUtil.toBoolean( value );
-		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( getSelectedDataType( ) ) )
-		{
-			return DataTypeUtil.toBigDecimal( value );
-		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
-		{
-			return DataTypeUtil.toDate( value );
-		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( getSelectedDataType( ) ) )
-		{
-			return DataTypeUtil.toSqlDate( value );
-		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( getSelectedDataType( ) ) )
-		{
-			return DataTypeUtil.toSqlTime( value );
-		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( getSelectedDataType( ) ) )
-		{
-			return DataTypeUtil.toDouble( value );
-		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( getSelectedDataType( ) ) )
-		{
-			return DataTypeUtil.toInteger( value );
-		}
-		return value;
-	}
-
 	private IChoiceSet getFormatChoiceSet( String type )
 	{
 		IChoiceSet choiceSet = null;
@@ -2742,52 +2586,47 @@ public class ParameterDialog extends BaseDialog
 			}
 			displayFormat = choiceSet.findChoice( formatCategroy )
 					.getDisplayName( );
-			if ( isCustom( ) )
+			if ( ParameterUtil.isCustomCategory( formatCategroy ) )
 			{
 				displayFormat += ": " + formatPattern; //$NON-NLS-1$
 			}
-			// if ( defaultValue != null )
-			// {
-			// previewString = format( defaultValue );
-			// }
-			// else
-			// {
+			
 			if ( type.equals( DesignChoiceConstants.PARAM_TYPE_DATETIME ) )
 			{
-				previewString = new DateFormatter( isCustom( ) ? formatPattern
+				previewString = new DateFormatter( ParameterUtil.isCustomCategory( formatCategroy ) ? formatPattern
 						: ( formatCategroy.equals( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_UNFORMATTED ) ? DateFormatter.DATETIME_UNFORMATTED
 								: formatCategroy ),
 						ULocale.getDefault( ) ).format( new Date( ) );
 			}
 			else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_DATE ) )
 			{
-				previewString = new DateFormatter( isCustom( ) ? formatPattern
+				previewString = new DateFormatter( ParameterUtil.isCustomCategory( formatCategroy ) ? formatPattern
 						: ( formatCategroy.equals( DesignChoiceConstants.DATE_FORMAT_TYPE_UNFORMATTED ) ? DateFormatter.DATE_UNFORMATTED
 								: formatCategroy ),
 						ULocale.getDefault( ) ).format( new Date( ) );
 			}
 			else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_TIME ) )
 			{
-				previewString = new DateFormatter( isCustom( ) ? formatPattern
+				previewString = new DateFormatter( ParameterUtil.isCustomCategory( formatCategroy ) ? formatPattern
 						: ( formatCategroy.equals( "Unformatted" ) ? DateFormatter.TIME_UNFORMATTED //$NON-NLS-1$
 								: formatCategroy ),
 						ULocale.getDefault( ) ).format( new Date( ) );
 			}
 			else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
 			{
-				previewString = new StringFormatter( isCustom( ) ? formatPattern
+				previewString = new StringFormatter( ParameterUtil.isCustomCategory( formatCategroy ) ? formatPattern
 						: formatCategroy,
 						ULocale.getDefault( ) ).format( Messages.getString( "ParameterDialog.Label.Sample" ) ); //$NON-NLS-1$
 			}
 			else if ( type.equals( DesignChoiceConstants.PARAM_TYPE_INTEGER ) )
 			{
-				previewString = new NumberFormatter( isCustom( ) ? formatPattern
+				previewString = new NumberFormatter( ParameterUtil.isCustomCategory( formatCategroy ) ? formatPattern
 						: formatCategroy,
 						ULocale.getDefault( ) ).format( 1234567890 );
 			}
 			else
 			{
-				previewString = new NumberFormatter( isCustom( ) ? formatPattern
+				previewString = new NumberFormatter( ParameterUtil.isCustomCategory( formatCategroy ) ? formatPattern
 						: formatCategroy,
 						ULocale.getDefault( ) ).format( 123456789.01234 );
 			}
@@ -2962,7 +2801,7 @@ public class ParameterDialog extends BaseDialog
 		{
 			try
 			{
-				string = convertToStandardFormat( DataTypeUtil.toDate( string,
+				string = ParameterUtil.convertToStandardFormat( DataTypeUtil.toDate( string,
 						ULocale.US ) );
 			}
 			catch ( BirtException e )
@@ -2970,16 +2809,6 @@ public class ParameterDialog extends BaseDialog
 			}
 		}
 		return string;
-	}
-
-	private String convertToStandardFormat( Date date )
-	{
-		if ( date == null )
-		{
-			return null;
-		}
-		return new DateFormatter( STANDARD_DATE_TIME_PATTERN,
-				ULocale.getDefault( ) ).format( date );
 	}
 
 	private String getExpression( String columnName )
@@ -3078,19 +2907,6 @@ public class ParameterDialog extends BaseDialog
 		defaultValue = value;
 		updateFormatField( );
 		updateMessageLine( );
-	}
-
-	private boolean isCustom( )
-	{
-		if ( DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
-				|| DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
-				|| DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
-				|| DesignChoiceConstants.DATE_FORMAT_TYPE_CUSTOM.equals( formatCategroy )
-				|| DesignChoiceConstants.TIME_FORMAT_TYPE_CUSTOM.equals( formatCategroy ) )
-		{
-			return true;
-		}
-		return false;
 	}
 
 	private void setExpression( Combo chooser, String key )
