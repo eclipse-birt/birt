@@ -1427,7 +1427,8 @@ public abstract class DesignElement
 			UserPropertyDefn p = e.getLocalUserPropertyDefn( propName );
 			if ( p != null )
 				return p;
-			e = e.getExtendsElement( );
+			e = e.getExtendsElement( ) == null ? e.getVirtualParent( ) : e
+					.getExtendsElement( );
 		}
 		return null;
 	}
@@ -1855,7 +1856,8 @@ public abstract class DesignElement
 			{
 				props.addAll( prop );
 			}
-			e = e.getExtendsElement( );
+			e = e.getExtendsElement( ) == null ? e.getVirtualParent( ) : e
+					.getExtendsElement( );
 		}
 		return props;
 	}
@@ -2373,13 +2375,9 @@ public abstract class DesignElement
 	public List getPropertyDefns( )
 	{
 		List list = getDefn( ).getProperties( );
-		DesignElement e = this;
-		while ( e != null )
-		{
-			if ( e.userProperties != null )
-				list.addAll( e.userProperties.values( ) );
-			e = e.getExtendsElement( );
-		}
+		List userProps = getUserProperties( );
+		if ( userProps != null )
+			list.addAll( userProps );
 		return list;
 	}
 
