@@ -133,7 +133,8 @@ public class XPathUtil
 	 * @param instance
 	 *            <code>PropertyHandle</code> which type or sub type must be
 	 *            expression or script.
-	 * @index index of property should be in valid range.
+	 * @param index
+	 *            of property should be in valid range. 0 based
 	 * @return the path in string
 	 */
 
@@ -171,7 +172,7 @@ public class XPathUtil
 		if ( index < 0 && index >= propHandle.getListValue( ).size( ) )
 			return false;
 		// don't support structure list.
-		if( defn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
+		if ( defn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )
 			return false;
 
 		return true;
@@ -334,9 +335,9 @@ public class XPathUtil
 
 		if ( !tmpPropDefn.isList( ) && tmpPropDefn.getStructDefn( ) != null )
 		{
-			sb.append( SEPARATOR
-					+ DesignSchemaConstants.STRUCTURE_TAG
-					+ formatXPathProperty( DesignSchemaConstants.NAME_ATTRIB,
+			sb.append( SEPARATOR +
+					DesignSchemaConstants.STRUCTURE_TAG +
+					formatXPathProperty( DesignSchemaConstants.NAME_ATTRIB,
 							tmpPropDefn.getName( ) ) );
 
 			tmpPropDefn = memberRef.getMemberDefn( );
@@ -344,9 +345,9 @@ public class XPathUtil
 
 		if ( tmpPropDefn.isList( ) )
 		{
-			sb.append( SEPARATOR
-					+ DesignSchemaConstants.LIST_PROPERTY_TAG
-					+ formatXPathProperty( DesignSchemaConstants.NAME_ATTRIB,
+			sb.append( SEPARATOR +
+					DesignSchemaConstants.LIST_PROPERTY_TAG +
+					formatXPathProperty( DesignSchemaConstants.NAME_ATTRIB,
 							tmpPropDefn.getName( ) ) );
 		}
 
@@ -427,9 +428,9 @@ public class XPathUtil
 					String slotTagName = getTagByPropertyType( (ElementPropertyDefn) tmpProp
 							.getDefn( ) );
 
-					slotInfo = SEPARATOR
-							+ slotTagName
-							+ formatXPathProperty(
+					slotInfo = SEPARATOR +
+							slotTagName +
+							formatXPathProperty(
 									DesignSchemaConstants.NAME_ATTRIB,
 									tmpElement.getContainerPropertyHandle( )
 											.getDefn( ).getName( ) );
@@ -478,12 +479,12 @@ public class XPathUtil
 
 	private static boolean isEnclosedAttr( String propName )
 	{
-		if ( DesignElement.NAME_PROP.equalsIgnoreCase( propName )
-				|| DesignSchemaConstants.EXTENDS_ATTRIB
-						.equalsIgnoreCase( propName )
-				|| IExtendedItemModel.EXTENSION_NAME_PROP
-						.equalsIgnoreCase( propName )
-				|| IOdaExtendableElementModel.EXTENSION_ID_PROP
+		if ( DesignElement.NAME_PROP.equalsIgnoreCase( propName ) ||
+				DesignSchemaConstants.EXTENDS_ATTRIB
+						.equalsIgnoreCase( propName ) ||
+				IExtendedItemModel.EXTENSION_NAME_PROP
+						.equalsIgnoreCase( propName ) ||
+				IOdaExtendableElementModel.EXTENSION_ID_PROP
 						.equalsIgnoreCase( propName ) )
 			return true;
 
@@ -548,8 +549,8 @@ public class XPathUtil
 		if ( tmpPropDefn == null )
 			return null;
 
-		if ( isKeyDefn
-				&& tmpPropDefn.getTypeCode( ) != IPropertyType.RESOURCE_KEY_TYPE )
+		if ( isKeyDefn &&
+				tmpPropDefn.getTypeCode( ) != IPropertyType.RESOURCE_KEY_TYPE )
 			return null;
 
 		return ( isKeyDefn ? propDefn : tmpPropDefn );

@@ -239,13 +239,13 @@ public class XPathUtilTest extends BaseTestCase
 		column = (ResultSetColumnHandle) retValue;
 		assertEquals( "date1", column.getColumnName( ) ); //$NON-NLS-1$
 		assertTrue( 2 == column.getPosition( ).intValue( ) );
-		
+
 		retValue = XPathUtil
-		.getInstance(
-				designHandle,
-				"/report/data-sets/oda-data-set/structure[@name=\"cachedMetaData\"]/list-property[@name=\"resultSet\"]" ); //$NON-NLS-1$
+				.getInstance(
+						designHandle,
+						"/report/data-sets/oda-data-set/structure[@name=\"cachedMetaData\"]/list-property[@name=\"resultSet\"]" ); //$NON-NLS-1$
 		assertNull( retValue );
-		
+
 		// the instance for the data set.
 
 		retValue = XPathUtil.getInstance( designHandle,
@@ -269,6 +269,11 @@ public class XPathUtilTest extends BaseTestCase
 		assertTrue( retValue instanceof PropertyHandle );
 		assertEquals( "\"prepare\"", ( (PropertyHandle) retValue ).getValue( ) );//$NON-NLS-1$
 
+		// make sure for invalid string, no exception
+		
+		retValue = XPathUtil.getInstance( designHandle, "<" ); //$NON-NLS-1$
+		assertNull( retValue );
+		
 		// cases on extension elements that has content elements.
 
 		retValue = XPathUtil
