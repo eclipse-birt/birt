@@ -274,7 +274,7 @@
 		<replace file="${OutputDir}\${birt.info}" token="#EMFVERSION#" value="2.4 M2 EMF+SDO+XSD"/>
 		<replace file="${OutputDir}\${birt.info}" token="#GEFVERSION#" value="3.4 M2 runtime"/>
 		<replace file="${OutputDir}\${birt.info}" token="#DTPVERSION#" value="1.6 M2 nightly" />
-		<replace file="${OutputDir}\${birt.info}" token="#WTPVERSION#" value="3.0 M2"/>
+		<replace file="${OutputDir}\${birt.info}" token="#WTPVERSION#" value="3.0 I-I20071101213525-20071101213525"/>
 	
 	</target>
 
