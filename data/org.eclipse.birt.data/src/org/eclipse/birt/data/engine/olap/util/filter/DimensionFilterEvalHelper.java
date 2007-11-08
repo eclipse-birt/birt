@@ -59,7 +59,7 @@ BaseDimensionFilterEvalHelper implements IJSDimensionFilterHelper
 			throws DataException
 	{
 
-		super.setResultRow( resultRow );
+		super.setData( resultRow );
 		
 		Context cx = Context.enter( );
 		try

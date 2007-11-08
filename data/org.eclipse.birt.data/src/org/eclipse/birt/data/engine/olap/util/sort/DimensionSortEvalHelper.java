@@ -75,7 +75,7 @@ public class DimensionSortEvalHelper extends DimensionJSEvalHelper
 	 */
 	public Object evaluate( IResultRow resultRow ) throws DataException
 	{
-		super.setResultRow( resultRow );
+		super.setData( resultRow );
 
 		Context cx = Context.enter( );
 		try

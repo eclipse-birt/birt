@@ -74,10 +74,11 @@ public class QueryExecutor
 			return null;
 		IDocumentManager documentManager = getDocumentManager( executor );
 		ICube cube = loadCube( documentManager, executor );
-		CubeQueryValidator.validateCubeQueryDefinition( view,
+		CubeQueryValidator.validateCubeQueryDefinition( executor.getCubeQueryDefinition( ), view,
 				cube,
 				manager.getCalculatedMembers( ) );
-		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( cube );
+		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( cube,
+				executor.getComputedMeasureHelper( ) );
 		cubeQueryExcutorHelper.addJSFilter( executor.getDimensionFilterEvalHelpers( ) );
 		populateAggregationSort( executor, cubeQueryExcutorHelper, true );
 		populateAggregationSort( executor, cubeQueryExcutorHelper, false );

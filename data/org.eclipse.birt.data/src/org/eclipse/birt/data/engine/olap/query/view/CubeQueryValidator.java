@@ -11,10 +11,14 @@
 
 package org.eclipse.birt.data.engine.olap.query.view;
 
+import java.util.List;
+
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
+import org.eclipse.birt.data.engine.olap.impl.query.ComputedMeasureDefinition;
 
 /**
  * validate cube query defintion with edge, measure definition.
@@ -34,7 +38,7 @@ class CubeQueryValidator
 	 * @param calculatedMember
 	 * @throws DataException
 	 */
-	static void validateCubeQueryDefinition( BirtCubeView view, ICube cube,
+	static void validateCubeQueryDefinition( ICubeQueryDefinition defn, BirtCubeView view, ICube cube,
 			CalculatedMember[] calculatedMember ) throws DataException
 	{
 		if ( view.getColumnEdgeView( ) == null
@@ -52,7 +56,7 @@ class CubeQueryValidator
 		}
 		if ( calculatedMember != null && calculatedMember.length > 0 )
 		{
-			validateCalculatedMember( cube, calculatedMember );
+			validateCalculatedMember( defn, cube, calculatedMember );
 		}
 	}
 
@@ -64,7 +68,7 @@ class CubeQueryValidator
 	 * @param measureDefn
 	 * @throws DataException
 	 */
-	static void validateCalculatedMember( ICube cube,
+	static void validateCalculatedMember( ICubeQueryDefinition defn, ICube cube,
 			CalculatedMember[] calculatedMember ) throws DataException
 	{
 		boolean findMeasure = false;
@@ -80,13 +84,26 @@ class CubeQueryValidator
 					if ( names[k].equals( measureName ) )
 					{
 						findMeasure = true;
-						continue;
+						break;
 					}
 				}
 			}
+			
 			if ( !findMeasure )
 			{
-				throw new DataException( ResourceConstants.MEASURE_NAME_NOT_FOUND,
+				List computedMeasures = defn.getComputedMeasures( );
+
+				for( int k = 0; k < computedMeasures.size( ); k++ )
+				{
+					if ( ((ComputedMeasureDefinition)computedMeasures.get( k )).getName( ).equals( measureName ) )
+					{
+						findMeasure = true;
+						break;
+					}
+				}
+				
+				if( !findMeasure )
+					throw new DataException( ResourceConstants.MEASURE_NAME_NOT_FOUND,
 						new Object[]{
 							measureName
 						} );

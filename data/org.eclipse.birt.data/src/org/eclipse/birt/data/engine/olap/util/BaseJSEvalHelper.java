@@ -19,7 +19,6 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.script.OLAPExpressionCompiler;
-import org.eclipse.birt.data.engine.olap.util.filter.IResultRow;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
@@ -81,12 +80,12 @@ public abstract class BaseJSEvalHelper
 	 * 
 	 * @param resultRow
 	 */
-	protected void setResultRow( IResultRow resultRow )
+	protected void setData( Object resultRow )
 	{
 		for ( Iterator i = jsObjectPopulators.iterator( ); i.hasNext( ); )
 		{
 			IJSObjectPopulator populator = (IJSObjectPopulator) i.next( );
-			populator.setResultRow( resultRow );
+			populator.setData( resultRow );
 		}
 	}
 

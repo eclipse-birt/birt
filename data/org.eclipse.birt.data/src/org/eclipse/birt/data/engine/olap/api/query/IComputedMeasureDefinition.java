@@ -9,32 +9,30 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
-package org.eclipse.birt.data.engine.olap.data.api;
+package org.eclipse.birt.data.engine.olap.api.query;
 
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.olap.util.filter.IFacttableRow;
 
 /**
- * 
+ * This interface defines the API for computed measure.
  */
 
-public interface IComputedMeasureHelper
+public interface IComputedMeasureDefinition extends IMeasureDefinition
 {
 	/**
+	 * Return the expression of computed measure.
 	 * 
 	 * @return
-	 */
-	public MeasureInfo[] getAllComputedMeasureInfos( );
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public Object[] computeMeasureValues( IFacttableRow factTableRow ) throws DataException;
-	
-	/**
-	 * 
 	 * @throws DataException
 	 */
-	public void cleanUp( ) throws DataException;
+	public IBaseExpression getExpression( ) throws DataException;
+	
+	/**
+	 * Return the type of computed measure.
+	 * 
+	 * @return
+	 * @throws DataException
+	 */
+	public int getType() throws DataException;
 }

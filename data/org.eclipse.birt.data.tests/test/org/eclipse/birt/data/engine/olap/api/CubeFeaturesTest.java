@@ -762,8 +762,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
 		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
 		ILevelDefinition level11 = hier1.createLevel( "level11" );
-		ILevelDefinition level12 = hier1.createLevel( "level12" );
-		ILevelDefinition level13 = hier1.createLevel( "level13" );
+		hier1.createLevel( "level12" );
+		hier1.createLevel( "level13" );
 		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		ILevelDefinition level21 = hier2.createLevel( "level21" );
@@ -846,12 +846,12 @@ public class CubeFeaturesTest extends BaseTestCase
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
 		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
 		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
-		ILevelDefinition level11 = hier1.createLevel( "level11" );
-		ILevelDefinition level12 = hier1.createLevel( "level12" );
-		ILevelDefinition level13 = hier1.createLevel( "level13" );
+		hier1.createLevel( "level11" );
+		hier1.createLevel( "level12" );
+		hier1.createLevel( "level13" );
 		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
-		ILevelDefinition level21 = hier2.createLevel( "level21" );
+		hier2.createLevel( "level21" );
 
 		createSortTestBindings( cqd );
 		
@@ -910,8 +910,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
 		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
 		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
-		ILevelDefinition level11 = hier1.createLevel( "level11" );
-		ILevelDefinition level12 = hier1.createLevel( "level12" );
+		hier1.createLevel( "level11" );
+		hier1.createLevel( "level12" );
 				
 		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
@@ -1619,8 +1619,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
 		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
 		ILevelDefinition level11 = hier1.createLevel( "level11" );
-		ILevelDefinition level12 = hier1.createLevel( "level12" );
-		ILevelDefinition level13 = hier1.createLevel( "level13" );
+		hier1.createLevel( "level12" );
+		hier1.createLevel( "level13" );
 		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
 		ILevelDefinition level21 = hier2.createLevel( "level21" );
@@ -1791,6 +1791,285 @@ public class CubeFeaturesTest extends BaseTestCase
 				"row_rowGrandTotal",
 				"row_grandTotal" );
 	
+	}
+	
+	/**
+	 * Test computed measure.
+	 * @throws Exception
+	 */
+	public void testComputedMeasure( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		hier1.createLevel( "level11" );
+		hier1.createLevel( "level12" );
+		hier1.createLevel( "level13" );
+		
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		hier2.createLevel( "level21" );
+
+		cqd.createComputedMeasure( "measure2", DataType.DOUBLE_TYPE, new ScriptExpression( "measure[\"measure1\"] + measure[\"measure1\"]"));
+		
+		IBinding binding1 = new Binding( "edge1level1");
+		
+		binding1.setExpression( new ScriptExpression("dimension[\"dimension1\"][\"level11\"]") );
+		cqd.addBinding( binding1 );
+		
+		IBinding binding2 = new Binding( "edge1level2");
+		
+		binding2.setExpression( new ScriptExpression("dimension[\"dimension1\"][\"level12\"]") );
+		cqd.addBinding( binding2 );
+		
+		IBinding binding3 = new Binding( "edge1level3");
+		
+		binding3.setExpression( new ScriptExpression("dimension[\"dimension1\"][\"level13\"]") );
+		cqd.addBinding( binding3 );
+		
+		IBinding binding4 = new Binding( "edge2level1");
+		
+		binding4.setExpression( new ScriptExpression("dimension[\"dimension2\"][\"level21\"]") );
+		cqd.addBinding( binding4 );
+		
+		IBinding binding5 = new Binding( "measure2" );
+		binding5.setExpression( new ScriptExpression("measure[\"measure2\"]") );
+		cqd.addBinding( binding5 );
+		
+		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				null,
+				null,
+				null ) );
+		this.createCube( engine );
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = queryResults.getCubeCursor( );
+		List columnEdgeBindingNames = new ArrayList();
+		columnEdgeBindingNames.add( "edge1level1" );
+		columnEdgeBindingNames.add( "edge1level2" );
+		columnEdgeBindingNames.add( "edge1level3" );
+		this.printCube( cursor, columnEdgeBindingNames, "edge2level1", "measure2" );
+	}
+	
+	/**
+	 * Test use Nested Computed Measure.
+	 * @throws Exception
+	 */
+	public void testNestedComputedMeasure( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		hier1.createLevel( "level11" );
+		hier1.createLevel( "level12" );
+		hier1.createLevel( "level13" );
+		
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		hier2.createLevel( "level21" );
+		
+		cqd.createComputedMeasure( "measure2", DataType.DOUBLE_TYPE, new ScriptExpression( "measure[\"measure1\"] + measure[\"measure3\"]"));
+		cqd.createComputedMeasure( "measure3", DataType.DOUBLE_TYPE, new ScriptExpression( "measure[\"measure1\"]"));
+		
+		IBinding binding1 = new Binding( "edge1level1");
+		
+		binding1.setExpression( new ScriptExpression("dimension[\"dimension1\"][\"level11\"]") );
+		cqd.addBinding( binding1 );
+		
+		IBinding binding2 = new Binding( "edge1level2");
+		
+		binding2.setExpression( new ScriptExpression("dimension[\"dimension1\"][\"level12\"]") );
+		cqd.addBinding( binding2 );
+		
+		IBinding binding3 = new Binding( "edge1level3");
+		
+		binding3.setExpression( new ScriptExpression("dimension[\"dimension1\"][\"level13\"]") );
+		cqd.addBinding( binding3 );
+		
+		IBinding binding4 = new Binding( "edge2level1");
+		
+		binding4.setExpression( new ScriptExpression("dimension[\"dimension2\"][\"level21\"]") );
+		cqd.addBinding( binding4 );
+		
+		IBinding binding5 = new Binding( "measure2" );
+		binding5.setExpression( new ScriptExpression("measure[\"measure2\"]") );
+		cqd.addBinding( binding5 );
+		
+		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				null,
+				null,
+				null ) );
+		this.createCube( engine );
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = queryResults.getCubeCursor( );
+		List columnEdgeBindingNames = new ArrayList();
+		columnEdgeBindingNames.add( "edge1level1" );
+		columnEdgeBindingNames.add( "edge1level2" );
+		columnEdgeBindingNames.add( "edge1level3" );
+		this.printCube( cursor, columnEdgeBindingNames, "edge2level1", "measure2" );
+	}
+	
+	/**
+	 * 
+	 * @throws Exception
+	 */
+	public void testGrandTotalWithComputedMeasure( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		ILevelDefinition level11 = hier1.createLevel( "level11" );
+		ILevelDefinition level12=  hier1.createLevel( "level12" );
+				
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		ILevelDefinition level21 = hier2.createLevel( "level21" );
+		
+		cqd.createComputedMeasure( "measure2", DataType.DOUBLE_TYPE, new ScriptExpression( "measure[\"measure1\"] + measure[\"measure3\"]"));
+		cqd.createComputedMeasure( "measure3", DataType.DOUBLE_TYPE, new ScriptExpression( "measure[\"measure1\"]"));
+				
+		IBinding binding1 = new Binding( "edge1level1");
+		
+		binding1.setExpression( new ScriptExpression("dimension[\"dimension1\"][\"level11\"]") );
+		cqd.addBinding( binding1 );
+		
+		IBinding binding2 = new Binding( "edge1level2");
+		
+		binding2.setExpression( new ScriptExpression("dimension[\"dimension1\"][\"level12\"]") );
+		cqd.addBinding( binding2 );
+		
+		IBinding binding4 = new Binding( "edge2level1");
+		
+		binding4.setExpression( new ScriptExpression("dimension[\"dimension2\"][\"level21\"]") );
+		cqd.addBinding( binding4 );
+		
+		IBinding binding5 = new Binding( "measure2" );
+		binding5.setExpression( new ScriptExpression("measure[\"measure2\"]") );
+		cqd.addBinding( binding5 );
+		
+		IBinding binding6 = new Binding( "rowGrandTotal");
+		binding6.setExpression( new ScriptExpression("measure[\"measure2\"]") );
+		binding6.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		binding6.addAggregateOn( "dimension[\"dimension2\"][\"level21\"]" );
+		cqd.addBinding( binding6 );
+		
+		IBinding binding7 = new Binding( "columnGrandTotal");
+		binding7.setExpression( new ScriptExpression("measure[\"measure2\"]") );
+		binding7.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		binding7.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+		binding7.addAggregateOn( "dimension[\"dimension1\"][\"level12\"]" );
+		cqd.addBinding( binding7 );
+		
+		IBinding binding8 = new Binding( "grandTotal");
+		binding8.setExpression( new ScriptExpression("measure[\"measure2\"]") );
+		binding8.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		cqd.addBinding( binding8 );
+		
+		//sort on year
+		CubeSortDefinition sorter1 = new CubeSortDefinition();
+		sorter1.setExpression( "dimension[\"dimension2\"][\"level21\"]" );
+		sorter1.setSortDirection( ISortDefinition.SORT_DESC );
+		sorter1.setTargetLevel( level21 );
+		
+		//sort on country
+		CubeSortDefinition sorter2 = new CubeSortDefinition();
+		sorter2.setExpression( "dimension[\"dimension1\"][\"level11\"]" );
+		sorter2.setSortDirection( ISortDefinition.SORT_DESC );
+		sorter2.setTargetLevel( level11 );
+		
+		//sort on city.
+		CubeSortDefinition sorter3 = new CubeSortDefinition();
+		sorter3.setExpression( "dimension[\"dimension1\"][\"level12\"]" );
+		sorter3.setSortDirection( ISortDefinition.SORT_DESC );
+		sorter3.setTargetLevel( level12 );
+		
+		cqd.addSort( sorter1 );
+		cqd.addSort( sorter2 );
+		cqd.addSort( sorter3);
+		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				null,
+				null,
+				null ) );
+		this.createCube( engine );
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = queryResults.getCubeCursor( );
+		List columnEdgeBindingNames = new ArrayList();
+		columnEdgeBindingNames.add( "edge1level1" );
+		columnEdgeBindingNames.add( "edge1level2" );
+		
+		this.printCube( cursor, columnEdgeBindingNames, "edge2level1", "measure2", "columnGrandTotal", "rowGrandTotal", "grandTotal" );
+	
+	}
+		
+	/**
+	 * Test computed measure name conflict.
+	 * @throws Exception
+	 */
+	public void testInvalidComputedMeasure1( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		hier1.createLevel( "level11" );
+		hier1.createLevel( "level12" );
+		hier1.createLevel( "level13" );
+		
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		hier2.createLevel( "level21" );
+
+		cqd.createComputedMeasure( "measure1", DataType.DOUBLE_TYPE, new ScriptExpression( "measure[\"measure1\"] + measure[\"measure1\"]"));
+		
+		IBinding binding1 = new Binding( "edge1level1");
+		
+		binding1.setExpression( new ScriptExpression("dimension[\"dimension1\"][\"level11\"]") );
+		cqd.addBinding( binding1 );
+		
+		IBinding binding2 = new Binding( "edge1level2");
+		
+		binding2.setExpression( new ScriptExpression("dimension[\"dimension1\"][\"level12\"]") );
+		cqd.addBinding( binding2 );
+		
+		IBinding binding3 = new Binding( "edge1level3");
+		
+		binding3.setExpression( new ScriptExpression("dimension[\"dimension1\"][\"level13\"]") );
+		cqd.addBinding( binding3 );
+		
+		IBinding binding4 = new Binding( "edge2level1");
+		
+		binding4.setExpression( new ScriptExpression("dimension[\"dimension2\"][\"level21\"]") );
+		cqd.addBinding( binding4 );
+		
+		IBinding binding5 = new Binding( "measure2" );
+		binding5.setExpression( new ScriptExpression("measure[\"measure1\"]") );
+		cqd.addBinding( binding5 );
+		
+		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				null,
+				null,
+				null ) );
+		this.createCube( engine );
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		try
+		{
+			queryResults.getCubeCursor( );
+			fail( "Should not arrive here" );
+		}
+		catch ( Exception e )
+		{
+
+		}
 	}
 	
 	
@@ -2075,8 +2354,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
 		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
 		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
-		ILevelDefinition level11 = hier1.createLevel( "level11" );
-		ILevelDefinition level12 = hier1.createLevel( "level12" );
+		hier1.createLevel( "level11" );
+		hier1.createLevel( "level12" );
 				
 		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
 		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
@@ -2791,6 +3070,75 @@ public class CubeFeaturesTest extends BaseTestCase
 				"row_grandTotal" );
 	
 	}
+	
+	/**
+	 * Test computed measure.
+	 * @throws Exception
+	 */
+	public void testComputedMeasureCache( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		hier1.createLevel( "level11" );
+		hier1.createLevel( "level12" );
+		hier1.createLevel( "level13" );
+		
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		hier2.createLevel( "level21" );
+
+		cqd.createComputedMeasure( "measure2", DataType.DOUBLE_TYPE, new ScriptExpression( "measure[\"measure1\"] + measure[\"measure1\"]"));
+		
+		IBinding binding1 = new Binding( "edge1level1");
+		
+		binding1.setExpression( new ScriptExpression("dimension[\"dimension1\"][\"level11\"]") );
+		cqd.addBinding( binding1 );
+		
+		IBinding binding2 = new Binding( "edge1level2");
+		
+		binding2.setExpression( new ScriptExpression("dimension[\"dimension1\"][\"level12\"]") );
+		cqd.addBinding( binding2 );
+		
+		IBinding binding3 = new Binding( "edge1level3");
+		
+		binding3.setExpression( new ScriptExpression("dimension[\"dimension1\"][\"level13\"]") );
+		cqd.addBinding( binding3 );
+		
+		IBinding binding4 = new Binding( "edge2level1");
+		
+		binding4.setExpression( new ScriptExpression("dimension[\"dimension2\"][\"level21\"]") );
+		cqd.addBinding( binding4 );
+		
+		IBinding binding5 = new Binding( "measure2" );
+		binding5.setExpression( new ScriptExpression("measure[\"measure2\"]") );
+		cqd.addBinding( binding5 );
+		
+		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				null,
+				null,
+				null ) );
+		this.createCube( engine );
+		cqd.setCacheQueryResults( true );
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = queryResults.getCubeCursor( );
+		
+		//Load from cache.
+		cqd.setQueryResultsID( queryResults.getID( ) );
+		pcq = engine.prepare( cqd, null );
+		queryResults = pcq.execute( null );
+		cursor = queryResults.getCubeCursor( );
+		
+		List columnEdgeBindingNames = new ArrayList();
+		columnEdgeBindingNames.add( "edge1level1" );
+		columnEdgeBindingNames.add( "edge1level2" );
+		columnEdgeBindingNames.add( "edge1level3" );
+		this.printCube( cursor, columnEdgeBindingNames, "edge2level1", "measure2" );
+	}
+	
 	private void createSortTestBindings( ICubeQueryDefinition cqd )
 			throws DataException
 	{

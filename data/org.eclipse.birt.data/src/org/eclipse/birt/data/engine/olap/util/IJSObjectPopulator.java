@@ -15,9 +15,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
+import org.eclipse.birt.data.engine.olap.util.filter.IFacttableRow;
 import org.eclipse.birt.data.engine.olap.util.filter.IResultRow;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
@@ -41,7 +43,7 @@ public interface IJSObjectPopulator
 	 * 
 	 * @param resultRow
 	 */
-	public void setResultRow( IResultRow resultRow );
+	public void setData( Object resultRow );
 
 	/**
 	 * clean up the registered Javascript objects from the scope.
@@ -355,6 +357,92 @@ public interface IJSObjectPopulator
 		public String getClassName( )
 		{
 			return "DummyJSAggregationAccessor";//$NON-NLS-1$
+		}
+
+	}
+
+	/**
+	 * 
+	 * @author Administrator
+	 *
+	 */
+	class DummyJSFacttableMeasureAccessor extends ScriptableObject
+	{
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -7910516821739958908L;
+		private IFacttableRow resultRow;
+		private Map computedMeasures;
+		private Scriptable scope;
+		
+		/**
+		 * 
+		 * @param computedMeasures
+		 * @param scope
+		 */
+		public DummyJSFacttableMeasureAccessor( Map computedMeasures, Scriptable scope )
+		{
+			this.computedMeasures = computedMeasures;
+			this.scope = scope;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String, org.mozilla.javascript.Scriptable)
+		 */
+		public Object get( String aggrName, Scriptable scope )
+		{
+			if ( this.resultRow != null )
+			{
+				try
+				{
+					if( this.computedMeasures.containsKey( aggrName ))
+					{	
+						try
+						{
+							Context cx = Context.enter( );
+							return ScriptEvalUtil.evalExpr( ( (IBaseExpression) this.computedMeasures.get( aggrName ) ),
+									cx,
+									this.scope,
+									null,
+									0 );
+						}catch ( Exception e )
+						{
+							return null;
+						}
+						finally
+						{
+							Context.exit( );
+						}
+					}
+					return this.resultRow.getMeasureValue( aggrName );
+				}
+				catch ( DataException e )
+				{
+					return null;
+				}
+			}
+			else
+				return null;
+		}
+
+		/*
+		 * 
+		 */
+		public void setResultRow( IFacttableRow row )
+		{
+			this.resultRow = row;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.mozilla.javascript.ScriptableObject#getClassName()
+		 */
+		public String getClassName( )
+		{
+			return "DummyJSFacttableMeasureAccessor";//$NON-NLS-1$
 		}
 
 	}

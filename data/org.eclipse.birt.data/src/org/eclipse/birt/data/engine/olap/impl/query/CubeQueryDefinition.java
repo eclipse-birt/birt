@@ -14,9 +14,12 @@ package org.eclipse.birt.data.engine.olap.impl.query;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
+import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.olap.api.query.IComputedMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
@@ -31,7 +34,7 @@ public class CubeQueryDefinition extends NamedObject
 			ICubeQueryDefinition 
 {
 	private IEdgeDefinition columnEdge, rowEdge;
-	private List measureList, bindingList, filterList, sortList;
+	private List measureList, bindingList, filterList, sortList, computedMeasureList;
 	private String queryResultsID;
 	private boolean cacheQueryResults;
 	private int breakHierarchyOption = 0;
@@ -48,6 +51,7 @@ public class CubeQueryDefinition extends NamedObject
 		this.measureList = new ArrayList();
 		this.filterList = new ArrayList();
 		this.sortList = new ArrayList();
+		this.computedMeasureList = new ArrayList();
 		this.cacheQueryResults = false;
 	}
 	
@@ -211,5 +215,26 @@ public class CubeQueryDefinition extends NamedObject
 	public void setFilterOption( int breakHierarchyOption )
 	{
 		this.breakHierarchyOption = breakHierarchyOption;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition#createComputedMeasure(java.lang.String, int, org.eclipse.birt.data.engine.api.IBaseExpression)
+	 */
+	public IComputedMeasureDefinition createComputedMeasure( String measureName, int type,
+			IBaseExpression expr ) throws DataException
+	{
+		ComputedMeasureDefinition cmd = new ComputedMeasureDefinition( measureName, type, expr );
+		this.computedMeasureList.add( cmd );
+		return cmd;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition#getComputedMeasures()
+	 */
+	public List getComputedMeasures( )
+	{
+		return this.computedMeasureList;
 	}
 }

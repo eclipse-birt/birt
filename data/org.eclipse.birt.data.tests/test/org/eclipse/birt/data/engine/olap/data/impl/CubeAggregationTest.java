@@ -1535,6 +1535,9 @@ class ComputedMeasureHelper implements IComputedMeasureHelper
 	{
 		return measureInfos;
 	}
+	
+	public void cleanUp() throws DataException
+	{}
 }
 
 class JSMeasureFilterEvalHelper implements IJSMeasureFilterEvalHelper

@@ -23,12 +23,18 @@ import org.mozilla.javascript.Scriptable;
 
 public class DataJSObjectPopulator implements IJSObjectPopulator
 {
-
+	//
 	private DummyJSAggregationAccessor dataObj;
 	private Scriptable scope;
 	private List bindings;
 	private boolean hasAggrLevels;
 
+	/**
+	 * 
+	 * @param scope
+	 * @param bindings
+	 * @param hasAggrLevels
+	 */
 	public DataJSObjectPopulator( Scriptable scope, List bindings,
 			boolean hasAggrLevels )
 	{
@@ -37,6 +43,10 @@ public class DataJSObjectPopulator implements IJSObjectPopulator
 		this.hasAggrLevels = hasAggrLevels;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.util.IJSObjectPopulator#doInit()
+	 */
 	public void doInit( ) throws DataException
 	{
 		this.dataObj = new DummyJSAggregationAccessor( );
@@ -53,9 +63,14 @@ public class DataJSObjectPopulator implements IJSObjectPopulator
 
 	}
 
-	public void setResultRow( IResultRow resultRow )
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.util.IJSObjectPopulator#setData(java.lang.Object)
+	 */
+	public void setData( Object resultRow )
 	{
-		this.dataObj.setResultRow( resultRow );
+		assert resultRow instanceof IResultRow;
+		this.dataObj.setResultRow( ( IResultRow ) resultRow );
 
 	}
 

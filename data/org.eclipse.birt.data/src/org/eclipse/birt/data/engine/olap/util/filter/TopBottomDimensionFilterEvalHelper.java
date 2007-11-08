@@ -139,7 +139,7 @@ public class TopBottomDimensionFilterEvalHelper
 	 */
 	public Object evaluateFilterExpr( IResultRow resultRow ) throws DataException
 	{
-		super.setResultRow( resultRow );
+		super.setData( resultRow );
 		Context cx = Context.enter( );
 		try
 		{

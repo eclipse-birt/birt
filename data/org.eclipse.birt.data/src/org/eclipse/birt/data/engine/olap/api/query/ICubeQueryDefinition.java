@@ -13,10 +13,12 @@ package org.eclipse.birt.data.engine.olap.api.query;
 
 import java.util.List;
 
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
+import org.eclipse.birt.data.engine.core.DataException;
 
 /**
  * ICubeQueryDefinition is the entry point of a cube query. It defines the
@@ -74,7 +76,7 @@ public interface ICubeQueryDefinition extends INamedObject, IDataQueryDefinition
 	/**
 	 * Create a measure which is used in the query. A measure is a specific
 	 * dimension. The measure created by this method will be automatically
-	 * lindked to the cube.
+	 * linked to the cube.
 	 * 
 	 * @param measureName
 	 * @return
@@ -82,12 +84,30 @@ public interface ICubeQueryDefinition extends INamedObject, IDataQueryDefinition
 	public IMeasureDefinition createMeasure( String measureName );
 
 	/**
+	 * Create a computed measure which is dynamically created during the population
+	 * of CubeCursor.
+	 * 
+	 * @param measureName
+	 * @param expr
+	 * @return
+	 * @throws DataException 
+	 */
+	public IComputedMeasureDefinition createComputedMeasure( String measureName, int type,
+			IBaseExpression expr ) throws DataException;
+	
+	/**
 	 * Return the list of measures defined.
 	 * 
 	 * @return
 	 */
 	public List getMeasures( );
 
+	/**
+	 * Return the list of computed measure defined.
+	 * @return
+	 */
+	public List getComputedMeasures( );
+	
 	/**
 	 * Get the specific EdgeDefn, for each type of Edge there is only one Edge
 	 * instance.

@@ -22,6 +22,9 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeSortDefinition;
+import org.eclipse.birt.data.engine.olap.data.api.IComputedMeasureHelper;
+
+import org.eclipse.birt.data.engine.olap.util.ComputedMeasureHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.BaseDimensionFilterEvalHelper;
 import org.mozilla.javascript.Scriptable;
 
@@ -47,6 +50,11 @@ public class CubeQueryExecutor
 		this.session = session;
 	}
 
+	/**
+	 * 
+	 * @return
+	 * @throws DataException
+	 */
 	public List getDimensionFilterEvalHelpers( ) throws DataException
 	{
 		List filters = defn.getFilters( );
@@ -60,41 +68,89 @@ public class CubeQueryExecutor
 		return results;
 	}
 
+	/**
+	 * 
+	 * @return
+	 * @throws DataException
+	 */
+	public IComputedMeasureHelper getComputedMeasureHelper( )
+			throws DataException
+	{
+		if ( this.defn.getComputedMeasures( ) != null
+				&& this.defn.getComputedMeasures( ).size( ) > 0 )
+			return new ComputedMeasureHelper( this.scope,
+					this.defn.getComputedMeasures( ) );
+		return null;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public ICubeQueryDefinition getCubeQueryDefinition( )
 	{
 		return this.defn;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public DataEngineSession getSession( )
 	{
 		return this.session;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public DataEngineContext getContext( )
 	{
 		return this.context;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public List getColumnEdgeSort( )
 	{
 		return getEdgeSort( ICubeQueryDefinition.COLUMN_EDGE );
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public List getRowEdgeSort( )
 	{
 		return getEdgeSort( ICubeQueryDefinition.ROW_EDGE );
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getQueryResultsId()
 	{
 		return this.queryResultsId;
 	}
 	
+	/**
+	 * 
+	 * @param id
+	 */
 	public void setQueryResultsId( String id )
 	{
 		this.queryResultsId = id;
 	}
 	
+	/**
+	 * 
+	 * @param edgeType
+	 * @return
+	 */
 	private List getEdgeSort( int edgeType )
 	{
 		List l = this.defn.getSorts( );

@@ -1,5 +1,6 @@
+
 /*******************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,39 +9,30 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
-
 package org.eclipse.birt.data.engine.olap.util;
 
-import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.olap.util.filter.IResultRow;
+import org.eclipse.birt.data.engine.olap.util.filter.IFacttableRow;
 import org.mozilla.javascript.Scriptable;
+
 
 /**
  * 
  */
 
-public class DimensionJSObjectPopulator implements IJSObjectPopulator
+public class FacttableMeasureJSObjectPopulator implements IJSObjectPopulator
 {
-	//
-	private DummyJSLevels dimObj;
-	private Scriptable scope;
-	private String dimensionName;
-	private List levelNames;
 
-	/**
-	 * 
-	 * @param scope
-	 * @param dimensionName
-	 * @param levelNames
-	 */
-	public DimensionJSObjectPopulator( Scriptable scope, String dimensionName,
-			List levelNames )
+	private DummyJSFacttableMeasureAccessor measureObj;
+	private Scriptable scope;
+	private Map computedMeasures;
+
+	public FacttableMeasureJSObjectPopulator( Scriptable scope, Map computedMeasures )
 	{
 		this.scope = scope;
-		this.dimensionName = dimensionName;
-		this.levelNames = levelNames;
+		this.computedMeasures = computedMeasures;
 	}
 
 	/*
@@ -49,13 +41,10 @@ public class DimensionJSObjectPopulator implements IJSObjectPopulator
 	 */
 	public void doInit( ) throws DataException
 	{
-		this.dimObj = new DummyJSLevels( dimensionName );
-		DummyJSDimensionObject dimObj = new DummyJSDimensionObject( this.dimObj,
-				levelNames );
-
-		scope.put( "dimension",//$NON-NLS-1$
-				scope,
-				new DummyJSDimensionAccessor( dimensionName, dimObj ) );
+		this.measureObj = new DummyJSFacttableMeasureAccessor( this.computedMeasures, scope );
+		this.scope.put( "measure",//$NON-NLS-1$
+					this.scope,
+					this.measureObj );
 
 	}
 
@@ -65,18 +54,20 @@ public class DimensionJSObjectPopulator implements IJSObjectPopulator
 	 */
 	public void setData( Object resultRow )
 	{
-		assert resultRow instanceof IResultRow;
-		dimObj.setResultRow( ( IResultRow ) resultRow );
+		assert resultRow instanceof IFacttableRow;
+		
+		this.measureObj.setResultRow( ( IFacttableRow ) resultRow );
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.util.IJSObjectPopulator#cleanUp()
+	 * @see org.eclipse.birt.data.engine.olap.util.IJSObjectPopulator#close()
 	 */
 	public void cleanUp( )
 	{
-		this.scope.delete( "dimension" );//$NON-NLS-1$
+		this.scope.delete( "measure" );//$NON-NLS-1$
 		this.scope.setParentScope( null );
 	}
+
 
 }

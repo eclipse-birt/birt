@@ -17,7 +17,7 @@ import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
  * 
  */
 
-public class MeasureDefinition extends DimensionDefinition implements IMeasureDefinition
+public class MeasureDefinition extends NamedObject implements IMeasureDefinition
 {
 	private String aggrFunction;
 	
