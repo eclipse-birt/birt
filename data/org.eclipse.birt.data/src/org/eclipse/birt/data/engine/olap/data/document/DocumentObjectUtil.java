@@ -81,10 +81,6 @@ public class DocumentObjectUtil
 			case DataType.BIGDECIMAL_TYPE :
 				documentObject.writeBigDecimal( DataTypeUtil.toBigDecimal( value ) );
 				break;
-			case DataType.BLOB_TYPE :
-				Bytes bytesValue = new Bytes( (byte[])value );
-				documentObject.writeBytes( bytesValue );
-				break;
 			case DataType.BYTES_TYPE :
 				documentObject.writeBytes( (Bytes) value );
 				break;
@@ -154,8 +150,6 @@ public class DocumentObjectUtil
 				return documentObject.readDate( );
 			case DataType.BIGDECIMAL_TYPE :
 				return documentObject.readBigDecimal( );
-			case DataType.BLOB_TYPE :
-				return documentObject.readBytes( ).bytesValue( );
 			case DataType.BYTES_TYPE :
 				return documentObject.readBytes( );
 			case DataType.SQL_DATE_TYPE:
