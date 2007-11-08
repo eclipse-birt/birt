@@ -65,8 +65,8 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.core.format.StringFormatterTest.class );
 		
 		/* in package: org.eclipse.birt.core.script.bre */
-		suite.addTestSuite( org.eclipse.birt.core.script.bre.BirtCompTest.class );
 		suite.addTestSuite( org.eclipse.birt.core.script.bre.BirtDateTimeTest.class );
+		suite.addTestSuite( org.eclipse.birt.core.script.bre.BirtCompTest.class );
 		suite.addTestSuite( org.eclipse.birt.core.script.bre.BirtMathTest.class );
 		suite.addTestSuite( org.eclipse.birt.core.script.bre.BirtStrTest.class );
 		

@@ -13,14 +13,15 @@ package org.eclipse.birt.core.script.bre;
 
 import java.util.Date;
 
+import junit.framework.TestCase;
+
 import org.eclipse.birt.core.exception.BirtException;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
 import com.ibm.icu.util.Calendar;
-
-import junit.framework.TestCase;
+import com.ibm.icu.util.TimeZone;
 
 /**
  * 
@@ -31,7 +32,8 @@ public class BirtDateTimeTest extends TestCase
 
 	private Context cx;
 	private Scriptable scope;
-
+	private TimeZone currentTimeZone = TimeZone.getDefault( );
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -43,6 +45,8 @@ public class BirtDateTimeTest extends TestCase
 		 * Creates and enters a Context. The Context stores information about
 		 * the execution environment of a script.
 		 */
+
+		TimeZone.setDefault( TimeZone.getTimeZone("GMT+0")  );
 
 		cx = Context.enter( );
 		/*
@@ -62,6 +66,7 @@ public class BirtDateTimeTest extends TestCase
 	public void tearDown( )
 	{
 		Context.exit( );
+		TimeZone.setDefault( this.currentTimeZone  );
 	}
 
 	/*
@@ -820,7 +825,8 @@ public class BirtDateTimeTest extends TestCase
 		String[] scripts = new String[]{
 				"BirtDateTime.addHour(new Date(2005, 10, 15),7*24 )",
 				"BirtDateTime.addHour(new Date(2006, 9, 15),21*24 )",
-				"BirtDateTime.addHour(new Date(1795, 10, 15),10 )"
+				"BirtDateTime.addHour(new Date(1795, 10, 15),10 )",
+				"BirtDateTime.addHour(null,21*24 )"
 		};
 
 		Calendar c = Calendar.getInstance( );
@@ -844,9 +850,15 @@ public class BirtDateTimeTest extends TestCase
 		Date d3 = new Date( c.getTimeInMillis( ) );
 
 		c.clear( );
+		
+		c.set( 1970, 0, 22, 0, 0, 0 );
+
+		Date d4 = new Date( c.getTimeInMillis( ) );
+		
+		c.clear( );
 
 		Date[] values = new Date[]{
-				d1, d2, d3
+				d1, d2, d3, d4
 		};
 
 		for ( int i = 0; i < values.length; i++ )
@@ -855,21 +867,7 @@ public class BirtDateTimeTest extends TestCase
 					scripts[i],
 					"inline",
 					1,
-					null ), values[i] );
-		}
-
-		try
-		{
-			cx.evaluateString( scope,
-					"BirtDateTime.addHour(null,21*24 )",
-					"inline",
-					1,
-					null );
-			fail( "IllegalArgumentException expected" );
-		}
-		catch ( IllegalArgumentException ie )
-		{
-
+					null ) , values[i] );
 		}
 	}
 
