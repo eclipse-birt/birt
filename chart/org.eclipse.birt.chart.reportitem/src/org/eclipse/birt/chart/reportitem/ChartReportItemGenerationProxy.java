@@ -16,6 +16,8 @@ import java.io.OutputStream;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IReportItemGeneration;
 import org.eclipse.birt.report.engine.extension.IRowSet;
 import org.eclipse.birt.report.engine.extension.Size;
@@ -99,6 +101,20 @@ public class ChartReportItemGenerationProxy implements IReportItemGeneration
 	{
 		assert impl != null;
 		impl.setScriptContext( context );
+	}
+
+	public void onRowSets( IBaseResultSet[] results ) throws BirtException
+	{
+		assert impl != null;
+		impl.onRowSets( results );
+		
+	}
+
+	public void setExtendedItemContent( IContent content )
+	{
+		assert impl != null;
+		impl.setExtendedItemContent( content );
+		
 	}
 
 }

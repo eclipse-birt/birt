@@ -18,7 +18,9 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IReportItemPresentation;
 import org.eclipse.birt.report.engine.extension.IRowSet;
 import org.eclipse.birt.report.engine.extension.Size;
@@ -146,6 +148,19 @@ public class ChartReportItemPresentationProxy
 	{
 		assert impl != null;
 		impl.setSupportedImageFormats( supportedImageFormats );
+	}
+
+	public Object onRowSets( IBaseResultSet[] results ) throws BirtException
+	{
+		assert impl != null;
+		return impl.onRowSets( results );
+	}
+
+	public void setExtendedItemContent( IContent content )
+	{
+		assert impl != null;
+		impl.setExtendedItemContent( content );
+		
 	}
 
 }
