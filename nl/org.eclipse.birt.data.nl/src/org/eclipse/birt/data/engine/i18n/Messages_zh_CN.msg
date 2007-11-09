@@ -96,8 +96,8 @@ data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=列绑定“{0
 data.engine.ReadColumnValueFromDocumentError=尝试读取列 {0} 的值时出错。这可能由绑定表达式的判定中的运行时错误(即除数为 0 错误)引起。
 #computed column value
 data.engine.BadCompColExpr=计算列 "{0}" 的表达式无效。
-data.engine.CompCol.FailRetrieveValueComputedColumn=Fail to compute value for computed column "{0}".
-data.engine.ScriptResult.WrongSystemComputedColumn=Fail to compute value from sort, group or filter expression.
+data.engine.CompCol.FailRetrieveValueComputedColumn=未能为已计算的列“{0}”计算值。
+data.engine.ScriptResult.WrongSystemComputedColumn=未能根据排序、组或筛选表达式计算值。
 
 data.engine.BadFilterExpr=筛选表达式 "{0}" 无效。
 data.engine.BadFilterDefn=使用表达式“{0}”的筛选定义无效。

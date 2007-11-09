@@ -96,8 +96,8 @@ data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=Die Spalte
 data.engine.ReadColumnValueFromDocumentError=Der Fehler tritt beim Lesen von Spaltenwert {0} auf. Der Grund ist möglicherweise ein Laufzeitfehler bei der Auswertung des Bindungsausdrucks, also ein 'Division-durch-0'-Fehler.
 #computed column value
 data.engine.BadCompColExpr=Der Ausdruck für die berechnete Spalte "{0}" ist ungültig.
-data.engine.CompCol.FailRetrieveValueComputedColumn=Fail to compute value for computed column "{0}".
-data.engine.ScriptResult.WrongSystemComputedColumn=Fail to compute value from sort, group or filter expression.
+data.engine.CompCol.FailRetrieveValueComputedColumn=Wert für berechnete Spalte "{0}" konnte nicht berechnet werden.
+data.engine.ScriptResult.WrongSystemComputedColumn=Wert aus Sortierungs-, Gruppen- oder Filterausdruck konnte nicht berechnet werden.
 
 data.engine.BadFilterExpr=Der Filterausdruck "{0}" ist ungültig.
 data.engine.BadFilterDefn=Die Filterdefinition mit dem Ausdruck "{0}" ist ungültig.

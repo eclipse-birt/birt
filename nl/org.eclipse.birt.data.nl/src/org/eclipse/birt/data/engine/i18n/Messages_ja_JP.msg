@@ -96,8 +96,8 @@ data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=列バインド
 data.engine.ReadColumnValueFromDocumentError=列 {0} の値を読み取り中にエラーが発生しました。バインドの式 (ゼロ除算エラー) を評価中に実行時エラーが発生した可能性があります。
 #computed column value
 data.engine.BadCompColExpr=計算列 "{0}" の式が無効です。
-data.engine.CompCol.FailRetrieveValueComputedColumn=Fail to compute value for computed column "{0}".
-data.engine.ScriptResult.WrongSystemComputedColumn=Fail to compute value from sort, group or filter expression.
+data.engine.CompCol.FailRetrieveValueComputedColumn=計算列 "{0}" の値を計算できません。
+data.engine.ScriptResult.WrongSystemComputedColumn=ソート式、グループ式、またはフィルタ式の値を計算できません。
 
 data.engine.BadFilterExpr=フィルタ式 "{0}" が無効です。
 data.engine.BadFilterDefn=フィルタ定義式 "{0}" が無効です。

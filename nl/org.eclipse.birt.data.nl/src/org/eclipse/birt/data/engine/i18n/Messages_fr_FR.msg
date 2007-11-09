@@ -96,8 +96,8 @@ data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=La liaison
 data.engine.ReadColumnValueFromDocumentError=Une erreur s'est produite lors de la tentative de lecture de la valeur de la colonne : {0}. Une erreur d'exécution s'est peut-être produite lors de l'évaluation d'une expression de liaison, c'est-à-dire une erreur causée par une division par 0.
 #computed column value
 data.engine.BadCompColExpr=L''expression de la colonne de calcul "{0}" est incorrecte.
-data.engine.CompCol.FailRetrieveValueComputedColumn=Fail to compute value for computed column "{0}".
-data.engine.ScriptResult.WrongSystemComputedColumn=Fail to compute value from sort, group or filter expression.
+data.engine.CompCol.FailRetrieveValueComputedColumn=Echec du calcul de la valeur pour la colonne calculée "{0}".
+data.engine.ScriptResult.WrongSystemComputedColumn=Echec du calcul de la valeur à partir d'une expression de filtre, de groupe ou de tri.
 
 data.engine.BadFilterExpr=L''expression de filtre "{0}" n''est pas valide.
 data.engine.BadFilterDefn=La définition de filtre utilisant l''expression "{0}" n''est pas valide.

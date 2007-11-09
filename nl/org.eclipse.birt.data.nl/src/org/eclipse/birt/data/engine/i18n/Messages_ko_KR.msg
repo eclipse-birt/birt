@@ -96,8 +96,8 @@ data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=열 바인딩"
 data.engine.ReadColumnValueFromDocumentError=열 값을 읽는 동안 오류가 발생했습니다: {0}.  바인딩 식 평가에서 0으로 나누기 오류와 같은 런타임 오류가 발생했을 수 있습니다.
 #computed column value
 data.engine.BadCompColExpr=계산된 열 "{0}"에 대한 식이 잘못되었습니다.
-data.engine.CompCol.FailRetrieveValueComputedColumn=Fail to compute value for computed column "{0}".
-data.engine.ScriptResult.WrongSystemComputedColumn=Fail to compute value from sort, group or filter expression.
+data.engine.CompCol.FailRetrieveValueComputedColumn=계산된 열 "{0}"에 대한 값을 계산하지 못했습니다.
+data.engine.ScriptResult.WrongSystemComputedColumn=정렬, 그룹 또는 필터 식에서 값을 계산하지 못했습니다.
 
 data.engine.BadFilterExpr=필터 식 "{0}"이(가) 잘못되었습니다.
 data.engine.BadFilterDefn=식 "{0}"을(를) 사용한 필터 정의가 잘못되었습니다.
