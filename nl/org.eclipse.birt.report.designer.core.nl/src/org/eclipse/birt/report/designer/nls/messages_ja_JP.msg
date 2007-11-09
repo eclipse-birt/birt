@@ -748,8 +748,8 @@ designer.preview.previewaction.label.webviewer=Web ビューアでレポートを表示する
 designer.preview.previewaction.label=レポートを {0} として表示する
 designer.preview.previewaction.ErrorMessage=iText がインストールされていないか見つからないため、PDF の生成は有効になっていません。
 designer.preview.previewaction.ErrorMessage.title=警告
-designer.preview.run.webviewer=In Web Viewer
-designer.preview.run=As {0}
+designer.preview.run.webviewer=Web ビューアを使用
+designer.preview.run=形式 : {0}
 
 ###########################################################
 #DesignerActionBarContributor properties
@@ -2004,14 +2004,14 @@ JSDocumentProvider.document.newName=コンテンツの新規作成
 
 JSEditor.cmb.NewEventFunction=イベント関数の新規作成...
 JSEditor.Label.Script=スクリプト : 
-JSEditor.Button.Validate=Validate Script
+JSEditor.Button.Validate=スクリプトの検証
 JSEditor.Button.Reset=スクリプトのリセット
 JSEditor.Display.DefaultText=//JS スクリプトエディタ \n
 JSEditor.Display.NoExpression=この要素にはメソッドがありません。
 JSEditor.Input.trial=試用
 JSEditor.Text.NoText=No text
-JSEditor.Validate.Title=Validation
-JSEditor.Validate.NoError=No syntax error was found in current script.
+JSEditor.Validate.Title=検証
+JSEditor.Validate.NoError=このスクリプトに構文エラーはありませんでした。
 
 
 ###########################################################
@@ -3992,11 +3992,11 @@ FormatDateTimePattern.datetiem_format_type_minutes=分
 FormatDateTimePattern.datetiem_format_type_secontds=秒
 FormatDateTimePattern.datetiem_format_type_general_time=標準時間
 
-ReportExamples.ContributeSamples.description=Please submit a bugzilla entry at {0}Submit a Bug to BIRT{1}.\nAttach the report design file and the screen shot of report output.\n\n Note: The screen shot should be:\n  1. In *.png image format;\n  2. 800*600 resolution;\n  3. No larger than 250 KB.
+ReportExamples.ContributeSamples.description=Bugzilla のエントリは、{0}バグを BIRT に送る{1}に送信してください。\n同時に、レポートデザインファイルと、レポート出力のスクリーンショットも添付してください。\n\n注 : スクリーンショットは、以下の条件を満たしている必要があります。\n  1. ファイル形式: *.png\n  2. 解像度 : 800 x 600\n  3. サイズ : 250 KB 以内
 ReportExamples.ContributeSamples.title=サンプルの提供
-ReportExamples.ContributeSamples.messages=Following infomation will guide you to contribute samples.
+ReportExamples.ContributeSamples.messages=以下に、サンプルの提供手順を示します。
 ReportExamples.OpenBrowser.Error.title=エラー
-ReportExamples.OpenBrowser.Error.message=Cannot open web browser.
+ReportExamples.OpenBrowser.Error.message=Web ブラウザを開けません。
 
 ###########################################################
 #CopyCellContentsContextAction

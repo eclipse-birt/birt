@@ -748,8 +748,8 @@ designer.preview.previewaction.label.webviewer=웹 뷰어에서 보고서 보기
 designer.preview.previewaction.label={0}(으)로 보고서 보기
 designer.preview.previewaction.ErrorMessage=iText가 설치되지 않았거나 찾을 수 없어서 PDF 생성 기능을 사용할 수 없습니다.
 designer.preview.previewaction.ErrorMessage.title=경고
-designer.preview.run.webviewer=In Web Viewer
-designer.preview.run=As {0}
+designer.preview.run.webviewer=웹 뷰어에서
+designer.preview.run={0}(으)로
 
 ###########################################################
 #DesignerActionBarContributor properties
@@ -2004,14 +2004,14 @@ JSDocumentProvider.document.newName=새 내용
 
 JSEditor.cmb.NewEventFunction=새 이벤트 함수...
 JSEditor.Label.Script=스크립트: 
-JSEditor.Button.Validate=Validate Script
+JSEditor.Button.Validate=스크립트 확인
 JSEditor.Button.Reset=스크립트 재설정
 JSEditor.Display.DefaultText=//JS 스크립트 편집기 \n
 JSEditor.Display.NoExpression=이 요소에 메소드가 없습니다.
 JSEditor.Input.trial=시도
 JSEditor.Text.NoText=No text
-JSEditor.Validate.Title=Validation
-JSEditor.Validate.NoError=No syntax error was found in current script.
+JSEditor.Validate.Title=유효성 검사
+JSEditor.Validate.NoError=현재 스크립트에서 구문 오류를 찾을 수 없습니다.
 
 
 ###########################################################
@@ -3992,11 +3992,11 @@ FormatDateTimePattern.datetiem_format_type_minutes=분
 FormatDateTimePattern.datetiem_format_type_secontds=초
 FormatDateTimePattern.datetiem_format_type_general_time=일반 시간
 
-ReportExamples.ContributeSamples.description=Please submit a bugzilla entry at {0}Submit a Bug to BIRT{1}.\nAttach the report design file and the screen shot of report output.\n\n Note: The screen shot should be:\n  1. In *.png image format;\n  2. 800*600 resolution;\n  3. No larger than 250 KB.
+ReportExamples.ContributeSamples.description=Bugzilla 항목을 다음으로 제출해 주십시오. {0}BIRT로 버그 제출{1}.\n제출하실 때 보고서 디자인 파일과 보고서 출력 스크린 샷을 첨부해 주십시오.\n\n 참고: 스크린샷은 다음과 같아야 합니다.\n  1..png 이미지 형식;\n  2. 800*600 해상도;\n  3. 250 KB 이하.
 ReportExamples.ContributeSamples.title=기여 예제
-ReportExamples.ContributeSamples.messages=Following infomation will guide you to contribute samples.
+ReportExamples.ContributeSamples.messages=다음 정보는 예제 계산 과정을 안내해 줍니다.
 ReportExamples.OpenBrowser.Error.title=오류
-ReportExamples.OpenBrowser.Error.message=Cannot open web browser.
+ReportExamples.OpenBrowser.Error.message=웹 브라우저를 열 수 없습니다.
 
 ###########################################################
 #CopyCellContentsContextAction

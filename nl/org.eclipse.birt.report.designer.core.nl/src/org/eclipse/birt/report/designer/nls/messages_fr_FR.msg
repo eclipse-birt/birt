@@ -748,8 +748,8 @@ designer.preview.previewaction.label.webviewer=Afficher l'état dans le visualise
 designer.preview.previewaction.label=Afficher l''état au format {0}
 designer.preview.previewaction.ErrorMessage=La fonction de génération de PDF n'est pas activée car iText n'est pas installé ou est introuvable.
 designer.preview.previewaction.ErrorMessage.title=Avertissement
-designer.preview.run.webviewer=In Web Viewer
-designer.preview.run=As {0}
+designer.preview.run.webviewer=Dans le visualiseur Web
+designer.preview.run=Comme {0}
 
 ###########################################################
 #DesignerActionBarContributor properties
@@ -2004,14 +2004,14 @@ JSDocumentProvider.document.newName=Nouveau contenu
 
 JSEditor.cmb.NewEventFunction=Nouvelle fonction d'événement...
 JSEditor.Label.Script=Script : 
-JSEditor.Button.Validate=Validate Script
+JSEditor.Button.Validate=Valider le script
 JSEditor.Button.Reset=Réinitialiser le script
 JSEditor.Display.DefaultText=//Editeur de scripts JS \n
 JSEditor.Display.NoExpression=Cet élément ne contient pas de méthode.
 JSEditor.Input.trial=évaluation
 JSEditor.Text.NoText=No text
 JSEditor.Validate.Title=Validation
-JSEditor.Validate.NoError=No syntax error was found in current script.
+JSEditor.Validate.NoError=Aucune erreur de syntaxe n'a été trouvée dans le script actuel.
 
 
 ###########################################################
@@ -3992,11 +3992,11 @@ FormatDateTimePattern.datetiem_format_type_minutes=Minutes
 FormatDateTimePattern.datetiem_format_type_secontds=Secondes
 FormatDateTimePattern.datetiem_format_type_general_time=Heure standard
 
-ReportExamples.ContributeSamples.description=Please submit a bugzilla entry at {0}Submit a Bug to BIRT{1}.\nAttach the report design file and the screen shot of report output.\n\n Note: The screen shot should be:\n  1. In *.png image format;\n  2. 800*600 resolution;\n  3. No larger than 250 KB.
+ReportExamples.ContributeSamples.description=Veuillez soumettre une entrée bugzilla {0}Soumettre un bug à BIRT{1}.\nJoignez le fichier du modèle d''état et une capture d''écran de la sortie d''état.\n\n Remarque : La capture d''écran doit être :\n  1. Au format *.png ;\n  2. A une résolution de 800*600 ;\n  3. A une taille inférieure ou égale à 250 Ko.
 ReportExamples.ContributeSamples.title=Exemples de contribution
-ReportExamples.ContributeSamples.messages=Following infomation will guide you to contribute samples.
+ReportExamples.ContributeSamples.messages=Les informations suivantes vont vous guider vers des exemples de contribution.
 ReportExamples.OpenBrowser.Error.title=Erreur
-ReportExamples.OpenBrowser.Error.message=Cannot open web browser.
+ReportExamples.OpenBrowser.Error.message=Impossible d'ouvrir le navigateur Web.
 
 ###########################################################
 #CopyCellContentsContextAction

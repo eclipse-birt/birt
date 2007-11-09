@@ -748,8 +748,8 @@ designer.preview.previewaction.label.webviewer=Ver informe en Web Viewer
 designer.preview.previewaction.label=Ver informe como {0}
 designer.preview.previewaction.ErrorMessage=La generación de PDF no está activada ya que no se encuentra iText o no está instalado.
 designer.preview.previewaction.ErrorMessage.title=Advertencia
-designer.preview.run.webviewer=In Web Viewer
-designer.preview.run=As {0}
+designer.preview.run.webviewer=En Web Viewer
+designer.preview.run=Como {0}
 
 ###########################################################
 #DesignerActionBarContributor properties
@@ -2004,14 +2004,14 @@ JSDocumentProvider.document.newName=Nuevo contenido
 
 JSEditor.cmb.NewEventFunction=Función del nuevo evento...
 JSEditor.Label.Script=Script: 
-JSEditor.Button.Validate=Validate Script
+JSEditor.Button.Validate=Validar script
 JSEditor.Button.Reset=Restablecer script
 JSEditor.Display.DefaultText=//Editor de script JS\n
 JSEditor.Display.NoExpression=Este elemento no tiene métodos.
 JSEditor.Input.trial=prueba
 JSEditor.Text.NoText=No text
-JSEditor.Validate.Title=Validation
-JSEditor.Validate.NoError=No syntax error was found in current script.
+JSEditor.Validate.Title=Validación
+JSEditor.Validate.NoError=No se ha encontrado ningún error de sintaxis en el script actual.
 
 
 ###########################################################
@@ -3992,11 +3992,11 @@ FormatDateTimePattern.datetiem_format_type_minutes=Minutos
 FormatDateTimePattern.datetiem_format_type_secontds=Segundos
 FormatDateTimePattern.datetiem_format_type_general_time=Tiempo general
 
-ReportExamples.ContributeSamples.description=Please submit a bugzilla entry at {0}Submit a Bug to BIRT{1}.\nAttach the report design file and the screen shot of report output.\n\n Note: The screen shot should be:\n  1. In *.png image format;\n  2. 800*600 resolution;\n  3. No larger than 250 KB.
+ReportExamples.ContributeSamples.description=Envíe una entrada de Bugzilla a {0}Envíe un error a BIRT{1}.\nAdjunte el archivo de diseño de informe y la captura de pantalla de la salida de informe.\n\n Nota: La captura de pantalla debe tener estas características:\n  1. Formato de imagen *.png;\n  2. Resolución de 800*600;\n  3. Tamaño inferior a 250 KB.
 ReportExamples.ContributeSamples.title=Muestras de aportación
-ReportExamples.ContributeSamples.messages=Following infomation will guide you to contribute samples.
+ReportExamples.ContributeSamples.messages=La información que aparece a continuación le guiará hasta las muestras de aportación.
 ReportExamples.OpenBrowser.Error.title=Error
-ReportExamples.OpenBrowser.Error.message=Cannot open web browser.
+ReportExamples.OpenBrowser.Error.message=No se puede abrir el explorador Web.
 
 ###########################################################
 #CopyCellContentsContextAction

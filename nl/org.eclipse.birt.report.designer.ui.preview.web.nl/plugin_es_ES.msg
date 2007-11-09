@@ -2,7 +2,7 @@
 # Preview Framework
 ###############################################################################
 designer.preview.previewtoolbarmenuaction.label=Ver informe
-designer.preview.previewcascadingmenugroup.label=Run &Report
+designer.preview.previewcascadingmenugroup.label=Ejecuta&r informe
 ActionSet.Preview=Vista previa
 
 template.preview=&Vista previa

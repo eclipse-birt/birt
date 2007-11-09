@@ -749,7 +749,7 @@ designer.preview.previewaction.label=Bericht als {0} anzeigen
 designer.preview.previewaction.ErrorMessage=Die PDF-Erzeugung ist nicht aktiviert, da iText weder installiert ist noch gefunden wurde.
 designer.preview.previewaction.ErrorMessage.title=Warnung
 designer.preview.run.webviewer=In Web Viewer
-designer.preview.run=As {0}
+designer.preview.run=Als {0}
 
 ###########################################################
 #DesignerActionBarContributor properties
@@ -2004,14 +2004,14 @@ JSDocumentProvider.document.newName=Neuer Inhalt
 
 JSEditor.cmb.NewEventFunction=Neue Ereignisfunktion...
 JSEditor.Label.Script=Skript: 
-JSEditor.Button.Validate=Validate Script
+JSEditor.Button.Validate=Skript validieren
 JSEditor.Button.Reset=Skript zurücksetzen
 JSEditor.Display.DefaultText=//JS Script-Editor \n
 JSEditor.Display.NoExpression=Dieses Element verfügt über keine Methoden.
 JSEditor.Input.trial=Test
 JSEditor.Text.NoText=No text
-JSEditor.Validate.Title=Validation
-JSEditor.Validate.NoError=No syntax error was found in current script.
+JSEditor.Validate.Title=Validierung
+JSEditor.Validate.NoError=Im aktuellen Skript wurde kein Syntaxfehler gefunden.
 
 
 ###########################################################
@@ -3992,11 +3992,11 @@ FormatDateTimePattern.datetiem_format_type_minutes=Minuten
 FormatDateTimePattern.datetiem_format_type_secontds=Sekunden
 FormatDateTimePattern.datetiem_format_type_general_time=Allgemeine Zeit
 
-ReportExamples.ContributeSamples.description=Please submit a bugzilla entry at {0}Submit a Bug to BIRT{1}.\nAttach the report design file and the screen shot of report output.\n\n Note: The screen shot should be:\n  1. In *.png image format;\n  2. 800*600 resolution;\n  3. No larger than 250 KB.
+ReportExamples.ContributeSamples.description=Reichen Sie einen Bugzilla-Eintrag unter {0} ein. Melden Sie einen Bug an BIRT{1}.\nHängen Sie die Berichtdesigndatei und den Screenshot über die Berichtausgabe an.\n\nHinweis: Der Screenshot sollte folgende Spezifikationen erfüllen:\n1. *.png-Bildformat;\n2. Auflösung 800*600;\n3. Max. Größe 250 KB.
 ReportExamples.ContributeSamples.title=Beispiele beitragen
-ReportExamples.ContributeSamples.messages=Following infomation will guide you to contribute samples.
+ReportExamples.ContributeSamples.messages=Im Folgenden finden Sie eine Anleitung zum Beitragen von Beispielen.
 ReportExamples.OpenBrowser.Error.title=Fehler
-ReportExamples.OpenBrowser.Error.message=Cannot open web browser.
+ReportExamples.OpenBrowser.Error.message=Webbrowser kann nicht geöffnet werden.
 
 ###########################################################
 #CopyCellContentsContextAction

@@ -748,8 +748,8 @@ designer.preview.previewaction.label.webviewer=在 Web 查看器中查看报表
 designer.preview.previewaction.label=以 {0} 格式查看报表
 designer.preview.previewaction.ErrorMessage=由于未安装或未找到 iText，不支持 PDF 生成。
 designer.preview.previewaction.ErrorMessage.title=警告
-designer.preview.run.webviewer=In Web Viewer
-designer.preview.run=As {0}
+designer.preview.run.webviewer=在 Web 查看器中
+designer.preview.run=作为 {0}
 
 ###########################################################
 #DesignerActionBarContributor properties
@@ -2004,14 +2004,14 @@ JSDocumentProvider.document.newName=新内容
 
 JSEditor.cmb.NewEventFunction=新建事件函数...
 JSEditor.Label.Script=脚本: 
-JSEditor.Button.Validate=Validate Script
+JSEditor.Button.Validate=验证脚本
 JSEditor.Button.Reset=重置脚本
 JSEditor.Display.DefaultText=//JS 脚本编辑器 \n
 JSEditor.Display.NoExpression=此元素无方法。
 JSEditor.Input.trial=试用版
 JSEditor.Text.NoText=No text
-JSEditor.Validate.Title=Validation
-JSEditor.Validate.NoError=No syntax error was found in current script.
+JSEditor.Validate.Title=验证
+JSEditor.Validate.NoError=当前脚本中找不到语法错误。
 
 
 ###########################################################
@@ -3992,11 +3992,11 @@ FormatDateTimePattern.datetiem_format_type_minutes=分钟
 FormatDateTimePattern.datetiem_format_type_secontds=秒
 FormatDateTimePattern.datetiem_format_type_general_time=常规时间
 
-ReportExamples.ContributeSamples.description=Please submit a bugzilla entry at {0}Submit a Bug to BIRT{1}.\nAttach the report design file and the screen shot of report output.\n\n Note: The screen shot should be:\n  1. In *.png image format;\n  2. 800*600 resolution;\n  3. No larger than 250 KB.
+ReportExamples.ContributeSamples.description=请在{0}将错误提交到 BIRT{1}提交 bugzilla 条目。\n附加报表设计文件和报表输出的屏幕快照。\n\n 注意: 屏幕快照应该为:\n  1. *.png 图像格式；\n  2. 分辨率 800*600；\n  3. 不大于 250 KB。
 ReportExamples.ContributeSamples.title=提供示例
-ReportExamples.ContributeSamples.messages=Following infomation will guide you to contribute samples.
+ReportExamples.ContributeSamples.messages=以下信息将引导您提供示例。
 ReportExamples.OpenBrowser.Error.title=错误
-ReportExamples.OpenBrowser.Error.message=Cannot open web browser.
+ReportExamples.OpenBrowser.Error.message=无法打开 Web 浏览器。
 
 ###########################################################
 #CopyCellContentsContextAction
