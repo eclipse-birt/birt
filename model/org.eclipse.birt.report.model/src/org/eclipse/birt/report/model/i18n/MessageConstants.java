@@ -202,6 +202,8 @@ public interface MessageConstants
 
 	public static final String SEMANTIC_ERROR_EXCEPTION_INCONSISTENT_DATA_GROUP = "Error.SemanticError.INCONSISTENT_DATA_GROUP";
 	
+	public static final String SEMANTIC_ERROR_INVALID_MANIFEST = "Error.SemanticError.INVALID_MANIFEST"; //$NON-NLS-1$
+	
 	// ThemeException
 
 	public static final String THEME_EXCEPTION_NOT_FOUND = "Error.ThemeException.NOT_FOUND"; //$NON-NLS-1$

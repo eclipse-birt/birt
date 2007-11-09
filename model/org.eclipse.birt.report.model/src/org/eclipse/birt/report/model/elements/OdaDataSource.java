@@ -200,11 +200,11 @@ public class OdaDataSource extends DataSource
 						this, extensionID );
 
 				// ModelPlugin is not loaded properly
-				
+
 				if ( provider == null )
 					return;
 
-				if ( !provider.isValidODADataSourceExtensionID( extensionID ) )
+				if ( !provider.isValidExtensionID( ) )
 					provider = new OdaDummyProvider( extensionID );
 			}
 			else

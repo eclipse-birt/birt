@@ -13,7 +13,9 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
+import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
 import org.eclipse.birt.report.model.elements.DataSource;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
@@ -191,7 +193,10 @@ public class OdaDataSourceParseTest extends BaseTestCase
 	public void testSemanticCheck( ) throws Exception
 	{
 		openDesign( semanticCheckFileName );
-		assertEquals( 0, design.getErrorList( ).size( ) );
+		assertEquals( 1, design.getErrorList( ).size( ) );
+		ErrorDetail error = (ErrorDetail) design.getErrorList( ).get( 0 );
+		assertEquals( SemanticError.DESIGN_EXCEPTION_INVALID_MANIFEST, error
+				.getErrorCode( ) );
 	}
 
 	private OdaDataSourceHandle getDataSource( String name ) throws Exception

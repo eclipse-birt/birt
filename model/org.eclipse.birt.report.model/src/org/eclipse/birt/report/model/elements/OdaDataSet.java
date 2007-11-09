@@ -131,7 +131,7 @@ public class OdaDataSet extends SimpleDataSet
 
 	public ExtensionElementDefn getExtDefn( )
 	{
-		if ( provider != null  )
+		if ( provider != null )
 			return provider.getExtDefn( );
 
 		return null;
@@ -202,13 +202,13 @@ public class OdaDataSet extends SimpleDataSet
 			{
 				provider = ODAProviderFactory.getInstance( ).createODAProvider(
 						this, extensionID );
-				
+
 				// ModelPlugin is not loaded properly
-				
+
 				if ( provider == null )
 					return;
-				
-				if ( !provider.isValidODADataSetExtensionID( extensionID ) )
+
+				if ( !provider.isValidExtensionID( ) )
 					provider = new OdaDummyProvider( extensionID );
 			}
 			else

@@ -858,7 +858,7 @@ public class ElementFactory
 					extensionID ) == null )
 				return null;
 			if ( !ODAProviderFactory.getInstance( ).createODAProvider( null,
-					extensionID ).isValidODADataSourceExtensionID( extensionID ) )
+					extensionID ).isValidExtensionID( ) )
 				return null;
 		}
 		OdaDataSource element = new OdaDataSource( name );
@@ -926,7 +926,7 @@ public class ElementFactory
 					extensionID ) == null )
 				return null;
 			if ( !ODAProviderFactory.getInstance( ).createODAProvider( null,
-					extensionID ).isValidODADataSetExtensionID( extensionID ) )
+					extensionID ).isValidExtensionID( ) )
 				return null;
 		}
 		OdaDataSet element = new OdaDataSet( name );
@@ -984,8 +984,8 @@ public class ElementFactory
 			// if the element with the name is not found or the element type
 			// is inconsistent, throw an exception
 
-			if ( base == null ||
-					base.getDefn( ) != baseElement.getElement( ).getDefn( ) )
+			if ( base == null
+					|| base.getDefn( ) != baseElement.getElement( ).getDefn( ) )
 			{
 				throw new InvalidParentException(
 						null,
@@ -993,8 +993,8 @@ public class ElementFactory
 						InvalidParentException.DESIGN_EXCEPTION_PARENT_NOT_FOUND );
 			}
 
-			if ( base instanceof ReportItem &&
-					( (ReportItem) base ).isDataBindingReferring( lib ) )
+			if ( base instanceof ReportItem
+					&& ( (ReportItem) base ).isDataBindingReferring( lib ) )
 			{
 				throw new ExtendsForbiddenException(
 						null,

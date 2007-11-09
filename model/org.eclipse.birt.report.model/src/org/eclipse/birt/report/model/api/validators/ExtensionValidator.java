@@ -15,11 +15,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.elements.OdaDataSet;
+import org.eclipse.birt.report.model.elements.OdaDataSource;
+import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
+import org.eclipse.birt.report.model.extension.oda.ODAProvider;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**
@@ -69,10 +74,38 @@ public class ExtensionValidator extends AbstractElementValidator
 
 	public List validate( Module module, DesignElement element )
 	{
-		if ( !( element instanceof ExtendedItem ) )
-			return Collections.EMPTY_LIST;
-
-		return doValidate( module, (ExtendedItem) element );
+		if ( element instanceof IOdaExtendableElementModel )
+			return doValidate( module, element );
+		if ( element instanceof ExtendedItem )
+			return doValidate( module, (ExtendedItem) element );
+		return Collections.EMPTY_LIST;
+	}
+	
+	private List doValidate( Module module, DesignElement toValidate )
+	{
+		ODAProvider provider = null;
+		boolean hasValidManifest = true;
+		if ( toValidate instanceof OdaDataSet )
+		{
+			provider = ((OdaDataSet)toValidate).getProvider( );
+			if ( provider == null || !provider.isValidExtensionID( ))
+				hasValidManifest = false;
+		}
+		else if ( toValidate instanceof OdaDataSource )
+		{
+			provider = ((OdaDataSource)toValidate).getProvider( );
+			if ( provider == null || !provider.isValidExtensionID( ))
+				hasValidManifest = false;
+		}
+		if ( !hasValidManifest )
+		{
+			List error = new ArrayList( );
+			error.add( new SemanticError( toValidate,
+					SemanticError.DESIGN_EXCEPTION_INVALID_MANIFEST ) );
+			return error;
+		}
+			
+		return Collections.EMPTY_LIST;
 	}
 
 	private List doValidate( Module module, ExtendedItem toValidate )

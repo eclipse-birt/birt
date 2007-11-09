@@ -2061,7 +2061,9 @@
 	</Method>
   </Element>
   <Element canExtend="true" displayNameID="Element.OdaDataSource" extends="DataSource" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.OdaDataSource" name="OdaDataSource" since="1.0" xmlName="oda-data-source">
-    <Property displayNameID="Element.OdaDataSource.extensionID" isIntrinsic="true" name="extensionID" since="1.0" type="string"/>
+    <Property displayNameID="Element.OdaDataSource.extensionID" isIntrinsic="true" name="extensionID" since="1.0" type="string">
+    	<Trigger validator="ExtensionValidator"/>
+    </Property>
     <Property detailType="ExtendedProperty" displayNameID="Element.OdaDataSource.privateDriverProperties" isList="true" name="privateDriverProperties" since="1.0" type="structure"/>
     <Property detailType="OdaDesignerState" displayNameID="Element.OdaDataSource.designerState" name="designerState" since="2.1" type="structure"/>    
     <PropertyVisibility name="extensionID" visibility="hide" />
@@ -2130,7 +2132,9 @@
   <Element canExtend="true" displayNameID="Element.OdaDataSet" extends="SimpleDataSet" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.OdaDataSet" name="OdaDataSet" since="1.0" xmlName="oda-data-set">	  
 	<Property detailType="OdaDataSetParam" displayNameID="Element.OdaDataSet.parameters" isList="true" name="parameters" since="2.1.1" type="structure"/> 	  	  
     <Property detailType="OdaResultSetColumn" displayNameID="Element.OdaDataSet.resultSet" isList="true" name="resultSet" since="1.0" type="structure" />
-    <Property displayNameID="Element.OdaDataSet.extensionID" isIntrinsic="true" name="extensionID" since="1.0" type="string"/>
+    <Property displayNameID="Element.OdaDataSet.extensionID" isIntrinsic="true" name="extensionID" since="1.0" type="string">
+    	<Trigger validator="ExtensionValidator"/>
+    </Property>
     <Property displayNameID="Element.OdaDataSet.queryText" name="queryText" since="1.0" type="literalString"/>
     <Property displayNameID="Element.OdaDataSet.resultSetName" name="resultSetName" since="reserved" type="string"/>
     <Property detailType="ExtendedProperty" displayNameID="Element.OdaDataSet.privateDriverProperties" isList="true" name="privateDriverProperties" since="1.0" type="structure"/>

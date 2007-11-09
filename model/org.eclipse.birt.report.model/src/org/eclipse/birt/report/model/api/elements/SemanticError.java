@@ -321,6 +321,7 @@ public class SemanticError extends SemanticException
 
 	public static final String DESIGN_EXCEPTION_INCONSISTENT_DATA_GROUP = MessageConstants.SEMANTIC_ERROR_EXCEPTION_INCONSISTENT_DATA_GROUP;
 
+	public static final String DESIGN_EXCEPTION_INVALID_MANIFEST = MessageConstants.SEMANTIC_ERROR_INVALID_MANIFEST;
 	
 	/**
 	 * The constant for the semantic error.

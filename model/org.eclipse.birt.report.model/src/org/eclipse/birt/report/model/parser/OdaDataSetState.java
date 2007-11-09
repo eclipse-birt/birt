@@ -149,8 +149,8 @@ public class OdaDataSetState extends SimpleDataSetState
 			return super.startElement( tagName );
 
 		( (OdaDummyProvider) provider ).initializeContentTree( );
-		return ParseStateFactory.createParseState( tagName, handler,
-				element, ( (OdaDummyProvider) provider ).getContentTree( ) );
+		return ParseStateFactory.createParseState( tagName, handler, element,
+				( (OdaDummyProvider) provider ).getContentTree( ) );
 	}
 
 	/**
@@ -203,8 +203,7 @@ public class OdaDataSetState extends SimpleDataSetState
 		{
 			// After version 3.2.7 , add convert fuction.
 
-			String newExtensionID = provider
-					.convertDataSetExtensionID( extensionID );
+			String newExtensionID = provider.convertExtensionID( );
 			if ( !extensionID.equals( newExtensionID ) )
 			{
 				setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP,

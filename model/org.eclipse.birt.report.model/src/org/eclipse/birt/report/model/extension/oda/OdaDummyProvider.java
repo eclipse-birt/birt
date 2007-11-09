@@ -86,9 +86,9 @@ public class OdaDummyProvider implements ODAProvider, IContentHandler
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.oda.ODAProvider#isValidODADataSetExtensionID(java.lang.String)
+	 * @see org.eclipse.birt.report.model.extension.oda.ODAProvider#isValidExtensionID()
 	 */
-	public boolean isValidODADataSetExtensionID( String extensionID )
+	public boolean isValidExtensionID( )
 	{
 		return false;
 	}
@@ -96,32 +96,9 @@ public class OdaDummyProvider implements ODAProvider, IContentHandler
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.oda.ODAProvider#isValidODADataSourceExtensionID(java.lang.String)
+	 * @see org.eclipse.birt.report.model.extension.oda.ODAProvider#convertExtensionID()
 	 */
-
-	public boolean isValidODADataSourceExtensionID( String extensionID )
-	{
-		return false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.extension.oda.ODAProvider#convertDataSetExtensionID(java.lang.String)
-	 */
-
-	public String convertDataSetExtensionID( String extensionID )
-	{
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.extension.oda.ODAProvider#convertDataSourceExtensionID(java.lang.String)
-	 */
-
-	public String convertDataSourceExtensionID( String extensionID )
+	public String convertExtensionID( )
 	{
 		return null;
 	}

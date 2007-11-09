@@ -60,6 +60,8 @@ public class OdaExtensibilityProvider extends ExtensibilityProvider
 	public OdaExtensibilityProvider( DesignElement element, String extensionID )
 	{
 		super( element );
+		if ( element == null )
+			throw new IllegalArgumentException( "element can not be null!" ); //$NON-NLS-1$
 
 		this.extensionID = extensionID;
 	}
@@ -191,60 +193,52 @@ public class OdaExtensibilityProvider extends ExtensibilityProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.oda.ODAProvider#convertDataSourceExtensionID(java.lang.String)
+	 * @see org.eclipse.birt.report.model.extension.oda.ODAProvider#convertExtensionID(java.lang.String)
 	 */
 
-	public String convertDataSourceExtensionID( String extensionID )
+	public String convertExtensionID( )
 	{
-		ExtensionManifest manifest = ODAManifestUtil
-				.getDataSourceExtension( extensionID );
-		if ( manifest != null && manifest.isDeprecated( ) )
+		if ( element instanceof OdaDataSource )
 		{
-			extensionID = manifest.getRelatedDataSourceId( );
+			String id = extensionID;
+			ExtensionManifest manifest = ODAManifestUtil
+					.getDataSourceExtension( id );
+
+			if ( manifest != null && manifest.isDeprecated( ) )
+			{
+				id = manifest.getRelatedDataSourceId( );
+			}
+			return id;
 		}
-		return extensionID;
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.extension.oda.ODAProvider#convertDataSetExtensionID(java.lang.String)
-	 */
-
-	public String convertDataSetExtensionID( String extensionID )
-	{
-		DataSetType type = ODAManifestUtil.getDataSetExtension( extensionID );
-		if ( type != null && type.isDeprecated( ) )
+		else if ( element instanceof OdaDataSet )
 		{
-			extensionID = type.getRelatedDataSetId( );
+			String id = extensionID;
+			DataSetType type = ODAManifestUtil.getDataSetExtension( id );
+			if ( type != null && type.isDeprecated( ) )
+			{
+				id = type.getRelatedDataSetId( );
+			}
+			return id;
 		}
-		return extensionID;
+		assert false;
+		return null;
+
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.oda.ODAProvider#isValidODADataSetExtensionID(java.lang.String)
+	 * @see org.eclipse.birt.report.model.extension.oda.ODAProvider#isValidExtensionID()
 	 */
-	public boolean isValidODADataSetExtensionID( String extensionID )
+
+	public boolean isValidExtensionID( )
 	{
-		if ( ODAManifestUtil.getDataSetExtension( extensionID ) != null )
+		if ( element instanceof OdaDataSet
+				&& ODAManifestUtil.getDataSetExtension( extensionID ) != null )
 			return true;
-
-		return false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.extension.oda.ODAProvider#isValidODADataSourceExtensionID(java.lang.String)
-	 */
-	public boolean isValidODADataSourceExtensionID( String extensionID )
-	{
-		if ( ODAManifestUtil.getDataSourceExtension( extensionID ) != null )
+		if ( element instanceof OdaDataSource
+				&& ODAManifestUtil.getDataSourceExtension( extensionID ) != null )
 			return true;
-
 		return false;
 	}
 

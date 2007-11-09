@@ -107,8 +107,8 @@ public class OdaDataSourceState extends DataSourceState
 			return super.startElement( tagName );
 
 		( (OdaDummyProvider) provider ).initializeContentTree( );
-		return ParseStateFactory.createParseState( tagName, handler,
-				element, ( (OdaDummyProvider) provider ).getContentTree( ) );
+		return ParseStateFactory.createParseState( tagName, handler, element,
+				( (OdaDummyProvider) provider ).getContentTree( ) );
 	}
 
 	/**
@@ -164,8 +164,7 @@ public class OdaDataSourceState extends DataSourceState
 		{
 			// After version 3.2.7 , add convert fuction.
 
-			String newExtensionID = provider
-					.convertDataSourceExtensionID( extensionID );
+			String newExtensionID = provider.convertExtensionID( );
 			if ( !extensionID.equals( newExtensionID ) )
 			{
 				setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP,
