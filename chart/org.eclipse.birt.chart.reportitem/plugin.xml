@@ -58,14 +58,14 @@
          name="The chart extension"
          point="org.eclipse.birt.report.engine.reportitemPresentation">
       <reportItem
-            class="org.eclipse.birt.chart.reportitem.ChartReportItemPresentationImpl"
+            class="org.eclipse.birt.chart.reportitem.ChartReportItemPresentationProxy"
             name="Chart"
             supportedFormats="jpeg; png; gif; bmp"/>
    </extension>
    <extension
          point="org.eclipse.birt.report.engine.reportitemGeneration">
       <reportItem
-            class="org.eclipse.birt.chart.reportitem.ChartReportItemGenerationImpl"
+            class="org.eclipse.birt.chart.reportitem.ChartReportItemGenerationProxy"
             name="Chart"/>
    </extension>
    <extension

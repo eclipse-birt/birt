@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -23,7 +23,6 @@ import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.extension.IRowSet;
 import org.eclipse.birt.report.engine.extension.ReportItemGenerationBase;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
@@ -31,14 +30,12 @@ import org.eclipse.birt.report.model.api.extension.IReportItem;
 import com.ibm.icu.util.ULocale;
 
 /**
- * ChartReportItemGenerationImpl
+ * Standard generation implementation for Chart
  */
 public class ChartReportItemGenerationImpl extends ReportItemGenerationBase
 {
 
 	private Chart cm = null;
-
-	private DesignElementHandle handle = null;
 
 	private RunTimeContext rtc = null;
 
@@ -51,7 +48,7 @@ public class ChartReportItemGenerationImpl extends ReportItemGenerationBase
 	 */
 	public void setModelObject( ExtendedItemHandle eih )
 	{
-		super.setModelObject( modelHandle );
+		super.setModelObject( eih );
 
 		IReportItem item = null;
 		try
@@ -80,7 +77,6 @@ public class ChartReportItemGenerationImpl extends ReportItemGenerationBase
 				return;
 			}
 		}
-		handle = eih;
 		cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( "chart.instance" ); //$NON-NLS-1$
 	}
 
@@ -123,12 +119,12 @@ public class ChartReportItemGenerationImpl extends ReportItemGenerationBase
 	public void onRowSets( IRowSet[] rowSets ) throws BirtException
 	{
 		// catch unwanted null handle case
-		if ( handle == null )
+		if ( modelHandle == null )
 		{
 			return;
 		}
 
-		String javaHandlerClass = handle.getEventHandlerClass( );
+		String javaHandlerClass = modelHandle.getEventHandlerClass( );
 		if ( javaHandlerClass != null && javaHandlerClass.length( ) > 0 )
 		{
 			// use java handler if available.

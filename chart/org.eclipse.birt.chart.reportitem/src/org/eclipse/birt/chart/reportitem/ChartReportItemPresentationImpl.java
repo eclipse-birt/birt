@@ -52,10 +52,11 @@ import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- * ChartReportItemPresentationImpl
+ * Standard presentation implementation for Chart
  */
-public final class ChartReportItemPresentationImpl extends
-		ReportItemPresentationBase
+public final class ChartReportItemPresentationImpl
+		extends
+			ReportItemPresentationBase
 {
 
 	private InputStream fis = null;
@@ -76,14 +77,11 @@ public final class ChartReportItemPresentationImpl extends
 
 	private RunTimeContext rtc = null;
 
-	private List registeredDevices = null;
+	private static List registeredDevices = null;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
-
-	/**
-	 * The constructor.
-	 */
-	public ChartReportItemPresentationImpl( )
+	
+	static
 	{
 		registeredDevices = new ArrayList( );
 		try
