@@ -812,12 +812,38 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
                 {
                 	var tempText = Event.element( event ).options[Event.element( event ).selectedIndex].text;
 					var tempValue = Event.element( event ).options[Event.element( event ).selectedIndex].value;
-					
-                	// Null Value Parameter
-                	if( tempText == this.__display_null && tempValue == '' )
+					                	
+                	if( tempValue == '' )
                 	{
-                		this.__cascadingParameter[i][j].name = this.__isnull;
-                		this.__cascadingParameter[i][j].value = paramName;						
+                		// Null Value Parameter
+                		if( tempText == this.__display_null )
+                		{
+                			this.__cascadingParameter[i][j].name = this.__isnull;
+                			this.__cascadingParameter[i][j].value = paramName;
+                		}
+                		else if( tempText == "" )
+                		{
+                			var target = Event.element( event );
+							target = target.parentNode;
+							var oInputs = target.getElementsByTagName( "input" );
+							if( oInputs.length >0 && oInputs[1].value != Constants.TYPE_STRING )
+							{
+								// Only String parameter allows blank value
+								return;
+							}
+							else
+							{
+	                			// Blank Value
+	                			this.__cascadingParameter[i][j].name = paramName;
+	                	    	this.__cascadingParameter[i][j].value = tempValue;								
+							}
+                		}
+                		else
+                		{
+                			// Blank Value
+                			this.__cascadingParameter[i][j].name = paramName;
+                	    	this.__cascadingParameter[i][j].value = tempValue;
+                		}						
                 	}
                 	else
                 	{
