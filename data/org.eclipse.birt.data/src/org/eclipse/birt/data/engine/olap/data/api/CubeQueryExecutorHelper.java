@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.olap.data.api;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -595,12 +596,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	 */
 	private void validateComputedMeasureNames() throws DataException
 	{
-		Set existNames = new HashSet();
-		String[] measureNames = cube.getMeasureNames( );
-		for (int i=0; i<measureNames.length; i++)
-		{
-			existNames.add( measureNames[i] );
-		}
+		Set existNames = new HashSet(Arrays.asList( cube.getMeasureNames( ) ));
 		MeasureInfo[] mis = computedMeasureHelper.getAllComputedMeasureInfos( );
 		for (int i=0; i<mis.length; i++) 
 		{
