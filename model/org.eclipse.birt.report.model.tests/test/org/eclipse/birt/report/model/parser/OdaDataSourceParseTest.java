@@ -193,7 +193,7 @@ public class OdaDataSourceParseTest extends BaseTestCase
 	public void testSemanticCheck( ) throws Exception
 	{
 		openDesign( semanticCheckFileName );
-		assertEquals( 1, design.getErrorList( ).size( ) );
+		assertEquals( 2, design.getErrorList( ).size( ) );
 		ErrorDetail error = (ErrorDetail) design.getErrorList( ).get( 0 );
 		assertEquals( SemanticError.DESIGN_EXCEPTION_INVALID_MANIFEST, error
 				.getErrorCode( ) );

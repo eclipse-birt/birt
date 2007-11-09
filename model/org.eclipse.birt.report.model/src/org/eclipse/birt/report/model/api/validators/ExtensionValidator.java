@@ -80,21 +80,21 @@ public class ExtensionValidator extends AbstractElementValidator
 			return doValidate( module, (ExtendedItem) element );
 		return Collections.EMPTY_LIST;
 	}
-	
+
 	private List doValidate( Module module, DesignElement toValidate )
 	{
 		ODAProvider provider = null;
 		boolean hasValidManifest = true;
 		if ( toValidate instanceof OdaDataSet )
 		{
-			provider = ((OdaDataSet)toValidate).getProvider( );
-			if ( provider == null || !provider.isValidExtensionID( ))
+			provider = ( (OdaDataSet) toValidate ).getProvider( );
+			if ( provider != null && !provider.isValidExtensionID( ) )
 				hasValidManifest = false;
 		}
 		else if ( toValidate instanceof OdaDataSource )
 		{
-			provider = ((OdaDataSource)toValidate).getProvider( );
-			if ( provider == null || !provider.isValidExtensionID( ))
+			provider = ( (OdaDataSource) toValidate ).getProvider( );
+			if ( provider != null && !provider.isValidExtensionID( ) )
 				hasValidManifest = false;
 		}
 		if ( !hasValidManifest )
@@ -104,7 +104,7 @@ public class ExtensionValidator extends AbstractElementValidator
 					SemanticError.DESIGN_EXCEPTION_INVALID_MANIFEST ) );
 			return error;
 		}
-			
+
 		return Collections.EMPTY_LIST;
 	}
 
