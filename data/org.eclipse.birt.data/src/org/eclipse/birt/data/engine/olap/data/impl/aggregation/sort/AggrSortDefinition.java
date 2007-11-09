@@ -21,14 +21,14 @@ import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
  * 
  */
 
-public class AggrSortDefinition
+public class AggrSortDefinition implements ITargetSort
 {
 	private DimLevel[] aggrLevels;
 	private String aggrName;
 	private DimLevel[] axisQualifierLevel;
 	private Object[] axisQualifierValue;
 	private DimLevel targetLevel;
-	private boolean direction;
+	private int direction;
 	private static Logger logger = Logger.getLogger( AggrSortDefinition.class.getName( ) );
 	
 	/**
@@ -43,7 +43,7 @@ public class AggrSortDefinition
 	 */
 	public AggrSortDefinition( DimLevel[] aggrLevels, String aggrName,
 			DimLevel[] axisQualifierLevel, Object[] axisQualifierValue,
-			DimLevel targetLevel, boolean direction ) throws DataException
+			DimLevel targetLevel, int direction ) throws DataException
 	{
 		Object[] params = {
 				aggrLevels,
@@ -51,10 +51,10 @@ public class AggrSortDefinition
 				axisQualifierLevel,
 				axisQualifierValue,
 				targetLevel,
-				new Boolean( direction )
+				new Integer( direction )
 		};
 		logger.entering( AggrSortDefinition.class.getName( ),
-				"AggrSortDefinition",
+				"AggrSortDefinition",//$NON-NLS-1$
 				params );
 		checkAxisAgrument( axisQualifierLevel, axisQualifierValue );
 		this.aggrLevels = aggrLevels;
@@ -64,7 +64,7 @@ public class AggrSortDefinition
 		this.targetLevel = targetLevel;
 		this.direction = direction;
 		logger.exiting( AggrSortDefinition.class.getName( ),
-				"AggrSortDefinition" );
+				"AggrSortDefinition" );//$NON-NLS-1$
 	}
 
 	/**
@@ -125,20 +125,18 @@ public class AggrSortDefinition
 		return this.axisQualifierValue;
 	}
 	
-	/**
-	 * 
-	 * @return
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.ITargetSort#getTargetLevel()
 	 */
 	public DimLevel getTargetLevel()
 	{
 		return this.targetLevel;
 	}
 	
-	/**
-	 * 
-	 * @return
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.ITargetSort#getDirection()
 	 */
-	public boolean getDirection()
+	public int getSortDirection()
 	{
 		return this.direction;
 	}

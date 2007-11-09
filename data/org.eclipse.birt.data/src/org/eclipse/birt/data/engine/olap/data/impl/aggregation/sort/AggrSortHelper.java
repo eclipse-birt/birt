@@ -12,11 +12,7 @@
 package org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -33,90 +29,33 @@ public class AggrSortHelper
 	/**
 	 * 
 	 * @param sorts
-	 * @param resultSet
 	 * @return
 	 * @throws DataException
 	 * @throws IOException
 	 */
-	public static IAggregationResultSet sort( List sorts,
-			IAggregationResultSet[] resultSet ) throws DataException
+	public static void sort( List sorts, IAggregationResultSet[] resultSet )
+			throws DataException
 	{
+		assert sorts != null && sorts.size( ) > 1;
 		try
 		{
-			Map map = new LinkedHashMap( );
-			for ( Iterator it = sorts.iterator( ); it.hasNext( ); )
+			ITargetSort[] targetSorts = new ITargetSort[sorts.size( )];
+			sorts.toArray( targetSorts );
+			int baseIndex = getBaseResultSetIndex( resultSet, targetSorts[0].getTargetLevel( ) );
+			IAggregationResultSet[] targetResultSet = new IAggregationResultSet[sorts.size( )];
+			for ( int i = 0; i < targetSorts.length; i++ )
 			{
-				AggrSortDefinition sort = (AggrSortDefinition) it.next( );
-				if ( map.get( sort.getTargetLevel( ) ) == null )
+				if ( targetSorts[i] instanceof AggrSortDefinition )
 				{
-					List temp = new ArrayList( );
-					temp.add( sort );
-					map.put( sort.getTargetLevel( ), temp );
-				}
-				else
-				{
-					( (List) map.get( sort.getTargetLevel( ) ) ).add( sort );
+					AggrSortDefinition sortDefn = (AggrSortDefinition) targetSorts[i];
+					targetResultSet[i] = getMatchedResultSet( resultSet, sortDefn.getAggrLevels( ) );
 				}
 			}
-
-			SortKey[] sortKeys = new SortKey[map.size( )];
-			Object[] keys = map.keySet( ).toArray( );
-			
-			for ( int n = 0; n < keys.length; n++ )
-			{
-				List aggrSorts = (List) map.get( keys[n] );
-				IAggregationResultSet matchedResultSet = getMatchedResultSet( resultSet,
-						( (AggrSortDefinition) aggrSorts.get( 0 ) ).getAggrLevels( ) );
-				DimLevel targetLevelName = ( (AggrSortDefinition) aggrSorts.get( 0 ) ).getTargetLevel( );
-				DimLevel[] levelNames = ( (AggrSortDefinition) aggrSorts.get( 0 ) ).getAxisQualifierLevel( );
-				int[] levelIndex = new int[levelNames.length];
-				for ( int k = 0; k < levelIndex.length; k++ )
-				{
-					levelIndex[k] = matchedResultSet.getLevelIndex( levelNames[k] );
-				}
-				AxisQualifier[] qualifiers = new AxisQualifier[aggrSorts.size( )];
-				for( int i = 0; i < qualifiers.length; i++ )
-				{
-					qualifiers[i] = new AxisQualifier( levelIndex,
-							( (AggrSortDefinition) aggrSorts.get( i ) ).getAxisQualifierValue( ) );
-				}
-				int[] aggrIndex = new int[aggrSorts.size( )];
-				boolean[] aggrDir = new boolean[aggrSorts.size( )];
-				for ( int i = 0; i < aggrSorts.size( ); i++ )
-				{
-					AggrSortDefinition sort = (AggrSortDefinition) aggrSorts.get( i );
-
-					aggrIndex[i] = matchedResultSet.getAggregationIndex( sort.getAggrName( ) );
-
-					aggrDir[i] = sort.getDirection( );
-				}
-
-				int targetLevelOffset = 0;
-				if ( qualifiers[0].getLevelIndex( ).length > 0 )
-				{
-					if ( qualifiers[0].getLevelIndex( )[0] == 0 )
-						targetLevelOffset = qualifiers[0].getLevelIndex( ).length;
-				}
-				sortKeys[n] = new SortKey( aggrIndex,
-						aggrDir,
-						matchedResultSet.getLevelIndex( targetLevelName ),
-						targetLevelOffset,
-						matchedResultSet,
-						qualifiers );
-			}
-
-			IAggregationResultSet base = null;
-			for ( int i = 0; i < resultSet.length; i++ )
-			{
-				if ( isEdgeResultSet( resultSet[i] )
-						&& ( resultSet[i].getLevelIndex( (DimLevel)keys[0] ) >= 0 ) )
-				{
-					base = resultSet[i];
-					break;
-				}
-			}
-
-			return AggregationSortHelper.sort( base, sortKeys );
+			IAggregationResultSet result = AggregationSortHelper.sort( resultSet[baseIndex],
+					targetSorts,
+					targetResultSet );
+			resultSet[baseIndex].close( );
+			resultSet[baseIndex] = result;
 		}
 		catch ( IOException e )
 		{
@@ -125,11 +64,35 @@ public class AggrSortHelper
 	}
 
 	/**
-	 * A result set would come to be an edge result set only if its aggregation function is null.
+	 * 
+	 * @param resultSet
+	 * @param level
+	 * @return
+	 * @throws DataException 
+	 */
+	private static int getBaseResultSetIndex(
+			IAggregationResultSet[] resultSet, DimLevel level )
+			throws DataException
+	{
+		for ( int i = 0; i < resultSet.length; i++ )
+		{
+			if ( isEdgeResultSet( resultSet[i] )
+					&& ( resultSet[i].getLevelIndex( level ) >= 0 ) )
+			{
+				return i;
+			}
+		}
+		throw new DataException( "Can't find the base aggregation result set for the target level:", level );//$NON-NLS-1$
+	}
+
+	/**
+	 * A result set would come to be an edge result set only if its aggregation
+	 * function is null.
+	 * 
 	 * @param resultSet
 	 * @return
 	 */
-	public static boolean isEdgeResultSet( IAggregationResultSet resultSet )
+	private static boolean isEdgeResultSet( IAggregationResultSet resultSet )
 	{
 		return ( resultSet.getAggregationDefinition( ) == null || resultSet.getAggregationDefinition( )
 				.getAggregationFunctions( ) == null );

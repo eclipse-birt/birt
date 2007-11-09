@@ -44,11 +44,14 @@ import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationResultSetSaveUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortDefinition;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.ITargetSort;
 import org.eclipse.birt.data.engine.olap.driver.CubeResultSet;
 import org.eclipse.birt.data.engine.olap.driver.IResultSet;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutor;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
+import org.eclipse.birt.data.engine.olap.util.sort.DimensionSortEvalHelper;
+import org.mozilla.javascript.Scriptable;
 
 /**
  * 
@@ -190,65 +193,78 @@ public class QueryExecutor
 		for ( int i = 0; i < columnSort.size( ); i++ )
 		{
 			ICubeSortDefinition cubeSort = (ICubeSortDefinition) columnSort.get( i );
-			String bindingName = OlapExpressionUtil.getBindingName( cubeSort.getExpression( )
-					.getText( ) );
-			if ( bindingName == null )
-				continue;
-			List bindings = executor.getCubeQueryDefinition( ).getBindings( );
-			List aggrOns = null;
-			IBinding binding = null;
-			for ( int j = 0; j < bindings.size( ); j++ )
+			ICubeQueryDefinition queryDefn = executor.getCubeQueryDefinition( );
+			String expr = cubeSort.getExpression( ).getText( );
+			ITargetSort targetSort =  null;
+			if ( cubeSort.getAxisQualifierLevels( ).length == 0
+					&& OlapExpressionUtil.isComplexDimensionExpr( expr ) )
 			{
-				binding = (IBinding) bindings.get( j );
-				if ( binding.getBindingName( ).equals( bindingName ) )
-				{
-					aggrOns = binding.getAggregatOns( );
-					break;
-				}
-			}
-			
-			DimLevel[] aggrOnLevels = null;
-
-			if ( aggrOns == null || aggrOns.size( ) == 0 )
-			{
-				if ( binding == null )
-					continue;
-				
-				String measureName = OlapExpressionCompiler.getReferencedScriptObject( binding.getExpression( ), "measure");
-				if( measureName == null )
-					continue;
-				
-				List measureAggrOns = CubeQueryDefinitionUtil.populateMeasureAggrOns( executor.getCubeQueryDefinition( ) );
-				aggrOnLevels = new DimLevel[measureAggrOns.size( )];
-				for ( int k = 0; k < measureAggrOns.size( ); k++ )
-				{
-					aggrOnLevels[k] = (DimLevel) measureAggrOns.get( k );
-				}
+				Scriptable scope = executor.getSession( ).getSharedScope( );
+				targetSort = new DimensionSortEvalHelper( scope,
+						queryDefn,
+						cubeSort );
 			}
 			else
 			{
-				aggrOnLevels = new DimLevel[aggrOns.size( )];
-				for ( int j = 0; j < aggrOnLevels.length; j++ )
+				String bindingName = OlapExpressionUtil.getBindingName( expr );
+				if ( bindingName == null )
+					continue;
+				List bindings = queryDefn.getBindings( );
+				List aggrOns = null;
+				IBinding binding = null;
+				for ( int j = 0; j < bindings.size( ); j++ )
 				{
-					aggrOnLevels[j] = OlapExpressionUtil.getTargetDimLevel( aggrOns.get( j )
-							.toString( ) );
+					binding = (IBinding) bindings.get( j );
+					if ( binding.getBindingName( ).equals( bindingName ) )
+					{
+						aggrOns = binding.getAggregatOns( );
+						break;
+					}
 				}
+				
+				DimLevel[] aggrOnLevels = null;
+	
+				if ( aggrOns == null || aggrOns.size( ) == 0 )
+				{
+					if ( binding == null )
+						continue;
+					
+					String measureName = OlapExpressionCompiler.getReferencedScriptObject( binding.getExpression( ), "measure");
+					if( measureName == null )
+						continue;
+					
+					List measureAggrOns = CubeQueryDefinitionUtil.populateMeasureAggrOns( queryDefn );
+					aggrOnLevels = new DimLevel[measureAggrOns.size( )];
+					for ( int k = 0; k < measureAggrOns.size( ); k++ )
+					{
+						aggrOnLevels[k] = (DimLevel) measureAggrOns.get( k );
+					}
+				}
+				else
+				{
+					aggrOnLevels = new DimLevel[aggrOns.size( )];
+					for ( int j = 0; j < aggrOnLevels.length; j++ )
+					{
+						aggrOnLevels[j] = OlapExpressionUtil.getTargetDimLevel( aggrOns.get( j )
+								.toString( ) );
+					}
+				}
+				DimLevel[] axisLevels = new DimLevel[cubeSort.getAxisQualifierLevels( ).length];
+				for ( int k = 0; k < axisLevels.length; k++ )
+				{
+					axisLevels[k] = new DimLevel( cubeSort.getAxisQualifierLevels( )[k] );
+				}
+				targetSort = new AggrSortDefinition( aggrOnLevels,
+						bindingName,
+						axisLevels,
+						cubeSort.getAxisQualifierValues( ),
+						new DimLevel( cubeSort.getTargetLevel( ) ),
+						cubeSort.getSortDirection( ) );
 			}
-			DimLevel[] axisLevels = new DimLevel[cubeSort.getAxisQualifierLevels( ).length];
-			for ( int k = 0; k < axisLevels.length; k++ )
-			{
-				axisLevels[k] = new DimLevel( cubeSort.getAxisQualifierLevels( )[k] );
-			}
-			AggrSortDefinition sort = new AggrSortDefinition( aggrOnLevels,
-					bindingName,
-					axisLevels,
-					cubeSort.getAxisQualifierValues( ),
-					new DimLevel( cubeSort.getTargetLevel( ) ),
-					cubeSort.getSortDirection( ) == 1 ? false : true );
 			if ( isRow )
-				cubeQueryExcutorHelper.addRowSort( sort );
+				cubeQueryExcutorHelper.addRowSort( targetSort );
 			else
-				cubeQueryExcutorHelper.addColumnSort( sort );
+				cubeQueryExcutorHelper.addColumnSort( targetSort );
 		}
 	}
 

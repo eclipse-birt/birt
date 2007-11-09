@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -42,13 +43,14 @@ import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.Aggregatio
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.LevelFilter;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.LevelFilterHelper;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.SimpleLevelFilter;
-import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortHelper;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.ITargetSort;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionResultIterator;
 import org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableRowIterator;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper;
+import org.eclipse.birt.data.engine.olap.util.sort.IJSSortHelper;
 
 /**
  * 
@@ -229,7 +231,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	 * 
 	 * @param sort
 	 */
-	public void addRowSort( AggrSortDefinition sort )
+	public void addRowSort( ITargetSort sort )
 	{
 		this.rowSort.add( sort );
 	}
@@ -256,7 +258,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	 * 
 	 * @param sort
 	 */
-	public void addColumnSort( AggrSortDefinition sort )
+	public void addColumnSort( ITargetSort sort )
 	{
 		this.columnSort.add( sort );
 	}
@@ -332,16 +334,33 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	{
 		if ( !this.columnSort.isEmpty( ) )
 		{
-			IAggregationResultSet column = AggrSortHelper.sort( this.columnSort,
-					resultSet );
-			resultSet[findMatchedResultSetIndex( resultSet, column )] = column;
+			AggrSortHelper.sort( this.columnSort, resultSet );
+			close( columnSort );
 		}
 		if ( !this.rowSort.isEmpty( ) )
 		{
-			IAggregationResultSet row = AggrSortHelper.sort( this.rowSort,
-					resultSet );
-			resultSet[findMatchedResultSetIndex( resultSet, row )] = row;
+			AggrSortHelper.sort( this.rowSort, resultSet );
+			close( rowSort );
 		}
+	}
+
+	/**
+	 * 
+	 * @param sorts
+	 */
+	private void close( List sorts )
+	{
+		for ( Iterator i = sorts.iterator( ); i.hasNext( ); )
+		{
+			ITargetSort targetSot = (ITargetSort) i.next( );
+			if ( targetSot instanceof IJSSortHelper )
+			{
+				IJSSortHelper sortHelper = (IJSSortHelper) targetSot;
+				sortHelper.close( );
+			}
+		}
+		sorts.clear( );
+		sorts = null;
 	}
 
 	/**
@@ -390,26 +409,6 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		}
 	}
 	 
-		
-	/**
-	 * @param rSets
-	 * @param source
-	 * @return
-	 * @throws DataException
-	 */
-	private int findMatchedResultSetIndex( IAggregationResultSet[] rSets, IAggregationResultSet source ) throws DataException
-	{
-		for( int i = 0; i < rSets.length; i++ )
-		{
-			if( AggrSortHelper.isEdgeResultSet( rSets[i] ))
-			{
-				if( source.getLevel( 0 ).equals( rSets[i].getLevel( 0 ) ))
-					return i;
-			}
-		}
-		throw new DataException("Invalid");//$NON-NLS-1$
-	}
-	
 	/**
 	 * This method is responsible for computing the aggregation result according
 	 * to the specified aggregation definitions.
@@ -458,14 +457,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		AggregationExecutor aggregationCalculatorExecutor = new AggregationExecutor( dimensionResultIterator,
 				facttableRowIterator,
 				aggregations );
-		try
-		{
-			return aggregationCalculatorExecutor.execute( stopSign );
-		}
-		finally
-		{
-			facttableRowIterator.close( );
-		}
+		return aggregationCalculatorExecutor.execute( stopSign );
 	}
 	
 	/**

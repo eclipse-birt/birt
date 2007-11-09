@@ -9,30 +9,27 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-package org.eclipse.birt.data.engine.olap.util.sort;
+package org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort;
 
-import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.ITargetSort;
-import org.eclipse.birt.data.engine.olap.util.filter.IResultRow;
+import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 
 /**
  * 
  */
 
-public interface IJSSortHelper extends ITargetSort
+public interface ITargetSort
 {
+
 	/**
 	 * 
-	 * @param row
 	 * @return
-	 * @throws DataException
 	 */
-	public Object evaluate( IResultRow row ) throws DataException;
-	
-	
+	public abstract DimLevel getTargetLevel( );
+
 	/**
-	 * close this helper to clean up the registered javascript objects.
+	 * 
+	 * @return
 	 */
-	public void close( );
+	public abstract int getSortDirection( );
 
 }

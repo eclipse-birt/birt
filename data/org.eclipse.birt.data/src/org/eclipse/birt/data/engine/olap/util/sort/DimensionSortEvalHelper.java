@@ -11,16 +11,13 @@
 
 package org.eclipse.birt.data.engine.olap.util.sort;
 
-import java.util.Set;
-
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.ICubeSortDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.util.DimensionJSEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.IJSObjectPopulator;
-import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.filter.IResultRow;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
@@ -35,11 +32,11 @@ public class DimensionSortEvalHelper extends DimensionJSEvalHelper
 			IJSSortHelper
 {
 
-	protected ISortDefinition sortDefinition;
+	protected ICubeSortDefinition sortDefinition;
 	private DimLevel targetLevel;
 
 	public DimensionSortEvalHelper( Scriptable parentScope,
-			ICubeQueryDefinition queryDefn, ISortDefinition sortDefinition )
+			ICubeQueryDefinition queryDefn, ICubeSortDefinition sortDefinition )
 			throws DataException
 	{
 		assert sortDefinition != null;
@@ -63,7 +60,7 @@ public class DimensionSortEvalHelper extends DimensionJSEvalHelper
 	 * @throws DataException
 	 */
 	protected void initialize( Scriptable parentScope,
-			ICubeQueryDefinition queryDefn, ISortDefinition sortDefinition,
+			ICubeQueryDefinition queryDefn, ICubeSortDefinition sortDefinition,
 			Context cx ) throws DataException
 	{
 		super.init( parentScope, queryDefn, cx, sortDefinition.getExpression( ) );
@@ -99,36 +96,23 @@ public class DimensionSortEvalHelper extends DimensionJSEvalHelper
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.olap.util.sort.IJSSortHelper#getSortDefinition()
-	 */
-	public ISortDefinition getSortDefinition( )
-	{
-		return this.sortDefinition;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.birt.data.engine.olap.util.sort.IJSSortHelper#getTargetLevel()
 	 */
 	public DimLevel getTargetLevel( )
 	{
-		if ( this.targetLevel == null )
+		if ( targetLevel == null )
 		{
-			Set set = null;
-			try
-			{
-				set = OlapExpressionCompiler.getReferencedDimLevel( expr, queryDefn.getBindings( ) );
-			}
-			catch ( DataException e )
-			{
-				return null;
-			}
-			if ( set != null && !set.isEmpty( ) )
-			{
-				this.targetLevel = (DimLevel) set.iterator( ).next( );
-			}
+			targetLevel = new DimLevel( this.sortDefinition.getTargetLevel( ) );
 		}
-		return this.targetLevel;
+		return targetLevel;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.ITargetSort#getSortDirection()
+	 */
+	public int getSortDirection( )
+	{
+		return sortDefinition.getSortDirection( );
 	}
 }

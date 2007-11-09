@@ -100,11 +100,7 @@ public class DimensionAxis
 		Set valueSet = new HashSet( );
 		if ( aggrSortDefinition != null )
 		{
-			boolean aggrSortDirection = aggrSortDefinition.getDirection( );
-			if ( aggrSortDirection )
-				aggrSortType = IDimensionSortDefn.SORT_ASC;
-			else
-				aggrSortType = IDimensionSortDefn.SORT_DESC;
+			aggrSortType = aggrSortDefinition.getSortDirection( );
 		}
 
 		for ( int i = 0; i < this.rs.length( ); i++ )

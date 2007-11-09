@@ -14,20 +14,25 @@ package org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
+import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
+import org.eclipse.birt.data.engine.olap.data.util.BufferedPrimitiveDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
 import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
-import org.eclipse.birt.data.engine.olap.data.util.IStructure;
-import org.eclipse.birt.data.engine.olap.data.util.IStructureCreator;
+import org.eclipse.birt.data.engine.olap.util.sort.IJSSortHelper;
 
 /**
  * Helper class to sort on aggregations.
@@ -37,27 +42,24 @@ public class AggregationSortHelper
 {
 
 	/**
-	 * The method by call which the sort on aggregation will be executed.
+	 * 
 	 * @param base
-	 * @param qualifier
-	 * @param sortKeys
+	 * @param targetSorts
+	 * @param targetResultSets
 	 * @return
-	 * @throws IOException
-	 * @throws DataException
 	 */
 	public static IAggregationResultSet sort( IAggregationResultSet base,
-			SortKey[] sortKeys ) throws IOException,
-			DataException
+			ITargetSort[] targetSorts, IAggregationResultSet[] targetResultSets )
+			throws IOException, DataException
 	{
-		createFilteredResultSet( sortKeys );
-		IDiskArray baseDiskArray = getDiskArrayFromAggregationResultSet( base );
-		IDiskArray keyDiskArray = populateAggrDiskArray( base, sortKeys );
-
-		CompareUtil.sort( new WrapperedDiskArray( baseDiskArray, keyDiskArray ),
-				new AggrResultRowComparator( populateNewSortKeys( base,
-						sortKeys ) ),
+		IDiskArray baseDiskArray = getRowsFromBaseResultSet( base );
+		IDiskArray[] keyDiskArrays = populateKeyDiskArray( base,
+				targetSorts,
+				targetResultSets );
+		CompareUtil.sort( new WrapperedDiskArray( baseDiskArray, keyDiskArrays ),
+				new AggrResultRowComparator( base, targetSorts ),
 				AggregationResultRow.getCreator( ) );
-
+		releaseDiskArrays( keyDiskArrays );
 		return new AggregationResultSet( base.getAggregationDefinition( ),
 				baseDiskArray,
 				base.getKeyNames( ),
@@ -65,337 +67,315 @@ public class AggregationSortHelper
 	}
 
 	/**
-	 * Populate the aggregation disk array which is then used to combine with base disk array.
-	 * @param base
-	 * @param sortKeys
-	 * @param filteredAggrResultSet
-	 * @return
+	 * release unnecessary disk arrays.
+	 * 
+	 * @param keyDiskArrays
 	 * @throws IOException
 	 */
-	private static IDiskArray populateAggrDiskArray(
-			IAggregationResultSet base, SortKey[] sortKeys )
+	private static void releaseDiskArrays( IDiskArray[] keyDiskArrays )
 			throws IOException
 	{
-		IDiskArray keyDiskArray = new BufferedStructureArray( AggregationResultRow.getCreator( ),
-				4096 );
-		for ( int i = 0; i < base.length( ); i++ )
+		for ( int i = 0; i < keyDiskArrays.length; i++ )
 		{
-			base.seek( i );
-			
-			keyDiskArray.add( new AggrValueOnlyResultRow( toObjArray( createMatchedAggrRow( base,
-					sortKeys ) ) ) );
+			keyDiskArrays[i].close( );
 		}
-		return keyDiskArray;
 	}
 
 	/**
-	 * Find all matched AggrRows and populate the aggregation value to a list.
 	 * 
 	 * @param base
-	 * @param sortKeys
-	 * @param filteredAggrResultSet
 	 * @return
 	 * @throws IOException
 	 */
-	private static List createMatchedAggrRow( IAggregationResultSet base,
-			SortKey[] sortKeys ) throws IOException
-	{
-		List keyValues = new ArrayList();
-		for ( int x = 0; x < sortKeys.length; x++ )
-		{
-			SortKey key = sortKeys[x];
-
-			Object[] values = new Object[key.getLevelKeyIndex( )
-					+ 1 - key.getLevelKeyOffset( )];
-			boolean[] direction = new boolean[key.getLevelKeyIndex( )
-					+ 1 - key.getLevelKeyOffset( )];
-			// Each level only have one key.
-			// Only when the aggr table is the measure table the offset of a key would be greater than 0.
-			for ( int y = key.getLevelKeyOffset( ); y < key.getLevelKeyIndex( ) + 1; y++ )
-			{
-				DimLevel level = sortKeys[x].getTargetResultSet( )
-						.getLevel( y );
-				values[y - key.getLevelKeyOffset( )] = base.getLevelKeyValue( base.getLevelIndex( level ) )[0];
-				direction[y - key.getLevelKeyOffset( )] = base.getSortType( base.getLevelIndex( level ) ) == 1
-						? false : true;
-			}
-
-			for ( int i = 0; i < key.getAggrKeys( ).length; i++ )
-			{
-				IAggregationResultRow row = getNextMatchRow( key.getFilteredResultSet( )[i],
-						values,
-						direction,
-						key );
-
-				keyValues.add( row == null ? null:row.getAggregationValues( )[key.getAggrKeys( )[i]] );
-			}
-		}
-		return keyValues;
-	}
-
-	/**
-	 * Find next matched row in current AggregationResultRowNavigator.
-	 * @param orderedArray
-	 * @param values
-	 * @param dirs
-	 * @param sk
-	 * @return
-	 * @throws IOException
-	 */
-	private static IAggregationResultRow getNextMatchRow(
-			AggregationResultRowNavigator orderedArray, Object[] values,
-			boolean[] dirs, SortKey sk ) throws IOException
-	{
-		IAggregationResultRow currentRow = orderedArray.getCurrentRow( );
-		if ( currentRow == null )
-			return null;
-
-		Object[] currentValues = new Object[values.length];
-		// Each level only have one key.
-		for ( int y = 0; y < currentValues.length; y++ )
-		{
-			currentValues[y] = currentRow.getLevelMembers( )[sk.getLevelKeyOffset( )
-					+ y].getKeyValues( )[0];
-		}
-
-		int i = CompareUtil.compare( values, currentValues, dirs );
-		if ( i < 0 )
-			return null;
-		if ( i == 0 )
-			return currentRow;
-		if ( i > 0 )
-		{
-			orderedArray.next( );
-			return getNextMatchRow( orderedArray, values, dirs, sk );
-		}
-		return null;
-	}
-
-	/**
-	 * Provide new sort keys for base IAggregationResultSet.
-	 * @param base
-	 * @param sortKeys
-	 * @return
-	 */
-	private static List populateNewSortKeys( IAggregationResultSet base,
-			SortKey[] sortKeys )
-	{
-		SortKey[] sks = new SortKey[base.getLevelCount( )];
-		for ( int i = 0; i < sks.length; i++ )
-		{
-			for ( int j = 0; j < sortKeys.length; j++ )
-			{
-				int levelIndexInBase = base.getLevelIndex( sortKeys[j].getLevel( ) );
-				if ( i == levelIndexInBase )
-					sks[i] = sortKeys[j];
-				if ( i < levelIndexInBase )
-					break;
-			}
-		}
-
-		//For each level there should be a sort key.
-		populateEmptySortKey( base, sks );
-		
-		return createNewSortKeys( base, sks );
-	}
-
-	private static List createNewSortKeys( IAggregationResultSet base, SortKey[] sks )
-	{
-		List newSortKeys = new ArrayList();
-		int offset = 0;
-		for ( int i = 0; i < sks.length; i++ )
-		{
-			DimLevel level = sks[i].getTargetResultSet( )
-					.getLevel( sks[i].getLevelKeyIndex( ) );
-			int levelKeyIndex = base.getLevelIndex( level );
-			int[] aggrKeyIndex = new int[sks[i].getAggrKeys( ).length];
-			for ( int j = 0; j < sks[i].getAggrKeys( ).length; j++ )
-			{
-				aggrKeyIndex[j] = sks[i].getAggrKeys( )[j] + offset;
-			}
-			offset += sks[i].getAggrKeys( ).length;
-			SortKey sk = new SortKey( aggrKeyIndex,
-					sks[i].getAggrSortDirection( ),
-					levelKeyIndex,
-					0,
-					sks[i].getTargetResultSet( ), sks[i].getAxisQualifiers( ) );
-			newSortKeys.add( sk );
-		}
-		return newSortKeys;
-	}
-
-	private static void populateEmptySortKey( IAggregationResultSet base,
-			SortKey[] sks )
-	{
-		for ( int i = 0; i < sks.length; i++ )
-		{
-			if ( sks[i] == null )
-			{
-				sks[i] = new SortKey( new int[0], new boolean[0], i, 0, base, new AxisQualifier[0] );
-			}
-		}
-	}
-
-	private static IDiskArray getDiskArrayFromAggregationResultSet(
+	private static IDiskArray getRowsFromBaseResultSet(
 			IAggregationResultSet base ) throws IOException
 	{
-		IDiskArray diskArray = new BufferedStructureArray( AggregationResultRow.getCreator( ),
-				4096 );
+		IDiskArray diskArray = new BufferedStructureArray( AggregationResultRow.getCreator( ), 4096 );
 		for ( int j = 0; j < base.length( ); j++ )
 		{
 			base.seek( j );
 			IAggregationResultRow temp = base.getCurrentRow( );
 			diskArray.add( temp );
 		}
-		if( base.length( ) > 0 )
-		{
-			base.seek( 0 );
-		}
 		return diskArray;
 	}
 
-	private static void createFilteredResultSet(
-			SortKey[] aggr ) throws IOException,
-			DataException
-	{
-		for ( int i = 0; i < aggr.length; i++ )
-		{
-			IAggregationResultSet rSet = aggr[i].getTargetResultSet( );
-			filterResultSet( rSet, aggr[i] );
-		}
-	}
-
-	private static void filterResultSet( IAggregationResultSet rSet,
-			SortKey key ) throws IOException, DataException
-	{
-		IDiskArray[] diskArray = new IDiskArray[key.getAxisQualifiers( ).length];
-		AggregationResultRowNavigator[] result = new AggregationResultRowNavigator[key.getAxisQualifiers( ).length];
-		for ( int i = 0; i < diskArray.length; i++ )
-		{
-			diskArray[i] = new BufferedStructureArray( AggregationResultRow.getCreator( ),
-					4096 );
-		}
-		for ( int j = 0; j < rSet.length( ); j++ )
-		{
-			rSet.seek( j );
-			int[] index = key.getAxisQualifiers( )[0].getLevelIndex( );
-			Object[] values = new Object[index.length];
-			for ( int i = 0; i < index.length; i++ )
-			{
-				values[i] = rSet.getLevelKeyValue( index[i] )[0];
-			}
-
-			for ( int i = 0; i < key.getAxisQualifiers( ).length; i++ )
-			{
-				if ( CompareUtil.compare( values, key.getAxisQualifiers( )[i].getLevelValue( ) ) == 0 )
-				{
-					IAggregationResultRow temp = rSet.getCurrentRow( );
-					diskArray[i].add( temp );
-				}
-			}
-			for( int i = 0; i < result.length; i++ )
-			{	
-				result[i] = new AggregationResultRowNavigator( diskArray[i] );
-			}
-		}
-		key.setFilteredResultSet( result );
-	}
-
-	static Object[] toObjArray( List l )
-	{
-		Object[] objs = new Object[l.size( )];
-		for ( int i = 0; i < objs.length; i++ )
-		{
-			objs[i] = l.get( i );
-		}
-		return objs;
-	}
-
-	static boolean[] toDirectionArray( List sortKeys )
-	{
-		List result = new ArrayList( );
-		for ( int i = 0; i < sortKeys.size( ); i++ )
-		{
-			SortKey sk = (SortKey) sortKeys.get( i );
-			for ( int j = 0; j < sk.getAggrSortDirection( ).length; j++ )
-			{
-				result.add( new Boolean( sk.getAggrSortDirection( )[j] ) );
-			}
-			result.add( new Boolean( sk.getLevelSortDirection( ) ) );
-		}
-
-		boolean[] objs = new boolean[result.size( )];
-		for ( int i = 0; i < objs.length; i++ )
-		{
-			objs[i] = ( (Boolean) result.get( i ) ).booleanValue( );
-		}
-		return objs;
-	}
-}
-
-/**
- * A navigator class for an IDiskArray instance.
- *
- */
-class AggregationResultRowNavigator
-{
-
-	private int index;
-	private IDiskArray array;
-
 	/**
 	 * 
-	 * @param array
-	 */
-	AggregationResultRowNavigator( IDiskArray array )
-	{
-		this.index = 0;
-		this.array = array;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean next( )
-	{
-		this.index++;
-		if ( this.array.size( ) <= this.index )
-		{
-			this.index = this.array.size( );
-			return false;
-		}
-		return true;
-	}
-
-	/**
-	 * 
+	 * @param base 
+	 * @param targetSorts
+	 * @param targetResultSets
 	 * @return
 	 * @throws IOException
+	 * @throws DataException
 	 */
-	public IAggregationResultRow getCurrentRow( ) throws IOException
+	private static IDiskArray[] populateKeyDiskArray(
+			IAggregationResultSet base, ITargetSort[] targetSorts,
+			IAggregationResultSet[] targetResultSets ) throws DataException,
+			IOException
 	{
-		if ( this.index >= this.array.size( ) )
-			return null;
-		return (IAggregationResultRow) this.array.get( this.index );
+		IDiskArray[] keyDiskArrays = new IDiskArray[targetSorts.length];
+		for ( int i = 0; i < keyDiskArrays.length; i++ )
+		{
+			keyDiskArrays[i] = new BufferedPrimitiveDiskArray( );
+		}
+		// classify the target sorts according to their target level
+		Map indexMap = new HashMap( );
+		List sortHelperIndex = new ArrayList( );
+		for ( int i = 0; i < targetSorts.length; i++ )
+		{
+			if ( targetSorts[i] instanceof AggrSortDefinition )
+			{
+				DimLevel targetLevel = targetSorts[i].getTargetLevel( );
+				List sortDefnIndex = (List) indexMap.get( targetLevel );
+				if ( sortDefnIndex == null )
+				{
+					sortDefnIndex = new ArrayList( );
+					indexMap.put( targetLevel, sortDefnIndex );
+				}
+				sortDefnIndex.add( new Integer( i ) );
+			}
+			else
+			{
+				sortHelperIndex.add( new Integer( i ) );
+			}
+		}
+		
+		// populate the key values from the aggregation result set.
+		for ( Iterator itr = indexMap.values( ).iterator( ); itr.hasNext( ); )
+		{
+			populateAggrKeysForTargetLevel( base,
+					toIntArray( (List) itr.next( ) ),
+					targetSorts,
+					targetResultSets,
+					keyDiskArrays );
+		}
+
+		// populate the key values evaluated by the expression helpers
+		populateExprKeyDiskArray( base,
+				targetSorts,
+				toIntArray( sortHelperIndex ),
+				keyDiskArrays );
+		return keyDiskArrays;
+	}
+
+	/**
+	 * populate aggregation values to disk arrays for the specified
+	 * AggrSortDefinitions who share the same target level.
+	 * 
+	 * @param base
+	 * @param sortIndex
+	 * @param targetSorts
+	 * @param targetResultSets
+	 * @param keyDiskArrays
+	 * @throws IOException
+	 */
+	private static void populateAggrKeysForTargetLevel(
+			IAggregationResultSet base, int[] sortIndex,
+			ITargetSort[] targetSorts, IAggregationResultSet[] targetResultSets,
+			IDiskArray[] keyDiskArrays ) throws IOException
+	{
+		// all the target sorts located with sortIndex shared the same
+		// target level, but they should be classified according to their target
+		// result set since they may be defined in different aggregation levels
+		Map map = new HashMap( );
+		for ( int i = 0; i < sortIndex.length; i++ )
+		{
+			int index = sortIndex[i];
+			List list = (List) map.get( targetResultSets[index] );
+			if ( list == null )
+			{
+				list = new ArrayList( );
+				map.put( targetResultSets[index], list );
+			}
+			list.add( new Integer( index ) );
+		}
+		// 
+		for ( Iterator itr = map.keySet( ).iterator( ); itr.hasNext( ); )
+		{
+			IAggregationResultSet resultSet = (IAggregationResultSet) itr.next( );
+			int[] targetSortIndex = toIntArray( (List) map.get( resultSet ) );
+			populateAggrKeysForTargetResultSet( base,
+					resultSet,
+					targetSortIndex,
+					targetSorts,
+					keyDiskArrays );
+		}
+	}
+
+	/**
+	 * aggregation values to disk arrays for the specified AggrSortDefinitions
+	 * who share the same target aggregation result set.
+	 * 
+	 * @param base
+	 * @param targetResultSet
+	 * @param sortIndex
+	 * @param targetSorts
+	 * @param keyDiskArrays
+	 * @throws IOException
+	 */
+	private static void populateAggrKeysForTargetResultSet(
+			IAggregationResultSet base, IAggregationResultSet targetResultSet,
+			int[] sortIndex, ITargetSort[] targetSorts,
+			IDiskArray[] keyDiskArrays ) throws IOException
+	{
+		AggrSortDefinition sortDefinition = (AggrSortDefinition) targetSorts[sortIndex[0]];
+		DimLevel targetLevel = sortDefinition.getTargetLevel( );
+		DimLevel[] axisQualifierLevel = sortDefinition.getAxisQualifierLevel( );
+		int[] levelIndex = new int[axisQualifierLevel.length];
+		for ( int i = 0; i < levelIndex.length; i++ )
+		{
+			levelIndex[i] = targetResultSet.getLevelIndex( axisQualifierLevel[i] );
+		}
+		Object[] axisQualifierValue = sortDefinition.getAxisQualifierValue( );
+		int[] aggrIndex = new int[sortIndex.length];
+		for ( int i = 0; i < sortIndex.length; i++ )
+		{
+			AggrSortDefinition sortDefn = (AggrSortDefinition) targetSorts[sortIndex[i]];
+			aggrIndex[i] = targetResultSet.getAggregationIndex( sortDefn.getAggrName( ) );
+		}
+
+		int indexInTarget = targetResultSet.getLevelIndex( targetLevel );
+		int indexInBase = base.getLevelIndex( targetLevel );
+		int baseRowIndex = 0;
+
+		for ( int i = 0; i < targetResultSet.length( ); i++ )
+		{
+			targetResultSet.seek( i );
+			Object[] values = new Object[levelIndex.length];
+			for ( int j = 0; j < levelIndex.length; j++ )
+			{
+				values[j] = targetResultSet.getLevelKeyValue( levelIndex[j] )[0];
+			}
+
+			if ( CompareUtil.compare( values, axisQualifierValue ) == 0 )
+			{
+				IAggregationResultRow temp = targetResultSet.getCurrentRow( );
+				Object key = targetResultSet.getLevelKeyValue( indexInTarget )[0];
+				while ( baseRowIndex < base.length( ) )
+				{
+					base.seek( baseRowIndex );
+					Object levelKey = base.getLevelKeyValue( indexInBase )[0];
+					if ( levelKey.equals( key ) )
+					{
+						for ( int j = 0; j < aggrIndex.length; j++ )
+						{
+							keyDiskArrays[sortIndex[j]].add( temp.getAggregationValues( )[aggrIndex[j]] );
+						}
+						baseRowIndex++;
+					}
+					else
+					{
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * 
+	 * @param list
+	 * @return
+	 */
+	private static int[] toIntArray( List list )
+	{
+		int[] index = new int[list.size( )];
+		for ( int i = 0; i < index.length; i++ )
+		{
+			index[i] = ( (Integer) list.get( i ) ).intValue( );
+		}
+		return index;
+	}
+	
+
+	/**
+	 * 
+	 * @param base
+	 * @param targetSorts
+	 * @param sortHelperIndex
+	 * @param keyDiskArrays
+	 * @throws IOException
+	 * @throws DataException
+	 */
+	private static void populateExprKeyDiskArray( IAggregationResultSet base,
+			ITargetSort[] targetSorts, int[] sortHelperIndex,
+			IDiskArray[] keyDiskArrays ) throws IOException, DataException
+	{
+		String[] fieldNames = getFieldNames( base );
+		for ( int i = 0; i < base.length( ); i++ )
+		{
+			base.seek( i );
+			IAggregationResultRow row = base.getCurrentRow( );
+			for ( int j = 0; j < sortHelperIndex.length; j++ )
+			{
+				final int index = sortHelperIndex[j];
+				IJSSortHelper sortHelper = (IJSSortHelper) targetSorts[index];
+				Row4Sort row4sort = new Row4Sort( row, fieldNames );
+				Object keyValue = sortHelper.evaluate( row4sort );
+				keyDiskArrays[index].add( keyValue );
+			}
+		}
+	}
+
+
+	/**
+	 * 
+	 * @param resultSet
+	 * @return
+	 */
+	private static String[] getFieldNames( IAggregationResultSet resultSet )
+	{
+		List fieldList = new ArrayList( );
+		for ( int i = 0; i < resultSet.getLevelCount( ); i++ )
+		{
+			DimLevel level = resultSet.getAllLevels( )[i];
+			for ( int j = 0; j < resultSet.getLevelKeyColCount( i ); j++ )
+			{
+				String levelKeyName = resultSet.getLevelKeyName( i, j );
+				String name = CubeQueryExecutorHelper.getAttrReference( level.getDimensionName( ),
+						level.getLevelName( ),
+						levelKeyName );
+				fieldList.add( name );
+			}
+			String[] attrNames = resultSet.getLevelAttributes( i );
+			if ( attrNames != null )
+			{
+				for ( int j = 0; j < attrNames.length; j++ )
+				{
+					String name = CubeQueryExecutorHelper.getAttrReference( level.getDimensionName( ),
+							level.getLevelName( ),
+							attrNames[j] );
+					fieldList.add( name );
+				}
+			}
+		}
+		String[] fieldNames = new String[fieldList.size( )];
+		fieldList.toArray( fieldNames );
+		return fieldNames;
 	}
 }
 
 /**
  * 
- *
+ * 
  */
 class WrapperedDiskArray implements IDiskArray
 {
 
 	private int index;
-	private IDiskArray base;
-	private IDiskArray aggrValues;
+	private IDiskArray baseArray;
+	private IDiskArray[] keyValueArrays;
 
-	WrapperedDiskArray( IDiskArray base, IDiskArray aggrValues )
+	/**
+	 * 
+	 * @param base
+	 * @param keyValueArrays
+	 */
+	WrapperedDiskArray( IDiskArray base, IDiskArray[] keyValueArrays )
 	{
-		this.base = base;
-		this.aggrValues = aggrValues;
+		this.baseArray = base;
+		this.keyValueArrays = keyValueArrays;
 		this.index = 0;
 	}
 
@@ -406,21 +386,27 @@ class WrapperedDiskArray implements IDiskArray
 	 */
 	private Object getCurrentBaseRow( ) throws IOException
 	{
-		return this.base.get( this.index );
+		return this.baseArray.get( this.index );
 	}
-
+	
 	/**
 	 * 
 	 * @return
 	 * @throws IOException
 	 */
-	private Object getCurrentKeyRow( ) throws IOException
+	private Object[] getCurrentKeyRow( ) throws IOException
 	{
-		return this.aggrValues.get( this.index );
+		Object[] keys = new Object[keyValueArrays.length];
+		for ( int i = 0; i < keyValueArrays.length; i++ )
+		{
+			keys[i] = keyValueArrays[i].get( index );
+		}
+		return keys;
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.data.util.IDiskArray#add(java.lang.Object)
 	 */
 	public boolean add( Object o ) throws IOException
@@ -429,61 +415,72 @@ class WrapperedDiskArray implements IDiskArray
 		CombinedAggrResultRow obj = (CombinedAggrResultRow) o;
 		AggregationResultRow baseRow = new AggregationResultRow( );
 		baseRow.setLevelMembers( obj.getLevelMembers( ) );
-		this.base.add( baseRow );
-
-		AggregationResultRow keyRow = new AggregationResultRow( );
-		keyRow.setAggregationValues( obj.getAggregationValues( ) );
-		this.aggrValues.add( keyRow );
+		this.baseArray.add( baseRow );
+		Object[] aggrValues = obj.getAggregationValues( );
+		for ( int i = 0; i < keyValueArrays.length; i++ )
+		{
+			keyValueArrays[i].add( aggrValues[i] );
+		}
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.data.util.IDiskArray#clear()
 	 */
 	public void clear( ) throws IOException
 	{
-		this.base.clear( );
-		this.aggrValues.clear( );
-
+		this.baseArray.clear( );
+		for ( int i = 0; i < keyValueArrays.length; i++ )
+		{
+			keyValueArrays[i].clear( );
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.data.util.IDiskArray#close()
 	 */
 	public void close( ) throws IOException
 	{
-		this.base.close( );
-		this.aggrValues.close( );
+		this.baseArray.close( );
+		for ( int i = 0; i < keyValueArrays.length; i++ )
+		{
+			keyValueArrays[i].close( );
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.data.util.IDiskArray#get(int)
 	 */
 	public Object get( int index ) throws IOException
 	{
 		this.index = index;
 		return new CombinedAggrResultRow( (IAggregationResultRow) this.getCurrentBaseRow( ),
-				(IAggregationResultRow) this.getCurrentKeyRow( ) );
+				getCurrentKeyRow( ) );
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.data.util.IDiskArray#size()
 	 */
 	public int size( )
 	{
-		return this.base.size( );
+		return this.baseArray.size( );
 	}
 }
 
 /**
- * This class combine two AggregationResultRow object to one. Specifically, it will 
- * get level values from "base", and aggregation values from "key".
+ * This class combine two AggregationResultRow object to one. Specifically,
+ * it will get level values from "base", and aggregation values from "key".
+ * 
  * @author Administrator
- *
+ * 
  */
 class CombinedAggrResultRow implements IAggregationResultRow
 {
@@ -491,15 +488,15 @@ class CombinedAggrResultRow implements IAggregationResultRow
 	private Member[] levelMember;
 	private Object[] aggr;
 
-	public CombinedAggrResultRow( IAggregationResultRow base,
-			IAggregationResultRow aggr )
+	public CombinedAggrResultRow( IAggregationResultRow base, Object[] aggr )
 	{
 		this.levelMember = base.getLevelMembers( );
-		this.aggr = aggr.getAggregationValues( );
+		this.aggr = aggr;
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow#getAggregationValues()
 	 */
 	public Object[] getAggregationValues( )
@@ -509,6 +506,7 @@ class CombinedAggrResultRow implements IAggregationResultRow
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow#getLevelMembers()
 	 */
 	public Member[] getLevelMembers( )
@@ -518,6 +516,7 @@ class CombinedAggrResultRow implements IAggregationResultRow
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow#setAggregationValues(java.lang.Object[])
 	 */
 	public void setAggregationValues( Object[] aggregationValues )
@@ -528,138 +527,105 @@ class CombinedAggrResultRow implements IAggregationResultRow
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow#setLevelMembers(org.eclipse.birt.data.engine.olap.data.impl.dimension.Member[])
 	 */
 	public void setLevelMembers( Member[] levelMembers )
 	{
 		this.levelMember = levelMembers;
 	}
-
 }
 
 /**
- * This implementation of IAggregationResultRow only stores aggregation values, without
- * store any level info.
- *
- */
-class AggrValueOnlyResultRow implements IStructure, IAggregationResultRow
-{
-
-	private Object[] aggrValues;
-
-	/**
-	 * 
-	 * @param aggrValues
-	 */
-	public AggrValueOnlyResultRow( Object[] aggrValues )
-	{
-		this.aggrValues = aggrValues;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow#getAggregationValues()
-	 */
-	public Object[] getAggregationValues( )
-	{
-		return this.aggrValues;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow#getLevelMembers()
-	 */
-	public Member[] getLevelMembers( )
-	{
-		throw new UnsupportedOperationException( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow#setAggregationValues(java.lang.Object[])
-	 */
-	public void setAggregationValues( Object[] aggregationValues )
-	{
-		this.aggrValues = aggregationValues;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow#setLevelMembers(org.eclipse.birt.data.engine.olap.data.impl.dimension.Member[])
-	 */
-	public void setLevelMembers( Member[] levelMembers )
-	{
-		throw new UnsupportedOperationException( );
-	}
-
-	/**
-	 * 
-	 */
-	public Object[] getFieldValues( )
-	{
-		return aggrValues;
-	}
-	
-	public static IStructureCreator getCreator()
-	{
-		return new AggrValueOnlyResultRowCreator( );
-	}
-}
-
-/**
- * 
- * @author Administrator
- *
- */
-class AggrValueOnlyResultRowCreator implements IStructureCreator
-{
-
-	public IStructure createInstance( Object[] fields )
-	{
-		return new AggrValueOnlyResultRow( fields );
-	}
-}
-
-/**
- * The comparator implementation which is used to compare two AggrResultRows 
- * according to given key.
- * 
  *
  */
 class AggrResultRowComparator implements Comparator
 {
 
-	private List keys;
+	private int[] valueIndexs;
+	private boolean[] sortDirections;
 
-	AggrResultRowComparator( List keys )
+	/**
+	 * 
+	 * @param base
+	 * @param targetSorts
+	 */
+	public AggrResultRowComparator( IAggregationResultSet base,
+			ITargetSort[] targetSorts )
 	{
-		this.keys = keys;
+		// The keys for sorting, which should include every level key in the
+		// base result set and all the aggregation/evaluated keys for the
+		// targetSorts.
+		final int length = base.getLevelCount( ) + targetSorts.length;
+		valueIndexs = new int[length];
+		sortDirections = new boolean[length];
+		List[] indicesForSort = new List[base.getLevelCount( )];
+		for ( int i = 0; i < targetSorts.length; i++ )
+		{
+			DimLevel targetLevel = targetSorts[i].getTargetLevel( );
+			int levelIndex = base.getLevelIndex( targetLevel );
+			if ( indicesForSort[levelIndex] == null )
+			{
+				indicesForSort[levelIndex] = new ArrayList( );
+			}
+			// index in the targetSorts with 2's complement encoding
+			indicesForSort[levelIndex].add( new Integer( ~i ) );
+		}
+		// populate value indices and sort directions
+		int index = 0;
+		for ( int i = 0; i < indicesForSort.length; i++ )
+		{
+			if ( indicesForSort[i] != null )
+			{
+				for ( Iterator j = indicesForSort[i].iterator( ); j.hasNext( ); )
+				{
+					Integer aggrIndex = (Integer) j.next( );
+					valueIndexs[index] = aggrIndex.intValue( );
+					ITargetSort targetSort = targetSorts[~valueIndexs[index]];
+					sortDirections[index] = toSortDirection( targetSort.getSortDirection( ) );
+					index++;
+				}
+			}
+			valueIndexs[index] = i;
+			sortDirections[index] = toSortDirection( base.getSortType( i ) );
+			index++;
+		}
 	}
 
+
+	/*
+	 * (non-Javadoc)
+	 * @see java.util.Comparator#compare(T, T)
+	 */
 	public int compare( Object arg0, Object arg1 )
 	{
-		IAggregationResultRow obj1 = (IAggregationResultRow) arg0;
-		IAggregationResultRow obj2 = (IAggregationResultRow) arg1;
-		List keyValue1 = new ArrayList( );
-		List keyValue2 = new ArrayList( );
-
-		int offset = 0;
-		for ( int i = 0; i < keys.size( ); i++ )
+		IAggregationResultRow row1 = (IAggregationResultRow) arg0;
+		IAggregationResultRow row2 = (IAggregationResultRow) arg1;
+		Object[] keyValues1 = new Object[valueIndexs.length];
+		Object[] keyValues2 = new Object[valueIndexs.length];
+		for ( int i = 0; i < valueIndexs.length; i++ )
 		{
-			SortKey sk = (SortKey) keys.get( i );
-			for ( int j = 0; j < sk.getAggrKeys( ).length; j++ )
+			final int index = valueIndexs[i];
+			if ( index >= 0 )
 			{
-				keyValue1.add( obj1.getAggregationValues( )[offset+j] );
-				keyValue2.add( obj2.getAggregationValues( )[offset+j] );
+				keyValues1[i] = row1.getLevelMembers( )[index].getKeyValues( )[0];
+				keyValues2[i] = row2.getLevelMembers( )[index].getKeyValues( )[0];
 			}
-			keyValue1.add( obj1.getLevelMembers( )[sk.getLevelKeyIndex( )].getKeyValues( )[0] );
-			keyValue2.add( obj2.getLevelMembers( )[sk.getLevelKeyIndex( )].getKeyValues( )[0] );
-			offset = sk.getAggrKeys( ).length;
+			else
+			{
+				keyValues1[i] = row1.getAggregationValues( )[~index];
+				keyValues2[i] = row2.getAggregationValues( )[~index];
+			}
 		}
-
-		return CompareUtil.compare( AggregationSortHelper.toObjArray( keyValue1 ),
-				AggregationSortHelper.toObjArray( keyValue2 ),
-				AggregationSortHelper.toDirectionArray( this.keys ) );
+		return CompareUtil.compare( keyValues1, keyValues2, sortDirections );
 	}
-
+	/**
+	 * 
+	 * @param sortType
+	 * @return
+	 */
+	private boolean toSortDirection( int sortType )
+	{
+		return sortType == IDimensionSortDefn.SORT_DESC ? false : true;
+	}
 }
