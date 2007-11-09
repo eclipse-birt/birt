@@ -48,8 +48,8 @@ feature@org.eclipse.birt.nl=v20070920,:pserver:anonymous@dev.eclipse.org:/cvsroo
 !*** Apache Xerces**************************************************************************** 
 feature@org.apache.commons.codec=v20070920,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.apache.commons.codec.feature 
 
-feature@com.lowagie.itext=v20070920,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/com.lowagie.itext.feature 
-plugin@com.lowagie.itext=v20070710,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/com.lowagie.itext
+feature@com.lowagie.itext=v20071109,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/com.lowagie.itext.feature 
+plugin@com.lowagie.itext=v20071109,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/com.lowagie.itext
 
 feature@org.apache.derby.core=v20070920,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.apache.derby.core.feature 
 plugin@org.apache.derby.core=v20070710,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.apache.derby.core
