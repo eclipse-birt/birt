@@ -3446,6 +3446,7 @@ Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=Das Einfügen beim Element "{0}"
 
 Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE=Der Zirkelbezug auf das Element wird gefunden, weil {0} sich bereits auf {1} verweist.
 Error.SemanticError.INCONSISTENT_DATA_GROUP=Der Datenbindungsverweis des Elements {0} verfügt über verschiedene Anzahlen von Gruppen mit dem Element {1}, auf das er verweist.
+Error.SemanticError.INVALID_MANIFEST=The element {0} has an invalid manifest.
 
 #StyleException
 Error.StyleException.FORBIDDEN={0} kann keinen Stil aufweisen.

@@ -3446,6 +3446,7 @@ Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=禁止对元素“{0}”执行插入和粘贴
 
 Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE=找到循环元素引用，因为 {0} 已经引用 {1}。
 Error.SemanticError.INCONSISTENT_DATA_GROUP=元素 {0} 的数据绑定引用与它引用的元素 {1} 的组数不同。
+Error.SemanticError.INVALID_MANIFEST=The element {0} has an invalid manifest.
 
 #StyleException
 Error.StyleException.FORBIDDEN={0} 不得具有样式。

@@ -3446,6 +3446,7 @@ Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=L'opération d'insertion/collage
 
 Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE=La référence d'élément circulaire a été trouvée, car {0} fait déjà référence à {1}.
 Error.SemanticError.INCONSISTENT_DATA_GROUP=Le nombre de groupes de la référence de liaison de données de l''élément {0} est différent du nombre de l''élément {1} auquel il se réfère.
+Error.SemanticError.INVALID_MANIFEST=The element {0} has an invalid manifest.
 
 #StyleException
 Error.StyleException.FORBIDDEN=L''élément {0} ne peut pas être associé à un style.
