@@ -155,7 +155,6 @@ public class ExtensionManager
 					.log(
 							Level.WARNING,
 							"Create Report Item Executor fail, Config not exist class: {0}", config.getName( ) ); //$NON-NLS-1$
-			return null;
 		}
 		// provide an default extendedGenerationExecutor if the extended
 		// item do not implement IReportItemGeneration or
