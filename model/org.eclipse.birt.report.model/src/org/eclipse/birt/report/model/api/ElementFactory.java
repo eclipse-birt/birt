@@ -851,17 +851,17 @@ public class ElementFactory
 
 	public OdaDataSourceHandle newOdaDataSource( String name, String extensionID )
 	{
-
+		OdaDataSource element = new OdaDataSource( name );
 		if ( extensionID != null )
 		{
-			if ( ODAProviderFactory.getInstance( ).createODAProvider( null,
+			if ( ODAProviderFactory.getInstance( ).createODAProvider( element,
 					extensionID ) == null )
 				return null;
-			if ( !ODAProviderFactory.getInstance( ).createODAProvider( null,
+			if ( !ODAProviderFactory.getInstance( ).createODAProvider( element,
 					extensionID ).isValidExtensionID( ) )
 				return null;
 		}
-		OdaDataSource element = new OdaDataSource( name );
+
 		module.makeUniqueName( element );
 		element.setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP,
 				extensionID );
@@ -920,16 +920,17 @@ public class ElementFactory
 
 	public OdaDataSetHandle newOdaDataSet( String name, String extensionID )
 	{
+		OdaDataSet element = new OdaDataSet( name );
 		if ( extensionID != null )
 		{
-			if ( ODAProviderFactory.getInstance( ).createODAProvider( null,
+			if ( ODAProviderFactory.getInstance( ).createODAProvider( element,
 					extensionID ) == null )
 				return null;
-			if ( !ODAProviderFactory.getInstance( ).createODAProvider( null,
+			if ( !ODAProviderFactory.getInstance( ).createODAProvider( element,
 					extensionID ).isValidExtensionID( ) )
 				return null;
 		}
-		OdaDataSet element = new OdaDataSet( name );
+
 		module.makeUniqueName( element );
 		element.setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP,
 				extensionID );
