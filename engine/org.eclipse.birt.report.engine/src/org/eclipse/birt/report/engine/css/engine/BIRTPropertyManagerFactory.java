@@ -80,6 +80,13 @@ public class BIRTPropertyManagerFactory implements PropertyManagerFactory
 		vms[StyleConstants.STYLE_DATE_FORMAT] = new StringManager(
 				BIRTConstants.BIRT_DATE_TIME_FORMAT_PROPERTY, true,
 				CSSValueConstants.NULL_STRING_VALUE );
+		vms[StyleConstants.STYLE_SQL_DATE_FORMAT] = new StringManager(
+				BIRTConstants.BIRT_DATE_FORMAT_PROPERTY, true,
+				CSSValueConstants.NULL_STRING_VALUE );
+		vms[StyleConstants.STYLE_SQL_TIME_FORMAT] = new StringManager(
+				BIRTConstants.BIRT_TIME_FORMAT_PROPERTY, true,
+				CSSValueConstants.NULL_STRING_VALUE );
+		
 
 		vms[StyleConstants.STYLE_VERTICAL_ALIGN] = new VerticalAlignManager( );
 

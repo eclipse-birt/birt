@@ -940,17 +940,17 @@ abstract public class AbstractStyle implements IStyle
 
 	public void setDateFormat( String format ) throws DOMException
 	{
-		setCssText( STYLE_DATE_FORMAT, format );
+		setCssText( STYLE_SQL_DATE_FORMAT, format );
 	}
 	
 	public void setDateTimeFormat( String format ) throws DOMException
 	{
-		setCssText( STYLE_DATETIME_FORMAT, format );
+		setCssText( STYLE_DATE_FORMAT, format );
 	}
 	
 	public void setTimeFormat( String format ) throws DOMException
 	{
-		setCssText( STYLE_TIME_FORMAT, format );
+		setCssText( STYLE_SQL_TIME_FORMAT, format );
 	}
 
 	public void setNumberAlign( String align ) throws DOMException
@@ -975,17 +975,17 @@ abstract public class AbstractStyle implements IStyle
 
 	public String getDateFormat( )
 	{
-		return getCssText( STYLE_DATE_FORMAT );
+		return getCssText( STYLE_SQL_DATE_FORMAT );
 	}
 	
 	public String getDateTimeFormat( )
 	{
-		return getCssText( STYLE_DATETIME_FORMAT );
+		return getCssText( STYLE_DATE_FORMAT );
 	}
 	
 	public String getTimeFormat( )
 	{
-		return getCssText( STYLE_TIME_FORMAT );
+		return getCssText( STYLE_SQL_TIME_FORMAT );
 	}
 
 	public String getNumberAlign( )

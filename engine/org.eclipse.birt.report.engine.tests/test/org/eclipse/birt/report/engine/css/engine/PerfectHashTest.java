@@ -17,6 +17,8 @@ public class PerfectHashTest extends TestCase {
 		assertEquals(StyleConstants.STYLE_BACKGROUND_REPEAT  , PerfectHash.in_word_set("background-repeat"));
 		assertEquals(StyleConstants.STYLE_BACKGROUND_ATTACHMENT  , PerfectHash.in_word_set("background-attachment"));
 		assertEquals(StyleConstants.STYLE_DATE_FORMAT  , PerfectHash.in_word_set("date-format"));
+		assertEquals(StyleConstants.STYLE_SQL_DATE_FORMAT  , PerfectHash.in_word_set("sql-date-format"));
+		assertEquals(StyleConstants.STYLE_SQL_TIME_FORMAT  , PerfectHash.in_word_set("sql-time-format"));
 		assertEquals(StyleConstants.STYLE_CAN_SHRINK  , PerfectHash.in_word_set("can-shrink"));
 		assertEquals(StyleConstants.STYLE_TEXT_OVERLINE  , PerfectHash.in_word_set("text-overline"));
 		assertEquals(StyleConstants.STYLE_TEXT_UNDERLINE  , PerfectHash.in_word_set("text-underline"));

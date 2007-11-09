@@ -56,8 +56,8 @@ background-position-x
 background-position-y
 can-shrink
 date-format
-datetime-format
-time-format
+sql-date-format
+sql-time-format
 master-page
 number-align
 number-format

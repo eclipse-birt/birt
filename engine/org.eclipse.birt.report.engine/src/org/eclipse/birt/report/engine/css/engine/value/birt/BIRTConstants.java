@@ -25,6 +25,8 @@ public interface BIRTConstants extends CSSConstants {
 	String BIRT_BACKGROUND_POSITION_Y_PROPERTY = "background-position-y";
 	String BIRT_CAN_SHRINK_PROPERTY = "can-shrink"; //$NON-NLS-1$
 	String BIRT_DATE_TIME_FORMAT_PROPERTY = "date-format"; //$NON-NLS-1$
+	String BIRT_TIME_FORMAT_PROPERTY = "sql-time-format"; //$NON-NLS-1$
+	String BIRT_DATE_FORMAT_PROPERTY = "sql-date-format"; //$NON-NLS-1$
 	String BIRT_MASTER_PAGE_PROPERTY= "master-page"; //$NON-NLS-1$
 	String BIRT_NUMBER_ALIGN_PROPERTY = "number-align";
 	String BIRT_NUMBER_FORMAT_PROPERTY = "number-format"; //$NON-NLS-1$
