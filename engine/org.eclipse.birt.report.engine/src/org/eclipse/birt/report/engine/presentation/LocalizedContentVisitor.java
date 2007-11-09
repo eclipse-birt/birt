@@ -55,15 +55,13 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
+import org.eclipse.birt.report.engine.data.dte.SingleQueryResultSet;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.template.TemplateExecutor;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.extension.IReportItemPresentation;
-import org.eclipse.birt.report.engine.extension.IRowSet;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
-import org.eclipse.birt.report.engine.extension.internal.RowSet;
-import org.eclipse.birt.report.engine.extension.internal.SingleRowSet;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -730,6 +728,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 			itemPresentation.setDynamicStyle( content.getComputedStyle( ) );
 			itemPresentation.setResolution( getChartResolution() );
 			itemPresentation.setLocale( locale );
+			itemPresentation.setExtendedItemContent( content );
 
 			itemPresentation.setSupportedImageFormats( getChartFormats() ); // Default
 
@@ -746,8 +745,6 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 						.deserialize( new ByteArrayInputStream( values ) );
 			}
 
-			IRowSet[] rowSets = null;
-			IBaseResultSet[] rsets = context.getResultSets();	
 			if ( queries == null )
 			{
 				DesignElementHandle elementHandle = design.getHandle( );
@@ -758,40 +755,25 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 									(ReportElementHandle) elementHandle );
 				}
 			}
-			if ( rsets != null && rsets.length > 0 && rsets[0] != null
-					&& rsets[0].getType( ) == IBaseResultSet.CUBE_RESULTSET )
-			{
-				String msg = tagName
-						+ " does not support data inheritance inside a crosstab, please bind it to a dataset or move it outside the crosstab.";
-				logger.log( Level.SEVERE, msg );
-				context.addException( design.getHandle( ), new EngineException(
-						msg ) );
-			}
-			else if ( queries != null )
+			IBaseResultSet[] rsets = context.getResultSets();
+			IBaseResultSet[] resultSets = null;
+			if ( queries == null )
 			{
 				if ( rsets != null )
 				{
-					rowSets = new IRowSet[rsets.length];
-					for ( int i = 0; i < rowSets.length; i++ )
-					{
-						rowSets[i] = new RowSet( context,
-									(IQueryResultSet) rsets[i] );
-					}
+					resultSets = new IBaseResultSet[1];
+					resultSets[0] = new SingleQueryResultSet(
+							(IQueryResultSet) rsets[0] );
 				}
 			}
 			else
 			{
-				if ( rsets != null )
-				{
-					rowSets = new IRowSet[1];
-					rowSets[0] = new SingleRowSet( context,
-							(IQueryResultSet) rsets[0] );
-				}
+				resultSets = rsets;
 			}
-
+			
 			try
 			{
-				Object output = itemPresentation.onRowSets( rowSets );
+				Object output = itemPresentation.onRowSets( resultSets );
 				if ( output != null )
 				{
 					int type = itemPresentation.getOutputType( );

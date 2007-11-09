@@ -16,6 +16,7 @@ import java.io.OutputStream;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
 /**
@@ -57,7 +58,7 @@ public interface IReportItemGeneration
 
 	/**
 	 * processes the extended item in report generation environment.
-	 * 
+	 * @deprecated since BIRT 2.3
 	 * @param rowSets
 	 *            rowSets an array of row sets that is passed to the extension
 	 * @return an object that captures the generation-time state information
@@ -72,6 +73,26 @@ public interface IReportItemGeneration
 	 */
 	public abstract void onRowSets( IRowSet[] rowSets ) throws BirtException;
 
+	/**
+	 * processes the extended item in report generation environment.
+	 * 
+	 * @param results
+	 *            results is an array of query results which is passed to the
+	 *            extended item. The extended item could retrieve data from
+	 *            those results.
+	 * @return an object that captures the generation-time state information
+	 *         about the extended item. Presentation engine guarantees that the
+	 *         same object is returned to the extended item instance at
+	 *         presentation time. To achieve such a goal, generation engine may
+	 *         uses serialization services provided by the
+	 *         IReportItemSerializable interface.
+	 * @throws BirtException
+	 *             throws exception when there is a problem processing the
+	 *             extended item
+	 */
+	public abstract void onRowSets( IBaseResultSet[] results )
+			throws BirtException;
+	
 	/**
 	 * returns whether the extended item needs serialization of state
 	 * information at generation time
@@ -112,4 +133,13 @@ public interface IReportItemGeneration
 	 * Performs clean up work
 	 */
 	public void finish( );
+	
+	/**
+	 * Set the content which is transformed from extended item. Extended item
+	 * can process some properties itself, such as bookmark, style etc.
+	 * 
+	 * @param content
+	 *            content which is transformed from extended item.
+	 */
+	public void setExtendedItemContent( IContent content );
 }

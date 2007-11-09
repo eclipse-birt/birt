@@ -24,12 +24,12 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.data.IDataEngine;
+import org.eclipse.birt.report.engine.data.dte.SingleCubeResultSet;
+import org.eclipse.birt.report.engine.data.dte.SingleQueryResultSet;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
+import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.extension.IReportItemGeneration;
-import org.eclipse.birt.report.engine.extension.IRowSet;
-import org.eclipse.birt.report.engine.extension.internal.RowSet;
-import org.eclipse.birt.report.engine.extension.internal.SingleRowSet;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -91,38 +91,31 @@ public class ExtendedGenerateExecutor extends QueryItemExecutor
 			IBaseQueryDefinition[] queries = (IBaseQueryDefinition[]) ( (ExtendedItemDesign) item )
 					.getQueries( );
 			itemGeneration.setReportQueries( queries );
+			itemGeneration.setExtendedItemContent( content );
 			try
 			{
-				if ( rsets != null )
-				{
-					IRowSet[] rowSets = new IRowSet[rsets.length];
-					for ( int i = 0; i < rsets.length; i++ )
-					{
-						IBaseResultSet rset = rsets[i];
-						if ( rset != null
-								&& rset.getType( ) == IBaseResultSet.QUERY_RESULTSET )
-						{
-							rowSets[i] = new RowSet( context,
-									(IQueryResultSet) rset );
-						}
-						else
-						{
-							rowSets[i] = null;
-						}
-					}
-					itemGeneration.onRowSets( rowSets );
-				}
-				else
+				IBaseResultSet[] resultSets = rsets;
+				if ( resultSets == null )
 				{
 					IBaseResultSet prset = getParentResultSet( );
-					if ( prset instanceof IQueryResultSet )
+					if ( prset != null )
 					{
-						IRowSet[] rowSets = new IRowSet[1];
-						rowSets[0] = new SingleRowSet( context,
-								(IQueryResultSet) prset );
-						itemGeneration.onRowSets( rowSets );
+						int rsetType = prset.getType( );
+						if ( rsetType == IBaseResultSet.QUERY_RESULTSET )
+						{
+							resultSets = new IBaseResultSet[1];
+							resultSets[0] = new SingleQueryResultSet(
+									(IQueryResultSet) prset );
+						}
+						else if ( rsetType == IBaseResultSet.CUBE_RESULTSET )
+						{
+							resultSets = new IBaseResultSet[1];
+							resultSets[0] = new SingleCubeResultSet(
+									(ICubeResultSet) prset );
+						}
 					}
 				}
+				itemGeneration.onRowSets( resultSets );
 				if ( itemGeneration.needSerialization( ) )
 				{
 					ByteArrayOutputStream out = new ByteArrayOutputStream( );

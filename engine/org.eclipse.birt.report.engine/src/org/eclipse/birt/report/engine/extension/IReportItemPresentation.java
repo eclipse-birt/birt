@@ -18,6 +18,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
@@ -144,7 +145,7 @@ public interface IReportItemPresentation
 
 	/**
 	 * processes the extended item in report presentation environment.
-	 * 
+	 * @deprecated since BIRT 2.3
 	 * @param rowSets
 	 *            rowSets an array of row sets that is passed to the extension
 	 * @return the returned value could be different depending on the type of
@@ -156,6 +157,22 @@ public interface IReportItemPresentation
 	 */
 	public abstract Object onRowSets( IRowSet[] rowSets ) throws BirtException;
 
+	/**
+	 * Process the extended item. It is called in render time.
+	 * 
+	 * @param results
+	 *            results is an array of query results which is passed to the
+	 *            extended item. The extended item could retrieve data from
+	 *            those results.
+	 * @return The returned value could be different depending on the type of
+	 *         the output. For image, returns an input stream or byte array.
+	 * @throws BirtException
+	 *             Throws exception when there is a problem processing the
+	 *             extended item
+	 */
+	public abstract Object onRowSets( IBaseResultSet[] results )
+			throws BirtException;
+	
 	/**
 	 * Get the size of the extended item. The size is a Dimension object. The
 	 * width and height can only be in absolute units (inch, mm, etc.) or pixel.
@@ -178,4 +195,13 @@ public interface IReportItemPresentation
 	 * Set dynamic style.
 	 */
 	public void setDynamicStyle( IStyle style );
+	
+	/**
+	 * Set the content which is transformed from extended item. Extended item
+	 * can process some properties itself, such as bookmark, style etc.
+	 * 
+	 * @param content
+	 *            content which is transformed from extended item.
+	 */
+	public void setExtendedItemContent( IContent content );
 }

@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.extension.internal;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.report.engine.api.DataSetID;
+import org.eclipse.birt.report.engine.data.dte.QueryResultSet;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.extension.IRowMetaData;
@@ -29,9 +30,10 @@ public class RowSet implements IRowSet
 	protected IRowMetaData metaData;
 	protected ExecutionContext context;
 
-	public RowSet( ExecutionContext context, IQueryResultSet rset )
+	public RowSet( IQueryResultSet rset )
 	{
-		this.context = context;
+		this.context = ( (QueryResultSet) rset ).getExecutionContext( );
+		
 		this.rset = rset;
 		metaData = new IRowMetaData( ) {
 

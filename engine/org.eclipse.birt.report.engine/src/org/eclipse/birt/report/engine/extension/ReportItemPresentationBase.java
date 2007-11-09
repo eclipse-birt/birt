@@ -13,12 +13,17 @@ package org.eclipse.birt.report.engine.extension;
 
 import java.io.InputStream;
 import java.util.Locale;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.extension.internal.RowSet;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
 /**
@@ -37,6 +42,7 @@ public class ReportItemPresentationBase implements IReportItemPresentation
 	protected IBaseQueryDefinition[] queries;
 	protected IHTMLActionHandler ah = null;
 	protected IStyle style = null;
+	protected IContent content = null;
 
 	/**
 	 * Constructor that does nothing
@@ -158,6 +164,39 @@ public class ReportItemPresentationBase implements IReportItemPresentation
 	{
 		return null;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#onRowSets(org.eclipse.birt.data.engine.api.IBaseQueryResults[])
+	 */
+	public Object onRowSets( IBaseResultSet[] results ) throws BirtException
+	{
+		if ( results == null )
+		{
+			return onRowSets( (IRowSet[]) null );
+		}
+
+		int length = results.length;
+
+		// test if the IBaseResultSet is a ICubeResultSet
+		for ( int i = 0; i < length; i++ )
+		{
+			if ( results[i].getType( ) == IBaseResultSet.CUBE_RESULTSET )
+			{
+				return null;
+			}
+		}
+
+		IRowSet[] rowSets = new IRowSet[length];
+		for ( int index = 0; index < length; index++ )
+		{
+			IQueryResultSet resultSet = (IQueryResultSet) results[index];
+			rowSets[index] = new RowSet( resultSet );
+		}
+
+		return onRowSets( rowSets );
+	}
 
 	/**
 	 * @return the image MIME type (e.g. "image/svg+xml")
@@ -180,5 +219,15 @@ public class ReportItemPresentationBase implements IReportItemPresentation
 	public void setDynamicStyle( IStyle style )
 	{
 		this.style = style;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#setExtendedItemContent(org.eclipse.birt.report.engine.content.IContent)
+	 */
+	public void setExtendedItemContent( IContent content )
+	{
+		this.content = content;
 	}
 }
