@@ -53,7 +53,7 @@ public class CellContent extends AbstractContent implements ICellContent
 	/**
 	 * Flag indicading if this cell is the start of a group.
 	 */
-	protected boolean displayGroupIcon = false;
+	protected Boolean displayGroupIcon;
 
 	public int getContentType( )
 	{
@@ -76,7 +76,7 @@ public class CellContent extends AbstractContent implements ICellContent
 	 */
 	public int getRowSpan( )
 	{
-		if (rowSpan == -1)
+		if ( rowSpan == -1 )
 		{
 			if ( generateBy instanceof CellDesign )
 			{
@@ -92,7 +92,7 @@ public class CellContent extends AbstractContent implements ICellContent
 	 */
 	public int getColSpan( )
 	{
-		if (colSpan == -1)
+		if ( colSpan == -1 )
 		{
 			if ( generateBy instanceof CellDesign )
 			{
@@ -108,7 +108,7 @@ public class CellContent extends AbstractContent implements ICellContent
 	 */
 	public int getColumn( )
 	{
-		if (column == -1)
+		if ( column == -1 )
 		{
 			if ( generateBy instanceof CellDesign )
 			{
@@ -190,10 +190,10 @@ public class CellContent extends AbstractContent implements ICellContent
 			IOUtil.writeShort( out, FIELD_COLUMN );
 			IOUtil.writeInt( out, column );
 		}
-		if ( displayGroupIcon )
+		if ( displayGroupIcon != null )
 		{
 			IOUtil.writeShort( out, FIELD_DISPLAY_GROUP_ICON );
-			IOUtil.writeBool( out, displayGroupIcon );
+			IOUtil.writeBool( out, displayGroupIcon.booleanValue( ) );
 		}
 	}
 
@@ -215,7 +215,7 @@ public class CellContent extends AbstractContent implements ICellContent
 				IOUtil.readBool( in );
 				break;
 			case FIELD_DISPLAY_GROUP_ICON :
-				displayGroupIcon = IOUtil.readBool( in );
+				displayGroupIcon = Boolean.valueOf( IOUtil.readBool( in ) );
 				break;
 			default :
 				super.readField( version, filedId, in );
@@ -228,7 +228,7 @@ public class CellContent extends AbstractContent implements ICellContent
 		{
 			return true;
 		}
-		if ( displayGroupIcon )
+		if ( displayGroupIcon != null )
 		{
 			return true;
 		}
@@ -237,24 +237,33 @@ public class CellContent extends AbstractContent implements ICellContent
 
 	public boolean getDisplayGroupIcon( )
 	{
-		return displayGroupIcon;
+		if ( displayGroupIcon == null )
+		{
+			if ( generateBy instanceof CellDesign )
+			{
+				return ( (CellDesign) generateBy ).getDisplayGroupIcon( );
+			}
+			return false;
+		}
+		return displayGroupIcon.booleanValue( );
 	}
 
 	public void setDisplayGroupIcon( boolean displayGroupIcon )
 	{
-		this.displayGroupIcon = displayGroupIcon;
+		this.displayGroupIcon = Boolean.valueOf( displayGroupIcon );
 	}
 
 	private IColumn columnInstance;
+
 	public IColumn getColumnInstance( )
 	{
-		if (columnInstance != null)
+		if ( columnInstance != null )
 		{
 			return columnInstance;
 		}
 		if ( parent instanceof IRowContent )
 		{
-			IRowContent row = ( IRowContent ) parent;
+			IRowContent row = (IRowContent) parent;
 			ITableContent table = row.getTable( );
 			if ( table != null )
 			{

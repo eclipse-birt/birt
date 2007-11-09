@@ -45,7 +45,7 @@ public class CellExecutor extends QueryItemExecutor
 		processStyle( cellDesign, cellContent );
 		processVisibility( cellDesign, cellContent );
 
-		cellContent.setDisplayGroupIcon( cellDesign.getDisplayGroupIcon( ) );
+		//cellContent.setDisplayGroupIcon( cellDesign.getDisplayGroupIcon( ) );
 		
 		if ( context.isInFactory( ) )
 		{
