@@ -292,6 +292,8 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		dimJSFilterMap.clear( );
 		dimRowForFilterMap.clear( );
 		dimLevelsMap.clear( );
+		rowSort.clear( );
+		columnSort.clear( );
 	}
 
 	/*
@@ -305,6 +307,8 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		dimJSFilterMap = null;
 		dimRowForFilterMap = null;
 		dimLevelsMap = null;
+		rowSort = null;
+		columnSort = null;
 	}
 
 	/*
@@ -335,12 +339,12 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		if ( !this.columnSort.isEmpty( ) )
 		{
 			AggrSortHelper.sort( this.columnSort, resultSet );
-			close( columnSort );
+			closeSortHelpers( columnSort );
 		}
 		if ( !this.rowSort.isEmpty( ) )
 		{
 			AggrSortHelper.sort( this.rowSort, resultSet );
-			close( rowSort );
+			closeSortHelpers( rowSort );
 		}
 	}
 
@@ -348,7 +352,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	 * 
 	 * @param sorts
 	 */
-	private void close( List sorts )
+	private void closeSortHelpers( List sorts )
 	{
 		for ( Iterator i = sorts.iterator( ); i.hasNext( ); )
 		{
@@ -359,8 +363,6 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 				sortHelper.close( );
 			}
 		}
-		sorts.clear( );
-		sorts = null;
 	}
 
 	/**
