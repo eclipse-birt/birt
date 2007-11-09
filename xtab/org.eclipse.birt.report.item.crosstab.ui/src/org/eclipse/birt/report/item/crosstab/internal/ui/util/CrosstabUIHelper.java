@@ -51,7 +51,12 @@ public class CrosstabUIHelper
 	public static String LEVEL_AGGREGATION = "icons/pal/cell-level-aggregation.gif";//$NON-NLS-1$
 	public static String SHOW_HIDE_LECEL = "icons/pal/show-hide-level.gif";//$NON-NLS-1$
 	public static String LEVEL_ARROW = "icons/pal/level-arrow.gif";//$NON-NLS-1$
-
+	public static String COLUMN_GRAND_TOTAL_IMAGE="icons/pal/col-grand-total.gif";
+	public static String ROW_GRAND_TOTAL_IMAGE="icons/pal/row-grand-total.gif";
+	public static String COLUMN_SUB_TOTAL_IMAGE="icons/pal/col-subtotal.gif";
+	public static String ROW_SUB_TOTAL_IMAGE="icons/pal/row-subtotal.gif";
+	
+	
 	private static Image createImage( String sPluginRelativePath )
 	{
 		Image img = null;
