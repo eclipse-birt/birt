@@ -38,6 +38,8 @@ LevelViewDialog.Label.Info=Sélectionner les niveaux à afficher sur le tableau cr
 AggregationDialog.Title=Totaux
 AggregationDialog.Label.Grand=Totaux généraux :
 AggregationDialog.Label.Sub=Sous-totaux :
+AggregationDialog.TabItem.Title.RowArea=Zone de ligne
+AggregationDialog.TabItem.Title.ColumnArea=Zone de colonne
 ShowSummaryFieldDialog.Title=Afficher/Masquer les champs de récapitulation
 ShowSummaryFieldDialog.Label.Info=Sélectionner les niveaux à afficher sur le tableau croisé :
 

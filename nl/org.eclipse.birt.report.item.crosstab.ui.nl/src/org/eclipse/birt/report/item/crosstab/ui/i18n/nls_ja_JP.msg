@@ -38,6 +38,8 @@ LevelViewDialog.Label.Info=クロスタブに表示するレベルの選択 :
 AggregationDialog.Title=合計
 AggregationDialog.Label.Grand=総計 :
 AggregationDialog.Label.Sub=小計 :
+AggregationDialog.TabItem.Title.RowArea=行の領域
+AggregationDialog.TabItem.Title.ColumnArea=列の領域
 ShowSummaryFieldDialog.Title=サマリフィールドの表示/非表示
 ShowSummaryFieldDialog.Label.Info=クロスタブに表示するレベルの選択 :
 

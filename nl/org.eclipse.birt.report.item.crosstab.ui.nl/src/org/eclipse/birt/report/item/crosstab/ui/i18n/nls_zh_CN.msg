@@ -38,6 +38,8 @@ LevelViewDialog.Label.Info=选择要在交叉表上显示的级别:
 AggregationDialog.Title=总计
 AggregationDialog.Label.Grand=总计:
 AggregationDialog.Label.Sub=小计:
+AggregationDialog.TabItem.Title.RowArea=行区域
+AggregationDialog.TabItem.Title.ColumnArea=列区域
 ShowSummaryFieldDialog.Title=显示/隐藏摘要字段
 ShowSummaryFieldDialog.Label.Info=选择要在交叉表上显示的级别:
 

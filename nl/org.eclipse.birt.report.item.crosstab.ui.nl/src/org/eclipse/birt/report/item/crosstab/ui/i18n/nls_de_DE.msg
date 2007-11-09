@@ -38,6 +38,8 @@ LevelViewDialog.Label.Info=Ebenen zum Anzeigen in Kreuztabelle auswählen:
 AggregationDialog.Title=Summen
 AggregationDialog.Label.Grand=Gesamtsummen:
 AggregationDialog.Label.Sub=Zwischensumme:
+AggregationDialog.TabItem.Title.RowArea=Zeilenbereich
+AggregationDialog.TabItem.Title.ColumnArea=Spaltenbereich
 ShowSummaryFieldDialog.Title=Zusammenfassungsfelder einblenden/ausblenden
 ShowSummaryFieldDialog.Label.Info=Ebenen zum Anzeigen in Kreuztabelle auswählen:
 

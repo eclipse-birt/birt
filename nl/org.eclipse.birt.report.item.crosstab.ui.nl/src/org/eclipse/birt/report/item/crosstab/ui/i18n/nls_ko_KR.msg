@@ -38,6 +38,8 @@ LevelViewDialog.Label.Info=크로스 탭에 표시할 수준 선택:
 AggregationDialog.Title=전체
 AggregationDialog.Label.Grand=총합계:
 AggregationDialog.Label.Sub=부분합:
+AggregationDialog.TabItem.Title.RowArea=행 영역
+AggregationDialog.TabItem.Title.ColumnArea=열 영역
 ShowSummaryFieldDialog.Title=요약 필드 표시/숨기기
 ShowSummaryFieldDialog.Label.Info=크로스 탭에 표시할 수준 선택:
 

@@ -38,6 +38,8 @@ LevelViewDialog.Label.Info=Seleccionar niveles para mostrar en tabla de referenc
 AggregationDialog.Title=Totales
 AggregationDialog.Label.Grand=Totales generales:
 AggregationDialog.Label.Sub=Subtotales:
+AggregationDialog.TabItem.Title.RowArea=Área de fila
+AggregationDialog.TabItem.Title.ColumnArea=Área de columna
 ShowSummaryFieldDialog.Title=Mostrar/ocultar campos de resumen
 ShowSummaryFieldDialog.Label.Info=Seleccionar niveles para mostrar en tabla de referencias cruzadas:
 
