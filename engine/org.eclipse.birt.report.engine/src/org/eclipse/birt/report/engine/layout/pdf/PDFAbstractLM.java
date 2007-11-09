@@ -575,6 +575,10 @@ public abstract class PDFAbstractLM implements ILayoutManager
 
 	protected void validateBoxProperty( IStyle style, int maxWidth, int maxHeight )
 	{
+		if(content!=null && content.getStyle( ).isEmpty( ))
+		{
+			return;
+		}
 
 		// support negative margin
 		int leftMargin = getDimensionValue( style

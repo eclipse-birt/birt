@@ -228,16 +228,16 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 		 */
 		private boolean nothingSplitted = false;
 		
-		private int leftMargin;
-		private int leftBorder;
-		private int leftPadding;
-		private int rightMargin;
-		private int rightBorder; 
-		private int rightPadding;
-		private int topBorder;
-		private int topPadding;
-		private int bottomBorder;
-		private int bottomPadding;
+		private int leftMargin = 0;
+		private int leftBorder = 0;
+		private int leftPadding = 0;
+		private int rightMargin = 0;
+		private int rightBorder = 0; 
+		private int rightPadding = 0;
+		private int topBorder = 0;
+		private int topPadding = 0;
+		private int bottomBorder = 0;
+		private int bottomPadding = 0;
 		
 		public Compositor()
 		{
@@ -254,18 +254,21 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 			wordSpacing = getDimensionValue(style
 					.getProperty(StyleConstants.STYLE_WORD_SPACING));
 			
-			IStyle boxStyle = new AreaStyle((ComputedStyle)style);
-			validateBoxProperty(boxStyle, maxLineSpace, context.getMaxHeight( ));
-			leftMargin = getDimensionValue(boxStyle.getProperty(StyleConstants.STYLE_MARGIN_LEFT));
-			leftBorder = getDimensionValue(boxStyle.getProperty(StyleConstants.STYLE_BORDER_LEFT_WIDTH));
-			leftPadding = getDimensionValue(boxStyle.getProperty(StyleConstants.STYLE_PADDING_LEFT));
-			rightMargin = getDimensionValue(boxStyle.getProperty(StyleConstants.STYLE_MARGIN_RIGHT));
-			rightBorder = getDimensionValue(boxStyle.getProperty(StyleConstants.STYLE_BORDER_RIGHT_WIDTH));
-			rightPadding = getDimensionValue(boxStyle.getProperty(StyleConstants.STYLE_PADDING_RIGHT));
-			topBorder = getDimensionValue(boxStyle.getProperty(StyleConstants.STYLE_BORDER_TOP_WIDTH));
-			topPadding = getDimensionValue(boxStyle.getProperty(StyleConstants.STYLE_PADDING_TOP));
-			bottomBorder = getDimensionValue(boxStyle.getProperty(StyleConstants.STYLE_BORDER_BOTTOM_WIDTH));
-			bottomPadding  = getDimensionValue(boxStyle.getProperty(StyleConstants.STYLE_PADDING_BOTTOM));
+			if(!content.getStyle( ).isEmpty( ))
+			{
+				IStyle boxStyle = new AreaStyle((ComputedStyle)style);
+				validateBoxProperty(boxStyle, maxLineSpace, context.getMaxHeight( ));
+				leftMargin = getDimensionValue(boxStyle.getProperty(StyleConstants.STYLE_MARGIN_LEFT));
+				leftBorder = getDimensionValue(boxStyle.getProperty(StyleConstants.STYLE_BORDER_LEFT_WIDTH));
+				leftPadding = getDimensionValue(boxStyle.getProperty(StyleConstants.STYLE_PADDING_LEFT));
+				rightMargin = getDimensionValue(boxStyle.getProperty(StyleConstants.STYLE_MARGIN_RIGHT));
+				rightBorder = getDimensionValue(boxStyle.getProperty(StyleConstants.STYLE_BORDER_RIGHT_WIDTH));
+				rightPadding = getDimensionValue(boxStyle.getProperty(StyleConstants.STYLE_PADDING_RIGHT));
+				topBorder = getDimensionValue(boxStyle.getProperty(StyleConstants.STYLE_BORDER_TOP_WIDTH));
+				topPadding = getDimensionValue(boxStyle.getProperty(StyleConstants.STYLE_PADDING_TOP));
+				bottomBorder = getDimensionValue(boxStyle.getProperty(StyleConstants.STYLE_BORDER_BOTTOM_WIDTH));
+				bottomPadding  = getDimensionValue(boxStyle.getProperty(StyleConstants.STYLE_PADDING_BOTTOM));
+			}
 		}
 		
 		public boolean compose()
