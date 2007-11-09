@@ -197,7 +197,6 @@ public class FactTableRowIterator implements IFactTableRowIterator
 			{
 				if( currentSegment == null )
 				{
-					this.close( );
 					return false;
 				}
 				Bytes combinedDimensionPosition = currentSegment.readBytes( );
@@ -239,7 +238,6 @@ public class FactTableRowIterator implements IFactTableRowIterator
 		}
 		if ( stopSign.isStopped( ) || !nextSegment( ) )
 		{
-			this.close();
 			return false;
 		}
 		return next( );
@@ -249,7 +247,7 @@ public class FactTableRowIterator implements IFactTableRowIterator
 	 * 
 	 * @throws DataException
 	 */
-	private void close() throws DataException
+	public void close() throws DataException
 	{
 		if ( this.computedMeasureHelper!= null )
 			this.computedMeasureHelper.cleanUp( );

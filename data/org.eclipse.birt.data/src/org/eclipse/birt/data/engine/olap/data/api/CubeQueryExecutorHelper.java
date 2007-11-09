@@ -457,7 +457,14 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		AggregationExecutor aggregationCalculatorExecutor = new AggregationExecutor( dimensionResultIterator,
 				facttableRowIterator,
 				aggregations );
-		return aggregationCalculatorExecutor.execute( stopSign );
+		try
+		{
+			return aggregationCalculatorExecutor.execute( stopSign );
+		}
+		finally
+		{
+			facttableRowIterator.close( );
+		}
 	}
 	
 	/**

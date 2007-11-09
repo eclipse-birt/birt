@@ -76,4 +76,9 @@ public interface IFactTableRowIterator
 	 */
 	public boolean next( ) throws IOException, DataException;
 	
+	/**
+	 * @throws IOException
+	 */
+	public void close() throws DataException;
+	
 }

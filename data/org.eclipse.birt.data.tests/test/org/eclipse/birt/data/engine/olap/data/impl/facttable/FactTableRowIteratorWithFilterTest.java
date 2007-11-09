@@ -188,5 +188,6 @@ public class FactTableRowIteratorWithFilterTest extends TestCase
 		assertEquals(new Double(212), facttableRowIterator.getMeasure( 1 ));
 		
 		assertFalse( facttableRowIterator.next( ));
+		facttableRowIterator.close( );
 	}
 }
