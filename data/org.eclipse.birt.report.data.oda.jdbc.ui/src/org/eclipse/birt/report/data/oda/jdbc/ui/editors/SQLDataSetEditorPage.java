@@ -13,7 +13,6 @@ package org.eclipse.birt.report.data.oda.jdbc.ui.editors;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -31,6 +30,9 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.util.Procedure;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.ProcedureParameter;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.Utility;
 import org.eclipse.core.runtime.Preferences;
+import org.eclipse.datatools.connectivity.oda.IParameterMetaData;
+import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
+import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.design.ColumnDefinition;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
@@ -100,7 +102,7 @@ import org.eclipse.ui.PlatformUI;
 public class SQLDataSetEditorPage extends DataSetWizardPage
 {
 
-	// Images that will be used in displayign the tables, views etc
+	// Images that will be used in displaying the tables, views etc
 	private Image schemaImage, tableImage, viewImage, dataBaseImage,
 			columnImage;
 
@@ -527,9 +529,16 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		if ( this.shouldUpdateDataSetDesign ||
 				!formerQueryTxt.equals( design.getQueryText( ) ) )
 		{
-			SQLUtility.saveDataSetDesign( design );
+			MetaDataRetriever retriever = new MetaDataRetriever( this.metaDataProvider,
+					design.getQueryText( ) );
+			IResultSetMetaData resultsetMeta = retriever.getResultSetMetaData( );
+			IParameterMetaData paramMeta =  retriever.getParameterMetaData( );
+			SQLUtility.saveDataSetDesign( design,
+					resultsetMeta,
+					paramMeta );
 			formerQueryTxt = design.getQueryText( );
 			this.shouldUpdateDataSetDesign = false;
+			retriever.close( );
 		}
 		return design;
 	}
@@ -1445,43 +1454,30 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 							.length( ) == 0 )
 				return;
 			
-			ResultSetMetaData meta = null;
-			try
-			{
-				meta = this.metaDataProvider.getConnection( )
-						.prepareStatement( this.getDataSetDesign( )
-								.getQueryText( ) )
-						.getMetaData( );
-			}
-			catch ( SQLException e )
-			{
-				try
-				{
-					meta = this.metaDataProvider.getConnection( )
-							.prepareStatement( this.getDataSetDesign( )
-									.getQueryText( ) )
-							.executeQuery( )
-							.getMetaData( );
-				}
-				catch ( Exception ex )
-				{
-					meta = null;
-				}
-			}
-			if ( meta == null )
-				return;
+			MetaDataRetriever retriever = new MetaDataRetriever( this.metaDataProvider, this.getDataSetDesign( ).getQueryText( ) );
+			IResultSetMetaData rsMeta = retriever.getResultSetMetaData( );
 			
+			if ( rsMeta == null )
+			{
+				retriever.close( );
+				return;
+			}
 			if ( this.getDataSetDesign( ).getPrimaryResultSet( ) == null )
 			{
 				this.shouldUpdateDataSetDesign = true;
+				retriever.close( );
 				return;
 			}
-			
-			ResultSetColumns rsc = this.getDataSetDesign( ).getPrimaryResultSet( ).getResultSetColumns( );
 
-			if( meta.getColumnCount( )!= rsc.getResultColumnDefinitions( ).size( ))
+			ResultSetColumns rsc = this.getDataSetDesign( )
+					.getPrimaryResultSet( )
+					.getResultSetColumns( );
+
+			if ( rsMeta.getColumnCount( ) != rsc.getResultColumnDefinitions( )
+					.size( ) )
 			{
 				this.shouldUpdateDataSetDesign = true;
+				retriever.close( );
 				return;
 			}
 			
@@ -1490,15 +1486,17 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 				ColumnDefinition cd = (ColumnDefinition) rsc.getResultColumnDefinitions( ).get( i );
 				if ( !( cd.getAttributes( )
 						.getName( )
-						.equals( meta.getColumnName( i + 1 ) ) && cd.getAttributes( )
-						.getNativeDataTypeCode( ) == meta.getColumnType( i + 1 ) ) )
+						.equals( rsMeta.getColumnName( i + 1 ) ) && cd.getAttributes( )
+						.getNativeDataTypeCode( ) == rsMeta.getColumnType( i + 1 ) ) )
 				{
 					this.shouldUpdateDataSetDesign = true;
+					retriever.close( );
 					return;
 				}
 			}
+			retriever.close( );
 		}
-		catch ( SQLException e )
+		catch ( OdaException e )
 		{
 			// TODO Auto-generated catch block
 			logger.log( Level.FINE, e.getMessage( ), e );

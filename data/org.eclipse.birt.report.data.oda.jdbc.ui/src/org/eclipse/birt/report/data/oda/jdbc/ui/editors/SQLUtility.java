@@ -16,17 +16,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver;
-import org.eclipse.birt.report.data.oda.jdbc.ui.util.Constants;
-import org.eclipse.datatools.connectivity.oda.IConnection;
-import org.eclipse.datatools.connectivity.oda.IDriver;
+import org.eclipse.birt.report.data.oda.jdbc.ResultSetMetaData;
 import org.eclipse.datatools.connectivity.oda.IParameterMetaData;
-import org.eclipse.datatools.connectivity.oda.IQuery;
 import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DataSetParameters;
-import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
 import org.eclipse.datatools.connectivity.oda.design.DesignFactory;
 import org.eclipse.datatools.connectivity.oda.design.ParameterDefinition;
 import org.eclipse.datatools.connectivity.oda.design.ParameterMode;
@@ -45,74 +40,19 @@ public class SQLUtility
 	 * 
 	 * @param design
 	 */
-	public static void saveDataSetDesign( DataSetDesign design )
+	public static void saveDataSetDesign( DataSetDesign design,
+			IResultSetMetaData meta, IParameterMetaData paramMeta )
 	{
-		// obtain query's result set metadata, and update
-		// the dataSetDesign with it
-		IConnection conn = null;
-		IQuery query = null;
 		try
 		{
-			IDriver jdbcDriver = new OdaJdbcDriver( );
-			conn = jdbcDriver.getConnection( null );
-			java.util.Properties prop = new java.util.Properties( );
-			DataSourceDesign dataSourceDesign = design.getDataSourceDesign( );
-			if ( dataSourceDesign != null )
-			{
-				prop.put( Constants.ODADriverClass,
-						dataSourceDesign.getPublicProperties( )
-								.getProperty( Constants.ODADriverClass ) == null
-								? "" : dataSourceDesign.getPublicProperties( )
-										.getProperty( Constants.ODADriverClass ) );
-				prop.put( Constants.ODAURL,
-						dataSourceDesign.getPublicProperties( )
-								.getProperty( Constants.ODAURL ) == null ? ""
-								: dataSourceDesign.getPublicProperties( )
-										.getProperty( Constants.ODAURL ) );
-				prop.put( Constants.ODAUser,
-						dataSourceDesign.getPublicProperties( )
-								.getProperty( Constants.ODAUser ) == null ? ""
-								: dataSourceDesign.getPublicProperties( )
-										.getProperty( Constants.ODAUser ) );
-				prop.put( Constants.ODAPassword,
-						dataSourceDesign.getPublicProperties( )
-								.getProperty( Constants.ODAPassword ) == null
-								? "" : dataSourceDesign.getPublicProperties( )
-										.getProperty( Constants.ODAPassword ) );
-			}
-			conn.open( prop );
-			query = conn.newQuery( design.getOdaExtensionDataSetId( ) );
-			query.prepare( design.getQueryText( ) );
-
-			setParameterMetaData( design, query );
-
+			setParameterMetaData( design, paramMeta );
 			// set resultset metadata
-			IResultSetMetaData metadata = query.getMetaData( );
-			setResultSetMetaData( design, metadata );
+			setResultSetMetaData( design, meta );
 		}
 		catch ( OdaException e )
 		{
 			// no result set definition available, reset in dataSetDesign
 			design.setResultSets( null );
-		}
-		finally
-		{
-			if ( query != null )
-				try
-				{
-					query.close( );
-				}
-				catch ( OdaException e )
-				{
-				}
-			if ( conn != null )
-				try
-				{
-					conn.close( );
-				}
-				catch ( OdaException e )
-				{
-				}
 		}
 	}
 
@@ -123,13 +63,12 @@ public class SQLUtility
 	 * @param query
 	 */
 	private static void setParameterMetaData( DataSetDesign dataSetDesign,
-			IQuery query )
+			IParameterMetaData paramMeta )
 	{
 		try
 		{
 			// set parameter metadata
-			IParameterMetaData paramMetaData = query.getParameterMetaData( );
-			mergeParameterMetaData( dataSetDesign, paramMetaData );
+			mergeParameterMetaData( dataSetDesign, paramMeta );
 		}
 		catch ( OdaException e )
 		{
