@@ -1,22 +1,24 @@
 /*
  *************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *  
  *************************************************************************
  */
 
 package org.eclipse.birt.data.engine.odaconsumer;
 
-import java.util.logging.Logger;
-import java.util.logging.Level;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *	A helper to the odaconsumer package to encapsulate
@@ -24,7 +26,7 @@ import java.util.HashMap;
  */
 class LogHelper
 {
-    static private HashMap sm_loggerMap = new HashMap();
+    static private Map sm_loggerMap = Collections.synchronizedMap( new HashMap() );
     private Logger m_logger;
     
     /**
@@ -35,12 +37,29 @@ class LogHelper
     static LogHelper getInstance( String loggerName )
     {
         LogHelper aLogHelper = (LogHelper) sm_loggerMap.get( loggerName );
-        if ( aLogHelper == null )
+        if( aLogHelper == null )
         {
-            aLogHelper = new LogHelper( loggerName );
-            sm_loggerMap.put( loggerName, aLogHelper );
+            aLogHelper = addLogHelper( loggerName, new LogHelper( loggerName ) );
         }
         return aLogHelper;
+    }
+    
+    private static LogHelper addLogHelper( String loggerName, LogHelper newLogHelper )
+    {
+        LogHelper cachedLogHelper;
+        synchronized( sm_loggerMap )
+        {
+            // in case another thread has added to the same key before this got locked, 
+            // use the currently cached value
+            cachedLogHelper = (LogHelper) sm_loggerMap.get( loggerName );
+            if( cachedLogHelper == null )
+            {                                   
+                // add the specified newLogHelpler to the cached collection
+                cachedLogHelper = newLogHelper;
+                sm_loggerMap.put( loggerName, cachedLogHelper );
+            }
+        }
+        return cachedLogHelper;
     }
     
     // wrapper to the java.util.logging Logger of the given loggerName

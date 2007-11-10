@@ -51,7 +51,11 @@ public class DriverManager
 	public static DriverManager getInstance()
 	{
 		if( sm_driverManager == null )
-			sm_driverManager = new DriverManager();
+		synchronized( DriverManager.class )
+		{
+			if ( sm_driverManager == null )
+				sm_driverManager = new DriverManager();
+		}
 		return sm_driverManager;
 	}
     
@@ -67,7 +71,13 @@ public class DriverManager
     private static LogHelper getLogger()
     {
         if( sm_logger == null )
-            sm_logger = LogHelper.getInstance( ConnectionManager.sm_packageName );
+        {
+        	synchronized ( DriverManager.class )
+			{
+				if ( sm_logger == null )
+					sm_logger = LogHelper.getInstance( ConnectionManager.sm_packageName );
+			}
+        }
         
         return sm_logger;
     }

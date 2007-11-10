@@ -61,7 +61,13 @@ public class ConnectionManager
 		getLogger().entering( sm_className, methodName );
 
 		if( sm_instance == null )
-		    sm_instance = new ConnectionManager( );		
+		{
+			synchronized( ConnectionManager.class )
+			{
+				if( sm_instance == null )
+					sm_instance = new ConnectionManager( );
+			}
+		}
 
 		getLogger().exiting( sm_className, methodName, sm_instance );		
 		return sm_instance;
@@ -80,7 +86,13 @@ public class ConnectionManager
     private static LogHelper getLogger()
     {
         if( sm_logger == null )
-    		sm_logger = LogHelper.getInstance( sm_packageName );
+        {
+        	synchronized ( ConnectionManager.class )
+        	{
+        		if( sm_logger == null )
+        			sm_logger = LogHelper.getInstance( sm_packageName );
+        	}
+        }
         
         return sm_logger;
     }
