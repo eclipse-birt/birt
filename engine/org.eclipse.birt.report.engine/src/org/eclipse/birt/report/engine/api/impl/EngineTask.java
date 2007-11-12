@@ -410,45 +410,51 @@ public abstract class EngineTask implements IEngineTask
 	{
 		try
 		{
-			if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( type ) )
-			{
-				return DataTypeUtil.toBoolean( value );
-			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
-			{
-				return DataTypeUtil.toDate( value );
-			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( type ) )
-			{
-				return DataTypeUtil.toSqlDate( value );
-			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( type ) )
-			{
-				return DataTypeUtil.toSqlTime( value );
-			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( type ) )
-			{
-				return DataTypeUtil.toBigDecimal( value );
-			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type ) )
-			{
-				return DataTypeUtil.toDouble( value );
-			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) )
-			{
-				return DataTypeUtil.toString( value );
-			}
-			else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( type ) )
-			{
-				return DataTypeUtil.toInteger( value );
-			}
-			return value;
+			return convertParameterType( value, type );
 		}
 		catch ( BirtException e )
 		{
 			log.log( Level.SEVERE, e.getLocalizedMessage( ), e );
 		}
 		return null;
+	}
+
+	public static Object convertParameterType( Object value, String type )
+			throws BirtException
+	{
+		if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( type ) )
+		{
+			return DataTypeUtil.toBoolean( value );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
+		{
+			return DataTypeUtil.toDate( value );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( type ) )
+		{
+			return DataTypeUtil.toSqlDate( value );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( type ) )
+		{
+			return DataTypeUtil.toSqlTime( value );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( type ) )
+		{
+			return DataTypeUtil.toBigDecimal( value );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type ) )
+		{
+			return DataTypeUtil.toDouble( value );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) )
+		{
+			return DataTypeUtil.toString( value );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( type ) )
+		{
+			return DataTypeUtil.toInteger( value );
+		}
+		return value;
 	}
 
 	/*

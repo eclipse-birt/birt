@@ -136,4 +136,15 @@ public interface IGetParameterDefinitionTask extends IEngineTask {
 	 */
 	public Collection getSelectionListForCascadingGroup( String parameterGroupName, Object[] groupKeyValues );
 	
+	/**
+	 * Gets selection tree for a cascading parameter group. Root of the tree is
+	 * a collection of choices which type is ICascadingParameterSelectionChoice.
+	 * 
+	 * @param parameterGroupName
+	 *            name of the cascading parameter group.
+	 * @return root choices.
+	 */
+	public Collection getSelectionTreeForCascadingGroup(
+			String parameterGroupName );
+
 }
