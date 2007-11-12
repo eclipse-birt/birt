@@ -22,6 +22,7 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
+import org.eclipse.birt.report.engine.data.dte.BlankResultSet;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
@@ -296,7 +297,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 			{
 				logger.log( Level.WARNING, ex.getMessage( ), ex );
 				context.addException( new EngineException( ex
-						.getLocalizedMessage( ) ) );
+						.getLocalizedMessage( ), ex ) );
 			}
 		}
 		return content;
@@ -421,6 +422,15 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 				}
 			}
 		}
+	}
+	
+	protected void createQueryForShowIfBlank( )
+	{
+		IBaseResultSet[] blankRsets = new IBaseResultSet[1];
+		blankRsets[0] = new BlankResultSet( (IQueryResultSet)rsets[0] );
+		rsets = blankRsets;
+		context.setResultSets( rsets );
+		rsetEmpty = false;
 	}
 	
 	IBaseResultSet getResultSet( )

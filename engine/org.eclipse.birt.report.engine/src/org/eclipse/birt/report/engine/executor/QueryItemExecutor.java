@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.executor;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
+import org.eclipse.birt.report.engine.data.dte.BlankResultSet;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
@@ -89,6 +90,14 @@ abstract public class QueryItemExecutor extends StyledItemExecutor
 		}
 	}
 
+	protected void createQueryForShowIfBlank( )
+	{
+		IQueryResultSet blankRset = new BlankResultSet( rset );
+		rset = blankRset;
+		context.setResultSet( rset );
+		rsetEmpty = false;
+	}
+	
 	protected void accessQuery( ReportItemDesign design, IContentEmitter emitter )
 	{
 	}

@@ -39,6 +39,14 @@ public class ListItemExecutor extends ListingElementExecutor
 	protected void doExecute( ) throws Exception
 	{
 		executeQuery( );
+		
+		boolean showIfBlank = "true".equalsIgnoreCase( content.getStyle( )
+				.getShowIfBlank( ) );
+		if ( showIfBlank && rsetEmpty )
+		{
+			createQueryForShowIfBlank( );
+		}
+
 	}
 
 	public void close( )

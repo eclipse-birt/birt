@@ -15,6 +15,7 @@ import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.impl.Column;
+import org.eclipse.birt.report.engine.data.dte.BlankResultSet;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
@@ -101,6 +102,15 @@ public class TableItemExecutor extends ListingElementExecutor
 				}
 			}
 		}
+		
+		//create an empty result set to handle the showIfBlank
+		boolean showIfBlank = "true".equalsIgnoreCase( content.getStyle( )
+				.getShowIfBlank( ) );
+		if ( showIfBlank && rsetEmpty )
+		{
+			createQueryForShowIfBlank( );
+		}
+
 	}
 
 	public void close( )
