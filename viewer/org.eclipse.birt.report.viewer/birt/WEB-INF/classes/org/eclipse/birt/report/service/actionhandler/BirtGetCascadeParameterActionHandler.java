@@ -416,6 +416,8 @@ public class BirtGetCascadeParameterActionHandler
 
 				if ( label != null )
 				{
+					/*
+					// Now doesn't keep default value.
 					// check whether equal to default value
 					if ( keepDefValue )
 					{
@@ -424,6 +426,7 @@ public class BirtGetCascadeParameterActionHandler
 										.isDistinct( ) ) )
 							continue;
 					}
+					*/
 					
 					SelectItemChoice selectItemChoice = new SelectItemChoice( );
 					selectItemChoice.setLabel( label );
