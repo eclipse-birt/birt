@@ -84,7 +84,7 @@ public class TimeZoneTest extends EngineCase
 			int readCount = -1;
 			while ( ( readCount = goldenInputStream.read( buffer ) ) != -1 )
 			{
-				goldenBuffer.append( new String(buffer) );
+				goldenBuffer.append( new String(buffer, 0, readCount) );
 			}
 			
 			InputStream srcInputStream = new FileInputStream(new File(golden));
@@ -94,7 +94,7 @@ public class TimeZoneTest extends EngineCase
 			readCount = -1;
 			while ( ( readCount = srcInputStream.read( buffer ) ) != -1 )
 			{
-				srcBuffer.append( new String(buffer) );
+				srcBuffer.append( new String(buffer, 0, readCount) );
 			}
 			
 			result = (srcBuffer.toString( )).equals( goldenBuffer.toString( ) );
