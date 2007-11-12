@@ -3,5 +3,5 @@
 plugin@org.eclipse.birt.report.model=r22x_v20071102,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.model
 plugin@org.eclipse.birt.report.model.adapter.oda=r22x_v20071023,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.model.adapter.oda
 plugin@org.eclipse.birt.resources=r22x_v20071023,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.resources
-plugin@org.eclipse.birt.report.viewer=r22x_v20071102,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.viewer
+plugin@org.eclipse.birt.report.viewer=r22x_v20071112,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.viewer
 plugin@org.eclipse.birt.integration.wtp.ui=r22x_v20071023,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.integration.wtp.ui
