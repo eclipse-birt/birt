@@ -415,6 +415,7 @@ public class BirtGetCascadeParameterActionHandler
 
 				if ( label != null )
 				{
+					/*
 					// check whether equal to default value
 					if ( keepDefValue )
 					{
@@ -423,7 +424,8 @@ public class BirtGetCascadeParameterActionHandler
 										.isDistinct( ) ) )
 							continue;
 					}
-
+					*/
+					
 					SelectItemChoice selectItemChoice = new SelectItemChoice( );
 					selectItemChoice.setLabel( label );
 					selectItemChoice.setValue( displayValue );
