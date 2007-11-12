@@ -44,8 +44,7 @@ public final class AggregateTable
 	public AggregateTable( )
 	{
 		logger.entering( AggregateTable.class.getName( ),
-				"AggregateTable",
-				null );
+				"AggregateTable" );
 		this.aggrExprInfoList = new ArrayList( );
 		logger.exiting( AggregateTable.class.getName( ), "AggregateTable" );
 	}
