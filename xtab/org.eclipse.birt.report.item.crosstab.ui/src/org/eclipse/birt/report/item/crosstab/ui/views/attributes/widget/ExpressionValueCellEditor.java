@@ -21,9 +21,11 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.ui.widget.PopupSelectionList;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.CrosstabBindingExpressionProvider;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.SelectValueDialog;
 import org.eclipse.birt.report.item.crosstab.plugin.CrosstabPlugin;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
@@ -58,14 +60,15 @@ import org.eclipse.ui.PlatformUI;
 /**
  * Expression value cell editor
  * 
- * @version $Revision: 1.7 $ $Date: 2007/06/14 08:35:36 $
+ * @version $Revision: 1.8 $ $Date: 2007/08/01 08:03:59 $
  */
 public class ExpressionValueCellEditor extends CellEditor
 {
 	protected static Logger logger = Logger.getLogger( ExpressionValueCellEditor.class.getName( ) );
 
 	private static String[] actions = new String[]{
-			Messages.getString( "ExpressionValueCellEditor.selectValueAction" )
+			Messages.getString( "ExpressionValueCellEditor.selectValueAction" ),
+			Messages.getString( "ExpressionValueCellEditor.buildExpressionAction" ), //$NON-NLS-1$
 	};
 
 	private transient ParamBindingHandle[] bindingParams = null;
@@ -246,12 +249,25 @@ public class ExpressionValueCellEditor extends CellEditor
 								newValue = dialog.getSelectedExprValue( );
 							}
 						}
+					}else if( value.equals( actions[1] ))
+					{
+						ExpressionBuilder dialog = new ExpressionBuilder( PlatformUI.getWorkbench( )
+								.getDisplay( )
+								.getActiveShell( ),
+								expressionText.getText( ) );
+
+						dialog.setExpressionProvier( new CrosstabBindingExpressionProvider( currentItem ) );
+
+						if ( dialog.open( ) == IDialogConstants.OK_ID )
+						{
+							newValue = dialog.getResult( );
+						}
 					}
 					else if ( selectionIndex > 3 )
 					{
 						// newValue = "params[\"" + value + "\"]"; //$NON-NLS-1$
 						// //$NON-NLS-2$
-						newValue = ExpressionUtil.createJSParameterExpression( value );
+						newValue = ExpressionUtil.createJSDataExpression( value );
 					}
 					if ( newValue != null )
 					{
