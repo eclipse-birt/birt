@@ -193,25 +193,26 @@ public interface SeriesGrouping extends EObject
 	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
 	 * @generated
 	 */
-	int getGroupingInterval( );
+	double getGroupingInterval( );
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupingInterval <em>Grouping Interval</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Grouping Interval</em>' attribute.
 	 * @see #isSetGroupingInterval()
 	 * @see #unsetGroupingInterval()
 	 * @see #getGroupingInterval()
 	 * @generated
 	 */
-	void setGroupingInterval( int value );
+	void setGroupingInterval( double value );
 
 	/**
 	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupingInterval <em>Grouping Interval</em>}' attribute.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isSetGroupingInterval()
 	 * @see #getGroupingInterval()
-	 * @see #setGroupingInterval(int)
+	 * @see #setGroupingInterval(double)
 	 * @generated
 	 */
 	void unsetGroupingInterval( );
@@ -222,7 +223,7 @@ public interface SeriesGrouping extends EObject
 	 * @return whether the value of the '<em>Grouping Interval</em>' attribute is set.
 	 * @see #unsetGroupingInterval()
 	 * @see #getGroupingInterval()
-	 * @see #setGroupingInterval(int)
+	 * @see #setGroupingInterval(double)
 	 * @generated
 	 */
 	boolean isSetGroupingInterval( );

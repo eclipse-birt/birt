@@ -186,7 +186,7 @@
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="GroupingInterval" type="xsd:int">
+			<xsd:element name="GroupingInterval" type="xsd:double">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
 					Specifies the interval of grouping.

@@ -118,7 +118,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int GROUPING_INTERVAL_EDEFAULT = 0;
+	protected static final double GROUPING_INTERVAL_EDEFAULT = 0.0;
 
 	/**
 	 * The cached value of the '{@link #getGroupingInterval() <em>Grouping Interval</em>}' attribute.
@@ -127,7 +127,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	 * @generated
 	 * @ordered
 	 */
-	protected int groupingInterval = GROUPING_INTERVAL_EDEFAULT;
+	protected double groupingInterval = GROUPING_INTERVAL_EDEFAULT;
 
 	/**
 	 * This is true if the Grouping Interval attribute has been set. <!--
@@ -384,18 +384,19 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int getGroupingInterval( )
+	public double getGroupingInterval( )
 	{
 		return groupingInterval;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setGroupingInterval( int newGroupingInterval )
+	public void setGroupingInterval( double newGroupingInterval )
 	{
-		int oldGroupingInterval = groupingInterval;
+		double oldGroupingInterval = groupingInterval;
 		groupingInterval = newGroupingInterval;
 		boolean oldGroupingIntervalESet = groupingIntervalESet;
 		groupingIntervalESet = true;
@@ -414,7 +415,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	 */
 	public void unsetGroupingInterval( )
 	{
-		int oldGroupingInterval = groupingInterval;
+		double oldGroupingInterval = groupingInterval;
 		boolean oldGroupingIntervalESet = groupingIntervalESet;
 		groupingInterval = GROUPING_INTERVAL_EDEFAULT;
 		groupingIntervalESet = false;
@@ -549,7 +550,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 			case DataPackage.SERIES_GROUPING__GROUPING_ORIGIN :
 				return getGroupingOrigin( );
 			case DataPackage.SERIES_GROUPING__GROUPING_INTERVAL :
-				return new Integer( getGroupingInterval( ) );
+				return new Double( getGroupingInterval( ) );
 			case DataPackage.SERIES_GROUPING__GROUP_TYPE :
 				return getGroupType( );
 			case DataPackage.SERIES_GROUPING__AGGREGATE_EXPRESSION :
@@ -577,7 +578,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 				setGroupingOrigin( (DataElement) newValue );
 				return;
 			case DataPackage.SERIES_GROUPING__GROUPING_INTERVAL :
-				setGroupingInterval( ( (Integer) newValue ).intValue( ) );
+				setGroupingInterval( ( (Double) newValue ).doubleValue( ) );
 				return;
 			case DataPackage.SERIES_GROUPING__GROUP_TYPE :
 				setGroupType( (DataType) newValue );

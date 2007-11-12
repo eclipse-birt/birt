@@ -26,10 +26,10 @@ public class SeriesGroupingTest extends BaseChartTestCase
 		ISeriesGrouping grouping = getChartWithoutAxes( ).getCategory( )
 				.getGrouping( );
 
-		assertEquals( grouping.getGroupInterval( ), 0 );
+		assertEquals( grouping.getGroupInterval( ), 0, 0.00001f );
 
 		grouping.setGroupInterval( 1 );
-		assertEquals( grouping.getGroupInterval( ), 1 );
+		assertEquals( grouping.getGroupInterval( ), 1, 0.00001f );
 	}
 
 	public void testGroupType( )

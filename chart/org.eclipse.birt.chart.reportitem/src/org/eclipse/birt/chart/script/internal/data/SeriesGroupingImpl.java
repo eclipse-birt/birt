@@ -30,7 +30,7 @@ public class SeriesGroupingImpl implements ISeriesGrouping
 		this.grouping = grouping;
 	}
 
-	public int getGroupInterval( )
+	public double getGroupInterval( )
 	{
 		return grouping.getGroupingInterval( );
 	}
@@ -55,7 +55,7 @@ public class SeriesGroupingImpl implements ISeriesGrouping
 		grouping.setEnabled( value );
 	}
 
-	public void setGroupInterval( int value )
+	public void setGroupInterval( double value )
 	{
 		grouping.setGroupingInterval( value );
 	}

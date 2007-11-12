@@ -40,7 +40,7 @@ public interface ISeriesGrouping
 	 * 
 	 * @return group interval
 	 */
-	int getGroupInterval( );
+	double getGroupInterval( );
 
 	/**
 	 * Sets the interval value between two groups.
@@ -48,7 +48,7 @@ public interface ISeriesGrouping
 	 * @param value
 	 *            group interval
 	 */
-	void setGroupInterval( int value );
+	void setGroupInterval( double value );
 
 	/**
 	 * Gets the type of group. Return values are an enumeration including
