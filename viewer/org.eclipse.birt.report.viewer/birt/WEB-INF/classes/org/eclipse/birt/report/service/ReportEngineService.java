@@ -37,7 +37,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.xml.namespace.QName;
 
 import org.apache.axis.AxisFault;
-import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.IPlatformContext;
@@ -1567,14 +1566,9 @@ public class ReportEngineService
 						{
 							String colName = result.getResultMetaData( )
 									.getColumnName( i );
-							int typeCode = result.getResultMetaData( )
-									.getColumnType( i );
-							Class typeClass = DataType.getClass( typeCode );
-							int odaTypeCode = DataTypeUtil
-									.toOdaDataType( typeClass );
-							String odaTypeName = DataUtil
-									.getOdaTypeName( odaTypeCode );
-							types.put( colName, odaTypeName );
+							String colType = result.getResultMetaData( )
+									.getColumnTypeName( i );
+							types.put( colName, colType );
 						}
 
 						buf.append( (String) types.get( columnNames[0] ) );
