@@ -300,7 +300,8 @@ public class EncryptionHelperExtensionTest extends BaseTestCase
 		item.setProperty( propName, value );
 		assertEquals( value, item.getElement( ).getLocalProperty( design,
 				propName ) );
-		assertEquals( SimpleEncryptionHelper.ENCRYPTION_ID, item.getElement( )
+		assertEquals( MetaDataDictionary.getInstance( )
+				.getDefaultEncryptionHelperID( ), item.getElement( )
 				.getLocalEncryptionID(
 						(ElementPropertyDefn) item.getPropertyDefn( propName ) ) );
 		// undo
@@ -352,10 +353,12 @@ public class EncryptionHelperExtensionTest extends BaseTestCase
 		assertEquals( value, item.getElement( ).getLocalProperty( design,
 				propName ) );
 		assertEquals(
-				"_b_" + value, ExtensionTestUtil.getLocalExtensionMapValue( //$NON-NLS-1$
+				"_ab_" + value, ExtensionTestUtil.getLocalExtensionMapValue( //$NON-NLS-1$
 						(ExtendedItem) item.getElement( ), propName ) );
-		assertEquals( "encryption_b", item.getElement( ).getLocalEncryptionID( //$NON-NLS-1$
-				(ElementPropertyDefn) item.getPropertyDefn( propName ) ) );
+		assertEquals( MetaDataDictionary.getInstance( )
+				.getDefaultEncryptionHelperID( ), item.getElement( )
+				.getLocalEncryptionID(
+						(ElementPropertyDefn) item.getPropertyDefn( propName ) ) );
 		// undo
 		stack.undo( );
 		assertEquals( "myown", item.getStringProperty( propName ) ); //$NON-NLS-1$

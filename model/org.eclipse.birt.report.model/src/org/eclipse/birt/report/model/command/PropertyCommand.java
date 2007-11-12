@@ -70,6 +70,7 @@ import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
@@ -517,6 +518,16 @@ public class PropertyCommand extends AbstractPropertyCommand
 		record.setEventTarget( getEventTarget( prop ) );
 
 		stack.execute( record );
+
+		// if the property is encryptable, then set the encryption to be the
+		// default to fix bug 97481
+		if ( prop.isEncryptable( ) )
+		{
+			EncryptionCommand encryptionCmd = new EncryptionCommand( module,
+					element );
+			encryptionCmd.setEncryption( prop, MetaDataDictionary.getInstance( )
+					.getDefaultEncryptionHelperID( ) );
+		}
 
 		if ( IReportItemModel.DATA_BINDING_REF_PROP.equalsIgnoreCase( prop
 				.getName( ) ) )

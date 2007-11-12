@@ -2846,6 +2846,10 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	}
 
 	/**
+	 * Sets the encryption for an encryptable property. Not only this method can
+	 * change the encryption ID for a property, but also call
+	 * {@link #setProperty(String, Object)}} to change the value of the
+	 * encryptable property.
 	 * 
 	 * @param propName
 	 * @param encryptionID
