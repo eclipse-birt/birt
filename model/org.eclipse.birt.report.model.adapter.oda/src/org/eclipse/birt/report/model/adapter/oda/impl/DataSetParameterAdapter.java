@@ -474,14 +474,16 @@ class DataSetParameterAdapter
 
 		boolean withLinkedParameter = !StringUtil.isBlank( setParam
 				.getParamName( ) );
-		if ( ( oldValue == null || !oldValue.equals( newValue ) ) &&
+
+		if ( !CompareUtil.isEquals( (String) oldValue, (String) newValue ) &&
 				!withLinkedParameter )
 			setROMDefaultValue( setParam, (String) newValue );
 
 		oldValue = cachedElementAttrs == null ? null : Boolean
 				.valueOf( cachedElementAttrs.isOptional( ) );
 		newValue = Boolean.valueOf( elementAttrs.isOptional( ) );
-		if ( oldValue == null || !oldValue.equals( newValue ) )
+
+		if ( !CompareUtil.isEquals( (Boolean) oldValue, (Boolean) newValue ) )
 			setParam.setIsOptional( ( (Boolean) newValue ).booleanValue( ) );
 	}
 
@@ -1011,8 +1013,7 @@ class DataSetParameterAdapter
 
 			if ( StringUtil.isBlank( paramName ) )
 			{
-				if ( !CompareUtil.isEquals( paramName, dataAttrs
-						.getName( ) ) )
+				if ( !CompareUtil.isEquals( paramName, dataAttrs.getName( ) ) )
 					continue;
 
 				if ( position.intValue( ) == dataAttrs.getPosition( ) )
