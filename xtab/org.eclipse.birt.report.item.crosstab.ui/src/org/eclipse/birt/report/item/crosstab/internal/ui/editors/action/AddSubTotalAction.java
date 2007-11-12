@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
@@ -570,6 +571,12 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 	{
 		List retValue = new ArrayList( );
 		CrosstabReportItemHandle reportHandle = levelHandle.getCrosstab( );
+		CrosstabViewHandle crosstabView = reportHandle.getCrosstabView( axis );
+		if(crosstabView == null || crosstabView.getDimensionCount( ) == 0)
+		{
+			return retValue;
+		}
+		
 		int measureCount = reportHandle.getMeasureCount( );
 		for ( int i = 0; i < measureCount; i++ )
 		{
