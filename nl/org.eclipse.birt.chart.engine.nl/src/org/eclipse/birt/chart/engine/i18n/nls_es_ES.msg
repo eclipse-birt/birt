@@ -325,6 +325,8 @@ GroupingUnitType.Days.displayName=Días
 GroupingUnitType.Weeks.displayName=Semanas
 GroupingUnitType.Months.displayName=Meses
 GroupingUnitType.Years.displayName=Años
+GroupingUnitType.Quarters.displayName=Quarters
+GroupingUnitType.Prefix.displayName=Prefix
 
 DateFormatType.Long.displayName=Largo
 DateFormatType.Short.displayName=Corto
