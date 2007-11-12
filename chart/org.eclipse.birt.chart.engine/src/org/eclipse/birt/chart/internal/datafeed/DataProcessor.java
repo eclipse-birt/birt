@@ -300,13 +300,105 @@ public class DataProcessor
 	protected ResultSetWrapper mapToChartResultSet(
 			IDataRowExpressionEvaluator idre, Chart cm ) throws ChartException
 	{
-		// 1. Collect all used data expressions
+		// 1. Collect all used data expressions and grouping expressions
 		GroupingLookupHelper lhmLookup = new GroupingLookupHelper( cm, iae, rtc.getULocale( ) );
 		Collection co = lhmLookup.getExpressions( );
 
 		// 2. WALK THROUGH RESULTS
+		final List liResultSet = evaluateData( idre, co );
+
+		// 3. Prepare orthogonal grouping keys
+		final GroupKey[] orthogonalGroupKeys = findGroupKeys( cm, lhmLookup );
+
+		// create result set wrapper
+		final ResultSetWrapper rsw = new ResultSetWrapper( lhmLookup,
+				liResultSet,
+				orthogonalGroupKeys );
+
+		// 4. Check if base grouping is set.
+		SeriesDefinition sdBase = null;
+		SeriesDefinition sdValue = null;
+		boolean bBaseGrouping = false;
+
+		// TODO ??do we need processing trigger expr too?
+		// search all orthogonal series data definitions for base grouping
+		AggregationExpressionHelper aggHelper = new AggregationExpressionHelper( );
+		if ( cm instanceof ChartWithAxes )
+		{
+			ChartWithAxes cwa = (ChartWithAxes) cm;
+			Axis[] axaBase = cwa.getBaseAxes( );
+			Axis[] axaOrthogonal = null;
+
+			// EACH BASE AXIS
+			for ( int j = 0; j < axaBase.length; j++ )
+			{
+				sdBase = (SeriesDefinition) axaBase[j].getSeriesDefinitions( )
+						.get( 0 );
+				axaOrthogonal = cwa.getOrthogonalAxes( axaBase[j], true );
+				bBaseGrouping = rsw.getRowCount( ) > 0
+						&& sdBase.getGrouping( ) != null
+						&& sdBase.getGrouping( ).isEnabled( );
+
+				// EACH ORTHOGONAL AXIS
+				for ( int i = 0; i < axaOrthogonal.length; i++ )
+				{
+					// EACH ORTHOGONAL SERIES
+					aggHelper.addSeriesDefinitions( axaOrthogonal[i].getSeriesDefinitions( ),
+							lhmLookup );
+				}
+			}
+			
+			sdValue = (SeriesDefinition) cwa.getOrthogonalAxes( axaBase[0], true )[0].getSeriesDefinitions( ).get( 0 );
+			
+		}
+		else if ( cm instanceof ChartWithoutAxes )
+		{
+			ChartWithoutAxes cwoa = (ChartWithoutAxes) cm;
+			sdBase = (SeriesDefinition) cwoa.getSeriesDefinitions( ).get( 0 );
+			bBaseGrouping = rsw.getRowCount( ) > 0
+					&& sdBase.getGrouping( ) != null
+					&& sdBase.getGrouping( ).isEnabled( );
+
+			// EACH ORTHOGONAL SERIES
+			aggHelper.addSeriesDefinitions( sdBase.getSeriesDefinitions( ),
+					lhmLookup );
+			sdValue = (SeriesDefinition) sdBase.getSeriesDefinitions( ).get( 0 );
+		}
+
+		// 4.1. If base grouping is set???
+		if ( bBaseGrouping
+				&& aggHelper.getDataDefinitionsForBaseGrouping( ).size( ) > 0 )
+		{
+			// cache base series grouping
+			aggHelper.addAggregation( sdBase.getGrouping( )
+					.getAggregateExpression( ),
+					aggHelper.getDataDefinitionsForBaseGrouping( ) );
+		}
+		
+		// 5. apply whole sorting and grouping of chart.
+		rsw.applyWholeSeriesSortingNGrouping( sdBase,
+				sdValue,
+				aggHelper.getAggregations( ),
+				aggHelper.getDataDefinitions( ) );
+		
+		aggHelper.dispose( );
+
+		return rsw;
+	}
+
+	/**
+	 * Evaluate data for all expressions, include base series, optional Y series grouping and value series.
+	 * 
+	 * @param idre
+	 * @param co
+	 * @return
+	 * @since 2.3
+	 */
+	private List evaluateData( IDataRowExpressionEvaluator idre, Collection co )
+	{
+		List liResultSet = new ArrayList();
+		
 		final int iColumnCount = co.size( );
-		final List liResultSet = new ArrayList( );
 		Object[] oaTuple;
 		int iColumnIndex;
 
@@ -344,78 +436,8 @@ public class DataProcessor
 		}
 		// !Don't close evaluator here, let creator close it.
 		// idre.close( );
-
-		// 3. Prepare orthogonal grouping keys
-		final GroupKey[] groupKeys = findGroupKeys( cm, lhmLookup );
-
-		// create resultset wrapper
-		final ResultSetWrapper rsw = new ResultSetWrapper( lhmLookup,
-				liResultSet,
-				groupKeys );
-
-		// 4. Check if base grouping is set.
-		SeriesDefinition sdBase = null;
-		boolean bBaseGrouping = false;
-
-		// TODO ??do we need processing trigger expr too?
-		// search all orthogonal series data definitions for base grouping
-		AggregationExpressionHelper aggHelper = new AggregationExpressionHelper( );
-		if ( cm instanceof ChartWithAxes )
-		{
-			ChartWithAxes cwa = (ChartWithAxes) cm;
-			Axis[] axaBase = cwa.getBaseAxes( );
-			Axis[] axaOrthogonal = null;
-
-			// EACH BASE AXIS
-			for ( int j = 0; j < axaBase.length; j++ )
-			{
-				sdBase = (SeriesDefinition) axaBase[j].getSeriesDefinitions( )
-						.get( 0 );
-				axaOrthogonal = cwa.getOrthogonalAxes( axaBase[j], true );
-				bBaseGrouping = rsw.getRowCount( ) > 0
-						&& sdBase.getGrouping( ) != null
-						&& sdBase.getGrouping( ).isEnabled( );
-
-				// EACH ORTHOGONAL AXIS
-				for ( int i = 0; i < axaOrthogonal.length; i++ )
-				{
-					// EACH ORTHOGONAL SERIES
-					aggHelper.addSeriesDefinitions( axaOrthogonal[i].getSeriesDefinitions( ),
-							lhmLookup );
-				}
-			}
-		}
-		else if ( cm instanceof ChartWithoutAxes )
-		{
-			ChartWithoutAxes cwoa = (ChartWithoutAxes) cm;
-			sdBase = (SeriesDefinition) cwoa.getSeriesDefinitions( ).get( 0 );
-			bBaseGrouping = rsw.getRowCount( ) > 0
-					&& sdBase.getGrouping( ) != null
-					&& sdBase.getGrouping( ).isEnabled( );
-
-			// EACH ORTHOGONAL SERIES
-			aggHelper.addSeriesDefinitions( sdBase.getSeriesDefinitions( ),
-					lhmLookup );
-		}
-
-		// 4.1. If base grouping is set???
-		if ( bBaseGrouping
-				&& aggHelper.getDataDefinitionsForBaseGrouping( ).size( ) > 0 )
-		{
-			// cache base series grouping
-			aggHelper.addAggregation( sdBase.getGrouping( )
-					.getAggregateExpression( ),
-					aggHelper.getDataDefinitionsForBaseGrouping( ) );
-		}
-
-		// 5. apply all sorting and groupings
-		rsw.applyBaseSeriesSortingAndGrouping( sdBase,
-					aggHelper.getAggregations( ),
-					aggHelper.getDataDefinitions( ) );
 		
-		aggHelper.dispose( );
-
-		return rsw;
+		return liResultSet;
 	}
 
 	/**
@@ -661,6 +683,7 @@ public class DataProcessor
 		Query qy;
 		String sExpression;
 
+		// Get column index of base series.
 		EList dda = sdBase.getDesignTimeSeries( ).getDataDefinition( );
 		if ( dda.size( ) > 0 )
 		{
@@ -672,6 +695,7 @@ public class DataProcessor
 			}
 		}
 
+		// Get optional Y series grouping expression.
 		for ( int i = 0; i < axaOrthogonal.length; i++ )
 		{
 			elSD = axaOrthogonal[i].getSeriesDefinitions( );
@@ -683,7 +707,7 @@ public class DataProcessor
 				{
 					continue;
 				}
-				sExpression = qy.getDefinition( );
+				sExpression = qy.getDefinition( ); // This is the optional Y series grouping expression.
 				if ( sExpression == null || sExpression.length( ) == 0 )
 				{
 					continue;
@@ -692,7 +716,8 @@ public class DataProcessor
 			}
 		}
 
-		if ( iOrthogonalSeriesDefinitionCount < 1 )
+		// Generate runtime series and put data into series.
+		if ( iOrthogonalSeriesDefinitionCount < 1 ) // "< 1" means that optional Y series grouping isn't be defined.
 		{
 			fillSeriesDataSet( cwa,
 					seBaseRuntimeSeries,

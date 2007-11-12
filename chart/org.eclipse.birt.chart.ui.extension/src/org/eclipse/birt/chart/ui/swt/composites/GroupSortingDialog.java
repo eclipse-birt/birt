@@ -36,7 +36,6 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * 
  */
-
 public class GroupSortingDialog extends TrayDialog implements Listener
 {
 
@@ -47,12 +46,37 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 
 	private Combo cmbSorting;
 
+	private SeriesGroupingComposite fGroupingComposite;
+
+	/**
+     * The field indicates if the grouping is still enabled.
+     */
+	private boolean fStillEnableGroup = false;
+
+	/** The field indicates if aggregation is enabled. */
+	private boolean fbAggEnabled = true;
+
 	public GroupSortingDialog( Shell shell, ChartWizardContext wizardContext,
 			SeriesDefinition sd )
+	{
+		this( shell, wizardContext, sd, false, true );
+	}
+	
+	/**
+	 * @param shell
+	 * @param wizardContext
+	 * @param sd
+	 * @param stillEnableGroup the field indicates if the grouping is still enabled.
+	 * @since 2.3
+	 */
+	public GroupSortingDialog( Shell shell, ChartWizardContext wizardContext,
+			SeriesDefinition sd, boolean stillEnableGroup, boolean bAggEnabled )
 	{
 		super( shell );
 		this.wizardContext = wizardContext;
 		this.sd = sd;
+		fStillEnableGroup  = stillEnableGroup;
+		fbAggEnabled  = bAggEnabled;
 	}
 
 	protected Control createDialogArea( Composite parent )
@@ -90,16 +114,29 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 		cmpGrouping.setLayoutData( gdCMPGrouping );
 		cmpGrouping.setLayout( new FillLayout( ) );
 
-		new SeriesGroupingComposite( cmpGrouping,
+		fGroupingComposite = new SeriesGroupingComposite( cmpGrouping,
 				SWT.NONE,
 				getSeriesDefinitionForProcessing( ),
-				wizardContext.getModel( ) instanceof ChartWithoutAxes );
-
+				wizardContext.getModel( ) instanceof ChartWithoutAxes,
+				fbAggEnabled);
+		
+		if ( fStillEnableGroup )
+		{
+			fGroupingComposite.stillEnableGroupingSelection( );
+		}
 		populateLists( );
 
 		return cmpContent;
 	}
 
+	/**
+	 * Disable grouping enabling button.
+	 */
+	public void disableGroupingSelection() {
+		// Disable grouping selection and still enable the grouping.
+		fGroupingComposite.stillEnableGroupingSelection();
+	}
+	
 	private SeriesDefinition getSeriesDefinitionForProcessing( )
 	{
 		return sd;

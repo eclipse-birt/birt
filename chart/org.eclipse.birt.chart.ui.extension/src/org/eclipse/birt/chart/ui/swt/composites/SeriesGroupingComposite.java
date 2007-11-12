@@ -23,8 +23,12 @@ import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.events.VerifyEvent;
+import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -33,7 +37,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Spinner;
+import org.eclipse.swt.widgets.Text;
 
 /**
  * @author Actuate Corporation
@@ -57,7 +61,7 @@ public class SeriesGroupingComposite extends Composite implements
 
 	private transient Label lblInterval = null;
 
-	private transient Spinner iscInterval = null;
+	private transient Text iscInterval = null;
 
 	private transient Label lblAggregate = null;
 
@@ -67,6 +71,8 @@ public class SeriesGroupingComposite extends Composite implements
 
 	private transient boolean bTypeEnabled = true;
 
+	private transient boolean fbAggEnabled = true;
+	
 	/**
 	 * @param parent
 	 * @param style
@@ -74,13 +80,24 @@ public class SeriesGroupingComposite extends Composite implements
 	public SeriesGroupingComposite( Composite parent, int style,
 			SeriesDefinition sd, boolean bTypeEnabled )
 	{
+		this(parent, style, sd, bTypeEnabled, true);
+	}
+
+	/**
+	 * @param parent
+	 * @param style
+	 */
+	public SeriesGroupingComposite( Composite parent, int style,
+			SeriesDefinition sd, boolean bTypeEnabled, boolean bAggEnabled )
+	{
 		super( parent, style );
 		this.sd = sd;
 		this.bTypeEnabled = bTypeEnabled;
+		this.fbAggEnabled = bAggEnabled;
 		init( );
 		placeComponents( );
 	}
-
+	
 	private void init( )
 	{
 		this.setSize( getParent( ).getClientArea( ).width,
@@ -147,19 +164,64 @@ public class SeriesGroupingComposite extends Composite implements
 		lblInterval.setLayoutData( gdLBLInterval );
 		lblInterval.setText( Messages.getString( "SeriesGroupingComposite.Lbl.Interval" ) ); //$NON-NLS-1$
 
-		int iGroupInterval = 2;
+		double iGroupInterval = 2;
 		if ( sd.getGrouping( ) != null )
 		{
 			iGroupInterval = sd.getGrouping( ).getGroupingInterval( );
 		}
 
-		iscInterval = new Spinner( grpContent, SWT.BORDER );
+		iscInterval = new Text( grpContent, SWT.BORDER );
 		GridData gdISCInterval = new GridData( GridData.FILL_HORIZONTAL );
 		iscInterval.setLayoutData( gdISCInterval );
-		iscInterval.setMinimum( 0 );
 		iscInterval.setToolTipText( Messages.getString( "SeriesGroupingComposite.Tooltip.SelectIntervalForGrouping" ) ); //$NON-NLS-1$
-		iscInterval.setSelection( iGroupInterval );
+		if ( iGroupInterval - (long)iGroupInterval == 0 ) {
+			iscInterval.setText( String.valueOf( (long)iGroupInterval ) );
+		}
+		else
+		{
+			iscInterval.setText( String.valueOf( iGroupInterval ) );
+		}
 		iscInterval.addSelectionListener( this );
+		iscInterval.addFocusListener( new FocusListener() {
+
+			public void focusGained( FocusEvent e )
+			{
+				// TODO Auto-generated method stub
+				
+			}
+
+			public void focusLost( FocusEvent e )
+			{
+				String text = iscInterval.getText( );
+				if ( text == null || text.trim( ).length( ) == 0 ) {
+					text = "0"; //$NON-NLS-1$
+				}
+				getGrouping( ).setGroupingInterval( Double.valueOf( text ).doubleValue( ) );				
+			}
+			
+		});
+		iscInterval.addVerifyListener( new VerifyListener() {
+
+			/* (non-Javadoc)
+			 * @see org.eclipse.swt.events.VerifyListener#verifyText(org.eclipse.swt.events.VerifyEvent)
+			 */
+			public void verifyText( VerifyEvent e )
+			{
+				// Check if current format of text is correct, only allow "9999.99" format.
+				String text = ((Text)e.getSource( )).getText( );
+				if ( e.text != null && e.text.length( ) > 0) {
+					StringBuffer sb = new StringBuffer();
+					sb.append( text.substring( 0, e.start ) );
+					sb.append( e.text );
+					sb.append( text.substring( e.start ));
+					text = sb.toString( );
+				}
+				if ( text != null && text.length( ) > 0 && !text.matches( "[0-9]*[.]?[0-9]*" ) ) { //$NON-NLS-1$
+					e.doit = false;
+				}
+			}
+			
+		});
 
 		Label lblDummy = new Label( grpContent, SWT.NONE );
 		GridData gdLBLDummy = new GridData( GridData.FILL_HORIZONTAL );
@@ -174,6 +236,8 @@ public class SeriesGroupingComposite extends Composite implements
 		glAggregate.horizontalSpacing = 5;
 		glAggregate.verticalSpacing = 5;
 
+		if ( fbAggEnabled )
+		{
 		Composite cmpAggregate = new Composite( grpContent, SWT.NONE );
 		GridData gdCMPAggregate = new GridData( GridData.FILL_HORIZONTAL );
 		gdCMPAggregate.horizontalSpan = 2;
@@ -188,12 +252,18 @@ public class SeriesGroupingComposite extends Composite implements
 		cmbAggregate = new Combo( cmpAggregate, SWT.DROP_DOWN | SWT.READ_ONLY );
 		cmbAggregate.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		cmbAggregate.addSelectionListener( this );
-
+		}
 		populateLists( );
 	}
 
-	private void populateLists( )
+	/**
+	 * Populate grouping property items by data type.
+	 * 
+	 */
+	private void populateLists(  )
 	{
+		cmbUnit.removeAll( );
+		
 		SeriesGrouping grouping = getGrouping( );
 
 		boolean bEnableUI = btnEnabled.getSelection( );
@@ -240,47 +310,51 @@ public class SeriesGroupingComposite extends Composite implements
 		cmbUnit.setEnabled( lblUnit.getEnabled( ) );
 
 		// Populate grouping aggregate expression combo
-
-		try
+		if ( fbAggEnabled )
 		{
-			cmbAggregate.setItems( PluginSettings.instance( )
-					.getRegisteredAggregateFunctionDisplayNames( ) );
-			cmbAggregate.setData( PluginSettings.instance( )
-					.getRegisteredAggregateFunctions( ) );
-		}
-		catch ( ChartException e )
-		{
-			e.printStackTrace( );
-		}
-
-		if ( bEnableUI && grouping.getAggregateExpression( ) != null )
-		{
-			int idx = getAggregateIndexByName( grouping.getAggregateExpression( ) );
-			if ( cmbAggregate.getItemCount( ) > idx )
+			try
 			{
-				cmbAggregate.select( idx );
+				cmbAggregate.setItems( PluginSettings.instance( )
+						.getRegisteredAggregateFunctionDisplayNames( ) );
+				cmbAggregate.setData( PluginSettings.instance( )
+						.getRegisteredAggregateFunctions( ) );
 			}
+			catch ( ChartException e )
+			{
+				e.printStackTrace( );
+			}
+
+			if ( bEnableUI && grouping.getAggregateExpression( ) != null )
+			{
+				int idx = getAggregateIndexByName( grouping.getAggregateExpression( ) );
+				if ( cmbAggregate.getItemCount( ) > idx )
+				{
+					cmbAggregate.select( idx );
+				}
+			}
+			else if ( cmbAggregate.getItemCount( ) > 0 )
+			{
+				cmbAggregate.select( 0 );
+			}
+			lblAggregate.setEnabled( bEnableUI );
+			cmbAggregate.setEnabled( bEnableUI );
 		}
-		else if ( cmbAggregate.getItemCount( ) > 0 )
-		{
-			cmbAggregate.select( 0 );
-		}
-		lblAggregate.setEnabled( bEnableUI );
-		cmbAggregate.setEnabled( bEnableUI );
 	}
 
 	private int getAggregateIndexByName( String name )
 	{
-		String[] names = (String[]) cmbAggregate.getData( );
-
-		for ( int i = 0; i < names.length; i++ )
+		if ( fbAggEnabled )
 		{
-			if ( name.equals( names[i] ) )
+			String[] names = (String[]) cmbAggregate.getData( );
+
+			for ( int i = 0; i < names.length; i++ )
 			{
-				return i;
+				if ( name.equals( names[i] ) )
+				{
+					return i;
+				}
 			}
 		}
-
 		return 0;
 	}
 
@@ -302,15 +376,20 @@ public class SeriesGroupingComposite extends Composite implements
 			getGrouping( ).setGroupType( DataType.getByName( LiteralHelper.dataTypeSet.getNameByDisplayName( cmbType.getText( ) ) ) );
 
 			boolean bEnableUI = btnEnabled.getSelection( );
-			boolean bDate = DataType.DATE_TIME_LITERAL.getName( )
-					.equals( LiteralHelper.dataTypeSet.getNameByDisplayName( cmbType.getText( ) ) );
-
-			lblUnit.setEnabled( bEnableUI & bDate );
-			cmbUnit.setEnabled( bEnableUI & bDate );
+			String selName = LiteralHelper.dataTypeSet.getNameByDisplayName( cmbType.getText( ) );
+			boolean bEnabled = DataType.DATE_TIME_LITERAL.getName( )
+					.equals( selName );
+			
+			lblUnit.setEnabled( bEnableUI & bEnabled );
+			cmbUnit.setEnabled( bEnableUI & bEnabled );
 			lblInterval.setEnabled( bEnableUI );
 			iscInterval.setEnabled( bEnableUI );
-			lblAggregate.setEnabled( bEnableUI );
-			cmbAggregate.setEnabled( bEnableUI );
+			
+			if ( fbAggEnabled )
+			{
+				lblAggregate.setEnabled( bEnableUI );
+				cmbAggregate.setEnabled( bEnableUI );
+			}
 		}
 		else if ( oSource.equals( cmbUnit ) )
 		{
@@ -346,7 +425,7 @@ public class SeriesGroupingComposite extends Composite implements
 		}
 		else if ( oSource.equals( iscInterval ) )
 		{
-			getGrouping( ).setGroupingInterval( iscInterval.getSelection( ) );
+			getGrouping( ).setGroupingInterval( Double.valueOf( iscInterval.getText( ) ).doubleValue( ) );
 		}
 	}
 
@@ -357,6 +436,16 @@ public class SeriesGroupingComposite extends Composite implements
 	 */
 	public void widgetDefaultSelected( SelectionEvent e )
 	{
+	}
+
+	/**
+	 * Enable grouping and make it read only.
+	 * @see 2.3
+	 */
+	public void stillEnableGroupingSelection( )
+	{
+		btnEnabled.setSelection( true );
+		btnEnabled.setEnabled(  false );
 	}
 
 }

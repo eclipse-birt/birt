@@ -198,36 +198,34 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 
 	public void createRightBindingArea( Composite parent )
 	{
-		cmpRightArea = ChartUIUtil.createCompositeWrapper( parent );
-		cmpRightArea.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
-				| GridData.VERTICAL_ALIGN_CENTER ) );
-
+		// Changed since 2.3
+		EList[] seriesDefnArray = null;
+		EList axisList = null;
 		if ( getChartModel( ) instanceof ChartWithAxes )
 		{
 			int axisNum = ChartUIUtil.getOrthogonalAxisNumber( getChartModel( ) );
-			EList[] seriesDefnArray = new EList[axisNum];
-			EList axisList = getYAxisListForProcessing( );
-			if ( axisList != null && !axisList.isEmpty( ) )
-			{
-				for ( int i = 0; i < axisList.size( ); i++ )
-				{
-					seriesDefnArray[i] = ( (Axis) axisList.get( i ) ).getSeriesDefinitions( );
-				}
-			}
-			ISelectDataComponent component = new MultipleSeriesComponent( seriesDefnArray,
-					getContext( ),
-					Messages.getString( "AbstractSelectDataCustomizeUI.Label.SeriesGrouping" ), this ); //$NON-NLS-1$
-			subRightAreas.add( component );
-			component.createArea( cmpRightArea );
+			seriesDefnArray = new EList[axisNum];
+			axisList = getYAxisListForProcessing( );
+			
 		}
 		else
 		{
-			ISelectDataComponent component = new MultipleSeriesComponent( getValueSeriesDefinitionForProcessing( ),
-					getContext( ),
-					Messages.getString( "AbstractSelectDataCustomizeUI.Label.SeriesGrouping" ), this ); //$NON-NLS-1$
-			subRightAreas.add( component );
-			component.createArea( cmpRightArea );
+			axisList = getValueSeriesDefinitionForProcessing( );
 		}
+		
+		if ( axisList != null && !axisList.isEmpty( ) )
+		{
+			for ( int i = 0; i < axisList.size( ); i++ )
+			{
+				seriesDefnArray[i] = ( (Axis) axisList.get( i ) ).getSeriesDefinitions( );
+			}
+		}
+		
+		ISelectDataComponent component = new ValueSeriesGroupingComponent( (SeriesDefinition) seriesDefnArray[0].get( 0 ),
+				getContext(),
+				"" ); //$NON-NLS-1$
+		subRightAreas.add( component );
+		cmpRightArea = component.createArea( parent );
 	}
 
 	private EList getYAxisListForProcessing( )

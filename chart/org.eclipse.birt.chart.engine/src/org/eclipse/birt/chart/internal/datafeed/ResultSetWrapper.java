@@ -120,11 +120,52 @@ public final class ResultSetWrapper
 		iaDataTypes = new int[saExpressionKeys.length];
 
 		oaGroupKeys = groupKeys;
-		iaGroupBreaks = findGroupBreaks( workingResultSet,
-				( oaGroupKeys != null && oaGroupKeys.length > 0 )
-						? oaGroupKeys[0] : null );
 
 		initializeMeta( );
+	}
+
+	/**
+	 * Apply sorting and Grouping of chart.
+	 * 
+	 * @param sdBase base series definition.
+	 * @param sdValue value series definition.
+	 * @param aggregationExp
+	 * @param saExpressionKeys
+	 * @throws ChartException
+	 */
+	public void applyWholeSeriesSortingNGrouping( SeriesDefinition sdBase,
+			SeriesDefinition sdValue,
+			String[] aggregationExp, String[] saExpressionKeys )
+			throws ChartException {
+		applyValueSeriesGroupingNSorting( sdValue );
+		applyBaseSeriesSortingAndGrouping( sdBase,
+				aggregationExp,
+				saExpressionKeys );
+	}
+	
+	/**
+	 * Apply value series grouping and sorting, it only do grouping/sorting,
+	 * don't do aggregation, aggregation will be done in doing base series
+	 * grouping/sorting.
+	 * 
+	 * @param sdValue value series definition.
+	 * @since 2.3
+	 */
+	public void applyValueSeriesGroupingNSorting(SeriesDefinition sdValue) {
+		generateGroupBreaks( sdValue );
+	}
+
+	/**
+	 * Generate group breaks with current row data.
+	 * 
+	 * @param sdValue the value series definition.
+	 * @since 2.3
+	 */
+	public void generateGroupBreaks( SeriesDefinition sdValue )
+	{
+		iaGroupBreaks = findGroupBreaks( workingResultSet,
+		( oaGroupKeys != null && oaGroupKeys.length > 0 )
+				? oaGroupKeys[0] : null, sdValue.getGrouping( ) );
 	}
 	
 	GroupingLookupHelper getLookupHelper( )
@@ -295,7 +336,7 @@ public final class ResultSetWrapper
 					iaColumnIndexes,
 					iaGroupBreaks,
 					null,
-					sg.getGroupingInterval( ),
+					(long)sg.getGroupingInterval( ),
 					sg.getGroupingUnit( ),
 					iafa );
 		}
@@ -306,7 +347,8 @@ public final class ResultSetWrapper
 					iaColumnIndexes,
 					iaGroupBreaks,
 					null,
-					sg.getGroupingInterval( ),
+					(long)sg.getGroupingInterval( ),
+					sg.getGroupingUnit( ),
 					iafa );
 
 		}
@@ -318,7 +360,7 @@ public final class ResultSetWrapper
 
 	private void groupNumerically( List resultSet, int iBaseColumnIndex,
 			int[] iaColumnIndexes, int[] iaBreaks,
-			NumberDataElement ndeBaseReference, long iGroupingInterval,
+			NumberDataElement ndeBaseReference, double iGroupingInterval,
 			IAggregateFunction[] iafa ) throws ChartException
 	{
 		final int iOrthogonalSeriesCount = iaColumnIndexes.length;
@@ -404,8 +446,10 @@ public final class ResultSetWrapper
 				{
 					if ( oaSummarizedTuple != null ) // FIRST ROW IN GROUP
 					{
+						// bGroupBreak == true and not first row.
 						for ( int i = 0; i < iOrthogonalSeriesCount; i++ )
 						{
+							// Save aggregation value into previous tople.
 							oaSummarizedTuple[iaColumnIndexes[i]] = iafa[i].getAggregatedValue( );
 							iafa[i].initialize( ); // RESET
 						}
@@ -423,10 +467,13 @@ public final class ResultSetWrapper
 						// FIRST ROW IN RS
 						bFirst = false;
 					}
+					
+					// Start a new tuple.
 					oaSummarizedTuple = oaTuple;
 				}
 				else
 				{
+					// The value of base column is same, so the j'th row is duplicate row.
 					trashList.add( new Integer( j ) );
 				}
 
@@ -434,6 +481,7 @@ public final class ResultSetWrapper
 				{
 					try
 					{
+						// Aggregate value.
 						iafa[i].accumulate( oaTuple[iaColumnIndexes[i]] );
 					}
 					catch ( IllegalArgumentException uiex )
@@ -465,7 +513,7 @@ public final class ResultSetWrapper
 			trashList.clear( );
 
 			// update group breaks due to base data changes
-			if ( iaBreaks.length > 0 && groupChange > 0 )
+			if ( iaBreaks != null && iaBreaks.length > 0 && groupChange > 0 )
 			{
 				for ( int j = k; j < iaBreaks.length; j++ )
 				{
@@ -478,32 +526,6 @@ public final class ResultSetWrapper
 		}
 	}
 
-	private int groupingUnit2CDateUnit( GroupingUnitType unit )
-	{
-		if ( unit != null )
-		{
-			switch ( unit.getValue( ) )
-			{
-				case GroupingUnitType.SECONDS :
-					return Calendar.SECOND;
-				case GroupingUnitType.MINUTES :
-					return Calendar.MINUTE;
-				case GroupingUnitType.HOURS :
-					return Calendar.HOUR_OF_DAY;
-				case GroupingUnitType.DAYS :
-					return Calendar.DATE;
-				case GroupingUnitType.WEEKS :
-					return Calendar.WEEK_OF_YEAR;
-				case GroupingUnitType.MONTHS :
-					return Calendar.MONTH;
-				case GroupingUnitType.YEARS :
-					return Calendar.YEAR;
-			}
-		}
-
-		return Calendar.MILLISECOND;
-	}
-
 	private void groupDateTime( List resultSet, int iBaseColumnIndex,
 			int[] iaColumnIndexes, int[] iaBreaks,
 			CDateTime ndeBaseReference, long iGroupingInterval,
@@ -512,7 +534,7 @@ public final class ResultSetWrapper
 	{
 		final int iOrthogonalSeriesCount = iaColumnIndexes.length;
 
-		int cunit = groupingUnit2CDateUnit( groupingUnit );
+		int cunit = GroupingUtil.groupingUnit2CDateUnit( groupingUnit );
 
 		int iStartIndex = 0, iEndIndex;
 		int totalGroupCount = iaBreaks == null ? 1 : ( iaBreaks.length + 1 );
@@ -520,7 +542,7 @@ public final class ResultSetWrapper
 
 		for ( int k = 0; k < totalGroupCount; k++ )
 		{
-			if ( k == totalGroupCount - 1 )
+			if ( k == totalGroupCount - 1 ) // Last group.
 			{
 				iEndIndex = totalRowCount;
 			}
@@ -698,7 +720,7 @@ public final class ResultSetWrapper
 			trashList.clear( );
 
 			// update group breaks due to base data changes
-			if ( iaBreaks.length > 0 && groupChange > 0 )
+			if ( iaBreaks != null && iaBreaks.length > 0 && groupChange > 0 )
 			{
 				for ( int j = k; j < iaBreaks.length; j++ )
 				{
@@ -713,7 +735,7 @@ public final class ResultSetWrapper
 
 	private void groupTextually( List resultSet, int iBaseColumnIndex,
 			int[] iaColumnIndexes, int[] iaBreaks, String ndeBaseReference,
-			long iGroupingInterval, IAggregateFunction[] iafa )
+			long iGroupingInterval, GroupingUnitType groupingUnit, IAggregateFunction[] iafa )
 			throws ChartException
 	{
 		final int iOrthogonalSeriesCount = iaColumnIndexes.length;
@@ -722,9 +744,13 @@ public final class ResultSetWrapper
 		int totalGroupCount = iaBreaks == null ? 1 : ( iaBreaks.length + 1 );
 		int totalRowCount = resultSet.size( );
 
+		// NOTE: Here, the 'totalGroupCount' variable actually indicates how many series
+		// will be generated, the value of 'totalGroupCount' is related with Y
+		// grouping. If Y grouping is set, its count will more than 1, else
+		// there is only one series count.
 		for ( int k = 0; k < totalGroupCount; k++ )
 		{
-			if ( k == totalGroupCount - 1 )
+			if ( k == totalGroupCount - 1 ) // Last series.
 			{
 				iEndIndex = totalRowCount;
 			}
@@ -760,6 +786,7 @@ public final class ResultSetWrapper
 						baseReference = dBaseValue;
 					}
 
+			        // The interval of string prefix case indicates the number of prefix, don't mean interval range.
 					if ( iGroupCounter > iGroupingInterval )
 					{
 						iGroupIndex++;
@@ -779,7 +806,7 @@ public final class ResultSetWrapper
 						iGroupIndex++;
 					}
 				}
-
+				
 				if ( !bFirst )
 				{
 					bGroupBreak = ( iLastGroupIndex != iGroupIndex );
@@ -852,7 +879,7 @@ public final class ResultSetWrapper
 			trashList.clear( );
 
 			// update group breaks due to base data changes
-			if ( iaBreaks.length > 0 && groupChange > 0 )
+			if ( iaBreaks != null && iaBreaks.length > 0 && groupChange > 0 )
 			{
 				for ( int j = k; j < iaBreaks.length; j++ )
 				{
@@ -1359,48 +1386,156 @@ public final class ResultSetWrapper
 	 * 
 	 * @return Row indexes containing changing group key values
 	 */
-	private int[] findGroupBreaks( List resultSet, GroupKey groupKey )
+	private int[] findGroupBreaks( List resultSet, GroupKey groupKey, SeriesGrouping seriesGrouping )
 	{
 		if ( groupKey == null || groupKey.getKey( ) == null )
 		{
 			return NO_GROUP_BREAKS;
 		}
 
+		GroupKey newGroupKey = groupKey;
+		if ( seriesGrouping.isEnabled( ) && groupKey.getDirection( ) == null )
+		{
+			newGroupKey = new GroupKey( groupKey.getKey( ),
+					SortOption.ASCENDING_LITERAL );
+			newGroupKey.setKeyIndex( groupKey.getKeyIndex( ) );
+		}
 		// TODO support multiple keys for a single orthogonal series
 		Collections.sort( resultSet, new TupleComparator( new GroupKey[]{
-			groupKey
+			newGroupKey
 		} ) );
 
-		final int iColumnIndex = groupKey.getKeyIndex( );
-		final Iterator it = resultSet.iterator( );
-		final ArrayList al = new ArrayList( 8 );
+		final int iColumnIndex = newGroupKey.getKeyIndex( );
+
+		final ArrayList alBreaks = new ArrayList( 8 );
 		boolean bFirst = true;
 		Object oValue, oPreviousValue = null;
 		int iRowIndex = 0;
+		Object oBaseValue = null;
 
-		while ( it.hasNext( ) )
+		
+		if ( seriesGrouping.isEnabled( ) )
 		{
-			oValue = ( (Object[]) it.next( ) )[iColumnIndex];
-			iRowIndex++;
-			if ( bFirst )
+			// Reset grouped data by series grouping setting.
+			resetGroupedData( resultSet, iColumnIndex, seriesGrouping );
+
+			final Iterator it = resultSet.iterator( );
+			int intervalCount = 0;
+			while ( it.hasNext( ) )
 			{
-				bFirst = false;
+				oValue = ( (Object[]) it.next( ) )[iColumnIndex];
+
+				iRowIndex++;
+				if ( bFirst )
+				{
+					bFirst = false;
+					oPreviousValue = oValue;
+					oBaseValue = oValue;
+					continue;
+				}
+
+				if ( compareObjects( oPreviousValue, oValue ) != 0 )
+				{
+					if ( seriesGrouping.getGroupType( ) == DataType.NUMERIC_LITERAL )
+					{
+						// Calculate interval range for numeric case, it may be decimal interval.
+						if ( Math.abs( ( (Number) oValue ).doubleValue( ) -
+								( (Number) oBaseValue ).doubleValue( ) ) > seriesGrouping.getGroupingInterval( ) )
+						{
+							alBreaks.add( new Integer( iRowIndex - 1 ) );
+							oBaseValue = oValue;
+						}
+					}
+					else
+					{
+						if ( intervalCount == seriesGrouping.getGroupingInterval( ) )
+						{
+							alBreaks.add( new Integer( iRowIndex - 1 ) );
+							intervalCount = 0;
+						}
+						else
+						{
+							intervalCount++;
+						}
+					}
+				}
 				oPreviousValue = oValue;
-				continue;
 			}
-			if ( compareObjects( oPreviousValue, oValue ) != 0 )
+		}
+		else
+		{
+			final Iterator it = resultSet.iterator( );
+			while ( it.hasNext( ) )
 			{
-				al.add( new Integer( iRowIndex - 1 ) );
+				oValue = ( (Object[]) it.next( ) )[iColumnIndex];
+				iRowIndex++;
+				if ( bFirst )
+				{
+					bFirst = false;
+					oPreviousValue = oValue;
+					continue;
+				}
+				if ( compareObjects( oPreviousValue, oValue ) != 0 )
+				{
+					alBreaks.add( new Integer( iRowIndex - 1 ) );
+				}
+				oPreviousValue = oValue;
 			}
-			oPreviousValue = oValue;
 		}
 
-		final int[] ia = new int[al.size( )];
-		for ( int i = 0; i < al.size( ); i++ )
+		final int[] ia = new int[alBreaks.size( )];
+		for ( int i = 0; i < alBreaks.size( ); i++ )
 		{
-			ia[i] = ( (Integer) al.get( i ) ).intValue( );
+			ia[i] = ( (Integer) alBreaks.get( i ) ).intValue( );
 		}
 		return ia;
+	}
+	
+	/**
+	 * Reset value of grouped column by grouping setting.
+	 * 
+	 * @param resultSet row data list.
+	 * @param columnIndex grouped column index.
+	 * @param seriesGrouping series grouping setting.
+	 */
+	private void resetGroupedData( List resultSet, int columnIndex,
+			SeriesGrouping seriesGrouping )
+	{
+		if ( seriesGrouping.getGroupType( ) == DataType.DATE_TIME_LITERAL )
+		{
+			int cunit = GroupingUtil.groupingUnit2CDateUnit( seriesGrouping.getGroupingUnit( ) );
+			CDateTime baseReference = null;
+			for ( Iterator iter = resultSet.iterator( ); iter.hasNext( ); )
+			{
+				Object[] oaTuple = (Object[]) iter.next( );
+
+				Object obj = oaTuple[columnIndex];
+
+				// ASSIGN IT TO THE FIRST TYPLE'S GROUP EXPR VALUE
+				if ( obj instanceof CDateTime )
+				{
+					baseReference = (CDateTime) obj;
+				}
+				else if ( obj instanceof Calendar )
+				{
+					baseReference = new CDateTime( (Calendar) obj );
+				}
+				else if ( obj instanceof Date )
+				{
+					baseReference = new CDateTime( (Date) obj );
+				}
+				else
+				{
+					// set as the smallest Date.
+					baseReference = new CDateTime( 0 );
+				}
+
+				baseReference.clearBelow( cunit );
+
+				oaTuple[columnIndex] = baseReference;
+			}
+
+		}
 	}
 
 	/**
@@ -1569,6 +1704,4 @@ public final class ResultSetWrapper
 			return ascending ? ct : -ct;
 		}
 	}
-	
-
 }
