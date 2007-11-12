@@ -17,6 +17,7 @@ import java.util.Locale;
 import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 
 import com.ibm.icu.text.SimpleDateFormat;
@@ -563,9 +564,53 @@ public class CDateTime extends GregorianCalendar
 				return dDays / 365.25;
 			}
 		}
+		else if ( iUnit == GroupingUnitType.QUARTERS )
+		{
+			int startQuarter = cdt1.getYear( ) * 4 + numberOfQuarter( cdt1 );
+			int endQuarter = cdt2.getYear( ) * 4 + numberOfQuarter( cdt2 );
+			return endQuarter - startQuarter;
+		}
+		
 		return 0;
 	}
 
+	/**
+	 * Quarter number (1 to 4) of date/time value d
+	 * The method is merged from DtE's API.
+     *
+	 * @param d
+	 * @return
+	 * @since 2.3
+	 */
+	private static int numberOfQuarter( CDateTime d )
+	{
+		if ( d == null )
+			throw new java.lang.IllegalArgumentException( "date value is null!" ); //$NON-NLS-1$
+
+		int month = d.getMonth( );
+		switch ( month )
+		{
+			case Calendar.JANUARY :
+			case Calendar.FEBRUARY :
+			case Calendar.MARCH :
+				return 1;
+			case Calendar.APRIL :
+			case Calendar.MAY :
+			case Calendar.JUNE :
+				return 2;
+			case Calendar.JULY :
+			case Calendar.AUGUST :
+			case Calendar.SEPTEMBER :
+				return 3;
+			case Calendar.OCTOBER :
+			case Calendar.NOVEMBER :
+			case Calendar.DECEMBER :
+				return 4;
+			default :
+				return -1;
+		}
+	}
+	
 	/**
 	 * Walks through all values in a dataset and computes the least significant
 	 * unit for which a difference was noted.
@@ -741,7 +786,7 @@ public class CDateTime extends GregorianCalendar
 			set( Calendar.AM_PM, AM );
 			set( Calendar.MONTH, 0 );
 		}
-		else if ( iUnit == MONTH )
+		else if ( iUnit == MONTH || iUnit == GroupingUnitType.QUARTERS )
 		{
 			set( Calendar.MILLISECOND, 0 );
 			set( Calendar.SECOND, 0 );
@@ -749,6 +794,11 @@ public class CDateTime extends GregorianCalendar
 			set( Calendar.HOUR, 0 );
 			set( Calendar.AM_PM, AM );
 			set( Calendar.DATE, 1 );
+			
+			if ( iUnit == GroupingUnitType.QUARTERS ) 
+			{
+				set( Calendar.MONTH, ( getMonth() / 3 ) * 3 );
+			}
 		}
 		else if ( iUnit == WEEK_OF_YEAR )
 		{

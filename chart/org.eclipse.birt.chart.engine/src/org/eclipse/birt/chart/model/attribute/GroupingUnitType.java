@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: GroupingUnitType.java,v 1.1 2006/12/28 03:49:25 anonymous Exp $
+ * $Id: GroupingUnitType.java,v 1.5 2007/02/02 03:15:57 yulin Exp $
  */
 
 package org.eclipse.birt.chart.model.attribute;
@@ -96,6 +96,21 @@ public final class GroupingUnitType extends AbstractEnumerator
 	public static final int MONTHS = 5;
 
 	/**
+	 * The '<em><b>Quarters</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Quarters</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #QUARTERS_LITERAL
+	 * @model name="Quarters"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int QUARTERS = 6;
+
+	/**
 	 * The '<em><b>Years</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -104,7 +119,7 @@ public final class GroupingUnitType extends AbstractEnumerator
 	 * @generated
 	 * @ordered
 	 */
-	public static final int YEARS = 6;
+	public static final int YEARS = 7;
 
 	/**
 	 * The '<em><b>Seconds</b></em>' literal object.
@@ -199,6 +214,17 @@ public final class GroupingUnitType extends AbstractEnumerator
 			"Months", "Months" ); //$NON-NLS-1$
 
 	/**
+	 * The '<em><b>Quarters</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #QUARTERS
+	 * @generated
+	 * @ordered
+	 */
+	public static final GroupingUnitType QUARTERS_LITERAL = new GroupingUnitType( QUARTERS,
+			"Quarters", "Quarters" ); //$NON-NLS-1$ //$NON-NLS-2$
+
+	/**
 	 * The '<em><b>Years</b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -225,6 +251,7 @@ public final class GroupingUnitType extends AbstractEnumerator
 			DAYS_LITERAL,
 			WEEKS_LITERAL,
 			MONTHS_LITERAL,
+			QUARTERS_LITERAL,
 			YEARS_LITERAL,
 	};
 
@@ -293,6 +320,8 @@ public final class GroupingUnitType extends AbstractEnumerator
 				return WEEKS_LITERAL;
 			case MONTHS :
 				return MONTHS_LITERAL;
+			case QUARTERS :
+				return QUARTERS_LITERAL;
 			case YEARS :
 				return YEARS_LITERAL;
 		}

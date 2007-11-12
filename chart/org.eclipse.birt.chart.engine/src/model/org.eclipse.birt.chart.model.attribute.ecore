@@ -863,7 +863,8 @@
     <eLiterals name="Days" value="3"/>
     <eLiterals name="Weeks" value="4"/>
     <eLiterals name="Months" value="5"/>
-    <eLiterals name="Years" value="6"/>
+    <eLiterals name="Quarters" value="6"/>
+    <eLiterals name="Years" value="7"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="GroupingUnitTypeObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">

@@ -447,6 +447,7 @@ BubbleAndStop: the trigger’s action will be triggered in the bubbling phase, a
 			<xsd:enumeration value="Days"/>
 			<xsd:enumeration value="Weeks"/>
 			<xsd:enumeration value="Months"/>
+			<xsd:enumeration value="Quarters"/>
 			<xsd:enumeration value="Years"/>
 		</xsd:restriction>
 	</xsd:simpleType>
