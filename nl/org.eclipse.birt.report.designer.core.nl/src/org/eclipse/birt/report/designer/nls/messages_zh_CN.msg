@@ -3009,7 +3009,7 @@ RowHandle.tooltip.GroupFooter=表组 － 组页脚
 RowHandle.tooltip.GroupHeader=表组 － 组页眉
 RowHandle.tooltip.TableDetail=表 - 详细资料
 RowHandle.tooltip.TableFooter=表 - 页脚
-RowHandle.tooltip.TableHeader=表 - 页眉(&H)
+RowHandle.tooltip.TableHeader=表 - 页眉
 
 ###########################################################
 #RowHandleAdapter properties

@@ -3009,7 +3009,7 @@ RowHandle.tooltip.GroupFooter=Groupe de tables - Pied de page de groupe
 RowHandle.tooltip.GroupHeader=Groupe de tables - En-tête de groupe
 RowHandle.tooltip.TableDetail=Table - Détail
 RowHandle.tooltip.TableFooter=Table - Pied de page
-RowHandle.tooltip.TableHeader=Table - &En-tête
+RowHandle.tooltip.TableHeader=Table - En-tête
 
 ###########################################################
 #RowHandleAdapter properties

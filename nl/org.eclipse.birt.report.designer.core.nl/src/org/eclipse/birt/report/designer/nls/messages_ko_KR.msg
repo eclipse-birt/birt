@@ -3009,7 +3009,7 @@ RowHandle.tooltip.GroupFooter=테이블 그룹 - 그룹 바닥글
 RowHandle.tooltip.GroupHeader=테이블 그룹 - 그룹 머리글
 RowHandle.tooltip.TableDetail=테이블 - 상세 정보
 RowHandle.tooltip.TableFooter=테이블 - 바닥글
-RowHandle.tooltip.TableHeader=테이블 - 머리글(&H)
+RowHandle.tooltip.TableHeader=테이블 - 머리글
 
 ###########################################################
 #RowHandleAdapter properties

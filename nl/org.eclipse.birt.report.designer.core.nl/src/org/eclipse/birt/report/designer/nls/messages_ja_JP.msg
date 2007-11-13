@@ -3009,7 +3009,7 @@ RowHandle.tooltip.GroupFooter=テーブルグループ - グループフッタ
 RowHandle.tooltip.GroupHeader=テーブルグループ - グループヘッダ
 RowHandle.tooltip.TableDetail=テーブル - 詳細
 RowHandle.tooltip.TableFooter=テーブル - フッタ
-RowHandle.tooltip.TableHeader=テーブル - ヘッダ(&H)
+RowHandle.tooltip.TableHeader=テーブル - ヘッダ
 
 ###########################################################
 #RowHandleAdapter properties

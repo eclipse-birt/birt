@@ -3009,7 +3009,7 @@ RowHandle.tooltip.GroupFooter=Tabellengruppe†ñ Gruppenfuﬂzeile
 RowHandle.tooltip.GroupHeader=Tabellengruppe†ñ Gruppenkopfzeile
 RowHandle.tooltip.TableDetail=Tabelle - Detail
 RowHandle.tooltip.TableFooter=Tabelle - Fuﬂzeile
-RowHandle.tooltip.TableHeader=Tabelle - &Kopfzeile
+RowHandle.tooltip.TableHeader=Tabelle - Kopfzeile
 
 ###########################################################
 #RowHandleAdapter properties
