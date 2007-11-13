@@ -180,4 +180,13 @@ public interface IDeviceRenderer extends
 	 * @since 2.1
 	 */
 	ULocale getULocale( );
+	
+	/**
+	 * Returns the MIME type of the output image that the device renderer
+	 * creates. Returns null in case of native rendering (no image file is created)
+	 * 
+	 * @return the MIME type as a String (e.g. "image/png")
+	 * @since 2.3
+	 */
+	String getMimeType( );
 }

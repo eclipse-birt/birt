@@ -23,10 +23,4 @@ public interface IImageMapEmitter
 	 */
 	String getImageMap( );
 
-	/**
-	 * Returns the MIME type of the output image.
-	 * 
-	 * @return
-	 */
-	String getMimeType( );
 }

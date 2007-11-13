@@ -318,4 +318,12 @@ public abstract class DeviceAdapter extends EventObjectCache implements
 	{
 		// DO NOTHING IN NO-OP IMPL
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.device.IDeviceRenderer#getMimeType()
+	 */
+	public String getMimeType( )
+	{
+		return null;
+	}
 }

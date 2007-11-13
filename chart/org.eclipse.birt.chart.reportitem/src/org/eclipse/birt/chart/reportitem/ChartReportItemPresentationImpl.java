@@ -68,6 +68,8 @@ public final class ChartReportItemPresentationImpl
 	private String sSupportedFormats = null;
 
 	private String outputFormat = null;
+	
+	private int outputType = -1;
 
 	private Chart cm = null;
 
@@ -348,14 +350,18 @@ public final class ChartReportItemPresentationImpl
 	 */
 	public int getOutputType( )
 	{
-		if ( "SVG".equals( sExtension ) ) //$NON-NLS-1$
+		if ( outputType == -1 )
 		{
-			return OUTPUT_AS_IMAGE;
+			if ( "SVG".equals( sExtension ) || "SWF".equals( sExtension ) ) //$NON-NLS-1$
+			{
+				outputType = OUTPUT_AS_IMAGE;
+			}
+			else
+			{
+				outputType = OUTPUT_AS_IMAGE_WITH_MAP;
+			}
 		}
-		else
-		{
-			return OUTPUT_AS_IMAGE_WITH_MAP;
-		}
+		return outputType;
 	}
 
 	/*
@@ -365,18 +371,7 @@ public final class ChartReportItemPresentationImpl
 	 */
 	public String getImageMIMEType( )
 	{
-		if ( idr instanceof IImageMapEmitter )
-		{
-			return ( (IImageMapEmitter) idr ).getMimeType( );
-		}
-		else if ( "SVG".equals( sExtension ) ) //$NON-NLS-1$
-		{
-			return "image/svg+xml"; //$NON-NLS-1$
-		}
-		else
-		{
-			return "image"; //$NON-NLS-1$
-		}
+		return  idr.getMimeType( );		
 	}
 
 	/*
@@ -464,14 +459,7 @@ public final class ChartReportItemPresentationImpl
 				}
 			}
 			
-			BIRTDataRowEvaluator rowAdapter = new BIRTDataRowEvaluator( rowSet );
-			Generator.instance( ).bindData( rowAdapter,
-					new BIRTActionEvaluator( ),
-					cm,
-					rtc );
-			logger.log( ILogger.INFORMATION,
-					Messages.getString( "ChartReportItemPresentationImpl.log.onRowSetsBuilding" ) ); //$NON-NLS-1$
-
+			
 			// FETCH A HANDLE TO THE DEVICE RENDERER
 			idr = ChartEngine.instance( ).getRenderer( "dv." //$NON-NLS-1$
 					+ sExtension.toUpperCase( Locale.US ) );
@@ -482,6 +470,15 @@ public final class ChartReportItemPresentationImpl
 			{
 				idr.setProperty( "resize.svg", Boolean.TRUE ); //$NON-NLS-1$
 			}
+			
+			BIRTDataRowEvaluator rowAdapter = new BIRTDataRowEvaluator( rowSet );
+			Generator.instance( ).bindData( rowAdapter,
+					new BIRTActionEvaluator( ),
+					cm,
+					rtc );
+			logger.log( ILogger.INFORMATION,
+					Messages.getString( "ChartReportItemPresentationImpl.log.onRowSetsBuilding" ) ); //$NON-NLS-1$
+
 
 			// BUILD THE CHART
 			final Bounds originalBounds = cm.getBlock( ).getBounds( );
@@ -493,6 +490,11 @@ public final class ChartReportItemPresentationImpl
 
 			logger.log( ILogger.INFORMATION,
 					Messages.getString( "ChartReportItemPresentationImpl.log.PresentationUsesBoundsBo", bo ) ); //$NON-NLS-1$
+
+			
+			
+
+			
 
 			final Generator gr = Generator.instance( );
 			GeneratedChartState gcs = null;
@@ -554,7 +556,7 @@ public final class ChartReportItemPresentationImpl
 						ioex );
 			}
 
-			if ( !"SVG".equals( sExtension ) && idr instanceof IImageMapEmitter ) //$NON-NLS-1$
+			if ( getOutputType() == OUTPUT_AS_IMAGE_WITH_MAP && idr instanceof IImageMapEmitter ) //$NON-NLS-1$
 			{
 				imageMap = ( (IImageMapEmitter) idr ).getImageMap( );
 			}
@@ -610,7 +612,7 @@ public final class ChartReportItemPresentationImpl
 		logger.log( ILogger.INFORMATION,
 				Messages.getString( "ChartReportItemPresentationImpl.onRowSetsEnd" ) ); //$NON-NLS-1$
 
-		if ( "SVG".equals( sExtension ) ) //$NON-NLS-1$
+		if ( getOutputType() == OUTPUT_AS_IMAGE ) //$NON-NLS-1$
 		{
 			return fis;
 		}
@@ -621,6 +623,11 @@ public final class ChartReportItemPresentationImpl
 			};
 		}
 	}
+
+	
+
+	
+
 
 	/*
 	 * (non-Javadoc)

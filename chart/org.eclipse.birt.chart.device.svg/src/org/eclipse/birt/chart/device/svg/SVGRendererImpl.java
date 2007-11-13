@@ -752,4 +752,8 @@ public class SVGRendererImpl extends SwingRendererImpl
 		ivRenderer.ungroupPrimitive( tre, true );
 	}
 
+	public String getMimeType( )
+	{
+		return "image/svg+xml";
+	}
 }

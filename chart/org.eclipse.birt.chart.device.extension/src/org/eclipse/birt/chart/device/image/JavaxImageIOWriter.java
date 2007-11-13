@@ -139,13 +139,6 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.device.IImageMapEmitter#getMimeType()
-	 */
-	public abstract String getMimeType( );
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.birt.chart.device.IImageMapEmitter#getImageMap()
 	 */
 	public String getImageMap( )
