@@ -168,7 +168,7 @@ public class JSEditor extends EditorPart implements
 		 */
 		public void textChanged( TextEvent event )
 		{
-			if ( isTextListenerEnable && editorUIEnabled )
+			if ( isTextListenerEnable )
 			{
 				markDirty( );
 			}
@@ -395,10 +395,7 @@ public class JSEditor extends EditorPart implements
 							IPropertyDefn elePropDefn = (IPropertyDefn) sel[0];
 							cmbItemLastSelected = elePropDefn;
 
-							setTextListenerEnable( false );
 							setEditorText( desHandle.getStringProperty( elePropDefn.getName( ) ) );
-							setTextListenerEnable( true );
-							setIsModified( false );
 							selectionMap.put( getModel( ), selection );
 
 							String method = cmbItemLastSelected.getName( );
@@ -712,9 +709,7 @@ public class JSEditor extends EditorPart implements
 
 		if ( editorUIEnabled == true )
 		{
-			// save the previous editor content.
-			// saveModelIfNeeds( );
-			saveModel( );
+			saveModelIfNeeds( );
 		}
 
 		if ( selection != null )
@@ -737,27 +732,20 @@ public class JSEditor extends EditorPart implements
 
 				// clear the latest selected item.
 				cmbItemLastSelected = null;
-				try
-				{
-					setTextListenerEnable( false );
-					setEditorText( "" ); //$NON-NLS-1$
 
-					// enable/disable editor based on the items in the
-					// expression list.
-					if ( cmbExpList.getItemCount( ) > 0 )
-					{
-						enableEditor( );
-						// Selects the first item in the expression list.
-						selectItemInComboExpList( (ISelection) selectionMap.get( getModel( ) ) );
-					}
-					else
-					{
-						disableEditor( );
-					}
-				}
-				finally
+				setEditorText( "" ); //$NON-NLS-1$
+
+				// enable/disable editor based on the items in the
+				// expression list.
+				if ( cmbExpList.getItemCount( ) > 0 )
 				{
-					setTextListenerEnable( true );
+					enableEditor( );
+					// Selects the first item in the expression list.
+					selectItemInComboExpList( (ISelection) selectionMap.get( getModel( ) ) );
+				}
+				else
+				{
+					disableEditor( );
 				}
 
 				/*
@@ -836,12 +824,21 @@ public class JSEditor extends EditorPart implements
 			return;
 		}
 
-		scriptEditor.setScript( text );
-
-		if ( scriptValidator != null )
+		try
 		{
-			scriptValidator.init( );
-			setValidateIcon( null, null );
+			// Disable text listener during setting script, so that the dirty
+			// flag isn't changed by program.
+			setTextListenerEnable( false );
+			scriptEditor.setScript( text );
+			if ( scriptValidator != null )
+			{
+				scriptValidator.init( );
+				setValidateIcon( null, null );
+			}
+		}
+		finally
+		{
+			setTextListenerEnable( true );
 		}
 	}
 
@@ -1388,7 +1385,6 @@ class JSSubFunctionListProvider implements
 								editor.selectAndReveal( length + 1,
 										signature.length( ) );
 							}
-							editor.setIsModified( true );
 						}
 						catch ( BadLocationException e )
 						{
