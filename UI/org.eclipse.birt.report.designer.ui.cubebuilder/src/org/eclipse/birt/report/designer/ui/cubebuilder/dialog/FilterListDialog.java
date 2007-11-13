@@ -103,7 +103,7 @@ public class FilterListDialog extends BaseDialog
 						Object item = input.get( 0 );
 						if ( item instanceof DesignElementHandle )
 						{
-							FilterConditionBuilder dialog = new FilterConditionBuilder( UIUtil.getDefaultShell( ),
+							DatasetFilterConditionBuilder dialog = new DatasetFilterConditionBuilder( UIUtil.getDefaultShell( ),
 									FilterConditionBuilder.DLG_TITLE_NEW,
 									FilterConditionBuilder.DLG_MESSAGE_NEW );
 							dialog.setDesignHandle( (DesignElementHandle) item,

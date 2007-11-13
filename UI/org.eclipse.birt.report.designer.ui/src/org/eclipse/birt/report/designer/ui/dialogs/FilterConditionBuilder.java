@@ -38,6 +38,7 @@ import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
@@ -107,9 +108,9 @@ public class FilterConditionBuilder extends TitleAreaDialog
 	protected Label label1, label2;
 
 	protected List valueList = new ArrayList( );
-	
+
 	protected List selValueList = new ArrayList( );
-	
+
 	/**
 	 * Usable operators for building map rule conditions.
 	 */
@@ -123,9 +124,9 @@ public class FilterConditionBuilder extends TitleAreaDialog
 
 	protected transient ReportElementHandle currentItem = null;
 
-	protected static String[] EMPTY_ARRAY = new String[]{};
+	private static String[] EMPTY_ARRAY = new String[]{};
 
-	private List columnList;
+	protected List columnList;
 
 	protected int valueVisible;
 
@@ -135,7 +136,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 	/**
 	 * Constant, represents empty String array.
 	 */
-	private static final String[] EMPTY = new String[0];
+	protected static final String[] EMPTY = new String[0];
 
 	public void setReportElement( ReportElementHandle reportItem )
 	{
@@ -314,7 +315,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		String[] values = new String[columnList.size( )];
 		for ( int i = 0; i < columnList.size( ); i++ )
 		{
-			values[i] = ( (ComputedColumnHandle) columnList.get( i ) ).getName( );
+			values[i] = getColumnName( columnList.get( i ) );
 		}
 		return values;
 	}
@@ -434,7 +435,6 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		lb.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 	}
 
-	
 	protected Listener expValueVerifyListener = new Listener( ) {
 
 		public void handleEvent( Event event )
@@ -442,15 +442,27 @@ public class FilterConditionBuilder extends TitleAreaDialog
 			// TODO Auto-generated method stub
 			Combo thisCombo = (Combo) event.widget;
 			String text = event.text;
-			if(text != null && thisCombo.indexOf( text)>= 0)
+			if ( text != null && thisCombo.indexOf( text ) >= 0 )
 			{
 				event.doit = false;
-			}else
+			}
+			else
 			{
 				event.doit = true;
 			}
-		}};
-	
+		}
+	};
+
+	protected String getColumnName( Object obj )
+	{
+		if ( obj instanceof ComputedColumnHandle )
+			return ( (ComputedColumnHandle) obj ).getName( );
+		else if ( obj instanceof ResultSetColumnHandle )
+			return ( (ResultSetColumnHandle) obj ).getColumnName( );
+		else
+			return "";
+	}
+
 	private Listener expValueSelectionListener = new Listener( ) {
 
 		public void handleEvent( Event event )
@@ -458,7 +470,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 			// TODO Auto-generated method stub
 			Combo thisCombo = (Combo) event.widget;
 			int selectionIndex = thisCombo.getSelectionIndex( );
-			if(selectionIndex < 0)
+			if ( selectionIndex < 0 )
 			{
 				return;
 			}
@@ -467,7 +479,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 			bindingName = null;
 			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 			{
-				String columnName = ( (ComputedColumnHandle) ( iter.next( ) ) ).getName( );
+				String columnName = getColumnName( iter.next( ) );
 				if ( DEUtil.getColumnExpression( columnName )
 						.equals( expression.getText( ) ) )
 				{
@@ -589,9 +601,9 @@ public class FilterConditionBuilder extends TitleAreaDialog
 			valueListComposite = null;
 		}
 
-		GridData expgd = new GridData();
+		GridData expgd = new GridData( );
 		expgd.widthHint = 100;
-		
+
 		expressionValue1 = new Combo( condition, SWT.NONE );
 		expressionValue1.setLayoutData( expgd );
 		expressionValue1.addModifyListener( new ModifyListener( ) {
@@ -601,10 +613,10 @@ public class FilterConditionBuilder extends TitleAreaDialog
 				updateButtons( );
 			}
 		} );
-		
+
 		expressionValue1.addListener( SWT.Verify, expValueVerifyListener );
-		expressionValue1.addListener( SWT.Selection, expValueSelectionListener );		
-		
+		expressionValue1.addListener( SWT.Selection, expValueSelectionListener );
+
 		refreshList( );
 		expressionValue1.setItems( popupItems );
 
@@ -613,7 +625,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		andLable = new Label( condition, SWT.NONE );
 		andLable.setText( Messages.getString( "FilterConditionBuilder.text.AND" ) ); //$NON-NLS-1$
 		andLable.setEnabled( false );
-//		andLable.setVisible( false );
+		// andLable.setVisible( false );
 
 		dummy2 = createDummy( condition, 3 );
 
@@ -626,15 +638,13 @@ public class FilterConditionBuilder extends TitleAreaDialog
 				updateButtons( );
 			}
 		} );
-		
-		
-		
+
 		expressionValue2.addListener( SWT.Verify, expValueVerifyListener );
 		expressionValue2.addListener( SWT.Selection, expValueSelectionListener );
 
 		expressionValue2.setItems( popupItems );
 
-//		expressionValue2.setVisible( false );
+		// expressionValue2.setVisible( false );
 
 		if ( operator.getItemCount( ) > 0
 				&& operator.getSelectionIndex( ) == -1 )
@@ -681,7 +691,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		valueListComposite.setLayout( layout );
 
 		Group group = new Group( valueListComposite, SWT.NONE );
-		GridData data = new GridData( GridData.FILL_HORIZONTAL);
+		GridData data = new GridData( GridData.FILL_HORIZONTAL );
 		data.heightHint = 118;
 		data.horizontalSpan = 3;
 		data.horizontalIndent = 0;
@@ -694,9 +704,9 @@ public class FilterConditionBuilder extends TitleAreaDialog
 
 		new Label( group, SWT.NONE ).setText( Messages.getString( "FilterConditionBuilder.label.value" ) );
 
-		GridData expgd = new GridData();
+		GridData expgd = new GridData( );
 		expgd.widthHint = 100;
-		
+
 		addExpressionValue = new Combo( group, SWT.NONE );
 		addExpressionValue.setLayoutData( expgd );
 
@@ -991,7 +1001,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 			}
 		} );
 
-		addExpressionValue.addListener( SWT.Verify, expValueVerifyListener);
+		addExpressionValue.addListener( SWT.Verify, expValueVerifyListener );
 		addExpressionValue.addListener( SWT.Selection,
 				expValueSelectionListener );
 		refreshList( );
@@ -1087,7 +1097,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 			if ( valueVisible == 3 )
 			{
 				int ret = createValueListComposite( operator.getParent( ) );
-				if(ret != 0)
+				if ( ret != 0 )
 				{
 					if ( inputHandle != null )
 					{
@@ -1160,10 +1170,9 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		}
 		for ( int i = 0; i < columnList.size( ); i++ )
 		{
-			ComputedColumnHandle column = (ComputedColumnHandle) columnList.get( i );
-			if ( column.getName( ).equals( name ) )
+			if ( getColumnName( columnList.get( i ) ).equals( name ) )
 			{
-				return column;
+				return columnList.get( i );
 			}
 		}
 		return null;
@@ -1205,7 +1214,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 	public void setDesignHandle( DesignElementHandle handle )
 	{
 		this.designHandle = handle;
-		inilializeColumnList( this.designHandle );
+		setColumnList( this.designHandle );
 	}
 
 	protected IExpressionProvider expressionProvider;
@@ -1215,10 +1224,10 @@ public class FilterConditionBuilder extends TitleAreaDialog
 	{
 		setDesignHandle( handle );
 		this.expressionProvider = provider;
-		inilializeColumnList( this.designHandle );
+		setColumnList( this.designHandle );
 	}
 
-	private void inilializeColumnList( DesignElementHandle handle )
+	protected void setColumnList( DesignElementHandle handle )
 	{
 		columnList = DEUtil.getVisiableColumnBindingsList( handle );
 	}
@@ -1254,11 +1263,11 @@ public class FilterConditionBuilder extends TitleAreaDialog
 				expressionValue1.setEnabled( val );
 			if ( expressionValue2 != null )
 				expressionValue2.setEnabled( val );
-			if( andLable != null)
+			if ( andLable != null )
 			{
 				andLable.setEnabled( val );
 			}
-				
+
 		}
 		else
 		{
