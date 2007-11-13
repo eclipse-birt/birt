@@ -68,6 +68,12 @@ public class ReportScriptFormPage extends ReportFormPage
 
 	private IReportEditorPage previouPage;
 
+	/**
+	 * The flag if current report need be saved, just puts current script into
+	 * model if the flag is <code>false</code>.
+	 */
+	private boolean needSave = true;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -226,6 +232,12 @@ public class ReportScriptFormPage extends ReportFormPage
 	public void doSave( IProgressMonitor monitor )
 	{
 		jsEditor.doSave( monitor );
+
+		if ( !needSave( ) )
+		{
+			return;
+		}
+
 		IReportProvider provider = getProvider( );
 		if ( provider != null )
 		{
@@ -441,7 +453,15 @@ public class ReportScriptFormPage extends ReportFormPage
 	{
 		if ( isDirty( ) )
 		{
-			getEditor().doSave( null );
+			try
+			{
+				setNeedSave( false );
+				getEditor( ).doSave( null );
+			}
+			finally
+			{
+				setNeedSave( true );
+			}
 		}
 		return super.canLeaveThePage( );
 	}
@@ -457,5 +477,28 @@ public class ReportScriptFormPage extends ReportFormPage
 			System.out.println("Report script page finalized" ); //$NON-NLS-1$
 		}
 		super.finalize( );
+	}
+
+	/**
+	 * Returns <code>true</code> if current report need be saved,
+	 * <code>false</code> otherwise.
+	 * 
+	 * @return <code>true</code> if current report need be saved,
+	 *         <code>false</code> otherwise.
+	 */
+	public boolean needSave( )
+	{
+		return needSave;
+	}
+
+	/**
+	 * Sets the flag of need save.
+	 * 
+	 * @param need
+	 *            the flag to set.
+	 */
+	public void setNeedSave( boolean need )
+	{
+		needSave = need;
 	}
 }

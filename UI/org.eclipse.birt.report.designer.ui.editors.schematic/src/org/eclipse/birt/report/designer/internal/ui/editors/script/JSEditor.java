@@ -385,7 +385,7 @@ public class JSEditor extends EditorPart implements
 							// using DE
 							// API
 							DesignElementHandle desHandle = (DesignElementHandle) cmbExprListViewer.getInput( );
-							saveModelIfNeeds( );
+							saveModel( );
 
 							// Update the editor to display the
 							// expression
@@ -709,7 +709,7 @@ public class JSEditor extends EditorPart implements
 
 		if ( editorUIEnabled == true )
 		{
-			saveModelIfNeeds( );
+			saveModel( );
 		}
 
 		if ( selection != null )
@@ -907,17 +907,6 @@ public class JSEditor extends EditorPart implements
 		return isModified;
 	}
 
-	public void saveModelIfNeeds( )
-	{
-		if ( checkEditorActive( ) )
-		{
-			if ( isCodeModified( ) && editObject instanceof DesignElementHandle )
-			{
-				saveEditorContentsDE( (DesignElementHandle) editObject );
-			}
-		}
-	}
-
 	protected void markDirty( )
 	{
 		if ( !isModified )
@@ -928,11 +917,6 @@ public class JSEditor extends EditorPart implements
 
 			firePropertyChange( PROP_DIRTY );
 		}
-	}
-
-	protected boolean checkEditorActive( )
-	{
-		return true;
 	}
 
 	/**
