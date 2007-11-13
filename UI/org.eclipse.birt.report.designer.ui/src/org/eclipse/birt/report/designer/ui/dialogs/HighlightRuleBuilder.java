@@ -780,14 +780,7 @@ public class HighlightRuleBuilder extends BaseDialog
 		ReportItemHandle reportItem = DEUtil.getBindingHolder( currentItem );
 		if ( bindingName != null && reportItem != null )
 		{
-
-			DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-					reportItem.getModuleHandle( ) ) );
-			selectValueList.addAll( session.getColumnValueSet( reportItem.getDataSet( ),
-					reportItem.paramBindingsIterator( ),
-					reportItem.columnBindingsIterator( ),
-					bindingName ) );
-			session.shutdown( );
+			selectValueList = SelectValueFetcher.getSelectValueList( expression.getText( ), reportItem.getDataSet( ), false );
 		}
 		else
 		{
