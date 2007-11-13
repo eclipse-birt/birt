@@ -63,8 +63,11 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
     /**
 	 *	if previous is visible.
 	 */	 
-	 preVisible: null, 
-	 
+	preVisible: null, 
+
+	MIN_MULTILINES : 5,
+	MAX_MULTLIINES : 10,
+		 
 	/**
 	 *	Initialization routine required by "ProtoType" lib.
 	 *	@return, void
@@ -112,13 +115,18 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			
 			// Set size for multi-value parameter
 			if( oSC[i].multiple )
-			{
-				var scSize = 8;
-				var len = oSC[i].options.length;
-				if( len < scSize )
-					scSize = len;
+			{				
+				var len = oSC[i].options.length;				
+				if( len < this.MIN_MULTILINES )
+				{
+					len = this.MIN_MULTILINES;
+				}
+				else if( len > this.MAX_MULTLIINES )
+				{
+					len = this.MAX_MULTLIINES;
+				}
 				
-				oSC[i].size = scSize;
+				oSC[i].size = len;
 			}
 		}
 	},
