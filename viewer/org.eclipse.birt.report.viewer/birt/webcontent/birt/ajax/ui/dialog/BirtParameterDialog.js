@@ -429,10 +429,11 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			// deal with "select" parameter
 			if( oType == 'select' && oSEC.length == 1 )
 			{
-				var paramName = oIEC[1].name;
+				var dataType = oIEC[1].value;
+				var paramName = oIEC[2].name;
 				
 				var flag = true;
-				if( oIEC[2] && oIEC[2].type == 'radio' && !oIEC[2].checked )
+				if( oIEC[3] && oIEC[3].type == 'radio' && !oIEC[3].checked )
 				{
 					flag = false;
 				}
@@ -491,9 +492,9 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 				}
 				
 				// allow new value
-				if( oIEC[2] && oIEC[2].type == 'radio' )
+				if( oIEC[3] && oIEC[3].type == 'radio' )
 				{					
-					if( oIEC[2].checked )
+					if( oIEC[3].checked )
 					{
 						// select value
 						var tempText = oSEC[0].options[oSEC[0].selectedIndex].text;
@@ -515,12 +516,12 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 					}
 					else
 					{
-						var inputValue = oIEC[4].value;
-						var paramValue = oIEC[1].value;
-						var displayText = oIEC[5].value;
+						var inputValue = oIEC[5].value;
+						var paramValue = oIEC[2].value;
+						var displayText = oIEC[6].value;
 						
 						// if change the text field value or input text field isn't focus default,regard as a locale string 
-						if( displayText != inputValue || oIEC[4].name.length <= 0 )
+						if( displayText != inputValue || oIEC[5].name.length <= 0 )
 						{							
 							paramValue = inputValue;
 							
@@ -533,7 +534,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 						// text value
 						if ( this.__is_parameter_required( oIEC ) && birtUtility.trim( paramValue ) == '' && this.visible )
 						{
-							oIEC[4].focus( );
+							oIEC[5].focus( );
 							alert( birtUtility.formatMessage( Constants.error.parameterRequired, paramName ) );
 							return false;
 						}						
@@ -720,11 +721,38 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
                 	var tempText = Event.element( event ).options[Event.element( event ).selectedIndex].text;
 					var tempValue = Event.element( event ).options[Event.element( event ).selectedIndex].value;
 					
-                	// Null Value Parameter
-                	if( tempText == this.__display_null && tempValue == '' )
+                	if( tempValue == '' )
                 	{
-                		this.__cascadingParameter[i][j].name = this.__isnull;
-                		this.__cascadingParameter[i][j].value = paramName;						
+                		// Null Value Parameter
+                		if( tempText == this.__display_null )
+                		{
+                			this.__cascadingParameter[i][j].name = this.__isnull;
+                			this.__cascadingParameter[i][j].value = paramName;
+                		}
+                		else if( tempText == "" )
+                		{
+                			var target = Event.element( event );
+							target = target.parentNode;
+							var oInputs = target.getElementsByTagName( "input" );
+							if( oInputs.length >0 && oInputs[1].value != Constants.TYPE_STRING )
+							{
+								// Only String parameter allows blank value
+								alert( birtUtility.formatMessage( Constants.error.parameterNotAllowBlank, paramName ) );
+								return;
+							}
+							else
+							{
+	                			// Blank Value
+	                			this.__cascadingParameter[i][j].name = paramName;
+	                	    	this.__cascadingParameter[i][j].value = tempValue;								
+							}
+                		}
+                		else
+                		{
+                			// Blank Value
+                			this.__cascadingParameter[i][j].name = paramName;
+                	    	this.__cascadingParameter[i][j].value = tempValue;
+                		}						
                 	}
                 	else
                 	{

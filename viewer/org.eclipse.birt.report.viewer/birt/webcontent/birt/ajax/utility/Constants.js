@@ -68,6 +68,10 @@ var Constants = {
 	PARAM_FITTOPAGE : '__fittopage',
 	PARAM_PAGEBREAKONLY : '__pagebreakonly',		
 	
+	// Parameter Data Type
+	TYPE_ANY : '0',
+	TYPE_STRING : '1',
+	
 	// Servlet patterns
 	SERVLET_OUTPUT : 'output',
 	
