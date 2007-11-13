@@ -37,9 +37,9 @@ public class EmbeddedImagesNodeProvider extends DefaultNodeProvider {
 	// .getString( "ImageBuilderDialog.FileDialog.FilterMessage" );
 	// //$NON-NLS-1$
 	private static String[] EXTENSIONS = new String[] { ".bmp", ".jpg",
-			".jpeg", ".jpe", ".jfif", ".gif", ".png", ".tif", ".tiff" };
+			".jpeg", ".jpe", ".jfif", ".gif", ".png", ".tif", ".tiff",".svg" };
 
-	private static String[] ALLEXTENSIONS = new String[] { "*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff" };
+	private static String[] ALLEXTENSIONS = new String[] { "*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.svg" };
 
 	public Object[] getChildren(Object model) {
 		return ((EmbeddedImageNode) model).getChildren();
