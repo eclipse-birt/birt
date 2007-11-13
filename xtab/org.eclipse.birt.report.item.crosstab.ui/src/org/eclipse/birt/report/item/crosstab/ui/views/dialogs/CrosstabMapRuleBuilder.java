@@ -33,6 +33,7 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
@@ -180,21 +181,41 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder
 		CrosstabReportItemHandle crosstab = null;
 		if ( designHandle instanceof ExtendedItemHandle )
 		{
+
 			try
-			{
+			{				
 				Object obj = ( (ExtendedItemHandle) designHandle ).getReportItem( );
-				if ( obj instanceof CrosstabReportItemHandle )
+				DesignElementHandle tmp = designHandle;
+				
+				while(true)
 				{
-					crosstab = (CrosstabReportItemHandle) obj;
+					if (obj == null ||  obj instanceof ReportDesignHandle )
+					{
+						break;
+					}else
+					if ( obj instanceof CrosstabReportItemHandle )
+					{
+						crosstab = (CrosstabReportItemHandle) obj;
+						cube = crosstab.getCube( );
+						break;
+					}else if( tmp instanceof ExtendedItemHandle )
+					{
+						tmp = tmp.getContainer( );
+						if( tmp instanceof ExtendedItemHandle)
+						{
+							obj = ((ExtendedItemHandle)tmp).getReportItem( );
+						}
+					}
 				}
 
-				crosstab = (CrosstabReportItemHandle) ( (ExtendedItemHandle) designHandle ).getReportItem( );
-				cube = crosstab.getCube( );
+				
+				
+				
 			}
 			catch ( ExtendedElementException e )
 			{
 				// TODO Auto-generated catch block
-				logger.log(Level.SEVERE, e.getMessage(),e);
+				logger.log( Level.SEVERE, e.getMessage( ), e );
 			}
 
 		}
