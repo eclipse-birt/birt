@@ -21,7 +21,6 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
 import com.ibm.icu.util.Calendar;
-import com.ibm.icu.util.TimeZone;
 
 /**
  * 
@@ -32,7 +31,6 @@ public class BirtDateTimeTest extends TestCase
 
 	private Context cx;
 	private Scriptable scope;
-	private TimeZone currentTimeZone = TimeZone.getDefault( );
 	
 	/*
 	 * (non-Javadoc)
@@ -46,7 +44,6 @@ public class BirtDateTimeTest extends TestCase
 		 * the execution environment of a script.
 		 */
 
-		TimeZone.setDefault( TimeZone.getTimeZone("GMT+0")  );
 
 		cx = Context.enter( );
 		/*
@@ -66,7 +63,6 @@ public class BirtDateTimeTest extends TestCase
 	public void tearDown( )
 	{
 		Context.exit( );
-		TimeZone.setDefault( this.currentTimeZone  );
 	}
 
 	/*
