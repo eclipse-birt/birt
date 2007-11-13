@@ -57,7 +57,7 @@ public class DateFormatter
 	 */
 	private ULocale locale = ULocale.getDefault( );
 	
-	private TimeZone timeZone = TimeZone.getDefault( );
+	private TimeZone timeZone = null;
 
 	/**
 	 * logger used to log syntax errors.
@@ -385,19 +385,22 @@ public class DateFormatter
 		}
 	}
 
-	private void applyTimeZone()
+	private void applyTimeZone( )
 	{
-		if ( this.dateFormat != null )
+		if ( this.timeZone != null )
 		{
-			this.dateFormat.setTimeZone( timeZone );
-		}
-		if ( this.dateTimeFormat != null )
-		{
-			this.dateTimeFormat.setTimeZone( timeZone );
-		}
-		if ( this.timeFormat != null )
-		{
-			this.timeFormat.setTimeZone( timeZone );
+			if ( this.dateFormat != null )
+			{
+				this.dateFormat.setTimeZone( timeZone );
+			}
+			if ( this.dateTimeFormat != null )
+			{
+				this.dateTimeFormat.setTimeZone( timeZone );
+			}
+			if ( this.timeFormat != null )
+			{
+				this.timeFormat.setTimeZone( timeZone );
+			}
 		}
 	}
 	
