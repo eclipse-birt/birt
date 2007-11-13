@@ -343,8 +343,9 @@ public class PDFImageLM extends PDFLeafItemLM
 		imageArea.setPosition( root.getContentX( ), root.getContentY( ) );
 
 		processChartLegend( image, imageArea );
-		root.setContentWidth( contentDimension.getWidth( ) );
-		root.setContentHeight( Math.min( context.getMaxHeight( ),
+		root.setContentWidth( Math.min( parent.getCurrentMaxContentWidth( ),
+				contentDimension.getWidth( ) ) );
+		root.setContentHeight( Math.min( parent.getCurrentMaxContentHeight( ),
 				contentDimension.getHeight( ) ) );
 	}
 
