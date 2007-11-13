@@ -22,7 +22,7 @@ import java.sql.Driver;
  * call the {@link #getInstance(java.sql.Driver) getInstance} method to create an instance
  * 
  * 
- * @version $Revision: 1.9 $ $Date: 2007/02/01 10:58:57 $
+ * @version $Revision: 1.10 $ $Date: 2007/10/08 07:32:29 $
  */
 public final class JDBCDriverInformation
 {    
@@ -55,10 +55,7 @@ public final class JDBCDriverInformation
 				{
 					//just do nothing here
 				}
-				finally
-				{
-					return info;
-				}
+				return info;
 			}
 		}
 		catch ( Exception e )
