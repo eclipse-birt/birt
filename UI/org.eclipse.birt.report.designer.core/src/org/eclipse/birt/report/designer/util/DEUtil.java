@@ -65,6 +65,7 @@ import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -2263,6 +2264,33 @@ public class DEUtil
 			}
 		}
 		return dataSetHandle;
+	}
+
+	public static Object getFirstDataSource( DesignElementHandle handle )
+	{
+		return getFirstDataSource( handle, true );
+	}
+
+	public static Object getFirstDataSource( DesignElementHandle handle,
+			boolean findContainer )
+	{
+		if ( handle instanceof ReportItemHandle )
+		{
+			ReportItemHandle item = (ReportItemHandle) handle;
+			if ( item.getDataBindingReference( ) != null )
+			{
+				return getFirstDataSource( item.getDataBindingReference( ),
+						false );
+			}
+			else if ( item.getCube( ) != null )
+				return item.getCube( );
+			else if ( item.getDataSet( ) != null )
+				return item.getDataSet( );
+		}
+		if ( handle.getContainer( ) != null && findContainer )
+			return getFirstDataSource( handle.getContainer( ), findContainer );
+		else
+			return null;
 	}
 
 	/**

@@ -39,6 +39,7 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.util.Assert;
@@ -360,12 +361,12 @@ public class ImageBuilder extends BaseDialog
 				| SWT.READ_ONLY );
 		GridData textGd = new GridData( GridData.GRAB_HORIZONTAL
 				| GridData.FILL_HORIZONTAL );
-		//		textGd.widthHint = 308;
-		//		if ( type == BLOB_TYPE )
-		//		{
-		//			textGd.widthHint = 270;
-		//			textGd.grabExcessHorizontalSpace = true;
-		//		}
+		// textGd.widthHint = 308;
+		// if ( type == BLOB_TYPE )
+		// {
+		// textGd.widthHint = 270;
+		// textGd.grabExcessHorizontalSpace = true;
+		// }
 		uriEditor.setLayoutData( textGd );
 		uriEditor.addModifyListener( new ModifyListener( ) {
 
@@ -538,9 +539,9 @@ public class ImageBuilder extends BaseDialog
 		{
 			clearPreview( );
 			logger.log( Level.WARNING, e.getLocalizedMessage( ) );
-//			ExceptionHandler.handle( e,
-//					DLG_TITLE_LOADING_FAIL,
-//					DLG_ERROR_MSG_LOADING_FAIL );
+			// ExceptionHandler.handle( e,
+			// DLG_TITLE_LOADING_FAIL,
+			// DLG_ERROR_MSG_LOADING_FAIL );
 		}
 	}
 
@@ -755,7 +756,12 @@ public class ImageBuilder extends BaseDialog
 		dialog.setInput( handle );
 		if ( dialog.open( ) == Dialog.OK )
 		{
-			String columnExpr = DEUtil.getColumnExpression( (String) dialog.getResult( ) );
+			String columnExpr;
+			Object obj = DEUtil.getFirstDataSource( handle );
+			if ( obj != null && obj instanceof CubeHandle )
+				columnExpr = DEUtil.getDataExpression( (String) dialog.getResult( ) );
+			else
+				columnExpr = DEUtil.getColumnExpression( (String) dialog.getResult( ) );
 			uriEditor.setText( columnExpr );
 			try
 			{
@@ -766,18 +772,12 @@ public class ImageBuilder extends BaseDialog
 				ExceptionHandler.handle( e );
 			}
 		}
-		/* 
-		 * I don't understand the downward code, the dialog cancels then we don't should do anything. The author hlin had left company now. Comments it.
-		 * /
 		/*
-		else
-		{
-			if ( inputImage.getDataSet( ) == null )
-			{
-				uriEditor.setText( "" );
-			}
-		}
-		*/
+		 * I don't understand the downward code, the dialog cancels then we
+		 * don't should do anything. The author hlin had left company now.
+		 * Comments it. / /* else { if ( inputImage.getDataSet( ) == null ) {
+		 * uriEditor.setText( "" ); } }
+		 */
 	}
 
 	private java.util.List unionDataSets( )
