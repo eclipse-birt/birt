@@ -29,7 +29,6 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.Crosst
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.CrosstabFlowMoveChildCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands.CrosstabPasterCommand;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabCellEditPart;
-import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.FirstLevelHandleDataItemEditPart;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.ICrosstabCellAdapterFactory;
@@ -38,9 +37,16 @@ import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.draw2d.geometry.Transposer;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.UnexecutableCommand;
+import org.eclipse.gef.dnd.TemplateTransfer;
+import org.eclipse.gef.requests.ChangeBoundsRequest;
 import org.eclipse.gef.requests.CreateRequest;
 
 /**
@@ -72,71 +78,77 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 			//CrosstabHandleAdapter adapter = ( (CrosstabTableEditPart) parent ).getCrosstabHandleAdapter( );
 			int type = getAreaType( (CrosstabCellAdapter) model );
 			String position = ( (CrosstabCellAdapter) model ).getPositionType( );
-			if ( (newObject instanceof DimensionHandle || newObject instanceof LevelHandle) 
+			if ( ( newObject instanceof DimensionHandle || newObject instanceof LevelHandle )
 					&& ( type == ICrosstabConstants.COLUMN_AXIS_TYPE || type == ICrosstabConstants.ROW_AXIS_TYPE ) )
 			{
-				Object afterObj = null;
-				if (after instanceof FirstLevelHandleDataItemEditPart )
+				Object afterObj = after.getModel( );
+
+				if ( newObject instanceof LevelHandle )
 				{
-					afterObj = after.getModel( );
-				}
-				
-				if (newObject instanceof LevelHandle)
-				{
-					DimensionHandle dimensionHandle = CrosstabAdaptUtil.getDimensionHandle( (LevelHandle)newObject );
+					DimensionHandle dimensionHandle = CrosstabAdaptUtil.getDimensionHandle( (LevelHandle) newObject );
 					AddDimensionViewHandleCommand command = new AddDimensionViewHandleCommand( (CrosstabCellAdapter) model,
-							type,dimensionHandle , afterObj );
-					command.setLevelHandle( (LevelHandle)newObject );
+							type,
+							dimensionHandle,
+							afterObj );
+					command.setLevelHandle( (LevelHandle) newObject );
 					return command;
 				}
-				
+
 				return new AddDimensionViewHandleCommand( (CrosstabCellAdapter) model,
 						type,
-						(DimensionHandle) newObject, afterObj );
+						(DimensionHandle) newObject,
+						afterObj );
 			}
 			else if ( newObject instanceof MeasureHandle
 					&& position.equals( ICrosstabCellAdapterFactory.CELL_MEASURE ) )
 			{
 				Object afterObj = null;
-				if (after != null )
+				if ( after != null )
 				{
 					afterObj = after.getModel( );
 				}
 				return new AddMeasureViewHandleCommand( (CrosstabCellAdapter) model,
-						(MeasureHandle) newObject, afterObj );
+						(MeasureHandle) newObject,
+						afterObj );
 			}
-			
-			else if (newObject instanceof MeasureGroupHandle && position.equals( ICrosstabCellAdapterFactory.CELL_MEASURE ))
+
+			else if ( newObject instanceof MeasureGroupHandle
+					&& position.equals( ICrosstabCellAdapterFactory.CELL_MEASURE ) )
 			{
-				List list = new ArrayList();
+				List list = new ArrayList( );
 				list.add( newObject );
-				
+
 				Object afterObj = null;
-				if (after != null )
+				if ( after != null )
 				{
 					afterObj = after.getModel( );
 				}
-				
-				return new AddMultipleMeasureCommand((CrosstabCellAdapter) model, list, afterObj);
+
+				return new AddMultipleMeasureCommand( (CrosstabCellAdapter) model,
+						list,
+						afterObj );
 			}
-			else if (newObject instanceof Object[] && CrosstabAdaptUtil.canCreateMultipleCommand( (Object[])newObject ) 
-					&& position.equals( ICrosstabCellAdapterFactory.CELL_MEASURE ))
+			else if ( newObject instanceof Object[]
+					&& CrosstabAdaptUtil.canCreateMultipleCommand( (Object[]) newObject )
+					&& position.equals( ICrosstabCellAdapterFactory.CELL_MEASURE ) )
 			{
-				List list = new ArrayList();
-				Object[] objs = (Object[])newObject;
-				for (int i=0; i<objs.length; i++)
+				List list = new ArrayList( );
+				Object[] objs = (Object[]) newObject;
+				for ( int i = 0; i < objs.length; i++ )
 				{
-					list.add(objs[i]);
+					list.add( objs[i] );
 				}
-				
+
 				Object afterObj = null;
-				if (after != null )
+				if ( after != null )
 				{
 					afterObj = after.getModel( );
 				}
-				return new AddMultipleMeasureCommand((CrosstabCellAdapter) model, list, afterObj);
+				return new AddMultipleMeasureCommand( (CrosstabCellAdapter) model,
+						list,
+						afterObj );
 			}
-			
+
 			else
 			{
 				CrosstabCellCreateCommand command = new CrosstabCellCreateCommand( request.getExtendedData( ) );
@@ -176,127 +188,130 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 	protected Command createAddCommand( EditPart parent, EditPart child,
 			EditPart after )
 	{
-//		Object parentObj = parent.getModel( );
-//		Object source = child.getModel( );
-//		Object afterObj = after == null ? null : after.getModel( );
-//		Object childParent = child.getParent( ).getModel( );
-//		if (parentObj instanceof CrosstabCellAdapter && childParent instanceof CrosstabCellAdapter)
-//		{
-//			CrosstabCellAdapter childAdapter = (CrosstabCellAdapter)childParent;
-//			CrosstabCellAdapter parentAdapter = (CrosstabCellAdapter)parentObj;
-//			if (isFirstDataItem( childAdapter, child.getModel( ), ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE )
-//				&& (ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE.equals( parentAdapter.getPositionType( ) )
-//				|| ICrosstabCellAdapterFactory.CELL_LEVEL_HANDLE.equals( parentAdapter.getPositionType( )))
-//				)
-//			{
-//				if (afterObj != parentAdapter.getFirstDataItem( ))
-//				{
-//					afterObj = null;
-//				}
-//				if (childAdapter.getCrosstabCellHandle( ).getCrosstab( ) == parentAdapter.getCrosstabCellHandle( ).getCrosstab( ))
-//				{
-//					return new ChangeAreaCommand(parentAdapter.getDesignElementHandle( ), 
-//							childAdapter.getDesignElementHandle( ),(DesignElementHandle) DNDUtil.unwrapToModel( afterObj ) );
-//				}
-//				else
-//				{
-//					return UnexecutableCommand.INSTANCE;
-//				}
-//			}
-//			else if (isFirstDataItem( childAdapter, child.getModel( ), ICrosstabCellAdapterFactory.CELL_MEASURE )
-//					&& ICrosstabCellAdapterFactory.CELL_MEASURE.equals( parentAdapter.getPositionType( ) ))
-//				{
-//					if (afterObj != parentAdapter.getFirstDataItem( ))
-//					{
-//						afterObj = null;
-//					}
-//					if (childAdapter.getCrosstabCellHandle( ).getCrosstab( ) == parentAdapter.getCrosstabCellHandle( ).getCrosstab( ))
-//					{
-//						return new ChangeMeasureOrderCommand(parentAdapter.getDesignElementHandle( ), 
-//								childAdapter.getDesignElementHandle( ),(DesignElementHandle) DNDUtil.unwrapToModel( afterObj ) );
-//					}
-//					else
-//					{
-//						return UnexecutableCommand.INSTANCE;
-//					}
-//					
-//				}
-//		}
-//		if (childParent instanceof CrosstabCellAdapter)
-//		{	
-//			CrosstabCellAdapter childAdapter = (CrosstabCellAdapter)childParent;
-//			if (isFirstDataItem( childAdapter, child.getModel( ), ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE )
-//					|| isFirstDataItem( childAdapter, child.getModel( ), ICrosstabCellAdapterFactory.CELL_MEASURE ))
-//			{
-//				return UnexecutableCommand.INSTANCE;
-//			}
-//		}
-//		return new CrosstabPasterCommand( (DesignElementHandle) DNDUtil.unwrapToModel( source ),
-//				(DesignElementHandle) DNDUtil.unwrapToModel( parentObj ),
-//				(DesignElementHandle) DNDUtil.unwrapToModel( afterObj ) );
-		
+		//		Object parentObj = parent.getModel( );
+		//		Object source = child.getModel( );
+		//		Object afterObj = after == null ? null : after.getModel( );
+		//		Object childParent = child.getParent( ).getModel( );
+		//		if (parentObj instanceof CrosstabCellAdapter && childParent instanceof CrosstabCellAdapter)
+		//		{
+		//			CrosstabCellAdapter childAdapter = (CrosstabCellAdapter)childParent;
+		//			CrosstabCellAdapter parentAdapter = (CrosstabCellAdapter)parentObj;
+		//			if (isFirstDataItem( childAdapter, child.getModel( ), ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE )
+		//				&& (ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE.equals( parentAdapter.getPositionType( ) )
+		//				|| ICrosstabCellAdapterFactory.CELL_LEVEL_HANDLE.equals( parentAdapter.getPositionType( )))
+		//				)
+		//			{
+		//				if (afterObj != parentAdapter.getFirstDataItem( ))
+		//				{
+		//					afterObj = null;
+		//				}
+		//				if (childAdapter.getCrosstabCellHandle( ).getCrosstab( ) == parentAdapter.getCrosstabCellHandle( ).getCrosstab( ))
+		//				{
+		//					return new ChangeAreaCommand(parentAdapter.getDesignElementHandle( ), 
+		//							childAdapter.getDesignElementHandle( ),(DesignElementHandle) DNDUtil.unwrapToModel( afterObj ) );
+		//				}
+		//				else
+		//				{
+		//					return UnexecutableCommand.INSTANCE;
+		//				}
+		//			}
+		//			else if (isFirstDataItem( childAdapter, child.getModel( ), ICrosstabCellAdapterFactory.CELL_MEASURE )
+		//					&& ICrosstabCellAdapterFactory.CELL_MEASURE.equals( parentAdapter.getPositionType( ) ))
+		//				{
+		//					if (afterObj != parentAdapter.getFirstDataItem( ))
+		//					{
+		//						afterObj = null;
+		//					}
+		//					if (childAdapter.getCrosstabCellHandle( ).getCrosstab( ) == parentAdapter.getCrosstabCellHandle( ).getCrosstab( ))
+		//					{
+		//						return new ChangeMeasureOrderCommand(parentAdapter.getDesignElementHandle( ), 
+		//								childAdapter.getDesignElementHandle( ),(DesignElementHandle) DNDUtil.unwrapToModel( afterObj ) );
+		//					}
+		//					else
+		//					{
+		//						return UnexecutableCommand.INSTANCE;
+		//					}
+		//					
+		//				}
+		//		}
+		//		if (childParent instanceof CrosstabCellAdapter)
+		//		{	
+		//			CrosstabCellAdapter childAdapter = (CrosstabCellAdapter)childParent;
+		//			if (isFirstDataItem( childAdapter, child.getModel( ), ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE )
+		//					|| isFirstDataItem( childAdapter, child.getModel( ), ICrosstabCellAdapterFactory.CELL_MEASURE ))
+		//			{
+		//				return UnexecutableCommand.INSTANCE;
+		//			}
+		//		}
+		//		return new CrosstabPasterCommand( (DesignElementHandle) DNDUtil.unwrapToModel( source ),
+		//				(DesignElementHandle) DNDUtil.unwrapToModel( parentObj ),
+		//				(DesignElementHandle) DNDUtil.unwrapToModel( afterObj ) );
+
 		Object parentObj = parent.getModel( );
 		Object source = child.getModel( );
 		Object afterObj = after == null ? null : after.getModel( );
 		Object childParent = child.getModel( );
-		if (parentObj instanceof CrosstabCellAdapter && childParent instanceof CrosstabCellAdapter)
+		if ( parentObj instanceof CrosstabCellAdapter
+				&& childParent instanceof CrosstabCellAdapter )
 		{
-			CrosstabCellAdapter childAdapter = (CrosstabCellAdapter)childParent;
-			CrosstabCellAdapter parentAdapter = (CrosstabCellAdapter)parentObj;
-			if (ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE.equals( childAdapter.getPositionType( ) )
-				&& (ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE.equals( parentAdapter.getPositionType( ) )
-				|| ICrosstabCellAdapterFactory.CELL_LEVEL_HANDLE.equals( parentAdapter.getPositionType( )))
-				)
+			CrosstabCellAdapter childAdapter = (CrosstabCellAdapter) childParent;
+			CrosstabCellAdapter parentAdapter = (CrosstabCellAdapter) parentObj;
+			if ( ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE.equals( childAdapter.getPositionType( ) )
+					&& ( ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE.equals( parentAdapter.getPositionType( ) ) || ICrosstabCellAdapterFactory.CELL_LEVEL_HANDLE.equals( parentAdapter.getPositionType( ) ) ) )
 			{
-				if (afterObj != parentAdapter.getFirstElement( ))
+				if ( afterObj != parentAdapter.getFirstElement( ) )
 				{
 					afterObj = null;
 				}
-				if (childAdapter.getCrosstabCellHandle( ).getCrosstab( ) == parentAdapter.getCrosstabCellHandle( ).getCrosstab( ))
+				if ( childAdapter.getCrosstabCellHandle( ).getCrosstab( ) == parentAdapter.getCrosstabCellHandle( )
+						.getCrosstab( ) )
 				{
-					return new ChangeAreaCommand(parentAdapter.getDesignElementHandle( ), 
-							childAdapter.getDesignElementHandle( ),(DesignElementHandle) DNDUtil.unwrapToModel( afterObj ) );
+					return new ChangeAreaCommand( parentAdapter.getDesignElementHandle( ),
+							childAdapter.getDesignElementHandle( ),
+							(DesignElementHandle) DNDUtil.unwrapToModel( afterObj ) );
 				}
 				else
 				{
 					return UnexecutableCommand.INSTANCE;
 				}
 			}
-			else if (ICrosstabCellAdapterFactory.CELL_MEASURE.equals( childAdapter.getPositionType( ) )
-					&& ICrosstabCellAdapterFactory.CELL_MEASURE.equals( parentAdapter.getPositionType( ) ))
+			else if ( ICrosstabCellAdapterFactory.CELL_MEASURE.equals( childAdapter.getPositionType( ) )
+					&& ICrosstabCellAdapterFactory.CELL_MEASURE.equals( parentAdapter.getPositionType( ) ) )
+			{
+				if ( afterObj != parentAdapter.getFirstElement( ) )
 				{
-					if (afterObj != parentAdapter.getFirstElement( ))
-					{
-						afterObj = null;
-					}
-					if (childAdapter.getCrosstabCellHandle( ).getCrosstab( ) == parentAdapter.getCrosstabCellHandle( ).getCrosstab( ))
-					{
-						return new ChangeMeasureOrderCommand(parentAdapter.getDesignElementHandle( ), 
-								childAdapter.getDesignElementHandle( ),(DesignElementHandle) DNDUtil.unwrapToModel( afterObj ) );
-					}
-					else
-					{
-						return UnexecutableCommand.INSTANCE;
-					}
-					
+					afterObj = null;
 				}
+				if ( childAdapter.getCrosstabCellHandle( ).getCrosstab( ) == parentAdapter.getCrosstabCellHandle( )
+						.getCrosstab( ) )
+				{
+					return new ChangeMeasureOrderCommand( parentAdapter.getDesignElementHandle( ),
+							childAdapter.getDesignElementHandle( ),
+							(DesignElementHandle) DNDUtil.unwrapToModel( afterObj ) );
+				}
+				else
+				{
+					return UnexecutableCommand.INSTANCE;
+				}
+
+			}
 			return UnexecutableCommand.INSTANCE;
 		}
 		return new CrosstabPasterCommand( (DesignElementHandle) DNDUtil.unwrapToModel( source ),
 				(DesignElementHandle) DNDUtil.unwrapToModel( parentObj ),
 				(DesignElementHandle) DNDUtil.unwrapToModel( afterObj ) );
 	}
-	
-	private boolean isFirstDataItem(CrosstabCellAdapter adapter, Object model, String type)
+
+	private boolean isFirstDataItem( CrosstabCellAdapter adapter, Object model,
+			String type )
 	{
-		if (adapter.getPositionType( ).equals( type ))
+		if ( adapter.getPositionType( ).equals( type ) )
 		{
 			return adapter.getFirstDataItem( ) == model;
 		}
 		return false;
 	}
-	
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -315,13 +330,70 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 				child.getParent( ).getModel( ) );
 		return command;
 	}
-	
-	private EditPart getOperator(EditPart child)
+
+	private EditPart getOperator( EditPart child )
 	{
-		if (child instanceof CrosstabCellEditPart)
+		if ( child instanceof CrosstabCellEditPart )
 		{
 			return child;
 		}
 		return child.getParent( );
 	}
+
+	protected void showLayoutTargetFeedback( Request request )
+	{
+		if ( getHost( ).getChildren( ).size( ) == 0 )
+			return;
+
+		boolean isCrossTabElement = false;
+
+		if ( request instanceof ChangeBoundsRequest )
+		{
+			List editParts = ( (ChangeBoundsRequest) request ).getEditParts( );
+			if ( editParts.size( ) > 0 )
+			{
+				isCrossTabElement = editParts.get( 0 ) instanceof CrosstabCellEditPart;
+			}
+		}
+
+		if ( !isCrossTabElement )
+		{
+			Object template = TemplateTransfer.getInstance( ).getTemplate( );
+			if ( template instanceof Object[]
+					&& ( (Object[]) template ).length > 0 )
+			{
+				Object dragObject = ( (Object[]) template )[0];
+				if ( dragObject instanceof DimensionHandle
+						|| dragObject instanceof MeasureHandle )
+				{
+					isCrossTabElement = true;
+				}
+			}
+		}
+
+		if ( isCrossTabElement )
+		{
+			Transposer transposer = new Transposer( );
+			transposer.setEnabled( !isHorizontal( ) );
+			Rectangle r = transposer.t( getAbsoluteClientBounds( (GraphicalEditPart) getHost( ) ) );
+			Point p = transposer.t( getLocationFromRequest( request ) );
+			boolean before = p.x <= r.x + ( r.width / 2 );
+
+			Point p1 = new Point( before ? r.x : r.x + r.width, r.y - 2 );
+			p1 = transposer.t( p1 );
+
+			Point p2 = new Point( before ? r.x : r.x + r.width, r.y
+					+ r.height
+					+ 7 );
+			p2 = transposer.t( p2 );
+
+			setTargetFeedbackPoints( p1, p2 );
+
+		}
+		else
+		{
+			super.showLayoutTargetFeedback( request );
+		}
+	}
+
 }

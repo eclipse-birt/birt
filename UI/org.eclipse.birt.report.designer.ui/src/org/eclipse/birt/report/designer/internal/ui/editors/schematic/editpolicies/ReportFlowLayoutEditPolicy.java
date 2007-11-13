@@ -97,7 +97,7 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 		{
 			parentModel = parent.getModel( );
 		}
-		if (!(child.getModel( ) instanceof DesignElementHandle))
+		if ( !( child.getModel( ) instanceof DesignElementHandle ) )
 		{
 			return UnexecutableCommand.INSTANCE;
 		}
@@ -151,15 +151,15 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 		CreateCommand command = new CreateCommand( request.getExtendedData( ) );
 
 		Object model = this.getHost( ).getModel( );
-//		if ( model instanceof ReportElementModel )
-//		{
-//			command.setParent( ( (ReportElementModel) model ).getSlotHandle( ) );
-//		}else
-			if ( model instanceof SlotHandle )
-			{
-				command.setParent( ( (SlotHandle) model ) );
-			}
-		
+		//		if ( model instanceof ReportElementModel )
+		//		{
+		//			command.setParent( ( (ReportElementModel) model ).getSlotHandle( ) );
+		//		}else
+		if ( model instanceof SlotHandle )
+		{
+			command.setParent( ( (SlotHandle) model ) );
+		}
+
 		else if ( model instanceof ListBandProxy )
 		{
 			command.setParent( ( (ListBandProxy) model ).getSlotHandle( ) );
@@ -274,13 +274,13 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 		int direction = request.getResizeDirection( );
 		Dimension size = new Dimension( ( (Rectangle) constraintFor ).getSize( ) );
 
-		if ( direction == PositionConstants.EAST ||
-				direction == PositionConstants.WEST )
+		if ( direction == PositionConstants.EAST
+				|| direction == PositionConstants.WEST )
 		{
 			size.height = -1;
 		}
-		else if ( direction == PositionConstants.SOUTH ||
-				direction == PositionConstants.NORTH )
+		else if ( direction == PositionConstants.SOUTH
+				|| direction == PositionConstants.NORTH )
 		{
 			size.width = -1;
 		}
@@ -319,35 +319,35 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 	 */
 	protected EditPolicy createChildEditPolicy( EditPart child )
 	{
-//		if ( child instanceof LabelEditPart
-//				|| child instanceof TextEditPart
-//				|| child instanceof ListEditPart 
-//				|| child instanceof PlaceHolderEditPart)
-//			return new NonResizableEditPolicy( );
-//		if ( child instanceof TableEditPart )
-//		{
-//			TableResizeEditPolice rpc = new TableResizeEditPolice( );
-//			rpc.setResizeDirections( PositionConstants.SOUTH
-//					| PositionConstants.EAST
-//					| PositionConstants.SOUTH_EAST );
-//
-//			return rpc;
-//		}
-//		ReportElementResizePolicy policy = new ReportElementResizePolicy( );
-//		policy.setResizeDirections( PositionConstants.SOUTH
-//				| PositionConstants.EAST
-//				| PositionConstants.SOUTH_EAST );
-//		return policy;
+		//		if ( child instanceof LabelEditPart
+		//				|| child instanceof TextEditPart
+		//				|| child instanceof ListEditPart 
+		//				|| child instanceof PlaceHolderEditPart)
+		//			return new NonResizableEditPolicy( );
+		//		if ( child instanceof TableEditPart )
+		//		{
+		//			TableResizeEditPolice rpc = new TableResizeEditPolice( );
+		//			rpc.setResizeDirections( PositionConstants.SOUTH
+		//					| PositionConstants.EAST
+		//					| PositionConstants.SOUTH_EAST );
+		//
+		//			return rpc;
+		//		}
+		//		ReportElementResizePolicy policy = new ReportElementResizePolicy( );
+		//		policy.setResizeDirections( PositionConstants.SOUTH
+		//				| PositionConstants.EAST
+		//				| PositionConstants.SOUTH_EAST );
+		//		return policy;
 		EditPolicy retValue = null;
-		if (child instanceof ReportElementEditPart)
+		if ( child instanceof ReportElementEditPart )
 		{
-			retValue = ((ReportElementEditPart)child).getResizePolice(this);
+			retValue = ( (ReportElementEditPart) child ).getResizePolice( this );
 		}
-		if (retValue == null)
+		if ( retValue == null )
 		{
 			retValue = new NonResizableEditPolicy( );
 		}
-		
+
 		return retValue;
 	}
 
@@ -388,7 +388,7 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 		}
 	}
 
-	private void setTargetFeedbackPoints( Point p1, Point p2 )
+	protected void setTargetFeedbackPoints( Point p1, Point p2 )
 	{
 		Transposer transposer = new Transposer( );
 		transposer.setEnabled( !isHorizontal( ) );
@@ -711,14 +711,14 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 		return bounds;
 	}
 
-	private Rectangle getAbsoluteClientBounds( GraphicalEditPart ep )
+	protected Rectangle getAbsoluteClientBounds( GraphicalEditPart ep )
 	{
 		Rectangle bounds = ep.getContentPane( ).getClientArea( ).getCopy( );
 		ep.getFigure( ).translateToAbsolute( bounds );
 		return bounds;
 	}
 
-	private Point getLocationFromRequest( Request request )
+	protected Point getLocationFromRequest( Request request )
 	{
 		return ( (DropRequest) request ).getLocation( );
 	}
