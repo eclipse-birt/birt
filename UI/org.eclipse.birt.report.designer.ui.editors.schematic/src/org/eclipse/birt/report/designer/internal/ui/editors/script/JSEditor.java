@@ -168,7 +168,7 @@ public class JSEditor extends EditorPart implements
 		 */
 		public void textChanged( TextEvent event )
 		{
-			if ( isTextListenerEnable )
+			if ( isTextListenerEnable && editorUIEnabled )
 			{
 				markDirty( );
 			}
