@@ -38,13 +38,35 @@ public interface INode
 	 */
 	void setParent( INode parent );
 
-	INode getPrevious();
+	/**
+	 * Get the sibling node immediately preceding the specified node.
+	 * 
+	 * @return the sibling node immediately preceding the specified node.
+	 */
+	INode getPrevious( );
 	
-	void setPrevious(INode previous);
+	/**
+	 * Set the sibling node immediately preceding the specified node.
+	 * 
+	 * @param previous
+	 *            the sibling node immediately preceding the specified node.
+	 */
+	void setPrevious( INode previous );
 	
-	INode getNext();
+	/**
+	 * Get the sibling node immediately following the specified node.
+	 * 
+	 * @return the sibling node immediately following the specified node.
+	 */
+	INode getNext( );
 	
-	void setNext(INode next);
+	/**
+	 * Set the sibling node immediately following the specified node.
+	 * 
+	 * @param next
+	 *            the sibling node immediately following the specified node.
+	 */
+	void setNext( INode next );
 	
 	/**
 	 * Append a child to this node.
