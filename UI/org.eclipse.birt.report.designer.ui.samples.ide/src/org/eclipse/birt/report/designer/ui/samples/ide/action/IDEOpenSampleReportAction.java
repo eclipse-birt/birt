@@ -11,18 +11,14 @@
 
 package org.eclipse.birt.report.designer.ui.samples.ide.action;
 
-import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.Enumeration;
 
-import org.eclipse.birt.report.designer.internal.ui.editors.ReportEditorInput;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
-import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
 import org.eclipse.birt.report.designer.ui.samplesview.action.IOpenSampleReportAction;
 import org.eclipse.birt.report.designer.ui.samplesview.sampleslocator.SampleIncludedSourceEntry;
 import org.eclipse.birt.report.designer.ui.samplesview.util.PlaceResources;
@@ -30,7 +26,6 @@ import org.eclipse.birt.report.designer.ui.samplesview.view.ReportExamples;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
@@ -141,25 +136,8 @@ public class IDEOpenSampleReportAction extends Action implements
 					item.getText( ) );
 		}
 
-		/*
-		 * Copy the inluded libraries if selecting sample report demostrate XML
-		 * Data Source
-		 */
-		if ( item.getParentItem( ).getText( ).equals( XML_DATA_SOURCE_CATEGORY ) )
-		{
-			PlaceResources.copyIncludedPng( composite.getShell( ),
-					reportProject.getLocation( ).toOSString( ) );
-		}
-
-		/*
-		 * Copy the inluded png image if selecting sample report demostrate XML
-		 * report library feature
-		 */
-		if ( item.getParentItem( ).getText( ).equals( LIBRARIES_CATEGORY ) )
-		{
-			PlaceResources.copyIncludedLibraries( composite.getShell( ),
-					reportProject.getLocation( ).toOSString( ) );
-		}
+		PlaceResources.copyExcludedRptDesignes( composite.getShell( ),
+				reportProject.getLocation( ).toOSString( ),( (ReportDesignHandle) selectedElement ).getFileName( ) );
 
 		/*
 		 * Create a Eclipse Java project if selecting scripted data source

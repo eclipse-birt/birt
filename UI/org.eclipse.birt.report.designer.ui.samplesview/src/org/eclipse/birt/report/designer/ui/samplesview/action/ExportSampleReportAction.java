@@ -68,6 +68,10 @@ public class ExportSampleReportAction extends Action implements Listener
 				saveDialog.getFilterPath( ),
 				saveDialog.getFileName( ),
 				filename );
+
+		PlaceResources.copyExcludedRptDesignes( composite.getShell( ),
+				saveDialog.getFilterPath( ),
+				filename );
 	}
 
 	public void handleEvent( Event event )

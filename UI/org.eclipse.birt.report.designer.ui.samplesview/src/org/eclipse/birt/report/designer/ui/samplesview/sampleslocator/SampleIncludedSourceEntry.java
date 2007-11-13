@@ -80,6 +80,12 @@ public class SampleIncludedSourceEntry
 				+ categoryName, "*.zip", false );
 	}
 
+	public static Enumeration getEntries( String path )
+	{
+		// The plug-in should be packaged in zip
+		return samplesBundle.findEntries( path, "*.*", false );
+	}
+
 	public static Enumeration getIncludedPng( )
 	{
 		return samplesBundle.findEntries( pngFragmentPath, "*.png", false );

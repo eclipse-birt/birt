@@ -109,7 +109,7 @@ public class PlaceResources
 			PlaceResources.copy( shell, projectPath, desFileName, libraryURL );
 		}
 	}
-	
+
 	public static void copyIncludedPng( Shell shell, String projectPath )
 	{
 		Enumeration enumeration = SampleIncludedSourceEntry.getIncludedPng( );
@@ -122,8 +122,9 @@ public class PlaceResources
 			PlaceResources.copy( shell, projectPath, desFileName, pngURL );
 		}
 	}
-	
-	public static void copyDrillThroughReport( Shell shell, String projectPath, String report )
+
+	public static void copyDrillThroughReport( Shell shell, String projectPath,
+			String report )
 	{
 		Enumeration enumeration = SampleIncludedSourceEntry.getDrillDetailsReports( );
 		while ( enumeration.hasMoreElements( ) )
@@ -134,7 +135,39 @@ public class PlaceResources
 			if ( !desFileName.equals( report ) )
 			{
 				PlaceResources.copy( shell, projectPath, desFileName, reportURL );
-			}			
+			}
+		}
+	}
+
+	public static void copyExcludedRptDesignes( Shell shell,
+			String projectPath, String fileName )
+	{
+		try
+		{
+			String path = new URL( fileName ).getPath( );
+			if ( path == null )
+				return;
+			path = path.substring( 0, path.lastIndexOf( '/' ) );
+			Enumeration enumeration = SampleIncludedSourceEntry.getEntries( path );
+			if ( enumeration == null )
+				return;
+			while ( enumeration.hasMoreElements( ) )
+			{
+				URL reportURL = (URL) enumeration.nextElement( );
+				String filename = reportURL.getFile( );
+				String desFileName = filename.substring( filename.lastIndexOf( '/' ) + 1 );
+				if ( !desFileName.toLowerCase( ).endsWith( ".rptdesign" ) )
+				{
+					PlaceResources.copy( shell,
+							projectPath,
+							desFileName,
+							reportURL );
+				}
+			}
+		}
+		catch ( Exception e )
+		{
+			ExceptionHandler.handle( e );
 		}
 	}
 }

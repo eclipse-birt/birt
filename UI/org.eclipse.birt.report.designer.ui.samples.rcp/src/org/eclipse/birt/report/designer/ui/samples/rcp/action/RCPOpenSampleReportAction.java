@@ -13,28 +13,21 @@ package org.eclipse.birt.report.designer.ui.samples.rcp.action;
 
 import java.io.File;
 
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportEditorInput;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
-import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
 import org.eclipse.birt.report.designer.ui.samplesview.action.IOpenSampleReportAction;
 import org.eclipse.birt.report.designer.ui.samplesview.util.PlaceResources;
 import org.eclipse.birt.report.designer.ui.samplesview.view.ReportExamples;
-import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.dialogs.ProgressMonitorDialog;
-import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
@@ -83,7 +76,7 @@ public class RCPOpenSampleReportAction extends Action implements
 		PlaceResources.copy( composite.getShell( ),
 				getDefaultLocation( ),
 				item.getText( ),
-				( (ReportDesignHandle) selectedElement ).getFileName( ) );
+				( (ReportDesignHandle) selectedElement ).getFileName( ) );	
 
 		if ( item.getParentItem( )
 				.getText( )
@@ -94,26 +87,9 @@ public class RCPOpenSampleReportAction extends Action implements
 					item.getText( ) );
 		}
 
-		/*
-		 * Copy the inluded libraries if selecting sample report demostrate
-		 * report library feature
-		 */
-		if ( item.getParentItem( ).getText( ).equals( "Libraries" ) )
-		{
-			PlaceResources.copyIncludedLibraries( composite.getShell( ),
-					getDefaultLocation( ) );
-		}
-
-		/*
-		 * Copy the inluded libraries if selecting sample report demostrate
-		 * report library feature
-		 */
-		if ( item.getParentItem( ).getText( ).equals( "XML Data Source" ) )
-		{
-			PlaceResources.copyIncludedPng( composite.getShell( ),
-					getDefaultLocation( ) );
-		}
-
+		PlaceResources.copyExcludedRptDesignes( composite.getShell( ),
+				getDefaultLocation( ),( (ReportDesignHandle) selectedElement ).getFileName( ));
+		
 		ISafeRunnable op = new ISafeRunnable( ) {
 
 			public void run( )
