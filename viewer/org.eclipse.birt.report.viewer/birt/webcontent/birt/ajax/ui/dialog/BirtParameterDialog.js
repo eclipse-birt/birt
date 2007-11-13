@@ -829,6 +829,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 							if( oInputs.length >0 && oInputs[1].value != Constants.TYPE_STRING )
 							{
 								// Only String parameter allows blank value
+								alert( birtUtility.formatMessage( Constants.error.parameterNotAllowBlank, paramName ) );
 								return;
 							}
 							else
