@@ -39,7 +39,7 @@ public class DateFormatterTest extends TestCase
 	public void testDateFormat( )
 	{
 		String golden = "09/13/0008 08:01:44 PM";
-		DateFormatter sample = new DateFormatter( "MM/dd/yyyy hh:mm:ss a", ULocale.ENGLISH, TimeZone.getTimeZone( "GMT+08:00") );
+		DateFormatter sample = new DateFormatter( "MM/dd/yyyy hh:mm:ss a", ULocale.ENGLISH );
 		Locale locDef = Locale.getDefault( );
 		Calendar dateCal = Calendar.getInstance( locDef );
 		dateCal.set( 8, 8, 13, 20, 1, 44 );
@@ -54,7 +54,7 @@ public class DateFormatterTest extends TestCase
 	 */
 	public void testDateFormatString( )
 	{
-		DateFormatter sample = new DateFormatter( "MM/dd/yyyy hh:mm:ss a", ULocale.ENGLISH, TimeZone.getTimeZone( "GMT+08:00") );
+		DateFormatter sample = new DateFormatter( "MM/dd/yyyy hh:mm:ss a" );
 		Locale locDef = Locale.getDefault( );
 		Calendar dateCal = Calendar.getInstance( locDef );
 		dateCal.set( 8, 8, 13, 20, 1, 44 );
