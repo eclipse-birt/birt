@@ -3145,6 +3145,7 @@ SelectValueDialog.messages.error.selectVauleUnavailable=式の値を取得できません。
 SelectValueDialog.noExpressionSet=式が設定されていません。
 SelectValueDialog.retrieving=リストの取得中...
 SelectValueDialog.selectValue=値の選択 
+SelectValueDialog.SelectValue.NullValue=<Null Value>
 
 ###########################################################
 #SetConstraintCommand properties

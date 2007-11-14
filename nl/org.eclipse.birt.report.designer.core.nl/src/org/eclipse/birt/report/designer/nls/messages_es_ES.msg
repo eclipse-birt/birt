@@ -3145,6 +3145,7 @@ SelectValueDialog.messages.error.selectVauleUnavailable=No se puede recuperar el
 SelectValueDialog.noExpressionSet=No se ha ajustado ninguna expresión
 SelectValueDialog.retrieving=Recuperando lista...
 SelectValueDialog.selectValue=Seleccionar valores
+SelectValueDialog.SelectValue.NullValue=<Null Value>
 
 ###########################################################
 #SetConstraintCommand properties

@@ -3145,6 +3145,7 @@ SelectValueDialog.messages.error.selectVauleUnavailable=식의 값을 검색할 수 없습
 SelectValueDialog.noExpressionSet=식이 설정되지 않았습니다.
 SelectValueDialog.retrieving=목록 검색...
 SelectValueDialog.selectValue=값 선택
+SelectValueDialog.SelectValue.NullValue=<Null Value>
 
 ###########################################################
 #SetConstraintCommand properties
