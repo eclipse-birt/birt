@@ -12,6 +12,8 @@
 package org.eclipse.birt.chart.ui.swt.composites;
 
 import org.eclipse.birt.chart.model.attribute.LineDecorator;
+import org.eclipse.birt.core.ui.swt.custom.CustomChooserComposite;
+import org.eclipse.birt.core.ui.swt.custom.ICustomChoice;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
@@ -27,9 +29,8 @@ public class HeadStyleChooserComposite extends CustomChooserComposite
 			new Integer( LineDecorator.CIRCLE )
 	};
 
-	static class HeaderStyleChoice extends HeadStyleCanvas
-			implements
-				ICustomChoice
+	static class HeaderStyleChoice extends HeadStyleCanvas implements
+			ICustomChoice
 	{
 
 		HeaderStyleChoice( Composite parent, int iStyle, int iLineDecorator )
@@ -44,7 +45,10 @@ public class HeadStyleChooserComposite extends CustomChooserComposite
 
 		public void setValue( Object value )
 		{
-			setHeadStyle( ( (Integer) value ).intValue( ) );
+			if ( value != null )
+			{
+				setHeadStyle( ( (Integer) value ).intValue( ) );
+			}
 		}
 
 	}

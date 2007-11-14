@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
+import org.eclipse.birt.core.ui.swt.custom.CustomChooserComposite;
+import org.eclipse.birt.core.ui.swt.custom.ICustomChoice;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
@@ -42,7 +44,10 @@ public class LineStyleChooserComposite extends CustomChooserComposite
 
 		public void setValue( Object value )
 		{
-			setLineStyle( ( (Integer) value ).intValue( ) );
+			if ( value != null )
+			{
+				setLineStyle( ( (Integer) value ).intValue( ) );
+			}
 		}
 
 	}
@@ -52,7 +57,6 @@ public class LineStyleChooserComposite extends CustomChooserComposite
 	{
 		super( parent, style, new Integer( iLineStyle ) );
 		setItems( iLineStyles );
-
 	}
 
 	protected ICustomChoice createChoice( Composite parent, Object choiceValue )

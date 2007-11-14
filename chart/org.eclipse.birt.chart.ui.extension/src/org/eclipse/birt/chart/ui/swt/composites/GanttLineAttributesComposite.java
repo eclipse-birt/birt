@@ -181,7 +181,8 @@ public class GanttLineAttributesComposite extends Composite implements
 			GridData gdCBStyle = new GridData( GridData.FILL_HORIZONTAL );
 			gdCBStyle.horizontalSpan = 5;
 			cmbStyle.setLayoutData( gdCBStyle );
-			cmbStyle.addListener( this );
+			cmbStyle.addListener( LineStyleChooserComposite.SELECTION_EVENT,
+					this );
 			cmbStyle.setEnabled( bEnableUI );
 		}
 

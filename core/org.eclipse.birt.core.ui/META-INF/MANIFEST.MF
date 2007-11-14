@@ -10,6 +10,7 @@ Export-Package: org.eclipse.birt.core.ui.frameworks.errordisplay,
  org.eclipse.birt.core.ui.frameworks.taskwizard,
  org.eclipse.birt.core.ui.frameworks.taskwizard.composites,
  org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces,
+ org.eclipse.birt.core.ui.swt.custom,
  org.eclipse.birt.core.ui.utils
 Require-Bundle: org.eclipse.swt;bundle-version="[3.2.0,4.0.0)";visibility:=reexport,
  org.eclipse.jface;bundle-version="[3.2.0,4.0.0)";visibility:=reexport,

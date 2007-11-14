@@ -21,6 +21,8 @@ import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.ui.swt.custom.TextCombo;
+import org.eclipse.birt.core.ui.swt.custom.TextComboViewer;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.outline.ScriptElementNode;
 import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
@@ -36,6 +38,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
@@ -83,7 +86,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -101,9 +103,9 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
  * 
  */
 
-public class JSEditor extends EditorPart implements
-		IColleague
+public class JSEditor extends EditorPart implements IColleague
 {
+
 	protected static Logger logger = Logger.getLogger( JSEditor.class.getName( ) );
 
 	private static final String NO_EXPRESSION = Messages.getString( "JSEditor.Display.NoExpression" ); //$NON-NLS-1$
@@ -116,13 +118,15 @@ public class JSEditor extends EditorPart implements
 
 	Combo cmbExpList = null;
 
-	Combo cmbSubFunctions = null;
+	TextCombo cmbSubFunctions = null;
 
-	public ComboViewer cmbExprListViewer;
+	ComboViewer cmbExprListViewer;
 
-	IPropertyDefn cmbItemLastSelected = null;
+	TextComboViewer cmbSubFunctionsViewer;
 
-	boolean editorUIEnabled = true;
+	private IPropertyDefn cmbItemLastSelected = null;
+
+	private boolean editorUIEnabled = true;
 
 	private Button butReset;
 
@@ -146,8 +150,6 @@ public class JSEditor extends EditorPart implements
 	 * Palette page
 	 */
 	public TreeViewPalettePage palettePage = new TreeViewPalettePage( );
-
-	public ComboViewer cmbSubFunctionsViewer;
 
 	/** the script editor, dosen't include controller. */
 	private final IScriptEditor scriptEditor = createScriptEditor( );
@@ -274,8 +276,8 @@ public class JSEditor extends EditorPart implements
 	private void updateScriptContext( DesignElementHandle handle, String method )
 	{
 		List args = DEUtil.getDesignElementMethodArgumentsInfo( handle, method );
-		JSSyntaxContext context = scriptEditor.getContext();
-		
+		JSSyntaxContext context = scriptEditor.getContext( );
+
 		context.clear( );
 
 		for ( Iterator iter = args.iterator( ); iter.hasNext( ); )
@@ -343,7 +345,7 @@ public class JSEditor extends EditorPart implements
 		// also add subProvider as listener of expr viewer.
 		cmbExprListViewer.addSelectionChangedListener( subProvider );
 
-		cmbSubFunctionsViewer = new ComboViewer( cmbSubFunctions );
+		cmbSubFunctionsViewer = new TextComboViewer( cmbSubFunctions );
 		cmbSubFunctionsViewer.setContentProvider( subProvider );
 		cmbSubFunctionsViewer.setLabelProvider( subProvider );
 		cmbSubFunctionsViewer.addSelectionChangedListener( subProvider );
@@ -531,7 +533,8 @@ public class JSEditor extends EditorPart implements
 
 		// Create the code editor pane.
 		Composite jsEditorContainer = new Composite( mainPane, SWT.NONE );
-		GridData gdata = new GridData( GridData.FILL_HORIZONTAL | GridData.FILL_VERTICAL );
+		GridData gdata = new GridData( GridData.FILL_HORIZONTAL
+				| GridData.FILL_VERTICAL );
 		jsEditorContainer.setLayoutData( gdata );
 		jsEditorContainer.setLayout( new FillLayout( ) );
 
@@ -624,7 +627,7 @@ public class JSEditor extends EditorPart implements
 				gc.drawLine( 0, 0, rect.width, 0 );
 			}
 		} );
-		
+
 		return barPane;
 	}
 
@@ -668,8 +671,7 @@ public class JSEditor extends EditorPart implements
 		Label lblScript = new Label( parent, SWT.NONE );
 		lblScript.setText( Messages.getString( "JSEditor.Label.Script" ) ); //$NON-NLS-1$
 		final FontData fd = lblScript.getFont( ).getFontData( )[0];
-		Font labelFont = new Font( Display.getCurrent( ),
-				fd.getName( ),
+		Font labelFont = FontManager.getFont( fd.getName( ),
 				fd.getHeight( ),
 				SWT.BOLD );
 		lblScript.setFont( labelFont );
@@ -685,10 +687,15 @@ public class JSEditor extends EditorPart implements
 		cmbExpList = new Combo( parent, SWT.READ_ONLY );
 		GridData layoutData = new GridData( GridData.BEGINNING );
 		layoutData.widthHint = 140;
+		layoutData.heightHint = 21;
 		cmbExpList.setLayoutData( layoutData );
 
 		// Create the subfunction combo box
-		cmbSubFunctions = new Combo( parent, SWT.DROP_DOWN | SWT.READ_ONLY );
+		cmbSubFunctions = new TextCombo( parent, SWT.NONE );// SWT.DROP_DOWN |
+		// SWT.READ_ONLY );
+		layoutData = new GridData( GridData.BEGINNING );
+		layoutData.widthHint = 160;
+		layoutData.heightHint = 21;
 		cmbSubFunctions.setLayoutData( layoutData );
 	}
 
@@ -762,7 +769,7 @@ public class JSEditor extends EditorPart implements
 			{
 				disableEditor( );
 				cmbExpList.removeAll( );
-				cmbSubFunctions.removeAll( );
+				cmbSubFunctions.setItems( null );
 				cmbItemLastSelected = null;
 				palettePage.getSupport( ).setCurrentEditObject( null );
 			}
@@ -1044,7 +1051,7 @@ public class JSEditor extends EditorPart implements
 	{
 		Image image = null;
 		String message = null;
-		
+
 		if ( scriptValidator == null )
 		{
 			return;
@@ -1103,7 +1110,8 @@ public class JSEditor extends EditorPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.part.EditorPart#init(org.eclipse.ui.IEditorSite, org.eclipse.ui.IEditorInput)
+	 * @see org.eclipse.ui.part.EditorPart#init(org.eclipse.ui.IEditorSite,
+	 *      org.eclipse.ui.IEditorInput)
 	 */
 	public void init( IEditorSite site, IEditorInput input )
 			throws PartInitException
@@ -1146,7 +1154,8 @@ class JSExpListProvider implements IStructuredContentProvider, ILabelProvider
 			{
 				IElementPropertyDefn method = (IElementPropertyDefn) iter.next( );
 				if ( extHandle.getMethods( method.getName( ) ) != null )
-				// TODO user visibility to filter context list instead subfunction count.
+				// TODO user visibility to filter context list instead
+				// subfunction count.
 				// if ( extHandle.getElement( )
 				// .getDefn( )
 				// .isPropertyVisible( method.getName( ) ) )
@@ -1372,7 +1381,7 @@ class JSSubFunctionListProvider implements
 						}
 						catch ( BadLocationException e )
 						{
-							logger.log(Level.SEVERE, e.getMessage(),e);
+							logger.log( Level.SEVERE, e.getMessage( ), e );
 						}
 
 						editor.cmbSubFunctions.select( 0 );

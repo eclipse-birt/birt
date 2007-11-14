@@ -35,10 +35,9 @@ import org.eclipse.swt.widgets.Listener;
  * @author Actuate Corporation
  * 
  */
-public class LineAttributesComposite extends Composite
-		implements
-			SelectionListener,
-			Listener
+public class LineAttributesComposite extends Composite implements
+		SelectionListener,
+		Listener
 {
 
 	private transient Composite cmpContent = null;
@@ -187,7 +186,8 @@ public class LineAttributesComposite extends Composite
 			GridData gdCBStyle = new GridData( GridData.FILL_HORIZONTAL );
 			gdCBStyle.horizontalSpan = 5;
 			cmbStyle.setLayoutData( gdCBStyle );
-			cmbStyle.addListener( this );
+			cmbStyle.addListener( LineStyleChooserComposite.SELECTION_EVENT,
+					this );
 			cmbStyle.setEnabled( bEnableUI );
 		}
 
@@ -204,7 +204,8 @@ public class LineAttributesComposite extends Composite
 			GridData gdCBWidth = new GridData( GridData.FILL_HORIZONTAL );
 			gdCBWidth.horizontalSpan = 5;
 			cmbWidth.setLayoutData( gdCBWidth );
-			cmbWidth.addListener( this );
+			cmbWidth.addListener( LineWidthChooserComposite.SELECTION_EVENT,
+					this );
 			cmbWidth.setEnabled( bEnableUI );
 		}
 
@@ -280,7 +281,7 @@ public class LineAttributesComposite extends Composite
 		}
 		this.bEnabled = bState;
 	}
-	
+
 	public boolean isAttributesEnabled( )
 	{
 		return this.bEnabled;
@@ -299,7 +300,7 @@ public class LineAttributesComposite extends Composite
 			attributes = AttributeFactory.eINSTANCE.createLineAttributes( );
 		}
 		laCurrent = attributes;
-		
+
 		if ( bEnableVisibility )
 		{
 			cbVisible.setSelection( laCurrent.isVisible( ) );
