@@ -20,7 +20,7 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
-import com.ibm.icu.util.Calendar;
+import java.util.Calendar;
 
 /**
  * 
@@ -517,13 +517,13 @@ public class BirtDateTimeTest extends TestCase
 	public void testDiffMinute( ) throws BirtException
 	{
 		String[] scripts = new String[]{
-				"BirtDateTime.diffMinute(new Date(1900, 0, 8,12,1,1),new Date(1900, 0, 8,12,2,58) )",
+				"BirtDateTime.diffMinute(\"1900-1-8 12:1:1\",\"1900-1-8 12:2:58\" )",
 				"BirtDateTime.diffMinute(new Date(2006, 0, 1),new Date(2005, 11, 31) )",
 				"BirtDateTime.diffMinute(new Date(2006, 0, 1),new Date(2006, 0, 3) )",
 				"BirtDateTime.diffMinute(new Date(2006, 0, 1),new Date(2006, 1, 7) )",
 				"BirtDateTime.diffMinute(new Date(2006, 0, 1),new Date(2006, 2, 7,11,2,0) )",
 				"BirtDateTime.diffMinute(new Date(2006, 0, 1),new Date(2006, 2, 8,22,3,0) )",
-				"BirtDateTime.diffMinute(new Date(1793, 0, 1),new Date(1794, 2, 8) )"
+				"BirtDateTime.diffMinute(\"1793-1-1\",new Date(1794, 2, 8) )"
 		};
 
 		int[] values = new int[]{
@@ -538,6 +538,7 @@ public class BirtDateTimeTest extends TestCase
 
 		for ( int i = 0; i < values.length; i++ )
 		{
+			System.out.println( i );
 			assertEquals( ( (Number) cx.evaluateString( scope,
 					scripts[i],
 					"inline",
@@ -556,7 +557,7 @@ public class BirtDateTimeTest extends TestCase
 				"BirtDateTime.diffSecond(new Date(1900, 0, 8,12,1,58),new Date(1900, 0, 8,12,2,1) )",
 				"BirtDateTime.diffSecond(new Date(2006, 0, 1),new Date(2006, 0, 3) )",
 				"BirtDateTime.diffSecond(new Date(2006, 0, 1),new Date(2006, 2, 8,22,3,0) )",
-				"BirtDateTime.diffSecond(new Date(1793, 0, 1),new Date(1794, 2, 8) )"
+				"BirtDateTime.diffSecond(\"1793-1-1\",new Date(1794, 2, 8) )"
 		};
 
 		int[] values = new int[]{
@@ -586,7 +587,7 @@ public class BirtDateTimeTest extends TestCase
 		String[] scripts = new String[]{
 				"BirtDateTime.addYear(new Date(2005, 10, 15),10 )",
 				"BirtDateTime.addYear(new Date(1795, 10, 15),10 )",
-				"BirtDateTime.addYear(new Date(1900, 10, 15),10 )"
+				"BirtDateTime.addYear(\"1910-11-15\",10 )"
 		};
 
 		Calendar c = Calendar.getInstance( );
@@ -599,13 +600,13 @@ public class BirtDateTimeTest extends TestCase
 
 		c.clear( );
 
-		c.set( 1805, 10, 15 );
+		c.set( 1805, 10, 15, 0, 0, 0 );
 
 		Date d2 = new Date( c.getTimeInMillis( ) );
 
 		c.clear( );
 
-		c.set( 1910, 10, 15 );
+		c.set( 1920, 10, 15 );
 
 		Date d3 = new Date( c.getTimeInMillis( ) );
 
@@ -615,7 +616,7 @@ public class BirtDateTimeTest extends TestCase
 				d1, d2, d3
 		};
 
-		for ( int i = 0; i < values.length; i++ )
+		for ( int i = 1; i < values.length; i++ )
 		{
 			assertEquals( cx.evaluateString( scope,
 					scripts[i],
@@ -632,8 +633,8 @@ public class BirtDateTimeTest extends TestCase
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.addMonth(new Date(2005, 10, 15),10 )",
-				"BirtDateTime.addMonth(new Date(1795, 0, 15),10 )",
-				"BirtDateTime.addMonth(new Date(1900, 1, 15),11 )"
+				"BirtDateTime.addMonth(\"1795-1-15\",10 )",
+				"BirtDateTime.addMonth(\"1900-2-15\",11 )"
 		};
 
 		Calendar c = Calendar.getInstance( );
@@ -679,8 +680,8 @@ public class BirtDateTimeTest extends TestCase
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.addQuarter(new Date(2005, 10, 15),2 )",
-				"BirtDateTime.addQuarter(new Date(1795, 0, 15),9 )",
-				"BirtDateTime.addQuarter(new Date(1900, 5, 15),11 )"
+				"BirtDateTime.addQuarter(\"1795-1-15\",9 )",
+				"BirtDateTime.addQuarter(\"1900-6-15\",11 )"
 		};
 
 		Calendar c = Calendar.getInstance( );
@@ -727,7 +728,7 @@ public class BirtDateTimeTest extends TestCase
 		String[] scripts = new String[]{
 				"BirtDateTime.addWeek(new Date(2005, 10, 15),1 )",
 				"BirtDateTime.addWeek(new Date(2006, 9, 15),3 )",
-				"BirtDateTime.addWeek(new Date(1795, 10, 15),2 )"
+				"BirtDateTime.addWeek(\"1795-11-15\",2 )"
 		};
 
 		Calendar c = Calendar.getInstance( );
@@ -774,7 +775,7 @@ public class BirtDateTimeTest extends TestCase
 		String[] scripts = new String[]{
 				"BirtDateTime.addDay(new Date(2005, 10, 15),7 )",
 				"BirtDateTime.addDay(new Date(2006, 9, 15),21 )",
-				"BirtDateTime.addDay(new Date(1795, 10, 15),10 )"
+				"BirtDateTime.addDay(\"1795-11-15\",10 )"
 		};
 
 		Calendar c = Calendar.getInstance( );
@@ -821,7 +822,7 @@ public class BirtDateTimeTest extends TestCase
 		String[] scripts = new String[]{
 				"BirtDateTime.addHour(new Date(2005, 10, 15),7*24 )",
 				"BirtDateTime.addHour(new Date(2006, 9, 15),21*24 )",
-				"BirtDateTime.addHour(new Date(1795, 10, 15),10 )",
+				"BirtDateTime.addHour(\"1795-11-15\",10 )",
 				"BirtDateTime.addHour(null,21*24 )"
 		};
 
@@ -875,7 +876,7 @@ public class BirtDateTimeTest extends TestCase
 		String[] scripts = new String[]{
 				"BirtDateTime.addMinute(new Date(2005, 10, 15),7*24*60 )",
 				"BirtDateTime.addMinute(new Date(2006, 9, 15),21*24*60 )",
-				"BirtDateTime.addMinute(new Date(1795, 10, 15),10*60+10 )"
+				"BirtDateTime.addMinute(\"1795-11-15\",10*60+10 )"
 		};
 
 		Calendar c = Calendar.getInstance( );
@@ -922,7 +923,7 @@ public class BirtDateTimeTest extends TestCase
 		String[] scripts = new String[]{
 				"BirtDateTime.addSecond(new Date(2005, 10, 15),7*24*60*60 )",
 				"BirtDateTime.addSecond(new Date(2006, 9, 15),21*24*60*60 )",
-				"BirtDateTime.addSecond(new Date(1795, 10, 15),(10*60+10)*60+9 )"
+				"BirtDateTime.addSecond(\"1795-11-15\",(10*60+10)*60+9 )"
 		};
 
 		Calendar c = Calendar.getInstance( );
