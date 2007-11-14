@@ -17,24 +17,19 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.editors.extension.IExtensionConstants;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.jface.util.Assert;
 
 /**
  * The ExtensionPoinyManager is utility class to retrieve IExtendedElementUI
  * extensions by model extension ID, or full list.It caches the information to
  * avoid reading the extensions each time.
  */
-
 public class EditorContributorManager implements IExtensionConstants
 {
 
@@ -46,10 +41,14 @@ public class EditorContributorManager implements IExtensionConstants
 
 		public boolean merge( EditorContributor contributor )
 		{
-			Assert.isNotNull( targetEditorId );
-			boolean merged = false;
+			assert targetEditorId != null;
+
+			boolean changed = false;
+
 			if ( targetEditorId.equals( contributor.targetEditorId ) )
 			{
+				boolean needResort = false;
+
 				for ( Iterator itor = contributor.formPageList.iterator( ); itor.hasNext( ); )
 				{
 					FormPageDef incomingPage = (FormPageDef) itor.next( );
@@ -57,18 +56,23 @@ public class EditorContributorManager implements IExtensionConstants
 					if ( exsitPage == null )
 					{
 						formPageList.add( incomingPage );
-						merged = true;
+						needResort = true;
+						changed = true;
 					}
 					else if ( exsitPage.priority <= incomingPage.priority )
 					{
 						int index = formPageList.indexOf( exsitPage );
-						formPageList.remove( exsitPage );
-						formPageList.add( index, incomingPage );
+						formPageList.set( index, incomingPage );
+						changed = true;
 					}
 				}
-				formPageList = sortFormPageList( formPageList );
+
+				if ( needResort )
+				{
+					formPageList = sortFormPageList( formPageList );
+				}
 			}
-			return merged;
+			return changed;
 		}
 
 		public FormPageDef getPage( int index )
@@ -138,7 +142,8 @@ public class EditorContributorManager implements IExtensionConstants
 
 	public EditorContributor getEditorContributor( String targetEditorId )
 	{
-		Assert.isLegal( targetEditorId != null );
+		assert targetEditorId != null;
+
 		synchronized ( this )
 		{
 			if ( editorContributorMap == null )
@@ -164,8 +169,9 @@ public class EditorContributorManager implements IExtensionConstants
 	 */
 	public FormPageDef getFormPageDef( String targetEditorId, String pageId )
 	{
-		Assert.isLegal( targetEditorId != null );
-		Assert.isLegal( pageId != null );
+		assert targetEditorId != null;
+		assert pageId != null;
+
 		int index = findFormPageIndex( targetEditorId, pageId );
 		if ( index != -1 )
 		{
@@ -176,8 +182,9 @@ public class EditorContributorManager implements IExtensionConstants
 
 	public int findFormPageIndex( String targetEditorId, String pageId )
 	{
-		Assert.isLegal( targetEditorId != null );
-		Assert.isLegal( pageId != null );
+		assert targetEditorId != null;
+		assert pageId != null;
+
 		EditorContributor editorContributor = getEditorContributor( targetEditorId );
 		if ( editorContributor != null )
 		{
@@ -207,11 +214,13 @@ public class EditorContributorManager implements IExtensionConstants
 	 */
 	public FormPageDef getFormPageDef( String targetEditorId, int index )
 	{
-		Assert.isLegal( targetEditorId != null );
-		Assert.isLegal( index >= 0 );
+		assert targetEditorId != null;
+
 		EditorContributor editorContributor = getEditorContributor( targetEditorId );
 		if ( editorContributor != null
-				&& editorContributor.formPageList != null )
+				&& editorContributor.formPageList != null
+				&& index >= 0
+				&& index < editorContributor.formPageList.size( ) )
 		{
 			return (FormPageDef) editorContributor.formPageList.get( index );
 		}
@@ -257,108 +266,100 @@ public class EditorContributorManager implements IExtensionConstants
 
 	/**
 	 * Sort all form pages in the relative order.
+	 * 
 	 * @param formPageList
 	 * @return
 	 */
 	private static List sortFormPageList( List formPageList )
 	{
-		List list = new ArrayList( formPageList.size( ) );
-		//a map to store all pages(in array list) relativize to another page(map key)
-		Map relativeMap = new HashMap( );
-		for ( Iterator iter = formPageList.iterator( ); iter.hasNext( ); )
+		// get a copy of original list
+		List olist = new ArrayList( formPageList.size( ) );
+		olist.addAll( formPageList );
+
+		// create the result list
+		List rlist = new ArrayList( olist.size( ) );
+
+		// create the temp list for unresolved elements
+		List unlist = new ArrayList( );
+
+		boolean resolved = true;
+
+		while ( olist.size( ) > 0 && resolved )
 		{
-			FormPageDef element = (FormPageDef) iter.next( );
-			if ( element.relative == null )
+			resolved = false;
+
+			// iterate original list
+			for ( int i = 0; i < olist.size( ); i++ )
 			{
-				// add to first
-				list.add( 0, element );
-			}
-			else
-			{
-				int relativePosition = getRelativeElementPosition( element,
-						list );//get relatived page position 
-				if ( relativePosition > -1 )
+				FormPageDef element = (FormPageDef) olist.get( i );
+
+				if ( element.relative == null )
 				{
-
-					list.add( relativePosition + element.position, element );
-
-					if ( relativeMap.containsKey( element ) )
-					{
-						// resort exist by-relative elements
-						List relativeList = (List) relativeMap.get( element );
-						for ( Iterator iterator = relativeList.iterator( ); iterator.hasNext( ); )
-						{
-							FormPageDef relativeFormPage = (FormPageDef) iterator.next( );
-							list.remove( relativeFormPage );
-							list.add( relativePosition
-									+ element.position
-									+ relativeFormPage.position,
-									relativeFormPage );
-						}
-					}
+					// no relative element, just resovled.
+					rlist.add( element );
+					resolved = true;
 				}
 				else
 				{
-					if ( relativeMap.containsKey( element ) )
+					// get relative index from resolved list first
+					int relativePosition = getRelativeElementPosition( element,
+							rlist );
+
+					if ( relativePosition == -1 )
 					{
-						List relativeList = (List) relativeMap.get( element );
-						FormPageDef relativeElement = (FormPageDef) relativeList.get( 0 );
-						relativePosition = getElementPosition( relativeElement,
-								list );
-						int position = relativePosition
-								- relativeElement.position;
+						// get relative index from original list
+						relativePosition = getRelativeElementPosition( element,
+								olist );// get relatived page position
 
-						list.add( position < 0 ? 0 : position, element );
-
-						for ( Iterator iterator = relativeList.iterator( ); iterator.hasNext( ); )
+						if ( relativePosition == -1 )
 						{
-							FormPageDef relativeFormPage = (FormPageDef) iterator.next( );
-							list.remove( relativeFormPage );
-							list.add( relativePosition
-									+ element.position
-									+ relativeFormPage.position,
-									relativeFormPage );
+							// the relative elemnt if not in current list, just
+							// append it as resolved.
+							rlist.add( element );
+							resolved = true;
+						}
+						else
+						{
+							// add to unresolved list
+							unlist.add( element );
 						}
 					}
 					else
 					{
-						addRelativeMap( element, formPageList, relativeMap );
-						// add to last
-						list.add( list.size( ), element );
+						// find relative element, resolve it
+						rlist.add( relativePosition + element.position, element );
+						resolved = true;
 					}
 				}
 			}
-		}
-		return list;
-	}
 
-	private static int getElementPosition( FormPageDef relativeElement,
-			List list )
-	{
-		return list.indexOf( relativeElement );
-	}
-
-	private static void addRelativeMap( FormPageDef element, List formPageList,
-			Map relativeMap )
-	{
-		for ( Iterator iter = formPageList.iterator( ); iter.hasNext( ); )
-		{
-			FormPageDef formPage = (FormPageDef) iter.next( );
-			if ( formPage.id.equals( element.relative ) )
+			// scan unresolved list
+			for ( Iterator itr = unlist.iterator( ); itr.hasNext( ); )
 			{
-				if ( relativeMap.containsKey( formPage ) )
+				FormPageDef element = (FormPageDef) itr.next( );
+
+				// check relative element from resovled list
+				int relativePosition = getRelativeElementPosition( element,
+						rlist );
+
+				if ( relativePosition != -1 )
 				{
-					( (ArrayList) relativeMap.get( formPage ) ).add( element );
+					// find relative element, resolve it and remove from
+					// unresolved list
+					rlist.add( relativePosition + element.position, element );
+					itr.remove( );
+					resolved = true;
 				}
-				else
-				{
-					ArrayList list = new ArrayList( );
-					list.add( element );
-					relativeMap.put( formPage, list );
-				}
-				break;
 			}
+
+			// remove all resovled elements from original list
+			olist.removeAll( rlist );
 		}
+
+		// ensure still pertain all unresolved elements
+		rlist.addAll( unlist );
+
+		return rlist;
 	}
 
 	private static int getRelativeElementPosition( FormPageDef element,
@@ -409,29 +410,29 @@ public class EditorContributorManager implements IExtensionConstants
 		return Arrays.asList( extensionPoint.getExtensions( ) );
 	}
 
-	/**
-	 * @param newPoint
-	 *            the extension point instance
-	 * @param element
-	 *            the configuration element
-	 * @param className
-	 *            the name of the class attribute
-	 */
-	private Object loadClass( IConfigurationElement element,
-			String attributeName )
-	{
-		Object clazz = null;
-		try
-		{
-
-			clazz = element.createExecutableExtension( attributeName );
-		}
-		catch ( CoreException e )
-		{
-			ExceptionHandler.handle( e );
-		}
-		return clazz;
-	}
+	// /**
+	// * @param newPoint
+	// * the extension point instance
+	// * @param element
+	// * the configuration element
+	// * @param className
+	// * the name of the class attribute
+	// */
+	// private Object loadClass( IConfigurationElement element,
+	// String attributeName )
+	// {
+	// Object clazz = null;
+	// try
+	// {
+	//
+	// clazz = element.createExecutableExtension( attributeName );
+	// }
+	// catch ( CoreException e )
+	// {
+	// ExceptionHandler.handle( e );
+	// }
+	// return clazz;
+	// }
 
 	// private ImageDescriptor getImageDescriptor( IConfigurationElement element
 	// )
@@ -468,16 +469,16 @@ public class EditorContributorManager implements IExtensionConstants
 		return element.getAttribute( attributeName );
 	}
 
-	private boolean loadBooleanAttribute( IConfigurationElement element,
-			String attributeName )
-	{
-		String value = element.getAttribute( attributeName );
-		if ( value != null )
-		{
-			return Boolean.valueOf( value ).booleanValue( );
-		}
-		return false;
-	}
+	// private boolean loadBooleanAttribute( IConfigurationElement element,
+	// String attributeName )
+	// {
+	// String value = element.getAttribute( attributeName );
+	// if ( value != null )
+	// {
+	// return Boolean.valueOf( value ).booleanValue( );
+	// }
+	// return false;
+	// }
 
 	// private ImageDescriptor loadIconAttribute( IConfigurationElement element,
 	// String attributeName, String key )

@@ -21,9 +21,8 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.ui.IEditorActionBarContributor;
 
 /**
- * 
+ * FormPageDef
  */
-
 public class FormPageDef implements IExtensionConstants
 {
 
@@ -50,6 +49,7 @@ public class FormPageDef implements IExtensionConstants
 		relative = loadStringAttribute( element, ATTRIBUTE_RELATIVE );
 		position = loadPosition( element, ATTRIBUTE_POSITION );
 		this.priority = loadPriority( element, ATTRIBUTE_PRIORITY );
+
 		if ( loadStringAttribute( element, ATTRIBUTE_PAGE_ACTION ) != null )
 		{
 			pageAction = (IAction) loadClass( element, ATTRIBUTE_PAGE_ACTION );
@@ -78,15 +78,6 @@ public class FormPageDef implements IExtensionConstants
 		return 1;
 	}
 
-	private String[] loadOverride( IConfigurationElement element,
-			String attributeName )
-	{
-		String attribute = element.getAttribute( attributeName );
-		if ( attribute != null && !attribute.equals( "" ) ) //$NON-NLS-1$
-			return attribute.split( ";" ); //$NON-NLS-1$
-		return null;
-	}
-
 	private int loadPosition( IConfigurationElement element,
 			String attributeName )
 	{
@@ -99,12 +90,9 @@ public class FormPageDef implements IExtensionConstants
 		{
 			return 1;
 		}
-		return 0;
+		// default as right
+		return 1;
 	}
-
-	// not implement
-	// public int position;
-	// public ImageDescriptor icon;
 
 	private String loadStringAttribute( IConfigurationElement element,
 			String attributeName )
@@ -120,7 +108,7 @@ public class FormPageDef implements IExtensionConstants
 		{
 			return Boolean.valueOf( value ).booleanValue( );
 		}
-		return false;
+		return true;
 	}
 
 	private Object loadClass( IConfigurationElement element,
