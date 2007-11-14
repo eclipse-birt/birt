@@ -875,8 +875,7 @@ public class CascadingParametersDialog extends BaseDialog
 					if ( status == Window.OK )
 					{
 						String selectedValue = dialog.getSelectedValue( );
-						if ( selectedValue != null )
-							defaultValueChooser.setText( selectedValue );
+						defaultValueChooser.setText( DEUtil.resolveNull( selectedValue ) );
 					}
 					else if ( status == Window.CANCEL )
 					{

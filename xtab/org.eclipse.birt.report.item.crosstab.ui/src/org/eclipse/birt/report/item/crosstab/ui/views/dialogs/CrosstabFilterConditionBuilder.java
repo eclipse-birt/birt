@@ -1498,7 +1498,8 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 				return;
 			}
 			String value = thisCombo.getItem( selectionIndex );
-
+			boolean returnValue = false;
+			
 			if ( value != null )
 			{
 				String newValue = null;
@@ -1524,6 +1525,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 
 						if ( dialog.open( ) == IDialogConstants.OK_ID )
 						{
+							returnValue = true;
 							newValue = dialog.getSelectedExprValue( );
 						}
 					}
@@ -1540,6 +1542,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 
 					if ( dialog.open( ) == IDialogConstants.OK_ID )
 					{
+						returnValue = true;
 						newValue = dialog.getResult( );
 					}
 				}
@@ -1547,9 +1550,9 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 				{
 					newValue = "params[\"" + value + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
 				}
-				if ( newValue != null )
+				if(returnValue)
 				{
-					thisCombo.setText( newValue );
+					thisCombo.setText(DEUtil.resolveNull( newValue ));
 				}
 			}
 

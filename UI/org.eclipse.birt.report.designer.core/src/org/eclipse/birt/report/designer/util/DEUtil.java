@@ -2090,9 +2090,17 @@ public class DEUtil
 	 */
 	public static List getDataSources( )
 	{
-		return SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getVisibleDataSources( );
+		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
+		.getReportDesignHandle( );
+		if(moduleHandle != null)
+		{
+			return moduleHandle.getVisibleDataSources( );
+		}else
+		{
+			return new ArrayList();
+		}
+		 
+				
 	}
 
 	/**

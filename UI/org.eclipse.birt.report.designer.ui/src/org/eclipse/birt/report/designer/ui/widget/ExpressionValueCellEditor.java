@@ -53,7 +53,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * Expression value cell editor
  * 
- * @version $Revision: 1.1.2.1 $ $Date: 2006/11/03 06:33:35 $
+ * @version $Revision: 1.2 $ $Date: 2006/11/21 10:21:02 $
  */
 public class ExpressionValueCellEditor extends CellEditor
 {
@@ -207,6 +207,8 @@ public class ExpressionValueCellEditor extends CellEditor
 				popup.setItems( popupItems );
 				String value = popup.open( rect );
 				int selectionIndex = popup.getSelectionIndex( );
+				
+				boolean returnValue = false;
 				if ( value != null )
 				{
 					String newValue = null;
@@ -234,6 +236,7 @@ public class ExpressionValueCellEditor extends CellEditor
 								}
 								if ( dialog.open( ) == IDialogConstants.OK_ID )
 								{
+									returnValue = true;
 									newValue = dialog.getSelectedExprValue( );
 								}
 							}
@@ -264,6 +267,7 @@ public class ExpressionValueCellEditor extends CellEditor
 
 						if ( dialog.open( ) == IDialogConstants.OK_ID )
 						{
+							returnValue = true;
 							newValue = dialog.getResult( );
 						}
 					}
@@ -272,9 +276,9 @@ public class ExpressionValueCellEditor extends CellEditor
 						// newValue = "params[\"" + value + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
 						newValue = ExpressionUtil.createJSParameterExpression( value );
 					}
-					if ( newValue != null )
+					if ( returnValue )
 					{
-						setValue( newValue );
+						setValue( DEUtil.resolveNull( newValue ) );
 					}
 					expressionText.setFocus( );
 				}

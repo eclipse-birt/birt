@@ -488,6 +488,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 				}
 			}
 
+			boolean returnValue = false;
 			if ( value != null )
 			{
 				String newValue = null;
@@ -509,6 +510,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 							}
 							if ( dialog.open( ) == IDialogConstants.OK_ID )
 							{
+								returnValue = true;
 								newValue = dialog.getSelectedExprValue( );
 							}
 						}
@@ -536,6 +538,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 							dialog.setSelectedValueList( selectValueList );
 							if ( dialog.open( ) == IDialogConstants.OK_ID )
 							{
+								returnValue = true;
 								newValue = dialog.getSelectedExprValue( );
 							}
 
@@ -571,6 +574,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 
 					if ( dialog.open( ) == IDialogConstants.OK_ID )
 					{
+						returnValue = true;
 						newValue = dialog.getResult( );
 					}
 				}
@@ -578,9 +582,10 @@ public class FilterConditionBuilder extends TitleAreaDialog
 				{
 					newValue = "params[\"" + value + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
 				}
-				if ( newValue != null )
+				
+				if(returnValue)
 				{
-					thisCombo.setText( newValue );
+					thisCombo.setText(DEUtil.resolveNull( newValue ));
 				}
 			}
 		}

@@ -116,6 +116,7 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder
 			}
 		}
 
+		boolean returnValue = false;
 		if ( value != null )
 		{
 			String newValue = null;
@@ -140,6 +141,7 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder
 
 					if ( dialog.open( ) == IDialogConstants.OK_ID )
 					{
+						returnValue = true;
 						newValue = dialog.getSelectedExprValue( );
 					}
 				}
@@ -160,6 +162,7 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder
 
 				if ( dialog.open( ) == IDialogConstants.OK_ID )
 				{
+					returnValue = true;
 					newValue = dialog.getResult( );
 				}
 			}
@@ -167,9 +170,9 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder
 			{
 				newValue = "params[\"" + value + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
 			}
-			if ( newValue != null )
+			if ( returnValue )
 			{
-				comboWidget.setText( newValue );
+				comboWidget.setText( DEUtil.resolveNull( newValue ) );
 			}
 		}
 	}

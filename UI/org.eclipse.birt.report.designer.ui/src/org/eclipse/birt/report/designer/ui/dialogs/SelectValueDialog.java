@@ -42,7 +42,7 @@ import com.ibm.icu.util.ULocale;
  * values for selection from the data set. It allows both multiple and single
  * selection. The default is single selection.
  * 
- * @version $Revision: 1.24 $ $Date: 2007/08/30 06:46:33 $
+ * @version $Revision: 1.25 $ $Date: 2007/09/21 12:38:24 $
  */
 public class SelectValueDialog extends BaseDialog
 {
@@ -55,6 +55,8 @@ public class SelectValueDialog extends BaseDialog
 	private java.util.List viewerValueList = new ArrayList( );
 
 	private ParamBindingHandle[] bindingParams = null;
+
+	private final String nullValueDispaly = Messages.getString( "SelectValueDialog.SelectValue.NullValue" ); //$NON-NLS-1$
 
 	/**
 	 * @param parentShell
@@ -202,20 +204,27 @@ public class SelectValueDialog extends BaseDialog
 		{
 			int firstIndex = selectedIndices[0];
 			Object modelValue = modelValueList.get( firstIndex );
-			String viewerValue = (String) viewerValueList.get( firstIndex );
 
-			if ( modelValue instanceof Boolean
-					|| modelValue instanceof Integer
-					|| modelValue instanceof Double
-					|| modelValue instanceof BigDecimal )
+			if ( modelValue == null )
 			{
-				exprValue = viewerValue;
+				return "null";
 			}
 			else
 			{
-				exprValue = "\""
-						+ JavascriptEvalUtil.transformToJsConstants( viewerValue )
-						+ "\"";
+				String viewerValue = (String) viewerValueList.get( firstIndex );
+				if ( modelValue instanceof Boolean
+						|| modelValue instanceof Integer
+						|| modelValue instanceof Double
+						|| modelValue instanceof BigDecimal )
+				{
+					exprValue = viewerValue;
+				}
+				else
+				{
+					exprValue = "\""
+							+ JavascriptEvalUtil.transformToJsConstants( viewerValue )
+							+ "\"";
+				}
 			}
 		}
 		return exprValue;
@@ -260,6 +269,11 @@ public class SelectValueDialog extends BaseDialog
 							displayCandiateValue = candiateValue;
 						viewerValueList.add( displayCandiateValue.toString( ) );
 						selectValueList.add( displayCandiateValue.toString( ) );
+					}
+					else
+					{
+						viewerValueList.add( null );
+						selectValueList.add( nullValueDispaly );
 					}
 				}
 			}

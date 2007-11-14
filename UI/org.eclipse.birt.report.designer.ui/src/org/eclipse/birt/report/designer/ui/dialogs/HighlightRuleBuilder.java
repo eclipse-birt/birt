@@ -810,6 +810,8 @@ public class HighlightRuleBuilder extends BaseDialog
 			}
 		}
 
+		boolean returnValue = false;
+		
 		if ( value != null )
 		{
 			String newValue = null;
@@ -831,6 +833,7 @@ public class HighlightRuleBuilder extends BaseDialog
 						}
 						if ( dialog.open( ) == IDialogConstants.OK_ID )
 						{
+							returnValue = true;
 							newValue = dialog.getSelectedExprValue( );
 						}
 					}
@@ -858,6 +861,7 @@ public class HighlightRuleBuilder extends BaseDialog
 						dialog.setSelectedValueList( selectValueList );
 						if ( dialog.open( ) == IDialogConstants.OK_ID )
 						{
+							returnValue = true;
 							newValue = dialog.getSelectedExprValue( );
 						}
 
@@ -896,6 +900,7 @@ public class HighlightRuleBuilder extends BaseDialog
 
 				if ( dialog.open( ) == IDialogConstants.OK_ID )
 				{
+					returnValue = true;
 					newValue = dialog.getResult( );
 				}
 			}
@@ -903,9 +908,9 @@ public class HighlightRuleBuilder extends BaseDialog
 			{
 				newValue = "params[\"" + value + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
 			}
-			if ( newValue != null )
+			if ( returnValue )
 			{
-				comboWidget.setText( newValue );
+				comboWidget.setText(DEUtil.resolveNull( newValue ));
 			}
 		}
 	}

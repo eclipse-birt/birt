@@ -43,7 +43,9 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 {
 //	private static final String STANDARD_DATE_TIME_PATTERN = "MM/dd/yyyy hh:mm:ss a"; //$NON-NLS-1$
 	private List selectValueList = null;
-	private java.util.List columnValueList = new ArrayList( );;
+	private java.util.List columnValueList = new ArrayList( );
+	private final String NULL_VALUE_DISPLAY = Messages.getString( "SelectValueDialog.SelectValue.NullValue" ); //$NON-NLS-1$
+
 
 	public SelectParameterDefaultValueDialog( Shell parentShell, String title )
 	{
@@ -114,7 +116,17 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 	 */
 	protected void okPressed( )
 	{
-		setResult( selectValueList.getSelection( ) );
+		String[] selection = selectValueList.getSelection( );
+		int index = selectValueList.getSelectionIndex( );		
+		if(selection.length > 0 && NULL_VALUE_DISPLAY.equals( selection[0] ) && columnValueList.get( index ) == null)
+		{
+			setResult( null );
+			
+		}else
+		{
+			setResult( selectValueList.getSelection( ) );
+		}
+		
 		super.okPressed( );
 	}
 
@@ -157,7 +169,11 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 				{
 					Object obj = iter.next( );
 					String candiateValue = null;
-					if(obj instanceof Date)
+					if(obj == null)
+					{
+						candiateValue = NULL_VALUE_DISPLAY;
+					}
+					else if(obj instanceof Date)
 					{
 						candiateValue = convertToStandardFormat((Date)obj);
 					}else

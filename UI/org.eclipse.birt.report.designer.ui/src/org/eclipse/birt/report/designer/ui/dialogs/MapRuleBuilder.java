@@ -1148,7 +1148,8 @@ public class MapRuleBuilder extends BaseDialog
 				break;
 			}
 		}
-
+		
+		boolean returnValue = false;
 		if ( value != null )
 		{
 			String newValue = null;
@@ -1170,6 +1171,7 @@ public class MapRuleBuilder extends BaseDialog
 						}
 						if ( dialog.open( ) == IDialogConstants.OK_ID )
 						{
+							returnValue = true;
 							newValue = dialog.getSelectedExprValue( );
 						}
 					}
@@ -1197,6 +1199,7 @@ public class MapRuleBuilder extends BaseDialog
 						dialog.setSelectedValueList( selectValueList );
 						if ( dialog.open( ) == IDialogConstants.OK_ID )
 						{
+							returnValue = true;
 							newValue = dialog.getSelectedExprValue( );
 						}
 
@@ -1231,6 +1234,7 @@ public class MapRuleBuilder extends BaseDialog
 
 				if ( dialog.open( ) == IDialogConstants.OK_ID )
 				{
+					returnValue = true;
 					newValue = dialog.getResult( );
 				}
 			}
@@ -1238,9 +1242,9 @@ public class MapRuleBuilder extends BaseDialog
 			{
 				newValue = "params[\"" + value + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
 			}
-			if ( newValue != null )
+			if ( returnValue )
 			{
-				comboWidget.setText( newValue );
+				comboWidget.setText( DEUtil.resolveNull( newValue ));
 			}
 		}
 	}
