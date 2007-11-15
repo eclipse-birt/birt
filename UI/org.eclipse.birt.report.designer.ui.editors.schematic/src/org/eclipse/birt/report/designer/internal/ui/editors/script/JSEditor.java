@@ -171,6 +171,9 @@ public class JSEditor extends EditorPart implements IColleague
 	/** the location which is not dirty. */
 	private int cleanPoint = -1;
 
+	/** Indicates that the described document event is about to be undone. */
+	private boolean undoing = false;
+
 	/** the listener for text chaged. */
 	private final ITextListener textListener = new ITextListener( ) {
 
@@ -191,6 +194,9 @@ public class JSEditor extends EditorPart implements IColleague
 	/** the listener for undo operation. */
 	private final IDocumentUndoListener undoListener = new IDocumentUndoListener( ) {
 
+		/** The latest clear point for redoing. */
+		private int lastClearPoint = -1;
+
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -207,17 +213,38 @@ public class JSEditor extends EditorPart implements IColleague
 			boolean undone = ( type & DocumentUndoEvent.UNDONE ) != 0;
 			boolean redone = ( type & DocumentUndoEvent.REDONE ) != 0;
 
-			if ( undone | redone )
-			{
-				if ( cleanPoint == getUndoLevel( ) - ( undone ? 1 : -1 ) )
-				{
-					setIsModified( false );
-					( (IFormPage) editingDomainEditor ).getEditor( )
-							.editorDirtyStateChanged( );
+			undoing = ( type & ( DocumentUndoEvent.ABOUT_TO_REDO | DocumentUndoEvent.ABOUT_TO_UNDO ) ) != 0;
 
-					firePropertyChange( PROP_DIRTY );
+			if ( undoing || !( undone || redone ) )
+			{
+				return;
+			}
+
+			if ( undone )
+			{
+				lastClearPoint = cleanPoint;
+				if ( cleanPoint != getUndoLevel( ) - 1 )
+				{
+					// Does nothing if not clean point.
+					return;
 				}
 			}
+			else if ( redone )
+			{
+				cleanPoint = lastClearPoint;
+				if ( cleanPoint != getUndoLevel( ) + 1 )
+				{
+					// Does nothing if not clean point.
+					return;
+				}
+			}
+
+			// Removes dirty flag when undo/redo to clean point.
+			setIsModified( false );
+			( (IFormPage) editingDomainEditor ).getEditor( )
+					.editorDirtyStateChanged( );
+
+			firePropertyChange( PROP_DIRTY );
 		}
 	};
 
@@ -1014,6 +1041,11 @@ public class JSEditor extends EditorPart implements IColleague
 					.editorDirtyStateChanged( );
 
 			firePropertyChange( PROP_DIRTY );
+		}
+
+		if ( cleanPoint > getUndoLevel( ) && !undoing )
+		{
+			cleanPoint = -1;
 		}
 	}
 
