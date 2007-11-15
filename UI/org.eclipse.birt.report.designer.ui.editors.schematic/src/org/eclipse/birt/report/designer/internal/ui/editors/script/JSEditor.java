@@ -49,6 +49,9 @@ import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.core.commands.operations.IUndoableOperation;
+import org.eclipse.core.commands.operations.ObjectUndoContext;
+import org.eclipse.core.commands.operations.OperationHistoryFactory;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.gef.ui.actions.ActionRegistry;
@@ -88,6 +91,10 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.text.undo.DocumentUndoEvent;
+import org.eclipse.text.undo.DocumentUndoManagerRegistry;
+import org.eclipse.text.undo.IDocumentUndoListener;
+import org.eclipse.text.undo.IDocumentUndoManager;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
@@ -161,6 +168,9 @@ public class JSEditor extends EditorPart implements IColleague
 	/** the flag if the text listener is enabled. */
 	private boolean isTextListenerEnable = true;
 
+	/** the location which is not dirty. */
+	private int cleanPoint = -1;
+
 	/** the listener for text chaged. */
 	private final ITextListener textListener = new ITextListener( ) {
 
@@ -174,6 +184,39 @@ public class JSEditor extends EditorPart implements IColleague
 			if ( isTextListenerEnable )
 			{
 				markDirty( );
+			}
+		}
+	};
+
+	/** the listener for undo operation. */
+	private final IDocumentUndoListener undoListener = new IDocumentUndoListener( ) {
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.text.undo.IDocumentUndoListener#documentUndoNotification(org.eclipse.text.undo.DocumentUndoEvent)
+		 */
+		public void documentUndoNotification( DocumentUndoEvent event )
+		{
+			if ( event == null )
+			{
+				return;
+			}
+
+			int type = event.getEventType( );
+			boolean undone = ( type & DocumentUndoEvent.UNDONE ) != 0;
+			boolean redone = ( type & DocumentUndoEvent.REDONE ) != 0;
+
+			if ( undone | redone )
+			{
+				if ( cleanPoint == getUndoLevel( ) - ( undone ? 1 : -1 ) )
+				{
+					setIsModified( false );
+					( (IFormPage) editingDomainEditor ).getEditor( )
+							.editorDirtyStateChanged( );
+
+					firePropertyChange( PROP_DIRTY );
+				}
 			}
 		}
 	};
@@ -418,7 +461,19 @@ public class JSEditor extends EditorPart implements IColleague
 		SessionHandleAdapter.getInstance( ).getMediator( ).addColleague( this );
 
 		disableEditor( );
-		getViewer( ).addTextListener( textListener );
+
+		SourceViewer viewer = getViewer( );
+
+		if ( viewer != null )
+		{
+			IDocumentUndoManager undoManager = DocumentUndoManagerRegistry.getDocumentUndoManager( viewer.getDocument( ) );
+
+			if ( undoManager != null )
+			{
+				undoManager.addDocumentUndoListener( undoListener );
+			}
+			viewer.addTextListener( textListener );
+		}
 	}
 
 	/**
@@ -571,20 +626,13 @@ public class JSEditor extends EditorPart implements IColleague
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				IUndoManager undo = getViewer( ).getUndoManager( );
+				SourceViewer viewer = getViewer( );
 
-				// Allows to undo after reseting.
-				try
+				if ( viewer != null )
 				{
-					getViewer( ).setUndoManager( null );
-					setEditorText( "" ); //$NON-NLS-1$
+					viewer.getTextWidget( ).setText( "" ); //$NON-NLS-1$
+					setFocus( );
 				}
-				finally
-				{
-					getViewer( ).setUndoManager( undo );
-				}
-				markDirty( );
-				setFocus( );
 			}
 
 			public void widgetDefaultSelected( SelectionEvent e )
@@ -917,6 +965,31 @@ public class JSEditor extends EditorPart implements IColleague
 		( (IFormPage) editingDomainEditor ).getEditor( )
 				.editorDirtyStateChanged( );
 		firePropertyChange( PROP_DIRTY );
+		
+		SourceViewer viewer = getViewer( );
+		IUndoManager undoManager = viewer == null ? null
+				: viewer.getUndoManager( );
+
+		if ( undoManager != null )
+		{
+			undoManager.endCompoundChange( );
+		}
+		cleanPoint = getUndoLevel( );
+	}
+
+	/**
+	 * Returns current undo level.
+	 * 
+	 * @return current undo level.
+	 */
+	private int getUndoLevel( )
+	{
+		SourceViewer viewer = getViewer( );
+		IUndoableOperation[] history = viewer == null ? null
+				: OperationHistoryFactory.getOperationHistory( )
+						.getUndoHistory( new ObjectUndoContext( viewer.getDocument( ) ) );
+
+		return history == null ? -1 : history.length;
 	}
 
 	/**
