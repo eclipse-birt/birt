@@ -16,7 +16,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.IReportElementFigure;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ImageFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.AbstractHintLayout;
@@ -27,13 +26,13 @@ import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
- * Lays out children in rows or columns, wrapping when the current row/column is filled.
- * The alignment and spacing of rows in the parent can be configured.  The alignment and
- * spacing of children within a row can be configured.
+ * Lays out children in rows or columns, wrapping when the current row/column is
+ * filled. The alignment and spacing of rows in the parent can be configured.
+ * The alignment and spacing of children within a row can be configured.
  */
 /**
  * @author David Michonneau
- *  
+ * 
  */
 public class ReportFlowLayout extends AbstractHintLayout
 {
@@ -157,16 +156,16 @@ public class ReportFlowLayout extends AbstractHintLayout
 
 	private Insets getFigureMargin( IFigure f )
 	{
-	    ReportItemConstraint constraint = (ReportItemConstraint) getConstraint( f );
-	    Insets margin = INSETS_SINGLETON;
-	    if ( constraint != null )
-	        margin = constraint.getMargin( );
-	    
-	    if ( ( margin == null || margin == INSETS_SINGLETON ) &&	f instanceof IReportElementFigure )
+		ReportItemConstraint constraint = (ReportItemConstraint) getConstraint( f );
+		Insets margin = INSETS_SINGLETON;
+		if ( constraint != null )
+			margin = constraint.getMargin( );
+
+		if ( ( margin == null || margin == INSETS_SINGLETON )
+				&& f instanceof IReportElementFigure )
 		{
-			margin =  ( (IReportElementFigure) f ).getMargin( );
+			margin = ( (IReportElementFigure) f ).getMargin( );
 		}
-		
 
 		return margin;
 	}
@@ -180,7 +179,7 @@ public class ReportFlowLayout extends AbstractHintLayout
 		data.rowX = 0;
 		data.rowHeight = 0;
 		data.rowWidth = 0;
-		//data.rowCount = 0;
+		// data.rowCount = 0;
 	}
 
 	/**
@@ -211,7 +210,7 @@ public class ReportFlowLayout extends AbstractHintLayout
 		Iterator iterator = parent.getChildren( ).iterator( );
 		int dx;
 
-		//Calculate the hints to be passed to children
+		// Calculate the hints to be passed to children
 		int wHint = parent.getClientArea( ).width;
 		int hHint = -1;
 
@@ -227,15 +226,10 @@ public class ReportFlowLayout extends AbstractHintLayout
 
 			Insets fmargin = getFigureMargin( f );
 
-			// Block elements take the whole space, in-line and none take -1
-			if ( getDisplay( f ) == ReportItemConstraint.BLOCK  || f instanceof ImageFigure)
-			{
-				wHint = parent.getClientArea( ).width;
-			}
-			else
-			{
-				wHint = -1;
-			}
+			// fix bugzilla 156157
+			// always pass hint here, let child process inline/block cases. this
+			// is to resovle percentage custom size
+			wHint = parent.getClientArea( ).width;
 
 			if ( wHint != -1 )
 			{
@@ -402,17 +396,18 @@ public class ReportFlowLayout extends AbstractHintLayout
 						.crop( data.margin[j] ) );
 			}
 		}
-		
+
 		data.rowPos = data.rowCount;
 		data.rowY += getMajorSpacing( ) + data.rowHeight;
-		postLayoutRow(data);
+		postLayoutRow( data );
 		initRow( );
 	}
 
-	void postLayoutRow(WorkingData data)
+	void postLayoutRow( WorkingData data )
 	{
-		
+
 	}
+
 	/**
 	 * Sets the given bounds for the child figure input.
 	 * 
@@ -547,7 +542,7 @@ public class ReportFlowLayout extends AbstractHintLayout
 
 		Dimension preferredDimension = child.getPreferredSize( wHint, hHint );
 
-		//now support the persent value
+		// now support the persent value
 		if ( constraint != null )
 		{
 			if ( constraint.isNone( ) )
@@ -555,18 +550,21 @@ public class ReportFlowLayout extends AbstractHintLayout
 				// DISPLAY = none, do not display
 				return new Dimension( 0, 0 );
 			}
-			
+
 			Dimension dimension = constraint.getSize( );
-			
+
 			if ( dimension.height <= 0 )
 			{
 				dimension.height = preferredDimension.height;
 			}
 			if ( dimension.width <= 0 )
 			{
-				if (constraint.getMeasure() != 0 && DesignChoiceConstants.UNITS_PERCENTAGE.equals( constraint.getUnits() ))
+				if ( constraint.getMeasure( ) != 0
+						&& DesignChoiceConstants.UNITS_PERCENTAGE.equals( constraint.getUnits( ) ) )
 				{
-					dimension.width = (int) constraint.getMeasure() * wHint / 100;
+					dimension.width = (int) constraint.getMeasure( )
+							* wHint
+							/ 100;
 				}
 				else
 				{
@@ -619,7 +617,7 @@ public class ReportFlowLayout extends AbstractHintLayout
 		IFigure lastChild = null;
 		Dimension childSize;
 
-		//Build the sizes for each row, and update prefSize accordingly
+		// Build the sizes for each row, and update prefSize accordingly
 		for ( int i = 0; i < children.size( ); i++ )
 		{
 			child = (IFigure) children.get( i );
@@ -631,7 +629,7 @@ public class ReportFlowLayout extends AbstractHintLayout
 				wHint = Math.max( 0, wHint - fmargin.getWidth( ) );
 			}
 
-			//added by gao, if figure is in-line, wHint is -1
+			// added by gao, if figure is in-line, wHint is -1
 			if ( getDisplay( child ) != ReportItemConstraint.BLOCK )
 			{
 				wHint = -1;
@@ -726,7 +724,7 @@ public class ReportFlowLayout extends AbstractHintLayout
 		IFigure lastChild = null;
 		Dimension childSize;
 
-		//Build the sizes for each row, and update prefSize accordingly
+		// Build the sizes for each row, and update prefSize accordingly
 		for ( int i = 0; i < children.size( ); i++ )
 		{
 			child = (IFigure) children.get( i );

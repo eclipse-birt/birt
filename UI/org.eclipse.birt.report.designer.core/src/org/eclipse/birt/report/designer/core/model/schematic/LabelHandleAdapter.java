@@ -16,6 +16,7 @@ import org.eclipse.birt.report.designer.core.model.ReportItemtHandleAdapter;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 
 /**
@@ -46,10 +47,23 @@ public class LabelHandleAdapter extends ReportItemtHandleAdapter
 	public Dimension getSize( )
 	{
 		DimensionHandle handle = ( (ReportItemHandle) getHandle( ) ).getWidth( );
-		int px = (int) DEUtil.convertoToPixel( handle );
+
+		int px = 0;
+		int py = 0;
+
+		// percentage unit is handled in layout, here always return 0;
+
+		if ( !DesignChoiceConstants.UNITS_PERCENTAGE.equals( handle.getUnits( ) ) )
+		{
+			px = (int) DEUtil.convertoToPixel( handle );
+		}
 
 		handle = ( (ReportItemHandle) getHandle( ) ).getHeight( );
-		int py = (int) DEUtil.convertoToPixel( handle );
+
+		if ( !DesignChoiceConstants.UNITS_PERCENTAGE.equals( handle.getUnits( ) ) )
+		{
+			py = (int) DEUtil.convertoToPixel( handle );
+		}
 
 		px = Math.max( 0, px );
 		py = Math.max( 0, py );

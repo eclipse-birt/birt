@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.internal.ui.layout.ReportItemConstraint;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
@@ -36,7 +37,7 @@ import org.eclipse.jface.viewers.TextCellEditor;
 
 /**
  * Provides support for label edit parts.
- *  
+ * 
  */
 public class LabelEditPart extends ReportElementEditPart
 {
@@ -51,7 +52,6 @@ public class LabelEditPart extends ReportElementEditPart
 	 * @see org.eclipse.birt.report.designer.core.facade.IModelAdaptHelper#markDirty(boolean)
 	 */
 	private static final String ELEMENT_DEFAULT_TEXT = Messages.getString( "LabelEditPart.Figure.Default" );//$NON-NLS-1$
-
 
 	/**
 	 * Constructor
@@ -91,7 +91,6 @@ public class LabelEditPart extends ReportElementEditPart
 					new LabelCellEditorLocator( (Figure) getFigure( ) ) );
 		manager.show( );
 	}
-
 
 	/**
 	 * @return
@@ -184,13 +183,18 @@ public class LabelEditPart extends ReportElementEditPart
 		ReportItemConstraint constraint = new ReportItemConstraint( );
 
 		constraint.setDisplay( handle.getPrivateStyle( ).getDisplay( ) );
+		DimensionHandle value = handle.getWidth( );
+		constraint.setMeasure( value.getMeasure( ) );
+		constraint.setUnits( value.getUnits( ) );
 		return constraint;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#getResizePolice(org.eclipse.gef.EditPolicy)
 	 */
-	public EditPolicy getResizePolice(EditPolicy parentPolice)
+	public EditPolicy getResizePolice( EditPolicy parentPolice )
 	{
 		return new NonResizableEditPolicy( );
 	}
