@@ -1151,22 +1151,22 @@ public class CascadingParametersDialog extends BaseDialog
 				continue;
 			}
 
-			if ( !( ( DesignChoiceConstants.PARAM_TYPE_STRING.endsWith( getSelectedDataType( ) ) ) || ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.endsWith( getSelectedDataType( ) ) ) ) )
+			if ( !( ( DesignChoiceConstants.PARAM_TYPE_STRING.endsWith( tempType ) ) || ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.endsWith( tempType ) ) ) )
 			{
-				if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( getSelectedDataType( ) ) )
+				if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( tempType ) )
 				{
 					tempDefaultValue = convertToStandardFormat( DataTypeUtil.toDate( tempDefaultValue ) );
 				}
-				else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( getSelectedDataType( ) ) )
+				else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( tempType ) )
 				{
 					tempDefaultValue = convertToStandardFormat( DataTypeUtil.toSqlDate( tempDefaultValue ) );
 				}
-				else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( getSelectedDataType( ) ) )
+				else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( tempType ) )
 				{
 					tempDefaultValue = convertToStandardFormat( DataTypeUtil.toSqlTime( tempDefaultValue ) );
 				}
 
-				ParameterValidationUtil.validate( getSelectedDataType( ),
+				ParameterValidationUtil.validate( tempType,
 						STANDARD_DATE_TIME_PATTERN,
 						tempDefaultValue,
 						ULocale.getDefault( ) );
