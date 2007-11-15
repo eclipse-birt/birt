@@ -126,10 +126,7 @@ public class SelectValueFetcher
 					while ( iter.next( ) )
 					{
 						Object candiateValue = iter.getValue( BINDING_ROW_NAME );
-						if ( candiateValue != null )
-						{
-							selectValueList.add( candiateValue );
-						}
+						selectValueList.add( candiateValue );
 						iter.skipToEnd( 1 );
 					}
 				}
