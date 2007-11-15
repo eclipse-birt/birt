@@ -573,5 +573,24 @@ public class WebViewer
 
 		return false;
 	}
-
+	
+	/**
+	 * Cancel the process
+	 * 
+	 * @param browser
+	 */
+	public static void cancel( Browser browser )
+	{
+		if( browser == null )
+			return;
+		
+		try
+		{
+			browser.execute( "try { if( birtProgressBar ){ birtProgressBar.cancel(); } } catch(e){}" ); //$NON-NLS-1$
+		}
+		catch ( Exception e )
+		{
+			// Do nothing
+		}
+	}
 }
