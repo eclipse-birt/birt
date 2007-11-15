@@ -480,7 +480,7 @@ dataset.wizard.label.datasetType=Tipo de conjunto de dat&os:
 dataset.wizard.label.dataSource=Fuente de dat&os:
 dataSourceSelectionPage.title=Link con fuente de datos
 dataset.error.title.noReportDesign=Error
-dataset.error.msg.noReportDesign=No report design available.
+dataset.error.msg.noReportDesign=Diseño de informe no disponible.
 
 ###########################################################
 #DataSetBasePage properties
@@ -593,7 +593,7 @@ datasource.wizard.title.select=Seleccione un tipo de fuente de datos o un perfil
 datasource.editor.property=Enlace de propiedades
 datasource.editor.duplicatedName=El nombre de fuente de datos "{0}" está duplicado
 datasource.error.title.noReportDesign=Error
-datasource.error.msg.noReportDesign=No report design available.
+datasource.error.msg.noReportDesign=Diseño de informe no disponible.
 
 ###########################################################
 #DataSourceProcess properties
@@ -1303,9 +1303,9 @@ ExpressionBuilder.Label.Operators=Operadores:
 ExpressionBuilder.Label.SubCategory=Subcategoría:
 ExpressionBuilder.Message.Prompt=Introduzca una expresión en el campo Expresión. Busque la lista de objetos disponibles y haga doble clic para copiarla en la expresión.
 ExpressionBuilder.ToolTip=Abrir el compilador de expresiones
-ExpressionBuilder.toolTipText.validate=Validate
-ExpressionBuilder.Script.NoError=No syntax error was found in current script.
-ExpressionBuilder.Script.Error=[Row:{0}, Column:{1}] {2}
+ExpressionBuilder.toolTipText.validate=Validar
+ExpressionBuilder.Script.NoError=No se ha encontrado ningún error de sintaxis en el script actual.
+ExpressionBuilder.Script.Error=[Fila:{0}, Columna:{1}] {2}
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
@@ -4001,8 +4001,8 @@ ReportExamples.OpenBrowser.Error.message=No se puede abrir el explorador Web.
 
 ###########################################################
 #CopyCellContentsContextAction
-CopyCellContentsContextAction.actionText=Copy contents
+CopyCellContentsContextAction.actionText=Copiar contenido
 
 ###########################################################
 #CopyCellContentsAction
-CopyCellContentsAction.actionText=Copy contents
+CopyCellContentsAction.actionText=Copiar contenido

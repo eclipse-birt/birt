@@ -3446,7 +3446,7 @@ Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=要素 "{0}" の挿入や貼り付けはで
 
 Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE=要素の参照が循環しています。{0} は、すでに {1} を参照しています。
 Error.SemanticError.INCONSISTENT_DATA_GROUP=要素 {0} のデータバインドの参照には、その参照先の要素 {1} とは異なる数のグループがあります。
-Error.SemanticError.INVALID_MANIFEST=The element {0} has an invalid manifest.
+Error.SemanticError.INVALID_MANIFEST=要素 {0} に無効なマニフェストがあります。
 
 #StyleException
 Error.StyleException.FORBIDDEN={0} にはスタイルを適用できません。

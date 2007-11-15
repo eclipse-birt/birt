@@ -3446,7 +3446,7 @@ Error.SemanticError.ROW_INSERTANDPASTE_FORBIDDEN=Está prohibida la operación ins
 
 Error.SemanticError.CIRCULAR_ELEMENT_REFERNECE=Se ha encontrado la referencia de elemento circular, debido a que {0} ya hace referencia a {1}.
 Error.SemanticError.INCONSISTENT_DATA_GROUP=La referencia de enlace de datos del elemento {0} tiene un número diferente de grupos con el elemento {1} al que hace referencia.
-Error.SemanticError.INVALID_MANIFEST=The element {0} has an invalid manifest.
+Error.SemanticError.INVALID_MANIFEST=El elemento {0} tiene un manifiesto no válido.
 
 #StyleException
 Error.StyleException.FORBIDDEN=El valor {0} no puede tener ningún estilo.

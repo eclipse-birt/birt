@@ -480,7 +480,7 @@ dataset.wizard.label.datasetType=数据集类型(&T):
 dataset.wizard.label.dataSource=数据源(&S):
 dataSourceSelectionPage.title=与数据源链接
 dataset.error.title.noReportDesign=错误
-dataset.error.msg.noReportDesign=No report design available.
+dataset.error.msg.noReportDesign=没有可用的报表设计。
 
 ###########################################################
 #DataSetBasePage properties
@@ -593,7 +593,7 @@ datasource.wizard.title.select=选择数据源类型，或选择连接配置文件
 datasource.editor.property=属性绑定
 datasource.editor.duplicatedName=数据源名称“{0}”重复
 datasource.error.title.noReportDesign=错误
-datasource.error.msg.noReportDesign=No report design available.
+datasource.error.msg.noReportDesign=没有可用的报表设计。
 
 ###########################################################
 #DataSourceProcess properties
@@ -1303,9 +1303,9 @@ ExpressionBuilder.Label.Operators=运算符:
 ExpressionBuilder.Label.SubCategory=子类别:
 ExpressionBuilder.Message.Prompt=在“表达式”字段中输入一个表达式。浏览可用对象列表并双击对象以将其复制到表达式中。
 ExpressionBuilder.ToolTip=打开表达式生成器
-ExpressionBuilder.toolTipText.validate=Validate
-ExpressionBuilder.Script.NoError=No syntax error was found in current script.
-ExpressionBuilder.Script.Error=[Row:{0}, Column:{1}] {2}
+ExpressionBuilder.toolTipText.validate=验证
+ExpressionBuilder.Script.NoError=当前脚本中找不到语法错误。
+ExpressionBuilder.Script.Error=[行:{0}, 列:{1}] {2}
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
@@ -4001,8 +4001,8 @@ ReportExamples.OpenBrowser.Error.message=无法打开 Web 浏览器。
 
 ###########################################################
 #CopyCellContentsContextAction
-CopyCellContentsContextAction.actionText=Copy contents
+CopyCellContentsContextAction.actionText=复制内容
 
 ###########################################################
 #CopyCellContentsAction
-CopyCellContentsAction.actionText=Copy contents
+CopyCellContentsAction.actionText=复制内容

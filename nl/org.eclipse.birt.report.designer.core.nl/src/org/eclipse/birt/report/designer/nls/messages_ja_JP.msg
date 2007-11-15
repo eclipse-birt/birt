@@ -480,7 +480,7 @@ dataset.wizard.label.datasetType=データセットの型(&T) :
 dataset.wizard.label.dataSource=データソース(&S) :
 dataSourceSelectionPage.title=データセットとのリンク
 dataset.error.title.noReportDesign=エラー
-dataset.error.msg.noReportDesign=No report design available.
+dataset.error.msg.noReportDesign=使用できるレポートデザインがありません。
 
 ###########################################################
 #DataSetBasePage properties
@@ -593,7 +593,7 @@ datasource.wizard.title.select=データソースの種類または接続プロファイルの選択
 datasource.editor.property=プロパティのバインド
 datasource.editor.duplicatedName=データソース名 "{0}" が重複しています。
 datasource.error.title.noReportDesign=エラー
-datasource.error.msg.noReportDesign=No report design available.
+datasource.error.msg.noReportDesign=使用できるレポートデザインがありません。
 
 ###########################################################
 #DataSourceProcess properties
@@ -1303,9 +1303,9 @@ ExpressionBuilder.Label.Operators=演算子 :
 ExpressionBuilder.Label.SubCategory=サブカテゴリ :
 ExpressionBuilder.Message.Prompt=[式] フィールドに式を入力してください。使用可能なオブジェクトの一覧を参照し、式に使用する項目をダブルクリックしてコピーします。
 ExpressionBuilder.ToolTip=式ビルダを開く
-ExpressionBuilder.toolTipText.validate=Validate
-ExpressionBuilder.Script.NoError=No syntax error was found in current script.
-ExpressionBuilder.Script.Error=[Row:{0}, Column:{1}] {2}
+ExpressionBuilder.toolTipText.validate=検証
+ExpressionBuilder.Script.NoError=このスクリプトに構文エラーはありませんでした。
+ExpressionBuilder.Script.Error=[行 :{0}、列 :{1}] {2}
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
@@ -4001,8 +4001,8 @@ ReportExamples.OpenBrowser.Error.message=Web ブラウザを開けません。
 
 ###########################################################
 #CopyCellContentsContextAction
-CopyCellContentsContextAction.actionText=Copy contents
+CopyCellContentsContextAction.actionText=コンテンツのコピー
 
 ###########################################################
 #CopyCellContentsAction
-CopyCellContentsAction.actionText=Copy contents
+CopyCellContentsAction.actionText=コンテンツのコピー

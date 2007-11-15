@@ -480,7 +480,7 @@ dataset.wizard.label.datasetType=데이터 집합 형식(&T):
 dataset.wizard.label.dataSource=데이터 원본(&S):
 dataSourceSelectionPage.title=데이터 원본과 연결
 dataset.error.title.noReportDesign=오류
-dataset.error.msg.noReportDesign=No report design available.
+dataset.error.msg.noReportDesign=보고서 디자인을 사용할 수 없습니다.
 
 ###########################################################
 #DataSetBasePage properties
@@ -593,7 +593,7 @@ datasource.wizard.title.select=데이터 원본 형식 선택 또는 연결 프로파일 선택
 datasource.editor.property=속성 바인딩
 datasource.editor.duplicatedName=데이터 원본 이름 "{0}"이(가) 중복됨
 datasource.error.title.noReportDesign=오류
-datasource.error.msg.noReportDesign=No report design available.
+datasource.error.msg.noReportDesign=보고서 디자인을 사용할 수 없습니다.
 
 ###########################################################
 #DataSourceProcess properties
@@ -1303,9 +1303,9 @@ ExpressionBuilder.Label.Operators=연산자:
 ExpressionBuilder.Label.SubCategory=하위 범주:
 ExpressionBuilder.Message.Prompt=식 필드에 식을 입력하십시오. 사용 가능한 객체 목록을 찾아보고 식으로 복사하려면 두 번 클릭하십시오.
 ExpressionBuilder.ToolTip=식 빌더 열기
-ExpressionBuilder.toolTipText.validate=Validate
-ExpressionBuilder.Script.NoError=No syntax error was found in current script.
-ExpressionBuilder.Script.Error=[Row:{0}, Column:{1}] {2}
+ExpressionBuilder.toolTipText.validate=확인
+ExpressionBuilder.Script.NoError=현재 스크립트에 구문 오류가 없습니다.
+ExpressionBuilder.Script.Error=[행:{0}, 열:{1}] {2}
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
@@ -2011,7 +2011,7 @@ JSEditor.Display.NoExpression=이 요소에 메소드가 없습니다.
 JSEditor.Input.trial=시도
 JSEditor.Text.NoText=No text
 JSEditor.Validate.Title=유효성 검사
-JSEditor.Validate.NoError=현재 스크립트에서 구문 오류를 찾을 수 없습니다.
+JSEditor.Validate.NoError=현재 스크립트에 구문 오류가 없습니다.
 
 
 ###########################################################
@@ -4001,8 +4001,8 @@ ReportExamples.OpenBrowser.Error.message=웹 브라우저를 열 수 없습니다.
 
 ###########################################################
 #CopyCellContentsContextAction
-CopyCellContentsContextAction.actionText=Copy contents
+CopyCellContentsContextAction.actionText=내용 복사
 
 ###########################################################
 #CopyCellContentsAction
-CopyCellContentsAction.actionText=Copy contents
+CopyCellContentsAction.actionText=내용 복사

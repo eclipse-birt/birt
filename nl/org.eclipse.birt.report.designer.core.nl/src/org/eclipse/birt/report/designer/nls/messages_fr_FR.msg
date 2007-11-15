@@ -480,7 +480,7 @@ dataset.wizard.label.datasetType=&Type de jeu de données :
 dataset.wizard.label.dataSource=&Source de données :
 dataSourceSelectionPage.title=Lien avec la source de données
 dataset.error.title.noReportDesign=Erreur
-dataset.error.msg.noReportDesign=No report design available.
+dataset.error.msg.noReportDesign=Aucun modèle d'état disponible.
 
 ###########################################################
 #DataSetBasePage properties
@@ -593,7 +593,7 @@ datasource.wizard.title.select=Sélectionner un type de source de données ou choi
 datasource.editor.property=Liaison de propriété
 datasource.editor.duplicatedName=Le nom de la source de données "{0}" est dupliqué
 datasource.error.title.noReportDesign=Erreur
-datasource.error.msg.noReportDesign=No report design available.
+datasource.error.msg.noReportDesign=Aucun modèle d'état disponible.
 
 ###########################################################
 #DataSourceProcess properties
@@ -1303,9 +1303,9 @@ ExpressionBuilder.Label.Operators=Opérateurs :
 ExpressionBuilder.Label.SubCategory=Sous-catégorie :
 ExpressionBuilder.Message.Prompt=Entrez une expression dans le champ Expression. Parcourez la liste des objets disponibles et cliquez deux fois sur un objet pour le copier dans votre expression.
 ExpressionBuilder.ToolTip=Ouvrir le Générateur d'expression
-ExpressionBuilder.toolTipText.validate=Validate
-ExpressionBuilder.Script.NoError=No syntax error was found in current script.
-ExpressionBuilder.Script.Error=[Row:{0}, Column:{1}] {2}
+ExpressionBuilder.toolTipText.validate=Valider
+ExpressionBuilder.Script.NoError=Aucune erreur de syntaxe n'a été trouvée dans le script actuel.
+ExpressionBuilder.Script.Error=[Rang : {0}, Colonne : {1}] {2}
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
@@ -4001,8 +4001,8 @@ ReportExamples.OpenBrowser.Error.message=Impossible d'ouvrir le navigateur Web.
 
 ###########################################################
 #CopyCellContentsContextAction
-CopyCellContentsContextAction.actionText=Copy contents
+CopyCellContentsContextAction.actionText=Copier le contenu
 
 ###########################################################
 #CopyCellContentsAction
-CopyCellContentsAction.actionText=Copy contents
+CopyCellContentsAction.actionText=Copier le contenu
