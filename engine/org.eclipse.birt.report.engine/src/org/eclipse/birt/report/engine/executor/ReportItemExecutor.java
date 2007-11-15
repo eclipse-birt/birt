@@ -685,17 +685,21 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		TOCBuilder tocBuilder = context.getTOCBuilder( );
 		if ( tocBuilder != null )
 		{
-			TOCEntry entry = getParentTOCEntry();
+			TOCEntry entry = getParentTOCEntry( );
 			String hiddenFormats = group.getStyle( ).getVisibleFormat( );
 			long elementId = getElementId( );
-			tocEntry = tocBuilder.startGroupEntry( entry, group.getTOC( ),
-					group.getBookmark( ), hiddenFormats, elementId );
-			String tocId = tocEntry.getNode( ).getNodeID( );
-			if ( group.getBookmark( ) == null )
+			Object tocValue = group.getTOC( );
+			String bookmark = group.getBookmark( );
+			tocEntry = tocBuilder.startGroupEntry( entry, tocValue, bookmark,
+			hiddenFormats, elementId );
+			// shouldn't set the bookmark if it is an empty entry
+			if ( tocValue != null && bookmark == null )
 			{
+				String tocId = tocEntry.getNode( ).getNodeID( );
 				group.setBookmark( tocId );
 			}
 		}
+
 	}
 
 	protected void finishGroupTOCEntry( )
