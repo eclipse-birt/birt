@@ -77,7 +77,7 @@ public class ParameterHelper
 		this.distinct = parameter.distinct( );
 		this.labelColumnName = getLabelColumnName( parameter );
 		this.valueColumnName = getValueColumnName( parameter );
-		this.valueType = parameter.getValueType( );
+		this.valueType = parameter.getDataType( );
 		if ( parameter.isFixedOrder( ) )
 		{
 			this.comparator = new FixInOrderComparator( distinct );
