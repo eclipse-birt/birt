@@ -238,10 +238,11 @@ public class PropertyEditorFactory
 
 		if ( o instanceof GroupPropertyHandle )
 		{
-			if ( ( (GroupPropertyHandle) o ).getPropertyDefn( ).getChoices( ) != null )
+			if ( ( (GroupPropertyHandle) o ).getPropertyDefn( )
+					.getAllowedChoices( ) != null )
 			{
 				IChoice[] choices = ( (GroupPropertyHandle) o ).getPropertyDefn( )
-						.getChoices( )
+						.getAllowedChoices( )
 						.getChoices( );
 				if ( choices.length > 0 )
 				{

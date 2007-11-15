@@ -19,8 +19,6 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.DesignConfig;
-import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -129,10 +127,10 @@ public class ChoiceSetFactory
 		{
 			unitKey = DesignChoiceConstants.CHOICE_PAGE_BREAK_AFTER;
 		}
-//		else if ( StyleHandle.PAGE_BREAK_INSIDE_PROP.equals( property ) )
-//		{
-//			unitKey = DesignChoiceConstants.CHOICE_PAGE_BREAK_INSIDE;
-//		}
+		// else if ( StyleHandle.PAGE_BREAK_INSIDE_PROP.equals( property ) )
+		// {
+		// unitKey = DesignChoiceConstants.CHOICE_PAGE_BREAK_INSIDE;
+		// }
 		return DEUtil.getMetaDataDictionary( ).getChoiceSet( unitKey );
 
 	}
@@ -153,11 +151,11 @@ public class ChoiceSetFactory
 		IElementPropertyDefn propertyDefn = DEUtil.getMetaDataDictionary( )
 				.getElement( elementName )
 				.getProperty( property );
-		if ( propertyDefn.getTypeCode( ) == IPropertyType.DIMENSION_TYPE
-				&& propertyDefn.getChoices( ) != null )
-		{
-			return propertyDefn.getChoices( );
-		}
+		// if ( propertyDefn.getTypeCode( ) == IPropertyType.DIMENSION_TYPE
+		// && propertyDefn.getAllowedChoices( ) != null )
+		// {
+		// return propertyDefn.getAllowedChoices( );
+		// }
 		return propertyDefn.getAllowedChoices( );
 	}
 
@@ -200,7 +198,7 @@ public class ChoiceSetFactory
 		IPropertyDefn propertyDefn = DEUtil.getMetaDataDictionary( )
 				.getStructure( structName )
 				.findProperty( property );
-		return propertyDefn.getChoices( );
+		return propertyDefn.getAllowedChoices( );
 	}
 
 	/**
@@ -562,7 +560,7 @@ public class ChoiceSetFactory
 
 		return (String[]) list.toArray( new String[0] );
 	}
-	
+
 	/**
 	 * Gets all the Cubes available.
 	 * 
@@ -575,7 +573,7 @@ public class ChoiceSetFactory
 		ModuleHandle handle = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
 
-		for ( Iterator iterator = handle.getVisibleCubes().iterator( ); iterator.hasNext( ); )
+		for ( Iterator iterator = handle.getVisibleCubes( ).iterator( ); iterator.hasNext( ); )
 		{
 			CubeHandle CubeHandle = (CubeHandle) iterator.next( );
 			list.add( CubeHandle.getQualifiedName( ) );
