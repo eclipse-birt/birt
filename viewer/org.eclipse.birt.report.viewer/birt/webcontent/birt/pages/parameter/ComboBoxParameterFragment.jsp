@@ -89,6 +89,32 @@
 			<%= !CHECKED ? "DISABLED='true'" : "" %> 
 			<%=  allowMultiValue? "multiple='true'" : "" %> >
 <%
+
+	if ( !parameterBean.isRequired( ) )
+	{
+		if( allowMultiValue )
+		{
+			if( DataUtil.contain( values, null, true ) )
+			{
+	%>
+		<OPTION VALUE="" SELECTED ><%= IBirtConstants.NULL_VALUE %></OPTION>
+	<%			
+			}
+			else
+			{
+	%>
+		<OPTION VALUE=""><%= IBirtConstants.NULL_VALUE %></OPTION>
+	<%				
+			}
+		}
+		else
+		{
+	%>
+		<OPTION VALUE="" <%= ( paramValue == null )? "SELECTED" : ""%> ><%= IBirtConstants.NULL_VALUE %></OPTION>
+	<%
+		}
+	}
+
 	if ( parameterBean.getSelectionList( ) != null )
 	{
 		if( !parameterBean.isRequired( ) || ( parameterBean.isCascade( ) && DataUtil.trimString( defaultValue ).length( )<=0 ) )
@@ -169,30 +195,6 @@
 <%
 				}
 			}
-		}
-	}
-	if ( !parameterBean.isRequired( ) )
-	{
-		if( allowMultiValue )
-		{
-			if( DataUtil.contain( values, null, true ) )
-			{
-%>
-		<OPTION VALUE="" SELECTED >Null Value</OPTION>
-<%			
-			}
-			else
-			{
-%>
-		<OPTION VALUE="">Null Value</OPTION>
-<%				
-			}
-		}
-		else
-		{
-%>
-		<OPTION VALUE="" <%= ( paramValue == null )? "SELECTED" : ""%> >Null Value</OPTION>
-<%
 		}
 	}
 %>
