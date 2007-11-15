@@ -80,9 +80,6 @@ public final class DataTypeUtil
 	public static Object convert( Object source, int toType )
 			throws BirtException
 	{
-		if ( source == null )
-			return null;
-
 		source = JavascriptEvalUtil.convertJavascriptValue( source );
 		
 		// here we assume the efficiency of if else is higher than switch case
@@ -348,7 +345,7 @@ public final class DataTypeUtil
 	public static Boolean toBoolean( Object source ) throws BirtException
 	{
 		if ( source == null )
-			return null;
+			return Boolean.FALSE;
 
 		if ( source instanceof Boolean )
 		{
