@@ -59,6 +59,11 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	 *	Check if parameter is required or not.
 	 */
 	__is_parameter_required : null,
+
+	/*
+	* Clear the sub cascading parameters
+	*/
+	__clearSubCascadingParameter : null,
 	
     /**
 	 *	if previous is visible.
@@ -746,6 +751,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 							{
 								// Only String parameter allows blank value
 								alert( birtUtility.formatMessage( Constants.error.parameterNotAllowBlank, paramName ) );
+								this.__clearSubCascadingParameter( this.__cascadingParameter[i], j );
 								return;
 							}
 							else
@@ -783,6 +789,32 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
         }
 	},
 
+	/**
+	 *	Clear the sub cascading parameter.
+	 *
+	 *  @cascadingParameterGroup
+	 *  @index
+	 *	@return, void
+	 */	
+	__clearSubCascadingParameter : function( cascadingParameterGroup, index )
+	{
+		for( var i = index + 1; i < cascadingParameterGroup.length; i++ )
+		{
+			var param_name = cascadingParameterGroup[i].name;
+			if( param_name == this.__isnull )
+				param_name = cascadingParameterGroup[i].value;
+				
+			var selection = document.getElementById( param_name + "_selection" );
+			var len = selection.options.length;
+			
+			// Clear our selection list.
+			for( var j = 0; j < len; j++ )
+			{
+				selection.remove( 0 );
+			}				
+		}	
+	},
+	
 	/**
 	 *	Handle clicking on radio.
 	 *
