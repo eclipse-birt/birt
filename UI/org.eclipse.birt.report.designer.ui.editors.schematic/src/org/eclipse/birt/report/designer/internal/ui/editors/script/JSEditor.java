@@ -56,6 +56,7 @@ import org.eclipse.gef.ui.views.palette.PalettePage;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextListener;
+import org.eclipse.jface.text.IUndoManager;
 import org.eclipse.jface.text.TextEvent;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.viewers.ComboViewer;
@@ -570,8 +571,20 @@ public class JSEditor extends EditorPart implements IColleague
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				setEditorText( "" ); //$NON-NLS-1$
+				IUndoManager undo = getViewer( ).getUndoManager( );
+
+				// Allows to undo after reseting.
+				try
+				{
+					getViewer( ).setUndoManager( null );
+					setEditorText( "" ); //$NON-NLS-1$
+				}
+				finally
+				{
+					getViewer( ).setUndoManager( undo );
+				}
 				markDirty( );
+				setFocus( );
 			}
 
 			public void widgetDefaultSelected( SelectionEvent e )
