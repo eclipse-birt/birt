@@ -71,6 +71,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Label;
@@ -233,7 +234,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 
 			displayKeyCombo.setItems( OlapUtil.getDataFieldNames( dataset ) );
 			displayKeyCombo.add( Messages.getString( "LevelPropertyDialog.None" ), 0 ); //$NON-NLS-1$
-			
+
 			if ( input.getDisplayColumnName( ) != null )
 			{
 				displayKeyCombo.setText( input.getDisplayColumnName( ) );
@@ -280,25 +281,39 @@ public class LevelPropertyDialog extends TitleAreaDialog
 	private void refreshDynamicViewer( )
 	{
 		Iterator attrIter = input.attributesIterator( );
-		List attrList = new LinkedList( );
+		final List attrList = new LinkedList( );
 		while ( attrIter.hasNext( ) )
 		{
 			attrList.add( attrIter.next( ) );
 		}
-		dynamicViewer.refresh( );
-		dynamicViewer.setInput( attrList );
+		Display.getDefault( ).asyncExec( new Runnable( ) {
+
+			public void run( )
+			{
+				dynamicViewer.setInput( attrList );
+			}
+
+		} );
+
 	}
 
 	private void refreshStaticViewer( )
 	{
 		Iterator valuesIter = input.staticValuesIterator( );
-		List valuesList = new LinkedList( );
+		final List valuesList = new LinkedList( );
 		while ( valuesIter.hasNext( ) )
 		{
 			valuesList.add( valuesIter.next( ) );
 		}
-		staticViewer.refresh( );
-		staticViewer.setInput( valuesList );
+		Display.getDefault( ).asyncExec( new Runnable( ) {
+
+			public void run( )
+			{
+				staticViewer.setInput( valuesList );
+			}
+
+		} );
+
 	}
 
 	// private int getIntervalTypeIndex( String interval )
@@ -459,7 +474,9 @@ public class LevelPropertyDialog extends TitleAreaDialog
 				{
 					if ( element instanceof RuleHandle )
 					{
+
 						return ( (RuleHandle) element ).getDisplayExpression( );
+
 					}
 					return ""; //$NON-NLS-1$
 				}
@@ -472,7 +489,9 @@ public class LevelPropertyDialog extends TitleAreaDialog
 				{
 					if ( element instanceof RuleHandle )
 					{
+
 						return ( (RuleHandle) element ).getRuleExpression( );
+
 					}
 					return ""; //$NON-NLS-1$
 				}
@@ -517,7 +536,9 @@ public class LevelPropertyDialog extends TitleAreaDialog
 				{
 					if ( element instanceof LevelAttributeHandle )
 					{
+
 						return ( (LevelAttributeHandle) element ).getName( );
+
 					}
 				}
 			}
