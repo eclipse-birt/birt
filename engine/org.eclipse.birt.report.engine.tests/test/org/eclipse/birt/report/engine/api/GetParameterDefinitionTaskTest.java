@@ -361,8 +361,9 @@ public class GetParameterDefinitionTaskTest extends EngineCase
 		destroy( );
 		initialize( "org/eclipse/birt/report/engine/api/GetSelectionTreeTest.rptdesign" );
 		Map parentToChildren = new HashMap( );
-		parentToChildren.put( "Singapore", new Object[]{"1621", "1612", null});
-		parentToChildren.put( "Hong Kong", new Object[]{"1621"});
+		parentToChildren.put( "Singapore", new Object[]{new Integer( 1621 ),
+				new Integer( 1612 ), null} );
+		parentToChildren.put( "Hong Kong", new Object[]{new Integer( 1621 )} );
 
 		String[] parent = new String[]{"Singapore", "Hong Kong"};
 		checkTree( "DistinctFixedOrder", parent, parentToChildren );
