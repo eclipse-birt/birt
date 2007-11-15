@@ -24,6 +24,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.data.ui.util.SelectValueFetcher;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
@@ -38,6 +39,7 @@ import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetF
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
@@ -106,10 +108,10 @@ import com.ibm.icu.util.ULocale;
 
 public class CascadingParametersDialog extends BaseDialog
 {
-	
+
 	private Composite sorttingArea;
-	private Label sortKeyLabel,sortDirectionLabel;
-	private Combo sortDirectionChooser,sortKeyChooser;
+	private Label sortKeyLabel, sortDirectionLabel;
+	private Combo sortDirectionChooser, sortKeyChooser;
 	private static final String LABEL_SORT_GROUP = Messages.getString( "ParameterDialog.Label.SortGroup" ); //$NON-NLS-1$
 	private static final String LABEL_SORT_KEY = Messages.getString( "ParameterDialog.Label.SortKey" ); //$NON-NLS-1$
 	private static final String CHOICE_NONE = Messages.getString( "ParameterDialog.Choice.None" ); //$NON-NLS-1$
@@ -323,7 +325,7 @@ public class CascadingParametersDialog extends BaseDialog
 
 	protected Control createDialogArea( Composite parent )
 	{
-		//		Composite composite = (Composite) super.createDialogArea( parent );
+		// Composite composite = (Composite) super.createDialogArea( parent );
 
 		ScrolledComposite sc = new ScrolledComposite( (Composite) super.createDialogArea( parent ),
 				SWT.H_SCROLL | SWT.V_SCROLL );
@@ -358,9 +360,9 @@ public class CascadingParametersDialog extends BaseDialog
 		createDynamicParamsPart( composite );
 
 		createPropertiesPart( composite );
-		
+
 		createSortingArea( composite );
-		
+
 		createOptionsPart( composite );
 
 		createLabel( composite, null );
@@ -491,6 +493,30 @@ public class CascadingParametersDialog extends BaseDialog
 
 	}
 
+	private void updateDataSets( )
+	{
+		ArrayList elementsList = new ArrayList( inputParameterGroup.getParameters( )
+				.getContents( ) );
+		if ( elementsList == null || elementsList.size( ) == 0 )
+		{
+			return;
+		}
+
+		String dataSetName = inputParameterGroup.getDataSet( ).getName( );
+		for ( Iterator iter = elementsList.iterator( ); iter.hasNext( ); )
+		{
+			ScalarParameterHandle handle = (ScalarParameterHandle) iter.next( );
+			try
+			{
+				handle.setDataSetName( dataSetName );
+			}
+			catch ( SemanticException e1 )
+			{
+
+			}
+		}
+	}
+
 	private void createChoicePart( Composite parent )
 	{
 		Composite composite = new Composite( parent, SWT.NONE );
@@ -506,6 +532,8 @@ public class CascadingParametersDialog extends BaseDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
+
+				updateDataSets( );
 				refreshValueTable( );
 				updateButtons( );
 			}
@@ -717,12 +745,21 @@ public class CascadingParametersDialog extends BaseDialog
 		{
 			return;
 		}
+
+		CommandStack cmdStack = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( )
+				.getCommandStack( );
+		cmdStack.startTrans( null );
+
 		AddEditCascadingParameterDialog dialog = new AddEditCascadingParameterDialog( Messages.getString( "CascadingParametersDialog.Title.AddCascadingParameter" ) ); //$NON-NLS-1$
 		dialog.setParameter( param );
 		if ( dialog.open( ) != Dialog.OK )
 		{
+			cmdStack.rollback( );
 			return;
 		}
+		cmdStack.commit( );
+
 		refreshValueTable( );
 		refreshParameterProperties( );
 		initSorttingArea( );
@@ -862,7 +899,7 @@ public class CascadingParametersDialog extends BaseDialog
 				String selection = defaultValueChooser.getItem( defaultValueChooser.getSelectionIndex( ) );
 				if ( selection.equals( CHOICE_SELECT_VALUE ) )
 				{
-					//					defaultValueChooser.setText( "" ); //$NON-NLS-1$
+					// defaultValueChooser.setText( "" ); //$NON-NLS-1$
 
 					List columnValueList = getColumnValueList( );
 					if ( columnValueList.isEmpty( ) )
@@ -879,7 +916,7 @@ public class CascadingParametersDialog extends BaseDialog
 					}
 					else if ( status == Window.CANCEL )
 					{
-						//						defaultValueChooser.setText( "" ); //$NON-NLS-1$
+						// defaultValueChooser.setText( "" ); //$NON-NLS-1$
 					}
 				}
 
@@ -1182,7 +1219,7 @@ public class CascadingParametersDialog extends BaseDialog
 		try
 		{
 			saveParameterProperties( );
-			saveSortingProperties();
+			saveSortingProperties( );
 			// Validate default value first -- begin -- bug 164765
 			validateDefaultValues( );
 			// Validate default value first -- end --
@@ -2535,7 +2572,7 @@ public class CascadingParametersDialog extends BaseDialog
 
 		}
 	}
-	
+
 	private void createSortingArea( Composite parent )
 	{
 		// Sorting conditions here
@@ -2599,24 +2636,24 @@ public class CascadingParametersDialog extends BaseDialog
 		sortDirectionChooser.setText( CHOICE_ASCENDING );
 	}
 
-	private void setSortingDefault()
+	private void setSortingDefault( )
 	{
 		sortKeyChooser.setText( CHOICE_NONE );
 		sortDirectionChooser.setText( CHOICE_ASCENDING );
 	}
-	
+
 	private void initSorttingArea( )
 	{
 		if ( selectedParameter == null )
 		{
-			setSortingDefault();
+			setSortingDefault( );
 			sortKeyLabel.setEnabled( false );
 			sortKeyChooser.setEnabled( false );
 			sortDirectionLabel.setEnabled( false );
 			sortDirectionChooser.setEnabled( false );
 			return;
 		}
-		
+
 		if ( !selectedParameter.isFixedOrder( ) )
 		{
 			sortKeyLabel.setEnabled( true );
@@ -2648,66 +2685,66 @@ public class CascadingParametersDialog extends BaseDialog
 		}
 		else
 		{
-			setSortingDefault();
-			
+			setSortingDefault( );
+
 			sortKeyLabel.setEnabled( true );
 			sortKeyChooser.setEnabled( true );
 			sortDirectionLabel.setEnabled( false );
 			sortDirectionChooser.setEnabled( false );
 		}
 	}
-	
-	private void saveSortingProperties()
+
+	private void saveSortingProperties( )
 	{
-		
-		if(selectedParameter == null)
+
+		if ( selectedParameter == null )
 		{
 			return;
 		}
-		
+
 		if ( sorttingArea != null
 				&& !sorttingArea.isDisposed( )
 				&& sorttingArea.isVisible( ) )
 		{
 			try
 			{
-			if ( !sortKeyChooser.getText( ).equals( CHOICE_NONE ) )
-			{
+				if ( !sortKeyChooser.getText( ).equals( CHOICE_NONE ) )
+				{
 
 					selectedParameter.setFixedOrder( false );
-			
-				if ( sortKeyChooser.getText( ).equals( CHOICE_DISPLAY_TEXT ) )
-				{
-					selectedParameter.setSortBy( DesignChoiceConstants.PARAM_SORT_VALUES_LABEL );
-				}
-				else if ( sortKeyChooser.getText( )
-						.equals( CHOICE_VALUE_COLUMN ) )
-				{
-					selectedParameter.setSortBy( DesignChoiceConstants.PARAM_SORT_VALUES_VALUE );
-				}
 
-				if ( sortDirectionChooser.getText( )
-						.equals( CHOICE_ASCENDING ) )
-				{
-					selectedParameter.setSortDirection( DesignChoiceConstants.SORT_DIRECTION_ASC );
+					if ( sortKeyChooser.getText( ).equals( CHOICE_DISPLAY_TEXT ) )
+					{
+						selectedParameter.setSortBy( DesignChoiceConstants.PARAM_SORT_VALUES_LABEL );
+					}
+					else if ( sortKeyChooser.getText( )
+							.equals( CHOICE_VALUE_COLUMN ) )
+					{
+						selectedParameter.setSortBy( DesignChoiceConstants.PARAM_SORT_VALUES_VALUE );
+					}
+
+					if ( sortDirectionChooser.getText( )
+							.equals( CHOICE_ASCENDING ) )
+					{
+						selectedParameter.setSortDirection( DesignChoiceConstants.SORT_DIRECTION_ASC );
+					}
+					else if ( sortDirectionChooser.getText( )
+							.equals( CHOICE_DESCENDING ) )
+					{
+						selectedParameter.setSortDirection( DesignChoiceConstants.SORT_DIRECTION_DESC );
+					}
 				}
-				else if ( sortDirectionChooser.getText( )
-						.equals( CHOICE_DESCENDING ) )
+				else
 				{
-					selectedParameter.setSortDirection( DesignChoiceConstants.SORT_DIRECTION_DESC );
+					selectedParameter.setFixedOrder( true );
+					selectedParameter.setSortBy( null );
+					selectedParameter.setSortDirection( null );
 				}
-			}
-			else
-			{
-				selectedParameter.setFixedOrder( true );
-				selectedParameter.setSortBy( null );
-				selectedParameter.setSortDirection( null );
-			}
 			}
 			catch ( SemanticException e )
 			{
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				e.printStackTrace( );
 			}
 		}
 		else
@@ -2720,7 +2757,7 @@ public class CascadingParametersDialog extends BaseDialog
 			catch ( SemanticException e )
 			{
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				e.printStackTrace( );
 			}
 		}
 	}
