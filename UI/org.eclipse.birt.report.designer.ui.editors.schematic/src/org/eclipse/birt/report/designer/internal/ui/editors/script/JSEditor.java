@@ -898,7 +898,12 @@ public class JSEditor extends EditorPart implements IColleague
 		{
 			saveEditorContentsDE( (DesignElementHandle) editObject );
 		}
+		
 		setIsModified( false );
+
+		( (IFormPage) editingDomainEditor ).getEditor( )
+				.editorDirtyStateChanged( );
+		firePropertyChange( PROP_DIRTY );
 	}
 
 	/**
