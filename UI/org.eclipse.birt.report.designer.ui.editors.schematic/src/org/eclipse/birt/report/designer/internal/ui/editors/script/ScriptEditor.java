@@ -17,6 +17,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.IUndoManager;
 import org.eclipse.jface.text.source.AnnotationModel;
 import org.eclipse.jface.text.source.CompositeRuler;
 import org.eclipse.jface.text.source.ISourceViewer;
@@ -275,7 +276,12 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor
 
 			if ( viewer instanceof SourceViewer )
 			{
-				( (SourceViewer) viewer ).getUndoManager( ).reset( );
+				IUndoManager undoManager = ( (SourceViewer) viewer ).getUndoManager( );
+
+				if ( undoManager != null )
+				{
+					undoManager.reset( );
+				}
 			}
 		}
 	}
