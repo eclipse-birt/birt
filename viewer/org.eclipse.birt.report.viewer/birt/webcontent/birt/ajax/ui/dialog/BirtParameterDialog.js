@@ -65,6 +65,14 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	 */
 	__is_parameter_allowblank : null,
 	
+	/*
+	* Clear the sub cascading parameters
+	*/
+	__clearSubCascadingParameter : null,
+	
+	MIN_MULTILINES : 5,
+	MAX_MULTLIINES : 10,
+	
     /**
 	 *	if previous is visible.
 	 */	 
@@ -117,13 +125,18 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			
 			// Set size for multi-value parameter
 			if( oSC[i].multiple )
-			{
-				var scSize = 8;
-				var len = oSC[i].options.length;
-				if( len < scSize )
-					scSize = len;
+			{				
+				var len = oSC[i].options.length;				
+				if( len < this.MIN_MULTILINES )
+				{
+					len = this.MIN_MULTILINES;
+				}
+				else if( len > this.MAX_MULTLIINES )
+				{
+					len = this.MAX_MULTLIINES;
+				}
 				
-				oSC[i].size = scSize;
+				oSC[i].size = len;
 			}
 		}
 	},
@@ -830,6 +843,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 							{
 								// Only String parameter allows blank value
 								alert( birtUtility.formatMessage( Constants.error.parameterNotAllowBlank, paramName ) );
+								this.__clearSubCascadingParameter( this.__cascadingParameter[i], j );
 								return;
 							}
 							else
@@ -867,6 +881,32 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
         }
 	},
 
+	/**
+	 *	Clear the sub cascading parameter.
+	 *
+	 *  @cascadingParameterGroup
+	 *  @index
+	 *	@return, void
+	 */	
+	__clearSubCascadingParameter : function( cascadingParameterGroup, index )
+	{
+		for( var i = index + 1; i < cascadingParameterGroup.length; i++ )
+		{
+			var param_name = cascadingParameterGroup[i].name;
+			if( param_name == this.__isnull )
+				param_name = cascadingParameterGroup[i].value;
+				
+			var selection = document.getElementById( param_name + "_selection" );
+			var len = selection.options.length;
+			
+			// Clear our selection list.
+			for( var j = 0; j < len; j++ )
+			{
+				selection.remove( 0 );
+			}				
+		}	
+	},
+	
 	/**
 	 *	Handle clicking on radio.
 	 *
