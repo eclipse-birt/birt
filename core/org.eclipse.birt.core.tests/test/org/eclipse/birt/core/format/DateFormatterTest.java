@@ -38,11 +38,11 @@ public class DateFormatterTest extends TestCase
 	 */
 	public void testDateFormat( )
 	{
-		String golden = "09/13/0008 08:01:44 PM";
+		String golden = "09/13/1998 08:01:44 PM";
 		DateFormatter sample = new DateFormatter( "MM/dd/yyyy hh:mm:ss a", ULocale.ENGLISH );
 		Locale locDef = Locale.getDefault( );
 		Calendar dateCal = Calendar.getInstance( locDef );
-		dateCal.set( 8, 8, 13, 20, 1, 44 );
+		dateCal.set( 1998, 8, 13, 20, 1, 44 );
 		Date date = dateCal.getTime( );
 		
 		String fmtDate = sample.format(date);
@@ -57,7 +57,7 @@ public class DateFormatterTest extends TestCase
 		DateFormatter sample = new DateFormatter( "MM/dd/yyyy hh:mm:ss a" );
 		Locale locDef = Locale.getDefault( );
 		Calendar dateCal = Calendar.getInstance( locDef );
-		dateCal.set( 8, 8, 13, 20, 1, 44 );
+		dateCal.set( 1998, 8, 13, 20, 1, 44 );
 		Date date = dateCal.getTime( );
 		SimpleDateFormat sampleJava = new SimpleDateFormat(
 				"MM/dd/yyyy hh:mm:ss a", locDef );
