@@ -25,9 +25,11 @@ import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IBindingMetaInfo;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.SortkeyBuilder;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
@@ -44,9 +46,12 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.widget.ExpressionValueCellEditor;
 import org.eclipse.birt.report.model.api.CommandStack;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.MemberValueHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.RuleHandle;
 import org.eclipse.birt.report.model.api.SortElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -54,6 +59,7 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMemberValueModel;
 import org.eclipse.birt.report.model.elements.interfaces.ISortElementModel;
 import org.eclipse.jface.viewers.CellEditor;
@@ -71,11 +77,15 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
@@ -84,6 +94,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.Text;
 
 /**
  * 
@@ -91,6 +102,7 @@ import org.eclipse.swt.widgets.TableItem;
 
 public class CrosstabSortKeyBuilder extends SortkeyBuilder
 {
+	protected static final String VALUE_OF_THIS_DATA_ITEM = Messages.getString( "HighlightRuleBuilderDialog.choice.ValueOfThisDataItem" ); //$NON-NLS-1$
 
 	protected final String[] columns = new String[]{
 			" ",
@@ -170,7 +182,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			int index = getBindingIndex( input.getKey( ) );
 			if ( index != -1 )
 			{
-				textKey.select( index );
+				textKey.setText( ExpressionUtil.createJSDataExpression( textKey.getItem( index )) );
 			}
 			else
 			{
@@ -222,7 +234,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 
 				SortElementHandle sortElement = DesignElementFactory.getInstance( )
 						.newSortElement( );
-				sortElement.setKey( ExpressionUtil.createJSDataExpression( textKey.getText( ) ) );
+				sortElement.setKey(  textKey.getText( ) );
 				if ( index >= 0 )
 				{
 					sortElement.setDirection( choice.getName( ) );
@@ -262,7 +274,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			{
 				if ( level == levelViewHandle )
 				{
-					input.setKey( ExpressionUtil.createJSDataExpression( textKey.getText( ) ) );
+					input.setKey( textKey.getText( ) );
 					if ( index >= 0 )
 					{
 						input.setDirection( choice.getName( ) );
@@ -303,7 +315,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 				{
 					SortElementHandle sortElement = DesignElementFactory.getInstance( )
 							.newSortElement( );
-					sortElement.setKey( ExpressionUtil.createJSDataExpression( textKey.getText( ) ) );
+					sortElement.setKey(textKey.getText( ));
 					if ( index >= 0 )
 					{
 						sortElement.setDirection( choice.getName( ) );
@@ -374,9 +386,6 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 
 	protected Composite createInputContents( Composite parent )
 	{
-		// Label lb = new Label( parent, SWT.NONE );
-		// lb.setText( Messages.getString(
-		// "SortkeyBuilder.DialogTitle.Label.Prompt" ) );
 
 		UIUtil.bindHelp( parent, IHelpContextIds.XTAB_SORTER_CONDITION_BUILDER );
 
@@ -388,6 +397,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		groupLevel.setText( Messages.getString( "CrosstabSortkeyBuilder.DialogTitle.Label.GroupLevel" ) );
 		comboGroupLevel = new Combo( content, SWT.READ_ONLY | SWT.BORDER );
 		GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
+		gdata.horizontalSpan = 2;
 		comboGroupLevel.setLayoutData( gdata );
 		comboGroupLevel.addListener( SWT.Selection, ComboGroupLeveModify );
 
@@ -395,18 +405,16 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		String groupLeveNames[] = (String[]) groupLevelNameList.toArray( new String[groupLevelNameList.size( )] );
 		comboGroupLevel.setItems( groupLeveNames );
 
-		new Label( content, SWT.NONE );
 
 		Label labelKey = new Label( content, SWT.NONE );
 		labelKey.setText( Messages.getString( "SortkeyBuilder.DialogTitle.Label.Key" ) );
-		textKey = new Combo( content, SWT.READ_ONLY | SWT.BORDER );
+		textKey = new Combo( content, SWT.BORDER );
 		gdata = new GridData( GridData.FILL_HORIZONTAL );
 		textKey.setLayoutData( gdata );
-		textKey.addListener( SWT.Selection, ComboKeyModify );
+		textKey.addListener( SWT.Selection, ComboKeySelection );
 		textKey.addModifyListener( new ModifyListener( ) {
-
 			public void modifyText( ModifyEvent e )
-			{
+			{			
 				updateMemberValues( );
 				updateButtons( );
 			}
@@ -416,13 +424,24 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			textKey.add( DEUtil.resolveNull( null ) );
 		}
 
-		new Label( content, SWT.NONE );
+		Button expBuilder = new Button( content, SWT.PUSH );
+		UIUtil.setExpressionButtonImage( expBuilder );
+		expBuilder.setToolTipText( Messages.getString( "HighlightRuleBuilderDialog.tooltip.ExpBuilder" ) ); //$NON-NLS-1$
+		expBuilder.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				editValue( textKey );
+			}
+		} );
+
 
 		Label labelDirection = new Label( content, SWT.NONE );
 		labelDirection.setText( Messages.getString( "SortkeyBuilder.DialogTitle.Label.Direction" ) );
 
 		comboDirection = new Combo( content, SWT.READ_ONLY | SWT.BORDER );
 		gdata = new GridData( GridData.FILL_HORIZONTAL );
+		gdata.horizontalSpan = 2;
 		comboDirection.setLayoutData( gdata );
 		String[] displayNames = ChoiceSetFactory.getDisplayNamefromChoiceSet( choiceSet );
 		comboDirection.setItems( displayNames );
@@ -431,19 +450,93 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		return content;
 	}
 
+	protected void editValue(Control control)
+	{
+		String initValue = null;
+		if ( control instanceof Text )
+		{
+			initValue = ( (Text) control ).getText( );
+		}
+		else if ( control instanceof Combo )
+		{
+			initValue = ( (Combo) control ).getText( );
+		}
+			
+		ExpressionBuilder expressionBuilder = new ExpressionBuilder( getShell( ),
+				initValue );
+
+		if ( handle != null )
+		{
+			ExpressionProvider expressionProvider = new ExpressionProvider( handle );
+			expressionProvider.addFilter( new ExpressionFilter( ) {
+
+				public boolean select( Object parentElement, Object element )
+				{
+					if ( ExpressionFilter.CATEGORY.equals( parentElement )
+							&& ExpressionProvider.COLUMN_BINDINGS.equals( element ) )
+					{
+						return false;
+					}
+					
+					if ( ExpressionProvider.CURRENT_CUBE.equals( parentElement ) )
+					{
+						if(element instanceof PropertyHandle)
+						{
+							PropertyHandle property = (PropertyHandle) element;
+							if(ICubeModel.DIMENSIONS_PROP.equals( property.getPropertyDefn( ).getName( )) )
+							{
+								return true;
+							}else
+							{
+								return false;
+							}
+						}		
+						
+					}
+					return true;
+				}
+
+			} );
+			expressionBuilder.setExpressionProvier( expressionProvider );
+		}
+
+		if ( expressionBuilder.open( ) == OK )
+		{
+			String result = DEUtil.resolveNull( expressionBuilder.getResult( ) );
+			if ( control instanceof Text )
+			{
+				( (Text) control ).setText( result );
+			}
+			else if ( control instanceof Combo )
+			{
+				( (Combo) control ).setText( result );
+			}
+		}
+		updateButtons( );
+	}
+	
 	protected Listener ComboGroupLeveModify = new Listener( ) {
 
 		public void handleEvent( Event e )
-		{
+		{			
 			updateBindings( );
 			updateMemberValues( );
 		}
 	};
 
-	protected Listener ComboKeyModify = new Listener( ) {
+	protected Listener ComboKeySelection = new Listener( ) {
 
 		public void handleEvent( Event e )
 		{
+			String newValue = textKey.getText( );
+			if(newValue.length( ) > 0 && textKey.getItemCount( ) > 0 && textKey.indexOf( newValue ) != -1)
+			{
+				String value = ExpressionUtil.createJSDataExpression( textKey.getText( ) );
+				if ( value != null )
+					newValue = value;
+				textKey.setText( newValue );
+			}			
+		
 			updateMemberValues( );
 			updateButtons( );
 		}
@@ -786,7 +879,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 
 		if ( textKey.indexOf( textKey.getText( ) ) < 0 )
 		{
-			textKey.select( 0 );
+			textKey.setText( ExpressionUtil.createJSDataExpression( textKey.getItem( 0 )));
 		}
 	}
 
@@ -798,6 +891,25 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			memberValueTable.setEnabled( false );
 			return;
 		}
+		
+		
+		boolean enabled = false;
+		for(int i = 0; i < textKey.getItemCount( ); i ++)
+		{
+			
+			String value = textKey.getText( );
+			String tempValue = ExpressionUtil.createJSDataExpression( textKey.getItem( i ) );
+			if( value.equals( tempValue ))
+			{
+				enabled = true;
+			}
+		}		
+		if(enabled == false)
+		{
+			memberValueTable.setEnabled( false );
+			return;
+		}
+		
 		LevelViewHandle level = null;
 		if ( comboGroupLevel.getSelectionIndex( ) != -1
 				&& groupLevelList != null
@@ -820,7 +932,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			group.setText( Messages.getString( "CrosstabSortKeyBuilder.Label.SelRowMemberValue" ) );
 		}
 		
-		String bindingExpr = ExpressionUtil.createJSDataExpression( textKey.getText( ) );
+		String bindingExpr = textKey.getText( ) ;
 		referencedLevelList = getReferencedLevels( level, bindingExpr );
 		if ( referencedLevelList == null || referencedLevelList.size( ) == 0 )
 		{
@@ -921,8 +1033,8 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		int ret = -1;
 		for ( int i = 0; i < textKey.getItemCount( ); i++ )
 		{
-			String expression = ExpressionUtil.createJSDataExpression( textKey.getItem( i ) );
-			if ( expression.endsWith( dataExpression ) )
+			String expression = textKey.getItem( i ) ;
+			if ( expression.equals( dataExpression ) )
 			{
 				return i;
 			}
