@@ -82,11 +82,15 @@
 	text-decoration: underline;
 }
 
+.birtviewer_exception_dialog_message
+{	
+	padding: 2px;
+}
+
 .birtviewer_exception_dialog_detail
 {
 	padding:2px;
-	width:100%;
-	overflow:auto;
+	overflow:auto; 
 	height:150px;
 	border-top-color:#cccccc;
 	border-top-style:solid;

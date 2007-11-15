@@ -41,14 +41,29 @@ BirtExceptionDialog.prototype = Object.extend( new AbstractExceptionDialog( ),
 	initialize : function( id )
 	{
 		this.__initBase( id, "600px" );
+		
+		// it looks like IE handles the width differently
+		var faultStringContainer = document.getElementById("faultStringContainer");
+		if ( BrowserUtility.isIE )
+		{
+			this.__setFaultContainersWidth( "580px" );
+			faultStringContainer.style.overflowX = "auto";			
+			faultStringContainer.style.paddingBottom = "20px";
+		}
+		else
+		{
+			this.__setFaultContainersWidth( "520px" );
+			faultStringContainer.style.overflow = "auto";
+		}
+
 		this.__z_index = 300;
 		
 		// click event on input control
 		this.__neh_click_input_closure = this.__neh_click_input.bindAsEventListener( this );
 		Event.observe( $( this.__LABEL_SHOW_TRACE ), 'click', this.__neh_click_input_closure, false );				
 		Event.observe( $( this.__LABEL_HIDE_TRACE ), 'click', this.__neh_click_input_closure, false );				
-	},
-
+	},	
+	
 	/**
 	*	Handle clicking on input control.
 	* 
@@ -70,6 +85,9 @@ BirtExceptionDialog.prototype = Object.extend( new AbstractExceptionDialog( ),
 		}
 		
 		this.__isShow = !this.__isShow;
+		
+		// refresh the dialog size (Mozilla/Firefox element resize bug)
+		birtUtility.refreshElement(this.__instance);
 	},
 		
 	/**

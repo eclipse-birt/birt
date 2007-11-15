@@ -630,6 +630,23 @@ BirtUtility.prototype =
 		}
 		return message;
 	},
+	
+	/**
+	 *  This method is a workaround for a Mozilla/Firefox bug which prevents some HTML 
+	 * elements to be resized properly when a contained element's "display" style has
+	 * been changed.
+	 * The refresh is done by moving the element back and forth one pixel.
+	 */
+	refreshElement : function( htmlElement )
+	{
+		var currentLeft = parseInt(htmlElement.style.left);
+		var currentTop = parseInt(htmlElement.style.top);
+		// shake it!
+		htmlElement.style.left = (currentLeft - 1) + "px";
+		htmlElement.style.top = (currentTop - 1) + "px";
+		htmlElement.style.left = currentLeft + "px";
+		htmlElement.style.top = currentTop + "px";
+	},
 		
 	noComma : "" //just to avoid javascript syntax errors
 }

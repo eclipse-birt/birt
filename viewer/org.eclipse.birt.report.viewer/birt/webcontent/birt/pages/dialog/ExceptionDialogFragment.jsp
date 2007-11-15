@@ -34,7 +34,9 @@
 						<TABLE CELLSPACING="2" CELLPADDING="4" CLASS="birtviewer_exception_dialog_container" >
 							<TR>
 								<TD>
+								<DIV ID="faultStringContainer" CLASS="birtviewer_exception_dialog_message">
 									<B><SPAN ID='faultstring'></SPAN><B>
+								</DIV>
 								</TD>
 							</TR>
 							<TR>
