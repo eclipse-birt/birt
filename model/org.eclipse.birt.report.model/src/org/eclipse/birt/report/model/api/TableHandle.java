@@ -15,6 +15,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.data.IColumnBinding;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.elements.table.LayoutTableModel;
@@ -689,8 +691,6 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 		if ( expr == null )
 			return null;
 
-		expr = ExpressionUtil.createRowExpression( expr );
-
 		Iterator iter = filtersIterator( );
 
 		List retValue = new ArrayList( );
@@ -699,9 +699,29 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 			FilterConditionHandle condition = (FilterConditionHandle) iter
 					.next( );
 			String curExpr = condition.getExpr( );
-			if ( expr.equals( curExpr ) )
-				retValue.add( condition );
-
+			List cols = null;
+			try
+			{
+				cols = ExpressionUtil.extractColumnExpressions( curExpr, true );
+			}
+			catch ( BirtException e )
+			{
+				// do nothing
+				continue;
+			}
+			if ( cols != null )
+			{
+				for ( int i = 0; i < cols.size( ); i++ )
+				{
+					String tmpExpr = ( (IColumnBinding) cols.get( i ) )
+							.getResultSetColumnName( );
+					if ( expr.equals( tmpExpr ) )
+					{
+						retValue.add( condition );
+						break;
+					}
+				}
+			}
 		}
 		return retValue;
 	}
@@ -721,8 +741,8 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 
 		for ( int i = 0; i < detail.getCount( ); i++ )
 		{
-			CellHandle detailcell = getCell( IListingElementModel.DETAIL_SLOT, -1,
-					i + 1, columnIndex + 1 );
+			CellHandle detailcell = getCell( IListingElementModel.DETAIL_SLOT,
+					-1, i + 1, columnIndex + 1 );
 			if ( detailcell == null )
 				continue;
 
