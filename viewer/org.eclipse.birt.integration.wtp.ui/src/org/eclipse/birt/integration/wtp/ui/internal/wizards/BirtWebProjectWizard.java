@@ -186,8 +186,8 @@ public class BirtWebProjectWizard extends WebProjectWizard
 			throws CoreException
 	{
 		// check folder settings
-		BirtWizardUtil.processCheckFolder( properties,
-				this.fproj.getProject( ), configFolder, monitor );
+		BirtWizardUtil.processCheckFolder( properties, this.getFacetedProject( )
+				.getProject( ), configFolder, monitor );
 	}
 
 	/**
@@ -201,7 +201,7 @@ public class BirtWebProjectWizard extends WebProjectWizard
 	protected void processConfiguration( IProgressMonitor monitor )
 			throws CoreException
 	{
-		IProject project = fproj.getProject( );
+		IProject project = this.getFacetedProject( ).getProject( );
 
 		// Simple OverwriteQuery
 		SimpleImportOverwriteQuery query = new SimpleImportOverwriteQuery( );
