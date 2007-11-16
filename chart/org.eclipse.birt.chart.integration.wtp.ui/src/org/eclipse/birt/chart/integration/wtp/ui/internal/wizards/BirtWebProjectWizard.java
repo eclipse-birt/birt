@@ -99,8 +99,8 @@ public class BirtWebProjectWizard extends WebProjectWizard
 		super.init( workbench, selection );
 
 		// find configuration element of new wizard
-		this.wizardConfigElement = BirtWizardUtil.findConfigurationElementById( NEW_WIZARDS_EXTENSION_POINT,
-				BIRT_WIZARD_ID );
+		this.wizardConfigElement = BirtWizardUtil.findConfigurationElementById(
+				NEW_WIZARDS_EXTENSION_POINT, BIRT_WIZARD_ID );
 
 		// set window title
 		String title = wizardConfigElement.getAttribute( "name" ); //$NON-NLS-1$
@@ -148,10 +148,8 @@ public class BirtWebProjectWizard extends WebProjectWizard
 			throws CoreException
 	{
 		// check folder settings
-		BirtWizardUtil.processCheckFolder( properties,
-				this.fproj.getProject( ),
-				configFolder,
-				monitor );
+		BirtWizardUtil.processCheckFolder( properties, this.getFacetedProject( )
+				.getProject( ), configFolder, monitor );
 	}
 
 	/**
@@ -165,40 +163,28 @@ public class BirtWebProjectWizard extends WebProjectWizard
 	protected void processConfiguration( IProgressMonitor monitor )
 			throws CoreException
 	{
-		IProject project = fproj.getProject( );
+		IProject project = this.getFacetedProject( ).getProject( );
 
 		// Simple OverwriteQuery
 		SimpleImportOverwriteQuery query = new SimpleImportOverwriteQuery( );
 
 		// configure WebArtifact
-		WebArtifactUtil.configureWebApp( (WebAppBean) properties.get( EXT_WEBAPP ),
-				project,
-				query,
-				monitor );
+		WebArtifactUtil.configureWebApp( (WebAppBean) properties
+				.get( EXT_WEBAPP ), project, query, monitor );
 
-		WebArtifactUtil.configureContextParam( (Map) properties.get( EXT_CONTEXT_PARAM ),
-				project,
-				query,
-				monitor );
+		WebArtifactUtil.configureContextParam( (Map) properties
+				.get( EXT_CONTEXT_PARAM ), project, query, monitor );
 
-		WebArtifactUtil.configureListener( (Map) properties.get( EXT_LISTENER ),
-				project,
-				query,
-				monitor );
+		WebArtifactUtil.configureListener(
+				(Map) properties.get( EXT_LISTENER ), project, query, monitor );
 
 		WebArtifactUtil.configureServlet( (Map) properties.get( EXT_SERVLET ),
-				project,
-				query,
-				monitor );
+				project, query, monitor );
 
-		WebArtifactUtil.configureServletMapping( (Map) properties.get( EXT_SERVLET_MAPPING ),
-				project,
-				query,
-				monitor );
+		WebArtifactUtil.configureServletMapping( (Map) properties
+				.get( EXT_SERVLET_MAPPING ), project, query, monitor );
 
 		WebArtifactUtil.configureTaglib( (Map) properties.get( EXT_TAGLIB ),
-				project,
-				query,
-				monitor );
+				project, query, monitor );
 	}
 }
