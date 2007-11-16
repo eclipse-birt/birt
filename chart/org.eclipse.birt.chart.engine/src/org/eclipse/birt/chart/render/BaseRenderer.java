@@ -3297,4 +3297,38 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			}
 		}
 	}
+	
+	protected final boolean isFirstVisibleSeries( )
+	{
+		if ( iSeriesIndex == 0 )
+		{
+			return false;
+		}
+		for ( int i = 1; i < iSeriesCount; i++ )
+		{
+			BaseRenderer renderer = getRenderer( i );
+			if ( renderer.getSeries( ).isVisible( ) )
+			{
+				return i == iSeriesIndex;
+			}
+		}
+		return false;
+	}
+
+	protected final boolean isLastVisibleSeries( )
+	{
+		if ( iSeriesIndex == 0 )
+		{
+			return false;
+		}
+		for ( int i = iSeriesCount - 1; i > 0; i-- )
+		{
+			BaseRenderer renderer = getRenderer( i );
+			if ( renderer.getSeries( ).isVisible( ) )
+			{
+				return i == iSeriesIndex;
+			}
+		}
+		return false;
+	}
 }

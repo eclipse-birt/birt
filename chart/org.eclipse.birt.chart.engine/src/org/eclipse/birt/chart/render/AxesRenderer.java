@@ -3293,7 +3293,7 @@ public abstract class AxesRenderer extends BaseRenderer
 			final Bounds boClientArea )
 	{
 		// Only start clipping in the first series
-		final boolean bFirstInSequence = ( iSeriesIndex == 1 );
+		final boolean bFirstInSequence = isFirstVisibleSeries( );
 		// Need to check Y scale and X scale.
 		if ( bFirstInSequence && !isDimension3D( )
 				&& ( !isShowOutside( ) || !baseIsShowOutside( ) ) )
@@ -3337,7 +3337,7 @@ public abstract class AxesRenderer extends BaseRenderer
 			throws ChartException
 	{
 		// Only restore clipping in the last renderer
-		final boolean bLastInSequence = ( iSeriesIndex == iSeriesCount - 1 );
+		final boolean bLastInSequence = isLastVisibleSeries( );
 		if ( bLastInSequence && !isDimension3D( )
 				&& ( !isShowOutside( ) || !baseIsShowOutside( ) ) )
 		{
