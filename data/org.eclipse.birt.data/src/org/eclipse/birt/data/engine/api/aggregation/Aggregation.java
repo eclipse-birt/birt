@@ -26,4 +26,6 @@ public abstract class Aggregation implements IAggregation
 	{
 		return 1;
 	}
+	
+	
 }

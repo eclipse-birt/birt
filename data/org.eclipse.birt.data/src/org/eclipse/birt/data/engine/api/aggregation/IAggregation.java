@@ -37,6 +37,12 @@ public interface IAggregation
      * @return Type of the aggregation. Value can be SUMMARY_AGGR or RUNNING_AGGR
      */
     public int getType();
+    
+    /**
+     * get the aggregation data type.
+     * @return
+     */
+    public int getDataType();
  
     /**
      * Gets information about the parameters that this aggregate function takes as an array of boolean values. 
