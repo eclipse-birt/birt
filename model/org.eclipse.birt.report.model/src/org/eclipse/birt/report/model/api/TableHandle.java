@@ -689,10 +689,32 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 
 		String expr = getResultSetColumn( colIndex );
 		if ( expr == null )
-			return null;
+			return null;		
 
+		List retValue = new ArrayList( );
+
+		// check filters in table
 		Iterator iter = filtersIterator( );
+		List tempList = checkFilters( iter, expr );
+		if ( tempList != null )
+			retValue.addAll( tempList );
+		
+		// check filters in groups
+		SlotHandle groupSlot = getGroups( );
+		for ( int i = 0; i < groupSlot.getCount( ); i++ )
+		{
+			TableGroupHandle tableGroup = (TableGroupHandle) groupSlot.get( i );
+			iter = tableGroup.filtersIterator( );
+			tempList = checkFilters( iter, expr );
+			if ( tempList != null )
+				retValue.addAll( tempList );
+		}
 
+		return retValue;
+	}
+
+	private List checkFilters( Iterator iter, String expr )
+	{
 		List retValue = new ArrayList( );
 		while ( iter.hasNext( ) )
 		{
@@ -723,6 +745,7 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 				}
 			}
 		}
+
 		return retValue;
 	}
 
