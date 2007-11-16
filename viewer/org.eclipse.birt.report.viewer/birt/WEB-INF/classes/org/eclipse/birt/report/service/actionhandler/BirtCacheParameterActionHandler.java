@@ -22,6 +22,7 @@ import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
@@ -94,7 +95,10 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 		}
 
 		// create a new config file
-		ReportDesignHandle handle = sessionHandle.createDesign( );
+		ModuleOption options = new ModuleOption( );
+		options.setProperty( ModuleOption.BLANK_CREATION_KEY, Boolean.TRUE );
+		ReportDesignHandle handle = sessionHandle.createDesign( configFileName,
+				options );
 
 		// get parameters from operation
 		String displayTextParam = null;
@@ -256,7 +260,7 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 		}
 
 		// save config file
-		handle.saveAs( configFileName );
+		handle.save( );
 		handle.close( );
 
 		handleUpdate( );
