@@ -1109,9 +1109,12 @@ public class ParameterDialog extends BaseDialog
 		{
 			columnChooser.setText( originalSelection );
 		}
-		
-		columnChooser.setEnabled( columnChooser.getItemCount( ) > 0 );
-		valueColumnExprButton.setEnabled( columnChooser.getItemCount( ) > 0 );
+		if(columnChooser.getItemCount( ) == 0 )
+		{
+			columnChooser.add( "" );
+		}
+//		columnChooser.setEnabled( columnChooser.getItemCount( ) > 0 );
+//		valueColumnExprButton.setEnabled( columnChooser.getItemCount( ) > 0 );
 		updateMessageLine( );
 	}
 
