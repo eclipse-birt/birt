@@ -148,7 +148,7 @@ public class ReportPreviewEditor extends EditorPart
 		GridData gd = new GridData( GridData.END, GridData.CENTER, false, false );
 		gd.heightHint = 10;
 		gd.widthHint = 100;
-		progressBar.setLayoutData( gd );		
+		progressBar.setLayoutData( gd );
 		// When initialize preview, show the progress bar
 		progressBar.setVisible( true );
 
@@ -159,15 +159,12 @@ public class ReportPreviewEditor extends EditorPart
 
 		// When change the browser location, show the progress bar
 		/*
-		browser.addLocationListener( new LocationAdapter( ) {
+		 * browser.addLocationListener( new LocationAdapter( ) {
+		 * 
+		 * public void changing( final LocationEvent e ) {
+		 * progressBar.setVisible( true ); } } );
+		 */
 
-			public void changing( final LocationEvent e )
-			{
-				progressBar.setVisible( true );
-			}
-		} );
-		*/
-		
 		// When browser loaded completely, the hide the progress bar
 		browser.addProgressListener( new ProgressListener( ) {
 
@@ -182,8 +179,10 @@ public class ReportPreviewEditor extends EditorPart
 		} );
 
 		parameterDialog = new InputParameterHtmlDialog( Display.getCurrent( )
-				.getActiveShell( ), InputParameterHtmlDialog.TITLE,
-				getFileUri( ), browser );
+				.getActiveShell( ),
+				InputParameterHtmlDialog.TITLE,
+				getFileUri( ),
+				browser );
 
 		bParameter.addSelectionListener( new SelectionAdapter( ) {
 
@@ -333,27 +332,32 @@ public class ReportPreviewEditor extends EditorPart
 							InputParameterHtmlDialog.VIEWER_RUN );
 					this.options.put( WebViewer.FORMAT_KEY, WebViewer.HTML );
 				}
-				this.options.put( WebViewer.RESOURCE_FOLDER_KEY, ReportPlugin
-						.getDefault( ).getResourceFolder( ) );
-				this.options.put( WebViewer.MAX_ROWS_KEY, ViewerPlugin
-						.getDefault( ).getPluginPreferences( ).getString(
-								WebViewer.PREVIEW_MAXROW ) );
-				this.options.put( WebViewer.MAX_CUBELEVELS_KEY, ViewerPlugin
-						.getDefault( ).getPluginPreferences( ).getString(
-								WebViewer.PREVIEW_MAXCUBELEVEL ) );
+				this.options.put( WebViewer.RESOURCE_FOLDER_KEY,
+						ReportPlugin.getDefault( ).getResourceFolder( ) );
+				this.options.put( WebViewer.MAX_ROWS_KEY,
+						ViewerPlugin.getDefault( )
+								.getPluginPreferences( )
+								.getString( WebViewer.PREVIEW_MAXROW ) );
+				this.options.put( WebViewer.MAX_CUBELEVELS_KEY,
+						ViewerPlugin.getDefault( )
+								.getPluginPreferences( )
+								.getString( WebViewer.PREVIEW_MAXCUBELEVEL ) );
 				WebViewer.display( uri, browser, this.options );
 			}
 		}
 	}
-	
+
 	/**
 	 * handle something when try to leave the page
-	 *
+	 * 
 	 */
 	public void handleLeaveThePage( )
 	{
-		if( browser != null )
+		if ( browser != null )
+		{
+			WebViewer.cancel( browser );
 			browser.setUrl( "about:blank" ); //$NON-NLS-1$
+		}
 	}
 
 	/*
@@ -365,6 +369,11 @@ public class ReportPreviewEditor extends EditorPart
 	{
 		super.dispose( );
 
+		if ( browser != null )
+		{
+			WebViewer.cancel( browser );
+		}
+		
 		bParameter = null;
 		browser = null;
 		// progressBar = null;
