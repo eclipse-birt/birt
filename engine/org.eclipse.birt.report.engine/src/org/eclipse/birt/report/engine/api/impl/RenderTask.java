@@ -138,7 +138,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 					{
 						long start = Long.parseLong( psi[0].trim( ) );
 						long end = Long.parseLong( psi[1].trim( ) );
-						if ( end > start )
+						if ( end >= start )
 						{
 							list.add( new long[]{Math.max( start, 1 ),
 									Math.min( end, totalPage )} );
