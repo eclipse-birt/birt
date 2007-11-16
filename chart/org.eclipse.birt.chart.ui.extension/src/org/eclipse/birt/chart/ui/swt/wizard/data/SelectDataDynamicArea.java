@@ -201,29 +201,34 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 		// Changed since 2.3
 		EList[] seriesDefnArray = null;
 		EList axisList = null;
+		ISelectDataComponent component = null;
 		if ( getChartModel( ) instanceof ChartWithAxes )
 		{
 			int axisNum = ChartUIUtil.getOrthogonalAxisNumber( getChartModel( ) );
 			seriesDefnArray = new EList[axisNum];
 			axisList = getYAxisListForProcessing( );
-			
+
+			if ( axisList != null && !axisList.isEmpty( ) )
+			{
+				for ( int i = 0; i < axisList.size( ); i++ )
+				{
+					seriesDefnArray[i] = ( (Axis) axisList.get( i ) ).getSeriesDefinitions( );
+				}
+			}
+
+			component = new ValueSeriesGroupingComponent( (SeriesDefinition) seriesDefnArray[0].get( 0 ),
+					getContext( ),
+					"" ); //$NON-NLS-1$
 		}
 		else
 		{
-			axisList = getValueSeriesDefinitionForProcessing( );
+			EList sdList = getValueSeriesDefinitionForProcessing( );
+			component = new ValueSeriesGroupingComponent( (SeriesDefinition) sdList.get( 0 ),
+					getContext( ),
+					"" ); //$NON-NLS-1$
+
 		}
 		
-		if ( axisList != null && !axisList.isEmpty( ) )
-		{
-			for ( int i = 0; i < axisList.size( ); i++ )
-			{
-				seriesDefnArray[i] = ( (Axis) axisList.get( i ) ).getSeriesDefinitions( );
-			}
-		}
-		
-		ISelectDataComponent component = new ValueSeriesGroupingComponent( (SeriesDefinition) seriesDefnArray[0].get( 0 ),
-				getContext(),
-				"" ); //$NON-NLS-1$
 		subRightAreas.add( component );
 		cmpRightArea = component.createArea( parent );
 	}
