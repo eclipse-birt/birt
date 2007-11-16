@@ -25,6 +25,7 @@ import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
+import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
@@ -221,6 +222,24 @@ public class AggregationSortHelper
 	{
 		AggrSortDefinition sortDefinition = (AggrSortDefinition) targetSorts[sortIndex[0]];
 		DimLevel targetLevel = sortDefinition.getTargetLevel( );
+		
+		final AggregationDefinition aggrDefinition = targetResultSet.getAggregationDefinition( );
+		if ( aggrDefinition == null
+				|| aggrDefinition.getAggregationFunctions( ) == null )
+		{// populate dimension level key values
+			int levelIndex = targetResultSet.getLevelIndex( targetLevel );
+			for ( int i = 0; i < base.length( ); i++ )
+			{
+				base.seek( i );
+				Object key = base.getLevelKeyValue( levelIndex )[0];
+				for ( int j = 0; j < sortIndex.length; j++ )
+				{
+					keyDiskArrays[sortIndex[j]].add( key );
+				}
+			}
+			return;
+		}
+		// populate aggregation values
 		DimLevel[] axisQualifierLevel = sortDefinition.getAxisQualifierLevel( );
 		int[] levelIndex = new int[axisQualifierLevel.length];
 		for ( int i = 0; i < levelIndex.length; i++ )
@@ -235,10 +254,11 @@ public class AggregationSortHelper
 			aggrIndex[i] = targetResultSet.getAggregationIndex( sortDefn.getAggrName( ) );
 		}
 
-		int indexInTarget = targetResultSet.getLevelIndex( targetLevel );
 		int indexInBase = base.getLevelIndex( targetLevel );
+		
+		CompareIndex compareIndex = getCompareIndex( base, targetResultSet, indexInBase );
+		
 		int baseRowIndex = 0;
-
 		for ( int i = 0; i < targetResultSet.length( ); i++ )
 		{
 			targetResultSet.seek( i );
@@ -250,18 +270,24 @@ public class AggregationSortHelper
 
 			if ( CompareUtil.compare( values, axisQualifierValue ) == 0 )
 			{
-				IAggregationResultRow temp = targetResultSet.getCurrentRow( );
-				Object key = targetResultSet.getLevelKeyValue( indexInTarget )[0];
+				IAggregationResultRow targetRow = targetResultSet.getCurrentRow( );
+				boolean found = false;
 				while ( baseRowIndex < base.length( ) )
 				{
 					base.seek( baseRowIndex );
-					Object levelKey = base.getLevelKeyValue( indexInBase )[0];
-					if ( levelKey.equals( key ) )
+					IAggregationResultRow baseRow = base.getCurrentRow( );
+					if ( shareLevelKey( baseRow, targetRow, compareIndex ) )
 					{
-						for ( int j = 0; j < aggrIndex.length; j++ )
+						for ( int j = 0; j < sortIndex.length; j++ )
 						{
-							keyDiskArrays[sortIndex[j]].add( temp.getAggregationValues( )[aggrIndex[j]] );
+							keyDiskArrays[sortIndex[j]].add( targetRow.getAggregationValues( )[aggrIndex[j]] );
 						}
+						baseRowIndex++;
+						found = true;
+					}
+					else if ( !found )
+					{
+						fillNullValues( sortIndex, keyDiskArrays );
 						baseRowIndex++;
 					}
 					else
@@ -270,6 +296,81 @@ public class AggregationSortHelper
 					}
 				}
 			}
+		}
+		
+		for ( ; baseRowIndex < base.length( ); baseRowIndex++ )
+		{
+			fillNullValues( sortIndex, keyDiskArrays );
+		}
+	}
+
+	/**
+	 * 
+	 * @param base
+	 * @param targetResultSet
+	 * @param indexInBase
+	 * @return
+	 */
+	private static CompareIndex getCompareIndex( IAggregationResultSet base,
+			IAggregationResultSet targetResultSet, int indexInBase )
+	{
+		DimLevel[] baseLevels = base.getAllLevels( );
+		DimLevel[] targetAllLevels = targetResultSet.getAllLevels( );
+		List baseMemberIndex = new ArrayList( );
+		List targetMemberIndex = new ArrayList( );
+		for ( int i = 0; i < targetAllLevels.length; i++ )
+		{
+			for ( int j = 0; j <= indexInBase; j++ )
+			{
+				if ( baseLevels[j].equals( targetAllLevels[i] ) )
+				{
+					baseMemberIndex.add( new Integer( j ) );
+					targetMemberIndex.add( new Integer( i ) );
+					break;
+				}
+			}
+		}
+		CompareIndex compareIndex = new CompareIndex( );
+		compareIndex.memberIndex1 = toIntArray( baseMemberIndex );
+		compareIndex.memberIndex2 = toIntArray( targetMemberIndex );
+		return compareIndex;
+	}
+	
+	/**
+	 * 
+	 * @param currentRow
+	 * @param targetRow
+	 * @param compareIndex
+	 * @return
+	 */
+	private static boolean shareLevelKey( IAggregationResultRow currentRow,
+			IAggregationResultRow targetRow, CompareIndex compareIndex )
+	{
+		final int[] index1 = compareIndex.memberIndex1;
+		final int[] index2 = compareIndex.memberIndex2;
+		for ( int i = 0; i < index1.length; i++ )
+		{
+			int ret = currentRow.getLevelMembers( )[index1[i]].compareTo( targetRow.getLevelMembers( )[index2[i]] );
+			if ( ret != 0 )
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * 
+	 * @param sortIndex
+	 * @param keyDiskArrays
+	 * @throws IOException
+	 */
+	private static void fillNullValues( int[] sortIndex,
+			IDiskArray[] keyDiskArrays ) throws IOException
+	{
+		for ( int j = 0; j < sortIndex.length; j++ )
+		{
+			keyDiskArrays[sortIndex[j]].add( null );
 		}
 	}
 
@@ -354,6 +455,15 @@ public class AggregationSortHelper
 		fieldList.toArray( fieldNames );
 		return fieldNames;
 	}
+}
+
+/**
+ *
+ */
+class CompareIndex
+{
+	int[] memberIndex1;
+	int[] memberIndex2;
 }
 
 /**

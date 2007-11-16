@@ -230,14 +230,14 @@ public class QueryExecutor
 						continue;
 					
 					String measureName = OlapExpressionCompiler.getReferencedScriptObject( binding.getExpression( ), "measure");
-					if( measureName == null )
-						continue;
-					
-					List measureAggrOns = CubeQueryDefinitionUtil.populateMeasureAggrOns( queryDefn );
-					aggrOnLevels = new DimLevel[measureAggrOns.size( )];
-					for ( int k = 0; k < measureAggrOns.size( ); k++ )
+					if ( measureName != null )
 					{
-						aggrOnLevels[k] = (DimLevel) measureAggrOns.get( k );
+						List measureAggrOns = CubeQueryDefinitionUtil.populateMeasureAggrOns( queryDefn );
+						aggrOnLevels = new DimLevel[measureAggrOns.size( )];
+						for ( int k = 0; k < measureAggrOns.size( ); k++ )
+						{
+							aggrOnLevels[k] = (DimLevel) measureAggrOns.get( k );
+						}
 					}
 				}
 				else

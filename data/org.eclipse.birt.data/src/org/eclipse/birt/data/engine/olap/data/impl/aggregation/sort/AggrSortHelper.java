@@ -48,7 +48,15 @@ public class AggrSortHelper
 				if ( targetSorts[i] instanceof AggrSortDefinition )
 				{
 					AggrSortDefinition sortDefn = (AggrSortDefinition) targetSorts[i];
-					targetResultSet[i] = getMatchedResultSet( resultSet, sortDefn.getAggrLevels( ) );
+					final DimLevel[] aggrLevels = sortDefn.getAggrLevels( );
+					if ( aggrLevels == null )
+					{
+						targetResultSet[i] = resultSet[baseIndex];
+					}
+					else
+					{
+						targetResultSet[i] = getMatchedResultSet( resultSet, aggrLevels );
+					}
 				}
 			}
 			IAggregationResultSet result = AggregationSortHelper.sort( resultSet[baseIndex],
