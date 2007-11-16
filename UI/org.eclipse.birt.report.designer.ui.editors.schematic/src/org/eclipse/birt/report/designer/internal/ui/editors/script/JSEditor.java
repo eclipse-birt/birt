@@ -231,7 +231,10 @@ public class JSEditor extends EditorPart implements IColleague
 			}
 			else if ( redone )
 			{
-				cleanPoint = lastClearPoint;
+				if ( cleanPoint < 0 )
+				{
+					cleanPoint = lastClearPoint;
+				}
 				if ( cleanPoint != getUndoLevel( ) + 1 )
 				{
 					// Does nothing if not clean point.
