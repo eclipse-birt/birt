@@ -25,6 +25,7 @@ birt.viewer.restore=レポートパラメタを表示します。
 
 birt.viewer.error=エラーメッセージ
 birt.viewer.error.noparameter=このレポートにはパラメタがありません。
+birt.viewer.error.parameternotallowblank=パラメタ "{0}" は空白にできません。
 birt.viewer.error.noprinter=PostScript 形式をサポートする使用可能なプリンタが見つかりません。
 birt.viewer.error.unknownerror=不明なエラーです。
 birt.viewer.error.generatereportfirst=先にレポート文書を生成してください。

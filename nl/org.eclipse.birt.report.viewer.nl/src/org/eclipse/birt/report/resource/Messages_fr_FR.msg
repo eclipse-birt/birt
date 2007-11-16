@@ -25,6 +25,7 @@ birt.viewer.restore=Afficher les paramètres de l'état
 
 birt.viewer.error=Message d'erreur
 birt.viewer.error.noparameter=Il n'existe aucun paramètre pour cet état.
+birt.viewer.error.parameternotallowblank=Le paramètre "{0}" doit être renseigné.
 birt.viewer.error.noprinter=Impossible de trouver une imprimante disponible qui prend en charge le format postscript.
 birt.viewer.error.unknownerror=Erreur inconnue.
 birt.viewer.error.generatereportfirst=L'état doit être généré en premier.
