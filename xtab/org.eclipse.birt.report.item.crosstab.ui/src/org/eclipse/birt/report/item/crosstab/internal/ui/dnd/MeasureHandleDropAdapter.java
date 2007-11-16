@@ -16,6 +16,7 @@ import org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter;
 import org.eclipse.birt.report.designer.util.IVirtualValidator;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
@@ -30,6 +31,10 @@ public class MeasureHandleDropAdapter implements IDropAdapter
 	public int canDrop( Object transfer, Object target, int operation,
 			DNDLocation location )
 	{
+		if ( !isMeasureHandle( transfer ) )
+		{
+			return DNDService.LOGIC_UNKNOW;
+		}
 		if ( target instanceof EditPart )
 		{
 			EditPart editPart = (EditPart) target;
@@ -44,19 +49,34 @@ public class MeasureHandleDropAdapter implements IDropAdapter
 		return DNDService.LOGIC_UNKNOW;
 	}
 
+	private boolean isMeasureHandle( Object transfer )
+	{
+		if ( transfer instanceof Object[] )
+		{
+			Object[] items = (Object[]) transfer;
+			for ( int i = 0; i < items.length; i++ )
+			{
+				if ( !( items[i] instanceof MeasureHandle ) )
+					return false;
+			}
+			return true;
+		}
+		return transfer instanceof MeasureHandle;
+	}
+
 	public boolean performDrop( Object transfer, Object target, int operation,
 			DNDLocation location )
 	{
-//		if ( transfer instanceof Object[] )
-//		{
-//			Object[] objects = (Object[]) transfer;
-//			for ( int i = 0; i < objects.length; i++ )
-//			{
-//				if ( !performDrop( objects[i], target, operation, location ) )
-//					return false;
-//			}
-//			return true;
-//		}
+		//		if ( transfer instanceof Object[] )
+		//		{
+		//			Object[] objects = (Object[]) transfer;
+		//			for ( int i = 0; i < objects.length; i++ )
+		//			{
+		//				if ( !performDrop( objects[i], target, operation, location ) )
+		//					return false;
+		//			}
+		//			return true;
+		//		}
 
 		if ( target instanceof EditPart )
 		{

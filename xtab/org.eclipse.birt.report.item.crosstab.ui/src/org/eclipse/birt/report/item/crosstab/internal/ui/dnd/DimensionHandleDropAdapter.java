@@ -17,7 +17,6 @@ import org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.util.IVirtualValidator;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
@@ -27,13 +26,11 @@ import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
-import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
@@ -88,6 +85,21 @@ public class DimensionHandleDropAdapter implements IDropAdapter
 
 	private boolean isDimensionHandle( Object transfer )
 	{
+		if ( transfer instanceof Object[] )
+		{
+			Object[] items = (Object[]) transfer;
+			DesignElementHandle container = null;
+			for ( int i = 0; i < items.length; i++ )
+			{
+				if ( !( items[i] instanceof DimensionHandle ) )
+					return false;
+				if ( container == null )
+					container = ( (DimensionHandle) items[i] ).getContainer( );
+				else if ( container != ( (DimensionHandle) items[i] ).getContainer( ) )
+					return false;
+			}
+			return true;
+		}
 		return transfer instanceof DimensionHandle;
 	}
 
@@ -145,21 +157,6 @@ public class DimensionHandleDropAdapter implements IDropAdapter
 		//		}
 		//		return createDimensionViewHandle( xtabHandle, dimensionHandle, axisType );
 
-		if ( transfer instanceof Object[] )
-		{
-			Object[] objects = (Object[]) transfer;
-			for ( int i = 0; i < objects.length; i++ )
-			{
-				if ( !performDrop( objects[i], target, operation, location ) )
-					return false;
-			}
-			return true;
-		}
-
-		DimensionHandle dimensionHandle = (DimensionHandle) transfer;
-		CrosstabReportItemHandle xtabHandle = null;
-		int axisType = 0;
-
 		if ( target instanceof EditPart )//drop on layout
 		{
 			EditPart editPart = (EditPart) target;
@@ -191,6 +188,10 @@ public class DimensionHandleDropAdapter implements IDropAdapter
 		}
 		else if ( target instanceof PropertyHandle )//drop on outline
 		{
+			DimensionHandle dimensionHandle = (DimensionHandle) transfer;
+			CrosstabReportItemHandle xtabHandle = null;
+			int axisType = 0;
+
 			PropertyHandle property = (PropertyHandle) target;
 			Object handle = property.getElementHandle( );
 			if ( handle instanceof CrosstabReportItemHandle )

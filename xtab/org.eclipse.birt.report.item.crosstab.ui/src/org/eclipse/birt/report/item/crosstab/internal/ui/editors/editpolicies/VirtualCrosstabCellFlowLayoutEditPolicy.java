@@ -42,8 +42,10 @@ import org.eclipse.gef.requests.CreateRequest;
  * 
  */
 
-public class VirtualCrosstabCellFlowLayoutEditPolicy extends ReportFlowLayoutEditPolicy
+public class VirtualCrosstabCellFlowLayoutEditPolicy extends
+		ReportFlowLayoutEditPolicy
 {
+
 	protected Command getCreateCommand( CreateRequest request )
 	{
 		//EditPart after = getInsertionReference( request );
@@ -51,54 +53,98 @@ public class VirtualCrosstabCellFlowLayoutEditPolicy extends ReportFlowLayoutEdi
 		//CreateCommand command = new CreateCommand( request.getExtendedData( ) );
 
 		Object model = this.getHost( ).getModel( );
-		Object newObject = request.getExtendedData( ).get( DesignerConstants.KEY_NEWOBJECT );
+		Object newObject = request.getExtendedData( )
+				.get( DesignerConstants.KEY_NEWOBJECT );
 
-		if (model instanceof VirtualCrosstabCellAdapter)
+		if ( model instanceof VirtualCrosstabCellAdapter )
 		{
 			EditPart parent = getHost( ).getParent( );
-			CrosstabHandleAdapter adapter  = ((CrosstabTableEditPart)parent).getCrosstabHandleAdapter( );
-			int type = ((VirtualCrosstabCellAdapter)model).getType( );
-			if (newObject instanceof DimensionHandle)
+			CrosstabHandleAdapter adapter = ( (CrosstabTableEditPart) parent ).getCrosstabHandleAdapter( );
+			int type = ( (VirtualCrosstabCellAdapter) model ).getType( );
+			if ( newObject instanceof DimensionHandle )
 			{
-				return new CreateDimensionViewCommand(adapter, type, (DimensionHandle)newObject);
+				return new CreateDimensionViewCommand( adapter,
+						type,
+						(DimensionHandle) newObject );
 			}
-			if (newObject instanceof LevelHandle)
+			if ( newObject instanceof LevelHandle )
 			{
-				DimensionHandle dimensionHandle = CrosstabAdaptUtil.getDimensionHandle( (LevelHandle)newObject );
-				CreateDimensionViewCommand command = new CreateDimensionViewCommand(adapter, type, dimensionHandle);
-				command.setLevelHandle( (LevelHandle)newObject );
+				DimensionHandle dimensionHandle = CrosstabAdaptUtil.getDimensionHandle( (LevelHandle) newObject );
+				CreateDimensionViewCommand command = new CreateDimensionViewCommand( adapter,
+						type,
+						dimensionHandle );
+				command.setLevelHandles( new LevelHandle[]{
+					(LevelHandle) newObject
+				} );
 				return command;
 			}
-			else if (newObject instanceof MeasureHandle && type == VirtualCrosstabCellAdapter.MEASURE_TYPE)
+			else if ( newObject instanceof MeasureHandle
+					&& type == VirtualCrosstabCellAdapter.MEASURE_TYPE )
 			{
-				return new CreateMeasureViewCommand(adapter, (MeasureHandle)newObject);
+				return new CreateMeasureViewCommand( adapter,
+						(MeasureHandle) newObject );
 			}
-			else if (newObject instanceof MeasureGroupHandle && type == VirtualCrosstabCellAdapter.MEASURE_TYPE)
+			else if ( newObject instanceof MeasureGroupHandle
+					&& type == VirtualCrosstabCellAdapter.MEASURE_TYPE )
 			{
-				List list = new ArrayList();
+				List list = new ArrayList( );
 				list.add( newObject );
-				return new CreateMultipleMeasureCommand(adapter, list);
+				return new CreateMultipleMeasureCommand( adapter, list );
 			}
-			else if (newObject instanceof Object[] && CrosstabAdaptUtil.canCreateMultipleCommand( (Object[])newObject ) && type == VirtualCrosstabCellAdapter.MEASURE_TYPE)
+			else if ( newObject instanceof Object[]
+					&& CrosstabAdaptUtil.canCreateMultipleCommand( (Object[]) newObject )
+					&& type == VirtualCrosstabCellAdapter.MEASURE_TYPE )
 			{
-				List list = new ArrayList();
-				Object[] objs = (Object[])newObject;
-				for (int i=0; i<objs.length; i++)
+				List list = new ArrayList( );
+				Object[] objs = (Object[]) newObject;
+				for ( int i = 0; i < objs.length; i++ )
 				{
-					list.add(objs[i]);
+					list.add( objs[i] );
 				}
-				return new CreateMultipleMeasureCommand(adapter, list);
+				return new CreateMultipleMeasureCommand( adapter, list );
+			}
+			else if ( newObject instanceof Object[] )
+			{
+				Object[] objs = (Object[]) newObject;
+
+				if ( objs.length > 0 )
+				{
+					Class arrayType = getArrayType( objs );
+					if ( LevelHandle.class.isAssignableFrom( arrayType ) )
+					{
+						LevelHandle[] levels = new LevelHandle[objs.length];
+						System.arraycopy( objs, 0, levels, 0, levels.length );
+						DimensionHandle dimensionHandle = CrosstabAdaptUtil.getDimensionHandle( (LevelHandle) objs[0] );
+						CreateDimensionViewCommand command = new CreateDimensionViewCommand( adapter,
+								type,
+								dimensionHandle );
+						command.setLevelHandles( levels );
+						return command;
+					}
+					else if ( DimensionHandle.class.isAssignableFrom( arrayType ) )
+					{
+						DimensionHandle[] dimensions = new DimensionHandle[objs.length];
+						System.arraycopy( objs,
+								0,
+								dimensions,
+								0,
+								dimensions.length );
+						return new CreateDimensionViewCommand( adapter,
+								type,
+								dimensions );
+					}
+				}
 			}
 		}
 		// No previous edit part
-//		if ( after != null )
-//		{
-//			command.setAfter( after.getModel( ) );
-//		}		
+		//		if ( after != null )
+		//		{
+		//			command.setAfter( after.getModel( ) );
+		//		}		
 		return super.getCreateCommand( request );
 		//return null;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -112,28 +158,30 @@ public class VirtualCrosstabCellFlowLayoutEditPolicy extends ReportFlowLayoutEdi
 		//Object source = child.getModel( );
 		Object afterObj = after == null ? null : after.getModel( );
 		Object childParent = getOperator( child ).getModel( );
-		if (parentObj instanceof VirtualCrosstabCellAdapter && childParent instanceof CrosstabCellAdapter)
+		if ( parentObj instanceof VirtualCrosstabCellAdapter
+				&& childParent instanceof CrosstabCellAdapter )
 		{
-			CrosstabCellAdapter childAdapter = (CrosstabCellAdapter)childParent;
-			VirtualCrosstabCellAdapter parentAdapter = (VirtualCrosstabCellAdapter)parentObj;
-			if (parentAdapter.getType( ) == VirtualCrosstabCellAdapter.IMMACULATE_TYPE
-					|| parentAdapter.getType( ) == VirtualCrosstabCellAdapter.MEASURE_TYPE)
+			CrosstabCellAdapter childAdapter = (CrosstabCellAdapter) childParent;
+			VirtualCrosstabCellAdapter parentAdapter = (VirtualCrosstabCellAdapter) parentObj;
+			if ( parentAdapter.getType( ) == VirtualCrosstabCellAdapter.IMMACULATE_TYPE
+					|| parentAdapter.getType( ) == VirtualCrosstabCellAdapter.MEASURE_TYPE )
 			{
 				return UnexecutableCommand.INSTANCE;
 			}
-			if (ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE.equals( childAdapter.getPositionType( )))
+			if ( ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE.equals( childAdapter.getPositionType( ) ) )
 			{
-				if (!(after instanceof FirstLevelHandleDataItemEditPart) )
+				if ( !( after instanceof FirstLevelHandleDataItemEditPart ) )
 				{
 					afterObj = null;
 				}
-				if (parent.getParent( ) ==  getOperator( child ).getParent( ))
+				if ( parent.getParent( ) == getOperator( child ).getParent( ) )
 				{
-				ChangeAreaCommand command = new ChangeAreaCommand(parentAdapter.getDesignElementHandle( ), 
-						childAdapter.getDesignElementHandle( ),(DesignElementHandle) DNDUtil.unwrapToModel( afterObj ) );
-				
-				command.setType( parentAdapter.getType( ) );
-				return command;
+					ChangeAreaCommand command = new ChangeAreaCommand( parentAdapter.getDesignElementHandle( ),
+							childAdapter.getDesignElementHandle( ),
+							(DesignElementHandle) DNDUtil.unwrapToModel( afterObj ) );
+
+					command.setType( parentAdapter.getType( ) );
+					return command;
 				}
 				else
 				{
@@ -143,17 +191,27 @@ public class VirtualCrosstabCellFlowLayoutEditPolicy extends ReportFlowLayoutEdi
 		}
 		return UnexecutableCommand.INSTANCE;
 	}
-	
-	private EditPart getOperator(EditPart child)
+
+	private EditPart getOperator( EditPart child )
 	{
-//		if (child instanceof CrosstabCellEditPart)
-//		{
-//			return child;
-//		}
-//		return child.getParent( );
+		//		if (child instanceof CrosstabCellEditPart)
+		//		{
+		//			return child;
+		//		}
+		//		return child.getParent( );
 		return child;
 	}
-	
-	
-	
+
+	private Class getArrayType( Object[] array )
+	{
+		Class type = null;
+		for ( int i = 0; i < array.length; i++ )
+		{
+			if ( type == null )
+				type = array[i].getClass( );
+			else if ( type != array[i].getClass( ) )
+				return null;
+		}
+		return type;
+	}
 }

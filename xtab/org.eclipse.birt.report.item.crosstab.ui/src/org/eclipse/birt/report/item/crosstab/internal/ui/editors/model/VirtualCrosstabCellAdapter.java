@@ -29,7 +29,8 @@ import org.eclipse.birt.report.model.api.olap.MeasureHandle;
  * Virtual cell adapter ,when the four area(Left conner, row area, column area,
  * measure area) has no children.
  */
-public class VirtualCrosstabCellAdapter extends CrosstabCellAdapter implements IVirtualValidator
+public class VirtualCrosstabCellAdapter extends CrosstabCellAdapter implements
+		IVirtualValidator
 {
 
 	private CrosstabReportItemHandle crosstab;
@@ -94,76 +95,71 @@ public class VirtualCrosstabCellAdapter extends CrosstabCellAdapter implements I
 	 */
 	public boolean handleValidate( Object obj )
 	{
-		if (obj instanceof Object[])
+		if ( obj instanceof Object[] )
 		{
-			Object[] objects = (Object[])obj;
+			Object[] objects = (Object[]) obj;
 			int len = objects.length;
-			if (len == 0)
+			if ( len == 0 )
 			{
 				return false;
 			}
-			if (len == 1)
+			if ( len == 1 )
 			{
 				return handleValidate( objects[0] );
 			}
 			else
 			{
-				for (int i=0; i<len; i++)
+				boolean isValidate = false;
+				for ( int i = 0; i < len; i++ )
 				{
 					Object temp = objects[i];
-					if (temp instanceof MeasureHandle || temp instanceof MeasureGroupHandle)
+					if ( ( crosstab.getCube( ) == CrosstabAdaptUtil.getCubeHandle( (DesignElementHandle) temp ) || crosstab.getCube( ) == null ) )
 					{
-						if ( (getType( ) == MEASURE_TYPE) && (crosstab.getCube( ) == CrosstabAdaptUtil.getCubeHandle( (DesignElementHandle)temp ) || crosstab.getCube( ) == null))
-						{
-							continue;
-						}
-						else
-						{
-							return false;
-						}
+						isValidate = handleValidate( objects[i] );
 					}
 					else
 					{
 						return false;
 					}
 				}
-				return true;
+				return isValidate;
 			}
-			
+
 		}
 		//TODO there may be judge the dimension handle parent
-		if (getType( ) == ICrosstabConstants.ROW_AXIS_TYPE
-				||getType( ) == ICrosstabConstants.COLUMN_AXIS_TYPE)
+		if ( getType( ) == ICrosstabConstants.ROW_AXIS_TYPE
+				|| getType( ) == ICrosstabConstants.COLUMN_AXIS_TYPE )
 		{
-			if (obj instanceof DimensionHandle && CrosstabUtil.canContain( crosstab, (DimensionHandle )obj))
+			if ( obj instanceof DimensionHandle
+					&& CrosstabUtil.canContain( crosstab, (DimensionHandle) obj ) )
 			{
 				return true;
 			}
-			if (obj instanceof LevelHandle)
+			if ( obj instanceof LevelHandle )
 			{
-				return handleValidate( CrosstabAdaptUtil.getDimensionHandle((LevelHandle)obj) );
+				return handleValidate( CrosstabAdaptUtil.getDimensionHandle( (LevelHandle) obj ) );
 			}
-			
+
 		}
-		if (getType( ) == MEASURE_TYPE)
+		if ( getType( ) == MEASURE_TYPE )
 		{
-			if (obj instanceof MeasureHandle && CrosstabUtil.canContain( crosstab, (MeasureHandle )obj))
+			if ( obj instanceof MeasureHandle
+					&& CrosstabUtil.canContain( crosstab, (MeasureHandle) obj ) )
 			{
 				return true;
 			}
-			if (obj instanceof MeasureGroupHandle && (crosstab.getCube( ) == CrosstabAdaptUtil.getCubeHandle( (DesignElementHandle)obj )
-					|| crosstab.getCube( ) == null) )
+			if ( obj instanceof MeasureGroupHandle
+					&& ( crosstab.getCube( ) == CrosstabAdaptUtil.getCubeHandle( (DesignElementHandle) obj ) || crosstab.getCube( ) == null ) )
 			{
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	public void setCrosstabReportItemHandle( CrosstabReportItemHandle crosstab )
 	{
 		this.crosstab = crosstab;
 	}
-	
-	
+
 }

@@ -16,6 +16,7 @@ import org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter;
 import org.eclipse.birt.report.designer.util.IVirtualValidator;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
@@ -55,6 +56,21 @@ public class LevelHandleDropAdapter implements IDropAdapter
 
 	private boolean isLevelHandle( Object transfer )
 	{
+		if ( transfer instanceof Object[] )
+		{
+			DesignElementHandle container = null;
+			Object[] items = (Object[]) transfer;
+			for ( int i = 0; i < items.length; i++ )
+			{
+				if ( !( items[i] instanceof LevelHandle ) )
+					return false;
+				if ( container == null )
+					container = ( (LevelHandle) items[i] ).getContainer( );
+				else if ( container != ( (LevelHandle) items[i] ).getContainer( ) )
+					return false;
+			}
+			return true;
+		}
 		return transfer instanceof LevelHandle;
 	}
 
@@ -64,17 +80,7 @@ public class LevelHandleDropAdapter implements IDropAdapter
 	public boolean performDrop( Object transfer, Object target, int operation,
 			DNDLocation location )
 	{
-		if ( transfer instanceof Object[] )
-		{
-			Object[] objects = (Object[]) transfer;
-			for ( int i = 0; i < objects.length; i++ )
-			{
-				if ( !performDrop( objects[i], target, operation, location ) )
-					return false;
-			}
-			return true;
-		}
-		
+
 		if ( target instanceof EditPart )//drop on layout
 		{
 			EditPart editPart = (EditPart) target;

@@ -12,21 +12,16 @@
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
-import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabHandleAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
-import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 
@@ -43,8 +38,8 @@ public class CreateDimensionViewCommand extends AbstractCrosstabCommand
 	 * cross tab area type.row column
 	 */
 	private int type = -1;
-	private DimensionHandle dimensionHandle;
-	private LevelHandle levelHandle;
+	private DimensionHandle[] dimensionHandles;
+	private LevelHandle[] levelHandles;
 
 	/**
 	 * trans name
@@ -62,10 +57,18 @@ public class CreateDimensionViewCommand extends AbstractCrosstabCommand
 	public CreateDimensionViewCommand( CrosstabHandleAdapter handleAdpter,
 			int type, DimensionHandle dimensionHandle )
 	{
-		super( dimensionHandle );
+		this( handleAdpter, type, new DimensionHandle[]{
+			dimensionHandle
+		} );
+	}
+
+	public CreateDimensionViewCommand( CrosstabHandleAdapter handleAdpter,
+			int type, DimensionHandle[] dimensionHandles )
+	{
+		super( dimensionHandles[0] );
 		setHandleAdpter( handleAdpter );
 		setType( type );
-		setDimensionHandle( dimensionHandle );
+		setDimensionHandles( dimensionHandles );
 	}
 
 	/**
@@ -116,40 +119,52 @@ public class CreateDimensionViewCommand extends AbstractCrosstabCommand
 	public void execute( )
 	{
 		transStart( NAME );
-		CrosstabReportItemHandle reportHandle = (CrosstabReportItemHandle) handleAdpter.getCrosstabItemHandle( );
+		CrosstabReportItemHandle crosstabHandle = (CrosstabReportItemHandle) handleAdpter.getCrosstabItemHandle( );
 
-		try
+		for ( int i = 0; i < this.dimensionHandles.length; i++ )
 		{
-			if ( reportHandle.getCube( ) == null )
-			{
-				reportHandle.setCube( CrosstabAdaptUtil.getCubeHandle( getDimensionHandle( ) ) );
-			}
-			DimensionViewHandle viewHandle = reportHandle.insertDimension( getDimensionHandle( ),
-					getType( ),
-					0 );
+			DimensionHandle dimensionHandle = dimensionHandles[i];
 
-			LevelHandle levelHandle = getLevelHandle( );
-			if ( levelHandle == null )
+			try
+			{
+				if ( crosstabHandle.getCube( ) == null )
+				{
+					crosstabHandle.setCube( CrosstabAdaptUtil.getCubeHandle( dimensionHandle ) );
+				}
+
+				DimensionViewHandle viewHandle = crosstabHandle.insertDimension( dimensionHandle,
+						getType( ),
+						i );
+
+				// add dataitem to cell
+				//			DataItemHandle dataHandle = CrosstabAdaptUtil.createColumnBindingAndDataItem( (ExtendedItemHandle) reportHandle.getModelHandle( ),
+				//					levelHandle );
+
+				LevelHandle[] levels = getLevelHandles( dimensionHandle );
+				for ( int j = 0; j < levels.length; j++ )
+				{
+
+					LevelHandle levelHandle = levels[j];
+					if ( levelHandle == null )
+					{
+						rollBack( );
+						return;
+					}
+					DataItemHandle dataHandle = CrosstabAdaptUtil.createColumnBindingAndDataItem( (ExtendedItemHandle) crosstabHandle.getModelHandle( ),
+							levelHandle );
+					LevelViewHandle levelViewHandle = viewHandle.insertLevel( levelHandle,
+							j );
+					CrosstabCellHandle cellHandle = levelViewHandle.getCell( );
+
+					cellHandle.addContent( dataHandle );
+				}
+
+			}
+			catch ( Exception e )
 			{
 				rollBack( );
-				return;
+				ExceptionHandler.handle( e );
 			}
-
-			// add dataitem to cell
-			DataItemHandle dataHandle = CrosstabAdaptUtil.createColumnBindingAndDataItem( (ExtendedItemHandle) reportHandle.getModelHandle( ),
-					levelHandle );
-
-			LevelViewHandle levelViewHandle = viewHandle.insertLevel( levelHandle,
-					0 );
-
-			CrosstabCellHandle cellHandle = levelViewHandle.getCell( );
-
-			cellHandle.addContent( dataHandle );
-		}
-		catch ( SemanticException e )
-		{
-			rollBack( );
-			ExceptionHandler.handle( e );
 		}
 		transEnd( );
 
@@ -158,30 +173,37 @@ public class CreateDimensionViewCommand extends AbstractCrosstabCommand
 	/**
 	 * @return
 	 */
-	public DimensionHandle getDimensionHandle( )
+	public DimensionHandle[] getDimensionHandles( )
 	{
-		return dimensionHandle;
+		return dimensionHandles;
 	}
 
 	/**
 	 * @param dimensionHandle
 	 */
-	public void setDimensionHandle( DimensionHandle dimensionHandle )
+	public void setDimensionHandles( DimensionHandle[] dimensionHandles )
 	{
-		this.dimensionHandle = dimensionHandle;
+		this.dimensionHandles = dimensionHandles;
 	}
 
-	public LevelHandle getLevelHandle( )
+	public LevelHandle[] getLevelHandles( DimensionHandle dimensionHandle )
 	{
-		if ( levelHandle == null )
+		if ( levelHandles == null )
 		{
-			return getDimensionHandle( ).getDefaultHierarchy( ).getLevel( 0 );
+			LevelHandle[] dimensionLevelHandles = new LevelHandle[dimensionHandle.getDefaultHierarchy( )
+					.getLevelCount( )];
+			for ( int i = 0; i < dimensionLevelHandles.length; i++ )
+			{
+				dimensionLevelHandles[i] = dimensionHandle.getDefaultHierarchy( )
+						.getLevel( i );
+			}
+			return dimensionLevelHandles;
 		}
-		return levelHandle;
+		return levelHandles;
 	}
 
-	public void setLevelHandle( LevelHandle levelHandle )
+	public void setLevelHandles( LevelHandle[] levelHandles )
 	{
-		this.levelHandle = levelHandle;
+		this.levelHandles = levelHandles;
 	}
 }
