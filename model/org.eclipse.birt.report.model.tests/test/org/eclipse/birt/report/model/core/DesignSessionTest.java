@@ -148,7 +148,7 @@ public class DesignSessionTest extends BaseTestCase
 		session = new DesignSession( ULocale.ENGLISH );
 		assertEquals( ULocale.ENGLISH, CoreTestUtil.getSessionLocale( session ) );
 
-		ReportDesign design = session.createDesign( );
+		ReportDesign design = session.createDesign( null, null );
 		assertNotNull( design );
 		assertEquals( session, CoreTestUtil.getDesignSession( design ) );
 
@@ -163,7 +163,7 @@ public class DesignSessionTest extends BaseTestCase
 		session.drop( design );
 		assertEquals( 2, CoreTestUtil.getDesigns( session ).size( ) );
 
-		design = session.createDesign( "template" ); //$NON-NLS-1$
+		design = session.createDesign( "template", null ); //$NON-NLS-1$
 		assertEquals( 3, CoreTestUtil.getDesigns( session ).size( ) );
 
 		ULocale.setDefault( defaultULocale );

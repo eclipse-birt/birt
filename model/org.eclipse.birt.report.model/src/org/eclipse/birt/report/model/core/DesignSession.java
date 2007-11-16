@@ -620,10 +620,11 @@ public class DesignSession
 	 * 
 	 * @param fileName
 	 *            file name.
+	 * @param options 
 	 * @return A handle to the report design.
 	 */
 
-	public ReportDesign createDesign( String fileName )
+	public ReportDesign createDesign( String fileName, ModuleOption options )
 	{
 		ReportDesign design = new ReportDesign( this );
 
@@ -635,13 +636,36 @@ public class DesignSession
 			if ( systemId != null )
 				design.setSystemId( systemId );
 		}
-		// if the extension side provide predefined style instance, those style
-		// will be added into the new created design tree.
-		addExtensionDefaultStyles( design );
+
+		if ( !isBlankCreation( options ) )
+		{
+			// if the extension side provide predefined style instance, those
+			// style
+			// will be added into the new created design tree.
+			addExtensionDefaultStyles( design );
+		}
 
 		design.setValid( true );
 		designs.add( design );
 		return design;
+	}
+
+	/**
+	 * Determines whether the creation action is simple or not. By default,
+	 * isSimple is false.
+	 * 
+	 * @param options
+	 * @return
+	 */
+	private boolean isBlankCreation( ModuleOption options )
+	{
+		if ( options == null )
+			return false;
+		Boolean isSimpleCreation = (Boolean) options
+				.getProperty( ModuleOption.BLANK_CREATION_KEY );
+		if ( isSimpleCreation != null && isSimpleCreation.booleanValue( ) )
+			return true;
+		return false;
 	}
 
 	/**
@@ -683,17 +707,6 @@ public class DesignSession
 		addExtensionDefaultStyles( design );
 
 		return design;
-	}
-
-	/**
-	 * Creates a new design not based on a template.
-	 * 
-	 * @return The new report design.
-	 */
-
-	public ReportDesign createDesign( )
-	{
-		return createDesign( null );
 	}
 
 	/**
@@ -889,11 +902,11 @@ public class DesignSession
 
 	public void setUnits( String newUnits ) throws PropertyValueException
 	{
-		if ( DesignChoiceConstants.UNITS_CM.equalsIgnoreCase( newUnits ) ||
-				DesignChoiceConstants.UNITS_IN.equalsIgnoreCase( newUnits ) ||
-				DesignChoiceConstants.UNITS_MM.equalsIgnoreCase( newUnits ) ||
-				DesignChoiceConstants.UNITS_PC.equalsIgnoreCase( newUnits ) ||
-				DesignChoiceConstants.UNITS_PT.equalsIgnoreCase( newUnits ) )
+		if ( DesignChoiceConstants.UNITS_CM.equalsIgnoreCase( newUnits )
+				|| DesignChoiceConstants.UNITS_IN.equalsIgnoreCase( newUnits )
+				|| DesignChoiceConstants.UNITS_MM.equalsIgnoreCase( newUnits )
+				|| DesignChoiceConstants.UNITS_PC.equalsIgnoreCase( newUnits )
+				|| DesignChoiceConstants.UNITS_PT.equalsIgnoreCase( newUnits ) )
 			units = newUnits;
 		else
 			throw new PropertyValueException( newUnits,
@@ -926,11 +939,11 @@ public class DesignSession
 
 	public void setColorFormat( int format ) throws PropertyValueException
 	{
-		if ( ( format == ColorUtil.CSS_ABSOLUTE_FORMAT ) ||
-				( format == ColorUtil.CSS_RELATIVE_FORMAT ) ||
-				( format == ColorUtil.HTML_FORMAT ) ||
-				( format == ColorUtil.INT_FORMAT ) ||
-				( format == ColorUtil.JAVA_FORMAT ) )
+		if ( ( format == ColorUtil.CSS_ABSOLUTE_FORMAT )
+				|| ( format == ColorUtil.CSS_RELATIVE_FORMAT )
+				|| ( format == ColorUtil.HTML_FORMAT )
+				|| ( format == ColorUtil.INT_FORMAT )
+				|| ( format == ColorUtil.JAVA_FORMAT ) )
 			colorFormat = format;
 		else
 			throw new PropertyValueException( new Integer( format ),
@@ -1112,8 +1125,8 @@ public class DesignSession
 		while ( iter.hasNext( ) )
 		{
 			Module module = (Module) iter.next( );
-			if ( module.getLocation( ).equalsIgnoreCase( path ) ||
-					module.getLibraryByLocation( path,
+			if ( module.getLocation( ).equalsIgnoreCase( path )
+					|| module.getLibraryByLocation( path,
 							IAccessControl.ARBITARY_LEVEL ) != null )
 			{
 				LibraryChangeEvent event = new LibraryChangeEvent( ev
@@ -1172,8 +1185,8 @@ public class DesignSession
 
 	public void broadcastResourceChangeEvent( ResourceChangeEvent event )
 	{
-		if ( resourceChangeListeners == null ||
-				resourceChangeListeners.isEmpty( ) )
+		if ( resourceChangeListeners == null
+				|| resourceChangeListeners.isEmpty( ) )
 			return;
 
 		List temp = new ArrayList( resourceChangeListeners );

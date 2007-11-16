@@ -308,6 +308,17 @@ public class SessionHandleTest extends BaseTestCase
 		assertTrue( anotherDesignHandle.getModule( ).isValid( ) );
 		assertEquals( 2, getDesignCount( ) );
 
+		ModuleOption options = new ModuleOption( );
+		options.setProperty( ModuleOption.BLANK_CREATION_KEY, Boolean.TRUE );
+		String newFileName = getResource( INPUT_FOLDER + fileName ).toString( );
+
+		ReportDesignHandle simpleDesignHandle = session.createDesign(
+				newFileName, options );
+		newFileName = newFileName.replaceAll( fileName,
+				"SessionHandleTest_golden.xml" ); //$NON-NLS-1$
+		save( simpleDesignHandle );
+		assertTrue( compareFile( "SessionHandleTest_golden.xml" ) ); //$NON-NLS-1$
+
 	}
 
 	/**
@@ -690,6 +701,7 @@ public class SessionHandleTest extends BaseTestCase
 	 * 
 	 * @param designHandle
 	 *            the report design handle
+	 * @param url 
 	 * @param file
 	 *            the <code>File</code> instance of the design file
 	 * @throws Exception
@@ -826,6 +838,10 @@ public class SessionHandleTest extends BaseTestCase
 			status = "refresh"; //$NON-NLS-1$
 		}
 
+		/**
+		 * 
+		 * @return
+		 */
 		public String getStatus( )
 		{
 			return status;

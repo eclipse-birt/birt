@@ -474,7 +474,20 @@ public class SessionHandle
 
 	public ReportDesignHandle createDesign( String fileName )
 	{
-		return session.createDesign( fileName ).handle( );
+		return session.createDesign( fileName, null ).handle( );
+	}
+
+	/**
+	 * Creates a new design based on the file name and the module options.
+	 * 
+	 * @param fileName
+	 * @param options
+	 * @return
+	 */
+	public ReportDesignHandle createDesign( String fileName,
+			ModuleOption options )
+	{
+		return session.createDesign( fileName, options ).handle( );
 	}
 
 	/**
@@ -518,7 +531,7 @@ public class SessionHandle
 
 	public ReportDesignHandle createDesign( )
 	{
-		return session.createDesign( ).handle( );
+		return session.createDesign( null, null ).handle( );
 	}
 
 	/**

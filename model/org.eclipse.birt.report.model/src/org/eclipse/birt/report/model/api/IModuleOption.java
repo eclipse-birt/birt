@@ -55,6 +55,12 @@ public interface IModuleOption
 	/**
 	 * Key to indicate the created-by information of the module.
 	 */
-	
+
 	String CREATED_BY_KEY = "createdBy"; //$NON-NLS-1$
+
+	/**
+	 * Key to indicate that the created design file is the simplest and blank,
+	 * which contains nothing.
+	 */
+	String BLANK_CREATION_KEY = "blankCreation"; //$NON-NLS-1$
 }

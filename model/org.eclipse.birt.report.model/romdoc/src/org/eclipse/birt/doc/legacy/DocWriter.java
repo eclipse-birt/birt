@@ -33,7 +33,7 @@ public class DocWriter
 		
 		write( index, "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0 transitional//EN\">\n" );
 		write( index, "<html>\n<head>\n<title>Element Index</title>\n" );
-		write( index, "<link rel=\"stylesheet\" href=\"../style/compose.css\" type=\"text/css\"/>\n" );
+		write( index, "<link rel=\"stylesheet\" href=\"../style/style.css\" type=\"text/css\"/>\n" );
 		write( index, "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">\n" );
 		write( index, "</head>\n<body>\n" );
 	}
@@ -136,7 +136,7 @@ public class DocWriter
 			title = element.name;
 		write( title );
 		writeln( "</title>" );
-		writeln( "<link rel=\"stylesheet\" href=\"../../style/compose.css\" type=\"text/css\"/>" );
+		writeln( "<link rel=\"stylesheet\" href=\"../../style/style.css\" type=\"text/css\"/>" );
 		writeln( "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">" );
 		writeln( "</head>\n<body>" );
 		
