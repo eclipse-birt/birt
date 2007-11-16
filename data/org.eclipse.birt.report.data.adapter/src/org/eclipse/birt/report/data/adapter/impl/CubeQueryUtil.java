@@ -88,6 +88,8 @@ public class CubeQueryUtil implements ICubeQueryUtil
 					List aggrOns = binding.getAggregatOns( );
 					if( aggrOns.size( ) == 0 )
 					{
+						if ( isGrandTotal( binding ) && isSort )
+							continue;
 						if ( this.getReferencedMeasureName( binding.getExpression( ) ) != null )
 						{
 							if ( this.isLeafLevel( cubeDefn, target )
@@ -97,7 +99,7 @@ public class CubeQueryUtil implements ICubeQueryUtil
 										IBindingMetaInfo.MEASURE_TYPE ) );
 								continue;
 							}
-							else if ( binding.getAggrFunction( ) != null )
+							else if ( isGrandTotal( binding ) )
 							{
 								result.add( new BindingMetaInfo( binding.getBindingName( ),
 										IBindingMetaInfo.GRAND_TOTAL_TYPE ) );
@@ -151,6 +153,18 @@ public class CubeQueryUtil implements ICubeQueryUtil
 		{
 			throw new AdapterException( e.getLocalizedMessage( ), e );
 		}
+	}
+
+	/**
+	 * Indicate whether the binding stands for an OVERALL grand total.
+	 * 
+	 * @param binding
+	 * @return
+	 * @throws DataException
+	 */
+	private boolean isGrandTotal( IBinding binding ) throws DataException
+	{
+		return binding.getAggrFunction( ) != null;
 	}
 
 	/**
