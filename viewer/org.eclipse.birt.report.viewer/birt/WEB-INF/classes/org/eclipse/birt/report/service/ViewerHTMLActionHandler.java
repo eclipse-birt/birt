@@ -91,6 +91,12 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	protected String resourceFolder = null;
 
 	/**
+	 * SVG option setting by URL parameter.
+	 */
+
+	protected Boolean svg = null;
+
+	/**
 	 * Constructor.
 	 */
 	public ViewerHTMLActionHandler( )
@@ -107,11 +113,12 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	 * @param isRtl
 	 * @param isMasterPageContent
 	 * @param format
+	 * @param svg
 	 */
 
 	public ViewerHTMLActionHandler( IReportDocument document, long page,
 			Locale locale, boolean isEmbeddable, boolean isRtl,
-			boolean isMasterPageContent, String format )
+			boolean isMasterPageContent, String format, Boolean svg )
 	{
 		this.document = document;
 		this.page = page;
@@ -120,6 +127,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		this.isRtl = isRtl;
 		this.isMasterPageContent = isMasterPageContent;
 		this.hostFormat = format;
+		this.svg = svg;
 	}
 
 	/**
@@ -130,15 +138,17 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	 * @param isRtl
 	 * @param isMasterPageContent
 	 * @param format
+	 * @param svg
 	 */
 
 	public ViewerHTMLActionHandler( Locale locale, boolean isRtl,
-			boolean isMasterPageContent, String format )
+			boolean isMasterPageContent, String format, Boolean svg )
 	{
 		this.locale = locale;
 		this.isRtl = isRtl;
 		this.isMasterPageContent = isMasterPageContent;
 		this.hostFormat = format;
+		this.svg = svg;
 	}
 
 	/*
@@ -496,6 +506,13 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 			{
 				link.append( ParameterAccessor.getQueryParameterString(
 						ParameterAccessor.PARAM_RTL, String.valueOf( isRtl ) ) );
+			}
+
+			if ( svg != null )
+			{
+				link.append( ParameterAccessor.getQueryParameterString(
+						ParameterAccessor.PARAM_SVG, String.valueOf( svg
+								.booleanValue( ) ) ) );
 			}
 
 			// add isMasterPageContent

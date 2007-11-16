@@ -738,7 +738,7 @@ public class ReportEngineService
 				rtl ) );
 
 		ViewerHTMLActionHandler handler = new ViewerHTMLActionHandler( locale,
-				rtl, masterPage, format );
+				rtl, masterPage, format, new Boolean( svgFlag ) );
 		String resourceFolder = ParameterAccessor.getParameter( request,
 				ParameterAccessor.PARAM_RESOURCE_FOLDER );
 		handler.setResourceFolder( resourceFolder );
@@ -1068,7 +1068,8 @@ public class ReportEngineService
 						.equalsIgnoreCase( format ) )
 		{
 			handler = new ViewerHTMLActionHandler( reportDocument, pageNumber,
-					locale, false, rtl, masterPage, format );
+					locale, false, rtl, masterPage, format, new Boolean(
+							svgFlag ) );
 		}
 		else
 		{
@@ -1096,7 +1097,8 @@ public class ReportEngineService
 			renderOption.setOption( IHTMLRenderOption.MASTER_PAGE_CONTENT,
 					new Boolean( masterPage ) );
 			handler = new ViewerHTMLActionHandler( reportDocument, pageNumber,
-					locale, isEmbeddable, rtl, masterPage, format );
+					locale, isEmbeddable, rtl, masterPage, format, new Boolean(
+							svgFlag ) );
 		}
 		String resourceFolder = ParameterAccessor.getParameter( request,
 				ParameterAccessor.PARAM_RESOURCE_FOLDER );
@@ -1315,7 +1317,7 @@ public class ReportEngineService
 						.equalsIgnoreCase( format ) )
 		{
 			handler = new ViewerHTMLActionHandler( reportDocument, -1, locale,
-					false, rtl, masterPage, format );
+					false, rtl, masterPage, format, new Boolean( svgFlag ) );
 		}
 		else
 		{
@@ -1343,7 +1345,8 @@ public class ReportEngineService
 			renderOption.setOption( IHTMLRenderOption.MASTER_PAGE_CONTENT,
 					new Boolean( masterPage ) );
 			handler = new ViewerHTMLActionHandler( reportDocument, -1, locale,
-					isEmbeddable, rtl, masterPage, format );
+					isEmbeddable, rtl, masterPage, format,
+					new Boolean( svgFlag ) );
 		}
 		String resourceFolder = ParameterAccessor.getParameter( request,
 				ParameterAccessor.PARAM_RESOURCE_FOLDER );
