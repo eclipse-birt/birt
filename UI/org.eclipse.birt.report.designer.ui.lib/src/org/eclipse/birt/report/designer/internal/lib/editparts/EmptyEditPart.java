@@ -11,9 +11,13 @@
 
 package org.eclipse.birt.report.designer.internal.lib.editparts;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.internal.lib.editors.figures.EmptyFigure;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.ISelectionFlitter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -98,5 +102,31 @@ public class EmptyEditPart extends ReportElementEditPart
 	{
 		return HandleAdapterFactory.getInstance( )
 				.getDesignElementHandleAdapter( getModel( ), this );
+	}
+	
+	public Object getAdapter( Class key )
+	{
+		if (key == ISelectionFlitter.class)
+		{
+			return new ISelectionFlitter()
+			{
+
+				public List flitterEditpart( List editparts )
+				{
+					List retValue = new ArrayList(editparts);
+					for (int i=0; i<editparts.size( ); i++)
+					{
+						if (editparts.get( i ) instanceof EmptyEditPart)
+						{
+							retValue.remove( editparts.get( i ) );
+						}
+					}
+					
+					return retValue;
+				}
+				
+			};
+		}
+		return super.getAdapter( key );
 	}
 }
