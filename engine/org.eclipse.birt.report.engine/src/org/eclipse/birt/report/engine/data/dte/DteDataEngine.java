@@ -165,16 +165,7 @@ public class DteDataEngine extends AbstractDataEngine
 		}
 		
 		// the cube query must be re-prepared before executing.
-		IBasePreparedQuery pQuery = null;
-		try
-		{
-			pQuery = dteSession.prepare( query, appContext );
-		}
-		catch ( BirtException be )
-		{
-			logger.log( Level.SEVERE, be.getMessage( ) );
-			context.addException( be );
-		}		
+		IBasePreparedQuery pQuery = (IBasePreparedQuery) queryMap.get( query );
 		if ( pQuery == null )
 		{
 			return null;
