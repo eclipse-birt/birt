@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.report.designer.data.ui.dataset;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Logger;
 
@@ -59,8 +60,12 @@ public final class DataSetUIUtil
 			DataSetHandle dataSetHandle ) throws SemanticException
 	{
 		if ( dataSetHandle instanceof OdaDataSetHandle )
-			dataSetHandle.getPropertyHandle( OdaDataSetHandle.RESULT_SET_PROP )
-					.clearValue( );
+		{
+			if ( dataSetHandle.getPropertyHandle( OdaDataSetHandle.RESULT_SET_PROP )
+					.isLocal( ) )
+				dataSetHandle.getPropertyHandle( OdaDataSetHandle.RESULT_SET_PROP )
+						.setValue( new ArrayList( ) );
+		}
 		updateColumnCache( dataSetHandle );
 
 	}

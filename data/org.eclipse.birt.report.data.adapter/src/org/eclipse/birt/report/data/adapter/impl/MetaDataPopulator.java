@@ -54,14 +54,12 @@ public class MetaDataPopulator
 		if ( dataSetHandle instanceof OdaDataSetHandle )
 		{
 			PropertyHandle handle = dataSetHandle.getPropertyHandle( OdaDataSetHandle.RESULT_SET_PROP );
-			if ( handle.isLocal( ) )
-				resultSetList = handle.getListValue( );
+			resultSetList = handle.getListValue( );
 		}
 		else if ( dataSetHandle instanceof ScriptDataSetHandle )
 		{
 			PropertyHandle handle = dataSetHandle.getPropertyHandle( DataSetHandle.RESULT_SET_HINTS_PROP );
-			if ( handle.isLocal( ) )
-				resultSetList = handle.getListValue( );
+			resultSetList = handle.getListValue( );
 		}
 		else
 		{
