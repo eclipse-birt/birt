@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -72,10 +72,16 @@ public final class ResultSetWrapper
 	 */
 	final int[] iaDataTypes;
 
+
+	/**
+	 * A reusable instance that indicates no group breaks
+	 */
+	private static final int[] NO_GROUP_BREAKS = new int[0];
+	
 	/**
 	 * The group breaks associated with all rows of data
 	 */
-	private int[] iaGroupBreaks = null;
+	private int[] iaGroupBreaks = NO_GROUP_BREAKS;
 
 	/**
 	 * A lookup table internally used to locate a numeric column index using the
@@ -85,10 +91,6 @@ public final class ResultSetWrapper
 
 	private final GroupKey[] oaGroupKeys;
 
-	/**
-	 * A reusable instance that indicates no group breaks
-	 */
-	private static final int[] NO_GROUP_BREAKS = new int[0];
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/datafeed" ); //$NON-NLS-1$
 	
@@ -901,7 +903,14 @@ public final class ResultSetWrapper
 	 */
 	public int getGroupCount( )
 	{
-		return iaGroupBreaks.length + 1;
+		if ( iaGroupBreaks == null )
+		{
+			return 1;
+		}
+		else
+		{
+			return iaGroupBreaks.length + 1;
+		}
 	}
 
 	/**
