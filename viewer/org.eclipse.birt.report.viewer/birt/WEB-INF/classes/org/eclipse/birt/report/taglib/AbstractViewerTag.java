@@ -551,4 +551,13 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 	{
 		viewer.setResourceFolder( resourceFolder );
 	}
+
+	/**
+	 * @param isReportlet
+	 *            the isReportlet to set
+	 */
+	public void setIsReportlet( String isReportlet )
+	{
+		viewer.setIsReportlet( BirtTagUtil.convertBooleanValue( isReportlet ) );
+	}
 }

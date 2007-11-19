@@ -314,6 +314,16 @@
 			</description>			
 		</attribute>
 
+		<attribute>
+			<name>isReportlet</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Specifies whether render reportlet by bookmark.
+				Default to false.
+			</description>			
+		</attribute>
+		
 	</tag>
 
  	<!--**********************************************-->
@@ -566,6 +576,16 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>
 				Specifies page range when render document file.
+			</description>			
+		</attribute>
+
+		<attribute>
+			<name>isReportlet</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Specifies whether render reportlet by bookmark.
+				Default to false.
 			</description>			
 		</attribute>
 		        
@@ -909,6 +929,16 @@
 				Specifies whether shows the Navigation Bar.
 				If allowPageBreak is false,ignore this attribute.
 				Default to true.
+			</description>			
+		</attribute>
+
+		<attribute>
+			<name>isReportlet</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Specifies whether render reportlet by bookmark.
+				Default to false.
 			</description>			
 		</attribute>
 				        

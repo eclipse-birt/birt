@@ -470,13 +470,23 @@ public class ReportTag extends AbstractViewerTag
 			String servletPath = (String) this.options
 					.getOption( InputOptions.OPT_SERVLET_PATH );
 
-			if ( viewer.getReportletId( ) != null )
+			String realReportletId = viewer.getReportletId( );
+			if ( realReportletId == null )
+			{
+				if ( viewer.getBookmark( ) != null
+						&& "true".equalsIgnoreCase( viewer.getIsReportlet( ) ) ) //$NON-NLS-1$
+				{
+					realReportletId = viewer.getBookmark( );
+				}
+			}
+
+			if ( realReportletId != null )
 			{
 				// Render the reportlet
-				ReportEngineService.getInstance( ).renderReportlet( out,
-						request, doc, viewer.getReportletId( ), format,
-						isMasterPage, isSvg, null, locale,
-						isRtl.booleanValue( ), servletPath );
+				ReportEngineService.getInstance( )
+						.renderReportlet( out, request, doc, realReportletId,
+								format, isMasterPage, isSvg, null, locale,
+								isRtl.booleanValue( ), servletPath );
 			}
 			else
 			{

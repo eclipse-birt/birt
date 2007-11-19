@@ -622,6 +622,15 @@ public class RequesterTag extends AbstractBaseTag
 	}
 
 	/**
+	 * @param isReportlet
+	 *            the isReportlet to set
+	 */
+	public void setIsReportlet( String isReportlet )
+	{
+		viewer.setIsReportlet( BirtTagUtil.convertBooleanValue( isReportlet ) );
+	}
+
+	/**
 	 * Add parameter value
 	 * 
 	 * @param name

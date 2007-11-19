@@ -60,6 +60,7 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
  * <li>showNavigationBar</li>
  * <li>reportContainer</li>
  * <li>showParameterPage</li>
+ * <li>isReportlet</li>
  * </ol>
  */
 public class ViewerField implements Serializable, Cloneable, ITagConstants
@@ -109,6 +110,8 @@ public class ViewerField implements Serializable, Cloneable, ITagConstants
 	private String showNavigationBar;
 	private String showParameterPage;
 
+	private String isReportlet;
+
 	private String reportContainer = CONTAINER_IFRAME;
 
 	/**
@@ -143,16 +146,20 @@ public class ViewerField implements Serializable, Cloneable, ITagConstants
 		if ( uri == null )
 			uri = this.pattern;
 
+		boolean renderReportlet = false;
+		if ( reportDocument != null
+				&& ( reportletId != null || ( bookmark != null && "true" //$NON-NLS-1$
+				.equalsIgnoreCase( isReportlet ) ) ) )
+			renderReportlet = true;
+
 		if ( uri == null )
 		{
 			uri = IBirtConstants.VIEWER_FRAMESET;
 
 			// frameset doesn't support reportlet. If preview reportlet, force
 			// to use run pattern.
-			if ( reportDocument != null && reportletId != null )
-			{
+			if ( renderReportlet )
 				uri = IBirtConstants.VIEWER_RUN;
-			}
 		}
 
 		// whether use frameset pattern
@@ -268,7 +275,8 @@ public class ViewerField implements Serializable, Cloneable, ITagConstants
 		// append bookmark setting
 		if ( bookmark != null )
 		{
-			if ( IBirtConstants.VIEWER_PREVIEW.equalsIgnoreCase( iPattern ) )
+			if ( IBirtConstants.VIEWER_PREVIEW.equalsIgnoreCase( iPattern )
+					&& !"true".equalsIgnoreCase( isReportlet ) ) //$NON-NLS-1$
 			{
 				// if use PREVIEW mode, append bookmark directly
 				uri += "#" + urlParamValueEncode( bookmark ); //$NON-NLS-1$
@@ -279,6 +287,9 @@ public class ViewerField implements Serializable, Cloneable, ITagConstants
 						+ urlParamValueEncode( bookmark );
 			}
 		}
+
+		if ( isReportlet != null )
+			uri += "&" + ParameterAccessor.PARAM_ISREPORTLET + "=" + isReportlet; //$NON-NLS-1$ //$NON-NLS-2$
 
 		return uri;
 	}
@@ -871,6 +882,23 @@ public class ViewerField implements Serializable, Cloneable, ITagConstants
 	public void setShowParameterPage( String showParameterPage )
 	{
 		this.showParameterPage = showParameterPage;
+	}
+
+	/**
+	 * @return the isReportlet
+	 */
+	public String getIsReportlet( )
+	{
+		return isReportlet;
+	}
+
+	/**
+	 * @param isReportlet
+	 *            the isReportlet to set
+	 */
+	public void setIsReportlet( String isReportlet )
+	{
+		this.isReportlet = isReportlet;
 	}
 
 	/**
