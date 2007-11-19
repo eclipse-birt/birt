@@ -68,10 +68,6 @@ public abstract class PageDeviceRender implements IAreaVisitor
 
 	protected float scale;
 
-	protected int hTextSpace = 30;
-
-	protected int vTextSpace = 100;
-
 	int pageHeight;
 
 	int pageWidth;
@@ -151,8 +147,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 
 	public void visitText( ITextArea textArea )
 	{
-		int x = currentX + textArea.getX();
-		int y = currentY + textArea.getY();
+		int x = currentX + getX(textArea);
+		int y = currentY + getY(textArea);
 		drawTextAt( textArea, x, y );
 	}
 
@@ -191,8 +187,6 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		if ( container instanceof PageArea )
 		{
 			scale = container.getScale( );
-			hTextSpace = (int) ( H_TEXT_SPACE * scale );
-			vTextSpace = (int) ( V_TEXT_SPACE * scale );
 			newPage( container );
 			currentX = 0;
 			currentY = 0;
@@ -504,8 +498,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 
 		// style.getFontVariant(); small-caps or normal
 		float fontSize = text.getFontInfo( ).getFontSize( );
-		int x = textX + getScaledValue( (int) ( fontSize * hTextSpace ) );
-		int y = textY + getScaledValue( (int) ( fontSize * vTextSpace ) );
+		int x = textX + getScaledValue( (int)(fontSize * H_TEXT_SPACE) ) ;
+		int y = textY + getScaledValue( (int)(fontSize * V_TEXT_SPACE) ) ;
 		FontInfo fontInfo = new FontInfo( text.getFontInfo( ) );
 		fontInfo.setFontSize( fontInfo.getFontSize( ) * scale );
 		int characterSpacing = getScaledValue( PropertyUtil
