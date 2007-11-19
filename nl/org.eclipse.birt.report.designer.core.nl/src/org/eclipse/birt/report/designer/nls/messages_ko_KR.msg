@@ -3141,6 +3141,7 @@ UseCssInThemeDialog.TitleArea.Message=CSS 파일의 스타일을 교체할 테마를 선택합니
 SelectValueDialog.errorRetrievinglist=목록을 검색하는 도중 오류가 발생했습니다.
 SelectValueDialog.messages.info.selectVauleUnavailable=row["name"] 또는 row.name 형식의 식만이 값 목록을 가져올 수 있습니다. 
 SelectValueDialog.messages.info.invalidSelectVauleExpression="값 선택" 함수는 간단한 열 식만 받아들입니다. 복잡한 식은 거부됩니다. 
+SelectValueDialog.messages.warning.BlobColumn.unsupported=Cannot retrieve the value list of the expression referenced to the Blob type column/binding.
 SelectValueDialog.messages.error.selectVauleUnavailable=식의 값을 검색할 수 없습니다.
 SelectValueDialog.noExpressionSet=식이 설정되지 않았습니다.
 SelectValueDialog.retrieving=목록 검색...

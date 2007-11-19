@@ -3141,6 +3141,7 @@ UseCssInThemeDialog.TitleArea.Message=Seleccionar un tema al que aplicar los est
 SelectValueDialog.errorRetrievinglist=Error al recuperar la lista
 SelectValueDialog.messages.info.selectVauleUnavailable=Sólo se puede obtener la lista de valores para las expresiones con un formato fila["nombre"] o fila.nombre. 
 SelectValueDialog.messages.info.invalidSelectVauleExpression=La función "Seleccionar valor" sólo acepta una columna de expresión simple. Se rechazan las expresiones complejas. 
+SelectValueDialog.messages.warning.BlobColumn.unsupported=Cannot retrieve the value list of the expression referenced to the Blob type column/binding.
 SelectValueDialog.messages.error.selectVauleUnavailable=No se puede recuperar el valor de la expresión.
 SelectValueDialog.noExpressionSet=No se ha ajustado ninguna expresión
 SelectValueDialog.retrieving=Recuperando lista...

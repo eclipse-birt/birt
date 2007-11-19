@@ -3141,6 +3141,7 @@ UseCssInThemeDialog.TitleArea.Message=CSS ファイルのスタイルを配置するテーマを選
 SelectValueDialog.errorRetrievinglist=リストを検索する際にエラーが発生しました。
 SelectValueDialog.messages.info.selectVauleUnavailable=値の一覧を取得できるのは、row["name"] または row.name という形式の式だけです。 
 SelectValueDialog.messages.info.invalidSelectVauleExpression=値の選択機能では、単純な列式しか使用できません。複雑な式は拒否されます。 
+SelectValueDialog.messages.warning.BlobColumn.unsupported=Cannot retrieve the value list of the expression referenced to the Blob type column/binding.
 SelectValueDialog.messages.error.selectVauleUnavailable=式の値を取得できません。
 SelectValueDialog.noExpressionSet=式が設定されていません。
 SelectValueDialog.retrieving=リストの取得中...

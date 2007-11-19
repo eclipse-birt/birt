@@ -3141,6 +3141,7 @@ UseCssInThemeDialog.TitleArea.Message=Wählen Sie ein Thema, in dem die Stile der
 SelectValueDialog.errorRetrievinglist=Fehler beim Abrufen der Liste
 SelectValueDialog.messages.info.selectVauleUnavailable=Die den Ausdrücken zugeordneten Wertlisten können nur durch Ausdrücke im Format 'Reihe["Name"]' oder 'Reihe.Name' abgerufen werden. 
 SelectValueDialog.messages.info.invalidSelectVauleExpression=Für die Funktion 'Wert auswählen' ist nur ein einfacher Spaltenausdruck zulässig. Ein komplexer Ausdruck wird abgewiesen. 
+SelectValueDialog.messages.warning.BlobColumn.unsupported=Cannot retrieve the value list of the expression referenced to the Blob type column/binding.
 SelectValueDialog.messages.error.selectVauleUnavailable=Der Wert für den Ausdruck kann nicht abgerufen werden.
 SelectValueDialog.noExpressionSet=Ein Ausdruck wurde nicht festgelegt
 SelectValueDialog.retrieving=Liste wird abgerufen ...

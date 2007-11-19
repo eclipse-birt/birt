@@ -3141,6 +3141,7 @@ UseCssInThemeDialog.TitleArea.Message=选择要放置 CSS 文件样式的主题。
 SelectValueDialog.errorRetrievinglist=检索列表时出错
 SelectValueDialog.messages.info.selectVauleUnavailable=只有 row["name"] 或 row.name 之类格式的表达式才能获得值列表。 
 SelectValueDialog.messages.info.invalidSelectVauleExpression=“选择值”函数仅接受简单列表达式。拒绝复杂表达式。 
+SelectValueDialog.messages.warning.BlobColumn.unsupported=Cannot retrieve the value list of the expression referenced to the Blob type column/binding.
 SelectValueDialog.messages.error.selectVauleUnavailable=无法检索该表达式的值。
 SelectValueDialog.noExpressionSet=尚未设置表达式
 SelectValueDialog.retrieving=正在检索列表...
