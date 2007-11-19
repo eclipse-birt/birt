@@ -18,9 +18,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -42,6 +44,8 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.aggregation.IAggregationFactory;
+import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
+import org.eclipse.birt.data.engine.api.querydefn.BaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
@@ -72,6 +76,7 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
 import org.eclipse.birt.report.model.api.DimensionJoinConditionHandle;
+import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -96,6 +101,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	private IModelAdapter modelAdaptor;
 	private DataSessionContext sessionContext;
 	private Map cubeHandleMap;
+	private Set dataSetCache;
 
 	/**
 	 * Constructs the data request session with the provided session context
@@ -114,7 +120,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		modelAdaptor = new ModelAdapter( context );
 		sessionContext = context;
 		cubeHandleMap = new HashMap( );
-
+		dataSetCache = new HashSet( );
 		// Comments out the following code. Now the definition of all data elements
 		// will be defered until necessary.
 		// If a report design handle provided, adapt all data sets and data
@@ -336,6 +342,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 */
 	public void shutdown( )
 	{
+		this.clearCache( this.dataSetCache );
 		dataEngine.shutdown( );
 		dataEngine = null;
 	}
@@ -566,7 +573,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 			CubeMaterializer cubeMaterializer, Map appContext )
 			throws IOException, BirtException, DataException
 	{
-		boolean doPerfTuning = this.needCachedDataSetToEnhancePerformance( cubeHandle )
+		Set involvedDataSet = this.needCachedDataSetToEnhancePerformance( cubeHandle );
+		boolean doPerfTuning = involvedDataSet.size( ) > 1
 				&& ( appContext == null || ( appContext != null
 						&& appContext.get( DataEngine.DATA_SET_CACHE_ROW_LIMIT ) == null 
 						&& appContext.get( DataEngine.MEMORY_DATA_SET_CACHE ) == null ) );
@@ -576,6 +584,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		if ( doPerfTuning )
 		{
 			candidateAppContext.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT, new Integer(-1) );
+			this.dataSetCache.addAll( involvedDataSet );
 		}
 					
 		List measureNames = new ArrayList( );
@@ -675,13 +684,50 @@ public class DataRequestSessionImpl extends DataRequestSession
 	} 
 
 	/**
+	 * Clear the data set caches that are used in cube creation.
+	 * 
+	 * @param dataSetHandles
+	 * @throws BirtException
+	 */
+	private void clearCache( Set dataSetHandles )
+	{
+		Iterator it = dataSetHandles.iterator( );
+		while ( it.hasNext( ) )
+		{
+			try
+			{
+				DataSetHandle dsHandle = (DataSetHandle) it.next( );
+				BaseDataSourceDesign baseDataSource = this.modelAdaptor.adaptDataSource( dsHandle.getDataSource( ) );
+				BaseDataSetDesign baseDataSet = this.modelAdaptor.adaptDataSet( dsHandle );
+				this.dataEngine.clearCache( baseDataSource, baseDataSet );
+
+				if ( dsHandle instanceof JointDataSetHandle )
+				{
+					Set parentSet = new HashSet( );
+					Iterator parentIt = ( (JointDataSetHandle) dsHandle ).dataSetsIterator( );
+					while ( parentIt != null && parentIt.hasNext( ) )
+					{
+						parentSet.add( parentIt.next( ) );
+					}
+					clearCache( parentSet );
+				}
+			}
+			catch ( Exception e )
+			{
+				//Do nothing
+			}
+		}
+	}
+	
+	/**
 	 * 
 	 * @param cubeHandle
 	 * @return
 	 */
-	private boolean needCachedDataSetToEnhancePerformance( TabularCubeHandle cubeHandle )
+	private Set needCachedDataSetToEnhancePerformance( TabularCubeHandle cubeHandle )
 	{
-		DataSetHandle dsHandle = cubeHandle.getDataSet( );
+		Set set = new HashSet( );
+		set.add( cubeHandle.getDataSet( ) );
 		List dimHandles = cubeHandle.getContents( CubeHandle.DIMENSIONS_PROP );
 		for( int i = 0; i < dimHandles.size( ); i++ )
 		{
@@ -689,9 +735,9 @@ public class DataRequestSessionImpl extends DataRequestSession
 			List hiers = dimHandle.getContents( DimensionHandle.HIERARCHIES_PROP );
 			TabularHierarchyHandle hierHandle = (TabularHierarchyHandle)hiers.get( 0 );
 			if( hierHandle.getDataSet( )!= null )
-				return false;
+				set.add( hierHandle.getDataSet( ) );
 		}
-		return true;
+		return set;
 	}
 	
 	/**
