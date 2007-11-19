@@ -199,6 +199,7 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 		}
 		birtSoapRequest.setURL( soapURL );
 		birtEventDispatcher.setFocusId( null );	// Clear out current focusid.
+		birtProgressBar.setRedirect( true );
 		return true;
 	},
 

@@ -129,6 +129,7 @@ AbstractBaseReportDocument.prototype = Object.extend( new AbstractReportComponen
 										  { name : Constants.PARAM_TASKID, value : taskid } );			
 		}
 		birtSoapRequest.setURL( soapURL );
+		birtProgressBar.setRedirect( true );
 		birtEventDispatcher.setFocusId( null );	// Clear out current focusid.
 		return true;
 	},
@@ -201,6 +202,7 @@ AbstractBaseReportDocument.prototype = Object.extend( new AbstractReportComponen
 		}
 
 		birtEventDispatcher.setFocusId( null );	// Clear out current focusid.
+		birtProgressBar.setRedirect( true );
 		return true;
 	},
 
@@ -260,6 +262,7 @@ AbstractBaseReportDocument.prototype = Object.extend( new AbstractReportComponen
 		}
 
 		birtEventDispatcher.setFocusId( null );	// Clear out current focusid.
+		birtProgressBar.setRedirect( true );
 		return true;
 	},
 	

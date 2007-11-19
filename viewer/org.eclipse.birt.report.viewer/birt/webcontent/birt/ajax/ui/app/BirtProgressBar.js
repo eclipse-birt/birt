@@ -52,6 +52,11 @@ BirtProgressBar.prototype = Object.extend( new AbstractUIComponent( ),
 	__task_id : 'taskid',
 		
 	/**
+	 * When click cancel button, indicate whether redirect a cancel page
+	 */
+	__redirect : false,
+	
+	/**
 	 *	Initialization routine required by "ProtoType" lib.
 	 *	@return, void
 	 */
@@ -222,12 +227,15 @@ BirtProgressBar.prototype = Object.extend( new AbstractUIComponent( ),
 		var oTaskId = document.getElementById( this.__task_id );
 		if( oTaskId && window.confirm( Constants.error.confirmCancelTask ) )
 		{	
-			/*
+			if( this.__redirect )
+			{
+				this.cancel( oTaskId.value );	
+			}
+			else
+			{
 				birtEventDispatcher.broadcastEvent( birtEvent.__E_CANCEL_TASK, { name : Constants.PARAM_TASKID, value : oTaskId.value } );
 				Event.element( event ).disabled = true;
-			*/
-			
-			this.cancel( oTaskId.value );
+			}			
 		}	
 	},
 	
@@ -291,5 +299,16 @@ BirtProgressBar.prototype = Object.extend( new AbstractUIComponent( ),
 		var container = document.getElementById( this.__cancel_button );
 		if( container )
 			container.style.display = 'none';
+	},
+	
+	/**
+	 * Set redirect flag
+	 * 
+	 * @param, flag
+	 * @return, void
+	 */
+	setRedirect : function( flag )
+	{
+		this.__redirect = flag;		
 	}
 } );
