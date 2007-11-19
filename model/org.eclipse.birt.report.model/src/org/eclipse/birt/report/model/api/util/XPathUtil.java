@@ -104,7 +104,7 @@ public class XPathUtil
 	public static String getXPath( Object instance )
 	{
 		if ( instance == null )
-			return EMPTY_STRING;
+			return null;
 
 		if ( instance instanceof DesignElementHandle )
 			return serializeToXPath( (DesignElementHandle) instance );
@@ -141,7 +141,7 @@ public class XPathUtil
 	public static String getXPath( Object instance, int index )
 	{
 		if ( instance == null )
-			return EMPTY_STRING;
+			return null;
 
 		if ( instance instanceof PropertyHandle )
 		{
@@ -150,7 +150,7 @@ public class XPathUtil
 				return serializeToXPath( temp, index );
 		}
 
-		return EMPTY_STRING;
+		return null;
 	}
 
 	/**
