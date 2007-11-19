@@ -15,12 +15,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
@@ -59,8 +62,11 @@ public class SelectValueFetcher
 	public static List getSelectValueList( String expression,
 			DataSetHandle dataSetHandle, boolean inclFilter ) throws BirtException
 	{
-		if ( !ExpressionUtility.isColumnExpression( expression, true )
-				&& !ExpressionUtility.isColumnExpression( expression, false ) )
+		boolean startsWithRow = ExpressionUtility.isColumnExpression( expression,
+				true );
+		boolean startsWithDataSetRow = ExpressionUtility.isColumnExpression( expression,
+				false );
+		if ( !startsWithRow && !startsWithDataSetRow )
 		{
 			throw new DataException( Messages.getString( "SelectValueDialog.messages.info.invalidSelectVauleExpression" ) );
 		}
@@ -119,6 +125,24 @@ public class SelectValueFetcher
 			IQueryResults results = preparedQuery.execute( null );
 			if ( results != null )
 			{
+				//if the referenced column is of BLOB type, then throw out an exception
+				String columnName = getReferenceColumnName( expression, startsWithRow );
+				if ( columnName == null )
+				{
+					throw new DataException( Messages.getString( "SelectValueDialog.messages.info.invalidSelectVauleExpression" ) );
+				}
+				IResultMetaData metaData = results.getResultMetaData( );
+				for ( int i = 0; i < metaData.getColumnCount( ); i++ )
+				{
+					if ( metaData.getColumnName( i + 1 ).equals( columnName ) )
+					{
+						if ( metaData.getColumnType( i + 1 ) == DataType.BLOB_TYPE )
+						{
+							throw new DataException( Messages.getString( "SelectValueDialog.messages.warning.BlobColumn.unsupported" ) );
+						}
+						break;
+					}
+				}
 				IResultIterator iter = null;
 				iter = results.getResultIterator( );
 				if ( iter != null )
@@ -208,6 +232,34 @@ public class SelectValueFetcher
 		}
 		defineSourceAndDataSets( session, dataSetHandle, session.getModelAdaptor( )
 				.adaptDataSet( dataSetHandle ), inclFilter );
+	}
+	
+	/**
+	 * A help method to get the referenced column name of the given expression
+	 * 
+	 * @param expression
+	 * @return
+	 */
+	private static String getReferenceColumnName( String expression, boolean mode )
+	{
+		try
+		{
+			List columnValue = null;
+			columnValue = ExpressionUtil.extractColumnExpressions( expression,
+					mode );
+			if ( columnValue == null || columnValue.size( ) == 0 )
+			{
+				if ( columnValue == null || columnValue.size( ) == 0 )
+				{
+					return null;
+				}
+			}
+			return ( (IColumnBinding) columnValue.get( 0 ) ).getResultSetColumnName( );
+		}
+		catch ( BirtException e )
+		{
+			return null;
+		}
 	}
 
 	/**
