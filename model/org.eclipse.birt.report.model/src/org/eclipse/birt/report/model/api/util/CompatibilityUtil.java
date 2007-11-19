@@ -131,7 +131,7 @@ public class CompatibilityUtil
 		if ( !propHandle.isLocal( ) )
 		{
 			if ( oldList != null )
-				newList = (List) ModelUtil.copyValue( propDefn, structures );
+				newList = (List) ModelUtil.copyValue( propDefn, oldList );
 			else
 				newList = new ArrayList( );
 
