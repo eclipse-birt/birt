@@ -149,6 +149,9 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.util.SetUtilTest.class );
 		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.util.StructureDiskArrayTest.class );
 		
+		/* in package org.eclipse.birt.data.engine.olap.util.filter */
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.util.filter.CubePosFilterTest.class );
+		
 		/* in package org.eclipse.birt.data.engine.olap.cursor */
 
 		suite.addTestSuite( org.eclipse.birt.data.engine.olap.cursor.CursorNavigatorTest.class );

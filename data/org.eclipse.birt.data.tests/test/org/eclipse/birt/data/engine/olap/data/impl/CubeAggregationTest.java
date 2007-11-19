@@ -489,6 +489,44 @@ public class CubeAggregationTest extends TestCase
 		
 	}
 	
+	public void testCube1AggregationWithMeasureFilter( ) throws IOException, DataException, BirtException
+	{
+		//query
+		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
+				CubeQueryExecutorHelper.loadCube( "cube1", documentManager, new StopSign( ) ) );
+		
+		AggregationDefinition[] aggregations = new AggregationDefinition[1];
+		int[] sortType = new int[1];
+		sortType[0] = IDimensionSortDefn.SORT_ASC;
+		DimLevel[] levelsForFilter = new DimLevel[]{dimLevel21};
+		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
+		funcitons[0] = new AggregationFunctionDefinition( null, "measure1", null, null,
+				IBuildInAggregation.TOTAL_SUM_FUNC, null );
+		
+		aggregations[0] = new AggregationDefinition( levelsForFilter, sortType, funcitons );
+		JSMeasureFilterEvalHelper measureFilter = new JSMeasureFilterEvalHelper( );
+		cubeQueryExcutorHelper.addMeasureFilter( measureFilter );
+		IAggregationResultSet[] resultSet = cubeQueryExcutorHelper.execute( aggregations,
+				new StopSign( ) );
+		CubeQueryExecutorHelper.saveAggregationResultSet( pathName, "test2", resultSet );
+		resultSet = CubeQueryExecutorHelper.loadAggregationResultSet( pathName, "test2" );
+		//result set for aggregation 0
+		assertEquals( resultSet[0].length( ), 3 );
+		assertEquals( resultSet[0].getAggregationDataType( 0 ), DataType.DOUBLE_TYPE );
+		assertEquals( resultSet[0].getLevelIndex( dimLevel21 ), 0 );
+		assertEquals( resultSet[0].getLevelKeyDataType( dimLevel21, "level21" ), DataType.STRING_TYPE );
+		resultSet[0].seek( 0 );
+		assertEquals( resultSet[0].getLevelKeyValue( 0 )[0], "1" );
+		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double(4) );
+		resultSet[0].seek( 1 );
+		assertEquals( resultSet[0].getLevelKeyValue( 0 )[0], "2" );
+		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double(12) );
+		resultSet[0].seek( 2 );
+		assertEquals( resultSet[0].getLevelKeyValue( 0 )[0], "3" );
+		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double(20) );
+		
+	}
+	
 	public void testEmptyAggregation( ) throws IOException, DataException, BirtException
 	{
 		//query

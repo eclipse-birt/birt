@@ -21,6 +21,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.LevelFilter;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.SimpleLevelFilter;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper;
+import org.eclipse.birt.data.engine.olap.util.filter.IJSMeasureFilterEvalHelper;
 
 /**
  * 
@@ -40,6 +41,12 @@ public interface ICubeQueryExcutorHelper
 	 */
 	public void addFilter( LevelFilter levelFilter );
 
+	/**
+	 * 
+	 * @param measureFilter
+	 */
+	public void addMeasureFilter( IJSMeasureFilterEvalHelper measureFilter );
+	
 	/**
 	 * 
 	 * @param filterEvalHelper

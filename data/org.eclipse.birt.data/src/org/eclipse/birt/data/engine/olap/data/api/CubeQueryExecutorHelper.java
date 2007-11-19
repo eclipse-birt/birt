@@ -50,6 +50,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionResultIter
 import org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableRowIterator;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper;
+import org.eclipse.birt.data.engine.olap.util.filter.IJSMeasureFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.sort.IJSSortHelper;
 
 /**
@@ -61,6 +62,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	private Cube cube;
 	private List levelFilters = null;
 	private List simpleLevelFilters = null;	// list for SimepleLevelFilter
+	private List measureFilters = null;
 	private Map dimJSFilterMap = null;
 	private Map dimRowForFilterMap = null;
 	
@@ -103,6 +105,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		}
 		this.simpleLevelFilters = new ArrayList( );
 		this.levelFilters = new ArrayList( );
+		this.measureFilters = new ArrayList( );
 		this.aggrFilterHelpers = new ArrayList( );
 		this.dimJSFilterMap = new HashMap( );
 		this.dimRowForFilterMap = new HashMap( );
@@ -453,7 +456,10 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 				validDimPosition,
 				computedMeasureHelper,
 				stopSign );
-
+		for( int i=0;i<measureFilters.size( );i++)
+		{
+			facttableRowIterator.addMeasureFilter( (IJSMeasureFilterEvalHelper)measureFilters.get( i ) );
+		}
 		DimensionResultIterator[] dimensionResultIterator = populateDimensionResultIterator( dimPosition, stopSign );
 
 		AggregationExecutor aggregationCalculatorExecutor = new AggregationExecutor( dimensionResultIterator,
@@ -575,6 +581,14 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.data.api.ICubeQueryExcutorHelper#addMeasureFilter(org.eclipse.birt.data.engine.olap.util.filter.IJSMeasureFilterEvalHelper)
+	 */
+	public void addMeasureFilter( IJSMeasureFilterEvalHelper measureFilter )
+	{
+		measureFilters.add( measureFilter );
+	}
 	
 	/**
 	 * @param isBreakHierarchy the isBreakHierarchy to set

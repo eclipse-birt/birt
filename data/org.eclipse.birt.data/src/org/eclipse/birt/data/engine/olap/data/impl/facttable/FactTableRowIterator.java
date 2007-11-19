@@ -29,7 +29,9 @@ import org.eclipse.birt.data.engine.olap.data.impl.NamingUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.Traversalor;
 import org.eclipse.birt.data.engine.olap.data.util.Bytes;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
+import org.eclipse.birt.data.engine.olap.util.filter.ICubePosFilter;
 import org.eclipse.birt.data.engine.olap.util.filter.IFacttableRow;
+import org.eclipse.birt.data.engine.olap.util.filter.IJSMeasureFilterEvalHelper;
 
 /**
  * An iterator on a result set from a executed fact table query.
@@ -59,6 +61,10 @@ public class FactTableRowIterator implements IFactTableRowIterator
 	
 	private IComputedMeasureHelper computedMeasureHelper;
 
+	private List measureFilters;
+	
+	private List cubePosFilters;
+	
 	private static Logger logger = Logger.getLogger( FactTableRowIterator.class.getName( ) );
 
 	/**
@@ -74,6 +80,7 @@ public class FactTableRowIterator implements IFactTableRowIterator
 	{
 		this( factTable, dimensionName, dimensionPos, null, stopSign );
 	}
+	
 	/**
 	 * 
 	 * @param factTable
@@ -96,6 +103,8 @@ public class FactTableRowIterator implements IFactTableRowIterator
 		this.selectedSubDim = new List[factTable.getDimensionInfo( ).length];
 		this.selectedPosOfCurSegment = new int[factTable.getDimensionInfo( ).length][];
 		this.stopSign = stopSign;
+		this.measureFilters = new ArrayList( );
+		this.cubePosFilters = new ArrayList( );
 		this.computedMeasureHelper = computedMeasureHelper;
 		assert dimensionName.length == dimensionPos.length;
 		
@@ -271,14 +280,31 @@ public class FactTableRowIterator implements IFactTableRowIterator
 	 * 
 	 * @return
 	 * @throws IOException
+	 * @throws DataException 
 	 */
-	private boolean isSelectedRow( ) throws IOException
+	private boolean isSelectedRow( ) throws IOException, DataException
 	{
 		for ( int i = 0; i < currentPos.length; i++ )
 		{
 			if ( dimensionIndex[i] != -1 )
 			{
 				if( Arrays.binarySearch( selectedPosOfCurSegment[i], currentPos[i] ) < 0 )
+					return false;
+			}
+		}
+		for( int i=0;i<cubePosFilters.size( );i++)
+		{
+			if(!((CubePosFilterHelper)cubePosFilters.get( i )).getFilterResult( currentPos ))
+			{
+				return false;
+			}
+		}
+		if ( measureFilters != null )
+		{
+			for ( int i = 0; i < measureFilters.size( ); i++ )
+			{
+				IJSMeasureFilterEvalHelper measureFilter = (IJSMeasureFilterEvalHelper) measureFilters.get( i );
+				if( !measureFilter.evaluateFilter( currentMeasureMap ))
 					return false;
 			}
 		}
@@ -421,6 +447,24 @@ public class FactTableRowIterator implements IFactTableRowIterator
 	
 	/**
 	 * 
+	 * @param measureList
+	 */
+	public void addMeasureFilter( IJSMeasureFilterEvalHelper measureFilter )
+	{
+		measureFilters.add( measureFilter );
+	}
+	
+	/**
+	 * 
+	 * @param cubePosFilter
+	 */
+	public void addCubePosFilter( ICubePosFilter cubePosFilter )
+	{
+		cubePosFilters.add( new CubePosFilterHelper( factTable, cubePosFilter ) );
+	}
+	
+	/**
+	 * 
 	 */
 	private void computeAllMeasureInfo() 
 	{
@@ -482,5 +526,33 @@ class MeasureMap implements IFacttableRow
 			}
 		}
 		return null;
+	}
+}
+
+class CubePosFilterHelper
+{
+	private int[] filterDimensionIndexes;
+	private ICubePosFilter cubePosFilter;
+	private int[] filterDimPos;
+	
+	CubePosFilterHelper( FactTable factTable, ICubePosFilter cubePosFilter )
+	{
+		String[] filterDimensionNames = cubePosFilter.getFilterDimensionNames( );
+		filterDimensionIndexes = new int[filterDimensionNames.length];
+		for ( int i = 0; i < filterDimensionNames.length; i++ )
+		{
+			filterDimensionIndexes[i] = factTable.getDimensionIndex( filterDimensionNames[i] );
+		}
+		this.cubePosFilter = cubePosFilter;
+		this.filterDimPos = new int[filterDimensionNames.length];
+	}
+	
+	boolean getFilterResult( int[] dimensionPositions )
+	{
+		for ( int i = 0; i < filterDimensionIndexes.length; i++ )
+		{
+			filterDimPos[i] = dimensionPositions[filterDimensionIndexes[i]];
+		}
+		return cubePosFilter.getFilterResult( filterDimPos );
 	}
 }
