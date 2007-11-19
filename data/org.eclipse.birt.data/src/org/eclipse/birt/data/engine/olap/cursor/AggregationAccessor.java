@@ -111,9 +111,8 @@ public class AggregationAccessor implements Accessor
 	 */
 	private boolean populateRelation( int aggrIndex, String aggrName )
 			throws OLAPException, IOException, DataException
-	{
+	{	
 		IAggregationResultSet rs = this.resultSet.getMeasureResult( )[aggrIndex].getQueryResultSet( );
-	
 		if ( rs == null || rs.length( )<=0 )
 			return false;
 				
@@ -251,7 +250,7 @@ public class AggregationAccessor implements Accessor
 	 */
 	public void close( ) throws OLAPException
 	{
-		if ( this.resultSet.getMeasureResult( ) == null )
+		if ( this.resultSet == null || this.resultSet.getMeasureResult( ) == null )
 			return;
 		List errorList = new ArrayList( );
 		for ( int i = 0; i < this.resultSet.getMeasureResult( ).length; i++ )
@@ -429,6 +428,9 @@ public class AggregationAccessor implements Accessor
 	 */
 	public Object getObject( int arg0 ) throws OLAPException
 	{
+		if ( this.resultSet == null || this.resultSet.getMeasureResult( ) == null )
+			return null;
+		
 		try
 		{
 			String aggrName = this.manager.getAggrName( arg0 );
@@ -458,6 +460,9 @@ public class AggregationAccessor implements Accessor
 	 */
 	public Object getObject( String arg0 ) throws OLAPException
 	{
+		if ( this.resultSet == null || this.resultSet.getMeasureResult( ) == null )
+			return null;
+		
 		try
 		{
 			int id = this.manager.getAggregationResultID( arg0 );
