@@ -138,7 +138,7 @@ public class DataEngineImpl extends DataEngine
 	{
 		logger.entering( DataEngineImpl.class.getName( ),
 				"defineDataSource",
-				dataSource == null ? null : dataSource.getName( ) );
+				dataSource == null ? "<null>" : dataSource.getName( ) );
 		if ( dataSource == null )
 		{
 			NullPointerException e = new NullPointerException( "dataSource param cannot be null" );
@@ -205,7 +205,7 @@ public class DataEngineImpl extends DataEngine
 	{
 		logger.entering( DataEngineImpl.class.getName( ),
 				"defineDataSet",
-				dataSet == null ? null : dataSet.getName( ) );
+				dataSet == null ? "<null>" : dataSet.getName( ) );
 		if ( dataSet == null )
 		{
 			NullPointerException e = new NullPointerException( "dataSource param cannot be null" );
