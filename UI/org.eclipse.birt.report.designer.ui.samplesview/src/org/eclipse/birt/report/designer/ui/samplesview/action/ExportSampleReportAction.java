@@ -27,6 +27,7 @@ import org.eclipse.swt.widgets.TreeItem;
 public class ExportSampleReportAction extends Action implements Listener
 {
 
+	private static final String DRILL_TO_DETAILS_CATEGORY = "Drill to Details";
 	private static final String[] REPORTDESIGN_FILENAME_PATTERN = new String[]{
 		"*.rptdesign" //$NON-NLS-1$
 	};
@@ -72,6 +73,15 @@ public class ExportSampleReportAction extends Action implements Listener
 		PlaceResources.copyExcludedRptDesignes( composite.getShell( ),
 				saveDialog.getFilterPath( ),
 				filename );
+
+		if ( ( (TreeItem) composite.getSelectedElement( ) ).getParentItem( )
+				.getText( )
+				.equals( DRILL_TO_DETAILS_CATEGORY ) )
+		{
+			PlaceResources.copyDrillThroughReport( composite.getShell( ),
+					saveDialog.getFilterPath( ),
+					reportName );
+		}
 	}
 
 	public void handleEvent( Event event )

@@ -74,10 +74,6 @@ public class IDEOpenSampleReportAction extends Action implements
 
 	private static final String DRILL_TO_DETAILS_CATEGORY = "Drill to Details";
 
-	private static final String LIBRARIES_CATEGORY = "Libraries";
-
-	private static final String XML_DATA_SOURCE_CATEGORY = "XML Data Source";
-
 	private static final String[] EXTENDING_PLUGIN_PATTERN = new String[]{
 		"*.zip" //$NON-NLS-1$
 	};
@@ -114,8 +110,19 @@ public class IDEOpenSampleReportAction extends Action implements
 		/*
 		 * 1.Create a report project
 		 */
-		reportProject = createProject( item.getText( ).substring( 0,
-				item.getText( ).lastIndexOf( "." ) ), false );
+		if ( item.getParentItem( )
+				.getText( )
+				.equals( DRILL_TO_DETAILS_CATEGORY ) )
+		{
+			reportProject = createProject( DRILL_TO_DETAILS_CATEGORY, false );
+
+			PlaceResources.copyDrillThroughReport( composite.getShell( ),
+					reportProject.getLocation( ).toOSString( ),
+					item.getText( ) );
+		}
+		else
+			reportProject = createProject( item.getText( ).substring( 0,
+					item.getText( ).lastIndexOf( "." ) ), false );
 		/*
 		 * 2.Place the sample report into project folder
 		 */
@@ -127,17 +134,9 @@ public class IDEOpenSampleReportAction extends Action implements
 					( (ReportDesignHandle) selectedElement ).getFileName( ) );
 		}
 
-		if ( item.getParentItem( )
-				.getText( )
-				.equals( DRILL_TO_DETAILS_CATEGORY ) )
-		{
-			PlaceResources.copyDrillThroughReport( composite.getShell( ),
-					reportProject.getLocation( ).toOSString( ),
-					item.getText( ) );
-		}
-
 		PlaceResources.copyExcludedRptDesignes( composite.getShell( ),
-				reportProject.getLocation( ).toOSString( ),( (ReportDesignHandle) selectedElement ).getFileName( ) );
+				reportProject.getLocation( ).toOSString( ),
+				( (ReportDesignHandle) selectedElement ).getFileName( ) );
 
 		/*
 		 * Create a Eclipse Java project if selecting scripted data source
