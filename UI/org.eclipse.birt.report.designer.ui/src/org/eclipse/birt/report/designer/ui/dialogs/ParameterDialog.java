@@ -2924,7 +2924,8 @@ public class ParameterDialog extends BaseDialog
 		{
 			if ( key.equals( DEUtil.getExpression( columnList.get( i ) ) ) )
 			{
-				chooser.select( i );
+//				chooser.select( i );
+				chooser.setText( ((ResultSetColumnHandle)columnList.get( i )).getColumnName( ) );
 				return;
 			}
 		}
