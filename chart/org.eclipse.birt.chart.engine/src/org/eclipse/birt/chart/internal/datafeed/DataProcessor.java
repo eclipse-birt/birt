@@ -25,7 +25,6 @@ import org.eclipse.birt.chart.datafeed.IResultSetDataSet;
 import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.IActionEvaluator;
-import org.eclipse.birt.chart.factory.IChartCubeResultSet;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.factory.IGroupedDataResultSet;
 import org.eclipse.birt.chart.factory.RunTimeContext;
