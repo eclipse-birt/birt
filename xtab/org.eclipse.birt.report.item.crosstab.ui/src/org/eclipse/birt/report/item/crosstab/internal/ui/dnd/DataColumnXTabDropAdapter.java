@@ -22,23 +22,37 @@ import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.GroupDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.page.SimpleCubeBuilder;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabCellEditPart;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabTableEditPart;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.plugin.CrosstabPlugin;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
+import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
+import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
+import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
+import org.eclipse.birt.report.model.api.olap.TabularMeasureGroupHandle;
+import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
+import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
+import org.eclipse.birt.report.model.elements.interfaces.IDimensionModel;
+import org.eclipse.birt.report.model.elements.interfaces.IHierarchyModel;
+import org.eclipse.birt.report.model.elements.interfaces.IMeasureGroupModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
-import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.window.Window;
 import org.eclipse.ui.PlatformUI;
@@ -141,6 +155,26 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 								.getActiveShell( ) );
 						builder.setInput( newCube, dataSetHandle );
 
+						EditPart editPart = (EditPart) target;
+
+						if ( editPart != null )
+						{
+							Object model = editPart.getModel( );
+							if ( model instanceof VirtualCrosstabCellAdapter )
+							{
+								VirtualCrosstabCellAdapter adapter = (VirtualCrosstabCellAdapter) model;
+								if ( adapter.getType( ) == VirtualCrosstabCellAdapter.ROW_TYPE
+										|| adapter.getType( ) == VirtualCrosstabCellAdapter.COLUMN_TYPE )
+								{
+									createDimension( columnHandle, newCube );
+								}
+								else if ( adapter.getType( ) == VirtualCrosstabCellAdapter.MEASURE_TYPE )
+								{
+									createMeasureGroup( columnHandle, newCube );
+								}
+							}
+						}
+
 						if ( builder.open( ) == Window.OK )
 						{
 							if ( handle != null )
@@ -175,6 +209,81 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 			}
 		}
 		return false;
+	}
+
+	private void createMeasureGroup( ResultSetColumnHandle columnHandle,
+			TabularCubeHandle newCube )
+	{
+		TabularMeasureGroupHandle measureGroup = DesignElementFactory.getInstance( )
+				.newTabularMeasureGroup( null ); //$NON-NLS-1$
+		try
+		{
+			newCube.add( CubeHandle.MEASURE_GROUPS_PROP, measureGroup );
+			if ( newCube.getContentCount( ICubeModel.MEASURE_GROUPS_PROP ) == 1 )
+				newCube.setDefaultMeasureGroup( measureGroup );
+			TabularMeasureHandle measure = DesignElementFactory.getInstance( )
+					.newTabularMeasure( columnHandle.getColumnName( ) );
+			measure.setMeasureExpression( DEUtil.getExpression( columnHandle ) );
+			measure.setDataType( columnHandle.getDataType( ) );
+			measureGroup.add( IMeasureGroupModel.MEASURES_PROP, measure );
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+	}
+
+	private void createDimension( ResultSetColumnHandle columnHandle,
+			TabularCubeHandle newCube )
+	{
+		TabularDimensionHandle dimension = DesignElementFactory.getInstance( )
+				.newTabularDimension( null ); //$NON-NLS-1$
+		try
+		{
+			newCube.add( CubeHandle.DIMENSIONS_PROP, dimension );
+			TabularHierarchyHandle hierarchy = (TabularHierarchyHandle) dimension.getContent( IDimensionModel.HIERARCHIES_PROP,
+					0 );
+
+			if ( isDateType( columnHandle.getDataType( ) ) )
+			{
+				SessionHandleAdapter.getInstance( )
+						.getCommandStack( )
+						.startTrans( "" );
+				GroupDialog dialog = new GroupDialog( true );
+				dialog.setInput( hierarchy, columnHandle.getColumnName( ) );
+				if ( dialog.open( ) == Window.CANCEL )
+				{
+					SessionHandleAdapter.getInstance( )
+							.getCommandStack( )
+							.rollback( );
+				}
+				else
+					SessionHandleAdapter.getInstance( )
+							.getCommandStack( )
+							.commit( );
+
+			}
+			else
+			{
+				TabularLevelHandle level = DesignElementFactory.getInstance( )
+						.newTabularLevel( dimension,
+								columnHandle.getColumnName( ) );
+				level.setColumnName( columnHandle.getColumnName( ) );
+				level.setDataType( columnHandle.getDataType( ) );
+				hierarchy.add( IHierarchyModel.LEVELS_PROP, level );
+			}
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+	}
+
+	private boolean isDateType( String dataType )
+	{
+		return dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME )
+				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE )
+				|| dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME );
 	}
 
 	private DesignElementHandle getExtendedItemHandle( Object target )
@@ -232,7 +341,7 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 					false,
 					null,
 					null );
-			if(opendialog.getReturnCode( ) != Window.OK)
+			if ( opendialog.getReturnCode( ) != Window.OK )
 			{
 				return;
 			}
