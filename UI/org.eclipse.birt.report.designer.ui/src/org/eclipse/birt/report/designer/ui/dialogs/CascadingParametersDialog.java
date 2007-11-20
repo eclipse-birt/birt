@@ -1113,8 +1113,8 @@ public class CascadingParametersDialog extends BaseDialog
 					|| defaultValueChooser.isDisposed( )
 					|| defaultValueChooser.getItemCount( ) > 0 )
 				return;
-			defaultValueChooser.add( CHOICE_NULL_VALUE );
-			defaultValueChooser.add( CHOICE_BLANK_VALUE );
+//			defaultValueChooser.add( CHOICE_NULL_VALUE );
+//			defaultValueChooser.add( CHOICE_BLANK_VALUE );
 		}
 	}
 
@@ -1601,18 +1601,19 @@ public class CascadingParametersDialog extends BaseDialog
 
 		if ( getSelectedDataType( ).equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
 		{
-			if ( defaultValue == null )
-			{
-				defaultValueChooser.setText( CHOICE_NULL_VALUE );
-			}
-			else if ( defaultValue.equals( "" ) ) //$NON-NLS-1$
-			{
-				defaultValueChooser.setText( CHOICE_BLANK_VALUE );
-			}
-			else
-			{
-				defaultValueChooser.setText( defaultValue );
-			}
+//			if ( defaultValue == null )
+//			{
+//				defaultValueChooser.setText( CHOICE_NULL_VALUE );
+//			}
+//			else if ( defaultValue.equals( "" ) ) //$NON-NLS-1$
+//			{
+//				defaultValueChooser.setText( CHOICE_BLANK_VALUE );
+//			}
+//			else
+//			{
+//				defaultValueChooser.setText( defaultValue );
+//			}
+				defaultValueChooser.setText( DEUtil.resolveNull( defaultValue ) );
 		}
 		else
 		{
@@ -2135,7 +2136,8 @@ public class CascadingParametersDialog extends BaseDialog
 			if ( selectedParameter.getDataType( )
 					.equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
 			{
-				if ( defaultValueChooser.getText( ).equals( CHOICE_NULL_VALUE ) )
+				if ( defaultValueChooser.getText( ).equals( CHOICE_NULL_VALUE ) 
+				|| defaultValueChooser.getText( ).length( ) == 0)
 				{
 					selectedParameter.setDefaultValue( null );
 				}
