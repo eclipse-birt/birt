@@ -38,12 +38,12 @@ public abstract class CubePosFilter implements ICubePosFilter
 	
 	/**
 	 * 
-	 * @param invalidDimPos
+	 * @param dimPositions
 	 * @throws IOException 
 	 */
-	public void addInvalidDimPos( IDiskArray[] invalidDimPos ) throws IOException
+	public void addDimPositions( IDiskArray[] dimPositions ) throws IOException
 	{
-		CubePositionRangeFilter cubePositionRangeFilter = new CubePositionRangeFilter( invalidDimPos );
+		CubePositionRangeFilter cubePositionRangeFilter = new CubePositionRangeFilter( dimPositions );
 		cubePosRangeFilter.add( cubePositionRangeFilter );
 	}
 	
