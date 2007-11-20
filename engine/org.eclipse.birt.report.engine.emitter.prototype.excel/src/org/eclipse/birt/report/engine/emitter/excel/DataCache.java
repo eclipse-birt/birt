@@ -6,23 +6,21 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class DataCache
 {
 	private ArrayList columns = new ArrayList( );
 	private Hashtable colrow = new Hashtable( );// col -> start line
+	private int height;
+	private int width;
 	
-	public DataCache( int size )
+	public DataCache( int height, int width)
 	{
 		Integer start = new Integer( 0 );		
-		
-		for ( int i = 0; i < size; i++ )
-		{
-			columns.add( new ArrayList( ) );
-			colrow.put( new Integer( i ), start );			
-		}
+		columns.add( new ArrayList( ) );
+		colrow.put( start, start );	
+		this.height = height;
+		this.width = width;
 	}
 
 	public void insertColumns( int col, int size )
@@ -32,50 +30,80 @@ public class DataCache
 			return;
 		}
 
-		// Move the orignal data to new place to make sure the map is correct
-		int width = columns.size( );	
-		Object[] mcol = new Object[width - col - 1];
+		//Get Current Width
+		int c_width = getColumnCount();
+		//Get Current Position
+		Integer collen = new Integer( getColumnSize( col ) );		
+		
+		// Make sure the map is correct after moving
+		int m_start = col + 1;
+		int m_size = c_width - m_start;
+		m_size = Math.max( 0, m_size );
+		
+		Object[] mcol = new Object[m_size];
 		Map temp = new HashMap();
 		
-		for ( int i = col + 1, j = 0; j < width - col - 1; i++, j++ )
+		for ( int i = m_start, j = 0; j < m_size; i++, j++ )
 		{
 			Integer column = new Integer( i );
 			Object row = colrow.get( column );
-			temp.put( new Integer( i + size ), row );
-			mcol[j] = columns.get( col + 1 );
-			columns.remove( col + 1 );
+			
+			int npos = i + size;
+			
+			//Discard columns of over the max width.
+			if(npos < width)
+			{			
+				temp.put( new Integer( npos ), row );
+				mcol[j] = columns.get( m_start );
+			}
+			
+			columns.remove( m_start );
 		}
 		
 		colrow.putAll( temp );
 
-		// Map col - row
-		Integer collen = new Integer( getColumnSize( col ) );
-
-		for ( int i = col + 1; i <= col + size; i++ )
+		for ( int i = m_start; i <= col + size; i++ )
 		{
-			columns.add( i, new ArrayList( ) );
-			colrow.put( new Integer( i ), collen );
+			if( i < width )
+			{	
+				columns.add( i, new ArrayList( ) );
+				colrow.put( new Integer( i ), collen );
+			}	
 		}
 		
 		for(int i = 0; i < mcol.length; i++)
 		{
-			columns.add( mcol[i] );
+			if(mcol[i] == null)
+			{
+				continue;
+			}			
+			
+			columns.add( mcol[i] );				
 		}	
 	}
 
 	public void addData( int col, Object data )
-	{
-	
-		( (List) columns.get( col ) ).add( data );
+	{	
+		if((getColumnSize(col) < height) && (col < getColumnCount()))
+		{	
+			((List) columns.get( col ) ).add( data );
+		}	
 	}
 
 	public int getColumnSize( int column )
 	{
-		return ( (Integer) colrow.get( new Integer( column ) ) ).intValue( )
-				+ ( (List) columns.get( column ) ).size( );
+		if ( column < getColumnCount( ) )
+		{
+			return ( (Integer) colrow.get( new Integer( column ) ) ).intValue( )
+					+ ( (List) columns.get( column ) ).size( );
+		}
+		else
+		{
+			return -1;
+		}
 	}
 
-	public int getRowCount( )
+	public int getMaxRow( )
 	{
 		int max = 0;
 
@@ -88,13 +116,13 @@ public class DataCache
 		return max;
 	}
 
-	public Object[] getRowData( int row )
+	public Object[] getRowData( int rownum )
 	{
 		List data = new ArrayList( );
 
 		for(int i = 0 ; i < columns.size( ); i++)
 		{
-			Object value = getData(i, row);
+			Object value = getData(i, rownum);
 			
 			if(value != null)
 			{
@@ -102,21 +130,21 @@ public class DataCache
 			}	
 		}	
 
-		return data.toArray( new Object[0] );
+		Object[] row = new Object[data.size( )];
+		data.toArray( row );
+		return row;
 	}
 	
 	public Object getData(int col, int row)
-	{
-	
-		int start = ((Integer)colrow.get( new Integer(col) )).intValue( );
-		
-		if(row < start)
+	{		
+		if(!valid(row, col))
 		{
 		
 			return null;
 		}
 		else
 		{
+			int start = ((Integer)colrow.get( new Integer(col) )).intValue( );
 			List data = (List) columns.get( col );
 			
 			if(data.size( ) > (row - start))
@@ -129,6 +157,19 @@ public class DataCache
 			}	
 		}	
 	}	
+	
+	protected boolean valid(int row, int col)
+	{
+		if(col >= getColumnCount() || row > getColumnSize(col)) 
+		{
+			return false;
+		}
+		
+		int start = ((Integer)colrow.get( new Integer(col) )).intValue( );
+		return (row >= start && 
+				row < getColumnSize(col) && 
+				col < getColumnCount());		
+	}
 
 	public int getColumnCount( )
 	{

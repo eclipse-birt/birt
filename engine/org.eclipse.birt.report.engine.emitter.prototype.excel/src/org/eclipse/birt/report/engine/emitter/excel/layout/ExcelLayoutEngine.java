@@ -21,12 +21,15 @@ import org.eclipse.birt.report.engine.emitter.excel.StyleEntry;
 
 public class ExcelLayoutEngine
 {
-
 	public final static String EMPTY = "";
 
+//	public final static int MAX_ROW = 65525;
+//
+//	public final static int MAX_COLUMN = 255;
+	
 	public final static int MAX_ROW = 65525;
-
-	public final static int MAX_CLOUMN = 255;
+	
+	public final static int MAX_COLUMN = 255;
 
 	public final static Object waste = new Object( );
 
@@ -34,11 +37,7 @@ public class ExcelLayoutEngine
 
 	private AxisProcessor axis;
 
-	private StyleEngine engine;
-
-	private int detal;
-
-	private int left;
+	private StyleEngine engine;	
 
 	private Stack containers = new Stack( );
 
@@ -48,17 +47,12 @@ public class ExcelLayoutEngine
 
 	public ExcelLayoutEngine( PageDef page )
 	{
-		axis = new AxisProcessor( );
-		int[] init = new int[3];
-		init[0] = page.leftmargin;
-		init[1] = page.contentwidth + init[0];
-		init[2] = page.rightmargin + init[1];
-		axis.addCoordinates( init );
-		Rule rule = new Rule( init[0], init[1] - init[0] );
-		cache = new DataCache( 1 );
+		axis = new AxisProcessor( );		
+		axis.addCoordinate( page.contentwidth );
+
+		Rule rule = new Rule( 0, page.contentwidth );
+		cache = new DataCache( MAX_ROW, MAX_COLUMN );
 		engine = new StyleEngine( this );
-		detal = init[0] == 0 ? 0 : 1;
-		left = init[0];
 		containers.push( createContainer( rule, page.style ) );
 	}
 
@@ -95,8 +89,8 @@ public class ExcelLayoutEngine
 			int[] range = inRange( sp, se, npos );
 
 			if ( range.length > 0 )
-			{
-				int pos = axis.getCoordinate( sp ) - detal;
+			{				
+				int pos = axis.getCoordinate( sp );
 				cache.insertColumns( pos, range.length );
 
 				for ( int j = 0; j < range.length; j++ )
@@ -104,7 +98,6 @@ public class ExcelLayoutEngine
 					axis.addCoordinate( range[j] );
 				}
 			}
-
 		}
 
 		XlsContainer container = createContainer( rule, style );
@@ -180,8 +173,8 @@ public class ExcelLayoutEngine
 		int len[] = new int[endcol - startcol];
 
 		for ( int i = startcol; i < endcol; i++ )
-		{
-			int columnsize = cache.getColumnSize( i - detal );
+		{			
+			int columnsize = cache.getColumnSize( i );
 			len[i - startcol] = columnsize;
 			max = max > columnsize ? max : columnsize;
 		}
@@ -191,11 +184,11 @@ public class ExcelLayoutEngine
 			int rowspan = max - len[i - startcol];
 			int last = len[i - startcol] - 1;
 
-			if(rowspan > 0)
-			{				
+			if ( rowspan > 0 )
+			{
 				Object data = null;				
-				Object upstair =  cache.getData( i - detal, last );
-				
+				Object upstair = cache.getData( i, last );
+
 				if ( upstair != null && upstair != waste )
 				{
 					Data predata = (Data) upstair;
@@ -206,12 +199,13 @@ public class ExcelLayoutEngine
 				else
 				{
 					data = waste;
-					
+
 				}
-				
-				for(int p =0 ; p < rowspan; p++) {
-					cache.addData( i - detal, data );
-				}	
+
+				for ( int p = 0; p < rowspan; p++ )
+				{
+					cache.addData( i, data );
+				}
 			}
 		}
 	}
@@ -223,7 +217,6 @@ public class ExcelLayoutEngine
 			tables.pop( );
 			endContainer( );
 		}
-
 	}
 
 	public void addContainer( IStyle style, HyperlinkDef link )
@@ -237,7 +230,7 @@ public class ExcelLayoutEngine
 	{
 		getCurrentContainer( ).setEmpty( false );
 		int col = axis.getCoordinate( container.getRule( ).getStart( ) );
-		int pos = cache.getColumnSize( col - detal );
+		int pos = cache.getColumnSize( col );
 		container.setStart( pos );
 		containers.push( container );
 	}
@@ -245,7 +238,7 @@ public class ExcelLayoutEngine
 	public void endContainer( )
 	{
 		XlsContainer container = getCurrentContainer( );
-		// Make sure all containers contain data except table.
+		// Make sure there is an data in a container
 		if ( container.isEmpty( ) )
 		{
 			Data data = new Data( EMPTY, container.getStyle( ), Data.STRING );
@@ -261,47 +254,46 @@ public class ExcelLayoutEngine
 	{
 		Rule rule = getCurrentContainer( ).getRule( );
 		StyleEntry entry = engine.getStyle( style, rule );
-		Data data = createData(txt, entry);
+		Data data = createData( txt, entry );
 		data.setHyperlinkDef( link );
 		data.setRule( rule );
 
 		addData( data );
 	}
-	
-	public void addCaption(String text) {
+
+	public void addCaption( String text )
+	{
 		Rule rule = getCurrentContainer( ).getRule( );
 		StyleEntry entry = StyleBuilder.createEmptyStyleEntry( );
 		entry.setProperty( StyleEntry.H_ALIGN_PROP, "Center" );
-		Data data = createData(text, entry);		
+		Data data = createData( text, entry );
 		data.setRule( rule );
 
-		addData( data );		
-	}	
-	
+		addData( data );
+	}
+
 	public Data createData( Object txt, StyleEntry entry )
 	{
-
-		if ( ExcelUtil.getType( txt ).equals( Data.NUMBER ) )
+		String type = Data.STRING;
+		
+		if ( Data.NUMBER.equals( ExcelUtil.getType( txt )))
 		{
-			String format = ExcelUtil.getPattern( txt, entry
-					.getProperty( StyleConstant.NUMBER_FORMAT_PROP ) );
-			entry.setProperty( StyleConstant.NUMBER_FORMAT_PROP, format );
-			entry.setProperty( StyleConstant.DATA_TYPE_PROP, Data.NUMBER );
-			return new Data( txt, entry, Data.NUMBER );
+			String format = ExcelUtil.getPattern( txt, 
+					entry.getProperty( StyleConstant.NUMBER_FORMAT_PROP ));
+			entry.setProperty( StyleConstant.NUMBER_FORMAT_PROP, format );			
+			type = Data.NUMBER;
 
 		}
-		else if ( ExcelUtil.getType( txt ).equals( Data.DATE ) )
+		else if ( Data.DATE.equals( ExcelUtil.getType( txt )))
 		{
-			String format = ExcelUtil.getPattern( txt, entry
-					.getProperty( StyleConstant.DATE_FORMAT_PROP ) );
-			entry.setProperty( StyleConstant.DATE_FORMAT_PROP, format );
-			entry.setProperty( StyleConstant.DATA_TYPE_PROP, Data.DATE );
-			return new Data( txt, entry, Data.DATE );
-
+			String format = ExcelUtil.getPattern( txt, 
+					entry.getProperty( StyleConstant.DATE_FORMAT_PROP ) );
+			entry.setProperty( StyleConstant.DATE_FORMAT_PROP, format );			
+			type = Data.DATE;
 		}
-		entry.setProperty( StyleConstant.DATA_TYPE_PROP, Data.STRING );
-		return new Data( txt, entry, Data.STRING );
-
+		
+		entry.setProperty( StyleConstant.DATA_TYPE_PROP, type );
+		return new Data( txt, entry, type );
 	}
 
 	private void addData( Data data )
@@ -329,12 +321,23 @@ public class ExcelLayoutEngine
 
 	public int[] getCoordinates( )
 	{
-		return axis.getCoordinates( );
+		int[] coord = axis.getCoordinates( );
+		
+		if(coord.length <= MAX_COLUMN) 
+		{
+			return coord;
+		}	
+		else 
+		{
+			int[] ncoord = new int[MAX_COLUMN]; 
+			System.arraycopy( coord, 0, ncoord, 0, MAX_COLUMN );
+			return ncoord;
+		}		
 	}
 
 	public int getRowCount( )
 	{
-		int realcount = cache.getRowCount( );
+		int realcount = cache.getMaxRow( );
 		return Math.min( realcount, MAX_ROW - 1 );
 	}
 
@@ -344,13 +347,13 @@ public class ExcelLayoutEngine
 	}
 
 	public int getColumnSize( int column )
-	{
-		return cache.getColumnSize( column - detal );
+	{		
+		return cache.getColumnSize( column );
 	}
 
 	public Data getData( int col, int row )
-	{
-		Object object = cache.getData( col - detal, row );
+	{		
+		Object object = cache.getData( col, row );
 		return object == waste ? null : (Data) object;
 	}
 
@@ -358,13 +361,7 @@ public class ExcelLayoutEngine
 	{
 		Object[] row = cache.getRowData( rownum );
 		List data = new ArrayList( );
-		int width = Math.min( row.length, MAX_CLOUMN - 1 );
-		// margin, we can ignore them now
-		// if(detal == 1)
-		// {
-		// Data margin = createMarginData();
-		// rowdata[0] = margin;
-		// }
+		int width = Math.min( row.length, MAX_COLUMN - 1 );
 
 		for ( int i = 0; i < width; i++ )
 		{
@@ -374,41 +371,37 @@ public class ExcelLayoutEngine
 			}
 
 			Data d = (Data) row[i];
-			
-			if(d.isProcessed()) {
+
+			if ( d.isProcessed( ) )
+			{
 				continue;
 			}
-			
+
 			HyperlinkDef def = d.getHyperlinkDef( );
 
-			if ( def != null
-					&& def.getType( ) == IHyperlinkAction.ACTION_BOOKMARK )
+			if ( def != null && 
+				 def.getType( ) == IHyperlinkAction.ACTION_BOOKMARK )
 			{
 				def.setUrl( (String) links.get( def.getUrl( ) ) );
 			}
-			
+
 			d.setProcessed( true );
 			data.add( row[i] );
-		}		
-		
-		return (Data[]) data.toArray( new Data[0] );
+		}
+
+		Data[] rowdata = new Data[data.size( )];
+		data.toArray( rowdata );
+		return rowdata;
 	}
 
 	private void addDatatoCache( int col, Object value )
 	{
-		cache.addData( col - detal, value );
+		cache.addData( col, value );
 	}
-
-	// private Data createMarginData( )
-	// {
-	// Data data = new Data( EMPTY, null );
-	// data.setRule( new Rule( 0, left ) );
-	// return data;
-	// }
 
 	public void complete( )
 	{
-		int rowcount = cache.getRowCount( );
+		int rowcount = cache.getMaxRow( );
 
 		for ( int i = 0; i < rowcount; i++ )
 		{
@@ -425,17 +418,23 @@ public class ExcelLayoutEngine
 				int styleid = engine.getStyleID( d.getStyleEntry( ) );
 				d.setStyleId( styleid );
 				Rule rule = d.getRule( );
-				int start = axis.getCoordinate( rule.getStart( ) );
-				int end = axis.getCoordinate( rule.getEnd( ) );
-				Span span = new Span( start, end - start - 1 );
+				
+				//Excel Cell Is Start From 1
+				int start = axis.getCoordinate( rule.getStart( ) ) + 1;
+				int end = axis.getCoordinate( rule.getEnd( ) ) + 1;
+				
+				end = Math.min( end, MAX_COLUMN );
+				int scount = Math.max(0, end - start - 1);
+				//Excel Span Is Start From 1
+				Span span = new Span( start, scount );
 
 				HyperlinkDef link = d.getHyperlinkDef( );
 
 				if ( link != null && link.getBookmark( ) != null )
 				{
-					// Since Excel cell start is 1, 1
-					links.put( link.getBookmark( ), getCellName( i + 1,
-							start + 1 ) );
+					// Excel cell start is 1
+					links.put( link.getBookmark( ), 
+							   getCellName( i + 1,start + 1 ) );
 				}
 
 				d.setSpan( span );

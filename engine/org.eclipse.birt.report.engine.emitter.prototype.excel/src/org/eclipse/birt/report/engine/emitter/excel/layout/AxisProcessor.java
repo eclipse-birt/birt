@@ -70,7 +70,7 @@ public class AxisProcessor
 		naxis.toArray( columns );
 		int[] scale = new int[columns.length - 1];
 		
-		for ( int i = 0; i < columns.length - 2; i++ )
+		for ( int i = 0; i < columns.length - 1; i++ )
 		{
 			scale[i] = columns[i + 1].intValue( ) - columns[i].intValue( );
 		}
