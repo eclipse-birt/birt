@@ -26,7 +26,7 @@ import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.IActionEvaluator;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
-import org.eclipse.birt.chart.factory.IGroupedDataResultSet;
+import org.eclipse.birt.chart.factory.IGroupedDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
@@ -331,14 +331,14 @@ public class DataProcessor
 		// Prepare orthogonal grouping keys
 		final GroupKey[] orthogonalGroupKeys = findGroupKeys( cm, lhmLookup );
 		
-		if ( idre instanceof IGroupedDataResultSet )
+		if ( idre instanceof IGroupedDataRowExpressionEvaluator )
 		{
 			int[] groupBreaks = new int[]{};
 			if ( orthogonalGroupKeys != null && orthogonalGroupKeys.length > 0 )
 			{
 				// If the orthogonal grouping of chart is set, it should be the 0th
 				// index.
-				groupBreaks = ( (IGroupedDataResultSet) idre ).getGroupBreaks( 0 );
+				groupBreaks = ( (IGroupedDataRowExpressionEvaluator) idre ).getGroupBreaks( 0 );
 			}
 
 			// Format data time for grouped case.
@@ -1292,7 +1292,7 @@ public class DataProcessor
 			final Object[] columns, final boolean[] areValueSeries )
 	{
 		List liResultSet = new ArrayList( );
-		final boolean isGroupedResultSet = idre instanceof IGroupedDataResultSet;
+		final boolean isGroupedResultSet = idre instanceof IGroupedDataRowExpressionEvaluator;
 		final int iColumnCount = columns.length;
 		Object[] oaTuple;
 		final int MAX_ROW_COUNT = ChartUtil.getSupportedMaxRowCount( rtc );
@@ -1315,7 +1315,7 @@ public class DataProcessor
 					{
 						// If grouping is enabled, the binding name of value
 						// series is used instead of expression.
-						oaTuple[i] = ( (IGroupedDataResultSet) idre ).evaluate( (String) columns[i],
+						oaTuple[i] = ( (IGroupedDataRowExpressionEvaluator) idre ).evaluate( (String) columns[i],
 								areValueSeries[i] );
 					}
 				}

@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.computation.withaxes;
 
 import org.eclipse.birt.chart.computation.Methods;
+import org.eclipse.birt.chart.util.CDateTime;
 
 /**
  * Scale context for min/max computation.
@@ -37,6 +38,8 @@ public class ScaleContext extends Methods
 
 	private final int iType;
 
+	private final int iUnit;
+
 	private Object oMin;
 	private Object oMax;
 	private Object oStep;
@@ -46,17 +49,24 @@ public class ScaleContext extends Methods
 	private boolean bStepFixed = false;
 	private boolean bMargin = false;
 
-	public ScaleContext( int iMarginPercent, int iType, Object oMinAuto,
-			Object oMaxAuto, Object oStep )
+	public ScaleContext( int iMarginPercent, int iType, int iUnit,
+			Object oMinValue, Object oMaxValue, Object oStep )
 	{
 		this.iMarginPercent = iMarginPercent;
 		this.iType = iType;
+		this.iUnit = iUnit;
 
-		this.oMinAuto = oMinAuto;
-		this.oMaxAuto = oMaxAuto;
+		this.oMinAuto = oMinValue;
+		this.oMaxAuto = oMaxValue;
 		this.oStep = oStep;
 
 		this.bMargin = iMarginPercent > 0;
+	}
+
+	public ScaleContext( int iMarginPercent, int iType, Object oMinAuto,
+			Object oMaxAuto, Object oStep )
+	{
+		this( iMarginPercent, iType, 0, oMinAuto, oMaxAuto, oStep );
 	}
 
 	public void setFixedValue( boolean bMinimumFixed, boolean bMaximumFixed,
@@ -78,22 +88,44 @@ public class ScaleContext extends Methods
 		this.bStepFixed = bStepFixed || oStepNumber != null;
 	}
 
+	/**
+	 * Returns the minimum of the scale
+	 * 
+	 * @return the minimum of the scale
+	 */
 	public Object getMin( )
 	{
 		return oMin;
 	}
 
+	/**
+	 * Returns the maximum of the scale
+	 * 
+	 * @return the maximum of the scale
+	 */
 	public Object getMax( )
 	{
 		return oMax;
 	}
 
-	public Object getRealMin( )
+	/**
+	 * Returns the minimum plus margin. Margin means extra space for rendering
+	 * and clipping. If margin is 0, or no margin needed, return null.
+	 * 
+	 * @return the minimum plus margin. If no margin, return null.
+	 */
+	public Object getMinWithMargin( )
 	{
 		return oMinAuto;
 	}
 
-	public Object getRealMax( )
+	/**
+	 * Returns the maximum plus margin. Margin means extra space for rendering
+	 * and clipping. If margin is 0, or no margin needed, return null.
+	 * 
+	 * @return the maximum plus margin. If no margin, return null.
+	 */
+	public Object getMaxWithMargin( )
 	{
 		return oMaxAuto;
 	}
@@ -104,6 +136,22 @@ public class ScaleContext extends Methods
 	}
 
 	public void computeMinMax( )
+	{
+		if ( ( iType & LINEAR ) == LINEAR )
+		{
+			computeLinearMinMax( );
+		}
+		else if ( ( iType & DATE_TIME ) == DATE_TIME )
+		{
+			computeDateTimeMinMax( );
+		}
+		else if ( ( iType & LOGARITHMIC ) == LOGARITHMIC )
+		{
+			computeLogMinMax( );
+		}
+	}
+
+	private void computeLinearMinMax( )
 	{
 		// These min/max is the value for the real boundary. If users
 		// set the fixed value, to clip it.
@@ -209,7 +257,7 @@ public class ScaleContext extends Methods
 					dMaxAxis += dStep;
 					if ( dMaxValue < 0 )
 					{
-						dMaxAxis = - dMaxAxis;
+						dMaxAxis = -dMaxAxis;
 					}
 					else if ( dMaxValue == 0 )
 					{
@@ -310,5 +358,56 @@ public class ScaleContext extends Methods
 			oMinAuto = null;
 			oMaxAuto = null;
 		}
+	}
+
+	private void computeDateTimeMinMax( )
+	{
+		int iStep = asInteger( oStep );
+		CDateTime cdtMinValue = asDateTime( oMinAuto );
+		CDateTime cdtMaxValue = asDateTime( oMaxAuto );
+
+		if ( !bMinimumFixed )
+		{
+			oMin = cdtMinValue.backward( iUnit, iStep );
+		}
+		( (CDateTime) oMin ).clearBelow( iUnit );
+		if ( !bMaximumFixed )
+		{
+			oMax = cdtMaxValue.forward( iUnit, iStep );
+		}
+		( (CDateTime) oMax ).clearBelow( iUnit );
+
+		// Not support margin computation for Datetime type
+		oMinAuto = null;
+		oMaxAuto = null;
+	}
+
+	private void computeLogMinMax( )
+	{
+		double dMinValue = asDouble( oMinAuto ).doubleValue( );
+		double dMaxValue = asDouble( oMaxAuto ).doubleValue( );
+
+		final double dAbsMax = Math.abs( dMaxValue );
+		final double dAbsMin = Math.abs( dMinValue );
+		final double dStep = asDouble( oStep ).doubleValue( );
+		final double dStepLog = Math.log( dStep );
+
+		int iPow = (int) Math.floor( Math.log( dAbsMax ) / dStepLog ) + 1;
+		double dMaxAxis = Math.pow( dStep, iPow );
+		iPow = (int) Math.floor( Math.log( dAbsMin ) / dStepLog ) - 1;
+		double dMinAxis = Math.pow( dStep, iPow + 1 );
+
+		if ( !bMaximumFixed )
+		{
+			oMax = new Double( dMaxAxis );
+		}
+		if ( !bMinimumFixed )
+		{
+			oMin = new Double( dMinAxis );
+		}
+
+		// Not support margin computation for Log type
+		oMinAuto = null;
+		oMaxAuto = null;
 	}
 }

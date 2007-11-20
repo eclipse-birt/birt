@@ -1167,6 +1167,7 @@ public final class AutoScale extends Methods implements Cloneable
 	 */
 	public final void updateAxisMinMax( Object oMinValue, Object oMaxValue )
 	{
+		ScaleContext sct;
 		if ( ( iType & LOGARITHMIC ) == LOGARITHMIC )
 		{
 			if ( ( iType & PERCENT ) == PERCENT )
@@ -1179,68 +1180,44 @@ public final class AutoScale extends Methods implements Cloneable
 				bStepFixed = true;
 				return;
 			}
-
-			double dMinValue = asDouble( oMinValue ).doubleValue( );
-			double dMaxValue = asDouble( oMaxValue ).doubleValue( );
-
-			final double dAbsMax = Math.abs( dMaxValue );
-			final double dAbsMin = Math.abs( dMinValue );
-			final double dStep = asDouble( oStep ).doubleValue( );
-			final double dStepLog = Math.log( dStep );
-
-			int iPow = (int) Math.floor( Math.log( dAbsMax ) / dStepLog ) + 1;
-			double dMaxAxis = Math.pow( dStep, iPow );
-			iPow = (int) Math.floor( Math.log( dAbsMin ) / dStepLog ) - 1;
-			double dMinAxis = Math.pow( dStep, iPow + 1 );
-
-			if ( !bMaximumFixed )
-			{
-				oMaximum = new Double( dMaxAxis );
-			}
-			if ( !bMinimumFixed )
-			{
-				oMinimum = new Double( dMinAxis );
-			}
-		}
-		else if ( ( iType & DATE_TIME ) == DATE_TIME )
-		{
-			int iUnit = asInteger( oUnit );
-			int iStep = asInteger( oStep );
-			CDateTime cdtMinValue = asDateTime( oMinValue );
-			CDateTime cdtMaxValue = asDateTime( oMaxValue );
-
-			if ( !bMinimumFixed )
-			{
-				oMinimum = cdtMinValue.backward( iUnit, iStep );
-			}
-			( (CDateTime) oMinimum ).clearBelow( iUnit );
-			if ( !bMaximumFixed )
-			{
-				oMaximum = cdtMaxValue.forward( iUnit, iStep );
-			}
-			( (CDateTime) oMaximum ).clearBelow( iUnit );
-		}
-		else
-		{
-			// Linear axis type
-			ScaleContext sct = new ScaleContext( iMarginPercent,
+			
+			sct = new ScaleContext( iMarginPercent,
 					iType,
 					oMinValue,
 					oMaxValue,
 					oStep );
-			sct.setFixedValue( bMinimumFixed, bMaximumFixed, oMinimum, oMaximum );
-			sct.setFixedStep( bStepFixed, oStepNumber );
-			sct.computeMinMax( );
-			updateContext( sct );
 		}
+		else if ( ( iType & DATE_TIME ) == DATE_TIME )
+		{
+			int iUnit = asInteger( oUnit );
+			sct = new ScaleContext( iMarginPercent,
+					iType,
+					iUnit,
+					oMinValue,
+					oMaxValue,
+					oStep );
+		}
+		else
+		{
+			// Linear axis type
+			sct = new ScaleContext( iMarginPercent,
+					iType,
+					oMinValue,
+					oMaxValue,
+					oStep );
+		}
+		sct.setFixedValue( bMinimumFixed, bMaximumFixed, oMinimum, oMaximum );
+		sct.setFixedStep( bStepFixed, oStepNumber );
+		sct.computeMinMax( );
+		updateContext( sct );
 	}
 
 	private final void updateContext( ScaleContext sct )
 	{
 		this.oMaximum = sct.getMax( );
 		this.oMinimum = sct.getMin( );
-		this.oMaximumWithMargin = sct.getRealMax( );
-		this.oMinimumWithMargin = sct.getRealMin( );
+		this.oMaximumWithMargin = sct.getMaxWithMargin( );
+		this.oMinimumWithMargin = sct.getMinWithMargin( );
 		this.oStep = sct.getStep( );
 	}
 

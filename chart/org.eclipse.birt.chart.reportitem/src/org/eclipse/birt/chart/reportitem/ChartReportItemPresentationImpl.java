@@ -14,11 +14,6 @@ package org.eclipse.birt.chart.reportitem;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import org.eclipse.birt.chart.api.ChartEngine;
@@ -29,30 +24,18 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
-import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.log.ILogger;
-import org.eclipse.birt.chart.log.Logger;
-import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.script.ScriptHandler;
-import org.eclipse.birt.chart.util.ChartUtil;
-import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.HTMLRenderContext;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
-import org.eclipse.birt.report.engine.extension.IQueryResultSet;
-import org.eclipse.birt.report.engine.extension.IRowSet;
-import org.eclipse.birt.report.engine.extension.ReportItemPresentationBase;
 import org.eclipse.birt.report.engine.extension.Size;
-import org.eclipse.birt.report.engine.extension.internal.RowSet;
-import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
-import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
@@ -60,347 +43,31 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  */
 public final class ChartReportItemPresentationImpl
 		extends
-			ReportItemPresentationBase
+			ChartReportItemPresentationBase
 {
-
-	private InputStream fis = null;
-
-	private String imageMap = null;
-
-	private String sExtension = null;
-
-	private String sSupportedFormats = null;
-
-	private String outputFormat = null;
 	
-	private int outputType = -1;
-
-	private Chart cm = null;
-
-	private IDeviceRenderer idr = null;
-
-	private ExtendedItemHandle handle;
-
-	private RunTimeContext rtc = null;
-
-	private static List registeredDevices = null;
-
-	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
-	
-	static
-	{
-		registeredDevices = new ArrayList( );
-		try
-		{
-			String[][] formats = PluginSettings.instance( )
-					.getRegisteredOutputFormats( );
-			for ( int i = 0; i < formats.length; i++ )
-			{
-				registeredDevices.add( formats[i][0] );
-			}
-		}
-		catch ( ChartException e )
-		{
-			logger.log( e );
-		}
-	}
-
-	/**
-	 * check if the format is supported by the browser and device renderer.
-	 */
-	private boolean isOutputRendererSupported( String format )
-	{
-		if ( format != null )
-		{
-			if ( sSupportedFormats != null
-					&& ( sSupportedFormats.indexOf( format ) != -1 ) )
-			{
-				return registeredDevices.contains( format );
-			}
-		}
-		return false;
-	}
-
-	private String getFirstSupportedFormat( String formats )
-	{
-		if ( formats != null && formats.length( ) > 0 )
-		{
-			int idx = formats.indexOf( ';' );
-			if ( idx == -1 )
-			{
-				if ( isOutputRendererSupported( formats ) )
-				{
-					return formats;
-				}
-			}
-			else
-			{
-				String ext = formats.substring( 0, idx );
-
-				if ( isOutputRendererSupported( ext ) )
-				{
-					return ext;
-				}
-				else
-				{
-					return getFirstSupportedFormat( formats.substring( idx + 1 ) );
-				}
-			}
-		}
-
-		// PNG as default.
-		return "PNG"; //$NON-NLS-1$
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#setModelObject(org.eclipse.birt.report.model.api.ExtendedItemHandle)
-	 */
-	public void setModelObject( ExtendedItemHandle eih )
-	{
-		IReportItem item = null;
-		try
-		{
-			item = eih.getReportItem( );
-		}
-		catch ( ExtendedElementException e )
-		{
-			logger.log( e );
-		}
-		if ( item == null )
-		{
-			try
-			{
-				eih.loadExtendedElement( );
-				item = eih.getReportItem( );
-			}
-			catch ( ExtendedElementException eeex )
-			{
-				logger.log( eeex );
-			}
-			if ( item == null )
-			{
-				logger.log( ILogger.ERROR,
-						Messages.getString( "ChartReportItemPresentationImpl.log.UnableToLocateWrapper" ) ); //$NON-NLS-1$
-				return;
-			}
-		}
-		cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( "chart.instance" ); //$NON-NLS-1$
-		handle = eih;
-
-		Object of = handle.getProperty( "outputFormat" ); //$NON-NLS-1$
-
-		if ( of instanceof String )
-		{
-			outputFormat = (String) of;
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#setLocale(java.util.Locale)
-	 */
-	public final void setLocale( Locale lcl )
-	{
-		if ( rtc == null )
-		{
-			rtc = new RunTimeContext( );
-		}
-		rtc.setLocale( lcl );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#setOutputFormat(java.lang.String)
-	 */
-	public void setOutputFormat( String sOutputFormat )
-	{
-		if ( sOutputFormat.equalsIgnoreCase( "HTML" ) ) //$NON-NLS-1$
-		{
-			if ( isOutputRendererSupported( outputFormat ) )
-			{
-				sExtension = outputFormat;
-			}
-			else if ( outputFormat != null
-					&& outputFormat.toUpperCase( ).equals( "GIF" ) && //$NON-NLS-1$ 
-					isOutputRendererSupported( "PNG" ) ) //$NON-NLS-1$
-			{
-				// render old GIF charts as PNG
-				sExtension = "PNG"; //$NON-NLS-1$
-			}
-			else if ( isOutputRendererSupported( "SVG" ) ) //$NON-NLS-1$
-			{
-				// SVG is the preferred output for HTML
-				sExtension = "SVG"; //$NON-NLS-1$
-			}
-			else
-			{
-				sExtension = getFirstSupportedFormat( sSupportedFormats );
-			}
-		}
-		else if ( sOutputFormat.equalsIgnoreCase( "PDF" ) ) //$NON-NLS-1$
-		{
-			if ( outputFormat != null
-					&& outputFormat.toUpperCase( ).equals( "SVG" ) ) //$NON-NLS-1$
-			{
-				// Since engine doesn't support embedding SVG, always embed PNG
-				sExtension = "PNG"; //$NON-NLS-1$
-			}
-			else if ( isOutputRendererSupported( outputFormat ) )
-			{
-				sExtension = outputFormat;
-			}
-			else if ( isOutputRendererSupported( "PNG" ) ) //$NON-NLS-1$
-			{
-				// PNG is the preferred output for PDF
-				sExtension = "PNG"; //$NON-NLS-1$
-			}
-			else
-			{
-				sExtension = getFirstSupportedFormat( sSupportedFormats );
-			}
-		}
-		else
-		{
-			if ( isOutputRendererSupported( outputFormat ) )
-			{
-				sExtension = outputFormat;
-			}
-			else
-			{
-				sExtension = getFirstSupportedFormat( sSupportedFormats );
-			}
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#setSupportedImageFormats(java.lang.String)
-	 */
-	public void setSupportedImageFormats( String sSupportedFormats )
-	{
-		this.sSupportedFormats = sSupportedFormats;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#deserialize(java.io.InputStream)
-	 */
-	public void deserialize( InputStream is )
-	{
-		try
-		{
-			ObjectInputStream ois = new ObjectInputStream( is );
-			Object o = ois.readObject( );
-
-			if ( o instanceof RunTimeContext )
-			{
-				RunTimeContext drtc = (RunTimeContext) o;
-
-				if ( rtc != null )
-				{
-					drtc.setULocale( rtc.getULocale( ) );
-				}
-
-				rtc = drtc;
-				cm = rtc.getScriptContext( ).getChartInstance( );
-				// Set back the cm into the handle from the engine, so that the
-				// chart inside the
-				// reportdesignhandle is the same as the one used during
-				// presentation.
-				// No command should be executed, since it's a runtime operation
-				// Set the model directly through setModel and not setProperty
-				if ( cm != null && handle != null )
-				{
-					IReportItem item = handle.getReportItem( );
-					( (ChartReportItemImpl) item ).setModel( cm );
-				}
-				
-				// Get chart max row number from application context
-				Object oMaxRow = context.getAppContext( )
-						.get( EngineConstants.PROPERTY_EXTENDED_ITEM_MAX_ROW );
-				if ( oMaxRow != null )
-				{
-					rtc.putState( ChartUtil.CHART_MAX_ROW, oMaxRow );
-				}
-				else
-				{
-					// Get chart max row number from global variables if app
-					// context doesn't put it
-					oMaxRow = context.getGlobalVariable( EngineConstants.PROPERTY_EXTENDED_ITEM_MAX_ROW );
-					if ( oMaxRow != null )
-					{
-						rtc.putState( ChartUtil.CHART_MAX_ROW, oMaxRow );
-					}
-				}
-			}
-			ois.close( );
-		}
-		catch ( Exception e )
-		{
-			logger.log( e );
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#getOutputType()
-	 */
-	public int getOutputType( )
-	{
-		if ( outputType == -1 )
-		{
-			if ( "SVG".equals( sExtension ) || "SWF".equals( sExtension ) ) //$NON-NLS-1$
-			{
-				outputType = OUTPUT_AS_IMAGE;
-			}
-			else
-			{
-				outputType = OUTPUT_AS_IMAGE_WITH_MAP;
-			}
-		}
-		return outputType;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#getImageMIMEType()
-	 */
-	public String getImageMIMEType( )
-	{
-		return  idr.getMimeType( );		
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#getOutputContent()
-	 */
-	public Object getOutputContent( )
-	{
-		return null;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#onRowSets(org.eclipse.birt.report.engine.extension.IRowSet[])
 	 */
-	public Object onRowSets( IRowSet[] irsa ) throws BirtException
+	public Object onRowSets( IBaseResultSet[] baseResultSet )
+			throws BirtException
 	{
 		// BIND RESULTSET TO CHART DATASETS
-		if ( irsa == null || irsa.length < 1 || irsa[0] == null || irsa[0].isEmpty( ) )
+		if ( baseResultSet == null || baseResultSet.length < 1 )
 		{
 			// if the Data rows are null/empty, just log it and returns
 			// null gracefully.
-			logger.log( ILogger.INFORMATION,Messages.getString( "ChartReportItemPresentationImpl.error.NoData" ) ) ;
+			logger.log( ILogger.INFORMATION,
+					Messages.getString( "ChartReportItemPresentationImpl.error.NoData" ) ); //$NON-NLS-1$
+			return null;
+		}
+		
+		IBaseResultSet resultSet = baseResultSet[0];
+		if ( resultSet == null || isEmpty( resultSet ) )
+		{
+			// Do nothing when IBaseResultSet is empty or null
 			return null;
 		}
 
@@ -422,16 +89,10 @@ public final class ChartReportItemPresentationImpl
 				cm.setScript( javaHandlerClass );
 			}
 
-			IRowSet rowSet = irsa[0];
-			if ( rowSet == null || rowSet.isEmpty( ) )
-			{
-				// Do nothing when RowSet is empty or null
-				return null;
-			}
 			rtc.setScriptClassLoader( new BIRTScriptClassLoader( appClassLoader ) );
 			// INITIALIZE THE SCRIPT HANDLER
 			// UPDATE THE CHART SCRIPT CONTEXT
-			
+
 			ScriptHandler sh = rtc.getScriptHandler( );
 			BIRTExternalContext externalContext = new BIRTExternalContext( context );
 			if ( sh == null ) // IF NOT PREVIOUSLY DEFINED BY
@@ -442,10 +103,10 @@ public final class ChartReportItemPresentationImpl
 
 				sh.setScriptClassLoader( rtc.getScriptClassLoader( ) );
 				sh.setScriptContext( rtc.getScriptContext( ) );
-				
+
 				final String sScriptContent = cm.getScript( );
 				if ( externalContext != null
-						&& externalContext.getScriptable( ) != null )				
+						&& externalContext.getScriptable( ) != null )
 				{
 					sh.init( externalContext.getScriptable( ) );
 				}
@@ -462,277 +123,13 @@ public final class ChartReportItemPresentationImpl
 					sh.register( sScriptContent );
 				}
 			}
-			
-			
-			// FETCH A HANDLE TO THE DEVICE RENDERER
-			idr = ChartEngine.instance( ).getRenderer( "dv." //$NON-NLS-1$
-					+ sExtension.toUpperCase( Locale.US ) );
 
-			idr.setProperty( IDeviceRenderer.DPI_RESOLUTION, new Integer( dpi ) );
-
-			if ( "SVG".equalsIgnoreCase( sExtension ) ) //$NON-NLS-1$
-			{
-				idr.setProperty( "resize.svg", Boolean.TRUE ); //$NON-NLS-1$
-			}
-			
-			BIRTDataRowEvaluator rowAdapter = new BIRTDataRowEvaluator( rowSet );
-			Generator.instance( ).bindData( rowAdapter,
-					new BIRTActionEvaluator( ),
-					cm,
-					rtc );
-			logger.log( ILogger.INFORMATION,
-					Messages.getString( "ChartReportItemPresentationImpl.log.onRowSetsBuilding" ) ); //$NON-NLS-1$
-
-
-			// BUILD THE CHART
-			final Bounds originalBounds = cm.getBlock( ).getBounds( );
-
-			// we must copy the bounds to avoid that setting it on one object
-			// unsets it on its precedent container
-
-			final Bounds bo = (Bounds) EcoreUtil.copy( originalBounds );
-
-			logger.log( ILogger.INFORMATION,
-					Messages.getString( "ChartReportItemPresentationImpl.log.PresentationUsesBoundsBo", bo ) ); //$NON-NLS-1$
-
-			
-			
-
-			
-
-			final Generator gr = Generator.instance( );
-			GeneratedChartState gcs = null;
-			
-			rtc.setActionRenderer( new BIRTActionRenderer( this.handle,
-					this.ah,
-					rowAdapter,
-					this.context ) );
-			rtc.setMessageLookup( new BIRTMessageLookup( context ) );
-			Object renderContext = context.getAppContext( )
-					.get( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT );
-
-			// read RtL flag from engine
-			if ( renderContext instanceof HTMLRenderContext )
-			{
-				IRenderOption renderOption = ( (HTMLRenderContext) renderContext ).getRenderOption( );
-				if ( renderOption instanceof HTMLRenderOption )
-				{
-					if ( ( (HTMLRenderOption) renderOption ).getHtmlRtLFlag( ) )
-					{
-						rtc.setRightToLeft( true );
-					}
-				}
-			}
-
-			gcs = gr.build( idr.getDisplayServer( ),
-					cm,
-					bo,
-					externalContext,
-					rtc,
-					new ChartReportStyleProcessor( handle, this.style ) );
-
-			// WRITE TO THE IMAGE FILE
-			logger.log( ILogger.INFORMATION,
-					Messages.getString( "ChartReportItemPresentationImpl.log.onRowSetsRendering" ) ); //$NON-NLS-1$
-
-			ByteArrayOutputStream baos = new ByteArrayOutputStream( );
-			BufferedOutputStream bos = new BufferedOutputStream( baos );
-
-			idr.setProperty( IDeviceRenderer.FILE_IDENTIFIER, bos );
-			idr.setProperty( IDeviceRenderer.UPDATE_NOTIFIER,
-					new EmptyUpdateNotifier( cm, gcs.getChartModel( ) ) );
-
-			gr.render( idr, gcs );
-
-			// cleanup the dataRow evaluator.
-			rowAdapter.close( );
-
-			// RETURN A STREAM HANDLE TO THE NEWLY CREATED IMAGE
-			try
-			{
-				bos.close( );
-				fis = new ByteArrayInputStream( baos.toByteArray( ) );
-			}
-			catch ( Exception ioex )
-			{
-				throw new ChartException( ChartReportItemPlugin.ID,
-						ChartException.GENERATION,
-						ioex );
-			}
-
-			if ( getOutputType() == OUTPUT_AS_IMAGE_WITH_MAP && idr instanceof IImageMapEmitter ) //$NON-NLS-1$
-			{
-				imageMap = ( (IImageMapEmitter) idr ).getImageMap( );
-			}
-
-		}
-		catch ( BirtException birtException )
-		{
-			Throwable ex = birtException;
-			while ( ex.getCause( ) != null )
-			{
-				ex = ex.getCause( );
-			}
-
-			if ( ex instanceof ChartException
-					&& ( (ChartException) ex ).getType( ) == ChartException.ZERO_DATASET )
-			{
-				// if the Data set has zero lines, just
-				// returns null gracefully.
-				return null;
-			}
-
-			if ( ex instanceof ChartException
-					&& ( (ChartException) ex ).getType( ) == ChartException.ALL_NULL_DATASET )
-			{
-				// if the Data set contains all null values, just
-				// returns null gracefully and render nothing.
-				return null;
-			}
-
-			if ( ( ex instanceof ChartException && ( (ChartException) ex ).getType( ) == ChartException.INVALID_IMAGE_SIZE ) )
-			{
-				// if the image size is invalid, this may caused by
-				// Display=None, lets ignore it.
-				logger.log( birtException );
-				return null;
-			}
-
-			logger.log( ILogger.ERROR,
-					Messages.getString( "ChartReportItemPresentationImpl.log.onRowSetsFailed" ) ); //$NON-NLS-1$
-			logger.log( birtException );
-			throw birtException;
-		}
-		catch ( RuntimeException ex )
-		{
-			logger.log( ILogger.ERROR,
-					Messages.getString( "ChartReportItemPresentationImpl.log.onRowSetsFailed" ) ); //$NON-NLS-1$
-			logger.log( ex );
-			throw new ChartException( ChartReportItemPlugin.ID,
-					ChartException.GENERATION,
-					ex );
-		}
-
-		logger.log( ILogger.INFORMATION,
-				Messages.getString( "ChartReportItemPresentationImpl.onRowSetsEnd" ) ); //$NON-NLS-1$
-
-		if ( getOutputType() == OUTPUT_AS_IMAGE ) //$NON-NLS-1$
-		{
-			return fis;
-		}
-		else
-		{
-			return new Object[]{
-					fis, imageMap
-			};
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#onRowSets(org.eclipse.birt.report.engine.extension.IRowSet[])
-	 */
-	public Object onRowSets( IBaseResultSet[] baseResultSet ) throws BirtException
-	{
-		// BIND RESULTSET TO CHART DATASETS
-		if ( baseResultSet == null || baseResultSet.length < 1 || baseResultSet[0] == null )
-		{
-			// if the Data rows are null/empty, just log it and returns
-			// null gracefully.
-			logger.log( ILogger.INFORMATION,Messages.getString( "ChartReportItemPresentationImpl.error.NoData" ) ) ;
-			return null;
-		}
-
-		logger.log( ILogger.INFORMATION,
-				Messages.getString( "ChartReportItemPresentationImpl.log.onRowSetsStart" ) ); //$NON-NLS-1$
-
-		// catch unwanted null handle case
-		if ( handle == null )
-		{
-			return null;
-		}
-
-		try
-		{
-			String javaHandlerClass = handle.getEventHandlerClass( );
-			if ( javaHandlerClass != null && javaHandlerClass.length( ) > 0 )
-			{
-				// use java handler if available.
-				cm.setScript( javaHandlerClass );
-			}
-
-			IBaseResultSet resultSet = baseResultSet[0];
-			if ( resultSet == null )
-			{
-				// Do nothing when IBaseResultSet is empty or null
-				return null;
-			}
-			rtc.setScriptClassLoader( new BIRTScriptClassLoader( appClassLoader ) );
-			// INITIALIZE THE SCRIPT HANDLER
-			// UPDATE THE CHART SCRIPT CONTEXT
-			
-			ScriptHandler sh = rtc.getScriptHandler( );
-			BIRTExternalContext externalContext = new BIRTExternalContext( context );
-			if ( sh == null ) // IF NOT PREVIOUSLY DEFINED BY
-			// REPORTITEM ADAPTER
-			{
-				sh = new ScriptHandler( );
-				rtc.setScriptHandler( sh );
-
-				sh.setScriptClassLoader( rtc.getScriptClassLoader( ) );
-				sh.setScriptContext( rtc.getScriptContext( ) );
-				
-				final String sScriptContent = cm.getScript( );
-				if ( externalContext != null
-						&& externalContext.getScriptable( ) != null )				
-				{
-					sh.init( externalContext.getScriptable( ) );
-				}
-				else
-				{
-					sh.init( null );
-				}
-				sh.setRunTimeModel( cm );
-
-				if ( sScriptContent != null
-						&& sScriptContent.length( ) > 0
-						&& rtc.isScriptingEnabled( ) )
-				{
-					sh.register( sScriptContent );
-				}
-			}
-			
-			// Use 
-			IDataRowExpressionEvaluator rowAdapter = null;
+			// Create evaluator
+			IDataRowExpressionEvaluator rowAdapter = createEvaluator( resultSet );
 			BIRTActionEvaluator evaluator = new BIRTActionEvaluator( );
-			if ( resultSet instanceof IQueryResultSet )
-			{
-				List groups = ( (IQueryResultSet) resultSet ).getResultIterator( )
-						.getQueryResults( )
-						.getPreparedQuery( )
-						.getReportQueryDefn( )
-						.getGroups( );
 
-				if ( groups == null || groups.size( ) == 0 )
-				{
-					rowAdapter = new BIRTDataRowEvaluator( new RowSet( (IQueryResultSet) resultSet ) );
-				}
-				else
-				{
-					rowAdapter = new BIRTGroupedQueryResultSet( (IQueryResultSet) resultSet );
-				}
-			}
-//			else if ( resultSet instanceof ICubeResultSet )
-//			{
-//				rowAdapter = new BirtCubeResultSet( (ICubeResultSet) resultSet );
-//			}
-			
-			Generator.instance( ).bindData( rowAdapter,
-					evaluator,
-					cm,
-					rtc );
-			
+			Generator.instance( ).bindData( rowAdapter, evaluator, cm, rtc );
+
 			logger.log( ILogger.INFORMATION,
 					Messages.getString( "ChartReportItemPresentationImpl.log.onRowSetsBuilding" ) ); //$NON-NLS-1$
 
@@ -748,19 +145,14 @@ public final class ChartReportItemPresentationImpl
 			}
 
 			// BUILD THE CHART
-			final Bounds originalBounds = cm.getBlock( ).getBounds( );
-
-			// we must copy the bounds to avoid that setting it on one object
-			// unsets it on its precedent container
-
-			final Bounds bo = (Bounds) EcoreUtil.copy( originalBounds );
+			final Bounds bo = computeBounds( );
 
 			logger.log( ILogger.INFORMATION,
 					Messages.getString( "ChartReportItemPresentationImpl.log.PresentationUsesBoundsBo", bo ) ); //$NON-NLS-1$
 
 			final Generator gr = Generator.instance( );
 			GeneratedChartState gcs = null;
-			
+
 			rtc.setActionRenderer( new BIRTActionRenderer( this.handle,
 					this.ah,
 					rowAdapter,
@@ -885,7 +277,7 @@ public final class ChartReportItemPresentationImpl
 			};
 		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -907,42 +299,16 @@ public final class ChartReportItemPresentationImpl
 		}
 		return super.getSize( );
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemPresentation#finish()
-	 */
-	public void finish( )
+	
+	protected Bounds computeBounds( )
 	{
-		logger.log( ILogger.INFORMATION,
-				Messages.getString( "ChartReportItemPresentationImpl.log.finishStart" ) ); //$NON-NLS-1$
+		final Bounds originalBounds = cm.getBlock( ).getBounds( );
 
-		// CLOSE THE TEMP STREAM PROVIDED TO THE CALLER
-		try
-		{
-			// clean up the image map.
-			imageMap = null;
+		// we must copy the bounds to avoid that setting it on one object
+		// unsets it on its precedent container
 
-			if ( fis != null )
-			{
-				fis.close( );
-				fis = null;
-			}
-		}
-		catch ( IOException ioex )
-		{
-			logger.log( ioex );
-		}
-		
-		// Dispose renderer resources
-		if ( idr != null )
-		{
-			idr.dispose( );
-			idr = null;
-		}
-
-		logger.log( ILogger.INFORMATION,
-				Messages.getString( "ChartReportItemPresentationImpl.log.finishEnd" ) ); //$NON-NLS-1$
+		Bounds bounds = (Bounds) EcoreUtil.copy( originalBounds );
+		return bounds;
 	}
+
 }
