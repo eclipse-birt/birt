@@ -333,16 +333,18 @@ public class RenderTask extends EngineTask implements IRenderTask
 	 */
 	public void setPageRange( String pageRange ) throws EngineException
 	{
-		if ( null == pageRange
-				|| "".equals( pageRange ) || pageRange.toUpperCase( ).indexOf( "ALL" ) >= 0 ) //$NON-NLS-1$ //$NON-NLS-2$
+		long totalPage = reportDoc.getPageCount( );
+		List list = parsePageSequence( pageRange, totalPage );
+		if ( list.size( ) == 1 )
 		{
-			innerRender = new AllPageRender( new long[] {1, reportDoc.getPageCount( )} );
+			long[] range = (long[]) list.get( 0 );
+			if ( range[0] == 1 && range[1] == totalPage )
+			{
+				innerRender = new AllPageRender( new long[]{1, totalPage} );
+				return;
+			}
 		}
-		else
-		{		
-			innerRender = new PageRangeRender( parsePageSequence( pageRange,
-					reportDoc.getPageCount( ) ) );
-		}
+		innerRender = new PageRangeRender( list );
 	}
 
 	/*
