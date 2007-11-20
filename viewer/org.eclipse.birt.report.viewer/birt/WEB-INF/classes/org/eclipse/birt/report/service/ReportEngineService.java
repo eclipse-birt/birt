@@ -37,7 +37,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.xml.namespace.QName;
 
 import org.apache.axis.AxisFault;
-import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.IPlatformContext;
 import org.eclipse.birt.core.framework.Platform;
@@ -1593,8 +1592,9 @@ public class ReportEngineService
 
 						try
 						{
-							value = csvConvertor( DataTypeUtil.toString( iData
-									.getValue( columnNames[0] ) ), sep );
+							value = csvConvertor( DataUtil
+									.getCSVDisplayValue( iData
+											.getValue( columnNames[0] ) ), sep );
 						}
 						catch ( Exception e )
 						{
@@ -1612,8 +1612,8 @@ public class ReportEngineService
 
 							try
 							{
-								value = csvConvertor( DataTypeUtil
-										.toString( iData
+								value = csvConvertor( DataUtil
+										.getCSVDisplayValue( iData
 												.getValue( columnNames[i] ) ),
 										sep );
 							}

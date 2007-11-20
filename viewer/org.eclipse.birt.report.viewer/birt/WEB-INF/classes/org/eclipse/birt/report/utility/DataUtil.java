@@ -371,6 +371,30 @@ public class DataUtil
 	}
 
 	/**
+	 * Convert object to be exported as CSV
+	 * 
+	 * @param value
+	 * @return
+	 * @throws BirtException
+	 */
+	public static String getCSVDisplayValue( Object value )
+			throws BirtException
+	{
+		if ( value == null )
+			return null;
+
+		if ( value instanceof Integer || value instanceof Long
+				|| value instanceof Float || value instanceof Double
+				|| value instanceof BigDecimal
+				|| value instanceof com.ibm.icu.math.BigDecimal )
+		{
+			return value.toString( );
+		}
+
+		return DataTypeUtil.toString( value );
+	}
+
+	/**
 	 * Try convert an object to given type Types supported:
 	 * <p>
 	 * <ul>
