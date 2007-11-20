@@ -70,6 +70,46 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	*/
 	__clearSubCascadingParameter : null,
 	
+	/**
+	 * Mutex: counts the pending calls to __E_CASCADING_PARAMETER
+	 *   
+	 * >0 if a cascading value has just been changed.
+	 * Used to defer the ok button clicks until
+	 * a response has been received.
+	 */
+	__pendingCascadingCalls : 0,
+	
+	/**
+	 * Function to call after the dialog data has been updated.
+	 * Use to defer the click to ok whenever
+	 * an onchange event is still pending.
+	 */
+	__onDataChanged : null,
+	
+	/**
+	 * Cancels the next onchange event.
+	 * Used for an IE select box behaviour workaround where pressing
+	 * a key fires onchange events. It makes the select box
+	 * behaviour similar to the one of FireFox. 
+	 */
+	__cancelOnChange : false,
+	
+	/**
+	 * Cancels the show operation.
+	 * This flag is	used when the user clicked the cancel button and
+	 * wants to close the dialog box, and there are pending server requests.
+	 * The bind() method of the base class will call the __l_show() method
+	 * after receiving the response, which would popup the dialog again.
+	 * This flag will prevent this to happen.
+	 */
+	__cancelShow : false,
+	
+	/**
+	 * Stores the selected index from the focused select box. (IE only)
+	 */
+	__currentSelectedIndex : null,
+	
+	
 	MIN_MULTILINES : 5,
 	MAX_MULTLIINES : 10,
 	
@@ -100,6 +140,13 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 		// Mouse over event for Select field
 		this.__neh_mouseover_select_closure = this.__neh_mouseover_select.bindAsEventListener( this );
 		this.__neh_mouseout_select_closure = this.__neh_mouseout_select.bindAsEventListener( this );
+		
+		// Focus events
+		if ( BrowserUtility.isIE )
+		{
+			this.__neh_focus_select_closure = this.__neh_focus_select.bindAsEventListener( this );
+			this.__neh_blur_select_closure = this.__neh_blur_select.bindAsEventListener( this );
+		}
 			    
 	    this.initializeBase( id );
 	    this.__local_installEventHandlers_extend( id );
@@ -163,10 +210,25 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 		{
 			this.__close( );
 		}
+		
+		// call the internal onDataChanged event handler
+		if ( this.__pendingCascadingCalls > 0 )
+		{
+			this.__pendingCascadingCalls--;
+		}
+		
+		if ( this.__pendingCascadingCalls == 0 && this.__onDataChanged )
+		{
+			this.__pendingCascadingCalls = 0;
+			var callback = this.__onDataChanged; 
+			this.__onDataChanged = null;
+			// add the handler in the browser's event queue
+			window.setTimeout( callback, 0 );
+		}
 	},
 
 	/**
-	 *	Intall the event handlers for cascade parameter.
+	 *	Install the event handlers for cascade parameter.
 	 *
 	 *	@table_param, container table object.
 	 *	@counter, index of possible cascade parameter.
@@ -198,6 +260,12 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 				if ( i < oTRC.length - 1 )
 				{
 					Event.observe( oSelect[0], 'change', this.__neh_change_select_closure, false );
+					
+					if ( BrowserUtility.isIE )
+					{
+						Event.observe( oSelect[0], 'focus', this.__neh_focus_select_closure, false );
+						Event.observe( oSelect[0], 'blur', this.__neh_blur_select_closure, false );
+					}										
 					
 					// find text item to instanll event listener
 					var oText;
@@ -802,6 +870,45 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			hint.style.display = "none"; 
 		}			
 	},
+
+	/**
+	 *	Handle focus event on select elements.
+	 *
+	 *	@event, incoming browser native event
+	 *	@return, void
+	 */
+
+	__neh_focus_select : function( event )
+	{
+		var el = Event.element( event );
+		if ( el )
+		{
+			this.__currentSelectedIndex = el.selectedIndex;
+		}
+		else
+		{
+			this.__currentSelectedIndex = -2;
+		}
+	},
+	
+	/**
+	 *	Handle blur event on select elements.
+	 *
+	 *	@event, incoming browser native event
+	 *	@return, void
+	 */	
+	__neh_blur_select : function( event )
+	{
+		var el = Event.element( event );
+
+		// prevents firing onchange twice, if the previous onchange has 
+		// already updated the current selected index
+		if ( el && el.selectedIndex != this.__currentSelectedIndex)
+		{
+			this.__neh_change_select( event );
+		}
+		this.__currentSelectedIndex = -2;
+	},
 	
 	/**
 	 *	Handle change event when clicking on select.
@@ -811,6 +918,18 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	 */
 	__neh_change_select : function( event )
 	{
+		if ( this.__cancelOnChange )
+		{
+			/**
+			 * Cancel event because of keyboard selection.
+			 * Event will be fired later when the element loses focus (like in Firefox)
+			 */
+			this.__cancelOnChange = false;
+			return;
+		}
+
+		this.__currentSelectedIndex = Event.element( event ).selectedIndex;
+	
 	    var matrix = new Array( );
 	    var m = 0;
         for( var i = 0; i < this.__cascadingParameter.length; i++ )
@@ -874,7 +993,8 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 				        }
 				        matrix[m].name = this.__cascadingParameter[i][m].name;
 				        matrix[m].value = this.__cascadingParameter[i][m].value;
-				    }                    
+				    }
+				    this.__pendingCascadingCalls++;
                     birtEventDispatcher.broadcastEvent( birtEvent.__E_CASCADING_PARAMETER, matrix );
                 }
             }
@@ -1015,7 +1135,8 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 				        }
 				        matrix[m].name = this.__prefix_islocale + this.__cascadingParameter[i][m].name;
 				        matrix[m].value = this.__cascadingParameter[i][m].value;			
-				    }                    
+				    }
+				    this.__pendingCascadingCalls++;
                     birtEventDispatcher.broadcastEvent( birtEvent.__E_CASCADING_PARAMETER, matrix );
                 }
             }
@@ -1039,9 +1160,16 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			if( (target.tagName == "INPUT" && target.type != "button" ) 
 					|| target.tagName == "SELECT")
 			{
-				this.__okPress( );
-				Event.stop( event );
+				// blur the focus to force the onchange/onselect events
+				target.blur();
+				// defer okPress to let those events run first
+				window.setTimeout( this.__okPress.bindAsEventListener(this), 0 );				
 			}
+		}
+		// in IE, when a key is pressed on a select box, cancel the onchange event 
+		else if ( BrowserUtility.isIE && event.keyCode != 9 && Event.element( event ).tagName == "SELECT" )
+		{
+			this.__cancelOnChange = true;
 		}
 	},	
 		
@@ -1053,6 +1181,15 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	 */
 	__okPress : function( )
 	{
+		// if a cascading parameter just changed
+		if ( this.__pendingCascadingCalls > 0 )
+		{
+			debug("defer okPress call");
+			// defer the call to the okPress function until the data has been updated
+			this.__onDataChanged = this.__okPress.bindAsEventListener(this);
+			return; 
+		}		
+
 		if( birtParameterDialog.collect_parameter( ) )
 		{
 			// workaround for Bugzilla Bug 146566. 
@@ -1106,12 +1243,22 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			}
 		}
 	},
-	
+
 	/**
 	 *	Override cancel button click.
 	 */
 	__neh_cancel : function( )
 	{
+		// if cascading parameter calls are pending
+		if ( this.__pendingCascadingCalls > 0 )
+		{
+			// prevent the response to popup the dialog again
+			this.__cancelShow = true;
+			
+			// reset the counter for the next time the dialog is needed
+			this.__pendingCascadingCalls = 0;			
+		}
+		
 		if ( this.__mode == 'parameter' )
 		{
 			this.__cancel();
@@ -1252,6 +1399,19 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 		
 		// set preVisible
 		this.preVisible = this.visible;
+	},
+
+	/**
+	 * Override the dialog's show method. 
+	 */
+	__l_show: function()
+	{
+		if ( !this.__cancelShow )
+		{
+			// call to superclass method
+			AbstractParameterDialog.prototype.__l_show.call( this );
+		}
+		this.__cancelShow = false;
 	},
 
 	/**
