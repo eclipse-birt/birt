@@ -526,16 +526,22 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 					CATEGORY_KEY_GENERAL,
 					CATEGORY_KEY_I18N,
 					CATEGORY_KEY_COMMENTS,
+					CATEGORY_KEY_USERPROPERTIES,
+					CATEGORY_KEY_NAMEDEXPRESSIONS,
 					CATEGORY_KEY_ADVANCEPROPERTY,
 			}, new String[]{
 					"ScalarParameterPageGenerator.List.General",
 					"ScalarParameterPageGenerator.List.I18n",
 					"ReportPageGenerator.List.Comments",
+					"ReportPageGenerator.List.UserProperties", //$NON-NLS-1$
+					"ReportPageGenerator.List.NamedExpressions", //$NON-NLS-1$
 					"ReportPageGenerator.List.AdvancedProperty",
 			}, new Class[]{
 					ScalarParameterPage.class,
 					ScalarParameterI18nPage.class,
 					CommentsPage.class,
+					UserPropertiesPage.class,
+					NamedExpressionsPage.class,
 					AdvancePropertyPage.class,
 			} );
 		}
