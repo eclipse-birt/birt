@@ -84,33 +84,194 @@ public class ExcelUtil
     	   return Data.STRING;	
     	}
     }
-	
+      
+    private static String replaceDateFormat( String pattern )
+	{
+		if ( pattern == null )
+		{
+			String rg = "";
+
+			return rg;
+		}
+
+		StringBuffer toAppendTo = new StringBuffer( );
+		boolean inQuote = false;
+		char prevCh = 0;
+		int count = 0;
+
+		for ( int i = 0; i < pattern.length( ); ++i )
+		{
+			char ch = pattern.charAt( i );
+
+			if ( ch != prevCh && count > 0 )
+			{
+				toAppendTo.append( subReplaceDateFormat( prevCh, count ) );
+				count = 0;
+			}
+
+			if ( ch == '/' )
+			{
+				toAppendTo.append( '\\' );
+				toAppendTo.append( ch );
+			}
+			else if ( ch == '\'' )
+			{
+				if ( ( i + 1 ) < pattern.length( )
+						&& pattern.charAt( i + 1 ) == '\'' )
+				{
+					toAppendTo.append( "\"" );
+					++i;
+				}
+				else
+				{
+					inQuote = !inQuote;
+				}
+			}
+			else if ( !inQuote )
+			{
+				prevCh = ch;
+				++count;
+			}
+			else
+			{
+
+				toAppendTo.append( ch );
+			}
+		}
+
+		if ( count > 0 )
+		{
+			toAppendTo.append( subReplaceDateFormat( prevCh, count ) );
+		}
+
+		return toAppendTo.toString( );
+	}
+
+	/**
+	 * only used in the method replaceDataFormat().
+	 */
+	private static String subReplaceDateFormat( char ch, int count )
+	{
+		String current = "";
+		int patternCharIndex = -1;
+		String datePatternChars = "GyMdkHmsSEDFwWahKz";
+		if ( ( patternCharIndex = datePatternChars.indexOf( ch ) ) == -1 )
+		{
+			for ( int i = 0; i < count; i++ )
+			{
+				current += "" + ch;
+			}
+
+			return current;
+		}
+
+		switch ( patternCharIndex )
+		{
+			case 0 : // 'G' - ERA
+				current = "";
+				break;
+			case 1 : // 'y' - YEAR
+				for ( int i = 0; i < count; i++ )
+				{
+					current += "" + ch;
+				}
+
+				break;
+			case 2 : // 'M' - MONTH
+				for ( int i = 0; i < count; i++ )
+				{
+					current += "" + ch;
+				}
+
+				break;
+			case 3 : // 'd' - Date
+				for ( int i = 0; i < count; i++ )
+				{
+					current += "" + ch;
+				}
+
+				break;
+			case 4 : // 'k' - HOUR_OF_DAY: 1-based. eg, 23:59 + 1 hour =>>
+						// 24:59
+				current = "h";
+				break;
+			case 5 : // case 5: // 'H'-HOUR_OF_DAY:0-based.eg, 23:59+1
+						// hour=>>00:59
+				for ( int i = 0; i < count; i++ )
+				{
+					current += "" + ch;
+				}
+
+				break;
+			case 6 : // case 6: // 'm' - MINUTE
+				for ( int i = 0; i < count; i++ )
+				{
+					current += "" + ch;
+				}
+
+				break;
+			case 7 : // case 7: // 's' - SECOND
+				for ( int i = 0; i < count; i++ )
+				{
+					current += "" + ch;
+				}
+
+				break;
+			case 8 : // case 8: // 'S' - MILLISECOND
+				for ( int i = 0; i < count; i++ )
+				{
+					current += "" + ch;
+				}
+
+				break;
+			case 9 : // 'E' - DAY_OF_WEEK
+				for ( int i = 0; i < count; i++ )
+				{
+					current += "a";
+				}
+
+				break;
+			case 14 : // 'a' - AM_PM
+				current = "AM/PM";
+				break;
+			case 15 : // 'h' - HOUR:1-based. eg, 11PM + 1 hour =>> 12 AM
+				for ( int i = 0; i < count; i++ )
+				{
+					current += "" + ch;
+				}
+
+				break;
+			case 17 : // 'z' - ZONE_OFFSET
+				current = "";
+				break;
+			default :
+				// case 10: // 'D' - DAY_OF_YEAR
+				// case 11: // 'F' - DAY_OF_WEEK_IN_MONTH
+				// case 12: // 'w' - WEEK_OF_YEAR
+				// case 13: // 'W' - WEEK_OF_MONTH
+				// case 16: // 'K' - HOUR: 0-based. eg, 11PM + 1 hour =>> 0 AM
+				current = "";
+				break;
+		}
+
+		return current;
+	}
+       
     public static String getPattern(Object data, String val)
     {
     	if(val != null && data instanceof Date) {
-    	   if (val.indexOf( "kk:mm" ) >= 0){
-    		   return "Short Time";	   
-    	   }
-    	   else if(val.startsWith( "ahh" ))
-    	   {
-    		   return "Long Time";   
-    	   }
-    	   else if(!val.startsWith( "ahh" ) && val.indexOf( "ahh" ) >= 0)
-    	   {
-    	      return "General Date";	   
-    	   }
-    	   return new DateFormatter(val).getPattern( );
+    	   return replaceDateFormat(val);   
     	}
     	else if(val == null && data instanceof Time) {
     		return "Long Time";
     	}
     	else if(val == null && data instanceof java.sql.Date) 
     	{
-    		return "yyyy-M-d";
+    		return "mmm d yyyy hh:mm AM/PM";
     	}
     	else if(val == null && data instanceof java.util.Date) 
     	{
-    		return "yyyy-M-d HH:ss:mm AM/PM";
+    		return "mmm d yyyy hh:mm AM/PM";
     	}
     	else if(val != null && data instanceof Number)
     	{
@@ -127,6 +288,25 @@ public class ExcelUtil
     	
     	return null;
     }
+    
+    public static String replaceAll(String str, String old, String news) {
+        if(str == null) {
+           return str;
+        }
+
+        int begin = 0;
+        int idx = 0;
+        int len = old.length();
+        StringBuffer buf = new StringBuffer();
+
+        while((idx = str.indexOf(old, begin)) >= 0) {
+           buf.append(str.substring(begin, idx));
+           buf.append(news);
+           begin = idx + len;
+        }
+
+        return new String(buf.append(str.substring(begin)));
+     }
 	// TODO
 	public static String getValue( String val )
 	{
