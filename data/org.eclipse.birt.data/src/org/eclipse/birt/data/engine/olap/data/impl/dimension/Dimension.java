@@ -116,12 +116,25 @@ public class Dimension implements IDimension
 		return hierarchy.readAllRows( stopSign );
 	}
 
+	/**
+	 * 
+	 * @param position
+	 * @return
+	 * @throws IOException
+	 */
 	public DimensionRow getRowByPosition( int position )
 			throws IOException
 	{
 		return hierarchy.readRowByPosition( position );
 	}
 	
+	/**
+	 * 
+	 * @param positionArray
+	 * @param stopSign
+	 * @return
+	 * @throws IOException
+	 */
 	public IDiskArray getDimensionRowByPositions(
 			IDiskArray positionArray, StopSign stopSign ) throws IOException
 	{
@@ -138,13 +151,26 @@ public class Dimension implements IDimension
 		return resultArray;
 	}
 	
+	/**
+	 * 
+	 * @param offset
+	 * @return
+	 * @throws IOException
+	 */
 	public DimensionRow getDimensionRowByOffset( int offset )
 			throws IOException
 	{
 		return hierarchy.readRowByOffset( offset );
 	}
 
-
+	/**
+	 * 
+	 * @param level
+	 * @param keyValue
+	 * @return
+	 * @throws IOException
+	 * @throws DataException
+	 */
 	public IDiskArray find( Level level, Object[] keyValue )
 			throws IOException, DataException
 	{
@@ -154,6 +180,36 @@ public class Dimension implements IDimension
 		return index.find( keyValue );
 	}
 
+	/**
+	 * 
+	 * @param level
+	 * @param keyValue
+	 * @return
+	 * @throws IOException
+	 * @throws DataException
+	 */
+	public IDiskArray findPosition( Level level, Object[] keyValue )
+			throws IOException, DataException
+	{
+		IDiskArray indexKeyArray = find( level, keyValue );
+		IDiskArray result = new BufferedPrimitiveDiskArray( Math.min( indexKeyArray.size( ),
+				Constants.MAX_LIST_BUFFER_SIZE ) );
+		for ( int i = 0; i < indexKeyArray.size( ); i++ )
+		{
+			IndexKey key = (IndexKey) indexKeyArray.get( i );
+			result.add( new Integer( key.getDimensionPos( ) ) );
+		}
+		return result;
+	}
+	
+	/**
+	 * 
+	 * @param level
+	 * @param keyValue
+	 * @return
+	 * @throws IOException
+	 * @throws DataException
+	 */
 	public IndexKey findFirst( Level level, Object[] keyValue )
 			throws IOException, DataException
 	{
