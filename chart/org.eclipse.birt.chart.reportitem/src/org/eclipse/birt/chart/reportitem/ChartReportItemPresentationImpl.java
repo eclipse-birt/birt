@@ -720,7 +720,7 @@ public final class ChartReportItemPresentationImpl
 				}
 				else
 				{
-					rowAdapter = new BirtGroupedQueryResultSet( (IQueryResultSet) resultSet );
+					rowAdapter = new BIRTGroupedQueryResultSet( (IQueryResultSet) resultSet );
 				}
 			}
 //			else if ( resultSet instanceof ICubeResultSet )
