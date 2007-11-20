@@ -81,7 +81,7 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 			if ( ( newObject instanceof DimensionHandle || newObject instanceof LevelHandle )
 					&& ( type == ICrosstabConstants.COLUMN_AXIS_TYPE || type == ICrosstabConstants.ROW_AXIS_TYPE ) )
 			{
-				Object afterObj = after.getModel( );
+				Object afterObj = after == null ? null : after.getModel( );
 
 				if ( newObject instanceof LevelHandle )
 				{
