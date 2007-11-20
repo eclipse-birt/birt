@@ -401,7 +401,7 @@ public class GetParameterDefinitionTask extends EngineTask
 		try
 		{
 			while ( iterator.next( )
-					&& ( limit <= 0 || choices.size( ) <= limit ) )
+					&& ( limit <= 0 || choices.size( ) < limit ) )
 			{
 				// skip duplicated values.
 				if ( filter != null && !filter.accept( iterator ) )
