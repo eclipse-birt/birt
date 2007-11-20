@@ -16,7 +16,6 @@ import java.util.List;
 
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.datafeed.IResultSetDataSet;
-import org.eclipse.birt.chart.internal.datafeed.ResultSetWrapper;
 
 /**
  * Maintains a subset of a resultset by defining a selective list of columns and

@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.internal.datafeed;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -24,11 +25,14 @@ import org.eclipse.birt.chart.datafeed.IResultSetDataSet;
 import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.IActionEvaluator;
+import org.eclipse.birt.chart.factory.IChartCubeResultSet;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
+import org.eclipse.birt.chart.factory.IGroupedDataResultSet;
 import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
@@ -37,10 +41,12 @@ import org.eclipse.birt.chart.model.data.DateTimeDataSet;
 import org.eclipse.birt.chart.model.data.NumberDataSet;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.model.data.TextDataSet;
 import org.eclipse.birt.chart.model.data.Trigger;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.script.ScriptHandler;
+import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.util.EList;
@@ -300,146 +306,133 @@ public class DataProcessor
 	protected ResultSetWrapper mapToChartResultSet(
 			IDataRowExpressionEvaluator idre, Chart cm ) throws ChartException
 	{
+		ResultSetWrapper rsw = null;
+		
 		// 1. Collect all used data expressions and grouping expressions
-		GroupingLookupHelper lhmLookup = new GroupingLookupHelper( cm, iae, rtc.getULocale( ) );
-		Collection co = lhmLookup.getExpressions( );
+		GroupingLookupHelper lhmLookup = new GroupingLookupHelper( cm,
+				iae,
+				rtc.getULocale( ) );
+		List co = lhmLookup.getExpressions( );
 
 		// 2. WALK THROUGH RESULTS
-		final List liResultSet = evaluateData( idre, co );
+		List liResultSet = null;
+		
+		// Set the boolean value of value series against index.
+		// The index of array indicates if the column of index is value series.
+		boolean[] areValueSeries = new boolean[co.size( )];
+		for ( int i = 0; i < areValueSeries.length; i++ )
+		{
+			areValueSeries[i] = lhmLookup.isValueSeriesIndex( i );
+		}	
+				
+		liResultSet = evaluateRowSet( idre,
+				co.toArray( ),
+				areValueSeries);
 
-		// 3. Prepare orthogonal grouping keys
+		// Prepare orthogonal grouping keys
 		final GroupKey[] orthogonalGroupKeys = findGroupKeys( cm, lhmLookup );
-
-		// create result set wrapper
-		final ResultSetWrapper rsw = new ResultSetWrapper( lhmLookup,
-				liResultSet,
-				orthogonalGroupKeys );
-
-		// 4. Check if base grouping is set.
-		SeriesDefinition sdBase = null;
-		SeriesDefinition sdValue = null;
-		boolean bBaseGrouping = false;
-
-		// TODO ??do we need processing trigger expr too?
-		// search all orthogonal series data definitions for base grouping
-		AggregationExpressionHelper aggHelper = new AggregationExpressionHelper( );
-		if ( cm instanceof ChartWithAxes )
+		
+		if ( idre instanceof IGroupedDataResultSet )
 		{
-			ChartWithAxes cwa = (ChartWithAxes) cm;
-			Axis[] axaBase = cwa.getBaseAxes( );
-			Axis[] axaOrthogonal = null;
-
-			// EACH BASE AXIS
-			for ( int j = 0; j < axaBase.length; j++ )
+			int[] groupBreaks = new int[]{};
+			if ( orthogonalGroupKeys != null && orthogonalGroupKeys.length > 0 )
 			{
-				sdBase = (SeriesDefinition) axaBase[j].getSeriesDefinitions( )
-						.get( 0 );
-				axaOrthogonal = cwa.getOrthogonalAxes( axaBase[j], true );
-				bBaseGrouping = rsw.getRowCount( ) > 0
-						&& sdBase.getGrouping( ) != null
-						&& sdBase.getGrouping( ).isEnabled( );
-
-				// EACH ORTHOGONAL AXIS
-				for ( int i = 0; i < axaOrthogonal.length; i++ )
-				{
-					// EACH ORTHOGONAL SERIES
-					aggHelper.addSeriesDefinitions( axaOrthogonal[i].getSeriesDefinitions( ),
-							lhmLookup );
-				}
+				// If the orthogonal grouping of chart is set, it should be the 0th
+				// index.
+				groupBreaks = ( (IGroupedDataResultSet) idre ).getGroupBreaks( 0 );
 			}
-			
-			sdValue = (SeriesDefinition) cwa.getOrthogonalAxes( axaBase[0], true )[0].getSeriesDefinitions( ).get( 0 );
-			
-		}
-		else if ( cm instanceof ChartWithoutAxes )
-		{
-			ChartWithoutAxes cwoa = (ChartWithoutAxes) cm;
-			sdBase = (SeriesDefinition) cwoa.getSeriesDefinitions( ).get( 0 );
-			bBaseGrouping = rsw.getRowCount( ) > 0
-					&& sdBase.getGrouping( ) != null
-					&& sdBase.getGrouping( ).isEnabled( );
 
-			// EACH ORTHOGONAL SERIES
-			aggHelper.addSeriesDefinitions( sdBase.getSeriesDefinitions( ),
-					lhmLookup );
-			sdValue = (SeriesDefinition) sdBase.getSeriesDefinitions( ).get( 0 );
+			// Format data time for grouped case.
+			formatBaseSeriesData( cm, lhmLookup, liResultSet );
+			
+			// 3. Create result set wrapper for grouping case.
+			rsw = new ResultSetWrapper( lhmLookup,
+					liResultSet,
+					orthogonalGroupKeys,
+					groupBreaks );
 		}
-
-		// 4.1. If base grouping is set???
-		if ( bBaseGrouping
-				&& aggHelper.getDataDefinitionsForBaseGrouping( ).size( ) > 0 )
+		else
 		{
-			// cache base series grouping
-			aggHelper.addAggregation( sdBase.getGrouping( )
-					.getAggregateExpression( ),
-					aggHelper.getDataDefinitionsForBaseGrouping( ) );
+			// 3. Create result set wrapper
+			rsw = new ResultSetWrapper( lhmLookup,
+					liResultSet,
+					orthogonalGroupKeys );
+
+			// 4. Check if base grouping is set.
+			SeriesDefinition sdBase = null;
+			SeriesDefinition sdValue = null;
+			boolean bBaseGrouping = false;
+
+			// TODO ??do we need processing trigger expr too?
+			// search all orthogonal series data definitions for base grouping
+			AggregationExpressionHelper aggHelper = new AggregationExpressionHelper( );
+			if ( cm instanceof ChartWithAxes )
+			{
+				ChartWithAxes cwa = (ChartWithAxes) cm;
+				Axis[] axaBase = cwa.getBaseAxes( );
+				Axis[] axaOrthogonal = null;
+
+				// EACH BASE AXIS
+				for ( int j = 0; j < axaBase.length; j++ )
+				{
+					sdBase = (SeriesDefinition) axaBase[j].getSeriesDefinitions( )
+							.get( 0 );
+					axaOrthogonal = cwa.getOrthogonalAxes( axaBase[j], true );
+					bBaseGrouping = rsw.getRowCount( ) > 0 &&
+							sdBase.getGrouping( ) != null &&
+							sdBase.getGrouping( ).isEnabled( );
+
+					// EACH ORTHOGONAL AXIS
+					for ( int i = 0; i < axaOrthogonal.length; i++ )
+					{
+						// EACH ORTHOGONAL SERIES
+						aggHelper.addSeriesDefinitions( axaOrthogonal[i].getSeriesDefinitions( ),
+								lhmLookup );
+					}
+				}
+
+				sdValue = (SeriesDefinition) cwa.getOrthogonalAxes( axaBase[0],
+						true )[0].getSeriesDefinitions( ).get( 0 );
+
+			}
+			else if ( cm instanceof ChartWithoutAxes )
+			{
+				ChartWithoutAxes cwoa = (ChartWithoutAxes) cm;
+				sdBase = (SeriesDefinition) cwoa.getSeriesDefinitions( )
+						.get( 0 );
+				bBaseGrouping = rsw.getRowCount( ) > 0 &&
+						sdBase.getGrouping( ) != null &&
+						sdBase.getGrouping( ).isEnabled( );
+
+				// EACH ORTHOGONAL SERIES
+				aggHelper.addSeriesDefinitions( sdBase.getSeriesDefinitions( ),
+						lhmLookup );
+				sdValue = (SeriesDefinition) sdBase.getSeriesDefinitions( )
+						.get( 0 );
+			}
+
+			// 4.1. If base grouping is set???
+			if ( bBaseGrouping &&
+					aggHelper.getDataDefinitionsForBaseGrouping( ).size( ) > 0 )
+			{
+				// cache base series grouping
+				aggHelper.addAggregation( sdBase.getGrouping( )
+						.getAggregateExpression( ),
+						aggHelper.getDataDefinitionsForBaseGrouping( ) );
+			}
+
+			// 5. apply whole sorting and grouping of chart.
+			rsw.applyWholeSeriesSortingNGrouping( sdBase,
+					sdValue,
+					aggHelper.getAggregations( ),
+					aggHelper.getDataDefinitions( ) );
+
+			aggHelper.dispose( );
 		}
-		
-		// 5. apply whole sorting and grouping of chart.
-		rsw.applyWholeSeriesSortingNGrouping( sdBase,
-				sdValue,
-				aggHelper.getAggregations( ),
-				aggHelper.getDataDefinitions( ) );
-		
-		aggHelper.dispose( );
 
 		return rsw;
 	}
-
-	/**
-	 * Evaluate data for all expressions, include base series, optional Y series grouping and value series.
-	 * 
-	 * @param idre
-	 * @param co
-	 * @return
-	 * @since 2.3
-	 */
-	private List evaluateData( IDataRowExpressionEvaluator idre, Collection co )
-	{
-		List liResultSet = new ArrayList();
-		
-		final int iColumnCount = co.size( );
-		Object[] oaTuple;
-		int iColumnIndex;
-
-		Iterator it;
-		if ( idre.first( ) )
-		{
-			int count = 0;
-			final int MAX_ROW_COUNT = ChartUtil.getSupportedMaxRowCount( rtc );
-			do
-			{
-				if ( count++ >= MAX_ROW_COUNT )
-				{
-					// throw new ChartException( ChartEnginePlugin.ID,
-					// ChartException.DATA_BINDING,
-					// "exception.data.max.row.count", //$NON-NLS-1$
-					// new Object[]{
-					// new Integer( MAX_ROW_COUNT )
-					// },
-					// Messages.getResourceBundle( ) );
-					
-					// Do not throw exceptions to stop rendering, but get the
-					// first rows to render chart
-					break;
-				}
-				
-				oaTuple = new Object[iColumnCount];
-				it = co.iterator( );
-				iColumnIndex = 0;
-				while ( it.hasNext( ) )
-				{
-					oaTuple[iColumnIndex++] = idre.evaluate( (String) it.next( ) );
-				}
-				liResultSet.add( oaTuple );
-			} while ( idre.next( ) );
-		}
-		// !Don't close evaluator here, let creator close it.
-		// idre.close( );
-		
-		return liResultSet;
-	}
-
+	
 	/**
 	 * Fills the model chart runtime series with the data
 	 * 
@@ -448,18 +441,15 @@ public class DataProcessor
 	public void generateRuntimeSeries( IDataRowExpressionEvaluator idre,
 			Chart cm ) throws ChartException
 	{
-		ResultSetWrapper rsw = mapToChartResultSet( idre, cm );
-
-		cm.clearSections( IConstants.RUN_TIME );
-
-		if ( cm instanceof ChartWithAxes )
-		{
-			generateRuntimeSeries( (ChartWithAxes) cm, rsw );
-		}
-		else if ( cm instanceof ChartWithoutAxes )
-		{
-			generateRuntimeSeries( (ChartWithoutAxes) cm, rsw );
-		}
+//		if ( idre instanceof IChartCubeResultSet )
+//		{
+//			generateRuntimeSeries( (IChartCubeResultSet) idre, cm );
+//		}
+//		else
+//		{
+			ResultSetWrapper rsw = mapToChartResultSet( idre, cm );
+			generateRuntimeSeries( cm, rsw );
+//		}
 	}
 
 	private void generateRuntimeSeries( ChartWithoutAxes cwoa,
@@ -1290,4 +1280,162 @@ public class DataProcessor
 				rtc.getScriptContext( ) );
 	}
 
+	/**
+	 * Evaluate data for all expressions, include base series, optional Y series grouping and value series.
+	 * 
+	 * @param idre
+	 * @param columns
+	 * @param areValueSeries
+	 * @return
+	 * @since 2.3
+	 */
+	public List evaluateRowSet( IDataRowExpressionEvaluator idre,
+			final Object[] columns, final boolean[] areValueSeries )
+	{
+		List liResultSet = new ArrayList( );
+		final boolean isGroupedResultSet = idre instanceof IGroupedDataResultSet;
+		final int iColumnCount = columns.length;
+		Object[] oaTuple;
+		final int MAX_ROW_COUNT = ChartUtil.getSupportedMaxRowCount( rtc );
+		if ( idre.first( ) )
+		{
+			int count = 0;
+			do
+			{
+				if ( count++ >= MAX_ROW_COUNT )
+				{
+					// Do not throw exceptions to stop rendering, but get the
+					// first rows to render chart
+					break;
+				}
+
+				oaTuple = new Object[iColumnCount];
+				if ( isGroupedResultSet )
+				{
+					for ( int i = 0; i < columns.length; i++ )
+					{
+						// If grouping is enabled, the binding name of value
+						// series is used instead of expression.
+						oaTuple[i] = ( (IGroupedDataResultSet) idre ).evaluate( (String) columns[i],
+								areValueSeries[i] );
+					}
+				}
+				else
+				{
+					for ( int i = 0; i < columns.length; i++ )
+					{
+						oaTuple[i] = idre.evaluate( (String) columns[i] );
+					}
+				}
+				liResultSet.add( oaTuple );
+			} while ( idre.next( ) );
+		}
+
+		// !Don't close evaluator here, let creator close it.
+		// idre.close( );
+
+		return liResultSet;
+	}
+
+	private void generateRuntimeSeries( Chart cm, ResultSetWrapper rsw )
+			throws ChartException
+	{
+		cm.clearSections( IConstants.RUN_TIME );
+
+		if ( cm instanceof ChartWithAxes )
+		{
+			generateRuntimeSeries( (ChartWithAxes) cm, rsw );
+		}
+		else if ( cm instanceof ChartWithoutAxes )
+		{
+			generateRuntimeSeries( (ChartWithoutAxes) cm, rsw );
+		}
+	}
+
+//	/**
+//	 * Generate runtime series with grouped multi-dimensional result set.
+//	 * 
+//	 * @param chartCubeResultSet
+//	 * @param chart
+//	 */
+//	private void generateRuntimeSeries( IChartCubeResultSet chartCubeResultSet,
+//			Chart chart )
+//	{
+//		// TODO Auto-generated method stub
+//	}
+
+	/**
+	 * Format base series data. Now it is only used to format datetime data,
+	 * format date for different grouping unit.
+	 * 
+	 * @param cm
+	 * @param lhmLookup
+	 * @param rowSet
+	 */
+	public void formatBaseSeriesData( Chart cm, GroupingLookupHelper lhmLookup, List rowSet )
+	{
+		SeriesDefinition sdBase = null;
+
+		if ( cm instanceof ChartWithAxes )
+		{
+			ChartWithAxes cwa = (ChartWithAxes) cm;
+			Axis[] axaBase = cwa.getBaseAxes( );
+
+			// EACH BASE AXIS
+			for ( int j = 0; j < axaBase.length; j++ )
+			{
+				sdBase = (SeriesDefinition) axaBase[j].getSeriesDefinitions( )
+						.get( 0 );
+			}
+		}
+		else if ( cm instanceof ChartWithoutAxes )
+		{
+			ChartWithoutAxes cwoa = (ChartWithoutAxes) cm;
+			sdBase = (SeriesDefinition) cwoa.getSeriesDefinitions( ).get( 0 );
+		}
+		final SeriesGrouping sg = sdBase.getGrouping( );
+		if ( sg == null || !sg.isEnabled( ) )
+		{
+			return;
+		}
+
+		final Series seBaseDesignTime = sdBase.getDesignTimeSeries( );
+		final Query q = (Query) seBaseDesignTime.getDataDefinition( ).get( 0 );
+		final int iBaseColumnIndex = lhmLookup.findIndexOfBaseSeries( q.getDefinition( ) );
+
+		final DataType dtGrouping = sg.getGroupType( );
+		if ( dtGrouping == DataType.DATE_TIME_LITERAL )
+		{
+			int cunit = GroupingUtil.groupingUnit2CDateUnit( sg.getGroupingUnit( ) );
+			CDateTime baseReference = null;
+			for ( Iterator iter = rowSet.iterator( ); iter.hasNext( ); )
+			{
+				Object[] oaTuple = (Object[]) iter.next( );
+				Object obj = oaTuple[iBaseColumnIndex];
+
+				// ASSIGN IT TO THE FIRST TYPLE'S GROUP EXPR VALUE
+				if ( obj instanceof CDateTime )
+				{
+					baseReference = (CDateTime) obj;
+				}
+				else if ( obj instanceof Calendar )
+				{
+					baseReference = new CDateTime( (Calendar) obj );
+				}
+				else if ( obj instanceof Date )
+				{
+					baseReference = new CDateTime( (Date) obj );
+				}
+				else
+				{
+					// set as the smallest Date.
+					baseReference = new CDateTime( 0 );
+				}
+				
+				baseReference.clearBelow( cunit );
+				
+				oaTuple[iBaseColumnIndex] = baseReference;
+			}
+		}
+	}
 }

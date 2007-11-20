@@ -110,6 +110,18 @@ public final class ResultSetWrapper
 	public ResultSetWrapper( GroupingLookupHelper hmLookup, List liResultSet,
 			GroupKey[] groupKeys )
 	{
+		this( hmLookup, liResultSet, groupKeys, NO_GROUP_BREAKS);
+	}
+	
+	/**
+	 * @param hmLookup
+	 * @param liResultSet
+	 * @param groupKeys
+	 * @param groupBreaks
+	 */
+	public ResultSetWrapper( GroupingLookupHelper hmLookup, List liResultSet,
+			GroupKey[] groupKeys, int[] groupBreaks )
+	{
 		htLookup = hmLookup;
 		rawResultSet = liResultSet;
 
@@ -122,10 +134,11 @@ public final class ResultSetWrapper
 		iaDataTypes = new int[saExpressionKeys.length];
 
 		oaGroupKeys = groupKeys;
-
+		iaGroupBreaks = groupBreaks;
+		
 		initializeMeta( );
 	}
-
+	
 	/**
 	 * Apply sorting and Grouping of chart.
 	 * 
@@ -1455,9 +1468,29 @@ public final class ResultSetWrapper
 							oBaseValue = oValue;
 						}
 					}
+					else if (seriesGrouping.getGroupType( ) == DataType.DATE_TIME_LITERAL )
+					{
+						int cunit = GroupingUtil.groupingUnit2CDateUnit( seriesGrouping.getGroupingUnit( ) );
+						double diff = CDateTime.computeDifference( (CDateTime)oValue,
+								(CDateTime)oPreviousValue,
+								cunit,
+								true );
+						if ( diff != 0 )
+						{
+							int groupingInterval = (int) seriesGrouping.getGroupingInterval( );
+							if ( groupingInterval == 0 ){
+								alBreaks.add( new Integer( iRowIndex - 1 ) );
+							} else {
+								if ((int) Math.floor( Math.abs( diff
+										/ groupingInterval ) ) > 0 ) {
+									alBreaks.add( new Integer( iRowIndex - 1 ) );	
+								}
+							}
+						}
+					}
 					else
 					{
-						if ( intervalCount == seriesGrouping.getGroupingInterval( ) )
+						if ( intervalCount == (int) seriesGrouping.getGroupingInterval( ) )
 						{
 							alBreaks.add( new Integer( iRowIndex - 1 ) );
 							intervalCount = 0;
