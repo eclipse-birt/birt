@@ -14,16 +14,20 @@ package org.eclipse.birt.report.designer.ui.lib.explorer;
 import java.io.File;
 import java.net.URL;
 
+import org.eclipse.birt.core.preference.IPreferenceChangeListener;
+import org.eclipse.birt.core.preference.IPreferences;
+import org.eclipse.birt.core.preference.PreferenceChangeEvent;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceLocator;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.lib.explorer.dnd.LibraryDragListener;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ResourceEntryWrapper;
+import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.widget.TreeViewerBackup;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
@@ -41,11 +45,6 @@ import org.eclipse.birt.report.model.api.core.IResourceChangeListener;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.validators.IValidationListener;
 import org.eclipse.birt.report.model.api.validators.ValidationEvent;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences;
-import org.eclipse.core.runtime.preferences.InstanceScope;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences.IPreferenceChangeListener;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences.PreferenceChangeEvent;
 import org.eclipse.gef.dnd.TemplateTransfer;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.ISelection;
@@ -69,7 +68,6 @@ import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
-import org.osgi.service.prefs.BackingStoreException;
 
 /**
  * This class represents the tree view page of the data view
@@ -86,7 +84,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 	private static final String BUNDLE_PROTOCOL = "bundleresource://"; //$NON-NLS-1$
 
-	private IEclipsePreferences reportPreferenceNode;
+	private IPreferences prefs;
 	private TreeViewer treeViewer;
 	private TreeViewerBackup libraryBackup;
 
@@ -236,24 +234,10 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 		} );
 
 		// Listen to preference change.
-		IEclipsePreferences rootNode = (IEclipsePreferences) Platform.getPreferencesService( )
-				.getRootNode( )
-				.node( InstanceScope.SCOPE );
-		final String reportName = ReportPlugin.getDefault( )
-				.getBundle( )
-				.getSymbolicName( );
-		try
-		{
-			if ( rootNode.nodeExists( reportName ) )
-			{
-				reportPreferenceNode = (IEclipsePreferences) rootNode.node( reportName );
-				reportPreferenceNode.addPreferenceChangeListener( this );
-			}
-		}
-		catch ( BackingStoreException e )
-		{
-			ExceptionHandler.handle( e );
-		}
+		prefs = (IPreferences) PreferenceFactory.getInstance( )
+				.getPreferences( ReportPlugin.getDefault( ),
+						UIUtil.getCurrentProject( ) );
+		prefs.addPreferenceChangeListener( this );
 	}
 
 	/**
@@ -358,8 +342,8 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	 */
 	public void dispose( )
 	{
-		if ( reportPreferenceNode != null )
-			reportPreferenceNode.removePreferenceChangeListener( this );
+		if ( prefs != null )
+			prefs.removePreferenceChangeListener( this );
 		SessionHandleAdapter.getInstance( )
 				.getSessionHandle( )
 				.removeResourceChangeListener( this );
@@ -415,7 +399,8 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 			treeViewer.setSelection( null );
 			treeViewer.setInput( ResourceLocator.getRootEntries( LIBRARY_FILENAME_PATTERN ) );
 			handleTreeViewerRefresh( );
-			if(selection!=null)setSelection( selection );
+			if ( selection != null )
+				setSelection( selection );
 		}
 	}
 
@@ -426,7 +411,8 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	 */
 	public void preferenceChange( PreferenceChangeEvent event )
 	{
-		if ( ReportPlugin.RESOURCE_PREFERENCE.equals( event.getKey( ) ) )
+		if ( event.getKey( ).equals( PreferenceChangeEvent.SPECIALTODEFAULT )
+				|| ReportPlugin.RESOURCE_PREFERENCE.equals( event.getKey( ) ) )
 			Display.getDefault( ).asyncExec( new Runnable( ) {
 
 				public void run( )

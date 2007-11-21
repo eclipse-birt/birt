@@ -65,6 +65,7 @@ public class ReportPlatformUIImages
 	public final static String LINK_PATH = "lib/";//$NON-NLS-1$
 	public final static String DATA_PATH = "data/";
 	public final static String OTHERS_PATH = "others/";
+	public final static String OVR16_PATH = "ovr16/";
 
 	static
 	{
@@ -640,6 +641,9 @@ public class ReportPlatformUIImages
 		
 		declareImage( IReportGraphicConstants.ICON_DISABLE_IMPORT,
 				ICONS_PATH + DTOOL16_PATH + "import_wiz.gif" ); //$NON-NLS-1$
+		
+		declareImage( IReportGraphicConstants.ICON_REPORT_PROJECT_OVER,
+				ICONS_PATH + OVR16_PATH + "report_project_over.gif" ); //$NON-NLS-1$
 	}
 
 	/**

@@ -11,132 +11,128 @@
 
 package org.eclipse.birt.chart.reportitem.ui;
 
-import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
-import org.eclipse.jface.preference.FieldEditor;
-import org.eclipse.jface.preference.IntegerFieldEditor;
-import org.eclipse.jface.preference.PreferencePage;
-import org.eclipse.jface.preference.StringFieldEditor;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
+import org.eclipse.birt.report.designer.ui.preferences.PropertyAndPreferencePage;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
 
 /**
  * Preference page for Charting
  */
 
-public class ChartPreferencePage extends PreferencePage implements
-		IWorkbenchPreferencePage,
-		IPropertyChangeListener
+public class ChartPreferencePage extends PropertyAndPreferencePage
 {
 
-	private transient Button btnEnableLivePreview;
-	private transient IntegerFieldEditor txtMaxRow;
+	public static final String PREF_ID = "org.eclipse.birt.chart.reportitem.ui.ChartPreferencePage"; //$NON-NLS-1$
 
-	private static final int MAX_ROW_DEFAULT = 6;
-
-	private static final int MAX_ROW_LIMIT = 10000;
-
-	protected Control createContents( Composite parent )
+	public ChartPreferencePage( )
 	{
+		super( );
+	}
+
+	/**
+	 * @param title
+	 */
+	public ChartPreferencePage( String title )
+	{
+		super( title );
+	}
+
+	/**
+	 * @param title
+	 * @param image
+	 */
+	public ChartPreferencePage( String title, ImageDescriptor image )
+	{
+		super( title, image );
+	}
+
+	private ChartConfigurationBlock fConfigurationBlock;
+
+	public void createControl( Composite parent )
+	{
+		fConfigurationBlock = new ChartConfigurationBlock( getNewStatusChangedListener( ),
+				getProject( ) );
+		super.createControl( parent );
+
 		PlatformUI.getWorkbench( ).getHelpSystem( ).setHelp( parent,
 				ChartHelpContextIds.PREFERENCE_CHART );
-		
-		Composite cmpTop = new Composite( parent, SWT.NONE );
-		{
-			GridLayout layout = new GridLayout( 2, false );
-			cmpTop.setLayout( layout );
-		}
 
-		btnEnableLivePreview = new Button( cmpTop, SWT.CHECK );
-		{
-			GridData gd = new GridData( );
-			gd.horizontalSpan = 2;
-			btnEnableLivePreview.setLayoutData( gd );
-			btnEnableLivePreview.setText( Messages.getString( "ChartPreferencePage.Label.EnableLivePreview" ) ); //$NON-NLS-1$
-			btnEnableLivePreview.setSelection( ChartReportItemUIActivator.getDefault( )
-					.getPluginPreferences( )
-					.getBoolean( ChartReportItemUIActivator.PREFERENCE_ENALBE_LIVE ) );
-		}
-
-		txtMaxRow = new IntegerFieldEditor( ChartReportItemUIActivator.PREFERENCE_MAX_ROW,
-				Messages.getString( "ChartPreferencePage.Label.MaxRowNumber" ), cmpTop ); //$NON-NLS-1$ 
-		{
-			txtMaxRow.setErrorMessage( Messages.getString( "ChartPreferencePage.Error.MaxRowInvalid", //$NON-NLS-1$
-					new Object[]{
-						new Integer( MAX_ROW_LIMIT )
-					} ) );
-			txtMaxRow.setValidateStrategy( StringFieldEditor.VALIDATE_ON_KEY_STROKE );
-			txtMaxRow.setValidRange( 1, MAX_ROW_LIMIT );
-			txtMaxRow.setEmptyStringAllowed( false );
-			txtMaxRow.setStringValue( ChartReportItemUIActivator.getDefault( )
-					.getPluginPreferences( )
-					.getString( ChartReportItemUIActivator.PREFERENCE_MAX_ROW ) );
-			txtMaxRow.setPage( this );
-			txtMaxRow.setPropertyChangeListener( this );
-		}
-
-		return cmpTop;
 	}
 
-	public void init( IWorkbench workbench )
+	protected Control createPreferenceContent( Composite composite )
 	{
-		init( );
+		return fConfigurationBlock.createContents( composite );
 	}
 
-	public static void init( )
+	protected boolean hasProjectSpecificOptions( IProject project )
 	{
-		int maxRow = ChartReportItemUIActivator.getDefault( )
-				.getPluginPreferences( )
-				.getInt( ChartReportItemUIActivator.PREFERENCE_MAX_ROW );
-		if ( maxRow <= 0 )
+		return fConfigurationBlock.hasProjectSpecificOptions( project );
+	}
+
+	protected String getPreferencePageID( )
+	{
+		return PREF_ID;
+	}
+
+	protected String getPropertyPageID( )
+	{
+		return PREF_ID;
+	}
+
+	public void dispose( )
+	{
+		if ( fConfigurationBlock != null )
 		{
-			ChartReportItemUIActivator.getDefault( )
-					.getPluginPreferences( )
-					.setValue( ChartReportItemUIActivator.PREFERENCE_ENALBE_LIVE,
-							true );
-			ChartReportItemUIActivator.getDefault( )
-					.getPluginPreferences( )
-					.setValue( ChartReportItemUIActivator.PREFERENCE_MAX_ROW,
-							MAX_ROW_DEFAULT );
+			fConfigurationBlock.dispose( );
 		}
+		super.dispose( );
 	}
 
-	public void propertyChange( PropertyChangeEvent event )
+	protected void enableProjectSpecificSettings(
+			boolean useProjectSpecificSettings )
 	{
-		if ( event.getProperty( ).equals( FieldEditor.IS_VALID ) )
+		super.enableProjectSpecificSettings( useProjectSpecificSettings );
+		if ( fConfigurationBlock != null )
 		{
-			setValid( txtMaxRow.isValid( ) );
+			fConfigurationBlock.useProjectSpecificSettings( useProjectSpecificSettings );
 		}
 	}
 
 	protected void performDefaults( )
 	{
-		btnEnableLivePreview.setSelection( true );
-		txtMaxRow.setStringValue( String.valueOf( MAX_ROW_DEFAULT ) );
 		super.performDefaults( );
+		if ( fConfigurationBlock != null )
+		{
+			fConfigurationBlock.performDefaults( );
+		}
 	}
 
 	public boolean performOk( )
 	{
-		ChartReportItemUIActivator.getDefault( )
-				.getPluginPreferences( )
-				.setValue( ChartReportItemUIActivator.PREFERENCE_MAX_ROW,
-						txtMaxRow.getIntValue( ) );
-		ChartReportItemUIActivator.getDefault( )
-				.getPluginPreferences( )
-				.setValue( ChartReportItemUIActivator.PREFERENCE_ENALBE_LIVE,
-						btnEnableLivePreview.getSelection( ) );
-		ChartReportItemUIActivator.getDefault( ).savePluginPreferences( );
+		if ( fConfigurationBlock != null && !fConfigurationBlock.performOk( ) )
+		{
+			return false;
+		}
 		return super.performOk( );
+	}
+
+	public void performApply( )
+	{
+		if ( fConfigurationBlock != null )
+		{
+			fConfigurationBlock.performApply( );
+		}
+	}
+
+	public void setElement( IAdaptable element )
+	{
+		super.setElement( element );
+		setDescription( null ); // no description for property page
 	}
 
 }

@@ -17,6 +17,7 @@ import java.util.Set;
 import java.util.Vector;
 
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.preferences.OptionsConfigurationBlock.Key;
 
 /**
  * Class that plays the role of the domain model in ElementNamesPreferencePage
@@ -29,12 +30,14 @@ public class ItemContentList
 	private Vector contents = new Vector( );
 	private Set changeListeners = new HashSet( );
 
-	/**
-	 * Constructor
-	 */
-	public ItemContentList( )
+	private ElementNamesConfigurationBlock block;
+	private Key[] keies;
+
+	public ItemContentList( ElementNamesConfigurationBlock block, Key[] keies )
 	{
 		super( );
+		this.block = block;
+		this.keies = keies;
 		this.initData( );
 	}
 
@@ -54,12 +57,9 @@ public class ItemContentList
 	{
 		ItemContent content;
 
-		String[] defaultNames = ReportPlugin.getDefault( )
-				.getDefaultNamePreference( );
-		String[] customNames = ReportPlugin.getDefault( )
-				.getCustomNamePreference( );
-		String[] descriptions = ReportPlugin.getDefault( )
-				.getDescriptionPreference( );
+		String[] defaultNames = ReportPlugin.convert( block.getValue( keies[0] ) );
+		String[] customNames = ReportPlugin.convert( block.getValue( keies[1] ) );
+		String[] descriptions = ReportPlugin.convert( block.getValue( keies[2] ) );
 
 		String[] newElement = ReportPlugin.getDefault( )
 				.getDefaultDefaultNamePreference( );
@@ -152,6 +152,7 @@ public class ItemContentList
 		( (ItemContent) contents.get( i ) ).setDefaultName( itemContent.getDefaultName( ) );
 		( (ItemContent) contents.get( i ) ).setCustomName( itemContent.getCustomName( ) );
 		( (ItemContent) contents.get( i ) ).setDescription( itemContent.getDescription( ) );
+		updateKeyValues( );
 		return true;
 
 	}
@@ -166,6 +167,7 @@ public class ItemContentList
 		Iterator iterator = changeListeners.iterator( );
 		while ( iterator.hasNext( ) )
 			( (IItemListViewer) iterator.next( ) ).addContent( content );
+		updateKeyValues( );
 	}
 
 	/**
@@ -177,6 +179,7 @@ public class ItemContentList
 		Iterator iterator = changeListeners.iterator( );
 		while ( iterator.hasNext( ) )
 			( (IItemListViewer) iterator.next( ) ).addContent( content );
+		updateKeyValues( );
 	}
 
 	/**
@@ -190,6 +193,7 @@ public class ItemContentList
 		Iterator iterator = changeListeners.iterator( );
 		while ( iterator.hasNext( ) )
 			( (IItemListViewer) iterator.next( ) ).removeContent( content );
+		updateKeyValues( );
 	}
 
 	/**
@@ -202,6 +206,7 @@ public class ItemContentList
 		Iterator iterator = changeListeners.iterator( );
 		while ( iterator.hasNext( ) )
 			( (IItemListViewer) iterator.next( ) ).updateContent( content );
+		updateKeyValues( );
 	}
 
 	/**
@@ -222,6 +227,32 @@ public class ItemContentList
 	public void addChangeListener( IItemListViewer viewer )
 	{
 		changeListeners.add( viewer );
+	}
+
+	private void updateKeyValues( )
+	{
+		StringBuffer defaultNamePreference = new StringBuffer( );
+		StringBuffer customNamePreference = new StringBuffer( );
+		StringBuffer descriptionPreference = new StringBuffer( );
+		Vector contents = getContents( );
+		for ( int i = 0; i < contents.size( ); i++ )
+		{
+			ItemContent content = (ItemContent) contents.get( i );
+
+			defaultNamePreference.append( content.getDefaultName( ) );
+			defaultNamePreference.append( ReportPlugin.PREFERENCE_DELIMITER );
+
+			customNamePreference.append( content.getCustomName( ) );
+			customNamePreference.append( ReportPlugin.PREFERENCE_DELIMITER );
+
+			descriptionPreference.append( content.getDescription( ) );
+			descriptionPreference.append( ReportPlugin.PREFERENCE_DELIMITER );
+		}
+
+		block.setValue( keies[0], defaultNamePreference.toString( ) );
+		block.setValue( keies[1], customNamePreference.toString( ) );
+		block.setValue( keies[2], descriptionPreference.toString( ) );
+
 	}
 
 }

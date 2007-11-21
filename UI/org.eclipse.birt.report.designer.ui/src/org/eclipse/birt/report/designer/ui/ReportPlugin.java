@@ -23,12 +23,14 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.preference.IPreferences;
 import org.eclipse.birt.report.designer.core.CorePlugin;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceFilter;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
@@ -45,7 +47,6 @@ import org.eclipse.core.runtime.content.IContentType;
 import org.eclipse.core.runtime.content.IContentTypeManager;
 import org.eclipse.gef.ui.views.palette.PaletteView;
 import org.eclipse.jface.dialogs.MessageDialogWithToggle;
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Cursor;
@@ -64,6 +65,7 @@ import com.ibm.icu.util.StringTokenizer;
  */
 public class ReportPlugin extends AbstractUIPlugin
 {
+
 	protected static Logger logger = Logger.getLogger( ReportPlugin.class.getName( ) );
 
 	// Add the static String list, remeber thr ignore view for the selection
@@ -121,8 +123,8 @@ public class ReportPlugin extends AbstractUIPlugin
 			ReportDesignConstants.TEMPLATE_DATA_SET,
 			ReportDesignConstants.TEMPLATE_ELEMENT,
 			ReportDesignConstants.TEMPLATE_PARAMETER_DEFINITION,
-			
-			//fix bug 192781
+
+			// fix bug 192781
 			ReportDesignConstants.ODA_HIERARCHY_ELEMENT,
 			ReportDesignConstants.TABULAR_HIERARCHY_ELEMENT,
 			ReportDesignConstants.DIMENSION_ELEMENT,
@@ -164,16 +166,21 @@ public class ReportPlugin extends AbstractUIPlugin
 	{
 		super.start( context );
 		// set preference default value
-		getPreferenceStore( ).setDefault( IPreferenceConstants.PALETTE_DOCK_LOCATION,
-				IPreferenceConstants.DEFAULT_PALETTE_SIZE );
+		PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.setDefault( IPreferenceConstants.PALETTE_DOCK_LOCATION,
+						IPreferenceConstants.DEFAULT_PALETTE_SIZE );
 
-		getPreferenceStore( ).setDefault( IPreferenceConstants.PALETTE_STATE,
-				IPreferenceConstants.DEFAULT_PALETTE_STATE );
+		PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.setDefault( IPreferenceConstants.PALETTE_STATE,
+						IPreferenceConstants.DEFAULT_PALETTE_STATE );
 
 		initCellCursor( );
 
 		// set default Element names
-		setDefaultElementNamePreference( getPreferenceStore( ) );
+		setDefaultElementNamePreference( PreferenceFactory.getInstance( )
+				.getPreferences( this ) );
 
 		// set default library
 		setDefaultLibraryPreference( );
@@ -213,9 +220,9 @@ public class ReportPlugin extends AbstractUIPlugin
 		SessionHandleAdapter.getInstance( )
 				.getSessionHandle( )
 				.setResourceFolder( getResourcePreference( ) );
-		
-		Platform.getExtensionRegistry( ).addRegistryChangeListener( DNDService.getInstance( ) );
-		
+
+		Platform.getExtensionRegistry( )
+				.addRegistryChangeListener( DNDService.getInstance( ) );
 
 	}
 
@@ -301,7 +308,8 @@ public class ReportPlugin extends AbstractUIPlugin
 	{
 		super.stop( context );
 		cellLeftCursor.dispose( );
-		Platform.getExtensionRegistry( ).removeRegistryChangeListener( DNDService.getInstance( ) );
+		Platform.getExtensionRegistry( )
+				.removeRegistryChangeListener( DNDService.getInstance( ) );
 	}
 
 	/**
@@ -406,7 +414,7 @@ public class ReportPlugin extends AbstractUIPlugin
 		}
 		catch ( CoreException e )
 		{
-			logger.log(Level.SEVERE, e.getMessage(),e);
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 		return true;
 	}
@@ -426,7 +434,7 @@ public class ReportPlugin extends AbstractUIPlugin
 		}
 		catch ( CoreException e )
 		{
-			logger.log(Level.SEVERE, e.getMessage(),e);
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 	}
 
@@ -444,7 +452,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 * @param store
 	 *            The preference for store
 	 */
-	private void setDefaultElementNamePreference( IPreferenceStore store )
+	private void setDefaultElementNamePreference( IPreferences store )
 	{
 		List tmpList = DEUtil.getMetaDataDictionary( ).getElements( );
 		int i;
@@ -477,11 +485,12 @@ public class ReportPlugin extends AbstractUIPlugin
 		store.setDefault( DEFAULT_NAME_PREFERENCE, bufferDefaultName.toString( ) );
 		store.setDefault( CUSTOM_NAME_PREFERENCE, bufferCustomName.toString( ) );
 		store.setDefault( DESCRIPTION_PREFERENCE, bufferPreference.toString( ) );
-		
+
 		initFilterMap( store, ResourceFilter.generateCVSFilter( ) );
 		initFilterMap( store, ResourceFilter.generateDotResourceFilter( ) );
 		initFilterMap( store, ResourceFilter.generateEmptyFolderFilter( ) );
-		//initFilterMap( store, ResourceFilter.generateNoResourceInFolderFilter( ) );
+		// initFilterMap( store,
+		// ResourceFilter.generateNoResourceInFolderFilter( ) );
 	}
 
 	private boolean filteName( IElementDefn elementDefn )
@@ -548,7 +557,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public String[] getDefaultDefaultNamePreference( )
 	{
-		return convert( getPreferenceStore( ).getDefaultString( DEFAULT_NAME_PREFERENCE ) );
+		return convert( PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.getDefaultString( DEFAULT_NAME_PREFERENCE ) );
 	}
 
 	/**
@@ -558,7 +569,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public String[] getDefaultCustomNamePreference( )
 	{
-		return convert( getPreferenceStore( ).getDefaultString( CUSTOM_NAME_PREFERENCE ) );
+		return convert( PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.getDefaultString( CUSTOM_NAME_PREFERENCE ) );
 	}
 
 	/**
@@ -568,7 +581,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public String[] getDefaultDescriptionPreference( )
 	{
-		return convert( getPreferenceStore( ).getDefaultString( DESCRIPTION_PREFERENCE ) );
+		return convert( PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.getDefaultString( DESCRIPTION_PREFERENCE ) );
 	}
 
 	/**
@@ -578,7 +593,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public String[] getDefaultNamePreference( )
 	{
-		return convert( getPreferenceStore( ).getString( DEFAULT_NAME_PREFERENCE ) );
+		return convert( PreferenceFactory.getInstance( )
+				.getPreferences( this, UIUtil.getCurrentProject( ) )
+				.getString( DEFAULT_NAME_PREFERENCE ) );
 	}
 
 	/**
@@ -588,7 +605,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public String[] getCustomNamePreference( )
 	{
-		return convert( getPreferenceStore( ).getString( CUSTOM_NAME_PREFERENCE ) );
+		return convert( PreferenceFactory.getInstance( )
+				.getPreferences( this, UIUtil.getCurrentProject( ) )
+				.getString( CUSTOM_NAME_PREFERENCE ) );
 	}
 
 	/**
@@ -598,7 +617,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public String[] getDescriptionPreference( )
 	{
-		return convert( getPreferenceStore( ).getString( DESCRIPTION_PREFERENCE ) );
+		return convert( PreferenceFactory.getInstance( )
+				.getPreferences( this, UIUtil.getCurrentProject( ) )
+				.getString( DESCRIPTION_PREFERENCE ) );
 	}
 
 	/**
@@ -640,7 +661,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 *            The specified element name
 	 * @return String[] The array of strings
 	 */
-	private String[] convert( String preferenceValue )
+	public static String[] convert( String preferenceValue )
 	{
 
 		String preferenceValueCopy = new String( );
@@ -696,8 +717,10 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public void setDefaultNamePreference( String[] elements )
 	{
-		getPreferenceStore( ).setValue( DEFAULT_NAME_PREFERENCE,
-				convertStrArray2Str( elements ) );
+		PreferenceFactory.getInstance( )
+				.getPreferences( this, UIUtil.getCurrentProject( ) )
+				.setValue( DEFAULT_NAME_PREFERENCE,
+						convertStrArray2Str( elements ) );
 	}
 
 	/**
@@ -708,7 +731,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public void setDefaultNamePreference( String element )
 	{
-		getPreferenceStore( ).setValue( DEFAULT_NAME_PREFERENCE, element );
+		PreferenceFactory.getInstance( )
+				.getPreferences( this, UIUtil.getCurrentProject( ) )
+				.setValue( DEFAULT_NAME_PREFERENCE, element );
 	}
 
 	/**
@@ -719,7 +744,8 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public void setCustomNamePreference( String[] elements )
 	{
-		getPreferenceStore( ).setValue( CUSTOM_NAME_PREFERENCE,
+		PreferenceFactory.getInstance( ).getPreferences( this,
+				UIUtil.getCurrentProject( ) ).setValue( CUSTOM_NAME_PREFERENCE,
 				convertStrArray2Str( elements ) );
 	}
 
@@ -731,7 +757,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public void setCustomNamePreference( String element )
 	{
-		getPreferenceStore( ).setValue( CUSTOM_NAME_PREFERENCE, element );
+		PreferenceFactory.getInstance( ).getPreferences( this,
+				UIUtil.getCurrentProject( ) ).setValue( CUSTOM_NAME_PREFERENCE,
+				element );
 	}
 
 	/**
@@ -742,7 +770,8 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public void setDescriptionPreference( String[] elements )
 	{
-		getPreferenceStore( ).setValue( DESCRIPTION_PREFERENCE,
+		PreferenceFactory.getInstance( ).getPreferences( this,
+				UIUtil.getCurrentProject( ) ).setValue( DESCRIPTION_PREFERENCE,
 				convertStrArray2Str( elements ) );
 	}
 
@@ -754,7 +783,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public void setDescriptionPreference( String element )
 	{
-		getPreferenceStore( ).setValue( DESCRIPTION_PREFERENCE, element );
+		PreferenceFactory.getInstance( ).getPreferences( this,
+				UIUtil.getCurrentProject( ) ).setValue( DESCRIPTION_PREFERENCE,
+				element );
 	}
 
 	/**
@@ -780,7 +811,9 @@ public class ReportPlugin extends AbstractUIPlugin
 			buffer.append( elements[i] );
 			buffer.append( PREFERENCE_DELIMITER );
 		}
-		getPreferenceStore( ).setValue( LIBRARY_PREFERENCE, buffer.toString( ) );
+		PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.setValue( LIBRARY_PREFERENCE, buffer.toString( ) );
 	}
 
 	/**
@@ -790,7 +823,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public String[] getLibraryPreference( )
 	{
-		return convert( getPreferenceStore( ).getString( LIBRARY_PREFERENCE ) );
+		return convert( PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.getString( LIBRARY_PREFERENCE ) );
 	}
 
 	/**
@@ -798,8 +833,13 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public void setDefaultLibraryPreference( )
 	{
-		getPreferenceStore( ).setDefault( LIBRARY_PREFERENCE, "" ); //$NON-NLS-1$
-		getPreferenceStore( ).setDefault( LIBRARY_WARNING_PREFERENCE, MessageDialogWithToggle.PROMPT); //$NON-NLS-1$
+		PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.setDefault( LIBRARY_PREFERENCE, "" ); //$NON-NLS-1$
+		PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.setDefault( LIBRARY_WARNING_PREFERENCE,
+						MessageDialogWithToggle.PROMPT ); //$NON-NLS-1$
 	}
 
 	/**
@@ -809,7 +849,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public String[] getDefaultLibraryPreference( )
 	{
-		return convert( getPreferenceStore( ).getDefaultString( LIBRARY_PREFERENCE ) );
+		return convert( PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.getDefaultString( LIBRARY_PREFERENCE ) );
 	}
 
 	/**
@@ -819,7 +861,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public String getDefaultTemplatePreference( )
 	{
-		return getPreferenceStore( ).getDefaultString( TEMPLATE_PREFERENCE );
+		return PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.getDefaultString( TEMPLATE_PREFERENCE );
 
 	}
 
@@ -830,7 +874,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	public void setDefaultTemplatePreference( )
 	{
 		String defaultDir = new String( UIUtil.getHomeDirectory( ) );
-		getPreferenceStore( ).setDefault( TEMPLATE_PREFERENCE, defaultDir );
+		PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.setDefault( TEMPLATE_PREFERENCE, defaultDir );
 	}
 
 	/**
@@ -840,7 +886,8 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public String getTemplatePreference( )
 	{
-		return getPreferenceStore( ).getString( TEMPLATE_PREFERENCE );
+		return PreferenceFactory.getInstance( ).getPreferences( this,
+				UIUtil.getCurrentProject( ) ).getString( TEMPLATE_PREFERENCE );
 	}
 
 	/**
@@ -849,7 +896,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public void setTemplatePreference( String preference )
 	{
-		getPreferenceStore( ).setValue( TEMPLATE_PREFERENCE, preference );
+		PreferenceFactory.getInstance( ).getPreferences( this,
+				UIUtil.getCurrentProject( ) ).setValue( TEMPLATE_PREFERENCE,
+				preference );
 	}
 
 	/**
@@ -871,7 +920,8 @@ public class ReportPlugin extends AbstractUIPlugin
 		// {
 		// targetFolder.mkdirs( );
 		// }
-		// getPreferenceStore( ).setDefault( RESOURCE_PREFERENCE, metaPath );
+		// PreferenceFactory.getInstance( ).getPreferences( this ).setDefault(
+		// RESOURCE_PREFERENCE, metaPath );
 		// //$NON-NLS-1$
 
 		// String defaultDir = new String( UIUtil.getHomeDirectory( ) );
@@ -893,7 +943,9 @@ public class ReportPlugin extends AbstractUIPlugin
 		// }
 
 		// bug 151361, set default resource folder empty
-		getPreferenceStore( ).setDefault( RESOURCE_PREFERENCE, "" ); //$NON-NLS-1$
+		PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.setDefault( RESOURCE_PREFERENCE, "" ); //$NON-NLS-1$
 	}
 
 	/**
@@ -903,7 +955,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public String getDefaultResourcePreference( )
 	{
-		return getPreferenceStore( ).getDefaultString( RESOURCE_PREFERENCE );
+		return PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.getDefaultString( RESOURCE_PREFERENCE );
 	}
 
 	/**
@@ -913,7 +967,8 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public String getResourcePreference( )
 	{
-		return getPreferenceStore( ).getString( RESOURCE_PREFERENCE );
+		return PreferenceFactory.getInstance( ).getPreferences( this,
+				UIUtil.getCurrentProject( ) ).getString( RESOURCE_PREFERENCE );
 	}
 
 	/**
@@ -922,7 +977,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public void setResourcePreference( String preference )
 	{
-		getPreferenceStore( ).setValue( RESOURCE_PREFERENCE, preference );
+		PreferenceFactory.getInstance( ).getPreferences( this,
+				UIUtil.getCurrentProject( ) ).setValue( RESOURCE_PREFERENCE,
+				preference );
 		CorePlugin.RESOURCE_FOLDER = preference;
 	}
 
@@ -963,8 +1020,10 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public void setDefaultCommentPreference( )
 	{
-		getPreferenceStore( ).setDefault( COMMENT_PREFERENCE,
-				Messages.getString( "org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment" ) ); //$NON-NLS-1$
+		PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.setDefault( COMMENT_PREFERENCE,
+						Messages.getString( "org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -974,7 +1033,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public String getDefaultCommentPreference( )
 	{
-		return getPreferenceStore( ).getDefaultString( COMMENT_PREFERENCE );
+		return PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.getDefaultString( COMMENT_PREFERENCE );
 	}
 
 	/**
@@ -984,7 +1045,8 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public String getCommentPreference( )
 	{
-		return getPreferenceStore( ).getString( COMMENT_PREFERENCE );
+		return PreferenceFactory.getInstance( ).getPreferences( this,
+				UIUtil.getCurrentProject( ) ).getString( COMMENT_PREFERENCE );
 	}
 
 	/**
@@ -993,7 +1055,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public void setCommentPreference( String preference )
 	{
-		getPreferenceStore( ).setValue( COMMENT_PREFERENCE, preference );
+		PreferenceFactory.getInstance( ).getPreferences( this,
+				UIUtil.getCurrentProject( ) ).setValue( COMMENT_PREFERENCE,
+				preference );
 	}
 
 	/**
@@ -1002,7 +1066,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public void setDefaultEnableCommentPreference( )
 	{
-		getPreferenceStore( ).setDefault( ENABLE_COMMENT_PREFERENCE, true );
+		PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.setDefault( ENABLE_COMMENT_PREFERENCE, true );
 	}
 
 	/**
@@ -1012,7 +1078,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public boolean getDefaultEnabelCommentPreference( )
 	{
-		return getPreferenceStore( ).getDefaultBoolean( ENABLE_COMMENT_PREFERENCE );
+		return PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.getDefaultBoolean( ENABLE_COMMENT_PREFERENCE );
 	}
 
 	/**
@@ -1022,7 +1090,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public boolean getEnableCommentPreference( )
 	{
-		return getPreferenceStore( ).getBoolean( ENABLE_COMMENT_PREFERENCE );
+		return PreferenceFactory.getInstance( )
+				.getPreferences( this, UIUtil.getCurrentProject( ) )
+				.getBoolean( ENABLE_COMMENT_PREFERENCE );
 	}
 
 	/**
@@ -1031,7 +1101,9 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public void setEnableCommentPreference( boolean preference )
 	{
-		getPreferenceStore( ).setValue( ENABLE_COMMENT_PREFERENCE, preference );
+		PreferenceFactory.getInstance( )
+				.getPreferences( this, UIUtil.getCurrentProject( ) )
+				.setValue( ENABLE_COMMENT_PREFERENCE, preference );
 	}
 
 	/**
@@ -1044,7 +1116,7 @@ public class ReportPlugin extends AbstractUIPlugin
 		if ( reportExtensionNames == null )
 		{
 			reportExtensionNames = new ArrayList( );
-			
+
 			IExtensionRegistry extensionRegistry = Platform.getExtensionRegistry( );
 			IConfigurationElement[] elements = extensionRegistry.getConfigurationElementsFor( "org.eclipse.ui.editors" ); //$NON-NLS-1$
 			for ( int i = 0; i < elements.length; i++ )
@@ -1069,7 +1141,7 @@ public class ReportPlugin extends AbstractUIPlugin
 					}
 				}
 			}
-			
+
 			IContentTypeManager contentTypeManager = Platform.getContentTypeManager( );
 			IContentType contentType = contentTypeManager.getContentType( "org.eclipse.birt.report.designer.ui.editors.reportdesign" ); //$NON-NLS-1$
 			String[] fileSpecs = contentType.getFileSpecs( IContentType.FILE_EXTENSION_SPEC );
@@ -1106,6 +1178,16 @@ public class ReportPlugin extends AbstractUIPlugin
 
 	public String getResourceFolder( )
 	{
+		SessionHandleAdapter.getInstance( )
+				.getSessionHandle( )
+				.setBirtResourcePath( ReportPlugin.getDefault( )
+						.getResourcePreference( ) );
+
+		SessionHandleAdapter.getInstance( )
+				.getSessionHandle( )
+				.setResourceFolder( ReportPlugin.getDefault( )
+						.getResourcePreference( ) );
+
 		String resourceFolder = SessionHandleAdapter.getInstance( )
 				.getSessionHandle( )
 				.getResourceFolder( );
@@ -1121,11 +1203,10 @@ public class ReportPlugin extends AbstractUIPlugin
 		}
 		return resourceFolder;
 	}
-	
+
 	private static LinkedHashMap filterMap = new LinkedHashMap( );
 
-	private static void initFilterMap( IPreferenceStore store,
-			ResourceFilter filter )
+	private static void initFilterMap( IPreferences store, ResourceFilter filter )
 	{
 		if ( store.contains( filter.getType( ) ) )
 			filter.setEnabled( store.getBoolean( filter.getType( ) ) );

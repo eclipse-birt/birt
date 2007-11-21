@@ -19,10 +19,12 @@ import java.util.logging.Level;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.HighlightHandleProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.HighlightRuleBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.SelectValueDialog;
+import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.CrosstabBindingExpressionProvider;
@@ -79,9 +81,9 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 				{
 					String newValue = expression.getText( );
 					Object computedColumn = getResultSetColumn( newValue );
-					if(computedColumn != null)
+					if ( computedColumn != null )
 					{
-						String value = DEUtil.getDataExpression( ((ComputedColumnHandle)computedColumn).getName( ) );
+						String value = DEUtil.getDataExpression( ( (ComputedColumnHandle) computedColumn ).getName( ) );
 						if ( value != null )
 							newValue = value;
 						expression.setText( newValue );
@@ -95,7 +97,7 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 	protected void popBtnSelectionAction( Combo comboWidget )
 	{
 		int selectionIndex = comboWidget.getSelectionIndex( );
-		if(selectionIndex < 0)
+		if ( selectionIndex < 0 )
 		{
 			return;
 		}
@@ -111,7 +113,7 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 				break;
 			}
 		}
-		
+
 		boolean returnValue = false;
 		if ( value != null )
 		{
@@ -168,7 +170,7 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 			}
 			if ( returnValue )
 			{
-				comboWidget.setText( DEUtil.resolveNull( newValue) );
+				comboWidget.setText( DEUtil.resolveNull( newValue ) );
 			}
 		}
 	}
@@ -181,34 +183,32 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 		{
 
 			try
-			{				
+			{
 				Object obj = ( (ExtendedItemHandle) designHandle ).getReportItem( );
 				DesignElementHandle tmp = designHandle;
-				
-				while(true)
+
+				while ( true )
 				{
-					if (obj == null ||  obj instanceof ReportDesignHandle )
+					if ( obj == null || obj instanceof ReportDesignHandle )
 					{
 						break;
-					}else
-					if ( obj instanceof CrosstabReportItemHandle )
+					}
+					else if ( obj instanceof CrosstabReportItemHandle )
 					{
 						crosstab = (CrosstabReportItemHandle) obj;
 						cube = crosstab.getCube( );
 						break;
-					}else if( tmp instanceof ExtendedItemHandle )
+					}
+					else if ( tmp instanceof ExtendedItemHandle )
 					{
 						tmp = tmp.getContainer( );
-						if( tmp instanceof ExtendedItemHandle)
+						if ( tmp instanceof ExtendedItemHandle )
 						{
-							obj = ((ExtendedItemHandle)tmp).getReportItem( );
+							obj = ( (ExtendedItemHandle) tmp ).getReportItem( );
 						}
 					}
 				}
 
-				
-				
-				
 			}
 			catch ( ExtendedElementException e )
 			{
@@ -244,8 +244,9 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 		}
 		List valueList = new ArrayList( );
 		int count = 0;
-		int MAX_COUNT = CrosstabPlugin.getDefault( )
-				.getPluginPreferences( )
+		int MAX_COUNT = PreferenceFactory.getInstance( )
+				.getPreferences( CrosstabPlugin.getDefault( ),
+						UIUtil.getCurrentProject( ) )
 				.getInt( CrosstabPlugin.PREFERENCE_FILTER_LIMIT );
 		while ( iter != null && iter.hasNext( ) )
 		{

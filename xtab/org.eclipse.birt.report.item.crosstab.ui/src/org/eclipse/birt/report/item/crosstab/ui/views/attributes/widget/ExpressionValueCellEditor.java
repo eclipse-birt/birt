@@ -21,7 +21,9 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
+import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.widget.PopupSelectionList;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.SelectValueDialog;
@@ -58,14 +60,15 @@ import org.eclipse.ui.PlatformUI;
 /**
  * Expression value cell editor
  * 
- * @version $Revision: 1.8 $ $Date: 2007/08/01 08:03:59 $
+ * @version $Revision: 1.10 $ $Date: 2007/11/15 09:08:59 $
  */
 public class ExpressionValueCellEditor extends CellEditor
 {
+
 	protected static Logger logger = Logger.getLogger( ExpressionValueCellEditor.class.getName( ) );
 
 	private static String[] actions = new String[]{
-			Messages.getString( "ExpressionValueCellEditor.selectValueAction" )
+		Messages.getString( "ExpressionValueCellEditor.selectValueAction" )
 	};
 
 	private transient ParamBindingHandle[] bindingParams = null;
@@ -414,7 +417,7 @@ public class ExpressionValueCellEditor extends CellEditor
 			catch ( Exception e )
 			{
 				// TODO Auto-generated catch block
-				logger.log(Level.SEVERE, e.getMessage(),e);
+				logger.log( Level.SEVERE, e.getMessage( ), e );
 			}
 
 		}
@@ -526,14 +529,15 @@ public class ExpressionValueCellEditor extends CellEditor
 		catch ( Exception e )
 		{
 			// TODO Auto-generated catch block
-			logger.log(Level.SEVERE, e.getMessage(),e);
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 
 		// iterator to list
 		List retList = new ArrayList( );
 		int count = 0;
-		int MAX_COUNT = CrosstabPlugin.getDefault( )
-				.getPluginPreferences( )
+		int MAX_COUNT = PreferenceFactory.getInstance( )
+				.getPreferences( CrosstabPlugin.getDefault( ),
+						UIUtil.getCurrentProject( ) )
 				.getInt( CrosstabPlugin.PREFERENCE_FILTER_LIMIT );
 		while ( iter != null && iter.hasNext( ) )
 		{
@@ -555,6 +559,5 @@ public class ExpressionValueCellEditor extends CellEditor
 
 		return retList;
 	}
-
 
 }

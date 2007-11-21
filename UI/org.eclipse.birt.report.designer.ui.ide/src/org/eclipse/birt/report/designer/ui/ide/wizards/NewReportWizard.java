@@ -25,6 +25,7 @@ import org.eclipse.birt.report.designer.internal.ui.wizards.WizardReportSettingP
 import org.eclipse.birt.report.designer.internal.ui.wizards.WizardTemplateChoicePage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.core.resources.IContainer;
@@ -538,10 +539,16 @@ public class NewReportWizard extends Wizard implements
 			ReportDesignHandle handle = SessionHandleAdapter.getInstance( )
 					.getSessionHandle( )
 					.createDesignFromTemplate( sourceFileName );
-			if ( ReportPlugin.getDefault( ).getEnableCommentPreference( ) )
+			if ( PreferenceFactory.getInstance( )
+					.getPreferences( ReportPlugin.getDefault( ),
+							file.getProject( ) )
+					.getBoolean( ReportPlugin.ENABLE_COMMENT_PREFERENCE ) )
 			{
 				handle.setStringProperty( ModuleHandle.COMMENTS_PROP,
-						ReportPlugin.getDefault( ).getCommentPreference( ) );
+						PreferenceFactory.getInstance( )
+								.getPreferences( ReportPlugin.getDefault( ),
+										file.getProject( ) )
+								.getString( ReportPlugin.COMMENT_PREFERENCE ) );
 			}
 
 			if ( isPredifinedTemplate( sourceFileName ) )
@@ -600,9 +607,9 @@ public class NewReportWizard extends Wizard implements
 
 						new OpenCheatSheetAction( cheatId ).run( );
 
-//						Display.getCurrent( )
-//								.getActiveShell( )
-//								.setData( oldData );
+						// Display.getCurrent( )
+						// .getActiveShell( )
+						// .setData( oldData );
 					}
 				}
 				catch ( Exception e )

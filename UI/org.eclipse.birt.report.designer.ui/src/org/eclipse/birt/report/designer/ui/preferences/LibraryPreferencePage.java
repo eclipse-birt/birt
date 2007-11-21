@@ -111,7 +111,7 @@ public class LibraryPreferencePage extends PreferencePage implements
 	 */
 	protected Control createContents( Composite parent )
 	{
-		UIUtil.bindHelp( parent,IHelpContextIds.PREFERENCE_BIRT_LIBRARY_ID ); 		
+		UIUtil.bindHelp( parent, IHelpContextIds.PREFERENCE_BIRT_LIBRARY_ID );
 		Composite mainComposite = new Composite( parent, SWT.NULL );
 
 		// Create a data that takes up the extra space in the dialog .
@@ -190,17 +190,17 @@ public class LibraryPreferencePage extends PreferencePage implements
 					return;
 				}
 				// if file does not exist
-				if( !(new File(fileName).exists()))
+				if ( !( new File( fileName ).exists( ) ) )
 				{
 					ExceptionHandler.openErrorMessageBox( Messages.getString( "AddLibraryAction.Error.Title" ), //$NON-NLS-1$
 							Messages.getFormattedString( "AddLibraryAction.Error.FileNotFound", new String[]{fileName} ) ); //$NON-NLS-1$
 					return;
 				}
-				//if file is not library
-				if ( !(fileName.endsWith( ".rptlibrary") ))
+				// if file is not library
+				if ( !( fileName.endsWith( ".rptlibrary" ) ) ) //$NON-NLS-1$
 				{
 					ExceptionHandler.openErrorMessageBox( Messages.getString( "AddLibraryAction.Error.Title" ), //$NON-NLS-1$
-							Messages.getFormattedString( "AddLibraryAction.Error.FileIsNotLibrary", new String[]{fileName,".rptlibrary"} ) ); //$NON-NLS-1$
+							Messages.getFormattedString( "AddLibraryAction.Error.FileIsNotLibrary", new String[]{fileName, ".rptlibrary"} ) ); //$NON-NLS-1$ //$NON-NLS-2$
 					return;
 				}
 				// If can't find the name

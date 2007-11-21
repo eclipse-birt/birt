@@ -19,10 +19,12 @@ import java.util.logging.Level;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.MapHandleProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.MapRuleBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.SelectValueDialog;
+import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.CrosstabBindingExpressionProvider;
@@ -45,15 +47,12 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
-
 /**
  * 
  */
 
 public class CrosstabMapRuleBuilder extends MapRuleBuilder
 {
-	
-
 
 	/**
 	 * @param parentShell
@@ -69,7 +68,8 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder
 	protected void inilializeColumnList( DesignElementHandle handle )
 	{
 		super.inilializeColumnList( handle );
-		expSelListener = new  SelectionAdapter( ) {
+		expSelListener = new SelectionAdapter( ) {
+
 			public void widgetSelected( SelectionEvent e )
 			{
 				if ( expression.getText( ).equals( VALUE_OF_THIS_DATA_ITEM )
@@ -81,9 +81,9 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder
 				{
 					String newValue = expression.getText( );
 					Object computedColumn = getResultSetColumn( newValue );
-					if(computedColumn != null)
+					if ( computedColumn != null )
 					{
-						String value = DEUtil.getDataExpression( ((ComputedColumnHandle)computedColumn).getName( ) );
+						String value = DEUtil.getDataExpression( ( (ComputedColumnHandle) computedColumn ).getName( ) );
 						if ( value != null )
 							newValue = value;
 						expression.setText( newValue );
@@ -92,19 +92,18 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder
 				updateButtons( );
 			}
 		};
-	}	
-	
-	
-	protected void popBtnSelectionAction(Combo comboWidget)
+	}
+
+	protected void popBtnSelectionAction( Combo comboWidget )
 	{
 
 		int selectionIndex = comboWidget.getSelectionIndex( );
-		if(selectionIndex < 0)
+		if ( selectionIndex < 0 )
 		{
 			return;
 		}
 		String value = comboWidget.getItem( selectionIndex );
-		
+
 		for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 		{
 			String columnName = ( (ComputedColumnHandle) ( iter.next( ) ) ).getName( );
@@ -123,8 +122,7 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder
 			if ( value.equals( ( actions[0] ) ) )
 			{
 				List selectValueList = getSelectedValueList( );
-				if ( selectValueList == null
-						|| selectValueList.size( ) == 0 )
+				if ( selectValueList == null || selectValueList.size( ) == 0 )
 				{
 					MessageDialog.openInformation( null,
 							Messages.getString( "SelectValueDialog.selectValue" ),
@@ -153,7 +151,8 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder
 						.getActiveShell( ),
 						comboWidget.getText( ) );
 
-				if (expressionProvider == null ||( !( expressionProvider instanceof CrosstabBindingExpressionProvider) ))
+				if ( expressionProvider == null
+						|| ( !( expressionProvider instanceof CrosstabBindingExpressionProvider ) ) )
 				{
 					expressionProvider = new CrosstabBindingExpressionProvider( designHandle );
 				}
@@ -176,8 +175,7 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder
 			}
 		}
 	}
-	
-	
+
 	private List getSelectedValueList( )
 	{
 		CubeHandle cube = null;
@@ -186,34 +184,32 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder
 		{
 
 			try
-			{				
+			{
 				Object obj = ( (ExtendedItemHandle) designHandle ).getReportItem( );
 				DesignElementHandle tmp = designHandle;
-				
-				while(true)
+
+				while ( true )
 				{
-					if (obj == null ||  obj instanceof ReportDesignHandle )
+					if ( obj == null || obj instanceof ReportDesignHandle )
 					{
 						break;
-					}else
-					if ( obj instanceof CrosstabReportItemHandle )
+					}
+					else if ( obj instanceof CrosstabReportItemHandle )
 					{
 						crosstab = (CrosstabReportItemHandle) obj;
 						cube = crosstab.getCube( );
 						break;
-					}else if( tmp instanceof ExtendedItemHandle )
+					}
+					else if ( tmp instanceof ExtendedItemHandle )
 					{
 						tmp = tmp.getContainer( );
-						if( tmp instanceof ExtendedItemHandle)
+						if ( tmp instanceof ExtendedItemHandle )
 						{
-							obj = ((ExtendedItemHandle)tmp).getReportItem( );
+							obj = ( (ExtendedItemHandle) tmp ).getReportItem( );
 						}
 					}
 				}
 
-				
-				
-				
 			}
 			catch ( ExtendedElementException e )
 			{
@@ -245,12 +241,13 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder
 		catch ( Exception e )
 		{
 			// TODO Auto-generated catch block
-			logger.log(Level.SEVERE, e.getMessage(),e);
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 		List valueList = new ArrayList( );
 		int count = 0;
-		int MAX_COUNT = CrosstabPlugin.getDefault( )
-				.getPluginPreferences( )
+		int MAX_COUNT = PreferenceFactory.getInstance( )
+				.getPreferences( CrosstabPlugin.getDefault( ),
+						UIUtil.getCurrentProject( ) )
 				.getInt( CrosstabPlugin.PREFERENCE_FILTER_LIMIT );
 		while ( iter != null && iter.hasNext( ) )
 		{
@@ -265,7 +262,6 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder
 						break;
 					}
 				}
-
 
 			}
 

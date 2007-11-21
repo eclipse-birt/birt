@@ -158,6 +158,30 @@
 	   </factory>
    </extension>
 	
+	<extension
+      point="org.eclipse.birt.report.designer.ui.elementAdapters">
+   		<adaptable
+         	class="org.eclipse.core.runtime.Plugin">
+      		<adapter
+            	factory="org.eclipse.birt.report.designer.internal.ui.ide.adapters.PreferencesAdapterFactory"
+            	id="ReportDesign.IDEPreferenceFactory"
+            	priority="3"
+            	singleton="false"
+            	type="org.eclipse.birt.report.designer.ui.preferences.IReportPreferenceFactory">
+      		</adapter>
+   		</adaptable>
+   		<adaptable
+         	class="org.eclipse.ui.IEditorInput">
+      		<adapter
+            	factory="org.eclipse.birt.report.designer.internal.ui.ide.adapters.ProjectAdapterFactory"
+            	id="ReportDesign.IDEProject"
+            	priority="3"
+            	singleton="false"
+            	type="org.eclipse.core.resources.IProject">
+      		</adapter>
+   		</adaptable>
+   </extension>
+   
    <extension
 	        point="org.eclipse.ui.activities">
 	     <activity

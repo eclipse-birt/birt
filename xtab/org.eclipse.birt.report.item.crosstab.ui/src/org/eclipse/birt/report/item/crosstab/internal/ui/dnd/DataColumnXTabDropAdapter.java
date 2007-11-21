@@ -11,9 +11,11 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.dnd;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.core.preference.IPreferences;
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
@@ -25,6 +27,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.GroupDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.page.SimpleCubeBuilder;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
+import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabCellEditPart;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabTableEditPart;
@@ -327,8 +330,9 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 
 	private void storePreference( )
 	{
-		String prompt = CrosstabPlugin.getDefault( )
-				.getPluginPreferences( )
+		String prompt = PreferenceFactory.getInstance( )
+				.getPreferences( CrosstabPlugin.getDefault( ),
+						UIUtil.getCurrentProject( ) )
 				.getString( CrosstabPlugin.CUBE_BUILDER_WARNING_PREFERENCE );
 		if ( prompt == null
 				|| prompt.length( ) == 0
@@ -347,17 +351,34 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 			}
 			if ( opendialog.getToggleState( ) == true )
 			{
-				CrosstabPlugin.getDefault( )
-						.getPluginPreferences( )
-						.setValue( CrosstabPlugin.CUBE_BUILDER_WARNING_PREFERENCE,
-								MessageDialogWithToggle.NEVER );
+				savePreference( MessageDialogWithToggle.NEVER );
 			}
 			else
 			{
-				CrosstabPlugin.getDefault( )
-						.getPluginPreferences( )
-						.setValue( CrosstabPlugin.CUBE_BUILDER_WARNING_PREFERENCE,
-								MessageDialogWithToggle.PROMPT );
+				savePreference( MessageDialogWithToggle.PROMPT );
+			}
+		}
+	}
+
+	private void savePreference( String value )
+	{
+		PreferenceFactory.getInstance( )
+				.getPreferences( CrosstabPlugin.getDefault( ) )
+				.setValue( CrosstabPlugin.CUBE_BUILDER_WARNING_PREFERENCE,
+						value );
+		if ( UIUtil.getCurrentProject( ) != null )
+		{
+			IPreferences pfefs = PreferenceFactory.getInstance( )
+					.getPreferences( CrosstabPlugin.getDefault( ),
+							UIUtil.getCurrentProject( ) );
+			pfefs.setValue( CrosstabPlugin.CUBE_BUILDER_WARNING_PREFERENCE,
+					value );
+			try
+			{
+				pfefs.save( );
+			}
+			catch ( IOException e )
+			{
 			}
 		}
 	}

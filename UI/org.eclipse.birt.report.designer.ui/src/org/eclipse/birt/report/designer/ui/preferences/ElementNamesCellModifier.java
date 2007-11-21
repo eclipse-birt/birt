@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.TableItem;
 public class ElementNamesCellModifier implements ICellModifier
 {
 
-	private ElementNamesPreferencePage elementPreferPage;
+	private ElementNamesConfigurationBlock elementPreferPage;
 	private static final String columnModifyEnabled[] = {
 			Messages.getString( "designer.preview.preference.elementname.defaultname.Enabled" ).trim( ), //$NON-NLS-1$
 			Messages.getString( "designer.preview.preference.elementname.customname.Enabled" ).trim( ), //$NON-NLS-1$
@@ -40,7 +40,7 @@ public class ElementNamesCellModifier implements ICellModifier
 	 */
 
 	public ElementNamesCellModifier(
-			ElementNamesPreferencePage elementPreferPage )
+			ElementNamesConfigurationBlock elementPreferPage )
 	{
 		super( );
 		this.elementPreferPage = elementPreferPage;

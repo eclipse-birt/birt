@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.ui.preferences;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
@@ -18,15 +20,16 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.eclipse.ui.IWorkbenchPropertyPage;
 
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.1 $ $Date: 2005/02/05 06:30:14 $
+ * @version $Revision: 1.2 $ $Date: 2005/10/12 05:05:07 $
  */
-public class GeneralPreferencePage extends PreferencePage
-		implements
-			IWorkbenchPreferencePage
+public class GeneralPreferencePage extends PreferencePage implements
+		IWorkbenchPreferencePage,
+		IWorkbenchPropertyPage
 {
 
 	/**
@@ -74,6 +77,42 @@ public class GeneralPreferencePage extends PreferencePage
 	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
 	 */
 	public void init( IWorkbench workbench )
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	protected Control createPreferenceContent( Composite composite )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	protected String getPreferencePageID( )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	protected String getPropertyPageID( )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	protected boolean hasProjectSpecificOptions( IProject project )
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public IAdaptable getElement( )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void setElement( IAdaptable element )
 	{
 		// TODO Auto-generated method stub
 

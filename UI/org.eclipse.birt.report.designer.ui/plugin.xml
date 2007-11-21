@@ -68,7 +68,7 @@
             name="%preference.commenttemplates"
             id="org.eclipse.birt.report.designer.ui.preferences.CommentTemplatesPreferencePage"/>                        
    </extension>
-
+	
    <extension
          point="org.eclipse.ui.ide.projectNatureImages">
       <image
@@ -77,12 +77,71 @@
             id="org.eclipse.birt.report.designer.ui.projectimage"/>
    </extension>
    <extension
-         id="org.eclipse.birt.report.designer.ui.reportprojectnature"
+         id="reportprojectnature"
          point="org.eclipse.core.resources.natures">
       <runtime>
          <run class="org.eclipse.birt.report.designer.ui.ProjectNature"/>
       </runtime>
    </extension>
+   
+    <extension
+         point="org.eclipse.ui.propertyPages">
+      <page
+            class="org.eclipse.birt.report.designer.ui.preferences.GeneralPreferencePage"
+            name="%preference.birt"
+            id="org.eclipse.birt.report.designer.ui.preferences">
+         <enabledWhen>
+		     <adapt type="org.eclipse.core.resources.IProject">
+		          <test property="org.eclipse.core.resources.projectNature" value="org.eclipse.birt.report.designer.ui.reportprojectnature"/>
+		     </adapt>         
+         </enabledWhen>
+      </page>
+      <page
+            class="org.eclipse.birt.report.designer.ui.preferences.CommentTemplatesPreferencePage"
+            id="org.eclipse.birt.report.designer.ui.preferences.CommentTemplatesPreferencePage"
+            category="org.eclipse.birt.report.designer.ui.preferences"
+            name="%preference.commenttemplates">
+         <enabledWhen>
+		     <adapt type="org.eclipse.core.resources.IProject">
+		          <test property="org.eclipse.core.resources.projectNature" value="org.eclipse.birt.report.designer.ui.reportprojectnature"/>
+		     </adapt>         
+         </enabledWhen>
+      </page>
+      <page
+            class="org.eclipse.birt.report.designer.ui.preferences.ResourcePreferencePage"
+            id="org.eclipse.birt.report.designer.ui.preferences.ResourcePreferencePage"
+            category="org.eclipse.birt.report.designer.ui.preferences"
+            name="%preference.resource">
+         <enabledWhen>
+		     <adapt type="org.eclipse.core.resources.IProject">
+		          <test property="org.eclipse.core.resources.projectNature" value="org.eclipse.birt.report.designer.ui.reportprojectnature"/>
+		     </adapt>         
+         </enabledWhen>
+      </page>
+      <page
+            class="org.eclipse.birt.report.designer.ui.preferences.TemplatePreferencePage"
+            id="org.eclipse.birt.report.designer.ui.preferences.TemplatePreferencePage"
+            category="org.eclipse.birt.report.designer.ui.preferences"
+            name="%preference.template">
+         <enabledWhen>
+		     <adapt type="org.eclipse.core.resources.IProject">
+		          <test property="org.eclipse.core.resources.projectNature" value="org.eclipse.birt.report.designer.ui.reportprojectnature"/>
+		     </adapt>         
+         </enabledWhen>
+      </page>
+      <page
+            class="org.eclipse.birt.report.designer.ui.preferences.ElementNamesPreferencePage"
+            id="org.eclipse.birt.report.designer.ui.preferences.ElementNamesPreferencePage"
+            category="org.eclipse.birt.report.designer.ui.preferences"
+            name="%preference.elementnames">
+         <enabledWhen>
+		     <adapt type="org.eclipse.core.resources.IProject">
+		          <test property="org.eclipse.core.resources.projectNature" value="org.eclipse.birt.report.designer.ui.reportprojectnature"/>
+		     </adapt>         
+         </enabledWhen>
+      </page>
+   </extension>
+   
    <extension
          point="org.eclipse.team.core.fileTypes">
       <fileTypes
@@ -287,11 +346,6 @@
             defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.ReloadCssStyleHandler"
             id="org.eclipse.birt.report.designer.ui.command.reloadCssStyleCommand"
             name="reloadCssStyleCommand">
-      </command>
-      <command
-            defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.CopyCellContentsHandler"
-            id="org.eclipse.birt.report.designer.ui.command.copyCellContentsCommand"
-            name="CopyCellContentsAction">
       </command>
    </extension>
    <extension

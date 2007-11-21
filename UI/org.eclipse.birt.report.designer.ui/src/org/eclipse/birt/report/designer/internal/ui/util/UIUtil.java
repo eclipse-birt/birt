@@ -45,6 +45,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.dialogs.GroupDialog;
 import org.eclipse.birt.report.designer.ui.editors.AbstractMultiPageEditor;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
@@ -411,6 +412,37 @@ public class UIUtil
 		}
 
 		return null;
+	}
+
+	public static IProject getCurrentProject( )
+	{
+		IWorkbench iworkbench = PlatformUI.getWorkbench( );
+		if ( iworkbench == null )
+		{
+			return null;
+		}
+		IWorkbenchWindow iworkbenchwindow = iworkbench.getActiveWorkbenchWindow( );
+		if ( iworkbenchwindow == null )
+		{
+			return null;
+		}
+		IWorkbenchPage iworkbenchpage = iworkbenchwindow.getActivePage( );
+		if ( iworkbenchpage == null )
+		{
+			return null;
+		}
+		IEditorPart ieditorpart = iworkbenchpage.getActiveEditor( );
+		if ( ieditorpart == null )
+		{
+			return null;
+		}
+		IEditorInput input = ieditorpart.getEditorInput( );
+		if ( input == null )
+		{
+			return null;
+		}
+		return (IProject) ElementAdapterManager.getAdapter( input,
+				IProject.class );
 	}
 
 	/**
@@ -1309,7 +1341,7 @@ public class UIUtil
 			}
 			catch ( SemanticException e )
 			{
-				// TODO Auto-generated catch block				
+				// TODO Auto-generated catch block
 				GUIException exception = GUIException.createGUIException( ReportPlugin.REPORT_UI,
 						e,
 						"Library.DND.messages.cannotApplyTheme" );//$NON-NLS-1$
@@ -1585,10 +1617,12 @@ public class UIUtil
 	}
 
 	/**
-	 * Return the project folder if current edited report file is in eclipse project, 
-	 * else return the report file's folder.
+	 * Return the project folder if current edited report file is in eclipse
+	 * project, else return the report file's folder.
 	 * 
-	 * This method is used for set IModuleOption.RESOURCE_FOLDER_KEY property when open report.
+	 * This method is used for set IModuleOption.RESOURCE_FOLDER_KEY property
+	 * when open report.
+	 * 
 	 * @return
 	 */
 	public static String getProjectFolder( )
@@ -1620,6 +1654,7 @@ public class UIUtil
 
 	/**
 	 * Return the display name of dataset column
+	 * 
 	 * @param column
 	 * @return
 	 */

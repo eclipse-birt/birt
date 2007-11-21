@@ -710,8 +710,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	{
 		return !isErrorFound
 				&& ChartReportItemUIActivator.getDefault( )
-						.getPluginPreferences( )
-						.getBoolean( ChartReportItemUIActivator.PREFERENCE_ENALBE_LIVE );
+				.getPluginPreferences( )
+				.getBoolean( ChartReportItemUIActivator.PREFERENCE_ENALBE_LIVE );
 	}
 
 	public boolean isInvokingSupported( )

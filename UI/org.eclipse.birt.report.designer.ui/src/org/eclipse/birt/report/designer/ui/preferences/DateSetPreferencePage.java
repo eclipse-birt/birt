@@ -32,73 +32,80 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 /**
- *  This class represents a preference page that is contributed to the
- * 	Preferences dialog.
- * 	This page is used to modify dataset preview preferences only. They are stored 
- *  in the preference store that belongs to the main plug-in class. 
- *  That way, preferences can be accessed directly via the preference store.
+ * This class represents a preference page that is contributed to the
+ * Preferences dialog. This page is used to modify dataset preview preferences
+ * only. They are stored in the preference store that belongs to the main
+ * plug-in class. That way, preferences can be accessed directly via the
+ * preference store.
  */
-public class DateSetPreferencePage extends PreferencePage
-		implements IWorkbenchPreferencePage
+public class DateSetPreferencePage extends PreferencePage implements
+		IWorkbenchPreferencePage
 {
 
 	private IntegerFieldEditor maxRowEditor;
-	
+
 	/** default value of max number */
 	public static final int DEFAULT_MAX_ROW = 500;
-	
+
 	private static final int MAX_MAX_ROW = Integer.MAX_VALUE;
-	
+
 	/** max Row preference name */
 	public static final String USER_MAXROW = "user_maxrow"; //$NON-NLS-1$
-	public static final String USER_MAX_NUM_OF_SCHEMA = "user_max_num_of_schema";
-	public static final String USER_MAX_NUM_OF_TABLE_EACH_SCHEMA="user_max_num_of_table_each_schema";
+	public static final String USER_MAX_NUM_OF_SCHEMA = "user_max_num_of_schema"; //$NON-NLS-1$
+	public static final String USER_MAX_NUM_OF_TABLE_EACH_SCHEMA = "user_max_num_of_table_each_schema"; //$NON-NLS-1$
+
 	/*
 	 * @see org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse.swt.widgets.Composite)
 	 */
 	protected Control createContents( Composite parent )
 	{
-		UIUtil.bindHelp( parent,IHelpContextIds.PREFERENCE_BIRT_DATA_SET_EDITOR_ID ); 
+		UIUtil.bindHelp( parent,
+				IHelpContextIds.PREFERENCE_BIRT_DATA_SET_EDITOR_ID );
 		Composite mainComposite = new Composite( parent, SWT.NONE );
-		GridData data = new GridData( GridData.FILL_HORIZONTAL);
+		GridData data = new GridData( GridData.FILL_HORIZONTAL );
 
 		data.horizontalSpan = 2;
 		data.verticalSpan = 5;
-		//mainComposite.setLayoutData( data );
-		GridLayout layout = new GridLayout();
+		// mainComposite.setLayoutData( data );
+		GridLayout layout = new GridLayout( );
 		mainComposite.setLayout( layout );
 
 		Group previewPageGroup = new Group( mainComposite, SWT.NONE );
 
-		previewPageGroup.setLayout( new GridLayout() );
-		
-		previewPageGroup.setText( Messages.getString( "designer.preview.preference.resultset.previewpage.group.title" ) );
+		previewPageGroup.setLayout( new GridLayout( ) );
+
+		previewPageGroup.setText( Messages.getString( "designer.preview.preference.resultset.previewpage.group.title" ) ); //$NON-NLS-1$
 		previewPageGroup.setLayoutData( data );
 
 		previewPageGroup.setEnabled( true );
-		
-		
-		//Set up the maximum number of rows to be previewed in ResultSetPreviewPage.
-		
-		maxRowEditor = new IntegerFieldEditor( USER_MAXROW, "", previewPageGroup ); 
+
+		// Set up the maximum number of rows to be previewed in
+		// ResultSetPreviewPage.
+
+		maxRowEditor = new IntegerFieldEditor( USER_MAXROW,
+				"", //$NON-NLS-1$
+				previewPageGroup );
 
 		Label lab2 = maxRowEditor.getLabelControl( previewPageGroup );
-        lab2.setText(Messages.getString( "designer.preview.preference.resultset.maxrow.description" ));
+		lab2.setText( Messages.getString( "designer.preview.preference.resultset.maxrow.description" ) ); //$NON-NLS-1$
 
-		
-		maxRowEditor.setPage(this);
+		maxRowEditor.setPage( this );
 		maxRowEditor.setTextLimit( Integer.toString( MAX_MAX_ROW ).length( ) );
-		maxRowEditor.setErrorMessage( Messages.getFormattedString( "designer.preview.preference.resultset.maxrow.errormessage",
-				new Object[]{new Integer( MAX_MAX_ROW )	} ) );
-        maxRowEditor.setValidateStrategy( StringFieldEditor.VALIDATE_ON_KEY_STROKE );
-        maxRowEditor.setValidRange(1, MAX_MAX_ROW);
-        maxRowEditor.setPropertyChangeListener(new IPropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent event) {
-                if (event.getProperty().equals(FieldEditor.IS_VALID))
-                        setValid(maxRowEditor.isValid());
-            }
-        });
-        
+		maxRowEditor.setErrorMessage( Messages.getFormattedString( "designer.preview.preference.resultset.maxrow.errormessage", //$NON-NLS-1$
+				new Object[]{
+					new Integer( MAX_MAX_ROW )
+				} ) );
+		maxRowEditor.setValidateStrategy( StringFieldEditor.VALIDATE_ON_KEY_STROKE );
+		maxRowEditor.setValidRange( 1, MAX_MAX_ROW );
+		maxRowEditor.setPropertyChangeListener( new IPropertyChangeListener( ) {
+
+			public void propertyChange( PropertyChangeEvent event )
+			{
+				if ( event.getProperty( ).equals( FieldEditor.IS_VALID ) )
+					setValid( maxRowEditor.isValid( ) );
+			}
+		} );
+
 		String defaultMaxRow = ReportPlugin.getDefault( )
 				.getPluginPreferences( )
 				.getString( USER_MAXROW );
@@ -136,7 +143,7 @@ public class DateSetPreferencePage extends PreferencePage
 				.getPluginPreferences( )
 				.setValue( USER_MAXROW, maxRowEditor.getStringValue( ) );
 		ReportPlugin.getDefault( ).savePluginPreferences( );
-		
+
 		return true;
 	}
 

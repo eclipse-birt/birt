@@ -11,216 +11,119 @@
 
 package org.eclipse.birt.report.item.crosstab.ui.preference;
 
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.ui.ReportPlugin;
-import org.eclipse.birt.report.item.crosstab.plugin.CrosstabPlugin;
-import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
-import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.dialogs.MessageDialogWithToggle;
-import org.eclipse.jface.preference.FieldEditor;
-import org.eclipse.jface.preference.IntegerFieldEditor;
-import org.eclipse.jface.preference.PreferencePage;
-import org.eclipse.jface.preference.StringFieldEditor;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
+import org.eclipse.birt.report.designer.ui.preferences.PropertyAndPreferencePage;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPreferencePage;
 
 /**
  * 
  */
 
-public class CrosstabPreferencePage extends PreferencePage implements
-		IWorkbenchPreferencePage,
-		IPropertyChangeListener
+public class CrosstabPreferencePage extends PropertyAndPreferencePage
 {
 
-	private transient IntegerFieldEditor txtMaxLimit;
+	public static final String PREF_ID = "org.eclipse.birt.report.item.crosstab.ui.preferencepage"; //$NON-NLS-1$
 
-	private Button autoDelBindings, cubePopup;
+	private CrosstabConfigurationBlock fConfigurationBlock;
 
-	public static final int FILTER_LIMIT_DEFAULT = 100;
-
-	public static final int MAX_FILTER_LIMIT = 10000;
-
-	public static final boolean AUTO_DEL_BINDING_DEFAULT = true;
-	
-	public static final boolean CUBE_PUP_UP_DEFAULT = true;
-
-	protected Control createContents( Composite parent )
+	public CrosstabPreferencePage( )
 	{
-		// PlatformUI.getWorkbench( ).getHelpSystem( ).setHelp( parent,
-		// ChartHelpContextIds.PREFERENCE_CHART );
-
-		Composite cmpTop = new Composite( parent, SWT.NONE );
-		GridLayout layout = new GridLayout( 1, false );
-		cmpTop.setLayout( layout );
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		cmpTop.setLayoutData( gd );
-
-		Group group = new Group( cmpTop, SWT.NONE );
-		group.setText( Messages.getString( "CrosstabPreferencePage.filterLimit" ) );
-		group.setLayout( new GridLayout( 1, false ) );
-		group.setLayoutData( gd );
-
-		txtMaxLimit = new IntegerFieldEditor( CrosstabPlugin.PREFERENCE_FILTER_LIMIT,
-				Messages.getString( "CrosstabPreferencePage.filterLimit.prompt" ), group ); //$NON-NLS-1$ 
-		txtMaxLimit.setErrorMessage( Messages.getString( "CrosstabPreferencePage.Error.MaxRowInvalid", //$NON-NLS-1$
-				new Object[]{
-					new Integer( MAX_FILTER_LIMIT )
-				} ) );
-		txtMaxLimit.setValidateStrategy( StringFieldEditor.VALIDATE_ON_KEY_STROKE );
-		txtMaxLimit.setValidRange( 1, MAX_FILTER_LIMIT );
-		txtMaxLimit.setEmptyStringAllowed( false );
-		txtMaxLimit.setPage( this );
-		txtMaxLimit.setPropertyChangeListener( this );
-
-		Group promptGroup = new Group( cmpTop, SWT.NONE );
-		promptGroup.setText( Messages.getString( "CrosstabPreferencePage.promptGroup" ) );
-		promptGroup.setLayout( new GridLayout( 1, false ) );
-		gd = new GridData( GridData.FILL_HORIZONTAL );
-		promptGroup.setLayoutData( gd );
-
-		autoDelBindings = new Button( promptGroup, SWT.CHECK );
-		autoDelBindings.setText( Messages.getString( "CrosstabPreferencePage.autoDelBindings.Text" ) );
-		// new Label(promptGroup, SWT.NONE);
-
-		cubePopup = new Button( promptGroup, SWT.CHECK );
-		cubePopup.setText( Messages.getString( "CrosstabPreferencePage.cubePopup.Text" ) );
-
-		initControlValues( );
-
-		return cmpTop;
+		super( );
 	}
 
-	private void initControlValues( )
+	public CrosstabPreferencePage( String title )
 	{
-		txtMaxLimit.setStringValue( CrosstabPlugin.getDefault( )
-				.getPluginPreferences( )
-				.getString( CrosstabPlugin.PREFERENCE_FILTER_LIMIT ) );
-		autoDelBindings.setSelection( CrosstabPlugin.getDefault( )
-				.getPluginPreferences( )
-				.getBoolean( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS ) );
-		String prompt = CrosstabPlugin.getDefault( )
-				.getPluginPreferences( )
-				.getString( CrosstabPlugin.CUBE_BUILDER_WARNING_PREFERENCE );
-		if ( prompt == null
-				|| prompt.length( ) == 0
-				|| prompt.equals( MessageDialogWithToggle.PROMPT ) )
-		{
-			cubePopup.setSelection( true );
-		}
-		else
-		{
-			cubePopup.setSelection( false );
-		}
+		super( title );
+	}
+
+	public CrosstabPreferencePage( String title, ImageDescriptor image )
+	{
+		super( title, image );
+	}
+
+	public void createControl( Composite parent )
+	{
+		fConfigurationBlock = new CrosstabConfigurationBlock( getNewStatusChangedListener( ),
+				getProject( ) );
+		super.createControl( parent );
+
+		UIUtil.bindHelp( getControl( ), IHelpContextIds.PREFERENCE_BIRT_XTAB_ID );
 
 	}
 
-	public void init( IWorkbench workbench )
+	protected Control createPreferenceContent( Composite composite )
 	{
-		init( );
+		return fConfigurationBlock.createContents( composite );
 	}
 
-	public static void init( )
+	protected boolean hasProjectSpecificOptions( IProject project )
 	{
-		int maxLimit = CrosstabPlugin.getDefault( )
-				.getPluginPreferences( )
-				.getInt( CrosstabPlugin.PREFERENCE_FILTER_LIMIT );
-		if ( maxLimit <= 0 )
-		{
-			CrosstabPlugin.getDefault( )
-					.getPluginPreferences( )
-					.setValue( CrosstabPlugin.PREFERENCE_FILTER_LIMIT,
-							FILTER_LIMIT_DEFAULT );
-		}
+		return fConfigurationBlock.hasProjectSpecificOptions( project );
+	}
 
+	protected String getPreferencePageID( )
+	{
+		return PREF_ID;
+	}
+
+	protected String getPropertyPageID( )
+	{
+		return PREF_ID;
+	}
+
+	public void dispose( )
+	{
+		if ( fConfigurationBlock != null )
+		{
+			fConfigurationBlock.dispose( );
+		}
+		super.dispose( );
+	}
+
+	protected void enableProjectSpecificSettings(
+			boolean useProjectSpecificSettings )
+	{
+		super.enableProjectSpecificSettings( useProjectSpecificSettings );
+		if ( fConfigurationBlock != null )
+		{
+			fConfigurationBlock.useProjectSpecificSettings( useProjectSpecificSettings );
+		}
 	}
 
 	protected void performDefaults( )
 	{
-		txtMaxLimit.setStringValue( String.valueOf( FILTER_LIMIT_DEFAULT ) );
-		autoDelBindings.setSelection( AUTO_DEL_BINDING_DEFAULT );
-		cubePopup.setSelection( CUBE_PUP_UP_DEFAULT );
-		
 		super.performDefaults( );
+		if ( fConfigurationBlock != null )
+		{
+			fConfigurationBlock.performDefaults( );
+		}
 	}
 
 	public boolean performOk( )
 	{
-		CrosstabPlugin.getDefault( )
-				.getPluginPreferences( )
-				.setValue( CrosstabPlugin.PREFERENCE_FILTER_LIMIT,
-						txtMaxLimit.getIntValue( ) );
-
-		CrosstabPlugin.getDefault( )
-				.getPluginPreferences( )
-				.setValue( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS,
-						autoDelBindings.getSelection( ) );
-
-		if(cubePopup.getSelection( ))
+		if ( fConfigurationBlock != null && !fConfigurationBlock.performOk( ) )
 		{
-			CrosstabPlugin.getDefault( )
-			.getPluginPreferences( )
-			.setValue( CrosstabPlugin.CUBE_BUILDER_WARNING_PREFERENCE,
-					MessageDialogWithToggle.PROMPT );
-		}else
-		{
-			CrosstabPlugin.getDefault( )
-			.getPluginPreferences( )
-			.setValue( CrosstabPlugin.CUBE_BUILDER_WARNING_PREFERENCE,
-					MessageDialogWithToggle.NEVER );
+			return false;
 		}
-
-
-		CrosstabPlugin.getDefault( ).savePluginPreferences( );
-
 		return super.performOk( );
 	}
 
-	public void propertyChange( PropertyChangeEvent event )
+	public void performApply( )
 	{
-		if ( event.getProperty( ).equals( FieldEditor.IS_VALID ) )
+		if ( fConfigurationBlock != null )
 		{
-			setValid( txtMaxLimit.isValid( ) );
+			fConfigurationBlock.performApply( );
 		}
 	}
 
-	private void temp( )
+	public void setElement( IAdaptable element )
 	{
-		if ( !CrosstabPlugin.getDefault( )
-				.getPluginPreferences( )
-				.getBoolean( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS ) )
-		{
-			return;
-		}
-		MessageDialogWithToggle msgDlg = MessageDialogWithToggle.openYesNoQuestion( UIUtil.getDefaultShell( ),
-				"Remove Unused Bindings?",
-				"This action will result in unused data bindings.\n\nDo you wish to remove unused bindings?",
-				"Don't show this message again",
-				!CrosstabPlugin.getDefault( )
-						.getPluginPreferences( )
-						.getBoolean( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS ),
-				null,
-				null );
-
-		if ( msgDlg.getReturnCode( ) == IDialogConstants.YES_ID
-				|| msgDlg.getReturnCode( ) == IDialogConstants.NO_ID )
-		{
-			CrosstabPlugin.getDefault( )
-					.getPluginPreferences( )
-					.setValue( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS,
-							!msgDlg.getToggleState( ) );
-		}
-
+		super.setElement( element );
+		setDescription( null ); // no description for property page
 	}
-
 }

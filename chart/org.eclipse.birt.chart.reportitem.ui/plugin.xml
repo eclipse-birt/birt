@@ -95,4 +95,19 @@
             name="%preference.chart"
             id="org.eclipse.birt.chart.reportitem.ui.ChartPreferencePage"/>
    </extension>
+   
+   <extension
+         point="org.eclipse.ui.propertyPages">
+      <page
+            class="org.eclipse.birt.chart.reportitem.ui.ChartPreferencePage"
+            id="org.eclipse.birt.chart.reportitem.ui.ChartPreferencePage"
+            category="org.eclipse.birt.report.designer.ui.preferences"
+            name="%preference.chart">
+         <enabledWhen>
+		     <adapt type="org.eclipse.core.resources.IProject">
+		          <test property="org.eclipse.core.resources.projectNature" value="org.eclipse.birt.report.designer.ui.reportprojectnature"/>
+		     </adapt>         
+         </enabledWhen>
+      </page>
+   </extension>
 </plugin>

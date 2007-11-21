@@ -241,4 +241,59 @@ public class WidgetUtil
 		control.setLayoutData( data );
 		control.setVisible( !exclude );
 	}
+
+	/**
+	 * Sets the span of a control. Assumes that GridData is used.
+	 */
+	public static void setHorizontalSpan(Control control, int span) {
+		Object ld= control.getLayoutData();
+		if (ld instanceof GridData) {
+			((GridData)ld).horizontalSpan= span;
+		} else if (span != 1) {
+			GridData gd= new GridData();
+			gd.horizontalSpan= span;
+			control.setLayoutData(gd);
+		}
+	}	
+
+	/**
+	 * Sets the width hint of a control. Assumes that GridData is used.
+	 */
+	public static void setWidthHint(Control control, int widthHint) {
+		Object ld= control.getLayoutData();
+		if (ld instanceof GridData) {
+			((GridData)ld).widthHint= widthHint;
+		}
+	}
+	
+	/**
+	 * Sets the heightHint hint of a control. Assumes that GridData is used.
+	 */
+	public static void setHeightHint(Control control, int heightHint) {
+		Object ld= control.getLayoutData();
+		if (ld instanceof GridData) {
+			((GridData)ld).heightHint= heightHint;
+		}
+	}	
+	
+	/**
+	 * Sets the horizontal indent of a control. Assumes that GridData is used.
+	 */
+	public static void setHorizontalIndent(Control control, int horizontalIndent) {
+		Object ld= control.getLayoutData();
+		if (ld instanceof GridData) {
+			((GridData)ld).horizontalIndent= horizontalIndent;
+		}
+	}
+	
+	/**
+	 * Sets the horizontal grabbing of a control to true. Assumes that GridData is used.
+	 */
+	public static void setHorizontalGrabbing(Control control) {
+		Object ld= control.getLayoutData();
+		if (ld instanceof GridData) {
+			((GridData)ld).grabExcessHorizontalSpace= true;
+		}
+	}		
+
 }

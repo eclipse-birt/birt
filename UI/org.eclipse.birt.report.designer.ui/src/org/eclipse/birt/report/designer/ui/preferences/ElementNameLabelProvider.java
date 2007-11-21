@@ -19,9 +19,8 @@ import org.eclipse.swt.graphics.Image;
  * Label provider for the TableViewer
  */
 
-public class ElementNameLabelProvider extends LabelProvider
-		implements
-			ITableLabelProvider
+public class ElementNameLabelProvider extends LabelProvider implements
+		ITableLabelProvider
 {
 
 	/*

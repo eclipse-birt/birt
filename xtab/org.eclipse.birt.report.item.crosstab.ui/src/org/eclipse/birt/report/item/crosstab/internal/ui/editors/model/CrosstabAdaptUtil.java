@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.model;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -18,12 +19,14 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.preference.IPreferences;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
+import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
@@ -358,8 +361,9 @@ public class CrosstabAdaptUtil
 					Messages.getString( "DeleteBindingDialog.Title" ), //$NON-NLS-1$
 					Messages.getString( "DeleteBindingDialog.Message" ), //$NON-NLS-1$
 					Messages.getString( "DeleteBindingDialog.ToggleMessage" ), //$NON-NLS-1$
-					!CrosstabPlugin.getDefault( )
-							.getPluginPreferences( )
+					!PreferenceFactory.getInstance( )
+							.getPreferences( CrosstabPlugin.getDefault( ),
+									UIUtil.getCurrentProject( ) )
 							.getBoolean( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS ),
 					null,
 					null );
@@ -374,10 +378,28 @@ public class CrosstabAdaptUtil
 			if ( msgDlg.getReturnCode( ) == IDialogConstants.YES_ID
 					|| msgDlg.getReturnCode( ) == IDialogConstants.NO_ID )
 			{
-				CrosstabPlugin.getDefault( )
-						.getPluginPreferences( )
+				/**
+				 * It involves the User Experience, so Global and Project special setting all changes.
+				 */
+				PreferenceFactory.getInstance( )
+						.getPreferences( CrosstabPlugin.getDefault( ) )
 						.setValue( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS,
 								!msgDlg.getToggleState( ) );
+				if ( UIUtil.getCurrentProject( ) != null )
+				{
+					IPreferences pfefs = PreferenceFactory.getInstance( )
+							.getPreferences( CrosstabPlugin.getDefault( ),
+									UIUtil.getCurrentProject( ) );
+					pfefs.setValue( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS,
+							!msgDlg.getToggleState( ) );
+					try
+					{
+						pfefs.save( );
+					}
+					catch ( IOException e )
+					{
+					}
+				}
 			}
 		}
 		else

@@ -11,229 +11,120 @@
 
 package org.eclipse.birt.report.designer.ui.preferences;
 
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.ReportPlugin;
-import org.eclipse.jface.preference.PreferencePage;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.VerifyEvent;
-import org.eclipse.swt.events.VerifyListener;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.DirectoryDialog;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPreferencePage;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * 
  */
 
-public class ResourcePreferencePage extends PreferencePage implements
-		IWorkbenchPreferencePage
+public class ResourcePreferencePage extends PropertyAndPreferencePage
 {
 
-	Text resourceText;
+	public static final String PREF_ID = "org.eclipse.birt.report.designer.ui.preferences.ResourcePreferencePage"; //$NON-NLS-1$
 
-	public static final String TITLE_LABEL = Messages.getString( "ResourecePreferencePage.title" ); //$NON-NLS-1$
-	public static final String FOLDER_LABEL = Messages.getString( "ResourecePreferencePage.folder" ); //$NON-NLS-1$
-	public static final String BROWSER_BUTTON = Messages.getString( "ResourecePreferencePage.select" ); //$NON-NLS-1$
-	public static final String OPEN_DIALOG_TITLE = Messages.getString( "ResourecePreferencePage.openDialogTitle" ); //$NON-NLS-1$
-	public static final String OPEN_DILAOG_MESSAGE = Messages.getString( "ResourecePreferencePage.openDialogMessage" ); //$NON-NLS-1$
-	public static final String DIRCTORY = "resource"; //$NON-NLS-1$
-	public static final String DEFAULT_RESOURCE_FOLDER_DISPLAY = Messages.getString( "ResourecePreferencePage.defaultResourceFolder.dispaly" );
+	private ResourceConfigurationBlock fConfigurationBlock;
 
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.preference.PreferencePage#PreferencePage
-	 */
 	public ResourcePreferencePage( )
 	{
 		super( );
 	}
 
-	/**
-	 * @param title
-	 */
 	public ResourcePreferencePage( String title )
 	{
 		super( title );
 	}
 
-	/**
-	 * @param title
-	 * @param image
-	 */
 	public ResourcePreferencePage( String title, ImageDescriptor image )
 	{
 		super( title, image );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.preference.PreferencePage#createContents(org.eclipse.swt.widgets.Composite)
-	 */
-	protected Control createContents( Composite parent )
+	public void createControl( Composite parent )
 	{
-		Composite mainComposite = new Composite( parent, SWT.NULL );
+		fConfigurationBlock = new ResourceConfigurationBlock( getNewStatusChangedListener( ),
+				getProject( ) );
+		super.createControl( parent );
 
-		GridData data = new GridData( GridData.FILL_HORIZONTAL
-				| GridData.FILL_VERTICAL
-				| GridData.VERTICAL_ALIGN_BEGINNING );
-		data.grabExcessHorizontalSpace = true;
-		mainComposite.setLayoutData( data );
+		UIUtil.bindHelp( getControl( ),
+				IHelpContextIds.PREFERENCE_BIRT_RESOURCE_ID );
 
-		GridLayout layout = new GridLayout( );
-		layout.marginHeight = 0;
-		layout.marginWidth = 0;
-		layout.numColumns = 2;
-		mainComposite.setLayout( layout );
-
-		// Set title
-		Label title = new Label( mainComposite, SWT.NULL );
-		data = new GridData( );
-		data.horizontalSpan = 2;
-		title.setLayoutData( data );
-		title.setText( TITLE_LABEL );
-
-		// create space
-		new Label( mainComposite, SWT.NONE );
-		// create space
-		new Label( mainComposite, SWT.NONE );
-
-		createBrowse( mainComposite );
-		UIUtil.bindHelp( parent, IHelpContextIds.PREFERENCE_BIRT_RESOURCE_ID );
-		return mainComposite;
 	}
 
-	/**
-	 * Create broswer button
-	 * 
-	 * @param composite
-	 *            The parent composite
-	 */
-	private void createBrowse( Composite composite )
+	protected Control createPreferenceContent( Composite composite )
 	{
-		Label label = new Label( composite, SWT.NULL );
-		label.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_BEGINNING ) );
-		label.setText( FOLDER_LABEL );
+		return fConfigurationBlock.createContents( composite );
+	}
 
-		resourceText = new Text( composite, SWT.BORDER );
+	protected boolean hasProjectSpecificOptions( IProject project )
+	{
+		return fConfigurationBlock.hasProjectSpecificOptions( project );
+	}
 
-		GridData data = new GridData( GridData.GRAB_HORIZONTAL
-				| GridData.FILL_HORIZONTAL );
-		data.widthHint = 250;
-		resourceText.setLayoutData( data );
+	protected String getPreferencePageID( )
+	{
+		return PREF_ID;
+	}
 
-		String resouceString = ReportPlugin.getDefault( )
-		.getResourcePreference( );
-		if(resouceString == null || resouceString.equals( ReportPlugin.getDefault( ).getDefaultResourcePreference( ) ))
+	protected String getPropertyPageID( )
+	{
+		return PREF_ID;
+	}
+
+	public void dispose( )
+	{
+		if ( fConfigurationBlock != null )
 		{
-			resouceString = DEFAULT_RESOURCE_FOLDER_DISPLAY;
+			fConfigurationBlock.dispose( );
 		}
-		resourceText.setText( resouceString );
-		resourceText.addVerifyListener(
-
-		new VerifyListener( ) {
-
-			public void verifyText( VerifyEvent e )
-			{
-				e.doit = e.text.indexOf( ReportPlugin.PREFERENCE_DELIMITER ) < 0;
-			}
-		} );
-
-		// create space
-		new Label( composite, SWT.NONE );
-		Button browser = new Button( composite, SWT.PUSH );
-		browser.setText( BROWSER_BUTTON );
-		data = new GridData( );
-		browser.setLayoutData( data );
-		browser.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent event )
-			{
-				DirectoryDialog dialog = new DirectoryDialog( PlatformUI.getWorkbench( )
-						.getDisplay( )
-						.getActiveShell( ) );
-
-				dialog.setText( OPEN_DIALOG_TITLE );
-				dialog.setMessage( OPEN_DILAOG_MESSAGE );
-				String folderName = dialog.open( );
-				if ( folderName == null )
-				{
-					return;
-				}
-				folderName = folderName.replace('\\','/'); //$NON-NLS-1$ //$NON-NLS-2$
-				if ( !folderName.endsWith( "/" ) ) //$NON-NLS-1$
-				{
-					folderName = folderName + "/"; //$NON-NLS-1$
-				}
-				resourceText.setText( folderName );
-			}
-		} );
-
+		super.dispose( );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
-	 */
-	public void init( IWorkbench workbench )
+	protected void enableProjectSpecificSettings(
+			boolean useProjectSpecificSettings )
 	{
-		// Initialize the preference store we wish to use
-		setPreferenceStore( ReportPlugin.getDefault( ).getPreferenceStore( ) );
+		super.enableProjectSpecificSettings( useProjectSpecificSettings );
+		if ( fConfigurationBlock != null )
+		{
+			fConfigurationBlock.useProjectSpecificSettings( useProjectSpecificSettings );
+		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.preference.PreferencePage#performDefaults()
-	 */
 	protected void performDefaults( )
 	{
-		resourceText.setText( DEFAULT_RESOURCE_FOLDER_DISPLAY );
+		super.performDefaults( );
+		if ( fConfigurationBlock != null )
+		{
+			fConfigurationBlock.performDefaults( );
+		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.preference.IPreferencePage#performOk()
-	 */
 	public boolean performOk( )
 	{
-		String resourceString = resourceText.getText( );
-		if(resourceString == null || resourceString.length( ) == 0)
+		if ( fConfigurationBlock != null && !fConfigurationBlock.performOk( ) )
 		{
-			resourceText.setText( DEFAULT_RESOURCE_FOLDER_DISPLAY );
+			return false;
 		}
-		if ( resourceText.getText( ).equals( DEFAULT_RESOURCE_FOLDER_DISPLAY ) )
-		{
-			resourceString = ReportPlugin.getDefault( )
-					.getDefaultResourcePreference( );
-		}
-		
-		ReportPlugin.getDefault( ).setResourcePreference( resourceString );
-		SessionHandleAdapter.getInstance( )
-				.getSessionHandle( )
-				.setBirtResourcePath( resourceString );
-		SessionHandleAdapter.getInstance( )
-				.getSessionHandle( )
-				.setResourceFolder( resourceString );
+
 		return super.performOk( );
 	}
 
+	public void performApply( )
+	{
+		if ( fConfigurationBlock != null )
+		{
+			fConfigurationBlock.performApply( );
+		}
+	}
+
+	public void setElement( IAdaptable element )
+	{
+		super.setElement( element );
+		setDescription( null ); // no description for property page
+	}
 }

@@ -1,8 +1,9 @@
 
 package org.eclipse.birt.chart.reportitem.ui;
 
-import org.eclipse.ui.plugin.*;
+import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -13,10 +14,11 @@ public class ChartReportItemUIActivator extends AbstractUIPlugin
 
 	/** Plugin ID */
 	public static final String ID = "org.eclipse.birt.chart.reportitem.ui"; //$NON-NLS-1$
-	
+
 	/** Preference ID */
 	public static final String PREFERENCE_ENALBE_LIVE = "enable_live"; //$NON-NLS-1$
 	public static final String PREFERENCE_MAX_ROW = "max_row"; //$NON-NLS-1$
+	public static final int MAX_ROW_DEFAULT = 6;
 
 	// The shared instance.
 	private static ChartReportItemUIActivator plugin;
@@ -37,7 +39,14 @@ public class ChartReportItemUIActivator extends AbstractUIPlugin
 		super.start( context );
 
 		// Initializes all chart related preference values
-		ChartPreferencePage.init( );
+		// ChartPreferencePage.init( );
+
+		PreferenceFactory.getInstance( )
+				.getPreferences( ChartReportItemUIActivator.getDefault( ) )
+				.setDefault( PREFERENCE_ENALBE_LIVE, true );
+		PreferenceFactory.getInstance( )
+				.getPreferences( ChartReportItemUIActivator.getDefault( ) )
+				.setDefault( PREFERENCE_MAX_ROW, MAX_ROW_DEFAULT );
 	}
 
 	/**

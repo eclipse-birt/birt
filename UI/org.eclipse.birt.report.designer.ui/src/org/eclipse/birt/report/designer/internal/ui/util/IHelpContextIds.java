@@ -294,4 +294,7 @@ public interface IHelpContextIds
 	public static final String STYLE_BUILDER_COMMENTS_ID = PREFIX
 			+ "StyleBuilderComments_ID";
 
+	public static final String PREFERENCE_BIRT_XTAB_ID = PREFIX
+			+ "Preference_BIRT_CrossTab_ID";
+
 }

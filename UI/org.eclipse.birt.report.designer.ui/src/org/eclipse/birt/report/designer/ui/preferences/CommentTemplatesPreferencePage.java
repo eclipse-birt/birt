@@ -8,136 +8,118 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.report.designer.ui.preferences;
 
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.ReportPlugin;
-import org.eclipse.jface.preference.PreferencePage;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPreferencePage;
 
-public class CommentTemplatesPreferencePage extends PreferencePage implements
-		IWorkbenchPreferencePage
+public class CommentTemplatesPreferencePage extends PropertyAndPreferencePage
 {
 
-	private final static String ENABLE_BUTTON = Messages.getString( "org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment" );
+	public static final String PREF_ID = "org.eclipse.birt.report.designer.ui.preferences.CommentTemplatesPreferencePage"; //$NON-NLS-1$
 
-	private Text commentText;
-
-	private Button enableButton;
+	private CommentTemplatesConfigurationBlock fConfigurationBlock;
 
 	public CommentTemplatesPreferencePage( )
 	{
 		super( );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.preference.PreferencePage#PreferencePage(java.lang.String)
-	 */
 	public CommentTemplatesPreferencePage( String title )
 	{
 		super( title );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.preference.PreferencePage#PreferencePage(java.lang.String,org.eclipse.jface.resource.ImageDescriptor)
-	 */
 	public CommentTemplatesPreferencePage( String title, ImageDescriptor image )
 	{
 		super( title, image );
 	}
 
-	protected Control createContents( Composite parent )
+	public void createControl( Composite parent )
 	{
-		Composite mainComposite = new Composite( parent, SWT.NULL );
+		fConfigurationBlock = new CommentTemplatesConfigurationBlock( getNewStatusChangedListener( ),
+				getProject( ) );
+		super.createControl( parent );
 
-		GridData data = new GridData( GridData.FILL_HORIZONTAL
-				| GridData.FILL_VERTICAL
-				| GridData.VERTICAL_ALIGN_BEGINNING );
-		data.grabExcessHorizontalSpace = true;
-		mainComposite.setLayoutData( data );
-
-		GridLayout layout = new GridLayout( );
-		layout.marginHeight = 0;
-		layout.marginWidth = 0;
-		layout.numColumns = 1;
-		mainComposite.setLayout( layout );
-
-		enableButton = new Button( mainComposite, SWT.CHECK );
-		enableButton.setText( ENABLE_BUTTON );
-		enableButton.setSelection( ReportPlugin.getDefault( )
-				.getEnableCommentPreference( ) );
-
-		commentText = new Text( mainComposite, SWT.BORDER | SWT.MULTI | SWT.WRAP );
-		data = new GridData( GridData.FILL_BOTH  );
-		data.widthHint = 250;
-		commentText.setLayoutData( data );
-		commentText.setText( ReportPlugin.getDefault( ).getCommentPreference( ) );
-
-		enableButton.addSelectionListener( new SelectionAdapter( ) {
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				handleChangeCommentText( );
-			}
-		} );
-		handleChangeCommentText( );
-
-		UIUtil.bindHelp(parent,IHelpContextIds.PREFERENCE_BIRT_COMMENTTEMPLATE_ID);
-		return mainComposite;
+		UIUtil.bindHelp( getControl( ),
+				IHelpContextIds.PREFERENCE_BIRT_COMMENTTEMPLATE_ID );
 	}
 
-	private void handleChangeCommentText( )
+	protected Control createPreferenceContent( Composite composite )
 	{
-		if ( enableButton.getSelection( ) )
-		{
-			commentText.setEditable( true );
-			commentText.setEnabled( true );
-		}
-		else
-		{
-			commentText.setEnabled( false );
-			commentText.setEditable( false );
-		}
+		return fConfigurationBlock.createContents( composite );
 	}
 
-	public void init( IWorkbench workbench )
+	protected boolean hasProjectSpecificOptions( IProject project )
 	{
-		setPreferenceStore( ReportPlugin.getDefault( ).getPreferenceStore( ) );
+		return fConfigurationBlock.hasProjectSpecificOptions( project );
+	}
+
+	protected String getPreferencePageID( )
+	{
+		return PREF_ID;
+	}
+
+	protected String getPropertyPageID( )
+	{
+		return PREF_ID;
+	}
+
+	public void dispose( )
+	{
+		if ( fConfigurationBlock != null )
+		{
+			fConfigurationBlock.dispose( );
+		}
+		super.dispose( );
+	}
+
+	protected void enableProjectSpecificSettings(
+			boolean useProjectSpecificSettings )
+	{
+		super.enableProjectSpecificSettings( useProjectSpecificSettings );
+		if ( fConfigurationBlock != null )
+		{
+			fConfigurationBlock.useProjectSpecificSettings( useProjectSpecificSettings );
+		}
 	}
 
 	protected void performDefaults( )
 	{
-		commentText.setText( ReportPlugin.getDefault( )
-				.getDefaultCommentPreference( ));
-		enableButton.setSelection( ReportPlugin.getDefault( )
-				.getDefaultEnabelCommentPreference( ) );
-		handleChangeCommentText( );
+		super.performDefaults( );
+		if ( fConfigurationBlock != null )
+		{
+			fConfigurationBlock.performDefaults( );
+		}
 	}
 
 	public boolean performOk( )
 	{
-		ReportPlugin.getDefault( )
-				.setCommentPreference( commentText.getText( ) );
-		ReportPlugin.getDefault( )
-				.setEnableCommentPreference( enableButton.getSelection( ) );
+		if ( fConfigurationBlock != null && !fConfigurationBlock.performOk( ) )
+		{
+			return false;
+		}
 		return super.performOk( );
+	}
+
+	public void performApply( )
+	{
+		if ( fConfigurationBlock != null )
+		{
+			fConfigurationBlock.performApply( );
+		}
+	}
+
+	public void setElement( IAdaptable element )
+	{
+		super.setElement( element );
+		setDescription( null ); // no description for property page
 	}
 
 }

@@ -314,4 +314,18 @@
             name="%preference.crosstabPage">
       </page>
    </extension>
+   <extension
+         point="org.eclipse.ui.propertyPages">
+      <page
+            class="org.eclipse.birt.report.item.crosstab.ui.preference.CrosstabPreferencePage"
+            id="org.eclipse.birt.report.item.crosstab.ui.preferencepage"
+            category="org.eclipse.birt.report.designer.ui.preferences"
+            name="%preference.crosstabPage">
+         <enabledWhen>
+		     <adapt type="org.eclipse.core.resources.IProject">
+		          <test property="org.eclipse.core.resources.projectNature" value="org.eclipse.birt.report.designer.ui.reportprojectnature"/>
+		     </adapt>         
+         </enabledWhen>
+      </page>
+   </extension>
 </plugin>
