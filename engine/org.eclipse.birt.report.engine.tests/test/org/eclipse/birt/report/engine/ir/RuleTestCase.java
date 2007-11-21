@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.engine.ir;
 
 import junit.framework.TestCase;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Base class of rule tests
@@ -61,5 +63,24 @@ abstract public class RuleTestCase extends TestCase
 			assertEquals( rule.getValue1( ), "exp1" );
 			assertEquals( rule.getValue2( ), "exp2" );
 		}
+		
+		// special operators
+		// IN
+		String operator1 = EngineIRConstants.MAP_OPERATOR_IN;
+		ArrayList values = new ArrayList();
+		values.add("exp1");
+		values.add("exp2");
+		values.add("exp3");
+		values.add("exp4");
+		
+		rule.setExpression(operator1, values);
+		List vs = rule.getValue1List();
+		
+		assertEquals(rule.getOperator(), operator1);
+		assertEquals(values.size(), vs.size());
+		assertEquals(values.get(0), vs.get(0));
+		assertEquals(values.get(1), vs.get(1));
+		assertEquals(values.get(2), vs.get(2));
+		assertEquals(values.get(3), vs.get(3));
 	}
 }

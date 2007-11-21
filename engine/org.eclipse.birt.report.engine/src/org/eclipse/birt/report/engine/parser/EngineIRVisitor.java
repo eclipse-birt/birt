@@ -88,6 +88,7 @@ import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.MapRuleHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.MemberHandle;
+import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -1737,25 +1738,23 @@ public class EngineIRVisitor extends DesignVisitor
 	 * @return rule design, null if exist any error.
 	 */
 	protected HighlightRuleDesign createHighlightRule(
-			StructureHandle ruleHandle, String defaultStr )
+			HighlightRuleHandle ruleHandle, String defaultStr )
 	{
+		boolean isListStyle = ModuleUtil.isListStyleRuleValue( ruleHandle );
 		HighlightRuleDesign rule = new HighlightRuleDesign( );
 
-		MemberHandle hOperator = ruleHandle
-				.getMember( HighlightRule.OPERATOR_MEMBER );
-		MemberHandle hValue1 = ruleHandle
-				.getMember( HighlightRule.VALUE1_MEMBER );
-		MemberHandle hValue2 = ruleHandle
-				.getMember( HighlightRule.VALUE2_MEMBER );
-		MemberHandle hTestExpr = ruleHandle
-				.getMember( HighlightRule.TEST_EXPR_MEMBER );
+		if ( isListStyle )
+		{
+			rule.setExpression( ruleHandle.getOperator( ), ruleHandle
+					.getValue1List( ) );
+		}
+		else
+		{
+			rule.setExpression( ruleHandle.getOperator( ), ruleHandle
+					.getValue1( ), ruleHandle.getValue2( ) );
+		}
 
-		String oper = hOperator.getStringValue( );
-		String value1 = hValue1.getStringValue( );
-		String value2 = hValue2.getStringValue( );
-		String testExpr = hTestExpr.getStringValue( );
-
-		rule.setExpression( oper, value1, value2 );
+		String testExpr = ruleHandle.getTestExpression( );
 		if ( testExpr != null && testExpr.length( ) > 0 )
 		{
 			rule.setTestExpression( testExpr );
@@ -1873,9 +1872,17 @@ public class EngineIRVisitor extends DesignVisitor
 	protected MapRuleDesign createMapRule( MapRuleHandle handle,
 			String defaultStr )
 	{
+		boolean isListStyle = ModuleUtil.isListStyleRuleValue( handle );
 		MapRuleDesign rule = new MapRuleDesign( );
-		rule.setExpression( handle.getOperator( ), handle.getValue1( ), handle
-				.getValue2( ) );
+		if ( isListStyle )
+		{
+			rule.setExpression( handle.getOperator( ), handle.getValue1List( ) );
+		}
+		else
+		{
+			rule.setExpression( handle.getOperator( ), handle.getValue1( ),
+					handle.getValue2( ) );
+		}
 		String displayText = handle.getDisplay( );
 		rule.setDisplayText( handle.getDisplayKey( ), displayText == null
 				? "" //$NON-NLS-1$

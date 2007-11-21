@@ -479,6 +479,15 @@ public final class ExpressionUtil
 				value2 );
 		return ExpressionUtil.transformConditionalExpression( expression );
 	}
+	
+	public IConditionalExpression createConditionExpression(
+			String testExpression, String operator, List valueList )
+	{
+		ConditionalExpression expression = new ConditionalExpression(
+				testExpression, DataAdapterUtil
+						.adaptModelFilterOperator( operator ), valueList );
+		return ExpressionUtil.transformConditionalExpression( expression );
+	}
 }
 
 /**

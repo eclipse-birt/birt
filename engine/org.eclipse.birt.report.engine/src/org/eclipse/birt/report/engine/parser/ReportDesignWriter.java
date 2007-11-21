@@ -15,6 +15,7 @@ import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Stack;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -197,8 +198,20 @@ public class ReportDesignWriter
 				pushTag( "rule" );
 				attribute( "expression", rule.getTestExpression( ) );
 				attribute( "operator", rule.getOperator( ) );
-				attribute( "value1", rule.getValue1( ) );
-				attribute( "value2", rule.getValue2( ) );
+				if ( rule.ifValueIsList( ) )
+				{
+					List valueList = rule.getValue1List( );
+					for ( int index = 0; index < valueList.size( ); index++ )
+					{
+						attribute( "value" + index, valueList
+								.get( index ) );
+					}
+				}
+				else
+				{
+					attribute( "value1", rule.getValue1( ) );
+					attribute( "value2", rule.getValue2( ) );
+				}
 				text( rule.getDisplayText( ) );
 				popTag( );
 			}
@@ -217,8 +230,20 @@ public class ReportDesignWriter
 				pushTag( "rule" );
 				attribute( "expression", rule.getTestExpression( ) );
 				attribute( "operator", rule.getOperator( ) );
-				attribute( "value1", rule.getValue1( ) );
-				attribute( "value2", rule.getValue2( ) );
+				if ( rule.ifValueIsList( ) )
+				{
+					List valueList = rule.getValue1List( );
+					for ( int index = 0; index < valueList.size( ); index++ )
+					{
+						attribute( "value" + index, valueList
+								.get( index ) );
+					}
+				}
+				else
+				{
+					attribute( "value1", rule.getValue1( ) );
+					attribute( "value2", rule.getValue2( ) );
+				}
 				text( rule.getStyle( ).getCssText( ) );
 				popTag( );
 			}

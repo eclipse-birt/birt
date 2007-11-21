@@ -137,10 +137,22 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 				}
 				else
 				{
-					IConditionalExpression newExpression = expressionUtil
-							.createConditionalExpression( rule
-									.getTestExpression( ), rule.getOperator( ),
-									rule.getValue1( ), rule.getValue2( ) );
+					IConditionalExpression newExpression = null;
+					if ( rule.ifValueIsList( ) )
+					{
+						newExpression = expressionUtil
+								.createConditionExpression( rule
+										.getTestExpression( ), rule
+										.getOperator( ), rule.getValue1List( ) );
+					}
+					else
+					{
+						newExpression = expressionUtil
+								.createConditionalExpression( rule
+										.getTestExpression( ), rule
+										.getOperator( ), rule.getValue1( ),
+										rule.getValue2( ) );
+					}
 					value = evaluate( newExpression );
 				}
 				if ( ( value != null ) && ( value instanceof Boolean ) &&
@@ -249,11 +261,23 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 					}
 					else
 					{
-						IConditionalExpression newExpression = expressionUtil
-								.createConditionalExpression( rule
-										.getTestExpression( ), rule
-										.getOperator( ), rule.getValue1( ),
-										rule.getValue2( ) );
+						IConditionalExpression newExpression = null;
+						if ( rule.ifValueIsList( ) )
+						{
+							newExpression = expressionUtil
+									.createConditionExpression( rule
+											.getTestExpression( ), rule
+											.getOperator( ), rule
+											.getValue1List( ) );
+						}
+						else
+						{
+							newExpression = expressionUtil
+									.createConditionalExpression( rule
+											.getTestExpression( ), rule
+											.getOperator( ), rule.getValue1( ),
+											rule.getValue2( ) );
+						}
 						value = evaluate( newExpression );
 					}
 					if ( ( value != null ) && ( value instanceof Boolean ) &&

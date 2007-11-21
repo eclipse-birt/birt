@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.ir;
 
+import java.util.List;
 
 
 /**
@@ -24,12 +25,37 @@ public abstract class RuleDesign
 	protected String value2;
 	protected String operator;
 	Object expr;
+	protected boolean valueIsList = false;
+	protected List value1List;
+
+	public void setExpression( String operator, List value )
+	{
+		this.operator = operator;
+		this.value1List = value;
+		this.valueIsList = true;
+	}
+
+	public List getValue1List( )
+	{
+		return this.value1List;
+	}
+
+	public boolean ifValueIsList( )
+	{
+		return this.valueIsList;
+	}
+
+	public void setValueIsList( boolean valueIsList )
+	{
+		this.valueIsList = valueIsList;
+	}
 
 	public void setExpression( String operator, String value1, String value2 )
 	{
 		this.operator = operator;
 		this.value1 = value1;
 		this.value2 = value2;
+		this.valueIsList = false;
 	}
 	
 	public void setConditionExpr( Object expr )

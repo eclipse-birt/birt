@@ -1321,12 +1321,22 @@ public class EngineIRReader implements IOConstants
 			MapRuleDesign rule = new MapRuleDesign( );;
 			String testExpr = IOUtil.readString( in );
 			String oper = IOUtil.readString( in );
-			String value1 = IOUtil.readString( in );
-			String value2 = IOUtil.readString( in );
+			boolean valuseIsList = IOUtil.readBool( in );
+			if ( valuseIsList )
+			{
+				List valueList = IOUtil.readList( in );
+				rule.setExpression( oper, valueList );
+			}
+			else
+			{
+				String value1 = IOUtil.readString( in );
+				String value2 = IOUtil.readString( in );
+				rule.setExpression( oper, value1, value2 );
+			}
 			String displayText = IOUtil.readString( in );
 			String displayKey = IOUtil.readString( in );
+			rule.setValueIsList( valuseIsList );
 			rule.setTestExpression( testExpr );
-			rule.setExpression( oper, value1, value2 );
 			rule.setDisplayText( displayKey, displayText );
 			map.addRule( rule );
 		}
@@ -1343,11 +1353,21 @@ public class EngineIRReader implements IOConstants
 			HighlightRuleDesign rule = new HighlightRuleDesign( );
 			String testExpr = IOUtil.readString( in );
 			String oper = IOUtil.readString( in );
-			String value1 = IOUtil.readString( in );
-			String value2 = IOUtil.readString( in );
+			boolean valuseIsList = IOUtil.readBool( in );
+			if ( valuseIsList )
+			{
+				List valueList = IOUtil.readList( in );
+				rule.setExpression( oper, valueList );
+			}
+			else
+			{
+				String value1 = IOUtil.readString( in );
+				String value2 = IOUtil.readString( in );
+				rule.setExpression( oper, value1, value2 );
+			}
 			IStyle style = readStyle( in );
+			rule.setValueIsList( valuseIsList );
 			rule.setTestExpression( testExpr );
-			rule.setExpression( oper, value1, value2 );
 			rule.setStyle( style );
 			highlight.addRule( rule );
 		}

@@ -1911,11 +1911,22 @@ public class ReportQueryBuilder
 					RuleDesign rule = highlights.getRule( i );
 					if ( rule != null )
 					{
-						expressions.add( expressionUtil
-								.createConditionalExpression( rule
-										.getTestExpression( ), rule
-										.getOperator( ), rule.getValue1( ),
-										rule.getValue2( ) ) );
+						if ( rule.ifValueIsList( ) )
+						{
+							expressions.add( expressionUtil
+									.createConditionExpression( rule
+											.getTestExpression( ), rule
+											.getOperator( ), rule
+											.getValue1List( ) ) );
+						}
+						else
+						{
+							expressions.add( expressionUtil
+									.createConditionalExpression( rule
+											.getTestExpression( ), rule
+											.getOperator( ), rule.getValue1( ),
+											rule.getValue2( ) ) );
+						}
 					}
 				}
 			}
@@ -1928,11 +1939,22 @@ public class ReportQueryBuilder
 					RuleDesign rule = maps.getRule( i );
 					if ( rule != null )
 					{
-						expressions.add( expressionUtil
-								.createConditionalExpression( rule
-										.getTestExpression( ), rule
-										.getOperator( ), rule.getValue1( ),
-										rule.getValue2( ) ) );
+						if ( rule.ifValueIsList( ) )
+						{
+							expressions.add( expressionUtil
+									.createConditionExpression( rule
+											.getTestExpression( ), rule
+											.getOperator( ), rule
+											.getValue1List( ) ) );
+						}
+						else
+						{
+							expressions.add( expressionUtil
+									.createConditionalExpression( rule
+											.getTestExpression( ), rule
+											.getOperator( ), rule.getValue1( ),
+											rule.getValue2( ) ) );
+						}
 					}
 				}
 			}
