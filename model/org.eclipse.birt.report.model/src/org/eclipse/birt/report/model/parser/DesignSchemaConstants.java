@@ -129,6 +129,7 @@ public interface DesignSchemaConstants
 	static final String MEMBER_VALUE_TAG = "member-value"; //$NON-NLS-1$
 	static final String SORT_ELEMENT_TAG = "sort-element"; //$NON-NLS-1$
 	static final String FILTER_CONDITION_TAG = "filter-condition-element"; //$NON-NLS-1$
+	static final String MULTI_VIEWS_TAG = "multi-views"; //$NON-NLS-1$
 	static final String METHOD_TAG = "method"; //$NON-NLS-1$
 	static final String NAME_ATTRIB = "name"; //$NON-NLS-1$ 
 	static final String NUMBER_ALIGN_ATTRIB = "number-align"; //$NON-NLS-1$ 

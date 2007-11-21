@@ -68,6 +68,7 @@ public class AllParserTests
 		test.addTestSuite( TextItemParseTest.class );
 		test.addTestSuite( UserPropertyTest.class );
 		test.addTestSuite( FilterAndSortParseTest.class );
+		test.addTestSuite( MultiViewParseTest.class );
 
 		// add all test classes here
 

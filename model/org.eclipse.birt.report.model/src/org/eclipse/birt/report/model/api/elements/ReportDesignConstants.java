@@ -88,6 +88,7 @@ public interface ReportDesignConstants
 	String MEMBER_VALUE_ELEMENT = "MemberValue"; //$NON-NLS-1$
 	String SORT_ELEMENT = "SortElement"; //$NON-NLS-1$
 	String FILTER_CONDITION_ELEMENT = "FilterConditionElement"; //$NON-NLS-1$
+	String MULTI_VIEWS = "MultiViews"; //$NON-NLS-1$
 	
 	/**
 	 * @deprecated by {@link #TEXT_DATA_ITEM}

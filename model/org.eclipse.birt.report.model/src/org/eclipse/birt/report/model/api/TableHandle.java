@@ -20,6 +20,8 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.elements.table.LayoutTableModel;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ColumnHelper;
@@ -225,8 +227,8 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	public boolean canPasteRow( IDesignElement copiedRow,
 			RowOperationParameters parameters )
 	{
-		if ( copiedRow == null || parameters == null
-				|| !( copiedRow instanceof TableRow ) )
+		if ( copiedRow == null || parameters == null ||
+				!( copiedRow instanceof TableRow ) )
 			return false;
 		RowBandPasteAction pasteAction = new RowBandPasteAction(
 				new TableRowBandAdapter( this ) );
@@ -268,8 +270,8 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	public boolean canInsertAndPasteRow( IDesignElement copiedRow,
 			RowOperationParameters parameters )
 	{
-		if ( copiedRow == null || parameters == null
-				|| !( copiedRow instanceof TableRow ) )
+		if ( copiedRow == null || parameters == null ||
+				!( copiedRow instanceof TableRow ) )
 			return false;
 
 		RowBandInsertAndPasteAction action = new RowBandInsertAndPasteAction(
@@ -383,8 +385,8 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	public void pasteRow( IDesignElement copiedRow,
 			RowOperationParameters parameters ) throws SemanticException
 	{
-		if ( copiedRow == null || parameters == null
-				|| !( copiedRow instanceof TableRow ) )
+		if ( copiedRow == null || parameters == null ||
+				!( copiedRow instanceof TableRow ) )
 			throw new IllegalArgumentException( "empty row to paste." );//$NON-NLS-1$
 
 		RowBandPasteAction pasteAction = new RowBandPasteAction(
@@ -433,8 +435,8 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	public void insertAndPasteRow( IDesignElement copiedRow,
 			RowOperationParameters parameters ) throws SemanticException
 	{
-		if ( copiedRow == null || parameters == null
-				|| !( copiedRow instanceof TableRow ) )
+		if ( copiedRow == null || parameters == null ||
+				!( copiedRow instanceof TableRow ) )
 			throw new IllegalArgumentException(
 					"empty row to insert and paste." );//$NON-NLS-1$
 
@@ -699,7 +701,7 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 		List tempList = checkFilters( iter, expr );
 		if ( tempList != null )
 			retValue.addAll( tempList );
-		
+
 		// check filters in groups
 		SlotHandle groupSlot = getGroups( );
 		for ( int i = 0; i < groupSlot.getCount( ); i++ )
@@ -782,5 +784,154 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 		}
 
 		return null;
+	}
+
+	/**
+	 * Returns the view that is being used.
+	 * 
+	 * @return the view that is being used
+	 */
+
+	public DesignElementHandle getCurrentView( )
+	{
+		MultiViewsHandle multiView = (MultiViewsHandle) getProperty( MULTI_VIEWS_PROP );
+		if ( multiView == null ||
+				multiView.getCurrentViewIndex( ) == MultiViewsHandle.HOST )
+			return this;
+
+		return multiView.getCurrentView( );
+	}
+
+	/**
+	 * Adds a new element as the view.
+	 * 
+	 * @param viewElement
+	 *            the element
+	 * @throws SemanticException
+	 */
+
+	public void addView( DesignElementHandle viewElement )
+			throws SemanticException
+	{
+		MultiViewsHandle multiView = (MultiViewsHandle) getProperty( MULTI_VIEWS_PROP );
+
+		CommandStack stack = getModuleHandle( ).getCommandStack( );
+		stack.startTrans( null );
+		try
+		{
+			if ( multiView == null )
+			{
+				multiView = getElementFactory( ).newMultiView( );
+				setProperty( MULTI_VIEWS_PROP, multiView );
+			}
+
+			multiView.addView( viewElement );
+		}
+		catch ( SemanticException e )
+		{
+			stack.rollback( );
+			throw e;
+		}
+		stack.commit( );
+	}
+
+	/**
+	 * Deletes the given view.
+	 * 
+	 * @param viewElement
+	 *            the element
+	 * @throws SemanticException
+	 */
+
+	public void dropView( DesignElementHandle viewElement )
+			throws SemanticException
+	{
+		MultiViewsHandle multiView = (MultiViewsHandle) getProperty( MULTI_VIEWS_PROP );
+		if ( multiView == null )
+			return;
+
+		multiView.dropView( viewElement );
+	}
+
+	/**
+	 * Sets the index for the view to be used. If the given element is not in
+	 * the multiple view, it will be added and set as the active view.
+	 * 
+	 * @param viewElement
+	 *            the view element
+	 * 
+	 * @throws SemanticException
+	 *             if the given element resides in the other elements.
+	 */
+
+	public void setCurrentView( DesignElementHandle viewElement )
+			throws SemanticException
+	{
+		if ( viewElement == null )
+			return;
+
+		// if the viewElement is in the design tree and not in table, throw
+		// exception
+
+		if ( viewElement.getContainer( ) != null &&
+				!viewElement.getElement( ).isContentOf( element ) )
+		{
+			throw new PropertyValueException( element,
+					getPropertyDefn( MULTI_VIEWS_PROP ), null,
+					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
+		}
+
+		CommandStack stack = getModuleHandle( ).getCommandStack( );
+		stack.startTrans( null );
+		try
+		{
+			MultiViewsHandle multiView = (MultiViewsHandle) getProperty( MULTI_VIEWS_PROP );
+			if ( multiView == null )
+			{
+				multiView = getElementFactory( ).newMultiView( );
+				setProperty( MULTI_VIEWS_PROP, multiView );
+			}
+
+			// if the viewElement is in the table and not in multiple view,
+			// throw exception
+
+			if ( viewElement.getContainer( ) != null &&
+					!viewElement.getElement( ).isContentOf(
+							multiView.getElement( ) ) )
+			{
+				throw new PropertyValueException( element,
+						getPropertyDefn( MULTI_VIEWS_PROP ), null,
+						PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
+			}
+
+			// add to the multiple view
+
+			if ( viewElement.getContainer( ) == null )
+				multiView.addView( viewElement );
+
+			// set index
+
+			int newIndex = MultiViewsHandle.HOST;
+			if ( viewElement != this )
+			{
+				ContainerContext context = new ContainerContext( multiView
+						.getElement( ), MultiViewsHandle.VIEWS_PROP );
+				newIndex = context.indexOf( viewElement.getElement( ) );
+
+				// the viewElement is either added to the view or already in the
+				// view
+
+				assert newIndex != -1;
+			}
+
+			multiView.setCurrentViewIndex( newIndex );
+
+		}
+		catch ( SemanticException e )
+		{
+			stack.rollback( );
+			throw e;
+		}
+		stack.commit( );
 	}
 }

@@ -85,6 +85,7 @@ public class AllApiTests
 		test.addTestSuite( ComputedColumnHandleTest.class );
 		test.addTestSuite( MemberValueHandleTest.class );
 		test.addTestSuite( ReportItemDataRefTest.class );
+		test.addTestSuite( MultiViewHandleTest.class );
 
 		return test;
 	}

@@ -47,6 +47,7 @@ import org.eclipse.birt.report.model.elements.LineItem;
 import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.elements.ListItem;
 import org.eclipse.birt.report.model.elements.MemberValue;
+import org.eclipse.birt.report.model.elements.MultiViews;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.ParameterGroup;
@@ -985,8 +986,8 @@ public class ElementFactory
 			// if the element with the name is not found or the element type
 			// is inconsistent, throw an exception
 
-			if ( base == null
-					|| base.getDefn( ) != baseElement.getElement( ).getDefn( ) )
+			if ( base == null ||
+					base.getDefn( ) != baseElement.getElement( ).getDefn( ) )
 			{
 				throw new InvalidParentException(
 						null,
@@ -994,8 +995,8 @@ public class ElementFactory
 						InvalidParentException.DESIGN_EXCEPTION_PARENT_NOT_FOUND );
 			}
 
-			if ( base instanceof ReportItem
-					&& ( (ReportItem) base ).isDataBindingReferring( lib ) )
+			if ( base instanceof ReportItem &&
+					( (ReportItem) base ).isDataBindingReferring( lib ) )
 			{
 				throw new ExtendsForbiddenException(
 						null,
@@ -1386,5 +1387,17 @@ public class ElementFactory
 	{
 		FilterConditionElement element = new FilterConditionElement( );
 		return element.handle( module );
+	}
+
+	/**
+	 * Creates a multiple view element handle.
+	 * 
+	 * @return a handle to the multiple view element
+	 */
+
+	public MultiViewsHandle newMultiView( )
+	{
+		MultiViews element = new MultiViews( );
+		return (MultiViewsHandle) element.getHandle( module );
 	}
 }

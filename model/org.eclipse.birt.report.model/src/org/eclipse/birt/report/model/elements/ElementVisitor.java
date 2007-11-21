@@ -894,4 +894,16 @@ public class ElementVisitor
 	{
 		// do nothing
 	}
+
+	/**
+	 * Visits the multiple view element.
+	 * 
+	 * @param obj
+	 *            the multiple view element
+	 */
+	 
+	public void visitMultiView( MultiViews obj )
+	{
+		visitDesignElement( obj );
+	}
 }

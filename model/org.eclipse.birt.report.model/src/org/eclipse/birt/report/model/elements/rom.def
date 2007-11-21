@@ -3052,6 +3052,9 @@
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Table" extends="Listing" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.TableItem" name="Table" selector="table" since="1.0" xmlName="table">
     <Property displayNameID="Element.Table.caption" name="caption" runtimeSettable="false" since="1.0" type="string"/>
     <Property displayNameID="Element.Table.captionID" name="captionID" since="1.0" type="resourceKey"/>
+	<Property displayNameID="Element.Table.multiViews" name="multiViews" since="2.3" type="element" >
+		<Type name="MultiViews"/>
+	</Property>    
     <Slot displayNameID="Element.Table.slot.header" multipleCardinality="true" name="header" selector="table-header" since="1.0" xmlName="header">
       <Type name="Row"/>
       <Trigger validator="InconsistentColumnsValidator"/>
@@ -3693,6 +3696,14 @@
     <Property detailType="HideRule" displayNameID="Element.TemplateReportItem.visibility" isList="true" name="visibility" runtimeSettable="false" since="2.1" type="structure"/>
   </Element>	
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.TemplateDataSet" extends="TemplateElement" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.TemplateDataSet" name="TemplateDataSet" nameSpace="dataSet" since="2.0" xmlName="template-data-set"/>
+  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.MultiViews" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.MultiViews" name="MultiViews" nameSpace="none" since="2.3" xmlName="multi-views">
+	<Property displayNameID="Element.MultiViews.index" name="index" since="2.3" type="integer" >
+		<Default>-1</Default>
+	</Property>  
+   	<Property displayNameID="Element.MultiViews.views" isList="true" name="views" since="2.3" type="element" >
+   		<Type name="ExtendedItem"/>
+   	</Property>
+  </Element>	    
   <Style displayNameID="Style.Report" name="report" reference="Overall default" />
   <Style displayNameID="Style.List" name="list" reference="List. Applies to all slots within the list" />
   <Style displayNameID="Style.ListHeader" name="list-header" reference="List Header" />

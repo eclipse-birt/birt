@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
+import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -75,10 +76,10 @@ import com.ibm.icu.util.ULocale;
 public class PeerExtensionTest extends BaseTestCase
 {
 
-	protected static final String HEADER_PROP = "header"; //$NON-NLS-1$
-	protected static final String DETAIL_PROP = "detail"; //$NON-NLS-1$
-	protected static final String FOOTER_PROP = "footer"; //$NON-NLS-1$
-	protected static final String TESTING_BOX_NAME = "TestingBox"; //$NON-NLS-1$
+	private static final String HEADER_PROP = "header"; //$NON-NLS-1$
+	private static final String DETAIL_PROP = "detail"; //$NON-NLS-1$
+	private static final String FOOTER_PROP = "footer"; //$NON-NLS-1$
+	private static final String TESTING_BOX_NAME = "TestingBox"; //$NON-NLS-1$
 	private static final String FILE_NAME = "PeerExtensionTest.xml"; //$NON-NLS-1$
 	private static final String FILE_NAME_1 = "PeerExtensionTest_1.xml"; //$NON-NLS-1$
 	private static final String FILE_NAME_2 = "PeerExtensionTest_2.xml"; //$NON-NLS-1$
@@ -854,6 +855,60 @@ public class PeerExtensionTest extends BaseTestCase
 		assertEquals( "dataSetRow[\"CUSTOMERNUMBER\"]", column.getExpression( ) ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER, column
 				.getDataType( ) );
+	}
+
+	/**
+	 * @throws Exception
+	 */
+
+	public void testMultiView( ) throws Exception
+	{
+		openDesign( "PeerExtensionMultiViewTest.xml" ); //$NON-NLS-1$
+
+		// cases for parser
+
+		ExtendedItemHandle table1 = (ExtendedItemHandle) designHandle
+				.findElement( "MyTable1" ); //$NON-NLS-1$
+		MultiViewsHandle view1 = (MultiViewsHandle) table1
+				.getProperty( "multiViews" ); //$NON-NLS-1$
+		assertNotNull( view1 );
+
+		List views = view1.getListProperty( MultiViewsHandle.VIEWS_PROP );
+		assertEquals( 2, views.size( ) );
+
+		ExtendedItemHandle box1 = (ExtendedItemHandle) views.get( 0 );
+		assertEquals( "firstDataSet", box1.getDataSet( ).getName( ) ); //$NON-NLS-1$
+
+		// the data related properties are read only.
+
+		PropertyHandle prop = box1
+				.getPropertyHandle( ReportItemHandle.DATA_SET_PROP );
+		assertTrue( prop.isReadOnly( ) );
+
+		prop = box1.getPropertyHandle( ExtendedItemHandle.FILTER_PROP );
+		assertTrue( prop.isReadOnly( ) );
+
+		// cases for writer
+
+		ExtendedItemHandle table2 = designHandle.getElementFactory( )
+				.newExtendedItem( "table2", "TestingTable" ); //$NON-NLS-1$ //$NON-NLS-2$
+		designHandle.getBody( ).add( table2 );
+		table2.setDataSet( designHandle.findDataSet( "firstDataSet" ) ); //$NON-NLS-1$
+
+		MultiViewsHandle view2 = designHandle.getElementFactory( )
+				.newMultiView( );
+		table2.getPropertyHandle( TableHandle.MULTI_VIEWS_PROP ).add( view2 );
+
+		ExtendedItemHandle box3 = designHandle.getElementFactory( )
+				.newExtendedItem( "box3", "TestingBox" ); //$NON-NLS-1$//$NON-NLS-2$
+
+		view2.add( MultiViewsHandle.VIEWS_PROP, box3 );
+
+		assertEquals( "firstDataSet", box3.getDataSet( ).getName( ) ); //$NON-NLS-1$
+
+		save( );
+		assertTrue( compareFile( "PeerExtensionMultiViewTest_golden.xml" ) ); //$NON-NLS-1$
+
 	}
 
 	private static class MyListener implements Listener

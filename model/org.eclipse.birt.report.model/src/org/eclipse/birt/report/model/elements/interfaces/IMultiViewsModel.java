@@ -12,34 +12,21 @@
 package org.eclipse.birt.report.model.elements.interfaces;
 
 /**
- * The interface for table element to store the constants.
+ * Interface to define some constants for MultiView.
  */
-public interface ITableItemModel
+
+public interface IMultiViewsModel
 {
 
 	/**
-	 * Name of the caption property.
+	 * Name of the property that holds a list of extended elements.
 	 */
-
-	public static final String CAPTION_PROP = "caption"; //$NON-NLS-1$
-
-	/**
-	 * Name of the caption key property.
-	 */
-
-	public static final String CAPTION_KEY_PROP = "captionID"; //$NON-NLS-1$
-
-	/**
-	 * Name of the multiple views property.
-	 */
-
-	public static final String MULTI_VIEWS_PROP = "multiViews"; //$NON-NLS-1$
-
+	
+	String VIEWS_PROP = "views"; //$NON-NLS-1$	
 	
 	/**
-	 * Column definitions.
+	 * Name of the property that indicates which view works.
 	 */
-
-	public static final int COLUMN_SLOT = 4;
-
+	
+	String INDEX_PROP = "index"; //$NON-NLS-1$	
 }

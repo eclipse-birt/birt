@@ -381,9 +381,17 @@ public class PropertyHandle extends SimpleValueHandle
 		}
 		else if ( element instanceof ReportItemHandle )
 		{
-			return ( ReportItemPropSearchStrategy.getDataBindingPropties( )
-					.contains( propDefn.getName( ) ) && ( (ReportItem) element
+			boolean retValue = ( ReportItemPropSearchStrategy
+					.getDataBindingPropties( ).contains( propDefn.getName( ) ) && ( (ReportItem) element
 					.getElement( ) ).isDataBindingReferring( getModule( ) ) );
+
+			if ( retValue )
+				return true;
+
+			if ( element instanceof ExtendedItemHandle )
+				return ( ReportItemPropSearchStrategy.getDataBindingPropties( )
+						.contains( propDefn.getName( ) ) && ( element
+						.getContainer( ) instanceof MultiViewsHandle ) );
 		}
 
 		return false;

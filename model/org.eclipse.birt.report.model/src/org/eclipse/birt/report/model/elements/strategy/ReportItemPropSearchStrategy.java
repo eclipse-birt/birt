@@ -35,7 +35,7 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 
 	private final static ReportItemPropSearchStrategy instance = new ReportItemPropSearchStrategy( );
 
-	private final static Set dataBindingProps;
+	protected final static Set dataBindingProps;
 
 	static
 	{

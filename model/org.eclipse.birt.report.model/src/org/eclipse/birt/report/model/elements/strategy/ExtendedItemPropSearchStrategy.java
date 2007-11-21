@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.PropertySearchStrategy;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
+import org.eclipse.birt.report.model.elements.MultiViews;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
@@ -194,5 +195,29 @@ public class ExtendedItemPropSearchStrategy
 		}
 
 		return super.getPropertyExceptRomDefault( module, element, prop );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.strategy.ReportItemPropSearchStrategy#getPropertyFromSelf(org.eclipse.birt.report.model.core.Module,
+	 *      org.eclipse.birt.report.model.core.DesignElement,
+	 *      org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 */
+
+	protected Object getPropertyFromSelf( Module module, DesignElement element,
+			ElementPropertyDefn prop )
+	{
+		if ( !( element.getContainer( ) instanceof MultiViews ) )
+			return super.getPropertyFromSelf( module, element, prop );
+
+		if ( !dataBindingProps.contains( prop.getName( ) ) )
+			return super.getPropertyFromSelf( module, element, prop );
+
+		DesignElement grandContainer = element.getContainer( ).getContainer( );
+		if ( grandContainer == null )
+			return super.getPropertyFromSelf( module, element, prop );
+
+		return grandContainer.getProperty( module, prop );
 	}
 }

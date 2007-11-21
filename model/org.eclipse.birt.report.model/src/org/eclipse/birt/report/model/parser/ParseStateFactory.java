@@ -193,6 +193,9 @@ public class ParseStateFactory
 			if ( ReportDesignConstants.SORT_ELEMENT
 					.equalsIgnoreCase( elementName ) )
 				return new SortElementState( handler, container, propName );
+			if ( ReportDesignConstants.MULTI_VIEWS
+					.equalsIgnoreCase( elementName ) )
+				return new MultiViewsState( handler, container, propName );
 
 		}
 		return null;

@@ -73,6 +73,7 @@ import org.eclipse.birt.report.model.elements.ListItem;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.MemberValue;
+import org.eclipse.birt.report.model.elements.MultiViews;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.Parameter;
@@ -125,6 +126,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMeasureGroupModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMeasureModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMemberValueModel;
+import org.eclipse.birt.report.model.elements.interfaces.IMultiViewsModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSourceModel;
 import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementModel;
@@ -1851,6 +1853,8 @@ public abstract class ModuleWriter extends ElementVisitor
 		writeContents( obj, IListingElementModel.FOOTER_SLOT,
 				DesignSchemaConstants.FOOTER_TAG );
 
+		writeContents( obj, ITableItemModel.MULTI_VIEWS_PROP );
+
 		writer.endElement( );
 	}
 
@@ -2408,7 +2412,7 @@ public abstract class ModuleWriter extends ElementVisitor
 				writeStructure( rule, HighlightRule.STRING_FORMAT_MEMBER );
 
 				property( rule, StyleRule.TEST_EXPR_MEMBER );
-				writeSimplePropertyList( rule , StyleRule.VALUE1_MEMBER  );
+				writeSimplePropertyList( rule, StyleRule.VALUE1_MEMBER );
 				property( rule, StyleRule.VALUE2_MEMBER );
 
 				property( rule, HighlightRule.STYLE_MEMBER );
@@ -2435,7 +2439,7 @@ public abstract class ModuleWriter extends ElementVisitor
 				property( rule, StyleRule.IS_DESIGN_TIME_MEMBER );
 				property( rule, StyleRule.TEST_EXPR_MEMBER );
 				property( rule, StyleRule.OPERATOR_MEMBER );
-				writeSimplePropertyList( rule , StyleRule.VALUE1_MEMBER  );
+				writeSimplePropertyList( rule, StyleRule.VALUE1_MEMBER );
 				property( rule, StyleRule.VALUE2_MEMBER );
 
 				resourceKey( rule, MapRule.DISPLAY_ID_MEMBER,
@@ -3723,6 +3727,24 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, ISortElementModel.KEY_PROP );
 		property( obj, ISortElementModel.DIRECTION_PROP );
 		writeContents( obj, ISortElementModel.MEMBER_PROP );
+
+		writer.endElement( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitMultiView(org.eclipse.birt.report.model.elements.MultiView)
+	 */
+
+	public void visitMultiView( MultiViews obj )
+	{
+		writer.startElement( DesignSchemaConstants.MULTI_VIEWS_TAG );
+		markLineNumber( obj );
+
+		super.visitMultiView( obj );
+		property( obj, IMultiViewsModel.INDEX_PROP );
+		writeContents( obj, IMultiViewsModel.VIEWS_PROP );
 
 		writer.endElement( );
 	}

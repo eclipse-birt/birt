@@ -11,7 +11,11 @@
 
 package org.eclipse.birt.report.model.library;
 
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.ColumnBandData;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.RowOperationParameters;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -174,6 +178,38 @@ public class LibraryWithTableTest extends BaseTestCase
 		TableHandle tableHandle = (TableHandle) designHandle
 				.findElement( "NewTable" ); //$NON-NLS-1$
 		assertNotNull( tableHandle );
+
+	}
+
+	/**
+	 * Test extends a multiple view in the table element.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testMultiViewsExtends( ) throws Exception
+	{
+		openDesign( "DesignIncludeTableMultiView.xml" ); //$NON-NLS-1$
+
+		TableHandle tableHandle = (TableHandle) designHandle
+				.findElement( "MyTable1" ); //$NON-NLS-1$
+		MultiViewsHandle multiView = (MultiViewsHandle) tableHandle
+				.getProperty( TableHandle.MULTI_VIEWS_PROP );
+		assertEquals( MultiViewsHandle.HOST, multiView
+				.getIntProperty( MultiViewsHandle.INDEX_PROP ) );
+
+		List views = multiView.getListProperty( MultiViewsHandle.VIEWS_PROP );
+		assertEquals( 2, views.size( ) );
+
+		ExtendedItemHandle box1 = (ExtendedItemHandle) views.get( 0 );
+		assertEquals( "box1", box1.getName( ) ); //$NON-NLS-1$
+		assertEquals( "5in", box1.getWidth( ).getStringValue( ) ); //$NON-NLS-1$
+
+		tableHandle.setCurrentView( (ExtendedItemHandle) views.get( 1 ) );
+		box1.setWidth( 3 );
+
+		save( );
+		assertTrue( compareFile( "DesignIncludeTableMultiView_golden.xml" ) ); //$NON-NLS-1$
 
 	}
 }

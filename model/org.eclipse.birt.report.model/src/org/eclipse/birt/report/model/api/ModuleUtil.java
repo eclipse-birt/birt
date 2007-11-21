@@ -542,8 +542,8 @@ public class ModuleUtil
 			public AbstractParseState startElement( String tagName )
 			{
 				if ( DesignSchemaConstants.REPORT_TAG
-						.equalsIgnoreCase( tagName )
-						|| DesignSchemaConstants.LIBRARY_TAG
+						.equalsIgnoreCase( tagName ) ||
+						DesignSchemaConstants.LIBRARY_TAG
 								.equalsIgnoreCase( tagName ) )
 					return new VersionState( );
 				return super.startElement( tagName );
@@ -1013,8 +1013,8 @@ public class ModuleUtil
 			}
 			else
 			{
-				if ( defn.getTypeCode( ) == IPropertyType.EXPRESSION_TYPE
-						|| defn.getTypeCode( ) == IPropertyType.SCRIPT_TYPE )
+				if ( defn.getTypeCode( ) == IPropertyType.EXPRESSION_TYPE ||
+						defn.getTypeCode( ) == IPropertyType.SCRIPT_TYPE )
 					return true;
 			}
 		}
@@ -1022,4 +1022,28 @@ public class ModuleUtil
 
 	}
 
+	/**
+	 * Returns the serialized id for the given element. The serialized id may or
+	 * may not be equal to the element id. It is for the BIRT internal usage.  
+	 * 
+	 * @param element
+	 *            the element
+	 * @return the serialized id of the given element
+	 */
+
+	public static long gerSerializedID( DesignElementHandle element )
+	{
+		if ( element == null )
+			return DesignElement.NO_ID;
+
+		if ( element instanceof MultiViewsHandle ||
+				element.getContainer( ) instanceof MultiViewsHandle )
+		{
+			DesignElementHandle tmpContainer = element.getContainer( );
+			if ( tmpContainer != null )
+				return tmpContainer.getID( );
+		}
+
+		return element.getID( );
+	}
 }
