@@ -425,17 +425,18 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	{
 		if ( set instanceof IQueryResultSet )
 		{
-			List groups = ( (IQueryResultSet) set ).getResultIterator( )
-					.getQueryResults( )
-					.getPreparedQuery( )
-					.getReportQueryDefn( )
-					.getGroups( );
-
-			if ( groups == null || groups.size( ) == 0 )
-			{
-				return new BIRTQueryResultSetEvaluator( (IQueryResultSet) set );
-			}
-			return new BIRTGroupedDataRowExpressionEvaluator( (IQueryResultSet) set );
+			//Remove the logic for smoke and complete the group enhancement
+//			List groups = ( (IQueryResultSet) set ).getResultIterator( )
+//					.getQueryResults( )
+//					.getPreparedQuery( )
+//					.getReportQueryDefn( )
+//					.getGroups( );
+//
+//			if ( groups != null && groups.size( ) > 0 )
+//			{
+//				return new BIRTGroupedDataRowExpressionEvaluator( (IQueryResultSet) set );
+//			}
+			return new BIRTQueryResultSetEvaluator( (IQueryResultSet) set );
 		}
 		// if ( set instanceof ICubeResultSet )
 		// {
