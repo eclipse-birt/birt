@@ -27,22 +27,35 @@ public class Messages
 	{
 	}
 
-	public static ResourceBundle getReportResourceBundle()
+	public static ResourceBundle getReportResourceBundle( )
 	{
 		return RESOURCE_BUNDLE;
 	}
-	
+
 	/**
-	 * Gets common translation for current local
+	 * Gets common translation for current locale
+	 * 
+	 * @param key
+	 *            the key
+	 * @return translated value string
+	 * @deprecated
+	 */
+
+	public static String getDescription( String key )
+	{
+		return getString( key );
+	}
+
+	/**
+	 * Gets common translation for current locale
 	 * 
 	 * @param key
 	 *            the key
 	 * @return translated value string
 	 */
 
-	public static String getDescription( String key )
+	public static String getString( String key )
 	{
-
 		try
 		{
 			String result = RESOURCE_BUNDLE.getString( key );

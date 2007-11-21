@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.examples.view.description.Messages;
 import org.eclipse.birt.chart.examples.view.util.ChartPreview;
 import org.eclipse.birt.chart.examples.view.util.ImportChartModel;
 import org.eclipse.birt.chart.examples.view.util.ItemContentProvider;
@@ -78,7 +79,7 @@ public class ChartExamples implements SelectionListener
 		sGroup.setLayout( new GridLayout( ) );
 		sGroup.setLayoutData( new GridData( GridData.FILL_VERTICAL
 				| GridData.FILL_HORIZONTAL ) );
-		sGroup.setText( "Select Examples" ); //$NON-NLS-1$
+		sGroup.setText( Messages.getString("ChartExamples.SelectExamples") ); //$NON-NLS-1$
 		createTree( sGroup );
 
 		// preview and description frame
@@ -94,7 +95,7 @@ public class ChartExamples implements SelectionListener
 		preGroup.setLayout( new GridLayout( ) );
 		preGroup.setLayoutData( new GridData( GridData.FILL_VERTICAL
 				| GridData.FILL_HORIZONTAL ) );
-		preGroup.setText( "Preview" ); //$NON-NLS-1$
+		preGroup.setText( Messages.getString("ChartExamples.Preview") ); //$NON-NLS-1$
 		gridData = new GridData( GridData.FILL_VERTICAL
 				| GridData.HORIZONTAL_ALIGN_FILL );
 		preGroup.setLayoutData( gridData );
@@ -114,7 +115,7 @@ public class ChartExamples implements SelectionListener
 		gridData = new GridData( GridData.FILL_HORIZONTAL );
 		gridData.heightHint = 60;
 		desGroup.setLayoutData( gridData );
-		desGroup.setText( "Description" ); //$NON-NLS-1$
+		desGroup.setText( Messages.getString("ChartExamples.Description") ); //$NON-NLS-1$
 
 		description = new Label( desGroup, SWT.WRAP );
 		description.setLayoutData( new GridData( GridData.FILL_VERTICAL
@@ -173,14 +174,14 @@ public class ChartExamples implements SelectionListener
 		{
 			TreeItem cItem = new TreeItem( tree, SWT.NONE ); // For
 			// Categories
-			cItem.setText( (String) iter.next( ).toString( ) );
+			cItem.setText( (String) iter.next( ) );
 
 			ArrayList iTypes = icp.getItemTypes( cItem.getText( ) );
 			Iterator iter2 = iTypes.iterator( );
 			while ( iter2.hasNext( ) )
 			{
 				TreeItem iItem = new TreeItem( cItem, SWT.NONE ); // For Items
-				iItem.setText( (String) iter2.next( ).toString( ) );
+				iItem.setText( (String) iter2.next( ) );
 			}
 		}
 		tree.setRedraw( true );
