@@ -29,6 +29,12 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 	protected DataSetHandle dataSetHandle;
 
 	protected IDataSetEventHandler eventHandler;
+	
+	private boolean useOnFetchEventHandler = false;
+	private boolean useAfterCloseEventHandler = false;
+	private boolean useAfterOpenEventHandler = false;
+	private boolean useBeforeOpenEventHandler = false;
+	private boolean useBeforeCloseEventHandler = false;
 
 	public DataSetScriptExecutor( DataSetHandle dataSetHandle,
 			ExecutionContext context )
@@ -37,6 +43,11 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 		this.dataSetHandle = dataSetHandle;
 		String className = dataSetHandle.getEventHandlerClass( );
 		initEventHandler( className );
+		useOnFetchEventHandler = ScriptTextUtil.isNullOrComments( dataSetHandle.getOnFetch( ) );
+		useAfterCloseEventHandler = ScriptTextUtil.isNullOrComments( dataSetHandle.getAfterClose( ) );
+		useAfterOpenEventHandler = ScriptTextUtil.isNullOrComments( dataSetHandle.getAfterOpen( ) );
+		useBeforeOpenEventHandler = ScriptTextUtil.isNullOrComments( dataSetHandle.getBeforeOpen( ) );
+		useBeforeCloseEventHandler = ScriptTextUtil.isNullOrComments( dataSetHandle.getBeforeClose( ) );
 	}
 
 	protected void initEventHandler( String className )
@@ -61,11 +72,15 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 			return;
 		try
 		{
-			JSScriptStatus status = handleJS( dataSet.getScriptScope( ),
-					dataSet.getName( ), BEFORE_OPEN, dataSetHandle
-							.getBeforeOpen( ) );
-			if ( status.didRun( ) )
-				return;
+			if ( !this.useBeforeOpenEventHandler )
+			{
+				JSScriptStatus status = handleJS( dataSet.getScriptScope( ),
+						dataSet.getName( ),
+						BEFORE_OPEN,
+						dataSetHandle.getBeforeOpen( ) );
+				if ( status.didRun( ) )
+					return;
+			}
 			if ( eventHandler != null )
 				eventHandler.beforeOpen( new DataSetInstance( dataSet ),
 						reportContext );
@@ -81,11 +96,15 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 			return;
 		try
 		{
-			JSScriptStatus status = handleJS( dataSet.getScriptScope( ),
-					dataSet.getName( ), BEFORE_CLOSE, dataSetHandle
-							.getBeforeClose( ) );
-			if ( status.didRun( ) )
-				return;
+			if ( !this.useBeforeCloseEventHandler )
+			{
+				JSScriptStatus status = handleJS( dataSet.getScriptScope( ),
+						dataSet.getName( ),
+						BEFORE_CLOSE,
+						dataSetHandle.getBeforeClose( ) );
+				if ( status.didRun( ) )
+					return;
+			}
 			if ( eventHandler != null )
 				eventHandler.beforeClose( new DataSetInstance( dataSet ),
 						reportContext );
@@ -101,11 +120,15 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 			return;
 		try
 		{
-			JSScriptStatus status = handleJS( dataSet.getScriptScope( ),
-					dataSet.getName( ), AFTER_OPEN, dataSetHandle
-							.getAfterOpen( ) );
-			if ( status.didRun( ) )
-				return;
+			if ( !this.useAfterOpenEventHandler )
+			{
+				JSScriptStatus status = handleJS( dataSet.getScriptScope( ),
+						dataSet.getName( ),
+						AFTER_OPEN,
+						dataSetHandle.getAfterOpen( ) );
+				if ( status.didRun( ) )
+					return;
+			}
 			if ( eventHandler != null )
 				eventHandler.afterOpen( new DataSetInstance( dataSet ),
 						reportContext );
@@ -121,11 +144,15 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 			return;
 		try
 		{
-			JSScriptStatus status = handleJS( dataSet.getScriptScope( ),
-					dataSet.getName( ), AFTER_CLOSE, dataSetHandle
-							.getAfterClose( ) );
-			if ( status.didRun( ) )
-				return;
+			if ( !this.useAfterCloseEventHandler )
+			{
+				JSScriptStatus status = handleJS( dataSet.getScriptScope( ),
+						dataSet.getName( ),
+						AFTER_CLOSE,
+						dataSetHandle.getAfterClose( ) );
+				if ( status.didRun( ) )
+					return;
+			}
 			if ( eventHandler != null )
 				eventHandler.afterClose( reportContext );
 		} catch ( Exception e )
@@ -140,10 +167,15 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 			return;
 		try
 		{
-			JSScriptStatus status = handleJS( dataSet.getScriptScope( ),
-					dataSet.getName( ), ON_FETCH, dataSetHandle.getOnFetch( ) );
-			if ( status.didRun( ) )
-				return;
+			if ( !this.useOnFetchEventHandler )
+			{
+				JSScriptStatus status = handleJS( dataSet.getScriptScope( ),
+						dataSet.getName( ),
+						ON_FETCH,
+						dataSetHandle.getOnFetch( ) );
+				if ( status.didRun( ) )
+					return;
+			}
 			if ( eventHandler != null )
 				eventHandler.onFetch( new DataSetInstance( dataSet ),
 						new DataSetRow( row ), reportContext );

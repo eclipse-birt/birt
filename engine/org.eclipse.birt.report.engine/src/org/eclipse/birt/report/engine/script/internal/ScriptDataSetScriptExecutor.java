@@ -35,11 +35,20 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 	private static final String DESCRIBE = "DESCRIBE";
 
 	private IScriptedDataSetEventHandler scriptedEventHandler;
-
+	
+	private boolean useOpenEventHandler = false;
+	private boolean useFetchEventHandler = false;
+	private boolean useCloseEventHandler = false;
+	private boolean useDescribeEventHandler = false;
+	
 	public ScriptDataSetScriptExecutor( ScriptDataSetHandle dataSetHandle,
 			ExecutionContext context )
 	{
 		super( dataSetHandle, context );
+		useOpenEventHandler = ScriptTextUtil.isNullOrComments( dataSetHandle.getOpen( ) );
+		useFetchEventHandler = ScriptTextUtil.isNullOrComments ( dataSetHandle.getFetch( ) );
+		useCloseEventHandler = ScriptTextUtil.isNullOrComments( dataSetHandle.getClose( ) );
+		useDescribeEventHandler = ScriptTextUtil.isNullOrComments( dataSetHandle.getDescribe( ) );
 	}
 
 	protected void initEventHandler( String className )
@@ -63,11 +72,15 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 	{
 		try
 		{
-			JSScriptStatus status = handleJS( dataSet.getScriptScope( ),
-					dataSet.getName( ), OPEN,
-					( ( ScriptDataSetHandle ) dataSetHandle ).getOpen( ) );
-			if ( status.didRun( ) )
-				return;
+			if ( !this.useOpenEventHandler )
+			{
+				JSScriptStatus status = handleJS( dataSet.getScriptScope( ),
+						dataSet.getName( ),
+						OPEN,
+						( (ScriptDataSetHandle) dataSetHandle ).getOpen( ) );
+				if ( status.didRun( ) )
+					return;
+			}
 			if ( scriptedEventHandler != null )
 				scriptedEventHandler.open( new DataSetInstance( dataSet ) );
 		} catch ( Exception e )
@@ -80,11 +93,15 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 	{
 		try
 		{
-			JSScriptStatus status = handleJS( dataSet.getScriptScope( ),
-					dataSet.getName( ), CLOSE,
-					( ( ScriptDataSetHandle ) dataSetHandle ).getClose( ) );
-			if ( status.didRun( ) )
-				return;
+			if ( !this.useCloseEventHandler )
+			{
+				JSScriptStatus status = handleJS( dataSet.getScriptScope( ),
+						dataSet.getName( ),
+						CLOSE,
+						( (ScriptDataSetHandle) dataSetHandle ).getClose( ) );
+				if ( status.didRun( ) )
+					return;
+			}
 			if ( scriptedEventHandler != null )
 				scriptedEventHandler.close( new DataSetInstance( dataSet ) );
 		} catch ( Exception e )
@@ -97,18 +114,21 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 	{
 		try
 		{
-			JSScriptStatus status = handleJS( dataSet.getScriptScope( ),
-					dataSet.getName( ), FETCH,
-					( ( ScriptDataSetHandle ) dataSetHandle ).getFetch( ) );
-			if ( status.didRun( ) )
+			if ( !useFetchEventHandler )
 			{
-				Object result = status.result( );
-				if ( result instanceof Boolean )
-					return ( ( Boolean ) result ).booleanValue( );
-				else
-					throw new DataException(
-							ResourceConstants.EXPECT_BOOLEAN_RETURN_TYPE,
-							"Fetch" );
+				JSScriptStatus status = handleJS( dataSet.getScriptScope( ),
+						dataSet.getName( ),
+						FETCH,
+						( (ScriptDataSetHandle) dataSetHandle ).getFetch( ) );
+				if ( status.didRun( ) )
+				{
+					Object result = status.result( );
+					if ( result instanceof Boolean )
+						return ( (Boolean) result ).booleanValue( );
+					else
+						throw new DataException( ResourceConstants.EXPECT_BOOLEAN_RETURN_TYPE,
+								"Fetch" );
+				}
 			}
 			if ( scriptedEventHandler != null )
 				return scriptedEventHandler.fetch(
@@ -126,18 +146,21 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 	{
 		try
 		{
-			JSScriptStatus status = handleJS( dataSet.getScriptScope( ),
-					dataSet.getName( ), DESCRIBE,
-					( ( ScriptDataSetHandle ) dataSetHandle ).getDescribe( ) );
-			if ( status.didRun( ) )
+			if ( !this.useDescribeEventHandler )
 			{
-				Object result = status.result( );
-				if ( result instanceof Boolean )
-					return ( ( Boolean ) result ).booleanValue( );
-				else
-					throw new DataException(
-							ResourceConstants.EXPECT_BOOLEAN_RETURN_TYPE,
-							"Describe" );
+				JSScriptStatus status = handleJS( dataSet.getScriptScope( ),
+						dataSet.getName( ),
+						DESCRIBE,
+						( (ScriptDataSetHandle) dataSetHandle ).getDescribe( ) );
+				if ( status.didRun( ) )
+				{
+					Object result = status.result( );
+					if ( result instanceof Boolean )
+						return ( (Boolean) result ).booleanValue( );
+					else
+						throw new DataException( ResourceConstants.EXPECT_BOOLEAN_RETURN_TYPE,
+								"Describe" );
+				}
 			}
 			if ( scriptedEventHandler != null )
 				return scriptedEventHandler.describe( new DataSetInstance(

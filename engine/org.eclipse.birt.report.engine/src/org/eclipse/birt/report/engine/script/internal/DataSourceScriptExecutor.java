@@ -27,6 +27,11 @@ public class DataSourceScriptExecutor extends DtEScriptExecutor implements
 
 	protected IDataSourceEventHandler eventHandler;
 
+	private boolean useBeforeCloseEventHandler = false;
+	private boolean useBeforeOpenEventHandler = false;
+	private boolean useAfterOpenEventHandler = false;
+	private boolean useAfterCloseEventHandler = false;
+
 	public DataSourceScriptExecutor( DataSourceHandle dataSourceHandle,
 			ExecutionContext context )
 	{
@@ -34,6 +39,11 @@ public class DataSourceScriptExecutor extends DtEScriptExecutor implements
 		this.dataSourceHandle = dataSourceHandle;
 		String className = dataSourceHandle.getEventHandlerClass( );
 		initEventHandler( className );
+		this.useBeforeOpenEventHandler = ScriptTextUtil.isNullOrComments( dataSourceHandle.getBeforeOpen( ) );
+		this.useBeforeCloseEventHandler = ScriptTextUtil.isNullOrComments( dataSourceHandle.getBeforeClose( ) );
+		this.useAfterOpenEventHandler = ScriptTextUtil.isNullOrComments( dataSourceHandle.getAfterOpen( ) );
+		this.useAfterCloseEventHandler = ScriptTextUtil.isNullOrComments( dataSourceHandle.getAfterClose( ) );
+
 	}
 
 	protected void initEventHandler( String className )
@@ -58,11 +68,15 @@ public class DataSourceScriptExecutor extends DtEScriptExecutor implements
 			return;
 		try
 		{
-			JSScriptStatus status = handleJS( dataSource.getScriptScope( ),
-					dataSource.getName( ), BEFORE_OPEN, dataSourceHandle
-							.getBeforeOpen( ) );
-			if ( status.didRun( ) )
-				return;
+			if ( !this.useBeforeOpenEventHandler )
+			{
+				JSScriptStatus status = handleJS( dataSource.getScriptScope( ),
+						dataSource.getName( ),
+						BEFORE_OPEN,
+						dataSourceHandle.getBeforeOpen( ) );
+				if ( status.didRun( ) )
+					return;
+			}
 			if ( eventHandler != null )
 				eventHandler.beforeOpen( new DataSourceInstance( dataSource ),
 						reportContext );
@@ -78,11 +92,15 @@ public class DataSourceScriptExecutor extends DtEScriptExecutor implements
 			return;
 		try
 		{
-			JSScriptStatus status = handleJS( dataSource.getScriptScope( ),
-					dataSource.getName( ), BEFORE_CLOSE, dataSourceHandle
-							.getBeforeClose( ) );
-			if ( status.didRun( ) )
-				return;
+			if ( !this.useBeforeCloseEventHandler )
+			{
+				JSScriptStatus status = handleJS( dataSource.getScriptScope( ),
+						dataSource.getName( ),
+						BEFORE_CLOSE,
+						dataSourceHandle.getBeforeClose( ) );
+				if ( status.didRun( ) )
+					return;
+			}
 			if ( eventHandler != null )
 				eventHandler.beforeClose( new DataSourceInstance( dataSource ),
 						reportContext );
@@ -98,11 +116,15 @@ public class DataSourceScriptExecutor extends DtEScriptExecutor implements
 			return;
 		try
 		{
-			JSScriptStatus status = handleJS( dataSource.getScriptScope( ),
-					dataSource.getName( ), AFTER_OPEN, dataSourceHandle
-							.getAfterOpen( ) );
-			if ( status.didRun( ) )
-				return;
+			if ( !this.useAfterOpenEventHandler )
+			{
+				JSScriptStatus status = handleJS( dataSource.getScriptScope( ),
+						dataSource.getName( ),
+						AFTER_OPEN,
+						dataSourceHandle.getAfterOpen( ) );
+				if ( status.didRun( ) )
+					return;
+			}
 			if ( eventHandler != null )
 				eventHandler.afterOpen( new DataSourceInstance( dataSource ),
 						reportContext );
@@ -118,11 +140,15 @@ public class DataSourceScriptExecutor extends DtEScriptExecutor implements
 			return;
 		try
 		{
-			JSScriptStatus status = handleJS( dataSource.getScriptScope( ),
-					dataSource.getName( ), AFTER_CLOSE, dataSourceHandle
-							.getAfterClose( ) );
-			if ( status.didRun( ) )
-				return;
+			if ( !this.useAfterCloseEventHandler )
+			{
+				JSScriptStatus status = handleJS( dataSource.getScriptScope( ),
+						dataSource.getName( ),
+						AFTER_CLOSE,
+						dataSourceHandle.getAfterClose( ) );
+				if ( status.didRun( ) )
+					return;
+			}
 			if ( eventHandler != null )
 				eventHandler.afterClose( reportContext );
 		} catch ( Exception e )
