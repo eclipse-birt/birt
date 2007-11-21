@@ -90,17 +90,23 @@ abstract public class DataEngine
 	public static String INCREMENTAL_CACHE_CONFIG = "org.eclipse.birt.data.cache.incremental.config";
 
 	/**
-	 * The fetch size on column and row edge in cube cursor.Negative number
-	 * indicates fetch all result set.
+	 * The fetch size on column and row edge in cube cursor.
+	 * 
+	 * Positive integer: the number setting on edge. 
+	 * Zero or Negative number:Disable the number setting on edge.
 	 */
-	private static String CUBECURSOR_FETCH_LIMIT_ON_COLUMN_EDGE = "org.eclipse.birt.data.engine.olap.cursor.onColumn";
-	private static String CUBECUSROR_FETCH_LIMIT_ON_ROW_EDGE = "org.eclipse.birt.data.engine.olap.cursor.onRow";
+	public static String CUBECURSOR_FETCH_LIMIT_ON_COLUMN_EDGE = "org.eclipse.birt.data.engine.olap.cursor.onColumn";
+	public static String CUBECUSROR_FETCH_LIMIT_ON_ROW_EDGE = "org.eclipse.birt.data.engine.olap.cursor.onRow";
 	
 	/**
 	 * The fetch size of the member numbers for all levels.
 	 * 
-	 * Zero or Positive integer: the member numbers will be fetched from levels.
-	 * Negative integer:Diable this number setting on levels.
+	 * Positive integer: the member numbers will be fetched from levels.
+	 * Zero or Negative integer:Disable this number setting on levels.
+	 * 
+	 * @deprecated use 
+                   DataEngine.CUBECURSOR_FETCH_LIMIT_ON_COLUMN_EDGE and
+	 *             DataEngine.CUBECUSROR_FETCH_LIMIT_ON_ROW_EDGE instead
 	 */
 	public static String CUBECURSOR_FETCH_LIMIT_ON_LEVEL = "org.eclipse.birt.data.engine.olap.cursor.onLevel";
 	

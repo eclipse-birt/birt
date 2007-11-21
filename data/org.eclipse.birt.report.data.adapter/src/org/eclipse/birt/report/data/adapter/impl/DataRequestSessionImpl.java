@@ -36,7 +36,6 @@ import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
-import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
@@ -46,8 +45,6 @@ import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.aggregation.IAggregationFactory;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSourceDesign;
-import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
-import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
@@ -55,10 +52,6 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.cube.CubeElementFactory;
 import org.eclipse.birt.data.engine.olap.data.api.cube.CubeMaterializer;
@@ -73,7 +66,6 @@ import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.api.IRequestInfo;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
-import org.eclipse.birt.report.data.adapter.internal.adapter.CubeQueryDefinitionAdapter;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
@@ -949,25 +941,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 					appContext, stopSign );
 			this.cubeHandleMap.remove( query.getName( ) );
 		}
-		ICubeQueryDefinition cubeQueryDefn = new CubeQueryDefinitionAdapter( query );
-		if ( this.sessionContext.getDataEngineContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION )
-		{
-			int size = 0;
-			if ( appContext != null )
-			{
-				size = populateFetchLimitSize( appContext.get( DataEngine.CUBECURSOR_FETCH_LIMIT_ON_LEVEL ) );
-				if ( size > 0 )
-				{
-					cubeQueryDefn.getFilters( )
-							.addAll( fetchFilterList( cubeQueryDefn.getEdge( ICubeQueryDefinition.COLUMN_EDGE ),
-									size ) );
-					cubeQueryDefn.getFilters( )
-							.addAll( fetchFilterList( cubeQueryDefn.getEdge( ICubeQueryDefinition.ROW_EDGE ),
-									size ) );
-				}
-			}
-		}
-		return this.dataEngine.prepare( cubeQueryDefn, appContext );
+
+		return this.dataEngine.prepare( query, appContext );
 	}
 
 	/*
@@ -1009,61 +984,6 @@ public class DataRequestSessionImpl extends DataRequestSession
 		{
 			throw new AdapterException( e.getLocalizedMessage( ), e );
 		}
-	}
-	
-	/**
-	 * To use the limit fetch size setting in appContext on all levels' member
-	 * number. Construct top_N filter definition base on all levels along edge.
-	 * 
-	 * @param edge
-	 * @param size
-	 * @return
-	 */
-	private List fetchFilterList( IEdgeDefinition edge, int size )
-	{
-
-		List filterExpression = new ArrayList( );
-		if ( edge != null )
-		{
-			Iterator dimensionIter = edge.getDimensions( ).iterator( );
-			while ( dimensionIter.hasNext( ) )
-			{
-				IDimensionDefinition dim = (IDimensionDefinition) dimensionIter.next( );
-				String dimensionName = dim.getName( );
-				Iterator hierarchyIter = dim.getHierarchy( ).iterator( );
-				while ( hierarchyIter.hasNext( ) )
-				{
-					IHierarchyDefinition hierarchy = (IHierarchyDefinition) hierarchyIter.next( );
-					Iterator levelIter = hierarchy.getLevels( ).iterator( );
-					while ( levelIter.hasNext( ) )
-					{
-						ILevelDefinition level = (ILevelDefinition) levelIter.next( );
-						String levelName = level.getName( );
-						filterExpression.add( new FilterDefinition( new ConditionalExpression( ExpressionUtil.createJSDimensionExpression( dimensionName,
-								levelName ),
-								IConditionalExpression.OP_TOP_N,
-								String.valueOf( size ) ) ) );
-					}
-				}
-			}
-		}
-		return filterExpression;
-	}	
-	
-	/**
-	 * 
-	 * @param propValue
-	 * @return
-	 */
-	private int populateFetchLimitSize( Object propValue )
-	{
-		int fetchLimit = -1;
-		String fetchLimitSize = propValue == null ? "-1" : propValue.toString( );
-
-		if ( fetchLimitSize != null )
-			fetchLimit = Integer.parseInt( fetchLimitSize );
-
-		return fetchLimit;
 	}
 
 	/*
