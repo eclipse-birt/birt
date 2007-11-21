@@ -42,6 +42,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationExecut
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.AggregationFilterHelper;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.LevelFilter;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.LevelFilterHelper;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.AggrMeasureFilterHelper;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.SimpleLevelFilter;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortHelper;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.ITargetSort;
@@ -49,8 +50,10 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionResultIterator;
 import org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableRowIterator;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
+import org.eclipse.birt.data.engine.olap.util.filter.ICubePosFilter;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSMeasureFilterEvalHelper;
+import org.eclipse.birt.data.engine.olap.util.filter.IAggrMeasureFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.sort.IJSSortHelper;
 
 /**
@@ -73,9 +76,10 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	
 	private IComputedMeasureHelper computedMeasureHelper = null;
 	
-	private Map dimLevelsMap = null;
 	private List aggrFilterHelpers;
+	private List aggrMeasureFilters;
 	
+	private List cubePosFilters;
 	private static Logger logger = Logger.getLogger( CubeQueryExecutorHelper.class.getName( ) );
 	
 	/**
@@ -107,19 +111,13 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		this.levelFilters = new ArrayList( );
 		this.measureFilters = new ArrayList( );
 		this.aggrFilterHelpers = new ArrayList( );
+		this.aggrMeasureFilters = new ArrayList( );
 		this.dimJSFilterMap = new HashMap( );
 		this.dimRowForFilterMap = new HashMap( );
 		
 		this.rowSort = new ArrayList( );
 		this.columnSort = new ArrayList( );
 		
-		dimLevelsMap = new HashMap( );
-		IDimension[] dimension = this.cube.getDimesions( );
-		for ( int i = 0; i < dimension.length; i++ )
-		{
-			ILevel[] levels = dimension[i].getHierarchy( ).getLevels( );
-			dimLevelsMap.put( dimension[i].getName( ), levels );
-		}
 		logger.exiting( CubeQueryExecutorHelper.class.getName( ),
 				"CubeQueryExecutorHelper" );//$NON-NLS-1$
 	}
@@ -292,9 +290,9 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	{
 		levelFilters.clear( );
 		aggrFilterHelpers.clear( );
+		aggrMeasureFilters.clear( );
 		dimJSFilterMap.clear( );
 		dimRowForFilterMap.clear( );
-		dimLevelsMap.clear( );
 		rowSort.clear( );
 		columnSort.clear( );
 	}
@@ -307,9 +305,9 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	{
 		levelFilters = null;
 		aggrFilterHelpers = null;
+		aggrMeasureFilters = null;
 		dimJSFilterMap = null;
 		dimRowForFilterMap = null;
-		dimLevelsMap = null;
 		rowSort = null;
 		columnSort = null;
 	}
@@ -380,9 +378,18 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			IAggregationResultSet[] resultSet, StopSign stopSign )
 			throws IOException, DataException, BirtException
 	{
-		if ( aggrFilterHelpers.isEmpty( ) == false )
+		boolean recalculate = false;
+		
+		if ( !aggrMeasureFilters.isEmpty( ) )
 		{
-			List oldFilters = new ArrayList( levelFilters );
+			AggrMeasureFilterHelper filter = new AggrMeasureFilterHelper( cube,
+					resultSet );
+			cubePosFilters = filter.getCubePosFilters( aggrMeasureFilters );
+			recalculate = true;
+		}
+		
+		if ( !aggrFilterHelpers.isEmpty( ) )
+		{
 			AggregationFilterHelper filterHelper = new AggregationFilterHelper( cube,
 					aggrFilterHelpers );
 			// add new filters for another aggregation computation
@@ -393,6 +400,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 				for ( int i = 0; i < resultSet.length; i++ )
 				{// clear all aggregation result sets to be empty
 					resultSet[i].clear( );
+					recalculate = false;
 				}
 			}
 			else
@@ -403,17 +411,22 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 					resultSet[i].close( );
 					resultSet[i] = null;
 				}
-				// recalculate the aggregation according to new filters
-				IAggregationResultSet[] temp = onePassExecute( aggregations,
-						stopSign );
-				// overwrite result with the second pass aggregation result set
-				System.arraycopy( temp, 0, resultSet, 0, resultSet.length );
+				recalculate = true;
 			}
-			// restore to original filter list to avoid conflict
-			levelFilters = oldFilters;
+		}
+		
+		
+		
+		if ( recalculate )
+		{
+			// recalculate the aggregation according to new filters
+			IAggregationResultSet[] temp = onePassExecute( aggregations,
+					stopSign );
+			// overwrite result with the second pass aggregation result set
+			System.arraycopy( temp, 0, resultSet, 0, resultSet.length );
 		}
 	}
-	 
+
 	/**
 	 * This method is responsible for computing the aggregation result according
 	 * to the specified aggregation definitions.
@@ -456,6 +469,15 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 				validDimPosition,
 				computedMeasureHelper,
 				stopSign );
+		if ( cubePosFilters != null && !cubePosFilters.isEmpty( ) )
+		{// add fact table filter if it's necessary
+			for ( Iterator itr = cubePosFilters.iterator( ); itr.hasNext( ); )
+			{
+				ICubePosFilter cubePosFilter = (ICubePosFilter) itr.next( );
+				facttableRowIterator.addCubePosFilter( cubePosFilter );
+			}
+		}
+		
 		for( int i=0;i<measureFilters.size( );i++)
 		{
 			facttableRowIterator.addMeasureFilter( (IJSMeasureFilterEvalHelper)measureFilters.get( i ) );
@@ -549,6 +571,15 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		return dimPosition;
 	}
 	
+	/**
+	 * 
+	 * @param aggrFilterHelper
+	 */
+	public void addAggrMeasureFilter(IAggrMeasureFilterEvalHelper aggrFilterHelper)
+	{
+		this.aggrMeasureFilters.add( aggrFilterHelper );
+	}
+
 	
 	/*
 	 * (non-Javadoc)

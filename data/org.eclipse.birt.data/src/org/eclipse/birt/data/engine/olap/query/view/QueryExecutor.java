@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.olap.query.view;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -50,6 +51,7 @@ import org.eclipse.birt.data.engine.olap.driver.IResultSet;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutor;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
+import org.eclipse.birt.data.engine.olap.util.filter.IAggrMeasureFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.sort.DimensionSortEvalHelper;
 import org.mozilla.javascript.Scriptable;
 
@@ -83,6 +85,12 @@ public class QueryExecutor
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( cube,
 				executor.getComputedMeasureHelper( ) );
 		cubeQueryExcutorHelper.addJSFilter( executor.getDimensionFilterEvalHelpers( ) );
+		List list = executor.getMeasureFilterEvalHelpers( );
+		for ( Iterator itr = list.iterator( ); itr.hasNext( ); )
+		{
+			IAggrMeasureFilterEvalHelper filterHelper = (IAggrMeasureFilterEvalHelper) itr.next( );
+			cubeQueryExcutorHelper.addAggrMeasureFilter( filterHelper );
+		}
 		populateAggregationSort( executor, cubeQueryExcutorHelper, true );
 		populateAggregationSort( executor, cubeQueryExcutorHelper, false );
 		IAggregationResultSet[] rs = null;

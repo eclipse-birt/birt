@@ -20,11 +20,12 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
+import org.eclipse.birt.data.engine.olap.api.query.ICubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeSortDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.IComputedMeasureHelper;
-
 import org.eclipse.birt.data.engine.olap.util.ComputedMeasureHelper;
+import org.eclipse.birt.data.engine.olap.util.filter.AggrMeasureFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.BaseDimensionFilterEvalHelper;
 import org.mozilla.javascript.Scriptable;
 
@@ -61,11 +62,54 @@ public class CubeQueryExecutor
 		List results = new ArrayList( );
 		for ( int i = 0; i < filters.size( ); i++ )
 		{
-			results.add( BaseDimensionFilterEvalHelper.createFilterHelper( this.scope,
-					defn,
-					(IFilterDefinition) filters.get( i ) ) );
+			IFilterDefinition filter = (IFilterDefinition) filters.get( i );
+			if ( !isMeasureFilter( filter ) )
+			{
+				results.add( BaseDimensionFilterEvalHelper.createFilterHelper( this.scope,
+						defn,
+						filter ) );
+			}
 		}
 		return results;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @throws DataException
+	 */
+	public List getMeasureFilterEvalHelpers() throws DataException
+	{
+		List filters = defn.getFilters( );
+		List results = new ArrayList( );
+		for ( int i = 0; i < filters.size( ); i++ )
+		{
+			IFilterDefinition filter = (IFilterDefinition) filters.get( i );
+			if ( isMeasureFilter( filter ) )
+			{
+				AggrMeasureFilterEvalHelper filterHelper = new AggrMeasureFilterEvalHelper( scope,
+						defn,
+						filter );
+				results.add( filterHelper );
+			}
+		}
+		return results;
+	}
+
+
+	/**
+	 * 
+	 * @param filter
+	 * @return
+	 */
+	private boolean isMeasureFilter( IFilterDefinition filter )
+	{
+		if ( filter instanceof ICubeFilterDefinition )
+		{
+			ICubeFilterDefinition cubeFilter = (ICubeFilterDefinition) filter;
+			return cubeFilter.getTargetLevel( ) == null;
+		}
+		return false;
 	}
 
 	/**
