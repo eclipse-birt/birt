@@ -67,6 +67,16 @@
          <property
                canInherit="true"
                isEncryptable="false"
+               isList="false"
+               name="multiViews"
+               type="element">
+            <elementType
+                  name="MultiViews">
+            </elementType>
+         </property>
+         <property
+               canInherit="true"
+               isEncryptable="false"
                isList="true"
                name="measures"
                type="element">

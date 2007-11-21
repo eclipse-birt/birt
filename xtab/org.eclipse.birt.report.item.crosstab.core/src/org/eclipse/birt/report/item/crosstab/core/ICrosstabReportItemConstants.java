@@ -76,4 +76,9 @@ public interface ICrosstabReportItemConstants
 	 * Name of the property that contains single CrosstabView for column axis.
 	 */
 	String COLUMNS_PROP = "columns"; //$NON-NLS-1$
+
+	/**
+	 * Name of the property that contains single MultiViews.
+	 */
+	String MULTI_VIEWS_PROP = "multiViews"; //$NON-NLS-1$
 }
