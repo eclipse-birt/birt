@@ -11,9 +11,12 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 import java.util.TreeSet;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -36,55 +39,31 @@ public class ParameterHelper
 
 	private static final String LABEL_PREFIX = "__LABEL__";
 
-	private ScalarParameterHandle parameter;
 	private boolean distinct;
 	private Comparator comparator;
 	private String labelColumnName;
 	private String valueColumnName;
 	private String valueType;
+	private boolean fixedOrder;
 
-	private static class FixInOrderComparator implements Comparator
-	{
-		private boolean distinct;
-		
-		private FixInOrderComparator(boolean distinct )
-		{
-			this.distinct = distinct;
-		}
-		
-		public int compare( Object arg0, Object arg1 )
-		{
-			if ( distinct )
-			{
-				if ( arg0 == null )
-				{
-					if ( arg0 == null )
-						return 0;
-				}
-				else
-				{
-					if ( arg0.equals( arg1 ) )
-						return 0;
-				}
-			}
-			return 1;
-		}
-	};
-	
 	public ParameterHelper( ScalarParameterHandle parameter, Locale locale )
 	{
-		this.parameter = parameter;
 		this.distinct = parameter.distinct( );
 		this.labelColumnName = getLabelColumnName( parameter );
 		this.valueColumnName = getValueColumnName( parameter );
 		this.valueType = parameter.getDataType( );
-		if ( parameter.isFixedOrder( ) )
+		this.fixedOrder = parameter.isFixedOrder( );
+		if ( !fixedOrder )
 		{
-			this.comparator = new FixInOrderComparator( distinct );
-		}
-		else
-		{
-			this.comparator = createComparator( parameter, locale, distinct );
+			boolean sortDirectionValue = "asc".equalsIgnoreCase( parameter
+					.getSortDirection( ) );
+			boolean sortByLabel = "label".equalsIgnoreCase( parameter
+					.getSortBy( ) );
+			String pattern = parameter.getPattern( );
+			Comparator choiceComparator = new SelectionChoiceComparator( sortByLabel,
+					pattern, sortDirectionValue, ULocale.forLocale( locale ) );
+			this.comparator = new DistinctComparatorDecorator( choiceComparator,
+					distinct );
 		}
 	}
 	
@@ -112,6 +91,27 @@ public class ParameterHelper
 	
 	public Collection createSelectionCollection( )
 	{
+		if ( fixedOrder )
+		{
+			if ( !distinct )
+			{
+				return new ArrayList( );
+			}
+			return new ArrayList( )
+			{
+				private static final long serialVersionUID = 1L;
+				private Set values = new HashSet( );
+				public boolean add( Object arg0 )
+				{
+					if ( !values.contains( arg0 ) )
+					{
+						values.add( arg0 );
+						return super.add( arg0 );
+					}
+					return false;
+				}
+			};
+		}
 		return new TreeSet( comparator );
 	}
 	
@@ -152,18 +152,6 @@ public class ParameterHelper
 		queryDefinition.addBinding( binding );
 	}
 	
-	private static Comparator createComparator(
-			ScalarParameterHandle parameter, Locale locale, boolean distinct )
-	{
-		boolean sortDirectionValue = "asc".equalsIgnoreCase( parameter.getSortDirection( ) );
-		boolean sortByLabel = "label".equalsIgnoreCase( parameter.getSortBy( ) );
-		String pattern = parameter.getPattern( );
-		SelectionChoiceComparator selectionChoiceComparator = new SelectionChoiceComparator(
-				sortByLabel, pattern, sortDirectionValue, ULocale
-						.forLocale( locale ) );
-		return new DistinctComparatorDecorator(selectionChoiceComparator, distinct);
-	}
-
 	static class DistinctComparatorDecorator implements Comparator
 	{
 		private boolean distinct;
