@@ -136,7 +136,7 @@ public class DocWriter
 			title = element.name;
 		write( title );
 		writeln( "</title>" );
-		writeln( "<link rel=\"stylesheet\" href=\"../../style/style.css\" type=\"text/css\"/>" );
+		writeln( "<link rel=\"stylesheet\" href=\"../style/style.css\" type=\"text/css\"/>" );
 		writeln( "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">" );
 		writeln( "</head>\n<body>" );
 		
