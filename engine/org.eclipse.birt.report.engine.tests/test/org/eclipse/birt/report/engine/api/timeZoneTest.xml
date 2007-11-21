@@ -45,7 +45,7 @@
                 <structure>
                     <property name="name">dateItem</property>
                     <expression name="expression">new Date("Thu, 01 Nov 2007 09:38:20 GMT");</expression>
-                    <property name="dataType">date</property>
+                    <property name="dataType">date-time</property>
                 </structure>
             </list-property>
             <property name="resultSetColumn">dateItem</property>
