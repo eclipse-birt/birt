@@ -18,14 +18,10 @@ import java.util.Map;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
-import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
-import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
-import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.ICascadingParameterSelectionChoice;
@@ -405,7 +401,7 @@ public class GetParameterDefinitionTask extends EngineTask
 		try
 		{
 			while ( iterator.next( )
-					&& ( limit <= 0 || choices.size( ) <= limit ) )
+					&& ( limit <= 0 || choices.size( ) < limit ) )
 			{
 				// skip duplicated values.
 				if ( filter != null && !filter.accept( iterator ) )
