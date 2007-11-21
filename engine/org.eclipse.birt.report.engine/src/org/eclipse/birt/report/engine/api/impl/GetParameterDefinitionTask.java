@@ -792,6 +792,11 @@ public class GetParameterDefinitionTask extends EngineTask
 			}
 			return value.equals( choice.value );
 		}
+		
+		public int hashCode( )
+		{
+			return value == null? 0 : value.hashCode( );
+		}
 	}
 	
 	static class CascadingParameterSelectionChoice extends SelectionChoice
