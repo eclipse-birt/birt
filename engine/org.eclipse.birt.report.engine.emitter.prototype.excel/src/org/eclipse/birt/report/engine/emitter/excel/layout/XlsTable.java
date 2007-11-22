@@ -7,6 +7,8 @@ public class XlsTable extends XlsContainer
 {
 	private int[] columns;
 	
+	private int width;
+	
 	public XlsTable(StyleEntry entry, Rule rule)
 	{
 		super(entry, rule);
@@ -15,7 +17,9 @@ public class XlsTable extends XlsContainer
 	public XlsTable(TableInfo table, StyleEntry entry, Rule rule)
 	{
 		this(entry, rule);
-		this.columns = LayoutUtil.getColumnWidth( table, rule.getWidth( ) );
+		width = Math.min( table.getTableWidth( ), rule.getWidth() );
+		this.columns = LayoutUtil.getColumnWidth( table, width );
+		this.width = table.getTableWidth( );
 	}
 	
 	public XlsTable(TableInfo table, XlsContainer container)

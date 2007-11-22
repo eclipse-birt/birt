@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IListContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.emitter.excel.ExcelUtil;
 import org.eclipse.birt.report.engine.ir.DimensionType;
@@ -62,8 +64,38 @@ public class LayoutUtil
 		return new DefaultTableInfo(col, width);
 	}	
 	
-	public static TableInfo createTable(ITableContent table, int width)
+	public static TableInfo createTable(IListContent list, int width)
 	{
+		width = getElementWidth(list, width);
+		int[] column = new int[] {width};
+		return new DefaultTableInfo(column);
+	}
+	
+	private static int getElementWidth(IContent content, int width)
+	{
+		DimensionType value = content.getWidth( );
+		
+		if(value != null)
+		{
+			try 
+			{
+				width = Math.min( ExcelUtil.covertDimensionType( value, width ), 
+						            width );
+			}
+			catch(Exception e) 
+			{
+				
+			}
+		}
+		
+		return width;
+
+	}
+	
+	public static TableInfo createTable(ITableContent table, int width)
+	{		
+		width = getElementWidth(table, width);
+		
 		int colcount = table.getColumnCount( );
 		
 		if ( colcount == 0 )
@@ -78,6 +110,7 @@ public class LayoutUtil
 		for(int i = 0; i < colcount; i++)
 		{
 			DimensionType value = table.getColumn( i ).getWidth( );  
+			
 			if( value == null)
 			{
 				unmount.add( new Integer(i) );

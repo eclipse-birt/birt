@@ -22,10 +22,6 @@ import org.eclipse.birt.report.engine.emitter.excel.StyleEntry;
 public class ExcelLayoutEngine
 {
 	public final static String EMPTY = "";
-
-//	public final static int MAX_ROW = 65525;
-//
-//	public final static int MAX_COLUMN = 255;
 	
 	public final static int MAX_ROW = 65525;
 	
@@ -71,10 +67,10 @@ public class ExcelLayoutEngine
 		Rule rule = getCurrentContainer( ).getRule( );
 
 		int start = rule.getStart( );
-		int[] npos = new int[table.getColumnCount( )];
+		int[] npos = new int[table.getColumnCount( ) + 1];
 		npos[0] = start;
 
-		for ( int i = 1; i < table.getColumnCount( ); i++ )
+		for ( int i = 1; i <= table.getColumnCount( ); i++ )
 		{
 			npos[i] = npos[i - 1] + table.getColumnWidth( i - 1 );
 		}

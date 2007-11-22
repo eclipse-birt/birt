@@ -175,8 +175,8 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	public void startList( IListContent list )
 	{		
 		Rule rule = engine.getCurrentContainer( ).getRule( );
-		engine.addTable( LayoutUtil.createTable(1, rule.getWidth( )), 
-						 list.getComputedStyle( ));						 
+		TableInfo table = LayoutUtil.createTable( list, rule.getWidth( ) );
+		engine.addTable( table, list.getComputedStyle( ) );						 
 		
 		if(list.getChildren( ) == null)
 		{
