@@ -22,9 +22,8 @@ import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
 import org.eclipse.gef.requests.CreationFactory;
 
 /**
- * 
+ * CommandCombinedTemplateCreationEntry
  */
-
 public class CommandCombinedTemplateCreationEntry extends
 		CombinedTemplateCreationEntry
 {
@@ -73,8 +72,8 @@ class PaletteEntryCreationTool extends ReportCreationTool
 		try
 		{
 			getCreateRequest( ).setFactory( this.factory );
-			CommandUtils.setVariable( "targetEditPart", getTargetEditPart( ) );
-			CommandUtils.setVariable( "request", getTargetRequest( ) );
+			CommandUtils.setVariable( "targetEditPart", getTargetEditPart( ) ); //$NON-NLS-1$
+			CommandUtils.setVariable( "request", getTargetRequest( ) ); //$NON-NLS-1$
 			Object model = paletteEntry.executeCreate( );
 			EditPartViewer viewer = getCurrentViewer( );
 			selectAddedObject( model, viewer );
@@ -85,10 +84,10 @@ class PaletteEntryCreationTool extends ReportCreationTool
 		}
 	}
 
-	//	public void performCreation( EditPart editPart )
-	//	{
-	//		setTargetEditPart( editPart );
-	//	}
+	// public void performCreation( EditPart editPart )
+	// {
+	// setTargetEditPart( editPart );
+	// }
 
 }
 

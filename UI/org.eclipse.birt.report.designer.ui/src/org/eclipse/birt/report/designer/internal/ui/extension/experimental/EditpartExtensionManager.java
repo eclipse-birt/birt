@@ -37,9 +37,8 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
 
 /**
- * 
+ * EditpartExtensionManager
  */
-
 public class EditpartExtensionManager
 {
 
@@ -49,15 +48,15 @@ public class EditpartExtensionManager
 	static
 	{
 		IExtensionRegistry registry = Platform.getExtensionRegistry( );
-		IExtensionPoint extensionPoint = registry.getExtensionPoint( "org.eclipse.birt.report.designer.ui.reportItemEditpart" );
+		IExtensionPoint extensionPoint = registry.getExtensionPoint( "org.eclipse.birt.report.designer.ui.reportItemEditpart" ); //$NON-NLS-1$
 		if ( extensionPoint != null )
 		{
 			IConfigurationElement[] elements = extensionPoint.getConfigurationElements( );
 			for ( int i = 0; i < elements.length; i++ )
 			{
-				IConfigurationElement[] enablements = elements[i].getChildren( "enablement" );
+				IConfigurationElement[] enablements = elements[i].getChildren( "enablement" ); //$NON-NLS-1$
 				if ( enablements.length == 0 )
-					continue;//log message
+					continue;// log message
 				try
 				{
 					extensionMap.put( ExpressionConverter.getDefault( )
@@ -67,30 +66,30 @@ public class EditpartExtensionManager
 				{
 					e.printStackTrace( );
 				}
-				IConfigurationElement[] paletteEntries = elements[i].getChildren( "paletteEntry" );
+				IConfigurationElement[] paletteEntries = elements[i].getChildren( "paletteEntry" ); //$NON-NLS-1$
 				if ( paletteEntries.length == 1 )
 				{
 					PaletteEntryExtension entry = new PaletteEntryExtension( );
-					entry.setItemName( paletteEntries[0].getAttribute( "itemName" ) );
+					entry.setItemName( paletteEntries[0].getAttribute( "itemName" ) ); //$NON-NLS-1$
 
 					String displayName = DEUtil.getMetaDataDictionary( )
 							.getExtension( entry.getItemName( ) )
 							.getDisplayName( );
-					
+
 					entry.setLabel( displayName );
-					entry.setMenuLabel( paletteEntries[0].getAttribute( "menuLabel" ) );
-					entry.setDescription( paletteEntries[0].getAttribute( "description" ) );
+					entry.setMenuLabel( paletteEntries[0].getAttribute( "menuLabel" ) ); //$NON-NLS-1$
+					entry.setDescription( paletteEntries[0].getAttribute( "description" ) ); //$NON-NLS-1$
 					entry.setIcon( getImageDescriptor( paletteEntries[0],
-							paletteEntries[0].getAttribute( "icon" ) ) );
+							paletteEntries[0].getAttribute( "icon" ) ) ); //$NON-NLS-1$
 					entry.setIconLarge( getImageDescriptor( paletteEntries[0],
-							paletteEntries[0].getAttribute( "largeIcon" ) ) );
-					//TODO category can't be empty
-					entry.setCategory( paletteEntries[0].getAttribute( "category" ) );
-					//TODO command can't be empty
-					entry.setCommand( paletteEntries[0].getAttribute( "createCommand" ) );
+							paletteEntries[0].getAttribute( "largeIcon" ) ) ); //$NON-NLS-1$
+					// TODO category can't be empty
+					entry.setCategory( paletteEntries[0].getAttribute( "category" ) ); //$NON-NLS-1$
+					// TODO command can't be empty
+					entry.setCommand( paletteEntries[0].getAttribute( "createCommand" ) ); //$NON-NLS-1$
 
 					registerImage( entry );
-					
+
 					palettes.add( entry );
 				}
 			}
@@ -116,7 +115,7 @@ public class EditpartExtensionManager
 		return null;
 	}
 
-	//backward compatible see bug 184371
+	// backward compatible see bug 184371
 	private static void registerImage( PaletteEntryExtension entry )
 	{
 		String symbolName = ReportPlatformUIImages.getIconSymbolName( entry.getItemName( ),
@@ -137,14 +136,14 @@ public class EditpartExtensionManager
 				Expression expression = (Expression) iterator.next( );
 				if ( expression.evaluate( econtext ) == EvaluationResult.TRUE )
 				{
-					EditPart editPart = (EditPart) ( (IConfigurationElement) extensionMap.get( expression ) ).createExecutableExtension( "type" );
+					EditPart editPart = (EditPart) ( (IConfigurationElement) extensionMap.get( expression ) ).createExecutableExtension( "type" ); //$NON-NLS-1$
 					editPart.setModel( model );
 					return editPart;
 				}
 			}
 			catch ( CoreException e )
 			{
-				logger.log(Level.SEVERE, e.getMessage(),e);
+				logger.log( Level.SEVERE, e.getMessage( ), e );
 			}
 		}
 		return null;

@@ -30,9 +30,8 @@ import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.jface.window.Window;
 
 /**
- * 
+ * AggDataDropAdapter
  */
-
 public class AggDataDropAdapter implements IDropAdapter
 {
 
@@ -81,8 +80,8 @@ public class AggDataDropAdapter implements IDropAdapter
 
 		}
 
-		//create data item, and pass it to AggregationDataBindingDialog
-		//start transaction
+		// create data item, and pass it to AggregationDataBindingDialog
+		// start transaction
 		SessionHandleAdapter.getInstance( )
 				.getCommandStack( )
 				.startTrans( TRANS_NAME );

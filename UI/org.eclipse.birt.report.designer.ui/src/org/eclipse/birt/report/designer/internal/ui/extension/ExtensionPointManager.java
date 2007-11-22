@@ -27,8 +27,6 @@ import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.designer.ui.extensions.IMenuBuilder;
 import org.eclipse.birt.report.designer.ui.extensions.IProviderFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.DesignConfig;
-import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
@@ -36,7 +34,6 @@ import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.util.Assert;
 
 /**
  * The ExtensionPoinyManager is utility class to retrieve IExtendedElementUI
@@ -95,7 +92,7 @@ public class ExtensionPointManager
 	 */
 	public ExtendedElementUIPoint getExtendedElementPoint( String extensionName )
 	{
-		Assert.isLegal( extensionName != null );
+		assert extensionName != null;
 		return (ExtendedElementUIPoint) getReportItemUIMap( ).get( extensionName );
 	}
 
@@ -166,7 +163,7 @@ public class ExtensionPointManager
 							try
 							{
 								Object menuBuilder = elements[i].createExecutableExtension( IExtensionConstants.ATTRIBUTE_CLASS );
-								if (  menuBuilder instanceof IMenuBuilder )
+								if ( menuBuilder instanceof IMenuBuilder )
 								{
 									menuBuilderMap.put( elementId, menuBuilder );
 								}
@@ -202,7 +199,7 @@ public class ExtensionPointManager
 							try
 							{
 								Object factory = elements[i].createExecutableExtension( IExtensionConstants.ATTRIBUTE_CLASS );
-								if ( factory instanceof  IProviderFactory )
+								if ( factory instanceof IProviderFactory )
 								{
 									providerFactoryMap.put( elementId, factory );
 								}
@@ -377,7 +374,7 @@ public class ExtensionPointManager
 
 	private ImageDescriptor getImageDescriptor( IConfigurationElement element )
 	{
-		Assert.isLegal( element != null );
+		assert element != null;
 		IExtension extension = element.getDeclaringExtension( );
 		String iconPath = element.getAttribute( IExtensionConstants.ATTRIBUTE_ICON );
 		if ( iconPath == null )

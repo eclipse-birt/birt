@@ -35,8 +35,7 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.jface.window.Window;
 
 /**
- * add comment here
- * 
+ * ExtendedEditPart
  */
 public class ExtendedEditPart extends ReportElementEditPart
 {

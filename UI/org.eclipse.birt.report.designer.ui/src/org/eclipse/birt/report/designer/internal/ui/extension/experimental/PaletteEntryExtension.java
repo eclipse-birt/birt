@@ -16,9 +16,8 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.jface.resource.ImageDescriptor;
 
 /**
- * 
+ * PaletteEntryExtension
  */
-
 public class PaletteEntryExtension
 {
 
@@ -102,7 +101,7 @@ public class PaletteEntryExtension
 		{
 			return CommandUtils.executeCommand( getCommand( ) );
 		}
-		throw new Exception( "create command not specail." );
+		throw new Exception( "create command not specified." ); //$NON-NLS-1$
 	}
 
 	public String getItemName( )
@@ -115,13 +114,11 @@ public class PaletteEntryExtension
 		this.itemName = itemName;
 	}
 
-	
 	public String getMenuLabel( )
 	{
 		return menuLabel;
 	}
 
-	
 	public void setMenuLabel( String menuLabel )
 	{
 		this.menuLabel = menuLabel;
