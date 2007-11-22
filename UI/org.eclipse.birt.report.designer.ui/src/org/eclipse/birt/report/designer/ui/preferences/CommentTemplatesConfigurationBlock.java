@@ -167,11 +167,4 @@ public class CommentTemplatesConfigurationBlock extends
 		super.useProjectSpecificSettings( enable );
 		handleChangeCommentText( );
 	}
-
-	protected boolean hasProjectSpecificOptions( IProject project )
-	{
-		return PreferenceFactory.getInstance( )
-				.getPreferences( ReportPlugin.getDefault( ), project )
-				.hasSpecialSettings( );
-	}
 }

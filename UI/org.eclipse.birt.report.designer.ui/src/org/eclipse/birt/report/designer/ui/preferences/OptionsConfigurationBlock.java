@@ -95,6 +95,7 @@ public abstract class OptionsConfigurationBlock
 		public void setToDefault( IPreferences preference )
 		{
 			preference.setToDefault( fKey );
+			this.value = preference.getString( fKey );
 		}
 
 		public String toString( )
@@ -253,8 +254,6 @@ public abstract class OptionsConfigurationBlock
 			control.setFocus( );
 		}
 	}
-
-	protected abstract boolean hasProjectSpecificOptions( IProject project );
 
 	protected Shell getShell( )
 	{
@@ -591,9 +590,24 @@ public abstract class OptionsConfigurationBlock
 					String oldSetting = curr.getStoredValue( fPref );
 					fDisabledProjectSettings.put( curr, oldSetting );
 				}
-				fPref.setSpecialSettingsToDefault( );
 			}
 		}
+	}
+
+	public boolean hasProjectSpecificOptions( IProject project )
+	{
+		if ( project != null )
+		{
+			Key[] allKeys = fAllKeys;
+			for ( int i = 0; i < allKeys.length; i++ )
+			{
+				if ( fPref.isDefault( allKeys[i].getName( ) ) )
+				{
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	public boolean areSettingsEnabled( )
@@ -615,37 +629,43 @@ public abstract class OptionsConfigurationBlock
 	{
 		if ( fDisabledProjectSettings != null )
 		{
-			fPref.setSpecialSettingsToDefault( );
-			return true;
+			for ( int i = 0; i < fAllKeys.length; i++ )
+			{
+				fAllKeys[i].setToDefault( fPref );
+			}
 		}
 		else
 		{
-			try
+
+			for ( int i = 0; i < fAllKeys.length; i++ )
 			{
-				for ( int i = 0; i < fAllKeys.length; i++ )
-				{
-					fAllKeys[i].apply( fPref );
-				}
-				fPref.save( );
-				return true;
+				fAllKeys[i].apply( fPref );
 			}
-			catch ( IOException e )
-			{
-				return false;
-			}
+		}
+		try
+		{
+			fPref.save( );
+			return true;
+		}
+		catch ( IOException e )
+		{
+			return false;
 		}
 	}
 
 	public void performDefaults( )
 	{
-		if ( fProject != null )
-			fPref.setSpecialSettingsToDefault( );
-		else
+
+		for ( int i = 0; i < fAllKeys.length; i++ )
 		{
-			for ( int i = 0; i < fAllKeys.length; i++ )
-			{
-				fAllKeys[i].setToDefault( fPref );
-			}
+			fAllKeys[i].setToDefault( fPref );
+		}
+		try
+		{
+			fPref.save( );
+		}
+		catch ( IOException e )
+		{
 		}
 		settingsUpdated( );
 		updateControls( );

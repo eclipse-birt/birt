@@ -18,9 +18,9 @@ public interface IReportPreferenceFactory
 
 	public Preferences getReportPreference( Object adaptable );
 
-	public boolean containsReportPreference( Object adaptable, boolean actual );
-
 	public boolean removeReportPreference( Object adaptable );
 
 	public boolean saveReportPreference( Object adaptable );
+
+	public boolean hasSpecialSettings( Object adaptable, String name );
 }

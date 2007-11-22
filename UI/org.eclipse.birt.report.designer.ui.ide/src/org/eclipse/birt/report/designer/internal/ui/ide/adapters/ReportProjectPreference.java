@@ -24,6 +24,7 @@ import org.eclipse.core.runtime.Preferences;
 public class ReportProjectPreference extends Preferences
 {
 
+	protected static final String ENABLE_SPECIAL_SETTINGS = "Enable Special Settings";
 	protected static final String DEFAULT_PREFERENCES_DIRNAME = ".settings"; //$NON-NLS-1$
 	public static final String PREFS_FILE_EXTENSION = "prefs"; //$NON-NLS-1$
 	private IProject project;
@@ -109,6 +110,8 @@ public class ReportProjectPreference extends Preferences
 
 	public boolean save( )
 	{
+		if ( this.propertyNames( ) == null || this.propertyNames( ).length == 0 )
+			return delete( );
 		boolean flag = false;
 		if ( getLocation( ) != null && checkSettingLocation( ) )
 		{
@@ -139,13 +142,14 @@ public class ReportProjectPreference extends Preferences
 		return flag;
 	}
 
-	public boolean isActual( )
+	public boolean hasSpecialSettings( )
 	{
-		File file = getLocation( ).toFile( );
-		if ( file.exists( ) )
-			return true;
-		else
-			return false;
+		return this.getBoolean( ENABLE_SPECIAL_SETTINGS );
+	}
+
+	public void setEnableSpecialSettings( boolean enable )
+	{
+		setValue( ENABLE_SPECIAL_SETTINGS, enable );
 	}
 
 }

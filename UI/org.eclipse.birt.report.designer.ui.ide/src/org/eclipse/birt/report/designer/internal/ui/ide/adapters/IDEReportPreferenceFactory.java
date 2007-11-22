@@ -30,24 +30,18 @@ public class IDEReportPreferenceFactory implements IReportPreferenceFactory
 
 	protected HashMap prefsMap = new HashMap( );
 
-	public boolean containsReportPreference( Object adaptable, boolean actual )
+	public boolean hasSpecialSettings( Object adaptable, String name )
 	{
 		IProject project = getProject( adaptable );
 		if ( project == null )
 			return false;
 		else
 		{
-			if ( !actual )
-				return prefsMap.containsKey( project.getFullPath( )
-						.toOSString( ) );
+			Preferences preference = getReportPreference( adaptable );
+			if ( preference != null )
+				return !preference.isDefault( name );
 			else
-			{
-				ReportProjectPreference preference = (ReportProjectPreference) getReportPreference( adaptable );
-				if ( preference != null )
-					return ( (ReportProjectPreference) preference ).isActual( );
-				else
-					return false;
-			}
+				return false;
 		}
 	}
 
@@ -56,7 +50,7 @@ public class IDEReportPreferenceFactory implements IReportPreferenceFactory
 		IProject project = getProject( adaptable );
 		if ( project == null )
 			return null;
-		else if ( !containsReportPreference( adaptable, false ) )
+		else if ( !containsReportPreference( adaptable ) )
 		{
 			ReportProjectPreference prefs = new ReportProjectPreference( pluginId,
 					project );
@@ -64,6 +58,14 @@ public class IDEReportPreferenceFactory implements IReportPreferenceFactory
 		}
 		return (ReportProjectPreference) prefsMap.get( project.getFullPath( )
 				.toOSString( ) );
+	}
+
+	public boolean containsReportPreference( Object adaptable )
+	{
+		IProject project = getProject( adaptable );
+		if ( project == null )
+			return false;
+		return prefsMap.containsKey( project.getFullPath( ).toOSString( ) );
 	}
 
 	public boolean saveReportPreference( Object adaptable )
@@ -77,7 +79,7 @@ public class IDEReportPreferenceFactory implements IReportPreferenceFactory
 
 	public boolean removeReportPreference( Object adaptable )
 	{
-		if ( containsReportPreference( adaptable, false ) )
+		if ( containsReportPreference( adaptable ) )
 		{
 			IProject project = getProject( adaptable );
 			ReportProjectPreference prefs = (ReportProjectPreference) prefsMap.get( project.getFullPath( )

@@ -145,15 +145,6 @@ public class PreferenceWrapper extends EventManager implements IPreferences
 		return prefsStore.getString( name );
 	}
 
-	public boolean hasSpecialSettings( )
-	{
-		if ( this.preferenceType == SPECIAL_TYPE && project != null )
-		{
-			return prefs.containsReportPreference( project, true );
-		}
-		return false;
-	}
-
 	public boolean contains( String name )
 	{
 		return prefsStore.contains( name );
@@ -161,7 +152,12 @@ public class PreferenceWrapper extends EventManager implements IPreferences
 
 	public boolean isDefault( String name )
 	{
-		return prefsStore.isDefault( name );
+		if ( this.preferenceType == SPECIAL_TYPE && project != null )
+		{
+			return prefs.hasSpecialSettings( project, name );
+		}
+		else
+			return prefsStore.isDefault( name );
 	}
 
 	public void putValue( String name, String value )
@@ -201,30 +197,44 @@ public class PreferenceWrapper extends EventManager implements IPreferences
 
 	public void setToDefault( String name )
 	{
-		String oldValue = prefsStore.getString( name );
-		prefsStore.setToDefault( name );
-		firePreferenceChangeEvent( name,
-				oldValue,
-				prefsStore.getDefaultString( name ) );
+		if ( this.preferenceType == SPECIAL_TYPE && project != null )
+		{
+			Preferences preference = prefs.getReportPreference( project );
+			preference.setToDefault( name );
+			firePreferenceChangeEvent( PreferenceChangeEvent.SPECIALTODEFAULT,
+					null,
+					null );
+		}
+		else
+		{
+			String oldValue = prefsStore.getString( name );
+			prefsStore.setToDefault( name );
+			firePreferenceChangeEvent( name,
+					oldValue,
+					prefsStore.getDefaultString( name ) );
+		}
 	}
 
 	public void setValue( String name, double value )
 	{
 		double oldValue = getDouble( name );
-		if ( oldValue != value )
+		if ( this.preferenceType == SPECIAL_TYPE && project != null )
 		{
-			if ( this.preferenceType == SPECIAL_TYPE && project != null )
+			Preferences preference = prefs.getReportPreference( project );
+			if ( preference != null )
 			{
-				Preferences preference = prefs.getReportPreference( project );
-				if ( preference != null )
+				if ( preference.isDefault( name ) || oldValue != value )
 				{
 					preference.setValue( name, value );
 					firePreferenceChangeEvent( name,
 							new Double( oldValue ),
 							new Double( value ) );
-					return;
 				}
+				return;
 			}
+		}
+		if ( oldValue != value )
+		{
 			prefsStore.setValue( name, value );
 			firePreferenceChangeEvent( name,
 					new Double( oldValue ),
@@ -235,20 +245,23 @@ public class PreferenceWrapper extends EventManager implements IPreferences
 	public void setValue( String name, float value )
 	{
 		float oldValue = getFloat( name );
-		if ( oldValue != value )
+		if ( this.preferenceType == SPECIAL_TYPE && project != null )
 		{
-			if ( this.preferenceType == SPECIAL_TYPE && project != null )
+			Preferences preference = prefs.getReportPreference( project );
+			if ( preference != null )
 			{
-				Preferences preference = prefs.getReportPreference( project );
-				if ( preference != null )
+				if ( preference.isDefault( name ) || oldValue != value )
 				{
 					preference.setValue( name, value );
 					firePreferenceChangeEvent( name,
 							new Float( oldValue ),
 							new Float( value ) );
-					return;
 				}
+				return;
 			}
+		}
+		if ( oldValue != value )
+		{
 			prefsStore.setValue( name, value );
 			firePreferenceChangeEvent( name,
 					new Float( oldValue ),
@@ -259,20 +272,23 @@ public class PreferenceWrapper extends EventManager implements IPreferences
 	public void setValue( String name, int value )
 	{
 		int oldValue = getInt( name );
-		if ( oldValue != value )
+		if ( this.preferenceType == SPECIAL_TYPE && project != null )
 		{
-			if ( this.preferenceType == SPECIAL_TYPE && project != null )
+			Preferences preference = prefs.getReportPreference( project );
+			if ( preference != null )
 			{
-				Preferences preference = prefs.getReportPreference( project );
-				if ( preference != null )
+				if ( preference.isDefault( name ) || oldValue != value )
 				{
 					preference.setValue( name, value );
 					firePreferenceChangeEvent( name,
 							new Integer( oldValue ),
 							new Integer( value ) );
-					return;
 				}
+				return;
 			}
+		}
+		if ( oldValue != value )
+		{
 			prefsStore.setValue( name, value );
 			firePreferenceChangeEvent( name,
 					new Integer( oldValue ),
@@ -283,20 +299,23 @@ public class PreferenceWrapper extends EventManager implements IPreferences
 	public void setValue( String name, long value )
 	{
 		long oldValue = getLong( name );
-		if ( oldValue != value )
+		if ( this.preferenceType == SPECIAL_TYPE && project != null )
 		{
-			if ( this.preferenceType == SPECIAL_TYPE && project != null )
+			Preferences preference = prefs.getReportPreference( project );
+			if ( preference != null )
 			{
-				Preferences preference = prefs.getReportPreference( project );
-				if ( preference != null )
+				if ( preference.isDefault( name ) || oldValue != value )
 				{
 					preference.setValue( name, value );
 					firePreferenceChangeEvent( name,
 							new Long( oldValue ),
 							new Long( value ) );
-					return;
 				}
+				return;
 			}
+		}
+		if ( oldValue != value )
+		{
 			prefsStore.setValue( name, value );
 			firePreferenceChangeEvent( name,
 					new Long( oldValue ),
@@ -307,18 +326,21 @@ public class PreferenceWrapper extends EventManager implements IPreferences
 	public void setValue( String name, String value )
 	{
 		String oldValue = getString( name );
-		if ( !oldValue.equals( value ) )
+		if ( this.preferenceType == SPECIAL_TYPE && project != null )
 		{
-			if ( this.preferenceType == SPECIAL_TYPE && project != null )
+			Preferences preference = prefs.getReportPreference( project );
+			if ( preference != null )
 			{
-				Preferences preference = prefs.getReportPreference( project );
-				if ( preference != null )
+				if ( preference.isDefault( name ) || !oldValue.equals( value ) )
 				{
 					preference.setValue( name, value );
 					firePreferenceChangeEvent( name, oldValue, value );
-					return;
 				}
+				return;
 			}
+		}
+		if ( !oldValue.equals( value ) )
+		{
 			prefsStore.setValue( name, value );
 			firePreferenceChangeEvent( name, oldValue, value );
 		}
@@ -327,20 +349,23 @@ public class PreferenceWrapper extends EventManager implements IPreferences
 	public void setValue( String name, boolean value )
 	{
 		boolean oldValue = getBoolean( name );
-		if ( oldValue != value )
+		if ( this.preferenceType == SPECIAL_TYPE && project != null )
 		{
-			if ( this.preferenceType == SPECIAL_TYPE && project != null )
+			Preferences preference = prefs.getReportPreference( project );
+			if ( preference != null )
 			{
-				Preferences preference = prefs.getReportPreference( project );
-				if ( preference != null )
+				if ( preference.isDefault( name ) || oldValue != value )
 				{
 					preference.setValue( name, value );
 					firePreferenceChangeEvent( name,
 							new Boolean( oldValue ),
 							new Boolean( value ) );
-					return;
 				}
+				return;
 			}
+		}
+		if ( oldValue != value )
+		{
 			prefsStore.setValue( name, value );
 			firePreferenceChangeEvent( name,
 					new Boolean( oldValue ),
@@ -355,20 +380,6 @@ public class PreferenceWrapper extends EventManager implements IPreferences
 		else if ( prefsStore instanceof IPersistentPreferenceStore )
 			( (IPersistentPreferenceStore) prefsStore ).save( );
 
-	}
-
-	public void setSpecialSettingsToDefault( )
-	{
-		if ( this.preferenceType == SPECIAL_TYPE && project != null )
-		{
-			if ( prefs.containsReportPreference( project, false ) )
-			{
-				prefs.removeReportPreference( project );
-				firePreferenceChangeEvent( PreferenceChangeEvent.SPECIALTODEFAULT,
-						null,
-						null );
-			}
-		}
 	}
 
 	public void addPreferenceChangeListener( IPreferenceChangeListener pcl )

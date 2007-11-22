@@ -56,13 +56,6 @@ public class ChartConfigurationBlock extends OptionsConfigurationBlock
 		return keys;
 	}
 
-	protected boolean hasProjectSpecificOptions( IProject project )
-	{
-		return PreferenceFactory.getInstance( )
-				.getPreferences( ChartReportItemUIActivator.getDefault( ),
-						project )
-				.hasSpecialSettings( );
-	}
 	/*
 	 * @see org.eclipse.jface.preference.PreferencePage#createContents(Composite)
 	 */

@@ -184,11 +184,4 @@ public class CrosstabConfigurationBlock extends OptionsConfigurationBlock
 		}
 		return status;
 	}
-
-	protected boolean hasProjectSpecificOptions( IProject project )
-	{
-		return PreferenceFactory.getInstance( )
-				.getPreferences( CrosstabPlugin.getDefault( ), project )
-				.hasSpecialSettings( );
-	}
 }

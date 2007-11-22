@@ -307,11 +307,4 @@ public class ElementNamesConfigurationBlock extends OptionsConfigurationBlock
 		}
 	}
 
-	protected boolean hasProjectSpecificOptions( IProject project )
-	{
-		return PreferenceFactory.getInstance( )
-				.getPreferences( ReportPlugin.getDefault( ), project )
-				.hasSpecialSettings( );
-	}
-
 }

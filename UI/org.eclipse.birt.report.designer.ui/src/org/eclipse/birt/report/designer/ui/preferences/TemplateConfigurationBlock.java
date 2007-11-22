@@ -147,11 +147,4 @@ public class TemplateConfigurationBlock extends OptionsConfigurationBlock
 		} );
 		return pageContent;
 	}
-
-	protected boolean hasProjectSpecificOptions( IProject project )
-	{
-		return PreferenceFactory.getInstance( )
-				.getPreferences( ReportPlugin.getDefault( ), project )
-				.hasSpecialSettings( );
-	}
 }

@@ -114,10 +114,6 @@ public interface IPreferences
 
 	public boolean getDefaultBoolean( String name );
 
-	public boolean hasSpecialSettings( );
-
-	public void setSpecialSettingsToDefault( );
-
 	public void addPreferenceChangeListener( IPreferenceChangeListener pcl );
 
 	public void removePreferenceChangeListener( IPreferenceChangeListener pcl );
