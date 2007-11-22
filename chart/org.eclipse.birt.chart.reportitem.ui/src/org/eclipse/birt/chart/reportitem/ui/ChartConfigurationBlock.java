@@ -15,7 +15,6 @@ import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.report.designer.internal.ui.util.PixelConverter;
 import org.eclipse.birt.report.designer.ui.preferences.IStatusChangeListener;
 import org.eclipse.birt.report.designer.ui.preferences.OptionsConfigurationBlock;
-import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.preferences.StatusInfo;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IStatus;
@@ -43,9 +42,10 @@ public class ChartConfigurationBlock extends OptionsConfigurationBlock
 	public ChartConfigurationBlock( IStatusChangeListener context,
 			IProject project )
 	{
-		super( context, PreferenceFactory.getInstance( )
-				.getPreferences( ChartReportItemUIActivator.getDefault( ),
-						project ), project, getKeys( ) );
+		super( context,
+				ChartReportItemUIActivator.getDefault( ),
+				project,
+				getKeys( ) );
 	}
 
 	private static Key[] getKeys( )

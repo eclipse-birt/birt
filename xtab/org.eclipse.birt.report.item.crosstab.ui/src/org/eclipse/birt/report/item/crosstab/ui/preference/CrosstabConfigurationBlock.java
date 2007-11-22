@@ -9,13 +9,11 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-
 package org.eclipse.birt.report.item.crosstab.ui.preference;
 
 import org.eclipse.birt.report.designer.internal.ui.util.PixelConverter;
 import org.eclipse.birt.report.designer.ui.preferences.IStatusChangeListener;
 import org.eclipse.birt.report.designer.ui.preferences.OptionsConfigurationBlock;
-import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.preferences.StatusInfo;
 import org.eclipse.birt.report.item.crosstab.plugin.CrosstabPlugin;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
@@ -48,11 +46,7 @@ public class CrosstabConfigurationBlock extends OptionsConfigurationBlock
 	public CrosstabConfigurationBlock( IStatusChangeListener context,
 			IProject project )
 	{
-		super( context,
-				PreferenceFactory.getInstance( )
-						.getPreferences( CrosstabPlugin.getDefault( ), project ),
-				project,
-				getKeys( ) );
+		super( context, CrosstabPlugin.getDefault( ), project, getKeys( ) );
 	}
 
 	private static Key[] getKeys( )

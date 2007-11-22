@@ -39,11 +39,7 @@ public class TemplateConfigurationBlock extends OptionsConfigurationBlock
 	public TemplateConfigurationBlock( IStatusChangeListener context,
 			IProject project )
 	{
-		super( context,
-				PreferenceFactory.getInstance( )
-						.getPreferences( ReportPlugin.getDefault( ), project ),
-				project,
-				getKeys( ) );
+		super( context, ReportPlugin.getDefault( ), project, getKeys( ) );
 	}
 
 	private static Key[] getKeys( )

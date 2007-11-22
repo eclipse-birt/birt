@@ -38,6 +38,7 @@ import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Widget;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 /**
  * Abstract options configuration block providing a general implementation for
@@ -172,6 +173,7 @@ public abstract class OptionsConfigurationBlock
 	protected IStatusChangeListener fContext;
 	protected final IProject fProject; // project or null
 	protected final Key[] fAllKeys;
+	protected final AbstractUIPlugin fPlugin;
 
 	protected IPreferences fPref;
 
@@ -180,12 +182,14 @@ public abstract class OptionsConfigurationBlock
 	private Map fDisabledProjectSettings; // null when project specific
 
 	public OptionsConfigurationBlock( IStatusChangeListener context,
-			IPreferences prefs, IProject project, Key[] allKeys )
+			AbstractUIPlugin plugin, IProject project, Key[] allKeys )
 	{
 		fContext = context;
 		fProject = project;
 		fAllKeys = allKeys;
-		fPref = prefs;
+		fPlugin = plugin;
+		fPref = PreferenceFactory.getInstance( ).getPreferences( fPlugin,
+				fProject );
 
 		for ( int i = 0; i < allKeys.length; i++ )
 			allKeys[i].clear( );
@@ -599,9 +603,10 @@ public abstract class OptionsConfigurationBlock
 		if ( project != null )
 		{
 			Key[] allKeys = fAllKeys;
+			IPreferences prefs = PreferenceFactory.getInstance( ).getPreferences( this.fPlugin,project );
 			for ( int i = 0; i < allKeys.length; i++ )
 			{
-				if ( fPref.isDefault( allKeys[i].getName( ) ) )
+				if ( prefs.isDefault( allKeys[i].getName( ) ) )
 				{
 					return true;
 				}
