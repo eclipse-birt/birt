@@ -336,6 +336,7 @@ public class ResourceConstants
 	public final static String INVALID_SORT_DEFN = "data.olap.invalidSortDefinition";
 	public final static String INVALID_MEASURE_REF = "data.olap.invalidMeasureRef";
 	public final static String INVALID_LEVEL_ATTRIBUTE = "data.olap.invalidLevelAttr";
+	public final static String DATA_BINDING_EXPRESSION_EMPTY = "data.olap.dataBindingExpressionEmpty";
 	
 	public final static String INVALID_BINDING_REFER_TO_INEXIST_DIMENSION = "data.olap.invalidBindingReferToInexitDim";
 	public final static String INVALID_BINDING_REFER_TO_INEXIST_MEASURE = "data.olap.invalidBindingReferToInexitMeasure";
