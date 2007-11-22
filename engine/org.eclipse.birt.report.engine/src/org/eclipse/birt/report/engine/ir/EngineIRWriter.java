@@ -1477,15 +1477,15 @@ public class EngineIRWriter implements IOConstants
 			MapRuleDesign rule = map.getRule( i );
 			IOUtil.writeString( out, rule.getTestExpression( ) );
 			IOUtil.writeString( out, rule.getOperator( ) );
-			IOUtil.writeBool( out, rule.ifValueIsList( ) );
 			if ( rule.ifValueIsList( ) )
 			{
-				IOUtil.writeList( out, rule.getValue1List( ) );
+				IOUtil.writeObject( out, rule.getValue1List( ) );
+				IOUtil.writeObject( out, null );
 			}
 			else
 			{
-				IOUtil.writeString( out, rule.getValue1( ) );
-				IOUtil.writeString( out, rule.getValue2( ) );
+				IOUtil.writeObject( out, rule.getValue1( ) );
+				IOUtil.writeObject( out, rule.getValue2( ) );
 			}
 			IOUtil.writeString( out, rule.getDisplayText( ) );
 			IOUtil.writeString( out, rule.getDisplayKey( ) );
@@ -1502,15 +1502,15 @@ public class EngineIRWriter implements IOConstants
 			HighlightRuleDesign rule = highlight.getRule( i );
 			IOUtil.writeString( out, rule.getTestExpression( ) );
 			IOUtil.writeString( out, rule.getOperator( ) );
-			IOUtil.writeBool( out, rule.ifValueIsList( ) );
 			if ( rule.ifValueIsList( ) )
 			{
-				IOUtil.writeList( out, rule.getValue1List( ) );
+				IOUtil.writeObject( out, rule.getValue1List( ) );
+				IOUtil.writeObject( out, null );
 			}
 			else
 			{
-				IOUtil.writeString( out, rule.getValue1( ) );
-				IOUtil.writeString( out, rule.getValue2( ) );
+				IOUtil.writeObject( out, rule.getValue1( ) );
+				IOUtil.writeObject( out, rule.getValue2( ) );
 			}
 			writeStyle( out, rule.getStyle( ) );
 		}
