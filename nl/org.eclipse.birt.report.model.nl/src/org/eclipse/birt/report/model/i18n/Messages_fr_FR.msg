@@ -2201,6 +2201,7 @@ Element.OdaMeasureGroup=Groupe de mesures ODA
 Element.MemberValue=Valeur de membre
 Element.SortElement=Elément de tri
 Element.FilterConditionElement=Elément de condition de filtre
+Element.MultiViews=Multiple Views
 
 ###########################################################
 # Element property names
@@ -2658,6 +2659,7 @@ Element.Table.onPageBreak=Saut de page
 Element.Table.onPageBreak.toolTip=A définir
 Element.Table.onPageBreak.this=Instance de table
 Element.Table.onPageBreak.reportContext=Contexte d'état
+Element.Table.multiViews=Multiple Views
   
 #19.TableGroup  ( prefix  Element.TableGroup )
 Element.TableGroup.slot.header=En-tête
@@ -3062,6 +3064,10 @@ Element.FilterConditionElement.value2=Valeur2
 Element.FilterConditionElement.filterTarget=Filtrer la cible
 Element.FilterConditionElement.member=Membre 
 Element.FilterConditionElement.isOptional=Facultatif
+
+#63. MultiViews ( prefix Element.MultiViews )
+Element.MultiViews.index=Index
+Element.MultiViews.views=Views
 
 ###########################################################
 # Predefined style

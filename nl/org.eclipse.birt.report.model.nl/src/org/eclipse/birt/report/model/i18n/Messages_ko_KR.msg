@@ -2201,6 +2201,7 @@ Element.OdaMeasureGroup=ODA 측정값 그룹
 Element.MemberValue=구성원 값
 Element.SortElement=정렬 요소
 Element.FilterConditionElement=필터 조건 요소
+Element.MultiViews=Multiple Views
 
 ###########################################################
 # Element property names
@@ -2658,6 +2659,7 @@ Element.Table.onPageBreak=페이지 나누기
 Element.Table.onPageBreak.toolTip=TBD
 Element.Table.onPageBreak.this=테이블 인스턴스
 Element.Table.onPageBreak.reportContext=보고서 컨텍스트
+Element.Table.multiViews=Multiple Views
   
 #19.TableGroup  ( prefix  Element.TableGroup )
 Element.TableGroup.slot.header=머리글
@@ -3062,6 +3064,10 @@ Element.FilterConditionElement.value2=Value2
 Element.FilterConditionElement.filterTarget=대상 필터
 Element.FilterConditionElement.member=구성원 
 Element.FilterConditionElement.isOptional=옵션 항목입니다.
+
+#63. MultiViews ( prefix Element.MultiViews )
+Element.MultiViews.index=Index
+Element.MultiViews.views=Views
 
 ###########################################################
 # Predefined style

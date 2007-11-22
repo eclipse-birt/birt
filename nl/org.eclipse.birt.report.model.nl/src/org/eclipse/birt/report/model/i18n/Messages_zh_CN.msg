@@ -2201,6 +2201,7 @@ Element.OdaMeasureGroup=ODA 度量组
 Element.MemberValue=成员值
 Element.SortElement=排序元素
 Element.FilterConditionElement=筛选条件元素
+Element.MultiViews=Multiple Views
 
 ###########################################################
 # Element property names
@@ -2658,6 +2659,7 @@ Element.Table.onPageBreak=出现分页符时
 Element.Table.onPageBreak.toolTip=TBD
 Element.Table.onPageBreak.this=表实例
 Element.Table.onPageBreak.reportContext=报表上下文
+Element.Table.multiViews=Multiple Views
   
 #19.TableGroup  ( prefix  Element.TableGroup )
 Element.TableGroup.slot.header=题头
@@ -3062,6 +3064,10 @@ Element.FilterConditionElement.value2=值 2
 Element.FilterConditionElement.filterTarget=筛选目标
 Element.FilterConditionElement.member=成员 
 Element.FilterConditionElement.isOptional=可选
+
+#63. MultiViews ( prefix Element.MultiViews )
+Element.MultiViews.index=Index
+Element.MultiViews.views=Views
 
 ###########################################################
 # Predefined style
