@@ -24,16 +24,6 @@
    </extension>
 
 <extension
-      point="org.eclipse.core.expressions.propertyTesters">
-   <propertyTester
-         class="org.eclipse.birt.report.designer.internal.ui.views.SlotHandlePropertyTester"
-         id="slotHandle"
-         namespace="SlotHandle"
-         properties="id,element"
-         type="org.eclipse.birt.report.model.api.SlotHandle">
-   </propertyTester>
-</extension>
-<extension
       point="org.eclipse.birt.report.designer.ui.elementAdapters">
    <adaptable
          class="org.eclipse.birt.report.model.api.ReportDesignHandle"
@@ -176,7 +166,7 @@
             </test>
             <test
                   forcePluginActivation="true"
-                  property="SlotHandle.element"
+                  property="SlotHandle.elementName"
                   value="ReportDesign">
             </test>
          </enablement>
@@ -195,12 +185,12 @@
                <or>
                   <test
                         forcePluginActivation="true"
-                        property="SlotHandle.element"
+                        property="SlotHandle.elementName"
                         value="ReportDesign">
                   </test>
                   <test
                         forcePluginActivation="true"
-                        property="SlotHandle.element"
+                        property="SlotHandle.elementName"
                         value="Library">
                   </test>
                </or>
@@ -226,12 +216,12 @@
                <or>
                   <test
                         forcePluginActivation="true"
-                        property="SlotHandle.element"
+                        property="SlotHandle.elementName"
                         value="ReportDesign">
                   </test>
                   <test
                         forcePluginActivation="true"
-                        property="SlotHandle.element"
+                        property="SlotHandle.elementName"
                         value="Library">
                   </test>
                </or>
@@ -249,7 +239,7 @@
                </test>
                <test
                      forcePluginActivation="true"
-                     property="SlotHandle.element"
+                     property="SlotHandle.elementName"
                      value="ReportDesign">
                </test>
             </enablement>
@@ -266,7 +256,7 @@
                      value="5">
                </test>
                <test
-                     property="SlotHandle.element"
+                     property="SlotHandle.elementName"
                      value="Library">
                </test>
             </enablement>
@@ -284,7 +274,7 @@
                </test>
                <test
                      forcePluginActivation="true"
-                     property="SlotHandle.element"
+                     property="SlotHandle.elementName"
                      value="Library">
                </test>
             </enablement>
@@ -298,7 +288,7 @@
                      <and>
                         <test
                               forcePluginActivation="true"
-                              property="SlotHandle.element"
+                              property="SlotHandle.elementName"
                               value="Table">
                         </test>
                         <or>
@@ -327,7 +317,7 @@
                      <and>
                         <test
                               forcePluginActivation="true"
-                              property="SlotHandle.element"
+                              property="SlotHandle.elementName"
                               value="TableGroup">
                         </test>
                         <or>
@@ -355,7 +345,7 @@
                      <and>
                         <test
                               forcePluginActivation="true"
-                              property="SlotHandle.element"
+                              property="SlotHandle.elementName"
                               value="List">
                         </test>
                         <or>
@@ -384,7 +374,7 @@
                      <and>
                         <test
                               forcePluginActivation="true"
-                              property="SlotHandle.element"
+                              property="SlotHandle.elementName"
                               value="ListGroup">
                         </test>
                         <or>
@@ -411,7 +401,7 @@
                <or>
                   <and>
                      <test
-                           property="SlotHandle.element"
+                           property="SlotHandle.elementName"
                            value="SimpleMasterPage">
                      </test>
                      <or>
@@ -620,12 +610,12 @@
             <or>
                <test
                      forcePluginActivation="true"
-                     property="SlotHandle.element"
+                     property="SlotHandle.elementName"
                      value="ReportDesign">
                </test>
                <test
                      forcePluginActivation="true"
-                     property="SlotHandle.element"
+                     property="SlotHandle.elementName"
                      value="Library">
                </test>
             </or>
@@ -644,12 +634,12 @@
                <or>
                   <test
                         forcePluginActivation="true"
-                        property="SlotHandle.element"
+                        property="SlotHandle.elementName"
                         value="ReportDesign">
                   </test>
                   <test
                         forcePluginActivation="true"
-                        property="SlotHandle.element"
+                        property="SlotHandle.elementName"
                         value="Library">
                   </test>
                </or>

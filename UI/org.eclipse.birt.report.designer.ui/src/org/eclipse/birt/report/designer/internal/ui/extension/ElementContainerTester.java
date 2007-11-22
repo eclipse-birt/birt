@@ -4,18 +4,20 @@ package org.eclipse.birt.report.designer.internal.ui.extension;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.core.expressions.PropertyTester;
 
+/**
+ * ElementContainerTester
+ */
 public class ElementContainerTester extends PropertyTester
 {
 
 	public ElementContainerTester( )
 	{
-		// TODO Auto-generated constructor stub
 	}
 
 	public boolean test( Object receiver, String property, Object[] args,
 			Object expectedValue )
 	{
-		if ( "containerName".equals( property ) )
+		if ( "containerName".equals( property ) ) //$NON-NLS-1$
 		{
 			if ( receiver instanceof DesignElementHandle )
 			{

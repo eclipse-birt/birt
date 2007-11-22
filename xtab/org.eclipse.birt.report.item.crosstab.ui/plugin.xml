@@ -169,15 +169,15 @@
                	<or>
               	 	<test 
               	 		forcePluginActivation="true" 
-              	 		property="PropertyHandle.handleProperty"
+              	 		property="PropertyHandle.name"
                      	value="rows" />
                     <test 
                     	forcePluginActivation="true" 
-                    	property="PropertyHandle.handleProperty"
+                    	property="PropertyHandle.name"
                     	value="columns" />
                      <test 
                     	forcePluginActivation="true" 
-                    	property="PropertyHandle.handleProperty"
+                    	property="PropertyHandle.name"
                     	value="measures" />
                	</or>
         	</enablement>

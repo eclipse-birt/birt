@@ -15,21 +15,19 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.core.expressions.PropertyTester;
 
 /**
- * 
+ * ExtendItemHandlePropertyTester
  */
-
 public class ExtendItemHandlePropertyTester extends PropertyTester
 {
 
 	public ExtendItemHandlePropertyTester( )
 	{
-		// TODO Auto-generated constructor stub
 	}
 
 	public boolean test( Object receiver, String property, Object[] args,
 			Object expectedValue )
 	{
-		if ( "extensionName".equals( property ) )
+		if ( "extensionName".equals( property ) ) //$NON-NLS-1$
 		{
 			if ( receiver instanceof ExtendedItemHandle )
 			{

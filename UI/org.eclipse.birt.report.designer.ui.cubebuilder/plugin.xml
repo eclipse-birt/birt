@@ -54,11 +54,11 @@
 				<or>
  					<and>
   						<test property="SlotHandle.id" value="9" /> 
-  						<test property="SlotHandle.element" value="ReportDesign" /> 
+  						<test property="SlotHandle.elementName" value="ReportDesign" /> 
   					</and>
 					<and>
   						<test property="SlotHandle.id" value="6" /> 
-  						<test property="SlotHandle.element" value="Library" /> 
+  						<test property="SlotHandle.elementName" value="Library" /> 
   					</and>
   				</or>
   			</enablement>
@@ -100,10 +100,10 @@
              <enablement>
              	<or>
               	 	<test forcePluginActivation="true" 
-              	 		property="PropertyHandle.handleProperty"
+              	 		property="PropertyHandle.name"
                      	value="dimensions" />
                     <test forcePluginActivation="true" 
-              	 		property="PropertyHandle.handleProperty"
+              	 		property="PropertyHandle.name"
                      	value="measureGroups" />
                 </or>
         	</enablement>

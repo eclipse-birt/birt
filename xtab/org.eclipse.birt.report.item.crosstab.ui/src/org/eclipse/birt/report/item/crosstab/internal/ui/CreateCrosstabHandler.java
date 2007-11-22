@@ -24,6 +24,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
+import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
@@ -50,8 +51,22 @@ public class CreateCrosstabHandler extends AbstractHandler
 				.getCommandStack( )
 				.startTrans( Messages.getString( "InsertAction.text" ) ); //$NON-NLS-1$
 		ExtendedItemHandle handle = null;
-		handle = DesignElementFactory.getInstance( ).newExtendedItem( null,
-				itemName );
+
+		try
+		{
+			handle = CrosstabExtendedItemFactory.createCrosstabReportItem( SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( ),
+					null );
+		}
+		catch ( Exception e )
+		{
+			SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( )
+					.getCommandStack( )
+					.rollback( );
+
+			throw new ExecutionException( e.getLocalizedMessage( ), e );
+		}
 
 		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
 
@@ -137,102 +152,105 @@ public class CreateCrosstabHandler extends AbstractHandler
 						.getCommandStack( )
 						.rollback( );
 			}
-			//			SlotHandle slotHandle = getDefaultSlotHandle( itemName, parentModel );
-			//			int pos = DNDUtil.calculateNextPosition( parentModel,
-			//					DNDUtil.handleValidateTargetCanContain( parentModel,
-			//							handle,
-			//							true ) );
+			// SlotHandle slotHandle = getDefaultSlotHandle( itemName,
+			// parentModel );
+			// int pos = DNDUtil.calculateNextPosition( parentModel,
+			// DNDUtil.handleValidateTargetCanContain( parentModel,
+			// handle,
+			// true ) );
 			//
-			//			try
-			//			{
-			//				if ( pos == -1 )
-			//				{
-			//					slotHandle.add( handle );
-			//				}
-			//				else
-			//				{
-			//					slotHandle.add( handle, pos );
-			//				}
-			//				SessionHandleAdapter.getInstance( )
-			//						.getReportDesignHandle( )
-			//						.getCommandStack( )
-			//						.commit( );
-			//			}
-			//			catch ( Exception e )
-			//			{
-			//				SessionHandleAdapter.getInstance( )
-			//						.getReportDesignHandle( )
-			//						.getCommandStack( )
-			//						.rollback( );
-			//			}
+			// try
+			// {
+			// if ( pos == -1 )
+			// {
+			// slotHandle.add( handle );
+			// }
+			// else
+			// {
+			// slotHandle.add( handle, pos );
+			// }
+			// SessionHandleAdapter.getInstance( )
+			// .getReportDesignHandle( )
+			// .getCommandStack( )
+			// .commit( );
+			// }
+			// catch ( Exception e )
+			// {
+			// SessionHandleAdapter.getInstance( )
+			// .getReportDesignHandle( )
+			// .getCommandStack( )
+			// .rollback( );
+			// }
 		}
-		//		if ( parentModel instanceof DesignElementHandle )
-		//		{
-		//			DesignElementHandle parentHandle = (DesignElementHandle) parentModel;
-		//			if ( parentHandle.getDefn( ).isContainer( ) )
-		//			{
-		//				command.setParent( parentModel );
-		//			}
-		//			else
-		//			{
-		//				command.setParent( parentHandle.getContainer( ) );
-		//			}
-		//		}
-		//		else
-		//		{
-		//			command.setParent( SessionHandleAdapter.getInstance( )
-		//					.getReportDesignHandle( ) );
-		//		}
+		// if ( parentModel instanceof DesignElementHandle )
+		// {
+		// DesignElementHandle parentHandle = (DesignElementHandle) parentModel;
+		// if ( parentHandle.getDefn( ).isContainer( ) )
+		// {
+		// command.setParent( parentModel );
+		// }
+		// else
+		// {
+		// command.setParent( parentHandle.getContainer( ) );
+		// }
+		// }
+		// else
+		// {
+		// command.setParent( SessionHandleAdapter.getInstance( )
+		// .getReportDesignHandle( ) );
+		// }
 		//		
-		//		if ( request != null )
-		//		{
-		//			request.getExtendedData( ).put( DesignerConstants.KEY_NEWOBJECT,
-		//					handle );
-		//			command = (CreateCommand) targetEditPart.getCommand( request );
-		//			command.setParent( DNDUtil.unwrapToModel( targetEditPart.getModel( ) ) );
-		//		}
-		//		else
-		//		{
+		// if ( request != null )
+		// {
+		// request.getExtendedData( ).put( DesignerConstants.KEY_NEWOBJECT,
+		// handle );
+		// command = (CreateCommand) targetEditPart.getCommand( request );
+		// command.setParent( DNDUtil.unwrapToModel( targetEditPart.getModel( )
+		// ) );
+		// }
+		// else
+		// {
 		//			
-		//			command = new CreateCommand( map );
-		//			Object parentModel = DNDUtil.unwrapToModel( UIUtil.getCurrentEditPart( )
-		//					.getModel( ) );
-		//			if ( parentModel instanceof DesignElementHandle )
-		//			{
-		//				DesignElementHandle parentHandle = (DesignElementHandle) parentModel;
-		//				if ( parentHandle.getDefn( ).isContainer( ) )
-		//				{
-		//					command.setParent( parentModel );
-		//				}
-		//				else
-		//				{
-		//					command.setParent( SessionHandleAdapter.getInstance( )
-		//							.getReportDesignHandle( ) );
-		//				}
-		//			}
-		//			else
-		//			{
-		//				command.setParent( SessionHandleAdapter.getInstance( )
-		//						.getReportDesignHandle( ) );
-		//			}
-		//		}
+		// command = new CreateCommand( map );
+		// Object parentModel = DNDUtil.unwrapToModel(
+		// UIUtil.getCurrentEditPart( )
+		// .getModel( ) );
+		// if ( parentModel instanceof DesignElementHandle )
+		// {
+		// DesignElementHandle parentHandle = (DesignElementHandle) parentModel;
+		// if ( parentHandle.getDefn( ).isContainer( ) )
+		// {
+		// command.setParent( parentModel );
+		// }
+		// else
+		// {
+		// command.setParent( SessionHandleAdapter.getInstance( )
+		// .getReportDesignHandle( ) );
+		// }
+		// }
+		// else
+		// {
+		// command.setParent( SessionHandleAdapter.getInstance( )
+		// .getReportDesignHandle( ) );
+		// }
+		// }
 
-		//		try
-		//		{
-		//			command.execute( );
-		//			SessionHandleAdapter.getInstance( )
-		//					.getReportDesignHandle( )
-		//					.getCommandStack( )
-		//					.commit( );
-		//		}
-		//		catch ( Exception e )
-		//		{
-		//			SessionHandleAdapter.getInstance( )
-		//					.getReportDesignHandle( )
-		//					.getCommandStack( )
-		//					.rollback( );
-		//		}
-		//if parent is library, select new object
+		// try
+		// {
+		// command.execute( );
+		// SessionHandleAdapter.getInstance( )
+		// .getReportDesignHandle( )
+		// .getCommandStack( )
+		// .commit( );
+		// }
+		// catch ( Exception e )
+		// {
+		// SessionHandleAdapter.getInstance( )
+		// .getReportDesignHandle( )
+		// .getCommandStack( )
+		// .rollback( );
+		// }
+		// if parent is library, select new object
 		if ( parentModel instanceof LibraryHandle )
 		{
 			try
@@ -249,30 +267,31 @@ public class CreateCrosstabHandler extends AbstractHandler
 		return handle;
 	}
 
-	//	private SlotHandle getDefaultSlotHandle( String insertType, Object model )
-	//	{
-	//		if ( model instanceof LibRootModel )
-	//		{
-	//			model = ( (LibRootModel) model ).getModel( );
-	//		}
-	//		if ( model instanceof SlotHandle )
-	//		{
-	//			return (SlotHandle) model;
-	//		}
-	//		else if ( model instanceof DesignElementHandle )
-	//		{
-	//			DesignElementHandle handle = (DesignElementHandle) model;
+	// private SlotHandle getDefaultSlotHandle( String insertType, Object model
+	// )
+	// {
+	// if ( model instanceof LibRootModel )
+	// {
+	// model = ( (LibRootModel) model ).getModel( );
+	// }
+	// if ( model instanceof SlotHandle )
+	// {
+	// return (SlotHandle) model;
+	// }
+	// else if ( model instanceof DesignElementHandle )
+	// {
+	// DesignElementHandle handle = (DesignElementHandle) model;
 	//
-	//			if ( handle.getDefn( ).isContainer( ) )
-	//			{
-	//				int slotId = DEUtil.getDefaultSlotID( handle );
-	//				if ( handle.canContain( slotId, insertType ) )
-	//				{
-	//					return handle.getSlot( slotId );
-	//				}
-	//			}
-	//			return handle.getContainerSlotHandle( );
-	//		}
-	//		return null;
-	//	}
+	// if ( handle.getDefn( ).isContainer( ) )
+	// {
+	// int slotId = DEUtil.getDefaultSlotID( handle );
+	// if ( handle.canContain( slotId, insertType ) )
+	// {
+	// return handle.getSlot( slotId );
+	// }
+	// }
+	// return handle.getContainerSlotHandle( );
+	// }
+	// return null;
+	// }
 }
