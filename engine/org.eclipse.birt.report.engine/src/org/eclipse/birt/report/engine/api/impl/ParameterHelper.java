@@ -128,7 +128,7 @@ public class ParameterHelper
 	public Object getValue( IResultIterator resultIterator )
 			throws BirtException
 	{
-		Object value = resultIterator.getString( valueColumnName );
+		Object value = resultIterator.getValue( valueColumnName );
 		return EngineTask.convertParameterType( value, valueType );
 	}
 	
