@@ -401,8 +401,11 @@ public class ReportEngineService
 		{
 			HttpServletRequest request = (HttpServletRequest) options
 					.getOption( InputOptions.OPT_REQUEST );
+			Locale locale = (Locale) options
+					.getOption( InputOptions.OPT_LOCALE );
 
 			task = engine.createGetParameterDefinitionTask( runnable );
+			task.setLocale( locale );
 
 			// set app context
 			Map context = BirtUtility.getAppContext( request,
