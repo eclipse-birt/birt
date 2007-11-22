@@ -297,7 +297,7 @@ public class CacheResultIterator implements IResultIterator
 	public IResultIterator getSecondaryIterator( String subQueryName,
 			Scriptable scope ) throws BirtException
 	{
-		throw new UnsupportedOperationException( );
+		throw new DataException( ResourceConstants.NOT_SUPPORT_REPORT_ITEM_SUBQUERY );
 	}
 
 	/*

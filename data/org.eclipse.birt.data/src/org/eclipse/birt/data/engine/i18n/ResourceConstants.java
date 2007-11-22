@@ -194,6 +194,7 @@ public class ResourceConstants
 	public static final String INVALID_OUTPUT_PARAMETER_INDEX="data.engine.invalidOutputParameterIndex";
 	public static final String OUTPUT_PARAMETER_OUT_OF_BOUND="data.engine.outputParameterOutOfBound";
 	public static final String INVALID_OUTPUT_PARAMETER_NAME="data.engine.invalidOutputParameterName";
+	public static final String NOT_SUPPORT_REPORT_ITEM_SUBQUERY = "data.engine.reportItem.SubQuery.Unsupported";
 	public static final String NOT_SUPPORT_IN_PRESENTATION="data.engine.document.notSupportInPresentation";
 	public static final String WRONG_STATUS="data.engine.wrongStatus";
 	public static final String WRONG_VERSION="data.engine.wrongVersion";
