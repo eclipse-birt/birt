@@ -99,8 +99,8 @@ public class TOCBuilderTest extends EngineCase
 		assertTrue( detailNode1.isHidden( "html" ) );
 		assertEquals( "html", detailNode1.getHiddenFormats( ) );
 		assertTrue( detailNode2.isHidden( "html" ) );
-		assertEquals( group.getNode( ), detailNode1.getParent( ) );
-		assertEquals( group.getNode( ), detailNode2.getParent( ) );
+		assertEquals( list.getNode( ), detailNode1.getParent( ) );
+		assertEquals( list.getNode( ), detailNode2.getParent( ) );
 	}
 
 	/**
@@ -188,8 +188,8 @@ public class TOCBuilderTest extends EngineCase
 		assertTrue( detailNode2.isHidden( "html" ) );
 		assertTrue( detailNode2.isHidden( "pdf" ) );
 
-		assertEquals( groupHeader.getNode( ), detailNode1.getParent( ) );
-		assertEquals( groupHeader.getNode( ), detailNode2.getParent( ) );
+		assertEquals( list.getNode( ), detailNode1.getParent( ) );
+		assertEquals( list.getNode( ), detailNode2.getParent( ) );
 	}
 
 	/**
