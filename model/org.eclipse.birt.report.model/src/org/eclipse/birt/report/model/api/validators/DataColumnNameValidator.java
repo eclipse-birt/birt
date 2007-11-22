@@ -57,6 +57,15 @@ public class DataColumnNameValidator extends AbstractElementValidator
 	}
 
 	/**
+	 * Private constructor.
+	 */
+
+	private DataColumnNameValidator( )
+	{
+
+	}
+
+	/**
 	 * Validates whether the page size is invalid.
 	 * 
 	 * @param module
@@ -107,6 +116,9 @@ public class DataColumnNameValidator extends AbstractElementValidator
 	}
 
 	/**
+	 * Checks the target has column name or not. See bug 205400. If one element
+	 * has boundDataColumns or data set, that's allowed.
+	 * 
 	 * @param columnBindingName
 	 * @return <code>true</code> if the target has the column name.
 	 *         <code>false</code> otherwise.
@@ -135,8 +147,13 @@ public class DataColumnNameValidator extends AbstractElementValidator
 
 			if ( exists( columns, columnBindingName ) )
 				return true;
-
 		}
+
+		// see bug 205400, find itself.
+		List columns = (List) target.getProperty( module,
+				IReportItemModel.BOUND_DATA_COLUMNS_PROP );
+		if ( exists( columns, columnBindingName ) )
+			return true;
 
 		return false;
 	}
