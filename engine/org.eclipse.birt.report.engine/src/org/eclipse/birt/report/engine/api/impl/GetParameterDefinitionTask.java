@@ -1264,6 +1264,7 @@ public class GetParameterDefinitionTask extends EngineTask
 			// Create Parameter
 			ScalarParameterDefn scalarParameter = new ScalarParameterDefn( );
 			scalarParameter.setHandle( handle );
+			scalarParameter.setLocale( locale );
 			scalarParameter.setParameterType( IParameterDefnBase.SCALAR_PARAMETER );
 			scalarParameter.setName( handle.getName( ) );
 
