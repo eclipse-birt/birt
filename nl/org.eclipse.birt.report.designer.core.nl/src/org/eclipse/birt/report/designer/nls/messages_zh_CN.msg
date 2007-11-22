@@ -2406,6 +2406,12 @@ ProjectFileDialog.Message=选择当前项目中的文件。
 ProjectFileDialog.Text.Menu=菜单
 
 ###########################################################
+#ProjectSelectionDialog properties
+ProjectSelectionDialog.Message=Select the project to configure:
+ProjectSelectionDialog.Text.SpecialSettings=Show only projects with project specific settings
+ProjectSelectionDialog.Title=Project Specific Configuration
+
+###########################################################
 #ResourceFilterDialog properties
 
 ResourceFilterDialog.Title=报表元素筛选器
@@ -2711,6 +2717,12 @@ PropertyHandleTableViewer.Menu.RemoveAll=全部删除
 PropertyHandleInputDialog.Action.New=新建
 PropertyHandleInputDialog.Action.Edit=编辑
 PropertyHandleInputDialog.messages.error.blankProperty={0} 不能为空白
+
+###########################################################
+#PropertyAndPreferencePage properties
+PropertyAndPreferencePage.Text.Configure.Special.Settings=Configure Project Specific Settings...
+PropertyAndPreferencePage.Text.Configure.Workspace.Settings=Configure Workspace Settings...
+PropertyAndPreferencePage.Text.Enable.SpecialSettings=Enable pr&oject specific settings
 
 ###########################################################
 #PublishTemplateAction properties

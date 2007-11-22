@@ -2406,6 +2406,12 @@ ProjectFileDialog.Message=현재 프로젝트에서 파일을 선택합니다.
 ProjectFileDialog.Text.Menu=메뉴
 
 ###########################################################
+#ProjectSelectionDialog properties
+ProjectSelectionDialog.Message=Select the project to configure:
+ProjectSelectionDialog.Text.SpecialSettings=Show only projects with project specific settings
+ProjectSelectionDialog.Title=Project Specific Configuration
+
+###########################################################
 #ResourceFilterDialog properties
 
 ResourceFilterDialog.Title=보고서 요소 필터
@@ -2711,6 +2717,12 @@ PropertyHandleTableViewer.Menu.RemoveAll=모두 제거
 PropertyHandleInputDialog.Action.New=새로 만들기
 PropertyHandleInputDialog.Action.Edit=편집
 PropertyHandleInputDialog.messages.error.blankProperty={0}은(는) 비워둘 수 없습니다.
+
+###########################################################
+#PropertyAndPreferencePage properties
+PropertyAndPreferencePage.Text.Configure.Special.Settings=Configure Project Specific Settings...
+PropertyAndPreferencePage.Text.Configure.Workspace.Settings=Configure Workspace Settings...
+PropertyAndPreferencePage.Text.Enable.SpecialSettings=Enable pr&oject specific settings
 
 ###########################################################
 #PublishTemplateAction properties

@@ -2406,6 +2406,12 @@ ProjectFileDialog.Message=現在のプロジェクトのファイルを選択してください。
 ProjectFileDialog.Text.Menu=メニュー
 
 ###########################################################
+#ProjectSelectionDialog properties
+ProjectSelectionDialog.Message=Select the project to configure:
+ProjectSelectionDialog.Text.SpecialSettings=Show only projects with project specific settings
+ProjectSelectionDialog.Title=Project Specific Configuration
+
+###########################################################
 #ResourceFilterDialog properties
 
 ResourceFilterDialog.Title=レポート要素のフィルタ
@@ -2711,6 +2717,12 @@ PropertyHandleTableViewer.Menu.RemoveAll=すべて削除
 PropertyHandleInputDialog.Action.New=新規
 PropertyHandleInputDialog.Action.Edit=編集
 PropertyHandleInputDialog.messages.error.blankProperty={0} は空白にできません。
+
+###########################################################
+#PropertyAndPreferencePage properties
+PropertyAndPreferencePage.Text.Configure.Special.Settings=Configure Project Specific Settings...
+PropertyAndPreferencePage.Text.Configure.Workspace.Settings=Configure Workspace Settings...
+PropertyAndPreferencePage.Text.Enable.SpecialSettings=Enable pr&oject specific settings
 
 ###########################################################
 #PublishTemplateAction properties

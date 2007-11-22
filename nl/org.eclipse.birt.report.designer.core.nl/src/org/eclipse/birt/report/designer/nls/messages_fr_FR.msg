@@ -2406,6 +2406,12 @@ ProjectFileDialog.Message=Sélectionner un fichier dans le projet en cours.
 ProjectFileDialog.Text.Menu=menu
 
 ###########################################################
+#ProjectSelectionDialog properties
+ProjectSelectionDialog.Message=Select the project to configure:
+ProjectSelectionDialog.Text.SpecialSettings=Show only projects with project specific settings
+ProjectSelectionDialog.Title=Project Specific Configuration
+
+###########################################################
 #ResourceFilterDialog properties
 
 ResourceFilterDialog.Title=Filtre des éléments d'état
@@ -2711,6 +2717,12 @@ PropertyHandleTableViewer.Menu.RemoveAll=Supprimer tout
 PropertyHandleInputDialog.Action.New=Nouveau
 PropertyHandleInputDialog.Action.Edit=Modifier
 PropertyHandleInputDialog.messages.error.blankProperty={0} ne peut pas être vide
+
+###########################################################
+#PropertyAndPreferencePage properties
+PropertyAndPreferencePage.Text.Configure.Special.Settings=Configure Project Specific Settings...
+PropertyAndPreferencePage.Text.Configure.Workspace.Settings=Configure Workspace Settings...
+PropertyAndPreferencePage.Text.Enable.SpecialSettings=Enable pr&oject specific settings
 
 ###########################################################
 #PublishTemplateAction properties
