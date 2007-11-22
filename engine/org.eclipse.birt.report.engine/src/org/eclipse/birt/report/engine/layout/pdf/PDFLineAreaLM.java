@@ -275,6 +275,10 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 		Iterator iter = root.getChildren( );
 		int height = root.getHeight( );
 		int lineHeight = ( (PDFBlockStackingLM) parent ).getLineHeight( );
+		if (lineHeight > maxAvaHeight)
+		{
+			lineHeight = 0;
+		}
 		while ( iter.hasNext( ) )
 		{
 			AbstractArea child = (AbstractArea) iter.next( );
