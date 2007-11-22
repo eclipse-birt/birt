@@ -32,7 +32,7 @@ AbstractParameterDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	 */
 	 __neh_click_radio_closure : null,
 	 __neh_change_select_closure : null,
-
+	 
 	/**
 	 *	Initialize dialog base.
 	 *	@return, void
@@ -65,6 +65,11 @@ AbstractParameterDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	 */
 	__propogateCascadeParameter : function( data )
 	{
+		if ( this.__operationCancelled )
+		{
+			return;
+		}
+		
 		if( data )
 		{
 			var cascade_param = data.getElementsByTagName( 'CascadeParameter' )[0];//assume there is only one cascadeparameter
