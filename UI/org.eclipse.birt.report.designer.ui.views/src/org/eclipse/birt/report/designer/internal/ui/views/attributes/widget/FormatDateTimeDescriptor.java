@@ -360,9 +360,11 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 	{
 		setEnabled( true );
 		String[] result = (String[]) provider.load( );
-		if ( result.length == 1 )
+		if ( result == null )
+			setEnabled( false );
+		else if ( result.length == 1 )
 			setInput( result[0] );
-		if ( result.length == 2 )
+		else if ( result.length == 2 )
 			setInput( result[0], result[1] );
 	}
 
@@ -941,7 +943,7 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 		else
 			previewTextBox = FormWidgetFactory.getInstance( )
 					.createText( group, "", SWT.SINGLE );
-		previewTextBox.setText( defaultDateTime==null?"":defaultDateTime );
+		previewTextBox.setText( defaultDateTime == null ? "" : defaultDateTime );
 		GridData data = new GridData( GridData.FILL_HORIZONTAL );
 		if ( pageAlignment == PAGE_ALIGN_HORIZONTAL )
 		{
@@ -1044,7 +1046,7 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 		tableColumnDisplay.setText( LABEL_TABLE_COLUMN_EXAMPLE_FORMAT_RESULT );
 		tableColumnDisplay.setWidth( 115 );
 		tableColumnDisplay.setResizable( true );
-		
+
 		TableColumn tableColumnFormatCode = new TableColumn( table, SWT.NONE );
 		tableColumnFormatCode.setText( LABEL_TABLE_COLUMN_EXAMPLE_FORMAT_CODE );
 		tableColumnFormatCode.setWidth( 150 );

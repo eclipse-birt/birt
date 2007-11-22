@@ -1108,6 +1108,7 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 		if ( format == null )
 		{
 			setInput( null, null );
+			setEnabled( false );
 		}
 		else
 		{

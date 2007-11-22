@@ -459,10 +459,10 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 		setEnabled( true );
 		String[] result = (String[]) provider.load( );
 		if ( result == null )
-			return;
-		if ( result.length == 1 )
+			setEnabled( false );
+		else if ( result.length == 1 )
 			setInput( result[0] );
-		if ( result.length == 2 )
+		else if ( result.length == 2 )
 			setInput( result[0], result[1] );
 	}
 
