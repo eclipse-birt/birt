@@ -69,7 +69,7 @@ public class FontSizePropertyDescriptor extends PropertyDescriptor
 		return builder;
 	}
 
-	boolean processing = false;
+	boolean needSaved = true;
 
 	public Control createControl( Composite parent )
 	{
@@ -78,13 +78,7 @@ public class FontSizePropertyDescriptor extends PropertyDescriptor
 
 			public void handleEvent( Event event )
 			{
-				if ( !processing )
-				{
-					processing = true;
-					handleBuilderModifyEvent( );
-					processing = false;
-				}
-
+				handleBuilderModifyEvent( );
 			}
 		} );
 		return builder;
@@ -107,6 +101,12 @@ public class FontSizePropertyDescriptor extends PropertyDescriptor
 		{
 			if ( oldValue == null || oldValue.length( ) == 0 )
 			{
+
+				return;
+			}
+			else
+			{
+				builder.setFontSizeValue( oldValue );
 				return;
 			}
 		}
@@ -126,14 +126,7 @@ public class FontSizePropertyDescriptor extends PropertyDescriptor
 			builder.setFontSizeValue( oldValue );
 			return;
 		}
-
-		if ( sizeValue == null || sizeValue.length( ) == 0 )
-		{
-			String sizeString = getDescriptorProvider( ).load( ).toString( );
-			builder.setFontSizeValue( sizeString );
-		}
 	}
-
 
 	public void save( Object value ) throws SemanticException
 	{

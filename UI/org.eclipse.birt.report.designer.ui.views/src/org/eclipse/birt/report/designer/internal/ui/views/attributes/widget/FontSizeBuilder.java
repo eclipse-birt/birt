@@ -115,7 +115,8 @@ public class FontSizeBuilder extends Composite
 
 			public void focusLost( org.eclipse.swt.events.FocusEvent e )
 			{
-				valueCombo.notifyListeners( SWT.DefaultSelection, null );
+				computerFontSizeValue( );
+				notifyListeners( SWT.Modify, null );
 			}
 
 		} );
@@ -128,7 +129,7 @@ public class FontSizeBuilder extends Composite
 
 			public void widgetDefaultSelected( SelectionEvent e )
 			{
-				processAction( );
+				//processAction( );
 			}
 		} );
 		valueCombo.addModifyListener( new ModifyListener( ) {
@@ -172,7 +173,7 @@ public class FontSizeBuilder extends Composite
 
 			public void widgetDefaultSelected( SelectionEvent e )
 			{
-				processAction( );
+				//processAction( );
 			}
 		} );
 
@@ -295,6 +296,12 @@ public class FontSizeBuilder extends Composite
 	 */
 	protected void processAction( )
 	{
+		computerFontSizeValue( );
+		notifyListeners( SWT.Modify, null );
+	}
+
+	private void computerFontSizeValue( )
+	{
 		String val = valueCombo.getText( );
 
 		if ( val == null || val.length( ) == 0 || DEFAULT_CHOICE.equals( val ) )
@@ -319,8 +326,6 @@ public class FontSizeBuilder extends Composite
 			fontSizeValue = val
 					+ DEUtil.resolveNull( getUnitsValue( unitCombo.getText( ) ) );
 		}
-
-		notifyListeners( SWT.Modify, null );
 	}
 
 	/**
@@ -335,7 +340,6 @@ public class FontSizeBuilder extends Composite
 				|| size.equals( DEFAULT_CHOICE ) )
 		{
 			valueCombo.setText( DEFAULT_CHOICE );
-			processAction( );
 			return;
 		}
 
@@ -344,7 +348,6 @@ public class FontSizeBuilder extends Composite
 		if ( sp[0] == null && sp[1] == null )
 		{
 			valueCombo.setText( DEFAULT_CHOICE );
-			processAction( );
 			return;
 		}
 
@@ -377,9 +380,6 @@ public class FontSizeBuilder extends Composite
 			}
 
 		}
-
-		processAction( );
-
 	}
 
 	/**
