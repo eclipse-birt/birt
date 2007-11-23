@@ -1728,7 +1728,7 @@ public class CascadingParametersDialog extends BaseDialog
 		}
 		else
 		{
-			if ( !loading
+			if ( (formatCategroy != null && choiceSet.findChoice( formatCategroy ) == null )
 					|| ( selectedParameter.getCategory( ) == null && selectedParameter.getPattern( ) == null ) )
 			{
 				if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( selectedDataType ) )
