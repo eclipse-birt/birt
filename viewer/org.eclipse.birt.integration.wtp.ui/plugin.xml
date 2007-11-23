@@ -155,6 +155,15 @@
 	</extension>
       	
 	<!--======================================================================================-->
+	<!--         Wizard pages                                                                    -->
+	<!--======================================================================================-->
+	<extension point="org.eclipse.wst.common.project.facet.ui.wizardPages">
+	  <wizard-pages action="birt.runtime.install">
+	    <page class="org.eclipse.birt.integration.wtp.ui.internal.wizards.BirtWebProjectWizardConfigurationPage"/>
+	  </wizard-pages>
+	</extension>
+	      	
+	<!--======================================================================================-->
 	<!--         Templates                                                                    -->
 	<!--======================================================================================-->
 	<extension point="org.eclipse.ui.editors.templates">

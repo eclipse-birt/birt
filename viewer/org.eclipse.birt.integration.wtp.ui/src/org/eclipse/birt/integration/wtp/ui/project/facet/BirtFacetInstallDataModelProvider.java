@@ -11,32 +11,46 @@
 
 package org.eclipse.birt.integration.wtp.ui.project.facet;
 
-import org.eclipse.jst.j2ee.project.facet.IJ2EEModuleFacetInstallDataModelProperties;
+import java.util.Set;
+
+import org.eclipse.birt.integration.wtp.ui.internal.wizards.BirtWizardUtil;
 import org.eclipse.jst.j2ee.web.project.facet.WebFacetInstallDataModelProvider;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 
 /**
  * Implement DataModel provider for birt project facet
- * 
  */
 public class BirtFacetInstallDataModelProvider
 		extends
-			WebFacetInstallDataModelProvider implements IBirtFacetConstants
+			WebFacetInstallDataModelProvider
+		implements
+			BirtFacetInstallDataModelProperties,
+			IBirtFacetConstants
 {
 
 	/**
-	 * Create IDataModel
+	 * @see org.eclipse.jst.j2ee.web.project.facet.WebFacetInstallDataModelProvider#getPropertyNames()
+	 */
+	public Set getPropertyNames( )
+	{
+		Set names = super.getPropertyNames( );
+		names.add( BIRT_CONFIG );
+		return names;
+	}
+
+	/**
+	 * Creates the install data model, and initialize the birt properties in
+	 * BIRT_CONFIG.
 	 * 
 	 * @see org.eclipse.wst.common.componentcore.datamodel.FacetInstallDataModelProvider#create()
 	 */
 	public Object create( )
 	{
 		IDataModel dataModel = (IDataModel) super.create( );
-
-		// Add facet id of birt runtime
-		dataModel.setProperty( "IFacetDataModelProperties.FACET_ID", //$NON-NLS-1$
-				BIRT_RUNTIME_FACET_ID );
-		
+		dataModel.setProperty( FACET_ID, BIRT_RUNTIME_FACET_ID );
+		dataModel.setProperty( BIRT_CONFIG, BirtWizardUtil.initWebapp( null ) );
+		// TODO: define all the birt properties as nested data models
 		return dataModel;
 	}
+
 }

@@ -627,27 +627,6 @@ public class BirtWizardUtil implements IBirtWizardConstants
 	}
 
 	/**
-	 * Check if defined project facet is installed.
-	 * 
-	 * @param dataModel
-	 * @param facetId
-	 * @return true or false
-	 */
-	public static boolean isSelectedFacetInstalled( IDataModel dataModel,
-			String facetId )
-	{
-		org.eclipse.wst.common.componentcore.datamodel.properties.IFacetProjectCreationDataModelProperties.FacetDataModelMap modelMap = (org.eclipse.wst.common.componentcore.datamodel.properties.IFacetProjectCreationDataModelProperties.FacetDataModelMap) dataModel
-				.getProperty( "IFacetProjectCreationDataModelProperties.FACET_DM_MAP" ); //$NON-NLS-1$
-
-		IDataModel facetDataModel = (IDataModel) modelMap.get( facetId );
-		if ( facetDataModel == null )
-			return false;
-		else
-			return facetDataModel
-					.getBooleanProperty( "IFacetDataModelProperties.SHOULD_EXECUTE" ); //$NON-NLS-1$
-	}
-
-	/**
 	 * get default resource folder setting
 	 * 
 	 * @return

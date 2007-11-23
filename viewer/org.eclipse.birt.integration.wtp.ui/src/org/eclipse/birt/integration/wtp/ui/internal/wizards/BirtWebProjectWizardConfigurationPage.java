@@ -19,9 +19,9 @@ import org.eclipse.birt.integration.wtp.ui.internal.resource.BirtWTPMessages;
 import org.eclipse.birt.integration.wtp.ui.internal.util.DataUtil;
 import org.eclipse.birt.integration.wtp.ui.internal.util.UIUtil;
 import org.eclipse.birt.integration.wtp.ui.internal.util.WebArtifactUtil;
+import org.eclipse.birt.integration.wtp.ui.project.facet.BirtFacetInstallDataModelProperties;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -30,6 +30,8 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
+import org.eclipse.wst.common.project.facet.ui.AbstractFacetWizardPage;
 import org.osgi.framework.Bundle;
 
 /**
@@ -54,9 +56,9 @@ import org.osgi.framework.Bundle;
  * </ol>
  * 
  */
-public class BirtWebProjectWizardConfigurationPage extends WizardPage
-		implements
-			IBirtWizardConstants
+public class BirtWebProjectWizardConfigurationPage
+		extends
+			AbstractFacetWizardPage implements IBirtWizardConstants
 {
 
 	/**
@@ -139,10 +141,9 @@ public class BirtWebProjectWizardConfigurationPage extends WizardPage
 	 * 
 	 * @param props
 	 */
-	public BirtWebProjectWizardConfigurationPage( Map properties )
+	public BirtWebProjectWizardConfigurationPage( )
 	{
 		super( BIRT_CONFIGURATION_PAGE_NAME );
-		this.properties = properties;
 		setTitle( BirtWTPMessages.BIRTProjectConfigurationPage_title );
 		setDescription( BirtWTPMessages.BIRTProjectConfigurationPage_desc );
 		ImageDescriptor imageDesc = getDefaultPageImageDescriptor( );
@@ -285,10 +286,17 @@ public class BirtWebProjectWizardConfigurationPage extends WizardPage
 	}
 
 	/**
-	 * @return the properties
+	 * Sets the birt facet configuration
+	 * 
+	 * @param config
+	 *            IDataModel
+	 * @see org.eclipse.wst.common.project.facet.ui.IFacetWizardPage#setConfig(java.lang.Object)
 	 */
-	public Map getProperties( )
+	public void setConfig( Object config )
 	{
-		return properties;
+		IDataModel dataModel = (IDataModel) config;
+		Map birtProperties = (Map) dataModel
+				.getProperty( BirtFacetInstallDataModelProperties.BIRT_CONFIG );
+		this.properties = (Map) birtProperties.get( EXT_CONTEXT_PARAM );
 	}
 }
