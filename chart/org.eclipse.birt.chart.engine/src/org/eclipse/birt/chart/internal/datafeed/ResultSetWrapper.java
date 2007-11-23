@@ -1414,9 +1414,17 @@ public final class ResultSetWrapper
 		{
 			return NO_GROUP_BREAKS;
 		}
-
+		
+		// For previous chart version(before2.3M3), the seriesGrouping argument
+		// may be null, so here needs to check null case.
+		boolean groupingEnabled = false;
+		if ( seriesGrouping != null && seriesGrouping.isEnabled( ) )
+		{
+			groupingEnabled = true;
+		}
+		
 		GroupKey newGroupKey = groupKey;
-		if ( seriesGrouping.isEnabled( ) && groupKey.getDirection( ) == null )
+		if ( groupingEnabled && groupKey.getDirection( ) == null )
 		{
 			newGroupKey = new GroupKey( groupKey.getKey( ),
 					SortOption.ASCENDING_LITERAL );
@@ -1436,7 +1444,7 @@ public final class ResultSetWrapper
 		Object oBaseValue = null;
 
 		
-		if ( seriesGrouping.isEnabled( ) )
+		if ( groupingEnabled )
 		{
 			// Reset grouped data by series grouping setting.
 			resetGroupedData( resultSet, iColumnIndex, seriesGrouping );

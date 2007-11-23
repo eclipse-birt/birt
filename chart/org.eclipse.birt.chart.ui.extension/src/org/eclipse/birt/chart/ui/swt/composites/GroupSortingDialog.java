@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2006 Actuate Corporation.
+ * Copyright (c) 2006, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -34,49 +34,25 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- * 
+ * The dialog is responsible to set grouping and sort condition.
  */
+
 public class GroupSortingDialog extends TrayDialog implements Listener
 {
 
 	private static final String UNSORTED_OPTION = Messages.getString( "BaseSeriesDataSheetImpl.Choice.Unsorted" ); //$NON-NLS-1$
 
-	private ChartWizardContext wizardContext;
+	protected ChartWizardContext wizardContext;
 	private SeriesDefinition sd;
 
-	private Combo cmbSorting;
-
-	private SeriesGroupingComposite fGroupingComposite;
-
-	/**
-     * The field indicates if the grouping is still enabled.
-     */
-	private boolean fStillEnableGroup = false;
-
-	/** The field indicates if aggregation is enabled. */
-	private boolean fbAggEnabled = true;
+	protected Combo cmbSorting;
 
 	public GroupSortingDialog( Shell shell, ChartWizardContext wizardContext,
 			SeriesDefinition sd )
 	{
-		this( shell, wizardContext, sd, false, true );
-	}
-	
-	/**
-	 * @param shell
-	 * @param wizardContext
-	 * @param sd
-	 * @param stillEnableGroup the field indicates if the grouping is still enabled.
-	 * @since 2.3
-	 */
-	public GroupSortingDialog( Shell shell, ChartWizardContext wizardContext,
-			SeriesDefinition sd, boolean stillEnableGroup, boolean bAggEnabled )
-	{
 		super( shell );
 		this.wizardContext = wizardContext;
 		this.sd = sd;
-		fStillEnableGroup  = stillEnableGroup;
-		fbAggEnabled  = bAggEnabled;
 	}
 
 	protected Control createDialogArea( Composite parent )
@@ -100,6 +76,41 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 			cmpBasic.setLayoutData( gd );
 		}
 
+		createSortArea( cmpBasic );
+
+		createGroupArea( cmpBasic );
+
+		populateLists( );
+
+		return cmpContent;
+	}
+
+	/**
+	 * Create composite of group area.
+	 * 
+	 * @param cmpBasic
+	 */
+	protected void createGroupArea( Composite cmpBasic )
+	{
+		Composite cmpGrouping = new Composite( cmpBasic, SWT.NONE );
+		GridData gdCMPGrouping = new GridData( GridData.FILL_HORIZONTAL );
+		gdCMPGrouping.horizontalSpan = 2;
+		cmpGrouping.setLayoutData( gdCMPGrouping );
+		cmpGrouping.setLayout( new FillLayout( ) );
+
+		new SeriesGroupingComposite( cmpGrouping,
+				SWT.NONE,
+				getSeriesDefinitionForProcessing( ),
+				wizardContext.getModel( ) instanceof ChartWithoutAxes );
+	}
+
+	/**
+	 * Create composite of sort area.
+	 * 
+	 * @param cmpBasic
+	 */
+	protected void createSortArea( Composite cmpBasic )
+	{
 		Label lblSorting = new Label( cmpBasic, SWT.NONE );
 		lblSorting.setText( Messages.getString( "BaseSeriesDataSheetImpl.Lbl.DataSorting" ) ); //$NON-NLS-1$
 
@@ -107,42 +118,14 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 		GridData gdCMBSorting = new GridData( GridData.FILL_HORIZONTAL );
 		cmbSorting.setLayoutData( gdCMBSorting );
 		cmbSorting.addListener( SWT.Selection, this );
-
-		Composite cmpGrouping = new Composite( cmpBasic, SWT.NONE );
-		GridData gdCMPGrouping = new GridData( GridData.FILL_HORIZONTAL );
-		gdCMPGrouping.horizontalSpan = 2;
-		cmpGrouping.setLayoutData( gdCMPGrouping );
-		cmpGrouping.setLayout( new FillLayout( ) );
-
-		fGroupingComposite = new SeriesGroupingComposite( cmpGrouping,
-				SWT.NONE,
-				getSeriesDefinitionForProcessing( ),
-				wizardContext.getModel( ) instanceof ChartWithoutAxes,
-				fbAggEnabled);
-		
-		if ( fStillEnableGroup )
-		{
-			fGroupingComposite.stillEnableGroupingSelection( );
-		}
-		populateLists( );
-
-		return cmpContent;
 	}
 
-	/**
-	 * Disable grouping enabling button.
-	 */
-	public void disableGroupingSelection() {
-		// Disable grouping selection and still enable the grouping.
-		fGroupingComposite.stillEnableGroupingSelection();
-	}
-	
-	private SeriesDefinition getSeriesDefinitionForProcessing( )
+	protected SeriesDefinition getSeriesDefinitionForProcessing( )
 	{
 		return sd;
 	}
 
-	private void populateLists( )
+	protected void populateLists( )
 	{
 		// populate sorting combo
 		cmbSorting.add( UNSORTED_OPTION );
