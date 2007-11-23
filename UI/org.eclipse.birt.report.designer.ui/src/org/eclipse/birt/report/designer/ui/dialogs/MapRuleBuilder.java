@@ -103,7 +103,7 @@ import org.eclipse.ui.PlatformUI;
 
 public class MapRuleBuilder extends BaseDialog
 {
-
+	private final String NULL_STRING = null;
 	protected IExpressionProvider expressionProvider;
 	protected transient String bindingName = null;
 	protected ReportElementHandle currentItem = null;
@@ -1727,10 +1727,16 @@ public class MapRuleBuilder extends BaseDialog
 					if ( expressionValue1.isVisible( ) )
 					{
 						handle.setValue1( DEUtil.resolveNull( expressionValue1.getText( ) ) );
+					}else
+					{
+						handle.setValue1( NULL_STRING );
 					}
 					if ( expressionValue2.isVisible( ) )
 					{
 						handle.setValue2( DEUtil.resolveNull( expressionValue2.getText( ) ) );
+					}else
+					{
+						handle.setValue2( NULL_STRING );
 					}
 				}
 				else

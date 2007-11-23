@@ -104,6 +104,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 			Messages.getString( "ExpressionValueCellEditor.buildExpressionAction" ), //$NON-NLS-1$
 	};
 
+	private final String NULL_STRING = null;
 	protected Composite dummy1, dummy2;
 	protected Label label1, label2;
 
@@ -1108,7 +1109,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 					{
 						valueList = new ArrayList( inputHandle.getValue1List( ) );
 					}
-
+										
 					tableViewer.setInput( valueList );
 				}
 			}
@@ -1519,7 +1520,14 @@ public class FilterConditionBuilder extends TitleAreaDialog
 				{
 					assert ( !expressionValue1.isDisposed( ) );
 					assert ( !expressionValue2.isDisposed( ) );
-					filter.setValue1( DEUtil.resolveNull( expressionValue1.getText( ) ) );
+					if (expressionValue1.getVisible( ))
+					{
+						filter.setValue1( DEUtil.resolveNull( expressionValue1.getText( ) ) );
+					}else
+					{
+						filter.setValue1( NULL_STRING );
+					}
+					
 					if ( expressionValue2.getVisible( ) )
 					{
 						filter.setValue2( DEUtil.resolveNull( expressionValue2.getText( ) ) );
@@ -1537,7 +1545,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 				if ( valueVisible == 3 )
 				{
 					inputHandle.setValue1( valueList );
-					inputHandle.setValue2( "" );
+					inputHandle.setValue2( NULL_STRING );
 				}
 				else
 				{
@@ -1549,7 +1557,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 					}
 					else
 					{
-						inputHandle.setValue1( "" );
+						inputHandle.setValue1( NULL_STRING );
 					}
 
 					if ( expressionValue2.getVisible( ) )
@@ -1558,7 +1566,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 					}
 					else
 					{
-						inputHandle.setValue2( "" );
+						inputHandle.setValue2( NULL_STRING );
 					}
 				}
 				inputHandle.setExpr( DEUtil.resolveNull( expression.getText( ) ) );

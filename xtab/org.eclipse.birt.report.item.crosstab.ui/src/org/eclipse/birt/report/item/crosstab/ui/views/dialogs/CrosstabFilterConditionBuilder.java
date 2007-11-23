@@ -119,6 +119,8 @@ import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 {
 
+	private final String NULL_STRING = null;
+
 	public static final String DLG_MESSAGE_NEW = Messages.getString( "CrosstabFilterConditionBuilder.DialogMessage.New" ); //$NON-NLS-1$
 	public static final String DLG_MESSAGE_EDIT = Messages.getString( "CrosstabFilterConditionBuilder.DialogMessage.Edit" ); //$NON-NLS-1$
 
@@ -1791,10 +1793,22 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 				{
 					assert ( !expressionValue1.isDisposed( ) );
 					assert ( !expressionValue2.isDisposed( ) );
-					filter.setValue1( DEUtil.resolveNull( expressionValue1.getText( ) ) );
+					if ( expressionValue1.getVisible( ) )
+					{
+						filter.setValue1( DEUtil.resolveNull( expressionValue1.getText( ) ) );
+					}
+					else
+					{
+						filter.setValue1( NULL_STRING );
+					}
+
 					if ( expressionValue2.getVisible( ) )
 					{
 						filter.setValue2( DEUtil.resolveNull( expressionValue2.getText( ) ) );
+					}
+					else
+					{
+						filter.setValue2( NULL_STRING );
 					}
 				}
 
@@ -1829,7 +1843,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 						}
 						else
 						{
-							inputHandle.setValue1( "" );
+							inputHandle.setValue1( NULL_STRING );
 						}
 
 						if ( expressionValue2.getVisible( ) )
@@ -1838,7 +1852,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 						}
 						else
 						{
-							inputHandle.setValue2( "" );
+							inputHandle.setValue2( NULL_STRING );
 						}
 					}
 					inputHandle.setExpr( DEUtil.resolveNull( expression.getText( ) ) );

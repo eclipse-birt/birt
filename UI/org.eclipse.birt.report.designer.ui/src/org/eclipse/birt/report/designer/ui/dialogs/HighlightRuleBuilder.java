@@ -18,8 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
-import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.data.ui.util.SelectValueFetcher;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
@@ -109,6 +107,7 @@ import org.eclipse.ui.PlatformUI;
 public class HighlightRuleBuilder extends BaseDialog
 {
 
+	private final String NULL_STRING = null;
 	protected IExpressionProvider expressionProvider;
 	protected transient String bindingName = null;
 	protected ReportElementHandle currentItem = null;
@@ -1727,10 +1726,16 @@ public class HighlightRuleBuilder extends BaseDialog
 					if ( expressionValue1.isVisible( ) )
 					{
 						handle.setValue1( DEUtil.resolveNull( expressionValue1.getText( ) ) );
+					}else
+					{
+						handle.setValue1( NULL_STRING );
 					}
 					if ( expressionValue2.isVisible( ) )
 					{
 						handle.setValue2( DEUtil.resolveNull( expressionValue2.getText( ) ) );
+					}else
+					{
+						handle.setValue1( NULL_STRING );
 					}
 				}
 				else
