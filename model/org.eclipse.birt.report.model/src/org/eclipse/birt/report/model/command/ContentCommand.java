@@ -428,13 +428,72 @@ public class ContentCommand extends AbstractContentCommand
 					}
 					else if ( ref.getPropertyName( ) != null )
 					{
-						PropertyCommand cmd = new PropertyCommand( module,
-								client );
-						cmd.setProperty( ref.getPropertyName( ), null );
+						String propName = ref.getPropertyName( );
+						ElementPropertyDefn propDefn = client
+								.getPropertyDefn( propName );
+						if ( propDefn.getTypeCode( ) == IPropertyType.LIST_TYPE &&
+								propDefn.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE )
+						{
+							// for this case, make sure only one corresponding
+							// element reference value is removed, not the whole
+							// list. Otherwise, some back references may be
+							// corrupted.
+							
+							clearMatchedElementRefInList( client, propDefn,
+									referred );
+						}
+						else
+						{
+							PropertyCommand cmd = new PropertyCommand( module,
+									client );
+							cmd.setProperty( ref.getPropertyName( ), null );
+						}
 					}
 				}
 			}
 		}
+	}
+
+	/**
+	 * Clears one item that matches given elements in the element reference
+	 * list.
+	 * 
+	 * @param client
+	 *            the element
+	 * @param propDefn
+	 *            the property definition
+	 * @param referred
+	 *            the referred element
+	 * @throws SemanticException
+	 */
+
+	private void clearMatchedElementRefInList( DesignElement client,
+			ElementPropertyDefn propDefn, IReferencableElement referred )
+			throws SemanticException
+	{
+
+		assert propDefn.getTypeCode( ) == IPropertyType.LIST_TYPE &&
+				propDefn.getSubTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE;
+
+		List values = (List) client.getProperty( module, propDefn );
+		if ( values == null || values.isEmpty( ) )
+			return;
+
+		int index = -1;
+		for ( int i = 0; i < values.size( ); i++ )
+		{
+			ElementRefValue refValue = (ElementRefValue) values.get( i );
+			if ( refValue.getElement( ) == referred )
+			{
+				index = i;
+				break;
+			}
+		}
+		assert index != -1;
+
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( module, client );
+		cmd.removeItem( new CachedMemberRef( propDefn ), index );
+
 	}
 
 	/**

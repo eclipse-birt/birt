@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -77,12 +78,12 @@ public class JointDataSetHandleTest extends BaseTestCase
 	 */
 
 	public void setUp( ) throws DesignFileException
-	{		
+	{
 		openDesign( fileName );
-		dataSet = (JointDataSetHandle) designHandle
-				.findJointDataSet( "JointDataSet" ); //$NON-NLS-1$
-	
+		dataSet = designHandle.findJointDataSet( "JointDataSet" ); //$NON-NLS-1$
+
 	}
+
 	/**
 	 * Tests the methods <code>columnHintsIterator</code>,
 	 * <code>computedColumnsIterator</code>, <code>filtersIterator</code>,
@@ -107,7 +108,7 @@ public class JointDataSetHandleTest extends BaseTestCase
 		assertFalse( dataSet.paramBindingsIterator( ).hasNext( ) );
 		assertNotNull( dataSet.getCachedMetaDataHandle( ) );
 		assertEquals( 0, dataSet.getCachedRowCount( ) );
-		assertEquals( 0 , dataSet.getDataSetRowLimit( ) );
+		assertEquals( 0, dataSet.getDataSetRowLimit( ) );
 		assertNull( dataSet.getAfterClose( ) );
 		assertNull( dataSet.getAfterOpen( ) );
 		assertNull( dataSet.getBeforeClose( ) );
@@ -163,19 +164,6 @@ public class JointDataSetHandleTest extends BaseTestCase
 		assertSame( design.findDataSet( "DataSet3" ), //$NON-NLS-1$
 				( (ElementRefValue) dataSets.get( 2 ) ).getElement( ) );
 
-//		try
-//		{
-//			dataSet.addDataSet( "DataSet4" ); //$NON-NLS-1$
-//			fail( );
-//		}
-//		catch ( SemanticException e )
-//		{
-//			assertTrue( e instanceof SemanticError );
-//			SemanticError error = (SemanticError) e;
-//			assertEquals( SemanticError.DESIGN_EXCEPTION_INVALID_ELEMENT_REF,
-//					error.getErrorCode( ) );
-//		}
-	
 	}
 
 	/**
@@ -187,8 +175,7 @@ public class JointDataSetHandleTest extends BaseTestCase
 	public void testSematicCheck( ) throws DesignFileException
 	{
 		openDesign( semanticfileName );
-		dataSet = (JointDataSetHandle) designHandle
-				.findJointDataSet( "JointDataSet" ); //$NON-NLS-1$
+		dataSet = designHandle.findJointDataSet( "JointDataSet" ); //$NON-NLS-1$
 
 		List errors = design.getErrorList( );
 
@@ -206,79 +193,90 @@ public class JointDataSetHandleTest extends BaseTestCase
 				SemanticError.DESIGN_EXCEPTION_DATA_SET_MISSED_IN_JOINT_DATA_SET,
 				detail.getErrorCode( ) );
 	}
-	
+
 	/**
-	 * test if count of clients of <code>DataSet</code> is right or not 
+	 * test if count of clients of <code>DataSet</code> is right or not
+	 * 
 	 * @throws Exception
 	 */
 	public void testReference( ) throws Exception
 	{
-		//test parser
+		// test parser
 		openDesign( fileNameForRelation );
-		JointDataSetHandle jdsHandle = (JointDataSetHandle) designHandle
+		JointDataSetHandle jdsHandle = designHandle
 				.findJointDataSet( "Data Set" ); //$NON-NLS-1$
-		assertEquals( 0 , countNum( jdsHandle ) );
-		
-		DataSetHandle dsHandle = (DataSetHandle)design.findDataSet( "Data Set1" ).getHandle( design.getRoot( )  ); //$NON-NLS-1$
-		assertEquals( 1 , countNum( dsHandle ) );
-				
-		dsHandle = (DataSetHandle)design.findDataSet( "Data Set2" ).getHandle( design.getRoot( )  ); //$NON-NLS-1$
-		assertEquals( 1 , countNum( dsHandle ) );
-		
-		dsHandle = (DataSetHandle)design.findDataSet( "Data Set3" ).getHandle( design.getRoot( )  ); //$NON-NLS-1$
-		assertEquals( 0 , countNum( dsHandle ) );
-		
+		assertEquals( 0, countNum( jdsHandle ) );
+
+		DataSetHandle dsHandle = (DataSetHandle) design.findDataSet(
+				"Data Set1" ).getHandle( design.getRoot( ) ); //$NON-NLS-1$
+		assertEquals( 1, countNum( dsHandle ) );
+
+		dsHandle = (DataSetHandle) design
+				.findDataSet( "Data Set2" ).getHandle( design.getRoot( ) ); //$NON-NLS-1$
+		assertEquals( 1, countNum( dsHandle ) );
+
+		dsHandle = (DataSetHandle) design
+				.findDataSet( "Data Set3" ).getHandle( design.getRoot( ) ); //$NON-NLS-1$
+		assertEquals( 0, countNum( dsHandle ) );
+
 		// add a data set exist, undo/redo
 		jdsHandle.addDataSet( "Data Set3" ); //$NON-NLS-1$
-		assertEquals( 0 , countNum( jdsHandle ) );
-		dsHandle = (DataSetHandle)design.findDataSet( "Data Set3" ).getHandle( design.getRoot( )  ); //$NON-NLS-1$
-		assertEquals( 1 , countNum( dsHandle ) );
-		
+		assertEquals( 0, countNum( jdsHandle ) );
+		dsHandle = (DataSetHandle) design
+				.findDataSet( "Data Set3" ).getHandle( design.getRoot( ) ); //$NON-NLS-1$
+		assertEquals( 1, countNum( dsHandle ) );
+
 		designHandle.getCommandStack( ).undo( );
-		assertEquals( 0 , countNum( dsHandle ) );
-		
+		assertEquals( 0, countNum( dsHandle ) );
+
 		designHandle.getCommandStack( ).redo( );
-		assertEquals( 1 , countNum( dsHandle ) );
-		
+		assertEquals( 1, countNum( dsHandle ) );
+
 		designHandle.getCommandStack( ).undo( );
-		assertEquals( 0 , countNum( dsHandle ) );
-		
+		assertEquals( 0, countNum( dsHandle ) );
+
 		// delete a data set, undo/redo
-		jdsHandle.removeDataSet( "Data Set1"  ); //$NON-NLS-1$
-		dsHandle = (DataSetHandle)design.findDataSet( "Data Set1" ).getHandle( design.getRoot( )  ); //$NON-NLS-1$
-		assertEquals( 0 , countNum( dsHandle ) );
-		
+		jdsHandle.removeDataSet( "Data Set1" ); //$NON-NLS-1$
+		dsHandle = (DataSetHandle) design
+				.findDataSet( "Data Set1" ).getHandle( design.getRoot( ) ); //$NON-NLS-1$
+		assertEquals( 0, countNum( dsHandle ) );
+
 		designHandle.getCommandStack( ).undo( );
-		assertEquals( 1 , countNum( dsHandle ) );
-		
+		assertEquals( 1, countNum( dsHandle ) );
+
 		designHandle.getCommandStack( ).redo( );
-		assertEquals( 0 , countNum( dsHandle ) );
-		
+		assertEquals( 0, countNum( dsHandle ) );
+
 		designHandle.getCommandStack( ).undo( );
-		assertEquals( 1 , countNum( dsHandle ) );
-		
+		assertEquals( 1, countNum( dsHandle ) );
+
 		// drop the joint data set, undo/redo
 		jdsHandle.drop( );
-		dsHandle = (DataSetHandle)design.findDataSet( "Data Set1" ).getHandle( design.getRoot( )  ); //$NON-NLS-1$
-		assertEquals( 0 , countNum( dsHandle ));
-		dsHandle = (DataSetHandle)design.findDataSet( "Data Set2" ).getHandle( design.getRoot( )  ); //$NON-NLS-1$
-		assertEquals( 0 , countNum( dsHandle ));
-		
+		dsHandle = (DataSetHandle) design
+				.findDataSet( "Data Set1" ).getHandle( design.getRoot( ) ); //$NON-NLS-1$
+		assertEquals( 0, countNum( dsHandle ) );
+		dsHandle = (DataSetHandle) design
+				.findDataSet( "Data Set2" ).getHandle( design.getRoot( ) ); //$NON-NLS-1$
+		assertEquals( 0, countNum( dsHandle ) );
+
 		designHandle.getCommandStack( ).undo( );
-		dsHandle = (DataSetHandle)design.findDataSet( "Data Set2" ).getHandle( design.getRoot( )  ); //$NON-NLS-1$
-		assertEquals( 1 , countNum( dsHandle ));
-		
-		//drop the simple data set from the tree, and test exception
-		dsHandle = (DataSetHandle)design.findDataSet( "Data Set1" ).getHandle( design.getRoot( )  ); //$NON-NLS-1$
+		dsHandle = (DataSetHandle) design
+				.findDataSet( "Data Set2" ).getHandle( design.getRoot( ) ); //$NON-NLS-1$
+		assertEquals( 1, countNum( dsHandle ) );
+
+		// drop the simple data set from the tree, and test exception
+		dsHandle = (DataSetHandle) design
+				.findDataSet( "Data Set1" ).getHandle( design.getRoot( ) ); //$NON-NLS-1$
 		dsHandle.drop( );
 		assertNull( design.findDataSet( "Data Set1" ) ); //$NON-NLS-1$
-		
+
 		designHandle.getCommandStack( ).undo( );
 		assertNotNull( design.findDataSet( "Data Set1" ) ); //$NON-NLS-1$
 	}
 
 	/**
-	 * get count of clients of one <code>DataSetHandle</code> 
+	 * get count of clients of one <code>DataSetHandle</code>
+	 * 
 	 * @param dsHandle
 	 * @return the size of the clients
 	 */
@@ -286,5 +284,39 @@ public class JointDataSetHandleTest extends BaseTestCase
 	{
 		DataSet ds = (DataSet) dsHandle.getElement( );
 		return ds.getClientList( ).size( );
-	}	
+	}
+
+	/**
+	 * Test cases for the bug 210341. It was caused by the bugs in
+	 * ContentCommand. When ds1 is deleted, datasets property value of the joint
+	 * data set should not be cleared. Only corresponding element reference
+	 * should be removed.
+	 * 
+	 * @throws SemanticException
+	 */
+
+	public void testReferenceAfterDropDataSet( ) throws SemanticException
+	{
+		DataSetHandle ds1 = designHandle.findDataSet( "DataSet1" ); //$NON-NLS-1$
+		DataSetHandle ds2 = designHandle.findDataSet( "DataSet2" ); //$NON-NLS-1$
+
+		ds1.dropAndClear( );
+
+		// after delete the ds1, make sure only one corresponding element
+		// reference value was removed.
+
+		List datasets = dataSet
+				.getListProperty( JointDataSetHandle.DATA_SETS_PROP );
+		assertEquals( 1, datasets.size( ) );
+
+		Iterator clients = ds2.clientsIterator( );
+		assertTrue( clients.hasNext( ) );
+
+		// reference to the ds2 is removed, so as to the ds2 back reference.
+
+		dataSet.drop( );
+		clients = ds2.clientsIterator( );
+		assertFalse( clients.hasNext( ) );
+
+	}
 }

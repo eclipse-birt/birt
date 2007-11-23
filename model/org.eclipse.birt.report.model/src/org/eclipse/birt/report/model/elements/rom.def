@@ -3696,10 +3696,12 @@
     <Property detailType="HideRule" displayNameID="Element.TemplateReportItem.visibility" isList="true" name="visibility" runtimeSettable="false" since="2.1" type="structure"/>
   </Element>	
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.TemplateDataSet" extends="TemplateElement" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.TemplateDataSet" name="TemplateDataSet" nameSpace="dataSet" since="2.0" xmlName="template-data-set"/>
-  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.MultiViews" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.MultiViews" name="MultiViews" nameSpace="none" since="2.3" xmlName="multi-views">
-	<Property displayNameID="Element.MultiViews.index" name="index" since="2.3" type="integer" >
+  <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.AbstractMultiViews" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.AbstractMultiViews" name="AbstractMultiViews" nameSpace="none" since="2.3">
+	<Property displayNameID="Element.AbstractMultiViews.index" name="index" since="2.3" type="integer" >
 		<Default>-1</Default>
 	</Property>  
+  </Element>	      
+  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.MultiViews" extends="AbstractMultiViews" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.MultiViews" name="MultiViews" nameSpace="none" since="2.3" xmlName="multi-views">
    	<Property displayNameID="Element.MultiViews.views" isList="true" name="views" since="2.3" type="element" >
    		<Type name="ExtendedItem"/>
    	</Property>

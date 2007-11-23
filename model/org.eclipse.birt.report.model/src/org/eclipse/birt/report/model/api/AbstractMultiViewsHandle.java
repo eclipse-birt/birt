@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.model.api;
 
-import java.util.List;
-
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -25,16 +23,22 @@ import org.eclipse.birt.report.model.elements.interfaces.IMultiViewsModel;
  * represents its appearance.
  */
 
-public class MultiViewsHandle extends AbstractMultiViewsHandle
+public abstract class AbstractMultiViewsHandle extends DesignElementHandle
 		implements
 			IMultiViewsModel
 {
 
 	/**
-	 * 
+	 * Represents the container of the view does not use any inner view.
 	 */
 
-	private MultiViewsElementProvider provider = null;
+	public static final int HOST = -1;
+
+	/**
+	 * The target report element.
+	 */
+
+	protected AbstractMultiViews element;
 
 	/**
 	 * Constructs a handle for the given design and design element. The
@@ -47,10 +51,11 @@ public class MultiViewsHandle extends AbstractMultiViewsHandle
 	 *            the model representation of the element
 	 */
 
-	public MultiViewsHandle( Module module, AbstractMultiViews element )
+	public AbstractMultiViewsHandle( Module module, AbstractMultiViews element )
 	{
-		super( module, element );
-		provider = new MultiViewsElementProvider( this );
+		super( module );
+		this.element = element;
+
 	}
 
 	/*
@@ -65,26 +70,14 @@ public class MultiViewsHandle extends AbstractMultiViewsHandle
 	}
 
 	/**
-	 * Returns a list containing views.
+	 * Returns the index for the current view.
 	 * 
-	 * @return a list containing views. Each item is an
-	 *         <code>ReportItemHandle</code>.
+	 * @return a 0-based integer
 	 */
 
-	protected List getViews( )
+	public int getCurrentViewIndex( )
 	{
-		return provider.getViews( );
-	}
-
-	/**
-	 * Returns the view that is being used.
-	 * 
-	 * @return the view that is being used
-	 */
-
-	public DesignElementHandle getCurrentView( )
-	{
-		return provider.getCurrentView( );
+		return getIntProperty( INDEX_PROP );
 	}
 
 	/**
@@ -98,35 +91,9 @@ public class MultiViewsHandle extends AbstractMultiViewsHandle
 
 	public void setCurrentViewIndex( int index ) throws SemanticException
 	{
-		provider.setCurrentViewIndex( index );
-	}
+		if ( index < HOST )
+			index = HOST;
 
-	/**
-	 * Adds a new element as the view.
-	 * 
-	 * @param viewElement
-	 *            the element
-	 * @throws SemanticException
-	 */
-
-	public void addView( DesignElementHandle viewElement )
-			throws SemanticException
-	{
-		provider.addView( viewElement );
-	}
-
-	/**
-	 * Deletes the given view. If the given element was named as the current
-	 * view, this method also set the current view to <code>HOST</code>.
-	 * 
-	 * @param viewElement
-	 *            the view element
-	 * @throws SemanticException
-	 */
-
-	public void dropView( DesignElementHandle viewElement )
-			throws SemanticException
-	{
-		provider.dropView( viewElement );
+		setProperty( INDEX_PROP, new Integer( index ) );
 	}
 }

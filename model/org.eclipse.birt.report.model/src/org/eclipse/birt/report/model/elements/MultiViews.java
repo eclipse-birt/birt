@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.elements;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IMultiViewsModel;
 
@@ -22,7 +21,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IMultiViewsModel;
  * 
  */
 
-public class MultiViews extends DesignElement implements IMultiViewsModel
+public class MultiViews extends AbstractMultiViews implements IMultiViewsModel
 {
 
 	/*

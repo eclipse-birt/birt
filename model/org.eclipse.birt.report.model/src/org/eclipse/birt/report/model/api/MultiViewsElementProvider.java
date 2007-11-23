@@ -11,57 +11,32 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.AbstractMultiViews;
 import org.eclipse.birt.report.model.elements.interfaces.IMultiViewsModel;
 
 /**
- * Represents a multiple view element. A view element can contains multiple
- * report items. The container of the view can use inner report items to
- * represents its appearance.
+ * Implements functions to deal with functions for multiple-views element.
  */
 
-public class MultiViewsHandle extends AbstractMultiViewsHandle
-		implements
-			IMultiViewsModel
+final class MultiViewsElementProvider implements IMultiViewsModel
 {
 
-	/**
-	 * 
-	 */
-
-	private MultiViewsElementProvider provider = null;
+	private AbstractMultiViewsHandle element;
 
 	/**
-	 * Constructs a handle for the given design and design element. The
-	 * application generally does not create handles directly. Instead, it uses
-	 * one of the navigation methods available on other element handles.
+	 * The constructor.
 	 * 
-	 * @param module
-	 *            the module
 	 * @param element
-	 *            the model representation of the element
+	 *            the multiple-views element
 	 */
 
-	public MultiViewsHandle( Module module, AbstractMultiViews element )
+	MultiViewsElementProvider( AbstractMultiViewsHandle element )
 	{
-		super( module, element );
-		provider = new MultiViewsElementProvider( this );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#getElement()
-	 */
-
-	public DesignElement getElement( )
-	{
-		return element;
+		this.element = element;
 	}
 
 	/**
@@ -73,7 +48,13 @@ public class MultiViewsHandle extends AbstractMultiViewsHandle
 
 	protected List getViews( )
 	{
-		return provider.getViews( );
+		List list = element.getListProperty( VIEWS_PROP );
+		if ( list == null )
+			return Collections.EMPTY_LIST;
+
+		List retList = new ArrayList( );
+		retList.addAll( list );
+		return Collections.unmodifiableList( retList );
 	}
 
 	/**
@@ -84,7 +65,15 @@ public class MultiViewsHandle extends AbstractMultiViewsHandle
 
 	public DesignElementHandle getCurrentView( )
 	{
-		return provider.getCurrentView( );
+		int currentViewIndex = element.getCurrentViewIndex( );
+		if ( currentViewIndex == MultiViewsHandle.HOST )
+			return element.getContainer( );
+
+		List views = getViews( );
+		if ( views.isEmpty( ) || views.size( ) <= currentViewIndex )
+			return null;
+
+		return (DesignElementHandle) views.get( currentViewIndex );
 	}
 
 	/**
@@ -96,9 +85,18 @@ public class MultiViewsHandle extends AbstractMultiViewsHandle
 	 * @throws SemanticException
 	 */
 
-	public void setCurrentViewIndex( int index ) throws SemanticException
+	protected void setCurrentViewIndex( int index ) throws SemanticException
 	{
-		provider.setCurrentViewIndex( index );
+		if ( index > MultiViewsHandle.HOST )
+		{
+			List views = getViews( );
+			if ( views.isEmpty( ) || views.size( ) <= index )
+				return;
+		}
+		else if ( index < MultiViewsHandle.HOST )
+			index = MultiViewsHandle.HOST;
+
+		element.setProperty( INDEX_PROP, new Integer( index ) );
 	}
 
 	/**
@@ -112,7 +110,10 @@ public class MultiViewsHandle extends AbstractMultiViewsHandle
 	public void addView( DesignElementHandle viewElement )
 			throws SemanticException
 	{
-		provider.addView( viewElement );
+		if ( viewElement == null )
+			return;
+
+		element.add( VIEWS_PROP, viewElement );
 	}
 
 	/**
@@ -127,6 +128,25 @@ public class MultiViewsHandle extends AbstractMultiViewsHandle
 	public void dropView( DesignElementHandle viewElement )
 			throws SemanticException
 	{
-		provider.dropView( viewElement );
+		if ( viewElement == null )
+			return;
+
+		CommandStack cmdStack = element.getModuleHandle( ).getCommandStack( );
+		cmdStack.startTrans( null );
+		try
+		{
+			DesignElementHandle currentView = getCurrentView( );
+			if ( currentView == viewElement )
+				setCurrentViewIndex( MultiViewsHandle.HOST );
+
+			element.drop( VIEWS_PROP, viewElement );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 	}
 }

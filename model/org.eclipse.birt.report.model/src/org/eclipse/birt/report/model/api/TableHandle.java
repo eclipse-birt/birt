@@ -20,8 +20,6 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.elements.table.LayoutTableModel;
-import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ColumnHelper;
@@ -794,12 +792,9 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 
 	public DesignElementHandle getCurrentView( )
 	{
-		MultiViewsHandle multiView = (MultiViewsHandle) getProperty( MULTI_VIEWS_PROP );
-		if ( multiView == null ||
-				multiView.getCurrentViewIndex( ) == MultiViewsHandle.HOST )
-			return this;
-
-		return multiView.getCurrentView( );
+		MultiViewsAPIProvider provider = new MultiViewsAPIProvider(
+				this, MULTI_VIEWS_PROP );
+		return provider.getCurrentView( );
 	}
 
 	/**
@@ -813,26 +808,9 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	public void addView( DesignElementHandle viewElement )
 			throws SemanticException
 	{
-		MultiViewsHandle multiView = (MultiViewsHandle) getProperty( MULTI_VIEWS_PROP );
-
-		CommandStack stack = getModuleHandle( ).getCommandStack( );
-		stack.startTrans( null );
-		try
-		{
-			if ( multiView == null )
-			{
-				multiView = getElementFactory( ).newMultiView( );
-				setProperty( MULTI_VIEWS_PROP, multiView );
-			}
-
-			multiView.addView( viewElement );
-		}
-		catch ( SemanticException e )
-		{
-			stack.rollback( );
-			throw e;
-		}
-		stack.commit( );
+		MultiViewsAPIProvider provider = new MultiViewsAPIProvider(
+				this, MULTI_VIEWS_PROP );
+		provider.addView( viewElement );		
 	}
 
 	/**
@@ -846,11 +824,9 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	public void dropView( DesignElementHandle viewElement )
 			throws SemanticException
 	{
-		MultiViewsHandle multiView = (MultiViewsHandle) getProperty( MULTI_VIEWS_PROP );
-		if ( multiView == null )
-			return;
-
-		multiView.dropView( viewElement );
+		MultiViewsAPIProvider provider = new MultiViewsAPIProvider(
+				this, MULTI_VIEWS_PROP );
+		provider.dropView( viewElement );
 	}
 
 	/**
@@ -869,69 +845,9 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	{
 		if ( viewElement == null )
 			return;
-
-		// if the viewElement is in the design tree and not in table, throw
-		// exception
-
-		if ( viewElement.getContainer( ) != null &&
-				!viewElement.getElement( ).isContentOf( element ) )
-		{
-			throw new PropertyValueException( element,
-					getPropertyDefn( MULTI_VIEWS_PROP ), null,
-					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
-		}
-
-		CommandStack stack = getModuleHandle( ).getCommandStack( );
-		stack.startTrans( null );
-		try
-		{
-			MultiViewsHandle multiView = (MultiViewsHandle) getProperty( MULTI_VIEWS_PROP );
-			if ( multiView == null )
-			{
-				multiView = getElementFactory( ).newMultiView( );
-				setProperty( MULTI_VIEWS_PROP, multiView );
-			}
-
-			// if the viewElement is in the table and not in multiple view,
-			// throw exception
-
-			if ( viewElement.getContainer( ) != null &&
-					!viewElement.getElement( ).isContentOf(
-							multiView.getElement( ) ) )
-			{
-				throw new PropertyValueException( element,
-						getPropertyDefn( MULTI_VIEWS_PROP ), null,
-						PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
-			}
-
-			// add to the multiple view
-
-			if ( viewElement.getContainer( ) == null )
-				multiView.addView( viewElement );
-
-			// set index
-
-			int newIndex = MultiViewsHandle.HOST;
-			if ( viewElement != this )
-			{
-				ContainerContext context = new ContainerContext( multiView
-						.getElement( ), MultiViewsHandle.VIEWS_PROP );
-				newIndex = context.indexOf( viewElement.getElement( ) );
-
-				// the viewElement is either added to the view or already in the
-				// view
-
-				assert newIndex != -1;
-			}
-
-			multiView.setCurrentViewIndex( newIndex );
-
-		}
-		catch ( SemanticException e )
-		{
-			stack.rollback( );
-			throw e;
-		}
-		stack.commit( );
+		
+		MultiViewsAPIProvider provider = new MultiViewsAPIProvider(
+				this, MULTI_VIEWS_PROP );
+		provider.setCurrentView( viewElement );
 	}
 }
