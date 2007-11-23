@@ -144,4 +144,14 @@ public interface IScalarParameterDefn extends IParameterDefn
 	 * @return the default value
 	 */
 	public String getDefaultValue();
+	
+	/**
+	 * @return the scalar parameter type, like "simple", "multi-value" or "ad-hoc"
+	 */
+	public String getScalarParameterType();
+	
+	/**
+	 * 
+	 */
+	public void setScalarParameterType( String type );
 }

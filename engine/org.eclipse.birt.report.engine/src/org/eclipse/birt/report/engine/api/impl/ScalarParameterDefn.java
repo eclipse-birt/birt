@@ -46,6 +46,9 @@ public class ScalarParameterDefn extends ParameterDefn implements IScalarParamet
 	protected boolean allowNewValues;
 
 	protected String defaultValue;
+	
+	// simple, multi-value, ad-hoc
+	protected String scalarParameterType;
 		
 	protected Logger log = Logger.getLogger( ScalarParameterDefn.class.getName( ) );
 	
@@ -330,4 +333,13 @@ public class ScalarParameterDefn extends ParameterDefn implements IScalarParamet
 		}
 	}
 		
+	public String getScalarParameterType()
+	{
+		return this.scalarParameterType;
+	}
+	
+	public void setScalarParameterType(String type)
+	{
+		this.scalarParameterType = type;
+	}
 }

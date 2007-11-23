@@ -1289,6 +1289,7 @@ public class GetParameterDefinitionTask extends EngineTask
 			scalarParameter.setAllowBlank( handle.allowBlank( ) );
 			scalarParameter.setAllowNull( handle.allowNull( ) );
 			scalarParameter.setIsRequired( handle.isRequired( ) );
+			scalarParameter.setScalarParameterType( handle.getParamType( ) );
 
 			String controlType = handle.getControlType( );
 			if ( DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX.equals( controlType ) )
