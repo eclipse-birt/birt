@@ -155,6 +155,8 @@ public final class DataTypeUtil
 			return toString( source );
 		if ( toTypeClass == Blob.class )
 			return toBlob( source );
+		if ( toTypeClass == byte[].class )
+			return source;
 
 		throw new CoreException( ResourceConstants.INVALID_TYPE,
 				resourceBundle );
@@ -368,7 +370,7 @@ public final class DataTypeUtil
 			{
 				try
 				{
-					if ( Integer.parseInt( (String) source ) == 0 )
+					if ( Double.parseDouble( (String) source ) == 0 )
 						return Boolean.FALSE;
 					else
 						return Boolean.TRUE;
