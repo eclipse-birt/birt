@@ -26,6 +26,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent;
+import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -72,6 +73,7 @@ public class MeterSeriesUIProvider extends DefaultSeriesUIProvider
 		if ( seriesType == ISelectDataCustomizeUI.ORTHOGONAL_SERIES )
 		{
 			return new BaseDataDefinitionComponent( BaseDataDefinitionComponent.BUTTON_AGGREGATION,
+					ChartUIConstants.QUERY_VALUE,
 					seriesDefn,
 					ChartUIUtil.getDataQuery( seriesDefn, 0 ),
 					context,
@@ -79,7 +81,8 @@ public class MeterSeriesUIProvider extends DefaultSeriesUIProvider
 		}
 		else if ( seriesType == ISelectDataCustomizeUI.GROUPING_SERIES )
 		{
-			BaseDataDefinitionComponent ddc = new BaseDataDefinitionComponent( seriesDefn,
+			BaseDataDefinitionComponent ddc = new BaseDataDefinitionComponent( ChartUIConstants.QUERY_OPTIONAL,
+					seriesDefn,
 					seriesDefn.getQuery( ),
 					context,
 					sTitle );
@@ -87,11 +90,15 @@ public class MeterSeriesUIProvider extends DefaultSeriesUIProvider
 		}
 		return new DefaultSelectDataComponent( );
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#validateSeriesBindingType(org.eclipse.birt.chart.model.component.Series, org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#validateSeriesBindingType(org.eclipse.birt.chart.model.component.Series,
+	 *      org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider)
 	 */
-	public void validateSeriesBindingType( Series series, IDataServiceProvider idsp ) throws ChartException
+	public void validateSeriesBindingType( Series series,
+			IDataServiceProvider idsp ) throws ChartException
 	{
 		Iterator iterEntries = series.getDataDefinition( ).iterator( );
 		while ( iterEntries.hasNext( ) )
@@ -103,7 +110,7 @@ public class MeterSeriesUIProvider extends DefaultSeriesUIProvider
 			{
 				throw new ChartException( ChartUIExtensionPlugin.ID,
 						ChartException.DATA_BINDING,
-						query.getDefinition( ) ); 
+						query.getDefinition( ) );
 			}
 		}
 	}

@@ -53,6 +53,11 @@ public interface ChartUIConstants
 	public static final String NON_STACKED_TYPE = "non-stacked"; //$NON-NLS-1$
 	public static final String STACKED_TYPE = "stacked"; //$NON-NLS-1$
 
+	// Constants of query type in chart
+	public static final String QUERY_CATEGORY = "category"; //$NON-NLS-1$
+	public static final String QUERY_VALUE = "value"; //$NON-NLS-1$
+	public static final String QUERY_OPTIONAL = "optional"; //$NON-NLS-1$
+
 	// Constants for subtask ID.
 	public static final String SUBTASK_SERIES = "Series"; //$NON-NLS-1$
 	public static final String SUBTASK_SERIES_Y = "Series.Y Series"; //$NON-NLS-1$

@@ -16,6 +16,7 @@ import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent;
+import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -55,6 +56,7 @@ public class GanttDataDefinitionComponent extends DefaultSelectDataComponent
 
 		// StartDate
 		dataComArray[0] = new BaseDataDefinitionComponent( BaseDataDefinitionComponent.BUTTON_AGGREGATION,
+				ChartUIConstants.QUERY_VALUE,
 				seriesDefn,
 				ChartUIUtil.getDataQuery( seriesDefn, 0 ),
 				context,
@@ -62,13 +64,15 @@ public class GanttDataDefinitionComponent extends DefaultSelectDataComponent
 
 		// EndDate
 		dataComArray[1] = new BaseDataDefinitionComponent( BaseDataDefinitionComponent.BUTTON_AGGREGATION,
+				ChartUIConstants.QUERY_VALUE,
 				seriesDefn,
 				ChartUIUtil.getDataQuery( seriesDefn, 1 ),
 				context,
 				sTitle );
 
 		// Decoration, no grouping
-		dataComArray[2] = new BaseDataDefinitionComponent( seriesDefn,
+		dataComArray[2] = new BaseDataDefinitionComponent( ChartUIConstants.QUERY_VALUE,
+				seriesDefn,
 				ChartUIUtil.getDataQuery( seriesDefn, 2 ),
 				context,
 				sTitle );
@@ -100,7 +104,7 @@ public class GanttDataDefinitionComponent extends DefaultSelectDataComponent
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
 		cmpData.setLayoutData( gd );
-		
+
 		return cmpSeries;
 	}
 

@@ -16,6 +16,7 @@ import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent;
+import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -50,14 +51,16 @@ public class BubbleDataDefinitionComponent extends DefaultSelectDataComponent
 	private void init( )
 	{
 		dataComArray = new ISelectDataComponent[2];
-		
-		//Value
-		dataComArray[0] = new BaseDataDefinitionComponent( seriesDefn,
+
+		// Value
+		dataComArray[0] = new BaseDataDefinitionComponent( ChartUIConstants.QUERY_VALUE,
+				seriesDefn,
 				ChartUIUtil.getDataQuery( seriesDefn, 0 ),
 				context,
 				sTitle );
-		//Size
+		// Size
 		dataComArray[1] = new BaseDataDefinitionComponent( BaseDataDefinitionComponent.BUTTON_AGGREGATION,
+				ChartUIConstants.QUERY_VALUE,
 				seriesDefn,
 				ChartUIUtil.getDataQuery( seriesDefn, 1 ),
 				context,

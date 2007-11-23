@@ -26,7 +26,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 /**
- * 
+ * Default data binding component for base series
  */
 
 public class DefaultBaseSeriesComponent extends DefaultSelectDataComponent
@@ -75,6 +75,7 @@ public class DefaultBaseSeriesComponent extends DefaultSelectDataComponent
 		}
 
 		comData = new BaseDataDefinitionComponent( BaseDataDefinitionComponent.BUTTON_GROUP,
+				ChartUIConstants.QUERY_CATEGORY,
 				seriesDefn,
 				ChartUIUtil.getDataQuery( seriesDefn, 0 ),
 				context,

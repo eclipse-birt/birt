@@ -8,6 +8,7 @@
  * Contributors:
  * Actuate Corporation - initial API and implementation
  ***********************************************************************/
+
 package org.eclipse.birt.chart.ui.swt.series;
 
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -15,6 +16,7 @@ import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent;
+import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -22,8 +24,9 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
-public class DifferenceDataDefinitionComponent extends
-		DefaultSelectDataComponent
+public class DifferenceDataDefinitionComponent
+		extends
+			DefaultSelectDataComponent
 {
 
 	public static final String SERIES_CLASS = "org.eclipse.birt.chart.model.type.impl.DifferenceSeriesImpl"; //$NON-NLS-1$
@@ -58,6 +61,7 @@ public class DifferenceDataDefinitionComponent extends
 		for ( int i = 0; i < dataComArray.length; i++ )
 		{
 			dataComArray[i] = new BaseDataDefinitionComponent( BaseDataDefinitionComponent.BUTTON_AGGREGATION,
+					ChartUIConstants.QUERY_VALUE,
 					seriesDefn,
 					ChartUIUtil.getDataQuery( seriesDefn, i ),
 					context,

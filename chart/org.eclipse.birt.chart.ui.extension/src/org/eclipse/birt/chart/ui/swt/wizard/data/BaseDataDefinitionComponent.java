@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.ui.swt.wizard.data;
 
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -55,24 +56,27 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
 
-
-public class BaseDataDefinitionComponent extends DefaultSelectDataComponent implements
-		SelectionListener,
-		ModifyListener,
-		FocusListener,
-		KeyListener
+public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
+		implements
+			SelectionListener,
+			ModifyListener,
+			FocusListener,
+			KeyListener
 {
 
 	private Composite cmpTop;
 
+	private Combo cmbDefinition;
 	private Text txtDefinition = null;
 
 	private Button btnBuilder = null;
@@ -93,6 +97,8 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 
 	private boolean isQueryModified;
 
+	private final String queryType;
+
 	private int style = BUTTON_NONE;
 
 	/** Indicates no button */
@@ -100,14 +106,23 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 
 	/** Indicates button for group sorting will be created */
 	public static final int BUTTON_GROUP = 1;
-	
+
 	/** Indicates button for aggregation will be created */
 	public static final int BUTTON_AGGREGATION = 2;
 
-	public BaseDataDefinitionComponent( SeriesDefinition seriesdefinition,
-			Query query, ChartWizardContext context, String sTitle )
+	/**
+	 * 
+	 * @param queryType
+	 * @param seriesdefinition
+	 * @param query
+	 * @param context
+	 * @param sTitle
+	 */
+	public BaseDataDefinitionComponent( String queryType,
+			SeriesDefinition seriesdefinition, Query query,
+			ChartWizardContext context, String sTitle )
 	{
-		this( BUTTON_NONE, seriesdefinition, query, context, sTitle );
+		this( BUTTON_NONE, queryType, seriesdefinition, query, context, sTitle );
 	}
 
 	/**
@@ -115,21 +130,27 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	 * @param style
 	 *            Specify buttons by using '|'. See {@link #BUTTON_GROUP},
 	 *            {@link #BUTTON_NONE}, {@link #BUTTON_AGGREGATION}
+	 * @param queryType
+	 *            query type. See {@link ChartUIConstants#QUERY_CATEGORY},
+	 *            {@link ChartUIConstants#QUERY_VALUE},
+	 *            {@link ChartUIConstants#QUERY_OPTIONAL}
 	 * @param seriesdefinition
 	 * @param query
 	 * @param context
 	 * @param sTitle
 	 */
-	public BaseDataDefinitionComponent( int style,
+	public BaseDataDefinitionComponent( int style, String queryType,
 			SeriesDefinition seriesdefinition, Query query,
 			ChartWizardContext context, String sTitle )
 	{
 		super( );
 		assert query != null;
 		this.query = query;
+		this.queryType = queryType;
 		this.seriesdefinition = seriesdefinition;
 		this.context = context;
-		this.sTitle = ( sTitle == null || sTitle.length( ) == 0 ) ? Messages.getString( "BaseDataDefinitionComponent.Text.SpecifyDataDefinition" ) //$NON-NLS-1$
+		this.sTitle = ( sTitle == null || sTitle.length( ) == 0 )
+				? Messages.getString( "BaseDataDefinitionComponent.Text.SpecifyDataDefinition" ) //$NON-NLS-1$
 				: sTitle;
 		this.style = style;
 	}
@@ -168,16 +189,41 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			lblDesc.setText( description );
 			lblDesc.setToolTipText( tooltipWhenBlank );
 		}
-		
+
 		if ( ( style & BUTTON_AGGREGATION ) == BUTTON_AGGREGATION )
 		{
 			createAggregationItem( cmpTop );
 		}
 
-		txtDefinition = new Text( cmpTop, SWT.BORDER | SWT.SINGLE );
+		String[] predefinedQuery = context.getPredefinedQuery( queryType );
+		if ( predefinedQuery != null )
 		{
+			cmbDefinition = new Combo( cmpTop, SWT.NONE );
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			cmbDefinition.setLayoutData( gd );
+			cmbDefinition.setItems( predefinedQuery );
+			cmbDefinition.setText( query.getDefinition( ) );
+			cmbDefinition.addListener( SWT.Selection, new Listener( ) {
+
+				public void handleEvent( Event event )
+				{
+					query.setDefinition( cmbDefinition.getText( ) );
+					// If it's chart with axis, transposed chart when selecting
+					// the non-first choice
+					if ( context.getModel( ) instanceof ChartWithAxes )
+					{
+						( (ChartWithAxes) context.getModel( ) ).setTransposed( cmbDefinition.getSelectionIndex( ) > 0 );
+					}
+				}
+			} );
+			cmbDefinition.addModifyListener( this );
+			cmbDefinition.addFocusListener( this );
+			cmbDefinition.addKeyListener( this );
+		}
+		else
+		{
+			txtDefinition = new Text( cmpTop, SWT.BORDER | SWT.SINGLE );
 			GridData gdTXTDefinition = new GridData( GridData.FILL_HORIZONTAL );
-			gdTXTDefinition.widthHint = 50;
 			txtDefinition.setLayoutData( gdTXTDefinition );
 			if ( query != null && query.getDefinition( ) != null )
 			{
@@ -187,19 +233,20 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			txtDefinition.addModifyListener( this );
 			txtDefinition.addFocusListener( this );
 			txtDefinition.addKeyListener( this );
-
-			// Listener for handling dropping of custom table header
-			DropTarget target = new DropTarget( txtDefinition, DND.DROP_COPY );
-			Transfer[] types = new Transfer[]{
-				SimpleTextTransfer.getInstance( )
-			};
-			target.setTransfer( types );
-			// Add drop support
-			target.addDropListener( new DataTextDropListener( txtDefinition ) );
-			// Add color manager
-			DataDefinitionTextManager.getInstance( )
-					.addDataDefinitionText( txtDefinition, query );
 		}
+
+		// Listener for handling dropping of custom table header
+		Control dropControl = getInputControl( );
+		DropTarget target = new DropTarget( dropControl, DND.DROP_COPY );
+		Transfer[] types = new Transfer[]{
+			SimpleTextTransfer.getInstance( )
+		};
+		target.setTransfer( types );
+		// Add drop support
+		target.addDropListener( new DataTextDropListener( dropControl ) );
+		// Add color manager
+		DataDefinitionTextManager.getInstance( )
+				.addDataDefinitionText( dropControl, query );
 
 		btnBuilder = new Button( cmpTop, SWT.PUSH );
 		{
@@ -242,9 +289,9 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			Object[] array = (Object[]) data;
 			seriesdefinition = (SeriesDefinition) array[0];
 			query = (Query) array[1];
-			txtDefinition.setText( query.getDefinition( ) );
+			setText( getInputControl( ), query.getDefinition( ) );
 			DataDefinitionTextManager.getInstance( )
-					.addDataDefinitionText( txtDefinition, query );
+					.addDataDefinitionText( getInputControl( ), query );
 		}
 		setColor( );
 	}
@@ -255,14 +302,22 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		{
 			Color cColor = ColorPalette.getInstance( )
 					.getColor( query.getDefinition( ) );
-			ChartUIUtil.setBackgroundColor( txtDefinition, true, cColor );
+			if ( getInputControl( ) != null )
+			{
+				ChartUIUtil.setBackgroundColor( getInputControl( ),
+						true,
+						cColor );
+			}
 		}
 	}
 
 	public void dispose( )
 	{
-		DataDefinitionTextManager.getInstance( )
-				.removeDataDefinitionText( txtDefinition );
+		if ( getInputControl( ) != null )
+		{
+			DataDefinitionTextManager.getInstance( )
+					.removeDataDefinitionText( getInputControl( ) );
+		}
 		super.dispose( );
 	}
 
@@ -279,10 +334,10 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			{
 				String sExpr = context.getUIServiceProvider( )
 						.invoke( IUIServiceProvider.COMMAND_EXPRESSION_DATA_BINDINGS,
-								txtDefinition.getText( ),
+								getText( getInputControl( ) ),
 								context.getExtendedItem( ),
 								sTitle );
-				txtDefinition.setText( sExpr );
+				setText( getInputControl( ), sExpr );
 				query.setDefinition( sExpr );
 			}
 			catch ( ChartException e1 )
@@ -331,11 +386,11 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	 */
 	public void modifyText( ModifyEvent e )
 	{
-		if ( e.getSource( ).equals( txtDefinition ) )
+		if ( e.getSource( ).equals( getInputControl( ) ) )
 		{
 			isQueryModified = true;
 			// Reset tooltip
-			txtDefinition.setToolTipText( getTooltipForDataText( txtDefinition.getText( ) ) );
+			getInputControl( ).setToolTipText( getTooltipForDataText( getText( getInputControl( ) ) ) );
 		}
 	}
 
@@ -358,7 +413,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	public void focusLost( FocusEvent e )
 	{
 		// Null event is fired by Drop Listener manually
-		if ( e == null || e.widget.equals( txtDefinition ) )
+		if ( e == null || e.widget.equals( getInputControl( ) ) )
 		{
 			saveQuery( );
 		}
@@ -369,19 +424,19 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		if ( isQueryModified )
 		{
 			Event e = new Event( );
-			e.text = txtDefinition.getText( );
-			e.data = txtDefinition.getText( );
-			e.widget = txtDefinition;
+			e.text = getText( getInputControl( ) );
+			e.data = e.text;
+			e.widget = getInputControl( );
 			e.type = 0;
 			fireEvent( e );
 
 			if ( query != null )
 			{
-				query.setDefinition( txtDefinition.getText( ) );
+				query.setDefinition( getText( getInputControl( ) ) );
 			}
 			else
 			{
-				query = QueryImpl.create( txtDefinition.getText( ) );
+				query = QueryImpl.create( getText( getInputControl( ) ) );
 				query.eAdapters( ).addAll( seriesdefinition.eAdapters( ) );
 				// Since the data query must be non-null, it's created in
 				// ChartUIUtil.getDataQuery(), assume current null is a grouping
@@ -391,7 +446,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 
 			// Refresh color from ColorPalette
 			setColor( );
-			txtDefinition.getParent( ).layout( );
+			getInputControl( ).getParent( ).layout( );
 			isQueryModified = false;
 		}
 	}
@@ -423,19 +478,20 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	{
 		this.tooltipWhenBlank = tootipWhenBlank;
 	}
-	
+
 	private void createAggregationItem( Composite composite )
-	{	
+	{
 		class AggregationItemAction extends Action
 		{
+
 			final String expression;
-			
-			AggregationItemAction(String text, String expression)
+
+			AggregationItemAction( String text, String expression )
 			{
-				super(text, IAction.AS_CHECK_BOX  );
+				super( text, IAction.AS_CHECK_BOX );
 				this.expression = expression;
 			}
-			
+
 			public void run( )
 			{
 				SeriesGrouping currentGrouping = seriesdefinition.getGrouping( );
@@ -449,13 +505,13 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 				{
 					currentGrouping.setEnabled( false );
 					currentGrouping.setAggregateExpression( "" ); //$NON-NLS-1$
-				}	
+				}
 			}
 		}
-		
+
 		ToolBar toolBar = new ToolBar( composite, SWT.FLAT | SWT.NO_FOCUS );
 		ToolBarManager toolManager = new ToolBarManager( toolBar );
-		
+
 		class AggregationAction extends Action implements IMenuCreator
 		{
 
@@ -503,7 +559,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 				ActionContributionItem item = new ActionContributionItem( action );
 				item.fill( parent, -1 );
 			}
-			
+
 			private SeriesDefinition getSDBase( )
 			{
 				return (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( context.getModel( ) )
@@ -521,7 +577,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 					// disable the orthogonal grouping
 					return;
 				}
-				
+
 				try
 				{
 					int selectedIndex = -1;
@@ -541,7 +597,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 							selectedIndex = idx;
 						}
 					}
-					
+
 					for ( int i = 0; i < aggNames.length; i++ )
 					{
 						IAction actionSum = new AggregationItemAction( aggNames[i],
@@ -559,7 +615,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 					e.printStackTrace( );
 				}
 			}
-			
+
 			private int getAggregateIndexByName( String name, String[] names )
 			{
 				for ( int i = 0; i < names.length; i++ )
@@ -573,9 +629,46 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 				return -1;
 			}
 		};
-		
-		
+
 		toolManager.add( new AggregationAction( ) );
 		toolManager.update( true );
+	}
+
+	private Control getInputControl( )
+	{
+		if ( txtDefinition != null )
+		{
+			return txtDefinition;
+		}
+		if ( cmbDefinition != null )
+		{
+			return cmbDefinition;
+		}
+		return null;
+	}
+
+	private String getText( Control control )
+	{
+		if ( control instanceof Text )
+		{
+			return ( (Text) control ).getText( );
+		}
+		if ( control instanceof Combo )
+		{
+			return ( (Combo) control ).getText( );
+		}
+		return ""; //$NON-NLS-1$
+	}
+
+	private void setText( Control control, String text )
+	{
+		if ( control instanceof Text )
+		{
+			( (Text) control ).setText( text );
+		}
+		else if ( control instanceof Combo )
+		{
+			( (Combo) control ).setText( text );
+		}
 	}
 }

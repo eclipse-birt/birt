@@ -16,6 +16,7 @@ import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent;
+import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -43,7 +44,6 @@ public class StockDataDefinitionComponent extends DefaultSelectDataComponent
 
 	private transient String sTitle = null;
 
-
 	public StockDataDefinitionComponent( SeriesDefinition seriesDefn,
 			ChartWizardContext context, String sTitle )
 	{
@@ -63,6 +63,7 @@ public class StockDataDefinitionComponent extends DefaultSelectDataComponent
 		for ( int i = 0; i < dataComArray.length; i++ )
 		{
 			dataComArray[i] = new BaseDataDefinitionComponent( BaseDataDefinitionComponent.BUTTON_AGGREGATION,
+					ChartUIConstants.QUERY_VALUE,
 					seriesDefn,
 					ChartUIUtil.getDataQuery( seriesDefn, i ),
 					context,

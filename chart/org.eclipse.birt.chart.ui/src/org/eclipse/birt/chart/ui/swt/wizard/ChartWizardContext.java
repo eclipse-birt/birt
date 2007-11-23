@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.style.IStyleProcessor;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
 
 /**
@@ -41,6 +42,7 @@ public class ChartWizardContext implements IWizardContext
 	private boolean isMoreAxesSupported;
 	private boolean isRtL;
 	private Map mSheetEnabled;
+	private Map mQueries;
 
 	public ChartWizardContext( Chart chartModel )
 	{
@@ -230,5 +232,44 @@ public class ChartWizardContext implements IWizardContext
 			return visible.booleanValue( );
 		}
 		return true;
+	}
+
+	/**
+	 * Adds predefined queries for later selection.
+	 * 
+	 * @param queryType
+	 *            query type. See {@link ChartUIConstants#QUERY_CATEGORY},
+	 *            {@link ChartUIConstants#QUERY_VALUE},
+	 *            {@link ChartUIConstants#QUERY_OPTIONAL}
+	 * @param expressions
+	 *            expression array
+	 * @since 2.3
+	 */
+	public void addPredefinedQuery( String queryType, String[] expressions )
+	{
+		if ( mQueries == null )
+		{
+			mQueries = new HashMap( );
+		}
+		mQueries.put( queryType, expressions );
+	}
+
+	/**
+	 * Returns the predefined queries
+	 * 
+	 * @param queryType
+	 *            query type. See {@link ChartUIConstants#QUERY_CATEGORY},
+	 *            {@link ChartUIConstants#QUERY_VALUE},
+	 *            {@link ChartUIConstants#QUERY_OPTIONAL}
+	 * @return expression array
+	 * @since 2.3
+	 */
+	public String[] getPredefinedQuery( String queryType )
+	{
+		if ( mQueries != null && mQueries.containsKey( queryType ) )
+		{
+			return (String[]) mQueries.get( queryType );
+		}
+		return null;
 	}
 }

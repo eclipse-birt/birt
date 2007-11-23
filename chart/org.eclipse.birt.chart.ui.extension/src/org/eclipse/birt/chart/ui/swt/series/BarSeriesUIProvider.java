@@ -27,6 +27,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent;
+import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -74,6 +75,7 @@ public class BarSeriesUIProvider extends DefaultSeriesUIProvider
 		if ( seriesType == ISelectDataCustomizeUI.ORTHOGONAL_SERIES )
 		{
 			return new BaseDataDefinitionComponent( BaseDataDefinitionComponent.BUTTON_AGGREGATION,
+					ChartUIConstants.QUERY_VALUE,
 					seriesDefn,
 					ChartUIUtil.getDataQuery( seriesDefn, 0 ),
 					context,
@@ -81,7 +83,8 @@ public class BarSeriesUIProvider extends DefaultSeriesUIProvider
 		}
 		else if ( seriesType == ISelectDataCustomizeUI.GROUPING_SERIES )
 		{
-			BaseDataDefinitionComponent ddc = new BaseDataDefinitionComponent( seriesDefn,
+			BaseDataDefinitionComponent ddc = new BaseDataDefinitionComponent( ChartUIConstants.QUERY_OPTIONAL,
+					seriesDefn,
 					seriesDefn.getQuery( ),
 					context,
 					sTitle );
@@ -90,7 +93,9 @@ public class BarSeriesUIProvider extends DefaultSeriesUIProvider
 		return new DefaultSelectDataComponent( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#getCompatibleAxisType(org.eclipse.birt.chart.model.component.Series )
 	 */
 	public AxisType[] getCompatibleAxisType( Series series )
@@ -122,5 +127,5 @@ public class BarSeriesUIProvider extends DefaultSeriesUIProvider
 						query.getDefinition( ) );
 			}
 		}
-	}	
+	}
 }
