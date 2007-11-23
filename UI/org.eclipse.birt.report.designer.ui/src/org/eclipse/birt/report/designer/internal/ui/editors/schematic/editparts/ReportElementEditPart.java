@@ -632,7 +632,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		IReportElementFigure figure = (IReportElementFigure) getFigure( );
 
 		String backGroundImage = getBackgroundImage( handle );
-		Object backGroundPosition = getBackgroundPosition( handle );
+		Object[] backGroundPosition = getBackgroundPosition( handle );
 		int backGroundRepeat = getBackgroundRepeat( handle );
 
 		if ( backGroundImage == null )
@@ -662,30 +662,45 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 
 			figure.setRepeat( backGroundRepeat );
 
-			if ( backGroundPosition instanceof int[] )
-			{
-				// left, center, right, top, bottom
-				figure.setAlignment( ( (int[]) backGroundPosition )[0]
-						| ( (int[]) backGroundPosition )[1] );
-				figure.setPosition( new Point( -1, -1 ) );
-			}
-			else if ( backGroundPosition instanceof Point )
-			{
-				// {1cm, 1cm}
-				figure.setPosition( (Point) backGroundPosition );
-			}
-			else if ( backGroundPosition instanceof DimensionValue[] )
-			{
-				// {0%, 0%}
-				int percentX = (int) ( (DimensionValue[]) backGroundPosition )[0].getMeasure( );
-				int percentY = (int) ( (DimensionValue[]) backGroundPosition )[1].getMeasure( );
-				Rectangle area = getFigure( ).getClientArea( );
-				org.eclipse.swt.graphics.Rectangle imageArea = image.getBounds( );
-				int x = ( area.width - imageArea.width ) * percentX / 100;
-				int y = ( area.height - imageArea.height ) * percentY / 100;
+			Object xPosition = backGroundPosition[0];
+			Object yPosition = backGroundPosition[1];
+			Rectangle area = getFigure( ).getClientArea( );
+			org.eclipse.swt.graphics.Rectangle imageArea = image.getBounds( );
+			Point position = new Point( -1, -1 );
+			int alignment = 0;
 
-				figure.setPosition( new Point( x, y ) );
+			if ( xPosition instanceof Integer )
+			{
+				position.x = ( (Integer) xPosition ).intValue( );
 			}
+			else if ( xPosition instanceof DimensionValue )
+			{
+				int percentX = (int) ( (DimensionValue) xPosition ).getMeasure( );
+
+				position.x = ( area.width - imageArea.width ) * percentX / 100;
+			}
+			else if ( xPosition instanceof String )
+			{
+				alignment |= DesignElementHandleAdapter.getPosition( (String) xPosition );
+			}
+
+			if ( yPosition instanceof Integer )
+			{
+				position.y = ( (Integer) yPosition ).intValue( );
+			}
+			else if ( yPosition instanceof DimensionValue )
+			{
+				int percentY = (int) ( (DimensionValue) yPosition ).getMeasure( );
+
+				position.y = ( area.width - imageArea.width ) * percentY / 100;
+			}
+			else if ( yPosition instanceof String )
+			{
+				alignment |= DesignElementHandleAdapter.getPosition( (String) yPosition );
+			}
+
+			figure.setAlignment( alignment );
+			figure.setPosition( position );
 		}
 	}
 
@@ -842,7 +857,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		return getModelAdapter( ).getBackgroundImage( handle );
 	}
 
-	protected Object getBackgroundPosition( DesignElementHandle handle )
+	protected Object[] getBackgroundPosition( DesignElementHandle handle )
 	{
 		return getModelAdapter( ).getBackgroundPosition( handle );
 	}

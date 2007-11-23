@@ -147,9 +147,30 @@ public class ReportElementFigure extends Figure implements IReportElementFigure
 		graphics.getClip( PRIVATE_RECT );
 		//graphics.setClip( area );
 
-		if ( !( position.x == -1 && position.y == -1 ) )
+		// Calculates X
+		if ( position != null && position.x != -1 )
 		{
 			x = area.x + position.x;
+		}
+		else
+		{
+			switch ( alignment & PositionConstants.EAST_WEST )
+			{
+				case PositionConstants.EAST :
+					x = area.x + area.width - size.width;
+					break;
+				case PositionConstants.WEST :
+					x = area.x;
+					break;
+				default :
+					x = ( area.width - size.width ) / 2 + area.x;
+					break;
+			}
+		}
+
+		// Calculates Y
+		if ( position != null && position.y != -1 )
+		{
 			y = area.y + position.y;
 		}
 		else
@@ -164,18 +185,6 @@ public class ReportElementFigure extends Figure implements IReportElementFigure
 					break;
 				default :
 					y = ( area.height - size.height ) / 2 + area.y;
-					break;
-			}
-			switch ( alignment & PositionConstants.EAST_WEST )
-			{
-				case PositionConstants.EAST :
-					x = area.x + area.width - size.width;
-					break;
-				case PositionConstants.WEST :
-					x = area.x;
-					break;
-				default :
-					x = ( area.width - size.width ) / 2 + area.x;
 					break;
 			}
 		}

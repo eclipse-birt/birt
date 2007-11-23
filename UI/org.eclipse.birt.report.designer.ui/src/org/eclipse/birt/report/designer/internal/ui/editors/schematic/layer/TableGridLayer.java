@@ -17,6 +17,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.ColumnHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
@@ -31,7 +32,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
-import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -129,7 +129,7 @@ public class TableGridLayer extends GridLayer
 			Rectangle rectangle )
 	{
 		String backGroundImage = getBackgroundImage( handle );
-		Object backGroundPosition = getBackgroundPosition( handle );
+		Object[] backGroundPosition = getBackgroundPosition( handle );
 		int backGroundRepeat = getBackgroundRepeat( handle );
 
 		if ( backGroundImage != null )
@@ -148,43 +148,73 @@ public class TableGridLayer extends GridLayer
 			{
 				Rectangle area = rectangle;
 				int repeat = backGroundRepeat;
-				int alignment = -1;
+				int alignment = 0;
 				Point position = new Point( -1, -1 );
+				Object xPosition = backGroundPosition[0];
+				Object yPosition = backGroundPosition[1];
+				org.eclipse.swt.graphics.Rectangle imageArea = image.getBounds( );
 
-				if ( backGroundPosition instanceof int[] )
+				if ( xPosition instanceof Integer )
 				{
-					// left, center, right, top, bottom
-					alignment = ( ( (int[]) backGroundPosition )[0] | ( (int[]) backGroundPosition )[1] );
+					position.x = ( (Integer) xPosition ).intValue( );
 				}
-				else if ( backGroundPosition instanceof Point )
+				else if ( xPosition instanceof DimensionValue )
 				{
-					// {1cm, 1cm}
-					position = ( (Point) backGroundPosition );
+					int percentX = (int) ( (DimensionValue) xPosition ).getMeasure( );
+
+					position.x = ( area.width - imageArea.width ) *
+							percentX /
+							100;
 				}
-				else if ( backGroundPosition instanceof DimensionValue[] )
+				else if ( xPosition instanceof String )
 				{
-					// {0%, 0%}
-					int percentX = (int) ( (DimensionValue[]) backGroundPosition )[0]
-							.getMeasure( );
-					int percentY = (int) ( (DimensionValue[]) backGroundPosition )[1]
-							.getMeasure( );
+					alignment |= DesignElementHandleAdapter.getPosition( (String) xPosition );
+				}
 
-					org.eclipse.swt.graphics.Rectangle imageArea = image
-							.getBounds( );
-					int xPosition = ( area.width - imageArea.width ) * percentX
-							/ 100;
-					int yPosition = ( area.height - imageArea.height )
-							* percentY / 100;
+				if ( yPosition instanceof Integer )
+				{
+					position.y = ( (Integer) yPosition ).intValue( );
+				}
+				else if ( yPosition instanceof DimensionValue )
+				{
+					int percentY = (int) ( (DimensionValue) yPosition ).getMeasure( );
 
-					position = new Point( xPosition, yPosition );
+					position.y = ( area.height - imageArea.height ) *
+							percentY /
+							100;
+				}
+				else if ( yPosition instanceof String )
+				{
+					alignment |= DesignElementHandleAdapter.getPosition( (String) yPosition );
 				}
 
 				int x, y;
 				Dimension size = new Rectangle( image.getBounds( ) ).getSize( );
 
-				if ( !( position.x == -1 && position.y == -1 ) )
+				// Calculates X
+				if ( position != null && position.x != -1 )
 				{
 					x = area.x + position.x;
+				}
+				else
+				{
+					switch ( alignment & PositionConstants.EAST_WEST )
+					{
+						case PositionConstants.EAST :
+							x = area.x + area.width - size.width;
+							break;
+						case PositionConstants.WEST :
+							x = area.x;
+							break;
+						default :
+							x = ( area.width - size.width ) / 2 + area.x;
+							break;
+					}
+				}
+
+				// Calculates Y
+				if ( position != null && position.y != -1 )
+				{
 					y = area.y + position.y;
 				}
 				else
@@ -199,18 +229,6 @@ public class TableGridLayer extends GridLayer
 							break;
 						default :
 							y = ( area.height - size.height ) / 2 + area.y;
-							break;
-					}
-					switch ( alignment & PositionConstants.EAST_WEST )
-					{
-						case PositionConstants.EAST :
-							x = area.x + area.width - size.width;
-							break;
-						case PositionConstants.WEST :
-							x = area.x;
-							break;
-						default :
-							x = ( area.width - size.width ) / 2 + area.x;
 							break;
 					}
 				}
@@ -334,7 +352,7 @@ public class TableGridLayer extends GridLayer
 		return "";
 	}
 
-	private Object getBackgroundPosition( DesignElementHandle handle )
+	private Object[] getBackgroundPosition( DesignElementHandle handle )
 	{
 		if ( handle instanceof RowHandle && getRowAdapter( handle ) != null )
 		{
@@ -346,7 +364,9 @@ public class TableGridLayer extends GridLayer
 			return getColumnAdapter( handle ).getBackgroundPosition( handle );
 		}
 		
-		return null;
+		return new Object[]{
+				null, null
+		};
 	}
 
 	private int getBackgroundRepeat( DesignElementHandle handle )

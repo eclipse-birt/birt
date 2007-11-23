@@ -22,11 +22,9 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
-import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
-import org.eclipse.draw2d.geometry.Point;
 
 /**
  * Adapter class to adapt model handle. This adapter provides convenience
@@ -350,49 +348,54 @@ public abstract class DesignElementHandleAdapter
 	 *            The handle of design element.
 	 * @return background position
 	 */
-	public Object getBackgroundPosition( DesignElementHandle handle )
+	public Object[] getBackgroundPosition( DesignElementHandle handle )
 	{
-		int x = 0;
-		int y = 0;
+		Object x = null;
+		Object y = null;
 
-		Object px = handle.getProperty( StyleHandle.BACKGROUND_POSITION_X_PROP );
-		Object py = handle.getProperty( StyleHandle.BACKGROUND_POSITION_Y_PROP );
-
-		// left, center, right, top, bottom
-		if ( px instanceof String && py instanceof String )
+		if ( handle != null )
 		{
-			return new int[]{
-					getPosition( (String) px ), getPosition( (String) py )
-			};
-		}
+			Object px = handle.getProperty( StyleHandle.BACKGROUND_POSITION_X_PROP );
+			Object py = handle.getProperty( StyleHandle.BACKGROUND_POSITION_Y_PROP );
 
-		// {1cm,1cm} or {0%,0%}
-		if ( px instanceof DimensionValue && py instanceof DimensionValue )
-		{
-			// {0%,0%}
-			if ( DesignChoiceConstants.UNITS_PERCENTAGE.equals( ( (DimensionValue) px ).getUnits( ) ) )
+			if ( px instanceof String )
 			{
-				if ( !( DesignChoiceConstants.UNITS_PERCENTAGE.equals( ( (DimensionValue) py ).getUnits( ) ) ) )
+				x = px;
+			}
+			else if ( px instanceof DimensionValue )
+			{
+				// {0%,0%}
+				if ( DesignChoiceConstants.UNITS_PERCENTAGE.equals( ( (DimensionValue) px ).getUnits( ) ) )
 				{
-					return new int[]{
-							PositionConstants.CENTER, PositionConstants.CENTER
-					};
+					x = px;
 				}
-
-				return new DimensionValue[]{
-						(DimensionValue) px, (DimensionValue) py
-				};
+				else
+				{
+					// {1cm,1cm}
+					x = new Integer( (int) DEUtil.convertoToPixel( px ) );
+				}
 			}
 
-			// {1cm,1cm}
-			x = (int) DEUtil.convertoToPixel( px );
-			y = (int) DEUtil.convertoToPixel( py );
-
-			return new Point( x, y );
+			if ( py instanceof String )
+			{
+				y = py;
+			}
+			else if ( py instanceof DimensionValue )
+			{
+				// {0%,0%}
+				if ( DesignChoiceConstants.UNITS_PERCENTAGE.equals( ( (DimensionValue) py ).getUnits( ) ) )
+				{
+					y = py;
+				}
+				else
+				{
+					// {1cm,1cm}
+					y = new Integer( (int) DEUtil.convertoToPixel( py ) );
+				}
+			}
 		}
-
-		return new int[]{
-				PositionConstants.CENTER, PositionConstants.CENTER
+		return new Object[]{
+				x, y
 		};
 	}
 
@@ -415,7 +418,7 @@ public abstract class DesignElementHandleAdapter
 	 * @return
 	 *    The position
 	 */
-	private int getPosition( String position )
+	public static int getPosition( String position )
 	{
 		if ( DesignChoiceConstants.BACKGROUND_POSITION_LEFT.equals( position ) )
 		{
