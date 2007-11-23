@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.impl;
 
 import java.sql.Blob;
+import java.sql.Clob;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -22,6 +23,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.data.DataType.AnyType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IInputParameterBinding;
 import org.eclipse.birt.data.engine.api.IParameterDefinition;
@@ -30,6 +32,8 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odaconsumer.ParameterHint;
+import org.eclipse.datatools.connectivity.oda.IBlob;
+import org.eclipse.datatools.connectivity.oda.IClob;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
@@ -119,32 +123,34 @@ class ParameterUtil
 			}
 		}
 		
-		Context cx = null;
-		if ( evaluateValue )
+		if ( evaluateValue ) 
+		{
+			Context cx = null;
 			cx = Context.enter( );
-		try
-		{
-			// Resolve parameter bindings
-
-			// Parameter values are determined in the following order of priority
-			// (1) Input param values set by scripts (already resolved above)
-			// (2) Query parameter bindings
-			// (3) Data set parameter bindings
-
-			resolveParameterBindings( this.queryDefn.getInputParamBindings( ),
-					paramHints,
-					bindingResolved,
-					cx );
-
-			resolveParameterBindings( this.dsRT.getInputParamBindings( ),
-					paramHints,
-					bindingResolved,
-					cx );
-		}
-		finally
-		{
-			if ( cx != null )
-				Context.exit( );
+			try
+			{
+				// Resolve parameter bindings
+	
+				// Parameter values are determined in the following order of priority
+				// (1) Input param values set by scripts (already resolved above)
+				// (2) Query parameter bindings
+				// (3) Data set parameter bindings
+	
+				resolveParameterBindings( this.queryDefn.getInputParamBindings( ),
+						paramHints,
+						bindingResolved,
+						cx );
+	
+				resolveParameterBindings( this.dsRT.getInputParamBindings( ),
+						paramHints,
+						bindingResolved,
+						cx );
+			}
+			finally
+			{
+				if ( cx != null )
+					Context.exit( );
+			}
 		}
 		
 		return Arrays.asList( paramHints );
@@ -203,9 +209,22 @@ class ParameterUtil
 		{
 			Object value = ( cx != null )
 					? evaluateInputParameterValue( this.scope, cx, binding )
-					: binding.getExpr( );
+					: binding.getExpr( );	//binding.getExpr()???
+			if ( paramHints[i].getDataType( ) == null ) //for AnyType parameter
+			{
+				if ( value != null )
+				{
+					Class clazz = value.getClass( );
+					paramHints[i].setDataType( clazz );
+				}
+				else
+				{
+					//AnyType parameter and the parameter value is null
+					paramHints[i].setDataType( String.class );
+				}
+			}
 			String valueStr = getParameterValueString( paramHints[i].getDataType( ),
-					value );
+						value );
 			paramHints[i].setDefaultInputValue( valueStr );
 			bindingResolved[i] = true;
 
@@ -361,21 +380,25 @@ class ParameterUtil
 
 		parameterHint.setNativeName( paramDefn.getNativeName() );
 		
-		// following data types is not supported by odaconsumer currently
 		Class dataTypeClass = DataType.getClass( paramDefn.getType( ) );
-		if ( dataTypeClass == DataType.AnyType.class
-				|| dataTypeClass == Blob.class )
-		{
-			dataTypeClass = String.class;
-		}
-		parameterHint.setDataType( dataTypeClass );
-        
+		
         parameterHint.setNativeDataType( paramDefn.getNativeType() );
 		parameterHint.setIsInputOptional( paramDefn.isInputOptional( ) );
 		if ( parameterHint.isInputMode( ) )
 			parameterHint.setDefaultInputValue( getParameterValueString( dataTypeClass,
 					paramValue ) );
 		parameterHint.setIsNullable( paramDefn.isNullable( ) );
+		//ParameterHint does not support AnyType
+		//the real type for AnyType is determined by the real parameter value
+		if ( dataTypeClass!= AnyType.class )
+		{
+			if( dataTypeClass == Blob.class )
+				parameterHint.setDataType( IBlob.class );
+			else if ( dataTypeClass == Clob.class )
+				parameterHint.setDataType( IClob.class );
+			else
+				parameterHint.setDataType( dataTypeClass );
+		}
 		return parameterHint;
 	}
 
