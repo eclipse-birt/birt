@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 1.0 -->
-<report xmlns=" http://www.eclipse.org/birt/2005/design" version="2">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.14" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 1.0.1 Build &lt;20050729-0746></property>
     <property name="units">in</property>
     <data-sources>
-        <script-data-source name="CustomersFavorite"/>
+        <script-data-source name="CustomersFavorite" id="2"/>
     </data-sources>
     <data-sets>
-        <script-data-set name="Favorite">
-            <property name="dataSource">CustomersFavorite</property>
-            <list-property name="resultSet">
+        <script-data-set name="Favorite" id="3">
+            <list-property name="resultSetHints">
                 <structure>
                     <property name="position">1</property>
                     <property name="name">Customer</property>
@@ -36,6 +34,26 @@
                     <property name="columnName">Color</property>
                 </structure>
             </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">Customer</property>
+                        <property name="dataType">any</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">Favorite</property>
+                        <property name="dataType">any</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">Color</property>
+                        <property name="dataType">any</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">CustomersFavorite</property>
             <method name="open"><![CDATA[favoritesClass = new Packages.SimpleClass();
 favorites = favoritesClass.readData();
 totalrows = favorites.size();
@@ -60,9 +78,9 @@ favorites = null;]]></method>
         </script-data-set>
     </data-sets>
     <page-setup>
-        <simple-master-page name="Simple MasterPage">
+        <simple-master-page name="Simple MasterPage" id="4">
             <page-footer>
-                <text>
+                <text id="5">
                     <property name="contentType">html</property>
                     <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
                 </text>
@@ -70,19 +88,17 @@ favorites = null;]]></method>
         </simple-master-page>
     </page-setup>
     <body>
-        <grid>
+        <grid id="6">
             <property name="width">100%</property>
-            <column>
+            <column id="7">
                 <property name="width">2.8in</property>
             </column>
-            <column>
+            <column id="8">
                 <property name="width">3.2in</property>
             </column>
-            <row>
-                <property name="style">BackgroundLightGray</property>
-                <cell>
-                    <property name="style">BackgroundLightGray</property>
-                    <image>
+            <row id="9">
+                <cell id="10">
+                    <image id="11">
                         <property name="borderBottomColor">#808080</property>
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
@@ -95,27 +111,27 @@ favorites = null;]]></method>
                         <property name="borderTopColor">#808080</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <expression name="uri">http://download.eclipse.org/birt/downloads/examples/images/ClassicLogo.jpg</expression>
+                        <property name="source">url</property>
+                        <expression name="uri">"http://download.eclipse.org/birt/downloads/examples/images/ClassicLogo.jpg"</expression>
                     </image>
                 </cell>
-                <cell>
-                    <property name="style">BackgroundLightGray</property>
+                <cell id="12">
                     <property name="verticalAlign">middle</property>
-                    <label>
+                    <label id="13">
                         <property name="fontFamily">sans-serif</property>
                         <property name="fontSize">20pt</property>
                         <property name="fontWeight">bold</property>
                         <property name="color">#000080</property>
                         <text-property name="text">Classic Models, Inc.</text-property>
                     </label>
-                    <text>
+                    <text id="14">
                         <property name="fontFamily">sans-serif</property>
                         <property name="contentType">html</property>
                         <text-property name="content"><![CDATA[701 Gateway Boulevard,<BR>
 San Francisco, CA 94107<BR>
 <BR>]]></text-property>
                     </text>
-                    <label>
+                    <label id="15">
                         <property name="fontFamily">sans-serif</property>
                         <property name="fontSize">18pt</property>
                         <property name="fontWeight">bold</property>
@@ -123,41 +139,55 @@ San Francisco, CA 94107<BR>
                     </label>
                 </cell>
             </row>
-            <row>
+            <row id="16">
                 <property name="height">0.25in</property>
-                <cell/>
-                <cell/>
+                <cell id="17"/>
+                <cell id="18"/>
             </row>
         </grid>
-        <table>
+        <table id="19">
             <property name="width">100%</property>
             <property name="dataSet">Favorite</property>
-            <column>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">Customer</property>
+                    <expression name="expression">dataSetRow["Customer"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">Favorite</property>
+                    <expression name="expression">dataSetRow["Favorite"]</expression>
+                </structure>
+                <structure>
+                    <property name="name">Color</property>
+                    <expression name="expression">dataSetRow["Color"]</expression>
+                </structure>
+            </list-property>
+            <column id="20">
                 <property name="width">1.458in</property>
             </column>
-            <column>
+            <column id="21">
                 <property name="width">2.531in</property>
             </column>
-            <column>
+            <column id="22">
                 <property name="width">2.531in</property>
             </column>
             <header>
-                <row>
+                <row id="23">
                     <property name="backgroundColor">#FF8040</property>
-                    <cell>
-                        <label>
+                    <cell id="24">
+                        <label id="25">
                             <property name="backgroundColor">#FF8040</property>
                             <text-property name="text">Customer Name</text-property>
                         </label>
                     </cell>
-                    <cell>
-                        <label>
+                    <cell id="26">
+                        <label id="27">
                             <property name="backgroundColor">#FF8040</property>
                             <text-property name="text">Favorite Model</text-property>
                         </label>
                     </cell>
-                    <cell>
-                        <label>
+                    <cell id="28">
+                        <label id="29">
                             <property name="backgroundColor">#FF8040</property>
                             <text-property name="text">Color Choice</text-property>
                         </label>
@@ -165,7 +195,7 @@ San Francisco, CA 94107<BR>
                 </row>
             </header>
             <detail>
-                <row>
+                <row id="30">
                     <list-property name="highlightRules">
                         <structure>
                             <property name="operator">eq</property>
@@ -175,28 +205,28 @@ San Francisco, CA 94107<BR>
                             <expression name="value1">0</expression>
                         </structure>
                     </list-property>
-                    <cell>
-                        <data>
-                            <expression name="valueExpr">row["Customer"]</expression>
+                    <cell id="31">
+                        <data id="32">
+                            <property name="resultSetColumn">Customer</property>
                         </data>
                     </cell>
-                    <cell>
-                        <data>
-                            <expression name="valueExpr">row["Favorite"]</expression>
+                    <cell id="33">
+                        <data id="34">
+                            <property name="resultSetColumn">Favorite</property>
                         </data>
                     </cell>
-                    <cell>
-                        <data>
-                            <expression name="valueExpr">row["Color"]</expression>
+                    <cell id="35">
+                        <data id="36">
+                            <property name="resultSetColumn">Color</property>
                         </data>
                     </cell>
                 </row>
             </detail>
             <footer>
-                <row>
-                    <cell/>
-                    <cell/>
-                    <cell/>
+                <row id="37">
+                    <cell id="38"/>
+                    <cell id="39"/>
+                    <cell id="40"/>
                 </row>
             </footer>
         </table>
