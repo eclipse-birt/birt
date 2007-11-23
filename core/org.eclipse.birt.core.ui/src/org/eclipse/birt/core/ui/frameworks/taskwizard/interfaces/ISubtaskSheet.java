@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2005 Actuate Corporation.
+ * Copyright (c) 2005, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -53,16 +53,23 @@ public interface ISubtaskSheet extends Cloneable, IDialogPage
 	void setNodePath( String nodePath );
 
 	/**
+	 * Returns the node path of subtask sheet
+	 * 
+	 * @since 2.3
+	 */
+	String getNodePath( );
+
+	/**
 	 * Attaches specified popup. If task-level popup is null or not existent in
 	 * current subtask, to open subtask-level popup. If subtask-level popup is
 	 * still null, do nothing.
 	 * 
-	 * @param popupName
+	 * @param popupID
 	 *            task-level popup key which is registered in the subtask.
 	 * @return whether the popup is attached successfully.
 	 * @since 2.1
 	 */
-	boolean attachPopup( String popupName );
+	boolean attachPopup( String popupID );
 
 	/**
 	 * Forces the popup dialogue detached.

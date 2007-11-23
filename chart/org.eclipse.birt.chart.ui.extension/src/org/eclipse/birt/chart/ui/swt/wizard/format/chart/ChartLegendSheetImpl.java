@@ -14,14 +14,11 @@ package org.eclipse.birt.chart.ui.swt.wizard.format.chart;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.chart.model.attribute.LegendBehaviorType;
 import org.eclipse.birt.chart.model.attribute.LegendItemType;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
-import org.eclipse.birt.chart.model.attribute.LegendBehaviorType;
-import org.eclipse.birt.chart.util.NameSet;
-import org.eclipse.birt.chart.util.TriggerSupportMatrix;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite; // import
-																					// org.eclipse.birt.chart.ui.swt.composites.TooltipDialog;
+import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSheetImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.InteractivitySheet;
@@ -29,8 +26,10 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.LegendLayoutSheet
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.LegendTextSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.chart.LegendTitleSheet;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
-import org.eclipse.birt.chart.ui.util.ChartUIUtil; // import
-													// org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.chart.util.LiteralHelper;
+import org.eclipse.birt.chart.util.NameSet;
+import org.eclipse.birt.chart.util.TriggerSupportMatrix;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -43,15 +42,15 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.birt.chart.util.LiteralHelper;
 
 /**
  * Legend subtask
  * 
  */
-public class ChartLegendSheetImpl extends SubtaskSheetImpl implements
-		Listener,
-		SelectionListener
+public class ChartLegendSheetImpl extends SubtaskSheetImpl
+		implements
+			Listener,
+			SelectionListener
 {
 
 	private Button btnVisible;
@@ -66,13 +65,9 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl implements
 
 	private Label lblShowValue;
 
-	private Button btnLegendTitle;
-
 	private Label lblLegendBehavior;
 
 	private Combo cmbLegendBehavior;
-
-	private Button btnInteractivity;
 
 	// private Button btnTooltip;
 
@@ -217,11 +212,14 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl implements
 		Iterator buttons = getToggleButtons( ).iterator( );
 		while ( buttons.hasNext( ) )
 		{
-			( (Button) buttons.next( ) ).setEnabled( enabled );
+			Button toggle = (Button) buttons.next( );
+			toggle.setEnabled( enabled
+					&& getContext( ).isEnabled( toggle.getData( ).toString( ) ) );
 		}
-		btnLegendTitle.setEnabled( btnTitleVisible.getSelection( ) && enabled );
-		btnInteractivity.setEnabled( getChart( ).getInteractivity( ).isEnable( )
+		setToggleButtonEnabled( BUTTON_TITLE, btnTitleVisible.getSelection( )
 				&& enabled );
+		setToggleButtonEnabled( BUTTON_INTERACTIVITY,
+				getChart( ).getInteractivity( ).isEnable( ) && enabled );
 	}
 
 	private boolean isShowValueEnabled( )
@@ -254,21 +252,26 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl implements
 		}
 
 		// Title
-		ITaskPopupSheet popup = new LegendTitleSheet( Messages.getString( "ChartLegendSheetImpl.Title.LegendTitle" ), getContext( ) ); //$NON-NLS-1$
-		btnLegendTitle = createToggleButton( cmp,
-				Messages.getString( "ChartLegendSheetImpl.Label.LegendTitle&" ), popup ); //$NON-NLS-1$
+		ITaskPopupSheet popup = new LegendTitleSheet( Messages.getString( "ChartLegendSheetImpl.Title.LegendTitle" ),//$NON-NLS-1$
+				getContext( ) );
+		Button btnLegendTitle = createToggleButton( cmp,
+				BUTTON_TITLE,
+				Messages.getString( "ChartLegendSheetImpl.Label.LegendTitle&" ),//$NON-NLS-1$
+				popup,
+				btnTitleVisible.getSelection( ) );
 		btnLegendTitle.addSelectionListener( this );
-		btnLegendTitle.setEnabled( btnTitleVisible.getSelection( ) );
 
 		// Layout
 		popup = new LegendLayoutSheet( Messages.getString( "ChartLegendSheetImpl.Title.LegendLayout" ), getContext( ) ); //$NON-NLS-1$
 		Button btnAreaProp = createToggleButton( cmp,
+				BUTTON_LAYOUT,
 				Messages.getString( "ChartLegendSheetImpl.Label.Layout" ), popup ); //$NON-NLS-1$
 		btnAreaProp.addSelectionListener( this );
-		
+
 		// Entries
 		popup = new LegendTextSheet( Messages.getString( "ChartLegendSheetImpl.Title.LegendEntries" ), getContext( ) ); //$NON-NLS-1$
 		Button btnLegendText = createToggleButton( cmp,
+				BUTTON_ENTRIES,
 				Messages.getString( "ChartLegendSheetImpl.Label.Entries" ), popup ); //$NON-NLS-1$
 		btnLegendText.addSelectionListener( this );
 
@@ -279,11 +282,12 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl implements
 				TriggerSupportMatrix.TYPE_LEGEND,
 				false,
 				true );
-		btnInteractivity = createToggleButton( cmp,
+		Button btnInteractivity = createToggleButton( cmp,
+				BUTTON_INTERACTIVITY,
 				Messages.getString( "SeriesYSheetImpl.Label.Interactivity&" ), //$NON-NLS-1$
-				popup );
+				popup,
+				getChart( ).getInteractivity( ).isEnable( ) );
 		btnInteractivity.addSelectionListener( this );
-		btnInteractivity.setEnabled( getChart( ).getInteractivity( ).isEnable( ) );
 	}
 
 	/*
@@ -313,7 +317,7 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl implements
 
 		if ( isRegistered( e.widget ) )
 		{
-			attachPopup( ( (Button) e.widget ).getText( ) );
+			attachPopup( ( (Button) e.widget ).getData( ).toString( ) );
 		}
 
 		if ( e.widget.equals( btnVisible ) )
@@ -331,13 +335,16 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl implements
 		}
 		else if ( e.widget.equals( btnTitleVisible ) )
 		{
-			btnLegendTitle.setEnabled( btnTitleVisible.getSelection( ) );
+
+			setToggleButtonEnabled( BUTTON_TITLE,
+					btnTitleVisible.getSelection( ) );
 			getChart( ).getLegend( )
 					.getTitle( )
 					.setVisible( ( (Button) e.widget ).getSelection( ) );
 			txtTitle.setEnabled( getChart( ).getLegend( )
 					.getTitle( )
 					.isVisible( ) );
+			Button btnLegendTitle = getToggleButton( BUTTON_TITLE );
 			if ( !btnTitleVisible.getSelection( )
 					&& btnLegendTitle.getSelection( ) )
 			{

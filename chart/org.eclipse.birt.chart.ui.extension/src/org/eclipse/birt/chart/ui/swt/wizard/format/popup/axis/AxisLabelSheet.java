@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.ui.swt.wizard.format.popup.axis;
 
 import org.eclipse.birt.chart.model.attribute.AngleType;
+import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
@@ -31,6 +32,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
@@ -48,15 +50,17 @@ public class AxisLabelSheet extends AbstractPopupSheet
 			Listener
 {
 
-	private transient Composite cmpContent = null;
+	private Composite cmpContent = null;
 
-	private transient LabelAttributesComposite lacLabel = null;
+	private LabelAttributesComposite lacLabel = null;
 
-	private transient Spinner iscInterval;
+	private Spinner iscInterval;
+	
+	private Button chkWithinAxes;
 
-	private transient Axis axis;
+	private Axis axis;
 
-	private transient int axisType;
+	private int axisType;
 
 	public AxisLabelSheet( String title, ChartWizardContext context, Axis axis,
 			int axisType )
@@ -149,7 +153,23 @@ public class AxisLabelSheet extends AbstractPopupSheet
 			iscInterval.addSelectionListener( this );
 			iscInterval.setEnabled( isLabelEnabled );
 		}
-
+		
+		// This control is only for testing chart engine and not exposed in UI
+		if ( false )
+		{
+			chkWithinAxes = new Button( grpLabel, SWT.CHECK );
+			{
+				GridData gd = new GridData( );
+				gd.horizontalSpan = 2;
+				gd.horizontalIndent = 10;
+				chkWithinAxes.setLayoutData( gd );
+				chkWithinAxes.setText( "Label Within Axes" ); //$NON-NLS-1$
+				chkWithinAxes.addSelectionListener( this );
+				chkWithinAxes.setEnabled( !( getAxisForProcessing( ).isCategoryAxis( ) || getAxisForProcessing( ).getType( ) == AxisType.TEXT_LITERAL ) );
+				chkWithinAxes.setSelection( getAxisForProcessing( ).isLabelWithinAxes( ) );
+			}
+		}
+		
 		return cmpContent;
 	}
 
@@ -225,6 +245,10 @@ public class AxisLabelSheet extends AbstractPopupSheet
 		if ( e.getSource( ).equals( iscInterval ) )
 		{
 			getAxisForProcessing( ).setInterval( iscInterval.getSelection( ) );
+		}
+		else if ( e.getSource( ).equals( chkWithinAxes ) )
+		{
+			getAxisForProcessing( ).setLabelWithinAxes( chkWithinAxes.getSelection( ) );
 		}
 	}
 

@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,8 +12,10 @@
 package org.eclipse.birt.chart.ui.swt.wizard;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.style.IStyleProcessor;
@@ -28,16 +30,17 @@ import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
 public class ChartWizardContext implements IWizardContext
 {
 
-	private transient Chart chartModel = null;
-	private transient IChartType chartType = null;
-	private transient Object extendedItem = null;
-	private transient String sDefaultOutputFormat = "SVG"; //$NON-NLS-1$
-	private transient String sOutputFormat = sDefaultOutputFormat;
-	private transient IUIServiceProvider uiProvider;
-	private transient IDataServiceProvider dataProvider;
-	private transient IStyleProcessor processor;
-	private transient boolean isMoreAxesSupported;
-	private transient boolean isRtL;
+	private Chart chartModel = null;
+	private IChartType chartType = null;
+	private Object extendedItem = null;
+	private String sDefaultOutputFormat = "SVG"; //$NON-NLS-1$
+	private String sOutputFormat = sDefaultOutputFormat;
+	private IUIServiceProvider uiProvider;
+	private IDataServiceProvider dataProvider;
+	private IStyleProcessor processor;
+	private boolean isMoreAxesSupported;
+	private boolean isRtL;
+	private Map mSheetEnabled;
 
 	public ChartWizardContext( Chart chartModel )
 	{
@@ -189,5 +192,43 @@ public class ChartWizardContext implements IWizardContext
 	public void setRtL( boolean isRtL )
 	{
 		this.isRtL = isRtL;
+	}
+
+	/**
+	 * Sets the UI enabled or not. The UI, including task, subtask or toggle
+	 * button, is identified by the exclusive id.
+	 * 
+	 * @param id
+	 *            the exclusive id to identify the UI
+	 * @param bEnabled
+	 *            the state to enable the UI
+	 * @since 2.3
+	 */
+	public void setEnabled( String id, boolean bEnabled )
+	{
+		if ( mSheetEnabled == null )
+		{
+			mSheetEnabled = new HashMap( );
+		}
+		mSheetEnabled.put( id, new Boolean( bEnabled ) );
+	}
+
+	/**
+	 * Returns if the UI is enabled or not.The UI, including task, subtask or
+	 * toggle button, is identified by the exclusive id.
+	 * 
+	 * @param id
+	 *            the exclusive id to identify the UI
+	 * @return the UI enabled state
+	 * @since 2.3
+	 */
+	public boolean isEnabled( String id )
+	{
+		if ( mSheetEnabled != null && mSheetEnabled.containsKey( id ) )
+		{
+			Boolean visible = (Boolean) mSheetEnabled.get( id );
+			return visible.booleanValue( );
+		}
+		return true;
 	}
 }

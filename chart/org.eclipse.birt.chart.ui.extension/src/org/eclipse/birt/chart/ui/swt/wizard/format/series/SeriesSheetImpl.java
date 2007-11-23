@@ -81,7 +81,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 	private static final int COLUMN_DETAIL = 6;
 	private static final int HORIZONTAL_SPACING = 5;
 
-	private transient Composite cmpList = null;
+	private Composite cmpList = null;
 
 	public void createControl( Composite parent )
 	{
@@ -257,6 +257,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 				isGroupedSeries( ) );
 
 		Button btnSeriesPals = createToggleButton( cmp,
+				BUTTON_PALETTE,
 				Messages.getString( "SeriesSheetImpl.Label.SeriesPalette&" ), //$NON-NLS-1$
 				popup );
 		btnSeriesPals.addSelectionListener( this );
@@ -686,7 +687,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 		if ( isRegistered( e.widget ) )
 		{
-			attachPopup( ( (Button) e.widget ).getText( ) );
+			attachPopup( ( (Button) e.widget ).getData( ).toString( ) );
 		}
 
 		if ( e.widget.equals( cmbColorBy ) )

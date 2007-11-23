@@ -46,7 +46,7 @@ import org.eclipse.swt.widgets.TreeItem;
 
 /**
  * "Axis" subtask. Attention: the axis layout order must be consistent with axis
- * items in the naviagor tree.
+ * items in the navigator tree.
  * 
  */
 public class AxisSheetImpl extends SubtaskSheetImpl

@@ -77,6 +77,7 @@ public class NeedleSheetImpl extends SubtaskSheetImpl implements
 				true,
 				false );
 		Button btnInteractivity = createToggleButton( cmp,
+				BUTTON_INTERACTIVITY,
 				Messages.getString( "SeriesYSheetImpl.Label.Interactivity&" ), //$NON-NLS-1$
 				popup );
 		btnInteractivity.addSelectionListener( this );
@@ -93,7 +94,7 @@ public class NeedleSheetImpl extends SubtaskSheetImpl implements
 
 		if ( isRegistered( e.widget ) )
 		{
-			attachPopup( ( (Button) e.widget ).getText( ) );
+			attachPopup( ( (Button) e.widget ).getData( ).toString( ) );
 		}
 	}
 

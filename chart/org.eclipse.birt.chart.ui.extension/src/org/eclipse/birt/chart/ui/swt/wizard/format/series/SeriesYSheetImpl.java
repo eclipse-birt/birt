@@ -57,20 +57,13 @@ import org.eclipse.swt.widgets.Listener;
  * Subtask for Value Series
  * 
  */
-public class SeriesYSheetImpl extends SubtaskSheetImpl implements
-		Listener,
-		SelectionListener
+public class SeriesYSheetImpl extends SubtaskSheetImpl
+		implements
+			Listener,
+			SelectionListener
 {
 
 	private Button btnShowLine;
-
-	private Button btnTrendline;
-
-	private Button btnDialLabel;
-
-	private Button btnLabel;
-
-	private Button btnDecoration;
 
 	private Button cbVisible;
 
@@ -105,9 +98,10 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 		cbVisible = new Button( cmpBottom, SWT.CHECK );
 		{
 			cbVisible.addSelectionListener( this );
-			cbVisible.setSelection( isMeterSeries( ) ? ( (DialSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) ).getDial( )
-					.getLabel( )
-					.isVisible( )
+			cbVisible.setSelection( isMeterSeries( )
+					? ( (DialSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) ).getDial( )
+							.getLabel( )
+							.isVisible( )
 					: getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
 							.getLabel( )
 							.isVisible( ) );
@@ -167,11 +161,12 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 			popup = new DialLabelSheet( Messages.getString( "SeriesYSheetImpl.Label.DialLabels" ), //$NON-NLS-1$
 					getContext( ),
 					getSeriesDefinitionForProcessing( ) );
-			btnDialLabel = createToggleButton( cmp,
+			Button btnDialLabel = createToggleButton( cmp,
+					BUTTON_DIAL_LABELS,
 					Messages.getString( "SeriesYSheetImpl.Label.DialLabels&" ), //$NON-NLS-1$
-					popup );
+					popup,
+					cbVisible.getSelection( ) );
 			btnDialLabel.addSelectionListener( this );
-			btnDialLabel.setEnabled( cbVisible.getSelection( ) );
 
 			if ( getChart( ) instanceof DialChart
 					&& !( (DialChart) getChart( ) ).isDialSuperimposition( ) )
@@ -181,6 +176,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 						getContext( ),
 						getSeriesDefinitionForProcessing( ) );
 				Button btnNeedles = createToggleButton( cmp,
+						BUTTON_NEEDLES,
 						Messages.getString( "SeriesYSheetImpl.Label.Needles&" ), //$NON-NLS-1$
 						popup );
 				btnNeedles.addSelectionListener( this );
@@ -191,6 +187,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 					getContext( ),
 					getSeriesDefinitionForProcessing( ) );
 			Button btnDialRegion = createToggleButton( cmp,
+					BUTTON_REGIONS,
 					Messages.getString( "SeriesYSheetImpl.Label.Region&" ), //$NON-NLS-1$
 					popup );
 			btnDialRegion.addSelectionListener( this );
@@ -200,6 +197,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 					getContext( ),
 					( (DialSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) ) );
 			Button btnDialTicks = createToggleButton( cmp,
+					BUTTON_TICKS,
 					Messages.getString( "MeterSeriesAttributeComposite.Lbl.DialTicks" ), //$NON-NLS-1$
 					popup );
 			btnDialTicks.addSelectionListener( this );
@@ -209,6 +207,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 					getContext( ),
 					( (DialSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) ) );
 			Button btnDialScale = createToggleButton( cmp,
+					BUTTON_SCALE,
 					Messages.getString( "MeterSeriesAttributeComposite.Lbl.DialScale" ), //$NON-NLS-1$
 					popup );
 			btnDialScale.addSelectionListener( this );
@@ -219,11 +218,12 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 			popup = new SeriesLabelSheet( Messages.getString( "SeriesYSheetImpl.Label.Labels" ), //$NON-NLS-1$
 					getContext( ),
 					getSeriesDefinitionForProcessing( ) );
-			btnLabel = createToggleButton( cmp,
+			Button btnLabel = createToggleButton( cmp,
+					BUTTON_LABEL,
 					Messages.getString( "SeriesYSheetImpl.Label.Labels&" ), //$NON-NLS-1$
-					popup );
+					popup,
+					cbVisible.getSelection( ) );
 			btnLabel.addSelectionListener( this );
-			btnLabel.setEnabled( cbVisible.getSelection( ) );
 
 		}
 
@@ -234,6 +234,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 					getContext( ),
 					getSeriesDefinitionForProcessing( ) );
 			Button btnPieTitle = createToggleButton( cmp,
+					BUTTON_TITLE,
 					Messages.getString( "SeriesYSheetImpl.Label.Titles&" ), //$NON-NLS-1$
 					popup );
 			btnPieTitle.addSelectionListener( this );
@@ -247,6 +248,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 					getContext( ),
 					(LineSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) );
 			Button btnLineMarker = createToggleButton( cmp,
+					BUTTON_MARKERS,
 					Messages.getString( "SeriesYSheetImpl.Label.Markers&" ), //$NON-NLS-1$
 					popup );
 			btnLineMarker.addSelectionListener( this );
@@ -260,6 +262,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 					(DifferenceSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ),
 					true );
 			Button btnPLineMarker = createToggleButton( cmp,
+					BUTTON_POSITIVE_MARKERS,
 					Messages.getString( "SeriesYSheetImpl.Label.PositiveMarkers&" ), //$NON-NLS-1$
 					popup );
 			btnPLineMarker.addSelectionListener( this );
@@ -269,6 +272,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 					(DifferenceSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ),
 					false );
 			Button btnNLineMarker = createToggleButton( cmp,
+					BUTTON_NEGATIVE_MARKERS,
 					Messages.getString( "SeriesYSheetImpl.Label.NegativeMarkers&" ), //$NON-NLS-1$
 					popup );
 			btnNLineMarker.addSelectionListener( this );
@@ -280,11 +284,12 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 			popup = new DecorationSheet( Messages.getString( "SeriesYSheetImpl.Label.Decoration" ), //$NON-NLS-1$
 					getContext( ),
 					(GanttSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) );
-			btnDecoration = createToggleButton( cmp,
+			Button btnDecoration = createToggleButton( cmp,
+					BUTTON_DECORATION,
 					Messages.getString( "SeriesYSheetImpl.Label.Decoration&" ), //$NON-NLS-1$
-					popup );
+					popup,
+					cbDecoVisible.getSelection( ) );
 			btnDecoration.addSelectionListener( this );
-			btnDecoration.setEnabled( cbDecoVisible.getSelection( ) );
 		}
 
 		// Trendline
@@ -293,11 +298,12 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 			popup = new SeriesTrendlineSheet( Messages.getString( "SeriesYSheetImpl.Label.Trendline" ), //$NON-NLS-1$
 					getContext( ),
 					getSeriesDefinitionForProcessing( ) );
-			btnTrendline = createToggleButton( cmp,
+			Button btnTrendline = createToggleButton( cmp,
+					BUTTON_CURVE,
 					Messages.getString( "SeriesYSheetImpl.Label.Trendline&" ), //$NON-NLS-1$
-					popup );
+					popup,
+					btnShowLine.getSelection( ) );
 			btnTrendline.addSelectionListener( this );
-			btnTrendline.setEnabled( btnShowLine.getSelection( ) );
 		}
 
 		if ( !( getChart( ) instanceof DialChart && ( (DialChart) getChart( ) ).isDialSuperimposition( ) ) )
@@ -311,11 +317,11 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 					true,
 					false );
 			Button btnInteractivity = createToggleButton( cmp,
+					BUTTON_INTERACTIVITY,
 					Messages.getString( "SeriesYSheetImpl.Label.Interactivity&" ), //$NON-NLS-1$
-					popup );
+					popup,
+					getChart( ).getInteractivity( ).isEnable( ) );
 			btnInteractivity.addSelectionListener( this );
-			btnInteractivity.setEnabled( getChart( ).getInteractivity( )
-					.isEnable( ) );
 		}
 	}
 
@@ -345,12 +351,12 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 
 		if ( isRegistered( e.widget ) )
 		{
-			attachPopup( ( (Button) e.widget ).getText( ) );
+			attachPopup( ( (Button) e.widget ).getData( ).toString( ) );
 		}
 
 		if ( e.widget.equals( btnShowLine ) )
 		{
-			btnTrendline.setEnabled( btnShowLine.getSelection( ) );
+			setToggleButtonEnabled( BUTTON_CURVE, btnShowLine.getSelection( ) );
 			if ( btnShowLine.getSelection( ) )
 			{
 				CurveFitting cf = CurveFittingImpl.create( );
@@ -365,6 +371,7 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 				getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
 						.setCurveFitting( null );
 				// Close trendline popup
+				Button btnTrendline = getToggleButton( BUTTON_CURVE );
 				if ( btnTrendline.getSelection( ) )
 				{
 					btnTrendline.setSelection( false );
@@ -376,10 +383,12 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 		{
 			if ( isMeterSeries( ) )
 			{
-				btnDialLabel.setEnabled( cbVisible.getSelection( ) );
+				setToggleButtonEnabled( BUTTON_DIAL_LABELS,
+						cbVisible.getSelection( ) );
 				( (DialSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) ).getDial( )
 						.getLabel( )
 						.setVisible( cbVisible.getSelection( ) );
+				Button btnDialLabel = getToggleButton( BUTTON_DIAL_LABELS );
 				if ( !cbVisible.getSelection( ) && btnDialLabel.getSelection( ) )
 				{
 					btnDialLabel.setSelection( false );
@@ -388,10 +397,11 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 			}
 			else
 			{
-				btnLabel.setEnabled( cbVisible.getSelection( ) );
+				setToggleButtonEnabled( BUTTON_LABEL, cbVisible.getSelection( ) );
 				getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
 						.getLabel( )
 						.setVisible( cbVisible.getSelection( ) );
+				Button btnLabel = getToggleButton( BUTTON_LABEL );
 				if ( !cbVisible.getSelection( ) && btnLabel.getSelection( ) )
 				{
 					btnLabel.setSelection( false );
@@ -406,9 +416,11 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl implements
 		}
 		else if ( e.widget.equals( cbDecoVisible ) )
 		{
-			btnDecoration.setEnabled( cbDecoVisible.getSelection( ) );
+			setToggleButtonEnabled( BUTTON_DECORATION,
+					cbDecoVisible.getSelection( ) );
 			( (GanttSeries) getSeriesDefinitionForProcessing( ).getDesignTimeSeries( ) ).getDecorationLabel( )
 					.setVisible( cbDecoVisible.getSelection( ) );
+			Button btnDecoration = getToggleButton( BUTTON_DECORATION );
 			if ( !cbDecoVisible.getSelection( ) && btnDecoration.getSelection( ) )
 			{
 				btnDecoration.setSelection( false );

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation.
+ * Copyright (c) 2005, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -57,6 +57,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
@@ -64,44 +65,44 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.TreeItem;
 
 /**
- * 
+ * Task sheet for formatting chart
  */
 
-public class TaskFormatChart extends TreeCompoundTask implements
-		IUIManager,
-		ITaskChangeListener
+public class TaskFormatChart extends TreeCompoundTask
+		implements
+			IUIManager,
+			ITaskChangeListener
 {
-	
-	private transient ChartPreviewPainter previewPainter = null;
 
-	private transient Canvas previewCanvas;
+	private ChartPreviewPainter previewPainter = null;
 
-	private transient Label lblNodeTitle;
+	private Canvas previewCanvas;
+
+	private Label lblNodeTitle;
 
 	/** The sash form contains Chart preview canvas and detail sub-task sheet. */
 	private SashForm foRightSashForm;
-	
+
 	/** The scrolled composite contains detail sub-task components. */
 	private ScrolledComposite foScrolledDetailComposite;
-	
-	
+
 	// registered collections of sheets.
 	// Key:collectionName; Value:nodePath array
-	private transient Hashtable htSheetCollections = null;
+	private Hashtable htSheetCollections = null;
 
 	// visible UI Sheets (Order IS important)
 	// Key: nodePath; Value: subtask
-	private transient LinkedHashMap htVisibleSheets = null;
+	private LinkedHashMap htVisibleSheets = null;
 
-	private transient int iBaseSeriesCount = 0;
+	private int iBaseSeriesCount = 0;
 
-	private transient int iOrthogonalSeriesCount = 0;
+	private int iOrthogonalSeriesCount = 0;
 
-	private transient int iBaseAxisCount = 0;
+	private int iBaseAxisCount = 0;
 
-	private transient int iOrthogonalAxisCount = 0;
+	private int iOrthogonalAxisCount = 0;
 
-	private transient int iAncillaryAxisCount = 0;
+	private int iAncillaryAxisCount = 0;
 
 	private static final String ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITH_AXES = "OrthogonalSeriesSheetsCWA"; //$NON-NLS-1$
 
@@ -447,10 +448,10 @@ public class TaskFormatChart extends TreeCompoundTask implements
 	public void createControl( Composite parent )
 	{
 		manipulateCompatible( );
-		
+
 		// Initialize all components.
 		initControl( parent );
-		
+
 		if ( previewPainter == null )
 		{
 			// Invoke this only once
@@ -474,7 +475,7 @@ public class TaskFormatChart extends TreeCompoundTask implements
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			lblNodeTitle.setLayoutData( gd );
-			
+
 			lblNodeTitle.setFont( JFaceResources.getBannerFont( ) );
 		}
 
@@ -484,13 +485,14 @@ public class TaskFormatChart extends TreeCompoundTask implements
 			separator.setLayoutData( gd );
 		}
 	}
-	
+
 	/**
 	 * Initialize components in these shell.
 	 * 
-	 * @param parent parent composite.
+	 * @param parent
+	 *            parent composite.
 	 */
-	private void initControl(Composite parent)
+	private void initControl( Composite parent )
 	{
 		if ( topControl == null || topControl.isDisposed( ) )
 		{
@@ -507,7 +509,7 @@ public class TaskFormatChart extends TreeCompoundTask implements
 				gridData.verticalAlignment = SWT.FILL;
 				topControl.setLayoutData( gridData );
 			}
-			
+
 			// 2. Create left navigator tree.
 			navTree = new NavTree( topControl, SWT.BORDER );
 			{
@@ -523,14 +525,15 @@ public class TaskFormatChart extends TreeCompoundTask implements
 					}
 				} );
 			}
-			
-			// 3. Create right sash form, it contains chart preview canvas and detail sub-task sheet.
-			foRightSashForm  = new SashForm( topControl, SWT.VERTICAL );
+
+			// 3. Create right sash form, it contains chart preview canvas and
+			// detail sub-task sheet.
+			foRightSashForm = new SashForm( topControl, SWT.VERTICAL );
 			{
 				foRightSashForm.SASH_WIDTH = 1;
 				foRightSashForm.setBackground( parent.getDisplay( )
 						.getSystemColor( SWT.COLOR_DARK_GRAY ) );
-				
+
 				GridLayout layout = new GridLayout( );
 				foRightSashForm.setLayout( layout );
 				GridData gridData = new GridData( GridData.FILL_BOTH );
@@ -543,7 +546,7 @@ public class TaskFormatChart extends TreeCompoundTask implements
 			// 3.2 Create detail sheet composite and add to right sash form.
 			createDetailComposite( foRightSashForm );
 		}
-		
+
 		populateSubtasks( );
 		updateTreeItem( );
 		setDefaultSelection( );
@@ -552,9 +555,10 @@ public class TaskFormatChart extends TreeCompoundTask implements
 	/**
 	 * Create detail sheet composite.
 	 * 
-	 * @param parent parent composite.
+	 * @param parent
+	 *            parent composite.
 	 */
-	private void createDetailComposite(Composite parent )
+	private void createDetailComposite( Composite parent )
 	{
 		Composite detailComposite = new Composite( parent, SWT.NONE );
 		{
@@ -563,7 +567,7 @@ public class TaskFormatChart extends TreeCompoundTask implements
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 			detailComposite.setLayoutData( gridData );
 		}
-		
+
 		initDetailHeader( detailComposite );
 
 		createScrolledSubDetailComposite( detailComposite );
@@ -572,46 +576,53 @@ public class TaskFormatChart extends TreeCompoundTask implements
 	/**
 	 * Create scrolled composite which contains detail sub-task sheet.
 	 * 
-	 * @param detailComposite parent composite.
+	 * @param detailComposite
+	 *            parent composite.
 	 */
 	private void createScrolledSubDetailComposite( Composite detailComposite )
 	{
-		foScrolledDetailComposite = new ScrolledComposite( detailComposite, SWT.V_SCROLL | SWT.H_SCROLL);
+		foScrolledDetailComposite = new ScrolledComposite( detailComposite,
+				SWT.V_SCROLL | SWT.H_SCROLL );
 		{
 			GridLayout layout = new GridLayout( );
 			foScrolledDetailComposite.setLayout( layout );
 			GridData gridData = new GridData( GridData.FILL_BOTH );
 
-			
 			foScrolledDetailComposite.setLayoutData( gridData );
-			
+
 			foScrolledDetailComposite.setExpandHorizontal( true );
 			foScrolledDetailComposite.setExpandVertical( true );
 		}
-		
-		cmpSubtaskContainer = new Composite( foScrolledDetailComposite, SWT.NONE );
+
+		cmpSubtaskContainer = new Composite( foScrolledDetailComposite,
+				SWT.NONE );
 		{
 			GridLayout layout = new GridLayout( );
 			cmpSubtaskContainer.setLayout( layout );
 			GridData gridData = new GridData( GridData.FILL_BOTH );
 			cmpSubtaskContainer.setLayoutData( gridData );
 		}
-		
+
 		foScrolledDetailComposite.setContent( cmpSubtaskContainer );
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.core.ui.frameworks.taskwizard.TreeCompoundTask#switchTo(java.lang.String, boolean)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.core.ui.frameworks.taskwizard.TreeCompoundTask#switchTo(java.lang.String,
+	 *      boolean)
 	 */
 	protected void switchTo( String sSubtaskPath, boolean needSelection )
 	{
 		super.switchTo( sSubtaskPath, needSelection );
-		
-		// Compute minimum size for scrolled composite to let correct scroll behavior.
-		Point childSize = cmpSubtaskContainer.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+
+		// Compute minimum size for scrolled composite to let correct scroll
+		// behavior.
+		Point childSize = cmpSubtaskContainer.computeSize( SWT.DEFAULT,
+				SWT.DEFAULT );
 		foScrolledDetailComposite.setMinSize( childSize );
 	}
-	
+
 	protected Composite createTitleArea( Composite parent )
 	{
 		Composite cmpTitle = super.createTitleArea( parent );
@@ -640,6 +651,28 @@ public class TaskFormatChart extends TreeCompoundTask implements
 			lblNodeTitle.setText( getNavigatorTree( ).getSelection( )[0].getText( ) );
 		}
 		super.createSubtaskArea( parent, subtask );
+
+		// If the subtask is registered as disabled state, disable it.
+		boolean bEnabled = ( (ChartWizardContext) getContext( ) ).isEnabled( subtask.getNodePath( ) );
+		if ( !bEnabled )
+		{
+			disableControl( parent );
+		}
+		parent.setEnabled( bEnabled );
+		lblNodeTitle.setEnabled( bEnabled );
+	}
+
+	private void disableControl( Control control )
+	{
+		if ( control instanceof Composite )
+		{
+			Control[] children = ( (Composite) control ).getChildren( );
+			for ( int i = 0; i < children.length; i++ )
+			{
+				disableControl( children[i] );
+			}
+		}
+		control.setEnabled( false );
 	}
 
 	private void createPreviewPainter( )

@@ -54,9 +54,10 @@ import org.eclipse.swt.widgets.Listener;
  * Chart Area subtask
  * 
  */
-public class ChartSheetImpl extends SubtaskSheetImpl implements
-		SelectionListener,
-		Listener
+public class ChartSheetImpl extends SubtaskSheetImpl
+		implements
+			SelectionListener,
+			Listener
 {
 
 	private FillChooserComposite cmbBackground;
@@ -69,16 +70,14 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 
 	private Button btnEnablePreview;
 
-	private Button btnResetValue;	
+	private Button btnResetValue;
 
 	private Button btnEnable;
-	
-	private Button btnInteractivity;
-	
+
 	private AxisRotationChooser xChooser;
-	
+
 	private AxisRotationChooser yChooser;
-	
+
 	private AxisRotationChooser zChooser;
 
 	public void createControl( Composite parent )
@@ -199,8 +198,8 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 			xChooser.placeComponents( cmpRotation );
 
 			yChooser = new AxisRotationChooser( ChartUIUtil.getAxisYForProcessing( (ChartWithAxes) getChart( ),
-						0 ),
-						AngleType.Y );
+					0 ),
+					AngleType.Y );
 			yChooser.placeComponents( cmpRotation );
 
 			zChooser = new AxisRotationChooser( ChartUIUtil.getAxisZForProcessing( (ChartWithAxes) getChart( ) ),
@@ -213,9 +212,9 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 				btnResetValue.setSelection( ChartPreviewPainter.isProcessorEnabled( ) );
 				btnResetValue.addSelectionListener( this );
 			}
-		}	
-		
-		 btnEnable = new Button( cmpBasic, SWT.CHECK );
+		}
+
+		btnEnable = new Button( cmpBasic, SWT.CHECK );
 		{
 			GridData gridData = new GridData( );
 			gridData.horizontalSpan = 3;
@@ -224,7 +223,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 			btnEnable.setSelection( getChart( ).getInteractivity( ).isEnable( ) );
 			btnEnable.addSelectionListener( this );
 		}
-		
+
 		populateLists( );
 
 		createButtonGroup( cmpContent );
@@ -302,6 +301,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 		popup = new BlockPropertiesSheet( Messages.getString( "ChartSheetImpl.Text.Outline" ), //$NON-NLS-1$
 				getContext( ) );
 		Button btnBlockProp = createToggleButton( cmp,
+				BUTTON_OUTLINE,
 				Messages.getString( "ChartSheetImpl.Text.Outline&" ), //$NON-NLS-1$
 				popup );
 		btnBlockProp.addSelectionListener( this );
@@ -309,6 +309,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 		popup = new GeneralPropertiesChartSheet( Messages.getString( "ChartSheetImpl.Text.GeneralProperties" ), //$NON-NLS-1$
 				getContext( ) );
 		Button btnGeneralProp = createToggleButton( cmp,
+				BUTTON_GERNERAL,
 				Messages.getString( "ChartSheetImpl.Text.GeneralProperties&" ), //$NON-NLS-1$
 				popup );
 		btnGeneralProp.addSelectionListener( this );
@@ -316,10 +317,11 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 		popup = new CustomPropertiesSheet( Messages.getString( "ChartSheetImpl.Text.CustomProperties" ), //$NON-NLS-1$
 				getContext( ) );
 		Button btnCustomProp = createToggleButton( cmp,
+				BUTTON_CUSTOM,
 				Messages.getString( "ChartSheetImpl.Text.CustomProperties&" ), //$NON-NLS-1$
 				popup );
 		btnCustomProp.addSelectionListener( this );
-		
+
 		// Interactivity
 		popup = new InteractivitySheet( Messages.getString( "ChartSheetImpl.Label.Interactivity" ), //$NON-NLS-1$
 				getContext( ),
@@ -327,11 +329,12 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 				TriggerSupportMatrix.TYPE_CHARTAREA,
 				false,
 				true );
-		btnInteractivity = createToggleButton( cmp,
+		Button btnInteractivity = createToggleButton( cmp,
+				BUTTON_INTERACTIVITY,
 				Messages.getString( "SeriesYSheetImpl.Label.Interactivity&" ), //$NON-NLS-1$
-				popup );
+				popup,
+				getChart( ).getInteractivity( ).isEnable( ) );
 		btnInteractivity.addSelectionListener( this );
-		btnInteractivity.setEnabled( getChart( ).getInteractivity( ).isEnable( ) );
 	}
 
 	/*
@@ -371,9 +374,9 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 
 		if ( isRegistered( e.widget ) )
 		{
-			attachPopup( ( (Button) e.widget ).getText( ) );
+			attachPopup( ( (Button) e.widget ).getData( ).toString( ) );
 		}
-		
+
 		if ( e.widget.equals( cmbStyle ) )
 		{
 			String[] allStyleNames = (String[]) cmbStyle.getData( );
@@ -398,24 +401,25 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 		{
 			getChart( ).getInteractivity( )
 					.setEnable( btnEnable.getSelection( ) );
-			btnInteractivity.setEnabled( btnEnable.getSelection( ) );
+			setToggleButtonEnabled( BUTTON_INTERACTIVITY,
+					btnEnable.getSelection( ) );
 
-			if ( btnInteractivity.getSelection( ) )
+			if ( getToggleButton( BUTTON_INTERACTIVITY ).getSelection( ) )
 			{
 				detachPopup( );
 			}
 		}
 		else if ( e.widget.equals( btnResetValue ) )
 		{
-			setAxisAngle( AngleType.X, -20);
+			setAxisAngle( AngleType.X, -20 );
 			xChooser.txtRotation.setValue( -20 );
-			setAxisAngle( AngleType.Y, 45);
+			setAxisAngle( AngleType.Y, 45 );
 			yChooser.txtRotation.setValue( 45 );
-			setAxisAngle( AngleType.Z, 0);
+			setAxisAngle( AngleType.Z, 0 );
 			zChooser.txtRotation.setValue( 0 );
 		}
 	}
-	
+
 	public void widgetDefaultSelected( SelectionEvent e )
 	{
 		// TODO Auto-generated method stub
@@ -439,12 +443,13 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 	private boolean hasWallAndFloor( )
 	{
 		return ( getChart( ) instanceof ChartWithAxes )
-		&& ( getChart( ).getDimension( ).getValue( ) != ChartDimension.TWO_DIMENSIONAL );
+				&& ( getChart( ).getDimension( ).getValue( ) != ChartDimension.TWO_DIMENSIONAL );
 	}
 
-	private class AxisRotationChooser implements
-			SelectionListener,
-			ModifyListener
+	private class AxisRotationChooser
+			implements
+				SelectionListener,
+				ModifyListener
 	{
 
 		private Button btnAntiRotation;
@@ -496,7 +501,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 				txtRotation.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 				txtRotation.setValue( getAxisAngle( angleType ) );
 				txtRotation.addModifyListener( this );
-			}		
+			}
 		}
 
 		public void widgetSelected( SelectionEvent e )
@@ -504,7 +509,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 			if ( e.widget.equals( btnAntiRotation ) )
 			{
 				setAxisAngle( angleType, (int) getAxisAngle( angleType ) - 10 );
-				txtRotation.setValue( getAxisAngle( angleType ) );			
+				txtRotation.setValue( getAxisAngle( angleType ) );
 			}
 			else if ( e.widget.equals( btnRotation ) )
 			{
@@ -527,7 +532,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 		{
 			if ( e.widget.equals( txtRotation ) )
 			{
-				setAxisAngle( angleType, (int)txtRotation.getValue( ) );
+				setAxisAngle( angleType, (int) txtRotation.getValue( ) );
 			}
 		}
 
@@ -538,18 +543,21 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 			switch ( angleType )
 			{
 				case AngleType.X :
-					filename = bAntiRotation ? "x_rotation.gif" : "x_anti_rotation.gif"; //$NON-NLS-1$ //$NON-NLS-2$
+					filename = bAntiRotation
+							? "x_rotation.gif" : "x_anti_rotation.gif"; //$NON-NLS-1$ //$NON-NLS-2$
 					break;
 				case AngleType.Y :
-					filename = bAntiRotation ? "y_rotation.gif" : "y_anti_rotation.gif"; //$NON-NLS-1$ //$NON-NLS-2$
+					filename = bAntiRotation
+							? "y_rotation.gif" : "y_anti_rotation.gif"; //$NON-NLS-1$ //$NON-NLS-2$
 					break;
 				case AngleType.Z :
-					filename = bAntiRotation ? "z_rotation.gif" : "z_anti_rotation.gif"; //$NON-NLS-1$ //$NON-NLS-2$
+					filename = bAntiRotation
+							? "z_rotation.gif" : "z_anti_rotation.gif"; //$NON-NLS-1$ //$NON-NLS-2$
 					break;
 			}
 			return basePath + filename;
 		}
-		
+
 		private double getAxisAngle( int angleType )
 		{
 			switch ( angleType )
@@ -565,7 +573,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 			}
 		}
 	}
-	
+
 	private void setAxisAngle( int angleType, int angleDegree )
 	{
 		Angle3D angle3D = getAngle3D( );
@@ -586,9 +594,9 @@ public class ChartSheetImpl extends SubtaskSheetImpl implements
 			case AngleType.Z :
 				angle3D.setZAngle( angleDegree );
 				break;
-		}		
-	}		
-	
+		}
+	}
+
 	private Angle3D getAngle3D( )
 	{
 		return (Angle3D) ( (ChartWithAxes) getChart( ) ).getRotation( )

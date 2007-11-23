@@ -1,11 +1,13 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
- * the accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
+ * Copyright (c) 2004, 2007 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: Actuate Corporation - initial API and implementation
- ******************************************************************************/
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.chart.ui.swt.wizard.format.chart;
 
@@ -33,7 +35,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
 /**
- * @author Actuate Corporation
+ * Sheet for plot settings
  * 
  */
 public class ChartPlotSheetImpl extends SubtaskSheetImpl
@@ -42,13 +44,13 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 			SelectionListener
 {
 
-	private transient Button btnIncludingVisible;
+	private Button btnIncludingVisible;
 
-	private transient Button btnWithinVisible;
+	private Button btnWithinVisible;
 
-	private transient FillChooserComposite cmbBlockColor;
+	private FillChooserComposite cmbBlockColor;
 
-	private transient FillChooserComposite cmbClientAreaColor;
+	private FillChooserComposite cmbClientAreaColor;
 
 	public void createControl( Composite parent )
 	{
@@ -154,6 +156,25 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 				btnWithinVisible.setSelection( false );
 			}
 		}
+		
+		// This control is only for testing chart engine and not exposed in UI
+		final Button btnCV = new Button( cmpBasic, SWT.CHECK );
+		btnCV.setText( "Plot Visible" ); //$NON-NLS-1$
+		btnCV.setSelection( getChart( ).getPlot( ).getClientArea( ).isVisible( ) );
+		btnCV.addSelectionListener( new SelectionListener(){
+
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+				// TODO Auto-generated method stub
+				
+			}
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				getChart( ).getPlot( ).getClientArea( ).setVisible( btnCV.getSelection( ) );
+				
+			}} );
+		btnCV.setVisible( false );
 
 		createButtonGroup( cmpContent );
 	}
@@ -173,6 +194,7 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 		ITaskPopupSheet popup = new PlotClientAreaSheet( Messages.getString( "ChartPlotSheetImpl.Label.AreaFormat" ), //$NON-NLS-1$
 				getContext( ) );
 		Button btnArea = createToggleButton( cmp,
+				BUTTON_AREA_FORMAT,
 				Messages.getString( "ChartPlotSheetImpl.Label.AreaFormat&" ), popup ); //$NON-NLS-1$
 		btnArea.addSelectionListener( this );
 	}
@@ -235,7 +257,7 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 
 		if ( isRegistered( e.widget ) )
 		{
-			attachPopup( ( (Button) e.widget ).getText( ) );
+			attachPopup( ( (Button) e.widget ).getData( ).toString( ) );
 		}
 
 		if ( e.widget.equals( btnIncludingVisible ) )

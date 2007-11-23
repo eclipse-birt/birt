@@ -106,10 +106,6 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 
 	private Button cbStaggered;
 
-	private Button btnAxisTitle;
-
-	private Button btnAxisLabel;
-
 	AbstractAxisSubtask( )
 	{
 		super( );
@@ -323,7 +319,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 		boolean isTitleEnabled = getAxisForProcessing( ).getTitle( )
 				.isVisible( );
 		txtTitle.setEnabled( isTitleEnabled );
-		btnAxisTitle.setEnabled( isTitleEnabled );
+		setToggleButtonEnabled( BUTTON_TITLE, isTitleEnabled );
 	}
 
 	private void setStateOfLabel( )
@@ -332,7 +328,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 				.isVisible( );
 		fdcFont.setEnabled( isLabelEnabled );
 		cbStaggered.setEnabled( isLabelEnabled );
-		btnAxisLabel.setEnabled( isLabelEnabled );
+		setToggleButtonEnabled( BUTTON_LABEL, isLabelEnabled );
 	}
 
 	private void createButtonGroup( Composite parent )
@@ -357,6 +353,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 					getAxisForProcessing( ),
 					getAxisAngleType( ) );
 			Button btnScale = createToggleButton( cmp,
+					BUTTON_SCALE,
 					Messages.getString( "AxisYSheetImpl.Label.Scale&" ), //$NON-NLS-1$
 					popup );
 			btnScale.addSelectionListener( this );
@@ -367,22 +364,24 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 				getContext( ),
 				getAxisForProcessing( ),
 				getAxisAngleType( ) );
-		btnAxisTitle = createToggleButton( cmp,
+		Button btnAxisTitle = createToggleButton( cmp,
+				BUTTON_TITLE,
 				Messages.getString( "AxisYSheetImpl.Label.TitleFormat&" ), //$NON-NLS-1$
-				popup );
+				popup,
+				btnTitleVisible.getSelection( ) );
 		btnAxisTitle.addSelectionListener( this );
-		btnAxisTitle.setEnabled( btnTitleVisible.getSelection( ) );
 
 		// Label
 		popup = new AxisLabelSheet( Messages.getString( "AxisYSheetImpl.Label.LabelFormat" ), //$NON-NLS-1$
 				getContext( ),
 				getAxisForProcessing( ),
 				getAxisAngleType( ) );
-		btnAxisLabel = createToggleButton( cmp,
+		Button btnAxisLabel = createToggleButton( cmp,
+				BUTTON_LABEL,
 				Messages.getString( "AxisYSheetImpl.Label.LabelFormat&" ), //$NON-NLS-1$
-				popup );
+				popup,
+				btnLabelVisible.getSelection( ) );
 		btnAxisLabel.addSelectionListener( this );
-		btnAxisLabel.setEnabled( btnLabelVisible.getSelection( ) );
 
 		// Gridlines
 		popup = new AxisGridLinesSheet( Messages.getString( "AxisYSheetImpl.Label.Gridlines" ), //$NON-NLS-1$
@@ -390,6 +389,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 				getAxisForProcessing( ),
 				getAxisAngleType( ) );
 		Button btnGridlines = createToggleButton( cmp,
+				BUTTON_GRIDLINES,
 				Messages.getString( "AxisYSheetImpl.Label.Gridlines&" ), //$NON-NLS-1$
 				popup );
 		btnGridlines.addSelectionListener( this );
@@ -397,15 +397,16 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 		if ( getAxisAngleType( ) != AngleType.Z )
 		{
 			// Marker
+			// Marker is not supported for 3D
 			popup = new AxisMarkersSheet( Messages.getString( "AxisYSheetImpl.Label.Markers" ), //$NON-NLS-1$
 					getContext( ),
 					getAxisForProcessing( ) );
 			Button btnMarkers = createToggleButton( cmp,
+					BUTTON_MARKERS,
 					Messages.getString( "AxisYSheetImpl.Label.Markers&" ), //$NON-NLS-1$
-					popup );
+					popup,
+					!ChartUIUtil.is3DType( getChart( ) ) );
 			btnMarkers.addSelectionListener( this );
-			// Marker is not supported for 3D
-			btnMarkers.setEnabled( !ChartUIUtil.is3DType( getChart( ) ) );
 		}
 
 		// Interactivity
@@ -416,10 +417,11 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 				false,
 				true );
 		Button btnInteractivity = createToggleButton( cmp,
+				BUTTON_INTERACTIVITY,
 				Messages.getString( "SeriesYSheetImpl.Label.Interactivity&" ), //$NON-NLS-1$
-				popup );
+				popup,
+				getChart( ).getInteractivity( ).isEnable( ) );
 		btnInteractivity.addSelectionListener( this );
-		btnInteractivity.setEnabled( getChart( ).getInteractivity( ).isEnable( ) );
 	}
 
 	private void populateLists( )
@@ -556,7 +558,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 
 		if ( isRegistered( e.widget ) )
 		{
-			attachPopup( ( (Button) e.widget ).getText( ) );
+			attachPopup( ( (Button) e.widget ).getData( ).toString( ) );
 		}
 
 		if ( e.widget.equals( cmbTypes ) )
@@ -636,6 +638,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 			getAxisForProcessing( ).getTitle( )
 					.setVisible( btnTitleVisible.getSelection( ) );
 			setStateOfTitle( );
+			Button btnAxisTitle = getToggleButton( BUTTON_TITLE );
 			if ( !btnTitleVisible.getSelection( )
 					&& btnAxisTitle.getSelection( ) )
 			{
@@ -652,6 +655,7 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 			getAxisForProcessing( ).getLabel( )
 					.setVisible( btnLabelVisible.getSelection( ) );
 			setStateOfLabel( );
+			Button btnAxisLabel = getToggleButton( BUTTON_LABEL );
 			if ( !btnLabelVisible.getSelection( )
 					&& btnAxisLabel.getSelection( ) )
 			{

@@ -21,6 +21,7 @@ import org.eclipse.birt.chart.ui.swt.SheetPlaceHolder;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.CompoundTask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.TreeCompoundTask;
@@ -43,10 +44,14 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Widget;
 
 /**
- * @author Actuate Corporation
+ * UI constants for chart builder
  * 
  */
-public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
+public class SubtaskSheetImpl
+		implements
+			ISubtaskSheet,
+			ShellListener,
+			ChartUIConstants
 {
 
 	private String sNodePath = ""; //$NON-NLS-1$
@@ -92,7 +97,10 @@ public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 		detachPopup( );
 		ChartWizard.POPUP_CLOSING_BY_USER = true;
 
-		cmpContent.dispose( );
+		if ( cmpContent != null )
+		{
+			cmpContent.dispose( );
+		}
 		popupButtonRegistry.clear( );
 		popupSheetRegistry.clear( );
 		return getContext( );
@@ -216,7 +224,7 @@ public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Returns all registered toggle buttons.
 	 */
@@ -244,18 +252,24 @@ public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 	}
 
 	/**
-	 * Creates a toggle button to popup and registers it.
+	 * Creates a toggle button to popup and registers it. Note that all toggle
+	 * buttons are registered, each button enable should call
+	 * setToggleButtonEnabled().
 	 * 
 	 * @param parent
 	 *            control parent
+	 * @param buttonId
+	 *            button id without node path
 	 * @param popupName
 	 *            button text and registry key
 	 * @param popupSheet
 	 *            popup sheet
+	 * @param bEnabled
+	 *            enabled state
 	 * @return button control
 	 */
-	protected Button createToggleButton( Composite parent, String popupName,
-			ITaskPopupSheet popupSheet )
+	protected Button createToggleButton( Composite parent, String buttonId,
+			String popupName, ITaskPopupSheet popupSheet, boolean bEnabled )
 	{
 		Button button = new Button( parent, SWT.TOGGLE );
 		button.setText( popupName );
@@ -264,7 +278,7 @@ public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 		GC gc = new GC( parent );
 		int width = Math.max( 80, gc.textExtent( popupName ).x + 8 );
 		gc.dispose( );
-		
+
 		// To set the span for Button if width is too long
 		// int horizontalSpan = width / 66;
 
@@ -273,10 +287,78 @@ public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 		// gd.horizontalSpan = horizontalSpan;
 		button.setLayoutData( gd );
 
-		popupButtonRegistry.put( popupName, button );
-		popupSheetRegistry.put( popupName, popupSheet );
+		String id = getNodePath( ) + buttonId;
+		// Save the button id for holding the same type of buttons
+		button.setData( buttonId );
+		popupButtonRegistry.put( id, button );
+		popupSheetRegistry.put( id, popupSheet );
+		if ( !getContext( ).isEnabled( id ) )
+		{
+			// Disable the button if it's registered as disabled
+			button.setEnabled( false );
+		}
+		else
+		{
+			button.setEnabled( bEnabled );
+		}
 
 		return button;
+	}
+
+	/**
+	 * Creates a toggle button to popup and registers it. Note that all toggle
+	 * buttons are registered, each button enable should call
+	 * setToggleButtonEnabled().
+	 * 
+	 * @param parent
+	 *            control parent
+	 * @param buttonId
+	 *            button id without node path
+	 * @param popupName
+	 *            button text and registry key
+	 * @param popupSheet
+	 *            popup sheet
+	 * @return button control
+	 */
+	protected Button createToggleButton( Composite parent, String buttonId,
+			String popupName, ITaskPopupSheet popupSheet )
+	{
+		return createToggleButton( parent,
+				buttonId,
+				popupName,
+				popupSheet,
+				true );
+	}
+
+	/**
+	 * Finds the toggle button by exclusive id or button id
+	 * 
+	 * @param buttonId
+	 *            exclusive id or button id
+	 * @return the toggle button or null
+	 */
+	protected Button getToggleButton( String buttonId )
+	{
+		Button button = (Button) popupButtonRegistry.get( buttonId );
+		if ( button == null )
+		{
+			button = (Button) popupButtonRegistry.get( getNodePath( )
+					+ buttonId );
+		}
+		return button;
+	}
+
+	protected void setToggleButtonEnabled( String buttonId, boolean isEnabled )
+	{
+		String id = getNodePath( ) + buttonId;
+		if ( getContext( ).isEnabled( buttonId ) )
+		{
+			getToggleButton( id ).setEnabled( isEnabled );
+		}
+		else
+		{
+			getToggleButton( id ).setEnabled( false );
+		}
 	}
 
 	public void setParentTask( ITask parentTask )
@@ -303,7 +385,7 @@ public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 		this.sNodePath = nodePath;
 	}
 
-	protected String getNodePath( )
+	public String getNodePath( )
 	{
 		return sNodePath;
 	}
@@ -357,43 +439,45 @@ public class SubtaskSheetImpl implements ISubtaskSheet, ShellListener
 
 	}
 
-	public boolean attachPopup( String popupName )
+	public boolean attachPopup( String buttonId )
 	{
 		// If general selection is null or not existent, to open subtask
 		// selection.
 		boolean affectTaskSelection = true;
-		if ( popupName == null || !popupSheetRegistry.containsKey( popupName ) )
+		String id = buttonId == null ? null : getNodePath( ) + buttonId;
+		if ( id == null || !popupSheetRegistry.containsKey( id ) )
 		{
-			popupName = getCurrentPopupSelection( );
+			buttonId = getCurrentPopupSelection( );
+			id = buttonId == null ? null : getNodePath( ) + buttonId;
 			// Keep task selection since user doesn't change it
 			affectTaskSelection = false;
 		}
 
 		// If subtask selection is null, do nothing.
-		if ( popupName == null )
+		if ( buttonId == null )
 		{
 			return false;
 		}
 
 		detachPopup( );
 
-		if ( popupSheetRegistry.containsKey( popupName )
-				&& ( (Button) popupButtonRegistry.get( popupName ) ).isEnabled( ) )
+		if ( popupSheetRegistry.containsKey( id )
+				&& getToggleButton( id ).isEnabled( ) )
 		{
 			// Select the button
 			selectAllButtons( false );
-			( (Button) popupButtonRegistry.get( popupName ) ).setSelection( true );
+			getToggleButton( id ).setSelection( true );
 
 			// Store last popup selection
-			setCurrentPopupSelection( popupName );
+			setCurrentPopupSelection( buttonId );
 			if ( affectTaskSelection )
 			{
-				getParentTask( ).setPopupSelection( popupName );
+				getParentTask( ).setPopupSelection( buttonId );
 			}
 
 			// Open the popup
 			popupShell = createPopupShell( );
-			popupSheet = (ITaskPopupSheet) popupSheetRegistry.get( popupName );
+			popupSheet = (ITaskPopupSheet) popupSheetRegistry.get( id );
 			popupSheet.getUI( popupShell );
 
 			getWizard( ).attachPopup( popupSheet.getTitle( ), -1, -1 );
