@@ -203,6 +203,10 @@ public class AggrMeasureFilterHelper
 				}
 			}
 			cubePosFilter.addDimPositions( dimPositions );
+			for ( int n = 0; n < dimPositions.length; n++ )
+			{
+				dimPositions[n].close( );
+			}
 		}
 		return cubePosFilter;
 	}
@@ -249,6 +253,10 @@ public class AggrMeasureFilterHelper
 				}
 			}
 			cubePosFilter.addDimPositions( dimPositions );
+			for ( int n = 0; n < dimPositions.length; n++ )
+			{
+				dimPositions[n].close( );
+			}
 		}
 		return cubePosFilter;
 	}
