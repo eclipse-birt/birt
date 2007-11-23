@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ElementIdDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.LibraryDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TextPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SeperatorSection;
@@ -61,6 +62,15 @@ public class DataSetPage extends AttributePage
 		nameSection.setGridPlaceholder( 1, true );
 		nameSection.setWidth( 500 );
 		addSection( PageSectionId.DATASET_NAME, nameSection );
+		
+		ElementIdDescriptorProvider elementIdProvider = new ElementIdDescriptorProvider( );
+		TextSection elementIdSection = new TextSection( elementIdProvider.getDisplayName( ),
+				container,
+				true );
+		elementIdSection.setProvider( elementIdProvider );
+		elementIdSection.setWidth( 500 );
+		elementIdSection.setGridPlaceholder( 1, true );
+		addSection( PageSectionId.DATASET_ELEMENT_ID, elementIdSection );
 		
 		TextPropertyDescriptorProvider dataSetProvider = new TextPropertyDescriptorProvider( DataSetHandle.DATA_SOURCE_PROP,
 				ReportDesignConstants.DATA_SET_ELEMENT ){

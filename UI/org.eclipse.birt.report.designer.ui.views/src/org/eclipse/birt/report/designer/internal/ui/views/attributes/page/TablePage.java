@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ColorPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ComboPropertyDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ElementIdDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.PropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.SimpleComboPropertyDescriptorProvider;
@@ -30,7 +31,6 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
 
 /**
  * The general attribute page of Table element.
@@ -112,17 +112,17 @@ public class TablePage extends GeneralPage
 
 		// Sets widths.
 
-		nameSection.setWidth( 180 );
-		widthSection.setWidth( 180 );
-		heightSection.setWidth( 180 );
-		hAlignSection.setWidth( 180 );
-		vAlignSection.setWidth( 180 );
-		styleSection.setWidth( 180 );
-		backgroundSection.setWidth( 180 );
+		nameSection.setWidth( 200 );
+		widthSection.setWidth( 200 );
+		heightSection.setWidth( 200 );
+		hAlignSection.setWidth( 200 );
+		vAlignSection.setWidth( 200 );
+		styleSection.setWidth( 200 );
+		backgroundSection.setWidth( 200 );
 
 		// Sets layout num.
 
-		nameSection.setLayoutNum( 6 );
+		nameSection.setLayoutNum( 2 );
 		widthSection.setLayoutNum( 2 );
 		heightSection.setLayoutNum( 2 );
 		canShrinkSection.setLayoutNum( 2 );
@@ -133,7 +133,7 @@ public class TablePage extends GeneralPage
 
 		// Sets fill grid num.
 
-		nameSection.setGridPlaceholder( 4, true );
+		nameSection.setGridPlaceholder( 0, true );
 		widthSection.setGridPlaceholder( 0, true );
 		heightSection.setGridPlaceholder( 0, true );
 		canShrinkSection.setGridPlaceholder( 1, true );
@@ -145,6 +145,17 @@ public class TablePage extends GeneralPage
 		// Adds sections into container page.
 
 		addSection( PageSectionId.TABLE_NAME, nameSection ); //$NON-NLS-1$
+		
+		ElementIdDescriptorProvider elementIdProvider = new ElementIdDescriptorProvider( );
+		TextSection elementIdSection = new TextSection( elementIdProvider.getDisplayName( ),
+				container,
+				true );
+		elementIdSection.setProvider( elementIdProvider );
+		elementIdSection.setWidth( 200 );
+		elementIdSection.setLayoutNum( 4 );
+		elementIdSection.setGridPlaceholder( 2, true );
+		addSection( PageSectionId.TABEL_ELEMENT_ID, elementIdSection );
+		
 		addSection( PageSectionId.TABLE_SEPERATOR, seperatorSection ); //$NON-NLS-1$
 		addSection( PageSectionId.TABLE_WIDTH, widthSection ); //$NON-NLS-1$
 		addSection( PageSectionId.TABLE_HORIZONTAL_ALIGN, hAlignSection ); //$NON-NLS-1$

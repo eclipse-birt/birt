@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ColorPropertyDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ElementIdDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.SimpleComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TextPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ColorSection;
@@ -20,7 +21,6 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Tex
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.swt.widgets.Composite;
 
 /**
  * The general attribute page of ListItem element.
@@ -38,10 +38,20 @@ public class ListPage extends GeneralPage
 				container,
 				true );
 		nameSection.setProvider( nameProvider );
-		nameSection.setGridPlaceholder( 4, true );
+		nameSection.setLayoutNum( 2 );
 		nameSection.setWidth( 200 );
 		addSection( PageSectionId.LIST_NAME, nameSection );
 
+		ElementIdDescriptorProvider elementIdProvider = new ElementIdDescriptorProvider( );
+		TextSection elementIdSection = new TextSection( elementIdProvider.getDisplayName( ),
+				container,
+				true );
+		elementIdSection.setProvider( elementIdProvider );
+		elementIdSection.setWidth( 200 );
+		elementIdSection.setLayoutNum( 4 );
+		elementIdSection.setGridPlaceholder( 2, true );
+		addSection( PageSectionId.LIST_ELEMENT_ID, elementIdSection );
+		
 		SimpleComboPropertyDescriptorProvider styleProvider = new SimpleComboPropertyDescriptorProvider( ReportItemHandle.STYLE_PROP,
 				ReportDesignConstants.REPORT_ITEM );
 		SimpleComboSection styleSection = new SimpleComboSection( styleProvider.getDisplayName( ),

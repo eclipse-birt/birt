@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ElementIdDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.SimpleComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TextPropertyDescriptorProvider;
@@ -23,7 +24,6 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Uni
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
 
 /**
  * The general attribute page of Image element.
@@ -86,14 +86,14 @@ public class ImagePage extends GeneralPage
 
 		// Sets layout num.
 
-		nameSection.setLayoutNum( 6 );
+		nameSection.setLayoutNum( 2 );
 		widthSection.setLayoutNum( 2 );
 		heightSection.setLayoutNum( 4 );
 		reportSection.setLayoutNum( 6 );
 
 		// Sets fill grid num.
 
-		nameSection.setGridPlaceholder( 4, true );
+		nameSection.setGridPlaceholder( 0, true );
 		widthSection.setGridPlaceholder( 0, true );
 		heightSection.setGridPlaceholder( 2, true );
 		reportSection.setGridPlaceholder( 4, true );
@@ -101,6 +101,18 @@ public class ImagePage extends GeneralPage
 		// Adds sections into container page.
 
 		addSection( PageSectionId.IMAGE_NAME, nameSection ); //$NON-NLS-1$
+		
+		ElementIdDescriptorProvider elementIdProvider = new ElementIdDescriptorProvider( );
+		TextSection elementIdSection = new TextSection( elementIdProvider.getDisplayName( ),
+				container,
+				true );
+		elementIdSection.setProvider( elementIdProvider );
+		elementIdSection.setWidth( 200 );
+		elementIdSection.setLayoutNum( 4 );
+		elementIdSection.setGridPlaceholder( 2, true );
+		addSection( PageSectionId.IMAGE_ELEMENT_ID, elementIdSection );
+		
+		
 		addSection( PageSectionId.IMAGE_SEPERATOR, seperator1Section ); //$NON-NLS-1$
 		addSection( PageSectionId.IMAGE_WIDTH, widthSection ); //$NON-NLS-1$
 		addSection( PageSectionId.IMAGE_HEIGHT, heightSection ); //$NON-NLS-1$

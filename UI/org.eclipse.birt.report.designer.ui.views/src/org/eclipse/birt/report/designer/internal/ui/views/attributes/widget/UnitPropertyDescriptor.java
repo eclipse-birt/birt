@@ -154,7 +154,14 @@ public class UnitPropertyDescriptor extends PropertyDescriptor
 			}
 		};
 
-		text = new Text( container, SWT.SINGLE | SWT.RIGHT );
+		if ( isFormStyle( ) )
+		{
+			text = FormWidgetFactory.getInstance( ).createText( container,
+					"",
+					SWT.SINGLE | SWT.RIGHT );
+		}
+		else
+			text = new Text( container, SWT.SINGLE | SWT.RIGHT );
 		text.addSelectionListener( listener );
 		text.addModifyListener( new ModifyListener( ) {
 
@@ -219,7 +226,8 @@ public class UnitPropertyDescriptor extends PropertyDescriptor
 			String unit = combo.getText( );
 			if ( getDescriptorProvider( ) instanceof UnitPropertyDescriptorProvider )
 			{
-				return ( (UnitPropertyDescriptorProvider) getDescriptorProvider( ) ).validateDimensionValue( value,unit );
+				return ( (UnitPropertyDescriptorProvider) getDescriptorProvider( ) ).validateDimensionValue( value,
+						unit );
 			}
 		}
 		return true;
@@ -277,7 +285,8 @@ public class UnitPropertyDescriptor extends PropertyDescriptor
 
 	public void save( Object obj ) throws SemanticException
 	{
-		if(!isReadOnly)getDescriptorProvider( ).save( obj );
+		if ( !isReadOnly )
+			getDescriptorProvider( ).save( obj );
 	}
 
 	public void setHidden( boolean isHidden )
@@ -289,8 +298,9 @@ public class UnitPropertyDescriptor extends PropertyDescriptor
 	{
 		container.setVisible( isVisible );
 	}
-	
+
 	private boolean isReadOnly = false;
+
 	public void setReadOnly( boolean isReadOnly )
 	{
 		text.setEditable( !isReadOnly );

@@ -45,5 +45,6 @@ public class CrosstabPageSectionId extends PageSectionId
 	public final static String ROW_PAGE_BREAK = "ROW_PAGE_BREAK";
 	public final static String COLUMN_PAGE_BREAK = "COLUMN_PAGE_BREAK";
 	public static final String CROSSTAB_CELL_WIDTH = "CROSSTAB_Cell_WIDTH";
+	public static final String CROSSTAB_ELEMENT_ID = "CROSSTAB_ELEMENT_ID";
 
 }

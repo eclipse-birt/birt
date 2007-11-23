@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ElementIdDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.LibraryDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TextPropertyDescriptorProvider;
@@ -102,6 +103,17 @@ public class ScalarParameterPage extends AttributePage
 		// Adds section into container page.
 
 		addSection( PageSectionId.SCALAR_PARAMETER_NAME, nameSection ); //$NON-NLS-1$
+		
+		ElementIdDescriptorProvider elementIdProvider = new ElementIdDescriptorProvider( );
+		TextSection elementIdSection = new TextSection( elementIdProvider.getDisplayName( ),
+				container,
+				true );
+		elementIdSection.setProvider( elementIdProvider );
+		elementIdSection.setWidth( 500 );
+		elementIdSection.setLayoutNum( 3 );
+		elementIdSection.setGridPlaceholder( 1, true );
+		addSection( PageSectionId.SCALAR_PARAMETER_ELEMENT_ID, elementIdSection );
+		
 		addSection( PageSectionId.SCALAR_PARAMETER_DATA_TYPE, dataTypeSection ); //$NON-NLS-1$
 		addSection( PageSectionId.SCALAR_PARAMETER_CTRL_TYPE, ctrlTypeSection ); //$NON-NLS-1$
 

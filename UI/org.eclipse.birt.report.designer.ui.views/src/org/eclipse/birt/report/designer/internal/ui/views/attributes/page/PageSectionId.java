@@ -214,17 +214,51 @@ public class PageSectionId
 	public final static String GRAND_TOTALS = "GRAND_TOTALS";
 
 	public final static String SUB_TOTALS = "SUB_TOTALS";
-	
+
 	public final static String PAGE_BREAK = "PAGE_BREAK";
 
 	public static final String AUTOTEXT_STYLE = "AUTOTEXT_STYLE";
 
 	public static final String REPORT_LAYOUT_PREFERENCE = "REPORT_LAYOUT_PREFERENCE";
 
+	public static final String DATA_ELEMENT_ID = "DATA_ELEMENT_ID";
 
+	public static final String GRID_ELEMENT_ID = "GRID_ELEMENT_ID";
 
+	public static final String IMAGE_ELEMENT_ID = "IMAGE_ELEMENT_ID";
 
+	public static final String LABEL_ELEMENT_ID = "LABEL_ELEMENT_ID";
 
+	public static final String LIST_ELEMENT_ID = "LIST_ELEMENT_ID";
 
+	public static final String TABEL_ELEMENT_ID = "TABEL_ELEMENT_ID";
+
+	public static final String TEXT_ELEMENT_ID = "TEXT_ELEMENT_ID";
+
+	public static final String GRID_NAME = "GRID_NAME";
+
+	public static final String GRID_SEPERATOR = "GRID_SEPERATOR";
+
+	public static final String GRID_WIDTH = "GRID_WIDTH";
+
+	public static final String GRID_HORIZONTAL_ALIGN = "GRID_HORIZONTAL_ALIGN";
+
+	public static final String GRID_CAN_SHRINK = "GRID_CAN_SHRINK";
+
+	public static final String GRID_HEIGHT = "GRID_HEIGHT";
+
+	public static final String GRID_VERTICAL_ALIGN = "GRID_VERTICAL_ALIGN";
+
+	public static final String GRID_BACKGROUND_COLOR = "GRID_BACKGROUND_COLOR";
+
+	public static final String GRID_STYLE = "GRID_STYLE";
+
+	public static final String CELL_ELEMENT_ID = "CELL_ELEMENT_ID";
+
+	public static final String DATASET_ELEMENT_ID = "DATASET_ELEMENT_ID";
+
+	public static final String DATA_SOURCE_ELEMENT_ID = "DATA_SOURCE_ELEMENT_ID";
+
+	public static final String SCALAR_PARAMETER_ELEMENT_ID = "SCALAR_PARAMETER_ELEMENT_ID";
 
 }

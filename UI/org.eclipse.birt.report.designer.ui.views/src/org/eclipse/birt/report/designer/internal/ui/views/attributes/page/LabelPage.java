@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ColorPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ComboPropertyDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ElementIdDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FontSizePropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FontStylePropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
@@ -44,9 +45,19 @@ public class LabelPage extends GeneralPage
 				container,
 				true );
 		nameSection.setProvider( nameProvider );
-		nameSection.setGridPlaceholder( 4, true );
+		nameSection.setLayoutNum( 2 );
 		nameSection.setWidth( 200 );
 		addSection( PageSectionId.LABEL_NAME, nameSection );
+		
+		ElementIdDescriptorProvider elementIdProvider = new ElementIdDescriptorProvider( );
+		TextSection elementIdSection = new TextSection( elementIdProvider.getDisplayName( ),
+				container,
+				true );
+		elementIdSection.setProvider( elementIdProvider );
+		elementIdSection.setWidth( 200 );
+		elementIdSection.setLayoutNum( 4 );
+		elementIdSection.setGridPlaceholder( 2, true );
+		addSection( PageSectionId.LABEL_ELEMENT_ID, elementIdSection );
 
 		SeperatorSection seperator = new SeperatorSection( container, SWT.HORIZONTAL );
 		addSection( PageSectionId.LABEL_SEPERATOR, seperator );

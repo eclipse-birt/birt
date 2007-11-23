@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ColorPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ComboPropertyDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ElementIdDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.SimpleComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ColorSection;
@@ -20,13 +21,13 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Com
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Section;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SeperatorSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SimpleComboSection;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextSection;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.part.Page;
 
 /**
  * The general attribute page of Cell element.
@@ -114,6 +115,16 @@ public class CellPage extends AttributePage
 
 		// Adds sections into this page.
 
+		ElementIdDescriptorProvider elementIdProvider = new ElementIdDescriptorProvider( );
+		TextSection elementIdSection = new TextSection( elementIdProvider.getDisplayName( ),
+				container,
+				true );
+		elementIdSection.setProvider( elementIdProvider );
+		elementIdSection.setWidth( 200 );
+		elementIdSection.setLayoutNum( 5 );
+		elementIdSection.setGridPlaceholder( 3, true );
+		addSection( PageSectionId.CELL_ELEMENT_ID, elementIdSection );
+		
 		addSection( PageSectionId.CELL_DROP, dropSection ); //$NON-NLS-1$
 		addSection( PageSectionId.CELL_BACKGROUND, backgroundSection ); //$NON-NLS-1$
 		addSection( PageSectionId.CELL_VERTICAL_ALIGN, vAlignSection ); //$NON-NLS-1$

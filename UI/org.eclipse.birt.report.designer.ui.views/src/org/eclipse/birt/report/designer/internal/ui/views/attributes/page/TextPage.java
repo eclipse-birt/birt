@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ColorPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ComboPropertyDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ElementIdDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FontSizePropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FontStylePropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
@@ -83,8 +84,6 @@ public class TextPage extends GeneralPage
 				container,
 				true );
 
-		Section seperator2Section = new SeperatorSection( container, SWT.HORIZONTAL );
-
 		ComboSection fontFamilySection = new ComboSection( fontFamilyProvider.getDisplayName( ),
 				container,
 				true );
@@ -129,7 +128,7 @@ public class TextPage extends GeneralPage
 
 		// Sets layout num.
 
-		nameSection.setLayoutNum( 6 );
+		nameSection.setLayoutNum( 2 );
 		contentTypeSection.setLayoutNum( 2 );
 		styleSection.setLayoutNum( 4 );
 		fontFamilySection.setLayoutNum( 2 );
@@ -140,7 +139,7 @@ public class TextPage extends GeneralPage
 
 		// Sets fill grid num.
 
-		nameSection.setGridPlaceholder( 4, true );
+		nameSection.setGridPlaceholder( 0, true );
 		contentTypeSection.setGridPlaceholder( 0, true );
 		styleSection.setGridPlaceholder( 2, true );
 		fontFamilySection.setGridPlaceholder( 0, true );
@@ -152,6 +151,17 @@ public class TextPage extends GeneralPage
 		// Adds sections into container page.
 
 		addSection( PageSectionId.TEXT_NAME, nameSection ); //$NON-NLS-1$
+		
+		ElementIdDescriptorProvider elementIdProvider = new ElementIdDescriptorProvider( );
+		TextSection elementIdSection = new TextSection( elementIdProvider.getDisplayName( ),
+				container,
+				true );
+		elementIdSection.setProvider( elementIdProvider );
+		elementIdSection.setWidth( 200 );
+		elementIdSection.setLayoutNum( 4 );
+		elementIdSection.setGridPlaceholder( 2, true );
+		addSection( PageSectionId.TEXT_ELEMENT_ID, elementIdSection );
+		
 		addSection( PageSectionId.TEXT_SEPERATOR_1, seperator1Section ); //$NON-NLS-1$
 		addSection( PageSectionId.TEXT_CONTENT_TYPE, contentTypeSection ); //$NON-NLS-1$
 		addSection( PageSectionId.TEXT_STYLE, styleSection ); //$NON-NLS-1$

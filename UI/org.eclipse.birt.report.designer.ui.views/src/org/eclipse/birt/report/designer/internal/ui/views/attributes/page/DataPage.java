@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ColorPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ComboPropertyDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ElementIdDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FontSizePropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FontStylePropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
@@ -32,7 +33,6 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
 
 /**
  * The general attribute page of DataItem element.
@@ -127,7 +127,7 @@ public class DataPage extends GeneralPage
 
 		// Sets layout num.
 
-		nameSection.setLayoutNum( 6 );
+		nameSection.setLayoutNum( 2 );
 		fontFamilySection.setLayoutNum( 2 );
 		fontSizeSection.setLayoutNum( 4 );
 		colorSection.setLayoutNum( 2 );
@@ -137,7 +137,7 @@ public class DataPage extends GeneralPage
 
 		// Sets fill grid num.
 
-		nameSection.setGridPlaceholder( 4, true );
+		nameSection.setGridPlaceholder( 0, true );
 		fontFamilySection.setGridPlaceholder( 0, true );
 		fontSizeSection.setGridPlaceholder( 2, true );
 		colorSection.setGridPlaceholder( 0, true );
@@ -148,6 +148,17 @@ public class DataPage extends GeneralPage
 		// Adds sections into this page.
 
 		addSection( PageSectionId.DATA_NAME, nameSection ); //$NON-NLS-1$
+		
+		ElementIdDescriptorProvider elementIdProvider = new ElementIdDescriptorProvider( );
+		TextSection elementIdSection = new TextSection( elementIdProvider.getDisplayName( ),
+				container,
+				true );
+		elementIdSection.setProvider( elementIdProvider );
+		elementIdSection.setWidth( 200 );
+		elementIdSection.setLayoutNum( 4 );
+		elementIdSection.setGridPlaceholder( 2, true );
+		addSection( PageSectionId.DATA_ELEMENT_ID, elementIdSection );
+		
 		addSection( PageSectionId.DATA_SEPERATOR, seperator1Section ); //$NON-NLS-1$
 		addSection( PageSectionId.DATA_FONT_FAMILY, fontFamilySection ); //$NON-NLS-1$
 		addSection( PageSectionId.DATA_FONT_SIZE, fontSizeSection ); //$NON-NLS-1$

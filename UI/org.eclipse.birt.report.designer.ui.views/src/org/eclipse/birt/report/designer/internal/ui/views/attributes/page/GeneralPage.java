@@ -26,10 +26,10 @@ public abstract class GeneralPage extends AttributePage
 	private TextSection librarySection;
 	private SeperatorSection seperatorSection;
 
-	public void buildUI( Composite parent  )
+	public void buildUI( Composite parent )
 	{
 		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 6 ,15) );
+		container.setLayout( WidgetUtil.createGridLayout( 6, 15 ) );
 
 		LibraryDescriptorProvider provider = new LibraryDescriptorProvider( );
 		librarySection = new TextSection( provider.getDisplayName( ),

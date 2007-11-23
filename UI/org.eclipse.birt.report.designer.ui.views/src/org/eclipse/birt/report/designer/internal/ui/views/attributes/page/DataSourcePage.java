@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ElementIdDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.LibraryDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TextPropertyDescriptorProvider;
@@ -66,9 +67,20 @@ public class DataSourcePage extends AttributePage
 		nameSection.setLayoutNum( 3 );
 		nameSection.setGridPlaceholder( 1, true );
 
+		ElementIdDescriptorProvider elementIdProvider = new ElementIdDescriptorProvider( );
+		TextSection elementIdSection = new TextSection( elementIdProvider.getDisplayName( ),
+				container,
+				true );
+		elementIdSection.setProvider( elementIdProvider );
+		elementIdSection.setWidth( 500 );
+		elementIdSection.setLayoutNum( 3 );
+		elementIdSection.setGridPlaceholder( 1, true );
+		
+		
 		// Adds section into this page.
 
 		addSection( PageSectionId.DATA_SOURCE_NAME, nameSection ); //$NON-NLS-1$
+		addSection( PageSectionId.DATA_SOURCE_ELEMENT_ID, elementIdSection );
 
 		createSections( );
 		layoutSections( );

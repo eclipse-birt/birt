@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ElementIdDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.LibraryDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TextPropertyDescriptorProvider;
@@ -68,6 +69,15 @@ public class CrosstabGeneralPage extends AttributePage
 		nameSection.setGridPlaceholder( 2, true );
 		// nameSection.setWidth( 280 );
 		addSection( CrosstabPageSectionId.CROSSTAB_NAME, nameSection );
+		
+		ElementIdDescriptorProvider elementIdProvider = new ElementIdDescriptorProvider( );
+		TextSection elementIdSection = new TextSection( elementIdProvider.getDisplayName( ),
+				container,
+				true );
+		elementIdSection.setProvider( elementIdProvider );
+		elementIdSection.setWidth( 200 );
+		elementIdSection.setGridPlaceholder( 2, true );
+		addSection( CrosstabPageSectionId.CROSSTAB_ELEMENT_ID, elementIdSection );
 
 		// IDescriptorProvider cubeProvider = new
 		// CrosstabSimpleComboPropertyDescriptorProvider(
