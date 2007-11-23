@@ -56,10 +56,12 @@ import org.eclipse.birt.report.designer.internal.ui.extension.experimental.Editp
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.PaletteEntryExtension;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CopyAction;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.CopyFormatAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CutAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.DeleteAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ImportCSSStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.PasteAction;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.PasteFormatAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.RefreshModuleHandleAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.actions.ApplyStyleMenuAction;
@@ -667,7 +669,22 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	private void createStyleMenu( IMenuManager menuManager, String group_name )
 	{
 		MenuManager menu = new MenuManager( STYLE_MENU_ITEM_TEXT );
-		MenuManager subMenu = new MenuManager( APPLY_STYLE_MENU_ITEM_TEXT );
+		populateAddStyleAction( menu );
+		menu.add( new Separator( ) );
+
+		// add "Edit Style" menu
+		MenuManager subMenu = new MenuManager( EDIT_STYLE_MENU_ITEM_TEXT );
+		subMenu.add( NoneAction.getInstance( ) );
+		subMenu.addMenuListener( new IMenuListener( ) {
+
+			public void menuAboutToShow( IMenuManager manager )
+			{
+				updateDynamicItems( EditStyleMenuAction.ID, manager );
+			}
+		} );
+		menu.add( subMenu );
+
+		subMenu = new MenuManager( APPLY_STYLE_MENU_ITEM_TEXT );
 		subMenu.add( NoneAction.getInstance( ) );
 		subMenu.addMenuListener( new IMenuListener( ) {
 
@@ -677,19 +694,6 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			}
 		} );
 
-		menu.add( subMenu );
-		menu.add( new Separator( ) );
-
-		// add "Edit Style" menu
-		subMenu = new MenuManager( EDIT_STYLE_MENU_ITEM_TEXT );
-		subMenu.add( NoneAction.getInstance( ) );
-		subMenu.addMenuListener( new IMenuListener( ) {
-
-			public void menuAboutToShow( IMenuManager manager )
-			{
-				updateDynamicItems( EditStyleMenuAction.ID, manager );
-			}
-		} );
 		menu.add( subMenu );
 
 		// add "Delete Style" menu
@@ -706,8 +710,10 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		menu.add( new Separator( ) );
 
 		menu.add( getAction( ImportCSSStyleAction.ID ) );
-		populateAddStyleAction( menu );
 		menuManager.appendToGroup( group_name, menu );
+
+		menuManager.appendToGroup( group_name, getAction( CopyFormatAction.ID ) );
+		menuManager.appendToGroup( group_name, getAction( PasteFormatAction.ID ) );
 	}
 
 	private void populateAddStyleAction( MenuManager menu )

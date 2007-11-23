@@ -62,6 +62,8 @@ import org.eclipse.birt.report.designer.internal.ui.extension.experimental.Palet
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportFlyoutPalettePreferences;
 import org.eclipse.birt.report.designer.internal.ui.palette.ReportTemplateTransferDropTargetListener;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.CopyFormatAction;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.PasteFormatAction;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewerPage;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlinePage;
@@ -455,6 +457,14 @@ abstract public class ReportEditorWithPalette extends
 		getSelectionActions( ).add( action.getId( ) );
 
 		action = new CopyCellContentsContextAction( this );
+		getActionRegistry( ).registerAction( action );
+		getSelectionActions( ).add( action.getId( ) );
+
+		action = new CopyFormatAction( this );
+		getActionRegistry( ).registerAction( action );
+		getSelectionActions( ).add( action.getId( ) );
+
+		action = new PasteFormatAction( this );
 		getActionRegistry( ).registerAction( action );
 		getSelectionActions( ).add( action.getId( ) );
 

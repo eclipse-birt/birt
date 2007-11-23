@@ -1,0 +1,119 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.designer.internal.ui.views.actions;
+
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.ContextSelectionAction;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
+import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.core.Listener;
+import org.eclipse.ui.IWorkbenchPart;
+
+/**
+ * 
+ */
+
+public class CopyFormatAction extends ContextSelectionAction
+{
+
+	public class ElementFormatWrapper implements Listener
+	{
+
+		private DesignElementHandle element;
+
+		public ElementFormatWrapper( DesignElementHandle element )
+		{
+			this.element = element;
+			element.addListener( this );
+		}
+
+		public DesignElementHandle getElement( )
+		{
+			if ( element != null && element.getContainer( ) != null )
+				return element;
+			return null;
+		}
+
+		public void dispose( )
+		{
+			if ( this.element != null )
+				this.element.removeListener( this );
+			this.element = null;
+		}
+
+		public void elementChanged( DesignElementHandle focus,
+				NotificationEvent ev )
+		{
+			this.element = null;
+		}
+	}
+
+	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.views.actions.CopyFormatAction"; //$NON-NLS-1$
+	public static final String ACTION_TEXT = Messages.getString( "CopyFormatAction.text" ); //$NON-NLS-1$
+
+	public static ElementFormatWrapper publicElementFormat;
+	private static int instanceCount;
+
+	private ElementFormatWrapper elementFormat;
+	private boolean isDisposed;
+
+	public static DesignElementHandle getDesignElementHandle( )
+	{
+		return publicElementFormat == null ? null
+				: publicElementFormat.getElement( );
+	}
+
+	public CopyFormatAction( IWorkbenchPart part )
+	{
+		super( part );
+		setId( ID );
+		setText( ACTION_TEXT );
+		instanceCount++;
+	}
+
+	public boolean calculateEnabled( )
+	{
+		return getSelectedObjects( ).size( ) == 1;
+	}
+
+	public void run( )
+	{
+		Object object = getSelectedObjects( ).get( 0 );
+		if ( object instanceof ReportElementEditPart )
+		{
+			if ( elementFormat != null )
+				elementFormat.dispose( );
+			if ( publicElementFormat != null )
+				publicElementFormat.dispose( );
+			elementFormat = new ElementFormatWrapper( (DesignElementHandle) ( (ReportElementEditPart) object ).getModel( ) );
+			publicElementFormat = elementFormat;
+		}
+	}
+
+	public void dispose( )
+	{
+		super.dispose( );
+		if ( !isDisposed )
+		{
+			if ( elementFormat != null )
+				elementFormat.dispose( );
+			if ( instanceCount > 0 )
+			{
+				if ( instanceCount == 1 && publicElementFormat != null )
+					publicElementFormat.dispose( );
+				instanceCount--;
+			}
+			isDisposed = true;
+		}
+	}
+}
