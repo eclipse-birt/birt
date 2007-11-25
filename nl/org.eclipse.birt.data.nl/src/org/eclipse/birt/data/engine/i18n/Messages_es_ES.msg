@@ -192,6 +192,9 @@ data.engine.resultClassSaveError=No se pueden encontrar las referencias de colum
 data.engine.invalidMemBufferSize=El tamaño de búfer de memoria "{0}" no es válido. El tamaño de búfer de memoria debe ser un número entero superior a cero. 
 data.engine.document.error.cannotLoadStream=La secuencia de documento "{0}" no es válida.
 data.engine.failToCreateTempDir=Error al crear el directorio temporal en "{0}"; 
+data.engine.reportItem.SubQuery.Unsupported=Report item sharing is not targeting to be used in a report item involved with subquery.
+
+
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=El nombre de columna no puede ser nulo ni estar vacío.
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.
@@ -350,6 +353,7 @@ data.olap.axis.value.CantBeNull=El valor de los elementos de la columna del nive
 data.olap.fetchlimitWarning=El tamaño de recuperación es {0}, menor que la longitud de todo el conjunto de resultados[{1}].
 data.olap.failComputeComputedMeasureValue=Error al procesar los valores para la medida procesada.
 data.olap.duplicateMeasureName=Duplicar nombre de medida \"{0}\".
+data.olap.dataBindingExpressionEmpty=Data binding expression can not be null or empty!
 
 data.cache.UnsupportedIncrementalCacheMode=El modo \"{0}\" de caché de incremento no se admite aún.
 # Configuration file parser error code

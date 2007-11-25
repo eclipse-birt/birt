@@ -192,6 +192,9 @@ data.engine.resultClassSaveError=找不到以下列引用: {0}。
 data.engine.invalidMemBufferSize=内存缓冲区大小“{0}”无效。内存缓冲区大小必须为大于零的整数。
 data.engine.document.error.cannotLoadStream=文档流“{0}”无效。
 data.engine.failToCreateTempDir=无法在“{0}”中创建临时目录； 
+data.engine.reportItem.SubQuery.Unsupported=Report item sharing is not targeting to be used in a report item involved with subquery.
+
+
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=列名称不能为空或 null。
 odaconsumer.ColumnPositionIsOneBased=Column position is 1-based and cannot be less than 1.
@@ -350,6 +353,7 @@ data.olap.axis.value.CantBeNull=级别\“{0}\”的列成员值不能为空!
 data.olap.fetchlimitWarning=取数大小为 {0}，小于整个结果集的长度 [{1}]。
 data.olap.failComputeComputedMeasureValue=无法计算已计算的度量。
 data.olap.duplicateMeasureName=重复度量名称“{0}”。
+data.olap.dataBindingExpressionEmpty=Data binding expression can not be null or empty!
 
 data.cache.UnsupportedIncrementalCacheMode=尚未支持增量缓存的“{0}”模式!
 # Configuration file parser error code
