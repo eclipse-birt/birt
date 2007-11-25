@@ -1230,6 +1230,10 @@ EmbeddedImageNodeProvider.action.New=Nueva imagen incrustada
 EmbeddedImagesNodeProvider.action.New=Nueva imagen incrustada
 
 ###########################################################
+#ElementIdDescriptorProvider properties
+ElementIdDescriptorProvider.Display.Element.ID=Element ID:
+
+###########################################################
 #EmptyEditPart properties
 
 EmptyEditPart.Msg.EmptyLib=La librería no contiene elementos visuales. Para añadir elementos visuales, arrastre el elemento desde la paleta a la vista de contorno de la librería o utilice el menú de inserción de la vista de contorno.
@@ -4019,3 +4023,11 @@ CopyCellContentsContextAction.actionText=Copiar contenido
 ###########################################################
 #CopyCellContentsAction
 CopyCellContentsAction.actionText=Copiar contenido
+
+###########################################################
+#CopyFormatAction
+CopyFormatAction.text=Copy Format
+
+###########################################################
+#PasteFormatAction
+PasteFormatAction.text=Paste Format

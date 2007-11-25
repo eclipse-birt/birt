@@ -1230,6 +1230,10 @@ EmbeddedImageNodeProvider.action.New=새 내장된 이미지
 EmbeddedImagesNodeProvider.action.New=새 내장된 이미지
 
 ###########################################################
+#ElementIdDescriptorProvider properties
+ElementIdDescriptorProvider.Display.Element.ID=Element ID:
+
+###########################################################
 #EmptyEditPart properties
 
 EmptyEditPart.Msg.EmptyLib=라이브러리에 시각적 요소가 없습니다. 시각적 요소를 추가하려면 색상표에서 라이브러리 윤곽선 보기로 항목을 끌거나 윤곽선 보기의 삽입 메뉴를 사용하십시오.
@@ -4019,3 +4023,11 @@ CopyCellContentsContextAction.actionText=내용 복사
 ###########################################################
 #CopyCellContentsAction
 CopyCellContentsAction.actionText=내용 복사
+
+###########################################################
+#CopyFormatAction
+CopyFormatAction.text=Copy Format
+
+###########################################################
+#PasteFormatAction
+PasteFormatAction.text=Paste Format

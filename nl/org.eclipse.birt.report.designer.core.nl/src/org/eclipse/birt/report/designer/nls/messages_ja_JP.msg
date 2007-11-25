@@ -1230,6 +1230,10 @@ EmbeddedImageNodeProvider.action.New=新しく埋め込まれたイメージ
 EmbeddedImagesNodeProvider.action.New=新しく埋め込まれたイメージ
 
 ###########################################################
+#ElementIdDescriptorProvider properties
+ElementIdDescriptorProvider.Display.Element.ID=Element ID:
+
+###########################################################
 #EmptyEditPart properties
 
 EmptyEditPart.Msg.EmptyLib=ライブラリにビジュアル要素がありません。ビジュアル要素を追加するには、項目をパレットからライブラリのアウトラインビューへドラッグするか、アウトラインビューの［挿入］メニューを使用します。
@@ -4019,3 +4023,11 @@ CopyCellContentsContextAction.actionText=コンテンツのコピー
 ###########################################################
 #CopyCellContentsAction
 CopyCellContentsAction.actionText=コンテンツのコピー
+
+###########################################################
+#CopyFormatAction
+CopyFormatAction.text=Copy Format
+
+###########################################################
+#PasteFormatAction
+PasteFormatAction.text=Paste Format

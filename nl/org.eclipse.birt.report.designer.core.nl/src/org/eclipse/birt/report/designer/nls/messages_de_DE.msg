@@ -1230,6 +1230,10 @@ EmbeddedImageNodeProvider.action.New=Neues eingebettetes Bild
 EmbeddedImagesNodeProvider.action.New=Neues eingebettetes Bild
 
 ###########################################################
+#ElementIdDescriptorProvider properties
+ElementIdDescriptorProvider.Display.Element.ID=Element ID:
+
+###########################################################
 #EmptyEditPart properties
 
 EmptyEditPart.Msg.EmptyLib=Es befinden sich keine visuellen Elemente in der Bibliothek. Fügen Sie der Bibliothek visuelle Elemente hinzu, indem Sie das Element von der Palette in die Gliederungsansicht der Bibliothek ziehen oder das Menü "Einfügen" der Gliederungsansicht verwenden.
@@ -4019,3 +4023,11 @@ CopyCellContentsContextAction.actionText=Inhalt kopieren
 ###########################################################
 #CopyCellContentsAction
 CopyCellContentsAction.actionText=Inhalt kopieren
+
+###########################################################
+#CopyFormatAction
+CopyFormatAction.text=Copy Format
+
+###########################################################
+#PasteFormatAction
+PasteFormatAction.text=Paste Format

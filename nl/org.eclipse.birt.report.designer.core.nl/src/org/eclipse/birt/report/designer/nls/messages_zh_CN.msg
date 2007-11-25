@@ -1230,6 +1230,10 @@ EmbeddedImageNodeProvider.action.New=新建嵌入图像
 EmbeddedImagesNodeProvider.action.New=新建嵌入图像
 
 ###########################################################
+#ElementIdDescriptorProvider properties
+ElementIdDescriptorProvider.Display.Element.ID=Element ID:
+
+###########################################################
 #EmptyEditPart properties
 
 EmptyEditPart.Msg.EmptyLib=库未包含可见元素。要添加可见元素，将项目从选项板拖动到库大纲视图，或者使用大纲视图中的插入菜单。
@@ -4019,3 +4023,11 @@ CopyCellContentsContextAction.actionText=复制内容
 ###########################################################
 #CopyCellContentsAction
 CopyCellContentsAction.actionText=复制内容
+
+###########################################################
+#CopyFormatAction
+CopyFormatAction.text=Copy Format
+
+###########################################################
+#PasteFormatAction
+PasteFormatAction.text=Paste Format
