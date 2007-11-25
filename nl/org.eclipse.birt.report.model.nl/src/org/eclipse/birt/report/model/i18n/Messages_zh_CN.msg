@@ -2201,6 +2201,7 @@ Element.OdaMeasureGroup=ODA 度量组
 Element.MemberValue=成员值
 Element.SortElement=排序元素
 Element.FilterConditionElement=筛选条件元素
+Element.AbstractMultiViews=Abstract Multiple Views
 Element.MultiViews=Multiple Views
 
 ###########################################################
@@ -3065,8 +3066,10 @@ Element.FilterConditionElement.filterTarget=筛选目标
 Element.FilterConditionElement.member=成员 
 Element.FilterConditionElement.isOptional=可选
 
-#63. MultiViews ( prefix Element.MultiViews )
-Element.MultiViews.index=Index
+#63. AbstractMultiViews ( prefix Element.AbstractMultiViews )
+Element.AbstractMultiViews.index=Index
+
+#64. MultiViews ( prefix Element.MultiViews )
 Element.MultiViews.views=Views
 
 ###########################################################

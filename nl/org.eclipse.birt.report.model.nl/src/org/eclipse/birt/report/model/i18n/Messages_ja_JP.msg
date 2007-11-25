@@ -2201,6 +2201,7 @@ Element.OdaMeasureGroup=ODA 計測グループ
 Element.MemberValue=メンバ値
 Element.SortElement=ソート要素
 Element.FilterConditionElement=フィルタの条件要素
+Element.AbstractMultiViews=Abstract Multiple Views
 Element.MultiViews=Multiple Views
 
 ###########################################################
@@ -3065,8 +3066,10 @@ Element.FilterConditionElement.filterTarget=フィルタのターゲット
 Element.FilterConditionElement.member=メンバ 
 Element.FilterConditionElement.isOptional=オプション
 
-#63. MultiViews ( prefix Element.MultiViews )
-Element.MultiViews.index=Index
+#63. AbstractMultiViews ( prefix Element.AbstractMultiViews )
+Element.AbstractMultiViews.index=Index
+
+#64. MultiViews ( prefix Element.MultiViews )
 Element.MultiViews.views=Views
 
 ###########################################################

@@ -2201,6 +2201,7 @@ Element.OdaMeasureGroup=Grupo de medida ODA
 Element.MemberValue=Valor de miembro
 Element.SortElement=Elemento de ordenación
 Element.FilterConditionElement=Elemento de condición de filtro
+Element.AbstractMultiViews=Abstract Multiple Views
 Element.MultiViews=Multiple Views
 
 ###########################################################
@@ -3065,8 +3066,10 @@ Element.FilterConditionElement.filterTarget=Destino de filtro
 Element.FilterConditionElement.member=Miembro 
 Element.FilterConditionElement.isOptional=Es opcional
 
-#63. MultiViews ( prefix Element.MultiViews )
-Element.MultiViews.index=Index
+#63. AbstractMultiViews ( prefix Element.AbstractMultiViews )
+Element.AbstractMultiViews.index=Index
+
+#64. MultiViews ( prefix Element.MultiViews )
 Element.MultiViews.views=Views
 
 ###########################################################
