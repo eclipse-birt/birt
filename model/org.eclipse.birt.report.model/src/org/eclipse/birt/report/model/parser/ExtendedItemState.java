@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.namespace.ModuleNameHelper;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
+import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -94,10 +95,15 @@ public class ExtendedItemState extends ReportItemState
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
 	{
 		element = new ExtendedItem( );
+		handler.addExtendedItem( element );
 
 		parseExtensionName( attrs, true );
-		if ( element.getExtDefn( ) == null )
-			element.initializeContentTree( );
+
+		// parse extension version
+		String extensionVersion = attrs
+				.getValue( DesignSchemaConstants.EXTENSION_VERSION_ATTRIB );
+		setProperty( IExtendedItemModel.EXTENSION_VERSION_PROP,
+				extensionVersion );
 
 		boolean nameRequired = element.getDefn( ).getNameOption( ) == MetaDataConstants.REQUIRED_NAME;
 		initElement( attrs, nameRequired );
@@ -128,7 +134,7 @@ public class ExtendedItemState extends ReportItemState
 			return super.startElement( tagName );
 		}
 		return ParseStateFactory.createParseState( tagName, handler, element,
-				element.getContentTree( ) );
+				element.getExtensibilityProvider( ).getContentTree( ) );
 	}
 
 	/*

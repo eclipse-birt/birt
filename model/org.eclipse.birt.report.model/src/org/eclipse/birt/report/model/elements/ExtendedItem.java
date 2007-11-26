@@ -16,9 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.api.ModelException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IPropertyDefinition;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
@@ -29,12 +27,12 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.PropertySearchStrategy;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.strategy.ExtendedItemPropSearchStrategy;
+import org.eclipse.birt.report.model.extension.DummyPeerExtensibilityProvider;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.extension.PeerExtensibilityProvider;
+import org.eclipse.birt.report.model.extension.PeerExtensibilityProviderFactory;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
-import org.eclipse.birt.report.model.parser.treebuild.ContentTree;
-import org.eclipse.birt.report.model.parser.treebuild.IContentHandler;
 
 /**
  * This class represents an extended item element. The extended report item
@@ -65,8 +63,7 @@ import org.eclipse.birt.report.model.parser.treebuild.IContentHandler;
 public class ExtendedItem extends ReportItem
 		implements
 			IExtendableElement,
-			IExtendedItemModel,
-			IContentHandler
+			IExtendedItemModel
 {
 
 	/**
@@ -80,13 +77,18 @@ public class ExtendedItem extends ReportItem
 	protected String extensionName = null;
 
 	/**
+	 * The version of the extended element model. It is individual from the
+	 * version of the report design.
+	 */
+
+	protected String extensionVersion = null;
+
+	/**
 	 * The extensibility provider which provides the functionality of this
-	 * extendable element.
+	 * extensible element.
 	 */
 
 	protected PeerExtensibilityProvider provider = null;
-
-	private ContentTree contentTree = null;
 
 	/**
 	 * Default constructor.
@@ -94,6 +96,7 @@ public class ExtendedItem extends ReportItem
 
 	public ExtendedItem( )
 	{
+		provider = new DummyPeerExtensibilityProvider( this, null );
 	}
 
 	/**
@@ -106,6 +109,7 @@ public class ExtendedItem extends ReportItem
 	public ExtendedItem( String theName )
 	{
 		super( theName );
+		provider = new DummyPeerExtensibilityProvider( this, null );
 	}
 
 	/*
@@ -171,10 +175,7 @@ public class ExtendedItem extends ReportItem
 		if ( super.hasLocalPropertyValues( ) )
 			return true;
 
-		if ( provider != null )
-			return provider.hasLocalPropertyValues( );
-
-		return false;
+		return provider.hasLocalPropertyValues( );
 	}
 
 	/**
@@ -194,10 +195,7 @@ public class ExtendedItem extends ReportItem
 		if ( !prop.isExtended( ) )
 			return super.getLocalProperty( module, prop );
 
-		if ( provider != null )
-			return provider.getExtensionProperty( prop.getName( ) );
-
-		return null;
+		return provider.getExtensionProperty( prop.getName( ) );
 	}
 
 	/**
@@ -217,7 +215,7 @@ public class ExtendedItem extends ReportItem
 
 		if ( !prop.isExtended( ) )
 			super.setProperty( prop, value );
-		else if ( provider != null )
+		else
 			provider.setExtensionProperty( prop, value );
 	}
 
@@ -236,10 +234,7 @@ public class ExtendedItem extends ReportItem
 		if ( propDefn != null )
 			return propDefn;
 
-		if ( provider != null )
-			return (ElementPropertyDefn) provider.getPropertyDefn( propName );
-
-		return propDefn;
+		return (ElementPropertyDefn) provider.getPropertyDefn( propName );
 	}
 
 	/**
@@ -254,11 +249,7 @@ public class ExtendedItem extends ReportItem
 
 	public List getPropertyDefns( )
 	{
-
-		if ( provider != null )
-			return provider.getPropertyDefns( );
-
-		return super.getPropertyDefns( );
+		return provider.getPropertyDefns( );
 	}
 
 	/**
@@ -271,10 +262,7 @@ public class ExtendedItem extends ReportItem
 
 	public ExtensionElementDefn getExtDefn( )
 	{
-		if ( provider != null )
-			return provider.getExtDefn( );
-
-		return null;
+		return provider.getExtDefn( );
 	}
 
 	/**
@@ -296,24 +284,20 @@ public class ExtendedItem extends ReportItem
 	public void initializeReportItem( Module module )
 			throws ExtendedElementException
 	{
-		if ( provider != null )
-			provider.initializeReportItem( module );
-		else
-			throw new ExtendedElementException( this, ModelException.PLUGIN_ID,
-					SemanticError.DESIGN_EXCEPTION_MISSING_EXTENSION, null );
+		provider.initializeReportItem( module );
 	}
 
 	/**
 	 * Returns the extensibility provider which provides the functionality of
-	 * this extendable element.
+	 * this extensible element.
 	 * 
 	 * @return the extensibility provider which provides the functionality of
-	 *         this extendable element.
+	 *         this extensible element.
 	 */
 
 	public PeerExtensibilityProvider getExtensibilityProvider( )
 	{
-		return this.provider;
+		return provider;
 	}
 
 	/*
@@ -326,6 +310,8 @@ public class ExtendedItem extends ReportItem
 	{
 		if ( EXTENSION_NAME_PROP.equals( propName ) )
 			return extensionName;
+		if ( EXTENSION_VERSION_PROP.equals( propName ) )
+			return extensionVersion;
 		return super.getIntrinsicProperty( propName );
 	}
 
@@ -341,6 +327,10 @@ public class ExtendedItem extends ReportItem
 		if ( EXTENSION_NAME_PROP.equals( propName ) )
 		{
 			setExtensionName( (String) value );
+		}
+		else if ( EXTENSION_VERSION_PROP.equals( propName ) )
+		{
+			this.extensionVersion = (String) value;
 		}
 		else
 		{
@@ -373,10 +363,7 @@ public class ExtendedItem extends ReportItem
 
 	public IReportItem getExtendedElement( )
 	{
-		if ( provider != null )
-			return provider.getExtensionElement( );
-
-		return null;
+		return provider.getExtensionElement( );
 	}
 
 	/*
@@ -388,9 +375,8 @@ public class ExtendedItem extends ReportItem
 	{
 		ExtendedItem clonedElement = (ExtendedItem) super.baseClone( );
 
-		clonedElement.provider = new PeerExtensibilityProvider( clonedElement,
-				clonedElement.extensionName );
-
+		clonedElement.provider = PeerExtensibilityProviderFactory
+				.createProvider( clonedElement, clonedElement.extensionName );
 		clonedElement.provider.copyFrom( provider );
 
 		return clonedElement;
@@ -408,10 +394,7 @@ public class ExtendedItem extends ReportItem
 
 	public boolean isExtensionModelProperty( String propName )
 	{
-		if ( provider != null )
-			return provider.isExtensionModelProperty( propName );
-
-		return false;
+		return provider.isExtensionModelProperty( propName );
 	}
 
 	/**
@@ -426,10 +409,7 @@ public class ExtendedItem extends ReportItem
 
 	public boolean isExtensionXMLProperty( String propName )
 	{
-		if ( provider != null )
-			return provider.isExtensionXMLProperty( propName );
-
-		return false;
+		return provider.isExtensionXMLProperty( propName );
 	}
 
 	/**
@@ -440,11 +420,7 @@ public class ExtendedItem extends ReportItem
 	 */
 	public List getMethods( )
 	{
-		if ( provider != null )
-			return provider.getModelMethodDefns( );
-
-		return getDefn( ).getMethods( );
-
+		return provider.getModelMethodDefns( );
 	}
 
 	/**
@@ -455,12 +431,8 @@ public class ExtendedItem extends ReportItem
 
 	public String getScriptPropertyName( )
 	{
-		if ( provider != null )
-		{
-			IPropertyDefinition defn = provider.getScriptPropertyDefinition( );
-			return defn == null ? null : defn.getName( );
-		}
-		return null;
+		IPropertyDefinition defn = provider.getScriptPropertyDefinition( );
+		return defn == null ? null : defn.getName( );
 	}
 
 	/*
@@ -485,13 +457,9 @@ public class ExtendedItem extends ReportItem
 	private void setExtensionName( String extension )
 	{
 		extensionName = extension;
-		if ( extensionName != null )
-		{
-			provider = new PeerExtensibilityProvider( this, extensionName );
-			initSlots( );
-		}
-		else
-			provider = null;
+		provider = PeerExtensibilityProviderFactory.createProvider( this,
+				extensionName );
+		initSlots( );
 	}
 
 	/*
@@ -530,29 +498,6 @@ public class ExtendedItem extends ReportItem
 		return super.getDefn( );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.parser.treebuild.IContentHandler#getTree()
-	 */
-
-	public ContentTree getContentTree( )
-	{
-		return this.contentTree;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.parser.treebuild.IContentHandler#initializeContentTree()
-	 */
-
-	public void initializeContentTree( )
-	{
-		if ( contentTree == null )
-			contentTree = new ContentTree( );
-	}
-
 	/**
 	 * Returns if this extended item has local property values on own model.
 	 * 
@@ -562,9 +507,6 @@ public class ExtendedItem extends ReportItem
 
 	public boolean hasLocalPropertyValuesOnOwnModel( )
 	{
-		if ( provider == null )
-			return false;
-
 		return provider.hasLocalPropertyValuesOnOwnModel( );
 	}
 
@@ -609,10 +551,7 @@ public class ExtendedItem extends ReportItem
 		if ( !propDefn.isExtended( ) )
 			return super.getLocalEncryptionID( propDefn );
 
-		if ( provider != null )
-			return provider.getEncryptionHelperID( propDefn );
-
-		return null;
+		return provider.getEncryptionHelperID( propDefn );
 	}
 
 	/*
@@ -627,8 +566,7 @@ public class ExtendedItem extends ReportItem
 		if ( !propDefn.isExtended( ) )
 			super.setEncryptionHelper( propDefn, encryptionID );
 
-		if ( provider != null )
-			provider.setEncryptionHelper( propDefn, encryptionID );
+		provider.setEncryptionHelper( propDefn, encryptionID );
 	}
 
 	/*
@@ -642,8 +580,6 @@ public class ExtendedItem extends ReportItem
 			return false;
 		if ( !propDefn.isExtended( ) )
 			return super.hasLocalValue( propDefn );
-		if ( provider != null )
-			return provider.getExtensionProperty( propDefn.getName( ) ) != null;
-		return false;
+		return provider.getExtensionProperty( propDefn.getName( ) ) != null;
 	}
 }

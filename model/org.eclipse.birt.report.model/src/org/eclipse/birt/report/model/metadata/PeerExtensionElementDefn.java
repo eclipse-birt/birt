@@ -152,6 +152,22 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 				addPropertyVisibility( IExtendedItemModel.EXTENSION_NAME_PROP,
 						HIDDEN_IN_PROPERTY_SHEET );
 			}
+
+			// extensions must have 'extensionVersion' property
+			PropertyDefn extensionVersion = (PropertyDefn) extendedItem
+					.getProperty( IExtendedItemModel.EXTENSION_VERSION_PROP );
+			if ( getProperty( IExtendedItemModel.EXTENSION_VERSION_PROP ) == null )
+			{
+				properties.put( IExtendedItemModel.EXTENSION_VERSION_PROP,
+						extensionVersion );
+				cachedProperties.put(
+						IExtendedItemModel.EXTENSION_VERSION_PROP,
+						extensionVersion );
+
+				addPropertyVisibility(
+						IExtendedItemModel.EXTENSION_VERSION_PROP,
+						HIDDEN_IN_PROPERTY_SHEET );
+			}
 		}
 
 		// modify extended item's allowed unit.

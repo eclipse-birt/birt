@@ -17,8 +17,10 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.IReferencableElement;
+import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
@@ -124,6 +126,23 @@ public class SimplePropertyListState extends AbstractPropertyState
 		}
 		catch ( PropertyValueException ex )
 		{
+			// if this element is extensible and value is invalid, then pass
+			// this value to the extension to do some work, maybe compatibility,
+			// maybe still invalid and fire a warning, maybe something else
+			if ( element instanceof ExtendedItem && propDefn.isExtended( ) )
+			{
+				valueList = (List) valueToSet;
+				List retValue = new ArrayList( );
+				for ( int i = 0; i < valueList.size( ); i++ )
+				{
+					String item = (String) valueList.get( i );
+					retValue.add( StringUtil.trimString( item ) );
+				}
+				( (ExtendedItem) element ).getExtensibilityProvider( )
+						.handleInvalidPropertyValue( propDefn.getName( ),
+								retValue );
+				return;
+			}
 			ex.setElement( element );
 			ex.setPropertyName( propDefn.getName( ) );
 			handlePropertyValueException( ex );
@@ -133,12 +152,17 @@ public class SimplePropertyListState extends AbstractPropertyState
 
 		if ( !valueList.isEmpty( ) )
 			element.setProperty( propDefn, valueList );
-	}	
+	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#doSetMember(org.eclipse.birt.report.model.api.core.IStructure, java.lang.String, org.eclipse.birt.report.model.metadata.StructPropertyDefn, java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#doSetMember(org.eclipse.birt.report.model.api.core.IStructure,
+	 *      java.lang.String,
+	 *      org.eclipse.birt.report.model.metadata.StructPropertyDefn,
+	 *      java.lang.Object)
 	 */
-	
+
 	protected void doSetMember( IStructure struct, String propName,
 			StructPropertyDefn memberDefn, Object valueToSet )
 	{

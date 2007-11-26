@@ -38,7 +38,7 @@ public interface ICompatibleReportItem
 	public List getRowExpressions( );
 
 	/**
-	 * Updates existed expresssions with the given expressions. The keys in
+	 * Updates existed expression with the given expressions. The keys in
 	 * <code>newExpressions</code> are existed expressions, while, the values
 	 * are the new expressions to replace existed ones.
 	 * 
@@ -47,5 +47,14 @@ public interface ICompatibleReportItem
 	 */
 
 	public void updateRowExpressions( Map newExpressions );
+
+	/**
+	 * Checks the parser compatibilities for this report item and return the
+	 * error or warning list. Each item in the returned list is instance of
+	 * <code>SemanticException</code>.
+	 * 
+	 * @return
+	 */
+	public List checkCompatibility( );
 
 }

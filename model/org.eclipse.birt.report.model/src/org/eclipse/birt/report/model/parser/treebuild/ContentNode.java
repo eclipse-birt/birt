@@ -25,7 +25,7 @@ import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
  * the extension is not found or some other config.
  */
 
-public class ContentNode
+public class ContentNode implements Cloneable
 {
 
 	protected ContentNode parent = null;
@@ -175,4 +175,35 @@ public class ContentNode
 	{
 		this.isCDATASection = isCDATASection;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#clone()
+	 */
+	public Object clone( ) throws CloneNotSupportedException
+	{
+		ContentNode clonedNode = (ContentNode) super.clone( );
+
+		// clone attribute map
+		clonedNode.attributes = new LinkedHashMap( );
+		clonedNode.attributes.putAll( attributes );
+
+		// clone parent
+		clonedNode.parent = (ContentNode) this.parent.clone( );
+
+		// clone children
+		if ( children != null )
+		{
+			clonedNode.children = new ArrayList( );
+			for ( int i = 0; i < children.size( ); i++ )
+			{
+				ContentNode node = (ContentNode) children.get( i );
+				clonedNode.children.add( node.clone( ) );
+			}
+		}
+
+		return clonedNode;
+	}
+
 }

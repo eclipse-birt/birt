@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.extension;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
@@ -39,6 +40,7 @@ import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.extension.IllegalContentInfo;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfoList;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
@@ -89,6 +91,7 @@ public class PeerExtensionTest extends BaseTestCase
 	private static final String FILE_NAME_7 = "PeerExtensionTest_7.xml"; //$NON-NLS-1$
 	private static final String FILE_NAME_9 = "PeerExtensionTest_9.xml"; //$NON-NLS-1$
 	private static final String FILE_NAME_10 = "PeerExtensionTest_10.xml"; //$NON-NLS-1$
+	private static final String FILE_NAME_11 = "PeerExtensionTest_11.xml"; //$NON-NLS-1$
 	private static final String POINTS_PROP_NAME = "points"; //$NON-NLS-1$
 
 	private static final String TESTING_TABLE_NAME = "TestingTable"; //$NON-NLS-1$
@@ -908,6 +911,82 @@ public class PeerExtensionTest extends BaseTestCase
 
 		save( );
 		assertTrue( compareFile( "PeerExtensionMultiViewTest_golden.xml" ) ); //$NON-NLS-1$
+
+	}
+
+	/**
+	 * Tests the compatibility framework for extended items.
+	 * 
+	 * @throws Exception
+	 */
+	public void testParserCompatibility( ) throws Exception
+	{
+		openDesign( FILE_NAME_11 );
+
+		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle
+				.findElement( "testBox" ); //$NON-NLS-1$
+		assertNotNull( extendedHandle );
+		assertEquals( "1.1", extendedHandle.getExtensionVersion( ) ); //$NON-NLS-1$
+		extendedHandle.setExtensionVersion( "1.2" ); //$NON-NLS-1$
+		assertEquals( "1.2", extendedHandle.getExtensionVersion( ) ); //$NON-NLS-1$
+
+		// test property map: contains
+		Map propMap = extendedHandle.getUndefinedProperties( );
+		Iterator iter = propMap.keySet( ).iterator( );
+
+		// invalid simple property
+		String propName = (String) iter.next( );
+		assertEquals( "shape", propName ); //$NON-NLS-1$
+		assertEquals( "circle", propMap.get( propName ) ); //$NON-NLS-1$
+		// parser compatibility set is to 'cube'
+		assertEquals( "cube", extendedHandle.getStringProperty( "shape" ) ); //$NON-NLS-1$//$NON-NLS-2$
+
+		// invalid simple list property
+		propName = (String) iter.next( );
+		assertEquals( "points", propName ); //$NON-NLS-1$
+		List valueList = (List) propMap.get( propName );
+		assertEquals( 3, valueList.size( ) );
+		assertEquals( "13.1", valueList.get( 0 ) ); //$NON-NLS-1$
+		assertEquals( "ttt", valueList.get( 1 ) ); //$NON-NLS-1$
+		assertEquals( "15.678", valueList.get( 2 ) ); //$NON-NLS-1$
+
+		// undefined property
+		propName = (String) iter.next( );
+		assertEquals( "noProp", propName ); //$NON-NLS-1$
+		assertEquals( "123", propMap.get( propName ) ); //$NON-NLS-1$
+
+		// test illegal children
+		Map illegalChildrenMap = extendedHandle.getIllegalContents( );
+		iter = illegalChildrenMap.keySet( ).iterator( );
+
+		// detail slot has three
+		propName = (String) iter.next( );
+		assertEquals( "detail", propName ); //$NON-NLS-1$
+		List illegalChildren = (List) illegalChildrenMap.get( propName );
+		assertEquals( 3, illegalChildren.size( ) );
+		IllegalContentInfo info = (IllegalContentInfo) illegalChildren.get( 0 );
+		// the content has not been inserted to the tree
+		DesignElementHandle content = info.getContent( );
+		assertEquals( "testData", content.getName( ) ); //$NON-NLS-1$
+		assertNull( content.getContainer( ) );
+		assertNull( designHandle.findElement( content.getName( ) ) );
+		assertEquals( 1, info.getIndex( ) );
+		info = (IllegalContentInfo) illegalChildren.get( 1 );
+		assertEquals( "testData_1", info.getContent( ).getName( ) ); //$NON-NLS-1$
+		assertEquals( 3, info.getIndex( ) );
+		info = (IllegalContentInfo) illegalChildren.get( 2 );
+		assertEquals( "extend_item", info.getContent( ).getName( ) ); //$NON-NLS-1$
+		assertTrue( info.getContent( ) instanceof ExtendedItemHandle );
+		assertEquals( 5, info.getIndex( ) );
+
+		// header slot has one illegal child
+		propName = (String) iter.next( );
+		assertEquals( "header", propName ); //$NON-NLS-1$
+		illegalChildren = (List) illegalChildrenMap.get( propName );
+		assertEquals( 1, illegalChildren.size( ) );
+		info = (IllegalContentInfo) illegalChildren.get( 0 );
+		assertEquals( "testData_2", info.getContent( ).getName( ) ); //$NON-NLS-1$
+		assertEquals( 0, info.getIndex( ) );
 
 	}
 

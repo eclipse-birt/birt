@@ -36,5 +36,5 @@ public class ContentTree extends ContentNode
 	public boolean isEmpty( )
 	{
 		return getChildren( ).isEmpty( );
-	}
+	}	
 }

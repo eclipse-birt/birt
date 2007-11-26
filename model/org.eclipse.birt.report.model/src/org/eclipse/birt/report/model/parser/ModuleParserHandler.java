@@ -20,6 +20,9 @@ import java.util.Map;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.command.NameException;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.extension.ICompatibleReportItem;
+import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -27,9 +30,11 @@ import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.namespace.ModuleNameHelper;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
+import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ReportItem;
+import org.eclipse.birt.report.model.extension.PeerExtensibilityProvider;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.NamePropertyType;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -116,6 +121,12 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	 */
 
 	private List unresolvedListingElements = new ArrayList( );
+
+	/**
+	 * Lists of all the extended items. In the endDocument we will handle
+	 * extension parser compatibilities.
+	 */
+	private List extendedItemList = new ArrayList( );
 
 	/**
 	 * Constructs the module parser handler with the design session.
@@ -255,8 +266,8 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 		// Doing the semantic check would just uncover bogus errors
 		// due to the ones we've already seen.
 
-		if ( !module.getAllErrors( ).isEmpty( ) ||
-				module.getFatalException( ) != null )
+		if ( !module.getAllErrors( ).isEmpty( )
+				|| module.getFatalException( ) != null )
 		{
 			// The most errors which are found during parsing cannot be
 			// recovered.
@@ -281,14 +292,14 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 		}
 
 		// add un-named extended items to name-space
-		if ( !unnamedReportItems.isEmpty( ) &&
-				versionNumber <= VersionUtil.VERSION_3_2_12 )
+		if ( !unnamedReportItems.isEmpty( )
+				&& versionNumber <= VersionUtil.VERSION_3_2_12 )
 			handleUnnamedReportItems( );
 
 		// if module is a report design or the directly opened library, its
 		// namespace is null, then we will clear all the cached level names
-		if ( versionNumber <= VersionUtil.VERSION_3_2_13 &&
-				StringUtil.isBlank( module.getNamespace( ) ) )
+		if ( versionNumber <= VersionUtil.VERSION_3_2_13
+				&& StringUtil.isBlank( module.getNamespace( ) ) )
 		{
 			( (ModuleNameHelper) module.getNameHelper( ) ).clearCachedLevels( );
 		}
@@ -315,6 +326,48 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 		{
 			module.getAllExceptions( ).addAll( errorHandler.getWarnings( ) );
 		}
+
+		// do some parser compatibility about extended elements
+		if ( !extendedItemList.isEmpty( ) )
+		{
+			handleExtendedItemCompatibility( );
+		}
+	}
+
+	private void handleExtendedItemCompatibility( )
+	{
+		// if this is the included library, then do nothing
+		if ( module.isReadOnly( ) )
+			return;
+		
+		for ( int i = 0; i < extendedItemList.size( ); i++ )
+		{
+			ExtendedItem element = (ExtendedItem) extendedItemList.get( i );
+			PeerExtensibilityProvider provider = element
+					.getExtensibilityProvider( );
+			if ( !provider.needCheckCompatibility( ) )
+				continue;
+			try
+			{
+				element.initializeReportItem( module );
+			}
+			catch ( ExtendedElementException e )
+			{
+				continue;
+			}
+			IReportItem item = element.getExtendedElement( );
+
+			if ( item instanceof ICompatibleReportItem )
+			{
+				List error = ( (ICompatibleReportItem) item )
+						.checkCompatibility( );
+				module.getAllExceptions( ).addAll( error );
+			}
+		}
+
+		// clear the activity stack and save state
+		module.getActivityStack( ).flush( );
+		module.setSaveState( 0 );
 	}
 
 	/**
@@ -392,8 +445,8 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 
 			// for invalid name case.
 
-			if ( tmpElement.getName( ) != null &&
-					nameException.getErrorCode( ) == NameException.DESIGN_EXCEPTION_INVALID_NAME )
+			if ( tmpElement.getName( ) != null
+					&& nameException.getErrorCode( ) == NameException.DESIGN_EXCEPTION_INVALID_NAME )
 			{
 				String oldName = nameException.getName( );
 				String newName = NamePropertyType.validateName( oldName );
@@ -438,18 +491,18 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 
 	private void handleLineNumber( )
 	{
-			Iterator iter = tempLineNumbers.entrySet( ).iterator( );
-			while ( iter.hasNext( ) )
-			{
-				Map.Entry entry = (Map.Entry) iter.next( );
+		Iterator iter = tempLineNumbers.entrySet( ).iterator( );
+		while ( iter.hasNext( ) )
+		{
+			Map.Entry entry = (Map.Entry) iter.next( );
 
-				Object key = entry.getKey( );
-				module.addLineNo( key, (Integer) entry.getValue( ) );
-			}
+			Object key = entry.getKey( );
+			module.addLineNo( key, (Integer) entry.getValue( ) );
+		}
 
-			tempLineNumbers.clear( );
-			tempLineNumbers = null;
-		
+		tempLineNumbers.clear( );
+		tempLineNumbers = null;
+
 	}
 
 	/**
@@ -499,6 +552,16 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	{
 		if ( !unresolvedListingElements.contains( element ) )
 			unresolvedListingElements.add( element );
+	}
+
+	/**
+	 * Adds an extended element to the cached list.
+	 * 
+	 * @param element
+	 */
+	final void addExtendedItem( ExtendedItem element )
+	{
+		extendedItemList.add( element );
 	}
 
 	static class ModuleLexicalHandler implements LexicalHandler

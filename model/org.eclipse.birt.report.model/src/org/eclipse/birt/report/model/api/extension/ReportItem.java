@@ -15,6 +15,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 
@@ -24,7 +25,11 @@ import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
  * method will do nothing or return null.
  */
 
-public class ReportItem implements IReportItem, Cloneable
+public class ReportItem
+		implements
+			IReportItem,
+			ICompatibleReportItem,
+			Cloneable
 {
 
 	/*
@@ -187,6 +192,37 @@ public class ReportItem implements IReportItem, Cloneable
 	public IMethodInfo[] getMethods( String methodName )
 	{
 		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.extension.ICompatibleReportItem#checkCompatibility()
+	 */
+	public List checkCompatibility( )
+	{
+		return Collections.EMPTY_LIST;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.extension.ICompatibleReportItem#getRowExpressions()
+	 */
+	public List getRowExpressions( )
+	{
+		return Collections.EMPTY_LIST;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.extension.ICompatibleReportItem#updateRowExpressions(java.util.Map)
+	 */
+	public void updateRowExpressions( Map newExpressions )
+	{
+		// do nothing by default
+
 	}
 
 }

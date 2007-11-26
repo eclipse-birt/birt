@@ -11,24 +11,17 @@
 
 package org.eclipse.birt.report.model.parser.treebuild;
 
-
 /**
- * Inteface to do all actions with the content tree build.
+ * Interface to do all actions with the content tree build.
  */
 
 public interface IContentHandler
 {
+
 	/**
 	 * Gets the content tree.
+	 * 
 	 * @return the content tree
 	 */
 	ContentTree getContentTree( );
-	
-	/**
-	 * @param contentTree
-	 *            the contentTree to set
-	 */
-	public void initializeContentTree( );
 }
-
-

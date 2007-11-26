@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.Cell;
+import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
@@ -263,7 +264,7 @@ public class AbstractPropertyState extends AbstractParseState
 			return;
 		}
 
-		// Avoid overriden properties that may cause structure change.
+		// Avoid overridden properties that may cause structure change.
 
 		if ( element.isVirtualElement( ) )
 		{
@@ -293,6 +294,13 @@ public class AbstractPropertyState extends AbstractParseState
 		ElementPropertyDefn propDefn = element.getPropertyDefn( propName );
 		if ( propDefn == null )
 		{
+			// if element is extensible, then pass this value to the extension
+			if ( element instanceof ExtendedItem )
+			{
+				( (ExtendedItem) element ).getExtensibilityProvider( )
+						.handleUndefinedProperty( propName, value );
+				return;
+			}
 			DesignParserException e = new DesignParserException(
 					new String[]{propName},
 					DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY );
@@ -340,6 +348,16 @@ public class AbstractPropertyState extends AbstractParseState
 		}
 		catch ( PropertyValueException ex )
 		{
+			// if this property is extensible and value is invalid, then pass
+			// this value to the extension to do some work, maybe compatibility,
+			// maybe still invalid and fire a warning, maybe something else
+			if ( element instanceof ExtendedItem && propDefn.isExtended( ) )
+			{
+				( (ExtendedItem) element ).getExtensibilityProvider( )
+						.handleInvalidPropertyValue( propDefn.getName( ),
+								valueToSet );
+				return;
+			}
 			ex.setElement( element );
 			ex.setPropertyName( propDefn.getName( ) );
 			handlePropertyValueException( ex );

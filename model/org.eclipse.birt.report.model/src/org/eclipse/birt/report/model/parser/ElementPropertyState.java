@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 
@@ -55,6 +56,15 @@ public class ElementPropertyState extends AbstractPropertyState
 						.get( i );
 				AbstractParseState state = ParseStateFactory.createParseState(
 						tagName, elementDefn, handler, element, propDefn );
+				if ( state != null )
+					return state;
+			}
+
+			// this child is not allowed in the container
+			if ( element instanceof ExtendedItem )
+			{
+				AbstractParseState state = ParseStateFactory.createParseState(
+						tagName, handler, element, propDefn );
 				if ( state != null )
 					return state;
 			}

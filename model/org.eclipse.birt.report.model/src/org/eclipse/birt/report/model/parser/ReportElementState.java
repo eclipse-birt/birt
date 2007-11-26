@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.parser;
 
+import java.awt.peer.ContainerPeer;
 import java.util.Iterator;
 import java.util.List;
 
@@ -149,7 +150,12 @@ public abstract class ReportElementState extends DesignParseState
 			PropertyDefn propDefn = (PropertyDefn) containerDefn
 					.getProperty( containmentPropName );
 			assert propDefn != null;
-			assert propDefn.canContain( content );
+
+			// now not all the children is allowed to be inserted to the
+			// container, if the container is ExtendedItem and child is not
+			// allowed, we still do some special handle
+			assert propDefn.canContain( content )
+					|| ( container instanceof ExtendedItem );
 
 			// Can not change the structure of an element if it is a child
 			// element or it is within a child element.
@@ -245,6 +251,25 @@ public abstract class ReportElementState extends DesignParseState
 		if ( !checkContainer( container, slotID, content ) )
 			return false;
 
+		// if container is ExtendedItem and content is not allowed to be
+		// inserted, then do some special handle
+		if ( container instanceof ExtendedItem )
+		{
+			if ( !StringUtil.isBlank( containmentPropName ) )
+			{
+				PropertyDefn propDefn = (PropertyDefn) container.getDefn( )
+						.getProperty( containmentPropName );
+				assert propDefn != null;
+				if ( !propDefn.canContain( content ) )
+				{
+					( (ExtendedItem) container ).getExtensibilityProvider( )
+							.handleIllegalChildren( containmentPropName,
+									content );
+					return true;
+				}
+			}
+		}
+
 		Module module = handler.getModule( );
 
 		// Add the item to the element ID map, check whether the id is unique
@@ -284,7 +309,7 @@ public abstract class ReportElementState extends DesignParseState
 		}
 
 		// this action should be done after container relationship is set,
-		// otherwise we may not find the name holde, such as add level name to
+		// otherwise we may not find the name holder, such as add level name to
 		// the container dimension;The name should not be null if it is
 		// required. The parser state should have already caught this case.
 		addToNamespace( content );

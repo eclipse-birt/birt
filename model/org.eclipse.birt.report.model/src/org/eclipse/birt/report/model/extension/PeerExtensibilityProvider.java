@@ -43,6 +43,7 @@ import org.eclipse.birt.report.model.metadata.MethodInfo;
 import org.eclipse.birt.report.model.metadata.PeerExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.ReferenceValue;
+import org.eclipse.birt.report.model.parser.treebuild.IContentHandler;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
@@ -70,7 +71,9 @@ import org.eclipse.birt.report.model.util.ReferenceValueUtil;
  * 
  */
 
-public class PeerExtensibilityProvider extends ModelExtensibilityProvider
+public abstract class PeerExtensibilityProvider
+		extends
+			ModelExtensibilityProvider implements IContentHandler
 {
 
 	/**
@@ -785,7 +788,7 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 	 * @param propDefn
 	 * @return
 	 */
-	public String getEncryptionHelperID( ElementPropertyDefn propDefn )
+	public final String getEncryptionHelperID( ElementPropertyDefn propDefn )
 	{
 		if ( propDefn == null || !propDefn.isEncryptable( ) )
 			return null;
@@ -815,5 +818,68 @@ public class PeerExtensibilityProvider extends ModelExtensibilityProvider
 			encryptionMap.remove( propDefn.getName( ) );
 		else
 			encryptionMap.put( propDefn.getName( ), id );
+	}
+
+	/**
+	 * Handles invalid property value. The property definition is valid and
+	 * extensible while the value is invalid.
+	 * 
+	 * @param propName
+	 * @param value
+	 */
+	abstract public void handleInvalidPropertyValue( String propName,
+			Object value );
+
+	/**
+	 * Handles undefined property. The property definition is not found.
+	 * 
+	 * @param propName
+	 * @param value
+	 */
+	abstract public void handleUndefinedProperty( String propName, Object value );
+
+	/**
+	 * Handles undefined children. The child is not allowed to be inserted to
+	 * the container.
+	 * 
+	 * @param propName
+	 * @param child
+	 */
+	abstract public void handleIllegalChildren( String propName,
+			DesignElement child );
+
+	/**
+	 * 
+	 */
+	abstract public Map getInvalidPropertyValueMap( );
+
+	/**
+	 * 
+	 * @return
+	 */
+	abstract public Map getUndefinedPropertyMap( );
+
+	/**
+	 * 
+	 * @return
+	 */
+	abstract public Map getIllegalContents( );
+
+	/**
+	 * Determines whether this children needs to do parser compatibility.
+	 * 
+	 * @return
+	 */
+	public boolean needCheckCompatibility( )
+	{
+		if ( getInvalidPropertyValueMap( ) != null
+				&& !getInvalidPropertyValueMap( ).isEmpty( ) )
+			return true;
+		if ( getUndefinedPropertyMap( ) != null
+				&& !getUndefinedPropertyMap( ).isEmpty( ) )
+			return true;
+		if ( getIllegalContents( ) != null && !getIllegalContents( ).isEmpty( ) )
+			return true;
+		return false;
 	}
 }

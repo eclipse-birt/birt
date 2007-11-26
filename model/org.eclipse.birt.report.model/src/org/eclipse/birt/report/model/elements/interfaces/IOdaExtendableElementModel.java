@@ -13,7 +13,7 @@ package org.eclipse.birt.report.model.elements.interfaces;
 
 
 /**
- * The interface for oda extendable element to store the constants.
+ * The interface for oda extensible element to store the constants.
  */
 
 public interface IOdaExtendableElementModel

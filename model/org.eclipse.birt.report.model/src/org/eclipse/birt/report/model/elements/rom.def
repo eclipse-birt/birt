@@ -3479,8 +3479,10 @@
     <Property displayNameID="Element.ExtendedItem.altText" name="altText" runtimeSettable="false" since="2.1" type="string"/>
     <Property displayNameID="Element.ExtendedItem.altTextID" name="altTextID" since="2.1" type="resourceKey"/>
     <Property displayNameID="Element.ExtendedItem.extensionName" isIntrinsic="true" name="extensionName" since="1.0" type="string"/>
+    <Property displayNameID="Element.ExtendedItem.extensionVersion" name="extensionVersion" since="2.2" type="string"/>
     <Property detailType="FilterCondition" displayNameID="Element.ExtendedItem.filter" isList="true" name="filter" runtimeSettable="false" since="2.0" type="structure"/>	  
 	<PropertyVisibility name="extensionName" visibility="hide"/>
+	<PropertyVisibility name="extensionVersion" visibility="hide"/>
 	<Method context="startup" displayNameID="Element.ExtendedItem.onPrepare" name="onPrepare" since="2.0" toolTipID="Element.ExtendedItem.onPrepare.toolTip">
       <Argument name="this" tagID="Element.ExtendedItem.onPrepare.this" type="org.eclipse.birt.report.engine.api.script.element.IReportItem"/>
       <Argument name="reportContext" tagID="Element.ExtendedItem.onPrepare.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>

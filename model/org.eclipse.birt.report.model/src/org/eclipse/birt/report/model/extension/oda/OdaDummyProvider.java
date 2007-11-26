@@ -41,6 +41,7 @@ public class OdaDummyProvider implements ODAProvider, IContentHandler
 
 	public OdaDummyProvider( String extensionID )
 	{
+		initializeContentTree( );
 	}
 
 	/*
@@ -114,13 +115,11 @@ public class OdaDummyProvider implements ODAProvider, IContentHandler
 		return this.contentTree;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.parser.treebuild.IContentHandler#initializeContentTree()
+	/**
+	 * Initializes the content tree.
 	 */
-
-	public void initializeContentTree( )
+	
+	private void initializeContentTree( )
 	{
 		if ( contentTree == null )
 			contentTree = new ContentTree( );

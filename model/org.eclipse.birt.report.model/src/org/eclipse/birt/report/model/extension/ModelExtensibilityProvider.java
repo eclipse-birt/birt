@@ -54,7 +54,7 @@ public abstract class ModelExtensibilityProvider extends ExtensibilityProvider
 	 * @see org.eclipse.birt.report.model.extension.IExtendableElement#getExtDefn()
 	 */
 
-	public ExtensionElementDefn getExtDefn( )
+	public final ExtensionElementDefn getExtDefn( )
 	{
 		if ( extensionName == null )
 			return null;

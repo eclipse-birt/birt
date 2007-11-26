@@ -13,20 +13,25 @@ package org.eclipse.birt.report.model.api;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.IReportItemMethodContext;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
+import org.eclipse.birt.report.model.api.extension.IllegalContentInfo;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
+import org.eclipse.birt.report.model.extension.PeerExtensibilityProvider;
+import org.eclipse.birt.report.model.extension.SimplePeerExtensibilityProvider.UndefinedChildInfo;
 
 /**
  * Represents an extended element. An extended item represents a custom element
@@ -306,5 +311,80 @@ public class ExtendedItemHandle extends ReportItemHandle
 		}
 
 		return returnList;
+	}
+
+	/**
+	 * Gets the map of all name/value pair. The property in the map is either
+	 * set an invalid value or the definition is not found.
+	 * 
+	 * @return map of invalid property value or undefined property
+	 */
+	public Map getUndefinedProperties( )
+	{
+		PeerExtensibilityProvider provider = ( (ExtendedItem) getElement( ) )
+				.getExtensibilityProvider( );
+		Map propMap = provider.getInvalidPropertyValueMap( );
+		propMap.putAll( provider.getUndefinedPropertyMap( ) );
+		return propMap;
+	}
+
+	/**
+	 * Gets all the illegal contents. The key is the property name where the
+	 * contents reside. The value is the list of item that are illegal to be
+	 * inserted. Each item in the list is instance of
+	 * <code>IllegalContentInfo</code>.
+	 * 
+	 * @return
+	 */
+	public Map getIllegalContents( )
+	{
+		PeerExtensibilityProvider provider = ( (ExtendedItem) getElement( ) )
+				.getExtensibilityProvider( );
+		Map illegalChildren = provider.getIllegalContents( );
+		if ( illegalChildren == null || illegalChildren.isEmpty( ) )
+			return Collections.EMPTY_MAP;
+
+		Map transMap = new HashMap( );
+		Iterator iter = illegalChildren.keySet( ).iterator( );
+		while ( iter.hasNext( ) )
+		{
+			String propName = (String) iter.next( );
+			List childList = (List) illegalChildren.get( propName );
+			if ( childList != null && !childList.isEmpty( ) )
+			{
+				List transChildren = new ArrayList( );
+				for ( int i = 0; i < childList.size( ); i++ )
+				{
+					UndefinedChildInfo infor = (UndefinedChildInfo) childList
+							.get( i );
+					transChildren.add( new IllegalContentInfo( infor, module ) );
+				}
+				transMap.put( propName, transChildren );
+			}
+		}
+
+		return transMap;
+	}
+
+	/**
+	 * Gets the extension version of this element.
+	 * 
+	 * @return
+	 */
+	public String getExtensionVersion( )
+	{
+		return getStringProperty( EXTENSION_VERSION_PROP );
+	}
+
+	/**
+	 * Sets the extension version of this element.
+	 * 
+	 * @param extensionVersion
+	 * @throws SemanticException
+	 */
+	public void setExtensionVersion( String extensionVersion )
+			throws SemanticException
+	{
+		setStringProperty( EXTENSION_VERSION_PROP, extensionVersion );
 	}
 }

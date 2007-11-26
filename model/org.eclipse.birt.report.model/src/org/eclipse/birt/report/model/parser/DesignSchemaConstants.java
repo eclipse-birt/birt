@@ -85,6 +85,7 @@ public interface DesignSchemaConstants
 	static final String EXTENSION_ATTRIB = "extension"; //$NON-NLS-1$
 	static final String EXTENSION_NAME_ATTRIB = "extensionName"; //$NON-NLS-1$
 	static final String EXTENSION_ID_ATTRIB = "extensionID"; //$NON-NLS-1$
+	static final String EXTENSION_VERSION_ATTRIB = "extensionVersion"; //$NON-NLS-1$
 	static final String FILTER_PARAMETER_TAG = "filter-parameter"; //$NON-NLS-1$ 
 	static final String FONT_FAMILY_ATTRIB = "font-family"; //$NON-NLS-1$ 
 	static final String FONT_SIZE_ATTRIB = "font-size"; //$NON-NLS-1$ 
