@@ -325,8 +325,8 @@ GroupingUnitType.Days.displayName=“ú
 GroupingUnitType.Weeks.displayName=T
 GroupingUnitType.Months.displayName=Œ
 GroupingUnitType.Years.displayName=”N
-GroupingUnitType.Quarters.displayName=Quarters
-GroupingUnitType.Prefix.displayName=Prefix
+GroupingUnitType.Quarters.displayName=l”¼Šú
+GroupingUnitType.Prefix.displayName=Ú“ª«
 
 DateFormatType.Long.displayName=Long Œ^
 DateFormatType.Short.displayName=Short Œ^
