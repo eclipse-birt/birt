@@ -26,12 +26,10 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
-import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
@@ -75,7 +73,7 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 		this.sTitle = sTitle;
 		this.selectDataUI = selectDataUI;
 	}
-
+	
 	public MultipleSeriesComponent( EList seriesDefns,
 			ChartWizardContext context, String sTitle,
 			ISelectDataCustomizeUI selectDataUI )
@@ -127,7 +125,12 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 
 			public Composite createArea( Composite parent )
 			{
-				Composite cmpGroup = ChartUIUtil.createCompositeWrapper( parent );
+				Composite cmpGroup = new Composite( parent, SWT.NONE );
+				GridLayout glContent = new GridLayout( );
+				glContent.marginHeight = 0;
+				glContent.marginWidth = 0;
+				glContent.horizontalSpacing = 2;
+				cmpGroup.setLayout( glContent );
 				cmpGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 				Label lblRightYGrouping = new Label( cmpGroup, SWT.WRAP );
@@ -169,58 +172,11 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 					components.add( subUI );
 				}
 
-				Label lblSorting = new Label( cmpGroup, SWT.WRAP );
-				{
-					GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-					lblSorting.setLayoutData( gd );
-					lblSorting.setText( Messages.getString( "MultipleSeriesComponent.Label.GroupSorting" ) ); //$NON-NLS-1$
-				}
-
-				final Combo cmbSorting = new Combo( cmpGroup, SWT.DROP_DOWN
-						| SWT.READ_ONLY );
-				{
-					GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-					gd.widthHint = 60;
-					cmbSorting.setLayoutData( gd );
-				}
-
-				// populate sorting combo
-				String[] nss = LiteralHelper.sortOptionSet.getDisplayNames( );
-				for ( int i = 0; i < nss.length; i++ )
-				{
-					cmbSorting.add( nss[i] );
-				}
-
 				// Set ascending if group is unsorted
 				if ( !sd.eIsSet( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) ) )
 				{
 					initSorting( );
 				}
-				cmbSorting.select( LiteralHelper.sortOptionSet.getNameIndex( sd.getSorting( )
-						.getName( ) ) );
-				cmbSorting.addListener( SWT.Selection, new Listener( ) {
-
-					public void handleEvent( Event event )
-					{
-						sd.setSorting( SortOption.getByName( LiteralHelper.sortOptionSet.getNameByDisplayName( cmbSorting.getText( ) ) ) );
-
-						// Update the query sortings of other series.
-						ChartAdapter.beginIgnoreNotifications( );
-						List sds = ChartUIUtil.getAllOrthogonalSeriesDefinitions( context.getModel( ) );
-						for ( int i = 0; i < sds.size( ); i++ )
-						{
-							if ( i != 0 )
-							{
-								// Except for the first, which should be
-								// changed manually.
-								SeriesDefinition sdf = (SeriesDefinition) sds.get( i );
-								sdf.setSorting( SortOption.getByName( LiteralHelper.sortOptionSet.getNameByDisplayName( cmbSorting.getText( ) ) ) );
-							}
-						}
-						ChartAdapter.endIgnoreNotifications( );
-					}
-				} );
-
 				return cmpGroup;
 			}
 
@@ -275,5 +231,4 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 		}
 		return LABEL_GROUPING_OVERLAY;
 	}
-
 }

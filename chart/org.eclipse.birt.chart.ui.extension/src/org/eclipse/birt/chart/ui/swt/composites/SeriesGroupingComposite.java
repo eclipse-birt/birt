@@ -238,20 +238,21 @@ public class SeriesGroupingComposite extends Composite implements
 
 		if ( fbAggEnabled )
 		{
-		Composite cmpAggregate = new Composite( grpContent, SWT.NONE );
-		GridData gdCMPAggregate = new GridData( GridData.FILL_HORIZONTAL );
-		gdCMPAggregate.horizontalSpan = 2;
-		cmpAggregate.setLayoutData( gdCMPAggregate );
-		cmpAggregate.setLayout( glAggregate );
+			Composite cmpAggregate = new Composite( grpContent, SWT.NONE );
+			GridData gdCMPAggregate = new GridData( GridData.FILL_HORIZONTAL );
+			gdCMPAggregate.horizontalSpan = 2;
+			cmpAggregate.setLayoutData( gdCMPAggregate );
+			cmpAggregate.setLayout( glAggregate );
 
-		lblAggregate = new Label( cmpAggregate, SWT.NONE );
-		GridData gdLBLAggregate = new GridData( );
-		lblAggregate.setLayoutData( gdLBLAggregate );
-		lblAggregate.setText( Messages.getString( "SeriesGroupingComposite.Lbl.AggregateExpression" ) ); //$NON-NLS-1$
+			lblAggregate = new Label( cmpAggregate, SWT.NONE );
+			GridData gdLBLAggregate = new GridData( );
+			lblAggregate.setLayoutData( gdLBLAggregate );
+			lblAggregate.setText( Messages.getString( "SeriesGroupingComposite.Lbl.AggregateExpression" ) ); //$NON-NLS-1$
 
-		cmbAggregate = new Combo( cmpAggregate, SWT.DROP_DOWN | SWT.READ_ONLY );
-		cmbAggregate.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		cmbAggregate.addSelectionListener( this );
+			cmbAggregate = new Combo( cmpAggregate, SWT.DROP_DOWN |
+					SWT.READ_ONLY );
+			cmbAggregate.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			cmbAggregate.addSelectionListener( this );
 		}
 		populateLists( );
 	}

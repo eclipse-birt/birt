@@ -74,7 +74,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 			KeyListener
 {
 
-	private Composite cmpTop;
+	protected Composite cmpTop;
 
 	private Combo cmbDefinition;
 	private Text txtDefinition = null;
@@ -85,9 +85,9 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 
 	private Query query = null;
 
-	private SeriesDefinition seriesdefinition = null;
+	protected SeriesDefinition seriesdefinition = null;
 
-	private ChartWizardContext context = null;
+	protected ChartWizardContext context = null;
 
 	private String sTitle = null;
 
@@ -330,44 +330,74 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 	{
 		if ( e.getSource( ).equals( btnBuilder ) )
 		{
-			try
-			{
-				String sExpr = context.getUIServiceProvider( )
-						.invoke( IUIServiceProvider.COMMAND_EXPRESSION_DATA_BINDINGS,
-								getText( getInputControl( ) ),
-								context.getExtendedItem( ),
-								sTitle );
-				setText( getInputControl( ), sExpr );
-				query.setDefinition( sExpr );
-			}
-			catch ( ChartException e1 )
-			{
-				WizardBase.displayException( e1 );
-			}
+			handleBuilderAction( );
 		}
 		else if ( e.getSource( ).equals( btnGroup ) )
 		{
-			SeriesDefinition sdBackup = (SeriesDefinition) EcoreUtil.copy( seriesdefinition );
-			GroupSortingDialog groupDialog = new GroupSortingDialog( cmpTop.getShell( ),
-					context,
-					sdBackup );
-
-			if ( groupDialog.open( ) == Window.OK )
-			{
-				if ( !sdBackup.eIsSet( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) ) )
-				{
-					seriesdefinition.eUnset( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) );
-				}
-				else
-				{
-					seriesdefinition.setSorting( sdBackup.getSorting( ) );
-				}
-				seriesdefinition.setGrouping( sdBackup.getGrouping( ) );
-				seriesdefinition.getGrouping( )
-						.eAdapters( )
-						.addAll( seriesdefinition.eAdapters( ) );
-			}
+			handleGroupAction( );
 		}
+	}
+
+	/**
+     * Handle grouping/sorting action.
+	 */
+	protected void handleGroupAction( )
+	{
+		SeriesDefinition sdBackup = (SeriesDefinition) EcoreUtil.copy( seriesdefinition );
+		GroupSortingDialog groupDialog = createGroupSortingDialog( sdBackup );
+
+		if ( groupDialog.open( ) == Window.OK )
+		{
+			if ( !sdBackup.eIsSet( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) ) )
+			{
+				seriesdefinition.eUnset( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) );
+			}
+			else
+			{
+				seriesdefinition.setSorting( sdBackup.getSorting( ) );
+			}
+			seriesdefinition.setSorting( sdBackup.getSorting( ) );
+			seriesdefinition.setGrouping( sdBackup.getGrouping( ) );
+			seriesdefinition.getGrouping( )
+					.eAdapters( )
+					.addAll( seriesdefinition.eAdapters( ) );
+		}
+	}
+
+	/**
+     * Handle builder dialog action.
+     */
+	private void handleBuilderAction( )
+	{
+		try
+		{
+			String sExpr = context.getUIServiceProvider( )
+					.invoke( IUIServiceProvider.COMMAND_EXPRESSION_DATA_BINDINGS,
+							getText( getInputControl( ) ),
+							context.getExtendedItem( ),
+							sTitle );
+			setText( getInputControl( ), sExpr );
+			query.setDefinition( sExpr );
+		}
+		catch ( ChartException e1 )
+		{
+			WizardBase.displayException( e1 );
+		}
+	}
+
+	/**
+	 * Create instance of <code>GroupSortingDialog</code> for base series or Y
+	 * series.
+	 * 
+	 * @param sdBackup
+	 * @return
+	 */
+	protected GroupSortingDialog createGroupSortingDialog(
+			SeriesDefinition sdBackup )
+	{
+		return new GroupSortingDialog( cmpTop.getShell( ),
+				context,
+				sdBackup );
 	}
 
 	/*

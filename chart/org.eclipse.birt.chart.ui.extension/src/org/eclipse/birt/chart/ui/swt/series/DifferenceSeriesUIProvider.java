@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -27,6 +27,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent;
+import org.eclipse.birt.chart.ui.swt.wizard.data.YOptionalDataDefinitionComponent;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -72,7 +73,8 @@ public class DifferenceSeriesUIProvider extends DefaultSeriesUIProvider
 		}
 		else if ( seriesType == ISelectDataCustomizeUI.GROUPING_SERIES )
 		{
-			BaseDataDefinitionComponent ddc = new BaseDataDefinitionComponent( ChartUIConstants.QUERY_OPTIONAL,
+			BaseDataDefinitionComponent ddc = new YOptionalDataDefinitionComponent( BaseDataDefinitionComponent.BUTTON_GROUP,
+					ChartUIConstants.QUERY_OPTIONAL,
 					seriesDefn,
 					seriesDefn.getQuery( ),
 					context,

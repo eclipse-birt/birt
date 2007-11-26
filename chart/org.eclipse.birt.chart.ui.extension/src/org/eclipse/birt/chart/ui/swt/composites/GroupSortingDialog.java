@@ -47,6 +47,9 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 
 	protected Combo cmbSorting;
 
+	/** The field indicates if the aggregation composite should be enabled. */
+	private boolean fEnableAggregation = true;
+
 	public GroupSortingDialog( Shell shell, ChartWizardContext wizardContext,
 			SeriesDefinition sd )
 	{
@@ -55,6 +58,15 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 		this.sd = sd;
 	}
 
+	public GroupSortingDialog( Shell shell, ChartWizardContext wizardContext,
+			SeriesDefinition sd, boolean disableAggregation )
+	{
+		super( shell );
+		this.wizardContext = wizardContext;
+		this.sd = sd;
+		this.fEnableAggregation = disableAggregation;
+	}
+	
 	protected Control createDialogArea( Composite parent )
 	{
 		ChartUIUtil.bindHelp( parent,
@@ -101,7 +113,8 @@ public class GroupSortingDialog extends TrayDialog implements Listener
 		new SeriesGroupingComposite( cmpGrouping,
 				SWT.NONE,
 				getSeriesDefinitionForProcessing( ),
-				wizardContext.getModel( ) instanceof ChartWithoutAxes );
+				wizardContext.getModel( ) instanceof ChartWithoutAxes,
+				fEnableAggregation );
 	}
 
 	/**
