@@ -356,7 +356,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 			{
 				seriesdefinition.setSorting( sdBackup.getSorting( ) );
 			}
-			seriesdefinition.setSorting( sdBackup.getSorting( ) );
 			seriesdefinition.setGrouping( sdBackup.getGrouping( ) );
 			seriesdefinition.getGrouping( )
 					.eAdapters( )
