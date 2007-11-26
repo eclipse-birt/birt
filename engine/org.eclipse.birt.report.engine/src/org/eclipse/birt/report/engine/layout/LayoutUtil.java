@@ -165,7 +165,7 @@ public class LayoutUtil
 		{
 			if ( index > 0 )
 			{
-				if ( formats.charAt( index - 1 ) != ';' )
+				if ( formats.charAt( index - 1 ) != ',' )
 				{
 					return false;
 				}
@@ -173,7 +173,7 @@ public class LayoutUtil
 			int lastIndex = index + format.length( );
 			if ( lastIndex < formats.length( ) )
 			{
-				if ( formats.charAt( lastIndex ) != ';' )
+				if ( formats.charAt( lastIndex ) != ',' )
 				{
 					return false;
 				}
