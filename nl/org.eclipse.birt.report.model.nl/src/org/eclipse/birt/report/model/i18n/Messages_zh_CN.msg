@@ -2808,7 +2808,6 @@ Element.TextData.onPageBreak.reportContext=报表上下文
 Element.ExtendedItem.altText=替代文本
 Element.ExtendedItem.altTextID=替代文本关键字
 Element.ExtendedItem.extensionName=扩展名
-Element.ExtendedItem.extension=扩展名
 Element.ExtendedItem.filter=筛选
 Element.ExtendedItem.onPrepare=准备时
 Element.ExtendedItem.onPrepare.toolTip=TBD
@@ -2826,6 +2825,7 @@ Element.ExtendedItem.onPageBreak=出现分页符时
 Element.ExtendedItem.onPageBreak.toolTip=TBD
 Element.ExtendedItem.onPageBreak.this=扩展项实例
 Element.ExtendedItem.onPageBreak.reportContext=报表上下文
+Element.ExtendedItem.extensionVersion=Extension version
 
 #28.DataSource ( prefix Element.DataSource )
 Element.DataSource.beforeOpen=打开前

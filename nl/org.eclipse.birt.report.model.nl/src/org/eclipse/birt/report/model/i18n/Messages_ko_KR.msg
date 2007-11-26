@@ -2808,7 +2808,6 @@ Element.TextData.onPageBreak.reportContext=보고서 컨텍스트
 Element.ExtendedItem.altText=대체 텍스트
 Element.ExtendedItem.altTextID=대체 텍스트 키:
 Element.ExtendedItem.extensionName=확장 이름
-Element.ExtendedItem.extension=확장 이름
 Element.ExtendedItem.filter=필터
 Element.ExtendedItem.onPrepare=준비 중
 Element.ExtendedItem.onPrepare.toolTip=TBD
@@ -2826,6 +2825,7 @@ Element.ExtendedItem.onPageBreak=페이지 나누기
 Element.ExtendedItem.onPageBreak.toolTip=TBD
 Element.ExtendedItem.onPageBreak.this=확장 항목 인스턴스
 Element.ExtendedItem.onPageBreak.reportContext=보고서 컨텍스트
+Element.ExtendedItem.extensionVersion=Extension version
 
 #28.DataSource ( prefix Element.DataSource )
 Element.DataSource.beforeOpen=열기 이전

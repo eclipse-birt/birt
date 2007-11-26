@@ -2808,7 +2808,6 @@ Element.TextData.onPageBreak.reportContext=レポートのコンテキスト
 Element.ExtendedItem.altText=代替テキスト
 Element.ExtendedItem.altTextID=代替テキストキー
 Element.ExtendedItem.extensionName=拡張子名 :
-Element.ExtendedItem.extension=拡張子名 :
 Element.ExtendedItem.filter=フィルタ
 Element.ExtendedItem.onPrepare=準備時
 Element.ExtendedItem.onPrepare.toolTip=TBD
@@ -2826,6 +2825,7 @@ Element.ExtendedItem.onPageBreak=ページ区切り
 Element.ExtendedItem.onPageBreak.toolTip=TBD
 Element.ExtendedItem.onPageBreak.this=拡張項目インスタンス
 Element.ExtendedItem.onPageBreak.reportContext=レポートのコンテキスト
+Element.ExtendedItem.extensionVersion=Extension version
 
 #28.DataSource ( prefix Element.DataSource )
 Element.DataSource.beforeOpen=開く前

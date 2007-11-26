@@ -2808,7 +2808,6 @@ Element.TextData.onPageBreak.reportContext=Berichtkontext
 Element.ExtendedItem.altText=Alternativer Text
 Element.ExtendedItem.altTextID=Schlüssel für alternativen Text
 Element.ExtendedItem.extensionName=Name der Erweiterung
-Element.ExtendedItem.extension=Name der Erweiterung
 Element.ExtendedItem.filter=Filter
 Element.ExtendedItem.onPrepare=Beim Vorbereiten
 Element.ExtendedItem.onPrepare.toolTip=TBD
@@ -2826,6 +2825,7 @@ Element.ExtendedItem.onPageBreak=Bei Seitenumbruch
 Element.ExtendedItem.onPageBreak.toolTip=TBD
 Element.ExtendedItem.onPageBreak.this=Instanz für erweitertes Objekt
 Element.ExtendedItem.onPageBreak.reportContext=Berichtkontext
+Element.ExtendedItem.extensionVersion=Extension version
 
 #28.DataSource ( prefix Element.DataSource )
 Element.DataSource.beforeOpen=Vor dem Öffnen
