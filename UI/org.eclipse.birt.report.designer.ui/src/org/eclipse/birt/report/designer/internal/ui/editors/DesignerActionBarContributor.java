@@ -351,8 +351,45 @@ public class DesignerActionBarContributor extends
 
 		// Element Menu
 		MenuManager elementMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.element" ), M_ELEMENT ); //$NON-NLS-1$
-		contributeActionsToMenu( elementMenu, elementActions );
+		contributeElementMenu( elementMenu );
+		menubar.insertAfter( M_INSERT, elementMenu );
 
+		// Data Menu
+		MenuManager dataMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.data" ), M_DATA ); //$NON-NLS-1$
+		dataMenu.add( getAction( dataActions[0].id ) );
+
+		MenuManager dataSetMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.data-NewDataSetParent" ) );
+		contributeActionsToMenu( dataSetMenu, dataSetActions );
+		dataMenu.add( dataSetMenu );
+
+		MenuManager parameterMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.data-NewParameter" ) );
+		//$NON-NLS-1$
+		contributeActionsToMenu( parameterMenu, parameterActions );
+		dataMenu.add( parameterMenu );
+
+		IMenuService menuService = (IMenuService) PlatformUI.getWorkbench( )
+				.getService( IMenuService.class );
+		menuService.populateContributionManager( dataMenu, "menu:birtData" );
+		menubar.insertAfter( M_ELEMENT, dataMenu );
+
+		menubar.update( );
+	}
+
+	private void contributeElementMenu( MenuManager elementMenu )
+	{
+		MenuManager insertMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.element.insert" ) ); //$NON-NLS-1$
+		insertMenu.add( getAction( InsertRowAboveAction.ID ) );
+		insertMenu.add( getAction( InsertRowBelowAction.ID ) );
+		insertMenu.add( getAction( InsertColumnLeftAction.ID ) );
+		insertMenu.add( getAction( InsertColumnRightAction.ID ) );
+		elementMenu.add( insertMenu );
+		elementMenu.add( new Separator( ) );
+
+		elementMenu.add( getAction( MergeAction.ID ) );
+		elementMenu.add( getAction( SplitAction.ID ) );
+		elementMenu.add( new Separator( ) );
+
+		MenuManager groupMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.element.group" ) ); //$NON-NLS-1$
 		MenuManager insertGroupMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.element.group" ), InsertGroupMenuAction.ID ); //$NON-NLS-1$
 		insertGroupMenu.add( NoneAction.getInstance( ) );
 		insertGroupMenu.addMenuListener( new IMenuListener( ) {
@@ -362,7 +399,7 @@ public class DesignerActionBarContributor extends
 				updateInsertGroupMenu( InsertGroupMenuAction.ID, manager );
 			}
 		} );
-		elementMenu.add( insertGroupMenu );
+		groupMenu.add( insertGroupMenu );
 
 		MenuManager editGroupMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.element-EditGroup" ) ); //$NON-NLS-1$
 		editGroupMenu.add( NoneAction.getInstance( ) );
@@ -373,9 +410,19 @@ public class DesignerActionBarContributor extends
 				updateDynamicItems( EditGroupMenuAction.ID, manager );
 			}
 		} );
-		elementMenu.add( editGroupMenu );
+		groupMenu.add( editGroupMenu );
+		elementMenu.add( groupMenu );
 		elementMenu.add( new Separator( ) );
-		contributeStyleMenu( elementMenu );
+
+		elementMenu.add( getAction( CreatePlaceHolderPartAction.ID ) );
+		elementMenu.add( getAction( RevertToReportItemPartAction.ID ) );
+
+		elementMenu.add( new Separator( ) );
+
+		MenuManager styleMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.element.style" ) ); //$NON-NLS-1$
+		contributeStyleMenu( styleMenu );
+		elementMenu.add( styleMenu );
+
 		elementMenu.addMenuListener( new IMenuListener( ) {
 
 			public void menuAboutToShow( IMenuManager manager )
@@ -406,27 +453,6 @@ public class DesignerActionBarContributor extends
 			}
 		} );
 
-		menubar.insertAfter( M_INSERT, elementMenu );
-
-		// Data Menu
-		MenuManager dataMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.data" ), M_DATA ); //$NON-NLS-1$
-		dataMenu.add( getAction( dataActions[0].id ) );
-
-		MenuManager dataSetMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.data-NewDataSetParent" ) );
-		contributeActionsToMenu( dataSetMenu, dataSetActions );
-		dataMenu.add( dataSetMenu );
-
-		MenuManager parameterMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.data-NewParameter" ) );
-		//$NON-NLS-1$
-		contributeActionsToMenu( parameterMenu, parameterActions );
-		dataMenu.add( parameterMenu );
-
-		IMenuService menuService = (IMenuService) PlatformUI.getWorkbench( )
-				.getService( IMenuService.class );
-		menuService.populateContributionManager( dataMenu, "menu:birtData" );
-		menubar.insertAfter( M_ELEMENT, dataMenu );
-
-		menubar.update( );
 	}
 
 	private void contributeActionsToMenu( MenuManager menu,
@@ -448,7 +474,6 @@ public class DesignerActionBarContributor extends
 	private void contributeStyleMenu( MenuManager newMenu )
 	{
 		// add
-		newMenu.add( getAction( ImportCSSStyleAction.ID ) );
 
 		newMenu.add( getAction( AddStyleAction.ID ) );
 
@@ -475,6 +500,8 @@ public class DesignerActionBarContributor extends
 			}
 		} );
 		newMenu.add( applyStyleMenu );
+
+		newMenu.add( getAction( ImportCSSStyleAction.ID ) );
 	}
 
 	private void updateDynamicItems( String actionId, IMenuManager menu )
