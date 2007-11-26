@@ -779,6 +779,9 @@ DesignerActionBarContributor.menu.data-NewParameter=Neuer Bericht&parameter
 DesignerActionBarContributor.menu.data-NewDataSetParent=Neuer Daten&satz
 designerActionBarContributor.menu.data-newDataset=Neuer D&atensatz
 designerActionBarContributor.menu.data-newJointDataset=Neuer &Verknüpfungsdatensatz
+DesignerActionBarContributor.menu.element.insert=E&infügen
+DesignerActionBarContributor.menu.element.group=&Group
+DesignerActionBarContributor.menu.element.style=S&til
 
 ###########################################################
 #DesignerOutlinePage properties

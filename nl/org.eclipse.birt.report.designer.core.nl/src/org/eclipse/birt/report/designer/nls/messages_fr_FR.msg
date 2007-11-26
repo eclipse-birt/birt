@@ -779,6 +779,9 @@ DesignerActionBarContributor.menu.data-NewParameter=Nouveau &paramètre d'état
 DesignerActionBarContributor.menu.data-NewDataSetParent=Nouveau jeu de do&nnées
 designerActionBarContributor.menu.data-newDataset=Nouveau jeu de donné&es
 designerActionBarContributor.menu.data-newJointDataset=Nouveau &jeu de données de jointure
+DesignerActionBarContributor.menu.element.insert=&Insérer
+DesignerActionBarContributor.menu.element.group=&Group
+DesignerActionBarContributor.menu.element.style=St&yle
 
 ###########################################################
 #DesignerOutlinePage properties

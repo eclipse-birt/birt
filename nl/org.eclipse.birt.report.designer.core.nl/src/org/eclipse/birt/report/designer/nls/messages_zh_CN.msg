@@ -779,6 +779,9 @@ DesignerActionBarContributor.menu.data-NewParameter=新建报表参数(&P)
 DesignerActionBarContributor.menu.data-NewDataSetParent=新建数据集(&S)
 designerActionBarContributor.menu.data-newDataset=新建数据集(&E)
 designerActionBarContributor.menu.data-newJointDataset=新建联接数据集(&J)
+DesignerActionBarContributor.menu.element.insert=插入(&I)
+DesignerActionBarContributor.menu.element.group=&Group
+DesignerActionBarContributor.menu.element.style=样式(&Y)
 
 ###########################################################
 #DesignerOutlinePage properties

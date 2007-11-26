@@ -779,6 +779,9 @@ DesignerActionBarContributor.menu.data-NewParameter=새 보고서 매개 변수(&P)
 DesignerActionBarContributor.menu.data-NewDataSetParent=새 데이터 집합(&S)
 designerActionBarContributor.menu.data-newDataset=새 데이터 집합(&E)
 designerActionBarContributor.menu.data-newJointDataset=새 조인 데이터 집합(&J)
+DesignerActionBarContributor.menu.element.insert=삽입(&I)
+DesignerActionBarContributor.menu.element.group=&Group
+DesignerActionBarContributor.menu.element.style=스타일(&Y)
 
 ###########################################################
 #DesignerOutlinePage properties

@@ -779,6 +779,9 @@ DesignerActionBarContributor.menu.data-NewParameter=Nuevo &parámetro de informe
 DesignerActionBarContributor.menu.data-NewDataSetParent=Nuevo conjunto de d&atos
 designerActionBarContributor.menu.data-newDataset=Nuevo c&onjunto de datos
 designerActionBarContributor.menu.data-newJointDataset=Nuevo &conjunto de datos de combinación
+DesignerActionBarContributor.menu.element.insert=&Insertar
+DesignerActionBarContributor.menu.element.group=&Group
+DesignerActionBarContributor.menu.element.style=Es&tilo
 
 ###########################################################
 #DesignerOutlinePage properties

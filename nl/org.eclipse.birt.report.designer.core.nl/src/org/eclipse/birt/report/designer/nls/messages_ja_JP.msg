@@ -779,6 +779,9 @@ DesignerActionBarContributor.menu.data-NewParameter=レポートパラメタの新規作成(&
 DesignerActionBarContributor.menu.data-NewDataSetParent=新規データセット(&S)
 designerActionBarContributor.menu.data-newDataset=新規データセット(&E)
 designerActionBarContributor.menu.data-newJointDataset=ジョイントのデータセットの新規作成(&J)
+DesignerActionBarContributor.menu.element.insert=挿入(&I)
+DesignerActionBarContributor.menu.element.group=&Group
+DesignerActionBarContributor.menu.element.style=スタイル(&Y)
 
 ###########################################################
 #DesignerOutlinePage properties
