@@ -21,7 +21,14 @@ import org.eclipse.birt.integration.wtp.ui.internal.util.UIUtil;
 import org.eclipse.birt.integration.wtp.ui.internal.util.WebArtifactUtil;
 import org.eclipse.birt.integration.wtp.ui.project.facet.BirtFacetInstallDataModelProperties;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.dialogs.IPageChangeProvider;
+import org.eclipse.jface.dialogs.IPageChangedListener;
+import org.eclipse.jface.dialogs.PageChangedEvent;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.wizard.IWizard;
+import org.eclipse.jface.wizard.IWizardContainer;
+import org.eclipse.jface.wizard.IWizardContainer2;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -226,6 +233,13 @@ public class BirtWebProjectWizardConfigurationPage
 		initializeProperties( );
 
 		setControl( composite );
+		
+		IWizardContainer container = getContainer( );
+		if ( container instanceof IPageChangeProvider)
+		{
+			IPageChangeProvider pageChangeProvider = (IPageChangeProvider)container;
+			pageChangeProvider.addPageChangedListener( new WizardPageChangedListener(this) );
+		}
 	}
 
 	/**
@@ -298,5 +312,38 @@ public class BirtWebProjectWizardConfigurationPage
 		Map birtProperties = (Map) dataModel
 				.getProperty( BirtFacetInstallDataModelProperties.BIRT_CONFIG );
 		this.properties = (Map) birtProperties.get( EXT_CONTEXT_PARAM );
+	}
+
+	private class WizardPageChangedListener implements IPageChangedListener
+	{	
+		private IWizardPage wizardPage;
+		
+		/**
+		 * Constructs a listener which listens whenever the given page is
+		 * selected and updates its size.
+		 * @param wizardPage wizard page
+		 */
+		public WizardPageChangedListener( IWizardPage wizardPage )
+		{
+			this.wizardPage = wizardPage;
+		}
+
+		/**
+		 * Called whenever the wizard page has changed and forces its
+		 * container to resize its content.
+		 * @see org.eclipse.jface.dialogs.IPageChangedListener#pageChanged(org.eclipse.jface.dialogs.PageChangedEvent)
+		 */
+		public void pageChanged( PageChangedEvent event )
+		{
+			if ( this.wizardPage == event.getSelectedPage( ) )
+			{
+				// force size update
+				IWizardContainer container = getContainer( );
+				if ( container instanceof IWizardContainer2 )
+				{
+					( (IWizardContainer2) container ).updateSize( );
+				}
+			}
+		}
 	}
 }
