@@ -3165,7 +3165,7 @@ SelectValueDialog.messages.error.selectVauleUnavailable=Der Wert für den Ausdruc
 SelectValueDialog.noExpressionSet=Ein Ausdruck wurde nicht festgelegt
 SelectValueDialog.retrieving=Liste wird abgerufen ...
 SelectValueDialog.selectValue=Wert auswählen
-SelectValueDialog.SelectValue.NullValue=<Null Value>
+SelectValueDialog.SelectValue.NullValue=<Null-Wert>
 
 ###########################################################
 #SetConstraintCommand properties

@@ -3165,7 +3165,7 @@ SelectValueDialog.messages.error.selectVauleUnavailable=无法检索该表达式的值。
 SelectValueDialog.noExpressionSet=尚未设置表达式
 SelectValueDialog.retrieving=正在检索列表...
 SelectValueDialog.selectValue=选择值
-SelectValueDialog.SelectValue.NullValue=<Null Value>
+SelectValueDialog.SelectValue.NullValue=<空值>
 
 ###########################################################
 #SetConstraintCommand properties
