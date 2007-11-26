@@ -35,10 +35,18 @@ BirtCommunicationManager.prototype =
 	 */
 	connect: function( )
 	{
-		if(birtSoapRequest.__xml_document)
+		var xmlDoc = birtSoapRequest.__xml_document;
+		
+		if( xmlDoc )
 		{
-			debug( birtSoapRequest.prettyPrintXML(birtSoapRequest.__xml_document), true);
-		}
+			debug( birtSoapRequest.prettyPrintXML(xmlDoc), true);
+			if ( BrowserUtility.isSafari )
+			{
+				// WORKAROUND: sending the XML DOM doesn't replace the
+				// ampersands properly but the XMLSerializer does.
+				xmlDoc = (new XMLSerializer()).serializeToString(xmlDoc);
+			}
+		}		
 		
 		if ( !birtSoapRequest.getURL( ) ) return;
 
@@ -47,7 +55,7 @@ BirtCommunicationManager.prototype =
 		birtProgressBar.__start( );
 		
 		//workaround for Bugzilla Bug 144598. Add request header "Connection" as "keep-alive"
-		var myAjax = new Ajax.Request( birtSoapRequest.getURL( ), { method: 'post', postBody: birtSoapRequest.__xml_document,
+		var myAjax = new Ajax.Request( birtSoapRequest.getURL( ), { method: 'post', postBody: xmlDoc,
 			onSuccess: this.responseHandler, onFailure: this.invalidResponseHandler,
 			requestHeaders: ['Content-type', 'text/xml; charset=utf-8', 'SOAPAction', '""', 'request-type', 'SOAP', 'Connection', 'keep-alive' ] } );
 

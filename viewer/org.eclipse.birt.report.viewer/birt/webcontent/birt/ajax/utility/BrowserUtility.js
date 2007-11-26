@@ -7,8 +7,14 @@ BrowserUtility.prototype = {
 	initialize: function()
 	{
 		this.isIE = this.__isIE();
+		this.isSafari = this.__isSafari();
 	},
 		
+	__isSafari: function()
+	{
+		return navigator.appVersion.match(/Safari/);		
+	},
+	
 	__isIE: function()
 	{
 		var userAgent = navigator.userAgent.toLowerCase();
