@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.15" id="1">
+    <body>
+        <extended-item extensionName="TestingMatrix" name="matrix" id="10"/>
+        <extended-item extensionName="TestingBox" name="box" id="20"/>
+    </body>
+</report>

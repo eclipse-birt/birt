@@ -146,6 +146,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 		protected static final String TAG_ID_ATTRIB = "tagID"; //$NON-NLS-1$		
 		protected static final String IS_STATIC_ATTRIB = "isStatic"; //$NON-NLS-1$
 		protected static final String DEFAULT_STYLE_ATTRIB = "defaultStyle"; //$NON-NLS-1$
+		protected static final String HAS_STYLE = "hasStyle"; //$NON-NLS-1$
 		protected static final String IS_NAME_REQUIRED_ATTRIB = "isNameRequired"; //$NON-NLS-1$
 		protected static final String EXTENDS_FROM_ATTRIB = "extendsFrom"; //$NON-NLS-1$
 		protected static final String DETAIL_TYPE_ATTRIB = "detailType"; //$NON-NLS-1$
@@ -197,6 +198,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 
 			String defaultStyle = elementTag
 					.getAttribute( DEFAULT_STYLE_ATTRIB );
+			boolean hasStyle = getBooleanAttrib( elementTag, HAS_STYLE, true );
 			boolean isNameRequired = getBooleanAttrib( elementTag,
 					IS_NAME_REQUIRED_ATTRIB, false );
 			String extendsFrom = elementTag.getAttribute( EXTENDS_FROM_ATTRIB );
@@ -219,6 +221,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 				elementDefn.setExtends( extendsFrom );
 				elementDefn.setJavaClass( null );
 				elementDefn.setSelector( defaultStyle );
+				elementDefn.setHasStyle( hasStyle ) ;
 
 				if ( isNameRequired )
 					elementDefn.setNameOption( MetaDataConstants.REQUIRED_NAME );

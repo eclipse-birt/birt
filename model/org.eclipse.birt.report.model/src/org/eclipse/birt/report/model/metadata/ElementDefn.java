@@ -701,7 +701,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 			// have that style whether the meta data file explicitly indicated
 			// this or not.
 
-			if ( parent.hasStyle( ) )
+			if ( parent.hasStyle( ) && !isExtended( ) )
 				hasStyle = true;
 		}
 
@@ -819,18 +819,20 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 		addStyleProperties( );
 
-		if ( ReportDesignConstants.EXTENDED_ITEM.equalsIgnoreCase( getName( ) ) )
+		if ( isExtended( ) )
 		{
-			List styles = MetaDataDictionary.getInstance( ).getStyle( )
-					.getLocalProperties( );
-			for ( int i = 0; i < styles.size( ); i++ )
+			if ( hasStyle )
 			{
-				String propName = ( (SystemPropertyDefn) styles.get( i ) )
-						.getName( );
-				properties.put( propName, styles.get( i ) );
+				List styles = MetaDataDictionary.getInstance( ).getStyle( )
+						.getLocalProperties( );
+				for ( int i = 0; i < styles.size( ); i++ )
+				{
+					String propName = ( (SystemPropertyDefn) styles.get( i ) )
+							.getName( );
+					properties.put( propName, styles.get( i ) );
+				}
 			}
 		}
-
 		else
 		{
 			// The meta-data file should not define style property names

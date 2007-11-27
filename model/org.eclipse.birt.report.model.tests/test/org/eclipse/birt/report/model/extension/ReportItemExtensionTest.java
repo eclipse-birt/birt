@@ -1085,7 +1085,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 		assertEquals( TESTING_BOX_NAME, extDefn.getName( ) );
 		assertEquals( MetaDataConstants.REQUIRED_NAME, extDefn.getNameOption( ) );
 		assertEquals( true, extDefn.allowsUserProperties( ) );
-		assertEquals( true, extDefn.hasStyle( ) );
+		assertEquals( false, extDefn.hasStyle( ) );
 
 		List propList = extDefn.getProperties( );
 
@@ -1169,7 +1169,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 		assertEquals( TESTING_BOX_NAME, itemHandle.getDefn( ).getName( ) );
 		assertEquals( TESTING_BOX_NAME, ( (ExtendedItem) itemHandle
 				.getElement( ) ).getExtDefn( ).getName( ) );
-		assertEquals( true, ( (ExtendedItem) itemHandle.getElement( ) )
+		assertEquals( false, ( (ExtendedItem) itemHandle.getElement( ) )
 				.getExtDefn( ).hasStyle( ) );
 
 		// itemHandle.loadExtendedElement( );

@@ -102,6 +102,13 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="hasStyle" type="boolean" use="default" value="true">
+            <annotation>
+               <documentation>
+                  Marks extended item can have style or not.  if value is true, extended item can have style; else not.
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 

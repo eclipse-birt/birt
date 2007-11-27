@@ -990,6 +990,28 @@ public class PeerExtensionTest extends BaseTestCase
 
 	}
 
+	/**
+	 * Tests extension style definition.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testExtensionStyleDefn( ) throws Exception
+	{
+		openDesign( "PeerExtensionTest_12.xml" );//$NON-NLS-1$
+		ExtendedItemHandle matrix = (ExtendedItemHandle) designHandle
+				.getElementByID( 10l );
+		ExtendedItemHandle box = (ExtendedItemHandle) designHandle
+				.getElementByID( 20l );
+
+		StyleHandle style = box.getPrivateStyle( );
+		assertNull( style );
+		style = matrix.getPrivateStyle( );
+		assertNotNull( style );
+		assertNotNull( style.getDefn( ).getProperty(
+				StyleHandle.FONT_FAMILY_PROP ) );
+	}
+
 	private static class MyListener implements Listener
 	{
 
