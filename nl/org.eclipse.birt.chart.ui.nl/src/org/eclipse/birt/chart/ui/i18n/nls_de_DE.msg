@@ -91,3 +91,10 @@ SimpleHyperlinkBuilder.Title=Optionen für Hyperlink
 SimpleHyperlinkBuilder.Label.SelectType=Art des Hyperlinks wählen:
 SimpleHyperlinkBuilder.Label.Location=&Speicherort:
 SimpleHyperlinkBuilder.Label.Target=&Ziel:
+
+CustomPreviewTable.Exception.InvalidColumnIndexNotDefined=Invalid column index {0} specified or columns not yet defined\!
+CustomPreviewTable.Exception.InvalidColumnIndexSpecified=Invalid column index specified\!
+CustomPreviewTable.Exception.InvalidColumnIndexSpecifiedOnly=Invalid column index {0} specified\! Table has only {1} columns\!
+CustomPreviewTable.Exception.RowIndexGreaterThan0=Row index must be greater than or equal to 0\!
+
+

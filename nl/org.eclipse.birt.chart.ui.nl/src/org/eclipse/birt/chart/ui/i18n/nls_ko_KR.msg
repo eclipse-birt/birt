@@ -91,3 +91,10 @@ SimpleHyperlinkBuilder.Title=하이퍼링크 옵션
 SimpleHyperlinkBuilder.Label.SelectType=하이퍼링크 형식 선택:
 SimpleHyperlinkBuilder.Label.Location=위치(&L):
 SimpleHyperlinkBuilder.Label.Target=대상(&T):
+
+CustomPreviewTable.Exception.InvalidColumnIndexNotDefined=Invalid column index {0} specified or columns not yet defined\!
+CustomPreviewTable.Exception.InvalidColumnIndexSpecified=Invalid column index specified\!
+CustomPreviewTable.Exception.InvalidColumnIndexSpecifiedOnly=Invalid column index {0} specified\! Table has only {1} columns\!
+CustomPreviewTable.Exception.RowIndexGreaterThan0=Row index must be greater than or equal to 0\!
+
+

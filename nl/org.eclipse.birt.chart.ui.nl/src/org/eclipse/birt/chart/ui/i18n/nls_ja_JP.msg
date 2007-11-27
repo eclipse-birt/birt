@@ -91,3 +91,10 @@ SimpleHyperlinkBuilder.Title=ハイパーリンクのオプション
 SimpleHyperlinkBuilder.Label.SelectType=ハイパーテキストの種類 :
 SimpleHyperlinkBuilder.Label.Location=場所(&L) :
 SimpleHyperlinkBuilder.Label.Target=ターゲット(&T) :
+
+CustomPreviewTable.Exception.InvalidColumnIndexNotDefined=Invalid column index {0} specified or columns not yet defined\!
+CustomPreviewTable.Exception.InvalidColumnIndexSpecified=Invalid column index specified\!
+CustomPreviewTable.Exception.InvalidColumnIndexSpecifiedOnly=Invalid column index {0} specified\! Table has only {1} columns\!
+CustomPreviewTable.Exception.RowIndexGreaterThan0=Row index must be greater than or equal to 0\!
+
+

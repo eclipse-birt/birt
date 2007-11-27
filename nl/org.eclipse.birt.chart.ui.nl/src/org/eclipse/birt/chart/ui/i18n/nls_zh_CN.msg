@@ -91,3 +91,10 @@ SimpleHyperlinkBuilder.Title=超级链接选项
 SimpleHyperlinkBuilder.Label.SelectType=选择超级链接类型:
 SimpleHyperlinkBuilder.Label.Location=位置(&L):
 SimpleHyperlinkBuilder.Label.Target=目标(&T):
+
+CustomPreviewTable.Exception.InvalidColumnIndexNotDefined=Invalid column index {0} specified or columns not yet defined\!
+CustomPreviewTable.Exception.InvalidColumnIndexSpecified=Invalid column index specified\!
+CustomPreviewTable.Exception.InvalidColumnIndexSpecifiedOnly=Invalid column index {0} specified\! Table has only {1} columns\!
+CustomPreviewTable.Exception.RowIndexGreaterThan0=Row index must be greater than or equal to 0\!
+
+
