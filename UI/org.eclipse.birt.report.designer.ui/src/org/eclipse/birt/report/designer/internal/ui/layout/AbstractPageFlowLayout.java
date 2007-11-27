@@ -18,11 +18,13 @@ import org.eclipse.draw2d.geometry.PrecisionDimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartListener;
+import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.editparts.ZoomListener;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.widgets.Control;
 
 /**
  * add comment here
@@ -39,7 +41,6 @@ public abstract class AbstractPageFlowLayout extends ReportFlowLayout
 
 	private Rectangle initSize = new Rectangle( );
 	private Insets initInsets = new Insets( );
-	private Rectangle comsiteBounds = new Rectangle( );
 
 	/**
 	 * @param owner
@@ -60,8 +61,6 @@ public abstract class AbstractPageFlowLayout extends ReportFlowLayout
 
 			public void controlResized( ControlEvent e )
 			{
-				setComsiteBounds( new Rectangle( ( getOwner( ).getViewer( )
-						.getControl( ).getBounds( ) ) ) );
 				layouRootLayer( );
 			}
 
@@ -109,8 +108,6 @@ public abstract class AbstractPageFlowLayout extends ReportFlowLayout
 				{
 					return ;
 				}
-				setComsiteBounds( new Rectangle( ( getOwner( ).getViewer( )
-						.getControl( ).getBounds( ) ) ) );
 				layouRootLayer( );
 
 			}
@@ -124,6 +121,7 @@ public abstract class AbstractPageFlowLayout extends ReportFlowLayout
 		{
 			( (ReportElementFigure) getOwner( ).getFigure( ) ).fireMoved( );
 		}
+		layout( getOwner( ).getFigure( ) );
 	}
 
 	/**
@@ -163,24 +161,6 @@ public abstract class AbstractPageFlowLayout extends ReportFlowLayout
 	}
 
 	/**
-	 * @return Returns the comsiteBounds.
-	 */
-	public Rectangle getComsiteBounds( )
-	{
-		return comsiteBounds;
-	}
-
-	/**
-	 * @param comsiteBounds
-	 *            The comsiteBounds to set.
-	 */
-	public void setComsiteBounds( Rectangle comsiteBounds )
-	{
-		this.comsiteBounds = comsiteBounds;
-		layout( getOwner( ).getFigure( ) );
-	}
-
-	/**
 	 * @return Returns the initSize.
 	 */
 	public Rectangle getInitSize( )
@@ -216,8 +196,14 @@ public abstract class AbstractPageFlowLayout extends ReportFlowLayout
 		revValue.reportSize.width = reportSize.width;
 		revValue.reportSize.height = reportSize.height;
 
-		PrecisionDimension dim = new PrecisionDimension(
-				getComsiteBounds( ).width, getComsiteBounds( ).height );
+		EditPartViewer viewer = owner.getViewer( );
+		Control control = viewer == null ? null : viewer.getControl( );
+		Rectangle containerSize = control == null ? new Rectangle( )
+				: new Rectangle( control.getBounds( ) );
+
+		PrecisionDimension dim = new PrecisionDimension( containerSize.width,
+				containerSize.height );
+
 		double scale = getZoomManager( ).getZoom( );
 		dim.performScale( 1 / scale );
 		if ( dim.width > reportSize.width + MINLEFTSPACE + MINRIGHTSPACE )
