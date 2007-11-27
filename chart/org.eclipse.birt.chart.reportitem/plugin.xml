@@ -8,10 +8,12 @@
          point="org.eclipse.birt.report.model.reportItemModel">
       <reportItem
             class="org.eclipse.birt.chart.reportitem.ChartReportItemFactoryImpl"
-            isNameRequired="true"
-            displayNameID="Element.Chart"
             defaultStyle="chart"
-            extensionName="Chart">
+            displayNameID="Element.Chart"
+            extendsFrom="ReportItem"
+            extensionName="Chart"
+            hasStyle="true"
+            isNameRequired="true">
          <style name="chart" displayNameID="Element.Chart"/>
          <property
                type="xml"
@@ -46,10 +48,20 @@
                allowedChoices="in,cm,mm,pt,pc,em,ex,px"
                propertyName="height">
          </overrideProperty>
-         <overrideProperty
-               useOwnModel="true"
-               propertyName="onRender">
-         </overrideProperty>
+         <method
+               context="presentation"
+               displayNameID="Element.ExtendedItem.onRender"
+               isStatic="false"
+               name="onRender"
+               toolTipID="Element.ExtendedItem.onRender.toolTip">
+         </method>
+         <property
+               detailType="FilterCondition"
+               displayNameID="Element.ExtendedItem.filter"
+               isList="true"
+               name="filter"
+               type="structure">
+         </property>
          
       </reportItem>
    </extension>
