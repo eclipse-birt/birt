@@ -1072,4 +1072,107 @@ public class BirtUtility
 
 		}
 	}
+
+	/**
+	 * Get current resource system id
+	 * 
+	 * @param request
+	 * @return
+	 */
+	private static String getSystemId( HttpServletRequest request )
+	{
+		String systemId = null;
+		ViewerAttributeBean attrBean = (ViewerAttributeBean) request
+				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
+		if ( attrBean != null )
+			systemId = attrBean.getReportDesignName( );
+
+		return systemId;
+	}
+
+	/**
+	 * Log error message in problem view
+	 * 
+	 * @param systemId
+	 * @param message
+	 * @param lineNumber
+	 */
+	private static void error( String systemId, String message, int lineNumber )
+	{
+		try
+		{
+			Class clz = Class
+					.forName( "org.eclipse.birt.report.viewer.utilities.MarkerUtil" ); //$NON-NLS-1$
+			if ( clz != null )
+			{
+				Method mt = clz.getMethod( "error", new Class[]{//$NON-NLS-1$
+						String.class, String.class, int.class} );
+				if ( mt != null )
+					mt.invoke( null, new Object[]{systemId, message,
+							Integer.valueOf( lineNumber )} );
+			}
+		}
+		catch ( Exception e )
+		{
+		}
+	}
+
+	/**
+	 * Log engine error message in problem view
+	 * 
+	 * @param request
+	 * @param errors
+	 */
+	public static void error( HttpServletRequest request, List errors )
+	{
+		boolean isDesigner = ParameterAccessor.isDesigner( request );
+		if ( !isDesigner )
+			return;
+
+		String systemId = getSystemId( request );
+		if ( systemId == null )
+			return;
+
+		// clear the errors
+		clearErrors( systemId );
+
+		// no error
+		if ( errors == null || errors.size( ) <= 0 )
+			return;
+
+		Iterator it = errors.iterator( );
+		while ( it.hasNext( ) )
+		{
+			Exception e = (Exception) it.next( );
+			if ( e != null )
+			{
+				error( systemId, getDetailMessage( e ),
+						IBirtConstants.UNKNOWN_POSITION );
+			}
+		}
+	}
+
+	/**
+	 * clear all errors related current resource in problem view
+	 * 
+	 * @param systemId
+	 */
+	private static void clearErrors( String systemId )
+	{
+		try
+		{
+			Class clz = Class
+					.forName( "org.eclipse.birt.report.viewer.utilities.MarkerUtil" ); //$NON-NLS-1$
+			if ( clz != null )
+			{
+				Method mt = clz.getMethod( "clear", new Class[]{//$NON-NLS-1$
+						String.class} );
+				if ( mt != null )
+					mt.invoke( null, new Object[]{systemId} );
+			}
+		}
+		catch ( Exception e )
+		{
+		}
+	}
 }

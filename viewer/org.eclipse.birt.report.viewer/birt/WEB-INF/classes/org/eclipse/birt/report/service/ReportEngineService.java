@@ -787,6 +787,10 @@ public class ReportEngineService
 		{
 			// Remove task from http session
 			BirtUtility.removeTask( request );
+
+			// Append errors
+			BirtUtility.error( request, runAndRenderTask.getErrors( ) );
+
 			runAndRenderTask.close( );
 		}
 	}
@@ -908,6 +912,10 @@ public class ReportEngineService
 		{
 			// Remove task from http session
 			BirtUtility.removeTask( request );
+
+			// Append errors
+			BirtUtility.error( request, runTask.getErrors( ) );
+
 			runTask.close( );
 		}
 	}
@@ -1147,6 +1155,10 @@ public class ReportEngineService
 		{
 			// Remove task from http session
 			BirtUtility.removeTask( request );
+
+			// Append errors
+			BirtUtility.error( request, renderTask.getErrors( ) );
+
 			renderTask.close( );
 		}
 	}
@@ -1390,6 +1402,10 @@ public class ReportEngineService
 		{
 			// Remove task from http session
 			BirtUtility.removeTask( request );
+
+			// Append errors
+			BirtUtility.error( request, renderTask.getErrors( ) );
+
 			renderTask.close( );
 		}
 	}

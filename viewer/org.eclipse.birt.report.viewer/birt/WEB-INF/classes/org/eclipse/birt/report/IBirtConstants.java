@@ -136,4 +136,9 @@ public interface IBirtConstants
 	public static final String SYS_PROP_WORKING_PATH = "birt.viewer.working.path"; //$NON-NLS-1$
 	public static final String SYS_PROP_ROOT_PATH = "birt.viewer.root.path"; //$NON-NLS-1$
 	public static final String SYS_PROP_BIRT_ISDESIGNER = "birt.designer"; //$NON-NLS-1$
+
+	/**
+	 * unknown line number
+	 */
+	public static final int UNKNOWN_POSITION = -1;
 }
