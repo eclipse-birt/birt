@@ -437,7 +437,7 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 	 * Creates the context menu
 	 * 
 	 */
-	private void createContextMenu( )
+	protected void createContextMenu( )
 	{
 		MenuManager menuManager = new ViewContextMenuProvider( getTreeViewer( ) );
 
