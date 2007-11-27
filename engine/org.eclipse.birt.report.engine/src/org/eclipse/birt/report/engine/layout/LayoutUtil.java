@@ -126,7 +126,7 @@ public class LayoutUtil
 		return false;
 	}
 
-	static private boolean isHiddenByVisibility( IColumn column, String format )
+	public static boolean isHiddenByVisibility( IColumn column, String format )
 	{
 		String columnFormats = column.getVisibleFormat( );
 		if ( columnFormats != null )

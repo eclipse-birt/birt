@@ -21,7 +21,8 @@ import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
-import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
+import org.eclipse.birt.report.engine.internal.content.wrap.CellContentWrapper;
+import org.eclipse.birt.report.engine.internal.content.wrap.TableContentWrapper;
 import org.eclipse.birt.report.engine.layout.LayoutUtil;
 import org.eclipse.birt.report.engine.layout.html.HTMLLayoutContext;
 import org.eclipse.birt.report.engine.layout.html.HTMLTableLayoutEmitter.CellContent;
@@ -45,7 +46,8 @@ public class TableContentLayout
 	boolean isRowHidden;
 
 	String format;
-	ArrayList hiddenList = new ArrayList( );
+	ArrayList hiddenColumnIds = new ArrayList( );
+	ArrayList visibleColumns = new ArrayList( );
 	
 	protected UnresolvedRowHint rowHint;
 	
@@ -55,29 +57,56 @@ public class TableContentLayout
 	
 	protected HTMLLayoutContext context;
 	
+	private TableContentWrapper wrappedTable;
+
+	private ITableContent tableContent;
+
+	private boolean hasHiddenColumns = false;
+
+	private int leastColumnIdToBeAjusted = 0;
+	
+	private int[] adjustedColumnIds;
+	
 	public TableContentLayout( ITableContent tableContent, String format,
 			HTMLLayoutContext context )
 	{
 		this.format = format;
 		this.context = context;
+		this.tableContent = tableContent;
 		this.colCount = tableContent.getColumnCount( );
+		this.adjustedColumnIds = new int[colCount];
 		
 		for ( int i = 0; i < colCount; i++ )
 		{
+			int hiddenColumnCount = hiddenColumnIds.size( );
 			IColumn column = tableContent.getColumn( i );
 			if ( isColumnHidden( column ) )
 			{
-				hiddenList.add( new Integer( i ) );
+				if ( hiddenColumnCount == 0 )
+				{
+					leastColumnIdToBeAjusted = i;
+					hasHiddenColumns = true;
+				}
+				hiddenColumnIds.add( new Integer( i ) );
 			}
+			else
+			{
+				visibleColumns.add( column );
+			}
+			adjustedColumnIds[i] = i - hiddenColumnCount;
 		}
-		this.realColCount = colCount - hiddenList.size( );
+		if ( hasHiddenColumns )
+		{
+			this.wrappedTable = new TableContentWrapper( tableContent,
+					visibleColumns );
+		}
+		this.realColCount = visibleColumns.size( );
 	}
 	
 	public void setUnresolvedRowHint(UnresolvedRowHint rowHint)
 	{
 		this.rowHint = rowHint;
 	}
-	
 	
 	public void endRow(IRowContent rowContent)
 	{
@@ -246,20 +275,10 @@ public class TableContentLayout
 		// resolve real columnNumber and columnSpan
 		int columnNumber = cellId;
 		int columnSpan = colSpan;
-		if ( hiddenList.size( ) > 0 )
+		if ( hasHiddenColumns )
 		{
-			for ( int i = 0; i < hiddenList.size( ); i++ )
-			{
-				int hCol = ( (Integer) hiddenList.get( i ) ).intValue( );
-				if ( hCol < cellId )
-				{
-					columnNumber--;
-				}
-				else if ( hCol >= cellId && hCol < colSpan + cellId )
-				{
-					columnSpan--;
-				}
-			}
+			columnNumber = getAdjustedColumnId( columnNumber );
+			columnSpan = getAdjustedColumnSpan( columnNumber, columnSpan );
 		}
 		if ( columnSpan < 1 )
 		{
@@ -513,14 +532,7 @@ public class TableContentLayout
 
 	private boolean isColumnHidden( IColumn column )
 	{
-		String formats = column.getVisibleFormat( );
-		if ( formats != null
-				&& ( formats.indexOf( this.format ) >= 0 || formats
-						.indexOf( BIRTConstants.BIRT_ALL_VALUE ) >= 0 ) )
-		{
-			return true;
-		}
-		return false;
+		return LayoutUtil.isHiddenByVisibility( column, format );
 	}
 
 	
@@ -656,4 +668,57 @@ public class TableContentLayout
 
 	}
 
+	public ITableContent getWrappedTableContent( )
+	{
+		if ( hasHiddenColumns )
+			return wrappedTable;
+		else
+			return tableContent;
+	}
+	
+	public ICellContent getWrappedCellContent(
+			ICellContent cellContent )
+	{
+		if ( needWrap( cellContent ) )
+		{
+			CellContentWrapper cellContentWrapper = new CellContentWrapper( cellContent );
+			int columnId = cellContent.getColumn( );
+			int columnSpan = cellContent.getColSpan( );
+			cellContentWrapper.setColumn( getAdjustedColumnId( columnId ) );
+			cellContentWrapper.setColSpan( getAdjustedColumnSpan( columnId, columnSpan ) );
+			return cellContentWrapper;
+		}
+		else
+		{
+			return cellContent;
+		}
+			
+	}
+
+	private boolean needWrap( ICellContent cellContent )
+	{
+		if ( hasHiddenColumns )
+		{
+			int columnId = cellContent.getColumn( );
+			int columnSpan = cellContent.getColSpan( );
+			return ( columnId >= leastColumnIdToBeAjusted )
+					|| ( columnId + columnSpan - 1 >= leastColumnIdToBeAjusted );
+		}
+		return false;
+	}
+	
+	private int getAdjustedColumnSpan( int columnId, int columnSpan )
+	{
+		if ( columnSpan == 1 )
+		{
+			return columnSpan;
+		}
+		int endColumnId = columnId + columnSpan;
+		return adjustedColumnIds[endColumnId] - adjustedColumnIds[columnId];
+	}
+	
+	private int getAdjustedColumnId( int columnId )
+	{
+		return adjustedColumnIds[columnId];
+	}
 }

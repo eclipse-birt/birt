@@ -1229,11 +1229,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			IColumn column = table.getColumn( i );
 			
-			if ( isColumnHidden( column ) )
-			{
-				continue;
-			}
-
 			writer.openTag( HTMLTags.TAG_COL );
 			
 			// output class attribute.
@@ -1272,23 +1267,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	}
 	
 	
-	/**
-	 * check whether to hide the column.
-	 * @param column
-	 * @return
-	 */
-	private boolean isColumnHidden( IColumn column )
-	{
-		String formats = column.getVisibleFormat( );
-		if ( formats != null
-				&& ( formats.indexOf( EngineIRConstants.FORMAT_TYPE_VIEWER ) >= 0 || formats
-						.indexOf( BIRTConstants.BIRT_ALL_VALUE ) >= 0 ) )
-		{
-			return true;
-		}
-		return false;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 

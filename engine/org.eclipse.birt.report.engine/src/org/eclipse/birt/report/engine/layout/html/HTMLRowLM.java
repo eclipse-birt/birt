@@ -30,7 +30,7 @@ public class HTMLRowLM extends HTMLInlineStackingLM
 	{
 		//handle visibility in table layout
 		boolean ret = super.handleVisibility( );
-		if(ret && ((HTMLTableLayoutNoNestEmitter)emitter).isLayoutStarted( ))
+		if(ret && ((HTMLTableLayoutEmitter)emitter).isLayoutStarted( ))
 		{
 			emitter.startRow( (IRowContent)content );
 			emitter.endRow( (IRowContent)content );
