@@ -11,9 +11,6 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import javax.management.remote.TargetedNotification;
-
-import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
