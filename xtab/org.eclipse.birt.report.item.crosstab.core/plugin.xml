@@ -397,6 +397,16 @@
                canInherit="true"
                isEncryptable="false"
                isList="true"
+               name="filter"
+               type="contentElement">
+            <elementType
+                  name="FilterConditionElement">
+            </elementType>
+         </property>
+         <property
+               canInherit="true"
+               isEncryptable="false"
+               isList="true"
                name="aggregations"
                type="element">
             <elementType

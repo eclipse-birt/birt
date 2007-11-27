@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.15"
+	id="1">
+	<data-sources>
+		<oda-data-source
+			extensionID="org.eclipse.birt.report.data.oda.jdbc"
+			name="Data Source" id="7" />
+	</data-sources>
+	<data-sets>
+		<oda-data-set
+			extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet"
+			name="Data Set" id="8" />
+	</data-sets>
+	<cubes>
+		<tabular-cube name="Data Cube" id="9"/>
+	</cubes>
+	<body>
+		<extended-item extensionName="Crosstab" id="61">
+			<property name="measures">
+				<extended-item extensionName="MeasureView" id="72">
+					<property name="measure">EMAIL</property>
+					<property name="filter">
+						<filter-condition-element>
+							<expression name="expr">
+								data["EMPLOYEENUMBER"]
+							</expression>
+							<property name="operator">gt</property>
+							<simple-property-list name="value1">
+								<value>100</value>
+							</simple-property-list>
+						</filter-condition-element>
+					</property>
+				</extended-item>
+			</property>
+			<property name="cube">Data Cube</property>
+		</extended-item>
+	</body>
+</report>

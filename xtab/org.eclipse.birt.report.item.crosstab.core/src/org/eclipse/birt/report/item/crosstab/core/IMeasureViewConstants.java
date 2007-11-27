@@ -38,4 +38,9 @@ public interface IMeasureViewConstants
 	 * for this measure.
 	 */
 	String HEADER_PROP = "header"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the property that defines some filter conditions.
+	 */
+	String FILTER_PROP = "filter"; //$NON-NLS-1$
 }

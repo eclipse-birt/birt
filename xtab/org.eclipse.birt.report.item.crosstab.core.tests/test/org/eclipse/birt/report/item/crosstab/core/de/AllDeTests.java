@@ -16,11 +16,12 @@ import junit.framework.TestSuite;
 
 /**
  * All tests in de package
- *
+ * 
  */
 
 public class AllDeTests
 {
+
 	/**
 	 * @return the test
 	 */
@@ -30,6 +31,8 @@ public class AllDeTests
 		TestSuite test = new TestSuite( );
 
 		test.addTestSuite( CrosstabItemFactoryTest.class );
+		test.addTestSuite( CrosstabViewHandleTest.class );
+		test.addTestSuite( MeasureViewHandleTest.class );
 
 		// add all test classes here
 

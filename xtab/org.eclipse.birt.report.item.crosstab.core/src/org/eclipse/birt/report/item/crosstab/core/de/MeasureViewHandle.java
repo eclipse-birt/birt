@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.item.crosstab.core.de;
 
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.item.crosstab.core.IAggregationCellConstants;
@@ -361,5 +363,25 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle
 		ExtendedItemHandle headerCell = CrosstabExtendedItemFactory
 				.createCrosstabCell( moduleHandle );
 		propHandle.add( headerCell );
+	}
+	
+	/**
+	 * Returns the iterator for filter list defined on this measure view. The
+	 * element in the iterator is the corresponding
+	 * <code>DesignElementHandle</code> that deal with a
+	 * <code>FilterConditionElementHandle</code> in the list.
+	 * 
+	 * @return the iterator for <code>FilterConditionElementHandle</code>
+	 *         element list
+	 */
+
+	public Iterator filtersIterator( )
+	{
+		PropertyHandle propHandle = handle.getPropertyHandle( FILTER_PROP );
+		if ( propHandle == null )
+		{
+			return Collections.EMPTY_LIST.iterator( );
+		}
+		return propHandle.getListValue( ).iterator( );
 	}
 }
