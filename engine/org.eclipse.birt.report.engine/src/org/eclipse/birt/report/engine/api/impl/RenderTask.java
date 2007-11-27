@@ -117,108 +117,6 @@ public class RenderTask extends EngineTask implements IRenderTask
 		render( );
 	}
 
-	private List parsePageSequence( String pageRange, long totalPage )
-	{
-		ArrayList list = new ArrayList( );
-		if ( null == pageRange
-				|| "".equals( pageRange ) || pageRange.toUpperCase( ).indexOf( "ALL" ) >= 0 ) //$NON-NLS-1$ //$NON-NLS-2$
-		{
-			list.add( new long[]{1, totalPage} );
-			return list;
-		}
-		String[] ps = pageRange.split( "," ); //$NON-NLS-1$
-		for ( int i = 0; i < ps.length; i++ )
-		{
-			try
-			{
-				if ( ps[i].indexOf( "-" ) > 0 ) //$NON-NLS-1$
-				{
-					String[] psi = ps[i].split( "-" ); //$NON-NLS-1$
-					if ( psi.length == 2 )
-					{
-						long start = Long.parseLong( psi[0].trim( ) );
-						long end = Long.parseLong( psi[1].trim( ) );
-						if ( end >= start )
-						{
-							list.add( new long[]{Math.max( start, 1 ),
-									Math.min( end, totalPage )} );
-						}
-					}
-					else
-					{
-						log.log( Level.SEVERE,
-								"error page number range: {0}", ps[i] ); //$NON-NLS-1$
-					}
-				}
-				else
-				{
-					long number = Long.parseLong( ps[i].trim( ) );
-					if ( number > 0 && number <= totalPage )
-					{
-						list.add( new long[]{number, number} );
-					}
-					else
-					{
-						log.log( Level.SEVERE,
-								"error page number range: {0}", ps[i] ); //$NON-NLS-1$
-					}
-
-				}
-			}
-			catch ( NumberFormatException ex )
-			{
-				log.log( Level.SEVERE, "error page number rang:", ps[i] ); //$NON-NLS-1$
-			}
-		}
-		return sort( list );
-	}
-
-	private List sort( List list )
-	{
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			long[] currentI = (long[]) list.get( i );
-			int minIndex = i;
-			long[] min = currentI;
-			for ( int j = i + 1; j < list.size( ); j++ )
-			{
-				long[] currentJ = (long[]) list.get( j );
-				if ( currentJ[0] < min[0] )
-				{
-					minIndex = j;
-					min = currentJ;
-				}
-			}
-			if ( minIndex != i )
-			{
-				// swap
-				list.set( i, min );
-				list.set( minIndex, currentI );
-			}
-		}
-		long[] current = null;
-		long[] last = null;
-		ArrayList ret = new ArrayList( );
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			current = (long[]) list.get( i );
-			if ( last != null )
-			{
-				if ( current[1] <= last[1] )
-					continue;
-				if ( current[0] <= last[1] )
-					current[0] = last[1];
-				ret.add( current );
-			}
-			else
-			{
-				ret.add( current );
-			}
-			last = current;
-		}
-		return ret;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -334,7 +232,17 @@ public class RenderTask extends EngineTask implements IRenderTask
 	public void setPageRange( String pageRange ) throws EngineException
 	{
 		long totalPage = reportDoc.getPageCount( );
-		List list = parsePageSequence( pageRange, totalPage );
+		List list = null;
+		try
+		{
+			list = PageSequenceParse.parsePageSequence( pageRange,
+					reportDoc.getPageCount( ) );
+		}
+		catch ( EngineException e )
+		{
+			log.log( Level.SEVERE, e.getMessage( ) );
+			throw e;
+		}
 		if ( list.size( ) == 1 )
 		{
 			long[] range = (long[]) list.get( 0 );
