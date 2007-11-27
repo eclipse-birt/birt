@@ -1164,14 +1164,7 @@ public class TaskSelectType extends SimpleTask implements
 		ChartAdapter.endIgnoreNotifications( );
 
 		updateSelection( );
-		if ( context == null )
-		{
-			context = new ChartWizardContext( chartModel );
-		}
-		else
-		{
-			( (ChartWizardContext) context ).setModel( chartModel );
-		}
+		( (ChartWizardContext) context ).setModel( chartModel );
 		( (ChartWizardContext) context ).setChartType( chartType );
 		setContext( context );
 
@@ -1230,14 +1223,7 @@ public class TaskSelectType extends SimpleTask implements
 	public IWizardContext getContext( )
 	{
 		ChartWizardContext context = (ChartWizardContext) super.getContext( );
-		if ( context == null )
-		{
-			context = new ChartWizardContext( this.chartModel );
-		}
-		else
-		{
-			context.setModel( this.chartModel );
-		}
+		context.setModel( this.chartModel );
 		return context;
 	}
 
@@ -1332,17 +1318,10 @@ public class TaskSelectType extends SimpleTask implements
 		return ( (ChartWizardContext) getContext( ) ).getDataServiceProvider( );
 	}
 
-	private boolean hasDataSet( )
-	{
-		return getDataServiceProvider( ).getReportDataSet( ) != null
-				|| getDataServiceProvider( ).getBoundDataSet( ) != null;
-	}
-
 	private void doLivePreview( )
 	{
 		if ( getDataServiceProvider( ).isLivePreviewEnabled( )
-				&& ChartUIUtil.checkDataBinding( chartModel )
-				&& hasDataSet( ) )
+				&& ChartUIUtil.checkDataBinding( chartModel ) )
 		{
 			// Enable live preview
 			ChartPreviewPainter.activateLivePreview( true );

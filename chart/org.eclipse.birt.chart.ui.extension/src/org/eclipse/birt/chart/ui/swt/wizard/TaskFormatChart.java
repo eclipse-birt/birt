@@ -708,17 +708,10 @@ public class TaskFormatChart extends TreeCompoundTask
 		return ( (ChartWizardContext) getContext( ) ).getDataServiceProvider( );
 	}
 
-	private boolean hasDataSet( )
-	{
-		return getDataServiceProvider( ).getReportDataSet( ) != null
-				|| getDataServiceProvider( ).getBoundDataSet( ) != null;
-	}
-
 	private void doLivePreviewWithoutRenderModel( )
 	{
 		if ( getDataServiceProvider( ).isLivePreviewEnabled( )
-				&& ChartUIUtil.checkDataBinding( getCurrentModelState( ) )
-				&& hasDataSet( ) )
+				&& ChartUIUtil.checkDataBinding( getCurrentModelState( ) ) )
 		{
 			// Enable live preview
 			ChartPreviewPainter.activateLivePreview( true );

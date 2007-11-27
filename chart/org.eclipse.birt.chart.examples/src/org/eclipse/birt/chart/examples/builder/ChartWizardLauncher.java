@@ -20,12 +20,14 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.Serializer;
 import org.eclipse.birt.chart.model.impl.SerializerImpl;
 import org.eclipse.birt.chart.ui.integrate.SimpleUIServiceProviderImpl;
+import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ApplyButtonHandler;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.TaskFormatChart;
 import org.eclipse.birt.chart.ui.swt.wizard.TaskSelectData;
 import org.eclipse.birt.chart.ui.swt.wizard.TaskSelectType;
+import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.framework.PlatformConfig;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.TasksManager;
@@ -44,7 +46,7 @@ import com.ibm.icu.util.ULocale;
  * <p>
  * Also could specify file name in program arguments to open the expected chart.
  */
-public class ChartWizardLauncher
+public class ChartWizardLauncher implements ChartUIConstants
 {
 
 	public void launch( String filePath )
@@ -71,24 +73,26 @@ public class ChartWizardLauncher
 
 		// Configures the chart wizard.
 		final ChartWizard chartWizard = new ChartWizard( );
-		final ChartWizardContext context = new ChartWizardContext( chart );
-		context.setRtL( ChartUtil.isRightToLeftLocale( ULocale.getDefault( ) ) );
+		// Customized data provider and data sheet as below
+		IDataServiceProvider dataProvider = new DefaultDataServiceProviderImpl( );
+		// Create context
+		final ChartWizardContext context = new ChartWizardContext( chart,
+				new SimpleUIServiceProviderImpl( ),
+				dataProvider,
+				new SampleStandardDataSheet( dataProvider ) );
 
-		/*
-		 * Used to fetch data. Default implementation of <code>IDataServiceProvider</code>.
-		 * 
-		 * @see the implementation for BIRT, <code>org.eclipse.birt.chart.reportitem.ReportDataServiceProvider</code>
-		 * 
-		 */
-		context.setDataServiceProvider( new DefaultDataServiceProviderImpl( ) );
-		/*
-		 * Used to invoke some builders outside. Default implementation of
-		 * <code>IUIServiceProvider</code>.
-		 * 
-		 * @see the implementation for BIRT, <code>org.eclipse.birt.chart.reportitem.ChartReportItemBuilderImpl</code>
-		 * 
-		 */
-		context.setUIServiceProvider( new SimpleUIServiceProviderImpl( ) );
+		// Use these methods to disable the UI you want.
+		context.setEnabled( SUBTASK_TITLE, false );
+		context.setEnabled( SUBTASK_LEGEND + BUTTON_LAYOUT, false );
+		context.setEnabled( SUBTASK_SERIES_Y + BUTTON_LABEL, false );
+		context.setEnabled( SUBTASK_SERIES_Y + BUTTON_CURVE, false );
+
+		// Add predefined queries to select in data sheet
+		context.addPredefinedQuery( QUERY_CATEGORY, new String[]{
+				"row[\"abc\"]", "abc"
+		} );
+
+		context.setRtL( ChartUtil.isRightToLeftLocale( ULocale.getDefault( ) ) );
 
 		// This array is for storing the latest chart data before pressing
 		// apply button

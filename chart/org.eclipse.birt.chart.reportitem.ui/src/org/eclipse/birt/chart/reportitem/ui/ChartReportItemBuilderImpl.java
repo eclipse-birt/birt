@@ -25,6 +25,7 @@ import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportStyleProcessor;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ChartExpressionProvider;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ApplyButtonHandler;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
@@ -148,7 +149,14 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 						.getActiveShell( );
 			}
 			final ChartWizard chartBuilder = new ChartWizard( parentShell );
-			final ChartWizardContext context = new ChartWizardContext( cmClone );
+			ReportDataServiceProvider dataProvider = new ReportDataServiceProvider( eih );
+			IChartDataSheet dataSheet = new StandardChartDataSheet( cmClone,
+					eih,
+					dataProvider );
+			final ChartWizardContext context = new ChartWizardContext( cmClone,
+					this,
+					dataProvider,
+					dataSheet );
 			chartBuilder.addCustomButton( new ApplyButtonHandler( chartBuilder ) {
 
 				public void run( )
@@ -163,8 +171,6 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 				}
 			} );
 
-			context.setUIServiceProvider( this );
-			context.setDataServiceProvider( new ReportDataServiceProvider( eih ) );
 			context.setRtL( ReportItemUIUtil.isRtl( ) );
 			Object of = eih.getProperty( "outputFormat" ); //$NON-NLS-1$
 			if ( of instanceof String )

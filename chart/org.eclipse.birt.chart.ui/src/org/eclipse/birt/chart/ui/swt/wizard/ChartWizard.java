@@ -137,8 +137,8 @@ public class ChartWizard extends WizardBase
 	{
 		if ( getContext( ) != null )
 		{
-			// Dispose IDataServiceProvider
-			getContext( ).getDataServiceProvider( ).dispose( );
+			// Dispose data sheet
+			getContext( ).getDataSheet( ).dispose( );
 
 			Chart chart = getContext( ).getModel( );
 			if ( chart != null )

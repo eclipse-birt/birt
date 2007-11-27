@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.chart.ui.swt.interfaces;
 
-import java.util.List;
-
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.DataType;
 
@@ -22,46 +20,6 @@ import org.eclipse.birt.chart.model.attribute.DataType;
 
 public interface IDataServiceProvider
 {
-
-	public static final int COMMAND_NEW_DATASET = 0;
-	public static final int COMMAND_EDIT_FILTER = 1;
-	public static final int COMMAND_EDIT_PARAMETER = 2;
-	public static final int COMMAND_EDIT_BINDING = 3;
-
-	/**
-	 * Returns all available data sets.
-	 * 
-	 * @return name string array
-	 */
-	public String[] getAllDataSets( );
-
-	/**
-	 * Returns the bound dataset currently, or null if there's no dataset bound.
-	 */
-	public String getBoundDataSet( );
-
-	/**
-	 * Returns the dataset bound by parents, or null if there's no dataset bound
-	 * there.
-	 */
-	public String getReportDataSet( );
-
-	/**
-	 * Returns all available report item references.
-	 * 
-	 * @return name string array
-	 * @since 2.2.1
-	 */
-	public String[] getAllReportItemReferences( );
-
-	/**
-	 * Returns the name of current data item reference, or null if no reference
-	 * found.
-	 * 
-	 * @return the name of current data item reference
-	 * @since 2.2.1
-	 */
-	public String getReportItemReference( );
 
 	/**
 	 * Returns all available style names.
@@ -82,65 +40,9 @@ public interface IDataServiceProvider
 	public String getCurrentStyle( );
 
 	/**
-	 * Returns the preview data header, e.g. column display names.
-	 * 
-	 * @return meta data in form of string
-	 * @throws ChartException
-	 */
-	public String[] getPreviewHeader( ) throws ChartException;
-
-	/**
-	 * Returns the preview data
-	 * 
-	 * @return data list which includes string array as an element
-	 * @throws ChartException
-	 */
-	public List getPreviewData( ) throws ChartException;
-
-	/**
-	 * Sets the context object
-	 */
-	public void setContext( Object context );
-
-	/**
-	 * Binds data set for chart, and updates related settings, such as column
-	 * bindings, filters, parameters.
-	 * 
-	 * @param datasetName
-	 *            Dataset name. Null means inheriting from container.
-	 */
-	public void setDataSet( String datasetName );
-
-	/**
-	 * Binds report item reference for chart, and update related settings, such
-	 * as data set.
-	 * 
-	 * @param referenceName
-	 *            Reference name. Null means no reference or inheriting from
-	 *            container.
-	 * @since 2.2.1
-	 */
-	public void setReportItemReference( String referenceName );
-
-	/**
 	 * Sets current used style by specified style name.
 	 */
 	public void setStyle( String styleName );
-
-	/**
-	 * Invokes specific dialogue. The return codes are window-specific, although
-	 * two standard return codes are predefined: <code>OK</code> and
-	 * <code>CANCEL</code>.
-	 * </p>
-	 * 
-	 * @param command
-	 *            dialogue type, predefined:<code>COMMAND_NEW_DATASET</code>,
-	 *            <code>COMMAND_EDIT_FILTER</code> and
-	 *            <code>COMMAND_EDIT_PARAMETER</code>
-	 * @return the return code
-	 * 
-	 */
-	public int invoke( int command );
 
 	/**
 	 * Fetches data from dataset.
@@ -160,32 +62,11 @@ public interface IDataServiceProvider
 			boolean byRow ) throws ChartException;
 
 	/**
-	 * Disposes all resources.
-	 * 
-	 */
-	public void dispose( );
-
-	/**
 	 * Returns whether live preview is enabled
 	 * 
 	 * @return whether live preview is enabled
 	 */
 	public boolean isLivePreviewEnabled( );
-
-	/**
-	 * Returns whether all outside builder invokings are supported
-	 * 
-	 * @return whether all invokings are supported
-	 * @since 2.1
-	 */
-	public boolean isInvokingSupported( );
-
-	/**
-	 * Returns whether the application is running under Eclipse Mode.
-	 * 
-	 * @since 2.2
-	 */
-	public boolean isEclipseModeSupported( );
 
 	/**
 	 * Returns the data type according to the query expression.

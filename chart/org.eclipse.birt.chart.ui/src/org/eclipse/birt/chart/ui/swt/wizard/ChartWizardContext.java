@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.style.IStyleProcessor;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
@@ -36,17 +37,22 @@ public class ChartWizardContext implements IWizardContext
 	private Object extendedItem = null;
 	private String sDefaultOutputFormat = "SVG"; //$NON-NLS-1$
 	private String sOutputFormat = sDefaultOutputFormat;
-	private IUIServiceProvider uiProvider;
-	private IDataServiceProvider dataProvider;
+	final private IUIServiceProvider uiProvider;
+	final private IDataServiceProvider dataProvider;
+	final private IChartDataSheet dataSheet;
 	private IStyleProcessor processor;
 	private boolean isMoreAxesSupported;
 	private boolean isRtL;
 	private Map mSheetEnabled;
 	private Map mQueries;
 
-	public ChartWizardContext( Chart chartModel )
+	public ChartWizardContext( Chart chartModel, IUIServiceProvider uiProvider,
+			IDataServiceProvider dataProvider, IChartDataSheet dataSheet )
 	{
 		this.chartModel = chartModel;
+		this.uiProvider = uiProvider;
+		this.dataProvider = dataProvider;
+		this.dataSheet = dataSheet;
 	}
 
 	/*
@@ -105,19 +111,9 @@ public class ChartWizardContext implements IWizardContext
 		return uiProvider;
 	}
 
-	public void setUIServiceProvider( IUIServiceProvider uiProvider )
-	{
-		this.uiProvider = uiProvider;
-	}
-
 	public IDataServiceProvider getDataServiceProvider( )
 	{
 		return dataProvider;
-	}
-
-	public void setDataServiceProvider( IDataServiceProvider dataProvider )
-	{
-		this.dataProvider = dataProvider;
 	}
 
 	public void setChartType( IChartType chartType )
@@ -271,5 +267,10 @@ public class ChartWizardContext implements IWizardContext
 			return (String[]) mQueries.get( queryType );
 		}
 		return null;
+	}
+
+	public IChartDataSheet getDataSheet( )
+	{
+		return dataSheet;
 	}
 }

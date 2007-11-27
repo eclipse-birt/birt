@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.ui.i18n;
 
+import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
@@ -49,5 +50,17 @@ public class Messages
 		{
 			return '!' + key + '!';
 		}
+	}
+	
+	public static String getString( String key, Object[] arguments )
+	{
+		return MessageFormat.format( getString( key ), arguments );
+	}
+
+	public static String getString( String key, String argument )
+	{
+		return MessageFormat.format( getString( key ), new Object[]{
+			argument
+		} );
 	}
 }

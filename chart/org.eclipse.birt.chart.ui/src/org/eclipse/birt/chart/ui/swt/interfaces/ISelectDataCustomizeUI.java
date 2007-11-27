@@ -75,13 +75,6 @@ public interface ISelectDataCustomizeUI
 			SeriesDefinition seriesdefinition, ChartWizardContext context,
 			String sTitle );
 
-	/**
-	 * Gets custom preview table which is used for data preview
-	 * 
-	 * @return custom preview table
-	 */
-	Object getCustomPreviewTable( );
-
 	void layoutAll( );
 
 	/**

@@ -28,13 +28,9 @@ import java.util.Map;
 
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.DataType;
-import org.eclipse.birt.chart.reportitem.ui.dialogs.ChartColumnBindingDialog;
-import org.eclipse.birt.chart.reportitem.ui.dialogs.ExtendedItemFilterDialog;
-import org.eclipse.birt.chart.reportitem.ui.dialogs.ReportItemParametersDialog;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
-import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -46,11 +42,7 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
-import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
-import org.eclipse.birt.report.designer.ui.dialogs.ColumnBindingDialog;
-import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -68,14 +60,7 @@ import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
-import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.metadata.PredefinedStyle;
-import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.window.Window;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.PlatformUI;
 
 import com.ibm.icu.text.Collator;
 import com.ibm.icu.text.DateFormat;
@@ -462,75 +447,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return null;
 	}
 
-	public int invoke( int command )
-	{
-		if ( command == COMMAND_NEW_DATASET )
-		{
-			return invokeNewDataSet( );
-		}
-		else if ( command == COMMAND_EDIT_FILTER )
-		{
-			return invokeEditFilter( );
-		}
-		else if ( command == COMMAND_EDIT_PARAMETER )
-		{
-			return invokeEditParameter( );
-		}
-		else if ( command == COMMAND_EDIT_BINDING )
-		{
-			return invokeDataBinding( );
-		}
-		return Window.CANCEL;
-	}
-
-	protected int invokeNewDataSet( )
-	{
-		IAction action = new NewDataSetAction( );
-		PlatformUI.getWorkbench( ).getHelpSystem( ).setHelp( action,
-				ChartHelpContextIds.DIALOG_NEW_DATA_SET );
-		action.run( );
-		// Due to the limitation of the action execution, always return ok
-		return Window.OK;
-	}
-
-	protected int invokeEditFilter( )
-	{
-		ExtendedItemFilterDialog page = new ExtendedItemFilterDialog( itemHandle );
-		return page.open( );
-	}
-
-	protected int invokeEditParameter( )
-	{
-		ReportItemParametersDialog page = new ReportItemParametersDialog( itemHandle );
-		return page.open( );
-	}
-
-	protected int invokeDataBinding( )
-	{
-		Shell shell = new Shell( Display.getDefault( ), SWT.DIALOG_TRIM
-				| SWT.RESIZE | SWT.APPLICATION_MODAL );
-		// #194163: Do not register CS help in chart since it's registered in
-		// super column binding dialog.
-		// ChartUIUtil.bindHelp( shell,
-		// ChartHelpContextIds.DIALOG_DATA_SET_COLUMN_BINDING );
-		ColumnBindingDialog page = new ChartColumnBindingDialog( shell );
-		page.setInput( itemHandle );
-
-		ExpressionProvider ep = new ExpressionProvider( itemHandle );
-		ep.addFilter( new ExpressionFilter( ) {
-
-			public boolean select( Object parentElement, Object element )
-			{
-				// Remove unsupported expression. See bugzilla#132768
-				return !( parentElement.equals( ExpressionProvider.BIRT_OBJECTS )
-						&& element instanceof IClassInfo && ( (IClassInfo) element ).getName( )
-						.equals( "Total" ) ); //$NON-NLS-1$
-			}
-		} );
-		page.setExpressionProvider( ep );
-		return page.open( );
-	}
-
 	private StyleHandle[] getAllStyleHandles( )
 	{
 		List sLst = getReportDesignHandle( ).getAllStyles( );
@@ -565,8 +481,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			names[i] = handles[i].getQualifiedName( );
 		}
-		
-		// Filter predefined styles to make its logic same with report design side.
+
+		// Filter predefined styles to make its logic same with report design
+		// side.
 		names = filterPreStyles( names );
 		return names;
 	}
@@ -574,16 +491,18 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	/**
 	 * Filter predefined styles.
 	 * 
-	 * @param items all available styles
+	 * @param items
+	 *            all available styles
 	 * @return filtered styles.
 	 */
 	private String[] filterPreStyles( String items[] )
 	{
 		String[] newItems = items;
-		if ( items == null ) {
+		if ( items == null )
+		{
 			newItems = new String[]{};
 		}
-		
+
 		List preStyles = new DesignEngine( new DesignConfig( ) ).getMetaData( )
 				.getPredefinedStyles( );
 		List preStyleNames = new ArrayList( );
@@ -605,7 +524,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return (String[]) ( sytleNames.toArray( new String[]{} ) );
 
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -615,10 +534,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	{
 		List styles = Arrays.asList( getAllStyles( ) );
 		StyleHandle[] handles = getAllStyleHandles( );
-		String[] names = new String[ styles.size( ) ];
+		String[] names = new String[styles.size( )];
 		for ( int i = 0, j = 0; i < handles.length; i++ )
 		{
-			// Remove predefined styles to make its logic same with report design side.
+			// Remove predefined styles to make its logic same with report
+			// design side.
 			if ( styles.contains( handles[i].getQualifiedName( ) ) )
 			{
 				names[j++] = handles[i].getDisplayLabel( );
@@ -710,11 +630,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	{
 		return !isErrorFound
 				&& ChartReportItemUIActivator.getDefault( )
-				.getPluginPreferences( )
-				.getBoolean( ChartReportItemUIActivator.PREFERENCE_ENALBE_LIVE );
+						.getPluginPreferences( )
+						.getBoolean( ChartReportItemUIActivator.PREFERENCE_ENALBE_LIVE )
+				&& ( getReportDataSet( ) != null || getBoundDataSet( ) != null );
 	}
 
-	public boolean isInvokingSupported( )
+	boolean isInvokingSupported( )
 	{
 		// If report item reference is set, all operations, including filters,
 		// parameter bindings and column bindings are not supported
@@ -728,11 +649,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			// To check container's report item reference
 			return container.getDataBindingReference( ) == null;
 		}
-		return true;
-	}
-
-	public boolean isEclipseModeSupported( )
-	{
 		return true;
 	}
 

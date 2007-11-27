@@ -24,7 +24,6 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
-import org.eclipse.birt.chart.ui.swt.wizard.internal.CustomPreviewTable;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
 import org.eclipse.emf.common.util.EList;
@@ -39,8 +38,6 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 {
 
 	private ITask task = null;
-
-	private CustomPreviewTable customTable = null;
 
 	protected List subLeftAreas = new ArrayList( );
 	protected List subRightAreas = new ArrayList( );
@@ -253,16 +250,6 @@ public class SelectDataDynamicArea implements ISelectDataCustomizeUI
 	private EList getValueSeriesDefinitionForProcessing( )
 	{
 		return getBaseSeriesDefinitionForProcessing( ).getSeriesDefinitions( );
-	}
-
-	public Object getCustomPreviewTable( )
-	{
-		return customTable;
-	}
-
-	public void setCustomPreviewTable( CustomPreviewTable customTable )
-	{
-		this.customTable = customTable;
 	}
 
 	public void layoutAll( )

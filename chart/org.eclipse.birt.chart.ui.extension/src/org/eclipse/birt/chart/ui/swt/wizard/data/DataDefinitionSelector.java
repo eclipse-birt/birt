@@ -31,14 +31,13 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.ColorPalette;
+import org.eclipse.birt.chart.ui.swt.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
-import org.eclipse.birt.chart.ui.swt.wizard.internal.ColorPalette;
-import org.eclipse.birt.chart.ui.swt.wizard.internal.CustomPreviewTable;
-import org.eclipse.birt.chart.ui.swt.wizard.internal.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
@@ -638,13 +637,14 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 			}
 		}
 
-		// Refresh table color
-		for ( int i = 0; i < getCustomTable( ).getColumnNumber( ); i++ )
-		{
-			getCustomTable( ).setColumnColor( i,
-					ColorPalette.getInstance( )
-							.getColor( ChartUIUtil.getExpressionString( getCustomTable( ).getColumnHeading( i ) ) ) );
-		}
+		//TODO to update color by other means
+//		// Refresh table color
+//		for ( int i = 0; i < getCustomTable( ).getColumnNumber( ); i++ )
+//		{
+//			getCustomTable( ).setColumnColor( i,
+//					ColorPalette.getInstance( )
+//							.getColor( ChartUIUtil.getExpressionString( getCustomTable( ).getColumnHeading( i ) ) ) );
+//		}
 	}
 
 	private void setSelectedSeriesIndex( )
@@ -667,11 +667,6 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 	private void setAxisDeleteEnabled( )
 	{
 		btnAxisDelete.setEnabled( ChartUIUtil.getOrthogonalAxisNumber( getChart( ) ) > 1 );
-	}
-
-	private CustomPreviewTable getCustomTable( )
-	{
-		return (CustomPreviewTable) selectDataUI.getCustomPreviewTable( );
 	}
 
 	public void widgetDefaultSelected( SelectionEvent e )
