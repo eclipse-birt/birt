@@ -53,14 +53,6 @@ public class GroupingLookupHelper
 	private int iLookup = 0;
 
 	private ULocale locale;
-
-	/**
-	 * The list stores the index of value series.
-	 * <p>
-	 * In outer engine grouping case, we will binding name to evaluate value
-	 * series instead of expression.
-	 */
-	private List fListOfValueSeries = new ArrayList( 8 );
 	
 	/**
 	 * Constructor. Finds all data expressions and aggregation expressions in
@@ -283,13 +275,9 @@ public class GroupingLookupHelper
 					continue;
 				}
 
-				int index = lstAll.size( );
 				if ( addDataExp( qOrthogonalSeries.getDefinition( ),
 						strOrthoAgg ) )
 				{
-					if ( lstAll.size( ) > index ) {
-						fListOfValueSeries.add( new Integer( lstAll.size( ) - 1 ));
-					}
 					bAnyQueries = true;
 				}
 			}
@@ -431,24 +419,5 @@ public class GroupingLookupHelper
 			}
 		}
 		return strOrthoAgg;
-	}
-
-	/**
-	 * Check if specified index is a valid index of value series.
-	 * 
-	 * @param columnIndex
-	 * @return
-	 */
-	boolean isValueSeriesIndex( int columnIndex )
-	{
-		Object[] indexArray = fListOfValueSeries.toArray( );
-		for ( int i = 0; i < indexArray.length; i++ )
-		{
-			if ( columnIndex == ( (Integer) indexArray[i] ).intValue( ) )
-			{
-				return true;
-			}
-		}
-		return false;
 	}
 }
