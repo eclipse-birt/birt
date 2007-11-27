@@ -1109,7 +1109,7 @@ public class BirtUtility
 						String.class, String.class, int.class} );
 				if ( mt != null )
 					mt.invoke( null, new Object[]{systemId, message,
-							Integer.valueOf( lineNumber )} );
+							new Integer( lineNumber )} );
 			}
 		}
 		catch ( Exception e )
