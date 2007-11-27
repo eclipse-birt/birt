@@ -856,11 +856,11 @@ public class TableAreaLayout
 				lastCell = lastRow.getCell( i );
 			}
 			CellArea cell = row.getCell( i );
-			if(lastCell!=null 
-					&&(lastCell.getRowSpan( )>1 || isDropCell( lastCell )))
+			if ( lastCell != null
+					&& ( ( lastCell.getRowSpan( ) > 1  ) || isDropCell( lastCell ) ) )
 			{
 				//should remove conflict area. 
-				if(cell!=null)
+				if(cell!=null && ( lastCell instanceof DummyCell ))
 				{
 					row.remove( i );
 				}
