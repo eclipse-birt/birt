@@ -21,19 +21,6 @@ public interface IGroupedDataRowExpressionEvaluator
 {
 
 	/**
-	 * Evaluate expression/binding name.
-	 * 
-	 * @param expression
-	 *            expression/binding name.
-	 * @param isValueSeries
-	 *            <code>true</code> means the expression should be as binding
-	 *            name to get value.
-	 * 
-	 * @return evaluator result
-	 */
-	public Object evaluate( String expression, boolean isValueSeries );
-
-	/**
 	 * Returns the group breaks of specified group level. <code>null</code>
 	 * means no group breaks.
 	 * 

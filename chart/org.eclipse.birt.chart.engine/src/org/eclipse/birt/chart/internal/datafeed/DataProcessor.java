@@ -316,17 +316,7 @@ public class DataProcessor
 		// 2. WALK THROUGH RESULTS
 		List liResultSet = null;
 		
-		// Set the boolean value of value series against index.
-		// The index of array indicates if the column of index is value series.
-		boolean[] areValueSeries = new boolean[co.size( )];
-		for ( int i = 0; i < areValueSeries.length; i++ )
-		{
-			areValueSeries[i] = lhmLookup.isValueSeriesIndex( i );
-		}	
-				
-		liResultSet = evaluateRowSet( idre,
-				co.toArray( ),
-				areValueSeries);
+		liResultSet = evaluateRowSet( idre,	co.toArray( ) );
 
 		// Prepare orthogonal grouping keys
 		final GroupKey[] orthogonalGroupKeys = findGroupKeys( cm, lhmLookup );
@@ -872,7 +862,7 @@ public class DataProcessor
 	private DataSet adjustDataSet( DataSet ds, int maxcount, List indexMap,
 			DataSet[] userDs )
 	{
-		ds = adjustEachDataSet( ds, indexMap );
+		DataSet dataSet = adjustEachDataSet( ds, indexMap );
 
 		if ( userDs != null && userDs.length > 0 )
 		{
@@ -883,7 +873,7 @@ public class DataProcessor
 			}
 		}
 
-		return ds;
+		return dataSet;
 	}
 
 	private DataSet adjustEachDataSet( DataSet ds, List indexMap )
@@ -1289,10 +1279,9 @@ public class DataProcessor
 	 * @since 2.3
 	 */
 	public List evaluateRowSet( IDataRowExpressionEvaluator idre,
-			final Object[] columns, final boolean[] areValueSeries )
+			final Object[] columns )
 	{
 		List liResultSet = new ArrayList( );
-		final boolean isGroupedResultSet = idre instanceof IGroupedDataRowExpressionEvaluator;
 		final int iColumnCount = columns.length;
 		Object[] oaTuple;
 		final int MAX_ROW_COUNT = ChartUtil.getSupportedMaxRowCount( rtc );
@@ -1309,22 +1298,9 @@ public class DataProcessor
 				}
 
 				oaTuple = new Object[iColumnCount];
-				if ( isGroupedResultSet )
+				for ( int i = 0; i < columns.length; i++ )
 				{
-					for ( int i = 0; i < columns.length; i++ )
-					{
-						// If grouping is enabled, the binding name of value
-						// series is used instead of expression.
-						oaTuple[i] = ( (IGroupedDataRowExpressionEvaluator) idre ).evaluate( (String) columns[i],
-								areValueSeries[i] );
-					}
-				}
-				else
-				{
-					for ( int i = 0; i < columns.length; i++ )
-					{
-						oaTuple[i] = idre.evaluate( (String) columns[i] );
-					}
+					oaTuple[i] = idre.evaluate( (String) columns[i] );
 				}
 				liResultSet.add( oaTuple );
 			} while ( idre.next( ) );
