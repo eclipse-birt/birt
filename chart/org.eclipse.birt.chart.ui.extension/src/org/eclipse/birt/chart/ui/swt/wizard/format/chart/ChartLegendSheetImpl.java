@@ -214,7 +214,8 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 		{
 			Button toggle = (Button) buttons.next( );
 			toggle.setEnabled( enabled
-					&& getContext( ).isEnabled( toggle.getData( ).toString( ) ) );
+					&& getContext( ).isEnabled( SUBTASK_LEGEND
+							+ toggle.getData( ) ) );
 		}
 		setToggleButtonEnabled( BUTTON_TITLE, btnTitleVisible.getSelection( )
 				&& enabled );
