@@ -20,12 +20,7 @@ import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.views.INodeProvider;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.GroupHandle;
-import org.eclipse.birt.report.model.api.ListingHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.SlotHandle;
-import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.gef.Request;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -69,7 +64,7 @@ public class ScriptTreeNodeProvider implements INodeProvider
 		else if ( model instanceof ScriptElementNode )
 		{
 			Object designElementModel = ( (ScriptElementNode) model ).getParent( );
-			return getFlatHirarchyPathName( designElementModel );
+			return DEUtil.getFlatHirarchyPathName( designElementModel );
 		}
 		if ( model instanceof ScriptObjectNode )
 		{
@@ -78,51 +73,7 @@ public class ScriptTreeNodeProvider implements INodeProvider
 		return EMPTY_STR;
 	}
 
-	private String getFlatHirarchyPathName( Object object )
-	{
-		DesignElementHandle handle = (DesignElementHandle) object;
-		DesignElementHandle container = handle.getContainer( );
-		String flatHirarchyName = getCombinatedName( handle );
-		while ( !( handle instanceof ReportDesignHandle )
-				&& container != null
-				&& !( container instanceof ReportDesignHandle ) )
-		{
-			SlotHandle slotHandle = handle.getContainerSlotHandle( );
-			if ( slotHandle != null
-					&& ( container instanceof ListingHandle || container instanceof GroupHandle )
-					&& !( handle instanceof GroupHandle ) )
-			{
-				flatHirarchyName = slotHandle.getDefn( ).getDisplayName( )
-						+ flatHirarchyName;
-			}
-			flatHirarchyName = getCombinatedName( container )
-					+ "."
-					+ flatHirarchyName;
-			handle = container;
-			container = container.getContainer( );
-		}
-		return flatHirarchyName;
-	}
-
-	private String getCombinatedName( DesignElementHandle handle )
-	{
-		String elementName = handle.getDefn( ).getDisplayName( );
-		String displayName;
-		if ( handle.getQualifiedName( ) != null
-				&& !handle.getQualifiedName( ).equals( handle.getName( ) ) )
-		{
-			displayName = handle.getQualifiedName( );
-		}
-		else
-		{
-			displayName = handle.getName( );
-		}
-		if ( !StringUtil.isBlank( displayName ) )
-		{
-			return elementName + "(" + displayName + ")"; //$NON-NLS-1$	
-		}
-		return elementName + "(" + handle.getID( ) + ")";
-	}
+	
 
 	public Image getNodeIcon( Object model )
 	{

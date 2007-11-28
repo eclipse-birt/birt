@@ -2753,4 +2753,59 @@ public class DEUtil
 		else
 			return value;
 	}
+	
+	
+	/**Gets the hirarchy name
+	 * @param object
+	 * @return
+	 */
+	public static String getFlatHirarchyPathName( Object object )
+	{
+		if (!(object instanceof DesignElementHandle))
+		{
+			return null;
+		}
+		DesignElementHandle handle = (DesignElementHandle) object;
+		DesignElementHandle container = handle.getContainer( );
+		String flatHirarchyName = getCombinatedName( handle );
+		while ( !( handle instanceof ReportDesignHandle )
+				&& container != null
+				&& !( container instanceof ReportDesignHandle ) )
+		{
+			SlotHandle slotHandle = handle.getContainerSlotHandle( );
+			if ( slotHandle != null
+					&& ( container instanceof ListingHandle || container instanceof GroupHandle )
+					&& !( handle instanceof GroupHandle ) )
+			{
+				flatHirarchyName = slotHandle.getDefn( ).getDisplayName( )
+						+ flatHirarchyName;
+			}
+			flatHirarchyName = getCombinatedName( container )
+					+ "."
+					+ flatHirarchyName;
+			handle = container;
+			container = container.getContainer( );
+		}
+		return flatHirarchyName;
+	}
+
+	private static String getCombinatedName( DesignElementHandle handle )
+	{
+		String elementName = handle.getDefn( ).getDisplayName( );
+		String displayName;
+		if ( handle.getQualifiedName( ) != null
+				&& !handle.getQualifiedName( ).equals( handle.getName( ) ) )
+		{
+			displayName = handle.getQualifiedName( );
+		}
+		else
+		{
+			displayName = handle.getName( );
+		}
+		if ( !StringUtil.isBlank( displayName ) )
+		{
+			return elementName + "(" + displayName + ")"; //$NON-NLS-1$	
+		}
+		return elementName + "(" + handle.getID( ) + ")";
+	}
 }
