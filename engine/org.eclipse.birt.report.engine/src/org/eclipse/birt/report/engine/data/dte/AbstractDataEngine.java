@@ -34,6 +34,7 @@ import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
+import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -216,7 +217,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 				context.addException( new EngineException( "Incorrect parent resultSet for subQuery:" //$NON-NLS-1$
 						+ ( (ISubqueryDefinition) query ).getName( ) ) );
 			}
-			return doExecuteSubQuery( (QueryResultSet) parent,
+			return doExecuteSubQuery( (IQueryResultSet) parent,
 					(ISubqueryDefinition) query );
 		}
 		else if ( query instanceof IQueryDefinition )
@@ -245,11 +246,15 @@ public abstract class AbstractDataEngine implements IDataEngine
 	 * @param query
 	 * @return
 	 */
-	protected IBaseResultSet doExecuteSubQuery( QueryResultSet parent,
+	protected IBaseResultSet doExecuteSubQuery( IQueryResultSet parent,
 			ISubqueryDefinition subQuery )
 	{
 		// Extension Item may used to create the query stack, so we must do
 		// error handling.
+		if ( parent instanceof BlankResultSet )
+		{
+			return parent;
+		}
 		try
 		{
 			String subQueryName = subQuery.getName( );
@@ -257,7 +262,8 @@ public abstract class AbstractDataEngine implements IDataEngine
 			IResultIterator ri = parentRI.getSecondaryIterator( subQueryName,
 					context.getSharedScope( ) );
 			assert ri != null;
-			QueryResultSet resultSet = new QueryResultSet( parent, subQuery, ri );
+			QueryResultSet resultSet = new QueryResultSet(
+					(QueryResultSet) parent, subQuery, ri );
 			return resultSet;
 		}
 		catch ( BirtException e )
