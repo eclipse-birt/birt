@@ -45,6 +45,7 @@
 	<property name="nl.group" value="1" />
 	<property name="module.name" value="org.eclipse.birt.resources.nl" />
 	<property name="jar.name" value="${module.name}${nl.group}_${Bundle-Version}.jar" />
+	<property name="export.name" value="${module.name}${nl.group}_${Bundle-Version}" />
 
 	<target name="Clean">
 		<delete>
