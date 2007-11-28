@@ -84,12 +84,14 @@ public class ParameterDialogFragment extends BaseDialogFragment
 		Collection fragments = new ArrayList( );
 		IViewerReportService service = getReportService( );
 		Collection parameters = null;
-		InputOptions options = new InputOptions( );
-		options.setOption( InputOptions.OPT_REQUEST, request );
 
 		BaseAttributeBean attrBean = (BaseAttributeBean) request
 				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
 		assert attrBean != null;
+
+		InputOptions options = new InputOptions( );
+		options.setOption( InputOptions.OPT_REQUEST, request );
+		options.setOption( InputOptions.OPT_LOCALE, attrBean.getLocale( ) );
 
 		try
 		{
