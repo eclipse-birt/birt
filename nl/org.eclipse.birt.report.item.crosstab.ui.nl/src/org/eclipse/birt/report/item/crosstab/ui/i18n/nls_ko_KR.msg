@@ -92,7 +92,7 @@ CrosstabPageGenerator.TabItem.Sorting=정렬
 
 CrosstabGeneraPage.ForEmptyCell=빈 셀 표시 기호:
 CrosstabGeneraPage.FormatOption=서식 옵션:
-LayoutMeasuresProvider.DisplayName=데이터 필드를 세부 영역에 세로로 배치
+LayoutMeasuresSection.DisplayName=Orientation:
 
 
 parameterBinding.title=데이터 집합 매개 변수 바인딩...

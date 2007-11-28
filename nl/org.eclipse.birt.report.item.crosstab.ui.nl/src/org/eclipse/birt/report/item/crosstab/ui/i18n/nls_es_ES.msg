@@ -92,7 +92,7 @@ CrosstabPageGenerator.TabItem.Sorting=Ordenar
 
 CrosstabGeneraPage.ForEmptyCell=En las celdas vacias, mostrar:
 CrosstabGeneraPage.FormatOption=Opciones de formato:
-LayoutMeasuresProvider.DisplayName=Campos de datos de diseño en área de detalle verticalmente
+LayoutMeasuresSection.DisplayName=Orientation:
 
 
 parameterBinding.title=Enlace de parámetros de conjunto de datos...

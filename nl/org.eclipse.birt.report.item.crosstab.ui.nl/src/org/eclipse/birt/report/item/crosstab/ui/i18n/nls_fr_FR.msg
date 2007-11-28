@@ -92,7 +92,7 @@ CrosstabPageGenerator.TabItem.Sorting=Tri en cours
 
 CrosstabGeneraPage.ForEmptyCell=Pour les cellules vides, afficher :
 CrosstabGeneraPage.FormatOption=Options de format :
-LayoutMeasuresProvider.DisplayName=Présentation verticale des champs de données dans la zone de détails
+LayoutMeasuresSection.DisplayName=Orientation:
 
 
 parameterBinding.title=Liaison de paramètre de jeu de données...

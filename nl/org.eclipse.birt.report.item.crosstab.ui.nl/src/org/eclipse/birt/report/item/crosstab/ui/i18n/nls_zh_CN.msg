@@ -92,7 +92,7 @@ CrosstabPageGenerator.TabItem.Sorting=排序
 
 CrosstabGeneraPage.ForEmptyCell=对于空单元格，显示:
 CrosstabGeneraPage.FormatOption=格式选项:
-LayoutMeasuresProvider.DisplayName=在详细信息区域中垂直布局数据字段
+LayoutMeasuresSection.DisplayName=Orientation:
 
 
 parameterBinding.title=数据集参数绑定...

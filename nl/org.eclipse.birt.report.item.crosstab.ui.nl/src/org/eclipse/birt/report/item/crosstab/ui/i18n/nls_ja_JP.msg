@@ -92,7 +92,7 @@ CrosstabPageGenerator.TabItem.Sorting=ソート
 
 CrosstabGeneraPage.ForEmptyCell=空のセルに次を表示 :
 CrosstabGeneraPage.FormatOption=書式設定オプション :
-LayoutMeasuresProvider.DisplayName=詳細の領域にデータフィールドを垂直方向に表示
+LayoutMeasuresSection.DisplayName=Orientation:
 
 
 parameterBinding.title=データセットパラメタのバインド...
