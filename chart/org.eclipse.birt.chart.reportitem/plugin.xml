@@ -83,6 +83,7 @@
    <extension
          point="org.eclipse.birt.report.engine.reportitemQuery">
       <reportItem
+            class="org.eclipse.birt.chart.reportitem.ChartReportItemQueryImpl"
             getAllRows="true"
             name="Chart">
       </reportItem>
