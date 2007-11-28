@@ -50,6 +50,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getSeries <em>Series</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getGrouping <em>Grouping</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getSorting <em>Sorting</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl#getSortKey <em>Sort Key</em>}</li>
  * </ul>
  * </p>
  *
@@ -66,7 +67,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	 * @generated
 	 * @ordered
 	 */
-	protected Query query = null;
+	protected Query query;
 
 	/**
 	 * The cached value of the '{@link #getSeriesPalette() <em>Series Palette</em>}' containment reference.
@@ -75,7 +76,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	 * @generated
 	 * @ordered
 	 */
-	protected Palette seriesPalette = null;
+	protected Palette seriesPalette;
 
 	/**
 	 * The cached value of the '{@link #getSeriesDefinitions() <em>Series Definitions</em>}' containment reference list.
@@ -84,7 +85,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	 * @generated
 	 * @ordered
 	 */
-	protected EList seriesDefinitions = null;
+	protected EList seriesDefinitions;
 
 	/**
 	 * The cached value of the '{@link #getFormatSpecifier() <em>Format Specifier</em>}' containment reference.
@@ -93,7 +94,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	 * @generated
 	 * @ordered
 	 */
-	protected FormatSpecifier formatSpecifier = null;
+	protected FormatSpecifier formatSpecifier;
 
 	/**
 	 * The cached value of the '{@link #getSeries() <em>Series</em>}' containment reference list.
@@ -102,7 +103,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	 * @generated
 	 * @ordered
 	 */
-	protected EList series = null;
+	protected EList series;
 
 	/**
 	 * The cached value of the '{@link #getGrouping() <em>Grouping</em>}' containment reference.
@@ -111,7 +112,7 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	 * @generated
 	 * @ordered
 	 */
-	protected SeriesGrouping grouping = null;
+	protected SeriesGrouping grouping;
 
 	/**
 	 * The default value of the '{@link #getSorting() <em>Sorting</em>}' attribute.
@@ -138,7 +139,17 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean sortingESet = false;
+	protected boolean sortingESet;
+
+	/**
+	 * The cached value of the '{@link #getSortKey() <em>Sort Key</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSortKey()
+	 * @generated
+	 * @ordered
+	 */
+	protected Query sortKey;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -513,6 +524,75 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Query getSortKey( )
+	{
+		return sortKey;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetSortKey( Query newSortKey,
+			NotificationChain msgs )
+	{
+		Query oldSortKey = sortKey;
+		sortKey = newSortKey;
+		if ( eNotificationRequired( ) )
+		{
+			ENotificationImpl notification = new ENotificationImpl( this,
+					Notification.SET,
+					DataPackage.SERIES_DEFINITION__SORT_KEY,
+					oldSortKey,
+					newSortKey );
+			if ( msgs == null )
+				msgs = notification;
+			else
+				msgs.add( notification );
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSortKey( Query newSortKey )
+	{
+		if ( newSortKey != sortKey )
+		{
+			NotificationChain msgs = null;
+			if ( sortKey != null )
+				msgs = ( (InternalEObject) sortKey ).eInverseRemove( this,
+						EOPPOSITE_FEATURE_BASE
+								- DataPackage.SERIES_DEFINITION__SORT_KEY,
+						null,
+						msgs );
+			if ( newSortKey != null )
+				msgs = ( (InternalEObject) newSortKey ).eInverseAdd( this,
+						EOPPOSITE_FEATURE_BASE
+								- DataPackage.SERIES_DEFINITION__SORT_KEY,
+						null,
+						msgs );
+			msgs = basicSetSortKey( newSortKey, msgs );
+			if ( msgs != null )
+				msgs.dispatch( );
+		}
+		else if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					DataPackage.SERIES_DEFINITION__SORT_KEY,
+					newSortKey,
+					newSortKey ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -532,6 +612,8 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 						msgs );
 			case DataPackage.SERIES_DEFINITION__GROUPING :
 				return basicSetGrouping( null, msgs );
+			case DataPackage.SERIES_DEFINITION__SORT_KEY :
+				return basicSetSortKey( null, msgs );
 		}
 		return super.eInverseRemove( otherEnd, featureID, msgs );
 	}
@@ -559,6 +641,8 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 				return getGrouping( );
 			case DataPackage.SERIES_DEFINITION__SORTING :
 				return getSorting( );
+			case DataPackage.SERIES_DEFINITION__SORT_KEY :
+				return getSortKey( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -595,6 +679,9 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 			case DataPackage.SERIES_DEFINITION__SORTING :
 				setSorting( (SortOption) newValue );
 				return;
+			case DataPackage.SERIES_DEFINITION__SORT_KEY :
+				setSortKey( (Query) newValue );
+				return;
 		}
 		super.eSet( featureID, newValue );
 	}
@@ -629,6 +716,9 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 			case DataPackage.SERIES_DEFINITION__SORTING :
 				unsetSorting( );
 				return;
+			case DataPackage.SERIES_DEFINITION__SORT_KEY :
+				setSortKey( (Query) null );
+				return;
 		}
 		super.eUnset( featureID );
 	}
@@ -657,6 +747,8 @@ public class SeriesDefinitionImpl extends EObjectImpl implements
 				return grouping != null;
 			case DataPackage.SERIES_DEFINITION__SORTING :
 				return isSetSorting( );
+			case DataPackage.SERIES_DEFINITION__SORT_KEY :
+				return sortKey != null;
 		}
 		return super.eIsSet( featureID );
 	}

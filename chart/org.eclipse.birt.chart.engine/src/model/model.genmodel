@@ -510,6 +510,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//SeriesDefinition/series"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//SeriesDefinition/grouping"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//SeriesDefinition/sorting"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//SeriesDefinition/sortKey"/>
     </genClasses>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/enabled"/>

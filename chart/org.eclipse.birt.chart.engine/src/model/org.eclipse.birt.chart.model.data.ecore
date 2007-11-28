@@ -332,7 +332,7 @@
         upperBound="-1" eType="ecore:EClass org.eclipse.birt.chart.model.component.ecore#//Series"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Holds all the series for the chart.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Holds all the series for the chart.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -342,7 +342,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="grouping" eType="#//SeriesGrouping"
         containment="true" resolveProxies="false">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Defines if and how the series data is to be grouped for display. This should only be applied to Base Series.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Defines if and how the series data is to be&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;grouped for display. This should only be applied&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;to Base Series.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
@@ -352,11 +352,18 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="sorting" eType="ecore:EEnum org.eclipse.birt.chart.model.attribute.ecore#//SortOption"
         defaultValueLiteral="Ascending" unsettable="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;Defines if and how the series data is to be sorted for display. This should only be applied to Base Series.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
+        <details key="documentation" value="&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;Defines if and how the series data is to be&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;sorted for display. This should only be applied&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;to Base Series.&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;"/>
       </eAnnotations>
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="element"/>
         <details key="name" value="Sorting"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sortKey" lowerBound="1"
+        eType="#//Query" containment="true" resolveProxies="false">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="SortKey"/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>

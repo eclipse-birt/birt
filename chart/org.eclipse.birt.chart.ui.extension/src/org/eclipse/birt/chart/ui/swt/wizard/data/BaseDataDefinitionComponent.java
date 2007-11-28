@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.ui.swt.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.swt.DataTextDropListener;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.SimpleTextTransfer;
+import org.eclipse.birt.chart.ui.swt.composites.BaseGroupSortingDialog;
 import org.eclipse.birt.chart.ui.swt.composites.GroupSortingDialog;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -356,6 +357,12 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 			{
 				seriesdefinition.setSorting( sdBackup.getSorting( ) );
 			}
+
+			seriesdefinition.setSortKey( sdBackup.getSortKey( ) );
+			seriesdefinition.getSortKey( )
+					.eAdapters( )
+					.addAll( seriesdefinition.eAdapters( ) );
+
 			seriesdefinition.setGrouping( sdBackup.getGrouping( ) );
 			seriesdefinition.getGrouping( )
 					.eAdapters( )
@@ -394,7 +401,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 	protected GroupSortingDialog createGroupSortingDialog(
 			SeriesDefinition sdBackup )
 	{
-		return new GroupSortingDialog( cmpTop.getShell( ),
+		return new BaseGroupSortingDialog( cmpTop.getShell( ),
 				context,
 				sdBackup );
 	}

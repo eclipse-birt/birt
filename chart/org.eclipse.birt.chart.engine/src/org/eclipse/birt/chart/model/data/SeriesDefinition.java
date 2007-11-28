@@ -40,6 +40,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSeries <em>Series</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getGrouping <em>Grouping</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSorting <em>Sorting</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSortKey <em>Sort Key</em>}</li>
  * </ul>
  * </p>
  *
@@ -232,6 +233,33 @@ public interface SeriesDefinition extends EObject
 	 * @generated
 	 */
 	boolean isSetSorting( );
+
+	/**
+	 * Returns the value of the '<em><b>Sort Key</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Sort Key</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Sort Key</em>' containment reference.
+	 * @see #setSortKey(Query)
+	 * @see org.eclipse.birt.chart.model.data.DataPackage#getSeriesDefinition_SortKey()
+	 * @model containment="true" required="true"
+	 *        extendedMetaData="kind='element' name='SortKey'"
+	 * @generated
+	 */
+	Query getSortKey( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSortKey <em>Sort Key</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Sort Key</em>' containment reference.
+	 * @see #getSortKey()
+	 * @generated
+	 */
+	void setSortKey( Query value );
 
 	/**
 	 * 

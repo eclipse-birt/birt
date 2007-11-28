@@ -263,6 +263,7 @@ public final class ResultSetWrapper
 			throws ChartException
 	{
 		boolean needBaseGrouping = true;
+		boolean needBaseSorting = true;
 
 		// VALIDATE SERIES GROUPING
 		final SeriesGrouping sg = sdBase.getGrouping( );
@@ -271,6 +272,24 @@ public final class ResultSetWrapper
 			needBaseGrouping = false;;
 		}
 
+		if ( htLookup.getBaseSortExprIndex( ) < 0 )
+		{
+			needBaseSorting = false;
+		}
+
+		if ( needBaseSorting )
+		{
+			if ( !needBaseGrouping )
+			{
+				doBaseSorting( sdBase.getSorting( ) );
+				return;
+			}
+		}
+		else if ( !needBaseGrouping )
+		{
+			return;
+		}
+		
 		// Apply base series sorting.
 		final Series seBaseDesignTime = sdBase.getDesignTimeSeries( );
 		final Query q = (Query) seBaseDesignTime.getDataDefinition( ).get( 0 );
@@ -300,12 +319,6 @@ public final class ResultSetWrapper
 				iSortColumnIndex,
 				so,
 				iaGroupBreaks );
-
-		// if no base grouping needed, simply return.
-		if ( !needBaseGrouping )
-		{
-			return;
-		}
 
 		// LOOKUP AGGREGATE FUNCTION
 		final int iOrthogonalSeriesCount = saExpressionKeys.length;
@@ -368,9 +381,24 @@ public final class ResultSetWrapper
 
 		}
 
+		// Sort final row data again by actual sort expression on base series.
+		doBaseSorting( sdBase.getSorting( ) );
+		
 		// re-initialize meta since Aggregation could change data
 		// type(text->count)
 		initializeMeta( );
+	}
+
+	private void doBaseSorting( SortOption so )
+	{
+		int iBaseSortColumnIndex = htLookup.getBaseSortExprIndex( ); 
+		if ( iBaseSortColumnIndex >= 0 )
+		{
+			new GroupingSorter( ).sort( workingResultSet,
+					iBaseSortColumnIndex,
+					so,
+					iaGroupBreaks );
+		}
 	}
 
 	private void groupNumerically( List resultSet, int iBaseColumnIndex,

@@ -600,12 +600,21 @@ public interface DataPackage extends EPackage
 	int SERIES_DEFINITION__SORTING = 6;
 
 	/**
+	 * The feature id for the '<em><b>Sort Key</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERIES_DEFINITION__SORT_KEY = 7;
+
+	/**
 	 * The number of structural features of the '<em>Series Definition</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SERIES_DEFINITION_FEATURE_COUNT = 7;
+	int SERIES_DEFINITION_FEATURE_COUNT = 8;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl <em>Series Grouping</em>}' class.
@@ -1166,6 +1175,17 @@ public interface DataPackage extends EPackage
 	EAttribute getSeriesDefinition_Sorting( );
 
 	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.data.SeriesDefinition#getSortKey <em>Sort Key</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Sort Key</em>'.
+	 * @see org.eclipse.birt.chart.model.data.SeriesDefinition#getSortKey()
+	 * @see #getSeriesDefinition()
+	 * @generated
+	 */
+	EReference getSeriesDefinition_SortKey( );
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.data.SeriesGrouping <em>Series Grouping</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Series Grouping</em>'.
@@ -1299,7 +1319,7 @@ public interface DataPackage extends EPackage
 	 * @return the meta object for data type '<em>Data</em>'.
 	 * @see java.lang.Object
 	 * @model instanceClass="java.lang.Object"
-	 *        extendedMetaData="name='Data'" 
+	 *        extendedMetaData="name='Data'"
 	 * @generated
 	 */
 	EDataType getData( );
@@ -1673,6 +1693,14 @@ public interface DataPackage extends EPackage
 		 * @generated
 		 */
 		EAttribute SERIES_DEFINITION__SORTING = eINSTANCE.getSeriesDefinition_Sorting( );
+
+		/**
+		 * The meta object literal for the '<em><b>Sort Key</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SERIES_DEFINITION__SORT_KEY = eINSTANCE.getSeriesDefinition_SortKey( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl <em>Series Grouping</em>}' class.

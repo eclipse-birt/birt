@@ -27,6 +27,7 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
@@ -53,6 +54,9 @@ public class GroupingLookupHelper
 	private int iLookup = 0;
 
 	private ULocale locale;
+
+	/** The expression index of sort expression on base series. */
+	private int fBaseSortExprIndex = -1;
 	
 	/**
 	 * Constructor. Finds all data expressions and aggregation expressions in
@@ -228,16 +232,25 @@ public class GroupingLookupHelper
 					Messages.getResourceBundle( this.locale ) );
 		}
 
-		if ( !addDataExpOfBaseSeries( ( (Query) elBaseSeries.get( 0 ) ).getDefinition( ) ) )
+		String baseSeriesExpression =  ( (Query) elBaseSeries.get( 0 ) ).getDefinition( );
+		if ( !addDataExpOfBaseSeries( baseSeriesExpression ) )
 		{
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.DATA_BINDING,
 					"dataprocessor.exception.DefinitionUnspecified", //$NON-NLS-1$
 					Messages.getResourceBundle( this.locale) );
 		}
+		
+		// Set base sort key index if it equals base series expression.
+		String sortKey = getSortKey( baseSD );
+		if ( sortKey != null && sortKey.equals( baseSeriesExpression )
+				&& baseSD.eIsSet( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) ) )
+		{
+			fBaseSortExprIndex = findIndexOfBaseSeries( baseSeriesExpression );
+		}
 	}
 
-	private void addLookupForOrthogonalSeries( EList lstOrthogonalSDs,
+	private void addLookupForOrthogonalSeries( SeriesDefinition baseSD, EList lstOrthogonalSDs,
 			IActionEvaluator iae ) throws ChartException
 	{
 		for ( int k = 0; k < lstOrthogonalSDs.size( ); k++ )
@@ -279,6 +292,20 @@ public class GroupingLookupHelper
 						strOrthoAgg ) )
 				{
 					bAnyQueries = true;
+					
+					// Set base sort index if it equals the value series
+					// expression.
+					if ( fBaseSortExprIndex < 0 )
+					{
+						String sortExpr = getSortKey( baseSD );
+						if ( sortExpr != null &&
+								sortExpr.equals( qOrthogonalSeries.getDefinition( ) )
+								&& baseSD.eIsSet( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) ) )
+						{
+							fBaseSortExprIndex = findIndex( qOrthogonalSeries.getDefinition( ),
+									strOrthoAgg );
+						}
+					}
 				}
 			}
 
@@ -324,7 +351,9 @@ public class GroupingLookupHelper
 		addLookupForBaseSeries( baseSD );
 
 		// PROJECT ALL DATA DEFINITIONS ASSOCIATED WITH THE ORTHOGONAL SERIES
-		addLookupForOrthogonalSeries( baseSD.getSeriesDefinitions( ), iae );
+		addLookupForOrthogonalSeries( baseSD, baseSD.getSeriesDefinitions( ), iae );
+
+		addCommonSortKey( baseSD );
 	}
 
 	private void initRowExpressions( ChartWithAxes cwa, IActionEvaluator iae )
@@ -349,12 +378,50 @@ public class GroupingLookupHelper
 		final Axis[] axaOrthogonal = cwa.getOrthogonalAxes( axPrimaryBase, true );
 		for ( int j = 0; j < axaOrthogonal.length; j++ )
 		{
-			addLookupForOrthogonalSeries( axaOrthogonal[j].getSeriesDefinitions( ),
+			addLookupForOrthogonalSeries( baseSD, axaOrthogonal[j].getSeriesDefinitions( ),
 					iae );
 		}
 
+		// If base sort expression is not base series or value series, directly
+		// add the expression.
+		addCommonSortKey( baseSD );
 	}
 
+	/**
+	 * Add common sort expression by the specified expression.
+	 * 
+	 * @param baseSD
+	 */
+	private void addCommonSortKey( SeriesDefinition baseSD )
+	{
+		if ( fBaseSortExprIndex < 0
+				&& baseSD.eIsSet( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) ) )
+		{
+			String sortExpr = getSortKey( baseSD );
+			if ( sortExpr != null )
+			{
+				addDataExp( sortExpr, "" ); //$NON-NLS-1$
+				fBaseSortExprIndex = findIndexOfBaseSeries( sortExpr );
+			}
+		}
+	}
+
+	/**
+	 * Returns sort key of series definition.
+	 * 
+	 * @param sd
+	 * @return
+	 */
+	private String getSortKey( SeriesDefinition sd )
+	{
+		if ( sd == null || sd.getSortKey( ) == null )
+		{
+			return null;
+		}
+		
+		return sd.getSortKey( ).getDefinition( );
+	}
+	
 	static String getAggregationExp( SeriesDefinition baseSD,
 			SeriesDefinition orthoSD )
 	{
@@ -419,5 +486,17 @@ public class GroupingLookupHelper
 			}
 		}
 		return strOrthoAgg;
+	}
+	
+	/**
+	 * Returns sort expression of base series, <code>-1</code> means no sort
+	 * expression is set for base series.
+	 * 
+	 * @return
+	 * @since 2.3
+	 */
+	int getBaseSortExprIndex( )
+	{
+		return fBaseSortExprIndex;
 	}
 }

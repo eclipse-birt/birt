@@ -267,31 +267,40 @@
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="Query" type="Query"/>
-			<xsd:element name="SeriesPalette" type="attribute:Palette"/>
-			<xsd:element name="SeriesDefinitions" type="SeriesDefinition" maxOccurs="unbounded"/>
-			<xsd:element name="FormatSpecifier" type="attribute:FormatSpecifier"/>
-			<xsd:element name="Series" type="component:Series" maxOccurs="unbounded">
+			<xsd:element name="Query" type="Query" />
+			<xsd:element name="SeriesPalette" type="attribute:Palette" />
+			<xsd:element name="SeriesDefinitions"
+				type="SeriesDefinition" maxOccurs="unbounded" />
+			<xsd:element name="FormatSpecifier"
+				type="attribute:FormatSpecifier" />
+			<xsd:element name="Series" type="component:Series"
+				maxOccurs="unbounded">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Holds all the series for the chart.
+						Holds all the series for the chart.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Grouping" type="SeriesGrouping" minOccurs="0">
+			<xsd:element name="Grouping" type="SeriesGrouping"
+				minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Defines if and how the series data is to be grouped for display. This should only be applied to Base Series.
+						Defines if and how the series data is to be
+						grouped for display. This should only be applied
+						to Base Series.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="Sorting" type="attribute:SortOption" minOccurs="0">
+			<xsd:element name="Sorting" type="attribute:SortOption"
+				minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Defines if and how the series data is to be sorted for display. This should only be applied to Base Series.
+						Defines if and how the series data is to be
+						sorted for display. This should only be applied
+						to Base Series.
 					</xsd:documentation>
 				</xsd:annotation>
-			</xsd:element>
+			</xsd:element>			<xsd:element name="SortKey" type="Query" />
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="Query">
