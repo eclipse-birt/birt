@@ -542,8 +542,8 @@ public class ModuleUtil
 			public AbstractParseState startElement( String tagName )
 			{
 				if ( DesignSchemaConstants.REPORT_TAG
-						.equalsIgnoreCase( tagName ) ||
-						DesignSchemaConstants.LIBRARY_TAG
+						.equalsIgnoreCase( tagName )
+						|| DesignSchemaConstants.LIBRARY_TAG
 								.equalsIgnoreCase( tagName ) )
 					return new VersionState( );
 				return super.startElement( tagName );
@@ -993,6 +993,26 @@ public class ModuleUtil
 	}
 
 	/**
+	 * Gets the script object .
+	 * 
+	 * @param module
+	 *            module handle
+	 * @param uid
+	 *            the script uid
+	 * @return the script object if script uid is valid;else return null.
+	 */
+
+	public static Object getScriptObject( ModuleHandle module, String uid )
+	{
+		Object instance = XPathUtil.getInstance( module, uid );
+
+		if ( isValidScript( instance ) )
+			return instance;
+
+		return null;
+	}
+
+	/**
 	 * Checks instance's type is script or not.
 	 * 
 	 * @param instance
@@ -1013,8 +1033,8 @@ public class ModuleUtil
 			}
 			else
 			{
-				if ( defn.getTypeCode( ) == IPropertyType.EXPRESSION_TYPE ||
-						defn.getTypeCode( ) == IPropertyType.SCRIPT_TYPE )
+				if ( defn.getTypeCode( ) == IPropertyType.EXPRESSION_TYPE
+						|| defn.getTypeCode( ) == IPropertyType.SCRIPT_TYPE )
 					return true;
 			}
 		}
@@ -1024,7 +1044,7 @@ public class ModuleUtil
 
 	/**
 	 * Returns the serialized id for the given element. The serialized id may or
-	 * may not be equal to the element id. It is for the BIRT internal usage.  
+	 * may not be equal to the element id. It is for the BIRT internal usage.
 	 * 
 	 * @param element
 	 *            the element
@@ -1036,8 +1056,8 @@ public class ModuleUtil
 		if ( element == null )
 			return DesignElement.NO_ID;
 
-		if ( element instanceof MultiViewsHandle ||
-				element.getContainer( ) instanceof MultiViewsHandle )
+		if ( element instanceof MultiViewsHandle
+				|| element.getContainer( ) instanceof MultiViewsHandle )
 		{
 			DesignElementHandle tmpContainer = element.getContainer( );
 			if ( tmpContainer != null )
