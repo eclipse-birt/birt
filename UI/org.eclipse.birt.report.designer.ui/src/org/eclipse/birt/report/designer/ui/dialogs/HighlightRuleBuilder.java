@@ -1735,7 +1735,7 @@ public class HighlightRuleBuilder extends BaseDialog
 						handle.setValue2( DEUtil.resolveNull( expressionValue2.getText( ) ) );
 					}else
 					{
-						handle.setValue1( NULL_STRING );
+						handle.setValue2( NULL_STRING );
 					}
 				}
 				else

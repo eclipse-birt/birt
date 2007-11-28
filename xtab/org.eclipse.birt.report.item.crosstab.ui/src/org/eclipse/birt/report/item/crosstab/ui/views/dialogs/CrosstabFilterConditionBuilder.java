@@ -1889,10 +1889,20 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 					{
 						assert ( !expressionValue1.isDisposed( ) );
 						assert ( !expressionValue2.isDisposed( ) );
-						filter.setValue1( DEUtil.resolveNull( expressionValue1.getText( ) ) );
+						if( expressionValue1.getVisible( ))
+						{
+							filter.setValue1( DEUtil.resolveNull( expressionValue1.getText( ) ) );
+						}else
+						{
+							filter.setValue1( NULL_STRING );
+						}
+						
 						if ( expressionValue2.getVisible( ) )
 						{
 							filter.setValue2( DEUtil.resolveNull( expressionValue2.getText( ) ) );
+						}else
+						{
+							filter.setValue2( NULL_STRING );
 						}
 					}
 					if ( referencedLevelList != null
