@@ -83,6 +83,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	private AbstractGuideHandle guideHandle = null;
 	private boolean isEdited = false;
 	protected Logger logger = Logger.getLogger( ReportElementEditPart.class.getName( ) );
+
 	// private static boolean canDeleteGuide = true;
 
 	/**
@@ -100,10 +101,12 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 					+ model );
 		}
 		setModel( model );
-		
+
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#setModel(java.lang.Object)
 	 */
 	public void setModel( Object model )
@@ -111,7 +114,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		super.setModel( model );
 		peer = creatDesignElementHandleAdapter( );
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -142,7 +145,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 			catch ( RuntimeException e )
 			{
 				// TODO Auto-generated catch block
-				logger.log( Level.SEVERE, e.getMessage( ),e );
+				logger.log( Level.SEVERE, e.getMessage( ), e );
 			}
 			setEdited( false );
 		}
@@ -355,7 +358,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 
 		super.deactivate( );
 
-		HandleAdapterFactory.getInstance( ).remove( getModel( ),this );
+		HandleAdapterFactory.getInstance( ).remove( getModel( ), this );
 	}
 
 	/*
@@ -487,7 +490,8 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 			FontFamily = family;
 		}
 
-		int fontSize = DEUtil.getFontSizeIntValue( handle );
+		// fix bugzilla 210899, set minimum font size as 1.
+		int fontSize = Math.max( DEUtil.getFontSizeIntValue( handle ), 1 );
 
 		int fontStyle = 0;
 		String fontWeight = styleHandle.getFontWeight( );
@@ -934,21 +938,21 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	{
 		return getModel( ).equals( model );
 	}
-	
+
 	/**
 	 * @param object
 	 * @return
 	 */
-	public boolean isinterestSelection(Object object)
+	public boolean isinterestSelection( Object object )
 	{
 		return false;
 	}
-	
+
 	/**
 	 * @param parentPolice
 	 * @return
 	 */
-	public EditPolicy getResizePolice(EditPolicy parentPolice)
+	public EditPolicy getResizePolice( EditPolicy parentPolice )
 	{
 		ReportElementResizePolicy policy = new ReportElementResizePolicy( );
 		policy.setResizeDirections( PositionConstants.SOUTH
