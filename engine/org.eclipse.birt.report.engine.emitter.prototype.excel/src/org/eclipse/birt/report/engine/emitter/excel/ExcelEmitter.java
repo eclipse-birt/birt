@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
+import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.RenderOptionBase;
 import org.eclipse.birt.report.engine.api.impl.Action;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
@@ -43,7 +44,6 @@ import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.layout.pdf.util.HTML2Content;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 public class ExcelEmitter extends ContentEmitterAdapter
 {
@@ -333,7 +333,13 @@ public class ExcelEmitter extends ContentEmitterAdapter
 			}
 			else if ( linkaction.getType( ) == IHyperlinkAction.ACTION_DRILLTHROUGH )
 			{
-				Action act = new Action( linkaction );
+				IReportRunnable reportRunnable = service.getReportRunnable( );
+				String systemId = null;
+				if ( null != reportRunnable )
+				{
+					systemId = reportRunnable.getReportName( );
+				}
+				Action act = new Action( systemId, linkaction );
 				IHTMLActionHandler actionHandler = null;
 				Object ac = service.getOption( RenderOptionBase.ACTION_HANDLER );
 
