@@ -27,6 +27,7 @@ import org.eclipse.birt.report.service.api.InputOptions;
 import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
+import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
  * Action handler for get reportlet content.
@@ -37,6 +38,8 @@ public class BirtGetReportletActionHandler extends AbstractBaseActionHandler
 
 	protected BaseAttributeBean __bean;
 
+	protected String __reportDesignName;
+	
 	protected String __docName;
 
 	protected String __reportletId;
@@ -76,8 +79,23 @@ public class BirtGetReportletActionHandler extends AbstractBaseActionHandler
 	protected void prepareParameters( ) throws Exception, RemoteException
 	{
 		__bean = context.getBean( );
+		__reportDesignName = __bean.getReportDesignName( );
 		__docName = __bean.getReportDocumentName( );
 		__reportletId = __bean.getReportletId( );
+
+		// note: __docName and __reportDesignName can't be null
+		// at the same time (already checked by ViewerAttributeBean.__init() 
+		if ( __docName == null )
+		{
+			if ( __reportDesignName != null )
+			{
+				// generate the document name
+				__docName = ParameterAccessor.getReportDocument(
+						context.getRequest( ), null, true );
+				__bean.setReportDocumentName( __docName );
+			}
+		}
+		
 		__checkDocumentExists( );
 	}
 
