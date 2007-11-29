@@ -36,9 +36,18 @@ public class CrossTabLevelNodeProvider extends DefaultNodeProvider
 		{
 			LevelViewHandle levelView = (LevelViewHandle) element.getReportItem( );
 			if ( levelView != null )
-				return new Object[]{
-					levelView.getCell( ).getModelHandle( )
-				};
+			{
+				if ( levelView.getAggregationHeader( ) != null )
+					return new Object[]{
+							levelView.getAggregationHeader( ),
+							levelView.getCell( ).getModelHandle( )
+					};
+				else
+					return new Object[]{
+						levelView.getCell( ).getModelHandle( )
+					};
+			}
+
 		}
 		catch ( ExtendedElementException e )
 		{
@@ -79,12 +88,13 @@ public class CrossTabLevelNodeProvider extends DefaultNodeProvider
 		{
 			LevelHandle level = ( (LevelViewHandle) element.getReportItem( ) ).getCubeLevel( );
 			String levelName = ""; //$NON-NLS-1$
-			if(level!=null) levelName= level.getName( );
-			return Messages.getString("CrossTabLevelNodeProvider.Level")+levelName; //$NON-NLS-1$
+			if ( level != null )
+				levelName = level.getName( );
+			return Messages.getString( "CrossTabLevelNodeProvider.Level" ) + levelName; //$NON-NLS-1$
 		}
 		catch ( ExtendedElementException e )
 		{
-			logger.log(Level.SEVERE, e.getMessage(),e);
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 		return super.getNodeDisplayName( model );
 	}
