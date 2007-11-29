@@ -32,11 +32,11 @@ import org.eclipse.swt.widgets.Group;
 public class CrosstabConfigurationBlock extends OptionsConfigurationBlock
 {
 
-	private static final Key PREF_FILTER_LIMIT = getKey( CrosstabPlugin.ID,
+	private final Key PREF_FILTER_LIMIT = getKey( CrosstabPlugin.ID,
 			CrosstabPlugin.PREFERENCE_FILTER_LIMIT );
-	private static final Key PREF_CUBE_BUILDER_WARNING = getKey( CrosstabPlugin.ID,
+	private final Key PREF_CUBE_BUILDER_WARNING = getKey( CrosstabPlugin.ID,
 			CrosstabPlugin.CUBE_BUILDER_WARNING_PREFERENCE );
-	private static final Key PREF_AUTO_DEL_BINDINGS = getKey( CrosstabPlugin.ID,
+	private final Key PREF_AUTO_DEL_BINDINGS = getKey( CrosstabPlugin.ID,
 			CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS );
 	private static final String ENABLED = MessageDialogWithToggle.PROMPT;
 	private static final String DISABLED = MessageDialogWithToggle.NEVER;
@@ -46,10 +46,11 @@ public class CrosstabConfigurationBlock extends OptionsConfigurationBlock
 	public CrosstabConfigurationBlock( IStatusChangeListener context,
 			IProject project )
 	{
-		super( context, CrosstabPlugin.getDefault( ), project, getKeys( ) );
+		super( context, CrosstabPlugin.getDefault( ), project );
+		setKeys( getKeys( ) );
 	}
 
-	private static Key[] getKeys( )
+	private Key[] getKeys( )
 	{
 		Key[] keys = new Key[]{
 				PREF_FILTER_LIMIT,

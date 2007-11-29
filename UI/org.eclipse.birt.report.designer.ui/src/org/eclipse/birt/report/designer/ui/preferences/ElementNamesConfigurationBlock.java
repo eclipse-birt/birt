@@ -39,18 +39,19 @@ import org.eclipse.swt.widgets.Text;
 public class ElementNamesConfigurationBlock extends OptionsConfigurationBlock
 {
 
-	private static final Key PREF_DEFAULT_NAME = getReportKey( ReportPlugin.DEFAULT_NAME_PREFERENCE );
-	private static final Key PREF_CUSTOM_NAME = getReportKey( ReportPlugin.CUSTOM_NAME_PREFERENCE );
-	private static final Key PREF_DESCRIPTION = getReportKey( ReportPlugin.DESCRIPTION_PREFERENCE );
+	private final Key PREF_DEFAULT_NAME = getReportKey( ReportPlugin.DEFAULT_NAME_PREFERENCE );
+	private final Key PREF_CUSTOM_NAME = getReportKey( ReportPlugin.CUSTOM_NAME_PREFERENCE );
+	private final Key PREF_DESCRIPTION = getReportKey( ReportPlugin.DESCRIPTION_PREFERENCE );
 	private PixelConverter fPixelConverter;
 
 	public ElementNamesConfigurationBlock( IStatusChangeListener context,
 			IProject project )
 	{
-		super( context, ReportPlugin.getDefault( ), project, getKeys( ) );
+		super( context, ReportPlugin.getDefault( ), project );
+		setKeys( getKeys( ) );
 	}
 
-	private static Key[] getKeys( )
+	private Key[] getKeys( )
 	{
 		Key[] keys = new Key[]{
 				PREF_DEFAULT_NAME, PREF_CUSTOM_NAME, PREF_DESCRIPTION

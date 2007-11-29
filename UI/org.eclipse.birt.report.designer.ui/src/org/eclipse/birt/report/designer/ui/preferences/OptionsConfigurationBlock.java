@@ -49,7 +49,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 public abstract class OptionsConfigurationBlock
 {
 
-	public static final class Key
+	public final class Key
 	{
 
 		private String fQualifier;
@@ -116,7 +116,7 @@ public abstract class OptionsConfigurationBlock
 
 	}
 
-	protected static class ControlData
+	protected class ControlData
 	{
 
 		private Key fKey;
@@ -171,9 +171,9 @@ public abstract class OptionsConfigurationBlock
 	private ModifyListener fTextModifyListener;
 
 	protected IStatusChangeListener fContext;
-	protected final IProject fProject; // project or null
-	protected final Key[] fAllKeys;
-	protected final AbstractUIPlugin fPlugin;
+	protected IProject fProject; // project or null
+	protected Key[] fAllKeys;
+	protected AbstractUIPlugin fPlugin;
 
 	protected IPreferences fPref;
 
@@ -182,18 +182,25 @@ public abstract class OptionsConfigurationBlock
 	private Map fDisabledProjectSettings; // null when project specific
 
 	public OptionsConfigurationBlock( IStatusChangeListener context,
-			AbstractUIPlugin plugin, IProject project, Key[] allKeys )
+			AbstractUIPlugin plugin, IProject project )
 	{
 		fContext = context;
 		fProject = project;
-		fAllKeys = allKeys;
+
 		fPlugin = plugin;
 		fPref = PreferenceFactory.getInstance( ).getPreferences( fPlugin,
 				fProject );
 
-		for ( int i = 0; i < allKeys.length; i++ )
-			allKeys[i].clear( );
+		fCheckBoxes = new ArrayList( );
+		fComboBoxes = new ArrayList( );
+		fTextBoxes = new ArrayList( 2 );
+		fLabels = new HashMap( );
+		fExpandedComposites = new ArrayList( );
+	}
 
+	public void setKeys( Key[] keys )
+	{
+		fAllKeys = keys;
 		if ( fProject == null || hasProjectSpecificOptions( fProject ) )
 		{
 			fDisabledProjectSettings = null;
@@ -204,21 +211,13 @@ public abstract class OptionsConfigurationBlock
 			 * set default show value
 			 */
 			fDisabledProjectSettings = new IdentityHashMap( );
-			for ( int i = 0; i < allKeys.length; i++ )
+			for ( int i = 0; i < keys.length; i++ )
 			{
-				Key curr = allKeys[i];
+				Key curr = keys[i];
 				fDisabledProjectSettings.put( curr, curr.getStoredValue( fPref ) );
 			}
 		}
-
 		settingsUpdated( );
-
-		fCheckBoxes = new ArrayList( );
-		fComboBoxes = new ArrayList( );
-		fTextBoxes = new ArrayList( 2 );
-		fLabels = new HashMap( );
-		fExpandedComposites = new ArrayList( );
-
 	}
 
 	protected void settingsUpdated( )
@@ -227,12 +226,12 @@ public abstract class OptionsConfigurationBlock
 
 	}
 
-	protected static Key getKey( String plugin, String key )
+	protected Key getKey( String plugin, String key )
 	{
 		return new Key( plugin, key );
 	}
 
-	protected final static Key getReportKey( String key )
+	protected final Key getReportKey( String key )
 	{
 		return getKey( ReportPlugin.REPORT_UI, key );
 	}
@@ -603,7 +602,8 @@ public abstract class OptionsConfigurationBlock
 		if ( project != null )
 		{
 			Key[] allKeys = fAllKeys;
-			IPreferences prefs = PreferenceFactory.getInstance( ).getPreferences( this.fPlugin,project );
+			IPreferences prefs = PreferenceFactory.getInstance( )
+					.getPreferences( this.fPlugin, project );
 			for ( int i = 0; i < allKeys.length; i++ )
 			{
 				if ( prefs.isDefault( allKeys[i].getName( ) ) )

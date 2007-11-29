@@ -33,16 +33,17 @@ import org.eclipse.ui.PlatformUI;
 public class ResourceConfigurationBlock extends OptionsConfigurationBlock
 {
 
-	private static final Key PREF_RESOURCE = getReportKey( ReportPlugin.RESOURCE_PREFERENCE );
+	private final Key PREF_RESOURCE = getReportKey( ReportPlugin.RESOURCE_PREFERENCE );
 	private PixelConverter fPixelConverter;
 
 	public ResourceConfigurationBlock( IStatusChangeListener context,
 			IProject project )
 	{
-		super( context, ReportPlugin.getDefault( ), project, getKeys( ) );
+		super( context, ReportPlugin.getDefault( ), project );
+		setKeys( getKeys( ) );
 	}
 
-	private static Key[] getKeys( )
+	private Key[] getKeys( )
 	{
 		Key[] keys = new Key[]{
 			PREF_RESOURCE

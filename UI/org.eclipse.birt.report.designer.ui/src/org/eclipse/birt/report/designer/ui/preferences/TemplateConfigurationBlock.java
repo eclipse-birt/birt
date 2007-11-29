@@ -33,16 +33,17 @@ import org.eclipse.ui.PlatformUI;
 public class TemplateConfigurationBlock extends OptionsConfigurationBlock
 {
 
-	private static final Key PREF_TEMPLATE = getReportKey( ReportPlugin.TEMPLATE_PREFERENCE );
+	private final Key PREF_TEMPLATE = getReportKey( ReportPlugin.TEMPLATE_PREFERENCE );
 	private PixelConverter fPixelConverter;
 
 	public TemplateConfigurationBlock( IStatusChangeListener context,
 			IProject project )
 	{
-		super( context, ReportPlugin.getDefault( ), project, getKeys( ) );
+		super( context, ReportPlugin.getDefault( ), project );
+		setKeys( getKeys( ) );
 	}
 
-	private static Key[] getKeys( )
+	private Key[] getKeys( )
 	{
 		Key[] keys = new Key[]{
 			PREF_TEMPLATE

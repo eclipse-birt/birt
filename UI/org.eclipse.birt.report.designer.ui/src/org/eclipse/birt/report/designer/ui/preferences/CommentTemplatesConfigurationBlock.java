@@ -31,18 +31,19 @@ public class CommentTemplatesConfigurationBlock extends
 		OptionsConfigurationBlock
 {
 
-	private final static String ENABLE_BUTTON = Messages.getString( "org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment" ); //$NON-NLS-1$
-	private static final Key PREF_ENABLE_COMMENT = getReportKey( ReportPlugin.ENABLE_COMMENT_PREFERENCE );
-	private static final Key PREF_COMMENT_TEMPLATES = getReportKey( ReportPlugin.COMMENT_PREFERENCE );
+	private final String ENABLE_BUTTON = Messages.getString( "org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment" ); //$NON-NLS-1$
+	private final Key PREF_ENABLE_COMMENT = getReportKey( ReportPlugin.ENABLE_COMMENT_PREFERENCE );
+	private final Key PREF_COMMENT_TEMPLATES = getReportKey( ReportPlugin.COMMENT_PREFERENCE );
 	private PixelConverter fPixelConverter;
 
 	public CommentTemplatesConfigurationBlock( IStatusChangeListener context,
 			IProject project )
 	{
-		super( context, ReportPlugin.getDefault( ), project, getKeys( ) );
+		super( context, ReportPlugin.getDefault( ), project );
+		setKeys( getKeys( ) );
 	}
 
-	private static Key[] getKeys( )
+	private Key[] getKeys( )
 	{
 		Key[] keys = new Key[]{
 				PREF_ENABLE_COMMENT, PREF_COMMENT_TEMPLATES

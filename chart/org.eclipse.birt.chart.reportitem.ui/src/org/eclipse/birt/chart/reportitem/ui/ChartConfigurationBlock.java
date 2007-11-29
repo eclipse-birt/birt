@@ -29,9 +29,9 @@ import org.eclipse.swt.widgets.Control;
 public class ChartConfigurationBlock extends OptionsConfigurationBlock
 {
 
-	private static final Key PREF_ENALBE_LIVE = getKey( ChartReportItemUIActivator.ID,
+	private final Key PREF_ENALBE_LIVE = getKey( ChartReportItemUIActivator.ID,
 			ChartReportItemUIActivator.PREFERENCE_ENALBE_LIVE );
-	private static final Key PREF_MAX_ROW = getKey( ChartReportItemUIActivator.ID,
+	private final Key PREF_MAX_ROW = getKey( ChartReportItemUIActivator.ID,
 			ChartReportItemUIActivator.PREFERENCE_MAX_ROW );
 	private final static String ENABLE_BUTTON = Messages.getString( "ChartPreferencePage.Label.EnableLivePreview" );
 	private static final String ENABLED = "true";
@@ -42,13 +42,11 @@ public class ChartConfigurationBlock extends OptionsConfigurationBlock
 	public ChartConfigurationBlock( IStatusChangeListener context,
 			IProject project )
 	{
-		super( context,
-				ChartReportItemUIActivator.getDefault( ),
-				project,
-				getKeys( ) );
+		super( context, ChartReportItemUIActivator.getDefault( ), project );
+		setKeys( getKeys( ) );
 	}
 
-	private static Key[] getKeys( )
+	private Key[] getKeys( )
 	{
 		Key[] keys = new Key[]{
 				PREF_ENALBE_LIVE, PREF_MAX_ROW
