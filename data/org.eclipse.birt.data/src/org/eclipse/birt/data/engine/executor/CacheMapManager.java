@@ -305,7 +305,9 @@ class CacheMapManager
 		File[] files = curDir.listFiles( );
 		for ( int i = 0; i < files.length; i++ )
 			files[i].delete( );
+		File parentDir = curDir.getParentFile( );
 		curDir.delete( );
+		parentDir.delete( );
 	}
 
 	
