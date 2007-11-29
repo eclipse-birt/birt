@@ -125,7 +125,7 @@ public class TextPropertyDescriptor extends PropertyDescriptor
 
 	public void load( )
 	{
-		deValue = getDescriptorProvider( ).load( ).toString( );
+		deValue = (String)getDescriptorProvider( ).load( );
 		boolean stateFlag = ( ( deValue == null ) == text.getEnabled( ) );
 		if ( stateFlag )
 		{
