@@ -33,4 +33,9 @@ public interface IReportScriptLocation
 	 * @return Returns the line number of current script location.
 	 */
 	int getLineNumber( );
+	
+	/**Gets the diplay name
+	 * @return
+	 */
+	String getDisplayName();
 }
