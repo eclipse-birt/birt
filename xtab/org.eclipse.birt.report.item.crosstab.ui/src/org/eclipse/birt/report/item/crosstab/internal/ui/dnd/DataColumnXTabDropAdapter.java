@@ -11,11 +11,9 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.dnd;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.core.preference.IPreferences;
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
@@ -331,8 +329,7 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 	private void storePreference( )
 	{
 		String prompt = PreferenceFactory.getInstance( )
-				.getPreferences( CrosstabPlugin.getDefault( ),
-						UIUtil.getCurrentProject( ) )
+				.getPreferences( CrosstabPlugin.getDefault( ))
 				.getString( CrosstabPlugin.CUBE_BUILDER_WARNING_PREFERENCE );
 		if ( prompt == null
 				|| prompt.length( ) == 0
@@ -366,20 +363,5 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 				.getPreferences( CrosstabPlugin.getDefault( ) )
 				.setValue( CrosstabPlugin.CUBE_BUILDER_WARNING_PREFERENCE,
 						value );
-		if ( UIUtil.getCurrentProject( ) != null )
-		{
-			IPreferences pfefs = PreferenceFactory.getInstance( )
-					.getPreferences( CrosstabPlugin.getDefault( ),
-							UIUtil.getCurrentProject( ) );
-			pfefs.setValue( CrosstabPlugin.CUBE_BUILDER_WARNING_PREFERENCE,
-					value );
-			try
-			{
-				pfefs.save( );
-			}
-			catch ( IOException e )
-			{
-			}
-		}
 	}
 }

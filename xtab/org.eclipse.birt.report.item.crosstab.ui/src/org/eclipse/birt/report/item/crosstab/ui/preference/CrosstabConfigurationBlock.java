@@ -52,11 +52,19 @@ public class CrosstabConfigurationBlock extends OptionsConfigurationBlock
 
 	private Key[] getKeys( )
 	{
-		Key[] keys = new Key[]{
-				PREF_FILTER_LIMIT,
-				PREF_AUTO_DEL_BINDINGS,
-				PREF_CUBE_BUILDER_WARNING
-		};
+		Key[] keys = null;
+		if ( fProject == null )
+		{
+			keys = new Key[]{
+					PREF_FILTER_LIMIT,
+					PREF_AUTO_DEL_BINDINGS,
+					PREF_CUBE_BUILDER_WARNING
+			};
+		}
+		else
+			keys = new Key[]{
+				PREF_FILTER_LIMIT
+			};
 		return keys;
 	}
 
@@ -118,29 +126,32 @@ public class CrosstabConfigurationBlock extends OptionsConfigurationBlock
 				0,
 				0 );
 
-		Group promptGroup = new Group( pageContent, SWT.NONE );
-		promptGroup.setText( Messages.getString( "CrosstabPreferencePage.promptGroup" ) );
-		promptGroup.setLayout( new GridLayout( 3, false ) );
-		gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.horizontalSpan = 3;
-		promptGroup.setLayoutData( gd );
+		if ( fProject == null )
+		{
+			Group promptGroup = new Group( pageContent, SWT.NONE );
+			promptGroup.setText( Messages.getString( "CrosstabPreferencePage.promptGroup" ) );
+			promptGroup.setLayout( new GridLayout( 3, false ) );
+			gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.horizontalSpan = 3;
+			promptGroup.setLayoutData( gd );
 
-		String[] enableDisableValues = new String[]{
-				ENABLED, DISABLED
-		};
+			String[] enableDisableValues = new String[]{
+					ENABLED, DISABLED
+			};
 
-		addCheckBox( promptGroup,
-				Messages.getString( "CrosstabPreferencePage.autoDelBindings.Text" ),
-				PREF_AUTO_DEL_BINDINGS,
-				enableDisableValues,
-				0 );
+			addCheckBox( promptGroup,
+					Messages.getString( "CrosstabPreferencePage.autoDelBindings.Text" ),
+					PREF_AUTO_DEL_BINDINGS,
+					enableDisableValues,
+					0 );
 
-		addCheckBox( promptGroup,
-				Messages.getString( "CrosstabPreferencePage.cubePopup.Text" ),
-				PREF_CUBE_BUILDER_WARNING,
-				enableDisableValues,
-				0 );
+			addCheckBox( promptGroup,
+					Messages.getString( "CrosstabPreferencePage.cubePopup.Text" ),
+					PREF_CUBE_BUILDER_WARNING,
+					enableDisableValues,
+					0 );
 
+		}
 		return pageContent;
 	}
 
