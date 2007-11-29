@@ -20,9 +20,8 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * 
+ * ElementAdapterInvocationHandler
  */
-
 public class ElementAdapterInvocationHandler implements InvocationHandler
 {
 
@@ -50,8 +49,9 @@ public class ElementAdapterInvocationHandler implements InvocationHandler
 						if ( result != null )
 							allResult.addAll( Arrays.asList( (Object[]) result ) );
 					}
-					Object a = java.lang.reflect.Array.newInstance( returnType.getComponentType( ), allResult.size( ) );
-					return allResult.toArray( (Object[])a );
+					Object a = java.lang.reflect.Array.newInstance( returnType.getComponentType( ),
+							allResult.size( ) );
+					return allResult.toArray( (Object[]) a );
 				}
 				else if ( returnType == Collection.class )
 				{
@@ -87,8 +87,8 @@ public class ElementAdapterInvocationHandler implements InvocationHandler
 					for ( Iterator iter = adapters.iterator( ); iter.hasNext( ); )
 					{
 						return method.invoke( iter.next( ), args );
-//						if ( result != null )
-//							return result;
+						// if ( result != null )
+						// return result;
 					}
 				}
 			}

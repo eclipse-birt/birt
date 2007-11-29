@@ -178,12 +178,34 @@ public class ElementAdapterManager
 		}
 	}
 
+	public static Object[] getAdapters( Object adaptableObject,
+			Class adatperType )
+	{
+		List adapterObjects = getAdapterList( adaptableObject, adatperType );
+
+		return ( adapterObjects != null && adapterObjects.size( ) > 0 ) ? adapterObjects.toArray( new Object[adapterObjects.size( )] )
+				: null;
+	}
+
 	public static Object getAdapter( Object adaptableObject, Class adatperType )
 	{
+		List adapterObjects = getAdapterList( adaptableObject, adatperType );
 
+		return ( adapterObjects != null && adapterObjects.size( ) > 0 ) ? Proxy.newProxyInstance( adatperType.getClassLoader( ),
+				new Class[]{
+					adatperType
+				},
+				new ElementAdapterInvocationHandler( adapterObjects ) )
+				: null;
+	}
+
+	private static List getAdapterList( Object adaptableObject,
+			Class adatperType )
+	{
 		Set adapters = getAdapters( adaptableObject );
 		if ( adapters == null )
 			return null;
+
 		List adapterObjects = new ArrayList( );
 		l: for ( Iterator iter = adapters.iterator( ); iter.hasNext( ); )
 		{
@@ -208,12 +230,8 @@ public class ElementAdapterManager
 				adapterObjects.add( obj );
 			}
 		}
-		return adapterObjects.size( ) > 0 ? Proxy.newProxyInstance( adatperType.getClassLoader( ),
-				new Class[]{
-					adatperType
-				},
-				new ElementAdapterInvocationHandler( adapterObjects ) )
-				: null;
+
+		return adapterObjects;
 	}
 
 	private static Set getAdapters( Object adaptableObject )
