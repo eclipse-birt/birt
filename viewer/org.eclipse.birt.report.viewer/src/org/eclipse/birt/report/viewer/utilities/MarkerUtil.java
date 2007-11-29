@@ -26,10 +26,10 @@ public class MarkerUtil
 {
 
 	/**
-	 * Problem marker id
+	 * Viewer Problem marker id
 	 */
-	public static final String PROBLEMS_MARKER_ID = "org.eclipse.core.resources.problemmarker"; //$NON-NLS-1$
-
+	public static final String PROBLEMS_MARKER_ID = "org.eclipse.birt.report.viewer.ViewerProblemMarker"; //$NON-NLS-1$
+	
 	/**
 	 * Current workspace root
 	 */
