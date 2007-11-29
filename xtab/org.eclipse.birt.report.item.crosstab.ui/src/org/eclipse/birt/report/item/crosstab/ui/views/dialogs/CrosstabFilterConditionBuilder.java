@@ -234,7 +234,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		// new Label( group, SWT.NONE ).setText( Messages.getString(
 		// "CrosstabFilterConditionBuilder.label.value" ) );
 
-		GridData expgd = new GridData( GridData.FILL_HORIZONTAL );
+		GridData expgd = new GridData( GridData.HORIZONTAL_ALIGN_FILL );
 		expgd.horizontalSpan = 2;
 
 		addExpressionValue = new Combo( parent, SWT.NONE );
@@ -585,9 +585,10 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		valueListConList.clear( );
 
 		GridData expgd = new GridData( );
-		expgd.horizontalSpan = 1;
+		expgd.horizontalSpan = 2;
+		expgd.widthHint = 150;
 		expressionValue1 = new Combo( condition, SWT.NONE );
-		expressionValue1.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		expressionValue1.setLayoutData( expgd );
 		expressionValue1.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
@@ -611,8 +612,9 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		// dummy2 = createDummy( condition, 3 );
 
 		expressionValue2 = new Combo( condition, SWT.NONE );
+		expgd = new GridData();
 		expgd.horizontalAlignment = GridData.FILL;
-		expgd.horizontalSpan = 2;
+		expgd.horizontalSpan = 1;
 		expressionValue2.setLayoutData( expgd );
 
 		expressionValue2.setItems( popupItems );
@@ -686,9 +688,9 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 				expressionValue2.setVisible( false );
 				andLable.setVisible( false );
 
-				( (GridData) expressionValue2.getLayoutData( ) ).horizontalSpan = 1;
-				( (GridData) expressionValue1.getLayoutData( ) ).horizontalSpan = 2;
-				parentComposite.layout( true, true );
+//				( (GridData) expressionValue2.getLayoutData( ) ).horizontalSpan = 1;
+//				( (GridData) expressionValue1.getLayoutData( ) ).horizontalSpan = 2;
+//				parentComposite.layout( true, true );
 
 			}
 			else if ( valueVisible == 2 )
@@ -698,9 +700,9 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 				andLable.setVisible( true );
 				andLable.setEnabled( true );
 
-				( (GridData) expressionValue1.getLayoutData( ) ).horizontalSpan = 1;
-				( (GridData) expressionValue2.getLayoutData( ) ).horizontalSpan = 2;
-				parentComposite.getParent( ).layout( true, true );
+//				( (GridData) expressionValue1.getLayoutData( ) ).horizontalSpan = 1;
+//				( (GridData) expressionValue2.getLayoutData( ) ).horizontalSpan = 2;
+//				parentComposite.getParent( ).layout( true, true );
 			}
 			updateButtons( );
 		}
@@ -754,8 +756,8 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		lbGroupLevel.setLayoutData( new GridData( ) );
 
 		comboGroupLevel = new Combo( groupLevelParent, SWT.READ_ONLY );
-		GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
-		gdata.horizontalSpan = 2;
+		GridData gdata = new GridData( GridData.HORIZONTAL_ALIGN_FILL );
+		gdata.horizontalSpan = 2;		
 		comboGroupLevel.setLayoutData( gdata );
 
 		Label dummyLabel = new Label( groupLevelParent, SWT.NONE );
@@ -773,8 +775,9 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		lb.setLayoutData( new GridData( ) );
 
 		expression = new Combo( groupLevelParent, SWT.NONE );
-		GridData expgd = new GridData( GridData.FILL_HORIZONTAL );
+		GridData expgd = new GridData( );
 		expgd.horizontalSpan = 2;
+		expgd.widthHint = 150;
 		expression.setLayoutData( expgd );
 		expression.setItems( expActions );
 
@@ -1350,9 +1353,9 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 				expressionValue2.setVisible( false );
 				andLable.setVisible( false );
 
-				( (GridData) expressionValue2.getLayoutData( ) ).horizontalSpan = 1;
-				( (GridData) expressionValue1.getLayoutData( ) ).horizontalSpan = 2;
-				parentComposite.layout( true, true );
+//				( (GridData) expressionValue2.getLayoutData( ) ).horizontalSpan = 1;
+//				( (GridData) expressionValue1.getLayoutData( ) ).horizontalSpan = 2;
+//				parentComposite.layout( true, true );
 
 			}
 			else if ( vv == 2 )
@@ -1362,9 +1365,9 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 				andLable.setVisible( true );
 				andLable.setEnabled( true );
 
-				( (GridData) expressionValue1.getLayoutData( ) ).horizontalSpan = 1;
-				( (GridData) expressionValue2.getLayoutData( ) ).horizontalSpan = 2;
-				parentComposite.getParent( ).layout( true, true );
+//				( (GridData) expressionValue1.getLayoutData( ) ).horizontalSpan = 1;
+//				( (GridData) expressionValue2.getLayoutData( ) ).horizontalSpan = 2;
+//				parentComposite.getParent( ).layout( true, true );
 			}
 			else if ( valueVisible == 3 )
 			{
