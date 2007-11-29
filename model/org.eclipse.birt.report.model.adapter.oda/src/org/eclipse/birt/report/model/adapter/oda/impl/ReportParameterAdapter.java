@@ -128,7 +128,8 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 		if ( !DesignChoiceConstants.PARAM_TYPE_ANY
 				.equalsIgnoreCase( newDataType ) )
 		{
-			if ( !isEquals( newDataType, reportParam.getDataType( ) ) )
+			if ( !CompareUtil
+					.isEquals( newDataType, reportParam.getDataType( ) ) )
 				return false;
 		}
 
@@ -138,10 +139,12 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 			String newPromptText = dataUiHints.getDisplayName( );
 			String newHelpText = dataUiHints.getDescription( );
 
-			if ( !isEquals( newPromptText, reportParam.getPromptText( ) ) )
+			if ( !CompareUtil.isEquals( newPromptText, reportParam
+					.getPromptText( ) ) )
 				return false;
 
-			if ( !isEquals( newHelpText, reportParam.getHelpText( ) ) )
+			if ( !CompareUtil
+					.isEquals( newHelpText, reportParam.getHelpText( ) ) )
 				return false;
 		}
 
@@ -193,25 +196,6 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 			return false;
 
 		return EcoreUtil.equals( tmpParamDefn, tmpParamDefn1 );
-	}
-
-	static boolean isEquals( String value1, String value2 )
-	{
-		// may be same string or both null.
-
-		if ( value1 == value2 )
-			return true;
-
-		if ( value1 != null && value2 == null )
-			return false;
-
-		if ( value1 == null && value2 != null )
-			return false;
-
-		if ( !value1.equals( value2 ) )
-			return false;
-
-		return true;
 	}
 
 	/**
@@ -644,8 +628,7 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 		String cachedDefaultValue = cachedElementAttrs == null
 				? null
 				: cachedElementAttrs.getDefaultScalarValue( );
-		if ( cachedDefaultValue == null
-				|| !cachedDefaultValue.equals( defaultValue ) )
+		if ( !CompareUtil.isEquals( cachedDefaultValue, defaultValue ) )
 		{
 			// only update when the value is not internal value.
 
@@ -658,7 +641,7 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 		Boolean isOptional = Boolean.valueOf( elementAttrs.isOptional( ) );
 		Boolean cachedIsOptional = cachedElementAttrs == null ? null : Boolean
 				.valueOf( cachedElementAttrs.isOptional( ) );
-		if ( cachedIsOptional == null || !cachedIsOptional.equals( isOptional ) )
+		if ( !CompareUtil.isEquals( cachedIsOptional, isOptional ) )
 			setReportParamIsRequired( reportParam, ALLOW_BLANK_PROP_NAME,
 					isOptional.booleanValue( ) );
 
@@ -669,8 +652,7 @@ public class ReportParameterAdapter implements IReportParameterAdapter
 		Boolean masksValue = Boolean.valueOf( elementAttrs.isMasksValue( ) );
 		Boolean cachedMasksValues = cachedElementAttrs == null ? null : Boolean
 				.valueOf( cachedElementAttrs.isMasksValue( ) );
-		if ( cachedMasksValues == null
-				|| !cachedMasksValues.equals( masksValue ) )
+		if ( !CompareUtil.isEquals( cachedMasksValues, masksValue ) )
 			reportParam.setConcealValue( masksValue.booleanValue( ) );
 
 		updateROMSelectionList( elementAttrs.getStaticValueChoices( ),
