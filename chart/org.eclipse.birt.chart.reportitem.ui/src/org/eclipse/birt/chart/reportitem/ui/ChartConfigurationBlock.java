@@ -33,7 +33,7 @@ public class ChartConfigurationBlock extends OptionsConfigurationBlock
 			ChartReportItemUIActivator.PREFERENCE_ENALBE_LIVE );
 	private final Key PREF_MAX_ROW = getKey( ChartReportItemUIActivator.ID,
 			ChartReportItemUIActivator.PREFERENCE_MAX_ROW );
-	private final static String ENABLE_BUTTON = Messages.getString( "ChartPreferencePage.Label.EnableLivePreview" );
+	private static final String ENABLE_BUTTON = Messages.getString( "ChartPreferencePage.Label.EnableLivePreview" );
 	private static final String ENABLED = "true";
 	private static final String DISABLED = "false";
 	private static final int MAX_ROW_LIMIT = 10000;
