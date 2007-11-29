@@ -520,6 +520,10 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 			{
 				DataSetID dataSetID = prset.getID( );
 				long position = prset.getRowIndex( );
+				if ( dataSetID == null )
+				{
+					return null;
+				}
 				return new DataID( dataSetID, position );
 			}
 			// the result set is NULL or it may be a extended item executor, try
