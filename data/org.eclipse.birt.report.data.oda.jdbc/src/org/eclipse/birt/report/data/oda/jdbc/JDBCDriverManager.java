@@ -280,7 +280,7 @@ public class JDBCDriverManager
 	 * instance of the factory if there is a connection factory for the driver class. Returns null
 	 * otherwise.
 	 */
-	private IConnectionFactory getDriverConnectionFactory( String driverClass ) throws OdaException
+	public IConnectionFactory getDriverConnectionFactory( String driverClass ) throws OdaException
 	{
 		loadDriverExtensions();
 		

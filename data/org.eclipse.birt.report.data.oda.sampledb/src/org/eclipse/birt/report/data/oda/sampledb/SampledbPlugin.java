@@ -22,8 +22,10 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import org.eclipse.birt.core.plugin.BIRTPlugin;
+import org.eclipse.birt.report.data.oda.jdbc.IConnectionFactory;
 import org.eclipse.birt.report.data.oda.jdbc.JDBCDriverManager;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
@@ -90,7 +92,7 @@ public class SampledbPlugin extends BIRTPlugin
 	private void cleanUp() throws Exception
 	{
 		// Stop Derby engine
-		shutDownDatabase();
+		shutdownDerby();
 		// Clean up database files
 		removeDatabase();
 		
@@ -155,44 +157,30 @@ public class SampledbPlugin extends BIRTPlugin
 		dbFileStream.close();
 	}
 
+
 	/**
 	 * Gets Derby connection URL
-	 * */
-	public static String getDBUrl( )
+	 */
+	public static String getDBUrl()
 	{
-		return getDBUrl(false);
+		return "jdbc:derby:" + dbDir + "/" + SAMPLE_DB_NAME;
 	}
 	
 	/**
-	 * Gets Derby connection URL
-	 * @param shutdown if true, generate a URL for shutting down DB
+	 * Shuts down the Derby 
 	 */
-	public static String getDBUrl( boolean shutdown )
+	private void shutdownDerby()
 	{
-		String url = "jdbc:derby:" + dbDir + "/" + SAMPLE_DB_NAME;
-		if ( shutdown )
-			url += ";shutdown=true";
-		return url;
-	}
-	
-	/**
-	 * Shuts down the Derby database
-	 */
-	private void shutDownDatabase()
-	{
-		logger.info( "Stopping Sampledb database at location " + dbDir );
-		// Must shutdown this Derby DB before attempting to delete files
+		IConnectionFactory cf = null;
 		try
 		{
-			JDBCDriverManager.getInstance().getConnection( 
-					SampleDBConstants.DERBY_DRIVER_CLASS, 
-					getDBUrl(true), 
-					SampleDBConstants.SAMPLE_DB_SCHEMA, "", null );
+			cf = JDBCDriverManager.getInstance( ).getDriverConnectionFactory( SampleDBConstants.DRIVER_CLASS );
 		}
-		catch (Exception e)
+		catch ( OdaException e )
 		{
-			// Exception is always generated when shutting down Derby; ignore it here
-			logger.info( "Expected exception: " + e.getLocalizedMessage() );
+		}
+		if (cf != null) {
+			((SampleDBJDBCConnectionFactory)cf).shutdownDerby( );
 		}
 	}
 	

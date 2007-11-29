@@ -76,6 +76,16 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 		return getDerbyDriver().connect( dbUrl, props);
 	}
 	
+	
+	void shutdownDerby()
+	{
+		try {
+			getDerbyDriver().connect( "jdbc:derby:;shutdown=true", null);
+		} catch (SQLException e) {
+			//A successful shutdown always results in an SQLException to indicate that Derby has shut down and that there is no other exception.
+		}
+	}
+	
 	/**
 	 * Sets up the thread context class loader to make sure that Derby works with our class loader
 	 */
