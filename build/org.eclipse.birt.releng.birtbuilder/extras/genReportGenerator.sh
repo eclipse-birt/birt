@@ -15,40 +15,40 @@ rm -f lib.path.count
 #Generate $2/genReport.sh
 ########################################
 ########################PRINT USAGE OF REPORTRUNNER###########################
-echo # echo \"org.eclipse.birt.report.engine.impl.ReportRunner Usage:\"\; > $2/genReport.sh
-echo # echo \"--mode/-m [ run \| render \| runrender] the default is runrender \" >> $2/genReport.sh
-echo # echo \"for runrender mode: \" >> $2/genReport.sh
-echo # echo \"\"  \"we should add it in the end \<design file\>  \" >> $2/genReport.sh
-echo # echo \"\"  \"--format/-f [ HTML \| PDF ]  \" >> $2/genReport.sh
-echo # echo \"\"  \"--output/-o \<target file\>\" >> $2/genReport.sh
-echo # echo \"\"  \"--htmlType/-t \< HTML \| ReportletNoCSS \>\" >> $2/genReport.sh
-echo # echo \"\"  \"--locale /-l\<locale\>\" >> $2/genReport.sh
-echo # echo \"\"  \"--parameter/-p \<\"parameterName=parameterValue\"\>\" >> $2/genReport.sh
-echo # echo \"\"  \"--file/-F \<parameter file\>\" >> $2/genReport.sh
-echo # echo \"\"  \"--encoding/-e \<target encoding\>\" >> $2/genReport.sh
-echo # echo \" \" >> $2/genReport.sh
-echo # echo \"Locale: default is english\" >> $2/genReport.sh
-echo # echo \"parameters in command line will overide parameters in parameter file\" >> $2/genReport.sh
-echo # echo \"parameter name can't include characters such as \' \'\, \'=\'\, \':\'\" >> $2/genReport.sh
-echo # echo \" \" >> $2/genReport.sh
-echo # echo \"For RUN mode:\" >> $2/genReport.sh
-echo # echo \"we should add it in the end\<design file\>\" >> $2/genReport.sh
-echo # echo \"\"  \"--output/-o \<target file\>\" >> $2/genReport.sh
-echo # echo \"\"  \"--locale /-l\<locale\>\" >> $2/genReport.sh
-echo # echo \"\"  \"--parameter/-p \<parameterName=parameterValue\>\" >> $2/genReport.sh
-echo # echo \"\"  \"--file/-F \<parameter file\>\" >> $2/genReport.sh
-echo # echo \" \" >> $2/genReport.sh
-echo # echo \"Locale: default is english\" >> $2/genReport.sh
-echo # echo \"parameters in command line will overide parameters in parameter file\" >> $2/genReport.sh
-echo # echo \"parameter name can't include characters such as \' \'\, \'=\'\, \':\'\" >> $2/genReport.sh
-echo # echo \" \" >> $2/genReport.sh
-echo # echo \"For RENDER mode:\" >> $2/genReport.sh
-echo # echo \"\" \"we should add it in the end\<design file\>\" >> $2/genReport.sh
-echo # echo \"\" \"--output/-o \<target file\>\" >> $2/genReport.sh
-echo # echo \"\" \"--page/-p \<pageNumber\>\" >> $2/genReport.sh
-echo # echo \"\" \"--locale /-l\<locale\>\" >> $2/genReport.sh
-echo # echo \" \" >> $2/genReport.sh
-echo # echo \"Locale: default is english\" >> $2/genReport.sh
+echo "#" echo \"org.eclipse.birt.report.engine.impl.ReportRunner Usage:\"\; > $2/genReport.sh
+echo "#" echo \"--mode/-m [ run \| render \| runrender] the default is runrender \" >> $2/genReport.sh
+echo "#" echo \"for runrender mode: \" >> $2/genReport.sh
+echo "#" echo \"\"  \"we should add it in the end \<design file\>  \" >> $2/genReport.sh
+echo "#" echo \"\"  \"--format/-f [ HTML \| PDF ]  \" >> $2/genReport.sh
+echo "#" echo \"\"  \"--output/-o \<target file\>\" >> $2/genReport.sh
+echo "#" echo \"\"  \"--htmlType/-t \< HTML \| ReportletNoCSS \>\" >> $2/genReport.sh
+echo "#" echo \"\"  \"--locale /-l\<locale\>\" >> $2/genReport.sh
+echo "#" echo \"\"  \"--parameter/-p \<\"parameterName=parameterValue\"\>\" >> $2/genReport.sh
+echo "#" echo \"\"  \"--file/-F \<parameter file\>\" >> $2/genReport.sh
+echo "#" echo \"\"  \"--encoding/-e \<target encoding\>\" >> $2/genReport.sh
+echo "#" echo \" \" >> $2/genReport.sh
+echo "#" echo \"Locale: default is english\" >> $2/genReport.sh
+echo "#" echo \"parameters in command line will overide parameters in parameter file\" >> $2/genReport.sh
+echo "#" echo \"parameter name can't include characters such as \' \'\, \'=\'\, \':\'\" >> $2/genReport.sh
+echo "#" echo \" \" >> $2/genReport.sh
+echo "#" echo \"For RUN mode:\" >> $2/genReport.sh
+echo "#" echo \"we should add it in the end\<design file\>\" >> $2/genReport.sh
+echo "#" echo \"\"  \"--output/-o \<target file\>\" >> $2/genReport.sh
+echo "#" echo \"\"  \"--locale /-l\<locale\>\" >> $2/genReport.sh
+echo "#" echo \"\"  \"--parameter/-p \<parameterName=parameterValue\>\" >> $2/genReport.sh
+echo "#" echo \"\"  \"--file/-F \<parameter file\>\" >> $2/genReport.sh
+echo "#" echo \" \" >> $2/genReport.sh
+echo "#" echo \"Locale: default is english\" >> $2/genReport.sh
+echo "#" echo \"parameters in command line will overide parameters in parameter file\" >> $2/genReport.sh
+echo "#" echo \"parameter name can't include characters such as \' \'\, \'=\'\, \':\'\" >> $2/genReport.sh
+echo "#" echo \" \" >> $2/genReport.sh
+echo "#" echo \"For RENDER mode:\" >> $2/genReport.sh
+echo "#" echo \"\" \"we should add it in the end\<design file\>\" >> $2/genReport.sh
+echo "#" echo \"\" \"--output/-o \<target file\>\" >> $2/genReport.sh
+echo "#" echo \"\" \"--page/-p \<pageNumber\>\" >> $2/genReport.sh
+echo "#" echo \"\" \"--locale /-l\<locale\>\" >> $2/genReport.sh
+echo "#" echo \" \" >> $2/genReport.sh
+echo "#" echo \"Locale: default is english\" >> $2/genReport.sh
 
 #########################END OF PRINT USAGE###########################
 
