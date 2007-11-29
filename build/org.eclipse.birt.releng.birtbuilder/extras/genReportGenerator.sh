@@ -82,7 +82,7 @@ echo ECHO off > $2/genReport.bat
 echo "" >> $2/genReport.bat
 
 ##################USAGE OF REPORT ENGINE################
-echo REM org.eclipse.birt.report.engine.impl.ReportRunner Usage: > $2/genReport.bat
+echo REM org.eclipse.birt.report.engine.impl.ReportRunner Usage: >> $2/genReport.bat
 echo REM --mode/-m [ run \| render \| runrender] the default is runrender >> $2/genReport.bat
 echo REM for runrender mode: >> $2/genReport.bat
 echo "REM     " "we should add it in the end <design file>" >> $2/genReport.bat
