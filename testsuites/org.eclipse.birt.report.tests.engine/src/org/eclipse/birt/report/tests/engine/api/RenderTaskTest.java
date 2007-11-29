@@ -217,7 +217,7 @@ public class RenderTaskTest extends EngineCase
 
 	public void testRenderPageRange_dash1( )
 	{
-		errors = renderReport( "pages9", "2-9" );
+		errors = renderReport( "pages9", "2-8" );
 		assertNull( errors );
 	}
 

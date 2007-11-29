@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.6" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.1.1.v20060817-0630 Build &lt;20060821-0630></property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.15" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.2.1.r22a_v20071101 Build &lt;2.2.1.v20071101-1439></property>
     <property name="units">in</property>
     <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
     <list-property name="propertyBindings">
@@ -28,6 +27,7 @@
         <scalar-parameter name="p1_string" id="6">
             <property name="valueType">static</property>
             <property name="dataType">string</property>
+            <property name="isRequired">false</property>
             <property name="controlType">text-box</property>
             <property name="defaultValue">abc</property>
             <structure name="format">
@@ -37,8 +37,9 @@
         <scalar-parameter name="p2_static_dt" id="7">
             <property name="valueType">static</property>
             <property name="dataType">dateTime</property>
+            <property name="isRequired">true</property>
             <property name="controlType">list-box</property>
-            <property name="mustMatch">false</property>
+            <property name="mustMatch">true</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
             </structure>
@@ -54,11 +55,12 @@
         <scalar-parameter name="p3_dynamic_int" id="8">
             <property name="valueType">dynamic</property>
             <property name="dataType">integer</property>
+            <property name="isRequired">true</property>
             <property name="controlType">list-box</property>
             <property name="dataSetName">Data Set</property>
             <expression name="valueExpr">dataSetRow["ORDERNUMBER"]</expression>
             <expression name="labelExpr">dataSetRow["ORDERNUMBER"]</expression>
-            <property name="mustMatch">true</property>
+            <property name="mustMatch">false</property>
             <property name="defaultValue">10251</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
@@ -69,6 +71,7 @@
                 <scalar-parameter name="p41_decimal" id="10">
                     <property name="valueType">static</property>
                     <property name="dataType">decimal</property>
+                    <property name="isRequired">true</property>
                     <property name="controlType">text-box</property>
                     <property name="defaultValue">2.35</property>
                     <structure name="format">
@@ -78,6 +81,7 @@
                 <scalar-parameter name="p42_float" id="11">
                     <property name="valueType">static</property>
                     <property name="dataType">float</property>
+                    <property name="isRequired">true</property>
                     <property name="controlType">text-box</property>
                     <property name="defaultValue">87.16</property>
                     <structure name="format">
@@ -92,7 +96,7 @@
             <parameters>
                 <scalar-parameter name="p51" id="13">
                     <property name="valueType">dynamic</property>
-                    <property name="allowNull">false</property>
+                    <property name="isRequired">false</property>
                     <property name="controlType">list-box</property>
                     <expression name="valueExpr">row["STATUS"]</expression>
                     <structure name="format">
@@ -102,7 +106,7 @@
                 <scalar-parameter name="p52" id="14">
                     <property name="valueType">dynamic</property>
                     <property name="dataType">integer</property>
-                    <property name="allowNull">false</property>
+                    <property name="isRequired">true</property>
                     <property name="controlType">list-box</property>
                     <expression name="valueExpr">row["ORDERNUMBER"]</expression>
                     <structure name="format">
@@ -116,7 +120,7 @@
             <parameters>
                 <scalar-parameter name="p61_country" id="19">
                     <property name="valueType">dynamic</property>
-                    <property name="allowNull">false</property>
+                    <property name="isRequired">false</property>
                     <property name="controlType">list-box</property>
                     <property name="dataSetName">ds1</property>
                     <expression name="valueExpr">row["COUNTRY"]</expression>
@@ -126,7 +130,7 @@
                 </scalar-parameter>
                 <scalar-parameter name="p62_customernumber" id="20">
                     <property name="valueType">dynamic</property>
-                    <property name="allowNull">false</property>
+                    <property name="isRequired">false</property>
                     <property name="controlType">list-box</property>
                     <property name="dataSetName">ds2</property>
                     <expression name="valueExpr">row["CUSTOMERNUMBER"]</expression>
@@ -136,7 +140,8 @@
                 </scalar-parameter>
                 <scalar-parameter name="p63_orderno" id="21">
                     <property name="valueType">dynamic</property>
-                    <property name="allowNull">false</property>
+                    <property name="dataType">integer</property>
+                    <property name="isRequired">false</property>
                     <property name="controlType">list-box</property>
                     <property name="dataSetName">ds3</property>
                     <expression name="valueExpr">row["ORDERNUMBER"]</expression>
@@ -160,7 +165,9 @@
                 <structure>
                     <property name="operator">between</property>
                     <expression name="expr">row["ORDERNUMBER"]</expression>
-                    <expression name="value1">10250</expression>
+                    <simple-property-list name="value1">
+                        <value>10250</value>
+                    </simple-property-list>
                     <expression name="value2">10270</expression>
                 </structure>
             </list-property>
