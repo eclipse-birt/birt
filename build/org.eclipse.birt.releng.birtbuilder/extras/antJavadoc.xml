@@ -308,14 +308,8 @@
 		<!-- unzip BIRT bits -->
 		<property file="${buildDirectory}/finalPluginsVersions.properties"/>
 		<exec executable="unzip" dir="${postingDirectory}/${buildId}">
-			<arg line="-o -q birt-report-framework-2_3_0.zip -d ${javadoc.dir}" />
+			<arg line="-o -q birt-report-framework-${package.version}.zip -d ${javadoc.dir}" />
 		</exec>
-		<!-- copy iText jars -->
-		<copy todir="${javadoc.dir}/eclipse/plugins/com.lowagie.itext_${com.lowagie.itext}/lib">
-			<fileset dir="${p4.home}/iText">
-				<include name="*.jar"/>
-			</fileset>
-		</copy>
 		<!-- copy baseLocation plugins -->
 		<copy todir="${javadoc.dir}/eclipse/plugins">
 			<fileset dir="${baseLocation}/plugins">
