@@ -368,7 +368,13 @@ public class ReportScriptFormPage extends ReportFormPage
 	 */
 	public boolean isDirty( )
 	{
-		return jsEditor.isDirty( );
+		boolean isModelDirty = false;
+
+		if ( getModel( ) != null )
+		{
+			isModelDirty = getModel( ).needsSave( );
+		}
+		return isModelDirty || jsEditor.isDirty( );
 	}
 
 	/*
