@@ -1134,10 +1134,10 @@ public class ColumnBindingTest extends APITestCase
 	private void preBasic( ) throws Exception
 	{
 		IQueryResults qr = myPreDataEngine.getQueryResults( queryResultID );
-		assert ( qr.getResultMetaData( ) != null );
-		
+		assertTrue ( qr.getResultMetaData( ) != null );
+		assertTrue ( qr.getPreparedQuery( ) != null );
 		IResultIterator ri = qr.getResultIterator( );
-		assert ( ri.getResultMetaData( ) != null );
+		assertTrue ( ri.getResultMetaData( ) != null );
 		
 		checkResult1( ri );
 		

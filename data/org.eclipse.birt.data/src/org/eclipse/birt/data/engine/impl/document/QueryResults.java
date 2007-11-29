@@ -10,16 +10,21 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl.document;
 
+import java.util.Collection;
+
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
+import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
+import org.mozilla.javascript.Scriptable;
 
 /**
  * This class be used in presentation to retrieve ResultIterator. It will have
@@ -41,6 +46,7 @@ public class QueryResults implements IQueryResults
 	// it can determins the sub query index in its group level.
 	private int currParentIndex;
 	
+	private IPreparedQuery dummyPreparedQuery;
 	/**
 	 * @param context
 	 * @param queryResultID
@@ -75,12 +81,50 @@ public class QueryResults implements IQueryResults
 		this.currParentIndex = currParentIndex;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
+	private IPreparedQuery populateDummyPreparedQuery( )
+	{
+		IPreparedQuery result = null;
+		try
+		{
+			String rootQueryResultID = QueryResultIDUtil.get1PartID( queryResultID );
+			String parentQueryResultID = null;
+			if ( rootQueryResultID != null )
+				parentQueryResultID = QueryResultIDUtil.get2PartID( queryResultID );
+			else
+				rootQueryResultID = queryResultID;
+
+			QueryResultInfo queryResultInfo = new QueryResultInfo( rootQueryResultID,
+					parentQueryResultID,
+					null,
+					null,
+					-1 );
+			RDLoad rdLoad = RDUtil.newLoad( context, queryResultInfo );
+
+			IBaseQueryDefinition qd = rdLoad.loadQueryDefn( StreamManager.ROOT_STREAM,
+					StreamManager.BASE_SCOPE );
+			if ( qd instanceof IQueryDefinition )
+				result = new DummyPreparedQuery( (IQueryDefinition) qd, this );
+		}
+		catch ( DataException e )
+		{
+
+		}
+		return result;
+	}
+	
 	/*
 	 * @see org.eclipse.birt.data.engine.api.IQueryResults#getPreparedQuery()
 	 */
 	public IPreparedQuery getPreparedQuery( )
 	{
-		return null;
+		if( this.dummyPreparedQuery == null )
+			this.dummyPreparedQuery = this.populateDummyPreparedQuery( );
+		
+		return this.dummyPreparedQuery;
 	}
 
 	/*
@@ -183,5 +227,70 @@ public class QueryResults implements IQueryResults
 		// TODO Auto-generated method stub
 		
 	}
+	
+	/**
+	 * Used for Result Set Sharing.
+	 *
+	 */
+	private static class DummyPreparedQuery implements IPreparedQuery
+	{
+		private IQueryDefinition queryDefn;
+		private IQueryResults results;
+		
+		/**
+		 * 
+		 * @param queryDefn
+		 * @param context
+		 */
+		public DummyPreparedQuery( IQueryDefinition queryDefn, IQueryResults queryResults )
+		{
+			this.queryDefn = queryDefn;
+			this.results = queryResults;
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#execute(org.mozilla.javascript.Scriptable)
+		 */
+		public IQueryResults execute( Scriptable queryScope )
+				throws BirtException
+		{
+			return this.results;
+		}
 
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#execute(org.eclipse.birt.data.engine.api.IQueryResults, org.mozilla.javascript.Scriptable)
+		 */
+		public IQueryResults execute( IQueryResults outerResults,
+				Scriptable queryScope ) throws BirtException
+		{
+			throw new UnsupportedOperationException();
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#getParameterMetaData()
+		 */
+		public Collection getParameterMetaData( ) throws BirtException
+		{
+			return null;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#getReportQueryDefn()
+		 */
+		public IQueryDefinition getReportQueryDefn( )
+		{
+			return this.queryDefn;
+		}
+
+		public IQueryResults execute( IBaseQueryResults outerResults,
+				Scriptable scope ) throws DataException
+		{
+			throw new UnsupportedOperationException();
+		}
+		
+	}
 }
