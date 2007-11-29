@@ -11,6 +11,7 @@
             displayNameID="Element.Crosstab"
             extendsFrom="ReportItem"
             extensionName="Crosstab"
+            
             isNameRequired="false">
          <property
                canInherit="true"
@@ -177,6 +178,7 @@
             displayNameID="Element.CrosstabView"
             extendsFrom="ReportElement"
             extensionName="CrosstabView"
+            hasStyle="false"
             isNameRequired="false">
          <property
                canInherit="true"
@@ -226,6 +228,7 @@
             displayNameID="Element.DimensionView"
             extendsFrom="ReportElement"
             extensionName="DimensionView"
+            hasStyle="false"
             isNameRequired="false">
          <property
                canInherit="true"
@@ -254,6 +257,7 @@
             displayNameID="Element.LevelView"
             extendsFrom="ReportElement"
             extensionName="LevelView"
+            hasStyle="false"
             isNameRequired="true">
          <property
                canInherit="true"
@@ -374,6 +378,7 @@
             displayNameID="Element.MeasureView"
             extendsFrom="ReportElement"
             extensionName="MeasureView"
+            hasStyle="false"
             isNameRequired="false">
          <property
                canInherit="true"
