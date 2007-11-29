@@ -246,7 +246,7 @@ class CubeQueryDefinitionUtil
 			for ( int i = 0; i < exprList.size( ); i++ )
 			{
 				IBaseExpression baseExpr = (IBaseExpression) exprList.get( i );
-				textList.addAll( getExprTextList( expression ) );
+				textList.addAll( getExprTextList( baseExpr ) );
 			}
 		}
 		else if ( expression instanceof IConditionalExpression )
