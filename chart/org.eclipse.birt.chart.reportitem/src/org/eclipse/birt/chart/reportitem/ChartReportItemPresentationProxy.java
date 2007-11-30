@@ -48,17 +48,8 @@ public class ChartReportItemPresentationProxy
 		}
 
 		this.info = info;
-		setModelObject( info.getModelObject( ) );
-		setApplicationClassLoader( info.getApplicationClassLoader( ) );
-		setScriptContext( info.getReportContext( ) );
-		setReportQueries( info.getReportQueries( ) );
-		setDynamicStyle( info.getExtendedItemContent( ).getComputedStyle( ) );
-		setResolution( info.getResolution( ) );
-		setLocale( info.getReportContext( ).getLocale( ) );
-		setExtendedItemContent( info.getExtendedItemContent( ) );
-		setSupportedImageFormats( info.getSupportedImageFormats( ) );
-		setActionHandler( info.getActionHandler( ) );
-		setOutputFormat( info.getOutputFormat( ) );
+		impl = createImpl( info.getModelObject( ) );
+		impl.init( info );
 	}
 	
 	private IReportItemPresentation createImpl( ExtendedItemHandle modelHandle )
@@ -106,88 +97,90 @@ public class ChartReportItemPresentationProxy
 		return impl.getSize( );
 	}
 
-	public Object onRowSets( IRowSet[] rowSets ) throws BirtException
-	{
-		assert impl != null;
-		return impl.onRowSets( rowSets );
-	}
-
-	public void setActionHandler( IHTMLActionHandler ah )
-	{
-		assert impl != null;
-		impl.setActionHandler( ah );
-	}
-
-	public void setApplicationClassLoader( ClassLoader loader )
-	{
-		assert impl != null;
-		impl.setApplicationClassLoader( loader );
-	}
-
-	public void setDynamicStyle( IStyle style )
-	{
-		assert impl != null;
-		impl.setDynamicStyle( style );
-	}
-
-	public void setLocale( Locale locale )
-	{
-		assert impl != null;
-		impl.setLocale( locale );
-	}
-
-	public void setModelObject( ExtendedItemHandle modelHandle )
-	{
-		impl = createImpl( modelHandle );
-		assert impl != null;
-		impl.setModelObject( modelHandle );
-	}
-
-	public void setOutputFormat( String outputFormat )
-	{
-		assert impl != null;
-		impl.setOutputFormat( outputFormat );
-	}
-
-	public void setReportQueries( IDataQueryDefinition[] queries )
-	{
-		assert impl != null;
-		impl.setReportQueries( queries );
-	}
-
-	public void setResolution( int dpi )
-	{
-		assert impl != null;
-		impl.setResolution( dpi );
-	}
-
-	public void setScriptContext( IReportContext context )
-	{
-		assert impl != null;
-		impl.setScriptContext( context );
-	}
-
-	public void setSupportedImageFormats( String supportedImageFormats )
-	{
-		assert impl != null;
-		impl.setSupportedImageFormats( supportedImageFormats );
-	}
-
 	public Object onRowSets( IBaseResultSet[] results ) throws BirtException
 	{
 		assert impl != null;
 		return impl.onRowSets( results );
 	}
 
-	public void setExtendedItemContent( IContent content )
-	{
-		assert impl != null;
-		impl.setExtendedItemContent( content );
-		
-	}
+
 
 	public IReportItemPresentationInfo getPresentationConfig( )
 	{
 		return info;
+	}
+
+	// Follows deprecated methods. Empty implementation
+	
+	public Object onRowSets( IRowSet[] rowSets ) throws BirtException
+	{
+		assert false;
+		return null;
+	}
+
+	public void setActionHandler( IHTMLActionHandler ah )
+	{
+		assert false;
+		
+	}
+
+	public void setApplicationClassLoader( ClassLoader loader )
+	{
+		assert false;
+		
+	}
+
+	public void setDynamicStyle( IStyle style )
+	{
+		assert false;
+		
+	}
+
+	public void setExtendedItemContent( IContent content )
+	{
+		assert false;
+		
+	}
+
+	public void setLocale( Locale locale )
+	{
+		assert false;
+		
+	}
+
+	public void setModelObject( ExtendedItemHandle modelHandle )
+	{
+		assert false;
+		
+	}
+
+	public void setOutputFormat( String outputFormat )
+	{
+		assert false;
+		
+	}
+
+	public void setReportQueries( IDataQueryDefinition[] queries )
+	{
+		assert false;
+		
+	}
+
+	public void setResolution( int dpi )
+	{
+		assert false;
+		
+	}
+
+	public void setScriptContext( IReportContext context )
+	{
+		assert false;
+		
+	}
+
+	public void setSupportedImageFormats( String supportedImageFormats )
+	{
+		assert false;
+		
 	}
 }

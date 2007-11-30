@@ -45,7 +45,6 @@ public final class ChartReportItemPresentationImpl
 		extends
 			ChartReportItemPresentationBase
 {
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -53,6 +52,87 @@ public final class ChartReportItemPresentationImpl
 	 */
 	public Object onRowSets( IBaseResultSet[] baseResultSet )
 			throws BirtException
+	{
+		// Extract result set to render and check for null data
+		IBaseResultSet resultSet = getDataToRender( baseResultSet );
+			
+		// Skip gracefully if there is no data
+		if ( resultSet == null )
+			return null;
+	
+		
+		try
+		{
+			// Create shared scale if needed
+			if ( rtc.getScale( ) == null
+					&& ChartReportItemUtil.canBindingShared( handle, cm ) )
+			{
+				rtc.setScale( createSharedScale( resultSet ) );
+			}
+			
+			// Get the BIRT report context
+			BIRTExternalContext externalContext = new BIRTExternalContext( context );
+			
+			// Initialize script handler and register birt context in scope
+			initializeScriptHandler( externalContext );
+
+			// Prepare Data for Series
+			IDataRowExpressionEvaluator rowAdapter = createEvaluator( resultSet );
+			
+			// Prepare data processor for hyperlinks/tooltips
+			BIRTActionEvaluator evaluator = new BIRTActionEvaluator( );
+
+			// Bind Data to series
+			Generator.instance( ).bindData( rowAdapter, evaluator, cm, rtc );
+
+			// Prepare Device Renderer
+			prepareDeviceRenderer();
+			
+			// Build the chart
+			GeneratedChartState gcs  = buildChart( rowAdapter, externalContext );
+		
+			// Render the chart
+			renderToImageFile( gcs );
+			
+			// Close the dataRow evaluator. It needs to stay opened until the chart is fully rendered.
+			rowAdapter.close( );
+
+			// Set the scale shared when scale has been computed, and store it
+			// in the ReportItem
+			if ( rtc.getScale( ) != null && !rtc.getScale( ).isShared( ) )
+			{
+				rtc.getScale( ).setShared( true );
+				( (ChartReportItemImpl) getReportItem( handle ) ).setScale( rtc.getScale( ) );
+			}
+
+			// Returns the content to display (image or image+imagemap)
+			return getImageToDisplay();
+		}
+		catch ( BirtException birtException )
+		{
+			// Check if the exception is caused by no data to display (in that case skip gracefully)
+			if ( isNoDataException ( birtException ) )
+				return null;
+			else
+				throw birtException;
+		}
+		catch ( RuntimeException ex )
+		{
+			logger.log( ILogger.ERROR,
+					Messages.getString( "ChartReportItemPresentationImpl.log.onRowSetsFailed" ) ); //$NON-NLS-1$
+			logger.log( ex );
+			throw new ChartException( ChartReportItemPlugin.ID,
+					ChartException.GENERATION,
+					ex );
+		}
+	}
+
+	/**
+	 * Check there is some data to display in the chart. 
+	 * @param baseResultSet
+	 * @return null if nothing to render
+	 */
+	private IBaseResultSet getDataToRender( IBaseResultSet[] baseResultSet )
 	{
 		// BIND RESULTSET TO CHART DATASETS
 		if ( baseResultSet == null || baseResultSet.length < 1 )
@@ -77,220 +157,197 @@ public final class ChartReportItemPresentationImpl
 		// catch unwanted null handle case
 		if ( handle == null )
 		{
-			return null;
+			assert false; // should we throw an exception here instead?
+			return null; 
 		}
-
-		try
+		return resultSet;
+	}
+	
+	private void initializeScriptHandler(BIRTExternalContext externalContext ) throws ChartException
+	{
+		String javaHandlerClass = handle.getEventHandlerClass( );
+		if ( javaHandlerClass != null && javaHandlerClass.length( ) > 0 )
 		{
-			// Create shared scale if needed
-			if ( rtc.getScale( ) == null
-					&& ChartReportItemUtil.canBindingShared( handle, cm ) )
-			{
-				rtc.setScale( createSharedScale( resultSet ) );
-			}
-
-			String javaHandlerClass = handle.getEventHandlerClass( );
-			if ( javaHandlerClass != null && javaHandlerClass.length( ) > 0 )
-			{
-				// use java handler if available.
-				cm.setScript( javaHandlerClass );
-			}
-
-			rtc.setScriptClassLoader( new BIRTScriptClassLoader( appClassLoader ) );
-			// INITIALIZE THE SCRIPT HANDLER
-			// UPDATE THE CHART SCRIPT CONTEXT
-
-			ScriptHandler sh = rtc.getScriptHandler( );
-			BIRTExternalContext externalContext = new BIRTExternalContext( context );
-			if ( sh == null ) // IF NOT PREVIOUSLY DEFINED BY
-			// REPORTITEM ADAPTER
-			{
-				sh = new ScriptHandler( );
-				rtc.setScriptHandler( sh );
-
-				sh.setScriptClassLoader( rtc.getScriptClassLoader( ) );
-				sh.setScriptContext( rtc.getScriptContext( ) );
-
-				final String sScriptContent = cm.getScript( );
-				if ( externalContext != null
-						&& externalContext.getScriptable( ) != null )
-				{
-					sh.init( externalContext.getScriptable( ) );
-				}
-				else
-				{
-					sh.init( null );
-				}
-				sh.setRunTimeModel( cm );
-
-				if ( sScriptContent != null
-						&& sScriptContent.length( ) > 0
-						&& rtc.isScriptingEnabled( ) )
-				{
-					sh.register( sScriptContent );
-				}
-			}
-
-			// Create evaluator
-			IDataRowExpressionEvaluator rowAdapter = createEvaluator( resultSet );
-			BIRTActionEvaluator evaluator = new BIRTActionEvaluator( );
-
-			Generator.instance( ).bindData( rowAdapter, evaluator, cm, rtc );
-
-			logger.log( ILogger.INFORMATION,
-					Messages.getString( "ChartReportItemPresentationImpl.log.onRowSetsBuilding" ) ); //$NON-NLS-1$
-
-			// FETCH A HANDLE TO THE DEVICE RENDERER
-			idr = ChartEngine.instance( ).getRenderer( "dv." //$NON-NLS-1$
-					+ sExtension.toUpperCase( Locale.US ) );
-
-			idr.setProperty( IDeviceRenderer.DPI_RESOLUTION, new Integer( dpi ) );
-
-			if ( "SVG".equalsIgnoreCase( sExtension ) ) //$NON-NLS-1$
-			{
-				idr.setProperty( "resize.svg", Boolean.TRUE ); //$NON-NLS-1$
-			}
-
-			// BUILD THE CHART
-			final Bounds bo = computeBounds( );
-
-			logger.log( ILogger.INFORMATION,
-					Messages.getString( "ChartReportItemPresentationImpl.log.PresentationUsesBoundsBo", bo ) ); //$NON-NLS-1$
-
-			final Generator gr = Generator.instance( );
-			GeneratedChartState gcs = null;
-
-			rtc.setActionRenderer( new BIRTActionRenderer( this.handle,
-					this.ah,
-					rowAdapter,
-					this.context ) );
-			rtc.setMessageLookup( new BIRTMessageLookup( context ) );
-			Object renderContext = context.getAppContext( )
-					.get( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT );
-
-			// read RtL flag from engine
-			if ( renderContext instanceof HTMLRenderContext )
-			{
-				IRenderOption renderOption = ( (HTMLRenderContext) renderContext ).getRenderOption( );
-				if ( renderOption instanceof HTMLRenderOption )
-				{
-					if ( ( (HTMLRenderOption) renderOption ).getHtmlRtLFlag( ) )
-					{
-						rtc.setRightToLeft( true );
-					}
-				}
-			}
-
-			gcs = gr.build( idr.getDisplayServer( ),
-					cm,
-					bo,
-					externalContext,
-					rtc,
-					new ChartReportStyleProcessor( handle, this.style ) );
-
-			// WRITE TO THE IMAGE FILE
-			logger.log( ILogger.INFORMATION,
-					Messages.getString( "ChartReportItemPresentationImpl.log.onRowSetsRendering" ) ); //$NON-NLS-1$
-
-			ByteArrayOutputStream baos = new ByteArrayOutputStream( );
-			BufferedOutputStream bos = new BufferedOutputStream( baos );
-
-			idr.setProperty( IDeviceRenderer.FILE_IDENTIFIER, bos );
-			idr.setProperty( IDeviceRenderer.UPDATE_NOTIFIER,
-					new EmptyUpdateNotifier( cm, gcs.getChartModel( ) ) );
-
-			gr.render( idr, gcs );
-
-			// cleanup the dataRow evaluator.
-			rowAdapter.close( );
-
-			// RETURN A STREAM HANDLE TO THE NEWLY CREATED IMAGE
-			try
-			{
-				bos.close( );
-				fis = new ByteArrayInputStream( baos.toByteArray( ) );
-			}
-			catch ( Exception ioex )
-			{
-				throw new ChartException( ChartReportItemPlugin.ID,
-						ChartException.GENERATION,
-						ioex );
-			}
-
-			if ( !"SVG".equals( sExtension ) && idr instanceof IImageMapEmitter ) //$NON-NLS-1$
-			{
-				imageMap = ( (IImageMapEmitter) idr ).getImageMap( );
-			}
-
-			// Set the scale shared when scale has been computed, and store it
-			// in the ReportItem
-			if ( rtc.getScale( ) != null && !rtc.getScale( ).isShared( ) )
-			{
-				rtc.getScale( ).setShared( true );
-				( (ChartReportItemImpl) getReportItem( handle ) ).setScale( rtc.getScale( ) );
-			}
-
+			// use java handler if available.
+			cm.setScript( javaHandlerClass );
 		}
-		catch ( BirtException birtException )
+
+		rtc.setScriptClassLoader( new BIRTScriptClassLoader( appClassLoader ) );
+		// INITIALIZE THE SCRIPT HANDLER
+		// UPDATE THE CHART SCRIPT CONTEXT
+
+		ScriptHandler sh = rtc.getScriptHandler( );
+		
+		if ( sh == null ) // IF NOT PREVIOUSLY DEFINED BY
+		// REPORTITEM ADAPTER
 		{
-			Throwable ex = birtException;
-			while ( ex.getCause( ) != null )
-			{
-				ex = ex.getCause( );
-			}
+			sh = new ScriptHandler( );
+			rtc.setScriptHandler( sh );
 
-			if ( ex instanceof ChartException
-					&& ( (ChartException) ex ).getType( ) == ChartException.ZERO_DATASET )
-			{
-				// if the Data set has zero lines, just
-				// returns null gracefully.
-				return null;
-			}
+			sh.setScriptClassLoader( rtc.getScriptClassLoader( ) );
+			sh.setScriptContext( rtc.getScriptContext( ) );
 
-			if ( ex instanceof ChartException
-					&& ( (ChartException) ex ).getType( ) == ChartException.ALL_NULL_DATASET )
+			final String sScriptContent = cm.getScript( );
+			if ( externalContext != null
+					&& externalContext.getScriptable( ) != null )
 			{
-				// if the Data set contains all null values, just
-				// returns null gracefully and render nothing.
-				return null;
+				sh.init( externalContext.getScriptable( ) );
 			}
-
-			if ( ( ex instanceof ChartException && ( (ChartException) ex ).getType( ) == ChartException.INVALID_IMAGE_SIZE ) )
+			else
 			{
-				// if the image size is invalid, this may caused by
-				// Display=None, lets ignore it.
-				logger.log( birtException );
-				return null;
+				sh.init( null );
 			}
+			sh.setRunTimeModel( cm );
 
-			logger.log( ILogger.ERROR,
-					Messages.getString( "ChartReportItemPresentationImpl.log.onRowSetsFailed" ) ); //$NON-NLS-1$
-			logger.log( birtException );
-			throw birtException;
+			if ( sScriptContent != null
+					&& sScriptContent.length( ) > 0
+					&& rtc.isScriptingEnabled( ) )
+			{
+				sh.register( sScriptContent );
+			}
 		}
-		catch ( RuntimeException ex )
-		{
-			logger.log( ILogger.ERROR,
-					Messages.getString( "ChartReportItemPresentationImpl.log.onRowSetsFailed" ) ); //$NON-NLS-1$
-			logger.log( ex );
-			throw new ChartException( ChartReportItemPlugin.ID,
-					ChartException.GENERATION,
-					ex );
-		}
+	}
+	private GeneratedChartState buildChart(IDataRowExpressionEvaluator rowAdapter, BIRTExternalContext externalContext ) throws ChartException
+	{
+		final Bounds bo = computeBounds( );
 
-		logger.log( ILogger.INFORMATION,
-				Messages.getString( "ChartReportItemPresentationImpl.onRowSetsEnd" ) ); //$NON-NLS-1$
+		initializeRuntimeContext( rowAdapter );
+		
+		return Generator.instance( ).build( idr.getDisplayServer( ),
+				cm,
+				bo,
+				externalContext,
+				rtc,
+				new ChartReportStyleProcessor( handle, this.style ) );
+	}
 
-		if ( "SVG".equals( sExtension ) ) //$NON-NLS-1$
+	private Object getImageToDisplay( )
+	{
+		if ( getOutputType() == OUTPUT_AS_IMAGE ) 
 		{
 			return fis;
 		}
-		else
+		else if ( getOutputType()  == OUTPUT_AS_IMAGE_WITH_MAP )
 		{
 			return new Object[]{
 					fis, imageMap
 			};
 		}
+		else
+			throw new IllegalArgumentException();
+	}
+
+	private void renderToImageFile(GeneratedChartState gcs ) throws ChartException
+	{
+		logger.log( ILogger.INFORMATION,
+				Messages.getString( "ChartReportItemPresentationImpl.log.onRowSetsRendering" ) ); //$NON-NLS-1$
+
+		ByteArrayOutputStream baos = new ByteArrayOutputStream( );
+		BufferedOutputStream bos = new BufferedOutputStream( baos );
+
+		idr.setProperty( IDeviceRenderer.FILE_IDENTIFIER, bos );
+		idr.setProperty( IDeviceRenderer.UPDATE_NOTIFIER,
+				new EmptyUpdateNotifier( cm, gcs.getChartModel( ) ) );
+
+		Generator.instance().render( idr, gcs );
+
+	// RETURN A STREAM HANDLE TO THE NEWLY CREATED IMAGE
+		try
+		{
+			bos.close( );
+			fis = new ByteArrayInputStream( baos.toByteArray( ) );
+		}
+		catch ( Exception ioex )
+		{
+			throw new ChartException( ChartReportItemPlugin.ID,
+					ChartException.GENERATION,
+					ioex );
+		}
+
+		if ( getOutputType()  == OUTPUT_AS_IMAGE_WITH_MAP  ) 
+		{
+			imageMap = ( (IImageMapEmitter) idr ).getImageMap( );
+		}
+		
+	}
+
+	private boolean isNoDataException(BirtException birtException )
+	{
+		Throwable ex = birtException;
+		while ( ex.getCause( ) != null )
+		{
+			ex = ex.getCause( );
+		}
+
+		if ( ex instanceof ChartException
+				&& ( (ChartException) ex ).getType( ) == ChartException.ZERO_DATASET )
+		{
+			// if the Data set has zero lines, just
+			// returns null gracefully.
+			return true;
+		}
+
+		if ( ex instanceof ChartException
+				&& ( (ChartException) ex ).getType( ) == ChartException.ALL_NULL_DATASET )
+		{
+			// if the Data set contains all null values, just
+			// returns null gracefully and render nothing.
+			return true;
+		}
+
+		if ( ( ex instanceof ChartException && ( (ChartException) ex ).getType( ) == ChartException.INVALID_IMAGE_SIZE ) )
+		{
+			// if the image size is invalid, this may caused by
+			// Display=None, lets ignore it.
+			logger.log( birtException );
+			return true;
+		}
+
+		logger.log( ILogger.ERROR,
+				Messages.getString( "ChartReportItemPresentationImpl.log.onRowSetsFailed" ) ); //$NON-NLS-1$
+		logger.log( birtException );
+		return false;
+		
+	}
+
+	private void initializeRuntimeContext(IDataRowExpressionEvaluator rowAdapter )
+	{
+		rtc.setActionRenderer( new BIRTActionRenderer( this.handle,
+				this.ah,
+				rowAdapter,
+				this.context ) );
+		rtc.setMessageLookup( new BIRTMessageLookup( context ) );
+		Object renderContext = context.getAppContext( )
+				.get( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT );
+
+		// read RtL flag from engine
+		if ( renderContext instanceof HTMLRenderContext )
+		{
+			IRenderOption renderOption = ( (HTMLRenderContext) renderContext ).getRenderOption( );
+			if ( renderOption instanceof HTMLRenderOption )
+			{
+				if ( ( (HTMLRenderOption) renderOption ).getHtmlRtLFlag( ) )
+				{
+					rtc.setRightToLeft( true );
+				}
+			}
+		}
+		
+		
+	}
+
+	private void prepareDeviceRenderer( ) throws ChartException
+	{
+		idr = ChartEngine.instance( ).getRenderer( "dv." //$NON-NLS-1$
+				+ sExtension.toUpperCase( Locale.US ) );
+
+		idr.setProperty( IDeviceRenderer.DPI_RESOLUTION, new Integer( dpi ) );
+
+		if ( "SVG".equalsIgnoreCase( sExtension ) ) //$NON-NLS-1$
+		{
+			idr.setProperty( "resize.svg", Boolean.TRUE ); //$NON-NLS-1$
+		}
+		
 	}
 
 	/*

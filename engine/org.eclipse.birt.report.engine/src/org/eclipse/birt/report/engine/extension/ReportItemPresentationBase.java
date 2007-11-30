@@ -64,11 +64,12 @@ public class ReportItemPresentationBase implements IReportItemPresentation
 		setExtendedItemContent( info.getExtendedItemContent( ) );
 		setLocale( info.getReportContext( ).getLocale( ) );
 		setModelObject( info.getModelObject( ) );
+		setSupportedImageFormats( info.getSupportedImageFormats( ) );
 		setOutputFormat( info.getOutputFormat( ) );
 		setReportQueries( info.getReportQueries( ) );
 		setResolution( info.getResolution( ) );
 		setScriptContext( info.getReportContext( ) );
-		setSupportedImageFormats( info.getSupportedImageFormats( ) );
+		
 	}
 	
 	/*
