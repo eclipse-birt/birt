@@ -338,10 +338,14 @@ public class ReportPreviewEditor extends EditorPart
 						ViewerPlugin.getDefault( )
 								.getPluginPreferences( )
 								.getString( WebViewer.PREVIEW_MAXROW ) );
-				this.options.put( WebViewer.MAX_CUBELEVELS_KEY,
+				this.options.put( WebViewer.MAX_CUBE_ROW_LEVELS_KEY,
 						ViewerPlugin.getDefault( )
 								.getPluginPreferences( )
-								.getString( WebViewer.PREVIEW_MAXCUBELEVEL ) );
+								.getString( WebViewer.PREVIEW_MAXCUBEROWLEVEL ) );
+				this.options.put( WebViewer.MAX_CUBE_COLUMN_LEVELS_KEY,
+						ViewerPlugin.getDefault( )
+								.getPluginPreferences( )
+								.getString( WebViewer.PREVIEW_MAXCUBECOLUMNLEVEL ) );
 				WebViewer.display( uri, browser, this.options );
 			}
 		}

@@ -84,7 +84,9 @@ public class WebViewer
 	public final static String PREVIEW_MAXROW = "preview_maxrow"; //$NON-NLS-1$
 
 	/** Preference key for max cube fetch levels. */
-	public final static String PREVIEW_MAXCUBELEVEL = "preview_maxlevelmember"; //$NON-NLS-1$
+	public final static String PREVIEW_MAXCUBEROWLEVEL = "preview_maxrowlevelmember"; //$NON-NLS-1$
+	
+	public final static String PREVIEW_MAXCUBECOLUMNLEVEL = "preview_maxrcolumnlevelmember"; //$NON-NLS-1$
 
 	/** Preference key for max in-memory cube size. */
 	public final static String PREVIEW_MAXINMEMORYCUBESIZE = "preview_maxinmemorycubesize"; //$NON-NLS-1$
@@ -128,7 +130,9 @@ public class WebViewer
 	/**
 	 * Key to indicate the 'maxLevelMember'
 	 */
-	public final static String MAX_CUBELEVELS_KEY = "MAX_CUBELEVELS_KEY"; //$NON-NLS-1$
+	public final static String MAX_CUBE_ROW_LEVELS_KEY = "MAX_CUBE_ROW_LEVELS_KEY"; //$NON-NLS-1$
+	
+	public final static String MAX_CUBE_COLUMN_LEVELS_KEY = "MAX_CUBE_COLUMN_LEVELS_KEY"; //$NON-NLS-1$
 
 	/**
 	 * Property to indicate whether it is a report debug mode
@@ -184,7 +188,7 @@ public class WebViewer
 	private static String createURL( String report, Map params )
 	{
 		if ( params == null || params.isEmpty( ) )
-			return createURL( null, report, null, true, null, null, null );
+			return createURL( null, report, null, true, null, null, null, null );
 		String servletName = (String) params.get( SERVLET_NAME_KEY );
 		String format = (String) params.get( FORMAT_KEY );
 		String resourceFolder = (String) params.get( RESOURCE_FOLDER_KEY );
@@ -217,10 +221,11 @@ public class WebViewer
 		String maxrows = (String) params.get( MAX_ROWS_KEY );
 
 		// max level member setting
-		String maxlevels = (String) params.get( MAX_CUBELEVELS_KEY );
+		String maxrowlevels = (String) params.get( MAX_CUBE_ROW_LEVELS_KEY );
+		String maxcolumnlevels = (String) params.get( MAX_CUBE_COLUMN_LEVELS_KEY );
 
 		return createURL( servletName, report, format, true, resourceFolder,
-				maxrows, maxlevels );
+				maxrows, maxrowlevels, maxcolumnlevels );
 	}
 
 	/**
@@ -242,7 +247,7 @@ public class WebViewer
 	 */
 	private static String createURL( String servletName, String report,
 			String format, boolean inDesigner, String resourceFolder,
-			String maxrows, String maxlevels )
+			String maxrows, String maxrowlevels, String maxcolumnlevels)
 	{
 		String encodedReportName = null;
 
@@ -344,8 +349,10 @@ public class WebViewer
 				+ "&__rtl=" + String.valueOf( rtl ) //$NON-NLS-1$
 				+ ( maxrows != null && maxrows.trim( ).length( ) > 0
 						? "&__maxrows=" + maxrows : "" ) //$NON-NLS-1$ //$NON-NLS-2$
-				+ ( maxlevels != null && maxlevels.trim( ).length( ) > 0
-						? "&__maxlevels=" + maxlevels : "" ) //$NON-NLS-1$ //$NON-NLS-2$
+				+ ( maxrowlevels != null && maxrowlevels.trim( ).length( ) > 0
+						? "&__maxrowlevels=" + maxrowlevels : "" ) //$NON-NLS-1$ //$NON-NLS-2$
+				+ ( maxcolumnlevels != null && maxcolumnlevels.trim( ).length( ) > 0
+						? "&__maxcolumnlevels=" + maxcolumnlevels : "" ) //$NON-NLS-1$ //$NON-NLS-2$
 				+ ( cubeMemorySize != null
 						&& cubeMemorySize.trim( ).length( ) > 0
 						? "&__cubememsize=" + cubeMemorySize : "" ) //$NON-NLS-1$ //$NON-NLS-2$
@@ -451,12 +458,12 @@ public class WebViewer
 		if ( !HTML.equalsIgnoreCase( format ) )
 		{
 			root = createURL( VIEWER_PREVIEW, report, format, true, null, null,
-					null );
+					null, null );
 		}
 		else
 		{
 			root = createURL( allowPage ? VIEWER_FRAMESET : VIEWER_PREVIEW,
-					report, format, true, null, null, null )
+					report, format, true, null, null, null, null )
 					+ "&" + new Random( ).nextInt( ); //$NON-NLS-1$
 		}
 
@@ -487,7 +494,7 @@ public class WebViewer
 		startWebApp( );
 		browser
 				.setUrl( createURL(
-						"run", report, format, true, null, null, null ) + "&" + new Random( ).nextInt( ) ); //$NON-NLS-1$ //$NON-NLS-2$
+						"run", report, format, true, null, null, null, null ) + "&" + new Random( ).nextInt( ) ); //$NON-NLS-1$ //$NON-NLS-2$
 
 	}
 
@@ -508,7 +515,7 @@ public class WebViewer
 	{
 		startWebApp( );
 		browser.setUrl( createURL( servletName, report, format, true, null,
-				null, null )
+				null, null, null )
 				+ "&" + new Random( ).nextInt( ) ); //$NON-NLS-1$
 	}
 
