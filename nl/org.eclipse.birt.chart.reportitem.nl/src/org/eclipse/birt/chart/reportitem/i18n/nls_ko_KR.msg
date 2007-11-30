@@ -71,6 +71,7 @@ property.label.legend.anchor=범례 앵커:
 property.label.chart.dimension=차원:
 property.label.chart.plot.transposed=바꿈
 property.script=스크립트
+property.onRender=onRender
 
 exception.script.syntaxError=스크립트 구문 오류: {0}
 

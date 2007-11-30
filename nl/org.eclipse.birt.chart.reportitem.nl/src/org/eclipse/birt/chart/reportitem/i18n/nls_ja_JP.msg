@@ -71,6 +71,7 @@ property.label.legend.anchor=凡例のアンカー :
 property.label.chart.dimension=次元 :
 property.label.chart.plot.transposed=置き換え後
 property.script=スクリプト
+property.onRender=onRender
 
 exception.script.syntaxError=スクリプトの構文エラー : {0}
 

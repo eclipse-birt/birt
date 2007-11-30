@@ -71,6 +71,7 @@ property.label.legend.anchor=Ancre de la légende :
 property.label.chart.dimension=Dimension :
 property.label.chart.plot.transposed=Transposé
 property.script=Script
+property.onRender=onRender
 
 exception.script.syntaxError=Erreur de syntaxe de script : {0}
 
