@@ -4,6 +4,9 @@ package org.eclipse.birt.report.engine.internal.document.v4;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
+import org.eclipse.birt.report.engine.extension.IBaseResultSet;
+import org.eclipse.birt.report.engine.extension.IQueryResultSet;
+import org.eclipse.birt.report.engine.internal.util.HTMLUtil;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
@@ -34,11 +37,24 @@ public class RowExecutor extends ContainerExecutor
 	{
 		return report.createRowContent( );
 	}
+	
+	private void setGroupId( IRowContent rowContent )
+	{
+		int groupLevel = HTMLUtil.getGroupLevel( rowContent );
+		IBaseResultSet resultSet = getParentResultSet( );
+		if ( groupLevel >= 0 && resultSet != null
+				&& resultSet.getType( ) == IBaseResultSet.QUERY_RESULTSET )
+		{
+			rowContent.setGroupId( ( (IQueryResultSet) resultSet )
+					.getGroupId( groupLevel ) );
+		}
+	}
 
 	protected void doExecute( ) throws Exception
 	{
 		IRowContent rowContent = (IRowContent) content;
 		rowContent.setRowID( rowId );
+		setGroupId(rowContent);
 		executeQuery( );
 	}
 
