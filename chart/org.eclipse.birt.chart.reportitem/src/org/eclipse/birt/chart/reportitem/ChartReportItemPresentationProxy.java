@@ -49,16 +49,16 @@ public class ChartReportItemPresentationProxy
 
 		this.info = info;
 		setModelObject( info.getModelObject( ) );
-		setActionHandler( info.getActionHandler( ) );
 		setApplicationClassLoader( info.getApplicationClassLoader( ) );
-		setDynamicStyle( info.getExtendedItemContent( ).getComputedStyle( ) );
-		setExtendedItemContent( info.getExtendedItemContent( ) );
-		setLocale( info.getReportContext( ).getLocale( ) );
-		setOutputFormat( info.getOutputFormat( ) );
-		setReportQueries( info.getReportQueries( ) );
-		setResolution( info.getResolution( ) );
 		setScriptContext( info.getReportContext( ) );
+		setReportQueries( info.getReportQueries( ) );
+		setDynamicStyle( info.getExtendedItemContent( ).getComputedStyle( ) );
+		setResolution( info.getResolution( ) );
+		setLocale( info.getReportContext( ).getLocale( ) );
+		setExtendedItemContent( info.getExtendedItemContent( ) );
 		setSupportedImageFormats( info.getSupportedImageFormats( ) );
+		setActionHandler( info.getActionHandler( ) );
+		setOutputFormat( info.getOutputFormat( ) );
 	}
 	
 	private IReportItemPresentation createImpl( ExtendedItemHandle modelHandle )

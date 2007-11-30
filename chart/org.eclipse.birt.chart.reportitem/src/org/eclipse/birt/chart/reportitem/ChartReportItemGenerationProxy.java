@@ -44,9 +44,9 @@ public class ChartReportItemGenerationProxy implements IReportItemGeneration
 		this.info = info;
 		setModelObject( info.getModelObject( ) );
 		setApplicationClassLoader( info.getApplicationClassLoader( ) );
-		setExtendedItemContent( info.getExtendedItemContent( ) );
-		setReportQueries( info.getReportQueries( ) );
 		setScriptContext( info.getReportContext( ) );
+		setReportQueries( info.getReportQueries( ) );
+		setExtendedItemContent( info.getExtendedItemContent( ) );
 	}
 	
 	private IReportItemGeneration createImpl( ExtendedItemHandle modelHandle )
