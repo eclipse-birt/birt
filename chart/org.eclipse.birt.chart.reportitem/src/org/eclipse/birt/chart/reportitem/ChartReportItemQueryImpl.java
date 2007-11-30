@@ -167,8 +167,8 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 		logger.log( ILogger.INFORMATION,
 				Messages.getString( "ChartReportItemQueryImpl.log.getReportQueries.end" ) ); //$NON-NLS-1$
 
-		return new IBaseQueryDefinition[]{
-			(IBaseQueryDefinition) idqd
+		return new IDataQueryDefinition[]{
+			idqd
 		};
 	}
 
