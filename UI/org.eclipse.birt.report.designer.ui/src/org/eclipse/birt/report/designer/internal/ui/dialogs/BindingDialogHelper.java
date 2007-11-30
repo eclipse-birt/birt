@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.aggregation.IAggregationFactory;
 import org.eclipse.birt.data.engine.api.aggregation.IAggregationInfo;
@@ -952,7 +953,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		{
 			ComputedColumnHandle binding = (ComputedColumnHandle) iterator.next( );
 			if ( binding.getName( ).equals( name ) )
-				return binding.getExpression( );
+				return  ExpressionUtil.createJSRowExpression( name );
 		}
 		return null;
 	}
