@@ -27,8 +27,6 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
-import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
-import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.swt.graphics.Image;
@@ -67,50 +65,52 @@ public class CrosstabBindingExpressionProvider extends
 							return false;
 						}
 					}
-					else if ( handle.getPropertyDefn( )
-							.getName( )
-							.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
-					{
-
-						try
-						{
-							CrosstabReportItemHandle xtabHandle = getCrosstabReportItemHandle( );
-							MeasureGroupHandle mgHandle = (MeasureGroupHandle) element;
-							for ( int i = 0; i < xtabHandle.getMeasureCount( ); i++ )
-							{
-								if ( xtabHandle.getMeasure( i )
-										.getCubeMeasure( )
-										.getContainer( )
-										.equals( mgHandle ) )
-									return true;
-							}
-							return false;
-						}
-						catch ( ExtendedElementException e )
-						{
-							return false;
-						}
-					}
+					//Bug 211024
+					//					else if ( handle.getPropertyDefn( )
+					//							.getName( )
+					//							.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
+					//					{
+					//
+					//						try
+					//						{
+					//							CrosstabReportItemHandle xtabHandle = getCrosstabReportItemHandle( );
+					//							MeasureGroupHandle mgHandle = (MeasureGroupHandle) element;
+					//							for ( int i = 0; i < xtabHandle.getMeasureCount( ); i++ )
+					//							{
+					//								if ( xtabHandle.getMeasure( i )
+					//										.getCubeMeasure( )
+					//										.getContainer( )
+					//										.equals( mgHandle ) )
+					//									return true;
+					//							}
+					//							return false;
+					//						}
+					//						catch ( ExtendedElementException e )
+					//						{
+					//							return false;
+					//						}
+					//					}
 				}
-				if ( element instanceof MeasureHandle )
-				{
-					try
-					{
-						CrosstabReportItemHandle xtabHandle = getCrosstabReportItemHandle( );
-						for ( int i = 0; i < xtabHandle.getMeasureCount( ); i++ )
-						{
-							if ( xtabHandle.getMeasure( i )
-									.getCubeMeasure( )
-									.equals( element ) )
-								return true;
-						}
-						return false;
-					}
-					catch ( ExtendedElementException e )
-					{
-						return false;
-					}
-				}
+				//Bug 211024
+				//				if ( element instanceof MeasureHandle )
+				//				{
+				//					try
+				//					{
+				//						CrosstabReportItemHandle xtabHandle = getCrosstabReportItemHandle( );
+				//						for ( int i = 0; i < xtabHandle.getMeasureCount( ); i++ )
+				//						{
+				//							if ( xtabHandle.getMeasure( i )
+				//									.getCubeMeasure( )
+				//									.equals( element ) )
+				//								return true;
+				//						}
+				//						return false;
+				//					}
+				//					catch ( ExtendedElementException e )
+				//					{
+				//						return false;
+				//					}
+				//				}
 				return true;
 			}
 		} );
