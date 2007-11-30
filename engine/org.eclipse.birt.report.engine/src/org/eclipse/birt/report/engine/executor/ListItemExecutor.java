@@ -77,6 +77,10 @@ public class ListItemExecutor extends ListingElementExecutor
 		}
 		startTOCEntry( listContent );
 		
+		if ( rsetEmpty )
+		{
+			processEmptyQuery( );
+		}
 		//prepare to execute the children
 		prepareToExecuteChildren();
 		
