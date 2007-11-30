@@ -37,14 +37,14 @@ public class ChartReportItemGenerationProxy implements IReportItemGeneration
 	
 	public void init( IReportItemGenerationInfo info )
 	{
-		if ( info != null )
+		if ( info == null )
 		{
 			throw new NullPointerException( );
 		}
 		this.info = info;
+		setModelObject( info.getModelObject( ) );
 		setApplicationClassLoader( info.getApplicationClassLoader( ) );
 		setExtendedItemContent( info.getExtendedItemContent( ) );
-		setModelObject( info.getModelObject( ) );
 		setReportQueries( info.getReportQueries( ) );
 		setScriptContext( info.getReportContext( ) );
 	}

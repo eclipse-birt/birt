@@ -42,18 +42,18 @@ public class ChartReportItemPresentationProxy
 	
 	public void init( IReportItemPresentationInfo info )
 	{
-		if ( info != null )
+		if ( info == null )
 		{
 			throw new NullPointerException( );
 		}
 
 		this.info = info;
+		setModelObject( info.getModelObject( ) );
 		setActionHandler( info.getActionHandler( ) );
 		setApplicationClassLoader( info.getApplicationClassLoader( ) );
 		setDynamicStyle( info.getExtendedItemContent( ).getComputedStyle( ) );
 		setExtendedItemContent( info.getExtendedItemContent( ) );
 		setLocale( info.getReportContext( ).getLocale( ) );
-		setModelObject( info.getModelObject( ) );
 		setOutputFormat( info.getOutputFormat( ) );
 		setReportQueries( info.getReportQueries( ) );
 		setResolution( info.getResolution( ) );

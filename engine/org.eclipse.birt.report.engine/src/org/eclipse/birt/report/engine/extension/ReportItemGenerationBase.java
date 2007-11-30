@@ -43,7 +43,7 @@ public class ReportItemGenerationBase implements IReportItemGeneration
 	
 	public void init( IReportItemGenerationInfo info )
 	{
-		if ( info != null )
+		if ( info == null )
 		{
 			throw new NullPointerException( );
 		}

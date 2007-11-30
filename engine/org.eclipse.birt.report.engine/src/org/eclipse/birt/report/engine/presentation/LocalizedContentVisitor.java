@@ -725,11 +725,15 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 
 			ReportItemPresentationInfo info = new ReportItemPresentationInfo( );
 			info.setModelObject( handle );
+			info
+					.setApplicationClassLoader( context
+							.getApplicationClassLoader( ) );
 			info.setReportContext( context.getReportContext( ) );
 			info.setReportQueries( queries );
 			info.setResolution( getChartResolution( ) );
 			info.setExtendedItemContent( content );
 			info.setSupportedImageFormats( getChartFormats( ) );
+			info.setOutputFormat( getOutputFormat( ) );
 
 			itemPresentation.init( info );
 

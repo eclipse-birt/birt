@@ -91,6 +91,9 @@ public class ExtendedGenerateExecutor extends QueryItemExecutor
 
 			ReportItemGenerationInfo info = new ReportItemGenerationInfo( );
 			info.setModelObject( handle );
+			info
+					.setApplicationClassLoader( context
+							.getApplicationClassLoader( ) );
 			info.setReportContext( context.getReportContext( ) );
 			info.setReportQueries( queries );
 			info.setExtendedItemContent( content );

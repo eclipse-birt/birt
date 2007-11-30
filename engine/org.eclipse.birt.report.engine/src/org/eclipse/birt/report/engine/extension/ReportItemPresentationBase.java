@@ -53,7 +53,7 @@ public class ReportItemPresentationBase implements IReportItemPresentation
 
 	public void init( IReportItemPresentationInfo info )
 	{
-		if ( info != null )
+		if ( info == null )
 		{
 			throw new NullPointerException( );
 		}
