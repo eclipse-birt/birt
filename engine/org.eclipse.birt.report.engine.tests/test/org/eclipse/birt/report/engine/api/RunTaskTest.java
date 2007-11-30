@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.api;
 
+import org.eclipse.birt.core.archive.compound.ArchiveView;
+import org.eclipse.birt.core.archive.compound.ArchiveWriter;
 import org.eclipse.birt.report.engine.EngineCase;
 
 /**
@@ -22,6 +24,9 @@ public class RunTaskTest extends EngineCase
 	static final String TEST_FOLDER = "./utest/";
 	
 	static final String REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/run_task_design.xml";
+	static final String BLANK_REPORT_DOCUMENT_RESOURCE = "org/eclipse/birt/report/engine/api/BlankReport.rptdocument";
+	static final String BLANK_REPORT_DOCUMENT = "./utest/BlankReport.rptdocument";
+	static final String VIEW_DOCUMENT = "./utest/view.rptdocument";
 	static final String REPORT_DESIGN = "./utest/design.rptdesign";
 	static final String REPORT_DOCUMENT = "./utest/reportdocument/";
 	static final String REPORT_DOCUMENT_ZIP = "./utest/reportdocument.zip";
@@ -36,6 +41,7 @@ public class RunTaskTest extends EngineCase
 		removeFile( TEST_FOLDER );
 		removeFile( REPORT_DOCUMENT_ZIP );
 		copyResource( REPORT_DESIGN_RESOURCE, REPORT_DESIGN );
+		copyResource( BLANK_REPORT_DOCUMENT_RESOURCE, BLANK_REPORT_DOCUMENT );
 	}
 
 	public void tearDown( )
@@ -53,6 +59,25 @@ public class RunTaskTest extends EngineCase
 			task.close( );
 			IReportDocument doc = engine.openReportDocument( REPORT_DOCUMENT );
 			doc.close( );
+		}
+		catch ( Exception ex )
+		{
+			ex.printStackTrace( );
+			fail( );
+		}
+	}
+	
+	public void testRunWithArchiveView( )
+	{
+		try
+		{
+			ArchiveView view = new ArchiveView( VIEW_DOCUMENT,
+					BLANK_REPORT_DOCUMENT, "rw" );
+			ArchiveWriter writer = new ArchiveWriter( view );
+			IReportRunnable report = engine.openReportDesign( REPORT_DESIGN );
+			IRunTask task = engine.createRunTask( report );
+			task.run( writer );
+			task.close( );
 		}
 		catch ( Exception ex )
 		{
