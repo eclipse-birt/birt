@@ -243,6 +243,9 @@ public class GroupingLookupHelper
 		
 		// Set base sort key index if it equals base series expression.
 		String sortKey = getSortKey( baseSD );
+		if ( baseSD.isSetSorting( ) && sortKey == null ) {
+			sortKey = baseSeriesExpression;
+		}
 		if ( sortKey != null && sortKey.equals( baseSeriesExpression )
 				&& baseSD.eIsSet( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) ) )
 		{
