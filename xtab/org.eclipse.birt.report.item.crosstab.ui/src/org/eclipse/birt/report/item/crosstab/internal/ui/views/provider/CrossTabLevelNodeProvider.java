@@ -37,9 +37,10 @@ public class CrossTabLevelNodeProvider extends DefaultNodeProvider
 			LevelViewHandle levelView = (LevelViewHandle) element.getReportItem( );
 			if ( levelView != null )
 			{
-				if ( levelView.getAggregationHeader( ) != null )
+				if ( levelView.getAggregationHeader( ) != null
+						&& levelView.getAggregationHeader( ).getModelHandle( ) != null )
 					return new Object[]{
-							levelView.getAggregationHeader( ),
+							levelView.getAggregationHeader( ).getModelHandle( ),
 							levelView.getCell( ).getModelHandle( )
 					};
 				else

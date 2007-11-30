@@ -108,18 +108,27 @@
             priority="2"
             type="org.eclipse.birt.report.designer.ui.views.INodeProvider">
             <enablement>
-				<or>
-               <test
-                     forcePluginActivation="true"
-                     property="ExtendItemHandle.extensionName"
-                     value="CrosstabCell">
-               </test>
-                <test
-                     forcePluginActivation="true"
-                     property="ExtendItemHandle.extensionName"
-                     value="AggregationCell">
-               </test>
-               </or>
+    <and>
+       <or>
+          <test
+                forcePluginActivation="true"
+                property="ExtendItemHandle.extensionName"
+                value="CrosstabCell">
+          </test>
+          <test
+                forcePluginActivation="true"
+                property="ExtendItemHandle.extensionName"
+                value="AggregationCell">
+          </test>
+       </or>
+       <not>
+          <test
+                forcePluginActivation="true"
+                property="ExtendItemHandle.containerPropertyName"
+                value="aggregationHeader">
+          </test>
+       </not>
+    </and>
             </enablement>
       </adapter>	 
 	</adaptable>
@@ -235,12 +244,31 @@
     </adapter>
  </adaptable>
  <adaptable
-       class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle">
+       class="org.eclipse.birt.report.model.api.ExtendedItemHandle">
     <adapter
           class="org.eclipse.birt.report.item.crosstab.internal.ui.views.provider.LevelSubNodeProvider"
           id="Crosstab.Level.Header"
           priority="2"
           type="org.eclipse.birt.report.designer.ui.views.INodeProvider">
+       <enablement>
+          <and>
+             <test
+                   forcePluginActivation="true"
+                   property="ExtendItemHandle.extensionName"
+                   value="CrosstabCell">
+             </test>
+             <test
+                   forcePluginActivation="true"
+                   property="ExtendItemHandle.containerName"
+                   value="LevelView">
+             </test>
+             <test
+                   forcePluginActivation="true"
+                   property="ExtendItemHandle.containerPropertyName"
+                   value="aggregationHeader">
+             </test>
+          </and>
+       </enablement>
     </adapter>
  </adaptable>
 	

@@ -170,7 +170,7 @@
          	class="org.eclipse.birt.report.designer.internal.ui.extension.ExtendItemHandlePropertyTester"
          	id="ExtendItemHandleTester"
          	namespace="ExtendItemHandle"
-         	properties="extensionName"
+         	properties="extensionName,containerName,containerPropertyName"
          	type="org.eclipse.birt.report.model.api.ExtendedItemHandle">
    		</propertyTester>
    		<propertyTester

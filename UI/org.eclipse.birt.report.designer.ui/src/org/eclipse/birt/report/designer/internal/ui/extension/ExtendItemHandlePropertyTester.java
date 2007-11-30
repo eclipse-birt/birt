@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.designer.internal.ui.extension;
 
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.core.expressions.PropertyTester;
 
 /**
@@ -34,6 +36,26 @@ public class ExtendItemHandlePropertyTester extends PropertyTester
 				String extensionName = expectedValue.toString( );
 				return extensionName.equals( ( (ExtendedItemHandle) receiver ).getExtensionName( ) );
 
+			}
+		}
+		else if ( "containerName".equals( property ) ) //$NON-NLS-1$
+		{
+			if ( receiver instanceof ExtendedItemHandle )
+			{
+				DesignElementHandle container = ( (ExtendedItemHandle) receiver ).getContainer( );
+				String containerName = expectedValue.toString( );
+				return container.getDefn( ).getName( ).equals( containerName );
+			}
+		}
+		else if ( "containerPropertyName".equals( property ) ) //$NON-NLS-1$
+		{
+			if ( receiver instanceof ExtendedItemHandle )
+			{
+				PropertyHandle container = ( (ExtendedItemHandle) receiver ).getContainerPropertyHandle( );
+				if ( container == null )
+					return false;
+				String containerName = expectedValue.toString( );
+				return container.getDefn( ).getName( ).equals( containerName );
 			}
 		}
 		return false;

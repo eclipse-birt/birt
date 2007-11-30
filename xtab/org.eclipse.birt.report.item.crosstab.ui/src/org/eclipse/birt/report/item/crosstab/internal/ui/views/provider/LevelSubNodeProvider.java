@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.views.provider;
 
-import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
-import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.swt.graphics.Image;
@@ -21,27 +19,8 @@ import org.eclipse.swt.graphics.Image;
  * 
  */
 
-public class LevelSubNodeProvider extends DefaultNodeProvider
+public class LevelSubNodeProvider extends CrossTabCellNodeProvider
 {
-
-	public Object[] getChildren( Object object )
-	{
-		CrosstabCellHandle cellHandle = (CrosstabCellHandle) object;
-		return new Object[]{
-			cellHandle.getModelHandle( )
-		};
-	}
-
-	public Object getParent( Object model )
-	{
-		CrosstabCellHandle cellHandle = (CrosstabCellHandle) model;
-		return cellHandle.getContainer( );
-	}
-
-	public boolean hasChildren( Object object )
-	{
-		return getChildren( object ).length > 0;
-	}
 
 	public String getNodeDisplayName( Object model )
 	{
