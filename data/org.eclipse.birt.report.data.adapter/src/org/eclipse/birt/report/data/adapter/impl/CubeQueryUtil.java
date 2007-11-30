@@ -71,6 +71,10 @@ public class CubeQueryUtil implements ICubeQueryUtil
 			List bindings = cubeDefn.getBindings( );
 			if ( bindings == null )
 				return new ArrayList( );
+			if ( targetLevel == null )
+			{
+				return getReferableBindings( cubeDefn );
+			}
 			DimLevel target = OlapExpressionUtil.getTargetDimLevel( targetLevel );
 
 			List result = new ArrayList( );
@@ -153,6 +157,44 @@ public class CubeQueryUtil implements ICubeQueryUtil
 		{
 			throw new AdapterException( e.getLocalizedMessage( ), e );
 		}
+	}
+
+	/**
+	 * 
+	 * @param cubeDefn
+	 * @return
+	 * @throws DataException
+	 */
+	private List getReferableBindings( ICubeQueryDefinition cubeDefn )
+			throws DataException
+	{
+		List result = new ArrayList( );
+		List bindings = cubeDefn.getBindings( );
+		for ( int i = 0; i < bindings.size( ); i++ )
+		{
+			IBinding binding = (IBinding) bindings.get( i );
+			if ( getReferencedMeasureName( binding.getExpression( ) ) != null )
+			{
+				List aggrOns = binding.getAggregatOns( );
+				if ( aggrOns.size( ) == 0 && !isGrandTotal( binding ) )
+				{
+					result.add( new BindingMetaInfo( binding.getBindingName( ),
+							IBindingMetaInfo.MEASURE_TYPE ) );
+				}
+				else
+				{
+					if ( fromSameEdge( aggrOns, cubeDefn ) )
+					{
+						result.add( new BindingMetaInfo( binding.getBindingName( ),
+								IBindingMetaInfo.GRAND_TOTAL_TYPE ) );
+					}
+					else
+						result.add( new BindingMetaInfo( binding.getBindingName( ),
+								IBindingMetaInfo.SUB_TOTAL_TYPE ) );
+				}
+			}
+		}
+		return result;
 	}
 
 	/**
