@@ -11,7 +11,7 @@
             displayNameID="Element.Crosstab"
             extendsFrom="ReportItem"
             extensionName="Crosstab"
-            
+            hasStyle="true"
             isNameRequired="false">
          <property
                canInherit="true"
@@ -172,6 +172,16 @@
                name="hideMeasureHeader"
                type="boolean">
          </property>
+         <property
+               canInherit="true"
+               isEncryptable="false"
+               isList="false"
+               name="header"
+               type="element">
+            <elementType
+                  name="CrosstabCell">
+            </elementType>
+         </property>
       </reportItem>
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"
@@ -261,6 +271,7 @@
             isNameRequired="true">
          <property
                canInherit="true"
+               displayNameID="Element.DisplayField"
                name="displayField"
                type="string">
          </property>
@@ -395,7 +406,7 @@
                name="detail"
                type="element">
             <elementType
-                  name="CrosstabCell">
+                  name="AggregationCell">
             </elementType>
          </property>
          <property
@@ -447,6 +458,7 @@
             displayNameID="Element.CrosstabCell"
             extendsFrom="Cell"
             extensionName="CrosstabCell"
+            hasStyle="true"
             isNameRequired="false">
          <property
                canInherit="true"
@@ -552,6 +564,7 @@
             displayNameID="Element.CrosstabAggregationCell"
             extendsFrom="CrosstabCell"
             extensionName="AggregationCell"
+            hasStyle="true"
             isNameRequired="false">
          <property
                canInherit="true"
@@ -610,7 +623,7 @@
                useOwnModel="true">
          </overrideProperty>
       </reportItem>
-   </extension>
+    </extension>
    
    <extension
          point="org.eclipse.birt.report.engine.reportitemGeneration">

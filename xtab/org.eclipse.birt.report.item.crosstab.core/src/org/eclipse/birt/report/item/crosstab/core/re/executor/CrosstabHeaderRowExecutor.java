@@ -142,7 +142,7 @@ public class CrosstabHeaderRowExecutor extends BaseCrosstabExecutor
 
 		currentColIndex = -1;
 		currentChangeType = ColumnEvent.UNKNOWN_CHANGE;
-		
+
 		currentEdgePosition = -1;
 
 		walker.reload( );
@@ -300,7 +300,7 @@ public class CrosstabHeaderRowExecutor extends BaseCrosstabExecutor
 								&& ev.type != ColumnEvent.MEASURE_HEADER_CHANGE )
 						{
 							nextExecutor = new CrosstabCellExecutor( this,
-									null,
+									crosstabItem.getHeader( ),
 									rowSpan,
 									colSpan,
 									currentColIndex - colSpan + 1 );
@@ -445,7 +445,7 @@ public class CrosstabHeaderRowExecutor extends BaseCrosstabExecutor
 			if ( blankStarted )
 			{
 				nextExecutor = new CrosstabCellExecutor( this,
-						null,
+						crosstabItem.getHeader( ),
 						rowSpan,
 						colSpan,
 						currentColIndex - colSpan + 1 );

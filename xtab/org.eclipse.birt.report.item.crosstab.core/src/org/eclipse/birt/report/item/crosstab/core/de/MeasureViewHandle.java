@@ -31,10 +31,9 @@ import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 /**
  * MeasureViewHandle.
  */
-public class MeasureViewHandle extends AbstractCrosstabItemHandle
-		implements
-			IMeasureViewConstants,
-			ICrosstabConstants
+public class MeasureViewHandle extends AbstractCrosstabItemHandle implements
+		IMeasureViewConstants,
+		ICrosstabConstants
 {
 
 	/**
@@ -113,13 +112,12 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle
 	 * 
 	 * @return the detail cell of this measure view if set, otherwise null
 	 */
-	public CrosstabCellHandle getCell( )
+	public AggregationCellHandle getCell( )
 	{
 		PropertyHandle propHandle = getDetailProperty( );
-		return propHandle.getContentCount( ) == 0
-				? null
-				: (CrosstabCellHandle) CrosstabUtil.getReportItem( propHandle
-						.getContent( 0 ), CROSSTAB_CELL_EXTENSION_NAME );
+		return propHandle.getContentCount( ) == 0 ? null
+				: (AggregationCellHandle) CrosstabUtil.getReportItem( propHandle.getContent( 0 ),
+						AGGREGATION_CELL_EXTENSION_NAME );
 	}
 
 	/**
@@ -142,31 +140,26 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle
 			throws SemanticException
 	{
 		AggregationCellHandle aggregation = getAggregationCell( rowDimension,
-				rowLevel, colDimension, colLevel );
+				rowLevel,
+				colDimension,
+				colLevel );
 		if ( aggregation != null )
 		{
-			logger
-					.log(
-							Level.INFO,
-							Messages
-									.getString( "MeasureViewHandle.info.aggregation.already.exist" ) ); //$NON-NLS-1$
+			logger.log( Level.INFO,
+					Messages.getString( "MeasureViewHandle.info.aggregation.already.exist" ) ); //$NON-NLS-1$
 			return aggregation;
 		}
-		ExtendedItemHandle aggregationCell = CrosstabExtendedItemFactory
-				.createAggregationCell( moduleHandle );
+		ExtendedItemHandle aggregationCell = CrosstabExtendedItemFactory.createAggregationCell( moduleHandle );
 		if ( aggregationCell != null )
 		{
 			CommandStack stack = getCommandStack( );
-			stack.startTrans( Messages
-					.getString( "MeasureViewHandle.msg.add.aggregation" ) ); //$NON-NLS-1$
+			stack.startTrans( Messages.getString( "MeasureViewHandle.msg.add.aggregation" ) ); //$NON-NLS-1$
 
 			try
 			{
-				aggregationCell.setProperty(
-						IAggregationCellConstants.AGGREGATION_ON_ROW_PROP,
+				aggregationCell.setProperty( IAggregationCellConstants.AGGREGATION_ON_ROW_PROP,
 						rowLevel );
-				aggregationCell.setProperty(
-						IAggregationCellConstants.AGGREGATION_ON_COLUMN_PROP,
+				aggregationCell.setProperty( IAggregationCellConstants.AGGREGATION_ON_COLUMN_PROP,
 						colLevel );
 				getAggregationsProperty( ).add( aggregationCell );
 			}
@@ -177,8 +170,7 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle
 			}
 			stack.commit( );
 		}
-		return (AggregationCellHandle) CrosstabUtil
-				.getReportItem( aggregationCell );
+		return (AggregationCellHandle) CrosstabUtil.getReportItem( aggregationCell );
 	}
 
 	/**
@@ -197,7 +189,9 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle
 			String colDimension, String colLevel ) throws SemanticException
 	{
 		AggregationCellHandle cell = getAggregationCell( rowDimension,
-				rowLevel, colDimension, colLevel );
+				rowLevel,
+				colDimension,
+				colLevel );
 		if ( cell != null )
 		{
 			cell.handle.drop( );
@@ -227,12 +221,9 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle
 		DesignElementHandle found = null;
 		for ( int i = 0; i < count; i++ )
 		{
-			DesignElementHandle element = getAggregationsProperty( )
-					.getContent( i );
-			String row = element
-					.getStringProperty( IAggregationCellConstants.AGGREGATION_ON_ROW_PROP );
-			String column = element
-					.getStringProperty( IAggregationCellConstants.AGGREGATION_ON_COLUMN_PROP );
+			DesignElementHandle element = getAggregationsProperty( ).getContent( i );
+			String row = element.getStringProperty( IAggregationCellConstants.AGGREGATION_ON_ROW_PROP );
+			String column = element.getStringProperty( IAggregationCellConstants.AGGREGATION_ON_COLUMN_PROP );
 			if ( ( rowLevel != null && rowLevel.equals( row ) )
 					|| ( rowLevel == null && row == null ) )
 			{
@@ -268,8 +259,7 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle
 	 */
 	public AggregationCellHandle getAggregationCell( int index )
 	{
-		DesignElementHandle element = getAggregationsProperty( ).getContent(
-				index );
+		DesignElementHandle element = getAggregationsProperty( ).getContent( index );
 		return (AggregationCellHandle) CrosstabUtil.getReportItem( element,
 				AGGREGATION_CELL_EXTENSION_NAME );
 	}
@@ -311,8 +301,9 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle
 	public CrosstabCellHandle getHeader( )
 	{
 		DesignElementHandle headerCell = getHeaderCell( );
-		return (CrosstabCellHandle) ( headerCell == null ? null : CrosstabUtil
-				.getReportItem( headerCell, CROSSTAB_CELL_EXTENSION_NAME ) );
+		return (CrosstabCellHandle) ( headerCell == null ? null
+				: CrosstabUtil.getReportItem( headerCell,
+						CROSSTAB_CELL_EXTENSION_NAME ) );
 	}
 
 	/**
@@ -360,11 +351,10 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle
 			return;
 		}
 
-		ExtendedItemHandle headerCell = CrosstabExtendedItemFactory
-				.createCrosstabCell( moduleHandle );
+		ExtendedItemHandle headerCell = CrosstabExtendedItemFactory.createCrosstabCell( moduleHandle );
 		propHandle.add( headerCell );
 	}
-	
+
 	/**
 	 * Returns the iterator for filter list defined on this measure view. The
 	 * element in the iterator is the corresponding

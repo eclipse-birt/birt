@@ -78,6 +78,13 @@ public interface ICrosstabReportItemConstants
 	String COLUMNS_PROP = "columns"; //$NON-NLS-1$
 
 	/**
+	 * Name of the property that contains the crosstab header cell.
+	 * 
+	 * @since 2.3
+	 */
+	String HEADER_PROP = "header"; //$NON-NLS-1$
+
+	/**
 	 * Name of the property that contains single MultiViews.
 	 */
 	String MULTI_VIEWS_PROP = "multiViews"; //$NON-NLS-1$

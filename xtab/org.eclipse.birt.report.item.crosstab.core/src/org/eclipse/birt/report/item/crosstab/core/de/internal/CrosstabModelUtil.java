@@ -486,6 +486,25 @@ public class CrosstabModelUtil implements ICrosstabConstants
 
 				MeasureViewHandle mv = null;
 
+				if ( IMeasureViewConstants.DETAIL_PROP.equals( cell.getModelHandle( )
+						.getContainerPropertyHandle( )
+						.getPropertyDefn( )
+						.getName( ) ) )
+				{
+					// for measure detail cell
+
+					if ( isMeasureHorizontal )
+					{
+						// use detail cell from current measure
+						return ( (MeasureViewHandle) cell.getContainer( ) ).getCell( );
+					}
+					else
+					{
+						// use first meausre detail cell
+						return crosstabItem.getMeasure( 0 ).getCell( );
+					}
+				}
+
 				if ( isMeasureHorizontal )
 				{
 					// for horizontal measure, use container measure
@@ -742,6 +761,23 @@ public class CrosstabModelUtil implements ICrosstabConstants
 				AggregationCellHandle aggCell = (AggregationCellHandle) cell;
 
 				MeasureViewHandle mv = null;
+				
+				if ( IMeasureViewConstants.DETAIL_PROP.equals( cell.getModelHandle( )
+						.getContainerPropertyHandle( )
+						.getPropertyDefn( )
+						.getName( ) ) )
+				{
+					if ( !isMeasureHorizontal )
+					{
+						// use detail cell from current measure
+						return ( (MeasureViewHandle) cell.getContainer( ) ).getCell( );
+					}
+					else
+					{
+						// use first meausre detail cell
+						return crosstabItem.getMeasure( 0 ).getCell( );
+					}
+				}
 
 				if ( !isMeasureHorizontal )
 				{
@@ -1050,7 +1086,7 @@ public class CrosstabModelUtil implements ICrosstabConstants
 		}
 		return false;
 	}
-	
+
 	/**
 	 * 
 	 * @param crosstabItem

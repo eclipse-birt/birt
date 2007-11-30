@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.item.crosstab.core.util;
 
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
+import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.core.IDimensionViewConstants;
 import org.eclipse.birt.report.item.crosstab.core.ILevelViewConstants;
 import org.eclipse.birt.report.item.crosstab.core.IMeasureViewConstants;
@@ -52,9 +53,17 @@ public class CrosstabExtendedItemFactory implements ICrosstabConstants
 				.newExtendedItem( null, CROSSTAB_EXTENSION_NAME );
 		if ( extendedItem != null )
 		{
-			extendedItem.setProperty( IReportItemModel.CUBE_PROP,
-					cube );
+			extendedItem.setProperty( IReportItemModel.CUBE_PROP, cube );
 		}
+
+		// prepare header cell
+		ExtendedItemHandle cellHandle = createCrosstabCell( module );
+		if ( cellHandle != null )
+		{
+			extendedItem.getPropertyHandle( ICrosstabReportItemConstants.HEADER_PROP )
+					.add( cellHandle );
+		}
+
 		return extendedItem;
 	}
 
@@ -126,7 +135,7 @@ public class CrosstabExtendedItemFactory implements ICrosstabConstants
 		// set cube measure reference
 		extendedItem.setProperty( IMeasureViewConstants.MEASURE_PROP, measure );
 		// prepare detail cell
-		ExtendedItemHandle cellHandle = createCrosstabCell( module );
+		ExtendedItemHandle cellHandle = createAggregationCell( module );
 		if ( cellHandle != null )
 		{
 			extendedItem.getPropertyHandle( IMeasureViewConstants.DETAIL_PROP )

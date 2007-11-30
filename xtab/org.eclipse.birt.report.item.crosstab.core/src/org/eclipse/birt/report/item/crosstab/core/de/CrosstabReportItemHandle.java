@@ -27,16 +27,13 @@ import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
-import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
-import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 
 /**
@@ -450,6 +447,21 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	public String getEmptyCellValue( )
 	{
 		return handle.getStringProperty( EMPTY_CELL_VALUE_PROP );
+	}
+
+	/**
+	 * @since 2.3
+	 */
+	public CrosstabCellHandle getHeader( )
+	{
+		PropertyHandle headerHandle = handle.getPropertyHandle( HEADER_PROP );
+
+		if ( headerHandle != null && headerHandle.getContentCount( ) > 0 )
+		{
+			return (CrosstabCellHandle) CrosstabUtil.getReportItem( headerHandle.getContent( 0 ) );
+		}
+
+		return null;
 	}
 
 	/**

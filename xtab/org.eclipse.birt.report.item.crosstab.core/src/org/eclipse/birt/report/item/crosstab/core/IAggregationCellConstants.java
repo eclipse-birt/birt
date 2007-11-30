@@ -15,7 +15,7 @@ package org.eclipse.birt.report.item.crosstab.core;
  * Interface to define some constants for Aggregation Cell.
  */
 
-public interface IAggregationCellConstants
+public interface IAggregationCellConstants extends ICrosstabCellConstants
 {
 
 	/**
