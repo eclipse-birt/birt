@@ -188,62 +188,73 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 							currentGroupLevelList.add( expression.getGroupName( ) );
 							ScriptOrFnNode tree = parse( expression.getText( ),
 									context );
-							CompiledExpression expr = null;
-							if ( grandfather != null )
+							if ( tree.getFirstChild( ) != null
+									&& tree.getFirstChild( ).getFirstChild( ) != null
+									&& tree.getFirstChild( )
+											.getFirstChild( )
+											.getType( ) != Token.IFNE
+									&& tree.getFirstChild( )
+											.getFirstChild( )
+											.getType( ) != Token.IFEQ )
 							{
-								if ( tree.getFirstChild( ) == tree.getLastChild( ) )
-								{
-									grandfather.replaceChild( parent,
-											tree.getFirstChild( ) );
-									expr = processChild( context,
-											false,
-											tree.getFirstChild( ),
-											tree.getFirstChild( )
-													.getFirstChild( ),
-											grandfather );
-								}
-								else
-								{
-									grandfather.replaceChild( grandfather.getFirstChild( ),
-											tree.getFirstChild( ) );
-									grandfather.replaceChild( grandfather.getLastChild( ),
-											tree.getLastChild( ) );
-									expr = this.compileComplexExpr( context,
-											tree,
-											false );
-								}
-							}
-							else
-							{
-								if ( tree.getFirstChild( ) == tree.getLastChild( ) )
-								{
-									parent.replaceChild( refNode,
-											tree.getFirstChild( )
-													.getFirstChild( ) );
-									expr = processChild( context,
-											false,
-											parent,
-											tree.getFirstChild( )
-													.getFirstChild( ),
-											grandfather );
 
+								CompiledExpression expr = null;
+								if ( grandfather != null )
+								{
+									if ( tree.getFirstChild( ) == tree.getLastChild( ) )
+									{
+										grandfather.replaceChild( parent,
+												tree.getFirstChild( ) );
+										expr = processChild( context,
+												false,
+												tree.getFirstChild( ),
+												tree.getFirstChild( )
+														.getFirstChild( ),
+												grandfather );
+									}
+									else
+									{
+										grandfather.replaceChild( grandfather.getFirstChild( ),
+												tree.getFirstChild( ) );
+										grandfather.replaceChild( grandfather.getLastChild( ),
+												tree.getLastChild( ) );
+										expr = this.compileComplexExpr( context,
+												tree,
+												false );
+									}
 								}
 								else
 								{
-									expr = this.compileComplexExpr( context,
-											tree,
-											false );
+									if ( tree.getFirstChild( ) == tree.getLastChild( ) )
+									{
+										parent.replaceChild( refNode,
+												tree.getFirstChild( )
+														.getFirstChild( ) );
+										expr = processChild( context,
+												false,
+												parent,
+												tree.getFirstChild( )
+														.getFirstChild( ),
+												grandfather );
+
+									}
+									else
+									{
+										expr = this.compileComplexExpr( context,
+												tree,
+												false );
+									}
 								}
-							}
-							currentGroupLevelList.remove( currentGroupLevelList.size( ) - 1 );
-							if ( expr != null )
-							{
-								if ( ( expr instanceof ColumnReferenceExpression ) )
+								currentGroupLevelList.remove( currentGroupLevelList.size( ) - 1 );
+								if ( expr != null )
 								{
-									( (ColumnReferenceExpression) expr ).setDataType( expression.getDataType( ) );
+									if ( ( expr instanceof ColumnReferenceExpression ) )
+									{
+										( (ColumnReferenceExpression) expr ).setDataType( expression.getDataType( ) );
+										return expr;
+									}
 									return expr;
 								}
-								return expr;
 							}
 						}
 					}
