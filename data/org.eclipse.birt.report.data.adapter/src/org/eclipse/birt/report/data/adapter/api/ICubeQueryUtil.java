@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
@@ -40,6 +41,15 @@ public interface ICubeQueryUtil
 	public List getReferableBindings( String targetLevel,
 			ICubeQueryDefinition cubeQueryDefn, boolean isSort ) throws AdapterException;
 	
+	/**
+	 * Utility method to acquire referable measure bindings.
+	 * @param measureName
+	 * @param cubeDefn
+	 * @return
+	 * @throws DataException
+	 */
+	public List getReferableMeasureBindings( String measureName,
+			ICubeQueryDefinition cubeDefn ) throws DataException;
 	/**
 	 * Return a list of ILevelDefinition instances that referenced by 
 	 * 

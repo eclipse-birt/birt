@@ -71,10 +71,6 @@ public class CubeQueryUtil implements ICubeQueryUtil
 			List bindings = cubeDefn.getBindings( );
 			if ( bindings == null )
 				return new ArrayList( );
-			if ( targetLevel == null )
-			{
-				return getReferableBindings( cubeDefn );
-			}
 			DimLevel target = OlapExpressionUtil.getTargetDimLevel( targetLevel );
 
 			List result = new ArrayList( );
@@ -159,21 +155,20 @@ public class CubeQueryUtil implements ICubeQueryUtil
 		}
 	}
 
-	/**
-	 * 
-	 * @param cubeDefn
-	 * @return
-	 * @throws DataException
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil#getReferableMeasureBindings(java.lang.String, org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition)
 	 */
-	private List getReferableBindings( ICubeQueryDefinition cubeDefn )
-			throws DataException
+	public List getReferableMeasureBindings( String measureName,
+			ICubeQueryDefinition cubeDefn ) throws DataException
 	{
 		List result = new ArrayList( );
 		List bindings = cubeDefn.getBindings( );
 		for ( int i = 0; i < bindings.size( ); i++ )
 		{
 			IBinding binding = (IBinding) bindings.get( i );
-			if ( getReferencedMeasureName( binding.getExpression( ) ) != null )
+			final String referencedMeasureName = getReferencedMeasureName( binding.getExpression( ) );
+			if ( measureName.equals( referencedMeasureName ) )
 			{
 				List aggrOns = binding.getAggregatOns( );
 				if ( aggrOns.size( ) == 0 && !isGrandTotal( binding ) )
