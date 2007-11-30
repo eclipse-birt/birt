@@ -740,7 +740,9 @@ public class ReportEngineService
 				rtl ) );
 
 		ViewerHTMLActionHandler handler = new ViewerHTMLActionHandler( locale,
-				rtl, masterPage, format, new Boolean( svgFlag ) );
+				rtl, masterPage, format, new Boolean( svgFlag ),
+				ParameterAccessor.getParameter( request,
+						ParameterAccessor.PARAM_DESIGNER ) );
 		String resourceFolder = ParameterAccessor.getParameter( request,
 				ParameterAccessor.PARAM_RESOURCE_FOLDER );
 		handler.setResourceFolder( resourceFolder );
@@ -1079,7 +1081,8 @@ public class ReportEngineService
 		{
 			handler = new ViewerHTMLActionHandler( reportDocument, pageNumber,
 					locale, false, rtl, masterPage, format, new Boolean(
-							svgFlag ) );
+							svgFlag ), ParameterAccessor.getParameter( request,
+							ParameterAccessor.PARAM_DESIGNER ) );
 		}
 		else
 		{
@@ -1108,7 +1111,8 @@ public class ReportEngineService
 					new Boolean( masterPage ) );
 			handler = new ViewerHTMLActionHandler( reportDocument, pageNumber,
 					locale, isEmbeddable, rtl, masterPage, format, new Boolean(
-							svgFlag ) );
+							svgFlag ), ParameterAccessor.getParameter( request,
+							ParameterAccessor.PARAM_DESIGNER ) );
 		}
 		String resourceFolder = ParameterAccessor.getParameter( request,
 				ParameterAccessor.PARAM_RESOURCE_FOLDER );
@@ -1331,7 +1335,9 @@ public class ReportEngineService
 						.equalsIgnoreCase( format ) )
 		{
 			handler = new ViewerHTMLActionHandler( reportDocument, -1, locale,
-					false, rtl, masterPage, format, new Boolean( svgFlag ) );
+					false, rtl, masterPage, format, new Boolean( svgFlag ),
+					ParameterAccessor.getParameter( request,
+							ParameterAccessor.PARAM_DESIGNER ) );
 		}
 		else
 		{
@@ -1360,7 +1366,8 @@ public class ReportEngineService
 					new Boolean( masterPage ) );
 			handler = new ViewerHTMLActionHandler( reportDocument, -1, locale,
 					isEmbeddable, rtl, masterPage, format,
-					new Boolean( svgFlag ) );
+					new Boolean( svgFlag ), ParameterAccessor.getParameter(
+							request, ParameterAccessor.PARAM_DESIGNER ) );
 		}
 		String resourceFolder = ParameterAccessor.getParameter( request,
 				ParameterAccessor.PARAM_RESOURCE_FOLDER );

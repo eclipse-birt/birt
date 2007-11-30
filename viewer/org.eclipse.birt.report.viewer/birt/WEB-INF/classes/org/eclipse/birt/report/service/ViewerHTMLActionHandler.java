@@ -93,8 +93,12 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	/**
 	 * SVG option setting by URL parameter.
 	 */
-
 	protected Boolean svg = null;
+
+	/**
+	 * indicates whether under designer mode
+	 */
+	protected String isDesigner = null;
 
 	/**
 	 * Constructor.
@@ -114,11 +118,13 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	 * @param isMasterPageContent
 	 * @param format
 	 * @param svg
+	 * @param isDesigner
 	 */
 
 	public ViewerHTMLActionHandler( IReportDocument document, long page,
 			Locale locale, boolean isEmbeddable, boolean isRtl,
-			boolean isMasterPageContent, String format, Boolean svg )
+			boolean isMasterPageContent, String format, Boolean svg,
+			String isDesigner )
 	{
 		this.document = document;
 		this.page = page;
@@ -128,6 +134,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		this.isMasterPageContent = isMasterPageContent;
 		this.hostFormat = format;
 		this.svg = svg;
+		this.isDesigner = isDesigner;
 	}
 
 	/**
@@ -139,16 +146,19 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	 * @param isMasterPageContent
 	 * @param format
 	 * @param svg
+	 * @param isDesigner
 	 */
 
 	public ViewerHTMLActionHandler( Locale locale, boolean isRtl,
-			boolean isMasterPageContent, String format, Boolean svg )
+			boolean isMasterPageContent, String format, Boolean svg,
+			String isDesigner )
 	{
 		this.locale = locale;
 		this.isRtl = isRtl;
 		this.isMasterPageContent = isMasterPageContent;
 		this.hostFormat = format;
 		this.svg = svg;
+		this.isDesigner = isDesigner;
 	}
 
 	/*
@@ -314,10 +324,25 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 			link.append( ParameterAccessor.getQueryParameterString(
 					ParameterAccessor.PARAM_LOCALE, locale.toString( ) ) );
 		}
+
 		if ( isRtl )
 		{
 			link.append( ParameterAccessor.getQueryParameterString(
 					ParameterAccessor.PARAM_RTL, String.valueOf( isRtl ) ) );
+		}
+
+		if ( svg != null )
+		{
+			link.append( ParameterAccessor.getQueryParameterString(
+					ParameterAccessor.PARAM_SVG, String.valueOf( svg
+							.booleanValue( ) ) ) );
+		}
+
+		if ( isDesigner != null )
+		{
+			link.append( ParameterAccessor.getQueryParameterString(
+					ParameterAccessor.PARAM_DESIGNER, String
+							.valueOf( isDesigner ) ) );
 		}
 
 		// add isMasterPageContent
@@ -513,6 +538,13 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 				link.append( ParameterAccessor.getQueryParameterString(
 						ParameterAccessor.PARAM_SVG, String.valueOf( svg
 								.booleanValue( ) ) ) );
+			}
+
+			if ( isDesigner != null )
+			{
+				link.append( ParameterAccessor.getQueryParameterString(
+						ParameterAccessor.PARAM_DESIGNER, String
+								.valueOf( isDesigner ) ) );
 			}
 
 			// add isMasterPageContent

@@ -77,6 +77,11 @@ public class BirtUtility
 	 */
 	public final static String NONE = "none"; //$NON-NLS-1$
 
+	/*
+	 * Request attribute name that indicates the viewer markder has been cleared
+	 */
+	public final static String VIEWER_MARKER_CLEARED = "ViewerMarkerCleared"; //$NON-NLS-1$
+
 	/**
 	 * Add current task in http session
 	 * 
@@ -1133,8 +1138,14 @@ public class BirtUtility
 		if ( systemId == null )
 			return;
 
-		// clear the errors
-		clearErrors( systemId );
+		String isCleared = (String) request
+				.getAttribute( VIEWER_MARKER_CLEARED );
+		if ( isCleared == null )
+		{
+			// clear the errors
+			clearErrors( systemId );
+			request.setAttribute( VIEWER_MARKER_CLEARED, "true" ); //$NON-NLS-1$
+		}
 
 		// no error
 		if ( errors == null || errors.size( ) <= 0 )
