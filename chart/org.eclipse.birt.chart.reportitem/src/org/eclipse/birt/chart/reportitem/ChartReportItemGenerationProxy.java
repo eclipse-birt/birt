@@ -14,7 +14,7 @@ package org.eclipse.birt.chart.reportitem;
 import java.io.OutputStream;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
@@ -107,7 +107,7 @@ public class ChartReportItemGenerationProxy implements IReportItemGeneration
 		impl.setApplicationClassLoader( loader );
 	}
 
-	public void setReportQueries( IBaseQueryDefinition[] queries )
+	public void setReportQueries( IDataQueryDefinition[] queries )
 	{
 		assert impl != null;
 		impl.setReportQueries( queries );

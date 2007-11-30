@@ -15,7 +15,7 @@ import java.io.InputStream;
 import java.util.Locale;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -89,7 +89,7 @@ public interface IReportItemPresentation
 	 * pass the prepared query definition to extended item implementation, so
 	 * that it can access data.
 	 */
-	public void setReportQueries( IBaseQueryDefinition[] queries );
+	public void setReportQueries( IDataQueryDefinition[] queries );
 
 	/**
 	 * passes the locale used in the presentation.

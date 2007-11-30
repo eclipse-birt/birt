@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.extension.internal;
 
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.extension.IReportItemGenerationInfo;
@@ -23,7 +24,7 @@ public class ReportItemGenerationInfo implements IReportItemGenerationInfo
 	private ExtendedItemHandle modelHandle = null;
 	private ClassLoader loader = null;
 	private IReportContext context = null;
-	private IBaseQueryDefinition[] queries = null;
+	private IDataQueryDefinition[] queries = null;
 	private IContent content = null;
 
 	public ClassLoader getApplicationClassLoader( )
@@ -56,12 +57,12 @@ public class ReportItemGenerationInfo implements IReportItemGenerationInfo
 		this.context = context;
 	}
 
-	public IBaseQueryDefinition[] getReportQueries( )
+	public IDataQueryDefinition[] getReportQueries( )
 	{
 		return queries;
 	}
 
-	public void setReportQueries( IBaseQueryDefinition[] queries )
+	public void setReportQueries( IDataQueryDefinition[] queries )
 	{
 		this.queries = queries;
 	}

@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.engine.extension;
 
-import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -26,7 +26,7 @@ public interface IReportItemPresentationInfo
 
 	public IReportContext getReportContext( );
 
-	public IBaseQueryDefinition[] getReportQueries( );
+	public IDataQueryDefinition[] getReportQueries( );
 
 	public IContent getExtendedItemContent( );
 	

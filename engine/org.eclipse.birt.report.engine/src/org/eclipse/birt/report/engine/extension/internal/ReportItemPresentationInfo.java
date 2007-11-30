@@ -4,6 +4,7 @@ package org.eclipse.birt.report.engine.extension.internal;
 import java.util.Locale;
 
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -19,7 +20,7 @@ public class ReportItemPresentationInfo implements IReportItemPresentationInfo
 	private ClassLoader loader = null;
 	private IContent content = null;
 	private String outputFormat = null;
-	private IBaseQueryDefinition[] queries = null;
+	private IDataQueryDefinition[] queries = null;
 	private int dpi;
 	private IReportContext context = null;
 	private String supportedImageFormats = null;
@@ -90,12 +91,12 @@ public class ReportItemPresentationInfo implements IReportItemPresentationInfo
 		return outputFormat;
 	}
 
-	public void setReportQueries( IBaseQueryDefinition[] queries )
+	public void setReportQueries( IDataQueryDefinition[] queries )
 	{
 		this.queries = queries;
 	}
 
-	public IBaseQueryDefinition[] getReportQueries( )
+	public IDataQueryDefinition[] getReportQueries( )
 	{
 		return queries;
 	}

@@ -18,7 +18,6 @@ import java.io.InputStream;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -30,7 +29,6 @@ import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.extension.IReportItemGeneration;
-import org.eclipse.birt.report.engine.extension.IReportItemGenerationInfo;
 import org.eclipse.birt.report.engine.extension.internal.ReportItemGenerationInfo;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
@@ -86,7 +84,7 @@ public class ExtendedGenerateExecutor extends QueryItemExecutor
 		byte[] generationStatus = null;
 		if ( itemGeneration != null )
 		{
-			IBaseQueryDefinition[] queries = (IBaseQueryDefinition[]) ( (ExtendedItemDesign) item )
+			IDataQueryDefinition[] queries = ( (ExtendedItemDesign) item )
 					.getQueries( );
 
 			ReportItemGenerationInfo info = new ReportItemGenerationInfo( );

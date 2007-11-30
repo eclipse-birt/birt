@@ -14,7 +14,7 @@ package org.eclipse.birt.report.engine.extension;
 import java.io.OutputStream;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -63,7 +63,7 @@ public interface IReportItemGeneration
 	 * 
 	 * @deprecated implement #init(IReportItemGenerationInfo) instead
 	 */
-	public void setReportQueries( IBaseQueryDefinition[] queries );
+	public void setReportQueries( IDataQueryDefinition[] queries );
 
 	/**
 	 * processes the extended item in report generation environment.

@@ -13,16 +13,14 @@ package org.eclipse.birt.report.engine.extension;
 
 import java.io.InputStream;
 import java.util.Locale;
-import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
-import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.internal.RowSet;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
@@ -39,7 +37,7 @@ public class ReportItemPresentationBase implements IReportItemPresentation
 	protected String outputFormat;
 	protected String supportedImageFormats;
 	protected Locale locale;
-	protected IBaseQueryDefinition[] queries;
+	protected IDataQueryDefinition[] queries;
 	protected IHTMLActionHandler ah = null;
 	protected IStyle style = null;
 	protected IContent content = null;
@@ -128,7 +126,7 @@ public class ReportItemPresentationBase implements IReportItemPresentation
 		this.context = context;
 	}
 
-	public void setReportQueries( IBaseQueryDefinition[] queries )
+	public void setReportQueries( IDataQueryDefinition[] queries )
 	{
 		this.queries = queries;
 	}

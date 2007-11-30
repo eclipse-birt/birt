@@ -33,6 +33,7 @@ import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.core.template.TextTemplate;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.api.CachedImage;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -720,8 +721,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 				.getInstance( ).createPresentationItem( tagName );
 		if ( itemPresentation != null )
 		{
-			IBaseQueryDefinition[] queries = (IBaseQueryDefinition[]) design
-					.getQueries( );
+			IDataQueryDefinition[] queries = design.getQueries( );
 
 			ReportItemPresentationInfo info = new ReportItemPresentationInfo( );
 			info.setModelObject( handle );

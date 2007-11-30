@@ -15,7 +15,7 @@ import java.io.OutputStream;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
-import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.extension.internal.RowSet;
@@ -30,7 +30,7 @@ public class ReportItemGenerationBase implements IReportItemGeneration
 	protected ExtendedItemHandle modelHandle;
 	protected ClassLoader appClassLoader;
 	protected IReportContext context;
-	protected IBaseQueryDefinition[] queries;
+	protected IDataQueryDefinition[] queries;
 	protected IContent content;
 	protected IReportItemGenerationInfo info;
 	
@@ -95,7 +95,7 @@ public class ReportItemGenerationBase implements IReportItemGeneration
 		this.context = context;
 	}
 
-	public void setReportQueries( IBaseQueryDefinition[] queries )
+	public void setReportQueries( IDataQueryDefinition[] queries )
 	{
 		this.queries = queries;
 	}
