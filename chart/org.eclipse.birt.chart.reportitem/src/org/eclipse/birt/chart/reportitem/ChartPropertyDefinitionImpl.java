@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.reportitem;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.extension.PropertyDefinition;
+import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 
 /**
  * This class defines all the chart properties definition for reportItem
@@ -38,20 +39,26 @@ public final class ChartPropertyDefinitionImpl extends PropertyDefinition
 
 	private Object oDefaultValue = null;
 
-	/**
-	 * 
-	 * @param sGroupNameID
-	 * @param sName
-	 * @param sDisplayNameID
-	 * @param bList
-	 * @param iType
-	 * @param liChoices
-	 * @param liMembers
-	 * @param oDefaultValue
-	 */
+	private IMethodInfo mi = null;
+
 	ChartPropertyDefinitionImpl( String sGroupNameID, String sName,
 			String sDisplayNameID, boolean bList, int iType, List liChoices,
 			List liMembers, Object oDefaultValue )
+	{
+		this( sGroupNameID,
+				sName,
+				sDisplayNameID,
+				bList,
+				iType,
+				liChoices,
+				liMembers,
+				oDefaultValue,
+				null );
+	}
+
+	ChartPropertyDefinitionImpl( String sGroupNameID, String sName,
+			String sDisplayNameID, boolean bList, int iType, List liChoices,
+			List liMembers, Object oDefaultValue, IMethodInfo mi )
 	{
 		this.sGroupNameID = sGroupNameID;
 		this.sName = sName;
@@ -61,6 +68,7 @@ public final class ChartPropertyDefinitionImpl extends PropertyDefinition
 		this.liChoices = liChoices;
 		this.liMembers = liMembers;
 		this.oDefaultValue = oDefaultValue;
+		this.mi = mi;
 	}
 
 	/*
@@ -151,6 +159,11 @@ public final class ChartPropertyDefinitionImpl extends PropertyDefinition
 	public boolean isVisible( )
 	{
 		return false;
+	}
+
+	public IMethodInfo getMethodInfo( )
+	{
+		return mi;
 	}
 
 }

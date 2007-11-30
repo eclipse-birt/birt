@@ -243,7 +243,7 @@ public final class ChartReportItemImpl extends ReportItem implements
 			try
 			{
 				cm = SerializerImpl.instance( ).fromXml( data, true );
-				
+
 				// This fix is only for SCR 95978, for the version 3.2.10 of
 				// report design file and previous version.
 				String reportVer = handle.getModuleHandle( ).getVersion( );
@@ -336,8 +336,8 @@ public final class ChartReportItemImpl extends ReportItem implements
 			}
 		}
 	}
-	
-	private void adjustSingleNumberFormat(FormatSpecifier fs)
+
+	private void adjustSingleNumberFormat( FormatSpecifier fs )
 	{
 		if ( !( fs instanceof NumberFormatSpecifier ) )
 		{
@@ -412,7 +412,7 @@ public final class ChartReportItemImpl extends ReportItem implements
 
 		return 0;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -499,6 +499,21 @@ public final class ChartReportItemImpl extends ReportItem implements
 						null,
 						null,
 						null ),
+
+				new ChartPropertyDefinitionImpl( null,
+						"onRender", "property.onRender", false, //$NON-NLS-1$ //$NON-NLS-2$
+						IPropertyType.SCRIPT_TYPE,
+						null,
+						null,
+						null,
+						new ChartPropertyMethodInfo( "onRender", //$NON-NLS-1$
+								null,
+								null,
+								null,
+								null,
+								false,
+								false ) ),
+
 		};
 	}
 

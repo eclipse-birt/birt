@@ -48,13 +48,6 @@
                allowedChoices="in,cm,mm,pt,pc,em,ex,px"
                propertyName="height">
          </overrideProperty>
-         <method
-               context="presentation"
-               displayNameID="Element.ExtendedItem.onRender"
-               isStatic="false"
-               name="onRender"
-               toolTipID="Element.ExtendedItem.onRender.toolTip">
-         </method>
          <property
                detailType="FilterCondition"
                displayNameID="Element.ExtendedItem.filter"

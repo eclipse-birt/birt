@@ -41,11 +41,6 @@ public class ChartViewNodeProvider extends DefaultNodeProvider
 		return UIHelper.getImage( iconPath );
 	}
 
-	public Object getParent( Object model )
-	{
-		return ( (DesignElementHandle) model ).getContainer( );
-	}
-
 	public boolean hasChildren( Object object )
 	{
 		return false;
