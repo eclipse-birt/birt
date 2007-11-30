@@ -192,7 +192,7 @@ data.engine.resultClassSaveError=—ñ‚ÌQÆ {0} ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
 data.engine.invalidMemBufferSize=ƒƒ‚ƒŠƒoƒbƒtƒ@ƒTƒCƒY "{0}" ‚ª–³Œø‚Å‚·Bƒƒ‚ƒŠƒoƒbƒtƒ@ƒTƒCƒY‚É‚ÍA1 ˆÈã‚Ì®”‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢B
 data.engine.document.error.cannotLoadStream=•¶‘ƒXƒgƒŠ[ƒ€ "{0}" ‚ª–³Œø‚Å‚·B
 data.engine.failToCreateTempDir="{0}" ‚ÉˆêƒfƒBƒŒƒNƒgƒŠ‚ğì¬‚Å‚«‚Ü‚¹‚ñB 
-data.engine.reportItem.SubQuery.Unsupported=Report item sharing is not targeting to be used in a report item involved with subquery.
+data.engine.reportItem.SubQuery.Unsupported=ƒTƒuƒNƒGƒŠ‚ªŠÜ‚Ü‚ê‚Ä‚¢‚éƒŒƒ|[ƒg€–Ú‚Í‹¤—L‚Å‚«‚Ü‚¹‚ñB
 
 
 # oda consumer errors
@@ -353,7 +353,7 @@ data.olap.axis.value.CantBeNull=—ñƒƒ“ƒo‚ÌƒŒƒxƒ‹ \"{0}\" ‚Ì’l‚Í null ‚É‚Å‚«‚Ü‚¹‚
 data.olap.fetchlimitWarning=Œ‹‰ÊƒZƒbƒg‚Ì‘S‘Ì‚ÌƒTƒCƒY‚Í [{1}] ‚Å‚·‚ªA{0} ‚µ‚©ƒtƒFƒbƒ`‚³‚ê‚Ü‚¹‚ñ‚Å‚µ‚½B
 data.olap.failComputeComputedMeasureValue=Œv‘ª’l‚ğŒvZ‚Å‚«‚Ü‚¹‚ñB
 data.olap.duplicateMeasureName=Œv‘ª–¼ \"{0}\" ‚ªd•¡‚µ‚Ä‚¢‚Ü‚·B
-data.olap.dataBindingExpressionEmpty=Data binding expression can not be null or empty!
+data.olap.dataBindingExpressionEmpty=ƒf[ƒ^‚ÌƒoƒCƒ“ƒh®‚Í NULL ‚â‹ó”’‚É‚Å‚«‚Ü‚¹‚ñB
 
 data.cache.UnsupportedIncrementalCacheMode=‘•ªƒLƒƒƒbƒVƒ…‚Ì \"{0}\" ƒ‚[ƒh‚Í‚Ü‚¾ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
 # Configuration file parser error code

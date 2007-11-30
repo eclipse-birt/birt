@@ -2201,8 +2201,8 @@ Element.OdaMeasureGroup=ODA 計測グループ
 Element.MemberValue=メンバ値
 Element.SortElement=ソート要素
 Element.FilterConditionElement=フィルタの条件要素
-Element.AbstractMultiViews=Abstract Multiple Views
-Element.MultiViews=Multiple Views
+Element.AbstractMultiViews=抽象マルチビュー
+Element.MultiViews=マルチビュー
 
 ###########################################################
 # Element property names
@@ -2660,7 +2660,7 @@ Element.Table.onPageBreak=ページ区切り
 Element.Table.onPageBreak.toolTip=TBD
 Element.Table.onPageBreak.this=テーブルインスタンス
 Element.Table.onPageBreak.reportContext=レポートのコンテキスト
-Element.Table.multiViews=Multiple Views
+Element.Table.multiViews=マルチビュー
   
 #19.TableGroup  ( prefix  Element.TableGroup )
 Element.TableGroup.slot.header=ヘッダ
@@ -3070,7 +3070,7 @@ Element.FilterConditionElement.isOptional=オプション
 Element.AbstractMultiViews.index=Index
 
 #64. MultiViews ( prefix Element.MultiViews )
-Element.MultiViews.views=Views
+Element.MultiViews.views=ビュー
 
 ###########################################################
 # Predefined style

@@ -192,7 +192,7 @@ data.engine.resultClassSaveError=Impossible de trouver les références des colonn
 data.engine.invalidMemBufferSize=La taille du tampon de la mémoire "{0}" est incorrecte. La taille du tampon de la mémoire doit être un entier supérieur à zéro.
 data.engine.document.error.cannotLoadStream=Le flux de document "{0}" est incorrect.
 data.engine.failToCreateTempDir=Echec de la création du répertoire temporaire dans "{0}"; 
-data.engine.reportItem.SubQuery.Unsupported=Report item sharing is not targeting to be used in a report item involved with subquery.
+data.engine.reportItem.SubQuery.Unsupported=Le partage d'un élément d'état n'est pas destiné à être utilisé dans un élément d'état ayant une sous-requête.
 
 
 # oda consumer errors
@@ -353,7 +353,7 @@ data.olap.axis.value.CantBeNull=La valeur de membre de colonne du niveau \"{0}\"
 data.olap.fetchlimitWarning=La taille d''extraction est {0}, elle est donc inférieure à la longueur totale du jeu de résultats[{1}].
 data.olap.failComputeComputedMeasureValue=Echec du calcul de la valeur pour la mesure calculée.
 data.olap.duplicateMeasureName=Nom de mesure \"{0}\" en double.
-data.olap.dataBindingExpressionEmpty=Data binding expression can not be null or empty!
+data.olap.dataBindingExpressionEmpty=L'expression de liaison de données ne peut être ni nulle ni vide.
 
 data.cache.UnsupportedIncrementalCacheMode=Le mode \"{0}\" de cache incrémentiel n''est pas encore pris en charge !
 # Configuration file parser error code

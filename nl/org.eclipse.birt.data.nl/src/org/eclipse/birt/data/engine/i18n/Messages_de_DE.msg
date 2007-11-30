@@ -192,7 +192,7 @@ data.engine.resultClassSaveError=Die folgenden Spaltenbezüge können nicht gefund
 data.engine.invalidMemBufferSize=Die Speicher-Puffergröße "{0}" ist ungültig. Die Speicher-Puffergröße muss eine Ganzzahl größer Null sein.
 data.engine.document.error.cannotLoadStream=Der Dokumentenstrom "{0}" ist ungültig.
 data.engine.failToCreateTempDir=Temporäres Verzeichnis in "{0}" konnte nicht erstellt werden; 
-data.engine.reportItem.SubQuery.Unsupported=Report item sharing is not targeting to be used in a report item involved with subquery.
+data.engine.reportItem.SubQuery.Unsupported=Berichtobjekte sollten nicht freigegeben werden, wenn sie im Zusammenhang mit Teilabfragen verwendet werden.
 
 
 # oda consumer errors
@@ -353,7 +353,7 @@ data.olap.axis.value.CantBeNull=Wert von Mitgliedsebene \"{0}\" der Spalte darf 
 data.olap.fetchlimitWarning=Die Anzahl der abzurufenden Datensätze beträgt {0} und ist somit geringer als die Länge des gesamten Ergebnissatzes[{1}].
 data.olap.failComputeComputedMeasureValue=Werte für berechnete Maßeinheit können nicht berechnet werden.
 data.olap.duplicateMeasureName=Doppelter Einheitenname \"{0}\".
-data.olap.dataBindingExpressionEmpty=Data binding expression can not be null or empty!
+data.olap.dataBindingExpressionEmpty=Datenbindungsausdruck darf nicht leer oder gleich Null sein.
 
 data.cache.UnsupportedIncrementalCacheMode=Der \"{0}\"-Modus der inkrementellen Zwischenspeicherung wird noch nicht unterstützt!
 # Configuration file parser error code

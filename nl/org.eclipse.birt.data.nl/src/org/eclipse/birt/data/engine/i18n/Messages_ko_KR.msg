@@ -192,7 +192,7 @@ data.engine.resultClassSaveError=다음 열 참조를 찾을 수 없음: {0}.
 data.engine.invalidMemBufferSize=메모리 버퍼 크기 "{0}"은(는) 잘못되었습니다. 메모리 버퍼 크기는 0보다 큰 정수여야 합니다.
 data.engine.document.error.cannotLoadStream=문서 스트림 "{0}"은(는) 잘못되었습니다.
 data.engine.failToCreateTempDir="{0}"에 임시 디렉터리를 만들지 못했습니다. 
-data.engine.reportItem.SubQuery.Unsupported=Report item sharing is not targeting to be used in a report item involved with subquery.
+data.engine.reportItem.SubQuery.Unsupported=보고서 항목 공유는하위 쿼리와 관련된 보고서 항목에서 사용하기 위한 것이 아닙니다. 
 
 
 # oda consumer errors
@@ -353,7 +353,7 @@ data.olap.axis.value.CantBeNull=수준 \"{0}\"의 열 구성원 값은 널(null)이 될 수 �
 data.olap.fetchlimitWarning=반입 크기는 {0}(으)로, 전체 결과 집합 [{1}]의 길이보다 작습니다.
 data.olap.failComputeComputedMeasureValue=계산되는 측정에 대한 값을 계산하지 못했습니다.
 data.olap.duplicateMeasureName=중복된 측정값 이름 \"{0}\"입니다.
-data.olap.dataBindingExpressionEmpty=Data binding expression can not be null or empty!
+data.olap.dataBindingExpressionEmpty=데이터 바인딩 식은 널(null)이거나 비워 둘 수 없습니다!
 
 data.cache.UnsupportedIncrementalCacheMode=증가 캐시의 \"{0}\" 모드는 아직 지원되지 않습니다.
 # Configuration file parser error code

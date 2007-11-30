@@ -1236,7 +1236,7 @@ EmbeddedImagesNodeProvider.action.New=새 내장된 이미지
 
 ###########################################################
 #ElementIdDescriptorProvider properties
-ElementIdDescriptorProvider.Display.Element.ID=Element ID:
+ElementIdDescriptorProvider.Display.Element.ID=요소 ID:
 
 ###########################################################
 #EmptyEditPart properties
@@ -2416,9 +2416,9 @@ ProjectFileDialog.Text.Menu=메뉴
 
 ###########################################################
 #ProjectSelectionDialog properties
-ProjectSelectionDialog.Message=Select the project to configure:
-ProjectSelectionDialog.Text.SpecialSettings=Show only projects with project specific settings
-ProjectSelectionDialog.Title=Project Specific Configuration
+ProjectSelectionDialog.Message=구성할 프로젝트 선택:
+ProjectSelectionDialog.Text.SpecialSettings=프로젝트별 설정이 있는 프로젝트만 표시
+ProjectSelectionDialog.Title=프로젝트별 구성
 
 ###########################################################
 #ResourceFilterDialog properties
@@ -2729,9 +2729,9 @@ PropertyHandleInputDialog.messages.error.blankProperty={0}은(는) 비워둘 수 없습�
 
 ###########################################################
 #PropertyAndPreferencePage properties
-PropertyAndPreferencePage.Text.Configure.Special.Settings=Configure Project Specific Settings...
-PropertyAndPreferencePage.Text.Configure.Workspace.Settings=Configure Workspace Settings...
-PropertyAndPreferencePage.Text.Enable.SpecialSettings=Enable pr&oject specific settings
+PropertyAndPreferencePage.Text.Configure.Special.Settings=프로젝트별 설정 구성...
+PropertyAndPreferencePage.Text.Configure.Workspace.Settings=작업 영역 설정 구성...
+PropertyAndPreferencePage.Text.Enable.SpecialSettings=프로젝트별 설정 사용(&O)
 
 ###########################################################
 #PublishTemplateAction properties
@@ -3162,7 +3162,7 @@ UseCssInThemeDialog.TitleArea.Message=CSS 파일의 스타일을 교체할 테마를 선택합니
 SelectValueDialog.errorRetrievinglist=목록을 검색하는 도중 오류가 발생했습니다.
 SelectValueDialog.messages.info.selectVauleUnavailable=row["name"] 또는 row.name 형식의 식만이 값 목록을 가져올 수 있습니다. 
 SelectValueDialog.messages.info.invalidSelectVauleExpression="값 선택" 함수는 간단한 열 식만 받아들입니다. 복잡한 식은 거부됩니다. 
-SelectValueDialog.messages.warning.BlobColumn.unsupported=Cannot retrieve the value list of the expression referenced to the Blob type column/binding.
+SelectValueDialog.messages.warning.BlobColumn.unsupported=Blob 형식의 열/바인딩에 대해 참조되는 식의 값 목록을 검색할 수 없습니다.
 SelectValueDialog.messages.error.selectVauleUnavailable=식의 값을 검색할 수 없습니다.
 SelectValueDialog.noExpressionSet=식이 설정되지 않았습니다.
 SelectValueDialog.retrieving=목록 검색...
@@ -4031,8 +4031,8 @@ CopyCellContentsAction.actionText=내용 복사
 
 ###########################################################
 #CopyFormatAction
-CopyFormatAction.text=Copy Format
+CopyFormatAction.text=서식 복사
 
 ###########################################################
 #PasteFormatAction
-PasteFormatAction.text=Paste Format
+PasteFormatAction.text=서식 붙여넣기

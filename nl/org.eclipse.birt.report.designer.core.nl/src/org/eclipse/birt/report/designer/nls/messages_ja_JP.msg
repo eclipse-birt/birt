@@ -1236,7 +1236,7 @@ EmbeddedImagesNodeProvider.action.New=新しく埋め込まれたイメージ
 
 ###########################################################
 #ElementIdDescriptorProvider properties
-ElementIdDescriptorProvider.Display.Element.ID=Element ID:
+ElementIdDescriptorProvider.Display.Element.ID=要素 ID :
 
 ###########################################################
 #EmptyEditPart properties
@@ -2416,9 +2416,9 @@ ProjectFileDialog.Text.Menu=メニュー
 
 ###########################################################
 #ProjectSelectionDialog properties
-ProjectSelectionDialog.Message=Select the project to configure:
-ProjectSelectionDialog.Text.SpecialSettings=Show only projects with project specific settings
-ProjectSelectionDialog.Title=Project Specific Configuration
+ProjectSelectionDialog.Message=設定するプロジェクトの選択 :
+ProjectSelectionDialog.Text.SpecialSettings=プロジェクト固有の設定が指定されたプロジェクトのみを表示する
+ProjectSelectionDialog.Title=プロジェクト固有の設定
 
 ###########################################################
 #ResourceFilterDialog properties
@@ -2729,9 +2729,9 @@ PropertyHandleInputDialog.messages.error.blankProperty={0} は空白にできません。
 
 ###########################################################
 #PropertyAndPreferencePage properties
-PropertyAndPreferencePage.Text.Configure.Special.Settings=Configure Project Specific Settings...
-PropertyAndPreferencePage.Text.Configure.Workspace.Settings=Configure Workspace Settings...
-PropertyAndPreferencePage.Text.Enable.SpecialSettings=Enable pr&oject specific settings
+PropertyAndPreferencePage.Text.Configure.Special.Settings=プロジェクト固有の設定を指定...
+PropertyAndPreferencePage.Text.Configure.Workspace.Settings=ワークスペースの設定を指定...
+PropertyAndPreferencePage.Text.Enable.SpecialSettings=プロジェクト固有の設定を有効にする(&O)
 
 ###########################################################
 #PublishTemplateAction properties
@@ -3162,7 +3162,7 @@ UseCssInThemeDialog.TitleArea.Message=CSS ファイルのスタイルを配置するテーマを選
 SelectValueDialog.errorRetrievinglist=リストを検索する際にエラーが発生しました。
 SelectValueDialog.messages.info.selectVauleUnavailable=値の一覧を取得できるのは、row["name"] または row.name という形式の式だけです。 
 SelectValueDialog.messages.info.invalidSelectVauleExpression=値の選択機能では、単純な列式しか使用できません。複雑な式は拒否されます。 
-SelectValueDialog.messages.warning.BlobColumn.unsupported=Cannot retrieve the value list of the expression referenced to the Blob type column/binding.
+SelectValueDialog.messages.warning.BlobColumn.unsupported=BLOB 型の列やバインドへの参照がある式の値リストは取得できません。
 SelectValueDialog.messages.error.selectVauleUnavailable=式の値を取得できません。
 SelectValueDialog.noExpressionSet=式が設定されていません。
 SelectValueDialog.retrieving=リストの取得中...
@@ -4031,8 +4031,8 @@ CopyCellContentsAction.actionText=コンテンツのコピー
 
 ###########################################################
 #CopyFormatAction
-CopyFormatAction.text=Copy Format
+CopyFormatAction.text=書式のコピー
 
 ###########################################################
 #PasteFormatAction
-PasteFormatAction.text=Paste Format
+PasteFormatAction.text=書式の貼り付け

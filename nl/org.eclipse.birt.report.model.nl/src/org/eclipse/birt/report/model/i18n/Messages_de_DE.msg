@@ -2201,8 +2201,8 @@ Element.OdaMeasureGroup=ODA-Maﬂeinheitsgruppe
 Element.MemberValue=Mitgliedswert
 Element.SortElement=Sortierungselement
 Element.FilterConditionElement=Filterbedingungselement
-Element.AbstractMultiViews=Abstract Multiple Views
-Element.MultiViews=Multiple Views
+Element.AbstractMultiViews=Abstrakte Mehrfachansichten
+Element.MultiViews=Mehrfachansichten
 
 ###########################################################
 # Element property names
@@ -2660,7 +2660,7 @@ Element.Table.onPageBreak=Bei Seitenumbruch
 Element.Table.onPageBreak.toolTip=TBD
 Element.Table.onPageBreak.this=Tabelleninstanz
 Element.Table.onPageBreak.reportContext=Berichtkontext
-Element.Table.multiViews=Multiple Views
+Element.Table.multiViews=Mehrfachansichten
   
 #19.TableGroup  ( prefix  Element.TableGroup )
 Element.TableGroup.slot.header=Kopfzeile
@@ -3070,7 +3070,7 @@ Element.FilterConditionElement.isOptional=Ist optional
 Element.AbstractMultiViews.index=Index
 
 #64. MultiViews ( prefix Element.MultiViews )
-Element.MultiViews.views=Views
+Element.MultiViews.views=Ansichten
 
 ###########################################################
 # Predefined style

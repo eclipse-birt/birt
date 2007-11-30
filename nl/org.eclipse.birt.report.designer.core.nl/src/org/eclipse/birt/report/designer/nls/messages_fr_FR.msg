@@ -1236,7 +1236,7 @@ EmbeddedImagesNodeProvider.action.New=Nouvelle image incorporée
 
 ###########################################################
 #ElementIdDescriptorProvider properties
-ElementIdDescriptorProvider.Display.Element.ID=Element ID:
+ElementIdDescriptorProvider.Display.Element.ID=ID de l'élément :
 
 ###########################################################
 #EmptyEditPart properties
@@ -2416,9 +2416,9 @@ ProjectFileDialog.Text.Menu=menu
 
 ###########################################################
 #ProjectSelectionDialog properties
-ProjectSelectionDialog.Message=Select the project to configure:
-ProjectSelectionDialog.Text.SpecialSettings=Show only projects with project specific settings
-ProjectSelectionDialog.Title=Project Specific Configuration
+ProjectSelectionDialog.Message=Sélectionnez le projet à configurer :
+ProjectSelectionDialog.Text.SpecialSettings=Affichez uniquement les projets ayant des paramètres spécifiques au projet
+ProjectSelectionDialog.Title=Configuration spécifique au projet
 
 ###########################################################
 #ResourceFilterDialog properties
@@ -2729,9 +2729,9 @@ PropertyHandleInputDialog.messages.error.blankProperty={0} ne peut pas être vide
 
 ###########################################################
 #PropertyAndPreferencePage properties
-PropertyAndPreferencePage.Text.Configure.Special.Settings=Configure Project Specific Settings...
-PropertyAndPreferencePage.Text.Configure.Workspace.Settings=Configure Workspace Settings...
-PropertyAndPreferencePage.Text.Enable.SpecialSettings=Enable pr&oject specific settings
+PropertyAndPreferencePage.Text.Configure.Special.Settings=Configurer les paramètres spécifiques au projet...
+PropertyAndPreferencePage.Text.Configure.Workspace.Settings=Configurer les paramètres de l'espace de travail...
+PropertyAndPreferencePage.Text.Enable.SpecialSettings=Activer les paramètres spécifiques au pr&ojet
 
 ###########################################################
 #PublishTemplateAction properties
@@ -3162,7 +3162,7 @@ UseCssInThemeDialog.TitleArea.Message=Sélectionnez un thème dans lequel les styl
 SelectValueDialog.errorRetrievinglist=Erreur de récupération de la liste
 SelectValueDialog.messages.info.selectVauleUnavailable=Seules les expressions aux formats de type ligne["nom"] ou ligne.nom peuvent récupérer leur liste de valeurs. 
 SelectValueDialog.messages.info.invalidSelectVauleExpression=La fonction "Sélectionner une valeur" accepte uniquement une expression de colonne simple. Toute expression compliquée est rejetée. 
-SelectValueDialog.messages.warning.BlobColumn.unsupported=Cannot retrieve the value list of the expression referenced to the Blob type column/binding.
+SelectValueDialog.messages.warning.BlobColumn.unsupported=Impossible de récupérer la liste de valeurs de l'expression référencée vers la liaison/colonne de type Blob.
 SelectValueDialog.messages.error.selectVauleUnavailable=La valeur de l'expression ne peut pas être récupérée.
 SelectValueDialog.noExpressionSet=Une expression n'a pas été définie
 SelectValueDialog.retrieving=Récupération de la liste...
@@ -4031,8 +4031,8 @@ CopyCellContentsAction.actionText=Copier le contenu
 
 ###########################################################
 #CopyFormatAction
-CopyFormatAction.text=Copy Format
+CopyFormatAction.text=Copier le format
 
 ###########################################################
 #PasteFormatAction
-PasteFormatAction.text=Paste Format
+PasteFormatAction.text=Coller le format

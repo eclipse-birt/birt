@@ -1236,7 +1236,7 @@ EmbeddedImagesNodeProvider.action.New=新建嵌入图像
 
 ###########################################################
 #ElementIdDescriptorProvider properties
-ElementIdDescriptorProvider.Display.Element.ID=Element ID:
+ElementIdDescriptorProvider.Display.Element.ID=元素 ID:
 
 ###########################################################
 #EmptyEditPart properties
@@ -2416,9 +2416,9 @@ ProjectFileDialog.Text.Menu=菜单
 
 ###########################################################
 #ProjectSelectionDialog properties
-ProjectSelectionDialog.Message=Select the project to configure:
-ProjectSelectionDialog.Text.SpecialSettings=Show only projects with project specific settings
-ProjectSelectionDialog.Title=Project Specific Configuration
+ProjectSelectionDialog.Message=选择要配置的项目:
+ProjectSelectionDialog.Text.SpecialSettings=仅显示具有项目特定设置的项目
+ProjectSelectionDialog.Title=项目特定配置
 
 ###########################################################
 #ResourceFilterDialog properties
@@ -2729,9 +2729,9 @@ PropertyHandleInputDialog.messages.error.blankProperty={0} 不能为空白
 
 ###########################################################
 #PropertyAndPreferencePage properties
-PropertyAndPreferencePage.Text.Configure.Special.Settings=Configure Project Specific Settings...
-PropertyAndPreferencePage.Text.Configure.Workspace.Settings=Configure Workspace Settings...
-PropertyAndPreferencePage.Text.Enable.SpecialSettings=Enable pr&oject specific settings
+PropertyAndPreferencePage.Text.Configure.Special.Settings=配置项目特定设置...
+PropertyAndPreferencePage.Text.Configure.Workspace.Settings=配置工作区设置...
+PropertyAndPreferencePage.Text.Enable.SpecialSettings=启用项目特定设置(&O)
 
 ###########################################################
 #PublishTemplateAction properties
@@ -3162,7 +3162,7 @@ UseCssInThemeDialog.TitleArea.Message=选择要放置 CSS 文件样式的主题。
 SelectValueDialog.errorRetrievinglist=检索列表时出错
 SelectValueDialog.messages.info.selectVauleUnavailable=只有 row["name"] 或 row.name 之类格式的表达式才能获得值列表。 
 SelectValueDialog.messages.info.invalidSelectVauleExpression=“选择值”函数仅接受简单列表达式。拒绝复杂表达式。 
-SelectValueDialog.messages.warning.BlobColumn.unsupported=Cannot retrieve the value list of the expression referenced to the Blob type column/binding.
+SelectValueDialog.messages.warning.BlobColumn.unsupported=无法检索引用 Blob 类型列/绑定的表达式的值列表。
 SelectValueDialog.messages.error.selectVauleUnavailable=无法检索该表达式的值。
 SelectValueDialog.noExpressionSet=尚未设置表达式
 SelectValueDialog.retrieving=正在检索列表...
@@ -4031,8 +4031,8 @@ CopyCellContentsAction.actionText=复制内容
 
 ###########################################################
 #CopyFormatAction
-CopyFormatAction.text=Copy Format
+CopyFormatAction.text=复制格式
 
 ###########################################################
 #PasteFormatAction
-PasteFormatAction.text=Paste Format
+PasteFormatAction.text=粘贴格式
