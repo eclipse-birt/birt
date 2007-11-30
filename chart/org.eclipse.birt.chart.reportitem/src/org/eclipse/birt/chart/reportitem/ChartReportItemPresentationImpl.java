@@ -45,7 +45,7 @@ public final class ChartReportItemPresentationImpl
 		extends
 			ChartReportItemPresentationBase
 {
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -63,7 +63,7 @@ public final class ChartReportItemPresentationImpl
 					Messages.getString( "ChartReportItemPresentationImpl.error.NoData" ) ); //$NON-NLS-1$
 			return null;
 		}
-		
+
 		IBaseResultSet resultSet = baseResultSet[0];
 		if ( resultSet == null || isEmpty( resultSet ) )
 		{
@@ -82,6 +82,13 @@ public final class ChartReportItemPresentationImpl
 
 		try
 		{
+			// Create shared scale if needed
+			if ( rtc.getScale( ) == null
+					&& ChartReportItemUtil.canBindingShared( handle, cm ) )
+			{
+				rtc.setScale( createSharedScale( resultSet ) );
+			}
+
 			String javaHandlerClass = handle.getEventHandlerClass( );
 			if ( javaHandlerClass != null && javaHandlerClass.length( ) > 0 )
 			{
@@ -215,6 +222,14 @@ public final class ChartReportItemPresentationImpl
 				imageMap = ( (IImageMapEmitter) idr ).getImageMap( );
 			}
 
+			// Set the scale shared when scale has been computed, and store it
+			// in the ReportItem
+			if ( rtc.getScale( ) != null && !rtc.getScale( ).isShared( ) )
+			{
+				rtc.getScale( ).setShared( true );
+				( (ChartReportItemImpl) getReportItem( handle ) ).setScale( rtc.getScale( ) );
+			}
+
 		}
 		catch ( BirtException birtException )
 		{
@@ -299,7 +314,7 @@ public final class ChartReportItemPresentationImpl
 		}
 		return super.getSize( );
 	}
-	
+
 	protected Bounds computeBounds( )
 	{
 		final Bounds originalBounds = cm.getBlock( ).getBounds( );

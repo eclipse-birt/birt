@@ -18,6 +18,11 @@ import java.util.List;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.data.Query;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
@@ -48,6 +53,10 @@ import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.StructureFactory;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 
@@ -192,6 +201,13 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 				// return createSubQuery(item, null);
 			}
 
+			if ( ChartReportItemUtil.canBindingShared( handle, cm ) )
+			{
+				// Add min/max binding to parent query since it's global min/max
+				addMinMaxBinding( ChartReportItemUtil.getBindingHolder( handle ),
+						parentQuery );
+			}
+
 			// we have column binding, create a sub query.
 			return createSubQuery( handle, parentQuery );
 		}
@@ -214,6 +230,53 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 		addSortAndFilter( handle, query );
 
 		return query;
+	}
+
+	private void addMinMaxBinding( ReportItemHandle handle,
+			BaseQueryDefinition query )
+	{
+		// Add min/max bindings for the query expression in first value
+		// series, so share the scale later
+		try
+		{
+			String queryExp = getExpressionOfValueSeries( );
+
+			ComputedColumn ccMin = StructureFactory.newComputedColumn( handle,
+					ChartReportItemUtil.QUERY_MIN );
+			ccMin.setAggregateFunction( DesignChoiceConstants.AGGREGATION_FUNCTION_MIN );
+			ccMin.setExpression( queryExp );
+			addColumBinding( query, handle.addColumnBinding( ccMin, false ) );
+
+			ComputedColumn ccMax = StructureFactory.newComputedColumn( handle,
+					ChartReportItemUtil.QUERY_MAX );
+			ccMax.setAggregateFunction( DesignChoiceConstants.AGGREGATION_FUNCTION_MAX );
+			ccMax.setExpression( queryExp );
+			addColumBinding( query, handle.addColumnBinding( ccMax, false ) );
+		}
+		catch ( SemanticException e )
+		{
+			logger.log( e );
+		}
+	}
+
+	private String getExpressionOfValueSeries( )
+	{
+		SeriesDefinition ySd;
+		if ( cm instanceof ChartWithAxes )
+		{
+			Axis yAxis = (Axis) ( (Axis) ( (ChartWithAxes) cm ).getAxes( )
+					.get( 0 ) ).getAssociatedAxes( ).get( 0 );
+			ySd = (SeriesDefinition) yAxis.getSeriesDefinitions( ).get( 0 );
+		}
+		else
+		{
+			ySd = (SeriesDefinition) ( (SeriesDefinition) ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
+					.get( 0 ) ).getSeriesDefinitions( ).get( 0 );
+		}
+		Query query = (Query) ySd.getDesignTimeSeries( )
+				.getDataDefinition( )
+				.get( 0 );
+		return query.getDefinition( );
 	}
 
 	protected BaseQueryDefinition createSubQuery( ExtendedItemHandle handle,

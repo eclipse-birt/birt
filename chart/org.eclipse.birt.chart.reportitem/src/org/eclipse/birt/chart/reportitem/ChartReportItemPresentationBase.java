@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.eclipse.birt.chart.computation.withaxes.ScaleContext;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
@@ -142,6 +143,33 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	 */
 	public void setModelObject( ExtendedItemHandle eih )
 	{
+		IReportItem item = getReportItem( eih );
+		if ( item == null )
+		{
+			return;
+		}
+		cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( ChartReportItemUtil.PROPERTY_CHART );
+		handle = eih;
+
+		Object of = handle.getProperty( ChartReportItemUtil.PROPERTY_OUTPUT );
+		if ( of instanceof String )
+		{
+			outputFormat = (String) of;
+		}
+
+		of = ( (ChartReportItemImpl) item ).getProperty( ChartReportItemUtil.PROPERTY_SCALE );
+		if ( of instanceof ScaleContext )
+		{
+			if ( rtc == null )
+			{
+				rtc = new RunTimeContext( );
+			}
+			rtc.setScale( (ScaleContext) of );
+		}
+	}
+
+	protected IReportItem getReportItem( ExtendedItemHandle eih )
+	{
 		IReportItem item = null;
 		try
 		{
@@ -166,18 +194,9 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 			{
 				logger.log( ILogger.ERROR,
 						Messages.getString( "ChartReportItemPresentationImpl.log.UnableToLocateWrapper" ) ); //$NON-NLS-1$
-				return;
 			}
 		}
-		cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( "chart.instance" ); //$NON-NLS-1$
-		handle = eih;
-
-		Object of = handle.getProperty( "outputFormat" ); //$NON-NLS-1$
-
-		if ( of instanceof String )
-		{
-			outputFormat = (String) of;
-		}
+		return item;
 	}
 
 	/*
@@ -288,6 +307,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 				if ( rtc != null )
 				{
 					drtc.setULocale( rtc.getULocale( ) );
+					drtc.setScale( rtc.getScale( ) );
 				}
 
 				rtc = drtc;
@@ -302,6 +322,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 				{
 					IReportItem item = handle.getReportItem( );
 					( (ChartReportItemImpl) item ).setModel( cm );
+					( (ChartReportItemImpl) item ).setScale( rtc.getScale( ) );
 				}
 
 				// Get chart max row number from application context
@@ -425,7 +446,6 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	{
 		if ( set instanceof IQueryResultSet )
 		{
-			//Remove the logic for smoke and complete the group enhancement
 			List groups = ( (IQueryResultSet) set ).getResultIterator( )
 					.getQueryResults( )
 					.getPreparedQuery( )
@@ -460,5 +480,15 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		}
 		// TODO add code to check empty for ICubeResultSet
 		return false;
+	}
+
+	protected ScaleContext createSharedScale( IBaseResultSet baseResultSet )
+			throws BirtException
+	{
+		Object min = baseResultSet.evaluate( "row._outer[\"" //$NON-NLS-1$
+				+ ChartReportItemUtil.QUERY_MIN + "\"]" ); //$NON-NLS-1$
+		Object max = baseResultSet.evaluate( "row._outer[\"" //$NON-NLS-1$
+				+ ChartReportItemUtil.QUERY_MAX + "\"]" ); //$NON-NLS-1$
+		return ScaleContext.createSimpleScale( min, max );
 	}
 }

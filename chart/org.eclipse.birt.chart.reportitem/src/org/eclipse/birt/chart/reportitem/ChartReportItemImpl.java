@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.eclipse.birt.chart.computation.withaxes.ScaleContext;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.Generator;
 import org.eclipse.birt.chart.log.ILogger;
@@ -63,8 +64,9 @@ import org.mozilla.javascript.RhinoException;
 /**
  * ChartReportItemImpl
  */
-public final class ChartReportItemImpl extends ReportItem implements
-		ICompatibleReportItem
+public final class ChartReportItemImpl extends ReportItem
+		implements
+			ICompatibleReportItem
 {
 
 	private Chart cm = null;
@@ -78,6 +80,8 @@ public final class ChartReportItemImpl extends ReportItem implements
 	private static final List liChartDimensions = new LinkedList( );
 
 	private transient DesignElementHandle handle = null;
+
+	private transient ScaleContext sharedScale = null;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
@@ -140,6 +144,14 @@ public final class ChartReportItemImpl extends ReportItem implements
 	public void setModel( Chart chart )
 	{
 		this.cm = chart;
+	}
+
+	/**
+	 * Set the shared scale directly (no command)
+	 */
+	public void setScale( ScaleContext sharedScale )
+	{
+		this.sharedScale = sharedScale;
 	}
 
 	/**
@@ -213,7 +225,7 @@ public final class ChartReportItemImpl extends ReportItem implements
 	public ByteArrayOutputStream serialize( String propName )
 	{
 		if ( propName != null
-				&& propName.equalsIgnoreCase( "xmlRepresentation" ) ) //$NON-NLS-1$
+				&& propName.equalsIgnoreCase( ChartReportItemUtil.PROPERTY_XMLPRESENTATION ) )
 		{
 			try
 			{
@@ -238,7 +250,7 @@ public final class ChartReportItemImpl extends ReportItem implements
 			throws ExtendedElementException
 	{
 		if ( propName != null
-				&& propName.equalsIgnoreCase( "xmlRepresentation" ) ) //$NON-NLS-1$
+				&& propName.equalsIgnoreCase( ChartReportItemUtil.PROPERTY_XMLPRESENTATION ) )
 		{
 			try
 			{
@@ -519,7 +531,8 @@ public final class ChartReportItemImpl extends ReportItem implements
 
 	public IMethodInfo[] getMethods( String scriptName )
 	{
-		if ( scriptName != null && scriptName.equals( "onRender" ) ) //$NON-NLS-1$
+		if ( scriptName != null
+				&& scriptName.equals( ChartReportItemUtil.PROPERTY_ONRENDER ) )
 		{
 			ScriptClassInfo info = new ScriptClassInfo( IChartEventHandler.class );
 			List list = info.getMethods( );
@@ -595,16 +608,21 @@ public final class ChartReportItemImpl extends ReportItem implements
 		}
 		else if ( propName.equals( "plot.transposed" ) ) //$NON-NLS-1$
 		{
-			return new Boolean( ( cm instanceof ChartWithAxes ) ? ( (ChartWithAxes) cm ).isTransposed( )
-					: false );
+			return new Boolean( ( cm instanceof ChartWithAxes )
+					? ( (ChartWithAxes) cm ).isTransposed( ) : false );
 		}
-		else if ( propName.equals( "script" ) || propName.equals( "onRender" ) ) //$NON-NLS-1$ //$NON-NLS-2$
+		else if ( propName.equals( ChartReportItemUtil.PROPERTY_SCRIPT )
+				|| propName.equals( ChartReportItemUtil.PROPERTY_ONRENDER ) )
 		{
 			return cm.getScript( );
 		}
-		else if ( propName.equals( "chart.instance" ) ) //$NON-NLS-1$
+		else if ( propName.equals( ChartReportItemUtil.PROPERTY_CHART ) )
 		{
 			return cm;
+		}
+		else if ( propName.equals( ChartReportItemUtil.PROPERTY_SCALE ) )
+		{
+			return sharedScale;
 		}
 		return null;
 	}
@@ -683,11 +701,12 @@ public final class ChartReportItemImpl extends ReportItem implements
 						Messages.getString( "ChartReportItemImpl.log.CannotSetState" ) ); //$NON-NLS-1$
 			}
 		}
-		else if ( propName.equals( "script" ) || propName.equals( "onRender" ) ) //$NON-NLS-1$ //$NON-NLS-2$
+		else if ( propName.equals( ChartReportItemUtil.PROPERTY_SCRIPT )
+				|| propName.equals( ChartReportItemUtil.PROPERTY_ONRENDER ) )
 		{
 			cm.setScript( (String) value );
 		}
-		else if ( propName.equals( "chart.instance" ) ) //$NON-NLS-1$
+		else if ( propName.equals( ChartReportItemUtil.PROPERTY_CHART ) )
 		{
 			this.cm = (Chart) value;
 		}
