@@ -1803,10 +1803,23 @@ public class ReportQueryBuilder
 			List newExpressions = totalExpressionBindings.getNewExpression( );
 			item.setTOC( (String) newExpressions.get( expressionIndex++ ) );
 			item.setBookmark( (String) newExpressions.get( expressionIndex++ ) );
-			item.setOnCreate( (String) newExpressions.get( expressionIndex++ ) );
-			item.setOnRender( (String) newExpressions.get( expressionIndex++ ) );
-			item.setOnPageBreak( (String) newExpressions
-					.get( expressionIndex++ ) );
+			
+			String onCreateScriptText = (String) newExpressions.get( expressionIndex++ );
+			String onRenderScriptText = (String) newExpressions.get( expressionIndex++ );
+			String onPageBreakScriptText = (String) newExpressions.get( expressionIndex++ );
+
+			if ( item.getOnCreate( ) != null )
+			{
+				item.getOnCreate( ).setScriptText( onCreateScriptText );
+			}
+			if ( item.getOnRender( ) != null )
+			{
+				item.getOnRender( ).setScriptText( onRenderScriptText );
+			}
+			if ( item.getOnPageBreak( ) != null )
+			{
+				item.getOnPageBreak( ).setScriptText( onPageBreakScriptText );
+			}
 
 			HighlightDesign highlights = item.getHighlight( );
 			if ( highlights != null )
@@ -1899,9 +1912,30 @@ public class ReportQueryBuilder
 			List expressions = new ArrayList( );
 			expressions.add( item.getTOC( ) );
 			expressions.add( item.getBookmark( ) );
-			expressions.add( item.getOnCreate( ) );
-			expressions.add( item.getOnRender( ) );
-			expressions.add( item.getOnPageBreak( ) );
+			if ( item.getOnCreate( ) != null )
+			{
+				expressions.add( item.getOnCreate( ).getScriptText( ) );
+			}
+			else
+			{
+				expressions.add( null );
+			}
+			if ( item.getOnRender( ) != null )
+			{
+				expressions.add( item.getOnRender( ).getScriptText( ) );
+			}
+			else
+			{
+				expressions.add( null );
+			}
+			if ( item.getOnPageBreak( ) != null )
+			{
+				expressions.add( item.getOnPageBreak( ).getScriptText( ) );
+			}
+			else
+			{
+				expressions.add( null );
+			}
 
 			HighlightDesign highlights = item.getHighlight( );
 			if ( highlights != null )

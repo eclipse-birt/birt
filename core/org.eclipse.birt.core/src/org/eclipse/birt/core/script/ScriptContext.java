@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -47,12 +47,6 @@ public class ScriptContext
 	 * The JavaScript scope used for script execution
 	 */
 	protected Scriptable scope;
-
-	/**
-	 * a cache used to store the precompiled scripts the key is the source code
-	 * and the value is the compiled script.
-	 */
-	protected HashMap compiledScripts = new HashMap( );
 
 	/**
 	 * for BIRT globel varible "params"
@@ -116,7 +110,6 @@ public class ScriptContext
 		{
 			Context.exit( );
 			context = null;
-			compiledScripts.clear( );
 		}
 	}
 
@@ -205,20 +198,34 @@ public class ScriptContext
 	 */
 	public Object eval( String source )
 	{
-		return eval( source, "<inline>", 1 );
+		if ( null != source && source.length( ) > 0 )
+		{
+			ScriptExpression scriptExpression = new ScriptExpression( source );
+			return eval( scriptExpression );
+		}
+		return null;
 	}
 
 	/**
 	 * evaluates a script
 	 */
-	public Object eval( String source, String name, int lineNo )
+	public Object eval( ScriptExpression expr )
 	{
 		assert ( this.context != null );
-		Script script = (Script) compiledScripts.get( source );
+		if ( null == expr )
+		{
+			return null;
+		}
+
+		//FIXME: use cached expr
+		Script script = expr.getCompiledScript( );
 		if ( script == null )
 		{
-			script = context.compileString( source, name, lineNo, null );
-			compiledScripts.put( source, script );
+			script = context.compileString( expr.getScriptText( ),
+					expr.getId( ),
+					expr.getLineNumber( ),
+					null );
+			expr.setCompiledScript( script );
 		}
 		Object value = script.exec( context, scope );
 		return jsToJava( value );

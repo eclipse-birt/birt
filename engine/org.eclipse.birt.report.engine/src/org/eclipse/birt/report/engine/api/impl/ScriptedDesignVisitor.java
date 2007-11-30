@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.api.impl;
 
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.script.internal.AutoTextScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.CellScriptExecutor;
@@ -42,6 +43,7 @@ import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
+import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -55,6 +57,9 @@ import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.simpleapi.IDesignElement;
 import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 
 class ScriptedDesignVisitor extends DesignVisitor
 {
@@ -112,7 +117,7 @@ class ScriptedDesignVisitor extends DesignVisitor
 				}
 				if ( handle.getOnPrepare( ) != null )
 				{
-					executionContext.evaluate( (String) handle.getOnPrepare( ) );
+					executionContext.evaluate( getOnPrepareScriptExpression( handle ) );
 				}
 				return;
 			}
@@ -169,7 +174,7 @@ class ScriptedDesignVisitor extends DesignVisitor
 				try
 				{
 					executionContext.newScope( handle );
-					executionContext.execute( handle.getOnPrepare( ) );
+					executionContext.evaluate( getOnPrepareScriptExpression( handle ) );
 				} finally
 				{
 					executionContext.exitScope( );
@@ -180,6 +185,21 @@ class ScriptedDesignVisitor extends DesignVisitor
 		}
 	}
 
+	private ScriptExpression getOnPrepareScriptExpression(
+			ReportItemHandle handle )
+	{
+		if ( null != handle )
+		{
+			String scriptText = handle.getOnPrepare( );
+			if ( null != scriptText )
+			{
+				String id = ModuleUtil.getScriptUID( handle.getPropertyHandle( IReportItemModel.ON_PREPARE_METHOD ) );
+				return new ScriptExpression( scriptText, id );
+			}
+		}
+		return null;
+	}
+	
 	// TODO: Merge this function with the above one when DE add onPrepare to
 	// DesignElementHandle
 	private void handleOnPrepare( CellHandle handle )
@@ -204,7 +224,14 @@ class ScriptedDesignVisitor extends DesignVisitor
 				}
 				if ( handle.getOnPrepare( ) != null )
 				{
-					executionContext.evaluate( (String) handle.getOnPrepare( ) );
+					String scriptText = handle.getOnPrepare( );
+					if ( null != scriptText )
+					{
+						String id = ModuleUtil.getScriptUID( handle.getPropertyHandle( IReportItemModel.ON_PREPARE_METHOD ) );
+						ScriptExpression scriptExpr = new ScriptExpression( scriptText,
+								id );
+						executionContext.evaluate( scriptExpr );
+					}
 				}
 				return;
 			}
@@ -248,7 +275,14 @@ class ScriptedDesignVisitor extends DesignVisitor
 				}
 				if ( handle.getOnPrepare( ) != null )
 				{
-					executionContext.evaluate( (String) handle.getOnPrepare( ) );
+					String scriptText = handle.getOnPrepare( );
+					if ( null != scriptText )
+					{
+						String id = ModuleUtil.getScriptUID( handle.getPropertyHandle( IGroupElementModel.ON_PREPARE_METHOD ) );
+						ScriptExpression expr = new ScriptExpression( scriptText,
+								id );
+						executionContext.evaluate( expr );
+					}
 				}
 				return;
 			}
@@ -297,7 +331,14 @@ class ScriptedDesignVisitor extends DesignVisitor
 				}
 				if ( handle.getOnPrepare( ) != null )
 				{
-					executionContext.evaluate( (String) handle.getOnPrepare( ) );
+					String scriptText = handle.getOnPrepare( );
+					if ( null != scriptText )
+					{
+						String id = ModuleUtil.getScriptUID( handle.getPropertyHandle( ITableRowModel.ON_PREPARE_METHOD ) );
+						ScriptExpression expr = new ScriptExpression( scriptText,
+								id );
+						executionContext.evaluate( expr );
+					}
 				}
 				return;
 			}

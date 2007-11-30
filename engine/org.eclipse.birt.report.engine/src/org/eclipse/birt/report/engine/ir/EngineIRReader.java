@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -513,16 +514,19 @@ public class EngineIRReader implements IOConstants
 				design.setTOC( toc );
 				break;
 			case FIELD_ON_CREATE :
-				String onCreate = IOUtil.readString( in );
-				design.setOnCreate( onCreate );
+				String onCreatScriptText = IOUtil.readString( in );
+				ScriptExpression onCreatScriptExpr = new ScriptExpression( onCreatScriptText );
+				design.setOnCreate( onCreatScriptExpr );
 				break;
 			case FIELD_ON_RENDER :
-				String onRender = IOUtil.readString( in );
-				design.setOnRender( onRender );
+				String OnRenderScriptText = IOUtil.readString( in );
+				ScriptExpression OnRenderScriptExpr = new ScriptExpression( OnRenderScriptText );
+				design.setOnRender( OnRenderScriptExpr );
 				break;
 			case FIELD_ON_PAGE_BREAK :
-				String onPageBreak = IOUtil.readString( in );
-				design.setOnPageBreak( onPageBreak );
+				String OnPageBreakScriptText = IOUtil.readString( in );
+				ScriptExpression OnPageBreakScriptExpr = new ScriptExpression( OnPageBreakScriptText );
+				design.setOnPageBreak( OnPageBreakScriptExpr );
 				break;
 
 			case FIELD_VISIBILITY :

@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
@@ -112,6 +113,10 @@ import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 import org.eclipse.core.runtime.Assert;
 
 /**
@@ -1108,8 +1113,23 @@ public class EngineIRVisitor extends DesignVisitor
 		}
 
 		String onCreate = handle.getOnCreate( );
-		row.setOnCreate( createExpression( onCreate ) );
-		row.setOnRender( ( (RowHandle) handle ).getOnRender( ) );
+		String OnCreateScriptText = createExpression( onCreate );
+		if ( null != OnCreateScriptText )
+		{
+			String id = ModuleUtil.getScriptUID( handle.getPropertyHandle( ITableRowModel.ON_CREATE_METHOD ) );
+			ScriptExpression scriptExpr = new ScriptExpression( OnCreateScriptText,
+					id );
+			row.setOnCreate( scriptExpr );
+		}
+
+		String OnRenderScriptText = ( (RowHandle) handle ).getOnRender( );
+		if ( null != OnRenderScriptText )
+		{
+			String id = ModuleUtil.getScriptUID( handle.getPropertyHandle( ITableRowModel.ON_RENDER_METHOD ) );
+			ScriptExpression scriptExpr = new ScriptExpression( OnRenderScriptText,
+					id );
+			row.setOnRender( scriptExpr );
+		}
 
 		setupHighlight( row, null );
 		/*
@@ -1205,10 +1225,25 @@ public class EngineIRVisitor extends DesignVisitor
 		{
 			cell.setDrop( handle.getDrop( ) );
 		}
-
+		
 		String onCreate = handle.getOnCreate( );
-		cell.setOnCreate( createExpression( onCreate ) );
-		cell.setOnRender( handle.getOnRender( ) );
+		String onCreateScriptText = createExpression( onCreate );
+		if ( null != onCreateScriptText )
+		{
+			String id = ModuleUtil.getScriptUID( handle.getPropertyHandle( ICellModel.ON_CREATE_METHOD ) );
+			ScriptExpression scriptExpr = new ScriptExpression( onCreateScriptText,
+					id );
+			cell.setOnCreate( scriptExpr );
+		}
+
+		String OnRenderScriptText = handle.getOnRender( );
+		if ( null != OnRenderScriptText )
+		{
+			String id = ModuleUtil.getScriptUID( handle.getPropertyHandle( ICellModel.ON_RENDER_METHOD ) );
+			ScriptExpression scriptExpr = new ScriptExpression( OnRenderScriptText,
+					id );
+			cell.setOnRender( scriptExpr );
+		}
 
 		setupHighlight( cell, null );
 		/*
@@ -1462,7 +1497,14 @@ public class EngineIRVisitor extends DesignVisitor
 		group.setPageBreakInside( pageBreakInside );
 		
 		// TODO: review: group should support OnCreate and OnRender. But model didn't support it now. 
-		group.setOnPageBreak( handle.getOnPageBreak( ) );
+		String scriptText = handle.getOnPageBreak( );
+		if ( null != scriptText )
+		{
+			String id = ModuleUtil.getScriptUID( handle.getPropertyHandle( IGroupElementModel.ON_PAGE_BREAK_METHOD ) );
+			ScriptExpression scriptExpr = new ScriptExpression( scriptText,
+					id );
+			group.setOnPageBreak( scriptExpr );
+		}
 		
 		group.setHandle( handle );
 		group.setJavaClass( handle.getEventHandlerClass( ) );
@@ -1577,11 +1619,32 @@ public class EngineIRVisitor extends DesignVisitor
 		item.setBookmark( createExpression( bookmark ) );
 
 		String onCreate = handle.getOnCreate( );
-		item.setOnCreate( createExpression( onCreate ) );
+		String onCreateScriptText = createExpression( onCreate );
+		if ( null != onCreateScriptText )
+		{
+			String id = ModuleUtil.getScriptUID( handle.getPropertyHandle( IReportItemModel.ON_CREATE_METHOD ) );
+			ScriptExpression scriptExpr = new ScriptExpression( onCreateScriptText,
+					id );
+			item.setOnCreate( scriptExpr );
+		}
 
-		item.setOnRender( handle.getOnRender( ) );
+		String OnRenderScriptText = handle.getOnRender( );
+		if ( null != OnRenderScriptText )
+		{
+			String id = ModuleUtil.getScriptUID( handle.getPropertyHandle( IReportItemModel.ON_RENDER_METHOD ) );
+			ScriptExpression scriptExpr = new ScriptExpression( OnRenderScriptText,
+					id );
+			item.setOnRender( scriptExpr );
+		}
 		
-		item.setOnPageBreak( handle.getOnPageBreak( ) );
+		String OnPageBreakScriptText = handle.getOnPageBreak( );
+		if ( null != OnPageBreakScriptText )
+		{
+			String id = ModuleUtil.getScriptUID( handle.getPropertyHandle( IReportItemModel.ON_PAGE_BREAK_METHOD ) );
+			ScriptExpression scriptExpr = new ScriptExpression( OnPageBreakScriptText,
+					id );
+			item.setOnPageBreak( scriptExpr );
+		}
 
 		// Sets up the visibility
 		Iterator visibilityIter = handle.visibilityRulesIterator( );

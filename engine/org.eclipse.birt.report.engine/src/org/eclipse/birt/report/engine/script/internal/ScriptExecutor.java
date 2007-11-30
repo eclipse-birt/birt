@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.script.internal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -39,26 +40,23 @@ public class ScriptExecutor
 			.getName( ) );
 
 
-	protected static JSScriptStatus handleJS( Object scope, String js,
-			ExecutionContext context )
+	protected static JSScriptStatus handleJS( Object scope,
+			ScriptExpression expr, ExecutionContext context )
 	{
-		return handleJSInternal( scope, js, context );
+		return handleJSInternal( scope, expr, context );
 	}
 
-	private static JSScriptStatus handleJSInternal( Object scope, Object js,
-			ExecutionContext context )
+	private static JSScriptStatus handleJSInternal( Object scope,
+			ScriptExpression expr, ExecutionContext context )
 	{
-		if ( js != null )
+		if ( expr != null )
 		{
-			if ( !( js instanceof String ) )
-				return JSScriptStatus.NO_RUN;
 			try
 			{
 				if ( scope != null )
 					context.newScope( scope );
 				Object result = null;
-				if ( js instanceof String )
-					result = context.evaluate( ( String ) js );
+				result = context.evaluate( expr );
 				return new JSScriptStatus( true, result );
 			} finally
 			{

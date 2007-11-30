@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.ir;
 
+import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 
@@ -49,17 +50,17 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	/**
 	 * scripted called while on created
 	 */
-	protected String onCreate;
+	protected ScriptExpression onCreate;
 	
 	/**
 	 * script called while on render
 	 */
-	protected String onRender;
+	protected ScriptExpression onRender;
 	
 	/**
 	 * script called while on render
 	 */
-	protected String onPageBreak;	
+	protected ScriptExpression onPageBreak;	
 
 	/**
 	 * Visibility property.
@@ -223,44 +224,44 @@ abstract public class ReportItemDesign extends StyledElementDesign
 	/**
 	 * @return Returns the onCreate.
 	 */
-	public String getOnCreate( )
+	public ScriptExpression getOnCreate( )
 	{
 		return onCreate;
 	}
 	/**
 	 * @param onCreate The onCreate to set.
 	 */
-	public void setOnCreate( String onCreate )
+	public void setOnCreate( ScriptExpression expr )
 	{
-		this.onCreate = onCreate;
+		onCreate = expr;
 	}
 	/**
 	 * @return Returns the onRender.
 	 */
-	public String getOnRender( )
+	public ScriptExpression getOnRender( )
 	{
 		return onRender;
 	}
 	/**
 	 * @param onPageBreak The onPageBreak to set.
 	 */
-	public void setOnPageBreak( String onPageBreak )
+	public void setOnPageBreak( ScriptExpression expr )
 	{
-		this.onPageBreak = onPageBreak;
+		onPageBreak = expr;
 	}
 	/**
 	 * @return Returns the onPageBreak.
 	 */
-	public String getOnPageBreak( )
+	public ScriptExpression getOnPageBreak( )
 	{
 		return onPageBreak;
 	}
 	/**
 	 * @param onRender The onRender to set.
 	 */
-	public void setOnRender( String onRender )
+	public void setOnRender( ScriptExpression expr )
 	{
-		this.onRender = onRender;
+		onRender = expr;
 	}
 	/**
 	 * @return Returns the visibility.

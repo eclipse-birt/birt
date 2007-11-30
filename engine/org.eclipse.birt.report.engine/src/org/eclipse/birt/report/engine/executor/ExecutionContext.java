@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004,2007 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -40,6 +40,7 @@ import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
 import org.eclipse.birt.core.script.CoreJavaScriptWrapper;
 import org.eclipse.birt.core.script.IJavascriptWrapper;
 import org.eclipse.birt.core.script.ScriptContext;
+import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
@@ -552,20 +553,6 @@ public class ExecutionContext
 	/**
 	 * Evaluate a BIRT expression
 	 * 
-	 * @param source
-	 *            the expression to be evaluated
-	 * @return the result if no error exists, otherwise null.
-	 * 
-	 * @see evaluate(String,String,int)
-	 */
-	public Object evaluate( String source )
-	{
-		return evaluate( source, "<inline>", 1 );
-	}
-
-	/**
-	 * Evaluate a BIRT expression
-	 * 
 	 * @param expr
 	 *            the expression to be evaluated
 	 * @param name
@@ -575,24 +562,33 @@ public class ExecutionContext
 	 * 
 	 * @return the result if no error exists, otherwise null.
 	 */
-	public Object evaluate( String expr, String name, int lineNo )
+	public Object evaluate( ScriptExpression expr )
 	{
-		if ( expr != null )
+		if ( expr != null && expr.getScriptText( ) != null )
 		{
 			try
 			{
-				return scriptContext.eval( expr, name, lineNo );
+				return scriptContext.eval( expr );
 			}
 			catch ( Throwable e )
 			{
 				log.log( Level.SEVERE, e.getMessage( ), e );
-				addException( new EngineException(
-						MessageConstants.SCRIPT_EVALUATION_ERROR, new String[]{//$NON-NLS-1$
-								expr, e.getMessage( )}, e ) ); 
+				addException( new EngineException( MessageConstants.SCRIPT_EVALUATION_ERROR,
+						new String[]{
+								expr.getScriptText( ), e.getMessage( )
+						},
+						e ) ); //$NON-NLS-1$
 			}
 		}
 		return null;
-	}	
+	}
+	
+	// FIXME: This is a temporary method. This method must be removed.
+	//By Lion 2007.11.30.
+	public Object evaluate( String scriptText )
+	{
+		return scriptContext.eval( scriptText );
+	}
 
 	/**
 	 * evaluate conditional expression. A conditional expression can have an
@@ -630,20 +626,6 @@ public class ExecutionContext
 	}
 
 	/**
-	 * execute the script. simply evaluate the script, and drop the return value
-	 * 
-	 * @param script
-	 *            script to be executed
-	 */
-	public void execute( String script )
-	{
-		if ( script != null )
-		{
-			evaluate( script );
-		}
-	}	
-
-	/**
 	 * execute the script. Simply evaluate the script, then drop the return
 	 * value
 	 * 
@@ -654,12 +636,9 @@ public class ExecutionContext
 	 * @param lineNo
 	 *            line no
 	 */
-	public void execute( String script, String fileName, int lineNo )
+	public void execute( ScriptExpression expr )
 	{
-		if ( script != null )
-		{
-			evaluate( script, fileName, lineNo );
-		}
+		evaluate( expr );
 	}
 
 	/**
@@ -904,7 +883,8 @@ public class ExecutionContext
 				size = in.read( buffer );
 			}
 			byte[] script = out.toByteArray( );
-			execute( new String( script, "UTF-8" ), fileName, 1 ); //$NON-NLS-1$
+			ScriptExpression scriptExpr = new ScriptExpression( new String( script, "UTF-8" ), fileName, 1 );
+			execute( scriptExpr ); //$NON-NLS-1$
 			in.close( );
 		}
 		catch ( IOException ex )

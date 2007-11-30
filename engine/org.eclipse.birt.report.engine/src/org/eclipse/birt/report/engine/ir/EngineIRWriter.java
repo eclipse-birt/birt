@@ -19,6 +19,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -856,24 +857,24 @@ public class EngineIRWriter implements IOConstants
 			IOUtil.writeString( out, toc );
 		}
 
-		String onCreate = design.getOnCreate( );
-		if ( onCreate != null )
+		ScriptExpression onCreateScriptExpr = design.getOnCreate( );
+		if ( onCreateScriptExpr != null )
 		{
 			IOUtil.writeShort( out, FIELD_ON_CREATE );
-			IOUtil.writeString( out, onCreate );
+			IOUtil.writeString( out, onCreateScriptExpr.getScriptText( ) );
 		}
 
-		String onRender = design.getOnRender( );
-		if ( onRender != null )
+		ScriptExpression onRenderScriptExpr = design.getOnRender( );
+		if ( onRenderScriptExpr != null )
 		{
 			IOUtil.writeShort( out, FIELD_ON_RENDER );
-			IOUtil.writeString( out, onRender );
+			IOUtil.writeString( out, onRenderScriptExpr.getScriptText( ) );
 		}
-		String onPageBreak = design.getOnPageBreak( );
-		if ( onPageBreak != null )
+		ScriptExpression onPageBreakScriptExpr = design.getOnPageBreak( );
+		if ( onRenderScriptExpr != null )
 		{
 			IOUtil.writeShort( out, FIELD_ON_PAGE_BREAK );
-			IOUtil.writeString( out, onPageBreak );
+			IOUtil.writeString( out, onRenderScriptExpr.getScriptText( ) );
 		}
 
 		VisibilityDesign visibility = design.getVisibility( );
