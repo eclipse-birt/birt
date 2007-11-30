@@ -587,7 +587,8 @@ public class ExecutionContext
 			{
 				log.log( Level.SEVERE, e.getMessage( ), e );
 				addException( new EngineException(
-						MessageConstants.SCRIPT_EVALUATION_ERROR, expr, e ) ); //$NON-NLS-1$
+						MessageConstants.SCRIPT_EVALUATION_ERROR, new String[]{//$NON-NLS-1$
+								expr, e.getMessage( )}, e ) ); 
 			}
 		}
 		return null;
