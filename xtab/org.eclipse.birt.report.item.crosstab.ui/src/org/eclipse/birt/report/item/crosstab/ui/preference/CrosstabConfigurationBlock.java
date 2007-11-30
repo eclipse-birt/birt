@@ -32,15 +32,21 @@ import org.eclipse.swt.widgets.Group;
 public class CrosstabConfigurationBlock extends OptionsConfigurationBlock
 {
 
-	private final Key PREF_FILTER_LIMIT = getKey( CrosstabPlugin.ID,
-			CrosstabPlugin.PREFERENCE_FILTER_LIMIT );
+	private final Key PREF_FILTER_ROW_LIMIT = getKey( CrosstabPlugin.ID,
+			CrosstabPlugin.PREFERENCE_FILTER_ROW_LIMIT );
+	private final Key PREF_FILTER_COLUMN_LIMIT = getKey( CrosstabPlugin.ID,
+			CrosstabPlugin.PREFERENCE_FILTER_COLUMN_LIMIT );
+	private final Key PREF_VALUE_LIST_LIMIT = getKey( CrosstabPlugin.ID,
+			CrosstabPlugin.PREFERENCE_VALUE_LIST_LIMIT );
 	private final Key PREF_CUBE_BUILDER_WARNING = getKey( CrosstabPlugin.ID,
 			CrosstabPlugin.CUBE_BUILDER_WARNING_PREFERENCE );
 	private final Key PREF_AUTO_DEL_BINDINGS = getKey( CrosstabPlugin.ID,
 			CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS );
 	private static final String ENABLED = MessageDialogWithToggle.PROMPT;
 	private static final String DISABLED = MessageDialogWithToggle.NEVER;
-	private static final int MAX_FILTER_LIMIT = 10000;
+	private static final int MAX_FILTER_ROW_LIMIT = 10000;
+	private static final int MAX_FILTER_COLUMN_LIMIT = 10000;
+	private static final int MAX_VALUE_LIST_LIMIT = 10000;
 	private PixelConverter fPixelConverter;
 
 	public CrosstabConfigurationBlock( IStatusChangeListener context,
@@ -56,14 +62,18 @@ public class CrosstabConfigurationBlock extends OptionsConfigurationBlock
 		if ( fProject == null )
 		{
 			keys = new Key[]{
-					PREF_FILTER_LIMIT,
+					PREF_FILTER_ROW_LIMIT,
+					PREF_FILTER_COLUMN_LIMIT,
+					PREF_VALUE_LIST_LIMIT,
 					PREF_AUTO_DEL_BINDINGS,
 					PREF_CUBE_BUILDER_WARNING
 			};
 		}
 		else
 			keys = new Key[]{
-				PREF_FILTER_LIMIT
+					PREF_FILTER_ROW_LIMIT,
+					PREF_FILTER_COLUMN_LIMIT,
+					PREF_VALUE_LIST_LIMIT
 			};
 		return keys;
 	}
@@ -113,16 +123,34 @@ public class CrosstabConfigurationBlock extends OptionsConfigurationBlock
 		layout.numColumns = 3;
 		pageContent.setLayout( layout );
 
-		Group group = new Group( pageContent, SWT.NONE );
-		group.setText( Messages.getString( "CrosstabPreferencePage.filterLimit" ) );
-		group.setLayout( new GridLayout( 3, false ) );
+		Group filterGroup = new Group( pageContent, SWT.NONE );
+		filterGroup.setText( Messages.getString( "CrosstabPreferencePage.filterLimit" ) );
+		filterGroup.setLayout( new GridLayout( 3, false ) );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 3;
-		group.setLayoutData( gd );
+		filterGroup.setLayoutData( gd );
 
-		addTextField( group,
-				Messages.getString( "CrosstabPreferencePage.filterLimit.prompt" ),
-				PREF_FILTER_LIMIT,
+		addTextField( filterGroup,
+				Messages.getString( "CrosstabPreferencePage.filterRowLimit.prompt" ),
+				PREF_FILTER_ROW_LIMIT,
+				0,
+				0 );
+		addTextField( filterGroup,
+				Messages.getString( "CrosstabPreferencePage.filterColumnLimit.prompt" ),
+				PREF_FILTER_COLUMN_LIMIT,
+				0,
+				0 );
+
+		Group valueListGroup = new Group( pageContent, SWT.NONE );
+		valueListGroup.setText( Messages.getString( "CrosstabPreferencePage.valueListLimit" ) );
+		valueListGroup.setLayout( new GridLayout( 3, false ) );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 3;
+		valueListGroup.setLayoutData( gd );
+
+		addTextField( valueListGroup,
+				Messages.getString( "CrosstabPreferencePage.valueListLimit.prompt" ),
+				PREF_VALUE_LIST_LIMIT,
 				0,
 				0 );
 
@@ -158,18 +186,66 @@ public class CrosstabConfigurationBlock extends OptionsConfigurationBlock
 	protected void validateSettings( Key changedKey, String oldValue,
 			String newValue )
 	{
-		fContext.statusChanged( validatePositiveNumber( getValue( PREF_FILTER_LIMIT ) ) );
+		if ( !getValidateKeyStatus( PREF_FILTER_ROW_LIMIT ) )
+			return;
+		else if ( !getValidateKeyStatus( PREF_FILTER_COLUMN_LIMIT ) )
+			return;
+		else if ( ! getValidateKeyStatus( PREF_VALUE_LIST_LIMIT ))
+			return;
+		else {
+			 StatusInfo status = new StatusInfo( );
+			 status.setOK( );
+			 fContext.statusChanged( status );
+		}
 	}
 
-	protected IStatus validatePositiveNumber( final String number )
+	private boolean getValidateKeyStatus( Key key )
+	{
+		IStatus status = validatePositiveNumber( key );
+		if ( status.getSeverity( ) != IStatus.OK )
+		{
+			fContext.statusChanged( status );
+			return false;
+		}
+		return true;
+	}
+
+	protected IStatus validatePositiveNumber( Key key )
 	{
 
 		final StatusInfo status = new StatusInfo( );
-		String errorMessage = Messages.getString( "CrosstabPreferencePage.Error.MaxRowInvalid", //$NON-NLS-1$
-				new Object[]{
-					new Integer( MAX_FILTER_LIMIT )
-				} );
-		if ( number.length( ) == 0 )
+		String errorMessage;
+		if ( key == PREF_FILTER_ROW_LIMIT )
+		{
+			errorMessage = Messages.getString( "CrosstabPreferencePage.Error.MaxRowInvalid", //$NON-NLS-1$
+					new Object[]{
+						new Integer( MAX_FILTER_ROW_LIMIT )
+					} );
+			configStatus( key, errorMessage, MAX_FILTER_ROW_LIMIT, status );
+		}
+		else if ( key == PREF_FILTER_COLUMN_LIMIT )
+		{
+			errorMessage = Messages.getString( "CrosstabPreferencePage.Error.MaxColumnInvalid", //$NON-NLS-1$
+					new Object[]{
+						new Integer( MAX_FILTER_COLUMN_LIMIT )
+					} );
+			configStatus( key, errorMessage, MAX_FILTER_ROW_LIMIT, status );
+		}
+		else if ( key == PREF_VALUE_LIST_LIMIT )
+		{
+			errorMessage = Messages.getString( "CrosstabPreferencePage.Error.MaxValueListInvalid", //$NON-NLS-1$
+					new Object[]{
+						new Integer( MAX_VALUE_LIST_LIMIT )
+					} );
+			configStatus( key, errorMessage, MAX_FILTER_ROW_LIMIT, status );
+		}
+		return status;
+	}
+
+	private void configStatus( Key key, String errorMessage, int maxValue,
+			final StatusInfo status )
+	{
+		if ( key.getStoredValue( fPref ).length( ) == 0 )
 		{
 			status.setError( errorMessage );
 		}
@@ -177,8 +253,8 @@ public class CrosstabConfigurationBlock extends OptionsConfigurationBlock
 		{
 			try
 			{
-				final int value = Integer.parseInt( number );
-				if ( value < 1 || value > MAX_FILTER_LIMIT )
+				final int value = Integer.parseInt( key.getStoredValue( fPref ) );
+				if ( value < 1 || value > maxValue )
 				{
 					status.setError( errorMessage );
 				}
@@ -188,6 +264,5 @@ public class CrosstabConfigurationBlock extends OptionsConfigurationBlock
 				status.setError( errorMessage );
 			}
 		}
-		return status;
 	}
 }

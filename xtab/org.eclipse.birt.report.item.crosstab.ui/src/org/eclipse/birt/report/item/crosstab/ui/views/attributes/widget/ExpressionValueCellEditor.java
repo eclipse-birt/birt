@@ -60,7 +60,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * Expression value cell editor
  * 
- * @version $Revision: 1.10 $ $Date: 2007/11/15 09:08:59 $
+ * @version $Revision: 1.11 $ $Date: 2007/11/21 07:10:15 $
  */
 public class ExpressionValueCellEditor extends CellEditor
 {
@@ -538,7 +538,7 @@ public class ExpressionValueCellEditor extends CellEditor
 		int MAX_COUNT = PreferenceFactory.getInstance( )
 				.getPreferences( CrosstabPlugin.getDefault( ),
 						UIUtil.getCurrentProject( ) )
-				.getInt( CrosstabPlugin.PREFERENCE_FILTER_LIMIT );
+				.getInt( CrosstabPlugin.PREFERENCE_VALUE_LIST_LIMIT);
 		while ( iter != null && iter.hasNext( ) )
 		{
 			Object obj = iter.next( );
