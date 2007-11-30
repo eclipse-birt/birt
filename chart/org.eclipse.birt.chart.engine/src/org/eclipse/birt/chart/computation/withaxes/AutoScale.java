@@ -99,7 +99,7 @@ public final class AutoScale extends Methods implements Cloneable
 	private boolean bCategoryScale = false;
 
 	private boolean bTickBetweenCategories = true;
-	
+
 	private boolean bLabelWithinAxes = false;
 
 	private RunTimeContext rtc;;
@@ -789,8 +789,7 @@ public final class AutoScale extends Methods implements Cloneable
 	public final boolean isTickLabelVisible( int index )
 	{
 		if ( baTickLabelVisible == null
-				|| index < 0
-				|| index > baTickLabelVisible.length - 1 )
+				|| index < 0 || index > baTickLabelVisible.length - 1 )
 		{
 			return false;
 		}
@@ -805,8 +804,7 @@ public final class AutoScale extends Methods implements Cloneable
 	public final boolean isTickLabelStaggered( int index )
 	{
 		if ( baTickLabelStaggered == null
-				|| index < 0
-				|| index > baTickLabelStaggered.length - 1 )
+				|| index < 0 || index > baTickLabelStaggered.length - 1 )
 		{
 			return false;
 		}
@@ -1167,6 +1165,21 @@ public final class AutoScale extends Methods implements Cloneable
 	 */
 	public final void updateAxisMinMax( Object oMinValue, Object oMaxValue )
 	{
+		// Use the shared context if it's shared
+		if ( rtc.getScale( ) != null && rtc.getScale( ).isShared( ) )
+		{
+			updateContext( rtc.getScale( ) );
+			return;
+		}
+
+		if ( rtc.getScale( ) != null )
+		{
+			// Gets the shared min/max value if the whole scale is not ready to
+			// share
+			oMinValue = rtc.getScale( ).getMin( );
+			oMaxValue = rtc.getScale( ).getMax( );
+		}
+
 		ScaleContext sct;
 		if ( ( iType & LOGARITHMIC ) == LOGARITHMIC )
 		{
@@ -1180,7 +1193,7 @@ public final class AutoScale extends Methods implements Cloneable
 				bStepFixed = true;
 				return;
 			}
-			
+
 			sct = new ScaleContext( iMarginPercent,
 					iType,
 					oMinValue,
@@ -1210,6 +1223,12 @@ public final class AutoScale extends Methods implements Cloneable
 		sct.setFixedStep( bStepFixed, oStepNumber );
 		sct.computeMinMax( );
 		updateContext( sct );
+
+		if ( rtc.getScale( ) != null )
+		{
+			// Set the scale info back if the whole scale is not ready to share
+			rtc.setScale( sct );
+		}
 	}
 
 	private final void updateContext( ScaleContext sct )
@@ -1257,26 +1276,26 @@ public final class AutoScale extends Methods implements Cloneable
 		{
 			if ( iScaleDirection == BACKWARD )
 			{
-				iPointToCheck = ( dAngleInDegrees < 0 && dAngleInDegrees > -90 ) ? 1
-						: 2;
+				iPointToCheck = ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
+						? 1 : 2;
 			}
 			else
 			{
-				iPointToCheck = ( dAngleInDegrees < 0 && dAngleInDegrees > -90 ) ? 3
-						: 0;
+				iPointToCheck = ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
+						? 3 : 0;
 			}
 		}
 		else if ( iLabelLocation == LEFT || iLabelLocation == RIGHT )
 		{
 			if ( iScaleDirection == FORWARD )
 			{
-				iPointToCheck = ( dAngleInDegrees < 0 && dAngleInDegrees > -90 ) ? 0
-						: 1;
+				iPointToCheck = ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
+						? 0 : 1;
 			}
 			else
 			{
-				iPointToCheck = ( dAngleInDegrees < 0 && dAngleInDegrees > -90 ) ? 2
-						: 3;
+				iPointToCheck = ( dAngleInDegrees < 0 && dAngleInDegrees > -90 )
+						? 2 : 3;
 			}
 		}
 		AxisTickCoordinates da = atcTickCoordinates;
@@ -1591,11 +1610,11 @@ public final class AutoScale extends Methods implements Cloneable
 				iPrevPointToCheck = isNegativeRotation ? 1 : 3;
 				break;
 			case BELOW :
-				iNewPointToCheck = isNegativeRotation ? ( iScaleDirection == BACKWARD ? 1
-						: 3 )
+				iNewPointToCheck = isNegativeRotation
+						? ( iScaleDirection == BACKWARD ? 1 : 3 )
 						: ( iScaleDirection == BACKWARD ? 2 : 0 );
-				iPrevPointToCheck = isNegativeRotation ? ( iScaleDirection == BACKWARD ? 2
-						: 0 )
+				iPrevPointToCheck = isNegativeRotation
+						? ( iScaleDirection == BACKWARD ? 2 : 0 )
 						: ( iScaleDirection == BACKWARD ? 0 : 2 );
 				break;
 			case LEFT :
@@ -1612,8 +1631,8 @@ public final class AutoScale extends Methods implements Cloneable
 		DataSetIterator dsi = getData( );
 		dsi.reset( );
 
-		final int iDateTimeUnit = ( iType == IConstants.DATE_TIME ) ? CDateTime.computeUnit( dsi )
-				: IConstants.UNDEFINED;
+		final int iDateTimeUnit = ( iType == IConstants.DATE_TIME )
+				? CDateTime.computeUnit( dsi ) : IConstants.UNDEFINED;
 		String sText = null;
 
 		dsi.reset( );
@@ -1895,10 +1914,10 @@ public final class AutoScale extends Methods implements Cloneable
 		final int iOrientation = ax.getOrientation( );
 		DataElement oMinimum = scModel.getMin( );
 		DataElement oMaximum = scModel.getMax( );
-		final Double oStep = scModel.isSetStep( ) ? new Double( scModel.getStep( ) )
-				: null;
-		final Integer oStepNumber = scModel.isSetStepNumber( ) ? new Integer( scModel.getStepNumber( ) )
-				: null;
+		final Double oStep = scModel.isSetStep( )
+				? new Double( scModel.getStep( ) ) : null;
+		final Integer oStepNumber = scModel.isSetStepNumber( )
+				? new Integer( scModel.getStepNumber( ) ) : null;
 
 		AutoScale sc = null;
 		AutoScale scCloned = null;
@@ -2245,7 +2264,7 @@ public final class AutoScale extends Methods implements Cloneable
 			oMinValue = null;
 			oMaxValue = null;
 		}
-		
+
 		// Set if the axis label should be within axes.
 		sc.bLabelWithinAxes = ax.getModelAxis( ).isLabelWithinAxes( );
 
@@ -2377,8 +2396,8 @@ public final class AutoScale extends Methods implements Cloneable
 				NumberFormatSpecifier ns = (NumberFormatSpecifier) fs;
 				if ( ns.isSetFractionDigits( ) )
 				{
-					double multiplier = ns.isSetMultiplier( ) ? ns.getMultiplier( )
-							: 1;
+					double multiplier = ns.isSetMultiplier( )
+							? ns.getMultiplier( ) : 1;
 					if ( multiplier != 0 )
 					{
 						double formatPrecision = Math.pow( 10,
@@ -2441,8 +2460,8 @@ public final class AutoScale extends Methods implements Cloneable
 		int nTicks = 0;
 		double dLength = 0;
 		double dTickGap = 0;
-		int iDirection = ( iScaleDirection == AUTO ) ? ( ( iOrientation == HORIZONTAL ) ? FORWARD
-				: BACKWARD )
+		int iDirection = ( iScaleDirection == AUTO )
+				? ( ( iOrientation == HORIZONTAL ) ? FORWARD : BACKWARD )
 				: iScaleDirection;
 
 		if ( bConsiderStartLabel || bConsiderEndLabel )
@@ -2488,8 +2507,7 @@ public final class AutoScale extends Methods implements Cloneable
 			{
 				double dStepSize = asDouble( oStep ).doubleValue( );
 				dTickGap = Math.min( Math.abs( dStepSize
-						/ ( dMax - dMin )
-						* dLength ), dLength )
+						/ ( dMax - dMin ) * dLength ), dLength )
 						* iDirection;
 			}
 		}
@@ -2608,10 +2626,10 @@ public final class AutoScale extends Methods implements Cloneable
 			int iOrientation, int iLocation, AllAxes aax )
 			throws ChartException
 	{
-		final double dMaxSS = ( aax != null && iOrientation == aax.getOrientation( ) ) ? aax.getMaxStartShift( )
-				: 0;
-		final double dMaxES = ( aax != null && iOrientation == aax.getOrientation( ) ) ? aax.getMaxEndShift( )
-				: 0;
+		final double dMaxSS = ( aax != null && iOrientation == aax.getOrientation( ) )
+				? aax.getMaxStartShift( ) : 0;
+		final double dMaxES = ( aax != null && iOrientation == aax.getOrientation( ) )
+				? aax.getMaxEndShift( ) : 0;
 
 		if ( !la.isVisible( ) )
 		{
@@ -2630,8 +2648,8 @@ public final class AutoScale extends Methods implements Cloneable
 			BoundingBox bb = null;
 			try
 			{
-				iDateTimeUnit = ( getType( ) == IConstants.DATE_TIME ) ? CDateTime.computeUnit( dsi )
-						: IConstants.UNDEFINED;
+				iDateTimeUnit = ( getType( ) == IConstants.DATE_TIME )
+						? CDateTime.computeUnit( dsi ) : IConstants.UNDEFINED;
 			}
 			catch ( ClassCastException e )
 			{
@@ -2645,8 +2663,7 @@ public final class AutoScale extends Methods implements Cloneable
 
 			final double rotation = la.getCaption( ).getFont( ).getRotation( );
 			final boolean bCenter = rotation == 0
-					|| rotation == 90
-					|| rotation == -90;
+					|| rotation == 90 || rotation == -90;
 
 			// TODO check first visible label shift.
 			if ( !isTickLabelVisible( 0 ) )
@@ -2681,15 +2698,12 @@ public final class AutoScale extends Methods implements Cloneable
 					else if ( iScaleDirection == FORWARD )
 					{
 						dStartShift = Math.max( dMaxSS, bb.getHotPoint( )
-								- dUnitSize
-								/ 2 );
+								- dUnitSize / 2 );
 					}
 					else
 					{
 						dStartShift = Math.max( dMaxSS, bb.getHeight( )
-								- bb.getHotPoint( )
-								- dUnitSize
-								/ 2 );
+								- bb.getHotPoint( ) - dUnitSize / 2 );
 					}
 				}
 				else if ( iOrientation == HORIZONTAL ) // HORIZONTAL AXIS
@@ -2704,15 +2718,12 @@ public final class AutoScale extends Methods implements Cloneable
 					else if ( iScaleDirection == BACKWARD )
 					{
 						dStartShift = Math.max( dMaxSS, bb.getWidth( )
-								- bb.getHotPoint( )
-								- dUnitSize
-								/ 2 );
+								- bb.getHotPoint( ) - dUnitSize / 2 );
 					}
 					else
 					{
 						dStartShift = Math.max( dMaxSS, bb.getHotPoint( )
-								- dUnitSize
-								/ 2 );
+								- dUnitSize / 2 );
 					}
 				}
 			}
@@ -2749,15 +2760,12 @@ public final class AutoScale extends Methods implements Cloneable
 					else if ( iScaleDirection == FORWARD )
 					{
 						dEndShift = Math.max( dMaxES, bb.getHeight( )
-								- bb.getHotPoint( )
-								- dUnitSize
-								/ 2 );
+								- bb.getHotPoint( ) - dUnitSize / 2 );
 					}
 					else
 					{
 						dEndShift = Math.max( dMaxES, bb.getHotPoint( )
-								- dUnitSize
-								/ 2 );
+								- dUnitSize / 2 );
 					}
 				}
 				else if ( iOrientation == HORIZONTAL ) // HORIZONTAL AXIS
@@ -2771,15 +2779,12 @@ public final class AutoScale extends Methods implements Cloneable
 					else if ( iScaleDirection == BACKWARD )
 					{
 						dEndShift = Math.max( dMaxES, bb.getHotPoint( )
-								- dUnitSize
-								/ 2 );
+								- dUnitSize / 2 );
 					}
 					else
 					{
 						dEndShift = Math.max( dMaxES, bb.getWidth( )
-								- bb.getHotPoint( )
-								- dUnitSize
-								/ 2 );
+								- bb.getHotPoint( ) - dUnitSize / 2 );
 					}
 				}
 			}
@@ -3069,8 +3074,8 @@ public final class AutoScale extends Methods implements Cloneable
 			if ( isCategoryScale( ) )
 			{
 				final DataSetIterator dsi = getData( );
-				final int iDateTimeUnit = ( getType( ) == IConstants.DATE_TIME ) ? CDateTime.computeUnit( dsi )
-						: IConstants.UNDEFINED;
+				final int iDateTimeUnit = ( getType( ) == IConstants.DATE_TIME )
+						? CDateTime.computeUnit( dsi ) : IConstants.UNDEFINED;
 				dsi.reset( );
 				int i = 0;
 				while ( dsi.hasNext( ) )
@@ -3214,8 +3219,8 @@ public final class AutoScale extends Methods implements Cloneable
 			if ( isCategoryScale( ) )
 			{
 				final DataSetIterator dsi = getData( );
-				final int iDateTimeUnit = ( getType( ) == IConstants.DATE_TIME ) ? CDateTime.computeUnit( dsi )
-						: IConstants.UNDEFINED;
+				final int iDateTimeUnit = ( getType( ) == IConstants.DATE_TIME )
+						? CDateTime.computeUnit( dsi ) : IConstants.UNDEFINED;
 
 				dsi.reset( );
 				int i = 0;
@@ -3390,8 +3395,8 @@ public final class AutoScale extends Methods implements Cloneable
 			if ( isCategoryScale( ) )
 			{
 				final DataSetIterator dsi = getData( );
-				final int iDateTimeUnit = ( getType( ) == IConstants.DATE_TIME ) ? CDateTime.computeUnit( dsi )
-						: IConstants.UNDEFINED;
+				final int iDateTimeUnit = ( getType( ) == IConstants.DATE_TIME )
+						? CDateTime.computeUnit( dsi ) : IConstants.UNDEFINED;
 				dsi.reset( );
 				int i = 0;
 				while ( dsi.hasNext( ) )
@@ -3536,8 +3541,8 @@ public final class AutoScale extends Methods implements Cloneable
 			if ( isCategoryScale( ) )
 			{
 				final DataSetIterator dsi = getData( );
-				final int iDateTimeUnit = ( getType( ) == IConstants.DATE_TIME ) ? CDateTime.computeUnit( dsi )
-						: IConstants.UNDEFINED;
+				final int iDateTimeUnit = ( getType( ) == IConstants.DATE_TIME )
+						? CDateTime.computeUnit( dsi ) : IConstants.UNDEFINED;
 
 				dsi.reset( );
 				int i = 0;

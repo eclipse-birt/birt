@@ -49,6 +49,8 @@ public class ScaleContext extends Methods
 	private boolean bStepFixed = false;
 	private boolean bMargin = false;
 
+	private boolean bShared = false;
+
 	public ScaleContext( int iMarginPercent, int iType, int iUnit,
 			Object oMinValue, Object oMaxValue, Object oStep )
 	{
@@ -67,6 +69,22 @@ public class ScaleContext extends Methods
 			Object oMaxAuto, Object oStep )
 	{
 		this( iMarginPercent, iType, 0, oMinAuto, oMaxAuto, oStep );
+	}
+
+	/**
+	 * Creates a simple instance of scale. Note that this instance is just used
+	 * to store min/max and can not be computed directly.
+	 * 
+	 * @param oMin
+	 * @param oMax
+	 * @since 2.3
+	 */
+	public static ScaleContext createSimpleScale( Object oMin, Object oMax )
+	{
+		ScaleContext scale = new ScaleContext( 0, 0, oMin, oMax, null );
+		scale.oMin = oMin;
+		scale.oMax = oMax;
+		return scale;
 	}
 
 	public void setFixedValue( boolean bMinimumFixed, boolean bMaximumFixed,
@@ -409,5 +427,28 @@ public class ScaleContext extends Methods
 		// Not support margin computation for Log type
 		oMinAuto = null;
 		oMaxAuto = null;
+	}
+
+	/**
+	 * Marks the scale will be shared among multiple chart instances or not
+	 * 
+	 * @param bShared
+	 *            shared or not
+	 * @since 2.3
+	 */
+	public void setShared( boolean bShared )
+	{
+		this.bShared = bShared;
+	}
+
+	/**
+	 * Returns if the scale will be shared among multiple chart instances
+	 * 
+	 * @return shared or not
+	 * @since 2.3
+	 */
+	public boolean isShared( )
+	{
+		return this.bShared;
 	}
 }

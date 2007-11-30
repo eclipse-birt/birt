@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.chart.reportitem.ui.ReportItemUIUtil;
+import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDialog;
@@ -109,7 +109,7 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 
 	protected List getBindingList( DesignElementHandle inputElement )
 	{
-		Iterator iterator = ReportItemUIUtil.getColumnDataBindings( (ReportItemHandle) inputElement );
+		Iterator iterator = ChartReportItemUtil.getColumnDataBindings( (ReportItemHandle) inputElement );
 		List list = new ArrayList( );
 		while ( iterator.hasNext( ) )
 		{

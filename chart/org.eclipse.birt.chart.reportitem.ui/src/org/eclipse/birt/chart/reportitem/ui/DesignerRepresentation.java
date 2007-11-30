@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
+import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ChartReportStyleProcessor;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
@@ -114,12 +115,12 @@ public final class DesignerRepresentation extends Figure
 	 */
 	DesignerRepresentation( ChartReportItemImpl crii )
 	{
-		bRtL = ReportItemUIUtil.isRtl( );
+		bRtL = ChartReportItemUtil.isRtl( );
 
 		this.crii = crii;
 		if ( crii != null )
 		{
-			final Chart cm = (Chart) crii.getProperty( "chart.instance" ); //$NON-NLS-1$
+			final Chart cm = (Chart) crii.getProperty( ChartReportItemUtil.PROPERTY_CHART );
 			// GET THE MODEL WRAPPED INSIDE THE REPORT ITEM IMPL
 			if ( cm != null )
 			{
@@ -232,7 +233,7 @@ public final class DesignerRepresentation extends Figure
 		// TODO this is a temp solution, better not refresh model here. and this
 		// can not handle all the cases.
 		setSize( dim.width, dim.height );
-		Chart cm = (Chart) crii.getProperty( "chart.instance" ); //$NON-NLS-1$
+		Chart cm = (Chart) crii.getProperty( ChartReportItemUtil.PROPERTY_CHART );
 		if ( cm != null )
 		{
 			IDisplayServer ids = ChartUIUtil.getDisplayServer( );
@@ -272,7 +273,7 @@ public final class DesignerRepresentation extends Figure
 		{
 			bDirty = false;
 			// GET THE MODEL WRAPPED INSIDE THE REPORT ITEM IMPL
-			final Chart cm = (Chart) crii.getProperty( "chart.instance" ); //$NON-NLS-1$
+			final Chart cm = (Chart) crii.getProperty( ChartReportItemUtil.PROPERTY_CHART ); 
 			if ( cm == null )
 			{
 				bPainting = false;

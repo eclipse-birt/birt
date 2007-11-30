@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
+import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ChartReportStyleProcessor;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ChartExpressionProvider;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
@@ -129,7 +130,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			commandStack.startTrans( TRANS_NAME );
 
 			final ChartReportItemImpl crii = ( (ChartReportItemImpl) item );
-			final Chart cm = (Chart) crii.getProperty( "chart.instance" ); //$NON-NLS-1$
+			final Chart cm = (Chart) crii.getProperty( ChartReportItemUtil.PROPERTY_CHART );
 			final Chart cmClone = ( cm == null ) ? null
 					: (Chart) EcoreUtil.copy( cm );
 			// This array is for storing the latest chart data before pressing
@@ -171,8 +172,8 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 				}
 			} );
 
-			context.setRtL( ReportItemUIUtil.isRtl( ) );
-			Object of = eih.getProperty( "outputFormat" ); //$NON-NLS-1$
+			context.setRtL( ChartReportItemUtil.isRtl( ) );
+			Object of = eih.getProperty( ChartReportItemUtil.PROPERTY_OUTPUT ); 
 			if ( of instanceof String )
 			{
 				// GIF is deprecated in favor of PNG. Automatically update
@@ -237,7 +238,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 		try
 		{
 			// update the output format property information.
-			eih.setProperty( "outputFormat", outputFormat );//$NON-NLS-1$
+			eih.setProperty( ChartReportItemUtil.PROPERTY_OUTPUT, outputFormat );
 
 			// TODO: Added till the model team sorts out pass-through
 			// for setProperty

@@ -28,6 +28,7 @@ import java.util.Map;
 
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.DataType;
+import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
@@ -109,7 +110,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	public final String[] getPreviewHeader( ) throws ChartException
 	{
-		Iterator iterator = ReportItemUIUtil.getColumnDataBindings( itemHandle );
+		Iterator iterator = ChartReportItemUtil.getColumnDataBindings( itemHandle );
 		ArrayList list = new ArrayList( );
 		while ( iterator.hasNext( ) )
 		{
@@ -184,7 +185,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					null,
 					itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP )
 							.iterator( ),
-					ReportItemUIUtil.getColumnDataBindings( itemHandle ) );
+							ChartReportItemUtil.getColumnDataBindings( itemHandle ) );
 			if ( actualResultSet != null )
 			{
 				String[] expressions = columnExpression;

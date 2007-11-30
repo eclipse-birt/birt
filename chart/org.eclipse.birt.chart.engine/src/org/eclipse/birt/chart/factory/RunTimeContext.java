@@ -17,6 +17,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.eclipse.birt.chart.computation.LegendLayoutHints;
+import org.eclipse.birt.chart.computation.withaxes.ScaleContext;
 import org.eclipse.birt.chart.device.IStructureDefinitionListener;
 import org.eclipse.birt.chart.event.EventObjectCache;
 import org.eclipse.birt.chart.event.StructureChangeEvent;
@@ -102,6 +103,11 @@ public final class RunTimeContext implements Serializable
 	 * Specifies if right-left mode is enabled.
 	 */
 	private int iRightToLeft = -1;
+
+	/**
+	 * Specified the shared context among multiple chart instances
+	 */
+	private transient ScaleContext sharedScale;
 
 	/**
 	 * A default zero-arg public constructor used for object creation.
@@ -528,5 +534,28 @@ public final class RunTimeContext implements Serializable
 			}
 		}
 
+	}
+
+	/**
+	 * Sets the shared scale
+	 * 
+	 * @param scale
+	 *            shared scale context
+	 * @since 2.3
+	 */
+	public void setScale( ScaleContext scale )
+	{
+		this.sharedScale = scale;
+	}
+
+	/**
+	 * Returns the shared scale
+	 * 
+	 * @return the shared scale context
+	 * @since 2.3
+	 */
+	public ScaleContext getScale( )
+	{
+		return this.sharedScale;
 	}
 }
