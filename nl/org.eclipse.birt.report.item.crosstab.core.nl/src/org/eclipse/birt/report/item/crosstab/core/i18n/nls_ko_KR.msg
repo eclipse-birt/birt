@@ -12,6 +12,7 @@ Element.PageBreakAfter=뒤에 페이지 나누기
 Element.SortDirection=정렬 방향
 Element.SortType=정렬화 형식
 Element.LevelView=수준 보기
+Element.DisplayField=Display Field
 Element.DimensionView=차원 보기
 Element.CrosstabView=크로스 탭 보기
 Element.Cube=큐브

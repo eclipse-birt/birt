@@ -12,6 +12,7 @@ Element.PageBreakAfter=Salto de página después
 Element.SortDirection=Dirección de orden
 Element.SortType=Clase de clasificación
 Element.LevelView=Visualización de niveles
+Element.DisplayField=Display Field
 Element.DimensionView=Visualización de dimensiones
 Element.CrosstabView=Visualización de tablas de referencias cruzadas
 Element.Cube=Cubo

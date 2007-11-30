@@ -12,6 +12,7 @@ Element.PageBreakAfter=段后分页
 Element.SortDirection=排序方向
 Element.SortType=排序类型
 Element.LevelView=级别视图
+Element.DisplayField=Display Field
 Element.DimensionView=维视图
 Element.CrosstabView=交叉表视图
 Element.Cube=多维数据集

@@ -12,6 +12,7 @@ Element.PageBreakAfter=Seitenumbruch nach
 Element.SortDirection=Sortierreihenfolge
 Element.SortType=Sortiertyp
 Element.LevelView=Ebenenansicht
+Element.DisplayField=Display Field
 Element.DimensionView=Dimensionsansicht
 Element.CrosstabView=Kreuztabellenansicht
 Element.Cube=Quader

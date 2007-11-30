@@ -12,6 +12,7 @@ Element.PageBreakAfter=次の後で改ページ
 Element.SortDirection=ソートの方向
 Element.SortType=ソート基準
 Element.LevelView=レベルビュー
+Element.DisplayField=Display Field
 Element.DimensionView=次元ビュー
 Element.CrosstabView=クロスタブビュー
 Element.Cube=キューブ
