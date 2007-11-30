@@ -29,10 +29,9 @@ public class BlankResultSet implements IQueryResultSet
 {
 
 	boolean hasNext = true;
-	IQueryResultSet rset;
-	public BlankResultSet(IQueryResultSet rset)
+
+	public BlankResultSet( )
 	{
-		this.rset = rset;
 	}
 	public BigDecimal getBigDecimal( String name ) throws BirtException
 	{
@@ -131,10 +130,6 @@ public class BlankResultSet implements IQueryResultSet
 
 	public void close( )
 	{
-		if (rset != null)
-		{
-			rset.close();
-		}
 	}
 
 	public Object evaluate( String expr ) throws BirtException

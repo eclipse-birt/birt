@@ -90,9 +90,29 @@ abstract public class QueryItemExecutor extends StyledItemExecutor
 		}
 	}
 
+	protected void processEmptyQuery( )
+	{
+		boolean showIfBlank = "true".equalsIgnoreCase( content.getStyle( )
+				.getShowIfBlank( ) );
+		closeResultSet( );
+		if ( showIfBlank )
+		{
+			createQueryForShowIfBlank( );
+		}
+	}
+
+	private void closeResultSet( )
+	{
+		if ( rset != null )
+		{
+			rset.close( );
+			this.rset = null;
+		}
+	}
+	
 	protected void createQueryForShowIfBlank( )
 	{
-		IQueryResultSet blankRset = new BlankResultSet( rset );
+		IQueryResultSet blankRset = new BlankResultSet( );
 		rset = blankRset;
 		context.setResultSet( rset );
 		rsetEmpty = false;

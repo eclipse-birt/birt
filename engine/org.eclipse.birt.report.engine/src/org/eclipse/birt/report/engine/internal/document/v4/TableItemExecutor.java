@@ -104,11 +104,9 @@ public class TableItemExecutor extends ListingElementExecutor
 		}
 		
 		//create an empty result set to handle the showIfBlank
-		boolean showIfBlank = "true".equalsIgnoreCase( content.getStyle( )
-				.getShowIfBlank( ) );
-		if ( showIfBlank && rsetEmpty )
+		if ( rsetEmpty )
 		{
-			createQueryForShowIfBlank( );
+			processEmptyQuery( );
 		}
 
 	}

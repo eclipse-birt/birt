@@ -40,13 +40,10 @@ public class ListItemExecutor extends ListingElementExecutor
 	{
 		executeQuery( );
 		
-		boolean showIfBlank = "true".equalsIgnoreCase( content.getStyle( )
-				.getShowIfBlank( ) );
-		if ( showIfBlank && rsetEmpty )
+		if ( rsetEmpty )
 		{
-			createQueryForShowIfBlank( );
+			processEmptyQuery( );
 		}
-
 	}
 
 	public void close( )
