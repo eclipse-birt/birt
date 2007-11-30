@@ -41,7 +41,7 @@ wizard.label.available=Disponible:
 wizard.label.selected=Seleccionado:
 wizard.label.dataSourceName=Nombre de fuente de datos:
 wizard.label.driverClass=&Clase de controlador:
-wizard.label.url=Base de datos de &URL:
+wizard.label.url=Driver &URL:
 wizard.label.username= N&ombre de usuario:
 wizard.label.password=&Contraseña:
 wizard.label.jndiname=&JNDI URL:
@@ -104,6 +104,7 @@ datasource.propertyPage.tooltip=Fuente de datos JDBC
 
 designer.preview.preference.resultset.previewpage.group.title=Página de vista previa
 designer.preview.preference.resultset.schemasPrefetchCheckbox.description=&Recuperación anticipada de todos los esquemas de la base de datos. 
+designer.preview.preference.resultset.showSystemPageCheckbox.description=&Show system tables in sql editor page
 designer.preview.preference.resultset.maxNoOfSchema.description=Número máximo de e&squemas que mostrar:
 designer.preview.preference.resultset.maxNoOfTable.description=Número máximo de &tablas de cada esquema que mostrar:
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=Introduzca un número entre 0 y {0} para el número máximo de esquemas.

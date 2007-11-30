@@ -41,7 +41,7 @@ wizard.label.available=사용 가능:
 wizard.label.selected=선택:
 wizard.label.dataSourceName=데이터 원본 이름
 wizard.label.driverClass=드라이버 클래스(&C):
-wizard.label.url=데이터베이스 URL(&U):
+wizard.label.url=Driver &URL:
 wizard.label.username=사용자 이름:(&A):
 wizard.label.password=암호(&P):
 wizard.label.jndiname=JNDI URL(&J):
@@ -104,6 +104,7 @@ datasource.propertyPage.tooltip=JDBC 데이터 원본
 
 designer.preview.preference.resultset.previewpage.group.title=미리 보기 페이지
 designer.preview.preference.resultset.schemasPrefetchCheckbox.description=데이터베이스의 모든 스키마를 선인출합니다(&P). 
+designer.preview.preference.resultset.showSystemPageCheckbox.description=&Show system tables in sql editor page
 designer.preview.preference.resultset.maxNoOfSchema.description=표시할 최대 스키마 수(&S):
 designer.preview.preference.resultset.maxNoOfTable.description=표시할 각 스키마의 최대 테이블 수(&T):
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=최대 스키마에 대해 0과 {0} 사이의 숫자를 입력하십시오.

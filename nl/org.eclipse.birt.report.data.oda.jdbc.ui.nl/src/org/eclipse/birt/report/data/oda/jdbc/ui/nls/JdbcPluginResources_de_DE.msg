@@ -41,7 +41,7 @@ wizard.label.available=Verfügbar:
 wizard.label.selected=Ausgewählt:
 wizard.label.dataSourceName=Datenquellname:
 wizard.label.driverClass=Treiber&klasse:
-wizard.label.url=Datenbank-&URL:
+wizard.label.url=Driver &URL:
 wizard.label.username=Benutzern&ame:
 wizard.label.password=&Kennwort:
 wizard.label.jndiname=&JNDI-URL:
@@ -104,6 +104,7 @@ datasource.propertyPage.tooltip=JDBC-Datenquelle
 
 designer.preview.preference.resultset.previewpage.group.title=Vorschauseite
 designer.preview.preference.resultset.schemasPrefetchCheckbox.description=Alle Schemata vorab aus Datenbank &abrufen 
+designer.preview.preference.resultset.showSystemPageCheckbox.description=&Show system tables in sql editor page
 designer.preview.preference.resultset.maxNoOfSchema.description=&Maximale Anzahl anzuzeigender Schemata:
 designer.preview.preference.resultset.maxNoOfTable.description=&Maximale Anzahl von Tabellen in den anzuzeigenden Schemata:
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=Geben Sie eine Zahl zwischen 0 und {0} an, um die maximale Anzahl an Schemata zu definieren.

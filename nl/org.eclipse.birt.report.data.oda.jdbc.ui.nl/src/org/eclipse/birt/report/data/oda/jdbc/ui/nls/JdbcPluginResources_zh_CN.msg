@@ -41,7 +41,7 @@ wizard.label.available=可用:
 wizard.label.selected=已选择:
 wizard.label.dataSourceName=数据源名称:
 wizard.label.driverClass=驱动程序类(&C):
-wizard.label.url=数据库 URL (&U):
+wizard.label.url=Driver &URL:
 wizard.label.username=用户名(&A):
 wizard.label.password=密码(&P):
 wizard.label.jndiname=JNDI URL(&J):
@@ -104,6 +104,7 @@ datasource.propertyPage.tooltip=JDBC 数据源
 
 designer.preview.preference.resultset.previewpage.group.title=预览页面
 designer.preview.preference.resultset.schemasPrefetchCheckbox.description=从数据库中预取所有架构(&P) 
+designer.preview.preference.resultset.showSystemPageCheckbox.description=&Show system tables in sql editor page
 designer.preview.preference.resultset.maxNoOfSchema.description=要显示的最大架构数(&S):
 designer.preview.preference.resultset.maxNoOfTable.description=每个架构中要显示的最大表数(&T):
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=请为最大架构数输入一个介于 0 和 {0} 之间的数。

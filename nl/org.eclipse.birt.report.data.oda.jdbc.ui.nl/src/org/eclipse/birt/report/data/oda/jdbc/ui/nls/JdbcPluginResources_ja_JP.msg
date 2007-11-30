@@ -41,7 +41,7 @@ wizard.label.available=使用可能 :
 wizard.label.selected=選択済み :
 wizard.label.dataSourceName=データソース名 :
 wizard.label.driverClass=ドライバクラス(&C) :
-wizard.label.url=データベースの URL(&U) :
+wizard.label.url=Driver &URL:
 wizard.label.username=ユーザ名(&A) :
 wizard.label.password=パスワード(&P) :
 wizard.label.jndiname=JNDI の URL(&J):
@@ -104,6 +104,7 @@ datasource.propertyPage.tooltip=JDBC データソース
 
 designer.preview.preference.resultset.previewpage.group.title=プレビューページ
 designer.preview.preference.resultset.schemasPrefetchCheckbox.description=事前にすべてのスキーマをデータベースからフェッチする(&P) 
+designer.preview.preference.resultset.showSystemPageCheckbox.description=&Show system tables in sql editor page
 designer.preview.preference.resultset.maxNoOfSchema.description=表示するスキーマの最大数(&S) :
 designer.preview.preference.resultset.maxNoOfTable.description=各スキーマに表示するテーブルの最大数(&T) :
 designer.preview.preference.resultset.maxNoOfSchema.errormessage=最大スキーマ数には、0 から {0} までの数を入力してください。
@@ -111,4 +112,3 @@ designer.preview.preference.resultset.maxNoOfTable.errormessage=各スキーマの最大
 designer.preview.preference.resultset.maxrow.description=表示するロウの最大数(&R) :
 designer.preview.preference.resultset.maxrow.errormessage=最大ロウ数には、1 から {0} までの数を入力してください。
 designer.preview.preference.resultset.sqldatasetpage.group.title=クエリページ
-
