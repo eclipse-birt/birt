@@ -27,21 +27,13 @@ public class CrosstabPlugin extends AbstractUIPlugin
 	public static final String ID = "org.eclipse.birt.report.item.crosstab.ui"; //$NON-NLS-1$
 
 	/** Preference ID */
-	public static final String PREFERENCE_FILTER_ROW_LIMIT = "Filter.Row.Limit"; //$NON-NLS-1$
-
-	public static final String PREFERENCE_FILTER_COLUMN_LIMIT = "Filter.Column.Limit"; //$NON-NLS-1$
-
-	public static final String PREFERENCE_VALUE_LIST_LIMIT = "Value.List.Limit"; //$NON-NLS-1$
+	public static final String PREFERENCE_FILTER_LIMIT = "Filter.Limit"; //$NON-NLS-1$
 
 	public static final String PREFERENCE_AUTO_DEL_BINDINGS = "Auto.Del.Bindings";
 
 	public static final String CUBE_BUILDER_WARNING_PREFERENCE = "org.eclipse.birt.report.designer.ui.cubebuilder.warning";
 
-	public static final int FILTER_ROW_LIMIT_DEFAULT = 100;
-
-	public static final int FILTER_COLUMN_LIMIT_DEFAULT = 100;
-
-	public static final int VALUE_LIST_LIMIT_DEFAULT = 100;
+	public static final int FILTER_LIMIT_DEFAULT = 100;
 
 	public static final boolean AUTO_DEL_BINDING_DEFAULT = true;
 
@@ -74,16 +66,7 @@ public class CrosstabPlugin extends AbstractUIPlugin
 
 		PreferenceFactory.getInstance( )
 				.getPreferences( CrosstabPlugin.getDefault( ) )
-				.setDefault( PREFERENCE_FILTER_ROW_LIMIT,
-						FILTER_ROW_LIMIT_DEFAULT );
-		PreferenceFactory.getInstance( )
-				.getPreferences( CrosstabPlugin.getDefault( ) )
-				.setDefault( PREFERENCE_FILTER_COLUMN_LIMIT,
-						FILTER_COLUMN_LIMIT_DEFAULT );
-		PreferenceFactory.getInstance( )
-				.getPreferences( CrosstabPlugin.getDefault( ) )
-				.setDefault( PREFERENCE_VALUE_LIST_LIMIT,
-						VALUE_LIST_LIMIT_DEFAULT );
+				.setDefault( PREFERENCE_FILTER_LIMIT, FILTER_LIMIT_DEFAULT );
 		PreferenceFactory.getInstance( )
 				.getPreferences( CrosstabPlugin.getDefault( ) )
 				.setDefault( PREFERENCE_AUTO_DEL_BINDINGS,

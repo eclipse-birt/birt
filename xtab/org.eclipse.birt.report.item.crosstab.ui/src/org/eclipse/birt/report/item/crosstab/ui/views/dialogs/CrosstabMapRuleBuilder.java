@@ -248,7 +248,7 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder
 		int MAX_COUNT = PreferenceFactory.getInstance( )
 				.getPreferences( CrosstabPlugin.getDefault( ),
 						UIUtil.getCurrentProject( ) )
-				.getInt( CrosstabPlugin.PREFERENCE_VALUE_LIST_LIMIT );
+				.getInt( CrosstabPlugin.PREFERENCE_FILTER_LIMIT );
 		while ( iter != null && iter.hasNext( ) )
 		{
 			Object obj = iter.next( );
