@@ -22,6 +22,7 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IReportItemPresentation;
+import org.eclipse.birt.report.engine.extension.IReportItemPresentationInfo;
 import org.eclipse.birt.report.engine.extension.IRowSet;
 import org.eclipse.birt.report.engine.extension.Size;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -37,7 +38,29 @@ public class ChartReportItemPresentationProxy
 {
 
 	private IReportItemPresentation impl;
+	private IReportItemPresentationInfo info;
+	
+	public void init( IReportItemPresentationInfo info )
+	{
+		if ( info != null )
+		{
+			throw new NullPointerException( );
+		}
 
+		this.info = info;
+		setActionHandler( info.getActionHandler( ) );
+		setApplicationClassLoader( info.getApplicationClassLoader( ) );
+		setDynamicStyle( info.getExtendedItemContent( ).getComputedStyle( ) );
+		setExtendedItemContent( info.getExtendedItemContent( ) );
+		setLocale( info.getReportContext( ).getLocale( ) );
+		setModelObject( info.getModelObject( ) );
+		setOutputFormat( info.getOutputFormat( ) );
+		setReportQueries( info.getReportQueries( ) );
+		setResolution( info.getResolution( ) );
+		setScriptContext( info.getReportContext( ) );
+		setSupportedImageFormats( info.getSupportedImageFormats( ) );
+	}
+	
 	private IReportItemPresentation createImpl( ExtendedItemHandle modelHandle )
 	{
 //		DesignElementHandle handle = modelHandle.getContainer( );
@@ -163,4 +186,8 @@ public class ChartReportItemPresentationProxy
 		
 	}
 
+	public IReportItemPresentationInfo getPresentationConfig( )
+	{
+		return info;
+	}
 }

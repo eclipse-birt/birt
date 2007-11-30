@@ -62,6 +62,7 @@ import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.extension.IReportItemPresentation;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
+import org.eclipse.birt.report.engine.extension.internal.ReportItemPresentationInfo;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -719,23 +720,18 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 				.getInstance( ).createPresentationItem( tagName );
 		if ( itemPresentation != null )
 		{
-			itemPresentation.setModelObject( handle );
-			itemPresentation.setApplicationClassLoader( context
-					.getApplicationClassLoader( ) );
-			itemPresentation.setScriptContext( context.getReportContext( ) );
-			IBaseQueryDefinition[] queries = (IBaseQueryDefinition[])design.getQueries( );
-			itemPresentation.setReportQueries( queries );
-			itemPresentation.setDynamicStyle( content.getComputedStyle( ) );
-			itemPresentation.setResolution( getChartResolution() );
-			itemPresentation.setLocale( locale );
-			itemPresentation.setExtendedItemContent( content );
+			IBaseQueryDefinition[] queries = (IBaseQueryDefinition[]) design
+					.getQueries( );
 
-			itemPresentation.setSupportedImageFormats( getChartFormats() ); // Default
+			ReportItemPresentationInfo info = new ReportItemPresentationInfo( );
+			info.setModelObject( handle );
+			info.setReportContext( context.getReportContext( ) );
+			info.setReportQueries( queries );
+			info.setResolution( getChartResolution( ) );
+			info.setExtendedItemContent( content );
+			info.setSupportedImageFormats( getChartFormats( ) );
 
-			itemPresentation.setActionHandler( context.getActionHandler( ) );
-			// value
-			String outputFormat = getOutputFormat( );
-			itemPresentation.setOutputFormat( outputFormat );
+			itemPresentation.init( info );
 
 			Object rawValue = content.getRawValue( );
 			if ( rawValue instanceof byte[] )

@@ -32,11 +32,28 @@ public class ReportItemGenerationBase implements IReportItemGeneration
 	protected IReportContext context;
 	protected IBaseQueryDefinition[] queries;
 	protected IContent content;
+	protected IReportItemGenerationInfo info;
+	
 	/**
 	 * Constructor that does nothing
 	 */
 	public ReportItemGenerationBase( )
 	{
+	}
+	
+	public void init( IReportItemGenerationInfo info )
+	{
+		if ( info != null )
+		{
+			throw new NullPointerException( );
+		}
+
+		this.info = info;
+		setApplicationClassLoader( info.getApplicationClassLoader( ) );
+		setExtendedItemContent( info.getExtendedItemContent( ) );
+		setModelObject( info.getModelObject( ) );
+		setReportQueries( info.getReportQueries( ) );
+		setScriptContext( info.getReportContext( ) );
 	}
 
 	/*
@@ -147,6 +164,11 @@ public class ReportItemGenerationBase implements IReportItemGeneration
 	public void setExtendedItemContent( IContent content )
 	{
 		this.content = content;
+	}
+
+	public IReportItemGenerationInfo getGenerationConfig( )
+	{
+		return info;
 	}
 
 }

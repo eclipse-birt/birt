@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -51,8 +51,15 @@ public interface IReportItemPresentation
 	public static int OUTPUT_AS_IMAGE_WITH_MAP = 6;
 
 	/**
+	 * @since BIRT 2.3
+	 * @param info Presentation info of report item
+	 */
+	public abstract void init( IReportItemPresentationInfo info );
+	
+	/**
 	 * passes a handle to the extended report item model to the extension
 	 * 
+	 * @deprecated implement #init(IReportItemPresentationInfo) instead
 	 * @param modelHandle
 	 *            a handle to the extended item model object
 	 */
@@ -61,6 +68,7 @@ public interface IReportItemPresentation
 	/**
 	 * passes the class loader used to load user defined classes.
 	 * 
+	 * @deprecated implement #init(IReportItemPresentationInfo) instead.
 	 * @param loader
 	 *            class loader used to load the classes
 	 */
@@ -69,12 +77,15 @@ public interface IReportItemPresentation
 	/**
 	 * pass the script context to the report item.
 	 * 
+	 * @deprecated implement #init(IReportItemPresentationInfo) instead.
 	 * @param context
 	 *            report context used by java-based script
 	 */
 	public abstract void setScriptContext( IReportContext context );
 
 	/**
+	 * @deprecated implement #init(IReportItemPresentationInfo) instead.
+	 * 
 	 * pass the prepared query definition to extended item implementation, so
 	 * that it can access data.
 	 */
@@ -83,6 +94,7 @@ public interface IReportItemPresentation
 	/**
 	 * passes the locale used in the presentation.
 	 * 
+	 * @deprecated implement #init(IReportItemPresentationInfo) instead.
 	 * @param locale
 	 *            locale
 	 */
@@ -92,6 +104,7 @@ public interface IReportItemPresentation
 	 * passes the dpi (dot per inch) from the rendering environment to the
 	 * extension. Mostly used for printing.
 	 * 
+	 * @deprecated implement #init(IReportItemPresentationInfo) instead.
 	 * @param dpi
 	 *            the dpi of the rendering environment
 	 */
@@ -100,12 +113,14 @@ public interface IReportItemPresentation
 	/**
 	 * sets the output format, i.e., HTML, PDF, etc.
 	 * 
+	 * @deprecated implement #init(IReportItemPresentationInfo) instead.
 	 * @param outputFormat
 	 *            the output format, i.e., html, pdf, etc.
 	 */
 	public abstract void setOutputFormat( String outputFormat );
 	
 	/**
+	 * @deprecated implement #init(IReportItemPresentationInfo) instead.
 	 * @param ah the HTML action handler used to create a URL based on an action
 	 */
 	public abstract void setActionHandler( IHTMLActionHandler ah );
@@ -120,6 +135,7 @@ public interface IReportItemPresentation
 	 * are separated by semi-colon. For example, the argument could be
 	 * JPG;PNG;BMP;SVG
 	 * 
+	 * @deprecated implement #init(IReportItemPresentationInfo) instead.
 	 * @param supportedImageFormats
 	 *            the image formats that the presentation engine could support.
 	 */
@@ -192,6 +208,7 @@ public interface IReportItemPresentation
 	public void finish( );
 
 	/**
+	 * @deprecated implement #init(IReportItemPresentationInfo) instead.
 	 * Set dynamic style.
 	 */
 	public void setDynamicStyle( IStyle style );
@@ -200,8 +217,11 @@ public interface IReportItemPresentation
 	 * Set the content which is transformed from extended item. Extended item
 	 * can process some properties itself, such as bookmark, style etc.
 	 * 
+	 * @deprecated implement #init(IReportItemPresentationInfo) instead.
 	 * @param content
 	 *            content which is transformed from extended item.
 	 */
 	public void setExtendedItemContent( IContent content );
+	
+	public IReportItemPresentationInfo getPresentationConfig( );
 }

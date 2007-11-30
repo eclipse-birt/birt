@@ -19,6 +19,7 @@ import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IReportItemGeneration;
+import org.eclipse.birt.report.engine.extension.IReportItemGenerationInfo;
 import org.eclipse.birt.report.engine.extension.IRowSet;
 import org.eclipse.birt.report.engine.extension.Size;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -32,7 +33,22 @@ public class ChartReportItemGenerationProxy implements IReportItemGeneration
 {
 
 	private IReportItemGeneration impl;
-
+	private IReportItemGenerationInfo info;
+	
+	public void init( IReportItemGenerationInfo info )
+	{
+		if ( info != null )
+		{
+			throw new NullPointerException( );
+		}
+		this.info = info;
+		setApplicationClassLoader( info.getApplicationClassLoader( ) );
+		setExtendedItemContent( info.getExtendedItemContent( ) );
+		setModelObject( info.getModelObject( ) );
+		setReportQueries( info.getReportQueries( ) );
+		setScriptContext( info.getReportContext( ) );
+	}
+	
 	private IReportItemGeneration createImpl( ExtendedItemHandle modelHandle )
 	{
 //		DesignElementHandle handle = modelHandle.getContainer( );
@@ -115,6 +131,11 @@ public class ChartReportItemGenerationProxy implements IReportItemGeneration
 		assert impl != null;
 		impl.setExtendedItemContent( content );
 		
+	}
+
+	public IReportItemGenerationInfo getGenerationConfig( )
+	{
+		return info;
 	}
 
 }

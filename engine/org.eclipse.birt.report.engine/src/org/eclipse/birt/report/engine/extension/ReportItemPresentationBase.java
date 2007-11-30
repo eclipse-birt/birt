@@ -31,7 +31,7 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
  */
 public class ReportItemPresentationBase implements IReportItemPresentation
 {
-
+	protected IReportItemPresentationInfo info;
 	protected ExtendedItemHandle modelHandle;
 	protected ClassLoader appClassLoader;
 	protected IReportContext context;
@@ -51,6 +51,28 @@ public class ReportItemPresentationBase implements IReportItemPresentation
 	{
 	}
 
+	public void init( IReportItemPresentationInfo info )
+	{
+		if ( info != null )
+		{
+			throw new NullPointerException( );
+		}
+
+		this.info = info;
+
+		setActionHandler( info.getActionHandler( ) );
+		setApplicationClassLoader( info.getApplicationClassLoader( ) );
+		setDynamicStyle( info.getExtendedItemContent( ).getComputedStyle( ) );
+		setExtendedItemContent( info.getExtendedItemContent( ) );
+		setLocale( info.getReportContext( ).getLocale( ) );
+		setModelObject( info.getModelObject( ) );
+		setOutputFormat( info.getOutputFormat( ) );
+		setReportQueries( info.getReportQueries( ) );
+		setResolution( info.getResolution( ) );
+		setScriptContext( info.getReportContext( ) );
+		setSupportedImageFormats( info.getSupportedImageFormats( ) );
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -229,5 +251,10 @@ public class ReportItemPresentationBase implements IReportItemPresentation
 	public void setExtendedItemContent( IContent content )
 	{
 		this.content = content;
+	}
+
+	public IReportItemPresentationInfo getPresentationConfig( )
+	{
+		return info;
 	}
 }

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -25,10 +25,15 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
  */
 public interface IReportItemGeneration
 {
+	/**
+	 * @since BIRT 2.3
+     */
+	public abstract void init(IReportItemGenerationInfo info);
 
 	/**
 	 * passes a handle to the extended report item model to the extension
 	 * 
+	 * @deprecated implement #init(IReportItemGenerationInfo) instead
 	 * @param modelHandle
 	 *            a handle to the extended item model object
 	 */
@@ -37,6 +42,7 @@ public interface IReportItemGeneration
 	/**
 	 * passes the class loader used to load user defined classes.
 	 * 
+	 * @deprecated implement #init(IReportItemGenerationInfo) instead
 	 * @param loader
 	 *            class loader used to load the classes
 	 */
@@ -45,6 +51,7 @@ public interface IReportItemGeneration
 	/**
 	 * pass the script context to the report item.
 	 * 
+	 * @deprecated implement #init(IReportItemGenerationInfo) instead
 	 * @param context
 	 *            report context used by java-based script
 	 */
@@ -53,6 +60,8 @@ public interface IReportItemGeneration
 	/**
 	 * pass the prepared query definition to extended item implementation, so
 	 * that it can access data.
+	 * 
+	 * @deprecated implement #init(IReportItemGenerationInfo) instead
 	 */
 	public void setReportQueries( IBaseQueryDefinition[] queries );
 
@@ -138,8 +147,11 @@ public interface IReportItemGeneration
 	 * Set the content which is transformed from extended item. Extended item
 	 * can process some properties itself, such as bookmark, style etc.
 	 * 
+	 * @deprecated implement #init(IReportItemGenerationInfo) instead
 	 * @param content
 	 *            content which is transformed from extended item.
 	 */
 	public void setExtendedItemContent( IContent content );
+	
+	public IReportItemGenerationInfo getGenerationConfig( );
 }

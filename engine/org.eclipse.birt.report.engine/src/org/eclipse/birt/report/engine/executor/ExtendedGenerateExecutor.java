@@ -30,6 +30,8 @@ import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.extension.IReportItemGeneration;
+import org.eclipse.birt.report.engine.extension.IReportItemGenerationInfo;
+import org.eclipse.birt.report.engine.extension.internal.ReportItemGenerationInfo;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -84,14 +86,16 @@ public class ExtendedGenerateExecutor extends QueryItemExecutor
 		byte[] generationStatus = null;
 		if ( itemGeneration != null )
 		{
-			itemGeneration.setModelObject( handle );
-			itemGeneration.setApplicationClassLoader( context
-					.getApplicationClassLoader( ) );
-			itemGeneration.setScriptContext( context.getReportContext( ) );
 			IBaseQueryDefinition[] queries = (IBaseQueryDefinition[]) ( (ExtendedItemDesign) item )
 					.getQueries( );
-			itemGeneration.setReportQueries( queries );
-			itemGeneration.setExtendedItemContent( content );
+
+			ReportItemGenerationInfo info = new ReportItemGenerationInfo( );
+			info.setModelObject( handle );
+			info.setReportContext( context.getReportContext( ) );
+			info.setReportQueries( queries );
+			info.setExtendedItemContent( content );
+			itemGeneration.init( info );
+			
 			try
 			{
 				IBaseResultSet[] resultSets = rsets;
