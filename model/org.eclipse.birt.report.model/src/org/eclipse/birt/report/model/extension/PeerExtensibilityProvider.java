@@ -39,7 +39,6 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionModelPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionPropertyDefn;
-import org.eclipse.birt.report.model.metadata.MethodInfo;
 import org.eclipse.birt.report.model.metadata.PeerExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.ReferenceValue;
@@ -161,6 +160,9 @@ public abstract class PeerExtensibilityProvider
 	public List getModelMethodDefns( )
 	{
 
+		// collect the methods defined in the extension plugin.xml, and
+		// extends from the Model element.
+
 		PeerExtensionElementDefn extDefn = (PeerExtensionElementDefn) getExtDefn( );
 		if ( extDefn == null )
 			return Collections.EMPTY_LIST;
@@ -171,23 +173,22 @@ public abstract class PeerExtensibilityProvider
 			methods.addAll( extDefn.getMethods( ) );
 
 		if ( reportItem == null )
-		{
-			reportItem = ( (ExtendedItem) this.element ).getExtendedElement( );
-		}
+			reportItem = ( (ExtendedItem) element ).getExtendedElement( );
+
 		if ( reportItem == null )
 			return methods;
 
-		IPropertyDefinition[] dynamicMethods = reportItem.getMethods( );
-		if ( dynamicMethods != null )
+		// collect the methods defined from the dynamic properties.
+
+		IPropertyDefinition[] dynamicProps = getExtensionModelPropertyDefns( );
+		if ( dynamicProps != null )
 		{
-			for ( int i = 0; i < dynamicMethods.length; i++ )
+			for ( int i = 0; i < dynamicProps.length; i++ )
 			{
-				IPropertyDefinition extProp = dynamicMethods[i];
-				MethodInfo methodInfo = (MethodInfo) extProp.getMethodInfo( );
-				ExtensionModelPropertyDefn modelPropDefn = new ExtensionModelPropertyDefn(
-						extProp, extDefn.getReportItemFactory( ).getMessages( ) );
-				modelPropDefn.setDetails( methodInfo );
-				methods.add( modelPropDefn );
+				IPropertyDefinition prop = dynamicProps[i];
+				if ( prop.getType( ) == IPropertyType.SCRIPT_TYPE )
+					methods.add( new ExtensionModelPropertyDefn( prop, extDefn
+							.getReportItemFactory( ).getMessages( ) ) );
 			}
 		}
 		return methods;
@@ -324,8 +325,8 @@ public abstract class PeerExtensibilityProvider
 
 	public void setExtensionProperty( ElementPropertyDefn prop, Object value )
 	{
-		if ( isExtensionXMLProperty( prop.getName( ) )
-				&& hasOwnModel( prop.getName( ) ) )
+		if ( isExtensionXMLProperty( prop.getName( ) ) &&
+				hasOwnModel( prop.getName( ) ) )
 		{
 			if ( reportItem != null )
 			{
@@ -438,8 +439,8 @@ public abstract class PeerExtensibilityProvider
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) localPropDefns
 					.get( i );
 
-			if ( propDefn.getTypeCode( ) != IPropertyType.XML_TYPE
-					|| !propDefn.canInherit( ) || !propDefn.hasOwnModel( ) )
+			if ( propDefn.getTypeCode( ) != IPropertyType.XML_TYPE ||
+					!propDefn.canInherit( ) || !propDefn.hasOwnModel( ) )
 				continue;
 
 			String propName = propDefn.getName( );
@@ -545,8 +546,8 @@ public abstract class PeerExtensibilityProvider
 		{
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) extDefn
 					.getProperty( propName );
-			if ( propDefn != null && propDefn.hasOwnModel( )
-					&& IPropertyType.XML_TYPE == propDefn.getTypeCode( ) )
+			if ( propDefn != null && propDefn.hasOwnModel( ) &&
+					IPropertyType.XML_TYPE == propDefn.getTypeCode( ) )
 				return true;
 		}
 
@@ -633,8 +634,8 @@ public abstract class PeerExtensibilityProvider
 			}
 
 			// copy encryption map
-			if ( source.encryptionMap != null
-					&& !source.encryptionMap.isEmpty( ) )
+			if ( source.encryptionMap != null &&
+					!source.encryptionMap.isEmpty( ) )
 			{
 				encryptionMap = new HashMap( );
 				encryptionMap.putAll( source.encryptionMap );
@@ -675,8 +676,8 @@ public abstract class PeerExtensibilityProvider
 
 	public boolean hasLocalPropertyValues( )
 	{
-		if ( !extensionPropValues.isEmpty( )
-				|| hasLocalPropertyValuesOnOwnModel( ) )
+		if ( !extensionPropValues.isEmpty( ) ||
+				hasLocalPropertyValuesOnOwnModel( ) )
 			return true;
 
 		return false;
@@ -707,8 +708,8 @@ public abstract class PeerExtensibilityProvider
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) localPropDefns
 					.get( i );
 
-			if ( propDefn.getTypeCode( ) != IPropertyType.XML_TYPE
-					|| !propDefn.canInherit( ) || !propDefn.hasOwnModel( ) )
+			if ( propDefn.getTypeCode( ) != IPropertyType.XML_TYPE ||
+					!propDefn.canInherit( ) || !propDefn.hasOwnModel( ) )
 				continue;
 
 			String propName = propDefn.getName( );
@@ -792,8 +793,8 @@ public abstract class PeerExtensibilityProvider
 	{
 		if ( propDefn == null || !propDefn.isEncryptable( ) )
 			return null;
-		if ( encryptionMap != null
-				&& encryptionMap.get( propDefn.getName( ) ) != null )
+		if ( encryptionMap != null &&
+				encryptionMap.get( propDefn.getName( ) ) != null )
 		{
 			String encryptionID = (String) encryptionMap.get( propDefn
 					.getName( ) );
@@ -849,7 +850,9 @@ public abstract class PeerExtensibilityProvider
 			DesignElement child );
 
 	/**
+	 * Returns the map for properties that has invalid values.
 	 * 
+	 * @return
 	 */
 	abstract public Map getInvalidPropertyValueMap( );
 
@@ -857,6 +860,7 @@ public abstract class PeerExtensibilityProvider
 	 * 
 	 * @return
 	 */
+
 	abstract public Map getUndefinedPropertyMap( );
 
 	/**
@@ -872,11 +876,11 @@ public abstract class PeerExtensibilityProvider
 	 */
 	public boolean needCheckCompatibility( )
 	{
-		if ( getInvalidPropertyValueMap( ) != null
-				&& !getInvalidPropertyValueMap( ).isEmpty( ) )
+		if ( getInvalidPropertyValueMap( ) != null &&
+				!getInvalidPropertyValueMap( ).isEmpty( ) )
 			return true;
-		if ( getUndefinedPropertyMap( ) != null
-				&& !getUndefinedPropertyMap( ).isEmpty( ) )
+		if ( getUndefinedPropertyMap( ) != null &&
+				!getUndefinedPropertyMap( ).isEmpty( ) )
 			return true;
 		if ( getIllegalContents( ) != null && !getIllegalContents( ).isEmpty( ) )
 			return true;

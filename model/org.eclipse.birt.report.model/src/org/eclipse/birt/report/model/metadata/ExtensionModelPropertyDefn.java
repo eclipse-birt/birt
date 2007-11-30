@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.api.extension.IPropertyDefinition;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
@@ -126,12 +127,10 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 
 	public IMethodInfo getMethodInfo( )
 	{
-		// TODO: till now, we will support the scripting type?
-		// if so, we will handle this in IPropertyDefinition
+		if ( type.getTypeCode( ) == IPropertyType.SCRIPT_TYPE )
+			return extProperty.getMethodInfo( );
 
-		return super.getMethodInfo( );
-
-		// return null;
+		return null;
 	}
 
 	/*
@@ -383,7 +382,6 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 		assert false;
 	}
 
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -439,23 +437,26 @@ public class ExtensionModelPropertyDefn extends ElementPropertyDefn
 		assert false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.metadata.IPropertyDefn#isReadOnly()
 	 */
-	
+
 	public boolean isReadOnly( )
 	{
 		return extProperty.isReadOnly( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.metadata.IPropertyDefn#isVisible()
 	 */
-	
+
 	public boolean isVisible( )
 	{
-		return extProperty.isVisible( ); 
+		return extProperty.isVisible( );
 	}
-	
-	
+
 }

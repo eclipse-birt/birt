@@ -91,6 +91,18 @@ public class ExtendedItem extends ReportItem
 	protected PeerExtensibilityProvider provider = null;
 
 	/**
+	 * The methods for the extension element.
+	 */
+	 
+	private List methods = null;
+
+	/**
+	 * PropertDefinitions of the extension element.
+	 */
+	 
+	private List props = null;
+
+	/**
 	 * Default constructor.
 	 */
 
@@ -249,7 +261,10 @@ public class ExtendedItem extends ReportItem
 
 	public List getPropertyDefns( )
 	{
-		return provider.getPropertyDefns( );
+		if ( props == null )
+			props = provider.getPropertyDefns( );
+
+		return props;
 	}
 
 	/**
@@ -420,7 +435,10 @@ public class ExtendedItem extends ReportItem
 	 */
 	public List getMethods( )
 	{
-		return provider.getModelMethodDefns( );
+		if ( methods == null )
+			methods = provider.getModelMethodDefns( );
+
+		return methods;
 	}
 
 	/**

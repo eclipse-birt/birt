@@ -55,6 +55,7 @@
             </footer>
             <property name="multiViews">
                 <multi-views id="26">
+                	<property name="index">0</property>
                     <property name="views">
                         <extended-item extensionName="TestingBox" name="box3" id="27"/>
                     </property>

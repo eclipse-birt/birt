@@ -1043,8 +1043,12 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 		assertEquals( "afterCloseDoc", ( (ElementPropertyDefn) methods //$NON-NLS-1$
 				.get( 0 ) ).getName( ) );
+		assertNotNull( ( (ElementPropertyDefn) methods.get( 0 ) )
+				.getMethodInfo( ) );
 		assertEquals( "test8", ( (ElementPropertyDefn) methods.get( 1 ) ) //$NON-NLS-1$
 				.getName( ) );
+		assertNotNull( ( (ElementPropertyDefn) methods.get( 1 ) )
+				.getMethodInfo( ) );
 		assertEquals( "onPrepare", ( (ElementPropertyDefn) methods.get( 2 ) ) //$NON-NLS-1$
 				.getName( ) );
 		assertEquals( "onCreate", ( (ElementPropertyDefn) methods.get( 3 ) ) //$NON-NLS-1$
@@ -1057,6 +1061,8 @@ public class ReportItemExtensionTest extends BaseTestCase
 				.get( 6 ) ).getName( ) );
 		assertEquals( "sencondMethod", ( (ElementPropertyDefn) methods //$NON-NLS-1$
 				.get( 7 ) ).getName( ) );
+		assertNotNull( ( (ElementPropertyDefn) methods.get( 7 ) )
+				.getMethodInfo( ) );
 
 		try
 		{

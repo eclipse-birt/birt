@@ -84,7 +84,8 @@ public class MultiViewParseTest extends ParserTestCase
 				.newExtendedItem( "box3", "TestingBox" ); //$NON-NLS-1$//$NON-NLS-2$
 
 		view2.add( MultiViewsHandle.VIEWS_PROP, box3 );
-
+		view2.setCurrentViewIndex( 0 );
+		
 		assertEquals( "firstDataSet", box3.getDataSet( ).getName( ) ); //$NON-NLS-1$
 
 		save( );
