@@ -96,6 +96,13 @@ public class NativeDateTimeSpanTest extends TestCase
 		}
 		return result;
 	}
+	
+	protected Calendar getCalendarInstance( )
+	{
+		Calendar cal = Calendar.getInstance( );
+		cal.clear( );
+		return cal;
+	}
 
 	public void testYears( )
 	{
@@ -379,16 +386,14 @@ public class NativeDateTimeSpanTest extends TestCase
 		/*
 		 * Use Date instance to test this method
 		 */
-		Calendar dateCal1 = Calendar.getInstance( );
-        dateCal1.clear();
+		Calendar dateCal1 = getCalendarInstance( );
 		dateCal1.set( 2008, 8, 13, 20, 1, 44 );
         
 		Date date1 = dateCal1.getTime( );
 		Object jsNumber1 = Context.javaToJS( date1, scope );
 		ScriptableObject.putProperty( scope, "date1", jsNumber1 );
 
-		dateCal1 = Calendar.getInstance( );
-        dateCal1.clear();
+		dateCal1 = getCalendarInstance( );
 		dateCal1.set( 2008, 8, 13, 21, 1, 44 );
 		Date date2 = dateCal1.getTime( );
 		Object jsNumber2 = Context.javaToJS( date2, scope );
@@ -407,13 +412,13 @@ public class NativeDateTimeSpanTest extends TestCase
 		/*
 		 * Just a whole hour, 60 minutes
 		 */
-		Calendar dateCal = Calendar.getInstance( );
+		Calendar dateCal = getCalendarInstance( );
 		dateCal.set( 2008, 8, 13, 20, 1, 44 );
 		Date date1 = dateCal.getTime( );
 		Object jsNumber1 = Context.javaToJS( date1, scope );
 		ScriptableObject.putProperty( scope, "date1", jsNumber1 );
 
-		dateCal = Calendar.getInstance( );
+		dateCal = getCalendarInstance( );
 		dateCal.set( 2008, 8, 13, 21, 1, 44 );
 		Date date2 = dateCal.getTime( );
 		Object jsNumber2 = Context.javaToJS( date2, scope );
@@ -426,13 +431,13 @@ public class NativeDateTimeSpanTest extends TestCase
 		/*
 		 * Just one second off an hour
 		 */
-		dateCal = Calendar.getInstance( );
+		dateCal = getCalendarInstance( );
 		dateCal.set( 2008, 8, 13, 20, 1, 45 );
 		Date date3 = dateCal.getTime( );
 		Object jsNumber3 = Context.javaToJS( date3, scope );
 		ScriptableObject.putProperty( scope, "date3", jsNumber3 );
 
-		dateCal = Calendar.getInstance( );
+		dateCal = getCalendarInstance( );
 		dateCal.set( 2008, 8, 13, 21, 1, 44 );
 		Date date4 = dateCal.getTime( );
 		Object jsNumber4 = Context.javaToJS( date4, scope );
@@ -445,13 +450,13 @@ public class NativeDateTimeSpanTest extends TestCase
 		/*
 		 * Just one second over an hour
 		 */
-		dateCal = Calendar.getInstance( );
+		dateCal = getCalendarInstance( );
 		dateCal.set( 2008, 8, 13, 20, 1, 45 );
 		Date date5 = dateCal.getTime( );
 		Object jsNumber5 = Context.javaToJS( date5, scope );
 		ScriptableObject.putProperty( scope, "date5", jsNumber5 );
 
-		dateCal = Calendar.getInstance( );
+		dateCal = getCalendarInstance( );
 		dateCal.set( 2008, 8, 13, 21, 2, 45 );
 		Date date6 = dateCal.getTime( );
 		Object jsNumber6 = Context.javaToJS( date6, scope );
@@ -464,13 +469,13 @@ public class NativeDateTimeSpanTest extends TestCase
 		/*
 		 * In leap year
 		 */
-		dateCal = Calendar.getInstance( );
+		dateCal = getCalendarInstance( );
 		dateCal.set( 2008, 1, 28, 20, 1, 45 );
 		Date date7 = dateCal.getTime( );
 		Object jsNumber7 = Context.javaToJS( date7, scope );
 		ScriptableObject.putProperty( scope, "date7", jsNumber7 );
 
-		dateCal = Calendar.getInstance( );
+		dateCal = getCalendarInstance( );
 		dateCal.set( 2008, 2, 1, 20, 2, 45 );
 		Date date8 = dateCal.getTime( );
 		Object jsNumber8 = Context.javaToJS( date8, scope );
@@ -483,13 +488,13 @@ public class NativeDateTimeSpanTest extends TestCase
 		/*
 		 * In the same hour, and the first minute is more than the second one.
 		 */
-		dateCal = Calendar.getInstance( );
+		dateCal = getCalendarInstance( );
 		dateCal.set( 2008, 1, 28, 20, 4, 45 );
 		Date date9 = dateCal.getTime( );
 		Object jsNumber9 = Context.javaToJS( date9, scope );
 		ScriptableObject.putProperty( scope, "date9", jsNumber9 );
 
-		dateCal = Calendar.getInstance( );
+		dateCal = getCalendarInstance( );
 		dateCal.set( 2008, 1, 28, 21, 2, 45 );
 		Date date10 = dateCal.getTime( );
 		Object jsNumber10 = Context.javaToJS( date10, scope );
@@ -501,13 +506,13 @@ public class NativeDateTimeSpanTest extends TestCase
 		/*
 		 * In the same hour, and the first hour is more than the second one.
 		 */
-		dateCal = Calendar.getInstance( );
+		dateCal = getCalendarInstance( );
 		dateCal.set( 2007, 12, 31, 20, 4, 45 );
 		Date date11 = dateCal.getTime( );
 		Object jsNumber11 = Context.javaToJS( date11, scope );
 		ScriptableObject.putProperty( scope, "date11", jsNumber11 );
 
-		dateCal = Calendar.getInstance( );
+		dateCal = getCalendarInstance( );
 		dateCal.set( 2008, 1, 1, 16, 2, 45 );
 		Date date12 = dateCal.getTime( );
 		Object jsNumber12 = Context.javaToJS( date12, scope );
@@ -524,13 +529,13 @@ public class NativeDateTimeSpanTest extends TestCase
 		/*
 		 * Just one second.
 		 */
-		Calendar dateCal = Calendar.getInstance( );
+		Calendar dateCal = getCalendarInstance( );
 		dateCal.set( 2008, 8, 13, 20, 1, 44 );
 		Date date1 = dateCal.getTime( );
 		Object jsNumber1 = Context.javaToJS( date1, scope );
 		ScriptableObject.putProperty( scope, "date1", jsNumber1 );
 
-		dateCal = Calendar.getInstance( );
+		dateCal = getCalendarInstance( );
 		dateCal.set( 2008, 8, 13, 20, 1, 45 );
 		Date date2 = dateCal.getTime( );
 		Object jsNumber2 = Context.javaToJS( date2, scope );
@@ -543,13 +548,13 @@ public class NativeDateTimeSpanTest extends TestCase
 		/*
 		 * Just one second off one minute
 		 */
-		dateCal = Calendar.getInstance( );
+		dateCal = getCalendarInstance( );
 		dateCal.set( 2008, 8, 13, 20, 1, 45 );
 		Date date3 = dateCal.getTime( );
 		Object jsNumber3 = Context.javaToJS( date3, scope );
 		ScriptableObject.putProperty( scope, "date3", jsNumber3 );
 
-		dateCal = Calendar.getInstance( );
+		dateCal = getCalendarInstance( );
 		dateCal.set( 2008, 8, 13, 20, 2, 44 );
 		Date date4 = dateCal.getTime( );
 		Object jsNumber4 = Context.javaToJS( date4, scope );
@@ -562,13 +567,13 @@ public class NativeDateTimeSpanTest extends TestCase
 		/*
 		 * Just one second over one minute
 		 */
-		dateCal = Calendar.getInstance( );
+		dateCal = getCalendarInstance( );
 		dateCal.set( 2008, 8, 13, 20, 1, 45 );
 		Date date5 = dateCal.getTime( );
 		Object jsNumber5 = Context.javaToJS( date5, scope );
 		ScriptableObject.putProperty( scope, "date5", jsNumber5 );
 
-		dateCal = Calendar.getInstance( );
+		dateCal = getCalendarInstance( );
 		dateCal.set( 2008, 8, 13, 20, 2, 46 );
 		Date date6 = dateCal.getTime( );
 		Object jsNumber6 = Context.javaToJS( date6, scope );
@@ -581,13 +586,13 @@ public class NativeDateTimeSpanTest extends TestCase
 		/*
 		 * In leap year
 		 */
-		dateCal = Calendar.getInstance( );
+		dateCal = getCalendarInstance( );
 		dateCal.set( 2008, 1, 28, 20, 1, 45 );
 		Date date7 = dateCal.getTime( );
 		Object jsNumber7 = Context.javaToJS( date7, scope );
 		ScriptableObject.putProperty( scope, "date7", jsNumber7 );
 
-		dateCal = Calendar.getInstance( );
+		dateCal = getCalendarInstance( );
 		dateCal.set( 2008, 2, 1, 20, 1, 45 );
 		Date date8 = dateCal.getTime( );
 		Object jsNumber8 = Context.javaToJS( date8, scope );
@@ -600,13 +605,13 @@ public class NativeDateTimeSpanTest extends TestCase
 		/*
 		 * In the same hour, and the first second is more than the second one.
 		 */
-		dateCal = Calendar.getInstance( );
+		dateCal = getCalendarInstance( );
 		dateCal.set( 2008, 1, 28, 20, 6, 45 );
 		Date date9 = dateCal.getTime( );
 		Object jsNumber9 = Context.javaToJS( date9, scope );
 		ScriptableObject.putProperty( scope, "date9", jsNumber9 );
 
-		dateCal = Calendar.getInstance( );
+		dateCal = getCalendarInstance( );
 		dateCal.set( 2008, 1, 28, 21, 5, 40 );
 		Date date10 = dateCal.getTime( );
 		Object jsNumber10 = Context.javaToJS( date10, scope );
@@ -627,7 +632,7 @@ public class NativeDateTimeSpanTest extends TestCase
 		Object value1 = eval( script1 );
 		if ( value1 instanceof Date )
 		{
-			Calendar cal = Calendar.getInstance( );
+			Calendar cal = getCalendarInstance( );
 			cal.setTime( (Date) value1 );
 			assertEquals( 2009, cal.get( Calendar.YEAR ) );
 			assertEquals( 1, cal.get( Calendar.MONTH ) );
@@ -638,7 +643,7 @@ public class NativeDateTimeSpanTest extends TestCase
 		/*
 		 * Use Date instance to test this method.
 		 */
-		Calendar dateCal = Calendar.getInstance( );
+		Calendar dateCal = getCalendarInstance( );
 		dateCal.set( 2008, 8, 13, 20, 1, 44 );
 		Date date1 = dateCal.getTime( );
 		Object jsNumber1 = Context.javaToJS( date1, scope );
@@ -647,7 +652,7 @@ public class NativeDateTimeSpanTest extends TestCase
 		Object value2 = eval( script2 );
 		if ( value2 instanceof Date )
 		{
-			Calendar cal = Calendar.getInstance( );
+			Calendar cal = getCalendarInstance( );
 			cal.setTime( (Date) value2 );
 			assertEquals( 2009, cal.get( Calendar.YEAR ) );
 			assertEquals( 8, cal.get( Calendar.MONTH ) );
@@ -664,7 +669,7 @@ public class NativeDateTimeSpanTest extends TestCase
 		Object value3 = eval( script3 );
 		if ( value3 instanceof Date )
 		{
-			Calendar cal = Calendar.getInstance( );
+			Calendar cal = getCalendarInstance( );
 			cal.setTime( (Date) value3 );
 			assertEquals( 2009, cal.get( Calendar.YEAR ) );
 			assertEquals( 1, cal.get( Calendar.MONTH ) );
@@ -682,7 +687,7 @@ public class NativeDateTimeSpanTest extends TestCase
 		Object value4 = eval( script4 );
 		if ( value3 instanceof Date )
 		{
-			Calendar cal = Calendar.getInstance( );
+			Calendar cal = getCalendarInstance( );
 			cal.setTime( (Date) value4 );
 			assertEquals( 2007, cal.get( Calendar.YEAR ) );
 			assertEquals( 1, cal.get( Calendar.MONTH ) );
@@ -704,7 +709,7 @@ public class NativeDateTimeSpanTest extends TestCase
 		Object value8 = eval( script8 );
 		if ( value5 instanceof Date )
 		{
-			Calendar cal = Calendar.getInstance( );
+			Calendar cal = getCalendarInstance( );
 			cal.setTime( (Date) value5 );
 			assertEquals( 2005, cal.get( Calendar.YEAR ) );
 			assertEquals( 11, cal.get( Calendar.MONTH ) );
@@ -713,7 +718,7 @@ public class NativeDateTimeSpanTest extends TestCase
 		}
 		if ( value6 instanceof Date )
 		{
-			Calendar cal = Calendar.getInstance( );
+			Calendar cal = getCalendarInstance( );
 			cal.setTime( (Date) value6 );
 			assertEquals( 2005, cal.get( Calendar.YEAR ) );
 			assertEquals( 0, cal.get( Calendar.MONTH ) );
@@ -722,7 +727,7 @@ public class NativeDateTimeSpanTest extends TestCase
 		}
 		if ( value7 instanceof Date )
 		{
-			Calendar cal = Calendar.getInstance( );
+			Calendar cal = getCalendarInstance( );
 			cal.setTime( (Date) value7 );
 			assertEquals( 2005, cal.get( Calendar.YEAR ) );
 			assertEquals( 0, cal.get( Calendar.MONTH ) );
@@ -731,7 +736,7 @@ public class NativeDateTimeSpanTest extends TestCase
 		}
 		if ( value8 instanceof Date )
 		{
-			Calendar cal = Calendar.getInstance( );
+			Calendar cal = getCalendarInstance( );
 			cal.setTime( (Date) value8 );
 			assertEquals( 2006, cal.get( Calendar.YEAR ) );
 			assertEquals( 1, cal.get( Calendar.MONTH ) );
@@ -746,7 +751,7 @@ public class NativeDateTimeSpanTest extends TestCase
 		Object value9 = eval( script9 );
 		if ( value9 instanceof Date )
 		{
-			Calendar cal = Calendar.getInstance( );
+			Calendar cal = getCalendarInstance( );
 			cal.setTime( (Date) value9 );
 			assertEquals( 2005, cal.get( Calendar.YEAR ) );
 			assertEquals( 11, cal.get( Calendar.MONTH ) );
@@ -758,7 +763,7 @@ public class NativeDateTimeSpanTest extends TestCase
 
 	public void testAddTime( )
 	{
-		Calendar dateCal = Calendar.getInstance( );
+		Calendar dateCal = getCalendarInstance( );
 		dateCal.set( 2008, 8, 13, 20, 1, 44 );
 		Date date1 = dateCal.getTime( );
 		Object jsNumber1 = Context.javaToJS( date1, scope );
@@ -767,7 +772,7 @@ public class NativeDateTimeSpanTest extends TestCase
 		Object value1 = eval( script1 );
 		if ( value1 instanceof Date )
 		{
-			Calendar cal = Calendar.getInstance( );
+			Calendar cal = getCalendarInstance( );
 			cal.setTime( (Date) value1 );
 			assertEquals( 2008, cal.get( Calendar.YEAR ) );
 			assertEquals( 8, cal.get( Calendar.MONTH ) );
@@ -785,7 +790,7 @@ public class NativeDateTimeSpanTest extends TestCase
 		Object value2 = eval( script2 );
 		if ( value2 instanceof Date )
 		{
-			Calendar cal = Calendar.getInstance( );
+			Calendar cal = getCalendarInstance( );
 			cal.setTime( (Date) value2 );
 			assertEquals( 2008, cal.get( Calendar.YEAR ) );
 			assertEquals( 8, cal.get( Calendar.MONTH ) );
@@ -802,7 +807,7 @@ public class NativeDateTimeSpanTest extends TestCase
 		Object value3 = eval( script3 );
 		if ( value3 instanceof Date )
 		{
-			Calendar cal = Calendar.getInstance( );
+			Calendar cal = getCalendarInstance( );
 			cal.setTime( (Date) value3 );
 			assertEquals( 2008, cal.get( Calendar.YEAR ) );
 			assertEquals( 8, cal.get( Calendar.MONTH ) );
@@ -817,7 +822,7 @@ public class NativeDateTimeSpanTest extends TestCase
 		Object value4 = eval( script4 );
 		if ( value4 instanceof Date )
 		{
-			Calendar cal = Calendar.getInstance( );
+			Calendar cal = getCalendarInstance( );
 			cal.setTime( (Date) value4 );
 			assertEquals( 2008, cal.get( Calendar.YEAR ) );
 			assertEquals( 8, cal.get( Calendar.MONTH ) );
@@ -835,7 +840,7 @@ public class NativeDateTimeSpanTest extends TestCase
 		Object value5 = eval( script5 );
 		if ( value5 instanceof Date )
 		{
-			Calendar cal = Calendar.getInstance( );
+			Calendar cal = getCalendarInstance( );
 			cal.setTime( (Date) value5 );
 			assertEquals( 2008, cal.get( Calendar.YEAR ) );
 			assertEquals( 8, cal.get( Calendar.MONTH ) );
@@ -850,7 +855,7 @@ public class NativeDateTimeSpanTest extends TestCase
 		Object value6 = eval( script6 );
 		if ( value6 instanceof Date )
 		{
-			Calendar cal = Calendar.getInstance( );
+			Calendar cal = getCalendarInstance( );
 			cal.setTime( (Date) value6 );
 			assertEquals( 2008, cal.get( Calendar.YEAR ) );
 			assertEquals( 8, cal.get( Calendar.MONTH ) );
@@ -872,7 +877,7 @@ public class NativeDateTimeSpanTest extends TestCase
 		Object value1 = eval( script1 );
 		if ( value1 instanceof Date )
 		{
-			Calendar cal = Calendar.getInstance( );
+			Calendar cal = getCalendarInstance( );
 			cal.setTime( (Date) value1 );
 			assertEquals( 2007, cal.get( Calendar.YEAR ) );
 			assertEquals( 1, cal.get( Calendar.MONTH ) );
@@ -883,7 +888,7 @@ public class NativeDateTimeSpanTest extends TestCase
 		/*
 		 * Use Date instance to test this method.
 		 */
-		Calendar dateCal = Calendar.getInstance( );
+		Calendar dateCal = getCalendarInstance( );
 		dateCal.set( 2008, 8, 13, 20, 1, 44 );
 		Date date1 = dateCal.getTime( );
 		Object jsNumber1 = Context.javaToJS( date1, scope );
@@ -892,7 +897,7 @@ public class NativeDateTimeSpanTest extends TestCase
 		Object value2 = eval( script2 );
 		if ( value2 instanceof Date )
 		{
-			Calendar cal = Calendar.getInstance( );
+			Calendar cal = getCalendarInstance( );
 			cal.setTime( (Date) value2 );
 			assertEquals( 2007, cal.get( Calendar.YEAR ) );
 			assertEquals( 8, cal.get( Calendar.MONTH ) );
@@ -909,7 +914,7 @@ public class NativeDateTimeSpanTest extends TestCase
 		Object value3 = eval( script3 );
 		if ( value3 instanceof Date )
 		{
-			Calendar cal = Calendar.getInstance( );
+			Calendar cal = getCalendarInstance( );
 			cal.setTime( (Date) value3 );
 			assertEquals( 2007, cal.get( Calendar.YEAR ) );
 			assertEquals( 1, cal.get( Calendar.MONTH ) );
@@ -927,7 +932,7 @@ public class NativeDateTimeSpanTest extends TestCase
 		Object value4 = eval( script4 );
 		if ( value3 instanceof Date )
 		{
-			Calendar cal = Calendar.getInstance( );
+			Calendar cal = getCalendarInstance( );
 			cal.setTime( (Date) value4 );
 			assertEquals( 2007, cal.get( Calendar.YEAR ) );
 			assertEquals( 1, cal.get( Calendar.MONTH ) );
@@ -938,7 +943,7 @@ public class NativeDateTimeSpanTest extends TestCase
 
 	public void testSubTime( )
 	{
-		Calendar dateCal = Calendar.getInstance( );
+		Calendar dateCal = getCalendarInstance( );
 		dateCal.set( 2008, 8, 13, 20, 1, 44 );
 		Date date1 = dateCal.getTime( );
 		Object jsNumber1 = Context.javaToJS( date1, scope );
@@ -947,7 +952,7 @@ public class NativeDateTimeSpanTest extends TestCase
 		Object value1 = eval( script1 );
 		if ( value1 instanceof Date )
 		{
-			Calendar cal = Calendar.getInstance( );
+			Calendar cal = getCalendarInstance( );
 			cal.setTime( (Date) value1 );
 			assertEquals( 2008, cal.get( Calendar.YEAR ) );
 			assertEquals( 8, cal.get( Calendar.MONTH ) );
@@ -965,7 +970,7 @@ public class NativeDateTimeSpanTest extends TestCase
 		Object value2 = eval( script2 );
 		if ( value2 instanceof Date )
 		{
-			Calendar cal = Calendar.getInstance( );
+			Calendar cal = getCalendarInstance( );
 			cal.setTime( (Date) value2 );
 			assertEquals( 2008, cal.get( Calendar.YEAR ) );
 			assertEquals( 8, cal.get( Calendar.MONTH ) );
@@ -983,7 +988,7 @@ public class NativeDateTimeSpanTest extends TestCase
 		Object value5 = eval( script5 );
 		if ( value5 instanceof Date )
 		{
-			Calendar cal = Calendar.getInstance( );
+			Calendar cal = getCalendarInstance( );
 			cal.setTime( (Date) value5 );
 			assertEquals( 2008, cal.get( Calendar.YEAR ) );
 			assertEquals( 8, cal.get( Calendar.MONTH ) );
@@ -998,7 +1003,7 @@ public class NativeDateTimeSpanTest extends TestCase
 		Object value6 = eval( script6 );
 		if ( value6 instanceof Date )
 		{
-			Calendar cal = Calendar.getInstance( );
+			Calendar cal = getCalendarInstance( );
 			cal.setTime( (Date) value6 );
 			assertEquals( 2008, cal.get( Calendar.YEAR ) );
 			assertEquals( 8, cal.get( Calendar.MONTH ) );
