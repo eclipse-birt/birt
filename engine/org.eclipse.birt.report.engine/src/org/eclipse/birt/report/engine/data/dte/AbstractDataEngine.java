@@ -191,7 +191,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 	/*
 	 * @see org.eclipse.birt.report.engine.data.IDataEngine#execute(org.eclipse.birt.data.engine.api.IBaseQueryDefinition)
 	 */
-	public IBaseResultSet execute( IDataQueryDefinition query )
+	public IBaseResultSet execute( IDataQueryDefinition query ) throws BirtException
 	{
 		return execute( null, query, false );
 	}
@@ -201,7 +201,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 	 *      org.eclipse.birt.data.engine.api.IBaseQueryDefinition)
 	 */
 	public IBaseResultSet execute( IBaseResultSet parent,
-			IDataQueryDefinition query, boolean useCache )
+			IDataQueryDefinition query, boolean useCache ) throws BirtException
 	{
 		// FIXME: DTE may provide an API to get the query type.
 		if ( query instanceof ISubqueryDefinition )
@@ -230,8 +230,8 @@ public abstract class AbstractDataEngine implements IDataEngine
 			return doExecuteCube( parent, (ICubeQueryDefinition) query,
 					useCache );
 		}
-		//FIXME: code review. throw exception, "Unsupport query"
-		return null;
+		throw new EngineException( "Unsupported query type "
+				+ query.getClass( ).getName( ) );
 	}
 
 	abstract protected IBaseResultSet doExecuteQuery( IBaseResultSet parent,
@@ -247,7 +247,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 	 * @return
 	 */
 	protected IBaseResultSet doExecuteSubQuery( IQueryResultSet parent,
-			ISubqueryDefinition subQuery )
+			ISubqueryDefinition subQuery ) throws BirtException
 	{
 		// Extension Item may used to create the query stack, so we must do
 		// error handling.
@@ -269,8 +269,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 		catch ( BirtException e )
 		{
 			logger.log( Level.SEVERE, e.getMessage( ), e );
-			context.addException( e );
-			return null;
+			throw e;
 		}
 	}
 

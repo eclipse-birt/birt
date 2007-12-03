@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.data;
 
 import java.util.Map;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
@@ -67,7 +68,7 @@ public interface IDataEngine
 	 *            query to be executed
 	 * @return IResultSet object or null if the query is null
 	 */
-	IBaseResultSet execute( IDataQueryDefinition query );
+	IBaseResultSet execute( IDataQueryDefinition query ) throws BirtException;
 	
 	/**
 	 * execute the query in the parent result
@@ -76,7 +77,7 @@ public interface IDataEngine
 	 * @return result.
 	 */
 	IBaseResultSet execute( IBaseResultSet parent, IDataQueryDefinition query,
-			boolean useCache );
+			boolean useCache ) throws BirtException;
 
 	/**
 	 * shut down the data engine

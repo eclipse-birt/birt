@@ -11,15 +11,19 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IExecutorContext;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.AutoTextItemDesign;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
@@ -400,10 +404,20 @@ public class ExecutorManager
 						useCache = true;
 					}
 				}
-				IBaseResultSet rset = dataEngine.execute( parent, query,
-						useCache );
-				context.setResultSet( rset );
-				return rset;
+				try
+				{
+					IBaseResultSet rset = dataEngine.execute( parent, query,
+							useCache );
+					context.setResultSet( rset );
+					return rset;
+				}
+				catch ( BirtException ex )
+				{
+					log.log( Level.SEVERE, ex.getMessage( ), ex );
+					context.addException( new EngineException( ex
+							.getLocalizedMessage( ), ex ) );
+					return null;
+				}
 			}
 			return null;
 		}

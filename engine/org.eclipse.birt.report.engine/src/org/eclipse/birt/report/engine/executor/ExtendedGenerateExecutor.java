@@ -60,7 +60,17 @@ public class ExtendedGenerateExecutor extends QueryItemExecutor
 		IForeignContent extContent = report.createForeignContent( );
 		setContent( extContent );
 
-		executeQueries( );
+		try
+		{
+			executeQueries( );
+		}
+		catch ( BirtException ex )
+		{
+			logger.log( Level.SEVERE, ex.getMessage( ), ex );
+			context.addException( design.getHandle( ), new EngineException( ex
+					.getLocalizedMessage( ), ex ) );
+			return null;
+		}
 		
 		initializeContent( extDesign, extContent );
 
@@ -178,7 +188,7 @@ public class ExtendedGenerateExecutor extends QueryItemExecutor
 		return out.toByteArray( );
 	}
 
-	protected void executeQueries( )
+	protected void executeQueries( ) throws BirtException
 	{
 		ExtendedItemDesign extItem = (ExtendedItemDesign) design;
 		IDataEngine dataEngine = context.getDataEngine( );
