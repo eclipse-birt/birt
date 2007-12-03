@@ -38,13 +38,13 @@ public class UnitPropertyDescriptorProvider extends PropertyDescriptorProvider
 
 	public String[] getUnitItems( )
 	{
-		return ChoiceSetFactory.getDisplayNamefromChoiceSet( ChoiceSetFactory.getElementChoiceSet( getElement( ),
+		return ChoiceSetFactory.getDisplayNamefromChoiceSet( ChoiceSetFactory.getDimensionChoiceSet( getElement( ),
 				getProperty( ) ) );
 	}
 
 	public String getUnitName( String key )
 	{
-		IChoice choice = ChoiceSetFactory.getElementChoiceSet( getElement( ),
+		IChoice choice = ChoiceSetFactory.getDimensionChoiceSet( getElement( ),
 				getProperty( ) ).findChoiceByDisplayName( key );
 		if ( choice == null )
 		{
@@ -55,7 +55,7 @@ public class UnitPropertyDescriptorProvider extends PropertyDescriptorProvider
 	
 	public String getUnitDisplayName( String key )
 	{
-		IChoice choice = ChoiceSetFactory.getElementChoiceSet( getElement( ),
+		IChoice choice = ChoiceSetFactory.getDimensionChoiceSet( getElement( ),
 				getProperty( ) ).findChoice( key );
 		if ( choice == null )
 		{
@@ -77,7 +77,7 @@ public class UnitPropertyDescriptorProvider extends PropertyDescriptorProvider
 
 	public boolean validateDimensionValue( String value,String unit )
 	{
-		String unitValue = ChoiceSetFactory.getElementChoiceSet( getElement( ),
+		String unitValue = ChoiceSetFactory.getDimensionChoiceSet( getElement( ),
 				getProperty( ) )
 				.findChoiceByDisplayName( unit ).getName( );
 
@@ -124,7 +124,7 @@ public class UnitPropertyDescriptorProvider extends PropertyDescriptorProvider
 		{
 			if ( !StringUtil.isBlank( unit ) )
 			{
-				unit = ChoiceSetFactory.getElementChoiceSet( getElement( ),
+				unit = ChoiceSetFactory.getDimensionChoiceSet( getElement( ),
 						getProperty( ) ).findChoice( unit ).getDisplayName( );
 			}
 			return unit;

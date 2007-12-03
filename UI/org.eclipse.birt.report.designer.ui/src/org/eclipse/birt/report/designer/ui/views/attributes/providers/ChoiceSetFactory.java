@@ -151,11 +151,7 @@ public class ChoiceSetFactory
 		IElementPropertyDefn propertyDefn = DEUtil.getMetaDataDictionary( )
 				.getElement( elementName )
 				.getProperty( property );
-		// if ( propertyDefn.getTypeCode( ) == IPropertyType.DIMENSION_TYPE
-		// && propertyDefn.getAllowedChoices( ) != null )
-		// {
-		// return propertyDefn.getAllowedChoices( );
-		// }
+		
 		return propertyDefn.getAllowedChoices( );
 	}
 
@@ -177,7 +173,7 @@ public class ChoiceSetFactory
 				.getProperty( property );
 		if ( propertyDefn.getTypeCode( ) == IPropertyType.DIMENSION_TYPE )
 		{
-			return propertyDefn.getAllowedChoices( );
+			return propertyDefn.getAllowedUnits( );
 		}
 		return null;
 	}
