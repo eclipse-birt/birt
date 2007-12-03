@@ -414,9 +414,8 @@ public class PeerExtensionLoader extends ExtensionLoader
 			if ( !checkRequiredAttribute( PROPERTY_NAME_ATTRIB, name ) )
 				return;
 
-			String units = elementTag.getAttribute( ALLOWEDCHOICES_ATTRIB );
-			if ( units == null )
-				units = elementTag.getAttribute( ALLOWEDUNITS_ATTRIB );
+			String units = elementTag.getAttribute( ALLOWEDUNITS_ATTRIB );
+			String choices = elementTag.getAttribute( ALLOWEDCHOICES_ATTRIB );
 
 			boolean useOwnModel = getBooleanAttrib( elementTag,
 					USEOWNMODEL_ATTRIB, false );
@@ -425,7 +424,8 @@ public class PeerExtensionLoader extends ExtensionLoader
 			if ( useOwnModel )
 				propInfo.setUseOwnModel( useOwnModel );
 			propInfo.setAllowedUnits( units );
-
+			propInfo.setAllowedChoices( choices );
+			
 			elementDefn.setOverridePropertyInfo( name, propInfo );
 		}
 

@@ -21,6 +21,7 @@ public class OverridePropertyInfo
 {
 	private String allowedUnits = null;
 	private boolean useOwnModel = false;
+	private String allowedChoices = null;
 	
 	/**
 	 * Get allowedUnits.
@@ -41,6 +42,27 @@ public class OverridePropertyInfo
 	public void setAllowedUnits( String allowedUnits )
 	{
 		this.allowedUnits = allowedUnits;
+	}
+	
+	/**
+	 * Get allowedUnits.
+	 * for example : in,mm,pt
+	 * @return
+	 */
+	
+	public String getAllowedChoices( )
+	{
+		return allowedChoices;
+	}
+	
+	/**
+	 * Sets allowedUnits.
+	 * @param allowedUnits
+	 */
+	
+	void setAllowedChoices( String allowedChoices )
+	{
+		this.allowedChoices = allowedChoices;
 	}
 
 	/**

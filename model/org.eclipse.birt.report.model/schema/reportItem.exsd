@@ -528,7 +528,7 @@ Designer UI
          <attribute name="allowedChoices" type="string">
             <annotation>
                <documentation>
-                  units choices that use &apos;,&apos; as seperator. For example: if only allowed &apos;in&apos; and &apos;cm&apos; as allowed units, can set it as &apos;in,cm&apos;.
+                  restricts to a sub set of choices from that defined on parent property definition. Uses &apos;,&apos; as seperator. For example: if only allowed &apos;none&apos; and &apos;auto&apos; as allowed choices, can set it as &apos;none, auto&apos;.
                </documentation>
             </annotation>
          </attribute>

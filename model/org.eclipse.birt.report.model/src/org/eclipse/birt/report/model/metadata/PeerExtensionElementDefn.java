@@ -208,22 +208,41 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 
 			String units = propInfo.getAllowedUnits( );
 			boolean isOwn = propInfo.isUseOwnModel( );
+			String choices = propInfo.getAllowedChoices( );
 
-			ChoiceSet choiceSet = buildChoiceSet( units );
-
-			if ( choiceSet == null && !isOwn )
-				continue;
+			ChoiceSet unitSet = buildChoiceSet( MetaDataDictionary
+					.getInstance( ).getChoiceSet(
+							DesignChoiceConstants.CHOICE_UNITS ), units );
 
 			ElementPropertyDefn defn = (ElementPropertyDefn) cachedProperties
 					.get( propName );
 			if ( defn == null )
 				continue;
 
+			ChoiceSet choiceSet = null;
+
+			if ( choices != null )
+			{
+				IChoiceSet tmpSet = defn.getChoices( );
+				if ( tmpSet != null )
+					choiceSet = buildChoiceSet( tmpSet, choices );
+				else
+					choiceSet = null;
+			}
+
+			if ( unitSet == null && choiceSet == null && !isOwn )
+				continue;
+
 			ElementPropertyDefn clonedDefn = (ElementPropertyDefn) reflectClass( defn );
 			if ( clonedDefn == null )
 				continue;
+
 			if ( choiceSet != null )
-				clonedDefn.allowedUnits = choiceSet;
+				clonedDefn.allowedChoices = choiceSet;
+
+			if ( unitSet != null )
+				clonedDefn.allowedUnits = unitSet;
+
 			clonedDefn.useOwnModel = isOwn;
 			cachedProperties.put( propName, clonedDefn );
 		}
@@ -237,7 +256,7 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 	 * @return choice set.
 	 */
 
-	private ChoiceSet buildChoiceSet( String units )
+	private ChoiceSet buildChoiceSet( IChoiceSet romSet, String units )
 	{
 		List choiceList = new ArrayList( );
 		if ( units != null && units.length( ) > 0 )
@@ -249,8 +268,6 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 				String unit = eachUnit[i];
 				if ( unit != null && unit.length( ) > 0 )
 				{
-					IChoiceSet romSet = MetaDataDictionary.getInstance( )
-							.getChoiceSet( DesignChoiceConstants.CHOICE_UNITS );
 					IChoice romChoice = romSet.findChoice( unit );
 
 					if ( romChoice != null )
