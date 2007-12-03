@@ -18,6 +18,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.channels.FileChannel;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,11 +31,13 @@ import org.eclipse.birt.report.designer.internal.ui.editors.wizards.SaveReportAs
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.IModuleOption;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -211,7 +214,31 @@ public class FileReportProvider implements IReportProvider
 			{
 				if ( file.exists( ) || file.createNewFile( ) )
 				{
+					// Gets report config file.
+					String oldConfigName = moduleHandle.getStringProperty( IReportGraphicConstants.REPORT_CONFIG_FILE_NAME );
+					String newConfigName = getConfigFileName( file.getAbsolutePath( ) );
+					File oldConfigFile = oldConfigName == null ? null
+							: new File( oldConfigName );
+
+					if ( newConfigName != null &&
+							oldConfigFile != null &&
+							oldConfigFile.exists( ) )
+					{
+						copyFile( oldConfigFile, new File( newConfigName ) );
+
+						try
+						{
+							moduleHandle.setStringProperty( IReportGraphicConstants.REPORT_CONFIG_FILE_NAME,
+									newConfigName );
+						}
+						catch ( SemanticException e )
+						{
+							ExceptionHandler.handle( e, true );
+						}
+					}
+
 					FileOutputStream out = new FileOutputStream( file );
+
 					moduleHandle.serialize( out );
 					out.close( );
 				}
@@ -228,6 +255,81 @@ public class FileReportProvider implements IReportProvider
 		catch ( Exception e )
 		{
 			ExceptionHandler.handle( e );
+		}
+	}
+
+	/**
+	 * Returns config file name with the specified report design filename.
+	 * 
+	 * @param reportDesignName
+	 *            the file name of the specified report design.
+	 * @return The file name of report config
+	 */
+	public static String getConfigFileName( String reportDesignName )
+	{
+		String[] result = reportDesignName == null ? null
+				: reportDesignName.split( "\\." ); //$NON-NLS-1$
+
+		if ( result == null ||
+				result.length <= 0 ||
+				result[result.length - 1] == null )
+		{
+			return null;
+		}
+
+		int extensionLength = result[result.length - 1] == null ? 0
+				: result[result.length - 1].length( );
+
+		return reportDesignName.substring( 0, reportDesignName.length( ) -
+				extensionLength ) +
+				"rptconfig"; //$NON-NLS-1$
+	}
+
+	/**
+	 * Copys a file to another file.
+	 * 
+	 * @param srcFile
+	 *            the source file
+	 * @param destFile
+	 *            the target file
+	 * @throws IOException
+	 *             if an error occurs.
+	 */
+	private void copyFile( File srcFile, File destFile ) throws IOException
+	{
+		FileInputStream fis = null;
+		FileOutputStream fos = null;
+		FileChannel fcin = null;
+		FileChannel fcout = null;
+
+		try
+		{
+			fis = new FileInputStream( srcFile );
+			fos = new FileOutputStream( destFile );
+			fcin = fis.getChannel( );
+			fcout = fos.getChannel( );
+
+			// Does the file copy.
+			fcin.transferTo( 0, fcin.size( ), fcout );
+		}
+		finally
+		{
+			if ( fis != null )
+			{
+				fis.close( );
+			}
+			if ( fos != null )
+			{
+				fos.close( );
+			}
+			if ( fcin != null )
+			{
+				fcin.close( );
+			}
+			if ( fcout != null )
+			{
+				fcout.close( );
+			}
 		}
 	}
 

@@ -11,9 +11,13 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.wizards;
 
+import java.io.File;
+
+import org.eclipse.birt.report.designer.internal.ui.editors.FileReportProvider;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.wizards.WizardReportSettingPage;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -92,6 +96,15 @@ public class SaveReportAsWizard extends Wizard
 			ReportDesignHandle reportHandle = (ReportDesignHandle)model;
 			try
 			{
+				String configFileName = FileReportProvider.getConfigFileName( reportHandle.getFileName( ) );
+
+				if ( configFileName != null &&
+						new File( configFileName ).exists( ) )
+				{
+					reportHandle.setStringProperty( IReportGraphicConstants.REPORT_CONFIG_FILE_NAME,
+							configFileName );
+				}
+
 				reportHandle.setDisplayName( settingPage.getDisplayName( ) );
 				reportHandle.setDescription( settingPage.getDescription( ) );
 				reportHandle.setIconFile( settingPage.getPreviewImagePath( ) );
