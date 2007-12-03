@@ -932,6 +932,24 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			dialog.setCanFinish( true );
 			this.messageLine.setText( "" ); //$NON-NLS-1$
 			this.messageLine.setImage( null );
+			
+			if ( txtExpression != null
+					&& ( txtExpression.getText( ) == null || txtExpression.getText( )
+							.trim( )
+							.equals( "" ) ) ) //$NON-NLS-1$
+			{
+				dialog.setCanFinish( false );
+				return;
+			}
+			if ( cmbDataField != null
+					&& ( cmbDataField.getText( ) == null || cmbDataField.getText( )
+							.trim( )
+							.equals( "" ) ) && cmbDataField.isEnabled( ) ) //$NON-NLS-1$
+			{
+				dialog.setCanFinish( false );
+				return;
+			}
+			dialog.setCanFinish( true );
 		}
 	}
 
