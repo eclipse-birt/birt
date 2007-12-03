@@ -17,8 +17,10 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.olap.OLAPException;
 import javax.olap.cursor.Blob;
@@ -35,6 +37,7 @@ import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.script.JSCubeBindingObject;
@@ -55,6 +58,7 @@ public class CubeCursorImpl implements ICubeCursor
 	private Scriptable scope;
 	private ICubeQueryDefinition queryDefn;
 	private HashMap bindingMap, dataTypeMap;
+	private Set validBindingSet;
 	
 	public CubeCursorImpl ( CubeCursor cursor, Scriptable scope, ICubeQueryDefinition queryDefn ) throws DataException
 	{
@@ -65,18 +69,20 @@ public class CubeCursorImpl implements ICubeCursor
 		OlapQueryUtil.validateBinding( queryDefn, false );
 		
 		this.bindingMap = new HashMap( );
+		this.validBindingSet = new HashSet( );
 		this.dataTypeMap = new HashMap( );
 		for ( int i = 0; i < this.queryDefn.getBindings( ).size( ); i++ )
 		{
 			IBinding binding = (IBinding) this.queryDefn.getBindings( ).get( i );
+			final String bindingName = binding.getBindingName( );
+			validBindingSet.add( bindingName );
+			final IBaseExpression expr = binding.getExpression( );
 			if ( binding.getAggrFunction( ) == null )
 			{
-				this.bindingMap.put( binding.getBindingName( ),
-						binding.getExpression( ) );
-				OLAPExpressionCompiler.compile( binding.getExpression( ) );
+				this.bindingMap.put( bindingName, expr );
+				OLAPExpressionCompiler.compile( expr );
 			}
-			dataTypeMap.put( binding.getBindingName( ),
-					new Integer( binding.getDataType( ) ) );
+			dataTypeMap.put( bindingName, new Integer( binding.getDataType( ) ) );
 		}
 		
 		this.scope.put( "data", this.scope, new JSCubeBindingObject( this ));
@@ -296,26 +302,37 @@ public class CubeCursorImpl implements ICubeCursor
 	{
 		Object result = null;
 		
-		if ( this.bindingMap.get( arg0 ) == null )
+		if ( !validBindingSet.contains( arg0 ) )
 		{
-			result = this.cursor.getObject( arg0 );
-			
+			result = new DataException( ResourceConstants.REFERENCED_BINDING_NOT_EXIST,
+					arg0 );
 		}
 		else
 		{
-			try
+			if ( this.bindingMap.get( arg0 ) == null )
 			{
-				Context cx = Context.enter( );
-				IBaseExpression expr = (IBaseExpression) this.bindingMap.get( arg0 );
-				result = ScriptEvalUtil.evalExpr( expr, cx, this.scope, null, 0 );
+				result = this.cursor.getObject( arg0 );
 			}
-			catch ( Exception e )
+			else
 			{
-				throw new OLAPException( e.getLocalizedMessage( ) );
-			}
-			finally
-			{
-				Context.exit( );
+				try
+				{
+					Context cx = Context.enter( );
+					IBaseExpression expr = (IBaseExpression) this.bindingMap.get( arg0 );
+					result = ScriptEvalUtil.evalExpr( expr,
+							cx,
+							this.scope,
+							null,
+							0 );
+				}
+				catch ( Exception e )
+				{
+					throw new OLAPException( e.getLocalizedMessage( ) );
+				}
+				finally
+				{
+					Context.exit( );
+				}
 			}
 		}
 
