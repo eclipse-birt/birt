@@ -14,6 +14,7 @@ package org.eclipse.birt.report.item.crosstab.core.de.internal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
@@ -21,7 +22,13 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.DataItemHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
 
 /**
  * AbstractCrosstabModelTask
@@ -1045,6 +1052,117 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 						null,
 						axisType,
 						counterAxisAggregationLevels );
+			}
+
+		}
+
+		// validate aggregation on measure detail cell
+		LevelViewHandle innerestRowLevel = CrosstabModelUtil.getInnerMostLevel( crosstab,
+				ROW_AXIS_TYPE );
+		LevelViewHandle innerestColLevel = CrosstabModelUtil.getInnerMostLevel( crosstab,
+				COLUMN_AXIS_TYPE );
+
+		validateMeasureDetails( innerestRowLevel, innerestColLevel );
+	}
+
+	protected void validateMeasureDetails( LevelViewHandle innerestRowLevel,
+			LevelViewHandle innerestColLevel ) throws SemanticException
+	{
+		for ( int i = 0; i < crosstab.getMeasureCount( ); i++ )
+		{
+			MeasureViewHandle measureView = crosstab.getMeasure( i );
+			validateSingleMeasureDetail( measureView,
+					innerestRowLevel,
+					innerestColLevel );
+		}
+	}
+
+	private void validateSingleMeasureDetail( MeasureViewHandle measureView,
+			LevelViewHandle rowLevelView, LevelViewHandle colLevelView )
+			throws SemanticException
+	{
+		AggregationCellHandle detailCell = measureView.getCell( );
+
+		LevelHandle rowLevel = detailCell.getAggregationOnRow( );
+		LevelHandle colLevel = detailCell.getAggregationOnColumn( );
+
+		// update cell aggregateOn properties.
+
+		if ( rowLevelView == null )
+		{
+			detailCell.setAggregationOnRow( null );
+		}
+		else if ( rowLevel == null
+				|| !rowLevel.equals( rowLevelView.getCubeLevel( ) ) )
+		{
+			detailCell.setAggregationOnRow( rowLevelView.getCubeLevel( ) );
+		}
+
+		if ( colLevelView == null )
+		{
+			detailCell.setAggregationOnColumn( null );
+		}
+		else if ( colLevel == null
+				|| !colLevel.equals( colLevelView.getCubeLevel( ) ) )
+		{
+			detailCell.setAggregationOnColumn( colLevelView.getCubeLevel( ) );
+		}
+
+		rowLevel = detailCell.getAggregationOnRow( );
+		colLevel = detailCell.getAggregationOnColumn( );
+
+		String aggregateRowName = rowLevel == null ? null
+				: rowLevel.getQualifiedName( );
+		String aggregateColumnName = colLevel == null ? null
+				: colLevel.getQualifiedName( );
+
+		// validate data item binding properties
+		if ( detailCell.getContents( ).size( ) == 0
+				|| ( detailCell.getContents( ).size( ) == 1 && detailCell.getContents( )
+						.get( 0 ) instanceof DataItemHandle ) )
+		{
+			// create a computed column and set some properties
+			String name = CrosstabModelUtil.generateComputedColumnName( measureView,
+					aggregateColumnName,
+					aggregateRowName );
+			ComputedColumn column = StructureFactory.newComputedColumn( crosstab.getModelHandle( ),
+					name );
+			String dataType = measureView.getDataType( );
+			column.setDataType( dataType );
+			column.setExpression( ExpressionUtil.createJSMeasureExpression( measureView.getCubeMeasureName( ) ) );
+			// use roll-up cube measure function
+			String measureFunc = measureView.getCubeMeasure( ) == null ? DEFAULT_MEASURE_FUNCTION
+					: measureView.getCubeMeasure( ).getFunction( );
+			column.setAggregateFunction( CrosstabModelUtil.getRollUpAggregationFunction( measureFunc ) );
+			if ( aggregateRowName != null )
+			{
+				column.addAggregateOn( aggregateRowName );
+			}
+			if ( aggregateColumnName != null )
+			{
+				column.addAggregateOn( aggregateColumnName );
+			}
+
+			// add the computed column to crosstab
+			ComputedColumnHandle columnHandle = ( (ReportItemHandle) crosstab.getModelHandle( ) ).addColumnBinding( column,
+					false );
+
+			DataItemHandle dataItem;
+
+			if ( detailCell.getContents( ).size( ) == 0 )
+			{
+				// set the data-item result set the the name of the column
+				// handle
+				dataItem = crosstab.getModuleHandle( )
+						.getElementFactory( )
+						.newDataItem( null );
+				dataItem.setResultSetColumn( columnHandle.getName( ) );
+				detailCell.addContent( dataItem );
+			}
+			else
+			{
+				dataItem = (DataItemHandle) detailCell.getContents( ).get( 0 );
+				dataItem.setResultSetColumn( columnHandle.getName( ) );
 			}
 
 		}

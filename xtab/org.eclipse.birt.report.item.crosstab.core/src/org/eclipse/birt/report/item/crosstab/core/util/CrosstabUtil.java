@@ -15,6 +15,7 @@ import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.internal.CrosstabModelUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -192,6 +193,11 @@ public class CrosstabUtil implements ICrosstabConstants
 		}
 
 		return false;
+	}
+
+	public static String getRollUpAggregationFunction( String functionName )
+	{
+		return CrosstabModelUtil.getRollUpAggregationFunction( functionName );
 	}
 
 }

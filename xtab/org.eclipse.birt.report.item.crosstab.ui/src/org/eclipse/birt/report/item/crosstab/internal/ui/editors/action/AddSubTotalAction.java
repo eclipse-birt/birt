@@ -23,6 +23,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDialog;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDialog.GrandTotalInfo;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDialog.SubTotalInfo;
@@ -84,21 +85,25 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 			AggregationDialog dialog = new AggregationDialog( UIUtil.getDefaultShell( ) );
 			dialog.setAxis( levelHandle.getAxisType( ) );
 			List rowSubTotals = getSubTotalInfo( ICrosstabConstants.ROW_AXIS_TYPE );
-			List rowGrandTotals = getGrandTotalInfo(ICrosstabConstants.ROW_AXIS_TYPE );
+			List rowGrandTotals = getGrandTotalInfo( ICrosstabConstants.ROW_AXIS_TYPE );
 			List colSubTotals = getSubTotalInfo( ICrosstabConstants.COLUMN_AXIS_TYPE );
-			List colGrandTotals = getGrandTotalInfo(ICrosstabConstants.COLUMN_AXIS_TYPE );
+			List colGrandTotals = getGrandTotalInfo( ICrosstabConstants.COLUMN_AXIS_TYPE );
 			dialog.setInput( copySubTotal( rowSubTotals ),
-					copyGrandTotal( rowGrandTotals ), 
+					copyGrandTotal( rowGrandTotals ),
 					copySubTotal( colSubTotals ),
-					copyGrandTotal( colGrandTotals ));
+					copyGrandTotal( colGrandTotals ) );
 			if ( dialog.open( ) == Window.OK )
 			{
 				Object[] result = (Object[]) dialog.getResult( );
 				processSubTotal( rowSubTotals, (List) result[0] );
-				processGrandTotal( rowGrandTotals, (List) result[1], ICrosstabConstants.ROW_AXIS_TYPE);
-				
+				processGrandTotal( rowGrandTotals,
+						(List) result[1],
+						ICrosstabConstants.ROW_AXIS_TYPE );
+
 				processSubTotal( colSubTotals, (List) result[2] );
-				processGrandTotal( colGrandTotals, (List) result[3],ICrosstabConstants.COLUMN_AXIS_TYPE );
+				processGrandTotal( colGrandTotals,
+						(List) result[3],
+						ICrosstabConstants.COLUMN_AXIS_TYPE );
 			}
 		}
 		catch ( SemanticException e )
@@ -167,8 +172,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 		else if ( oriOperation.getMeasures( ).size( ) != 0
 				&& newOperation.getMeasures( ).size( ) == 0 )
 		{
-			levelHandle.getCrosstab( )
-					.removeGrandTotal( axisType );
+			levelHandle.getCrosstab( ).removeGrandTotal( axisType );
 		}
 		else
 		{
@@ -176,8 +180,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 			int newSize = newOperation.getMeasures( ).size( );
 			if ( oriSize != newSize )
 			{
-				levelHandle.getCrosstab( )
-						.removeGrandTotal( axisType );
+				levelHandle.getCrosstab( ).removeGrandTotal( axisType );
 				addGrandTotal( levelHandle.getCrosstab( ),
 						axisType,
 						newOperation.getFunctions( ),
@@ -190,8 +193,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 				if ( oriOperation.getMeasures( ).get( i ) != newOperation.getMeasures( )
 						.get( i ) )
 				{
-					levelHandle.getCrosstab( )
-							.removeGrandTotal( axisType );
+					levelHandle.getCrosstab( ).removeGrandTotal( axisType );
 					addGrandTotal( levelHandle.getCrosstab( ),
 							axisType,
 							newOperation.getFunctions( ),
@@ -358,27 +360,29 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 		CrosstabReportItemHandle crosstab = viewHandle.getCrosstab( );
 
 		int dimCount = crosstab.getDimensionCount( ICrosstabConstants.ROW_AXIS_TYPE );
-		for(int i = 0; i < dimCount; i ++)
+		for ( int i = 0; i < dimCount; i++ )
 		{
-			DimensionViewHandle tmpDimView = crosstab.getDimension( ICrosstabConstants.ROW_AXIS_TYPE, i );
+			DimensionViewHandle tmpDimView = crosstab.getDimension( ICrosstabConstants.ROW_AXIS_TYPE,
+					i );
 			LevelViewHandle levelView = tmpDimView.getLevel( handle.getQualifiedName( ) );
-			if(levelView != null)
+			if ( levelView != null )
 			{
 				return levelView;
 			}
 		}
-		
+
 		dimCount = crosstab.getDimensionCount( ICrosstabConstants.COLUMN_AXIS_TYPE );
-		for(int i = 0; i < dimCount; i ++)
+		for ( int i = 0; i < dimCount; i++ )
 		{
-			DimensionViewHandle tmpDimView = crosstab.getDimension( ICrosstabConstants.COLUMN_AXIS_TYPE, i );
+			DimensionViewHandle tmpDimView = crosstab.getDimension( ICrosstabConstants.COLUMN_AXIS_TYPE,
+					i );
 			LevelViewHandle levelView = tmpDimView.getLevel( handle.getQualifiedName( ) );
-			if(levelView != null)
+			if ( levelView != null )
 			{
 				return levelView;
 			}
 		}
-		
+
 		return null;
 	}
 
@@ -513,9 +517,9 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 					info.setAggregateOnMeasure( reportHandle.getMeasure( j )
 							.getCubeMeasure( ) );
 
-					info.setFunction( reportHandle.getMeasure( j )
+					info.setFunction( CrosstabUtil.getRollUpAggregationFunction( reportHandle.getMeasure( j )
 							.getCubeMeasure( )
-							.getFunction( ) );
+							.getFunction( ) ) );
 					retValue.add( info );
 					// fix bug
 					info.setAssociation( getAssociation( axis ) );
@@ -541,7 +545,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 					info.setAggregateOnMeasure( tempMeasureHandle );
 					// info.setFunction( tempViewHandle.getAggregationFunction(
 					// (MeasureViewHandle) measures.get( j ) ) );
-					info.setFunction( tempMeasureHandle.getFunction( ) );
+					info.setFunction( CrosstabUtil.getRollUpAggregationFunction( tempMeasureHandle.getFunction( ) ) );
 					// tempMeasureHandle.getFunction( );
 					// info.setFunction(
 					// DesignChoiceConstants.MEASURE_FUNCTION_SUM);
@@ -572,20 +576,20 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 		List retValue = new ArrayList( );
 		CrosstabReportItemHandle reportHandle = levelHandle.getCrosstab( );
 		CrosstabViewHandle crosstabView = reportHandle.getCrosstabView( axis );
-		if(crosstabView == null || crosstabView.getDimensionCount( ) == 0)
+		if ( crosstabView == null || crosstabView.getDimensionCount( ) == 0 )
 		{
 			return retValue;
 		}
-		
+
 		int measureCount = reportHandle.getMeasureCount( );
 		for ( int i = 0; i < measureCount; i++ )
 		{
 			AggregationDialog.GrandTotalInfo info = new AggregationDialog.GrandTotalInfo( );
 			info.setMeasure( reportHandle.getMeasure( i ).getCubeMeasure( ) );
 
-			info.setFunction( reportHandle.getMeasure( i )
+			info.setFunction( CrosstabUtil.getRollUpAggregationFunction( reportHandle.getMeasure( i )
 					.getCubeMeasure( )
-					.getFunction( ) );
+					.getFunction( ) ) );
 			retValue.add( info );
 			info.setAssociation( getAssociation( axis ) );
 		}
@@ -600,7 +604,8 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 			// viewHandle.getAxisType( ),
 			// measureViewHandle ) );
 
-			info.setFunction( measureViewHandle.getCubeMeasure( ).getFunction( ) );
+			info.setFunction( CrosstabUtil.getRollUpAggregationFunction( measureViewHandle.getCubeMeasure( )
+					.getFunction( ) ) );
 			replaceInfo( info, retValue );
 		}
 

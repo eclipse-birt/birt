@@ -23,6 +23,7 @@ import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.item.crosstab.core.CrosstabException;
+import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ILevelViewConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
@@ -81,9 +82,10 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 			// if cube dimension container of this cube level element is not
 			// what is referred by this dimension view, then the insertion is
 			// forbidden
-			if ( !levelHandle.getContainer( ).getContainer( )
-					.getQualifiedName( ).equals(
-							dimensionView.getCubeDimensionName( ) ) )
+			if ( !levelHandle.getContainer( )
+					.getContainer( )
+					.getQualifiedName( )
+					.equals( dimensionView.getCubeDimensionName( ) ) )
 			{
 				// TODO: throw exception
 				dimensionView.getLogger( ).log( Level.WARNING, "" ); //$NON-NLS-1$
@@ -100,30 +102,29 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 				throw new CrosstabException( dimensionView.getModelHandle( )
 						.getElement( ), new String[]{
 						levelHandle.getQualifiedName( ),
-						dimensionView.getModelHandle( ).getElement( )
-								.getIdentifier( )},
-						MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_LEVEL );
+						dimensionView.getModelHandle( )
+								.getElement( )
+								.getIdentifier( )
+				}, MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_LEVEL );
 			}
 		}
 
 		CommandStack stack = dimensionView.getCommandStack( );
-		stack.startTrans( Messages
-				.getString( "DimensionViewTask.msg.insert.level" ) ); //$NON-NLS-1$
+		stack.startTrans( Messages.getString( "DimensionViewTask.msg.insert.level" ) ); //$NON-NLS-1$
 
 		LevelViewHandle levelView = null;
 
 		try
 		{
-			ExtendedItemHandle extendedItemHandle = CrosstabExtendedItemFactory
-					.createLevelView( dimensionView.getModuleHandle( ),
-							levelHandle );
+			ExtendedItemHandle extendedItemHandle = CrosstabExtendedItemFactory.createLevelView( dimensionView.getModuleHandle( ),
+					levelHandle );
 			if ( extendedItemHandle != null )
 			{
 				dimensionView.getLevelsProperty( ).add( extendedItemHandle,
 						index );
 
-				levelView = (LevelViewHandle) CrosstabUtil.getReportItem(
-						extendedItemHandle, LEVEL_VIEW_EXTENSION_NAME );
+				levelView = (LevelViewHandle) CrosstabUtil.getReportItem( extendedItemHandle,
+						LEVEL_VIEW_EXTENSION_NAME );
 
 				// if level handle is specified, do some post work after adding
 				if ( levelHandle != null && crosstab != null )
@@ -176,42 +177,36 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 				// before this level is added and the innermost
 				// level in the counter axis if the orginal
 				// innermost has aggregation header
-				LevelViewHandle precedingLevel = CrosstabModelUtil
-						.getPrecedingLevel( levelView );
-				int counterAxisType = CrosstabModelUtil
-						.getOppositeAxisType( axisType );
+				LevelViewHandle precedingLevel = CrosstabModelUtil.getPrecedingLevel( levelView );
+				int counterAxisType = CrosstabModelUtil.getOppositeAxisType( axisType );
 				assert precedingLevel != null;
-				LevelViewHandle innerMostLevelView = CrosstabModelUtil
-						.getInnerMostLevel( crosstab, counterAxisType );
+				LevelViewHandle innerMostLevelView = CrosstabModelUtil.getInnerMostLevel( crosstab,
+						counterAxisType );
 				if ( precedingLevel.getAggregationHeader( ) != null )
 				{
 					if ( innerMostLevelView != null )
 					{
-						String dimensionName = ( (DimensionViewHandle) innerMostLevelView
-								.getContainer( ) ).getCubeDimensionName( );
+						String dimensionName = ( (DimensionViewHandle) innerMostLevelView.getContainer( ) ).getCubeDimensionName( );
 
-						String levelName = innerMostLevelView
-								.getCubeLevelName( );
-						List measureList = precedingLevel
-								.getAggregationMeasures( );
+						String levelName = innerMostLevelView.getCubeLevelName( );
+						List measureList = precedingLevel.getAggregationMeasures( );
 						List functionList = new ArrayList( );
 						for ( int i = 0; i < measureList.size( ); i++ )
 						{
-							MeasureViewHandle measureView = (MeasureViewHandle) measureList
-									.get( i );
-							String function = precedingLevel
-									.getAggregationFunction( measureView );
+							MeasureViewHandle measureView = (MeasureViewHandle) measureList.get( i );
+							String function = precedingLevel.getAggregationFunction( measureView );
 							functionList.add( function );
 						}
 
 						// add the data-item
 						CrosstabModelUtil.addMeasureAggregations( crosstab,
-								dimensionName, levelName, counterAxisType,
-								( (DimensionViewHandle) precedingLevel
-										.getContainer( ) )
-										.getCubeDimensionName( ),
+								dimensionName,
+								levelName,
+								counterAxisType,
+								( (DimensionViewHandle) precedingLevel.getContainer( ) ).getCubeDimensionName( ),
 								precedingLevel.getCubeLevelName( ),
-								measureList, functionList );
+								measureList,
+								functionList );
 					}
 					else
 					{
@@ -228,6 +223,14 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 					removeMeasureAggregations( precedingLevel );
 				}
 			}
+
+			// valid aggregation on measure detail cell
+			LevelViewHandle innerestRowLevel = CrosstabModelUtil.getInnerMostLevel( crosstab,
+					ROW_AXIS_TYPE );
+			LevelViewHandle innerestColLevel = CrosstabModelUtil.getInnerMostLevel( crosstab,
+					COLUMN_AXIS_TYPE );
+
+			validateMeasureDetails( innerestRowLevel, innerestColLevel );
 		}
 		else
 		{
@@ -261,15 +264,13 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 
 		// first add all aggregation for the added level view, for it is
 		// innermost
-		for ( int dimension = 0; dimension < crosstab
-				.getDimensionCount( counterAxisType ); dimension++ )
+		for ( int dimension = 0; dimension < crosstab.getDimensionCount( counterAxisType ); dimension++ )
 		{
-			DimensionViewHandle tempDimensionView = crosstab.getDimension(
-					counterAxisType, dimension );
+			DimensionViewHandle tempDimensionView = crosstab.getDimension( counterAxisType,
+					dimension );
 			for ( int level = 0; level < tempDimensionView.getLevelCount( ); level++ )
 			{
-				LevelViewHandle tempLevelView = tempDimensionView
-						.getLevel( level );
+				LevelViewHandle tempLevelView = tempDimensionView.getLevel( level );
 
 				// if level view is not null, that is not grand-total
 				if ( levelView != null )
@@ -286,13 +287,14 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 						tempLevelView );
 				for ( int i = 0; i < measureList.size( ); i++ )
 				{
-					MeasureViewHandle measureView = (MeasureViewHandle) measureList
-							.get( i );
-					String function = tempLevelView
-							.getAggregationFunction( measureView );
-					CrosstabModelUtil.addDataItem( crosstab, measureView,
-							function, infor.getRowDimension( ), infor
-									.getRowLevel( ), infor.getColDimension( ),
+					MeasureViewHandle measureView = (MeasureViewHandle) measureList.get( i );
+					String function = tempLevelView.getAggregationFunction( measureView );
+					CrosstabModelUtil.addDataItem( crosstab,
+							measureView,
+							function,
+							infor.getRowDimension( ),
+							infor.getRowLevel( ),
+							infor.getColDimension( ),
 							infor.getColLevel( ) );
 				}
 			}
@@ -303,18 +305,20 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 				|| CrosstabModelUtil.getAllLevelCount( crosstab,
 						counterAxisType ) == 0 )
 		{
-			List measureList = crosstab
-					.getAggregationMeasures( counterAxisType );
+			List measureList = crosstab.getAggregationMeasures( counterAxisType );
 			AggregationInfo infor = getAggregationInfo( levelView, null );
 			for ( int i = 0; i < measureList.size( ); i++ )
 			{
-				MeasureViewHandle measureView = (MeasureViewHandle) measureList
-						.get( i );
-				String function = crosstab.getAggregationFunction(
-						counterAxisType, measureView );
-				CrosstabModelUtil.addDataItem( crosstab, measureView, function,
-						infor.getRowDimension( ), infor.getRowLevel( ), infor
-								.getColDimension( ), infor.getColLevel( ) );
+				MeasureViewHandle measureView = (MeasureViewHandle) measureList.get( i );
+				String function = crosstab.getAggregationFunction( counterAxisType,
+						measureView );
+				CrosstabModelUtil.addDataItem( crosstab,
+						measureView,
+						function,
+						infor.getRowDimension( ),
+						infor.getRowLevel( ),
+						infor.getColDimension( ),
+						infor.getColLevel( ) );
 			}
 		}
 
@@ -352,8 +356,7 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 		if ( needTransaction )
 		{
 			stack = dimensionView.getCommandStack( );
-			stack.startTrans( Messages
-					.getString( "DimensionViewTask.msg.remove.level" ) ); //$NON-NLS-1$
+			stack.startTrans( Messages.getString( "DimensionViewTask.msg.remove.level" ) ); //$NON-NLS-1$
 		}
 
 		try
@@ -431,6 +434,20 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 
 				// remove aggregations related with the level view
 				removeMeasureAggregations( levelView );
+
+				// valid aggregation on measure detail cell
+				int counterAxisType = CrosstabModelUtil.getOppositeAxisType( axisType );
+				LevelViewHandle innerestCounterAxisLevel = CrosstabModelUtil.getInnerMostLevel( crosstab,
+						counterAxisType );
+
+				if ( axisType == ICrosstabConstants.ROW_AXIS_TYPE )
+				{
+					validateMeasureDetails( null, innerestCounterAxisLevel );
+				}
+				else
+				{
+					validateMeasureDetails( innerestCounterAxisLevel, null );
+				}
 			}
 			else
 			{
@@ -438,16 +455,14 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 				// before this level is removed and the innermost
 				// level in the counter axis if the orginal
 				// innermost has aggregation header
-				LevelViewHandle precedingLevel = CrosstabModelUtil
-						.getPrecedingLevel( levelView );
+				LevelViewHandle precedingLevel = CrosstabModelUtil.getPrecedingLevel( levelView );
+				int counterAxisType = CrosstabModelUtil.getOppositeAxisType( axisType );
 
 				assert precedingLevel != null;
 				if ( precedingLevel.getAggregationHeader( ) != null )
 				{
-					int counterAxisType = CrosstabModelUtil
-							.getOppositeAxisType( axisType );
-					LevelViewHandle innerMostLevelView = CrosstabModelUtil
-							.getInnerMostLevel( crosstab, counterAxisType );
+					LevelViewHandle innerMostLevelView = CrosstabModelUtil.getInnerMostLevel( crosstab,
+							counterAxisType );
 					if ( innerMostLevelView != null )
 					{
 						// remove aggregation with innermost level on counter
@@ -477,6 +492,21 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 				// add aggregations for this level and all counter
 				// axis type levels except the innermost one
 				removeMeasureAggregations( levelView );
+
+				// valid aggregation on measure detail cell
+				LevelViewHandle innerestCounterAxisLevel = CrosstabModelUtil.getInnerMostLevel( crosstab,
+						counterAxisType );
+
+				if ( axisType == ICrosstabConstants.ROW_AXIS_TYPE )
+				{
+					validateMeasureDetails( precedingLevel,
+							innerestCounterAxisLevel );
+				}
+				else
+				{
+					validateMeasureDetails( innerestCounterAxisLevel,
+							precedingLevel );
+				}
 			}
 		}
 		else
@@ -510,7 +540,8 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 	private void validateSort( ) throws SemanticException
 	{
 		validateProperty( ILevelViewConstants.SORT_PROP,
-				ISortElementModel.KEY_PROP, ISortElementModel.MEMBER_PROP );
+				ISortElementModel.KEY_PROP,
+				ISortElementModel.MEMBER_PROP );
 	}
 
 	/**
@@ -526,11 +557,10 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 			return;
 
 		int counterAxisType = CrosstabModelUtil.getOppositeAxisType( axisType );
-		for ( int dimension = 0; dimension < crosstab
-				.getDimensionCount( counterAxisType ); dimension++ )
+		for ( int dimension = 0; dimension < crosstab.getDimensionCount( counterAxisType ); dimension++ )
 		{
-			DimensionViewHandle dimensionView = crosstab.getDimension(
-					counterAxisType, dimension );
+			DimensionViewHandle dimensionView = crosstab.getDimension( counterAxisType,
+					dimension );
 			for ( int level = 0; level < dimensionView.getLevelCount( ); level++ )
 			{
 				LevelViewHandle levelView = dimensionView.getLevel( level );
@@ -538,10 +568,13 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 				int count = levelHandle.getContentCount( propName );
 				for ( int i = 0; i < count; i++ )
 				{
-					DesignElementHandle item = levelHandle.getContent(
-							propName, i );
+					DesignElementHandle item = levelHandle.getContent( propName,
+							i );
 					String expression = item.getStringProperty( exprePropName );
-					validateMemberValue( cube, levelView, item, expression,
+					validateMemberValue( cube,
+							levelView,
+							item,
+							expression,
 							memberValuePropName );
 				}
 
@@ -558,7 +591,8 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 		assert cube != null;
 
 		// expression is empty or null, then do nothing
-		if ( ( !( cube instanceof TabularCubeHandle ) ) || expression == null
+		if ( ( !( cube instanceof TabularCubeHandle ) )
+				|| expression == null
 				|| expression.length( ) == 0 )
 		{
 			return;
@@ -566,8 +600,8 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 
 		List validatedLevelList = getReferencedLevels( levelView, expression );
 
-		MemberValueHandle oldMemberValue = (MemberValueHandle) item.getContent(
-				memberValuePropName, 0 );
+		MemberValueHandle oldMemberValue = (MemberValueHandle) item.getContent( memberValuePropName,
+				0 );
 
 		// if member value is not null originally, then build the
 		// levelName/levelValue pair from it
@@ -578,8 +612,8 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 			String levelName = tempMember.getCubeLevelName( );
 			String levelValue = tempMember.getValue( );
 			levelValueMap.put( levelName, levelValue );
-			tempMember = (MemberValueHandle) tempMember.getContent(
-					MemberValueHandle.MEMBER_VALUES_PROP, 0 );
+			tempMember = (MemberValueHandle) tempMember.getContent( MemberValueHandle.MEMBER_VALUES_PROP,
+					0 );
 		}
 
 		ElementFactory factory = dimensionView.getModuleHandle( )
@@ -591,8 +625,7 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 		{
 			for ( int i = 0; i < validatedLevelList.size( ); i++ )
 			{
-				ILevelDefinition levelDefn = (ILevelDefinition) validatedLevelList
-						.get( i );
+				ILevelDefinition levelDefn = (ILevelDefinition) validatedLevelList.get( i );
 				String levelName = getLevelHandle( levelDefn );
 				tempMember.setStringProperty( MemberValueHandle.LEVEL_PROP,
 						levelName );
@@ -604,7 +637,8 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 				if ( parentMember != null )
 				{
 					parentMember.add( MemberValueHandle.MEMBER_VALUES_PROP,
-							tempMember, 0 );
+							tempMember,
+							0 );
 				}
 
 				parentMember = tempMember;
@@ -614,20 +648,19 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 
 		// clear the old member value and add the new one
 		item.clearProperty( memberValuePropName );
-		if ( !isEmptyMemberValue( newMemberValue ))
-		item.add( memberValuePropName, newMemberValue );
+		if ( !isEmptyMemberValue( newMemberValue ) )
+			item.add( memberValuePropName, newMemberValue );
 	}
 
 	private boolean isEmptyMemberValue( MemberValueHandle memberValue )
 	{
 		assert memberValue != null;
 
-		String levelName = memberValue
-				.getStringProperty( MemberValueHandle.LEVEL_PROP );
+		String levelName = memberValue.getStringProperty( MemberValueHandle.LEVEL_PROP );
 		if ( levelName != null && levelName.length( ) > 0 )
 			return false;
-		MemberValueHandle tempMember = (MemberValueHandle) memberValue
-				.getContent( MemberValueHandle.MEMBER_VALUES_PROP, 0 );
+		MemberValueHandle tempMember = (MemberValueHandle) memberValue.getContent( MemberValueHandle.MEMBER_VALUES_PROP,
+				0 );
 		if ( tempMember != null && !isEmptyMemberValue( tempMember ) )
 			return false;
 		return true;
@@ -652,24 +685,24 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 
 		// get targetLevel
 		DesignElementHandle hierarchyHandle = levelHandle.getContainer( );
-		DesignElementHandle dimensionHandle = hierarchyHandle == null
-				? null
+		DesignElementHandle dimensionHandle = hierarchyHandle == null ? null
 				: hierarchyHandle.getContainer( );
 		if ( dimensionHandle == null )
 			return retList;
-		String targetLevel = ExpressionUtil.createJSDimensionExpression(
-				dimensionHandle.getName( ), levelHandle.getName( ) );
+		String targetLevel = ExpressionUtil.createJSDimensionExpression( dimensionHandle.getName( ),
+				levelHandle.getName( ) );
 
 		// get cubeQueryDefn
 		ICubeQueryDefinition cubeQueryDefn = null;
 		DataRequestSession session = null;
 		try
 		{
-			session = DataRequestSession.newSession( new DataSessionContext(
-					DataSessionContext.MODE_DIRECT_PRESENTATION ) );
+			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
 			cubeQueryDefn = CrosstabModelUtil.createBindingQuery( crosstab );
-			retList = session.getCubeQueryUtil( ).getReferencedLevels(
-					targetLevel, bindingExpr, cubeQueryDefn );
+			retList = session.getCubeQueryUtil( )
+					.getReferencedLevels( targetLevel,
+							bindingExpr,
+							cubeQueryDefn );
 		}
 		catch ( Exception e )
 		{
@@ -684,7 +717,8 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 		assert crosstab != null;
 
 		String levelName = levelDefn.getName( );
-		String dimensionName = levelDefn.getHierarchy( ).getDimension( )
+		String dimensionName = levelDefn.getHierarchy( )
+				.getDimension( )
 				.getName( );
 
 		DimensionViewHandle dimension = crosstab.getDimension( dimensionName );

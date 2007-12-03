@@ -37,6 +37,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 
 /**
@@ -82,6 +83,23 @@ public class CrosstabModelUtil implements ICrosstabConstants
 				return COLUMN_AXIS_TYPE;
 			default :
 				return NO_AXIS_TYPE;
+		}
+	}
+
+	/**
+	 * TODO this method should provide by DTE?
+	 */
+	public static String getRollUpAggregationFunction( String functionName )
+	{
+		if ( DesignChoiceConstants.AGGREGATION_FUNCTION_AVERAGE.equals( functionName )
+				|| DesignChoiceConstants.AGGREGATION_FUNCTION_COUNT.equals( functionName )
+				|| DesignChoiceConstants.AGGREGATION_FUNCTION_COUNTDISTINCT.equals( functionName ) )
+		{
+			return DesignChoiceConstants.AGGREGATION_FUNCTION_SUM;
+		}
+		else
+		{
+			return functionName;
 		}
 	}
 

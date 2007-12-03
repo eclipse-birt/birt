@@ -16,6 +16,7 @@ import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 
 /**
@@ -53,6 +54,28 @@ public class AggregationCellHandle extends CrosstabCellHandle implements
 	public LevelHandle getAggregationOnColumn( )
 	{
 		return (LevelHandle) handle.getElementProperty( AGGREGATION_ON_COLUMN_PROP );
+	}
+
+	/**
+	 * Set the referred row cube level of this aggregation applied on.
+	 * 
+	 * @return the referred row cube level
+	 */
+	public void setAggregationOnRow( LevelHandle level )
+			throws SemanticException
+	{
+		handle.setProperty( AGGREGATION_ON_ROW_PROP, level );
+	}
+
+	/**
+	 * Set the referred column cube level of this aggregation applied on.
+	 * 
+	 * @return the referred column cube level
+	 */
+	public void setAggregationOnColumn( LevelHandle level )
+			throws SemanticException
+	{
+		handle.setProperty( AGGREGATION_ON_COLUMN_PROP, level );
 	}
 
 	/**
