@@ -31,12 +31,8 @@ import org.eclipse.birt.report.item.crosstab.core.i18n.MessageConstants;
 import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
-import org.eclipse.birt.report.model.core.ContainerContext;
 
 /**
  * CrosstabReportItemTask
@@ -210,7 +206,6 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 	 * @param axisType
 	 * @param measureView
 	 * @param function
-	 * @return
 	 * @throws SemanticException
 	 */
 	public void setAggregationFunction( int axisType,
@@ -666,167 +661,5 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 		{
 			crosstabView.removeDimension( index );
 		}
-	}
-
-	private MultiViewsHandle getMultiViews( )
-	{
-		return (MultiViewsHandle) crosstab.getModelHandle( ).getProperty(
-				MULTI_VIEWS_PROP );
-	}
-
-	/**
-	 * Returns the view that is being used.
-	 * 
-	 * @return the view that is being used
-	 */
-
-	public DesignElementHandle getCurrentView( )
-	{
-		MultiViewsHandle multiView = getMultiViews( );
-		if ( multiView == null
-				|| multiView.getIntProperty( MultiViewsHandle.INDEX_PROP ) == MultiViewsHandle.HOST )
-			return crosstab.getModelHandle( );
-
-		return multiView.getCurrentView( );
-	}
-
-	/**
-	 * Adds a new element as the view.
-	 * 
-	 * @param viewElement
-	 *            the element
-	 * @throws SemanticException
-	 */
-
-	public void addView( DesignElementHandle viewElement )
-			throws SemanticException
-	{
-		MultiViewsHandle multiView = getMultiViews( );
-
-		CommandStack stack = crosstab.getModuleHandle( ).getCommandStack( );
-		stack.startTrans( null );
-		try
-		{
-			if ( multiView == null )
-			{
-				multiView = crosstab.getModuleHandle( ).getElementFactory( )
-						.newMultiView( );
-				crosstab.getModelHandle( ).setProperty( MULTI_VIEWS_PROP,
-						multiView );
-			}
-
-			multiView.addView( viewElement );
-		}
-		catch ( SemanticException e )
-		{
-			stack.rollback( );
-			throw e;
-		}
-		stack.commit( );
-	}
-
-	/**
-	 * Deletes the given view.
-	 * 
-	 * @param viewElement
-	 *            the element
-	 * @throws SemanticException
-	 */
-
-	public void dropView( DesignElementHandle viewElement )
-			throws SemanticException
-	{
-		MultiViewsHandle multiView = getMultiViews( );
-		if ( multiView == null )
-			return;
-
-		multiView.dropView( viewElement );
-	}
-
-	/**
-	 * Sets the index for the view to be used. If the given element is not in
-	 * the multiple view, it will be added and set as the active view.
-	 * 
-	 * @param viewElement
-	 *            the view element
-	 * 
-	 * @throws SemanticException
-	 *             if the given element resides in the other elements.
-	 */
-
-	public void setCurrentView( DesignElementHandle viewElement )
-			throws SemanticException
-	{
-		if ( viewElement == null )
-			return;
-
-		// if the viewElement is in the design tree and not in x-tab, throw
-		// exception
-
-		if ( viewElement.getContainer( ) != null
-				&& !viewElement.getElement( ).isContentOf(
-						crosstab.getModelHandle( ).getElement( ) ) )
-		{
-			throw new PropertyValueException( crosstab.getModelHandle( )
-					.getElement( ), crosstab.getModelHandle( ).getPropertyDefn(
-					MULTI_VIEWS_PROP ), null,
-					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
-		}
-
-		CommandStack stack = crosstab.getModuleHandle( ).getCommandStack( );
-		stack.startTrans( null );
-		try
-		{
-			MultiViewsHandle multiView = getMultiViews( );
-			if ( multiView == null )
-			{
-				multiView = crosstab.getModelHandle( ).getElementFactory( )
-						.newMultiView( );
-				crosstab.getModelHandle( ).setProperty( MULTI_VIEWS_PROP,
-						multiView );
-			}
-
-			// if the viewElement is in the x-tab and not in multiple view,
-			// throw exception
-
-			if ( viewElement.getContainer( ) != null
-					&& !viewElement.getElement( ).isContentOf(
-							multiView.getElement( ) ) )
-			{
-				throw new PropertyValueException( crosstab.getModelHandle( )
-						.getElement( ), crosstab.getModelHandle( )
-						.getPropertyDefn( MULTI_VIEWS_PROP ), null,
-						PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
-			}
-
-			// add to the multiple view
-
-			if ( viewElement.getContainer( ) == null )
-				multiView.addView( viewElement );
-
-			// set index
-
-			int newIndex = MultiViewsHandle.HOST;
-			if ( viewElement != crosstab.getModelHandle( ) )
-			{
-				ContainerContext context = new ContainerContext( multiView
-						.getElement( ), MultiViewsHandle.VIEWS_PROP );
-				newIndex = context.indexOf( viewElement.getElement( ) );
-
-				// the viewElement is either added to the view or already in the
-				// view
-
-				assert newIndex != -1;
-			}
-
-			multiView.setIntProperty( MultiViewsHandle.INDEX_PROP, newIndex );
-
-		}
-		catch ( SemanticException e )
-		{
-			stack.rollback( );
-			throw e;
-		}
-		stack.commit( );
 	}
 }

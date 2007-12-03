@@ -458,7 +458,8 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 
 		if ( headerHandle != null && headerHandle.getContentCount( ) > 0 )
 		{
-			return (CrosstabCellHandle) CrosstabUtil.getReportItem( headerHandle.getContent( 0 ) );
+			return (CrosstabCellHandle) CrosstabUtil
+					.getReportItem( headerHandle.getContent( 0 ) );
 		}
 
 		return null;
@@ -1035,61 +1036,5 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle
 	{
 		new CrosstabReportItemTask( this ).setAggregationFunction( axisType,
 				measureView, function );
-	}
-
-	/**
-	 * Returns the view that is being used.
-	 * 
-	 * @return the view that is being used
-	 */
-
-	public DesignElementHandle getCurrentView( )
-	{
-		return new CrosstabReportItemTask( this ).getCurrentView( );
-	}
-
-	/**
-	 * Adds a new element as the view.
-	 * 
-	 * @param viewElement
-	 *            the element
-	 * @throws SemanticException
-	 */
-
-	public void addView( DesignElementHandle viewElement )
-			throws SemanticException
-	{
-		new CrosstabReportItemTask( this ).addView( viewElement );
-	}
-
-	/**
-	 * Deletes the given view.
-	 * 
-	 * @param viewElement
-	 *            the element
-	 * @throws SemanticException
-	 */
-
-	public void dropView( DesignElementHandle viewElement )
-			throws SemanticException
-	{
-		new CrosstabReportItemTask( this ).dropView( viewElement );
-	}
-
-	/**
-	 * Sets the index for the view to be used. If the given element is not in
-	 * the multiple view, it will be added and set as the active view.
-	 * 
-	 * @param viewElement
-	 *            the view element
-	 * 
-	 * @throws SemanticException
-	 *             if the given element resides in the other elements.
-	 */
-
-	public void setCurrentView( DesignElementHandle viewElement )
-			throws SemanticException
-	{
-		new CrosstabReportItemTask( this ).setCurrentView( viewElement );
 	}
 }
