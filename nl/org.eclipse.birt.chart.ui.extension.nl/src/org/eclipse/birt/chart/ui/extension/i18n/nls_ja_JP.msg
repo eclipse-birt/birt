@@ -832,6 +832,7 @@ BaseDataDefinitionComponent.Text.SpecifyDataDefinition=データ定義の指定
 BaseDataDefinitionComponent.Label.EditGroupSorting=グループとソートの編集
 BaseDataDefinitionComponent.Tooltip.InputValueExpression=値式の入力
 BaseDataDefinitionComponent.Text.EditFormat=書式の編集
+BaseGroupSortingDialog.Label.SortOn=Sort On:
 
 MarkerIconDialog.Title.MarkerIconSelector=マーカのアイコンセレクタ
 MarkerIconDialog.Lbl.SelectIconFrom=アイコンの選択元 :

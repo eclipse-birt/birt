@@ -832,6 +832,7 @@ BaseDataDefinitionComponent.Text.SpecifyDataDefinition=데이터 정의 지정
 BaseDataDefinitionComponent.Label.EditGroupSorting=그룹 편집 및 정렬
 BaseDataDefinitionComponent.Tooltip.InputValueExpression=입력 값 식
 BaseDataDefinitionComponent.Text.EditFormat=형식 편집
+BaseGroupSortingDialog.Label.SortOn=Sort On:
 
 MarkerIconDialog.Title.MarkerIconSelector=표지 아이콘 선택기(Marker Icon Selector)
 MarkerIconDialog.Lbl.SelectIconFrom=다음에서 아이콘 선택:

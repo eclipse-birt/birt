@@ -832,6 +832,7 @@ BaseDataDefinitionComponent.Text.SpecifyDataDefinition=Spécifier la définition d
 BaseDataDefinitionComponent.Label.EditGroupSorting=Modifier le regroupement et le tri
 BaseDataDefinitionComponent.Tooltip.InputValueExpression=Expression de la valeur d'entrée
 BaseDataDefinitionComponent.Text.EditFormat=Modifier le format
+BaseGroupSortingDialog.Label.SortOn=Sort On:
 
 MarkerIconDialog.Title.MarkerIconSelector=Dispositif de sélection d'icône de repère
 MarkerIconDialog.Lbl.SelectIconFrom=Sélectionner l'icône de :
