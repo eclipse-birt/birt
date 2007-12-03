@@ -40,7 +40,9 @@
     <body>
         <extended-item extensionName="TestingBox" name="testBox" id="7">
             <property name="header">
-                <extended-item extensionName="TestingMatrix" name="headerMatrix" id="8"/>
+                <extended-item extensionName="TestingMatrix" name="headerMatrix" id="8">
+                	<xml-property name="test3"><![CDATA[type=bar,xScale=0,yScale=0,lineStyle=normal]]></xml-property>
+                </extended-item>
             </property>
             <property name="detail">
                 <table name="testTable" id="9">

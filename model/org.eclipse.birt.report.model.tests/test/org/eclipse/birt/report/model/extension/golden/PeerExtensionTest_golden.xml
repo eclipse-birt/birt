@@ -27,7 +27,9 @@
                 <value>15.678</value>
             </simple-property-list>
             <property name="header">
-                <extended-item extensionName="TestingMatrix" name="headerMatrix" id="5"/>
+                <extended-item extensionName="TestingMatrix" name="headerMatrix" id="5">
+                	<xml-property name="test3"><![CDATA[type=bar,xScale=0,yScale=0,lineStyle=normal]]></xml-property>
+                </extended-item>
             </property>
             <property name="detail">
                 <table name="testTable" id="6">
@@ -57,7 +59,9 @@
                         <value>15.678</value>
                     </simple-property-list>
                     <property name="header">
-                        <extended-item extensionName="TestingMatrix" name="headerMatrix1" id="16"/>
+                        <extended-item extensionName="TestingMatrix" name="headerMatrix1" id="16">
+                        	<xml-property name="test3"><![CDATA[type=bar,xScale=0,yScale=0,lineStyle=normal]]></xml-property>
+                        </extended-item>
                     </property>
                     <property name="detail">
                         <table name="testTable1" id="17">

@@ -876,14 +876,15 @@ public abstract class PeerExtensibilityProvider
 	 */
 	public boolean needCheckCompatibility( )
 	{
-		if ( getInvalidPropertyValueMap( ) != null &&
-				!getInvalidPropertyValueMap( ).isEmpty( ) )
-			return true;
-		if ( getUndefinedPropertyMap( ) != null &&
-				!getUndefinedPropertyMap( ).isEmpty( ) )
-			return true;
-		if ( getIllegalContents( ) != null && !getIllegalContents( ).isEmpty( ) )
-			return true;
-		return false;
+//		if ( getInvalidPropertyValueMap( ) != null &&
+//				!getInvalidPropertyValueMap( ).isEmpty( ) )
+//			return true;
+//		if ( getUndefinedPropertyMap( ) != null &&
+//				!getUndefinedPropertyMap( ).isEmpty( ) )
+//			return true;
+//		if ( getIllegalContents( ) != null && !getIllegalContents( ).isEmpty( ) )
+//			return true;
+//		return false;
+		return true;
 	}
 }
