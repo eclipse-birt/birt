@@ -11,11 +11,15 @@
 
 package org.eclipse.birt.report.item.crosstab.core.de;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.item.crosstab.core.IAggregationCellConstants;
+import org.eclipse.birt.report.item.crosstab.core.ICrosstabCellConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.IMeasureViewConstants;
 import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
@@ -26,6 +30,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.extension.IllegalContentInfo;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 
 /**
@@ -373,5 +378,60 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements
 			return Collections.EMPTY_LIST.iterator( );
 		}
 		return propHandle.getListValue( ).iterator( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.extension.ReportItem#checkCompatibility()
+	 */
+	public List checkCompatibility( )
+	{
+		ExtendedItemHandle exhandle = (ExtendedItemHandle) getModelHandle( );
+
+		Map illegalContents = exhandle.getIllegalContents( );
+
+		// do compatibility for "detail" property since 2.3, update old
+		// "crosstabCell" to new "aggregationCell"
+		if ( illegalContents.containsKey( IMeasureViewConstants.DETAIL_PROP ) )
+		{
+			List detailInfoList = (List) illegalContents.get( IMeasureViewConstants.DETAIL_PROP );
+
+			if ( detailInfoList.size( ) > 0 )
+			{
+				IllegalContentInfo detailInfo = (IllegalContentInfo) detailInfoList.get( 0 );
+
+				ExtendedItemHandle oldDetail = (ExtendedItemHandle) detailInfo.getContent( );
+
+				if ( oldDetail != null )
+				{
+					try
+					{
+						ExtendedItemHandle newDetail = CrosstabExtendedItemFactory.createAggregationCell( getModuleHandle( ) );
+
+						handle.getPropertyHandle( DETAIL_PROP )
+								.setValue( newDetail );
+						
+						//TODO copy local properties.
+
+						List contents = oldDetail.getContents( ICrosstabCellConstants.CONTENT_PROP );
+
+						for ( int i = 0; i < contents.size( ); i++ )
+						{
+							newDetail.add( IAggregationCellConstants.CONTENT_PROP,
+									(DesignElementHandle) contents.get( i ) );
+						}
+					}
+					catch ( SemanticException e )
+					{
+						List errorList = new ArrayList( 1 );
+						errorList.add( e );
+						return errorList;
+					}
+				}
+			}
+		}
+
+		return Collections.EMPTY_LIST;
 	}
 }

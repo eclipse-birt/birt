@@ -732,6 +732,34 @@ public class CrosstabModelUtil implements ICrosstabConstants
 									null );
 				}
 			}
+			else if ( cell.getContainer( ) instanceof CrosstabReportItemHandle )
+			{
+				// crosstab header cell
+
+				LevelViewHandle rowLevelHandle = getInnerMostLevel( crosstabItem,
+						ROW_AXIS_TYPE );
+				if ( rowLevelHandle != null )
+				{
+					// use innerest row level cell
+					return rowLevelHandle.getCell( );
+				}
+
+				if ( !isMeasureHorizontal )
+				{
+					// use first available measrue header cell
+					for ( int i = 0; i < crosstabItem.getMeasureCount( ); i++ )
+					{
+						MeasureViewHandle mv = crosstabItem.getMeasure( i );
+						if ( mv.getHeader( ) != null )
+						{
+							return mv.getHeader( );
+						}
+					}
+				}
+
+				// user itself
+				return cell;
+			}
 		}
 
 		return null;
@@ -761,7 +789,7 @@ public class CrosstabModelUtil implements ICrosstabConstants
 				AggregationCellHandle aggCell = (AggregationCellHandle) cell;
 
 				MeasureViewHandle mv = null;
-				
+
 				if ( IMeasureViewConstants.DETAIL_PROP.equals( cell.getModelHandle( )
 						.getContainerPropertyHandle( )
 						.getPropertyDefn( )
@@ -1004,6 +1032,35 @@ public class CrosstabModelUtil implements ICrosstabConstants
 					}
 				}
 			}
+			else if ( cell.getContainer( ) instanceof CrosstabReportItemHandle )
+			{
+				// crosstab header cell
+
+				LevelViewHandle colLevelHandle = getInnerMostLevel( crosstabItem,
+						COLUMN_AXIS_TYPE );
+				if ( colLevelHandle != null )
+				{
+					// use innerest column level cell
+					return colLevelHandle.getCell( );
+				}
+
+				if ( isMeasureHorizontal )
+				{
+					// use first available measrue header cell
+					for ( int i = 0; i < crosstabItem.getMeasureCount( ); i++ )
+					{
+						MeasureViewHandle mv = crosstabItem.getMeasure( i );
+						if ( mv.getHeader( ) != null )
+						{
+							return mv.getHeader( );
+						}
+					}
+				}
+
+				// use itself
+				return cell;
+			}
+
 		}
 
 		return null;
