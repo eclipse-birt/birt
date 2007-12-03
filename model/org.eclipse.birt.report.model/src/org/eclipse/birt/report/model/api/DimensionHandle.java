@@ -146,9 +146,9 @@ public class DimensionHandle extends ComplexValueHandle
 	public IChoice[] getAllowedUnits( )
 	{
 		if ( memberRef == null )
-			return propDefn.getAllowedChoices( ).getChoices( );
+			return propDefn.getAllowedUnits( ).getChoices( );
 
-		return memberRef.getMemberDefn( ).getAllowedChoices( ).getChoices( );
+		return memberRef.getMemberDefn( ).getAllowedUnits( ).getChoices( );
 	}
 
 	/**

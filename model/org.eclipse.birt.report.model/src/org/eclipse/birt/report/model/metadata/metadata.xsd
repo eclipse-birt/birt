@@ -222,29 +222,45 @@ The 'extends' attribute is optional, in this case, it means this report element 
 		<xs:choice minOccurs="0" maxOccurs="unbounded">
 			<xs:element name="Default" type="xs:string" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>The default value. Must be in xml format. For a choice, use the internal value.</xs:documentation>
+					<xs:documentation>
+						The default value. Must be in xml format. For a
+						choice, use the internal value.
+					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="Trigger" type="TriggerDefnType" minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="Trigger" type="TriggerDefnType"
+				minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>The trigger definition which defines the condition to trigger a semantic validation.</xs:documentation>
+					<xs:documentation>
+						The trigger definition which defines the
+						condition to trigger a semantic validation.
+					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="Allowed" type="xs:string" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>The restriction on the possible choice that a proper value can choose.</xs:documentation>
+					<xs:documentation>
+						The restriction on the possible choice that a
+						proper value can choose.
+					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="DefaultUnit" minOccurs="0">
 				<xs:annotation>
-					<xs:documentation>The default unit. Must be a valid unit.</xs:documentation>
+					<xs:documentation>
+						The default unit. Must be a valid unit.
+					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="Type" type="ElementType" minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="Type" type="ElementType" minOccurs="0"
+				maxOccurs="unbounded">
 				<xs:annotation>
-					<xs:documentation>The element type</xs:documentation>
+					<xs:documentation>
+						The element type
+					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="AllowedUnits" type="xs:string" maxOccurs="1" minOccurs="0"></xs:element>
 		</xs:choice>
 		<xs:attribute name="name" type="xs:string" use="required"/>
 		<xs:attribute name="displayNameID" type="xs:string" use="required"/>

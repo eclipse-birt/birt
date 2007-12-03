@@ -150,6 +150,13 @@ public abstract class PropertyDefn
 	protected ChoiceSet allowedChoices = null;
 
 	/**
+	 * Choice sets containing an allowed choices for a choice type, or
+	 * containing an allowed units set for a dimension type.
+	 */
+
+	protected ChoiceSet allowedUnits = null;
+	
+	/**
 	 * Indicates if this whether this property is a list. This property is
 	 * useful only when the property type is a structure type.
 	 * 
@@ -551,7 +558,7 @@ public abstract class PropertyDefn
 			if ( !StringUtil.isBlank( defaultUnit ) )
 			{
 
-				IChoiceSet units = getAllowedChoices( );
+				IChoiceSet units = getAllowedUnits( );
 				IChoice choice = units.findChoice( defaultUnit );
 				if ( choice == null )
 				{
@@ -1157,10 +1164,6 @@ public abstract class PropertyDefn
 		if ( allowedChoices != null )
 			return allowedChoices;
 
-		if ( getTypeCode( ) == IPropertyType.DIMENSION_TYPE )
-			return MetaDataDictionary.getInstance( ).getChoiceSet(
-					DesignChoiceConstants.CHOICE_UNITS );
-
 		return getChoices( );
 	}
 
@@ -1176,6 +1179,38 @@ public abstract class PropertyDefn
 		this.allowedChoices = allowedChoices;
 	}
 
+	/**
+	 * Sets the allowed choices for this property
+	 * 
+	 * @param allowedUnits
+	 *            The allowed choices to set.
+	 */
+
+	void setAllowedUnits( ChoiceSet allowedUnits )
+	{
+		this.allowedUnits = allowedUnits;
+	}
+	
+	/**
+	 * Returns the allowed choices for this property. It contains allowed
+	 * choices for a choice type, or containing an allowed units set for a
+	 * dimension type.
+	 * <p>
+	 * If a property has not defined the restriction, then whole set will be
+	 * returned.
+	 * 
+	 * @return Returns the allowed choices of this property.
+	 */
+
+	public IChoiceSet getAllowedUnits( )
+	{
+		if ( allowedUnits != null )
+			return allowedUnits;
+
+		return MetaDataDictionary.getInstance( ).getChoiceSet(
+				DesignChoiceConstants.CHOICE_UNITS );
+	}
+	
 	/**
 	 * Set a validator.
 	 * 

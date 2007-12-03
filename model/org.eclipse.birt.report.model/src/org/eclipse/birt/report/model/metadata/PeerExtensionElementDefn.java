@@ -223,7 +223,7 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 			if ( clonedDefn == null )
 				continue;
 			if ( choiceSet != null )
-				clonedDefn.allowedChoices = choiceSet;
+				clonedDefn.allowedUnits = choiceSet;
 			clonedDefn.useOwnModel = isOwn;
 			cachedProperties.put( propName, clonedDefn );
 		}

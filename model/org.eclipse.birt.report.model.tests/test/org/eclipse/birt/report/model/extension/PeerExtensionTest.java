@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
@@ -57,8 +58,10 @@ import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.metadata.ChoiceSet;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionPropertyDefn;
@@ -539,14 +542,14 @@ public class PeerExtensionTest extends BaseTestCase
 		ExtensionElementDefn extDefn = (ExtensionElementDefn) dd
 				.getExtension( TESTING_TABLE );
 		IPropertyDefn defn = extDefn.getProperty( "width" ); //$NON-NLS-1$
-		IChoiceSet set = defn.getAllowedChoices( );
+		IChoiceSet set = defn.getAllowedUnits( );
 		assertNotNull( set.findChoice( "in" ) );//$NON-NLS-1$
 		assertNotNull( set.findChoice( "cm" ) );//$NON-NLS-1$
 		assertNull( set.findChoice( "mm" ) );//$NON-NLS-1$
 		assertNull( set.findChoice( "pt" ) );//$NON-NLS-1$
 
 		set = dd.getElement( TABLE )
-				.findProperty( "width" ).getAllowedChoices( ); //$NON-NLS-1$
+				.findProperty( "width" ).getAllowedUnits( ); //$NON-NLS-1$
 
 		assertNotNull( set.findChoice( "in" ) );//$NON-NLS-1$
 		assertNotNull( set.findChoice( "cm" ) );//$NON-NLS-1$
@@ -559,13 +562,12 @@ public class PeerExtensionTest extends BaseTestCase
 		ExtendedItemHandle extendedItem = (ExtendedItemHandle) designHandle
 				.findElement( "testTable" ); //$NON-NLS-1$
 		defn = extendedItem.getPropertyDefn( "width" ); //$NON-NLS-1$
-		set = defn.getAllowedChoices( );
+		set = defn.getAllowedUnits( );
 
 		assertNotNull( set.findChoice( "in" ) );//$NON-NLS-1$
 		assertNotNull( set.findChoice( "cm" ) );//$NON-NLS-1$
 		assertNull( set.findChoice( "mm" ) );//$NON-NLS-1$
 		assertNull( set.findChoice( "pt" ) );//$NON-NLS-1$
-
 	}
 
 	/**

@@ -61,7 +61,7 @@ public interface IPropertyDefn extends IContainerDefn
 	 * @return whether the property is a list or not.
 	 */
 
-	public boolean isList( );	
+	public boolean isList( );
 
 	/**
 	 * Returns the property type. See the list in {@link PropertyType}.
@@ -69,7 +69,7 @@ public interface IPropertyDefn extends IContainerDefn
 	 * @return he property type code
 	 */
 
-	public int getTypeCode( );	
+	public int getTypeCode( );
 
 	/**
 	 * Returns the message id for the display name.
@@ -119,12 +119,11 @@ public interface IPropertyDefn extends IContainerDefn
 	 * @return the element type associated with the property
 	 */
 
-	public IElementDefn getTargetElementType( );	
+	public IElementDefn getTargetElementType( );
 
 	/**
 	 * Returns the allowed choices for this property. It contains allowed
-	 * choices for a choice type, or containing an allowed units set for a
-	 * dimension type.
+	 * choices for a choice type.
 	 * <p>
 	 * If a property has not defined the restriction, then whole set will be
 	 * returned.
@@ -133,6 +132,19 @@ public interface IPropertyDefn extends IContainerDefn
 	 */
 
 	public IChoiceSet getAllowedChoices( );
+
+	/**
+	 * Returns the allowed units for this property. It contains an allowed units
+	 * set for a dimension type. Only the dimension type supports allowed units
+	 * feature.
+	 * <p>
+	 * If a property has not defined the restriction, then whole set will be
+	 * returned.
+	 * 
+	 * @return Returns the allowed units of this property.
+	 */
+
+	public IChoiceSet getAllowedUnits( );
 
 	/**
 	 * Returns whether this property should be encrypted.

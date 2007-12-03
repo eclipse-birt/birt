@@ -532,6 +532,13 @@ Designer UI
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="allowedUnits" type="string">
+            <annotation>
+               <documentation>
+                  units choices that use &apos;,&apos; as seperator. For example: if only allowed &apos;in&apos; and &apos;cm&apos; as allowed units, can set it as &apos;in,cm&apos;.
+               </documentation>
+            </annotation>
+         </attribute>
          <attribute name="useOwnModel" type="boolean" use="default" value="false">
             <annotation>
                <documentation>

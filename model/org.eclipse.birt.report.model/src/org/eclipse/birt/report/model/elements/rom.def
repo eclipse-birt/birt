@@ -2439,13 +2439,13 @@
 	  <Trigger validator="MasterPageMultiColumnValidator"/>
     </Property>
     <Property displayNameID="Element.MasterPage.height" name="height" runtimeSettable="false" since="1.0" type="dimension" validator="NonNegativeValueValidator">
-      <Allowed>in,cm,mm,pt,pc,em,ex,px</Allowed>
+      <AllowedUnits>in,cm,mm,pt,pc,em,ex,px</AllowedUnits>
 	  <Trigger preRequisite="true" validator="MasterPageTypeValidator"/>
 	  <Trigger validator="MasterPageSizeValidator"/>
 	  <Trigger validator="MasterPageMultiColumnValidator"/>
 	</Property>
     <Property displayNameID="Element.MasterPage.width" name="width" runtimeSettable="false" since="1.0" type="dimension" validator="NonNegativeValueValidator">
-      <Allowed>in,cm,mm,pt,pc,em,ex,px</Allowed>
+      <AllowedUnits>in,cm,mm,pt,pc,em,ex,px</AllowedUnits>
 	  <Trigger preRequisite="true" validator="MasterPageTypeValidator"/>
 	  <Trigger validator="MasterPageSizeValidator"/>
 	  <Trigger validator="MasterPageMultiColumnValidator"/>

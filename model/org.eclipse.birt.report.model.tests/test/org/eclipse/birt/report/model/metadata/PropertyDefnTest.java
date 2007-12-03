@@ -159,14 +159,14 @@ public class PropertyDefnTest extends AbstractMetaTest
 
 		propDefn = (ElementPropertyDefn) styleDefn
 				.getProperty( Style.FONT_SIZE_PROP );
-		choices = propDefn.getAllowedChoices( );
+		choices = propDefn.getAllowedUnits( );
 		assertEquals( 2, choices.getChoices( ).length );
 		assertEquals( "in", choices.getChoices( )[0].getName( ) ); //$NON-NLS-1$
 		assertEquals( "cm", choices.getChoices( )[1].getName( ) ); //$NON-NLS-1$
 
 		propDefn = (ElementPropertyDefn) styleDefn
 				.getProperty( Style.BACKGROUND_POSITION_X_PROP );
-		choices = propDefn.getAllowedChoices( );
+		choices = propDefn.getAllowedUnits( );
 		assertEquals( 9, choices.getChoices( ).length );
 	}
 

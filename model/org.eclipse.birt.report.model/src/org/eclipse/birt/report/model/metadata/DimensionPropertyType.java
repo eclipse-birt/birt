@@ -343,7 +343,7 @@ public class DimensionPropertyType extends PropertyType
 			unit = getDefaultUnit( module, defn );
 		}
 
-		IChoiceSet units = defn.getAllowedChoices( );
+		IChoiceSet units = defn.getAllowedUnits( );
 
 		assert units != null;
 		if ( !StringUtil.isBlank( unit ) && !units.contains( unit ) )

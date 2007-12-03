@@ -54,6 +54,7 @@ class MetaDataHandler extends XMLParserHandler
 	private static final String CHOICE_TYPE_TAG = "ChoiceType"; //$NON-NLS-1$
 	private static final String STRUCTURE_TAG = "Structure"; //$NON-NLS-1$
 	private static final String ALLOWED_TAG = "Allowed"; //$NON-NLS-1$
+	private static final String ALLOWED_UNITS_TAG = "AllowedUnits"; //$NON-NLS-1$
 	private static final String MEMBER_TAG = "Member"; //$NON-NLS-1$
 	private static final String VALUE_VALIDATOR_TAG = "ValueValidator"; //$NON-NLS-1$
 	private static final String VALIDATORS_TAG = "Validators"; //$NON-NLS-1$
@@ -506,8 +507,8 @@ class MetaDataHandler extends XMLParserHandler
 
 			memberDefn.setName( name );
 			memberDefn.setType( typeDefn );
-			if ( subTypeDefn != null
-					&& typeDefn.getTypeCode( ) == IPropertyType.LIST_TYPE )
+			if ( subTypeDefn != null &&
+					typeDefn.getTypeCode( ) == IPropertyType.LIST_TYPE )
 				memberDefn.setSubType( subTypeDefn );
 			memberDefn.setDisplayNameID( displayNameID );
 			memberDefn.setValueRequired( getBooleanAttrib( attrs,
@@ -623,13 +624,15 @@ class MetaDataHandler extends XMLParserHandler
 				elementDefn.setNameSpaceID( Module.THEME_NAME_SPACE );
 			else if ( ns.equalsIgnoreCase( NameSpaceFactory.DATA_SET_NS_NAME ) )
 				elementDefn.setNameSpaceID( Module.DATA_SET_NAME_SPACE );
-			else if ( ns.equalsIgnoreCase( NameSpaceFactory.DATA_SOURCE_NS_NAME ) )
+			else if ( ns
+					.equalsIgnoreCase( NameSpaceFactory.DATA_SOURCE_NS_NAME ) )
 				elementDefn.setNameSpaceID( Module.DATA_SOURCE_NAME_SPACE );
 			else if ( ns.equalsIgnoreCase( NameSpaceFactory.ELEMENT_NS_NAME ) )
 				elementDefn.setNameSpaceID( Module.ELEMENT_NAME_SPACE );
 			else if ( ns.equalsIgnoreCase( NameSpaceFactory.PARAMETER_NS_NAME ) )
 				elementDefn.setNameSpaceID( Module.PARAMETER_NAME_SPACE );
-			else if ( ns.equalsIgnoreCase( NameSpaceFactory.MASTER_PAGE_NS_NAME ) )
+			else if ( ns
+					.equalsIgnoreCase( NameSpaceFactory.MASTER_PAGE_NS_NAME ) )
 				elementDefn.setNameSpaceID( Module.PAGE_NAME_SPACE );
 			else if ( ns.equalsIgnoreCase( NameSpaceFactory.NO_NS_NAME ) )
 				elementDefn.setNameSpaceID( MetaDataConstants.NO_NAME_SPACE );
@@ -967,8 +970,8 @@ class MetaDataHandler extends XMLParserHandler
 			}
 
 			int typeCode = typeDefn.getTypeCode( );
-			if ( typeCode == IPropertyType.STRUCT_TYPE
-					|| propDefn.isElementType( ) )
+			if ( typeCode == IPropertyType.STRUCT_TYPE ||
+					propDefn.isElementType( ) )
 				propDefn.setIsList( getBooleanAttrib( attrs, IS_LIST_ATTRIB,
 						false ) );
 
@@ -997,6 +1000,8 @@ class MetaDataHandler extends XMLParserHandler
 				return new DefaultValueState( propDefn );
 			else if ( tagName.equalsIgnoreCase( ALLOWED_TAG ) )
 				return new AllowedState( propDefn );
+			else if ( tagName.equalsIgnoreCase( ALLOWED_UNITS_TAG ) )
+				return new AllowedUnitsState( propDefn );
 			else if ( tagName.equalsIgnoreCase( TRIGGER_TAG ) )
 				return new TriggerState( );
 			else if ( tagName.equalsIgnoreCase( DEFAULT_UNIT_TAG ) )
@@ -1059,8 +1064,8 @@ class MetaDataHandler extends XMLParserHandler
 
 			int type = tmpPropDefn.getTypeCode( );
 
-			if ( type != IPropertyType.DIMENSION_TYPE
-					&& type != IPropertyType.CHOICE_TYPE )
+			if ( type != IPropertyType.DIMENSION_TYPE &&
+					type != IPropertyType.CHOICE_TYPE )
 			{
 				errorHandler
 						.semanticError( new MetaDataParserException(
@@ -1138,6 +1143,78 @@ class MetaDataHandler extends XMLParserHandler
 					.toArray( new Choice[0] ) );
 
 			tmpPropDefn.setAllowedChoices( allowedChoices );
+		}
+	}
+
+	private class AllowedUnitsState extends InnerParseState
+	{
+
+		PropertyDefn tmpPropDefn;
+
+		AllowedUnitsState( PropertyDefn tmpPropDefn )
+		{
+			this.tmpPropDefn = tmpPropDefn;
+		}
+
+		public void end( ) throws SAXException
+		{
+			if ( tmpPropDefn == null )
+				return;
+
+			int type = tmpPropDefn.getTypeCode( );
+
+			if ( type != IPropertyType.DIMENSION_TYPE &&
+					!( type == IPropertyType.LIST_TYPE && tmpPropDefn
+							.getSubTypeCode( ) == IPropertyType.DIMENSION_TYPE ) )
+			{
+				errorHandler
+						.semanticError( new MetaDataParserException(
+								MetaDataParserException.DESIGN_EXCEPTION_RESTRICTION_NOT_ALLOWED ) );
+
+				return;
+			}
+
+			ChoiceSet allowedChoices = new ChoiceSet( );
+			ArrayList allowedList = new ArrayList( );
+
+			String choicesStr = StringUtil.trimString( text.toString( ) );
+
+			// blank string.
+
+			if ( choicesStr == null )
+				return;
+
+			String[] nameArray = choicesStr.split( "," ); //$NON-NLS-1$
+
+			// units restriction on a dimension property.
+
+			IChoiceSet units = dictionary
+					.getChoiceSet( DesignChoiceConstants.CHOICE_UNITS );
+
+			assert units != null;
+
+			for ( int i = 0; i < nameArray.length; i++ )
+			{
+				IChoice unit = units.findChoice( nameArray[i].trim( ) );
+
+				if ( unit != null )
+				{
+					allowedList.add( unit );
+				}
+				else
+				{
+					errorHandler
+							.semanticError( new MetaDataParserException(
+									MetaDataParserException.DESIGN_EXCEPTION_INVALID_RESTRICTION ) );
+
+					return;
+				}
+			}
+
+			allowedChoices.setChoices( (Choice[]) allowedList
+					.toArray( new Choice[0] ) );
+
+			tmpPropDefn.setAllowedUnits( allowedChoices );
 		}
 	}
 

@@ -131,6 +131,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 		protected static final String NAME_ATTRIB = "name"; //$NON-NLS-1$
 		protected static final String PROPERTY_NAME_ATTRIB = "propertyName";//$NON-NLS-1$
 		protected static final String ALLOWEDCHOICES_ATTRIB = "allowedChoices";//$NON-NLS-1$
+		protected static final String ALLOWEDUNITS_ATTRIB = "allowedUnits";//$NON-NLS-1$
 		protected static final String USEOWNMODEL_ATTRIB = "useOwnModel";//$NON-NLS-1$
 		protected static final String DISPLAY_NAME_ID_ATTRIB = "displayNameID"; //$NON-NLS-1$
 		protected static final String TYPE_ATTRIB = "type"; //$NON-NLS-1$
@@ -188,8 +189,8 @@ public class PeerExtensionLoader extends ExtensionLoader
 			String extensionName = elementTag
 					.getAttribute( EXTENSION_NAME_ATTRIB );
 			String className = elementTag.getAttribute( CLASS_ATTRIB );
-			if ( !checkRequiredAttribute( EXTENSION_NAME_ATTRIB, extensionName )
-					|| !checkRequiredAttribute( CLASS_ATTRIB, className ) )
+			if ( !checkRequiredAttribute( EXTENSION_NAME_ATTRIB, extensionName ) ||
+					!checkRequiredAttribute( CLASS_ATTRIB, className ) )
 				return;
 
 			// load optional parts
@@ -221,7 +222,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 				elementDefn.setExtends( extendsFrom );
 				elementDefn.setJavaClass( null );
 				elementDefn.setSelector( defaultStyle );
-				elementDefn.setHasStyle( hasStyle ) ;
+				elementDefn.setHasStyle( hasStyle );
 
 				if ( isNameRequired )
 					elementDefn.setNameOption( MetaDataConstants.REQUIRED_NAME );
@@ -333,8 +334,8 @@ public class PeerExtensionLoader extends ExtensionLoader
 						if ( StringUtil.isBlank( styleName ) )
 						{
 							// TODO: do the i18n for this error message.
-							handleError( "The defaultStyle for extension element: "
-									+ extensionName + " should not be empty." );
+							handleError( "The defaultStyle for extension element: " +
+									extensionName + " should not be empty." );
 							continue;
 						}
 
@@ -414,6 +415,9 @@ public class PeerExtensionLoader extends ExtensionLoader
 				return;
 
 			String units = elementTag.getAttribute( ALLOWEDCHOICES_ATTRIB );
+			if ( units == null )
+				units = elementTag.getAttribute( ALLOWEDUNITS_ATTRIB );
+
 			boolean useOwnModel = getBooleanAttrib( elementTag,
 					USEOWNMODEL_ATTRIB, false );
 
@@ -443,8 +447,8 @@ public class PeerExtensionLoader extends ExtensionLoader
 			// load required parts
 			String name = propTag.getAttribute( NAME_ATTRIB );
 			String type = propTag.getAttribute( TYPE_ATTRIB );
-			if ( !checkRequiredAttribute( NAME_ATTRIB, name )
-					|| !checkRequiredAttribute( TYPE_ATTRIB, type ) )
+			if ( !checkRequiredAttribute( NAME_ATTRIB, name ) ||
+					!checkRequiredAttribute( TYPE_ATTRIB, type ) )
 				return null;
 
 			// load optional parts
@@ -463,8 +467,8 @@ public class PeerExtensionLoader extends ExtensionLoader
 			PropertyType propType = dd.getPropertyType( type );
 
 			// not well-recognized or not supported by extension, fire error
-			if ( propType == null
-					|| !getAllowedPropertyTypes( ).contains( propType ) )
+			if ( propType == null ||
+					!getAllowedPropertyTypes( ).contains( propType ) )
 			{
 				handleError( new ExtensionException(
 						new String[]{type},
@@ -476,9 +480,8 @@ public class PeerExtensionLoader extends ExtensionLoader
 			{
 				subPropType = MetaDataDictionary.getInstance( )
 						.getPropertyType( subType );
-				if ( subPropType == null
-						|| !getAllowedSubPropertyTypes( )
-								.contains( subPropType ) )
+				if ( subPropType == null ||
+						!getAllowedSubPropertyTypes( ).contains( subPropType ) )
 				{
 					handleError( new ExtensionException(
 							new String[]{name, subType},
@@ -540,8 +543,8 @@ public class PeerExtensionLoader extends ExtensionLoader
 					// can not define detail-type and own choice list
 					// synchronously, neither can be empty synchronously
 					if ( ( !StringUtil.isBlank( detailType ) && choiceList
-							.size( ) > 0 )
-							|| ( StringUtil.isBlank( detailType ) && choiceList
+							.size( ) > 0 ) ||
+							( StringUtil.isBlank( detailType ) && choiceList
 									.size( ) <= 0 ) )
 					{
 						handleError( new ExtensionException(
@@ -917,15 +920,12 @@ public class PeerExtensionLoader extends ExtensionLoader
 
 		boolean isValidElementType( String type )
 		{
-			if ( ReportDesignConstants.EXTENDED_ITEM.equalsIgnoreCase( type )
-					|| ReportDesignConstants.COLUMN_ELEMENT
-							.equalsIgnoreCase( type )
-					|| ReportDesignConstants.ROW_ELEMENT
-							.equalsIgnoreCase( type )
-					|| ReportDesignConstants.CELL_ELEMENT
-							.equalsIgnoreCase( type )
-					|| ReportDesignConstants.GROUP_ELEMENT
-							.equalsIgnoreCase( type ) )
+			if ( ReportDesignConstants.EXTENDED_ITEM.equalsIgnoreCase( type ) ||
+					ReportDesignConstants.COLUMN_ELEMENT
+							.equalsIgnoreCase( type ) ||
+					ReportDesignConstants.ROW_ELEMENT.equalsIgnoreCase( type ) ||
+					ReportDesignConstants.CELL_ELEMENT.equalsIgnoreCase( type ) ||
+					ReportDesignConstants.GROUP_ELEMENT.equalsIgnoreCase( type ) )
 				return true;
 			return false;
 		}
@@ -989,8 +989,8 @@ public class PeerExtensionLoader extends ExtensionLoader
 
 		List getAllowedSubPropertyTypes( )
 		{
-			if ( allowedSubPropertyTypes != null
-					&& !allowedSubPropertyTypes.isEmpty( ) )
+			if ( allowedSubPropertyTypes != null &&
+					!allowedSubPropertyTypes.isEmpty( ) )
 				return allowedSubPropertyTypes;
 
 			allowedSubPropertyTypes = new ArrayList( );
