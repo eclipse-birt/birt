@@ -86,7 +86,7 @@ public class WebViewer
 	/** Preference key for max cube fetch levels. */
 	public final static String PREVIEW_MAXCUBEROWLEVEL = "preview_maxrowlevelmember"; //$NON-NLS-1$
 	
-	public final static String PREVIEW_MAXCUBECOLUMNLEVEL = "preview_maxrcolumnlevelmember"; //$NON-NLS-1$
+	public final static String PREVIEW_MAXCUBECOLUMNLEVEL = "preview_maxcolumnlevelmember"; //$NON-NLS-1$
 
 	/** Preference key for max in-memory cube size. */
 	public final static String PREVIEW_MAXINMEMORYCUBESIZE = "preview_maxinmemorycubesize"; //$NON-NLS-1$

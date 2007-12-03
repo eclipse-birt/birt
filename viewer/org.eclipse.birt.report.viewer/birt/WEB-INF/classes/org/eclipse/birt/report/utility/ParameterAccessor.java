@@ -183,7 +183,8 @@ public class ParameterAccessor
 	/**
 	 * URL parameter name that gives the preview max cube fetch levels option.
 	 */
-	public static final String PARAM_MAXCUBELEVELS = "__maxlevels"; //$NON-NLS-1$
+	public static final String PARAM_MAXCUBE_ROWLEVELS = "__maxrowlevels"; //$NON-NLS-1$
+	public static final String PARAM_MAXCUBE_COLUMNLEVELS = "__maxcolumnlevels"; //$NON-NLS-1$
 
 	/**
 	 * URL parameter name that gives the cube memory size option.
@@ -378,7 +379,8 @@ public class ParameterAccessor
 	 * Context parameter name that gives preview report cube fetch levels
 	 * limited.
 	 */
-	public static final String INIT_PARAM_VIEWER_MAXCUBELEVELS = "BIRT_VIEWER_MAX_CUBE_LEVELS"; //$NON-NLS-1$
+	public static final String INIT_PARAM_VIEWER_MAXCUBE_ROWLEVELS = "BIRT_VIEWER_MAX_CUBE_ROWLEVELS"; //$NON-NLS-1$
+	public static final String INIT_PARAM_VIEWER_MAXCUBE_COLUMNLEVELS = "BIRT_VIEWER_MAX_CUBE_COLUMNLEVELS"; //$NON-NLS-1$
 
 	/**
 	 * Context parameter name that gives cube memory size.
@@ -478,7 +480,8 @@ public class ParameterAccessor
 	/**
 	 * Preview report max cube fetch levels
 	 */
-	public static int maxCubeLevels;
+	public static int maxCubeRowLevels;
+	public static int maxCubeColumnLevels;
 
 	/**
 	 * Cube memory size
@@ -754,21 +757,39 @@ public class ParameterAccessor
 	}
 
 	/**
-	 * Get preview max cube fetch levels.
+	 * Get preview max cube fetch row levels.
 	 * 
 	 * @param request
 	 *            http request
 	 * @return max levels
 	 */
 
-	public static int getMaxCubeLevels( HttpServletRequest request )
+	public static int getMaxCubeRowLevels( HttpServletRequest request )
 	{
-		int curMaxLevels = ParameterAccessor.getParameterAsInt( request,
-				PARAM_MAXCUBELEVELS );
-		if ( curMaxLevels <= 0 )
-			curMaxLevels = maxCubeLevels;
+		int curMaxRowLevels = ParameterAccessor.getParameterAsInt( request,
+				PARAM_MAXCUBE_ROWLEVELS );
+		if ( curMaxRowLevels <= 0 )
+			curMaxRowLevels = maxCubeRowLevels;
 
-		return curMaxLevels;
+		return curMaxRowLevels;
+	}
+
+	/**
+	 * Get preview max cube fetch column levels.
+	 * 
+	 * @param request
+	 *            http request
+	 * @return max levels
+	 */
+
+	public static int getMaxCubeColumnLevels( HttpServletRequest request )
+	{
+		int curMaxColumnLevels = ParameterAccessor.getParameterAsInt( request,
+				PARAM_MAXCUBE_COLUMNLEVELS );
+		if ( curMaxColumnLevels <= 0 )
+			curMaxColumnLevels = maxCubeColumnLevels;
+
+		return curMaxColumnLevels;
 	}
 
 	/**
@@ -1487,15 +1508,27 @@ public class ParameterAccessor
 
 		// Get preview report max cube fetch levels parameter from
 		// ServletContext
-		String s_maxLevels = context
-				.getInitParameter( INIT_PARAM_VIEWER_MAXCUBELEVELS );
+		String s_maxRowLevels = context
+				.getInitParameter( INIT_PARAM_VIEWER_MAXCUBE_ROWLEVELS );
 		try
 		{
-			maxCubeLevels = Integer.valueOf( s_maxLevels ).intValue( );
+			maxCubeRowLevels = Integer.valueOf( s_maxRowLevels ).intValue( );
 		}
 		catch ( NumberFormatException e )
 		{
-			maxCubeLevels = -1;
+			maxCubeRowLevels = -1;
+		}
+
+		String s_maxColumnLevels = context
+				.getInitParameter( INIT_PARAM_VIEWER_MAXCUBE_COLUMNLEVELS );
+		try
+		{
+			maxCubeColumnLevels = Integer.valueOf( s_maxColumnLevels )
+					.intValue( );
+		}
+		catch ( NumberFormatException e )
+		{
+			maxCubeColumnLevels = -1;
 		}
 
 		// Get cube memory size parameter from ServletContext

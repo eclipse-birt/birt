@@ -97,9 +97,14 @@ public class BirtConfigurationDialog extends Dialog
 	protected Text txtMaxRows;
 
 	/**
-	 * Value for "BIRT_VIEWER_MAX_CUBE_LEVELS" setting
+	 * Value for "BIRT_VIEWER_MAX_CUBE_ROWLEVELS" setting
 	 */
-	protected Text txtMaxLevels;
+	protected Text txtMaxRowLevels;
+
+	/**
+	 * Value for "BIRT_VIEWER_MAX_CUBE_COLUMNLEVELS" setting
+	 */
+	protected Text txtMaxColumnLevels;
 
 	/**
 	 * Value for "BIRT_VIEWER_CUBE_MEMORY_SIZE" setting
@@ -227,8 +232,11 @@ public class BirtConfigurationDialog extends Dialog
 		// create max rows setting group
 		this.txtMaxRows = uit.createMaxRowsGroup( others );
 
-		// create max cube fetching levels setting group
-		this.txtMaxLevels = uit.createMaxLevelsGroup( others );
+		// create max cube fetching row levels setting group
+		this.txtMaxRowLevels = uit.createMaxRowLevelsGroup( others );
+
+		// create max cube fetching column levels setting group
+		this.txtMaxColumnLevels = uit.createMaxColumnLevelsGroup( others );
 
 		// create max cube memory size setting group
 		this.txtCubeMemorySize = uit.createCubeMemorySizeGroup( others );
@@ -271,8 +279,11 @@ public class BirtConfigurationDialog extends Dialog
 				BIRT_MAX_ROWS_SETTING, DataUtil.getNumberSetting( txtMaxRows
 						.getText( ) ) );
 		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_MAX_LEVELS_SETTING, DataUtil
-						.getNumberSetting( txtMaxLevels.getText( ) ) );
+				BIRT_MAX_ROWLEVELS_SETTING, DataUtil
+						.getNumberSetting( txtMaxRowLevels.getText( ) ) );
+		WebArtifactUtil.setContextParamValue( properties,
+				BIRT_MAX_COLUMNLEVELS_SETTING, DataUtil
+						.getNumberSetting( txtMaxColumnLevels.getText( ) ) );
 		WebArtifactUtil.setContextParamValue( properties,
 				BIRT_CUBE_MEMORYSIZE_SETTING, DataUtil
 						.getNumberSetting( txtCubeMemorySize.getText( ) ) );

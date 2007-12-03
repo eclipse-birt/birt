@@ -25,7 +25,6 @@ import org.eclipse.jface.dialogs.IPageChangeProvider;
 import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.jface.dialogs.PageChangedEvent;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.IWizardContainer;
 import org.eclipse.jface.wizard.IWizardContainer2;
 import org.eclipse.jface.wizard.IWizardPage;
@@ -56,7 +55,8 @@ import org.osgi.framework.Bundle;
  * <li>WORKING_FOLDER_ACCESS_ONLY</li>
  * <li>BIRT_OVERWRITE_DOCUMENT</li>
  * <li>BIRT_VIEWER_MAX_ROWS</li>
- * <li>BIRT_VIEWER_MAX_CUBE_LEVELS</li>
+ * <li>BIRT_VIEWER_MAX_CUBE_ROWLEVELS</li>
+ * <li>BIRT_VIEWER_MAX_CUBE_COLUMNLEVELS</li>
  * <li>BIRT_VIEWER_CUBE_MEMORY_SIZE</li>
  * <li>BIRT_VIEWER_LOG_LEVEL</li>
  * <li>BIRT_VIEWER_PRINT_SERVERSIDE</li>
@@ -124,9 +124,14 @@ public class BirtWebProjectWizardConfigurationPage
 	protected Text txtMaxRows;
 
 	/**
-	 * Value for "BIRT_VIEWER_MAX_CUBE_LEVELS" setting
+	 * Value for "BIRT_VIEWER_MAX_CUBE_ROWLEVELS" setting
 	 */
-	protected Text txtMaxLevels;
+	protected Text txtMaxRowLevels;
+
+	/**
+	 * Value for "BIRT_VIEWER_MAX_CUBE_COLUMNLEVELS" setting
+	 */
+	protected Text txtMaxColumnLevels;
 
 	/**
 	 * Value for "BIRT_VIEWER_CUBE_MEMORY_SIZE" setting
@@ -223,8 +228,11 @@ public class BirtWebProjectWizardConfigurationPage
 		// create max rows setting group
 		this.txtMaxRows = uit.createMaxRowsGroup( others );
 
-		// create max cube fetching levels setting group
-		this.txtMaxLevels = uit.createMaxLevelsGroup( others );
+		// create max cube fetching row levels setting group
+		this.txtMaxRowLevels = uit.createMaxRowLevelsGroup( others );
+
+		// create max cube fetching column levels setting group
+		this.txtMaxColumnLevels = uit.createMaxColumnLevelsGroup( others );
 
 		// create max cube memory size setting group
 		this.txtCubeMemorySize = uit.createCubeMemorySizeGroup( others );
@@ -233,12 +241,14 @@ public class BirtWebProjectWizardConfigurationPage
 		initializeProperties( );
 
 		setControl( composite );
-		
+
 		IWizardContainer container = getContainer( );
-		if ( container instanceof IPageChangeProvider)
+		if ( container instanceof IPageChangeProvider )
 		{
-			IPageChangeProvider pageChangeProvider = (IPageChangeProvider)container;
-			pageChangeProvider.addPageChangedListener( new WizardPageChangedListener(this) );
+			IPageChangeProvider pageChangeProvider = (IPageChangeProvider) container;
+			pageChangeProvider
+					.addPageChangedListener( new WizardPageChangedListener(
+							this ) );
 		}
 	}
 
@@ -287,8 +297,11 @@ public class BirtWebProjectWizardConfigurationPage
 				BIRT_MAX_ROWS_SETTING, DataUtil.getNumberSetting( txtMaxRows
 						.getText( ) ) );
 		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_MAX_LEVELS_SETTING, DataUtil
-						.getNumberSetting( txtMaxLevels.getText( ) ) );
+				BIRT_MAX_ROWLEVELS_SETTING, DataUtil
+						.getNumberSetting( txtMaxRowLevels.getText( ) ) );
+		WebArtifactUtil.setContextParamValue( properties,
+				BIRT_MAX_COLUMNLEVELS_SETTING, DataUtil
+						.getNumberSetting( txtMaxColumnLevels.getText( ) ) );
 		WebArtifactUtil.setContextParamValue( properties,
 				BIRT_CUBE_MEMORYSIZE_SETTING, DataUtil
 						.getNumberSetting( txtCubeMemorySize.getText( ) ) );
@@ -315,13 +328,16 @@ public class BirtWebProjectWizardConfigurationPage
 	}
 
 	private class WizardPageChangedListener implements IPageChangedListener
-	{	
+	{
+
 		private IWizardPage wizardPage;
-		
+
 		/**
 		 * Constructs a listener which listens whenever the given page is
 		 * selected and updates its size.
-		 * @param wizardPage wizard page
+		 * 
+		 * @param wizardPage
+		 *            wizard page
 		 */
 		public WizardPageChangedListener( IWizardPage wizardPage )
 		{
@@ -329,8 +345,9 @@ public class BirtWebProjectWizardConfigurationPage
 		}
 
 		/**
-		 * Called whenever the wizard page has changed and forces its
-		 * container to resize its content.
+		 * Called whenever the wizard page has changed and forces its container
+		 * to resize its content.
+		 * 
 		 * @see org.eclipse.jface.dialogs.IPageChangedListener#pageChanged(org.eclipse.jface.dialogs.PageChangedEvent)
 		 */
 		public void pageChanged( PageChangedEvent event )

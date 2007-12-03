@@ -979,10 +979,16 @@ public class BirtUtility
 				ParameterAccessor.getDpi( request ) );
 
 		// Max cube fetch levels
-		int maxCubeLevels = ParameterAccessor.getMaxCubeLevels( request );
-		if ( maxCubeLevels >= 0 )
-			context.put( DataEngine.CUBECURSOR_FETCH_LIMIT_ON_LEVEL,
-					new Integer( maxCubeLevels ) );
+		int maxCubeRowLevels = ParameterAccessor.getMaxCubeRowLevels( request );
+		if ( maxCubeRowLevels >= 0 )
+			context.put( DataEngine.CUBECUSROR_FETCH_LIMIT_ON_ROW_EDGE,
+					new Integer( maxCubeRowLevels ) );
+
+		int maxCubeColumnLevels = ParameterAccessor
+				.getMaxCubeColumnLevels( request );
+		if ( maxCubeColumnLevels >= 0 )
+			context.put( DataEngine.CUBECURSOR_FETCH_LIMIT_ON_COLUMN_EDGE,
+					new Integer( maxCubeColumnLevels ) );
 
 		// Cube memory size
 		int cubeMemorySize = ParameterAccessor.getCubeMemorySize( request );

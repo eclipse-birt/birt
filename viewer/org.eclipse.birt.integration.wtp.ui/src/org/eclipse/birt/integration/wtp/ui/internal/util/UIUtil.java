@@ -441,11 +441,11 @@ public class UIUtil implements IBirtWizardConstants
 	}
 
 	/**
-	 * Create "BIRT_VIEWER_MAX_CUBE_LEVELS" configuration group
+	 * Create "BIRT_VIEWER_MAX_CUBE_ROWLEVELS" configuration group
 	 * 
 	 * @param parent
 	 */
-	public Text createMaxLevelsGroup( Composite parent )
+	public Text createMaxRowLevelsGroup( Composite parent )
 	{
 		Text txtMaxLevels = null;
 
@@ -464,7 +464,7 @@ public class UIUtil implements IBirtWizardConstants
 
 		Label label = new Label( composite, SWT.LEFT );
 		label.setFont( font );
-		label.setText( BirtWTPMessages.BIRTConfiguration_maxlevels_label );
+		label.setText( BirtWTPMessages.BIRTConfiguration_maxrowlevels_label );
 
 		txtMaxLevels = new Text( composite, SWT.BORDER );
 		txtMaxLevels.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -474,7 +474,7 @@ public class UIUtil implements IBirtWizardConstants
 
 		// set default value
 		int defaultValue = DataUtil.getInt( WebArtifactUtil
-				.getContextParamValue( properties, BIRT_MAX_LEVELS_SETTING ) );
+				.getContextParamValue( properties, BIRT_MAX_ROWLEVELS_SETTING ) );
 		if ( defaultValue > 0 )
 			txtMaxLevels.setText( "" + defaultValue ); //$NON-NLS-1$
 
@@ -492,7 +492,7 @@ public class UIUtil implements IBirtWizardConstants
 			public void modifyText( ModifyEvent e )
 			{
 				WebArtifactUtil.setContextParamValue( properties,
-						BIRT_MAX_LEVELS_SETTING, DataUtil
+						BIRT_MAX_ROWLEVELS_SETTING, DataUtil
 								.getNumberSetting( ( (Text) e.getSource( ) )
 										.getText( ) ) );
 			}
@@ -501,6 +501,67 @@ public class UIUtil implements IBirtWizardConstants
 		return txtMaxLevels;
 	}
 
+	/**
+	 * Create "BIRT_VIEWER_MAX_CUBE_COLUMNLEVELS" configuration group
+	 * 
+	 * @param parent
+	 */
+	public Text createMaxColumnLevelsGroup( Composite parent )
+	{
+		Text txtMaxLevels = null;
+
+		Composite composite = new Composite( parent, SWT.NULL );
+		GridLayout layout = new GridLayout( );
+		layout.marginWidth = 0;
+		layout.marginHeight = 0;
+		layout.numColumns = 2;
+		composite.setLayout( layout );
+
+		GridData data = new GridData( GridData.FILL_HORIZONTAL );
+		composite.setLayoutData( data );
+
+		// get font
+		Font font = parent.getFont( );
+
+		Label label = new Label( composite, SWT.LEFT );
+		label.setFont( font );
+		label.setText( BirtWTPMessages.BIRTConfiguration_maxcolumnlevels_label );
+
+		txtMaxLevels = new Text( composite, SWT.BORDER );
+		txtMaxLevels.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		txtMaxLevels.setFont( font );
+		txtMaxLevels
+				.setTextLimit( Integer.toString( MAX_MAX_LEVELS ).length( ) );
+
+		// set default value
+		int defaultValue = DataUtil.getInt( WebArtifactUtil
+				.getContextParamValue( properties, BIRT_MAX_COLUMNLEVELS_SETTING ) );
+		if ( defaultValue > 0 )
+			txtMaxLevels.setText( "" + defaultValue ); //$NON-NLS-1$
+
+		txtMaxLevels.addVerifyListener( new VerifyListener( ) {
+
+			public void verifyText( VerifyEvent e )
+			{
+				e.doit = e.text.matches( "[0-9]*" ); //$NON-NLS-1$
+			}
+		} );
+
+		// add modify listener
+		txtMaxLevels.addModifyListener( new ModifyListener( ) {
+
+			public void modifyText( ModifyEvent e )
+			{
+				WebArtifactUtil.setContextParamValue( properties,
+						BIRT_MAX_COLUMNLEVELS_SETTING, DataUtil
+								.getNumberSetting( ( (Text) e.getSource( ) )
+										.getText( ) ) );
+			}
+		} );
+
+		return txtMaxLevels;
+	}
+	
 	/**
 	 * Create "BIRT_VIEWER_CUBE_MEMORY_SIZE" configuration group
 	 * 
