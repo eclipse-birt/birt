@@ -310,7 +310,7 @@ public class DataExtractionTaskTest extends EngineCase
 				if ( data != null )
 				{
 					data.next( );
-					assertEquals( 112, data.getValue( "number" ) );
+					assertEquals( "112", data.getValue( "number" ).toString() );
 				}
 				data.close( );
 			}
