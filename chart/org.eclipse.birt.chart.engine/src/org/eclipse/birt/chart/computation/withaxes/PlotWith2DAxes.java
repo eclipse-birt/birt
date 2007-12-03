@@ -448,6 +448,9 @@ public final class PlotWith2DAxes extends PlotWithAxes
 						if ( dsi[iSeriesIndex] == null )
 						{
 							dsi[iSeriesIndex] = new DataSetIterator( ds );
+							// Reverse the series categories if needed.
+							dsi[iSeriesIndex].reverse( cwa.isReverseCategory( ) );
+							
 							if ( ( dsi[iSeriesIndex].getDataType( ) & IConstants.NUMERICAL ) != IConstants.NUMERICAL )
 							{
 								throw new ChartException( ChartEnginePlugin.ID,
@@ -470,6 +473,9 @@ public final class PlotWith2DAxes extends PlotWithAxes
 								{
 									ds = se.getDataSet( ); // DATA SET
 									dsi[iSeriesIndex] = new DataSetIterator( ds );
+									// Reverse the series categories if needed.
+									dsi[iSeriesIndex].reverse( cwa.isReverseCategory( ) );
+									
 									if ( ( dsi[iSeriesIndex].getDataType( ) & IConstants.NUMERICAL ) != IConstants.NUMERICAL )
 									{
 										throw new ChartException( ChartEnginePlugin.ID,
@@ -712,6 +718,8 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		{
 			dsi = new DataSetIterator( getMinMax( axPrimaryOrthogonal,
 					iAxisType ), iAxisType );
+			// Reverse the series categories if needed.
+			dsi.reverse( cwa.isReverseCategory( ) );
 		}
 		else
 		{
