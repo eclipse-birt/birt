@@ -28,7 +28,6 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
-import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.CrosstabFilterModelProvider.LevelFilterConditionHandle;
 import org.eclipse.birt.report.item.crosstab.ui.views.dialogs.CrosstabSortKeyBuilder;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;

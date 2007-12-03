@@ -23,10 +23,12 @@ import org.eclipse.birt.report.designer.ui.views.attributes.providers.FilterMode
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ILevelViewConstants;
+import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.item.crosstab.ui.views.dialogs.CrosstabFilterConditionBuilder;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -39,6 +41,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElementModel;
 import org.eclipse.jface.dialogs.Dialog;
 
@@ -53,7 +56,7 @@ public class CrosstabFilterModelProvider extends FilterModelProvider
 	 * Constant, represents empty String array.
 	 */
 	private static final String[] EMPTY = new String[0];
-	
+
 	private static final String EMPTY_STRING = "";
 
 	/**
@@ -76,7 +79,7 @@ public class CrosstabFilterModelProvider extends FilterModelProvider
 	 */
 	public boolean doEditItem( Object item, int pos )
 	{
-		 if ( item instanceof ExtendedItemHandle
+		if ( item instanceof ExtendedItemHandle
 				&& ( (ExtendedItemHandle) item ).getExtensionName( )
 						.equals( "Crosstab" ) )
 		{
@@ -87,19 +90,22 @@ public class CrosstabFilterModelProvider extends FilterModelProvider
 			{
 				return true;
 			}
-			LevelFilterConditionHandle levelfilterHandle = (LevelFilterConditionHandle) Arrays.asList( levelArray )
+			TargetFilterConditionHandle targetFilterHandle = (TargetFilterConditionHandle) Arrays.asList( levelArray )
 					.get( pos );
-			if ( levelfilterHandle == null )
+			if ( targetFilterHandle == null )
 			{
 				return false;
 			}
-			LevelViewHandle level = levelfilterHandle.getLevelHandle( );
-			FilterConditionElementHandle filterHandle = levelfilterHandle.getfilterConditionHandle( );
+
+			Object target = targetFilterHandle.getTarget( );
+
+			FilterConditionElementHandle filterHandle = targetFilterHandle.getfilterConditionHandle( );
 
 			CrosstabFilterConditionBuilder dialog = new CrosstabFilterConditionBuilder( UIUtil.getDefaultShell( ),
-					CrosstabFilterConditionBuilder.DLG_TITLE_EDIT, CrosstabFilterConditionBuilder.DLG_MESSAGE_EDIT );
+					CrosstabFilterConditionBuilder.DLG_TITLE_EDIT,
+					CrosstabFilterConditionBuilder.DLG_MESSAGE_EDIT );
 			dialog.setDesignHandle( (DesignElementHandle) item );
-			dialog.setInput( filterHandle, level );
+			dialog.setInput( filterHandle, target );
 			if ( dialog.open( ) == Dialog.CANCEL )
 			{
 				return false;
@@ -133,27 +139,39 @@ public class CrosstabFilterModelProvider extends FilterModelProvider
 		{
 			return true;
 		}
-		LevelFilterConditionHandle levelfilterKeyHandle = (LevelFilterConditionHandle) Arrays.asList( levelArray )
+		TargetFilterConditionHandle targetfilterKeyHandle = (TargetFilterConditionHandle) Arrays.asList( levelArray )
 				.get( pos );
-		LevelViewHandle level = levelfilterKeyHandle.getLevelHandle( );
-//		PropertyHandle propertyHandle = level.getModelHandle( )
-//				.getPropertyHandle( ILevelViewConstants.FILTER_PROP );
-		FilterConditionElementHandle filterCondition = levelfilterKeyHandle.getfilterConditionHandle( );
-//		if ( propertyHandle != null && filterCondition != null )
-//		{
-//			propertyHandle.removeItem( filterCondition );
-//		}
-	
+		Object target = targetfilterKeyHandle.getTarget( );
+		// PropertyHandle propertyHandle = level.getModelHandle( )
+		// .getPropertyHandle( ILevelViewConstants.FILTER_PROP );
+		FilterConditionElementHandle filterCondition = targetfilterKeyHandle.getfilterConditionHandle( );
+		// if ( propertyHandle != null && filterCondition != null )
+		// {
+		// propertyHandle.removeItem( filterCondition );
+		// }
+
 		try
 		{
-			level.getModelHandle( ).drop( ILevelViewConstants.FILTER_PROP, filterCondition );
+			if ( target instanceof LevelViewHandle )
+			{
+				LevelViewHandle level = (LevelViewHandle) target;
+				level.getModelHandle( ).drop( ILevelViewConstants.FILTER_PROP,
+						filterCondition );
+			}
+			else if ( target instanceof MeasureViewHandle )
+			{
+				MeasureViewHandle measure = (MeasureViewHandle) target;
+				measure.getModelHandle( )
+						.drop( ILevelViewConstants.FILTER_PROP, filterCondition );
+			}
+
 		}
 		catch ( SemanticException e )
 		{
 			// TODO Auto-generated catch block
 			return false;
 		}
-				
+
 		return true;
 	}
 
@@ -174,7 +192,8 @@ public class CrosstabFilterModelProvider extends FilterModelProvider
 						.equals( "Crosstab" ) )
 		{
 			CrosstabFilterConditionBuilder dialog = new CrosstabFilterConditionBuilder( UIUtil.getDefaultShell( ),
-					CrosstabFilterConditionBuilder.DLG_TITLE_NEW,CrosstabFilterConditionBuilder.DLG_MESSAGE_NEW );
+					CrosstabFilterConditionBuilder.DLG_TITLE_NEW,
+					CrosstabFilterConditionBuilder.DLG_MESSAGE_NEW );
 			dialog.setDesignHandle( (DesignElementHandle) item );
 			dialog.setInput( null );
 			if ( dialog.open( ) == Dialog.CANCEL )
@@ -190,7 +209,6 @@ public class CrosstabFilterModelProvider extends FilterModelProvider
 		return true;
 	}
 
-
 	/**
 	 * Gets property display name of a given element.
 	 * 
@@ -203,26 +221,43 @@ public class CrosstabFilterModelProvider extends FilterModelProvider
 	public String getText( Object element, String key )
 	{
 
-		if ( !( element instanceof LevelFilterConditionHandle ) )
+		if ( !( element instanceof TargetFilterConditionHandle ) )
 			return "";//$NON-NLS-1$
 
 		if ( key.equals( ILevelViewConstants.LEVEL_PROP ) )
 		{
-			LevelHandle cubeLevel= ( (LevelFilterConditionHandle) element ).getLevelHandle( )
-			.getCubeLevel( );
-			
-			if(cubeLevel == null)
+
+			Object target = ( (TargetFilterConditionHandle) element ).getTarget( );
+
+			if ( target instanceof LevelViewHandle )
 			{
-				return EMPTY_STRING;
-			}else
+				LevelHandle cubeLevel = ( (LevelViewHandle) target ).getCubeLevel( );
+				if ( cubeLevel == null )
+				{
+					return EMPTY_STRING;
+				}
+				else
+				{
+					return cubeLevel.getFullName( );
+				}
+			}
+			else if ( target instanceof MeasureViewHandle )
 			{
-				return cubeLevel.getFullName( );
-			}				
+				MeasureHandle cubeMeasure = ( (MeasureViewHandle) target ).getCubeMeasure( );
+				if ( cubeMeasure == null )
+				{
+					return EMPTY_STRING;
+				}
+				else
+				{
+					return cubeMeasure.getFullName( );
+				}
+			}
 
 		}
 
-		element = ((LevelFilterConditionHandle) element ).getfilterConditionHandle( );
-		String value = ( (FilterConditionElementHandle) element ).getStringProperty( key );
+		Object tmpElement = ( (TargetFilterConditionHandle) element ).getfilterConditionHandle( );
+		String value = ( (FilterConditionElementHandle) tmpElement ).getStringProperty( key );
 		if ( value == null )
 		{
 			value = "";//$NON-NLS-1$
@@ -255,12 +290,13 @@ public class CrosstabFilterModelProvider extends FilterModelProvider
 	{
 		assert keys != null;
 		String[] columnNames = new String[keys.length];
-		columnNames[0] = Messages.getString( "CrosstabSortingModelProvider.ColumnName.GroupLevel" );
+		columnNames[0] = Messages.getString( "CrosstabSortingModelProvider.ColumnName.GroupLevelOrMeasure" );
 		for ( int i = 1; i < keys.length; i++ )
 		{
 			IElementDefn ElementDefn = DEUtil.getMetaDataDictionary( )
-			.getElement( ReportDesignConstants.FILTER_CONDITION_ELEMENT );
-	columnNames[i] = ElementDefn.getProperty(  keys[i] ).getDisplayName( );
+					.getElement( ReportDesignConstants.FILTER_CONDITION_ELEMENT );
+			columnNames[i] = ElementDefn.getProperty( keys[i] )
+					.getDisplayName( );
 		}
 		return columnNames;
 	}
@@ -287,7 +323,7 @@ public class CrosstabFilterModelProvider extends FilterModelProvider
 		catch ( ExtendedElementException e )
 		{
 			// TODO Auto-generated catch block
-			logger.log(Level.SEVERE, e.getMessage(),e);
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 		if ( crossTab == null )
 		{
@@ -307,6 +343,19 @@ public class CrosstabFilterModelProvider extends FilterModelProvider
 			list.addAll( getLevel( (ExtendedItemHandle) elementHandle ) );
 		}
 
+		int measureCount = crossTab.getMeasureCount( );
+		for ( int i = 0; i < measureCount; i++ )
+		{
+			MeasureViewHandle measureView = crossTab.getMeasure( i );
+			Iterator iter = measureView.filtersIterator( );
+			while ( iter.hasNext( ) )
+			{
+				TargetFilterConditionHandle levelSortKeyHandle = new TargetFilterConditionHandle( measureView,
+						(FilterConditionElementHandle) iter.next( ) );
+				list.add( levelSortKeyHandle );
+			}
+		}
+
 		return list.toArray( );
 	}
 
@@ -320,7 +369,7 @@ public class CrosstabFilterModelProvider extends FilterModelProvider
 		catch ( ExtendedElementException e )
 		{
 			// TODO Auto-generated catch block
-			logger.log(Level.SEVERE, e.getMessage(),e);
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 		List list = new ArrayList( );
 		if ( crossTabViewHandle == null )
@@ -339,7 +388,7 @@ public class CrosstabFilterModelProvider extends FilterModelProvider
 				Iterator iter = levelHandle.filtersIterator( );
 				while ( iter.hasNext( ) )
 				{
-					LevelFilterConditionHandle levelSortKeyHandle = new LevelFilterConditionHandle( levelHandle,
+					TargetFilterConditionHandle levelSortKeyHandle = new TargetFilterConditionHandle( levelHandle,
 							(FilterConditionElementHandle) iter.next( ) );
 					list.add( levelSortKeyHandle );
 				}
@@ -368,27 +417,17 @@ public class CrosstabFilterModelProvider extends FilterModelProvider
 		return false;
 	}
 
-	class LevelFilterConditionHandle
+	class TargetFilterConditionHandle
 	{
 
-		protected LevelViewHandle levelHandle;
 		protected FilterConditionElementHandle filterHandle;
+		protected Object target;
 
-		public LevelFilterConditionHandle( LevelViewHandle level,
+		public TargetFilterConditionHandle(Object target,
 				FilterConditionElementHandle filterCondition )
 		{
-			this.levelHandle = level;
+			this.target = target;
 			this.filterHandle = filterCondition;
-		}
-
-		public LevelViewHandle getLevelHandle( )
-		{
-			return this.levelHandle;
-		}
-
-		public void setLevelHandle( LevelViewHandle level )
-		{
-			this.levelHandle = level;
 		}
 
 		public FilterConditionElementHandle getfilterConditionHandle( )
@@ -400,6 +439,16 @@ public class CrosstabFilterModelProvider extends FilterModelProvider
 				FilterConditionElementHandle filterCondition )
 		{
 			this.filterHandle = filterCondition;
+		}
+
+		public Object getTarget( )
+		{
+			return this.target;
+		}
+
+		public void setTarget( Object target )
+		{
+			this.target = target;
 		}
 
 	}
