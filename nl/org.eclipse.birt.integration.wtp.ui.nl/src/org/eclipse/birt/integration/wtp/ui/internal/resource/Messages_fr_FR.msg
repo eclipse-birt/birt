@@ -57,7 +57,8 @@ BIRTConfiguration_report_access_message=Accéder uniquement aux états et d&ocumen
 BIRTConfiguration_overwrite_message=Toujours écr&aser le document généré
 
 BIRTConfiguration_maxrows_label=Nombre maximal de lignes de jeux de &données :
-BIRTConfiguration_maxlevels_label=Niveaux &max de récupération de cube :
+BIRTConfiguration_maxrowlevels_label=&Max cube fetching row levels:
+BIRTConfiguration_maxcolumnlevels_label=&Max cube fetching column levels:
 BIRTConfiguration_cubememsize_label=Taille maximale de la mémoire réservée à la création de cube :
 
 BIRTConfiguration_loglevel_label=Sél&ectionnez le niveau de journalisation :

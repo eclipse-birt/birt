@@ -57,7 +57,8 @@ BIRTConfiguration_report_access_message=&Nur auf den Bericht und das Dokument im
 BIRTConfiguration_overwrite_message=Die erstellte Dokumentdatei &immer überschreiben
 
 BIRTConfiguration_maxrows_label=Maximale &Datensatzzeilen:
-BIRTConfiguration_maxlevels_label=&Maximale Abrufebenen für Quader:
+BIRTConfiguration_maxrowlevels_label=&Max cube fetching row levels:
+BIRTConfiguration_maxcolumnlevels_label=&Max cube fetching column levels:
 BIRTConfiguration_cubememsize_label=&Maximale Speichergröße zum Erstellen von Quadern:
 
 BIRTConfiguration_loglevel_label=&Protokollebene auswählen:
