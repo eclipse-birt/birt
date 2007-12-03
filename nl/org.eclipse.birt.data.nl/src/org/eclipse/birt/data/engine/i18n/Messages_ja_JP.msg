@@ -344,6 +344,7 @@ data.olap.NoEdgeDefinitionFound=行と列のどちらのエッジも定義されていないため、ク
 data.olap.invalidSortDefinition=ソートの定義が無効です。 
 data.olap.invalidMeasureRef="{0}" は、有効な計測参照式ではありません。
 data.olap.invalidLevelAttr=属性が無効です。
+data.olap.referencedBindingNotExist=Referenced binding "{0}" does not exist!
 data.olap.invalidBindingReferToInexitDim=バインド "{0}" で参照しているレベルが無効です。
 data.olap.invalidBindingReferToInexitMeasure=バインド "{0}" で参照している計測が無効です。  
 data.olap.invalidBindingMissingAggrFunc=バインド "{0}" に集計関数がありません。

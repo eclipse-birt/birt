@@ -344,6 +344,7 @@ data.olap.NoEdgeDefinitionFound=Echec de l'exécution de la requête car elle ne c
 data.olap.invalidSortDefinition=La définition de tri est incorrecte. 
 data.olap.invalidMeasureRef="{0}" n''est pas une expression de référence de mesure valide.
 data.olap.invalidLevelAttr=L'attribut est incorrect :
+data.olap.referencedBindingNotExist=Referenced binding "{0}" does not exist!
 data.olap.invalidBindingReferToInexitDim=La liaison "{0}" fait référence à des niveaux incorrects.
 data.olap.invalidBindingReferToInexitMeasure=La liaison "{0}" fait référence à des mesures incorrectes.  
 data.olap.invalidBindingMissingAggrFunc=La fonction d''agrégation de la liaison "{0}" est manquante.
