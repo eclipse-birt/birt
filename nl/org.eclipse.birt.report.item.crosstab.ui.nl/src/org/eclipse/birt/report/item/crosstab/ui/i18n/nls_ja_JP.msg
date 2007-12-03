@@ -62,7 +62,7 @@ MeasureSubNodeProvider.Aggregation=集計
 
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=エラー
 SortkeyBuilder.DialogTitle.Label.Key=キー :
-CrosstabSortingModelProvider.ColumnName.GroupLevel=グループレベル
+CrosstabSortingModelProvider.ColumnName.GroupLevelOrMeasure=Target
 CrosstabSortkeyBuilder.DialogTitle.Label.GroupLevel=グループレベル :
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=式ビルダを起動するには、ここをクリックしてしてください
 SortkeyBuilder.DialogTitle.Label.Direction=方向 :
@@ -203,6 +203,7 @@ CrosstabSortKeyBuilder.Label.SelRowMemberValue=行のメンバ値の選択
 CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=列のメンバ値の選択
 CrosstabFilterConditionBuilder.Label.SelRowMemberValue=行のメンバ値の選択
 CrosstabFilterConditionBuilder.DialogTitle.Label.GroupLevel=グループレベル :
+CrosstabFilterConditionBuilder.DialogTitle.Label.Measure=Measure:
 SelColumnMemberValue.Column.Level=レベル
 SelColumnMemberValue.Column.Value=値
 ChoiceSetFactory.choice.None=なし

@@ -62,7 +62,7 @@ MeasureSubNodeProvider.Aggregation=집계
 
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=오류
 SortkeyBuilder.DialogTitle.Label.Key=키:
-CrosstabSortingModelProvider.ColumnName.GroupLevel=그룹 수준
+CrosstabSortingModelProvider.ColumnName.GroupLevelOrMeasure=Target
 CrosstabSortkeyBuilder.DialogTitle.Label.GroupLevel=그룹 수준:
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=식 빌더를 호출하려면 누릅니다.
 SortkeyBuilder.DialogTitle.Label.Direction=방향:
@@ -203,6 +203,7 @@ CrosstabSortKeyBuilder.Label.SelRowMemberValue=행 구성원 값 선택
 CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=열 구성원 값 선택
 CrosstabFilterConditionBuilder.Label.SelRowMemberValue=행 구성원 값 선택
 CrosstabFilterConditionBuilder.DialogTitle.Label.GroupLevel=그룹 수준:
+CrosstabFilterConditionBuilder.DialogTitle.Label.Measure=Measure:
 SelColumnMemberValue.Column.Level=수준
 SelColumnMemberValue.Column.Value=값
 ChoiceSetFactory.choice.None=없음

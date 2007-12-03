@@ -62,7 +62,7 @@ MeasureSubNodeProvider.Aggregation=聚合
 
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=错误
 SortkeyBuilder.DialogTitle.Label.Key=关键字:
-CrosstabSortingModelProvider.ColumnName.GroupLevel=组级别
+CrosstabSortingModelProvider.ColumnName.GroupLevelOrMeasure=Target
 CrosstabSortkeyBuilder.DialogTitle.Label.GroupLevel=组级别:
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=单击以调用表达式生成器
 SortkeyBuilder.DialogTitle.Label.Direction=方向:
@@ -203,6 +203,7 @@ CrosstabSortKeyBuilder.Label.SelRowMemberValue=选择行成员值
 CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=选择列成员值
 CrosstabFilterConditionBuilder.Label.SelRowMemberValue=选择行成员值
 CrosstabFilterConditionBuilder.DialogTitle.Label.GroupLevel=组级别:
+CrosstabFilterConditionBuilder.DialogTitle.Label.Measure=Measure:
 SelColumnMemberValue.Column.Level=级别
 SelColumnMemberValue.Column.Value=值
 ChoiceSetFactory.choice.None=无
