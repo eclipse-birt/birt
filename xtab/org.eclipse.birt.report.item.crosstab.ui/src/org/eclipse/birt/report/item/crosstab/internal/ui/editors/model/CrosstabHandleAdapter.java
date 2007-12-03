@@ -101,22 +101,45 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 		adjustColumn( columns, details );
 		adjustRow( rows, details );
 
-		int rowBase = ( (Integer) map.get( COLUMNAREA_ROW ) ).intValue( );
-		int columnBase = ( (Integer) map.get( ROWAREA_COLUMN ) ).intValue( );
-		CrosstabCellAdapter first = factory.createCrosstabCellAdapter( LEFT_CONNER,
-				null,
-				1,
-				rowBase,
-				1,
-				columnBase,
-				false );
-		list.add( 0, first );
+		buildLeftConner( list );
 		// debug("all", list);
 
 		Collections.sort( list, new ModelComparator( ) );
 
 		oldModelList = list;
 		return list;
+	}
+	
+	private void buildLeftConner( List list )
+	{
+		int rowBase = ( (Integer) map.get( COLUMNAREA_ROW ) ).intValue( );
+		int columnBase = ( (Integer) map.get( ROWAREA_COLUMN ) ).intValue( );
+		CrosstabReportItemHandle handle = getCrosstabReportItemHandle( );
+		CrosstabCellAdapter first = null;
+		if ( handle.getHeader( ) == null )
+		{
+			first = factory.createCrosstabCellAdapter( LEFT_CONNER,
+					null,
+					1,
+					rowBase,
+					1,
+					columnBase,
+					false );
+		}
+		else
+		{
+			first = factory.createCrosstabCellAdapter( ICrosstabCellAdapterFactory.CROSSTAB_HEADER,
+					handle.getHeader( ),
+					1,
+					rowBase,
+					1,
+					columnBase,
+					false );
+		}
+		if ( first != null )
+		{
+			list.add( 0, first );
+		}
 	}
 
 	private void adjustDirection( List columns, List rows )
@@ -1103,6 +1126,11 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 			{
 				retValue = new TotalCrosstabCellHandleAdapter( handle );
 				( (TotalCrosstabCellHandleAdapter) retValue ).setType( TotalCrosstabCellHandleAdapter.SUB_TOTAL );
+			}
+			else if ( CROSSTAB_HEADER.equals( type ) )
+			{
+				retValue = new CrosstabHeaderHandleAdapter( handle, CrosstabHeaderHandleAdapter.CROSSTAB_HEADER );
+				//( (TotalCrosstabCellHandleAdapter) retValue ).setType( CrosstabHeaderHandleAdapter.CROSSTAB_HEADER );
 			}
 			else if ( CELL_GRAND_TOTAL.equals( type ) )
 			{

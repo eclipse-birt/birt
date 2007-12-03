@@ -36,6 +36,8 @@ public interface ICrosstabCellAdapterFactory
 	// measure cell adapter
 	// share the one AbstractCrosstabItemHandle
 	public static final String CELL_MEASURE_HEADER = "measure_header";//$NON-NLS-1$
+	
+	public static final String CROSSTAB_HEADER = "crosstab_header";//$NON-NLS-1$
 
 	public static final String CELL_MEASURE = "cell_measure";//$NON-NLS-1$
 
