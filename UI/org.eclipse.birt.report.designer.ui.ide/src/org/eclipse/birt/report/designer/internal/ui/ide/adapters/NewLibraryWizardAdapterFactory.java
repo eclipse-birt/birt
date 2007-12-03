@@ -42,8 +42,10 @@ import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Composite;
@@ -119,6 +121,18 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage implements
 		super( pageName, selection );
 	}
 
+	protected void createAdvancedControls( Composite parent )
+	{
+	}
+	
+	protected IStatus validateLinkedResource( )
+	{
+		// always return OK here.
+		return new Status( IStatus.OK, ReportPlugin.getDefault( )
+				.getBundle( )
+				.getSymbolicName( ), IStatus.OK, "", null ); //$NON-NLS-1$
+	}
+
 	public boolean performFinish( )
 	{
 		final IPath containerName = getContainerFullPath( );
@@ -135,8 +149,10 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage implements
 				fileName = fn;
 			}
 		}
-		else{
-			if ( !fn.toLowerCase( Locale.getDefault( ) ).endsWith( "." + fileExtension ) ) //$NON-NLS-1$
+		else
+		{
+			if ( !fn.toLowerCase( Locale.getDefault( ) )
+					.endsWith( "." + fileExtension ) ) //$NON-NLS-1$
 			{
 				fileName = fn + "." + fileExtension; //$NON-NLS-1$
 			}
@@ -327,7 +343,7 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage implements
 	{
 		BasicNewProjectResourceWizard.updatePerspective( configElement );
 	}
-	
+
 	protected boolean validatePage( )
 	{
 		boolean rt = super.validatePage( );
@@ -370,11 +386,17 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage implements
 				}
 				else
 					resourcePath = getContainerFullPath( ).append( getFileName( ) );
-	
+
 				IWorkspace workspace = ResourcesPlugin.getWorkspace( );
-				if ( workspace.getRoot( ).getFolder( resourcePath ).getLocation( ).toFile( ).exists( )
+				if ( workspace.getRoot( )
+						.getFolder( resourcePath )
+						.getLocation( )
+						.toFile( )
+						.exists( )
 						|| workspace.getRoot( )
-								.getFile( resourcePath ).getLocation( ).toFile( )
+								.getFile( resourcePath )
+								.getLocation( )
+								.toFile( )
 								.exists( ) )
 				{
 					setErrorMessage( Messages.getString( "WizardNewReportCreationPage.Errors.nameExists" ) ); //$NON-NLS-1$
