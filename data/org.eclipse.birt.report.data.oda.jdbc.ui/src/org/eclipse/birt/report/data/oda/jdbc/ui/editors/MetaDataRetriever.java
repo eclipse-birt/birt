@@ -10,16 +10,13 @@
  *******************************************************************************/
 package org.eclipse.birt.report.data.oda.jdbc.ui.editors;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.report.data.oda.jdbc.ParameterMetaData;
-import org.eclipse.birt.report.data.oda.jdbc.ResultSetMetaData;
-import org.eclipse.birt.report.data.oda.jdbc.ui.provider.IMetaDataProvider;
+import org.eclipse.birt.report.data.oda.jdbc.ui.provider.OdaConnectionProvider;
+import org.eclipse.datatools.connectivity.oda.IConnection;
 import org.eclipse.datatools.connectivity.oda.IParameterMetaData;
+import org.eclipse.datatools.connectivity.oda.IQuery;
 import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
@@ -31,113 +28,47 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
  */
 class MetaDataRetriever
 {
-	private IMetaDataProvider metaDataProvider;
-	private IParameterMetaData paramMeta;
 	private IResultSetMetaData resultMeta;
-	private PreparedStatement statement;
-	private ResultSet resultset;
+	private IParameterMetaData paramMeta;
+	private IQuery query;
 	
 	private static Logger logger = Logger.getLogger( MetaDataRetriever.class.getName( ) );	
 
+	
 	/**
-	 * Constructor of MetaDataRetriever
 	 * 
-	 * @param metaDataProvider
+	 * @param odaMetaDataProvider
 	 * @param queryText
-	 * @throws OdaException
+	 * @param dataSetType
 	 */
-	MetaDataRetriever( IMetaDataProvider metaDataProvider, String queryText )
+	MetaDataRetriever( OdaConnectionProvider odaMetaDataProvider,
+			String queryText, String dataSetType )
 	{
-		this.metaDataProvider = metaDataProvider;
-		if( this.metaDataProvider!= null )
+		if ( odaMetaDataProvider != null )
 		{
 			try
 			{
-				statement = this.metaDataProvider.getConnection( )
-						.prepareStatement( queryText );
-			}
-			catch ( SQLException e )
-			{
-				logger.log( Level.INFO, e.getMessage( ), e );
-				return;
-			}
-
-			if ( statement != null )
-			{
-				try
+				IConnection con = odaMetaDataProvider.getConnection( );
+				if ( con != null && con.isOpen( ) )
 				{
-					this.paramMeta = new ParameterMetaData( statement.getParameterMetaData( ) );
-				}
-				catch ( SQLException e )
-				{
-					// second try
+					query = con.newQuery( dataSetType );
 					try
 					{
-						resultset = statement.executeQuery( );
+						query.prepare( queryText );
+						this.paramMeta = query.getParameterMetaData( );
 					}
-					catch ( SQLException e2 )
+					catch ( OdaException ex )
 					{
-						logger.log( Level.INFO, e2.getMessage( ), e2 );
-						return;
-					}
-					try
-					{
-						this.paramMeta = new ParameterMetaData( statement.getParameterMetaData( ) );
-					}
-					catch ( OdaException e2 )
-					{
-						// impossible
-					}
-					catch ( SQLException e2 )
-					{
-						logger.log( Level.INFO, e2.getMessage( ), e2 );
 						this.paramMeta = null;
 					}
-
-					try
-					{
-						this.resultMeta = new ResultSetMetaData( resultset.getMetaData( ) );
-					}
-					catch ( SQLException e1 )
-					{
-						logger.log( Level.INFO, e1.getMessage( ), e1 );
-						return;
-					}
-					catch ( OdaException e3 )
-					{
-						// impossible
-					}
+					this.resultMeta = query.getMetaData( );
 				}
-				catch ( OdaException e )
-				{
-					//impossible
-				}
-				if ( this.resultMeta == null )
-				{
-					try
-					{
-						resultset = statement.executeQuery( );
-					}
-					catch ( SQLException e1 )
-					{
-						logger.log( Level.INFO, e1.getMessage( ), e1 );
-						return;
-					}
-					
-					try
-					{
-						this.resultMeta = new ResultSetMetaData( resultset.getMetaData( ) );
-					}
-					catch ( SQLException e )
-					{
-						logger.log( Level.INFO, e.getMessage( ), e );
-						return;
-					}
-					catch ( OdaException e )
-					{
-						//impossible
-					}
-				}
+			}
+			catch ( OdaException e )
+			{
+				this.resultMeta = null;
+				logger.log( Level.INFO, e.getMessage( ), e );
+				return;
 			}
 		}
 	}
@@ -163,35 +94,21 @@ class MetaDataRetriever
 	}
 	
 	/**
-	 * Release all the connection resources
-	 * 
+	 * Release IQuery object
 	 */
 	void close( )
 	{
-		if( this.resultset!= null )
+		if ( query != null )
 		{
 			try
 			{
-				this.resultset.close( );
+				query.close( );
+				query = null;
 			}
-			catch ( SQLException e )
+			catch ( OdaException e )
 			{
-				logger.log( Level.FINER, e.getMessage( ), e );
-				this.resultset = null;
-			}
-		}
-		if( this.statement!= null )
-		{
-			try
-			{
-				this.statement.close( );
-			}
-			catch ( SQLException e )
-			{
-				logger.log( Level.FINER, e.getMessage( ), e );
-				this.statement = null;
+				logger.log( Level.WARNING, e.getMessage( ), e );
 			}
 		}
 	}
-	
 }

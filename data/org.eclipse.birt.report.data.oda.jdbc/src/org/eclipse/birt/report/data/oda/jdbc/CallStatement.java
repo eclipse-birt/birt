@@ -1440,7 +1440,8 @@ public class CallStatement implements IAdvancedQuery
 		for ( int i = 0; i < positionArray.length; i++ )
 		{
 			int index = positionArray[i]; // 1-based
-			paramMetaList2.add( paramMetaList1.get( index - 1 ) );
+			if ( paramMetaList1.size( ) >= index )
+				paramMetaList2.add( paramMetaList1.get( index - 1 ) );
 		}
 		cachedParameterMetaData = new SPParameterMetaData( paramMetaList2 );
 		return cachedParameterMetaData;

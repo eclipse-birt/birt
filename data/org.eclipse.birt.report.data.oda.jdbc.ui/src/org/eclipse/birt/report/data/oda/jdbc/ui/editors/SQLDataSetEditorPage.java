@@ -23,6 +23,7 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.JdbcPlugin;
 import org.eclipse.birt.report.data.oda.jdbc.ui.preference.DateSetPreferencePage;
 import org.eclipse.birt.report.data.oda.jdbc.ui.provider.IMetaDataProvider;
 import org.eclipse.birt.report.data.oda.jdbc.ui.provider.JdbcMetaDataProvider;
+import org.eclipse.birt.report.data.oda.jdbc.ui.provider.OdaConnectionProvider;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.DbObject;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.data.oda.jdbc.ui.util.IHelpConstants;
@@ -121,6 +122,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	private boolean isSchemaSupported = false;
 	private boolean expandDbObjectsTree = false;
 	private IMetaDataProvider metaDataProvider = null;
+	private OdaConnectionProvider odaConnectionProvider = null;
 	private JdbcSQLSourceViewerConfiguration sourceViewerConfiguration = null;
 	private String cachedSearchTxt = "";
 	private String formerQueryTxt = "";
@@ -317,6 +319,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		createMetaDataProvider( );
 		jdbcConnection = connectMetadataProvider( metaDataProvider,
 				this.getDataSetDesign( ).getDataSourceDesign( ) );
+		this.odaConnectionProvider.connect( );
 
 		try
 		{
@@ -529,13 +532,12 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		if ( this.shouldUpdateDataSetDesign ||
 				!formerQueryTxt.equals( design.getQueryText( ) ) )
 		{
-			MetaDataRetriever retriever = new MetaDataRetriever( this.metaDataProvider,
-					design.getQueryText( ) );
+			MetaDataRetriever retriever = new MetaDataRetriever( this.odaConnectionProvider,
+					design.getQueryText( ),
+					design.getOdaExtensionDataSetId( ) );
 			IResultSetMetaData resultsetMeta = retriever.getResultSetMetaData( );
-			IParameterMetaData paramMeta =  retriever.getParameterMetaData( );
-			SQLUtility.saveDataSetDesign( design,
-					resultsetMeta,
-					paramMeta );
+			IParameterMetaData paramMeta = retriever.getParameterMetaData( );
+			SQLUtility.saveDataSetDesign( design, resultsetMeta, paramMeta );
 			formerQueryTxt = design.getQueryText( );
 			this.shouldUpdateDataSetDesign = false;
 			retriever.close( );
@@ -1261,6 +1263,11 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		{
 			metaDataProvider = new JdbcMetaDataProvider( null );
 		}
+		if ( this.odaConnectionProvider == null )
+		{
+			this.odaConnectionProvider = new OdaConnectionProvider( this.getInitializationDesign( )
+					.getDataSourceDesign( ) );
+		}
 	}
 
 	/**
@@ -1290,6 +1297,12 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 				tableList = null;
 				schemaList = null;
 				schemaCombo.removeAll( );
+			}
+			if( this.odaConnectionProvider!= null )
+			{
+				odaConnectionProvider.closeConnection( );
+				odaConnectionProvider = new OdaConnectionProvider( curDataSourceDesign );
+				odaConnectionProvider.connect( );
 			}
 
 			if ( jdbcConnection != null )
@@ -1454,7 +1467,9 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 							.length( ) == 0 )
 				return;
 			
-			MetaDataRetriever retriever = new MetaDataRetriever( this.metaDataProvider, this.getDataSetDesign( ).getQueryText( ) );
+			MetaDataRetriever retriever = new MetaDataRetriever( this.odaConnectionProvider,
+					this.getDataSetDesign( ).getQueryText( ),
+					this.getDataSetDesign( ).getOdaExtensionDataSetId( ) );
 			IResultSetMetaData rsMeta = retriever.getResultSetMetaData( );
 			
 			if ( rsMeta == null )
@@ -2097,6 +2112,10 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		if ( metaDataProvider != null )
 		{
 			metaDataProvider.closeConnection( );
+		}
+		if ( this.odaConnectionProvider != null )
+		{
+			this.odaConnectionProvider.closeConnection( );
 		}
 	}
 
