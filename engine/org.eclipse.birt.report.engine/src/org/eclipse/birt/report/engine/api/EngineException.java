@@ -35,6 +35,9 @@ public class EngineException extends BirtException {
 	static protected ThreadLocal threadLocal = new ThreadLocal( );
 	
 	protected static final String pluginId = "org.eclipse.birt.report.engine"; //$NON-NLS-1$
+	
+	// report element id
+	protected long elementId = -1;
 	/**
 	 * @param errorCode erroe code for the exception
 	 * @param arg0 message argument
@@ -136,5 +139,15 @@ public class EngineException extends BirtException {
 			}
 		}
 		return rb;
+	}
+	
+	public void setElementID( long id )
+	{
+		this.elementId = id;
+	}
+	
+	public long getElementID( )
+	{
+		return elementId;
 	}
 }

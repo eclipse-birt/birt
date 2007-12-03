@@ -1013,7 +1013,18 @@ public class ExecutionContext
 				elementExceptions.put( element, exInfo );
 			}
 		}
-		exInfo.addException( ex );
+		EngineException engineEx = null;
+		if ( ex instanceof EngineException )
+		{
+			engineEx = (EngineException) ex;
+		}
+		else
+		{
+			engineEx = new EngineException( ex.getLocalizedMessage(), ex );
+		}
+		if ( element != null )
+			engineEx.setElementID( element.getID( ) );
+		exInfo.addException( engineEx );
 		
 		if ( cancelOnError && task != null )
 		{
