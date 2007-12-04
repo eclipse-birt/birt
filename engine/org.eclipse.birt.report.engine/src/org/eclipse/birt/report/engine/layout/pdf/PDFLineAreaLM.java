@@ -36,7 +36,7 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 {
 
 	/**
-	 * the base-level of the line created by this layout mangaer. each LineArea
+	 * the base-level of the line created by this layout manager. each LineArea
 	 * has a fixed base-level.
 	 */
 	//private int baseLevel = Bidi.DIRECTION_LEFT_TO_RIGHT;
@@ -88,7 +88,6 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 
 	protected boolean traverseChildren( )
 	{
-		// need relayout
 		if ( last != null )
 		{
 			if(parent.addArea( last, false, false ))
@@ -198,8 +197,8 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 	protected void initialize( )
 	{
 		createRoot( );
-		maxAvaWidth =  parent.getCurrentMaxContentWidth( ) ;
-		maxAvaHeight = parent.getCurrentMaxContentHeight( )  ;
+		maxAvaWidth = parent.getCurrentMaxContentWidth( );
+		maxAvaHeight = parent.getCurrentMaxContentHeight( );
 		root.setWidth( parent.getCurrentMaxContentWidth( ) );
 		setCurrentBP( 0 );
 		if ( lineCount == 1 )
@@ -275,15 +274,18 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 		Iterator iter = root.getChildren( );
 		int height = root.getHeight( );
 		int lineHeight = ( (PDFBlockStackingLM) parent ).getLineHeight( );
+		
+//		while ( iter.hasNext( ) )
+//		{
+//			AbstractArea child = (AbstractArea) iter.next( );
+//			int childHeight = child.getAllocatedHeight( );
+//			height = Math.max( height, childHeight );
+//		}
+		
+		//FIXME 
 		if (lineHeight > maxAvaHeight)
 		{
 			lineHeight = 0;
-		}
-		while ( iter.hasNext( ) )
-		{
-			AbstractArea child = (AbstractArea) iter.next( );
-			int childHeight = child.getAllocatedHeight( );
-			height = Math.max( height, childHeight );
 		}
 		
 		if ( parent.isPageEmpty() )
@@ -338,7 +340,7 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 		// FIXME to implement
 		// implement vertical alignment, current only support top, bottom and
 		// center
-		// reslove used value of height
+		// resolve used value of height
 		Iterator iter = root.getChildren( );
 		int height = root.getHeight( );
 		// vertical alignment
@@ -350,7 +352,10 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 			if ( childStyle != null )
 			{
 				int spacing = height - child.getAllocatedHeight( );
-				assert ( spacing >= 0 );
+				if ( spacing < 0 )
+				{
+					spacing = 0;
+				}
 				if ( CSSConstants.CSS_BOTTOM_VALUE.equalsIgnoreCase( vAlign ) )
 				{
 					child.setPosition( child.getX( ), spacing + child.getY( ) );
@@ -388,21 +393,30 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 		{
 			specWidth = calWidth;
 		}
-		if(specWidth<=avaWidth && specWidth>0)
+		if ( specWidth <= avaWidth && specWidth > 0 )
 		{
 			expectedIP = currentIP + specWidth;
 		}
-		return specWidth>avaWidth;
+		return specWidth > avaWidth;
 	}
 
 
 	public void submit( AbstractArea area )
 	{
-		root.addChild( area );
 		area.setAllocatedPosition( getCurrentIP( ), getCurrentBP( ) );
 		setCurrentIP( getCurrentIP( ) + area.getAllocatedWidth( ) );
-		lineFinished = false;
 		
+		if ( getCurrentIP() > root.getContentWidth( ))
+		{
+			root.setContentWidth( getCurrentIP() );
+		}
+		if ( getCurrentBP() + area.getAllocatedHeight( ) > root.getContentHeight( ))
+		{
+			root.setContentHeight( getCurrentBP() + area.getAllocatedHeight( ) );
+		}
+		
+		root.addChild( area );
+		lineFinished = false;
 	}
 	
 	protected void justify()

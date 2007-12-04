@@ -71,36 +71,6 @@ public abstract class PDFLeafItemLM extends PDFAbstractLM
 		return false;
 	}
 	
-	 
-	
-	/**
-	 * create inline container area by content
-	 * @param content the content object
-	 * @param isFirst if this area is the first area of the content
-	 * @param isLast if this area is the last area of the content
-	 * @return
-	 */
-	protected IContainerArea createInlineContainer(IContent content, boolean isFirst, boolean isLast)
-	{
-		IContainerArea containerArea = AreaFactory.createInlineContainer( content );
-		IStyle style = containerArea.getStyle();
-		//remove left padding, border and margin if it is not the first child
-		if(!isFirst)
-		{
-			style.setProperty(IStyle.STYLE_BORDER_LEFT_WIDTH, IStyle.NUMBER_0);
-			style.setProperty(IStyle.STYLE_PADDING_LEFT, IStyle.NUMBER_0);
-			style.setProperty(IStyle.STYLE_MARGIN_LEFT, IStyle.NUMBER_0);
-		}
-		//remove right padding, border and margin if it is not the last child
-		if(!isLast)
-		{
-			style.setProperty(IStyle.STYLE_BORDER_RIGHT_WIDTH, IStyle.NUMBER_0);
-			style.setProperty(IStyle.STYLE_PADDING_RIGHT, IStyle.NUMBER_0);
-			style.setProperty(IStyle.STYLE_MARGIN_RIGHT, IStyle.NUMBER_0);
-		}
-		return containerArea;
-	}
-	
 	protected boolean hasNextChild()
 	{
 		return true;

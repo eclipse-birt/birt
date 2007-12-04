@@ -32,11 +32,8 @@ import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontHandler;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
-import org.eclipse.birt.report.engine.layout.pdf.hyphen.DefaultHyphenationManager;
-import org.eclipse.birt.report.engine.layout.pdf.hyphen.DummyHyphenationManager;
 import org.eclipse.birt.report.engine.layout.pdf.hyphen.Hyphenation;
 import org.eclipse.birt.report.engine.layout.pdf.hyphen.ICUWordRecognizer;
-import org.eclipse.birt.report.engine.layout.pdf.hyphen.IHyphenationManager;
 import org.eclipse.birt.report.engine.layout.pdf.hyphen.IWordRecognizer;
 import org.eclipse.birt.report.engine.layout.pdf.hyphen.Word;
 import org.eclipse.birt.report.engine.layout.pdf.text.Chunk;
@@ -48,7 +45,7 @@ import com.ibm.icu.text.ArabicShapingException;
 
 /**
  * 
- * This layout mananger implements formatting and locating of text chunk.
+ * This layout manager implements formatting and locating of text chunk.
  * <p>
  * A text chunk can contain hard line break(such as "\n", "\n\r"). This layout
  * manager splits a text content to many text chunk due to different actual
@@ -218,17 +215,6 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 		private int maxLineSpace = 0;
 		private IWordRecognizer wr = null;
 		
-		/** 
-		 * The flag to indicate whether the current TextArea needs to be added
-		 * into the line by force. 
-		 */ 
-		private boolean addByForce = false;
-		
-		/**
-		 * The flag to indicate whether we need to split off the first character next time. 
-		 */
-		private boolean nothingSplitted = false;
-		
 		private int leftMargin;
 		private int leftBorder;
 		private int leftPadding;
@@ -295,7 +281,7 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 				{
 					if (isInline)
 					{
-						ContainerArea con = (ContainerArea)createInlineContainer(content, false, true);
+						ContainerArea con = (ContainerArea)AreaFactory.createInlineContainer(content, false, true);
 						con.setWidth(rightBorder+rightPadding);
 						if (null == chunk.getFontInfo())
 						{
@@ -365,7 +351,7 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 				isNew = false;
 				if (isInline)
 				{
-					AbstractArea con = (AbstractArea)createInlineContainer(content, true, false);
+					AbstractArea con = (AbstractArea)AreaFactory.createInlineContainer(content, true, false);
 					con.setWidth(leftBorder+leftPadding);
 					con.setHeight( (int)(chunk.getFontInfo().getWordHeight()*PDFConstants.LAYOUT_TO_PDF_RATIO)
 							+ topBorder + topPadding + bottomBorder + bottomPadding);
@@ -410,9 +396,34 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 					rightSpaceHolder = rightMargin + rightBorder + rightPadding;
 					freeSpace -= rightSpaceHolder;
 				}
-			}
-					
+			}		
+			
+			if( maxLineSpace < chunk.getFontInfo().getWordWidth(str)* PDFConstants.LAYOUT_TO_PDF_RATIO 
+					+ letterSpacing * str.length()+ wordSpacing )
+			{
+				if ( 0 == str.length() )
+				{
+					vestigeIndex = -1;
+					vestigeLength = 0;
+					return;
+				}
+				Dimension d = new Dimension( 
+						(int)(chunk.getFontInfo().getWordWidth(str)* PDFConstants.LAYOUT_TO_PDF_RATIO) 
+						+ letterSpacing * str.length()+ wordSpacing, 
+						(int)(chunk.getFontInfo().getWordHeight() * PDFConstants.LAYOUT_TO_PDF_RATIO ));
 				
+				String originalText = str;
+				
+				IArea builtArea = buildArea(getReverseText(originalText), content, 
+						 chunk.getFontInfo(), d);
+				PDFTextLM.this.addTextLine(builtArea);
+				PDFTextLM.this.newLine();
+				currentPos += str.length();
+				vestigeIndex = -1;
+				vestigeLength = 0;
+				return;
+			}
+			
 			while ( freeSpace >= areaWidth )
 			{
 				currentPos += str.length();
@@ -454,108 +465,24 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 				vestigeLength = 0;
 				return;
 			}
-
-			if( maxLineSpace < chunk.getFontInfo().getWordWidth(str)* PDFConstants.LAYOUT_TO_PDF_RATIO 
-					+ letterSpacing * str.length()+ wordSpacing )
-			{
-				if ( 0 == str.length() )
-				{
-					vestigeIndex = -1;
-					vestigeLength = 0;
-					return;
-				}
-				// does hyphenation.
-				IHyphenationManager hm;
-				if(ENABLE_HYPHENATION)
-				{
-					hm = new DefaultHyphenationManager();
-				}
-				else
-				{
-					hm = new DummyHyphenationManager();
-				}
-				Hyphenation hyph = hm.getHyphenation(str);
-				
-				int endHyphenIndex = hyphen( 0, freeSpace-prevAreaWidth, hyph, chunk.getFontInfo() );
-				// forces to add the first character if the hyphen index is 0 for the second time.
-				if (endHyphenIndex == 0)
-				{
-					if (nothingSplitted)
-					{
-						str = hyph.getHyphenText( 0, endHyphenIndex + 1 );
-						addByForce = true;
-						nothingSplitted = false;
-					}
-					else
-					{
-						nothingSplitted = true;
-						vestigeIndex = currentPos;
-						vestigeLength = (null == currentWord) ? vestigeLength : currentWord.getLength();
-						
-						if ( 0 == prevAreaWidth )
-							return;
-						
-						Dimension d = new Dimension( prevAreaWidth,
-								(int)(chunk.getFontInfo().getWordHeight() * PDFConstants.LAYOUT_TO_PDF_RATIO));	
-						
-						String originalText = chunk.getText().substring(areaStartPos - chunk.getOffset(),
-								currentPos);
-						
-						IArea builtArea = buildArea(getReverseText(originalText), content, chunk.getFontInfo(), d);
-						PDFTextLM.this.addTextLine(builtArea);
-						PDFTextLM.this.newLine();
-						
-						return;
-					}
-				}
-				else
-				{
-					str = hyph.getHyphenText( 0, endHyphenIndex );	
-				}
-				
-				//int startHyphenIndex = (null == currentWord) ? vestigeIndex : currentWord.getStart();
-				currentPos += str.length();
-				vestigeIndex = currentPos;
-				vestigeLength = (null == currentWord) ? vestigeLength - str.length() : currentWord.getLength() - str.length();
-				
-				Dimension d = null;
-				if ( addByForce )
-				{
-					d = new Dimension( freeSpace,
-							(int)(chunk.getFontInfo().getWordHeight() * PDFConstants.LAYOUT_TO_PDF_RATIO ));
-					addByForce = false;
-				}
-				else
-				{
-					d = new Dimension( prevAreaWidth 
-							+ (int)(chunk.getFontInfo().getWordWidth(str) * PDFConstants.LAYOUT_TO_PDF_RATIO) 
-							+letterSpacing*str.length(),
-							(int)(chunk.getFontInfo().getWordHeight() * PDFConstants.LAYOUT_TO_PDF_RATIO ));	
-				}
-				
-				String originalText = chunk.getText().substring(areaStartPos - chunk.getOffset(),
-						vestigeIndex);
-				
-				IArea builtArea = buildArea(getReverseText(originalText), content, 
-						 chunk.getFontInfo(), d);
-				PDFTextLM.this.addTextLine(builtArea);
-				PDFTextLM.this.newLine();
-				return;
-			}
 			else
 			{
 				// builds the text area and ends current line.
-				Dimension d = new Dimension( prevAreaWidth,
-						(int)(chunk.getFontInfo().getWordHeight() * PDFConstants.LAYOUT_TO_PDF_RATIO));	
-				
-				String originalText = chunk.getText().substring(areaStartPos - chunk.getOffset(),
-						currentPos);
-				
-				IArea builtArea = buildArea(getReverseText(originalText), content, chunk.getFontInfo(), d);
-				PDFTextLM.this.addTextLine(builtArea);
-				PDFTextLM.this.newLine();
-				vestigeIndex = (null == currentWord) ? -1 : currentWord.getStart();
-				vestigeLength = (null == currentWord) ? 0 : currentWord.getLength();
+				Dimension d = new Dimension(
+						prevAreaWidth,
+						(int) ( chunk.getFontInfo( ).getWordHeight( ) * PDFConstants.LAYOUT_TO_PDF_RATIO ) );
+
+				String originalText = chunk.getText( ).substring(
+						areaStartPos - chunk.getOffset( ), currentPos );
+
+				IArea builtArea = buildArea( getReverseText( originalText ),
+						content, chunk.getFontInfo( ), d );
+				PDFTextLM.this.addTextLine( builtArea );
+				PDFTextLM.this.newLine( );
+				vestigeIndex = ( null == currentWord ) ? -1 : currentWord
+						.getStart( );
+				vestigeLength = ( null == currentWord ) ? 0 : currentWord
+						.getLength( );
 				return;
 			}
 
@@ -683,7 +610,7 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 		 */
 		private IArea createInlineTextArea(String text, ITextContent content, FontInfo fi, Dimension contentDimension)
 		{
-			ContainerArea con = (ContainerArea)createInlineContainer(content, false, false);
+			ContainerArea con = (ContainerArea)AreaFactory.createInlineContainer(content, false, false);
 			int textHeight = contentDimension.getHeight();
 			int textWidth =  contentDimension.getWidth();
 			con.setWidth(Math.min( textWidth, context.getMaxWidth( ))); 

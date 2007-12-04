@@ -36,7 +36,11 @@ public class PDFPageLMTest extends PDFLayoutTest
 		IRunAndRenderTask runAndRenderTask = new TestRunAndRenderTask( engine,
 				report, monitor );
 		PDFRenderOption options = createRenderOption();
-		options.setOption( IPDFRenderOption.FIT_TO_PAGE, new Boolean(fitToPage) );
+		if (fitToPage)
+		{
+			options.setOption( IPDFRenderOption.PAGE_OVERFLOW, new Integer(IPDFRenderOption.FIT_TO_PAGE_SIZE) );	
+		}
+		
 		options.setOption( IPDFRenderOption.PAGEBREAK_PAGINATION_ONLY, new Boolean(pagebreakPaginationOnly) );
 		runAndRenderTask.setRenderOption( options );
 		runAndRenderTask.run( );

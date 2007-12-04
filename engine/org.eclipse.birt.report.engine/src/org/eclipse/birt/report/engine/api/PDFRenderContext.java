@@ -32,12 +32,12 @@ public class PDFRenderContext {
     protected String supportedImageFormats;
 	
     /**
-     * user-defined font dirctory 
+     * user-defined font directory 
      */
     protected String fontDirectory;
     
 	/**
-	 * dummy constrictor 
+	 * dummy constructor 
 	 */
 	public PDFRenderContext()
 	{
@@ -53,7 +53,7 @@ public class PDFRenderContext {
 	}
 	
 	/**
-	 * sets the base url for action handling
+	 * sets the base URL for action handling
 	 * 
 	 * @param baseURL sets the base URL used for action handling
 	 */
@@ -83,7 +83,7 @@ public class PDFRenderContext {
 	
 	/**
 	 * 
-	 * @return if font is embeded
+	 * @return true if font is embedded
 	 */
 	public boolean isEmbededFont()
 	{

@@ -46,7 +46,7 @@ public abstract class PageEmitter extends ContentEmitterAdapter
 		PageArea pageArea = (PageArea)page.getExtension( IContent.LAYOUT_EXTENSION );
 		if(pageArea!=null)
 		{
-			pageArea.accept( render);
+			pageArea.accept( render );
 		}
 		
 	}

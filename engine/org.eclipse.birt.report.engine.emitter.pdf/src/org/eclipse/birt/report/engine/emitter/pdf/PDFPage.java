@@ -67,7 +67,6 @@ public class PDFPage extends AbstractPage
 		super( pageWidth, pageHeight );
 		this.writer = writer;
 		this.pageDevice = pageDevice;
-		// Creates a pdf page, get its contentByte and contentByteUnder
 		try
 		{
 			Rectangle pageSize = new Rectangle( this.pageWidth, this.pageHeight );

@@ -158,18 +158,7 @@ public class PDFLayoutManagerFactory
 
 		public Object visitImage( IImageContent image, Object value )
 		{
-			boolean isInline = parent instanceof PDFLineAreaLM;
-			if ( isInline )
-			{
-				assert ( parent instanceof PDFLineAreaLM );
-				return new PDFImageLM( context, parent, image,
-						executor );
-			}
-			else
-			{
-				return new PDFImageBlockContainerLM( context, parent, image,
-						executor );
-			}
+			return new PDFImageLM( context, parent, image, executor );
 		}
 
 		public Object visitForeign( IForeignContent foreign, Object value )

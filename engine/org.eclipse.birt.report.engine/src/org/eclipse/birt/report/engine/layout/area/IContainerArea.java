@@ -20,5 +20,8 @@ public interface IContainerArea extends IArea
 	
 	public void addChild(IArea area);
 	
-	boolean needClip();
+	public boolean needClip( );
+	
+	public void setNeedClip( boolean needClip );
+	
 }

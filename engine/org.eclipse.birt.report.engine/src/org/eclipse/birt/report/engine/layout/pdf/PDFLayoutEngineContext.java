@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Locale;
 
+import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContainerContent;
@@ -474,7 +475,6 @@ public class PDFLayoutEngineContext
 		this.maxWidth = width;
 	}
 	
-	
 	protected boolean fitToPage = false;
 	
 	public void setFitToPage(boolean fitToPage)
@@ -498,6 +498,20 @@ public class PDFLayoutEngineContext
 	{
 		return this.pageBreakPaginationOnly;
 	}
+	
+	protected int pageOverflow = IPDFRenderOption.CLIP_CONTENT;
+	
+	public int getPageOverflow( )
+	{
+		return this.pageOverflow;
+	}
+
+	public void setPageOverflow( int pageOverflow )
+	{
+		this.pageOverflow = pageOverflow;
+	}
+	
+
 	
 	protected int preferenceWidth = 0;
 	public void setPreferenceWidth(int preferenceWidth)
@@ -562,4 +576,5 @@ public class PDFLayoutEngineContext
 	{
 		return outputDisplayNone;
 	}
+
 }

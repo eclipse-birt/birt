@@ -18,7 +18,7 @@ public class PDFRenderOption extends RenderOption implements IPDFRenderOption
 {
 
 	/**
-	 * dummy constrictor
+	 * dummy constructor
 	 */
 	public PDFRenderOption( )
 	{
@@ -37,7 +37,7 @@ public class PDFRenderOption extends RenderOption implements IPDFRenderOption
 
 	/**
 	 * 
-	 * @return if font is embeded
+	 * @return true if font is embedded
 	 */
 	public boolean isEmbededFont( )
 	{

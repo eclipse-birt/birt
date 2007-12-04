@@ -1147,6 +1147,13 @@ public abstract class EngineTask implements IEngineTask
 						IPDFRenderOption.PAGEBREAK_PAGINATION_ONLY,
 						pagebreakOnly );
 			}
+			Object pageOverflow = renderOptions
+					.getOption( IPDFRenderOption.PAGE_OVERFLOW );
+			if ( pageOverflow != null )
+			{
+				layoutEngine.setOption( IPDFRenderOption.PAGE_OVERFLOW,
+						pageOverflow );
+			}
 			Object outputDisplayNone = renderOptions
 					.getOption( IPDFRenderOption.OUTPUT_DISPLAY_NONE );
 			if ( outputDisplayNone != null )

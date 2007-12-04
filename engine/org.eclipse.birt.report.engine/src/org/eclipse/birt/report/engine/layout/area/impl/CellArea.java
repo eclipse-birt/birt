@@ -24,7 +24,6 @@ public class CellArea extends ContainerArea
 	
 	protected int rowSpan = 0;
 	
-	
 	public CellArea()
 	{
 		super((IContent)null);
@@ -36,7 +35,6 @@ public class CellArea extends ContainerArea
 		//remove all border
 		removeBorder();
 		setDefaultPadding();
-		isClippingContainer = true;
 	}
 
 	public int getColumnID()

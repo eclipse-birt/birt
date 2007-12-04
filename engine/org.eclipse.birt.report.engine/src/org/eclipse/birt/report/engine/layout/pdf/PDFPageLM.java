@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.layout.pdf;
 import java.util.Iterator;
 
 import org.eclipse.birt.core.format.NumberFormatter;
+import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.content.Dimension;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -35,7 +36,6 @@ import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.LogicContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.PageArea;
-import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.layout.content.BlockStackingExecutor;
 import org.eclipse.birt.report.engine.layout.pdf.text.Chunk;
 import org.eclipse.birt.report.engine.layout.pdf.text.ChunkGenerator;
@@ -85,8 +85,7 @@ public class PDFPageLM extends PDFBlockContainerLM
 		context.setMaxHeight( page.getBody( ).getHeight( ) );
 		context.setMaxWidth( page.getBody( ).getWidth( ) );
 		maxAvaWidth = context.getMaxWidth( );
-		//maxAvaHeight = context.getMaxHeight( );
-		if(context.pagebreakPaginationOnly())
+		if ( context.pagebreakPaginationOnly( ) )
 		{
 			maxAvaHeight = Integer.MAX_VALUE;
 		}
@@ -204,7 +203,7 @@ public class PDFPageLM extends PDFBlockContainerLM
 
 	public boolean layout( )
 	{
-		if(!context.isCancel( ))
+		if ( !context.isCancel( ) )
 		{
 			boolean childBreak = true;
 			startPage( );
@@ -242,14 +241,14 @@ public class PDFPageLM extends PDFBlockContainerLM
 
 	protected void endPage( )
 	{
-		if(context.isAutoPageBreak( ))
+		if ( context.isAutoPageBreak( ) )
 		{
 			context.setAutoPageBreak( false );
 			autoPageBreak( );
 		}
-		if(isPageEmpty())
+		if ( isPageEmpty( ) )
 		{
-			if(!isFirst)
+			if ( !isFirst )
 			{
 				if ( isLast )
 				{
@@ -260,7 +259,7 @@ public class PDFPageLM extends PDFBlockContainerLM
 			}
 			else
 			{
-				if(!isLast)
+				if ( !isLast )
 				{
 					return;
 				}
@@ -333,13 +332,13 @@ public class PDFPageLM extends PDFBlockContainerLM
 
 			IArea totalPageArea = null;
 			String format = context.getFormat( );
-			ChunkGenerator cg = new ChunkGenerator( totalPageContent, true, true, format );
+			ChunkGenerator cg = new ChunkGenerator( totalPageContent, true,
+					true, format );
 			if ( cg.hasMore( ) )
 			{
 				Chunk c = cg.getNext( );
 				Dimension d = new Dimension(
-						(int) ( c.getFontInfo( )
-								.getWordWidth( c.getText( ) ) * PDFConstants.LAYOUT_TO_PDF_RATIO ),
+						(int) ( c.getFontInfo( ).getWordWidth( c.getText( ) ) * PDFConstants.LAYOUT_TO_PDF_RATIO ),
 						(int) ( c.getFontInfo( ).getWordHeight( ) * PDFConstants.LAYOUT_TO_PDF_RATIO ) );
 				totalPageArea = createBlockTextArea( c.getText( ),
 						totalPageContent, c.getFontInfo( ), d );
@@ -354,9 +353,17 @@ public class PDFPageLM extends PDFBlockContainerLM
 	{
 		root = new PageArea( pageContent );
 		page = (PageArea) root;
+
+		int overFlowType = context.getPageOverflow( );
+
+		if ( overFlowType == IPDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES )
+		{
+			page.setExtendToMultiplePages( true );
+		}
+
 		int pageWidth = getDimensionValue( pageContent.getPageWidth( ) );
 		int pageHeight = getDimensionValue( pageContent.getPageHeight( ) );
-		
+
 		// validate page width
 		if ( pageWidth <= 0 )
 		{
@@ -373,11 +380,18 @@ public class PDFPageLM extends PDFBlockContainerLM
 		page.setHeight( pageHeight );
 
 		/**
-		 * set positon and dimension for root
+		 * set position and dimension for root
 		 */
 		ContainerArea pageRoot = new LogicContainerArea( report );
-		pageRoot.setClip( true );
-		pageRoot.setIsClippingContainer( true );
+
+		if ( overFlowType == IPDFRenderOption.CLIP_CONTENT )
+		{
+			pageRoot.setNeedClip( true );
+		}
+		else
+		{
+			pageRoot.setNeedClip( false );
+		}
 		int rootLeft = getDimensionValue( pageContent.getMarginLeft( ),
 				pageWidth );
 		int rootTop = getDimensionValue( pageContent.getMarginTop( ), pageWidth );
@@ -412,7 +426,7 @@ public class PDFPageLM extends PDFBlockContainerLM
 		int headerWidth = pageRoot.getWidth( );
 		headerHeight = Math.max( 0, headerHeight );
 		headerHeight = Math.min( pageRoot.getHeight( ), headerHeight );
-		ContainerArea header = new LogicContainerArea( report);
+		ContainerArea header = new LogicContainerArea( report );
 		header.setHeight( headerHeight );
 		header.setWidth( headerWidth );
 		header.setPosition( 0, 0 );
@@ -464,64 +478,99 @@ public class PDFPageLM extends PDFBlockContainerLM
 				reportExecutor ) );
 	}
 
-	
 	protected void closeLayout( )
 	{
-		if(context.fitToPage())
+		int overFlowType = context.getPageOverflow( );
+		float scale = calculatePageScale( );
+		if ( 1f == scale )
 		{
-			setPageScale();
+			return;
 		}
-	}
-	
-	protected void setPageScale()
-	{
-		if(page!=null && page.getRoot().getChildrenCount()>0)
+		if ( overFlowType == IPDFRenderOption.FIT_TO_PAGE_SIZE )
 		{
-			int maxWidth = context.getMaxWidth();
-			int maxHeight = context.getMaxHeight();
-			int prefWidth = context.getPreferenceWidth();
-			int prefHeight = getCurrentBP();
-			Iterator iter = page.getBody().getChildren();
-			while(iter.hasNext())
-			{
-				AbstractArea area = (AbstractArea)iter.next();
-				if(area instanceof TableArea)
-				{
-					prefWidth = Math.max(prefWidth, area.getAllocatedWidth());
-				}
-			}
-			
-			if(prefHeight>maxHeight)
-			{
-				((ContainerArea)page.getBody()).setHeight(prefHeight);
-				floatingFooter();
-			}
-			
-			if(prefWidth>maxWidth || prefHeight>maxHeight)
-			{
-				ContainerArea pageRoot = (ContainerArea)page.getRoot();
-				float scale = Math.min(maxWidth/(float)prefWidth, maxHeight/(float)prefHeight);
-				page.setScale(scale);
-				page.setHeight((int)(page.getHeight()/scale));
-				page.setWidth((int)(page.getWidth()/scale));
-				pageRoot.setPosition((int)(pageRoot.getX()/scale), (int)(pageRoot.getY()/scale));
-				pageRoot.setHeight((int)(pageRoot.getHeight()/scale));
-				pageRoot.setWidth((int)(pageRoot.getWidth()/scale));
-			}
+			page.setScale( scale );
+			updatePageDimension( scale );
+		}
+		else if ( overFlowType == IPDFRenderOption.ENLARGE_PAGE_SIZE )
+		{
+			updatePageDimension( scale );
 		}
 	}
 
+	private float calculatePageScale( )
+	{
+		float scale = 1.0f;
+		if ( page != null && page.getRoot( ).getChildrenCount( ) > 0 )
+		{
+			int maxWidth = context.getMaxWidth( );
+			int maxHeight = context.getMaxHeight( );
+			int prefWidth = context.getPreferenceWidth( );
+			int prefHeight = getCurrentBP( );
+			Iterator iter = page.getBody( ).getChildren( );
+			while ( iter.hasNext( ) )
+			{
+				AbstractArea area = (AbstractArea) iter.next( );
+				prefWidth = Math.max( prefWidth, area.getAllocatedWidth() );
+			}
+
+			if ( prefHeight > maxHeight )
+			{
+				( (ContainerArea) page.getBody( ) ).setHeight( prefHeight );
+				floatingFooter( );
+			}
+
+			if ( prefWidth > maxWidth || prefHeight > maxHeight )
+			{
+				scale = Math.min( maxWidth / (float) prefWidth, maxHeight
+						/ (float) prefHeight );
+			}
+		}
+		return scale;
+	}
+
+	protected void updatePageDimension( float scale )
+	{
+		// 0 < scale <= 1
+		page.setHeight( (int) ( page.getHeight( ) / scale ) );
+		page.setWidth( (int) ( page.getWidth( ) / scale ) );
+		ContainerArea pageRoot = (ContainerArea) page.getRoot( );
+		pageRoot.setPosition( (int) ( pageRoot.getX( ) / scale ),
+				(int) ( pageRoot.getY( ) / scale ) );
+		pageRoot.setHeight( (int) ( pageRoot.getHeight( ) / scale ) );
+		pageRoot.setWidth( (int) ( pageRoot.getWidth( ) / scale ) );
+	}
+
+	protected boolean addToRoot(AbstractArea area)
+	{	
+		root.addChild( area );
+		area.setAllocatedPosition( currentIP + offsetX, currentBP + offsetY );
+		currentBP += area.getAllocatedHeight( );
+		assert root instanceof PageArea;
+		AbstractArea body = (AbstractArea)((PageArea)root).getBody();
+		if ( currentIP + area.getAllocatedWidth( ) 
+				> root.getContentWidth( )-body.getX( ))
+		{
+			root.setNeedClip( true );
+		}
+		
+		if( currentBP > maxAvaHeight )
+		{
+			root.setNeedClip( true );
+		}
+		return true;
+	}
+	
 	protected boolean isRootEmpty( )
 	{
 		if ( page != null )
 		{
 			IContainerArea body = page.getBody( );
-			if ( body.getChildrenCount( ) > 0 || isFirst&&isLast )
+			if ( body.getChildrenCount( ) > 0 || isFirst && isLast )
 			{
 				return false;
 			}
 		}
 		return true;
 	}
-	
+
 }

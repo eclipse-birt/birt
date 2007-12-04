@@ -88,7 +88,10 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 
 		executor.close( );
 	}
-
+	
+	/**
+	 * @deprecated
+	 */
 	public void layout( ILayoutManager parent, IReportItemExecutor executor, IContentEmitter emitter )
 	{
 		IContent content = executor.execute( );
@@ -98,6 +101,9 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 		layoutManager.close( );
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public void layout(ILayoutManager parent, IContent content, IContentEmitter output )
 	{
 		IReportItemExecutor executor = new DOMReportItemExecutor( content );
@@ -141,6 +147,19 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 				context.setPagebreakPaginationOnly(true);
 			}
 		}
+		Object pageOverflow = options.get(IPDFRenderOption.PAGE_OVERFLOW);
+		if( pageOverflow!=null )
+		{
+			int pageOverflowType = ((Integer)pageOverflow).intValue();
+			context.setPageOverflow(pageOverflowType);
+		}
+		else
+		{
+			if ( context.fitToPage() )
+			{
+				context.setPageOverflow(IPDFRenderOption.FIT_TO_PAGE_SIZE);
+			}
+		}
 		Object outputDisplayNone = options
 				.get( IPDFRenderOption.OUTPUT_DISPLAY_NONE );
 		if ( outputDisplayNone instanceof Boolean )
@@ -150,9 +169,7 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 				context.setOutputDisplayNone( true );
 			}
 		}
-//		context.setTextWrapping(false);
-//		context.setFontSubstitution(false);
-//		context.setBidiProcessing(false);
+
 		Object textWrapping = options.get(IPDFRenderOption.PDF_TEXT_WRAPPING);
 		if(textWrapping!=null && textWrapping instanceof Boolean)
 		{

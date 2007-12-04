@@ -105,8 +105,6 @@ public abstract class AbstractArea implements IArea
 		return this.scale;
 	}
 
-
-
 	/**
 	 * set allocated position
 	 * 
@@ -298,7 +296,7 @@ public abstract class AbstractArea implements IArea
 	}
 
 	/**
-	 * get X possition of this area
+	 * get X position of this area
 	 */
 	public int getX( )
 	{
@@ -354,7 +352,7 @@ public abstract class AbstractArea implements IArea
 	{
 		this.height = height;
 	}
-
+	
 	/**
 	 * get content object
 	 */

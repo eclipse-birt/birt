@@ -18,6 +18,7 @@ import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.layout.area.IArea;
@@ -129,6 +130,34 @@ public class AreaFactory
 	public static IContainerArea createInlineContainer( IContent content )
 	{
 		return new InlineContainerArea( content );
+	}
+	
+	/**
+	 * create inline container area by content
+	 * @param content the content object
+	 * @param isFirst if this area is the first area of the content
+	 * @param isLast if this area is the last area of the content
+	 * @return
+	 */
+	public static IContainerArea createInlineContainer(IContent content, boolean isFirst, boolean isLast)
+	{
+		IContainerArea containerArea = AreaFactory.createInlineContainer( content );
+		IStyle style = containerArea.getStyle();
+		//remove left padding, border and margin if it is not the first child
+		if(!isFirst)
+		{
+			style.setProperty(IStyle.STYLE_BORDER_LEFT_WIDTH, IStyle.NUMBER_0);
+			style.setProperty(IStyle.STYLE_PADDING_LEFT, IStyle.NUMBER_0);
+			style.setProperty(IStyle.STYLE_MARGIN_LEFT, IStyle.NUMBER_0);
+		}
+		//remove right padding, border and margin if it is not the last child
+		if(!isLast)
+		{
+			style.setProperty(IStyle.STYLE_BORDER_RIGHT_WIDTH, IStyle.NUMBER_0);
+			style.setProperty(IStyle.STYLE_PADDING_RIGHT, IStyle.NUMBER_0);
+			style.setProperty(IStyle.STYLE_MARGIN_RIGHT, IStyle.NUMBER_0);
+		}
+		return containerArea;
 	}
 
 }

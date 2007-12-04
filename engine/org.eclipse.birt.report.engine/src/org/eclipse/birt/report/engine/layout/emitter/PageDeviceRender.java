@@ -68,13 +68,13 @@ public abstract class PageDeviceRender implements IAreaVisitor
 
 	protected float scale;
 
-	protected int hTextSpace = 30;
-
-	protected int vTextSpace = 100;
-
 	int pageHeight;
 
 	int pageWidth;
+
+	int maxWidth;
+
+	int maxHeight;
 
 	protected IReportRunnable reportRunnable;
 
@@ -151,8 +151,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 
 	public void visitText( ITextArea textArea )
 	{
-		int x = currentX + textArea.getX();
-		int y = currentY + textArea.getY();
+		int x = currentX + getX( textArea );
+		int y = currentY + getY( textArea );
 		drawTextAt( textArea, x, y );
 	}
 
@@ -165,37 +165,78 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	{
 	}
 
+	/**
+	 * Visits a container, and the part of the container which is at the top of  
+	 * x, or at the left of y are ignored.
+	 * @param container
+	 * @param offsetX
+	 * @param offsetY
+	 */
+	public void visitContainer( IContainerArea container, int offsetX,
+			int offsetY )
+	{
+		extendDirectionMask = true;
+		startContainer( container, offsetX, offsetY );
+		visitChildren( container );
+		endContainer( container );
+		extendDirectionMask = false;
+	}
+	
 	public void visitContainer( IContainerArea container )
 	{
 		startContainer( container );
+		visitChildren( container );
+		endContainer( container );
+	}
+	
+	protected void visitChildren( IContainerArea container )
+	{
 		Iterator iter = container.getChildren( );
 		while ( iter.hasNext( ) )
 		{
 			IArea child = (IArea) iter.next( );
 			child.accept( this );
 		}
-		endContainer( container );
 	}
 
+	protected void startContainer( IContainerArea container )
+	{
+		startContainer( container, 0, 0 );	
+		if ( currentX + getWidth( container ) > pageWidth )
+		{
+			maxWidth = Math.max( maxWidth, currentX + getWidth( container ) );
+			addExtendDirection( EXTEND_ON_HORIZONTAL );
+		}
+		if ( currentY + getHeight( container ) > pageHeight )
+		{
+			maxHeight = Math.max( maxHeight, currentY + getHeight( container ) );
+			addExtendDirection( EXTEND_ON_VERTICAL );
+		}
+	}
 	/**
-	 * If the container is a PageArea, this method creates a pdf page. If the
+	 * If the container is a PageArea, this method creates a PDF page. If the
 	 * container is the other containerAreas, such as TableArea, or just the
 	 * border of textArea/imageArea this method draws the border and background
 	 * of the given container.
 	 * 
 	 * @param container
 	 *            the ContainerArea specified from layout
-	 */
-	protected void startContainer( IContainerArea container )
+	 * @param offsetX
+	 *            for any (x,y) in the ContainerArea, if x<offsetX, the (x,y)
+	 *            will be omitted.
+	 * @param offsetY
+	 *            for any (x,y) in the ContainerArea, if y<offsetY, the (x,y)
+	 *            will be omitted.
+	 */	
+	protected void startContainer( IContainerArea container, int offsetX,
+			int offsetY )
 	{
 		if ( container instanceof PageArea )
 		{
 			scale = container.getScale( );
-			hTextSpace = (int) ( H_TEXT_SPACE * scale );
-			vTextSpace = (int) ( V_TEXT_SPACE * scale );
 			newPage( container );
-			currentX = 0;
-			currentY = 0;
+			currentX = -offsetX;
+			currentY = -offsetY;
 		}
 		else
 		{
@@ -208,15 +249,6 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			currentX += getX( container );
 			currentY += getY( container );
 		}
-	}
-
-	private void clip( IContainerArea container )
-	{
-		int startX = currentX + getX( container );
-		int startY = currentY + getY( container );
-		int width = getWidth( container );
-		int height = getHeight( container );
-		pageGraphic.clip( startX, startY, width, height );
 	}
 
 	/**
@@ -232,6 +264,57 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		if ( container instanceof PageArea )
 		{
 			pageGraphic.dispose( );
+			// This page has some content exceeds the page size, and the
+			// RenderOption is set to OUTPUT_TO_MULTIPLE_PAGES.
+			if ( ( (PageArea) container ).isExtendToMultiplePages( )
+					&& ( extendDirection != EXTEND_NONE ) && !extendDirectionMask )
+			{
+				int originalX = currentX;
+				int originalY = currentY;
+				
+				if ( extendDirection == EXTEND_ON_VERTICAL )
+				{
+					int startX = originalX;
+					int startY = originalY + pageHeight;
+					
+					while ( startY < maxHeight )
+					{
+						visitContainer(container, startX, startY);
+						startY += pageHeight;
+					}
+				}
+				else if ( extendDirection == EXTEND_ON_HORIZONTAL )
+				{
+					int startX = originalX + pageWidth;
+					int startY = originalY;
+					while ( startX < maxWidth )
+					{
+						visitContainer(container, startX, startY);
+						startX += pageWidth;
+					}
+				} 
+				else if ( extendDirection == EXTEND_ON_HORIZONTAL_AND_VERTICAL )
+				{
+					int startX = originalX + pageWidth;
+					int startY = originalY;
+
+					while ( startY < maxHeight )
+					{
+						while ( startX < maxWidth )
+						{
+							visitContainer( container, startX, startY );
+							startX += pageWidth;
+						}
+						startX = originalX;
+						startY += pageHeight;
+					}
+				}
+
+				setExtendDirection(EXTEND_NONE);
+				maxWidth = 0;
+				maxHeight = 0;
+			}
+
 		}
 		else
 		{
@@ -242,7 +325,6 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			}
 		}
 	}
-
 
 	/**
 	 * Creates a new PDF page
@@ -263,6 +345,37 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		// Draws background image for the new page. if the background image is
 		// NOT set, draw nothing.
 		drawBackgroundImage( page.getStyle( ), 0, 0, pageWidth, pageHeight );
+	}
+
+	private int extendDirection = EXTEND_NONE;
+	private boolean extendDirectionMask = false;
+	public static final int EXTEND_NONE = 0;
+	public static final int EXTEND_ON_HORIZONTAL = 1;
+	public static final int EXTEND_ON_VERTICAL = 2;
+	public static final int EXTEND_ON_HORIZONTAL_AND_VERTICAL = 3;
+
+	protected int getExtendDirection( )
+	{
+		return this.extendDirection;
+	}
+
+	protected void setExtendDirection( int direction )
+	{
+		this.extendDirection = direction;
+	}
+	
+	protected void addExtendDirection( int direction )
+	{
+		this.extendDirection |= direction;
+	}
+	
+	private void clip( IContainerArea container )
+	{
+		int startX = currentX + getX( container );
+		int startY = currentY + getY( container );
+		int width = getWidth( container );
+		int height = getHeight( container );
+		pageGraphic.clip( startX, startY, width, height );
 	}
 
 	/**
@@ -372,7 +485,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	 * 
 	 * @param container
 	 *            the containerArea whose border and background need to be
-	 *            drawed
+	 *            drew
 	 */
 	protected void drawContainer( IContainerArea container )
 	{
@@ -386,23 +499,23 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		// content mapping, so it has no background/border etc.
 		if ( container.getContent( ) != null )
 		{
-			int startX = currentX + getX( container );
-			int startY = currentY + getY( container );
 			// the container's start position (the left top corner of the
 			// container)
+			int startX = currentX + getX( container );
+			int startY = currentY + getY( container );
 
 			// the dimension of the container
 			int width = getWidth( container );
 			int height = getHeight( container );
 
-			// Draws background color for the container, if the backgound
-			// color is NOT set, draw nothing.
+			// Draws background color for the container, if the background
+			// color is NOT set, draws nothing.
 			Color bc = PropertyUtil.getColor( style
 					.getProperty( StyleConstants.STYLE_BACKGROUND_COLOR ) );
 			pageGraphic.drawBackgroundColor( bc, startX, startY, width, height );
 
 			// Draws background image for the container. if the background
-			// image is NOT set, draw nothing.
+			// image is NOT set, draws nothing.
 			drawBackgroundImage( style, startX, startY, width, height );
 		}
 	}
@@ -515,22 +628,20 @@ public abstract class PageDeviceRender implements IAreaVisitor
 
 		// style.getFontVariant(); small-caps or normal
 		float fontSize = text.getFontInfo( ).getFontSize( );
-		int x = textX + getScaledValue( (int) ( fontSize * hTextSpace ) );
-		int y = textY + getScaledValue( (int) ( fontSize * vTextSpace ) );
+		int x = textX + getScaledValue( (int) ( fontSize * H_TEXT_SPACE ) );
+		int y = textY + getScaledValue( (int) ( fontSize * V_TEXT_SPACE ) );
 		FontInfo fontInfo = new FontInfo( text.getFontInfo( ) );
 		fontInfo.setFontSize( fontInfo.getFontSize( ) * scale );
 		int characterSpacing = getScaledValue( PropertyUtil
 				.getDimensionValue( style
 						.getProperty( StyleConstants.STYLE_LETTER_SPACING ) ) );
-		int wordSpacing = getScaledValue( PropertyUtil
-				.getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_WORD_SPACING ) ) );
+		int wordSpacing = getScaledValue( PropertyUtil.getDimensionValue( style
+				.getProperty( StyleConstants.STYLE_WORD_SPACING ) ) );
 
 		Color color = PropertyUtil.getColor( style
 				.getProperty( StyleConstants.STYLE_COLOR ) );
 
-		CSSValue align = style.getProperty(
-				StyleConstants.STYLE_TEXT_ALIGN );
+		CSSValue align = style.getProperty( StyleConstants.STYLE_TEXT_ALIGN );
 
 		// draw the overline,throughline or underline for the text if it has
 		// any.
@@ -571,7 +682,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	 */
 	protected void drawImage( IImageArea image )
 	{
-		// TODO: drawimage
+		// TODO: draw image
 		int imageX = currentX + getX( image );
 		int imageY = currentY + getY( image );
 		IImageContent imageContent = ( (IImageContent) image.getContent( ) );
@@ -679,7 +790,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		}
 		// flush the stream
 		ostream.flush( );
-		// use the outputstream as Image input stream.
+		// use the output stream as Image input stream.
 		return ostream.toByteArray( );
 	}
 
@@ -777,60 +888,60 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				switch ( bi.borderType )
 				{
 					case BorderInfo.TOP_BORDER :
-						pageGraphic.drawLine( 
-								startX - borderWidth / 2 + outerBorderWidth / 2, 
-								startY - borderWidth / 2 + outerBorderWidth / 2, 
-								endX + borderWidth / 2 - outerBorderWidth / 2, 
-								endY - borderWidth / 2 + outerBorderWidth / 2,
-								outerBorderWidth, borderColor, "solid" ); //$NON-NLS-1$
-						pageGraphic.drawLine( 
-								startX - borderWidth / 2 + outerBorderWidth / 2,
-								startY + borderWidth / 2 - innerBorderWidth / 2, 
-								endX + borderWidth / 2 - outerBorderWidth / 2, 
-								endY + borderWidth / 2 - innerBorderWidth / 2,
-								innerBorderWidth, borderColor, "solid" ); //$NON-NLS-1$	
+						pageGraphic.drawLine( startX - borderWidth / 2
+								+ outerBorderWidth / 2, startY - borderWidth
+								/ 2 + outerBorderWidth / 2, endX + borderWidth
+								/ 2 - outerBorderWidth / 2, endY - borderWidth
+								/ 2 + outerBorderWidth / 2, outerBorderWidth,
+								borderColor, "solid" ); //$NON-NLS-1$
+						pageGraphic.drawLine( startX - borderWidth / 2
+								+ outerBorderWidth / 2, startY + borderWidth
+								/ 2 - innerBorderWidth / 2, endX + borderWidth
+								/ 2 - outerBorderWidth / 2, endY + borderWidth
+								/ 2 - innerBorderWidth / 2, innerBorderWidth,
+								borderColor, "solid" ); //$NON-NLS-1$	
 						break;
 					case BorderInfo.RIGHT_BORDER :
-						pageGraphic.drawLine( 
-								startX + borderWidth / 2 - outerBorderWidth / 2, 
-								startY - borderWidth / 2 + outerBorderWidth / 2, 
-								endX + borderWidth / 2 - outerBorderWidth / 2, 
-								endY + borderWidth / 2 - outerBorderWidth / 2,
-								outerBorderWidth, borderColor, "solid" ); //$NON-NLS-1$
-						pageGraphic.drawLine( 
-								startX - borderWidth / 2 + innerBorderWidth / 2, 
-								startY - borderWidth / 2 + outerBorderWidth / 2,
-								endX - borderWidth / 2 + innerBorderWidth / 2, 
-								endY + borderWidth / 2 - outerBorderWidth / 2,
-								innerBorderWidth, borderColor, "solid" ); //$NON-NLS-1$
+						pageGraphic.drawLine( startX + borderWidth / 2
+								- outerBorderWidth / 2, startY - borderWidth
+								/ 2 + outerBorderWidth / 2, endX + borderWidth
+								/ 2 - outerBorderWidth / 2, endY + borderWidth
+								/ 2 - outerBorderWidth / 2, outerBorderWidth,
+								borderColor, "solid" ); //$NON-NLS-1$
+						pageGraphic.drawLine( startX - borderWidth / 2
+								+ innerBorderWidth / 2, startY - borderWidth
+								/ 2 + outerBorderWidth / 2, endX - borderWidth
+								/ 2 + innerBorderWidth / 2, endY + borderWidth
+								/ 2 - outerBorderWidth / 2, innerBorderWidth,
+								borderColor, "solid" ); //$NON-NLS-1$
 						break;
 					case BorderInfo.BOTTOM_BORDER :
-						pageGraphic.drawLine( 
-								startX - borderWidth / 2 + outerBorderWidth / 2, 
-								startY + borderWidth / 2 - outerBorderWidth / 2,
-								endX + borderWidth / 2 - outerBorderWidth / 2,  
-								endY + borderWidth / 2 - outerBorderWidth / 2, 
-								outerBorderWidth, borderColor, "solid" ); //$NON-NLS-1$
-						pageGraphic.drawLine( 
-								startX - borderWidth / 2 + outerBorderWidth / 2,  
-								startY - borderWidth / 2 + innerBorderWidth / 2, 
-								endX + borderWidth / 2 - outerBorderWidth / 2, 
-								endY - borderWidth / 2 + innerBorderWidth / 2, 
-								innerBorderWidth, borderColor, "solid" ); //$NON-NLS-1$
+						pageGraphic.drawLine( startX - borderWidth / 2
+								+ outerBorderWidth / 2, startY + borderWidth
+								/ 2 - outerBorderWidth / 2, endX + borderWidth
+								/ 2 - outerBorderWidth / 2, endY + borderWidth
+								/ 2 - outerBorderWidth / 2, outerBorderWidth,
+								borderColor, "solid" ); //$NON-NLS-1$
+						pageGraphic.drawLine( startX - borderWidth / 2
+								+ outerBorderWidth / 2, startY - borderWidth
+								/ 2 + innerBorderWidth / 2, endX + borderWidth
+								/ 2 - outerBorderWidth / 2, endY - borderWidth
+								/ 2 + innerBorderWidth / 2, innerBorderWidth,
+								borderColor, "solid" ); //$NON-NLS-1$
 						break;
 					case BorderInfo.LEFT_BORDER :
-						pageGraphic.drawLine( 
-								startX - borderWidth / 2 + outerBorderWidth / 2, 
-								startY - borderWidth / 2 + outerBorderWidth / 2,
-								endX - borderWidth / 2 + outerBorderWidth / 2,
-								endY + borderWidth / 2 - outerBorderWidth / 2, 
-								outerBorderWidth, borderColor, "solid" ); //$NON-NLS-1$
-						pageGraphic.drawLine( 
-								startX + borderWidth / 2 - innerBorderWidth / 2, 
-								startY - borderWidth / 2 + outerBorderWidth / 2,
-								endX + borderWidth / 2 - innerBorderWidth / 2, 
-								endY + borderWidth / 2 - outerBorderWidth / 2,
-								innerBorderWidth, borderColor, "solid" ); //$NON-NLS-1$
+						pageGraphic.drawLine( startX - borderWidth / 2
+								+ outerBorderWidth / 2, startY - borderWidth
+								/ 2 + outerBorderWidth / 2, endX - borderWidth
+								/ 2 + outerBorderWidth / 2, endY + borderWidth
+								/ 2 - outerBorderWidth / 2, outerBorderWidth,
+								borderColor, "solid" ); //$NON-NLS-1$
+						pageGraphic.drawLine( startX + borderWidth / 2
+								- innerBorderWidth / 2, startY - borderWidth
+								/ 2 + outerBorderWidth / 2, endX + borderWidth
+								/ 2 - innerBorderWidth / 2, endY + borderWidth
+								/ 2 - outerBorderWidth / 2, innerBorderWidth,
+								borderColor, "solid" ); //$NON-NLS-1$
 						break;
 				}
 			}
@@ -838,16 +949,16 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	}
 
 	/**
-	 * Draws the backgound image at the contentByteUnder of the pdf with the
+	 * Draws the background image at the contentByteUnder of the pdf with the
 	 * given offset
 	 * 
 	 * @param imageURI
 	 *            the URI referring the image
 	 * @param x
-	 *            the start X coordinate at the pdf where the image is
+	 *            the start X coordinate at the PDF where the image is
 	 *            positioned
 	 * @param y
-	 *            the start Y coordinate at the pdf where the image is
+	 *            the start Y coordinate at the PDF where the image is
 	 *            positioned
 	 * @param width
 	 *            the width of the background dimension
@@ -897,7 +1008,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			}
 			else
 			{
-				absPosX = (int)positionX;
+				absPosX = (int) positionX;
 			}
 			if ( yMode )
 			{
@@ -906,7 +1017,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			}
 			else
 			{
-				absPosY = (int)positionY;
+				absPosY = (int) positionY;
 			}
 			pageGraphic.drawBackgroundImage( x, y, width, height, repeat,
 					imageUrl, absPosX, absPosY );

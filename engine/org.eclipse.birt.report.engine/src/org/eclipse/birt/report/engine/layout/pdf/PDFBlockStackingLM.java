@@ -225,8 +225,15 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 		AbstractArea aArea = (AbstractArea)area;
 		if(keepWithCache.getHeight( ) + aArea.getAllocatedHeight( ) + getCurrentBP() > getMaxAvaHeight())
 		{
-			context.setAutoPageBreak( true );
-			return false;
+			if(isPageEmpty())
+			{
+				addToRoot(aArea);
+			}
+			else
+			{
+				context.setAutoPageBreak( true );
+				return false;
+			}	
 		}
 		else
 		{
@@ -315,7 +322,8 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 			boolean succeed = addToRoot(area);
 			if(!succeed)
 			{
-				//FIXME?? set autoPageBreak?
+				//autoPageBreak();
+				
 				return false;
 			}
 			else
@@ -328,18 +336,20 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 	}
 	
 	protected boolean addToRoot(AbstractArea area)
-	{
-		if(currentBP + area.getAllocatedHeight( ) <= maxAvaHeight)
+	{	
+		root.addChild( area );
+		area.setAllocatedPosition( currentIP + offsetX, currentBP + offsetY );
+		currentBP += area.getAllocatedHeight( );
+		if ( currentIP + area.getAllocatedWidth( ) > root.getContentWidth( ))
 		{
-			root.addChild( area );
-			area.setAllocatedPosition( currentIP + offsetX, currentBP + offsetY );
-			currentBP += area.getAllocatedHeight( );
-			return true;
+			root.setNeedClip( true );
 		}
-		else
+		
+		if( currentBP > maxAvaHeight )
 		{
-			return false;
+			root.setNeedClip( true );
 		}
+		return true;
 	}
 	
 	

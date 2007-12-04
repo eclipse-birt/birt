@@ -37,7 +37,7 @@ public class PDFTemplateLM extends PDFLeafItemLM
 	public boolean layoutChildren( )
 	{
 		IAutoTextContent autoText = (IAutoTextContent) content;
-		ContainerArea templateContainer = (ContainerArea) createInlineContainer(
+		ContainerArea templateContainer = (ContainerArea) AreaFactory.createInlineContainer(
 				autoText, true, true );
 		IStyle areaStyle = templateContainer.getStyle( );
 		int maxWidth = parent.getCurrentMaxContentWidth( );

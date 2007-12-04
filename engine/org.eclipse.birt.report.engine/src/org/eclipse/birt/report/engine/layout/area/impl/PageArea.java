@@ -9,6 +9,10 @@ public class PageArea extends ContainerArea
 	final static int DEFAULT_PAGE_WIDTH = 595275;
 	final static int DEFAULT_PAGE_HEIGHT = 841889;
 	
+	private boolean extendToMultiplePages = false;
+	
+	private boolean enlargePageSize = false;
+	
 	protected IContainerArea root;
 	protected IContainerArea body;
 	protected IContainerArea header;
@@ -119,7 +123,23 @@ public class PageArea extends ContainerArea
 		this.right = right;
 	}
 
+	public boolean isExtendToMultiplePages() {
+		return extendToMultiplePages;
+	}
+
+	public void setExtendToMultiplePages(boolean extendToMultiplePages) {
+		this.extendToMultiplePages = extendToMultiplePages;
+	}
+
+	public boolean isEnlargePageSize( )
+	{
+		return enlargePageSize;
+	}
+
 	
-	
+	public void setEnlargePageSize( boolean enlargePageSize )
+	{
+		this.enlargePageSize = enlargePageSize;
+	}
 
 }

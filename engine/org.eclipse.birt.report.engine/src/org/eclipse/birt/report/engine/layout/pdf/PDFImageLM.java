@@ -34,6 +34,7 @@ import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.BlockContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.ImageArea;
+import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
@@ -42,17 +43,17 @@ import com.lowagie.text.Image;
 
 /**
  * 
- * This layout mananger implements formatting and locating of image content.
+ * This layout manager implements formatting and locating of image content.
  * <p>
- * Image is an atomic conponent, so it can not be split. if the size exceeds the
- * boundry, user agent should overflow or clip it.
+ * Image is an atomic component, so it can not be split. if the size exceeds the
+ * boundary, user agent should overflow or clip it.
  * <p>
- * if layout manager can not retrieve the instrinsic dimension of image, layout
- * mangager set the instrinsic dimension to the default value (1,1). logger will
+ * if layout manager can not retrieve the intrinsic dimension of image, layout
+ * manager set the intrinsic dimension to the default value (1,1). logger will
  * log this error, but this can not interrupt the layout process.
  * <p>
- * this layout manager genrate image area which perhaps has border, render
- * should take reponsibility to draw the image and its border
+ * this layout manager generate image area which perhaps has border, render
+ * should take responsibility to draw the image and its border
  * <p>
  * the dimension algorithm shows as following table:
  * <p>
@@ -110,8 +111,6 @@ public class PDFImageLM extends PDFLeafItemLM
 	protected final static int DEFAULT_HEIGHT = 130000;
 
 	protected IImageContent image;
-
-	protected int maxWidth;
 
 	protected ContainerArea root;
 
@@ -278,10 +277,26 @@ public class PDFImageLM extends PDFLeafItemLM
 		{
 			return false;
 		}
-		assert ( parent instanceof ILineStackingLayoutManager );
-		ILineStackingLayoutManager lineParent = (ILineStackingLayoutManager) parent;
-		// if height exceed current available value, must page break;
-		if ( root.getAllocatedHeight( ) > lineParent
+		// For inline image, the hierarchy is LineArea->InlineContainer->ImageArea.
+		// the root is InlineContainer, so we just need to add the root directly to its parent(LineArea).
+		// In LineAreaLM, the lineArea will enlarge itself to hold the root.
+		// For block image, the hierarchy is BlockContainer->ImageArea
+		if( PropertyUtil.isInlineElement(image) )
+		{
+			//inline image
+			assert ( parent instanceof ILineStackingLayoutManager );
+			ILineStackingLayoutManager lineParent = (ILineStackingLayoutManager) parent;
+			if ( root.getAllocatedWidth( ) > parent.getCurrentMaxContentWidth( ) )
+			{
+				if ( !lineParent.isEmptyLine( ) )
+				{
+					boolean ret = lineParent.endLine( );
+					assert ( ret );
+					return layoutChildren( );
+				}
+			}
+		}
+		if ( root.getAllocatedHeight( ) > parent
 				.getCurrentMaxContentHeight( ) )
 		{
 			if ( !parent.isPageEmpty( ) )
@@ -291,61 +306,43 @@ public class PDFImageLM extends PDFLeafItemLM
 			}
 			else
 			{
-				// change the root height to make sure image can be put into
-				// parent.
-				root.setAllocatedHeight( lineParent
-						.getCurrentMaxContentHeight( ) );
 				parent.addArea( root, false, false );
-				return false;
+				return false;		
 			}
 		}
 		else
 		{
-			if ( parent.getCurrentIP( ) + root.getAllocatedWidth( ) > maxWidth )
-			{
-				if ( !lineParent.isEmptyLine( ) )
-				{
-					boolean ret = lineParent.endLine( );
-					assert ( ret );
-					return layoutChildren( );
-				}
-				else
-				{
-					parent.addArea( root, false, false );
-					return false;
-				}
-			}
-			else
-			{
-				parent.addArea( root, false, false );
-				return false;
-			}
+			parent.addArea( root, false, false );
+			return false;
 		}
+		
 	}
 
 	protected void init( )
 	{
 		assert ( content instanceof IImageContent );
 		image = (IImageContent) content;
-		maxWidth = parent.getCurrentMaxContentWidth( );
 
 		Dimension contentDimension = getSpecifiedDimension( image );
-		root = (ContainerArea) createInlineContainer( image, true, true );
-		validateBoxProperty( root.getStyle( ), maxWidth, context.getMaxHeight( ) );
-
-		// set max content width
-		root.setAllocatedWidth( maxWidth );
-
 		ImageArea imageArea = (ImageArea) AreaFactory.createImageArea( image );
 		imageArea.setWidth( contentDimension.getWidth( ) );
 		imageArea.setHeight( contentDimension.getHeight( ) );
+		
+		//root = (ContainerArea) createInlineContainer( image, true, true );
+		//root.addChild( imageArea );
+		if( PropertyUtil.isInlineElement(image) )
+		{
+			root = (ContainerArea)AreaFactory.createInlineContainer( image, true, true );
+		}
+		else
+		{
+			root = (ContainerArea)AreaFactory.createBlockContainer( image );
+		}
 		root.addChild( imageArea );
 		imageArea.setPosition( root.getContentX( ), root.getContentY( ) );
-
+		root.setContentWidth( imageArea.getWidth( ) );
+		root.setContentHeight(imageArea.getHeight( ));
 		processChartLegend( image, imageArea );
-		root.setContentWidth( contentDimension.getWidth( ) );
-		root.setContentHeight( Math.min( context.getMaxHeight( ),
-				contentDimension.getHeight( ) ) );
 	}
 
 	/**
@@ -420,9 +417,9 @@ public class PDFImageLM extends PDFLeafItemLM
 	 * link.
 	 * 
 	 * @param x
-	 *            x cordinat of lower left corner of the container.
+	 *            x coordinate of lower left corner of the container.
 	 * @param y
-	 *            x cordinat of lower left corner of the container.
+	 *            y coordinate of lower left corner of the container.
 	 * @param width
 	 *            width of the container.
 	 * @param height
@@ -445,7 +442,7 @@ public class PDFImageLM extends PDFLeafItemLM
 	}
 
 	/**
-	 * Caculates the absolute positions of image map when given the position of
+	 * Calculates the absolute positions of image map when given the position of
 	 * image. The image map position is relative to the left up corner of the
 	 * image.
 	 * 
@@ -456,7 +453,7 @@ public class PDFImageLM extends PDFLeafItemLM
 	 *            rectangle area of a image map.
 	 * @param imageArea
 	 *            image area of the image in which the image map is.
-	 * @return absolute postion of the image map.
+	 * @return absolute position of the image map.
 	 */
 	private int[] getAbsoluteArea( int[] area, IImageArea imageArea )
 	{
@@ -513,13 +510,13 @@ public class PDFImageLM extends PDFLeafItemLM
 	}
 
 	/**
-	 * Parse the image map postion from a string which is of format "x1, y1, x2,
+	 * Parse the image map position from a string which is of format "x1, y1, x2,
 	 * y2".
 	 * 
 	 * @param string
-	 *            the postion string.
-	 * @return a array which contains the x, y cordinate of left up corner,
-	 *         width and hegiht in sequence.
+	 *            the position string.
+	 * @return a array which contains the x, y coordinate of left up corner,
+	 *         width and height in sequence.
 	 * 
 	 */
 	private int[] getArea( String string )

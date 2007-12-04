@@ -26,9 +26,9 @@ public abstract class ContainerArea extends AbstractArea
 		implements
 			IContainerArea
 {
+
 	protected boolean needClip;
-	protected boolean isClippingContainer;
-	
+
 	ContainerArea( IContent content )
 	{
 		super( content );
@@ -48,12 +48,6 @@ public abstract class ContainerArea extends AbstractArea
 
 	public void addChild( IArea area )
 	{
-		if ( area.getX( ) < 0 || area.getX( ) + area.getWidth( ) > width
-				|| area.getY( ) < 0
-				|| area.getY( ) + area.getHeight( ) > height )
-		{
-			needClip = true;
-		}
 		children.add( area );
 	}
 
@@ -92,9 +86,9 @@ public abstract class ContainerArea extends AbstractArea
 				+ PropertyUtil.getDimensionValue( style
 						.getProperty( IStyle.STYLE_PADDING_LEFT ) );
 	}
-	
-	//get height of empty container
-	public int getIntrisicHeight()
+
+	// get height of empty container
+	public int getIntrisicHeight( )
 	{
 		return PropertyUtil.getDimensionValue( style
 				.getProperty( IStyle.STYLE_MARGIN_TOP ) )
@@ -109,19 +103,15 @@ public abstract class ContainerArea extends AbstractArea
 				+ PropertyUtil.getDimensionValue( style
 						.getProperty( IStyle.STYLE_BORDER_BOTTOM_WIDTH ) );
 	}
-
+	
 	public boolean needClip( )
 	{
-		return isClippingContainer && needClip;
+		return needClip;
 	}
-	
-	public void setClip( boolean needClip )
+
+	public void setNeedClip( boolean needClip )
 	{
 		this.needClip = needClip;
 	}
 
-	public void setIsClippingContainer( boolean isClippingContainer )
-	{
-		this.isClippingContainer = isClippingContainer;
-	}
 }
