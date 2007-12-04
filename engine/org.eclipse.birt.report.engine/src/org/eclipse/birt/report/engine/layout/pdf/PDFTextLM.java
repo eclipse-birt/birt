@@ -23,6 +23,7 @@ import org.eclipse.birt.report.engine.css.dom.AreaStyle;
 import org.eclipse.birt.report.engine.css.dom.ComputedStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
+import org.eclipse.birt.report.engine.layout.ILineStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.ITextLayoutManager;
 import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.area.IArea;
@@ -57,7 +58,7 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 {
 	public static boolean ENABLE_HYPHENATION = false;
 	
-	private PDFLineAreaLM lineLM;
+	private ILineStackingLayoutManager lineLM;
 
 	/**
 	 * Checks if the compositor needs to pause.
@@ -81,7 +82,7 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 			IContent content, IReportItemExecutor executor )
 	{
 		super( context, parent, content, executor );
-		lineLM = (PDFLineAreaLM) parent;
+		lineLM = (ILineStackingLayoutManager) parent;
 
 		ITextContent textContent = (ITextContent) content;
 		String text = textContent.getText( );
@@ -247,7 +248,7 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 			this.pdfTextWrapping = context.getTextWrapping();
 			cg = new ChunkGenerator(content, bidiProcessing, fontSubstitution, context.getFormat( ));
 			this.isInline = PropertyUtil.isInlineElement(content);
-			this.maxLineSpace = lineLM.maxAvaWidth;		
+			this.maxLineSpace = lineLM.getMaxLineWidth( );		
 			IStyle style = content.getComputedStyle();
 			letterSpacing = getDimensionValue(style
 					.getProperty(StyleConstants.STYLE_LETTER_SPACING));

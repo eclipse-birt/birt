@@ -40,12 +40,12 @@ public class TableProcessor
 
 	//FIXME code review: extract two method so that the logic will be more clear.
 	public static void processTable( Element ele, Map cssStyles,
-			IContent content, IContent inlineParent, ActionContent action )
+			IContent content, ActionContent action )
 	{
 		// FIXME code review: this block is used to parse table content. extract
 		// a method parseTable().
 		TableState tableState = new TableState( ele, cssStyles,
-				content, inlineParent, action );
+				content, action );
 		tableState.processNodes( );
 		
 		// FIXME code review: this block is used to layout the table. extract to
@@ -118,15 +118,14 @@ public class TableProcessor
 	{
 		protected Element element;
 		protected Map cssStyles;
-		protected IContent inlineParent, content;
+		protected IContent content;
 		protected ActionContent action;
 
-		public State(Element element, Map cssStyles, IContent inlineParent,
+		public State(Element element, Map cssStyles,
 				ActionContent action) 
 		{
 			this.element = element;
 			this.cssStyles = cssStyles;
-			this.inlineParent = inlineParent;
 			this.action = action;
 		}
 
@@ -150,9 +149,9 @@ public class TableProcessor
 		private List columnWidth;
 
 		public TableState( Element element, Map cssStyles,
-				IContent parent, IContent inlineParent, ActionContent action )
+				IContent parent, ActionContent action )
 		{
-			super( element, cssStyles, inlineParent, action );
+			super( element, cssStyles, action );
 			content = new TableContent( (ReportContent) parent
 					.getReportContent( ) );
 			setParent( parent );
@@ -177,7 +176,7 @@ public class TableProcessor
 				String tagName = element.getTagName( );
 				if ( "tr".equals( tagName ) )
 				{
-					RowState rowState = new RowState( element, cssStyles, content, inlineParent, action );
+					RowState rowState = new RowState( element, cssStyles, content, action );
 					rowState.processNodes( );
 					columnCount = Math.max( columnCount, rowState
 							.getColumnCount( ) );
@@ -220,9 +219,9 @@ public class TableProcessor
 		private int columnCount;
 
 		public RowState( Element element, Map cssStyles,
-				IContent parent, IContent inlineParent, ActionContent action )
+				IContent parent, ActionContent action )
 		{
-			super( element, cssStyles, inlineParent, action );
+			super( element, cssStyles, action );
 			content = new RowContent( (ReportContent) parent.getReportContent( ) );
 			setParent( parent );
 			HTML2Content.handleStyle( element, cssStyles, content );
@@ -238,7 +237,7 @@ public class TableProcessor
 				Element element = (Element) node;
 				String tagName = element.getTagName( );
 				assert ( "td".equals( tagName ) );
-				CellState cellState = new CellState( element, cssStyles, content, inlineParent, action );
+				CellState cellState = new CellState( element, cssStyles, content, action );
 				cellState.processNodes( );
 				columnCount += cellState.getColSpan( );
 			}
@@ -255,9 +254,9 @@ public class TableProcessor
 		private CellContent cell;
 		
 		public CellState( Element element, Map cssStyles,
-				IContent parent, IContent inlineParent, ActionContent action )
+				IContent parent, ActionContent action )
 		{
-			super( element, cssStyles, inlineParent, action );
+			super( element, cssStyles, action );
 			cell = new CellContent( (ReportContent) parent.getReportContent( ) );
 			content = cell;
 			setParent( parent );
@@ -271,7 +270,7 @@ public class TableProcessor
 		public void processNodes( )
 		{
 			HTML2Content.processNodes( element, cssStyles, content,
-					inlineParent, action );
+					 action );
 		}
 		
 		public int getColSpan( )

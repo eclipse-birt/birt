@@ -35,6 +35,7 @@ import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.content.impl.LabelContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
+import org.eclipse.birt.report.engine.layout.ILineStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.content.LineStackingExecutor;
 import org.eclipse.birt.report.engine.layout.pdf.util.HTML2Content;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
@@ -105,7 +106,17 @@ public class PDFLayoutManagerFactory
 
 		public Object visitContainer( IContainerContent container, Object value )
 		{
-			return visitContent( container, value );
+			boolean isInline = PropertyUtil.isInlineElement( container );
+			if ( isInline )
+			{
+				return new PDFInlineContainerLM( context, parent, container,
+						executor );
+			}
+			else
+			{
+				return new PDFBlockContainerLM( context, parent, container,
+						executor );
+			}
 		}
 
 		public Object visitTable( ITableContent table, Object value )
@@ -169,7 +180,17 @@ public class PDFLayoutManagerFactory
 				HTML2Content.html2Content( foreign );
 				executor = new DOMReportItemExecutor( foreign );
 				executor.execute( );
-				return visitContent( foreign, value );
+				boolean isInline = PropertyUtil.isInlineElement( foreign );
+				if ( isInline )
+				{
+					return new PDFInlineContainerLM( context, parent, foreign,
+							executor );
+				}
+				else
+				{
+					return new PDFBlockContainerLM( context, parent, foreign,
+							executor );
+				}
 			}
 			LabelContent label = new LabelContent( foreign );
 			return handleText( label );
@@ -204,7 +225,7 @@ public class PDFLayoutManagerFactory
 
 		private Object handleText( ITextContent content )
 		{
-			boolean isInline = parent instanceof PDFLineAreaLM;
+			boolean isInline = parent instanceof ILineStackingLayoutManager;
 			if ( isInline )
 			{
 				return new PDFTextLM( context, parent, content, 

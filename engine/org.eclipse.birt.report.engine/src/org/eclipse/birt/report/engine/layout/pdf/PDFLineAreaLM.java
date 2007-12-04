@@ -535,4 +535,9 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 		}
 		
 	}
+
+	public int getMaxLineWidth( )
+	{
+		return this.maxAvaWidth;
+	}
 }

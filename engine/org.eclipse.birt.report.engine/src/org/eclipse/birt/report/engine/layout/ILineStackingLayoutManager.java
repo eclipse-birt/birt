@@ -24,5 +24,7 @@ public interface ILineStackingLayoutManager
 	boolean endLine( );
 
 	boolean isEmptyLine( );
+	
+	int getMaxLineWidth();
 
 }
