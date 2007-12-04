@@ -234,7 +234,7 @@ public class IGetParameterDefinitionTaskTest extends EngineCase
 
 	}
 
-	@SuppressWarnings("unchecked")
+//	@SuppressWarnings("unchecked")
 	public void testGetSelectionList( ) throws Exception
 	{
 		ArrayList selist = (ArrayList) task.getSelectionList( "p2_static_dt" );
