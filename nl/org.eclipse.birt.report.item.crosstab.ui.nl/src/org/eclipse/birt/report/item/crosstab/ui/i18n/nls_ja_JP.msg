@@ -60,9 +60,10 @@ MeasureSubNodeProvider.Header=ヘッダ
 MeasureSubNodeProvider.Detail=詳細
 MeasureSubNodeProvider.Aggregation=集計
 
+CrosstabSortingModelProvider.ColumnName.GroupLevel=グループレベル
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=エラー
 SortkeyBuilder.DialogTitle.Label.Key=キー :
-CrosstabSortingModelProvider.ColumnName.GroupLevelOrMeasure=Target
+CrosstabFilterModelProvider.ColumnName.GroupLevelOrMeasure=Target
 CrosstabSortkeyBuilder.DialogTitle.Label.GroupLevel=グループレベル :
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=式ビルダを起動するには、ここをクリックしてしてください
 SortkeyBuilder.DialogTitle.Label.Direction=方向 :

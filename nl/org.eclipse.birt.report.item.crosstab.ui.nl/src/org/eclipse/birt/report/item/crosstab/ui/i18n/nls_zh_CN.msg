@@ -60,9 +60,10 @@ MeasureSubNodeProvider.Header=页眉
 MeasureSubNodeProvider.Detail=详细资料
 MeasureSubNodeProvider.Aggregation=聚合
 
+CrosstabSortingModelProvider.ColumnName.GroupLevel=组级别
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=错误
 SortkeyBuilder.DialogTitle.Label.Key=关键字:
-CrosstabSortingModelProvider.ColumnName.GroupLevelOrMeasure=Target
+CrosstabFilterModelProvider.ColumnName.GroupLevelOrMeasure=Target
 CrosstabSortkeyBuilder.DialogTitle.Label.GroupLevel=组级别:
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=单击以调用表达式生成器
 SortkeyBuilder.DialogTitle.Label.Direction=方向:

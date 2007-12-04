@@ -60,9 +60,10 @@ MeasureSubNodeProvider.Header=Encabezado
 MeasureSubNodeProvider.Detail=Detalle
 MeasureSubNodeProvider.Aggregation=Agregación
 
+CrosstabSortingModelProvider.ColumnName.GroupLevel=Nivel de grupo
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=Error
 SortkeyBuilder.DialogTitle.Label.Key=Clave:
-CrosstabSortingModelProvider.ColumnName.GroupLevelOrMeasure=Target
+CrosstabFilterModelProvider.ColumnName.GroupLevelOrMeasure=Target
 CrosstabSortkeyBuilder.DialogTitle.Label.GroupLevel=Nivel de grupo:
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=Hacer clic para llamar al compilador de expresiones
 SortkeyBuilder.DialogTitle.Label.Direction=Dirección:

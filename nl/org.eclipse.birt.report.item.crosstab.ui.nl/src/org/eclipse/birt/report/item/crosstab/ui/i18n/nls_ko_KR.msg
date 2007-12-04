@@ -60,9 +60,10 @@ MeasureSubNodeProvider.Header=머리글
 MeasureSubNodeProvider.Detail=상세 정보
 MeasureSubNodeProvider.Aggregation=집계
 
+CrosstabSortingModelProvider.ColumnName.GroupLevel=그룹 수준
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=오류
 SortkeyBuilder.DialogTitle.Label.Key=키:
-CrosstabSortingModelProvider.ColumnName.GroupLevelOrMeasure=Target
+CrosstabFilterModelProvider.ColumnName.GroupLevelOrMeasure=Target
 CrosstabSortkeyBuilder.DialogTitle.Label.GroupLevel=그룹 수준:
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=식 빌더를 호출하려면 누릅니다.
 SortkeyBuilder.DialogTitle.Label.Direction=방향:

@@ -60,9 +60,10 @@ MeasureSubNodeProvider.Header=Kopfzeile
 MeasureSubNodeProvider.Detail=Detail
 MeasureSubNodeProvider.Aggregation=Aggregat
 
+CrosstabSortingModelProvider.ColumnName.GroupLevel=Gruppenebene
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=Fehler
 SortkeyBuilder.DialogTitle.Label.Key=Schlüssel:
-CrosstabSortingModelProvider.ColumnName.GroupLevelOrMeasure=Target
+CrosstabFilterModelProvider.ColumnName.GroupLevelOrMeasure=Target
 CrosstabSortkeyBuilder.DialogTitle.Label.GroupLevel=Gruppenebene:
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=Zum Öffnen der Ausdruckserstellung hier klicken
 SortkeyBuilder.DialogTitle.Label.Direction=Richtung:
