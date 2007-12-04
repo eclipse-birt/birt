@@ -1410,15 +1410,44 @@ public final class AxesRenderHelper
 				la.getCaption( )
 						.setValue( getRunTimeContext( ).externalizedMessage( sRestoreValue ) );
 				BoundingBox bb = null;
+				// Buzilla#206093: Indicates if the axis title is within axis,
+				// otherwise it uses Y axis plus the axis corner to display
+				boolean bWithinAxis = false;
+				// Indicates the axis title is horizontal
+				final boolean bTitleHorizontal = Math.abs( la.getCaption( )
+						.getFont( )
+						.getRotation( ) ) <= 30;
+				final double dYAxisHeightPC = ChartUtil.computeHeightOfOrthogonalAxisTitle( (ChartWithAxes) this.renderer.cm,
+						xs );
 				try
 				{
+					if ( bTitleHorizontal )
+					{
+						// Horizontal title always starts with axis and within
+						// axis. It shouldn't display outside axis.
+						bWithinAxis = true;
+					}
+					else
+					{
+						final BoundingBox bbWoWrap = Methods.computeBox( xs,
+								iLabelLocation,
+								la,
+								0,
+								0,
+								dYAxisHeightPC );
+						bWithinAxis = bbWoWrap.getHeight( ) < daEndPoints[0]
+								- daEndPoints[1];
+					}
+					// Keep the same behavior with PlotWithAxes. If title is
+					// horizontal, only wrap if title exceeds height plus
+					// corner.
 					bb = Methods.computeBox( xs,
 							ax.getTitlePosition( ),
 							la,
 							0,
 							0,
-							ChartUtil.computeHeightOfOrthogonalAxisTitle( (ChartWithAxes) this.renderer.cm,
-									xs ) );
+							bWithinAxis && !bTitleHorizontal ? daEndPoints[0]
+									- daEndPoints[1] : dYAxisHeightPC );
 				}
 				catch ( IllegalArgumentException uiex )
 				{
@@ -1462,11 +1491,13 @@ public final class AxesRenderHelper
 						final Bounds boundsTitle = ( (ChartWithAxes) this.renderer.cm ).getTitle( )
 								.getBounds( );
 						final Bounds bo = BoundsImpl.create( ax.getTitleCoordinate( ),
-								( boundsTitle.getTop( ) + boundsTitle.getHeight( ) )
-										/ 72 * xs.getDpiResolution( ),
+								bWithinAxis
+										? daEndPoints[1]
+										: ( boundsTitle.getTop( ) + boundsTitle.getHeight( ) )
+												/ 72 * xs.getDpiResolution( ),
 								bb.getWidth( ),
-								ChartUtil.computeHeightOfOrthogonalAxisTitle( (ChartWithAxes) this.renderer.cm,
-										xs ) );
+								bWithinAxis ? daEndPoints[0] - daEndPoints[1]
+										: dYAxisHeightPC );
 
 						tre.setBlockBounds( bo );
 						tre.setLabel( la );
