@@ -267,7 +267,9 @@ public class ExcelUtil
     	}
     	else if(val == null && data instanceof java.sql.Date) 
     	{
-    		return "mmm d, yyyy hh:mm AM/PM";
+    		// According to java SDK 1.4.2-16, sql.Date doesn't have
+    		// a time component.
+    		return "mmm d, yyyy";// hh:mm AM/PM";
     	}
     	else if(val == null && data instanceof java.util.Date) 
     	{
