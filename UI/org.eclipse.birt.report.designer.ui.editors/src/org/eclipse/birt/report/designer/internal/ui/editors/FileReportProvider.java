@@ -31,13 +31,11 @@ import org.eclipse.birt.report.designer.internal.ui.editors.wizards.SaveReportAs
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.IModuleOption;
 import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -215,29 +213,17 @@ public class FileReportProvider implements IReportProvider
 				if ( file.exists( ) || file.createNewFile( ) )
 				{
 					// Gets report config file.
-					String oldConfigName = moduleHandle.getStringProperty( IReportGraphicConstants.REPORT_CONFIG_FILE_NAME );
-					String newConfigName = getConfigFileName( file.getAbsolutePath( ) );
-					File oldConfigFile = oldConfigName == null ? null
-							: new File( oldConfigName );
+					String newConfigName = getConfigFileName( moduleHandle.getFileName( ) );
+					File oldConfigFile = new File( getConfigFileName( file.getAbsolutePath( ) ) );
 
 					if ( newConfigName != null &&
 							oldConfigFile != null &&
 							oldConfigFile.exists( ) )
 					{
 						copyFile( oldConfigFile, new File( newConfigName ) );
-
-						try
-						{
-							moduleHandle.setStringProperty( IReportGraphicConstants.REPORT_CONFIG_FILE_NAME,
-									newConfigName );
-						}
-						catch ( SemanticException e )
-						{
-							ExceptionHandler.handle( e, true );
-						}
 					}
 
-					FileOutputStream out = new FileOutputStream( file );
+					FileOutputStream out = new FileOutputStream( moduleHandle.getFileName( ) );
 
 					moduleHandle.serialize( out );
 					out.close( );
@@ -297,6 +283,12 @@ public class FileReportProvider implements IReportProvider
 	 */
 	private void copyFile( File srcFile, File destFile ) throws IOException
 	{
+		if ( srcFile.equals( destFile ) )
+		{
+			// Does nothing if fils are same.
+			return;
+		}
+
 		FileInputStream fis = null;
 		FileOutputStream fos = null;
 		FileChannel fcin = null;

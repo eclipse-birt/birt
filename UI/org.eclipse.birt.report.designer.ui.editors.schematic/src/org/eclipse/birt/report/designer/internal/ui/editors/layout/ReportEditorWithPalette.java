@@ -68,7 +68,6 @@ import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewerPage;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlinePage;
 import org.eclipse.birt.report.designer.internal.ui.views.property.ReportPropertySheetPage;
-import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.actions.ApplyStyleMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.ApplyThemeMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.DeleteStyleMenuAction;
@@ -85,8 +84,6 @@ import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
 import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.command.UserPropertyException;
-import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRunnable;
@@ -95,6 +92,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.EditPartFactory;
@@ -735,6 +733,9 @@ abstract public class ReportEditorWithPalette extends
 		if ( provider != null )
 		{
 			provider.saveReport( getModel( ), getEditorInput( ), monitor );
+
+			// Resets input with the new path after saveing report.
+			setInput( provider.createNewEditorInput( new Path( getModel( ).getFileName( ) ) ) );
 			firePropertyChange( PROP_DIRTY );
 		}
 	}
@@ -757,38 +758,15 @@ abstract public class ReportEditorWithPalette extends
 	public void doSaveAs( )
 	{
 		final IReportProvider provider = getProvider( );
-		ModuleHandle model = getModel( );
 
-		if ( provider != null && model != null )
+		if ( provider != null )
 		{
-			if ( model.getUserPropertyDefnHandle( IReportGraphicConstants.REPORT_CONFIG_FILE_NAME ) == null )
-			{
-				UserPropertyDefn uDefn = new UserPropertyDefn( );
-
-				uDefn.setName( IReportGraphicConstants.REPORT_CONFIG_FILE_NAME );
-				try
-				{
-					model.addUserPropertyDefn( uDefn );
-				}
-				catch ( UserPropertyException e )
-				{
-					if ( !UserPropertyException.DESIGN_EXCEPTION_DUPLICATE_NAME.equals( e.getPropertyName( ) ) )
-					{
-						ExceptionHandler.handle( e );
-					}
-				}
-			}
-			
 			IPath path = provider.getSaveAsPath( getEditorInput( ) );
 
 			if ( path == null )
 			{
 				return;
 			}
-
-			final IEditorInput input = provider.createNewEditorInput( path );
-
-			setInput( input );
 
 			IRunnableWithProgress op = new IRunnableWithProgress( ) {
 
@@ -855,12 +833,6 @@ abstract public class ReportEditorWithPalette extends
 
 					try
 					{
-
-						if ( !input.exists( ) )
-						{
-							// Create the container if non-existent
-							// createContainer( input, monitor );
-						}
 						doSave( monitor );
 					}
 

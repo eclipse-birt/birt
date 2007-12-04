@@ -418,7 +418,4 @@ public interface IReportGraphicConstants
 
 	// Annotation type
 	public final static String ANNOTATION_ERROR = "org.eclipse.ui.workbench.texteditor.error"; //$NON-NLS-1$
-
-	// The property of config file name.
-	public final static String REPORT_CONFIG_FILE_NAME = "ReportConfigFileName"; //$NON-NLS-1$
 }
