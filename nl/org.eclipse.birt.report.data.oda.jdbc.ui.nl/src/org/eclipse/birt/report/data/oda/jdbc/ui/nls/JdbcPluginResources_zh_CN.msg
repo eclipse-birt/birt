@@ -27,6 +27,7 @@ tablepage.label.refresh=正在刷新...
 tablepage.label.schema=架构(&S):
 tablepage.button.filter=应用筛选器(&A)
 tablepage.button.dnd=使用标识符引用(&U)
+tablepage.button.showSystemTables=S&how system tables
 tablepage.label.filterNote=（使用 '%' 匹配不含字符或含有多个字符的任何字符串，使用 '-' 匹配一个字符）
 tablepage.title=选择要在数据集内显示的表。
 tablepage.label.availableItems=可用数据项:

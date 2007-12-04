@@ -27,6 +27,7 @@ tablepage.label.refresh=更新中...
 tablepage.label.schema=スキーマ(&S) :
 tablepage.button.filter=フィルタの適用(&A)
 tablepage.button.dnd=識別子を引用符で囲む(&U)
+tablepage.button.showSystemTables=S&how system tables
 tablepage.label.filterNote=(0 文字以上の任意の文字列を検索するには '%' を、任意の 1 文字を検索するには '-' を使用します)
 tablepage.title=データセットに表示するテーブルを選択してください。
 tablepage.label.availableItems=使用可能な項目 :

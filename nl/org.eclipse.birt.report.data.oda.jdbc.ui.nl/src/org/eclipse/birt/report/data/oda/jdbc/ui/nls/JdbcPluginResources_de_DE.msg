@@ -27,6 +27,7 @@ tablepage.label.refresh=Aktualisierung läuft...
 tablepage.label.schema=&Schema:
 tablepage.button.filter=&Filter anwenden
 tablepage.button.dnd=&Bezeichner mit Escape-Zeichen verwenden
+tablepage.button.showSystemTables=S&how system tables
 tablepage.label.filterNote=(Sie können "%" als Platzhalter für mehrere Zeichen und "-" als Platzhalter für genau ein Zeichen verwenden.)
 tablepage.title=Wählen Sie die Tabellen aus, die der Datensatz umfassen soll.
 tablepage.label.availableItems=Verfügbare Elemente:

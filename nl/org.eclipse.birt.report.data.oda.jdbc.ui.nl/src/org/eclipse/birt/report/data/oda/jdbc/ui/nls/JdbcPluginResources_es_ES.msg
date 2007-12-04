@@ -27,6 +27,7 @@ tablepage.label.refresh=Actualizando...
 tablepage.label.schema=&Esquema:
 tablepage.button.filter=&Aplicar filtro
 tablepage.button.dnd=&Utilizar referencia de identificador
+tablepage.button.showSystemTables=S&how system tables
 tablepage.label.filterNote=(Utilice '%' para que coincida con cualquier string que tenga varios caracteres o ninguno y '-' para que coincida con un carácter)
 tablepage.title=Seleccione las tablas que aparecerán en el conjunto de datos.
 tablepage.label.availableItems=Elementos disponibles:

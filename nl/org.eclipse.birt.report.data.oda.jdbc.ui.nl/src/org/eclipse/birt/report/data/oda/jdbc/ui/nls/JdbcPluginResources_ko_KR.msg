@@ -27,6 +27,7 @@ tablepage.label.refresh=새로 고치는 중...
 tablepage.label.schema=스키마(&S):
 tablepage.button.filter=필터 적용(&A)
 tablepage.button.dnd=식별자를 따옴표로 묶기(&U)
+tablepage.button.showSystemTables=S&how system tables
 tablepage.label.filterNote=(영(0) 개나 여러 문자의 문자열을 일치시키려면 '%'를 사용하고 하나의 문자를 일치시키려면 '-'를 사용하십시오.)
 tablepage.title=데이터 집합에 표시할 테이블을 선택하십시오.
 tablepage.label.availableItems=사용 가능한 항목:

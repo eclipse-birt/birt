@@ -27,6 +27,7 @@ tablepage.label.refresh=Actualisation...
 tablepage.label.schema=&Schéma :
 tablepage.button.filter=&Appliquer le filtre
 tablepage.button.dnd=&Utiliser l'identificateur avec guillemets
+tablepage.button.showSystemTables=S&how system tables
 tablepage.label.filterNote=(Utilisez '%' pour faire correspondre toutes les chaînes contenant zéro caractère ou plus, utilisez '-' pour faire correspondre un caractère)
 tablepage.title=Sélectionnez les tables à faire apparaître dans le jeu de données.
 tablepage.label.availableItems=Eléments disponibles :
