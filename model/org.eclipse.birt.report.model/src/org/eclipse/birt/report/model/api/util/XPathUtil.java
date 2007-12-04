@@ -543,9 +543,15 @@ public class XPathUtil
 			otherPropName = propName + RESOURCE_KEY_SUFFIX;
 		}
 
+		// change the key definition to property definition, vice versa
+		
 		isKeyDefn = !isKeyDefn;
-		tmpPropDefn = (ElementPropertyDefn) ( (ElementDefn) propDefn
-				.definedBy( ) ).getProperty( otherPropName );
+
+		ElementDefn defn = (ElementDefn) propDefn.definedBy( );
+		if ( defn == null )
+			return null;
+
+		tmpPropDefn = (ElementPropertyDefn) defn.getProperty( otherPropName );
 		if ( tmpPropDefn == null )
 			return null;
 
