@@ -1512,7 +1512,8 @@ public class ReportEngineService
 		Iterator iSelectedColumns = columns.iterator( );
 		for ( int i = 0; iSelectedColumns.hasNext( ); i++ )
 		{
-			columnNames[i] = (String) iSelectedColumns.next( );
+			columnNames[i] = ParameterAccessor
+					.htmlDecode( (String) iSelectedColumns.next( ) );
 		}
 
 		IDataExtractionTask dataTask = null;

@@ -26,6 +26,7 @@ import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
 import org.eclipse.birt.report.soapengine.api.ResultSet;
 import org.eclipse.birt.report.soapengine.api.ResultSets;
+import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
  * Abstract action handler for ExportData event.
@@ -135,8 +136,9 @@ public abstract class AbstractQueryExportActionHandler
 			for ( int j = 0; j < columns.size( ); j++ )
 			{
 				ExportedColumn col = (ExportedColumn) columns.get( j );
-				colArray[j] = new Column( col.getName( ), col.getLabel( ),
-						Boolean.valueOf( col.getVisibility( ) ) );
+				colArray[j] = new Column( ParameterAccessor.htmlEncode( col
+						.getName( ) ), col.getLabel( ), Boolean.valueOf( col
+						.getVisibility( ) ) );
 			}
 			rsArray[i] = new ResultSet( rs.getQueryName( ), colArray );
 		}
