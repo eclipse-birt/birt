@@ -290,7 +290,7 @@ public class CrosstabFilterModelProvider extends FilterModelProvider
 	{
 		assert keys != null;
 		String[] columnNames = new String[keys.length];
-		columnNames[0] = Messages.getString( "CrosstabSortingModelProvider.ColumnName.GroupLevelOrMeasure" );
+		columnNames[0] = Messages.getString( "CrosstabFilterModelProvider.ColumnName.GroupLevelOrMeasure" );
 		for ( int i = 1; i < keys.length; i++ )
 		{
 			IElementDefn ElementDefn = DEUtil.getMetaDataDictionary( )
