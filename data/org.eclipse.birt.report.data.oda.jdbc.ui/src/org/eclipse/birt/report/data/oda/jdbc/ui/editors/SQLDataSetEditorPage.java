@@ -117,6 +117,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	private Label schemaLabel = null;
 	private Tree availableDbObjectsTree = null;
 	private Button identifierQuoteStringCheckBox = null;
+	private Button showSystemTableCheckBox = null;
 	private TreeItem[] selectionMac = null;// for DnD on Mac only
 
 	private boolean isSchemaSupported = false;
@@ -513,6 +514,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		} );
 
 		setupIdentifierQuoteStringCheckBox( selectTableGroup );
+		setupShowSystemTableCheckBox( selectTableGroup );
 		setRootElement( );
 		// Create the drag source on the tree
 		addDragSupportToTree( );
@@ -557,6 +559,21 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		identifierQuoteStringCheckBox.setText( JdbcPlugin.getResourceString( "tablepage.button.dnd" ) ); //$NON-NLS-1$
 		identifierQuoteStringCheckBox.setSelection( false );
 		identifierQuoteStringCheckBox.setLayoutData( layoutData );
+	}
+
+	/**
+	 * 
+	 * @param group
+	 */
+	private void setupShowSystemTableCheckBox( Group group )
+	{
+		GridData layoutData = new GridData( GridData.FILL_HORIZONTAL );
+		layoutData.horizontalSpan = 3;
+		showSystemTableCheckBox = new Button( group, SWT.CHECK );
+		showSystemTableCheckBox.setText( JdbcPlugin.getResourceString( "tablepage.button.showSystemTables" ) ); //$NON-NLS-1$
+		showSystemTableCheckBox.setSelection( false );
+		showSystemTableCheckBox.setLayoutData( layoutData );
+		showSystemTableCheckBox.setEnabled( true );
 	}
 
 	/**
@@ -641,6 +658,22 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 
 		// Set the Default selection to the First Item , which is "All"
 		filterComboViewer.getCombo( ).select( 0 );
+		filterComboViewer.getCombo( )
+				.addSelectionListener( new SelectionAdapter( ) {
+
+					public void widgetSelected( SelectionEvent e )
+					{
+						if ( getSelectedDbType( ).equals( DbType.ALL_STRING )
+								|| getSelectedDbType( ).equals( DbType.TABLE_STRING ) )
+						{
+							showSystemTableCheckBox.setEnabled( true );
+						}
+						else
+						{
+							showSystemTableCheckBox.setEnabled( false );
+						}
+					}
+				} );
 	}
 
 	/**
@@ -781,7 +814,19 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 				{
 					String schemaName = (String) schemaList.get( i );
 
-					if ( containsTableInSchema( schemaName ) )
+					if ( showSystemTableCheckBox.isEnabled( ) && showSystemTableCheckBox.getSelection( ) )
+					{
+						if ( containsTableInSchema( schemaName, true ) )
+						{
+							DbObject schemaObj = new DbObject( schemaName,
+									schemaName,
+									DbObject.SCHEMA_TYPE,
+									schemaImage );
+							schemaObjectList.add( schemaObj );
+							count++;
+						}
+					}
+					else if ( containsTableInSchema( schemaName, false ) )
 					{
 						DbObject schemaObj = new DbObject( schemaName,
 								schemaName,
@@ -832,7 +877,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 				return;
 			}
 
-			if ( containsTableInSchema( schemaName ) )
+			if ( containsTableInSchema( schemaName, false ) )
 			{
 				schemaList = new ArrayList( );
 				schemaList.add( schemaName );
@@ -860,26 +905,26 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	 * @param schemaName
 	 * @return
 	 */
-	private boolean containsTableInSchema( String schemaName )
+	private boolean containsTableInSchema( String schemaName,
+			boolean showSystemTable )
 	{
+		String[] tableTypes = showSystemTable ? new String[]{
+				"SYSTEM TABLE", "TABLE", "VIEW"
+		} : new String[]{
+				"TABLE", "VIEW"
+		};
 		ResultSet rs = metaDataProvider.getAlltables( metaDataProvider.getCatalog( ),
 				schemaName,
 				"%",
-				new String[]{
-						"TABLE", "VIEW"
-				} );
-		boolean hasNonSystemTable = false;
+				tableTypes );
+				
 		if ( rs != null )
 		{
 			try
 			{
 				while ( rs.next( ) )
 				{
-					if ( !"SYSTEM TABLE".equalsIgnoreCase( rs.getString( "TABLE_TYPE" ) ) )
-					{
-						hasNonSystemTable = true;
-						break;
-					}
+					return true;
 				}
 			}
 			catch ( SQLException e )
@@ -887,14 +932,7 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 				logger.log( Level.FINE, e.getMessage( ), e );
 			}
 		}
-		if ( hasNonSystemTable )
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return false;
 	}
 
 	/**
@@ -955,7 +993,14 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		cachedDbType = dbtype;
 		if ( dbtype != null )
 		{
-			if ( DbType.TABLE_STRING.equalsIgnoreCase( dbtype )
+			if ( showSystemTableCheckBox.isEnabled( )
+					&& showSystemTableCheckBox.getSelection( ) )
+			{
+				tableType = new String[]{
+						"SYSTEM TABLE", "TABLE"
+				};
+			}
+			else if ( DbType.TABLE_STRING.equalsIgnoreCase( dbtype )
 					|| DbType.VIEW_STRING.equalsIgnoreCase( dbtype ) )
 			{
 				tableType = new String[]{
@@ -1022,12 +1067,15 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 							// will result in an exception.
 							String tableName = tablesRs.getString( "TABLE_NAME" );
 							String type = tablesRs.getString( "TABLE_TYPE" );
-							if ( type.equalsIgnoreCase( "SYSTEM TABLE" ) )
-								continue;
-
 							int dbType = DbObject.TABLE_TYPE;
-
-							if ( type.equalsIgnoreCase( "TABLE" ) )
+							if ( showSystemTableCheckBox.isEnabled( )
+									&& showSystemTableCheckBox.getSelection( )
+									&& type.equalsIgnoreCase( "SYSTEM TABLE" ) )
+							{
+								image = tableImage;
+								dbType = DbObject.TABLE_TYPE;
+							}
+							else if ( type.equalsIgnoreCase( "TABLE" ) )
 							{
 								image = tableImage;
 								dbType = DbObject.TABLE_TYPE;
@@ -1130,7 +1178,14 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 
 		if ( dbtype != null )
 		{
-			if ( DbType.TABLE_STRING.equalsIgnoreCase( dbtype )
+			if ( showSystemTableCheckBox.isEnabled( )
+					&& showSystemTableCheckBox.getSelection( ) )
+			{
+				tableType = new String[]{
+						"SYSTEM TABLE", "TABLE"
+				};
+			}
+			else if ( DbType.TABLE_STRING.equalsIgnoreCase( dbtype )
 					|| DbType.VIEW_STRING.equalsIgnoreCase( dbtype ) )
 			{
 				tableType = new String[]{
@@ -1178,13 +1233,16 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 				{
 					String tableName = tablesRs.getString( "TABLE_NAME" );
 					String type = tablesRs.getString( "TABLE_TYPE" );//$NON-NLS-1$
-					if ( type.equalsIgnoreCase( "SYSTEM TABLE" ) )
-						continue;
-					// String SchemaName =
-					// tablesRs.getString("TABLE_SCHEM");//$NON-NLS-1$
+					
 					int dbType = DbObject.TABLE_TYPE;
-
-					if ( type.equalsIgnoreCase( "TABLE" ) )
+					if ( showSystemTableCheckBox.isEnabled( )
+							&& showSystemTableCheckBox.getSelection( )
+							&& type.equalsIgnoreCase( "SYSTEM TABLE" ) )
+					{
+						image = tableImage;
+						dbType = DbObject.TABLE_TYPE;
+					}
+					else if ( type.equalsIgnoreCase( "TABLE" ) )
 					{
 						image = tableImage;
 						dbType = DbObject.TABLE_TYPE;
