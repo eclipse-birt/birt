@@ -433,7 +433,7 @@ public class GetParameterDefinitionTask extends EngineTask
 	private QueryDefinition createQueryDefinition( DataSetHandle dataSet )
 	{
 		QueryDefinition queryDefn = new QueryDefinition( );
-		queryDefn.setDataSetName( dataSet.getName( ) );
+		queryDefn.setDataSetName( dataSet.getQualifiedName( ) );
 		queryDefn.setAutoBinding( true );
 		return queryDefn;
 	}
