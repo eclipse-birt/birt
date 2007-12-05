@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.olap.data.api.cube;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Hashtable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -29,7 +30,7 @@ public class DocManagerMap
 {
 	private static DocManagerMap instance = new DocManagerMap( );
 	
-	private Map map = new HashMap( );
+	private Map map = new Hashtable( );
 	
 	protected static Logger logger = Logger.getLogger( DocManagerMap.class.getName( ) );
 	/**
