@@ -16,7 +16,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.birt.data.engine.aggregation.AggregationFactory;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -59,6 +61,19 @@ public class OlapQueryUtil
 		{
 			boolean isValid = true;
 			IBinding binding = (IBinding)queryDefn.getBindings( ).get(i);
+			
+			if ( binding.getAggrFunction( ) != null &&
+					binding.getExpression( ) instanceof IScriptExpression )
+			{
+				String expr = ( (IScriptExpression) binding.getExpression( ) ).getText( );
+				if ( expr == null &&
+						( AggregationFactory.getInstance( )
+								.getAggrInfo( binding.getAggrFunction( ) ) != null && !AggregationFactory.getInstance( )
+								.getAggrInfo( binding.getAggrFunction( ) )
+								.needDataField( ) ) )
+					continue;
+			}
+			
 			Set levels = OlapExpressionCompiler.getReferencedDimLevel( binding.getExpression( ), queryDefn.getBindings( ) );
 			if( ! validDimLevels.containsAll( levels ))
 			{	

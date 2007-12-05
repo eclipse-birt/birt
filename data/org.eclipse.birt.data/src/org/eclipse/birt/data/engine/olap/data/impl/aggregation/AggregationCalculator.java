@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.olap.data.impl.aggregation;
 import java.io.IOException;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.data.engine.aggregation.AggregationFactory;
 import org.eclipse.birt.data.engine.aggregation.BuiltInAggregationFactory;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
@@ -94,7 +95,11 @@ public class AggregationCalculator
 				this.accumulators[i] = aggregation.newAccumulator( );
 				this.accumulators[i].start( );
 				this.measureIndex[i] = facttableRowIterator.getMeasureIndex( aggregationFunction[i].getMeasureName( ) );
-				if ( this.measureIndex[i] == -1 )
+				if ( AggregationFactory.getInstance( )
+						.getAggrInfo( aggregation.getName( ) ) == null ||
+						( this.measureIndex[i] == -1 && AggregationFactory.getInstance( )
+								.getAggrInfo( aggregation.getName( ) )
+								.needDataField( ) ) )
 				{
 					throw new DataException( ResourceConstants.MEASURE_NAME_NOT_FOUND,
 							aggregationFunction[i].getMeasureName( ) );
@@ -260,12 +265,26 @@ public class AggregationCalculator
 		if( parameterColIndex[funcIndex] == -1 )
 		{
 			parameters = new Object[1];
-			parameters[0] = row.getMeasures()[measureIndex[funcIndex]];
+			if( measureIndex[funcIndex] < 0 )
+			{
+				parameters[0] = null;
+			}
+			else
+			{
+				parameters[0] = row.getMeasures()[measureIndex[funcIndex]];
+			}
 		}
 		else
 		{
 			parameters = new Object[2];
-			parameters[0] = row.getMeasures()[measureIndex[funcIndex]];
+			if( measureIndex[funcIndex] < 0 )
+			{
+				parameters[0] = null;
+			}
+			else
+			{
+				parameters[0] = row.getMeasures()[measureIndex[funcIndex]];
+			}
 			parameters[1] = row.getParameterValues( )[parameterColIndex[funcIndex]];
 		}
 		return parameters;

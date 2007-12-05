@@ -156,7 +156,9 @@ public class OlapExpressionUtil
 	 */
 	public static String getMeasure( String expr ) throws DataException
 	{
-		if ( expr == null || !expr.matches( "\\Qmeasure[\"\\E.*\\Q\"]\\E" ) )
+		if( expr == null )
+			return null;
+		if ( !expr.matches( "\\Qmeasure[\"\\E.*\\Q\"]\\E" ) )
 			throw new DataException( ResourceConstants.INVALID_MEASURE_REF,
 					expr );
 
@@ -327,7 +329,6 @@ public class OlapExpressionUtil
 				String aggrName, List arguments, IBaseExpression filterExpression )
 		{
 			assert name != null;
-			assert measure != null;
 			assert aggrLevels != null;
 
 			this.name = name;
