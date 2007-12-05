@@ -126,6 +126,8 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	{
 		this.__mode = mode;
 		this.preVisible = false;
+
+		this._hint = document.getElementById( "birt_hint" );
 		
 		if ( this.__mode == 'parameter' )
 		{
@@ -846,13 +848,12 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 		if( oSC.selectedIndex >=0 )
 			tempText = oSC.options[oSC.selectedIndex].text;
 		
-		var hint = document.getElementById( "birt_hint" );	
-		if( tempText && hint )
+		if( tempText && this._hint )
 		{
-			hint.innerHTML = tempText;
-			hint.style.display = "block"; 			
-			hint.style.left = ( event.clientX - parseInt( this.__instance.style.left ) ) + "px";
-			hint.style.top = ( event.clientY - parseInt( this.__instance.style.top ) ) + "px";
+			this._hint.innerHTML = tempText;
+			this._hint.style.display = "block"; 			
+			this._hint.style.left = ( event.clientX - parseInt( this.__instance.style.left ) ) + "px";
+			this._hint.style.top = ( 15 + event.clientY - parseInt( this.__instance.style.top ) ) + "px";
 		}			
 	},
 
@@ -864,10 +865,9 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	 */
 	__neh_mouseout_select : function( event )
 	{
-		var hint = document.getElementById( "birt_hint" );
-		if( hint )
+		if( this._hint )
 		{
-			hint.style.display = "none"; 
+			this._hint.style.display = "none"; 
 		}			
 	},
 
