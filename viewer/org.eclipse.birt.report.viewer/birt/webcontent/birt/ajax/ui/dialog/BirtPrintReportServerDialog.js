@@ -417,7 +417,7 @@ BirtPrintReportServerDialog.prototype = Object.extend( new AbstractBaseDialog( )
 			var oOption = document.createElement( "OPTION" );
 			oOption.text = printers[i].name;
 			oOption.value = printers[i].value.getName( );
-			oSelect.options.add( oOption );			
+			oSelect.options[oSelect.options.length] = oOption;
 		}
 		
 		// Update info		
@@ -624,7 +624,7 @@ BirtPrintReportServerDialog.prototype = Object.extend( new AbstractBaseDialog( )
 				if( mediaSizeNames[i].value == mediaSize )
 					oOption.selected = true;
 				
-				oSize.options.add( oOption );			
+				oSize.options[oSize.options.length] = oOption;
 			}	
 		}
 		else

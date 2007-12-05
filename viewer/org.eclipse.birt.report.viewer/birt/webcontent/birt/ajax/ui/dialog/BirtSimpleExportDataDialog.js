@@ -309,7 +309,7 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			if ( sel_source.options[i].selected )
 			{
 				var selectedItem = sel_source.options[i];
-				sel_dest.options.add( new Option( selectedItem.text, selectedItem.value ) );
+				sel_dest.options[sel_dest.options.length] = new Option( selectedItem.text, selectedItem.value );
 				sel_source.remove( i );
 				i = i - 1;
 			}							
@@ -329,7 +329,7 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
      		var SelectedValue = sel_source.options[i].value;
 	   		var newOption = new Option( SelectedText );
 			newOption.value = SelectedValue;
-     		sel_dest.options.add( newOption );
+     		sel_dest.options[sel_dest.options.length] = newOption;
    		}
    		
    		sel_dest.selectedIndex = 0;
@@ -362,7 +362,7 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	 		var resultSet = resultSets[k];
 	 		
 		 	var queryNames = resultSet.getElementsByTagName( 'QueryName' );
-			oSelects[0].options.add( new Option( queryNames[0].firstChild.data ) );
+			oSelects[0].options[oSelects[0].options.length] = new Option(queryNames[0].firstChild.data);
 				 	
 			this.availableResultSets[k] = {};
 			
@@ -395,7 +395,7 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	 		var colName = columns[label];
 			var option = new Option( label );
 			option.value = colName;
-			oSelects[1].options.add( option );
+			oSelects[1].options[oSelects[1].options.length] = option;
 	 	}
 	 	
 		this.__updateButtons( );

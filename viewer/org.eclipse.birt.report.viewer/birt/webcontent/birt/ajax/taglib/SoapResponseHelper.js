@@ -115,7 +115,7 @@ SoapResponseHelper.prototype =
 									oOption.value = oValue.data;
 								else
 									oOption.value = "";
-								append_selection.options.add( oOption );
+								append_selection.options[append_selection.options.length] = oOption;
 							}
 						}						
 					}				
