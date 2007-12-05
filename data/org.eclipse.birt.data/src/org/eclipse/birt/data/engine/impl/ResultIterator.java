@@ -795,12 +795,20 @@ public class ResultIterator implements IResultIterator
 	 */
 	public void close( ) throws BirtException
 	{
-		if ( state == NOT_STARTED || state == CLOSED )
+		if ( state == CLOSED )
 			return;
 		if ( this.getRdSaveHelper( ).needsSaveToDoc( ) )
 		{
-    		// save all gap row
-			while ( this.next( ) );
+			if ( this.isEmpty( ) )
+			{
+				lastRowIndex = odiResult.getCurrentResultIndex( ) - 1;
+				this.prepareCurrentRow( );
+			}
+			 else 
+			{
+				// save all gap row
+				while ( this.next( ) );
+			}
 			// save results when needs
 			this.getRdSaveHelper( ).doSaveFinish( );
 		}
