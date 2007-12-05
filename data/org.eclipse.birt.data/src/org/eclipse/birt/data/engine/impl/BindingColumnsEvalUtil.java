@@ -354,6 +354,8 @@ class BindingColumnsEvalUtil
 		 */
 		private Object getValue( String columnName ) throws DataException
 		{
+			if( ri.getCurrentResult( )== null )
+				return null;
 			return ri.getCurrentResult( ).getFieldValue( columnName );
 		}
 	}
