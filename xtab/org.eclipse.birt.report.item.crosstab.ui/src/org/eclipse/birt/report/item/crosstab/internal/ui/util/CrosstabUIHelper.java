@@ -55,6 +55,7 @@ public class CrosstabUIHelper
 	public static String ROW_GRAND_TOTAL_IMAGE="icons/pal/row-grand-total.gif";
 	public static String COLUMN_SUB_TOTAL_IMAGE="icons/pal/col-subtotal.gif";
 	public static String ROW_SUB_TOTAL_IMAGE="icons/pal/row-subtotal.gif";
+	public static String OPTIONS_ICON = "icons/pal/options.gif";//$NON-NLS-1$
 	
 	
 	private static Image createImage( String sPluginRelativePath )

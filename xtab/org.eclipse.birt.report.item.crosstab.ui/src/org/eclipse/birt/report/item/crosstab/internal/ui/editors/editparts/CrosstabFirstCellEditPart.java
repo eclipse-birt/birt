@@ -39,7 +39,7 @@ import org.eclipse.swt.widgets.Menu;
 
 public class CrosstabFirstCellEditPart extends  CrosstabCellEditPart
 {
-	private static int MIN_WIDTH = 25;
+	private static int MIN_WIDTH = 18;
 	private static int MIN_HEIGHT = 20;//mabe define a glob field
 	private MenuManager manager;
 	Figure contentPane;
@@ -93,7 +93,7 @@ public class CrosstabFirstCellEditPart extends  CrosstabCellEditPart
 	class ControlFigure extends AbstractHandle
 	{
 
-		Image image = CrosstabUIHelper.getImage( CrosstabUIHelper.LEVEL_ARROW );
+		Image image = CrosstabUIHelper.getImage( CrosstabUIHelper.OPTIONS_ICON );
 		
 		public ControlFigure(GraphicalEditPart owner, Locator loc)
 		{

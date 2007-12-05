@@ -22,7 +22,14 @@ import org.eclipse.birt.report.designer.internal.ui.extension.experimental.Palet
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddLevelHandleAction;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddMesureViewHandleAction;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddSubTotalAction;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.DeleteDimensionViewHandleAction;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.DeleteMeasureHandleAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.ICrosstabCellAdapterFactory;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.gef.ui.actions.ActionRegistry;
@@ -31,6 +38,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
 
 /**
  * 
@@ -41,12 +49,60 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 
 	private ActionRegistry actionRegistry;
 
+	private void createMeasureMenu(IMenuManager menu, Object firstSelectedObj)
+	{
+		DesignElementHandle element = null;
+		if ( firstSelectedObj instanceof DesignElementHandle )
+		{
+			element = (DesignElementHandle)firstSelectedObj;
+		}
+		else if (firstSelectedObj instanceof CrosstabCellAdapter)
+		{
+			element = ((CrosstabCellAdapter)firstSelectedObj).getDesignElementHandle( );
+		}
+		if ( element != null )
+		{					
+			IAction action = new AddMesureViewHandleAction( (DesignElementHandle) element);
+			menu.add( action );
+			
+			action = new DeleteMeasureHandleAction( (DesignElementHandle) element);
+			menu.add( action );
+		}
+	}
+	
+	private void createLevelMenu(IMenuManager menu, Object firstSelectedObj)
+	{
+		DesignElementHandle element = null;
+		if ( firstSelectedObj instanceof DesignElementHandle )
+		{
+			element = (DesignElementHandle)firstSelectedObj;
+		}
+		else if (firstSelectedObj instanceof CrosstabCellAdapter)
+		{
+			element = ((CrosstabCellAdapter)firstSelectedObj).getDesignElementHandle( );
+		}
+		if (element != null)
+		{
+			IAction action = new AddLevelHandleAction( (DesignElementHandle) element );
+			menu.add( action );
+
+			action = new AddSubTotalAction( (DesignElementHandle) element );
+			menu.add( action );
+		
+			action = new DeleteDimensionViewHandleAction( (DesignElementHandle) element);
+			menu.add( action );
+		}
+		
+	}
+	
 	public Object getAdapter( Object adaptableObject, Class adapterType )
 	{
 		if ( adaptableObject instanceof CrosstabCellAdapter
 				&& ( (CrosstabCellAdapter) adaptableObject ).getCrosstabCellHandle( ) != null
 				&& adapterType == IMenuListener.class )
 		{
+			final String position = ( (CrosstabCellAdapter) adaptableObject ).getPositionType( );
+			final Object firstSelectedElement = ( (CrosstabCellAdapter) adaptableObject ).getFirstElement( );
 			return new ISchematicMenuListener( ) {
 
 				private ActionRegistry actionRegistry;
@@ -54,8 +110,19 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 				public void menuAboutToShow( IMenuManager manager )
 				{
 
+					if ( ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE.equals( position ) )
+					{
+						createLevelMenu(manager, firstSelectedElement);
+						manager.add( new Separator() );
+					}else
+					if ( ICrosstabCellAdapterFactory.CELL_MEASURE.equals( position ) )
+					{
+						createMeasureMenu(manager, firstSelectedElement);
+						manager.add( new Separator() );
+					}
+					
 					MenuManager subMenu = new MenuManager( Messages.getString( "SchematicContextMenuProvider.Menu.insertElement" ) );
-
+								
 					IAction action = getAction( GeneralInsertMenuAction.INSERT_TEXT_ID );
 					action.setText( GeneralInsertMenuAction.INSERT_TEXT_DISPLAY_TEXT );
 					subMenu.add( action );
