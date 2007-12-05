@@ -18,7 +18,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.nio.channels.FileChannel;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -212,19 +211,7 @@ public class FileReportProvider implements IReportProvider
 			{
 				if ( file.exists( ) || file.createNewFile( ) )
 				{
-					// Gets report config file.
-					String newConfigName = getConfigFileName( moduleHandle.getFileName( ) );
-					File oldConfigFile = new File( getConfigFileName( file.getAbsolutePath( ) ) );
-
-					if ( newConfigName != null &&
-							oldConfigFile != null &&
-							oldConfigFile.exists( ) )
-					{
-						copyFile( oldConfigFile, new File( newConfigName ) );
-					}
-
-					FileOutputStream out = new FileOutputStream( moduleHandle.getFileName( ) );
-
+					FileOutputStream out = new FileOutputStream( file );
 					moduleHandle.serialize( out );
 					out.close( );
 				}
@@ -241,87 +228,6 @@ public class FileReportProvider implements IReportProvider
 		catch ( Exception e )
 		{
 			ExceptionHandler.handle( e );
-		}
-	}
-
-	/**
-	 * Returns config file name with the specified report design filename.
-	 * 
-	 * @param reportDesignName
-	 *            the file name of the specified report design.
-	 * @return The file name of report config
-	 */
-	public static String getConfigFileName( String reportDesignName )
-	{
-		String[] result = reportDesignName == null ? null
-				: reportDesignName.split( "\\." ); //$NON-NLS-1$
-
-		if ( result == null ||
-				result.length <= 0 ||
-				result[result.length - 1] == null )
-		{
-			return null;
-		}
-
-		int extensionLength = result[result.length - 1] == null ? 0
-				: result[result.length - 1].length( );
-
-		return reportDesignName.substring( 0, reportDesignName.length( ) -
-				extensionLength ) +
-				"rptconfig"; //$NON-NLS-1$
-	}
-
-	/**
-	 * Copys a file to another file.
-	 * 
-	 * @param srcFile
-	 *            the source file
-	 * @param destFile
-	 *            the target file
-	 * @throws IOException
-	 *             if an error occurs.
-	 */
-	private void copyFile( File srcFile, File destFile ) throws IOException
-	{
-		if ( srcFile.equals( destFile ) )
-		{
-			// Does nothing if fils are same.
-			return;
-		}
-
-		FileInputStream fis = null;
-		FileOutputStream fos = null;
-		FileChannel fcin = null;
-		FileChannel fcout = null;
-
-		try
-		{
-			fis = new FileInputStream( srcFile );
-			fos = new FileOutputStream( destFile );
-			fcin = fis.getChannel( );
-			fcout = fos.getChannel( );
-
-			// Does the file copy.
-			fcin.transferTo( 0, fcin.size( ), fcout );
-		}
-		finally
-		{
-			if ( fis != null )
-			{
-				fis.close( );
-			}
-			if ( fos != null )
-			{
-				fos.close( );
-			}
-			if ( fcin != null )
-			{
-				fcin.close( );
-			}
-			if ( fcout != null )
-			{
-				fcout.close( );
-			}
 		}
 	}
 

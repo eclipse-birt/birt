@@ -92,7 +92,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.EditPartFactory;
@@ -733,9 +732,6 @@ abstract public class ReportEditorWithPalette extends
 		if ( provider != null )
 		{
 			provider.saveReport( getModel( ), getEditorInput( ), monitor );
-
-			// Resets input with the new path after saveing report.
-			setInput( provider.createNewEditorInput( new Path( getModel( ).getFileName( ) ) ) );
 			firePropertyChange( PROP_DIRTY );
 		}
 	}
@@ -767,6 +763,10 @@ abstract public class ReportEditorWithPalette extends
 			{
 				return;
 			}
+
+			final IEditorInput input = provider.createNewEditorInput( path );
+
+			setInput( input );
 
 			IRunnableWithProgress op = new IRunnableWithProgress( ) {
 
@@ -833,6 +833,12 @@ abstract public class ReportEditorWithPalette extends
 
 					try
 					{
+
+						if ( !input.exists( ) )
+						{
+							// Create the container if non-existent
+							// createContainer( input, monitor );
+						}
 						doSave( monitor );
 					}
 

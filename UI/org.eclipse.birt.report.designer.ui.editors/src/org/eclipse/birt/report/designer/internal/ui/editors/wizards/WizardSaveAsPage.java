@@ -20,7 +20,6 @@ import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.WizardPage;
@@ -176,7 +175,6 @@ public class WizardSaveAsPage extends WizardPage
 					return null;
 				case 2 : // Cancel
 				default :
-					return Path.EMPTY;
 			}
 		}
 
