@@ -122,11 +122,17 @@
           </test>
        </or>
        <not>
-          <test
-                forcePluginActivation="true"
-                property="ExtendItemHandle.containerPropertyName"
-                value="aggregationHeader">
-          </test>
+          <or>
+             <test
+                   forcePluginActivation="true"
+                   property="ExtendItemHandle.containerPropertyName"
+                   value="aggregationHeader">
+             </test>
+             <test
+                   property="ExtendItemHandle.containerName"
+                   value="Crosstab">
+             </test>
+          </or>
        </not>
     </and>
             </enablement>
@@ -257,16 +263,24 @@
                    property="ExtendItemHandle.extensionName"
                    value="CrosstabCell">
              </test>
-             <test
-                   forcePluginActivation="true"
-                   property="ExtendItemHandle.containerName"
-                   value="LevelView">
-             </test>
-             <test
-                   forcePluginActivation="true"
-                   property="ExtendItemHandle.containerPropertyName"
-                   value="aggregationHeader">
-             </test>
+             <or>
+                <and>
+                   <test
+                         forcePluginActivation="true"
+                         property="ExtendItemHandle.containerName"
+                         value="LevelView">
+                   </test>
+                   <test
+                         forcePluginActivation="true"
+                         property="ExtendItemHandle.containerPropertyName"
+                         value="aggregationHeader">
+                   </test>
+                </and>
+                <test
+                      property="ExtendItemHandle.containerName"
+                      value="Crosstab">
+                </test>
+             </or>
           </and>
        </enablement>
     </adapter>

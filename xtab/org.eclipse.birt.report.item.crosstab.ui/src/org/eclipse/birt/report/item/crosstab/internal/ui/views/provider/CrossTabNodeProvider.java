@@ -54,6 +54,8 @@ public class CrossTabNodeProvider extends DefaultNodeProvider
 		try
 		{
 			CrosstabReportItemHandle crossTab = (CrosstabReportItemHandle) crossTabHandle.getReportItem( );
+			if ( crossTab.getHeader( ) != null )
+				list.add( crossTab.getHeader( ).getModelHandle( ) );
 			if ( crossTab.getCrosstabView( ICrosstabConstants.COLUMN_AXIS_TYPE ) != null )
 				list.add( crossTab.getCrosstabView( ICrosstabConstants.COLUMN_AXIS_TYPE )
 						.getModelHandle( ) );
