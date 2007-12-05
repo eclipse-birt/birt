@@ -264,9 +264,9 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			formObj.target = Constants.WINDOW_PRINT_PREVIEW;			
 			formObj.submit( );
 			
-			// Launch the browser's print dialog (IE only)
+			// Launch the browser's print dialog (IE/Safari workaround)
 			// Note: calling the print dialog for PDF in IE doesn't work (permission denied)
-			if ( BrowserUtility.__isIE() && this.__printFormat != 'pdf' )
+			if ( ( BrowserUtility.__isIE() && this.__printFormat != 'pdf' ) || BrowserUtility.__isSafari() )
 			{
 				this.__timer = window.setTimeout( this.__cb_waitPreviewLoaded.bindAsEventListener( this ), 1000 );
 			}			
@@ -310,7 +310,7 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	 * Control the browser's popup print dialog.
 	 *
 	 * Below are the implemented functions for the given browsers and output formats.
-	 * Function              IE       Mozilla
+	 * Function              IE       Mozilla/Safari
 	 * window.print()       HTML       HTML,PDF(delay)
 	 *
 	 */
