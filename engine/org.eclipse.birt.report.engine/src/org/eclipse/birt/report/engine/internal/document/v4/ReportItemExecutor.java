@@ -322,25 +322,6 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		return rsets;
 	}
 
-	protected void processEmptyQuery( )
-	{
-		closeResultSets( );
-		rsets = new IBaseResultSet[]{null};
-	}
-	
-	private void closeResultSets( )
-	{
-		if ( rsets != null )
-		{
-			for ( int i = 0; i < rsets.length; i++)
-			{
-				if ( rsets[i] != null )
-				{
-					rsets[i].close( );
-				}
-			}
-		}
-	}
 
 	public void close( )
 	{

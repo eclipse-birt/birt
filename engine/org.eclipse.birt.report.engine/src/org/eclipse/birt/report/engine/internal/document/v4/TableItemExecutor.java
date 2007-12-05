@@ -101,11 +101,6 @@ public class TableItemExecutor extends ListingElementExecutor
 				}
 			}
 		}
-		
-		if ( rsetEmpty )
-		{
-			processEmptyQuery( );
-		}
 	}
 
 	public void close( )

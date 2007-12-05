@@ -89,20 +89,6 @@ abstract public class QueryItemExecutor extends StyledItemExecutor
 		}
 	}
 
-	protected void processEmptyQuery( )
-	{
-		closeResultSet( );
-	}
-
-	private void closeResultSet( )
-	{
-		if ( rset != null )
-		{
-			rset.close( );
-			this.rset = null;
-		}
-	}
-	
 	protected void accessQuery( ReportItemDesign design, IContentEmitter emitter )
 	{
 	}

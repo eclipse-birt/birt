@@ -87,10 +87,6 @@ public class TableItemExecutor extends ListingElementExecutor
 
 		startTOCEntry( tableContent );
 
-		if ( rsetEmpty )
-		{
-			processEmptyQuery( );
-		}
 		//prepare to execute the children
 		prepareToExecuteChildren();
 		return tableContent;

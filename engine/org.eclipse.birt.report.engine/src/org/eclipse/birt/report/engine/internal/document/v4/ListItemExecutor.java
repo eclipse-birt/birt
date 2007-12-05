@@ -39,10 +39,6 @@ public class ListItemExecutor extends ListingElementExecutor
 	protected void doExecute( ) throws Exception
 	{
 		executeQuery( );
-		if ( rsetEmpty )
-		{
-			processEmptyQuery( );
-		}
 	}
 
 	public void close( )
