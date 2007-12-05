@@ -78,9 +78,11 @@ public class ListItemExecutor extends ListingElementExecutor
 		startTOCEntry( listContent );
 		
 		// create an empty result set to handle the showIfBlank
-		if ( rsetEmpty )
+		boolean showIfBlank = "true".equalsIgnoreCase( content.getStyle( )
+				.getShowIfBlank( ) );
+		if ( showIfBlank && rsetEmpty )
 		{
-			processEmptyQuery( );
+			createQueryForShowIfBlank( );
 		}
 		
 		//prepare to execute the children

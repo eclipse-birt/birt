@@ -424,39 +424,10 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		}
 	}
 	
-	protected void processEmptyQuery( )
-	{
-		boolean showIfBlank = "true".equalsIgnoreCase( content.getStyle( )
-				.getShowIfBlank( ) );
-		closeResultSets( );
-		if ( showIfBlank )
-		{
-			createQueryForShowIfBlank( );
-		}
-		else
-		{
-			rsets = new IBaseResultSet[]{null};
-		}
-	}
-
-	private void closeResultSets( )
-	{
-		if ( rsets != null )
-		{
-			for ( int i = 0; i < rsets.length; i++)
-			{
-				if ( rsets[i] != null )
-				{
-					rsets[i].close( );
-				}
-			}
-		}
-	}
-	
 	protected void createQueryForShowIfBlank( )
 	{
 		IBaseResultSet[] blankRsets = new IBaseResultSet[1];
-		blankRsets[0] = new BlankResultSet( );
+		blankRsets[0] = new BlankResultSet( (IQueryResultSet)rsets[0] );
 		rsets = blankRsets;
 		context.setResultSets( rsets );
 		rsetEmpty = false;
