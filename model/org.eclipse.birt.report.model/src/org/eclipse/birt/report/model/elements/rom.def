@@ -2945,7 +2945,7 @@
       <Default>true</Default>
     </Property>
     <Property displayNameID="Element.Listing.pageBreakInterval" name="pageBreakInterval" runtimeSettable="false" since="2.0" type="integer">
-      <Default>200</Default>
+      <Default>50</Default>
     </Property>
     <Property displayNameID="Element.Listing.sortByGroups" name="sortByGroups" runtimeSettable="false" since="2.2" type="boolean">
     	<Default>true</Default>
