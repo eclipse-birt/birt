@@ -811,7 +811,7 @@ public class ResultIterator implements IResultIterator
 		{
 			if ( this.isEmpty( ) )
 			{
-				lastRowIndex = -1;
+				lastRowIndex = odiResult.getCurrentResultIndex( ) - 1;
 				this.prepareCurrentRow( );
 			}
 			 else 
