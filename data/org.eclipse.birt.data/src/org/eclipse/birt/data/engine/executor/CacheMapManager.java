@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +49,7 @@ class CacheMapManager
 	 * cache directory map for disk based cache( disk cache and incremental
 	 * cache )
 	 */
-	private Map cacheDirMap = new HashMap( );
+	private Map cacheDirMap = new Hashtable( );
 	
 	private String tempDir;
 	/**
