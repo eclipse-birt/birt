@@ -47,7 +47,7 @@ public class DataExtractionTaskTest extends EngineCase
 	private IReportDocument reportDoc;
 
 	final static String INPUT_table = "DataExtraction_table.rptdesign";
-	final static String INPUT_subquery = "new_report_2.rptdesign";
+	final static String INPUT_subquery = "DataExtraction_subquery.rptdesign";
 	final static String INPUT_nestquery = "DataExtraction_nestquery.rptdesign";
 	final static String OUTPUT_table = "DataExtraction_table.rptdocument";
 	final static String OUTPUT_subquery = "DataExtraction_subquery.rptdocument";
