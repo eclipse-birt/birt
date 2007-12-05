@@ -41,6 +41,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
@@ -103,6 +104,7 @@ import org.eclipse.ui.forms.editor.IFormPage;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.MultiPageEditorSite;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
+import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 
@@ -598,10 +600,28 @@ public class JSEditor extends EditorPart implements IColleague
 			AttributeViewPage page = new AttributeViewPage( );
 			return page;
 		}
+		
+		if ( adapter == ITextEditor.class )
+		{
+			return scriptEditor;
+		}
 
 		return super.getAdapter( adapter );
 	}
 
+	protected PropertyHandle getPropertyHandle()
+	{
+		if ( editObject instanceof DesignElementHandle)
+		{
+			DesignElementHandle desHdl = (DesignElementHandle)editObject;
+			if ( cmbItemLastSelected != null )
+			{
+				return desHdl.getPropertyHandle( cmbItemLastSelected.getName( ) );
+			}
+		}
+		return null;
+	}
+	
 	/**
 	 * 
 	 * initEditorLayout - initialize the UI components of the editor
@@ -915,7 +935,7 @@ public class JSEditor extends EditorPart implements IColleague
 	 * 
 	 * @param text
 	 */
-	private void setEditorText( String text )
+	protected void setEditorText( String text )
 	{
 		if ( scriptEditor == null )
 		{
