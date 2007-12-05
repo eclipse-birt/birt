@@ -49,11 +49,11 @@ public class ReportItemGenerationBase implements IReportItemGeneration
 		}
 
 		this.info = info;
-		setApplicationClassLoader( info.getApplicationClassLoader( ) );
-		setExtendedItemContent( info.getExtendedItemContent( ) );
 		setModelObject( info.getModelObject( ) );
-		setReportQueries( info.getReportQueries( ) );
+		setApplicationClassLoader( info.getApplicationClassLoader( ) );
 		setScriptContext( info.getReportContext( ) );
+		setReportQueries( info.getReportQueries( ) );
+		setExtendedItemContent( info.getExtendedItemContent( ) );
 	}
 
 	/*

@@ -58,18 +58,17 @@ public class ReportItemPresentationBase implements IReportItemPresentation
 
 		this.info = info;
 
-		setActionHandler( info.getActionHandler( ) );
-		setApplicationClassLoader( info.getApplicationClassLoader( ) );
-		setDynamicStyle( info.getExtendedItemContent( ).getComputedStyle( ) );
-		setExtendedItemContent( info.getExtendedItemContent( ) );
-		setLocale( info.getReportContext( ).getLocale( ) );
 		setModelObject( info.getModelObject( ) );
-		setSupportedImageFormats( info.getSupportedImageFormats( ) );
-		setOutputFormat( info.getOutputFormat( ) );
-		setReportQueries( info.getReportQueries( ) );
-		setResolution( info.getResolution( ) );
+		setApplicationClassLoader( info.getApplicationClassLoader( ) );
 		setScriptContext( info.getReportContext( ) );
-		
+		setReportQueries( info.getReportQueries( ) );
+		setDynamicStyle( info.getExtendedItemContent( ).getComputedStyle( ) );
+		setResolution( info.getResolution( ) );
+		setLocale( info.getReportContext( ).getLocale( ) );
+		setExtendedItemContent( info.getExtendedItemContent( ) );
+		setSupportedImageFormats( info.getSupportedImageFormats( ) );
+		setActionHandler( info.getActionHandler( ) );
+		setOutputFormat( info.getOutputFormat( ) );
 	}
 	
 	/*
