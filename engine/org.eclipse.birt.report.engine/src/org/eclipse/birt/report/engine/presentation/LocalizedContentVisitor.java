@@ -62,8 +62,10 @@ import org.eclipse.birt.report.engine.executor.template.TemplateExecutor;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.extension.IReportItemPresentation;
+import org.eclipse.birt.report.engine.extension.Size;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.extension.internal.ReportItemPresentationInfo;
+import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -733,6 +735,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 			info.setResolution( getChartResolution( ) );
 			info.setExtendedItemContent( content );
 			info.setSupportedImageFormats( getChartFormats( ) );
+			info.setActionHandler( context.getActionHandler( ) );
 			info.setOutputFormat( getOutputFormat( ) );
 
 			itemPresentation.init( info );
@@ -792,6 +795,16 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 				logger.log( Level.SEVERE, ex.getMessage( ), ex );
 			}
 		}
+		
+		Size size = itemPresentation.getSize( );
+		if ( size != null )
+		{
+			DimensionType height = new DimensionType( size.getWidth( ), size.getUnit( ) );
+			DimensionType width = new DimensionType( size.getHeight( ), size.getUnit( ) );
+			generatedContent.setHeight( height );
+			generatedContent.setWidth( width );
+		}
+		
 		return generatedContent;
 	}
 
