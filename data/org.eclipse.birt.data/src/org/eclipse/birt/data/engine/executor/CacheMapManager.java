@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -43,13 +42,13 @@ class CacheMapManager
 	 * Please notice that we must use static variable here for the sharing of
 	 * cached data set would be cross data set session.
 	 */
-	private static Map cacheMap = Collections.synchronizedMap(new HashMap());
+	private static Map cacheMap = Collections.synchronizedMap( new HashMap( ) );
 	
 	/**
 	 * cache directory map for disk based cache( disk cache and incremental
 	 * cache )
 	 */
-	private Map cacheDirMap = new Hashtable( );
+	private Map cacheDirMap = new HashMap( );
 	
 	private String tempDir;
 	/**
