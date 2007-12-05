@@ -356,6 +356,17 @@ public class ResultIterator implements IResultIterator
 		checkStarted( );
 		clear( );
 
+		if ( this.isEmpty( ) )
+		{
+			if ( this.isFirstRowPepared )
+			{
+				this.lastRowIndex = odiResult.getCurrentResultIndex( ) - 1;
+				this.prepareCurrentRow( );
+				this.isFirstRowPepared = false;
+			}
+			return false;
+		}
+		
 		boolean hasNext = false;
 		
 		// This behavior does not follow the convention of JDBC. That is before
@@ -809,16 +820,8 @@ public class ResultIterator implements IResultIterator
 			return;
 		if ( this.getRdSaveHelper( ).needsSaveToDoc( ) )
 		{
-			if ( this.isEmpty( ) )
-			{
-				lastRowIndex = odiResult.getCurrentResultIndex( ) - 1;
-				this.prepareCurrentRow( );
-			}
-			 else 
-			{
-				// save all gap row
-				while ( this.next( ) );
-			}
+			// save all gap row
+			while ( this.next( ) );
 			// save results when needs
 			this.getRdSaveHelper( ).doSaveFinish( );
 		}
