@@ -498,12 +498,17 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 	{
 		if ( synchronizer == null )
 		{
-			synchronizer = new NonGEFSynchronizerWithTreeView( );
+			synchronizer = createNonGEFSynchronizerWithTreeView();
 			synchronizer.setSource( this );
 		}
 		return synchronizer;
 	}
 
+	
+	protected NonGEFSynchronizerWithTreeView createNonGEFSynchronizerWithTreeView()
+	{
+		return new NonGEFSynchronizerWithTreeView( );
+	}
 	/**
 	 * Handles all global actions
 	 */
