@@ -2498,6 +2498,7 @@ Element.ReportItem.refTemplateParameter=참조 템플릿 매개 변수 정의
 Element.ReportItem.boundDataColumns=바인딩된 데이터 열
 Element.ReportItem.zIndex=Z 인덱스
 Element.ReportItem.dataBindingRef=데이터 바인딩 참조
+Element.ReportItem.multiViews=다중 보기
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=내용
@@ -2660,7 +2661,6 @@ Element.Table.onPageBreak=페이지 나누기
 Element.Table.onPageBreak.toolTip=TBD
 Element.Table.onPageBreak.this=테이블 인스턴스
 Element.Table.onPageBreak.reportContext=보고서 컨텍스트
-Element.Table.multiViews=다중 보기
   
 #19.TableGroup  ( prefix  Element.TableGroup )
 Element.TableGroup.slot.header=머리글

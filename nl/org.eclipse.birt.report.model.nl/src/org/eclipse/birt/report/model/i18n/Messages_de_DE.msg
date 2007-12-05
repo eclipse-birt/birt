@@ -2498,6 +2498,7 @@ Element.ReportItem.refTemplateParameter=Parameterdefinition für Referenzvorlage
 Element.ReportItem.boundDataColumns=Gebundene Datenspalten
 Element.ReportItem.zIndex=Z-Index
 Element.ReportItem.dataBindingRef=Datenbindungsverweis
+Element.ReportItem.multiViews=Mehrfachansichten
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=Inhalt
@@ -2660,7 +2661,6 @@ Element.Table.onPageBreak=Bei Seitenumbruch
 Element.Table.onPageBreak.toolTip=TBD
 Element.Table.onPageBreak.this=Tabelleninstanz
 Element.Table.onPageBreak.reportContext=Berichtkontext
-Element.Table.multiViews=Mehrfachansichten
   
 #19.TableGroup  ( prefix  Element.TableGroup )
 Element.TableGroup.slot.header=Kopfzeile

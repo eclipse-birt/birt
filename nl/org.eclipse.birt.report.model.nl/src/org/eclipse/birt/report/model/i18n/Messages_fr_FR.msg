@@ -2498,6 +2498,7 @@ Element.ReportItem.refTemplateParameter=Définition de paramètre de modèle référe
 Element.ReportItem.boundDataColumns=Colonnes de données liées
 Element.ReportItem.zIndex=Index Z
 Element.ReportItem.dataBindingRef=Référence de liaison de données
+Element.ReportItem.multiViews=Vues multiples
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=Contenu
@@ -2660,7 +2661,6 @@ Element.Table.onPageBreak=Saut de page
 Element.Table.onPageBreak.toolTip=A définir
 Element.Table.onPageBreak.this=Instance de table
 Element.Table.onPageBreak.reportContext=Contexte d'état
-Element.Table.multiViews=Vues multiples
   
 #19.TableGroup  ( prefix  Element.TableGroup )
 Element.TableGroup.slot.header=En-tête

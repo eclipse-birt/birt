@@ -2498,6 +2498,7 @@ Element.ReportItem.refTemplateParameter=参照先テンプレートのパラメタの定義
 Element.ReportItem.boundDataColumns=バインドされたデータカラム
 Element.ReportItem.zIndex=重ね順
 Element.ReportItem.dataBindingRef=データバインドの参照
+Element.ReportItem.multiViews=マルチビュー
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=コンテンツ
@@ -2660,7 +2661,6 @@ Element.Table.onPageBreak=ページ区切り
 Element.Table.onPageBreak.toolTip=TBD
 Element.Table.onPageBreak.this=テーブルインスタンス
 Element.Table.onPageBreak.reportContext=レポートのコンテキスト
-Element.Table.multiViews=マルチビュー
   
 #19.TableGroup  ( prefix  Element.TableGroup )
 Element.TableGroup.slot.header=ヘッダ

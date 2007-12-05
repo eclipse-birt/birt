@@ -2498,6 +2498,7 @@ Element.ReportItem.refTemplateParameter=Definición de parámetro de plantilla a l
 Element.ReportItem.boundDataColumns=Columnas de datos enlazados
 Element.ReportItem.zIndex=Índice Z
 Element.ReportItem.dataBindingRef=Referencia de enlace de datos
+Element.ReportItem.multiViews=Vistas múltiples
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=Contenido
@@ -2660,7 +2661,6 @@ Element.Table.onPageBreak=En el salto de página
 Element.Table.onPageBreak.toolTip=TBD
 Element.Table.onPageBreak.this=Instancia de tabla
 Element.Table.onPageBreak.reportContext=Contexto de informe
-Element.Table.multiViews=Vistas múltiples
   
 #19.TableGroup  ( prefix  Element.TableGroup )
 Element.TableGroup.slot.header=Encabezado

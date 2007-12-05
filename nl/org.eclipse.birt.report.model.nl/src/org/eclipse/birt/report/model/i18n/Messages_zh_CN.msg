@@ -2498,6 +2498,7 @@ Element.ReportItem.refTemplateParameter=参考模板参数定义
 Element.ReportItem.boundDataColumns=绑定的数据列
 Element.ReportItem.zIndex=Z 索引
 Element.ReportItem.dataBindingRef=数据绑定引用
+Element.ReportItem.multiViews=多个视图
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=内容
@@ -2660,7 +2661,6 @@ Element.Table.onPageBreak=出现分页符时
 Element.Table.onPageBreak.toolTip=TBD
 Element.Table.onPageBreak.this=表实例
 Element.Table.onPageBreak.reportContext=报表上下文
-Element.Table.multiViews=多个视图
   
 #19.TableGroup  ( prefix  Element.TableGroup )
 Element.TableGroup.slot.header=题头
