@@ -221,24 +221,6 @@ public class RenderTaskTest extends EngineCase
 		assertNull( errors );
 	}
 
-	public void testRenderPageRange_dash2( )
-	{
-		errors = renderReport( "pages9", "0-100" );
-		assertNull( errors );
-	}
-
-	public void testRenderPageRange_0( )
-	{
-		errors = renderReport( "pages9", "0" );
-		assertTrue( errors.size( ) >= 1 );
-	}
-
-	public void testRenderPageRange_invalid( )
-	{
-		errors = renderReport( "pages9", "abc" );
-		assertTrue( errors.size( ) >= 1 );
-	}
-
 	/*
 	 * Test Rendertask when set bookmark
 	 */
