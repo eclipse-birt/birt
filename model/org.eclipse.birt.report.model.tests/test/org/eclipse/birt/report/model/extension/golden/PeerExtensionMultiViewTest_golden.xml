@@ -17,6 +17,7 @@
     </page-setup>
     <body>
         <extended-item extensionName="TestingTable" name="MyTable1" id="6">
+            <property name="dataSet">firstDataSet</property>        
             <property name="multiViews">
                 <multi-views id="7">
                     <property name="views">
@@ -25,9 +26,9 @@
                     </property>
                 </multi-views>
             </property>
-            <property name="dataSet">firstDataSet</property>
         </extended-item>
         <extended-item extensionName="TestingTable" name="table2" id="10">
+            <property name="dataSet">firstDataSet</property>        
             <property name="multiViews">
                 <multi-views id="11">
                     <property name="views">
@@ -35,7 +36,6 @@
                     </property>
                 </multi-views>
             </property>
-            <property name="dataSet">firstDataSet</property>
         </extended-item>
     </body>
 </report>

@@ -1859,8 +1859,6 @@ public abstract class ModuleWriter extends ElementVisitor
 		writeContents( obj, IListingElementModel.FOOTER_SLOT,
 				DesignSchemaConstants.FOOTER_TAG );
 
-		writeContents( obj, ITableItemModel.MULTI_VIEWS_PROP );
-
 		writer.endElement( );
 	}
 
@@ -2908,6 +2906,8 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IReportItemModel.BOOKMARK_PROP );
 		writeStructure( obj, IReportItemModel.TOC_PROP );
 
+		writeContents( obj, IReportItemModel.MULTI_VIEWS_PROP );
+		
 		property( obj, IReportItemModel.ON_PREPARE_METHOD );
 		property( obj, IReportItemModel.ON_CREATE_METHOD );
 		property( obj, IReportItemModel.ON_RENDER_METHOD );

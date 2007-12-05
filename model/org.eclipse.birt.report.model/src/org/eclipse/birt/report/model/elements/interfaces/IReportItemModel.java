@@ -127,5 +127,12 @@ public interface IReportItemModel
 	 */
 
 	public static final String Z_INDEX_PROP = "zIndex"; //$NON-NLS-1$
+	
+
+	/**
+	 * Name of the multiple views property.
+	 */
+
+	public static final String MULTI_VIEWS_PROP = "multiViews"; //$NON-NLS-1$
 
 }

@@ -30,6 +30,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.StyleReferenceValidator;
 import org.eclipse.birt.report.model.api.validators.UnsupportedElementValidator;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
 
@@ -768,8 +769,8 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 				nameConfig.holder = parent.nameConfig.holder;
 				nameConfig.holderName = parent.nameConfig.holderName;
 			}
-			else if ( !isExtended( )
-					&& parent.getNameSpaceID( ) != MetaDataConstants.NO_NAME_SPACE )
+			else if ( !isExtended( ) &&
+					parent.getNameSpaceID( ) != MetaDataConstants.NO_NAME_SPACE )
 				throw new MetaDataException( new String[]{name},
 						MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_OPTION );
 			else
@@ -791,14 +792,14 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		{
 			if ( nameConfig.nameSpaceID == MetaDataConstants.NO_NAME_SPACE )
 				nameConfig.nameOption = MetaDataConstants.NO_NAME;
-			if ( nameConfig.nameSpaceID != MetaDataConstants.NO_NAME_SPACE
-					&& nameConfig.nameOption == MetaDataConstants.NO_NAME )
+			if ( nameConfig.nameSpaceID != MetaDataConstants.NO_NAME_SPACE &&
+					nameConfig.nameOption == MetaDataConstants.NO_NAME )
 				throw new MetaDataException( new String[]{name},
 						MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_OPTION );
 
 			// if name space is set, then holder must be not null
-			if ( nameConfig.nameSpaceID != MetaDataConstants.NO_NAME_SPACE
-					&& nameConfig.holder == null )
+			if ( nameConfig.nameSpaceID != MetaDataConstants.NO_NAME_SPACE &&
+					nameConfig.holder == null )
 				throw new MetaDataException( new String[]{name},
 						MetaDataException.DESIGN_EXCEPTION_INVALID_NAME_OPTION );
 
@@ -838,8 +839,8 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 			// The meta-data file should not define style property names
 			// for a class without a style.
 
-			if ( !hasStyle && stylePropertyNames != null || hasStyle
-					&& isContainer( ) && stylePropertyNames != null )
+			if ( !hasStyle && stylePropertyNames != null || hasStyle &&
+					isContainer( ) && stylePropertyNames != null )
 				throw new MetaDataException( new String[]{this.name},
 						MetaDataException.DESIGN_EXCEPTION_ILLEGAL_STYLE_PROPS );
 		}
@@ -1496,9 +1497,9 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		// an element can extends if and only if allowExtend is true and its
 		// name is unique in whole design tree
 		IElementDefn holderDefn = getNameConfig( ).getNameContainer( );
-		return allowExtend
-				&& holderDefn != null
-				&& holderDefn.isKindOf( MetaDataDictionary.getInstance( )
+		return allowExtend &&
+				holderDefn != null &&
+				holderDefn.isKindOf( MetaDataDictionary.getInstance( )
 						.getElement( ReportDesignConstants.MODULE_ELEMENT ) );
 	}
 
@@ -1582,8 +1583,15 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 		}
 		super.addProperty( property );
-		if ( property.getType( ) != null && property.isElementType( )
-				&& !isContainer )
+
+		// to avoid label, data becomes container, check whether the current
+		// property is multiple views. That is, multiple view property will not
+		// determine whether an element is the container
+
+		if ( property.getType( ) != null &&
+				property.isElementType( ) &&
+				!IReportItemModel.MULTI_VIEWS_PROP.equalsIgnoreCase( property
+						.getName( ) ) && !isContainer )
 			isContainer = true;
 	}
 
@@ -1717,8 +1725,8 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 */
 	private boolean isExtended( )
 	{
-		if ( name.equalsIgnoreCase( ReportDesignConstants.EXTENDED_ITEM )
-				|| MetaDataDictionary.getInstance( ).getExtension( name ) != null )
+		if ( name.equalsIgnoreCase( ReportDesignConstants.EXTENDED_ITEM ) ||
+				MetaDataDictionary.getInstance( ).getExtension( name ) != null )
 			return true;
 		return false;
 	}

@@ -984,4 +984,71 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 		toRemoveColumn.drop( );
 	}
+	
+	/**
+	 * Returns the view that is being used.
+	 * 
+	 * @return the view that is being used
+	 */
+
+	public DesignElementHandle getCurrentView( )
+	{
+		MultiViewsAPIProvider provider = new MultiViewsAPIProvider(
+				this, MULTI_VIEWS_PROP );
+		return provider.getCurrentView( );
+	}
+
+	/**
+	 * Adds a new element as the view.
+	 * 
+	 * @param viewElement
+	 *            the element
+	 * @throws SemanticException
+	 */
+
+	public void addView( DesignElementHandle viewElement )
+			throws SemanticException
+	{
+		MultiViewsAPIProvider provider = new MultiViewsAPIProvider(
+				this, MULTI_VIEWS_PROP );
+		provider.addView( viewElement );		
+	}
+
+	/**
+	 * Deletes the given view.
+	 * 
+	 * @param viewElement
+	 *            the element
+	 * @throws SemanticException
+	 */
+
+	public void dropView( DesignElementHandle viewElement )
+			throws SemanticException
+	{
+		MultiViewsAPIProvider provider = new MultiViewsAPIProvider(
+				this, MULTI_VIEWS_PROP );
+		provider.dropView( viewElement );
+	}
+
+	/**
+	 * Sets the index for the view to be used. If the given element is not in
+	 * the multiple view, it will be added and set as the active view.
+	 * 
+	 * @param viewElement
+	 *            the view element
+	 * 
+	 * @throws SemanticException
+	 *             if the given element resides in the other elements.
+	 */
+
+	public void setCurrentView( DesignElementHandle viewElement )
+			throws SemanticException
+	{
+		if ( viewElement == null )
+			return;
+		
+		MultiViewsAPIProvider provider = new MultiViewsAPIProvider(
+				this, MULTI_VIEWS_PROP );
+		provider.setCurrentView( viewElement );
+	}
 }

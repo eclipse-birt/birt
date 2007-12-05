@@ -67,6 +67,7 @@ refTemplateParameter
 boundDataColumns
 dataBindingRef
 zIndex
+multiViews
 style
 name
 extends

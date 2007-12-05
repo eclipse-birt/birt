@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IMultiViewsModel;
  * represents its appearance.
  */
 
-public abstract class AbstractMultiViewsHandle extends DesignElementHandle
+abstract class AbstractMultiViewsHandle extends DesignElementHandle
 		implements
 			IMultiViewsModel
 {

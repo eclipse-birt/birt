@@ -1,6 +1,5 @@
 caption
 captionID
-multiViews
 onPrepare
 onCreate
 onRender

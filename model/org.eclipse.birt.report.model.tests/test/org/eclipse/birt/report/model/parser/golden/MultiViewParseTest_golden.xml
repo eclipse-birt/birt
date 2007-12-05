@@ -29,6 +29,14 @@
         </table>
         <table name="table2" id="10">
             <property name="dataSet">firstDataSet</property>
+            <property name="multiViews">
+                <multi-views id="26">
+                	<property name="index">0</property>
+                    <property name="views">
+                        <extended-item extensionName="TestingBox" name="box3" id="27"/>
+                    </property>
+                </multi-views>
+            </property>            
             <column id="23"/>
             <column id="24"/>
             <column id="25"/>
@@ -53,14 +61,6 @@
                     <cell id="22"/>
                 </row>
             </footer>
-            <property name="multiViews">
-                <multi-views id="26">
-                	<property name="index">0</property>
-                    <property name="views">
-                        <extended-item extensionName="TestingBox" name="box3" id="27"/>
-                    </property>
-                </multi-views>
-            </property>
         </table>
     </body>
 </report>
