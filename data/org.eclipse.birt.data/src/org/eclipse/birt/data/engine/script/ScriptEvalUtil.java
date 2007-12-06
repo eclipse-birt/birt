@@ -43,6 +43,7 @@ import org.mozilla.javascript.Scriptable;
 public class ScriptEvalUtil
 {	
 	private static Logger logger = Logger.getLogger( ScriptEvalUtil.class.getName( ) );
+	public static final String OUTER_RESULTS_SCRIPTABLE = "{$OUTER_RESULTS_SCRIPTABLE$}";
 	
 	/**
 	 * No instance

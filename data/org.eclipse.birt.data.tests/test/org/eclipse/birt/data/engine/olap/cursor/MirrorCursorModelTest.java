@@ -90,7 +90,7 @@ public class MirrorCursorModelTest  extends BaseTestCase
 		cqd.addBinding( totalGrandTotal );
 		
 		// Create cube view.
-		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor(cqd,de.getSession( ),this.scope,de.getContext( )) );
+		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,de.getSession( ),this.scope,de.getContext( )) );
 
 		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) );
 
@@ -148,7 +148,7 @@ public class MirrorCursorModelTest  extends BaseTestCase
 		cqd.addBinding( rowGrandTotal );
 
 		// Create cube view.
-		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor(cqd,de.getSession( ),this.scope,de.getContext( )) );
+		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,de.getSession( ),this.scope,de.getContext( )) );
 
 		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) );
 

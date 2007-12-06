@@ -30,6 +30,7 @@ import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
 import org.eclipse.birt.data.engine.olap.data.util.DiskIndex;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.IndexKey;
+import org.eclipse.birt.data.engine.script.ScriptConstants;
 
 /**
  * Describes a dimension. In current implement a dimension only contains one hierarchy.
@@ -62,7 +63,7 @@ public class Dimension implements IDimension
 		Object[] params = {
 				name, documentManager, hierarchy, new Boolean( isTime )
 		};
-		logger.entering( Dimension.class.getName( ), "Dimension", params );
+		logger.entering( Dimension.class.getName( ), ScriptConstants.DIMENSION_SCRIPTABLE, params );
 		this.name = name;
 		this.documentManager = documentManager;
 		this.isTime = isTime;
@@ -74,7 +75,7 @@ public class Dimension implements IDimension
 		// close document object
 		documentObj.close( );
 		documentObj = null;
-		logger.exiting( Dimension.class.getName( ), "Dimension" );
+		logger.exiting( Dimension.class.getName( ), ScriptConstants.DIMENSION_SCRIPTABLE );
 	}
 
 	Dimension( String name, IDocumentManager documentManager )
@@ -83,11 +84,11 @@ public class Dimension implements IDimension
 		Object[] params = {
 			name, documentManager
 		};
-		logger.entering( Dimension.class.getName( ), "Dimension", params );
+		logger.entering( Dimension.class.getName( ), ScriptConstants.DIMENSION_SCRIPTABLE, params );
 		this.name = name;
 		this.documentManager = documentManager;
 		loadFromDisk( );
-		logger.exiting( Dimension.class.getName( ), "Dimension" );
+		logger.exiting( Dimension.class.getName( ), ScriptConstants.DIMENSION_SCRIPTABLE );
 	}
 
 	private void loadFromDisk( ) throws IOException, DataException

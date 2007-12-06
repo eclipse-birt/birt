@@ -16,6 +16,7 @@ package org.eclipse.birt.data.engine.api;
 import java.util.Collection;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -73,4 +74,18 @@ public interface IPreparedQuery extends IBasePreparedQuery
      */
     public IQueryResults execute( IQueryResults outerResults, Scriptable queryScope ) 
     			throws BirtException;
+    
+    /**
+     * Executes the prepared execution plan as an inner query 
+     * that appears within the scope of another query. 
+     * The outer query must have been prepared and executed, and 
+     * its results given as a parameter to this method.
+     * @param outerResults
+     * @param scope
+     * @return
+     * @throws DataException
+     */
+    public IQueryResults execute( IBaseQueryResults outerResults, Scriptable scope ) throws DataException;
+
+
 }

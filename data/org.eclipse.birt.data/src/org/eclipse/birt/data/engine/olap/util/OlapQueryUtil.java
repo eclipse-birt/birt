@@ -27,6 +27,7 @@ import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
+import org.eclipse.birt.data.engine.script.ScriptConstants;
 
 /**
  * 
@@ -84,7 +85,7 @@ public class OlapQueryUtil
 			}
 			
 			String measureName = OlapExpressionCompiler.getReferencedScriptObject( binding.getExpression( ),
-					"measure" );
+					ScriptConstants.MEASURE_SCRIPTABLE );
 			if ( measureName != null && !validMeasures.contains( measureName ) )
 			{
 				isValid = false;

@@ -26,6 +26,7 @@ import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
 import org.eclipse.birt.data.engine.odi.IQuery.GroupSpec;
+import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Node;
 import org.mozilla.javascript.ScriptOrFnNode;
@@ -173,8 +174,8 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 				{
 					columnBindingName = refNode.getLastChild( ).getString( );
 					if ( columnBindingName != null
-							&& !columnBindingName.equals( "_outer" )
-							&& !columnBindingName.equals( "__rownum" )
+							&& !columnBindingName.equals( ScriptConstants.OUTER_RESULT_KEYWORD )
+							&& !columnBindingName.equals( ScriptConstants.ROW_NUM_KEYWORD )
 							&& !columnBindingName.equals( "0" ) )
 					{
 						IBinding binding = this.rsPopulator.getEventHandler( )

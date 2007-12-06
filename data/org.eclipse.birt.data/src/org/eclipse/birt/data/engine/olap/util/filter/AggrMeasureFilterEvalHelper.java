@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.olap.util.filter;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -39,13 +40,13 @@ public class AggrMeasureFilterEvalHelper extends DimensionJSEvalHelper
 	 * @param cubeFilter
 	 * @throws DataException
 	 */
-	public AggrMeasureFilterEvalHelper( Scriptable scope,ICubeQueryDefinition queryDefn, IFilterDefinition cubeFilter) throws DataException
+	public AggrMeasureFilterEvalHelper( IBaseQueryResults outResults, Scriptable scope,ICubeQueryDefinition queryDefn, IFilterDefinition cubeFilter) throws DataException
 	{
 		assert cubeFilter != null;
 		Context cx = Context.enter( );
 		try
 		{
-			super.init( scope, queryDefn, cx, cubeFilter.getExpression( ) );
+			super.init( outResults, scope, queryDefn, cx, cubeFilter.getExpression( ) );
 		}
 		finally
 		{
@@ -90,7 +91,7 @@ public class AggrMeasureFilterEvalHelper extends DimensionJSEvalHelper
 	protected void registerJSObjectPopulators( ) throws DataException
 	{
 		super.registerJSObjectPopulators( );
-		register( new DataJSObjectPopulator( scope,
+		register( new DataJSObjectPopulator( this.outResults, scope,
 				queryDefn.getBindings( ),
 				true ) );
 	}

@@ -35,6 +35,7 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -42,7 +43,9 @@ import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.script.JSCubeBindingObject;
 import org.eclipse.birt.data.engine.olap.script.OLAPExpressionCompiler;
+import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.olap.util.OlapQueryUtil;
+import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -59,13 +62,14 @@ public class CubeCursorImpl implements ICubeCursor
 	private ICubeQueryDefinition queryDefn;
 	private HashMap bindingMap, dataTypeMap;
 	private Set validBindingSet;
-	
-	public CubeCursorImpl ( CubeCursor cursor, Scriptable scope, ICubeQueryDefinition queryDefn ) throws DataException
+	private Scriptable outerResults;
+	public CubeCursorImpl ( IBaseQueryResults outerResults, CubeCursor cursor, Scriptable scope, ICubeQueryDefinition queryDefn ) throws DataException
 	{
 		this.cursor = cursor;
 		this.scope = scope;
 		this.queryDefn = queryDefn;
 		
+		this.outerResults = OlapExpressionUtil.createQueryResultsScriptable( outerResults );
 		OlapQueryUtil.validateBinding( queryDefn, false );
 		
 		this.bindingMap = new HashMap( );
@@ -85,7 +89,7 @@ public class CubeCursorImpl implements ICubeCursor
 			dataTypeMap.put( bindingName, new Integer( binding.getDataType( ) ) );
 		}
 		
-		this.scope.put( "data", this.scope, new JSCubeBindingObject( this ));
+		this.scope.put( ScriptConstants.DATA_BINDING_SCRIPTABLE, this.scope, new JSCubeBindingObject( this ));
 	}
 	
 	public List getOrdinateEdge( ) throws OLAPException
@@ -304,8 +308,12 @@ public class CubeCursorImpl implements ICubeCursor
 		
 		if ( !validBindingSet.contains( arg0 ) )
 		{
+			if ( arg0.equals( ScriptEvalUtil.OUTER_RESULTS_SCRIPTABLE ))
+				return this.outerResults;
+			
 			result = new DataException( ResourceConstants.REFERENCED_BINDING_NOT_EXIST,
 					arg0 );
+			
 		}
 		else
 		{
@@ -475,5 +483,13 @@ public class CubeCursorImpl implements ICubeCursor
 	{
 		return cursor;
 		
+	}
+
+	public ICubeCursor getSubCubeCursor( String startingColumnLevel,
+			String startingRowLevel, String stargingPageLevel )
+			throws DataException
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

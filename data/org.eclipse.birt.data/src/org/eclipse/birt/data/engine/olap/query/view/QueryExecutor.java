@@ -53,6 +53,7 @@ import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.olap.util.filter.IAggrMeasureFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.sort.DimensionSortEvalHelper;
+import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -208,7 +209,7 @@ public class QueryExecutor
 					&& OlapExpressionUtil.isComplexDimensionExpr( expr ) )
 			{
 				Scriptable scope = executor.getSession( ).getSharedScope( );
-				targetSort = new DimensionSortEvalHelper( scope,
+				targetSort = new DimensionSortEvalHelper( executor.getOuterResults( ), scope,
 						queryDefn,
 						cubeSort );
 			}
@@ -237,7 +238,7 @@ public class QueryExecutor
 					if ( binding == null )
 						continue;
 					
-					String measureName = OlapExpressionCompiler.getReferencedScriptObject( binding.getExpression( ), "measure");
+					String measureName = OlapExpressionCompiler.getReferencedScriptObject( binding.getExpression( ), ScriptConstants.MEASURE_SCRIPTABLE);
 					if ( measureName != null )
 					{
 						List measureAggrOns = CubeQueryDefinitionUtil.populateMeasureAggrOns( queryDefn );

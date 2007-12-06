@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.util.filter.IResultRow;
+import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -53,7 +54,7 @@ public class DimensionJSObjectPopulator implements IJSObjectPopulator
 		DummyJSDimensionObject dimObj = new DummyJSDimensionObject( this.dimObj,
 				levelNames );
 
-		scope.put( "dimension",//$NON-NLS-1$
+		scope.put( ScriptConstants.DIMENSION_SCRIPTABLE,
 				scope,
 				new DummyJSDimensionAccessor( dimensionName, dimObj ) );
 
@@ -75,7 +76,7 @@ public class DimensionJSObjectPopulator implements IJSObjectPopulator
 	 */
 	public void cleanUp( )
 	{
-		this.scope.delete( "dimension" );//$NON-NLS-1$
+		this.scope.delete( ScriptConstants.DIMENSION_SCRIPTABLE );
 		this.scope.setParentScope( null );
 	}
 

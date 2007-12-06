@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
@@ -32,6 +33,7 @@ import org.eclipse.birt.data.engine.olap.util.DataJSObjectPopulator;
 import org.eclipse.birt.data.engine.olap.util.DimensionJSEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
+import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
@@ -47,7 +49,16 @@ public abstract class BaseDimensionFilterEvalHelper extends DimensionJSEvalHelpe
 	protected Object[] axisValues;
 	protected boolean isAxisFilter;
 
-	public static IJSFilterHelper createFilterHelper( Scriptable parentScope,
+	/**
+	 * 
+	 * @param outResults
+	 * @param parentScope
+	 * @param queryDefn
+	 * @param cubeFilter
+	 * @return
+	 * @throws DataException
+	 */
+	public static IJSFilterHelper createFilterHelper( IBaseQueryResults outResults, Scriptable parentScope,
 			ICubeQueryDefinition queryDefn, IFilterDefinition cubeFilter ) throws DataException
 	{
 		if( cubeFilter.getExpression( ) instanceof IConditionalExpression )
@@ -57,10 +68,10 @@ public abstract class BaseDimensionFilterEvalHelper extends DimensionJSEvalHelpe
 				|| expr.getOperator( )== IConditionalExpression.OP_BOTTOM_N
 				|| expr.getOperator( )== IConditionalExpression.OP_TOP_PERCENT
 				|| expr.getOperator( ) == IConditionalExpression.OP_BOTTOM_PERCENT )
-				return new TopBottomDimensionFilterEvalHelper( parentScope, queryDefn,cubeFilter );
+				return new TopBottomDimensionFilterEvalHelper( outResults, parentScope, queryDefn,cubeFilter );
 		}
 		
-		return new DimensionFilterEvalHelper( parentScope, queryDefn,cubeFilter );
+		return new DimensionFilterEvalHelper( outResults, parentScope, queryDefn,cubeFilter );
 	}
 	
 	/**
@@ -71,12 +82,12 @@ public abstract class BaseDimensionFilterEvalHelper extends DimensionJSEvalHelpe
 	 * @param cx
 	 * @throws DataException
 	 */
-	protected void initialize( Scriptable parentScope,
+	protected void initialize( IBaseQueryResults outResults, Scriptable parentScope,
 			ICubeQueryDefinition queryDefn, IFilterDefinition cubeFilter,
 			Context cx ) throws DataException
 	{
 		populaterFilterDefinition( cubeFilter );
-		super.init( parentScope, queryDefn, cx, cubeFilter.getExpression( ) );
+		super.init( outResults, parentScope, queryDefn, cx, cubeFilter.getExpression( ) );
 	}
 
 	private void populaterFilterDefinition( IFilterDefinition cubeFilter )
@@ -119,7 +130,7 @@ public abstract class BaseDimensionFilterEvalHelper extends DimensionJSEvalHelpe
 	{
 		super.registerJSObjectPopulators( );
 		this.aggrLevels = populateAggrLevels( );
-		register( new DataJSObjectPopulator( scope,
+		register( new DataJSObjectPopulator( this.outResults, scope,
 				queryDefn.getBindings( ),
 				this.aggrLevels != null && this.aggrLevels.length > 0 ) );
 	}
@@ -133,7 +144,7 @@ public abstract class BaseDimensionFilterEvalHelper extends DimensionJSEvalHelpe
 		// get aggregation level names from the query definition related with
 		// the query expression
 		String bindingName = OlapExpressionCompiler.getReferencedScriptObject( expr,
-				"data" );//$NON-NLS-1$
+				ScriptConstants.DATA_BINDING_SCRIPTABLE );//$NON-NLS-1$
 		if ( bindingName == null )
 			return null;
 		for ( Iterator it = queryDefn.getBindings( ).iterator( ); it.hasNext( ); )
@@ -145,7 +156,7 @@ public abstract class BaseDimensionFilterEvalHelper extends DimensionJSEvalHelpe
 				if ( aggrs.size( ) == 0 )
 				{
 					if ( OlapExpressionCompiler.getReferencedScriptObject( binding.getExpression( ),
-							"dimension" ) != null )//$NON-NLS-1$
+							ScriptConstants.DIMENSION_SCRIPTABLE ) != null )//$NON-NLS-1$
 						return null;
 					// get all level names in the query definition
 					List levelList = new ArrayList( );

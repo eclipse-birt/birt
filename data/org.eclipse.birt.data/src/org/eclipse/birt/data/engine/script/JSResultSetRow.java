@@ -110,10 +110,10 @@ public class JSResultSetRow extends ScriptableObject
 	 */
 	public Object get( String name, Scriptable start )
 	{
-		if( "_outer".equalsIgnoreCase( name ))
+		if( ScriptConstants.OUTER_RESULT_KEYWORD.equalsIgnoreCase( name ))
 		{
 			if( this.helper.getParent( )!= null)
-				return helper.getParent( ).getJSRowObject( );
+				return helper.getParent( ).getScriptable( );
 			else
 				return null;
 		}
@@ -127,7 +127,7 @@ public class JSResultSetRow extends ScriptableObject
 			// impossible, ignore
 		}
 		
-		if( "__rownum".equalsIgnoreCase( name )||"0".equalsIgnoreCase( name ))
+		if( ScriptConstants.ROW_NUM_KEYWORD.equalsIgnoreCase( name )||"0".equalsIgnoreCase( name ))
 		{
 			return new Integer( rowIndex );
 		}

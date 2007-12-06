@@ -20,7 +20,7 @@ import org.mozilla.javascript.Scriptable;
 public class ExecutorHelper implements IExecutorHelper
 {
 	//
-	private Scriptable jsRowObject;
+	private Scriptable scriptable;
 
 	//
 	private IExecutorHelper parent;
@@ -50,17 +50,17 @@ public class ExecutorHelper implements IExecutorHelper
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IExecutorHelper#getJSRowObject()
 	 */
-	public Scriptable getJSRowObject( )
+	public Scriptable getScriptable( )
 	{
-		return jsRowObject;
+		return scriptable;
 	}
 	
 	/**
 	 * @param jsRowObject
 	 */
-	public void setJSRowObject( Scriptable jsRowObject )
+	public void setScriptable( Scriptable scriptable )
 	{
-		this.jsRowObject = jsRowObject;		
+		this.scriptable = scriptable;		
 	}
 	
 }

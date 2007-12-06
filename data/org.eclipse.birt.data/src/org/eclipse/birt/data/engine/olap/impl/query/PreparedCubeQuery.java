@@ -14,6 +14,8 @@ package org.eclipse.birt.data.engine.olap.impl.query;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBaseQueryResults;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
@@ -50,7 +52,16 @@ public class PreparedCubeQuery implements IPreparedCubeQuery
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery#execute(org.mozilla.javascript.Scriptable)
 	 */
-	public ICubeQueryResults execute( Scriptable scope )
+	public ICubeQueryResults execute( Scriptable scope ) throws DataException
+	{
+		return this.execute( null, scope );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery#execute(org.eclipse.birt.data.engine.api.IBaseQueryResults, org.mozilla.javascript.Scriptable)
+	 */
+	public ICubeQueryResults execute( IBaseQueryResults outerResults, Scriptable scope ) throws DataException
 	{
 		//Create a scope for each query execution.
 		Scriptable cubeScope;
@@ -68,12 +79,12 @@ public class PreparedCubeQuery implements IPreparedCubeQuery
 		{
 			Context.exit( );
 		}
-		return new CubeQueryResults( this,
+		return new CubeQueryResults( outerResults, this,
 				this.session,
 				cubeScope,
 				this.context, appContext );
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery#getCubeQueryDefinition()

@@ -29,13 +29,13 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBaseTransform;
 import org.eclipse.birt.data.engine.api.IBinding;
-import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
-import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
@@ -475,7 +475,7 @@ final class PreparedQuery
 	 * @param executor
 	 * @parem dataSourceQuery
 	 */
-	QueryResults doPrepare( IQueryResults outerResults,
+	QueryResults doPrepare( IBaseQueryResults outerResults,
 			Scriptable scope, QueryExecutor executor,
 			PreparedDataSourceQuery dataSourceQuery ) throws DataException
 	{

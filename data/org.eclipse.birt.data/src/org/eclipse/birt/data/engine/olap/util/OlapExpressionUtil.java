@@ -15,12 +15,19 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
+import org.eclipse.birt.data.engine.olap.script.JSCubeBindingObject;
+import org.eclipse.birt.data.engine.script.ScriptConstants;
+import org.mozilla.javascript.Scriptable;
 
 /**
  * 
@@ -268,11 +275,11 @@ public class OlapExpressionUtil
 			List bindings ) throws DataException
 	{
 		String result = OlapExpressionCompiler.getReferencedScriptObject( expr,
-				"dimension" );
+				ScriptConstants.DIMENSION_SCRIPTABLE );
 		if ( result == null )
 		{
 			String bindingName = OlapExpressionCompiler.getReferencedScriptObject( expr,
-					"data" );
+					ScriptConstants.DATA_BINDING_SCRIPTABLE );
 			if ( bindingName == null )
 				return null;
 			else
@@ -413,5 +420,32 @@ public class OlapExpressionUtil
 				|| expr.matches( "\\S+?\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) )
 			return true;
 		return false;
+	}
+	
+	/**
+	 * 
+	 * @param outResults
+	 * @return
+	 * @throws DataException
+	 */
+	public static Scriptable createQueryResultsScriptable(
+			IBaseQueryResults outResults ) throws DataException
+	{
+		if ( outResults instanceof ICubeQueryResults )
+		{
+			return new JSCubeBindingObject( ( (ICubeQueryResults) outResults ).getCubeCursor( ) );
+		}
+		else if ( outResults instanceof IQueryResults )
+		{
+			try
+			{
+				return new DummyJSTableColumnBindingAccessor( ( (IQueryResults) outResults ).getResultIterator( ) );
+			}
+			catch ( BirtException e )
+			{
+				throw DataException.wrap( e );
+			}
+		}
+		return null;
 	}
 }

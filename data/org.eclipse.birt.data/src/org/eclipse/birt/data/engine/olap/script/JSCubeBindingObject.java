@@ -14,6 +14,8 @@ package org.eclipse.birt.data.engine.olap.script;
 import javax.olap.OLAPException;
 import javax.olap.cursor.CubeCursor;
 
+import org.eclipse.birt.data.engine.script.ScriptConstants;
+import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
@@ -24,6 +26,10 @@ import org.mozilla.javascript.ScriptableObject;
 
 public class JSCubeBindingObject extends ScriptableObject
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8830069667117258594L;
 	private CubeCursor cursor;
 	
 	public JSCubeBindingObject( CubeCursor cursor )
@@ -39,6 +45,8 @@ public class JSCubeBindingObject extends ScriptableObject
 	{
 		try
 		{
+			if( ScriptConstants.OUTER_RESULT_KEYWORD.equals( arg0 ))
+				return cursor.getObject( ScriptEvalUtil.OUTER_RESULTS_SCRIPTABLE );
 			return cursor.getObject( arg0 );
 		}
 		catch ( OLAPException e )

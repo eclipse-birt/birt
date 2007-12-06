@@ -37,6 +37,7 @@ import org.eclipse.birt.data.engine.olap.util.filter.CubePosFilter;
 import org.eclipse.birt.data.engine.olap.util.filter.IAggrMeasureFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.InvalidCubePosFilter;
 import org.eclipse.birt.data.engine.olap.util.filter.ValidCubePosFilter;
+import org.eclipse.birt.data.engine.script.ScriptConstants;
 
 /**
  * 
@@ -146,7 +147,7 @@ public class AggrMeasureFilterHelper
 		{
 			IAggrMeasureFilterEvalHelper filterHelper = (IAggrMeasureFilterEvalHelper) jsMeasureEvalFilterHelper.get( i );
 			aggregationNames[i] = OlapExpressionCompiler.getReferencedScriptObject( filterHelper.getExpression( ),
-					"data" );//$NON-NLS-1$
+					ScriptConstants.DATA_BINDING_SCRIPTABLE );
 		}
 		return aggregationNames;
 	}

@@ -24,13 +24,13 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
-import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
@@ -53,7 +53,10 @@ import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
 import org.eclipse.birt.data.engine.odi.IQuery;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
+import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
+import org.eclipse.birt.data.engine.olap.script.JSCubeBindingObject;
 import org.eclipse.birt.data.engine.script.OnFetchScriptHelper;
+import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
@@ -90,7 +93,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 	protected IQuery odiQuery;
 
 	/** Outer query's results; null if this query is not nested */
-	protected IQueryService outerResults;
+	protected IQueryService tabularOuterResults;
 	private IResultIterator odiResult;
 	private IExecutorHelper parentHelper;
 	private DataEngineSession session;
@@ -178,7 +181,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 	 * @param targetScope
 	 * @throws DataException
 	 */
-	void prepareExecution( IQueryResults outerRts, Scriptable targetScope )
+	void prepareExecution( IBaseQueryResults outerRts, Scriptable targetScope )
 			throws DataException
 	{
 		if ( isPrepared )
@@ -187,18 +190,27 @@ public abstract class QueryExecutor implements IQueryExecutor
 		this.parentScope = targetScope;
 		dataSource = findDataSource( );
 
-		if ( outerRts != null && outerRts instanceof IQueryService )
+		if ( outerRts != null && ( outerRts instanceof IQueryService || outerRts instanceof ICubeQueryResults ))
 		{
-			outerResults = ( (IQueryService) outerRts );
-			if ( outerResults.isClosed( ) )
+			if ( outerRts instanceof IQueryService )
 			{
-				// Outer result is closed; invalid
-				throw new DataException( ResourceConstants.RESULT_CLOSED );
+				tabularOuterResults = ( (IQueryService) outerRts );
+				if ( tabularOuterResults.isClosed( ) )
+				{
+					// Outer result is closed; invalid
+					throw new DataException( ResourceConstants.RESULT_CLOSED );
+				}
+				this.nestedLevel = tabularOuterResults.getNestedLevel( );
+				// TODO: check helper is null
+				IExecutorHelper helper = tabularOuterResults.getExecutorHelper( );
+				this.setParentExecutorHelper( helper );
 			}
-			this.nestedLevel = outerResults.getNestedLevel( );
-			// TODO: check helper is null
-			IExecutorHelper helper = outerResults.getExecutorHelper( );
-			this.setParentExecutorHelper( helper );
+			else if( outerRts instanceof ICubeQueryResults )
+			{
+				ExecutorHelper helper = new ExecutorHelper( null );
+				helper.setScriptable( new JSCubeBindingObject( ( (ICubeQueryResults) outerRts ).getCubeCursor( ) ) );
+				this.setParentExecutorHelper( helper );
+			}
 		}
 
 		// Create the data set runtime
@@ -571,7 +583,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 		{
 			return DataType.UNKNOWN_TYPE;
 		}
-		if ( columnName.equals( "__rownum" ) )
+		if ( columnName.equals( ScriptConstants.ROW_NUM_KEYWORD ) )
 		{
 			return DataType.INTEGER_TYPE;
 		}
@@ -766,7 +778,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 		// Execute the query
 		odiResult = executeOdiQuery( eventHandler, stopSign );
 
-		helper.setJSRowObject( this.dataSet.getJSResultRowObject( ) );
+		helper.setScriptable( this.dataSet.getJSResultRowObject( ) );
 		
 		resetComputedColumns( );
 		// Bind the row object to the odi result set
@@ -958,7 +970,8 @@ public abstract class QueryExecutor implements IQueryExecutor
 	 */
 	public DataSetRuntime[] getNestedDataSets( int nestedCount )
 	{
-		return outerResults.getDataSetRuntime( nestedCount );
+		return tabularOuterResults == null ? null
+				: tabularOuterResults.getDataSetRuntime( nestedCount );
 	}
 
 	/*
@@ -977,7 +990,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 	protected Collection resolveDataSetParameters( boolean evaluateValue )
 			throws DataException
 	{
-		return new ParameterUtil( this.outerResults,
+		return new ParameterUtil( this.tabularOuterResults,
 				this.getDataSet( ),
 				(IQueryDefinition) this.baseQueryDefn,
 				this.getQueryScope( ) ).resolveDataSetParameters( evaluateValue );

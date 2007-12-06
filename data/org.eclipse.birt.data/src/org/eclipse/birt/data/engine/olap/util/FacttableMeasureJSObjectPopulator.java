@@ -15,6 +15,7 @@ import java.util.Map;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.util.filter.IFacttableRow;
+import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Scriptable;
 
 
@@ -42,7 +43,7 @@ public class FacttableMeasureJSObjectPopulator implements IJSObjectPopulator
 	public void doInit( ) throws DataException
 	{
 		this.measureObj = new DummyJSFacttableMeasureAccessor( this.computedMeasures, scope );
-		this.scope.put( "measure",//$NON-NLS-1$
+		this.scope.put( ScriptConstants.MEASURE_SCRIPTABLE,
 					this.scope,
 					this.measureObj );
 
@@ -65,7 +66,7 @@ public class FacttableMeasureJSObjectPopulator implements IJSObjectPopulator
 	 */
 	public void cleanUp( )
 	{
-		this.scope.delete( "measure" );//$NON-NLS-1$
+		this.scope.delete( ScriptConstants.MEASURE_SCRIPTABLE );//$NON-NLS-1$
 		this.scope.setParentScope( null );
 	}
 

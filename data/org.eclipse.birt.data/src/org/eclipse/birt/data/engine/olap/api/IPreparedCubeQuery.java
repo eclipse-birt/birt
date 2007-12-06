@@ -12,6 +12,8 @@
 package org.eclipse.birt.data.engine.olap.api;
 
 import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
+import org.eclipse.birt.data.engine.api.IBaseQueryResults;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.mozilla.javascript.Scriptable;
 
@@ -25,12 +27,26 @@ public interface IPreparedCubeQuery extends IBasePreparedQuery
 	 * Return the CubeCursor as defined by ICubeQueryDefinition.
 	 * @param scope
 	 * @return
+	 * @throws DataException 
 	 */
-	public ICubeQueryResults execute( Scriptable scope );
+	public ICubeQueryResults execute( Scriptable scope ) throws DataException;
 	
 	/**
 	 * Return the query definition which is used to generate current IPreparedCubeQuery instance.
 	 * @return
 	 */
 	public ICubeQueryDefinition getCubeQueryDefinition();
+	
+	/**
+     * Executes the prepared                       execution plan as an inner query 
+     * that appears within the scope of another query. 
+     * The outer query must have been prepared and executed, and 
+     * its results given as a parameter to this method.
+     * 
+     * @param outerResults
+     * @param scope
+     * @return
+     * @throws DataException
+     */
+	public ICubeQueryResults execute( IBaseQueryResults outerResults, Scriptable scope ) throws DataException;
 }

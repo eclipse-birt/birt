@@ -83,7 +83,7 @@ public class CursorNavigatorTest extends TestCase
 		cqd.addBinding( columnGrandTotal );
 
 		// Create cube view.
-		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor(cqd,de.getSession( ),this.scope,de.getContext( )) );
+		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,de.getSession( ),this.scope,de.getContext( )) );
 
 		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) );
 

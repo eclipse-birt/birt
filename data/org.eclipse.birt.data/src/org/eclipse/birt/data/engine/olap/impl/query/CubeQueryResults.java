@@ -18,6 +18,7 @@ import javax.olap.cursor.CubeCursor;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.StopSign;
@@ -25,6 +26,7 @@ import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
 import org.eclipse.birt.data.engine.olap.script.JSLevelAccessor;
 import org.eclipse.birt.data.engine.olap.script.JSMeasureAccessor;
+import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -41,13 +43,15 @@ public class CubeQueryResults implements ICubeQueryResults
 	private String queryResultsId;
 	private Map appContext;
 	private StopSign stopSign;
+	private IBaseQueryResults outResults;
+	private CubeCursor cubeCursor;
 	
 	/**
 	 * 
 	 * @param preparedQuery
 	 * @param scope
 	 */
-	public CubeQueryResults( PreparedCubeQuery preparedQuery, DataEngineSession session, Scriptable scope, DataEngineContext context, Map appContext )
+	public CubeQueryResults( IBaseQueryResults outResults, PreparedCubeQuery preparedQuery, DataEngineSession session, Scriptable scope, DataEngineContext context, Map appContext )
 	{
 		this.preparedQuery = preparedQuery;
 		this.scope = scope;
@@ -55,6 +59,7 @@ public class CubeQueryResults implements ICubeQueryResults
 		this.session = session;
 		this.appContext = appContext;
 		this.queryResultsId = preparedQuery.getCubeQueryDefinition( ).getQueryResultsID( );
+		this.outResults = outResults;
 		this.stopSign = new StopSign( );
 	}
 
@@ -64,10 +69,12 @@ public class CubeQueryResults implements ICubeQueryResults
 	 */
 	public CubeCursor getCubeCursor( ) throws DataException
 	{
+		if ( this.cubeCursor != null )
+			return this.cubeCursor;
 		try
 		{
 			stopSign.start( );
-			CubeQueryExecutor executor = new CubeQueryExecutor( preparedQuery.getCubeQueryDefinition( ), this.session,
+			CubeQueryExecutor executor = new CubeQueryExecutor( this.outResults, preparedQuery.getCubeQueryDefinition( ), this.session,
 					this.scope,
 					this.context );
 			BirtCubeView bcv = new BirtCubeView( executor, appContext );
@@ -77,17 +84,18 @@ public class CubeQueryResults implements ICubeQueryResults
 			{
 				this.queryResultsId = newResultSetId;
 			}
-			this.scope.put( "measure",
+			this.scope.put( ScriptConstants.MEASURE_SCRIPTABLE,
 					this.scope,
 					new JSMeasureAccessor( cubeCursor) );
-			this.scope.put( "dimension",
+			this.scope.put( ScriptConstants.DIMENSION_SCRIPTABLE,
 					this.scope,
 					new JSLevelAccessor( this.preparedQuery.getCubeQueryDefinition( ),
 							bcv ) );
 
-			return new CubeCursorImpl( cubeCursor,
+			this.cubeCursor =  new CubeCursorImpl( outResults, cubeCursor,
 					this.scope,
 					this.preparedQuery.getCubeQueryDefinition( ) );
+			return this.cubeCursor;
 
 		}
 		catch ( OLAPException e )

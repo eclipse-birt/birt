@@ -13,8 +13,10 @@ package org.eclipse.birt.data.engine.olap.util;
 
 import java.util.List;
 
+import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.util.filter.IResultRow;
+import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -27,6 +29,7 @@ public class DataJSObjectPopulator implements IJSObjectPopulator
 	private DummyJSAggregationAccessor dataObj;
 	private Scriptable scope;
 	private List bindings;
+	private IBaseQueryResults outResults;
 	private boolean hasAggrLevels;
 
 	/**
@@ -35,12 +38,13 @@ public class DataJSObjectPopulator implements IJSObjectPopulator
 	 * @param bindings
 	 * @param hasAggrLevels
 	 */
-	public DataJSObjectPopulator( Scriptable scope, List bindings,
+	public DataJSObjectPopulator( IBaseQueryResults outResults, Scriptable scope, List bindings,
 			boolean hasAggrLevels )
 	{
 		this.scope = scope;
 		this.bindings = bindings;
 		this.hasAggrLevels = hasAggrLevels;
+		this.outResults = outResults;
 	}
 
 	/*
@@ -49,16 +53,16 @@ public class DataJSObjectPopulator implements IJSObjectPopulator
 	 */
 	public void doInit( ) throws DataException
 	{
-		this.dataObj = new DummyJSAggregationAccessor( );
+		this.dataObj = new DummyJSAggregationAccessor( this.outResults );
 		if ( hasAggrLevels )
 		{
-			this.scope.put( "data", this.scope, this.dataObj );//$NON-NLS-1$
+			this.scope.put( ScriptConstants.DATA_BINDING_SCRIPTABLE, this.scope, this.dataObj );//$NON-NLS-1$
 		}
 		else
 		{
-			this.scope.put( "data",//$NON-NLS-1$
+			this.scope.put( ScriptConstants.DATA_BINDING_SCRIPTABLE,//$NON-NLS-1$
 					this.scope,
-					new DummyJSDataAccessor( bindings, this.scope ) );
+					new DummyJSDataAccessor( this.outResults, bindings, this.scope ) );
 		}
 
 	}
@@ -80,7 +84,7 @@ public class DataJSObjectPopulator implements IJSObjectPopulator
 	 */
 	public void cleanUp( )
 	{
-		this.scope.delete( "data" );//$NON-NLS-1$
+		this.scope.delete( ScriptConstants.DATA_BINDING_SCRIPTABLE );//$NON-NLS-1$
 		this.scope.setParentScope( null );
 	}
 

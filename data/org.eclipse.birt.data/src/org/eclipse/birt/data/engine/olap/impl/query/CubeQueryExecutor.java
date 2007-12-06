@@ -17,6 +17,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
@@ -41,16 +42,26 @@ public class CubeQueryExecutor
 	private DataEngineSession session;
 	private DataEngineContext context;
 	private String queryResultsId;
-
-	public CubeQueryExecutor( ICubeQueryDefinition defn, DataEngineSession session, Scriptable scope,
+	private IBaseQueryResults outResults;
+	
+	/**
+	 * 
+	 * @param outResults
+	 * @param defn
+	 * @param session
+	 * @param scope
+	 * @param context
+	 */
+	public CubeQueryExecutor( IBaseQueryResults outResults, ICubeQueryDefinition defn, DataEngineSession session, Scriptable scope,
 			DataEngineContext context )
 	{
 		this.defn = defn;
 		this.scope = scope;
 		this.context = context;
 		this.session = session;
+		this.outResults = outResults;
 	}
-
+	
 	/**
 	 * 
 	 * @return
@@ -65,14 +76,14 @@ public class CubeQueryExecutor
 			IFilterDefinition filter = (IFilterDefinition) filters.get( i );
 			if ( !isMeasureFilter( filter ) )
 			{
-				results.add( BaseDimensionFilterEvalHelper.createFilterHelper( this.scope,
+				results.add( BaseDimensionFilterEvalHelper.createFilterHelper( this.outResults, this.scope,
 						defn,
 						filter ) );
 			}
 		}
 		return results;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -87,7 +98,7 @@ public class CubeQueryExecutor
 			IFilterDefinition filter = (IFilterDefinition) filters.get( i );
 			if ( isMeasureFilter( filter ) )
 			{
-				AggrMeasureFilterEvalHelper filterHelper = new AggrMeasureFilterEvalHelper( scope,
+				AggrMeasureFilterEvalHelper filterHelper = new AggrMeasureFilterEvalHelper( this.outResults, scope,
 						defn,
 						filter );
 				results.add( filterHelper );
@@ -95,7 +106,6 @@ public class CubeQueryExecutor
 		}
 		return results;
 	}
-
 
 	/**
 	 * 
@@ -111,6 +121,7 @@ public class CubeQueryExecutor
 		}
 		return false;
 	}
+
 
 	/**
 	 * 
@@ -188,6 +199,15 @@ public class CubeQueryExecutor
 	public void setQueryResultsId( String id )
 	{
 		this.queryResultsId = id;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public IBaseQueryResults getOuterResults( )
+	{
+		return this.outResults;
 	}
 	
 	/**

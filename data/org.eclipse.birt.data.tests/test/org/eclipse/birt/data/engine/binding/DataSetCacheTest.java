@@ -1070,7 +1070,7 @@ public class DataSetCacheTest extends APITestCase
 	/**
 	 * Only check the result of the expectedValue of the result set
 	 * 
-	 * @param it
+	 * @param data.it
 	 * @param ri
 	 * @throws DataException
 	 * @throws BirtException

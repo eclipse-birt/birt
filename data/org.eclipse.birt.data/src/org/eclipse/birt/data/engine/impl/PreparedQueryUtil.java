@@ -31,6 +31,7 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
@@ -761,6 +762,12 @@ class PreparedQueryUtil
 		public IQueryDefinition getReportQueryDefn( )
 		{
 			return this.queryDefn;
+		}
+
+		public IQueryResults execute( IBaseQueryResults outerResults,
+				Scriptable scope ) throws DataException
+		{
+			throw new UnsupportedOperationException();
 		}
 		
 	}

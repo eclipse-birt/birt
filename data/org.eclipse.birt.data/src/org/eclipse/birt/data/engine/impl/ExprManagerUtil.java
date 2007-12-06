@@ -29,6 +29,7 @@ import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.script.ScriptConstants;
 
 /**
  * This is a utility class which is used to validate the colum bindings defined 
@@ -248,7 +249,7 @@ public class ExprManagerUtil
 	private void checkColumnBindingExist( String bindingName, List binding )
 			throws DataException
 	{
-		if ( "__rownum".equals( bindingName ) || "_outer".equals( bindingName ) )
+		if ( ScriptConstants.ROW_NUM_KEYWORD.equals( bindingName ) || ScriptConstants.OUTER_RESULT_KEYWORD.equals( bindingName ) )
 		{
 			return;
 		}
@@ -333,7 +334,7 @@ public class ExprManagerUtil
 	{
 		return cb.getOuterLevel( ) > 0
 				|| cb.getResultSetColumnName( )
-						.equals( "__rownum" )
+						.equals( ScriptConstants.ROW_NUM_KEYWORD )
 				|| cb.getResultSetColumnName( )
 						.equals( "_rowPosition" );
 	}

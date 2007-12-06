@@ -29,5 +29,5 @@ public interface IExecutorHelper
 	 * Return the ExprManager instance.
 	 * @return
 	 */
-	public Scriptable getJSRowObject( );
+	public Scriptable getScriptable( );
 }

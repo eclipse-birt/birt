@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.olap.util.filter;
 import java.util.Set;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -46,7 +47,7 @@ public class TopBottomDimensionFilterEvalHelper
 	 * @param cubeFilter
 	 * @throws DataException
 	 */
-	public TopBottomDimensionFilterEvalHelper( Scriptable parentScope,
+	public TopBottomDimensionFilterEvalHelper( IBaseQueryResults outResults, Scriptable parentScope,
 			ICubeQueryDefinition queryDefn, IFilterDefinition cubeFilter )
 			throws DataException
 	{
@@ -55,7 +56,7 @@ public class TopBottomDimensionFilterEvalHelper
 		
 		try
 		{
-			initialize( parentScope, queryDefn, cubeFilter, cx );
+			initialize( outResults, parentScope, queryDefn, cubeFilter, cx );
 			populateN( cx );
 			popualteFilterType( );
 			argumentCheck();

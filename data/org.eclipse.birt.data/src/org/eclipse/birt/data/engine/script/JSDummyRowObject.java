@@ -63,7 +63,7 @@ public class JSDummyRowObject extends ScriptableObject
 	 */
 	public Object get( String name, Scriptable start )
 	{
-		if ( "_outer".equalsIgnoreCase( name ) )
+		if ( ScriptConstants.OUTER_RESULT_KEYWORD.equalsIgnoreCase( name ) )
 		{
 			return parent;
 		}

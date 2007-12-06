@@ -98,7 +98,7 @@ public class CursorModelTest extends BaseTestCase
 
 		
 		// Create cube view.
-		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor(cqd,de.getSession( ),this.scope,de.getContext( )) );
+		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,de.getSession( ),this.scope,de.getContext( )) );
 
 		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) );
 
@@ -162,7 +162,7 @@ public class CursorModelTest extends BaseTestCase
 		hier4.createLevel( "level14" );
 
 		// Create cube view.
-		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( cqd,
+		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,
 				de.getSession( ),
 				this.scope,
 				de.getContext( ) ) );
@@ -218,7 +218,7 @@ public class CursorModelTest extends BaseTestCase
 		hier2.createLevel( "level22" );
 
 		// Create cube view.
-		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( cqd,
+		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,
 				de.getSession( ),
 				this.scope,
 				de.getContext( ) ) );
@@ -279,7 +279,7 @@ public class CursorModelTest extends BaseTestCase
 		cqd.addBinding( columnGrandTotal );
 
 		// Create cube view.
-		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( cqd,
+		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,
 				de.getSession( ),
 				this.scope,
 				de.getContext( ) ) );
@@ -351,7 +351,7 @@ public class CursorModelTest extends BaseTestCase
 		cqd.addBinding( rowGrandAvg );
 
 		// Create cube view.
-		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor(cqd,de.getSession( ),this.scope,de.getContext( )) );
+		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,de.getSession( ),this.scope,de.getContext( )) );
 
 		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) );
 
@@ -410,7 +410,7 @@ public class CursorModelTest extends BaseTestCase
 		cqd.addBinding( rowGrandAvg );
 
 		// Create cube view.
-		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor(cqd,de.getSession( ),this.scope,de.getContext( )) );
+		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,de.getSession( ),this.scope,de.getContext( )) );
 
 		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) );
 
@@ -467,7 +467,7 @@ public class CursorModelTest extends BaseTestCase
 		cqd.addBinding( rowGrandTotal );
 
 		// Create cube view.
-		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor(cqd,de.getSession( ),this.scope,de.getContext( )) );
+		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,de.getSession( ),this.scope,de.getContext( )) );
 
 		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) );
 
@@ -537,7 +537,7 @@ public class CursorModelTest extends BaseTestCase
 		hier4.createLevel( "level14" );
 
 		// Create cube view.
-		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor(cqd,de.getSession( ),this.scope,de.getContext( )) );
+		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,de.getSession( ),this.scope,de.getContext( )) );
 
 		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) );
 
@@ -615,7 +615,7 @@ public class CursorModelTest extends BaseTestCase
 		cqd.addBinding( totalGrandTotal );
 
 		// Create cube view.
-		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor(cqd,de.getSession( ),this.scope,de.getContext( )) );
+		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,de.getSession( ),this.scope,de.getContext( )) );
 
 		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) );
 
@@ -686,7 +686,7 @@ public class CursorModelTest extends BaseTestCase
 
 		
 		// Create cube view.
-		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor(cqd,de.getSession( ),this.scope,de.getContext( )) );
+		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,de.getSession( ),this.scope,de.getContext( )) );
 
 		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) );
 
@@ -761,7 +761,7 @@ public class CursorModelTest extends BaseTestCase
 		appContext.put( "org.eclipse.birt.data.engine.olap.cursor.onRow", "3" );
 		
 		// Create cube view.
-		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( cqd,
+		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,
 				de.getSession( ),
 				this.scope,
 				de.getContext( ) ), appContext );

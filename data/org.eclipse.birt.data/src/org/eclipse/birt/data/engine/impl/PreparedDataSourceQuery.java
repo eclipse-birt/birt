@@ -21,6 +21,7 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
@@ -154,6 +155,18 @@ abstract class PreparedDataSourceQuery
 	 */
 	public IQueryResults execute( IQueryResults outerResults, Scriptable scope )
 			throws DataException
+	{
+		return this.execute( (IBaseQueryResults)outerResults, scope );
+	}
+	
+	/**
+	 * 
+	 * @param outerResults
+	 * @param scope
+	 * @return
+	 * @throws DataException
+	 */
+	public IQueryResults execute( IBaseQueryResults outerResults, Scriptable scope ) throws DataException
 	{
 		this.configureDataSetCache( queryDefn, appContext, scope != null
 				? scope : dataEngine.getSession( ).getSharedScope( ) );

@@ -25,6 +25,7 @@ import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.ExprManager;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateRegistry;
+import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Context;
 
 /**
@@ -33,7 +34,6 @@ import org.mozilla.javascript.Context;
  */
 public class ExpressionCompilerUtil
 {
-	private static final String ROWNUM = "__rownum";
 	//private static ExpressionCompiler expressionCompiler = new ExpressionCompiler( );
 
 	/**
@@ -62,7 +62,7 @@ public class ExpressionCompilerUtil
 	{
 		if( name == null )
 			return false;
-		if(name.equals( ROWNUM ))
+		if(name.equals( ScriptConstants.ROW_NUM_KEYWORD ))
 			return true;
 		
 		IScriptExpression expr = ( (IScriptExpression) exprManager.getExpr( name ));
@@ -424,7 +424,7 @@ public class ExpressionCompilerUtil
 			case CompiledExpression.TYPE_DIRECT_COL_REF :
 			{
 				String columnName = ( (ColumnReferenceExpression) expr ).getColumnName( );
-				if ( ROWNUM.equals(columnName))
+				if ( ScriptConstants.ROW_NUM_KEYWORD.equals(columnName))
 					return true;
 				if ( exprManager.getExpr( columnName )!=null )
 				{

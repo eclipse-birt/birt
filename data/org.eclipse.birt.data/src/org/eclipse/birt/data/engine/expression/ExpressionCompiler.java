@@ -15,6 +15,7 @@ import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateRegistry;
+import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Node;
 import org.mozilla.javascript.ScriptOrFnNode;
@@ -190,8 +191,8 @@ public class ExpressionCompiler extends AbstractExpressionCompiler
 		if ( refNode.getType( ) == Token.GETPROP
 				&& rowColumn.getType( ) == Token.STRING )
 		{
-			if ( "_outer".equals( rowColumn.getString( ) )
-					|| "__rownum".equals( rowColumn.getString( ) )
+			if ( ScriptConstants.OUTER_RESULT_KEYWORD.equals( rowColumn.getString( ) )
+					|| ScriptConstants.ROW_NUM_KEYWORD.equals( rowColumn.getString( ) )
 					|| "0".equals( rowColumn.getString( ) ) )
 				return null;
 

@@ -15,12 +15,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IQueryResults;
+import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
+import org.eclipse.birt.data.engine.olap.script.JSCubeBindingObject;
 import org.eclipse.birt.data.engine.olap.util.filter.IFacttableRow;
 import org.eclipse.birt.data.engine.olap.util.filter.IResultRow;
+import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -274,8 +281,9 @@ public interface IJSObjectPopulator
 		private static final long serialVersionUID = 1151785733090446202L;
 		private Map bindingMap;
 		private Scriptable scope;
+		private Scriptable outResultsScriptable;
 
-		public DummyJSDataAccessor( List bindings, Scriptable scope )
+		public DummyJSDataAccessor( IBaseQueryResults outResults, List bindings, Scriptable scope )
 				throws DataException
 		{
 			this.bindingMap = new HashMap( );
@@ -285,6 +293,26 @@ public interface IJSObjectPopulator
 						bindings.get( i ) );
 			}
 			this.scope = scope;
+			if ( outResults != null )
+			{
+				if ( outResults instanceof ICubeQueryResults )
+				{
+					this.outResultsScriptable = new JSCubeBindingObject( ( (ICubeQueryResults) outResults ).getCubeCursor( ) );
+				}
+				else if( outResults instanceof IQueryResults )
+				{
+					try
+					{
+						this.outResultsScriptable = new DummyJSTableColumnBindingAccessor( ( (IQueryResults) outResults ).getResultIterator( ));
+					}
+					catch ( BirtException e )
+					{
+						throw DataException.wrap( e );
+					}
+				}
+
+
+			}
 		}
 
 		public Object get( String aggrName, Scriptable scope )
@@ -293,7 +321,13 @@ public interface IJSObjectPopulator
 			{
 				Context cx = Context.enter( );
 				if ( !this.bindingMap.containsKey( aggrName ) )
+				{
+					if( aggrName.equals( ScriptConstants.OUTER_RESULT_KEYWORD ) && this.outResultsScriptable!= null )
+					{
+						return this.outResultsScriptable;
+					}
 					return null;
+				}
 				return ScriptEvalUtil.evalExpr( ( (IBinding) this.bindingMap.get( aggrName ) ).getExpression( ),
 						cx,
 						this.scope,
@@ -326,14 +360,22 @@ public interface IJSObjectPopulator
 		 */
 		private static final long serialVersionUID = -7910516821739958908L;
 		private IResultRow resultRow;
-
-		public DummyJSAggregationAccessor( )
+		private Scriptable outResultsScriptable;
+		
+		public DummyJSAggregationAccessor( IBaseQueryResults outResults )
+				throws DataException
 		{
-
+			this.outResultsScriptable = OlapExpressionUtil.createQueryResultsScriptable( outResults );
 		}
 
+		
 		public Object get( String aggrName, Scriptable scope )
 		{
+			if( aggrName.equals( ScriptConstants.OUTER_RESULT_KEYWORD ) && this.outResultsScriptable!= null )
+			{
+				return this.outResultsScriptable;
+			}
+			
 			if ( this.resultRow != null )
 			{
 				try
@@ -446,5 +488,4 @@ public interface IJSObjectPopulator
 		}
 
 	}
-
 }

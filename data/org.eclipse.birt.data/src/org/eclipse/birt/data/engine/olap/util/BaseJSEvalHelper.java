@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.script.OLAPExpressionCompiler;
@@ -32,6 +33,7 @@ public abstract class BaseJSEvalHelper
 	protected Scriptable scope;
 	protected ICubeQueryDefinition queryDefn;
 	protected IBaseExpression expr;
+	protected IBaseQueryResults outResults;
 	private List jsObjectPopulators;
 
 	/**
@@ -42,7 +44,7 @@ public abstract class BaseJSEvalHelper
 	 * @param expr
 	 * @throws DataException
 	 */
-	protected void init( Scriptable parentScope,
+	protected void init( IBaseQueryResults outResults, Scriptable parentScope,
 			ICubeQueryDefinition queryDefn, Context cx, IBaseExpression expr )
 			throws DataException
 	{
@@ -50,6 +52,7 @@ public abstract class BaseJSEvalHelper
 		this.scope.setParentScope( parentScope );
 		this.queryDefn = queryDefn;
 		this.expr = expr;
+		this.outResults = outResults;
 		jsObjectPopulators = new ArrayList( );
 		registerJSObjectPopulators( );
 		OLAPExpressionCompiler.compile( cx, this.expr );

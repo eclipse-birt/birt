@@ -23,6 +23,7 @@ import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
+import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.CompilerEnvirons;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Node;
@@ -257,7 +258,7 @@ public class OlapExpressionCompiler
 							.getType( ) == Token.GETELEM ) )
 			{
 				Node dim = n.getFirstChild( ).getFirstChild( );
-				if ( "dimension".equals( dim.getFirstChild( ).getString( ) ) )
+				if ( ScriptConstants.DIMENSION_SCRIPTABLE.equals( dim.getFirstChild( ).getString( ) ) )
 				{
 					String dimName = dim.getLastChild( ).getString( );
 					String levelName = dim.getNext( ).getString( );
@@ -271,7 +272,7 @@ public class OlapExpressionCompiler
 			else if ( n.getFirstChild( ) != null
 					&& n.getFirstChild( ).getType( ) == Token.NAME )
 			{
-				if ( "dimension".equals( n.getFirstChild( ).getString( ) ) )
+				if ( ScriptConstants.DIMENSION_SCRIPTABLE.equals( n.getFirstChild( ).getString( ) ) )
 				{
 					if ( n.getLastChild( ) != null && n.getNext( ) != null )
 					{
@@ -291,7 +292,7 @@ public class OlapExpressionCompiler
 							result.add( dimLevel );
 					}
 				}
-				else if ( "data".equals( n.getFirstChild( ).getString( ) ) )
+				else if ( ScriptConstants.DATA_BINDING_SCRIPTABLE.equals( n.getFirstChild( ).getString( ) ) )
 				{
 					if ( n.getLastChild( ) != null )
 					{

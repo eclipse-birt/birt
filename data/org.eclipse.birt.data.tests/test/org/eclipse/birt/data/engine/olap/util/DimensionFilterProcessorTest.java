@@ -74,7 +74,7 @@ public class DimensionFilterProcessorTest extends TestCase
 		
 		IBaseExpression expr = new ScriptExpression( "dimension[\"dim1\"][\"level1\"] * 2 + 2 == 6");
 		CubeFilterDefinition cubeFilter = new CubeFilterDefinition(expr);
-		DimensionFilterEvalHelper helper = new DimensionFilterEvalHelper( this.baseScope, this.cubeQuery, cubeFilter );
+		DimensionFilterEvalHelper helper = new DimensionFilterEvalHelper( null, this.baseScope, this.cubeQuery, cubeFilter );
 		
 		List levelNames = new ArrayList();
 		levelNames.add( "level1" );
@@ -107,7 +107,7 @@ public class DimensionFilterProcessorTest extends TestCase
 		IBaseExpression expr = new ScriptExpression( "dimension[\"dim1\"][\"level1\"][\"attr1\"] * 2 + 2 == 6");
 		CubeFilterDefinition cubeFilter = new CubeFilterDefinition(expr);
 		
-		DimensionFilterEvalHelper helper = new DimensionFilterEvalHelper( this.baseScope, this.cubeQuery, cubeFilter );
+		DimensionFilterEvalHelper helper = new DimensionFilterEvalHelper( null, this.baseScope, this.cubeQuery, cubeFilter );
 		List levelNames = new ArrayList();
 		levelNames.add( "level1" );
 		
@@ -123,7 +123,7 @@ public class DimensionFilterProcessorTest extends TestCase
 	{
 		IBaseExpression expr = new ScriptExpression( "dimension[\"dim1\"][\"level2\"][\"attr1\"] * 2 + 2 == 6" );
 		CubeFilterDefinition cubeFilter = new CubeFilterDefinition(expr);
-		DimensionFilterEvalHelper helper = new DimensionFilterEvalHelper( this.baseScope, this.cubeQuery, cubeFilter );
+		DimensionFilterEvalHelper helper = new DimensionFilterEvalHelper( null, this.baseScope, this.cubeQuery, cubeFilter );
 		List levelNames = new ArrayList( );
 		levelNames.add( "level1" );
 		List resultRows = this.getResultRows1( );

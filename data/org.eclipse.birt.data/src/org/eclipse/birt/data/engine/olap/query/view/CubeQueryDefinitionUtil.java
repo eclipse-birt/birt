@@ -41,6 +41,7 @@ import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.olap.util.filter.IJSMeasureFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.JSMeasureFilterEvalHelper;
+import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -203,7 +204,7 @@ class CubeQueryDefinitionUtil
 		{
 			String exprText = (String) exprTextList.get( i );
 			String measureName = OlapExpressionCompiler.getReferencedScriptObject( exprText,
-					"measure" );
+					ScriptConstants.MEASURE_SCRIPTABLE );
 			if ( measureName != null && measureName.trim( ).length( ) > 0 )
 			{
 				//if current measure list doesn't contain this measure, then add it to the list

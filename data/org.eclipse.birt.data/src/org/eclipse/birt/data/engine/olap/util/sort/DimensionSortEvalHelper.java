@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.olap.util.sort;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeSortDefinition;
@@ -35,7 +36,7 @@ public class DimensionSortEvalHelper extends DimensionJSEvalHelper
 	protected ICubeSortDefinition sortDefinition;
 	private DimLevel targetLevel;
 
-	public DimensionSortEvalHelper( Scriptable parentScope,
+	public DimensionSortEvalHelper( IBaseQueryResults outResults, Scriptable parentScope,
 			ICubeQueryDefinition queryDefn, ICubeSortDefinition sortDefinition )
 			throws DataException
 	{
@@ -43,7 +44,7 @@ public class DimensionSortEvalHelper extends DimensionJSEvalHelper
 		Context cx = Context.enter( );
 		try
 		{
-			initialize( parentScope, queryDefn, sortDefinition, cx );
+			initialize( outResults, parentScope, queryDefn, sortDefinition, cx );
 		}
 		finally
 		{
@@ -59,11 +60,11 @@ public class DimensionSortEvalHelper extends DimensionJSEvalHelper
 	 * @param cx
 	 * @throws DataException
 	 */
-	protected void initialize( Scriptable parentScope,
+	protected void initialize( IBaseQueryResults outResults, Scriptable parentScope,
 			ICubeQueryDefinition queryDefn, ICubeSortDefinition sortDefinition,
 			Context cx ) throws DataException
 	{
-		super.init( parentScope, queryDefn, cx, sortDefinition.getExpression( ) );
+		super.init( outResults, parentScope, queryDefn, cx, sortDefinition.getExpression( ) );
 		this.sortDefinition = sortDefinition;
 	}
 

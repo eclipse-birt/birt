@@ -57,7 +57,7 @@ public class MirrorCursorNavigatorTest extends TestCase
 		ICubeQueryDefinition cqd = creator.createMirroredQueryDefinition( );
 
 		// Create cube view.
-		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( cqd,
+		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,
 				de.getSession( ),
 				this.scope,
 				de.getContext( ) ) );

@@ -437,13 +437,12 @@ public class DataRequestSessionImpl extends DataRequestSession
 		{
 			if ( query instanceof IPreparedQuery )
 			{
-				return ( (IPreparedQuery) query ).execute( ( outerResults instanceof IQueryResults )
-						? ( (IQueryResults) outerResults ) : null,
+				return ( (IPreparedQuery) query ).execute( outerResults,
 						scope );
 			}
 			else if ( query instanceof IPreparedCubeQuery )
 			{
-				return ( (IPreparedCubeQuery) query ).execute( scope );
+				return ( (IPreparedCubeQuery) query ).execute( outerResults, scope );
 			}
 			return null;
 		}

@@ -30,6 +30,7 @@ import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
@@ -410,7 +411,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 				/*
 				 * @see org.eclipse.birt.data.engine.impl.IExecutorHelper#getJSRowObject()
 				 */
-				public Scriptable getJSRowObject( )
+				public Scriptable getScriptable( )
 				{
 					return resultIterator.getJSDummyRowObject( );
 				}
@@ -972,6 +973,17 @@ public class PreparedDummyQuery implements IPreparedQuery
 						"Result Class" );
 			}
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IBasePreparedQuery#execute(org.eclipse.birt.data.engine.api.IBaseQueryResults, org.mozilla.javascript.Scriptable)
+	 */
+	public IQueryResults execute( IBaseQueryResults outerResults,
+			Scriptable scope ) throws DataException
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
