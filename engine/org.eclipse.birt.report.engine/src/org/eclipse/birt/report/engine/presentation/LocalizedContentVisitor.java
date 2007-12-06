@@ -799,8 +799,8 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		Size size = itemPresentation.getSize( );
 		if ( size != null )
 		{
-			DimensionType height = new DimensionType( size.getWidth( ), size.getUnit( ) );
-			DimensionType width = new DimensionType( size.getHeight( ), size.getUnit( ) );
+			DimensionType height = new DimensionType( size.getHeight( ), size.getUnit( ) );
+			DimensionType width = new DimensionType( size.getWidth( ), size.getUnit( ) );
 			generatedContent.setHeight( height );
 			generatedContent.setWidth( width );
 		}
