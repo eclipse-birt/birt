@@ -27,6 +27,7 @@ public final class SPParameterPositionUtil
 
 	private int[] position;
 	private char escaper;
+	private String[] namePattern;
 
 	/**
 	 * 
@@ -38,12 +39,15 @@ public final class SPParameterPositionUtil
 			throws OdaException
 	{
 		try
-		{
+		{ 
+			assert sqlTxt!= null;
 			this.escaper = escaper;
-			String paramTxt = getParameterDefinitionChars( sqlTxt );
+			int[] point = this.getPosition( sqlTxt );
+			String paramTxt = getParameterDefinitionChars( sqlTxt, point );
 			parseQueryText( paramTxt );
+		    parseProcedureName( sqlTxt, point );
 		}
-		catch ( IOException e )
+		catch ( Throwable e )
 		{
 			// do nothing;
 		}
@@ -161,18 +165,117 @@ public final class SPParameterPositionUtil
 	}
 	
 	/**
+	 * 
+	 * @return
+	 * @throws JDBCException
+	 */
+	public String getProcedureName( ) throws JDBCException
+	{
+		if( this.namePattern!= null && this.namePattern.length>0 )
+		{
+			return this.namePattern[ this.namePattern.length -1 ];
+		}
+		else
+		{
+			throw new JDBCException(ResourceConstants.INVALID_STORED_PRECEDURE,
+					ResourceConstants.ERROR_INVALID_STATEMENT);
+		}
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getSchemaName( )
+	{
+		if( this.namePattern!= null && this.namePattern.length>= 2 )
+		{
+			return this.namePattern[0];
+		}
+		else
+		{
+			return null;
+		}
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getPackageName( )
+	{
+		if( this.namePattern!= null && this.namePattern.length> 2 )
+		{
+			return this.namePattern[1];
+		}
+		else
+		{
+			return "";
+		}
+	}
+	
+	private void parseProcedureName( String sqlTxt, int[] point ) throws JDBCException
+	{
+		int start = sqlTxt.toLowerCase( ).indexOf( "call" );
+		int end = point[0];
+		if( point[0] ==-1 && point[1] ==-1 )
+		{
+			end = sqlTxt.indexOf( "}" );
+		}
+		
+		if ( start == -1 || start + 4 >= end )
+			throw new JDBCException(ResourceConstants.INVALID_STORED_PRECEDURE,
+					ResourceConstants.ERROR_INVALID_STATEMENT);
+		
+		String name = sqlTxt.substring( start + 4, end ).trim( );
+		String[] pattern = name.split( "\\Q.\\E" );
+		for( int i=0; i< pattern.length; i++ )
+		{
+			pattern[i] = escapeIdentifier( pattern[i] );
+		}
+		namePattern = pattern;
+	}
+	
+	/**
+	 * escape the double quote & bracket
+	 * @param text
+	 * @return
+	 */
+	private String escapeIdentifier( String text )
+	{
+		if ( ( text.startsWith( "\"" ) && text.endsWith( "\"" ) )
+				|| ( text.startsWith( "[" ) && text.endsWith( "]" ) ) )
+			return text.substring( 1, text.length( ) - 1 );
+		else
+			return text;
+	}
+	
+	/**
 	 * put sqlText to char array
 	 * @param sqlTxt
 	 * @param escaper
 	 * @return
 	 * @throws OdaException
 	 */
-	private String getParameterDefinitionChars( String sqlTxt )
+	private String getParameterDefinitionChars( String sqlTxt , int[] point )
 			throws OdaException
 	{
-		char[] temp = sqlTxt.toCharArray( );
-		int startPoint = -1;
-		int endPoint = -1;
+		int startPoint = point[0];
+		int endPoint = point[1];
+		if ( startPoint == -1 && endPoint == -1 )
+			return "";
+		else if ( startPoint >= endPoint || startPoint == -1 )
+			throw new JDBCException( ResourceConstants.INVALID_STORED_PRECEDURE,
+					ResourceConstants.ERROR_INVALID_STATEMENT );
+		return sqlTxt.substring( startPoint + 1, endPoint );
+	}
+	
+	private int[] getPosition( String queryText )
+	{
+		char[] temp = queryText.toCharArray( );
+		int[] point = new int[2];
+		point[0] = -1; //startPoint
+		point[1] = -1; //endPoint
 		boolean validBracket = true;
 		for ( int i = 0; i < temp.length; i++ )
 		{
@@ -182,7 +285,7 @@ public final class SPParameterPositionUtil
 			{
 				if ( '(' == temp[i] )
 				{
-					startPoint = i;
+					point[0] = i;
 					break;
 				}
 			}
@@ -201,7 +304,7 @@ public final class SPParameterPositionUtil
 			{
 				if ( ')' == temp[i] )
 				{
-					endPoint = i;
+					point[1] = i;
 					break;
 				}
 			}
@@ -211,11 +314,6 @@ public final class SPParameterPositionUtil
 			}
 
 		}
-		if ( startPoint == -1 && endPoint == -1 )
-			return "";
-		else if ( startPoint >= endPoint || startPoint == -1 )
-			throw new JDBCException( ResourceConstants.INVALID_STORED_PRECEDURE,
-					ResourceConstants.ERROR_INVALID_STATEMENT );
-		return sqlTxt.substring( startPoint + 1, endPoint );
+		return point;
 	}
 }
