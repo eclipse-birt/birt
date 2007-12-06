@@ -402,8 +402,10 @@ public final class EventHandlers
     	//         url - url
 		////////////////////////////////////////////////////////////////    	
     	.append( "	function redirect(target, url){\n" ) //$NON-NLS-1$
-    	.append( "		if (target =='_blank'){\n" ) //$NON-NLS-1$
+    	.append( "		if (target =='_blank'){\n" ) //$NON-NLS-1$    	
+    	.append( "		try{\n" ) //$NON-NLS-1$
     	.append( "			open(url);\n" ) //$NON-NLS-1$
+    	.append( "		}catch(e){}\n" ) //$NON-NLS-1$
     	.append( "		}\n" ) //$NON-NLS-1$
     	.append( "		else if (target == '_top'){\n" ) //$NON-NLS-1$
     	.append( "          window.top.location.href=url;\n" ) //$NON-NLS-1$									
@@ -418,7 +420,9 @@ public final class EventHandlers
     	.append( "          parent.location.href=url;\n" ) //$NON-NLS-1$									
     	.append( "		}\n" ) //$NON-NLS-1$    	
     	.append( "		else{\n" ) //$NON-NLS-1$
+    	.append( "		try{\n" ) //$NON-NLS-1$
     	.append( "			open(url);\n" ) //$NON-NLS-1$
+    	.append( "		}catch(e){}\n" ) //$NON-NLS-1$
     	.append( "		}\n" ) //$NON-NLS-1$
     	.append( "	}\n" ) //$NON-NLS-1$    	    
 		//////////////////////////////////////////////////////////////////
