@@ -782,6 +782,15 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 					int type = itemPresentation.getOutputType( );
 					String imageMIMEType = itemPresentation.getImageMIMEType( );
 					generatedContent = processExtendedContent( content, type, output, imageMIMEType );
+					
+					Size size = itemPresentation.getSize( );
+					if ( size != null )
+					{
+						DimensionType height = new DimensionType( size.getHeight( ), size.getUnit( ) );
+						DimensionType width = new DimensionType( size.getWidth( ), size.getUnit( ) );
+						generatedContent.setHeight( height );
+						generatedContent.setWidth( width );
+					}
 				}
 				else
 				{
@@ -794,15 +803,6 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 				context.addException( design.getHandle( ), ex );
 				logger.log( Level.SEVERE, ex.getMessage( ), ex );
 			}
-		}
-		
-		Size size = itemPresentation.getSize( );
-		if ( size != null )
-		{
-			DimensionType height = new DimensionType( size.getHeight( ), size.getUnit( ) );
-			DimensionType width = new DimensionType( size.getWidth( ), size.getUnit( ) );
-			generatedContent.setHeight( height );
-			generatedContent.setWidth( width );
 		}
 		
 		return generatedContent;
