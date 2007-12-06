@@ -73,8 +73,6 @@ public class CallStatement implements IAdvancedQuery
 	private IResultSetMetaData cachedResultMetaData;
 	private IResultSet cachedResultSet;
 	private IParameterMetaData cachedParameterMetaData;
-	
-	protected String procedureName;
 
 	protected String[] resultSetNames;
 	
@@ -147,12 +145,12 @@ public class CallStatement implements IAdvancedQuery
 			 * call the JDBC Connection.prepareCall(String) method to get the
 			 * callableStatement
 			 */
-			procedureName = getProcedureName( command );
+			paramUtil = new SPParameterPositionUtil( command, '@' );
+
 			this.callStat = conn.prepareCall( command );
 			this.cachedResultMetaData = null;
 			this.cachedResultSet = null;
 			this.cachedParameterMetaData = null;
-			paramUtil = new SPParameterPositionUtil( command, '@' );
 		}
 		catch ( SQLException e )
 		{
@@ -1457,28 +1455,17 @@ public class CallStatement implements IAdvancedQuery
 		{
 			DatabaseMetaData metaData = conn.getMetaData( );
 			String cataLog = conn.getCatalog( );
-			String schemaPattern = null;
 			ArrayList schemaList = null;
 			String columnNamePattern = null;
-			String procedureNamePattern = procedureName;
+			String procedureNamePattern = this.paramUtil.getProcedureName( );
 			String packagePattern = "";
-			
-			if ( procedureName.indexOf( "." ) > 0 )
-			{
-				schemaPattern = procedureName.substring( 0,
-						procedureName.lastIndexOf( "." ) );
-				procedureNamePattern = procedureName.substring( procedureName.lastIndexOf( "." ) + 1 );
-				
-			}
+			String schemaPattern = this.paramUtil.getSchemaName( );
+
 			// handles schema.package.storedprocedure for databases such as
 			// Oracle
-			if ( !metaData.supportsCatalogsInProcedureCalls( )
-					&& schemaPattern != null
-					&& schemaPattern.indexOf( "." ) != -1 )
+			if ( !metaData.supportsCatalogsInProcedureCalls( ) )
 			{
-				packagePattern = schemaPattern.substring( schemaPattern.lastIndexOf( "." ) + 1 );
-				schemaPattern = schemaPattern.substring( 0,
-						schemaPattern.lastIndexOf( "." ) );
+				packagePattern = this.paramUtil.getPackageName( );
 			}
 			
 			if ( schemaPattern != null )
@@ -1534,6 +1521,9 @@ public class CallStatement implements IAdvancedQuery
 			}
 		}
 		catch ( SQLException e )
+		{
+		}
+		catch( JDBCException ex)
 		{
 		}
 		return paramMetaDataList;
@@ -1661,41 +1651,6 @@ public class CallStatement implements IAdvancedQuery
 			throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CLEAR_PARAMETER_ERROR,
 					ex );
 		}
-	}
-
-	/**
-	 * get procedureName
-	 * 
-	 * @param text
-	 * @return
-	 */
-	private String getProcedureName( String text )
-	{
-		assert text != null;
-		String name;
-		int start = text.toLowerCase( ).indexOf( "call " ) + 4;
-		int end = text.indexOf( "(", start );
-		if ( end < start )
-			end = text.length( );
-		name = text.substring( start, end ).trim( );
-		name = escapeIdentifier( name );
-		if ( name.indexOf( ";" ) > 0 )
-			name = name.substring( 0, name.indexOf( ";" ) );
-		return name;
-	}
-
-	/**
-	 * escape the double quote & bracket
-	 * @param text
-	 * @return
-	 */
-	private String escapeIdentifier( String text )
-	{
-		if ( ( text.startsWith( "\"" ) && text.endsWith( "\"" ) )
-				|| ( text.startsWith( "[" ) && text.endsWith( "]" ) ) )
-			return text.substring( 1, text.length( ) - 1 );
-		else
-			return text;
 	}
 
 	/**
