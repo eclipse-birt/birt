@@ -465,23 +465,6 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		return null;
 	}
 
-	protected boolean isEmpty( IBaseResultSet set )
-	{
-		if ( set instanceof IQueryResultSet )
-		{
-			try
-			{
-				return ( (IQueryResultSet) set ).isEmpty( );
-			}
-			catch ( BirtException e )
-			{
-				logger.log( e );
-			}
-		}
-		// TODO add code to check empty for ICubeResultSet
-		return false;
-	}
-
 	protected ScaleContext createSharedScale( IBaseResultSet baseResultSet )
 			throws BirtException
 	{

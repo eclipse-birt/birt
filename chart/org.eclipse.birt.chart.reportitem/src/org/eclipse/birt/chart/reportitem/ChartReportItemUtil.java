@@ -16,6 +16,9 @@ import java.util.Iterator;
 import java.util.regex.Pattern;
 
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.extension.IBaseResultSet;
+import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -112,7 +115,7 @@ public class ChartReportItemUtil
 	}
 
 	/**
-	 * Checks if shared binding is needed when computation
+	 * Checks if shared scale is needed when computation
 	 * 
 	 * @param eih
 	 *            handle
@@ -120,9 +123,9 @@ public class ChartReportItemUtil
 	 *            chart model
 	 * @return shared binding needed or not
 	 */
-	public static boolean canBindingShared( ExtendedItemHandle eih, Chart cm )
+	public static boolean canScaleShared( ExtendedItemHandle eih, Chart cm )
 	{
-		// TODO enable shared binding later
+		// TODO enable shared scale later
 		return false;
 		// return cm instanceof ChartWithAxes
 		// && eih.getDataSet( ) == null && getBindingHolder( eih ) != null;
@@ -184,5 +187,23 @@ public class ChartReportItemUtil
 			return list.iterator( );
 		}
 		return null;
+	}
+
+	/**
+	 * Checks if result set is empty
+	 * 
+	 * @param set
+	 *            result set
+	 * @throws BirtException
+	 * @since 2.3
+	 */
+	public static boolean isEmpty( IBaseResultSet set ) throws BirtException
+	{
+		if ( set instanceof IQueryResultSet )
+		{
+			return ( (IQueryResultSet) set ).isEmpty( );
+		}
+		// TODO add code to check empty for ICubeResultSet
+		return false;
 	}
 }

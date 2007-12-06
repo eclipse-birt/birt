@@ -21,7 +21,7 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.report.engine.extension.IRowSet;
+import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ReportItemGenerationBase;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -111,12 +111,7 @@ public class ChartReportItemGenerationImpl extends ReportItemGenerationBase
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemGeneration#onRowSets(org.eclipse.birt.report.engine.extension.IRowSet[])
-	 */
-	public void onRowSets( IRowSet[] rowSets ) throws BirtException
+	public void onRowSets( IBaseResultSet[] results ) throws BirtException
 	{
 		// catch unwanted null handle case
 		if ( modelHandle == null )
@@ -138,11 +133,9 @@ public class ChartReportItemGenerationImpl extends ReportItemGenerationBase
 				ULocale.getDefault( ) );
 
 		// check
-		if ( rowSets == null
-				|| rowSets.length != 1
-				|| rowSets[0] == null
-				|| rowSets[0].isEmpty( )
-				|| queries == null
+		if ( results == null
+				|| results.length != 1
+				|| ChartReportItemUtil.isEmpty( results[0] ) || queries == null
 				|| queries[0] == null )
 		{
 			// if the Data rows are null/empty, do nothing.
@@ -162,8 +155,7 @@ public class ChartReportItemGenerationImpl extends ReportItemGenerationBase
 		// String expr = ExpressionUtil.createRowExpression(
 		// JavascriptEvalUtil.transformToJsConstants( colName ) );
 		// rowSet.evaluate( expr );
-		//			}
-		//		}
+		// }
+		// }
 	}
-
 }

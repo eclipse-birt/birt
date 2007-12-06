@@ -201,7 +201,7 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 				// return createSubQuery(item, null);
 			}
 
-			if ( ChartReportItemUtil.canBindingShared( handle, cm ) )
+			if ( ChartReportItemUtil.canScaleShared( handle, cm ) )
 			{
 				// Add min/max binding to parent query since it's global min/max
 				addMinMaxBinding( ChartReportItemUtil.getBindingHolder( handle ),

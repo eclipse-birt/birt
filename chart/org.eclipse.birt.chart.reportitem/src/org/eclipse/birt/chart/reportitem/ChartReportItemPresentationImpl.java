@@ -45,6 +45,7 @@ public final class ChartReportItemPresentationImpl
 		extends
 			ChartReportItemPresentationBase
 {
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -55,30 +56,29 @@ public final class ChartReportItemPresentationImpl
 	{
 		// Extract result set to render and check for null data
 		IBaseResultSet resultSet = getDataToRender( baseResultSet );
-			
+
 		// Skip gracefully if there is no data
 		if ( resultSet == null )
 			return null;
-	
-		
+
 		try
 		{
 			// Create shared scale if needed
 			if ( rtc.getScale( ) == null
-					&& ChartReportItemUtil.canBindingShared( handle, cm ) )
+					&& ChartReportItemUtil.canScaleShared( handle, cm ) )
 			{
 				rtc.setScale( createSharedScale( resultSet ) );
 			}
-			
+
 			// Get the BIRT report context
 			BIRTExternalContext externalContext = new BIRTExternalContext( context );
-			
+
 			// Initialize script handler and register birt context in scope
 			initializeScriptHandler( externalContext );
 
 			// Prepare Data for Series
 			IDataRowExpressionEvaluator rowAdapter = createEvaluator( resultSet );
-			
+
 			// Prepare data processor for hyperlinks/tooltips
 			BIRTActionEvaluator evaluator = new BIRTActionEvaluator( );
 
@@ -86,15 +86,16 @@ public final class ChartReportItemPresentationImpl
 			Generator.instance( ).bindData( rowAdapter, evaluator, cm, rtc );
 
 			// Prepare Device Renderer
-			prepareDeviceRenderer();
-			
+			prepareDeviceRenderer( );
+
 			// Build the chart
-			GeneratedChartState gcs  = buildChart( rowAdapter, externalContext );
-		
+			GeneratedChartState gcs = buildChart( rowAdapter, externalContext );
+
 			// Render the chart
 			renderToImageFile( gcs );
-			
-			// Close the dataRow evaluator. It needs to stay opened until the chart is fully rendered.
+
+			// Close the dataRow evaluator. It needs to stay opened until the
+			// chart is fully rendered.
 			rowAdapter.close( );
 
 			// Set the scale shared when scale has been computed, and store it
@@ -106,12 +107,13 @@ public final class ChartReportItemPresentationImpl
 			}
 
 			// Returns the content to display (image or image+imagemap)
-			return getImageToDisplay();
+			return getImageToDisplay( );
 		}
 		catch ( BirtException birtException )
 		{
-			// Check if the exception is caused by no data to display (in that case skip gracefully)
-			if ( isNoDataException ( birtException ) )
+			// Check if the exception is caused by no data to display (in that
+			// case skip gracefully)
+			if ( isNoDataException( birtException ) )
 				return null;
 			else
 				throw birtException;
@@ -128,11 +130,13 @@ public final class ChartReportItemPresentationImpl
 	}
 
 	/**
-	 * Check there is some data to display in the chart. 
+	 * Check there is some data to display in the chart.
+	 * 
 	 * @param baseResultSet
 	 * @return null if nothing to render
 	 */
 	private IBaseResultSet getDataToRender( IBaseResultSet[] baseResultSet )
+			throws BirtException
 	{
 		// BIND RESULTSET TO CHART DATASETS
 		if ( baseResultSet == null || baseResultSet.length < 1 )
@@ -145,7 +149,7 @@ public final class ChartReportItemPresentationImpl
 		}
 
 		IBaseResultSet resultSet = baseResultSet[0];
-		if ( resultSet == null || isEmpty( resultSet ) )
+		if ( resultSet == null || ChartReportItemUtil.isEmpty( resultSet ) )
 		{
 			// Do nothing when IBaseResultSet is empty or null
 			return null;
@@ -158,12 +162,13 @@ public final class ChartReportItemPresentationImpl
 		if ( handle == null )
 		{
 			assert false; // should we throw an exception here instead?
-			return null; 
+			return null;
 		}
 		return resultSet;
 	}
-	
-	private void initializeScriptHandler(BIRTExternalContext externalContext ) throws ChartException
+
+	private void initializeScriptHandler( BIRTExternalContext externalContext )
+			throws ChartException
 	{
 		String javaHandlerClass = handle.getEventHandlerClass( );
 		if ( javaHandlerClass != null && javaHandlerClass.length( ) > 0 )
@@ -177,7 +182,7 @@ public final class ChartReportItemPresentationImpl
 		// UPDATE THE CHART SCRIPT CONTEXT
 
 		ScriptHandler sh = rtc.getScriptHandler( );
-		
+
 		if ( sh == null ) // IF NOT PREVIOUSLY DEFINED BY
 		// REPORTITEM ADAPTER
 		{
@@ -200,19 +205,21 @@ public final class ChartReportItemPresentationImpl
 			sh.setRunTimeModel( cm );
 
 			if ( sScriptContent != null
-					&& sScriptContent.length( ) > 0
-					&& rtc.isScriptingEnabled( ) )
+					&& sScriptContent.length( ) > 0 && rtc.isScriptingEnabled( ) )
 			{
 				sh.register( sScriptContent );
 			}
 		}
 	}
-	private GeneratedChartState buildChart(IDataRowExpressionEvaluator rowAdapter, BIRTExternalContext externalContext ) throws ChartException
+
+	private GeneratedChartState buildChart(
+			IDataRowExpressionEvaluator rowAdapter,
+			BIRTExternalContext externalContext ) throws ChartException
 	{
 		final Bounds bo = computeBounds( );
 
 		initializeRuntimeContext( rowAdapter );
-		
+
 		return Generator.instance( ).build( idr.getDisplayServer( ),
 				cm,
 				bo,
@@ -223,21 +230,22 @@ public final class ChartReportItemPresentationImpl
 
 	private Object getImageToDisplay( )
 	{
-		if ( getOutputType() == OUTPUT_AS_IMAGE ) 
+		if ( getOutputType( ) == OUTPUT_AS_IMAGE )
 		{
 			return fis;
 		}
-		else if ( getOutputType()  == OUTPUT_AS_IMAGE_WITH_MAP )
+		else if ( getOutputType( ) == OUTPUT_AS_IMAGE_WITH_MAP )
 		{
 			return new Object[]{
 					fis, imageMap
 			};
 		}
 		else
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException( );
 	}
 
-	private void renderToImageFile(GeneratedChartState gcs ) throws ChartException
+	private void renderToImageFile( GeneratedChartState gcs )
+			throws ChartException
 	{
 		logger.log( ILogger.INFORMATION,
 				Messages.getString( "ChartReportItemPresentationImpl.log.onRowSetsRendering" ) ); //$NON-NLS-1$
@@ -249,9 +257,9 @@ public final class ChartReportItemPresentationImpl
 		idr.setProperty( IDeviceRenderer.UPDATE_NOTIFIER,
 				new EmptyUpdateNotifier( cm, gcs.getChartModel( ) ) );
 
-		Generator.instance().render( idr, gcs );
+		Generator.instance( ).render( idr, gcs );
 
-	// RETURN A STREAM HANDLE TO THE NEWLY CREATED IMAGE
+		// RETURN A STREAM HANDLE TO THE NEWLY CREATED IMAGE
 		try
 		{
 			bos.close( );
@@ -264,14 +272,14 @@ public final class ChartReportItemPresentationImpl
 					ioex );
 		}
 
-		if ( getOutputType()  == OUTPUT_AS_IMAGE_WITH_MAP  ) 
+		if ( getOutputType( ) == OUTPUT_AS_IMAGE_WITH_MAP )
 		{
 			imageMap = ( (IImageMapEmitter) idr ).getImageMap( );
 		}
-		
+
 	}
 
-	private boolean isNoDataException(BirtException birtException )
+	private boolean isNoDataException( BirtException birtException )
 	{
 		Throwable ex = birtException;
 		while ( ex.getCause( ) != null )
@@ -307,10 +315,11 @@ public final class ChartReportItemPresentationImpl
 				Messages.getString( "ChartReportItemPresentationImpl.log.onRowSetsFailed" ) ); //$NON-NLS-1$
 		logger.log( birtException );
 		return false;
-		
+
 	}
 
-	private void initializeRuntimeContext(IDataRowExpressionEvaluator rowAdapter )
+	private void initializeRuntimeContext(
+			IDataRowExpressionEvaluator rowAdapter )
 	{
 		rtc.setActionRenderer( new BIRTActionRenderer( this.handle,
 				this.ah,
@@ -332,8 +341,7 @@ public final class ChartReportItemPresentationImpl
 				}
 			}
 		}
-		
-		
+
 	}
 
 	private void prepareDeviceRenderer( ) throws ChartException
@@ -347,7 +355,7 @@ public final class ChartReportItemPresentationImpl
 		{
 			idr.setProperty( "resize.svg", Boolean.TRUE ); //$NON-NLS-1$
 		}
-		
+
 	}
 
 	/*
