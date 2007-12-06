@@ -35,6 +35,7 @@ import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.UpdateAction;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
@@ -49,52 +50,57 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 
 	private ActionRegistry actionRegistry;
 
-	private void createMeasureMenu(IMenuManager menu, Object firstSelectedObj)
+	private void createMeasureMenu( IMenuManager menu, Object firstSelectedObj,
+			IContributionItem beforeThis )
 	{
 		DesignElementHandle element = null;
+		String firstId = beforeThis.getId( );
 		if ( firstSelectedObj instanceof DesignElementHandle )
 		{
-			element = (DesignElementHandle)firstSelectedObj;
+			element = (DesignElementHandle) firstSelectedObj;
 		}
-		else if (firstSelectedObj instanceof CrosstabCellAdapter)
+		else if ( firstSelectedObj instanceof CrosstabCellAdapter )
 		{
-			element = ((CrosstabCellAdapter)firstSelectedObj).getDesignElementHandle( );
+			element = ( (CrosstabCellAdapter) firstSelectedObj ).getDesignElementHandle( );
 		}
 		if ( element != null )
-		{					
-			IAction action = new AddMesureViewHandleAction( (DesignElementHandle) element);
-			menu.add( action );
-			
-			action = new DeleteMeasureHandleAction( (DesignElementHandle) element);
-			menu.add( action );
+		{
+			IAction action = new AddMesureViewHandleAction( (DesignElementHandle) element );
+			menu.insertBefore( firstId, action );
+
+			action = new DeleteMeasureHandleAction( (DesignElementHandle) element );
+			menu.insertBefore( firstId, action );
 		}
 	}
-	
-	private void createLevelMenu(IMenuManager menu, Object firstSelectedObj)
+
+	private void createLevelMenu( IMenuManager menu, Object firstSelectedObj,
+			IContributionItem beforeThis )
 	{
 		DesignElementHandle element = null;
 		if ( firstSelectedObj instanceof DesignElementHandle )
 		{
-			element = (DesignElementHandle)firstSelectedObj;
+			element = (DesignElementHandle) firstSelectedObj;
 		}
-		else if (firstSelectedObj instanceof CrosstabCellAdapter)
+		else if ( firstSelectedObj instanceof CrosstabCellAdapter )
 		{
-			element = ((CrosstabCellAdapter)firstSelectedObj).getDesignElementHandle( );
+			element = ( (CrosstabCellAdapter) firstSelectedObj ).getDesignElementHandle( );
 		}
-		if (element != null)
+
+		String firstId = beforeThis.getId( );
+		if ( element != null )
 		{
 			IAction action = new AddLevelHandleAction( (DesignElementHandle) element );
-			menu.add( action );
+			menu.insertBefore( firstId, action );
 
 			action = new AddSubTotalAction( (DesignElementHandle) element );
-			menu.add( action );
-		
-			action = new DeleteDimensionViewHandleAction( (DesignElementHandle) element);
-			menu.add( action );
+			menu.insertBefore( firstId, action );
+
+			action = new DeleteDimensionViewHandleAction( (DesignElementHandle) element );
+			menu.insertBefore( firstId, action );
 		}
-		
+
 	}
-	
+
 	public Object getAdapter( Object adaptableObject, Class adapterType )
 	{
 		if ( adaptableObject instanceof CrosstabCellAdapter
@@ -102,27 +108,36 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 				&& adapterType == IMenuListener.class )
 		{
 			final String position = ( (CrosstabCellAdapter) adaptableObject ).getPositionType( );
-			final Object firstSelectedElement = ( (CrosstabCellAdapter) adaptableObject ).getFirstElement( );
+			final CrosstabCellAdapter firstSelectedElement = (CrosstabCellAdapter) adaptableObject;
 			return new ISchematicMenuListener( ) {
 
 				private ActionRegistry actionRegistry;
 
 				public void menuAboutToShow( IMenuManager manager )
 				{
-
+					// items.length must be larger than 0
+					IContributionItem items[] = manager.getItems( );
+					IContributionItem firstMemuItem = items[0];
+		
 					if ( ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE.equals( position ) )
 					{
-						createLevelMenu(manager, firstSelectedElement);
-						manager.add( new Separator() );
-					}else
-					if ( ICrosstabCellAdapterFactory.CELL_MEASURE.equals( position ) )
-					{
-						createMeasureMenu(manager, firstSelectedElement);
-						manager.add( new Separator() );
+						createLevelMenu( manager,
+								firstSelectedElement,
+								firstMemuItem );
+						manager.insertBefore( firstMemuItem.getId( ),
+								new Separator( ) );
 					}
-					
+					else if ( ICrosstabCellAdapterFactory.CELL_MEASURE.equals( position ) )
+					{
+						createMeasureMenu( manager,
+								firstSelectedElement,
+								firstMemuItem );
+						manager.insertBefore( firstMemuItem.getId( ),
+								new Separator( ) );
+					}
+
 					MenuManager subMenu = new MenuManager( Messages.getString( "SchematicContextMenuProvider.Menu.insertElement" ) );
-								
+
 					IAction action = getAction( GeneralInsertMenuAction.INSERT_TEXT_ID );
 					action.setText( GeneralInsertMenuAction.INSERT_TEXT_DISPLAY_TEXT );
 					subMenu.add( action );
