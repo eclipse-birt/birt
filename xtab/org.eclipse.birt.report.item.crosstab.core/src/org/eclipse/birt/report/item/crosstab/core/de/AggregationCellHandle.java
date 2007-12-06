@@ -57,6 +57,48 @@ public class AggregationCellHandle extends CrosstabCellHandle implements
 	}
 
 	/**
+	 * Gets the referred row cube level of this aggregation cell to span over.
+	 * 
+	 * @return the referred row cube level
+	 */
+	public LevelHandle getSpanOverOnRow( )
+	{
+		return (LevelHandle) handle.getElementProperty( SPAN_OVER_ON_ROW_PROP );
+	}
+
+	/**
+	 * Gets the referred column cube level of this aggregation cell to span
+	 * over.
+	 * 
+	 * @return the referred column cube level
+	 */
+	public LevelHandle getSpanOverOnColumn( )
+	{
+		return (LevelHandle) handle.getElementProperty( SPAN_OVER_ON_COLUMN_PROP );
+	}
+
+	/**
+	 * Set the referred row cube level of this aggregation cell to span over.
+	 * 
+	 * @return the referred row cube level
+	 */
+	public void setSpanOverOnRow( LevelHandle level ) throws SemanticException
+	{
+		handle.setProperty( SPAN_OVER_ON_ROW_PROP, level );
+	}
+
+	/**
+	 * Set the referred column cube level of this aggregation cell to span over.
+	 * 
+	 * @return the referred column cube level
+	 */
+	public void setSpanOverOnColumn( LevelHandle level )
+			throws SemanticException
+	{
+		handle.setProperty( SPAN_OVER_ON_COLUMN_PROP, level );
+	}
+
+	/**
 	 * Set the referred row cube level of this aggregation applied on.
 	 * 
 	 * @return the referred row cube level

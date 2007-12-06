@@ -612,6 +612,25 @@
                propertyName="textLineThrough"
                useOwnModel="true">
          </overrideProperty>
+         <property
+               canInherit="true"
+               detailType="Level"
+               displayNameID="Element.SpanOverOnColumn"
+               hasOwnModel="true"
+               isEncryptable="false"
+               isList="false"
+               name="spanOverOnColumn"
+               subType="string"
+               type="elementRef">
+         </property>
+         <property
+               canInherit="true"
+               detailType="Level"
+               displayNameID="Element.SpanOverOnRow"
+               isEncryptable="false"
+               name="spanOverOnRow"
+               type="elementRef">
+         </property>
       </reportItem>
     </extension>
    

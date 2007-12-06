@@ -16,15 +16,14 @@ import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.swt.graphics.Image;
 
 /**
- * 
+ * LevelSubNodeProvider
  */
-
 public class LevelSubNodeProvider extends CrossTabCellNodeProvider
 {
 
 	public String getNodeDisplayName( Object model )
 	{
-		return Messages.getString( "MeasureSubNodeProvider.Header" );
+		return Messages.getString( "MeasureSubNodeProvider.Header" ); //$NON-NLS-1$
 	}
 
 	public Image getNodeIcon( Object model )
