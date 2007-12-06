@@ -231,6 +231,16 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 				// set document scrollbar position to the top
 				docObj.scrollLeft = "0px";
 				docObj.scrollTop = "0px";
+				
+				// Safari workaround
+				if ( BrowserUtility.isSafari )
+				{
+					var divs = docObj.getElementsByTagName("div");
+					if ( divs && divs[0] )
+					{
+						divs[0].style.position = "auto";
+					}
+				}
 			}
 		}
 	}
