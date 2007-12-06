@@ -148,8 +148,8 @@ public class WebArtifactUtil implements IBirtWizardConstants
 					list = webapp.getContextParams( );
 				}
 
-				Object obj = getContextParamByName( list, name );
-				if ( obj != null )
+				int index = getContextParamIndexByName( list, name );
+				if ( index >= 0 )
 				{
 					String ret = query
 							.queryOverwrite( "Context-param '" + name + "'" ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -166,7 +166,7 @@ public class WebArtifactUtil implements IBirtWizardConstants
 					}
 
 					// remove old item
-					webapp.getContextParams( ).remove( obj );
+					list.remove( index );
 				}
 
 				String value = bean.getValue( );
@@ -249,6 +249,47 @@ public class WebArtifactUtil implements IBirtWizardConstants
 		}
 
 		return null;
+	}
+
+	/**
+	 * get context-param index from list by name
+	 * 
+	 * @param list
+	 * @param name
+	 * @return index
+	 */
+	public static int getContextParamIndexByName( List list, String name )
+	{
+		if ( list == null || name == null )
+			return -1;
+
+		Iterator it = list.iterator( );
+		int index = 0;
+		while ( it.hasNext( ) )
+		{
+			// get param object
+			Object paramObj = it.next( );
+
+			// for servlet 2.3
+			if ( paramObj instanceof ContextParam )
+			{
+				ContextParam param = (ContextParam) paramObj;
+				if ( name.equals( param.getParamName( ) ) )
+					return index;
+			}
+
+			// for servlet 2.4
+			if ( paramObj instanceof ParamValue )
+			{
+				ParamValue param = (ParamValue) paramObj;
+				if ( name.equals( param.getName( ) ) )
+					return index;
+			}
+
+			index++;
+		}
+
+		return -1;
 	}
 
 	/**
