@@ -352,9 +352,9 @@ public class InsertInLayoutUtil
 			Assert.isTrue( object == dataSetColumn || object == null );
 
 			ReportItemHandle groupContainer = getGroupContainer( container );
-			
+
 			DataSetHandle dataSetHandle = null;
-			
+
 			if ( groupContainer instanceof ReportItemHandle )
 			{
 				dataSetHandle = ( (ReportItemHandle) groupContainer ).getDataSet( );
@@ -364,19 +364,20 @@ public class InsertInLayoutUtil
 				for ( DesignElementHandle elementHandle = groupContainer; elementHandle != null; elementHandle = elementHandle.getContainer( ) )
 				{
 					if ( elementHandle instanceof ListingHandle
-							&& ( dataSetHandle = ( (ListingHandle) elementHandle ).getDataSet( ) ) != null 
-							&& ( dataSetHandle == getDataSetHandle( dataSetColumn ) ))
+							&& ( dataSetHandle = ( (ListingHandle) elementHandle ).getDataSet( ) ) != null
+							&& ( dataSetHandle == getDataSetHandle( dataSetColumn ) ) )
 					{
 						break;
 					}
 				}
 			}
-			
-			if( dataSetHandle == null || dataSetHandle != getDataSetHandle( dataSetColumn ))
+
+			if ( dataSetHandle == null
+					|| dataSetHandle != getDataSetHandle( dataSetColumn ) )
 			{
 				getGroupContainer( container ).setDataSet( getDataSetHandle( dataSetColumn ) );
 			}
-			
+
 			getGroupHandle( container ).setKeyExpr( DEUtil.getColumnExpression( dataSetColumn.getColumnName( ) ) );
 
 		}
@@ -610,7 +611,11 @@ public class InsertInLayoutUtil
 			}
 			if ( dataSet.equals( containerDataSet ) && container != null )
 			{
-				container.addColumnBinding( bindingColumn, false );
+				if ( container.getDataBindingReference( ) != null )
+					container.getDataBindingReference( )
+							.addColumnBinding( bindingColumn, false );
+				else
+					container.addColumnBinding( bindingColumn, false );
 			}
 			else
 			{
@@ -731,6 +736,7 @@ public class InsertInLayoutUtil
 
 		return dataHandle;
 	}
+
 	// private static GroupHandle getGroupHandle( Object target )
 	// {
 	// DesignElementHandle handle = null;
@@ -879,20 +885,19 @@ public class InsertInLayoutUtil
 			return handleValidateDataSetColumn( (ResultSetColumnHandle) insertObj,
 					targetPart );
 		}
-//		else if ( insertObj instanceof DimensionHandle )
-//		{
-//			return handleValidateDimension( (DimensionHandle) insertObj,
-//					targetPart );
-//		}
-//		else if ( insertObj instanceof MeasureHandle )
-//		{
-//			return handleValidateMeasure( (MeasureHandle) insertObj,
-//					targetPart );
-//		}
+		//		else if ( insertObj instanceof DimensionHandle )
+		//		{
+		//			return handleValidateDimension( (DimensionHandle) insertObj,
+		//					targetPart );
+		//		}
+		//		else if ( insertObj instanceof MeasureHandle )
+		//		{
+		//			return handleValidateMeasure( (MeasureHandle) insertObj,
+		//					targetPart );
+		//		}
 		else if ( insertObj instanceof LabelHandle )
 		{
-			return handleValidateLabel( (LabelHandle) insertObj,
-					targetPart );
+			return handleValidateLabel( (LabelHandle) insertObj, targetPart );
 		}
 		else if ( insertObj instanceof ResultSetColumnHandle )
 		{
@@ -907,12 +912,16 @@ public class InsertInLayoutUtil
 		return false;
 	}
 
-	private static boolean handleValidateLabel( LabelHandle handle, EditPart targetPart )
+	private static boolean handleValidateLabel( LabelHandle handle,
+			EditPart targetPart )
 	{
-		if(targetPart.getModel( ) instanceof IAdaptable){
-			Object obj = ((IAdaptable)targetPart.getModel( )).getAdapter( DesignElementHandle.class );
-			if(obj instanceof ExtendedItemHandle){
-				return ((ExtendedItemHandle)obj).canContain( DEUtil.getDefaultContentName( obj ), handle );
+		if ( targetPart.getModel( ) instanceof IAdaptable )
+		{
+			Object obj = ( (IAdaptable) targetPart.getModel( ) ).getAdapter( DesignElementHandle.class );
+			if ( obj instanceof ExtendedItemHandle )
+			{
+				return ( (ExtendedItemHandle) obj ).canContain( DEUtil.getDefaultContentName( obj ),
+						handle );
 			}
 		}
 		return false;
@@ -922,12 +931,12 @@ public class InsertInLayoutUtil
 			Object slotHandle )
 	{
 		SlotHandle handle = null;
-//		if ( slotHandle instanceof ReportElementModel )
-//		{
-//			handle = ( (ReportElementModel) slotHandle ).getSlotHandle( );
-//		}
-//		else 
-			if ( slotHandle instanceof SlotHandle )
+		//		if ( slotHandle instanceof ReportElementModel )
+		//		{
+		//			handle = ( (ReportElementModel) slotHandle ).getSlotHandle( );
+		//		}
+		//		else 
+		if ( slotHandle instanceof SlotHandle )
 		{
 			handle = (SlotHandle) slotHandle;
 		}
@@ -1024,22 +1033,23 @@ public class InsertInLayoutUtil
 	protected static boolean handleValidateMeasureDropContainer(
 			MeasureHandle measure, EditPart dropPart )
 	{
-		if(dropPart.getModel( ) instanceof IVirtualValidator){
-			return ((IVirtualValidator)dropPart.getModel( )).handleValidate( measure );
-		}
-		return false;
-	}
-	
-	protected static boolean handleValidateDimensionDropContainer(
-			DimensionHandle dimension, EditPart dropPart )
-	{
-		if(dropPart.getModel( ) instanceof IVirtualValidator){
-			return ((IVirtualValidator)dropPart.getModel( )).handleValidate( dimension );
+		if ( dropPart.getModel( ) instanceof IVirtualValidator )
+		{
+			return ( (IVirtualValidator) dropPart.getModel( ) ).handleValidate( measure );
 		}
 		return false;
 	}
 
-	
+	protected static boolean handleValidateDimensionDropContainer(
+			DimensionHandle dimension, EditPart dropPart )
+	{
+		if ( dropPart.getModel( ) instanceof IVirtualValidator )
+		{
+			return ( (IVirtualValidator) dropPart.getModel( ) ).handleValidate( dimension );
+		}
+		return false;
+	}
+
 	/**
 	 * Validates container of drop target from scalar parameter in data view
 	 * 
@@ -1073,15 +1083,17 @@ public class InsertInLayoutUtil
 	}
 
 	protected static boolean handleValidateDimension(
-			DimensionHandle insertObj, EditPart target ){
-		return handleValidateDimensionDropContainer( insertObj,target );
+			DimensionHandle insertObj, EditPart target )
+	{
+		return handleValidateDimensionDropContainer( insertObj, target );
 	}
-	
-	protected static boolean handleValidateMeasure(
-			MeasureHandle insertObj, EditPart target ){
-		return handleValidateMeasureDropContainer( insertObj,target );
+
+	protected static boolean handleValidateMeasure( MeasureHandle insertObj,
+			EditPart target )
+	{
+		return handleValidateMeasureDropContainer( insertObj, target );
 	}
-	
+
 	/**
 	 * Validates drop target from data set column in data view.
 	 * 
@@ -1123,7 +1135,7 @@ public class InsertInLayoutUtil
 		{
 			return false;
 		}
-		if ( ((SlotHandle) obj).getElementHandle( ) instanceof MasterPageHandle )
+		if ( ( (SlotHandle) obj ).getElementHandle( ) instanceof MasterPageHandle )
 		{
 			return true;
 		}
@@ -1178,7 +1190,9 @@ public class InsertInLayoutUtil
 			return DataSetUIUtil.hasMetaData( (DataSetHandle) insertObj );
 		}
 		return insertObj instanceof ResultSetColumnHandle
-				|| insertObj instanceof ScalarParameterHandle || insertObj instanceof DimensionHandle || insertObj instanceof MeasureHandle;
+				|| insertObj instanceof ScalarParameterHandle
+				|| insertObj instanceof DimensionHandle
+				|| insertObj instanceof MeasureHandle;
 	}
 
 	protected static void insertToCell( DataSetHandle model,
@@ -1334,8 +1348,7 @@ public class InsertInLayoutUtil
 		}
 		return new StructuredSelection( resultList );
 	}
-	
-	
+
 	/**
 	 * Converts edit part selection into model selection.
 	 * 
