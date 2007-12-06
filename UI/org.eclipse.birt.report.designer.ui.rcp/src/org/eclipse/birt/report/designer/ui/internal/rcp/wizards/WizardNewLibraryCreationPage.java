@@ -20,6 +20,7 @@ import java.util.Locale;
 import org.eclipse.birt.report.designer.core.IReportElementConstants;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportEditorInput;
+import org.eclipse.birt.report.designer.internal.ui.editors.wizards.NewReportPageSupport;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -150,8 +151,10 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 				path = getContainerFullPath( ).append( getFileName( ) );
 			}
 		}
-		else{
-			if ( !getFileName( ).toLowerCase( ).endsWith( IReportEditorContants.LIBRARY_FILE_EXTENTION.toLowerCase( ) ) )
+		else
+		{
+			if ( !getFileName( ).toLowerCase( )
+					.endsWith( IReportEditorContants.LIBRARY_FILE_EXTENTION.toLowerCase( ) ) )
 			{
 				path = getContainerFullPath( ).append( getFileName( )
 						+ IReportEditorContants.LIBRARY_FILE_EXTENTION );
@@ -178,11 +181,12 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 	}
 
 	private static final String NEW_REPORT_FILE_NAME_PREFIX = Messages.getString( "NewLibraryWizard.displayName.NewReportFileNamePrefix" ); //$NON-NLS-1$
+
 	public void setFileName( String initFileName )
 	{
 		pageSupport.setInitialFileName( getNewFileFullName( NEW_REPORT_FILE_NAME_PREFIX ) );
 	}
-	
+
 	private String getNewFileFullName( String defaultName )
 	{
 		String path = getDefaultLocation( );
@@ -206,7 +210,7 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 
 		return name;
 	}
-	
+
 	private String getDefaultLocation( )
 	{
 		IPath defaultPath = Platform.getLocation( );

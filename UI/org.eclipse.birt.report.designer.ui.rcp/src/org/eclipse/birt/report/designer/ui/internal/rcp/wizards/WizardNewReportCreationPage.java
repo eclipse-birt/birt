@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.internal.rcp.wizards;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.wizards.NewReportPageSupport;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
 import org.eclipse.core.runtime.IPath;
@@ -107,15 +108,17 @@ public class WizardNewReportCreationPage extends WizardPage
 		}
 	}
 
-	public boolean validatePage(){
-		return validatePage(IReportEditorContants.DESIGN_FILE_EXTENTION);
+	public boolean validatePage( )
+	{
+		return validatePage( IReportEditorContants.DESIGN_FILE_EXTENTION );
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#validatePage()
 	 */
-	public boolean validatePage(String suffix)
+	public boolean validatePage( String suffix )
 	{
 		if ( getFileName( ).equals( "" ) )//$NON-NLS-1$
 		{

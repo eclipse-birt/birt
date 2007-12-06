@@ -14,9 +14,9 @@ package org.eclipse.birt.report.designer.ui.internal.rcp.dialogs;
 import java.io.File;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportEditorInput;
+import org.eclipse.birt.report.designer.internal.ui.editors.wizards.NewReportPageSupport;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
-import org.eclipse.birt.report.designer.ui.internal.rcp.wizards.NewReportPageSupport;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
