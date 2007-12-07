@@ -43,6 +43,8 @@ public class ExtendItemHandlePropertyTester extends PropertyTester
 			if ( receiver instanceof ExtendedItemHandle )
 			{
 				DesignElementHandle container = ( (ExtendedItemHandle) receiver ).getContainer( );
+				if ( container == null )
+					return false;
 				String containerName = expectedValue.toString( );
 				return container.getDefn( ).getName( ).equals( containerName );
 			}
