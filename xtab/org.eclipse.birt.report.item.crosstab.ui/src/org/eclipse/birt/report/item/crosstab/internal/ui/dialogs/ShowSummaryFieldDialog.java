@@ -106,7 +106,10 @@ public class ShowSummaryFieldDialog extends BaseDialog
 					info.setShow( true );
 				}
 				else
+				{
 					info.setShow( false );
+				}
+				checkOKButtonStatus( );
 			}
 
 		} );
@@ -133,6 +136,28 @@ public class ShowSummaryFieldDialog extends BaseDialog
 	public Object getResult( )
 	{
 		return input;
+	}
+
+	private void checkOKButtonStatus( )
+	{
+		int count = 0;
+		int listSize = input.size( );
+		for ( int i = 0; i < listSize; i++ )
+		{
+			MeasureInfo measureInfo = (MeasureInfo) input.get( i );
+			if ( measureInfo.isShow( ) )
+			{
+				count++;
+			}
+		}
+		if ( count <= 0 && getOkButton( ) != null )
+		{
+			getOkButton( ).setEnabled( false );
+		}else if(getOkButton( ) != null)
+		{
+			getOkButton( ).setEnabled( true );
+		}
+			
 	}
 
 	class SummaryFieldProvider extends LabelProvider implements
