@@ -982,8 +982,14 @@ public class PreparedDummyQuery implements IPreparedQuery
 	public IQueryResults execute( IBaseQueryResults outerResults,
 			Scriptable scope ) throws DataException
 	{
-		// TODO Auto-generated method stub
-		return null;
+		try 
+		{
+			return executeQuery(scope, null);
+		}
+		catch (BirtException e) 
+		{
+			throw DataException.wrap(e);
+		}
 	}
 
 }
