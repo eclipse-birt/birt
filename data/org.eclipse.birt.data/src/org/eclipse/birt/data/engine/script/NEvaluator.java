@@ -37,6 +37,8 @@ public abstract class NEvaluator
 	private IScriptExpression n_expr;
 	
 	private FilterPassController filterPassController;
+	
+	private String tempDir;
 
 	/**
 	 * Create a new instance to evaluate the top/bottom expression
@@ -45,7 +47,7 @@ public abstract class NEvaluator
 	 * @param n_expr expression to yield N 
 	 * @return
 	 */
-	public static NEvaluator newInstance( int operator, IScriptExpression op_expr, 
+	public static NEvaluator newInstance( String tempDir, int operator, IScriptExpression op_expr, 
 			IScriptExpression n_expr, FilterPassController filterPassController, IExecutorHelper helper  )
 	 	throws DataException
 	{
@@ -76,7 +78,7 @@ public abstract class NEvaluator
 		instance.op_expr = op_expr;
 		instance.n_expr = n_expr;
 		instance.filterPassController = filterPassController;
-		
+		instance.tempDir = tempDir;
 		return instance;
 	}
 	
@@ -163,8 +165,8 @@ public abstract class NEvaluator
 		firstPassRowNumberCounter++;
 		if ( valueList == null )
 		{
-			valueList = new BasicCachedArray( N );
-			rowIdList = new BasicCachedArray( N );
+			valueList = new BasicCachedArray( tempDir, N );
+			rowIdList = new BasicCachedArray( tempDir, N );
 			
 		}
 		if ( value != null )

@@ -71,13 +71,14 @@ public class ResultSetPopulator
 	 * @throws DataException
 	 */
 	private ResultSetPopulator( BaseQuery query, IResultClass rsMeta,
-			CachedResultSet ri ) throws DataException
+			CachedResultSet ri, DataEngineSession session) throws DataException
 	{
 		this.query = query;
 		this.rsMeta = rsMeta;
 		this.ri = ri;
-		this.groupProcessorManager = new GroupProcessorManager( query,
-				this.rsMeta,
+		this.session = session;
+		this.groupProcessorManager = new GroupProcessorManager(
+				query,
 				this );
 		// Initialize the ExpressionProcessor.
 		this.exprProcessor = query.getExprProcessor( );
@@ -94,12 +95,11 @@ public class ResultSetPopulator
 	 * @throws DataException
 	 */
 	ResultSetPopulator( BaseQuery query, IResultClass rsMeta,
-			CachedResultSet ri, IEventHandler eventHandler, DataEngineSession session )
+			CachedResultSet ri,  DataEngineSession session, IEventHandler eventHandler )
 			throws DataException
 	{
-		this( query, rsMeta, ri );
+		this( query, rsMeta, ri, session );
 		this.eventHandler = eventHandler;
-		this.session = session;
 	}
 	
 	/**
@@ -207,7 +207,7 @@ public class ResultSetPopulator
 	 */
 	public void populateResultSet( OdiResultSetWrapper odaResultSet, StopSign stopSign ) throws DataException
 	{
-		PassManager.populateResultSet( this, odaResultSet, this.session, stopSign );
+		PassManager.populateResultSet( this, odaResultSet, stopSign );
 	}
 
 	/**
@@ -317,5 +317,12 @@ public class ResultSetPopulator
 				.getGroupInformationUtil( )
 				.getGroupStartAndEndIndex( groupLevel );
 	}
+
+	
+	public DataEngineSession getSession( )
+	{
+		return session;
+	}
+	
 
 }

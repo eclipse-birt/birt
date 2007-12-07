@@ -32,9 +32,9 @@ public class CachedList extends BasicCachedList
 	 * 
 	 * 
 	 */
-	public CachedList( ICachedObjectCreator creator )
+	public CachedList( String tempDir, ICachedObjectCreator creator )
 	{
-		super();
+		super(tempDir);
 		this.creator = creator;
 	}
 	
@@ -42,9 +42,9 @@ public class CachedList extends BasicCachedList
 	 * 
 	 * @param list
 	 */
-	public CachedList( ICachedObjectCreator creator, List list )
+	public CachedList( String tempDir, ICachedObjectCreator creator, List list )
 	{
-		super( list );
+		super( tempDir, list );
 		this.creator = creator;
 	}
 	

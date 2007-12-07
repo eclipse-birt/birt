@@ -29,7 +29,6 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
-import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
@@ -44,8 +43,6 @@ import org.mozilla.javascript.Scriptable;
 
 public class CacheResultIterator implements IResultIterator
 {
-
-	private DataEngineContext context = null;
 	private InputStream metaInputStream = null;
 	private DataInputStream rowInputStream = null;
 	private ResultClass resultClass = null;
@@ -66,23 +63,22 @@ public class CacheResultIterator implements IResultIterator
 	 * @param queryResultID
 	 * @throws DataException
 	 */
-	public CacheResultIterator( DataEngineContext context, IQueryResults queryResults )
+	public CacheResultIterator( String tempDir, IQueryResults queryResults )
 			throws DataException
 	{
 		Object[] params = {
-				context, queryResults.getID( )
+				tempDir, queryResults.getID( )
 		};
 		logger.entering( CacheResultIterator.class.getName( ),
 				"CacheResultIterator",
 				params );
 
-		this.context = context;
 		this.columnValueMap = new HashMap( );
 		this.currRowIndex = -1;
 		this.queryResults = queryResults;
 		try
 		{
-			createCacheInputStream( );
+			createCacheInputStream( tempDir );
 			resultClass = new ResultClass( this.metaInputStream );
 			rowCount = IOUtil.readInt( rowInputStream );
 			int columnSize = IOUtil.readInt( rowInputStream );
@@ -108,12 +104,12 @@ public class CacheResultIterator implements IResultIterator
 	 * 
 	 * @throws FileNotFoundException
 	 */
-	private void createCacheInputStream( ) throws FileNotFoundException
+	private void createCacheInputStream( String tempDir ) throws FileNotFoundException
 	{
-		metaInputStream = new BufferedInputStream( new FileInputStream( ResultSetCacheUtil.getMetaFile( context.getTmpdir( ),
+		metaInputStream = new BufferedInputStream( new FileInputStream( ResultSetCacheUtil.getMetaFile( tempDir,
 				this.queryResults.getID( ) ) ),
 				1024 );
-		rowInputStream = new DataInputStream( new BufferedInputStream( new FileInputStream( ResultSetCacheUtil.getDataFile( context.getTmpdir( ),
+		rowInputStream = new DataInputStream( new BufferedInputStream( new FileInputStream( ResultSetCacheUtil.getDataFile( tempDir,
 				this.queryResults.getID( ) ) ),
 				1024 ) );
 	}

@@ -25,7 +25,6 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
-import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
@@ -59,7 +58,7 @@ public class QueryResults implements IQueryResults, IQueryService
 	private IServiceForQueryResults 	queryService;
 	
 	// context of data engine
-	private DataEngineContext 			context;
+	private DataEngineSession 			session;
 	private Scriptable 					queryScope;
 	private int 						nestedLevel;
 	
@@ -86,7 +85,7 @@ public class QueryResults implements IQueryResults, IQueryService
 		assert queryService != null;
 		
 		this.queryService = queryService;
-		this.context = queryService.getContext( );
+		this.session = queryService.getSession( );
 		this.queryScope = queryService.getScope( );
 		this.nestedLevel = queryService.getNestedLevel( );
 		this.stopSign = new StopSign( );
@@ -159,7 +158,7 @@ public class QueryResults implements IQueryResults, IQueryService
 				org.eclipse.birt.data.engine.odi.IResultIterator odiIterator = queryService.executeQuery( stopSign );
 				if ( isDummyQuery( odiIterator ) )
 				{
-					iterator = new DummyResultIterator( new ResultService( context,
+					iterator = new DummyResultIterator( new ResultService( session,
 							this ),
 							odiIterator,
 							this.queryScope, this.queryService.getStartingRawID( ) );
@@ -172,13 +171,13 @@ public class QueryResults implements IQueryResults, IQueryService
 						{
 							//First create the cache. The cache is created when 
 							//a ResultIterator is closed;
-							new ResultIterator( new ResultService( context,
+							new ResultIterator( new ResultService( session,
 									this ), odiIterator, this.queryScope, this.queryService.getStartingRawID( ) ).close( );
-							iterator = new CacheResultIterator( context,
+							iterator = new CacheResultIterator( session.getTempDir( ),
 									this );
 						}else
 						{
-							iterator = new ResultIterator( new ResultService( context,
+							iterator = new ResultIterator( new ResultService( session,
 									this ), odiIterator, this.queryScope, this.queryService.getStartingRawID( )  );
 						}
 					}
@@ -190,14 +189,14 @@ public class QueryResults implements IQueryResults, IQueryService
 							//First create the cache. The cache is created when 
 							//a ResultIterator is closed;Please note that whether usesDetails or
 							//not, we should always create a complete ResultIterator.
-							new ResultIterator( new ResultService( context,
+							new ResultIterator( new ResultService( session,
 									this ), odiIterator, this.queryScope, this.queryService.getStartingRawID( )  ).close( );
-							iterator = new CacheResultIterator( context,
+							iterator = new CacheResultIterator( session.getTempDir( ),
 									this );
 						}
 						else
 						{
-							iterator = new ResultIterator2( new ResultService( context,
+							iterator = new ResultIterator2( new ResultService( session,
 									this ),
 									odiIterator,
 									this.queryScope, this.queryService.getStartingRawID( )  );
@@ -499,7 +498,7 @@ public class QueryResults implements IQueryResults, IQueryService
 				subQueryMap.put( subquery.getName( ), subquery);
 				
 			}
-			PreparedDummyQuery preparedQuery = new PreparedDummyQuery( context,
+			PreparedDummyQuery preparedQuery = new PreparedDummyQuery( session.getEngineContext( ),
 					((ISubqueryDefinition)subQueryMap.get( subQueryName )),
 					subScope );
 						
@@ -527,26 +526,19 @@ public class QueryResults implements IQueryResults, IQueryService
 	private static class ResultService implements IServiceForResultSet
 	{
 		/** */
-		private DataEngineContext context;
+		private DataEngineSession session;
 		private QueryResults queryResults;
 		
 		/**
 		 * @param queryResults
 		 */
-		public ResultService( DataEngineContext context,
+		public ResultService( DataEngineSession session,
 				QueryResults queryResults )
 		{
-			this.context = context;
+			this.session = session;
 			this.queryResults = queryResults;
 		}		
 
-		/*
-		 * @see org.eclipse.birt.data.engine.impl.IResultService#getContext()
-		 */
-		public DataEngineContext getContext( )
-		{
-			return context;
-		}
 		
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.IResultService#getQueryResults()
@@ -608,6 +600,13 @@ public class QueryResults implements IQueryResults, IQueryService
 		public Map getAllAutoBindingExprs( )
 		{
 			return queryResults.queryService.getAllAutoBindingExprs( );
+		}
+
+
+
+		public DataEngineSession getSession( )
+		{
+			return session;
 		}
 	}
 

@@ -81,7 +81,8 @@ public class CachedResultSet implements IResultIterator
 		this.resultSetPopulator = new ResultSetPopulator( query,
 				meta,
 				this,
-				eventHandler, session );
+				session,
+				eventHandler );
 		resultSetPopulator.populateResultSet( new OdiResultSetWrapper( odaResultSet), stopSign );
 	}
 
@@ -103,7 +104,8 @@ public class CachedResultSet implements IResultIterator
 		this.resultSetPopulator = new ResultSetPopulator( query,
 				meta,
 				this,
-				eventHandler, session );
+				session,
+				eventHandler);
 		resultSetPopulator.populateResultSet( new OdiResultSetWrapper( odaResultSet), stopSign );
 	}
 	
@@ -123,8 +125,9 @@ public class CachedResultSet implements IResultIterator
 		this.resultSetPopulator = new ResultSetPopulator( query,
 				meta,
 				this,
-				eventHandler,
-				session );
+				session,
+				eventHandler
+				);
 		resultSetPopulator.populateResultSet( new OdiResultSetWrapper( odaCacheResultSet ), stopSign);
 		odaCacheResultSet.close( );
 	}
@@ -148,8 +151,8 @@ public class CachedResultSet implements IResultIterator
 		this.resultSetPopulator = new ResultSetPopulator( query,
 				customDataSet.getResultClass( ),
 				this,
-				eventHandler,
-				session );
+				session,
+				eventHandler);
 		resultSetPopulator.populateResultSet(new OdiResultSetWrapper( customDataSet), stopSign);
 	}
 
@@ -179,7 +182,8 @@ public class CachedResultSet implements IResultIterator
 		this.resultSetPopulator = new ResultSetPopulator( query,
 				createCustomDataSetMetaData(query, meta ),
 				this,
-				eventHandler, session );
+				session,
+				eventHandler);
 		this.resultSetPopulator.populateResultSet( new OdiResultSetWrapper( new Object[]{
 				parentResultSet.resultSetPopulator.getCache( ), groupInfo
 		} ), stopSign);

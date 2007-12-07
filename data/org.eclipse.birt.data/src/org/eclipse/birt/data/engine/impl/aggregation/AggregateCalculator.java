@@ -67,6 +67,7 @@ class AggregateCalculator
 	
 	private Set invalidAggrSet;
 	private Map invalidAggrMsg;
+	
 
 	private static Logger logger = Logger.getLogger( AggregateCalculator.class.getName( ) );
 
@@ -77,7 +78,7 @@ class AggregateCalculator
 	 * @param aggrTable
 	 * @param odiResult
 	 */
-	AggregateCalculator( List aggrExprInfoList, IResultIterator odiResult )
+	AggregateCalculator( String tempDir, List aggrExprInfoList, IResultIterator odiResult )
 	{
 		Object[] params = {
 				aggrExprInfoList, odiResult
@@ -99,7 +100,7 @@ class AggregateCalculator
 			aggrArgs = new Object[aggrCount][];
 			for ( int i = 0; i < aggrCount; i++ )
 			{
-				aggrValues[i] = new BasicCachedList( );
+				aggrValues[i] = new BasicCachedList( tempDir );
 				AggrExprInfo aggrInfo = getAggrInfo( i );
 			
 				// Initialize argument array for this aggregate expression

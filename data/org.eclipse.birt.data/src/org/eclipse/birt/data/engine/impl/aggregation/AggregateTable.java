@@ -36,16 +36,19 @@ public final class AggregateTable
 	/** the base query contains aggregate */
 	private BaseQuery baseQuery;
 		
+	private String tempDir;
+	
 	private static Logger logger = Logger.getLogger( AggregateTable.class.getName( ) );
 
 	/**
 	 * Used for de-serialization
 	 */
-	public AggregateTable( )
+	public AggregateTable( String tempDir )
 	{
 		logger.entering( AggregateTable.class.getName( ),
 				"AggregateTable" );
 		this.aggrExprInfoList = new ArrayList( );
+		this.tempDir = tempDir;
 		logger.exiting( AggregateTable.class.getName( ), "AggregateTable" );
 	}
 
@@ -54,11 +57,11 @@ public final class AggregateTable
 	 * 
 	 * @param query
 	 */
-	public AggregateTable( Scriptable scope, List groupDefns )
+	public AggregateTable(String tempDir, Scriptable scope, List groupDefns )
 	{
-		this( );
+		this( tempDir );
 		Object[] params = {
-				scope, groupDefns
+				tempDir, scope, groupDefns
 		};
 		logger.entering( AggregateTable.class.getName( ),
 				"AggregateTable",
@@ -74,9 +77,9 @@ public final class AggregateTable
 	 * 
 	 * @param query
 	 */
-	public AggregateTable( BaseQuery query )
+	public AggregateTable( String tempDir, BaseQuery query )
 	{
-		this( );
+		this( tempDir );
 		logger.entering( AggregateTable.class.getName( ),
 				"AggregateTable",
 				query );
@@ -121,7 +124,7 @@ public final class AggregateTable
 	public void calculate( IResultIterator odiResult, Scriptable scope )
 			throws DataException
 	{
-		currentCalculator = new AggregateCalculator( aggrExprInfoList, odiResult );
+		currentCalculator = new AggregateCalculator( tempDir, aggrExprInfoList, odiResult );
 		currentCalculator.calculate( scope );
 	}
 	
@@ -135,7 +138,7 @@ public final class AggregateTable
 			JSAggrValueObject aggrValue )
 			throws DataException
 	{
-		currentCalculator = new AggregateCalculator( aggrExprInfoList, odiResult );
+		currentCalculator = new AggregateCalculator( tempDir, aggrExprInfoList, odiResult );
 		currentCalculator.calculate( scope );
 	}
 	

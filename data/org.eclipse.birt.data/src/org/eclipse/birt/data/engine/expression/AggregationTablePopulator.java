@@ -74,8 +74,8 @@ final class AggregationTablePopulator
 	 * @param query
 	 * @return
 	 */
-	public static AggregateTable createAggregateTable( BaseQuery query )
+	public static AggregateTable createAggregateTable( String tempDir, BaseQuery query )
 	{
-		return new AggregateTable( query );
+		return new AggregateTable( tempDir, query );
 	}
 }

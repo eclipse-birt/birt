@@ -25,6 +25,8 @@ import org.eclipse.birt.core.archive.compound.ArchiveFile;
 import org.eclipse.birt.core.archive.compound.ArchiveReader;
 import org.eclipse.birt.core.archive.compound.ArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.DataEngine;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
@@ -32,6 +34,7 @@ import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
@@ -87,27 +90,12 @@ public class CubeAggregationTest extends TestCase
 	private DimLevel dimLevel11 = new DimLevel("dimension1","level11");
 	private DimLevel dimLevel12 = new DimLevel("dimension1","level12");
 	
+	CubeMaterializer materializer;
+	
 	public CubeAggregationTest( )
 	{
 		pathName = System.getProperty( "java.io.tmpdir" );
-		try
-		{
-			documentManager = DocumentManagerFactory.createFileDocumentManager( );
-			createCube1( );
-			this.baseScope = new ImporterTopLevel( );
-		}
-		catch ( DataException e )
-		{
-			fail();
-		}
-		catch ( IOException e )
-		{
-			fail();
-		}
-		catch ( BirtException e )
-		{
-			fail();
-		}
+		this.baseScope = new ImporterTopLevel( );
 	}
 	/*
 	 * (non-Javadoc)
@@ -115,6 +103,13 @@ public class CubeAggregationTest extends TestCase
 	 */
 	public void setUp() throws Exception
 	{
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				null,
+				null,
+				null ) );
+		materializer = new CubeMaterializer( engine );
+		documentManager = materializer.getDocumentManager( );
+		createCube1( documentManager );
 		Context.enter( );
 		createCube1QueryDefn( );
 		super.setUp( );
@@ -126,6 +121,8 @@ public class CubeAggregationTest extends TestCase
 	protected void tearDown( ) throws Exception
 	{		
 		Context.exit();
+		documentManager.close( );
+		
 		super.tearDown( );
 	}
 	
@@ -148,20 +145,13 @@ public class CubeAggregationTest extends TestCase
 	 */
 	public void testRAAggregation1( ) throws IOException, BirtException
 	{
-		CubeMaterializer materializer = new CubeMaterializer( null );
-		IDocumentManager localDocManager = materializer.getDocumentManager( );
-		IDocumentManager oldManager = documentManager; //backup old document manager
-		documentManager = localDocManager;
-		createCube1( );
-		testCube1Aggregation( );
 		IDocArchiveWriter writer = createRAWriter( );
 		materializer.saveCubeToReportDocument( "cube1", writer , new StopSign( ) );
 		writer.flush( );
 		writer.finish( );
 		documentManager = createRADocumentManager( );
 		testCube1Aggregation( );
-		documentManager.close( ); //close localDocManager since it will not be used further
-		documentManager = oldManager; // restore the default docuemnt manager for other test cases
+		documentManager.close(  ); 
 	}
 
 	private IDocumentManager createRADocumentManager( ) throws IOException, DataException
@@ -262,7 +252,7 @@ public class CubeAggregationTest extends TestCase
 	 * @throws BirtException
 	 * @throws DataException
 	 */
-	private void createCube1( ) throws IOException, BirtException, DataException
+	private void createCube1(IDocumentManager documentManager ) throws IOException, BirtException, DataException
 	{
 		Dimension[] dimensions = new Dimension[3];
 		

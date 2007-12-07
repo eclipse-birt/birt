@@ -51,6 +51,8 @@ public class RDLoad
 	private StreamManager streamManager;
 	private RDSubQueryUtil subQueryUtil;
 	
+	private String tempDir;
+	
 	/**
 	 * @param context
 	 * @param queryResultID
@@ -58,9 +60,10 @@ public class RDLoad
 	 * @param currParentIndex
 	 * @throws DataException
 	 */
-	RDLoad( DataEngineContext context, QueryResultInfo queryResultInfo )
+	RDLoad( String tempDir, DataEngineContext context, QueryResultInfo queryResultInfo )
 			throws DataException
 	{
+		this.tempDir = tempDir;
 		subQueryUtil = new RDSubQueryUtil( context,
 				QueryResultIDUtil.getRealStreamID( queryResultInfo.getRootQueryResultID( ),
 						queryResultInfo.getSelfQueryResultID( ) ),
@@ -107,11 +110,11 @@ public class RDLoad
 	{
 		if ( streamManager.isSecondRD( ) == true
 				&& streamManager.isSubquery( ) == true )
-			return new ExprResultSet2( streamManager,
+			return new ExprResultSet2( tempDir, streamManager,
 					version,
 					streamManager.isSecondRD( ) );
 
-		return new ExprResultSet( streamManager,
+		return new ExprResultSet( tempDir, streamManager,
 				version,
 				streamManager.isSecondRD( ),
 				( streamManager.isSubquery( ) || this.version < VersionManager.VERSION_2_2_1_3 )
@@ -124,7 +127,7 @@ public class RDLoad
 	 */
 	public RDGroupUtil loadRootGroupUtil( ) throws DataException
 	{
-		return RDLoadUtil.loadGroupUtil( streamManager,
+		return RDLoadUtil.loadGroupUtil( tempDir, streamManager,
 				StreamManager.ROOT_STREAM,
 				StreamManager.BASE_SCOPE );
 	}
@@ -167,7 +170,8 @@ public class RDLoad
 					version,
 					version < VersionManager.VERSION_2_2_1_3?null:this.loadDataSetData( ));
 		else
-			exprDataResultSet = new ExprDataResultSet2( streamManager.getInStream( DataEngineContext.EXPR_VALUE_STREAM,
+			exprDataResultSet = new ExprDataResultSet2( tempDir,
+					streamManager.getInStream( DataEngineContext.EXPR_VALUE_STREAM,
 					StreamManager.ROOT_STREAM,
 					StreamManager.BASE_SCOPE ),
 					streamManager.getInStream( DataEngineContext.EXPR_ROWLEN_STREAM,

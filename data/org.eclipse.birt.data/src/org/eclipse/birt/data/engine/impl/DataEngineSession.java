@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -32,26 +33,24 @@ public class DataEngineSession
 	private Map context;
 	private Scriptable scope;
 	private DataSetCacheManager dataSetCacheManager;
-	private DataEngine engine;
+	private DataEngineImpl engine;
+	private String tempDir;
 	private static Logger logger = Logger.getLogger( DataEngineSession.class.getName( ) );
 	/**
 	 * Constructor.
 	 * @param engine
 	 */
-	public DataEngineSession( DataEngineContext context, DataEngine engine )
+	public DataEngineSession( DataEngineImpl engine )
 	{
-		Object[] params = {
-				context, engine
-		};
+		Object[] params = { engine };
 		logger.entering( DataEngineSession.class.getName( ),
 				"DataEngineSession",
 				params );
 		
 		this.context = new HashMap();
-		
-		this.dataSetCacheManager = new DataSetCacheManager( context.getTmpdir( ), engine );
+
 		this.engine = engine;
-		this.scope = context.getJavaScriptScope( );
+		this.scope = engine.getContext( ).getJavaScriptScope( );
 		
 		Context cx = Context.enter( );
 		if ( this.scope == null )
@@ -59,7 +58,18 @@ public class DataEngineSession
 			this.scope = new ImporterTopLevel( cx );
 		}
 		new CoreJavaScriptInitializer( ).initialize( cx, scope );
+		
 		Context.exit( );
+		
+		tempDir = engine.getContext( ).getTmpdir( ) +  "DataEngine_" + engine.hashCode( );
+		File f = new File(tempDir);
+		if (!f.exists( ) || !f.isDirectory( ))
+		{
+			f.mkdir( );
+		}
+		tempDir += File.separator;
+		
+		this.dataSetCacheManager = new DataSetCacheManager( tempDir, engine );
 		logger.exiting( DataEngineSession.class.getName( ), "DataEngineSession" );
 	}
 	
@@ -112,5 +122,21 @@ public class DataEngineSession
 	public DataSetCacheManager getDataSetCacheManager( )
 	{
 		return this.dataSetCacheManager;
+	}
+	
+	/**
+	 * @return the temp dir path used by this session, ended with File.Separator
+	 */
+	public String getTempDir()
+	{
+		return tempDir;
+	}
+	
+	/**
+	 * @return the binding Data Engine Context
+	 */
+	public DataEngineContext getEngineContext() 
+	{
+		return this.engine.getContext( );
 	}
 }

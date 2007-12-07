@@ -90,10 +90,9 @@ public class DataEngineImpl extends DataEngine
 				context );
 		
 		this.context = context;
-		DataEngineContextExt.getInstance( ).setTmpdir( context.getTmpdir( ) );
 						
 		dataSourceManager = new DataSourceManager( logger );
-		this.session = new DataEngineSession( context, this );
+		this.session = new DataEngineSession( this );
 		logger.exiting( DataEngineImpl.class.getName( ), "DataEngineImpl" );
 		logger.log( Level.INFO, "Data Engine starts up" );
 	}
@@ -113,13 +112,13 @@ public class DataEngineImpl extends DataEngine
 	{
 		if ( context.getMode( ) == DataEngineContext.MODE_PRESENTATION )
 		{
-			return new QueryResults( this.context, queryResultID );
+			return new QueryResults( this.session.getTempDir( ), this.context, queryResultID );
 		}
 
 		if ( context.getMode( ) == DataEngineContext.MODE_GENERATION
 				|| context.getMode( ) == DataEngineContext.DIRECT_PRESENTATION )
 		{
-			return new CachedQueryResults( this.context, queryResultID );
+			return new CachedQueryResults( session.getTempDir( ), queryResultID );
 		}
 
 		return null;
@@ -565,7 +564,7 @@ public class DataEngineImpl extends DataEngine
 	
 	private void clearTempFile( )
 	{
-		File tmpDir = new File( context.getTmpdir( ) + this.hashCode( ) );
+		File tmpDir = new File( session.getTempDir( ) );
 		if( !tmpDir.exists( ) || !tmpDir.isDirectory( ))
 		{
 			return;

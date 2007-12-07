@@ -50,6 +50,9 @@ public class GroupInformationUtil
 	private int leafGroupIdx = -1;
 
 	private GroupCalculationUtil groupCalculationUtil;
+	
+	private String tempDir;
+	
 
 	/**
 	 * 
@@ -58,6 +61,7 @@ public class GroupInformationUtil
 	GroupInformationUtil( GroupCalculationUtil groupCalculationUtil )
 	{
 		this.groupCalculationUtil = groupCalculationUtil;
+		this.tempDir = this.groupCalculationUtil.getResultSetPopoulator( ).getSession( ).getTempDir( );
 		this.groups = new List[0];
 	}
 
@@ -424,7 +428,7 @@ public class GroupInformationUtil
 
 		for ( int i = 0; i < this.groupCalculationUtil.getGroupDefn( ).length; i++ )
 		{
-			groups[i] = new CachedList( GroupInfo.getCreator( ) );
+			groups[i] = new CachedList( tempDir, GroupInfo.getCreator( ) );
 		}
 
 		IResultObject prevRow = null;
@@ -618,7 +622,7 @@ public class GroupInformationUtil
 
 		for ( int i = 0; i < size; i++ )
 		{
-			List list = new CachedList( GroupInfo.getCreator( ) );;
+			List list = new CachedList( tempDir, GroupInfo.getCreator( ) );;
 			int asize = IOUtil.readInt( inputStream );
 			for ( int j = 0; j < asize; j++ )
 			{
@@ -666,7 +670,7 @@ public class GroupInformationUtil
 
 		for ( int i = 1; i <= groups.length; i++ )
 		{
-			groupBoundaryInfos[i - 1] = new CachedList( GroupBoundaryInfo.getCreator( ) );
+			groupBoundaryInfos[i - 1] = new CachedList( tempDir, GroupBoundaryInfo.getCreator( ) );
 			// i is the group level, is 1-based
 			for ( int j = 0; j < groups[i - 1].size( ); j++ )
 			{
@@ -721,7 +725,7 @@ public class GroupInformationUtil
 	private List mergeTwoGroupBoundaryInfoGroups( List higherGroup,
 			List lowerGroup )
 	{
-		List result = new CachedList( GroupBoundaryInfo.getCreator( ) );
+		List result = new CachedList( tempDir, GroupBoundaryInfo.getCreator( ) );
 		for ( int i = 0; i < higherGroup.size( ); i++ )
 		{
 			GroupBoundaryInfo gbi1 = (GroupBoundaryInfo) higherGroup.get( i );

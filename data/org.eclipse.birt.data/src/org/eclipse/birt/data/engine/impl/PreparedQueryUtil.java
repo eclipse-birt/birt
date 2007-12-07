@@ -86,7 +86,7 @@ class PreparedQueryUtil
 			if ( dataEngine.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION
 				|| dataEngine.getContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION )
 			{
-				return new DummyPreparedQuery( queryDefn, dataEngine.getContext( ));
+				return new DummyPreparedQuery( queryDefn, dataEngine.getSession( ).getTempDir( ));
 			}
 			return newIVInstance( dataEngine, queryDefn );
 		}
@@ -285,7 +285,7 @@ class PreparedQueryUtil
 				null,
 				null,
 				-1 );
-		RDLoad rdLoad = RDUtil.newLoad( dataEngine.getContext( ),
+		RDLoad rdLoad = RDUtil.newLoad( dataEngine.getSession( ).getTempDir( ), dataEngine.getContext( ),
 				queryResultInfo );
 
 		boolean runningOnRS = GroupDefnUtil.isEqualGroups( queryDefn.getGroups( ),
@@ -712,17 +712,17 @@ class PreparedQueryUtil
 	private static class DummyPreparedQuery implements IPreparedQuery
 	{
 		private IQueryDefinition queryDefn;
-		private DataEngineContext context;
+		private String  tempDir;
 		
 		/**
 		 * 
 		 * @param queryDefn
 		 * @param context
 		 */
-		public DummyPreparedQuery( IQueryDefinition queryDefn, DataEngineContext context )
+		public DummyPreparedQuery( IQueryDefinition queryDefn, String tempDir )
 		{
 			this.queryDefn = queryDefn;
-			this.context = context;
+			this.tempDir = tempDir;
 		}
 		
 		/*
@@ -732,7 +732,7 @@ class PreparedQueryUtil
 		public IQueryResults execute( Scriptable queryScope )
 				throws BirtException
 		{
-			return new CachedQueryResults( this.context,
+			return new CachedQueryResults( tempDir,
 					this.queryDefn.getQueryResultsID( ) );
 		}
 

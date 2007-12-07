@@ -66,7 +66,7 @@ public final class RDGroupUtil
 	 * @param cacheProvider
 	 * @throws DataException
 	 */
-	RDGroupUtil( InputStream inputStream, CacheProvider cacheProvider )
+	RDGroupUtil( String tempDir, InputStream inputStream, CacheProvider cacheProvider )
 			throws DataException
 	{
 		try
@@ -76,7 +76,7 @@ public final class RDGroupUtil
 
 			for ( int i = 0; i < size; i++ )
 			{
-				List list = new CachedList( GroupInfo.getCreator( ) );
+				List list = new CachedList( tempDir, GroupInfo.getCreator( ) );
 				int asize = IOUtil.readInt( inputStream );
 				for ( int j = 0; j < asize; j++ )
 				{
@@ -128,9 +128,9 @@ public final class RDGroupUtil
 	 * @param cacheProvider
 	 * @throws DataException
 	 */
-	public RDGroupUtil( InputStream inputStream ) throws DataException
+	public RDGroupUtil(String tempDir, InputStream inputStream ) throws DataException
 	{
-		this( inputStream, null );
+		this( tempDir, inputStream, null );
 	}
 	
 	/**

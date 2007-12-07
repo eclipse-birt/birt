@@ -25,7 +25,6 @@ import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
  */
 public class ExprResultSet2 extends ExprResultSet
 {
-
 	/**
 	 * @param streamManager
 	 * @param rdGroupUtil
@@ -33,10 +32,10 @@ public class ExprResultSet2 extends ExprResultSet
 	 * @param isBasedOnSecondRD
 	 * @throws DataException
 	 */
-	public ExprResultSet2( StreamManager streamManager, int version,
+	public ExprResultSet2( String tempDir, StreamManager streamManager, int version,
 			boolean isBasedOnSecondRD ) throws DataException
 	{
-		super( streamManager, version, isBasedOnSecondRD, null );
+		super( tempDir, streamManager, version, isBasedOnSecondRD, null );
 	}
 
 	/*
@@ -44,7 +43,7 @@ public class ExprResultSet2 extends ExprResultSet
 	 */
 	protected void prepare( ) throws DataException
 	{
-		this.rdGroupUtil = RDLoadUtil.loadGroupUtil( streamManager,
+		this.rdGroupUtil = RDLoadUtil.loadGroupUtil( tempDir, streamManager,
 				StreamManager.ROOT_STREAM,
 				StreamManager.SELF_SCOPE );
 		
@@ -72,7 +71,8 @@ public class ExprResultSet2 extends ExprResultSet
 		rowInfoRAIs = streamManager.getInStream( DataEngineContext.ROW_INDEX_STREAM,
 				StreamManager.SUB_QUERY_STREAM,
 				StreamManager.SELF_SCOPE );
-		this.exprResultReader = new ExprDataReader2( rowExprsRAIs,
+		this.exprResultReader = new ExprDataReader2( tempDir,
+				rowExprsRAIs,
 				rowLenRAIs,
 				rowInfoRAIs, version, null );
 		

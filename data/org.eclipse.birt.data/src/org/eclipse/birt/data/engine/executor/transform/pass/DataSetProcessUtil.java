@@ -28,7 +28,6 @@ import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.executor.transform.TransformationConstants;
 import org.eclipse.birt.data.engine.expression.ExpressionCompiler;
 import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
-import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.FilterByRow;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IAggrInfo;
@@ -52,14 +51,14 @@ class DataSetProcessUtil extends RowProcessUtil
 			ComputedColumnsState iccState,
 			ComputedColumnHelper computedColumnHelper,
 			FilterByRow filterByRow,
-			PassStatusController psController,
-			DataEngineSession session)
+			PassStatusController psController
+			)
 	{
 		super( populator,
 				iccState,
 				computedColumnHelper,
 				filterByRow,
-				psController, session);
+				psController);
 	}
 	
 	/**
@@ -75,14 +74,14 @@ class DataSetProcessUtil extends RowProcessUtil
 	 */
 	public static void doPopulate( ResultSetPopulator populator, ComputedColumnsState iccState,
 			ComputedColumnHelper computedColumnHelper, FilterByRow filterByRow,
-			PassStatusController psController, DataEngineSession session, StopSign stopSign ) throws DataException
+			PassStatusController psController, StopSign stopSign ) throws DataException
 	{
 		DataSetProcessUtil instance = new DataSetProcessUtil( populator,
 				iccState,
 				computedColumnHelper,
 				filterByRow,
-				psController,
-				session );
+				psController
+				);
 		instance.populateDataSet( stopSign );
 	}
 	
@@ -189,7 +188,6 @@ class DataSetProcessUtil extends RowProcessUtil
 				PassUtil.pass( populator,
 						new OdiResultSetWrapper( populator.getResultIterator( ) ),
 						false,
-						this.session,
 						stopSign);
 
 			AggregationHelper helper = new AggregationHelper( new AggrDefnManager( aggrInfos ),
@@ -202,7 +200,6 @@ class DataSetProcessUtil extends RowProcessUtil
 			PassUtil.pass( populator,
 					new OdiResultSetWrapper( populator.getResultIterator( ) ),
 					false,
-					this.session,
 					stopSign);
 
 			this.populator.getQuery( ).getFetchEvents( ).remove( 0 );
@@ -244,7 +241,6 @@ class DataSetProcessUtil extends RowProcessUtil
 			PassUtil.pass( this.populator,
 					new OdiResultSetWrapper( populator.getResultIterator( ) ),
 					false,
-					this.session,
 					stopSign);
 		}
 		computedColumnHelper.getComputedColumnList( ).clear( );
@@ -258,7 +254,7 @@ class DataSetProcessUtil extends RowProcessUtil
 			ComputedColumnCalculator.populateComputedColumns( this.populator,
 					new OdiResultSetWrapper( this.populator.getResultIterator( ) ),
 					iccState,
-					computedColumnHelper, this.session, stopSign );
+					computedColumnHelper, stopSign );
 		}
 		computedColumnHelper.setModel( TransformationConstants.NONE_MODEL );
 	}

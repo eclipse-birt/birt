@@ -20,8 +20,11 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.DataEngine;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.cursor.CubeUtility;
 import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
@@ -43,7 +46,6 @@ import org.eclipse.birt.data.engine.olap.data.impl.Cube;
 import org.eclipse.birt.data.engine.olap.data.impl.NamingUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.SelectionFactory;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationExecutor;
-import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.LevelFilter;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.SimpleLevelFilter;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionFactory;
@@ -61,7 +63,7 @@ import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 
 public class FactTableHelperTest2 extends TestCase
 {
-	private static final String tmpPath = System.getProperty( "java.io.tmpdir" );
+	//private static final String tmpPath = System.getProperty( "java.io.tmpdir" ) + File.separator;
 	private DimLevel dimLevel31 = new DimLevel("dimension3","level31");
 	private DimLevel dimLevel21 = new DimLevel("dimension2","level21");
 	/*
@@ -696,7 +698,11 @@ public class FactTableHelperTest2 extends TestCase
 	 */
 	public void testFactTableSaveAndLoad5( ) throws IOException, BirtException
 	{
-		CubeMaterializer cubeCreatorHelper = new CubeMaterializer( null, tmpPath, "cub1" );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_GENERATION,
+				null,
+				null,
+				null ) );
+		CubeMaterializer cubeCreatorHelper = new CubeMaterializer( engine, "cub1" );
 		
 		testFactTableSaveAndLoad5( cubeCreatorHelper );
 		

@@ -68,10 +68,10 @@ class ExprDataReader2 implements IExprDataReader
 	 * @param rowLenIs
 	 * @throws DataException 
 	 */
-	protected ExprDataReader2( RAInputStream rowExprsIs, RAInputStream rowLenIs, int rowCount, int version ) throws DataException
+	protected ExprDataReader2( String tempDir, RAInputStream rowExprsIs, RAInputStream rowLenIs, int rowCount, int version ) throws DataException
 	{
 		this.version = version;
-		initialize( rowExprsIs, rowLenIs, rowCount, null );
+		initialize( tempDir, rowExprsIs, rowLenIs, rowCount, null );
 	}
 
 	/**
@@ -80,7 +80,7 @@ class ExprDataReader2 implements IExprDataReader
 	 * @param rowInfoIs
 	 * @throws DataException
 	 */
-	ExprDataReader2( RAInputStream rowExprsIs, RAInputStream rowLenIs,
+	ExprDataReader2( String tempDir, RAInputStream rowExprsIs, RAInputStream rowLenIs,
 			RAInputStream rowInfoIs, int version, DataSetResultSet dataSetResultSet ) throws DataException
 	{
 		this.version = version;
@@ -89,7 +89,7 @@ class ExprDataReader2 implements IExprDataReader
 		try
 		{
 			int rowCount = (int) ( rowInfoIs.length( ) / 4 );
-			initialize( rowExprsIs, rowLenIs, rowCount, dataSetResultSet );
+			initialize( tempDir, rowExprsIs, rowLenIs, rowCount, dataSetResultSet );
 		}
 		catch ( IOException e )
 		{
@@ -105,7 +105,7 @@ class ExprDataReader2 implements IExprDataReader
 	 * @param rowLenIs
 	 * @throws DataException
 	 */
-	private void initialize( RAInputStream rowExprsIs, RAInputStream rowLenIs, int rowCount, DataSetResultSet dataSetResultSet ) throws DataException
+	private void initialize( String tempDir, RAInputStream rowExprsIs, RAInputStream rowLenIs, int rowCount, DataSetResultSet dataSetResultSet ) throws DataException
 	{
 		try
 		{
@@ -160,7 +160,7 @@ class ExprDataReader2 implements IExprDataReader
 		this.lastRowIndex = -1;
 		this.currRowLenReadIndex = 0;
 		this.rowCount = rowCount;
-		this.rowIDMap = new BasicCachedArray( rowCount );
+		this.rowIDMap = new BasicCachedArray( tempDir, rowCount );
 	}
 	
 	/*

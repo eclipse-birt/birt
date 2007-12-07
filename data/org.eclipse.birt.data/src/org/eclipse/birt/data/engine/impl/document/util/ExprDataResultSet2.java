@@ -40,7 +40,7 @@ public class ExprDataResultSet2 extends BaseExprDataResultSet
 	 *            the expression meta data
 	 * @throws DataException 
 	 */
-	public ExprDataResultSet2( RAInputStream rowIs, RAInputStream rowLenIs,
+	public ExprDataResultSet2( String tempDir, RAInputStream rowIs, RAInputStream rowLenIs,
 			RAInputStream rowInfoIs, ExprMetaInfo[] inExprMetas, int version, DataSetResultSet dataSetResultSet )
 			throws DataException
 	{
@@ -48,7 +48,7 @@ public class ExprDataResultSet2 extends BaseExprDataResultSet
 		this.rowLenIs = rowLenIs;
 		this.rowInfoIs = rowInfoIs;
 
-		IExprDataReader exprDataReader = new ExprDataReader2( rowIs, rowLenIs, rowInfoIs, version, dataSetResultSet );
+		IExprDataReader exprDataReader = new ExprDataReader2( tempDir, rowIs, rowLenIs, rowInfoIs, version, dataSetResultSet );
 		this.rowCount = exprDataReader.getCount( );
 		
 		super.init( inExprMetas, exprDataReader );
@@ -60,14 +60,14 @@ public class ExprDataResultSet2 extends BaseExprDataResultSet
 	 * @param destRowIndex
 	 * @param inExprMetas
 	 */
-	public ExprDataResultSet2( RAInputStream rowIs, RAInputStream rowLenIs,
+	public ExprDataResultSet2( String tempDir, RAInputStream rowIs, RAInputStream rowLenIs,
 			int destRowIndex[], ExprMetaInfo[] inExprMetas, int version )
 			throws DataException
 	{
 		this.rowIs = rowIs;
 		this.rowLenIs = rowLenIs;
 
-		IExprDataReader exprDataReader = new ExprDataReader3( rowIs, rowLenIs, destRowIndex, version );
+		IExprDataReader exprDataReader = new ExprDataReader3( tempDir, rowIs, rowLenIs, destRowIndex, version );
 		this.rowCount = exprDataReader.getCount( );
 		
 		super.init( inExprMetas, exprDataReader );

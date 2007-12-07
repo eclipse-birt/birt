@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.data.engine.olap.api;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,6 +42,7 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
@@ -77,16 +77,8 @@ import testutil.BaseTestCase;
 public class CubeFeaturesTest extends BaseTestCase
 {
 
-	private static String documentPath = System.getProperty( "java.io.tmpdir" );
 	private static String cubeName = "cube";
 
-	static
-	{
-		if ( !documentPath.endsWith( File.separator ) )
-		{
-			documentPath += File.separator;
-		}
-	}
 
 	/**
 	 * Test use all dimension levels.
@@ -134,7 +126,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		binding5.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		cqd.addBinding( binding5 );
 
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -192,7 +184,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		binding5.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		cqd.addBinding( binding5 );
 
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -264,7 +256,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		binding6.addArgument( new ScriptExpression( "dimension[\"dimension2\"][\"level21\"][\"attr21\"]" ) );
 		cqd.addBinding( binding6 );
 
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -342,7 +334,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		binding7.addArgument( new ScriptExpression( "data[\"attr21\"]" ) );
 		cqd.addBinding( binding7 );
 
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -418,7 +410,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		binding6.addArgument( new ScriptExpression( "dimension[\"dimension2\"][\"level21\"][\"attr21\"]" ) );
 		cqd.addBinding( binding6 );
 
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -481,7 +473,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				IConditionalExpression.OP_EQ,
 				"\"CN\"" ) );
 		cqd.addFilter( filter );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -549,7 +541,7 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		cqd.addFilter( filter1 );
 		cqd.addFilter( filter2 );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -617,7 +609,7 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		cqd.addFilter( filter1 );
 		cqd.addFilter( filter2 );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -682,7 +674,7 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		cqd.addFilter( filter1 );
 
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -773,7 +765,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addFilter( filter3 );
 		cqd.addSort( sorter4 );
 		cqd.addSort( sorter5 );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -854,7 +846,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addFilter( filter2 );
 		cqd.addFilter( filter3 );
 
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -916,7 +908,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addFilter( filter1 );
 		cqd.addFilter( filter2 );
 
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -974,7 +966,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addFilter( filter1 );
 		cqd.addFilter( filter2 );
 
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -1011,7 +1003,7 @@ public class CubeFeaturesTest extends BaseTestCase
 	 */
 	public void testSort1( ) throws Exception
 	{
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -1128,7 +1120,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );
 		cqd.addSort( sorter3 );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -1208,7 +1200,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );
 		cqd.addSort( sorter3 );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -1235,7 +1227,7 @@ public class CubeFeaturesTest extends BaseTestCase
 	 */
 	public void testSortWithExpr( ) throws Exception
 	{
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -1304,7 +1296,7 @@ public class CubeFeaturesTest extends BaseTestCase
 	 */
 	public void testSortWithExpr1( ) throws Exception
 	{
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -1415,7 +1407,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addSort( sorter2 );
 		cqd.addSort( sorter3 );
 
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -1524,7 +1516,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );
 		cqd.addSort( sorter3 );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -1628,7 +1620,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );
 		cqd.addSort( sorter3 );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -1727,7 +1719,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addSort( sorter3 );
 		cqd.addSort( sorter4 );
 		cqd.addSort( sorter5 );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -1787,7 +1779,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		sorter1.setSortDirection( ISortDefinition.SORT_DESC );
 
 		cqd.addSort( sorter1 );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -1859,7 +1851,7 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -1943,7 +1935,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );
 		cqd.addSort( sorter3 );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -2006,7 +1998,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		sorter1.setSortDirection( ISortDefinition.SORT_DESC );
 
 		cqd.addSort( sorter1 );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -2091,7 +2083,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );
 		cqd.addSort( sorter3 );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -2216,7 +2208,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );
 		cqd.addSort( sorter3 );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -2287,7 +2279,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		binding5.setExpression( new ScriptExpression( "measure[\"measure2\"]" ) );
 		cqd.addBinding( binding5 );
 
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -2356,7 +2348,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		binding5.setExpression( new ScriptExpression( "measure[\"measure2\"]" ) );
 		cqd.addBinding( binding5 );
 
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -2457,7 +2449,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );
 		cqd.addSort( sorter3 );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -2527,7 +2519,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		binding5.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		cqd.addBinding( binding5 );
 
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -2591,7 +2583,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		binding5.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		cqd.addBinding( binding5 );
 
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -2657,7 +2649,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		binding5.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		cqd.addBinding( binding5 );
 
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -2728,7 +2720,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				IConditionalExpression.OP_EQ,
 				"\"CN\"" ) );
 		cqd.addFilter( filter );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -2805,7 +2797,7 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		cqd.addFilter( filter1 );
 		cqd.addFilter( filter2 );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -2877,7 +2869,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		sorter.setSortDirection( ISortDefinition.SORT_DESC );
 		sorter.setTargetLevel( level21 );
 		cqd.addSort( sorter );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -2963,7 +2955,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );
 		cqd.addSort( sorter3 );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -3067,7 +3059,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );
 		cqd.addSort( sorter3 );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -3175,7 +3167,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addSort( sorter3 );
 		cqd.addSort( sorter4 );
 		cqd.addSort( sorter5 );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -3243,7 +3235,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		sorter1.setSortDirection( ISortDefinition.SORT_DESC );
 
 		cqd.addSort( sorter1 );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -3323,7 +3315,7 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -3416,7 +3408,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );
 		cqd.addSort( sorter3 );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -3488,7 +3480,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		sorter1.setSortDirection( ISortDefinition.SORT_DESC );
 
 		cqd.addSort( sorter1 );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -3619,7 +3611,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );
 		cqd.addSort( sorter3 );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -3698,7 +3690,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		binding5.setExpression( new ScriptExpression( "measure[\"measure2\"]" ) );
 		cqd.addBinding( binding5 );
 
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -3797,7 +3789,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addFilter( filter3 );
 		cqd.addSort( sorter4 );
 		cqd.addSort( sorter5 );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl) DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -3892,7 +3884,7 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		cqd.addSort( sorter4 );
 		cqd.addSort( sorter5 );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl) DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -3983,7 +3975,7 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		cqd.addSort( sorter4 );
 		cqd.addSort( sorter5 );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl) DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -4093,7 +4085,7 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		cqd.addSort( sorter4 );
 		cqd.addSort( sorter5 );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineImpl engine = (DataEngineImpl) DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null ) );
@@ -4475,15 +4467,14 @@ public class CubeFeaturesTest extends BaseTestCase
 		dataCursor.close( );
 	}
 
-	private void createCube( DataEngine engine ) throws BirtException,
+	private void createCube( org.eclipse.birt.data.engine.impl.DataEngineImpl engine ) throws BirtException,
 			IOException
 	{
-		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( documentPath
-				+ engine.hashCode( ),
+		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( engine.getSession( ).getTempDir( ),
 				cubeName );
 		DocManagerMap.getDocManagerMap( )
 				.set( String.valueOf( engine.hashCode( ) ),
-						documentPath + engine.hashCode( ) + cubeName,
+						engine.getSession( ).getTempDir( ) + cubeName,
 						documentManager );
 		engine.addShutdownListener( new DocManagerReleaser( engine ) );
 		Dimension[] dimensions = new Dimension[2];

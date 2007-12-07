@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.cursor;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -21,7 +20,7 @@ import javax.olap.cursor.DimensionCursor;
 import javax.olap.cursor.EdgeCursor;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.DataEngine;
+import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
@@ -52,29 +51,19 @@ import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinition;
  */
 public class CubeUtility
 {
-
-	public static String documentPath = System.getProperty( "java.io.tmpdir" );
 	public static String cubeName = "cube";
 	
-	static
-	{
-		if( !documentPath.endsWith( File.separator ))
-		{
-			documentPath += File.separator;
-		}
-	}
 	
 	CubeUtility( )
 	{
 	}
 
-	void createCube( DataEngine engine ) throws IOException, BirtException,
+	void createCube( DataEngineImpl engine ) throws IOException, BirtException,
 			OLAPException
 	{
-		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( documentPath
-				+ engine.hashCode( ),
+		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( engine.getSession( ).getTempDir( ),
 				cubeName );
-		DocManagerMap.getDocManagerMap( ).set( String.valueOf( engine.hashCode( ) ), documentPath + engine.hashCode( ) + cubeName, documentManager );
+		DocManagerMap.getDocManagerMap( ).set( String.valueOf( engine.hashCode( ) ), engine.getSession( ).getTempDir( ) + cubeName, documentManager );
 		engine.addShutdownListener( new DocManagerReleaser( engine ) );
 		Dimension[] dimensions = new Dimension[6];
 

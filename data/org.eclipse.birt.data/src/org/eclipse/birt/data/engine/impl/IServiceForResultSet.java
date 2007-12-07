@@ -13,7 +13,6 @@ package org.eclipse.birt.data.engine.impl;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
@@ -31,7 +30,7 @@ interface IServiceForResultSet
 	/**
 	 * @return
 	 */
-	public DataEngineContext getContext( );
+	public DataEngineSession getSession( );
 	
 	/**
 	 * @return queryResults

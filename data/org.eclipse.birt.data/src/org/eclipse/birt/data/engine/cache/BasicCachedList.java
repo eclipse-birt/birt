@@ -28,7 +28,6 @@ import java.util.ListIterator;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.util.IOUtil;
-import org.eclipse.birt.data.engine.impl.DataEngineContextExt;
 
 /**
  * A List class providing the service of reading/writing objects from one file
@@ -50,12 +49,15 @@ public class BasicCachedList implements List
 	private List fileList = new ArrayList( );
 	private File dir;
 
+	private String tempDir; //should end with File.Seperator
+	
 	/**
 	 * 
 	 * 
 	 */
-	public BasicCachedList( )
+	public BasicCachedList( String tempDir)
 	{
+		this.tempDir = tempDir;
 		this.currentCacheNo = 0;
 		this.size = 0;
 		setFileNamePrefix( );
@@ -77,9 +79,9 @@ public class BasicCachedList implements List
 	 * 
 	 * @param list
 	 */
-	public BasicCachedList( List list )
+	public BasicCachedList(String tempDir, List list )
 	{
-		this( );
+		this(tempDir);
 		if ( list == null )
 			return;
 
@@ -270,8 +272,7 @@ public class BasicCachedList implements List
 	 */
 	private File getCacheFile( int cacheIndex )
 	{
-		String tempDirStr = DataEngineContextExt.getInstance( ).getTmpdir( )
-				+ File.separatorChar + this.fileNamePrefix;
+		String tempDirStr = tempDir + this.fileNamePrefix;
 		if ( dir == null )
 		{
 			dir = new File( tempDirStr );

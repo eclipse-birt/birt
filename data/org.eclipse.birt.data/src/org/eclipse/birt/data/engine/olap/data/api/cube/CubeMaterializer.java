@@ -19,6 +19,7 @@ import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentManagerFactory;
@@ -44,9 +45,9 @@ public class CubeMaterializer
 	 * @throws BirtOlapException
 	 * @throws IOException
 	 */
-	public CubeMaterializer( DataEngine dataEngine, String pathName, String managerName  ) throws DataException, IOException
+	public CubeMaterializer( DataEngineImpl dataEngine, String managerName  ) throws DataException, IOException
 	{
-		this( dataEngine, pathName, managerName, 0 );
+		this( dataEngine, managerName, 0 );
 	}
 
 	/**
@@ -57,16 +58,16 @@ public class CubeMaterializer
 	 * @throws DataException
 	 * @throws IOException
 	 */
-	public CubeMaterializer( DataEngine dataEngine, String pathName, String managerName, int cacheSize  ) throws DataException, IOException
+	public CubeMaterializer( DataEngineImpl dataEngine, String managerName, int cacheSize  ) throws DataException, IOException
 	{
 		this.dataEngine = dataEngine;
 		setShutdownListener( );
-		documentManager = DocumentManagerFactory.createFileDocumentManager( pathName, managerName, cacheSize );
+		documentManager = DocumentManagerFactory.createFileDocumentManager( dataEngine.getSession( ).getTempDir( ), managerName, cacheSize );
 		if ( this.dataEngine != null )
 		{
 			DocManagerMap.getDocManagerMap( )
 					.set( String.valueOf( this.dataEngine.hashCode( ) ),
-							pathName + managerName,
+							dataEngine.getSession( ).getTempDir( ) + managerName,
 							documentManager );
 		}
 	}
@@ -75,11 +76,11 @@ public class CubeMaterializer
 	 * @throws DataException
 	 * @throws IOException
 	 */
-	public CubeMaterializer( DataEngine dataEngine ) throws DataException, IOException
+	public CubeMaterializer( DataEngineImpl dataEngine ) throws DataException, IOException
 	{
 		this.dataEngine = dataEngine;
 		setShutdownListener( );
-		documentManager = DocumentManagerFactory.createFileDocumentManager( );
+		documentManager = DocumentManagerFactory.createFileDocumentManager( dataEngine.getSession( ).getTempDir( ));
 	}
 
 	/**

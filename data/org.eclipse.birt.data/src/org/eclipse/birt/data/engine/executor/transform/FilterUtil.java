@@ -72,7 +72,8 @@ public final class FilterUtil
 	 * 
 	 * @param expr
 	 */
-	public static void prepareFilterExpression( IBaseExpression expr,
+	public static void prepareFilterExpression( String tempDir,
+			IBaseExpression expr,
 			FilterPassController filterPass, IExecutorHelper helper ) throws DataException
 	{
 		// Check if this is a top/bottom(n) expressions
@@ -95,7 +96,8 @@ public final class FilterUtil
 				}
 
 				// Tag expression with NEvaluator
-				NEvaluator evaluator = NEvaluator.newInstance( operator,
+				NEvaluator evaluator = NEvaluator.newInstance( tempDir,
+						operator,
 						ce.getExpression( ),
 						(IScriptExpression) ce.getOperand1( ),
 						filterPass,

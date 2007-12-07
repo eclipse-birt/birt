@@ -48,16 +48,18 @@ class ResultIterator implements IResultIterator
 	// expression data result set
 	protected IExprResultSet exprResultSet;
 	
+	private String tempDir;
+	
 	/**
 	 * @param context
 	 * @param queryResults
 	 * @param queryResultID
 	 * @throws DataException 
 	 */
-	ResultIterator( DataEngineContext context, IQueryResults queryResults,
+	ResultIterator( String tempDir, DataEngineContext context, IQueryResults queryResults,
 			String queryResultID ) throws DataException
 	{
-		this( context, queryResults, queryResultID, null, -1 );
+		this( tempDir, context, queryResults, queryResultID, null, -1 );
 	}
 	
 	/**
@@ -69,14 +71,13 @@ class ResultIterator implements IResultIterator
 	 * @param rsCache
 	 * @throws DataException
 	 */
-	ResultIterator( DataEngineContext context, IQueryResults queryResults,
+	ResultIterator( String tempDir, DataEngineContext context, IQueryResults queryResults,
 			String queryResultID, String subQueryName, int currParentIndex )
 			throws DataException
 	{
 		super( );
-
-		assert queryResultID != null && context != null && queryResults != null;
-
+		assert queryResultID != null && context != null && queryResults != null && tempDir != null;
+		this.tempDir = tempDir;
 		this.context = context;
 		this.queryResults = queryResults;
 		
@@ -98,7 +99,7 @@ class ResultIterator implements IResultIterator
 		if ( selfID == null )
 			selfID = this.queryResultID;
 		
-		RDLoad valueLoader = RDUtil.newLoad( this.context,
+		RDLoad valueLoader = RDUtil.newLoad( tempDir, this.context,
 				new QueryResultInfo( rootID,
 						null,
 						selfID,
@@ -283,7 +284,8 @@ class ResultIterator implements IResultIterator
 		QueryResults queryResults = null;
 		try
 		{
-			queryResults = new QueryResults( context,
+			queryResults = new QueryResults( tempDir,
+					context,
 					queryResultID,
 					parentQueryResultsID,
 					this.getResultMetaData( ),

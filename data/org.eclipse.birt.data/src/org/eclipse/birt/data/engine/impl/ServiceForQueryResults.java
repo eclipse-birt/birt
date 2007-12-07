@@ -25,7 +25,6 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.aggregation.AggregationFactory;
-import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
@@ -60,7 +59,7 @@ import org.mozilla.javascript.Scriptable;
 */
 public class ServiceForQueryResults implements IServiceForQueryResults
 {
-	private DataEngineContext 			context;
+	private DataEngineSession 			session;
 	private IPreparedQueryService       queryService;
 	private IQueryExecutor				queryExecutor;
 
@@ -87,13 +86,13 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 	 * @param exprManager
 	 * @throws DataException 
 	 */
-	public ServiceForQueryResults( DataEngineContext context, Scriptable scope,
+	public ServiceForQueryResults( DataEngineSession session, Scriptable scope,
 			int nestedLevel, PreparedDataSourceQuery reportQuery,
 			IPreparedQueryService query, IQueryExecutor queryExecutor,
 			IBaseQueryDefinition queryDefn, ExprManager exprManager ) throws DataException
 	{
 		Object[] params = {
-				context,
+				session,
 				scope,
 				new Integer( nestedLevel ),
 				reportQuery,
@@ -107,7 +106,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 				params );
 		assert reportQuery != null && queryExecutor != null;
 
-		this.context = context;
+		this.session = session;
 		this.scope = scope;
 		this.nestedLevel = nestedLevel;
 		this.reportQuery = reportQuery;
@@ -132,14 +131,6 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 		return ( queryExecutor instanceof ISubQueryExecutor )
 				? ( ( (ISubQueryExecutor) queryExecutor ).getSubQueryStartingIndex( ) )
 				: 0;
-	}
-	
-	/*
-	 * @see org.eclipse.birt.data.engine.impl.IQueryService#getContext()
-	 */
-	public DataEngineContext getContext( )
-	{
-		return this.context;
 	}
 	
 	/*
@@ -1147,5 +1138,10 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 	public IQueryExecutor getQueryExecutor( ) throws DataException
 	{
 		return this.queryExecutor;
+	}
+
+	public DataEngineSession getSession( )
+	{
+		return session;
 	}
 }

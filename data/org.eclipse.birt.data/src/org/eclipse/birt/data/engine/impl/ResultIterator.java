@@ -70,8 +70,6 @@ import org.mozilla.javascript.Scriptable;
  */
 public class ResultIterator implements IResultIterator
 {
-	// context of data engine
-	private DataEngineContext 		context;
 	private RDSaveHelper 			rdSaveHelper;
 	private Scriptable 				scope;
 	
@@ -140,10 +138,9 @@ public class ResultIterator implements IResultIterator
 		this.odiResult = odiResult;
 		this.scope = scope;
 		this.rawIdStartingValue = rawIdStartingValue;
-		this.context = rService.getContext( );
 		
-		if ( this.resultService.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION
-				|| this.resultService.getContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION )
+		if ( rService.getSession( ).getEngineContext( ).getMode( ) == DataEngineContext.MODE_GENERATION
+				|| rService.getSession( ).getEngineContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION )
 			this.validateManualBindingExpressions( this.resultService.getQueryDefn( )
 					.getBindings( ) );
 		if( needCache() )
@@ -169,16 +166,16 @@ public class ResultIterator implements IResultIterator
 	 */
 	private void createCacheOutputStream( ) throws FileNotFoundException
 	{
-		metaOutputStream = new BufferedOutputStream( new FileOutputStream( ResultSetCacheUtil.getMetaFile( context.getTmpdir( ),
+		metaOutputStream = new BufferedOutputStream( new FileOutputStream( ResultSetCacheUtil.getMetaFile( resultService.getSession( ).getTempDir( ),
 				resultService.getQueryResults( ).getID( ) ) ),
 				1024 );
-		rowOutputStream = new DataOutputStream( new BufferedOutputStream( new FileOutputStream( ResultSetCacheUtil.getDataFile( context.getTmpdir( ),
+		rowOutputStream = new DataOutputStream( new BufferedOutputStream( new FileOutputStream( ResultSetCacheUtil.getDataFile( resultService.getSession( ).getTempDir( ),
 				resultService.getQueryResults( ).getID( ) ) ),
 				1024 ) );
-		File file = ResultSetCacheUtil.getDataFile( context.getTmpdir( ),
+		File file = ResultSetCacheUtil.getDataFile( resultService.getSession( ).getTempDir( ),
 				resultService.getQueryResults( ).getID( ) );
 		file.deleteOnExit( );
-		file = ResultSetCacheUtil.getMetaFile( context.getTmpdir( ),
+		file = ResultSetCacheUtil.getMetaFile( resultService.getSession( ).getTempDir( ),
 				resultService.getQueryResults( ).getID( ) );
 		file.deleteOnExit( );
 	}
@@ -529,7 +526,7 @@ public class ResultIterator implements IResultIterator
 	{
 		if ( this.rdSaveHelper == null )
 		{
-			rdSaveHelper = new RDSaveHelper( this.context,
+			rdSaveHelper = new RDSaveHelper( this.resultService.getSession( ).getEngineContext( ),
 					this.resultService.getQueryDefn( ),
 					this.odiResult,
 					new IDInfo( this.resultService.getQueryResults( ).getID( ) ) );
@@ -1171,7 +1168,7 @@ public class ResultIterator implements IResultIterator
 
 			if ( ( (ISubqueryDefinition) resultIt.resultService.getQueryDefn( ) ).applyOnGroup( ) )
 				// init RDSave util of sub query
-				resultIt.rdSaveHelper = new RDSaveHelper( resultIt.context,
+				resultIt.rdSaveHelper = new RDSaveHelper( resultIt.resultService.getSession().getEngineContext(),
 						resultIt.resultService.getQueryDefn( ),
 						resultIt.odiResult,
 						new IDInfo( resultIt.getQueryResults( ).getID( ),
@@ -1180,7 +1177,7 @@ public class ResultIterator implements IResultIterator
 								odiResult.getCurrentGroupIndex( results.getGroupLevel( ) ),
 								odiResult.getGroupStartAndEndIndex( results.getGroupLevel( ) ) ) );
 			else
-				resultIt.rdSaveHelper = new RDSaveHelper( resultIt.context,
+				resultIt.rdSaveHelper = new RDSaveHelper( resultIt.resultService.getSession().getEngineContext(),
 						resultIt.resultService.getQueryDefn( ),
 						resultIt.odiResult,
 						new IDInfo( resultIt.getQueryResults( ).getID( ),

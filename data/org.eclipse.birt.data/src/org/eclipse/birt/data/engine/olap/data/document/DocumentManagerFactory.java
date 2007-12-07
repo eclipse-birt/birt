@@ -57,6 +57,17 @@ public class DocumentManagerFactory
 	/**
 	 * 
 	 * @return
+	 * @throws DataException 
+	 * @throws IOException 
+	 */
+	static public IDocumentManager createFileDocumentManager( String tempDir ) throws DataException, IOException
+	{
+		return FileDocumentManager.createManager( tempDir, DEFAULT_CUB_MANAGER_NAME );
+	}
+	
+	/**
+	 * 
+	 * @return
 	 * @throws DataException
 	 * @throws IOException
 	 */

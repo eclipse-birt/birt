@@ -68,10 +68,10 @@ public final class RDUtil
 	 * @return
 	 * @throws DataException
 	 */
-	public static RDLoad newLoad( DataEngineContext context,
+	public static RDLoad newLoad( String tempDir, DataEngineContext context,
 			QueryResultInfo queryResultInfo ) throws DataException
 	{
-		return new RDLoad( context, queryResultInfo );
+		return new RDLoad( tempDir, context, queryResultInfo );
 	}
 
 }

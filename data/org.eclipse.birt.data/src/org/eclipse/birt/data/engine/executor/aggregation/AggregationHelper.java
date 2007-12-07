@@ -69,6 +69,7 @@ public class AggregationHelper implements IAggrValueHolder
 	private Set invalidAggrSet;
 	private Map invalidAggrMsg;
 	
+	
 	/**
 	 * For the given odi resultset, calcaulate the value of aggregate from
 	 * aggregateTable
@@ -82,10 +83,10 @@ public class AggregationHelper implements IAggrValueHolder
 		this.populator = populator;
 		this.manager = manager;
 		this.currentRoundAggrValue = new List[0];
-		this.populateAggregations( );
+		this.populateAggregations( populator.getSession( ).getTempDir( ) );
 	}
 
-	private void populateAggregations( ) throws DataException
+	private void populateAggregations( String tempDir ) throws DataException
 	{
 		
 			this.currentAggrCount = manager.getAggrCount( );
@@ -95,7 +96,7 @@ public class AggregationHelper implements IAggrValueHolder
 				aggrArgs = new Object[currentAggrCount][];
 				for ( int i = 0; i < this.currentAggrCount; i++ )
 				{
-					currentRoundAggrValue[i] = new BasicCachedList( );
+					currentRoundAggrValue[i] = new BasicCachedList( tempDir );
 					IAggrInfo aggrInfo = this.manager.getAggrDefn( i );
 
 					// Initialize argument array for this aggregate expression

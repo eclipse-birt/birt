@@ -26,12 +26,12 @@ public class BasicCachedArray
 	 * 
 	 * @param initialCapacity
 	 */
-	public BasicCachedArray( int initialCapacity )
+	public BasicCachedArray( String tempDir, int initialCapacity )
 	{
 		if ( initialCapacity < 0 )
 			throw new IllegalArgumentException( "Illegal Capacity: "
 					+ initialCapacity );
-		this.cachedList = new BasicCachedList( );
+		this.cachedList = new BasicCachedList( tempDir );
 		this.initialCapacity = initialCapacity;
 	}
 

@@ -50,15 +50,15 @@ abstract class RowProcessUtil
 			ComputedColumnsState iccState,
 			ComputedColumnHelper computedColumnHelper,
 			FilterByRow filterByRow,
-			PassStatusController psController,
-			DataEngineSession session)
+			PassStatusController psController
+			)
 	{
 		this.iccState = iccState;
 		this.computedColumnHelper = computedColumnHelper;
 		this.filterByRow = filterByRow;
 		this.psController = psController;
 		this.populator = populator;
-		this.session = session;
+		this.session = populator.getSession( );
 	}
 	
 	/**
@@ -173,7 +173,7 @@ abstract class RowProcessUtil
 			}
 			filterByRow.setWorkingFilterSet( filterType );
 			FilterCalculator.applyFilters( this.populator,
-					this.filterByRow, this.session, stopSign );
+					this.filterByRow, stopSign );
 			populator.getQuery( ).setMaxRows( max );
 		}
 

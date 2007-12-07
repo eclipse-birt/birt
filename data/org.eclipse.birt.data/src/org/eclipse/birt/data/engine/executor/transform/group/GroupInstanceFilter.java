@@ -41,11 +41,14 @@ class GroupInstanceFilter
 	private FilterPassController filterPass = new FilterPassController( );
 
 	private GroupProcessorManager groupProcessor;
+	
+	private String tempDir;
 
 	GroupInstanceFilter( GroupProcessorManager gp )
 	{
 		this.populator = gp.getResultSetPopulator( );
 		this.groupProcessor = gp;
+		this.tempDir = this.populator.getSession( ).getTempDir( );
 	}
 
 	/**
@@ -177,7 +180,7 @@ class GroupInstanceFilter
 			int passedGroups = 0;
 			for ( int k = 0; k < groupBoundaryInfos[i - 2].size( ); k++ )
 			{
-				List currentGroupArray = new CachedList( GroupBoundaryInfo.getCreator( ) );
+				List currentGroupArray = new CachedList( tempDir, GroupBoundaryInfo.getCreator( ) );
 				for ( int n = 0; n < groupBoundaryInfos[i - 1].size( ); n++ )
 				{
 					if ( ( ( (GroupBoundaryInfo) groupBoundaryInfos[i - 2].get( k ) ).isInBoundary( ( (GroupBoundaryInfo) groupBoundaryInfos[i - 1].get( n ) ) ) ) )
@@ -327,7 +330,7 @@ class GroupInstanceFilter
 			throws DataException
 	{
 		IBaseExpression expr = filter.getExpression( );
-		FilterUtil.prepareFilterExpression( expr, filterPass, this.populator.getEventHandler( ).getExecutorHelper( ) );
+		FilterUtil.prepareFilterExpression( tempDir, expr, filterPass, this.populator.getEventHandler( ).getExecutorHelper( ) );
 
 		Object result = ScriptEvalUtil.evalExpr( expr,
 				cx,

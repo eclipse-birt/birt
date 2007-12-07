@@ -47,7 +47,7 @@ public class PreparedIncreCacheDSQuery extends PreparedOdaDSQuery
 	protected QueryExecutor newExecutor( )
 	{
 
-		String tmpdir = dataEngine.getContext( ).getTmpdir( );
+		String tmpdir = dataEngine.getSession( ).getTempDir( );
 		IIncreCacheDataSetDesign icDataSetDesign = (IIncreCacheDataSetDesign) dataSetDesign;
 		String cacheDir = CacheUtil.createIncrementalTempDir( tmpdir,
 				icDataSetDesign.getConfigFileUrl( ).toString( ),

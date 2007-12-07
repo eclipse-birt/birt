@@ -33,22 +33,23 @@ public class ResultIterator2 extends ResultIterator
 	 * @param lowestGroupLevel
 	 * @throws DataException
 	 */
-	ResultIterator2( DataEngineContext context, IQueryResults queryResults,
+	ResultIterator2( String tempDir, DataEngineContext context, IQueryResults queryResults,
 			String queryResultID, int lowestGroupLevel ) throws DataException
 	{
-		super( context, queryResults, queryResultID );
+		super( tempDir, context, queryResults, queryResultID );
 		
 		this.lowestGroupLevel = lowestGroupLevel;
 		this.currRowIndex = -1;
 	}
 	
 	
-	public ResultIterator2( DataEngineContext context,
+	public ResultIterator2( String tempDir, DataEngineContext context,
 			QueryResults queryResults, String queryResultID,
 			String subQueryName, int currParentIndex, int lowestGroupLevel )
 			throws DataException
 	{
-		super( context,
+		super( tempDir,
+				context,
 				queryResults,
 				queryResultID,
 				subQueryName,

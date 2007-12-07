@@ -83,7 +83,8 @@ public class QueryExecutor
 		CubeQueryValidator.validateCubeQueryDefinition( executor.getCubeQueryDefinition( ), view,
 				cube,
 				manager.getCalculatedMembers( ) );
-		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( cube,
+		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper(
+				cube,
 				executor.getComputedMeasureHelper( ) );
 		cubeQueryExcutorHelper.addJSFilter( executor.getDimensionFilterEvalHelpers( ) );
 		List list = executor.getMeasureFilterEvalHelpers( );
@@ -118,6 +119,18 @@ public class QueryExecutor
 		{
 			//In Interactive viewing mode, we always re-execute the query.
 			rs = cubeQueryExcutorHelper.execute( aggrDefns, stopSign );
+			
+			String id = executor.getCubeQueryDefinition( ).getQueryResultsID( );
+			if (id == null) 
+			{
+				id = QueryResultIDUtil.nextID( );
+			}
+			//save rs back to report document
+			AggregationResultSetSaveUtil.save( id, rs, executor.getContext( )
+					.getDocWriter( ) );
+			
+			//TODO:affect the shared report item??
+			
 		}
 		cube.close( );
 		return new CubeResultSet( rs, view, manager, cubeQueryExcutorHelper );
@@ -149,8 +162,7 @@ public class QueryExecutor
 			if ( executor.getCubeQueryDefinition( ).cacheQueryResults( ) )
 			{
 				id = QueryResultIDUtil.nextID( );
-				FileArchiveWriter writer = new FileArchiveWriter( executor.getContext( )
-						.getTmpdir( ) + "Cache");
+				FileArchiveWriter writer = new FileArchiveWriter( executor.getSession( ).getTempDir( ) + "Cache");
 				AggregationResultSetSaveUtil.save( id,
 						rs,
 						writer );
@@ -175,11 +187,11 @@ public class QueryExecutor
 		}
 		else
 		{
-			//If query definition has query result id, that means a document has been save.
+			//If query definition has query result id, that means a cached document has been saved.
 			id = executor.getCubeQueryDefinition( ).getQueryResultsID( );
 			rs = AggregationResultSetSaveUtil.load( id,
-					new FileArchiveReader( executor.getContext( )
-							.getTmpdir( ) + "Cache" ), VersionManager.getLatestVersion( ) );
+					new FileArchiveReader( executor.getSession( ).getTempDir( ) + "Cache" ), VersionManager.getLatestVersion( ) );
+			//TODO:Currently, share the same queryResultsID with the shared report item in the report document if the report document exists
 		}
 		
 		executor.setQueryResultsId( id );
@@ -313,8 +325,7 @@ public class QueryExecutor
 		{
 			return DocManagerMap.getDocManagerMap( ).get
 					( String.valueOf( executor.getSession( ).getEngine( ).hashCode( ) ),
-							executor.getContext( ).getTmpdir( ) +
-							executor.getSession( ).getEngine( ).hashCode( ) +
+							executor.getSession( ).getTempDir( ) +
 							executor.getCubeQueryDefinition( ).getName( ) );
 		}
 		else

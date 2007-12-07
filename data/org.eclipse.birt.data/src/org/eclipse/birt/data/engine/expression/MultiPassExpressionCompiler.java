@@ -714,7 +714,7 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 			return -1;
 		int index = -1;
 		if ( table == null )
-			table = AggregationTablePopulator.createAggregateTable( baseQuery );
+			table = AggregationTablePopulator.createAggregateTable( rsPopulator.getSession( ).getTempDir( ), baseQuery );
 		try
 		{
 			if ( aggregateObj.getPassLevel( ) <= 1 )

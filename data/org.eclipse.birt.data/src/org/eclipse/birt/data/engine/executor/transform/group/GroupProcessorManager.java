@@ -19,7 +19,6 @@ import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.impl.StopSign;
-import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.mozilla.javascript.Context;
 
 /**
@@ -39,6 +38,7 @@ public class GroupProcessorManager
 	// private IResultIterator ri;
 
 	private IExpressionProcessor exprProcessor;
+	
 
 	/**
 	 * 
@@ -49,12 +49,13 @@ public class GroupProcessorManager
 	 * @throws DataException
 	 */
 	public GroupProcessorManager( BaseQuery query,
-			IResultClass rsMeta, ResultSetPopulator populator )
+			ResultSetPopulator populator )
 			throws DataException
 	{
 		this.populator = populator;
-		this.groupCalculationUtil = new GroupCalculationUtil(query, populator
-				.getResultSetMetadata(), this.populator);
+		this.groupCalculationUtil = new GroupCalculationUtil(
+				query, 
+				this.populator);
 	}
 
 	/**
@@ -126,7 +127,8 @@ public class GroupProcessorManager
 		{
 			groupLevelArray[i] = ( (Integer) groupLevelList.get( i ) ).intValue( );
 		}
-		this.exprProcessor.evaluateMultiPassExprOnGroup( expressionList.toArray( ),
+		this.exprProcessor.evaluateMultiPassExprOnGroup(
+				expressionList.toArray( ),
 				groupLevelArray,
 				type );
 	}

@@ -49,6 +49,7 @@ import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -91,7 +92,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 {
 
 	//
-	private DataEngine dataEngine;
+	private DataEngineImpl dataEngine;
 	private IModelAdapter modelAdaptor;
 	private DataSessionContext sessionContext;
 	private Map cubeHandleMap;
@@ -111,7 +112,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		if ( context == null )
 			throw new AdapterException( ResourceConstants.CONEXT_NULL_ERROR );
 
-		dataEngine = DataEngine.newDataEngine( context.getDataEngineContext( ) );
+		dataEngine = (DataEngineImpl)DataEngine.newDataEngine( context.getDataEngineContext( ) );
 		modelAdaptor = new ModelAdapter( context );
 		sessionContext = context;
 		cubeHandleMap = new HashMap( );
@@ -553,8 +554,6 @@ public class DataRequestSessionImpl extends DataRequestSession
 			throws DataException, IOException, BirtException
 	{
 		CubeMaterializer cubeMaterializer = new CubeMaterializer( this.dataEngine,
-				this.sessionContext.getDataEngineContext( )
-				.getTmpdir( ) + this.dataEngine.hashCode( ),
 				cubeHandle.getQualifiedName( ), size );
 		return cubeMaterializer;
 	}

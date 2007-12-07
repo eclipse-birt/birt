@@ -30,14 +30,14 @@ public class RDLoadUtil
 	 * @return
 	 * @throws DataException
 	 */
-	public static RDGroupUtil loadGroupUtil( StreamManager streamManager,
+	public static RDGroupUtil loadGroupUtil(String tempDir, StreamManager streamManager,
 			int streamPos, int streamScope ) throws DataException
 	{
 		InputStream stream = streamManager.getInStream( DataEngineContext.GROUP_INFO_STREAM,
 				streamPos,
 				streamScope );
 		BufferedInputStream buffStream = new BufferedInputStream( stream );
-		RDGroupUtil rdGroupUtil = new RDGroupUtil( buffStream );
+		RDGroupUtil rdGroupUtil = new RDGroupUtil( tempDir, buffStream );
 		try
 		{
 			buffStream.close( );

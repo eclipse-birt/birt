@@ -200,7 +200,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 		 */
 		public IResultMetaData getResultMetaData( ) throws DataException
 		{
-			RDLoad rdLoad = RDUtil.newLoad( engine.getContext( ),
+			RDLoad rdLoad = RDUtil.newLoad( engine.getSession( ).getTempDir( ), engine.getContext( ),
 					new QueryResultInfo( realBasedQueryID,
 							null,
 							-1 ) );
@@ -223,7 +223,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 		protected IResultIterator executeOdiQuery( IEventHandler eventHandler, StopSign stopSign )
 				throws DataException
 		{
-			RDLoad rdLoad = RDUtil.newLoad( engine.getContext( ),
+			RDLoad rdLoad = RDUtil.newLoad( engine.getSession( ).getTempDir( ), engine.getContext( ),
 					new QueryResultInfo( realBasedQueryID,
 							null,
 							-1 ) );

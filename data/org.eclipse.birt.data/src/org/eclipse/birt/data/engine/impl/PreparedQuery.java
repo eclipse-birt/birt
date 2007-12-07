@@ -111,7 +111,7 @@ final class PreparedQuery
 		this.exprManager = new ExprManager( baseQueryDefn );
 		this.subQueryMap = new HashMap( );
 		this.subQueryDefnMap = new HashMap( );
-		this.aggrTable = new AggregateTable( this.session.getSharedScope( ),
+		this.aggrTable = new AggregateTable( this.session.getTempDir( ), this.session.getSharedScope( ),
 				baseQueryDefn.getGroups( ) );
 
 		logger.fine( "Start to prepare a PreparedQuery." );
@@ -499,7 +499,7 @@ final class PreparedQuery
 		logger.finer( "Start to prepare the execution." );
 		executor.prepareExecution( outerResults, scope );
 		logger.finer( "Finish preparing the execution." );
-		QueryResults result = new QueryResults( new ServiceForQueryResults( this.dataEngineContext,
+		QueryResults result = new QueryResults( new ServiceForQueryResults( this.session,
 				executor.getQueryScope( ),
 				executor.getNestedLevel( ) + 1,
 				dataSourceQuery,

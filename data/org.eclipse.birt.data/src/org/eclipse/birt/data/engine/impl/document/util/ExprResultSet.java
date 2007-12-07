@@ -47,14 +47,17 @@ public class ExprResultSet implements IExprResultSet
 	protected StreamManager streamManager;
 	
 	protected DataSetResultSet dataSetResultSet;
+	
+	protected String tempDir;
 	/**
 	 * @param streamManager
 	 * @param rdGroupUtil
 	 * @throws DataException
 	 */
-	public ExprResultSet( StreamManager streamManager, int version,
+	public ExprResultSet( String tempDir, StreamManager streamManager, int version,
 			boolean isBasedOnSecondRD,  DataSetResultSet dataSetResultSet ) throws DataException
 	{
+		this.tempDir = tempDir;
 		this.streamManager = streamManager;
 		this.version = version;
 		this.isBasedOnSecondRD = isBasedOnSecondRD;
@@ -69,7 +72,7 @@ public class ExprResultSet implements IExprResultSet
 	 */
 	protected void prepare( ) throws DataException
 	{
-		this.rdGroupUtil = RDLoadUtil.loadGroupUtil( streamManager,
+		this.rdGroupUtil = RDLoadUtil.loadGroupUtil( tempDir, streamManager,
 				StreamManager.ROOT_STREAM,
 				StreamManager.SELF_SCOPE );
 		
@@ -101,7 +104,8 @@ public class ExprResultSet implements IExprResultSet
 			rowInfoRAIs = streamManager.getInStream( DataEngineContext.ROW_INDEX_STREAM,
 					StreamManager.ROOT_STREAM,
 					StreamManager.SELF_SCOPE );
-			this.exprResultReader = new ExprDataReader2( rowExprsRAIs,
+			this.exprResultReader = new ExprDataReader2( tempDir,
+					rowExprsRAIs,
 					rowLenRAIs,
 					rowInfoRAIs, version, this.dataSetResultSet );
 			this.rowCount = this.exprResultReader.getCount( );			

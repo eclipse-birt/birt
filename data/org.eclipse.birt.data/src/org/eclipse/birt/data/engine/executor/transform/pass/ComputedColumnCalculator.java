@@ -20,7 +20,6 @@ import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.executor.transform.OdiResultSetWrapper;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
-import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.ICustomDataSet;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -37,7 +36,6 @@ class ComputedColumnCalculator
 	private ResultSetPopulator populator;
 	private ComputedColumnsState iccState;
 	private ComputedColumnHelper computedColumnHelper;
-	private DataEngineSession session;
 	
 	/**
 	 * 
@@ -46,12 +44,11 @@ class ComputedColumnCalculator
 	 */
 	private ComputedColumnCalculator( ResultSetPopulator populator,
 			ComputedColumnsState iccState,
-			ComputedColumnHelper computedColumnHelper, DataEngineSession session )
+			ComputedColumnHelper computedColumnHelper )
 	{
 		this.populator = populator;
 		this.iccState = iccState;
 		this.computedColumnHelper = computedColumnHelper;
-		this.session = session;
 	}
 	
 	/**
@@ -65,9 +62,9 @@ class ComputedColumnCalculator
 	 */
 	static void populateComputedColumns( ResultSetPopulator populator,
 			OdiResultSetWrapper odaResultSet, ComputedColumnsState iccState,
-			ComputedColumnHelper computedColumnHelper, DataEngineSession session, StopSign stopSign ) throws DataException
+			ComputedColumnHelper computedColumnHelper, StopSign stopSign ) throws DataException
 	{
-		new ComputedColumnCalculator( populator, iccState, computedColumnHelper, session ).doPopulate( odaResultSet.getWrappedOdiResultSet( ) instanceof ICustomDataSet, stopSign );
+		new ComputedColumnCalculator( populator, iccState, computedColumnHelper).doPopulate( odaResultSet.getWrappedOdiResultSet( ) instanceof ICustomDataSet, stopSign );
 
 	}
 
@@ -127,7 +124,7 @@ class ComputedColumnCalculator
 			populator.setResultSetMetadata( rebuildCustomedResultClass( populator.getResultSetMetadata( ),
 					true ) );
 
-		PassUtil.pass( populator, new OdiResultSetWrapper( populator.getResultIterator( )), true, session, stopSign);
+		PassUtil.pass( populator, new OdiResultSetWrapper( populator.getResultIterator( )), true, stopSign);
 	}
 
 	/**

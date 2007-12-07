@@ -12,7 +12,6 @@
 package org.eclipse.birt.data.engine.executor.transform.group;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,6 +54,7 @@ public class GroupCalculationUtil
 	private ResultSetCache smartCache;
 
 	private GroupInformationUtil groupInformationUtil;
+	
 
 	/*
 	 * groups[level] is an ArrayList of GroupInfo objects at the specified
@@ -78,13 +78,15 @@ public class GroupCalculationUtil
 	 * @param rsMeta
 	 * @throws DataException 
 	 */
-	GroupCalculationUtil(BaseQuery query, IResultClass rsMeta,
+	GroupCalculationUtil(
+			BaseQuery query,
 			ResultSetPopulator resultPopoulator) throws DataException
 	{
 		this.query = query;
-		this.rsMeta = rsMeta;
-		groupInformationUtil = new GroupInformationUtil( this );
 		this.resultPopoulator = resultPopoulator;
+		this.rsMeta = resultPopoulator.getResultSetMetadata( );
+		groupInformationUtil = new GroupInformationUtil( this );
+		
 		this.initGroupSpec( );
 	}
 
@@ -94,7 +96,7 @@ public class GroupCalculationUtil
 	 * @param rsCache
 	 * @throws DataException
 	 */
-	GroupCalculationUtil( InputStream inputStream, IResultClass rsMeta,
+/*	GroupCalculationUtil( InputStream inputStream, IResultClass rsMeta,
 			ResultSetCache rsCache ) throws DataException
 	{
 		try
@@ -111,7 +113,7 @@ public class GroupCalculationUtil
 		this.rsMeta = rsMeta;
 		this.smartCache = rsCache;
 		this.initGroupSpec( );
-	}
+	}*/
 
 	/**
 	 * 
@@ -202,7 +204,7 @@ public class GroupCalculationUtil
 		List[] result = new List[groupArray.length];
 		for ( int i = 0; i < result.length; i++ )
 		{
-			result[i] = new CachedList( GroupBoundaryInfo.getCreator( ) );
+			result[i] = new CachedList( resultPopoulator.getSession( ).getTempDir( ), GroupBoundaryInfo.getCreator( ) );
 		}
 		for ( int i = 0; i < groupArray.length; i++ )
 		{
@@ -229,6 +231,13 @@ public class GroupCalculationUtil
 	ResultSetCache getResultSetCache( )
 	{
 		return this.smartCache;
+	}
+
+	
+	
+	ResultSetPopulator getResultSetPopoulator( )
+	{
+		return resultPopoulator;
 	}
 
 	/**

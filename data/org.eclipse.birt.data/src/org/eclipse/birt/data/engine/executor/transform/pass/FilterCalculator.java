@@ -42,11 +42,11 @@ class FilterCalculator
 	 * @param filterByRow
 	 */
 	private FilterCalculator( ResultSetPopulator populator,
-			FilterByRow filterByRow, DataEngineSession session )
+			FilterByRow filterByRow)
 	{
 		this.populator = populator;
 		this.filterByRow = filterByRow;
-		this.session = session;
+		this.session = populator.getSession( );
 	}
 
 	/**
@@ -58,10 +58,10 @@ class FilterCalculator
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	static void applyFilters( ResultSetPopulator populator, FilterByRow filterByRow, DataEngineSession session, StopSign stopSign )
+	static void applyFilters( ResultSetPopulator populator, FilterByRow filterByRow, StopSign stopSign )
 			throws DataException
 	{
-		new FilterCalculator( populator, filterByRow, session ).applyFilters( stopSign );
+		new FilterCalculator( populator, filterByRow).applyFilters( stopSign );
 	}
 
 	/**
@@ -75,7 +75,7 @@ class FilterCalculator
 		Iterator filterIt = filterByRow.getFilterList( ).iterator( );
 		while ( filterIt.hasNext( ) )
 		{
-			FilterUtil.prepareFilterExpression( ( (IFilterDefinition) filterIt.next( ) ).getExpression( ),
+			FilterUtil.prepareFilterExpression( session.getTempDir( ), ( (IFilterDefinition) filterIt.next( ) ).getExpression( ),
 					filterPass,
 					populator.getEventHandler( ).getExecutorHelper( ) );
 		}
@@ -116,7 +116,7 @@ class FilterCalculator
 			//Grouping is done here
 			PassUtil.pass( populator,
 					new OdiResultSetWrapper( populator.getResultIterator( ) ),
-					false, this.session, stopSign  );
+					false, stopSign  );
 		}
 
 		/*
@@ -203,7 +203,7 @@ class FilterCalculator
 		}
 		PassUtil.pass( populator,
 				new OdiResultSetWrapper( populator.getResultIterator( ) ),
-				false, this.session, stopSign );
+				false, stopSign );
 		filterByRow.getFilterList( ).clear( );
 		filterByRow.getFilterList( ).addAll( temp );
 	}
@@ -223,7 +223,7 @@ class FilterCalculator
 		// Grouping is done here.
 		PassUtil.pass( populator,
 				new OdiResultSetWrapper( populator.getResultIterator( ) ),
-				false, this.session, stopSign );
+				false, stopSign );
 
 		filterPass.setPassLevel( FilterPassController.DEFAULT_PASS );
 		filterPass.setRowCount( FilterPassController.DEFAULT_ROW_COUNT );

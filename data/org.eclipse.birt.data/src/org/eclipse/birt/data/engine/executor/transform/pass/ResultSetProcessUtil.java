@@ -24,7 +24,6 @@ import org.eclipse.birt.data.engine.executor.transform.OdiResultSetWrapper;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.executor.transform.TransformationConstants;
 import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
-import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.FilterByRow;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -52,13 +51,13 @@ class ResultSetProcessUtil extends RowProcessUtil
 	private ResultSetProcessUtil( ResultSetPopulator populator,
 			ComputedColumnsState iccState,
 			ComputedColumnHelper computedColumnHelper, FilterByRow filterByRow,
-			PassStatusController psController, DataEngineSession session )
+			PassStatusController psController )
 	{
 		super( populator,
 				iccState,
 				computedColumnHelper,
 				filterByRow,
-				psController, session );
+				psController);
 	}
 
 	/**
@@ -74,14 +73,14 @@ class ResultSetProcessUtil extends RowProcessUtil
 	public static void doPopulate( ResultSetPopulator populator,
 			ComputedColumnsState iccState,
 			ComputedColumnHelper computedColumnHelper, FilterByRow filterByRow,
-			PassStatusController psController, List sortList, DataEngineSession session, StopSign stopSign )
+			PassStatusController psController, List sortList, StopSign stopSign )
 			throws DataException
 	{
 		ResultSetProcessUtil instance = new ResultSetProcessUtil( populator,
 				iccState,
 				computedColumnHelper,
 				filterByRow,
-				psController, session );
+				psController);
 		instance.cachedSort = sortList;
 		instance.populateResultSet( stopSign );
 
@@ -141,7 +140,6 @@ class ResultSetProcessUtil extends RowProcessUtil
 				PassUtil.pass( this.populator,
 						new OdiResultSetWrapper( populator.getResultIterator( ) ),
 						true,
-						session,
 						stopSign);
 			}
 			this.populator.getExpressionProcessor( )
@@ -214,7 +212,6 @@ class ResultSetProcessUtil extends RowProcessUtil
 				PassUtil.pass( this.populator,
 						new OdiResultSetWrapper( populator.getResultIterator( ) ),
 						true,
-						session,
 						stopSign);
 				this.groupingDone = true;
 			}
@@ -250,7 +247,7 @@ class ResultSetProcessUtil extends RowProcessUtil
 		{
 			PassUtil.pass( this.populator,
 					new OdiResultSetWrapper( populator.getResultIterator( ) ),
-					true, session, stopSign );
+					true, stopSign );
 			groupingDone = true;
 		}
 		if ( this.populator.getQuery( ).getGrouping( ) != null
@@ -281,7 +278,6 @@ class ResultSetProcessUtil extends RowProcessUtil
 			PassUtil.pass( this.populator,
 					new OdiResultSetWrapper( populator.getResultIterator( ) ),
 					true,
-					session,
 					stopSign);
 			this.groupingDone = true;
 		}
@@ -297,7 +293,7 @@ class ResultSetProcessUtil extends RowProcessUtil
 		{
 			PassUtil.pass( this.populator,
 					new OdiResultSetWrapper( populator.getResultIterator( ) ),
-					true, session, stopSign );
+					true, stopSign );
 			groupingDone = true;
 		}
 		if ( this.populator.getQuery( ).getGrouping( ) != null
@@ -349,7 +345,7 @@ class ResultSetProcessUtil extends RowProcessUtil
 		// Apply group row filters (Total.isTopN, Total.isBottomN..)
 		filterByRow.setWorkingFilterSet( FilterByRow.GROUP_FILTER );
 		PassUtil.pass( this.populator,
-				new OdiResultSetWrapper( populator.getResultIterator( ) ), true, session, stopSign );
+				new OdiResultSetWrapper( populator.getResultIterator( ) ), true, stopSign );
 
 		filterByRow.setWorkingFilterSet( FilterByRow.NO_FILTER );
 
@@ -395,7 +391,7 @@ class ResultSetProcessUtil extends RowProcessUtil
 		populator.getCache( ).setResultClass( newMeta );
 		PassUtil.pass( populator,
 				new OdiResultSetWrapper( populator.getResultIterator( ) ),
-				false, session, stopSign );
+				false, stopSign );
 
 		populator.getCache( ).reset( );
 		populator.getCache( ).next( );

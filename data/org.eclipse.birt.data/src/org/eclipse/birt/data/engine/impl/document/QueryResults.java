@@ -47,13 +47,15 @@ public class QueryResults implements IQueryResults
 	private int currParentIndex;
 	
 	private IPreparedQuery dummyPreparedQuery;
+	
+	private String tempDir;
 	/**
 	 * @param context
 	 * @param queryResultID
 	 */
-	public QueryResults( DataEngineContext context, String queryResultID )
+	public QueryResults( String tempDir, DataEngineContext context, String queryResultID )
 	{
-		this( context, null, queryResultID, null, null, -1 );
+		this( tempDir, context, null, queryResultID, null, null, -1 );
 	}
 	
 	/**
@@ -63,15 +65,16 @@ public class QueryResults implements IQueryResults
 	 * @param subQueryName
 	 * @param currParentIndex
 	 */
-	QueryResults( DataEngineContext context, String baseResultID, String queryResultID,
+	QueryResults( String tempDir, DataEngineContext context, String baseResultID, String queryResultID,
 			IResultMetaData resultMetaData, String subQueryName,
 			int currParentIndex )
 	{
+		assert tempDir != null;
 		assert context != null;
 		assert queryResultID != null;
 		if ( subQueryName != null )
 			assert resultMetaData != null;
-		
+		this.tempDir = tempDir;
 		this.context = context;
 		this.queryResultID = queryResultID;
 		this.baseQueryResultID = baseResultID;
@@ -102,7 +105,7 @@ public class QueryResults implements IQueryResults
 					null,
 					null,
 					-1 );
-			RDLoad rdLoad = RDUtil.newLoad( context, queryResultInfo );
+			RDLoad rdLoad = RDUtil.newLoad( tempDir, context, queryResultInfo );
 
 			IBaseQueryDefinition qd = rdLoad.loadQueryDefn( StreamManager.ROOT_STREAM,
 					StreamManager.BASE_SCOPE );
@@ -154,11 +157,12 @@ public class QueryResults implements IQueryResults
 								StreamManager.SELF_SCOPE );
 				
 				if ( queryDefn.usesDetails( ) == true )
-					resultIterator = new ResultIterator( context,
+					resultIterator = new ResultIterator( tempDir, context,
 							this,
 							queryResultID );
 				else
-					resultIterator = new ResultIterator2( context,
+					resultIterator = new ResultIterator2( tempDir, 
+							context,
 							this,
 							queryResultID,
 							queryDefn.getGroups( ).size( ) );
@@ -171,13 +175,14 @@ public class QueryResults implements IQueryResults
 								StreamManager.SELF_SCOPE,
 								subQueryName );
 				if ( subQuery.usesDetails( ) == true )
-					resultIterator = new ResultIterator( context,
+					resultIterator = new ResultIterator( tempDir, context,
 							this,
 							queryResultID,
 							subQueryName,
 							currParentIndex );
 				else
-					resultIterator = new ResultIterator2( context,
+					resultIterator = new ResultIterator2( tempDir,
+							context,
 							this,
 							queryResultID,
 							subQueryName,
@@ -199,7 +204,7 @@ public class QueryResults implements IQueryResults
 		String baseID = QueryResultIDUtil.get1PartID( queryResultID );
 		if ( baseID == null )
 			baseID = queryResultID;
-		RDLoad rdLoad = RDUtil.newLoad( context, new QueryResultInfo( baseID,
+		RDLoad rdLoad = RDUtil.newLoad( tempDir, context, new QueryResultInfo( baseID,
 				subQueryName,
 				currParentIndex ) );
 		return rdLoad;

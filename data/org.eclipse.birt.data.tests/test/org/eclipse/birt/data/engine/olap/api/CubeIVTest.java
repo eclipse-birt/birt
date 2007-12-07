@@ -38,6 +38,7 @@ import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
@@ -125,7 +126,7 @@ public class CubeIVTest extends BaseTestCase
 		
 		cqd.setCacheQueryResults( true );
 		FileArchiveWriter writter = new FileArchiveWriter( documentPath + "testTemp" );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_GENERATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_GENERATION,
 				null,
 				null,
 				writter ) );
@@ -145,9 +146,10 @@ public class CubeIVTest extends BaseTestCase
 		writter.finish( );
 		engine.shutdown( );
 		
+		
 		//Load from RD
 		FileArchiveReader reader = new FileArchiveReader( documentPath + "testTemp" );
-		engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_PRESENTATION,
+		engine = (DataEngineImpl) DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_PRESENTATION,
 				null,
 				reader,
 				null ) );
@@ -211,7 +213,7 @@ public class CubeIVTest extends BaseTestCase
 		
 		cqd.setCacheQueryResults( true );
 		FileArchiveWriter writter = new FileArchiveWriter( documentPath + "testTemp" );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_GENERATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_GENERATION,
 				null,
 				null,
 				writter ) );
@@ -233,7 +235,7 @@ public class CubeIVTest extends BaseTestCase
 		
 		//Load from RD
 		FileArchiveReader reader = new FileArchiveReader(documentPath + "testTemp" );
-		engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_PRESENTATION,
+		engine = (DataEngineImpl) DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_PRESENTATION,
 				null,
 				reader,
 				null ) );
@@ -296,7 +298,7 @@ public class CubeIVTest extends BaseTestCase
 	
 		cqd.setCacheQueryResults( true );
 		FileArchiveWriter writter = new FileArchiveWriter(documentPath + "testTemp" );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_GENERATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_GENERATION,
 				null,
 				null,
 				writter ) );
@@ -318,7 +320,7 @@ public class CubeIVTest extends BaseTestCase
 		
 		//Load from RD
 		FileArchiveReader reader = new FileArchiveReader(documentPath + "testTemp" );
-		engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_PRESENTATION,
+		engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_PRESENTATION,
 				null,
 				reader,
 				null ) );
@@ -687,7 +689,7 @@ public class CubeIVTest extends BaseTestCase
 
 		cqd.setCacheQueryResults( true );
 		FileArchiveWriter writter = new FileArchiveWriter(documentPath + "testTemp" );
-		DataEngine engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_GENERATION,
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_GENERATION,
 				null,
 				null,
 				writter ) );
@@ -709,7 +711,7 @@ public class CubeIVTest extends BaseTestCase
 		
 		//Load from RD
 		FileArchiveReader reader = new FileArchiveReader(documentPath + "testTemp" );
-		engine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_PRESENTATION,
+		engine = (DataEngineImpl) DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_PRESENTATION,
 				null,
 				reader,
 				null ) );
@@ -1323,10 +1325,9 @@ public class CubeIVTest extends BaseTestCase
 		this.checkOutputFile( );
 	}
 	
-	private void createCube( IDocArchiveWriter writter, DataEngine engine ) throws BirtException, IOException
+	private void createCube( IDocArchiveWriter writter, DataEngineImpl engine ) throws BirtException, IOException
 	{
-		CubeMaterializer cubeMaterializer = new CubeMaterializer( engine, documentPath+engine.hashCode( ),
-				"cube" );
+		CubeMaterializer cubeMaterializer = new CubeMaterializer( engine, "cube" );
 		
 		IDocumentManager documentManager = cubeMaterializer.getDocumentManager( );
 
