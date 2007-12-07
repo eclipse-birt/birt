@@ -624,6 +624,8 @@ public class AttributeBuilder
 			return;
 		}
 
+		//we needn't escape the URL as the URL has been encoded with UTF-8.
+/*
 		// escape the URL string
 		StringBuffer escapedUrl = null;
 		for ( int i = 0, max = url.length( ), delta = 0; i < max; i++ )
@@ -666,7 +668,7 @@ public class AttributeBuilder
 		{
 			url = escapedUrl.toString( );
 		}
-
+*/
 		if ( url.length( ) > 0 )
 		{
 			styleBuffer.append( " url('" ); //$NON-NLS-1$
