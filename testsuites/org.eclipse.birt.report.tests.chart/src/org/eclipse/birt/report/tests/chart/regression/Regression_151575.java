@@ -52,8 +52,8 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
 public class Regression_151575 extends ChartTestCase
 {
 
-	private static String GOLDEN = "Regression_157575.jpg"; //$NON-NLS-1$
-	private static String OUTPUT = "Regression_157575.jpg"; //$NON-NLS-1$
+	private static String GOLDEN = "Regression_151575.jpg"; //$NON-NLS-1$
+	private static String OUTPUT = "Regression_151575.jpg"; //$NON-NLS-1$
 
 	/**
 	 * Comment for <code>serialVersionUID</code>
