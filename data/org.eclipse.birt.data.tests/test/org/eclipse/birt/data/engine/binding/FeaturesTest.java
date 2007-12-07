@@ -20,6 +20,7 @@ import java.util.Locale;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IParameterMetaData;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
@@ -1724,6 +1725,58 @@ public class FeaturesTest extends APITestCase
 		IResultIterator result = executeQuery( queryDefination );
 
 		assertTrue( result.isEmpty( ) );
+	}
+	
+	/**
+	 * 
+	 * @throws Exception
+	 */
+	public void testNestedDummyQuery( ) throws Exception
+	{
+		String[] bindingNameFilter = new String[1];
+		bindingNameFilter[0] = "FILTER_AMOUNT";
+		IBaseExpression[] bindingExprFilter = new IBaseExpression[1];
+		bindingExprFilter[0] = new ScriptExpression( "dataSetRow.AMOUNT" );
+		FilterDefinition[] filterDefn = new FilterDefinition[]{
+			new FilterDefinition( new ScriptExpression( "row.FILTER_AMOUNT < 0" ) )
+		};
+
+		String[] bindingNameRow = new String[6];
+		bindingNameRow[0] = "ROW_0";
+		bindingNameRow[1] = "ROW_rowPosition";
+		bindingNameRow[2] = "ROW_COUNTRY";
+		bindingNameRow[3] = "ROW_CITY";
+		bindingNameRow[4] = "ROW_SALE_DATE";
+		bindingNameRow[5] = "ROW_AMOUNT";
+		IBaseExpression[] bindingExprRow = new IBaseExpression[6];
+		bindingExprRow[0] = new ScriptExpression( "dataSetRow[0]" );
+		bindingExprRow[1] = new ScriptExpression( "dataSetRow._rowPosition" );
+		bindingExprRow[2] = new ScriptExpression( "dataSetRow.COUNTRY" );
+		bindingExprRow[3] = new ScriptExpression( "dataSetRow.CITY" );
+		bindingExprRow[4] = new ScriptExpression( "dataSetRow.SALE_DATE" );
+		bindingExprRow[5] = new ScriptExpression( "dataSetRow.AMOUNT" );
+
+		QueryDefinition queryDefination = createQuery( null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				bindingNameFilter,
+				bindingExprFilter,
+				filterDefn,
+				bindingNameRow,
+				bindingExprRow );
+
+		IResultIterator result = executeQuery( queryDefination );
+
+		IBaseQueryResults outer = result.getQueryResults();
+		
+		QueryDefinition dummyQd = new QueryDefinition();
+		IPreparedQuery preparedQuery = dataEngine.prepare( dummyQd );
+		IQueryResults queryResults = preparedQuery.execute( outer, null );
+		
+		assertNotNull( queryResults );
 	}
 	
 	/**
