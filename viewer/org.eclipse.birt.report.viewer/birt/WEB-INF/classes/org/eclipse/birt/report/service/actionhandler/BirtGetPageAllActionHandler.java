@@ -96,9 +96,9 @@ public class BirtGetPageAllActionHandler extends AbstractBaseActionHandler
 		else if ( ParameterAccessor.isGetReportlet( context.getRequest( ) ) )
 		{
 			// render reportlet
-			String __reportletId = attrBean.getReportletId( );
-			getReportService( ).renderReportlet( docName, __reportletId,
-					options, new ArrayList( ), out );
+			BirtGetReportletActionHandler getReportletHandler = new BirtGetReportletActionHandler(
+					context, operation, response, out );
+			getReportletHandler.execute( );
 		}
 		else if ( context.getBean( ).isDocumentInUrl( ) )
 		{
