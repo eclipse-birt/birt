@@ -56,8 +56,8 @@ display: block
 display: block
 
 #font-family
-font-family: "Arial",Courier New,"Franklin Gothic Book",sans-serif
-font-family: Arial,Courier New,Franklin Gothic Book,sans-serif
+font-family: "Arial",Courier New,"Franklin Gothic Book",'ABC{!}"DEF',sans-serif
+font-family: Arial,"Courier New","Franklin Gothic Book",'ABC{!}"DEF',sans-serif
 
 #font-size
 font-size: 16pt

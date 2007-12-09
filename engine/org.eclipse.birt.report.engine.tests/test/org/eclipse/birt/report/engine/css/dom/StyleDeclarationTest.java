@@ -32,4 +32,14 @@ public class StyleDeclarationTest extends TestCase
 		String cssText1 = style1.getCssText( );
 		assertEquals( cssText, cssText1 );
 	}
+	
+	public void testFontFamilyCssText( )
+	{
+		CSSEngine engine = new BIRTCSSEngine( );
+		StyleDeclaration style = new StyleDeclaration( engine );
+		style.setFontFamily( "\"Arial\",Courier New,\"Franklin Gothic Book\",'ABC{!}\"DEF',sans-serif" );
+		String golden = "Arial,\"Courier New\",\"Franklin Gothic Book\",'ABC{!}\"DEF',sans-serif";
+		String output = style.getFontFamily( );
+		assertEquals( golden, output );
+	}
 }
