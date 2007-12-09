@@ -871,10 +871,10 @@ public class EngineIRWriter implements IOConstants
 			IOUtil.writeString( out, onRenderScriptExpr.getScriptText( ) );
 		}
 		ScriptExpression onPageBreakScriptExpr = design.getOnPageBreak( );
-		if ( onRenderScriptExpr != null )
+		if ( onPageBreakScriptExpr != null )
 		{
 			IOUtil.writeShort( out, FIELD_ON_PAGE_BREAK );
-			IOUtil.writeString( out, onRenderScriptExpr.getScriptText( ) );
+			IOUtil.writeString( out, onPageBreakScriptExpr.getScriptText( ) );
 		}
 
 		VisibilityDesign visibility = design.getVisibility( );

@@ -24,7 +24,9 @@ import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 
 /**
@@ -1488,7 +1490,26 @@ public class EngineIRReader implements IOConstants
 			long id = element.getID( );
 			DesignElementHandle elementHandle = handle.getElementByID( id );
 			element.setHandle( elementHandle );
+			getScriptIDBack( element );
 			report.setReportItemInstanceID( id, element );
+		}
+		
+		private void getScriptIDBack( ReportElementDesign element )
+		{
+			if ( element instanceof ReportItemDesign )
+			{
+				ReportItemDesign item = (ReportItemDesign) element;
+				ScriptExpression scriptExpr = item.getOnRender( );
+				if ( null != scriptExpr )
+				{
+					DesignElementHandle elementHandle = item.getHandle( );
+					if ( null != elementHandle )
+					{
+						String id = ModuleUtil.getScriptUID( elementHandle.getPropertyHandle( IReportItemModel.ON_RENDER_METHOD ) );
+						scriptExpr.setId( id );
+					}
+				}
+			}
 		}
 
 		public Object visitBand( BandDesign band, Object value )
