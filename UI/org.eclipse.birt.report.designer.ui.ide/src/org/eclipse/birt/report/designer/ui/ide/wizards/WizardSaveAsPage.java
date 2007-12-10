@@ -316,7 +316,7 @@ public class WizardSaveAsPage extends WizardPage
 					return null;
 				case 2 : // Cancel
 				default :
-					return null;
+					return Path.EMPTY;
 			}
 		}
 

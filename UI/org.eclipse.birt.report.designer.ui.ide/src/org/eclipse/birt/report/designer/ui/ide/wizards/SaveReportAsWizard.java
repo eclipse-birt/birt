@@ -91,6 +91,13 @@ public class SaveReportAsWizard extends Wizard
 	{
 		saveAsPath = saveAsPage.getResult( );
 
+		if ( saveAsPath != null && saveAsPath.isEmpty( ) )
+		{
+			// Does nothing if the cancle button in overwrite dialog is
+			// selected, when the target file exists.
+			return false;
+		}
+
 		if ( saveAsPath != null && model instanceof ReportDesignHandle )
 		{
 			ReportDesignHandle reportHandle = (ReportDesignHandle) model;
