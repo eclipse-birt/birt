@@ -93,6 +93,9 @@ public class TableColumnGenerator implements ICrosstabConstants
 			switch ( event.type )
 			{
 				case ColumnEvent.ROW_EDGE_CHANGE :
+					
+					col.setColumnHeaderState( true );
+					
 					// use row level cell
 					handle = crosstabItem.getColumnWidth( crosstabItem.getDimension( ROW_AXIS_TYPE,
 							event.dimensionIndex )
@@ -100,6 +103,9 @@ public class TableColumnGenerator implements ICrosstabConstants
 							.getCell( ) );
 					break;
 				case ColumnEvent.MEASURE_HEADER_CHANGE :
+
+					col.setColumnHeaderState( true );
+					
 					// use first measure header cell
 					for ( int i = 0; i < crosstabItem.getMeasureCount( ); i++ )
 					{
