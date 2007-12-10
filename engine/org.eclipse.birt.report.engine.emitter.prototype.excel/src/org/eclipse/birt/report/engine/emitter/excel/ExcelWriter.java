@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -444,6 +445,28 @@ public class ExcelWriter
 		}
 
 		writer.closeTag( "Styles" );
+	}
+	
+	public void defineNames ( List namesRefer )
+	{
+		writer.openTag( "Names" );
+		for ( Iterator it = namesRefer.iterator( ); it.hasNext( ); )
+		{
+			BookmarkDef bookmark = (BookmarkDef)it.next( );
+
+			String name = bookmark.getName( );
+			String refer = bookmark.getRefer( );
+			defineName( name, refer );
+		}
+		writer.closeTag( "Names" );
+	}
+	
+	private void defineName( String name, String refer )
+	{
+		writer.openTag( "NamedRange" );
+		writer.attribute( "ss:Name", name );
+		writer.attribute( "ss:RefersTo", refer );
+		writer.closeTag( "NamedRange" );
 	}
 
 	public void close( boolean complete )

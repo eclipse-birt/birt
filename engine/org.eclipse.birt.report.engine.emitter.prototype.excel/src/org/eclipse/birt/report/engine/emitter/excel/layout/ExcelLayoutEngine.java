@@ -2,6 +2,7 @@
 package org.eclipse.birt.report.engine.emitter.excel.layout;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import java.util.Stack;
 
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.emitter.excel.BookmarkDef;
 import org.eclipse.birt.report.engine.emitter.excel.Data;
 import org.eclipse.birt.report.engine.emitter.excel.DataCache;
 import org.eclipse.birt.report.engine.emitter.excel.ExcelUtil;
@@ -246,12 +248,13 @@ public class ExcelLayoutEngine
 		containers.pop( );
 	}
 
-	public void addData( Object txt, IStyle style, HyperlinkDef link )
+	public void addData( Object txt, IStyle style, HyperlinkDef link, BookmarkDef bookmark )
 	{
 		Rule rule = getCurrentContainer( ).getRule( );
 		StyleEntry entry = engine.getStyle( style, rule );
 		Data data = createData( txt, entry );
 		data.setHyperlinkDef( link );
+		data.setBookmark( bookmark );
 		data.setRule( rule );
 
 		addData( data );
@@ -313,6 +316,11 @@ public class ExcelLayoutEngine
 	public Map getStyleMap( )
 	{
 		return engine.getStyleIDMap( );
+	}
+	
+	public ArrayList getNamesRefer( )
+	{
+		return cache.getBookmarks( );
 	}
 
 	public int[] getCoordinates( )

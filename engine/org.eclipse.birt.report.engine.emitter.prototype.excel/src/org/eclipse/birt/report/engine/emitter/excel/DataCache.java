@@ -9,10 +9,18 @@ import java.util.Map;
 
 public class DataCache
 {
+	/**
+	 * columns is an ArrayList. Its elements are each column.
+	 * Each column is also an arrayList. Its elements are the rows in the column. 
+	 */
 	private ArrayList columns = new ArrayList( );
 	private Hashtable colrow = new Hashtable( );// col -> start line
 	private int height;
 	private int width;
+	/**
+	 * All the bookmarks defined in this excel file.
+	 */
+	private ArrayList bookmarks = new ArrayList();
 	
 	public DataCache( int height, int width)
 	{
@@ -87,7 +95,21 @@ public class DataCache
 		if((getColumnSize(col) < height) && (col < getColumnCount()))
 		{	
 			((List) columns.get( col ) ).add( data );
-		}	
+		}
+		if (data instanceof Data)
+		{			
+			BookmarkDef bookmark = ((Data)data).getBookmark( );
+			if ( null == bookmark )
+			{
+				return;
+			}
+			int rowNo = ( (Integer) colrow.get( new Integer( col ) ) )
+					.intValue( )
+					+ getColumnSize( col );
+			bookmark.setColumnNo( col+1 );
+			bookmark.setRowNo( rowNo );
+			bookmarks.add( bookmark );
+		}
 	}
 
 	public int getColumnSize( int column )
@@ -174,5 +196,11 @@ public class DataCache
 	public int getColumnCount( )
 	{
 		return columns.size( );
+	}
+
+	
+	public ArrayList getBookmarks( )
+	{
+		return bookmarks;
 	}	
 }

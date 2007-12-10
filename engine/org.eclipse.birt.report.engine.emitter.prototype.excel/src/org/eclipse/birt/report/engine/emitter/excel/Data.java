@@ -33,6 +33,8 @@ public class Data implements Serializable, Cloneable
 	Rule rule;
 
 	HyperlinkDef url;
+	
+	BookmarkDef bookmark;
 
 	boolean isTxtData = true;
 
@@ -185,5 +187,16 @@ public class Data implements Serializable, Cloneable
 	
 	public boolean isProcessed() {
 		return processed;
+	}
+	
+	public BookmarkDef getBookmark( )
+	{
+		return bookmark;
+	}
+
+	
+	public void setBookmark( BookmarkDef bookmark )
+	{
+		this.bookmark = bookmark;
 	}
 }

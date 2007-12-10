@@ -13,7 +13,6 @@ import java.lang.String;
 
 import org.eclipse.birt.report.engine.emitter.excel.GroupInfo.Position;
 import org.eclipse.birt.report.engine.ir.DimensionType;
-import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.chart.util.CDateTime;
@@ -362,7 +361,7 @@ public class ExcelUtil
 		NumberFormat nf = NumberFormat.getInstance( );
 		try
 		{
-			Number num = nf.parse( val );
+			nf.parse( val );
 			return true;
 		}
 		catch ( Exception e )
