@@ -49,6 +49,23 @@ public interface IReportProvider
 			IProgressMonitor monitor );
 
 	/**
+	 * Saves moduleHandle to the current input.
+	 * 
+	 * @param moduleHandle
+	 *            The specified module handle which provides the common
+	 *            functionalities of report design and library.
+	 * @param element
+	 *            input element.
+	 * @param origReportPath
+	 *            The path of original report.
+	 * @param monitor
+	 *            the progress monitor to use to display progress and receive
+	 *            requests for cancelation.
+	 */
+	void saveReport( ModuleHandle moduleHandle, Object element,
+			IPath origReportPath, IProgressMonitor monitor );
+
+	/**
 	 * Get document provider for report.
 	 * @param element input element.
 	 * @return

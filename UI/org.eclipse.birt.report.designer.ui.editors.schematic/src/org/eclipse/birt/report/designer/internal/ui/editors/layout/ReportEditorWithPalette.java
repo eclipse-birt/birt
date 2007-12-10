@@ -769,6 +769,7 @@ abstract public class ReportEditorWithPalette extends
 				return;
 			}
 
+			final IPath origReportPath = provider.getInputPath( getEditorInput( ) );
 			final IEditorInput input = provider.createNewEditorInput( path );
 
 			setInput( input );
@@ -844,7 +845,18 @@ abstract public class ReportEditorWithPalette extends
 							// Create the container if non-existent
 							// createContainer( input, monitor );
 						}
-						doSave( monitor );
+
+						IReportProvider provider = getProvider( );
+
+						if ( provider != null )
+						{
+							provider.saveReport( getModel( ),
+									getEditorInput( ),
+									origReportPath,
+									monitor );
+
+							firePropertyChange( PROP_DIRTY );
+						}
 					}
 
 					catch ( Exception e )

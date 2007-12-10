@@ -18,6 +18,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.channels.FileChannel;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,6 +45,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.window.Window;
@@ -153,16 +155,32 @@ public class FileReportProvider implements IReportProvider
 	public void saveReport( ModuleHandle moduleHandle, Object element,
 			IProgressMonitor monitor )
 	{
+		saveReport( moduleHandle, element, null, monitor );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#saveReport(org.eclipse.birt.report.model.api.ModuleHandle,
+	 *      java.lang.Object, org.eclipse.core.runtime.IPath,
+	 *      org.eclipse.core.runtime.IProgressMonitor)
+	 */
+	public void saveReport( ModuleHandle moduleHandle, Object element,
+			IPath origReportPath, IProgressMonitor monitor )
+	{
 		if ( element instanceof IPathEditorInput )
 		{
 			IPathEditorInput input = (IPathEditorInput) element;
-			saveFile( moduleHandle, input.getPath( ).toFile( ), monitor );
-		}
 
+			saveFile( moduleHandle,
+					input.getPath( ).toFile( ),
+					origReportPath,
+					monitor );
+		}
 	}
 
 	private void saveFile( final ModuleHandle moduleHandle, final File file,
-			IProgressMonitor monitor )
+			final IPath oldReportPath, IProgressMonitor monitor )
 	{
 		IRunnableWithProgress op = new IRunnableWithProgress( ) {
 
@@ -214,6 +232,12 @@ public class FileReportProvider implements IReportProvider
 					FileOutputStream out = new FileOutputStream( file );
 					moduleHandle.serialize( out );
 					out.close( );
+
+					if ( oldReportPath != null )
+					{
+						copyReportConfigFile( new Path( file.getAbsolutePath( ) ),
+								oldReportPath );
+					}
 				}
 			}
 		};
@@ -228,6 +252,96 @@ public class FileReportProvider implements IReportProvider
 		catch ( Exception e )
 		{
 			ExceptionHandler.handle( e );
+		}
+	}
+
+	/**
+	 * Copys old report config file to new report config file.
+	 * 
+	 * @param newReportPath
+	 *            the new report path.
+	 * @param oldReportPath
+	 *            the old report path.
+	 * @throws IOException
+	 *             if an error occurs.
+	 */
+	public static void copyReportConfigFile( IPath newReportPath,
+			IPath oldReportPath ) throws IOException
+	{
+		if ( oldReportPath != null )
+		{
+			String retConfigExtension = "rptconfig"; //$NON-NLS-1$
+			IPath newConfigPath = newReportPath.removeFileExtension( );
+			IPath oldConfigPath = oldReportPath.removeFileExtension( );
+
+			newConfigPath = newConfigPath.addFileExtension( retConfigExtension );
+			oldConfigPath = oldConfigPath.addFileExtension( retConfigExtension );
+
+			File newConfigFile = newConfigPath.toFile( );
+			File oldConfigFile = oldConfigPath.toFile( );
+
+			if ( oldConfigFile.exists( ) )
+			{
+				copyFile( oldConfigFile, newConfigFile );
+			}
+			else
+			{
+				newConfigFile.delete( );
+			}
+		}
+	}
+
+	/**
+	 * Copys a file to another file.
+	 * 
+	 * @param srcFile
+	 *            the source file
+	 * @param destFile
+	 *            the target file
+	 * @throws IOException
+	 *             if an error occurs.
+	 */
+	private static void copyFile( File srcFile, File destFile ) throws IOException
+	{
+		if ( srcFile.equals( destFile ) )
+		{
+			// Does nothing if fils are same.
+			return;
+		}
+
+		FileInputStream fis = null;
+		FileOutputStream fos = null;
+		FileChannel fcin = null;
+		FileChannel fcout = null;
+
+		try
+		{
+			fis = new FileInputStream( srcFile );
+			fos = new FileOutputStream( destFile );
+			fcin = fis.getChannel( );
+			fcout = fos.getChannel( );
+
+			// Does the file copy.
+			fcin.transferTo( 0, fcin.size( ), fcout );
+		}
+		finally
+		{
+			if ( fis != null )
+			{
+				fis.close( );
+			}
+			if ( fos != null )
+			{
+				fos.close( );
+			}
+			if ( fcin != null )
+			{
+				fcin.close( );
+			}
+			if ( fcout != null )
+			{
+				fcout.close( );
+			}
 		}
 	}
 

@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.editors.FileReportProvider;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -95,17 +96,30 @@ public class IDEFileReportProvider implements IReportProvider
 	public void saveReport( ModuleHandle moduleHandle, Object element,
 			IProgressMonitor monitor )
 	{
+		saveReport( moduleHandle, element, null, monitor );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.ui.editors.IReportProvider#saveReport(org.eclipse.birt.report.model.api.ModuleHandle,
+	 *      java.lang.Object, org.eclipse.core.runtime.IPath,
+	 *      org.eclipse.core.runtime.IProgressMonitor)
+	 */
+	public void saveReport( ModuleHandle moduleHandle, Object element,
+			IPath origReportPath, IProgressMonitor monitor )
+	{
 		if ( element instanceof IFileEditorInput )
 		{
 			IFileEditorInput input = (IFileEditorInput) element;
-			saveFile( moduleHandle, input.getFile( ), monitor );
+			saveFile( moduleHandle, input.getFile( ), origReportPath, monitor );
 		}
 		else if ( element instanceof IEditorInput )
 		{
 			IPath path = getInputPath( (IEditorInput) element );
 			if ( path != null )
 			{
-				saveFile( moduleHandle, path.toFile( ), monitor );
+				saveFile( moduleHandle, path.toFile( ), origReportPath, monitor );
 			}
 		}
 
@@ -119,7 +133,7 @@ public class IDEFileReportProvider implements IReportProvider
 	 * @param monitor
 	 */
 	private void saveFile( final ModuleHandle moduleHandle, final File file,
-			IProgressMonitor monitor )
+			final IPath oldReportPath, IProgressMonitor monitor )
 	{
 		if ( file.exists( ) && !file.canWrite( ) )
 		{
@@ -182,6 +196,12 @@ public class IDEFileReportProvider implements IReportProvider
 					FileOutputStream out = new FileOutputStream( file );
 					moduleHandle.serialize( out );
 					out.close( );
+
+					if ( oldReportPath != null )
+					{
+						FileReportProvider.copyReportConfigFile( new Path( file.getAbsolutePath( ) ),
+								oldReportPath );
+					}
 				}
 			}
 		};
@@ -207,7 +227,7 @@ public class IDEFileReportProvider implements IReportProvider
 	 * @param monitor
 	 */
 	private void saveFile( final ModuleHandle moduleHandle, final IFile file,
-			IProgressMonitor monitor )
+			final IPath oldReportPath, IProgressMonitor monitor )
 	{
 		if ( file.exists( ) && file.isReadOnly( ) )
 		{
@@ -287,6 +307,12 @@ public class IDEFileReportProvider implements IReportProvider
 				{
 					// Save to new file.
 					file.create( is, true, monitor );
+				}
+
+				if ( oldReportPath != null )
+				{
+					FileReportProvider.copyReportConfigFile( file.getLocation( ),
+							oldReportPath );
 				}
 			}
 		};
