@@ -129,14 +129,40 @@ public class RowSet implements IRowSet
 		return null;
 	}
 
+	/**
+	 * Returns the value of a bound column by column index. So far it's a dummy
+	 * implementation.
+	 * 
+	 * @param columnIndex
+	 * @return
+	 */
 	public Object getValue( int columnIndex )
 	{
 		throw new UnsupportedOperationException( );
 	}
 
+	/**
+	 * Returns the value of a bound column by column name.
+	 * 
+	 * @param name
+	 *            of bound column
+	 * @return value of bound column
+	 * @throws BirtException
+	 */
 	public Object getValue( String columnName )
 	{
-		throw new UnsupportedOperationException( );
+		try
+		{
+			if ( rset != null )
+			{
+				return rset.getValue( columnName );
+			}
+		}
+		catch ( BirtException ex )
+		{
+			context.addException( ex );
+		}
+		return null;
 	}
 
 	/*
