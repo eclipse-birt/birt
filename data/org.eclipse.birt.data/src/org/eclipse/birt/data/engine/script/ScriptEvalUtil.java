@@ -439,7 +439,7 @@ public class ScriptEvalUtil
 		try
 		{
 			Matcher m = Pattern.compile( patternStr, flags ).matcher( sourceStr);
-			return m.lookingAt(); 
+			return m.find(); 
 		}
 		catch ( PatternSyntaxException e )
 		{
