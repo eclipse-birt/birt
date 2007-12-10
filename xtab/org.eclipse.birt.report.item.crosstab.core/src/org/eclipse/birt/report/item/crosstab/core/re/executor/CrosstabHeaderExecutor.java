@@ -24,6 +24,7 @@ public class CrosstabHeaderExecutor extends BaseCrosstabExecutor
 {
 
 	private boolean hasMeasureHeader;
+	private boolean useCornerHeader;
 	private int currentGroupIndex;
 
 	public CrosstabHeaderExecutor( BaseCrosstabExecutor parent )
@@ -49,6 +50,9 @@ public class CrosstabHeaderExecutor extends BaseCrosstabExecutor
 		currentGroupIndex = 0;
 		hasMeasureHeader = GroupUtil.hasMeasureHeader( crosstabItem,
 				COLUMN_AXIS_TYPE );
+		useCornerHeader = columnGroups.size( ) == 0
+				&& !hasMeasureHeader
+				&& crosstabItem.getHeader( ) != null;
 	}
 
 	public IReportItemExecutor getNextChild( )
@@ -70,6 +74,11 @@ public class CrosstabHeaderExecutor extends BaseCrosstabExecutor
 			nextExecutor = new CrosstabMeasureHeaderRowExecutor( this );
 			hasMeasureHeader = false;
 		}
+		else if ( useCornerHeader )
+		{
+			nextExecutor = new CrosstabCornerHeaderRowExecutor( this );
+			useCornerHeader = false;
+		}
 
 		return nextExecutor;
 	}
@@ -82,6 +91,11 @@ public class CrosstabHeaderExecutor extends BaseCrosstabExecutor
 		}
 
 		if ( hasMeasureHeader )
+		{
+			return true;
+		}
+
+		if ( useCornerHeader )
 		{
 			return true;
 		}

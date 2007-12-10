@@ -227,7 +227,8 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 		{
 			if ( columnGroups.size( ) > 0
 					|| GroupUtil.hasMeasureHeader( crosstabItem,
-							COLUMN_AXIS_TYPE ) )
+							COLUMN_AXIS_TYPE )
+					|| crosstabItem.getHeader( ) != null )
 			{
 				CrosstabHeaderExecutor headerExecutor = new CrosstabHeaderExecutor( this );
 				children.add( headerExecutor );
