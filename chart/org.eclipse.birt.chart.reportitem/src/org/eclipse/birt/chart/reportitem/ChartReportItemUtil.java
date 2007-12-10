@@ -16,7 +16,15 @@ import java.util.Iterator;
 import java.util.regex.Pattern;
 
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.attribute.DataType;
+import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
+import org.eclipse.birt.chart.model.attribute.SortOption;
+import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
@@ -26,6 +34,7 @@ import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 /**
  * Utility class for Chart integration as report item
@@ -188,6 +197,127 @@ public class ChartReportItemUtil
 		}
 		return null;
 	}
+	
+
+	/**
+	 * Convert group unit type from Chart's to DtE's.
+	 * 
+	 * @param dataType
+	 * @param groupUnitType
+	 * @return
+	 */
+	public static int convertToDtEGroupUnit( DataType dataType,
+			GroupingUnitType groupUnitType )
+	{
+		if ( dataType == DataType.NUMERIC_LITERAL )
+		{
+			return IGroupDefinition.NUMERIC_INTERVAL;
+		}
+		else if ( dataType == DataType.DATE_TIME_LITERAL )
+		{
+			switch ( groupUnitType.getValue( ) )
+			{
+				case GroupingUnitType.SECONDS :
+					return IGroupDefinition.SECOND_INTERVAL;
+
+				case GroupingUnitType.MINUTES :
+					return IGroupDefinition.MINUTE_INTERVAL;
+
+				case GroupingUnitType.HOURS :
+					return IGroupDefinition.HOUR_INTERVAL;
+
+				case GroupingUnitType.DAYS :
+					return IGroupDefinition.DAY_INTERVAL;
+
+				case GroupingUnitType.MONTHS :
+					return IGroupDefinition.MONTH_INTERVAL;
+
+				case GroupingUnitType.QUARTERS :
+					return IGroupDefinition.QUARTER_INTERVAL;
+
+				case GroupingUnitType.YEARS :
+					return IGroupDefinition.YEAR_INTERVAL;
+			}
+		} 
+
+		return IGroupDefinition.NO_INTERVAL;
+	}
+
+	/**
+	 * Convert interval range from Chart's to DtE's.
+	 * 
+	 * @param intervalRange
+	 * @return
+	 */
+	public static double convertToDtEIntervalRange( DataType dataType, double intervalRange )
+	{
+		double range = intervalRange;
+		if ( Double.isNaN( intervalRange ) )
+		{
+			range = 0;
+		}
+		
+		if ( dataType == DataType.DATE_TIME_LITERAL && range <= 0) {
+			range = 1;
+		}
+
+		return range;
+	}
+
+	/**
+	 * Convert sort direction from Chart's to DtE's.
+	 * 
+	 * @param sortOption
+	 * @return
+	 */
+	public static int convertToDtESortDirection( SortOption sortOption )
+	{
+		if ( sortOption == SortOption.ASCENDING_LITERAL )
+		{
+			return IGroupDefinition.SORT_ASC;
+		}
+		else if ( sortOption == SortOption.DESCENDING_LITERAL )
+		{
+			return IGroupDefinition.SORT_DESC;
+		}
+		return IGroupDefinition.NO_SORT;
+	}
+	
+	/**
+	 * Convert aggregation name from Chart's to DtE's.
+	 * 
+	 * @param agg
+	 * @return
+	 */
+	public static String convertToDtEAggFunction( String agg ) {
+
+		if ( "Sum".equals( agg )) { //$NON-NLS-1$
+			return DesignChoiceConstants.AGGREGATION_FUNCTION_SUM;
+
+		} else if ( "Average".equals( agg )) { //$NON-NLS-1$
+			return DesignChoiceConstants.AGGREGATION_FUNCTION_AVERAGE;
+			
+		} else if ( "Count".equals( agg )) { //$NON-NLS-1$
+			return DesignChoiceConstants.AGGREGATION_FUNCTION_COUNT;
+			
+		} else if ( "DistinctCount".equals( agg )) { //$NON-NLS-1$
+			return DesignChoiceConstants.AGGREGATION_FUNCTION_COUNTDISTINCT;
+			
+		} else if ( "First".equals( agg )) { //$NON-NLS-1$
+			return DesignChoiceConstants.AGGREGATION_FUNCTION_FIRST;
+			
+		} else if ( "Last".equals( agg )) { //$NON-NLS-1$
+			return DesignChoiceConstants.AGGREGATION_FUNCTION_LAST;
+			
+		} else if ( "Min".equals( agg )) { //$NON-NLS-1$
+			return DesignChoiceConstants.AGGREGATION_FUNCTION_MIN;
+			
+		} else if ( "Max".equals( agg )) { //$NON-NLS-1$
+			return DesignChoiceConstants.AGGREGATION_FUNCTION_MAX;
+		}
+		
+		return null;
+	}
 
 	/**
 	 * Checks if result set is empty
@@ -204,6 +334,77 @@ public class ChartReportItemUtil
 			return ( (IQueryResultSet) set ).isEmpty( );
 		}
 		// TODO add code to check empty for ICubeResultSet
+		return false;
+	}
+	
+	/**
+	 * Check if Y grouping is defined.
+	 * 
+	 * @param orthSeriesDefinition
+	 * @return
+	 */
+	public static boolean yGroupingDefined(SeriesDefinition orthSeriesDefinition) {
+		if ( orthSeriesDefinition == null )
+		{
+			return false;
+		}
+		String yGroupExpr = null;
+		if ( orthSeriesDefinition.getQuery( ) != null )
+		{
+			yGroupExpr = orthSeriesDefinition.getQuery( ).getDefinition( );
+		}
+		
+		return yGroupExpr != null && !"".equals( yGroupExpr ); //$NON-NLS-1$
+	}
+	
+	/**
+	 * Check if base series grouping is defined.
+	 * 
+	 * @param baseSD
+	 * @return
+	 */
+	public static boolean baseGroupingDefined(SeriesDefinition baseSD) {
+		if ( baseSD.getGrouping( ) != null && baseSD.getGrouping( ).isEnabled( ) )
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Check if current chart has defined grouping.
+	 * 
+	 * @param cm
+	 * @return
+	 */
+	public static boolean containsGrouping( Chart cm )
+	{
+		SeriesDefinition baseSD = null;
+		SeriesDefinition orthSD = null;
+		Object[] orthAxisArray = null;
+		if ( cm instanceof ChartWithAxes )
+		{
+			ChartWithAxes cwa = (ChartWithAxes) cm;
+			baseSD = (SeriesDefinition) cwa.getBaseAxes( )[0].getSeriesDefinitions( )
+					.get( 0 );
+
+			orthAxisArray = cwa.getOrthogonalAxes( cwa.getBaseAxes( )[0], true );
+			orthSD = (SeriesDefinition) ( (Axis) orthAxisArray[0] ).getSeriesDefinitions( )
+					.get( 0 );
+		}
+		else if ( cm instanceof ChartWithoutAxes )
+		{
+			ChartWithoutAxes cwoa = (ChartWithoutAxes) cm;
+			baseSD = (SeriesDefinition) cwoa.getSeriesDefinitions( ).get( 0 );
+			orthSD = (SeriesDefinition) baseSD.getSeriesDefinitions( ).get( 0 );
+		}
+
+		if ( baseGroupingDefined( baseSD ) || yGroupingDefined( orthSD ) )
+		{
+			return true;
+		}
+
 		return false;
 	}
 }
