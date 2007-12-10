@@ -203,7 +203,7 @@ public class DataPresentationEngine extends AbstractDataEngine
 			else
 			{
 				// this is the nest query
-				resultSet = new CubeResultSet( this, context, resultSet, query,
+				resultSet = new CubeResultSet( this, context, parentResult, query,
 						(ICubeQueryResults) queryResults );
 			}
 						
