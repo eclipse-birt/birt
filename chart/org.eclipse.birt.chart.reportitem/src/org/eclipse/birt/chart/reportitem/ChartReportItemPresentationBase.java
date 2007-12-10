@@ -460,13 +460,11 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	{
 		if ( set instanceof IQueryResultSet )
 		{
-			List groups = ( (IQueryResultSet) set ).getResultIterator( )
-					.getQueryResults( )
-					.getPreparedQuery( )
-					.getReportQueryDefn( )
-					.getGroups( );
-
-			if ( groups != null && groups.size( ) > 0 )
+			// Here, we must use chart model to check if grouping is defined. we
+			// can't use grouping definitions in IQueryResultSet to check it,
+			// because maybe chart inherits data set from container and the data
+			// set contains grouping, but chart doesn't define grouping.
+			if ( ChartReportItemUtil.containsGrouping( cm ) )
 			{
 				return new BIRTGroupedDataRowExpressionEvaluator( (IQueryResultSet) set );
 			}
