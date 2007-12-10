@@ -108,8 +108,7 @@ public class BaseGroupSortingDialog extends GroupSortingDialog implements
 		
 		if ( yGroupingEnabled() )
 		{
-			cmbSortExpr.setEnabled( false );
-			btnSortExprBuilder.setEnabled( false );
+			setSortKeySelectionState( false );
 		}
 	}
 
@@ -132,9 +131,11 @@ public class BaseGroupSortingDialog extends GroupSortingDialog implements
 				if ( yGroupingEnabled() )
 				{
 					// Select base series expression.
-					cmbSortExpr.select( 0 );
+					cmbSortExpr.setText( (String) getBaseSeriesExpression().toArray( )[0] );
 				}
 			}
+			
+			populateSortKeyList( );
 		}
 		else if ( event.widget == cmbSortExpr )
 		{
@@ -205,18 +206,46 @@ public class BaseGroupSortingDialog extends GroupSortingDialog implements
 	{
 		super.populateLists( );
 
+		populateSortKeyList( );
+	}
+
+	/**
+	 * Populate SortKey list.
+	 */
+	private void populateSortKeyList( )
+	{
 		Set exprList = new LinkedHashSet( );
-		exprList.addAll( getBaseSeriesExpression( ) );
-		if ( !yGroupingEnabled( ) )
+		String sortExpr = null;
+		
+		if ( cmbSorting.getText( ).equals( UNSORTED_OPTION ) )
 		{
-			exprList.addAll( getValueSeriesExpressions( ) );
+			getSeriesDefinitionForProcessing( ).eUnset( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) );
+			exprList.add( "" ); //$NON-NLS-1$
+			setSortKeySelectionState( false );
+		}
+		else
+		{
+			exprList.addAll( getBaseSeriesExpression( ) );
+			if ( !yGroupingEnabled( ) )
+			{
+				exprList.addAll( getValueSeriesExpressions( ) );
+			}
+
+			if ( !yGroupingEnabled( ) )
+			{
+				sortExpr = this.getSeriesDefinitionForProcessing( )
+						.getSortKey( )
+						.getDefinition( );
+				setSortKeySelectionState( true );
+			}
+			else
+			{
+				setSortKeySelectionState( false );
+			}
 		}
 
 		initSortKey( );
 
-		String sortExpr = this.getSeriesDefinitionForProcessing( )
-				.getSortKey( )
-				.getDefinition( );
 		if ( sortExpr != null && !"".equals( sortExpr ) ) //$NON-NLS-1$
 		{
 			exprList.add( sortExpr );
@@ -236,6 +265,17 @@ public class BaseGroupSortingDialog extends GroupSortingDialog implements
 		{
 			cmbSortExpr.select( 0 );
 		}
+	}
+
+	/**
+	 * Set state of SortKey components.
+	 * 
+	 * @param enabled
+	 */
+	private void setSortKeySelectionState( boolean enabled )
+	{
+		cmbSortExpr.setEnabled( enabled );
+		btnSortExprBuilder.setEnabled( enabled );
 	}
 
 	/**
