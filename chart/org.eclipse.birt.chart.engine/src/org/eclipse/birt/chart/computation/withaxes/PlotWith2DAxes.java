@@ -1889,10 +1889,6 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				dsiDataOrthogonal );
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public final StackedSeriesLookup getStackedSeriesLookup( )
 	{
 		return ssl;
@@ -1903,6 +1899,77 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		if ( percent > 0 )
 		{
 			iMarginPercent = percent;
+		}
+	}
+	
+	/**
+	 * Initializes the chart plot bounds for the dynamic size case.
+	 * 
+	 * @param bo
+	 *            bounds with dynamic size, such as 0 or negative value
+	 * @throws ChartException
+	 * @since 2.3
+	 */
+	public final void initDynamicPlotBounds( Bounds bo ) throws ChartException
+	{
+		// If one of the dimension is zero, to replace it with axis label height
+		if ( bo.getWidth( ) * bo.getHeight( ) == 0 )
+		{
+			final Axis[] axa = cwa.getPrimaryBaseAxes( );
+			final Axis axPrimaryBase = axa[0];
+			final Axis axPrimaryOrthogonal = cwa.getPrimaryOrthogonalAxis( axPrimaryBase );
+			int iAxisType = getAxisType( axPrimaryOrthogonal );
+			DataSetIterator dsi = new DataSetIterator( getMinMax( axPrimaryOrthogonal,
+					iAxisType ),
+					iAxisType );
+
+			OneAxis oaxPrimaryOrthogonal = getAxes( ).getPrimaryOrthogonal( );
+			AutoScale scPrimaryOrthogonal = AutoScale.computeScale( ids,
+					oaxPrimaryOrthogonal,
+					dsi,
+					iAxisType,
+					0,// dStart,
+					0,// dEnd,
+					axPrimaryOrthogonal.getScale( ),
+					axPrimaryBase.getOrigin( ),
+					axPrimaryOrthogonal.getFormatSpecifier( ),
+					rtc,
+					IConstants.AUTO,
+					1,
+					iMarginPercent );
+			// Compute the axis label height to replace the zero
+			double axisHeight = scPrimaryOrthogonal.computeAxisLabelThickness( ids,
+					axPrimaryOrthogonal.getLabel( ),
+					getAxes( ).getOrientation( ) )
+					* 72 / ids.getDpiResolution( ) + IConstants.TICK_SIZE + 5;
+			if ( bo.getWidth( ) == 0 )
+			{
+				bo.setWidth( axisHeight );
+			}
+			else
+			{
+				bo.setHeight( axisHeight );
+			}
+		}
+		
+		// If one of the dimension is negative, to replace it with data point
+		// total width
+		else if ( bo.getWidth( ) * bo.getHeight( ) < 0 )
+		{
+			double dBase = bo.getHeight( ) < 0 ? Math.abs( bo.getHeight( ) )
+					: Math.abs( bo.getWidth( ) );
+			int iDPCount = 1;
+			double dTotalWidth = dBase * iDPCount;
+			// TODO to compute the total width by multiplying the data point
+			// count
+			if ( bo.getWidth( ) < 0 )
+			{
+				bo.setWidth( dTotalWidth );
+			}
+			else
+			{
+				bo.setHeight( dTotalWidth );
+			}
 		}
 	}
 

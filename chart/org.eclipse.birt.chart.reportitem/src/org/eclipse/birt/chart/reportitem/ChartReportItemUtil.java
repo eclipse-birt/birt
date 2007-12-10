@@ -69,6 +69,7 @@ public class ChartReportItemUtil
 	 * @param chartHandle
 	 *            the handle holding chart
 	 * @return true means within cross tab, false means not
+	 * @since 2.3
 	 */
 	public static boolean isChartInXTab( DesignElementHandle chartHandle )
 	{
@@ -76,7 +77,7 @@ public class ChartReportItemUtil
 		if ( container instanceof ExtendedItemHandle )
 		{
 			String exName = ( (ExtendedItemHandle) container ).getExtensionName( );
-			if ( ICrosstabConstants.CROSSTAB_CELL_EXTENSION_NAME.equals( exName ) )
+			if ( ICrosstabConstants.AGGREGATION_CELL_EXTENSION_NAME.equals( exName ) )
 			{
 				return true;
 			}
@@ -131,13 +132,13 @@ public class ChartReportItemUtil
 	 * @param cm
 	 *            chart model
 	 * @return shared binding needed or not
+	 * @since 2.3
 	 */
 	public static boolean canScaleShared( ExtendedItemHandle eih, Chart cm )
 	{
-		// TODO enable shared scale later
-		return false;
-		// return cm instanceof ChartWithAxes
-		// && eih.getDataSet( ) == null && getBindingHolder( eih ) != null;
+		return cm instanceof ChartWithAxes
+				&& eih.getDataSet( ) == null && getBindingHolder( eih ) != null
+				&& isChartInXTab( eih );
 	}
 
 	/**
@@ -197,14 +198,12 @@ public class ChartReportItemUtil
 		}
 		return null;
 	}
-	
 
 	/**
 	 * Convert group unit type from Chart's to DtE's.
 	 * 
 	 * @param dataType
 	 * @param groupUnitType
-	 * @return
 	 */
 	public static int convertToDtEGroupUnit( DataType dataType,
 			GroupingUnitType groupUnitType )
@@ -238,7 +237,7 @@ public class ChartReportItemUtil
 				case GroupingUnitType.YEARS :
 					return IGroupDefinition.YEAR_INTERVAL;
 			}
-		} 
+		}
 
 		return IGroupDefinition.NO_INTERVAL;
 	}
@@ -247,17 +246,18 @@ public class ChartReportItemUtil
 	 * Convert interval range from Chart's to DtE's.
 	 * 
 	 * @param intervalRange
-	 * @return
 	 */
-	public static double convertToDtEIntervalRange( DataType dataType, double intervalRange )
+	public static double convertToDtEIntervalRange( DataType dataType,
+			double intervalRange )
 	{
 		double range = intervalRange;
 		if ( Double.isNaN( intervalRange ) )
 		{
 			range = 0;
 		}
-		
-		if ( dataType == DataType.DATE_TIME_LITERAL && range <= 0) {
+
+		if ( dataType == DataType.DATE_TIME_LITERAL && range <= 0 )
+		{
 			range = 1;
 		}
 
@@ -268,7 +268,6 @@ public class ChartReportItemUtil
 	 * Convert sort direction from Chart's to DtE's.
 	 * 
 	 * @param sortOption
-	 * @return
 	 */
 	public static int convertToDtESortDirection( SortOption sortOption )
 	{
@@ -282,40 +281,47 @@ public class ChartReportItemUtil
 		}
 		return IGroupDefinition.NO_SORT;
 	}
-	
+
 	/**
 	 * Convert aggregation name from Chart's to DtE's.
 	 * 
 	 * @param agg
-	 * @return
 	 */
-	public static String convertToDtEAggFunction( String agg ) {
+	public static String convertToDtEAggFunction( String agg )
+	{
 
-		if ( "Sum".equals( agg )) { //$NON-NLS-1$
+		if ( "Sum".equals( agg ) ) { //$NON-NLS-1$
 			return DesignChoiceConstants.AGGREGATION_FUNCTION_SUM;
 
-		} else if ( "Average".equals( agg )) { //$NON-NLS-1$
+		}
+		else if ( "Average".equals( agg ) ) { //$NON-NLS-1$
 			return DesignChoiceConstants.AGGREGATION_FUNCTION_AVERAGE;
-			
-		} else if ( "Count".equals( agg )) { //$NON-NLS-1$
+
+		}
+		else if ( "Count".equals( agg ) ) { //$NON-NLS-1$
 			return DesignChoiceConstants.AGGREGATION_FUNCTION_COUNT;
-			
-		} else if ( "DistinctCount".equals( agg )) { //$NON-NLS-1$
+
+		}
+		else if ( "DistinctCount".equals( agg ) ) { //$NON-NLS-1$
 			return DesignChoiceConstants.AGGREGATION_FUNCTION_COUNTDISTINCT;
-			
-		} else if ( "First".equals( agg )) { //$NON-NLS-1$
+
+		}
+		else if ( "First".equals( agg ) ) { //$NON-NLS-1$
 			return DesignChoiceConstants.AGGREGATION_FUNCTION_FIRST;
-			
-		} else if ( "Last".equals( agg )) { //$NON-NLS-1$
+
+		}
+		else if ( "Last".equals( agg ) ) { //$NON-NLS-1$
 			return DesignChoiceConstants.AGGREGATION_FUNCTION_LAST;
-			
-		} else if ( "Min".equals( agg )) { //$NON-NLS-1$
+
+		}
+		else if ( "Min".equals( agg ) ) { //$NON-NLS-1$
 			return DesignChoiceConstants.AGGREGATION_FUNCTION_MIN;
-			
-		} else if ( "Max".equals( agg )) { //$NON-NLS-1$
+
+		}
+		else if ( "Max".equals( agg ) ) { //$NON-NLS-1$
 			return DesignChoiceConstants.AGGREGATION_FUNCTION_MAX;
 		}
-		
+
 		return null;
 	}
 
@@ -336,14 +342,15 @@ public class ChartReportItemUtil
 		// TODO add code to check empty for ICubeResultSet
 		return false;
 	}
-	
+
 	/**
 	 * Check if Y grouping is defined.
 	 * 
 	 * @param orthSeriesDefinition
-	 * @return
 	 */
-	public static boolean yGroupingDefined(SeriesDefinition orthSeriesDefinition) {
+	public static boolean isYGroupingDefined(
+			SeriesDefinition orthSeriesDefinition )
+	{
 		if ( orthSeriesDefinition == null )
 		{
 			return false;
@@ -353,30 +360,29 @@ public class ChartReportItemUtil
 		{
 			yGroupExpr = orthSeriesDefinition.getQuery( ).getDefinition( );
 		}
-		
+
 		return yGroupExpr != null && !"".equals( yGroupExpr ); //$NON-NLS-1$
 	}
-	
+
 	/**
 	 * Check if base series grouping is defined.
 	 * 
 	 * @param baseSD
-	 * @return
 	 */
-	public static boolean baseGroupingDefined(SeriesDefinition baseSD) {
+	public static boolean isBaseGroupingDefined( SeriesDefinition baseSD )
+	{
 		if ( baseSD.getGrouping( ) != null && baseSD.getGrouping( ).isEnabled( ) )
 		{
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * Check if current chart has defined grouping.
 	 * 
 	 * @param cm
-	 * @return
 	 */
 	public static boolean containsGrouping( Chart cm )
 	{
@@ -400,7 +406,7 @@ public class ChartReportItemUtil
 			orthSD = (SeriesDefinition) baseSD.getSeriesDefinitions( ).get( 0 );
 		}
 
-		if ( baseGroupingDefined( baseSD ) || yGroupingDefined( orthSD ) )
+		if ( isBaseGroupingDefined( baseSD ) || isYGroupingDefined( orthSD ) )
 		{
 			return true;
 		}

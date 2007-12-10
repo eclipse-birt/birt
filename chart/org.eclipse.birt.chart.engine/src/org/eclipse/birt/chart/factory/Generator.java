@@ -998,6 +998,13 @@ public final class Generator implements IGenerator
 					ChartException.GENERATION,
 					ex );
 		}
+		
+		if ( oComputations instanceof PlotWith2DAxes )
+		{
+			// If the chart plot bounds are not fixed, initialize the bounds.
+			PlotWith2DAxes pwa = (PlotWith2DAxes) oComputations;
+			pwa.initDynamicPlotBounds( bo );
+		}
 
 		// PERFORM THE BLOCKS' LAYOUT
 		Block bl = cmRunTime.getBlock( );

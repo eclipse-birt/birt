@@ -1190,6 +1190,10 @@ public abstract class AxesRenderer extends BaseRenderer
 
 		// PLOT CLIENT AREA
 		final ClientArea ca = p.getClientArea( );
+		if ( !ca.isVisible( ) )
+		{
+			return;
+		}
 		Bounds bo = pwa.getPlotBounds( );
 		final RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 				RectangleRenderEvent.class );
