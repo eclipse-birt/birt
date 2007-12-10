@@ -214,6 +214,8 @@ public class BaseGroupSortingDialog extends GroupSortingDialog implements
 	 */
 	private void populateSortKeyList( )
 	{
+		initSortKey( );
+		
 		Set exprList = new LinkedHashSet( );
 		String sortExpr = null;
 		
@@ -243,8 +245,6 @@ public class BaseGroupSortingDialog extends GroupSortingDialog implements
 				setSortKeySelectionState( false );
 			}
 		}
-
-		initSortKey( );
 
 		if ( sortExpr != null && !"".equals( sortExpr ) ) //$NON-NLS-1$
 		{
