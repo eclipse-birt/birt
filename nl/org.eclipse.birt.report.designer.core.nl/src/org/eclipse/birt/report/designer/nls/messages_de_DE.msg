@@ -4036,3 +4036,7 @@ CopyFormatAction.text=Format kopieren
 ###########################################################
 #PasteFormatAction
 PasteFormatAction.text=Format einfügen
+
+###########################################################
+#InsertAggregationAction
+InsertAggregationAction.text=Aggregat

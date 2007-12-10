@@ -4036,3 +4036,7 @@ CopyFormatAction.text=書式のコピー
 ###########################################################
 #PasteFormatAction
 PasteFormatAction.text=書式の貼り付け
+
+###########################################################
+#InsertAggregationAction
+InsertAggregationAction.text=集計

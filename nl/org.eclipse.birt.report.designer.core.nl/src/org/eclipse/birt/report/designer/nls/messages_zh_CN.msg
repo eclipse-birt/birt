@@ -4036,3 +4036,7 @@ CopyFormatAction.text=复制格式
 ###########################################################
 #PasteFormatAction
 PasteFormatAction.text=粘贴格式
+
+###########################################################
+#InsertAggregationAction
+InsertAggregationAction.text=聚合

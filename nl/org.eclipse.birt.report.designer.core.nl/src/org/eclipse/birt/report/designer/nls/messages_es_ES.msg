@@ -4036,3 +4036,7 @@ CopyFormatAction.text=Formato de copia
 ###########################################################
 #PasteFormatAction
 PasteFormatAction.text=Formato de pegado
+
+###########################################################
+#InsertAggregationAction
+InsertAggregationAction.text=Agregación

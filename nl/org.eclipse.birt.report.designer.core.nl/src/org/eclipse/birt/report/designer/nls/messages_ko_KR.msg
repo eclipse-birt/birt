@@ -4036,3 +4036,7 @@ CopyFormatAction.text=서식 복사
 ###########################################################
 #PasteFormatAction
 PasteFormatAction.text=서식 붙여넣기
+
+###########################################################
+#InsertAggregationAction
+InsertAggregationAction.text=집계
