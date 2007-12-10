@@ -170,11 +170,23 @@ abstract class PreparedDataSourceQuery
 	{
 		this.configureDataSetCache( queryDefn, appContext, scope != null
 				? scope : dataEngine.getSession( ).getSharedScope( ) );
-
+		initializeExecution( outerResults, scope );
 		return preparedQuery.doPrepare( outerResults,
 				scope,
 				newExecutor( ),
 				this );
+	}
+	
+	/**
+	 * Implements template method pattern. 
+	 * 
+	 * @param outerResults
+	 * @param scope
+	 * @throws DataException
+	 */
+	protected void initializeExecution( IBaseQueryResults outerResults, Scriptable scope ) throws DataException
+	{
+		
 	}
 	
 	/**

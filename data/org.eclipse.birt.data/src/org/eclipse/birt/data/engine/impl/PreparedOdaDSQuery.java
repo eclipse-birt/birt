@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
+import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
@@ -134,14 +135,23 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 	 * @see org.eclipse.birt.data.engine.impl.PreparedDataSourceQuery#execute(org.eclipse.birt.data.engine.api.IQueryResults,
 	 *      org.mozilla.javascript.Scriptable)
 	 */
-	public IQueryResults execute( IQueryResults outerResults, Scriptable scope )
+	public IQueryResults execute( IBaseQueryResults outerResults, Scriptable scope )
 			throws DataException
 	{
-		this.configureParameterHints( queryDefn, appContext, scope );
+		this.initializeExecution( outerResults, scope );
 		
 		return super.execute( outerResults, scope );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.impl.PreparedDataSourceQuery#initializeExecution(org.eclipse.birt.data.engine.api.IBaseQueryResults, org.mozilla.javascript.Scriptable)
+	 */
+	protected void initializeExecution( IBaseQueryResults outerResults, Scriptable scope ) throws DataException
+	{
+		this.configureParameterHints( queryDefn, appContext, scope );
+	}
+	
 	/**
 	 * A work-around to set the user defined parameter metadata
 	 * 
