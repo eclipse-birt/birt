@@ -23,6 +23,8 @@ import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
 
 /**
  * GroupUtil
@@ -75,6 +77,45 @@ public class GroupUtil implements ICrosstabConstants
 						&& gp.levelIndex == levelIndex )
 				{
 					return i;
+				}
+			}
+		}
+
+		return -1;
+	}
+
+	/**
+	 * Returns the accumulated group index for current level element from given
+	 * group list. The search is done by comparing dimension name and level name
+	 * from given handle. Caller must ensure the name is valid.
+	 * 
+	 * @param groups
+	 * @param levelHandle
+	 * @param levelIndex
+	 * @return
+	 */
+	public static int getGroupIndex( List groups, LevelHandle levelHandle )
+	{
+		if ( groups != null
+				&& levelHandle != null
+				&& levelHandle.getContainer( ) != null )
+		{
+			DimensionHandle dimensionHandle = (DimensionHandle) levelHandle.getContainer( )
+					.getContainer( );
+
+			if ( dimensionHandle != null )
+			{
+				for ( int i = 0; i < groups.size( ); i++ )
+				{
+					EdgeGroup gp = (EdgeGroup) groups.get( i );
+
+					if ( dimensionHandle.getQualifiedName( )
+							.equals( gp.dimensionName )
+							&& levelHandle.getQualifiedName( )
+									.equals( gp.levelName ) )
+					{
+						return i;
+					}
 				}
 			}
 		}
@@ -373,7 +414,10 @@ public class GroupUtil implements ICrosstabConstants
 
 				for ( int j = 0; j < dv.getLevelCount( ); j++ )
 				{
-					groups.add( new EdgeGroup( i, j ) );
+					groups.add( new EdgeGroup( i,
+							j,
+							dv.getCubeDimensionName( ),
+							dv.getLevel( j ).getCubeLevelName( ) ) );
 				}
 			}
 		}
@@ -512,8 +556,114 @@ public class GroupUtil implements ICrosstabConstants
 	}
 
 	/**
-	 * Compute the row span include data span and subtotal span, this doesn't
-	 * consider for multiple vertical measures.
+	 * Computes row span for aggreagtion cell by given target span over
+	 * dimension and level.
+	 * 
+	 * @param crosstabItem
+	 * @param rowGroups
+	 * @param targetDimensionIndex
+	 * @param targetLevelIndex
+	 * @param rowEdgeCursor
+	 * @return
+	 * @throws OLAPException
+	 */
+	public static int computeAggregationCellRowOverSpan(
+			CrosstabReportItemHandle crosstabItem, List rowGroups,
+			LevelHandle targetSpanLevel, EdgeCursor rowEdgeCursor )
+			throws OLAPException
+	{
+		if ( rowEdgeCursor == null || targetSpanLevel == null )
+		{
+			return 1;
+		}
+
+		long startPosition = rowEdgeCursor.getPosition( );
+
+		int targetGroupIndex = getGroupIndex( rowGroups, targetSpanLevel );
+
+		boolean verticalHeader = MEASURE_DIRECTION_VERTICAL.equals( crosstabItem.getMeasureDirection( ) );
+		int factor = verticalHeader ? Math.max( crosstabItem.getMeasureCount( ),
+				1 )
+				: 1;
+
+		if ( targetGroupIndex != -1 )
+		{
+			long currentPosition = startPosition;
+
+			long edgeEndPosition;
+			DimensionCursor dc;
+
+			if ( targetGroupIndex > 0 )
+			{
+				dc = (DimensionCursor) rowEdgeCursor.getDimensionCursor( )
+						.get( targetGroupIndex - 1 );
+
+				edgeEndPosition = dc.getEdgeEnd( );
+			}
+			else
+			{
+				edgeEndPosition = Long.MAX_VALUE;
+			}
+
+			int span = 0;
+
+			while ( currentPosition <= edgeEndPosition
+					&& !rowEdgeCursor.isAfterLast( ) )
+			{
+				span += factor;
+
+				for ( int i = rowGroups.size( ) - 2; i >= targetGroupIndex; i-- )
+				{
+					dc = (DimensionCursor) rowEdgeCursor.getDimensionCursor( )
+							.get( i );
+
+					// skip dummy groups
+					if ( isDummyGroup( dc ) )
+					{
+						continue;
+					}
+
+					// check for each group end
+					if ( currentPosition == dc.getEdgeEnd( ) )
+					{
+						EdgeGroup gp = (EdgeGroup) rowGroups.get( i );
+
+						DimensionViewHandle dv = crosstabItem.getDimension( ROW_AXIS_TYPE,
+								gp.dimensionIndex );
+						LevelViewHandle lv = dv.getLevel( gp.levelIndex );
+
+						// consider vertical measure case
+						if ( lv.getAggregationHeader( ) != null )
+						{
+							span += getTotalRowSpan( crosstabItem,
+									gp.dimensionIndex,
+									gp.levelIndex,
+									verticalHeader );
+						}
+					}
+					else
+					{
+						break;
+					}
+				}
+
+				rowEdgeCursor.next( );
+
+				currentPosition = rowEdgeCursor.getPosition( );
+			}
+
+			// restore original position
+			rowEdgeCursor.setPosition( startPosition );
+
+			return span;
+		}
+
+		return factor;
+	}
+
+	/**
+	 * Compute the row span include data span and subtotal span for row edge
+	 * area, this doesn't consider for multiple vertical measures.
 	 */
 	public static int computeRowSpan( CrosstabReportItemHandle crosstabItem,
 			List rowGroups, int dimensionIndex, int levelIndex,

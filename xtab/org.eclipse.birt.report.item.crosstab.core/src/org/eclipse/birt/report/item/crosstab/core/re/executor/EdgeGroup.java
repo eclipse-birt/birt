@@ -20,9 +20,15 @@ class EdgeGroup
 	int dimensionIndex;
 	int levelIndex;
 
-	EdgeGroup( int dimensionIndex, int levelIndex )
+	String dimensionName;
+	String levelName;
+
+	EdgeGroup( int dimensionIndex, int levelIndex, String dimensionName,
+			String levelName )
 	{
 		this.dimensionIndex = dimensionIndex;
 		this.levelIndex = levelIndex;
+		this.dimensionName = dimensionName;
+		this.levelName = levelName;
 	}
 }

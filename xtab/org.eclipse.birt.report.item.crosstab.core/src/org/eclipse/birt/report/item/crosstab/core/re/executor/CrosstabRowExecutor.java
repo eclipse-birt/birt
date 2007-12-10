@@ -20,56 +20,34 @@ import javax.olap.cursor.EdgeCursor;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
-import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
 
 /**
  * CrosstabRowExecutor
  */
-public class CrosstabRowExecutor extends BaseCrosstabExecutor
+public class CrosstabRowExecutor extends BaseRowExecutor
 {
 
 	private static Logger logger = Logger.getLogger( CrosstabRowExecutor.class.getName( ) );
 
-	private int rowIndex;
 	private int dimensionIndex;
 	private int levelIndex;
 
-	private int rowSpan, colSpan;
-	private int currentChangeType;
-	private int currentColIndex;
-	private int lastMeasureIndex;
-	private int lastDimensionIndex;
-	private int lastLevelIndex;
-	private int totalMeasureCount;
-
 	private boolean rowEdgeStarted;
-	private boolean hasLast;
 
-	private long currentEdgePosition;
 	private boolean isLayoutDownThenOver;
-
-	private boolean isFirst;
-	private IReportItemExecutor nextExecutor;
 
 	public CrosstabRowExecutor( BaseCrosstabExecutor parent, int rowIndex,
 			int dimensionIndex, int levelIndex )
 	{
-		super( parent );
+		super( parent, rowIndex );
 
-		this.rowIndex = rowIndex;
 		this.dimensionIndex = dimensionIndex;
 		this.levelIndex = levelIndex;
-	}
-
-	public void close( )
-	{
-		super.close( );
-
-		nextExecutor = null;
 	}
 
 	public IContent execute( )
@@ -85,23 +63,12 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 		return content;
 	}
 
-	private void prepareChildren( )
+	protected void prepareChildren( )
 	{
-		currentChangeType = ColumnEvent.UNKNOWN_CHANGE;
-		currentColIndex = -1;
+		super.prepareChildren( );
 
-		currentEdgePosition = -1;
-		
-		isFirst = true;
-
-		rowSpan = 1;
-		colSpan = 0;
-		lastMeasureIndex = -1;
-		totalMeasureCount = crosstabItem.getMeasureCount( );
-
+		rowEdgeStarted = false;
 		isLayoutDownThenOver = PAGE_LAYOUT_DOWN_THEN_OVER.equals( crosstabItem.getPageLayout( ) );
-
-		hasLast = false;
 
 		walker.reload( );
 	}
@@ -109,34 +76,11 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 	private AggregationCellHandle getRowSubTotalCell( int colDimensionIndex,
 			int colLevelIndex, int measureIndex )
 	{
-		if ( measureIndex >= 0 && measureIndex < totalMeasureCount )
-		{
-			DimensionViewHandle rdv = crosstabItem.getDimension( ROW_AXIS_TYPE,
-					dimensionIndex );
-			LevelViewHandle rlv = rdv.getLevel( levelIndex );
-
-			if ( colDimensionIndex < 0 || colLevelIndex < 0 )
-			{
-				return crosstabItem.getMeasure( measureIndex )
-						.getAggregationCell( rdv.getCubeDimensionName( ),
-								rlv.getCubeLevelName( ),
-								null,
-								null );
-			}
-			else
-			{
-				DimensionViewHandle cdv = crosstabItem.getDimension( COLUMN_AXIS_TYPE,
-						colDimensionIndex );
-				LevelViewHandle clv = cdv.getLevel( colLevelIndex );
-
-				return crosstabItem.getMeasure( measureIndex )
-						.getAggregationCell( rdv.getCubeDimensionName( ),
-								rlv.getCubeLevelName( ),
-								cdv.getCubeDimensionName( ),
-								clv.getCubeLevelName( ) );
-			}
-		}
-		return null;
+		return getAggregationCell( dimensionIndex,
+				levelIndex,
+				colDimensionIndex,
+				colLevelIndex,
+				measureIndex );
 	}
 
 	private boolean isForceEmpty( )
@@ -250,7 +194,89 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 		return rowIndex == 0;
 	}
 
-	private void advance( )
+	protected boolean checkMeasureVerticalSpanOverlapped( ColumnEvent ev )
+	{
+		if ( ev.measureIndex == -1 )
+		{
+			// TODO vertical multi meausures, not support span now
+			return false;
+		}
+
+		LevelHandle spanLevel = null;
+
+		switch ( ev.type )
+		{
+			case ColumnEvent.MEASURE_CHANGE :
+			case ColumnEvent.COLUMN_EDGE_CHANGE :
+
+				spanLevel = crosstabItem.getMeasure( ev.measureIndex )
+						.getCell( )
+						.getSpanOverOnRow( );
+				break;
+
+			case ColumnEvent.COLUMN_TOTAL_CHANGE :
+			case ColumnEvent.GRAND_TOTAL_CHANGE :
+
+				int dimCount = crosstabItem.getDimensionCount( ROW_AXIS_TYPE );
+				DimensionViewHandle rdv = crosstabItem.getDimension( ROW_AXIS_TYPE,
+						dimCount - 1 );
+
+				spanLevel = getAggregationCell( dimCount - 1,
+						rdv.getLevelCount( ) - 1,
+						ev.dimensionIndex,
+						ev.levelIndex,
+						ev.measureIndex ).getSpanOverOnRow( );
+				break;
+		}
+
+		if ( spanLevel != null )
+		{
+			int targetSpanGroupIndex = GroupUtil.getGroupIndex( rowGroups,
+					spanLevel );
+
+			if ( targetSpanGroupIndex != -1 )
+			{
+				try
+				{
+					EdgeCursor rowEdgeCursor = getRowEdgeCursor( );
+
+					if ( rowEdgeCursor != null )
+					{
+						// use preview group cursor to check edge start.
+						targetSpanGroupIndex--;
+
+						if ( targetSpanGroupIndex == -1 )
+						{
+							// this is the outer-most level, it never ends until
+							// whole
+							// edge ends.
+							return !rowEdgeCursor.isFirst( );
+						}
+						else
+						{
+							DimensionCursor dc = (DimensionCursor) rowEdgeCursor.getDimensionCursor( )
+									.get( targetSpanGroupIndex );
+
+							if ( !GroupUtil.isDummyGroup( dc ) )
+							{
+								return rowEdgeCursor.getPosition( ) > dc.getEdgeStart( );
+							}
+						}
+					}
+				}
+				catch ( OLAPException e )
+				{
+					logger.log( Level.SEVERE,
+							Messages.getString( "CrosstabRowExecutor.error.check.edge.start" ), //$NON-NLS-1$
+							e );
+				}
+			}
+		}
+
+		return false;
+	}
+
+	protected void advance( )
 	{
 		int mx;
 
@@ -276,7 +302,7 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 									currentColIndex - colSpan + 1 );
 
 							( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
-							
+
 							( (CrosstabCellExecutor) nextExecutor ).setForceEmpty( isForceEmpty( ) );
 
 							rowEdgeStarted = false;
@@ -290,44 +316,68 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 								rowSpan,
 								colSpan,
 								currentColIndex - colSpan + 1 );
-						
+
 						( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
-						
+
 						hasLast = false;
 						break;
 					case ColumnEvent.MEASURE_CHANGE :
 					case ColumnEvent.COLUMN_EDGE_CHANGE :
-
-						mx = lastMeasureIndex < 0 ? rowIndex : lastMeasureIndex;
-
-						nextExecutor = new CrosstabCellExecutor( this,
-								totalMeasureCount > 0 ? crosstabItem.getMeasure( mx )
-										.getCell( )
-										: null,
-								rowSpan,
-								colSpan,
-								currentColIndex - colSpan + 1 );
-
-						( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
-
-						hasLast = false;
-						break;
 					case ColumnEvent.COLUMN_TOTAL_CHANGE :
 					case ColumnEvent.GRAND_TOTAL_CHANGE :
 
 						mx = lastMeasureIndex < 0 ? rowIndex : lastMeasureIndex;
 
-						nextExecutor = new CrosstabCellExecutor( this,
-								getRowSubTotalCell( lastDimensionIndex,
-										lastLevelIndex,
-										mx ),
-								rowSpan,
-								colSpan,
-								currentColIndex - colSpan + 1 );
+						if ( measureDetailStarted
+								&& isMeetMeasureDetailEnd( ev,
+										totalMeasureCount > 0 ? crosstabItem.getMeasure( mx )
+												.getCell( )
+												: null ) )
+						{
+							nextExecutor = new CrosstabCellExecutor( this,
+									totalMeasureCount > 0 ? crosstabItem.getMeasure( mx )
+											.getCell( )
+											: null,
+									rowSpan,
+									colSpan,
+									currentColIndex - colSpan + 1 );
 
-						( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+							( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
 
-						hasLast = false;
+							measureDetailStarted = false;
+							hasLast = false;
+						}
+						else if ( measureSubTotalStarted )
+						{
+							nextExecutor = new CrosstabCellExecutor( this,
+									getRowSubTotalCell( lastDimensionIndex,
+											lastLevelIndex,
+											mx ),
+									rowSpan,
+									colSpan,
+									currentColIndex - colSpan + 1 );
+
+							( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+
+							measureSubTotalStarted = false;
+							hasLast = false;
+						}
+						else if ( measureGrandTotalStarted )
+						{
+							nextExecutor = new CrosstabCellExecutor( this,
+									getRowSubTotalCell( lastDimensionIndex,
+											lastLevelIndex,
+											mx ),
+									rowSpan,
+									colSpan,
+									currentColIndex - colSpan + 1 );
+
+							( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+
+							measureGrandTotalStarted = false;
+							hasLast = false;
+						}
+
 						break;
 				}
 
@@ -345,12 +395,82 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 					lastLevelIndex = ev.levelIndex;
 					hasLast = true;
 				}
-				else if ( ev.type == ColumnEvent.MEASURE_CHANGE
-						|| ev.type == ColumnEvent.COLUMN_TOTAL_CHANGE
-						|| ev.type == ColumnEvent.COLUMN_EDGE_CHANGE
-						|| ev.type == ColumnEvent.GRAND_TOTAL_CHANGE )
+				else if ( isMeasureDetailNeedStart( ev ) )
 				{
-					rowSpan = 1;
+					measureDetailStarted = true;
+
+					if ( ev.measureIndex == -1 )
+					{
+						// TODO vertical multi meausures, not support span now
+						rowSpan = 1;
+					}
+					else
+					{
+						rowSpan = GroupUtil.computeAggregationCellRowOverSpan( crosstabItem,
+								rowGroups,
+								crosstabItem.getMeasure( ev.measureIndex )
+										.getCell( )
+										.getSpanOverOnRow( ),
+								getRowEdgeCursor( ) );
+					}
+					colSpan = 0;
+					lastMeasureIndex = ev.measureIndex;
+					lastDimensionIndex = ev.dimensionIndex;
+					lastLevelIndex = ev.levelIndex;
+					hasLast = true;
+				}
+				else if ( isMeasureSubTotalNeedStart( ev ) )
+				{
+					measureSubTotalStarted = true;
+					if ( ev.measureIndex == -1 )
+					{
+						// TODO vertical multi meausures, not support span now
+						rowSpan = 1;
+					}
+					else
+					{
+						int dimCount = crosstabItem.getDimensionCount( ROW_AXIS_TYPE );
+						DimensionViewHandle rdv = crosstabItem.getDimension( ROW_AXIS_TYPE,
+								dimCount - 1 );
+
+						rowSpan = GroupUtil.computeAggregationCellRowOverSpan( crosstabItem,
+								rowGroups,
+								getAggregationCell( dimCount - 1,
+										rdv.getLevelCount( ) - 1,
+										ev.dimensionIndex,
+										ev.levelIndex,
+										ev.measureIndex ).getSpanOverOnRow( ),
+								getRowEdgeCursor( ) );
+					}
+					colSpan = 0;
+					lastMeasureIndex = ev.measureIndex;
+					lastDimensionIndex = ev.dimensionIndex;
+					lastLevelIndex = ev.levelIndex;
+					hasLast = true;
+				}
+				else if ( isMeasureGrandTotalNeedStart( ev ) )
+				{
+					measureGrandTotalStarted = true;
+					if ( ev.measureIndex == -1 )
+					{
+						// TODO vertical multi meausures, not support span now
+						rowSpan = 1;
+					}
+					else
+					{
+						int dimCount = crosstabItem.getDimensionCount( ROW_AXIS_TYPE );
+						DimensionViewHandle rdv = crosstabItem.getDimension( ROW_AXIS_TYPE,
+								dimCount - 1 );
+
+						rowSpan = GroupUtil.computeAggregationCellRowOverSpan( crosstabItem,
+								rowGroups,
+								getAggregationCell( dimCount - 1,
+										rdv.getLevelCount( ) - 1,
+										ev.dimensionIndex,
+										ev.levelIndex,
+										ev.measureIndex ).getSpanOverOnRow( ),
+								getRowEdgeCursor( ) );
+					}
 					colSpan = 0;
 					lastMeasureIndex = ev.measureIndex;
 					lastDimensionIndex = ev.dimensionIndex;
@@ -404,7 +524,7 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 								currentColIndex - colSpan + 1 );
 
 						( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
-						
+
 						( (CrosstabCellExecutor) nextExecutor ).setForceEmpty( isForceEmpty( ) );
 
 						rowEdgeStarted = false;
@@ -417,67 +537,65 @@ public class CrosstabRowExecutor extends BaseCrosstabExecutor
 							rowSpan,
 							colSpan,
 							currentColIndex - colSpan + 1 );
-					
+
 					( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
-					
+
 					break;
 				case ColumnEvent.MEASURE_CHANGE :
 				case ColumnEvent.COLUMN_EDGE_CHANGE :
-
-					mx = lastMeasureIndex < 0 ? rowIndex : lastMeasureIndex;
-
-					nextExecutor = new CrosstabCellExecutor( this,
-							totalMeasureCount > 0 ? crosstabItem.getMeasure( mx )
-									.getCell( )
-									: null,
-							rowSpan,
-							colSpan,
-							currentColIndex - colSpan + 1 );
-
-					( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
-
-					break;
 				case ColumnEvent.COLUMN_TOTAL_CHANGE :
 				case ColumnEvent.GRAND_TOTAL_CHANGE :
-
-					mx = lastMeasureIndex < 0 ? rowIndex : lastMeasureIndex;
-
-					nextExecutor = new CrosstabCellExecutor( this,
-							getRowSubTotalCell( lastDimensionIndex,
-									lastLevelIndex,
-									mx ),
-							rowSpan,
-							colSpan,
-							currentColIndex - colSpan + 1 );
-
-					( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
-
 					break;
 			}
+
+			if ( measureDetailStarted )
+			{
+				mx = lastMeasureIndex < 0 ? rowIndex : lastMeasureIndex;
+
+				nextExecutor = new CrosstabCellExecutor( this,
+						totalMeasureCount > 0 ? crosstabItem.getMeasure( mx )
+								.getCell( ) : null,
+						rowSpan,
+						colSpan,
+						currentColIndex - colSpan + 1 );
+
+				( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+
+				measureDetailStarted = false;
+			}
+			else if ( measureSubTotalStarted )
+			{
+				mx = lastMeasureIndex < 0 ? rowIndex : lastMeasureIndex;
+
+				nextExecutor = new CrosstabCellExecutor( this,
+						getRowSubTotalCell( lastDimensionIndex,
+								lastLevelIndex,
+								mx ),
+						rowSpan,
+						colSpan,
+						currentColIndex - colSpan + 1 );
+
+				( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+
+				measureSubTotalStarted = false;
+			}
+			else if ( measureGrandTotalStarted )
+			{
+				mx = lastMeasureIndex < 0 ? rowIndex : lastMeasureIndex;
+
+				nextExecutor = new CrosstabCellExecutor( this,
+						getRowSubTotalCell( lastDimensionIndex,
+								lastLevelIndex,
+								mx ),
+						rowSpan,
+						colSpan,
+						currentColIndex - colSpan + 1 );
+
+				( (CrosstabCellExecutor) nextExecutor ).setPosition( currentEdgePosition );
+
+				measureGrandTotalStarted = false;
+			}
 		}
-	}
-
-	public IReportItemExecutor getNextChild( )
-	{
-		IReportItemExecutor childExecutor = nextExecutor;
-
-		nextExecutor = null;
-
-		advance( );
-
-		return childExecutor;
-	}
-
-	public boolean hasNextChild( )
-	{
-		if ( isFirst )
-		{
-			isFirst = false;
-
-			advance( );
-		}
-
-		return nextExecutor != null;
 	}
 
 }
