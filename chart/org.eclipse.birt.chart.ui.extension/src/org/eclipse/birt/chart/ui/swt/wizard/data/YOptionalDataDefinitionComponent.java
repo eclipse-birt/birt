@@ -13,6 +13,10 @@ package org.eclipse.birt.chart.ui.swt.wizard.data;
 
 import java.util.List;
 
+import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -22,6 +26,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.events.ModifyEvent;
 
 
 /**
@@ -119,6 +124,62 @@ public class YOptionalDataDefinitionComponent extends BaseDataDefinitionComponen
 			seriesdefinition.getGrouping( )
 					.eAdapters( )
 					.addAll( seriesdefinition.eAdapters( ) );
+		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent#saveQuery()
+	 */
+	protected void saveQuery()
+	{
+		super.saveQuery( );
+		updateBaseSeriesSortKey();
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent#modifyText(org.eclipse.swt.events.ModifyEvent)
+	 */
+	public void modifyText( ModifyEvent e )
+	{
+		super.modifyText( e );
+		if ( isQueryModified && e.getSource( ) == txtDefinition )
+		{
+			updateBaseSeriesSortKey( );
+		}
+	}
+	
+	/**
+	 * If Y grouping is set, the SortKey of base series only allow base series expression.
+	 */
+	private void updateBaseSeriesSortKey( )
+	{
+		String yGrouping = query.getDefinition( );
+		if ( yGrouping != null && !"".equals( yGrouping ) ) //$NON-NLS-1$
+		{
+			// If Y grouping is set and if the sort key of base series is set,
+			// we must ensure the sort key is base series expression, don't
+			// allow other expression.
+			Chart cm = context.getModel( );
+			SeriesDefinition baseSD = null;
+			if ( cm instanceof ChartWithAxes )
+			{
+				ChartWithAxes cwa = (ChartWithAxes) cm;
+				baseSD = (SeriesDefinition) cwa.getBaseAxes( )[0].getSeriesDefinitions( )
+						.get( 0 );
+			}
+			else if ( cm instanceof ChartWithoutAxes )
+			{
+				ChartWithoutAxes cwoa = (ChartWithoutAxes) cm;
+				baseSD = (SeriesDefinition) cwoa.getSeriesDefinitions( )
+						.get( 0 );
+			}
+
+			if ( baseSD.isSetSorting( ) )
+			{
+				Series s = (Series) baseSD.getSeries( ).get( 0 );
+				String baseExpr = ( (Query) s.getDataDefinition( ).get( 0 ) ).getDefinition( );
+				baseSD.getSortKey( ).setDefinition( baseExpr );
+			}
 		}
 	}
 }

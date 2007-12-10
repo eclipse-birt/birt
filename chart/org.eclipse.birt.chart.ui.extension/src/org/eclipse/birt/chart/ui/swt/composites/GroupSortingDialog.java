@@ -40,7 +40,7 @@ import org.eclipse.swt.widgets.Shell;
 public class GroupSortingDialog extends TrayDialog implements Listener
 {
 
-	private static final String UNSORTED_OPTION = Messages.getString( "BaseSeriesDataSheetImpl.Choice.Unsorted" ); //$NON-NLS-1$
+	protected static final String UNSORTED_OPTION = Messages.getString( "BaseSeriesDataSheetImpl.Choice.Unsorted" ); //$NON-NLS-1$
 
 	protected ChartWizardContext wizardContext;
 	private SeriesDefinition sd;

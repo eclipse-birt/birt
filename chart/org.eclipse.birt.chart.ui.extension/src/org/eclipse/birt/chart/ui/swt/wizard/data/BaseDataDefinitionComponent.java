@@ -78,13 +78,14 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 	protected Composite cmpTop;
 
 	private Combo cmbDefinition;
-	private Text txtDefinition = null;
+	
+	protected Text txtDefinition = null;
 
 	private Button btnBuilder = null;
 
 	private Button btnGroup = null;
 
-	private Query query = null;
+	protected Query query = null;
 
 	protected SeriesDefinition seriesdefinition = null;
 
@@ -96,7 +97,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 
 	private String tooltipWhenBlank = Messages.getString( "BaseDataDefinitionComponent.Tooltip.InputValueExpression" ); //$NON-NLS-1$
 
-	private boolean isQueryModified;
+	protected boolean isQueryModified;
 
 	private final String queryType;
 
@@ -455,7 +456,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		}
 	}
 
-	private void saveQuery( )
+	protected void saveQuery( )
 	{
 		if ( isQueryModified )
 		{
@@ -479,7 +480,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 				// query
 				seriesdefinition.setQuery( query );
 			}
-
+			
 			// Refresh color from ColorPalette
 			setColor( );
 			getInputControl( ).getParent( ).layout( );
@@ -487,6 +488,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		}
 	}
 
+	
 	private String getTooltipForDataText( String queryText )
 	{
 		if ( queryText.trim( ).length( ) == 0 )
