@@ -52,6 +52,8 @@ public class Column implements IColumn
 	transient protected IStyle computedStyle;
 	
 	transient protected Object generateBy;
+	
+	protected Boolean isColumnHeader = null;
 
 	/**
 	 * constructor use by serialize and deserialize
@@ -83,6 +85,26 @@ public class Column implements IColumn
 		return style;
 	}
 
+	/*
+	 * Return this column is a column header or not.
+	 */
+	public boolean isColumnHeader( )
+	{
+		if( null != isColumnHeader )
+			return isColumnHeader.booleanValue( );
+			
+		if ( generateBy instanceof ColumnDesign )
+		{
+			return ( (ColumnDesign) generateBy ).isColumnHeader( );
+		}
+		return false;
+	}
+	
+	public void setColumnHeaderState( boolean isColumnHeader )
+	{
+		this.isColumnHeader = new Boolean( isColumnHeader );
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

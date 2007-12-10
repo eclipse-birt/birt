@@ -21,7 +21,11 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  */
 public interface IColumn
 {
-
+	/**
+	 * @return Return this column is a column header or not.
+	 */
+	public boolean isColumnHeader( );
+	
 	/**
 	 * @return Returns the width.
 	 */

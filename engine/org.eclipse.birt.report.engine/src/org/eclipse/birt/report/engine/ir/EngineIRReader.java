@@ -885,6 +885,10 @@ public class EngineIRReader implements IOConstants
 
 		switch ( fieldType )
 		{
+			case FIELD_IS_COLUMN_HEADER :
+				boolean isColumnHeader = IOUtil.readBool( in );
+				column.setColumnHeaderState( isColumnHeader );
+				break;
 			case FIELD_WIDTH :
 				DimensionType width = readDimension( in );
 				column.setWidth( width );

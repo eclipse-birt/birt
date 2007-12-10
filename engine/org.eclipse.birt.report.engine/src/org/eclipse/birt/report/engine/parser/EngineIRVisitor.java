@@ -1065,6 +1065,13 @@ public class EngineIRVisitor extends DesignVisitor
 		// setupStyledElement( col, handle );
 		setupReportElement( col, handle );
 
+		// is column header
+		// FIXME: Model team hasn't finish the property "column-header", so the
+		// false will be set here. It needs be fixed after Model team finish the
+		// work.
+		// col.setColumnHeaderState( handle.isColumnHeader( ) );
+		col.setColumnHeaderState( false );
+		
 		// Column Width
 		DimensionType width = createDimension( handle.getWidth( ), false );
 		col.setWidth( width );

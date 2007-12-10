@@ -38,6 +38,29 @@ public class ColumnDesign extends StyledElementDesign
 	 * If the is any data item in the detail cell of this column.
 	 */
 	protected boolean hasDataItemsInDetail = false;
+	
+	/**
+	 * If this column is a column header.
+	 */
+	protected boolean isColumnHeader = false;
+	
+	/*
+	 * Set the column header state.
+	 * @param isColumnHeader
+	 *            this column is a column header or not.
+	 */
+	public void setColumnHeaderState( boolean isColumnHeader )
+	{
+		this.isColumnHeader = isColumnHeader;
+	}
+
+	/*
+	 * Return this column is a column header or not.
+	 */
+	public boolean isColumnHeader( )
+	{
+		return isColumnHeader;
+	}
 
 	/**
 	 * @return Returns the width.

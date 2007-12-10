@@ -88,6 +88,7 @@ public interface IOConstants
 	// column
 	static final short FIELD_SUPPRESS_DUPLICATE = 80;
 	static final short FIELD_HAS_DATA_ITEMS_IN_DETAIL = 81;
+	static final short FIELD_IS_COLUMN_HEADER = 82;
 
 	// row
 	static final short FIELD_IS_START_OF_GROUP = 90;

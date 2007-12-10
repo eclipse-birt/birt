@@ -1496,7 +1496,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.closeTag( HTMLTags.TAG_TR );
 	}
 
-	private boolean isCellInTableHead( ICellContent cell )
+	private boolean isCellInHead( ICellContent cell )
 	{
 		IElement row = cell.getParent( );
 		if ( row instanceof IRowContent )
@@ -1504,13 +1504,22 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			IElement tableBand = row.getParent( );
 			if ( tableBand instanceof ITableBandContent )
 			{
-				int type = ( (ITableBandContent)tableBand ).getBandType( ); 
+				int type = ( (ITableBandContent) tableBand ).getBandType( );
 				if ( type == ITableBandContent.BAND_HEADER )
 				{
+					// is the table head
 					return true;
 				}
 			}
-		}		
+
+			IColumn column = cell.getColumnInstance( );
+			if ( null != column )
+			{
+				// return whether this column is a column header.
+				return column.isColumnHeader( );
+			}
+		}
+		
 		return false;
 	}
 	
@@ -1524,7 +1533,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		logger.log( Level.FINE, "[HTMLTableEmitter] Start cell." ); //$NON-NLS-1$
 			
 		// output 'th' tag in table head, otherwise 'td' tag
-		boolean isHead = isCellInTableHead( cell ); 
+		boolean isHead = isCellInHead( cell ); 
 		if ( isHead )
 		{
 			writer.openTag( HTMLTags.TAG_TH ); //$NON-NLS-1$
@@ -1598,7 +1607,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			metadataEmitter.endCell( cell );
 		}
-		if ( isCellInTableHead( cell )	)
+		if ( isCellInHead( cell )	)
 		{
 			writer.closeTag( HTMLTags.TAG_TH );
 		}

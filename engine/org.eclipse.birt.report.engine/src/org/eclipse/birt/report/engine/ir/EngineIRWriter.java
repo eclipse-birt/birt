@@ -1159,6 +1159,12 @@ public class EngineIRWriter implements IOConstants
 			throws IOException
 	{
 		writeStyledElement( out, column );
+		boolean isColumnHeader = column.isColumnHeader( );
+		if ( isColumnHeader )
+		{
+			IOUtil.writeShort( out, FIELD_IS_COLUMN_HEADER );
+			IOUtil.writeBool( out, isColumnHeader );
+		}
 		DimensionType width = column.getWidth( );
 		if ( width != null )
 		{
