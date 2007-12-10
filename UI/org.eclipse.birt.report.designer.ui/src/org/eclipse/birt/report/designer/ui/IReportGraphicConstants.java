@@ -418,4 +418,6 @@ public interface IReportGraphicConstants
 
 	// Annotation type
 	public final static String ANNOTATION_ERROR = "org.eclipse.ui.workbench.texteditor.error"; //$NON-NLS-1$
+
+	public static final String ICON_SCRIPTS_METHOD_NODE = "Script Method Node";
 }

@@ -87,6 +87,9 @@ public class ScriptTreeNodeProvider implements INodeProvider
 			return ProviderFactory.createProvider( designElementModel )
 					.getNodeIcon( designElementModel );
 		}
+		else if ( model instanceof ScriptObjectNode){
+			return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_SCRIPTS_METHOD_NODE );
+		}
 		return null;
 	}
 

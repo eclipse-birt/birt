@@ -608,6 +608,10 @@ public class ReportPlatformUIImages
 				OBJ16_PATH +
 				"script_error.gif" ); //$NON-NLS-1$
 
+		declareImage( IReportGraphicConstants.ICON_SCRIPTS_METHOD_NODE, ICONS_PATH +
+				OBJ16_PATH +
+				"script-method.gif" ); //$NON-NLS-1$
+		
 		declareImage( IReportGraphicConstants.ICON_SCRIPT_NOERROR, ICONS_PATH +
 				OBJ16_PATH +
 				"script_noerror.gif" ); //$NON-NLS-1$
