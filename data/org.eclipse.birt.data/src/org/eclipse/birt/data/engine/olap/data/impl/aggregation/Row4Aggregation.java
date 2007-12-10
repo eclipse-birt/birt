@@ -102,7 +102,7 @@ class Row4AggregationCreator implements IStructureCreator
 		Object[][] objectArrays = ObjectArrayUtil.convert( fields );
 		Row4Aggregation result = new Row4Aggregation( );
 		
-		result.setLevelMembers( new Member[objectArrays.length - 1] );
+		result.setLevelMembers( new Member[objectArrays.length - 2] );
 		for ( int i = 0; i < result.getLevelMembers().length; i++ )
 		{
 			result.getLevelMembers()[i] = (Member) levelMemberCreator.createInstance( objectArrays[i] );
