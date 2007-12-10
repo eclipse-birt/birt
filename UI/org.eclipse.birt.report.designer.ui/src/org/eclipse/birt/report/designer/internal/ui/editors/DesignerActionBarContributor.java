@@ -35,6 +35,7 @@ import org.eclipse.birt.report.designer.ui.actions.ApplyStyleMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.EditGroupMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.EditStyleMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
+import org.eclipse.birt.report.designer.ui.actions.InsertAggregationAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertGroupMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
@@ -101,10 +102,12 @@ public class DesignerActionBarContributor extends
 	private boolean isBuilt;
 
 	private static RegisterActions[] insertActions = new RegisterActions[]{
-			new RegisterActions( GeneralInsertMenuAction.INSERT_TEXT_ID,
-					GeneralInsertMenuAction.INSERT_TEXT_DISPLAY_TEXT ),
 			new RegisterActions( GeneralInsertMenuAction.INSERT_LABEL_ID,
 					GeneralInsertMenuAction.INSERT_LABEL_DISPLAY_TEXT ),
+			new RegisterActions( GeneralInsertMenuAction.INSERT_TEXT_ID,
+					GeneralInsertMenuAction.INSERT_TEXT_DISPLAY_TEXT ),
+			new RegisterActions( GeneralInsertMenuAction.INSERT_DYNAMIC_TEXT_ID,
+					GeneralInsertMenuAction.INSERT_DYNAMIC_TEXT_DISPLAY_TEXT ),
 			new RegisterActions( GeneralInsertMenuAction.INSERT_DATA_ID,
 					GeneralInsertMenuAction.INSERT_DATA_DISPLAY_TEXT ),
 			new RegisterActions( GeneralInsertMenuAction.INSERT_IMAGE_ID,
@@ -114,9 +117,7 @@ public class DesignerActionBarContributor extends
 			new RegisterActions( GeneralInsertMenuAction.INSERT_LIST_ID,
 					GeneralInsertMenuAction.INSERT_LIST_DISPLAY_TEXT ),
 			new RegisterActions( GeneralInsertMenuAction.INSERT_TABLE_ID,
-					GeneralInsertMenuAction.INSERT_TABLE_DISPLAY_TEXT ),
-			new RegisterActions( GeneralInsertMenuAction.INSERT_DYNAMIC_TEXT_ID,
-					GeneralInsertMenuAction.INSERT_DYNAMIC_TEXT_DISPLAY_TEXT ),
+					GeneralInsertMenuAction.INSERT_TABLE_DISPLAY_TEXT )
 	};
 
 	private static final RegisterActions[] elementActions = new RegisterActions[]{
@@ -233,6 +234,8 @@ public class DesignerActionBarContributor extends
 
 		addRetargetAction( new RetargetAction( ImportLibraryAction.ID,
 				ImportLibraryAction.ACTION_TEXT ) );
+		addRetargetAction( new RetargetAction( InsertAggregationAction.ID,
+				InsertAggregationAction.TEXT ) );
 		registerActions( parameterActions );
 
 	}
@@ -345,6 +348,8 @@ public class DesignerActionBarContributor extends
 		// Insert Menu
 		MenuManager insertMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.insert" ), M_INSERT ); //$NON-NLS-1$
 		contributeActionsToMenu( insertMenu, getInsertElementActions( ) );
+		insertMenu.add( new Separator( ) );
+		insertMenu.add( getAction( InsertAggregationAction.ID ) );
 		insertMenu.add( new Separator( ) );
 		insertMenu.add( getAction( ImportLibraryAction.ID ) );
 		menubar.insertAfter( IWorkbenchActionConstants.M_EDIT, insertMenu );

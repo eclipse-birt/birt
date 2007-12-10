@@ -74,6 +74,7 @@ import org.eclipse.birt.report.designer.ui.actions.DeleteStyleMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.EditGroupMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.EditStyleMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
+import org.eclipse.birt.report.designer.ui.actions.InsertAggregationAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertExpressionMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertGroupMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
@@ -389,6 +390,10 @@ abstract public class ReportEditorWithPalette extends
 		action = new GeneralInsertMenuAction( this,
 				GeneralInsertMenuAction.INSERT_DYNAMIC_TEXT_ID,
 				ReportDesignConstants.TEXT_DATA_ITEM );
+		getSelectionActions( ).add( action.getId( ) );
+		addEditPartAction( (SelectionAction) action );
+
+		action = new InsertAggregationAction( this );
 		getSelectionActions( ).add( action.getId( ) );
 		addEditPartAction( (SelectionAction) action );
 

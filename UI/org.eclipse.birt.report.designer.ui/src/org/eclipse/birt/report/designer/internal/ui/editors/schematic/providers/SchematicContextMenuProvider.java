@@ -69,6 +69,7 @@ import org.eclipse.birt.report.designer.ui.actions.ApplyThemeMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.DeleteStyleMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.EditStyleMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
+import org.eclipse.birt.report.designer.ui.actions.InsertAggregationAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertPasteColumnAction;
 import org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction;
 import org.eclipse.birt.report.designer.ui.actions.NoneAction;
@@ -584,12 +585,16 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	{
 		MenuManager subMenu = new MenuManager( ELEMENT_MENU_ITEM_TEXT );
 
-		IAction action = getAction( GeneralInsertMenuAction.INSERT_TEXT_ID );
+		IAction action = getAction( GeneralInsertMenuAction.INSERT_LABEL_ID );
+		action.setText( GeneralInsertMenuAction.INSERT_LABEL_DISPLAY_TEXT );
+		subMenu.add( action );
+
+		action = getAction( GeneralInsertMenuAction.INSERT_TEXT_ID );
 		action.setText( GeneralInsertMenuAction.INSERT_TEXT_DISPLAY_TEXT );
 		subMenu.add( action );
 
-		action = getAction( GeneralInsertMenuAction.INSERT_LABEL_ID );
-		action.setText( GeneralInsertMenuAction.INSERT_LABEL_DISPLAY_TEXT );
+		action = getAction( GeneralInsertMenuAction.INSERT_DYNAMIC_TEXT_ID );
+		action.setText( GeneralInsertMenuAction.INSERT_DYNAMIC_TEXT_DISPLAY_TEXT );
 		subMenu.add( action );
 
 		action = getAction( GeneralInsertMenuAction.INSERT_DATA_ID );
@@ -610,10 +615,6 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 		action = getAction( GeneralInsertMenuAction.INSERT_TABLE_ID );
 		action.setText( GeneralInsertMenuAction.INSERT_TABLE_DISPLAY_TEXT );
-		subMenu.add( action );
-
-		action = getAction( GeneralInsertMenuAction.INSERT_DYNAMIC_TEXT_ID );
-		action.setText( GeneralInsertMenuAction.INSERT_DYNAMIC_TEXT_DISPLAY_TEXT );
 		subMenu.add( action );
 
 		/*
@@ -653,6 +654,11 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			action.setText( entries[i].getMenuLabel( ) );
 			subMenu.add( action );
 		}
+
+		subMenu.add( new Separator( ) );
+		action = getAction( InsertAggregationAction.ID );
+		action.setText( InsertAggregationAction.TEXT );
+		subMenu.add( action );
 
 		menuManager.appendToGroup( group_name, subMenu );
 	}

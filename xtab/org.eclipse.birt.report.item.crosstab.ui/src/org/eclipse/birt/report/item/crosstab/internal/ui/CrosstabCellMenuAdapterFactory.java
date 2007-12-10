@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.internal.ui.extension.experimental.Editp
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.PaletteEntryExtension;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
+import org.eclipse.birt.report.designer.ui.actions.InsertAggregationAction;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddLevelHandleAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddMesureViewHandleAction;
@@ -118,7 +119,7 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 					// items.length must be larger than 0
 					IContributionItem items[] = manager.getItems( );
 					IContributionItem firstMemuItem = items[0];
-		
+
 					if ( ICrosstabCellAdapterFactory.CELL_FIRST_LEVEL_HANDLE.equals( position ) )
 					{
 						createLevelMenu( manager,
@@ -138,12 +139,16 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 
 					MenuManager subMenu = new MenuManager( Messages.getString( "SchematicContextMenuProvider.Menu.insertElement" ) );
 
-					IAction action = getAction( GeneralInsertMenuAction.INSERT_TEXT_ID );
+					IAction action = getAction( GeneralInsertMenuAction.INSERT_LABEL_ID );
+					action.setText( GeneralInsertMenuAction.INSERT_LABEL_DISPLAY_TEXT );
+					subMenu.add( action );
+
+					action = getAction( GeneralInsertMenuAction.INSERT_TEXT_ID );
 					action.setText( GeneralInsertMenuAction.INSERT_TEXT_DISPLAY_TEXT );
 					subMenu.add( action );
 
-					action = getAction( GeneralInsertMenuAction.INSERT_LABEL_ID );
-					action.setText( GeneralInsertMenuAction.INSERT_LABEL_DISPLAY_TEXT );
+					action = getAction( GeneralInsertMenuAction.INSERT_DYNAMIC_TEXT_ID );
+					action.setText( GeneralInsertMenuAction.INSERT_DYNAMIC_TEXT_DISPLAY_TEXT );
 					subMenu.add( action );
 
 					action = getAction( GeneralInsertMenuAction.INSERT_DATA_ID );
@@ -164,10 +169,6 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 
 					action = getAction( GeneralInsertMenuAction.INSERT_TABLE_ID );
 					action.setText( GeneralInsertMenuAction.INSERT_TABLE_DISPLAY_TEXT );
-					subMenu.add( action );
-
-					action = getAction( GeneralInsertMenuAction.INSERT_DYNAMIC_TEXT_ID );
-					action.setText( GeneralInsertMenuAction.INSERT_DYNAMIC_TEXT_DISPLAY_TEXT );
 					subMenu.add( action );
 
 					/*
@@ -207,6 +208,11 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 						action.setText( entries[i].getMenuLabel( ) );
 						subMenu.add( action );
 					}
+
+					subMenu.add( new Separator( ) );
+					action = getAction( InsertAggregationAction.ID );
+					action.setText( InsertAggregationAction.TEXT );
+					subMenu.add( action );
 
 					manager.add( subMenu );
 				}
