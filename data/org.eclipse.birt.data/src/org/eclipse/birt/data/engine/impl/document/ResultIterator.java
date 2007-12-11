@@ -219,6 +219,8 @@ class ResultIterator implements IResultIterator
      */
 	public int getRowId( ) throws BirtException
 	{
+		if ( this.exprResultSet.isEmpty() )
+			return -1;
 		return this.exprResultSet.getCurrentId( );
 	}
 	
