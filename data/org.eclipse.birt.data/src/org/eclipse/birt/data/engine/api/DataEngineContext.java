@@ -78,8 +78,6 @@ public class DataEngineContext
 	/** cacheCount field */
 	private int cacheOption;
 	private int cacheCount;
-	
-	private boolean useDteLevelDatasetCache = false;
 
 	private String tmpDir = System.getProperty( "java.io.tmpdir" );
 	
@@ -148,39 +146,6 @@ public class DataEngineContext
 	 * @param scope
 	 * @param reader
 	 * @param writer
-	 * @param useDatasetCache
-	 * @return
-	 * @throws BirtException
-	 */
-	public static DataEngineContext newInstance( int mode, Scriptable scope,
-			IDocArchiveReader reader, IDocArchiveWriter writer,
-			boolean useDteLevelDatasetCache ) throws BirtException
-	{
-		return new DataEngineContext( mode, scope, reader, writer, useDteLevelDatasetCache );
-	}
-	
-	/**
-	 * 
-	 * @param mode
-	 * @param scope
-	 * @param reader
-	 * @param writer
-	 * @param cacheDataSet
-	 * @throws BirtException
-	 */
-	private DataEngineContext( int mode, Scriptable scope,
-			IDocArchiveReader reader, IDocArchiveWriter writer,
-			boolean useDatasetCache ) throws BirtException
-	{
-		this( mode, scope, reader, writer );
-		this.useDteLevelDatasetCache = useDatasetCache;
-	}
-	
-	/**
-	 * @param mode
-	 * @param scope
-	 * @param reader
-	 * @param writer
 	 * @throws BirtException
 	 */
 	private DataEngineContext( int mode, Scriptable scope,
@@ -224,15 +189,6 @@ public class DataEngineContext
 		return mode;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean useDatasetCache()
-	{
-		return useDteLevelDatasetCache;
-	}
-	
 	/**
 	 * @return current top scope
 	 */

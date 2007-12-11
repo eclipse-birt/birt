@@ -69,7 +69,7 @@ public class DataEngineSession
 		}
 		tempDir += File.separator;
 		
-		this.dataSetCacheManager = new DataSetCacheManager( tempDir, engine, !engine.getContext( ).useDatasetCache( ) );
+		this.dataSetCacheManager = new DataSetCacheManager( tempDir, engine );
 		logger.exiting( DataEngineSession.class.getName( ), "DataEngineSession" );
 	}
 	

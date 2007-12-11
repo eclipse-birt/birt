@@ -73,7 +73,7 @@ public class DataSetCacheManager
 	/**
 	 * Construction
 	 */
-	public DataSetCacheManager( String tempDir, DataEngine dataEngine, boolean useJVMLevelCache )
+	public DataSetCacheManager( String tempDir, DataEngine dataEngine )
 	{
 		this.tempDir = tempDir;
 		this.dataSourceDesign = null;
@@ -81,7 +81,7 @@ public class DataSetCacheManager
 		this.cacheOption = DataEngineContext.CACHE_USE_DEFAULT;
 		this.alwaysCacheRowCount = 0;
 
-		this.cacheMapManager = new CacheMapManager( tempDir, useJVMLevelCache );
+		this.cacheMapManager = new CacheMapManager( tempDir );
 		this.mode = DataEngineContext.CACHE_MODE_IN_DISK;
 	}
 
