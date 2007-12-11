@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.extension;
 
+import org.eclipse.birt.core.exception.BirtException;
 import javax.olap.cursor.CubeCursor;
 
 public interface ICubeResultSet extends IBaseResultSet
@@ -20,6 +21,6 @@ public interface ICubeResultSet extends IBaseResultSet
 
 	String getCellIndex( );
 
-	void skipTo( String cellIndex );
+	void skipTo( String cellIndex ) throws BirtException;
 
 }

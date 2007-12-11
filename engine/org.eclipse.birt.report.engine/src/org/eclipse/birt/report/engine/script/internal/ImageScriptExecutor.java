@@ -13,7 +13,9 @@ package org.eclipse.birt.report.engine.script.internal;
 
 import java.util.logging.Level;
 
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.script.element.IImage;
+import org.eclipse.birt.report.engine.api.script.eventhandler.IAutoTextEventHandler;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IImageEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.IImageInstance;
 import org.eclipse.birt.report.engine.content.IImageContent;
@@ -43,14 +45,15 @@ public class ImageScriptExecutor extends ScriptExecutor
 	public static void handleOnCreate( IImageContent content,
 			ExecutionContext context )
 	{
+
+		ReportItemDesign imageDesign = (ReportItemDesign) content
+				.getGenerateBy( );
+		if ( !needOnCreate( imageDesign ) )
+		{
+			return;
+		}
 		try
 		{
-			ReportItemDesign imageDesign = ( ReportItemDesign ) content
-					.getGenerateBy( );
-			if ( !needOnCreate( imageDesign ) )
-			{
-				return;
-			}
 			IImageInstance image = new ImageInstance( content, context );
 			if ( handleJS( image, imageDesign.getOnCreate( ), context )
 					.didRun( ) )
@@ -58,23 +61,24 @@ public class ImageScriptExecutor extends ScriptExecutor
 			IImageEventHandler eh = getEventHandler( imageDesign, context );
 			if ( eh != null )
 				eh.onCreate( image, context.getReportContext( ) );
-		} catch ( Exception e )
+		}
+		catch ( Exception e )
 		{
-			addException( context, e );
+			addException( context, e, imageDesign.getHandle( ) );
 		}
 	}
 
 	public static void handleOnRender( IImageContent content,
 			ExecutionContext context )
 	{
+		ReportItemDesign imageDesign = (ReportItemDesign) content
+				.getGenerateBy( );
+		if ( !needOnRender( imageDesign ) )
+		{
+			return;
+		}
 		try
 		{
-			ReportItemDesign imageDesign = ( ReportItemDesign ) content
-					.getGenerateBy( );
-			if ( !needOnRender( imageDesign ) )
-			{
-				return;
-			}
 			IImageInstance image = new ImageInstance( content, context );
 			if ( handleJS( image, imageDesign.getOnRender( ), context )
 					.didRun( ) )
@@ -82,23 +86,24 @@ public class ImageScriptExecutor extends ScriptExecutor
 			IImageEventHandler eh = getEventHandler( imageDesign, context );
 			if ( eh != null )
 				eh.onRender( image, context.getReportContext( ) );
-		} catch ( Exception e )
+		}
+		catch ( Exception e )
 		{
-			addException( context, e );
+			addException( context, e, imageDesign.getHandle( ) );
 		}
 	}
 
 	public static void handleOnPageBreak( IImageContent content,
 			ExecutionContext context )
 	{
+		ReportItemDesign imageDesign = (ReportItemDesign) content
+				.getGenerateBy( );
+		if ( !needOnPageBreak( imageDesign ) )
+		{
+			return;
+		}
 		try
 		{
-			ReportItemDesign imageDesign = ( ReportItemDesign ) content
-					.getGenerateBy( );
-			if ( !needOnPageBreak( imageDesign ) )
-			{
-				return;
-			}
 			IImageInstance image = new ImageInstance( content, context );
 			if ( handleJS( image, imageDesign.getOnPageBreak( ), context )
 					.didRun( ) )
@@ -106,9 +111,10 @@ public class ImageScriptExecutor extends ScriptExecutor
 			IImageEventHandler eh = getEventHandler( imageDesign, context );
 			if ( eh != null )
 				eh.onPageBreak( image, context.getReportContext( ) );
-		} catch ( Exception e )
+		}
+		catch ( Exception e )
 		{
-			addException( context, e );
+			addException( context, e, imageDesign.getHandle( ) );
 		}
 	}
 
@@ -121,8 +127,13 @@ public class ImageScriptExecutor extends ScriptExecutor
 		}
 		catch ( ClassCastException e )
 		{
-			addClassCastException( context, e, design.getJavaClass( ),
+			addClassCastException( context, e, design.getHandle( ),
 					IImageEventHandler.class );
+		}
+		catch ( EngineException e )
+		{
+			addClassCastException( context, e, design.getHandle( ),
+					IAutoTextEventHandler.class );
 		}
 		return null;
 	}
@@ -136,8 +147,12 @@ public class ImageScriptExecutor extends ScriptExecutor
 		}
 		catch ( ClassCastException e )
 		{
-			addClassCastException( context, e, handle.getEventHandlerClass( ),
-					IImageEventHandler.class );
+			addClassCastException( context, e, handle, IImageEventHandler.class );
+		}
+		catch ( EngineException e )
+		{
+			addClassCastException( context, e, handle,
+					IAutoTextEventHandler.class );
 		}
 		return null;
 	}

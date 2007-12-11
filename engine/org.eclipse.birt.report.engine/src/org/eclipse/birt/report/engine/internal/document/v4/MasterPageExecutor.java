@@ -87,8 +87,8 @@ public class MasterPageExecutor extends ContainerExecutor
 		}
 		catch ( IOException ex )
 		{
-			context.addException( new EngineException(
-					ex.getLocalizedMessage( ), ex ) );
+			context.addException( this.getDesign( ), new EngineException( ex
+					.getLocalizedMessage( ), ex ) );
 		}
 		return null;
 	}

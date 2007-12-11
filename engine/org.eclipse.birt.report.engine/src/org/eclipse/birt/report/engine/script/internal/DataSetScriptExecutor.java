@@ -13,6 +13,8 @@ package org.eclipse.birt.report.engine.script.internal;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 import org.eclipse.birt.data.engine.api.script.IDataRow;
 import org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle;
+import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.script.eventhandler.IAutoTextEventHandler;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IDataSetEventHandler;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IScriptedDataSetEventHandler;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -60,8 +62,12 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 						context );
 			} catch ( ClassCastException e )
 			{
-				addClassCastException( context, e, className,
+				addClassCastException( context, e, dataSetHandle,
 						IScriptedDataSetEventHandler.class );
+			} catch ( EngineException e )
+			{
+				addClassCastException( context, e, dataSetHandle,
+						IAutoTextEventHandler.class );
 			}
 		}
 	}

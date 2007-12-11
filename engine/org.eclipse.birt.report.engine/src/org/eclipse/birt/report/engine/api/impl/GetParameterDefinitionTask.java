@@ -416,7 +416,7 @@ public class GetParameterDefinitionTask extends EngineTask
 		catch ( BirtException ex )
 		{
 			log.log( Level.WARNING, ex.getMessage( ), ex );
-			executionContext.addException( ex );
+			executionContext.addException( parameter, ex );
 		}
 		return choices;
 	}
@@ -627,7 +627,7 @@ public class GetParameterDefinitionTask extends EngineTask
 		catch ( BirtException ex )
 		{
 			log.log( Level.WARNING, ex.getMessage( ), ex );
-			executionContext.addException( ex );
+			executionContext.addException( parameterGroup, ex );
 		}
 		return cache.getRoot( );
 	}
@@ -737,7 +737,7 @@ public class GetParameterDefinitionTask extends EngineTask
 			catch ( BirtException ex )
 			{
 				log.log( Level.WARNING, ex.getMessage( ), ex );
-				executionContext.addException( ex );
+				executionContext.addException( dataSet, ex );
 			}
 		}
 		return  null;
@@ -1030,7 +1030,7 @@ public class GetParameterDefinitionTask extends EngineTask
 			catch ( BirtException ex )
 			{
 				log.log( Level.WARNING, ex.getMessage( ), ex );
-				executionContext.addException( ex );
+				executionContext.addException( dataSet, ex );
 			}
 		}
 		return iterator;

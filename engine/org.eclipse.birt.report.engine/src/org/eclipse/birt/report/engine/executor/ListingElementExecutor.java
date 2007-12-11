@@ -166,7 +166,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		}
 		catch ( BirtException ex )
 		{
-			context.addException( ex );
+			context.addException( this.getDesign( ), ex );
 		}
 		return false;
 	}
@@ -273,7 +273,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 		}
 		catch ( BirtException ex )
 		{
-			context.addException( ex );
+			context.addException( this.getDesign( ), ex );
 		}
 
 	}

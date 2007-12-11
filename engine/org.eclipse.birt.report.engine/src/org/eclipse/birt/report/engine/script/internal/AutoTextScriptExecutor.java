@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.script.internal;
 
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.script.element.IAutoText;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IAutoTextEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.IAutoTextInstance;
@@ -42,84 +43,91 @@ public class AutoTextScriptExecutor extends ScriptExecutor
 	public static void handleOnCreate( IAutoTextContent content,
 			ExecutionContext context )
 	{
+		Object generateBy = content.getGenerateBy( );
+		if ( generateBy == null )
+		{
+			return;
+		}
+		ReportItemDesign autoTextItemDesign = (ReportItemDesign) generateBy;
 		try
 		{
-			Object generateBy = content.getGenerateBy( );
-			if ( generateBy == null )
-			{
-				return;
-			}
-			ReportItemDesign autoTextItemDesign = ( ReportItemDesign ) generateBy;
 			if ( !needOnCreate( autoTextItemDesign ) )
 			{
 				return;
 			}
 			IAutoTextInstance autoText = new AutoTextInstance( content, context );
-			if ( handleJS( autoText, autoTextItemDesign.getOnCreate( ), context ).didRun( ) )
+			if ( handleJS( autoText, autoTextItemDesign.getOnCreate( ), context )
+					.didRun( ) )
 				return;
-			IAutoTextEventHandler eh = getEventHandler( autoTextItemDesign, context );
+			IAutoTextEventHandler eh = getEventHandler( autoTextItemDesign,
+					context );
 			if ( eh != null )
 				eh.onCreate( autoText, context.getReportContext( ) );
 
-		} catch ( Exception e )
+		}
+		catch ( Exception e )
 		{
-			addException( context, e );
+			addException( context, e, autoTextItemDesign.getHandle( ) );
 		}
 	}
 
 	public static void handleOnRender( IAutoTextContent content,
 			ExecutionContext context )
 	{
+		Object generateBy = content.getGenerateBy( );
+		if ( generateBy == null )
+		{
+			return;
+		}
+		ReportItemDesign autoTextDesign = (ReportItemDesign) generateBy;
+		if ( !needOnRender( autoTextDesign ) )
+		{
+			return;
+		}
 		try
 		{
-			Object generateBy = content.getGenerateBy( );
-			if ( generateBy == null )
-			{
-				return;
-			}
-			ReportItemDesign autoTextDesign = ( ReportItemDesign ) generateBy; 
-			if ( !needOnRender( autoTextDesign ) )
-			{
-				return;
-			}
-			//fromGrid doesn't matter here since row data is null
+			// fromGrid doesn't matter here since row data is null
 			IAutoTextInstance autoText = new AutoTextInstance( content, context );
-			if ( handleJS( autoText, autoTextDesign.getOnRender( ), context ).didRun( ) )
+			if ( handleJS( autoText, autoTextDesign.getOnRender( ), context )
+					.didRun( ) )
 				return;
 			IAutoTextEventHandler eh = getEventHandler( autoTextDesign, context );
 			if ( eh != null )
 				eh.onRender( autoText, context.getReportContext( ) );
-		} catch ( Exception e )
+		}
+		catch ( Exception e )
 		{
-			addException( context, e );
+			addException( context, e, autoTextDesign.getHandle( ) );
 		}
 	}
-	
+
 	public static void handleOnPageBreak( IAutoTextContent content,
 			ExecutionContext context )
 	{
+		Object generateBy = content.getGenerateBy( );
+		if ( generateBy == null )
+		{
+			return;
+		}
+		ReportItemDesign autoTextDesign = (ReportItemDesign) generateBy;
 		try
 		{
-			Object generateBy = content.getGenerateBy( );
-			if ( generateBy == null )
-			{
-				return;
-			}
-			ReportItemDesign autoTextDesign = ( ReportItemDesign ) generateBy; 
 			if ( !needOnPageBreak( autoTextDesign ) )
 			{
 				return;
 			}
-			//fromGrid doesn't matter here since row data is null
+			// fromGrid doesn't matter here since row data is null
 			IAutoTextInstance autoText = new AutoTextInstance( content, context );
-			if ( handleJS( autoText, autoTextDesign.getOnPageBreak( ), context ).didRun( ) )
+			if ( handleJS( autoText, autoTextDesign.getOnPageBreak( ), context )
+					.didRun( ) )
 				return;
 			IAutoTextEventHandler eh = getEventHandler( autoTextDesign, context );
 			if ( eh != null )
 				eh.onPageBreak( autoText, context.getReportContext( ) );
-		} catch ( Exception e )
+		}
+		catch ( Exception e )
 		{
-			addException( context, e );
+			addException( context, e, autoTextDesign.getHandle( ) );
 		}
 	}
 
@@ -132,7 +140,12 @@ public class AutoTextScriptExecutor extends ScriptExecutor
 		}
 		catch ( ClassCastException e )
 		{
-			addClassCastException( context, e, design.getJavaClass( ),
+			addClassCastException( context, e, design.getHandle( ),
+					IAutoTextEventHandler.class );
+		}
+		catch ( EngineException e )
+		{
+			addClassCastException( context, e, design.getHandle( ),
 					IAutoTextEventHandler.class );
 		}
 		return null;
@@ -147,7 +160,12 @@ public class AutoTextScriptExecutor extends ScriptExecutor
 		}
 		catch ( ClassCastException e )
 		{
-			addClassCastException( context, e, handle.getEventHandlerClass( ),
+			addClassCastException( context, e, handle,
+					IAutoTextEventHandler.class );
+		}
+		catch ( EngineException e )
+		{
+			addClassCastException( context, e, handle,
 					IAutoTextEventHandler.class );
 		}
 		return null;

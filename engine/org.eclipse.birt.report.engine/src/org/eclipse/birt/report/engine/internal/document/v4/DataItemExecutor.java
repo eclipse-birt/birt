@@ -92,7 +92,7 @@ public class DataItemExecutor extends ReportItemExecutor
 					}
 					catch ( Exception ex )
 					{
-						context.addException( new EngineException(
+						context.addException( dataDesign, new EngineException(
 								"Retrieving binding data error", ex ) );
 					}
 				}

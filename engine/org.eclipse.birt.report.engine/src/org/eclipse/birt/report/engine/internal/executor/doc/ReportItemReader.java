@@ -501,7 +501,7 @@ public class ReportItemReader implements IReportItemExecutor
 					}
 					catch ( BirtException ex )
 					{
-						context.addException( ex );
+						context.addException( design, ex );
 					}
 				}
 				rset = rsets[0];
@@ -628,7 +628,7 @@ public class ReportItemReader implements IReportItemExecutor
 							}
 							catch ( BirtException ex )
 							{
-								context.addException( ex );
+								context.addException( design.getHandle( ), ex );
 							}
 						}
 						else if ( rset instanceof ICubeResultSet )

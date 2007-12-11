@@ -46,7 +46,7 @@ public class ReportScriptExecutor extends ScriptExecutor
 				eh.initialize( context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			addException( context, e );
+			addException( context, e, report );
 		}
 	}
 
@@ -72,7 +72,7 @@ public class ReportScriptExecutor extends ScriptExecutor
 				eh.beforeFactory( reportDesign, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			addException( context, e );
+			addException( context, e, report );
 		}
 	}
 
@@ -96,7 +96,7 @@ public class ReportScriptExecutor extends ScriptExecutor
 				eh.afterFactory( context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			addException( context, e );
+			addException( context, e, report );
 		}
 	}
 
@@ -120,7 +120,7 @@ public class ReportScriptExecutor extends ScriptExecutor
 				eh.beforeRender( context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			addException( context, e );
+			addException( context, e, report );
 		}
 	}
 
@@ -144,7 +144,7 @@ public class ReportScriptExecutor extends ScriptExecutor
 				eh.afterRender( context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			addException( context, e );
+			addException( context, e, report );
 		}
 	}
 }

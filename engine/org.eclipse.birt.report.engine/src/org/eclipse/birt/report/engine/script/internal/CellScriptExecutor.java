@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.engine.script.internal;
 
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.script.element.ICell;
+import org.eclipse.birt.report.engine.api.script.eventhandler.IAutoTextEventHandler;
 import org.eclipse.birt.report.engine.api.script.eventhandler.ICellEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.ICellInstance;
 import org.eclipse.birt.report.engine.content.ICellContent;
@@ -42,14 +44,14 @@ public class CellScriptExecutor extends ScriptExecutor
 	public static void handleOnCreate( ICellContent content,
 			ExecutionContext context, boolean fromGrid )
 	{
+		Object generateBy = content.getGenerateBy( );
+		if ( generateBy == null )
+		{
+			return;
+		}
+		ReportItemDesign cellDesign = (ReportItemDesign) generateBy;
 		try
 		{
-			Object generateBy = content.getGenerateBy( );
-			if ( generateBy == null )
-			{
-				return;
-			}
-			ReportItemDesign cellDesign = ( ReportItemDesign ) generateBy;
 			if ( !needOnCreate( cellDesign ) )
 			{
 				return;
@@ -64,27 +66,27 @@ public class CellScriptExecutor extends ScriptExecutor
 
 		} catch ( Exception e )
 		{
-			addException( context, e );
+			addException( context, e, cellDesign.getHandle( ) );
 		}
 	}
 
 	public static void handleOnRender( ICellContent content,
 			ExecutionContext context )
 	{
+		Object generateBy = content.getGenerateBy( );
+		if ( generateBy == null )
+		{
+			return;
+		}
+		ReportItemDesign cellDesign = (ReportItemDesign) generateBy;
+		if ( !needOnRender( cellDesign ) )
+		{
+			return;
+		}
+
 		try
 		{
-			Object generateBy = content.getGenerateBy( );
-			if ( generateBy == null )
-			{
-				return;
-			}
-			ReportItemDesign cellDesign = ( ReportItemDesign ) generateBy; 
-			if ( !needOnRender( cellDesign ) )
-			{
-				return;
-			}
-			
-			//fromGrid doesn't matter here since row data is null
+			// fromGrid doesn't matter here since row data is null
 			ICellInstance cell = new CellInstance( content, context,
 					false );
 			if ( handleJS( cell, cellDesign.getOnRender( ), context ).didRun( ) )
@@ -94,27 +96,27 @@ public class CellScriptExecutor extends ScriptExecutor
 				eh.onRender( cell, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			addException( context, e );
+			addException( context, e, cellDesign.getHandle( ) );
 		}
 	}
 	
 	public static void handleOnPageBreak( ICellContent content,
 			ExecutionContext context )
 	{
+		Object generateBy = content.getGenerateBy( );
+		if ( generateBy == null )
+		{
+			return;
+		}
+		ReportItemDesign cellDesign = (ReportItemDesign) generateBy;
+		if ( !needOnPageBreak( cellDesign ) )
+		{
+			return;
+		}
+		
 		try
 		{
-			Object generateBy = content.getGenerateBy( );
-			if ( generateBy == null )
-			{
-				return;
-			}
-			ReportItemDesign cellDesign = ( ReportItemDesign ) generateBy; 
-			if ( !needOnPageBreak( cellDesign ) )
-			{
-				return;
-			}
-			
-			//fromGrid doesn't matter here since row data is null
+			// fromGrid doesn't matter here since row data is null
 			ICellInstance cell = new CellInstance( content, context,
 					false );
 			if ( handleJS( cell, cellDesign.getOnPageBreak( ), context ).didRun( ) )
@@ -124,7 +126,7 @@ public class CellScriptExecutor extends ScriptExecutor
 				eh.onPageBreak( cell, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			addException( context, e );
+			addException( context, e, cellDesign.getHandle( ) );
 		}
 	}
 
@@ -137,8 +139,13 @@ public class CellScriptExecutor extends ScriptExecutor
 		}
 		catch ( ClassCastException e )
 		{
-			addClassCastException( context, e, design.getJavaClass( ),
+			addClassCastException( context, e, design.getHandle( ),
 					ICellEventHandler.class );
+		}
+		catch ( EngineException e )
+		{
+			addClassCastException( context, e, design.getHandle( ),
+					IAutoTextEventHandler.class );
 		}
 		return null;
 	}
@@ -152,8 +159,13 @@ public class CellScriptExecutor extends ScriptExecutor
 		}
 		catch ( ClassCastException e )
 		{
-			addClassCastException( context, e, handle.getEventHandlerClass( ),
+			addClassCastException( context, e, handle,
 					ICellEventHandler.class );
+		}
+		catch ( EngineException e )
+		{
+			addClassCastException( context, e, handle,
+					IAutoTextEventHandler.class );
 		}
 		return null;
 	}

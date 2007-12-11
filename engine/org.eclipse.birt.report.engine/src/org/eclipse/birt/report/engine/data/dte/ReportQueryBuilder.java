@@ -151,7 +151,7 @@ public class ReportQueryBuilder
 	/**
 	 * used to register the unresolved query reference.
 	 */
-	protected Map unresolvedQueryReferences = new HashMap( ); 
+	protected Map unresolvedQueryReferences = new HashMap( );
 
 	public ReportQueryBuilder( )
 	{
@@ -294,9 +294,10 @@ public class ReportQueryBuilder
 							// TODO: chart engine make a mistake here
 							if ( !( parentQuery instanceof IBaseQueryDefinition ) )
 							{
-								context.addException( new EngineException(
-										"subquery can only be created in another subquery/query"
-												+ design.getID( ) ) );
+								context.addException( design.getHandle( ),
+										new EngineException(
+												"subquery can only be created in another subquery/query"
+														+ design.getID( ) ) );
 							}
 
 							IBaseQueryDefinition pQuery = (IBaseQueryDefinition) parentQuery;
@@ -397,11 +398,12 @@ public class ReportQueryBuilder
 					// FIXME: throw out an exception
 					throw new IllegalStateException(
 							"unsupported query, report item: "
-									+ reportItem.getID( ) ); 
+									+ reportItem.getID( ) );
 				}
 			}
 		}
 	}
+
 	/**
 	 * The visitor class that actually builds the report query
 	 */
@@ -438,8 +440,14 @@ public class ReportQueryBuilder
 
 			for ( int i = 0; i < container.getItemCount( ); i++ )
 				build( query, container.getItem( i ) );
-
-			transformExpressions( container, query );
+			try
+			{
+				transformExpressions( container, query );
+			}
+			catch ( BirtException ex )
+			{
+				context.addException( container.getHandle( ), ex );
+			}
 			return getResultQuery( query, value );
 		}
 
@@ -469,8 +477,14 @@ public class ReportQueryBuilder
 			{
 				build( query, grid.getRow( i ) );
 			}
-
-			transformExpressions( grid, query );
+			try
+			{
+				transformExpressions( grid, query );
+			}
+			catch ( BirtException ex )
+			{
+				context.addException( grid.getHandle( ), ex );
+			}
 			return getResultQuery( query, value );
 		}
 
@@ -496,29 +510,38 @@ public class ReportQueryBuilder
 				query = createQuery( image, value );
 			}
 
-			if ( image.getImageSource( ) == ImageItemDesign.IMAGE_EXPRESSION )
+			try
 			{
-				String newImageExpression = transformExpression( image
-						.getImageExpression( ), query, null );
-				String newImageFormat = transformExpression( image
-						.getImageFormat( ), query, null );
-				image.setImageExpression( newImageExpression, newImageFormat );
-			}
-			else if ( image.getImageSource( ) == ImageItemDesign.IMAGE_URI )
-			{
-				String newImageUri = transformExpression( image.getImageUri( ),
-						query, null );
-				image.setImageUri( newImageUri );
-			}
-			else if ( image.getImageSource( ) == ImageItemDesign.IMAGE_FILE )
-			{
-				String newImageUri = transformExpression( image.getImageUri( ),
-						query, null );
-				image.setImageFile( newImageUri );
-			}
+				if ( image.getImageSource( ) == ImageItemDesign.IMAGE_EXPRESSION )
+				{
+					String newImageExpression = transformExpression( image
+							.getImageExpression( ), query, null );
+					String newImageFormat = transformExpression( image
+							.getImageFormat( ), query, null );
+					image.setImageExpression( newImageExpression,
+							newImageFormat );
+				}
+				else if ( image.getImageSource( ) == ImageItemDesign.IMAGE_URI )
+				{
+					String newImageUri = transformExpression( image
+							.getImageUri( ), query, null );
+					image.setImageUri( newImageUri );
+				}
+				else if ( image.getImageSource( ) == ImageItemDesign.IMAGE_FILE )
+				{
+					String newImageUri = transformExpression( image
+							.getImageUri( ), query, null );
+					image.setImageFile( newImageUri );
+				}
 
-			transformExpressions( image, query );
-			return getResultQuery( query, value );
+				transformExpressions( image, query );
+				return getResultQuery( query, value );
+			}
+			catch ( BirtException ex )
+			{
+				context.addException( image.getHandle( ), ex );
+				return null;
+			}
 		}
 
 		/*
@@ -542,7 +565,14 @@ public class ReportQueryBuilder
 			{
 				query = createQuery( label, value );
 			}
-			transformExpressions( label, query );
+			try
+			{
+				transformExpressions( label, query );
+			}
+			catch ( BirtException ex )
+			{
+				context.addException( label.getHandle( ), ex );
+			}
 			return getResultQuery( query, value );
 		}
 
@@ -580,8 +610,15 @@ public class ReportQueryBuilder
 					IDataQueryDefinition query = queries[0];
 					if ( query instanceof IBaseQueryDefinition )
 					{
-						transformExpressions( item,
-								(IBaseQueryDefinition) query );
+						try
+						{
+							transformExpressions( item,
+									(IBaseQueryDefinition) query );
+						}
+						catch ( BirtException ex )
+						{
+							context.addException( item.getHandle( ), ex );
+						}
 					}
 					return queries;
 				}
@@ -613,8 +650,7 @@ public class ReportQueryBuilder
 				}
 				catch ( BirtException ex )
 				{
-					logger.log( Level.WARNING, ex.getMessage( ), ex );
-					context.addException( ex );
+					context.addException( handle, ex );
 				}
 				if ( queries != null )
 				{
@@ -623,15 +659,29 @@ public class ReportQueryBuilder
 						IDataQueryDefinition query = queries[0];
 						if ( query instanceof IBaseQueryDefinition )
 						{
-							transformExpressions( item,
-									(IBaseQueryDefinition) query, null );
+							try
+							{
+								transformExpressions( item,
+										(IBaseQueryDefinition) query, null );
+							}
+							catch ( BirtException ex )
+							{
+								context.addException( handle, ex );
+							}
 						}
 					}
 					return queries;
 				}
 			}
 			BaseQueryDefinition query = createQuery( item, parentQuery );
-			transformExpressions( item, query );
+			try
+			{
+				transformExpressions( item, query );
+			}
+			catch ( BirtException ex )
+			{
+				context.addException( item.getHandle( ), ex );
+			}
 			return getResultQuery( query, value );
 		}
 
@@ -687,7 +737,14 @@ public class ReportQueryBuilder
 				handleListingBand( list.getFooter( ), query, true, null );
 
 			}
-			transformExpressions( list, query );
+			try
+			{
+				transformExpressions( list, query );
+			}
+			catch ( BirtException ex )
+			{
+				context.addException( list.getHandle( ), ex );
+			}
 			return getResultQuery( query, value );
 		}
 
@@ -720,13 +777,27 @@ public class ReportQueryBuilder
 				{
 					Map.Entry entry = (Map.Entry) ite.next( );
 					assert entry.getValue( ) instanceof String;
-					String newExpr = transformExpression( entry.getValue( )
-							.toString( ), query, null );
-					entry.setValue( newExpr );
+					try
+					{
+						String newExpr = transformExpression( entry.getValue( )
+								.toString( ), query, null );
+						entry.setValue( newExpr );
+					}
+					catch ( BirtException ex )
+					{
+						context.addException( text.getHandle( ), ex );
+						entry.setValue( null );
+					}
 				}
 			}
-
-			transformExpressions( text, query );
+			try
+			{
+				transformExpressions( text, query );
+			}
+			catch ( BirtException ex )
+			{
+				context.addException( text.getHandle( ), ex );
+			}
 			return getResultQuery( query, value );
 		}
 
@@ -738,7 +809,14 @@ public class ReportQueryBuilder
 		public void handleColumn( ColumnDesign column,
 				IBaseQueryDefinition query )
 		{
-			transformColumnExpressions( column, query, null );
+			try
+			{
+				transformColumnExpressions( column, query, null );
+			}
+			catch ( BirtException ex )
+			{
+				context.addException( column, ex );
+			}
 		}
 
 		/*
@@ -800,7 +878,14 @@ public class ReportQueryBuilder
 
 				handleListingBand( table.getFooter( ), query, true, null );
 			}
-			transformExpressions( table, query );
+			try
+			{
+				transformExpressions( table, query );
+			}
+			catch ( BirtException ex )
+			{
+				context.addException( table.getHandle( ), ex );
+			}
 			return getResultQuery( query, value );
 		}
 
@@ -826,11 +911,19 @@ public class ReportQueryBuilder
 			{
 				query = createQuery( dynamicText, value );
 			}
-			String newContent = transformExpression( dynamicText.getContent( ),
-					query, null );
-			dynamicText.setContent( newContent );
-			transformExpressions( dynamicText, query );
-			return getResultQuery( query, value );
+			try
+			{
+				String newContent = transformExpression( dynamicText
+						.getContent( ), query, null );
+				dynamicText.setContent( newContent );
+				transformExpressions( dynamicText, query );
+				return getResultQuery( query, value );
+			}
+			catch ( BirtException ex )
+			{
+				context.addException( dynamicText.getHandle( ), ex );
+				return null;
+			}
 		}
 
 		/*
@@ -854,8 +947,14 @@ public class ReportQueryBuilder
 			{
 				query = createQuery( data, value );
 			}
-
-			transformExpressions( data, query );
+			try
+			{
+				transformExpressions( data, query );
+			}
+			catch ( BirtException ex )
+			{
+				context.addException( data.getHandle( ), ex );
+			}
 			return getResultQuery( query, value );
 		}
 
@@ -924,7 +1023,7 @@ public class ReportQueryBuilder
 		{
 			assert value instanceof IBaseQueryDefinition;
 			IBaseQueryDefinition query = (IBaseQueryDefinition) value;
-			
+
 			IGroupDefinition groupDefn;
 			if ( !query.cacheQueryResults( ) )
 			{
@@ -934,15 +1033,22 @@ public class ReportQueryBuilder
 			{
 				groupDefn = getGroupDefinition( group, query );
 			}
-			
+
 			if ( groupDefn != null )
 			{
-				transformExpressions( group, query, groupDefn.getName( ) );
+				try
+				{
+					transformExpressions( group, query, groupDefn.getName( ) );
+				}
+				catch ( BirtException ex )
+				{
+					context.addException( group.getHandle( ), ex );
+				}
 				handleListingBand( group.getHeader( ), query, true, groupDefn );
 				handleListingBand( group.getFooter( ), query, true, groupDefn );
 			}
 		}
-		
+
 		protected IGroupDefinition getGroupDefinition( GroupDesign design,
 				IBaseQueryDefinition query )
 		{
@@ -961,7 +1067,7 @@ public class ReportQueryBuilder
 			}
 			EngineException ex = new EngineException( "Invalid group {0}", name );
 			logger.log( Level.WARNING, ex.getMessage( ), ex );
-			context.addException( ex );
+			context.addException( design.getHandle( ), ex );
 			return null;
 		}
 
@@ -1021,7 +1127,14 @@ public class ReportQueryBuilder
 				CellDesign cell = row.getCell( i );
 				build( query, cell );
 			}
-			transformExpressions( row, query );
+			try
+			{
+				transformExpressions( row, query );
+			}
+			catch ( BirtException ex )
+			{
+				context.addException( row.getHandle( ), ex );
+			}
 			return getResultQuery( query, value );
 		}
 
@@ -1048,7 +1161,14 @@ public class ReportQueryBuilder
 			{
 				build( query, cell.getContent( i ) );
 			}
-			transformExpressions( cell, query );
+			try
+			{
+				transformExpressions( cell, query );
+			}
+			catch ( BirtException ex )
+			{
+				context.addException( cell.getHandle( ), ex );
+			}
 			return getResultQuery( query, value );
 		}
 
@@ -1063,7 +1183,7 @@ public class ReportQueryBuilder
 		}
 
 		protected void addColumBinding( IBaseQueryDefinition transfer,
-				ComputedColumnHandle columnBinding )
+				ComputedColumnHandle columnBinding ) throws BirtException
 		{
 			String name = columnBinding.getName( );
 			String expr = columnBinding.getExpression( );
@@ -1075,41 +1195,34 @@ public class ReportQueryBuilder
 				dbExpr.setGroupName( columnBinding.getAggregateOn( ) );
 			}
 			IBinding binding = new Binding( name, dbExpr );
-			try
+			if ( columnBinding.getAggregateOn( ) != null )
+				binding.addAggregateOn( columnBinding.getAggregateOn( ) );
+			if ( columnBinding.getAggregateFunction( ) != null )
 			{
-				if ( columnBinding.getAggregateOn( ) != null )
-					binding.addAggregateOn( columnBinding.getAggregateOn( ) );
-				if ( columnBinding.getAggregateFunction( ) != null )
+				binding.setAggrFunction( columnBinding.getAggregateFunction( ) );
+			}
+			String filter = columnBinding.getFilterExpression( );
+			if ( filter != null )
+			{
+				binding.setFilter( new ScriptExpression( filter ) );
+			}
+			Iterator arguments = columnBinding.argumentsIterator( );
+			if ( arguments != null )
+			{
+				while ( arguments.hasNext( ) )
 				{
-					binding.setAggrFunction( columnBinding.getAggregateFunction( ) );
-				}
-				String filter = columnBinding.getFilterExpression( );
-				if ( filter != null )
-				{
-					binding.setFilter( new ScriptExpression( filter ) );
-				}
-				Iterator arguments = columnBinding.argumentsIterator( );
-				if ( arguments != null )
-				{
-					while ( arguments.hasNext( ) )
+					AggregationArgumentHandle argumentHandle = (AggregationArgumentHandle) arguments
+							.next( );
+					String argument = argumentHandle.getValue( );
+					if ( argument != null )
 					{
-						AggregationArgumentHandle argumentHandle = (AggregationArgumentHandle) arguments
-								.next( );
-						String argument = argumentHandle.getValue( );
-						if ( argument != null )
-						{
-							binding.addArgument( new ScriptExpression( argument ) );
-						}
+						binding.addArgument( new ScriptExpression( argument ) );
 					}
 				}
-				transfer.addBinding( binding );
 			}
-			catch ( DataException ex )
-			{
-				context.addException( ex );
-			}
+			transfer.addBinding( binding );
 		}
-		
+
 		/**
 		 * Remember the relations if the reference handle's query hasn't been
 		 * builder.
@@ -1135,7 +1248,7 @@ public class ReportQueryBuilder
 				unresolvedQueryReferences.put( referenceHandle, items );
 			}
 		}
-		
+
 		protected BaseQueryDefinition getRefenceQuery( ReportItemDesign item )
 		{
 			ReportItemHandle itemHandle = (ReportItemHandle) item.getHandle( );
@@ -1163,7 +1276,7 @@ public class ReportQueryBuilder
 					// FIXME: can't support reference normal query to cube
 					// query.
 					throw new IllegalStateException(
-							"Can't support reference normal query to cube query" ); 
+							"Can't support reference normal query to cube query" );
 				}
 			}
 			return null;
@@ -1180,7 +1293,7 @@ public class ReportQueryBuilder
 				Object parent )
 		{
 
-			DesignElementHandle handle = item.getHandle( );			
+			DesignElementHandle handle = item.getHandle( );
 
 			BaseQueryDefinition parentQuery = null;
 			if ( parent instanceof BaseQueryDefinition )
@@ -1222,17 +1335,18 @@ public class ReportQueryBuilder
 					// return the parentQuery as the current query.
 					return parentQuery;
 				}
-				
+
 				if ( parent instanceof CubeQueryDefinition )
 				{
 					return null;
-					//return createSubQuery(item, null);
+					// return createSubQuery(item, null);
 				}
 
 				// we have column binding, create a sub query.
 				return createSubQuery( item, parentQuery );
 			}
-			// The report item has a data set definition, must create a query for
+			// The report item has a data set definition, must create a query
+			// for
 			// it.
 			QueryDefinition query = new QueryDefinition( parentQuery );
 			query.setDataSetName( dsHandle.getQualifiedName( ) );
@@ -1251,7 +1365,14 @@ public class ReportQueryBuilder
 			{
 				ComputedColumnHandle binding = (ComputedColumnHandle) iter
 						.next( );
-				addColumBinding( query, binding );
+				try
+				{
+					addColumBinding( query, binding );
+				}
+				catch ( BirtException ex )
+				{
+					context.addException( designHandle, ex );
+				}
 			}
 
 			addSortAndFilter( item, query );
@@ -1290,7 +1411,14 @@ public class ReportQueryBuilder
 				{
 					ComputedColumnHandle binding = (ComputedColumnHandle) iter
 							.next( );
-					addColumBinding( query, binding );
+					try
+					{
+						addColumBinding( query, binding );
+					}
+					catch ( BirtException ex )
+					{
+						context.addException( designHandle, ex );
+					}
 				}
 			}
 
@@ -1407,7 +1535,7 @@ public class ReportQueryBuilder
 			int dteOpr = ModelDteApiAdapter.toDteFilterOperator( filterOpr );
 			if ( ModuleUtil.isListFilterValue( handle ) )
 			{
-				List operand1List = handle.getValue1List( );				
+				List operand1List = handle.getValue1List( );
 				return new FilterDefinition( new ConditionalExpression( column,
 						dteOpr, operand1List ) );
 			}
@@ -1670,6 +1798,7 @@ public class ReportQueryBuilder
 		 */
 		private void transformExpressions( ReportItemDesign item,
 				IBaseQueryDefinition query, String groupName )
+				throws BirtException
 		{
 			if ( query != null )
 			{
@@ -1690,6 +1819,7 @@ public class ReportQueryBuilder
 		 */
 		protected String transformExpression( String expr,
 				IBaseQueryDefinition query, String groupName )
+				throws BirtException
 		{
 			if ( expr == null )
 			{
@@ -1700,15 +1830,9 @@ public class ReportQueryBuilder
 				List expressions = new ArrayList( );
 				expressions.add( expr );
 				ITotalExprBindings totalExpressionBinding = null;;
-				try
-				{
-					totalExpressionBinding = expressionUtil
-							.prepareTotalExpressions( expressions, groupName );
-				}
-				catch ( EngineException ex )
-				{
-					context.addException( ex );
-				}
+
+				totalExpressionBinding = expressionUtil
+						.prepareTotalExpressions( expressions, groupName );
 
 				addNewColumnBindings( query, totalExpressionBinding );
 
@@ -1725,6 +1849,7 @@ public class ReportQueryBuilder
 		 */
 		private void transformColumnExpressions( ColumnDesign column,
 				IBaseQueryDefinition query, String groupName )
+				throws BirtException
 		{
 			if ( query == null )
 			{
@@ -1760,15 +1885,9 @@ public class ReportQueryBuilder
 				}
 			}
 			ITotalExprBindings totalExpressionBindings = null;
-			try
-			{
-				totalExpressionBindings = expressionUtil
-						.prepareTotalExpressions( expressions, groupName );
-			}
-			catch ( EngineException ex )
-			{
-				context.addException( ex );
-			}
+
+			totalExpressionBindings = expressionUtil.prepareTotalExpressions(
+					expressions, groupName );
 
 			// add new column bindings to the query
 			addNewColumnBindings( query, totalExpressionBindings );
@@ -1803,7 +1922,7 @@ public class ReportQueryBuilder
 			List newExpressions = totalExpressionBindings.getNewExpression( );
 			item.setTOC( (String) newExpressions.get( expressionIndex++ ) );
 			item.setBookmark( (String) newExpressions.get( expressionIndex++ ) );
-			
+
 			String onCreateScriptText = (String) newExpressions.get( expressionIndex++ );
 			String onRenderScriptText = (String) newExpressions.get( expressionIndex++ );
 			String onPageBreakScriptText = (String) newExpressions.get( expressionIndex++ );
@@ -2058,27 +2177,21 @@ public class ReportQueryBuilder
 			}
 			catch ( EngineException ex )
 			{
-				context.addException( ex );
+				context.addException( item.getHandle( ), ex );
 			}
 			return totalExpressionBindings;
 		}
 
 		private void addNewColumnBindings( IBaseQueryDefinition query,
 				ITotalExprBindings totalExpressionBindings )
+				throws BirtException
 		{
 			IBinding[] bindings = totalExpressionBindings.getColumnBindings( );
 			if ( bindings != null )
 			{
-				try
+				for ( int i = 0; i < bindings.length; i++ )
 				{
-					for ( int i = 0; i < bindings.length; i++ )
-					{
-						query.addBinding( bindings[i] );
-					}
-				}
-				catch ( DataException e )
-				{
-					context.addException( e );
+					query.addBinding( bindings[i] );
 				}
 			}
 		}
@@ -2090,7 +2203,7 @@ public class ReportQueryBuilder
 		 * @param query
 		 */
 		private void transformExpressions( ReportItemDesign item,
-				IBaseQueryDefinition query )
+				IBaseQueryDefinition query ) throws BirtException
 		{
 			// we can't change the paramter-binding, sorting, filtering
 			// for shared result set, but we can add column bindings to it.

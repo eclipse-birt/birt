@@ -85,7 +85,7 @@ abstract public class GroupExecutor extends ReportItemExecutor
 		}
 		catch ( BirtException ex )
 		{
-			context.addException( ex );
+			context.addException( this.getDesign( ), ex );
 		}
 		return false;
 	}
@@ -189,7 +189,7 @@ abstract public class GroupExecutor extends ReportItemExecutor
 		}
 		catch ( BirtException ex )
 		{
-			context.addException( ex );
+			context.addException( this.getDesign( ), ex );
 		}
 	}
 
@@ -235,7 +235,7 @@ abstract public class GroupExecutor extends ReportItemExecutor
 		}
 		catch ( BirtException ex )
 		{
-			context.addException( ex );
+			context.addException( this.getDesign( ), ex );
 		}
 	}
 
@@ -314,7 +314,7 @@ abstract public class GroupExecutor extends ReportItemExecutor
 		}
 		catch ( BirtException ex )
 		{
-			context.addException( ex );
+			context.addException(this.getDesign( ), ex );
 		}
 	}
 

@@ -194,10 +194,9 @@ public class DataExtractionTaskV1 extends EngineTask
 		{
 			loadResultSetMetaData( );
 		}
-		catch ( EngineException e )
+		catch ( Exception e )
 		{
 			logger.log( Level.WARNING, e.getMessage( ), e );
-			executionContext.addException( e );
 		}
 
 		isMetaDataPrepared = true;
@@ -228,7 +227,7 @@ public class DataExtractionTaskV1 extends EngineTask
 	/**
 	 * load map from query id to result set id from report document.
 	 */
-	private void loadResultSetMetaData( ) throws EngineException
+	private void loadResultSetMetaData( ) //throws EngineException
 	{
 		try
 		{

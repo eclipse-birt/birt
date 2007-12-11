@@ -191,7 +191,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		return page;
 	}
 	
-	protected TextTemplate parseTemplate( String text )
+	protected TextTemplate parseTemplate( String text ) throws BirtException
 	{
 		SoftReference templateRef = (SoftReference) templates.get( text );
 		TextTemplate template = null;
@@ -212,10 +212,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		}
 		catch ( Exception ex )
 		{
-			context
-					.addException( new EngineException( ex
-							.getLocalizedMessage( ) ) );
-			logger.log( Level.WARNING, ex.getMessage( ), ex );
+			throw new EngineException( ex.getLocalizedMessage( ), ex );
 		}
 		return template;
 	}
@@ -588,13 +585,19 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 			{
 				text = localize( foreignContent, design.getTextKey( ), design.getText( ) );
 			}
-			
-			TextTemplate template = parseTemplate( text );
+			try
+			{
+				TextTemplate template = parseTemplate( text );
 
-			String result = executeTemplate( template, rawValues );
-			
-			foreignContent.setRawType( IForeignContent.HTML_TYPE );
-			foreignContent.setRawValue( result );
+				String result = executeTemplate( template, rawValues );
+				
+				foreignContent.setRawType( IForeignContent.HTML_TYPE );
+				foreignContent.setRawValue( result );
+			}
+			catch ( BirtException ex )
+			{
+				context.addException( design, ex );
+			}
 		}
 	}
 

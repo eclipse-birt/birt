@@ -8,9 +8,12 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.report.engine.script.internal;
 
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.script.element.ITableGroup;
+import org.eclipse.birt.report.engine.api.script.eventhandler.IAutoTextEventHandler;
 import org.eclipse.birt.report.engine.api.script.eventhandler.ITableGroupEventHandler;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -40,23 +43,27 @@ public class TableGroupScriptExecutor extends ScriptExecutor
 	public static void handleOnPageBreak( ITableGroupContent content,
 			ExecutionContext context )
 	{
+		ReportItemDesign tableGroupDesign = (ReportItemDesign) content
+				.getGenerateBy( );
+		if ( !needOnPageBreak( tableGroupDesign ) )
+		{
+			return;
+		}
 		try
 		{
-			ReportItemDesign tableGroupDesign = ( ReportItemDesign ) content
-					.getGenerateBy( );
-			if ( !needOnPageBreak( tableGroupDesign ) )
-			{
+			ReportElementInstance table = new ReportElementInstance( content,
+					context );
+			if ( handleJS( table, tableGroupDesign.getOnPageBreak( ), context )
+					.didRun( ) )
 				return;
-			}
-			ReportElementInstance table = new ReportElementInstance( content, context );
-			if ( handleJS( table, tableGroupDesign.getOnPageBreak( ), context ).didRun( ) )
-				return;
-			ITableGroupEventHandler eh = getEventHandler( tableGroupDesign, context );
+			ITableGroupEventHandler eh = getEventHandler( tableGroupDesign,
+					context );
 			if ( eh != null )
 				eh.onPageBreak( table, context.getReportContext( ) );
-		} catch ( Exception e )
+		}
+		catch ( Exception e )
 		{
-			addException( context, e );
+			addException( context, e, tableGroupDesign.getHandle( ) );
 		}
 	}
 
@@ -69,8 +76,13 @@ public class TableGroupScriptExecutor extends ScriptExecutor
 		}
 		catch ( ClassCastException e )
 		{
-			addClassCastException( context, e, handle.getEventHandlerClass( ),
+			addClassCastException( context, e, handle,
 					ITableGroupEventHandler.class );
+		}
+		catch ( EngineException e )
+		{
+			addClassCastException( context, e, handle,
+					IAutoTextEventHandler.class );
 		}
 		return null;
 	}
@@ -84,8 +96,13 @@ public class TableGroupScriptExecutor extends ScriptExecutor
 		}
 		catch ( ClassCastException e )
 		{
-			addClassCastException( context, e, design.getJavaClass( ),
+			addClassCastException( context, e, design.getHandle( ),
 					ITableGroupEventHandler.class );
+		}
+		catch ( EngineException e )
+		{
+			addClassCastException( context, e, design.getHandle( ),
+					IAutoTextEventHandler.class );
 		}
 		return null;
 	}

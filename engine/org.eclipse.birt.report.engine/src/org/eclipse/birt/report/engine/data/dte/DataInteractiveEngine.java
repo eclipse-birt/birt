@@ -21,6 +21,7 @@ import java.util.logging.Level;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
@@ -203,180 +204,162 @@ public class DataInteractiveEngine extends AbstractDataEngine
 	}
 	
 	protected IBaseResultSet doExecuteQuery( IBaseResultSet parentResult,
-			IQueryDefinition query, boolean useCache )
+			IQueryDefinition query, boolean useCache ) throws BirtException
 	{
 		String queryID = (String) queryIDMap.get( query );
-		try
+
+		IBaseQueryResults parentQueryResults = null;
+		if ( parentResult != null )
 		{
-			IBaseQueryResults parentQueryResults = null;
-			if ( parentResult != null )
-			{
-				parentQueryResults = parentResult.getQueryResults( );
-			}
-			
-			String resultSetID = loadResultSetID( parentResult, queryID );		
-			if ( resultSetID == null )
-			{
-				logger.log( Level.SEVERE, "Can't load the report query" );
-				return null;
-			}
+			parentQueryResults = parentResult.getQueryResults( );
+		}
 
-			// Interactive do not support CUBE?
-			((QueryDefinition)query).setQueryResultsID( resultSetID );
-			IBasePreparedQuery pQuery = dteSession.prepare( query, null );
-			
-			Scriptable scope = context.getSharedScope( );
+		String resultSetID = loadResultSetID( parentResult, queryID );		
+		if ( resultSetID == null )
+		{
+			throw new EngineException("Can't load report query: " + query.getClass( ).getName( ) );
+		}
 
-			String pRsetId = null; // id of the parent query restuls
-			String rowId = "-1"; // row id of the parent query results
-			IBaseQueryResults dteResults = null; // the dteResults of this query
-			QueryResultSet resultSet = null;
-			
-			if ( parentQueryResults == null )
+		// Interactive do not support CUBE?
+		((QueryDefinition)query).setQueryResultsID( resultSetID );
+		IBasePreparedQuery pQuery = dteSession.prepare( query, null );
+
+		Scriptable scope = context.getSharedScope( );
+
+		String pRsetId = null; // id of the parent query restuls
+		String rowId = "-1"; // row id of the parent query results
+		IBaseQueryResults dteResults = null; // the dteResults of this query
+		QueryResultSet resultSet = null;
+
+		if ( parentQueryResults == null )
+		{
+			// this is the root query
+			if ( useCache )
 			{
-				// this is the root query
-				if ( useCache )
+				dteResults = getCachedQueryResult( query );
+			}
+			if ( dteResults == null )
+			{
+				dteResults = dteSession.execute( pQuery, null, scope );
+				if ( query.cacheQueryResults( ) )
 				{
-					dteResults = getCachedQueryResult( query );
-				}
-				if ( dteResults == null )
-				{
-					dteResults = dteSession.execute( pQuery, null, scope );
-					if ( query.cacheQueryResults( ) )
-					{
-						cachedQueryToResults.put( query, dteResults.getID( ) );
-					}					
-				}
-				resultSet = new QueryResultSet( this, context,
-							query,
-							(IQueryResults) dteResults );
+					cachedQueryToResults.put( query, dteResults.getID( ) );
+				}					
+			}
+			resultSet = new QueryResultSet( this, context,
+					query,
+					(IQueryResults) dteResults );
+		}
+		else
+		{
+			if ( parentResult instanceof QueryResultSet )
+			{
+				pRsetId = ( (QueryResultSet) parentResult )
+				.getQueryResultsID( );
 			}
 			else
 			{
-				if ( parentResult instanceof QueryResultSet )
-				{
-					pRsetId = ( (QueryResultSet) parentResult )
-							.getQueryResultsID( );
-				}
-				else
-				{
-					pRsetId = ( (CubeResultSet) parentResult )
-							.getQueryResultsID( );
-				}
-				rowId = parentResult.getRawID( );
-				
-				// this is the nest query, execute the query in the
-				// parent results
-				if ( useCache )
-				{
-					dteResults = getCachedQueryResult( query );
-				}
-				if ( dteResults == null )
-				{
-					dteResults = dteSession.execute( pQuery, parentQueryResults, scope );
-					if ( query.cacheQueryResults( ) )
-					{
-						cachedQueryToResults.put( query, dteResults.getID( ) );
-					}
-				}
-				resultSet = new QueryResultSet( this, context, parentResult,
-							(IQueryDefinition) query,
-							(IQueryResults) dteResults );
-				
+				pRsetId = ( (CubeResultSet) parentResult )
+				.getQueryResultsID( );
 			}
-			// see DteResultSet
-			resultSet.setBaseRSetID( resultSetID );
-			
-			storeDteMetaInfo( pRsetId, rowId, queryID, dteResults.getID( ) );
+			rowId = parentResult.getRawID( );
 
-			return resultSet;
+			// this is the nest query, execute the query in the
+			// parent results
+			if ( useCache )
+			{
+				dteResults = getCachedQueryResult( query );
+			}
+			if ( dteResults == null )
+			{
+				dteResults = dteSession.execute( pQuery, parentQueryResults, scope );
+				if ( query.cacheQueryResults( ) )
+				{
+					cachedQueryToResults.put( query, dteResults.getID( ) );
+				}
+			}
+			resultSet = new QueryResultSet( this, context, parentResult,
+					(IQueryDefinition) query,
+					(IQueryResults) dteResults );
+
 		}
-		catch ( BirtException be )
-		{
-			logger.log( Level.SEVERE, be.getMessage( ) );
-			context.addException( be );
-			return null;
-		}
+		// see DteResultSet
+		resultSet.setBaseRSetID( resultSetID );
+
+		storeDteMetaInfo( pRsetId, rowId, queryID, dteResults.getID( ) );
+
+		return resultSet;
 	}
 	
 	protected IBaseResultSet doExecuteCube( IBaseResultSet parentResult,
-			ICubeQueryDefinition query, boolean useCache )
+			ICubeQueryDefinition query, boolean useCache ) throws BirtException
 	{
 		String queryID = (String) queryIDMap.get( query );
-		try
+
+		IBaseQueryResults parentQueryResults = null;
+		if ( parentResult != null )
 		{
-			IBaseQueryResults parentQueryResults = null;
-			if ( parentResult != null )
-			{
-				parentQueryResults = parentResult.getQueryResults( );
-			}
-
-			String resultSetID = loadResultSetID( parentResult, queryID );
-			if ( resultSetID == null )
-			{
-				logger.log( Level.SEVERE, "Can't load the report query" );
-				return null;
-			}
-
-			if ( useCache )
-			{
-				String rsetId = String.valueOf( cachedQueryToResults.get( query ) );
-				query.setQueryResultsID( rsetId );
-			}
-			else
-			{
-				query.setQueryResultsID( null );
-			}
-
-			// Interactive do not support CUBE?
-			query.setQueryResultsID( resultSetID );
-			IBasePreparedQuery pQuery = dteSession.prepare( query, appContext );
-
-			Scriptable scope = context.getSharedScope( );
-
-			String pRsetId = null; // id of the parent query restuls
-			String rowId = "-1"; // row id of the parent query results
-			IBaseQueryResults dteResults; // the dteResults of this query
-			CubeResultSet resultSet = null;
-
-			if ( parentQueryResults == null )
-			{
-				// this is the root query
-				dteResults = dteSession.execute( pQuery, null, scope );
-				resultSet = new CubeResultSet( this, context, query,
-						(ICubeQueryResults) dteResults );
-			}
-			else
-			{
-				pRsetId = parentResult.getQueryResults( ).getID( );
-				rowId = parentResult.getRawID( );
-
-				// this is the nest query, execute the query in the
-				// parent results
-				dteResults = dteSession.execute( pQuery, parentQueryResults,
-						scope );
-				resultSet = new CubeResultSet( this, context, parentResult, query,
-						(ICubeQueryResults) dteResults );
-			}
-			// FIXME:
-			// resultSet.setBaseRSetID( resultSetID );
-
-			storeDteMetaInfo( pRsetId, rowId, queryID, dteResults.getID( ) );
-
-			// persist the queryResults witch need cached.
-			if ( query.cacheQueryResults( ) )
-			{
-				cachedQueryToResults.put( query, dteResults.getID( ) );
-			}
-
-			return resultSet;
+			parentQueryResults = parentResult.getQueryResults( );
 		}
-		catch ( BirtException be )
+
+		String resultSetID = loadResultSetID( parentResult, queryID );
+		if ( resultSetID == null )
 		{
-			logger.log( Level.SEVERE, be.getMessage( ) );
-			context.addException( be );
-			return null;
+			throw new EngineException("Can't load the report query:" + queryID);
 		}
+
+		if ( useCache )
+		{
+			String rsetId = String.valueOf( cachedQueryToResults.get( query ) );
+			query.setQueryResultsID( rsetId );
+		}
+		else
+		{
+			query.setQueryResultsID( null );
+		}
+
+		// Interactive do not support CUBE?
+		query.setQueryResultsID( resultSetID );
+		IBasePreparedQuery pQuery = dteSession.prepare( query, appContext );
+
+		Scriptable scope = context.getSharedScope( );
+
+		String pRsetId = null; // id of the parent query restuls
+		String rowId = "-1"; // row id of the parent query results
+		IBaseQueryResults dteResults; // the dteResults of this query
+		CubeResultSet resultSet = null;
+
+		if ( parentQueryResults == null )
+		{
+			// this is the root query
+			dteResults = dteSession.execute( pQuery, null, scope );
+			resultSet = new CubeResultSet( this, context, query,
+					(ICubeQueryResults) dteResults );
+		}
+		else
+		{
+			pRsetId = parentResult.getQueryResults( ).getID( );
+			rowId = parentResult.getRawID( );
+
+			// this is the nest query, execute the query in the
+			// parent results
+			dteResults = dteSession.execute( pQuery, parentQueryResults,
+					scope );
+			resultSet = new CubeResultSet( this, context, parentResult, query,
+					(ICubeQueryResults) dteResults );
+		}
+		// FIXME:
+		// resultSet.setBaseRSetID( resultSetID );
+
+		storeDteMetaInfo( pRsetId, rowId, queryID, dteResults.getID( ) );
+
+		// persist the queryResults witch need cached.
+		if ( query.cacheQueryResults( ) )
+		{
+			cachedQueryToResults.put( query, dteResults.getID( ) );
+		}
+
+		return resultSet;
 	}
 	
 	private String loadResultSetID( IBaseResultSet parentResult, String queryID )

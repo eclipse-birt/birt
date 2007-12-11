@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.engine.script.internal;
 
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.script.element.IDataItem;
+import org.eclipse.birt.report.engine.api.script.eventhandler.IAutoTextEventHandler;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IDataItemEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.IDataItemInstance;
 import org.eclipse.birt.report.engine.content.IDataContent;
@@ -41,15 +43,16 @@ public class DataItemScriptExecutor extends ScriptExecutor
 	public static void handleOnCreate( IDataContent content,
 			ExecutionContext context )
 	{
+
+		ReportItemDesign dataItemDesign = (ReportItemDesign) content
+				.getGenerateBy( );
+		if ( !needOnCreate( dataItemDesign ) )
+		{
+			return;
+		}
+
 		try
 		{
-			ReportItemDesign dataItemDesign = ( ReportItemDesign ) content
-					.getGenerateBy( );
-			if ( !needOnCreate( dataItemDesign ) )
-			{
-				return;
-			}
-			
 			IDataItemInstance dataItem = new DataItemInstance( content, context );
 			if ( handleJS( dataItem, dataItemDesign.getOnCreate( ), context )
 					.didRun( ) )
@@ -59,22 +62,22 @@ public class DataItemScriptExecutor extends ScriptExecutor
 				eh.onCreate( dataItem, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			addException( context, e );
+			addException( context, e, dataItemDesign.getHandle( ) );
 		}
 	}
 
 	public static void handleOnRender( IDataContent content,
 			ExecutionContext context )
 	{
+		ReportItemDesign dataItemDesign = (ReportItemDesign) content
+				.getGenerateBy( );
+		if ( !needOnRender( dataItemDesign ) )
+		{
+			return;
+		}
+
 		try
 		{
-			ReportItemDesign dataItemDesign = ( ReportItemDesign ) content
-					.getGenerateBy( );
-			if ( !needOnRender( dataItemDesign ) )
-			{
-				return;
-			}
-			
 			IDataItemInstance dataItem = new DataItemInstance( content, context );
 			if ( handleJS( dataItem, dataItemDesign.getOnRender( ), context )
 					.didRun( ) )
@@ -84,21 +87,21 @@ public class DataItemScriptExecutor extends ScriptExecutor
 				eh.onRender( dataItem, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			addException( context, e );
+			addException( context, e, dataItemDesign.getHandle( ) );
 		}
 	}
 	
 	public static void handleOnPageBreak( IDataContent content,
 			ExecutionContext context )
 	{
+		ReportItemDesign dataItemDesign = (ReportItemDesign) content
+				.getGenerateBy( );
+		if ( !needOnPageBreak( dataItemDesign ) )
+		{
+			return;
+		}
 		try
 		{
-			ReportItemDesign dataItemDesign = ( ReportItemDesign ) content
-					.getGenerateBy( );
-			if ( !needOnPageBreak( dataItemDesign ) )
-			{
-				return;
-			}
 			IDataItemInstance dataItem = new DataItemInstance( content, context );
 			if ( handleJS( dataItem, dataItemDesign.getOnPageBreak( ), context )
 					.didRun( ) )
@@ -108,7 +111,7 @@ public class DataItemScriptExecutor extends ScriptExecutor
 				eh.onPageBreak( dataItem, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			addException( context, e );
+			addException( context, e, dataItemDesign.getHandle( ) );
 		}
 	}
 
@@ -121,8 +124,13 @@ public class DataItemScriptExecutor extends ScriptExecutor
 		}
 		catch ( ClassCastException e )
 		{
-			addClassCastException( context, e, design.getJavaClass( ),
+			addClassCastException( context, e, design.getHandle( ),
 					IDataItemEventHandler.class );
+		}
+		catch ( EngineException e )
+		{
+			addClassCastException( context, e, design.getHandle( ),
+					IAutoTextEventHandler.class );
 		}
 		return null;
 	}
@@ -136,8 +144,13 @@ public class DataItemScriptExecutor extends ScriptExecutor
 		}
 		catch ( ClassCastException e )
 		{
-			addClassCastException( context, e, handle.getEventHandlerClass( ),
+			addClassCastException( context, e, handle,
 					IDataItemEventHandler.class );
+		}
+		catch ( EngineException e )
+		{
+			addClassCastException( context, e, handle,
+					IAutoTextEventHandler.class );
 		}
 		return null;
 	}

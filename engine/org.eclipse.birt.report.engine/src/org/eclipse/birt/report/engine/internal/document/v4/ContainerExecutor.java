@@ -112,7 +112,8 @@ abstract public class ContainerExecutor extends ReportItemExecutor
 			catch ( Exception ex )
 			{
 				logger.log( Level.WARNING, ex.getMessage( ), ex );
-				context.addException( new EngineException( ex.getLocalizedMessage( ) ) );
+				context.addException( this.getDesign( ), new EngineException(
+						ex.getLocalizedMessage( ), ex ) );
 			}
 			needPrepareNext = false;
 		}

@@ -24,6 +24,7 @@ import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.mozilla.javascript.Scriptable;
@@ -88,7 +89,7 @@ public class DteDataEngine extends AbstractDataEngine
 	}
 
 	protected IBaseResultSet doExecuteQuery( IBaseResultSet parentResultSet,
-			IQueryDefinition query, boolean useCache )
+			IQueryDefinition query, boolean useCache ) throws BirtException
 	{
 		IPreparedQuery pQuery = (IPreparedQuery) queryMap.get( query );
 		if ( pQuery == null )
@@ -96,63 +97,53 @@ public class DteDataEngine extends AbstractDataEngine
 			return null;
 		}
 
-		try
-		{
-			Scriptable scope = context.getSharedScope( );
+		Scriptable scope = context.getSharedScope( );
 
-			IBaseQueryResults dteResults = null; // the dteResults of this query
-			if ( useCache )
-			{
-				dteResults = getCachedQueryResult( query );
-			}
-			if ( dteResults == null )
-			{
-				if ( parentResultSet == null )
-				{
-					// this is the root query
-					dteResults = dteSession.execute( pQuery, null, scope );
-				}
-				else
-				{
-					// this is the nest query, execute the query in the
-					// parent results
-					dteResults = dteSession.execute( pQuery, parentResultSet
-							.getQueryResults( ), scope );
-				}
-				if ( query.cacheQueryResults( ) )
-				{
-					cachedQueryToResults.put( query, dteResults.getID( ) );
-				}
-			}		
+		IBaseQueryResults dteResults = null; // the dteResults of this query
+		if ( useCache )
+		{
+			dteResults = getCachedQueryResult( query );
+		}
+		if ( dteResults == null )
+		{
 			if ( parentResultSet == null )
 			{
-				// this is the root query						
-				return new QueryResultSet( this,
-						context,
-						query,
-						(IQueryResults) dteResults );
+				// this is the root query
+				dteResults = dteSession.execute( pQuery, null, scope );
 			}
 			else
 			{
-				// this is the nest query		
-				return new QueryResultSet( this,
-						context,
-						parentResultSet,
-						query,
-						(IQueryResults) dteResults );
+				// this is the nest query, execute the query in the
+				// parent results
+				dteResults = dteSession.execute( pQuery, parentResultSet
+						.getQueryResults( ), scope );
 			}
-		}
-		catch ( BirtException be )
+			if ( query.cacheQueryResults( ) )
+			{
+				cachedQueryToResults.put( query, dteResults.getID( ) );
+			}
+		}		
+		if ( parentResultSet == null )
 		{
-			logger.log( Level.SEVERE, be.getMessage( ) );
-			context.addException( be );
+			// this is the root query						
+			return new QueryResultSet( this,
+					context,
+					query,
+					(IQueryResults) dteResults );
 		}
-
-		return null;
+		else
+		{
+			// this is the nest query		
+			return new QueryResultSet( this,
+					context,
+					parentResultSet,
+					query,
+					(IQueryResults) dteResults );
+		}
 	}
 
 	protected IBaseResultSet doExecuteCube( IBaseResultSet parentResultSet,
-			ICubeQueryDefinition query, boolean useCache )
+			ICubeQueryDefinition query, boolean useCache ) throws BirtException
 	{
 		if ( useCache )
 		{
@@ -168,49 +159,39 @@ public class DteDataEngine extends AbstractDataEngine
 		IBasePreparedQuery pQuery = (IBasePreparedQuery) queryMap.get( query );
 		if ( pQuery == null )
 		{
-			return null;
+			throw new EngineException( "can't find the prepared query " + query );
 		}
-		
-		try
+
+		Scriptable scope = context.getSharedScope( );
+		IBaseResultSet resultSet;
+
+		ICubeQueryResults dteResults; // the dteResults of this query
+		if ( parentResultSet == null )
 		{
-			Scriptable scope = context.getSharedScope( );
-			IBaseResultSet resultSet;
-
-			ICubeQueryResults dteResults; // the dteResults of this query
-			if ( parentResultSet == null )
-			{
-				// this is the root query
-				dteResults = (ICubeQueryResults) dteSession.execute( pQuery,
-						null, scope );
-				resultSet = new CubeResultSet( this,
-						context,
-						query,
-						dteResults );
-			}
-			else
-			{
-				// this is the nest query, execute the query in the
-				// parent results
-				dteResults = (ICubeQueryResults) dteSession.execute( pQuery,
-						parentResultSet.getQueryResults( ), scope );
-				resultSet = new CubeResultSet( this, context, parentResultSet, query,
-						(ICubeQueryResults) dteResults );
-			}
-
-			// persist the queryResults witch need cached. 
-			if ( query.cacheQueryResults( ) )
-			{
-				cachedQueryToResults.put( query, dteResults.getID( ) );
-			}
-			
-			return resultSet;
+			// this is the root query
+			dteResults = (ICubeQueryResults) dteSession.execute( pQuery,
+					null, scope );
+			resultSet = new CubeResultSet( this,
+					context,
+					query,
+					dteResults );
 		}
-		catch ( BirtException be )
+		else
 		{
-			logger.log( Level.SEVERE, be.getMessage( ) );
-			context.addException( be );
+			// this is the nest query, execute the query in the
+			// parent results
+			dteResults = (ICubeQueryResults) dteSession.execute( pQuery,
+					parentResultSet.getQueryResults( ), scope );
+			resultSet = new CubeResultSet( this, context, parentResultSet, query,
+					(ICubeQueryResults) dteResults );
 		}
 
-		return null;
+		// persist the queryResults witch need cached. 
+		if ( query.cacheQueryResults( ) )
+		{
+			cachedQueryToResults.put( query, dteResults.getID( ) );
+		}
+
+		return resultSet;
 	}
 }

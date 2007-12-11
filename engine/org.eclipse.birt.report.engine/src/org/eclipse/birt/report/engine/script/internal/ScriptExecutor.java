@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.script.internal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -41,13 +42,13 @@ public class ScriptExecutor
 
 
 	protected static JSScriptStatus handleJS( Object scope,
-			ScriptExpression expr, ExecutionContext context )
+			ScriptExpression expr, ExecutionContext context ) throws BirtException
 	{
 		return handleJSInternal( scope, expr, context );
 	}
 
 	private static JSScriptStatus handleJSInternal( Object scope,
-			ScriptExpression expr, ExecutionContext context )
+			ScriptExpression expr, ExecutionContext context ) throws BirtException
 	{
 		if ( expr != null )
 		{
@@ -95,7 +96,7 @@ public class ScriptExecutor
 	}
 
 	protected static Object getInstance( DesignElementHandle element,
-			ExecutionContext context )
+			ExecutionContext context ) throws EngineException
 	{
 		if ( element == null )
 			return null;
@@ -104,7 +105,7 @@ public class ScriptExecutor
 	}
 	
 	protected static Object getInstance( ReportItemDesign element,
-			ExecutionContext context )
+			ExecutionContext context ) throws EngineException
 	{
 		if ( element == null )
 			return null;
@@ -113,7 +114,7 @@ public class ScriptExecutor
 	}
 
 	protected static Object getInstance( String className,
-			ExecutionContext context )
+			ExecutionContext context ) throws EngineException
 	{
 		if ( className == null )
 			return null;
@@ -129,41 +130,51 @@ public class ScriptExecutor
 		}
 		catch ( ClassNotFoundException e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
-			if ( context != null )
-				context.addException( new EngineException(
-						MessageConstants.SCRIPT_CLASS_NOT_FOUND_ERROR,
-						new Object[]{className}, e ) ); //$NON-NLS-1$
+			throw new EngineException(
+					MessageConstants.SCRIPT_CLASS_NOT_FOUND_ERROR,
+					new Object[]{className}, e ); //$NON-NLS-1$
 		}
 		catch ( IllegalAccessException e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
-			if ( context != null )
-				context.addException( new EngineException(
-						MessageConstants.SCRIPT_CLASS_ILLEGAL_ACCESS_ERROR,
-						new Object[]{className}, e ) ); //$NON-NLS-1$
+			throw new EngineException(
+					MessageConstants.SCRIPT_CLASS_ILLEGAL_ACCESS_ERROR,
+					new Object[]{className}, e ); //$NON-NLS-1$
 		}
 		catch ( InstantiationException e )
 		{
-			log.log( Level.WARNING, e.getMessage( ), e );
-			if ( context != null )
-				context.addException( new EngineException(
-						MessageConstants.SCRIPT_CLASS_INSTANTIATION_ERROR,
-						new Object[]{className}, e ) ); //$NON-NLS-1$
+			throw new EngineException(
+					MessageConstants.SCRIPT_CLASS_INSTANTIATION_ERROR,
+					new Object[]{className}, e ); //$NON-NLS-1$
 		}
 		return o;
 	}
-			
+/*
 	protected static void addClassCastException( ExecutionContext context,
 			ClassCastException e, String className, Class requiredInterface )
 	{
 		addException( context, e, MessageConstants.SCRIPT_CLASS_CAST_ERROR,
 				new Object[] { className, requiredInterface.getName( ) } );
 	}
+*/
+	protected static void addClassCastException( ExecutionContext context,
+			Exception e, DesignElementHandle handle, Class requiredInterface )
+	{
+		addException( context, e, handle,
+				MessageConstants.SCRIPT_CLASS_CAST_ERROR, new Object[]{
+						handle.getEventHandlerClass( ),
+						requiredInterface.getName( )} );
+	}
 
 	protected static void addException( ExecutionContext context, Exception e )
 	{
 		addException( context, e, MessageConstants.UNHANDLED_SCRIPT_ERROR, null );
+	}
+	
+	protected static void addException( ExecutionContext context, Exception e,
+			DesignElementHandle handle )
+	{
+		addException( context, e, handle,
+				MessageConstants.UNHANDLED_SCRIPT_ERROR, null );
 	}
 
 	private static void addException( ExecutionContext context, Exception e,
@@ -176,6 +187,18 @@ public class ScriptExecutor
 			context.addException( new EngineException( errorType, e ) );
 		else
 			context.addException( new EngineException( errorType, args, e ) );
+	}
+	
+	private static void addException( ExecutionContext context, Exception e,
+			DesignElementHandle handle, String errorType, Object[] args)
+	{
+		log.log( Level.WARNING, e.getMessage( ), e );
+		if ( context == null )
+			return;
+		if ( args == null )
+			context.addException( handle, new EngineException( errorType, e ) );
+		else
+			context.addException( handle, new EngineException( errorType, args, e ) );
 	}
 
 	protected static class JSScriptStatus

@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
@@ -274,7 +275,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		return context.evaluate( expr );
 	}	
 	
-	Object evaluate( IConditionalExpression expr )
+	Object evaluate( IConditionalExpression expr ) throws BirtException
 	{
 		return context.evaluateCondExpr( expr );
 	}
@@ -441,9 +442,11 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 				if ( result == null || !( result instanceof Boolean ) )
 				{
 					context
-							.addException( new EngineException(
-									"The following visibility expression does not evaluate to a legal boolean value: {0}", //$NON-NLS-1$
-									rule.getExpression( ) ) );
+							.addException(
+									design,
+									new EngineException(
+											"The following visibility expression does not evaluate to a legal boolean value: {0}", //$NON-NLS-1$
+											rule.getExpression( ) ) );
 					continue;
 				}
 				boolean isHidden = ( (Boolean) result ).booleanValue( );
@@ -486,9 +489,11 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 				if ( result == null || !( result instanceof Boolean ) )
 				{
 					context
-					.addException( new EngineException(
-							"The following visibility expression does not evaluate to a legal boolean value: {0}", //$NON-NLS-1$
-							rule.getExpression( ) ) );
+							.addException(
+									this.getDesign( ),
+									new EngineException(
+											"The following visibility expression does not evaluate to a legal boolean value: {0}", //$NON-NLS-1$
+											rule.getExpression( ) ) );
 					continue;
 				}
 				boolean isHidden = ( (Boolean) result ).booleanValue( );

@@ -183,8 +183,8 @@ public class ExtendedItemExecutor extends ContainerExecutor
 			catch ( Exception ex )
 			{
 				logger.log( Level.WARNING, ex.getMessage( ), ex );
-				context.addException( new EngineException( ex
-						.getLocalizedMessage( ) ) );
+				context.addException( this.getDesign( ), new EngineException(
+						ex.getLocalizedMessage( ), ex ) );
 			}
 		}
 		return content;
@@ -251,7 +251,7 @@ public class ExtendedItemExecutor extends ContainerExecutor
 				}
 				catch ( BirtException ex )
 				{
-					context.addException( ex );
+					context.addException( this.getDesign( ), ex );
 				}
 			}
 		}

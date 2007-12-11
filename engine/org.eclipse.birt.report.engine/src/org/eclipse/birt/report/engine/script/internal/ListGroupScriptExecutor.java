@@ -8,9 +8,12 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.report.engine.script.internal;
 
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.script.element.IListGroup;
+import org.eclipse.birt.report.engine.api.script.eventhandler.IAutoTextEventHandler;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IListGroupEventHandler;
 import org.eclipse.birt.report.engine.content.IListGroupContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -40,23 +43,27 @@ public class ListGroupScriptExecutor extends ScriptExecutor
 	public static void handleOnPageBreak( IListGroupContent content,
 			ExecutionContext context )
 	{
+		ReportItemDesign listGroupDesign = (ReportItemDesign) content
+				.getGenerateBy( );
+		if ( !needOnPageBreak( listGroupDesign ) )
+		{
+			return;
+		}
 		try
 		{
-			ReportItemDesign listGroupDesign = ( ReportItemDesign ) content
-					.getGenerateBy( );
-			if ( !needOnPageBreak( listGroupDesign ) )
-			{
+			ReportElementInstance list = new ReportElementInstance( content,
+					context );
+			if ( handleJS( list, listGroupDesign.getOnPageBreak( ), context )
+					.didRun( ) )
 				return;
-			}
-			ReportElementInstance list = new ReportElementInstance( content, context );
-			if ( handleJS( list, listGroupDesign.getOnPageBreak( ), context ).didRun( ) )
-				return;
-			IListGroupEventHandler eh = getEventHandler( listGroupDesign, context );
+			IListGroupEventHandler eh = getEventHandler( listGroupDesign,
+					context );
 			if ( eh != null )
 				eh.onPageBreak( list, context.getReportContext( ) );
-		} catch ( Exception e )
+		}
+		catch ( Exception e )
 		{
-			addException( context, e );
+			addException( context, e, listGroupDesign.getHandle( ) );
 		}
 	}
 
@@ -69,8 +76,13 @@ public class ListGroupScriptExecutor extends ScriptExecutor
 		}
 		catch ( ClassCastException e )
 		{
-			addClassCastException( context, e, handle.getEventHandlerClass( ),
+			addClassCastException( context, e, handle,
 					IListGroupEventHandler.class );
+		}
+		catch ( EngineException e )
+		{
+			addClassCastException( context, e, handle,
+					IAutoTextEventHandler.class );
 		}
 		return null;
 	}
@@ -84,8 +96,13 @@ public class ListGroupScriptExecutor extends ScriptExecutor
 		}
 		catch ( ClassCastException e )
 		{
-			addClassCastException( context, e, design.getJavaClass( ),
+			addClassCastException( context, e, design.getHandle( ),
 					IListGroupEventHandler.class );
+		}
+		catch ( EngineException e )
+		{
+			addClassCastException( context, e, design.getHandle( ),
+					IAutoTextEventHandler.class );
 		}
 		return null;
 	}

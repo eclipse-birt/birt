@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.engine.script.internal;
 
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.script.element.ITable;
+import org.eclipse.birt.report.engine.api.script.eventhandler.IAutoTextEventHandler;
 import org.eclipse.birt.report.engine.api.script.eventhandler.ITableEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.ITableInstance;
 import org.eclipse.birt.report.engine.content.ITableContent;
@@ -41,14 +43,14 @@ public class TableScriptExecutor extends ScriptExecutor
 	public static void handleOnCreate( ITableContent content,
 			ExecutionContext context )
 	{
+		ReportItemDesign tableDesign = (ReportItemDesign) content
+				.getGenerateBy( );
+		if ( !needOnCreate( tableDesign ) )
+		{
+			return;
+		}
 		try
 		{
-			ReportItemDesign tableDesign = ( ReportItemDesign ) content
-					.getGenerateBy( );
-			if ( !needOnCreate( tableDesign ) )
-			{
-				return;
-			}
 			ITableInstance table = new TableInstance( content, context );
 			if ( handleJS( table, tableDesign.getOnCreate( ), context )
 					.didRun( ) )
@@ -58,21 +60,21 @@ public class TableScriptExecutor extends ScriptExecutor
 				eh.onCreate( table, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			addException( context, e );
+			addException( context, e, tableDesign.getHandle( ) );
 		}
 	}
 
 	public static void handleOnRender( ITableContent content,
 			ExecutionContext context )
 	{
+		ReportItemDesign tableDesign = (ReportItemDesign) content
+				.getGenerateBy( );
+		if ( !needOnRender( tableDesign ) )
+		{
+			return;
+		}
 		try
 		{
-			ReportItemDesign tableDesign = ( ReportItemDesign ) content
-					.getGenerateBy( );
-			if ( !needOnRender( tableDesign ) )
-			{
-				return;
-			}
 			ITableInstance table = new TableInstance( content, context );
 			if ( handleJS( table, tableDesign.getOnRender( ), context )
 					.didRun( ) )
@@ -82,21 +84,21 @@ public class TableScriptExecutor extends ScriptExecutor
 				eh.onRender( table, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			addException( context, e );
+			addException( context, e, tableDesign.getHandle( ) );
 		}
 	}
 
 	public static void handleOnPageBreak( ITableContent content,
 			ExecutionContext context )
 	{
+		ReportItemDesign tableDesign = (ReportItemDesign) content
+				.getGenerateBy( );
+		if ( !needOnPageBreak( tableDesign ) )
+		{
+			return;
+		}
 		try
 		{
-			ReportItemDesign tableDesign = ( ReportItemDesign ) content
-					.getGenerateBy( );
-			if ( !needOnPageBreak( tableDesign ) )
-			{
-				return;
-			}
 			ITableInstance table = new TableInstance( content, context );
 			if ( handleJS( table, tableDesign.getOnPageBreak( ), context )
 					.didRun( ) )
@@ -106,7 +108,7 @@ public class TableScriptExecutor extends ScriptExecutor
 				eh.onPageBreak( table, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			addException( context, e );
+			addException( context, e, tableDesign.getHandle( ) );
 		}
 	}
 
@@ -119,8 +121,13 @@ public class TableScriptExecutor extends ScriptExecutor
 		}
 		catch ( ClassCastException e )
 		{
-			addClassCastException( context, e, design.getJavaClass( ),
+			addClassCastException( context, e, design.getHandle( ),
 					ITableEventHandler.class );
+		}
+		catch ( EngineException e )
+		{
+			addClassCastException( context, e, design.getHandle( ),
+					IAutoTextEventHandler.class );
 		}
 		return null;
 	}
@@ -134,8 +141,12 @@ public class TableScriptExecutor extends ScriptExecutor
 		}
 		catch ( ClassCastException e )
 		{
-			addClassCastException( context, e, handle.getEventHandlerClass( ),
-					ITableEventHandler.class );
+			addClassCastException( context, e, handle, ITableEventHandler.class );
+		}
+		catch ( EngineException e )
+		{
+			addClassCastException( context, e, handle,
+					IAutoTextEventHandler.class );
 		}
 		return null;
 	}

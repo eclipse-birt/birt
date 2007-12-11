@@ -12,6 +12,8 @@ package org.eclipse.birt.report.engine.script.internal;
 
 import org.eclipse.birt.data.engine.api.script.IBaseDataSourceEventHandler;
 import org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle;
+import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.script.eventhandler.IAutoTextEventHandler;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IDataSourceEventHandler;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IScriptedDataSetEventHandler;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -56,8 +58,12 @@ public class DataSourceScriptExecutor extends DtEScriptExecutor implements
 						className, context );
 			} catch ( ClassCastException e )
 			{
-				addClassCastException( context, e, className,
+				addClassCastException( context, e, dataSourceHandle,
 						IScriptedDataSetEventHandler.class );
+			} catch ( EngineException e )
+			{
+				addClassCastException( context, e, dataSourceHandle,
+						IAutoTextEventHandler.class );
 			}
 		}
 	}

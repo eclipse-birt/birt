@@ -296,8 +296,8 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 			catch ( Exception ex )
 			{
 				logger.log( Level.WARNING, ex.getMessage( ), ex );
-				context.addException( new EngineException( ex
-						.getLocalizedMessage( ), ex ) );
+				context.addException( this.getDesign( ), new EngineException(
+						ex.getLocalizedMessage( ), ex ) );
 			}
 		}
 		return content;
@@ -418,7 +418,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 				}
 				catch ( BirtException ex )
 				{
-					context.addException( ex );
+					context.addException( this.getDesign( ), ex );
 				}
 			}
 		}
@@ -442,7 +442,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		return null;
 	}
 
-	IBaseResultSet restoreParentResultSet( )
+	IBaseResultSet restoreParentResultSet( ) throws BirtException
 	{
 		ReportItemExecutor pExecutor = parent;
 		DataID dataId = getContent( ).getInstanceID( ).getDataID( );

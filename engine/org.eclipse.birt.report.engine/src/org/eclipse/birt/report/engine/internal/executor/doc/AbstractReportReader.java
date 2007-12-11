@@ -167,8 +167,8 @@ public abstract class AbstractReportReader implements IReportExecutor
 		}
 		catch ( IOException ex )
 		{
-			context.addException( new EngineException( "can't load the page "
-					+ pageNumber, ex ) );
+			context.addException( pageDesign, new EngineException(
+					"can't load the page " + pageNumber, ex ) );
 		}
 		return null;
 	}

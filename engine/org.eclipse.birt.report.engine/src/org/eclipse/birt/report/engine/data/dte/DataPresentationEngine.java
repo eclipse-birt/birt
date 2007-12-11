@@ -19,6 +19,7 @@ import java.util.logging.Level;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
@@ -126,99 +127,80 @@ public class DataPresentationEngine extends AbstractDataEngine
 	}
 
 	protected IBaseResultSet doExecuteQuery( IBaseResultSet parentResult,
-			IQueryDefinition query, boolean useCache )
+			IQueryDefinition query, boolean useCache ) throws BirtException
 	{
 		String queryID = (String) queryIDMap.get( query );
 
-		try
+		String resultSetID = loadResultSetID( parentResult, queryID );
+		if ( resultSetID == null )
 		{
-			String resultSetID = loadResultSetID( parentResult, queryID );
-			if ( resultSetID == null )
-			{
-				logger.log( Level.SEVERE, "Can't load the report query" );
-				return null;
-			}
-
-			IBaseQueryResults queryResults = dteSession.getQueryResults( resultSetID );
-
-			QueryResultSet resultSet = null;
-			if ( parentResult == null )
-			{
-				// this is the root query
-				resultSet = new QueryResultSet( this, context,
-							query,
-							(IQueryResults) queryResults );
-			}
-			else
-			{
-				// this is the nest query
-				resultSet = new QueryResultSet( this, context, parentResult,
-							query,
-							(IQueryResults) queryResults );
-			}
-						
-			return resultSet;
+			throw new EngineException("Can't load report query: " + queryID );
 		}
-		catch ( BirtException be )
+
+		IBaseQueryResults queryResults = dteSession.getQueryResults( resultSetID );
+
+		//FIXME: hchu, return the result set directly.
+		QueryResultSet resultSet = null;
+		if ( parentResult == null )
 		{
-			logger.log( Level.SEVERE, be.getMessage( ) );
-			context.addException( be );
-			return null;
+			// this is the root query
+			resultSet = new QueryResultSet( this, context,
+					query,
+					(IQueryResults) queryResults );
 		}
+		else
+		{
+			// this is the nest query
+			resultSet = new QueryResultSet( this, context, parentResult,
+					query,
+					(IQueryResults) queryResults );
+		}
+
+		return resultSet;
 	}
 	
 	protected IBaseResultSet doExecuteCube( IBaseResultSet parentResult,
-			ICubeQueryDefinition query, boolean useCache )
+			ICubeQueryDefinition query, boolean useCache ) throws BirtException
 	{
 		String queryID = (String) queryIDMap.get( query );
 
-		try
+		String resultSetID = loadResultSetID( parentResult, queryID );
+		IBaseQueryResults queryResults = null;
+		query.setQueryResultsID( resultSetID );
+		IBasePreparedQuery pQuery = dteSession.prepare( query,
+				context.getAppContext( ) );
+		if ( parentResult != null )
 		{
-			String resultSetID = loadResultSetID( parentResult, queryID );
-			IBaseQueryResults queryResults = null;
-			query.setQueryResultsID( resultSetID );
-			IBasePreparedQuery pQuery = dteSession.prepare( query,
-					context.getAppContext( ) );
-			if ( parentResult != null )
-			{
-				queryResults = dteSession.execute( pQuery,
-						parentResult.getQueryResults( ),
-						context.getSharedScope( ) );
-			}
-			else
-			{
-				queryResults = dteSession.execute( pQuery,
-						null,
-						context.getSharedScope( ) );
-			}
+			queryResults = dteSession.execute( pQuery,
+					parentResult.getQueryResults( ),
+					context.getSharedScope( ) );
+		}
+		else
+		{
+			queryResults = dteSession.execute( pQuery,
+					null,
+					context.getSharedScope( ) );
+		}
 
-			
-			CubeResultSet resultSet = null;
-			if ( parentResult == null )
-			{
-				// this is the root query
-				resultSet = new CubeResultSet( this, context, query,
-						(ICubeQueryResults) queryResults );
-			}
-			else
-			{
-				// this is the nest query
-				resultSet = new CubeResultSet( this, context, parentResult, query,
-						(ICubeQueryResults) queryResults );
-			}
-						
-			return resultSet;
-		}
-		catch ( BirtException be )
+		CubeResultSet resultSet = null;
+		if ( parentResult == null )
 		{
-			logger.log( Level.SEVERE, be.getMessage( ) );
-			context.addException( be );
-			return null;
+			// this is the root query
+			resultSet = new CubeResultSet( this, context, query,
+					(ICubeQueryResults) queryResults );
 		}
+		else
+		{
+			// this is the nest query
+			resultSet = new CubeResultSet( this, context, parentResult, query,
+					(ICubeQueryResults) queryResults );
+		}
+
+		return resultSet;
 	}
 	
 	private String loadResultSetID( IBaseResultSet parentResult,
-			String queryID )
+			String queryID ) throws BirtException
 	{
 		String resultSetID = null;
 		if ( parentResult == null )
@@ -255,17 +237,8 @@ public class DataPresentationEngine extends AbstractDataEngine
 				pRsetId = ( (CubeResultSet) parentResult )
 						.getQueryResultsID( );
 			}
-			String rowid;
-			try
-			{
-				rowid = parentResult.getRawID( );
-				resultSetID = getResultID( pRsetId, rowid, queryID );
-			}
-			catch ( BirtException e )
-			{
-				context.addException( e );
-			}
-
+			String rowid = parentResult.getRawID( );
+			resultSetID = getResultID( pRsetId, rowid, queryID );
 		}
 		return resultSetID;
 	}

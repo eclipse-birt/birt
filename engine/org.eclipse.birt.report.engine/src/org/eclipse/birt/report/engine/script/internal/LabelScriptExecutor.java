@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.engine.script.internal;
 
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.script.element.ILabel;
+import org.eclipse.birt.report.engine.api.script.eventhandler.IAutoTextEventHandler;
 import org.eclipse.birt.report.engine.api.script.eventhandler.ILabelEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.ILabelInstance;
 import org.eclipse.birt.report.engine.content.ILabelContent;
@@ -41,14 +43,14 @@ public class LabelScriptExecutor extends ScriptExecutor
 	public static void handleOnCreate( ILabelContent content,
 			ExecutionContext context )
 	{
+		ReportItemDesign labelDesign = (ReportItemDesign) content
+				.getGenerateBy( );
+		if ( !needOnCreate( labelDesign ) )
+		{
+			return;
+		}
 		try
 		{
-			ReportItemDesign labelDesign = ( ReportItemDesign ) content
-					.getGenerateBy( );
-			if ( !needOnCreate( labelDesign ) )
-			{
-				return;
-			}
 			ILabelInstance label = new LabelInstance( content, context );
 			if ( handleJS( label, labelDesign.getOnCreate( ), context )
 					.didRun( ) )
@@ -56,23 +58,24 @@ public class LabelScriptExecutor extends ScriptExecutor
 			ILabelEventHandler eh = getEventHandler( labelDesign, context );
 			if ( eh != null )
 				eh.onCreate( label, context.getReportContext( ) );
-		} catch ( Exception e )
+		}
+		catch ( Exception e )
 		{
-			addException( context, e );
+			addException( context, e, labelDesign.getHandle( ) );
 		}
 	}
 
 	public static void handleOnRender( ILabelContent content,
 			ExecutionContext context )
 	{
+		ReportItemDesign labelDesign = (ReportItemDesign) content
+				.getGenerateBy( );
+		if ( !needOnRender( labelDesign ) )
+		{
+			return;
+		}
 		try
 		{
-			ReportItemDesign labelDesign = ( ReportItemDesign ) content
-					.getGenerateBy( );
-			if ( !needOnRender( labelDesign ) )
-			{
-				return;
-			}
 			ILabelInstance label = new LabelInstance( content, context );
 			if ( handleJS( label, labelDesign.getOnRender( ), context )
 					.didRun( ) )
@@ -80,23 +83,24 @@ public class LabelScriptExecutor extends ScriptExecutor
 			ILabelEventHandler eh = getEventHandler( labelDesign, context );
 			if ( eh != null )
 				eh.onRender( label, context.getReportContext( ) );
-		} catch ( Exception e )
+		}
+		catch ( Exception e )
 		{
-			addException( context, e );
+			addException( context, e, labelDesign.getHandle( ) );
 		}
 	}
 
 	public static void handleOnPageBreak( ILabelContent content,
 			ExecutionContext context )
 	{
+		ReportItemDesign labelDesign = (ReportItemDesign) content
+				.getGenerateBy( );
+		if ( !needOnPageBreak( labelDesign ) )
+		{
+			return;
+		}
 		try
 		{
-			ReportItemDesign labelDesign = ( ReportItemDesign ) content
-					.getGenerateBy( );
-			if ( !needOnPageBreak( labelDesign ) )
-			{
-				return;
-			}
 			ILabelInstance label = new LabelInstance( content, context );
 			if ( handleJS( label, labelDesign.getOnPageBreak( ), context )
 					.didRun( ) )
@@ -104,10 +108,11 @@ public class LabelScriptExecutor extends ScriptExecutor
 
 			ILabelEventHandler eh = getEventHandler( labelDesign, context );
 			if ( eh != null )
-				eh.onPageBreak( label, context.getReportContext( ) );			
-		} catch ( Exception e )
+				eh.onPageBreak( label, context.getReportContext( ) );
+		}
+		catch ( Exception e )
 		{
-			addException( context, e );
+			addException( context, e, labelDesign.getHandle( ) );
 		}
 	}
 
@@ -120,8 +125,13 @@ public class LabelScriptExecutor extends ScriptExecutor
 		}
 		catch ( ClassCastException e )
 		{
-			addClassCastException( context, e, design.getJavaClass( ),
+			addClassCastException( context, e, design.getHandle( ),
 					ILabelEventHandler.class );
+		}
+		catch ( EngineException e )
+		{
+			addClassCastException( context, e, design.getHandle( ),
+					IAutoTextEventHandler.class );
 		}
 		return null;
 	}
@@ -135,8 +145,12 @@ public class LabelScriptExecutor extends ScriptExecutor
 		}
 		catch ( ClassCastException e )
 		{
-			addClassCastException( context, e, handle.getEventHandlerClass( ),
-					ILabelEventHandler.class );
+			addClassCastException( context, e, handle, ILabelEventHandler.class );
+		}
+		catch ( EngineException e )
+		{
+			addClassCastException( context, e, handle,
+					IAutoTextEventHandler.class );
 		}
 		return null;
 	}

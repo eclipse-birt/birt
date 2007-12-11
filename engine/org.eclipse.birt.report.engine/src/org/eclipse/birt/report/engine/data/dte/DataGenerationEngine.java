@@ -73,7 +73,7 @@ public class DataGenerationEngine extends DteDataEngine
 	}
 
 	protected IBaseResultSet doExecuteQuery( IBaseResultSet parentResultSet,
-			IQueryDefinition query, boolean useCache )
+			IQueryDefinition query, boolean useCache ) throws BirtException
 	{
 		IBaseResultSet resultSet = super.doExecuteQuery( parentResultSet,
 				query, useCache );
@@ -86,7 +86,7 @@ public class DataGenerationEngine extends DteDataEngine
 	}
 
 	protected IBaseResultSet doExecuteCube( IBaseResultSet parentResultSet,
-			ICubeQueryDefinition query, boolean useCache )
+			ICubeQueryDefinition query, boolean useCache ) throws BirtException
 	{
 		IBaseResultSet resultSet = super.doExecuteCube( parentResultSet, query,
 				useCache );
@@ -107,6 +107,7 @@ public class DataGenerationEngine extends DteDataEngine
 	 */
 	protected void storeMetaInfo( IBaseResultSet parentResultSet,
 			IDataQueryDefinition query, IBaseResultSet resultSet )
+			throws BirtException
 	{
 		String pRsetId = null; // id of the parent query restuls
 		String rowId = "-1"; // row id of the parent query results
@@ -122,15 +123,7 @@ public class DataGenerationEngine extends DteDataEngine
 				pRsetId = ( (CubeResultSet) parentResultSet )
 						.getQueryResultsID( );
 			}
-			try
-			{
-				rowId = parentResultSet.getRawID( );
-			}
-			catch ( BirtException be )
-			{
-				logger.log( Level.SEVERE, be.getMessage( ) );
-				context.addException( be );
-			}
+			rowId = parentResultSet.getRawID( );
 		}
 		String queryID = (String) queryIDMap.get( query );
 		storeDteMetaInfo( pRsetId, rowId, queryID, resultSet.getQueryResults( )

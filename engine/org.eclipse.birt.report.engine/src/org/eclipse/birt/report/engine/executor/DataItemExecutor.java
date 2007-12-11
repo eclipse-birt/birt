@@ -96,7 +96,7 @@ public class DataItemExecutor extends QueryItemExecutor
 					}
 					catch ( BirtException ex )
 					{
-						context.addException( ex );
+						context.addException( dataDesign, ex );
 					}
 				}
 			}
@@ -112,7 +112,7 @@ public class DataItemExecutor extends QueryItemExecutor
 					}
 					catch ( OLAPException ex )
 					{
-						context.addException( new EngineException(
+						context.addException( dataDesign, new EngineException(
 								"Retrieving binding data error", ex ) );
 					}
 				}

@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.executor;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.report.engine.adapter.ExpressionUtil;
 import org.eclipse.birt.report.engine.content.IColumn;
@@ -132,7 +133,15 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 					}
 					else
 					{
-						value = evaluate( (IConditionalExpression) expression );
+						try
+						{
+							value = evaluate( (IConditionalExpression) expression );
+						}
+						catch ( BirtException ex )
+						{
+							context.addException( this.design, ex );
+							value = Boolean.FALSE;
+						}
 					}
 				}
 				else
@@ -153,7 +162,15 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 										.getOperator( ), rule.getValue1( ),
 										rule.getValue2( ) );
 					}
-					value = evaluate( newExpression );
+					try
+					{
+						value = evaluate( newExpression );
+					}
+					catch ( BirtException ex )
+					{
+						context.addException( this.design, ex );
+						value = Boolean.FALSE;
+					}
 				}
 				if ( ( value != null ) && ( value instanceof Boolean ) &&
 						( ( (Boolean) value ).booleanValue( ) ) )
@@ -222,7 +239,15 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 												.getOperator( ), mrh
 												.getValue1( ), mrh.getValue2( ) );
 
-								value = evaluate( newExpression );
+								try
+								{
+									value = evaluate( newExpression );
+								}
+								catch ( BirtException ex )
+								{
+									context.addException( dataHandle, ex );
+									value = Boolean.FALSE;
+								}
 
 								if ( ( value != null ) &&
 										( value instanceof Boolean ) &&
@@ -256,7 +281,15 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 						}
 						else
 						{
-							value = evaluate( (IConditionalExpression) expression );
+							try
+							{
+								value = evaluate( (IConditionalExpression) expression );
+							}
+							catch ( BirtException ex )
+							{
+								context.addException( item, ex );
+								value = Boolean.FALSE;
+							}
 						}
 					}
 					else
@@ -278,7 +311,15 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 											.getOperator( ), rule.getValue1( ),
 											rule.getValue2( ) );
 						}
-						value = evaluate( newExpression );
+						try
+						{
+							value = evaluate( newExpression );
+						}
+						catch ( BirtException ex )
+						{
+							context.addException( item, ex );
+							value = Boolean.FALSE;
+						}
 					}
 					if ( ( value != null ) && ( value instanceof Boolean ) &&
 							( ( (Boolean) value ).booleanValue( ) ) )

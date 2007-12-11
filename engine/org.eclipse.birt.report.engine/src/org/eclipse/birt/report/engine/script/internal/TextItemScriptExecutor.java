@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.engine.script.internal;
 
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.script.element.ITextItem;
+import org.eclipse.birt.report.engine.api.script.eventhandler.IAutoTextEventHandler;
 import org.eclipse.birt.report.engine.api.script.eventhandler.ITextItemEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.ITextItemInstance;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -45,14 +47,15 @@ public class TextItemScriptExecutor extends ScriptExecutor
 	public static void handleOnCreate( IContent content,
 			ExecutionContext context )
 	{
+
+		ReportItemDesign textItemDesign = (ReportItemDesign) content
+				.getGenerateBy( );
+		if ( !needOnCreate( textItemDesign ) )
+		{
+			return;
+		}
 		try
 		{
-			ReportItemDesign textItemDesign = ( ReportItemDesign ) content
-					.getGenerateBy( );
-			if ( !needOnCreate( textItemDesign ) )
-			{
-				return;
-			}
 			ITextItemInstance textItem = null;
 			if ( content instanceof TextContent )
 				textItem = new TextItemInstance( ( ITextContent ) content,
@@ -71,21 +74,21 @@ public class TextItemScriptExecutor extends ScriptExecutor
 			}
 		} catch ( Exception e )
 		{
-			addException( context, e );
+			addException( context, e, textItemDesign.getHandle( ) );
 		}
 	}
 
 	public static void handleOnRender( IContent content,
 			ExecutionContext context )
 	{
+		ReportItemDesign textItemDesign = (ReportItemDesign) content
+				.getGenerateBy( );
+		if ( !needOnRender( textItemDesign ) )
+		{
+			return;
+		}
 		try
 		{
-			ReportItemDesign textItemDesign = ( ReportItemDesign ) content
-					.getGenerateBy( );
-			if ( !needOnRender( textItemDesign ) )
-			{
-				return;
-			}
 			ITextItemInstance textItem = null;
 			if ( content instanceof TextContent )
 				textItem = new TextItemInstance( ( ITextContent ) content,
@@ -103,21 +106,21 @@ public class TextItemScriptExecutor extends ScriptExecutor
 			}
 		} catch ( Exception e )
 		{
-			addException( context, e );
+			addException( context, e, textItemDesign.getHandle( ) );
 		}
 	}
 
 	public static void handleOnPageBreak( IContent content,
 			ExecutionContext context )
 	{
+		ReportItemDesign textItemDesign = (ReportItemDesign) content
+				.getGenerateBy( );
+		if ( !needOnPageBreak( textItemDesign ) )
+		{
+			return;
+		}
 		try
 		{
-			ReportItemDesign textItemDesign = ( ReportItemDesign ) content
-					.getGenerateBy( );
-			if ( !needOnPageBreak( textItemDesign ) )
-			{
-				return;
-			}
 			ITextItemInstance textItem = null;
 			if ( content instanceof TextContent )
 				textItem = new TextItemInstance( ( ITextContent ) content,
@@ -135,7 +138,7 @@ public class TextItemScriptExecutor extends ScriptExecutor
 			}
 		} catch ( Exception e )
 		{
-			addException( context, e );
+			addException( context, e, textItemDesign.getHandle( ) );
 		}
 	}
 
@@ -148,8 +151,13 @@ public class TextItemScriptExecutor extends ScriptExecutor
 		}
 		catch ( ClassCastException e )
 		{
-			addClassCastException( context, e, design.getJavaClass( ),
+			addClassCastException( context, e, design.getHandle( ),
 					ITextItemEventHandler.class );
+		}
+		catch ( EngineException e )
+		{
+			addClassCastException( context, e, design.getHandle( ),
+					IAutoTextEventHandler.class );
 		}
 		return null;
 	}
@@ -163,8 +171,13 @@ public class TextItemScriptExecutor extends ScriptExecutor
 		}
 		catch ( ClassCastException e )
 		{
-			addClassCastException( context, e, handle.getEventHandlerClass( ),
+			addClassCastException( context, e, handle,
 					ITextItemEventHandler.class );
+		}
+		catch ( EngineException e )
+		{
+			addClassCastException( context, e, handle,
+					IAutoTextEventHandler.class );
 		}
 		return null;
 	}

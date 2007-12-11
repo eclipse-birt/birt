@@ -183,7 +183,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 			catch ( BirtException e )
 			{
 				logger.log( Level.SEVERE, e.getMessage( ), e );
-				context.addException( e );
+				context.addException( report.getReportDesign( ), e );
 			}
 		} // end of prepare
 	}
@@ -213,9 +213,8 @@ public abstract class AbstractDataEngine implements IDataEngine
 			}
 			else if ( parent instanceof ICubeResultSet )
 			{
-				//FIXME: code review. throw exception.
-				context.addException( new EngineException( "Incorrect parent resultSet for subQuery:" //$NON-NLS-1$
-						+ ( (ISubqueryDefinition) query ).getName( ) ) );
+				throw new EngineException( "Incorrect parent resultSet for subQuery:" //$NON-NLS-1$
+						+ ( (ISubqueryDefinition) query ).getName( ) );
 			}
 			return doExecuteSubQuery( (IQueryResultSet) parent,
 					(ISubqueryDefinition) query );
@@ -235,10 +234,10 @@ public abstract class AbstractDataEngine implements IDataEngine
 	}
 
 	abstract protected IBaseResultSet doExecuteQuery( IBaseResultSet parent,
-			IQueryDefinition query, boolean useCache );
+			IQueryDefinition query, boolean useCache ) throws BirtException;
 	
 	abstract protected IBaseResultSet doExecuteCube( IBaseResultSet parent,
-			ICubeQueryDefinition query, boolean useCache );
+			ICubeQueryDefinition query, boolean useCache ) throws BirtException;
 
 	/**
 	 * get the sub query result from the current query.

@@ -205,16 +205,15 @@ public class CubeResultSet implements ICubeResultSet
 		return CUBE_RESULTSET;
 	}
 
-	public void skipTo( String cellIndex )
+	public void skipTo( String cellIndex ) throws BirtException
 	{
 		try
 		{
 			CubeUtil.positionCursor( cube, cellIndex );
 		}
-		catch ( Exception e )
+		catch ( OLAPException e )
 		{
-			context.addException( new EngineException(
-					"Error happened in skipping" ) );
+			throw new EngineException( "Error happened in skipping", e );
 		}
 	}
 

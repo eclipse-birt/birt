@@ -30,7 +30,7 @@ public class RowSet implements IRowSet
 	protected IRowMetaData metaData;
 	protected ExecutionContext context;
 
-	public RowSet( IQueryResultSet rset )
+	public RowSet( IQueryResultSet rset ) throws BirtException
 	{
 		this.context = ( (QueryResultSet) rset ).getExecutionContext( );
 		
@@ -54,14 +54,7 @@ public class RowSet implements IRowSet
 		};
 		if ( rset != null )
 		{
-			try
-			{
-				metaData = new RowMetaData( rset.getResultMetaData( ) );
-			}
-			catch ( BirtException ex )
-			{
-				context.addException( ex );
-			}
+			metaData = new RowMetaData( rset.getResultMetaData( ) );
 		}
 	}
 

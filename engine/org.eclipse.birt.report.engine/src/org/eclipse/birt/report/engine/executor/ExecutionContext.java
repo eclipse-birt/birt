@@ -72,6 +72,7 @@ import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
+import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -562,7 +563,7 @@ public class ExecutionContext
 	 * 
 	 * @return the result if no error exists, otherwise null.
 	 */
-	public Object evaluate( ScriptExpression expr )
+	public Object evaluate( ScriptExpression expr ) throws BirtException
 	{
 		if ( expr != null && expr.getScriptText( ) != null )
 		{
@@ -572,12 +573,9 @@ public class ExecutionContext
 			}
 			catch ( Throwable e )
 			{
-				log.log( Level.SEVERE, e.getMessage( ), e );
-				addException( new EngineException( MessageConstants.SCRIPT_EVALUATION_ERROR,
-						new String[]{
-								expr.getScriptText( ), e.getMessage( )
-						},
-						e ) ); //$NON-NLS-1$
+				throw new EngineException(
+						MessageConstants.SCRIPT_EVALUATION_ERROR, new String[]{
+								expr.getScriptText( ), e.getMessage( )}, e ); //$NON-NLS-1$
 			}
 		}
 		return null;
@@ -602,7 +600,7 @@ public class ExecutionContext
 	 *            the conditional expression to be evaluated
 	 * @return a boolean value (as an Object)
 	 */
-	public Object evaluateCondExpr( IConditionalExpression expr )
+	public Object evaluateCondExpr( IConditionalExpression expr ) throws BirtException
 	{
 		IScriptExpression testExpr = expr.getExpression( );
 
@@ -618,10 +616,8 @@ public class ExecutionContext
 		}
 		catch ( Exception e )
 		{
-			log.log( Level.SEVERE, e.getMessage( ), e );
-			addException( new EngineException(
-					MessageConstants.INVALID_EXPRESSION_ERROR, expr, e ) );
-			return Boolean.FALSE;
+			throw new EngineException(
+					MessageConstants.INVALID_EXPRESSION_ERROR, expr, e );
 		}
 	}
 
@@ -638,7 +634,14 @@ public class ExecutionContext
 	 */
 	public void execute( ScriptExpression expr )
 	{
-		evaluate( expr );
+		try
+		{
+			evaluate( expr );
+		}
+		catch ( BirtException ex )
+		{
+			addException( this.design, ex );
+		}
 	}
 
 	/**
@@ -986,6 +989,16 @@ public class ExecutionContext
 	}
 
 	protected HashMap elementExceptions = new HashMap( );
+	
+	public void addException( ReportElementDesign design, BirtException ex )
+	{
+		DesignElementHandle handle = null;
+		if ( null != design )
+		{
+			handle = design.getHandle( );
+		}
+		addException( handle, ex );
+	}
 
 	public void addException( DesignElementHandle element, BirtException ex )
 	{

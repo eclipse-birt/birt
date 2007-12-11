@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.engine.script.internal;
 
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.script.element.IList;
+import org.eclipse.birt.report.engine.api.script.eventhandler.IAutoTextEventHandler;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IListEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.IListInstance;
 import org.eclipse.birt.report.engine.content.IListContent;
@@ -41,14 +43,14 @@ public class ListScriptExecutor extends ScriptExecutor
 	public static void handleOnCreate( IListContent content,
 			ExecutionContext context )
 	{
+		ReportItemDesign listDesign = (ReportItemDesign) content
+				.getGenerateBy( );
+		if ( !needOnCreate( listDesign ) )
+		{
+			return;
+		}
 		try
 		{
-			ReportItemDesign listDesign = ( ReportItemDesign ) content
-					.getGenerateBy( );
-			if ( !needOnCreate( listDesign ) )
-			{
-				return;
-			}
 			IListInstance list = new ListInstance( content, context );
 			if ( handleJS( list, listDesign.getOnCreate( ), context ).didRun( ) )
 				return;
@@ -57,21 +59,21 @@ public class ListScriptExecutor extends ScriptExecutor
 				eh.onCreate( list, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			addException( context, e );
+			addException( context, e, listDesign.getHandle( ) );
 		}
 	}
 
 	public static void handleOnRender( IListContent content,
 			ExecutionContext context )
 	{
+		ReportItemDesign listDesign = (ReportItemDesign) content
+				.getGenerateBy( );
+		if ( !needOnRender( listDesign ) )
+		{
+			return;
+		}
 		try
 		{
-			ReportItemDesign listDesign = ( ReportItemDesign ) content
-					.getGenerateBy( );
-			if ( !needOnRender( listDesign ) )
-			{
-				return;
-			}
 			IListInstance list = new ListInstance( content, context );
 			if ( handleJS( list, listDesign.getOnRender( ), context ).didRun( ) )
 				return;
@@ -80,21 +82,21 @@ public class ListScriptExecutor extends ScriptExecutor
 				eh.onRender( list, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			addException( context, e );
+			addException( context, e, listDesign.getHandle( ) );
 		}
 	}
 
 	public static void handleOnPageBreak( IListContent content,
 			ExecutionContext context )
 	{
+		ReportItemDesign listDesign = (ReportItemDesign) content
+				.getGenerateBy( );
+		if ( !needOnPageBreak( listDesign ) )
+		{
+			return;
+		}
 		try
 		{
-			ReportItemDesign listDesign = ( ReportItemDesign ) content
-					.getGenerateBy( );
-			if ( !needOnPageBreak( listDesign ) )
-			{
-				return;
-			}
 			IListInstance list = new ListInstance( content, context );
 			if ( handleJS( list, listDesign.getOnPageBreak( ), context ).didRun( ) )
 				return;
@@ -103,7 +105,7 @@ public class ListScriptExecutor extends ScriptExecutor
 				eh.onPageBreak( list, context.getReportContext( ) );
 		} catch ( Exception e )
 		{
-			addException( context, e );
+			addException( context, e, listDesign.getHandle( ) );
 		}
 	}
 
@@ -116,8 +118,13 @@ public class ListScriptExecutor extends ScriptExecutor
 		}
 		catch ( ClassCastException e )
 		{
-			addClassCastException( context, e, design.getJavaClass( ),
+			addClassCastException( context, e, design.getHandle( ),
 					IListEventHandler.class );
+		}
+		catch ( EngineException e )
+		{
+			addClassCastException( context, e, design.getHandle( ),
+					IAutoTextEventHandler.class );
 		}
 		return null;
 	}
@@ -131,8 +138,12 @@ public class ListScriptExecutor extends ScriptExecutor
 		}
 		catch ( ClassCastException e )
 		{
-			addClassCastException( context, e, handle.getEventHandlerClass( ),
-					IListEventHandler.class );
+			addClassCastException( context, e, handle, IListEventHandler.class );
+		}
+		catch ( EngineException e )
+		{
+			addClassCastException( context, e, handle,
+					IAutoTextEventHandler.class );
 		}
 		return null;
 	}

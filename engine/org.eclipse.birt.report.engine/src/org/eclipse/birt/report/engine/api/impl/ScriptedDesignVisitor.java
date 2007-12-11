@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.api.impl;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.script.ScriptExpression;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.script.internal.AutoTextScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.CellScriptExecutor;
@@ -121,6 +122,11 @@ class ScriptedDesignVisitor extends DesignVisitor
 				}
 				return;
 			}
+			catch ( BirtException ex )
+			{
+				executionContext.addException( handle, ex );
+				return;
+			}
 			finally
 			{
 				if ( element != null )
@@ -169,16 +175,25 @@ class ScriptedDesignVisitor extends DesignVisitor
 				AutoTextScriptExecutor.handleOnPrepare(
 						( AutoTextHandle ) handle, executionContext );
 			} else
+			{
 				// if there's no ScriptExecutor available, execute javascript
 				// only
 				try
 				{
 					executionContext.newScope( handle );
-					executionContext.evaluate( getOnPrepareScriptExpression( handle ) );
-				} finally
+					executionContext
+							.evaluate( getOnPrepareScriptExpression( handle ) );
+				}
+				catch ( BirtException ex )
+				{
+					executionContext.addException( handle, ex );
+					return;
+				}
+				finally
 				{
 					executionContext.exitScope( );
 				}
+			}
 		} finally
 		{
 			executionContext.popHandle( );
@@ -235,6 +250,11 @@ class ScriptedDesignVisitor extends DesignVisitor
 				}
 				return;
 			}
+			catch ( BirtException ex )
+			{
+				executionContext.addException( handle, ex );
+				return;
+			}
 			finally
 			{
 				if ( element != null )
@@ -284,6 +304,11 @@ class ScriptedDesignVisitor extends DesignVisitor
 						executionContext.evaluate( expr );
 					}
 				}
+				return;
+			}
+			catch ( BirtException ex )
+			{
+				executionContext.addException( handle, ex );
 				return;
 			}
 			finally
@@ -340,6 +365,11 @@ class ScriptedDesignVisitor extends DesignVisitor
 						executionContext.evaluate( expr );
 					}
 				}
+				return;
+			}
+			catch ( BirtException ex )
+			{
+				executionContext.addException( handle, ex );
 				return;
 			}
 			finally

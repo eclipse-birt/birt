@@ -61,7 +61,7 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 				scriptedEventHandler = ( IScriptedDataSetEventHandler ) eventHandler;
 			} catch ( ClassCastException e )
 			{
-				addClassCastException( context, e, className,
+				addClassCastException( context, e, dataSetHandle,
 						IScriptedDataSetEventHandler.class );
 			}
 		}

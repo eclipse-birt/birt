@@ -414,8 +414,10 @@ public class ExecutorManager
 				catch ( BirtException ex )
 				{
 					log.log( Level.SEVERE, ex.getMessage( ), ex );
-					context.addException( new EngineException( ex
-							.getLocalizedMessage( ), ex ) );
+					context
+							.addException( this.getDesignHandle( ),
+									new EngineException( ex
+											.getLocalizedMessage( ), ex ) );
 					return null;
 				}
 			}

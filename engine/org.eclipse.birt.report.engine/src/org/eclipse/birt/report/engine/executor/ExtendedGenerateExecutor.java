@@ -142,7 +142,7 @@ public class ExtendedGenerateExecutor extends QueryItemExecutor
 			catch ( BirtException ex )
 			{
 				logger.log( Level.SEVERE, ex.getMessage( ), ex );
-				context.addException( new EngineException(
+				context.addException( handle, new EngineException(
 						MessageConstants.EXTENDED_ITEM_GENERATION_ERROR, handle
 								.getExtensionName( )
 								+ ( name != null ? " " + name : "" ), ex ) );//$NON-NLS-1$

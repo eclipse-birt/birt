@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.engine.script.internal;
 
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.script.element.IRow;
+import org.eclipse.birt.report.engine.api.script.eventhandler.IAutoTextEventHandler;
 import org.eclipse.birt.report.engine.api.script.eventhandler.IRowEventHandler;
 import org.eclipse.birt.report.engine.api.script.instance.IRowInstance;
 import org.eclipse.birt.report.engine.content.IRowContent;
@@ -42,69 +44,69 @@ public class RowScriptExecutor extends ScriptExecutor
 	public static void handleOnCreate( IRowContent content,
 			ExecutionContext context )
 	{
+		ReportItemDesign rowDesign = (ReportItemDesign) content.getGenerateBy( );
+		if ( !needOnCreate( rowDesign ) )
+		{
+			return;
+		}
 		try
 		{
-			ReportItemDesign rowDesign = ( ReportItemDesign ) content
-					.getGenerateBy( );
-			if ( !needOnCreate( rowDesign ) )
-			{
-				return;
-			}
-			IRowInstance row = new RowInstance( content,  context );
+			IRowInstance row = new RowInstance( content, context );
 			if ( handleJS( row, rowDesign.getOnCreate( ), context ).didRun( ) )
 				return;
 			IRowEventHandler eh = getEventHandler( rowDesign, context );
 			if ( eh != null )
 				eh.onCreate( row, context.getReportContext( ) );
-		} catch ( Exception e )
+		}
+		catch ( Exception e )
 		{
-			addException( context, e );
+			addException( context, e, rowDesign.getHandle( ) );
 		}
 	}
 
 	public static void handleOnRender( IRowContent content,
 			ExecutionContext context )
 	{
+		ReportItemDesign rowDesign = (ReportItemDesign) content.getGenerateBy( );
+		if ( !needOnRender( rowDesign ) )
+		{
+			return;
+		}
 		try
 		{
-			ReportItemDesign rowDesign = ( ReportItemDesign ) content
-					.getGenerateBy( );
-			if ( !needOnRender( rowDesign ) )
-			{
-				return;
-			}
 			IRowInstance row = new RowInstance( content, context );
 			if ( handleJS( row, rowDesign.getOnRender( ), context ).didRun( ) )
 				return;
 			IRowEventHandler eh = getEventHandler( rowDesign, context );
 			if ( eh != null )
 				eh.onRender( row, context.getReportContext( ) );
-		} catch ( Exception e )
+		}
+		catch ( Exception e )
 		{
-			addException( context, e );
+			addException( context, e, rowDesign.getHandle( ) );
 		}
 	}
 
 	public static void handleOnPageBreak( IRowContent content,
 			ExecutionContext context )
 	{
+		ReportItemDesign rowDesign = (ReportItemDesign) content.getGenerateBy( );
+		if ( !needOnPageBreak( rowDesign ) )
+		{
+			return;
+		}
 		try
 		{
-			ReportItemDesign rowDesign = ( ReportItemDesign ) content
-					.getGenerateBy( );
-			if ( !needOnPageBreak( rowDesign ) )
-			{
-				return;
-			}
 			IRowInstance row = new RowInstance( content, context );
 			if ( handleJS( row, rowDesign.getOnPageBreak( ), context ).didRun( ) )
 				return;
 			IRowEventHandler eh = getEventHandler( rowDesign, context );
 			if ( eh != null )
 				eh.onPageBreak( row, context.getReportContext( ) );
-		} catch ( Exception e )
+		}
+		catch ( Exception e )
 		{
-			addException( context, e );
+			addException( context, e, rowDesign.getHandle( ) );
 		}
 	}
 
@@ -117,8 +119,13 @@ public class RowScriptExecutor extends ScriptExecutor
 		}
 		catch ( ClassCastException e )
 		{
-			addClassCastException( context, e, design.getJavaClass( ),
+			addClassCastException( context, e, design.getHandle( ),
 					IRowEventHandler.class );
+		}
+		catch ( EngineException e )
+		{
+			addClassCastException( context, e, design.getHandle( ),
+					IAutoTextEventHandler.class );
 		}
 		return null;
 	}
@@ -132,8 +139,12 @@ public class RowScriptExecutor extends ScriptExecutor
 		}
 		catch ( ClassCastException e )
 		{
-			addClassCastException( context, e, handle.getEventHandlerClass( ),
-					IRowEventHandler.class );
+			addClassCastException( context, e, handle, IRowEventHandler.class );
+		}
+		catch ( EngineException e )
+		{
+			addClassCastException( context, e, handle,
+					IAutoTextEventHandler.class );
 		}
 		return null;
 	}
