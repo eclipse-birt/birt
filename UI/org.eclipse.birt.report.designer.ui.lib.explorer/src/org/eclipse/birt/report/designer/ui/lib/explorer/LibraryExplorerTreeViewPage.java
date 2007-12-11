@@ -471,20 +471,25 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 			if ( !requesList.equals( request.getSelectionModelList( ) ) )
 			{
 				requesList = request.getSelectionModelList( );
-				prefs.removePreferenceChangeListener( this );
-				prefs = PreferenceFactory.getInstance( )
-						.getPreferences( ReportPlugin.getDefault( ),
-								UIUtil.getCurrentProject( ) );
-				prefs.addPreferenceChangeListener( this );
-				Display.getDefault( ).asyncExec( new Runnable( ) {
+				if ( requesList.get( 0 ) != null
+						&& requesList.get( 0 ) instanceof ModuleHandle )
+				{
+					prefs.removePreferenceChangeListener( this );
+					prefs = PreferenceFactory.getInstance( )
+							.getPreferences( ReportPlugin.getDefault( ),
+									UIUtil.getCurrentProject( ) );
+					prefs.addPreferenceChangeListener( this );
+					Display.getDefault( ).asyncExec( new Runnable( ) {
 
-					public void run( )
-					{
-						refreshRoot( );
-					}
-				} );
+						public void run( )
+						{
+							refreshRoot( );
+						}
+					} );
+				}
 			}
 		}
 	}
+
 
 }
