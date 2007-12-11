@@ -81,9 +81,10 @@ import org.eclipse.swt.widgets.TableItem;
 /**
  * TaskSelectType
  */
-public class TaskSelectType extends SimpleTask implements
-		SelectionListener,
-		ITaskChangeListener
+public class TaskSelectType extends SimpleTask
+		implements
+			SelectionListener,
+			ITaskChangeListener
 {
 
 	private Chart chartModel = null;
@@ -201,7 +202,7 @@ public class TaskSelectType extends SimpleTask implements
 
 	private void placeComponents( )
 	{
-		foSashForm = new SashForm(topControl, SWT.VERTICAL);
+		foSashForm = new SashForm( topControl, SWT.VERTICAL );
 		{
 			GridLayout layout = new GridLayout( );
 			foSashForm.setLayout( layout );
@@ -209,7 +210,7 @@ public class TaskSelectType extends SimpleTask implements
 			gridData.heightHint = 570;
 			foSashForm.setLayoutData( gridData );
 		}
-		
+
 		createPreviewArea( );
 		createTypeArea( );
 		setDefaultTypeSelection( );
@@ -260,17 +261,17 @@ public class TaskSelectType extends SimpleTask implements
 			sc.setExpandHorizontal( true );
 			sc.setExpandVertical( true );
 		}
-		
+
 		cmpType = new Composite( sc, SWT.NONE );
 		cmpType.setLayout( new GridLayout( 2, false ) );
 		cmpType.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		sc.setContent( cmpType );
-		
+
 		createTypeTable( );
 		addChartTypes( );
 
 		createDetails( );
-		
+
 		Point size = cmpType.computeSize( SWT.DEFAULT, SWT.DEFAULT );
 		sc.setMinSize( size );
 	}
@@ -399,7 +400,7 @@ public class TaskSelectType extends SimpleTask implements
 			lblTypes.setText( Messages.getString( "TaskSelectType.Label.SelectChartType" ) ); //$NON-NLS-1$
 		}
 
-		table = new Table( cmpLeft, SWT.BORDER);
+		table = new Table( cmpLeft, SWT.BORDER );
 		{
 			GridData gd = new GridData( GridData.FILL_BOTH );
 			table.setLayoutData( gd );
@@ -774,11 +775,11 @@ public class TaskSelectType extends SimpleTask implements
 		}
 		else if ( oSelected.equals( cbSeriesType ) )
 		{
-// if ( !cbSeriesType.getText( ).equals( oldSeriesName ) )
-// {
+			// if ( !cbSeriesType.getText( ).equals( oldSeriesName ) )
+			// {
 			needUpdateModel = true;
 			changeOverlaySeriesType( );
-// }
+			// }
 		}
 		else if ( oSelected.equals( cbOutput ) )
 		{
@@ -1573,9 +1574,11 @@ public class TaskSelectType extends SimpleTask implements
 		if ( aX.getTitle( ).isVisible( ) )
 		{
 			bRender = true;
-			aX.getTitle( ).getCaption( ).getFont( ).setRotation( bVertical ? 0
-					: 90 );
 		}
+		aX.getTitle( )
+				.getCaption( )
+				.getFont( )
+				.setRotation( bVertical ? 0 : 90 );
 		EList aYs = aX.getAssociatedAxes( );
 		for ( int i = 0; i < aYs.size( ); i++ )
 		{
@@ -1583,11 +1586,9 @@ public class TaskSelectType extends SimpleTask implements
 			if ( aY.getTitle( ).isVisible( ) )
 			{
 				bRender = true;
-				aY.getTitle( )
-						.getCaption( )
-						.getFont( )
-						.setRotation( bVertical ? 90 : 0 );
 			}
+			aY.getTitle( ).getCaption( ).getFont( ).setRotation( bVertical ? 90
+					: 0 );
 		}
 		ChartAdapter.endIgnoreNotifications( );
 		if ( bRender )
@@ -1595,5 +1596,4 @@ public class TaskSelectType extends SimpleTask implements
 			previewPainter.renderModel( chartModel );
 		}
 	}
-
 }
