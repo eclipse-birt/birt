@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.birt.data.engine.aggregation.AggregationFactory;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IExpressionCollection;
@@ -196,10 +197,8 @@ public class OlapExpressionCompiler
 			List bindings, boolean onlyFromDirectReferenceExpr )
 			throws DataException
 	{
-		if ( expr == null )
+		if ( expr == null || expr.getText( ) == null || expr.getText( ).length( ) == 0 )
 			return new HashSet( );
-		if (expr.getText( ) == null || expr.getText( ).length( ) == 0)
-			throw new DataException(ResourceConstants.DATA_BINDING_EXPRESSION_EMPTY);
 		try
 		{
 			Set result = new HashSet( );
