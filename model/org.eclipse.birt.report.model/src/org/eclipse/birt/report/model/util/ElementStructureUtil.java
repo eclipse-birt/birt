@@ -79,7 +79,7 @@ public class ElementStructureUtil
 	}
 
 	/**
-	 * Updates the structure from one exntend parent element to its one child.
+	 * Updates the structure from one extended parent element to its one child.
 	 * Local properties will all be cleared.Please note that the containment
 	 * relationship is kept while property values are not copied.
 	 * <p>
@@ -93,7 +93,7 @@ public class ElementStructureUtil
 	 * @param parent
 	 *            the extends parent element
 	 * @return <code>true</code> if the refresh action is successful.
-	 *         <code>false</code> othersize.
+	 *         <code>false</code> otherwise.
 	 * 
 	 */
 
@@ -150,7 +150,7 @@ public class ElementStructureUtil
 			{
 				Property prop = (Property) values.get( i );
 				Object value = prop.getValue( );
-				
+
 				// TODO if the name is set, add it to name space.
 
 				// the intrinsic style property must use setStyle().
@@ -160,7 +160,7 @@ public class ElementStructureUtil
 							.getValue( ) );
 				else if ( value instanceof ReferenceValue )
 				{
-					Object newValue = ((ReferenceValue) value).copy( );
+					Object newValue = ( (ReferenceValue) value ).copy( );
 					content.setProperty( prop.getName( ), newValue );
 				}
 				else
@@ -293,15 +293,17 @@ public class ElementStructureUtil
 					.getName( ) ), new ContainerContext( target, propDefn
 					.getName( ) ), targetModule );
 		}
-		
+
 		// copy illegal contents if this element is ExtendedItem
 		if ( target instanceof ExtendedItem )
 		{
 			ExtendedItem srcExtendedItem = (ExtendedItem) source;
 			ExtendedItem targetExtendedItem = (ExtendedItem) target;
 			Map copiedIllegalContents = SimplePeerExtensibilityProvider
-					.getCopiedIllegalContents( srcExtendedItem.getExtensibilityProvider( ).getIllegalContents( ) );
-			targetExtendedItem.getExtensibilityProvider( ).setIllegalContents( copiedIllegalContents );
+					.getCopiedIllegalContents( srcExtendedItem
+							.getExtensibilityProvider( ).getIllegalContents( ) );
+			targetExtendedItem.getExtensibilityProvider( ).setIllegalContents(
+					copiedIllegalContents );
 		}
 
 		// do some special handle for cube and dimension
@@ -494,6 +496,11 @@ public class ElementStructureUtil
 		if ( element instanceof TableItem )
 		{
 			( (TableItem) element ).refreshRenderModel( module );
+		}
+
+		if ( element instanceof ExtendedItem )
+		{
+			( (ExtendedItem) element ).checkCompatibility( module );
 		}
 		return result;
 	}

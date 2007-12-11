@@ -18,11 +18,13 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.extension.ICompatibleReportItem;
 import org.eclipse.birt.report.model.api.extension.IPropertyDefinition;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.validators.ExtensionValidator;
 import org.eclipse.birt.report.model.core.ContainerSlot;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.PropertySearchStrategy;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
@@ -33,6 +35,7 @@ import org.eclipse.birt.report.model.extension.PeerExtensibilityProvider;
 import org.eclipse.birt.report.model.extension.PeerExtensibilityProviderFactory;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
+import org.eclipse.birt.report.model.util.ContentIterator;
 
 /**
  * This class represents an extended item element. The extended report item
@@ -93,13 +96,13 @@ public class ExtendedItem extends ReportItem
 	/**
 	 * The methods for the extension element.
 	 */
-	 
+
 	private List methods = null;
 
 	/**
 	 * PropertDefinitions of the extension element.
 	 */
-	 
+
 	private List props = null;
 
 	/**
@@ -599,5 +602,60 @@ public class ExtendedItem extends ReportItem
 		if ( !propDefn.isExtended( ) )
 			return super.hasLocalValue( propDefn );
 		return provider.getExtensionProperty( propDefn.getName( ) ) != null;
+	}
+
+	/**
+	 * Checks the compatibilities for this extended item.
+	 * 
+	 * @param module
+	 * @return
+	 */
+	public List checkCompatibility( Module module )
+	{
+		// check this element itself
+		List errorList = doCheck( module );
+
+		// if this extended-item has parent, then check all virtual children
+		if ( getExtendsElement( ) != null )
+		{
+			ContentIterator iter = new ContentIterator( module, this );
+			while ( iter.hasNext( ) )
+			{
+				DesignElement content = (DesignElement) iter.next( );
+				if ( content instanceof ExtendedItem )
+				{
+					List error = ( (ExtendedItem) content ).doCheck( module );
+					errorList.addAll( error );
+				}
+			}
+		}
+
+		return errorList;
+	}
+
+	private List doCheck( Module module )
+	{
+		if ( module != null && module.isReadOnly( ) )
+			return Collections.EMPTY_LIST;
+
+		if ( !provider.needCheckCompatibility( ) )
+			return Collections.EMPTY_LIST;
+		try
+		{
+			initializeReportItem( module );
+		}
+		catch ( ExtendedElementException e )
+		{
+			return Collections.EMPTY_LIST;
+		}
+		IReportItem item = getExtendedElement( );
+
+		if ( item instanceof ICompatibleReportItem )
+		{
+			List error = ( (ICompatibleReportItem) item ).checkCompatibility( );
+			return error;
+		}
+
+		return Collections.EMPTY_LIST;
 	}
 }

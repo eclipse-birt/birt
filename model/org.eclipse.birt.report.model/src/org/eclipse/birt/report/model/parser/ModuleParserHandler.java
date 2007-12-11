@@ -20,9 +20,6 @@ import java.util.Map;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.command.NameException;
-import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
-import org.eclipse.birt.report.model.api.extension.ICompatibleReportItem;
-import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -34,7 +31,6 @@ import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ReportItem;
-import org.eclipse.birt.report.model.extension.PeerExtensibilityProvider;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.NamePropertyType;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -339,30 +335,13 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 		// if this is the included library, then do nothing
 		if ( module.isReadOnly( ) )
 			return;
-		
+
+		List errorList = module.getAllExceptions( );
 		for ( int i = 0; i < extendedItemList.size( ); i++ )
 		{
 			ExtendedItem element = (ExtendedItem) extendedItemList.get( i );
-			PeerExtensibilityProvider provider = element
-					.getExtensibilityProvider( );
-			if ( !provider.needCheckCompatibility( ) )
-				continue;
-			try
-			{
-				element.initializeReportItem( module );
-			}
-			catch ( ExtendedElementException e )
-			{
-				continue;
-			}
-			IReportItem item = element.getExtendedElement( );
-
-			if ( item instanceof ICompatibleReportItem )
-			{
-				List error = ( (ICompatibleReportItem) item )
-						.checkCompatibility( );
-				module.getAllExceptions( ).addAll( error );
-			}
+			List error = element.checkCompatibility( module );
+			errorList.addAll( error );			
 		}
 
 		// clear the activity stack and save state
