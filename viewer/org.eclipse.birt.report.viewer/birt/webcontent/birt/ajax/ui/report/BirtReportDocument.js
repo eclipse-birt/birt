@@ -233,7 +233,7 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 				docObj.scrollTop = "0px";
 				
 				// Safari workaround
-				if ( BrowserUtility.isSafari )
+				if ( BrowserUtility.isSafari || BrowserUtility.isKHTML )
 				{
 					var divs = docObj.getElementsByTagName("div");
 					if ( divs && divs[0] )

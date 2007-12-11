@@ -8,11 +8,17 @@ BrowserUtility.prototype = {
 	{
 		this.isIE = this.__isIE();
 		this.isSafari = this.__isSafari();
+		this.isKHTML = this.__isKHTML();
 	},
 		
 	__isSafari: function()
 	{
 		return navigator.appVersion.match(/Safari/);		
+	},
+
+	__isKHTML: function()
+	{
+		return navigator.appVersion.match(/KHTML/);		
 	},
 	
 	__isIE: function()
