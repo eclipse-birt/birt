@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.List;
+
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
@@ -38,10 +40,24 @@ public class MultiViewHandleTest extends BaseTestCase
 		table1.addView( box1 );
 		table1.setCurrentView( box1 );
 
+		List views = table1.getViews( );
+		assertEquals( 1, views.size( ) );
+		assertTrue( box1 == views.get( 0 ) );
+
 		assertTrue( box1 == table1.getCurrentView( ) );
 
 		table1.dropView( box1 );
+
+		assertNull( table1.getCurrentView( ) );
+		views = table1.getViews( );
+		assertEquals( 0, views.size( ) );
 		
-		assertTrue( table1 == table1.getCurrentView( ) );
+		table1.setCurrentView( box1 );
+		assertTrue( box1 == table1.getCurrentView( ) );
+		table1.setCurrentView( null );
+		
+		views = table1.getViews( );
+		assertEquals( 1, views.size( ) );
+		assertNull( table1.getCurrentView( ) );
 	}
 }

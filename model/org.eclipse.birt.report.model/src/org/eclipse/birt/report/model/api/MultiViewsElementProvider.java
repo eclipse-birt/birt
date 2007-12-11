@@ -67,7 +67,7 @@ final class MultiViewsElementProvider implements IMultiViewsModel
 	{
 		int currentViewIndex = element.getCurrentViewIndex( );
 		if ( currentViewIndex == MultiViewsHandle.HOST )
-			return element.getContainer( );
+			return null;
 
 		List views = getViews( );
 		if ( views.isEmpty( ) || views.size( ) <= currentViewIndex )

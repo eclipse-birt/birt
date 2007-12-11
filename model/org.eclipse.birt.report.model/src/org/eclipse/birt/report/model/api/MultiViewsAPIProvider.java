@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.model.api;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
@@ -25,7 +28,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IMultiViewsModel;
  * <code>AbstractMultiViewHandle</code> or <code>MultiViewHandle</code>.
  */
 
-public class MultiViewsAPIProvider implements IMultiViewsModel
+class MultiViewsAPIProvider implements IMultiViewsModel
 {
 
 	/**
@@ -83,11 +86,29 @@ public class MultiViewsAPIProvider implements IMultiViewsModel
 				.getProperty( propertyName );
 		if ( multiView == null ||
 				multiView.getCurrentViewIndex( ) == MultiViewsHandle.HOST )
-			return element;
+			return null;
 
 		MultiViewsElementProvider subProvider = new MultiViewsElementProvider(
 				multiView );
 		return subProvider.getCurrentView( );
+	}
+
+	/**
+	 * Returns the view that is being used.
+	 * 
+	 * @return the view that is being used
+	 */
+
+	public List getViews( )
+	{
+		AbstractMultiViewsHandle multiView = (AbstractMultiViewsHandle) element
+				.getProperty( propertyName );
+		if ( multiView == null )
+			return Collections.EMPTY_LIST;
+
+		MultiViewsElementProvider subProvider = new MultiViewsElementProvider(
+				multiView );
+		return subProvider.getViews( );
 	}
 
 	/**
@@ -162,15 +183,22 @@ public class MultiViewsAPIProvider implements IMultiViewsModel
 	public void setCurrentView( DesignElementHandle viewElement )
 			throws SemanticException
 	{
-		if ( viewElement == null )
-			return;
-
 		// if the viewElement is in the design tree and not in table, throw
 		// exception
 
 		DesignElement internalElement = element.getElement( );
-		if ( viewElement.getContainer( ) != null &&
+
+		if ( viewElement != null && viewElement.getContainer( ) != null &&
 				!viewElement.getElement( ).isContentOf( internalElement ) )
+		{
+			throw new PropertyValueException( internalElement, element
+					.getPropertyDefn( propertyName ), null,
+					PropertyValueException.DESIGN_EXCEPTION_ITEM_NOT_FOUND );
+		}
+
+		// cannot set the host as the current view
+
+		if ( viewElement != null && viewElement == element )
 		{
 			throw new PropertyValueException( internalElement, element
 					.getPropertyDefn( propertyName ), null,
@@ -193,7 +221,8 @@ public class MultiViewsAPIProvider implements IMultiViewsModel
 			// if the viewElement is in the table and not in multiple view,
 			// throw exception
 
-			if ( viewElement.getContainer( ) != null &&
+			if ( viewElement != null &&
+					viewElement.getContainer( ) != null &&
 					!viewElement.getElement( ).isContentOf(
 							multiView.getElement( ) ) )
 			{
@@ -204,7 +233,7 @@ public class MultiViewsAPIProvider implements IMultiViewsModel
 
 			// add to the multiple view
 
-			if ( viewElement.getContainer( ) == null )
+			if ( viewElement != null && viewElement.getContainer( ) == null )
 			{
 				MultiViewsElementProvider subProvider = new MultiViewsElementProvider(
 						multiView );
@@ -214,7 +243,9 @@ public class MultiViewsAPIProvider implements IMultiViewsModel
 			// set index
 
 			int newIndex = MultiViewsHandle.HOST;
-			if ( viewElement != element )
+			assert viewElement != element;
+
+			if ( viewElement != null )
 			{
 				ContainerContext context = new ContainerContext( multiView
 						.getElement( ), MultiViewsHandle.VIEWS_PROP );

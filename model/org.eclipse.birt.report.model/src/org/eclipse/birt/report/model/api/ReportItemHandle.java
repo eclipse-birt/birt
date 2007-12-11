@@ -984,7 +984,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 		toRemoveColumn.drop( );
 	}
-	
+
 	/**
 	 * Returns the view that is being used.
 	 * 
@@ -993,8 +993,8 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 	public DesignElementHandle getCurrentView( )
 	{
-		MultiViewsAPIProvider provider = new MultiViewsAPIProvider(
-				this, MULTI_VIEWS_PROP );
+		MultiViewsAPIProvider provider = new MultiViewsAPIProvider( this,
+				MULTI_VIEWS_PROP );
 		return provider.getCurrentView( );
 	}
 
@@ -1009,9 +1009,9 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	public void addView( DesignElementHandle viewElement )
 			throws SemanticException
 	{
-		MultiViewsAPIProvider provider = new MultiViewsAPIProvider(
-				this, MULTI_VIEWS_PROP );
-		provider.addView( viewElement );		
+		MultiViewsAPIProvider provider = new MultiViewsAPIProvider( this,
+				MULTI_VIEWS_PROP );
+		provider.addView( viewElement );
 	}
 
 	/**
@@ -1025,8 +1025,8 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	public void dropView( DesignElementHandle viewElement )
 			throws SemanticException
 	{
-		MultiViewsAPIProvider provider = new MultiViewsAPIProvider(
-				this, MULTI_VIEWS_PROP );
+		MultiViewsAPIProvider provider = new MultiViewsAPIProvider( this,
+				MULTI_VIEWS_PROP );
 		provider.dropView( viewElement );
 	}
 
@@ -1035,7 +1035,8 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * the multiple view, it will be added and set as the active view.
 	 * 
 	 * @param viewElement
-	 *            the view element
+	 *            the view element, must not be <code>this</code>. Can be
+	 *            <code>null</code>.
 	 * 
 	 * @throws SemanticException
 	 *             if the given element resides in the other elements.
@@ -1044,11 +1045,24 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	public void setCurrentView( DesignElementHandle viewElement )
 			throws SemanticException
 	{
-		if ( viewElement == null )
-			return;
-		
-		MultiViewsAPIProvider provider = new MultiViewsAPIProvider(
-				this, MULTI_VIEWS_PROP );
+		MultiViewsAPIProvider provider = new MultiViewsAPIProvider( this,
+				MULTI_VIEWS_PROP );
 		provider.setCurrentView( viewElement );
+	}
+
+	/**
+	 * Returns a list containing view elements.
+	 * 
+	 * @return a list. Each item is <code>DesignElementHandle</code>.
+	 * 
+	 */
+
+	public List getViews( )
+	{
+		MultiViewsAPIProvider provider = new MultiViewsAPIProvider( this,
+				MULTI_VIEWS_PROP );
+
+		return provider.getViews( );
+
 	}
 }
