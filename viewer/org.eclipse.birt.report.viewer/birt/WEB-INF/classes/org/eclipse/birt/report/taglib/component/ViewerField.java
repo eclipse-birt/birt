@@ -77,7 +77,7 @@ public class ViewerField implements Serializable, Cloneable, ITagConstants
 	private String title;
 	private boolean isHostPage = false;
 	private boolean isCustom = false;
-	private String scrolling;
+	private String scrolling = SCROLLING_AUTO;
 	private String position;
 	private String style;
 	private int height = -1;
