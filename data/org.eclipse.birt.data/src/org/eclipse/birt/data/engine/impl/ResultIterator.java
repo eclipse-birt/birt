@@ -554,8 +554,12 @@ public class ResultIterator implements IResultIterator
 		// Another issue is even if there is no row in result set, total Value
 		// is also available.
 		if ( this.isFirstRowPepared )
-			this.prepareCurrentRow( );
-		
+		{
+			if ( this.isEmpty() )
+				this.next();
+			else
+				this.prepareCurrentRow( );
+		}
 		if ( !this.boundColumnValueMap.containsKey( exprName ) )
 		{
 			// If there is no value for this specified binding name, evaluate it

@@ -46,17 +46,21 @@ public class ViewingTest2 extends RDTestCase
 {
 	private String GEN_queryResultID;
 	private String UPDATE_queryResultID;
+	private boolean notIncludeAggr;
 	
 	private String[] rowExprName;
 	private String[] totalExprName;
 	private String updateNewBindingName;
 	private IBaseExpression updateNewBindingExpr;
 
+	private boolean add_subquery_on_query;
+	
 	private boolean USE_ROW_IN_AGGREGATION;
 	private boolean USE_DATE_IN_COLUMNBINDING;
 	private boolean GEN_add_filter;
 	private boolean GEN_add_group;
 	private boolean GEN_add_subquery;
+	private boolean GEN_add_sort;
 	private boolean GEN_print;
 	private boolean GEN_use_invalid_column;
 	
@@ -121,6 +125,9 @@ public class ViewingTest2 extends RDTestCase
 	{
 		super.setUp( );
 		
+		this.notIncludeAggr = false;
+		
+		this.add_subquery_on_query = false;
 		this.USE_ROW_IN_AGGREGATION = false;
 
 		this.GEN_queryResultID = null;
@@ -128,6 +135,7 @@ public class ViewingTest2 extends RDTestCase
 		this.USE_DATE_IN_COLUMNBINDING = true;
 		
 		this.GEN_add_subquery = false;
+		this.GEN_add_sort = true;
 		// dataSetRow.AMOUNT>50
 		this.GEN_add_filter = false;
 		// dataSetRow.COUNTRY
@@ -1256,7 +1264,38 @@ public class ViewingTest2 extends RDTestCase
 		this.checkOutputFile( );
 	}
 	
+	/**
+	 * @throws Exception
+	 */
+	public void testSubQuery8( ) throws Exception
+	{
+		this.add_subquery_on_query = true;
+		this.notIncludeAggr = true;
+		this.GEN_add_sort = false;
+		this.TEST_ISEMPTY = true;
+		this.genBasicIV( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName,
+				fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
 		
+		this.UPDATE_add_filter = 6;
+	
+		this.updatePreBasicIV( );
+		this.closeArchiveReader( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext3 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext3 );
+
+		this.PRE_execute_query = false;
+		this.preBasicIV( );
+
+		this.checkOutputFile( );
+	}
 	
 	/**
 	 * With invalid column
@@ -2400,9 +2439,11 @@ public class ViewingTest2 extends RDTestCase
 			for ( int i = 0; i < rowExprName.length; i++ )
 				abc += ri.getValue( this.rowExprName[i] ) + "  ";
 
-			for ( int i = 0; i < totalExprName.length; i++ )
+			if ( !this.notIncludeAggr )
+			{
+				for ( int i = 0; i < totalExprName.length; i++ )
 				abc += ri.getValue( this.totalExprName[i] ) + "  ";
-			
+			}
 			if ( this.GEN_print == true )
 				this.testPrintln( abc );
 			
@@ -2422,6 +2463,24 @@ public class ViewingTest2 extends RDTestCase
 						abc += subRi.getValue( "sub4" );
 				}
 				subRi.close( );
+			}
+		}
+		
+		if ( this.add_subquery_on_query )
+		{
+			IResultIterator subRi = ri.getSecondaryIterator( subQueryName1,
+					scope );
+			String abc = "      ";
+			for ( int i = 0; i < subRowExprName1.length; i++ )
+				abc += subRi.getValue( subRowExprName1[i] ) + "  ";
+			if ( this.GEN_print )
+				this.testPrintln( abc );
+			while ( subRi.next( ) )
+			{
+				abc = "      ";
+				for ( int i = 0; i < subRowExprName1.length; i++ )
+					abc += subRi.getValue( subRowExprName1[i] ) + "  ";
+				this.testPrintln( abc );
 			}
 		}
 		
@@ -2447,9 +2506,12 @@ public class ViewingTest2 extends RDTestCase
 			qd.addResultSetExpression( this.rowExprName[i], rowBeArray[i] );
 		if( this.GEN_use_invalid_column )
 			qd.addResultSetExpression( "abc",new ScriptExpression("dataSetRow.def") );
-		for ( int i = 0; i < totalBeArray.length; i++ )
-			qd.addResultSetExpression( this.totalExprName[i], totalBeArray[i] );
-
+		if (!this.notIncludeAggr) 
+		{
+			for (int i = 0; i < totalBeArray.length; i++)
+				qd.addResultSetExpression(this.totalExprName[i],
+						totalBeArray[i]);
+		}
 		// add filter
 		if ( this.GEN_add_filter == true )
 		{
@@ -2472,10 +2534,13 @@ public class ViewingTest2 extends RDTestCase
 			this.GEN_filterDefn.add( filterDefn );
 		}
 		
+		if ( this.GEN_add_sort )
 		// add sorting
-		SortDefinition sortDefn = new SortDefinition( );
-		sortDefn.setColumn( "CITY_1" );
-		qd.addSort( sortDefn );
+		{
+			SortDefinition sortDefn = new SortDefinition( );
+			sortDefn.setColumn( "CITY_1" );
+			qd.addSort( sortDefn );
+		}
 
 		// add group
 		if ( this.GEN_add_group == true )
@@ -2487,28 +2552,38 @@ public class ViewingTest2 extends RDTestCase
 			
 			if ( this.GEN_add_subquery == true )
 			{
-				SubqueryDefinition subqueryDefn = new SubqueryDefinition( subQueryName1, qd );
-
-				subRowExprName1 = new String[3];
-				subRowExprName1[0] = "sub1";
-				subRowExprName1[1] = "sub2";
-				subRowExprName1[2] = "sub3";
-				ScriptExpression[] exprs = new ScriptExpression[3];
-				exprs[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
-				exprs[1] = new ScriptExpression( "dataSetRow.CITY" );
-				exprs[2] = new ScriptExpression( "dataSetRow.AMOUNT" );
-				for ( int i = 0; i < subRowExprName1.length; i++ )
-					subqueryDefn.addResultSetExpression( subRowExprName1[i],
-							exprs[i] );
-				if( this.USE_DATE_IN_SUBQUERY )
-					subqueryDefn.addResultSetExpression("sub4", new ScriptExpression("dataSetRow.SALE_DATE"));
-				subqueryDefn.setApplyOnGroupFlag( true );
+				SubqueryDefinition subqueryDefn = getSubQueryDefn(qd);
 
 				gd.addSubquery( subqueryDefn );
 			}
 		}
+		
+		if ( add_subquery_on_query )
+		{
+			qd.addSubquery(getSubQueryDefn(qd));
+		}
 
 		return qd;
+	}
+
+	private SubqueryDefinition getSubQueryDefn(QueryDefinition qd) {
+		SubqueryDefinition subqueryDefn = new SubqueryDefinition( subQueryName1, qd );
+
+		subRowExprName1 = new String[3];
+		subRowExprName1[0] = "sub1";
+		subRowExprName1[1] = "sub2";
+		subRowExprName1[2] = "sub3";
+		ScriptExpression[] exprs = new ScriptExpression[3];
+		exprs[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
+		exprs[1] = new ScriptExpression( "dataSetRow.CITY" );
+		exprs[2] = new ScriptExpression( "dataSetRow.AMOUNT" );
+		for ( int i = 0; i < subRowExprName1.length; i++ )
+			subqueryDefn.addResultSetExpression( subRowExprName1[i],
+					exprs[i] );
+		if( this.USE_DATE_IN_SUBQUERY )
+			subqueryDefn.addResultSetExpression("sub4", new ScriptExpression("dataSetRow.SALE_DATE"));
+		subqueryDefn.setApplyOnGroupFlag( true );
+		return subqueryDefn;
 	}
 	
 	/**
@@ -2596,8 +2671,11 @@ public class ViewingTest2 extends RDTestCase
 			String abc = "";
 			for ( int i = 0; i < rowExprName.length; i++ )
 				abc += ri.getValue( rowExprName[i] ) + "  ";
-			for ( int i = 0; i < totalExprName.length; i++ )
+			if ( !this.notIncludeAggr )
+			{
+				for ( int i = 0; i < totalExprName.length; i++ )
 				abc += ri.getValue(totalExprName[i]) + "  ";
+			}
 			if (this.updateNewBindingName != null && this.updateNewBindingExpr != null)
 				abc += ri.getValue(this.updateNewBindingName) + " ";
 			if ( printGroupInfo )
@@ -2630,6 +2708,23 @@ public class ViewingTest2 extends RDTestCase
 					abc = "      ";
 					for ( int i = 0; i < subRowExprName2.length; i++ )
 						abc += subRi.getValue( subRowExprName2[i] ) + "  ";
+					this.testPrintln( abc );
+				}
+			}
+			
+			if ( this.add_subquery_on_query )
+			{
+				IResultIterator subRi = ri.getSecondaryIterator( subQueryName1,
+						scope );
+				abc = "      ";
+				for ( int i = 0; i < subRowExprName1.length; i++ )
+					abc += subRi.getValue( subRowExprName1[i] ) + "  ";
+				this.testPrintln( abc );
+				while ( subRi.next( ) )
+				{
+					abc = "      ";
+					for ( int i = 0; i < subRowExprName1.length; i++ )
+						abc += subRi.getValue( subRowExprName1[i] ) + "  ";
 					this.testPrintln( abc );
 				}
 			}
@@ -2741,6 +2836,14 @@ public class ViewingTest2 extends RDTestCase
 			qd.addFilter( fd );
 		}
 		
+		if ( filterNeeded == 6 )
+		{
+			// do filtering on column 4
+			ScriptExpression filterExpr = new ScriptExpression( "row.COUNTRY_1 == \"ABC\"" );
+			FilterDefinition fd = new FilterDefinition( filterExpr );
+			qd.addFilter( fd );
+		}
+		
 		UPDATE_filterDefn = qd.getFilters( );
 
 		if ( sortNeeded )
@@ -2770,23 +2873,7 @@ public class ViewingTest2 extends RDTestCase
 			}
 			if ( this.UPDATE_add_subquery == 1 )
 			{
-				SubqueryDefinition subqueryDefn = new SubqueryDefinition( subQueryName1, qd );
-
-				subRowExprName1 = new String[3];
-				subRowExprName1[0] = "sub1";
-				subRowExprName1[1] = "sub2";
-				subRowExprName1[2] = "sub3";
-				ScriptExpression[] exprs = new ScriptExpression[3];
-				exprs[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
-				exprs[1] = new ScriptExpression( "dataSetRow.CITY" );
-				exprs[2] = new ScriptExpression( "dataSetRow.AMOUNT" );
-				for ( int i = 0; i < subRowExprName1.length; i++ )
-					subqueryDefn.addResultSetExpression( subRowExprName1[i],
-							exprs[i] );
-				if( this.USE_DATE_IN_SUBQUERY )
-					subqueryDefn.addResultSetExpression("sub4", new ScriptExpression("dataSetRow.SALE_DATE"));
-			
-				subqueryDefn.setApplyOnGroupFlag( true );
+				SubqueryDefinition subqueryDefn = getSubQueryDefn(qd);
 
 				gd.addSubquery( subqueryDefn );
 			}
@@ -2808,6 +2895,11 @@ public class ViewingTest2 extends RDTestCase
 
 				gd.addSubquery( subqueryDefn );
 			}
+		}
+		
+		if ( add_subquery_on_query )
+		{
+			qd.addSubquery(getSubQueryDefn(qd));
 		}
 		
 		return qd;
@@ -2857,6 +2949,8 @@ public class ViewingTest2 extends RDTestCase
 	 */
 	private IBaseExpression[] getAggrExpr( )
 	{
+		if( this.notIncludeAggr )
+			return new IBaseExpression[0];
 		int num2 = 2;
 		IBaseExpression[] totalBeArray = new IBaseExpression[num2];
 		totalBeArray[0] = new ScriptExpression( "Total.Count( )" );
