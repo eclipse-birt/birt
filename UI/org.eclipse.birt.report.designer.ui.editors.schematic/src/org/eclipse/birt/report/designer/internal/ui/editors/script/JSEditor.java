@@ -58,10 +58,10 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.views.palette.PalettePage;
 import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.ITextListener;
+import org.eclipse.jface.text.IDocumentListener;
 import org.eclipse.jface.text.IUndoManager;
-import org.eclipse.jface.text.TextEvent;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -176,15 +176,26 @@ public class JSEditor extends EditorPart implements IColleague
 	/** Indicates that the described document event is about to be undone. */
 	private boolean undoing = false;
 
-	/** the listener for text chaged. */
-	private final ITextListener textListener = new ITextListener( ) {
+	/** The listener for document changed. */
+	private final IDocumentListener documentListener = new IDocumentListener( ) {
 
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.jface.text.ITextListener#textChanged(org.eclipse.jface.text.TextEvent)
+		 * @see org.eclipse.jface.text.IDocumentListener#documentAboutToBeChanged(org.eclipse.jface.text.DocumentEvent)
 		 */
-		public void textChanged( TextEvent event )
+		public void documentAboutToBeChanged( DocumentEvent event )
+		{
+			// Does nothing.
+			return;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.jface.text.IDocumentListener#documentChanged(org.eclipse.jface.text.DocumentEvent)
+		 */
+		public void documentChanged( DocumentEvent event )
 		{
 			if ( isTextListenerEnable )
 			{
@@ -244,7 +255,7 @@ public class JSEditor extends EditorPart implements IColleague
 				}
 			}
 
-			// Removes dirty flag when undo/redo to clean point.
+			// Removes dirty flag when undo/redo to the clean point.
 			setIsModified( false );
 			( (IFormPage) editingDomainEditor ).getEditor( )
 					.editorDirtyStateChanged( );
@@ -495,16 +506,17 @@ public class JSEditor extends EditorPart implements IColleague
 		disableEditor( );
 
 		SourceViewer viewer = getViewer( );
+		IDocument document = viewer == null ? null : viewer.getDocument( );
 
-		if ( viewer != null )
+		if ( document != null )
 		{
-			IDocumentUndoManager undoManager = DocumentUndoManagerRegistry.getDocumentUndoManager( viewer.getDocument( ) );
+			IDocumentUndoManager undoManager = DocumentUndoManagerRegistry.getDocumentUndoManager( document );
 
 			if ( undoManager != null )
 			{
 				undoManager.addDocumentUndoListener( undoListener );
 			}
-			viewer.addTextListener( textListener );
+			document.addDocumentListener( documentListener );
 		}
 	}
 
@@ -1575,5 +1587,4 @@ class JSSubFunctionListProvider implements
 		signature.append( ")\n{\n}\n" ); //$NON-NLS-1$
 		return signature.toString( );
 	}
-
 }
