@@ -47,7 +47,7 @@ public class EditStyleAction extends DynamicItemAction
 	{
 		this.handle = handle;
 		setId( ID );
-		if ( handle.getContainerSlotHandle( ).getElementHandle( ) instanceof ThemeHandle )
+		if ( handle.getContainerSlotHandle( )!=null && handle.getContainerSlotHandle( ).getElementHandle( ) instanceof ThemeHandle )
 		{
 			setText( ( (ThemeHandle) handle.getContainerSlotHandle( )
 					.getElementHandle( ) ).getName( )
