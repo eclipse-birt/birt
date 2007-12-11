@@ -407,8 +407,11 @@ public class RenderTask extends EngineTask implements IRenderTask
 							.booleanValue( );
 					if ( htmlPagination )
 					{
-						renderOptions.setOption( IPDFRenderOption.FIT_TO_PAGE,
-								Boolean.TRUE );
+						if(renderOptions.getOption(IPDFRenderOption.FIT_TO_PAGE) == null)
+						{
+							renderOptions.setOption( IPDFRenderOption.FIT_TO_PAGE,
+									Boolean.TRUE );
+						}
 						renderOptions.setOption(
 								IPDFRenderOption.PAGEBREAK_PAGINATION_ONLY,
 								Boolean.TRUE );

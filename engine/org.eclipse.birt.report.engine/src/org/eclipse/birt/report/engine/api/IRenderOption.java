@@ -39,6 +39,13 @@ public interface IRenderOption
 	public static final String BASE_URL = "baseUrl";
 	
 	public static final String OUTPUT_DISPLAY_NONE = "org.eclipse.birt.report.engine.api.IRenderOption.outputDisplayNone";
+	
+	/**
+	 * Should the report contains paginations The value is a Boolean object,
+	 * default is <code>Boolean.FALSE</code>.
+	 */
+	public static final String HTML_PAGINATION = "htmlPagination"; //$NON-NLS-1$
+
 
 	/**
 	 * get all the options defined in this object
