@@ -325,8 +325,8 @@ public abstract class PeerExtensibilityProvider
 
 	public void setExtensionProperty( ElementPropertyDefn prop, Object value )
 	{
-		if ( isExtensionXMLProperty( prop.getName( ) ) &&
-				hasOwnModel( prop.getName( ) ) )
+		if ( isExtensionXMLProperty( prop.getName( ) )
+				&& hasOwnModel( prop.getName( ) ) )
 		{
 			if ( reportItem != null )
 			{
@@ -439,8 +439,8 @@ public abstract class PeerExtensibilityProvider
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) localPropDefns
 					.get( i );
 
-			if ( propDefn.getTypeCode( ) != IPropertyType.XML_TYPE ||
-					!propDefn.canInherit( ) || !propDefn.hasOwnModel( ) )
+			if ( propDefn.getTypeCode( ) != IPropertyType.XML_TYPE
+					|| !propDefn.canInherit( ) || !propDefn.hasOwnModel( ) )
 				continue;
 
 			String propName = propDefn.getName( );
@@ -546,8 +546,8 @@ public abstract class PeerExtensibilityProvider
 		{
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) extDefn
 					.getProperty( propName );
-			if ( propDefn != null && propDefn.hasOwnModel( ) &&
-					IPropertyType.XML_TYPE == propDefn.getTypeCode( ) )
+			if ( propDefn != null && propDefn.hasOwnModel( )
+					&& IPropertyType.XML_TYPE == propDefn.getTypeCode( ) )
 				return true;
 		}
 
@@ -634,8 +634,8 @@ public abstract class PeerExtensibilityProvider
 			}
 
 			// copy encryption map
-			if ( source.encryptionMap != null &&
-					!source.encryptionMap.isEmpty( ) )
+			if ( source.encryptionMap != null
+					&& !source.encryptionMap.isEmpty( ) )
 			{
 				encryptionMap = new HashMap( );
 				encryptionMap.putAll( source.encryptionMap );
@@ -676,8 +676,8 @@ public abstract class PeerExtensibilityProvider
 
 	public boolean hasLocalPropertyValues( )
 	{
-		if ( !extensionPropValues.isEmpty( ) ||
-				hasLocalPropertyValuesOnOwnModel( ) )
+		if ( !extensionPropValues.isEmpty( )
+				|| hasLocalPropertyValuesOnOwnModel( ) )
 			return true;
 
 		return false;
@@ -708,8 +708,8 @@ public abstract class PeerExtensibilityProvider
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) localPropDefns
 					.get( i );
 
-			if ( propDefn.getTypeCode( ) != IPropertyType.XML_TYPE ||
-					!propDefn.canInherit( ) || !propDefn.hasOwnModel( ) )
+			if ( propDefn.getTypeCode( ) != IPropertyType.XML_TYPE
+					|| !propDefn.canInherit( ) || !propDefn.hasOwnModel( ) )
 				continue;
 
 			String propName = propDefn.getName( );
@@ -793,8 +793,8 @@ public abstract class PeerExtensibilityProvider
 	{
 		if ( propDefn == null || !propDefn.isEncryptable( ) )
 			return null;
-		if ( encryptionMap != null &&
-				encryptionMap.get( propDefn.getName( ) ) != null )
+		if ( encryptionMap != null
+				&& encryptionMap.get( propDefn.getName( ) ) != null )
 		{
 			String encryptionID = (String) encryptionMap.get( propDefn
 					.getName( ) );
@@ -864,6 +864,20 @@ public abstract class PeerExtensibilityProvider
 	abstract public Map getUndefinedPropertyMap( );
 
 	/**
+	 * Returns the map for properties that has invalid values.
+	 * 
+	 * @return
+	 */
+	abstract protected Map getLocalInvalidPropertyValueMap( );
+
+	/**
+	 * 
+	 * @return
+	 */
+
+	abstract protected Map getLocalUndefinedPropertyMap( );
+
+	/**
 	 * 
 	 * @return
 	 */
@@ -876,15 +890,22 @@ public abstract class PeerExtensibilityProvider
 	 */
 	public boolean needCheckCompatibility( )
 	{
-//		if ( getInvalidPropertyValueMap( ) != null &&
-//				!getInvalidPropertyValueMap( ).isEmpty( ) )
-//			return true;
-//		if ( getUndefinedPropertyMap( ) != null &&
-//				!getUndefinedPropertyMap( ).isEmpty( ) )
-//			return true;
-//		if ( getIllegalContents( ) != null && !getIllegalContents( ).isEmpty( ) )
-//			return true;
-//		return false;
+		// if ( getInvalidPropertyValueMap( ) != null &&
+		// !getInvalidPropertyValueMap( ).isEmpty( ) )
+		// return true;
+		// if ( getUndefinedPropertyMap( ) != null &&
+		// !getUndefinedPropertyMap( ).isEmpty( ) )
+		// return true;
+		// if ( getIllegalContents( ) != null && !getIllegalContents( ).isEmpty(
+		// ) )
+		// return true;
+		// return false;
 		return true;
 	}
+
+	/**
+	 * 
+	 * @param illegalContentsMap
+	 */
+	abstract public void setIllegalContents( Map illegalContentsMap );
 }

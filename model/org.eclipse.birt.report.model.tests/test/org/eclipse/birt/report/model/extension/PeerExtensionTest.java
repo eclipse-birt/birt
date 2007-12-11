@@ -41,6 +41,7 @@ import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.extension.IllegalContentInfo;
+import org.eclipse.birt.report.model.api.extension.UndefinedPropertyInfo;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfoList;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
@@ -54,6 +55,7 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.TableItem;
+import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
@@ -545,8 +547,7 @@ public class PeerExtensionTest extends BaseTestCase
 		assertNull( set.findChoice( "mm" ) );//$NON-NLS-1$
 		assertNull( set.findChoice( "pt" ) );//$NON-NLS-1$
 
-		set = dd.getElement( TABLE )
-				.findProperty( "width" ).getAllowedUnits( ); //$NON-NLS-1$
+		set = dd.getElement( TABLE ).findProperty( "width" ).getAllowedUnits( ); //$NON-NLS-1$
 
 		assertNotNull( set.findChoice( "in" ) );//$NON-NLS-1$
 		assertNotNull( set.findChoice( "cm" ) );//$NON-NLS-1$
@@ -931,36 +932,35 @@ public class PeerExtensionTest extends BaseTestCase
 
 		// test property map: contains
 		Map propMap = extendedHandle.getUndefinedProperties( );
-		Iterator iter = propMap.keySet( ).iterator( );
 
 		// invalid simple property
-		String propName = (String) iter.next( );
-		assertEquals( "shape", propName ); //$NON-NLS-1$
-		assertEquals( "circle", propMap.get( propName ) ); //$NON-NLS-1$
+		String propName = "shape"; //$NON-NLS-1$
+		UndefinedPropertyInfo propInfor = (UndefinedPropertyInfo) propMap
+				.get( propName );
+		assertEquals( "circle", propInfor.getValue( ) ); //$NON-NLS-1$
+		assertEquals( "1.1", propInfor.getExtensionVersion( ) ); //$NON-NLS-1$
 		// parser compatibility set is to 'cube'
 		assertEquals( "cube", extendedHandle.getStringProperty( "shape" ) ); //$NON-NLS-1$//$NON-NLS-2$
 
 		// invalid simple list property
-		propName = (String) iter.next( );
-		assertEquals( "points", propName ); //$NON-NLS-1$
-		List valueList = (List) propMap.get( propName );
+		propName = "points"; //$NON-NLS-1$
+		propInfor = (UndefinedPropertyInfo) propMap.get( propName );
+		List valueList = (List) propInfor.getValue( );
 		assertEquals( 3, valueList.size( ) );
 		assertEquals( "13.1", valueList.get( 0 ) ); //$NON-NLS-1$
 		assertEquals( "ttt", valueList.get( 1 ) ); //$NON-NLS-1$
 		assertEquals( "15.678", valueList.get( 2 ) ); //$NON-NLS-1$
 
 		// undefined property
-		propName = (String) iter.next( );
-		assertEquals( "noProp", propName ); //$NON-NLS-1$
-		assertEquals( "123", propMap.get( propName ) ); //$NON-NLS-1$
+		propName = "noProp"; //$NON-NLS-1$
+		propInfor = (UndefinedPropertyInfo) propMap.get( propName );
+		assertEquals( "123", propInfor.getValue( ) ); //$NON-NLS-1$
 
 		// test illegal children
 		Map illegalChildrenMap = extendedHandle.getIllegalContents( );
-		iter = illegalChildrenMap.keySet( ).iterator( );
 
 		// detail slot has three
-		propName = (String) iter.next( );
-		assertEquals( "detail", propName ); //$NON-NLS-1$
+		propName = "detail"; //$NON-NLS-1$
 		List illegalChildren = (List) illegalChildrenMap.get( propName );
 		assertEquals( 3, illegalChildren.size( ) );
 		IllegalContentInfo info = (IllegalContentInfo) illegalChildren.get( 0 );
@@ -979,14 +979,48 @@ public class PeerExtensionTest extends BaseTestCase
 		assertEquals( 5, info.getIndex( ) );
 
 		// header slot has one illegal child
-		propName = (String) iter.next( );
-		assertEquals( "header", propName ); //$NON-NLS-1$
+		propName = "header"; //$NON-NLS-1$
 		illegalChildren = (List) illegalChildrenMap.get( propName );
 		assertEquals( 1, illegalChildren.size( ) );
 		info = (IllegalContentInfo) illegalChildren.get( 0 );
 		assertEquals( "testData_2", info.getContent( ).getName( ) ); //$NON-NLS-1$
 		assertEquals( 0, info.getIndex( ) );
 
+		// test design with inheritance and merge algorithm to collect invalid
+		// property values and undefined property
+		extendedHandle = (ExtendedItemHandle) designHandle
+				.findElement( "testBox_1" ); //$NON-NLS-1$
+		propMap = extendedHandle.getUndefinedProperties( );
+
+		// this child set a valid 'shape' value so it not extends undefined
+		// property information from its parent
+		assertNull( propMap.get( "shape" ) ); //$NON-NLS-1$
+
+		// child not set any value for 'points', so inherits invalid property
+		// value from parent
+		propInfor = (UndefinedPropertyInfo) propMap.get( "points" ); //$NON-NLS-1$
+		assertEquals( extendedHandle.getExtends( ).getProperty(
+				IExtendedItemModel.EXTENSION_VERSION_PROP ), propInfor
+				.getExtensionVersion( ) );
+
+		// child has two undefined property value, one is set itself, one
+		// inherits from parent
+		propInfor = (UndefinedPropertyInfo) propMap.get( "noProp" ); //$NON-NLS-1$
+		assertEquals( extendedHandle
+				.getProperty( IExtendedItemModel.EXTENSION_VERSION_PROP ),
+				propInfor.getExtensionVersion( ) );
+		propInfor = (UndefinedPropertyInfo) propMap.get( "noProp_1" ); //$NON-NLS-1$
+		assertEquals( extendedHandle.getExtends( ).getProperty(
+				IExtendedItemModel.EXTENSION_VERSION_PROP ), propInfor
+				.getExtensionVersion( ) );
+
+		// illegal contents are duplicate from its parent
+		illegalChildrenMap = extendedHandle.getIllegalContents( );
+		illegalChildren = (List) illegalChildrenMap.get( "header" ); //$NON-NLS-1$
+		assertEquals( 1, illegalChildren.size( ) );
+		info = (IllegalContentInfo) illegalChildren.get( 0 );
+		assertEquals( "parent_testData1", info.getContent( ).getName( ) ); //$NON-NLS-1$
+		assertEquals( 0, info.getIndex( ) );
 	}
 
 	/**

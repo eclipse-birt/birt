@@ -315,7 +315,8 @@ public class ExtendedItemHandle extends ReportItemHandle
 
 	/**
 	 * Gets the map of all name/value pair. The property in the map is either
-	 * set an invalid value or the definition is not found.
+	 * set an invalid value or the definition is not found. Key is the name of
+	 * the property and value is instance of <code>UndefinedPropertyInfo</code>.
 	 * 
 	 * @return map of invalid property value or undefined property
 	 */

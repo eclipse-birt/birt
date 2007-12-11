@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.api.extension;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.extension.SimplePeerExtensibilityProvider.UndefinedChildInfo;
 
@@ -41,7 +42,9 @@ public class IllegalContentInfo
 	 */
 	public DesignElementHandle getContent( )
 	{
-		return info.getChild( ).getHandle( module );
+		DesignElement child = info.getChild( );
+		module.rename( child );
+		return child.getHandle( module );
 	}
 
 	/**
