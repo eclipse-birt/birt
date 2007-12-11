@@ -48,7 +48,7 @@ public class InsertAggregationAction extends BaseInsertMenuAction
 
 	protected boolean calculateEnabled( )
 	{
-		if ( getSelection( ) != null )
+		if ( getSelection( ) instanceof IStructuredSelection )
 			return DNDService.getInstance( )
 					.validDrop( TYPE,
 							( (IStructuredSelection) getSelection( ) ).getFirstElement( ),
