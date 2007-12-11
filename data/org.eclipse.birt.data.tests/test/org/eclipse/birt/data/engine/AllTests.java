@@ -37,6 +37,7 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.data.engine.api.GroupLevelTest.class );
 		suite.addTestSuite( org.eclipse.birt.data.engine.api.ScriptedDSTest.class );
 		suite.addTestSuite( org.eclipse.birt.data.engine.api.ScriptTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.api.TestDteLevelDataSetCache.class );
 		// ?? suite.addTestSuite( org.eclipse.birt.data.engine.api.StoredProcedureTest.class );
 		suite.addTestSuite( org.eclipse.birt.data.engine.api.UsesDetailFalseTest.class );
 		

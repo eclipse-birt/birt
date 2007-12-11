@@ -42,7 +42,12 @@ class CacheMapManager
 	 * Please notice that we must use static variable here for the sharing of
 	 * cached data set would be cross data set session.
 	 */
-	private static Map cacheMap = Collections.synchronizedMap( new HashMap( ) );
+	private static Map jvmCacheMap = Collections.synchronizedMap( new HashMap( ) );
+	
+	/**
+	 * 
+	 */
+	private Map cacheMap = null;
 	
 	/**
 	 * cache directory map for disk based cache( disk cache and incremental
@@ -54,9 +59,17 @@ class CacheMapManager
 	/**
 	 * construction
 	 */
-	CacheMapManager( String tempDir )
+	CacheMapManager( String tempDir, boolean useJVMLevelCache )	
 	{
 		this.tempDir = tempDir;
+		if( useJVMLevelCache )
+		{
+			this.cacheMap = jvmCacheMap;	
+		}
+		else
+		{
+			this.cacheMap = new HashMap( );			
+		}
 	}
 	
 	/**
@@ -210,7 +223,7 @@ class CacheMapManager
 	{
 		synchronized ( this )
 		{
-			cacheMap = new HashMap( );
+			cacheMap.clear( );
 		}
 	}
 	
