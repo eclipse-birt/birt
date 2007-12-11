@@ -83,7 +83,15 @@ public class CopyFormatAction extends ContextSelectionAction
 
 	public boolean calculateEnabled( )
 	{
-		return getSelectedObjects( ).size( ) == 1;
+		if ( getSelectedObjects( ).size( ) == 1 )
+		{
+			Object object = getSelectedObjects( ).get( 0 );
+			if ( object instanceof ReportElementEditPart )
+			{
+				return ( (ReportElementEditPart) object ).getModel( ) instanceof DesignElementHandle;
+			}
+		}
+		return false;
 	}
 
 	public void run( )
