@@ -19,6 +19,10 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.PropertySearchStrategy;
 import org.eclipse.birt.report.model.elements.Cell;
+import org.eclipse.birt.report.model.elements.ExtendedItem;
+import org.eclipse.birt.report.model.elements.ListingElement;
+import org.eclipse.birt.report.model.elements.ReportItem;
+import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
@@ -35,6 +39,10 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 
 	private final static ReportItemPropSearchStrategy instance = new ReportItemPropSearchStrategy( );
 
+	/**
+	 * 
+	 */
+
 	protected final static Set dataBindingProps;
 
 	static
@@ -42,9 +50,8 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 		dataBindingProps = new HashSet( );
 		dataBindingProps.add( IReportItemModel.PARAM_BINDINGS_PROP );
 		dataBindingProps.add( IReportItemModel.BOUND_DATA_COLUMNS_PROP );
-		dataBindingProps.add( IListingElementModel.FILTER_PROP );
-		dataBindingProps.add( IListingElementModel.SORT_PROP );
 		dataBindingProps.add( IReportItemModel.DATA_SET_PROP );
+		dataBindingProps.add( IReportItemModel.CUBE_PROP );
 	}
 
 	/**
@@ -100,7 +107,7 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 	protected Object getPropertyFromSelf( Module module, DesignElement element,
 			ElementPropertyDefn prop )
 	{
-		if ( !dataBindingProps.contains( prop.getName( ) ) )
+		if ( !getDataBindingProperties( element ).contains( prop.getName( ) ) )
 			return super.getPropertyFromSelf( module, element, prop );
 
 		// the data binding reference property has high priority than local
@@ -115,11 +122,38 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 	}
 
 	/**
-	 * @return
+	 * Returns properties that are bound to data related values.
+	 * 
+	 * @param tmpElement
+	 *            the design element
+	 * @return a set containing property names in string
 	 */
 
-	public static Set getDataBindingPropties( )
+	public static Set getDataBindingProperties( DesignElement tmpElement )
 	{
-		return Collections.unmodifiableSet( dataBindingProps );
+		Set tmpSet = null;
+
+		if ( tmpElement instanceof ListingElement )
+		{
+			tmpSet = new HashSet( );
+			tmpSet.addAll( dataBindingProps );
+
+			tmpSet.add( IListingElementModel.FILTER_PROP );
+			tmpSet.add( IListingElementModel.SORT_PROP );
+		}
+		else if ( tmpElement instanceof ExtendedItem )
+		{
+			tmpSet = new HashSet( );
+			tmpSet.addAll( dataBindingProps );
+
+			tmpSet.add( IExtendedItemModel.FILTER_PROP );
+		}
+		else if ( tmpElement instanceof ReportItem )
+			tmpSet = dataBindingProps;
+
+		if ( tmpSet == null )
+			return Collections.EMPTY_SET;
+
+		return Collections.unmodifiableSet( tmpSet );
 	}
 }

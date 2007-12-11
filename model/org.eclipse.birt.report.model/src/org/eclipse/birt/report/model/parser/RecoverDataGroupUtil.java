@@ -115,8 +115,8 @@ public class RecoverDataGroupUtil
 
 		if ( targetElement instanceof ListingElement )
 		{
-			propNames = ReportItemPropSearchStrategy.getDataBindingPropties( )
-					.iterator( );
+			propNames = ReportItemPropSearchStrategy.getDataBindingProperties(
+					targetElement ).iterator( );
 		}
 		else if ( targetElement instanceof GroupElement )
 		{

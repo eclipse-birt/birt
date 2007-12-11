@@ -211,7 +211,7 @@ public class ExtendedItemPropSearchStrategy
 		if ( !( element.getContainer( ) instanceof MultiViews ) )
 			return super.getPropertyFromSelf( module, element, prop );
 
-		if ( !dataBindingProps.contains( prop.getName( ) ) )
+		if ( !getDataBindingProperties( element ).contains( prop.getName( ) ) )
 			return super.getPropertyFromSelf( module, element, prop );
 
 		DesignElement grandContainer = element.getContainer( ).getContainer( );

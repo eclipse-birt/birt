@@ -605,7 +605,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 
 		if ( targetElement instanceof ReportItem )
 		{
-			propNames = ReportItemPropSearchStrategy.getDataBindingPropties( )
+			propNames = ReportItemPropSearchStrategy.getDataBindingProperties( targetElement )
 					.iterator( );
 		}
 		else if ( targetElement instanceof GroupElement )
