@@ -115,7 +115,6 @@ class ExprDataReader2 implements IExprDataReader
 			int exprCount = IOUtil.readInt( rowExprsIs );
 			this.exprKeys = new ArrayList();
 			this.dataSetExprKeys = new HashMap();
-			this.dataSetResultSet = dataSetResultSet;
 			this.rowExprsDis = new DataInputStream( rowExprsIs );
 			this.rowLenDis = new DataInputStream( rowLenIs );
 			this.bindingNameTypeMap = new HashMap();
@@ -142,6 +141,8 @@ class ExprDataReader2 implements IExprDataReader
 				}
 			}
 			
+			if ( this.dataSetExprKeys.size() > 0 )
+				this.dataSetResultSet = dataSetResultSet;
 			this.metaOffset = IOUtil.INT_LENGTH
 					+ IOUtil.readInt( this.rowExprsDis ) + IOUtil.INT_LENGTH;
 			

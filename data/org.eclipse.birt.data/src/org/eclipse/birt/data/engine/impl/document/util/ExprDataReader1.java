@@ -96,7 +96,8 @@ class ExprDataReader1 implements IExprDataReader
 				}
 			}
 			this.metaOffset = INT_LENGTH + IOUtil.readInt( this.rowExprsDis ) + INT_LENGTH;
-			this.dataSetData = dataSetData;
+			if( this.dataSetExprKeys.size() > 0 )
+				this.dataSetData = dataSetData;
 			
 		}
 		catch ( IOException e )

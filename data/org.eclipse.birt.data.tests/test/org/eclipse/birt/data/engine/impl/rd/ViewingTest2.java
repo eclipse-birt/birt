@@ -310,6 +310,57 @@ public class ViewingTest2 extends RDTestCase
 		this.checkOutputFile();
 	}
 	
+	public void testBasic4( ) throws Exception
+	{
+		QueryDefinition qd = this.newReportQuery();
+		// generation
+		IQueryResults qr = myGenDataEngine.prepare( qd ).execute( scope );
+		
+		// important step
+		GEN_queryResultID = qr.getID( );
+
+		IResultIterator ri = qr.getResultIterator( );
+		ri.moveTo( 3 );
+		ri.close();
+		myGenDataEngine.shutdown();
+		this.closeArchiveWriter();
+
+		//First IV
+		DataEngineContext deContext2 = newContext(
+				DataEngineContext.MODE_UPDATE, fileName, fileName);
+		myPreDataEngine = DataEngine.newDataEngine(deContext2);
+		
+		qd.setQueryResultsID( this.GEN_queryResultID );
+
+		qr = myPreDataEngine.prepare( qd ).execute( null );
+		this.UPDATE_queryResultID = qr.getID( );
+
+		ri = qr.getResultIterator();
+		ri.moveTo( 3 );
+		ri.close();
+		myPreDataEngine.shutdown();
+		this.closeArchiveReader();
+		this.closeArchiveWriter();
+		
+		//Second IV
+		DataEngineContext deContext3 = newContext(
+				DataEngineContext.MODE_UPDATE, fileName, fileName);
+		myPreDataEngine = DataEngine.newDataEngine(deContext3);
+		
+		qd.setQueryResultsID( this.UPDATE_queryResultID );
+
+		qr = myPreDataEngine.prepare( qd ).execute( null );
+		this.UPDATE_queryResultID = qr.getID( );
+
+		ri = qr.getResultIterator();
+		ri.moveTo( 3 );
+		ri.close();
+		myPreDataEngine.shutdown();
+		this.closeArchiveReader();
+		this.closeArchiveWriter();
+				
+	}
+	
 	/**
 	 * Test the feature of Skip to
 	 * @throws Exception
