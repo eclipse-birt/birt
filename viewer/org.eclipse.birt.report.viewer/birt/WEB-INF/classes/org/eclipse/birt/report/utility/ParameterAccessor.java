@@ -1047,6 +1047,27 @@ public class ParameterAccessor
 	}
 
 	/**
+	 * Return the document file according to report name
+	 * 
+	 * @param request
+	 * @param reportFile
+	 * @param id
+	 * @return
+	 */
+	public static String getReportDocument( HttpServletRequest request,
+			String reportFile, String id )
+	{
+		if ( reportFile == null )
+			return null;
+
+		String documentFile = generateDocumentFromReport( reportFile, id );
+		documentFile = createDocumentPath( documentFile, request );
+
+		return documentFile;
+
+	}
+
+	/**
 	 * Returns the real path based on working folder. If file path is an
 	 * absolute path, return it directly. Else, return the absolute path based
 	 * on working folder.
@@ -1865,6 +1886,40 @@ public class ParameterAccessor
 		}
 
 		return fileName;
+	}
+
+	/**
+	 * Generate document name according to report name.
+	 * 
+	 * @param reportName
+	 * @param id
+	 * @return document name.
+	 */
+
+	protected static String generateDocumentFromReport( String reportName,
+			String id )
+	{
+		if ( reportName == null )
+			return null;
+
+		String documentFile = "F";
+		if ( reportName.indexOf( '.' ) >= 0 )
+		{
+			documentFile = reportName.substring( 0, reportName
+					.lastIndexOf( '.' ) );
+		}
+
+		// Get viewer id
+		if ( id != null && id.length( ) > 0 )
+		{
+			documentFile = documentFile + id + SUFFIX_REPORT_DOCUMENT;
+		}
+		else
+		{
+			documentFile = documentFile + SUFFIX_REPORT_DOCUMENT;
+		}
+
+		return documentFile;
 	}
 
 	/**

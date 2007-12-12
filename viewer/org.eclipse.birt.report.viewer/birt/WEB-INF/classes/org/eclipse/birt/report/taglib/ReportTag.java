@@ -544,11 +544,42 @@ public class ReportTag extends AbstractViewerTag
 				(HttpServletRequest) pageContext.getRequest( ) );
 
 		// Render report
-		ReportEngineService.getInstance( ).runAndRenderReport( request,
-				runnable, out, format, locale, isRtl.booleanValue( ), params,
-				isMasterPageContent.booleanValue( ), svgFlag.booleanValue( ),
-				Boolean.TRUE, null, null, displayTexts, servletPath,
-				reportTitle );
+		String realReportletId = viewer.getReportletId( );
+		if ( realReportletId == null )
+		{
+			if ( viewer.getBookmark( ) != null
+					&& "true".equalsIgnoreCase( viewer.getIsReportlet( ) ) ) //$NON-NLS-1$
+			{
+				realReportletId = viewer.getBookmark( );
+			}
+		}
+
+		if ( realReportletId != null )
+		{
+			// preview reportlet
+			String documentName = ParameterAccessor.getReportDocument( request,
+					viewer.getReportDesign( ), viewer.getId( ) );
+			ReportEngineService.getInstance( ).runReport( request, runnable,
+					documentName, locale, parameters, displayTexts );
+
+			// Render the reportlet
+			IReportDocument doc = ReportEngineService.getInstance( )
+					.openReportDocument( null, documentName,
+							BirtTagUtil.getModuleOptions( viewer ) );
+
+			ReportEngineService.getInstance( ).renderReportlet( out, request,
+					doc, realReportletId, format, isMasterPageContent, svgFlag,
+					null, locale, isRtl.booleanValue( ), servletPath );
+		}
+		else
+		{
+			// preview report
+			ReportEngineService.getInstance( ).runAndRenderReport( request,
+					runnable, out, format, locale, isRtl.booleanValue( ),
+					params, isMasterPageContent.booleanValue( ),
+					svgFlag.booleanValue( ), Boolean.TRUE, null, null,
+					displayTexts, servletPath, reportTitle );
+		}
 	}
 
 	/**
