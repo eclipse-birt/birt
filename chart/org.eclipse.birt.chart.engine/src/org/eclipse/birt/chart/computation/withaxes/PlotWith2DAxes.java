@@ -498,19 +498,22 @@ public final class PlotWith2DAxes extends PlotWithAxes
 
 						// FOR EACH UNIT, UPDATE THE MIN/MAX BASED ON ALL
 						// STACKED SERIES
-						dAxisMax = Math.max( au.getPositiveTotal( ), dAxisMax );
-						dAxisMin = Math.min( au.getNegativeTotal( ), dAxisMin );
 						if ( ax.isPercent( ) )
 						{
 							double dAbsTotal = au.getPositiveTotal( )
 									- au.getNegativeTotal( );
 							if ( dAbsTotal != 0d )
 							{
-								dPercentMax = Math.max( ( au.getPositiveTotal( ) / dAbsTotal ) * 100d,
+								dPercentMax = Math.max( ( au.getTotalMax( ) / dAbsTotal ) * 100d,
 										dPercentMax );
-								dPercentMin = Math.min( ( au.getNegativeTotal( ) / dAbsTotal ) * 100d,
+								dPercentMin = Math.min( ( au.getTotalMin( ) / dAbsTotal ) * 100d,
 										dPercentMin );
 							}
+						}
+						else
+						{
+							dAxisMax = Math.max( au.getTotalMax( ), dAxisMax );
+							dAxisMin = Math.min( au.getTotalMin( ), dAxisMin );
 						}
 					}
 				}

@@ -12,7 +12,7 @@
 package org.eclipse.birt.chart.computation.withaxes;
 
 /**
- * AxisSubUnit
+ * Computation unit for total, min, max and etc.
  */
 public final class AxisSubUnit
 {
@@ -28,13 +28,15 @@ public final class AxisSubUnit
 	private double dNegativeTotal = 0;
 	/** Total value of all values, only used when stack together */
 	private double dTotal = 0;
+	private double dTotalMax = 0;
+	private double dTotalMin = 0;
 
 	/** The field stores max position of series in axes. */
 	private double dLastMaxPosition = Double.NaN;
-	
+
 	/** The field stores min position of series in axes. */
 	private double dLastMinPosition = Double.NaN;
-	
+
 	/** Return positive and negative values should be accumulated together or not */
 	private final boolean bStackTogether;
 
@@ -42,7 +44,9 @@ public final class AxisSubUnit
 	 * Constructor
 	 * 
 	 * @param bStackTogether
-	 *            indicates if stack together
+	 *            indicates if stacked together. For instance, Bar chart is not
+	 *            stacked together and stacked by positive and negative value
+	 *            respectively. Line and area chart are stacked together.
 	 */
 	AxisSubUnit( boolean bStackTogether )
 	{
@@ -56,7 +60,7 @@ public final class AxisSubUnit
 		dLastMaxPosition = Double.NaN;
 		dLastMinPosition = Double.NaN;
 	}
-	
+
 	/**
 	 * Returns if current positive and negative values are aggregated together
 	 * or not
@@ -67,7 +71,7 @@ public final class AxisSubUnit
 	{
 		return bStackTogether;
 	}
-	
+
 	/**
 	 * Accumulates the value and returns the result.
 	 * 
@@ -124,13 +128,14 @@ public final class AxisSubUnit
 		}
 		return dValueLast;
 	}
-	
-	
+
 	public final void computeTotal( double dValue )
 	{
 		if ( bStackTogether )
 		{
 			this.dTotal += dValue;
+			this.dTotalMax = Math.max( this.dTotalMax, this.dTotal );
+			this.dTotalMin = Math.min( this.dTotalMin, this.dTotal );
 		}
 
 		if ( dValue > 0 )
@@ -143,37 +148,26 @@ public final class AxisSubUnit
 		}
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public final double getPositiveTotal( )
 	{
-		if ( bStackTogether )
-		{
-			return Math.max( dTotal, 0 );
-		}
 		return dPositiveTotal;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public final double getNegativeTotal( )
 	{
-		if ( bStackTogether )
-		{
-			return Math.min( dTotal, 0 );
-		}
 		return dNegativeTotal;
 	}
 
-	/**
-	 * 
-	 * @param dValue
-	 * @return
-	 */
+	final double getTotalMax( )
+	{
+		return bStackTogether ? dTotalMax : dPositiveTotal;
+	}
+
+	final double getTotalMin( )
+	{
+		return bStackTogether ? dTotalMin : dNegativeTotal;
+	}
+
 	public final double valuePercentage( double dValue )
 	{
 		if ( dPositiveTotal - dNegativeTotal == 0 )
@@ -220,13 +214,12 @@ public final class AxisSubUnit
 			dLastMinPosition = dBaseLocation;
 		}
 	}
-	
+
 	/**
 	 * Gets the last position
 	 * 
 	 * @param dValue
 	 *            value to check the max or min location
-	 * @return
 	 */
 	public final double getLastPosition( double dValue )
 	{
@@ -236,5 +229,5 @@ public final class AxisSubUnit
 		}
 		return dLastMinPosition;
 	}
-	
+
 }
