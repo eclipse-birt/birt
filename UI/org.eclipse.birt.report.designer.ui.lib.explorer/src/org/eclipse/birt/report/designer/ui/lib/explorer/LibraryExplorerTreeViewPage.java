@@ -471,7 +471,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 			if ( !requesList.equals( request.getSelectionModelList( ) ) )
 			{
 				requesList = request.getSelectionModelList( );
-				if ( requesList.get( 0 ) != null
+				if ( requesList!= null & requesList.size( )>0 && requesList.get( 0 ) != null
 						&& requesList.get( 0 ) instanceof ModuleHandle )
 				{
 					prefs.removePreferenceChangeListener( this );
