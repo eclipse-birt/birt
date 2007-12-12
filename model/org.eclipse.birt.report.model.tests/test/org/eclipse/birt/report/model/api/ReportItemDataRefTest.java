@@ -125,8 +125,10 @@ public class ReportItemDataRefTest extends BaseTestCase
 
 		TextItemHandle text = (TextItemHandle) designHandle
 				.findElement( "myText" ); //$NON-NLS-1$
-		assertEquals( ReportItemHandle.DATABINDING_TYPE_NONE, text
+		assertEquals( ReportItemHandle.DATABINDING_TYPE_DATA, text
 				.getDataBindingType( ) );
+		assertEquals( 3, text.getAvailableCubeBindingReferenceList( ).size( ) );
+		assertEquals( 4, text.getAvailableDataSetBindingReferenceList( ).size( ) );
 
 		ListHandle list = (ListHandle) designHandle.findElement( "my list" ); //$NON-NLS-1$
 		assertEquals( ReportItemHandle.DATABINDING_TYPE_DATA, list
@@ -146,13 +148,15 @@ public class ReportItemDataRefTest extends BaseTestCase
 		PropertyHandle propHandle = list
 				.getPropertyHandle( ReportItemHandle.DATA_BINDING_REF_PROP );
 		List handleList = propHandle.getReferenceableElementList( );
-		assertEquals( 3, handleList.size( ) );
+		assertEquals( 4, handleList.size( ) );
 
-		assertEquals( "ex1", ( (DesignElementHandle) handleList.get( 0 ) ) //$NON-NLS-1$
+		assertEquals( "myText", ( (DesignElementHandle) handleList.get( 0 ) ) //$NON-NLS-1$
 				.getName( ) );
-		assertEquals( "table", ( (DesignElementHandle) handleList.get( 1 ) ) //$NON-NLS-1$
+		assertEquals( "ex1", ( (DesignElementHandle) handleList.get( 1 ) ) //$NON-NLS-1$
 				.getName( ) );
-		assertEquals( "table2", ( (DesignElementHandle) handleList.get( 2 ) ) //$NON-NLS-1$
+		assertEquals( "table", ( (DesignElementHandle) handleList.get( 2 ) ) //$NON-NLS-1$
+				.getName( ) );
+		assertEquals( "table2", ( (DesignElementHandle) handleList.get( 3 ) ) //$NON-NLS-1$
 				.getName( ) );
 	}
 

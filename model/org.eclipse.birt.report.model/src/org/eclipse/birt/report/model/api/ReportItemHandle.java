@@ -867,14 +867,32 @@ public abstract class ReportItemHandle extends ReportElementHandle
 		if ( getDataBindingReferenceName( ) != null )
 			return DATABINDING_TYPE_REPORT_ITEM_REF;
 
-		// TODO: after add the "cube" property on ReportItem in ROM, substitute
-		// below literal string with constants variable.
-
-		if ( getDataSet( ) != null ||
-				element.getProperty( module, "cube" ) != null ) //$NON-NLS-1$
+		if ( element.getProperty( module, IReportItemModel.DATA_SET_PROP ) != null
+				|| element.getProperty( module, IReportItemModel.CUBE_PROP ) != null )
 			return DATABINDING_TYPE_DATA;
 
 		return DATABINDING_TYPE_NONE;
+	}
+
+	/**
+	 * Returns report items that can be referred by other report items by data
+	 * binding reference property.
+	 * <p>
+	 * Two kinds of report items can be referred:
+	 * <ul>
+	 * <li>The report item has dataset or cube property defined. That is, data
+	 * set or cube property is set locally and databinding ref property is null.
+	 * <li>The report item has data binding reference to other report items.
+	 * </ul>
+	 * ReportItem in the design are all applicable. Each entry of the return
+	 * list is of <code>ReportItemHandle</code> type.
+	 * 
+	 * @return returns report items that has dataset or cube property defined
+	 */
+
+	public List getAvailableDataBindingReferenceList( )
+	{
+		return getAvailableDataBindingReferenceList( null );
 	}
 
 	/**
@@ -893,7 +911,33 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * @return returns report items that has dataset property defined
 	 */
 
-	public List getAvailableDataBindingReferenceList( )
+	public List getAvailableDataSetBindingReferenceList( )
+	{
+		return getAvailableDataBindingReferenceList( IReportItemModel.DATA_SET_PROP );
+	}
+
+	/**
+	 * Returns report items that can be referred by other report items by data
+	 * binding reference property.
+	 * <p>
+	 * Two kinds of report items can be referred:
+	 * <ul>
+	 * <li>The report item has cube property defined. That is, cube property is
+	 * set locally and databinding ref property is null.
+	 * <li>The report item has data binding reference to other report items.
+	 * </ul>
+	 * ReportItem in the design are all applicable. Each entry of the return
+	 * list is of <code>ReportItemHandle</code> type.
+	 * 
+	 * @return returns report items that has cube property defined
+	 */
+
+	public List getAvailableCubeBindingReferenceList( )
+	{
+		return getAvailableDataBindingReferenceList( IReportItemModel.CUBE_PROP );
+	}
+
+	private List getAvailableDataBindingReferenceList( String propName )
 	{
 		List rtnList = new ArrayList( );
 
@@ -915,23 +959,33 @@ public abstract class ReportItemHandle extends ReportElementHandle
 				if ( e.getName( ) == null )
 					continue;
 
-				if ( bindingType == DATABINDING_TYPE_DATA )
+				// element can get the 'dataset' or 'cube' and no reportItem
+				// reference
+				if ( bindingType == DATABINDING_TYPE_DATA
+						&& ( propName == null || ( elementHandle
+								.getProperty( propName ) != null ) ) )
+				{
 					rtnList.add( elementHandle );
+				}
 				else if ( bindingType == DATABINDING_TYPE_REPORT_ITEM_REF )
 				{
 
 					DesignElementHandle tmpElementHandle = elementHandle
 							.getDataBindingReference( );
 
+					// defines unresolved reportItem reference, then add it
+					// directly
 					if ( tmpElementHandle == null )
 					{
 						rtnList.add( elementHandle );
 						continue;
 					}
 
-					if ( element instanceof IReferencableElement &&
-							!ModelUtil.isRecursiveReference( tmpElementHandle
-									.getElement( ),
+					// defines resolved reportItem reference, must exclude
+					// recusive reference cases
+					if ( element instanceof IReferencableElement
+							&& !ModelUtil.isRecursiveReference(
+									tmpElementHandle.getElement( ),
 									(IReferencableElement) element ) )
 						rtnList.add( elementHandle );
 				}
@@ -949,7 +1003,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * 
 	 * @param bindingNameList
 	 *            the binding name list to be removed, each entry should be
-	 *            instanceof <code>java.lang.String</code>.
+	 *            instance of <code>java.lang.String</code>.
 	 * @throws SemanticException
 	 *             if bound column property is locked.
 	 */

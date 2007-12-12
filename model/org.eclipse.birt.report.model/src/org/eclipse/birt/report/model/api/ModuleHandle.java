@@ -49,7 +49,6 @@ import org.eclipse.birt.report.model.api.util.PropertyValueValidationUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
-import org.eclipse.birt.report.model.api.util.XPathUtil;
 import org.eclipse.birt.report.model.api.validators.IValidationListener;
 import org.eclipse.birt.report.model.api.validators.ValidationEvent;
 import org.eclipse.birt.report.model.command.ComplexPropertyCommand;
