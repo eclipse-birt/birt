@@ -171,4 +171,34 @@ public class ReportDesign extends DesignElement implements IReportDesign
 				( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
 						.getMasterPage( name ) );
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IReportDesign#getTheme()
+	 */
+	public String getTheme( )
+	{
+		return ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
+				.getTheme( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IReportDesign#setTheme(java.lang.String)
+	 */
+	public void setTheme( String theme ) throws ScriptException
+	{
+		try
+		{
+			( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
+					.setTheme( theme );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+
+	}
 }

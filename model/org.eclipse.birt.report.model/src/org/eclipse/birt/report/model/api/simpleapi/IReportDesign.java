@@ -29,9 +29,9 @@ public interface IReportDesign extends IDesignElement
 	 * @param name
 	 * @return master page script instance
 	 */
-	
+
 	IMasterPage getMasterPage( String name );
-	
+
 	/**
 	 * method to get data set design by name
 	 * 
@@ -191,4 +191,19 @@ public interface IReportDesign extends IDesignElement
 	 */
 
 	void saveAs( String newName ) throws IOException;
+
+	/**
+	 * Gets the theme for this report design.
+	 * 
+	 * @return
+	 */
+	String getTheme( );
+
+	/**
+	 * Sets the theme for this report design.
+	 * 
+	 * @param theme
+	 * @throws SemanticException
+	 */
+	void setTheme( String theme ) throws SemanticException;
 }

@@ -144,4 +144,18 @@ public interface IReportDesign extends IDesignElement
 
 	String getDisplayName( );
 
+	/**
+	 * Gets the theme for this report design.
+	 * 
+	 * @return
+	 */
+	String getTheme( );
+
+	/**
+	 * Sets the theme for this report design.
+	 * 
+	 * @param theme
+	 * @throws ScriptException
+	 */
+	void setTheme( String theme ) throws ScriptException;
 }

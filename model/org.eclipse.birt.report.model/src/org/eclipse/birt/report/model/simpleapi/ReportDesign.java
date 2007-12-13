@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.simpleapi.IDataItem;
 import org.eclipse.birt.report.model.api.simpleapi.IDataSet;
 import org.eclipse.birt.report.model.api.simpleapi.IDataSource;
@@ -62,7 +63,7 @@ public class ReportDesign extends DesignElement implements IReportDesign
 	 * @param name
 	 * @return master page script instance
 	 */
-	
+
 	public IMasterPage getMasterPage( String name )
 	{
 		MasterPageHandle masterPage = report.findMasterPage( name );
@@ -217,5 +218,25 @@ public class ReportDesign extends DesignElement implements IReportDesign
 	public void saveAs( String newName ) throws IOException
 	{
 		report.saveAs( newName );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#getTheme()
+	 */
+	public String getTheme( )
+	{
+		return report.getStringProperty( IModuleModel.THEME_PROP );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#setTheme(java.lang.String)
+	 */
+	public void setTheme( String theme ) throws SemanticException
+	{
+		report.setThemeName( theme );
 	}
 }
