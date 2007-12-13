@@ -13,6 +13,7 @@ package org.eclipse.birt.report.taglib;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
+import java.rmi.RemoteException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -568,8 +569,10 @@ public class ReportTag extends AbstractViewerTag
 							BirtTagUtil.getModuleOptions( viewer ) );
 
 			ReportEngineService.getInstance( ).renderReportlet( out, request,
-					doc, realReportletId, format, isMasterPageContent, svgFlag,
-					null, locale, isRtl.booleanValue( ), servletPath );
+					doc, realReportletId, format,
+					isMasterPageContent.booleanValue( ),
+					svgFlag.booleanValue( ), null, locale,
+					isRtl.booleanValue( ), servletPath );
 		}
 		else
 		{
