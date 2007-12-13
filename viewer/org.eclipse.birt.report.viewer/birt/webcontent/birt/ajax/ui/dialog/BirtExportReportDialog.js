@@ -134,21 +134,16 @@ BirtExportReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 				action = action + "&" + Constants.PARAM_PAGERANGE + "=" + pageRange;
 			}			
 			
-			// If output format is pdf/postscript, set some options
-			if( format == Constants.FORMAT_PDF || format == Constants.FORMAT_POSTSCRIPT )
+			// If output format is pdf/ppt/postscript, set some options
+			if( this.__isPDFLayout( format ) )
 			{
 				var fittopage = "false";
-				var pagebreakonly = "false";
+				//var pagebreakonly = "true";
 				
 				// fit to page width
-				if( $( 'exportFitToWidth' ).checked )
+				if( $( 'exportFitToWidth' ).checked || $( 'exportFitToWhole' ).checked )
 				{
 					fittopage = "true";
-				}
-				else if( $( 'exportFitToWhole' ).checked )
-				{
-					fittopage = "true";
-					pagebreakonly = "true";
 				}
 
 				reg = new RegExp( "([&|?]{1}" + Constants.PARAM_FITTOPAGE + "\s*)=([^&|^#]*)", "gi" );
@@ -161,6 +156,7 @@ BirtExportReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 					action = action.replace( reg, "$1=" + fittopage );
 				}
 				
+				/*
 				reg = new RegExp( "([&|?]{1}" + Constants.PARAM_PAGEBREAKONLY + "\s*)=([^&|^#]*)", "gi" );
 				if( action.search( reg ) < 0 )
 				{
@@ -169,7 +165,8 @@ BirtExportReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 				else
 				{
 					action = action.replace( reg, "$1=" + pagebreakonly );
-				}							
+				}
+				*/							
 			}
 			
 			// Force "__asattachment" as true
@@ -238,7 +235,7 @@ BirtExportReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	__enableExtSection : function( )
 	{		
 		var format = $( 'exportFormat' ).value.toLowerCase( );
-		if( format == Constants.FORMAT_PDF || format == Constants.FORMAT_POSTSCRIPT )
+		if( this.__isPDFLayout( format ) )
 		{
 			this.__setDisabled( 'exportFitSetting', false );
 		}
@@ -264,6 +261,26 @@ BirtExportReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			for( var i=0; i<oInputs.length; i++ )
 				oInputs[i].disabled = flag;
 		}
+	},
+	
+	/**
+	 * Check whether this format uses the PDF layout
+	 *
+	 * @param format, the output format 
+	 * @return true or false
+	 */	 
+	__isPDFLayout : function( format )
+	{
+		if( !format )
+			return false;
+		
+		if( format == Constants.FORMAT_PDF 
+		    || format == Constants.FORMAT_POSTSCRIPT )
+		{
+			return true;
+		}    
+		
+		return false;
 	},
 		 
 	/**

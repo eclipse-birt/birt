@@ -2704,10 +2704,10 @@ public class ParameterAccessor
 	public static boolean isFitToPage( HttpServletRequest request )
 	{
 		String fitToPage = getParameter( request, PARAM_FIT_TO_PAGE );
-		if ( "true".equalsIgnoreCase( fitToPage ) ) //$NON-NLS-1$
-			return true;
+		if ( "false".equalsIgnoreCase( fitToPage ) ) //$NON-NLS-1$
+			return false;
 
-		return false;
+		return true;
 	}
 
 	/**
@@ -2719,10 +2719,10 @@ public class ParameterAccessor
 	public static boolean isPagebreakOnly( HttpServletRequest request )
 	{
 		String pagebreakOnly = getParameter( request, PARAM_PAGEBREAK_ONLY );
-		if ( "true".equalsIgnoreCase( pagebreakOnly ) ) //$NON-NLS-1$
-			return true;
+		if ( "false".equalsIgnoreCase( pagebreakOnly ) ) //$NON-NLS-1$
+			return false;
 
-		return false;
+		return true;
 	}
 
 	/**
@@ -2851,5 +2851,24 @@ public class ParameterAccessor
 		}
 
 		return flag;
+	}
+
+	/**
+	 * Check whether the output format uses PDF Layout
+	 * 
+	 * @param format
+	 * @return
+	 */
+	public static boolean isPDFLayout( String format )
+	{
+		if ( format == null )
+			return false;
+
+		if ( IBirtConstants.PDF_RENDER_FORMAT.equalsIgnoreCase( format )
+				|| IBirtConstants.POSTSCRIPT_RENDER_FORMAT
+						.equalsIgnoreCase( format ) )
+			return true;
+
+		return false;
 	}
 }
