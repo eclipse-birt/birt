@@ -80,6 +80,10 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 	void shutdownDerby()
 	{
 		try {
+			if ( derbyClassLoader == null || !derbyClassLoader.isGood( ) )
+			{
+				initClassLoaders( );
+			}
 			getDerbyDriver().connect( "jdbc:derby:;shutdown=true", null);
 		} catch (SQLException e) {
 			//A successful shutdown always results in an SQLException to indicate that Derby has shut down and that there is no other exception.
