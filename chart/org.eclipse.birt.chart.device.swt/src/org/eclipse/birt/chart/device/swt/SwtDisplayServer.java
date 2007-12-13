@@ -29,6 +29,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
@@ -44,6 +45,8 @@ public final class SwtDisplayServer extends DisplayAdapter
 	private double dScale = 1;
 
 	private int iDpiResolution = 0;
+
+	private GC gc;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.extension/swt" ); //$NON-NLS-1$
 
@@ -112,21 +115,23 @@ public final class SwtDisplayServer extends DisplayAdapter
 	public final int getDpiResolution( )
 	{
 		if ( iDpiResolution == 0 )
-		{
-			( (Display) _d ).syncExec( new Runnable( ) {
-
-				public void run( )
-				{
-					iDpiResolution = _d.getDPI( ).x;
-				}
-			} );
+		{	
+			iDpiResolution = _d.getDPI( ).x;
 		}
 		return iDpiResolution;
 	}
 
-	public final void setDpiResolution( int dpi )
+	public void setDpiResolution( int dpi )
 	{
-		iDpiResolution = dpi;
+		/*
+		 *  The dpi resolution is tightly bound to the Device, we can't modify it
+		 *  Throw exception to indicate to users it's not supported
+		 *  
+		 */
+		throw new UnsupportedOperationException( "The dpi resolution depends on the Device you" +//$NON-NLS-1$
+				" are rendering to (Display or Printer), " + //$NON-NLS-1$
+				"and can't be set programmatically"); //$NON-NLS-1$
+		
 	}
 
 	/*
@@ -164,15 +169,7 @@ public final class SwtDisplayServer extends DisplayAdapter
 		return SizeImpl.create( r.width, r.height );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.devices.IDisplayServer#getObserver()
-	 */
-	public Object getObserver( )
-	{
-		return null;
-	}
+
 
 	/*
 	 * (non-Javadoc)
@@ -181,7 +178,7 @@ public final class SwtDisplayServer extends DisplayAdapter
 	 */
 	public ITextMetrics getTextMetrics( Label la )
 	{
-		return new SwtTextMetrics( this, la );
+		return new SwtTextMetrics( this, la, gc );
 	}
 
 	final Device getDevice( )
@@ -189,13 +186,22 @@ public final class SwtDisplayServer extends DisplayAdapter
 		return _d;
 	}
 
-	final double pointsToPixels( double dPoints )
-	{
-		return dPoints * getDpiResolution( ) / 72d;
-	}
+
 
 	final void setScale( double dScale )
 	{
 		this.dScale = dScale;
+	}
+
+	public void setGraphicsContext( Object gc )
+	{
+		this.gc = (GC)gc;
+		_d = this.gc.getDevice();
+		
+	}
+
+	public GC getGraphicContext( )
+	{
+		return gc;
 	}
 }

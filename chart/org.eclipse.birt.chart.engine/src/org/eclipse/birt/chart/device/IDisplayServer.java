@@ -158,4 +158,13 @@ public interface IDisplayServer
 	 */
 	void dispose( );
 
+	/**
+	 * Set the graphic context on the device renderer, which is required for font computations
+	 * (SWT uses org.eclipse.swt.graphics.GC and Swing uses java.awt.Graphics2D)
+	 * It is the responsibility of the caller to dispose the Graphics Context
+	 * @param graphicContext
+	 * @since 2.3
+	 */
+	void setGraphicsContext( Object graphicsContext );
+
 }

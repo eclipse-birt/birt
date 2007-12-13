@@ -23,7 +23,6 @@ import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.TextLayout;
-import org.eclipse.swt.widgets.Display;
 
 /**
  * 
@@ -45,6 +44,8 @@ public final class SwtTextMetrics extends TextAdapter
 
 	private Font font;
 
+	private Insets ins;
+
 	/**
 	 * The constructor initializes a tiny image that provides a graphics context
 	 * capable of performing computations in the absence of a visual component
@@ -52,17 +53,9 @@ public final class SwtTextMetrics extends TextAdapter
 	 * @param _ids
 	 * @param _la
 	 */
-	public SwtTextMetrics( final IDisplayServer _ids, Label _la )
+	public SwtTextMetrics( final IDisplayServer _ids, Label _la, GC gc )
 	{
-		final Display display = (Display) ( (SwtDisplayServer) _ids ).getDevice( );
-		display.syncExec( new Runnable( ) {
-
-			public void run( )
-			{
-				gc = new GC( display );
-
-			}
-		} );
+		this.gc = gc;
 		ids = _ids;
 		la = _la;
 
@@ -104,6 +97,8 @@ public final class SwtTextMetrics extends TextAdapter
 			oText = sa;
 		}
 
+		ins = la.getInsets( ).scaledInstance( ids.getDpiResolution( ) / 72d );
+		
 		if ( forceWrappingSize > 0 )
 		{
 			// update label with new broken content.
@@ -128,7 +123,6 @@ public final class SwtTextMetrics extends TextAdapter
 	public final void dispose( )
 	{
 		disposeFont( );
-		gc.dispose( );
 	}
 
 	public void disposeFont( )
@@ -218,13 +212,13 @@ public final class SwtTextMetrics extends TextAdapter
 
 	public final double getFullHeight( )
 	{
-		final Insets ins = la.getInsets( );
+		
 		return getHeight( ) * getLineCount( ) + ins.getTop( ) + ins.getBottom( );
 	}
 
 	public final double getFullWidth( )
 	{
-		final Insets ins = la.getInsets( );
+		
 		return stringWidth( ) + ins.getLeft( ) + ins.getRight( );
 	}
 

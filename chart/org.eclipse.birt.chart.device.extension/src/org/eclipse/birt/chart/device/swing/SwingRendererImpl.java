@@ -222,30 +222,32 @@ public class SwingRendererImpl extends DeviceAdapter
 		else if ( sProperty.equals( IDeviceRenderer.GRAPHICS_CONTEXT ) )
 		{
 			_g2d = (Graphics2D) oValue;
-			_g2d.setRenderingHint( RenderingHints.KEY_TEXT_ANTIALIASING,
-					RenderingHints.VALUE_TEXT_ANTIALIAS_ON );
-			_g2d.setRenderingHint( RenderingHints.KEY_ANTIALIASING,
-					RenderingHints.VALUE_ANTIALIAS_ON );
-			_g2d.setRenderingHint( RenderingHints.KEY_FRACTIONALMETRICS,
-					RenderingHints.VALUE_FRACTIONALMETRICS_ON );
-			_g2d.setRenderingHint( RenderingHints.KEY_RENDERING,
-					RenderingHints.VALUE_RENDER_QUALITY );
-
-			// _frc = new FontRenderContext(new AffineTransform(), true, false);
-			logger.log( ILogger.INFORMATION,
-					Messages.getString( "SwingRendererImpl.info.using.graphics.context", //$NON-NLS-1$
-							new Object[]{
-								_g2d
-							},
-							getULocale( ) ) );
+			prepareGraphicsContext();
 		}
 		else if ( sProperty.equals( IDeviceRenderer.DPI_RESOLUTION ) )
 		{
 			getDisplayServer( ).setDpiResolution( ( (Integer) oValue ).intValue( ) );
+		
 		}
 
 	}
 
+	protected void prepareGraphicsContext( )
+	{
+		_g2d.setRenderingHint( RenderingHints.KEY_TEXT_ANTIALIASING,
+				RenderingHints.VALUE_TEXT_ANTIALIAS_ON );
+		_g2d.setRenderingHint( RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON );
+
+		getDisplayServer().setGraphicsContext( _g2d );
+		logger.log( ILogger.INFORMATION,
+				Messages.getString( "SwingRendererImpl.info.using.graphics.context", //$NON-NLS-1$
+						new Object[]{
+							_g2d
+						},
+						getULocale( ) ) );
+
+	}
 	/**
 	 * 
 	 * @param g2d

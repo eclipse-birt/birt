@@ -298,7 +298,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 		final double dSineTheta = ( Math.sin( dAngleInRadians ) );
 		final double dCosTheta = ( Math.cos( dAngleInRadians ) );
 
-		final ITextMetrics itm = new SwingTextMetrics( _sxs, la );
+		final ITextMetrics itm = _sxs.getTextMetrics( la );
 		// Tune text position if needed. Location instance may be changed
 		lo = adjustTextPosition( iLabelPosition, lo, itm, dAngleInDegrees );
 		double dX = lo.getX( ), dY = lo.getY( );
@@ -713,7 +713,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 		{
 			clrBackground = (Color) _sxs.getColor( (ColorDefinition) la.getBackground( ) );
 		}
-		final ITextMetrics itm = new SwingTextMetrics( _sxs, la );
+		final ITextMetrics itm = _sxs.getTextMetrics( la );
 		// Tune text position if needed. Location instance may be changed
 		lo = adjustTextPosition( iLabelPosition, lo, itm, dAngleInDegrees );
 		double dX = lo.getX( ), dY = lo.getY( );
@@ -1133,7 +1133,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 		}
 		double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
 		
-		final ITextMetrics itm = new SwingTextMetrics( _sxs, la );
+		final ITextMetrics itm = _sxs.getTextMetrics( la );
 		// Tune text position if needed. Location instance may be changed
 		lo = adjustTextPosition( iLabelPosition, lo, itm, dAngleInDegrees );
 		double dX = lo.getX( ), dY = lo.getY( );
@@ -1546,7 +1546,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 		}
 		double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
 		
-		final ITextMetrics itm = new SwingTextMetrics( _sxs, la );
+		final ITextMetrics itm = _sxs.getTextMetrics( la );
 		// Tune text position if needed. Location instance may be changed
 		lo = adjustTextPosition( iLabelPosition, lo, itm, dAngleInDegrees );
 		double dX = lo.getX( ), dY = lo.getY( );
@@ -1977,7 +1977,7 @@ final class SwingTextRenderer extends TextRendererAdapter
 		final double dSineTheta = ( Math.sin( dAngleInRadians ) );
 		final double dCosTheta = ( Math.cos( dAngleInRadians ) );
 
-		final ITextMetrics itm = new SwingTextMetrics( _sxs, la );
+		final ITextMetrics itm = _sxs.getTextMetrics( la );
 		try
 		{
 			final double dFW = itm.getFullWidth( );

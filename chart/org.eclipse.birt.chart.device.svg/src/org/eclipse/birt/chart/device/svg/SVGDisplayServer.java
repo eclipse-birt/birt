@@ -14,8 +14,10 @@ package org.eclipse.birt.chart.device.svg;
 import java.awt.Image;
 import java.net.URL;
 
+import org.eclipse.birt.chart.device.ITextMetrics;
 import org.eclipse.birt.chart.device.swing.SwingDisplayServer;
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.model.component.Label;
 
 /**
  * This class represents the SVG Displayer Server.
@@ -32,5 +34,10 @@ public class SVGDisplayServer extends SwingDisplayServer
 	{
 		Image image = (Image) super.loadImage( url );
 		return new SVGImage( image, url );
+	}
+	
+	public ITextMetrics getTextMetrics( Label la )
+	{
+		return new SVGTextMetrics( this, la );
 	}
 }

@@ -2044,6 +2044,10 @@ public abstract class AxesRenderer extends BaseRenderer
 				}
 				for ( int j = 0; j < da.size( ); j++ )
 				{
+
+					if ( !sc.isTickLabelVisible( j ) )
+						continue;
+					
 					if ( j == 0 && insCA.getBottom( ) < lia.getThickness( ) )
 						continue;
 					if ( j == da.size( ) - 1

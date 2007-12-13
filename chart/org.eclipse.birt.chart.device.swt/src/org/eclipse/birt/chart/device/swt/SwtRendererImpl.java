@@ -1709,10 +1709,10 @@ public class SwtRendererImpl extends DeviceAdapter
 				dRotateInDegrees += tev.getRotation( );
 				break;
 
+			// Currently not used
 			case TransformationEvent.SCALE :
 				dScale *= tev.getScale( );
-				( (SwtDisplayServer) _ids ).setScale( dScale ); // NEEDED TO
-				// SCALE FONTS
+				( (SwtDisplayServer) _ids ).setScale( dScale ); 
 				break;
 		}
 	}
@@ -1857,6 +1857,7 @@ public class SwtRendererImpl extends DeviceAdapter
 
 				rg.dispose( );
 			}
+			_ids.setGraphicsContext(_gc );
 
 			logger.log( ILogger.INFORMATION,
 					Messages.getString( "SwtRendererImpl.info.graphics.context",//$NON-NLS-1$

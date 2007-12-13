@@ -184,7 +184,7 @@ final class SwtTextRenderer extends TextRendererAdapter
 
 		final Color clrBackground = (Color) _sxs.getColor( la.getShadowColor( ) );
 
-		final ITextMetrics itm = new SwtTextMetrics( _sxs, la );
+		final ITextMetrics itm = _sxs.getTextMetrics( la );
 		final double dFW = itm.getFullWidth( );
 		final double dFH = itm.getFullHeight( );
 
@@ -407,7 +407,7 @@ final class SwtTextRenderer extends TextRendererAdapter
 		{
 			try
 			{
-				final ITextMetrics itm = new SwtTextMetrics( _sxs, la );
+				final ITextMetrics itm = _sxs.getTextMetrics( la );
 				final double dFH = itm.getFullHeight( );
 
 				Location tmpLoc = Methods.computeRotatedTopPoint( _sxs,
@@ -520,7 +520,7 @@ final class SwtTextRenderer extends TextRendererAdapter
 		{
 			try
 			{
-				final ITextMetrics itm = new SwtTextMetrics( _sxs, la );
+				final ITextMetrics itm = _sxs.getTextMetrics( la );
 				final double dFH = itm.getFullHeight( );
 
 				Location tmpLoc = Methods.computeRotatedTopPoint( _sxs,
@@ -636,7 +636,7 @@ final class SwtTextRenderer extends TextRendererAdapter
 		final Color clrText = (Color) _sxs.getColor( la.getCaption( )
 				.getColor( ) );
 
-		final ITextMetrics itm = new SwtTextMetrics( _sxs, la );
+		final ITextMetrics itm = new SwtTextMetrics( _sxs, la, gc );
 		final double dFW = itm.getFullWidth( );
 		final double dH = itm.getHeight( );
 		final double dFH = itm.getFullHeight( );
@@ -774,6 +774,8 @@ final class SwtTextRenderer extends TextRendererAdapter
 				dW = gc.textExtent( oText ).x;
 				if ( bRightAligned )
 				{
+					// TODO this seems to be zero as dFW=dW+insets (see itm.getFullwidth())
+					// what about left align?
 					dXOffset = -ins.getLeft( ) + dFW - dW - ins.getRight( );
 				}
 				else if ( bCenterAligned )
@@ -782,7 +784,7 @@ final class SwtTextRenderer extends TextRendererAdapter
 				}
 				gc.drawText( oText,
 						(int) ( dXOffset + ins.getLeft( ) ),
-						(int) ( dH * i + ins.getTop( ) ),
+						(int) ( dH * i  + ins.getTop( ) ),
 						true );
 				if ( fd.isUnderline( ) )
 				{
@@ -870,7 +872,7 @@ final class SwtTextRenderer extends TextRendererAdapter
 				.getColor( ) );
 		double dAngleInRadians = ( ( -dAngleInDegrees * Math.PI ) / 180.0 );
 
-		final ITextMetrics itm = new SwtTextMetrics( _sxs, la );
+		final ITextMetrics itm =  _sxs.getTextMetrics( la );
 		final double dFW = itm.getFullWidth( );
 		final double dH = itm.getHeight( );
 		final double dFH = itm.getFullHeight( );

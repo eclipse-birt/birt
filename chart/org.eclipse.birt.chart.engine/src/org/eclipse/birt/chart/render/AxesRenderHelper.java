@@ -658,10 +658,10 @@ public final class AxesRenderHelper
 			}
 			if ( ( iWhatToDraw & IConstants.AXIS ) == IConstants.AXIS )
 			{
-				double dXMinorTick1 = ( ( iMinorTickStyle & IConstants.TICK_LEFT ) == IConstants.TICK_LEFT ) ? ( context.dX - IConstants.TICK_SIZE )
+				double dXMinorTick1 = ( ( iMinorTickStyle & IConstants.TICK_LEFT ) == IConstants.TICK_LEFT ) ? ( context.dX - pwa.getTickSize() )
 						: context.dX;
 				double dXMinorTick2 = ( ( iMinorTickStyle & IConstants.TICK_RIGHT ) == IConstants.TICK_RIGHT ) ? context.dX
-						+ IConstants.TICK_SIZE
+						+ pwa.getTickSize()
 						: context.dX;
 				if ( dXMinorTick1 != dXMinorTick2 )
 				{
@@ -847,7 +847,8 @@ public final class AxesRenderHelper
 				: ( bRendering3D ? context.dTick2 - 1 : context.dTick2 + 1 );
 		for ( int i = 0; i < length; i++ )
 		{
-
+			
+			
 			computation.handlePreEachTick( i );
 
 			int x = (int) da.getCoordinate( i );
@@ -859,12 +860,12 @@ public final class AxesRenderHelper
 			if ( ( iWhatToDraw & IConstants.AXIS ) == IConstants.AXIS )
 			{
 				double dYMinorTick1 = ( ( iMinorTickStyle & IConstants.TICK_ABOVE ) == IConstants.TICK_ABOVE ) ? ( bRendering3D ? context.dY
-						+ IConstants.TICK_SIZE
-						: context.dY - IConstants.TICK_SIZE )
+						+ pwa.getTickSize()
+						: context.dY - pwa.getTickSize() )
 						: context.dY;
 				double dYMinorTick2 = ( ( iMinorTickStyle & IConstants.TICK_BELOW ) == IConstants.TICK_BELOW ) ? ( bRendering3D ? context.dY
-						- IConstants.TICK_SIZE
-						: context.dY + IConstants.TICK_SIZE )
+						- pwa.getTickSize()
+						: context.dY + pwa.getTickSize() )
 						: context.dY;
 				if ( dYMinorTick1 != -dYMinorTick2 )
 				{
@@ -1112,10 +1113,10 @@ public final class AxesRenderHelper
 				ipr.applyTransformation( trae );
 			}
 
-			context.dTick1 = ( ( iMajorTickStyle & IConstants.TICK_LEFT ) == IConstants.TICK_LEFT ) ? ( context.dX - IConstants.TICK_SIZE )
+			context.dTick1 = ( ( iMajorTickStyle & IConstants.TICK_LEFT ) == IConstants.TICK_LEFT ) ?  context.dX - pwa.getTickSize() 
 					: context.dX;
 			context.dTick2 = ( ( iMajorTickStyle & IConstants.TICK_RIGHT ) == IConstants.TICK_RIGHT ) ? context.dX
-					+ IConstants.TICK_SIZE
+					+ pwa.getTickSize()
 					: context.dX;
 
 			if ( ( iWhatToDraw & IConstants.AXIS ) == IConstants.AXIS
@@ -1560,12 +1561,12 @@ public final class AxesRenderHelper
 			}
 
 			context.dTick1 = ( ( iMajorTickStyle & IConstants.TICK_ABOVE ) == IConstants.TICK_ABOVE ) ? ( bRendering3D ? context.dY
-					+ IConstants.TICK_SIZE
-					: context.dY - IConstants.TICK_SIZE )
+					+ pwa.getTickSize()
+					: context.dY - pwa.getTickSize() )
 					: context.dY;
 			context.dTick2 = ( ( iMajorTickStyle & IConstants.TICK_BELOW ) == IConstants.TICK_BELOW ) ? ( bRendering3D ? context.dY
-					- IConstants.TICK_SIZE
-					: context.dY + IConstants.TICK_SIZE )
+					- pwa.getTickSize()
+					: context.dY + pwa.getTickSize())
 					: context.dY;
 
 			if ( iv != null

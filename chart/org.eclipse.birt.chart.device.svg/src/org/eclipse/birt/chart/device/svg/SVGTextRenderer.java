@@ -1944,7 +1944,7 @@ final public class SVGTextRenderer extends TextRendererAdapter
 		final double dSineTheta = ( Math.sin( dAngleInRadians ) );
 		final double dCosTheta = ( Math.cos( dAngleInRadians ) );
 
-		final ITextMetrics itm = new SwingTextMetrics( _sxs, la );
+		final ITextMetrics itm = _sxs.getTextMetrics( la );
 		try
 		{
 			final double dFW = itm.getFullWidth( );

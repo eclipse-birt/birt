@@ -19,7 +19,6 @@ import java.awt.font.FontRenderContext;
 import java.awt.font.LineBreakMeasurer;
 import java.awt.font.TextLayout;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.text.AttributedString;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -50,7 +49,7 @@ public final class SwingTextMetrics extends TextAdapter
 
 	private String[] fsa = null;
 
-	private transient Object bi = null;
+
 
 	private Label la = null;
 
@@ -66,23 +65,11 @@ public final class SwingTextMetrics extends TextAdapter
 	 * 
 	 * @param _xs
 	 * @param _la
+	 * @param _g2d 
 	 */
-	public SwingTextMetrics( IDisplayServer _xs, Label _la )
+	public SwingTextMetrics( IDisplayServer _xs, Label _la, Graphics2D _g2d )
 	{
-		if ( bi == null )
-		{
-			bi = new BufferedImage( 1, 1, BufferedImage.TYPE_INT_RGB );
-			g2d = (Graphics2D) ( (BufferedImage) bi ).getGraphics( );
-
-			g2d.setRenderingHint( RenderingHints.KEY_FRACTIONALMETRICS,
-					RenderingHints.VALUE_FRACTIONALMETRICS_ON );
-			g2d.setRenderingHint( RenderingHints.KEY_RENDERING,
-					RenderingHints.VALUE_RENDER_QUALITY );
-		}
-		else
-		{
-			g2d = (Graphics2D) ( (BufferedImage) bi ).getGraphics( );
-		}
+		this.g2d = _g2d;
 		xs = _xs;
 		la = _la;
 
@@ -386,12 +373,6 @@ public final class SwingTextMetrics extends TextAdapter
 	 */
 	public void dispose( )
 	{
-		if ( bi != null )
-		{
-			( (BufferedImage) bi ).flush( );
-			bi = null;
-			g2d.dispose( );
-			g2d = null;
-		}
+	
 	}
 }

@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.device.swing;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.RenderingHints;
@@ -54,6 +55,8 @@ public class SwingDisplayServer extends DisplayAdapter
 	 */
 	private int iDpiResolution = 0;
 
+	private int userResolution;
+
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.extension/swing" ); //$NON-NLS-1$
 
 	/**
@@ -62,15 +65,7 @@ public class SwingDisplayServer extends DisplayAdapter
 	 */
 	public SwingDisplayServer( )
 	{
-		_bi = new BufferedImage( 1, 1, BufferedImage.TYPE_INT_ARGB );
-		_g2d = (Graphics2D) _bi.getGraphics( );
-		_g2d.setRenderingHint( RenderingHints.KEY_TEXT_ANTIALIASING,
-				RenderingHints.VALUE_TEXT_ANTIALIAS_ON );
-		_g2d.setRenderingHint( RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON );
-		_g2d.setRenderingHint( RenderingHints.KEY_FRACTIONALMETRICS,
-				RenderingHints.VALUE_FRACTIONALMETRICS_ON );
-
+	
 		logger.log( ILogger.INFORMATION,
 				Messages.getString( "SwingDisplayServer.info.display.server", //$NON-NLS-1$ 
 						new Object[]{
@@ -81,7 +76,13 @@ public class SwingDisplayServer extends DisplayAdapter
 	
 	public void dispose( )
 	{
-		_g2d.dispose( );
+		if ( _bi != null )
+		{
+			// This means we have created our own _g2d, so we need to dispose it
+			this._g2d.dispose();
+			this._g2d = null;
+			this._bi = null;
+		}
 		super.dispose( );
 	}
 
@@ -94,7 +95,11 @@ public class SwingDisplayServer extends DisplayAdapter
 	{
 		final Map m = new HashMap( );
 		m.put( TextAttribute.FAMILY, fd.getName( ) );
-		m.put( TextAttribute.SIZE, new Float( pointsToPixels( fd.getSize( ) ) ) );
+		// Although the fonts is set in points, we need to apply the dpi ratio manually
+		// java always assumes 72dpi for fonts, see this link:
+		// http://java.sun.com/products/java-media/2D/reference/faqs/index.html#Q_Why_does_eg_a_10_pt_font_in_Ja
+		
+		m.put( TextAttribute.SIZE, new Float( fd.getSize( ) * getDpiResolution() / 72d) );
 		if ( fd.isItalic( ) )
 		{
 			m.put( TextAttribute.POSTURE, TextAttribute.POSTURE_OBLIQUE );
@@ -133,7 +138,7 @@ public class SwingDisplayServer extends DisplayAdapter
 	 */
 	public final Object getMetrics( FontDefinition fd )
 	{
-		return _g2d.getFontMetrics( (Font) createFont( fd ) );
+		return getGraphicsContext().getFontMetrics( (Font) createFont( fd ) );
 	}
 
 	/*
@@ -143,21 +148,65 @@ public class SwingDisplayServer extends DisplayAdapter
 	 */
 	public final int getDpiResolution( )
 	{
+
 		if ( iDpiResolution == 0 )
 		{
-			if ( GraphicsEnvironment.isHeadless( ) )
+			switch ( getGraphicsContext( ).getDeviceConfiguration( )
+					.getDevice( )
+					.getType( ) )
 			{
-				// RETURN OS SPECIFIC DEFAULTS
-				iDpiResolution = super.getDpiResolution( );
+				case GraphicsDevice.TYPE_RASTER_SCREEN :
+					// This is the only reliable dpi for the display, the one in
+					// g2d.getTransform()
+					// will be 72 dpi for the display, even when the OS has a
+					// different dpi set.
+					if ( GraphicsEnvironment.isHeadless( ) )
+					{
+						// RETURN OS SPECIFIC DEFAULTS
+						iDpiResolution = super.getDpiResolution( );
+					}
+					else
+					{
+						iDpiResolution = Toolkit.getDefaultToolkit( )
+								.getScreenResolution( );
+					}
+			
+					break;
+				case GraphicsDevice.TYPE_PRINTER :
+					// In that case the g2d already contains a transform with the right dpi of the printer
+					// so we set the dpi to 72, since there is no adjustment needed
+					iDpiResolution = 72;
+					break;
+				case GraphicsDevice.TYPE_IMAGE_BUFFER :
+					if ( userResolution == 0 )
+					{
+						// Use value set by user, if none, use screen resolution
+						iDpiResolution = Toolkit.getDefaultToolkit( )
+								.getScreenResolution( );
+					}
+					else
+					{
+						iDpiResolution = userResolution;
+					}
+					break;
+			}
+			// set the fractionalmetrics to ON only for high resolution
+			if (iDpiResolution >= 192 )
+			{
+				_g2d.setRenderingHint( RenderingHints.KEY_FRACTIONALMETRICS,
+						RenderingHints.VALUE_FRACTIONALMETRICS_ON );
 			}
 			else
 			{
-				iDpiResolution = Toolkit.getDefaultToolkit( )
-						.getScreenResolution( );
+				_g2d.setRenderingHint( RenderingHints.KEY_FRACTIONALMETRICS,
+						RenderingHints.VALUE_FRACTIONALMETRICS_OFF );
 			}
 		}
 		return iDpiResolution;
 	}
+
+	
+
 
 	/*
 	 * (non-Javadoc)
@@ -166,7 +215,7 @@ public class SwingDisplayServer extends DisplayAdapter
 	 */
 	public final void setDpiResolution( int dpi )
 	{
-		iDpiResolution = dpi;
+		userResolution = dpi;
 	}
 
 	/*
@@ -208,7 +257,7 @@ public class SwingDisplayServer extends DisplayAdapter
 	 */
 	public ITextMetrics getTextMetrics( Label la )
 	{
-		return new SwingTextMetrics( this, la );
+		return new SwingTextMetrics( this, la, getGraphicsContext() );
 	}
 
 	/**
@@ -221,8 +270,47 @@ public class SwingDisplayServer extends DisplayAdapter
 		return _simc;
 	}
 
-	final double pointsToPixels( double dPoints )
+
+	
+	public void setGraphicsContext( Object g2d )
 	{
-		return dPoints * getDpiResolution( ) / 72d;
+		// User g2d will replace the one instantiated by the display server if any
+		if ( g2d != this._g2d && this._bi != null)
+		{
+			this._g2d.dispose();
+			// set image as null to indicate it's an external graphic context.
+			this._bi = null;
+		}
+		this._g2d = (Graphics2D)g2d;
+		setAntialiasProperties( _g2d );
 	}
+	
+	// For internal use only
+	private Graphics2D getGraphicsContext()
+	{
+		if ( _g2d  == null )
+		{
+			// The user _g2d hasn't been set yet.
+			// We create our own _g2d here for computations, and it will be disposed later.
+
+			_bi = new BufferedImage( 1, 1, BufferedImage.TYPE_INT_ARGB );
+			_g2d = (Graphics2D) _bi.getGraphics( );
+			
+			setAntialiasProperties( _g2d );
+
+		}
+		
+		return _g2d;
+	}
+	
+	private void setAntialiasProperties( Graphics2D g2d )
+	{
+		g2d.setRenderingHint( RenderingHints.KEY_TEXT_ANTIALIASING,
+				RenderingHints.VALUE_TEXT_ANTIALIAS_ON );
+		g2d.setRenderingHint( RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON );
+		g2d.setRenderingHint( RenderingHints.KEY_FRACTIONALMETRICS,
+				RenderingHints.VALUE_FRACTIONALMETRICS_ON );
+	}
+	
 }

@@ -1226,19 +1226,19 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					dX2 = dX;
 					if ( bTicksLeft )
 					{
-						dX1 -= TICK_SIZE;
+						dX1 -= getTickSize();
 					}
 					if ( oaxOverlay.getLabelPosition( ) == LEFT )
 					{
 						dX1 -= Math.max( dAxisLabelsThickness,
 								dDecorationThickness[0] );
-						dX2 += Math.max( bTicksRight ? TICK_SIZE : 0,
+						dX2 += Math.max( bTicksRight ? getTickSize() : 0,
 								dAppliedYAxisPlotSpacing );
 					}
 					else if ( oaxOverlay.getLabelPosition( ) == RIGHT )
 					{
 						dX1 -= dDecorationThickness[0];
-						dX2 += Math.max( ( bTicksRight ? TICK_SIZE : 0 )
+						dX2 += Math.max( ( bTicksRight ? getTickSize() : 0 )
 								+ dAxisLabelsThickness,
 								dAppliedYAxisPlotSpacing );
 					}
@@ -1271,19 +1271,19 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					dX2 = dX;
 					if ( bTicksRight )
 					{
-						dX2 += TICK_SIZE;
+						dX2 += getTickSize();
 					}
 
 					if ( oaxOverlay.getLabelPosition( ) == RIGHT )
 					{
 						dX2 += Math.max( dAxisLabelsThickness,
 								dDecorationThickness[1] );
-						dX1 -= Math.max( bTicksLeft ? TICK_SIZE : 0,
+						dX1 -= Math.max( bTicksLeft ? getTickSize() : 0,
 								dAppliedYAxisPlotSpacing );
 					}
 					else if ( oaxOverlay.getLabelPosition( ) == LEFT )
 					{
-						dX1 -= Math.max( ( bTicksLeft ? TICK_SIZE : 0 )
+						dX1 -= Math.max( ( bTicksLeft ? getTickSize() : 0 )
 								+ dAxisLabelsThickness,
 								dAppliedYAxisPlotSpacing );
 						dX2 += dDecorationThickness[1];
@@ -1365,19 +1365,19 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					dY2 = dY;
 					if ( bTicksAbove )
 					{
-						dY1 -= TICK_SIZE;
+						dY1 -= getTickSize();
 					}
 					if ( oaxOverlay.getLabelPosition( ) == ABOVE )
 					{
 						dY1 -= Math.max( dAxisLabelsThickness,
 								dDecorationThickness[0] );
-						dY2 += Math.max( bTicksBelow ? TICK_SIZE : 0,
+						dY2 += Math.max( bTicksBelow ? getTickSize() : 0,
 								dAppliedXAxisPlotSpacing );
 					}
 					else if ( oaxOverlay.getLabelPosition( ) == BELOW )
 					{
 						dY1 -= dDecorationThickness[0];
-						dY2 += Math.max( ( bTicksBelow ? TICK_SIZE : 0 )
+						dY2 += Math.max( ( bTicksBelow ? getTickSize() : 0 )
 								+ dAxisLabelsThickness,
 								dAppliedXAxisPlotSpacing );
 					}
@@ -1411,19 +1411,19 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					dY2 = dY;
 					if ( bTicksBelow )
 					{
-						dY2 += TICK_SIZE;
+						dY2 += getTickSize();
 					}
 
 					if ( oaxOverlay.getLabelPosition( ) == BELOW )
 					{
 						dY2 += Math.max( dAxisLabelsThickness,
 								dDecorationThickness[1] );
-						dY1 -= Math.max( bTicksAbove ? TICK_SIZE : 0,
+						dY1 -= Math.max( bTicksAbove ? getTickSize() : 0,
 								dAppliedXAxisPlotSpacing );
 					}
 					else if ( oaxOverlay.getLabelPosition( ) == ABOVE )
 					{
-						dY1 -= Math.max( ( bTicksAbove ? TICK_SIZE : 0 )
+						dY1 -= Math.max( ( bTicksAbove ? getTickSize() : 0 )
 								+ dAxisLabelsThickness,
 								dAppliedXAxisPlotSpacing );
 						dY2 += dDecorationThickness[1];

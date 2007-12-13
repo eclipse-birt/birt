@@ -26,7 +26,7 @@ import com.ibm.icu.util.ULocale;
  * A no-op adapter implementation for the
  * {@link org.eclipse.birt.chart.device.IDisplayServer}interface definition.
  */
-public abstract class DisplayAdapter implements IDisplayServer
+public class DisplayAdapter implements IDisplayServer
 {
 
 	/**
@@ -168,6 +168,11 @@ public abstract class DisplayAdapter implements IDisplayServer
 	}
 	
 	public void dispose( )
+	{
+		// NO-OP ADAPTER DEFAULT IMPLEMENTATION
+	}
+
+	public void setGraphicsContext( Object graphicContext )
 	{
 		// NO-OP ADAPTER DEFAULT IMPLEMENTATION
 	}
