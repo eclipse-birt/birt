@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.OutputStream;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.context.BaseAttributeBean;
@@ -27,6 +28,7 @@ import org.eclipse.birt.report.service.api.InputOptions;
 import org.eclipse.birt.report.service.api.ReportServiceException;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
+import org.eclipse.birt.report.soapengine.api.Oprand;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
@@ -39,7 +41,7 @@ public class BirtGetReportletActionHandler extends AbstractBaseActionHandler
 	protected BaseAttributeBean __bean;
 
 	protected String __reportDesignName;
-	
+
 	protected String __docName;
 
 	protected String __reportletId;
@@ -102,17 +104,24 @@ public class BirtGetReportletActionHandler extends AbstractBaseActionHandler
 	protected void doExecution( ) throws ReportServiceException,
 			RemoteException
 	{
+		Oprand[] operand = null;
+		if ( operation != null )
+		{
+			operand = operation.getOprand( );
+		}
+		boolean svgFlag = getSVGFlag( operand );
+
 		InputOptions options = new InputOptions( );
 		options.setOption( InputOptions.OPT_LOCALE, __bean.getLocale( ) );
 		options.setOption( InputOptions.OPT_FORMAT, __bean.getFormat( ) );
 		options
 				.setOption( InputOptions.OPT_RTL, new Boolean( __bean.isRtl( ) ) );
 		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
-		options.setOption( InputOptions.OPT_SVG_FLAG, new Boolean( false ) );
+		options.setOption( InputOptions.OPT_SVG_FLAG, new Boolean( svgFlag ) );
 		options.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT,
 				new Boolean( __bean.isMasterPageContent( ) ) );
 
-		ArrayList activeIds = new ArrayList( );
+		List activeIds = new ArrayList( );
 		getReportService( ).renderReportlet( __docName, __reportletId, options,
 				activeIds, os );
 	}
