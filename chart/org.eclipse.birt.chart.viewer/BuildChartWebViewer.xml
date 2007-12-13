@@ -135,9 +135,11 @@
 				<include name="org.eclipse.emf.ecore.xmi_*.jar" />
 				<include name="org.eclipse.emf.ecore_*.jar" />
 			</fileset>
+<!--
             <fileset dir="${buildDirectory}/plugins">
                     <include name="org.apache.xalan/*.jar" />
             </fileset>
+-->
 		</copy>
 	</target>
 
