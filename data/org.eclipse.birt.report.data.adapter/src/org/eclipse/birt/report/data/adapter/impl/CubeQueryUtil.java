@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.birt.core.data.DataType;
+import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
@@ -459,14 +461,15 @@ public class CubeQueryUtil implements ICubeQueryUtil
 					|| dataBindingExpr == null || queryDefn == null )
 				return null;
 
+			List bindings = queryDefn.getBindings();
 			Set dimLevels = OlapExpressionCompiler.getReferencedDimLevel( new ScriptExpression( dataBindingExpr ),
-					queryDefn.getBindings( ),
+					bindings,
 					true );
 			if ( dimLevels.size( ) == 0 || dimLevels.size( ) > 1 )
 				return null;
 
 			DimLevel target = (DimLevel) dimLevels.iterator( ).next( );
-
+			int targetDataType = getTargetDataType( bindings, dataBindingExpr );
 			TabularHierarchyHandle hierHandle = (TabularHierarchyHandle) ( cubeHandle.getDimension( target.getDimensionName( ) ).getContent( TabularDimensionHandle.HIERARCHIES_PROP,
 					0 ) );
 			if ( hierHandle.getDataSet( ) != null )
@@ -478,12 +481,39 @@ public class CubeQueryUtil implements ICubeQueryUtil
 			DataSetIterator it = new DataSetIterator( this.session, hierHandle, appContext );
 			return new MemberValueIterator( it,
 					levelValueMap,
-					target.getLevelName( ), target.getAttrName( ) );
+					target.getLevelName( ), target.getAttrName( ) ,targetDataType);
 		}
 		catch ( BirtException e )
 		{
 			throw new AdapterException( e.getLocalizedMessage( ), e );
 		}
+	}
+
+	/**
+	 * 
+	 * @param bindings
+	 * @param dataBindingExpr
+	 * @return
+	 * @throws DataException
+	 */
+	private int getTargetDataType( List bindings, String dataBindingExpr )
+			throws DataException
+	{
+		String bindingName = OlapExpressionCompiler.getReferencedScriptObject( dataBindingExpr,
+				"data" );
+		if ( bindingName == null )
+		{
+			return DataType.UNKNOWN_TYPE;
+		}
+		for ( int i = 0; i < bindings.size( ); i++ )
+		{
+			IBinding binding = (IBinding) bindings.get( i );
+			if ( binding.getBindingName( ).equals( bindingName ) )
+			{
+				return binding.getDataType( );
+			}
+		}
+		return DataType.UNKNOWN_TYPE;
 	}
 	
 	/*
@@ -595,17 +625,30 @@ public class CubeQueryUtil implements ICubeQueryUtil
 		private String targetLevelName;
 		private Object currentValue;
 		private String attribute;
+		private int targetDateType;
 		
-		public MemberValueIterator( IDatasetIterator it, Map levelValueMap, String targetLevelName, String attribute )
+		public MemberValueIterator( IDatasetIterator it, Map levelValueMap,
+				String targetLevelName, String attribute )
+		{
+			this( it,
+					levelValueMap,
+					targetLevelName,
+					attribute,
+					DataType.UNKNOWN_TYPE );
+		}
+		
+		public MemberValueIterator( IDatasetIterator it, Map levelValueMap,
+				String targetLevelName, String attribute, int targetDataType )
 		{
 			this.dataSetIterator = it;
 			this.hasNext = true;
 			this.levelValueMap = levelValueMap;
 			this.targetLevelName = targetLevelName;
 			this.attribute = attribute;
+			this.targetDateType = targetDataType;
 			this.next( );
 		}
-		
+
 		public boolean hasNext( )
 		{
 			return this.hasNext;
@@ -645,7 +688,7 @@ public class CubeQueryUtil implements ICubeQueryUtil
 				}
 								
 				this.hasNext = accept;
-				return result;
+				return DataTypeUtil.convert( result, targetDateType );	
 			}
 			catch ( BirtException e )
 			{
