@@ -333,8 +333,7 @@ class ExprDataReader2 implements IExprDataReader
 			}
 			catch ( BirtException e )
 			{
-				// Should not arrive here
-				e.printStackTrace( );
+				valueMap.put( key, e );
 			}
 		}
 

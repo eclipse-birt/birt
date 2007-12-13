@@ -148,7 +148,10 @@ class ResultIterator implements IResultIterator
 	 */
 	public Object getValue( String name ) throws BirtException
 	{
-		return this.exprResultSet.getValue( name );
+		Object result = this.exprResultSet.getValue( name ); 
+		if( result != null && result instanceof BirtException )
+			throw (BirtException)result;
+		return result;
 	}
 	
 	/*

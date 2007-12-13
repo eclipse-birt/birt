@@ -293,7 +293,7 @@ class ExprDataReader1 implements IExprDataReader
 			}
 			catch ( BirtException e )
 			{
-				// Should not arrive here
+				valueMap.put( key, e );
 			}
 		}
 		return valueMap;
