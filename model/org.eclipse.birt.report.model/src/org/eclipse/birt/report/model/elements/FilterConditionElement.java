@@ -64,11 +64,7 @@ public class FilterConditionElement extends ContentElement
 
 	public FilterConditionElementHandle handle( Module module )
 	{
-		if ( handle == null )
-		{
-			handle = new FilterConditionElementHandle( module, this );
-		}
-		return (FilterConditionElementHandle) handle;
+		return new FilterConditionElementHandle( module, this );
 	}
 
 	/*

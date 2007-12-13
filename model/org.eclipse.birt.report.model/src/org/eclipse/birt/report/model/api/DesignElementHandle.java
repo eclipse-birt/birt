@@ -109,12 +109,13 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * API slot handle array for all slots of this element.
 	 */
 
-	private SlotHandle[] slotHandles = null;
+	protected SlotHandle[] slotHandles = null;
 
 	/**
 	 * Property handle for element type properties.
 	 */
-	private Map propHandles = null;
+	
+	protected Map propHandles = new HashMap( );
 
 	/**
 	 * Constructs a handle with the given module.
@@ -128,6 +129,50 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		this.module = module;
 	}
 
+
+	/**
+	 * Constructs slot handles in the constructor to make sure that getMumble()
+	 * methods won't construct any new instance.
+	 */
+
+	final protected void initializeSlotHandles( )
+	{
+		int slotCount = getDefn( ).getSlotCount( );
+
+		if ( slotCount == 0 )
+		{
+			return;
+		}
+
+		if ( slotHandles == null )
+		{
+			slotHandles = new SlotHandle[slotCount];
+			for ( int i = 0; i < slotCount; i++ )
+			{
+				slotHandles[i] = new SlotHandle( this, i );
+			}
+		}
+	}
+
+	/**
+	 * Constructs slot handles in the constructor to make sure that getMumble()
+	 * methods won't construct any new instance.
+	 */
+
+	final protected void cachePropertyHandles( )
+	{
+		List contents = getDefn( ).getContents( );
+		for ( int i = 0; i < contents.size( ); i++ )
+		{
+			ElementPropertyDefn propDefn = (ElementPropertyDefn) contents
+					.get( i );
+			assert propDefn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE;
+
+			PropertyHandle pHandle = new PropertyHandle( this, propDefn );
+			propHandles.put( propDefn.getName( ), pHandle );
+		}
+	}
+	
 	/**
 	 * Returns the report design only when the module is report design.
 	 * Otherwise, null is returned. So this method can also be used to check
@@ -1092,19 +1137,13 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( propDefn == null )
 			return null;
 
-		// cache all element type property handles
+		// get cached values.
+
 		if ( propDefn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
 		{
-			if ( propHandles == null )
-				propHandles = new HashMap( );
-			if ( propHandles.get( propDefn.getName( ) ) != null )
-				return (PropertyHandle) propHandles.get( propDefn.getName( ) );
-
-			PropertyHandle pHandle = new PropertyHandle( this, propDefn );
-			this.propHandles.put( propDefn.getName( ), pHandle );
-			return pHandle;
-
+			return (PropertyHandle) propHandles.get( propName );
 		}
+
 		return new PropertyHandle( this, propDefn );
 	}
 
@@ -1347,25 +1386,9 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	{
 		int slotCount = getDefn( ).getSlotCount( );
 
-		if ( slotCount == 0 )
+		if ( slotID < 0 || slotID >= slotCount )
 		{
 			return null;
-		}
-
-		assert 0 <= slotID && slotID < slotCount;
-
-		if ( slotHandles == null )
-		{
-			slotHandles = new SlotHandle[slotCount];
-			for ( int i = 0; i < slotCount; i++ )
-			{
-				slotHandles[i] = null;
-			}
-		}
-
-		if ( slotHandles[slotID] == null )
-		{
-			slotHandles[slotID] = new SlotHandle( this, slotID );
 		}
 
 		return slotHandles[slotID];

@@ -167,6 +167,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public ModuleHandle( Module module )
 	{
 		super( module );
+		
+		initializeSlotHandles( );
+		cachePropertyHandles( );
 	}
 
 	/**

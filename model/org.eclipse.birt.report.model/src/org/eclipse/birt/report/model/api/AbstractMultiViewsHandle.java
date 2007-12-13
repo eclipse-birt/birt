@@ -55,7 +55,9 @@ abstract class AbstractMultiViewsHandle extends DesignElementHandle
 	{
 		super( module );
 		this.element = element;
-
+		
+		initializeSlotHandles( );
+		cachePropertyHandles( );
 	}
 
 	/*

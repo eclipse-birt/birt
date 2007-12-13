@@ -82,11 +82,7 @@ public class ValueAccessControl extends AccessControl
 
 	public AccessControlHandle handle( Module module )
 	{
-		if ( handle == null )
-		{
-			handle = new ValueAccessControlHandle( module, this );
-		}
-		return (ValueAccessControlHandle) handle;
+		return new ValueAccessControlHandle( module, this );
 	}
 
 	/*

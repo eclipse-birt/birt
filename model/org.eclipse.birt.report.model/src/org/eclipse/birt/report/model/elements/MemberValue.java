@@ -63,11 +63,7 @@ public class MemberValue extends ContentElement
 
 	public MemberValueHandle handle( Module module )
 	{
-		if ( handle == null )
-		{
-			handle = new MemberValueHandle( module, this );
-		}
-		return (MemberValueHandle) handle;
+		return new MemberValueHandle( module, this );
 	}
 
 	/*

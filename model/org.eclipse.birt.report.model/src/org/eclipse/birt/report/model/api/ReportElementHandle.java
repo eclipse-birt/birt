@@ -60,6 +60,9 @@ public abstract class ReportElementHandle extends DesignElementHandle
 		super( module );
 		assert element != null;
 		this.element = element;
+
+		initializeSlotHandles( );
+		cachePropertyHandles( );
 	}
 
 	// Implementation of an abstract method in the base class.

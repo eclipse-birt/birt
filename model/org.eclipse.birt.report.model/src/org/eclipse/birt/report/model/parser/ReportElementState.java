@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import java.awt.peer.ContainerPeer;
 import java.util.Iterator;
 import java.util.List;
 
@@ -154,8 +153,8 @@ public abstract class ReportElementState extends DesignParseState
 			// now not all the children is allowed to be inserted to the
 			// container, if the container is ExtendedItem and child is not
 			// allowed, we still do some special handle
-			assert propDefn.canContain( content )
-					|| ( container instanceof ExtendedItem );
+			assert propDefn.canContain( content ) ||
+					( container instanceof ExtendedItem );
 
 			// Can not change the structure of an element if it is a child
 			// element or it is within a child element.
@@ -175,8 +174,8 @@ public abstract class ReportElementState extends DesignParseState
 
 			// If this is a single-item slot, ensure that the slot is empty.
 
-			if ( !propDefn.isList( )
-					&& new ContainerContext( container, containmentPropName )
+			if ( !propDefn.isList( ) &&
+					new ContainerContext( container, containmentPropName )
 							.getContentCount( handler.module ) > 0 )
 			{
 				handler
@@ -215,8 +214,8 @@ public abstract class ReportElementState extends DesignParseState
 
 		// If this is a single-item slot, ensure that the slot is empty.
 
-		if ( !slotInfo.isMultipleCardinality( )
-				&& container.getSlot( slotID ).getCount( ) > 0 )
+		if ( !slotInfo.isMultipleCardinality( ) &&
+				container.getSlot( slotID ).getCount( ) > 0 )
 		{
 			handler.getErrorHandler( ).semanticError(
 					new ContentException( container, slotID,
@@ -373,8 +372,8 @@ public abstract class ReportElementState extends DesignParseState
 						// name in end-document; if the version < 3.2.12,
 						// add it
 						// to the list.
-						if ( handler.versionNumber <= VersionUtil.VERSION_3_2_12
-								&& element instanceof ExtendedItem )
+						if ( handler.versionNumber <= VersionUtil.VERSION_3_2_12 &&
+								element instanceof ExtendedItem )
 						{
 							handler.addUnnamedReportItem( element );
 						}
@@ -387,8 +386,8 @@ public abstract class ReportElementState extends DesignParseState
 
 		String extendsName = attrs
 				.getValue( DesignSchemaConstants.EXTENDS_ATTRIB );
-		if ( !StringUtil.isBlank( extendsName )
-				&& element.getDefn( ).canExtend( ) )
+		if ( !StringUtil.isBlank( extendsName ) &&
+				element.getDefn( ).canExtend( ) )
 		{
 			element.setExtendsName( extendsName );
 			resolveExtendsElement( );
@@ -558,9 +557,9 @@ public abstract class ReportElementState extends DesignParseState
 
 		Module module = handler.getModule( );
 
-		if ( name == null
-				&& contentDefn.getNameOption( ) == MetaDataConstants.REQUIRED_NAME
-				&& isManagedByNameSpace )
+		if ( name == null &&
+				contentDefn.getNameOption( ) == MetaDataConstants.REQUIRED_NAME &&
+				isManagedByNameSpace )
 		{
 			// if element is extended-item and version less than 3.2.8, do
 			// nothing and returns
@@ -575,8 +574,8 @@ public abstract class ReportElementState extends DesignParseState
 		}
 
 		int id = contentDefn.getNameSpaceID( );
-		if ( name != null && id != MetaDataConstants.NO_NAME_SPACE
-				&& isManagedByNameSpace )
+		if ( name != null && id != MetaDataConstants.NO_NAME_SPACE &&
+				isManagedByNameSpace )
 		{
 			NameSpace ns = new NameExecutor( content ).getNameSpace( module );
 
@@ -741,8 +740,8 @@ public abstract class ReportElementState extends DesignParseState
 		if ( DesignSchemaConstants.OVERRIDDEN_VALUES_TAG
 				.equalsIgnoreCase( tagName ) )
 		{
-			if ( ( defn.getSlotCount( ) > 0 || defn.getContents( ).size( ) > 0 )
-					&& defn.canExtend( ) )
+			if ( ( defn.getSlotCount( ) > 0 || defn.getContents( ).size( ) > 0 ) &&
+					defn.canExtend( ) )
 			{
 				return new OverriddenValuesState(
 						(ModuleParserHandler) getHandler( ), getElement( ) );
@@ -755,13 +754,18 @@ public abstract class ReportElementState extends DesignParseState
 	{
 		super.end( );
 		// if the element is a container and has extends
-		if ( getElement( ).getExtendsElement( ) != null
-				&& getElement( ).getDefn( ).isContainer( ) )
+		if ( getElement( ).getExtendsElement( ) != null &&
+				getElement( ).getDefn( ).isContainer( ) )
 		{
 			addTheVirualElements2Map( getElement( ) );
 			if ( !handler.unhandleIDElements.contains( getElement( ) ) )
 				handler.unhandleIDElements.add( getElement( ) );
 		}
+
+		// creates handles so that to make sure Model API is read-only safe in
+		// multiple threads.
+		
+		getElement( ).getHandle( handler.module );
 	}
 
 }
