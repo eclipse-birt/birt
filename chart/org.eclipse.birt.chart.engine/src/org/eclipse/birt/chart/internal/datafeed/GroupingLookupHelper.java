@@ -59,6 +59,12 @@ public class GroupingLookupHelper
 	private int fBaseSortExprIndex = -1;
 	
 	/**
+	 * The expression index of sort key on Y grouping.
+	 * @since BIRT 2.3
+	 **/
+	private int fYSortExprIndex = -1;
+	
+	/**
 	 * Constructor. Finds all data expressions and aggregation expressions in
 	 * the chart model in the order and restore them in the lookup list
 	 * 
@@ -268,6 +274,9 @@ public class GroupingLookupHelper
 			String strOrthoAgg = getOrthogonalAggregationExpression( orthoSD );
 			addDataExp( qOrthogonalSeriesDefinition.getDefinition( ),
 					strOrthoAgg );
+			
+			// Get sort key of Y grouping.
+			String ySortKey = getSortKey( orthoSD );
 
 			Series seOrthogonal = orthoSD.getDesignTimeSeries( );
 			EList elOrthogonalSeries = seOrthogonal.getDataDefinition( );
@@ -306,6 +315,18 @@ public class GroupingLookupHelper
 								&& baseSD.eIsSet( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) ) )
 						{
 							fBaseSortExprIndex = findIndex( qOrthogonalSeries.getDefinition( ),
+									strOrthoAgg );
+						}
+					}
+					
+					// Get Y sort expression index.
+					if ( fYSortExprIndex < 0 )
+					{
+						if ( ySortKey != null &&
+								ySortKey.equals( qOrthogonalSeries.getDefinition( ) )
+								&& orthoSD.eIsSet( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) ) )
+						{
+							fYSortExprIndex = findIndex( qOrthogonalSeries.getDefinition( ),
 									strOrthoAgg );
 						}
 					}
@@ -501,5 +522,17 @@ public class GroupingLookupHelper
 	int getBaseSortExprIndex( )
 	{
 		return fBaseSortExprIndex;
+	}
+	
+	/**
+	 * Returns sort expression of Y grouping, <code>-1</code> means no sort
+	 * expression is set for Y grouping.
+	 * 
+	 * @return
+	 * @since BIRT 2.3
+	 */
+	int getYSortExprIndex( )
+	{
+		return fYSortExprIndex;
 	}
 }

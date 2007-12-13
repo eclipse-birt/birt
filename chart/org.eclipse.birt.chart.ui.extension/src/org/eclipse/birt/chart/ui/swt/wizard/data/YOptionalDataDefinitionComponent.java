@@ -21,6 +21,7 @@ import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.swt.composites.GroupSortingDialog;
+import org.eclipse.birt.chart.ui.swt.composites.YOptionalGroupSortingDialog;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
@@ -76,9 +77,10 @@ public class YOptionalDataDefinitionComponent extends BaseDataDefinitionComponen
 	protected GroupSortingDialog createGroupSortingDialog(
 			SeriesDefinition sdBackup )
 	{
-		return new GroupSortingDialog( cmpTop.getShell( ),
+		return new YOptionalGroupSortingDialog( cmpTop.getShell( ),
 				context,
 				sdBackup,
+				false,
 				false );
 	}
 	
@@ -119,6 +121,11 @@ public class YOptionalDataDefinitionComponent extends BaseDataDefinitionComponen
 				}
 			}
 			ChartAdapter.endIgnoreNotifications( );
+			
+			seriesdefinition.setSortKey( sdBackup.getSortKey( ) );
+			seriesdefinition.getSortKey( )
+					.eAdapters( )
+					.addAll( seriesdefinition.eAdapters( ) );
 			
 			seriesdefinition.setGrouping( sdBackup.getGrouping( ) );
 			seriesdefinition.getGrouping( )

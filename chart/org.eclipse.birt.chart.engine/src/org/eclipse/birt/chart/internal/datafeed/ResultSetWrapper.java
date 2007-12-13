@@ -152,7 +152,7 @@ public final class ResultSetWrapper
 			SeriesDefinition sdValue,
 			String[] aggregationExp, String[] saExpressionKeys )
 			throws ChartException {
-		applyValueSeriesGroupingNSorting( sdValue );
+		applyValueSeriesGroupingNSorting( sdValue, aggregationExp, saExpressionKeys );
 		applyBaseSeriesSortingAndGrouping( sdBase,
 				aggregationExp,
 				saExpressionKeys );
@@ -164,10 +164,16 @@ public final class ResultSetWrapper
 	 * grouping/sorting.
 	 * 
 	 * @param sdValue value series definition.
+	 * @param aggregationExp
+	 * @throws ChartException 
 	 * @since 2.3
 	 */
-	public void applyValueSeriesGroupingNSorting(SeriesDefinition sdValue) {
+	public void applyValueSeriesGroupingNSorting( SeriesDefinition sdValue,
+			String[] aggregationExp, String[] saExpressionKeys )
+			throws ChartException
+	{
 		generateGroupBreaks( sdValue );
+		sortYGrouping( sdValue, aggregationExp, saExpressionKeys );
 	}
 
 	/**
@@ -188,6 +194,197 @@ public final class ResultSetWrapper
 		return htLookup;
 	}
 
+	/**
+	 * The class is used to sort data by Y grouping sort key.
+     * @since BIRT 2.3
+	 */
+	class YGroupingSorter implements Comparator
+	{
+
+		private boolean ascending;
+		private Collator collator;
+
+		void sort( List aggregateData, SortOption so )
+		{
+			if ( so == null )
+			{
+				return;
+			}
+
+			this.ascending = so == SortOption.ASCENDING_LITERAL;
+			this.collator = Collator.getInstance( );
+
+			Collections.sort( aggregateData, this );
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+		 */
+		public final int compare( Object o1, Object o2 )
+		{
+			Object obj1 = ( (Object[]) o1 )[2];
+			Object obj2 = ( (Object[]) o2 )[2];
+
+			if ( obj1 == null && obj2 == null )
+			{
+				return 0;
+			}
+			if ( obj1 == null && obj2 != null )
+			{
+				return ascending ? -1 : 1;
+			}
+			if ( obj1 != null && obj2 == null )
+			{
+				return ascending ? 1 : -1;
+			}
+
+			int ct;
+			if ( obj1 instanceof String )
+			{
+				ct = collator.compare( obj1.toString( ), obj2.toString( ) );
+			}
+			else
+			{
+				ct = ( (Comparable) obj1 ).compareTo( obj2 );
+			}
+
+			return ascending ? ct : -ct;
+		}
+	}
+	
+	/**
+	 * Sort Y grouping if the sort key of Y grouping doesn't equal the Y
+	 * grouping expression.
+	 * 
+	 * @param sdValue
+	 * @param aggregationExp
+	 * @param saExpressionKeys
+	 * @throws ChartException
+     * @since BIRT 2.3
+	 */
+	private void sortYGrouping( SeriesDefinition sdValue,
+			String[] aggregationExp, String[] saExpressionKeys )
+			throws ChartException
+	{
+		// 1. Check if sort key is value series expression.
+		if ( iaGroupBreaks == null ||
+				iaGroupBreaks.length == 0 ||
+				!sdValue.isSetSorting( ) ||
+				sdValue.getQuery( ) == null )
+		{
+			return;
+		}
+
+		if ( sdValue.getSortKey( ) == null ||
+				sdValue.getSortKey( ).getDefinition( ) == null )
+		{
+			// If sort key is null, consider it as grouping expression, no need
+			// to sort again.
+			return;
+		}
+
+		int ySortExprIndex = getLookupHelper( ).getYSortExprIndex( );
+		if ( ySortExprIndex < 0 )
+		{
+			// The sort key isn't value series expression, return directly.
+			return;
+		}
+
+		// Get the aggregation function.
+		final int iOrthogonalSeriesCount = saExpressionKeys.length;
+		int[] iaColumnIndexes = new int[iOrthogonalSeriesCount];
+		for ( int i = 0; i < iOrthogonalSeriesCount; i++ )
+		{
+			iaColumnIndexes[i] = getLookupHelper( ).findIndex( saExpressionKeys[i],
+					aggregationExp[i] );
+		}
+		int relativeIndex = 0;
+		for ( int i =0; i < iaColumnIndexes.length; i++ )
+		{
+			if ( ySortExprIndex == iaColumnIndexes[i] )
+			{
+				relativeIndex = i;
+				break;
+			}
+		}
+		
+		IAggregateFunction iafa = PluginSettings.instance( )
+				.getAggregateFunction( aggregationExp[relativeIndex] );
+		
+		if ( iafa == null )
+		{
+			iafa = PluginSettings.instance( ).getAggregateFunction( "Sum" ); //$NON-NLS-1$
+		}
+
+		// 2. Compute aggregation on specified expression.
+		List sortGroupsList = new ArrayList( );
+		for ( int i = 0; i <= iaGroupBreaks.length; i++ )
+		{
+
+			int startIndex = -1;
+			int endIndex = -1;
+			if ( i == 0 ) // First group.
+			{
+				startIndex = 0;
+				endIndex = iaGroupBreaks[i];
+			}
+			else if ( i == iaGroupBreaks.length ) // Last group.
+			{
+				startIndex = iaGroupBreaks[i - 1];
+				endIndex = workingResultSet.size( );
+			}
+			else
+			{
+				startIndex = iaGroupBreaks[i - 1];
+				endIndex = iaGroupBreaks[i];
+			}
+			Object[] sortValue = new Object[3];
+			sortValue[0] = new Integer( startIndex );
+			sortValue[1] = new Integer( endIndex );
+
+			// Initialize aggregation function.
+			iafa.initialize( );
+
+			for ( int j = startIndex; j < endIndex; j++ )
+			{
+				Object[] oaTuple = (Object[]) workingResultSet.get( j );
+				iafa.accumulate( oaTuple[ySortExprIndex] );
+			}
+			sortValue[2] = iafa.getAggregatedValue( );
+
+			sortGroupsList.add( sortValue );
+		}
+		
+		// 3. Sort by aggregation value.
+		new YGroupingSorter( ).sort( sortGroupsList, sdValue.getSorting( ) );
+
+		// 4. Reset row orders and group breaks.
+		List newResultSet = new ArrayList( );
+		int[] newGroupBreaks = new int[sortGroupsList.size( ) - 1];
+		int j = 0;
+		for ( Iterator iter = sortGroupsList.iterator( ); iter.hasNext( ); )
+		{
+			Object[] sortValue = (Object[]) iter.next( );
+			int startIndex = ( (Integer) sortValue[0] ).intValue( );
+			int endIndex = ( (Integer) sortValue[1] ).intValue( );
+			for ( int i = startIndex; i < endIndex; i++ )
+			{
+				newResultSet.add( workingResultSet.get( i ) );
+			}
+
+			if ( j < ( sortGroupsList.size( ) - 1 ) )
+			{
+				newGroupBreaks[j++] = newResultSet.size( );
+			}
+		}
+
+		workingResultSet.clear( );
+		workingResultSet.addAll( newResultSet );
+		iaGroupBreaks = newGroupBreaks;
+	}
+	
 	/**
 	 * Internally called to setup the structure of the resultset and initialize
 	 * any metadata associated with it

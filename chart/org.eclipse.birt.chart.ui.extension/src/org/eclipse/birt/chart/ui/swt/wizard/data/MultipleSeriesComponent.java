@@ -12,10 +12,7 @@
 package org.eclipse.birt.chart.ui.swt.wizard.data;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import org.eclipse.birt.chart.model.attribute.SortOption;
-import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
@@ -172,33 +169,12 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 					components.add( subUI );
 				}
 
-				// Set ascending if group is unsorted
-				if ( !sd.eIsSet( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) ) )
-				{
-					initSorting( );
-				}
 				return cmpGroup;
 			}
 
 		};
 		subUIGroupY.createArea( parent );
 		components.add( subUIGroupY );
-	}
-
-	/**
-	 * Set ascending for all series definitions
-	 * 
-	 */
-	private void initSorting( )
-	{
-		ChartAdapter.beginIgnoreNotifications( );
-		List sds = ChartUIUtil.getAllOrthogonalSeriesDefinitions( context.getModel( ) );
-		for ( int i = 0; i < sds.size( ); i++ )
-		{
-			SeriesDefinition sdf = (SeriesDefinition) sds.get( i );
-			sdf.setSorting( SortOption.ASCENDING_LITERAL );
-		}
-		ChartAdapter.endIgnoreNotifications( );
 	}
 
 	public void selectArea( boolean selected, Object data )
