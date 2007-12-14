@@ -115,6 +115,19 @@ class ParameterUtil
 
 				if ( paramValue != DataSetRuntime.UNSET_VALUE )
 				{
+					if ( paramHints[i].getDataType( ) == null ) //for AnyType parameter
+					{
+						if ( paramValue != null )
+						{
+							Class clazz = paramValue.getClass( );
+							paramHints[i].setDataType( clazz );
+						}
+						else
+						{
+							//AnyType parameter and the parameter value is null
+							paramHints[i].setDataType( String.class );
+						}
+					}
 					String paramValueStr = this.getParameterValueString( paramHints[i].getDataType( ),
 							paramValue );
 					paramHints[i].setDefaultInputValue( paramValueStr );
