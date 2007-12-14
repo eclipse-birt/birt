@@ -10,7 +10,7 @@ datasource.name=Base de données exemple Classic Models Inc.
 select.dataset.name=Requête de sélection SQL
 jdbc.driver.name=Pilote de la base de données exemple Classic Models Inc.
 #
-oda.data.source.name=BD exemple BIRT
+oda.data.source.name=Base de données exemple Classic Models Inc.
 connection.profile.name=Profil de connexion à la source de données de la BD exemple BIRT
 #
 #  Below NLS messages apply to all ODA data sources; should be re-factored

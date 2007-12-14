@@ -10,7 +10,7 @@ datasource.name=Classic Models Inc. 예제 데이터베이스
 select.dataset.name=SQL 쿼리 선택
 jdbc.driver.name=Classic Models Inc. 예제 데이터베이스 드라이버
 #
-oda.data.source.name=BIRT 예제 DB
+oda.data.source.name=Classic Models Inc. 예제 데이터베이스
 connection.profile.name=BIRT 예제 DB 데이터 원본 연결 프로필
 #
 #  Below NLS messages apply to all ODA data sources; should be re-factored

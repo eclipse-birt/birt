@@ -10,7 +10,7 @@ datasource.name=Classic Models Inc. のサンプルデータベース
 select.dataset.name=SQL Select クエリ
 jdbc.driver.name=Classic Models Inc. SampleDB Driver
 #
-oda.data.source.name=BIRT サンプルデータベース
+oda.data.source.name=Classic Models Inc. のサンプルデータベース
 connection.profile.name=BIRT サンプルデータベースのデータソース接続プロファイル
 #
 #  Below NLS messages apply to all ODA data sources; should be re-factored

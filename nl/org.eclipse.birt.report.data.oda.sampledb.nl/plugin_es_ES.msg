@@ -10,7 +10,7 @@ datasource.name=Base de datos de muestra Classic Models Inc.
 select.dataset.name=Consulta de selección de SQL
 jdbc.driver.name=Controlador de bases de datos de muestra Classic Models Inc.
 #
-oda.data.source.name=Base de datos de muestra BIRT
+oda.data.source.name=Base de datos de muestra Classic Models Inc.
 connection.profile.name=Perfil de conexión de fuente de datos de base de datos de muestra BIRT
 #
 #  Below NLS messages apply to all ODA data sources; should be re-factored
