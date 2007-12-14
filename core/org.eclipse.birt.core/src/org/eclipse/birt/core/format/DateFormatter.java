@@ -12,8 +12,11 @@
 package org.eclipse.birt.core.format;
 
 import java.text.ParseException;
+import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -47,11 +50,11 @@ public class DateFormatter
 	 * Comment for <code>dateTimeFormat</code> used for two methods,
 	 * createDateFormat() and format()
 	 */
-	private com.ibm.icu.text.DateFormat dateTimeFormat;
+	com.ibm.icu.text.DateFormat dateTimeFormat;
 
-	private com.ibm.icu.text.DateFormat timeFormat;
+	com.ibm.icu.text.DateFormat timeFormat;
 
-	private com.ibm.icu.text.DateFormat dateFormat;
+	com.ibm.icu.text.DateFormat dateFormat;
 	/**
 	 * Comment for <code>locale</code> used for record Locale information
 	 */
@@ -61,6 +64,59 @@ public class DateFormatter
 	 * logger used to log syntax errors.
 	 */
 	static protected Logger logger = Logger.getLogger( DateFormatter.class.getName( ) );
+	
+	static protected final int LOCALE_CACHE_SIZE = 10;
+	
+	static protected final int PATTERN_CACHE_SIZE = 20;
+
+	static CacheHashMap localeCache = new CacheHashMap( LOCALE_CACHE_SIZE );
+
+	static class CacheHashMap extends LinkedHashMap
+	{
+
+		private static final long serialVersionUID = -2740310231997296948L;
+		int maxEntry;
+
+		public CacheHashMap( int maxEntry )
+		{
+			super( maxEntry, 0.75f, true );
+			this.maxEntry = maxEntry;
+		}
+
+		protected boolean removeEldestEntry( Map.Entry eldest )
+		{
+			return size( ) > maxEntry;
+		}
+	}
+	
+	
+	
+	static protected synchronized void putCachedFormat( ULocale locale, String pattern,
+			com.ibm.icu.text.DateFormat[] formats )
+	{
+		Map map = (Map) localeCache.get( locale );
+		if ( map == null )
+		{
+			map = new CacheHashMap(PATTERN_CACHE_SIZE);
+			localeCache.put( locale, map );
+		}
+		map.put( pattern, formats );
+	}
+	
+	static protected synchronized com.ibm.icu.text.DateFormat[] getCachedFormat(
+			ULocale locale, String pattern )
+	{
+		Map map = (Map) localeCache.get( locale );
+		if ( map == null )
+		{
+			if ( map == null )
+			{
+				map = new CacheHashMap(PATTERN_CACHE_SIZE);
+				localeCache.put( locale, map );
+			}
+		}
+		return (com.ibm.icu.text.DateFormat[]) map.get( pattern );
+	}
 
 	/**
 	 * constuctor method with no paremeter
@@ -135,6 +191,9 @@ public class DateFormatter
 	{
 		return this.formatPattern;
 	}
+	
+	
+	
 
 	/**
 	 * define pattern and locale here
@@ -143,20 +202,45 @@ public class DateFormatter
 	 */
 	public void applyPattern( String formatString )
 	{
+		this.formatPattern = formatString;
+		this.dateTimeFormat = null;
+		this.dateFormat = null;
+		this.timeFormat = null;
+
+		if ( formatString == null || UNFORMATTED.equals( formatString ) )
+		{
+			formatPattern = UNFORMATTED;
+		}
+	
+		com.ibm.icu.text.DateFormat[] formats = getCachedFormat( locale, formatString );
+		if (formats != null)
+		{
+			this.dateTimeFormat = formats[0];
+			this.dateFormat = formats[1];
+			this.timeFormat = formats[2];
+		}
+		else
+		{
+			doApplyPattern( formatPattern);
+			formats = new com.ibm.icu.text.DateFormat[3];
+			formats[0] = this.dateTimeFormat;
+			formats[1] = this.dateFormat;
+			formats[2] = this.timeFormat;
+			putCachedFormat(locale, formatString, formats);
+		}
+		return;
+	}
+	
+	protected void doApplyPattern( String formatString )
+	{
 		try
 		{
-			this.formatPattern = formatString;
-			this.dateTimeFormat = null;
-			this.dateFormat = null;
-			this.timeFormat = null;
-
 			/*
 			 * we can seperate these single name-based patterns form those
 			 * patterns with multinumber letters
 			 */
-			if ( formatString == null || UNFORMATTED.equals( formatString ) )
+			if ( UNFORMATTED == formatString )
 			{
-				formatPattern = UNFORMATTED;
 				dateTimeFormat = com.ibm.icu.text.DateFormat
 						.getDateTimeInstance(
 								com.ibm.icu.text.DateFormat.MEDIUM,
