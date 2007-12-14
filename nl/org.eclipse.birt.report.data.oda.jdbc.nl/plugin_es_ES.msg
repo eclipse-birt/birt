@@ -18,7 +18,7 @@ oda.parent.category.id=org.eclipse.datatools.connectivity.oda.profileCategory
 # NLS String
 ###############################################################################
 datasource.name=Fuente de datos JDBC
-oda.data.source.name=Fuente de datos JDBC BIRT
+oda.data.source.name=Fuente de datos JDBC
 connection.profile.name=Perfil de conexión de fuente de datos JDBC BIRT
 
 datasource.property.odaDriverClass=&Clase del controlador JDBC
