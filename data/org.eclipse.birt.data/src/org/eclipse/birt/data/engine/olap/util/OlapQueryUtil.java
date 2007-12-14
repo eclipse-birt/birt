@@ -25,9 +25,7 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
-import org.eclipse.birt.data.engine.script.ScriptConstants;
 
 /**
  * 
@@ -46,13 +44,7 @@ public class OlapQueryUtil
 	public static List validateBinding( ICubeQueryDefinition queryDefn, boolean suppressException ) throws DataException
 	{
 		List result = new ArrayList();
-		Set validMeasures = new HashSet();
-		for( int i = 0; i < queryDefn.getMeasures( ).size( ); i++ )
-		{
-			IMeasureDefinition measure = (IMeasureDefinition) queryDefn.getMeasures( ).get( i );
-			validMeasures.add( measure.getName( ) );
-		}
-		
+			
 		Set validDimLevels = new HashSet();
 
 		populateLevel( queryDefn, validDimLevels, ICubeQueryDefinition.COLUMN_EDGE );
@@ -84,16 +76,6 @@ public class OlapQueryUtil
 						binding.getBindingName( ) );
 			}
 			
-			String measureName = OlapExpressionCompiler.getReferencedScriptObject( binding.getExpression( ),
-					ScriptConstants.MEASURE_SCRIPTABLE );
-			if ( measureName != null && !validMeasures.contains( measureName ) )
-			{
-				isValid = false;
-				if( !suppressException )
-				throw new DataException( ResourceConstants.INVALID_BINDING_REFER_TO_INEXIST_MEASURE,
-						binding.getBindingName( ) );
-			}
-
 			if ( ( binding.getAggregatOns( ).size( ) > 0
 					&& binding.getAggrFunction( ) == null ) )
 			{

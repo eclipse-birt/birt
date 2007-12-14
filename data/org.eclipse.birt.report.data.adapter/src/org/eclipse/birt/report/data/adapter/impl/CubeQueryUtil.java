@@ -88,27 +88,25 @@ public class CubeQueryUtil implements ICubeQueryUtil
 				if ( !refDimLevel.contains( target ) )
 				{
 					List aggrOns = binding.getAggregatOns( );
-					if( aggrOns.size( ) == 0 )
+					if ( isGrandTotal( binding ) && isSort )
+						continue;
+					if ( this.getReferencedMeasureName( binding.getExpression( ) ) != null )
 					{
-						if ( isGrandTotal( binding ) && isSort )
-							continue;
-						if ( this.getReferencedMeasureName( binding.getExpression( ) ) != null )
+						if ( this.isLeafLevel( cubeDefn, target )
+								&& this.isMeasureBinding( cubeDefn, binding ) )
 						{
-							if ( this.isLeafLevel( cubeDefn, target )
-									&& binding.getAggrFunction( ) == null )
-							{
-								result.add( new BindingMetaInfo( binding.getBindingName( ),
-										IBindingMetaInfo.MEASURE_TYPE ) );
-								continue;
-							}
-							else if ( isGrandTotal( binding ) )
-							{
-								result.add( new BindingMetaInfo( binding.getBindingName( ),
-										IBindingMetaInfo.GRAND_TOTAL_TYPE ) );
-								continue;
-							}
+							result.add( new BindingMetaInfo( binding.getBindingName( ),
+									IBindingMetaInfo.MEASURE_TYPE ) );
+							continue;
+						}
+						else if ( isGrandTotal( binding ) )
+						{
+							result.add( new BindingMetaInfo( binding.getBindingName( ),
+									IBindingMetaInfo.GRAND_TOTAL_TYPE ) );
+							continue;
 						}
 					}
+					
 					for ( int j = 0; j < aggrOns.size( ); j++ )
 					{
 						DimLevel dimLevel = OlapExpressionUtil.getTargetDimLevel( aggrOns.get( j )
@@ -157,6 +155,55 @@ public class CubeQueryUtil implements ICubeQueryUtil
 		}
 	}
 
+	/**
+	 * 
+	 * @param queryDefn
+	 * @param binding
+	 * @return
+	 * @throws DataException
+	 */
+	private boolean isMeasureBinding( ICubeQueryDefinition queryDefn,
+			IBinding binding ) throws DataException
+	{
+		if ( binding.getAggrFunction( ) == null )
+			return true;
+		else
+		{
+
+			List aggrs = binding.getAggregatOns( );
+
+			int coveredLeafLevel = 0;
+			for ( int i = 0; i < aggrs.size( ); i++ )
+			{
+				DimLevel dimLevel = OlapExpressionUtil.getTargetDimLevel( aggrs.get( i )
+						.toString( ) );
+				if ( this.isLeafLevel( queryDefn, dimLevel ) )
+				{
+					coveredLeafLevel++;
+				}
+			}
+
+			if ( coveredLeafLevel != this.getEdgeNumber( queryDefn ) )
+				return false;
+			return true;
+		}
+	}
+	
+	/**
+	 * 
+	 * @param cubeQuery
+	 * @return
+	 */
+	private int getEdgeNumber( ICubeQueryDefinition cubeQuery )  
+	{
+		int edgeNumber = 0;
+		if ( cubeQuery.getEdge( ICubeQueryDefinition.COLUMN_EDGE ) != null )
+			edgeNumber++;
+		if ( cubeQuery.getEdge( ICubeQueryDefinition.ROW_EDGE ) != null )
+			edgeNumber++;
+		return edgeNumber;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil#getReferableMeasureBindings(java.lang.String, org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition)
@@ -173,7 +220,7 @@ public class CubeQueryUtil implements ICubeQueryUtil
 			if ( measureName.equals( referencedMeasureName ) )
 			{
 				List aggrOns = binding.getAggregatOns( );
-				if ( aggrOns.size( ) == 0 && !isGrandTotal( binding ) )
+				if ( this.isMeasureBinding( cubeDefn, binding ))
 				{
 					result.add( new BindingMetaInfo( binding.getBindingName( ),
 							IBindingMetaInfo.MEASURE_TYPE ) );
@@ -203,7 +250,7 @@ public class CubeQueryUtil implements ICubeQueryUtil
 	 */
 	private boolean isGrandTotal( IBinding binding ) throws DataException
 	{
-		return binding.getAggrFunction( ) != null;
+		return binding.getAggregatOns( ).size( ) == 0;
 	}
 
 	/**
