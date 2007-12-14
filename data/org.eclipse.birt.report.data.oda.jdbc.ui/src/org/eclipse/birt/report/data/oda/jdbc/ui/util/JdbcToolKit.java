@@ -62,14 +62,24 @@ public class JdbcToolKit
 	  */
 	public static void getJdbcDriverFromFile( List fileList )
 	{
-		if ( !failLoadFileList.isEmpty( ) )
+		if ( failLoadFileList != null )
 		{
-			for( int i = 0; i < failLoadFileList.size( ); i++ )
+			boolean duplicated;
+			for ( int i = 0; i < failLoadFileList.size( ); i++ )
 			{
-				if( !fileList.contains( failLoadFileList.get( i ) ) )
+				duplicated = false;
+				File failToLoadFile = (File) failLoadFileList.get( i );
+				for ( int j = 0; j < fileList.size( ); j++ )
 				{
-					fileList.add( failLoadFileList.get( i ) );
+					if ( failToLoadFile.getName( )
+							.equals( ( (File) fileList.get( j ) ).getName( ) ) )
+					{
+						duplicated = true;
+						break;
+					}
 				}
+				if ( !duplicated )
+					fileList.add( failToLoadFile );
 			}
 		}
 		URLClassLoader urlClassLoader = createClassLoader( fileList );
