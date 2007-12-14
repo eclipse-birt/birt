@@ -1156,15 +1156,26 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 		{			
 			var target = Event.element( event );
 						
-			// Focus on INPUT(exclude 'button' type) and SELECT controls
-			if( (target.tagName == "INPUT" && target.type != "button" ) 
-					|| target.tagName == "SELECT")
-			{
-				// blur the focus to force the onchange/onselect events
-				target.blur();
-				// defer okPress to let those events run first
-				window.setTimeout( this.__okPress.bindAsEventListener(this), 0 );				
+			// Focus on INPUT and SELECT controls
+			if ( target.tagName == "INPUT" || target.tagName == "SELECT" )
+			{			
+				// (exclude 'button' type for non-Safari browsers)
+				if ( target.type != "button" )
+				{
+					// blur the focus to force the onchange/onselect events
+					target.blur();
+					// defer okPress to let those events run first
+					window.setTimeout( this.__okPress.bindAsEventListener(this), 0 );				
+				}
+				// Safari needs explicit click
+				else if ( BrowserUtility.isSafari || BrowserUtility.isKHTML )
+				{
+					target.click();
+					// prevent browser "beep"
+					Event.stop( event );					
+				}
 			}
+
 		}
 		// in IE, when a key is pressed on a select box, cancel the onchange event 
 		else if ( BrowserUtility.isIE && event.keyCode != 9 && Event.element( event ).tagName == "SELECT" )
