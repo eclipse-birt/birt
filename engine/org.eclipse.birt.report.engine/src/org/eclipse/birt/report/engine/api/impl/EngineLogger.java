@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.api.impl;
 
 import java.io.IOException;
+import java.io.File;
 import java.util.Date;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
@@ -216,6 +217,19 @@ public class EngineLogger
 	{
 		try
 		{
+			File directory = new File( dirName );
+			if ( !directory.exists( ) )
+			{
+				if ( !directory.mkdirs( ) )
+					throw new IOException( "logDir \"" + dirName
+							+ "\" doesn't exist and  be created" );
+			}
+			else
+			{
+				if ( directory.isFile( ) )
+					throw new IOException( "logDir \"" + dirName
+							+ "\" should be a folder instead of a file" );
+			}
 			Handler logFileHandler = new FileHandler(
 					generateUniqueLogFileName( dirName ), true );
 			// In BIRT log, we should always use the simple format.
