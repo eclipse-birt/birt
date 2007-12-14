@@ -50,7 +50,10 @@ import com.ibm.icu.util.ULocale;
  */
 public class JDBCDriverManager
 {    
-    public static final String JDBC_USER_PROP_NAME = "user"; //$NON-NLS-1$
+    private static final int MAX_WORD_LENGTH = 20;
+	private static final int MAX_MSG_LENGTH = 300;
+	
+	public static final String JDBC_USER_PROP_NAME = "user"; //$NON-NLS-1$
     public static final String JDBC_PASSWORD_PROP_NAME = "password"; //$NON-NLS-1$
     public static final String DRIVER_REGISTERED = "registered";
     public static final String DRIVER_DEREGISTERED = "deregistered";
@@ -196,12 +199,48 @@ public class JDBCDriverManager
 		{
 			return DriverManager.getConnection( url, connectionProperties );
 		}
-		catch ( RuntimeException e )
+		catch ( Exception e )
 		{
 			throw new JDBCException( ResourceConstants.CONN_GET_ERROR,
 					null,
-					e.getMessage( ) );
+					truncate( e.getLocalizedMessage( ) ) );
 		}
+	}
+
+    /**
+     * 
+     * @param message
+     * @return
+     */
+	private String truncate( String message )
+	{
+		if ( message == null )
+			return null;
+		if ( message.length( ) > MAX_MSG_LENGTH )
+		{
+			int maxLength = MAX_MSG_LENGTH + MAX_WORD_LENGTH;
+			if ( maxLength > message.length( ) )
+			{
+				maxLength = message.length( );
+			}
+			boolean findBoundary = false;
+			int i = MAX_MSG_LENGTH;
+			for ( ; !findBoundary && i < maxLength; i++ )
+			{
+				char c = message.charAt( i );
+				switch ( c )
+				{
+					case ' ' : findBoundary = true; break;
+					case '\t': findBoundary = true; break;
+					case '.' : findBoundary = true; break;
+					case ',' : findBoundary = true; break;
+					case ':' : findBoundary = true; break;
+					case ';' : findBoundary = true; break;
+				}
+			}
+			message = message.substring( 0, i ) + " ...";
+		}
+		return message;
 	}
 
     /**
