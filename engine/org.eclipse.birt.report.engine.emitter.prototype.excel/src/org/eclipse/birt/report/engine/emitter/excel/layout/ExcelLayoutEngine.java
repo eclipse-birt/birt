@@ -2,29 +2,23 @@
 package org.eclipse.birt.report.engine.emitter.excel.layout;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import org.eclipse.birt.core.format.DateFormatter;
-import org.eclipse.birt.core.format.NumberFormatter;
-import org.eclipse.birt.core.format.StringFormatter;
+import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.emitter.excel.Data;
 import org.eclipse.birt.report.engine.emitter.excel.DataCache;
+import org.eclipse.birt.report.engine.emitter.excel.ExcelUtil;
 import org.eclipse.birt.report.engine.emitter.excel.HyperlinkDef;
 import org.eclipse.birt.report.engine.emitter.excel.Span;
 import org.eclipse.birt.report.engine.emitter.excel.StyleConstant;
 import org.eclipse.birt.report.engine.emitter.excel.StyleEngine;
 import org.eclipse.birt.report.engine.emitter.excel.StyleEntry;
-import org.eclipse.birt.report.engine.emitter.excel.ExcelUtil;
-import org.w3c.dom.css.CSSValue;
-import org.eclipse.birt.report.engine.content.IDataContent;
-import org.eclipse.birt.report.engine.ir.DataItemDesign;
+import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 
 public class ExcelLayoutEngine
 {
@@ -268,16 +262,20 @@ public class ExcelLayoutEngine
 			IDataContent dataContent = (IDataContent) txt;
 			Object value = dataContent.getValue( );
 			String text = dataContent.getText( );
-			
-			
-			if ( ( (DataItemDesign) dataContent.getGenerateBy( ) ).getMap( ) != null
-					&& ( (DataItemDesign) dataContent.getGenerateBy( ) )
-							.getMap( ).getRuleCount( ) > 0 )
+			Object genBy = dataContent.getGenerateBy( );
+			if ( genBy instanceof ReportItemDesign )
 			{
-				entry.setProperty( StyleConstant.DATA_TYPE_PROP, Data.STRING );
-				return new Data( text.trim(), entry, Data.STRING );
+				ReportItemDesign genDesign = (ReportItemDesign) genBy;
+				if ( genDesign.getMap( ) != null
+						&& genDesign.getMap( ).getRuleCount( ) > 0 )
+				{
+					entry.setProperty( StyleConstant.DATA_TYPE_PROP,
+							Data.STRING );
+					return new Data( text.trim( ), entry, Data.STRING );
+				}
 			}
-			else if ( ExcelUtil.getType( value ).equals( Data.NUMBER ) )
+		
+			if ( ExcelUtil.getType( value ).equals( Data.NUMBER ) )
 			{
 
 				String format = ExcelUtil.getPattern( value, entry
