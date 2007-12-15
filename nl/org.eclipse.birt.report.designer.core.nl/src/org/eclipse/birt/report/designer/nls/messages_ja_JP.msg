@@ -1713,7 +1713,7 @@ HyperlinkBuilder.DrillThroughStep1=手順 1 : ターゲットレポートの選択
 HyperlinkBuilder.DrillThroughStep2=手順 2 : ターゲットアンカーの選択 
 HyperlinkBuilder.DrillThroughStep3=手順 3 : ターゲットのブックマークに一致するリンク式の作成
 HyperlinkBuilder.DrillThroughStep4=手順 4 : ターゲットのレポートの表示 
-HyperlinkBuilder.DrillThroughStep5=手順 5 : ターゲットレポートの書式設定
+HyperlinkBuilder.DrillThroughStep5=手順 5 : ターゲットレポートの形式設定
 HyperlinkBuilder.ParameterRequired=必須
 HyperlinkBuilder.Column.Values=値
 HyperlinkBuilder.DialogTitle=ハイパーリンクのオプション
@@ -1744,7 +1744,7 @@ HyperlinkBuilder.BrowseForFile=ファイルの参照
 HyperlinkBuilder.OpenExpression=式ビルダを開く
 HyperlinkBuilder.FileNameError.Title=エラー
 HyperlinkBuilder.FileNameError.Message=選択したファイルは無効です。
-HyperlinkBuilder.TargetReportFormat=ターゲットレポートの書式設定(&F) :
+HyperlinkBuilder.TargetReportFormat=ターゲットレポートの形式設定(&F) :
 
 ###########################################################
 #HyperLinkPage properties
