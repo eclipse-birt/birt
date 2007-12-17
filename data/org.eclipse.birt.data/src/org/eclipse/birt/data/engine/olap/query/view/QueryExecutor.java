@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.data.engine.olap.query.view;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -162,6 +163,11 @@ public class QueryExecutor
 			if ( executor.getCubeQueryDefinition( ).cacheQueryResults( ) )
 			{
 				id = QueryResultIDUtil.nextID( );
+				File tmpDir = new File( executor.getSession( ).getTempDir( ) );
+				if (!tmpDir.exists( ) || !tmpDir.isDirectory( ))
+				{
+					tmpDir.mkdirs( );
+				}
 				FileArchiveWriter writer = new FileArchiveWriter( executor.getSession( ).getTempDir( ) + "Cache");
 				AggregationResultSetSaveUtil.save( id,
 						rs,
