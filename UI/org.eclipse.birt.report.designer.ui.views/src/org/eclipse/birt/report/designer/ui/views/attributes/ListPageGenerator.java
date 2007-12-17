@@ -33,6 +33,7 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class ListPageGenerator extends AbstractPageGenerator
 {
+
 	protected FormPage sortingPage;
 	protected FormPage filterPage;
 	protected FormPage groupPage;
@@ -127,11 +128,11 @@ public class ListPageGenerator extends AbstractPageGenerator
 	protected void createTabItems( )
 	{
 		createTabItem( BINDINGTITLE, ATTRIBUTESTITLE );
-		createTabItem( SORTINGTITLE, BINDINGTITLE );
-		createTabItem( GROUPSSTITLE, SORTINGTITLE );
+		createTabItem( GROUPSSTITLE, BINDINGTITLE );
 		createTabItem( MAPTITLE, GROUPSSTITLE );
 		createTabItem( HIGHLIGHTSTITLE, MAPTITLE );
-		createTabItem( FILTERTITLE, HIGHLIGHTSTITLE );
+		createTabItem( SORTINGTITLE, HIGHLIGHTSTITLE );
+		createTabItem( FILTERTITLE, SORTINGTITLE );
 	}
 
 	public void createControl( Composite parent, Object input )

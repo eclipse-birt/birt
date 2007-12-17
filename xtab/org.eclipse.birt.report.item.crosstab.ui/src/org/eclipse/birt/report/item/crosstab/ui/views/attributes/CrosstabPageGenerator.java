@@ -118,7 +118,7 @@ public class CrosstabPageGenerator extends AbstractPageGenerator
 			{
 				highlightsPage = new PreviewPage( true );
 				highlightsPage.setPreview( new HighlightPropertyDescriptor( true ) );
-				highlightsPage.setProvider( new CrosstabHighlightDescriptorProvider( HighlightHandleProvider.EXPRESSION_TYPE_DATA) );
+				highlightsPage.setProvider( new CrosstabHighlightDescriptorProvider( HighlightHandleProvider.EXPRESSION_TYPE_DATA ) );
 				setPageInput( highlightsPage );
 				refresh( tabFolder, highlightsPage, true );
 				item.setControl( highlightsPage.getControl( ) );
@@ -149,10 +149,11 @@ public class CrosstabPageGenerator extends AbstractPageGenerator
 		createTabItem( BINDINGTITLE, ATTRIBUTESTITLE );
 		createTabItem( ROWAREATITLE, BINDINGTITLE );
 		createTabItem( COLUMNAREATITLE, ROWAREATITLE );
-		createTabItem( FILTERTITLE, COLUMNAREATITLE );
-		createTabItem( SORTINGTITLE, FILTERTITLE );
-		createTabItem( MAPTITLE, SORTINGTITLE );
+		createTabItem( MAPTITLE, COLUMNAREATITLE );
 		createTabItem( HIGHLIGHTSTITLE, MAPTITLE );
+		createTabItem( SORTINGTITLE, HIGHLIGHTSTITLE );
+		createTabItem( FILTERTITLE, SORTINGTITLE );
+
 	}
 
 	public void createControl( Composite parent, Object input )
