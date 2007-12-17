@@ -22,7 +22,7 @@ public class MarginsPropertyDescriptorProvider extends
 	public MarginsPropertyDescriptorProvider( String property, String element )
 	{
 		super( property, element );
-		choiceSet = ChoiceSetFactory.getElementChoiceSet( element,property );
+		choiceSet = ChoiceSetFactory.getDimensionChoiceSet( element,property );
 	}
 	
 	
