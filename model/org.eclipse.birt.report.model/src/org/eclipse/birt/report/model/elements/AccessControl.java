@@ -83,11 +83,7 @@ public class AccessControl extends ContentElement
 
 	public AccessControlHandle handle( Module module )
 	{
-		if ( handle == null )
-		{
-			handle = new AccessControlHandle( module, this );
-		}
-		return (AccessControlHandle) handle;
+		return new AccessControlHandle( module, this );
 	}
 
 	/*

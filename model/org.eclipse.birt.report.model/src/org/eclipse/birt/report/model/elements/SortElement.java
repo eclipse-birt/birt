@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.elements;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.SortElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 
 /**
@@ -64,11 +63,7 @@ public class SortElement extends ContentElement
 
 	public SortElementHandle handle( Module module )
 	{
-		if ( handle == null )
-		{
-			handle = new SortElementHandle( module, this );
-		}
-		return (SortElementHandle) handle;
+		return new SortElementHandle( module, this );
 	}
 
 	/*

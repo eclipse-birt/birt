@@ -737,6 +737,11 @@ public abstract class ReportElementState extends DesignParseState
 			if ( !handler.unhandleIDElements.contains( getElement( ) ) )
 				handler.unhandleIDElements.add( getElement( ) );
 		}
+		
+		// creates handles so that to make sure Model API is read-only safe in
+		// multiple threads.
+		
+		getElement( ).getHandle( handler.module );
 	}
 
 }

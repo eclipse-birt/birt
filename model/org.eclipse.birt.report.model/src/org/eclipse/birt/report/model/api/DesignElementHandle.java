@@ -114,7 +114,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	/**
 	 * Property handle for element type properties.
 	 */
-	private Map propHandles = null;
+	private Map propHandles = new HashMap( );
 
 	/**
 	 * Constructs a handle with the given module.
@@ -126,6 +126,49 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	public DesignElementHandle( Module module )
 	{
 		this.module = module;
+	}
+
+	/**
+	 * Constructs slot handles in the constructor to make sure that getMumble()
+	 * methods won't construct any new instance.
+	 */
+
+	final protected void initializeSlotHandles( )
+	{
+		int slotCount = getDefn( ).getSlotCount( );
+
+		if ( slotCount == 0 )
+		{
+			return;
+		}
+
+		if ( slotHandles == null )
+		{
+			slotHandles = new SlotHandle[slotCount];
+			for ( int i = 0; i < slotCount; i++ )
+			{
+				slotHandles[i] = new SlotHandle( this, i );
+			}
+		}
+	}
+
+	/**
+	 * Constructs slot handles in the constructor to make sure that getMumble()
+	 * methods won't construct any new instance.
+	 */
+
+	final protected void cachePropertyHandles( )
+	{
+		List contents = getDefn( ).getContents( );
+		for ( int i = 0; i < contents.size( ); i++ )
+		{
+			ElementPropertyDefn propDefn = (ElementPropertyDefn) contents
+					.get( i );
+			assert propDefn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE;
+
+			PropertyHandle pHandle = new PropertyHandle( this, propDefn );
+			propHandles.put( propDefn.getName( ), pHandle );
+		}
 	}
 
 	/**
@@ -1092,19 +1135,13 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( propDefn == null )
 			return null;
 
-		// cache all element type property handles
+		// get cached values.
+
 		if ( propDefn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
 		{
-			if ( propHandles == null )
-				propHandles = new HashMap( );
-			if ( propHandles.get( propDefn.getName( ) ) != null )
-				return (PropertyHandle) propHandles.get( propDefn.getName( ) );
-
-			PropertyHandle pHandle = new PropertyHandle( this, propDefn );
-			this.propHandles.put( propDefn.getName( ), pHandle );
-			return pHandle;
-
+			return (PropertyHandle) propHandles.get( propName );
 		}
+
 		return new PropertyHandle( this, propDefn );
 	}
 
@@ -1347,25 +1384,9 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	{
 		int slotCount = getDefn( ).getSlotCount( );
 
-		if ( slotCount == 0 )
+		if ( slotID < 0 || slotID >= slotCount )
 		{
 			return null;
-		}
-
-		assert 0 <= slotID && slotID < slotCount;
-
-		if ( slotHandles == null )
-		{
-			slotHandles = new SlotHandle[slotCount];
-			for ( int i = 0; i < slotCount; i++ )
-			{
-				slotHandles[i] = null;
-			}
-		}
-
-		if ( slotHandles[slotID] == null )
-		{
-			slotHandles[slotID] = new SlotHandle( this, slotID );
 		}
 
 		return slotHandles[slotID];
@@ -1511,9 +1532,9 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public String getDisplayLabel( int level )
 	{
-		assert level == IDesignElementModel.USER_LABEL
-				|| level == IDesignElementModel.SHORT_LABEL
-				|| level == IDesignElementModel.FULL_LABEL;
+		assert level == IDesignElementModel.USER_LABEL ||
+				level == IDesignElementModel.SHORT_LABEL ||
+				level == IDesignElementModel.FULL_LABEL;
 
 		return getElement( ).getDisplayLabel( module, level );
 	}
@@ -1669,8 +1690,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			return;
 		}
 
-		if ( IDesignElementModel.NAME_PROP.equals( propName )
-				|| IDesignElementModel.EXTENDS_PROP.equals( propName ) )
+		if ( IDesignElementModel.NAME_PROP.equals( propName ) ||
+				IDesignElementModel.EXTENDS_PROP.equals( propName ) )
 		{
 			throw new SemanticError( getElement( ), new String[]{propName},
 					SemanticError.DESIGN_EXCEPTION_PROPERTY_COPY_FORBIDDEN );
