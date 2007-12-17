@@ -2312,6 +2312,7 @@ Element.DataSet.filter=Filter
 Element.DataSet.columnHints=Spaltenhinweise
 Element.DataSet.cachedMetaData=Zwischengespeicherte Metadaten
 Element.DataSet.rowFetchLimit=Maximale Anzahl an Zeilen, die aus dem Datensatz abgerufen werden:
+Element.DataSet.needsCache=Needs cache for data-engine
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.dataSource=Datenquelle

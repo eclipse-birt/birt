@@ -2312,6 +2312,7 @@ Element.DataSet.filter=フィルタ
 Element.DataSet.columnHints=カラムのヒント
 Element.DataSet.cachedMetaData=キャッシュされたメタデータ
 Element.DataSet.rowFetchLimit=データセットからフェッチする最大行数
+Element.DataSet.needsCache=Needs cache for data-engine
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.dataSource=データソース

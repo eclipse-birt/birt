@@ -2312,6 +2312,7 @@ Element.DataSet.filter=필터
 Element.DataSet.columnHints=열 힌트
 Element.DataSet.cachedMetaData=캐시된 메타데이터
 Element.DataSet.rowFetchLimit=데이터 집합에서 인출할 최대 행 수
+Element.DataSet.needsCache=Needs cache for data-engine
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.dataSource=데이터 원본

@@ -2312,6 +2312,7 @@ Element.DataSet.filter=筛选
 Element.DataSet.columnHints=列提示
 Element.DataSet.cachedMetaData=缓存元数据
 Element.DataSet.rowFetchLimit=从数据集提取的最大行数
+Element.DataSet.needsCache=Needs cache for data-engine
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.dataSource=数据源

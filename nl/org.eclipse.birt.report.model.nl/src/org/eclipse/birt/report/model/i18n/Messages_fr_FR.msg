@@ -2312,6 +2312,7 @@ Element.DataSet.filter=Filtre
 Element.DataSet.columnHints=Astuces de colonne
 Element.DataSet.cachedMetaData=Métadonnées en cache
 Element.DataSet.rowFetchLimit=Nombre maximum de lignes à récupérer à partir du jeu de données
+Element.DataSet.needsCache=Needs cache for data-engine
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.dataSource=Source de données
