@@ -25,7 +25,11 @@ public interface IConstants
 
 	public final int LINE_EXPAND_DOUBLE_SIZE = 4;
 
-	public final int TICK_SIZE = 5;
+	// The old size was 5, but was used without dpi consideration (so as in 72 dpi)
+	// When the dpi issue was fixed, charts in 96dpi had bigger ticks than before, 
+	// So the size has been adjusted to a 72/96 ratio.
+	public final double TICK_SIZE = 3.75;
+	
 
 	public final int TICK_SIDE1 = 1;
 
