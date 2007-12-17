@@ -55,8 +55,8 @@ plugin@com.lowagie.itext=r22x_v20071109,:pserver:anonymous@dev.eclipse.org:/cvsr
 feature@org.apache.derby.core=v20070531,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.apache.derby.core.feature 
 plugin@org.apache.derby.core=v20070710,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.apache.derby.core
 
-feature@org.mozilla.rhino=r22x_v20071023,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.mozilla.rhino.feature 
-plugin@org.mozilla.rhino=r22x_v20071023,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.mozilla.rhino
+feature@org.mozilla.rhino=r22x_v20071217,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.mozilla.rhino.feature 
+plugin@org.mozilla.rhino=r22x_v20071217,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.mozilla.rhino
 
 feature@org.w3c.sac=v20070406,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.w3c.sac.feature 
 plugin@org.w3c.sac=v20070710,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.w3c.sac
