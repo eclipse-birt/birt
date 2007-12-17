@@ -67,7 +67,7 @@ class SortDataProvider
 
 		tempDir = new File( tempDirStr );
 		if ( tempDir.exists( ) == false )
-			tempDir.mkdir( );
+			tempDir.mkdirs( );
 		this.tempDirStr = tempDirStr;
 
 		goalFile = new File( goalFileStr );

@@ -61,14 +61,9 @@ public class DataEngineSession
 		
 		Context.exit( );
 		
-		tempDir = engine.getContext( ).getTmpdir( ) +  "DataEngine_" + engine.hashCode( );
-		File f = new File(tempDir);
-		if (!f.exists( ) || !f.isDirectory( ))
-		{
-			f.mkdir( );
-		}
-		tempDir += File.separator;
-		
+		tempDir = engine.getContext( ).getTmpdir( ) +
+				"DataEngine_" + engine.hashCode( ) + File.separator;
+
 		this.dataSetCacheManager = new DataSetCacheManager( tempDir, engine );
 		logger.exiting( DataEngineSession.class.getName( ), "DataEngineSession" );
 	}

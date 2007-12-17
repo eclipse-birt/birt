@@ -166,6 +166,11 @@ public class ResultIterator implements IResultIterator
 	 */
 	private void createCacheOutputStream( ) throws FileNotFoundException
 	{
+		File tmpDir = new File( resultService.getSession( ).getTempDir( ) );
+		if (!tmpDir.exists( ) || !tmpDir.isDirectory( ))
+		{
+			tmpDir.mkdirs( );
+		}
 		metaOutputStream = new BufferedOutputStream( new FileOutputStream( ResultSetCacheUtil.getMetaFile( resultService.getSession( ).getTempDir( ),
 				resultService.getQueryResults( ).getID( ) ) ),
 				1024 );

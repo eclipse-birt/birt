@@ -40,7 +40,7 @@ public class DirectoryDocumentManager implements IDocumentManager
 		File dir = new File( documentDir );
 		if(!dir.exists( )||!dir.isDirectory( ))
 		{
-			if ( !dir.mkdir( ) )
+			if ( !dir.mkdirs( ) )
 			{
 				throw new DataException( ResourceConstants.OLAPDIR_CREATE_FAIL,
 						documentDir );

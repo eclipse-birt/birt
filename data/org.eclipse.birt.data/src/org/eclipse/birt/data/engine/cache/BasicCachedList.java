@@ -276,7 +276,7 @@ public class BasicCachedList implements List
 		if ( dir == null )
 		{
 			dir = new File( tempDirStr );
-			dir.mkdir( );
+			dir.mkdirs( );
 		}
 
 		return new File( tempDirStr + File.separatorChar + cacheIndex + ".tmp" );

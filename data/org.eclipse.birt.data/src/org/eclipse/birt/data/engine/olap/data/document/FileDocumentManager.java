@@ -61,6 +61,11 @@ public class FileDocumentManager implements IDocumentManager, IObjectAllocTable
 			String managerName, int cacheSize ) throws DataException,
 			IOException
 	{
+		File tmpDir = new File( dirName );
+		if (!tmpDir.exists( ) || !tmpDir.isDirectory( ))
+		{
+			tmpDir.mkdirs( );
+		}
 		FileDocumentManager manager = new FileDocumentManager( cacheSize );
 		manager.create( dirName, managerName );
 		return manager;

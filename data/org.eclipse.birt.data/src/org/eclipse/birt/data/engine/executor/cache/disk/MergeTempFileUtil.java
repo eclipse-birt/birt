@@ -45,7 +45,7 @@ class MergeTempFileUtil
 
 		File tempDir = new File( tempDirStr );
 		if ( tempDir.exists( ) == false )
-			tempDir.mkdir( );
+			tempDir.mkdirs( );
 	}
 
 	/**

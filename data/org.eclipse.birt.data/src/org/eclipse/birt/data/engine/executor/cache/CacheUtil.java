@@ -114,7 +114,7 @@ public class CacheUtil
 				tempDtEDir = new File( tempDir, "BirtDataTemp"
 						+ System.currentTimeMillis( ) + cacheCounter1 + "_" + x );
 			}
-			tempDtEDir.mkdir( );
+			tempDtEDir.mkdirs( );
 			tempDtEDir.deleteOnExit( );
 		}
 		rootDirStr = getCanonicalPath( tempDtEDir );
@@ -142,7 +142,7 @@ public class CacheUtil
 			sessionFile = new File( sessionTempDir );
 
 			int i = 0;
-			while ( sessionFile.exists( ) || !sessionFile.mkdir( ) )
+			while ( sessionFile.exists( ) || !sessionFile.mkdirs( ) )
 			{
 				i++;
 				sessionTempDir = sessionTempDir + "_" + i;

@@ -29,6 +29,11 @@ class ResultSetCacheUtil
 	 */
 	static File getMetaFile( String tempDir, String id )
 	{
+		File tmpDir = new File( tempDir );
+		if (!tmpDir.exists( ) || !tmpDir.isDirectory( ))
+		{
+			tmpDir.mkdirs( );
+		}
 		File file = new File( tempDir
 				+ CACHED_FILE_PREFIX
 				+ id+"meta");
