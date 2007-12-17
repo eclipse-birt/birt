@@ -11,23 +11,58 @@
 
 package org.eclipse.birt.chart.ui.swt.interfaces;
 
+import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
 /**
- * 
+ * Data sheet integration interface for chart builder. Implement this UI
+ * interface to integrate chart builder with various data bindings.
  */
 
 public interface IChartDataSheet
 {
 
+	/**
+	 * Event type indicates outside update.
+	 */
 	int EVENT_UPDATE = 1;
 
+	/**
+	 * Sets chart model.
+	 * 
+	 * @param cm
+	 *            chart model
+	 */
+	void setChartModel( Chart cm );
+
+	/**
+	 * Creates data selector to select data set and etc.
+	 * 
+	 * @param parent
+	 *            parent composite
+	 * @return new composite
+	 */
 	Composite createDataSelector( Composite parent );
 
+	/**
+	 * Creates the UI which could be used as drag-and-drop source during data
+	 * binding.
+	 * 
+	 * @param parent
+	 *            parent composite
+	 * @return new composite
+	 */
 	Composite createDataDragSource( Composite parent );
 
+	/**
+	 * Creates the UI which includes buttons to trigger some actions.
+	 * 
+	 * @param parent
+	 *            parent composite
+	 * @return new composite
+	 */
 	Composite createActionButtons( Composite parent );
 
 	/**

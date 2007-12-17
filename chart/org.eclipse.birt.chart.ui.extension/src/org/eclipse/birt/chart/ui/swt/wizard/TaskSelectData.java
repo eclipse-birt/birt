@@ -135,6 +135,7 @@ public class TaskSelectData extends SimpleTask
 		ChartUIUtil.bindHelp( getControl( ),
 				ChartHelpContextIds.TASK_SELECT_DATA );
 
+		getDataSheet( ).setChartModel( getChartModel( ) );
 		getDataSheet( ).addListener( IChartDataSheet.EVENT_UPDATE, this );
 	}
 

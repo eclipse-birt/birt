@@ -151,8 +151,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			}
 			final ChartWizard chartBuilder = new ChartWizard( parentShell );
 			ReportDataServiceProvider dataProvider = new ReportDataServiceProvider( eih );
-			IChartDataSheet dataSheet = new StandardChartDataSheet( cmClone,
-					eih,
+			IChartDataSheet dataSheet = new StandardChartDataSheet( eih,
 					dataProvider );
 			final ChartWizardContext context = new ChartWizardContext( cmClone,
 					this,

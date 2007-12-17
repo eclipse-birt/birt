@@ -81,7 +81,6 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 
 	final private ExtendedItemHandle itemHandle;
 	final private ReportDataServiceProvider dataProvider;
-	final private Chart chart;
 
 	/**
 	 * The field indicates if any operation in this class cause some exception
@@ -102,10 +101,9 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 	private Button btnParameters = null;
 	private Button btnBinding = null;
 
-	public StandardChartDataSheet( Chart chart, ExtendedItemHandle itemHandle,
+	public StandardChartDataSheet( ExtendedItemHandle itemHandle,
 			ReportDataServiceProvider dataProvider )
 	{
-		this.chart = chart;
 		this.itemHandle = itemHandle;
 		this.dataProvider = dataProvider;
 	}
@@ -804,11 +802,6 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 			super( tablePreview.getCurrentColumnHeading( ) );
 			setEnabled( false );
 		}
-	}
-
-	Chart getChartModel( )
-	{
-		return this.chart;
 	}
 
 	ExtendedItemHandle getItemHandle( )

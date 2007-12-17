@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -29,6 +30,7 @@ public class DefaultChartDataSheet implements IChartDataSheet
 {
 
 	private List listeners = new ArrayList( 2 );
+	private Chart cm;
 
 	public void addListener( int eventType, Listener listener )
 	{
@@ -66,6 +68,17 @@ public class DefaultChartDataSheet implements IChartDataSheet
 	public void dispose( )
 	{
 		listeners.clear( );
+	}
+
+	public void setChartModel( Chart cm )
+	{
+		this.cm = cm;
+
+	}
+
+	protected Chart getChartModel( )
+	{
+		return this.cm;
 	}
 
 }
