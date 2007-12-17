@@ -493,7 +493,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public void setCachedRowCount( int count ) throws SemanticException
 	{
-		setDataSetRowLimit ( count );
+		setDataSetRowLimit( count );
 	}
 
 	/**
@@ -505,7 +505,7 @@ public abstract class DataSetHandle extends ReportElementHandle
 
 	public int getCachedRowCount( )
 	{
-		return getDataSetRowLimit();
+		return getDataSetRowLimit( );
 	}
 
 	/**
@@ -1026,4 +1026,32 @@ public abstract class DataSetHandle extends ReportElementHandle
 		PropertyHandle propHandle = getPropertyHandle( FILTER_PROP );
 		propHandle.removeItem( fc );
 	}
+
+	/**
+	 * Sets whether to do some cache when rendering the report.
+	 * 
+	 * @param needsCache
+	 *            true if needs do caching when rendering the report, otherwise
+	 *            false
+	 * 
+	 * @throws SemanticException
+	 */
+
+	public void setNeedsCache( boolean needsCache ) throws SemanticException
+	{
+		setProperty( NEEDS_CACHE_PROP, Boolean.valueOf( needsCache ) );
+	}
+
+	/**
+	 * Determines whether to do some cache when rendering the report.
+	 * 
+	 * @return true if needs do caching when rendering the report, otherwise
+	 *         false
+	 */
+
+	public boolean needsCache( )
+	{
+		return getBooleanProperty( NEEDS_CACHE_PROP );
+	}
+
 }

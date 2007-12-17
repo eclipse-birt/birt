@@ -2820,6 +2820,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		}
 
 		property( obj, IDataSetModel.ROW_FETCH_LIMIT_PROP );
+		property( obj, IDataSetModel.NEEDS_CACHE_PROP );
 	}
 
 	/*
@@ -2907,7 +2908,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		writeStructure( obj, IReportItemModel.TOC_PROP );
 
 		writeContents( obj, IReportItemModel.MULTI_VIEWS_PROP );
-		
+
 		property( obj, IReportItemModel.ON_PREPARE_METHOD );
 		property( obj, IReportItemModel.ON_CREATE_METHOD );
 		property( obj, IReportItemModel.ON_RENDER_METHOD );
