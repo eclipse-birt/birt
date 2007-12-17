@@ -385,6 +385,18 @@ public class NewInstanceHelper
 			// TODO Auto-generated method stub
 			
 		}
+
+		public boolean needCache( )
+		{
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		public void setNeedCache( boolean needsCache )
+		{
+			// TODO Auto-generated method stub
+			
+		}
 	};
 
 	/**

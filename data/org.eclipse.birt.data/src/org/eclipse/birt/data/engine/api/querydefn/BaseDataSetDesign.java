@@ -52,6 +52,8 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	private int cacheRowCount;
     private boolean distinctValue;
     
+    private boolean needCache = false;
+    
 	/**
 	 * Instantiates a data set with given name.
 	 * @param name Name of data set
@@ -345,6 +347,24 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	public void setRowFetchLimit( int max )
 	{
 		this.fetchRowLimit = max <= 0 ? 0 : max;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#needsCache()
+	 */
+	public boolean needCache( )
+	{
+		return needCache;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IBaseDataSetDesign#setNeedsCache(boolean)
+	 */
+	public void setNeedCache( boolean needCache )
+	{
+		this.needCache = needCache;
 	}
     
 }

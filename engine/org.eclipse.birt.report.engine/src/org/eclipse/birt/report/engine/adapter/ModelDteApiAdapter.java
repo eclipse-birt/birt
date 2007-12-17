@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.data.Constants;
-import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
@@ -594,6 +593,8 @@ public class ModelDteApiAdapter
 		populateFilter( modelDataSet, dteDataSet );
 
 		dteDataSet.setRowFetchLimit( modelDataSet.getRowFetchLimit( ) );
+		
+		dteDataSet.setNeedCache( modelDataSet.needsCache( ) );
 		
 		mergeHints( modelDataSet, dteDataSet );
 

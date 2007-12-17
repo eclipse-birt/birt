@@ -89,6 +89,8 @@ class DataAdapterUtil
 
 		dteDataSet.setRowFetchLimit( modelDataSet.getRowFetchLimit( ) );
 		
+		dteDataSet.setNeedCache( modelDataSet.needsCache( ) );
+		
 		mergeHints( modelDataSet, dteDataSet );
 
 	}

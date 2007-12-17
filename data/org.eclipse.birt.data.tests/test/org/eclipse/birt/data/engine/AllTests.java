@@ -34,6 +34,7 @@ public class AllTests
 		/* in package org.eclipse.birt.data.engine.api */
 		suite.addTestSuite( org.eclipse.birt.data.engine.api.ClobAndBlobTest.class );
 		suite.addTestSuite( org.eclipse.birt.data.engine.api.DataSetCacheTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.api.DteLevelDataSetCacheTest.class );
 		suite.addTestSuite( org.eclipse.birt.data.engine.api.GroupLevelTest.class );
 		suite.addTestSuite( org.eclipse.birt.data.engine.api.ScriptedDSTest.class );
 		suite.addTestSuite( org.eclipse.birt.data.engine.api.ScriptTest.class );

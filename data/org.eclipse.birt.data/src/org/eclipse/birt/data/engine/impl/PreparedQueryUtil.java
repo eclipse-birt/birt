@@ -856,6 +856,14 @@ abstract class DataSetAdapter implements IBaseDataSetDesign
 	{
 		this.source.setRowFetchLimit( max );
 	}
+	public boolean needCache( )
+	{
+		return this.source.needCache( );
+	}
+	public void setNeedCache( boolean needCache )
+	{
+		this.source.setNeedCache( needCache );
+	}
 }
 
 class OdaDataSetAdapter extends DataSetAdapter implements IOdaDataSetDesign

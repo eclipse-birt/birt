@@ -62,8 +62,10 @@ public class DataSetCacheManager
 	private Map appContext;
 
 	// map manager instance
+	private CacheMapManager JVMLevelCacheMapManager;
+	private CacheMapManager DteLevelCacheMapManager;
 	private CacheMapManager cacheMapManager;
-
+	
 	private int mode;
 	
 	/**
@@ -81,7 +83,8 @@ public class DataSetCacheManager
 		this.cacheOption = DataEngineContext.CACHE_USE_DEFAULT;
 		this.alwaysCacheRowCount = 0;
 
-		this.cacheMapManager = new CacheMapManager( tempDir );
+		this.JVMLevelCacheMapManager = new CacheMapManager( tempDir, true );
+		this.DteLevelCacheMapManager = new CacheMapManager( tempDir, false );
 		this.mode = DataEngineContext.CACHE_MODE_IN_DISK;
 	}
 
@@ -227,7 +230,7 @@ public class DataSetCacheManager
 	{
 		if ( needsToCache( dataSetDesign, cacheOption, alwaysCacheRowCount ) == false )
 			return false;
-
+		switchCacheMap( dataSetDesign );
 		return cacheMapManager.doesSaveToCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
 				this.dataSetDesign,
 				this.parameterHints ),
@@ -267,6 +270,7 @@ public class DataSetCacheManager
 				dataSetDesign,
 				parameterHints,
 				appContext);
+		switchCacheMap( dataSetDesign );
 		return cacheMapManager.doesLoadFromCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
 				dataSetDesign,
 				parameterHints ) );
@@ -312,6 +316,7 @@ public class DataSetCacheManager
 		DataSourceAndDataSet ds = DataSourceAndDataSet.newInstance( dataSourceDesign2,
 				dataSetDesign2,
 				null );
+		switchCacheMap( dataSetDesign2 );
 		cacheMapManager.clearCache( ds );
 	}
 
@@ -320,6 +325,7 @@ public class DataSetCacheManager
 	 */
 	public IDataSetCacheObject getCacheObject( )
 	{
+		switchCacheMap( dataSetDesign );
 		return  cacheMapManager.getCacheObject( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
 				this.dataSetDesign,
 				this.parameterHints ) );
@@ -334,7 +340,7 @@ public class DataSetCacheManager
 	{
 		if ( needsToCache( dataSetDesign, cacheOption, alwaysCacheRowCount ) == false )
 			return false;
-
+		switchCacheMap( dataSetDesign );
 		return cacheMapManager.doesLoadFromCache( DataSourceAndDataSet.newInstance( this.dataSourceDesign,
 				this.dataSetDesign,
 				this.parameterHints ) );
@@ -350,8 +356,10 @@ public class DataSetCacheManager
 		dataSetDesign = null;
 		cacheOption = DataEngineContext.CACHE_USE_DEFAULT;
 		alwaysCacheRowCount = 0;
-
-		this.cacheMapManager.resetForTest( );
+		if ( this.cacheMapManager != null )
+		{
+			this.cacheMapManager.resetForTest( );
+		}
 	}
 
 	/**
@@ -365,6 +373,7 @@ public class DataSetCacheManager
 			IBaseDataSourceDesign dataSource, IBaseDataSetDesign dataSet )
 			throws DataException
 	{
+		switchCacheMap( dataSet );
 		IResultClass resultClass = this.cacheMapManager.getCachedResultClass( DataSourceAndDataSet.newInstance( dataSource,
 				dataSet,
 				null ) );
@@ -390,6 +399,23 @@ public class DataSetCacheManager
 	 */
 	public void registerCacheDir( IBaseDataSetDesign dataSetDesign, String cacheDir )
 	{
+		switchCacheMap( dataSetDesign );
 		cacheMapManager.getCacheDirMap( ).put( dataSetDesign, cacheDir );
+	}
+	
+	/**
+	 * 
+	 * @param dataSetDesign
+	 */
+	private void switchCacheMap( IBaseDataSetDesign dataSetDesign )
+	{
+		if( !dataSetDesign.needCache( ) )
+		{
+			cacheMapManager = JVMLevelCacheMapManager;
+		}
+		else
+		{
+			cacheMapManager = DteLevelCacheMapManager;
+		}
 	}
 }
