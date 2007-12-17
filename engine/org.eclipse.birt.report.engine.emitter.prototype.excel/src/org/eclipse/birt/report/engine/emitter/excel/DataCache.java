@@ -6,23 +6,21 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class DataCache
 {
 	private ArrayList columns = new ArrayList( );
 	private Hashtable colrow = new Hashtable( );// col -> start line
+	private int height;
+	private int width;
 	
-	public DataCache( int size )
+	public DataCache( int height, int width)
 	{
 		Integer start = new Integer( 0 );		
-		
-		for ( int i = 0; i < size; i++ )
-		{
-			columns.add( new ArrayList( ) );
-			colrow.put( new Integer( i ), start );			
-		}
+		columns.add( new ArrayList( ) );
+		colrow.put( start, start );	
+		this.height = height;
+		this.width = width;
 	}
 
 	public void insertColumns( int col, int size )
@@ -41,8 +39,14 @@ public class DataCache
 		{
 			Integer column = new Integer( i );
 			Object row = colrow.get( column );
-			temp.put( new Integer( i + size ), row );
-			mcol[j] = columns.get( col + 1 );
+			
+			int npos = i + size;
+			//Discard columns of over the max width.
+			if(npos < this.width)
+			{			
+				temp.put( new Integer( npos ), row );
+				mcol[j] = columns.get( col + 1 );
+			}
 			columns.remove( col + 1 );
 		}
 		
@@ -65,8 +69,10 @@ public class DataCache
 
 	public void addData( int col, Object data )
 	{
-	
-		( (List) columns.get( col ) ).add( data );
+		if((getColumnSize(col) < height) && (col < getColumnCount()))
+		{	
+			((List) columns.get( col ) ).add( data );
+		}
 	}
 
 	public int getColumnSize( int column )

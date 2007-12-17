@@ -27,7 +27,7 @@ public class ExcelLayoutEngine
 
 	public final static int MAX_ROW = 65525;
 
-	public final static int MAX_CLOUMN = 255;
+	public final static int MAX_COLUMN = 255;
 
 	public final static Object waste = new Object( );
 
@@ -56,7 +56,7 @@ public class ExcelLayoutEngine
 		init[2] = page.rightmargin + init[1];
 		axis.addCoordinates( init );
 		Rule rule = new Rule( init[0], init[1] - init[0] );
-		cache = new DataCache( 1 );
+		cache = new DataCache( MAX_ROW, MAX_COLUMN );
 		engine = new StyleEngine( this );
 		detal = init[0] == 0 ? 0 : 1;
 		left = init[0];
@@ -357,7 +357,7 @@ public class ExcelLayoutEngine
 	{
 		Object[] row = cache.getRowData( rownum );
 		List data = new ArrayList( );
-		int width = Math.min( row.length, MAX_CLOUMN - 1 );
+		int width = Math.min( row.length, MAX_COLUMN - 1 );
 		// margin, we can ignore them now
 		// if(detal == 1)
 		// {
