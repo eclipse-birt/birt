@@ -470,10 +470,10 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 		{
 			if ( !requesList.equals( request.getSelectionModelList( ) ) )
 			{
-				requesList = request.getSelectionModelList( );
 				if ( requesList!= null & requesList.size( )>0 && requesList.get( 0 ) != null
 						&& requesList.get( 0 ) instanceof ModuleHandle )
 				{
+					requesList = request.getSelectionModelList( );
 					prefs.removePreferenceChangeListener( this );
 					prefs = PreferenceFactory.getInstance( )
 							.getPreferences( ReportPlugin.getDefault( ),
