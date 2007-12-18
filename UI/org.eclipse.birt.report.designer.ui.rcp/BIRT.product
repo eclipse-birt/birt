@@ -59,6 +59,8 @@
       <plugin id="org.apache.lucene.analysis"/>
       <plugin id="org.apache.xerces"/>
       <plugin id="org.apache.xml.resolver"/>
+      <plugin id="org.apache.xml.serializer"/>
+      <plugin id="javax.xml"/>
       <plugin id="org.eclipse.birt"/>
       <plugin id="org.eclipse.birt.chart"/>
       <plugin id="org.eclipse.birt.chart.cshelp"/>
