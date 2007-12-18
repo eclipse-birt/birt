@@ -410,6 +410,8 @@
 			<include name="javax.wsdl_1.4.0*.jar"/>
 			<!-- orbit project -->
 			<include name="org.apache.xerces_*.jar"/>
+			<include name="org.apache.xml.serializer_*.jar"/>
+			<include name="javax.xml_*.jar"/>
 			<include name="org.w3c.dom_*.jar"/>
 			<include name="org.apache.xml.resolver_*.jar"/>
 			<include name="org.apache.batik.*jar"/>
