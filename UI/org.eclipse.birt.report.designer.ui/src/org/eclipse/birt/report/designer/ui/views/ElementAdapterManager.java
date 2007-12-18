@@ -188,6 +188,7 @@ public class ElementAdapterManager
 									new Object[]{
 										adapterTypeClassName
 									} ) );
+							logger.log( Level.SEVERE, ce.getMessage( ), ce );
 						}
 						catch ( Exception e )
 						{
