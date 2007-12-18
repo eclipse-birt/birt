@@ -1,4 +1,13 @@
-
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 package org.eclipse.birt.data.engine.binding;
 
 import java.io.IOException;
@@ -43,6 +52,157 @@ public class GroupOnRowTest extends APITestCase
 		return new DataSourceInfo( ConfigText.getString( "Api.TestData2.TableName" ),
 				ConfigText.getString( "Api.TestData2.TableSQL" ),
 				ConfigText.getString( "Api.TestData2.TestDataFileName" ) );
+	}
+	
+	public void testValidateInterval()
+	{
+		QueryDefinition qd = populateNumericGroupQueryDefinition(-1, 0);
+		try
+		{
+			this.executeQuery( qd );
+			fail("should catch invalid interval type exception");
+		}
+		catch ( Exception e1 )
+		{
+		}
+		
+		qd = populateNumericGroupQueryDefinition(IGroupDefinition.STRING_PREFIX_INTERVAL, 0);
+		try
+		{
+			this.executeQuery( qd );
+			fail("should catch (interval type)/(data type) mismatch exception");
+		}
+		catch ( Exception e1 )
+		{
+		}
+		
+		qd = populateNumericGroupQueryDefinition(IGroupDefinition.DAY_INTERVAL, 0);
+		try
+		{
+			this.executeQuery( qd );
+			fail("should catch (interval type)/(data type) mismatch exception");
+		}
+		catch ( Exception e1 )
+		{
+		}
+	}
+	
+	public void testValidateIntervalRange()
+	{
+		QueryDefinition qd = populateNumericGroupQueryDefinition(IGroupDefinition.NUMERIC_INTERVAL, -1);
+		try
+		{
+			this.executeQuery( qd );
+			fail("should catch invalid interval range exception");
+		}
+		catch ( Exception e1 )
+		{
+		}
+	}
+	
+	public void testGroupByRowKeyCount0() throws Exception
+	{
+		groupOnRowKeyCount(0);
+	}
+	
+	public void testGroupByRowKeyCount1() throws Exception
+	{
+		groupOnRowKeyCount(1);
+	}
+	
+	public void testGroupByRowKeyCount3() throws Exception
+	{
+		groupOnRowKeyCount(3);
+	}
+	
+	private void groupOnRowKeyCount( double intervalRange ) throws Exception, IOException
+	{
+		String[] bindingNameGroup = new String[1];
+		bindingNameGroup[0] = "GROUP_NUMBER";
+		IBaseExpression[] bindingExprGroup = new IBaseExpression[1];
+		bindingExprGroup[0] = new ScriptExpression( "dataSetRow.ID" );
+		GroupDefinition[] groupDefn = new GroupDefinition[]{
+			new GroupDefinition( "group1" )
+		};
+		groupDefn[0].setKeyExpression( "row.GROUP_NUMBER" );
+		groupDefn[0].setInterval( IGroupDefinition.NO_INTERVAL );
+		groupDefn[0].setIntervalRange(intervalRange);
+
+		String[] bindingNameRow = new String[3];
+		bindingNameRow[0] = "ROW_ID";
+		bindingNameRow[1] = "ROW_AMOUT1";
+		bindingNameRow[2] = "ROW_AMOUT2";
+		IBaseExpression[] bindingExprRow = new IBaseExpression[3];
+		bindingExprRow[0] = new ScriptExpression( "dataSetRow.ID" );
+		bindingExprRow[1] = new ScriptExpression( "dataSetRow.AMOUNT1" );
+		bindingExprRow[2] = new ScriptExpression( "dataSetRow.AMOUNT2" );
+
+		String[] columnStr = new String[]{
+				"id", "amount1", "amount2"
+		};
+
+		QueryDefinition qd = this.createQuery( bindingNameGroup,
+				bindingExprGroup,
+				groupDefn,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				bindingNameRow,
+				bindingExprRow );
+
+		String outputStr = getOutputStrForGroupTest( 30,
+				qd,
+				groupDefn.length,
+				bindingNameRow,
+				columnStr );
+		testPrint( outputStr );
+
+		this.checkOutputFile( );
+	}
+	
+	private QueryDefinition populateNumericGroupQueryDefinition(int interval, double intervalRange)
+	{
+		String[] bindingNameGroup = new String[1];
+		bindingNameGroup[0] = "GROUP_NUMBER";
+		IBaseExpression[] bindingExprGroup = new IBaseExpression[1];
+		bindingExprGroup[0] = new ScriptExpression( "dataSetRow.ID", DataType.INTEGER_TYPE );
+		GroupDefinition[] groupDefn = new GroupDefinition[]{
+			new GroupDefinition( "group1" )
+		};
+		groupDefn[0].setKeyExpression( "row.GROUP_NUMBER" );
+		groupDefn[0].setInterval( interval );
+		groupDefn[0].setIntervalRange( intervalRange );
+
+		String[] bindingNameRow = new String[3];
+		bindingNameRow[0] = "ROW_ID";
+		bindingNameRow[1] = "ROW_AMOUT1";
+		bindingNameRow[2] = "ROW_AMOUT2";
+		IBaseExpression[] bindingExprRow = new IBaseExpression[3];
+		bindingExprRow[0] = new ScriptExpression( "dataSetRow.ID" );
+		bindingExprRow[1] = new ScriptExpression( "dataSetRow.AMOUNT1" );
+		bindingExprRow[2] = new ScriptExpression( "dataSetRow.AMOUNT2" );
+
+		try
+		{
+			return this.createQuery( bindingNameGroup,
+					bindingExprGroup,
+					groupDefn,
+					null,
+					null,
+					null,
+					null,
+					null,
+					null,
+					bindingNameRow,
+					bindingExprRow );
+		}
+		catch ( Exception e )
+		{
+			return null;
+		}
 	}
 	
 	/**
@@ -1300,6 +1460,7 @@ public class GroupOnRowTest extends APITestCase
 
 		this.checkOutputFile( );
 	}
+
 	
 	/**
 	 * Test feature of group on number
@@ -1308,8 +1469,18 @@ public class GroupOnRowTest extends APITestCase
 	 */
 	public void testGroupOnNumber(  ) throws Exception
 	{
-		groupOnNumber( new Integer(10) );
+		groupOnNumber( new Integer(10), 3 );
 		
+	}
+	
+	/**
+	 * Test feature of group on number
+	 * 
+	 * @throws Exception
+	 */
+	public void testGroupOnNumber0(  ) throws Exception
+	{
+		groupOnNumber( null, 0 );
 	}
 	
 	/**
@@ -1319,10 +1490,10 @@ public class GroupOnRowTest extends APITestCase
 	 */
 	public void testGroupOnNumber1(  ) throws Exception
 	{
-		groupOnNumber( null );
+		groupOnNumber( null, 3 );
 	}
 
-	private void groupOnNumber( Object startValue ) throws Exception, IOException
+	private void groupOnNumber( Object startValue, double intervalRange ) throws Exception, IOException
 	{
 		String[] bindingNameGroup = new String[1];
 		bindingNameGroup[0] = "GROUP_NUMBER";
@@ -1335,7 +1506,7 @@ public class GroupOnRowTest extends APITestCase
 		groupDefn[0].setInterval( IGroupDefinition.NUMERIC_INTERVAL );
 		if(startValue != null)
 			groupDefn[0].setIntervalStart( startValue );
-		groupDefn[0].setIntervalRange(3);
+		groupDefn[0].setIntervalRange(intervalRange);
 
 		String[] bindingNameRow = new String[3];
 		bindingNameRow[0] = "ROW_ID";
@@ -1380,6 +1551,16 @@ public class GroupOnRowTest extends APITestCase
 	public void testGroupOnString(  ) throws Exception
 	{
 		groupOnString( "13" );
+	}
+	
+	/**
+	 * Test feature of group on string
+	 * 
+	 * @throws Exception
+	 */
+	public void testGroupOnString0(  ) throws Exception
+	{
+		groupOnString( null, 0 );
 	}
 	
 	/**

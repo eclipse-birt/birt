@@ -16,7 +16,6 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.odi.IQuery.GroupSpec;
 
 /**
  * A factory of group calculator.
@@ -26,19 +25,16 @@ public class GroupCalculatorFactory
 	/**
 	 * 
 	 * @param interval
-	 * @param dataType
 	 * @param intervalStart
 	 * @param intervalRange
 	 * @return
 	 * @throws DataException
 	 */
-	public static ICalculator getGroupCalculator( int interval, int dataType,
-			Object intervalStart, double intervalRange ) throws DataException
+	public static ICalculator getGroupCalculator( int interval,
+			Object intervalStart, double intervalRange, int dataType ) throws DataException
 	{
-		if ( !isValidInterval( interval, dataType ) )
-		{
-			return null;
-		}
+		validateInterval(interval, dataType);
+		validateIntervalRange(intervalRange);
 		try
 		{
 			switch ( interval )
@@ -98,29 +94,43 @@ public class GroupCalculatorFactory
 	 * @return
 	 * @throws DataException
 	 */
-	private static boolean isValidInterval( int interval, int dataType )
+	private static void validateInterval( int interval, int dataType )
 			throws DataException
 	{
+		if (interval != IGroupDefinition.NO_INTERVAL
+				&& interval != IGroupDefinition.NUMERIC_INTERVAL
+				&& interval != IGroupDefinition.STRING_PREFIX_INTERVAL
+				&& interval != IGroupDefinition.SECOND_INTERVAL
+				&& interval != IGroupDefinition.MINUTE_INTERVAL
+				&& interval != IGroupDefinition.HOUR_INTERVAL
+				&& interval != IGroupDefinition.DAY_INTERVAL
+				&& interval != IGroupDefinition.WEEK_INTERVAL
+				&& interval != IGroupDefinition.MONTH_INTERVAL
+				&& interval != IGroupDefinition.QUARTER_INTERVAL
+				&& interval != IGroupDefinition.YEAR_INTERVAL)
+		{
+			throw new DataException( ResourceConstants.BAD_GROUP_INTERVAL_INVALID );
+		}
 		if ( dataType == DataType.ANY_TYPE || dataType == DataType.UNKNOWN_TYPE )
 		{
-			return true;
+			return;
 		}
 
 		switch ( interval )
 		{
-			case GroupSpec.NO_INTERVAL :
-				return true;
-			case GroupSpec.NUMERIC_INTERVAL :
+			case IGroupDefinition.NO_INTERVAL :
+				return;
+			case IGroupDefinition.NUMERIC_INTERVAL :
 				if ( isNumber( dataType ) )
-					return true;
+					return;
 				else
 					throw new DataException( ResourceConstants.BAD_GROUP_INTERVAL_TYPE,
 							new Object[]{
 									"numeric", DataType.getName( dataType )
 							} );
-			case GroupSpec.STRING_PREFIX_INTERVAL :
+			case IGroupDefinition.STRING_PREFIX_INTERVAL :
 				if ( isString( dataType ) )
-					return true;
+					return;
 				else
 					throw new DataException( ResourceConstants.BAD_GROUP_INTERVAL_TYPE,
 							new Object[]{
@@ -129,12 +139,28 @@ public class GroupCalculatorFactory
 							} );
 			default :
 				if ( isDate( dataType ) )
-					return true;
+					return;
 				else
 					throw new DataException( ResourceConstants.BAD_GROUP_INTERVAL_TYPE,
 							new Object[]{
 									"date", DataType.getName( dataType )
 							} );
+		}
+	}
+	
+	/**
+	 * 
+	 * @param interval
+	 * @param dataType
+	 * @return
+	 * @throws DataException
+	 */
+	private static void validateIntervalRange( double intervalRange )
+			throws DataException
+	{
+		if (intervalRange < 0)
+		{
+			throw new DataException( ResourceConstants.BAD_GROUP_INTERVAL_RANGE, new Double( intervalRange ) );
 		}
 	}
 

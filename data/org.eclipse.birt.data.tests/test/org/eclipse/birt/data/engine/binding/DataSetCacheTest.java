@@ -212,7 +212,7 @@ public class DataSetCacheTest extends APITestCase
 		};
 		groupDefn[0].setKeyExpression( "row.GROUP_CITY" );
 		groupDefn[0].setInterval( IGroupDefinition.STRING_PREFIX_INTERVAL );
-
+		groupDefn[0].setIntervalRange( 1 );
 		qd.addResultSetExpression( bindingNameGroup[0], bindingExprGroup[0] );
 
 		qd.addGroup( groupDefn[0] );

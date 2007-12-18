@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.impl.group;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.core.DataException;
 
 /**
  * This calculator is used to calculate a string group key basing group
@@ -28,7 +29,7 @@ class StringGroupCalculator extends GroupCalculator
 	 * @throws BirtException
 	 */
 	public StringGroupCalculator( Object intervalStart, double intervalRange )
-			throws BirtException
+			throws DataException
 	{
 		super( intervalStart, intervalRange );
 		interval = (int) ( Math.round( intervalRange ) );

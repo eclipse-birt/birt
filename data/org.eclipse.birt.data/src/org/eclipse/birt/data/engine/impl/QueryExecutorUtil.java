@@ -136,17 +136,17 @@ public final class QueryExecutorUtil
 	static int getTempComputedColumnType( int i )
 	{
 		int interval = i;
-		if( interval == IQuery.GroupSpec.DAY_INTERVAL 
-			|| interval == IQuery.GroupSpec.HOUR_INTERVAL
-			|| interval == IQuery.GroupSpec.MINUTE_INTERVAL
-			|| interval == IQuery.GroupSpec.SECOND_INTERVAL
-			|| interval == IQuery.GroupSpec.MONTH_INTERVAL
-			|| interval == IQuery.GroupSpec.QUARTER_INTERVAL
-			|| interval == IQuery.GroupSpec.YEAR_INTERVAL
-			|| interval == IQuery.GroupSpec.WEEK_INTERVAL
-			|| interval == IQuery.GroupSpec.NUMERIC_INTERVAL )
+		if( interval == IGroupDefinition.DAY_INTERVAL 
+			|| interval == IGroupDefinition.HOUR_INTERVAL
+			|| interval == IGroupDefinition.MINUTE_INTERVAL
+			|| interval == IGroupDefinition.SECOND_INTERVAL
+			|| interval == IGroupDefinition.MONTH_INTERVAL
+			|| interval == IGroupDefinition.QUARTER_INTERVAL
+			|| interval == IGroupDefinition.YEAR_INTERVAL
+			|| interval == IGroupDefinition.WEEK_INTERVAL
+			|| interval == IGroupDefinition.NUMERIC_INTERVAL )
 			interval = DataType.DOUBLE_TYPE;
-		else if ( interval == IQuery.GroupSpec.STRING_PREFIX_INTERVAL )
+		else if ( interval == IGroupDefinition.STRING_PREFIX_INTERVAL )
 			interval = DataType.STRING_TYPE;
 		else
 			interval = DataType.ANY_TYPE;

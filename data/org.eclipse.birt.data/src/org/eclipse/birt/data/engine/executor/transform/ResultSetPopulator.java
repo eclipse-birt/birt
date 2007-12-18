@@ -70,13 +70,14 @@ public class ResultSetPopulator
 	 * @param ri
 	 * @throws DataException
 	 */
-	private ResultSetPopulator( BaseQuery query, IResultClass rsMeta,
-			CachedResultSet ri, DataEngineSession session) throws DataException
+	public ResultSetPopulator( BaseQuery query, IResultClass rsMeta,
+			CachedResultSet ri, DataEngineSession session, IEventHandler eventHandler ) throws DataException
 	{
 		this.query = query;
 		this.rsMeta = rsMeta;
 		this.ri = ri;
 		this.session = session;
+		this.eventHandler = eventHandler;
 		this.groupProcessorManager = new GroupProcessorManager(
 				query,
 				this );
@@ -87,21 +88,6 @@ public class ResultSetPopulator
 		this.exprProcessor.setResultSetPopulator(this);
 	}
 
-	/**
-	 * @param query
-	 * @param rsMeta
-	 * @param ri
-	 * @param eventHandler
-	 * @throws DataException
-	 */
-	ResultSetPopulator( BaseQuery query, IResultClass rsMeta,
-			CachedResultSet ri,  DataEngineSession session, IEventHandler eventHandler )
-			throws DataException
-	{
-		this( query, rsMeta, ri, session );
-		this.eventHandler = eventHandler;
-	}
-	
 	/**
 	 * @return
 	 */

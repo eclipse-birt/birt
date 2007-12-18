@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.data.engine.executor.transform.group;
 
+import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IQuery.GroupSpec;
 
 /**
@@ -44,29 +44,14 @@ public abstract class GroupBy
 		assert groupDefn != null;
 
 		GroupBy groupBy = null;
-		
-		switch ( groupDefn.getInterval( ) )
+		if (groupDefn.getInterval( ) == IGroupDefinition.NO_INTERVAL 
+				&& Math.round( groupDefn.getIntervalRange( ) ) > 1)
 		{
-			case GroupSpec.NO_INTERVAL :
-				groupBy = new GroupByDistinctValue( );
-				break;
-			case GroupSpec.STRING_PREFIX_INTERVAL :
-				if ( isString( columnType ) )
-					groupBy = new GroupByStringRange( groupDefn );
-				else
-					throw new DataException( ResourceConstants.BAD_GROUP_INTERVAL_TYPE,
-							new Object[]{
-									"string prefix", columnType.getName( )
-							} );
-				break;
-			default :
-			{
-				if ( groupDefn.getIntervalRange( ) == 0 )
-					groupBy = new GroupByDistinctValue( );
-				else
-					groupBy = new GroupByNumberRange( groupDefn );
-				break;
-			}
+			groupBy = new GroupByRowKeyCount( (int) ( Math.round( groupDefn.getIntervalRange( ) ) ));
+		} 
+		else 
+		{
+			groupBy = new GroupByDistinctValue( );
 		}
 
 		groupBy.groupSpec = groupDefn;
@@ -77,97 +62,23 @@ public abstract class GroupBy
 	}
 
 	/**
-	 * Static method to create and instance of subclass of GroupBy, based on the
-	 * group definition
-	 * 
-	 * @param groupDefn
-	 * @return GroupBy
-	 * @throws DataException
-	 */
-	public static GroupBy newInstanceForRowID( GroupSpec groupDefn )
-			throws DataException
-	{
-		assert groupDefn != null;
-
-		GroupBy groupBy = null;
-		switch ( groupDefn.getInterval( ) )
-		{
-			case GroupSpec.NO_INTERVAL :
-				groupBy = new GroupByDistinctValue( );
-				break;
-			case GroupSpec.NUMERIC_INTERVAL :
-				groupBy = new GroupByPositionRange( groupDefn );
-				break;
-			default :
-				throw new DataException( ResourceConstants.BAD_GROUP_INTERVAL_TYPE_ROWID );
-		}
-
-		groupBy.groupSpec = groupDefn;
-		groupBy.columnIndex = -1;
-
-		return groupBy;
-	}
-
-	/**
-	 * Determines if the current group key is in the same group as the key value
-	 * provided in the last call. This method can be overrided in special case,
-	 * for example, group on row position.
-	 * 
-	 * @param currentGroupKey
-	 * @param previousGroupKey
-	 * @param groupStartValue
-	 * @param currRowPos
-	 * @return boolean value
-	 * @throws DataException
-	 */
-	public boolean isInSameGroup( Object currentGroupKey, Object previousGroupKey,
-			Object groupStartValue, int currRowPos ) throws DataException
-	{
-		return isInSameGroup( currentGroupKey, previousGroupKey );
-	}
-
-	/**
 	 * Determines if the current group key is in the same group as the key value
 	 * provided in the last call
 	 * 
 	 * @param currentGroupKey
 	 * @param previousGroupKey
 	 * @return boolean
-	 * @throws DataException
 	 */
-	public boolean isInSameGroup( Object currentGroupKey, Object previousGroupKey )
-			throws DataException
+	public abstract boolean isInSameGroup( Object currentGroupKey, Object previousGroupKey );
+	
+	/**
+	 * reset for another grouping action
+	 */
+	protected void reset()
 	{
-		if ( previousGroupKey == currentGroupKey )
-			return true;
-
-		if ( previousGroupKey == null || currentGroupKey == null )
-			return false;
-
-		return isSameGroup( currentGroupKey, previousGroupKey );
+		
 	}
 
-	/**
-	 * If the currentGroupKey and previousGroupKey is not null, compare these
-	 * two key values
-	 * 
-	 * @param currentGroupKey
-	 * @param previousGroupKey
-	 * @return boolean
-	 * @throws DataException
-	 */
-	abstract boolean isSameGroup( Object currentGroupKey,
-			Object previousGroupKey ) throws DataException;
-
-	/**
-	 * Returun whether start group value is needed
-	 * 
-	 * @return yes, start group value is needed
-	 */
-	boolean needsGroupStartValue( )
-	{
-		return false;
-	}
 
 	/**
 	 * Gets the index of the column to group by
@@ -189,22 +100,4 @@ public abstract class GroupBy
 	{
 		return groupSpec;
 	}
-
-/*	private static boolean isNumber( Class columnType )
-	{
-		return Number.class.isAssignableFrom( columnType );
-	}
-
-	private static boolean isDate( Class columnType )
-	{
-		return Date.class.isAssignableFrom( columnType );
-	}
-*/	
-	private static boolean isString( Class columnType )
-	{
-		return String.class.isAssignableFrom( columnType );
-	}
-
-	
-
 }

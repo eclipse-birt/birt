@@ -33,6 +33,8 @@ class NumericGroupCalculator extends GroupCalculator
 			throws BirtException
 	{
 		super( intervalStart, intervalRange );
+		intervalRange = (intervalRange == 0 ? 1 : intervalRange);
+		this.intervalRange = intervalRange;
 		if ( intervalStart == null )
 			doubleStartValue = 0;
 		else
@@ -61,6 +63,7 @@ class NumericGroupCalculator extends GroupCalculator
 		{
 			return new Double( Math.floor( ( dValue - doubleStartValue )
 					/ intervalRange ) );
+
 		}
 	}
 }

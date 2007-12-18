@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.impl.group;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.core.DataException;
 
 
 /**
@@ -29,16 +30,10 @@ abstract class GroupCalculator implements ICalculator
 	 * @param intervalRange
 	 * @throws BirtException
 	 */
-	public GroupCalculator(Object intervalStart, double intervalRange) throws BirtException
+	public GroupCalculator(Object intervalStart, double intervalRange) throws DataException
 	{
+		assert intervalRange >= 0; 
 		this.intervalStart = intervalStart;
-		if ( intervalRange == 0 )
-		{
-			this.intervalRange = 1;
-		}
-		else
-		{
-			this.intervalRange = intervalRange;
-		}
+		this.intervalRange = intervalRange;
 	}
 }

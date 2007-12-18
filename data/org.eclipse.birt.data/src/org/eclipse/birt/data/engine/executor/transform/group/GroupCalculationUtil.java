@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.cache.CachedList;
 import org.eclipse.birt.data.engine.cache.ICachedObject;
 import org.eclipse.birt.data.engine.cache.ICachedObjectCreator;
@@ -255,13 +256,6 @@ public class GroupCalculationUtil
 				int keyIndex = groupSpecs[i].getKeyIndex( );
 				String keyColumn = groupSpecs[i].getKeyColumn( );
 
-				if (resultPopoulator.getEventHandler() != null
-						&& resultPopoulator.getEventHandler().isRowID(keyIndex,
-								keyColumn)) {
-					groupDefs[i] = GroupBy.newInstanceForRowID(groupSpecs[i]);
-					continue;
-				}
-
 				// Convert group key name to index for faster future access
 				// assume priority of keyColumn is higher than keyIndex
 				if ( keyColumn != null )
@@ -326,7 +320,7 @@ public class GroupCalculationUtil
 				sortKeyIndexes[i] = groupDefs[i].getColumnIndex( );
 				sortKeyColumns[i] = groupDefs[i].getColumnName( );
 				sortAscending[i] = groupDefs[i].getGroupSpec( )
-						.getSortDirection( ) != IQuery.GroupSpec.SORT_DESC;
+						.getSortDirection( ) != IGroupDefinition.SORT_DESC;
 			}
 		}
 		for ( int i = 0; i < sortCount; i++ )

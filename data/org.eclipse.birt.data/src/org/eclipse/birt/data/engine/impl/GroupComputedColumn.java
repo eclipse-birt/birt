@@ -29,25 +29,6 @@ public class GroupComputedColumn extends ComputedColumn
 	private ICalculator calcultor = null;
 	
 	private static Logger logger = Logger.getLogger( GroupComputedColumn.class.getName( ) );
-
-	/**
-	 * @param name
-	 * @param expr
-	 */
-    public GroupComputedColumn( String name, String expr, ICalculator calcultor )
-	{
-		super(name, expr );
-		Object[] params = {
-				name, expr, calcultor
-		};
-		logger.entering( GroupComputedColumn.class.getName( ),
-				"GroupComputedColumn",
-				params );
-
-		this.calcultor = calcultor;
-		logger.exiting( GroupComputedColumn.class.getName( ),
-				"GroupComputedColumn" );
-    }
     
     /**
      * Constructs a new computed column with specified name and expression

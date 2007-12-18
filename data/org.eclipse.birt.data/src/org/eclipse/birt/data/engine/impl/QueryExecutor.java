@@ -371,14 +371,16 @@ public abstract class QueryExecutor implements IQueryExecutor
 						expr,
 						groupName,
 						-1 );
+				
+				int dataType = getColumnDataType( cx, expr );
 				groupSpecs[i] = dest;
-
 				this.temporaryComputedColumns.add( getComputedColumnInstance( cx,
 						groupSpecs[i].getInterval( ),
 						src,
 						expr,
 						groupName,
-						dest ) );
+						dest,
+						dataType) );
 
 			}
 			odiQuery.setGrouping( Arrays.asList( groupSpecs ) );
@@ -401,6 +403,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 						.length( ) == 0 ) )
 			throw new DataException( ResourceConstants.BAD_GROUP_EXPRESSION );
 	}
+	
 
 	/**
 	 * Populate the group name according to the given expression.
@@ -444,19 +447,19 @@ public abstract class QueryExecutor implements IQueryExecutor
 	 */
 	private IComputedColumn getComputedColumnInstance( Context cx,
 			int interval, IGroupDefinition src,
-			String expr, String groupName, IQuery.GroupSpec dest )
+			String expr, String groupName, IQuery.GroupSpec dest,
+			int dataType)
 			throws DataException
 	{
-		if ( ( dest.getInterval( ) != IGroupDefinition.NO_INTERVAL )
-				&& ( dest.getIntervalRange( ) != 0 ) )
+		if ( dest.getInterval( ) != IGroupDefinition.NO_INTERVAL )
 		{
 			return new GroupComputedColumn( groupName,
 					expr,
 					QueryExecutorUtil.getTempComputedColumnType( interval ),
 					GroupCalculatorFactory.getGroupCalculator( src.getInterval( ),
-							getColumnDataType( cx, expr ),
 							src.getIntervalStart( ),
-							src.getIntervalRange( ) ) );
+							src.getIntervalRange( ),
+							dataType) );
 
 		}
 		else

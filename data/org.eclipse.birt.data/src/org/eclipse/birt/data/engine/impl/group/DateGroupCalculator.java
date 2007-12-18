@@ -27,6 +27,8 @@ abstract class DateGroupCalculator extends GroupCalculator
 	
 	static protected Date defaultStart;
 	
+	private int range;
+	
 	static
 	{
 		Calendar c = Calendar.getInstance( );
@@ -44,6 +46,8 @@ abstract class DateGroupCalculator extends GroupCalculator
 	public DateGroupCalculator(Object intervalStart, double intervalRange) throws BirtException
 	{
 		super( intervalStart, intervalRange );
+		range = (int)Math.round( intervalRange );
+		range = (range == 0 ? 1 : range);
 		if ( intervalStart != null )
 			this.intervalStart = DataTypeUtil.toDate( intervalStart );
 	}
@@ -54,6 +58,6 @@ abstract class DateGroupCalculator extends GroupCalculator
 	 */
 	protected int getDateIntervalRange()
 	{
-		return (int)Math.round( intervalRange );
+		return range;
 	}
 }

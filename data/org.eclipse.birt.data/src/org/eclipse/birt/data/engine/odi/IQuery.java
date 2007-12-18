@@ -16,6 +16,7 @@ package org.eclipse.birt.data.engine.odi;
 
 import java.util.List;
 
+import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
 
@@ -147,72 +148,12 @@ public interface IQuery
      * Defines a grouping criterion on an IQuery.
      */
     public static class GroupSpec
-    {
-        /**
-         * No grouping interval unit specified.
-         */
-    	public static final int NO_INTERVAL = 0;
-
-    	/**
-         * Grouping interval unit is Year.
-         */
-    	public static final int YEAR_INTERVAL = 1;
-    	
-    	/**
-         * Grouping interval unit is Month.
-         */
-    	public static final int MONTH_INTERVAL = 2;
-    	
-    	/**
-         * Grouping interval unit is Quarter.
-         */
-    	public static final int QUARTER_INTERVAL = 3;
-    	
-    	/**
-         * Grouping interval unit is Week.
-         */
-    	public static final int WEEK_INTERVAL = 4;
-    	
-    	/**
-         * Grouping interval unit is Day.
-         */
-    	public static final int DAY_INTERVAL = 5;
-    	
-    	/**
-         * Grouping interval unit is Hour.
-         */
-    	public static final int HOUR_INTERVAL = 6;
-    	
-    	/**
-         * Grouping interval unit is Minute.
-         */
-    	public static final int MINUTE_INTERVAL = 7;
-    	
-    	/**
-         * Grouping interval unit is Second.
-         */
-    	public static final int SECOND_INTERVAL = 8;
-    	
-    	/**
-    	 * Grouping interval unit is the numerical value.
-    	 */
-    	public static final int NUMERIC_INTERVAL = 99;
-    	
-    	/**
-         * Grouping interval unit is the length of the string prefix.
-         */
-    	public static final int STRING_PREFIX_INTERVAL = 100;
-    	
-    	// Enumeration constants for SortDirection
-    	public static final int NO_SORT = -1;		// No sort direction is specified. 
-    	public static final int SORT_ASC = 0;		// Sort asending
-    	public static final int SORT_DESC = 1;		// Sort descending
-        
+    {   
         private String keyColumn;
         private int keyIndex;
         private String name;
-    	private int sortDirection = NO_SORT;        
-        private int interval = NO_INTERVAL;
+    	private int sortDirection = IGroupDefinition.NO_SORT;        
+        private int interval = IGroupDefinition.NO_INTERVAL;
         private boolean isComplexExpression = false;
         private double intervalRange = 0;
         private Object intervalStart;

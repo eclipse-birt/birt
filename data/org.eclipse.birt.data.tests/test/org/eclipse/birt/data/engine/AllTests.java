@@ -76,9 +76,7 @@ public class AllTests
 		
 		/* in package org.eclipse.birt.data.engine.executor.transform.group */
 		suite.addTestSuite( org.eclipse.birt.data.engine.executor.transform.group.GroupByDistinctValueTest.class);
-		suite.addTestSuite( org.eclipse.birt.data.engine.executor.transform.group.GroupByNumberRangeTest.class);
-		suite.addTestSuite( org.eclipse.birt.data.engine.executor.transform.group.GroupByPositionRangeTest.class);
-		suite.addTestSuite( org.eclipse.birt.data.engine.executor.transform.group.GroupByStringRangeTest.class);
+		suite.addTestSuite( org.eclipse.birt.data.engine.executor.transform.group.GroupByRowKeyCountTest.class);
 		
 		/* in package org.eclipse.birt.data.engine.expression */
 		suite.addTestSuite( org.eclipse.birt.data.engine.expression.ComplexExpressionCompilerTest.class);

@@ -11,24 +11,19 @@
 
 package org.eclipse.birt.data.engine.executor.transform.group;
 
-import org.eclipse.birt.data.engine.core.DataException;
-
 /**
  * Distinction implementation of GroupBy.
  */
 
 class GroupByDistinctValue extends GroupBy
 {
-
-	/*
-	 * @see org.eclipse.birt.data.engine.api.GroupExtraDefn#isWithinSameGroup(java.lang.Object,
-	 *      java.lang.Object)
-	 */
-	boolean isSameGroup( Object currentGroupKey, Object previousGroupKey )
-			throws DataException
+	public boolean isInSameGroup( Object currentGroupKey, Object previousGroupKey )
 	{
-		assert ( currentGroupKey != null );
-		assert ( previousGroupKey != null );
+		if ( previousGroupKey == currentGroupKey )
+			return true;
+
+		if ( previousGroupKey == null || currentGroupKey == null )
+			return false;
 
 		return currentGroupKey.equals( previousGroupKey );
 	}

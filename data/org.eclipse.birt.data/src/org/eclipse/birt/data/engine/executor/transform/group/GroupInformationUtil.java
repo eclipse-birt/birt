@@ -432,6 +432,12 @@ public class GroupInformationUtil
 		}
 
 		IResultObject prevRow = null;
+		this.groupCalculationUtil.getResultSetCache( ).reset( );
+		//reset groupBys for grouping
+		for (int i = 0; i < groupCalculationUtil.getGroupDefn( ).length; i++)
+		{
+			groupCalculationUtil.getGroupDefn( )[i].reset( );
+		}
 		for ( int rowID = 0; rowID < this.groupCalculationUtil.getResultSetCache( )
 				.getCount( ); rowID++ )
 		{
@@ -446,7 +452,7 @@ public class GroupInformationUtil
 			if ( rowID == 0 )
 				breakLevel = 0; // Special case for first row
 			else
-				breakLevel = getBreakLevel( currRow, prevRow, rowID );
+				breakLevel = getBreakLevel( currRow, prevRow );
 
 			// Create a new group in each group level between
 			// [ breakLevel ... groupDefs.length - 1]
@@ -487,12 +493,10 @@ public class GroupInformationUtil
 	 * 
 	 * @param currRow
 	 * @param prevRow
-	 * @param currRowPos
 	 * @return
 	 * @throws DataException
 	 */
-	private int getBreakLevel( IResultObject currRow, IResultObject prevRow,
-			int currRowPos ) throws DataException
+	private int getBreakLevel( IResultObject currRow, IResultObject prevRow) throws DataException
 	{
 		assert currRow != null;
 		assert prevRow != null;
@@ -511,54 +515,11 @@ public class GroupInformationUtil
 			}
 
 			GroupBy groupBy = this.groupCalculationUtil.getGroupDefn( )[breakLevel];
-			if ( groupBy.needsGroupStartValue( ) == false )
+			if ( groupBy.isInSameGroup( currObjectValue, prevObjectValue ) == false )
 			{
-				if ( groupBy.isInSameGroup( currObjectValue, prevObjectValue ) == false )
-				{
-					break;
-				}
-			}
-			else
-			{
-				// get the first child of current group in level of breakLevel
-				List list = this.groups[breakLevel];
-				GroupInfo groupInfo = (GroupInfo) list.get( list.size( ) - 1 );
-				int child = groupInfo.firstChild;
-				for ( int level = breakLevel + 1; level < this.groups.length; level++ )
-				{
-					list = this.groups[level];
-					groupInfo = (GroupInfo) list.get( child );
-					child = groupInfo.firstChild;
-				}
-
-				// get the groupStartValue of current group
-				Object groupStartValue = null;
-				if ( colIndex >= 0 )
-				{
-					// Currently there is only GroupByPosition overrides the
-					// method groupBy#needsGroupStartValue( ) and return
-					// true. Since the colIndex value of it is always less than
-					// 0, so this conditional case will never be satisfied.
-
-					// groupStartValue = odiResultSet.getResultObject( child )
-					// .getFieldValue( colIndex );
-				}
-				else
-				{
-					groupStartValue = new Integer( child );
-				}
-
-				// determins whether next row is in current group
-				if ( this.groupCalculationUtil.getGroupDefn( )[breakLevel].isInSameGroup( currObjectValue,
-						prevObjectValue,
-						groupStartValue,
-						currRowPos ) == false )
-				{
-					break;
-				}
+				break;
 			}
 		}
-
 		return breakLevel;
 	}
 
