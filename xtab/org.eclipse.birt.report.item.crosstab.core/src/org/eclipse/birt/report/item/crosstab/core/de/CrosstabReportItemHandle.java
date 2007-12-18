@@ -831,8 +831,9 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 
 		for ( int i = 0; i < getMeasureCount( ); i++ )
 		{
-			measures.add( getMeasure( i ) );
-			functions.add( DEFAULT_MEASURE_FUNCTION );
+			MeasureViewHandle mv = getMeasure( i );
+			measures.add( mv );
+			functions.add( CrosstabModelUtil.getDefaultMeasureAggregationFunction( mv ) );
 		}
 
 		return addGrandTotal( axisType, measures, functions );
@@ -1034,6 +1035,21 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	 */
 	public List checkCompatibility( )
 	{
+		List errorList = new ArrayList( 1 );
+
+		// update version
+		if ( !CROSSTAB_CURRENT_VERSION.equals( handle.getExtensionVersion( ) ) )
+		{
+			try
+			{
+				handle.setExtensionVersion( CROSSTAB_CURRENT_VERSION );
+			}
+			catch ( SemanticException e )
+			{
+				errorList.add( e );
+			}
+		}
+
 		// update header
 		if ( getHeader( ) == null )
 		{
@@ -1047,13 +1063,11 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 				}
 				catch ( SemanticException e )
 				{
-					List errorList = new ArrayList( 1 );
 					errorList.add( e );
-					return errorList;
 				}
 			}
 		}
 
-		return Collections.EMPTY_LIST;
+		return errorList.size( ) == 0 ? Collections.EMPTY_LIST : errorList;
 	}
 }

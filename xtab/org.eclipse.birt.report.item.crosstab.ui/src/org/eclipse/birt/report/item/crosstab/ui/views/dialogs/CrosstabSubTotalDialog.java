@@ -74,7 +74,7 @@ public class CrosstabSubTotalDialog extends BaseDialog
 
 	protected SubTotalInfo input;
 
-	public final static String TITLE = Messages.getString( "SubTotalDialog.Title" );
+	public final static String TITLE = Messages.getString( "SubTotalDialog.Title" ); //$NON-NLS-1$
 
 	public void setInput( SubTotalInfo subTotalInfo )
 	{
@@ -204,7 +204,6 @@ public class CrosstabSubTotalDialog extends BaseDialog
 	public boolean inSubtotalList( CrosstabReportItemHandle reportItem,
 			SubTotalInfo subTotal )
 	{
-		// TODO Auto-generated method stub
 		CrosstabReportItemHandle crossTab = reportItem;
 		CrosstabViewHandle crosstabView = crossTab.getCrosstabView( axis );
 
@@ -250,8 +249,6 @@ public class CrosstabSubTotalDialog extends BaseDialog
 
 		public void widgetDefaultSelected( SelectionEvent e )
 		{
-			// TODO Auto-generated method stub
-
 		}
 
 		public void widgetSelected( SelectionEvent e )
@@ -266,7 +263,6 @@ public class CrosstabSubTotalDialog extends BaseDialog
 	protected CrosstabSubTotalDialog( String title )
 	{
 		this( UIUtil.getDefaultShell( ), title );
-		// TODO Auto-generated constructor stub
 	}
 
 	protected void updateMeasures( )
@@ -430,7 +426,7 @@ public class CrosstabSubTotalDialog extends BaseDialog
 		container.setLayout( glayout );
 
 		Label lb = new Label( container, SWT.NONE );
-		lb.setText( Messages.getString( "SubTotalDialog.Text.AggregateOn" ) );
+		lb.setText( Messages.getString( "SubTotalDialog.Text.AggregateOn" ) ); //$NON-NLS-1$
 		levelCombo = new Combo( container, SWT.BORDER | SWT.READ_ONLY );
 		GridData gdata = new GridData( );
 		gdata.widthHint = 120;
@@ -439,7 +435,7 @@ public class CrosstabSubTotalDialog extends BaseDialog
 		levelCombo.addSelectionListener( updateButtonListener );
 
 		lb = new Label( container, SWT.NONE );
-		lb.setText( Messages.getString( "SubTotalDialog.Text.DataField" ) );
+		lb.setText( Messages.getString( "SubTotalDialog.Text.DataField" ) ); //$NON-NLS-1$
 
 		dataFieldCombo = new Combo( container, SWT.BORDER | SWT.READ_ONLY );
 		gdata = new GridData( );
@@ -447,7 +443,7 @@ public class CrosstabSubTotalDialog extends BaseDialog
 		dataFieldCombo.setLayoutData( gdata );
 
 		lb = new Label( container, SWT.NONE );
-		lb.setText( Messages.getString( "SubTotalDialog.Text.Function" ) );
+		lb.setText( Messages.getString( "SubTotalDialog.Text.Function" ) ); //$NON-NLS-1$
 
 		dataFieldCombo.addSelectionListener( updateButtonListener );
 
@@ -497,7 +493,7 @@ public class CrosstabSubTotalDialog extends BaseDialog
 		label.setFont( FontManager.getFont( label.getFont( ).toString( ),
 				10,
 				SWT.BOLD ) );
-		label.setText( getTitle( ) ); //$NON-NLS-1$
+		label.setText( getTitle( ) );
 
 		return titleArea;
 	}

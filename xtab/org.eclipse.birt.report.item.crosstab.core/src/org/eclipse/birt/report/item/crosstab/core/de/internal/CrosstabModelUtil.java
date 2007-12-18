@@ -345,7 +345,7 @@ public class CrosstabModelUtil implements ICrosstabConstants
 			column.setDataType( dataType );
 			column.setExpression( ExpressionUtil.createJSMeasureExpression( measureView.getCubeMeasureName( ) ) );
 			column.setAggregateFunction( function != null ? function
-					: DEFAULT_MEASURE_FUNCTION );
+					: getDefaultMeasureAggregationFunction( measureView ) );
 			if ( rowLevel != null )
 			{
 				column.addAggregateOn( rowLevel );
@@ -414,6 +414,25 @@ public class CrosstabModelUtil implements ICrosstabConstants
 		}
 
 		return name;
+	}
+
+	/**
+	 * Returns the default aggregation function for specific measure view
+	 */
+	public static String getDefaultMeasureAggregationFunction(
+			MeasureViewHandle mv )
+	{
+		if ( mv != null && mv.getCubeMeasure( ) != null )
+		{
+			String func = mv.getCubeMeasure( ).getFunction( );
+
+			if ( func != null )
+			{
+				return CrosstabModelUtil.getRollUpAggregationFunction( func );
+			}
+		}
+
+		return DEFAULT_MEASURE_FUNCTION;
 	}
 
 	/**

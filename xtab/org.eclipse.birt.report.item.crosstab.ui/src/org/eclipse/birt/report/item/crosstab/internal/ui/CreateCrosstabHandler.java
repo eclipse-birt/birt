@@ -21,7 +21,6 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
@@ -36,13 +35,12 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.requests.CreateRequest;
 
 /**
- * 
+ * CreateCrosstabHandler
  */
-
 public class CreateCrosstabHandler extends AbstractHandler
 {
 
-	private static String itemName = "Crosstab";
+	// private static String itemName = "Crosstab";
 
 	public Object execute( ExecutionEvent event ) throws ExecutionException
 	{
@@ -70,7 +68,7 @@ public class CreateCrosstabHandler extends AbstractHandler
 
 		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
 
-		EditPart targetEditPart = (EditPart) context.getVariable( "targetEditPart" );
+		EditPart targetEditPart = (EditPart) context.getVariable( "targetEditPart" ); //$NON-NLS-1$
 		if ( targetEditPart == null )
 		{
 			targetEditPart = UIUtil.getCurrentEditPart( );
@@ -78,7 +76,7 @@ public class CreateCrosstabHandler extends AbstractHandler
 
 		Object parentModel = DNDUtil.unwrapToModel( targetEditPart.getModel( ) );
 
-		CreateRequest request = (CreateRequest) context.getVariable( "request" );
+		CreateRequest request = (CreateRequest) context.getVariable( "request" ); //$NON-NLS-1$
 
 		if ( request != null )
 		{

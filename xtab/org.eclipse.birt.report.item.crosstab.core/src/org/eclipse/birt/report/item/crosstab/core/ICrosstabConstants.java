@@ -20,6 +20,11 @@ public interface ICrosstabConstants
 {
 
 	/**
+	 * Extension version of current crosstab.
+	 */
+	String CROSSTAB_CURRENT_VERSION = "2.3.0"; //$NON-NLS-1$
+
+	/**
 	 * Extension name of crosstab.
 	 */
 	String CROSSTAB_EXTENSION_NAME = "Crosstab"; //$NON-NLS-1$
@@ -53,7 +58,7 @@ public interface ICrosstabConstants
 	 * Extension name of aggregation cell.
 	 */
 	String AGGREGATION_CELL_EXTENSION_NAME = "AggregationCell"; //$NON-NLS-1$
-	
+
 	/**
 	 * Extension name of header cell.
 	 */

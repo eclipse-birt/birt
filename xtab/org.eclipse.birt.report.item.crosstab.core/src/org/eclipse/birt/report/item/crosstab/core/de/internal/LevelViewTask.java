@@ -312,6 +312,17 @@ public class LevelViewTask extends AbstractCrosstabModelTask
 		if ( crosstab == null || crosstab != measureView.getCrosstab( ) )
 			return null;
 
+		if ( focus.isInnerMost( ) )
+		{
+			String function = CrosstabModelUtil.getAggregationFunction( crosstab,
+					measureView.getCell( ) );
+
+			if ( function != null )
+			{
+				return function;
+			}
+		}
+
 		int axisType = focus.getAxisType( );
 		String propName = CrosstabModelUtil.getAggregationOnPropName( axisType );
 

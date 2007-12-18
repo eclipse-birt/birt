@@ -264,7 +264,7 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 						if ( measureView.getCrosstab( ) != crosstab )
 							continue;
 
-						String function = functionList == null ? DEFAULT_MEASURE_FUNCTION
+						String function = functionList == null ? CrosstabModelUtil.getDefaultMeasureAggregationFunction( measureView )
 								: (String) functionList.get( i );
 						// if checkCounterMeasureList is true, then we need to
 						// check the counter level view is aggregated on the
@@ -311,7 +311,7 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 				MeasureViewHandle measureView = (MeasureViewHandle) measureList.get( i );
 				if ( measureView.getCrosstab( ) != crosstab )
 					continue;
-				String function = functionList == null ? DEFAULT_MEASURE_FUNCTION
+				String function = functionList == null ? CrosstabModelUtil.getDefaultMeasureAggregationFunction( measureView )
 						: (String) functionList.get( i );
 				// if checkCounterMeasureList is true, then we need to
 				// check the counter level view is aggregated on the
@@ -405,7 +405,7 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 						if ( measureView.getCrosstab( ) != crosstab )
 							continue;
 
-						String function = functionList == null ? DEFAULT_MEASURE_FUNCTION
+						String function = functionList == null ? CrosstabModelUtil.getDefaultMeasureAggregationFunction( measureView )
 								: (String) functionList.get( i );
 						// if checkCounterMeasureList is true, then we
 						// need to check the counter level view is
@@ -444,7 +444,7 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 				if ( measureView.getCrosstab( ) != crosstab )
 					continue;
 
-				String function = functionList == null ? DEFAULT_MEASURE_FUNCTION
+				String function = functionList == null ? CrosstabModelUtil.getDefaultMeasureAggregationFunction( measureView )
 						: (String) functionList.get( i );
 				// if checkCounterMeasureList is true, then we need to
 				// check the counter level view is aggregated on the
@@ -1130,10 +1130,18 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 			String dataType = measureView.getDataType( );
 			column.setDataType( dataType );
 			column.setExpression( ExpressionUtil.createJSMeasureExpression( measureView.getCubeMeasureName( ) ) );
-			// use roll-up cube measure function
-			String measureFunc = measureView.getCubeMeasure( ) == null ? DEFAULT_MEASURE_FUNCTION
-					: measureView.getCubeMeasure( ).getFunction( );
-			column.setAggregateFunction( CrosstabModelUtil.getRollUpAggregationFunction( measureFunc ) );
+
+			String measureFunc = CrosstabModelUtil.getAggregationFunction( crosstab,
+					detailCell );
+
+			if ( measureFunc == null )
+			{
+				// use default measure function
+				measureFunc = CrosstabModelUtil.getDefaultMeasureAggregationFunction( measureView );
+			}
+
+			column.setAggregateFunction( measureFunc );
+
 			if ( aggregateRowName != null )
 			{
 				column.addAggregateOn( aggregateRowName );

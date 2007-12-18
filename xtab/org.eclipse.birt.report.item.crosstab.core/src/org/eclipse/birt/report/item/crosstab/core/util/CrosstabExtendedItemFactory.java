@@ -51,17 +51,20 @@ public class CrosstabExtendedItemFactory implements ICrosstabConstants
 			return null;
 		ExtendedItemHandle extendedItem = module.getElementFactory( )
 				.newExtendedItem( null, CROSSTAB_EXTENSION_NAME );
+
 		if ( extendedItem != null )
 		{
-			extendedItem.setProperty( IReportItemModel.CUBE_PROP, cube );
-		}
+			extendedItem.setExtensionVersion( CROSSTAB_CURRENT_VERSION );
 
-		// prepare header cell
-		ExtendedItemHandle cellHandle = createCrosstabCell( module );
-		if ( cellHandle != null )
-		{
-			extendedItem.getPropertyHandle( ICrosstabReportItemConstants.HEADER_PROP )
-					.add( cellHandle );
+			extendedItem.setProperty( IReportItemModel.CUBE_PROP, cube );
+
+			// prepare header cell
+			ExtendedItemHandle cellHandle = createCrosstabCell( module );
+			if ( cellHandle != null )
+			{
+				extendedItem.getPropertyHandle( ICrosstabReportItemConstants.HEADER_PROP )
+						.add( cellHandle );
+			}
 		}
 
 		return extendedItem;

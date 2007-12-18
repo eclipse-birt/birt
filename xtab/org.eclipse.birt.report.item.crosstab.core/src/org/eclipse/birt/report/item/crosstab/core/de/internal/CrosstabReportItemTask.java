@@ -37,9 +37,8 @@ import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 /**
  * CrosstabReportItemTask
  */
-public class CrosstabReportItemTask extends AbstractCrosstabModelTask
-		implements
-			ICrosstabReportItemConstants
+public class CrosstabReportItemTask extends AbstractCrosstabModelTask implements
+		ICrosstabReportItemConstants
 {
 
 	/**
@@ -67,23 +66,22 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 			return null;
 
 		CommandStack stack = crosstab.getCommandStack( );
-		stack.startTrans( Messages
-				.getString( "CrosstabReportItemTask.msg.add.grandtotal" ) ); //$NON-NLS-1$
+		stack.startTrans( Messages.getString( "CrosstabReportItemTask.msg.add.grandtotal" ) ); //$NON-NLS-1$
 
 		CrosstabCellHandle grandTotal = null;
 
 		try
 		{
-			CrosstabViewHandle crosstabView = crosstab
-					.getCrosstabView( axisType );
+			CrosstabViewHandle crosstabView = crosstab.getCrosstabView( axisType );
 
 			if ( crosstabView == null )
 			{
 				crosstabView = crosstab.addCrosstabView( axisType );
 			}
 
-			grandTotal = new CrosstabViewTask( crosstabView ).addGrandTotal(
-					measureList, functionList, false );
+			grandTotal = new CrosstabViewTask( crosstabView ).addGrandTotal( measureList,
+					functionList,
+					false );
 		}
 		catch ( SemanticException e )
 		{
@@ -157,8 +155,7 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 			MeasureViewHandle measureView = crosstab.getMeasure( i );
 			if ( measures.contains( measureView ) )
 				continue;
-			if ( CrosstabModelUtil
-					.isAggregationOn( measureView, null, axisType ) )
+			if ( CrosstabModelUtil.isAggregationOn( measureView, null, axisType ) )
 				measures.add( measureView );
 		}
 		return measures;
@@ -177,20 +174,20 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 			MeasureViewHandle measureView )
 	{
 		// if crosstab is null or not define any grand total, then return null
-		if ( crosstab == null || crosstab.getGrandTotal( axisType ) == null
-				|| measureView == null || crosstab != measureView.getCrosstab( ) )
+		if ( crosstab == null
+				|| crosstab.getGrandTotal( axisType ) == null
+				|| measureView == null
+				|| crosstab != measureView.getCrosstab( ) )
 			return null;
 
 		for ( int j = 0; j < measureView.getAggregationCount( ); j++ )
 		{
 			AggregationCellHandle cell = measureView.getAggregationCell( j );
-			if ( ( axisType == COLUMN_AXIS_TYPE && cell
-					.getAggregationOnColumn( ) == null )
-					|| ( axisType == ROW_AXIS_TYPE && cell
-							.getAggregationOnRow( ) == null ) )
+			if ( ( axisType == COLUMN_AXIS_TYPE && cell.getAggregationOnColumn( ) == null )
+					|| ( axisType == ROW_AXIS_TYPE && cell.getAggregationOnRow( ) == null ) )
 			{
-				String function = CrosstabModelUtil.getAggregationFunction(
-						crosstab, cell );
+				String function = CrosstabModelUtil.getAggregationFunction( crosstab,
+						cell );
 				if ( function != null )
 					return function;
 			}
@@ -213,26 +210,25 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 			throws SemanticException
 	{
 		// if crosstab is null or not define any grand total, then return null
-		if ( crosstab == null || crosstab.getGrandTotal( axisType ) == null
-				|| measureView == null || crosstab != measureView.getCrosstab( ) )
+		if ( crosstab == null
+				|| crosstab.getGrandTotal( axisType ) == null
+				|| measureView == null
+				|| crosstab != measureView.getCrosstab( ) )
 			return;
 
 		CommandStack stack = crosstab.getCommandStack( );
-		stack
-				.startTrans( Messages
-						.getString( "CrosstabReportItemTask.msg.set.aggregate.function" ) ); //$NON-NLS-1$
+		stack.startTrans( Messages.getString( "CrosstabReportItemTask.msg.set.aggregate.function" ) ); //$NON-NLS-1$
 
 		try
 		{
 			for ( int j = 0; j < measureView.getAggregationCount( ); j++ )
 			{
 				AggregationCellHandle cell = measureView.getAggregationCell( j );
-				if ( ( axisType == COLUMN_AXIS_TYPE && cell
-						.getAggregationOnColumn( ) == null )
-						|| ( axisType == ROW_AXIS_TYPE && cell
-								.getAggregationOnRow( ) == null ) )
+				if ( ( axisType == COLUMN_AXIS_TYPE && cell.getAggregationOnColumn( ) == null )
+						|| ( axisType == ROW_AXIS_TYPE && cell.getAggregationOnRow( ) == null ) )
 				{
-					CrosstabModelUtil.setAggregationFunction( crosstab, cell,
+					CrosstabModelUtil.setAggregationFunction( crosstab,
+							cell,
 							function );
 				}
 			}
@@ -271,9 +267,10 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 					MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND,
 					name );
 			throw new CrosstabException( crosstab.getModelHandle( )
-					.getElement( ), new String[]{name,
-					crosstab.getModelHandle( ).getElement( ).getIdentifier( )},
-					MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND );
+					.getElement( ), new String[]{
+					name,
+					crosstab.getModelHandle( ).getElement( ).getIdentifier( )
+			}, MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND );
 		}
 		moveDimension( dimensionView, targetAxisType, targetIndex );
 	}
@@ -312,13 +309,11 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 			List functionList = new ArrayList( );
 			for ( int j = 0; j < measureList.size( ); j++ )
 			{
-				MeasureViewHandle measureView = (MeasureViewHandle) measureList
-						.get( j );
-				String function = levelView
-						.getAggregationFunction( measureView );
+				MeasureViewHandle measureView = (MeasureViewHandle) measureList.get( j );
+				String function = levelView.getAggregationFunction( measureView );
 				if ( function == null )
 				{
-					functionList.add( DEFAULT_MEASURE_FUNCTION );
+					functionList.add( CrosstabModelUtil.getDefaultMeasureAggregationFunction( measureView ) );
 				}
 				else
 				{
@@ -336,13 +331,12 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 		List grandFunctionList = new ArrayList( );
 		for ( int j = 0; j < grandMeasureList.size( ); j++ )
 		{
-			MeasureViewHandle measureView = (MeasureViewHandle) grandMeasureList
-					.get( j );
+			MeasureViewHandle measureView = (MeasureViewHandle) grandMeasureList.get( j );
 			String function = getAggregationFunction( targetAxisType,
 					measureView );
 			if ( function == null )
 			{
-				grandFunctionList.add( DEFAULT_MEASURE_FUNCTION );
+				grandFunctionList.add( CrosstabModelUtil.getDefaultMeasureAggregationFunction( measureView ) );
 			}
 			else
 			{
@@ -351,26 +345,21 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 		}
 
 		// have a copy for source dimension
-		DimensionViewHandle clonedDimensionView = (DimensionViewHandle) CrosstabUtil
-				.getReportItem( dimensionView
-						.getModelHandle( )
-						.copy( )
-						.getHandle( dimensionView.getModelHandle( ).getModule( ) ) );
+		DimensionViewHandle clonedDimensionView = (DimensionViewHandle) CrosstabUtil.getReportItem( dimensionView.getModelHandle( )
+				.copy( )
+				.getHandle( dimensionView.getModelHandle( ).getModule( ) ) );
 
 		CommandStack stack = crosstab.getCommandStack( );
-		stack.startTrans( Messages
-				.getString( "CrosstabReportItemTask.msg.pivot.dimension" ) ); //$NON-NLS-1$
+		stack.startTrans( Messages.getString( "CrosstabReportItemTask.msg.pivot.dimension" ) ); //$NON-NLS-1$
 
 		try
 		{
-			CrosstabViewHandle srcCrosstabView = (CrosstabViewHandle) dimensionView
-					.getContainer( );
-			new CrosstabViewTask( srcCrosstabView ).removeDimension(
-					dimensionView, false );
+			CrosstabViewHandle srcCrosstabView = (CrosstabViewHandle) dimensionView.getContainer( );
+			new CrosstabViewTask( srcCrosstabView ).removeDimension( dimensionView,
+					false );
 
 			// if target crosstab view is null, add it first
-			CrosstabViewHandle targetCrosstabView = crosstab
-					.getCrosstabView( targetAxisType );
+			CrosstabViewHandle targetCrosstabView = crosstab.getCrosstabView( targetAxisType );
 			if ( targetCrosstabView == null )
 			{
 				targetCrosstabView = crosstab.addCrosstabView( targetAxisType );
@@ -413,10 +402,10 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 									colLevel = null;
 								}
 
-								AggregationCellHandle aggCell = mv
-										.getAggregationCell( rowDimension,
-												rowLevel, colDimension,
-												colLevel );
+								AggregationCellHandle aggCell = mv.getAggregationCell( rowDimension,
+										rowLevel,
+										colDimension,
+										colLevel );
 
 								if ( aggCell != null )
 								{
@@ -431,18 +420,19 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 				// target view
 				if ( srcCrosstabView.getGrandTotal( ) != null )
 				{
-
 					for ( int i = 0; i < crosstab.getMeasureCount( ); i++ )
 					{
 						MeasureViewHandle mv = crosstab.getMeasure( i );
 
-						AggregationCellHandle aggCell = mv.getAggregationCell(
-								null, null, null, null );
+						AggregationCellHandle aggCell = mv.getAggregationCell( null,
+								null,
+								null,
+								null );
 
 						if ( aggCell != null )
 						{
-							String function = getAggregationFunction(
-									srcCrosstabView.getAxisType( ), mv );
+							String function = getAggregationFunction( srcCrosstabView.getAxisType( ),
+									mv );
 
 							aggCell.getModelHandle( ).drop( );
 
@@ -454,16 +444,17 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 				}
 			}
 
-			targetCrosstabView.getViewsProperty( ).add(
-					clonedDimensionView.getModelHandle( ), targetIndex );
+			targetCrosstabView.getViewsProperty( )
+					.add( clonedDimensionView.getModelHandle( ), targetIndex );
 
 			// transfer pervious recorded grandtotal for target view
 			if ( transferMeasureList.size( ) > 0
 					&& clonedDimensionView.getLevelCount( ) > 0 )
 			{
-				addMeasureAggregations( clonedDimensionView
-						.getLevel( clonedDimensionView.getLevelCount( ) - 1 ),
-						transferMeasureList, transferFunctionList, false );
+				addMeasureAggregations( clonedDimensionView.getLevel( clonedDimensionView.getLevelCount( ) - 1 ),
+						transferMeasureList,
+						transferFunctionList,
+						false );
 			}
 
 			// add all the level aggregations
@@ -492,15 +483,18 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 					List measureList = (List) measureListMap.get( levelName );
 					List functionList = (List) functionListMap.get( levelName );
 					new LevelViewTask( levelView ).addSubTotal( measureList,
-							functionList, false );
+							functionList,
+							false );
 				}
 			}
 
 			// restore all grandtotal aggregations on target view
 			if ( grandMeasureList.size( ) > 0 )
 			{
-				addMeasureAggregations( targetAxisType, grandMeasureList,
-						grandFunctionList, false );
+				addMeasureAggregations( targetAxisType,
+						grandMeasureList,
+						grandFunctionList,
+						false );
 			}
 
 			validateCrosstab( );
@@ -538,11 +532,12 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 				srcIndex );
 		if ( dimensionView == null )
 		{
-			crosstab.getLogger( ).log(
-					Level.INFO,
+			crosstab.getLogger( ).log( Level.INFO,
 					MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND,
-					new Object[]{String.valueOf( srcAxisType ),
-							String.valueOf( srcIndex )} );
+					new Object[]{
+							String.valueOf( srcAxisType ),
+							String.valueOf( srcIndex )
+					} );
 			return;
 		}
 
@@ -579,20 +574,18 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 			throw new CrosstabException( crosstab.getModelHandle( )
 					.getElement( ), new String[]{
 					dimensionHandle.getQualifiedName( ),
-					crosstab.getModelHandle( ).getElement( ).getIdentifier( )},
-					MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_DIMENSION );
+					crosstab.getModelHandle( ).getElement( ).getIdentifier( )
+			}, MessageConstants.CROSSTAB_EXCEPTION_DUPLICATE_DIMENSION );
 		}
 
 		DimensionViewHandle dimensionView = null;
 
 		CommandStack stack = crosstab.getCommandStack( );
-		stack.startTrans( Messages
-				.getString( "CrosstabReportItemTask.msg.insert.dimension" ) ); //$NON-NLS-1$
+		stack.startTrans( Messages.getString( "CrosstabReportItemTask.msg.insert.dimension" ) ); //$NON-NLS-1$
 
 		try
 		{
-			CrosstabViewHandle crosstabView = crosstab
-					.getCrosstabView( axisType );
+			CrosstabViewHandle crosstabView = crosstab.getCrosstabView( axisType );
 
 			if ( crosstabView == null )
 			{
@@ -633,9 +626,10 @@ public class CrosstabReportItemTask extends AbstractCrosstabModelTask
 					MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND,
 					name );
 			throw new CrosstabException( crosstab.getModelHandle( )
-					.getElement( ), new String[]{name,
-					crosstab.getModelHandle( ).getElement( ).getIdentifier( )},
-					MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND );
+					.getElement( ), new String[]{
+					name,
+					crosstab.getModelHandle( ).getElement( ).getIdentifier( )
+			}, MessageConstants.CROSSTAB_EXCEPTION_DIMENSION_NOT_FOUND );
 		}
 
 		removeDimension( dimensionView.getAxisType( ), dimensionView.getIndex( ) );
