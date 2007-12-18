@@ -160,7 +160,7 @@ public final class SwtTextMetrics extends TextAdapter
 	public final double getHeight( )
 	{
 		gc.setFont( getFont( ) );
-		final int iHeight = gc.textExtent( "X" ).y; //$NON-NLS-1$
+		final int iHeight = gc.getFontMetrics().getHeight(); //$NON-NLS-1$
 		return iHeight;
 	}
 
