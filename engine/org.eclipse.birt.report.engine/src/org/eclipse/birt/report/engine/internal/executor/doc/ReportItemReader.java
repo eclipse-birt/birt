@@ -42,6 +42,7 @@ import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 import org.eclipse.birt.report.engine.internal.document.v3.CachedReportContentReaderV3;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
+import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.GroupDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.Report;
@@ -421,6 +422,42 @@ public class ReportItemReader implements IReportItemExecutor
 	protected IBaseResultSet[] openQueries( IBaseResultSet rset,
 			IContent content ) throws BirtException
 	{
+		/*
+		 * Before 2.1.2, the dataId is defined by the result set of content
+		 * itself and it has been changed in 2.1.3 or later. The dataId is
+		 * defined by the result set of the parent content. In the localization
+		 * stage, the extended item always assume the result set is a fresh one
+		 * and always calls next() to position the cursor to the first row. so
+		 * we can't move the result set to first row in open queries.
+		 */
+		
+		// open the query associated with the current report item
+		IBaseResultSet[] rsets = doOpenQueries( rset, content );
+
+		// if it is extended item, we need only locate to result if the item has
+		// no query
+		Object generateBy = content.getGenerateBy( );
+		if ( generateBy instanceof ExtendedItemDesign )
+		{
+			if ( rsets == null )
+			{
+				doPositionResultSet( rset, content );
+			}
+		}
+		else
+		{
+			if ( rsets != null )
+			{
+				rset = rsets[0];
+			}
+			doPositionResultSet( rset, content );
+		}
+		return rsets;
+	}
+
+	protected IBaseResultSet[] doOpenQueries( IBaseResultSet rset,
+			IContent content ) throws BirtException
+	{
 		IBaseResultSet[] rsets = null;
 		Object generateBy = content.getGenerateBy( );
 		// open the query associated with the current report item
@@ -504,9 +541,14 @@ public class ReportItemReader implements IReportItemExecutor
 						context.addException( ex );
 					}
 				}
-				rset = rsets[0];
 			}
 		}
+		return rsets;
+	}
+	
+	protected void doPositionResultSet( IBaseResultSet rset, IContent content )
+			throws BirtException
+	{
 		// locate the row position to the current position
 		InstanceID iid = content.getInstanceID( );
 		if ( iid != null )
@@ -547,7 +589,6 @@ public class ReportItemReader implements IReportItemExecutor
 				}
 			}
 		}
-		return rsets;
 	}
 
 	protected void closeQueries( IBaseResultSet[] rsets )
