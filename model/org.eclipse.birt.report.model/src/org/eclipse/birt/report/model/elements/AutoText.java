@@ -17,8 +17,10 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IAutoTextModel;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 /**
@@ -110,25 +112,32 @@ public class AutoText extends ReportItem implements IAutoTextModel
 
 	public String getDisplayLabel( Module module, int level )
 	{
-		String value = getStringProperty( module,
-				IAutoTextModel.AUTOTEXT_TYPE_PROP );
+		String displayLabel = super.getDisplayLabel( module, level );
+		if ( level == IDesignElementModel.FULL_LABEL )
+		{
+			String value = getStringProperty( module,
+					IAutoTextModel.AUTOTEXT_TYPE_PROP );
+			if ( !StringUtil.isBlank( value ) )
+			{
+				MetaDataDictionary dictionary = MetaDataDictionary
+						.getInstance( );
+				IChoiceSet cSet = dictionary
+						.getChoiceSet( DesignChoiceConstants.CHOICE_AUTO_TEXT_TYPE );
+				IChoice choice = cSet.findChoice( value );
 
-		if ( value == null )
-			return super.getDisplayLabel( module, level );
+				// First get message in message.properties.
+				// Second get value of choice type
+				// At last get displayName of element
 
-		MetaDataDictionary dictionary = MetaDataDictionary.getInstance( );
-		IChoiceSet cSet = dictionary
-				.getChoiceSet( DesignChoiceConstants.CHOICE_AUTO_TEXT_TYPE );
-		IChoice choice = cSet.findChoice( value );
-		
-		// First get message in message.properties.
-		// Second get value of choice type
-		// At last get displayName of element
-
-		if (choice == null)
-			return super.getDisplayLabel( module, level );
-
-		return choice.getDisplayName( );
+				if ( choice != null )
+				{
+					value = choice.getDisplayName( );
+					value = limitStringLength( value );
+					displayLabel += "(" + value + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+				}
+			}
+		}
+		return displayLabel;
 	}
 
 }
