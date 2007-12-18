@@ -1,4 +1,3 @@
-
 /*******************************************************************************
  * Copyright (c) 2004, 2005 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
@@ -9,6 +8,7 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.data.engine.olap.util;
 
 import java.util.ArrayList;
@@ -33,6 +33,7 @@ import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 
 public class OlapQueryUtil
 {
+
 	/**
 	 * Valid bindings, return a list of invalid binding.
 	 * 
@@ -41,54 +42,74 @@ public class OlapQueryUtil
 	 * @return
 	 * @throws DataException
 	 */
-	public static List validateBinding( ICubeQueryDefinition queryDefn, boolean suppressException ) throws DataException
+	public static List validateBinding( ICubeQueryDefinition queryDefn,
+			boolean suppressException ) throws DataException
 	{
-		List result = new ArrayList();
-			
-		Set validDimLevels = new HashSet();
+		List result = new ArrayList( );
 
-		populateLevel( queryDefn, validDimLevels, ICubeQueryDefinition.COLUMN_EDGE );
+		Set validDimLevels = new HashSet( );
+
+		populateLevel( queryDefn,
+				validDimLevels,
+				ICubeQueryDefinition.COLUMN_EDGE );
 		populateLevel( queryDefn, validDimLevels, ICubeQueryDefinition.ROW_EDGE );
-		
-		for( int i = 0; i < queryDefn.getBindings( ).size( ); i++ )
+
+		for ( int i = 0; i < queryDefn.getBindings( ).size( ); i++ )
 		{
 			boolean isValid = true;
-			IBinding binding = (IBinding)queryDefn.getBindings( ).get(i);
-			
-			if ( binding.getAggrFunction( ) != null &&
-					binding.getExpression( ) instanceof IScriptExpression )
+			IBinding binding = (IBinding) queryDefn.getBindings( ).get( i );
+
+			if ( binding.getAggrFunction( ) != null
+					&& binding.getExpression( ) instanceof IScriptExpression )
 			{
 				String expr = ( (IScriptExpression) binding.getExpression( ) ).getText( );
-				if ( expr == null &&
-						( AggregationFactory.getInstance( )
+				if ( expr == null
+						&& ( AggregationFactory.getInstance( )
 								.getAggrInfo( binding.getAggrFunction( ) ) != null && !AggregationFactory.getInstance( )
 								.getAggrInfo( binding.getAggrFunction( ) )
 								.needDataField( ) ) )
 					continue;
 			}
-			
-			Set levels = OlapExpressionCompiler.getReferencedDimLevel( binding.getExpression( ), queryDefn.getBindings( ) );
-			if( ! validDimLevels.containsAll( levels ))
-			{	
-				isValid = false;
-				if( !suppressException )
-					throw new DataException( ResourceConstants.INVALID_BINDING_REFER_TO_INEXIST_DIMENSION,
-						binding.getBindingName( ) );
-			}
-			
-			if ( ( binding.getAggregatOns( ).size( ) > 0
-					&& binding.getAggrFunction( ) == null ) )
+
+			Set levels = OlapExpressionCompiler.getReferencedDimLevel( binding.getExpression( ),
+					queryDefn.getBindings( ) );
+			if ( !validDimLevels.containsAll( levels ) )
 			{
 				isValid = false;
-				if( !suppressException )
-				throw new DataException( ResourceConstants.INVALID_BINDING_MISSING_AGGR_FUNC,
-						binding.getBindingName( ) );
+				if ( !suppressException )
+					throw new DataException( ResourceConstants.INVALID_BINDING_REFER_TO_INEXIST_DIMENSION,
+							binding.getBindingName( ) );
 			}
-			
-			if( !isValid )
+
+			if ( binding.getAggregatOns( ).size( ) > 0 )
+			{
+				if ( binding.getAggrFunction( ) == null )
+				{
+					isValid = false;
+					if ( !suppressException )
+						throw new DataException( ResourceConstants.INVALID_BINDING_MISSING_AGGR_FUNC,
+								binding.getBindingName( ) );
+				}
+				
+				Set lvls = new HashSet( );
+				for ( int j = 0; j < binding.getAggregatOns( ).size( ); j++ )
+				{
+					lvls.add( OlapExpressionUtil.getTargetDimLevel( binding.getAggregatOns( )
+							.get( j )
+							.toString( ) ) );
+				}
+				if ( !validDimLevels.containsAll( lvls ) )
+				{
+					isValid = false;
+					if ( !suppressException )
+						throw new DataException( ResourceConstants.INVALID_BINDING_REFER_TO_INEXIST_DIMENSION,
+								binding.getBindingName( ) );
+				}
+			}
+			if ( !isValid )
 				result.add( binding );
 		}
-	
+
 		return result;
 	}
 
@@ -97,16 +118,24 @@ public class OlapQueryUtil
 	 * @param validDimLevels
 	 * @param edgeType
 	 */
-	private static void populateLevel( ICubeQueryDefinition queryDefn, Set validDimLevels, int edgeType )
+	private static void populateLevel( ICubeQueryDefinition queryDefn,
+			Set validDimLevels, int edgeType )
 	{
 		if ( queryDefn.getEdge( edgeType ) == null )
 			return;
-		for( int i = 0; i < queryDefn.getEdge( edgeType ).getDimensions( ).size( ); i++ )
+		for ( int i = 0; i < queryDefn.getEdge( edgeType )
+				.getDimensions( )
+				.size( ); i++ )
 		{
-			for( int j = 0; j < getHierarchy( queryDefn, edgeType, i ).getLevels( ).size( );j++)
+			for ( int j = 0; j < getHierarchy( queryDefn, edgeType, i ).getLevels( )
+					.size( ); j++ )
 			{
-				ILevelDefinition level = (ILevelDefinition)getHierarchy( queryDefn, edgeType, i ).getLevels( ).get( j );
-				validDimLevels.add( new DimLevel( getDimension( queryDefn, edgeType, i ).getName( ), level.getName( )) );
+				ILevelDefinition level = (ILevelDefinition) getHierarchy( queryDefn,
+						edgeType,
+						i ).getLevels( ).get( j );
+				validDimLevels.add( new DimLevel( getDimension( queryDefn,
+						edgeType,
+						i ).getName( ), level.getName( ) ) );
 			}
 		}
 	}
@@ -117,9 +146,11 @@ public class OlapQueryUtil
 	 * @param i
 	 * @return
 	 */
-	private static IHierarchyDefinition getHierarchy( ICubeQueryDefinition queryDefn, int edgeType, int i )
+	private static IHierarchyDefinition getHierarchy(
+			ICubeQueryDefinition queryDefn, int edgeType, int i )
 	{
-		return ((IHierarchyDefinition)(getDimension( queryDefn, edgeType, i )).getHierarchy( ).get( 0 ));
+		return ( (IHierarchyDefinition) ( getDimension( queryDefn, edgeType, i ) ).getHierarchy( )
+				.get( 0 ) );
 	}
 
 	/**
@@ -128,8 +159,11 @@ public class OlapQueryUtil
 	 * @param i
 	 * @return
 	 */
-	private static IDimensionDefinition getDimension( ICubeQueryDefinition queryDefn, int edgeType, int i )
+	private static IDimensionDefinition getDimension(
+			ICubeQueryDefinition queryDefn, int edgeType, int i )
 	{
-		return (IDimensionDefinition)queryDefn.getEdge( edgeType ).getDimensions( ).get( i );
+		return (IDimensionDefinition) queryDefn.getEdge( edgeType )
+				.getDimensions( )
+				.get( i );
 	}
 }
