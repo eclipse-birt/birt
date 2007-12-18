@@ -91,9 +91,12 @@ public class ElementAdapterManager
 			for ( int j = 0; j < elements.length; j++ )
 			{
 				String adaptable = elements[j].getAttribute( "class" ); //$NON-NLS-1$
+				String adapterTypeClassName = null;
+
 				try
 				{
 					Class adaptableType = Class.forName( adaptable );
+
 					IConfigurationElement[] adapters = elements[j].getChildren( "adapter" ); //$NON-NLS-1$
 					for ( int k = 0; k < adapters.length; k++ )
 					{
@@ -102,7 +105,6 @@ public class ElementAdapterManager
 							ElementAdapter adapter = new ElementAdapter( );
 							adapter.setId( adapters[k].getAttribute( "id" ) ); //$NON-NLS-1$
 							adapter.setAdaptableType( adaptableType );
-							adapter.setAdapterType( Class.forName( adapters[k].getAttribute( "type" ) ) ); //$NON-NLS-1$
 
 							if ( adapters[k].getAttribute( "class" ) != null //$NON-NLS-1$
 									&& !adapters[k].getAttribute( "class" ) //$NON-NLS-1$
@@ -112,6 +114,48 @@ public class ElementAdapterManager
 									&& !adapters[k].getAttribute( "factory" ) //$NON-NLS-1$
 											.equals( "" ) ) //$NON-NLS-1$
 								adapter.setFactory( (IAdapterFactory) adapters[k].createExecutableExtension( "factory" ) ); //$NON-NLS-1$
+
+							adapterTypeClassName = adapters[k].getAttribute( "type" ); //$NON-NLS-1$
+							Class adapterType = null;
+
+							// try load class from contributor first
+							if ( adapter.getAdapterInstance( ) != null )
+							{
+								try
+								{
+									adapterType = adapter.getAdapterInstance( )
+											.getClass( )
+											.getClassLoader( )
+											.loadClass( adapterTypeClassName );
+								}
+								catch ( ClassNotFoundException e )
+								{
+									// fail over to next
+								}
+							}
+
+							if ( adapterType == null
+									&& adapter.getFactory( ) != null )
+							{
+								try
+								{
+									adapterType = adapter.getFactory( )
+											.getClass( )
+											.getClassLoader( )
+											.loadClass( adapterTypeClassName );
+								}
+								catch ( ClassNotFoundException e )
+								{
+									// fail over to next
+								}
+							}
+
+							if ( adapterType == null )
+							{
+								adapterType = Class.forName( adapterTypeClassName );
+							}
+
+							adapter.setAdapterType( adapterType );
 
 							adapter.setSingleton( !"false".equals( adapters[k].getAttribute( "singleton" ) ) ); //$NON-NLS-1$ //$NON-NLS-2$
 							if ( adapters[k].getAttribute( "priority" ) != null //$NON-NLS-1$
@@ -138,6 +182,13 @@ public class ElementAdapterManager
 										.perform( enablements[0] ) );
 							registerAdapter( adaptableType, adapter );
 						}
+						catch ( ClassNotFoundException ce )
+						{
+							System.out.println( MessageFormat.format( "Adapter Type class '{0}' not found!", //$NON-NLS-1$
+									new Object[]{
+										adapterTypeClassName
+									} ) );
+						}
 						catch ( Exception e )
 						{
 							System.out.println( "Register adapter error!" ); //$NON-NLS-1$
@@ -147,7 +198,7 @@ public class ElementAdapterManager
 				}
 				catch ( ClassNotFoundException e )
 				{
-					System.out.println( MessageFormat.format( "Adaptable Type {0} not found!", //$NON-NLS-1$
+					System.out.println( MessageFormat.format( "Adaptable Type class '{0}' not found!", //$NON-NLS-1$
 							new Object[]{
 								adaptable
 							} ) );
