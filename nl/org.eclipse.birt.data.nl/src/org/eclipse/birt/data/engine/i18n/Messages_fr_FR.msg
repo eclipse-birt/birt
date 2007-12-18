@@ -70,6 +70,7 @@ data.engine.BadGroupKeyType=Le type de données de la clé de groupe n''est pas pr
 data.engine.group.interval=La définition d''un intervalle {0} sur une colonne de type {1} n''est pas prise en charge.
 data.engine.group.interval.Rowid=L'intervalle numérique est le seul intervalle pris en charge dans la colonne ROWID.
 data.engine.group.interval.invalid=L'intervalle indiqué n'est pas valide.
+data.engine.group.intervalRange.invalid=Invalid interval range: {0}.
 data.engine.NoSupportFilterOnGroup=Le filtrage de groupes n'est pas pris en charge actuellement.
 data.engine.InvalidTopBottomArgument=L'argument des filtres Haut/Bas doit être un nombre.
 data.engine.InvalidTopBottomNArgument=L'argument des filtres TopN/BottomN doit être zéro ou un entier positif.

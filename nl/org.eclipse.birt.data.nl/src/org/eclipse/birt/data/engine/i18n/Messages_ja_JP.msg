@@ -70,6 +70,7 @@ data.engine.BadGroupKeyType=このデータ型のグループキーは使用できません : {0}
 data.engine.group.interval={1} 型の列には、{0} の間隔を設定できません。
 data.engine.group.interval.Rowid=ROWID 列には、数値以外の型の間隔を設定できません。
 data.engine.group.interval.invalid=指定した間隔は無効です。
+data.engine.group.intervalRange.invalid=Invalid interval range: {0}.
 data.engine.NoSupportFilterOnGroup=現在はグループにフィルタを適用できません。
 data.engine.InvalidTopBottomArgument=Top と Bottom のフィルタの引数には、数値を指定してください。
 data.engine.InvalidTopBottomNArgument=TopN と BottomN のフィルタの引数は、ゼロまたは正の整数である必要があります。

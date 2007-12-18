@@ -70,6 +70,7 @@ data.engine.BadGroupKeyType=组键具有不支持的数据类型：{0}
 data.engine.group.interval=不支持在类型为 {1} 的列中设置 {0} 间隔。
 data.engine.group.interval.Rowid=数字间隔是 ROWID 列中唯一支持的间隔。
 data.engine.group.interval.invalid=该指定间隔无效。
+data.engine.group.intervalRange.invalid=Invalid interval range: {0}.
 data.engine.NoSupportFilterOnGroup=当前不支持对组执行筛选。
 data.engine.InvalidTopBottomArgument=顶端/底端筛选器参数必须为数字。
 data.engine.InvalidTopBottomNArgument=TopN/BottomN 筛选器的参数必须为零或正整数。

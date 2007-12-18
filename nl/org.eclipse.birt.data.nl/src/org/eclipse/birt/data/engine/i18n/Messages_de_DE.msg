@@ -70,6 +70,7 @@ data.engine.BadGroupKeyType=Gruppenschlüssel hat nicht unterstützten Datentyp: {
 data.engine.group.interval=Das Festlegen von "{0}" als Intervall für eine Spalte des Typs {1} wird nicht unterstützt.
 data.engine.group.interval.Rowid=In der Spalte "ROWID" werden als Intervalltyp nur numerische Intervalle unterstützt.
 data.engine.group.interval.invalid=Das angegebene Intervall ist ungültig.
+data.engine.group.intervalRange.invalid=Invalid interval range: {0}.
 data.engine.NoSupportFilterOnGroup=Das Filtern nach Gruppen wird momentan nicht unterstützt.
 data.engine.InvalidTopBottomArgument=Das Argument für Top/Bottom-Filter muss eine Zahl sein.
 data.engine.InvalidTopBottomNArgument=Das Argument der Filter "TopN/BottomN" muss entweder Null oder eine positive Ganzzahl sein.
