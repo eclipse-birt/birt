@@ -14,6 +14,8 @@ package org.eclipse.birt.chart.computation;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.ListIterator;
+import java.util.NoSuchElementException;
 import java.util.List;
 import java.util.Map;
 
@@ -80,6 +82,77 @@ public final class LegendBuilder implements IConstants
 		private Insets insCa;
 		private String sMinSliceLabel;
 
+	}
+
+	
+	private class InvertibleIterator implements Iterator 
+	{
+		private boolean isInverse_ = false;
+		private ListIterator lit_ = null;
+		private int index_ = -1;
+
+		/**
+		 * The constructor.
+		 */
+		public InvertibleIterator(List tList, boolean isInverse, int index)
+		{
+			lit_ = tList.listIterator( index );
+			isInverse_ = isInverse;
+			if (isInverse) {
+				index_ = lit_.previousIndex( );
+			}
+			else {
+				index_ = lit_.nextIndex( );
+			}
+		}
+
+		public InvertibleIterator(List tList, boolean isInverse)
+		{
+			this(tList, isInverse, isInverse ? tList.size( ) : 0);
+		}
+
+		/**
+		 * Methods to implement Iterator.
+		 */
+		public boolean hasNext()
+		{
+			return isInverse_ ? lit_.hasPrevious( ) : lit_.hasNext( );
+		}
+
+		public final Object next() throws NoSuchElementException
+		{
+			if (isInverse_) {
+				index_ = lit_.previousIndex( );
+				return lit_.previous( );
+			}
+			else {
+				index_ = lit_.nextIndex( );
+				return lit_.next( );
+			}
+		}
+		
+		public void remove()
+		{
+		}
+		
+		/**
+		 * Special Methods.
+		 */
+		public int getIndex()
+		{
+			return index_;
+		}
+		
+		public boolean getInverse()
+		{
+			return isInverse_;
+		}
+		
+		public void setInverse(boolean isInverse)
+		{
+			isInverse_ = isInverse;
+		}
+		
 	}
 
 	private static final String ELLIPSIS_STRING = "..."; //$NON-NLS-1$
@@ -344,6 +417,9 @@ public final class LegendBuilder implements IConstants
 			}
 			double[] size = null;
 			// COMPUTATIONS HERE MUST BE IN SYNC WITH THE ACTUAL RENDERER
+			boolean bNeedInvert = isNeedInvert(bPaletteByCategory, cm, seda);
+			rtc.putState( "[Legend]bNeedInvert", Boolean.toString(bNeedInvert) );
+
 			if ( orientation.getValue( ) == Orientation.VERTICAL )
 			{
 
@@ -354,7 +430,8 @@ public final class LegendBuilder implements IConstants
 							rtc,
 							itm,
 							la,
-							legendData );
+							legendData,
+							bNeedInvert);
 				}
 				else if ( direction.getValue( ) == Direction.TOP_BOTTOM )
 				{
@@ -364,7 +441,8 @@ public final class LegendBuilder implements IConstants
 							rtc,
 							itm,
 							la,
-							legendData );
+							legendData,
+							bNeedInvert);
 				}
 				else if ( direction.getValue( ) == Direction.LEFT_RIGHT )
 				{
@@ -374,7 +452,8 @@ public final class LegendBuilder implements IConstants
 							rtc,
 							itm,
 							la,
-							legendData );
+							legendData,
+							bNeedInvert);
 				}
 				else
 				{
@@ -396,7 +475,8 @@ public final class LegendBuilder implements IConstants
 							rtc,
 							itm,
 							la,
-							legendData );
+							legendData,
+							bNeedInvert);
 				}
 				else if ( direction.getValue( ) == Direction.TOP_BOTTOM )
 				{
@@ -406,7 +486,8 @@ public final class LegendBuilder implements IConstants
 							rtc,
 							itm,
 							la,
-							legendData );
+							legendData,
+							bNeedInvert);
 				}
 				else if ( direction.getValue( ) == Direction.LEFT_RIGHT )
 				{
@@ -416,7 +497,8 @@ public final class LegendBuilder implements IConstants
 							rtc,
 							itm,
 							la,
-							legendData );
+							legendData,
+							bNeedInvert);
 				}
 				else
 				{
@@ -472,49 +554,6 @@ public final class LegendBuilder implements IConstants
 			{
 				List legendItems = legendData.legendItems;
 				LegendItemHints[] liha = (LegendItemHints[]) legendItems.toArray( new LegendItemHints[legendItems.size( )] );
-
-				if ( liha.length > 1 )
-				{
-					// Check if the legend item needs inverting
-					boolean needInvert = false;
-					// invert when the chart is transposed
-					if ( cm instanceof ChartWithAxes )
-					{
-						needInvert = ( (ChartWithAxes) cm ).isTransposed( );
-					}
-
-					boolean isStack = true;
-					for ( int i = 0; i < seda.length; i++ )
-					{
-						if ( isStack )
-						{
-							// check if the chart is stacked
-							// TODO the logic of series stack may be changed.
-							for ( Iterator iter = seda[i].getSeries( )
-									.iterator( ); iter.hasNext( ); )
-							{
-								Series series = (Series) iter.next( );
-								if ( !series.isStacked( ) )
-								{
-
-									isStack = false;
-									break;
-								}
-							}
-						}
-					}
-					// invert when the chart is stacked
-					if ( isStack )
-					{
-						// prevent duplicated invert
-						needInvert = !needInvert;
-					}
-
-					if ( needInvert )
-					{
-						liha = invertLegendItems( liha );
-					}
-				}
 
 				// update context hints here.
 				LegendLayoutHints lilh = new LegendLayoutHints( SizeImpl.create( dWidth,
@@ -624,7 +663,8 @@ public final class LegendBuilder implements IConstants
 
 	private double[] computeVerticalByCategory( IDisplayServer xs, Chart cm,
 			RunTimeContext rtc, ITextMetrics itm, Label la,
-			LegendData legendData ) throws ChartException
+			LegendData legendData,
+			boolean bNeedInvert) throws ChartException
 	{
 		double dWidth = 0, dHeight = 0;
 		double dColumnWidth;
@@ -666,6 +706,7 @@ public final class LegendBuilder implements IConstants
 		}
 
 		int pos = -1;
+		dsiBase.reverse( bNeedInvert );
 		while ( dsiBase.hasNext( ) )
 		{
 			Object obj = dsiBase.next( );
@@ -681,6 +722,7 @@ public final class LegendBuilder implements IConstants
 			}
 
 			pos++;
+			
 
 			// filter the not-used legend.
 			if ( legendData.bMinSliceApplied
@@ -801,7 +843,8 @@ public final class LegendBuilder implements IConstants
 					dFWidth,
 					dFHeight,
 					la.getCaption( ).getValue( ),
-					pos ) );
+					bNeedInvert ?  dsiBase.size( ) - 1 - pos : pos
+					) );
 		}
 
 		// compute the extra MinSlice legend item if applicable.
@@ -955,7 +998,8 @@ public final class LegendBuilder implements IConstants
 
 	private double[] computeVerticalByTopBottomValue( IDisplayServer xs,
 			Chart cm, SeriesDefinition[] seda, RunTimeContext rtc,
-			ITextMetrics itm, Label la, LegendData legendData )
+			ITextMetrics itm, Label la, LegendData legendData,
+			boolean bNeedInvert)
 			throws ChartException
 	{
 		double dWidth = 0, dHeight = 0;
@@ -970,14 +1014,17 @@ public final class LegendBuilder implements IConstants
 
 		for ( int j = 0; j < seda.length; j++ )
 		{
-			List al = seda[j].getRunTimeSeries( );
-			FormatSpecifier fs = seda[j].getFormatSpecifier( );
+			int iSedaId = bNeedInvert ? seda.length - 1 - j : j;
+			List al = seda[iSedaId].getRunTimeSeries( );
+			FormatSpecifier fs = seda[iSedaId].getFormatSpecifier( );
 
 			boolean oneVisibleSerie = false;
+			
+			InvertibleIterator it = new InvertibleIterator(al, bNeedInvert);
 
-			for ( int i = 0; i < al.size( ); i++ )
+			while ( it.hasNext( ) )
 			{
-				Series se = (Series) al.get( i );
+				Series se = (Series)it.next();
 
 				if ( se.isVisible( ) )
 				{
@@ -1185,7 +1232,9 @@ public final class LegendBuilder implements IConstants
 						dFHeight,
 						la.getCaption( ).getValue( ),
 						dExtraHeight,
-						extraText ) );
+						extraText,
+						it.getIndex( )
+						) );
 			}
 
 			// check available bounds
@@ -1239,7 +1288,8 @@ public final class LegendBuilder implements IConstants
 
 	private double[] computeVerticalByLeftRightValue( IDisplayServer xs,
 			Chart cm, SeriesDefinition[] seda, RunTimeContext rtc,
-			ITextMetrics itm, Label la, LegendData legendData )
+			ITextMetrics itm, Label la, LegendData legendData,
+			boolean bNeedInvert)
 			throws ChartException
 	{
 		double dWidth = 0, dHeight = 0;
@@ -1254,14 +1304,17 @@ public final class LegendBuilder implements IConstants
 
 		for ( int j = 0; j < seda.length; j++ )
 		{
-			List al = seda[j].getRunTimeSeries( );
-			FormatSpecifier fs = seda[j].getFormatSpecifier( );
+			int iSedaId = bNeedInvert ? seda.length - 1 - j : j;
+			List al = seda[iSedaId].getRunTimeSeries( );
+			FormatSpecifier fs = seda[iSedaId].getFormatSpecifier( );
 
 			boolean oneVisibleSerie = false;
 
-			for ( int i = 0; i < al.size( ); i++ )
+			InvertibleIterator it = new InvertibleIterator(al, bNeedInvert);
+
+			while ( it.hasNext( ) )
 			{
-				Series se = (Series) al.get( i );
+				Series se = (Series)it.next();
 
 				if ( se.isVisible( ) )
 				{
@@ -1433,7 +1486,8 @@ public final class LegendBuilder implements IConstants
 						dFHeight,
 						la.getCaption( ).getValue( ),
 						dExtraHeight,
-						extraText ) );
+						extraText,
+						it.getIndex( )) );
 			}
 
 			// refresh real height
@@ -1493,7 +1547,8 @@ public final class LegendBuilder implements IConstants
 
 	private double[] computeHorizalByCategory( IDisplayServer xs, Chart cm,
 			RunTimeContext rtc, ITextMetrics itm, Label la,
-			LegendData legendData ) throws ChartException
+			LegendData legendData,
+			boolean bNeedInvert) throws ChartException
 	{
 		double dWidth = 0, dHeight = 0;
 		double dRowHeight;
@@ -1541,7 +1596,7 @@ public final class LegendBuilder implements IConstants
 		}
 
 		int pos = -1;
-
+		dsiBase.reverse( bNeedInvert );
 		while ( dsiBase.hasNext( ) )
 		{
 			Object obj = dsiBase.next( );
@@ -1635,7 +1690,8 @@ public final class LegendBuilder implements IConstants
 					dFWidth,
 					dFHeight,
 					la.getCaption( ).getValue( ),
-					pos ) );
+					bNeedInvert ?  dsiBase.size( ) - 1 - pos : pos
+					) );
 		}
 
 		// compute the extra MinSlice legend item if applicable.
@@ -1734,7 +1790,8 @@ public final class LegendBuilder implements IConstants
 
 	private double[] computeHorizalByTopBottomValue( IDisplayServer xs,
 			Chart cm, SeriesDefinition[] seda, RunTimeContext rtc,
-			ITextMetrics itm, Label la, LegendData legendData )
+			ITextMetrics itm, Label la, LegendData legendData,
+			boolean bNeedInvert)
 			throws ChartException
 	{
 		double dWidth = 0, dHeight = 0;
@@ -1749,13 +1806,16 @@ public final class LegendBuilder implements IConstants
 		for ( int j = 0; j < seda.length; j++ )
 		{
 			dWidth = 0;
-			List al = seda[j].getRunTimeSeries( );
-			FormatSpecifier fs = seda[j].getFormatSpecifier( );
+			int iSedaId = bNeedInvert ? seda.length - 1 - j : j;
+			List al = seda[iSedaId].getRunTimeSeries( );
+			FormatSpecifier fs = seda[iSedaId].getFormatSpecifier( );
 			boolean oneVisibleSerie = false;
 
-			for ( int i = 0; i < al.size( ); i++ )
+			InvertibleIterator it = new InvertibleIterator(al, bNeedInvert);
+
+			while ( it.hasNext( ) )
 			{
-				Series se = (Series) al.get( i );
+				Series se = (Series)it.next();
 
 				if ( se.isVisible( ) )
 				{
@@ -1887,7 +1947,8 @@ public final class LegendBuilder implements IConstants
 						dFHeight,
 						la.getCaption( ).getValue( ),
 						dEHeight,
-						extraText ) );
+						extraText,
+						it.getIndex( )) );
 			}
 
 			// refresh real width
@@ -1945,7 +2006,8 @@ public final class LegendBuilder implements IConstants
 
 	private double[] computeHorizalByLeftRightValue( IDisplayServer xs,
 			Chart cm, SeriesDefinition[] seda, RunTimeContext rtc,
-			ITextMetrics itm, Label la, LegendData legendData )
+			ITextMetrics itm, Label la, LegendData legendData,
+			boolean bNeedInvert)
 			throws ChartException
 	{
 		double dWidth = 0, dHeight = 0;
@@ -1960,13 +2022,16 @@ public final class LegendBuilder implements IConstants
 
 		for ( int j = 0; j < seda.length; j++ )
 		{
-			List al = seda[j].getRunTimeSeries( );
-			FormatSpecifier fs = seda[j].getFormatSpecifier( );
+			int iSedaId = bNeedInvert ? seda.length - 1 - j : j;
+			List al = seda[iSedaId].getRunTimeSeries( );
+			FormatSpecifier fs = seda[iSedaId].getFormatSpecifier( );
 			boolean oneVisibleSerie = false;
 
-			for ( int i = 0; i < al.size( ); i++ )
+			InvertibleIterator it = new InvertibleIterator(al, bNeedInvert);
+
+			while ( it.hasNext( ) )
 			{
-				Series se = (Series) al.get( i );
+				Series se = (Series)it.next();
 
 				if ( se.isVisible( ) )
 				{
@@ -2098,7 +2163,8 @@ public final class LegendBuilder implements IConstants
 						dFHeight,
 						la.getCaption( ).getValue( ),
 						dEHeight,
-						extraText ) );
+						extraText,
+						it.getIndex( )) );
 			}
 
 			// check available bounds
@@ -2297,27 +2363,63 @@ public final class LegendBuilder implements IConstants
 		return true;
 	}
 
+
 	/**
-	 * Revert the legend items
+	 * Check if the legend items need display in a inverted order (Stack Bar)
 	 */
-	private LegendItemHints[] invertLegendItems( LegendItemHints[] liha )
+	private boolean isStacked(final SeriesDefinition[] seda)
 	{
-		List legendItem = new ArrayList( liha.length );
-		for ( int i = liha.length - 1; i >= 0; i-- )
+		boolean bIsStack = true;
+		
+		for ( int i = 0; i < seda.length; i++ )
 		{
-			LegendItemHints legendItem1 = liha[i];
-			LegendItemHints legendItem2 = liha[liha.length - i - 1];
-			legendItem.add( new LegendItemHints( legendItem2.getType( ),
-					legendItem1.getLocation( ),
-					legendItem2.getWidth( ),
-					legendItem2.getHeight( ),
-					legendItem2.getText( ),
-					legendItem2.getExtraHeight( ),
-					legendItem2.getExtraText( ),
-					legendItem2.getCategoryIndex( ) ) );
+			if ( bIsStack )
+			{
+				// check if the chart is stacked
+				// TODO the logic of series stack may be changed.
+				for ( Iterator iter = seda[i].getSeries( )
+						.iterator( ); iter.hasNext( ); )
+				{
+					Series series = (Series) iter.next( );
+					if ( !series.isStacked( ) )
+					{
+						bIsStack = false;
+						break;
+					}
+				}
+			}
 		}
-		return (LegendItemHints[]) legendItem.toArray( new LegendItemHints[liha.length] );
+		
+		return bIsStack;
 	}
+	
+	
+	/**
+	 * Check if the legend items need display in a inverted order (Stack Bar)
+	 */
+	private boolean isNeedInvert(final boolean bPaletteByCategory, 
+			final Chart cm, final SeriesDefinition[] seda)
+	{
+		boolean bNeedInvert = false;	//return value
+
+		if (!(cm instanceof ChartWithAxes)) {
+			return false;
+		}
+		
+		boolean bIsStacked = isStacked(seda);
+		boolean bIsFliped = ( (ChartWithAxes) cm ).isTransposed( );
+		
+		if (bPaletteByCategory) {	//by Category
+			bNeedInvert = bIsFliped;
+		}
+		else {  // by Value
+			bNeedInvert = (bIsStacked && !bIsFliped) || 
+				(!bIsStacked && bIsFliped);
+		}
+		
+		return bNeedInvert;
+	}
+	
 	
 	private DataSetIterator createDataSetIterator( Series se, Chart cm )
 			throws ChartException

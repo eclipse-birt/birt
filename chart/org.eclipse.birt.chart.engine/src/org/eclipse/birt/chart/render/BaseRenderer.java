@@ -809,8 +809,11 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			final boolean bPaletteByCategory = ( cm.getLegend( )
 					.getItemType( )
 					.getValue( ) == LegendItemType.CATEGORIES );
-
+			
 			// COMPUTATIONS HERE MUST BE IN SYNC WITH THE ACTUAL RENDERER
+			String strNeedInvert = (String)rtc.getState( "[Legend]bNeedInvert" );
+			boolean bNeedInvert = Boolean.valueOf(strNeedInvert).booleanValue( );
+			
 			if ( o.getValue( ) == Orientation.VERTICAL )
 			{
 				if ( bPaletteByCategory )
@@ -930,8 +933,10 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 					for ( int j = 0; j < seda.length; j++ )
 					{
-						al = seda[j].getRunTimeSeries( );
-						pa = seda[j].getSeriesPalette( );
+						int iSedaId = bNeedInvert ? seda.length - 1 - j : j;
+						
+						al = seda[iSedaId].getRunTimeSeries( );
+						pa = seda[iSedaId].getSeriesPalette( );
 						elPaletteEntries = pa.getEntries( );
 						iPaletteCount = elPaletteEntries.size( );
 
@@ -966,7 +971,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 									}
 
 									// CYCLE THROUGH THE PALETTE
-									fPaletteEntry = (Fill) elPaletteEntries.get( i %
+									fPaletteEntry = (Fill) elPaletteEntries.get( lih.getCategoryIndex( ) %
 											iPaletteCount );
 
 									double columnWidth = bo.getWidth( );
@@ -1041,8 +1046,10 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 					for ( int j = 0; j < seda.length; j++ )
 					{
-						al = seda[j].getRunTimeSeries( );
-						pa = seda[j].getSeriesPalette( );
+						int iSedaId = bNeedInvert ? seda.length - 1 - j : j;
+						
+						al = seda[iSedaId].getRunTimeSeries( );
+						pa = seda[iSedaId].getSeriesPalette( );
 						elPaletteEntries = pa.getEntries( );
 						iPaletteCount = elPaletteEntries.size( );
 
@@ -1077,7 +1084,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 									}
 
 									// CYCLE THROUGH THE PALETTE
-									fPaletteEntry = (Fill) elPaletteEntries.get( i %
+									fPaletteEntry = (Fill) elPaletteEntries.get( lih.getCategoryIndex( ) %
 											iPaletteCount );
 
 									double columnWidth = bo.getWidth( );
@@ -1252,8 +1259,10 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 					for ( int j = 0; j < seda.length; j++ )
 					{
-						al = seda[j].getRunTimeSeries( );
-						pa = seda[j].getSeriesPalette( );
+						int iSedaId = bNeedInvert ? seda.length - 1 - j : j;
+						
+						al = seda[iSedaId].getRunTimeSeries( );
+						pa = seda[iSedaId].getSeriesPalette( );
 						elPaletteEntries = pa.getEntries( );
 						iPaletteCount = elPaletteEntries.size( );
 
@@ -1288,7 +1297,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 									}
 
 									// CYCLE THROUGH THE PALETTE
-									fPaletteEntry = (Fill) elPaletteEntries.get( i %
+									fPaletteEntry = (Fill) elPaletteEntries.get( lih.getCategoryIndex( ) %
 											iPaletteCount );
 									renderLegendItem( ipr,
 											lg,
@@ -1353,8 +1362,10 @@ public abstract class BaseRenderer implements ISeriesRenderer
 
 					for ( int j = 0; j < seda.length; j++ )
 					{
-						al = seda[j].getRunTimeSeries( );
-						pa = seda[j].getSeriesPalette( );
+						int iSedaId = bNeedInvert ? seda.length - 1 - j : j;
+						
+						al = seda[iSedaId].getRunTimeSeries( );
+						pa = seda[iSedaId].getSeriesPalette( );
 						elPaletteEntries = pa.getEntries( );
 						iPaletteCount = elPaletteEntries.size( );
 
@@ -1389,7 +1400,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 									}
 
 									// CYCLE THROUGH THE PALETTE
-									fPaletteEntry = (Fill) elPaletteEntries.get( i %
+									fPaletteEntry = (Fill) elPaletteEntries.get( lih.getCategoryIndex( ) %
 											iPaletteCount );
 									renderLegendItem( ipr,
 											lg,
