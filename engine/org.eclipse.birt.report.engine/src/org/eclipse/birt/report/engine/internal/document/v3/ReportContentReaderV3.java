@@ -152,52 +152,52 @@ public class ReportContentReaderV3
 		switch ( contentType )
 		{
 			case IContent.CELL_CONTENT :
-				object = new CellContent( reportContent );
+				object = (AbstractContent)reportContent.createCellContent();
 				break;
 			case IContent.CONTAINER_CONTENT :
-				object = new ContainerContent( reportContent );
+				object = (AbstractContent)reportContent.createContainerContent( );
 				break;
 			case IContent.DATA_CONTENT :
-				object = new DataContent( reportContent );
+				object = (AbstractContent)reportContent.createDataContent( );
 				break;
 			case IContent.FOREIGN_CONTENT :
-				object = new ForeignContent( reportContent );
+				object = (AbstractContent)reportContent.createForeignContent( );
 				break;
 			case IContent.IMAGE_CONTENT :
-				object = new ImageContent( reportContent );
+				object = (AbstractContent)reportContent.createImageContent( );
 				break;
 			case IContent.LABEL_CONTENT :
-				object = new LabelContent( reportContent );
+				object = (AbstractContent)reportContent.createLabelContent( );
 				break;
 			case IContent.PAGE_CONTENT :
-				object = new PageContent( reportContent );
+				object = (AbstractContent)reportContent.createPageContent( );
 				break;
 			case IContent.ROW_CONTENT :
-				object = new RowContent( reportContent );
+				object = (AbstractContent)reportContent.createRowContent( );
 				break;
 			case IContent.TABLE_BAND_CONTENT :
-				object = new TableBandContent( reportContent );
+				object = (AbstractContent)reportContent.createTableBandContent( );
 				break;
 			case IContent.TABLE_CONTENT :
-				object = new TableContent( reportContent );
+				object = (AbstractContent)reportContent.createTableContent( );
 				break;
 			case IContent.TEXT_CONTENT :
-				object = new TextContent( reportContent );
+				object = (AbstractContent)reportContent.createTextContent( );
 				break;
 			case IContent.AUTOTEXT_CONTENT :
-				object = new AutoTextContent( reportContent );
+				object = (AbstractContent)reportContent.createAutoTextContent( );
 				break;
 			case IContent.LIST_CONTENT :
-				object = new ListContent( reportContent );
+				object = (AbstractContent)reportContent.createListContent( );
 				break;
 			case IContent.LIST_BAND_CONTENT :
-				object = new ListBandContent( reportContent );
+				object = (AbstractContent)reportContent.createListBandContent( );
 				break;
 			case IContent.LIST_GROUP_CONTENT :
-				object = new ListGroupContent( reportContent );
+				object = (AbstractContent)reportContent.createListGroupContent( );
 				break;
 			case IContent.TABLE_GROUP_CONTENT :
-				object = new TableGroupContent( reportContent );
+				object = (AbstractContent)reportContent.createTableGroupContent( );
 				break;
 			default :
 				// Not expected

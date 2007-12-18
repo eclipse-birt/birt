@@ -17,8 +17,14 @@ public class AbstractBandContent extends ContainerContent
 {
 
 	int bandType = -1;
+	
+	AbstractBandContent(IBandContent content)
+	{
+		super(content);
+		this.bandType = content.getBandType( );
+	}
 
-	public AbstractBandContent( IReportContent report )
+	AbstractBandContent( IReportContent report )
 	{
 		super( report );
 	}

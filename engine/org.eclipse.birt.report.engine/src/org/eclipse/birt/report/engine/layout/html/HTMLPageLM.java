@@ -93,6 +93,7 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 		}
 		isFirstPage = false;
 		end(isLastPage );
+		context.initilizePage( );
 		return hasNextPage;
 	}
 

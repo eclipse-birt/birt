@@ -10,6 +10,7 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.internal.document.PageHintReader;
 import org.eclipse.birt.report.engine.internal.document.v3.CachedReportContentReaderV3;
+import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 
@@ -31,13 +32,14 @@ public class MasterPageExecutor extends ContainerExecutor
 
 	private int nextBand;
 
-	protected MasterPageExecutor( ExecutorManager manager, long pageNumber )
+	protected MasterPageExecutor( ExecutorManager manager,  long pageNumber, MasterPageDesign masterPage )
 	{
 		super( manager, -1 );
 		this.reader = manager.getPageReader( );
 		this.pageNumber = pageNumber;
 		this.pageOffset = -1;
 		this.nextBand = 0;
+		this.masterPage = (SimpleMasterPageDesign)masterPage;
 	}
 
 	public void close( )
@@ -70,8 +72,8 @@ public class MasterPageExecutor extends ContainerExecutor
 			{
 				pageNo = totalPage;
 			}
-			IPageHint hint = hintReader.getPageHint( pageNo );
-			pageOffset = hint.getOffset( );
+			pageOffset = hintReader.getPageOffset( pageNo, masterPage.getName( ) );
+			
 			CachedReportContentReaderV3 pageReader = manager.getPageReader( );
 			content = pageReader.loadContent( pageOffset );
 			InstanceID iid = content.getInstanceID( );

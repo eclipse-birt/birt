@@ -21,6 +21,7 @@ public class PageHint implements IPageHint
 	protected long pageNumber;
 	protected long offset;
 	ArrayList hints = new ArrayList();
+	protected String masterPage;
 
 	public PageHint( )
 	{
@@ -34,6 +35,12 @@ public class PageHint implements IPageHint
 		offset = pageOffset;
 	}
 
+	/**
+	 * @param pageNumber
+	 * @param pageOffset
+	 * @param pageStart
+	 * @param pageEnd
+	 */
 	public PageHint( long pageNumber, long pageOffset, long pageStart,
 			long pageEnd )
 	{
@@ -41,6 +48,31 @@ public class PageHint implements IPageHint
 		offset = pageOffset;
 		addSection( pageStart, pageEnd );
 	}
+	
+	/**
+	 * @param pageNumber
+	 * @param maserPage
+	 */
+	public PageHint( long pageNumber, String masterPage  )
+	{
+		this.pageNumber = pageNumber;
+		this.masterPage = masterPage;
+	}
+
+	/**
+	 * @param pageNumber
+	 * @param maserPage
+	 * @param pageStart
+	 * @param pageEnd
+	 */
+	public PageHint( long pageNumber, String maserPage, long pageStart,
+			long pageEnd )
+	{
+		this.pageNumber = pageNumber;
+		this.masterPage = masterPage;
+		addSection( pageStart, pageEnd );
+	}
+
 
 	/**
 	 * @return Returns the pageNumber.
@@ -109,6 +141,21 @@ public class PageHint implements IPageHint
 	public void addUnresolvedRowHint(UnresolvedRowHint hint)
 	{
 		hints.add( hint );
+	}
+	
+	public void setMasterPage( String masterPage )
+	{
+		this.masterPage = masterPage;
+	}
+
+	public String getMasterPage( )
+	{
+		return this.masterPage;
+	}
+	
+	public void setOffset(long offset)
+	{
+		this.offset = offset;
 	}
 
 }

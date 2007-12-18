@@ -29,4 +29,6 @@ public interface IPageHintReader extends IPageHintConstant
 	long getTotalPage( ) throws IOException;
 
 	IPageHint getPageHint( long pageNumber ) throws IOException;
+	
+	long getPageOffset(long pageNumber, String masterPage) throws IOException;
 }

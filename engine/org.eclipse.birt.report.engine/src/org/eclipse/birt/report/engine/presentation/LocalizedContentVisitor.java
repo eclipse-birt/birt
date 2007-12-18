@@ -42,6 +42,7 @@ import org.eclipse.birt.report.engine.api.IImage;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.impl.Image;
 import org.eclipse.birt.report.engine.content.ContentVisitorAdapter;
+import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IDataContent;
@@ -65,6 +66,7 @@ import org.eclipse.birt.report.engine.extension.IReportItemPresentation;
 import org.eclipse.birt.report.engine.extension.Size;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.extension.internal.ReportItemPresentationInfo;
+import org.eclipse.birt.report.engine.ir.AutoTextItemDesign;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
@@ -77,6 +79,7 @@ import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.w3c.dom.css.CSSValue;
 
 import com.ibm.icu.util.ULocale;
@@ -155,32 +158,8 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 			for ( int i = 0; i < children.size( ); i++ )
 			{
 				IContent child = (IContent) children.get( i );
-				IContent localChild = localize( child );
-				if ( localChild != child )
-				{
-					// replace the child with the licallized child.
-					children.set( i, localChild );
-
-					// set the locallized child's parent as orient child's
-					// parent.
-					localChild.setParent( content );
-
-					// copy all children of this child to its localized child,
-					// also change all children's parent to this localized
-					// child.
-					Collection childrenOfLocalChild = localChild.getChildren( );
-					Iterator iter = child.getChildren( ).iterator( );
-					while ( iter.hasNext( ) )
-					{
-						IContent childOfChild = (IContent) iter.next( );
-						if ( !childrenOfLocalChild.contains( childOfChild ) )
-						{
-							childOfChild.setParent( localChild );
-							childrenOfLocalChild.add( childOfChild );
-						}
-					}
-				}
-				localizeAllChildren( localChild );
+				localize( child );
+				localizeAllChildren( child );
 			}
 		}
 		return content;
@@ -188,7 +167,10 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 
 	public Object visitPage( IPageContent page, Object value )
 	{
-		return page;
+		context.setExecutingMasterPage( true );
+		value = localizeAllChildren( page );
+		context.setExecutingMasterPage( false );
+		return value;
 	}
 	
 	protected TextTemplate parseTemplate( String text ) throws BirtException
@@ -401,6 +383,30 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 	public Object visitText( ITextContent text, Object value )
 	{
 		handleOnRender( text );
+		return value;
+	}
+	
+	public Object visitAutoText(IAutoTextContent autoText, Object value)
+	{
+		int type = autoText.getType( );
+		if ( type == IAutoTextContent.PAGE_NUMBER )
+		{
+			autoText.setText( String.valueOf( context.getPageNumber( ) ) );
+		}
+		else if ( type == IAutoTextContent.TOTAL_PAGE )
+		{
+			long totalPage = context.getTotalPage( );
+			if ( totalPage <= 0 )
+			{
+				autoText.setText( "---" );
+			}
+			else
+			{
+				autoText.setText( String.valueOf( totalPage ) );
+			}
+		}
+		handleOnRender( autoText );
+
 		return value;
 	}
 

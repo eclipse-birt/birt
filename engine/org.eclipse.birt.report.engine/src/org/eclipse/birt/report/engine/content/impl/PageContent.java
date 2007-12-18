@@ -52,10 +52,29 @@ public class PageContent extends AbstractContent implements IPageContent
 		return PAGE_CONTENT;
 	}
 
-	public PageContent( ReportContent report )
+	PageContent( ReportContent report )
 	{
 		super( report );
 		children = new ArrayList( );
+	}
+	
+	PageContent(IPageContent page)
+	{
+		super(page);
+		this.orientation = page.getOrientation( );
+		this.pageType = page.getPageType( );
+		this.pageHeight = page.getPageHeight( );
+		this.pageWidth = page.getPageWidth( );
+		this.headerHeight = page.getHeaderHeight( );
+		this.footerHeight = page.getFooterHeight( );
+		this.leftWidth = page.getLeftWidth( );
+		this.rightWidth = page.getRightWidth( );
+		this.marginTop = page.getMarginTop( );
+		this.marginLeft = page.getMarginLeft( );
+		this.marginRight = page.getMarginRight( );
+		this.marginBottom = page.getMarginBottom( );
+		this.waterMark = page.getWaterMark( );
+		this.pageNumber = page.getPageNumber( );
 	}
 
 	public void setGenerateBy( Object design )
@@ -470,6 +489,11 @@ public class PageContent extends AbstractContent implements IPageContent
 			default :
 				super.readField( version, filedId, in );
 		}
+	}
+	
+	protected IContent cloneContent()
+	{
+		return new PageContent(this);
 	}
 
 }

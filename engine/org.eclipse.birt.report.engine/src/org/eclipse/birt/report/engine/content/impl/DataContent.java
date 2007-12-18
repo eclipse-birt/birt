@@ -38,14 +38,24 @@ public class DataContent extends TextContent implements IDataContent
 		return DATA_CONTENT;
 	}
 
-	public DataContent( ReportContent report )
+	DataContent( ReportContent report )
 	{
 		super( report );
 	}
-
-	public DataContent( IContent content )
+	
+	DataContent (IContent content)
 	{
 		super( content );
+	}
+
+	DataContent( IDataContent data )
+	{
+		super( data );
+		this.value = data.getValue( );
+		this.labelText = data.getLabelText( );
+		this.labelKey = data.getLabelKey( );
+		this.helpKey = data.getHelpKey( );
+		this.helpText = data.getHelpText();
 	}
 
 	public Object getValue( )
@@ -199,5 +209,10 @@ public class DataContent extends TextContent implements IDataContent
 			default :
 				super.readField( version, filedId, in );
 		}
+	}
+	
+	protected IContent cloneContent()
+	{
+		return new DataContent(this);
 	}
 }

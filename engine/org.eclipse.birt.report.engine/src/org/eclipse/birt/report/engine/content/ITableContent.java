@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.content;
 
+import java.util.List;
+
 
 /**
  * Provides the interfaces for the Table Content
@@ -55,5 +57,6 @@ public interface ITableContent extends IContainerContent
 	 * @return
 	 */
 	public ITableBandContent getFooter( );
-	
+
+	public List getColumns();
 }

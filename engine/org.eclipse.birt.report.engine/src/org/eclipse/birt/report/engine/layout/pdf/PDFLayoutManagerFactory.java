@@ -65,7 +65,7 @@ public class PDFLayoutManagerFactory
 		this.executor = executor;
 		if ( executor instanceof LineStackingExecutor )
 		{
-			return new PDFLineAreaLM( context, parent,  executor );
+			return new PDFLineAreaLM( context, parent, executor );
 		}
 		if ( content != null )
 		{
@@ -126,8 +126,7 @@ public class PDFLayoutManagerFactory
 
 		public Object visitTableBand( ITableBandContent tableBand, Object value )
 		{
-			return new PDFTableBandLM( context, parent, tableBand, 
-					executor );
+			return new PDFTableBandLM( context, parent, tableBand, executor );
 		}
 
 		public Object visitRow( IRowContent row, Object value )
@@ -181,7 +180,8 @@ public class PDFLayoutManagerFactory
 							executor );
 				}
 			}
-			LabelContent label = new LabelContent( foreign );
+			LabelContent label = (LabelContent) foreign.getReportContent( )
+					.createLabelContent( );
 			return handleText( label );
 		}
 
@@ -201,15 +201,14 @@ public class PDFLayoutManagerFactory
 						autoText.setText( nf.format( Integer
 								.parseInt( originalPageNumber ) ) );
 					}
-					catch(NumberFormatException nfe)
+					catch ( NumberFormatException nfe )
 					{
 						autoText.setText( originalPageNumber );
 					}
 				}
 				return handleText( autoText );
 			}
-			return new PDFTemplateLM( context, parent, autoText, 
-					executor );
+			return new PDFTemplateLM( context, parent, autoText, executor );
 		}
 
 		private Object handleText( ITextContent content )
@@ -217,27 +216,21 @@ public class PDFLayoutManagerFactory
 			boolean isInline = parent instanceof ILineStackingLayoutManager;
 			if ( isInline )
 			{
-				return new PDFTextLM( context, parent, content, 
-						executor );
-				/*assert ( parent instanceof PDFLineAreaLM );
-				DimensionType width = content.getWidth( );
-				// if text contains line break or width is specified, this text
-				// will be regard as a inline-block area
-				if ( width != null  || text.indexOf( '\n' )>=0 )
-				{
-					return new PDFTextInlineBlockLM( context, parent, content,
-							executor );
-				}
-				else
-				{
-					return new PDFTextLM( context, parent, content, 
-							executor );
-				}*/
+				return new PDFTextLM( context, parent, content, executor );
+				/*
+				 * assert ( parent instanceof PDFLineAreaLM ); DimensionType
+				 * width = content.getWidth( ); // if text contains line break
+				 * or width is specified, this text // will be regard as a
+				 * inline-block area if ( width != null || text.indexOf( '\n'
+				 * )>=0 ) { return new PDFTextInlineBlockLM( context, parent,
+				 * content, executor ); } else { return new PDFTextLM( context,
+				 * parent, content, executor ); }
+				 */
 			}
 			else
 			{
 				String text = content.getText( );
-				if(text==null || "".equals( text )) //$NON-NLS-1$
+				if ( text == null || "".equals( text ) ) //$NON-NLS-1$
 				{
 					content.setText( " " ); //$NON-NLS-1$
 				}
@@ -263,20 +256,17 @@ public class PDFLayoutManagerFactory
 
 		public Object visitListGroup( IListGroupContent group, Object value )
 		{
-			return new PDFListGroupLM( context, parent, group, 
-					executor );
+			return new PDFListGroupLM( context, parent, group, executor );
 		}
 
 		public Object visitTableGroup( ITableGroupContent group, Object value )
 		{
-			return new PDFTableGroupLM( context, parent, group, 
-					executor );
+			return new PDFTableGroupLM( context, parent, group, executor );
 		}
 
 		public Object visitGroup( IGroupContent group, Object value )
 		{
-			return new PDFListGroupLM( context, parent, group, 
-					executor );
+			return new PDFListGroupLM( context, parent, group, executor );
 		}
 
 	}

@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.content.impl;
 
 import org.eclipse.birt.report.engine.content.IContainerContent;
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IReportContent;
 
@@ -19,13 +20,17 @@ public class ContainerContent extends AbstractContent
 		implements
 			IContainerContent
 {
-
+	ContainerContent(IContainerContent container)
+	{
+		super(container);
+	}
+	
 	public int getContentType( )
 	{
 		return CONTAINER_CONTENT;
 	}
 
-	public ContainerContent( IReportContent report )
+	ContainerContent( IReportContent report )
 	{
 		super( report );
 	}
@@ -33,5 +38,10 @@ public class ContainerContent extends AbstractContent
 	public Object accept( IContentVisitor visitor, Object value )
 	{
 		return visitor.visitContainer( this, value );
+	}
+	
+	protected IContent cloneContent()
+	{
+		return new ContainerContent(this);
 	}
 }

@@ -34,9 +34,14 @@ public class RowContent extends AbstractContent implements IRowContent
 	
 	protected int rowID = -1;	
 	
-	protected boolean isStartOfGroup = false;
-
 	protected String groupId;
+	
+	RowContent(IRowContent row)
+	{
+		super(row);
+		this.rowID = row.getRowID( );
+		this.groupId = row.getGroupId( );
+	}
 
 	public int getContentType( )
 	{
@@ -49,7 +54,7 @@ public class RowContent extends AbstractContent implements IRowContent
 	 * @param row
 	 *            the row deign
 	 */
-	public RowContent( IReportContent report )
+	RowContent( IReportContent report )
 	{
 		super( report );
 	}
@@ -175,5 +180,10 @@ public class RowContent extends AbstractContent implements IRowContent
 			return (IBandContent) parent;
 		}
 		return null;
+	}
+	
+	protected IContent cloneContent()
+	{
+		return new RowContent(this);
 	}
 }

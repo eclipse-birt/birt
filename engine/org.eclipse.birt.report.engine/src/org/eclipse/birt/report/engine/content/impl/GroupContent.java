@@ -8,6 +8,7 @@ import java.util.Iterator;
 
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.IBandContent;
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
@@ -20,12 +21,19 @@ public class GroupContent extends AbstractContent implements IGroupContent
 	
 	String groupId;
 	
+	GroupContent(IGroupContent group)
+	{
+		super(group);
+		this.headerRepeat = new Boolean(group.isHeaderRepeat( ));
+		this.groupId = group.getGroupID( );
+	}
+	
 	public int getContentType( )
 	{
 		return GROUP_CONTENT;
 	}
 	
-	public GroupContent( IReportContent report )
+	GroupContent( IReportContent report )
 	{
 		super( report );
 	}
@@ -151,5 +159,10 @@ public class GroupContent extends AbstractContent implements IGroupContent
 			return true;
 		}
 		return super.needSave( );
+	}
+	
+	protected IContent cloneContent()
+	{
+		return new GroupContent(this);
 	}
 }

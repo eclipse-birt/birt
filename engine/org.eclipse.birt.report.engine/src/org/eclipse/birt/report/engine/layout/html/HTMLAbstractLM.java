@@ -295,7 +295,7 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 						.findMasterPage( newMasterPage );
 				if ( masterPageDesign != null )
 				{
-					context.setMasterPage( newMasterPage );
+					context.setNextMasterPage( newMasterPage );
 					return true;
 				}
 			}

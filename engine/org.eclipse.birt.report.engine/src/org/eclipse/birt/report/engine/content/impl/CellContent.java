@@ -18,6 +18,7 @@ import java.io.IOException;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IColumn;
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
@@ -66,9 +67,19 @@ public class CellContent extends AbstractContent implements ICellContent
 	 * @param item
 	 *            cell design item
 	 */
-	public CellContent( IReportContent report )
+	CellContent( IReportContent report )
 	{
 		super( report );
+	}
+	
+	CellContent(ICellContent cell)
+	{
+		super(cell);
+		this.colSpan = cell.getColSpan( );
+		this.rowSpan = cell.getRowSpan( );
+		this.column = cell.getColumn( );
+		this.displayGroupIcon = new Boolean(cell.getDisplayGroupIcon( ));
+		this.columnInstance = cell.getColumnInstance( );
 	}
 
 	/**
@@ -275,4 +286,10 @@ public class CellContent extends AbstractContent implements ICellContent
 		}
 		return columnInstance;
 	}
+	
+	protected IContent cloneContent()
+	{
+		return new CellContent(this);
+	}
+
 }

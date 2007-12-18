@@ -25,18 +25,24 @@ public class TextContent extends AbstractContent implements ITextContent
 {
 
 	protected String text;
+	
+	TextContent(ITextContent textContent)
+	{
+		super(textContent);
+		text = textContent.getText( );
+	}
 
 	public int getContentType( )
 	{
 		return TEXT_CONTENT;
 	}
 
-	public TextContent( ReportContent report )
+	TextContent( ReportContent report )
 	{
 		super( report );
 	}
 
-	public TextContent( IContent content )
+	TextContent( IContent content )
 	{
 		super( content );
 	}
@@ -119,6 +125,11 @@ public class TextContent extends AbstractContent implements ITextContent
 			return true;
 		}
 		return super.needSave( );
+	}
+	
+	protected IContent cloneContent()
+	{
+		return new TextContent(this);
 	}
 
 }

@@ -23,6 +23,7 @@ import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.impl.AbstractElement;
+import org.eclipse.birt.report.engine.content.impl.ListGroupContent;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
@@ -421,5 +422,10 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	protected void throwUnsupportedException( )
 	{
 		throw new UnsupportedOperationException( "Unsupported Exception" );
+	}
+	
+	public IContent cloneContent(boolean isDeep)
+	{
+		throw new UnsupportedOperationException();
 	}
 }

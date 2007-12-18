@@ -8,7 +8,14 @@ import org.eclipse.birt.report.engine.content.IContent;
 class DOMReportItemExecutorManager
 {
 
-	LinkedList freeList = new LinkedList();
+	boolean cloneContent = false;
+
+	public DOMReportItemExecutorManager( boolean cloneContent )
+	{
+		this.cloneContent = cloneContent;
+	}
+
+	LinkedList freeList = new LinkedList( );
 
 	DOMReportItemExecutor createExecutor( IContent content )
 	{

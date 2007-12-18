@@ -19,6 +19,7 @@ import java.util.Collection;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IColumn;
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
@@ -27,7 +28,11 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
-
+/**
+ * FIXME remove this class
+ * 
+ *
+ */
 public class ClonedCellContent implements ICellContent
 {
 	protected ICellContent cellContent;
@@ -323,6 +328,11 @@ public class ClonedCellContent implements ICellContent
 	public IStyle getStyle( )
 	{
 		return cellContent.getStyle( );
+	}
+
+	public IContent cloneContent( boolean isDeep )
+	{
+		return new ClonedCellContent(this, rowSpan);
 	}
 
 }

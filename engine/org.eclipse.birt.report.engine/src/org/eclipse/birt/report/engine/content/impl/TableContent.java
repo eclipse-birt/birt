@@ -16,9 +16,11 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.IColumn;
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
@@ -33,11 +35,21 @@ import org.eclipse.birt.report.engine.ir.TableItemDesign;
 public class TableContent extends AbstractContent implements ITableContent
 {
 
-	protected ArrayList columns = new ArrayList( );
+	protected List columns = new ArrayList( );
 	protected String caption;
 	protected String captionKey;
 
 	protected Boolean headerRepeat;
+	
+	TableContent(ITableContent table)
+	{
+		super(table);
+		this.caption = table.getCaption( );
+		this.captionKey = table.getCaptionKey( );
+		this.headerRepeat = new Boolean(table.isHeaderRepeat( ));
+		this.columns = table.getColumns( );
+	}
+	
 
 	public int getContentType( )
 	{
@@ -77,7 +89,7 @@ public class TableContent extends AbstractContent implements ITableContent
 	 * @param item
 	 *            the table deign
 	 */
-	public TableContent( IReportContent report )
+	TableContent( IReportContent report )
 	{
 		super( report );
 	}
@@ -241,6 +253,17 @@ public class TableContent extends AbstractContent implements ITableContent
 			default :
 				super.readField( version, filedId, in );
 		}
+	}
+
+
+	public List getColumns( )
+	{
+		return this.columns;
+	}
+	
+	protected IContent cloneContent()
+	{
+		return new TableContent(this);
 	}
 
 }

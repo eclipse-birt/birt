@@ -103,7 +103,7 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 				.createReportContent( report );
 		context.setReportContent( reportContent );
 		
-		dummyReportContent = new LabelContent((ReportContent)reportContent);
+		dummyReportContent = reportContent.createLabelContent( );
 		dummyReportContent.setStyleClass(report.getRootStyleName());		
 
 		reportDoc = context.getReportDocument( );

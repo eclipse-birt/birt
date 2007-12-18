@@ -44,12 +44,12 @@ public class ReportContentReaderAndWriterTest extends EngineCase
 {
 
 	protected final int VERSION_1 = 1;
-	
+
 	protected ReportContent reportContent = new ReportContent( );
 
 	protected CellContent createCellContent( )
 	{
-		CellContent content = new CellContent( reportContent );
+		CellContent content = (CellContent) reportContent.createCellContent( );
 		content.setName( "cellTest" );
 		content.setWidth( new DimensionType( 100, "100" ) );
 		content.setHeight( new DimensionType( "100" ) );
@@ -73,7 +73,8 @@ public class ReportContentReaderAndWriterTest extends EngineCase
 
 	protected ContainerContent createContainerContent( )
 	{
-		ContainerContent content = new ContainerContent( reportContent );
+		ContainerContent content = (ContainerContent) reportContent
+				.createContainerContent( );
 		content.setName( "ContainerContent" );
 		content.setHeight( new DimensionType( 4, "400" ) );
 		ActionContent hyperlink = new ActionContent( );
@@ -88,7 +89,7 @@ public class ReportContentReaderAndWriterTest extends EngineCase
 
 	protected DataContent createDataContent( )
 	{
-		DataContent content = new DataContent( reportContent );
+		DataContent content = (DataContent) reportContent.createDataContent( );
 		content.setValue( null );
 		content.setLabelText( "setLabelText" );
 		content.setLabelKey( "setLabelKey" );
@@ -98,7 +99,8 @@ public class ReportContentReaderAndWriterTest extends EngineCase
 
 	protected ForeignContent createForeignContent( )
 	{
-		ForeignContent content = new ForeignContent( reportContent );
+		ForeignContent content = (ForeignContent) reportContent
+				.createForeignContent( );
 		content.setRawType( "rawType" );
 		content.setRawValue( null );
 		return content;
@@ -106,7 +108,8 @@ public class ReportContentReaderAndWriterTest extends EngineCase
 
 	protected ImageContent createImageContent( )
 	{
-		ImageContent content = new ImageContent( reportContent );
+		ImageContent content = (ImageContent) reportContent
+				.createImageContent( );
 		content.setAltText( "altText" );
 		content.setAltTextKey( "altTextKey" );
 		content.setImageSource( 1 );
@@ -115,7 +118,8 @@ public class ReportContentReaderAndWriterTest extends EngineCase
 
 	protected LabelContent createLabelContent( )
 	{
-		LabelContent content = new LabelContent( reportContent );
+		LabelContent content = (LabelContent) reportContent
+				.createLabelContent( );
 		content.setLabelText( "labelText" );
 		content.setLabelKey( "labelTextKey" );
 		return content;
@@ -123,7 +127,7 @@ public class ReportContentReaderAndWriterTest extends EngineCase
 
 	protected PageContent createPageContent( )
 	{
-		PageContent content = new PageContent( reportContent );
+		PageContent content = (PageContent) reportContent.createPageContent( );
 		content.setPageType( "pageType" );
 		content.setPageHeight( new DimensionType( 3, "pageHeight" ) );
 		content.setPageNumber( 100 );
@@ -132,21 +136,23 @@ public class ReportContentReaderAndWriterTest extends EngineCase
 
 	protected RowContent createRowContent( )
 	{
-		RowContent content = new RowContent( reportContent );
+		RowContent content = (RowContent) reportContent.createRowContent( );
 		content.setRowID( 100 );
 		return content;
 	}
 
 	protected TableBandContent createTableBandContent( )
 	{
-		TableBandContent content = new TableBandContent( reportContent );
+		TableBandContent content = (TableBandContent) reportContent
+				.createTableBandContent( );
 		content.setBandType( 100 );
 		return content;
 	}
 
 	protected TableContent createTableContent( )
 	{
-		TableContent content = new TableContent( reportContent );
+		TableContent content = (TableContent) reportContent
+				.createTableContent( );
 		content.setCaption( "captionTest" );
 		content.setCaptionKey( "captionKeyTest" );
 		content.setHeaderRepeat( true );
@@ -161,7 +167,7 @@ public class ReportContentReaderAndWriterTest extends EngineCase
 
 	protected TextContent createTextContent( )
 	{
-		TextContent content = new TextContent( reportContent );
+		TextContent content = (TextContent) reportContent.createTextContent( );
 		content.setName( "TextTest" );
 		content.setHeight( new DimensionType( 10, "100" ) );
 		ActionContent hyperlink = new ActionContent( );
@@ -386,70 +392,78 @@ public class ReportContentReaderAndWriterTest extends EngineCase
 		switch ( contentType )
 		{
 			case IContent.CELL_CONTENT :
-				CellContent cellContent = new CellContent( reportContent );
+				CellContent cellContent = (CellContent) reportContent
+						.createCellContent( );
 				cellContent.setVersion( VERSION_1 );
 				cellContent.readContent( oi );
 				object = cellContent;
 				break;
 			case IContent.CONTAINER_CONTENT :
-				ContainerContent containerContent = new ContainerContent(
-						reportContent );
+				ContainerContent containerContent = (ContainerContent) reportContent
+						.createContainerContent( );
 				containerContent.setVersion( version );
 				containerContent.readContent( oi );
 				object = containerContent;
 				break;
 			case IContent.DATA_CONTENT :
-				DataContent dataContent = new DataContent( reportContent );
+				DataContent dataContent = (DataContent) reportContent
+						.createDataContent( );
 				dataContent.setVersion( version );
 				dataContent.readContent( oi );
 				object = dataContent;
 				break;
 			case IContent.FOREIGN_CONTENT :
-				ForeignContent foreignContent = new ForeignContent(
-						reportContent );
+				ForeignContent foreignContent = foreignContent = (ForeignContent) reportContent
+						.createForeignContent( );
 				foreignContent.setVersion( version );
 				foreignContent.readContent( oi );
 				object = foreignContent;
 				break;
 			case IContent.IMAGE_CONTENT :
-				ImageContent imageContent = new ImageContent( reportContent );
+				ImageContent imageContent = (ImageContent) reportContent
+						.createImageContent( );
 				imageContent.setVersion( version );
 				imageContent.readContent( oi );
 				object = imageContent;
 				break;
 			case IContent.LABEL_CONTENT :
-				LabelContent labelContent = new LabelContent( reportContent );
+				LabelContent labelContent = (LabelContent) reportContent
+						.createLabelContent( );
 				labelContent.setVersion( version );
 				labelContent.readContent( oi );
 				object = labelContent;
 				break;
 			case IContent.PAGE_CONTENT :
-				PageContent pageContent = new PageContent( reportContent );
+				PageContent pageContent = (PageContent) reportContent
+						.createPageContent( );
 				pageContent.setVersion( version );
 				pageContent.readContent( oi );
 				object = pageContent;
 				break;
 			case IContent.ROW_CONTENT :
-				RowContent rowContent = new RowContent( reportContent );
+				RowContent rowContent = (RowContent) reportContent
+						.createRowContent( );
 				rowContent.setVersion( version );
 				rowContent.readContent( oi );
 				object = rowContent;
 				break;
 			case IContent.TABLE_BAND_CONTENT :
-				TableBandContent tableBandContent = new TableBandContent(
-						reportContent );
+				TableBandContent tableBandContent = (TableBandContent) reportContent
+						.createTableBandContent( );
 				tableBandContent.setVersion( version );
 				tableBandContent.readContent( oi );
 				object = tableBandContent;
 				break;
 			case IContent.TABLE_CONTENT :
-				TableContent tableContent = new TableContent( reportContent );
+				TableContent tableContent = (TableContent) reportContent
+						.createTableContent( );
 				tableContent.setVersion( version );
 				tableContent.readContent( oi );
 				object = tableContent;
 				break;
 			case IContent.TEXT_CONTENT :
-				TextContent textContent = new TextContent( reportContent );
+				TextContent textContent = (TextContent) reportContent
+						.createTextContent( );
 				textContent.setVersion( version );
 				textContent.readContent( oi );
 				object = textContent;

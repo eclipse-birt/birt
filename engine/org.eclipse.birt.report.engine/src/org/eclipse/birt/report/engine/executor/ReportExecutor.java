@@ -11,12 +11,17 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
+import org.eclipse.birt.report.engine.emitter.DOMBuilderEmitter;
+import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
+import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -62,6 +67,8 @@ public class ReportExecutor implements IReportExecutor
 	private ReportContent reportContent;
 
 	private long uniqueId;
+	
+	private HashMap pages = new HashMap();
 
 	/**
 	 * constructor
@@ -144,6 +151,18 @@ public class ReportExecutor implements IReportExecutor
 	public IReportItemExecutor createPageExecutor( long pageNumber,
 			MasterPageDesign pageDesign )
 	{
-		return new MasterPageExecutor( manager, pageNumber, pageDesign );
+		//only execute once for the same page design
+		IPageContent pageContent = (IPageContent)pages.get( pageDesign );
+		if(pageContent == null )
+		{
+			
+			IReportItemExecutor pageExecutor = new MasterPageExecutor( manager, pageNumber, pageDesign );
+			pageContent = (IPageContent) pageExecutor.execute( );
+			IContentEmitter domEmitter = new DOMBuilderEmitter( pageContent );
+			ReportExecutorUtil.executeAll( pageExecutor, domEmitter );
+			pageExecutor.close( );
+			pages.put( pageDesign, pageContent );
+		}
+		return new DOMReportItemExecutor( pageContent, true );
 	}
 }

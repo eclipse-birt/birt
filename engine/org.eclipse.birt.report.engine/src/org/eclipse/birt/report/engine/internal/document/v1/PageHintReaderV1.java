@@ -92,4 +92,10 @@ public class PageHintReaderV1 implements IPageHintReader
 		return hint;
 	}
 
+	public long getPageOffset( long pageNumber, String masterPage )
+			throws IOException
+	{
+		return getPageHint(pageNumber).getOffset( );
+	}
+
 }

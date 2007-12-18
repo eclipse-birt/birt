@@ -243,6 +243,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 			IOUtil.writeString( coreStream, REPORT_DOCUMENT_VERSION );
 			
 			HashMap properties = new HashMap( );
+			properties.put( PAGE_HINT_VERSION_KEY, PAGE_HINT_VERSION_3 );
 			properties.put( BIRT_ENGINE_VERSION_KEY, BIRT_ENGINE_VERSION );
 			properties.put( BIRT_ENGINE_BUILD_NUMBER_KEY, getBuildNumber( ) );
 			IOUtil.writeMap( coreStream, properties );

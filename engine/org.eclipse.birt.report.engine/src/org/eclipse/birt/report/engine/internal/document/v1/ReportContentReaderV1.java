@@ -87,65 +87,74 @@ class ReportContentReaderV1 implements IReportContentReader
 		switch ( contentType )
 		{
 			case IContent.CELL_CONTENT :
-				CellContent cellContent = new CellContent( reportContent );
+				CellContent cellContent = (CellContent) reportContent
+						.createCellContent( );
 				cellContent.readContent( oi );
 				return cellContent;
 
 			case IContent.CONTAINER_CONTENT :
-				ContainerContent containerContent = new ContainerContent(
-						reportContent );
+				ContainerContent containerContent = (ContainerContent) reportContent
+						.createContainerContent( );
 				containerContent.readContent( oi );
 				return containerContent;
 
 			case IContent.DATA_CONTENT :
-				DataContent dataContent = new DataContent( reportContent );
+				DataContent dataContent = (DataContent) reportContent
+						.createDataContent( );
 				dataContent.readContent( oi );
 				return dataContent;
 
 			case IContent.FOREIGN_CONTENT :
-				ForeignContent foreignContent = new ForeignContent(
-						reportContent );
+				ForeignContent foreignContent = (ForeignContent) reportContent
+						.createForeignContent( );
 				foreignContent.readContent( oi );
 				return foreignContent;
 
 			case IContent.IMAGE_CONTENT :
-				ImageContent imageContent = new ImageContent( reportContent );
+				ImageContent imageContent = (ImageContent) reportContent
+						.createImageContent( );
 				imageContent.readContent( oi );
 				return imageContent;
 
 			case IContent.LABEL_CONTENT :
-				LabelContent labelContent = new LabelContent( reportContent );
+				LabelContent labelContent = (LabelContent) reportContent
+						.createLabelContent( );
 				labelContent.readContent( oi );
 				return labelContent;
 
 			case IContent.PAGE_CONTENT :
-				PageContent pageContent = new PageContent( reportContent );
+				PageContent pageContent = (PageContent) reportContent
+						.createPageContent( );
 				pageContent.readContent( oi );
 				return pageContent;
 
 			case IContent.ROW_CONTENT :
-				RowContent rowContent = new RowContent( reportContent );
+				RowContent rowContent = (RowContent) reportContent
+						.createRowContent( );
 				rowContent.readContent( oi );
 				return rowContent;
 
 			case IContent.TABLE_BAND_CONTENT :
-				TableBandContent tableBandContent = new TableBandContent(
-						reportContent );
+				TableBandContent tableBandContent = (TableBandContent) reportContent
+						.createTableBandContent( );
 				tableBandContent.readContent( oi );
 				return tableBandContent;
 
 			case IContent.TABLE_CONTENT :
-				TableContent tableContent = new TableContent( reportContent );
+				TableContent tableContent = (TableContent) reportContent
+						.createTableContent( );
 				tableContent.readContent( oi );
 				return tableContent;
 
 			case IContent.TEXT_CONTENT :
-				TextContent textContent = new TextContent( reportContent );
+				TextContent textContent = (TextContent) reportContent
+						.createTextContent( );
 				textContent.readContent( oi );
 				return textContent;
-				
-			case IContent.AUTOTEXT_CONTENT:
-				AutoTextContent autoText = new AutoTextContent( reportContent );
+
+			case IContent.AUTOTEXT_CONTENT :
+				AutoTextContent autoText = (AutoTextContent) reportContent
+						.createAutoTextContent( );
 				autoText.readContent( oi );
 				return autoText;
 

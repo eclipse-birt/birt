@@ -60,4 +60,8 @@ public interface IPageHint
 	int getUnresolvedRowCount( );
 
 	UnresolvedRowHint getUnresolvedRowHint( int index );
+	
+	String getMasterPage();
+	
+	
 }

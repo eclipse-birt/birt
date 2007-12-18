@@ -42,18 +42,32 @@ public class ImageContent extends AbstractContent implements IImageContent
 	protected Object imageMap;
 
 	protected String MIMEType;
+	
+	ImageContent( IImageContent image )
+	{
+		super( image );
+		altText = image.getAltText( );
+		altTextKey = image.getAltTextKey( );
+		helpTextKey = image.getHelpKey( );
+		extension = image.getExtension( );
+		uri = image.getURI( );
+		sourceType = image.getImageSource( );
+		data = image.getData( );
+		imageMap = image.getImageMap( );
+		MIMEType = image.getMIMEType( );
+	}
 
 	public int getContentType( )
 	{
 		return IMAGE_CONTENT;
 	}
 
-	public ImageContent( ReportContent report )
+	ImageContent( ReportContent report )
 	{
 		super( report );
 	}
 
-	public ImageContent( IContent content )
+	ImageContent( IContent content )
 	{
 		super( content );
 	}
@@ -375,5 +389,9 @@ public class ImageContent extends AbstractContent implements IImageContent
 				super.readField( version, filedId, in );
 		}
 	}
-
+	
+	protected IContent cloneContent()
+	{
+		return new ImageContent(this);
+	}
 }

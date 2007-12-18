@@ -17,6 +17,7 @@ import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.internal.document.v1.PageHintReaderV1;
 import org.eclipse.birt.report.engine.internal.document.v2.PageHintReaderV2;
+import org.eclipse.birt.report.engine.internal.document.v3.PageHintReaderV3;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 
 /**
@@ -39,10 +40,15 @@ public class PageHintReader implements IPageHintReader
 		{
 			this.reader = new PageHintReaderV1( document );
 		}
-		else
+		else if ( ReportDocumentConstants.PAGE_HINT_VERSION_2.equals( version ) )
 		{
 			this.reader = new PageHintReaderV2( document.getArchive( ) );
 		}
+		else
+		{
+			this.reader = new PageHintReaderV3( document.getArchive( ) );
+		}
+		
 	}
 
 	public int getVersion( )
@@ -64,4 +70,11 @@ public class PageHintReader implements IPageHintReader
 	{
 		return reader.getPageHint( pageNumber );
 	}
+
+	public long getPageOffset( long pageNumber, String masterPage )
+			throws IOException
+	{
+		return reader.getPageOffset( pageNumber, masterPage );
+	}
+	
 }

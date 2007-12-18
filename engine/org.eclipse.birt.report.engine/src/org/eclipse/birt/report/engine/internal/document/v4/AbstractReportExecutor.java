@@ -23,6 +23,7 @@ import org.eclipse.birt.report.engine.internal.document.PageHintReader;
 import org.eclipse.birt.report.engine.internal.document.v3.CachedReportContentReaderV3;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.Report;
+import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.toc.DocumentTOCTree;
 import org.eclipse.birt.report.engine.toc.TOCTree;
 
@@ -151,7 +152,7 @@ abstract public class AbstractReportExecutor implements IReportExecutor
 	public IReportItemExecutor createPageExecutor( long pageNumber,
 			MasterPageDesign pageDesign )
 	{
-		return new MasterPageExecutor( manager, pageNumber );
+		return new MasterPageExecutor( manager, pageNumber, pageDesign );
 	}
 
 	public IPageContent createPage( long pageNumber, MasterPageDesign pageDesign )

@@ -33,8 +33,12 @@ public interface IPageHintConstant
 	 */
 	static final int VERSION_3 = 3;
 	/**
+	 * this is the version used by 2.3M4 release.
+	 */
+	static final int VERSION_4 = 4;
+	/**
 	 * the current release is version 3.
 	 */
-	static final int VERSION = VERSION_3;
+	static final int VERSION = VERSION_4;
 
 }

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Iterator;
 
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IListBandContent;
 import org.eclipse.birt.report.engine.content.IListContent;
@@ -18,10 +19,17 @@ public class ListContent extends ContainerContent implements IListContent
 
 	Boolean headerRepeat;
 
-	public ListContent( IReportContent report )
+	ListContent( IReportContent report )
 	{
 		super( report );
 	}
+	
+	ListContent(IListContent listContent)
+	{
+		super(listContent);
+		this.headerRepeat = new Boolean(listContent.isHeaderRepeat( ));
+	}
+	
 
 	public int getContentType( )
 	{
@@ -119,6 +127,11 @@ public class ListContent extends ContainerContent implements IListContent
 			return true;
 		}
 		return super.needSave( );
+	}
+	
+	protected IContent cloneContent()
+	{
+		return new ListContent(this);
 	}
 
 }

@@ -27,18 +27,27 @@ public class LabelContent extends TextContent implements ILabelContent
 	protected String helpTextKey;
 	protected String labelText;
 	protected String labelTextKey;
+	
+	LabelContent(ILabelContent label)
+	{
+		super(label);
+		this.helpText = label.getHelpText( );
+		this.labelTextKey = label.getHelpKey( );
+		this.helpTextKey = label.getHelpKey( );
+		this.labelText = label.getLabelText( );
+	}
 
 	public int getContentType( )
 	{
 		return LABEL_CONTENT;
 	}
 
-	public LabelContent( ReportContent report )
+	LabelContent( ReportContent report )
 	{
 		super( report );
 	}
 
-	public LabelContent( IContent content )
+	LabelContent( IContent content )
 	{
 		super( content );
 	}
@@ -177,5 +186,10 @@ public class LabelContent extends TextContent implements ILabelContent
 			default :
 				super.readField( version, filedId, in );
 		}
+	}
+	
+	protected IContent cloneContent()
+	{
+		return new LabelContent(this);
 	}
 }

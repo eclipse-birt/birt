@@ -33,13 +33,23 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 	
 	protected String altText;
 	protected String altTextKey;
+	
+	ForeignContent(IForeignContent foreign)
+	{
+		super(foreign);
+		this.rawType = foreign.getRawType();
+		this.rawKey = foreign.getRawKey( );
+		this.rawValue = foreign.getRawValue( );
+		this.altText = foreign.getAltText( );
+		this.altTextKey = foreign.getAltTextKey( );
+	}
 
 	public int getContentType( )
 	{
 		return FOREIGN_CONTENT;
 	}
 	
-	public ForeignContent( ReportContent report )
+	ForeignContent( ReportContent report )
 	{
 		super( report );
 	}
@@ -242,6 +252,11 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 			return true;
 		}
 		return super.needSave( );
+	}
+	
+	protected IContent cloneContent()
+	{
+		return new ForeignContent(this);
 	}
 
 }

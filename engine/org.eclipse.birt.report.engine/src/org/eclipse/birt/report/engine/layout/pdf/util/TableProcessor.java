@@ -31,37 +31,37 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-
 public class TableProcessor
 {
+
 	private static final String ATTRIBUTE_COLSPAN = "colspan";
-	
+
 	private static final String ATTRIBUTE_ROWSPAN = "rowspan";
 
-	//FIXME code review: extract two method so that the logic will be more clear.
+	// FIXME code review: extract two method so that the logic will be more
+	// clear.
 	public static void processTable( Element ele, Map cssStyles,
 			IContent content, ActionContent action )
 	{
 		// FIXME code review: this block is used to parse table content. extract
 		// a method parseTable().
-		TableState tableState = new TableState( ele, cssStyles,
-				content, action );
+		TableState tableState = new TableState( ele, cssStyles, content, action );
 		tableState.processNodes( );
-		
+
 		// FIXME code review: this block is used to layout the table. extract to
 		// method layoutTable();
 		Table table = new Table( tableState.getRowCount( ), tableState
 				.getColumnCount( ) );
-		TableContent tableContent = (TableContent)tableState.getContent( );
+		TableContent tableContent = (TableContent) tableState.getContent( );
 		Iterator rows = tableContent.getChildren( ).iterator( );
-		while( rows.hasNext( ) )
+		while ( rows.hasNext( ) )
 		{
-			RowContent row = (RowContent)rows.next( );
+			RowContent row = (RowContent) rows.next( );
 			table.createRow( row );
 			Iterator cells = row.getChildren( ).iterator( );
-			while( cells.hasNext( ) )
+			while ( cells.hasNext( ) )
 			{
-				CellContent cell = (CellContent)cells.next( );
+				CellContent cell = (CellContent) cells.next( );
 				int rowSpan = cell.getRowSpan( );
 				int colSpan = cell.getColSpan( );
 				// Notice that the cell id is -1, that means the cell id will be
@@ -76,7 +76,7 @@ public class TableProcessor
 	protected static void normalize( Table table, TableContent tableContent,
 			TableState tableState )
 	{
-		ReportContent report = (ReportContent)tableContent.getReportContent( );
+		ReportContent report = (ReportContent) tableContent.getReportContent( );
 		for ( int i = 0; i < table.getRowCount( ); i++ )
 		{
 			Row row = table.getRow( i );
@@ -90,7 +90,7 @@ public class TableProcessor
 				int status = cell.getStatus( );
 				if ( status == Cell.CELL_EMPTY || status == Cell.CELL_SPANED )
 				{
-					cellContent = new CellContent( report );
+					cellContent = (CellContent) report.createCellContent( );
 					cellContent.setRowSpan( 1 );
 					cellContent.setColSpan( 1 );
 					cellContent.setColumn( j );
@@ -113,16 +113,16 @@ public class TableProcessor
 			tableContent.addColumn( column );
 		}
 	}
-	
+
 	private static class State
 	{
+
 		protected Element element;
 		protected Map cssStyles;
 		protected IContent content;
 		protected ActionContent action;
 
-		public State(Element element, Map cssStyles,
-				ActionContent action) 
+		public State( Element element, Map cssStyles, ActionContent action )
 		{
 			this.element = element;
 			this.cssStyles = cssStyles;
@@ -134,7 +134,7 @@ public class TableProcessor
 			parent.getChildren( ).add( content );
 			content.setParent( parent );
 		}
-		
+
 		public IContent getContent( )
 		{
 			return content;
@@ -144,22 +144,24 @@ public class TableProcessor
 
 	public static class TableState extends State
 	{
+
 		private int columnCount;
 		private int rowCount;
 		private List columnWidth;
 
-		public TableState( Element element, Map cssStyles,
-				IContent parent, ActionContent action )
+		public TableState( Element element, Map cssStyles, IContent parent,
+				ActionContent action )
 		{
 			super( element, cssStyles, action );
-			content = new TableContent( (ReportContent) parent
-					.getReportContent( ) );
+			content = (TableContent) parent.getReportContent( )
+					.createTableContent( );
 			setParent( parent );
-			content.setWidth( PropertyUtil.getDimensionAttribute( element, "width" ) );
+			content.setWidth( PropertyUtil.getDimensionAttribute( element,
+					"width" ) );
 			HTML2Content.handleStyle( element, cssStyles, content );
 			columnWidth = new ArrayList( );
 		}
-		
+
 		public void processNodes( )
 		{
 			Element ele = element;
@@ -176,7 +178,8 @@ public class TableProcessor
 				String tagName = element.getTagName( );
 				if ( "tr".equals( tagName ) )
 				{
-					RowState rowState = new RowState( element, cssStyles, content, action );
+					RowState rowState = new RowState( element, cssStyles,
+							content, action );
 					rowState.processNodes( );
 					columnCount = Math.max( columnCount, rowState
 							.getColumnCount( ) );
@@ -184,7 +187,8 @@ public class TableProcessor
 				}
 				else if ( "col".equals( tagName ) )
 				{
-					columnWidth.add( PropertyUtil.getDimensionAttribute( element, "width" ) );
+					columnWidth.add( PropertyUtil.getDimensionAttribute(
+							element, "width" ) );
 				}
 				else if ( "tbody".equals( tagName ) || "thead".equals( tagName )
 						|| "tfoot".equals( tagName ) )
@@ -193,41 +197,43 @@ public class TableProcessor
 				}
 			}
 		}
-		 
+
 		public int getColumnCount( )
 		{
 			return columnCount;
 		}
-		
+
 		public int getRowCount( )
 		{
 			return rowCount;
 		}
-		
+
 		public DimensionType getColumnWidth( int column )
 		{
 			if ( column >= columnWidth.size( ) )
 			{
 				return null;
 			}
-			return (DimensionType)columnWidth.get( column );
+			return (DimensionType) columnWidth.get( column );
 		}
 	}
 
 	private static class RowState extends State
 	{
+
 		private int columnCount;
 
-		public RowState( Element element, Map cssStyles,
-				IContent parent, ActionContent action )
+		public RowState( Element element, Map cssStyles, IContent parent,
+				ActionContent action )
 		{
 			super( element, cssStyles, action );
-			content = new RowContent( (ReportContent) parent.getReportContent( ) );
+			content = (RowContent)parent.getReportContent( ).createRowContent( );
 			setParent( parent );
 			HTML2Content.handleStyle( element, cssStyles, content );
-			content.setHeight( PropertyUtil.getDimensionAttribute( element, "height" ) );
+			content.setHeight( PropertyUtil.getDimensionAttribute( element,
+					"height" ) );
 		}
-		
+
 		public void processNodes( )
 		{
 			for ( Node node = element.getFirstChild( ); node != null; node = node
@@ -237,12 +243,13 @@ public class TableProcessor
 				Element element = (Element) node;
 				String tagName = element.getTagName( );
 				assert ( "td".equals( tagName ) );
-				CellState cellState = new CellState( element, cssStyles, content, action );
+				CellState cellState = new CellState( element, cssStyles,
+						content, action );
 				cellState.processNodes( );
 				columnCount += cellState.getColSpan( );
 			}
 		}
-		
+
 		public int getColumnCount( )
 		{
 			return columnCount;
@@ -251,13 +258,14 @@ public class TableProcessor
 
 	private static class CellState extends State
 	{
+
 		private CellContent cell;
-		
-		public CellState( Element element, Map cssStyles,
-				IContent parent, ActionContent action )
+
+		public CellState( Element element, Map cssStyles, IContent parent,
+				ActionContent action )
 		{
 			super( element, cssStyles, action );
-			cell = new CellContent( (ReportContent) parent.getReportContent( ) );
+			cell = (CellContent)parent.getReportContent( ).createCellContent( );
 			content = cell;
 			setParent( parent );
 			HTML2Content.handleStyle( element, cssStyles, content );
@@ -269,10 +277,9 @@ public class TableProcessor
 
 		public void processNodes( )
 		{
-			HTML2Content.processNodes( element, cssStyles, content,
-					 action );
+			HTML2Content.processNodes( element, cssStyles, content, action );
 		}
-		
+
 		public int getColSpan( )
 		{
 			return cell.getColSpan( );

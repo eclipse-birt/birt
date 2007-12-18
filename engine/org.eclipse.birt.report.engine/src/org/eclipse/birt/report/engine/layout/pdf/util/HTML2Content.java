@@ -125,8 +125,8 @@ public class HTML2Content
 		if ( body != null )
 		{
 			htmlProcessor.execute( body, styleMap );
-			IContainerContent container = new ContainerContent(
-					(ReportContent) foreign.getReportContent( ) );
+			IContainerContent container = foreign.getReportContent( )
+					.createContainerContent( );
 
 			IStyle parentStyle = foreign.getStyle( );
 			if ( CSSValueConstants.INLINE_VALUE.equals( parentStyle
@@ -137,7 +137,7 @@ public class HTML2Content
 			}
 			addChild( foreign, container );
 			processNodes( body, styleMap, container, null );
-			formalizeInlineContainer(  new ArrayList(), foreign, container );
+			formalizeInlineContainer( new ArrayList( ), foreign, container );
 		}
 	}
 
@@ -178,8 +178,8 @@ public class HTML2Content
 			}
 			else if ( node.getNodeType( ) == Node.TEXT_NODE )
 			{
-				ILabelContent label = new LabelContent( (ReportContent) content
-						.getReportContent( ) );
+				ILabelContent label = content.getReportContent( )
+						.createLabelContent( );
 				addChild( content, label );
 				label.setText( node.getNodeValue( ) );
 				StyleDeclaration inlineStyle = new StyleDeclaration( content
@@ -193,7 +193,7 @@ public class HTML2Content
 				}
 			}
 			else if ( // supportedHTMLElementTags.contains(node.getNodeName().toUpperCase())
-						// &&
+			// &&
 			node.getNodeType( ) == Node.ELEMENT_NODE )
 			{
 				handleElement( (Element) node, cssStyles, content, action,
@@ -218,8 +218,8 @@ public class HTML2Content
 		String tagName = ele.getTagName( );
 		if ( tagName.toLowerCase( ).equals( "a" ) ) //$NON-NLS-1$
 		{
-			IContainerContent container = new ContainerContent(
-					(ReportContent) content.getReportContent( ) );
+			IContainerContent container = content.getReportContent( )
+					.createContainerContent( );
 			addChild( content, container );
 			handleStyle( ele, cssStyles, container );
 			ActionContent actionContent = handleAnchor( ele, container, action );
@@ -232,8 +232,8 @@ public class HTML2Content
 		else if ( tagName.toLowerCase( ).equals( "br" ) ) //$NON-NLS-1$
 		{
 
-			ILabelContent label = new LabelContent( (ReportContent) content
-					.getReportContent( ) );
+			ILabelContent label = content.getReportContent( )
+					.createLabelContent( );
 			addChild( content, label );
 			label.setText( "\n" ); //$NON-NLS-1$
 			StyleDeclaration inlineStyle = new StyleDeclaration( content
@@ -251,8 +251,8 @@ public class HTML2Content
 					CSSValueConstants.BLOCK_VALUE );
 			style.setProperty( IStyle.STYLE_VERTICAL_ALIGN,
 					CSSValueConstants.MIDDLE_VALUE );
-			IContainerContent container = new ContainerContent(
-					(ReportContent) content.getReportContent( ) );
+			IContainerContent container = content.getReportContent( )
+					.createContainerContent( );
 			container.setInlineStyle( style );
 			addChild( content, container );
 			handleStyle( ele, cssStyles, container );
@@ -266,8 +266,8 @@ public class HTML2Content
 			style.setProperty( IStyle.STYLE_VERTICAL_ALIGN,
 					CSSValueConstants.TOP_VALUE );
 
-			IContainerContent orderContainer = new ContainerContent(
-					(ReportContent) content.getReportContent( ) );
+			IContainerContent orderContainer = content.getReportContent( )
+					.createContainerContent( );
 			CSSValue fontSizeValue = content.getComputedStyle( ).getProperty(
 					IStyle.STYLE_FONT_SIZE );
 			orderContainer.setWidth( new DimensionType( 2.1 * PropertyUtil
@@ -275,8 +275,8 @@ public class HTML2Content
 					EngineIRConstants.UNITS_PT ) );
 			orderContainer.setInlineStyle( style );
 			addChild( container, orderContainer );
-			TextContent text = new TextContent( (ReportContent) content
-					.getReportContent( ) );
+			TextContent text = (TextContent) content.getReportContent( )
+					.createTextContent( );
 			addChild( orderContainer, text );
 			if ( ele.getParentNode( ).getNodeName( ).equals( "ol" ) ) //$NON-NLS-1$
 			{
@@ -289,16 +289,16 @@ public class HTML2Content
 
 			text.setInlineStyle( style );
 
-			IContainerContent childContainer = new ContainerContent(
-					(ReportContent) content.getReportContent( ) );
+			IContainerContent childContainer = content.getReportContent( )
+					.createContainerContent( );
 			addChild( container, childContainer );
 			childContainer.setInlineStyle( style );
 			processNodes( ele, cssStyles, childContainer, action );
 		}
 		else if ( tagName.toLowerCase( ).equals( "dd" ) || tagName.toLowerCase( ).equals( "dt" ) ) //$NON-NLS-1$ //$NON-NLS-2$
 		{
-			IContainerContent container = new ContainerContent(
-					(ReportContent) content.getReportContent( ) );
+			IContainerContent container = content.getReportContent( )
+					.createContainerContent( );
 			addChild( content, container );
 			handleStyle( ele, cssStyles, container );
 
@@ -310,8 +310,8 @@ public class HTML2Content
 						CSSValueConstants.INLINE_VALUE );
 				style.setProperty( IStyle.STYLE_VERTICAL_ALIGN,
 						CSSValueConstants.TOP_VALUE );
-				TextContent text = new TextContent( (ReportContent) content
-						.getReportContent( ) );
+				TextContent text = (TextContent) content.getReportContent( )
+						.createTextContent( );
 				addChild( content, text );
 				if ( ele.getParentNode( ).getNodeName( ).equals( "dl" ) ) //$NON-NLS-1$
 				{
@@ -320,8 +320,8 @@ public class HTML2Content
 				style.setTextIndent( "3em" ); //$NON-NLS-1$
 				text.setInlineStyle( style );
 
-				IContainerContent childContainer = new ContainerContent(
-						(ReportContent) content.getReportContent( ) );
+				IContainerContent childContainer = content.getReportContent( )
+						.createContainerContent( );
 				childContainer.setInlineStyle( style );
 				addChild( container, childContainer );
 
@@ -340,8 +340,8 @@ public class HTML2Content
 		}
 		else
 		{
-			IContainerContent container = new ContainerContent(
-					(ReportContent) content.getReportContent( ) );
+			IContainerContent container = content.getReportContent( )
+					.createContainerContent( );
 			handleStyle( ele, cssStyles, container );
 			addChild( content, container );
 			// handleStyle(ele, cssStyles, container);
@@ -472,7 +472,8 @@ public class HTML2Content
 		String src = ele.getAttribute( "src" ); //$NON-NLS-1$
 		if ( src != null )
 		{
-			IImageContent image = new ImageContent( content );
+			IImageContent image = content.getReportContent( )
+					.createImageContent( );
 			addChild( content, image );
 			handleStyle( ele, cssStyles, image );
 
@@ -563,7 +564,7 @@ public class HTML2Content
 					}
 					else
 					{
-						if(!isContainer)
+						if ( !isContainer )
 						{
 							contentChildren.add( child );
 						}
@@ -602,7 +603,7 @@ public class HTML2Content
 				if ( isContainer )
 				{
 					formalizeInlineContainer( newChildren, content, child );
-					
+
 				}
 				else
 				{
@@ -615,43 +616,43 @@ public class HTML2Content
 				content.getChildren( ).addAll( newChildren );
 				parentChildren.add( content );
 			}
-			
+
 		}
 	}
 
 	public static void main( String[] args )
 	{
-		/*ReportContent report = new ReportContent( );
-		IContent root = createBlockContent( report );
-		IContent block = createBlockContent( report );
-		root.getChildren( ).add( block );
-		IContent inlineContent = createInlineContent( report );
-		block.getChildren( ).add( createBlockContent( report ) );
-		block.getChildren( ).add( inlineContent );
-		block.getChildren( ).add( createInlineContent( report ) );
-		inlineContent.getChildren( ).add( createInlineContent( report ) );
-		inlineContent.getChildren( ).add( createBlockContent( report ) );
-		inlineContent.getChildren( ).add( createInlineContent( report ) );
-		ArrayList list = new ArrayList( );*/
-		
-		/*ReportContent report = new ReportContent( );
-		IContent root = createBlockContent( report );
-		IContent inline = createInlineContent( report );
-		root.getChildren( ).add( inline );
-		IContent inlineContent = createInlineContent( report );
-		inlineContent.getChildren( ).add( createInlineContent( report ) );
-		inline.getChildren( ).add( inlineContent );
-		ArrayList list = new ArrayList( );*/
-		
-		/*ReportContent report = new ReportContent( );
-		IContent root = createBlockContent( report );
-		IContent inline = createInlineContent( report );
-		root.getChildren( ).add( inline );
-		IContent inlineContent = createInlineContent( report );
-		inline.getChildren( ).add( inlineContent );
-		inline.getChildren( ).add( createBlockContent( report ) );
-		ArrayList list = new ArrayList( );*/
-		
+		/*
+		 * ReportContent report = new ReportContent( ); IContent root =
+		 * createBlockContent( report ); IContent block = createBlockContent(
+		 * report ); root.getChildren( ).add( block ); IContent inlineContent =
+		 * createInlineContent( report ); block.getChildren( ).add(
+		 * createBlockContent( report ) ); block.getChildren( ).add(
+		 * inlineContent ); block.getChildren( ).add( createInlineContent(
+		 * report ) ); inlineContent.getChildren( ).add( createInlineContent(
+		 * report ) ); inlineContent.getChildren( ).add( createBlockContent(
+		 * report ) ); inlineContent.getChildren( ).add( createInlineContent(
+		 * report ) ); ArrayList list = new ArrayList( );
+		 */
+
+		/*
+		 * ReportContent report = new ReportContent( ); IContent root =
+		 * createBlockContent( report ); IContent inline = createInlineContent(
+		 * report ); root.getChildren( ).add( inline ); IContent inlineContent =
+		 * createInlineContent( report ); inlineContent.getChildren( ).add(
+		 * createInlineContent( report ) ); inline.getChildren( ).add(
+		 * inlineContent ); ArrayList list = new ArrayList( );
+		 */
+
+		/*
+		 * ReportContent report = new ReportContent( ); IContent root =
+		 * createBlockContent( report ); IContent inline = createInlineContent(
+		 * report ); root.getChildren( ).add( inline ); IContent inlineContent =
+		 * createInlineContent( report ); inline.getChildren( ).add(
+		 * inlineContent ); inline.getChildren( ).add( createBlockContent(
+		 * report ) ); ArrayList list = new ArrayList( );
+		 */
+
 		ReportContent report = new ReportContent( );
 		IContent root = createBlockContent( report );
 		IContent inline = createInlineContent( report );
@@ -659,11 +660,11 @@ public class HTML2Content
 		IContent inlineContent = createInlineContent( report );
 		inline.getChildren( ).add( inlineContent );
 		inline.getChildren( ).add( createBlockContent( report ) );
-		ArrayList list = new ArrayList(  );
-		
+		ArrayList list = new ArrayList( );
+
 		formalizeInlineContainer( list, root, inline );
 		root.getChildren( ).clear( );
-		if(list.size( )>0)
+		if ( list.size( ) > 0 )
 		{
 			root.getChildren( ).addAll( list );
 		}

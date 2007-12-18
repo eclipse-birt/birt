@@ -1,6 +1,7 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IListBandContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
@@ -9,11 +10,17 @@ public class ListBandContent extends AbstractBandContent
 		implements
 			IListBandContent
 {
-	public ListBandContent( IReportContent report )
+	
+	ListBandContent(IListBandContent listBand)
+	{
+		super(listBand);
+	}
+	
+	ListBandContent( IReportContent report )
 	{
 		super( report );
 	}
-
+	
 	public int getContentType( )
 	{
 		return LIST_BAND_CONTENT;
@@ -22,5 +29,10 @@ public class ListBandContent extends AbstractBandContent
 	public Object accept(IContentVisitor visitor, Object value)
 	{
 		return visitor.visitListBand( this, value );
+	}
+	
+	protected IContent cloneContent()
+	{
+		return new ListBandContent(this);
 	}
 }

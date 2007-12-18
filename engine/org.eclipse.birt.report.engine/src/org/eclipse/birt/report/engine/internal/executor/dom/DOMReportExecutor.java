@@ -16,9 +16,9 @@ public class DOMReportExecutor implements IReportExecutor
 	DOMReportItemExecutorManager manager;
 	IReportContent reportContent;
 
-	public DOMReportExecutor( IReportContent reportContent )
+	public DOMReportExecutor( IReportContent reportContent, boolean cloneContent )
 	{
-		manager = new DOMReportItemExecutorManager( );
+		manager = new DOMReportItemExecutorManager( cloneContent );
 	}
 
 	public IReportContent execute( )

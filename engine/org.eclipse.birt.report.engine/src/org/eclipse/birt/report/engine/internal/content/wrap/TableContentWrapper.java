@@ -150,4 +150,9 @@ public class TableContentWrapper extends AbstractContentWrapper
 	{
 		tableContent.setHeaderRepeat( repeat );
 	}
+
+	public List getColumns( )
+	{
+		return tableContent.getColumns( );
+	}
 }

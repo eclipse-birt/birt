@@ -103,7 +103,7 @@ abstract public class AbstractContent extends AbstractElement
 	 * Constructor of the AbstractContent
 	 * @param content content can't be null
 	 */
-	public AbstractContent( IContent content )
+	AbstractContent( IContent content )
 	{
 		this.report = content.getReportContent( );
 		this.parent = content.getReportContent( ).getRoot( );
@@ -117,7 +117,7 @@ abstract public class AbstractContent extends AbstractElement
 		this.hyperlink = content.getHyperlinkAction( );
 		this.bookmark = content.getBookmark( );
 		this.helpText = content.getHelpText( );
-		this.inlineStyle = content.getInlineStyle( );
+		this.inlineStyle = copyInlineStyle(content);
 		this.generateBy = content.getGenerateBy( );
 		this.styleClass = content.getStyleClass( );
 		this.instanceId = content.getInstanceID( );
@@ -127,7 +127,32 @@ abstract public class AbstractContent extends AbstractElement
 		{
 			setExtension( IContent.DOCUMENT_EXTENSION, ext );
 		}
+		ext = content.getExtension( IContent.LAYOUT_EXTENSION );
+		if ( ext != null )
+		{
+			setExtension( IContent.LAYOUT_EXTENSION, ext );
+		}
 	}
+	
+	protected IStyle copyInlineStyle( IContent content )
+	{
+		IStyle inline = content.getInlineStyle( );
+		if(inline!=null)
+		{
+			if ( inline instanceof StyleDeclaration )
+			{
+				return new StyleDeclaration( (StyleDeclaration) inline );
+			}
+			else
+			{
+				IStyle newStyle = new StyleDeclaration( cssEngine );
+				newStyle.setProperties( inline );
+				return newStyle;
+			}
+		}
+		return null;
+	}
+		
 
 	public IReportContent getReportContent( )
 	{
@@ -658,4 +683,20 @@ abstract public class AbstractContent extends AbstractElement
 		}
 		return false;
 	}
+
+	public IContent cloneContent( boolean isDeep )
+	{
+		if(isDeep)
+		{
+			throw new UnsupportedOperationException();
+		}
+		else
+		{
+			return cloneContent();
+		}
+	}
+	
+	protected abstract IContent cloneContent();
+	
+	
 }

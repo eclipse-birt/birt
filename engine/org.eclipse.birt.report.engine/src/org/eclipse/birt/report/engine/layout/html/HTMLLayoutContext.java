@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.layout.html.buffer.IPageBuffer;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
@@ -43,6 +44,22 @@ public class HTMLLayoutContext
 	protected IPageBuffer bufferMgr;
 	
 	protected boolean needLayoutPageContent = true;
+	
+	protected String newMasterPage = null;
+	
+	public void setNextMasterPage(String newMasterPage)
+	{
+		this.newMasterPage = newMasterPage;
+	}
+	
+	public void initilizePage( )
+	{
+		if ( newMasterPage != null )
+		{
+			masterPage = newMasterPage;
+			newMasterPage = null;
+		}
+	}
 	
 	public void setLayoutPageContent(boolean needLayoutPageContent)
 	{
@@ -225,6 +242,7 @@ public class HTMLLayoutContext
 		if(pageHint!=null)
 		{
 			pageNumber = pageHint.getPageNumber( );
+			masterPage = pageHint.getMasterPage( );
 			int count = pageHint.getUnresolvedRowCount( );
 			for(int i=0; i<count; i++)
 			{

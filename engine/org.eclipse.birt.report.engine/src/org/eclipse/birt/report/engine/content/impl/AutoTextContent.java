@@ -23,18 +23,24 @@ import org.eclipse.birt.report.engine.content.IContentVisitor;
 public class AutoTextContent extends TextContent implements IAutoTextContent
 {
 	protected int type = -1;
+	
+	AutoTextContent(IAutoTextContent autoText)
+	{
+		super(autoText);
+		this.type = autoText.getType( );
+	}
 
 	public int getContentType( )
 	{
 		return AUTOTEXT_CONTENT;
 	}
 
-	public AutoTextContent( ReportContent report )
+	AutoTextContent( ReportContent report )
 	{
 		super( report );
 	}
 
-	public AutoTextContent( IContent content )
+	AutoTextContent( IContent content )
 	{
 		super( content );
 	}
@@ -96,6 +102,11 @@ public class AutoTextContent extends TextContent implements IAutoTextContent
 			default :
 				super.readField( version, filedId, in );
 		}
+	}
+	
+	protected IContent cloneContent()
+	{
+		return new AutoTextContent(this);
 	}
 
 }

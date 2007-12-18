@@ -12,16 +12,24 @@ public class DOMReportItemExecutor extends ReportItemExecutorBase
 
 	IContent content;
 	DOMReportItemExecutorManager manager;
+	boolean cloneContent;
 
 	DOMReportItemExecutor( DOMReportItemExecutorManager manager )
 	{
 		this.manager = manager;
+		this.cloneContent = manager.cloneContent;
 	}
-	
-	public DOMReportItemExecutor(IContent content)
+
+	public DOMReportItemExecutor( IContent content, boolean cloneContent )
 	{
 		this.content = content;
-		this.manager = new DOMReportItemExecutorManager();
+		this.cloneContent = cloneContent;
+		this.manager = new DOMReportItemExecutorManager( cloneContent );
+	}
+
+	public DOMReportItemExecutor( IContent content )
+	{
+		this( content, false );
 	}
 
 	void setContent( IContent content )
@@ -41,6 +49,10 @@ public class DOMReportItemExecutor extends ReportItemExecutorBase
 			return null;
 		}
 		childIterator = content.getChildren( ).iterator( );
+		if ( cloneContent )
+		{
+			return content.cloneContent( false );
+		}
 		return content;
 	}
 

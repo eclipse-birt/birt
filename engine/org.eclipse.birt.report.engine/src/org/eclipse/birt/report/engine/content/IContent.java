@@ -192,4 +192,6 @@ public interface IContent extends IElement, CSSStylableElement
 	
 	void writeContent( DataOutputStream out ) throws IOException;
 	void readContent( DataInputStream in ) throws IOException;
+	
+	IContent cloneContent(boolean isDeep);
 }

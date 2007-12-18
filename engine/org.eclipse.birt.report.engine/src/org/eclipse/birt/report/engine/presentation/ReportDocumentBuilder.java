@@ -11,15 +11,20 @@
 
 package org.eclipse.birt.report.engine.presentation;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
+import org.eclipse.birt.core.archive.RAOutputStream;
+import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IPageHandler;
 import org.eclipse.birt.report.engine.api.IReportDocumentInfo;
@@ -43,11 +48,13 @@ import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 import org.eclipse.birt.report.engine.internal.document.IPageHintWriter;
 import org.eclipse.birt.report.engine.internal.document.IReportContentWriter;
-import org.eclipse.birt.report.engine.internal.document.v3.PageHintWriterV3;
 import org.eclipse.birt.report.engine.internal.document.v3.ReportContentWriterV3;
+import org.eclipse.birt.report.engine.internal.document.v4.PageHintWriterV4;
 import org.eclipse.birt.report.engine.internal.presentation.ReportDocumentInfo;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
+import org.eclipse.birt.report.engine.ir.MasterPageDesign;
+import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.layout.CompositeLayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
@@ -377,6 +384,8 @@ public class ReportDocumentBuilder
 	{
 
 		IReportContentWriter pageWriter;
+		RAOutputStream indexStream;
+		HashSet masterPages = new HashSet();
 
 		protected void open( )
 		{
@@ -384,6 +393,8 @@ public class ReportDocumentBuilder
 			{
 				pageWriter = new ReportContentWriterV3( document );
 				pageWriter.open( ReportDocumentConstants.PAGE_STREAM );
+				indexStream = document.getArchive( ).createRandomAccessStream(
+						ReportDocumentConstants.PAGE_INDEX_STREAM );
 			}
 			catch ( IOException ex )
 			{
@@ -400,6 +411,18 @@ public class ReportDocumentBuilder
 				pageWriter.close( );
 			}
 			pageWriter = null;
+			if ( indexStream != null )
+			{
+				try
+				{
+					indexStream.close( );
+				}
+				catch ( IOException e )
+				{
+
+				}
+			}
+			indexStream = null;
 		}
 
 		public void start( IReportContent report )
@@ -413,6 +436,9 @@ public class ReportDocumentBuilder
 			// save the bookmark stream
 			document.saveBookmarks( bookmarks );
 		}
+		
+		private ByteArrayOutputStream writeBuffer = new ByteArrayOutputStream( );
+		
 
 		public void startPage( IPageContent page )
 		{
@@ -423,13 +449,33 @@ public class ReportDocumentBuilder
 			try
 			{
 				pageOffset = writeFullContent( pageWriter, page );
+				String masterPage = null;
+				Object generateBy = page.getGenerateBy( );
+				if(generateBy!=null && generateBy instanceof SimpleMasterPageDesign)
+				{
+					masterPage = ((SimpleMasterPageDesign)generateBy).getName( );
+				}
+				
+				if ( masterPage != null && !masterPages.contains( masterPage )
+						&& pageOffset >= 0 )
+				{
+					writeBuffer.reset( );
+					DataOutputStream indexBuffer = new DataOutputStream(
+							writeBuffer );
+					IOUtil.writeString( indexBuffer, masterPage );
+					IOUtil.writeLong( indexBuffer, pageOffset );
+					indexStream.write( writeBuffer.toByteArray( ) );
+					masterPages.add( masterPage );
+				}
 			}
 			catch ( IOException ex )
 			{
 				logger.log( Level.SEVERE, "write page content failed", ex );
+				pageOffset = -1;
 				close( );
 			}
 		}
+		
 
 		public void startContent( IContent content )
 		{
@@ -462,7 +508,7 @@ public class ReportDocumentBuilder
 			}
 			try
 			{
-				hintWriter = new PageHintWriterV3( document.getArchive( ) );
+				hintWriter = new PageHintWriterV4( document.getArchive( ) );
 			}
 			catch ( IOException ex )
 			{
@@ -581,7 +627,7 @@ public class ReportDocumentBuilder
 				}
 
 				ArrayList pageHint = htmlContext.getPageHint( );
-				PageHint hint = new PageHint( pageNumber, pageOffset );
+				PageHint hint = new PageHint( pageNumber, htmlContext.getMasterPage( ) );
 				for ( int i = 0; i < pageHint.size( ); i++ )
 				{
 					IContent[] range = (IContent[]) pageHint.get( i );

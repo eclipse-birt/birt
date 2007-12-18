@@ -102,75 +102,85 @@ public class ReportContentReaderV2
 		switch ( contentType )
 		{
 			case IContent.CELL_CONTENT :
-				CellContent cellContent = new CellContent( reportContent );
-				cellContent.readContent( oi );
+				CellContent cellContent = (CellContent) reportContent
+						.createCellContent( );
 				object = cellContent;
 				break;
 			case IContent.CONTAINER_CONTENT :
-				ContainerContent containerContent = new ContainerContent(
-						reportContent );
+				ContainerContent containerContent = (ContainerContent) reportContent
+						.createContainerContent( );
 				containerContent.readContent( oi );
 				object = containerContent;
 				break;
 			case IContent.DATA_CONTENT :
-				DataContent dataContent = new DataContent( reportContent );
+				DataContent dataContent = (DataContent) reportContent
+						.createDataContent( );
 				dataContent.readContent( oi );
 				object = dataContent;
 				break;
 			case IContent.FOREIGN_CONTENT :
-				ForeignContent foreignContent = new ForeignContent(
-						reportContent );
+				ForeignContent foreignContent = (ForeignContent) reportContent
+						.createForeignContent( );
 				foreignContent.readContent( oi );
 				object = foreignContent;
 				break;
 			case IContent.IMAGE_CONTENT :
-				ImageContent imageContent = new ImageContent( reportContent );
+				ImageContent imageContent = (ImageContent) reportContent
+						.createImageContent( );
 				imageContent.readContent( oi );
 				object = imageContent;
 				break;
 			case IContent.LABEL_CONTENT :
-				LabelContent labelContent = new LabelContent( reportContent );
+				LabelContent labelContent = (LabelContent) reportContent
+						.createLabelContent( );
 				labelContent.readContent( oi );
 				object = labelContent;
 				break;
 			case IContent.PAGE_CONTENT :
-				PageContent pageContent = new PageContent( reportContent );
+				PageContent pageContent = (PageContent) reportContent
+						.createPageContent( );
 				pageContent.readContent( oi );
 				object = pageContent;
 				break;
 			case IContent.ROW_CONTENT :
-				RowContent rowContent = new RowContent( reportContent );
+				RowContent rowContent = (RowContent) reportContent
+						.createRowContent( );
 				rowContent.readContent( oi );
 				object = rowContent;
 				break;
 			case IContent.TABLE_BAND_CONTENT :
-				TableBandContent tableBandContent = new TableBandContent(
-						reportContent );
+				TableBandContent tableBandContent = (TableBandContent) reportContent
+						.createTableBandContent( );
 				tableBandContent.readContent( oi );
 				object = tableBandContent;
 				break;
 			case IContent.TABLE_CONTENT :
-				TableContent tableContent = new TableContent( reportContent );
+				TableContent tableContent = (TableContent) reportContent
+						.createTableContent( );
 				tableContent.readContent( oi );
 				object = tableContent;
 				break;
 			case IContent.TEXT_CONTENT :
-				TextContent textContent = new TextContent( reportContent );
+				TextContent textContent = (TextContent) reportContent
+						.createTextContent( );
 				textContent.readContent( oi );
 				object = textContent;
 				break;
 			case IContent.AUTOTEXT_CONTENT :
-				AutoTextContent autoText = new AutoTextContent( reportContent );
+				AutoTextContent autoText = (AutoTextContent) reportContent
+						.createAutoTextContent( );
 				autoText.readContent( oi );
 				object = autoText;
 				break;
 			case IContent.LIST_CONTENT :
-				ListContent list = new ListContent( reportContent );
+				ListContent list = (ListContent) reportContent
+						.createListContent( );
 				list.readContent( oi );
 				object = list;
 				break;
 			case IContent.LIST_BAND_CONTENT :
-				ListBandContent listBand = new ListBandContent( reportContent );
+				ListBandContent listBand = (ListBandContent) reportContent
+						.createListBandContent( );
 				listBand.readContent( oi );
 				object = listBand;
 				break;
@@ -196,12 +206,12 @@ public class ReportContentReaderV2
 		ContentTreeCache.TreeEntry entry = contentCache.getEntry( offset );
 		if ( entry != null )
 		{
-			stream.seek( offset + 8);
+			stream.seek( offset + 8 );
 			int size = stream.readInt( );
 			offset = offset + 12 + size;
 			return (IContent) entry.value;
 		}
-		
+
 		stream.seek( offset );
 		long parentOffset = stream.readLong( );
 		int size = stream.readInt( );

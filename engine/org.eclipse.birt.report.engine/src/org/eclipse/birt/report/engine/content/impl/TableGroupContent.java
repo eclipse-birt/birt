@@ -1,5 +1,6 @@
 package org.eclipse.birt.report.engine.content.impl;
 
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
@@ -9,7 +10,12 @@ public class TableGroupContent extends GroupContent
 		implements
 			ITableGroupContent
 {
-	public TableGroupContent(IReportContent report)
+	TableGroupContent(ITableGroupContent group)
+	{
+		super(group);
+	}
+	
+	TableGroupContent(IReportContent report)
 	{
 		super(report);
 	}
@@ -23,6 +29,9 @@ public class TableGroupContent extends GroupContent
 	{
 		return visitor.visitTableGroup(this, value);
 	}
-
-
+	
+	protected IContent cloneContent()
+	{
+		return new TableGroupContent(this);
+	}
 }

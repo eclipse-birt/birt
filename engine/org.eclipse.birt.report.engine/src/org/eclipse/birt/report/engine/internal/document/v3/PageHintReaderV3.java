@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,7 +9,7 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-package org.eclipse.birt.report.engine.internal.document.v2;
+package org.eclipse.birt.report.engine.internal.document.v3;
 
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -21,22 +21,24 @@ import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.internal.document.IPageHintReader;
 import org.eclipse.birt.report.engine.internal.document.IPageHintWriter;
+import org.eclipse.birt.report.engine.internal.document.PageIndexReader;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 import org.eclipse.birt.report.engine.presentation.InstanceIndex;
 import org.eclipse.birt.report.engine.presentation.PageHint;
 import org.eclipse.birt.report.engine.presentation.PageSection;
 import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
 
-public class PageHintReaderV2 implements IPageHintReader
+public class PageHintReaderV3 implements IPageHintReader
 {
 
 	protected IDocArchiveReader reader;
 	protected RAInputStream indexStream;
 	protected RAInputStream hintsStream;
+	protected PageIndexReader pageIndexReader;
 	protected long totalPage = -1;
 	protected int version;
 
-	public PageHintReaderV2( IDocArchiveReader reader ) throws IOException
+	public PageHintReaderV3( IDocArchiveReader reader ) throws IOException
 	{
 		this.reader = reader;
 		try
@@ -45,6 +47,7 @@ public class PageHintReaderV2 implements IPageHintReader
 					.getStream( ReportDocumentConstants.PAGEHINT_STREAM );
 			indexStream = reader
 					.getStream( ReportDocumentConstants.PAGEHINT_INDEX_STREAM );
+			pageIndexReader = new PageIndexReader( reader );
 			version = readHintVersion( hintsStream );
 		}
 		catch ( IOException ex )
@@ -80,18 +83,15 @@ public class PageHintReaderV2 implements IPageHintReader
 				hintsStream.close( );
 				hintsStream = null;
 			}
-		}
-		catch ( IOException ex )
-		{
-
-		}
-
-		try
-		{
 			if ( indexStream != null )
 			{
 				indexStream.close( );
 				indexStream = null;
+			}
+			if ( pageIndexReader != null )
+			{
+				pageIndexReader.close( );
+				pageIndexReader = null;
 			}
 		}
 		catch ( IOException ex )
@@ -122,23 +122,20 @@ public class PageHintReaderV2 implements IPageHintReader
 	{
 		switch ( version )
 		{
-			case IPageHintWriter.VERSION_1 :
-				return readPageHintV1( in );
-			case IPageHintWriter.VERSION_2 :
-				return readPageHintV2( in );
-			case IPageHintWriter.VERSION_3 :
-				return readPageHintV3( in );
+			case IPageHintWriter.VERSION_4 :
+				return readPageHintV4( in );
 			default :
 				throw new IOException( "Unsupported page hint version "
 						+ version );
 		}
 	}
-	
-	public IPageHint readPageHintV3( DataInputStream in ) throws IOException
+
+	public IPageHint readPageHintV4( DataInputStream in ) throws IOException
 	{
 		long pageNumber = IOUtil.readLong( in );
-		long offset = IOUtil.readLong( in );
-		PageHint hint = new PageHint( pageNumber, offset );
+		String masterPage = IOUtil.readString( in );
+		PageHint hint = new PageHint( pageNumber, masterPage );
+		hint.setOffset( pageIndexReader.getPageOffset( masterPage ) );
 		int sectionCount = IOUtil.readInt( in );
 		for ( int i = 0; i < sectionCount; i++ )
 		{
@@ -151,56 +148,13 @@ public class PageHintReaderV2 implements IPageHintReader
 					.getOffset( );
 			hint.addSection( section );
 		}
-		
+
 		int hintSize = IOUtil.readInt( in );
-		for(int i=0; i < hintSize; i++)
+		for ( int i = 0; i < hintSize; i++ )
 		{
-			UnresolvedRowHint rowHint= new UnresolvedRowHint();
+			UnresolvedRowHint rowHint = new UnresolvedRowHint( );
 			rowHint.readObject( new DataInputStream( in ) );
 			hint.addUnresolvedRowHint( rowHint );
-		}
-		return hint;
-	}
-
-	public IPageHint readPageHintV1( DataInputStream in ) throws IOException
-	{
-		long pageNumber = IOUtil.readLong( in );
-		long offset = IOUtil.readLong( in );
-		PageHint hint = new PageHint( pageNumber, offset );
-		int sectionCount = IOUtil.readInt( in );
-		for ( int i = 0; i < sectionCount; i++ )
-		{
-			long startOffset = IOUtil.readLong( in );
-			long endOffset = IOUtil.readLong( in );
-			PageSection section = new PageSection( );
-			section.startOffset = startOffset;
-			section.endOffset = endOffset;
-			hint.addSection( section );
-		}
-		return hint;
-	}
-
-	public IPageHint readPageHintV2( DataInputStream in ) throws IOException
-	{
-		long pageNumber = IOUtil.readLong( in );
-		long offset = IOUtil.readLong( in );
-		PageHint hint = new PageHint( pageNumber, offset );
-		int sectionCount = IOUtil.readInt( in );
-		for ( int i = 0; i < sectionCount; i++ )
-		{
-			PageSection section = new PageSection( );
-			section.starts = readInstanceIndex( in );
-			section.ends = readInstanceIndex( in );
-			section.startOffset = section.starts[section.starts.length - 1]
-					.getOffset( );
-			section.endOffset = section.ends[section.ends.length - 1]
-					.getOffset( );
-			/*
-			 * section.startId = starts[0].getInstanceID().toString();
-			 * section.startOffset = starts[0].getOffset(); section.endId =
-			 * endId; section.endOffset = endOffset;
-			 */
-			hint.addSection( section );
 		}
 		return hint;
 	}
@@ -218,11 +172,11 @@ public class PageHintReaderV2 implements IPageHintReader
 		}
 		return indexes;
 	}
-	
+
 	public long getPageOffset( long pageNumber, String masterPage )
 			throws IOException
 	{
-		return getPageHint( pageNumber ).getOffset( );
+		return pageIndexReader.getPageOffset( masterPage );
 	}
 
 }

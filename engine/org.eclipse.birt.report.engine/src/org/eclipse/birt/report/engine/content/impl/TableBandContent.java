@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.content.impl;
 
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
@@ -25,7 +26,12 @@ public class TableBandContent extends AbstractBandContent
 		implements
 			ITableBandContent
 {
-	public TableBandContent( IReportContent report )
+	TableBandContent( ITableBandContent band )
+	{
+		super( band );
+	}
+	
+	TableBandContent( IReportContent report )
 	{
 		super( report );
 	}
@@ -44,5 +50,10 @@ public class TableBandContent extends AbstractBandContent
 	{
 		return visitor.visitTableBand( this, value );
 
+	}
+	
+	protected IContent cloneContent()
+	{
+		return new TableBandContent(this);
 	}
 }
