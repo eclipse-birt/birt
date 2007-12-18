@@ -818,6 +818,157 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 	}
 
+	private boolean isSameUnit( String unit1, String unit2 )
+	{
+		if ( unit1 == unit2 )
+		{
+			return true;
+		}
+		if ( unit1 != null && unit1.equals( unit2 ) )
+		{
+			return true;
+		}
+		return false;
+	}
+
+	private DimensionType getPageWidth( IPageContent page )
+	{
+		DimensionType pageWidth = page.getPageWidth( );
+		if ( !outputMasterPageMargins )
+		{
+			double measure = pageWidth.getMeasure( );
+			String unit = pageWidth.getUnits( );
+			DimensionType leftMargin = page.getMarginLeft( );
+			if ( leftMargin != null
+					&& isSameUnit( unit, leftMargin.getUnits( ) ) )
+			{
+				measure -= leftMargin.getMeasure( );
+			}
+			DimensionType rightMargin = page.getMarginRight( );
+			if ( rightMargin != null
+					&& isSameUnit( unit, rightMargin.getUnits( ) ) )
+			{
+				measure -= rightMargin.getMeasure( );
+			}
+			if ( measure > 0 )
+			{
+				return new DimensionType( measure, unit );
+			}
+		}
+		return pageWidth;
+
+	}
+
+	private void outputColumn( DimensionType dm )
+	{
+		writer.openTag( HTMLTags.TAG_COL );
+
+		StringBuffer styleBuffer = new StringBuffer( );
+		styleBuffer.append( "width: " );
+		if ( dm != null )
+		{
+			styleBuffer.append( dm.toString( ) );
+		}
+		else
+		{
+			styleBuffer.append( "0pt" );
+		}
+		styleBuffer.append( ";" );
+		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
+		writer.closeNoEndTag( );
+	}
+
+	private void outputVMargin( DimensionType margin )
+	{
+		// If margin isn't null, output a row to implement it.
+		if ( null != margin )
+		{
+			writer.openTag( HTMLTags.TAG_TR );
+			StringBuffer styleBuffer = new StringBuffer( );
+			styleBuffer.append( "height: " );
+			styleBuffer.append( margin.toString( ) );
+			styleBuffer.append( ";" );
+			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
+			writer.openTag( HTMLTags.TAG_TD );
+			writer.attribute( HTMLTags.ATTR_COLSPAN, 3 );
+			writer.closeTag( HTMLTags.TAG_TD );
+			writer.closeTag( HTMLTags.TAG_TR );
+		}
+	}
+
+	private void outputHMargin( DimensionType margin )
+	{
+		writer.openTag( HTMLTags.TAG_TD );
+		writer.attribute( HTMLTags.ATTR_ROWSPAN, 2 );
+		if ( null != margin )
+		{
+			writer.openTag( HTMLTags.TAG_DIV );
+			StringBuffer styleBuffer = new StringBuffer( );
+			styleBuffer.append( "width: " );
+			styleBuffer.append( margin.toString( ) );
+			styleBuffer.append( ";" );
+			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
+			writer.closeTag( HTMLTags.TAG_DIV );
+		}
+		writer.closeTag( HTMLTags.TAG_TD );
+	}
+
+	boolean showPageHeader( IPageContent page )
+	{
+		boolean showHeader = true;
+		Object genBy = page.getGenerateBy( );
+		if ( genBy instanceof SimpleMasterPageDesign )
+		{
+			SimpleMasterPageDesign masterPage = (SimpleMasterPageDesign) genBy;
+			if ( !masterPage.isShowHeaderOnFirst( ) )
+			{
+				if ( page.getPageNumber( ) == 1 )
+				{
+					showHeader = false;
+				}
+			}
+		}
+		return showHeader;
+	}
+
+	boolean showPageFooter( IPageContent page )
+	{
+		boolean showFooter = true;
+		Object genBy = page.getGenerateBy( );
+		if ( genBy instanceof SimpleMasterPageDesign )
+		{
+			SimpleMasterPageDesign masterPage = (SimpleMasterPageDesign) genBy;
+			if ( !masterPage.isShowFooterOnLast( ) )
+			{
+				long totalPage = page.getPageNumber( );
+				IReportContent report = page.getReportContent( );
+				if ( report != null )
+				{
+					totalPage = report.getTotalPage( );
+				}
+				if ( page.getPageNumber( ) == totalPage )
+				{
+					showFooter = false;
+				}
+			}
+		}
+		return showFooter;
+	}
+
+	private void outputPageBand( IPageContent page, IContent band )
+	{
+		writer.openTag( HTMLTags.TAG_DIV );
+		StringBuffer styleBuffer = new StringBuffer( );
+		htmlEmitter.buildPageBandStyle( styleBuffer, page.getStyle( ) );
+		// output the page header attribute
+		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
+
+		contentVisitor.visitChildren( band, null );
+
+		// close the page header
+		writer.closeTag( HTMLTags.TAG_DIV );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -835,173 +986,105 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		// out put the page tag
 		writer.openTag( HTMLTags.TAG_DIV );
+		StringBuffer styleBuffer = new StringBuffer( );
+		if ( pageNo > 1 )
+		{
+			styleBuffer.append( "page-break-before: always;" );
+		}
+
 		if ( page != null )
 		{
-			StringBuffer styleBuffer = new StringBuffer( );
-			if ( pageNo > 1 )
-			{
-				styleBuffer.append( "page-break-before: always;" );
-			}
-
-			boolean fixedReport = HTMLRenderOption.LAYOUT_PREFERENCE_FIXED.equals( layoutPreference );
-			if ( fixedReport || outputMasterPageContent )
+			boolean fixedReport = HTMLRenderOption.LAYOUT_PREFERENCE_FIXED
+					.equals( layoutPreference );
+			if ( outputMasterPageContent )
 			{
 				htmlEmitter.buildPageStyle( page, styleBuffer );
 			}
-			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
-
-			writer.openTag( HTMLTags.TAG_TABLE );
-			writer.attribute( "cellpadding", "0" );
-			styleBuffer.setLength( 0 );
-			styleBuffer.append( " border-collapse: collapse; empty-cells: show; width:100%;" ); //$NON-NLS-1$
-			boolean outputPageHeight = fixedReport
-					|| ( outputMasterPageContent && !pageFooterFloatFlag );
-			if ( outputPageHeight )
-			{
-				htmlEmitter.buildSize( styleBuffer,
-						HTMLTags.ATTR_HEIGHT,
-						page.getPageHeight( ) );
-			}
 			if ( fixedReport )
 			{
-				styleBuffer.append( " table-layout:fixed;" );
+				// build the width
+				DimensionType width = getPageWidth( page );
+				if ( width != null )
+				{
+					styleBuffer.append( " width:" );
+					styleBuffer.append( width.toString( ) );
+					styleBuffer.append( ";" );
+				}
+				// hide the overflow
+				styleBuffer.append( " overflow: hidden;" );
 			}
+
 			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 
-			boolean implementMargins = fixedReport
-					|| ( outputMasterPageContent && outputMasterPageMargins );
-			if ( implementMargins )
-			{
-				// Implement left margin.
-				writer.openTag( HTMLTags.TAG_COL );
-				styleBuffer.setLength( 0 );
-				styleBuffer.append( "width: " );
-				DimensionType leftMargin = page.getMarginLeft( );
-				if ( null != leftMargin )
-				{
-					styleBuffer.append( leftMargin.toString( ) );
-				}
-				else
-				{
-					styleBuffer.append( "0pt" );
-				}
-				styleBuffer.append( ";" );
-				writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
-				writer.closeNoEndTag( );
-
-				writer.openTag( HTMLTags.TAG_COL );
-				writer.closeNoEndTag( );
-
-				// Implement right margin.
-				writer.openTag( HTMLTags.TAG_COL );
-				styleBuffer.setLength( 0 );
-				styleBuffer.append( "width: " );
-				DimensionType rightMargin = page.getMarginRight( );
-				if ( null != rightMargin )
-				{
-					styleBuffer.append( rightMargin.toString( ) );
-				}
-				else
-				{
-					styleBuffer.append( "0pt" );
-				}
-				styleBuffer.append( ";" );
-				writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
-				writer.closeNoEndTag( );
-
-				DimensionType topMargin = page.getMarginTop( );
-				// If top margin isn't null, output a row to implement it.
-				if ( null != topMargin )
-				{
-					writer.openTag( HTMLTags.TAG_TR );
-					styleBuffer.setLength( 0 );
-					styleBuffer.append( "height: " );
-					styleBuffer.append( topMargin.toString( ) );
-					styleBuffer.append( ";" );
-					writer.attribute( HTMLTags.ATTR_STYLE,
-							styleBuffer.toString( ) );
-					writer.openTag( HTMLTags.TAG_TD );
-					writer.attribute( HTMLTags.ATTR_COLSPAN, 3 );
-					writer.closeTag( HTMLTags.TAG_TD );
-					writer.closeTag( HTMLTags.TAG_TR );
-				}
-			}
-
-			// open tag of the row which contain the page head and page body.
-			writer.openTag( HTMLTags.TAG_TR );
-			if ( outputPageHeight && !pageFooterFloatFlag )
-			{
-				writer.attribute( HTMLTags.ATTR_STYLE, " height: 100%;" );
-			}
-
-			if ( implementMargins )
-			{
-				// Implement left margin.
-				writer.openTag( HTMLTags.TAG_TD );
-				writer.attribute( HTMLTags.ATTR_ROWSPAN, 2 );
-				DimensionType leftMargin = page.getMarginLeft( );
-				if ( null != leftMargin )
-				{
-					writer.openTag( HTMLTags.TAG_DIV );
-					styleBuffer.setLength( 0 );
-					styleBuffer.append( "width: " );
-					styleBuffer.append( leftMargin.toString( ) );
-					styleBuffer.append( ";" );
-					writer.attribute( HTMLTags.ATTR_STYLE,
-							styleBuffer.toString( ) );
-					writer.closeTag( HTMLTags.TAG_DIV );
-				}
-				writer.closeTag( HTMLTags.TAG_TD );
-			}
-
-			// open tag of the cell which contain the page head and page body.
-			writer.openTag( HTMLTags.TAG_TD );
-			if ( fixedReport )
-			{
-				writer.attribute( HTMLTags.ATTR_STYLE, " overflow: hidden;" );
-			}
-			writer.attribute( HTMLTags.ATTR_VALIGN, "top" );
-			if ( htmlRtLFlag )
-			{
-				writer.attribute( HTMLTags.ATTR_HTML_DIR, "RTL" );
-			}
-
-			// output page header
 			if ( outputMasterPageContent )
 			{
-				// output DIV for page header
-				boolean showHeader = true;
-				Object genBy = page.getGenerateBy( );
-				if ( genBy instanceof SimpleMasterPageDesign )
+				if ( outputMasterPageMargins )
 				{
-					SimpleMasterPageDesign masterPage = (SimpleMasterPageDesign) genBy;
-					if ( !masterPage.isShowHeaderOnFirst( ) )
+					writer.openTag( HTMLTags.TAG_TABLE );
+					writer.attribute( "cellpadding", "0" );
+					styleBuffer.setLength( 0 );
+					styleBuffer
+							.append( " border-collapse: collapse; empty-cells: show; width:100%;" ); //$NON-NLS-1$
+					htmlEmitter.buildSize( styleBuffer, HTMLTags.ATTR_HEIGHT,
+							page.getPageHeight( ) );
+					if ( fixedReport )
 					{
-						if ( page.getPageNumber( ) == 1 )
-						{
-							showHeader = false;
-						}
+						styleBuffer.append( " table-layout:fixed;" );
 					}
+					writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer
+							.toString( ) );
+					// Implement left margin.
+					outputColumn( page.getMarginLeft( ) );
+
+					writer.openTag( HTMLTags.TAG_COL );
+					writer.closeNoEndTag( );
+
+					// Implement right margin.
+					outputColumn( page.getMarginLeft( ) );
+
+					// If top margin isn't null, output a row to implement it.
+					outputVMargin( page.getMarginTop( ) );
+
+					// open tag of the row which contain the page head and page
+					// body.
+					writer.openTag( HTMLTags.TAG_TR );
+					if ( !pageFooterFloatFlag )
+					{
+						writer
+								.attribute( HTMLTags.ATTR_STYLE,
+										" height: 100%;" );
+					}
+					// Implement left margin.
+					outputHMargin( page.getMarginLeft( ) );
+
+					// open tag of the cell which contain the page head and page
+					// body.
+					writer.openTag( HTMLTags.TAG_TD );
+					writer.attribute( HTMLTags.ATTR_VALIGN, "top" );
 				}
-				if ( showHeader )
+				else
 				{
 					writer.openTag( HTMLTags.TAG_DIV );
+				}
 
-					styleBuffer.setLength( 0 );
-					htmlEmitter.buildPageBandStyle( styleBuffer,
-							page.getStyle( ) );
-					// output the page header attribute
-					writer.attribute( HTMLTags.ATTR_STYLE,
-							styleBuffer.toString( ) );
-
-					contentVisitor.visitChildren( page.getPageHeader( ), null );
-
-					// close the page header
-					writer.closeTag( HTMLTags.TAG_DIV );
+				if ( fixedReport )
+				{
+					writer
+							.attribute( HTMLTags.ATTR_STYLE,
+									" overflow: hidden;" );
+				}
+				if ( htmlRtLFlag )
+				{
+					writer.attribute( HTMLTags.ATTR_HTML_DIR, "RTL" );
+				}
+				// output page header
+				// output DIV for page header
+				if ( showPageHeader( page ) )
+				{
+					outputPageBand( page, page.getPageHeader( ) );
 				}
 			}
-		}
-
+		} // end of page != null
 		// start output the page body
 		writer.openTag( HTMLTags.TAG_DIV );
 	}
@@ -1021,121 +1104,62 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		if ( page != null )
 		{
-			// close tag of the cell which contain the page head and page body.
-			writer.closeTag( HTMLTags.TAG_TD );
-
-			boolean fixedReport = HTMLRenderOption.LAYOUT_PREFERENCE_FIXED.equals( layoutPreference );
-			boolean implementMargins = fixedReport
-					|| ( outputMasterPageContent && outputMasterPageMargins );
-			if ( implementMargins )
-			{
-				// implement the right magins .
-				writer.openTag( HTMLTags.TAG_TD );
-				writer.attribute( HTMLTags.ATTR_ROWSPAN, 2 );
-				DimensionType rightMargin = page.getMarginRight( );
-				if ( null != rightMargin )
-				{
-					writer.openTag( HTMLTags.TAG_DIV );
-					StringBuffer styleBuffer = new StringBuffer( );
-					styleBuffer.append( "width: " );
-					styleBuffer.append( rightMargin.toString( ) );
-					styleBuffer.append( ";" );
-					writer.attribute( HTMLTags.ATTR_STYLE,
-							styleBuffer.toString( ) );
-					writer.closeTag( HTMLTags.TAG_DIV );
-				}
-				writer.closeTag( HTMLTags.TAG_TD );
-			}
-
-			// close tag of the row which contain the page head and page body.
-			writer.closeTag( HTMLTags.TAG_TR );
-
-			// open tag of the row which contain the page footer.
-			writer.openTag( HTMLTags.TAG_TR );
-			boolean outputPageHeight = fixedReport
-					|| ( outputMasterPageContent && !pageFooterFloatFlag );
-			if ( outputPageHeight && pageFooterFloatFlag )
-			{
-				writer.attribute( HTMLTags.ATTR_STYLE, " height: 100%;" );
-			}
-			writer.openTag( HTMLTags.TAG_TD );
-			if ( fixedReport )
-			{
-				writer.attribute( HTMLTags.ATTR_STYLE, " overflow: hidden;" );
-			}
-			writer.attribute( HTMLTags.ATTR_VALIGN, "top" );
-			if ( htmlRtLFlag )
-			{
-				writer.attribute( HTMLTags.ATTR_HTML_DIR, "RTL" );
-			}
-			// output page footer
+			boolean fixedReport = HTMLRenderOption.LAYOUT_PREFERENCE_FIXED
+					.equals( layoutPreference );
 			if ( outputMasterPageContent )
 			{
-				boolean showFooter = true;
-				Object genBy = page.getGenerateBy( );
-				if ( genBy instanceof SimpleMasterPageDesign )
+				if ( outputMasterPageMargins )
 				{
-					SimpleMasterPageDesign masterPage = (SimpleMasterPageDesign) genBy;
-					if ( !masterPage.isShowFooterOnLast( ) )
-					{
-						long totalPage = page.getPageNumber( );
-						IReportContent report = page.getReportContent( );
-						if ( report != null )
-						{
-							totalPage = report.getTotalPage( );
-						}
-						if ( page.getPageNumber( ) == totalPage )
-						{
-							showFooter = false;
-						}
-					}
-				}
-				if ( showFooter )
-				{
-
-					// start output the page footer
-					writer.openTag( HTMLTags.TAG_DIV );
-
-					// build page footer style
-					StringBuffer styleBuffer = new StringBuffer( );
-					htmlEmitter.buildPageBandStyle( styleBuffer,
-							page.getStyle( ) );
-					// output the page footer attribute
-					writer.attribute( HTMLTags.ATTR_STYLE,
-							styleBuffer.toString( ) );
-
-					contentVisitor.visitChildren( page.getPageFooter( ), null );
-
-					// close the page footer
-					writer.closeTag( HTMLTags.TAG_DIV );
-				}
-			}
-			writer.closeTag( HTMLTags.TAG_TD );
-			// close tag of the row which contain the page footer.
-			writer.closeTag( HTMLTags.TAG_TR );
-
-			if ( implementMargins )
-			{
-				DimensionType bottomMargin = page.getMarginBottom( );
-				// If bottom margin isn't null, output a row to implement it.
-				if ( null != bottomMargin )
-				{
-					writer.openTag( HTMLTags.TAG_TR );
-					StringBuffer styleBuffer = new StringBuffer( );
-					styleBuffer.append( "height: " );
-					styleBuffer.append( bottomMargin.toString( ) );
-					styleBuffer.append( ";" );
-					writer.attribute( HTMLTags.ATTR_STYLE,
-							styleBuffer.toString( ) );
-					writer.openTag( HTMLTags.TAG_TD );
-					writer.attribute( HTMLTags.ATTR_COLSPAN, 3 );
+					// close tag of the cell which contain the page head and
+					// page body.
 					writer.closeTag( HTMLTags.TAG_TD );
+					// implement the right magins .
+					outputHMargin( page.getMarginRight( ) );
+					// close tag of the row which contain the page head and page
+					// body.
 					writer.closeTag( HTMLTags.TAG_TR );
+
+					// open tag of the row which contain the page footer.
+					writer.openTag( HTMLTags.TAG_TR );
+					if ( pageFooterFloatFlag )
+					{
+						writer
+								.attribute( HTMLTags.ATTR_STYLE,
+										" height: 100%;" );
+					}
+					writer.openTag( HTMLTags.TAG_TD );
+					writer.attribute( HTMLTags.ATTR_VALIGN, "top" );
+				}
+				else
+				{
+					writer.openTag( HTMLTags.TAG_DIV );
+				}
+				if ( fixedReport )
+				{
+					writer
+							.attribute( HTMLTags.ATTR_STYLE,
+									" overflow: hidden;" );
+				}
+				if ( htmlRtLFlag )
+				{
+					writer.attribute( HTMLTags.ATTR_HTML_DIR, "RTL" );
+				}
+				if ( showPageFooter( page ) )
+				{
+					outputPageBand( page, page.getPageFooter( ) );
+				}
+
+				if ( outputMasterPageMargins )
+				{
+					writer.closeTag( HTMLTags.TAG_TD );
+					// close tag of the row which contain the page footer.
+					writer.closeTag( HTMLTags.TAG_TR );
+
+					outputVMargin( page.getMarginBottom( ) );
+					writer.closeTag( HTMLTags.TAG_TABLE );
 				}
 			}
-			writer.closeTag( HTMLTags.TAG_TABLE );
 		}
-
 		// close the page tag ( DIV )
 		writer.closeTag( HTMLTags.TAG_DIV );
 	}

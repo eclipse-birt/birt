@@ -55,7 +55,7 @@ public abstract class HTMLEmitter
 		this.layoutPreference = layoutPreference;
 	}
 	
-	// FIXME: code review: We shouldn¡¯t pass the style directly. We should pass
+	// FIXME: code review: We shouldnï¿½ï¿½t pass the style directly. We should pass
 	// the element and get the style form the element in the method.
 	public abstract void buildDefaultStyle( StringBuffer styleBuffer,
 			IStyle style );
@@ -108,21 +108,6 @@ public abstract class HTMLEmitter
 		// The method getStyle( ) will nevel return a null value;
 		IStyle style = page.getStyle( );
 		AttributeBuilder.buildBackground( styleBuffer, style, reportEmitter );
-
-		if ( HTMLRenderOption.LAYOUT_PREFERENCE_FIXED.equals( layoutPreference ) )
-		{
-			// build the width
-			DimensionType width = page.getPageWidth( );
-			if ( width != null )
-			{
-				styleBuffer.append( " width:" );
-				styleBuffer.append( width.toString( ) );
-				styleBuffer.append( ";" );
-			}
-			
-			// hide the overflow
-			styleBuffer.append( " overflow: hidden;" );
-		}
 	}
 
 	/**
