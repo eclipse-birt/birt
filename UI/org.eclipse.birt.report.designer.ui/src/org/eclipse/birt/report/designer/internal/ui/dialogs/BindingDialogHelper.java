@@ -111,6 +111,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	private ComputedColumn newBinding;
 	private CLabel messageLine;
 	private Combo cmbName;
+	private Label lbName;
 
 	private boolean isCreate;
 	private boolean isRef;
@@ -136,13 +137,16 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		}
 		composite.setLayoutData( gd );
 
-		new Label( composite, SWT.NONE ).setText( NAME );
+		lbName = new Label( composite, SWT.NONE );
+		lbName.setText( NAME );
 
 		if ( isRef )
 		{
 			cmbName = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
-			cmbName.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
-					| GridData.GRAB_HORIZONTAL ) );
+			gd = new GridData( GridData.FILL_HORIZONTAL
+					| GridData.GRAB_HORIZONTAL );
+			gd.horizontalSpan = 2;
+			cmbName.setLayoutData( gd );
 			cmbName.addSelectionListener( new SelectionAdapter( ) {
 
 				public void widgetSelected( SelectionEvent e )
@@ -167,8 +171,10 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		else
 		{
 			txtName = new Text( composite, SWT.BORDER );
-			txtName.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
-					| GridData.GRAB_HORIZONTAL ) );
+			gd = new GridData( GridData.FILL_HORIZONTAL
+					| GridData.GRAB_HORIZONTAL );
+			gd.horizontalSpan = 2;			
+			txtName.setLayoutData( gd );
 			txtName.addModifyListener( new ModifyListener( ) {
 
 				public void modifyText( ModifyEvent e )
@@ -178,19 +184,17 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 			} );
 		}
-		WidgetUtil.createGridPlaceholder( composite, 1, false );
+//		WidgetUtil.createGridPlaceholder( composite, 1, false );
 
 		new Label( composite, SWT.NONE ).setText( DISPLAY_NAME );
 		txtDisplayName = new Text( composite, SWT.BORDER );
-		txtDisplayName.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL ) );
-		WidgetUtil.createGridPlaceholder( composite, 1, false );
+		txtDisplayName.setLayoutData( gd );
+//		WidgetUtil.createGridPlaceholder( composite, 1, false );
 
 		new Label( composite, SWT.NONE ).setText( DATA_TYPE );
 		cmbType = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
-		cmbType.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL ) );
-		WidgetUtil.createGridPlaceholder( composite, 1, false );
+		cmbType.setLayoutData( gd );
+//		WidgetUtil.createGridPlaceholder( composite, 1, false );
 
 		if ( isAggregate( ) )
 		{
@@ -572,10 +576,12 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 		new Label( composite, SWT.NONE ).setText( FUNCTION );
 		cmbFunction = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
-		cmbFunction.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL ) );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL
+				| GridData.GRAB_HORIZONTAL );
+		gd.horizontalSpan = 2;
+		cmbFunction.setLayoutData( gd );
 
-		WidgetUtil.createGridPlaceholder( composite, 1, false );
+//		WidgetUtil.createGridPlaceholder( composite, 1, false );
 
 		cmbFunction.addSelectionListener( new SelectionAdapter( ) {
 
@@ -616,6 +622,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		argsComposite = new Composite( composite, SWT.NONE );
 		GridData gridData = new GridData( GridData.FILL_HORIZONTAL
 				| GridData.GRAB_HORIZONTAL );
+		gridData.horizontalIndent = 0;
 		gridData.horizontalSpan = 3;
 		gridData.exclude = true;
 		argsComposite.setLayoutData( gridData );
@@ -830,13 +837,13 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 					String argName = (String) iterator.next( );
 					Label lblArg = new Label( argsComposite, SWT.NONE );
 					lblArg.setText( argName + ":" ); //$NON-NLS-1$
-					lblArg.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
-							| GridData.GRAB_HORIZONTAL ) );
+					GridData gd = new GridData( );				
+					gd.widthHint = lbName.getBounds( ).width - lbName.getBorderWidth( );
+					lblArg.setLayoutData( gd );
 
 					Text txtArg = new Text( argsComposite, SWT.BORDER );
-					GridData gridData = new GridData( );
-
-					gridData.widthHint = txtFilter.getBounds( ).width - 7;
+					GridData gridData = new GridData( GridData.FILL_HORIZONTAL );					
+					gridData.horizontalIndent = 0;
 
 					txtArg.setLayoutData( gridData );
 					createExpressionButton( argsComposite, txtArg );

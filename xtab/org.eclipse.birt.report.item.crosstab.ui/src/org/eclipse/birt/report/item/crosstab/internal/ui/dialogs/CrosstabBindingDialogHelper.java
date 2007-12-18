@@ -111,6 +111,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	private Text txtDisplayName;
 	private ComputedColumn newBinding;
 	private CLabel messageLine;
+	private Label lbName;
 
 	public void createContent( Composite parent )
 	{
@@ -130,12 +131,15 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		}
 		composite.setLayoutData( gd );
 
-		new Label( composite, SWT.NONE ).setText( NAME );
+		lbName = new Label( composite, SWT.NONE );
+		lbName.setText( NAME );
+
 		txtName = new Text( composite, SWT.BORDER );
 
-		txtName.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL ) );
-		WidgetUtil.createGridPlaceholder( composite, 1, false );
+		gd = new GridData( GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL );
+		gd.horizontalSpan = 2;
+		txtName.setLayoutData( gd );
+		// WidgetUtil.createGridPlaceholder( composite, 1, false );
 
 		txtName.addModifyListener( new ModifyListener( ) {
 
@@ -148,15 +152,15 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 		new Label( composite, SWT.NONE ).setText( DISPLAY_NAME );
 		txtDisplayName = new Text( composite, SWT.BORDER );
-		txtDisplayName.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL ) );
-		WidgetUtil.createGridPlaceholder( composite, 1, false );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 2;
+		txtDisplayName.setLayoutData( gd );
+		// WidgetUtil.createGridPlaceholder( composite, 1, false );
 
 		new Label( composite, SWT.NONE ).setText( DATA_TYPE );
 		cmbType = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
-		cmbType.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL ) );
-		WidgetUtil.createGridPlaceholder( composite, 1, false );
+		cmbType.setLayoutData( gd );
+		// WidgetUtil.createGridPlaceholder( composite, 1, false );
 
 		if ( isAggregate( ) )
 		{
@@ -171,7 +175,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 	public void initDialog( )
 	{
-		if ( getBinding( ) == null )//create
+		if ( getBinding( ) == null )// create
 		{
 			setTypeSelect( dataTypes[0] );
 			this.newBinding = StructureFactory.newComputedColumn( getBindingHolder( ),
@@ -322,7 +326,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	private void initFunction( )
 	{
 		cmbFunction.setItems( getFunctionDisplayNames( ) );
-		//		cmbFunction.add( NULL, 0 );
+		// cmbFunction.add( NULL, 0 );
 		if ( binding == null )
 		{
 			cmbFunction.select( 0 );
@@ -331,7 +335,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		}
 		try
 		{
-			String functionString = getFunctionDisplayName( DataAdapterUtil.adaptModelAggregationType(binding.getAggregateFunction( )) );
+			String functionString = getFunctionDisplayName( DataAdapterUtil.adaptModelAggregationType( binding.getAggregateFunction( ) ) );
 			int itemIndex = getItemIndex( getFunctionDisplayNames( ),
 					functionString );
 			cmbFunction.select( itemIndex );
@@ -341,8 +345,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		{
 			ExceptionHandler.handle( e );
 		}
-		//		List args = getFunctionArgs( functionString );
-		//		bindingColumn.argumentsIterator( )
+		// List args = getFunctionArgs( functionString );
+		// bindingColumn.argumentsIterator( )
 		for ( Iterator iterator = binding.argumentsIterator( ); iterator.hasNext( ); )
 		{
 			AggregationArgumentHandle arg = (AggregationArgumentHandle) iterator.next( );
@@ -515,10 +519,11 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 		new Label( composite, SWT.NONE ).setText( FUNCTION );
 		cmbFunction = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
-		cmbFunction.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL ) );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 2;
+		cmbFunction.setLayoutData( gd );
 
-		WidgetUtil.createGridPlaceholder( composite, 1, false );
+		// WidgetUtil.createGridPlaceholder( composite, 1, false );
 
 		cmbFunction.addSelectionListener( new SelectionAdapter( ) {
 
@@ -531,10 +536,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 		new Label( composite, SWT.NONE ).setText( DATA_FIELD );
 		cmbDataField = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
-		cmbDataField.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL ) );
+		cmbDataField.setLayoutData( gd );
 
-		WidgetUtil.createGridPlaceholder( composite, 1, false );
+		// WidgetUtil.createGridPlaceholder( composite, 1, false );
 
 		cmbDataField.addModifyListener( new ModifyListener( ) {
 
@@ -551,15 +555,15 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		gridData.exclude = true;
 		argsComposite.setLayoutData( gridData );
 		GridLayout layout = new GridLayout( );
-		//		layout.horizontalSpacing = layout.verticalSpacing = 0;
+		// layout.horizontalSpacing = layout.verticalSpacing = 0;
 		layout.marginWidth = layout.marginHeight = 0;
 		layout.numColumns = 3;
 		argsComposite.setLayout( layout );
 
 		new Label( composite, SWT.NONE ).setText( FILTER_CONDITION );
 		txtFilter = new Text( composite, SWT.BORDER );
-		txtFilter.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL ) );
+		gridData = new GridData( GridData.FILL_HORIZONTAL ) ;
+		txtFilter.setLayoutData( gridData );
 
 		createExpressionButton( composite, txtFilter );
 
@@ -570,8 +574,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		lblAggOn.setLayoutData( gridData );
 
 		cmbAggOn = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
-		cmbAggOn.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL ) );
+		gridData = new GridData( GridData.FILL_HORIZONTAL ); 
+		gridData.horizontalSpan = 2;
+		cmbAggOn.setLayoutData( gridData );
 
 	}
 
@@ -579,8 +584,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	{
 		new Label( composite, SWT.NONE ).setText( EXPRESSION );
 		txtExpression = new Text( composite, SWT.BORDER );
-		txtExpression.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL ) );
+		txtExpression.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		createExpressionButton( composite, txtExpression );
 		txtExpression.addModifyListener( new ModifyListener( ) {
 
@@ -622,13 +626,15 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 					String argName = (String) iterator.next( );
 					Label lblArg = new Label( argsComposite, SWT.NONE );
 					lblArg.setText( argName + ":" );
-					lblArg.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
-							| GridData.GRAB_HORIZONTAL ) );
+
+					GridData gd = new GridData( );
+					gd.widthHint = lbName.getBounds( ).width
+							- lbName.getBorderWidth( );
+					lblArg.setLayoutData( gd );
 
 					Text txtArg = new Text( argsComposite, SWT.BORDER );
-					GridData gridData = new GridData( );
-
-					gridData.widthHint = txtFilter.getBounds( ).width - 9;
+					GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
+					gridData.horizontalIndent = 0;
 
 					txtArg.setLayoutData( gridData );
 					createExpressionButton( argsComposite, txtArg );
@@ -638,15 +644,15 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			else
 			{
 				( (GridData) argsComposite.getLayoutData( ) ).heightHint = 0;
-				//						( (GridData) argsComposite.getLayoutData( ) ).exclude = true;
+				// ( (GridData) argsComposite.getLayoutData( ) ).exclude = true;
 			}
 			this.cmbDataField.setEnabled( function.needDataField( ) );
 		}
 		else
 		{
 			( (GridData) argsComposite.getLayoutData( ) ).heightHint = 0;
-			//					( (GridData) argsComposite.getLayoutData( ) ).exclude = true;
-			//					new Label( argsComposite, SWT.NONE ).setText( "no args" );
+			// ( (GridData) argsComposite.getLayoutData( ) ).exclude = true;
+			// new Label( argsComposite, SWT.NONE ).setText( "no args" );
 		}
 		argsComposite.layout( );
 		composite.layout( );
@@ -702,151 +708,159 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		return argList;
 	}
 
-	//	public void save( ) throws Exception
-	//	{
-	//		if ( txtName.getText( ) != null
-	//				&& txtName.getText( ).trim( ).length( ) > 0 )
-	//		{
+	// public void save( ) throws Exception
+	// {
+	// if ( txtName.getText( ) != null
+	// && txtName.getText( ).trim( ).length( ) > 0 )
+	// {
 	//
-	//			if ( isAggregate( ) )
-	//			{
-	//				saveAggregate( );
-	//			}
-	//			else
-	//			{
-	//				if ( getBinding( ) == null )
-	//				{
-	//					for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
-	//					{
-	//						if ( DATA_TYPE_CHOICES[i].getDisplayName( )
-	//								.equals( cmbType.getText( ) ) )
-	//						{
-	//							newBinding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
-	//							break;
-	//						}
-	//					}
-	//					this.newBinding.setName( txtName.getText( ) );
-	//					this.newBinding.setExpression( txtExpression.getText( ) );
-	//					this.newBinding.setDisplayName( txtDisplayName.getText( ) );
-	//					this.binding = DEUtil.addColumn( getBindingHolder( ),
-	//							newBinding,
-	//							true );
-	//				}
-	//				else
-	//				{
-	//					for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
-	//					{
-	//						if ( DATA_TYPE_CHOICES[i].getDisplayName( )
-	//								.equals( cmbType.getText( ) ) )
-	//						{
-	//							this.binding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
-	//							break;
-	//						}
-	//					}
-	//					this.binding.setDisplayName( txtDisplayName.getText( ) );
-	//					this.binding.setExpression( txtExpression.getText( ) );
-	//				}
-	//			}
-	//		}
-	//	}
+	// if ( isAggregate( ) )
+	// {
+	// saveAggregate( );
+	// }
+	// else
+	// {
+	// if ( getBinding( ) == null )
+	// {
+	// for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
+	// {
+	// if ( DATA_TYPE_CHOICES[i].getDisplayName( )
+	// .equals( cmbType.getText( ) ) )
+	// {
+	// newBinding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
+	// break;
+	// }
+	// }
+	// this.newBinding.setName( txtName.getText( ) );
+	// this.newBinding.setExpression( txtExpression.getText( ) );
+	// this.newBinding.setDisplayName( txtDisplayName.getText( ) );
+	// this.binding = DEUtil.addColumn( getBindingHolder( ),
+	// newBinding,
+	// true );
+	// }
+	// else
+	// {
+	// for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
+	// {
+	// if ( DATA_TYPE_CHOICES[i].getDisplayName( )
+	// .equals( cmbType.getText( ) ) )
+	// {
+	// this.binding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
+	// break;
+	// }
+	// }
+	// this.binding.setDisplayName( txtDisplayName.getText( ) );
+	// this.binding.setExpression( txtExpression.getText( ) );
+	// }
+	// }
+	// }
+	// }
 	//
-	//	private void saveAggregate( ) throws Exception
-	//	{
-	//		if ( getBinding( ) == null )
-	//		{
-	//			this.newBinding.setName( txtName.getText( ) );
-	//			this.newBinding.setDisplayName( txtDisplayName.getText( ) );
-	//			for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
-	//			{
-	//				if ( DATA_TYPE_CHOICES[i].getDisplayName( )
-	//						.equals( cmbType.getText( ) ) )
-	//				{
-	//					newBinding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
-	//					break;
-	//				}
-	//			}
-	//			this.newBinding.setExpression( cmbDataField.getText( ) );
-	//			this.newBinding.setAggregateFunction( getFunctionByDisplayName( cmbFunction.getText( ) ) );
-	//			this.newBinding.setFilterExpression( txtFilter.getText( ) );
+	// private void saveAggregate( ) throws Exception
+	// {
+	// if ( getBinding( ) == null )
+	// {
+	// this.newBinding.setName( txtName.getText( ) );
+	// this.newBinding.setDisplayName( txtDisplayName.getText( ) );
+	// for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
+	// {
+	// if ( DATA_TYPE_CHOICES[i].getDisplayName( )
+	// .equals( cmbType.getText( ) ) )
+	// {
+	// newBinding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
+	// break;
+	// }
+	// }
+	// this.newBinding.setExpression( cmbDataField.getText( ) );
+	// this.newBinding.setAggregateFunction( getFunctionByDisplayName(
+	// cmbFunction.getText( ) ) );
+	// this.newBinding.setFilterExpression( txtFilter.getText( ) );
 	//
-	//			this.newBinding.clearAggregateOnList( );
-	//			String aggStr = cmbAggOn.getText( );
-	//			StringTokenizer token = new StringTokenizer( aggStr, "," );
+	// this.newBinding.clearAggregateOnList( );
+	// String aggStr = cmbAggOn.getText( );
+	// StringTokenizer token = new StringTokenizer( aggStr, "," );
 	//
-	//			while ( token.hasMoreTokens( ) )
-	//			{
-	//				String agg = token.nextToken( );
-	//				if ( !agg.equals( ALL ) )
-	//					newBinding.addAggregateOn( agg );
-	//			}
+	// while ( token.hasMoreTokens( ) )
+	// {
+	// String agg = token.nextToken( );
+	// if ( !agg.equals( ALL ) )
+	// newBinding.addAggregateOn( agg );
+	// }
 	//
-	//			this.binding = DEUtil.addColumn( getBindingHolder( ),
-	//					newBinding,
-	//					true );
+	// this.binding = DEUtil.addColumn( getBindingHolder( ),
+	// newBinding,
+	// true );
 	//
-	//			for ( Iterator iterator = argsMap.keySet( ).iterator( ); iterator.hasNext( ); )
-	//			{
-	//				String arg = (String) iterator.next( );
-	//				AggregationArgument argHandle = StructureFactory.createAggregationArgument( );
-	//				argHandle.setName( ( getArgumentByDisplayName( this.binding.getAggregateFunction( ),
-	//						arg ) ) );
-	//				argHandle.setValue( ( (Text) argsMap.get( arg ) ).getText( ) );
-	//				this.binding.addArgument( argHandle );
-	//			}
+	// for ( Iterator iterator = argsMap.keySet( ).iterator( );
+	// iterator.hasNext( ); )
+	// {
+	// String arg = (String) iterator.next( );
+	// AggregationArgument argHandle =
+	// StructureFactory.createAggregationArgument( );
+	// argHandle.setName( ( getArgumentByDisplayName(
+	// this.binding.getAggregateFunction( ),
+	// arg ) ) );
+	// argHandle.setValue( ( (Text) argsMap.get( arg ) ).getText( ) );
+	// this.binding.addArgument( argHandle );
+	// }
 	//
-	//		}
-	//		else
-	//		{
-	//			if ( cmbDataField.getText( ) != null
-	//					&& cmbDataField.getText( ).trim( ).length( ) == 0 )
-	//			{
-	//				this.binding = null;
-	//				return;
-	//			}
+	// }
+	// else
+	// {
+	// if ( cmbDataField.getText( ) != null
+	// && cmbDataField.getText( ).trim( ).length( ) == 0 )
+	// {
+	// this.binding = null;
+	// return;
+	// }
 	//
-	//			if ( !( this.binding.getName( ) != null && this.binding.getName( )
-	//					.equals( txtName.getText( ).trim( ) ) ) )
-	//				this.binding.setName( txtName.getText( ) );
-	//			this.binding.setDisplayName( txtDisplayName.getText( ) );
+	// if ( !( this.binding.getName( ) != null && this.binding.getName( )
+	// .equals( txtName.getText( ).trim( ) ) ) )
+	// this.binding.setName( txtName.getText( ) );
+	// this.binding.setDisplayName( txtDisplayName.getText( ) );
 	//
-	//			for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
-	//			{
-	//				if ( DATA_TYPE_CHOICES[i].getDisplayName( )
-	//						.equals( cmbType.getText( ) ) )
-	//				{
-	//					this.binding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
-	//					break;
-	//				}
-	//			}
+	// for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
+	// {
+	// if ( DATA_TYPE_CHOICES[i].getDisplayName( )
+	// .equals( cmbType.getText( ) ) )
+	// {
+	// this.binding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
+	// break;
+	// }
+	// }
 	//
-	//			this.binding.setExpression( cmbDataField.getText( ) );
-	//			this.binding.setAggregateFunction( getFunctionByDisplayName( cmbFunction.getText( ) ) );
-	//			this.binding.setFilterExpression( txtFilter.getText( ) );
+	// this.binding.setExpression( cmbDataField.getText( ) );
+	// this.binding.setAggregateFunction( getFunctionByDisplayName(
+	// cmbFunction.getText( ) ) );
+	// this.binding.setFilterExpression( txtFilter.getText( ) );
 	//
-	//			this.binding.clearAggregateOnList( );
-	//			String aggStr = cmbAggOn.getText( );
-	//			StringTokenizer token = new StringTokenizer( aggStr, "," );
+	// this.binding.clearAggregateOnList( );
+	// String aggStr = cmbAggOn.getText( );
+	// StringTokenizer token = new StringTokenizer( aggStr, "," );
 	//
-	//			while ( token.hasMoreTokens( ) )
-	//			{
-	//				String agg = token.nextToken( );
-	//				if ( !agg.equals( ALL ) )
-	//					this.binding.addAggregateOn( agg );
-	//			}
+	// while ( token.hasMoreTokens( ) )
+	// {
+	// String agg = token.nextToken( );
+	// if ( !agg.equals( ALL ) )
+	// this.binding.addAggregateOn( agg );
+	// }
 	//
-	//			this.binding.clearArgumentList( );
+	// this.binding.clearArgumentList( );
 	//
-	//			for ( Iterator iterator = argsMap.keySet( ).iterator( ); iterator.hasNext( ); )
-	//			{
-	//				String arg = (String) iterator.next( );
-	//				AggregationArgument argHandle = StructureFactory.createAggregationArgument( );
-	//				argHandle.setName( getArgumentByDisplayName( this.binding.getAggregateFunction( ),
-	//						arg ) );
-	//				argHandle.setValue( ( (Text) argsMap.get( arg ) ).getText( ) );
-	//				this.binding.addArgument( argHandle );
-	//			}
-	//		}
-	//	}
+	// for ( Iterator iterator = argsMap.keySet( ).iterator( );
+	// iterator.hasNext( ); )
+	// {
+	// String arg = (String) iterator.next( );
+	// AggregationArgument argHandle =
+	// StructureFactory.createAggregationArgument( );
+	// argHandle.setName( getArgumentByDisplayName(
+	// this.binding.getAggregateFunction( ),
+	// arg ) );
+	// argHandle.setValue( ( (Text) argsMap.get( arg ) ).getText( ) );
+	// this.binding.addArgument( argHandle );
+	// }
+	// }
+	// }
 
 	private String getArgumentByDisplayName( String function, String argument )
 	{
@@ -909,7 +923,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		}
 		else
 		{
-			if ( this.binding == null )//create bindnig, we should check if the binding name already exists.
+			if ( this.binding == null )// create bindnig, we should check if
+										// the binding name already exists.
 			{
 				for ( Iterator iterator = this.bindingHolder.getColumnBindings( )
 						.iterator( ); iterator.hasNext( ); )
@@ -932,7 +947,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			dialog.setCanFinish( true );
 			this.messageLine.setText( "" ); //$NON-NLS-1$
 			this.messageLine.setImage( null );
-			
+
 			if ( txtExpression != null
 					&& ( txtExpression.getText( ) == null || txtExpression.getText( )
 							.trim( )
