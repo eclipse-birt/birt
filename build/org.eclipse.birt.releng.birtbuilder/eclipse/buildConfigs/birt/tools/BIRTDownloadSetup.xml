@@ -118,31 +118,6 @@
 		<echo message="DownloadPage Setup starts at ${timestamp.TODAY_MIN}" />
 		<echo message="Copy log files to deposit" />
 
-		<echo file="${OutputDir}\chart_build_log.txt">
-         BIRT Chart: Build log for build   ${univBuildDate}
-         ===================================================         
-		</echo>
-
-		<echo file="${OutputDir}\designer_build_log.txt" >
-        BIRT Designer: Build log for build   ${univBuildDate}
-         ===================================================         
-		</echo>
-
-		<echo file="${OutputDir}\data_build_log.txt">
-         BIRT Data: Build log for build   ${univBuildDate}         
-         ===================================================         
-		</echo>
-
-		<echo file="${OutputDir}\engine_build_log.txt">
-         BIRT Engine: Build log for build   ${univBuildDate}
-         ===================================================         
-		</echo>
-
-		<echo file="${OutputDir}\model_build_log.txt">
-        BIRT Model: Build log for build   ${univBuildDate}
-         ===================================================         
-		</echo>
-		
 		<copy file="${template.dir}\build_info_template_new.txt" tofile="${OutputDir}\${birt.info}" overwrite="true" failonerror="false" />
 		
 		<!--Define chart runtime file set.-->
@@ -270,11 +245,11 @@
 		<replace file="${OutputDir}\${birt.info}" token="#buildType#" value="Nightly"/>
 		<replace file="${OutputDir}\${birt.info}" token="#timeStamp#" value="${buildId}"/>
 		<replace file="${OutputDir}\${birt.info}" token="#branch#" value="${package.version}"/>
-		<replace file="${OutputDir}\${birt.info}" token="#ECLIPSEVERSION#" value="3.4 M3 SDK"/>
-		<replace file="${OutputDir}\${birt.info}" token="#EMFVERSION#" value="2.4 M3 EMF+SDO+XSD"/>
+		<replace file="${OutputDir}\${birt.info}" token="#ECLIPSEVERSION#" value="3.4 M4 SDK"/>
+		<replace file="${OutputDir}\${birt.info}" token="#EMFVERSION#" value="2.4 M4 EMF+SDO+XSD"/>
 		<replace file="${OutputDir}\${birt.info}" token="#GEFVERSION#" value="3.4 M3 runtime"/>
-		<replace file="${OutputDir}\${birt.info}" token="#DTPVERSION#" value="1.6 M3" />
-		<replace file="${OutputDir}\${birt.info}" token="#WTPVERSION#" value="3.0 I-I20071101213525-20071101213525"/>
+		<replace file="${OutputDir}\${birt.info}" token="#DTPVERSION#" value="1.6 M4" />
+		<replace file="${OutputDir}\${birt.info}" token="#WTPVERSION#" value="3.0 I-I20071213223850-20071213223850"/>
 	
 	</target>
 
