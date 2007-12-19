@@ -56,4 +56,8 @@ public interface ReportColorConstants
 	public final static Color RedWarning = ColorManager.getColor( 255,
 			0,
 			0 );
+	
+	public final static Color MultipleSelectionHandleColor = ColorManager.getColor( 200,
+			200,
+			200 );
 }

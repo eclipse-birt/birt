@@ -185,11 +185,20 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	{
 		if ( guideHandle == null )
 		{
-			guideHandle = createGuideHandle( );
+			guideHandle = interCreateGuideHandle( );
 		}
 		return guideHandle;
 	}
 
+	private AbstractGuideHandle interCreateGuideHandle()
+	{
+		if (getParent( ) instanceof MultipleEditPart)
+		{
+			return ((MultipleEditPart)getParent( )).createGuideHandle( );
+		}
+		return createGuideHandle();
+	}
+	
 	/**
 	 * Adds the guide handle to the handle layer.
 	 * 
@@ -198,7 +207,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	{
 		if ( guideHandle == null )
 		{
-			guideHandle = createGuideHandle( );
+			guideHandle = interCreateGuideHandle( );
 		}
 
 		if ( guideHandle != null && guideHandle != findHandle( ) )

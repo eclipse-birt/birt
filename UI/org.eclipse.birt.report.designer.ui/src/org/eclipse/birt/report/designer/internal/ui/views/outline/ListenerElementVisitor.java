@@ -11,13 +11,15 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.outline;
 
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignVisitor;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.validators.IValidationListener;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
-import org.eclipse.birt.report.model.metadata.SystemPropertyDefn;
 
 /**
  * Applies visitor to the report element and the children element
@@ -70,10 +72,18 @@ public class ListenerElementVisitor extends DesignVisitor
 		if ( install )
 		{
 			obj.addListener( listener );
+			if (obj instanceof ReportItemHandle)
+			{
+				addViewsListener( (ReportItemHandle)obj );
+			}
 		}
 		else
 		{
 			obj.removeListener( listener );
+			if (obj instanceof ReportItemHandle)
+			{
+				removeViewsListener( (ReportItemHandle)obj );
+			}
 		}
 		for ( int i = 0; i < obj.getDefn( ).getSlotCount( ); i++ )
 		{
@@ -85,6 +95,23 @@ public class ListenerElementVisitor extends DesignVisitor
 		}
 	}
 	
+	private void addViewsListener(ReportItemHandle handle)
+	{
+		List views = handle.getViews( );
+		for (int i=0; i<views.size( ); i++)
+		{
+			((DesignElementHandle)views.get( i )).addListener( listener );
+		}
+	}
+	
+	private void removeViewsListener(ReportItemHandle handle)
+	{
+		List views = handle.getViews( );
+		for (int i=0; i<views.size( ); i++)
+		{
+			((DesignElementHandle)views.get( i )).removeListener( listener );
+		}
+	}
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.model.api.DesignVisitor#visitReportDesign(org.eclipse.birt.report.model.api.ReportDesignHandle)

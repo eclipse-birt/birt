@@ -88,7 +88,7 @@ public class TableEditPart extends AbstractTableEditPart implements
 
 	private static final String MERGE_TRANS_LABEL = Messages.getString( "TableEditPart.Label.Merge" ); //$NON-NLS-1$
 
-	private static final String GUIDEHANDLE_TEXT = Messages.getString( "TableEditPart.GUIDEHANDLE_TEXT" ); //$NON-NLS-1$
+	public static final String GUIDEHANDLE_TEXT = Messages.getString( "TableEditPart.GUIDEHANDLE_TEXT" ); //$NON-NLS-1$
 
 	private Rectangle selectRowAndColumnRect = null;
 
