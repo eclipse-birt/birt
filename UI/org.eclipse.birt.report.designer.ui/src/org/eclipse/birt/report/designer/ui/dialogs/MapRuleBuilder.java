@@ -103,6 +103,7 @@ import org.eclipse.ui.PlatformUI;
 
 public class MapRuleBuilder extends BaseDialog
 {
+
 	private final String NULL_STRING = null;
 	protected IExpressionProvider expressionProvider;
 	protected transient String bindingName = null;
@@ -519,7 +520,7 @@ public class MapRuleBuilder extends BaseDialog
 			operator.select( 0 );
 		}
 		condition.getParent( ).layout( true, true );
-		
+
 		return 1;
 	}
 
@@ -527,7 +528,7 @@ public class MapRuleBuilder extends BaseDialog
 	{
 		if ( valueListComposite != null && !valueListComposite.isDisposed( ) )
 		{
-			return 0 ;
+			return 0;
 		}
 		disposeComposites( );
 
@@ -857,7 +858,7 @@ public class MapRuleBuilder extends BaseDialog
 		addExpressionValue.setItems( popupItems );
 
 		parent.getParent( ).layout( true, true );
-		
+
 		return 1;
 	}
 
@@ -1014,7 +1015,7 @@ public class MapRuleBuilder extends BaseDialog
 		if ( valueVisible == 3 )
 		{
 			int ret = createValueListComposite( operator.getParent( ) );
-			if(ret != 0)
+			if ( ret != 0 )
 			{
 				if ( handle != null )
 				{
@@ -1028,7 +1029,7 @@ public class MapRuleBuilder extends BaseDialog
 		else
 		{
 			int ret = create2ValueComposite( operator.getParent( ) );
-			if (ret != 0 && handle != null )
+			if ( ret != 0 && handle != null )
 			{
 				expressionValue1.setText( DEUtil.resolveNull( handle.getValue1( ) ) );
 				expressionValue2.setText( DEUtil.resolveNull( handle.getValue2( ) ) );
@@ -1148,7 +1149,7 @@ public class MapRuleBuilder extends BaseDialog
 				break;
 			}
 		}
-		
+
 		boolean returnValue = false;
 		if ( value != null )
 		{
@@ -1244,7 +1245,25 @@ public class MapRuleBuilder extends BaseDialog
 			}
 			if ( returnValue )
 			{
-				comboWidget.setText( DEUtil.resolveNull( newValue ));
+				comboWidget.setText( DEUtil.resolveNull( newValue ) );
+
+				if ( tableViewer != null
+						&& ( addBtn != null && ( !addBtn.isDisposed( ) ) ) )
+				{
+					if ( valueList.indexOf( DEUtil.resolveNull( newValue ) ) < 0 )
+					{
+						valueList.add( DEUtil.resolveNull( newValue ) );
+						tableViewer.refresh( );
+						updateButtons( );
+						addExpressionValue.setFocus( );
+					}
+					else
+					{
+						addBtn.setEnabled( false );
+					}
+
+				}
+
 			}
 		}
 	}
@@ -1727,14 +1746,16 @@ public class MapRuleBuilder extends BaseDialog
 					if ( expressionValue1.isVisible( ) )
 					{
 						handle.setValue1( DEUtil.resolveNull( expressionValue1.getText( ) ) );
-					}else
+					}
+					else
 					{
 						handle.setValue1( NULL_STRING );
 					}
 					if ( expressionValue2.isVisible( ) )
 					{
 						handle.setValue2( DEUtil.resolveNull( expressionValue2.getText( ) ) );
-					}else
+					}
+					else
 					{
 						handle.setValue2( NULL_STRING );
 					}

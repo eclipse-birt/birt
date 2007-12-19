@@ -136,9 +136,8 @@ public class HighlightRuleBuilder extends BaseDialog
 	 * Constant, represents empty String array.
 	 */
 	private static final String[] EMPTY = new String[0];
-	
+
 	protected List valueList = new ArrayList( );
-	
 
 	static
 	{
@@ -201,7 +200,8 @@ public class HighlightRuleBuilder extends BaseDialog
 				|| DesignChoiceConstants.MAP_OPERATOR_NOT_BETWEEN.equals( operatorValue ) )
 		{
 			return 2;
-		}else if ( DesignChoiceConstants.MAP_OPERATOR_IN.equals( operatorValue )
+		}
+		else if ( DesignChoiceConstants.MAP_OPERATOR_IN.equals( operatorValue )
 				|| DesignChoiceConstants.MAP_OPERATOR_NOT_IN.equals( operatorValue ) )
 		{
 			return 3;
@@ -264,7 +264,7 @@ public class HighlightRuleBuilder extends BaseDialog
 	protected TableViewer tableViewer;
 	protected int valueVisible;
 	protected List compositeList = new ArrayList( );
-	
+
 	private Combo expressionValue1, expressionValue2;
 
 	private Label andLable;
@@ -390,9 +390,9 @@ public class HighlightRuleBuilder extends BaseDialog
 		lb.setText( Messages.getString( "HighlightRuleBuilderDialog.text.Condition" ) ); //$NON-NLS-1$
 
 		Composite condition = new Composite( innerParent, SWT.NONE );
-		gdata =  new GridData( GridData.FILL_HORIZONTAL );
+		gdata = new GridData( GridData.FILL_HORIZONTAL );
 		gdata.heightHint = 185;
-		condition.setLayoutData( gdata );		
+		condition.setLayoutData( gdata );
 		glayout = new GridLayout( 4, false );
 		condition.setLayout( glayout );
 
@@ -441,10 +441,8 @@ public class HighlightRuleBuilder extends BaseDialog
 			}
 		} );
 
-		
-
 		refreshList( );
-		
+
 		create2ValueComposite( condition );
 
 		createApplyStyleArea( innerParent );
@@ -664,7 +662,7 @@ public class HighlightRuleBuilder extends BaseDialog
 		if ( valueVisible == 3 )
 		{
 			int ret = createValueListComposite( operator.getParent( ) );
-			if(ret != 0)
+			if ( ret != 0 )
 			{
 				if ( handle != null )
 				{
@@ -678,14 +676,14 @@ public class HighlightRuleBuilder extends BaseDialog
 		else
 		{
 			int ret = create2ValueComposite( operator.getParent( ) );
-			if (ret != 0 && handle != null )
+			if ( ret != 0 && handle != null )
 			{
 				expressionValue1.setText( DEUtil.resolveNull( handle.getValue1( ) ) );
 				expressionValue2.setText( DEUtil.resolveNull( handle.getValue2( ) ) );
 			}
 
 		}
-		
+
 		if ( valueVisible == 0 )
 		{
 			expressionValue1.setVisible( false );
@@ -704,7 +702,7 @@ public class HighlightRuleBuilder extends BaseDialog
 			expressionValue2.setVisible( true );
 			andLable.setVisible( true );
 		}
-		
+
 		updateButtons( );
 	}
 
@@ -779,7 +777,9 @@ public class HighlightRuleBuilder extends BaseDialog
 		ReportItemHandle reportItem = DEUtil.getBindingHolder( currentItem );
 		if ( bindingName != null && reportItem != null )
 		{
-			selectValueList = SelectValueFetcher.getSelectValueList( expression.getText( ), reportItem.getDataSet( ), false );
+			selectValueList = SelectValueFetcher.getSelectValueList( expression.getText( ),
+					reportItem.getDataSet( ),
+					false );
 		}
 		else
 		{
@@ -810,7 +810,7 @@ public class HighlightRuleBuilder extends BaseDialog
 		}
 
 		boolean returnValue = false;
-		
+
 		if ( value != null )
 		{
 			String newValue = null;
@@ -909,7 +909,22 @@ public class HighlightRuleBuilder extends BaseDialog
 			}
 			if ( returnValue )
 			{
-				comboWidget.setText(DEUtil.resolveNull( newValue ));
+				comboWidget.setText( DEUtil.resolveNull( newValue ) );
+				if ( tableViewer != null
+						&& ( addBtn != null && ( !addBtn.isDisposed( ) ) ) )
+				{
+					if ( valueList.indexOf( DEUtil.resolveNull( newValue ) ) < 0 )
+					{
+						valueList.add( DEUtil.resolveNull( newValue ) );
+						tableViewer.refresh( );
+						updateButtons( );
+						addExpressionValue.setFocus( );
+					}
+					else
+					{
+						addBtn.setEnabled( false );
+					}
+				}
 			}
 		}
 	}
@@ -1246,7 +1261,7 @@ public class HighlightRuleBuilder extends BaseDialog
 		backColor.setEnabled( val2 );
 
 		operator.setEnabled( val );
-		
+
 		if ( valueVisible != 3 )
 		{
 			if ( expressionValue1 != null && ( !expressionValue1.isDisposed( ) ) )
@@ -1726,14 +1741,16 @@ public class HighlightRuleBuilder extends BaseDialog
 					if ( expressionValue1.isVisible( ) )
 					{
 						handle.setValue1( DEUtil.resolveNull( expressionValue1.getText( ) ) );
-					}else
+					}
+					else
 					{
 						handle.setValue1( NULL_STRING );
 					}
 					if ( expressionValue2.isVisible( ) )
 					{
 						handle.setValue2( DEUtil.resolveNull( expressionValue2.getText( ) ) );
-					}else
+					}
+					else
 					{
 						handle.setValue2( NULL_STRING );
 					}
@@ -1890,7 +1907,7 @@ public class HighlightRuleBuilder extends BaseDialog
 			}
 		}
 	}
-	
+
 	protected int create2ValueComposite( Composite condition )
 	{
 		if ( expressionValue1 != null && !expressionValue1.isDisposed( ) )
@@ -1898,7 +1915,7 @@ public class HighlightRuleBuilder extends BaseDialog
 			return 0;
 		}
 		disposeComposites( );
-		
+
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		expressionValue1 = new Combo( condition, SWT.NONE );
 		compositeList.add( expressionValue1 );
@@ -1912,34 +1929,35 @@ public class HighlightRuleBuilder extends BaseDialog
 
 		Composite dummy = createDummy( condition, 3 );
 		compositeList.add( dummy );
-		
+
 		andLable = new Label( condition, SWT.NONE );
 		andLable.setText( Messages.getString( "HighlightRuleBuilderDialog.text.AND" ) ); //$NON-NLS-1$
 		andLable.setVisible( false );
 		compositeList.add( andLable );
-		
+
 		dummy = createDummy( condition, 3 );
 		compositeList.add( dummy );
-		
+
 		expressionValue2 = new Combo( condition, SWT.NONE );
 		expressionValue2.setLayoutData( gd );
 		compositeList.add( expressionValue2 );
-		
+
 		expressionValue2.setItems( popupItems );
 
 		expressionValue2.addListener( SWT.Verify, expValueVerifyListener );
 		expressionValue2.addListener( SWT.Modify, textModifyListener );
 		expressionValue2.addListener( SWT.Selection, popBtnSelectionListener );
 		expressionValue2.setVisible( false );
-		if ( operator.getItemCount( ) > 0 && operator.getSelectionIndex( ) == -1)
+		if ( operator.getItemCount( ) > 0
+				&& operator.getSelectionIndex( ) == -1 )
 		{
 			operator.select( 0 );
 		}
-		
-		condition.getParent( ).layout( true, true );		
+
+		condition.getParent( ).layout( true, true );
 		return 1;
 	}
-	
+
 	private void disposeComposites( )
 	{
 		if ( compositeList.size( ) > 0 )
@@ -1963,7 +1981,7 @@ public class HighlightRuleBuilder extends BaseDialog
 	{
 		if ( valueListComposite != null && !valueListComposite.isDisposed( ) )
 		{
-			return 0 ;
+			return 0;
 		}
 		disposeComposites( );
 
@@ -2154,7 +2172,9 @@ public class HighlightRuleBuilder extends BaseDialog
 		tableViewer.setContentProvider( tableContentProvider );
 
 		Composite rightPart = new Composite( valueListComposite, SWT.NONE );
-		data = new GridData(  GridData.FILL_BOTH | GridData.HORIZONTAL_ALIGN_BEGINNING | GridData.VERTICAL_ALIGN_END);
+		data = new GridData( GridData.FILL_BOTH
+				| GridData.HORIZONTAL_ALIGN_BEGINNING
+				| GridData.VERTICAL_ALIGN_END );
 		rightPart.setLayoutData( data );
 		layout = new GridLayout( );
 		layout.makeColumnsEqualWidth = true;
@@ -2293,10 +2313,10 @@ public class HighlightRuleBuilder extends BaseDialog
 		addExpressionValue.setItems( popupItems );
 
 		parent.getParent( ).layout( true, true );
-		
+
 		return 1;
 	}
-	
+
 	protected void checkEditDelButtonStatus( )
 	{
 		if ( tableViewer == null )
@@ -2321,7 +2341,7 @@ public class HighlightRuleBuilder extends BaseDialog
 		delAllBtn.setEnabled( enabled );
 
 	}
-	
+
 	protected void checkAddButtonStatus( )
 	{
 		if ( addExpressionValue != null && ( !addExpressionValue.isDisposed( ) ) )
@@ -2348,8 +2368,7 @@ public class HighlightRuleBuilder extends BaseDialog
 			}
 		}
 	}
-	
-	
+
 	protected ITableLabelProvider tableLableProvier = new ITableLabelProvider( ) {
 
 		public Image getColumnImage( Object element, int columnIndex )
@@ -2422,7 +2441,7 @@ public class HighlightRuleBuilder extends BaseDialog
 			return null;
 		}
 	};
-	
+
 	protected void setControlEnable( Control control, boolean bool )
 	{
 		if ( control == null || control.isDisposed( ) )

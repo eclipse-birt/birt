@@ -811,7 +811,11 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		targetLabel = new Label( groupLevelParent, SWT.NONE );
 		gd = new GridData( );
 		targetLabel.setLayoutData( gd );
-		gd.widthHint = UIUtil.getMaxStringWidth( new String[]{Messages.getString( "CrosstabFilterConditionBuilder.DialogTitle.Label.GroupLevel" ),Messages.getString( "CrosstabFilterConditionBuilder.DialogTitle.Label.Measure" ) }, targetLabel );
+		gd.widthHint = UIUtil.getMaxStringWidth( new String[]{
+				Messages.getString( "CrosstabFilterConditionBuilder.DialogTitle.Label.GroupLevel" ),
+				Messages.getString( "CrosstabFilterConditionBuilder.DialogTitle.Label.Measure" )
+		},
+				targetLabel );
 		targetLabel.setText( Messages.getString( "CrosstabFilterConditionBuilder.DialogTitle.Label.GroupLevel" ) ); //$NON-NLS-1$
 
 		comboGroupLevel = new Combo( groupLevelParent, SWT.READ_ONLY );
@@ -876,12 +880,12 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		public void handleEvent( Event event )
 		{
 			// TODO Auto-generated method stub
-			targetSelectionChanged();
+			targetSelectionChanged( );
 		}
 
 	};
 
-	private void targetSelectionChanged()
+	private void targetSelectionChanged( )
 	{
 		if ( groupBtn.getSelection( ) )
 		{
@@ -890,13 +894,13 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 			String groupLeveNames[] = (String[]) groupLevelNameList.toArray( new String[groupLevelNameList.size( )] );
 			comboGroupLevel.removeAll( );
 			comboGroupLevel.setItems( groupLeveNames );
-			
+
 			if ( comboGroupLevel.getItemCount( ) == 0 )
 			{
 				comboGroupLevel.add( DEUtil.resolveNull( null ) );
 			}
 			comboGroupLevel.select( 0 );
-			
+
 			updateMemberValues( );
 
 		}
@@ -907,7 +911,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 			String measureNames[] = (String[]) measureNameList.toArray( new String[measureNameList.size( )] );
 			comboGroupLevel.removeAll( );
 			comboGroupLevel.setItems( measureNames );
-	
+
 			if ( comboGroupLevel.getItemCount( ) == 0 )
 			{
 				comboGroupLevel.add( DEUtil.resolveNull( null ) );
@@ -915,8 +919,6 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 			comboGroupLevel.select( 0 );
 		}
 
-
-		
 	}
 	protected Listener exprValuePopBtnListener = new Listener( ) {
 
@@ -930,7 +932,9 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 				return;
 			}
 			String value = thisCombo.getItem( selectionIndex );
-			List bindingList = new ArrayList();
+			List bindingList = new ArrayList( );
+
+			boolean returnValue = false;
 			if ( value != null )
 			{
 				String newValue = null;
@@ -940,7 +944,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 
 					LevelViewHandle level = null;
 					MeasureViewHandle measure = null;
-					if(groupBtn.getSelection( ))
+					if ( groupBtn.getSelection( ) )
 					{
 						if ( comboGroupLevel.getSelectionIndex( ) != -1
 								&& groupLevelList != null
@@ -954,8 +958,8 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 							return;
 						}
 						bindingList = getReferableBindings( level );
-					}else
-					if(measureBtn.getSelection( ))
+					}
+					else if ( measureBtn.getSelection( ) )
 					{
 						if ( comboGroupLevel.getSelectionIndex( ) != -1
 								&& measureList != null
@@ -970,8 +974,6 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 						}
 						bindingList = getReferableBindings( measure );
 					}
-
-					
 
 					BindingGroup bindingGroup[] = new BindingGroup[]{
 							new BindingGroup( IBindingMetaInfo.MEASURE_TYPE ),
@@ -1005,6 +1007,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 					dialog.setMessage( Messages.getString( "FilterbyTree.Message" ) );
 					if ( dialog.open( ) == IDialogConstants.OK_ID )
 					{
+						returnValue = true;
 						String string = (String) dialog.getResult( )[0];
 						newValue = ExpressionUtil.createJSDataExpression( string );
 					}
@@ -1021,12 +1024,13 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 
 					if ( dialog.open( ) == IDialogConstants.OK_ID )
 					{
+						returnValue = true;
 						newValue = dialog.getResult( );
 					}
 				}
-				if ( newValue != null )
+				if ( returnValue )
 				{
-					expression.setText( newValue );
+					thisCombo.setText( DEUtil.resolveNull( newValue ) );
 				}
 			}
 		}
@@ -1441,8 +1445,8 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 
 			groupBtn.setSelection( measureViewHandle == null );
 			measureBtn.setSelection( measureViewHandle != null );
-			targetSelectionChanged();
-			
+			targetSelectionChanged( );
+
 			valueVisible = determineValueVisible( inputHandle.getOperator( ) );
 			if ( valueVisible == 3 )
 			{
@@ -1458,10 +1462,11 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 			}
 
 			int index = 0;
-			if(groupBtn.getSelection( ))
+			if ( groupBtn.getSelection( ) )
 			{
 				index = groupLevelList.indexOf( levelViewHandle );
-			}else
+			}
+			else
 			{
 				index = groupLevelList.indexOf( measureViewHandle );
 			}
@@ -1470,7 +1475,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 			{
 				comboGroupLevel.select( index );
 			}
-			
+
 			expression.setText( DEUtil.resolveNull( inputHandle.getExpr( ) ) );
 			operator.select( getIndexForOperatorValue( inputHandle.getOperator( ) ) );
 
@@ -1706,6 +1711,21 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 				if ( returnValue )
 				{
 					thisCombo.setText( DEUtil.resolveNull( newValue ) );
+					if ( tableViewer != null
+							&& ( addBtn != null && ( !addBtn.isDisposed( ) ) ) )
+					{
+						if ( valueList.indexOf( DEUtil.resolveNull( newValue ) ) < 0 )
+						{
+							valueList.add( DEUtil.resolveNull( newValue ) );
+							tableViewer.refresh( );
+							updateButtons( );
+							addExpressionValue.setFocus( );
+						}
+						else
+						{
+							addBtn.setEnabled( false );
+						}
+					}
 				}
 			}
 
@@ -2172,38 +2192,38 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 	private List getReferableBindings( Object target )
 	{
 		List retList = new ArrayList( );
-		
+
 		String targetString = null;
 		CrosstabReportItemHandle crosstab = null;
-		if(target instanceof LevelViewHandle)
+		if ( target instanceof LevelViewHandle )
 		{
-			LevelViewHandle level = (LevelViewHandle)target;
+			LevelViewHandle level = (LevelViewHandle) target;
 			if ( level.getCubeLevel( ) == null )
 			{
 				return retList;
 			}
-			
+
 			// get targetLevel
 			DimensionHandle dimensionHandle = CrosstabAdaptUtil.getDimensionHandle( level.getCubeLevel( ) );
 			targetString = ExpressionUtil.createJSDimensionExpression( dimensionHandle.getName( ),
 					level.getCubeLevel( ).getName( ) );
-			
+
 			crosstab = level.getCrosstab( );
-			
-		}else
-		if(target instanceof MeasureViewHandle)
+
+		}
+		else if ( target instanceof MeasureViewHandle )
 		{
-			MeasureViewHandle measure = (MeasureViewHandle)target;
-			if(measure.getCubeMeasure( ) == null)
+			MeasureViewHandle measure = (MeasureViewHandle) target;
+			if ( measure.getCubeMeasure( ) == null )
 			{
 				return retList;
 			}
-			
+
 			// get targetMeausre
 			targetString = measure.getCubeMeasure( ).getName( );
 			crosstab = measure.getCrosstab( );
 		}
-		
+
 		// get cubeQueryDefn
 		ICubeQueryDefinition cubeQueryDefn = null;
 		DataRequestSession session = null;
@@ -2211,14 +2231,18 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		{
 			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
 			cubeQueryDefn = CrosstabUIHelper.createBindingQuery( crosstab );
-			if(target instanceof LevelViewHandle)
+			if ( target instanceof LevelViewHandle )
 			{
 				retList = session.getCubeQueryUtil( )
-				.getReferableBindings( targetString, cubeQueryDefn, false );
-			}else
-			if(target instanceof MeasureViewHandle)
+						.getReferableBindings( targetString,
+								cubeQueryDefn,
+								false );
+			}
+			else if ( target instanceof MeasureViewHandle )
 			{
-				retList = session.getCubeQueryUtil( ).getReferableMeasureBindings( targetString, cubeQueryDefn );
+				retList = session.getCubeQueryUtil( )
+						.getReferableMeasureBindings( targetString,
+								cubeQueryDefn );
 			}
 
 		}

@@ -587,6 +587,22 @@ public class FilterConditionBuilder extends TitleAreaDialog
 				if(returnValue)
 				{
 					thisCombo.setText(DEUtil.resolveNull( newValue ));
+					if ( tableViewer != null
+							&& ( addBtn != null && ( !addBtn.isDisposed( ) ) ) )
+					{
+						if ( valueList.indexOf( DEUtil.resolveNull( newValue ) ) < 0 )
+						{
+							valueList.add(  DEUtil.resolveNull( newValue ) );
+							tableViewer.refresh( );
+							updateButtons( );
+							addExpressionValue.setFocus( );
+						}
+						else
+						{
+							addBtn.setEnabled( false );
+						}
+					}
+
 				}
 			}
 		}
