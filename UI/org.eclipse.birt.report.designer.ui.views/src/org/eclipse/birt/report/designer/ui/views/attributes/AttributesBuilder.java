@@ -45,6 +45,7 @@ import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 
 /**
  * AttributesBuilder provides methods to create attribute page Generator
@@ -79,7 +80,8 @@ public class AttributesBuilder
 		{
 			pageGeneratorClass = getGeneratorClass( selection.get( 0 ) );
 
-			if ( selection.get( 0 ) instanceof ExtendedItemHandle )
+			if ( selection.get( 0 ) instanceof ExtendedItemHandle
+					|| selection.get( 0 ) instanceof TabularCubeHandle )
 			{
 
 				Object element = null;
@@ -95,33 +97,38 @@ public class AttributesBuilder
 					IPageGenerator ng = (IPageGenerator) adapter;
 
 					boolean change = false;
-					if( pageGenerator == null || ( ng != null && pageGenerator.getClass( ) != ng.getClass( ) ))
+					if ( pageGenerator == null
+							|| ( ng != null && pageGenerator.getClass( ) != ng.getClass( ) ) )
 					{
 						change = true;
-					}else
-					if(pageGenerator != null)
+					}
+					else if ( pageGenerator != null )
 					{
 						Object input = pageGenerator.getInput( );
-						if(input != null && input instanceof List)
+						if ( input != null && input instanceof List )
 						{
-							input = ((List)input).get( 0 );
+							input = ( (List) input ).get( 0 );
 						}
-						
-						if(input == null)
+
+						if ( input == null )
 						{
 							change = true;
-						}else
-						if(element instanceof ExtendedItemHandle &&  input instanceof ExtendedItemHandle)
+						}
+						else if ( element instanceof ExtendedItemHandle
+								&& input instanceof ExtendedItemHandle )
 						{
-							if(!((ExtendedItemHandle)element).getExtensionName( ).equals( ((ExtendedItemHandle)input).getExtensionName( ) ))
+							if ( !( (ExtendedItemHandle) element ).getExtensionName( )
+									.equals( ( (ExtendedItemHandle) input ).getExtensionName( ) ) )
 							{
 								change = true;
 							}
 						}
+						else if ( ( element instanceof TabularCubeHandle && !( input instanceof TabularCubeHandle ) )
+								|| ( input instanceof TabularCubeHandle && !( element instanceof TabularCubeHandle ) ) )
+							change = true;
 					}
-					
-					
-					if (change)
+
+					if ( change )
 					{
 						if ( pageGenerator != null
 								&& pageGenerator.getControl( ) != null
@@ -317,22 +324,23 @@ public class AttributesBuilder
 			return false;
 		}
 
-		if(selection.get( 0 ) instanceof ExtendedItemHandle)
+		if ( selection.get( 0 ) instanceof ExtendedItemHandle )
 		{
-			String extName = ((ExtendedItemHandle)selection.get( 0 )).getExtensionName( );
+			String extName = ( (ExtendedItemHandle) selection.get( 0 ) ).getExtensionName( );
 			for ( int i = 1; i < selection.size( ); i++ )
 			{
-				if(!(selection.get( i ) instanceof ExtendedItemHandle))
+				if ( !( selection.get( i ) instanceof ExtendedItemHandle ) )
 				{
 					return false;
 				}
-				String extName2 = ((ExtendedItemHandle)selection.get( i )).getExtensionName( );
-				if(!extName.equals( extName2 ))
+				String extName2 = ( (ExtendedItemHandle) selection.get( i ) ).getExtensionName( );
+				if ( !extName.equals( extName2 ) )
 				{
 					return false;
 				}
 			}
-		}else
+		}
+		else
 		{
 			Class classObj = selection.get( 0 ).getClass( );
 			for ( int i = 1; i < selection.size( ); i++ )
@@ -341,10 +349,9 @@ public class AttributesBuilder
 				{
 					return false;
 				}
-					
+
 			}
 		}
-		
 
 		return true;
 	}
