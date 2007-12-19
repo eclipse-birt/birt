@@ -72,7 +72,7 @@ public abstract class GroupBy
 	public abstract boolean isInSameGroup( Object currentGroupKey, Object previousGroupKey );
 	
 	/**
-	 * reset for another grouping action
+	 * reset for grouping on another list of data
 	 */
 	protected void reset()
 	{

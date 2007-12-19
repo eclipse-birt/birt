@@ -100,19 +100,79 @@ public class GroupOnRowTest extends APITestCase
 		}
 	}
 	
-	public void testGroupByRowKeyCount0() throws Exception
+	public void testGroupOnRowKeyCount0() throws Exception
 	{
 		groupOnRowKeyCount(0);
 	}
 	
-	public void testGroupByRowKeyCount1() throws Exception
+	public void testGroupOnRowKeyCount1() throws Exception
 	{
 		groupOnRowKeyCount(1);
 	}
 	
-	public void testGroupByRowKeyCount3() throws Exception
+	public void testGroupOnRowKeyCount3() throws Exception
 	{
 		groupOnRowKeyCount(3);
+	}
+	
+	public void testMultiGroupOnRowKeyCount() throws Exception
+	{
+		String[] bindingNameGroup = new String[3];
+		bindingNameGroup[0] = "GROUP_NUMBER";
+		bindingNameGroup[1] = "GROUP_AMOUNT1";
+		bindingNameGroup[2] = "GROUP_AMOUNT2";
+		IBaseExpression[] bindingExprGroup = new IBaseExpression[3];
+		bindingExprGroup[0] = new ScriptExpression( "dataSetRow.ID" );
+		bindingExprGroup[1] = new ScriptExpression( "dataSetRow.AMOUNT1" );
+		bindingExprGroup[2] = new ScriptExpression( "dataSetRow.AMOUNT2" );
+		GroupDefinition[] groupDefn = new GroupDefinition[]{
+			new GroupDefinition( "group1" ),
+			new GroupDefinition( "group2" ),
+			new GroupDefinition( "group3" ),
+		};
+		groupDefn[0].setKeyExpression( "row.GROUP_NUMBER" );
+		groupDefn[0].setInterval( IGroupDefinition.NO_INTERVAL );
+		groupDefn[0].setIntervalRange(3);
+		
+		groupDefn[1].setKeyExpression( "row.GROUP_AMOUNT1" );
+		groupDefn[1].setInterval( IGroupDefinition.NO_INTERVAL );
+		groupDefn[1].setIntervalRange(2);
+		
+		groupDefn[2].setKeyExpression( "row.GROUP_AMOUNT2" );
+		groupDefn[2].setInterval( IGroupDefinition.NO_INTERVAL );
+		groupDefn[2].setIntervalRange(2);
+
+		String[] bindingNameRow = new String[3];
+		bindingNameRow[0] = "ROW_ID";
+		bindingNameRow[1] = "ROW_AMOUT1";
+		bindingNameRow[2] = "ROW_AMOUT2";
+		IBaseExpression[] bindingExprRow = new IBaseExpression[3];
+		bindingExprRow[0] = new ScriptExpression( "dataSetRow.ID" );
+		bindingExprRow[1] = new ScriptExpression( "dataSetRow.AMOUNT1" );
+		bindingExprRow[2] = new ScriptExpression( "dataSetRow.AMOUNT2" );
+
+		String[] columnStr = new String[]{
+				"id", "amount1", "amount2"
+		};
+
+		QueryDefinition qd = this.createQuery( bindingNameGroup,
+				bindingExprGroup,
+				groupDefn,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				bindingNameRow,
+				bindingExprRow );
+
+		String outputStr = getOutputStrForGroupTest( 30,
+				qd,
+				groupDefn.length,
+				bindingNameRow,
+				columnStr );
+		testPrint( outputStr );
 	}
 	
 	private void groupOnRowKeyCount( double intervalRange ) throws Exception, IOException

@@ -515,8 +515,14 @@ public class GroupInformationUtil
 			}
 
 			GroupBy groupBy = this.groupCalculationUtil.getGroupDefn( )[breakLevel];
-			if ( groupBy.isInSameGroup( currObjectValue, prevObjectValue ) == false )
+			if ( !groupBy.isInSameGroup( currObjectValue, prevObjectValue ) )
 			{
+				//current group is the break level
+				//reset the groupBys of the inner groups within current group for the following compare
+				for (int i = breakLevel + 1; i < this.groupCalculationUtil.getGroupDefn( ).length; i++)
+				{
+					this.groupCalculationUtil.getGroupDefn( )[i].reset( );
+				}
 				break;
 			}
 		}
