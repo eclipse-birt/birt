@@ -55,7 +55,14 @@ public class ReportEditorProxy extends EditorPart implements
 	public static final String LIBRARY_EDITOR_ID = "org.eclipse.birt.report.designer.ui.editors.LibraryEditor"; //$NON-NLS-1$
 
 	MultiPageReportEditor instance;
+
 	private String title = ""; //$NON-NLS-1$
+
+	/**
+	 * This is to adapte change for Bug 103810, which required site access even
+	 * after part disposed.
+	 */
+	private IEditorSite cachedSite;
 
 	/*
 	 * (non-Javadoc)
@@ -74,7 +81,11 @@ public class ReportEditorProxy extends EditorPart implements
 	 */
 	public IEditorSite getEditorSite( )
 	{
-		return instance.getEditorSite( );
+		if ( instance != null )
+		{
+			return instance.getEditorSite( );
+		}
+		return cachedSite;
 	}
 
 	/*
@@ -86,6 +97,8 @@ public class ReportEditorProxy extends EditorPart implements
 	public void init( IEditorSite site, IEditorInput input )
 			throws PartInitException
 	{
+		cachedSite = site;
+
 		if ( instance != null )
 		{
 			getSite( ).getWorkbenchWindow( )
@@ -94,18 +107,20 @@ public class ReportEditorProxy extends EditorPart implements
 			instance.dispose( );
 		}
 
-		if ( input instanceof IFileEditorInput || input instanceof IURIEditorInput)
+		if ( input instanceof IFileEditorInput
+				|| input instanceof IURIEditorInput )
 		{
 			instance = new IDEMultiPageReportEditor( );
-			instance.addPropertyListener( this );
 		}
 		else
 		{
 			instance = new MultiPageReportEditor( );
-			instance.addPropertyListener( this );
 		}
-		instance.init( site, input );
+
+		// must add property listener before init.
 		instance.addPropertyListener( this );
+
+		instance.init( site, input );
 		getSite( ).getWorkbenchWindow( )
 				.getPartService( )
 				.addPartListener( this );
@@ -147,7 +162,11 @@ public class ReportEditorProxy extends EditorPart implements
 	 */
 	public IWorkbenchPartSite getSite( )
 	{
-		return instance.getSite( );
+		if ( instance != null )
+		{
+			return instance.getSite( );
+		}
+		return cachedSite;
 	}
 
 	/*
@@ -250,7 +269,6 @@ public class ReportEditorProxy extends EditorPart implements
 	 */
 	protected void setInput( IEditorInput input )
 	{
-		// TODO Auto-generated method stub
 		super.setInput( input );
 	}
 
