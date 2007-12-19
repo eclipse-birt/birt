@@ -27,6 +27,8 @@ import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFacto
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.ListHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -129,8 +131,24 @@ public class CreateCrosstabHandler extends AbstractHandler
 							command.setAfter( parentHandle.getContainerPropertyHandle( )
 									.get( parentHandle.getIndex( ) + 1 ) );
 						}
-						command.setParent( parentHandle.getContainer( ) );
+
+						DesignElementHandle container = parentHandle.getContainer( );
+
+						// special handling for list item, always use slothandle
+						// as parent
+						if ( container instanceof ListHandle )
+						{
+							command.setParent( parentHandle.getContainerSlotHandle( ) );
+						}
+						else
+						{
+							command.setParent( container );
+						}
 					}
+				}
+				else if ( parentModel instanceof SlotHandle )
+				{
+					command.setParent( parentModel );
 				}
 				else
 				{

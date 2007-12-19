@@ -27,10 +27,7 @@ import org.eclipse.gef.commands.Command;
 /**
  * This command adds an object to the model. The object is not created by this
  * command, but simply attached to the parent object.
- * 
- * 
  */
-
 public class CreateCommand extends Command
 {
 
@@ -57,8 +54,9 @@ public class CreateCommand extends Command
 	 */
 	public void execute( )
 	{
-		//DesignElementHandle newObject = (DesignElementHandle) extendsData.get( DesignerConstants.KEY_NEWOBJECT );
-		DesignElementHandle newObject = getNewObject();
+		// DesignElementHandle newObject = (DesignElementHandle)
+		// extendsData.get( DesignerConstants.KEY_NEWOBJECT );
+		DesignElementHandle newObject = getNewObject( );
 		if ( DesignerConstants.TRACING_COMMANDS )
 		{
 			System.out.println( "CreateCommand >> Starts ... " ); //$NON-NLS-1$
@@ -82,12 +80,14 @@ public class CreateCommand extends Command
 				}
 
 			}
-			else if( newObject instanceof DataSourceHandle)//simply add to datasource slot.
+			else if ( newObject instanceof DataSourceHandle )// simply add to
+																// datasource
+																// slot.
 			{
 				( (DesignElementHandle) parent ).addElement( newObject,
 						ReportDesignHandle.DATA_SOURCE_SLOT );
 			}
-			else if (DEUtil.getDefaultSlotID( parent ) != -1)
+			else if ( DEUtil.getDefaultSlotID( parent ) != -1 )
 			{
 				// calculate the position of added element
 				if ( after != null )
@@ -103,25 +103,28 @@ public class CreateCommand extends Command
 				else
 				{
 					( (DesignElementHandle) parent ).addElement( newObject,
-							DEUtil.getDefaultSlotID( parent ) );	
+							DEUtil.getDefaultSlotID( parent ) );
 				}
 			}
-			else if (DEUtil.getDefaultSlotID( parent ) == -1)
+			else if ( DEUtil.getDefaultSlotID( parent ) == -1 )
 			{
 				if ( after != null )
 				{
 					int pos = DEUtil.findInsertPosition( (DesignElementHandle) parent,
-							(DesignElementHandle) after,  DEUtil.getDefaultContentName( parent ));
+							(DesignElementHandle) after,
+							DEUtil.getDefaultContentName( parent ) );
 
-					( (DesignElementHandle) parent ).add( DEUtil.getDefaultContentName( parent ),newObject,
+					( (DesignElementHandle) parent ).add( DEUtil.getDefaultContentName( parent ),
+							newObject,
 							pos );
 				}
 				else
 				{
-					( (DesignElementHandle) parent ).add(DEUtil.getDefaultContentName( parent ) , newObject);
+					( (DesignElementHandle) parent ).add( DEUtil.getDefaultContentName( parent ),
+							newObject );
 				}
 			}
-			
+
 			if ( DesignerConstants.TRACING_COMMANDS )
 			{
 				System.out.println( "CreateCommand >> Finished. " //$NON-NLS-1$
@@ -135,7 +138,7 @@ public class CreateCommand extends Command
 			{
 				System.out.println( "CreateCommand >> Failed" ); //$NON-NLS-1$
 			}
-			logger.log( Level.SEVERE,e.getMessage( ), e);
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 	}
 
@@ -171,13 +174,13 @@ public class CreateCommand extends Command
 		this.after = model;
 
 	}
-	
+
 	/**
-	 *  Get the new object
-	 * @return
-	 *   Return the object
+	 * Get the new object
+	 * 
+	 * @return Return the object
 	 */
-	public DesignElementHandle getNewObject()
+	public DesignElementHandle getNewObject( )
 	{
 		return (DesignElementHandle) extendsData.get( DesignerConstants.KEY_NEWOBJECT );
 	}
