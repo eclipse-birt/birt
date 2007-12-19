@@ -133,7 +133,7 @@ public abstract class PDFAbstractLM implements ILayoutManager
 				if ( hasNextPage )
 				{
 					// there are sill some content to output,
-					// return to caller to creat the new page.
+					// return to caller to create the new page.
 					if(!hasNextChild())
 					{
 						closeExecutor( );
@@ -554,11 +554,14 @@ public abstract class PDFAbstractLM implements ILayoutManager
 		if ( content != null )
 		{
 			int calHeight = getDimensionValue( content.getHeight( ) );
-//			this.specifiedHeight = Math.min( calHeight, context.getMaxHeight() );
-			if ( calHeight > 0 && calHeight < context.getMaxHeight( ) )
+			if ( calHeight > 0 )
 			{
-				this.specifiedHeight = calHeight;
-			} 
+				this.specifiedHeight = Math.min( calHeight, context.getMaxHeight() );
+			}
+//			if ( calHeight > 0 && calHeight < context.getMaxHeight( ) )
+//			{
+//				this.specifiedHeight = calHeight;
+//			} 
 		}
 	}
 

@@ -62,6 +62,13 @@ public class PDFPageLM extends PDFBlockContainerLM
 	protected PDFReportLayoutEngine engine;
 	protected IContentEmitter emitter;
 	protected int pageNumber = 1;
+	
+	private int pageContentWidth = DEFAULT_PAGE_WIDTH;
+	private int pageContentHeight = DEFAULT_PAGE_HEIGHT;
+	private int rootWidth;
+	private int rootHeight;
+	private int rootLeft;
+	private int rootTop;
 
 	public PDFPageLM( PDFReportLayoutEngine engine,
 			PDFLayoutEngineContext context, IReportContent report,
@@ -361,23 +368,23 @@ public class PDFPageLM extends PDFBlockContainerLM
 			page.setExtendToMultiplePages( true );
 		}
 
-		int pageWidth = getDimensionValue( pageContent.getPageWidth( ) );
-		int pageHeight = getDimensionValue( pageContent.getPageHeight( ) );
+		pageContentWidth = getDimensionValue( pageContent.getPageWidth( ) );
+		pageContentHeight = getDimensionValue( pageContent.getPageHeight( ) );
 
 		// validate page width
-		if ( pageWidth <= 0 )
+		if ( pageContentWidth <= 0 )
 		{
-			pageWidth = DEFAULT_PAGE_WIDTH;
+			pageContentWidth = DEFAULT_PAGE_WIDTH;
 		}
 
 		// validate page height
-		if ( pageHeight <= 0 )
+		if ( pageContentHeight <= 0 )
 		{
-			pageHeight = DEFAULT_PAGE_HEIGHT;
+			pageContentHeight = DEFAULT_PAGE_HEIGHT;
 		}
 
-		page.setWidth( pageWidth );
-		page.setHeight( pageHeight );
+		page.setWidth( pageContentWidth );
+		page.setHeight( pageContentHeight );
 
 		/**
 		 * set position and dimension for root
@@ -392,30 +399,33 @@ public class PDFPageLM extends PDFBlockContainerLM
 		{
 			pageRoot.setNeedClip( false );
 		}
-		int rootLeft = getDimensionValue( pageContent.getMarginLeft( ),
-				pageWidth );
-		int rootTop = getDimensionValue( pageContent.getMarginTop( ), pageWidth );
+		rootLeft = getDimensionValue( pageContent.getMarginLeft( ),
+				pageContentWidth );
+		rootTop = getDimensionValue( pageContent.getMarginTop( ), pageContentWidth );
 		rootLeft = Math.max( 0, rootLeft );
-		rootLeft = Math.min( pageWidth, rootLeft );
+		rootLeft = Math.min( pageContentWidth, rootLeft );
 		rootTop = Math.max( 0, rootTop );
-		rootTop = Math.min( pageHeight, rootTop );
+		rootTop = Math.min( pageContentHeight, rootTop );
 		pageRoot.setPosition( rootLeft, rootTop );
 		int rootRight = getDimensionValue( pageContent.getMarginRight( ),
-				pageWidth );
+				pageContentWidth );
 		int rootBottom = getDimensionValue( pageContent.getMarginBottom( ),
-				pageWidth );
+				pageContentWidth );
 		rootRight = Math.max( 0, rootRight );
 		rootBottom = Math.max( 0, rootBottom );
-		if ( rootLeft + rootRight > pageWidth )
+		if ( rootLeft + rootRight > pageContentWidth )
 		{
 			rootRight = 0;
 		}
-		if ( rootTop + rootBottom > pageHeight )
+		if ( rootTop + rootBottom > pageContentHeight )
 		{
 			rootBottom = 0;
 		}
-		pageRoot.setWidth( pageWidth - rootLeft - rootRight );
-		pageRoot.setHeight( pageHeight - rootTop - rootBottom );
+		
+		rootWidth = pageContentWidth - rootLeft - rootRight;
+		rootHeight = pageContentHeight - rootTop - rootBottom;
+		pageRoot.setWidth( rootWidth );
+		pageRoot.setHeight( rootHeight );
 		page.setRoot( pageRoot );
 
 		/**
@@ -531,13 +541,13 @@ public class PDFPageLM extends PDFBlockContainerLM
 	protected void updatePageDimension( float scale )
 	{
 		// 0 < scale <= 1
-		page.setHeight( (int) ( page.getHeight( ) / scale ) );
-		page.setWidth( (int) ( page.getWidth( ) / scale ) );
+		page.setHeight( (int) ( pageContentHeight / scale ) );
+		page.setWidth( (int) ( pageContentWidth / scale ) );
 		ContainerArea pageRoot = (ContainerArea) page.getRoot( );
-		pageRoot.setPosition( (int) ( pageRoot.getX( ) / scale ),
-				(int) ( pageRoot.getY( ) / scale ) );
-		pageRoot.setHeight( (int) ( pageRoot.getHeight( ) / scale ) );
-		pageRoot.setWidth( (int) ( pageRoot.getWidth( ) / scale ) );
+		pageRoot.setPosition( (int) ( rootLeft / scale ),
+				(int) ( rootTop / scale ) );
+		pageRoot.setHeight( (int) ( rootHeight / scale ) );
+		pageRoot.setWidth( (int) ( rootWidth / scale ) );
 	}
 
 	protected boolean addToRoot(AbstractArea area)

@@ -146,7 +146,7 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 	
 	protected void closeLayout( )
 	{
-		if(root==null)
+		if ( root == null )
 		{
 			return;
 		}
@@ -154,7 +154,7 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 		if ( !isLast )
 		{
 			// set dimension property for root
-			// TODO suppport user defined height
+			// TODO support user defined height
 			areaStyle.setProperty( IStyle.STYLE_BORDER_BOTTOM_WIDTH,
 					IStyle.NUMBER_0 );
 			areaStyle.setProperty( IStyle.STYLE_PADDING_BOTTOM,
@@ -162,7 +162,7 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 			areaStyle.setProperty( IStyle.STYLE_MARGIN_BOTTOM, IStyle.NUMBER_0 );
 		}
 		
-		// FIXME currently do not consider a spcial case...
+		// FIXME currently do not consider a special case...
 		int height = getCurrentBP( )
 				+ getOffsetY( )
 				+ getDimensionValue( areaStyle
@@ -323,7 +323,6 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 			if(!succeed)
 			{
 				//autoPageBreak();
-				
 				return false;
 			}
 			else

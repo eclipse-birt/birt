@@ -148,7 +148,8 @@ public abstract class PDFStackingLM extends PDFAbstractLM
 		{
 			clearCache();
 		}
-		if ( !isRootEmpty( ) &&!(/*isPageBreakAvoidInside( )&&*/context.isAutoPageBreak( )&&hasNextPage))
+		//if ( !isRootEmpty( ) &&!(isPageBreakAvoidInside( )&&context.isAutoPageBreak( )&&hasNextPage))
+		if ( !isRootEmpty( ) )
 		{
 			closeLayout( );
 			hasNextPage = !submitRoot( ) || hasNextPage;
