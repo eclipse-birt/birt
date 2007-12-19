@@ -39,7 +39,9 @@ class MultiViewsAPIProvider implements IMultiViewsModel
 
 	/**
 	 * The name of the property of which instance is a subclass of
-	 * <code>AbstractMultiViewHandle</code>.
+	 * <code>AbstractMultiViewHandle</code>. If the value is
+	 * <code>null</code>, the property definition on the given element is
+	 * <code>null</code>. For such case, should avoid NPE in function call.
 	 */
 
 	private String propertyName;
@@ -68,6 +70,15 @@ class MultiViewsAPIProvider implements IMultiViewsModel
 					"Must provide the name for the views property." ); //$NON-NLS-1$
 
 		IPropertyDefn propDefn = element.getPropertyDefn( propName );
+
+		// for special cases like crosstab cells, this could be null.
+
+		if ( propDefn == null )
+		{
+			propertyName = null;
+			return;
+		}
+
 		if ( propDefn.getTypeCode( ) != IPropertyType.ELEMENT_TYPE )
 			throw new IllegalArgumentException(
 					"The views property must defined as element type." ); //$NON-NLS-1$
@@ -82,6 +93,9 @@ class MultiViewsAPIProvider implements IMultiViewsModel
 
 	public DesignElementHandle getCurrentView( )
 	{
+		if ( propertyName == null )
+			return null;
+
 		AbstractMultiViewsHandle multiView = (AbstractMultiViewsHandle) element
 				.getProperty( propertyName );
 		if ( multiView == null ||
@@ -101,6 +115,9 @@ class MultiViewsAPIProvider implements IMultiViewsModel
 
 	public List getViews( )
 	{
+		if ( propertyName == null )
+			return Collections.EMPTY_LIST;
+
 		AbstractMultiViewsHandle multiView = (AbstractMultiViewsHandle) element
 				.getProperty( propertyName );
 		if ( multiView == null )
@@ -122,6 +139,9 @@ class MultiViewsAPIProvider implements IMultiViewsModel
 	public void addView( DesignElementHandle viewElement )
 			throws SemanticException
 	{
+		if ( propertyName == null )
+			return;
+
 		AbstractMultiViewsHandle multiView = (AbstractMultiViewsHandle) element
 				.getProperty( propertyName );
 
@@ -159,6 +179,9 @@ class MultiViewsAPIProvider implements IMultiViewsModel
 	public void dropView( DesignElementHandle viewElement )
 			throws SemanticException
 	{
+		if ( propertyName == null )
+			return;
+
 		AbstractMultiViewsHandle multiView = (AbstractMultiViewsHandle) element
 				.getProperty( propertyName );
 		if ( multiView == null )
@@ -183,6 +206,9 @@ class MultiViewsAPIProvider implements IMultiViewsModel
 	public void setCurrentView( DesignElementHandle viewElement )
 			throws SemanticException
 	{
+		if ( propertyName == null )
+			return;
+
 		// if the viewElement is in the design tree and not in table, throw
 		// exception
 
