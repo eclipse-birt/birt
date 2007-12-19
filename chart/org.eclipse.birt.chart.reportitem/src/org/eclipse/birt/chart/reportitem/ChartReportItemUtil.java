@@ -204,12 +204,19 @@ public class ChartReportItemUtil
 	 * 
 	 * @param dataType
 	 * @param groupUnitType
+	 * @param intervalRange
+	 * @since BIRT 2.3
 	 */
 	public static int convertToDtEGroupUnit( DataType dataType,
-			GroupingUnitType groupUnitType )
+			GroupingUnitType groupUnitType, double intervalRange )
 	{
 		if ( dataType == DataType.NUMERIC_LITERAL )
 		{
+			if ( intervalRange == 0 )
+			{
+				return IGroupDefinition.NO_INTERVAL;
+			}
+			
 			return IGroupDefinition.NUMERIC_INTERVAL;
 		}
 		else if ( dataType == DataType.DATE_TIME_LITERAL )
@@ -238,6 +245,10 @@ public class ChartReportItemUtil
 					return IGroupDefinition.YEAR_INTERVAL;
 			}
 		}
+		else if ( dataType == DataType.TEXT_LITERAL )
+		{
+			return IGroupDefinition.NO_INTERVAL;
+		}
 
 		return IGroupDefinition.NO_INTERVAL;
 	}
@@ -246,6 +257,7 @@ public class ChartReportItemUtil
 	 * Convert interval range from Chart's to DtE's.
 	 * 
 	 * @param intervalRange
+	 * @since BIRT 2.3
 	 */
 	public static double convertToDtEIntervalRange( DataType dataType,
 			double intervalRange )
@@ -260,6 +272,21 @@ public class ChartReportItemUtil
 		{
 			range = 1;
 		}
+		else if ( dataType == DataType.TEXT_LITERAL )
+		{
+			// Currently, the interval range logic in chart is not uniform with
+			// DtE, the difference is that 1 interval range means separating 2
+			// elements in chart, but it means separating 1 elements in DtE, and
+			// so all that interval ranges which are greater than or equal 1
+			// should be increased 1 for DtE, we should add followed code to
+			// convert interval range.
+			if ( range >= 1 )
+			{
+				return (long)(range + 1);
+			}
+			
+			return (long)range;
+		}
 
 		return range;
 	}
@@ -268,6 +295,7 @@ public class ChartReportItemUtil
 	 * Convert sort direction from Chart's to DtE's.
 	 * 
 	 * @param sortOption
+	 * @since BIRT 2.3
 	 */
 	public static int convertToDtESortDirection( SortOption sortOption )
 	{
@@ -286,6 +314,7 @@ public class ChartReportItemUtil
 	 * Convert aggregation name from Chart's to DtE's.
 	 * 
 	 * @param agg
+	 * @since BIRT 2.3
 	 */
 	public static String convertToDtEAggFunction( String agg )
 	{
@@ -347,6 +376,7 @@ public class ChartReportItemUtil
 	 * Check if Y grouping is defined.
 	 * 
 	 * @param orthSeriesDefinition
+	 * @since BIRT 2.3
 	 */
 	public static boolean isYGroupingDefined(
 			SeriesDefinition orthSeriesDefinition )
@@ -368,6 +398,7 @@ public class ChartReportItemUtil
 	 * Check if base series grouping is defined.
 	 * 
 	 * @param baseSD
+	 * @since BIRT 2.3
 	 */
 	public static boolean isBaseGroupingDefined( SeriesDefinition baseSD )
 	{
@@ -383,6 +414,7 @@ public class ChartReportItemUtil
 	 * Check if current chart has defined grouping.
 	 * 
 	 * @param cm
+	 * @since BIRT 2.3
 	 */
 	public static boolean containsGrouping( Chart cm )
 	{
