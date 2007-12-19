@@ -13,7 +13,9 @@ package org.eclipse.birt.report.model.elements;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
+import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IMultiViewsModel;
 
@@ -73,5 +75,25 @@ public class MultiViews extends AbstractMultiViews implements IMultiViewsModel
 			handle = new MultiViewsHandle( module, this );
 		}
 		return (MultiViewsHandle) handle;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#broadcast(org.eclipse.birt.report.model.api.activity.NotificationEvent,
+	 *      org.eclipse.birt.report.model.core.Module)
+	 */
+
+	public void broadcast( NotificationEvent ev, Module module )
+	{
+		super.broadcast( ev, module );
+
+		DesignElement tmpContainer = getContainer( );
+		if ( tmpContainer == null )
+			return;
+
+		ev.setDeliveryPath( NotificationEvent.CONTAINER );
+		
+		tmpContainer.broadcast( ev, module );
 	}
 }

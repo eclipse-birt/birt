@@ -55,6 +55,8 @@ public abstract class ExtensionElementDefn extends ElementDefn
 
 		buildProperties( );
 
+		buildContainerProperties( );
+		
 		// set the xml-name to that of ExtendedItem
 		ElementDefn defn = (ElementDefn) MetaDataDictionary.getInstance( )
 				.getElement( ReportDesignConstants.EXTENDED_ITEM );

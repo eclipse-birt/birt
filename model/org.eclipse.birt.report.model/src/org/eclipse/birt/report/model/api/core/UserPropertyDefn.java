@@ -117,29 +117,8 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 
 	private static List allowedTypes = null;
 
-	/**
-	 * Default constructor.
-	 */
-
-	public UserPropertyDefn( )
+	static
 	{
-		PropertyType typeDefn = MetaDataDictionary.getInstance( )
-				.getPropertyType( IPropertyType.STRING_TYPE_NAME );
-		setType( typeDefn );
-	}
-
-	/**
-	 * Gets valid types for user property. Each one in the list is an instance
-	 * of <code>IPropertyType</code>.
-	 * 
-	 * @return the list of allowed property types for user property.
-	 */
-
-	public static List getAllowedTypes( )
-	{
-		if ( allowedTypes != null )
-			return allowedTypes;
-
 		allowedTypes = new ArrayList( );
 		Iterator iter = MetaDataDictionary.getInstance( ).getPropertyTypes( )
 				.iterator( );
@@ -161,7 +140,28 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 					break;
 			}
 		}
+	}
 
+	/**
+	 * Default constructor.
+	 */
+
+	public UserPropertyDefn( )
+	{
+		PropertyType typeDefn = MetaDataDictionary.getInstance( )
+				.getPropertyType( IPropertyType.STRING_TYPE_NAME );
+		setType( typeDefn );
+	}
+
+	/**
+	 * Gets valid types for user property. Each one in the list is an instance
+	 * of <code>IPropertyType</code>.
+	 * 
+	 * @return the list of allowed property types for user property.
+	 */
+
+	public static List getAllowedTypes( )
+	{
 		return allowedTypes;
 	}
 
@@ -464,9 +464,9 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 		// reference.
 
 		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-		if ( dd.getPropertyType( getTypeCode( ) ) == null
-				|| getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE
-				|| getTypeCode( ) == IPropertyType.STRUCT_TYPE )
+		if ( dd.getPropertyType( getTypeCode( ) ) == null ||
+				getTypeCode( ) == IPropertyType.ELEMENT_REF_TYPE ||
+				getTypeCode( ) == IPropertyType.STRUCT_TYPE )
 			throw new UserPropertyException( element, name,
 					UserPropertyException.DESIGN_EXCEPTION_INVALID_TYPE );
 

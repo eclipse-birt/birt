@@ -223,6 +223,12 @@ public abstract class NotificationEvent
 	public static final int STRUCTURE_CLIENT = 5;
 
 	/**
+	 * Event is being sent to the elements that contains the current element.
+	 */
+
+	public static final int CONTAINER = 6;
+
+	/**
 	 * The design element that changed.
 	 */
 
@@ -382,8 +388,8 @@ public abstract class NotificationEvent
 	{
 		if ( event == null )
 			return false;
-		if ( event.getEventType( ) != getEventType( )
-				|| target != event.getTarget( ) )
+		if ( event.getEventType( ) != getEventType( ) ||
+				target != event.getTarget( ) )
 			return false;
 		return true;
 	}
