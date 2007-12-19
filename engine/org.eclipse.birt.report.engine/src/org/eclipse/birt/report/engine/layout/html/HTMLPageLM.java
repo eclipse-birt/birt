@@ -262,7 +262,7 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 		{
 			if(content!=null && visible)
 			{
-				ContentEmitterUtil.endContent( pageContent, emitter );
+				ContentEmitterUtil.endContent( content, emitter );
 			}
 		}
 
