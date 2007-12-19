@@ -302,6 +302,7 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 		private void handleNext()
 		{
 			int freeSpace = PDFTextLM.this.getFreeSpace();
+			//System.out.println("{" + freeSpace + "}");
 			// current chunk is over, get the next one.
 			if ( isNew || currentPos == chunk.getText().length() )
 			{
@@ -413,7 +414,11 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 						(int)(chunk.getFontInfo().getWordHeight() * PDFConstants.LAYOUT_TO_PDF_RATIO ));
 				
 				String originalText = str;
-				
+				if (maxLineSpace != freeSpace )
+				{
+					//this is not a new line.
+					PDFTextLM.this.newLine( );
+				}
 				IArea builtArea = buildArea(getReverseText(originalText), content, 
 						 chunk.getFontInfo(), d);
 				PDFTextLM.this.addTextLine(builtArea);
@@ -479,10 +484,18 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 						content, chunk.getFontInfo( ), d );
 				PDFTextLM.this.addTextLine( builtArea );
 				PDFTextLM.this.newLine( );
-				vestigeIndex = ( null == currentWord ) ? -1 : currentWord
-						.getStart( );
-				vestigeLength = ( null == currentWord ) ? 0 : currentWord
-						.getLength( );
+				if ( null == currentWord )
+				{
+					if (originalText.length( ) == 0)
+						return;
+					vestigeIndex = -1;
+					vestigeLength = 0;
+				}
+				else
+				{
+					vestigeIndex = currentWord.getStart( );
+					vestigeLength = currentWord.getLength( );
+				}
 				return;
 			}
 
@@ -512,6 +525,7 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 		 */
 		private IArea buildArea(String text, ITextContent content, FontInfo fi, Dimension dimension) 
 		{        
+			//System.out.println(text);
 			if ( isInline )
 			{
 				return createInlineTextArea( text, content, fi, dimension );

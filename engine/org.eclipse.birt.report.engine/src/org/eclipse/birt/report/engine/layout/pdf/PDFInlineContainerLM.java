@@ -29,8 +29,6 @@ public class PDFInlineContainerLM extends PDFInlineStackingLM
 		implements
 			ILineStackingLayoutManager
 {
-
-	ILayoutManager currentChild;
 	ILineStackingLayoutManager lineParent;
 	int childHeight = 0;
 	
@@ -75,14 +73,14 @@ public class PDFInlineContainerLM extends PDFInlineStackingLM
 	{
 
 		boolean hasNextPage = false;
-		if ( currentChild != null )
+		if ( child != null )
 		{
 			hasNextPage = child.layout( );
 			if ( hasNextPage )
 			{
-				if ( currentChild.isFinished( ) )
+				if ( child.isFinished( ) )
 				{
-					currentChild = null;
+					child = null;
 				}
 				return true;
 			}
@@ -111,7 +109,7 @@ public class PDFInlineContainerLM extends PDFInlineStackingLM
 		hasNextPage = childLM.layout( );
 		if ( hasNextPage && !childLM.isFinished( ) )
 		{
-			currentChild = childLM;
+			child = childLM;
 		}
 		else
 		{
@@ -159,6 +157,7 @@ public class PDFInlineContainerLM extends PDFInlineStackingLM
 				initialize( );
 				return true;
 			}
+			return false;
 		}
 		assert ( false );
 		return true;
