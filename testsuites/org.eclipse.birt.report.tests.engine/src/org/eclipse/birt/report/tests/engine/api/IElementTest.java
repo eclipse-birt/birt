@@ -7,7 +7,6 @@ import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
-import org.eclipse.birt.report.engine.content.impl.ContainerContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.tests.engine.BaseEmitter;
 
@@ -37,8 +36,8 @@ public class IElementTest extends BaseEmitter
 	
 	public void testParent( )
 	{
-		IElement element = new ContainerContent( new ReportContent( ) );
-		IElement parent = new ContainerContent( new ReportContent( ) );
+		IElement element = new ReportContent().createContainerContent();
+		IElement parent = new ReportContent().createContainerContent();
 		element.setParent( parent );
 		assertEquals( parent, element.getParent( ) );
 
