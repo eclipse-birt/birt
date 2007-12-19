@@ -3952,6 +3952,13 @@ CrosstabPageGenerator.List.GrandTotals=총합계
 CrosstabPageGenerator.List.PageBreak=페이지 나누기
 
 ###########################################################
+#CubePageGenerator properties
+CubePageGenerator.List.General=일반
+CubePageGenerator.List.Comments=설명
+CubePageGenerator.List.AdvancedProperty=고급
+
+
+###########################################################
 #LibraryLayoutEditorFormPage
 LibraryLayoutEditorFormPage.warning.title=라이브러리
 LibraryLayoutEditorFormPage.warning.message=To view elements of the library, click on a report item in outline view.\n\nTo add visual elements to library, drag and drop report items in from the palette or use insert menu

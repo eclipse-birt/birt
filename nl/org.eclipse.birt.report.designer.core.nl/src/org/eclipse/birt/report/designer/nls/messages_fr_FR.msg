@@ -3952,6 +3952,13 @@ CrosstabPageGenerator.List.GrandTotals=Totaux généraux
 CrosstabPageGenerator.List.PageBreak=Saut de page
 
 ###########################################################
+#CubePageGenerator properties
+CubePageGenerator.List.General=Général
+CubePageGenerator.List.Comments=Commentaires
+CubePageGenerator.List.AdvancedProperty=Avancé
+
+
+###########################################################
 #LibraryLayoutEditorFormPage
 LibraryLayoutEditorFormPage.warning.title=Bibliothèque
 LibraryLayoutEditorFormPage.warning.message=To view elements of the library, click on a report item in outline view.\n\nTo add visual elements to library, drag and drop report items in from the palette or use insert menu

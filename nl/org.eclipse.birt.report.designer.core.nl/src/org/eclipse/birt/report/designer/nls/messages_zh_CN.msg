@@ -3952,6 +3952,13 @@ CrosstabPageGenerator.List.GrandTotals=总计
 CrosstabPageGenerator.List.PageBreak=分页符
 
 ###########################################################
+#CubePageGenerator properties
+CubePageGenerator.List.General=常规
+CubePageGenerator.List.Comments=备注
+CubePageGenerator.List.AdvancedProperty=高级
+
+
+###########################################################
 #LibraryLayoutEditorFormPage
 LibraryLayoutEditorFormPage.warning.title=库
 LibraryLayoutEditorFormPage.warning.message=To view elements of the library, click on a report item in outline view.\n\nTo add visual elements to library, drag and drop report items in from the palette or use insert menu
