@@ -135,3 +135,7 @@ FilterListDialog.Shell.Title=Filters
 ############################################################
 #Cube Action properties
 NewCubeAction.DataCube=Datenquader
+
+###########################################################
+#CubePageGenerator properties
+PrimaryDatasetDescriptorProvider.Display.Primary.Dataset.Name=Primary Data Set:

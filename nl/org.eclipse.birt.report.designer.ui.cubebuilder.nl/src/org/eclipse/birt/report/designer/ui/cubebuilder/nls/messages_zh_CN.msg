@@ -135,3 +135,7 @@ FilterListDialog.Shell.Title=筛选器
 ############################################################
 #Cube Action properties
 NewCubeAction.DataCube=多维数据集
+
+###########################################################
+#CubePageGenerator properties
+PrimaryDatasetDescriptorProvider.Display.Primary.Dataset.Name=Primary Data Set:
