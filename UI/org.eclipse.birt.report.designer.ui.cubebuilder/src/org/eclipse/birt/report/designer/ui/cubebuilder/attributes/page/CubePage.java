@@ -20,7 +20,6 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.Li
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TextPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SeperatorSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextSection;
-import org.eclipse.birt.report.designer.ui.cubebuilder.attributes.CubePageSectionId;
 import org.eclipse.birt.report.designer.ui.cubebuilder.attributes.provider.PrimaryDatasetDescriptorProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
