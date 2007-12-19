@@ -192,10 +192,10 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 
 	private AbstractGuideHandle interCreateGuideHandle()
 	{
-		if (getParent( ) instanceof MultipleEditPart)
-		{
-			return ((MultipleEditPart)getParent( )).createGuideHandle( );
-		}
+//		if (getParent( ) instanceof MultipleEditPart)
+//		{
+//			return ((MultipleEditPart)getParent( )).createGuideHandle( );
+//		}
 		return createGuideHandle();
 	}
 	
