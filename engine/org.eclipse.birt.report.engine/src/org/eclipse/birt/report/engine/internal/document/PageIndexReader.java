@@ -65,7 +65,7 @@ public class PageIndexReader
 				{
 					String masterPageName = IOUtil.readString( input );
 					long pageOffset = IOUtil.readLong( input );
-					pages.put( masterPageName, pageOffset );
+					pages.put( masterPageName, new Long(pageOffset) );
 				}
 			}
 			catch (EOFException eef)
