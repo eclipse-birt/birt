@@ -46,6 +46,7 @@ import org.eclipse.birt.report.engine.api.HTMLRenderContext;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
+import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.extension.ReportItemPresentationBase;
 import org.eclipse.birt.report.engine.extension.Size;
@@ -464,16 +465,16 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 			// can't use grouping definitions in IQueryResultSet to check it,
 			// because maybe chart inherits data set from container and the data
 			// set contains grouping, but chart doesn't define grouping.
-			if ( ChartReportItemUtil.containsGrouping( cm ) )
+			if ( ChartReportItemUtil.canContainGrouping( cm ) )
 			{
-				return new BIRTGroupedDataRowExpressionEvaluator( (IQueryResultSet) set );
+				return new BIRTGroupedQueryResultSetEvaluator( (IQueryResultSet) set );
 			}
 			return new BIRTQueryResultSetEvaluator( (IQueryResultSet) set );
 		}
-		// if ( set instanceof ICubeResultSet )
-		// {
-		// return new BIRTCubeResultSetEvaluator( (ICubeResultSet) set );
-		// }
+		else if ( set instanceof ICubeResultSet )
+		{
+			return new BIRTCubeResultSetEvaluator( (ICubeResultSet) set );
+		}
 		return null;
 	}
 

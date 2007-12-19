@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.regex.Pattern;
 
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
@@ -23,8 +24,10 @@ import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.ICubeElementFactory;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
@@ -42,6 +45,8 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 public class ChartReportItemUtil
 {
+
+	private static ICubeElementFactory cubeFactory = null;
 
 	/**
 	 * Specified the query expression of min aggregation binding
@@ -62,6 +67,28 @@ public class ChartReportItemUtil
 	public static final String PROPERTY_SCRIPT = "script"; //$NON-NLS-1$
 	public static final String PROPERTY_ONRENDER = "onRender"; //$NON-NLS-1$
 	public static final String PROPERTY_OUTPUT = "outputFormat"; //$NON-NLS-1$
+
+	public synchronized static ICubeElementFactory getCubeElementFactory( )
+			throws BirtException
+	{
+		if ( cubeFactory != null )
+		{
+			return cubeFactory;
+		}
+
+		try
+		{
+			Class cls = Class.forName( ICubeElementFactory.CUBE_ELEMENT_FACTORY_CLASS_NAME );
+			cubeFactory = (ICubeElementFactory) cls.newInstance( );
+		}
+		catch ( Exception e )
+		{
+			throw new ChartException( ChartReportItemPlugin.ID,
+					ChartException.ERROR,
+					e );
+		}
+		return cubeFactory;
+	}
 
 	/**
 	 * Checks current chart is within cross tab.
@@ -216,7 +243,7 @@ public class ChartReportItemUtil
 			{
 				return IGroupDefinition.NO_INTERVAL;
 			}
-			
+
 			return IGroupDefinition.NUMERIC_INTERVAL;
 		}
 		else if ( dataType == DataType.DATE_TIME_LITERAL )
@@ -282,10 +309,10 @@ public class ChartReportItemUtil
 			// convert interval range.
 			if ( range >= 1 )
 			{
-				return (long)(range + 1);
+				return (long) ( range + 1 );
 			}
-			
-			return (long)range;
+
+			return (long) range;
 		}
 
 		return range;
@@ -416,7 +443,7 @@ public class ChartReportItemUtil
 	 * @param cm
 	 * @since BIRT 2.3
 	 */
-	public static boolean containsGrouping( Chart cm )
+	public static boolean canContainGrouping( Chart cm )
 	{
 		SeriesDefinition baseSD = null;
 		SeriesDefinition orthSD = null;

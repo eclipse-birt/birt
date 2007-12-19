@@ -28,6 +28,7 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
@@ -73,14 +74,8 @@ import org.eclipse.emf.common.util.EList;
 public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 {
 
-	/**
-	 * 
-	 */
 	private Chart cm = null;
 
-	/**
-	 * 
-	 */
 	private ExtendedItemHandle eih = null;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
@@ -125,45 +120,6 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 		this.eih = eih;
 	}
 
-	// /*
-	// * (non-Javadoc)
-	// *
-	// * @see
-	// org.eclipse.birt.report.engine.extension.IReportItemQuery#getReportQueries(org.eclipse.birt.data.engine.api.IBaseQueryDefinition)
-	// */
-	// public IBaseQueryDefinition[] getReportQueries(
-	// IBaseQueryDefinition ibqdParent ) throws BirtException
-	// {
-	// logger.log( ILogger.INFORMATION,
-	// Messages.getString( "ChartReportItemQueryImpl.log.getReportQueries.start"
-	// ) ); //$NON-NLS-1$
-	//
-	// // BUILD THE QUERY ASSOCIATED WITH THE CHART MODEL
-	//
-	// IBaseQueryDefinition ibqd = null;
-	// try
-	// {
-	// ibqd = ( new QueryHelper( ) ).build( eih, ibqdParent, cm );
-	// }
-	// catch ( RuntimeException gex )
-	// {
-	// logger.log( gex );
-	// logger.log( ILogger.INFORMATION,
-	// Messages.getString(
-	// "ChartReportItemQueryImpl.log.getReportQueries.exception" ) );
-	// //$NON-NLS-1$
-	// throw new ChartException( ChartReportItemPlugin.ID,
-	// ChartException.GENERATION,
-	// gex );
-	// }
-	// logger.log( ILogger.INFORMATION,
-	// Messages.getString( "ChartReportItemQueryImpl.log.getReportQueries.end" )
-	// ); //$NON-NLS-1$
-	// return new IBaseQueryDefinition[]{
-	// ibqd
-	// };
-	// }
-
 	public IDataQueryDefinition[] createReportQueries(
 			IDataQueryDefinition parent ) throws BirtException
 	{
@@ -179,7 +135,23 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 		};
 	}
 
-	protected IDataQueryDefinition createQuery( ExtendedItemHandle handle,
+	IDataQueryDefinition createQuery( ExtendedItemHandle handle,
+			IDataQueryDefinition parent ) throws BirtException
+	{
+		if ( handle.getDataSet( ) != null
+				|| parent instanceof IBaseQueryDefinition )
+		{
+			return createBaseQuery( handle, parent );
+		}
+		else if ( handle.getCube( ) != null
+				|| parent instanceof ICubeQueryDefinition )
+		{
+			return ChartCubeQueryHelper.createCubeQuery( handle, cm, parent );
+		}
+		return null;
+	}
+
+	IDataQueryDefinition createBaseQuery( ExtendedItemHandle handle,
 			IDataQueryDefinition parent )
 	{
 		BaseQueryDefinition parentQuery = null;
@@ -244,7 +216,7 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 		{
 			logger.log( e );
 		}
-		
+
 		return query;
 	}
 
@@ -447,7 +419,7 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 	 *            parameter bindings iterator
 	 * @return a list of input parameter bindings
 	 */
-	protected ArrayList createParamBindings( Iterator iter )
+	protected List createParamBindings( Iterator iter )
 	{
 		ArrayList list = new ArrayList( );
 		if ( iter != null )
@@ -494,10 +466,10 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 		{
 			return null;
 		}
-		
+
 		String sortExpr = null;
-		if ( sd.getSortKey( ) != null &&
-				sd.getSortKey( ).getDefinition( ) != null )
+		if ( sd.getSortKey( ) != null
+				&& sd.getSortKey( ).getDefinition( ) != null )
 		{
 			sortExpr = sd.getSortKey( ).getDefinition( );
 		}
@@ -516,17 +488,23 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 	}
 
 	/**
-	 * The class is responsible to add group bindings of chart on query definition.
+	 * The class is responsible to add group bindings of chart on query
+	 * definition.
+	 * 
 	 * @since BIRT 2.3
 	 */
 	class ChartBaseQueryHelper
 	{
+
 		/** The handle of report item handle. */
 		private ExtendedItemHandle fReportItemHandle;
-		
-		/** The handle of <code>QueryDefinition</code> which is the container to contains created group bindings. */ 
+
+		/**
+		 * The handle of <code>QueryDefinition</code> which is the container
+		 * to contains created group bindings.
+		 */
 		private QueryDefinition fQueryDefinition;
-		
+
 		/** Current chart handle. */
 		private Chart fChart;
 
@@ -537,8 +515,8 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 		 * @param handle
 		 * @param query
 		 */
-		public ChartBaseQueryHelper( Chart chart,
-				ExtendedItemHandle handle, QueryDefinition query )
+		public ChartBaseQueryHelper( Chart chart, ExtendedItemHandle handle,
+				QueryDefinition query )
 		{
 			fChart = chart;
 			fReportItemHandle = handle;
@@ -589,13 +567,13 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 				// sort definition on the group.
 				// If base grouping is set, the value series should be
 				// aggregate.
-				if ( ChartReportItemUtil.isBaseGroupingDefined( baseSD ) &&
-						orthSD.isSetSorting( ) &&
-						orthSD.getSortKey( ) != null )
+				if ( ChartReportItemUtil.isBaseGroupingDefined( baseSD )
+						&& orthSD.isSetSorting( )
+						&& orthSD.getSortKey( ) != null )
 				{
 					String sortKey = orthSD.getSortKey( ).getDefinition( );
 					String yGroupingExpr = orthSD.getQuery( ).getDefinition( );
-					
+
 					// Add additional sort on the grouping.
 					if ( sortKey != null && !yGroupingExpr.equals( sortKey ) )
 					{
@@ -618,7 +596,7 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 
 						SortDefinition sortDefinition = new SortDefinition( );
 						sortDefinition.setColumn( binding.getBindingName( ) );
-						sortDefinition.setExpression( "row[\"" + binding.getBindingName( ) + "\"]" ); //$NON-NLS-1$ //$NON-NLS-2$
+						sortDefinition.setExpression( ExpressionUtil.createRowExpression( binding.getBindingName( ) ) );
 						sortDefinition.setSortDirection( ChartReportItemUtil.convertToDtESortDirection( orthSD.getSorting( ) ) );
 						yGroupingDefinition.addSort( sortDefinition );
 					}
@@ -634,8 +612,8 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 
 			// 3. Add binding for value series aggregate.
 			GroupDefinition innerGroupDef = null;
-			if ( fQueryDefinition.getGroups( ) != null &&
-					fQueryDefinition.getGroups( ).size( ) > 0 )
+			if ( fQueryDefinition.getGroups( ) != null
+					&& fQueryDefinition.getGroups( ).size( ) > 0 )
 			{
 				innerGroupDef = (GroupDefinition) fQueryDefinition.getGroups( )
 						.get( fQueryDefinition.getGroups( ).size( ) - 1 );
@@ -732,7 +710,8 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 
 				String yGroupExpr = orthSD.getQuery( ).getDefinition( );
 
-				if ( orthSD.getGrouping( ) != null )
+				if ( orthSD.getGrouping( ) != null
+						&& orthSD.getGrouping( ).isEnabled( ) )
 				{
 					dataType = orthSD.getGrouping( ).getGroupType( );
 					groupUnit = orthSD.getGrouping( ).getGroupingUnit( );
@@ -745,7 +724,8 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 				yGroupDefinition.setKeyExpression( yGroupExpr );
 
 				yGroupDefinition.setInterval( ChartReportItemUtil.convertToDtEGroupUnit( dataType,
-						groupUnit, groupIntervalRange ) );
+						groupUnit,
+						groupIntervalRange ) );
 				yGroupDefinition.setIntervalRange( ChartReportItemUtil.convertToDtEIntervalRange( dataType,
 						groupIntervalRange ) );
 				if ( orthSD.isSetSorting( ) )
@@ -790,7 +770,8 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 
 				baseGroupDefinition.setKeyExpression( baseExpr );
 				baseGroupDefinition.setInterval( ChartReportItemUtil.convertToDtEGroupUnit( dataType,
-						groupUnit, groupIntervalRange ) );
+						groupUnit,
+						groupIntervalRange ) );
 				baseGroupDefinition.setIntervalRange( ChartReportItemUtil.convertToDtEIntervalRange( dataType,
 						groupIntervalRange ) );
 
@@ -837,11 +818,11 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 								.getAggregateExpression( ) ) );
 					}
 
-					String newExpr = "row[\"" + name + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
+					String newExpr = ExpressionUtil.createJSRowExpression( name );
 					( (Query) sd.getDesignTimeSeries( )
 							.getDataDefinition( )
 							.get( 0 ) ).setDefinition( newExpr );
-					
+
 					query.addBinding( colBinding );
 
 					valueExprMap.put( expr, newExpr );
@@ -871,8 +852,8 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 					for ( Iterator iter = sds.iterator( ); iter.hasNext( ); )
 					{
 						SeriesDefinition sd = (SeriesDefinition) iter.next( );
-						if ( sd.getDesignTimeSeries( ).getDataDefinition( ) != null &&
-								sd.getDesignTimeSeries( )
+						if ( sd.getDesignTimeSeries( ).getDataDefinition( ) != null
+								&& sd.getDesignTimeSeries( )
 										.getDataDefinition( )
 										.get( 0 ) != null )
 						{
@@ -896,8 +877,8 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 				for ( Iterator iter = baseSD.getSeriesDefinitions( ).iterator( ); iter.hasNext( ); )
 				{
 					SeriesDefinition sd = (SeriesDefinition) iter.next( );
-					if ( sd.getDesignTimeSeries( ).getDataDefinition( ) != null &&
-							sd.getDesignTimeSeries( )
+					if ( sd.getDesignTimeSeries( ).getDataDefinition( ) != null
+							&& sd.getDesignTimeSeries( )
 									.getDataDefinition( )
 									.get( 0 ) != null )
 					{
