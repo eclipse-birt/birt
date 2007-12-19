@@ -58,25 +58,12 @@ public class ExpressionCompilerUtil
 	 * @return
 	 * @throws DataException 
 	 */
-	public static boolean hasColumnRow( String name, ExprManager exprManager ) throws DataException
+	public static boolean hasColumnRow( String expression, ExprManager exprManager ) throws DataException
 	{
-		if( name == null )
+		if( expression == null )
 			return false;
-		if(name.equals( ScriptConstants.ROW_NUM_KEYWORD ))
-			return true;
 		
-		IScriptExpression expr = ( (IScriptExpression) exprManager.getExpr( name ));
-		if( expr == null )
-		{
-			//Sometimes the binding name could be an implicit binding, say, 
-			//row.__rownum.
-			if ( name.matches( ".*\\Q__rownum\\E.*" ) )
-				return compile( name, exprManager );
-			else
-				return false;
-		}
-		
-		return compile( expr.getText( ), exprManager );
+		return compile( expression, exprManager );
 
 	}
 	

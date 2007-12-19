@@ -67,27 +67,9 @@ public class ExprManager
 			return;
 		
 		Context cx = Context.enter( );
-		try
-		{
-			if ( groupKey != null )
-			{
-				CompiledExpression ce = ExpressionCompilerUtil.compile( groupKey,
-						cx );
-				if ( ce instanceof ColumnReferenceExpression )
-				{
-					ColumnReferenceExpression cre = ( (ColumnReferenceExpression) ce );
-					groupKey = cre.getColumnName( );
-				}
-			}
-			
-			bindingExprs.add( new GroupBindingColumn( groupKey,
+		bindingExprs.add( new GroupBindingColumn( groupKey,
 					groupLevel,
 					resultsExprMap ) );
-		}
-		finally
-		{
-			Context.exit( );
-		}
 	}
 
 	/**

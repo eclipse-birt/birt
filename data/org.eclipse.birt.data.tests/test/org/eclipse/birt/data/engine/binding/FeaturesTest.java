@@ -984,6 +984,48 @@ public class FeaturesTest extends APITestCase
 	}
 	
 	/**
+	 * Test feature
+	 * 		with 1 group, the group key is an expression.
+	 */
+	public void test18( ) throws Exception
+	{
+		String[] bindingNameGroup = new String[1];
+		bindingNameGroup[0] = "GROUP_COUNTRY";
+		IBaseExpression[] bindingExprGroup = new IBaseExpression[1];
+		bindingExprGroup[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
+		
+		GroupDefinition[] groupDefn = new GroupDefinition[]{
+				new GroupDefinition( "group0" )
+		};
+		groupDefn[0].setKeyExpression( "row.GROUP_COUNTRY + \"ABC\"" );
+		
+		
+		String[] bindingNameRow = new String[4];		
+		bindingNameRow[0] = "ROW_COUNTRY";
+		bindingNameRow[1] = "ROW_CITY";
+		bindingNameRow[2] = "ROW_SALE_DATE";
+		bindingNameRow[3] = "ROW_AMOUNT";
+		IBaseExpression[] bindingExprRow = new IBaseExpression[4];
+		bindingExprRow[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
+		bindingExprRow[1] = new ScriptExpression( "dataSetRow.CITY" );
+		bindingExprRow[2] = new ScriptExpression( "dataSetRow.SALE_DATE" );
+		bindingExprRow[3] = new ScriptExpression( "dataSetRow.AMOUNT" );
+
+		createAndRunQuery( bindingNameGroup,
+				bindingExprGroup,
+				groupDefn,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				bindingNameRow,
+				bindingExprRow );
+		
+		checkOutputFile();
+	}
+	/**
 	 * Test feature of
 	 * 		GetParameterMetaData
 	 * @throws Exception

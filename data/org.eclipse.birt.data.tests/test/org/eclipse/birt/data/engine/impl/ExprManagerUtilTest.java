@@ -222,10 +222,10 @@ public class ExprManagerUtilTest extends TestCase
 		m.put( "COL3", new ScriptExpression( "row[\"COL2\"]+row[\"COL4\"]" ) );
 		m.put( "COL4", new ScriptExpression( "row[\"COL2\"]" ) );
 
-		em.addBindingExpr( "COL0", getBindingMap(m), 1 );
+		em.addBindingExpr( "row.COL0", getBindingMap(m), 1 );
 
 		m = new HashMap( );
-		m.put( "COL5",
+		m.put( "row.COL5",
 				new ScriptExpression( "row[\"COL1\"]+row[\"COL2\"]+row[\"COL3\"]" ) );
 		m.put( "COL6", new ScriptExpression( "dataSetRow[\"COL2\"]" ) );
 		m.put( "COL7",
@@ -233,7 +233,7 @@ public class ExprManagerUtilTest extends TestCase
 		m.put( "COL8", new ScriptExpression( "row[\"COL2\"]+row[\"COL4\"]" ) );
 		m.put( "COL9", new ScriptExpression( "row[\"COL8\"]" ) );
 		
-		em.addBindingExpr( "COL10", getBindingMap(m), 2 );
+		em.addBindingExpr( "row.COL10", getBindingMap(m), 2 );
 		
 		m = new HashMap( );
 		m.put( "COL10",
@@ -244,7 +244,7 @@ public class ExprManagerUtilTest extends TestCase
 		m.put( "COL13", new ScriptExpression( "row[\"COL2\"]+row[\"COL4\"]" ) );
 		m.put( "COL14", new ScriptExpression( "row[\"COL8\"]" ) );
 		
-		em.addBindingExpr( "COL10", getBindingMap(m), 3 );
+		em.addBindingExpr( "row.COL10", getBindingMap(m), 3 );
 		
 		try
 		{
@@ -324,10 +324,10 @@ public class ExprManagerUtilTest extends TestCase
 		m.put( "COL3", new ScriptExpression( "row[\"COL2\"]+row[\"COL4\"]" ) );
 		m.put( "COL4", new ScriptExpression( "row[\"COL2\"]" ) );
 
-		em.addBindingExpr( "COL0", getBindingMap(m), 1 );
+		em.addBindingExpr( "row.COL0", getBindingMap(m), 1 );
 		
 		m = new HashMap( );
-		m.put( "COL5",
+		m.put( "row.COL5",
 				new ScriptExpression( "row[\"COL1\"]+row[\"COL11\"]+row[\"COL3\"]" ) );
 		m.put( "COL6", new ScriptExpression( "dataSetRow[\"COL2\"]" ) );
 		m.put( "COL7",
@@ -335,10 +335,10 @@ public class ExprManagerUtilTest extends TestCase
 		m.put( "COL8", new ScriptExpression( "row[\"COL2\"]+row[\"COL4\"]" ) );
 		m.put( "COL9", new ScriptExpression( "row[\"COL10\"]" ) );
 		
-		em.addBindingExpr( "COL5", getBindingMap(m), 2 );
+		em.addBindingExpr( "row.COL5", getBindingMap(m), 2 );
 		
 		m = new HashMap( );
-		m.put( "COL10",
+		m.put( "row.COL10",
 				new ScriptExpression( "row[\"COL1\"]+row[\"COL2\"]+row[\"COL3\"]" ) );
 		m.put( "COL11", new ScriptExpression( "dataSetRow[\"COL2\"]" ) );
 		m.put( "COL12",
@@ -346,7 +346,7 @@ public class ExprManagerUtilTest extends TestCase
 		m.put( "COL13", new ScriptExpression( "row[\"COL2\"]+row[\"COL4\"]" ) );
 		m.put( "COL14", new ScriptExpression( "row[\"COL8\"]" ) );
 		
-		em.addBindingExpr( "COL10", getBindingMap(m), 3 );
+		em.addBindingExpr( "row.COL10", getBindingMap(m), 3 );
 		
 		try
 		{
@@ -375,7 +375,7 @@ public class ExprManagerUtilTest extends TestCase
 		m.put( "COL3", new ScriptExpression( "row[\"COL2\"]+row[\"COL4\"]" ) );
 		m.put( "COL4", new ScriptExpression( "row[\"COL11\"]" ) );
 
-		em.addBindingExpr( "COL0", getBindingMap(m), 1 );
+		em.addBindingExpr( "row.COL0", getBindingMap(m), 1 );
 		
 		m = new HashMap( );
 		m.put( "COL5",
@@ -386,7 +386,7 @@ public class ExprManagerUtilTest extends TestCase
 		m.put( "COL8", new ScriptExpression( "row[\"COL2\"]+row[\"COL4\"]" ) );
 		m.put( "COL9", new ScriptExpression( "row[\"COL10\"]" ) );
 		
-		em.addBindingExpr( "COL5", getBindingMap(m), 2 );
+		em.addBindingExpr( "row.COL5", getBindingMap(m), 2 );
 		
 		m = new HashMap( );
 		m.put( "COL10",
@@ -397,7 +397,7 @@ public class ExprManagerUtilTest extends TestCase
 		m.put( "COL13", new ScriptExpression( "row[\"COL2\"]+row[\"COL4\"]" ) );
 		m.put( "COL14", new ScriptExpression( "row[\"COL8\"]" ) );
 		
-		em.addBindingExpr( "COL10", getBindingMap(m), 3 );
+		em.addBindingExpr( "row.COL10", getBindingMap(m), 3 );
 		
 		try
 		{
