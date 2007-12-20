@@ -324,7 +324,9 @@ public class ExtendedItemHandle extends ReportItemHandle
 	{
 		PeerExtensibilityProvider provider = ( (ExtendedItem) getElement( ) )
 				.getExtensibilityProvider( );
-		Map propMap = provider.getInvalidPropertyValueMap( );
+
+		Map propMap = new HashMap( );
+		propMap.putAll( provider.getInvalidPropertyValueMap( ) );
 		propMap.putAll( provider.getUndefinedPropertyMap( ) );
 		return propMap;
 	}

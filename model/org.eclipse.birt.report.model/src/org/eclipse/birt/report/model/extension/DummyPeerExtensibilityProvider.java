@@ -288,34 +288,4 @@ public final class DummyPeerExtensibilityProvider
 	{
 		return Collections.EMPTY_MAP;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#getLocalInvalidPropertyValueMap()
-	 */
-	protected Map getLocalInvalidPropertyValueMap( )
-	{
-		return Collections.EMPTY_MAP;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#getLocalUndefinedPropertyMap()
-	 */
-	protected Map getLocalUndefinedPropertyMap( )
-	{
-		return Collections.EMPTY_MAP;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#setIllegalContents(java.util.Map)
-	 */
-	public void setIllegalContents( Map illegalContentsMap )
-	{
-		// do nothing
-	}
 }

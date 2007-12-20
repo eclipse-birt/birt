@@ -69,6 +69,7 @@ public abstract class ModuleState extends DesignParseState
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
 	{
 		String version = attrs.getValue( DesignSchemaConstants.VERSION_ATTRIB );
+		module.getVersionManager( ).setVersion( version );
 
 		if ( !StringUtil.isBlank( version ) )
 		{
@@ -113,8 +114,6 @@ public abstract class ModuleState extends DesignParseState
 				handler.isCurrentVersion = true;
 		}
 
-		module.getVersionManager( ).setVersion( version );
-
 		super.parseAttrs( attrs );
 	}
 
@@ -156,8 +155,8 @@ public abstract class ModuleState extends DesignParseState
 			int tagValue = tagName.toLowerCase( ).hashCode( );
 			if ( ParserSchemaConstants.SCRIPT_DATA_SOURCE_TAG == tagValue )
 				return new ScriptDataSourceState( handler );
-			if ( ParserSchemaConstants.ODA_DATA_SOURCE_TAG == tagValue ||
-					ParserSchemaConstants.EXTENDED_DATA_SOURCE_TAG == tagValue )
+			if ( ParserSchemaConstants.ODA_DATA_SOURCE_TAG == tagValue
+					|| ParserSchemaConstants.EXTENDED_DATA_SOURCE_TAG == tagValue )
 			{
 				return new OdaDataSourceState( handler );
 			}
@@ -195,8 +194,8 @@ public abstract class ModuleState extends DesignParseState
 			int tagValue = tagName.toLowerCase( ).hashCode( );
 			if ( ParserSchemaConstants.SCRIPT_DATA_SET_TAG == tagValue )
 				return new ScriptDataSetState( handler );
-			if ( ParserSchemaConstants.ODA_DATA_SET_TAG == tagValue ||
-					ParserSchemaConstants.EXTENDED_DATA_SET_TAG == tagValue )
+			if ( ParserSchemaConstants.ODA_DATA_SET_TAG == tagValue
+					|| ParserSchemaConstants.EXTENDED_DATA_SET_TAG == tagValue )
 			{
 				return new OdaDataSetState( handler );
 			}
@@ -352,7 +351,6 @@ public abstract class ModuleState extends DesignParseState
 			super( handler, container, slot );
 		}
 
-		
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -432,8 +430,8 @@ public abstract class ModuleState extends DesignParseState
 				return new TextItemState( handler, container, slotID );
 			if ( ParserSchemaConstants.TOC_TAG == tagValue )
 				return new AnyElementState( handler );
-			if ( ParserSchemaConstants.MULTI_LINE_DATA_TAG == tagValue ||
-					ParserSchemaConstants.TEXT_DATA_TAG == tagValue )
+			if ( ParserSchemaConstants.MULTI_LINE_DATA_TAG == tagValue
+					|| ParserSchemaConstants.TEXT_DATA_TAG == tagValue )
 				return new TextDataItemState( handler, container, slotID );
 			return super.startElement( tagName );
 		}
@@ -445,6 +443,7 @@ public abstract class ModuleState extends DesignParseState
 
 	static class CubesState extends SlotState
 	{
+
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -456,7 +455,7 @@ public abstract class ModuleState extends DesignParseState
 		{
 			super( handler, container, slot );
 		}
-		
+
 		/*
 		 * (non-Javadoc)
 		 * 

@@ -24,6 +24,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -40,6 +41,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.api.util.XPathUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
@@ -61,6 +63,7 @@ import org.eclipse.birt.report.model.parser.ModuleParserHandler;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.DataTypeConversionUtil;
 import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.VersionControlMgr;
 import org.eclipse.birt.report.model.util.VersionInfo;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.eclipse.birt.report.model.util.XMLParserHandler;
@@ -587,15 +590,77 @@ public class ModuleUtil
 	private static List checkVersion( InputStream streamData, String filename )
 			throws DesignFileException
 	{
-		VersionParserHandler handler = new VersionParserHandler( );
+		DesignSession session = new DesignSession( ULocale.ENGLISH );
+		byte[] buf = new byte[512];
+		int len;
 
-		InputStream inputStreamToParse = streamData;
-		if ( !inputStreamToParse.markSupported( ) )
-			inputStreamToParse = new BufferedInputStream( streamData );
+		ByteArrayOutputStream bySteam = new ByteArrayOutputStream( );
+		byte[] data = null;
+		try
+		{
+			while ( ( len = streamData.read( buf ) ) > 0 )
+			{
+				bySteam.write( buf, 0, len );
+				bySteam.flush( );
+			}
 
-		parse( handler, inputStreamToParse, filename );
+			data = bySteam.toByteArray( );
+			bySteam.close( );
+		}
+		catch ( IOException e1 )
+		{
+			// do nothing
+		}
 
-		return ModelUtil.checkVersion( handler.version );
+		try
+		{
+			InputStream inputStreamToParse = new ByteArrayInputStream( data );
+			Module module = session.openModule( filename, inputStreamToParse );
+
+			String version = module.getVersionManager( ).getVersion( );
+			List retList = ModelUtil.checkVersion( version );
+			if ( hasCompatibilities( module ) )
+				retList.add( new VersionInfo( version,
+						VersionInfo.EXTENSION_COMPATIBILITY ) );
+			return retList;
+		}
+		catch ( DesignFileException e )
+		{
+			if ( data != null )
+			{
+				VersionParserHandler handler = new VersionParserHandler( );
+
+				InputStream inputStreamToParse = new ByteArrayInputStream( data );
+				if ( !inputStreamToParse.markSupported( ) )
+					inputStreamToParse = new BufferedInputStream( streamData );
+
+				parse( handler, inputStreamToParse, filename );
+
+				return ModelUtil.checkVersion( handler.version );
+			}
+			return Collections.EMPTY_LIST;
+		}
+
+	}
+
+	private static boolean hasCompatibilities( Module module )
+	{
+		VersionControlMgr versionMgr = module.getVersionManager( );
+		if ( versionMgr.hasExtensionCompatibilities( ) )
+			return true;
+
+		// check included libraries
+		List libs = module.getAllLibraries( );
+		if ( libs != null && !libs.isEmpty( ) )
+		{
+			for ( int i = 0; i < libs.size( ); i++ )
+			{
+				Library lib = (Library) libs.get( i );
+				if ( lib.getVersionManager( ).hasExtensionCompatibilities( ) )
+					return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -756,7 +821,7 @@ public class ModuleUtil
 	/**
 	 * checks if the name of the element is valid. The following case the name
 	 * will be considered as invalid.
-	 * <li>contains the following charactors: "/","\\", ".", "!", ";",","</li>
+	 * <li>contains the following characters: "/","\\", ".", "!", ";",","</li>
 	 * 
 	 * @param elementHandle
 	 *            the design element need to be checked the name property value.

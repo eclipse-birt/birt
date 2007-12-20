@@ -36,6 +36,7 @@ import org.eclipse.birt.report.model.extension.PeerExtensibilityProviderFactory;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.util.ContentIterator;
+import org.eclipse.birt.report.model.util.LevelContentIterator;
 
 /**
  * This class represents an extended item element. The extended report item
@@ -635,9 +636,6 @@ public class ExtendedItem extends ReportItem
 
 	private List doCheck( Module module )
 	{
-		if ( module != null && module.isReadOnly( ) )
-			return Collections.EMPTY_LIST;
-
 		if ( !provider.needCheckCompatibility( ) )
 			return Collections.EMPTY_LIST;
 		try
@@ -657,5 +655,56 @@ public class ExtendedItem extends ReportItem
 		}
 
 		return Collections.EMPTY_LIST;
+	}
+
+	/**
+	 * Checks whether this extended item and all its children has some
+	 * compatibilities.
+	 * 
+	 * @param module
+	 * @return
+	 */
+	public boolean hasCompatibilities( Module module )
+	{
+		boolean hasCompatibilities = false;
+
+		// check this element itself
+		try
+		{
+			initializeReportItem( module );
+		}
+		catch ( ExtendedElementException e )
+		{
+			// do nothing
+		}
+		IReportItem item = getExtendedElement( );
+
+		if ( item instanceof ICompatibleReportItem )
+		{
+			hasCompatibilities = ( (ICompatibleReportItem) item )
+					.hasCompatibilities( );
+			if ( hasCompatibilities )
+				return true;
+		}
+
+		// if this extended-item has parent, then check all virtual children
+		if ( getExtendsElement( ) != null )
+		{
+			LevelContentIterator iter = new LevelContentIterator( module, this,
+					1 );
+			while ( iter.hasNext( ) )
+			{
+				DesignElement content = (DesignElement) iter.next( );
+				if ( content instanceof ExtendedItem )
+				{
+					hasCompatibilities = ( (ExtendedItem) content )
+							.hasCompatibilities( module );
+					if ( hasCompatibilities )
+						return true;
+				}
+			}
+		}
+
+		return false;
 	}
 }

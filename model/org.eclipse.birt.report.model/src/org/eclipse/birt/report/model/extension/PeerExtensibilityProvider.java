@@ -864,20 +864,6 @@ public abstract class PeerExtensibilityProvider
 	abstract public Map getUndefinedPropertyMap( );
 
 	/**
-	 * Returns the map for properties that has invalid values.
-	 * 
-	 * @return
-	 */
-	abstract protected Map getLocalInvalidPropertyValueMap( );
-
-	/**
-	 * 
-	 * @return
-	 */
-
-	abstract protected Map getLocalUndefinedPropertyMap( );
-
-	/**
 	 * 
 	 * @return
 	 */
@@ -902,10 +888,4 @@ public abstract class PeerExtensibilityProvider
 		// return false;
 		return true;
 	}
-
-	/**
-	 * 
-	 * @param illegalContentsMap
-	 */
-	abstract public void setIllegalContents( Map illegalContentsMap );
 }

@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.util;
 
-
 /**
  * Provides the API compatibility. The version control is to remember the
  * version number and corresponding elements. So that, provide specified
@@ -27,6 +26,12 @@ public class VersionControlMgr
 	 */
 
 	private String version = null;
+
+	/**
+	 * Status that indicates whether the design/library and its included
+	 * libraries have any extended item that should do some compatibilities.
+	 */
+	private boolean hasExtensionCompatibilities = false;
 
 	/**
 	 * Returns the current version. If the design file is created through codes,
@@ -51,4 +56,23 @@ public class VersionControlMgr
 	{
 		this.version = version;
 	}
+
+	/**
+	 * @return the hasExtensionCompatibilities
+	 */
+	public boolean hasExtensionCompatibilities( )
+	{
+		return hasExtensionCompatibilities;
+	}
+
+	/**
+	 * @param hasExtensionCompatibilities
+	 *            the hasExtensionCompatibilities to set
+	 */
+	public void setHasExtensionCompatibilities(
+			boolean hasExtensionCompatibilities )
+	{
+		this.hasExtensionCompatibilities = hasExtensionCompatibilities;
+	}
+
 }

@@ -74,7 +74,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	int versionNumber = 0;
 
 	/**
-	 * Status identify whether the design file verion is the current supported
+	 * Status identify whether the design file version is the current supported
 	 * version.
 	 */
 
@@ -327,26 +327,39 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 		if ( !extendedItemList.isEmpty( ) )
 		{
 			handleExtendedItemCompatibility( );
+			module.getVersionManager( ).setHasExtensionCompatibilities(
+					hasCompatibilities( ) );
 		}
 	}
 
 	private void handleExtendedItemCompatibility( )
 	{
-		// if this is the included library, then do nothing
-		if ( module.isReadOnly( ) )
-			return;
+		assert !module.isReadOnly( );
 
 		List errorList = module.getAllExceptions( );
 		for ( int i = 0; i < extendedItemList.size( ); i++ )
 		{
 			ExtendedItem element = (ExtendedItem) extendedItemList.get( i );
 			List error = element.checkCompatibility( module );
-			errorList.addAll( error );			
+			errorList.addAll( error );
 		}
 
 		// clear the activity stack and save state
 		module.getActivityStack( ).flush( );
 		module.setSaveState( 0 );
+	}
+
+	private boolean hasCompatibilities( )
+	{
+		for ( int i = 0; i < extendedItemList.size( ); i++ )
+		{
+			ExtendedItem element = (ExtendedItem) extendedItemList.get( i );
+			boolean hasCompatibilities = element.hasCompatibilities( module );
+			if ( hasCompatibilities )
+				return true;
+		}
+
+		return false;
 	}
 
 	/**

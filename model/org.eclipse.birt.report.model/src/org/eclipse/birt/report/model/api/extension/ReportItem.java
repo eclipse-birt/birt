@@ -222,7 +222,16 @@ public class ReportItem
 	public void updateRowExpressions( Map newExpressions )
 	{
 		// do nothing by default
+	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.extension.ICompatibleReportItem#hasCompatibilities()
+	 */
+	public boolean hasCompatibilities( )
+	{
+		return false;
 	}
 
 }

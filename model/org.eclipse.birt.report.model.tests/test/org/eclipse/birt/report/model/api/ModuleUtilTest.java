@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.util.BaseTestCase;
+import org.eclipse.birt.report.model.util.VersionInfo;
 import org.eclipse.birt.report.model.util.XMLParserException;
 
 import com.ibm.icu.util.ULocale;
@@ -163,7 +164,7 @@ public class ModuleUtilTest extends BaseTestCase
 	 * Cases:
 	 * <ul>
 	 * <li>test design file with version value "1".
-	 * <li>test design file with same version value of currrent version.
+	 * <li>test design file with same version value of current version.
 	 * </ul>
 	 * 
 	 * @throws Exception
@@ -176,11 +177,10 @@ public class ModuleUtilTest extends BaseTestCase
 		List infos = ModuleUtil.checkVersion( getResource(
 				INPUT_FOLDER + "DesignWithoutLibrary.xml" ).toString( ) );//$NON-NLS-1$
 		assertEquals( 1, infos.size( ) );
-
-		IVersionInfo versionInfo = (IVersionInfo) infos.get( 0 );
+		VersionInfo versionInfo = (VersionInfo) infos.get( 0 );
 		assertEquals( "1", versionInfo.getDesignFileVersion( ) ); //$NON-NLS-1$
-		assertEquals(
-				"The design file was created by an earlier version of BIRT. Click OK to convert it to a format supported by the current version of the product.", versionInfo.getLocalizedMessage( ) ); //$NON-NLS-1$
+		assertEquals( VersionInfo.CONVERT_FOR_COLUMN_BINDING, versionInfo
+				.getInfoCode( ) );
 
 		infos = ModuleUtil.checkVersion( getResource(
 				INPUT_FOLDER + "ScalarParameterHandleTest.xml" ).toString( ) ); //$NON-NLS-1$
@@ -189,12 +189,16 @@ public class ModuleUtilTest extends BaseTestCase
 		infos = ModuleUtil.checkVersion( getResource(
 				INPUT_FOLDER + "CheckVersionDesign.xml" ).toString( ) ); //$NON-NLS-1$
 		assertEquals( 1, infos.size( ) );
-		versionInfo = (IVersionInfo) infos.get( 0 );
-
+		versionInfo = (VersionInfo) infos.get( 0 );
 		assertEquals( "3.2.19", versionInfo.getDesignFileVersion( ) ); //$NON-NLS-1$
-		assertEquals(
-				"The report file of version \"3.2.19\" is not supported.", //$NON-NLS-1$
-				versionInfo.getLocalizedMessage( ) );
+		assertEquals( VersionInfo.INVALID_VERSION, versionInfo.getInfoCode( ) );
+
+		infos = ModuleUtil.checkVersion( getResource(
+				INPUT_FOLDER + "PeerExtensionTest.xml" ).toString( ) ); //$NON-NLS-1$
+		assertEquals( 1, infos.size( ) );
+		versionInfo = (VersionInfo) infos.get( 0 );
+		assertEquals( VersionInfo.EXTENSION_COMPATIBILITY, versionInfo
+				.getInfoCode( ) );
 	}
 
 	/**
@@ -202,7 +206,7 @@ public class ModuleUtilTest extends BaseTestCase
 	 * handle from dimensionCondition is the library hierarchy instance, but the
 	 * hierarchy handle from the report design cube is the report design virtual
 	 * element instance. To draw the joint condition from GUI, they should be
-	 * same. 2: the hierachy handle from the joint condition and the cube are
+	 * same. 2: the hierarchy handle from the joint condition and the cube are
 	 * all local hierarchy instance, they should be same.
 	 * 
 	 * @throws DesignFileException
@@ -384,7 +388,7 @@ public class ModuleUtilTest extends BaseTestCase
 	{
 		openDesign( "ModuleUtilTest.xml" ); //$NON-NLS-1$
 
-		//transfer script instance to script uid.
+		// transfer script instance to script uid.
 		LabelHandle label1 = (LabelHandle) designHandle.getElementByID( 62l );
 		PropertyHandle propHandle = label1
 				.getPropertyHandle( LabelHandle.ON_PREPARE_METHOD );
@@ -393,54 +397,61 @@ public class ModuleUtilTest extends BaseTestCase
 				"/report/body/label[@id=\"62\"]/method[@name=\"onPrepare\"]", //$NON-NLS-1$
 				path );
 
-//		propHandle = label1
-//				.getPropertyHandle( StyleHandle.HIGHLIGHT_RULES_PROP );
-//		StructureHandle structHandle = (StructureHandle) propHandle.get( 0 );
-//		MemberHandle member = (MemberHandle) structHandle
-//				.getMember( StyleRule.TEST_EXPR_MEMBER );
-//		path = ModuleUtil.getScriptUID( member );
-//		assertEquals(
-//				"/report/body/label[@id=\"62\"]/list-property[@name=\"highlightRules\"]/structure[1]/expression[@name=\"testExpr\"]", //$NON-NLS-1$
-//				path );
-//
-//		member = (MemberHandle) structHandle
-//				.getMember( StyleRule.VALUE1_MEMBER );
-//		path = ModuleUtil.getScriptUID( member, 0 );
-//		assertEquals(
-//				"/report/body/label[@id=\"62\"]/list-property[@name=\"highlightRules\"]/structure[1]/list-property[@name=\"value1\"]/value[1]", //$NON-NLS-1$
-//				path );
-//
-//		LabelHandle label2 = (LabelHandle) designHandle.getElementByID( 63l );
-//		TOCHandle tochandle = label2.getTOC( );
-//		member = tochandle.getMember( TOC.TOC_EXPRESSION );
-//		path = ModuleUtil.getScriptUID( member );
-//		assertEquals(
-//				"/report/body/label[@id=\"63\"]/structure[@name=\"toc\"]/expression[@name=\"expressionValue\"]", //$NON-NLS-1$
-//				path );
+		// propHandle = label1
+		// .getPropertyHandle( StyleHandle.HIGHLIGHT_RULES_PROP );
+		// StructureHandle structHandle = (StructureHandle) propHandle.get( 0 );
+		// MemberHandle member = (MemberHandle) structHandle
+		// .getMember( StyleRule.TEST_EXPR_MEMBER );
+		// path = ModuleUtil.getScriptUID( member );
+		// assertEquals(
+		// "/report/body/label[@id=\"62\"]/list-property[@name=\"highlightRules\"]/structure[1]/expression[@name=\"testExpr\"]",
+		// //$NON-NLS-1$
+		// path );
+		//
+		// member = (MemberHandle) structHandle
+		// .getMember( StyleRule.VALUE1_MEMBER );
+		// path = ModuleUtil.getScriptUID( member, 0 );
+		// assertEquals(
+		// "/report/body/label[@id=\"62\"]/list-property[@name=\"highlightRules\"]/structure[1]/list-property[@name=\"value1\"]/value[1]",
+		// //$NON-NLS-1$
+		// path );
+		//
+		// LabelHandle label2 = (LabelHandle) designHandle.getElementByID( 63l
+		// );
+		// TOCHandle tochandle = label2.getTOC( );
+		// member = tochandle.getMember( TOC.TOC_EXPRESSION );
+		// path = ModuleUtil.getScriptUID( member );
+		// assertEquals(
+		// "/report/body/label[@id=\"63\"]/structure[@name=\"toc\"]/expression[@name=\"expressionValue\"]",
+		// //$NON-NLS-1$
+		// path );
 
-		//transfer script uid to script value
+		// transfer script uid to script value
 		String value = ModuleUtil.getScript( designHandle,
 				"/report/body/label[@id=\"62\"]/method[@name=\"onPrepare\"]" ); //$NON-NLS-1$
 		assertEquals( "\"prepare\"", value );//$NON-NLS-1$
 
-//		value = ModuleUtil
-//				.getScript(
-//						designHandle,
-//						"/report/body/label[@id=\"62\"]/list-property[@name=\"highlightRules\"]/structure[1]/expression[@name=\"testExpr\"]" ); //$NON-NLS-1$
-//		assertEquals( "row[\"LASTNAME\"]", value );//$NON-NLS-1$
-//
-//		value = ModuleUtil
-//				.getScript(
-//						designHandle,
-//						"/report/body/label[@id=\"63\"]/structure[@name=\"toc\"]/expression[@name=\"expressionValue\"]" ); //$NON-NLS-1$
-//		assertEquals( "toc expression", value );//$NON-NLS-1$
-//
-//		value = ModuleUtil
-//				.getScript(
-//						designHandle,
-//						"/report/body/label[@id=\"62\"]/list-property[@name=\"highlightRules\"]/structure[1]/list-property[@name=\"value1\"]/value[1]" ); //$NON-NLS-1$
-//
-//		assertEquals( "\"Tseng\"", value );//$NON-NLS-1$
+		// value = ModuleUtil
+		// .getScript(
+		// designHandle,
+		// "/report/body/label[@id=\"62\"]/list-property[@name=\"highlightRules\"]/structure[1]/expression[@name=\"testExpr\"]"
+		// ); //$NON-NLS-1$
+		// assertEquals( "row[\"LASTNAME\"]", value );//$NON-NLS-1$
+		//
+		// value = ModuleUtil
+		// .getScript(
+		// designHandle,
+		// "/report/body/label[@id=\"63\"]/structure[@name=\"toc\"]/expression[@name=\"expressionValue\"]"
+		// ); //$NON-NLS-1$
+		// assertEquals( "toc expression", value );//$NON-NLS-1$
+		//
+		// value = ModuleUtil
+		// .getScript(
+		// designHandle,
+		// "/report/body/label[@id=\"62\"]/list-property[@name=\"highlightRules\"]/structure[1]/list-property[@name=\"value1\"]/value[1]"
+		// ); //$NON-NLS-1$
+		//
+		// assertEquals( "\"Tseng\"", value );//$NON-NLS-1$
 	}
 
 }

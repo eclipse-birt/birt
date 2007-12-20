@@ -35,7 +35,6 @@ import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.elements.olap.Dimension;
-import org.eclipse.birt.report.model.extension.SimplePeerExtensibilityProvider;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -294,18 +293,6 @@ public class ElementStructureUtil
 					.getName( ) ), targetModule );
 		}
 
-		// copy illegal contents if this element is ExtendedItem
-		if ( target instanceof ExtendedItem )
-		{
-			ExtendedItem srcExtendedItem = (ExtendedItem) source;
-			ExtendedItem targetExtendedItem = (ExtendedItem) target;
-			Map copiedIllegalContents = SimplePeerExtensibilityProvider
-					.getCopiedIllegalContents( srcExtendedItem
-							.getExtensibilityProvider( ).getIllegalContents( ) );
-			targetExtendedItem.getExtensibilityProvider( ).setIllegalContents(
-					copiedIllegalContents );
-		}
-
 		// do some special handle for cube and dimension
 		if ( target instanceof Cube )
 		{
@@ -498,10 +485,6 @@ public class ElementStructureUtil
 			( (TableItem) element ).refreshRenderModel( module );
 		}
 
-		if ( element instanceof ExtendedItem )
-		{
-			( (ExtendedItem) element ).checkCompatibility( module );
-		}
 		return result;
 	}
 

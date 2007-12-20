@@ -21,7 +21,6 @@ import java.util.Map;
 
 import org.eclipse.birt.report.model.api.extension.UndefinedPropertyInfo;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -269,31 +268,13 @@ public class SimplePeerExtensibilityProvider extends PeerExtensibilityProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#getLocalInvalidPropertyValueMap()
-	 */
-	protected Map getLocalInvalidPropertyValueMap( )
-	{
-		return this.invalidValueMap;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#getLocalUndefinedPropertyMap()
-	 */
-	protected Map getLocalUndefinedPropertyMap( )
-	{
-		return this.undefinedPropertyMap;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#getInvalidPropertyValueMap()
 	 */
 	public Map getInvalidPropertyValueMap( )
 	{
-		return getMergedInvalidProperty( );
+		return this.invalidValueMap == null
+				? Collections.EMPTY_MAP
+				: invalidValueMap;
 	}
 
 	/*
@@ -303,100 +284,91 @@ public class SimplePeerExtensibilityProvider extends PeerExtensibilityProvider
 	 */
 	public Map getUndefinedPropertyMap( )
 	{
-		return getMergedUndefinedProperty( );
+		return this.undefinedPropertyMap == null
+				? Collections.EMPTY_MAP
+				: undefinedPropertyMap;
 	}
 
-	private Map getMergedUndefinedProperty( )
-	{
-		Map ret = new HashMap( );
-		if ( this.undefinedPropertyMap != null )
-			ret.putAll( undefinedPropertyMap );
-
-		// search all the inheritances
-		DesignElement e = element.getExtendsElement( ) == null ? element
-				.getVirtualParent( ) : element.getExtendsElement( );
-		while ( e != null )
-		{
-			assert e instanceof ExtendedItem;
-			PeerExtensibilityProvider provider = ( (ExtendedItem) e )
-					.getExtensibilityProvider( );
-			Map tempMap = provider.getLocalUndefinedPropertyMap( );
-			if ( tempMap != null && !tempMap.isEmpty( ) )
-			{
-				Iterator iter = tempMap.keySet( ).iterator( );
-				while ( iter.hasNext( ) )
-				{
-					String propName = (String) iter.next( );
-					// if this property is not re-set in the child, then add it
-					// to the result
-					if ( ret.get( propName ) == null )
-					{
-						Object infor = tempMap.get( propName );
-						if ( infor != null )
-							ret.put( propName, infor );
-					}
-				}
-			}
-
-			e = e.getExtendsElement( ) == null ? e.getVirtualParent( ) : e
-					.getExtendsElement( );
-		}
-
-		return ret;
-	}
-
-	private Map getMergedInvalidProperty( )
-	{
-		Map ret = new HashMap( );
-		if ( this.invalidValueMap != null )
-			ret.putAll( invalidValueMap );
-
-		// search all the inheritances
-		DesignElement e = element.getExtendsElement( ) == null ? element
-				.getVirtualParent( ) : element.getExtendsElement( );
-		while ( e != null )
-		{
-			assert e instanceof ExtendedItem;
-			PeerExtensibilityProvider provider = ( (ExtendedItem) e )
-					.getExtensibilityProvider( );
-			Map tempMap = provider.getLocalInvalidPropertyValueMap( );
-			if ( tempMap != null && !tempMap.isEmpty( ) )
-			{
-				Iterator iter = tempMap.keySet( ).iterator( );
-				while ( iter.hasNext( ) )
-				{
-					String propName = (String) iter.next( );
-					// if this property is not re-set in the child( including
-					// both valid value and invalid value), then add it to the
-					// result
-					if ( ret.get( propName ) == null
-							&& element.getLocalProperty( element.getRoot( ),
-									propName ) == null )
-					{
-						Object infor = tempMap.get( propName );
-						if ( infor != null )
-							ret.put( propName, infor );
-					}
-				}
-			}
-
-			e = e.getExtendsElement( ) == null ? e.getVirtualParent( ) : e
-					.getExtendsElement( );
-		}
-
-		return ret;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#setIllegalContents(java.util.Map)
-	 */
-	public void setIllegalContents( Map illegalContentsMap )
-	{
-		this.illegalChildrenMap = illegalContentsMap;
-
-	}
+//	private Map getMergedUndefinedProperty( )
+//	{
+//		Map ret = new HashMap( );
+//		if ( this.undefinedPropertyMap != null )
+//			ret.putAll( undefinedPropertyMap );
+//
+//		// search all the inheritances
+//		DesignElement e = element.getExtendsElement( ) == null ? element
+//				.getVirtualParent( ) : element.getExtendsElement( );
+//		while ( e != null )
+//		{
+//			assert e instanceof ExtendedItem;
+//			PeerExtensibilityProvider provider = ( (ExtendedItem) e )
+//					.getExtensibilityProvider( );
+//			Map tempMap = provider.getLocalUndefinedPropertyMap( );
+//			if ( tempMap != null && !tempMap.isEmpty( ) )
+//			{
+//				Iterator iter = tempMap.keySet( ).iterator( );
+//				while ( iter.hasNext( ) )
+//				{
+//					String propName = (String) iter.next( );
+//					// if this property is not re-set in the child, then add it
+//					// to the result
+//					if ( ret.get( propName ) == null )
+//					{
+//						Object infor = tempMap.get( propName );
+//						if ( infor != null )
+//							ret.put( propName, infor );
+//					}
+//				}
+//			}
+//
+//			e = e.getExtendsElement( ) == null ? e.getVirtualParent( ) : e
+//					.getExtendsElement( );
+//		}
+//
+//		return ret;
+//	}
+//
+//	private Map getMergedInvalidProperty( )
+//	{
+//		Map ret = new HashMap( );
+//		if ( this.invalidValueMap != null )
+//			ret.putAll( invalidValueMap );
+//
+//		// search all the inheritances
+//		DesignElement e = element.getExtendsElement( ) == null ? element
+//				.getVirtualParent( ) : element.getExtendsElement( );
+//		while ( e != null )
+//		{
+//			assert e instanceof ExtendedItem;
+//			PeerExtensibilityProvider provider = ( (ExtendedItem) e )
+//					.getExtensibilityProvider( );
+//			Map tempMap = provider.getLocalInvalidPropertyValueMap( );
+//			if ( tempMap != null && !tempMap.isEmpty( ) )
+//			{
+//				Iterator iter = tempMap.keySet( ).iterator( );
+//				while ( iter.hasNext( ) )
+//				{
+//					String propName = (String) iter.next( );
+//					// if this property is not re-set in the child( including
+//					// both valid value and invalid value), then add it to the
+//					// result
+//					if ( ret.get( propName ) == null
+//							&& element.getLocalProperty( element.getRoot( ),
+//									propName ) == null )
+//					{
+//						Object infor = tempMap.get( propName );
+//						if ( infor != null )
+//							ret.put( propName, infor );
+//					}
+//				}
+//			}
+//
+//			e = e.getExtendsElement( ) == null ? e.getVirtualParent( ) : e
+//					.getExtendsElement( );
+//		}
+//
+//		return ret;
+//	}
 
 	/**
 	 * 

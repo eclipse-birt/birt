@@ -37,7 +37,7 @@ public class VersionInfo implements IVersionInfo
 
 	/**
 	 * The opening design file is not a valid design file or the file does not
-	 * exsit.
+	 * exist.
 	 */
 
 	private final static String INVALID_DESIGN_FILE_MSG = MessageConstants.VERSION_INFO_INVALID_DESIGN_FILE;
@@ -51,8 +51,15 @@ public class VersionInfo implements IVersionInfo
 	private final static String CONVERT_INFO_MSG = MessageConstants.VERSION_INFO_CONVERT_INFO;
 
 	/**
+	 * Message key that indicates that the opened design/library and its
+	 * included libraries have one or more extended item that should do some
+	 * compatibilities.
+	 */
+	private final static String EXTENSION_COMPATIBILITY_MSG = MessageConstants.VERSION_INFO_EXTENSION_COMPATIBILITY;
+
+	/**
 	 * Code for the opening design file is not a valid design file or the file
-	 * does not exsit.
+	 * does not exist.
 	 */
 
 	public final static int INVALID_DESIGN_FILE = 0x00;
@@ -72,8 +79,14 @@ public class VersionInfo implements IVersionInfo
 	public final static int INVALID_VERSION = 0x02;
 
 	/**
+	 * Code for indication that there is one or more included libraries should
+	 * do some compatibilities about the extended items.
+	 */
+	public final static int EXTENSION_COMPATIBILITY = 0x04;
+
+	/**
 	 * The opening design file is not a valid design file or the file does not
-	 * exsit.
+	 * exist.
 	 */
 
 	private final static String INVALID_VERSION_MSG = MessageConstants.VERSION_INFO_INVALID_VERSION;
@@ -93,8 +106,8 @@ public class VersionInfo implements IVersionInfo
 	/**
 	 * Constructor.
 	 * 
-	 * @param version 
-	 * @param convertCode 
+	 * @param version
+	 * @param convertCode
 	 */
 
 	public VersionInfo( String version, int convertCode )
@@ -120,6 +133,8 @@ public class VersionInfo implements IVersionInfo
 			case INVALID_VERSION :
 				return ModelMessages.getMessage( INVALID_VERSION_MSG,
 						new String[]{version} );
+			case EXTENSION_COMPATIBILITY :
+				return ModelMessages.getMessage( EXTENSION_COMPATIBILITY_MSG );
 
 			default :
 				assert false;
@@ -136,6 +151,15 @@ public class VersionInfo implements IVersionInfo
 	public String getDesignFileVersion( )
 	{
 		return version;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getInfoCode( )
+	{
+		return infoCode;
 	}
 
 }

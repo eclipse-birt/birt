@@ -2498,14 +2498,8 @@ public abstract class DesignElement
 
 	public boolean isRootIncludedByModule( )
 	{
-		DesignElement tmpContainer = getRoot( );
-		if ( tmpContainer instanceof Library
-				&& ( (Library) tmpContainer ).getHost( ) != null )
-		{
-			return true;
-		}
-
-		return false;
+		Module tmpContainer = getRoot( );
+		return tmpContainer == null ? false : tmpContainer.isReadOnly( );
 	}
 
 	/**

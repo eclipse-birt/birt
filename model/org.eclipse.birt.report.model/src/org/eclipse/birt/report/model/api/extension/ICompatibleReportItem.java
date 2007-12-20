@@ -57,4 +57,11 @@ public interface ICompatibleReportItem
 	 */
 	public List checkCompatibility( );
 
+	/**
+	 * Determines whether this report item does the compatibilities or not.
+	 * 
+	 * @return true if this report item does compatibilities, otherwise false
+	 */
+	public boolean hasCompatibilities( );
+
 }

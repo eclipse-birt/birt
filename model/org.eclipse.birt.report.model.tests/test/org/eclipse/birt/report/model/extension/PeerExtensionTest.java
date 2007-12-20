@@ -986,41 +986,17 @@ public class PeerExtensionTest extends BaseTestCase
 		assertEquals( "testData_2", info.getContent( ).getName( ) ); //$NON-NLS-1$
 		assertEquals( 0, info.getIndex( ) );
 
-		// test design with inheritance and merge algorithm to collect invalid
-		// property values and undefined property
+		// test design with inheritance
 		extendedHandle = (ExtendedItemHandle) designHandle
 				.findElement( "testBox_1" ); //$NON-NLS-1$
 		propMap = extendedHandle.getUndefinedProperties( );
+		assertEquals( 1, propMap.size( ) );
 
-		// this child set a valid 'shape' value so it not extends undefined
-		// property information from its parent
-		assertNull( propMap.get( "shape" ) ); //$NON-NLS-1$
-
-		// child not set any value for 'points', so inherits invalid property
-		// value from parent
-		propInfor = (UndefinedPropertyInfo) propMap.get( "points" ); //$NON-NLS-1$
-		assertEquals( extendedHandle.getExtends( ).getProperty(
-				IExtendedItemModel.EXTENSION_VERSION_PROP ), propInfor
-				.getExtensionVersion( ) );
-
-		// child has two undefined property value, one is set itself, one
-		// inherits from parent
-		propInfor = (UndefinedPropertyInfo) propMap.get( "noProp" ); //$NON-NLS-1$
-		assertEquals( extendedHandle
-				.getProperty( IExtendedItemModel.EXTENSION_VERSION_PROP ),
-				propInfor.getExtensionVersion( ) );
-		propInfor = (UndefinedPropertyInfo) propMap.get( "noProp_1" ); //$NON-NLS-1$
-		assertEquals( extendedHandle.getExtends( ).getProperty(
-				IExtendedItemModel.EXTENSION_VERSION_PROP ), propInfor
-				.getExtensionVersion( ) );
-
-		// illegal contents are duplicate from its parent
+		// parent corrects the illegal contents and so child inherits the
+		// layout-structure
 		illegalChildrenMap = extendedHandle.getIllegalContents( );
-		illegalChildren = (List) illegalChildrenMap.get( "header" ); //$NON-NLS-1$
-		assertEquals( 1, illegalChildren.size( ) );
-		info = (IllegalContentInfo) illegalChildren.get( 0 );
-		assertEquals( "parent_testData1", info.getContent( ).getName( ) ); //$NON-NLS-1$
-		assertEquals( 0, info.getIndex( ) );
+		assertTrue( illegalChildrenMap.isEmpty( ) );
+		assertTrue( extendedHandle.getContent( "header", 0 ) instanceof LabelHandle ); //$NON-NLS-1$
 	}
 
 	/**
