@@ -167,7 +167,7 @@ public class AbstractCrosstabItemHandle extends ReportItem implements
 	 */
 	public IReportItem copy( )
 	{
-		//TODO return a copy
+		// TODO return a copy
 		return null;
 	}
 
@@ -189,5 +189,48 @@ public class AbstractCrosstabItemHandle extends ReportItem implements
 	public ModuleHandle getModuleHandle( )
 	{
 		return this.moduleHandle;
+	}
+
+	/**
+	 * Checks the given version
+	 * 
+	 * @param version
+	 *            the version to be checked
+	 * @return returns negative value (<0) if the given version is older than
+	 *         current version, 0 if equals current version, positive value (>0)
+	 *         if newer than current version.
+	 */
+	static protected int checkVersion( String version )
+	{
+		if ( version == null || version.trim( ).length( ) == 0 )
+		{
+			return -1;
+		}
+
+		if ( !CROSSTAB_CURRENT_VERSION.equals( version ) )
+		{
+			String[] ver = version.trim( ).split( "\\." ); //$NON-NLS-1$
+			int major = Integer.parseInt( ver[0] );
+			int minor = Integer.parseInt( ver[1] );
+			int update = Integer.parseInt( ver[2] );
+
+			if ( major != CURRENT_CROSSTAB_MAJOR_VERSION )
+			{
+				return major - CURRENT_CROSSTAB_MAJOR_VERSION;
+			}
+			else
+			{
+				if ( minor != CURRENT_CROSSTAB_MINOR_VERSION )
+				{
+					return minor - CURRENT_CROSSTAB_MINOR_VERSION;
+				}
+				else
+				{
+					return update - CURRENT_CROSSTAB_UPDATE_VERSION;
+				}
+			}
+		}
+
+		return 0;
 	}
 }

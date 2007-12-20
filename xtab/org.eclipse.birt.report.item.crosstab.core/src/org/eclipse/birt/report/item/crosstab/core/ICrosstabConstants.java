@@ -20,9 +20,27 @@ public interface ICrosstabConstants
 {
 
 	/**
-	 * Extension version of current crosstab.
+	 * Major version of current crosstab.
 	 */
-	String CROSSTAB_CURRENT_VERSION = "2.3.0"; //$NON-NLS-1$
+	int CURRENT_CROSSTAB_MAJOR_VERSION = 2;
+
+	/**
+	 * Minor version of current crosstab.
+	 */
+	int CURRENT_CROSSTAB_MINOR_VERSION = 3;
+
+	/**
+	 * Update version of current crosstab.
+	 */
+	int CURRENT_CROSSTAB_UPDATE_VERSION = 0;
+
+	/**
+	 * Extension version sign of current crosstab.
+	 */
+	String CROSSTAB_CURRENT_VERSION = CURRENT_CROSSTAB_MAJOR_VERSION + "." //$NON-NLS-1$
+			+ CURRENT_CROSSTAB_MINOR_VERSION
+			+ "." //$NON-NLS-1$
+			+ CURRENT_CROSSTAB_UPDATE_VERSION;
 
 	/**
 	 * Extension name of crosstab.

@@ -1037,8 +1037,8 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	{
 		List errorList = new ArrayList( 1 );
 
-		// update version
-		if ( !CROSSTAB_CURRENT_VERSION.equals( handle.getExtensionVersion( ) ) )
+		// update old version
+		if ( checkVersion( handle.getExtensionVersion( ) ) < 0 )
 		{
 			try
 			{
@@ -1048,22 +1048,22 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 			{
 				errorList.add( e );
 			}
-		}
 
-		// update header
-		if ( getHeader( ) == null )
-		{
-			PropertyHandle headerHandle = handle.getPropertyHandle( HEADER_PROP );
-
-			if ( headerHandle != null )
+			// update header
+			if ( getHeader( ) == null )
 			{
-				try
+				PropertyHandle headerHandle = handle.getPropertyHandle( HEADER_PROP );
+
+				if ( headerHandle != null )
 				{
-					headerHandle.setValue( CrosstabExtendedItemFactory.createCrosstabCell( getModuleHandle( ) ) );
-				}
-				catch ( SemanticException e )
-				{
-					errorList.add( e );
+					try
+					{
+						headerHandle.setValue( CrosstabExtendedItemFactory.createCrosstabCell( getModuleHandle( ) ) );
+					}
+					catch ( SemanticException e )
+					{
+						errorList.add( e );
+					}
 				}
 			}
 		}

@@ -36,10 +36,9 @@ import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 /**
  * MeasureViewHandle.
  */
-public class MeasureViewHandle extends AbstractCrosstabItemHandle
-		implements
-			IMeasureViewConstants,
-			ICrosstabConstants
+public class MeasureViewHandle extends AbstractCrosstabItemHandle implements
+		IMeasureViewConstants,
+		ICrosstabConstants
 {
 
 	/**
@@ -121,10 +120,8 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle
 	public AggregationCellHandle getCell( )
 	{
 		PropertyHandle propHandle = getDetailProperty( );
-		return propHandle.getContentCount( ) == 0
-				? null
-				: (AggregationCellHandle) CrosstabUtil.getReportItem(
-						propHandle.getContent( 0 ),
+		return propHandle.getContentCount( ) == 0 ? null
+				: (AggregationCellHandle) CrosstabUtil.getReportItem( propHandle.getContent( 0 ),
 						AGGREGATION_CELL_EXTENSION_NAME );
 	}
 
@@ -148,31 +145,26 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle
 			throws SemanticException
 	{
 		AggregationCellHandle aggregation = getAggregationCell( rowDimension,
-				rowLevel, colDimension, colLevel );
+				rowLevel,
+				colDimension,
+				colLevel );
 		if ( aggregation != null )
 		{
-			logger
-					.log(
-							Level.INFO,
-							Messages
-									.getString( "MeasureViewHandle.info.aggregation.already.exist" ) ); //$NON-NLS-1$
+			logger.log( Level.INFO,
+					Messages.getString( "MeasureViewHandle.info.aggregation.already.exist" ) ); //$NON-NLS-1$
 			return aggregation;
 		}
-		ExtendedItemHandle aggregationCell = CrosstabExtendedItemFactory
-				.createAggregationCell( moduleHandle );
+		ExtendedItemHandle aggregationCell = CrosstabExtendedItemFactory.createAggregationCell( moduleHandle );
 		if ( aggregationCell != null )
 		{
 			CommandStack stack = getCommandStack( );
-			stack.startTrans( Messages
-					.getString( "MeasureViewHandle.msg.add.aggregation" ) ); //$NON-NLS-1$
+			stack.startTrans( Messages.getString( "MeasureViewHandle.msg.add.aggregation" ) ); //$NON-NLS-1$
 
 			try
 			{
-				aggregationCell.setProperty(
-						IAggregationCellConstants.AGGREGATION_ON_ROW_PROP,
+				aggregationCell.setProperty( IAggregationCellConstants.AGGREGATION_ON_ROW_PROP,
 						rowLevel );
-				aggregationCell.setProperty(
-						IAggregationCellConstants.AGGREGATION_ON_COLUMN_PROP,
+				aggregationCell.setProperty( IAggregationCellConstants.AGGREGATION_ON_COLUMN_PROP,
 						colLevel );
 				getAggregationsProperty( ).add( aggregationCell );
 			}
@@ -183,8 +175,7 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle
 			}
 			stack.commit( );
 		}
-		return (AggregationCellHandle) CrosstabUtil
-				.getReportItem( aggregationCell );
+		return (AggregationCellHandle) CrosstabUtil.getReportItem( aggregationCell );
 	}
 
 	/**
@@ -203,7 +194,9 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle
 			String colDimension, String colLevel ) throws SemanticException
 	{
 		AggregationCellHandle cell = getAggregationCell( rowDimension,
-				rowLevel, colDimension, colLevel );
+				rowLevel,
+				colDimension,
+				colLevel );
 		if ( cell != null )
 		{
 			cell.handle.drop( );
@@ -233,12 +226,9 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle
 		DesignElementHandle found = null;
 		for ( int i = 0; i < count; i++ )
 		{
-			DesignElementHandle element = getAggregationsProperty( )
-					.getContent( i );
-			String row = element
-					.getStringProperty( IAggregationCellConstants.AGGREGATION_ON_ROW_PROP );
-			String column = element
-					.getStringProperty( IAggregationCellConstants.AGGREGATION_ON_COLUMN_PROP );
+			DesignElementHandle element = getAggregationsProperty( ).getContent( i );
+			String row = element.getStringProperty( IAggregationCellConstants.AGGREGATION_ON_ROW_PROP );
+			String column = element.getStringProperty( IAggregationCellConstants.AGGREGATION_ON_COLUMN_PROP );
 			if ( ( rowLevel != null && rowLevel.equals( row ) )
 					|| ( rowLevel == null && row == null ) )
 			{
@@ -274,8 +264,7 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle
 	 */
 	public AggregationCellHandle getAggregationCell( int index )
 	{
-		DesignElementHandle element = getAggregationsProperty( ).getContent(
-				index );
+		DesignElementHandle element = getAggregationsProperty( ).getContent( index );
 		return (AggregationCellHandle) CrosstabUtil.getReportItem( element,
 				AGGREGATION_CELL_EXTENSION_NAME );
 	}
@@ -317,8 +306,9 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle
 	public CrosstabCellHandle getHeader( )
 	{
 		DesignElementHandle headerCell = getHeaderCell( );
-		return (CrosstabCellHandle) ( headerCell == null ? null : CrosstabUtil
-				.getReportItem( headerCell, CROSSTAB_CELL_EXTENSION_NAME ) );
+		return (CrosstabCellHandle) ( headerCell == null ? null
+				: CrosstabUtil.getReportItem( headerCell,
+						CROSSTAB_CELL_EXTENSION_NAME ) );
 	}
 
 	/**
@@ -366,8 +356,7 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle
 			return;
 		}
 
-		ExtendedItemHandle headerCell = CrosstabExtendedItemFactory
-				.createCrosstabCell( moduleHandle );
+		ExtendedItemHandle headerCell = CrosstabExtendedItemFactory.createCrosstabCell( moduleHandle );
 		propHandle.add( headerCell );
 	}
 
@@ -398,52 +387,52 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle
 	 */
 	public List checkCompatibility( )
 	{
-		ExtendedItemHandle exhandle = (ExtendedItemHandle) getModelHandle( );
+		//String version = ( (ExtendedItemHandle) getCrosstab( ).getModelHandle( ) ).getExtensionVersion( );
 
-		Map illegalContents = exhandle.getIllegalContents( );
-
-		// do compatibility for "detail" property since 2.3, update old
-		// "crosstabCell" to new "aggregationCell"
-		if ( illegalContents.containsKey( IMeasureViewConstants.DETAIL_PROP ) )
+		// update old version
+		//if ( checkVersion( version ) < 0 )
 		{
-			List detailInfoList = (List) illegalContents
-					.get( IMeasureViewConstants.DETAIL_PROP );
+			ExtendedItemHandle exhandle = (ExtendedItemHandle) getModelHandle( );
 
-			if ( detailInfoList.size( ) > 0 )
+			Map illegalContents = exhandle.getIllegalContents( );
+
+			// do compatibility for "detail" property since 2.3, update old
+			// "crosstabCell" to new "aggregationCell"
+			if ( illegalContents.containsKey( IMeasureViewConstants.DETAIL_PROP ) )
 			{
-				IllegalContentInfo detailInfo = (IllegalContentInfo) detailInfoList
-						.get( 0 );
+				List detailInfoList = (List) illegalContents.get( IMeasureViewConstants.DETAIL_PROP );
 
-				ExtendedItemHandle oldDetail = (ExtendedItemHandle) detailInfo
-						.getContent( );
-
-				if ( oldDetail != null )
+				if ( detailInfoList.size( ) > 0 )
 				{
-					try
+					IllegalContentInfo detailInfo = (IllegalContentInfo) detailInfoList.get( 0 );
+
+					ExtendedItemHandle oldDetail = (ExtendedItemHandle) detailInfo.getContent( );
+
+					if ( oldDetail != null )
 					{
-						ExtendedItemHandle newDetail = CrosstabExtendedItemFactory
-								.createAggregationCell( getModuleHandle( ) );
-
-						handle.getPropertyHandle( DETAIL_PROP ).setValue(
-								newDetail );
-
-						// TODO copy local properties.
-
-						List contents = oldDetail
-								.getContents( ICrosstabCellConstants.CONTENT_PROP );
-
-						for ( int i = 0; i < contents.size( ); i++ )
+						try
 						{
-							( (DesignElementHandle) contents.get( i ) ).moveTo(
-									newDetail,
-									IAggregationCellConstants.CONTENT_PROP );
+							ExtendedItemHandle newDetail = CrosstabExtendedItemFactory.createAggregationCell( getModuleHandle( ) );
+
+							handle.getPropertyHandle( DETAIL_PROP )
+									.setValue( newDetail );
+
+							// TODO copy local properties.
+
+							List contents = oldDetail.getContents( ICrosstabCellConstants.CONTENT_PROP );
+
+							for ( int i = 0; i < contents.size( ); i++ )
+							{
+								( (DesignElementHandle) contents.get( i ) ).moveTo( newDetail,
+										IAggregationCellConstants.CONTENT_PROP );
+							}
 						}
-					}
-					catch ( SemanticException e )
-					{
-						List errorList = new ArrayList( 1 );
-						errorList.add( e );
-						return errorList;
+						catch ( SemanticException e )
+						{
+							List errorList = new ArrayList( 1 );
+							errorList.add( e );
+							return errorList;
+						}
 					}
 				}
 			}
