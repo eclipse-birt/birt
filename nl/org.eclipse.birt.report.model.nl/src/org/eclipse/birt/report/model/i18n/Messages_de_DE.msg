@@ -3564,6 +3564,7 @@ Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=Die Elemente der Vorlage 
 Info.VersionInfo.INVALID_DESIGN_FILE=Die zu öffnende Designdatei ist keine gültige Designdatei oder nicht vorhanden.
 Info.VersionInfo.CONVERT_INFO=Die Designdatei wurde von einer früheren Version von BIRT erstellt. Klicken Sie auf OK, um die Datei in ein Format zu konvertieren, das von der aktuellen Version des Produkts unterstützt wird.
 Info.VersionInfo.INVALID_VERSION=Die Berichtdatei für Version {0} wird nicht unterstützt.
+Info.VersionInfo.EXTENSION_COMPATIBILITY =The opening design/library file or its included libraries has some extended items that need to do compatibilities.
 
 #EncryptionException
 Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY=Die Eigenschaft {1} in {0} kann nicht verschlüsselt werden. Daher kann die Verschlüsselung nicht geändert werden.

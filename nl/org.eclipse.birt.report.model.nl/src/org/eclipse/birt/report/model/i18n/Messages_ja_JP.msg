@@ -3564,6 +3564,7 @@ Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=ƒ‰ƒCƒuƒ‰ƒŠ‚Å‚ÍA‚±‚ê‚ç‚Ìƒ
 Info.VersionInfo.INVALID_DESIGN_FILE=ŠJ‚±‚¤‚Æ‚µ‚½ƒfƒUƒCƒ“ƒtƒ@ƒCƒ‹‚ÍA—LŒø‚ÈƒfƒUƒCƒ“ƒtƒ@ƒCƒ‹‚Å‚Í‚È‚¢‚©Aƒtƒ@ƒCƒ‹‚ª‘¶Ý‚µ‚Ü‚¹‚ñB
 Info.VersionInfo.CONVERT_INFO=‚±‚ÌƒfƒUƒCƒ“ƒtƒ@ƒCƒ‹‚ÍAˆÈ‘O‚Ìƒo[ƒWƒ‡ƒ“‚Ì BIRT ‚Åì¬‚³‚ê‚Ä‚¢‚Ü‚·B[OK] ‚ðƒNƒŠƒbƒN‚·‚é‚ÆAŒ»Ý‚Ìƒo[ƒWƒ‡ƒ“‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éŒ`Ž®‚É•ÏŠ·‚³‚ê‚Ü‚·B
 Info.VersionInfo.INVALID_VERSION=ƒo[ƒWƒ‡ƒ“ "{0}" ‚ÌƒŒƒ|[ƒgƒtƒ@ƒCƒ‹‚ÍŽg—p‚Å‚«‚Ü‚¹‚ñB
+Info.VersionInfo.EXTENSION_COMPATIBILITY =The opening design/library file or its included libraries has some extended items that need to do compatibilities.
 
 #EncryptionException
 Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY={0} ‚ÌƒvƒƒpƒeƒB {1} ‚ÍˆÃ†‰»‚Å‚«‚È‚¢‚½‚ßAˆÃ†‰»‚ð•ÏX‚Å‚«‚Ü‚¹‚ñB
