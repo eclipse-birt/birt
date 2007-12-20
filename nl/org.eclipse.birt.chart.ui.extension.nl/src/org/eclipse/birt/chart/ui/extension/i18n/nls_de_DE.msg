@@ -832,7 +832,7 @@ BaseDataDefinitionComponent.Text.SpecifyDataDefinition=Datendefinition angeben
 BaseDataDefinitionComponent.Label.EditGroupSorting=Gruppe und Sortierung bearbeiten
 BaseDataDefinitionComponent.Tooltip.InputValueExpression=Ausdruck für Eingabewert
 BaseDataDefinitionComponent.Text.EditFormat=Format bearbeiten
-BaseGroupSortingDialog.Label.SortOn=Sort On:
+BaseGroupSortingDialog.Label.SortOn=Sortieren nach:
 
 MarkerIconDialog.Title.MarkerIconSelector=Auswahl für Markierungssymbol
 MarkerIconDialog.Lbl.SelectIconFrom=Symbol wählen aus:

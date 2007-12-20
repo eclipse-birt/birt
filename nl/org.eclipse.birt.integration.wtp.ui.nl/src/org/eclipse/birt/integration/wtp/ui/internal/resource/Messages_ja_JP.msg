@@ -57,8 +57,8 @@ BIRTConfiguration_report_access_message=作業フォルダ内のレポートと文書だけにアク
 BIRTConfiguration_overwrite_message=生成した文書ファイルを常に上書きする(&A)
 
 BIRTConfiguration_maxrows_label=データセットの最大行数(&T) :
-BIRTConfiguration_maxrowlevels_label=&Max cube fetching row levels:
-BIRTConfiguration_maxcolumnlevels_label=&Max cube fetching column levels:
+BIRTConfiguration_maxrowlevels_label=キューブをフェッチできる最大行レベル(&M) :
+BIRTConfiguration_maxcolumnlevels_label=キューブをフェッチできる最大列レベル(&M) :
 BIRTConfiguration_cubememsize_label=作成できるキューブの最大メモリサイズ(&X) :
 
 BIRTConfiguration_loglevel_label=ログレベルの選択(&E) :

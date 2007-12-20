@@ -832,7 +832,7 @@ BaseDataDefinitionComponent.Text.SpecifyDataDefinition=指定数据定义
 BaseDataDefinitionComponent.Label.EditGroupSorting=编辑组和排序
 BaseDataDefinitionComponent.Tooltip.InputValueExpression=输入值表达式
 BaseDataDefinitionComponent.Text.EditFormat=编辑格式
-BaseGroupSortingDialog.Label.SortOn=Sort On:
+BaseGroupSortingDialog.Label.SortOn=排序依据:
 
 MarkerIconDialog.Title.MarkerIconSelector=标记图标选择器
 MarkerIconDialog.Lbl.SelectIconFrom=选择图标自:

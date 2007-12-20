@@ -57,8 +57,8 @@ BIRTConfiguration_report_access_message=Acceder sól&o al informe y documento de 
 BIRTConfiguration_overwrite_message=Sobrescribir siempre el &archivo de documento generado
 
 BIRTConfiguration_maxrows_label=Número máximo de filas del conjunto de da&tos:
-BIRTConfiguration_maxrowlevels_label=&Max cube fetching row levels:
-BIRTConfiguration_maxcolumnlevels_label=&Max cube fetching column levels:
+BIRTConfiguration_maxrowlevels_label=Niveles de fila de recuperación del cubo &máximos:
+BIRTConfiguration_maxcolumnlevels_label=Niveles de columna de recuperación del cubo &máximos:
 BIRTConfiguration_cubememsize_label=Tamaño de memoria má&ximo para crear el cubo:
 
 BIRTConfiguration_loglevel_label=S&eleccionar nivel de registro:
