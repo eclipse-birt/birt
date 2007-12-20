@@ -393,7 +393,7 @@ public class InputParameterDialog extends Dialog
 			for ( Iterator iterator = list.iterator( ); iterator.hasNext( ); )
 			{
 				IParameterSelectionChoice choice = (IParameterSelectionChoice) iterator.next( );
-				String label = (String) ( choice.getLabel( ) == null ? choice.getValue( )
+				String label = ( choice.getLabel( ) == null ? String.valueOf( choice.getValue( ) )
 						: choice.getLabel( ) );
 				if ( label != null )
 				{
