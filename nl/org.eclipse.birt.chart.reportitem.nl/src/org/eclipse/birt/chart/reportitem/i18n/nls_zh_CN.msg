@@ -71,7 +71,7 @@ property.label.legend.anchor=图例定位标记:
 property.label.chart.dimension=维:
 property.label.chart.plot.transposed=转置
 property.script=脚本
-property.onRender=onRender
+property.onRender=绘制时
 
 exception.script.syntaxError=脚本语法错误: {0}
 

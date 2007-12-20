@@ -71,7 +71,7 @@ property.label.legend.anchor=Anker für Legende:
 property.label.chart.dimension=Dimension:
 property.label.chart.plot.transposed=Transponiert
 property.script=Skript
-property.onRender=onRender
+property.onRender=Beim Rendern
 
 exception.script.syntaxError=Skript-Syntaxfehler: {0}
 

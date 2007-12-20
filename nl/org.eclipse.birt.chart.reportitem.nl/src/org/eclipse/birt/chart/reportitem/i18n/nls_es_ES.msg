@@ -71,7 +71,7 @@ property.label.legend.anchor=Delimitador de la leyenda:
 property.label.chart.dimension=Dimensión:
 property.label.chart.plot.transposed=Transpuesto
 property.script=Script
-property.onRender=onRender
+property.onRender=al procesar
 
 exception.script.syntaxError=Error de sintaxis de script: {0}
 
