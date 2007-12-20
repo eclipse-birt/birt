@@ -368,14 +368,27 @@ public class ParserCompatibilityTest extends BaseTestCase
 	}
 
 	/**
+	 * If the extension id is invalid, related properties should be parsed and
+	 * the file can be opened.
+	 * 
 	 * @throws Exception
 	 */
+
 	public void testWrongExtensionID( ) throws Exception
 	{
 		openDesign( "WrongExtensionID.xml" );//$NON-NLS-1$
 
 		save( );
 
+		OdaDataSetHandle setHandle = (OdaDataSetHandle) designHandle
+				.findDataSet( "dataset1" );
+
+		// this is not a ROM-defined property. The value is null.
+		assertNull( setHandle.getProperty( "queryScript" ) );
+
+		// user property is supported by ROM. should parse it.
+
+		assertEquals( "1", setHandle.getStringProperty( "tmpVar" ) );
 		assertTrue( compareFile( "WrongExtensionID_golden.xml" ) );//$NON-NLS-1$
 	}
 

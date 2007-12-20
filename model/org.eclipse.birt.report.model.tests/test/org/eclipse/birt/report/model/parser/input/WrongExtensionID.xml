@@ -10,6 +10,13 @@
         <oda-data-set name="dataset1" extensionID="org.eclipse.wrong.extension">
 		    <property name="dataSource">datasource1</property>
             <method name="queryScript">queryExpr</method>
+            <list-property name="userProperties">
+                <structure>
+                    <property name="name">tmpVar</property>
+                    <property name="type">string</property>
+                </structure>
+            </list-property>
+            <property name="tmpVar">1</property>            
      	</oda-data-set>
     </data-sets>
 </report>

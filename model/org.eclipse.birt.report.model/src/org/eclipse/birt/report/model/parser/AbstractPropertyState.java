@@ -254,8 +254,8 @@ public class AbstractPropertyState extends AbstractParseState
 	{
 		assert propName != null;
 
-		if ( propName.equalsIgnoreCase( IDesignElementModel.NAME_PROP )
-				|| propName.equalsIgnoreCase( IDesignElementModel.EXTENDS_PROP ) )
+		if ( propName.equalsIgnoreCase( IDesignElementModel.NAME_PROP ) ||
+				propName.equalsIgnoreCase( IDesignElementModel.EXTENDS_PROP ) )
 		{
 			DesignParserException e = new DesignParserException(
 					DesignParserException.DESIGN_EXCEPTION_INVALID_PROPERTY_SYNTAX );
@@ -270,10 +270,10 @@ public class AbstractPropertyState extends AbstractParseState
 		{
 			if ( element instanceof Cell )
 			{
-				if ( ICellModel.COL_SPAN_PROP.equalsIgnoreCase( propName )
-						|| ICellModel.ROW_SPAN_PROP.equalsIgnoreCase( propName )
-						|| ICellModel.DROP_PROP.equalsIgnoreCase( propName )
-						|| ICellModel.COLUMN_PROP.equalsIgnoreCase( propName ) )
+				if ( ICellModel.COL_SPAN_PROP.equalsIgnoreCase( propName ) ||
+						ICellModel.ROW_SPAN_PROP.equalsIgnoreCase( propName ) ||
+						ICellModel.DROP_PROP.equalsIgnoreCase( propName ) ||
+						ICellModel.COLUMN_PROP.equalsIgnoreCase( propName ) )
 				{
 					PropertyValueException e = new PropertyValueException(
 							element,
@@ -423,30 +423,30 @@ public class AbstractPropertyState extends AbstractParseState
 	{
 
 		if ( PropertyValueException.DESIGN_EXCEPTION_NEGATIVE_VALUE
-				.equalsIgnoreCase( errorCode )
-				|| PropertyValueException.DESIGN_EXCEPTION_NON_POSITIVE_VALUE
-						.equalsIgnoreCase( errorCode )
-				|| PropertyValueException.DESIGN_EXCEPTION_UNIT_NOT_ALLOWED
-						.equalsIgnoreCase( errorCode )
-				|| PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_ALLOWED
+				.equalsIgnoreCase( errorCode ) ||
+				PropertyValueException.DESIGN_EXCEPTION_NON_POSITIVE_VALUE
+						.equalsIgnoreCase( errorCode ) ||
+				PropertyValueException.DESIGN_EXCEPTION_UNIT_NOT_ALLOWED
+						.equalsIgnoreCase( errorCode ) ||
+				PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_ALLOWED
 						.equalsIgnoreCase( errorCode ) )
 			return true;
 
 		if ( PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE
-				.equalsIgnoreCase( errorCode )
-				|| PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND
+				.equalsIgnoreCase( errorCode ) ||
+				PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND
 						.equalsIgnoreCase( errorCode ) )
 		{
-			if ( element instanceof TextDataItem
-					&& ITextDataItemModel.CONTENT_TYPE_PROP
+			if ( element instanceof TextDataItem &&
+					ITextDataItemModel.CONTENT_TYPE_PROP
 							.equalsIgnoreCase( propDefn.getName( ) ) )
 				return true;
 
 			if ( IStyleModel.PAGE_BREAK_AFTER_PROP.equalsIgnoreCase( propDefn
-					.getName( ) )
-					|| IStyleModel.PAGE_BREAK_BEFORE_PROP
-							.equalsIgnoreCase( propDefn.getName( ) )
-					|| IStyleModel.PAGE_BREAK_INSIDE_PROP
+					.getName( ) ) ||
+					IStyleModel.PAGE_BREAK_BEFORE_PROP
+							.equalsIgnoreCase( propDefn.getName( ) ) ||
+					IStyleModel.PAGE_BREAK_INSIDE_PROP
 							.equalsIgnoreCase( propDefn.getName( ) ) )
 				return true;
 
@@ -461,14 +461,14 @@ public class AbstractPropertyState extends AbstractParseState
 
 				String structureName = objDefn.getName( );
 				if ( DateTimeFormatValue.FORMAT_VALUE_STRUCT
-						.equals( structureName )
-						|| NumberFormatValue.FORMAT_VALUE_STRUCT
-								.equals( structureName )
-						|| StringFormatValue.FORMAT_VALUE_STRUCT
-								.equals( structureName )
-						|| TimeFormatValue.FORMAT_VALUE_STRUCT
-								.equals( structureName )
-						|| DateFormatValue.FORMAT_VALUE_STRUCT
+						.equals( structureName ) ||
+						NumberFormatValue.FORMAT_VALUE_STRUCT
+								.equals( structureName ) ||
+						StringFormatValue.FORMAT_VALUE_STRUCT
+								.equals( structureName ) ||
+						TimeFormatValue.FORMAT_VALUE_STRUCT
+								.equals( structureName ) ||
+						DateFormatValue.FORMAT_VALUE_STRUCT
 								.equals( structureName ) )
 				{
 					if ( FormatValue.CATEGORY_MEMBER.equalsIgnoreCase( propDefn
@@ -479,12 +479,12 @@ public class AbstractPropertyState extends AbstractParseState
 				// MapRule.OPERATOR_MEMBER
 				// HighlightRule.OPERATOR_MEMBER
 
-				if ( MapRule.STRUCTURE_NAME.equals( objDefn.getName( ) )
-						|| HighlightRule.STRUCTURE_NAME.equals( objDefn
-								.getName( ) ) )
+				if ( MapRule.STRUCTURE_NAME.equals( objDefn.getName( ) ) ||
+						HighlightRule.STRUCTURE_NAME
+								.equals( objDefn.getName( ) ) )
 				{
-					if ( StyleRule.OPERATOR_MEMBER.equals( propDefn.getName( ) )
-							|| StyleRule.OPERATOR_MEMBER.equals( propDefn
+					if ( StyleRule.OPERATOR_MEMBER.equals( propDefn.getName( ) ) ||
+							StyleRule.OPERATOR_MEMBER.equals( propDefn
 									.getName( ) ) )
 					{
 						return "any".equalsIgnoreCase( invalidValue.toString( ) ); //$NON-NLS-1$
@@ -509,6 +509,9 @@ public class AbstractPropertyState extends AbstractParseState
 	protected void setName( String name )
 	{
 		this.name = name;
+
+		if ( this.name != null )
+			nameValue = this.name.toLowerCase( ).hashCode( );
 	}
 
 	/*
