@@ -63,7 +63,7 @@ MeasureSubNodeProvider.Aggregation=Agregación
 CrosstabSortingModelProvider.ColumnName.GroupLevel=Nivel de grupo
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=Error
 SortkeyBuilder.DialogTitle.Label.Key=Clave:
-CrosstabFilterModelProvider.ColumnName.GroupLevelOrMeasure=Target
+CrosstabFilterModelProvider.ColumnName.GroupLevelOrMeasure=Destino
 CrosstabSortkeyBuilder.DialogTitle.Label.GroupLevel=Nivel de grupo:
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=Hacer clic para llamar al compilador de expresiones
 SortkeyBuilder.DialogTitle.Label.Direction=Dirección:
@@ -93,7 +93,7 @@ CrosstabPageGenerator.TabItem.Sorting=Ordenar
 
 CrosstabGeneraPage.ForEmptyCell=En las celdas vacias, mostrar:
 CrosstabGeneraPage.FormatOption=Opciones de formato:
-LayoutMeasuresSection.DisplayName=Orientation:
+LayoutMeasuresSection.DisplayName=Orientación:
 
 
 parameterBinding.title=Enlace de parámetros de conjunto de datos...
@@ -204,7 +204,7 @@ CrosstabSortKeyBuilder.Label.SelRowMemberValue=Seleccionar fila Valor de miembro
 CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=Seleccionar columna Valor de miembro
 CrosstabFilterConditionBuilder.Label.SelRowMemberValue=Seleccionar fila Valor de miembro
 CrosstabFilterConditionBuilder.DialogTitle.Label.GroupLevel=Nivel de grupo:
-CrosstabFilterConditionBuilder.DialogTitle.Label.Measure=Measure:
+CrosstabFilterConditionBuilder.DialogTitle.Label.Measure=Medida:
 SelColumnMemberValue.Column.Level=Nivel
 SelColumnMemberValue.Column.Value=Valor
 ChoiceSetFactory.choice.None=Ninguno

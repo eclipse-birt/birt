@@ -63,7 +63,7 @@ MeasureSubNodeProvider.Aggregation=Aggregat
 CrosstabSortingModelProvider.ColumnName.GroupLevel=Gruppenebene
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=Fehler
 SortkeyBuilder.DialogTitle.Label.Key=Schlüssel:
-CrosstabFilterModelProvider.ColumnName.GroupLevelOrMeasure=Target
+CrosstabFilterModelProvider.ColumnName.GroupLevelOrMeasure=Ziel
 CrosstabSortkeyBuilder.DialogTitle.Label.GroupLevel=Gruppenebene:
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=Zum Öffnen der Ausdruckserstellung hier klicken
 SortkeyBuilder.DialogTitle.Label.Direction=Richtung:
@@ -93,7 +93,7 @@ CrosstabPageGenerator.TabItem.Sorting=Sortierung
 
 CrosstabGeneraPage.ForEmptyCell=Leere Zellen anzeigen als:
 CrosstabGeneraPage.FormatOption=Formatierungsoptionen:
-LayoutMeasuresSection.DisplayName=Orientation:
+LayoutMeasuresSection.DisplayName=Ausrichtung:
 
 
 parameterBinding.title=Parameterbindung für Datensatz...
@@ -204,7 +204,7 @@ CrosstabSortKeyBuilder.Label.SelRowMemberValue=Mitgliedswert der Zeile auswählen
 CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=Mitgliedswert der Spalte auswählen
 CrosstabFilterConditionBuilder.Label.SelRowMemberValue=Mitgliedswert der Zeile auswählen
 CrosstabFilterConditionBuilder.DialogTitle.Label.GroupLevel=Gruppenebene:
-CrosstabFilterConditionBuilder.DialogTitle.Label.Measure=Measure:
+CrosstabFilterConditionBuilder.DialogTitle.Label.Measure=Maßeinheit:
 SelColumnMemberValue.Column.Level=Ebene
 SelColumnMemberValue.Column.Value=Wert
 ChoiceSetFactory.choice.None=Ohne

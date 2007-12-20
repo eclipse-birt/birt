@@ -63,7 +63,7 @@ MeasureSubNodeProvider.Aggregation=集計
 CrosstabSortingModelProvider.ColumnName.GroupLevel=グループレベル
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=エラー
 SortkeyBuilder.DialogTitle.Label.Key=キー :
-CrosstabFilterModelProvider.ColumnName.GroupLevelOrMeasure=Target
+CrosstabFilterModelProvider.ColumnName.GroupLevelOrMeasure=ターゲット
 CrosstabSortkeyBuilder.DialogTitle.Label.GroupLevel=グループレベル :
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=式ビルダを起動するには、ここをクリックしてしてください
 SortkeyBuilder.DialogTitle.Label.Direction=方向 :
@@ -93,7 +93,7 @@ CrosstabPageGenerator.TabItem.Sorting=ソート
 
 CrosstabGeneraPage.ForEmptyCell=空のセルに次を表示 :
 CrosstabGeneraPage.FormatOption=書式設定オプション :
-LayoutMeasuresSection.DisplayName=Orientation:
+LayoutMeasuresSection.DisplayName=向き :
 
 
 parameterBinding.title=データセットパラメタのバインド...
@@ -204,7 +204,7 @@ CrosstabSortKeyBuilder.Label.SelRowMemberValue=行のメンバ値の選択
 CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=列のメンバ値の選択
 CrosstabFilterConditionBuilder.Label.SelRowMemberValue=行のメンバ値の選択
 CrosstabFilterConditionBuilder.DialogTitle.Label.GroupLevel=グループレベル :
-CrosstabFilterConditionBuilder.DialogTitle.Label.Measure=Measure:
+CrosstabFilterConditionBuilder.DialogTitle.Label.Measure=計測 :
 SelColumnMemberValue.Column.Level=レベル
 SelColumnMemberValue.Column.Value=値
 ChoiceSetFactory.choice.None=なし

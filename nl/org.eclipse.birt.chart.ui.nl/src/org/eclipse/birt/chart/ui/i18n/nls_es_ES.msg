@@ -92,9 +92,9 @@ SimpleHyperlinkBuilder.Label.SelectType=Seleccione tipo de hiperlink:
 SimpleHyperlinkBuilder.Label.Location=&Ubicación:
 SimpleHyperlinkBuilder.Label.Target=&Destino:
 
-CustomPreviewTable.Exception.InvalidColumnIndexNotDefined=Invalid column index {0} specified or columns not yet defined\!
-CustomPreviewTable.Exception.InvalidColumnIndexSpecified=Invalid column index specified\!
-CustomPreviewTable.Exception.InvalidColumnIndexSpecifiedOnly=Invalid column index {0} specified\! Table has only {1} columns\!
-CustomPreviewTable.Exception.RowIndexGreaterThan0=Row index must be greater than or equal to 0\!
+CustomPreviewTable.Exception.InvalidColumnIndexNotDefined=Se ha especificado un índice de columna {0} no válido o no se han definido aún columnas\.
+CustomPreviewTable.Exception.InvalidColumnIndexSpecified=Se ha especificado un índice de columna no válido\.
+CustomPreviewTable.Exception.InvalidColumnIndexSpecifiedOnly=Se ha especificado un índice de columna {0} no válido\. La tabla tiene sólo {1} columnas\.
+CustomPreviewTable.Exception.RowIndexGreaterThan0=El índice de fila debe ser superior o igual a 0\.
 
 

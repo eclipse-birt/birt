@@ -63,7 +63,7 @@ MeasureSubNodeProvider.Aggregation=聚合
 CrosstabSortingModelProvider.ColumnName.GroupLevel=组级别
 SortkeyBuilder.DialogTitle.Error.SetSortKey.Title=错误
 SortkeyBuilder.DialogTitle.Label.Key=关键字:
-CrosstabFilterModelProvider.ColumnName.GroupLevelOrMeasure=Target
+CrosstabFilterModelProvider.ColumnName.GroupLevelOrMeasure=目标
 CrosstabSortkeyBuilder.DialogTitle.Label.GroupLevel=组级别:
 SortkeyBuilder.DialogTitle.Button.ExpressionBuilder=单击以调用表达式生成器
 SortkeyBuilder.DialogTitle.Label.Direction=方向:
@@ -93,7 +93,7 @@ CrosstabPageGenerator.TabItem.Sorting=排序
 
 CrosstabGeneraPage.ForEmptyCell=对于空单元格，显示:
 CrosstabGeneraPage.FormatOption=格式选项:
-LayoutMeasuresSection.DisplayName=Orientation:
+LayoutMeasuresSection.DisplayName=方向:
 
 
 parameterBinding.title=数据集参数绑定...
@@ -204,7 +204,7 @@ CrosstabSortKeyBuilder.Label.SelRowMemberValue=选择行成员值
 CrosstabFilterConditionBuilder.Label.SelColumnMemberValue=选择列成员值
 CrosstabFilterConditionBuilder.Label.SelRowMemberValue=选择行成员值
 CrosstabFilterConditionBuilder.DialogTitle.Label.GroupLevel=组级别:
-CrosstabFilterConditionBuilder.DialogTitle.Label.Measure=Measure:
+CrosstabFilterConditionBuilder.DialogTitle.Label.Measure=度量:
 SelColumnMemberValue.Column.Level=级别
 SelColumnMemberValue.Column.Value=值
 ChoiceSetFactory.choice.None=无

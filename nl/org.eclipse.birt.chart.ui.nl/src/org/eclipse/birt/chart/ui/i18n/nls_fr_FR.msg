@@ -92,9 +92,9 @@ SimpleHyperlinkBuilder.Label.SelectType=Sélectionner un type de lien hypertexte 
 SimpleHyperlinkBuilder.Label.Location=Emp&lacement :
 SimpleHyperlinkBuilder.Label.Target=&Cible :
 
-CustomPreviewTable.Exception.InvalidColumnIndexNotDefined=Invalid column index {0} specified or columns not yet defined\!
-CustomPreviewTable.Exception.InvalidColumnIndexSpecified=Invalid column index specified\!
-CustomPreviewTable.Exception.InvalidColumnIndexSpecifiedOnly=Invalid column index {0} specified\! Table has only {1} columns\!
-CustomPreviewTable.Exception.RowIndexGreaterThan0=Row index must be greater than or equal to 0\!
+CustomPreviewTable.Exception.InvalidColumnIndexNotDefined=Index de colonne {0} incorrect ou colonnes non définies \!
+CustomPreviewTable.Exception.InvalidColumnIndexSpecified=Index de colonne spécifié incorrect \!
+CustomPreviewTable.Exception.InvalidColumnIndexSpecifiedOnly=Index de colonne {0} incorrect \! La table ne comporte que {1} colonnes \!
+CustomPreviewTable.Exception.RowIndexGreaterThan0=L'index de ligne doit être supérieur ou égal à 0 \!
 
 

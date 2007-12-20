@@ -92,9 +92,9 @@ SimpleHyperlinkBuilder.Label.SelectType=ハイパーテキストの種類 :
 SimpleHyperlinkBuilder.Label.Location=場所(&L) :
 SimpleHyperlinkBuilder.Label.Target=ターゲット(&T) :
 
-CustomPreviewTable.Exception.InvalidColumnIndexNotDefined=Invalid column index {0} specified or columns not yet defined\!
-CustomPreviewTable.Exception.InvalidColumnIndexSpecified=Invalid column index specified\!
-CustomPreviewTable.Exception.InvalidColumnIndexSpecifiedOnly=Invalid column index {0} specified\! Table has only {1} columns\!
-CustomPreviewTable.Exception.RowIndexGreaterThan0=Row index must be greater than or equal to 0\!
+CustomPreviewTable.Exception.InvalidColumnIndexNotDefined=指定した列インデックス {0} が無効か、列がまだ定義されていません。
+CustomPreviewTable.Exception.InvalidColumnIndexSpecified=指定した列インデックスが無効です。
+CustomPreviewTable.Exception.InvalidColumnIndexSpecifiedOnly=指定した列インデックス {0} が無効です。テーブルには {1} 個の列しかありません。
+CustomPreviewTable.Exception.RowIndexGreaterThan0=行インデックスは、0 かそれ以上にしてください。
 
 
