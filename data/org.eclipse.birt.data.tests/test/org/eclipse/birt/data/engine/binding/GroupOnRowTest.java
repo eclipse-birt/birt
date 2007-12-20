@@ -115,7 +115,11 @@ public class GroupOnRowTest extends APITestCase
 		groupOnRowKeyCount(3);
 	}
 	
-	public void testMultiGroupOnRowKeyCount() throws Exception
+	/**
+	 * Currently, don't support multiple GroupOnRowKeyCount
+	 * @throws Exception
+	 */
+/*	public void testMultiGroupOnRowKeyCount() throws Exception
 	{
 		String[] bindingNameGroup = new String[3];
 		bindingNameGroup[0] = "GROUP_NUMBER";
@@ -173,7 +177,8 @@ public class GroupOnRowTest extends APITestCase
 				bindingNameRow,
 				columnStr );
 		testPrint( outputStr );
-	}
+		this.checkOutputFile( );
+	}*/
 	
 	private void groupOnRowKeyCount( double intervalRange ) throws Exception, IOException
 	{
