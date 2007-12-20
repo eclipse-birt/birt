@@ -101,6 +101,18 @@ public class NormalCrosstabCellAdapter extends CrosstabCellAdapter implements IV
 							return false;
 						}
 					}
+					else if ( temp instanceof LevelHandle )
+					{
+						if ( i > 0 )
+						{
+							if ( !( objects[i - 1] instanceof LevelHandle ) )
+								return false;
+							DesignElementHandle container = ( (LevelHandle) temp ).getContainer( );
+							DesignElementHandle preContainer = ( (LevelHandle) objects[i - 1] ).getContainer( );
+							if ( container != preContainer )
+								return false;
+						}
+					}
 					else
 					{
 						return false;

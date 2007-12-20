@@ -64,22 +64,22 @@ public class DimensionHandleDropAdapter implements IDropAdapter
 					return DNDService.LOGIC_FALSE;
 			}
 		}
-		else if ( target instanceof PropertyHandle )
-		{
-			if ( ( (PropertyHandle) target ).getPropertyDefn( )
-					.getName( )
-					.equals( ICrosstabReportItemConstants.COLUMNS_PROP )
-					|| ( (PropertyHandle) target ).getPropertyDefn( )
-							.getName( )
-							.equals( ICrosstabReportItemConstants.ROWS_PROP ) )
-			{
-				return DNDService.LOGIC_TRUE;
-			}
-			else
-			{
-				return DNDService.LOGIC_UNKNOW;
-			}
-		}
+//		else if ( target instanceof PropertyHandle )
+//		{
+//			if ( ( (PropertyHandle) target ).getPropertyDefn( )
+//					.getName( )
+//					.equals( ICrosstabReportItemConstants.COLUMNS_PROP )
+//					|| ( (PropertyHandle) target ).getPropertyDefn( )
+//							.getName( )
+//							.equals( ICrosstabReportItemConstants.ROWS_PROP ) )
+//			{
+//				return DNDService.LOGIC_TRUE;
+//			}
+//			else
+//			{
+//				return DNDService.LOGIC_UNKNOW;
+//			}
+//		}
 		return DNDService.LOGIC_UNKNOW;
 	}
 

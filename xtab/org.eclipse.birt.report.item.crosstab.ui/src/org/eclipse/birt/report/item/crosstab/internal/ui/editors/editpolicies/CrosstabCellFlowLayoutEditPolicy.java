@@ -90,7 +90,9 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 							type,
 							dimensionHandle,
 							afterObj );
-					command.setLevelHandle( (LevelHandle) newObject );
+					command.setLevelHandles( new LevelHandle[]{
+						(LevelHandle) newObject
+					} );
 					return command;
 				}
 
@@ -148,7 +150,20 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 						list,
 						afterObj );
 			}
-
+			else if ( isLevelHandles( newObject ) )
+			{
+				Object[] items = (Object[]) newObject;
+				LevelHandle[] levelHandles = new LevelHandle[items.length];
+				System.arraycopy( items, 0, levelHandles, 0, levelHandles.length );
+				Object afterObj = after == null ? null : after.getModel( );
+				DimensionHandle dimensionHandle = CrosstabAdaptUtil.getDimensionHandle( levelHandles[0] );
+				AddDimensionViewHandleCommand command = new AddDimensionViewHandleCommand( (CrosstabCellAdapter) model,
+						type,
+						dimensionHandle,
+						afterObj );
+				command.setLevelHandles( levelHandles );
+				return command;
+			}
 			else
 			{
 				CrosstabCellCreateCommand command = new CrosstabCellCreateCommand( request.getExtendedData( ) );
@@ -161,6 +176,26 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 		// ReportFlowLayoutEditPolicy.code can't return null,
 		// must call the super method.
 		return super.getCreateCommand( request );
+	}
+
+	private boolean isLevelHandles( Object newObject )
+	{
+		if ( newObject instanceof Object[] )
+		{
+			DesignElementHandle container = null;
+			Object[] items = (Object[]) newObject;
+			for ( int i = 0; i < items.length; i++ )
+			{
+				if ( !( items[i] instanceof LevelHandle ) )
+					return false;
+				if ( container == null )
+					container = ( (LevelHandle) items[i] ).getContainer( );
+				else if ( container != ( (LevelHandle) items[i] ).getContainer( ) )
+					return false;
+			}
+			return true;
+		}
+		return false;
 	}
 
 	private int getAreaType( CrosstabCellAdapter cellAdapter )
@@ -363,10 +398,9 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 					&& ( (Object[]) template ).length > 0 )
 			{
 				Object dragObject = ( (Object[]) template )[0];
-				if ( dragObject instanceof DimensionHandle
-						|| dragObject instanceof MeasureHandle )
+				if ( !( dragObject instanceof DimensionHandle || dragObject instanceof MeasureHandle ) )
 				{
-					isCrossTabElement = true;
+					isCrossTabElement = false;
 				}
 			}
 		}
