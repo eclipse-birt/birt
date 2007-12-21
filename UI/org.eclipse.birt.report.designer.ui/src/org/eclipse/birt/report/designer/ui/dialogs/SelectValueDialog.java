@@ -42,7 +42,7 @@ import com.ibm.icu.util.ULocale;
  * values for selection from the data set. It allows both multiple and single
  * selection. The default is single selection.
  * 
- * @version $Revision: 1.25 $ $Date: 2007/09/21 12:38:24 $
+ * @version $Revision: 1.26 $ $Date: 2007/11/14 09:06:53 $
  */
 public class SelectValueDialog extends BaseDialog
 {
@@ -228,6 +228,55 @@ public class SelectValueDialog extends BaseDialog
 			}
 		}
 		return exprValue;
+	}
+	
+	/**
+	 * Return expression string value as expression required format.
+	 * For example
+	 * 	number type:
+	 * 		Integer value 1 to String value "1"
+	 *  Boolean type:
+	 *      Boolean value true to String value "true"
+	 * 	other types:
+	 * 		String value "abc" to String value "\"abc\""
+	 * 		Date value "2000-10-10" to String value "\"2000-10-10\""
+	 * @return expression value
+	 */
+	public String[] getSelectedExprValues( )
+	{
+		String[] exprValues = null;
+		if ( selectedIndices != null && selectedIndices.length > 0 )
+		{
+			exprValues = new String[selectedIndices.length];
+			for(int i =0; i < selectedIndices.length; i ++)
+			{
+			int firstIndex = selectedIndices[i];
+			Object modelValue = modelValueList.get( firstIndex );
+
+			if ( modelValue == null )
+			{
+				exprValues[i] = "null";
+			}
+			else
+			{
+				String viewerValue = (String) viewerValueList.get( firstIndex );
+				if ( modelValue instanceof Boolean
+						|| modelValue instanceof Integer
+						|| modelValue instanceof Double
+						|| modelValue instanceof BigDecimal )
+				{
+					exprValues[i] = viewerValue;
+				}
+				else
+				{
+					exprValues[i] = "\""
+							+ JavascriptEvalUtil.transformToJsConstants( viewerValue )
+							+ "\"";
+				}
+			}
+			}
+		}
+		return exprValues;
 	}
 	
 	/**

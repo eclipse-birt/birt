@@ -797,6 +797,13 @@ public class HighlightRuleBuilder extends BaseDialog
 			return;
 		}
 		String value = comboWidget.getItem( selectionIndex );
+		
+		boolean isAddClick = false;
+		if ( tableViewer != null
+				&& ( addBtn != null && ( !addBtn.isDisposed( ) ) ) )
+		{
+			isAddClick = true;
+		}		
 
 		for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 		{
@@ -813,7 +820,7 @@ public class HighlightRuleBuilder extends BaseDialog
 
 		if ( value != null )
 		{
-			String newValue = null;
+			String newValues[] = new String[1];
 			if ( value.equals( ( actions[0] ) ) )
 			{
 				if ( bindingName != null )
@@ -830,10 +837,14 @@ public class HighlightRuleBuilder extends BaseDialog
 						{
 							dialog.setBindingParams( bindingParams );
 						}
+						if(isAddClick)
+						{
+							dialog.setMultipleSelection(true);
+						}
 						if ( dialog.open( ) == IDialogConstants.OK_ID )
 						{
 							returnValue = true;
-							newValue = dialog.getSelectedExprValue( );
+							newValues = dialog.getSelectedExprValues( );
 						}
 					}
 					catch ( Exception ex )
@@ -861,7 +872,7 @@ public class HighlightRuleBuilder extends BaseDialog
 						if ( dialog.open( ) == IDialogConstants.OK_ID )
 						{
 							returnValue = true;
-							newValue = dialog.getSelectedExprValue( );
+							newValues = dialog.getSelectedExprValues( );
 						}
 
 					}
@@ -900,30 +911,42 @@ public class HighlightRuleBuilder extends BaseDialog
 				if ( dialog.open( ) == IDialogConstants.OK_ID )
 				{
 					returnValue = true;
-					newValue = dialog.getResult( );
+					newValues[0] = dialog.getResult( );
 				}
 			}
 			else if ( selectionIndex > 3 )
 			{
-				newValue = "params[\"" + value + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
+				newValues[0] = "params[\"" + value + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			if ( returnValue )
 			{
-				comboWidget.setText( DEUtil.resolveNull( newValue ) );
-				if ( tableViewer != null
-						&& ( addBtn != null && ( !addBtn.isDisposed( ) ) ) )
+				if(newValues.length == 1)
 				{
-					if ( valueList.indexOf( DEUtil.resolveNull( newValue ) ) < 0 )
+					comboWidget.setText(DEUtil.resolveNull( newValues[0] ));
+					if(valueList.indexOf( DEUtil.resolveNull( newValues[0] ) ) >= 0)
 					{
-						valueList.add( DEUtil.resolveNull( newValue ) );
+						addBtn.setEnabled( false );
+					}
+				}
+				
+				if ( isAddClick )
+				{
+					boolean change = false;
+					for(int i = 0; i < newValues.length; i ++)
+					{
+						if ( valueList.indexOf( DEUtil.resolveNull( newValues[i] ) ) < 0 )
+						{
+							valueList.add(  DEUtil.resolveNull( newValues[i] ) );
+							change = true;
+						}					
+					}
+					if(change)
+					{
 						tableViewer.refresh( );
 						updateButtons( );
 						addExpressionValue.setFocus( );
 					}
-					else
-					{
-						addBtn.setEnabled( false );
-					}
+
 				}
 			}
 		}
