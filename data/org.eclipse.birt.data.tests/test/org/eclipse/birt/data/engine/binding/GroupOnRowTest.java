@@ -116,7 +116,8 @@ public class GroupOnRowTest extends APITestCase
 	}
 	
 	/**
-	 * Currently, don't support multiple GroupOnRowKeyCount
+	 * Currently, don't support any other group within a rowKeyCountGroup.
+	 * It's because data rows in a  rowKeyCountGroup may be not sorted according to the current group model
 	 * @throws Exception
 	 */
 /*	public void testMultiGroupOnRowKeyCount() throws Exception
