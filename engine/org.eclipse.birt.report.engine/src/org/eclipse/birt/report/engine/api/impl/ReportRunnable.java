@@ -167,9 +167,13 @@ public class ReportRunnable implements IReportRunnable
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.engine.api.IReportRunnable#setDesignHandle(org.eclipse.birt.report.model.api.ReportDesignHandle)
 	 */
-	public void setDesignHandle(ReportDesignHandle handle) {
-		this.designHandle = handle;
-		this.reportIR = null;
+	public void setDesignHandle(ReportDesignHandle handle)
+	{
+		synchronized ( this )
+		{
+			this.designHandle = handle;
+			this.reportIR = null;
+		}
 	}
 	
 	/**
@@ -186,10 +190,6 @@ public class ReportRunnable implements IReportRunnable
 	
 	public Report getReportIR( )
 	{
-		if (reportIR != null)
-		{
-			return reportIR;
-		}
 		synchronized ( this )
 		{
 			if ( reportIR != null )
@@ -197,8 +197,9 @@ public class ReportRunnable implements IReportRunnable
 				return reportIR;
 			}
 			reportIR = new ReportParser( ).parse( designHandle );
+			return reportIR;
 		}
-		return reportIR;
+
 	}
 	
 	public void setReportIR( Report reportIR )
