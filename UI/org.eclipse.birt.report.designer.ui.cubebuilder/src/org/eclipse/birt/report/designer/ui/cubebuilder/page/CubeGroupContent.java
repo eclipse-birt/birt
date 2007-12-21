@@ -11,9 +11,13 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.page;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.util.mediator.request.IRequestConvert;
+import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.RenameInputDialog;
@@ -91,6 +95,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
 public class CubeGroupContent extends Composite implements Listener
@@ -341,6 +346,22 @@ public class CubeGroupContent extends Composite implements Listener
 					}
 				}
 			}
+		} );
+		
+		groupViewer.getTree( ).addSelectionListener( new SelectionListener( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				// Do nothing
+
+			}
+
+			// Handle double click event
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+				if(editBtn.isEnabled( ))handleEditEvent( );
+			}
+
 		} );
 
 		final DragSource fieldsSource = new DragSource( groupViewer.getTree( ),
