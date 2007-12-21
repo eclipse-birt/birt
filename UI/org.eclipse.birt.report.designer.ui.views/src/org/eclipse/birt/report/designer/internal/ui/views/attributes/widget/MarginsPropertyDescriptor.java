@@ -12,27 +12,23 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
 import java.math.BigDecimal;
-import java.util.Timer;
-import java.util.TimerTask;
 
+import org.eclipse.birt.report.designer.internal.ui.swt.custom.CSpinner;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.MarginsPropertyDescriptorProvider;
+import org.eclipse.birt.report.designer.ui.widget.IValueChangedListener;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Spinner;
 
 /**
  * SpinnerPropertyDescriptor manages Spinner choice control.
@@ -40,7 +36,7 @@ import org.eclipse.swt.widgets.Spinner;
 public class MarginsPropertyDescriptor extends PropertyDescriptor
 {
 
-	protected Spinner spinner;
+	protected CSpinner spinner;
 
 	protected CCombo combo;
 
@@ -48,12 +44,6 @@ public class MarginsPropertyDescriptor extends PropertyDescriptor
 
 	private boolean isKeyPressed = false;
 
-	private Timer timer;
-
-	/**
-	 * @param propertyProcessor
-	 *            The property handle
-	 */
 
 	public MarginsPropertyDescriptor( boolean formStyle )
 	{
@@ -79,9 +69,7 @@ public class MarginsPropertyDescriptor extends PropertyDescriptor
 			return;
 		String spinnerValue = provider.getMeasureValue( );
 		BigDecimal bigValue = new BigDecimal( spinnerValue );
-
-		bigValue = bigValue.movePointRight( spinner.getDigits( ) );
-		spinner.setSelection( bigValue.intValue( ) );
+		spinner.setSelection( bigValue.doubleValue( ) );
 
 		if ( combo.getItems( ) == null || combo.getItemCount( ) == 0 )
 			combo.setItems( provider.getUnits( ) );
@@ -138,59 +126,23 @@ public class MarginsPropertyDescriptor extends PropertyDescriptor
 
 		if ( isFormStyle( ) )
 			spinner = FormWidgetFactory.getInstance( )
-					.createSpinner( container );
+					.createCSpinner( container );
 		else
-			spinner = new Spinner( container, SWT.BORDER );
-		spinner.setDigits( 2 );
-		spinner.setMaximum( 10000 );
-		spinner.setMinimum( -10000 );
-		spinner.setIncrement( 25 );
-		spinner.setSelection( 0 );
-		spinner.addSelectionListener( new SelectionListener( ) {
+			spinner = new CSpinner( container, SWT.BORDER );
+		spinner.setMaximum( 100.00 );
+		spinner.setMinimum( -100.00 );
+		spinner.setStep( 0.25 );
+		spinner.setSelection( 0.00 );
+		spinner.setFormatPattern( "0.00" );
+		spinner.addValueChangeListener( new IValueChangedListener(){
 
-			public void widgetDefaultSelected( SelectionEvent e )
+			public void valueChanged( double newValue )
 			{
 				handleSelectedEvent( );
 			}
-
-			public void widgetSelected( SelectionEvent e )
-			{
-				handleSelectedEvent( );
-			}
+			
 		} );
 
-		spinner.addKeyListener( new KeyListener( ) {
-
-			public void keyPressed( KeyEvent e )
-			{
-				isKeyPressed = true;
-				timer = new Timer( );
-				// Handle the input digits after 1200 million sec.
-				
-				timer.schedule( new TimerTask( ) {
-
-					public void run( )
-					{
-						spinner.getDisplay( ).asyncExec( new Runnable( ) {
-
-							public void run( )
-							{
-								spinner.setEnabled( false );
-								handleSelectedEvent( );
-								spinner.setEnabled( true );
-							}
-						} );
-					}
-				}, 1200 );
-			}
-
-			public void keyReleased( KeyEvent e )
-			{
-				// TODO Auto-generated method stub
-
-			}
-
-		} );
 
 		if ( !isFormStyle( ) )
 			combo = new CCombo( container, SWT.BORDER | SWT.READ_ONLY );
@@ -220,16 +172,8 @@ public class MarginsPropertyDescriptor extends PropertyDescriptor
 
 	protected void handleSelectedEvent( )
 	{
-		if ( isKeyPressed == true )
-		{
-			isKeyPressed = false;
-			return;
-		}
 
-		BigDecimal bigValue = new BigDecimal( spinner.getSelection( ) );
-		bigValue = bigValue.movePointLeft( spinner.getDigits( ) );
-
-		String value = bigValue.toString( );
+		String value = spinner.getText( );
 
 		if ( provider.getUnit( combo.getText( ) ) != null )
 			value += provider.getUnit( combo.getText( ) );
