@@ -139,6 +139,8 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 	private static final String NEW_STYLE_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.NewStyle" ); //$NON-NLS-1$
 
+	private IMenuListener proxy;
+	
 	/** the action registry */
 	private final ActionRegistry actionRegistry;
 
@@ -214,6 +216,12 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 */
 	public void buildContextMenu( IMenuManager menuManager )
 	{
+		if (proxy != null)
+		{
+			proxy.menuAboutToShow( menuManager );
+			proxy = null;
+			return;
+		}
 		GEFActionConstants.addStandardActionGroups( menuManager );
 
 		Object firstSelectedElement = getFirstElement( );
@@ -1238,6 +1246,18 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			subMenu.add( groupMenu );
 		}
 		menuManager.appendToGroup( group_name, subMenu );
+	}
+
+	
+	public IMenuListener getProxy( )
+	{
+		return proxy;
+	}
+
+	
+	public void setProxy( IMenuListener proxy )
+	{
+		this.proxy = proxy;
 	}
 
 }

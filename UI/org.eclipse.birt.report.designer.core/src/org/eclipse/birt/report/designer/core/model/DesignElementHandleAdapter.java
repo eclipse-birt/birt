@@ -179,6 +179,16 @@ public abstract class DesignElementHandleAdapter
 		CommandStack stack = getModuleHandle( ).getCommandStack( );
 		stack.commit( );
 	}
+	
+	
+	/**
+	 * rollback the transaction;
+	 */
+	public void rollBack()
+	{
+		CommandStack stack = getModuleHandle( ).getCommandStack( );
+		stack.rollbackAll( );
+	}
 
 	/**
 	 * Get the padding of the current element.

@@ -25,7 +25,7 @@ import org.eclipse.gef.handles.AbstractHandle;
  * The class is the all ReportelemenEditPart base class.
  *  
  */
-public abstract class AbstractGuideHandle extends AbstractHandle
+public abstract class AbstractGuideHandle extends AbstractHandle implements MouseMotionListener
 {
 
 	private boolean isInGuideHandle = false;
@@ -34,40 +34,42 @@ public abstract class AbstractGuideHandle extends AbstractHandle
 	public AbstractGuideHandle( GraphicalEditPart owner, Locator loc )
 	{
 		super(owner, loc);
-		addMouseMotionListener( new MouseMotionListener.Stub( )
-		{
-
-			public void mouseEntered( MouseEvent me )
-			{
-				//System.out.println( "handle enter" );
-				isInGuideHandle = true;
-				getReportElementEditPart().addGuideFeedBack();
-			}
-
-			public void mouseExited( MouseEvent me )
-			{
-				//System.out.println( "handle  exit" );
-				isInGuideHandle = false;
-				getReportElementEditPart().delayRemoveGuideFeedBack();
-			}
-
-			public void mouseHover( MouseEvent me )
-			{
-				//System.out.println( "handle hover" );
-				isInGuideHandle = true;
-				getReportElementEditPart().addGuideFeedBack();
-			}
-
-			public void mouseMoved( MouseEvent me )
-			{
-				//System.out.println( "handle move" );
-				isInGuideHandle = true;
-				
-				//addGuideFeedBack();
-			}
-
-		} );
+		addMouseMotionListener( this);
 		getLocator().relocate(this);
+		
+	}
+	
+	public void mouseEntered( MouseEvent me )
+	{
+		//System.out.println( "handle enter" );
+		isInGuideHandle = true;
+		getReportElementEditPart().addGuideFeedBack();
+	}
+
+	public void mouseExited( MouseEvent me )
+	{
+		//System.out.println( "handle  exit" );
+		isInGuideHandle = false;
+		getReportElementEditPart().delayRemoveGuideFeedBack();
+	}
+
+	public void mouseHover( MouseEvent me )
+	{
+		//System.out.println( "handle hover" );
+		isInGuideHandle = true;
+		getReportElementEditPart().addGuideFeedBack();
+	}
+
+	public void mouseMoved( MouseEvent me )
+	{
+		//System.out.println( "handle move" );
+		isInGuideHandle = true;
+		
+		//addGuideFeedBack();
+	}
+	
+	public void mouseDragged(MouseEvent me)
+	{
 		
 	}
 	
