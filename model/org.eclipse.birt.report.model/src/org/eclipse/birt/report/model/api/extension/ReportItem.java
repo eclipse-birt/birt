@@ -199,9 +199,9 @@ public class ReportItem
 	 * 
 	 * @see org.eclipse.birt.report.model.api.extension.ICompatibleReportItem#checkCompatibility()
 	 */
-	public List checkCompatibility( )
+	public CompatibilityStatus checkCompatibility( )
 	{
-		return Collections.EMPTY_LIST;
+		return new CompatibilityStatus( );
 	}
 
 	/*
@@ -223,15 +223,4 @@ public class ReportItem
 	{
 		// do nothing by default
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.api.extension.ICompatibleReportItem#hasCompatibilities()
-	 */
-	public boolean hasCompatibilities( )
-	{
-		return false;
-	}
-
 }

@@ -50,18 +50,9 @@ public interface ICompatibleReportItem
 
 	/**
 	 * Checks the parser compatibilities for this report item and return the
-	 * error or warning list. Each item in the returned list is instance of
-	 * <code>SemanticException</code>.
+	 * status.
 	 * 
 	 * @return
 	 */
-	public List checkCompatibility( );
-
-	/**
-	 * Determines whether this report item does the compatibilities or not.
-	 * 
-	 * @return true if this report item does compatibilities, otherwise false
-	 */
-	public boolean hasCompatibilities( );
-
+	public CompatibilityStatus checkCompatibility( );
 }

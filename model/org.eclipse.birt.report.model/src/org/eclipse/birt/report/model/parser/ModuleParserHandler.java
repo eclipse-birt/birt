@@ -31,6 +31,7 @@ import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.ReportItem;
+import org.eclipse.birt.report.model.elements.ExtendedItem.StatusInfo;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.NamePropertyType;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -326,40 +327,33 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 		// do some parser compatibility about extended elements
 		if ( !extendedItemList.isEmpty( ) )
 		{
-			handleExtendedItemCompatibility( );
+			;
 			module.getVersionManager( ).setHasExtensionCompatibilities(
-					hasCompatibilities( ) );
+					handleExtendedItemCompatibility( ) );
 		}
 	}
 
-	private void handleExtendedItemCompatibility( )
+	private boolean handleExtendedItemCompatibility( )
 	{
 		assert !module.isReadOnly( );
 
 		List errorList = module.getAllExceptions( );
+		boolean hasCompatibilities = false;
 		for ( int i = 0; i < extendedItemList.size( ); i++ )
 		{
 			ExtendedItem element = (ExtendedItem) extendedItemList.get( i );
-			List error = element.checkCompatibility( module );
-			errorList.addAll( error );
+			StatusInfo status = element.checkCompatibility( module );
+			assert status != null;
+			errorList.addAll( status.getErrors( ) );
+			if ( !hasCompatibilities && status.hasCompatibilities( ) )
+				hasCompatibilities = true;
 		}
 
 		// clear the activity stack and save state
 		module.getActivityStack( ).flush( );
 		module.setSaveState( 0 );
-	}
 
-	private boolean hasCompatibilities( )
-	{
-		for ( int i = 0; i < extendedItemList.size( ); i++ )
-		{
-			ExtendedItem element = (ExtendedItem) extendedItemList.get( i );
-			boolean hasCompatibilities = element.hasCompatibilities( module );
-			if ( hasCompatibilities )
-				return true;
-		}
-
-		return false;
+		return hasCompatibilities;
 	}
 
 	/**

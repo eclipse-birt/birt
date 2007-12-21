@@ -11,12 +11,14 @@
 
 package org.eclipse.birt.report.model.elements;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.extension.CompatibilityStatus;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.ICompatibleReportItem;
 import org.eclipse.birt.report.model.api.extension.IPropertyDefinition;
@@ -36,7 +38,6 @@ import org.eclipse.birt.report.model.extension.PeerExtensibilityProviderFactory;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.util.ContentIterator;
-import org.eclipse.birt.report.model.util.LevelContentIterator;
 
 /**
  * This class represents an extended item element. The extended report item
@@ -611,10 +612,18 @@ public class ExtendedItem extends ReportItem
 	 * @param module
 	 * @return
 	 */
-	public List checkCompatibility( Module module )
+	public StatusInfo checkCompatibility( Module module )
 	{
+
 		// check this element itself
-		List errorList = doCheck( module );
+		StatusInfo status = doCheck( module );
+		List errors = new ArrayList( );
+		boolean hasCompatibilities = false;
+		if ( status != null )
+		{
+			errors.addAll( status.getErrors( ) );
+			hasCompatibilities = status.hasCompatibilities( );
+		}
 
 		// if this extended-item has parent, then check all virtual children
 		if ( getExtendsElement( ) != null )
@@ -625,86 +634,91 @@ public class ExtendedItem extends ReportItem
 				DesignElement content = (DesignElement) iter.next( );
 				if ( content instanceof ExtendedItem )
 				{
-					List error = ( (ExtendedItem) content ).doCheck( module );
-					errorList.addAll( error );
+					status = ( (ExtendedItem) content ).doCheck( module );
+					if ( status != null )
+					{
+						errors.addAll( status.getErrors( ) );
+						if ( !hasCompatibilities && status.hasCompatibilities( ) )
+							hasCompatibilities = true;
+					}
 				}
 			}
 		}
 
-		return errorList;
+		return new StatusInfo( errors, hasCompatibilities );
 	}
 
-	private List doCheck( Module module )
+	private StatusInfo doCheck( Module module )
 	{
 		if ( !provider.needCheckCompatibility( ) )
-			return Collections.EMPTY_LIST;
+			return new StatusInfo( Collections.EMPTY_LIST, false );
 		try
 		{
 			initializeReportItem( module );
 		}
 		catch ( ExtendedElementException e )
 		{
-			return Collections.EMPTY_LIST;
+			return new StatusInfo( Collections.EMPTY_LIST, false );
 		}
 		IReportItem item = getExtendedElement( );
 
 		if ( item instanceof ICompatibleReportItem )
 		{
-			List error = ( (ICompatibleReportItem) item ).checkCompatibility( );
-			return error;
+			CompatibilityStatus status = ( (ICompatibleReportItem) item )
+					.checkCompatibility( );
+			boolean hasCompatibilities = false;
+			List errors = Collections.EMPTY_LIST;
+			if ( status != null )
+			{
+				errors = status.getErrors( );
+				hasCompatibilities = status.getStatusType( ) == CompatibilityStatus.OK_TYPE
+						? false
+						: true;
+			}
+			return new StatusInfo( errors, hasCompatibilities );
 		}
 
-		return Collections.EMPTY_LIST;
+		return new StatusInfo( Collections.EMPTY_LIST, false );
 	}
 
 	/**
-	 * Checks whether this extended item and all its children has some
-	 * compatibilities.
-	 * 
-	 * @param module
-	 * @return
+	 * Inner class to record the check result.
 	 */
-	public boolean hasCompatibilities( Module module )
+	public class StatusInfo
 	{
-		boolean hasCompatibilities = false;
 
-		// check this element itself
-		try
-		{
-			initializeReportItem( module );
-		}
-		catch ( ExtendedElementException e )
-		{
-			// do nothing
-		}
-		IReportItem item = getExtendedElement( );
+		private List errors;
+		private boolean hasCompatibilities = false;
 
-		if ( item instanceof ICompatibleReportItem )
+		/**
+		 * Constructs the status information with the error list and
+		 * hasCompatibilities status.
+		 * 
+		 * @param errors
+		 * @param hasCompatibilities
+		 */
+		public StatusInfo( List errors, boolean hasCompatibilities )
 		{
-			hasCompatibilities = ( (ICompatibleReportItem) item )
-					.hasCompatibilities( );
-			if ( hasCompatibilities )
-				return true;
+			this.errors = errors;
+			this.hasCompatibilities = hasCompatibilities;
 		}
 
-		// if this extended-item has parent, then check all virtual children
-		if ( getExtendsElement( ) != null )
+		/**
+		 * 
+		 * @return
+		 */
+		public List getErrors( )
 		{
-			LevelContentIterator iter = new LevelContentIterator( module, this,
-					1 );
-			while ( iter.hasNext( ) )
-			{
-				DesignElement content = (DesignElement) iter.next( );
-				if ( content instanceof ExtendedItem )
-				{
-					hasCompatibilities = ( (ExtendedItem) content )
-							.hasCompatibilities( module );
-					if ( hasCompatibilities )
-						return true;
-				}
-			}
+			return this.errors == null ? Collections.EMPTY_LIST : errors;
 		}
 
-		return false;
+		/**
+		 * 
+		 * @return
+		 */
+		public boolean hasCompatibilities( )
+		{
+			return this.hasCompatibilities;
+		}
 	}
 }
