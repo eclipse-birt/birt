@@ -202,7 +202,12 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 					else
 					{
 						tag.addAttribute( HTMLAttribute.HREF, NO_OP_JAVASCRIPT );
-						tag.addAttribute( htmlAttr, getJsURLRedirect( uv ) );
+						String value = getJsURLRedirect( uv );
+						if ( htmlAttr.equals( HTMLAttribute.ONFOCUS ) )
+						{
+							value = "this.blur();" + value;//$NON-NLS-1$
+						}
+						tag.addAttribute( htmlAttr, value );
 					}
 					return true;
 				case ActionType.SHOW_TOOLTIP :
