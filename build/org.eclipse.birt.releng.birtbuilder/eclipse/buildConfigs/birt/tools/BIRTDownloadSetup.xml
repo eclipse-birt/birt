@@ -177,12 +177,14 @@
 
 		<!-- Define the Orbit project jars -->
 		<patternset id="orbit.include.jars">
-			<include name="org.apache.xerces_*.jar"/>
+			<include name="org.apache.xerces_2.9.0*.jar"/>
 			<include name="org.apache.xml.resolver_*.jar"/>
 			<include name="org.apache.batik.*jar"/>
 			<include name="org.w3c.dom.svg_*.jar"/>
 			<include name="org.w3c.dom.smil_*.jar"/>
 			<include name="org.w3c.css.sac_*.jar"/>
+			<include name="javax.xml_*.jar"/>
+			<include name="org.apache.xml.serializer_1.2.0*.jar"/>
 		</patternset>
 
 		<!--Exclude jar file pattern set-->
