@@ -165,10 +165,12 @@ public class JavascriptEvalUtil
      */
     public static Object convertToJavascriptValue( Object value, Scriptable scope  )
     {
-    	if (  value instanceof java.sql.Time )
-    	{
-    		return value;
-    	}
+    	// never convert java.sql.Time and java.sql.Date to java script's
+		// NativeDate
+		if ( value instanceof java.sql.Time || value instanceof java.sql.Date )
+		{
+			return value;
+		}
     	if ( value instanceof Date)
     	{
     		// Wrap in Javascript native Date class
