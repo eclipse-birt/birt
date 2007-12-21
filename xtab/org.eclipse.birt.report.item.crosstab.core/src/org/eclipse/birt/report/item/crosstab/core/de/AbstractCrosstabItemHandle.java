@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.extension.CompatibilityStatus;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.extension.ReportItem;
@@ -44,7 +45,9 @@ public class AbstractCrosstabItemHandle extends ReportItem implements
 	/**
 	 * Log instance.
 	 */
-	protected static Logger logger = Logger.getLogger( AbstractCrosstabItemHandle.class.getName( ) );
+	protected static final Logger logger = Logger.getLogger( AbstractCrosstabItemHandle.class.getName( ) );
+
+	protected static final CompatibilityStatus COMP_OK_STATUS = new CompatibilityStatus( );
 
 	/**
 	 * 

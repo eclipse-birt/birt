@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.item.crosstab.core.de;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -31,6 +30,7 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.extension.CompatibilityStatus;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
@@ -44,6 +44,8 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 		ICrosstabReportItemConstants,
 		ICrosstabConstants
 {
+
+	int compStatus = 0;
 
 	/**
 	 * 
@@ -1033,13 +1035,19 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	 * 
 	 * @see org.eclipse.birt.report.model.api.extension.ReportItem#checkCompatibility()
 	 */
-	public List checkCompatibility( )
+	public CompatibilityStatus checkCompatibility( )
 	{
-		List errorList = new ArrayList( 1 );
+		compStatus = checkVersion( handle.getExtensionVersion( ) );
 
 		// update old version
-		if ( checkVersion( handle.getExtensionVersion( ) ) < 0 )
+		if ( compStatus < 0 )
 		{
+			CompatibilityStatus status = new CompatibilityStatus( );
+
+			List errorList = new ArrayList( 2 );
+
+			status.setStatusType( CompatibilityStatus.CONVERT_COMPATIBILITY_TYPE );
+
 			try
 			{
 				handle.setExtensionVersion( CROSSTAB_CURRENT_VERSION );
@@ -1066,8 +1074,20 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 					}
 				}
 			}
+
+			if ( errorList.size( ) > 0 )
+			{
+				status.setErrors( errorList );
+			}
+
+			return status;
+		}
+		else if ( compStatus > 0 )
+		{
+			return new CompatibilityStatus( null,
+					CompatibilityStatus.NOT_SUPPORTED_TYPE );
 		}
 
-		return errorList.size( ) == 0 ? Collections.EMPTY_LIST : errorList;
+		return COMP_OK_STATUS;
 	}
 }

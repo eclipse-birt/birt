@@ -30,6 +30,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.extension.CompatibilityStatus;
 import org.eclipse.birt.report.model.api.extension.IllegalContentInfo;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 
@@ -385,12 +386,10 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements
 	 * 
 	 * @see org.eclipse.birt.report.model.api.extension.ReportItem#checkCompatibility()
 	 */
-	public List checkCompatibility( )
+	public CompatibilityStatus checkCompatibility( )
 	{
-		//String version = ( (ExtendedItemHandle) getCrosstab( ).getModelHandle( ) ).getExtensionVersion( );
-
 		// update old version
-		//if ( checkVersion( version ) < 0 )
+		if ( getCrosstab( ).compStatus < 0 )
 		{
 			ExtendedItemHandle exhandle = (ExtendedItemHandle) getModelHandle( );
 
@@ -410,8 +409,12 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements
 
 					if ( oldDetail != null )
 					{
+						CompatibilityStatus status = new CompatibilityStatus( );
+
 						try
 						{
+							status.setStatusType( CompatibilityStatus.CONVERT_COMPATIBILITY_TYPE );
+
 							ExtendedItemHandle newDetail = CrosstabExtendedItemFactory.createAggregationCell( getModuleHandle( ) );
 
 							handle.getPropertyHandle( DETAIL_PROP )
@@ -431,13 +434,15 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements
 						{
 							List errorList = new ArrayList( 1 );
 							errorList.add( e );
-							return errorList;
+							status.setErrors( errorList );
 						}
+
+						return status;
 					}
 				}
 			}
 		}
 
-		return Collections.EMPTY_LIST;
+		return COMP_OK_STATUS;
 	}
 }
