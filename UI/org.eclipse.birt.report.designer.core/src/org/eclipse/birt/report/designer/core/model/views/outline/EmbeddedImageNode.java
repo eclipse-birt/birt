@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.core.model.views.outline;
 
-
 import org.eclipse.birt.report.model.api.ModuleHandle;
 
 /**
@@ -25,6 +24,7 @@ public class EmbeddedImageNode
 
 	/**
 	 * Constructor
+	 * 
 	 * @param reportHandle
 	 */
 	public EmbeddedImageNode( ModuleHandle reportHandle )
@@ -34,6 +34,7 @@ public class EmbeddedImageNode
 
 	/**
 	 * Get container of embedded images.
+	 * 
 	 * @return report design handle, which contains embedded images.
 	 */
 	public ModuleHandle getReportDesignHandle( )
@@ -41,7 +42,9 @@ public class EmbeddedImageNode
 		return reportHandle;
 	}
 
-	/** Get array of embedded images.
+	/**
+	 * Get array of embedded images.
+	 * 
 	 * @return Array of embedded images.
 	 */
 	public Object[] getChildren( )
@@ -49,7 +52,9 @@ public class EmbeddedImageNode
 		return reportHandle.getVisibleImages( ).toArray( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	public boolean equals( Object arg0 )
@@ -63,5 +68,13 @@ public class EmbeddedImageNode
 			return ( (EmbeddedImageNode) arg0 ).reportHandle == reportHandle;
 		}
 		return false;
+	}
+
+	public int hashCode( )
+	{
+		int hashCode = 13;
+		if(reportHandle!=null)
+			hashCode +=  reportHandle.hashCode( ) * 7;
+		return hashCode;
 	}
 }

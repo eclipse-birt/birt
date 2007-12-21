@@ -67,4 +67,12 @@ public class LibraryNode
 		}
 		return false;
 	}
+	
+	public int hashCode( )
+	{
+		int hashCode = 13;
+		if(reportHandle!=null)
+			hashCode +=  reportHandle.hashCode( ) * 7;
+		return hashCode;
+	}
 }

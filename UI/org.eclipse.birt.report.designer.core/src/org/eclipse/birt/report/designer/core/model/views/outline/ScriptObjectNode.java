@@ -57,5 +57,13 @@ public class ScriptObjectNode implements IScriptTreeNode
 		}
 		return false;
 	}
+	
+	public int hashCode( )
+	{
+		int hashCode = 13;
+		if(parent!=null)
+			hashCode +=  parent.hashCode( ) * 7;
+		return hashCode;
+	}
 
 }

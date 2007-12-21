@@ -64,4 +64,12 @@ public class ScriptsNode implements IScriptTreeNode
 		}
 		return false;
 	}
+	
+	public int hashCode( )
+	{
+		int hashCode = 13;
+		if(reportDesignHandle!=null)
+			hashCode +=  reportDesignHandle.hashCode( ) * 7;
+		return hashCode;
+	}
 }
