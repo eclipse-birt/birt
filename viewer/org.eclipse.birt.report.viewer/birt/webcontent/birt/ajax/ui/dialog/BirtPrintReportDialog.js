@@ -337,7 +337,9 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			}
 			else
 			{
-				this.__printWindow.print();
+				// defer call to let the window draw its content
+				// (Firefox Bugzilla bug 213666)				
+				this.__printWindow.setTimeout( "window.print();", 0 );
 			}
 		}
 		catch ( error )
