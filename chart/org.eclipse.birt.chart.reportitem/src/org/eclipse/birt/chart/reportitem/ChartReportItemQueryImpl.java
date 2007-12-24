@@ -877,12 +877,14 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 					// Set own group
 					strOrthoAgg = grouping.getAggregateExpression( );
 				}
-				else
+				
+				// Set base group
+				if ( strOrthoAgg == null || "".equals( strOrthoAgg ) ) //$NON-NLS-1$
 				{
-					// Set base group
 					strOrthoAgg = baseAggExp;
 				}
 			}
+			
 			return strOrthoAgg;
 		}
 		
@@ -949,7 +951,6 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 								.getDataDefinition( )
 								.get( 0 );
 						if ( sortKey.equals( q.getDefinition( ) ) )
-							;
 						{
 							aggFunction = sd.getGrouping( )
 									.getAggregateExpression( );
@@ -960,7 +961,7 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 
 			}
 			
-			if( aggFunction == null ) {
+			if( aggFunction == null || "".equals( aggFunction )) { //$NON-NLS-1$
 				return baseAggFunExpr;
 			}
 			

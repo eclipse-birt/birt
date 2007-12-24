@@ -371,7 +371,7 @@ public class GroupingLookupHelper
 
 		// PROJECT THE EXPRESSION ASSOCIATED WITH THE BASE SERIES DEFINITION
 		SeriesDefinition baseSD = (SeriesDefinition) elSD.get( 0 );		
-		this.strBaseAggExp = getAggregationExpression( baseSD );
+		this.strBaseAggExp = getBaseAggregationExpression( baseSD );
 		addLookupForBaseSeries( baseSD );
 
 		// PROJECT ALL DATA DEFINITIONS ASSOCIATED WITH THE ORTHOGONAL SERIES
@@ -395,7 +395,7 @@ public class GroupingLookupHelper
 
 		// PROJECT THE EXPRESSION ASSOCIATED WITH THE BASE SERIES DEFINITION
 		SeriesDefinition baseSD = (SeriesDefinition) elSD.get( 0 );
-		this.strBaseAggExp = getAggregationExpression( baseSD );
+		this.strBaseAggExp = getBaseAggregationExpression( baseSD );
 		addLookupForBaseSeries( baseSD );
 
 		// PROJECT ALL DATA DEFINITIONS ASSOCIATED WITH THE ORTHOGONAL SERIES
@@ -446,20 +446,20 @@ public class GroupingLookupHelper
 		return sd.getSortKey( ).getDefinition( );
 	}
 	
-	static String getAggregationExp( SeriesDefinition baseSD,
-			SeriesDefinition orthoSD )
-	{
-		boolean bBaseGroupEnabled = baseSD.getGrouping( ).isEnabled( );
-		String strOrthoAgg = null;
-		if ( bBaseGroupEnabled )
-		{
-			String strBaseAgg = baseSD.getGrouping( ).getAggregateExpression( );
-			boolean bOrthoGroupEnabled = orthoSD.getGrouping( ).isEnabled( );
-			strOrthoAgg = bOrthoGroupEnabled ? orthoSD.getGrouping( )
-					.getAggregateExpression( ) : strBaseAgg;
-		}
-		return strOrthoAgg;
-	}
+//	static String getAggregationExp( SeriesDefinition baseSD,
+//			SeriesDefinition orthoSD )
+//	{
+//		boolean bBaseGroupEnabled = baseSD.getGrouping( ).isEnabled( );
+//		String strOrthoAgg = null;
+//		if ( bBaseGroupEnabled )
+//		{
+//			String strBaseAgg = baseSD.getGrouping( ).getAggregateExpression( );
+//			boolean bOrthoGroupEnabled = orthoSD.getGrouping( ).isEnabled( );
+//			strOrthoAgg = bOrthoGroupEnabled ? orthoSD.getGrouping( )
+//					.getAggregateExpression( ) : strBaseAgg;
+//		}
+//		return strOrthoAgg;
+//	}
 
 	/**
 	 * Simply gets aggregation expressions for the series definitions. If
@@ -470,7 +470,7 @@ public class GroupingLookupHelper
 	 * @return aggregation expressions for the series definitions, or null if
 	 *         grouping is disabled.
 	 */
-	static String getAggregationExpression( SeriesDefinition sd )
+	static String getBaseAggregationExpression( SeriesDefinition sd )
 	{
 		SeriesGrouping grouping = sd.getGrouping( );
 		if ( grouping.isSetEnabled( ) && grouping.isEnabled( ) )
@@ -503,9 +503,10 @@ public class GroupingLookupHelper
 				// Set own group
 				strOrthoAgg = grouping.getAggregateExpression( );
 			}
-			else
+			
+			// Set base group
+			if ( strOrthoAgg == null || "".equals( strOrthoAgg ) ) //$NON-NLS-1$
 			{
-				// Set base group
 				strOrthoAgg = strBaseAggExp;
 			}
 		}
