@@ -570,11 +570,14 @@ public class DataEngineImpl extends DataEngine
 			return;
 		}
 		File[] tmpFiles = tmpDir.listFiles( );
-		for ( int i = 0; i < tmpFiles.length; i++ )
+		if ( tmpFiles != null )
 		{
-			if( !tmpFiles[i].delete( ) )
+			for ( int i = 0; i < tmpFiles.length; i++ )
 			{
-				tmpFiles[i].deleteOnExit( );
+				if ( !tmpFiles[i].delete( ) )
+				{
+					tmpFiles[i].deleteOnExit( );
+				}
 			}
 		}
 		if( !tmpDir.delete( ) )
