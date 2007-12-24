@@ -865,6 +865,8 @@
     <eLiterals name="Months" value="5"/>
     <eLiterals name="Quarters" value="6"/>
     <eLiterals name="Years" value="7"/>
+    <eLiterals name="String" value="8"/>
+    <eLiterals name="StringPrefix" value="9"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="GroupingUnitTypeObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">

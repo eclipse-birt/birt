@@ -21,8 +21,10 @@ import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
+import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.MultipleFill;
 import org.eclipse.birt.chart.model.attribute.ScaleUnitType;
@@ -30,6 +32,7 @@ import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Label;
+import org.eclipse.birt.chart.model.data.SeriesGrouping;
 
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.ULocale;
@@ -616,5 +619,42 @@ public class ChartUtil
 		double dTitleHeight = cm.getTitle( ).getBounds( ).getHeight( );
 		double dChartHeight = cm.getBlock( ).getBounds( ).getHeight( );
 		return ( dChartHeight - dTitleHeight ) / 72 * xs.getDpiResolution( );
+	}	
+	
+	/**
+	 * Returns grouping unit name of series grouping.
+	 * 
+	 * @param grouping
+	 * @return
+	 * @since BIRT 2.3
+	 */
+	public static String getGroupingUnitName( SeriesGrouping grouping )
+	{
+		if ( grouping.getGroupType( ) == DataType.NUMERIC_LITERAL )
+		{
+			return null;
+		}
+		else if ( grouping.getGroupType( ) == DataType.DATE_TIME_LITERAL )
+		{
+			if ( grouping.getGroupingUnit( ) == null )
+			{
+				return GroupingUnitType.SECONDS_LITERAL.getName( );
+			}
+
+			return grouping.getGroupingUnit( ).getName( );
+		}
+		else if ( grouping.getGroupType( ) == DataType.TEXT_LITERAL )
+		{
+			if ( grouping.getGroupingUnit( ) == null ||
+					!GroupingUnitType.STRING_PREFIX_LITERAL.getName( )
+							.equals( grouping.getGroupingUnit( ).getName( ) ) )
+			{
+				return GroupingUnitType.STRING_LITERAL.getName( );
+			}
+
+			return grouping.getGroupingUnit( ).getName( );
+		}
+
+		return null;
 	}
 }

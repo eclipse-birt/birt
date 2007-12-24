@@ -2,11 +2,12 @@
  * <copyright>
  * </copyright>
  *
- * $Id: GroupingUnitType.java,v 1.5 2007/02/02 03:15:57 yulin Exp $
+ * $Id: GroupingUnitType.java,v 1.6 2007/11/12 06:20:27 yulin Exp $
  */
 
 package org.eclipse.birt.chart.model.attribute;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -120,6 +121,36 @@ public final class GroupingUnitType extends AbstractEnumerator
 	 * @ordered
 	 */
 	public static final int YEARS = 7;
+
+	/**
+	 * The '<em><b>String</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>String</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #STRING_LITERAL
+	 * @model name="String"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int STRING = 8;
+
+	/**
+	 * The '<em><b>String Prefix</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>String Prefix</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #STRING_PREFIX_LITERAL
+	 * @model name="StringPrefix"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int STRING_PREFIX = 9;
 
 	/**
 	 * The '<em><b>Seconds</b></em>' literal object.
@@ -240,6 +271,28 @@ public final class GroupingUnitType extends AbstractEnumerator
 			"Years", "Years" ); //$NON-NLS-1$
 
 	/**
+	 * The '<em><b>String</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #STRING
+	 * @generated
+	 * @ordered
+	 */
+	public static final GroupingUnitType STRING_LITERAL = new GroupingUnitType( STRING,
+			"String", "String" ); //$NON-NLS-1$ //$NON-NLS-2$
+
+	/**
+	 * The '<em><b>String Prefix</b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #STRING_PREFIX
+	 * @generated
+	 * @ordered
+	 */
+	public static final GroupingUnitType STRING_PREFIX_LITERAL = new GroupingUnitType( STRING_PREFIX,
+			"StringPrefix", "StringPrefix" ); //$NON-NLS-1$ //$NON-NLS-2$
+
+	/**
 	 * An array of all the '<em><b>Grouping Unit Type</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -253,6 +306,8 @@ public final class GroupingUnitType extends AbstractEnumerator
 			MONTHS_LITERAL,
 			QUARTERS_LITERAL,
 			YEARS_LITERAL,
+			STRING_LITERAL,
+			STRING_PREFIX_LITERAL,
 	};
 
 	/**
@@ -324,6 +379,10 @@ public final class GroupingUnitType extends AbstractEnumerator
 				return QUARTERS_LITERAL;
 			case YEARS :
 				return YEARS_LITERAL;
+			case STRING :
+				return STRING_LITERAL;
+			case STRING_PREFIX :
+				return STRING_PREFIX_LITERAL;
 		}
 		return null;
 	}
@@ -339,4 +398,38 @@ public final class GroupingUnitType extends AbstractEnumerator
 		super( value, name, literal );
 	}
 
+	/**
+	 * Returns grouping units type by specified data type.
+	 * 
+	 * @param dataType
+	 * @return
+	 * @since BIRT 2.3
+	 */
+	public static List getGroupingUnits( DataType dataType )
+	{
+		if ( dataType == DataType.NUMERIC_LITERAL )
+		{
+			return null;
+		}
+		else if ( dataType == DataType.DATE_TIME_LITERAL )
+		{
+			List valuesList = new ArrayList(YEARS);
+			for (int i = 0; i <= YEARS; i++)
+			{
+				valuesList.add( VALUES_ARRAY[i]);
+			}
+			return valuesList;
+		}
+		else if ( dataType == DataType.TEXT_LITERAL )
+		{
+			List valuesList = new ArrayList( );
+			for ( int i = STRING; i <= STRING_PREFIX; i ++ )
+			{
+				valuesList.add( VALUES_ARRAY[i] );
+			}
+			return valuesList;
+		}
+		
+		return null;
+	}
 } //GroupingUnitType

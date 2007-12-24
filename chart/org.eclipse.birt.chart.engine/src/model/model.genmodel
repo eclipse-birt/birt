@@ -94,6 +94,8 @@
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/Months"/>
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/Quarters"/>
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/Years"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/String"/>
+      <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/StringPrefix"/>
     </genEnums>
     <genEnums ecoreEnum="org.eclipse.birt.chart.model.attribute.ecore#//HorizontalAlignment">
       <genEnumLiterals ecoreEnumLiteral="org.eclipse.birt.chart.model.attribute.ecore#//HorizontalAlignment/Left"/>

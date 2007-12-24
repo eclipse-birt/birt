@@ -462,6 +462,10 @@
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/Quarters"/>
     <nested inputs="../../xsd/attribute.xsd#//GroupingUnitType;XSDSimpleTypeDefinition=29/XSDEnumerationFacet=7"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/Years"/>
+    <nested inputs="../../xsd/attribute.xsd#//GroupingUnitType;XSDSimpleTypeDefinition=29/XSDEnumerationFacet=8"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/String"/>
+    <nested inputs="../../xsd/attribute.xsd#//GroupingUnitType;XSDSimpleTypeDefinition=29/XSDEnumerationFacet=9"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/StringPrefix"/>
   </nested>
   <nested inputs="../../xsd/data.xsd#//DataElement;XSDComplexTypeDefinition=9" outputs="org.eclipse.birt.chart.model.data.ecore#//DataElement"/>
   <nested inputs="../../xsd/attribute.xsd#//DataType;XSDSimpleTypeDefinition=28" outputs="org.eclipse.birt.chart.model.attribute.ecore#//DataType">

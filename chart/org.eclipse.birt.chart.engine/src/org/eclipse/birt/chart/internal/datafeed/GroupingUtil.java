@@ -84,5 +84,82 @@ final class GroupingUtil
 
 		return Calendar.MILLISECOND;
 	}
+
+	/**
+	 * Check if specified two strings are in same group with grouping setting. 
+	 * 
+	 * @param baseValue
+	 * @param baseReference
+	 * @param groupingUnit
+	 * @param groupingInterval
+	 * @return
+	 * @since BIRT 2.3
+	 */
+	public static boolean isMatchedGroupingString( String baseValue,
+			String baseReference, GroupingUnitType groupingUnit,
+			int groupingInterval )
+	{
+		if ( baseValue == null && baseReference == null )
+		{
+			return true;
+		}
+
+		if ( baseValue == null || baseReference == null )
+		{
+			return false;
+		}
+
+		if ( groupingUnit == GroupingUnitType.STRING_PREFIX_LITERAL )
+		{
+			if ( groupingInterval <= 0 )
+			{
+				return baseValue.equals( baseReference );
+			}
+
+			if ( baseValue.length( ) < groupingInterval ||
+					baseReference.length( ) < groupingInterval )
+			{
+				return baseValue.equals( baseReference );
+			}
+
+			return baseValue.substring( 0, groupingInterval )
+					.equals( baseReference.substring( 0, groupingInterval ) );
+
+		}
+		else if ( groupingUnit == GroupingUnitType.STRING_LITERAL )
+		{
+			return baseValue.equals( baseReference );
+		}
+
+		return baseValue.equals( baseReference );
+	}
 	
+	/**
+	 * Returns grouped string of specified string on grouping setting.
+	 * 
+	 * @param stringValue
+	 * @param groupingUnit
+	 * @param groupingInterval
+	 * @return
+	 * @since BIRT 2.3
+	 */
+	public static Object getGroupedString( String stringValue,
+			GroupingUnitType groupingUnit, int groupingInterval )
+	{
+		if ( stringValue == null || groupingInterval <= 0)
+		{
+			return stringValue;
+		}
+		
+		if ( groupingUnit == GroupingUnitType.STRING_PREFIX_LITERAL )
+		{
+			if ( stringValue.length( ) < groupingInterval )
+			{
+				return stringValue;
+			}
+			return stringValue.substring( 0, groupingInterval );
+		}
+		
+		return stringValue;
+	}
 }

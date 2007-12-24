@@ -238,6 +238,32 @@ public class LiteralHelper
 				toStringNameArray( GroupingUnitType.VALUES ) );
 	}
 
+	/**
+	 * Returns grouping unit types of specified data type.
+	 * @param dataType
+	 * @return
+	 * @since BIRT 2.3
+	 */
+	public static NameSet getGroupingUnitTypeSet( DataType dataType )
+	{
+		String prefix = "GroupingUnitType."; //$NON-NLS-1$
+		String suffix = ".displayName"; //$NON-NLS-1$
+
+		if ( dataType == DataType.NUMERIC_LITERAL )
+		{
+			return null;
+		}
+		else if ( dataType == DataType.DATE_TIME_LITERAL ||
+				dataType == DataType.TEXT_LITERAL )
+		{
+			return new NameSet( prefix,
+					suffix,
+					toStringNameArray( GroupingUnitType.getGroupingUnits( dataType ) ) );
+		}
+
+		return null;
+	}
+	
 	private static NameSet getTriggerConditionSet( )
 	{
 		String prefix = "TriggerCondition."; //$NON-NLS-1$

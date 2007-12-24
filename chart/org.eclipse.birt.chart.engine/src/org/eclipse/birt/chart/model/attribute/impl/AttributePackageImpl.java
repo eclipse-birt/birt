@@ -3845,6 +3845,9 @@ public class AttributePackageImpl extends EPackageImpl implements
 		addEEnumLiteral( groupingUnitTypeEEnum,
 				GroupingUnitType.QUARTERS_LITERAL );
 		addEEnumLiteral( groupingUnitTypeEEnum, GroupingUnitType.YEARS_LITERAL );
+		addEEnumLiteral( groupingUnitTypeEEnum, GroupingUnitType.STRING_LITERAL );
+		addEEnumLiteral( groupingUnitTypeEEnum,
+				GroupingUnitType.STRING_PREFIX_LITERAL );
 
 		initEEnum( horizontalAlignmentEEnum,
 				HorizontalAlignment.class,

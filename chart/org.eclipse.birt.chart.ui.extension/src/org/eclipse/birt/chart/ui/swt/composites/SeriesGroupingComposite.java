@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.birt.chart.util.PluginSettings;
@@ -267,13 +268,13 @@ public class SeriesGroupingComposite extends Composite implements
 		
 		SeriesGrouping grouping = getGrouping( );
 
-		boolean bEnableUI = btnEnabled.getSelection( );
+		boolean isGroupingEnableUI = btnEnabled.getSelection( );
 
 		// Populate the data type combo
 		NameSet ns = LiteralHelper.dataTypeSet;
 		cmbType.setItems( ns.getDisplayNames( ) );
 
-		if ( bEnableUI && grouping.getGroupType( ) != null )
+		if ( isGroupingEnableUI && grouping.getGroupType( ) != null )
 		{
 			cmbType.setText( ns.getDisplayNameByName( getGrouping( ).getGroupType( )
 					.getName( ) ) );
@@ -283,32 +284,14 @@ public class SeriesGroupingComposite extends Composite implements
 			cmbType.select( 0 );
 		}
 
-		this.lblType.setEnabled( bEnableUI );
-		this.cmbType.setEnabled( bEnableUI );
+		this.lblType.setEnabled( isGroupingEnableUI );
+		this.cmbType.setEnabled( isGroupingEnableUI );
 
-		this.lblInterval.setEnabled( bEnableUI );
-		this.iscInterval.setEnabled( bEnableUI );
+		this.lblInterval.setEnabled( isGroupingEnableUI );
+		this.iscInterval.setEnabled( isGroupingEnableUI );
 
 		// Populate grouping unit combo (applicable only if type is DateTime
-		ns = LiteralHelper.groupingUnitTypeSet;
-		cmbUnit.setItems( ns.getDisplayNames( ) );
-
-		if ( bEnableUI
-				&& grouping.getGroupType( ) != null
-				&& grouping.getGroupType( ) == DataType.DATE_TIME_LITERAL
-				&& grouping.getGroupingUnit( ) != null )
-		{
-			cmbUnit.setText( ns.getDisplayNameByName( grouping.getGroupingUnit( )
-					.getName( ) ) );
-		}
-		else
-		{
-			cmbUnit.select( 0 );
-		}
-		lblUnit.setEnabled( bEnableUI
-				&& DataType.DATE_TIME_LITERAL.getName( )
-						.equals( LiteralHelper.dataTypeSet.getNameByDisplayName( cmbType.getText( ) ) ) );
-		cmbUnit.setEnabled( lblUnit.getEnabled( ) );
+		resetGroupingUnitsCombo( grouping, isGroupingEnableUI );
 
 		// Populate grouping aggregate expression combo
 		if ( fbAggEnabled )
@@ -325,7 +308,7 @@ public class SeriesGroupingComposite extends Composite implements
 				e.printStackTrace( );
 			}
 
-			if ( bEnableUI && grouping.getAggregateExpression( ) != null )
+			if ( isGroupingEnableUI && grouping.getAggregateExpression( ) != null )
 			{
 				int idx = getAggregateIndexByName( grouping.getAggregateExpression( ) );
 				if ( cmbAggregate.getItemCount( ) > idx )
@@ -337,9 +320,76 @@ public class SeriesGroupingComposite extends Composite implements
 			{
 				cmbAggregate.select( 0 );
 			}
-			lblAggregate.setEnabled( bEnableUI );
-			cmbAggregate.setEnabled( bEnableUI );
+			lblAggregate.setEnabled( isGroupingEnableUI );
+			cmbAggregate.setEnabled( isGroupingEnableUI );
 		}
+	}
+
+	/**
+	 * Reset grouping units items.
+	 * 
+	 * @param grouping
+	 * @param isGroupingEnableUI
+	 * @since BIRT 2.3
+	 */
+	private void resetGroupingUnitsCombo( SeriesGrouping grouping,
+			boolean isGroupingEnableUI )
+	{
+		NameSet ns;
+		ns = LiteralHelper.getGroupingUnitTypeSet( getGrouping( ).getGroupType( ) );
+		if ( ns != null )
+		{
+			cmbUnit.setItems( ns.getDisplayNames( ) );
+			if ( isGroupingEnableUI &&
+					grouping.getGroupType( ) != null &&
+					( grouping.getGroupType( ) == DataType.DATE_TIME_LITERAL || grouping.getGroupType( ) == DataType.TEXT_LITERAL ) &&
+					grouping.getGroupingUnit( ) != null )
+			{
+				String name = ChartUtil.getGroupingUnitName( getGrouping( ) );
+				if ( name != null )
+				{
+					cmbUnit.setText( ns.getDisplayNameByName( name ) );
+				}
+				else
+				{
+					cmbUnit.select( 0 );
+				}
+			}
+		}
+		else
+		{
+			cmbUnit.removeAll( );
+		}
+		
+		lblUnit.setEnabled( isGroupingEnableUI &&
+				( isDateTimeGrouping( cmbType.getText( ) ) || isTextGrouping( cmbType.getText( ) ) ) );
+		cmbUnit.setEnabled( lblUnit.getEnabled( ) );
+	}
+
+	/**
+	 * Check if specified datat ype name is Text grouping type.
+	 * 
+	 * @param dataTypeName
+	 * @return
+	 * @since BIRT 2.3
+	 */
+	private boolean isTextGrouping( String dataTypeName )
+	{
+		return DataType.TEXT_LITERAL.getName( ) 
+		.equals( LiteralHelper.dataTypeSet.getNameByDisplayName( dataTypeName ) );
+	}
+
+	/**
+	 * Check if specified data type name is DateTime grouping type.
+	 * 
+	 * @param dataTypeName
+	 * @return
+	 * @since BIRT 2.3
+	 */
+	private boolean isDateTimeGrouping( String dataTypeName )
+	{
+		return DataType.DATE_TIME_LITERAL.getName( ) 
+				.equals( LiteralHelper.dataTypeSet.getNameByDisplayName( dataTypeName ) );
 	}
 
 	private int getAggregateIndexByName( String name )
@@ -378,8 +428,8 @@ public class SeriesGroupingComposite extends Composite implements
 
 			boolean bEnableUI = btnEnabled.getSelection( );
 			String selName = LiteralHelper.dataTypeSet.getNameByDisplayName( cmbType.getText( ) );
-			boolean bEnabled = DataType.DATE_TIME_LITERAL.getName( )
-					.equals( selName );
+			boolean bEnabled = isDateTimeGrouping( selName ) || isTextGrouping( selName );
+			resetGroupingUnitsCombo( getGrouping( ), bEnableUI );
 			
 			lblUnit.setEnabled( bEnableUI & bEnabled );
 			cmbUnit.setEnabled( bEnableUI & bEnabled );

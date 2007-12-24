@@ -698,6 +698,7 @@ public class DataProcessor
 		// Generate runtime series and put data into series.
 		if ( iOrthogonalSeriesDefinitionCount < 1 ) // "< 1" means that optional Y series grouping isn't be defined.
 		{
+			// 1. Add values of base series.
 			fillSeriesDataSet( cwa,
 					seBaseRuntimeSeries,
 					rsw.getSubset( iBaseColumnIndex ) );
@@ -706,6 +707,8 @@ public class DataProcessor
 			Series seOrthogonalDesignSeries;
 			Series seOrthogonalRuntimeSeries;
 			SeriesDefinition sdOrthogonal;
+			
+			// 2. Add values of value series. 
 			for ( int i = 0; i < axaOrthogonal.length; i++ ) // FOR EACH AXIS
 			{
 				elSD = axaOrthogonal[i].getSeriesDefinitions( );

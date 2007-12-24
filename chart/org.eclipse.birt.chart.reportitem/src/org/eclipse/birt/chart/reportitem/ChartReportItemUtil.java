@@ -274,6 +274,12 @@ public class ChartReportItemUtil
 		}
 		else if ( dataType == DataType.TEXT_LITERAL )
 		{
+			switch ( groupUnitType.getValue( ) )
+			{
+				case GroupingUnitType.STRING_PREFIX:
+					return IGroupDefinition.STRING_PREFIX_INTERVAL;
+			}
+			
 			return IGroupDefinition.NO_INTERVAL;
 		}
 

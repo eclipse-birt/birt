@@ -1020,16 +1020,23 @@ public final class ResultSetWrapper
 				{
 					String dBaseValue = String.valueOf( oaTuple[iBaseColumnIndex] );
 
-					if ( !dBaseValue.equals( baseReference ) )
+					if ( !GroupingUtil.isMatchedGroupingString( dBaseValue, baseReference, groupingUnit, (int)iGroupingInterval ) )
 					{
 						iGroupCounter++;
 						baseReference = dBaseValue;
+						if ( groupingUnit == GroupingUnitType.STRING_PREFIX_LITERAL )
+						{
+							iGroupIndex++;
+						}
 					}
 
 			        // The interval of string prefix case indicates the number of prefix, don't mean interval range.
-					if ( iGroupCounter > iGroupingInterval )
+					if ( groupingUnit != GroupingUnitType.STRING_PREFIX_LITERAL )
 					{
-						iGroupIndex++;
+						if ( iGroupCounter > iGroupingInterval )
+						{
+							iGroupIndex++;
+						}
 					}
 				}
 				else
@@ -1689,7 +1696,7 @@ public final class ResultSetWrapper
 					continue;
 				}
 
-				if ( compareObjects( oPreviousValue, oValue ) != 0 )
+				if ( compareObjects( oPreviousValue, oValue, seriesGrouping ) != 0 )
 				{
 					if ( seriesGrouping.getGroupType( ) == DataType.NUMERIC_LITERAL )
 					{
@@ -1723,14 +1730,21 @@ public final class ResultSetWrapper
 					}
 					else
 					{
-						if ( intervalCount == (int) seriesGrouping.getGroupingInterval( ) )
+						if ( seriesGrouping.getGroupingUnit( ) == GroupingUnitType.STRING_PREFIX_LITERAL )
 						{
 							alBreaks.add( new Integer( iRowIndex - 1 ) );
-							intervalCount = 0;
 						}
 						else
 						{
-							intervalCount++;
+							if ( intervalCount == (int) seriesGrouping.getGroupingInterval( ) )
+							{
+								alBreaks.add( new Integer( iRowIndex - 1 ) );
+								intervalCount = 0;
+							}
+							else
+							{
+								intervalCount++;
+							}
 						}
 					}
 				}
@@ -1812,7 +1826,78 @@ public final class ResultSetWrapper
 
 		}
 	}
+	
+	/**
+	 * Compares two objects of the same data type
+	 * 
+	 * @param a
+	 *            Object one
+	 * @param b
+	 *            Object two
+	 * 
+	 * @return The result of the comparison
+     * @since BIRT 2.3
+	 */
+	public static int compareObjects( Object obja, Object objb, SeriesGrouping sg )
+	{
+		Object a = obja;
+		Object b = objb;
+		// a == b
+		if ( a == null && b == null )
+		{
+			return 0;
+		}
 
+		// a < b
+		else if ( a == null && b != null )
+		{
+			return -1;
+		}
+
+		// a > b
+		else if ( a != null && b == null )
+		{
+			return 1;
+		}
+		
+		DataType type = sg.getGroupType( );
+		if ( type == DataType.TEXT_LITERAL ) {
+			a = GroupingUtil.getGroupedString( (String) a, sg.getGroupingUnit( ), (int) sg.getGroupingInterval( ) );
+			b = GroupingUtil.getGroupedString( (String) b, sg.getGroupingUnit( ), (int) sg.getGroupingInterval( ) );
+		} 
+		
+		if ( a instanceof String )
+		{
+			int iC = a.toString( ).compareTo( b.toString( ) );
+			if ( iC != 0 )
+				iC = ( ( iC < 0 ) ? -1 : 1 );
+			return iC;
+		}
+		else if ( a instanceof Number )
+		{
+			final double d1 = ( (Number) a ).doubleValue( );
+			final double d2 = ( (Number) b ).doubleValue( );
+			return ( d1 == d2 ) ? 0 : ( d1 < d2 ) ? -1 : 1;
+		}
+		else if ( a instanceof java.util.Date )
+		{
+			final long d1 = ( (java.util.Date) a ).getTime( );
+			final long d2 = ( (java.util.Date) b ).getTime( );
+			return ( d1 == d2 ) ? 0 : ( d1 < d2 ) ? -1 : 1;
+		}
+		else if ( a instanceof Calendar )
+		{
+			final long d1 = ( (Calendar) a ).getTime( ).getTime( );
+			final long d2 = ( (Calendar) b ).getTime( ).getTime( );
+			return ( d1 == d2 ) ? 0 : ( d1 < d2 ) ? -1 : 1;
+		}
+		else
+		// HANDLE AS STRINGs
+		{
+			return compareObjects( a.toString( ), b.toString( ) );
+		}
+	}
+	
 	/**
 	 * Compares two objects of the same data type
 	 * 
@@ -1843,7 +1928,7 @@ public final class ResultSetWrapper
 			return 1;
 		}
 
-		else if ( a instanceof String )
+		if ( a instanceof String )
 		{
 			int iC = a.toString( ).compareTo( b.toString( ) );
 			if ( iC != 0 )
