@@ -24,8 +24,6 @@ import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.TableItem;
 
 public class FormatDataTimeDescriptorProvider implements IDescriptorProvider
 {
@@ -100,6 +98,7 @@ public class FormatDataTimeDescriptorProvider implements IDescriptorProvider
 					SessionHandleAdapter.getInstance( )
 							.getCommandStack( )
 							.rollbackAll( );
+					return;
 				}
 			}
 			SessionHandleAdapter.getInstance( ).getCommandStack( ).commit( );
@@ -116,7 +115,12 @@ public class FormatDataTimeDescriptorProvider implements IDescriptorProvider
 
 	}
 
-	private Date defaultDate = new Date( );
+	private Date defaultDate;
+
+	public FormatDataTimeDescriptorProvider( )
+	{
+		defaultDate = new Date( );
+	}
 
 	private String getDisplayName4Category( String category )
 	{
@@ -175,7 +179,7 @@ public class FormatDataTimeDescriptorProvider implements IDescriptorProvider
 					FormatDateTimePattern.getCustormFormatPattern( customPatterns[i] )
 			} );
 		}
-		return (String[][])itemList.toArray( new String[0][3] );
+		return (String[][]) itemList.toArray( new String[0][3] );
 	}
 
 	public String getCategory4UIDisplayName( String displayName )
@@ -193,7 +197,7 @@ public class FormatDataTimeDescriptorProvider implements IDescriptorProvider
 		return displayName;
 	}
 
-	private static String[][] choiceArray = null;
+	private String[][] choiceArray = null;
 
 	public String[][] initChoiceArray( )
 	{
@@ -226,7 +230,7 @@ public class FormatDataTimeDescriptorProvider implements IDescriptorProvider
 	 * Gets the format types for display names.
 	 */
 
-	private static String[] formatTypes = null;
+	private String[] formatTypes = null;
 
 	public String[] getFormatTypes( )
 	{
