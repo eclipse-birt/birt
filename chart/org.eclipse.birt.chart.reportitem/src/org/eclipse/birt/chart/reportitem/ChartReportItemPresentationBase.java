@@ -473,6 +473,10 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		}
 		else if ( set instanceof ICubeResultSet )
 		{
+			if ( ChartReportItemUtil.canContainGrouping( cm ) )
+			{
+				return new BIRTGroupedCubeResultSetEvaluator( (ICubeResultSet) set );
+			}
 			return new BIRTCubeResultSetEvaluator( (ICubeResultSet) set );
 		}
 		return null;

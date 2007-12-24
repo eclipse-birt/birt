@@ -12,24 +12,30 @@
 package org.eclipse.birt.chart.reportitem;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
+import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.ICubeSortDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
@@ -45,8 +51,18 @@ import org.eclipse.emf.common.util.EList;
 class ChartCubeQueryHelper
 {
 
-	public static ICubeQueryDefinition createCubeQuery(
-			ExtendedItemHandle handle, Chart cm, IDataQueryDefinition parent )
+	private final ExtendedItemHandle handle;
+	private final Chart cm;
+	private Map registeredBindings = new HashMap( );
+	private Map registeredLevels = new HashMap( );
+
+	public ChartCubeQueryHelper( ExtendedItemHandle handle, Chart cm )
+	{
+		this.handle = handle;
+		this.cm = cm;
+	}
+
+	public ICubeQueryDefinition createCubeQuery( IDataQueryDefinition parent )
 			throws BirtException
 	{
 		CubeHandle cubeHandle = handle.getCube( );
@@ -63,77 +79,104 @@ class ChartCubeQueryHelper
 			for ( int j = 0; j < queryList.size( ); j++ )
 			{
 				Query query = (Query) queryList.get( j );
-				String expr = query.getDefinition( );
-				if ( expr != null && expr.length( ) > 0 )
-				{
-					// Get a unique name.
-					String name = StructureFactory.newComputedColumn( handle,
-							expr.replaceAll( "\"", "" ) ) //$NON-NLS-1$ //$NON-NLS-2$
-							.getName( );
-					Binding colBinding = new Binding( name );
+				// Bind data definition
+				bindSeriesQuery( sd, query, cubeQuery, true );
+			}
 
-					colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
-					colBinding.setExpression( new ScriptExpression( expr ) );
-					// colBinding.addAggregateOn( innerGroupDef.getName( ) );
-					// colBinding.setAggrFunction(
-					// ChartReportItemUtil.convertToDtEAggFunction(
-					// sd.getGrouping( )
-					// .getAggregateExpression( ) ) );
+			// Bind option grouping
+			bindSeriesQuery( sd, sd.getQuery( ), cubeQuery, false );
 
-					// Replace query expression in chart runtime model with
-					// binding name
-					String newExpr = ExpressionUtil.createJSDataExpression( name );
-					query.setDefinition( newExpr );
+			// Sort key query may be modified in the next method, so get it
+			// first
+			String sortKeyQuery = sd.getSortKey( ).getDefinition( );
+			// Bind sort key
+			bindSeriesQuery( sd, sd.getSortKey( ), cubeQuery, true );
 
-					// Add binding to query definition
-					cubeQuery.addBinding( colBinding );
-
-					String measure = getMeasure( expr );
-					if ( measure != null )
-					{
-						// Add measure
-						IMeasureDefinition mDef = cubeQuery.createMeasure( measure );
-						// Set aggregation type from base series definition
-						// grouping
-						mDef.setAggrFunction( getBaseAggregationType( cm ) );
-					}
-
-					if ( isReferenceToDimLevel( expr ) )
-					{
-						// Add row/column edge
-						IEdgeDefinition edge = cubeQuery.createEdge( isVertical( cm )
-								? ICubeQueryDefinition.ROW_EDGE
-								: ICubeQueryDefinition.COLUMN_EDGE );
-						String[] levels = getTargetLevel( expr );
-						IDimensionDefinition dimDef = edge.createDimension( levels[0] );
-						IHierarchyDefinition hieDef = dimDef.createHierarchy( handle.getCube( )
-								.getDimension( dimDef.getName( ) )
-								.getDefaultHierarchy( )
-								.getQualifiedName( ) );
-						hieDef.createLevel( levels[1] );
-						// columnLevelNameList.add( "Group3/Job" );
-					}
-				}
+			if ( sd.isSetSorting( )
+					&& sortKeyQuery != null && sortKeyQuery.length( ) > 0 )
+			{
+				ICubeSortDefinition sortDef = ChartReportItemUtil.getCubeElementFactory( )
+						.createCubeSortDefinition( sortKeyQuery,
+								(ILevelDefinition) registeredLevels.get( sortKeyQuery ),
+								null,
+								null,
+								sd.getSorting( ) == SortOption.ASCENDING_LITERAL
+										? ISortDefinition.SORT_ASC
+										: ISortDefinition.SORT_DESC );
+				cubeQuery.addSort( sortDef );
 			}
 		}
 
 		return cubeQuery;
 	}
 
+	/**
+	 * Adds measure or row/column edge according to query expression
+	 */
+	private void bindSeriesQuery( SeriesDefinition sd, Query query,
+			ICubeQueryDefinition cubeQuery, boolean bRow ) throws BirtException
+	{
+		String expr = query.getDefinition( );
+		if ( expr != null && expr.length( ) > 0 )
+		{
+			String name = (String) registeredBindings.get( expr );
+			if ( name == null )
+			{
+				// Get a unique name.
+				name = StructureFactory.newComputedColumn( handle,
+						expr.replaceAll( "\"", "" ) ) //$NON-NLS-1$ //$NON-NLS-2$
+						.getName( );
+				registeredBindings.put( expr, name );
+
+				Binding colBinding = new Binding( name );
+				colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
+				colBinding.setExpression( new ScriptExpression( expr ) );
+				// colBinding.addAggregateOn( innerGroupDef.getName( ) );
+				// colBinding.setAggrFunction(
+				// ChartReportItemUtil.convertToDtEAggFunction(
+				// sd.getGrouping( )
+				// .getAggregateExpression( ) ) );
+
+				// Add binding to query definition
+				cubeQuery.addBinding( colBinding );
+
+				String measure = getMeasure( expr );
+				if ( measure != null )
+				{
+					// Add measure
+					IMeasureDefinition mDef = cubeQuery.createMeasure( measure );
+					// Set aggregation type from base series definition
+					// grouping
+					mDef.setAggrFunction( getBaseAggregationType( cm ) );
+				}
+
+				if ( isReferenceToDimLevel( expr ) )
+				{
+					// Add row/column edge
+					IEdgeDefinition edge = cubeQuery.createEdge( bRow
+							? ICubeQueryDefinition.ROW_EDGE
+							: ICubeQueryDefinition.COLUMN_EDGE );
+					String[] levels = getTargetLevel( expr );
+					IDimensionDefinition dimDef = edge.createDimension( levels[0] );
+					IHierarchyDefinition hieDef = dimDef.createHierarchy( handle.getCube( )
+							.getDimension( dimDef.getName( ) )
+							.getDefaultHierarchy( )
+							.getQualifiedName( ) );
+					ILevelDefinition level = hieDef.createLevel( levels[1] );
+					registeredLevels.put( expr, level );
+					// columnLevelNameList.add( "Group3/Job" );
+				}
+			}
+
+			// Replace query expression in chart runtime model with binding name
+			String newExpr = ExpressionUtil.createJSDataExpression( name );
+			query.setDefinition( newExpr );
+		}
+	}
+
 	static String getBaseAggregationType( Chart cm )
 	{
-		SeriesDefinition baseSd = null;
-		if ( cm instanceof ChartWithAxes )
-		{
-			Axis xAxis = (Axis) ( ( (ChartWithAxes) cm ).getAxes( ).get( 0 ) );
-			baseSd = (SeriesDefinition) xAxis.getSeriesDefinitions( ).get( 0 );
-		}
-		else
-		{
-			baseSd = (SeriesDefinition) ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
-					.get( 0 );
-		}
-		String aggExp = baseSd.getGrouping( )
+		String aggExp = getBaseSeriesDefinition( cm ).getGrouping( )
 				.getAggregateExpression( )
 				.toLowerCase( );
 		// DTE will ignore average function during mapping
@@ -148,6 +191,19 @@ class ChartCubeQueryHelper
 			aggExp = "SUM"; //$NON-NLS-1$
 		}
 		return aggExp;
+	}
+
+	static SeriesDefinition getBaseSeriesDefinition( Chart cm )
+	{
+		if ( cm instanceof ChartWithAxes )
+		{
+			Axis xAxis = (Axis) ( ( (ChartWithAxes) cm ).getAxes( ).get( 0 ) );
+			return (SeriesDefinition) xAxis.getSeriesDefinitions( ).get( 0 );
+		}
+
+		return (SeriesDefinition) ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
+				.get( 0 );
+
 	}
 
 	static List getAllSeriesDefinitions( Chart chart )

@@ -147,7 +147,7 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 		else if ( handle.getCube( ) != null
 				|| parent instanceof ICubeQueryDefinition )
 		{
-			return ChartCubeQueryHelper.createCubeQuery( handle, cm, parent );
+			return new ChartCubeQueryHelper( handle, cm ).createCubeQuery( parent );
 		}
 		return null;
 	}
