@@ -141,6 +141,19 @@ public class SwingDisplayServer extends DisplayAdapter
 		return getGraphicsContext().getFontMetrics( (Font) createFont( fd ) );
 	}
 
+	protected int computeScreenDpi()
+	{
+		if ( GraphicsEnvironment.isHeadless( ) )
+		{
+			// RETURN OS SPECIFIC DEFAULTS
+			return super.getDpiResolution( );
+		}
+		else
+		{
+			return Toolkit.getDefaultToolkit( )
+					.getScreenResolution( );
+		}
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -160,17 +173,7 @@ public class SwingDisplayServer extends DisplayAdapter
 					// g2d.getTransform()
 					// will be 72 dpi for the display, even when the OS has a
 					// different dpi set.
-					if ( GraphicsEnvironment.isHeadless( ) )
-					{
-						// RETURN OS SPECIFIC DEFAULTS
-						iDpiResolution = super.getDpiResolution( );
-					}
-					else
-					{
-						iDpiResolution = Toolkit.getDefaultToolkit( )
-								.getScreenResolution( );
-					}
-			
+					iDpiResolution = computeScreenDpi();
 					break;
 				case GraphicsDevice.TYPE_PRINTER :
 					// In that case the g2d already contains a transform with the right dpi of the printer
@@ -178,16 +181,7 @@ public class SwingDisplayServer extends DisplayAdapter
 					iDpiResolution = 72;
 					break;
 				case GraphicsDevice.TYPE_IMAGE_BUFFER :
-					if ( userResolution == 0 )
-					{
-						// Use value set by user, if none, use screen resolution
-						iDpiResolution = Toolkit.getDefaultToolkit( )
-								.getScreenResolution( );
-					}
-					else
-					{
-						iDpiResolution = userResolution;
-					}
+					iDpiResolution = computeScreenDpi();
 					break;
 			}
 			// set the fractionalmetrics to ON only for high resolution
