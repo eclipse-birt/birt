@@ -27,6 +27,7 @@ import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -589,7 +590,7 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 						binding.setExpression( new ScriptExpression( sortKey ) );
 						binding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
 						binding.addAggregateOn( yGroupingDefinition.getName( ) );
-						String aggFunc = getAggregationFunction( sortKey,
+						String aggFunc = getAggFunExpr( sortKey,
 								baseSD,
 								orthAxisArray );
 						binding.setAggrFunction( ChartReportItemUtil.convertToDtEAggFunction( aggFunc ) );
@@ -631,7 +632,8 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 								fQueryDefinition,
 								( (Axis) orthAxisArray[i] ).getSeriesDefinitions( ),
 								innerGroupDef,
-								valueExprMap );
+								valueExprMap,
+								baseSD );
 					}
 				}
 				else if ( fChart instanceof ChartWithoutAxes )
@@ -640,7 +642,8 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 							fQueryDefinition,
 							baseSD.getSeriesDefinitions( ),
 							innerGroupDef,
-							valueExprMap );
+							valueExprMap,
+							baseSD );
 				}
 			}
 
@@ -788,17 +791,18 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 		 * @param seriesDefinitions
 		 * @param innerGroupDef
 		 * @param valueExprMap
+		 * @param baseSD
 		 * @throws DataException
 		 */
 		private void addValueSeriesAggregateBindingForGrouping(
 				ExtendedItemHandle handle, QueryDefinition query,
 				EList seriesDefinitions, GroupDefinition innerGroupDef,
-				Map valueExprMap ) throws DataException
+				Map valueExprMap, SeriesDefinition baseSD ) throws DataException
 		{
 			for ( Iterator iter = seriesDefinitions.iterator( ); iter.hasNext( ); )
 			{
-				SeriesDefinition sd = (SeriesDefinition) iter.next( );
-				String expr = ( (Query) sd.getDesignTimeSeries( )
+				SeriesDefinition orthSD = (SeriesDefinition) iter.next( );
+				String expr = ( (Query) orthSD.getDesignTimeSeries( )
 						.getDataDefinition( )
 						.get( 0 ) ).getDefinition( );
 				if ( expr != null && !"".equals( expr ) ) //$NON-NLS-1$
@@ -814,12 +818,12 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 					if ( innerGroupDef != null )
 					{
 						colBinding.addAggregateOn( innerGroupDef.getName( ) );
-						colBinding.setAggrFunction( ChartReportItemUtil.convertToDtEAggFunction( sd.getGrouping( )
-								.getAggregateExpression( ) ) );
+						colBinding.setAggrFunction( ChartReportItemUtil.convertToDtEAggFunction( getAggFunExpr( orthSD,
+								baseSD ) ) );
 					}
 
 					String newExpr = ExpressionUtil.createJSRowExpression( name );
-					( (Query) sd.getDesignTimeSeries( )
+					( (Query) orthSD.getDesignTimeSeries( )
 							.getDataDefinition( )
 							.get( 0 ) ).setDefinition( newExpr );
 
@@ -831,6 +835,58 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 		}
 
 		/**
+		 * Returns aggregation function expression.
+		 * 
+		 * @param orthSD
+		 * @param baseSD
+		 * @return
+		 */
+		private String getAggFunExpr( SeriesDefinition orthSD, SeriesDefinition baseSD )
+		{
+			
+			String strBaseAggExp = null;
+			if ( baseSD.getGrouping( ) != null &&
+					baseSD.getGrouping( ).isSetEnabled( ) &&
+					baseSD.getGrouping( ).isEnabled( ) )
+			{
+				strBaseAggExp = baseSD.getGrouping( ).getAggregateExpression( );
+			}
+			
+			return getAggFunExpr( orthSD, strBaseAggExp );
+		}
+
+		/**
+		 * Returns aggregation function expression.
+		 * 
+		 * @param orthSD
+		 * @param baseAggExp
+		 * @return
+		 */
+		private String getAggFunExpr( SeriesDefinition orthSD,
+				String baseAggExp )
+		{
+			String strOrthoAgg = null;
+			SeriesGrouping grouping = orthSD.getGrouping( );
+			// Only if base series has enabled grouping
+			if ( baseAggExp != null )
+			{
+				if ( grouping != null &&
+						grouping.isSetEnabled( ) &&
+						grouping.isEnabled( ) )
+				{
+					// Set own group
+					strOrthoAgg = grouping.getAggregateExpression( );
+				}
+				else
+				{
+					// Set base group
+					strOrthoAgg = baseAggExp;
+				}
+			}
+			return strOrthoAgg;
+		}
+		
+		/**
 		 * Get aggregation function string of sort key related with value
 		 * series.
 		 * 
@@ -839,9 +895,17 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 		 * @param orthAxisArray
 		 * @return
 		 */
-		private String getAggregationFunction( String sortKey,
+		private String getAggFunExpr( String sortKey,
 				SeriesDefinition baseSD, Object[] orthAxisArray )
 		{
+			String baseAggFunExpr = null;
+			if ( baseSD.getGrouping( ) != null &&
+					baseSD.getGrouping( ).isSetEnabled( ) &&
+					baseSD.getGrouping( ).isEnabled( ) )
+			{
+				baseAggFunExpr = baseSD.getGrouping( ).getAggregateExpression( );
+			}
+			
 			String aggFunction = null;
 
 			if ( fChart instanceof ChartWithAxes )
@@ -861,10 +925,9 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 									.getDataDefinition( )
 									.get( 0 );
 							if ( sortKey.equals( q.getDefinition( ) ) )
-								;
 							{
-								aggFunction = sd.getGrouping( )
-										.getAggregateExpression( );
+								aggFunction = getAggFunExpr( sd,
+										baseAggFunExpr );
 								break;
 							}
 						}
@@ -896,7 +959,11 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 				}
 
 			}
-
+			
+			if( aggFunction == null ) {
+				return baseAggFunExpr;
+			}
+			
 			return aggFunction;
 		}
 	} // End of class ChartGroupBindingManager.
