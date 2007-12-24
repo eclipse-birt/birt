@@ -198,6 +198,8 @@ public class ReportEngineHelper
 	 * <li> resourceFolder
 	 * If the options contains no property, copy the property from the
 	 * engine config.
+	 * 
+	 * Disable Semantic Check as default unless PARSER_SEMANTIC_CHECK_KEY is specified
 	 *  
 	 * @param options
 	 */
@@ -224,6 +226,12 @@ public class ReportEngineHelper
 									resourcePath );
 				}
 			}
+		}
+		Object semanticCheck = options
+				.get( ModuleOption.PARSER_SEMANTIC_CHECK_KEY );
+		if ( semanticCheck == null )
+		{
+			options.put( ModuleOption.PARSER_SEMANTIC_CHECK_KEY, Boolean.FALSE );
 		}
 	}
 

@@ -134,7 +134,6 @@ public class ReportDocumentReader
 
 	/**
 	 * set the options used to parse the report design in the report document.
-	 * If the options has no PARSER_SEMANTIC_CHECK_KEY, set it to FALSE.
 	 * 
 	 * @param options
 	 *            options used to control the design parser.
@@ -143,13 +142,6 @@ public class ReportDocumentReader
 	{
 		moduleOptions = new HashMap( );
 		moduleOptions.putAll( options );
-		Object semanticCheck = moduleOptions
-				.get( ModuleOption.PARSER_SEMANTIC_CHECK_KEY );
-		if ( semanticCheck == null )
-		{
-			moduleOptions.put( ModuleOption.PARSER_SEMANTIC_CHECK_KEY,
-					Boolean.FALSE );
-		}
 	}
 
 	public IDocArchiveReader getArchive( )
