@@ -198,10 +198,23 @@ public class ParamDefTag extends BodyTagSupport
 		}
 
 		// validate parameter name if unique
-		if ( pageContext.findAttribute( ATTR_PARAM + param.getName( ) ) != null )
+		if ( this.requesterTag == null )
 		{
-			throw new JspTagException( BirtResources
-					.getMessage( ResourceConstants.TAGLIB_PARAM_NAME_DUPLICATE ) );
+			// the whole page scope
+			if ( pageContext.findAttribute( ATTR_PARAM + param.getName( ) ) != null )
+			{
+				throw new JspTagException(
+						BirtResources
+								.getMessage( ResourceConstants.TAGLIB_PARAM_NAME_DUPLICATE ) );
+			}
+		}
+		else
+		{
+			// the form scope
+			if ( this.requesterTag.getParameters( ).get( param.getName( ) ) != null )
+				throw new JspTagException(
+						BirtResources
+								.getMessage( ResourceConstants.TAGLIB_PARAM_NAME_DUPLICATE ) );
 		}
 
 		return true;
@@ -216,8 +229,11 @@ public class ParamDefTag extends BodyTagSupport
 		pageContext.setAttribute( ATTR_ID + param.getId( ), param.getId( ) );
 
 		// Save parameter name
-		pageContext.setAttribute( ATTR_PARAM + param.getName( ), param
-				.getName( ) );
+		if ( this.requesterTag == null )
+		{
+			pageContext.setAttribute( ATTR_PARAM + param.getName( ), param
+					.getName( ) );
+		}
 	}
 
 	/**
