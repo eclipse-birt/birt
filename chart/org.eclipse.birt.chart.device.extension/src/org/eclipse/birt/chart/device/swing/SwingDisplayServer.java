@@ -181,7 +181,15 @@ public class SwingDisplayServer extends DisplayAdapter
 					iDpiResolution = 72;
 					break;
 				case GraphicsDevice.TYPE_IMAGE_BUFFER :
-					iDpiResolution = computeScreenDpi();
+					if ( userResolution == 0 )
+					{
+						// Use value set by user, if none, use screen resolution
+						iDpiResolution = computeScreenDpi( );
+					}
+					else
+					{
+						iDpiResolution = userResolution;
+					}
 					break;
 			}
 			// set the fractionalmetrics to ON only for high resolution
