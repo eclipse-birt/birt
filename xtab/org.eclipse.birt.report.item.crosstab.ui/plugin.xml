@@ -310,7 +310,7 @@
       <dropAdapter adapter="org.eclipse.birt.report.item.crosstab.internal.ui.dnd.LevelHandleDropAdapter"/>
       <dragAdapter adapter="org.eclipse.birt.report.item.crosstab.internal.ui.dnd.LevelHandleDragAdapter"/>
       <dropAdapter
-            adapter="org.eclipse.birt.report.item.crosstab.internal.AggregationDropAdapter">
+            adapter="org.eclipse.birt.report.item.crosstab.internal.ui.AggregationDropAdapter">
       </dropAdapter>
 
    </extension>
@@ -336,6 +336,23 @@
                priority="1"
                singleton="false"
                type="org.eclipse.birt.report.designer.internal.ui.dialogs.IBindingDialogHelper">
+            <enablement>
+               <test
+                     forcePluginActivation="true"
+                     property="ExtendItemHandle.extensionName"
+                     value="Crosstab">
+               </test>
+            </enablement>
+         </adapter>
+      </adaptable>
+      <adaptable
+            class="org.eclipse.birt.report.model.api.ExtendedItemHandle">
+         <adapter
+               class="org.eclipse.birt.report.item.crosstab.internal.ui.AggregationCellTextViewProvider"
+               id="Crosstab.AggregationCell.TextView"
+               priority="2"
+               singleton="false"
+               type="org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider">
             <enablement>
                <test
                      forcePluginActivation="true"

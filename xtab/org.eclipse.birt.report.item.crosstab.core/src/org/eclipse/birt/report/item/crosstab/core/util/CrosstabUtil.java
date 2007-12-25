@@ -18,6 +18,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.internal.CrosstabModelUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
@@ -198,6 +199,21 @@ public class CrosstabUtil implements ICrosstabConstants
 	public static String getRollUpAggregationFunction( String functionName )
 	{
 		return CrosstabModelUtil.getRollUpAggregationFunction( functionName );
+	}
+
+	public static void addDataItem( CrosstabReportItemHandle crosstab,
+			MeasureViewHandle measureView, String function,
+			String rowDimension, String rowLevel, String colDimension,
+			String colLevel ) throws SemanticException
+	{
+		CrosstabModelUtil.addDataItem( crosstab,
+				measureView,
+				function,
+				rowDimension,
+				rowLevel,
+				colDimension,
+				colLevel,
+				false );
 	}
 
 }

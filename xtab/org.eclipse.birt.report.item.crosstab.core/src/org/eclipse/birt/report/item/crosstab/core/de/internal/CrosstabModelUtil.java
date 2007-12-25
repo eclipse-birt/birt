@@ -300,6 +300,21 @@ public class CrosstabModelUtil implements ICrosstabConstants
 		}
 	}
 
+	public static void addDataItem( CrosstabReportItemHandle crosstab,
+			MeasureViewHandle measureView, String function,
+			String rowDimension, String rowLevel, String colDimension,
+			String colLevel ) throws SemanticException
+	{
+		addDataItem( crosstab,
+				measureView,
+				function,
+				rowDimension,
+				rowLevel,
+				colDimension,
+				colLevel,
+				true );
+	}
+
 	/**
 	 * @param crosstab
 	 * @param measureView
@@ -315,7 +330,7 @@ public class CrosstabModelUtil implements ICrosstabConstants
 	public static void addDataItem( CrosstabReportItemHandle crosstab,
 			MeasureViewHandle measureView, String function,
 			String rowDimension, String rowLevel, String colDimension,
-			String colLevel ) throws SemanticException
+			String colLevel, boolean forceAdd ) throws SemanticException
 	{
 		if ( crosstab == null || measureView == null )
 			return;
@@ -325,7 +340,8 @@ public class CrosstabModelUtil implements ICrosstabConstants
 				rowLevel,
 				colDimension,
 				colLevel );
-		if ( cell == null )
+
+		if ( cell == null && forceAdd )
 		{
 			cell = measureView.addAggregation( rowDimension,
 					rowLevel,
