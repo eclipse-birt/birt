@@ -181,6 +181,12 @@ public abstract class NotificationEvent
 	 */
 	public static final int ENCRYPTION_EVENT = 23;
 
+	/**
+	 * The event type of multiple views event.
+	 */
+	
+	public static final int VIEWS_EVENT = 24;
+	
 	// List of delivery modes. The modes tell the listener the route
 	// by which the event reached that listener.
 

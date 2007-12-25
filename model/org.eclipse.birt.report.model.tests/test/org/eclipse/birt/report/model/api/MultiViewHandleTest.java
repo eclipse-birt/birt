@@ -14,7 +14,10 @@ package org.eclipse.birt.report.model.api;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.command.PropertyEvent;
+import org.eclipse.birt.report.model.api.command.ViewsContentEvent;
 import org.eclipse.birt.report.model.api.core.Listener;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
@@ -37,7 +40,7 @@ public class MultiViewHandleTest extends BaseTestCase
 		TableHandle table1 = designHandle.getElementFactory( ).newTableItem(
 				"table1" ); //$NON-NLS-1$
 		designHandle.getBody( ).add( table1 );
-		
+
 		MyListener tmpListener = new MyListener( );
 		table1.addListener( tmpListener );
 
@@ -99,7 +102,15 @@ public class MultiViewHandleTest extends BaseTestCase
 		public void elementChanged( DesignElementHandle focus,
 				NotificationEvent ev )
 		{
-			propertyChanged = true;
+			if ( ev instanceof PropertyEvent )
+			{
+				if ( ( (PropertyEvent) ev ).getPropertyName( ) == IReportItemModel.MULTI_VIEWS_PROP )
+					propertyChanged = true;
+			}
+			if ( ev instanceof ViewsContentEvent )
+			{
+				propertyChanged = true;
+			}
 		}
 
 		boolean isChanged( )
