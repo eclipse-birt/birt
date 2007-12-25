@@ -124,6 +124,8 @@ public class ParamDefTag extends BodyTagSupport
 	 * Whether imported js/style files
 	 */
 	private static final String IMPORT_FILES_ATTR = "IMPORT_FILES_FLAG"; //$NON-NLS-1$
+	private static final String ATTR_ID = "ID_"; //$NON-NLS-1$
+	private static final String ATTR_PARAM = "PARAM_"; //$NON-NLS-1$
 
 	/**
 	 * Initialize pageContext
@@ -189,10 +191,17 @@ public class ParamDefTag extends BodyTagSupport
 		}
 
 		// validate parameter id if unique
-		if ( pageContext.findAttribute( param.getId( ) ) != null )
+		if ( pageContext.findAttribute( ATTR_ID + param.getId( ) ) != null )
 		{
 			throw new JspTagException( BirtResources
 					.getMessage( ResourceConstants.TAGLIB_ATTR_ID_DUPLICATE ) );
+		}
+
+		// validate parameter name if unique
+		if ( pageContext.findAttribute( ATTR_PARAM + param.getName( ) ) != null )
+		{
+			throw new JspTagException( BirtResources
+					.getMessage( ResourceConstants.TAGLIB_PARAM_NAME_DUPLICATE ) );
 		}
 
 		return true;
@@ -204,7 +213,11 @@ public class ParamDefTag extends BodyTagSupport
 	protected void __beforeEndTag( )
 	{
 		// Save parameter id
-		pageContext.setAttribute( param.getId( ), param.getName( ) );
+		pageContext.setAttribute( ATTR_ID + param.getId( ), param.getId( ) );
+
+		// Save parameter name
+		pageContext.setAttribute( ATTR_PARAM + param.getName( ), param
+				.getName( ) );
 	}
 
 	/**
