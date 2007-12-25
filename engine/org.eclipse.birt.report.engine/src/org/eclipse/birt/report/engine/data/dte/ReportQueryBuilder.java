@@ -40,7 +40,6 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
-import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinition;
 import org.eclipse.birt.report.engine.adapter.ExpressionUtil;
@@ -748,6 +747,11 @@ public class ReportQueryBuilder
 			return getResultQuery( query, value );
 		}
 
+		public Object visitReportItem( ReportItemDesign item, Object value )
+		{
+			return null;
+		}
+		
 		/*
 		 * (non-Javadoc)
 		 * 
