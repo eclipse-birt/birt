@@ -713,9 +713,7 @@ public class ReportEngineService
 		// Render options
 		if ( renderOption == null )
 		{
-			if ( IBirtConstants.PDF_RENDER_FORMAT.equalsIgnoreCase( format )
-					|| IBirtConstants.POSTSCRIPT_RENDER_FORMAT
-							.equalsIgnoreCase( format ) )
+			if ( ParameterAccessor.isPDFLayout( format ) )
 			{
 				renderOption = createPDFRenderOption( servletPath, request,
 						ParameterAccessor.isDesigner( request ) );
@@ -791,7 +789,8 @@ public class ReportEngineService
 			BirtUtility.removeTask( request );
 
 			// Append errors
-			BirtUtility.error( request, runAndRenderTask.getErrors( ) );
+			if ( ParameterAccessor.isDesigner( request ) )
+				BirtUtility.error( request, runAndRenderTask.getErrors( ) );
 
 			runAndRenderTask.close( );
 		}
@@ -916,7 +915,8 @@ public class ReportEngineService
 			BirtUtility.removeTask( request );
 
 			// Append errors
-			BirtUtility.error( request, runTask.getErrors( ) );
+			if ( ParameterAccessor.isDesigner( request ) )
+				BirtUtility.error( request, runTask.getErrors( ) );
 
 			runTask.close( );
 		}
@@ -1055,9 +1055,7 @@ public class ReportEngineService
 		if ( format == null )
 			format = ParameterAccessor.getFormat( request );
 
-		if ( IBirtConstants.PDF_RENDER_FORMAT.equalsIgnoreCase( format )
-				|| IBirtConstants.POSTSCRIPT_RENDER_FORMAT
-						.equalsIgnoreCase( format ) )
+		if ( ParameterAccessor.isPDFLayout( format ) )
 		{
 			renderOption = createPDFRenderOption( servletPath, request,
 					ParameterAccessor.isDesigner( request ) );
@@ -1075,9 +1073,7 @@ public class ReportEngineService
 		renderOption.setOutputStream( out );
 		renderOption.setOutputFormat( format );
 		ViewerHTMLActionHandler handler = null;
-		if ( IBirtConstants.PDF_RENDER_FORMAT.equalsIgnoreCase( format )
-				|| IBirtConstants.POSTSCRIPT_RENDER_FORMAT
-						.equalsIgnoreCase( format ) )
+		if ( ParameterAccessor.isPDFLayout( format ) )
 		{
 			handler = new ViewerHTMLActionHandler( reportDocument, pageNumber,
 					locale, false, rtl, masterPage, format, new Boolean(
@@ -1161,7 +1157,8 @@ public class ReportEngineService
 			BirtUtility.removeTask( request );
 
 			// Append errors
-			BirtUtility.error( request, renderTask.getErrors( ) );
+			if ( ParameterAccessor.isDesigner( request ) )
+				BirtUtility.error( request, renderTask.getErrors( ) );
 
 			renderTask.close( );
 		}
@@ -1411,7 +1408,8 @@ public class ReportEngineService
 			BirtUtility.removeTask( request );
 
 			// Append errors
-			BirtUtility.error( request, renderTask.getErrors( ) );
+			if ( ParameterAccessor.isDesigner( request ) )
+				BirtUtility.error( request, renderTask.getErrors( ) );
 
 			renderTask.close( );
 		}

@@ -29,7 +29,12 @@ public class MarkerUtil
 	 * Viewer Problem marker id
 	 */
 	public static final String PROBLEMS_MARKER_ID = "org.eclipse.birt.report.viewer.ViewerProblemMarker"; //$NON-NLS-1$
-	
+
+	/**
+	 * Attribute defined for designer
+	 */
+	public static final String ELEMENT_ID = "ElementId"; //$NON-NLS-1$
+
 	/**
 	 * Current workspace root
 	 */
@@ -41,16 +46,18 @@ public class MarkerUtil
 	 * 
 	 * @param systemId
 	 * @param message
+	 * @param elementId
 	 * @param lineNumber
 	 * @param severity
 	 * @param priority
 	 * @throws CoreException
 	 */
 	public static void addMarker( String systemId, String message,
-			int lineNumber, int severity, int priority ) throws CoreException
+			long elementId, int lineNumber, int severity, int priority )
+			throws CoreException
 	{
 		IResource resource = createResourceFromSystemID( systemId );
-		addMarker( resource, message, lineNumber, severity, priority );
+		addMarker( resource, message, elementId, lineNumber, severity, priority );
 	}
 
 	/**
@@ -58,13 +65,15 @@ public class MarkerUtil
 	 * 
 	 * @param resource
 	 * @param message
+	 * @param elementId
 	 * @param lineNumber
 	 * @param severity
 	 * @param priority
 	 * @throws CoreException
 	 */
 	public static void addMarker( IResource resource, String message,
-			int lineNumber, int severity, int priority ) throws CoreException
+			long elementId, int lineNumber, int severity, int priority )
+			throws CoreException
 	{
 		if ( resource != null )
 		{
@@ -73,6 +82,11 @@ public class MarkerUtil
 				marker.setAttribute( IMarker.MESSAGE, message );
 			if ( lineNumber >= 0 )
 				marker.setAttribute( IMarker.LINE_NUMBER, lineNumber );
+			if ( elementId > 0 )
+				marker
+						.setAttribute( ELEMENT_ID,
+								new Integer( (int) elementId ) );
+
 			marker.setAttribute( IMarker.SEVERITY, severity );
 			marker.setAttribute( IMarker.PRIORITY, priority );
 		}
@@ -110,14 +124,15 @@ public class MarkerUtil
 	 * 
 	 * @param systemId
 	 * @param message
+	 * @param elementId
 	 * @param lineNumber
 	 * @throws CoreException
 	 */
-	public static void error( String systemId, String message, int lineNumber )
-			throws CoreException
+	public static void error( String systemId, String message, long elementId,
+			int lineNumber ) throws CoreException
 	{
-		addMarker( systemId, message, lineNumber, IMarker.SEVERITY_ERROR,
-				IMarker.PRIORITY_NORMAL );
+		addMarker( systemId, message, elementId, lineNumber,
+				IMarker.SEVERITY_ERROR, IMarker.PRIORITY_NORMAL );
 	}
 
 	/**
@@ -125,14 +140,15 @@ public class MarkerUtil
 	 * 
 	 * @param systemId
 	 * @param message
+	 * @param elementId
 	 * @param lineNumber
 	 * @throws CoreException
 	 */
-	public static void fatal( String systemId, String message, int lineNumber )
-			throws CoreException
+	public static void fatal( String systemId, String message, long elementId,
+			int lineNumber ) throws CoreException
 	{
-		addMarker( systemId, message, lineNumber, IMarker.SEVERITY_ERROR,
-				IMarker.PRIORITY_HIGH );
+		addMarker( systemId, message, elementId, lineNumber,
+				IMarker.SEVERITY_ERROR, IMarker.PRIORITY_HIGH );
 	}
 
 	/**
@@ -140,14 +156,15 @@ public class MarkerUtil
 	 * 
 	 * @param systemId
 	 * @param message
+	 * @param elementId
 	 * @param lineNumber
 	 * @throws CoreException
 	 */
-	public static void warning( String systemId, String message, int lineNumber )
-			throws CoreException
+	public static void warning( String systemId, String message,
+			long elementId, int lineNumber ) throws CoreException
 	{
-		addMarker( systemId, message, lineNumber, IMarker.SEVERITY_WARNING,
-				IMarker.PRIORITY_LOW );
+		addMarker( systemId, message, elementId, lineNumber,
+				IMarker.SEVERITY_WARNING, IMarker.PRIORITY_LOW );
 	}
 
 	/**
@@ -155,14 +172,15 @@ public class MarkerUtil
 	 * 
 	 * @param systemId
 	 * @param message
+	 * @param elementId
 	 * @param lineNumber
 	 * @throws CoreException
 	 */
-	public static void info( String systemId, String message, int lineNumber )
-			throws CoreException
+	public static void info( String systemId, String message, long elementId,
+			int lineNumber ) throws CoreException
 	{
-		addMarker( systemId, message, lineNumber, IMarker.SEVERITY_INFO,
-				IMarker.PRIORITY_NORMAL );
+		addMarker( systemId, message, elementId, lineNumber,
+				IMarker.SEVERITY_INFO, IMarker.PRIORITY_NORMAL );
 	}
 
 	/**

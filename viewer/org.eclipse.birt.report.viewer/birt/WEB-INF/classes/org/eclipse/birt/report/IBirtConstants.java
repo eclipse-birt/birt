@@ -30,6 +30,8 @@ public interface IBirtConstants
 	public static final String PDF_RENDER_FORMAT = HTMLRenderOption.OUTPUT_FORMAT_PDF;
 	public static final String POSTSCRIPT_RENDER_FORMAT = "postscript"; //$NON-NLS-1$
 	public static final String DOC_RENDER_FORMAT = "doc"; //$NON-NLS-1$
+	public static final String EXCEL_RENDER_FORMAT = "xls"; //$NON-NLS-1$
+	public static final String PPT_RENDER_FORMAT = "ppt"; //$NON-NLS-1$
 	
 	// frameset viewer model.
 	public static final String VIEWER_FRAMESET = "frameset"; //$NON-NLS-1$

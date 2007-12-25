@@ -1106,9 +1106,11 @@ public class BirtUtility
 	 * 
 	 * @param systemId
 	 * @param message
+	 * @param elementId
 	 * @param lineNumber
 	 */
-	private static void error( String systemId, String message, int lineNumber )
+	private static void error( String systemId, String message, long elementId,
+			int lineNumber )
 	{
 		try
 		{
@@ -1117,10 +1119,10 @@ public class BirtUtility
 			if ( clz != null )
 			{
 				Method mt = clz.getMethod( "error", new Class[]{//$NON-NLS-1$
-						String.class, String.class, int.class} );
+						String.class, String.class, long.class, int.class} );
 				if ( mt != null )
 					mt.invoke( null, new Object[]{systemId, message,
-							new Integer( lineNumber )} );
+							new Long( elementId ), new Integer( lineNumber )} );
 			}
 		}
 		catch ( Exception e )
@@ -1132,14 +1134,11 @@ public class BirtUtility
 	 * Log engine error message in problem view
 	 * 
 	 * @param request
+	 * @param moduleHandle
 	 * @param errors
 	 */
 	public static void error( HttpServletRequest request, List errors )
 	{
-		boolean isDesigner = ParameterAccessor.isDesigner( request );
-		if ( !isDesigner )
-			return;
-
 		String systemId = getSystemId( request );
 		if ( systemId == null )
 			return;
@@ -1163,8 +1162,37 @@ public class BirtUtility
 			Exception e = (Exception) it.next( );
 			if ( e != null )
 			{
-				error( systemId, getDetailMessage( e ),
-						IBirtConstants.UNKNOWN_POSITION );
+				int lineno = IBirtConstants.UNKNOWN_POSITION;
+				long elementId = 0;
+
+				// If EngineException ,get the lineno
+				if ( e instanceof EngineException )
+				{
+					try
+					{
+						Map options = getModuleOptions( request );
+						options.put( IModuleOption.MARK_LINE_NUMBER_KEY,
+								Boolean.TRUE );
+						IReportRunnable reportRunnable = BirtUtility
+								.getRunnableFromDesignFile( request, systemId,
+										options );
+
+						if ( reportRunnable != null )
+						{
+							ModuleHandle moduleHandle = reportRunnable
+									.getDesignHandle( ).getModuleHandle( );
+							elementId = ( (EngineException) e ).getElementID( );
+							Object obj = moduleHandle
+									.getElementByID( elementId );
+							lineno = moduleHandle.getLineNo( obj );
+						}
+					}
+					catch ( Exception err )
+					{
+					}
+				}
+
+				error( systemId, getDetailMessage( e ), elementId, lineno );
 			}
 		}
 	}
