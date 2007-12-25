@@ -41,8 +41,6 @@ import org.eclipse.birt.report.model.api.elements.structures.LevelAttribute;
 import org.eclipse.birt.report.model.api.elements.structures.Rule;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
-import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ILevelModel;
@@ -73,6 +71,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Label;
@@ -292,25 +291,39 @@ public class LevelPropertyDialog extends TitleAreaDialog
 	private void refreshDynamicViewer( )
 	{
 		Iterator attrIter = input.attributesIterator( );
-		List attrList = new LinkedList( );
+		final List attrList = new LinkedList( );
 		while ( attrIter.hasNext( ) )
 		{
 			attrList.add( attrIter.next( ) );
 		}
-		dynamicViewer.refresh( );
-		dynamicViewer.setInput( attrList );
+		Display.getDefault( ).asyncExec( new Runnable( ) {
+
+			public void run( )
+			{
+				dynamicViewer.setInput( attrList );
+			}
+
+		} );
+
 	}
 
 	private void refreshStaticViewer( )
 	{
 		Iterator valuesIter = input.staticValuesIterator( );
-		List valuesList = new LinkedList( );
+		final List valuesList = new LinkedList( );
 		while ( valuesIter.hasNext( ) )
 		{
 			valuesList.add( valuesIter.next( ) );
 		}
-		staticViewer.refresh( );
-		staticViewer.setInput( valuesList );
+		Display.getDefault( ).asyncExec( new Runnable( ) {
+
+			public void run( )
+			{
+				staticViewer.setInput( valuesList );
+			}
+
+		} );
+
 	}
 
 	// private int getIntervalTypeIndex( String interval )
