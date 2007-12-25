@@ -53,8 +53,25 @@ class ChartCubeQueryHelper
 
 	private final ExtendedItemHandle handle;
 	private final Chart cm;
+
+	/**
+	 * Maps for registered query expressions.<br>
+	 * Key: query expression, value: column binding name
+	 */
 	private Map registeredBindings = new HashMap( );
+
+	/**
+	 * Maps for registered sort keys.<br>
+	 * Key: sort key query expression, value: ILevelDefinition
+	 */
 	private Map registeredLevels = new HashMap( );
+
+	private String rowEdgeDimension;
+	/**
+	 * Maps for hierarchy definitions.<br>
+	 * Key: dimension name, value: IHierarchyDefinition
+	 */
+	private Map mapHieDef = new HashMap( );
 
 	public ChartCubeQueryHelper( ExtendedItemHandle handle, Chart cm )
 	{
@@ -69,8 +86,6 @@ class ChartCubeQueryHelper
 		ICubeQueryDefinition cubeQuery = ChartReportItemUtil.getCubeElementFactory( )
 				.createCubeQuery( cubeHandle.getQualifiedName( ) );
 
-		// Generate column bindings, replace them in chart queries and add them
-		// in query definition.
 		List sdList = getAllSeriesDefinitions( cm );
 		for ( int i = 0; i < sdList.size( ); i++ )
 		{
@@ -79,21 +94,23 @@ class ChartCubeQueryHelper
 			for ( int j = 0; j < queryList.size( ); j++ )
 			{
 				Query query = (Query) queryList.get( j );
-				// Bind data definition
-				bindSeriesQuery( sd, query, cubeQuery, true );
+				// Add measures or dimensions for data definition
+				bindSeriesQuery( sd, query, cubeQuery );
 			}
 
-			// Bind option grouping
-			bindSeriesQuery( sd, sd.getQuery( ), cubeQuery, false );
+			// Add measures or dimensions for optional grouping
+			bindSeriesQuery( sd, sd.getQuery( ), cubeQuery );
 
 			// Sort key query may be modified in the next method, so get it
 			// first
 			String sortKeyQuery = sd.getSortKey( ).getDefinition( );
-			// Bind sort key
-			bindSeriesQuery( sd, sd.getSortKey( ), cubeQuery, true );
+			// Add measures or dimensions for data definition
+			bindSeriesQuery( sd, sd.getSortKey( ), cubeQuery );
 
+			// Add sorting on dimension
 			if ( sd.isSetSorting( )
-					&& sortKeyQuery != null && sortKeyQuery.length( ) > 0 )
+					&& sortKeyQuery != null && sortKeyQuery.length( ) > 0
+					&& registeredLevels.containsKey( sortKeyQuery ) )
 			{
 				ICubeSortDefinition sortDef = ChartReportItemUtil.getCubeElementFactory( )
 						.createCubeSortDefinition( sortKeyQuery,
@@ -105,16 +122,21 @@ class ChartCubeQueryHelper
 										: ISortDefinition.SORT_DESC );
 				cubeQuery.addSort( sortDef );
 			}
+
+			// TODO Add sorting on measures
+			// TODO Add filter
 		}
 
 		return cubeQuery;
 	}
 
 	/**
-	 * Adds measure or row/column edge according to query expression
+	 * Adds measure or row/column edge according to query expression. Besides,
+	 * generates column bindings, replace them in chart queries and add them in
+	 * query definition.
 	 */
 	private void bindSeriesQuery( SeriesDefinition sd, Query query,
-			ICubeQueryDefinition cubeQuery, boolean bRow ) throws BirtException
+			ICubeQueryDefinition cubeQuery ) throws BirtException
 	{
 		String expr = query.getDefinition( );
 		if ( expr != null && expr.length( ) > 0 )
@@ -153,15 +175,29 @@ class ChartCubeQueryHelper
 				if ( isReferenceToDimLevel( expr ) )
 				{
 					// Add row/column edge
-					IEdgeDefinition edge = cubeQuery.createEdge( bRow
-							? ICubeQueryDefinition.ROW_EDGE
-							: ICubeQueryDefinition.COLUMN_EDGE );
 					String[] levels = getTargetLevel( expr );
-					IDimensionDefinition dimDef = edge.createDimension( levels[0] );
-					IHierarchyDefinition hieDef = dimDef.createHierarchy( handle.getCube( )
-							.getDimension( dimDef.getName( ) )
-							.getDefaultHierarchy( )
-							.getQualifiedName( ) );
+					String dimensionName = levels[0];
+					final int edgeType = getEdgeType( dimensionName );
+					IEdgeDefinition edge = cubeQuery.getEdge( edgeType );
+					IHierarchyDefinition hieDef = null;
+					if ( edge == null )
+					{
+						// Only create one edge/dimension/hierarchy in one
+						// direction
+						edge = cubeQuery.createEdge( edgeType );
+						IDimensionDefinition dimDef = edge.createDimension( dimensionName );
+						hieDef = dimDef.createHierarchy( handle.getCube( )
+								.getDimension( dimDef.getName( ) )
+								.getDefaultHierarchy( )
+								.getQualifiedName( ) );
+						mapHieDef.put( dimensionName, hieDef );
+					}
+					else
+					{
+						hieDef = (IHierarchyDefinition) mapHieDef.get( dimensionName );
+					}
+
+					// Create level
 					ILevelDefinition level = hieDef.createLevel( levels[1] );
 					registeredLevels.put( expr, level );
 					// columnLevelNameList.add( "Group3/Job" );
@@ -172,6 +208,18 @@ class ChartCubeQueryHelper
 			String newExpr = ExpressionUtil.createJSDataExpression( name );
 			query.setDefinition( newExpr );
 		}
+	}
+
+	private int getEdgeType( String dimensionName )
+	{
+		if ( this.rowEdgeDimension == null )
+		{
+			this.rowEdgeDimension = dimensionName;
+			return ICubeQueryDefinition.ROW_EDGE;
+		}
+		return this.rowEdgeDimension.equals( dimensionName )
+				? ICubeQueryDefinition.ROW_EDGE
+				: ICubeQueryDefinition.COLUMN_EDGE;
 	}
 
 	static String getBaseAggregationType( Chart cm )
@@ -296,13 +344,4 @@ class ChartCubeQueryHelper
 		return result;
 	}
 
-	static boolean isVertical( Chart cm )
-	{
-		boolean bVertical = false;
-		if ( cm instanceof ChartWithAxes )
-		{
-			bVertical = ( (ChartWithAxes) cm ).isTransposed( );
-		}
-		return bVertical;
-	}
 }
