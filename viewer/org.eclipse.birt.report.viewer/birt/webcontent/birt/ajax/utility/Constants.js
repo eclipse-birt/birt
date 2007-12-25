@@ -79,6 +79,7 @@ var Constants = {
 	FORMAT_POSTSCRIPT : 'postscript',
 	FORMAT_PDF : 'pdf',
 	FORMAT_HTML : 'html',
+	FORMAT_PPT : 'ppt',
 	
 	// Action names
 	ACTION_PRINT : 'print',
