@@ -15,6 +15,7 @@ import java.io.Serializable;
 import java.util.Locale;
 import java.util.Map;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -210,4 +211,6 @@ public interface IReportContext
 	 * @return report design handle
 	 */
 	ReportDesignHandle getDesignHandle( );
+	
+	Object evaluate(String script) throws BirtException;
 }

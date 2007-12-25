@@ -15,6 +15,8 @@ import java.io.Serializable;
 import java.util.Locale;
 import java.util.Map;
 
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IRenderOption;
@@ -173,5 +175,15 @@ public class ReportContextImpl implements IReportContext
 	public ReportDesignHandle getDesignHandle( )
 	{
 		return (ReportDesignHandle) getReportRunnable( ).getDesignHandle( );
+	}
+
+	public Object evaluate( String script ) throws BirtException
+	{
+		if ( null != script && script.length( ) > 0 )
+		{
+			ScriptExpression scriptExpression = new ScriptExpression( script );
+			return context.evaluate( scriptExpression );
+		}
+		return null;
 	}
 }
