@@ -23,6 +23,7 @@ import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.mozilla.javascript.Scriptable;
 
@@ -174,6 +175,8 @@ public class QueryResults implements IQueryResults
 						.loadSubQueryDefn( StreamManager.ROOT_STREAM,
 								StreamManager.SELF_SCOPE,
 								subQueryName );
+				if ( subQueryName == null )
+					throw new DataException( ResourceConstants.SUBQUERY_NOT_FOUND, subQueryName );
 				if ( subQuery.usesDetails( ) == true )
 					resultIterator = new ResultIterator( tempDir, context,
 							this,
