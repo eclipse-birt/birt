@@ -13,9 +13,11 @@ package org.eclipse.birt.chart.reportitem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
@@ -455,38 +457,6 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 
 	}
 
-	/**
-	 * Get valid sort expression from series definition.
-	 * 
-	 * @param sd
-	 * @return
-	 */
-	private String getValidSortExpr( SeriesDefinition sd )
-	{
-		if ( !sd.isSetSorting( ) )
-		{
-			return null;
-		}
-
-		String sortExpr = null;
-		if ( sd.getSortKey( ) != null
-				&& sd.getSortKey( ).getDefinition( ) != null )
-		{
-			sortExpr = sd.getSortKey( ).getDefinition( );
-		}
-		else
-		{
-			sortExpr = ( (Query) sd.getDesignTimeSeries( )
-					.getDataDefinition( )
-					.get( 0 ) ).getDefinition( );
-		}
-		if ( "".equals( sortExpr ) ) //$NON-NLS-1$
-		{
-			sortExpr = null;
-		}
-
-		return sortExpr;
-	}
 
 	/**
 	 * The class is responsible to add group bindings of chart on query
@@ -509,6 +479,30 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 		/** Current chart handle. */
 		private Chart fChart;
 
+		/** The set stores created binding names. */
+		private Set fNameSet = new HashSet();
+		
+		/**
+		 * Generate a unique binding name.
+		 * 
+		 * @param expr
+		 * @return
+		 */
+		private String generateUniqueBindingName(String expr)
+		{
+			String name = StructureFactory.newComputedColumn( fReportItemHandle,
+					expr.replaceAll( "\"", "" ) ) //$NON-NLS-1$ //$NON-NLS-2$
+					.getName( );
+			if ( fNameSet.contains( name ) )
+			{
+				name = name + fNameSet.size( );
+				return generateUniqueBindingName( name );
+			}
+			
+			fNameSet.add( name );
+			return name;
+		}
+		
 		/**
 		 * Constructor of the class.
 		 * 
@@ -581,9 +575,7 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 						// If the SortKey does't equal Y grouping expression, we
 						// must create new sort definition and calculate
 						// aggregate on the grouping and sort by the SortKey.
-						String name = StructureFactory.newComputedColumn( fReportItemHandle,
-								sortKey.replaceAll( "\"", "" ) ) //$NON-NLS-1$ //$NON-NLS-2$
-								.getName( );
+						String name = generateUniqueBindingName( sortKey );
 						Binding binding = new Binding( name );
 						fQueryDefinition.addBinding( binding );
 
@@ -721,8 +713,10 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 					groupIntervalRange = orthSD.getGrouping( )
 							.getGroupingInterval( );
 				}
-
-				GroupDefinition yGroupDefinition = new GroupDefinition( yGroupExpr );
+				
+				String name = generateUniqueBindingName( yGroupExpr );
+				
+				GroupDefinition yGroupDefinition = new GroupDefinition( name );
 
 				yGroupDefinition.setKeyExpression( yGroupExpr );
 
@@ -769,7 +763,9 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 						.getDataDefinition( )
 						.get( 0 ) ).getDefinition( );
 
-				GroupDefinition baseGroupDefinition = new GroupDefinition( baseExpr );
+				String name = generateUniqueBindingName( baseExpr );
+				
+				GroupDefinition baseGroupDefinition = new GroupDefinition( name );
 
 				baseGroupDefinition.setKeyExpression( baseExpr );
 				baseGroupDefinition.setInterval( ChartReportItemUtil.convertToDtEGroupUnit( dataType,
@@ -808,9 +804,8 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 				if ( expr != null && !"".equals( expr ) ) //$NON-NLS-1$
 				{
 					// Get a unique name.
-					String name = StructureFactory.newComputedColumn( handle,
-							expr.replaceAll( "\"", "" ) ) //$NON-NLS-1$ //$NON-NLS-2$
-							.getName( );
+					String name = generateUniqueBindingName( expr );
+					
 					Binding colBinding = new Binding( name );
 
 					colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
@@ -966,6 +961,40 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 			}
 			
 			return aggFunction;
+		}
+		
+
+		/**
+		 * Get valid sort expression from series definition.
+		 * 
+		 * @param sd
+		 * @return
+		 */
+		private String getValidSortExpr( SeriesDefinition sd )
+		{
+			if ( !sd.isSetSorting( ) )
+			{
+				return null;
+			}
+
+			String sortExpr = null;
+			if ( sd.getSortKey( ) != null
+					&& sd.getSortKey( ).getDefinition( ) != null )
+			{
+				sortExpr = sd.getSortKey( ).getDefinition( );
+			}
+			else
+			{
+				sortExpr = ( (Query) sd.getDesignTimeSeries( )
+						.getDataDefinition( )
+						.get( 0 ) ).getDefinition( );
+			}
+			if ( "".equals( sortExpr ) ) //$NON-NLS-1$
+			{
+				sortExpr = null;
+			}
+
+			return sortExpr;
 		}
 	} // End of class ChartGroupBindingManager.
 }
