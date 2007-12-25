@@ -86,7 +86,7 @@ public class ViewsContentEvent extends NotificationEvent
 	 */
 	public int getEventType( )
 	{
-		return VIEWS_EVENT;
+		return VIEWS_CONTENT_EVENT;
 	}
 
 	/**

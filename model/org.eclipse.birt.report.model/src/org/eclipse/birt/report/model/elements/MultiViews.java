@@ -14,10 +14,15 @@ package org.eclipse.birt.report.model.elements;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.birt.report.model.api.command.ContentEvent;
+import org.eclipse.birt.report.model.api.command.PropertyEvent;
+import org.eclipse.birt.report.model.api.command.ViewsContentEvent;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IMultiViewsModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 
 /**
  * 
@@ -92,8 +97,45 @@ public class MultiViews extends AbstractMultiViews implements IMultiViewsModel
 		if ( tmpContainer == null )
 			return;
 
+		NotificationEvent newEvent = adjustEvent( ev, tmpContainer );
+		if ( newEvent != null )
+			tmpContainer.broadcast( newEvent, module );
+	}
+
+	/**
+	 * Changes the content event to the <code>ViewsContentEvent</code>.
+	 * 
+	 * @param ev
+	 *            the given event
+	 * @return the return event
+	 */
+
+	private static NotificationEvent adjustEvent( NotificationEvent ev,
+			DesignElement tmpContainer )
+	{
+
+		if ( ev instanceof PropertyEvent )
+		{
+			return new PropertyEvent( tmpContainer,
+					IReportItemModel.MULTI_VIEWS_PROP );
+		}
+
+		if ( !( ev instanceof ContentEvent ) )
+			return null;
+
+		ContentEvent tmpEv = (ContentEvent) ev;
+
+		// actions are same in two events
+
+		int action = tmpEv.getAction( );
+
+		ContainerContext tmpContext = new ContainerContext( tmpContainer,
+				IReportItemModel.MULTI_VIEWS_PROP );
+		ev = new ViewsContentEvent( tmpContext, (DesignElement) tmpEv
+				.getContent( ), action );
+
 		ev.setDeliveryPath( NotificationEvent.CONTAINER );
-		
-		tmpContainer.broadcast( ev, module );
+
+		return ev;
 	}
 }
