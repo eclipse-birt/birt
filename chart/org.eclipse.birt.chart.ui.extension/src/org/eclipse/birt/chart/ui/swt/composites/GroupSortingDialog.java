@@ -249,6 +249,7 @@ public class GroupSortingDialog extends TrayDialog implements Listener, Selectio
 			if ( cmbSorting.getText( ).equals( UNSORTED_OPTION ) )
 			{
 				getSeriesDefinitionForProcessing( ).eUnset( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) );
+				getSeriesDefinitionForProcessing( ).getSortKey( ).setDefinition( null );
 			}
 			else
 			{
