@@ -125,6 +125,8 @@ public class YOptionalGroupSortingDialog extends GroupSortingDialog
 		{
 			cmbSortExpr.select( 0 );
 		}
+		
+		setSortKeyInModel( );
 	}
 
 	/* (non-Javadoc)

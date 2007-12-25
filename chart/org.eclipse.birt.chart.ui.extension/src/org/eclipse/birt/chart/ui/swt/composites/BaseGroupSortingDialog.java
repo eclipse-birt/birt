@@ -138,5 +138,7 @@ public class BaseGroupSortingDialog extends GroupSortingDialog
 		{
 			cmbSortExpr.select( 0 );
 		}
+		
+		setSortKeyInModel( );
 	}
 }

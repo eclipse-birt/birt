@@ -527,4 +527,19 @@ public class GroupSortingDialog extends TrayDialog implements Listener, Selectio
 
 		return exprList;
 	}
+
+	/**
+	 * Set SortKey attribute by UI value.
+	 */
+	protected void setSortKeyInModel( )
+	{
+		String sortKey = cmbSortExpr.getText( );
+		if ( "".equals( sortKey ) ) //$NON-NLS-1$
+		{
+			sortKey = null;
+		}
+
+		getSeriesDefinitionForProcessing( ).getSortKey( )
+				.setDefinition( sortKey );
+	}
 }
