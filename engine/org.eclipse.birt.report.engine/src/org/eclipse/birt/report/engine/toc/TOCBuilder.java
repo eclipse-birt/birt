@@ -34,6 +34,8 @@ public class TOCBuilder
 	private static final String VERSION = VERSION_PREFIX + "2.0";
 	
 	public static final String TOC_PREFIX = "__TOC";//
+	
+	private static final String EMPTY_TOC = new String("");
 
 	/**
 	 * @param tocTree
@@ -104,7 +106,14 @@ public class TOCBuilder
 		node.setParent( parentNode );
 		node.setHideFormats( formats );
 		node.setIsGroupRoot( isGroupRoot );
-		node.setTOCValue( tocValue );
+		if ( tocValue == null )
+		{
+			node.setTOCValue( EMPTY_TOC );
+		}
+		else
+		{
+			node.setTOCValue( tocValue );
+		}
 		node.setElementId( elementId );
 		parentNode.getChildren( ).add( node );
 
