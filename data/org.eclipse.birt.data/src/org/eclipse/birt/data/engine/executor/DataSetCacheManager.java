@@ -189,7 +189,7 @@ public class DataSetCacheManager
 		this.dataSetDesign = dataSetDesign;
 		this.parameterHints = parameterHints;
 		this.appContext = appContext;
-		setRowFetchLimit( );
+
 		/*if ( needToMerge )
 		{
 			try
@@ -200,26 +200,6 @@ public class DataSetCacheManager
 			{
 			}
 		}*/
-	}
-
-	/**
-	 */
-	private void setRowFetchLimit( )
-	{
-		if ( appContext != null )
-		{
-			Object rowLimit = appContext.get( DataEngine.DATA_SET_CACHE_ROW_LIMIT );
-			if ( rowLimit != null )
-			{
-				try
-				{
-					this.dataSetDesign.setRowFetchLimit( Integer.parseInt( rowLimit.toString( ) ) );
-				}
-				catch ( NumberFormatException e )
-				{
-				}
-			}
-		}
 	}
 
 	/**
