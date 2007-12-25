@@ -209,10 +209,12 @@ public class ExtendedItem extends ReportItem
 	{
 		assert prop != null;
 
-		if ( !prop.isExtended( ) )
+		// if and only if this definition is not-extensible and not defined as
+		// 'useOwnModel'
+		if ( !prop.isExtended( ) && !prop.useOverriddenModel( ) )
 			return super.getLocalProperty( module, prop );
 
-		return provider.getExtensionProperty( prop.getName( ) );
+		return provider.getExtensionProperty( module, prop );
 	}
 
 	/**
@@ -603,7 +605,7 @@ public class ExtendedItem extends ReportItem
 			return false;
 		if ( !propDefn.isExtended( ) )
 			return super.hasLocalValue( propDefn );
-		return provider.getExtensionProperty( propDefn.getName( ) ) != null;
+		return provider.getExtensionProperty( getRoot( ), propDefn ) != null;
 	}
 
 	/**

@@ -39,7 +39,6 @@
                 <extended-item extensionName="TestingMatrix" name="NewMeasure View1" id="9">
                     <property name="test2">51</property>
                     <xml-property name="test3"><![CDATA[type=bar,xScale=0,yScale=0,lineStyle=normal]]></xml-property>
-                    <property name="width">12pt</property>
                 </extended-item>
             </property>
             <property name="detail">

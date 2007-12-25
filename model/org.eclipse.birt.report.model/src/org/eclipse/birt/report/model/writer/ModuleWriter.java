@@ -1654,7 +1654,12 @@ public abstract class ModuleWriter extends ElementVisitor
 			List props = extDefn.getProperties( );
 			for ( int i = 0; i < props.size( ); i++ )
 			{
-				PropertyDefn prop = (PropertyDefn) props.get( i );
+				ElementPropertyDefn prop = (ElementPropertyDefn) props.get( i );
+
+				// if property is not extensible and 'isUseOwnModel' then do not
+				// write it directly, it must be serialized in extension Model
+				if ( !prop.isExtended( ) && prop.useOverriddenModel( ) )
+					continue;
 				String propName = prop.getName( );
 				if ( IDesignElementModel.NAME_PROP.equals( propName )
 						|| IExtendedItemModel.EXTENSION_NAME_PROP

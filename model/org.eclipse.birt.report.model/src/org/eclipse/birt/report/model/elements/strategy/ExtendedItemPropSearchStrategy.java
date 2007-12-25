@@ -181,7 +181,7 @@ public class ExtendedItemPropSearchStrategy
 				.getName( ) );;
 		if ( propDefn != null )
 		{
-			boolean useOwnModel = propDefn.isUseOwnModel( );
+			boolean useOwnModel = propDefn.useOverriddenModel( );
 			if ( useOwnModel )
 			{
 				IReportItem reportItem = extendedItem.getExtendedElement( );

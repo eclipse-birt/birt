@@ -9,7 +9,6 @@
             <xml-property name="test3"><![CDATA[type=bar,xScale=2,yScale=3,lineStyle=normal]]></xml-property>
             <property name="test5">choice2</property>
             <property name="dataSet">firstDataSet</property>
-            <property name="width">12pt</property>
             <list-property name="boundDataColumns">
                 <structure>
                     <property name="name">value1</property>

@@ -421,7 +421,7 @@ public class PropertyCommand extends AbstractPropertyCommand
 			// directly.
 
 			if ( extendedItem.isExtensionModelProperty( prop.getName( ) )
-					|| prop.isUseOwnModel( ) )
+					|| prop.useOverriddenModel( ) )
 			{
 				IReportItem extElement = extendedItem.getExtendedElement( );
 

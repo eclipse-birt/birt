@@ -246,10 +246,10 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 
 	/**
 	 * Returns <code>true</code> indicating if the xml property value
-	 * represents the extesion-defined model.
+	 * represents the extension-defined model.
 	 * 
 	 * @return <code>true</code> if the xml property value represents the
-	 *         extesion-defined model.
+	 *         extension-defined model.
 	 */
 
 	public boolean hasOwnModel( )
@@ -258,12 +258,12 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 	}
 
 	/**
-	 * Gets useOwnModel property value.
+	 * Gets useOwnModel property value. Only used for overridden properties.
 	 * 
 	 * @return useOwnModel property value.
 	 */
 
-	public boolean isUseOwnModel( )
+	public boolean useOverriddenModel( )
 	{
 		return useOwnModel;
 	}
