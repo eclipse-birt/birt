@@ -143,8 +143,6 @@ public class ModuleOption implements IModuleOption
 
 	public boolean markLineNumber( )
 	{
-		if ( !useSemanticCheck( ) )
-			return false;
 
 		Object markLineNumber = options.get( MARK_LINE_NUMBER_KEY );
 		if ( markLineNumber != null )

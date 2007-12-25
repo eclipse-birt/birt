@@ -236,7 +236,7 @@ public class SessionHandleTest extends BaseTestCase
 	{
 		String outputPath = getTempFolder( ) + OUTPUT_FOLDER;
 		File outputFolder = new File( outputPath );
-		if ( !outputFolder.exists( ) && !outputFolder.mkdir( ) )
+		if ( !outputFolder.exists( ) && !outputFolder.mkdirs( ) )
 		{
 			throw new IOException( "Can not create the output folder" ); //$NON-NLS-1$
 		}
@@ -330,8 +330,8 @@ public class SessionHandleTest extends BaseTestCase
 		try
 		{
 			designHandle = session.openDesign( getResource( INPUT_FOLDER )
-					.toString( )
-					+ notExistedFileName );
+					.toString( ) +
+					notExistedFileName );
 			fail( );
 		}
 		catch ( DesignFileException e )
@@ -701,7 +701,7 @@ public class SessionHandleTest extends BaseTestCase
 	 * 
 	 * @param designHandle
 	 *            the report design handle
-	 * @param url 
+	 * @param url
 	 * @param file
 	 *            the <code>File</code> instance of the design file
 	 * @throws Exception
@@ -728,7 +728,8 @@ public class SessionHandleTest extends BaseTestCase
 		// file.
 
 		URL tmpUrl = getResource( "/org/eclipse/birt/report/model/library/" //$NON-NLS-1$
-				+ INPUT_FOLDER );
+				+
+				INPUT_FOLDER );
 
 		assertTrue( tmpUrl.sameFile( libHandle.getSystemId( ) ) );
 	}
@@ -932,9 +933,12 @@ public class SessionHandleTest extends BaseTestCase
 	{
 		ModuleOption options = new ModuleOption( );
 		options.setSemanticCheck( false );
+		options.setMarkLineNumber( true );
+		
 		designHandle = session
 				.openDesign(
 						getResource( INPUT_FOLDER + "SessionHandleTest_11.xml" ).toString( ), options ); //$NON-NLS-1$
+		assertTrue( options.markLineNumber( ) );
 		assertEquals( 0, designHandle.getModule( ).getAllErrors( ).size( ) );
 		assertEquals( 0, designHandle
 				.getLibrary( "lib" ).getModule( ).getAllErrors( ).size( ) ); //$NON-NLS-1$
