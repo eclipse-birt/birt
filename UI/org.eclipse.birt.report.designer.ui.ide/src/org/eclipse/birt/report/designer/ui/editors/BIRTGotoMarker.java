@@ -39,22 +39,13 @@ import org.eclipse.birt.report.model.api.TemplateParameterDefinitionHandle;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.text.BadLocationException;
-import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.Position;
-import org.eclipse.jface.text.source.IAnnotationModel;
-import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.editor.IFormPage;
 import org.eclipse.ui.ide.IGotoMarker;
-import org.eclipse.ui.texteditor.AbstractMarkerAnnotationModel;
-import org.eclipse.ui.texteditor.AbstractTextEditor;
-import org.eclipse.ui.texteditor.MarkerUtilities;
 
 /**
- * 
+ * BIRTGotoMarker
  */
-
 class BIRTGotoMarker implements IGotoMarker
 {
 
@@ -72,8 +63,7 @@ class BIRTGotoMarker implements IGotoMarker
 	 */
 	public void gotoMarker( IMarker marker )
 	{
-		// TODO Auto-generated method stub
-		Assert.isNotNull( editorPart );
+		assert editorPart != null;
 
 		if ( !marker.exists( ) )
 		{
@@ -145,8 +135,8 @@ class BIRTGotoMarker implements IGotoMarker
 		// can not find it in this editpage
 		{
 			MessageDialog.openError( UIUtil.getDefaultShell( ),
-					Messages.getString( "BIRTGotoMarker.Error.Title" ),
-					Messages.getString( "BIRTGotoMarker.Error.Message" ) );
+					Messages.getString( "BIRTGotoMarker.Error.Title" ), //$NON-NLS-1$
+					Messages.getString( "BIRTGotoMarker.Error.Message" ) ); //$NON-NLS-1$
 		}
 
 	}
@@ -218,7 +208,7 @@ class BIRTGotoMarker implements IGotoMarker
 		{
 			ExceptionHandler.handle( e );
 		}
-		if ( elementId.intValue( ) > 0 )
+		if ( elementId != null && elementId.intValue( ) > 0 )
 		{
 			DesignElementHandle elementHandle = moduleHandle.getElementByID( elementId.intValue( ) );
 			if ( elementHandle == null
@@ -255,8 +245,8 @@ class BIRTGotoMarker implements IGotoMarker
 		if ( reportElementHandle == null )
 		{
 			MessageDialog.openError( UIUtil.getDefaultShell( ),
-					Messages.getString( "BIRTGotoMarker.Error.Title" ),
-					Messages.getString( "BIRTGotoMarker.Error.Message" ) );
+					Messages.getString( "BIRTGotoMarker.Error.Title" ), //$NON-NLS-1$
+					Messages.getString( "BIRTGotoMarker.Error.Message" ) ); //$NON-NLS-1$
 			return;
 		}
 
