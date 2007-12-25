@@ -99,6 +99,10 @@ public class ReportExecutor implements IReportExecutor
 		// Prepare necessary data for this report
 		Map appContext = context.getAppContext( );
 		context.getDataEngine( ).prepare( report, appContext );
+		
+		
+		//create execution optimize policy
+		context.optimizeExecution( );
 
 		// prepare to execute the child
 		currentItem = 0;

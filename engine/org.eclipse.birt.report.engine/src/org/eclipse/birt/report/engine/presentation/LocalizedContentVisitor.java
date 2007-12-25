@@ -167,9 +167,10 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 
 	public Object visitPage( IPageContent page, Object value )
 	{
+		boolean isExecutingMasterPage = context.isExecutingMasterPage( );
 		context.setExecutingMasterPage( true );
 		value = localizeAllChildren( page );
-		context.setExecutingMasterPage( false );
+		context.setExecutingMasterPage( isExecutingMasterPage );
 		return value;
 	}
 	

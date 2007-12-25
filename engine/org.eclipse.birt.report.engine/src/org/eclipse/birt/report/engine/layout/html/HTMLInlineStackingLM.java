@@ -67,9 +67,16 @@ public abstract class HTMLInlineStackingLM extends HTMLStackingLM
 			IReportItemExecutor childExecutor = (IReportItemExecutor) executor
 					.getNextChild( );
 			IContent childContent = childExecutor.execute( );
-			ILayoutManager childLayout = engine.createLayoutManager( this,
-					childContent, childExecutor, emitter );
-			childrenLayouts.add( childLayout );
+			if ( childContent == null )
+			{
+				childrenLayouts.add( null );
+			}
+			else
+			{
+				ILayoutManager childLayout = engine.createLayoutManager( this,
+						childContent, childExecutor, emitter );
+				childrenLayouts.add( childLayout );
+			}
 			childrenExecutors.add( childExecutor );
 			childrenFinished.add( Boolean.FALSE );
 		}
@@ -92,15 +99,25 @@ public abstract class HTMLInlineStackingLM extends HTMLStackingLM
 			{
 				ILayoutManager childLayout = (ILayoutManager) childrenLayouts
 						.get( i );
-				boolean childHasNewPage = childLayout.layout( );
-				if ( childHasNewPage )
+				if ( childLayout != null )
 				{
-					hasNextPage = true;
+					boolean childHasNewPage = childLayout.layout( );
+					if ( childHasNewPage )
+					{
+						hasNextPage = true;
+					}
+					childFinished = childLayout.isFinished( );
 				}
-				childFinished = childLayout.isFinished( );
+				else
+				{
+					childFinished = true;
+				}
 				if ( childFinished )
 				{
-					childLayout.close( );
+					if ( childLayout != null )
+					{
+						childLayout.close( );
+					}
 					IReportItemExecutor childExecutor = (IReportItemExecutor) childrenExecutors
 							.get( i );
 					childExecutor.close( );
@@ -113,7 +130,8 @@ public abstract class HTMLInlineStackingLM extends HTMLStackingLM
 	
 	protected boolean isChildrenFinished( )
 	{
-		for ( int i = 0; i < childrenLayouts.size( ); i++ )
+		int size = childrenLayouts.size( );
+		for ( int i = 0; i < size; i++ )
 		{
 			boolean childFinished = ( (Boolean) childrenFinished.get( i ) )
 					.booleanValue( );

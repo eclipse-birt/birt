@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2007 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -83,10 +83,18 @@ public class TableBandExecutor extends StyledItemExecutor
 		if ( currentRow < bandDesign.getRowCount( ) )
 		{
 			RowDesign rowDesign = bandDesign.getRow( currentRow++ );
-			RowExecutor rowExecutor = (RowExecutor) manager.createExecutor(
-					this, rowDesign );
-			rowExecutor.setRowId( tableExecutor.rowId++ );
-			return rowExecutor;
+			ReportItemExecutor childExecutor = manager.createExecutor( this,
+					rowDesign );
+			if ( childExecutor instanceof RowExecutor )
+			{
+				RowExecutor rowExecutor = (RowExecutor) childExecutor;
+				rowExecutor.setRowId( tableExecutor.rowId++ );
+			}
+			else
+			{
+				tableExecutor.rowId++;
+			}
+			return childExecutor;
 		}
 		return null;
 	}

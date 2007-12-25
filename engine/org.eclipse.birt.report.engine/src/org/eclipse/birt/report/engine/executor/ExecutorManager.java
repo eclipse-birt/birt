@@ -19,11 +19,11 @@ import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.data.IDataEngine;
+import org.eclipse.birt.report.engine.executor.optimize.ExecutionPolicy;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IExecutorContext;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
-import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.AutoTextItemDesign;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
@@ -79,11 +79,12 @@ public class ExecutorManager
 	public static final int CELLITEM = 14;
 	public static final int LISTGROUPITEM = 15;
 	public static final int TABLEGROUPITEM = 16;
+	public static final int DUMMYITEM = 17;
 
 	/**
 	 * the number of suppported executor
 	 */
-	public static final int NUMBER = 17;
+	public static final int NUMBER = 18;
 
 	protected static Logger log = Logger.getLogger( ExecutorManager.class
 			.getName( ) );
@@ -188,6 +189,8 @@ public class ExecutorManager
 				return new ListGroupExecutor( this );
 			case TABLEGROUPITEM :
 				return new TableGroupExecutor( this );
+			case DUMMYITEM :
+				return new DummyItemExecutor( this );
 			default :
 				throw new UnsupportedOperationException(
 						"unsupported executor!" ); //$NON-NLS-1$
@@ -247,6 +250,14 @@ public class ExecutorManager
 
 		public ReportItemExecutor createExecutor( ReportItemDesign design )
 		{
+			ExecutionPolicy executionPolicy = context.getExecutionPolicy( );
+			if ( executionPolicy != null )
+			{
+				if ( !executionPolicy.needExecute( design ) )
+				{
+					return getItemExecutor( DUMMYITEM );
+				}
+			}
 			return (ReportItemExecutor) design.accept( this, null );
 		}
 

@@ -1444,16 +1444,14 @@ public class EngineIRVisitor extends DesignVisitor
 		if ( extendedHandle == null )
 			return;
 
-		List properties = extendedHandle.getExtensionPropertyDefinitionList( );
-		Iterator propIter = properties.iterator( );
+		Iterator propIter = extendedHandle.getPropertyIterator( );
 		while ( propIter.hasNext( ) )
 		{
-			IElementPropertyDefn property = (IElementPropertyDefn) propIter
-					.next( );
+			PropertyHandle propHandle = (PropertyHandle) propIter.next( );
+			IElementPropertyDefn property = propHandle.getPropertyDefn( );
 			if ( property.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
 			{
-				Object children = extendedHandle.getProperty( property
-						.getName( ) );
+				Object children = propHandle.getValue( );
 				if ( children instanceof List )
 				{
 					List tempList = (List) children;

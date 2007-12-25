@@ -121,10 +121,18 @@ public class GridItemExecutor extends QueryItemExecutor
 		if ( curRowDesign < gridDesign.getRowCount( ) )
 		{
 			RowDesign rowDesign = gridDesign.getRow( curRowDesign++ );
-			RowExecutor rowExecutor = (RowExecutor)manager.createExecutor( this,
+			ReportItemExecutor childExecutor = manager.createExecutor( this,
 					rowDesign );
-			rowExecutor.setRowId( curRowContent++ );
-			return rowExecutor;
+			if ( childExecutor instanceof RowExecutor )
+			{
+				RowExecutor rowExecutor = (RowExecutor) childExecutor;
+				rowExecutor.setRowId( curRowContent++ );
+			}
+			else
+			{
+				curRowContent++;
+			}
+			return childExecutor;
 		}
 		return null;
 	}

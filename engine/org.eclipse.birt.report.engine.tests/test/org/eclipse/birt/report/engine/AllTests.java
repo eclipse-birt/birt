@@ -168,7 +168,7 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.report.engine.toc.TOCBuilderReadV1Test.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.toc.TOCBuilderTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.util.FileUtilTest.class );
-
+		suite.addTestSuite( org.eclipse.birt.report.engine.executor.optimize.ExecutionOptimizeTest.class );
 		// $JUnit-END$
 		return suite;
 	}

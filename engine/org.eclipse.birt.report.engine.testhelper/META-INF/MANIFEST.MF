@@ -5,10 +5,12 @@ Bundle-SymbolicName: org.eclipse.birt.report.engine.testhelper
 Bundle-Version: 2.3.0.qualifier
 Fragment-Host: org.eclipse.birt.report.engine;bundle-version="2.2.0"
 Bundle-ClassPath: enginetesthelper.jar
-Export-Package: org.eclipse.birt.report.engine.api,
+Export-Package: org.eclipse.birt.report.engine,
+ org.eclipse.birt.report.engine.api,
  org.eclipse.birt.report.engine.api.impl,
  org.eclipse.birt.report.engine.executor,
  org.eclipse.birt.report.engine.executor.buffermgr,
+ org.eclipse.birt.report.engine.executor.optimize,
  org.eclipse.birt.report.engine.internal.document.v2,
  org.eclipse.birt.report.engine.internal.executor.doc,
  org.eclipse.birt.report.engine.internal.executor.load
