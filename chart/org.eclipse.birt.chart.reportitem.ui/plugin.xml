@@ -76,6 +76,38 @@
        </enablement>
     </adapter>
  </adaptable>
+ <adaptable
+       class="org.eclipse.birt.report.model.api.ExtendedItemHandle">
+    <adapter
+          class="org.eclipse.birt.chart.reportitem.ui.views.provider.ChartAggregationCellViewProvider"
+          id="org.eclipse.birt.chart.reportitem.ui.ChartAggregationCellViewProvider"
+          priority="2"
+          type="org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider">
+       <enablement>
+          <test
+                forcePluginActivation="true"
+                property="ExtendItemHandle.extensionName"
+                value="Chart">
+          </test>
+       </enablement>
+    </adapter>
+ </adaptable>
+ <adaptable
+       class="org.eclipse.birt.report.model.api.ExtendedItemHandle">
+    <adapter
+          class="org.eclipse.birt.chart.reportitem.ui.views.provider.ChartReportItemViewProvider"
+          id="org.eclipse.birt.chart.reportitem.ui.ChartReportItemViewProvider"
+          priority="2"
+          type="org.eclipse.birt.report.designer.ui.extensions.IReportItemViewProvider">
+       <enablement>
+          <test
+                forcePluginActivation="true"
+                property="ExtendItemHandle.extensionName"
+                value="Chart">
+          </test>
+       </enablement>
+    </adapter>
+ </adaptable>
    	</extension>
 
    <extension
