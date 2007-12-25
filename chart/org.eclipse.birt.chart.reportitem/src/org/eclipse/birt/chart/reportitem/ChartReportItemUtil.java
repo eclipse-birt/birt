@@ -478,4 +478,33 @@ public class ChartReportItemUtil
 
 		return false;
 	}
+	
+	/**
+	 * Check if chart has aggregation.
+	 * 
+	 * @param cm
+	 * @return
+	 */
+	public static boolean hasAggregation( Chart cm )
+	{
+		SeriesDefinition baseSD = null;
+		if ( cm instanceof ChartWithAxes )
+		{
+			ChartWithAxes cwa = (ChartWithAxes) cm;
+			baseSD = (SeriesDefinition) cwa.getBaseAxes( )[0].getSeriesDefinitions( )
+					.get( 0 );
+		}
+		else if ( cm instanceof ChartWithoutAxes )
+		{
+			ChartWithoutAxes cwoa = (ChartWithoutAxes) cm;
+			baseSD = (SeriesDefinition) cwoa.getSeriesDefinitions( ).get( 0 );
+		}
+
+		if ( isBaseGroupingDefined( baseSD ))
+		{
+			return true;
+		}
+		
+		return false;
+	}
 }

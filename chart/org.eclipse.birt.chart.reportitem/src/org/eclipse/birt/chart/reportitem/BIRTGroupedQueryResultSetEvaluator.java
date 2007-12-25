@@ -46,13 +46,17 @@ public class BIRTGroupedQueryResultSetEvaluator
 
 	private int fCountOfAvaiableRows = 0;
 
+	private boolean fHasAggregation = false;
+
 	/**
 	 * Constructor.
 	 * 
 	 * @param resultSet
+     * @param hasAggregation
 	 */
-	public BIRTGroupedQueryResultSetEvaluator( IQueryResultSet resultSet )
+	public BIRTGroupedQueryResultSetEvaluator( IQueryResultSet resultSet, boolean hasAggregation )
 	{
+		fHasAggregation  = hasAggregation;
 		fQueryResultSet = resultSet;
 		fResultIterator = resultSet.getResultIterator( );
 		fGroupDefinitions = fResultIterator.getQueryResults( )
@@ -70,7 +74,7 @@ public class BIRTGroupedQueryResultSetEvaluator
 			}
 		}
 	}
-
+	
 	/**
 	 * Get list of group breaks, the group level is base on 0th index, 0 index
 	 * means outermost group.
@@ -218,6 +222,12 @@ public class BIRTGroupedQueryResultSetEvaluator
 					getGroupBreaksList( i ).add( new Integer( fCountOfAvaiableRows ) );
 				}
 				
+				return true;
+			}
+			
+			if ( !fHasAggregation )
+			{
+				fCountOfAvaiableRows++;
 				return true;
 			}
 		}

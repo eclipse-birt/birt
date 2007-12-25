@@ -467,7 +467,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 			// set contains grouping, but chart doesn't define grouping.
 			if ( ChartReportItemUtil.canContainGrouping( cm ) )
 			{
-				return new BIRTGroupedQueryResultSetEvaluator( (IQueryResultSet) set );
+				return new BIRTGroupedQueryResultSetEvaluator( (IQueryResultSet) set,
+						ChartReportItemUtil.hasAggregation( cm ) );
 			}
 			return new BIRTQueryResultSetEvaluator( (IQueryResultSet) set );
 		}
