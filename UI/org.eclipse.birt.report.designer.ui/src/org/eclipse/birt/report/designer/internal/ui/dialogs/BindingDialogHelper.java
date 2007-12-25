@@ -1052,6 +1052,28 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				return true;
 			if ( btnTable.getSelection( ) == ( binding.getAggregateOn( ) != null ) )
 				return true;
+			if ( !btnTable.getSelection( )
+					&& !binding.getAggregateOn( ).equals( cmbGroup.getText( ) ) )
+				return true;
+
+			for ( Iterator iterator = binding.argumentsIterator( ); iterator.hasNext( ); )
+			{
+				AggregationArgumentHandle handle = (AggregationArgumentHandle) iterator.next( );
+				String argDisplayName = getArgumentDisplayNameByName( binding.getAggregateFunction( ),
+						handle.getName( ) );
+				if ( argsMap.containsKey( argDisplayName ) )
+				{
+					if ( !strEquals( handle.getValue( ),
+							( (Text) argsMap.get( argDisplayName ) ).getText( ) ) )
+					{
+						return true;
+					}
+				}
+				else
+				{
+					return true;
+				}
+			}
 		}
 		else
 		{
