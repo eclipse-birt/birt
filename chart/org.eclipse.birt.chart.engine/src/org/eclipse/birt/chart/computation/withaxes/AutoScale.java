@@ -106,8 +106,8 @@ public final class AutoScale extends Methods implements Cloneable
 
 	/** Indicates the max boundary of axis ticks. */
 	private static final int TICKS_MAX = 100;
-	
-	private static final DecimalFormat dfDoulbeNormalized = new DecimalFormat (".###############E0"); //$NON-NLS-1$
+
+	private static final DecimalFormat dfDoulbeNormalized = new DecimalFormat( ".###############E0" ); //$NON-NLS-1$
 
 	/**
 	 * A default numeric pattern for integer number representation of axis
@@ -595,7 +595,7 @@ public final class AutoScale extends Methods implements Cloneable
 	public final String getNumericPattern( double dValue )
 	{
 
-		if ( dValue - (int) dValue == 0 )
+		if ( ChartUtil.mathEqual( dValue, (long) dValue ) )
 		{
 			// IF MANTISSA IS INSIGNIFICANT, SHOW LABELS AS INTEGERS
 			return sNumericPattern;
@@ -603,11 +603,12 @@ public final class AutoScale extends Methods implements Cloneable
 
 		final DecimalFormatSymbols dfs = new DecimalFormatSymbols( );
 		final String sMinimum = String.valueOf( dValue );
+		final int iEPosition = sMinimum.indexOf( dfs.getExponentSeparator( ) );
 		final int iDecimalPosition = sMinimum.indexOf( dfs.getDecimalSeparator( ) );
 		// THIS RELIES ON THE FACT THAT IN ANY LOCALE, DECIMAL IS A DOT
 		if ( iDecimalPosition >= 0 )
 		{
-			int n = sMinimum.length( );
+			int n = ( iEPosition > 0 ) ? iEPosition : sMinimum.length( );
 			for ( int i = n - 1; i > 0; i-- )
 			{
 				if ( sMinimum.charAt( i ) == '0' )
@@ -621,10 +622,13 @@ public final class AutoScale extends Methods implements Cloneable
 			}
 			final int iMantissaCount = n - 1 - iDecimalPosition;
 			final StringBuffer sb = new StringBuffer( sNumericPattern );
-			sb.append( '.' );
-			for ( int i = 0; i < iMantissaCount; i++ )
+			if ( iMantissaCount > 0 )
 			{
-				sb.append( '0' );
+				sb.append( '.' );
+				for ( int i = 0; i < iMantissaCount; i++ )
+				{
+					sb.append( '0' );
+				}
 			}
 			return sb.toString( );
 		}
@@ -949,8 +953,29 @@ public final class AutoScale extends Methods implements Cloneable
 				double dMax = asDouble( oMaximum ).doubleValue( );
 				double dMin = asDouble( oMinimum ).doubleValue( );
 				double dStep = asDouble( oStep ).doubleValue( );
-				if ( dMax != dMin )
-					nTicks = (int) Math.ceil( ( dMax - dMin ) / dStep - 0.5 ) + 1;
+
+				if ( !ChartUtil.mathEqual( dMax, dMin ) )
+				{
+					double dNTicks = ( dMax - dMin ) / dStep;
+					if ( ( dNTicks > TICKS_MAX ) || ( dNTicks < 2 ) )
+					{
+						if ( dNTicks > TICKS_MAX )
+						{
+							nTicks = TICKS_MAX;
+						}
+						else
+						{ // dNTicks<2
+							nTicks = 2;
+						}
+						// update the step size
+						dStep = ( dMax - dMin ) / nTicks;
+						oStep = new Double( dStep );
+					}
+					else
+					{
+						nTicks = (int) Math.ceil( dNTicks - 0.5 ) + 1;
+					}
+				}
 				else
 					nTicks = 5;
 			}
@@ -2353,7 +2378,7 @@ public final class AutoScale extends Methods implements Cloneable
 		double dNewValue = Double.valueOf( sValue ).doubleValue( );
 		return dNewValue;
 	}
-	
+
 	/**
 	 * Computes value precision if more precise than existing one For instance
 	 * 3.4 has a precision of 0.1 and 1400 has a precision of 100. That is the
