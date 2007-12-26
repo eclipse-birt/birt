@@ -1266,6 +1266,20 @@ public class ParameterDialog extends BaseDialog
 		{
 			return;
 		}
+		// When data type is changed, validate the default value first. if the
+		// old default value is invalid,
+		// then set the default value to null, else let in remain it unchanged.
+		// -- Begin --
+		try
+		{
+			validateValue( defaultValue );
+		}
+		catch ( BirtException e1 )
+		{
+			defaultValue = null;
+		}
+		// -- End --
+		
 		if ( buildControlTypeList( type ) )
 		{
 			changeControlType( );
