@@ -338,6 +338,7 @@ public class GroupDialog extends TitleAreaDialog
 			catch ( SemanticException e )
 			{
 				ExceptionHandler.handle( e );
+				return;
 			}
 		}
 		else

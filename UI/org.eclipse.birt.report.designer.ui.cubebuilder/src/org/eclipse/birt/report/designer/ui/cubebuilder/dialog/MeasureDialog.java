@@ -279,6 +279,7 @@ public class MeasureDialog extends BaseDialog
 		catch ( SemanticException e )
 		{
 			ExceptionHandler.handle( e );
+			return;
 		}
 		super.okPressed( );
 	}

@@ -378,6 +378,7 @@ public class DateLevelDialog extends TitleAreaDialog
 		catch ( Exception e )
 		{
 			ExceptionHandler.handle( e );
+			return;
 		}
 		super.okPressed( );
 	}

@@ -380,6 +380,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			catch ( SemanticException e )
 			{
 				ExceptionHandler.handle( e );
+				return;
 			}
 
 		}
@@ -410,6 +411,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			catch ( SemanticException e )
 			{
 				ExceptionHandler.handle( e );
+				return;
 			}
 
 		}
