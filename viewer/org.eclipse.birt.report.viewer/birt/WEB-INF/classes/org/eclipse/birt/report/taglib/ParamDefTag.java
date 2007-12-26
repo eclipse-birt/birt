@@ -292,6 +292,8 @@ public class ParamDefTag extends BodyTagSupport
 
 		if ( "true".equalsIgnoreCase( param.getIsLocale( ) ) ) //$NON-NLS-1$
 			this.isLocale = true;
+		else
+			this.isLocale = false;
 
 		// handle parameter value
 		if ( param.getValue( ) != null )
