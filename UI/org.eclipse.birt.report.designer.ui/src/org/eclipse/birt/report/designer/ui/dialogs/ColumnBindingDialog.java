@@ -195,7 +195,7 @@ public class ColumnBindingDialog extends BaseDialog
 					text = handle.getExpression( );
 					break;
 				case 5 :
-					String value = handle.getAggregateOn( );
+					String value = DEUtil.getAggregateOn( handle );
 					String groupType = DEUtil.getGroupControlType( inputElement );
 					if ( value == null )
 					{
@@ -209,13 +209,7 @@ public class ColumnBindingDialog extends BaseDialog
 					}
 					else
 					{
-						if ( groupType == DEUtil.TYPE_GROUP_NONE )
-						{
-							text = NONE_AGGREGATEON;
-							handle.setAggregateOn( null );
-						}
-						else
-							text = value;
+						text = value;
 					}
 
 					break;
@@ -803,7 +797,7 @@ public class ColumnBindingDialog extends BaseDialog
 				return columnName;
 			}
 		}
-		
+
 		return null;
 	}
 
