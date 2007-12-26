@@ -125,14 +125,29 @@ public class MultiViews extends AbstractMultiViews implements IMultiViewsModel
 
 		ContentEvent tmpEv = (ContentEvent) ev;
 
-		// actions are same in two events
+		// actions cannot be same in two events because of UI constraints.
 
 		int action = tmpEv.getAction( );
 
+		int newAction = -1;
+		switch ( action )
+		{
+			case ContentEvent.ADD :
+				newAction = ViewsContentEvent.ADD;
+				break;
+			case ContentEvent.REMOVE :
+				newAction = ViewsContentEvent.REMOVE;
+				break;
+			case ContentEvent.SHIFT :
+				newAction = ViewsContentEvent.SHIFT;
+				break;
+			default :
+				assert false;
+		}
 		ContainerContext tmpContext = new ContainerContext( tmpContainer,
 				IReportItemModel.MULTI_VIEWS_PROP );
 		ev = new ViewsContentEvent( tmpContext, (DesignElement) tmpEv
-				.getContent( ), action );
+				.getContent( ), newAction );
 
 		ev.setDeliveryPath( NotificationEvent.CONTAINER );
 

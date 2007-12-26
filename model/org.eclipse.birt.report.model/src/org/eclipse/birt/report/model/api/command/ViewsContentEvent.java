@@ -27,24 +27,25 @@ import org.eclipse.birt.report.model.core.DesignElement;
 
 public class ViewsContentEvent extends NotificationEvent
 {
+
 	/**
 	 * New content element is added.
 	 */
 
-	public static final int ADD = ContentEvent.ADD;
+	public static final int ADD = 10;
 
 	/**
 	 * Content element is removed.
 	 */
 
-	public static final int REMOVE = ContentEvent.REMOVE;
+	public static final int REMOVE = 11;
 
 	/**
 	 * Content element is shifted in the same container element.
 	 */
 
-	public static final int SHIFT = ContentEvent.SHIFT;
-	
+	public static final int SHIFT = 12;
+
 	/**
 	 * The type of change. One of {@link #ADD},{@link #REMOVE}, or
 	 * {@link #SHIFT}.
@@ -69,7 +70,7 @@ public class ViewsContentEvent extends NotificationEvent
 	 * @param theContent
 	 * @param theAction
 	 */
-	
+
 	public ViewsContentEvent( ContainerContext containerInfo,
 			DesignElement theContent, int theAction )
 	{
