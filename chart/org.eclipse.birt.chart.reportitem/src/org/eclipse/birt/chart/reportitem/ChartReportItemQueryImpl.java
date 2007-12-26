@@ -368,6 +368,35 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 				operand2 ) );
 	}
 
+	/**
+	 * Gets the aggregation function expression
+	 * 
+	 * @param orthoSD
+	 * @param strBaseAggExp
+	 */
+	public static String getAggregationExpression( SeriesDefinition orthoSD,
+			String strBaseAggExp )
+	{
+		String strOrthoAgg = null;
+		SeriesGrouping grouping = orthoSD.getGrouping( );
+		// Only if base series has enabled grouping
+		if ( strBaseAggExp != null )
+		{
+			if ( grouping.isSetEnabled( ) && grouping.isEnabled( ) )
+			{
+				// Set own group
+				strOrthoAgg = grouping.getAggregateExpression( );
+			}
+
+			// Set base group
+			if ( strOrthoAgg == null || "".equals( strOrthoAgg ) ) //$NON-NLS-1$
+			{
+				strOrthoAgg = strBaseAggExp;
+			}
+		}
+		return strOrthoAgg;
+	}
+
 	protected void addColumBinding( IBaseQueryDefinition transfer,
 			ComputedColumnHandle columnBinding )
 	{
@@ -457,7 +486,6 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 
 	}
 
-
 	/**
 	 * The class is responsible to add group bindings of chart on query
 	 * definition.
@@ -480,15 +508,15 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 		private Chart fChart;
 
 		/** The set stores created binding names. */
-		private Set fNameSet = new HashSet();
-		
+		private Set fNameSet = new HashSet( );
+
 		/**
 		 * Generate a unique binding name.
 		 * 
 		 * @param expr
 		 * @return
 		 */
-		private String generateUniqueBindingName(String expr)
+		private String generateUniqueBindingName( String expr )
 		{
 			String name = StructureFactory.newComputedColumn( fReportItemHandle,
 					expr.replaceAll( "\"", "" ) ) //$NON-NLS-1$ //$NON-NLS-2$
@@ -498,11 +526,11 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 				name = name + fNameSet.size( );
 				return generateUniqueBindingName( name );
 			}
-			
+
 			fNameSet.add( name );
 			return name;
 		}
-		
+
 		/**
 		 * Constructor of the class.
 		 * 
@@ -713,9 +741,9 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 					groupIntervalRange = orthSD.getGrouping( )
 							.getGroupingInterval( );
 				}
-				
+
 				String name = generateUniqueBindingName( yGroupExpr );
-				
+
 				GroupDefinition yGroupDefinition = new GroupDefinition( name );
 
 				yGroupDefinition.setKeyExpression( yGroupExpr );
@@ -764,7 +792,7 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 						.get( 0 ) ).getDefinition( );
 
 				String name = generateUniqueBindingName( baseExpr );
-				
+
 				GroupDefinition baseGroupDefinition = new GroupDefinition( name );
 
 				baseGroupDefinition.setKeyExpression( baseExpr );
@@ -793,7 +821,8 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 		private void addValueSeriesAggregateBindingForGrouping(
 				ExtendedItemHandle handle, QueryDefinition query,
 				EList seriesDefinitions, GroupDefinition innerGroupDef,
-				Map valueExprMap, SeriesDefinition baseSD ) throws DataException
+				Map valueExprMap, SeriesDefinition baseSD )
+				throws DataException
 		{
 			for ( Iterator iter = seriesDefinitions.iterator( ); iter.hasNext( ); )
 			{
@@ -805,7 +834,7 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 				{
 					// Get a unique name.
 					String name = generateUniqueBindingName( expr );
-					
+
 					Binding colBinding = new Binding( name );
 
 					colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
@@ -836,53 +865,21 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 		 * @param baseSD
 		 * @return
 		 */
-		private String getAggFunExpr( SeriesDefinition orthSD, SeriesDefinition baseSD )
+		private String getAggFunExpr( SeriesDefinition orthSD,
+				SeriesDefinition baseSD )
 		{
-			
+
 			String strBaseAggExp = null;
-			if ( baseSD.getGrouping( ) != null &&
-					baseSD.getGrouping( ).isSetEnabled( ) &&
-					baseSD.getGrouping( ).isEnabled( ) )
+			if ( baseSD.getGrouping( ) != null
+					&& baseSD.getGrouping( ).isSetEnabled( )
+					&& baseSD.getGrouping( ).isEnabled( ) )
 			{
 				strBaseAggExp = baseSD.getGrouping( ).getAggregateExpression( );
 			}
-			
-			return getAggFunExpr( orthSD, strBaseAggExp );
+
+			return getAggregationExpression( orthSD, strBaseAggExp );
 		}
 
-		/**
-		 * Returns aggregation function expression.
-		 * 
-		 * @param orthSD
-		 * @param baseAggExp
-		 * @return
-		 */
-		private String getAggFunExpr( SeriesDefinition orthSD,
-				String baseAggExp )
-		{
-			String strOrthoAgg = null;
-			SeriesGrouping grouping = orthSD.getGrouping( );
-			// Only if base series has enabled grouping
-			if ( baseAggExp != null )
-			{
-				if ( grouping != null &&
-						grouping.isSetEnabled( ) &&
-						grouping.isEnabled( ) )
-				{
-					// Set own group
-					strOrthoAgg = grouping.getAggregateExpression( );
-				}
-				
-				// Set base group
-				if ( strOrthoAgg == null || "".equals( strOrthoAgg ) ) //$NON-NLS-1$
-				{
-					strOrthoAgg = baseAggExp;
-				}
-			}
-			
-			return strOrthoAgg;
-		}
-		
 		/**
 		 * Get aggregation function string of sort key related with value
 		 * series.
@@ -892,17 +889,17 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 		 * @param orthAxisArray
 		 * @return
 		 */
-		private String getAggFunExpr( String sortKey,
-				SeriesDefinition baseSD, Object[] orthAxisArray )
+		private String getAggFunExpr( String sortKey, SeriesDefinition baseSD,
+				Object[] orthAxisArray )
 		{
 			String baseAggFunExpr = null;
-			if ( baseSD.getGrouping( ) != null &&
-					baseSD.getGrouping( ).isSetEnabled( ) &&
-					baseSD.getGrouping( ).isEnabled( ) )
+			if ( baseSD.getGrouping( ) != null
+					&& baseSD.getGrouping( ).isSetEnabled( )
+					&& baseSD.getGrouping( ).isEnabled( ) )
 			{
 				baseAggFunExpr = baseSD.getGrouping( ).getAggregateExpression( );
 			}
-			
+
 			String aggFunction = null;
 
 			if ( fChart instanceof ChartWithAxes )
@@ -923,7 +920,7 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 									.get( 0 );
 							if ( sortKey.equals( q.getDefinition( ) ) )
 							{
-								aggFunction = getAggFunExpr( sd,
+								aggFunction = getAggregationExpression( sd,
 										baseAggFunExpr );
 								break;
 							}
@@ -955,14 +952,13 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 				}
 
 			}
-			
-			if( aggFunction == null || "".equals( aggFunction )) { //$NON-NLS-1$
+
+			if ( aggFunction == null || "".equals( aggFunction ) ) { //$NON-NLS-1$
 				return baseAggFunExpr;
 			}
-			
+
 			return aggFunction;
 		}
-		
 
 		/**
 		 * Get valid sort expression from series definition.
