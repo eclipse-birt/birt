@@ -16,6 +16,7 @@ import java.util.Map;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
@@ -358,7 +359,7 @@ public class DataAdapterUtil
 				{
 					return new JSResultIteratorObject( it.getParent( ) );
 				}
-				return this.currentIterator.getValue( arg0 );
+				return JavascriptEvalUtil.convertToJavascriptValue( this.currentIterator.getValue( arg0 ) );
 			}
 			catch ( BirtException e )
 			{
