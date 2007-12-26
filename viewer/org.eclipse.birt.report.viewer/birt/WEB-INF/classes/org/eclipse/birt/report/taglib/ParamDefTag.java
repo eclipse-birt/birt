@@ -203,18 +203,18 @@ public class ParamDefTag extends BodyTagSupport
 			// the whole page scope
 			if ( pageContext.findAttribute( ATTR_PARAM + param.getName( ) ) != null )
 			{
-				throw new JspTagException(
-						BirtResources
-								.getMessage( ResourceConstants.TAGLIB_PARAM_NAME_DUPLICATE ) );
+				throw new JspTagException( BirtResources.getMessage(
+						ResourceConstants.TAGLIB_PARAM_NAME_DUPLICATE,
+						new String[]{param.getName( )} ) );
 			}
 		}
 		else
 		{
 			// the form scope
 			if ( this.requesterTag.getParameters( ).get( param.getName( ) ) != null )
-				throw new JspTagException(
-						BirtResources
-								.getMessage( ResourceConstants.TAGLIB_PARAM_NAME_DUPLICATE ) );
+				throw new JspTagException( BirtResources.getMessage(
+						ResourceConstants.TAGLIB_PARAM_NAME_DUPLICATE,
+						new String[]{param.getName( )} ) );
 		}
 
 		return true;
