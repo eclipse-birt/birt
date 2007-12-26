@@ -449,7 +449,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		}
 		catch ( BirtException e )
 		{
-			throw new AdapterException( e.getLocalizedMessage( ), e );
+			throw new AdapterException( ResourceConstants.EXCEPTION_ERROR, e );
 		}
 	}
 
@@ -475,7 +475,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		}
 		catch ( BirtException e )
 		{
-			throw new AdapterException( e.getLocalizedMessage( ), e);
+			throw new AdapterException( ResourceConstants.EXCEPTION_ERROR, e );
 		}
 	}
 	
@@ -980,7 +980,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		}
 		catch ( BirtException e )
 		{
-			throw new AdapterException( e.getLocalizedMessage( ), e );
+			throw new AdapterException( ResourceConstants.EXCEPTION_ERROR, e );
 		}
 	}
 

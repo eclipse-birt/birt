@@ -18,8 +18,8 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -310,9 +310,10 @@ public class ExpressionCompilerUtil
 	 * TOPN,BOTTOMN,TOPPERCENT,BOTTMEPERCENT return true. else return false;
 	 * 
 	 * @return
+	 * @throws DataException 
 	 */
 	public static boolean isValidExpressionInQueryFilter(
-			IBaseExpression expression )
+			IBaseExpression expression ) throws DataException
 	{
 		if ( expression instanceof IScriptExpression )
 		{
@@ -447,8 +448,9 @@ public class ExpressionCompilerUtil
 	 * 
 	 * @param expr
 	 * @return
+	 * @throws DataException 
 	 */
-	private static boolean flattenFilterExpression( CompiledExpression expr )
+	private static boolean flattenFilterExpression( CompiledExpression expr ) throws DataException
 	{
 		int type = expr.getType( );
 		switch ( type )
@@ -477,9 +479,12 @@ public class ExpressionCompilerUtil
 				break;
 			}
 			case CompiledExpression.TYPE_CONSTANT_EXPR :
-			case CompiledExpression.TYPE_INVALID_EXPR :
 			{
 				break;
+			}
+			case CompiledExpression.TYPE_INVALID_EXPR:
+			{
+				throw (DataException)((InvalidExpression) expr).evaluate(null, null);
 			}
 		}
 		return true;

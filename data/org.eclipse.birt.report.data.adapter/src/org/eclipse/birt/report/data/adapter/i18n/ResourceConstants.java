@@ -30,4 +30,5 @@ public class ResourceConstants
 	public final static String INVALID_DESIGNTIME_METHOD ="context.invalidDesigntimeMethod";
 	public final static String INVALID_DATETIME_VALUE="invalid.datetime.value";
 	public final static String MISSING_JOIN_CONDITION="missing.join.condition";
+	public final static String EXCEPTION_ERROR = "exception.error";
 }

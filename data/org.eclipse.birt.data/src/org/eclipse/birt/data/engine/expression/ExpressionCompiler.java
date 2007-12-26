@@ -68,13 +68,20 @@ public class ExpressionCompiler extends AbstractExpressionCompiler
 		}
 		catch ( Exception e )
 		{
-			// Here exception will not be thrown, since invalid
-			// expression is not such a fatal error that requires
-			// stop generating report.
-			DataException dataException = new DataException( ResourceConstants.INVALID_JS_EXPR,
-					e,
-					expression );
-			return new InvalidExpression( dataException );
+			if ( e instanceof DataException )
+			{
+				return new InvalidExpression( (DataException) e );
+			}
+			else
+			{
+				// Here exception will not be thrown, since invalid
+				// expression is not such a fatal error that requires
+				// stop generating report.
+				DataException dataException = new DataException( ResourceConstants.INVALID_JS_EXPR,
+						e,
+						expression );
+				return new InvalidExpression( dataException );
+			}
 		}
 	}
 	
