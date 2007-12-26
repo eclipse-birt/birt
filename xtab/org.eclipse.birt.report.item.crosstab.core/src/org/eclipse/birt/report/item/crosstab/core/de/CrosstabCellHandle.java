@@ -169,10 +169,8 @@ public class CrosstabCellHandle extends AbstractCrosstabItemHandle
 		if ( defn == null )
 			return null;
 		assert ( (ElementPropertyDefn) defn ).isStyleProperty( );
-
-		FactoryPropertyHandle factoryHandle = handle
-				.getFactoryPropertyHandle( propName );
-		Object value = factoryHandle == null ? null : factoryHandle.getValue( );
+		
+		Object value = handle.getMetaModelProperty( propName );
 		if ( value != null )
 			return value;
 

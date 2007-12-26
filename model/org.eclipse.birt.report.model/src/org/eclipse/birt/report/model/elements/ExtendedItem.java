@@ -218,6 +218,30 @@ public class ExtendedItem extends ReportItem
 	}
 
 	/**
+	 * Gets a property value given its definition. This version checks not only
+	 * this one object, but also the extended element this item has. That is, it
+	 * gets the "local" property value. The property name must also be valid for
+	 * this object.
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getLocalProperty(Module,
+	 *      org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 */
+
+	public Object getNonReportItemLocalProperty( Module module,
+			ElementPropertyDefn prop )
+	{
+		assert prop != null;
+
+		// if and only if this definition is not-extensible and not defined as
+		// 'useOwnModel'
+
+		if ( !prop.isExtended( ) && !prop.useOverriddenModel( ) )
+			return super.getLocalProperty( module, prop );
+
+		return provider.getNonReportItemProperty( module, prop );
+	}
+
+	/**
 	 * Sets the value of a property. The value must have already been validated,
 	 * and must be of the correct type for the property. The property must be
 	 * valid for this object. The property can be a system, user-defined
