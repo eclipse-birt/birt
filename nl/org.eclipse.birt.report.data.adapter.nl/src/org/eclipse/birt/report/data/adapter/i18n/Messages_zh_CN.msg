@@ -26,3 +26,4 @@ adapter.invalid.aggregationfunctionname=The aggregation function {0} is invalid.
 
 invalid.datetime.value=日期时间值“{0}”无效。
 missing.join.condition=缺少事实表与维“{0}”之间的联接条件。
+exception.error=An exception occurred during processing. Please see the following message for details:
