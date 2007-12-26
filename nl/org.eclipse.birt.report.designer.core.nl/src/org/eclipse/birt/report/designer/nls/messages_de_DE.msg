@@ -2660,7 +2660,7 @@ parameters.datatypes.dateTime=DATETIME
 parameters.datatypes.decimal=Dezimal
 parameters.datatypes.float=FLOAT
 parameters.datatypes.string=Zeichenfolge
-parameters.menuItem.refresh=Aktualisieren
+parameters.menuItem.reset=Zurücksetzen
 
 ###########################################################
 #ParametersNodeProvider properties

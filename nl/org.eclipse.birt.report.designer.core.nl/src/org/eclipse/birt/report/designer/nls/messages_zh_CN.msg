@@ -2660,7 +2660,7 @@ parameters.datatypes.dateTime=日期时间
 parameters.datatypes.decimal=小数
 parameters.datatypes.float=浮点
 parameters.datatypes.string=字符串
-parameters.menuItem.refresh=刷新
+parameters.menuItem.reset=重置
 
 ###########################################################
 #ParametersNodeProvider properties

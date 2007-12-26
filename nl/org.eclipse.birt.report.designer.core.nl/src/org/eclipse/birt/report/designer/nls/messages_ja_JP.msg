@@ -2660,7 +2660,7 @@ parameters.datatypes.dateTime=日時
 parameters.datatypes.decimal=10進
 parameters.datatypes.float=浮動
 parameters.datatypes.string=文字列
-parameters.menuItem.refresh=更新
+parameters.menuItem.reset=リセット
 
 ###########################################################
 #ParametersNodeProvider properties

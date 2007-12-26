@@ -2660,7 +2660,7 @@ parameters.datatypes.dateTime=날짜/시간
 parameters.datatypes.decimal=소수점
 parameters.datatypes.float=실수
 parameters.datatypes.string=문자열
-parameters.menuItem.refresh=새로 고침
+parameters.menuItem.reset=재설정
 
 ###########################################################
 #ParametersNodeProvider properties
