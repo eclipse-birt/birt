@@ -14,16 +14,14 @@ package org.eclipse.birt.chart.reportitem.ui.views.provider;
 import java.util.List;
 
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
-import org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider;
-import org.eclipse.birt.report.model.api.DataItemHandle;
+import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellViewAdapter;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
 /**
- * 
+ * ChartAggregationCellViewProvider
  */
-
-public class ChartAggregationCellViewProvider
-		implements
-			IAggregationCellViewProvider
+public class ChartAggregationCellViewProvider extends
+		AggregationCellViewAdapter
 {
 
 	public String getViewName( )
@@ -31,12 +29,15 @@ public class ChartAggregationCellViewProvider
 		return "Chart"; //$NON-NLS-1$
 	}
 
-	public boolean canSwitch( AggregationCellHandle cell )
+	public boolean matchView( AggregationCellHandle cell )
 	{
 		List contents = cell.getContents( );
 		if ( contents != null && contents.size( ) == 1 )
 		{
-			return contents.get( 0 ) instanceof DataItemHandle;
+			Object content = contents.get( 0 );
+
+			return ( content instanceof ExtendedItemHandle )
+					&& "Chart".equals( ( (ExtendedItemHandle) content ).getExtensionName( ) ); //$NON-NLS-1$
 		}
 		return false;
 	}
@@ -47,4 +48,9 @@ public class ChartAggregationCellViewProvider
 
 	}
 
+	public void restoreView( AggregationCellHandle cell )
+	{
+		// TODO Auto-generated method stub
+
+	}
 }

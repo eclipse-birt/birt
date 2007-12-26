@@ -26,12 +26,18 @@ public interface IAggregationCellViewProvider
 	String getViewName( );
 
 	/**
-	 * Returns if the given aggregation cell can switch to this view
+	 * Returns if the given aggregation cell matches this view
 	 */
-	boolean canSwitch( AggregationCellHandle cell );
+	boolean matchView( AggregationCellHandle cell );
 
 	/**
 	 * Switches given aggregation cell to this view
 	 */
 	void switchView( AggregationCellHandle cell );
+
+	/**
+	 * Restores given aggregation cell to previous view
+	 */
+	void restoreView( AggregationCellHandle cell );
+
 }

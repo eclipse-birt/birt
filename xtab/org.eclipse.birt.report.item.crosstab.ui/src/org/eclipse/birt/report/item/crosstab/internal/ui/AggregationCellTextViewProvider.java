@@ -19,7 +19,8 @@ import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
-import org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider;
+import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellViewAdapter;
+import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
@@ -27,19 +28,8 @@ import org.eclipse.birt.report.model.api.olap.LevelHandle;
 /**
  * AggregationCellTextViewProvider
  */
-public class AggregationCellTextViewProvider implements
-		IAggregationCellViewProvider
+public class AggregationCellTextViewProvider extends AggregationCellViewAdapter
 {
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider#canSwitch(org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle)
-	 */
-	public boolean canSwitch( AggregationCellHandle cell )
-	{
-		return true;
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -49,6 +39,23 @@ public class AggregationCellTextViewProvider implements
 	public String getViewName( )
 	{
 		return "Text"; //$NON-NLS-1$
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider#matchView(org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle)
+	 */
+	public boolean matchView( AggregationCellHandle cell )
+	{
+		List contents = cell.getContents( );
+		if ( contents != null && contents.size( ) == 1 )
+		{
+			Object content = contents.get( 0 );
+
+			return ( content instanceof DataItemHandle );
+		}
+		return false;
 	}
 
 	/*
@@ -135,5 +142,14 @@ public class AggregationCellTextViewProvider implements
 				rowLevel,
 				colDimension,
 				colLevel );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider#restoreView(org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle)
+	 */
+	public void restoreView( AggregationCellHandle cell )
+	{
 	}
 }

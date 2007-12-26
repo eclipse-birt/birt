@@ -9,30 +9,24 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-package org.eclipse.birt.chart.reportitem.ui.views.provider;
+package org.eclipse.birt.report.designer.ui.extensions;
 
-import org.eclipse.birt.report.designer.ui.extensions.ReportItemViewAdapter;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.TableHandle;
 
 /**
- * ChartReportItemViewProvider
+ * ReportItemViewAdapter
  */
-public class ChartReportItemViewProvider extends ReportItemViewAdapter
+public abstract class ReportItemViewAdapter implements IReportItemViewProvider
 {
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.ui.extensions.IReportItemViewProvider#createView(org.eclipse.birt.report.model.api.DesignElementHandle)
+	 */
 	public DesignElementHandle createView( DesignElementHandle host )
 	{
-		if ( host instanceof TableHandle )
-		{
-			// Create chart
-		}
 		return null;
-	}
-
-	public String getViewName( )
-	{
-		return "Chart"; //$NON-NLS-1$
 	}
 
 }
