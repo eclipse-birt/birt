@@ -42,8 +42,13 @@ plugin@org.eclipse.birt.thirdparty=v20070914,:pserver:anonymous@dev.eclipse.org:
 feature@org.eclipse.birt.nl=v20070920,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.nl.feature
 
 
-!******plugin@org.apache.batik.pdf=v20060613-1220,:pserver:anonymous@dev.eclipse.org:/cvsroot/modeling,,org.eclipse.gmf/plugins/org.apache.batik.pdf 
-*******
+plugin@javax.xml,1.3.4=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S200712072116/bundles/javax.xml_1.3.4.v200712030721.jar
+plugin@org.apache.xerces,2.9.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S200712072116/bundles/org.apache.xerces_2.9.0.v200712030150.jar
+plugin@org.apache.xml.resolver,1.2.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S200712072116/bundles/org.apache.xml.resolver_1.2.0.v200712030150.jar
+plugin@org.apache.xml.serializer,2.7.1=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S200712072116/bundles/org.apache.xml.serializer_2.7.1.v200712030721.jar
+
+
+
 
 !*** Apache Xerces**************************************************************************** 
 feature@org.apache.commons.codec=v20070920,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.apache.commons.codec.feature 
