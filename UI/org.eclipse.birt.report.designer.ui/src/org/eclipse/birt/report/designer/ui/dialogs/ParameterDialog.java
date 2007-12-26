@@ -1109,12 +1109,12 @@ public class ParameterDialog extends BaseDialog
 		{
 			columnChooser.setText( originalSelection );
 		}
-		if(columnChooser.getItemCount( ) == 0 )
+		if ( columnChooser.getItemCount( ) == 0 )
 		{
 			columnChooser.add( "" );
 		}
-//		columnChooser.setEnabled( columnChooser.getItemCount( ) > 0 );
-//		valueColumnExprButton.setEnabled( columnChooser.getItemCount( ) > 0 );
+		//		columnChooser.setEnabled( columnChooser.getItemCount( ) > 0 );
+		//		valueColumnExprButton.setEnabled( columnChooser.getItemCount( ) > 0 );
 		updateMessageLine( );
 	}
 
@@ -1353,8 +1353,8 @@ public class ParameterDialog extends BaseDialog
 			for ( Iterator iter = choiceList.iterator( ); iter.hasNext( ); )
 			{
 				SelectionChoice choice = (SelectionChoice) iter.next( );
-				if ( set.contains( validateValue( choice.getValue( ) ) )
-						|| isValidValue( choice.getValue( ) ) != null )
+				if ( isValidValue( choice.getValue( ) ) != null
+						|| set.contains( validateValue( choice.getValue( ) ) ) )
 				{
 					iter.remove( );
 					change = true;
@@ -2278,7 +2278,7 @@ public class ParameterDialog extends BaseDialog
 	{
 		boolean isEnable = true;
 		SelectionChoice selectedChoice = null;
-		
+
 		if ( valueTable.getSelection( ).isEmpty( ) )
 		{
 			isEnable = false;
@@ -2604,7 +2604,7 @@ public class ParameterDialog extends BaseDialog
 			{
 				displayFormat += ": " + formatPattern; //$NON-NLS-1$
 			}
-			
+
 			if ( type.equals( DesignChoiceConstants.PARAM_TYPE_DATETIME ) )
 			{
 				previewString = new DateFormatter( ParameterUtil.isCustomCategory( formatCategroy ) ? formatPattern
@@ -2936,8 +2936,8 @@ public class ParameterDialog extends BaseDialog
 		{
 			if ( key.equals( DEUtil.getExpression( columnList.get( i ) ) ) )
 			{
-//				chooser.select( i );
-				chooser.setText( ((ResultSetColumnHandle)columnList.get( i )).getColumnName( ) );
+				//				chooser.select( i );
+				chooser.setText( ( (ResultSetColumnHandle) columnList.get( i ) ).getColumnName( ) );
 				return;
 			}
 		}
