@@ -220,6 +220,7 @@ birt.viewer.exceptionDialog.hideStackTrace=Ocultar rastreo de pila de excepción
 birt.viewer.taglib.NO_ATTR_ID=Se debe especificar el ID de atributo.
 birt.viewer.taglib.INVALID_ATTR_ID=El ID de atributo contiene caracteres no válidos.
 birt.viewer.taglib.ATTR_ID_DUPLICATE=El ID de atributo debe ser exclusivo.
+birt.viewer.taglib.PARAM_NAME_DUPLICATE=Parameter name cannot be duplicated.
 birt.viewer.taglib.NO_REPORT_SOURCE=Se debe especificar el diseño de informe o archivo de documento.
 birt.viewer.taglib.NO_REPORT_DOCUMENT=El informe necesita el archivo de documento de informe.
 birt.viewer.taglib.NO_REQUESTER_NAME=Se debe especificar un nombre de solicitante

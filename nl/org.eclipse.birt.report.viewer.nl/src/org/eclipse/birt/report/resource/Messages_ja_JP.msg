@@ -220,6 +220,7 @@ birt.viewer.exceptionDialog.hideStackTrace=例外スタックトレースの非表示
 birt.viewer.taglib.NO_ATTR_ID=属性 ID を指定してください。
 birt.viewer.taglib.INVALID_ATTR_ID=属性 ID に無効な文字が指定されています。
 birt.viewer.taglib.ATTR_ID_DUPLICATE=属性 ID には、他で使われていないものを指定してください。
+birt.viewer.taglib.PARAM_NAME_DUPLICATE=Parameter name cannot be duplicated.
 birt.viewer.taglib.NO_REPORT_SOURCE=レポートデザインまたは文書ファイルを指定してください。
 birt.viewer.taglib.NO_REPORT_DOCUMENT=Reportlet ではレポート文書ファイルが必要です。
 birt.viewer.taglib.NO_REQUESTER_NAME=リクエスタの名前を指定してください。

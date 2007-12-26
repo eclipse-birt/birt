@@ -220,6 +220,7 @@ birt.viewer.exceptionDialog.hideStackTrace=Trace de la pile - Masquer l'exceptio
 birt.viewer.taglib.NO_ATTR_ID=L'ID de l'attribut doit être spécifié.
 birt.viewer.taglib.INVALID_ATTR_ID=L'ID de l'attribut contient des caractères non valides.
 birt.viewer.taglib.ATTR_ID_DUPLICATE=L'ID de l'attribut doit être unique.
+birt.viewer.taglib.PARAM_NAME_DUPLICATE=Parameter name cannot be duplicated.
 birt.viewer.taglib.NO_REPORT_SOURCE=Un modèle d'état ou un document doit être spécifié.
 birt.viewer.taglib.NO_REPORT_DOCUMENT=L'état est requis par le reportlet.
 birt.viewer.taglib.NO_REQUESTER_NAME=Le nom du requêteur doit être spécifié.
