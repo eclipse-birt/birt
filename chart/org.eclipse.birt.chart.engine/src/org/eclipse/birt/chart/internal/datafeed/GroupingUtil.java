@@ -113,7 +113,8 @@ final class GroupingUtil
 		{
 			if ( groupingInterval <= 0 )
 			{
-				return baseValue.equals( baseReference );
+				// The "0" means all data should be in one group.
+				return true;
 			}
 
 			if ( baseValue.length( ) < groupingInterval ||
@@ -146,13 +147,19 @@ final class GroupingUtil
 	public static Object getGroupedString( String stringValue,
 			GroupingUnitType groupingUnit, int groupingInterval )
 	{
-		if ( stringValue == null || groupingInterval <= 0)
+		if ( stringValue == null )
 		{
 			return stringValue;
 		}
 		
 		if ( groupingUnit == GroupingUnitType.STRING_PREFIX_LITERAL )
 		{
+			if ( groupingInterval <= 0 )
+			{
+				// Always return empty string to make all data in one group.
+				return ""; //$NON-NLS-1$
+			}
+			
 			if ( stringValue.length( ) < groupingInterval )
 			{
 				return stringValue;
