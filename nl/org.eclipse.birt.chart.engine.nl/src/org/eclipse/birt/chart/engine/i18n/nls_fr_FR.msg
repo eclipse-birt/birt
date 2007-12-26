@@ -326,7 +326,8 @@ GroupingUnitType.Weeks.displayName=Semaines
 GroupingUnitType.Months.displayName=Mois
 GroupingUnitType.Years.displayName=Années
 GroupingUnitType.Quarters.displayName=Trimestres
-GroupingUnitType.Prefix.displayName=Préfixe
+GroupingUnitType.String.displayName=String
+GroupingUnitType.StringPrefix.displayName=StringPrefix
 
 DateFormatType.Long.displayName=Long
 DateFormatType.Short.displayName=Court

@@ -326,7 +326,8 @@ GroupingUnitType.Weeks.displayName=주
 GroupingUnitType.Months.displayName=월
 GroupingUnitType.Years.displayName=연
 GroupingUnitType.Quarters.displayName=분기
-GroupingUnitType.Prefix.displayName=접두사
+GroupingUnitType.String.displayName=String
+GroupingUnitType.StringPrefix.displayName=StringPrefix
 
 DateFormatType.Long.displayName=길게
 DateFormatType.Short.displayName=짧게

@@ -326,7 +326,8 @@ GroupingUnitType.Weeks.displayName=周
 GroupingUnitType.Months.displayName=月
 GroupingUnitType.Years.displayName=年
 GroupingUnitType.Quarters.displayName=季
-GroupingUnitType.Prefix.displayName=前缀
+GroupingUnitType.String.displayName=String
+GroupingUnitType.StringPrefix.displayName=StringPrefix
 
 DateFormatType.Long.displayName=长
 DateFormatType.Short.displayName=短
