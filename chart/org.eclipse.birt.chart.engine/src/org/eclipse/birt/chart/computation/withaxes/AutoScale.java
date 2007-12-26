@@ -106,6 +106,8 @@ public final class AutoScale extends Methods implements Cloneable
 
 	/** Indicates the max boundary of axis ticks. */
 	private static final int TICKS_MAX = 100;
+	
+	private static final DecimalFormat dfDoulbeNormalized = new DecimalFormat (".###############E0"); //$NON-NLS-1$
 
 	/**
 	 * A default numeric pattern for integer number representation of axis
@@ -2343,6 +2345,16 @@ public final class AutoScale extends Methods implements Cloneable
 	}
 
 	/**
+	 * Limit the significant number of digit to 15
+	 */
+	private static double getValidDouble( double dValue )
+	{
+		String sValue = dfDoulbeNormalized.format( dValue );
+		double dNewValue = Double.valueOf( sValue ).doubleValue( );
+		return dNewValue;
+	}
+	
+	/**
 	 * Computes value precision if more precise than existing one For instance
 	 * 3.4 has a precision of 0.1 and 1400 has a precision of 100. That is the
 	 * position where the first significant digit appears, or in double
@@ -2356,6 +2368,7 @@ public final class AutoScale extends Methods implements Cloneable
 			FormatSpecifier fs, ULocale locale )
 	{
 		double value = Math.abs( pValue );
+		value = getValidDouble( value );
 		if ( value == 0 )
 		{
 			if ( precision < 0 )
