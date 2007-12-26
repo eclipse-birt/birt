@@ -147,5 +147,14 @@ public class AttributeView extends PageBookView
 		super.partClosed( part );
 		if(defaultPartName!=null)setPartName( defaultPartName );
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.part.PageBookView#partBroughtToTop(org.eclipse.ui.IWorkbenchPart)
+	 */
+	public void partBroughtToTop( IWorkbenchPart part )
+	{
+		super.partBroughtToTop( part );
+        partActivated(part);
+	}
 
 }

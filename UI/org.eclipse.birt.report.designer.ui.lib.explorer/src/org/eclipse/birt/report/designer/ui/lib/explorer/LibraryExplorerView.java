@@ -263,4 +263,12 @@ public class LibraryExplorerView extends PageBookView
 		return super.getAdapter( key );
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.part.PageBookView#partBroughtToTop(org.eclipse.ui.IWorkbenchPart)
+	 */
+	public void partBroughtToTop( IWorkbenchPart part )
+	{
+		super.partBroughtToTop( part );
+        partActivated(part);
+	}
 }
