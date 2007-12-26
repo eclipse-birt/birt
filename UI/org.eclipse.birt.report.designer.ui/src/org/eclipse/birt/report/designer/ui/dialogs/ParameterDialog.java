@@ -1522,6 +1522,7 @@ public class ParameterDialog extends BaseDialog
 			}
 			column.setWidth( columnWidth[i] );
 		}
+
 		valueTable = tableArea.getTableViewer( );
 		valueTable.setColumnProperties( columns );
 		valueTable.setContentProvider( contentProvider );
@@ -2277,6 +2278,7 @@ public class ParameterDialog extends BaseDialog
 	{
 		boolean isEnable = true;
 		SelectionChoice selectedChoice = null;
+		
 		if ( valueTable.getSelection( ).isEmpty( ) )
 		{
 			isEnable = false;
@@ -2284,6 +2286,15 @@ public class ParameterDialog extends BaseDialog
 		else
 		{
 			selectedChoice = (SelectionChoice) ( (IStructuredSelection) valueTable.getSelection( ) ).getFirstElement( );
+			String value = selectedChoice.getValue( );
+			try
+			{
+				validateValue( value );
+			}
+			catch ( BirtException e )
+			{
+				isEnable = false;
+			}
 		}
 		boolean isDefault = isEnable && isDefaultChoice( selectedChoice );
 		if ( isDefault )
@@ -2513,6 +2524,7 @@ public class ParameterDialog extends BaseDialog
 		}
 		catch ( BirtException e )
 		{
+			return false;
 		}
 		if ( v1 == null )
 		{
