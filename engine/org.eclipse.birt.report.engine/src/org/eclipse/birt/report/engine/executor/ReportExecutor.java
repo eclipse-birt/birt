@@ -167,6 +167,10 @@ public class ReportExecutor implements IReportExecutor
 			pageExecutor.close( );
 			pages.put( pageDesign, pageContent );
 		}
+		else
+		{
+			pageContent.setPageNumber( pageNumber );
+		}
 		return new DOMReportItemExecutor( pageContent, true );
 	}
 }
