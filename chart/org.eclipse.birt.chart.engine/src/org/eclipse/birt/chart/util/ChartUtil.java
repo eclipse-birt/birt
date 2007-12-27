@@ -657,4 +657,20 @@ public class ChartUtil
 
 		return null;
 	}
+	
+	/**
+	 * Generate expression keys, it includes aggregation information.
+	 * @param dataExp
+	 * @param aggExp
+	 * @return
+	 * @since BIRT 2.3
+	 */
+	public static String generateExprKey( String dataExp, String aggExp )
+	{
+		if ( aggExp == null || "".equals( aggExp ) ) //$NON-NLS-1$
+		{
+			return dataExp;
+		}
+		return dataExp + "_" + aggExp; //$NON-NLS-1$
+	}
 }

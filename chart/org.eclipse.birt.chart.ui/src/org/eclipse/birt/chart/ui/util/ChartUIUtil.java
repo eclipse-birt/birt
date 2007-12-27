@@ -566,67 +566,13 @@ public class ChartUIUtil
 	public static void doLivePreview( Chart chart,
 			IDataServiceProvider dataProvider ) throws ChartException
 	{
-		final List expressions;
-		final Object[] columnData;
-		expressions = Generator.instance( ).getRowExpressions( chart, null );
-		columnData = dataProvider.getDataForColumns( (String[]) expressions.toArray( new String[expressions.size( )] ),
+		final List expressions = Generator.instance( )
+				.getRowExpressionsNKeys( chart, null );
+
+		IDataRowExpressionEvaluator evaluator = dataProvider.prepareRowExpressionEvaluator( chart,
+				expressions,
 				-1,
 				false );
-
-		final Map map = new HashMap( );
-		for ( int i = 0; i < expressions.size( ); i++ )
-		{
-			map.put( expressions.get( i ), columnData[i] );
-		}
-		IDataRowExpressionEvaluator evaluator = new DataRowExpressionEvaluatorAdapter( ) {
-
-			private int i;
-			private Object[] column;
-
-			public Object evaluate( String expression )
-			{
-				column = (Object[]) map.get( expression );
-				if ( i >= column.length )
-				{
-					throw new RuntimeException( new ChartException( ChartUIPlugin.ID,
-							ChartException.DATA_SET,
-							Messages.getString( "ChartUIUtil.Exception.NoValueReturned" ) ) ); //$NON-NLS-1$
-				}
-				return column[i];
-			}
-
-			public boolean first( )
-			{
-				i = 0;
-
-				if ( map.size( ) > 0 )
-				{
-					column = (Object[]) map.values( ).iterator( ).next( );
-
-					if ( column != null && i <= column.length - 1 )
-					{
-						return true;
-					}
-				}
-
-				return false;
-			}
-
-			public boolean next( )
-			{
-				if ( column != null && i < column.length - 1 )
-				{
-					i++;
-					return true;
-				}
-				return false;
-			}
-
-			public void close( )
-			{
-				// no-op
-			}
-		};
 
 		RunTimeContext context = new RunTimeContext( );
 		context.setULocale( ULocale.getDefault( ) );

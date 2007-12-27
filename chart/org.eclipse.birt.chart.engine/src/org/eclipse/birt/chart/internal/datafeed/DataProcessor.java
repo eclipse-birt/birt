@@ -311,10 +311,20 @@ public class DataProcessor
 		GroupingLookupHelper lhmLookup = new GroupingLookupHelper( cm,
 				iae,
 				rtc.getULocale( ) );
-		List co = lhmLookup.getExpressions( );
-
+		
 		// 2. WALK THROUGH RESULTS
 		List liResultSet = null;
+		List co = null;
+		if ( idre instanceof IGroupedDataRowExpressionEvaluator )
+		{
+			co = lhmLookup.getExpressionKeys( );
+			// Set the expression keys and expressions map.
+			( (IGroupedDataRowExpressionEvaluator) idre ).setExpressionsMap( lhmLookup.getExpressionKeysMap( ) );
+		}
+		else
+		{
+			co = lhmLookup.getExpressions( );
+		}
 		
 		liResultSet = evaluateRowSet( idre,	co.toArray( ) );
 

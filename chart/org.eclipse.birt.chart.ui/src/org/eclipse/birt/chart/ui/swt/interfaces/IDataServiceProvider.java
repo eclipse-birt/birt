@@ -11,7 +11,11 @@
 
 package org.eclipse.birt.chart.ui.swt.interfaces;
 
+import java.util.List;
+
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
+import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.DataType;
 
 /**
@@ -76,4 +80,18 @@ public interface IDataServiceProvider
 	 */
 	public DataType getDataType( String expression );
 
+	/**
+	 * Prepare row expression evaluator for chart to bind data.
+	 *  
+	 * @param cm
+	 * @param lExpressions
+	 * @param iMaxRecords
+	 * @param byRow
+	 * @return
+	 * @throws ChartException
+	 * @since BIRT 2.3
+	 */
+	public IDataRowExpressionEvaluator prepareRowExpressionEvaluator( Chart cm,
+			List lExpressions, int iMaxRecords, boolean byRow )
+			throws ChartException;
 }
