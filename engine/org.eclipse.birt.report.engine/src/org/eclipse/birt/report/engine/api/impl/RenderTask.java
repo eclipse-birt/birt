@@ -19,6 +19,8 @@ import java.util.logging.Level;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IEngineTask;
+import org.eclipse.birt.report.engine.api.IHTMLRenderOption;
+import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
@@ -387,12 +389,40 @@ public class RenderTask extends EngineTask implements IRenderTask
 				return null;
 			}
 		}
+		
+		protected void supportHtmlPagination()
+		{
+			if ( ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ) )
+			{
+				Object htmlPaginationObj = renderOptions
+						.getOption( IHTMLRenderOption.HTML_PAGINATION );
+				if ( htmlPaginationObj != null
+						&& htmlPaginationObj instanceof Boolean )
+				{
+					boolean htmlPagination = ( (Boolean) htmlPaginationObj )
+							.booleanValue( );
+					if ( htmlPagination )
+					{
+						if(renderOptions.getOption(IPDFRenderOption.FIT_TO_PAGE) == null)
+						{
+							renderOptions.setOption( IPDFRenderOption.FIT_TO_PAGE,
+									Boolean.TRUE );
+						}
+						renderOptions.setOption(
+								IPDFRenderOption.PAGEBREAK_PAGINATION_ONLY,
+								Boolean.TRUE );
+					}
+				}
+			}
+		}
+		
 
 		void render( ) throws Exception
 		{
 			// start the render
 			setupRenderOption( );
 			IContentEmitter emitter = createContentEmitter( );
+			supportHtmlPagination();
 			String format = executionContext.getOutputFormat( );
 			boolean paged = isPagedExecutor( );
 			ReportPageExecutor pagesExecutor = new ReportPageExecutor(
