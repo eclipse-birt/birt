@@ -1569,16 +1569,17 @@ public class TaskSelectType extends SimpleTask
 	{
 		boolean bRender = false;
 		ChartAdapter.beginIgnoreNotifications( );
-		boolean bVertical = orientation.getValue( ) == Orientation.VERTICAL;
 		Axis aX = ChartUIUtil.getAxisXForProcessing( cwa );
 		if ( aX.getTitle( ).isVisible( ) )
 		{
 			bRender = true;
 		}
-		aX.getTitle( )
+		double curRotation = aX.getTitle( )
 				.getCaption( )
 				.getFont( )
-				.setRotation( bVertical ? 0 : 90 );
+				.getRotation( );
+		aX.getTitle( ).getCaption( ).getFont( ).setRotation( curRotation >= 0
+				? 90 - curRotation : -90 - curRotation );
 		EList aYs = aX.getAssociatedAxes( );
 		for ( int i = 0; i < aYs.size( ); i++ )
 		{
@@ -1587,8 +1588,12 @@ public class TaskSelectType extends SimpleTask
 			{
 				bRender = true;
 			}
-			aY.getTitle( ).getCaption( ).getFont( ).setRotation( bVertical ? 90
-					: 0 );
+			curRotation = aY.getTitle( ).getCaption( ).getFont( ).getRotation( );
+			aY.getTitle( )
+					.getCaption( )
+					.getFont( )
+					.setRotation( curRotation >= 0 ? 90 - curRotation : -90
+							- curRotation );
 		}
 		ChartAdapter.endIgnoreNotifications( );
 		if ( bRender )
