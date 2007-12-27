@@ -314,6 +314,8 @@ public class PathResourceEntry extends BaseResourceEntity
 	}
 	
 	public int hashCode(){
-		return this.path.hashCode( );
+		if ( this.path != null )
+			return this.path.hashCode( );
+		return super.hashCode( );
 	}
 }

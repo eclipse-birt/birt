@@ -52,15 +52,14 @@ public abstract class LibraryExplorerViewPage extends Page implements
 	public void createControl( Composite parent )
 	{
 		treeViewer = createTreeViewer( parent );
-		// getTreeViewer( ).addSelectionChangedListener( new
-		// ISelectionChangedListener( ) {
-		//
-		// public void selectionChanged( SelectionChangedEvent event )
-		// {
-		// //treeSelect( event );
-		// }
-		//
-		// } );
+		getTreeViewer( ).addSelectionChangedListener( new ISelectionChangedListener( ) {
+
+			public void selectionChanged( SelectionChangedEvent event )
+			{
+				treeSelect( event );
+			}
+
+		} );
 	}
 
 	/*

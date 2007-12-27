@@ -115,4 +115,9 @@ public class ResourceEntryWrapper implements ResourceEntry
 	{
 		return proxy.hashCode( ) * 7 + type;
 	}
+
+	public ResourceEntry getEntry( )
+	{
+		return proxy;
+	}
 }
