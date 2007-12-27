@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.reportitem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -39,6 +40,7 @@ import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
@@ -85,6 +87,10 @@ class ChartCubeQueryHelper
 		CubeHandle cubeHandle = handle.getCube( );
 		ICubeQueryDefinition cubeQuery = ChartReportItemUtil.getCubeElementFactory( )
 				.createCubeQuery( cubeHandle.getQualifiedName( ) );
+
+		// Add column bindings from handle
+		initBindings( cubeQuery );
+
 		List sdList = getAllSeriesDefinitions( cm );
 
 		// Add measures and dimensions
@@ -117,6 +123,37 @@ class ChartCubeQueryHelper
 		// TODO Add filter
 
 		return cubeQuery;
+	}
+
+	private void initBindings( ICubeQueryDefinition cubeQuery )
+			throws BirtException
+	{
+		for ( Iterator bindings = handle.getColumnBindings( ).iterator( ); bindings.hasNext( ); )
+		{
+			ComputedColumnHandle column = (ComputedColumnHandle) bindings.next( );
+			// Create new binding
+			Binding binding = new Binding( column.getName( ) );
+			binding.setDataType( DataAdapterUtil.adaptModelDataType( column.getDataType( ) ) );
+			binding.setExpression( new ScriptExpression( column.getExpression( ) ) );
+			if ( column.getAggregateOn( ) != null )
+			{
+				binding.addAggregateOn( column.getAggregateOn( ) );
+				binding.setAggrFunction( column.getAggregateFunction( ) == null
+						? null
+						: DataAdapterUtil.adaptModelAggregationType( column.getAggregateFunction( ) ) );
+			}
+			cubeQuery.addBinding( binding );
+
+			// Add dimension[] or measure[] expression in map
+			String expr = column.getExpression( );
+			registeredBindings.put( expr, binding );
+			registeredQueries.put( binding.getBindingName( ), expr );
+
+			// Add data[] expression in map
+			expr = ExpressionUtil.createJSDataExpression( column.getName( ) );
+			registeredBindings.put( expr, binding );
+
+		}
 	}
 
 	private void addSorting( ICubeQueryDefinition cubeQuery,
@@ -193,21 +230,33 @@ class ChartCubeQueryHelper
 		String expr = query.getDefinition( );
 		if ( expr != null && expr.length( ) > 0 )
 		{
+			boolean bBindingExp = isBinding( expr );
 			Binding colBinding = (Binding) registeredBindings.get( expr );
-			if ( colBinding == null )
+			if ( bBindingExp || colBinding == null )
 			{
-				// Get a unique name.
-				String bindingName = StructureFactory.newComputedColumn( handle,
-						expr.replaceAll( "\"", "" ) ) //$NON-NLS-1$ //$NON-NLS-2$
-						.getName( );
-				colBinding = new Binding( bindingName );
-				colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
-				colBinding.setExpression( new ScriptExpression( expr ) );
+				String bindingName = null;
+				if ( colBinding == null )
+				{
+					// Get a unique name.
+					bindingName = StructureFactory.newComputedColumn( handle,
+							expr.replaceAll( "\"", "" ) ) //$NON-NLS-1$ //$NON-NLS-2$
+							.getName( );
+					colBinding = new Binding( bindingName );
+					colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
+					colBinding.setExpression( new ScriptExpression( expr ) );
 
-				// Add binding to query definition
-				cubeQuery.addBinding( colBinding );
-				registeredBindings.put( expr, colBinding );
-				registeredQueries.put( bindingName, expr );
+					// Add binding to query definition
+					cubeQuery.addBinding( colBinding );
+					registeredBindings.put( expr, colBinding );
+					registeredQueries.put( bindingName, expr );
+				}
+				else
+				{
+					bindingName = colBinding.getBindingName( );
+					// Convert binding expression like data[] to raw expression
+					// like dimension[] or measure[]
+					expr = (String) registeredQueries.get( bindingName );
+				}
 
 				String measure = getMeasure( expr );
 				if ( measure != null )
@@ -220,8 +269,7 @@ class ChartCubeQueryHelper
 							.getAggregateExpression( ) );
 					mDef.setAggrFunction( aggFun );
 				}
-
-				if ( isReferenceToDimLevel( expr ) )
+				else if ( isReferenceToDimLevel( expr ) )
 				{
 					// Add row/column edge
 					String[] levels = getTargetLevel( expr );
@@ -252,9 +300,13 @@ class ChartCubeQueryHelper
 				}
 			}
 
-			// Replace query expression in chart runtime model with binding name
-			String newExpr = ExpressionUtil.createJSDataExpression( colBinding.getBindingName( ) );
-			query.setDefinition( newExpr );
+			if ( !bBindingExp )
+			{
+				// If expression is not binding, replace query expression in
+				// chart runtime model with binding name
+				String newExpr = ExpressionUtil.createJSDataExpression( colBinding.getBindingName( ) );
+				query.setDefinition( newExpr );
+			}
 		}
 	}
 
@@ -348,12 +400,17 @@ class ChartCubeQueryHelper
 	 */
 	public static String getBindingName( String expr )
 	{
-		if ( expr == null )
-			return null;
-		if ( !expr.matches( "\\Qdata[\"\\E.*\\Q\"]\\E" ) ) //$NON-NLS-1$
+		if ( !isBinding( expr ) )
 			return null;
 		return expr.replaceFirst( "\\Qdata[\"\\E", "" ) //$NON-NLS-1$ //$NON-NLS-2$
 				.replaceFirst( "\\Q\"]\\E", "" ); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	static boolean isBinding( String expr )
+	{
+		if ( expr == null )
+			return false;
+		return expr.matches( "\\Qdata[\"\\E.*\\Q\"]\\E" ); //$NON-NLS-1$
 	}
 
 	static boolean isReferenceToDimLevel( String expr )
