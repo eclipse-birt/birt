@@ -16,6 +16,7 @@ import org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter;
 import org.eclipse.birt.report.designer.util.IVirtualValidator;
+import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
@@ -25,6 +26,12 @@ import org.eclipse.gef.requests.CreateRequest;
  * 
  */
 
+/**
+ * MeasureHandleDropAdapter
+ */
+/**
+ * MeasureHandleDropAdapter
+ */
 public class MeasureHandleDropAdapter implements IDropAdapter
 {
 
@@ -48,7 +55,12 @@ public class MeasureHandleDropAdapter implements IDropAdapter
 		}
 		return DNDService.LOGIC_UNKNOW;
 	}
-
+	
+	/**
+	 * Allow drop multi MeasureHandle or single MeasureGroupHandle
+	 * @param transfer
+	 * @return
+	 */
 	private boolean isMeasureHandle( Object transfer )
 	{
 		if ( transfer instanceof Object[] )
@@ -61,7 +73,7 @@ public class MeasureHandleDropAdapter implements IDropAdapter
 			}
 			return true;
 		}
-		return transfer instanceof MeasureHandle;
+		return transfer instanceof MeasureHandle || transfer instanceof MeasureGroupHandle;
 	}
 
 	public boolean performDrop( Object transfer, Object target, int operation,
