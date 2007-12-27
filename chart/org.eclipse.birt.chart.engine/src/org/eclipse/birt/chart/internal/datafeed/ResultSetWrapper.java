@@ -316,11 +316,17 @@ public final class ResultSetWrapper
 			}
 		}
 		
-		IAggregateFunction iafa = PluginSettings.instance( )
+		IAggregateFunction iafa = null;
+		try {
+			iafa = PluginSettings.instance( )
 				.getAggregateFunction( aggregationExp[relativeIndex] );
+		} catch ( Exception e) {
+			;
+		}
 		
 		if ( iafa == null )
 		{
+			// If no aggregation function, use Sum as default to sort series.
 			iafa = PluginSettings.instance( ).getAggregateFunction( "Sum" ); //$NON-NLS-1$
 		}
 
