@@ -36,6 +36,12 @@ BarAndLine=Los diagramas de combinación de barras y líneas contienen 2 series. C
 AxisLabelFormat=Especifique el formato para etiquetas de eje: eje Y ($###,###) y eje X (MM/dd/yyyy). Los usuarios también han podido establecer el color, fuente, contorno y otros atributos de las etiquetas.
 AxisTitleFormat=Todos los atributos de etiqueta se pueden aplicar al título del eje.
 ColoredByCategorySeries=Establezca Tipo de elemento de leyenda como categoría.
+OpenJavaSourceAction.Text.Description=Open Java Source from the relevant directory
+OpenJavaSourceAction.Text.ToolTip=Open Java Source
+SaveXMLAction.MessageBox.Message=The XML source already exists in the directory. \nDo you want to replace it?
+SaveXMLAction.MessageBox.Text=Save XML Source
+SaveXMLAction.Text.Description=Save XML Source to the designated directory
+SaveXMLAction.Text.ToolTip=Save XML Source
 ColoredByValueSeries=Establezca Tipo de elemento de leyenda como serie.
 CurveFittingArea=Active atributo de la curva ajustada de la serie de áreas.
 CurveFittingBar=Cree una curva ajustada a línea para la serie de barras.
@@ -75,3 +81,9 @@ MultipleYSeries=Un diagrama puede contener más de una serie Y (valor).
 ###########################################################
 #Default
 DefaultDescription=Seleccione un ejemplo entre las categorías.
+
+###########################################################
+#Example View labels
+ChartExamples.Description=Description
+ChartExamples.Preview=Preview
+ChartExamples.SelectExamples=Select Examples

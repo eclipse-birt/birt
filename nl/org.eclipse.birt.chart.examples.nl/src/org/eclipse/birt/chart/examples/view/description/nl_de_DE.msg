@@ -36,6 +36,12 @@ BarAndLine=Kombinationsdiagramme aus Balken und Linien enthalten zwei Datenreihe
 AxisLabelFormat=Geben Sie das Format für die Achsenbeschriftungen an: Y-Achse ($###,###) und X-Achse (dd/MM/yyyy). Darüber hinaus können die Benutzer die Farbe, die Schriftart, den Umriss und andere Attribute für die Beschriftung festlegen.
 AxisTitleFormat=Sämtliche Beschriftungsattribute können auf den Achsentitel angewendet werden.
 ColoredByCategorySeries=Legen Sie den Legendenelementtyp als Kategorie fest.
+OpenJavaSourceAction.Text.Description=Open Java Source from the relevant directory
+OpenJavaSourceAction.Text.ToolTip=Open Java Source
+SaveXMLAction.MessageBox.Message=The XML source already exists in the directory. \nDo you want to replace it?
+SaveXMLAction.MessageBox.Text=Save XML Source
+SaveXMLAction.Text.Description=Save XML Source to the designated directory
+SaveXMLAction.Text.ToolTip=Save XML Source
 ColoredByValueSeries=Legen Sie den Legendenelementtyp als Datenreihe fest.
 CurveFittingArea=Aktivieren Sie das Kurvenanpassungsattribut für Flächendatenreihen.
 CurveFittingBar=Erstellen Sie eine Kurvenattributslinie für Balkendatenreihen.
@@ -75,3 +81,9 @@ MultipleYSeries=Ein Diagramm kann mehr als eine Y-Datenreihe (Wert) enthalten.
 ###########################################################
 #Default
 DefaultDescription=Wählen Sie ein Beispiel aus den Kategorien aus.
+
+###########################################################
+#Example View labels
+ChartExamples.Description=Description
+ChartExamples.Preview=Preview
+ChartExamples.SelectExamples=Select Examples
