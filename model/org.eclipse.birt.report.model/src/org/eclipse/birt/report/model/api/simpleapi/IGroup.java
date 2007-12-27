@@ -15,7 +15,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 
 /**
  * Script wrapper of GroupHandle
- *
+ * 
  */
 
 public interface IGroup extends IDesignElement
@@ -263,7 +263,7 @@ public interface IGroup extends IDesignElement
 	boolean getHideDetail( );
 
 	/**
-	 * Sets hide detail
+	 * Sets hide detail.
 	 * 
 	 * @param hideDetail
 	 *            hide detail
@@ -272,5 +272,110 @@ public interface IGroup extends IDesignElement
 	 */
 
 	void setHideDetail( boolean hideDetail ) throws SemanticException;
+
+	/**
+	 * Returns the value for break before property. The return value is defined
+	 * in <code>DesignChoiceConstants</code> and can be one of:
+	 * 
+	 * <ul>
+	 * <li><code>PAGE_BREAK_BEFORE_AUTO</code>
+	 * <li><code>PAGE_BREAK_BEFORE_ALWAYS</code>
+	 * <li><code>PAGE_BREAK_BEFORE_AVOID</code>
+	 * <li><code>PAGE_BREAK_BEFORE_ALWAYS_EXCLUDING_FIRST</code>
+	 * </ul>
+	 * 
+	 * 
+	 * @return the value in string
+	 */
+
+	public String getPageBreakBefore( );
+
+	/**
+	 * Sets the value for break before property. The input value is defined in
+	 * <code>DesignChoiceConstants</code> and can be one of:
+	 * 
+	 * <ul>
+	 * <li><code>PAGE_BREAK_BEFORE_AUTO</code>
+	 * <li><code>PAGE_BREAK_BEFORE_ALWAYS</code>
+	 * <li><code>PAGE_BREAK_BEFORE_AVOID</code>
+	 * <li><code>PAGE_BREAK_BEFORE_ALWAYS_EXCLUDING_FIRST</code>
+	 * </ul>
+	 * 
+	 * 
+	 * @param value
+	 *            the page break before value
+	 * @throws SemanticException
+	 *             if the value is not one of above choices.
+	 */
+
+	public void setPageBreakBefore( String value ) throws SemanticException;
+
+	/**
+	 * Returns the value for break after property. The return value is defined
+	 * in <code>DesignChoiceConstants</code> and can be one of:
+	 * 
+	 * <ul>
+	 * <li><code>PAGE_BREAK_AFTER_AUTO</code>
+	 * <li><code>PAGE_BREAK_AFTER_ALWAYS</code>
+	 * <li><code>PAGE_BREAK_AFTER_AVOID</code>
+	 * <li><code>PAGE_BREAK_AFTER_ALWAYS_EXCLUDING_LAST</code>
+	 * </ul>
+	 * 
+	 * @return the value in string
+	 * 
+	 */
+
+	public String getPageBreakAfter( );
+
+	/**
+	 * Sets the value for break after property. The return value is defined
+	 * in <code>DesignChoiceConstants</code> and can be one of:
+	 * 
+	 * <ul>
+	 * <li><code>PAGE_BREAK_AFTER_AUTO</code>
+	 * <li><code>PAGE_BREAK_AFTER_ALWAYS</code>
+	 * <li><code>PAGE_BREAK_AFTER_AVOID</code>
+	 * <li><code>PAGE_BREAK_AFTER_ALWAYS_EXCLUDING_LAST</code>
+	 * </ul>
+	 * 
+	 * @param value
+	 *            the value to set
+	 * @throws SemanticException
+	 *             if the value is not one of above choices.
+	 */
+
+	public void setPageBreakAfter( String value ) throws SemanticException;
+
+	/**
+	 * Gets the value for break inside property. The return value is defined in
+	 * <code>DesignChoiceConstants</code> and can be one of:
+	 * 
+	 * <ul>
+	 * <li><code>PAGE_BREAK_INSIDE_AVOID</code>
+	 * <li><code>PAGE_BREAK_INSIDE_AUTO</code>
+	 * </ul>
+	 * 
+	 * @return the value in string
+	 */
+
+	public String getPageBreakInside( );
+
+	/**
+	 * Sets the value for the page-break-inside. The return value is defined
+	 * in <code>DesignChoiceConstants</code> and can be one of:
+	 * 
+	 * <ul>
+	 * <li><code>PAGE_BREAK_INSIDE_AVOID</code>
+	 * <li><code>PAGE_BREAK_INSIDE_AUTO</code>
+	 * </ul>
+	 * 
+	 * 
+	 * @param value
+	 *            the value to set
+	 * @throws SemanticException
+	 *             if the value is not one of above choices.
+	 */
+
+	public void setPageBreakInside( String value ) throws SemanticException;
 
 }

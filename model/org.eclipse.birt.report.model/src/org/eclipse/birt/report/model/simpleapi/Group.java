@@ -148,4 +148,65 @@ public class Group extends DesignElement implements IGroup
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IGroup#getPageBreakBefore()
+	 */
+	public String getPageBreakBefore( )
+	{
+		return ( (GroupHandle) handle ).getPageBreakBefore( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IGroup#setPageBreakBefore(java.lang.String)
+	 */
+	public void setPageBreakBefore( String value ) throws SemanticException
+	{
+		( (GroupHandle) handle ).setPageBreakBefore( value );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IGroup#getPageBreakAfter()
+	 */
+	public String getPageBreakAfter( )
+	{
+		return ( (GroupHandle) handle ).getPageBreakAfter( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IGroup#setPageBreakAfter(java.lang.String)
+	 */
+	public void setPageBreakAfter( String value ) throws SemanticException
+	{
+		( (GroupHandle) handle ).setPageBreakAfter( value );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IGroup#getPageBreakInside()
+	 */
+	public String getPageBreakInside( )
+	{
+		return ( (GroupHandle) handle ).getPageBreakInside( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IGroup#setPageBreakInside(java.lang.String)
+	 */
+	
+	public void setPageBreakInside( String value ) throws SemanticException
+	{
+		( (GroupHandle) handle ).setPageBreakInside( value );
+	}
+
 }
