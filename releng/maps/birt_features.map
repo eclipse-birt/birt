@@ -14,7 +14,7 @@ feature@org.eclipse.birt.doc=v20070920,:pserver:anonymous@dev.eclipse.org:/cvsro
 feature@org.eclipse.birt.example=v20071113,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.example.feature
 
 !*************** BIRT  ***********
-feature@org.eclipse.birt.chart.runtime=v20071218,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.runtime.feature
+feature@org.eclipse.birt.chart.runtime=v20071227,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.runtime.feature
 plugin@org.eclipse.birt.chart.runtime=v20070914,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.runtime
 
 feature@org.eclipse.birt.chart=v20070920,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.feature
@@ -97,5 +97,5 @@ plugin@org.apache.derby.core=v20070710,:pserver:anonymous@dev.eclipse.org:/cvsro
 feature@org.mozilla.rhino=v20071217,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.mozilla.rhino.feature 
 plugin@org.mozilla.rhino=v200712171,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.mozilla.rhino
 
-feature@org.w3c.sac=v20070920,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.w3c.sac.feature 
+feature@org.w3c.sac=v20071227,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.w3c.sac.feature 
 plugin@org.w3c.sac=v20070710,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.w3c.sac
