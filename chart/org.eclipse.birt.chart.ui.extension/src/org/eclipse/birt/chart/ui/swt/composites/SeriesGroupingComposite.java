@@ -348,7 +348,16 @@ public class SeriesGroupingComposite extends Composite implements
 				String name = ChartUtil.getGroupingUnitName( getGrouping( ) );
 				if ( name != null )
 				{
-					cmbUnit.setText( ns.getDisplayNameByName( name ) );
+					// When switch between grouping data types, the returned
+					// display name might be null.
+					String displayName = ns.getDisplayNameByName( name ) ;
+					if ( displayName == null ) {
+						cmbUnit.select( 0 );
+					}
+					else
+					{
+						cmbUnit.setText( name );
+					}
 				}
 				else
 				{
