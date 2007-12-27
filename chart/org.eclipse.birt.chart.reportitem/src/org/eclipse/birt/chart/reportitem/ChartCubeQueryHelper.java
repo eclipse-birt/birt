@@ -58,12 +58,12 @@ class ChartCubeQueryHelper
 
 	/**
 	 * Maps for registered column bindings.<br>
-	 * Key: query expression, value: Binding
+	 * Key: binding query expression, value: Binding
 	 */
 	private Map registeredBindings = new HashMap( );
 	/**
 	 * Maps for registered queries.<br>
-	 * Key: binding name, value: query expression
+	 * Key: binding name, value: raw query expression
 	 */
 	private Map registeredQueries = new HashMap( );
 
@@ -89,7 +89,7 @@ class ChartCubeQueryHelper
 				.createCubeQuery( cubeHandle.getQualifiedName( ) );
 
 		// Add column bindings from handle
-		initBindings( cubeQuery );
+		initBindings( );
 
 		List sdList = getAllSeriesDefinitions( cm );
 
@@ -125,8 +125,7 @@ class ChartCubeQueryHelper
 		return cubeQuery;
 	}
 
-	private void initBindings( ICubeQueryDefinition cubeQuery )
-			throws BirtException
+	private void initBindings( ) throws BirtException
 	{
 		for ( Iterator bindings = handle.getColumnBindings( ).iterator( ); bindings.hasNext( ); )
 		{
@@ -142,17 +141,16 @@ class ChartCubeQueryHelper
 						? null
 						: DataAdapterUtil.adaptModelAggregationType( column.getAggregateFunction( ) ) );
 			}
-			cubeQuery.addBinding( binding );
 
-			// Add dimension[] or measure[] expression in map
-			String expr = column.getExpression( );
-			registeredBindings.put( expr, binding );
-			registeredQueries.put( binding.getBindingName( ), expr );
+			// Add binding query expression here
+			registeredBindings.put( ExpressionUtil.createJSDataExpression( column.getName( ) ),
+					binding );
+			// Add raw query expression here
+			registeredQueries.put( binding.getBindingName( ),
+					column.getExpression( ) );
 
-			// Add data[] expression in map
-			expr = ExpressionUtil.createJSDataExpression( column.getName( ) );
-			registeredBindings.put( expr, binding );
-
+			// Do not add every binding to cube query, since it may be not used.
+			// The binding will be added when found in chart.
 		}
 	}
 
@@ -245,8 +243,6 @@ class ChartCubeQueryHelper
 					colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
 					colBinding.setExpression( new ScriptExpression( expr ) );
 
-					// Add binding to query definition
-					cubeQuery.addBinding( colBinding );
 					registeredBindings.put( expr, colBinding );
 					registeredQueries.put( bindingName, expr );
 				}
@@ -257,6 +253,9 @@ class ChartCubeQueryHelper
 					// like dimension[] or measure[]
 					expr = (String) registeredQueries.get( bindingName );
 				}
+
+				// Add binding to query definition
+				cubeQuery.addBinding( colBinding );
 
 				String measure = getMeasure( expr );
 				if ( measure != null )
