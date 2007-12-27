@@ -91,7 +91,13 @@ public final class ResultSetWrapper
 
 	private final GroupKey[] oaGroupKeys;
 
-
+	/**
+	 * The start interval value is used as an benchmark to compute numeric
+	 * interval on specified interval range.
+	 * @since BIRT 2.3
+	 */
+	private static final double BASE_START_INTERVAL_VALUE = 0;
+	
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/datafeed" ); //$NON-NLS-1$
 	
 	/**
@@ -633,7 +639,7 @@ public final class ResultSetWrapper
 			Object[] oaTuple, oaSummarizedTuple = null;
 			int iGroupIndex = 0, iLastGroupIndex = 0;
 			boolean bFirst = true, bGroupBreak = false;
-			double dBaseReference = baseReference.getValue( );
+			double dBaseReference = BASE_START_INTERVAL_VALUE;
 			List trashList = new ArrayList( );
 			double dLastReference = dBaseReference;
 
@@ -698,9 +704,7 @@ public final class ResultSetWrapper
 						Number obj = (Number) oaTuple[iBaseColumnIndex];
 						baseReference = NumberDataElementImpl.create( obj == null ? 0
 								: obj.doubleValue( ) );
-						dBaseReference = baseReference.getValue( );
-						dLastReference = dBaseReference;
-						iGroupIndex = 0;
+						dLastReference = baseReference.getValue( );
 					}
 					else
 					{
@@ -1673,8 +1677,6 @@ public final class ResultSetWrapper
 		boolean bFirst = true;
 		Object oValue, oPreviousValue = null;
 		int iRowIndex = 0;
-		Object oBaseValue = null;
-
 		
 		if ( groupingEnabled )
 		{
@@ -1683,6 +1685,9 @@ public final class ResultSetWrapper
 
 			final Iterator it = resultSet.iterator( );
 			int intervalCount = 0;
+			int lastGroupIndex = 0;
+			double groupInterval = seriesGrouping.getGroupingInterval( );
+			
 			while ( it.hasNext( ) )
 			{
 				oValue = ( (Object[]) it.next( ) )[iColumnIndex];
@@ -1692,7 +1697,11 @@ public final class ResultSetWrapper
 				{
 					bFirst = false;
 					oPreviousValue = oValue;
-					oBaseValue = oValue;
+					if ( seriesGrouping.getGroupType( ) == DataType.NUMERIC_LITERAL )
+					{
+						lastGroupIndex = (int) Math.floor( Math.abs( ( ( (Number) oValue ).doubleValue( ) - BASE_START_INTERVAL_VALUE ) /
+								groupInterval ) );
+					}
 					continue;
 				}
 
@@ -1701,11 +1710,22 @@ public final class ResultSetWrapper
 					if ( seriesGrouping.getGroupType( ) == DataType.NUMERIC_LITERAL )
 					{
 						// Calculate interval range for numeric case, it may be decimal interval.
-						if ( Math.abs( ( (Number) oValue ).doubleValue( ) -
-								( (Number) oBaseValue ).doubleValue( ) ) > seriesGrouping.getGroupingInterval( ) )
+						if ( groupInterval == 0 )
 						{
 							alBreaks.add( new Integer( iRowIndex - 1 ) );
-							oBaseValue = oValue;
+						}
+						else
+						{
+							int groupIndex = (int) Math.floor( Math.abs( ( ( (Number) oValue ).doubleValue( ) - BASE_START_INTERVAL_VALUE ) /
+									groupInterval ) );
+
+							if ( lastGroupIndex != groupIndex )
+							{
+								alBreaks.add( new Integer( iRowIndex - 1 ) );
+
+							}
+
+							lastGroupIndex = groupIndex;
 						}
 					}
 					else if (seriesGrouping.getGroupType( ) == DataType.DATE_TIME_LITERAL )
