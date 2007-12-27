@@ -104,7 +104,15 @@ final class PreparedQuery
 		this.expressionCompiler.setDataSetMode( false );
 		this.dataEngineContext = deContext;
 		this.session = session;
-		this.baseQueryDefn = QueryDefinitionCopyUtil.copy( queryDefn );
+		if ( queryDefn instanceof SubqueryDefinition )
+		{
+			this.baseQueryDefn = SubqueryDefinitionCopyUtil.createSubqueryDefinition( ( (SubqueryDefinition) queryDefn ).getName( ),
+					(ISubqueryDefinition) queryDefn );
+		}
+		else
+		{
+			this.baseQueryDefn = queryDefn;
+		}
 		this.queryService = queryService;
 		this.appContext = appContext;
 		
@@ -605,141 +613,6 @@ final class PreparedQuery
 	AggregateTable getAggrTable( )
 	{
 		return aggrTable;
-	}
-	
-}
-
-/**
- * 
- *
- */
-class QueryDefinitionCopyUtil
-{
-	/**
-	 * 
-	 * @param baseQyeryDef
-	 * @return
-	 * @throws DataException 
-	 */
-	static IBaseQueryDefinition copy( IBaseQueryDefinition baseQyeryDef ) throws DataException
-	{
-		if( baseQyeryDef instanceof SubqueryDefinition )
-		{
-			SubqueryDefinition srcSubQueryDefn = (SubqueryDefinition) baseQyeryDef;
-			SubqueryDefinition destSubQueryDefn = new SubqueryDefinition(
-					srcSubQueryDefn.getName( ), baseQyeryDef
-							.getParentQuery( ) );
-			destSubQueryDefn.setApplyOnGroupFlag( srcSubQueryDefn.applyOnGroup( ) );
-			destSubQueryDefn.setMaxRows( srcSubQueryDefn.getMaxRows( ) );
-			destSubQueryDefn.setUsesDetails( srcSubQueryDefn.usesDetails( ) );
-			copyGroupList( srcSubQueryDefn, destSubQueryDefn );
-			copyExpressions( srcSubQueryDefn, destSubQueryDefn );
-			copySubQueryList( srcSubQueryDefn, destSubQueryDefn );
-			copySortList( srcSubQueryDefn, destSubQueryDefn );
-			copyFilterList( srcSubQueryDefn, destSubQueryDefn );
-			return destSubQueryDefn;
-		}
-		else
-		{
-			return baseQyeryDef;
-		}
-	}
-
-	/**
-	 * 
-	 * @param srcSubQueryDefn
-	 * @param destSubQueryDefn
-	 * @throws DataException 
-	 */
-	private static void copyExpressions(
-			SubqueryDefinition srcSubQueryDefn,
-			SubqueryDefinition destSubQueryDefn) throws DataException 
-	{
-		Map bindings = srcSubQueryDefn.getBindings( );
-		Iterator it = bindings.keySet( ).iterator( );
-		while ( it.hasNext( ) )
-		{
-			Object o = it.next( );
-			destSubQueryDefn.addBinding(convertToBindings( bindings.get( o ) ));
-		}
-	}
-
-	/**
-	 * 
-	 * @param bindings
-	 * @param o
-	 * @return
-	 */
-	private static IBinding convertToBindings( Object binding )
-	{
-		if( binding instanceof IBinding )
-		{
-			return (IBinding)binding;
-		}
-		else
-		{
-			return null;
-		}
-	}
-
-	/**
-	 * 
-	 * @param srcSubQueryDefn
-	 * @param destSubQueryDefn
-	 */
-	private static void copyGroupList(SubqueryDefinition srcSubQueryDefn,
-			SubqueryDefinition destSubQueryDefn) 
-	{
-		List groupList = srcSubQueryDefn.getGroups( );
-		for( int i = 0; i < groupList.size( ); i++ )
-		{
-			destSubQueryDefn.addGroup( (GroupDefinition) groupList.get( i ) );
-		}
-	}
-	
-	/**
-	 * 
-	 * @param srcSubQueryDefn
-	 * @param destSubQueryDefn
-	 */
-	private static void copySubQueryList(SubqueryDefinition srcSubQueryDefn,
-			SubqueryDefinition destSubQueryDefn) 
-	{
-		Object[] subQueryDefn = srcSubQueryDefn.getSubqueries( ).toArray( );
-		for( int i = 0; i < subQueryDefn.length; i++ )
-		{
-			destSubQueryDefn.addSubquery( (SubqueryDefinition) subQueryDefn[i] );
-		}
-	}
-	
-	/**
-	 * 
-	 * @param srcSubQueryDefn
-	 * @param destSubQueryDefn
-	 */
-	private static void copySortList(SubqueryDefinition srcSubQueryDefn,
-			SubqueryDefinition destSubQueryDefn) 
-	{
-		List sortList = srcSubQueryDefn.getSorts( );
-		for( int i = 0; i < sortList.size( ); i++ )
-		{
-			destSubQueryDefn.addSort( (SortDefinition) sortList.get( i ) );
-		}
-	}
-	
-	/**
-	 * 
-	 * @param srcSubQueryDefn
-	 * @param destSubQueryDefn
-	 */
-	private static void copyFilterList(SubqueryDefinition srcSubQueryDefn,
-			SubqueryDefinition destSubQueryDefn) 
-	{
-		List filterList = srcSubQueryDefn.getFilters( );
-		for( int i = 0; i < filterList.size( ); i++ )
-		{
-			destSubQueryDefn.addFilter( (IFilterDefinition) filterList.get( i ) );
-		}
 	}
 	
 }

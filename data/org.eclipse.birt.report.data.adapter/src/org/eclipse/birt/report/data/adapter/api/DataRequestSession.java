@@ -95,6 +95,12 @@ public abstract class DataRequestSession
 	public abstract ICubeQueryUtil getCubeQueryUtil( );
 	
 	/**
+	 * Get query definition copy util.
+	 * @return
+	 */
+	public abstract IQueryDefinitionCopyUtil getQueryDefinitionCopyUtil( );
+	
+	/**
 	 * Defines a data source using the provided IBaseDataSourceDesign
 	 * definition. If the data source is already defined, its definition will be
 	 * updated.

@@ -65,6 +65,7 @@ import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
+import org.eclipse.birt.report.data.adapter.api.IQueryDefinitionCopyUtil;
 import org.eclipse.birt.report.data.adapter.api.IRequestInfo;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
@@ -991,5 +992,14 @@ public class DataRequestSessionImpl extends DataRequestSession
 	public void cancel( )
 	{
 		stopSign.stop( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#getQueryDefinitionCopyUtil()
+	 */
+	public IQueryDefinitionCopyUtil getQueryDefinitionCopyUtil( )
+	{
+		return new QueryDefinitionCopyUtil( );
 	}
 }
