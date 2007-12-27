@@ -1287,7 +1287,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 		ContentCommand cmd = new ContentCommand( module, element
 				.getContainerInfo( ) );
-		cmd.remove( element, false );
+		cmd.remove( element );
 	}
 
 	/**
@@ -1313,8 +1313,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 					ContentException.DESIGN_EXCEPTION_HAS_NO_CONTAINER );
 
 		ContentCommand cmd = new ContentCommand( module, element
-				.getContainerInfo( ) );
-		cmd.remove( element, true );
+				.getContainerInfo( ), false, true );
+		cmd.remove( element );
 	}
 
 	/**
@@ -2797,7 +2797,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			return;
 		ContentCommand cmd = new ContentCommand( getModule( ),
 				new ContainerContext( getElement( ), propName ) );
-		cmd.remove( content.getElement( ), false );
+		cmd.remove( content.getElement( ) );
 	}
 
 	/**
@@ -2818,8 +2818,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		if ( content == null )
 			return;
 		ContentCommand cmd = new ContentCommand( getModule( ),
-				new ContainerContext( getElement( ), propName ) );
-		cmd.remove( content.getElement( ), true );
+				new ContainerContext( getElement( ), propName ), false, true );
+		cmd.remove( content.getElement( ) );
 	}
 
 	/**

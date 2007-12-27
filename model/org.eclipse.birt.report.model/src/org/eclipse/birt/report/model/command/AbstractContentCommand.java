@@ -287,8 +287,9 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 				!( this instanceof GroupElementCommand ) )
 		{
 			boolean flag = ( (ContentCommand) this ).flag;
+			boolean unresolveReference = ( (ContentCommand) this ).unresolveReference;
 			GroupElementCommand attrCmd = new GroupElementCommand( module,
-					focus, flag );
+					focus, flag, unresolveReference );
 
 			attrCmd.remove( content );
 			return;
@@ -362,8 +363,6 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 	 * 
 	 * @param content
 	 *            the content to remove
-	 * @param unresolveReference
-	 *            status whether to un-resolve the references
 	 * @throws SemanticException
 	 */
 
@@ -381,9 +380,16 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 		while ( iter.hasNext( ) )
 		{
 			DesignElement tmpContent = (DesignElement) iter.next( );
-			ContentCommand cmd = new ContentCommand( module, tmpContent
-					.getContainerInfo( ) );
-			cmd.remove( tmpContent, false, true );
+			AbstractContentCommand cmd = null;
+			if ( this instanceof ContentCommand )
+				cmd = new ContentCommand( module,
+						tmpContent.getContainerInfo( ), true,
+						( (ContentCommand) this ).unresolveReference );
+			else if ( this instanceof ContentElementCommand )
+				cmd = new ContentElementCommand( module, tmpContent
+						.getContainerInfo( ) );
+			if ( cmd != null )
+				cmd.remove( tmpContent );
 		}
 	}
 

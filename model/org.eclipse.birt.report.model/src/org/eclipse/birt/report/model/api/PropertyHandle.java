@@ -697,8 +697,9 @@ public class PropertyHandle extends SimpleValueHandle
 		if ( content == null )
 			return;
 		ContentCommand cmd = new ContentCommand( getModule( ),
-				new ContainerContext( getElement( ), propDefn.getName( ) ) );
-		cmd.remove( content.getElement( ), false );
+				new ContainerContext( getElement( ), propDefn.getName( ) ),
+				false, false );
+		cmd.remove( content.getElement( ) );
 	}
 
 	/**
@@ -716,8 +717,9 @@ public class PropertyHandle extends SimpleValueHandle
 		if ( content == null )
 			return;
 		ContentCommand cmd = new ContentCommand( getModule( ),
-				new ContainerContext( getElement( ), propDefn.getName( ) ) );
-		cmd.remove( content.getElement( ), true );
+				new ContainerContext( getElement( ), propDefn.getName( ) ),
+				false, true );
+		cmd.remove( content.getElement( ) );
 	}
 
 	/**

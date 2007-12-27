@@ -643,8 +643,8 @@ public class LibraryCommand extends AbstractElementCommand
 		{
 			DesignElement tmpElement = (DesignElement) contentIter.next( );
 			ContentCommand command = new ContentCommand( module, tmpElement
-					.getContainerInfo( ) );
-			command.remove( tmpElement, false, true );
+					.getContainerInfo( ), true, true );
+			command.remove( tmpElement );
 		}
 
 		activityStack.commit( );

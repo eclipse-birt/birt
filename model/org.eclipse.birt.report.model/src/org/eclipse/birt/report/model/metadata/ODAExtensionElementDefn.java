@@ -82,6 +82,8 @@ public final class ODAExtensionElementDefn extends ExtensionElementDefn
 
 		buildProperties( );
 
+		buildContainerProperties( );
+
 		// set the xml-name
 
 		buildXmlName( );

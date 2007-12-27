@@ -117,29 +117,8 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 
 	private static List allowedTypes = null;
 
-	/**
-	 * Default constructor.
-	 */
-
-	public UserPropertyDefn( )
+	static
 	{
-		PropertyType typeDefn = MetaDataDictionary.getInstance( )
-				.getPropertyType( IPropertyType.STRING_TYPE_NAME );
-		setType( typeDefn );
-	}
-
-	/**
-	 * Gets valid types for user property. Each one in the list is an instance
-	 * of <code>IPropertyType</code>.
-	 * 
-	 * @return the list of allowed property types for user property.
-	 */
-
-	public static List getAllowedTypes( )
-	{
-		if ( allowedTypes != null )
-			return allowedTypes;
-
 		allowedTypes = new ArrayList( );
 		Iterator iter = MetaDataDictionary.getInstance( ).getPropertyTypes( )
 				.iterator( );
@@ -161,7 +140,28 @@ public final class UserPropertyDefn extends ElementPropertyDefn
 					break;
 			}
 		}
+	}
 
+	/**
+	 * Default constructor.
+	 */
+
+	public UserPropertyDefn( )
+	{
+		PropertyType typeDefn = MetaDataDictionary.getInstance( )
+				.getPropertyType( IPropertyType.STRING_TYPE_NAME );
+		setType( typeDefn );
+	}
+
+	/**
+	 * Gets valid types for user property. Each one in the list is an instance
+	 * of <code>IPropertyType</code>.
+	 * 
+	 * @return the list of allowed property types for user property.
+	 */
+
+	public static List getAllowedTypes( )
+	{
 		return allowedTypes;
 	}
 

@@ -359,7 +359,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	/**
 	 * 
 	 */
-	protected LinkedHashMap cachedContainerProperties = null;
+	protected List cachedContainerProperties = null;
 
 	/**
 	 * Config information about the element name management.
@@ -511,23 +511,26 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 	 */
 	public List getContents( )
 	{
-		if ( cachedContainerProperties == null )
+		return cachedContainerProperties;
+	}
+
+	/**
+	 * Copies element type property definitions to the cached map.
+	 */
+
+	protected final void buildContainerProperties( )
+	{
+		cachedContainerProperties = new ArrayList( );
+		Iterator iter = cachedProperties.values( ).iterator( );
+		while ( iter.hasNext ( ) )
 		{
-			cachedContainerProperties = new LinkedHashMap( );
-			Iterator iter = cachedProperties.values( ).iterator( );
-			while ( iter.hasNext( ) )
-			{
-				PropertyDefn defn = (PropertyDefn) iter.next( );
-				if ( defn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
-					cachedContainerProperties.put( defn.getName( ), defn );
-			}
+			PropertyDefn defn = (PropertyDefn) iter.next( );
+			if ( defn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
+				cachedContainerProperties.add( defn );
 		}
 
 		if ( cachedContainerProperties.isEmpty( ) )
-			return Collections.EMPTY_LIST;
-		List result = new ArrayList( );
-		result.addAll( cachedContainerProperties.values( ) );
-		return result;
+			cachedContainerProperties = Collections.EMPTY_LIST;
 	}
 
 	/**
@@ -641,6 +644,8 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 		checkPropertyVisibilities( );
 
+		buildContainerProperties( );
+		
 		buildSlots( );
 
 		buildTriggerDefnSet( );

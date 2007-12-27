@@ -491,6 +491,9 @@ public class AbstractPropertyState extends AbstractParseState
 	protected void setName( String name )
 	{
 		this.name = name;
+
+		if ( this.name != null )
+			nameValue = this.name.toLowerCase( ).hashCode( );
 	}
 
 	/*

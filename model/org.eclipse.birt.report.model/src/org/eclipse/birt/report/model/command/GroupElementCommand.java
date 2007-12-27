@@ -79,6 +79,23 @@ public class GroupElementCommand extends ContentCommand
 	}
 
 	/**
+	 * Constructs the content command with container element.
+	 * 
+	 * @param module
+	 *            the module
+	 * @param containerInfo
+	 *            the container information
+	 * @param flag
+	 * @param unresolveReference
+	 */
+
+	GroupElementCommand( Module module, ContainerContext containerInfo,
+			boolean flag, boolean unresolveReference )
+	{
+		super( module, containerInfo, flag, unresolveReference );
+	}
+
+	/**
 	 * Sets name of group element.
 	 * 
 	 * @param content
@@ -169,8 +186,8 @@ public class GroupElementCommand extends ContentCommand
 			GroupElement tmpGroup = (GroupElement) tmpElement.getGroups( ).get(
 					groupIndex );
 			GroupElementCommand cmd = new GroupElementCommand( module,
-					newContainerContext( tmpElement ), true );
-			cmd.remove( tmpGroup, false, true );
+					newContainerContext( tmpElement ), true, unresolveReference );
+			cmd.remove( tmpGroup );
 		}
 	}
 
@@ -428,8 +445,8 @@ public class GroupElementCommand extends ContentCommand
 		{
 			GroupElementCommand tmpCmd = new GroupElementCommand( module,
 					new ContainerContext( element, ListingElement.GROUP_SLOT ),
-					true );
-			tmpCmd.remove( (GroupElement) groupsToRemove.get( i ), false, true );
+					true, unresolveReference );
+			tmpCmd.remove( (GroupElement) groupsToRemove.get( i ) );
 		}
 
 		List targetGroups = ( (ListingElement) targetElement ).getGroups( );

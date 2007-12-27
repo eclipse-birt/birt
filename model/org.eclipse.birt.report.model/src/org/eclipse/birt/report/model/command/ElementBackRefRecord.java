@@ -13,10 +13,12 @@ package org.eclipse.birt.report.model.command;
 
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.IReferencableElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
@@ -111,8 +113,16 @@ public class ElementBackRefRecord extends BackRefRecord
 						.getPropertyDefn( propName );
 
 				// To add client is done in resolving element reference.
-
-				tmpElement.getLocalProperty( module, propDefn );
+				if ( IStyledElementModel.STYLE_PROP.equals( propName ) )
+				{
+					tmpElement.getStyle( module );
+				}
+				else if ( IModuleModel.THEME_PROP.equals( propName ) )
+				{
+					( (Module) tmpElement ).getTheme( module );
+				}
+				else
+					tmpElement.getLocalProperty( module, propDefn );
 			}
 			else
 			{
