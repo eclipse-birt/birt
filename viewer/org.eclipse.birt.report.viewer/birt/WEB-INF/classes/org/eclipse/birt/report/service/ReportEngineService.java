@@ -59,6 +59,7 @@ import org.eclipse.birt.report.engine.api.IDataIterator;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IHTMLRenderOption;
+import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportEngine;
@@ -589,7 +590,7 @@ public class ReportEngineService
 
 		// pagebreak pagination only setting
 		renderOption.setOption( PDFRenderOption.PAGEBREAK_PAGINATION_ONLY,
-				new Boolean( ParameterAccessor.isPagebreakOnly( request ) ) );
+				Boolean.TRUE );
 
 		return renderOption;
 	}
@@ -1070,6 +1071,13 @@ public class ReportEngineService
 					request );
 		}
 
+		// If not excel format, set HTMLPagination to true.
+		if ( !IBirtConstants.EXCEL_RENDER_FORMAT.equalsIgnoreCase( format ) )
+		{
+			( (IRenderOption) renderOption ).setOption(
+					IRenderOption.HTML_PAGINATION, Boolean.TRUE );
+		}
+
 		renderOption.setOutputStream( out );
 		renderOption.setOutputFormat( format );
 		ViewerHTMLActionHandler handler = null;
@@ -1091,13 +1099,6 @@ public class ReportEngineService
 			if ( renderOption instanceof IHTMLRenderOption )
 				( (IHTMLRenderOption) renderOption )
 						.setEmbeddable( isEmbeddable );
-
-			// If exported with word format, set to pagination.
-			if ( IBirtConstants.DOC_RENDER_FORMAT.equalsIgnoreCase( format ) )
-			{
-				( (IHTMLRenderOption) renderOption ).setOption(
-						IHTMLRenderOption.HTML_PAGINATION, Boolean.TRUE );
-			}
 
 			renderOption.setOption( IHTMLRenderOption.HTML_RTL_FLAG,
 					new Boolean( rtl ) );
@@ -1324,6 +1325,13 @@ public class ReportEngineService
 					request );
 		}
 
+		// If not excel format, set HTMLPagination to true.
+		if ( !IBirtConstants.EXCEL_RENDER_FORMAT.equalsIgnoreCase( format ) )
+		{
+			( (IRenderOption) renderOption ).setOption(
+					IRenderOption.HTML_PAGINATION, Boolean.TRUE );
+		}
+
 		renderOption.setOutputFormat( format );
 		renderOption.setOutputStream( out );
 		ViewerHTMLActionHandler handler = null;
@@ -1347,13 +1355,6 @@ public class ReportEngineService
 			if ( renderOption instanceof IHTMLRenderOption )
 				( (IHTMLRenderOption) renderOption )
 						.setEmbeddable( isEmbeddable );
-
-			// If exported with word format, set to pagination.
-			if ( IBirtConstants.DOC_RENDER_FORMAT.equalsIgnoreCase( format ) )
-			{
-				( (IHTMLRenderOption) renderOption ).setOption(
-						IHTMLRenderOption.HTML_PAGINATION, Boolean.TRUE );
-			}
 
 			renderOption.setOption( IHTMLRenderOption.HTML_RTL_FLAG,
 					new Boolean( rtl ) );
