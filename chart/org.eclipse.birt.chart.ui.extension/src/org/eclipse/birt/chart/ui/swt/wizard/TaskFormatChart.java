@@ -25,14 +25,11 @@ import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.Interactivity;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.LineStyle;
-import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.component.Axis;
-import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
@@ -42,7 +39,6 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIManager;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewUtil;
-import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.TreeCompoundTask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.composites.NavTree;
@@ -458,7 +454,7 @@ public class TaskFormatChart extends TreeCompoundTask
 			// Invoke this only once
 			createPreviewPainter( );
 		}
-		doLivePreviewWithoutRenderModel( );
+		doLivePreviewWithRenderModel( );
 	}
 
 	protected Composite createContainer( Composite parent )
@@ -687,19 +683,21 @@ public class TaskFormatChart extends TreeCompoundTask
 	{
 		if ( previewPainter != null )
 		{
-			if ( notification.getNotifier( ) instanceof SeriesGrouping
-					|| ( notification.getNewValue( ) instanceof SortOption || notification.getOldValue( ) instanceof SortOption )
-					|| ( notification.getNotifier( ) instanceof SeriesDefinition && notification.getNewValue( ) instanceof Series ) )
-			{
-				doLivePreviewWithoutRenderModel( );
-			}
-			else if ( ChartPreviewPainter.isLivePreviewActive( ) )
-			{
-				ChartAdapter.beginIgnoreNotifications( );
-				ChartUIUtil.syncRuntimeSeries( getCurrentModelState( ) );
-				ChartAdapter.endIgnoreNotifications( );
-				previewPainter.renderModel( getCurrentModelState( ) );
-			}
+//			if ( notification.getNotifier( ) instanceof SeriesGrouping
+//					|| ( notification.getNewValue( ) instanceof SortOption || notification.getOldValue( ) instanceof SortOption )
+//					|| ( notification.getNotifier( ) instanceof SeriesDefinition && notification.getNewValue( ) instanceof Series ) )
+//			{
+//				doLivePreviewWithoutRenderModel( );
+//			}
+//			else if ( ChartPreviewPainter.isLivePreviewActive( ) )
+//			{
+//				ChartAdapter.beginIgnoreNotifications( );
+//				ChartUIUtil.syncRuntimeSeries( getCurrentModelState( ) );
+//				ChartAdapter.endIgnoreNotifications( );
+//				previewPainter.renderModel( getCurrentModelState( ) );
+//			}
+			
+			doLivePreviewWithRenderModel( );
 		}
 	}
 
@@ -708,7 +706,7 @@ public class TaskFormatChart extends TreeCompoundTask
 		return ( (ChartWizardContext) getContext( ) ).getDataServiceProvider( );
 	}
 
-	private void doLivePreviewWithoutRenderModel( )
+	private void doLivePreviewWithRenderModel( )
 	{
 		// Copy a runtime chart model to do live preview and it will not affect
 		// design time chart model, so we can change attributes in runtime model
