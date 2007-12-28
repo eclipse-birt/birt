@@ -14,6 +14,9 @@ package org.eclipse.birt.chart.examples.builder;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
+import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.jface.window.Window;
@@ -242,4 +245,13 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#prepareRowExpressionEvaluator(org.eclipse.birt.chart.model.Chart, java.util.List, int, boolean)
+	 */
+	public IDataRowExpressionEvaluator prepareRowExpressionEvaluator( Chart cm,
+			List expressions, int maxRecords, boolean byRow )
+			throws ChartException
+	{
+		return null;
+	}
 }
