@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.data.engine.olap.script;
 
+import java.util.Map;
 import javax.olap.OLAPException;
 import javax.olap.cursor.CubeCursor;
 
@@ -26,11 +27,19 @@ public class JSMeasureAccessor extends ScriptableObject
 {
 
 	private CubeCursor cursor;
+	private Map measureMapping;
 
-	public JSMeasureAccessor( CubeCursor cursor )
+	/**
+	 * 
+	 * @param cursor
+	 * @param measureMapping
+	 * @throws OLAPException
+	 */
+	public JSMeasureAccessor( CubeCursor cursor, Map measureMapping )
 			throws OLAPException
 	{
 		this.cursor = cursor;
+		this.measureMapping = measureMapping;
 	}
 	
 	/*
@@ -51,7 +60,7 @@ public class JSMeasureAccessor extends ScriptableObject
 	{
 		try
 		{
-			return this.cursor.getObject( name );
+			return this.cursor.getObject( (String) measureMapping.get( name ) );
 		}
 		catch ( OLAPException e )
 		{

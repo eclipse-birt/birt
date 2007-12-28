@@ -44,6 +44,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.LevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 
 /**
  * Define one cube sample
@@ -314,8 +315,8 @@ public class CubeUtility
 				{
 					for ( int j = 0; j < measureBindingNames.size( ); j++ )
 					{
-						line += cursor.getObject( measureBindingNames.get( j )
-								.toString( ) )
+						line += cursor.getObject( OlapExpressionUtil.createMeasureCalculateMemeberName( measureBindingNames.get( j )
+								.toString( ) ) )
 								+ ",";
 					}
 					if ( countryGrandTotal != null )
@@ -430,7 +431,7 @@ public class CubeUtility
 							timeCursor.beforeFirst( );
 							while ( timeCursor.next( ) )
 							{
-								lines[0] += dataCursor.getObject( "measure1" )
+								lines[0] += dataCursor.getObject( OlapExpressionUtil.createMeasureCalculateMemeberName( "measure1" ) )
 										+ "  ";
 							}
 						}
@@ -460,7 +461,8 @@ public class CubeUtility
 					timeCursor.beforeFirst( );
 					while ( timeCursor.next( ) )
 					{
-						lines[0] += dataCursor.getObject( "measure1" ) + "  ";
+						lines[0] += dataCursor.getObject( OlapExpressionUtil.createMeasureCalculateMemeberName( "measure1" ) )
+								+ "  ";
 					}
 				}
 			}
@@ -481,7 +483,8 @@ public class CubeUtility
 				{
 					lines[0] += productCursor1.getObject( "level21" ) + "  ";
 					lines[0] += productCursor2.getObject( "level22" ) + "  ";
-					lines[0] += dataCursor.getObject( "measure1" ) + "  ";
+					lines[0] += dataCursor.getObject( OlapExpressionUtil.createMeasureCalculateMemeberName( "measure1" ) )
+							+ "  ";
 					lines[0] += "  \n";
 				}
 			}

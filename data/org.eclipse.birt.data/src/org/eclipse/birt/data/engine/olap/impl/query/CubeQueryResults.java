@@ -86,7 +86,7 @@ public class CubeQueryResults implements ICubeQueryResults
 			}
 			this.scope.put( ScriptConstants.MEASURE_SCRIPTABLE,
 					this.scope,
-					new JSMeasureAccessor( cubeCursor) );
+					new JSMeasureAccessor( cubeCursor, bcv.getMeasureMapping( )) );
 			this.scope.put( ScriptConstants.DIMENSION_SCRIPTABLE,
 					this.scope,
 					new JSLevelAccessor( this.preparedQuery.getCubeQueryDefinition( ),

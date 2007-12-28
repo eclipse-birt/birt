@@ -4152,13 +4152,13 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		IBinding binding5 = new Binding( "measure1" );
 		binding5.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
-		/*
-		 * binding5.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
-		 * binding5.addAggregateOn( "dimension[\"dimension2\"][\"level21\"]" );
-		 * binding5.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
-		 * binding5.addAggregateOn( "dimension[\"dimension1\"][\"level12\"]" );
-		 * binding5.addAggregateOn( "dimension[\"dimension1\"][\"level13\"]" );
-		 */
+		
+		binding5.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		binding5.addAggregateOn( "dimension[\"dimension2\"][\"level21\"]" );
+		binding5.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+		binding5.addAggregateOn( "dimension[\"dimension1\"][\"level12\"]" );
+		binding5.addAggregateOn( "dimension[\"dimension1\"][\"level13\"]" );
+		 
 
 		cqd.addBinding( binding5 );
 

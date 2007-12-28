@@ -57,11 +57,12 @@ class CubeQueryDefinitionUtil
 	 * consider to handle the aggregation definition in binding expression;
 	 * 
 	 * @param queryDefn
+	 * @param measureMapping 
 	 * @return
 	 * @throws DataException 
 	 */
 	static CalculatedMember[] getCalculatedMembers(
-			ICubeQueryDefinition queryDefn, Scriptable scope ) throws DataException
+			ICubeQueryDefinition queryDefn, Scriptable scope, Map measureMapping ) throws DataException
 	{
 		List measureList = queryDefn.getMeasures( );
 		ICubeAggrDefn[] cubeAggrs = OlapExpressionUtil.getAggrDefns( queryDefn.getBindings( ) );
@@ -79,27 +80,32 @@ class CubeQueryDefinitionUtil
 
 		if ( measureList == null )
 			return new CalculatedMember[0];
-
-		CalculatedMember[] calculatedMember = new CalculatedMember[measureList.size( )
+		List measureAggrOns = populateMeasureAggrOns( queryDefn );
+		
+		List unreferencedMeasures = getUnreferencedMeasures( queryDefn,
+				measureList,
+				measureMapping,
+				measureAggrOns );
+		CalculatedMember[] calculatedMember = new CalculatedMember[unreferencedMeasures.size( )
 				+ cubeAggrBindingList.size( )];
 		int index = 0;
 		
 		List calculatedMemberList = new ArrayList();
-		if ( !measureList.isEmpty( ) )
+		if ( !unreferencedMeasures.isEmpty( ) )
 		{
-			List levelList = populateMeasureAggrOns( queryDefn );
-
-			Iterator measureIter = measureList.iterator( );
+			Iterator measureIter = unreferencedMeasures.iterator( );
 			while ( measureIter.hasNext( ) )
 			{
 				MeasureDefinition measureDefn = (MeasureDefinition) measureIter.next( );
-
-				calculatedMember[index] = new CalculatedMember( measureDefn.getName( ),
+				String innerName = OlapExpressionUtil.createMeasureCalculateMemeberName( measureDefn.getName( ) );
+				measureMapping.put( measureDefn.getName( ), innerName );
+				// all the measures will consume one result set, and the default
+				// rsID is 0. If no unreferenced measures are found, the
+				// bindings' start index of rsID will be 0
+				calculatedMember[index] = new CalculatedMember( innerName,
 						measureDefn.getName( ),
-						levelList,
-						measureDefn.getAggrFunction( ) == null
-								? IBuildInAggregation.TOTAL_SUM_FUNC
-								: measureDefn.getAggrFunction( ),
+						measureAggrOns,
+						adaptAggrFunction( measureDefn ),
 						0 );
 				calculatedMemberList.add( calculatedMember[index] );
 				index++;
@@ -108,7 +114,7 @@ class CubeQueryDefinitionUtil
 		
 		if ( !cubeAggrBindingList.isEmpty( ) )
 		{
-			int rsID = 1;
+			int rsID = index > 0 ? 1 : 0;
 			for ( int i = 0; i < cubeAggrBindingList.size( ); i++ )
 			{
 				int id = getResultSetIndex( calculatedMemberList,
@@ -137,6 +143,90 @@ class CubeQueryDefinitionUtil
 		}
 
 		return calculatedMember;
+	}
+
+	/**
+	 * used for backward capability.
+	 * 
+	 * @param measureDefn
+	 * @return
+	 */
+	private static String adaptAggrFunction( MeasureDefinition measureDefn )
+	{
+		return measureDefn.getAggrFunction( ) == null
+				? IBuildInAggregation.TOTAL_SUM_FUNC
+				: measureDefn.getAggrFunction( );
+	}
+
+	/**
+	 * 
+	 * @param queryDefn
+	 * @param measureList
+	 * @param measureMapping 
+	 * @param measureAggrOns 
+	 * @return
+	 * @throws DataException 
+	 */
+	private static List getUnreferencedMeasures(
+			ICubeQueryDefinition queryDefn, List measureList,
+			Map measureMapping, List measureAggrOns ) throws DataException
+	{
+		List result = new ArrayList( );
+		List bindings = queryDefn.getBindings( );
+		for ( Iterator i = measureList.iterator( ); i.hasNext( ); )
+		{
+			MeasureDefinition measure = (MeasureDefinition) i.next( );
+			IBinding referenceBinding = getMeasureDirectReferenceBinding( measure,
+					bindings,
+					measureAggrOns );
+			if ( referenceBinding != null )
+			{
+				measureMapping.put( measure.getName( ),
+						referenceBinding.getBindingName( ) );
+			}
+			else
+			{
+				result.add( measure );
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * get the binding that directly reference to the specified measure.
+	 * 
+	 * @param measure
+	 * @param bindings
+	 * @param measureAggrOns
+	 * @return
+	 * @throws DataException
+	 */
+	private static IBinding getMeasureDirectReferenceBinding( MeasureDefinition measure,
+			List bindings, List measureAggrOns ) throws DataException
+	{
+		for ( Iterator i = bindings.iterator( ); i.hasNext( ); )
+		{
+			IBinding binding = (IBinding) i.next( );
+			if ( binding.getAggregatOns( ).size( ) == measureAggrOns.size( ) )
+			{
+				String aggrFunction = adaptAggrFunction( measure );
+				String funcName = binding.getAggrFunction( );
+				if ( aggrFunction.equals( funcName ) )
+				{
+					IBaseExpression expression = binding.getExpression( );
+					if ( expression instanceof IScriptExpression )
+					{
+						IScriptExpression expr = (IScriptExpression) expression;
+						String measureName = OlapExpressionUtil.getMeasure( expr.getText( ) );
+						if ( measure.getName( ).equals( measureName ) )
+						{
+							return binding;
+						}
+					}
+				}
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -337,10 +427,11 @@ class CubeQueryDefinitionUtil
 	 * Get related level's info for all measure.
 	 * 
 	 * @param queryDefn
+	 * @param measureMapping 
 	 * @return
 	 * @throws DataException 
 	 */
-	public static Map getRelationWithMeasure( ICubeQueryDefinition queryDefn ) throws DataException
+	public static Map getRelationWithMeasure( ICubeQueryDefinition queryDefn, Map measureMapping ) throws DataException
 	{
 		Map measureRelationMap = new HashMap( );
 		List rowLevelList = new ArrayList( );
@@ -371,7 +462,7 @@ class CubeQueryDefinitionUtil
 			while ( measureIter.hasNext( ) )
 			{
 				IMeasureDefinition measure = (MeasureDefinition) measureIter.next( );
-				measureRelationMap.put( measure.getName( ),
+				measureRelationMap.put( measureMapping.get( measure.getName( ) ),
 						new RelationShip( rowLevelList, columnLevelList ) );
 			}
 		}

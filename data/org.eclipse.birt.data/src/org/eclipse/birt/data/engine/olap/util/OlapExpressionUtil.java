@@ -37,6 +37,16 @@ public class OlapExpressionUtil
 {
 	/**
 	 * 
+	 * @param originalMeasureName
+	 * @return
+	 */
+	public static String createMeasureCalculateMemeberName(
+			String originalMeasureName )
+	{
+		return "_&$" + originalMeasureName + "$&_";
+	}
+	/**
+	 * 
 	 * @param expr
 	 * @return
 	 */
@@ -244,7 +254,7 @@ public class OlapExpressionUtil
 			{
 				//TODO fix me. together with CursorModelTest and CursorNavigatorTest.
 				//String measure = getMeasure( ( (IScriptExpression) binding.getExpression( ) ).getText( ) );
-				if ( binding.getAggrFunction( ) != null )
+				if ( binding.getAggrFunction( ) != null || binding.getAggregatOns( ).size( )!= 0 )
 					cubeAggrDefns.add( new CubeAggrDefn( binding.getBindingName( ),
 							getMeasure( ( (IScriptExpression) binding.getExpression( ) ).getText( ) ),
 							convertToDimLevel( binding.getAggregatOns( ) ),

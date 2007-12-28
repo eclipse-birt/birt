@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.olap.query.view;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -47,6 +48,7 @@ public class BirtCubeView
 	private MeasureNameManager manager;
 	private CubeQueryExecutor executor;
 	private Map appContext;
+	private Map measureMapping;
 
 	/**
 	 * Constructor: construct the row/column/measure EdgeView.
@@ -61,8 +63,10 @@ public class BirtCubeView
 		rowEdgeView = createBirtEdgeView( this.queryDefn.getEdge( ICubeQueryDefinition.ROW_EDGE ) );
 		this.executor = queryExecutor;
 		this.appContext = appContext;
+		measureMapping = new HashMap( );
 		CalculatedMember[] members = CubeQueryDefinitionUtil.getCalculatedMembers( queryDefn,
-				queryExecutor.getSession( ).getSharedScope( ) );
+				queryExecutor.getSession( ).getSharedScope( ),
+				measureMapping );
 		if ( members != null && members.length > 0 )
 		{
 			Set rsIDSet = new HashSet( );
@@ -100,7 +104,8 @@ public class BirtCubeView
 	 */
 	public CubeCursor getCubeCursor( StopSign stopSign ) throws OLAPException, DataException
 	{
-		Map relationMap = CubeQueryDefinitionUtil.getRelationWithMeasure( queryDefn );
+		Map relationMap = CubeQueryDefinitionUtil.getRelationWithMeasure( queryDefn,
+				measureMapping );
 		IResultSet result;
 		try
 		{
@@ -154,6 +159,15 @@ public class BirtCubeView
 	public BirtEdgeView[] getMeasureEdgeView( )
 	{
 		return this.calculatedMemberView;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public Map getMeasureMapping( )
+	{
+		return measureMapping;
 	}
 
 	/**
