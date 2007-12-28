@@ -54,8 +54,8 @@ public class GroupDefnUtil
 				IOUtil.writeDouble( dos, groupDefn.getIntervalRange( ) );
 				IOUtil.writeInt( dos, groupDefn.getSortDirection( ) );
 				FilterDefnUtil.saveFilterDefn( dos, groupDefn.getFilters( ) );
-				QueryDefnUtil.saveSorts( dos, groupDefn.getSorts( ) );
-				QueryDefnUtil.saveSubQuery( dos, groupDefn.getSubqueries( ), version );
+				QueryDefnIOUtil.saveSorts( dos, groupDefn.getSorts( ) );
+				QueryDefnIOUtil.saveSubQuery( dos, groupDefn.getSubqueries( ), version );
 			}
 			
 			dos.flush( );
@@ -92,9 +92,9 @@ public class GroupDefnUtil
 				groupDefn.setIntervalRange( IOUtil.readDouble( dis ) );
 				groupDefn.setSortDirection( IOUtil.readInt( dis ) );
 				groupDefn.getFilters( ).addAll( FilterDefnUtil.loadFilterDefn( dis ) );
-				groupDefn.getSorts( ).addAll( QueryDefnUtil.loadSorts( dis ) );
+				groupDefn.getSorts( ).addAll( QueryDefnIOUtil.loadSorts( dis ) );
 				groupDefn.getSubqueries( )
-						.addAll( QueryDefnUtil.loadSubQuery( dis, parent, version ) );
+						.addAll( QueryDefnIOUtil.loadSubQuery( dis, parent, version ) );
 				groupList.add( groupDefn );
 			}
 		}
@@ -150,11 +150,11 @@ public class GroupDefnUtil
 				&& isEqualStr( groupDefn1.getKeyExpression( ),
 						groupDefn2.getKeyExpression( ) )
 				&& groupDefn1.getSortDirection( ) == groupDefn2.getSortDirection( )
-				&& QueryDefnUtil.isEqualSorts( groupDefn1.getSorts( ),
+				&& QueryCompUtil.isEqualSorts( groupDefn1.getSorts( ),
 						groupDefn2.getSorts( ) )
 				&& FilterDefnUtil.isEqualFilter( groupDefn1.getFilters( ),
 						groupDefn2.getFilters( ) )
-				&& QueryDefnUtil.isCompatibleSQs( groupDefn1.getSubqueries( ),
+				&& QueryCompUtil.isCompatibleSQs( groupDefn1.getSubqueries( ),
 						groupDefn2.getSubqueries( ) );
 	}
 

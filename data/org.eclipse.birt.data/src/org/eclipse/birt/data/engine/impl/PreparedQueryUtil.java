@@ -51,9 +51,10 @@ import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.FilterDefnUtil;
 import org.eclipse.birt.data.engine.impl.document.GroupDefnUtil;
-import org.eclipse.birt.data.engine.impl.document.QueryDefnUtil;
+import org.eclipse.birt.data.engine.impl.document.QueryCompUtil;
 import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
 import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
+import org.eclipse.birt.data.engine.impl.document.QueryResults;
 import org.eclipse.birt.data.engine.impl.document.RDLoad;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
@@ -64,7 +65,10 @@ import org.mozilla.javascript.Scriptable;
  */
 class PreparedQueryUtil
 {
-
+	private static final int BASED_ON_RESULTSET = 1;
+	private static final int BASED_ON_DATASET = 2;
+	private static final int BASED_ON_PRESENTATION = 3;
+	
 	/**
 	 * Creates a new instance of the proper subclass based on the type of the
 	 * query passed in.
@@ -248,10 +252,15 @@ class PreparedQueryUtil
 	private static IPreparedQuery newIVInstance( DataEngineImpl dataEngine,
 			IQueryDefinition queryDefn ) throws DataException
 	{
-		if ( runQueryOnRS( dataEngine, queryDefn ) )
-			return new PreparedIVQuery( dataEngine, queryDefn );
-		else
-			return new PreparedIVDataSourceQuery( dataEngine, queryDefn );
+		switch ( runQueryOnRS( dataEngine, queryDefn ) )
+		{
+			case BASED_ON_RESULTSET:
+				return new PreparedIVQuery( dataEngine, queryDefn );
+			case BASED_ON_DATASET:	
+				return new PreparedIVDataSourceQuery( dataEngine, queryDefn );
+			default:
+				return new DummyPreparedQuery( queryDefn, dataEngine.getSession( ).getTempDir( ), dataEngine.getContext( ));
+		}
 	}
 
 	/**
@@ -263,13 +272,14 @@ class PreparedQueryUtil
 	 * @return true, running on result set
 	 * @throws DataException
 	 */
-	private static boolean runQueryOnRS( DataEngineImpl dataEngine,
+	private static int runQueryOnRS( DataEngineImpl dataEngine,
 			IQueryDefinition queryDefn ) throws DataException
 	{
 		if( !queryDefn.usesDetails( ) )
 		{
 			queryDefn.getSorts( ).clear( );
 		}
+	
 		
 		String queryResultID = queryDefn.getQueryResultsID( );
 
@@ -288,29 +298,36 @@ class PreparedQueryUtil
 		RDLoad rdLoad = RDUtil.newLoad( dataEngine.getSession( ).getTempDir( ), dataEngine.getContext( ),
 				queryResultInfo );
 
+		IBaseQueryDefinition rootQueryDefn = rdLoad.loadQueryDefn( StreamManager.ROOT_STREAM,
+						StreamManager.BASE_SCOPE );
+	
+		if( QueryCompUtil.isIVQueryDefnEqual( rootQueryDefn, queryDefn ))
+		{
+			return BASED_ON_PRESENTATION;
+		}
+		
 		boolean runningOnRS = GroupDefnUtil.isEqualGroups( queryDefn.getGroups( ),
 				rdLoad.loadGroupDefn( StreamManager.ROOT_STREAM,
 						StreamManager.BASE_SCOPE ) );
 		if ( runningOnRS == false )
-			return false;
+			return BASED_ON_DATASET;
 
 		runningOnRS = !hasAggregationInFilter( queryDefn.getFilters( ) );
 		if ( runningOnRS == false )
-			return false;
+			return BASED_ON_DATASET;
 
 		runningOnRS = isCompatibleRSMap( rdLoad.loadQueryDefn( StreamManager.ROOT_STREAM,
 				StreamManager.BASE_SCOPE ).getBindings( ),
 				queryDefn.getBindings( ) );
 
 		if ( runningOnRS == false )
-			return false;
+			return BASED_ON_DATASET;
 		
-		runningOnRS = isCompatibleSubQuery( rdLoad.loadQueryDefn( StreamManager.ROOT_STREAM,
-				StreamManager.BASE_SCOPE ),
+		runningOnRS = isCompatibleSubQuery( rootQueryDefn,
 				queryDefn );
 
 		if ( runningOnRS == false )
-			return false;
+			return BASED_ON_DATASET;
 
 		IBaseQueryDefinition qd = rdLoad.loadQueryDefn( StreamManager.ROOT_STREAM,
 				StreamManager.BASE_SCOPE );
@@ -325,7 +342,7 @@ class PreparedQueryUtil
 		}
 
 		if ( runningOnRS == false )
-			return false;
+			return BASED_ON_DATASET;
 
 		// TODO enhance me
 		// If the following conditions hold, running on data set
@@ -334,14 +351,14 @@ class PreparedQueryUtil
 		// 3.The sorts are not direct reference to binding
 
 		if ( !isBindingReferenceSort( queryDefn.getSorts( )))
-			return false;	
+			return BASED_ON_DATASET;	
 		
 		if ( hasSubquery( queryDefn ) )
 		{
 			if ( hasSubQueryInDetail( queryDefn.getSubqueries( ) ) )
-				return false;
+				return BASED_ON_DATASET;
 			
-			if ( !QueryDefnUtil.isEqualSorts( queryDefn.getSorts( ),
+			if ( !QueryCompUtil.isEqualSorts( queryDefn.getSorts( ),
 					qd.getSorts( ) ) )
 			{   
 				runningOnRS = false;
@@ -379,7 +396,7 @@ class PreparedQueryUtil
 		}
 
 		if ( runningOnRS == false )
-			return false;
+			return BASED_ON_DATASET;
 
 		if ( queryDefn.getFilters( ) != null
 				&& queryDefn.getFilters( ).size( ) > 0 )
@@ -390,7 +407,7 @@ class PreparedQueryUtil
 								.values( )
 								.iterator( ) );
 		}
-		return runningOnRS;
+		return runningOnRS?BASED_ON_RESULTSET:BASED_ON_DATASET;
 	}
 	
 	private static boolean isBindingReferenceSort( List sorts )
@@ -504,7 +521,7 @@ class PreparedQueryUtil
 			Object newObj = newMap.get( key );
 			if ( oldObj != null )
 			{
-				if( !isTwoBindingEqual((IBinding)newObj, (IBinding)oldObj ))
+				if( !QueryCompUtil.isTwoBindingEqual((IBinding)newObj, (IBinding)oldObj ))
 					return false;
 			}else
 			{
@@ -514,117 +531,6 @@ class PreparedQueryUtil
 		return true;
 	}
 
-	/**
-	 * 
-	 * @param b1
-	 * @param b2
-	 * @return
-	 * @throws DataException
-	 */
-	private static boolean isTwoBindingEqual( IBinding b1, IBinding b2 )
-			throws DataException
-	{
-		if ( !isTwoExpressionEqual( b1.getExpression( ), b2.getExpression( ) ) )
-			return false;
-		if ( !isTwoStringEqual( b1.getAggrFunction( ), b2.getAggrFunction( ) ) )
-			return false;
-		if ( b1.getDataType( ) != b2.getDataType( ) )
-			return false;
-		if ( !isTwoExpressionEqual( b1.getFilter( ), b2.getFilter( ) ) )
-			return false;
-		if ( b1.getAggregatOns( ).size( ) != b2.getAggregatOns( ).size( ) )
-			return false;
-		for ( int i = 0; i < b1.getAggregatOns( ).size( ); i++ )
-		{
-			if ( !isTwoStringEqual( b1.getAggregatOns( ).get( i ).toString( ),
-					b2.getAggregatOns( ).get( i ).toString( ) ) )
-				return false;
-		}
-		if ( b1.getArguments( ).size( ) != b2.getArguments( ).size( ) )
-			return false;
-		for ( int i = 0; i < b1.getArguments( ).size( ); i++ )
-		{
-			if ( !isTwoExpressionEqual( (IBaseExpression) b1.getArguments( )
-					.get( i ), (IBaseExpression) b2.getArguments( ).get( i ) ) )
-				return false;
-		}
-		return true;
-	}
-	
-	private static boolean isTwoStringEqual( String s1, String s2 )
-	{
-		if ( s1 == null && s2 == null )
-			return true;
-		if ( s1 != null && s2 == null )
-			return false;
-		if ( s1 == null && s2 != null )
-			return false;
-		
-		return s1.equals( s2 );
-	}
-	/**
-	 * 
-	 * @param obj1
-	 * @param obj2
-	 * @return
-	 */
-	private static boolean isTwoExpressionEqual( IBaseExpression obj1, IBaseExpression obj2 )
-	{
-		if( obj1 == null && obj2!= null )
-			return false;
-		if( obj1 != null && obj2 == null )
-			return false;
-		if ( obj1 == null && obj2 == null )
-			return true;
-		if ( !obj1.getClass( ).equals( obj2.getClass( ) ) )
-			return false;
-		
-		if( obj1 instanceof IScriptExpression )
-		{
-			return isTwoExpressionEqual( (IScriptExpression)obj1, (IScriptExpression)obj2 );
-		}else if ( obj1 instanceof IConditionalExpression )
-		{
-			return isTwoExpressionEqual( (IConditionalExpression)obj1, (IConditionalExpression)obj2 );
-		}
-		return false;
-	}
-	
-	/**
-	 * Return whether two IScriptExpression instance equals.
-	 * @param obj1
-	 * @param obj2
-	 * @return
-	 */
-	private static boolean isTwoExpressionEqual( IScriptExpression obj1, IScriptExpression obj2 )
-	{
-		if ( obj1 == null && obj2 != null )
-			return false;
-		if ( obj1 != null && obj2 == null )
-			return false;
-		if ( obj1 == null && obj2 == null )
-			return true;
-		return isTwoStringEqual( obj1.getText( ), obj2.getText( ) )
-				&& isTwoStringEqual( obj1.getGroupName( ), obj2.getGroupName( ))
-				&& isTwoStringEqual( obj1.getText( ), obj2.getText( ))
-				&& obj1.getDataType( ) == obj2.getDataType( );
-	}
-	
-	/**
-	 * 
-	 * @param obj1
-	 * @param obj2
-	 * @return
-	 */
-	private static boolean isTwoExpressionEqual( IConditionalExpression obj1, IConditionalExpression obj2 )
-	{
-		if( obj1.getOperator( ) != obj2.getOperator( ) )
-			return false;
-		
-		return isTwoStringEqual( obj1.getGroupName( ), obj2.getGroupName( ))
-			 	&& isTwoExpressionEqual( obj1.getExpression( ), obj2.getExpression( ))
-			 	&& isTwoExpressionEqual( obj1.getOperand1( ), obj2.getOperand1( ))
-			 	&& isTwoExpressionEqual( obj1.getOperand2( ), obj2.getOperand2( ));
-	}
 	
 	/**
 	 * @param oldSubQuery
@@ -634,7 +540,7 @@ class PreparedQueryUtil
 	private static boolean isCompatibleSubQuery( IBaseQueryDefinition oldDefn,
 			IBaseQueryDefinition newDefn )
 	{
-		boolean isComp = QueryDefnUtil.isCompatibleSQs( oldDefn.getSubqueries( ),
+		boolean isComp = QueryCompUtil.isCompatibleSQs( oldDefn.getSubqueries( ),
 				newDefn.getSubqueries( ) );
 
 		if ( isComp == false )
@@ -646,7 +552,7 @@ class PreparedQueryUtil
 		{
 			IGroupDefinition oldGroupDefn = (IGroupDefinition) oldIt.next( );
 			IGroupDefinition newGroupDefn = (IGroupDefinition) newIt.next( );
-			isComp = QueryDefnUtil.isCompatibleSQs( oldGroupDefn.getSubqueries( ),
+			isComp = QueryCompUtil.isCompatibleSQs( oldGroupDefn.getSubqueries( ),
 					newGroupDefn.getSubqueries( ) );
 			if ( isComp == false )
 				return false;
@@ -713,6 +619,7 @@ class PreparedQueryUtil
 	{
 		private IQueryDefinition queryDefn;
 		private String  tempDir;
+		private DataEngineContext context;
 		
 		/**
 		 * 
@@ -725,6 +632,12 @@ class PreparedQueryUtil
 			this.tempDir = tempDir;
 		}
 		
+		public DummyPreparedQuery( IQueryDefinition queryDefn, String tempDir, DataEngineContext context )
+		{
+			this( queryDefn, tempDir );
+			this.context = context;
+		}
+		
 		/*
 		 * (non-Javadoc)
 		 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#execute(org.mozilla.javascript.Scriptable)
@@ -732,8 +645,14 @@ class PreparedQueryUtil
 		public IQueryResults execute( Scriptable queryScope )
 				throws BirtException
 		{
-			return new CachedQueryResults( tempDir,
-					this.queryDefn.getQueryResultsID( ) );
+			if ( context == null )
+				return new CachedQueryResults( tempDir,
+						this.queryDefn.getQueryResultsID( ) );
+
+			else
+				return new QueryResults( this.tempDir,
+						this.context,
+						this.queryDefn.getQueryResultsID( ), null );
 		}
 
 		/*
@@ -743,7 +662,14 @@ class PreparedQueryUtil
 		public IQueryResults execute( IQueryResults outerResults,
 				Scriptable queryScope ) throws BirtException
 		{
-			throw new UnsupportedOperationException();
+			try
+			{
+				return this.execute( (IBaseQueryResults)outerResults, queryScope );
+			}
+			catch ( BirtException e )
+			{
+				throw DataException.wrap( e );
+			}
 		}
 
 		/*
@@ -767,7 +693,21 @@ class PreparedQueryUtil
 		public IQueryResults execute( IBaseQueryResults outerResults,
 				Scriptable scope ) throws DataException
 		{
-			throw new UnsupportedOperationException();
+			try
+			{
+				if ( context == null )
+					return new CachedQueryResults( tempDir,
+							this.queryDefn.getQueryResultsID( ) );
+
+				else
+					return new QueryResults( this.tempDir,
+							this.context,
+							this.queryDefn.getQueryResultsID( ), outerResults );
+			}
+			catch ( BirtException e )
+			{
+				throw DataException.wrap( e );
+			}
 		}
 		
 	}

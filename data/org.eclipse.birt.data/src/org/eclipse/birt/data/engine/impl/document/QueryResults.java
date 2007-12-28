@@ -24,14 +24,20 @@ import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.DataSetRuntime;
+import org.eclipse.birt.data.engine.impl.ExecutorHelper;
+import org.eclipse.birt.data.engine.impl.IExecutorHelper;
+import org.eclipse.birt.data.engine.impl.IQueryService;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
+import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
 
 /**
  * This class be used in presentation to retrieve ResultIterator. It will have
  * the same ID as its generation QueryResult.
  */
-public class QueryResults implements IQueryResults
+public class QueryResults implements IQueryResults, IQueryService
 {	
 	// context and ID info
 	private DataEngineContext context;
@@ -50,6 +56,24 @@ public class QueryResults implements IQueryResults
 	private IPreparedQuery dummyPreparedQuery;
 	
 	private String tempDir;
+	
+	private IBaseQueryResults outer;
+	
+	private ExecutorHelper executorHelper;
+	/**
+	 * 
+	 * @param tempDir
+	 * @param context
+	 * @param queryResultID
+	 * @param outer
+	 */
+	public QueryResults( String tempDir, DataEngineContext context,
+			String queryResultID, IBaseQueryResults outer )
+	{
+		this( tempDir, context, null, queryResultID, null, null, -1 );
+		this.outer = outer;
+	}
+	
 	/**
 	 * @param context
 	 * @param queryResultID
@@ -175,7 +199,7 @@ public class QueryResults implements IQueryResults
 						.loadSubQueryDefn( StreamManager.ROOT_STREAM,
 								StreamManager.SELF_SCOPE,
 								subQueryName );
-				if ( subQueryName == null )
+				if ( subQuery == null )
 					throw new DataException( ResourceConstants.SUBQUERY_NOT_FOUND, subQueryName );
 				if ( subQuery.usesDetails( ) == true )
 					resultIterator = new ResultIterator( tempDir, context,
@@ -300,5 +324,113 @@ public class QueryResults implements IQueryResults
 			throw new UnsupportedOperationException();
 		}
 		
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.impl.IQueryService#getDataSetRuntime(int)
+	 */
+	public DataSetRuntime[] getDataSetRuntime( int nestedCount )
+	{
+		return new DataSetRuntime[0];
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.impl.IQueryService#getExecutorHelper()
+	 */
+	public IExecutorHelper getExecutorHelper( ) throws DataException
+	{
+		if( this.executorHelper != null )
+			return this.executorHelper;
+		else
+		{
+			if( this.outer!= null )
+			{
+				if( this.outer instanceof IQueryService )
+				{
+					this.executorHelper = new ExecutorHelper( ( (IQueryService) this.outer ).getExecutorHelper( ) );
+					this.executorHelper.setScriptable( new DummyJSResultSetRow( ( (IQueryService) this.outer ).getExecutorHelper( ), this.resultIterator ) );
+				}
+			}
+
+			return this.executorHelper;
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.impl.IQueryService#getNestedLevel()
+	 */
+	public int getNestedLevel( )
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.impl.IQueryService#getQueryScope()
+	 */
+	public Scriptable getQueryScope( )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.impl.IQueryService#isClosed()
+	 */
+	public boolean isClosed( )
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	/**
+	 *
+	 */
+	private class DummyJSResultSetRow extends ScriptableObject
+	{
+		//
+		private IExecutorHelper helper;
+		private IResultIterator currentIterator;
+		
+		/**
+		 * 
+		 * @param helper
+		 * @param currentIterator
+		 */
+		DummyJSResultSetRow( IExecutorHelper helper, IResultIterator currentIterator )
+		{
+			this.helper = helper;
+			this.currentIterator = currentIterator;
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String, org.mozilla.javascript.Scriptable)
+		 */
+		public Object get( String name, Scriptable scope )
+		{
+			if( ScriptConstants.OUTER_RESULT_KEYWORD.equalsIgnoreCase( name ) && this.helper!= null )
+			{
+				return this.helper.getScriptable( );
+			}
+			try
+			{
+				return this.currentIterator.getValue( name );
+			}
+			catch ( BirtException e )
+			{
+				return e;
+			}
+		}
+		
+		public String getClassName( )
+		{
+			return "DummyJSResultSetRow";
+		}
 	}
 }
