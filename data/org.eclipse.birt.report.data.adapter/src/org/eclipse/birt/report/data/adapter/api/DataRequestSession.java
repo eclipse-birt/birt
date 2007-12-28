@@ -49,6 +49,15 @@ import org.mozilla.javascript.Scriptable;
  */
 public abstract class DataRequestSession
 {
+	/**
+	 * 
+	 * @return
+	 * @throws BirtException
+	 */
+	public static DataRequestSession newSession( ) throws BirtException
+	{
+		return newSession( null, null );
+	}
 	
 	/**
 	 * @param context
@@ -98,7 +107,7 @@ public abstract class DataRequestSession
 	 * Get query definition copy util.
 	 * @return
 	 */
-	public abstract IQueryDefinitionCopyUtil getQueryDefinitionCopyUtil( );
+	public abstract IQueryDefinitionUtil getQueryDefinitionUtil( );
 	
 	/**
 	 * Defines a data source using the provided IBaseDataSourceDesign

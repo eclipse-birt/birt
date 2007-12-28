@@ -65,7 +65,7 @@ import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
-import org.eclipse.birt.report.data.adapter.api.IQueryDefinitionCopyUtil;
+import org.eclipse.birt.report.data.adapter.api.IQueryDefinitionUtil;
 import org.eclipse.birt.report.data.adapter.api.IRequestInfo;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
@@ -110,8 +110,11 @@ public class DataRequestSessionImpl extends DataRequestSession
 	public DataRequestSessionImpl( DataSessionContext context )
 			throws BirtException
 	{
+		/**
+		 * If no context is passed in, simply return an empty DataRequestSession.
+		 */
 		if ( context == null )
-			throw new AdapterException( ResourceConstants.CONEXT_NULL_ERROR );
+			return;
 
 		dataEngine = (DataEngineImpl)DataEngine.newDataEngine( context.getDataEngineContext( ) );
 		modelAdaptor = new ModelAdapter( context );
@@ -998,8 +1001,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#getQueryDefinitionCopyUtil()
 	 */
-	public IQueryDefinitionCopyUtil getQueryDefinitionCopyUtil( )
+	public IQueryDefinitionUtil getQueryDefinitionUtil( )
 	{
-		return new QueryDefinitionCopyUtil( );
+		return new QueryDefinitionUtil( );
 	}
 }
