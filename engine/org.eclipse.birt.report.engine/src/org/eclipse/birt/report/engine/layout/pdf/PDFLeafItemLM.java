@@ -41,10 +41,7 @@ public abstract class PDFLeafItemLM extends PDFAbstractLM
 	{
 		if ( content != null )
 		{
-			if ( PropertyUtil.isInlineElement( content ) )
-			{
-				return super.handlePageBreakBefore( );
-			}
+			return super.handlePageBreakBefore( );
 		}
 		return false;
 	}

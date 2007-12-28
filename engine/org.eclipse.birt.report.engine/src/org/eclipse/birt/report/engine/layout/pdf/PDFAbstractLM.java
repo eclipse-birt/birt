@@ -132,7 +132,7 @@ public abstract class PDFAbstractLM implements ILayoutManager
 				hasNextPage = layoutChildren( );
 				if ( hasNextPage )
 				{
-					// there are sill some content to output,
+					// there are still some content to output,
 					// return to caller to create the new page.
 					if(!hasNextChild())
 					{
