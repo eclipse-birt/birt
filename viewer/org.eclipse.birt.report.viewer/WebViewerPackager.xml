@@ -109,6 +109,7 @@
 	<property name="chart-device-svg.dir" location="../org.eclipse.birt.chart.device.svg" />
 	<property name="chart-engine-extension.dir" location="../org.eclipse.birt.chart.engine.extension" />
 	
+	<property name="buildDirectory" value="${eclipse.home}"/>
 	<property name="baseLocation" value="${eclipse.home}"/>
 	<property name="baseLocation.emf" value="${baseLocation}"/>
 	<!-- Libararies -->
@@ -408,7 +409,14 @@
 			<include name="org.eclipse.datatools.enablement.oda.xml_*.jar" />
 			<include name="org.eclipse.datatools.enablement.oda.ws_*.jar" />
 			<include name="javax.wsdl_1.4.0*.jar"/>
-			<!-- orbit project -->
+		</fileset>
+		<fileset dir="${baseLocation.emf}/plugins">
+			<include name="org.eclipse.emf.common_*.jar" />
+			<include name="org.eclipse.emf.ecore.xmi_*.jar" />
+			<include name="org.eclipse.emf.ecore_*.jar" />
+			<include name="org.eclipse.emf_*.jar" />
+		</fileset>
+		<fileset dir="${buildDirectory}/plugins">
 			<include name="org.apache.xerces_*.jar"/>
 			<include name="org.apache.xml.serializer_*.jar"/>
 			<include name="javax.xml_*.jar"/>
@@ -419,12 +427,6 @@
 			<include name="org.w3c.dom.smil_*.jar"/>
 			<include name="org.w3c.css.sac_*.jar"/>
 			<include name="org.apache.commons.codec_*.jar"/>
-		</fileset>
-		<fileset dir="${baseLocation.emf}/plugins">
-			<include name="org.eclipse.emf.common_*.jar" />
-			<include name="org.eclipse.emf.ecore.xmi_*.jar" />
-			<include name="org.eclipse.emf.ecore_*.jar" />
-			<include name="org.eclipse.emf_*.jar" />
 		</fileset>
 	</copy>
 
@@ -518,6 +520,8 @@
 	<copy todir="${export.dir}/lib">
 		<fileset dir="${baseLocation}/plugins" >
 			<include name="javax.servlet*.jar"/>
+		</fileset>
+		<fileset dir="${buildDirectory}/plugins">
 			<include name="org.w3c.css.sac_*.jar"/>
 			<include name="org.apache.commons.codec_*.jar"/>
 		</fileset>
