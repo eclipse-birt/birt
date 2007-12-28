@@ -18,11 +18,16 @@ import java.util.List;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDialog;
+import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.ui.dialogs.ColumnBindingDialog;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
+import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.jface.dialogs.Dialog;
@@ -43,6 +48,7 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 {
 
 	private Button btnAddAgg;
+	private Button btnRefresh;
 
 	public ChartColumnBindingDialog( Shell parent )
 	{
@@ -85,8 +91,56 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 
 		} );
 
+		btnRefresh = new Button( cmp, SWT.PUSH );
+		btnRefresh.setText( Messages.getString( "ChartColumnBindingDialog.Button.Refresh" ) ); //$NON-NLS-1$
+		btnRefresh.setLayoutData( data );
+		btnRefresh.addListener( SWT.Selection, new Listener( ) {
+
+			public void handleEvent( Event event )
+			{
+				try
+				{
+					List columnList = new ArrayList( );
+					DataSetHandle dataSetHandle = inputElement.getDataSet( );
+					if ( dataSetHandle == null )
+					{
+						dataSetHandle = DEUtil.getBindingHolder( inputElement )
+								.getDataSet( );
+					}
+					if ( dataSetHandle != null )
+					{
+						List resultSetColumnList = DataUtil.getColumnList( dataSetHandle );
+						for ( Iterator iterator = resultSetColumnList.iterator( ); iterator.hasNext( ); )
+						{
+							ResultSetColumnHandle resultSetColumn = (ResultSetColumnHandle) iterator.next( );
+							ComputedColumn column = StructureFactory.newComputedColumn( inputElement,
+									resultSetColumn.getColumnName( ) );
+							column.setDataType( resultSetColumn.getDataType( ) );
+							column.setExpression( DEUtil.getExpression( resultSetColumn ) );
+							columnList.add( column );
+						}
+					}
+					if ( columnList.size( ) > 0 )
+					{
+						for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
+						{
+							DEUtil.addColumn( inputElement,
+									(ComputedColumn) iter.next( ),
+									false );
+						}
+					}
+
+					bindingTable.setInput( inputElement );
+				}
+				catch ( SemanticException e )
+				{
+					WizardBase.displayException( e );
+				}
+			}
+		} );
+
 		// Return the number of buttons
-		return 1;
+		return 2;
 	}
 
 	protected void updateButtons( )
