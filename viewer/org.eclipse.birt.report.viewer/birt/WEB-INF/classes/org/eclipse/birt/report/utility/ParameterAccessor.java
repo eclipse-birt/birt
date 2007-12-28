@@ -1902,7 +1902,7 @@ public class ParameterAccessor
 		if ( reportName == null )
 			return null;
 
-		String documentFile = "F";
+		String documentFile = reportName;
 		if ( reportName.indexOf( '.' ) >= 0 )
 		{
 			documentFile = reportName.substring( 0, reportName
@@ -2986,7 +2986,8 @@ public class ParameterAccessor
 
 		if ( IBirtConstants.PDF_RENDER_FORMAT.equalsIgnoreCase( format )
 				|| IBirtConstants.POSTSCRIPT_RENDER_FORMAT
-						.equalsIgnoreCase( format ) )
+						.equalsIgnoreCase( format )
+				|| IBirtConstants.PPT_RENDER_FORMAT.equalsIgnoreCase( format ) )
 			return true;
 
 		return false;

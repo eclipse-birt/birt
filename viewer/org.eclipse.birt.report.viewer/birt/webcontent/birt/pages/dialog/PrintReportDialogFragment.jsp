@@ -34,8 +34,7 @@
 				&nbsp;&nbsp;
 				<SELECT	ID="printFitSetting" CLASS="birtviewer_printreport_dialog_select" DISABLED="true">
 					<option value="0" selected><%=BirtResources.getMessage( "birt.viewer.dialog.export.pdf.fittoactual" )%></option>
-					<option value="1"><%=BirtResources.getMessage( "birt.viewer.dialog.export.pdf.fittowidth" )%></option>
-					<option value="2"><%=BirtResources.getMessage( "birt.viewer.dialog.export.pdf.fittowhole" )%></option>
+					<option value="1"><%=BirtResources.getMessage( "birt.viewer.dialog.export.pdf.fittowhole" )%></option>
 				</SELECT>
 			</DIV>
 		</TD>

@@ -79,9 +79,6 @@
 							<INPUT TYPE="radio" ID="exportFitToActual" NAME="exportFit" CHECKED/><%=BirtResources.getMessage( "birt.viewer.dialog.export.pdf.fittoactual" )%>
 						</TD>
 						<TD STYLE="padding-left:5px">	
-							<INPUT TYPE="radio" ID="exportFitToWidth" NAME="exportFit"/><%=BirtResources.getMessage( "birt.viewer.dialog.export.pdf.fittowidth" )%>
-						</TD>
-						<TD STYLE="padding-left:5px">	
 							<INPUT TYPE="radio" ID="exportFitToWhole" NAME="exportFit"/><%=BirtResources.getMessage( "birt.viewer.dialog.export.pdf.fittowhole" )%>
 						</TD>
 					</TR>

@@ -34,8 +34,7 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 	* PDF page fit setting
 	*/
 	FIT_TO_ACTUAL : '0',
-	FIT_TO_WIDTH : '1',
-	FIT_TO_WHOLE : '2',
+	FIT_TO_WHOLE  : '1',
 	
 	/**
 	 *	Initialization routine required by "ProtoType" lib.
@@ -167,7 +166,7 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			//var pagebreakonly = "false";
 			
 			// fit to page width
-			if( oSelect.value == this.FIT_TO_WIDTH || oSelect.value == this.FIT_TO_WHOLE )
+			if( oSelect.value == this.FIT_TO_WHOLE )
 			{
 				fittopage = "true";
 			}
