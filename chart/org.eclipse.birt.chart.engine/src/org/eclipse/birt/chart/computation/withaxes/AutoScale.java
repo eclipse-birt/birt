@@ -2495,6 +2495,7 @@ public final class AutoScale extends Methods implements Cloneable
 			boolean bConsiderStartLabel, boolean bConsiderEndLabel, AllAxes aax )
 			throws ChartException
 	{
+		boolean bMaxIsNotIntegralMultipleOfStep = false; 
 		int nTicks = 0;
 		double dLength = 0;
 		double dTickGap = 0;
@@ -2535,6 +2536,9 @@ public final class AutoScale extends Methods implements Cloneable
 		{
 			double dMax = asDouble( oMaximum ).doubleValue( );
 			double dMin = asDouble( oMinimum ).doubleValue( );
+			double dStep = asDouble( oStep ).doubleValue( );
+
+			bMaxIsNotIntegralMultipleOfStep = !ChartUtil.mathEqual( dMax / dStep, (int) ( dMax / dStep ) );
 
 			if ( bStepFixed && oStepNumber != null )
 			{
@@ -2544,9 +2548,10 @@ public final class AutoScale extends Methods implements Cloneable
 			else
 			{
 				double dStepSize = asDouble( oStep ).doubleValue( );
-				dTickGap = Math.min( Math.abs( dStepSize
-						/ ( dMax - dMin ) * dLength ), dLength )
-						* iDirection;
+				dTickGap = Math.min( Math.abs( dStepSize /
+						( dMax - dMin ) *
+						dLength ), dLength ) *
+						iDirection;
 			}
 		}
 		else
@@ -2581,6 +2586,30 @@ public final class AutoScale extends Methods implements Cloneable
 		setTickCordinates( null );
 		setEndPoints( dStart, dEnd );
 		setTickCordinates( atc );
+
+		if ( bStepFixed &&
+				oStepNumber == null &&
+				( nTicks > 2 ) &&
+				bMaxIsNotIntegralMultipleOfStep )
+		{
+			// Step Size is fixed, Linear, Max is not integral multiple of step
+			// size:
+			// In this case the last label before the max value will be hided,
+			// if there is not enough space
+			if ( !checkFit( xs, la, iLabelLocation ) )
+			{
+				nTicks--;
+
+				AxisTickCoordinates atc1 = new AxisTickCoordinates( nTicks,
+						dStart,
+						dEnd,
+						dTickGap,
+						!bCategoryScale || isTickBetweenCategories( ) );
+
+				setTickCordinates( null );
+				setTickCordinates( atc1 );
+			}
+		}
 
 		baTickLabelVisible = checkTickLabelsVisibility( xs, la, iLabelLocation );
 
