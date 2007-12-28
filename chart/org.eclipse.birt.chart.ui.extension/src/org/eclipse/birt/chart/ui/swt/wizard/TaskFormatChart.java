@@ -41,6 +41,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IRegisteredSubtaskEntry;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIManager;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
+import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.TreeCompoundTask;
@@ -458,7 +459,6 @@ public class TaskFormatChart extends TreeCompoundTask
 			createPreviewPainter( );
 		}
 		doLivePreviewWithoutRenderModel( );
-		previewPainter.renderModel( getCurrentModelState( ) );
 	}
 
 	protected Composite createContainer( Composite parent )
@@ -698,8 +698,8 @@ public class TaskFormatChart extends TreeCompoundTask
 				ChartAdapter.beginIgnoreNotifications( );
 				ChartUIUtil.syncRuntimeSeries( getCurrentModelState( ) );
 				ChartAdapter.endIgnoreNotifications( );
+				previewPainter.renderModel( getCurrentModelState( ) );
 			}
-			previewPainter.renderModel( getCurrentModelState( ) );
 		}
 	}
 
@@ -710,31 +710,13 @@ public class TaskFormatChart extends TreeCompoundTask
 
 	private void doLivePreviewWithoutRenderModel( )
 	{
-		if ( getDataServiceProvider( ).isLivePreviewEnabled( )
-				&& ChartUIUtil.checkDataBinding( getCurrentModelState( ) ) )
-		{
-			// Enable live preview
-			ChartPreviewPainter.activateLivePreview( true );
-			// Make sure not affect model changed
-			ChartAdapter.beginIgnoreNotifications( );
-			try
-			{
-				ChartUIUtil.doLivePreview( getCurrentModelState( ),
-						getDataServiceProvider( ) );
-			}
-			// Includes RuntimeException
-			catch ( Exception e )
-			{
-				// Enable sample data instead
-				ChartPreviewPainter.activateLivePreview( false );
-			}
-			ChartAdapter.endIgnoreNotifications( );
-		}
-		else
-		{
-			// Disable live preview
-			ChartPreviewPainter.activateLivePreview( false );
-		}
+		// Copy a runtime chart model to do live preview and it will not affect
+		// design time chart model, so we can change attributes in runtime model
+		// for some special requirements and processes.
+		final Chart cmRunTime = ChartPreviewUtil.prepareLivePreview( getCurrentModelState( ),
+				getDataServiceProvider( ) );
+		
+		previewPainter.renderModel( cmRunTime );
 	}
 
 	private void initialize( Chart chartModel, IUIManager uiManager )

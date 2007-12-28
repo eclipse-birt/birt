@@ -39,6 +39,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
 import org.eclipse.birt.chart.ui.swt.wizard.data.SelectDataDynamicArea;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
+import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewUtil;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
@@ -608,32 +609,13 @@ public class TaskSelectData extends SimpleTask
 
 	private void doLivePreview( )
 	{
-		if ( getDataServiceProvider( ).isLivePreviewEnabled( )
-				&& ChartUIUtil.checkDataBinding( getChartModel( ) ) )
-		{
-			// Enable live preview
-			ChartPreviewPainter.activateLivePreview( true );
-			// Make sure not affect model changed
-			ChartAdapter.beginIgnoreNotifications( );
-			try
-			{
-				ChartUIUtil.doLivePreview( getChartModel( ),
-						getDataServiceProvider( ) );
-			}
-			// Includes RuntimeException
-			catch ( Exception e )
-			{
-				// Enable sample data instead
-				ChartPreviewPainter.activateLivePreview( false );
-			}
-			ChartAdapter.endIgnoreNotifications( );
-		}
-		else
-		{
-			// Disable live preview
-			ChartPreviewPainter.activateLivePreview( false );
-		}
-		previewPainter.renderModel( getChartModel( ) );
+		// Copy a runtime chart model to do live preview and it will not affect
+		// design time chart model, so we can change attributes in runtime model
+		// for some special requirements and processes.
+		Chart cmRunTime = ChartPreviewUtil.prepareLivePreview( getChartModel( ),
+				getDataServiceProvider( ) );
+
+		previewPainter.renderModel( cmRunTime );
 	}
 
 	private void checkDataTypeForChartWithAxes( )

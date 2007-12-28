@@ -43,6 +43,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
+import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewUtil;
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
@@ -1293,19 +1294,19 @@ public class TaskSelectType extends SimpleTask
 			// To update data type after chart type conversion
 			if ( chartModel instanceof ChartWithAxes )
 			{
-				checkDataTypeForChartWithAxes( );
+				checkDataTypeForChartWithAxes( chartModel );
 			}
 			previewPainter.renderModel( chartModel );
 		}
 	}
 
-	private void checkDataTypeForChartWithAxes( )
+	private void checkDataTypeForChartWithAxes( Chart cm )
 	{
 		// To check the data type of base series and orthogonal series in chart
 		// with axes
 		List sdList = new ArrayList( );
-		sdList.addAll( ChartUIUtil.getBaseSeriesDefinitions( chartModel ) );
-		sdList.addAll( ChartUIUtil.getAllOrthogonalSeriesDefinitions( chartModel ) );
+		sdList.addAll( ChartUIUtil.getBaseSeriesDefinitions( cm ) );
+		sdList.addAll( ChartUIUtil.getAllOrthogonalSeriesDefinitions( cm ) );
 		for ( int i = 0; i < sdList.size( ); i++ )
 		{
 			SeriesDefinition sd = (SeriesDefinition) sdList.get( i );
@@ -1321,31 +1322,22 @@ public class TaskSelectType extends SimpleTask
 
 	private void doLivePreview( )
 	{
-		if ( getDataServiceProvider( ).isLivePreviewEnabled( )
-				&& ChartUIUtil.checkDataBinding( chartModel ) )
+		// Copy a runtime chart model to do live preview and it will not affect
+		// design time chart model, so we can change attributes in runtime model
+		// for some special requirements and processes.
+		final Chart cmRunTime = ChartPreviewUtil.prepareLivePreview( chartModel,
+				getDataServiceProvider( ) );
+		
+		// Repaint chart.
+		if ( previewPainter != null )
 		{
-			// Enable live preview
-			ChartPreviewPainter.activateLivePreview( true );
-			// Make sure not affect model changed
-			ChartAdapter.beginIgnoreNotifications( );
-			try
+			// To update data type after chart type conversion
+			if ( cmRunTime instanceof ChartWithAxes )
 			{
-				ChartUIUtil.doLivePreview( chartModel, getDataServiceProvider( ) );
+				checkDataTypeForChartWithAxes( cmRunTime );
 			}
-			// Includes RuntimeException
-			catch ( Exception e )
-			{
-				// Enable sample data instead
-				ChartPreviewPainter.activateLivePreview( false );
-			}
-			ChartAdapter.endIgnoreNotifications( );
+			previewPainter.renderModel( cmRunTime );
 		}
-		else
-		{
-			// Disable live preview
-			ChartPreviewPainter.activateLivePreview( false );
-		}
-		changeTask( null );
 	}
 
 	private String getSubtypeFromButton( Control button )

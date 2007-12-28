@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.factory;
 
-import java.util.Map;
 
 /**
  * The interface is declared to wrap <code>IQueryResultSet</code> and evaluate
@@ -30,18 +29,4 @@ public interface IGroupedDataRowExpressionEvaluator
 	 * @return group breaks
 	 */
 	public int[] getGroupBreaks( int groupLevel );
-	
-	
-	/**
-	 * Commonly, the passed argument is a mapping of expression key and
-	 * expression, the implementation of the interface will use expression key
-	 * or expression in the map to evaluate expression.
-	 * <p>
-	 * For some aggregation case, the expression key should be used to evaluate
-	 * instead of expression at live preview. And for other cases, it should
-	 * still use expression to evaluate.
-	 * 
-	 * @param exprMap
-	 */
-	public void setExpressionsMap( Map exprMap );
 }

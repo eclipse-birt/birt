@@ -188,7 +188,7 @@ class ChartCubeQueryHelper
 								.get( 0 );
 				String aggFun = i == 0
 						? sd.getGrouping( ).getAggregateExpression( )
-						: AbstractChartBaseQueryHelper.getAggFuncExpr( sd,
+						: AbstractChartBaseQueryGenerator.getAggFuncExpr( sd,
 								getBaseSeriesDefinition( cm ).getGrouping( )
 										.getAggregateExpression( ) );
 				String targetBindingName = getBindingName( targetQuery.getDefinition( ) );

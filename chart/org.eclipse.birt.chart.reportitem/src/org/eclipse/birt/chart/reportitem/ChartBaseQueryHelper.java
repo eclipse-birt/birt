@@ -14,7 +14,6 @@ package org.eclipse.birt.chart.reportitem;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
@@ -33,7 +32,6 @@ import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
-import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
@@ -55,16 +53,26 @@ import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
-import org.eclipse.emf.common.util.EList;
 
 /**
  * The class is responsible to add group bindings of chart on query definition.
  * 
  * @since BIRT 2.3
  */
-public class ChartBaseQueryHelper extends AbstractChartBaseQueryHelper
+public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 {
-
+	
+	/**
+	 * Constructor of the class.
+	 * 
+	 * @param chart
+	 * @param handle
+	 */
+	public ChartBaseQueryHelper( ExtendedItemHandle handle, Chart cm )
+	{
+		super( handle, cm );
+	}
+	
 	public IDataQueryDefinition createBaseQuery( IDataQueryDefinition parent )
 	{
 		BaseQueryDefinition query = createQueryDefinition( parent );
@@ -364,66 +372,9 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryHelper
 		ScriptExpression expr = new ScriptExpression( handle.getExpression( ) );
 		// model provides binding by name only
 		return new InputParameterBinding( handle.getParamName( ), expr );
-
 	}
-	/**
-	 * Constructor of the class.
-	 * 
-	 * @param chart
-	 * @param handle
-	 */
-	public ChartBaseQueryHelper( ExtendedItemHandle handle, Chart cm )
-	{
-		super( handle, cm );
-	}
-	/**
-	 * Add aggregate bindings of value series for grouping case.
-	 * 
-	 * @param query
-	 * @param seriesDefinitions
-	 * @param innerGroupDef
-	 * @param valueExprMap
-	 * @param baseSD
-	 * @throws DataException
-	 */
-	protected void addValueSeriesAggregateBindingForGrouping(
-			BaseQueryDefinition query, EList seriesDefinitions,
-			GroupDefinition innerGroupDef, Map valueExprMap,
-			SeriesDefinition baseSD ) throws DataException
-	{
-		for ( Iterator iter = seriesDefinitions.iterator( ); iter.hasNext( ); )
-		{
-			SeriesDefinition orthSD = (SeriesDefinition) iter.next( );
-			String expr = ( (Query) orthSD.getDesignTimeSeries( )
-					.getDataDefinition( )
-					.get( 0 ) ).getDefinition( );
-			if ( expr != null && !"".equals( expr ) ) //$NON-NLS-1$
-			{
-				// Get a unique name.
-				String name = generateUniqueBindingName( expr );
 
-				Binding colBinding = new Binding( name );
-
-				colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
-				colBinding.setExpression( new ScriptExpression( expr ) );
-				if ( innerGroupDef != null )
-				{
-					colBinding.addAggregateOn( innerGroupDef.getName( ) );
-					colBinding.setAggrFunction( ChartReportItemUtil.convertToDtEAggFunction( getAggFunExpr( orthSD,
-							baseSD ) ) );
-				}
-
-				String newExpr = ExpressionUtil.createJSRowExpression( name );
-				( (Query) orthSD.getDesignTimeSeries( )
-						.getDataDefinition( )
-						.get( 0 ) ).setDefinition( newExpr );
-
-				query.addBinding( colBinding );
-
-				valueExprMap.put( expr, newExpr );
-			}
-		}
-	}
+	
 	private String getExpressionOfValueSeries( )
 	{
 		SeriesDefinition ySd;
@@ -442,5 +393,22 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryHelper
 				.getDataDefinition( )
 				.get( 0 );
 		return query.getDefinition( );
+	}
+	
+	/**
+	 * @param expression
+	 * @return
+	 */
+	protected String getExpressionForEvaluator( String expression )
+	{
+		return ExpressionUtil.createJSRowExpression( expression );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.reportitem.AbstractChartBaseQueryGenerator#createBaseQuery(java.util.List)
+	 */
+	public IDataQueryDefinition createBaseQuery( List columns )
+	{
+		throw new UnsupportedOperationException( "Don't be implemented in the class." ); //$NON-NLS-1$
 	}
 }

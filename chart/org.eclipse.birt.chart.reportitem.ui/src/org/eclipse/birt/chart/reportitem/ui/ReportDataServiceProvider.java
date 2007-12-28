@@ -30,11 +30,9 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.DataType;
-import org.eclipse.birt.chart.model.data.Query;
-import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.birt.chart.reportitem.AbstractChartBaseQueryHelper;
-import org.eclipse.birt.chart.reportitem.AbstractGroupedQueryResultSetEvaluator;
+import org.eclipse.birt.chart.reportitem.AbstractChartBaseQueryGenerator;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
+import org.eclipse.birt.chart.reportitem.GroupedQueryResultSetEvaluatorAdapter;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
@@ -42,11 +40,10 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
-import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
-import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
@@ -72,7 +69,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.metadata.PredefinedStyle;
-import org.eclipse.emf.common.util.EList;
 
 import com.ibm.icu.text.Collator;
 import com.ibm.icu.text.DateFormat;
@@ -883,7 +879,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			DataRequestSession session = prepareDataRequestSession( rowCount );
 
 			BaseQueryHelper cbqh = new BaseQueryHelper( itemHandle, cm );
-			QueryDefinition queryDefn = cbqh.createBaseQuery( columnExpression );
+			QueryDefinition queryDefn = (QueryDefinition) cbqh.createBaseQuery( columnExpression );
 
 			// Iterate parameter bindings to check if its expression is a
 			// explicit
@@ -898,10 +894,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					ChartReportItemUtil.getColumnDataBindings( itemHandle ) );
 			if ( actualResultSet != null )
 			{
-				
-				return new ChartGroupedResultEvaluator( actualResultSet.getResultIterator( ),
-						ChartReportItemUtil.hasAggregation( cm ),
-						cbqh.getExprBindingNameMap( ) );
+				return new GroupedQueryResultSetEvaluatorAdapter( actualResultSet.getResultIterator( ),
+						ChartReportItemUtil.hasAggregation( cm ) );
 			}
 		}
 		catch ( BirtException e )
@@ -938,38 +932,14 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		DataRequestSession session = DataRequestSession.newSession( dsc );
 		return session;
 	}
-
-	/**
-	 * Generate expression key.
-	 * 
-	 * @param dataExp
-	 * @param aggExp
-	 * @return
-	 * @since BIRT 2.3
-	 */
-	private static String generateExpressionKey( String dataExp, String aggExp )
-	{
-		if ( aggExp == null || "".equals( aggExp ) ) //$NON-NLS-1$
-		{
-			return dataExp;
-		}
-		return dataExp + "_" + aggExp; //$NON-NLS-1$
-	}
 	
 	/**
 	 * The class is responsible to create query definition.
 	 * 
 	 * @since BIRT 2.3
 	 */
-	class BaseQueryHelper extends AbstractChartBaseQueryHelper
+	class BaseQueryHelper extends AbstractChartBaseQueryGenerator
 	{
-
-		/**
-		 * The map stores expression keys and bindings, key is expression key,
-		 * value is binding.
-		 */
-		Map fExprBindingNameMap = new LinkedHashMap( );
-
 		/**
 		 * Constructor of the class.
 		 * 
@@ -989,7 +959,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		 * @return
 		 * @throws DataException
 		 */
-		public QueryDefinition createBaseQuery( List columnExpression )
+		public IDataQueryDefinition createBaseQuery( List columnExpression )
 				throws DataException
 		{
 			QueryDefinition queryDefn = new QueryDefinition( );
@@ -999,13 +969,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 			for ( int i = 0; i < columnExpression.size( ); i++ )
 			{
-				String exprKey = ( (String[]) columnExpression.get( i ) )[0];
-				String expr = ( (String[]) columnExpression.get( i ) )[1];
-				Binding colBinding = new Binding( exprKey );
+				String expr =  (String) columnExpression.get( i );
+				Binding colBinding = new Binding( expr );
 				colBinding.setExpression( new ScriptExpression( expr ) );
 				queryDefn.addBinding( colBinding );
-				fNameSet.add( exprKey );
-				fExprBindingNameMap.put( exprKey, colBinding );
+				fNameSet.add( expr );
 			}
 
 			generateGroupBindings( queryDefn );
@@ -1013,124 +981,13 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			return queryDefn;
 		}
 
-		/**
-		 * Add aggregate bindings of value series for grouping case.
-		 * 
-		 * @param handle
-		 * @param query
-		 * @param seriesDefinitions
-		 * @param innerGroupDef
-		 * @param valueExprMap
-		 * @param baseSD
-		 * @throws DataException
+		/* (non-Javadoc)
+		 * @see org.eclipse.birt.chart.reportitem.AbstractChartBaseQueryGenerator#createBaseQuery(org.eclipse.birt.data.engine.api.IDataQueryDefinition)
 		 */
-		protected void addValueSeriesAggregateBindingForGrouping(
-				BaseQueryDefinition query, EList seriesDefinitions,
-				GroupDefinition innerGroupDef, Map valueExprMap,
-				SeriesDefinition baseSD ) throws DataException
+		public IDataQueryDefinition createBaseQuery( IDataQueryDefinition parent )
 		{
-			for ( Iterator iter = seriesDefinitions.iterator( ); iter.hasNext( ); )
-			{
-				SeriesDefinition orthSD = (SeriesDefinition) iter.next( );
-				String expr = ( (Query) orthSD.getDesignTimeSeries( )
-						.getDataDefinition( )
-						.get( 0 ) ).getDefinition( );
-				if ( expr != null && !"".equals( expr ) ) //$NON-NLS-1$
-				{
-					String aggFunc = getAggFunExpr( orthSD, baseSD );
-
-					// Get a unique name.
-					String exprKey = generateExpressionKey( expr, aggFunc );
-					Binding colBinding = (Binding) fExprBindingNameMap.get( exprKey );
-					if ( colBinding == null )
-					{
-						colBinding = new Binding( exprKey );
-						fNameSet.add( exprKey );
-						fExprBindingNameMap.put( exprKey, colBinding );
-					}
-
-					colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
-					colBinding.setExpression( new ScriptExpression( expr ) );
-					if ( innerGroupDef != null )
-					{
-						colBinding.addAggregateOn( innerGroupDef.getName( ) );
-						colBinding.setAggrFunction( ChartReportItemUtil.convertToDtEAggFunction( aggFunc ) );
-					}
-
-					query.addBinding( colBinding );
-				}
-			}
+			throw new UnsupportedOperationException( "Don't be implemented in the class." ); //$NON-NLS-1$
 		}
 
-		/**
-		 * @return
-		 */
-		Map getExprBindingNameMap( )
-		{
-			return fExprBindingNameMap;
-		}
 	} // End of class BaseQueryHelper.
-
-	/**
-	 * The class wraps <code>IResultIterator</code> and is provided for chart
-	 * to bind row data.
-	 * 
-	 * @since BIRT 2.3
-	 */
-	class ChartGroupedResultEvaluator extends
-			AbstractGroupedQueryResultSetEvaluator
-	{
-
-		/**
-		 * It maps expression key and binding.
-		 */
-		private Map fExprBindingsMap;
-
-		/**
-		 * Constructor.
-		 * 
-		 * @param resultSet
-		 * @param hasAggregation
-		 */
-		public ChartGroupedResultEvaluator( IResultIterator resultSet,
-				boolean hasAggregation, Map exprBindingsMap )
-		{
-			super( resultSet, hasAggregation );
-			fExprBindingsMap = exprBindingsMap;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluate(java.lang.String)
-		 */
-		public Object evaluate( String expression )
-		{
-			try
-			{
-				String name = null;
-				Object o = fExprBindingsMap.get( expression );
-				if ( o == null )
-				{
-					name = expression;
-				}
-				if ( o instanceof String )
-				{
-					name = (String) o;
-				}
-				else if ( o instanceof Binding )
-				{
-					name = ( (Binding) o ).getBindingName( );
-				}
-
-				return fResultIterator.getValue( name );
-			}
-			catch ( BirtException e )
-			{
-				fLogger.log( e );
-			}
-			return null;
-		}
-	} // End of ChartGroupedResultEvaluator.
-
 }

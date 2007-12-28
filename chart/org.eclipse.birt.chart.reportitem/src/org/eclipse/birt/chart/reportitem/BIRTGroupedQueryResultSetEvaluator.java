@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.chart.reportitem;
 
-import java.util.Map;
-
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 
@@ -23,13 +21,10 @@ import org.eclipse.birt.report.engine.extension.IQueryResultSet;
  */
 public class BIRTGroupedQueryResultSetEvaluator
 		extends
-		AbstractGroupedQueryResultSetEvaluator
+		GroupedQueryResultSetEvaluatorAdapter
 {
 
 	private IQueryResultSet fQueryResultSet;
-
-	/** The key is expression key, the value is expression. */
-	private Map fExpressionsMap;
 
 	/**
 	 * Constructor.
@@ -63,20 +58,12 @@ public class BIRTGroupedQueryResultSetEvaluator
 	{
 		try
 		{
-			return fQueryResultSet.evaluate( (String) fExpressionsMap.get( expression ) );
+			return fQueryResultSet.evaluate( expression );
 		}
 		catch ( BirtException e )
 		{
 			fLogger.log( e );
 		}
 		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.factory.IGroupedDataRowExpressionEvaluator#setExpressionsMap(java.util.Map)
-	 */
-	public void setExpressionsMap( Map exprMap )
-	{
-		fExpressionsMap = exprMap;
 	}
 }

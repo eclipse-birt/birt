@@ -16,7 +16,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -49,13 +48,6 @@ public class GroupingLookupHelper
 	private LinkedHashMap lhmAggExp = new LinkedHashMap( 8 );
 
 	private List lstAll = new ArrayList( 8 );
-	
-	
-	/**
-	 * The list stores expression keys, it will include aggregation information.
-	 * @since BIRT 2.3
-	 */
-	private List lstExpressionKeys = new ArrayList( 8 );
 	
 	private String strBaseAggExp = null;
 
@@ -119,8 +111,6 @@ public class GroupingLookupHelper
 			lstAll.add( dataExp );
 			lhmAggExp.put( generateKey( dataExp, aggExp ),
 					new Integer( iLookup++ ) );
-			
-			lstExpressionKeys.add( generateKey( dataExp, aggExp ) );
 		}
 	}
 
@@ -135,31 +125,6 @@ public class GroupingLookupHelper
 		return lstAll;
 	}
 
-	/**
-	 * Returns expression keys.
-	 * @return
-	 * @since BIRT 2.3
-	 */
-	public List getExpressionKeys( )
-	{
-		return lstExpressionKeys;
-	}
-	
-	/**
-	 * Returns expression keys and expressions map.
-	 * @return
-	 * @since BIRT 2.3
-	 */
-	public Map getExpressionKeysMap( )
-	{
-		Map seMap = new LinkedHashMap( );
-		for ( int i = 0; i < lstAll.size( ); i++ )
-		{
-			seMap.put( lstExpressionKeys.get( i ), lstAll.get( i ) );
-		}
-		return seMap;
-	}
-	
 	private String generateKey( String dataExp, String aggExp )
 	{
 		if ( aggExp == null || "".equals( aggExp ) ) //$NON-NLS-1$
@@ -235,11 +200,6 @@ public class GroupingLookupHelper
 
 	private boolean addDataExp( String dataExp, String aggExp )
 	{
-		return addDataExp( dataExp, aggExp, false );
-	}
-
-	private boolean addDataExp( String dataExp, String aggExp, boolean ignoreAggExpr )
-	{
 		if ( dataExp != null && dataExp.trim( ).length( ) > 0 )
 		{
 			String key = generateKey( dataExp, aggExp );
@@ -247,21 +207,12 @@ public class GroupingLookupHelper
 			{
 				lhmAggExp.put( key, new Integer( iLookup++ ) );
 				lstAll.add( dataExp );
-				
-				if ( !ignoreAggExpr )
-				{
-					lstExpressionKeys.add( generateKey( dataExp, aggExp ) );
-				}
-				else
-				{
-					lstExpressionKeys.add( generateKey( dataExp, null ) );
-				}
 			}
 			return true;
 		}
 		return false;
 	}
-	
+
 	private void addLookupForBaseSeries( SeriesDefinition baseSD )
 			throws ChartException
 	{
@@ -323,7 +274,7 @@ public class GroupingLookupHelper
 
 			String strOrthoAgg = getOrthogonalAggregationExpression( orthoSD );
 			addDataExp( qOrthogonalSeriesDefinition.getDefinition( ),
-					strOrthoAgg, true );
+					strOrthoAgg );
 			
 			// Get sort key of Y grouping.
 			String ySortKey = getSortKey( orthoSD );

@@ -12,12 +12,17 @@
 package org.eclipse.birt.chart.examples.builder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.factory.DataRowExpressionEvaluatorAdapter;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.DataType;
+import org.eclipse.birt.chart.ui.i18n.Messages;
+import org.eclipse.birt.chart.ui.plugin.ChartUIPlugin;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.jface.window.Window;
 
@@ -252,6 +257,66 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 			List expressions, int maxRecords, boolean byRow )
 			throws ChartException
 	{
-		return null;
+		final Object[] columnData;
+		columnData = getDataForColumns( (String[]) expressions.toArray( new String[expressions.size( )] ),
+				-1,
+				false );
+
+		final Map map = new HashMap( );
+		for ( int i = 0; i < expressions.size( ); i++ )
+		{
+			map.put( expressions.get( i ), columnData[i] );
+		}
+		IDataRowExpressionEvaluator evaluator = new DataRowExpressionEvaluatorAdapter( ) {
+
+			private int i;
+			private Object[] column;
+
+			public Object evaluate( String expression )
+			{
+				column = (Object[]) map.get( expression );
+				if ( i >= column.length )
+				{
+					throw new RuntimeException( new ChartException( ChartUIPlugin.ID,
+							ChartException.DATA_SET,
+							Messages.getString( "ChartUIUtil.Exception.NoValueReturned" ) ) ); //$NON-NLS-1$
+				}
+				return column[i];
+			}
+
+			public boolean first( )
+			{
+				i = 0;
+
+				if ( map.size( ) > 0 )
+				{
+					column = (Object[]) map.values( ).iterator( ).next( );
+
+					if ( column != null && i <= column.length - 1 )
+					{
+						return true;
+					}
+				}
+
+				return false;
+			}
+
+			public boolean next( )
+			{
+				if ( column != null && i < column.length - 1 )
+				{
+					i++;
+					return true;
+				}
+				return false;
+			}
+
+			public void close( )
+			{
+				// no-op
+			}
+		};
+		
+		return evaluator;
 	}
 }
