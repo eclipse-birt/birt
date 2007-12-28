@@ -968,7 +968,7 @@ public final class AutoScale extends Methods implements Cloneable
 							nTicks = 2;
 						}
 						// update the step size
-						dStep = ( dMax - dMin ) / nTicks;
+						dStep = ( dMax - dMin ) / ( nTicks - 1 );
 						oStep = new Double( dStep );
 					}
 					else
