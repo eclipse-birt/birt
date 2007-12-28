@@ -243,7 +243,10 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 			if ( unitSet != null )
 				clonedDefn.allowedUnits = unitSet;
 
-			clonedDefn.useOwnModel = isOwn;
+			// if the property can be encrypted, it cannot uses its own model.
+
+			if ( !defn.isEncryptable( ) )
+				clonedDefn.useOwnModel = isOwn;
 			cachedProperties.put( propName, clonedDefn );
 		}
 	}

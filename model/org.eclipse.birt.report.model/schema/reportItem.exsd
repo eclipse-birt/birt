@@ -544,6 +544,8 @@ Designer UI
                <documentation>
                   The proposal of &apos;useOwnModel&apos; property is to extend the extension schema to allow extended items to 
 override some predefined properties such as &quot;onRender&quot;,&quot;onCreate&quot; property.
+
+If the predefined property can be encrypted, it cannot be set with useOwnModel=true. For such case, the value is ignored.
                </documentation>
             </annotation>
          </attribute>

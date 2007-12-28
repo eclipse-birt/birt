@@ -49,8 +49,8 @@ public class CopyForPastePolicy extends CopyPolicy
 
 	public void execute( DesignElement source, DesignElement destination )
 	{
-		if ( destination.getExtendsName( ) == null
-				&& !destination.isVirtualElement( ) )
+		if ( destination.getExtendsName( ) == null &&
+				!destination.isVirtualElement( ) )
 		{
 			clearDisplayName( destination );
 			return;
@@ -106,22 +106,27 @@ public class CopyForPastePolicy extends CopyPolicy
 			// The properties inherited from style or parent will be
 			// flatten to new element.
 
-			if ( IStyledElementModel.STYLE_PROP.equals( propName )
-					|| IDesignElementModel.EXTENDS_PROP.equals( propName )
-					|| IDesignElementModel.USER_PROPERTIES_PROP
-							.equals( propName ) )
+			if ( IStyledElementModel.STYLE_PROP.equals( propName ) ||
+					IDesignElementModel.EXTENDS_PROP.equals( propName ) ||
+					IDesignElementModel.USER_PROPERTIES_PROP.equals( propName ) )
 				continue;
 
-			if ( destination.getLocalProperty( null, propDefn ) != null )
+			if ( propDefn.isEncryptable( ) &&
+					destination.getLocalEncryptionID( propDefn ) == null &&
+					destination.getLocalProperty( null, propDefn ) != null )
 			{
 				// if destination has local value and no local encryption, then
 				// set encryption for this encryption maybe inherits from parent
-				if ( propDefn.isEncryptable( )
-						&& destination.getLocalEncryptionID( propDefn ) == null )
-					destination.setEncryptionHelper( propDefn, source
-							.getEncryptionID( propDefn ) );
+
+				destination.setEncryptionHelper( propDefn, source
+						.getEncryptionID( propDefn ) );
+
 				continue;
 			}
+			
+			Object tmpValue = source.getLocalProperty( module, propDefn );
+			if ( tmpValue != null )
+				continue;
 
 			current = source.isVirtualElement( )
 					? source.getVirtualParent( )
