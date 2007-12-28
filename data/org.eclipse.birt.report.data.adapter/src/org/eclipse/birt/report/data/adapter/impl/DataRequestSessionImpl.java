@@ -110,11 +110,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 	public DataRequestSessionImpl( DataSessionContext context )
 			throws BirtException
 	{
-		/**
-		 * If no context is passed in, simply return an empty DataRequestSession.
-		 */
 		if ( context == null )
-			return;
+			throw new AdapterException( ResourceConstants.CONEXT_NULL_ERROR );
 
 		dataEngine = (DataEngineImpl)DataEngine.newDataEngine( context.getDataEngineContext( ) );
 		modelAdaptor = new ModelAdapter( context );

@@ -50,16 +50,6 @@ import org.mozilla.javascript.Scriptable;
 public abstract class DataRequestSession
 {
 	/**
-	 * 
-	 * @return
-	 * @throws BirtException
-	 */
-	public static DataRequestSession newSession( ) throws BirtException
-	{
-		return newSession( null, null );
-	}
-	
-	/**
 	 * @param context
 	 * @return an instance of data adaptor
 	 * @throws BirtException
