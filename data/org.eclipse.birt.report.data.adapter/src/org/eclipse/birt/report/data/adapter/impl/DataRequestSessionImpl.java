@@ -573,8 +573,14 @@ public class DataRequestSessionImpl extends DataRequestSession
 			CubeMaterializer cubeMaterializer, Map appContext )
 			throws IOException, BirtException, DataException
 	{
-		Set involvedDataSet = this.needCachedDataSetToEnhancePerformance( cubeHandle );
-		boolean doPerfTuning = involvedDataSet.size( ) > 1
+		List dataSetList = this.needCachedDataSetToEnhancePerformance( cubeHandle );
+		Set involvedDataSet = new HashSet();
+		for( int i = 0; i < dataSetList.size( ); i++ )
+		{
+			involvedDataSet.add( dataSetList.get( i ) );
+		}
+		 
+		boolean doPerfTuning = ( involvedDataSet.size( ) != dataSetList.size( ) )
 				&& ( appContext == null || ( appContext != null
 						&& appContext.get( DataEngine.DATA_SET_CACHE_ROW_LIMIT ) == null 
 						&& appContext.get( DataEngine.MEMORY_DATA_SET_CACHE ) == null ) );
@@ -724,10 +730,10 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @param cubeHandle
 	 * @return
 	 */
-	private Set needCachedDataSetToEnhancePerformance( TabularCubeHandle cubeHandle )
+	private List needCachedDataSetToEnhancePerformance( TabularCubeHandle cubeHandle )
 	{
-		Set set = new HashSet( );
-		set.add( cubeHandle.getDataSet( ) );
+		List list = new ArrayList( );
+		list.add( cubeHandle.getDataSet( ) );
 		List dimHandles = cubeHandle.getContents( CubeHandle.DIMENSIONS_PROP );
 		for( int i = 0; i < dimHandles.size( ); i++ )
 		{
@@ -735,9 +741,11 @@ public class DataRequestSessionImpl extends DataRequestSession
 			List hiers = dimHandle.getContents( DimensionHandle.HIERARCHIES_PROP );
 			TabularHierarchyHandle hierHandle = (TabularHierarchyHandle)hiers.get( 0 );
 			if( hierHandle.getDataSet( )!= null )
-				set.add( hierHandle.getDataSet( ) );
+				list.add( hierHandle.getDataSet( ) );
+			else
+				list.add( cubeHandle.getDataSet( ) );
 		}
-		return set;
+		return list;
 	}
 	
 	/**
