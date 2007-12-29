@@ -401,7 +401,11 @@ public class ExecutionContext
 	 */
 	public void close( )
 	{
-		scriptContext.exit( );
+		if ( scriptContext != null )
+		{
+			scriptContext.exit( );
+			scriptContext = null;
+		}
 		if ( dataSource != null )
 		{
 			try

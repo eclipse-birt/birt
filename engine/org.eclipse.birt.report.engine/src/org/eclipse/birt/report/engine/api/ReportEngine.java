@@ -236,7 +236,11 @@ public class ReportEngine implements IReportEngine
 	 */
 	public void destroy( )
 	{
-		engine.destroy( );
+		if ( engine != null )
+		{
+			engine.destroy( );
+			engine = null;
+		}
 	}
 
 	/**
