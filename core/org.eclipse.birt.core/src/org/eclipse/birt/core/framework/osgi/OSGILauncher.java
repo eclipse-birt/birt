@@ -188,14 +188,19 @@ public class OSGILauncher
 				Map.Entry entry = (Map.Entry) it.next( );
 				String key = (String) entry.getKey( );
 				Object value = entry.getValue( );
-				if ( !key.startsWith( "osgi." ) && !key.startsWith( "eclipse." )
-						&& !key.startsWith( "org.osgi." ) )
+				//Tomcat 6 setting some of property to Object instead of String
+				if ( value == null || value instanceof String )
 				{
-					properties.put( key, value );
-				}
-				else
-				{
-					properties.put( key, null );
+					if ( !key.startsWith( "osgi." ) &&
+							!key.startsWith( "eclipse." ) &&
+							!key.startsWith( "org.osgi." ) )
+					{
+						properties.put( key, value );
+					}
+					else
+					{
+						properties.put( key, null );
+					}
 				}
 			}
 		}
