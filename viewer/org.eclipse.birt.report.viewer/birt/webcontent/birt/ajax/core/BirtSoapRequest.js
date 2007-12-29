@@ -17,6 +17,9 @@ BirtSoapRequest = Class.create( );
 
 BirtSoapRequest.prototype =
 {
+	SOAP_NAMESPACE_URI : "http://schemas.xmlsoap.org/soap/envelope/",
+	BIRT_NAMESPACE_URI : "http://schemas.eclipse.org/birt",
+
 	__url : null,
 	__message : null,
 	__xml_document : null,
@@ -29,7 +32,17 @@ BirtSoapRequest.prototype =
 	 */
 	initialize : function( )
 	{
-		this.reset( );
+		/* 
+		   XML namespaces are supported by the following browsers :
+		   - Firefox 2 and 3
+		   - Safari 3
+		   - Mozilla 1.7.13
+		   Unsupported by:
+		   - IE6 nor IE7
+		*/ 
+		this.hasXmlNamespaceSupport = ( typeof( document.createElementNS ) != "undefined" );
+		
+		this.reset();
 	},
 	
 	/**
@@ -81,17 +94,32 @@ BirtSoapRequest.prototype =
 	reset : function( )
 	{
 		// Soap envelope
-		this.__xml_document = this.createXMLDom( null, "Envelope" );
+		this.__xml_document = this.createXMLDom( this.SOAP_NAMESPACE_URI, "soap:Envelope" );
+		
  		var soapEnv = this.__xml_document.documentElement;
-		soapEnv.setAttribute( "xmlns", "http://schemas.xmlsoap.org/soap/envelope/" );
 
 		// Soap body
-		var soapBody = this.__xml_document.createElement( "Body" );
+		var soapBody;
+		
+		if ( this.hasXmlNamespaceSupport )
+		{
+		 	soapBody = this.__xml_document.createElementNS( this.SOAP_NAMESPACE_URI, "Body" );
+		}
+		else
+		{
+		 	soapBody = this.__xml_document.createElement( "soap:Body" );
+		}
+		 	
   		soapEnv.appendChild( soapBody );
   		
 		// Get updated objects method
-		var getUpdatedObjects = this.__xml_document.createElement( "GetUpdatedObjects" );
-		getUpdatedObjects.setAttribute( "xmlns", "http://schemas.eclipse.org/birt" );
+		var getUpdatedObjects = this.createBirtElement( "GetUpdatedObjects" );
+		if ( !this.hasXmlNamespaceSupport )
+		{
+			// only the first element needs the xmlns attribute
+			getUpdatedObjects.setAttribute( "xmlns", this.BIRT_NAMESPACE_URI );
+		}
+		
   		soapBody.appendChild( getUpdatedObjects );
 		
 		this.__operation_content = getUpdatedObjects;
@@ -101,10 +129,27 @@ BirtSoapRequest.prototype =
 	},
 
 	/**
-	 * Utility method creates an XML element.
+	 * Utility method to create an XML element in the birt namespace.
+	 *
+	 * @param qualifiedName qualified name
+	 */
+	createBirtElement : function( qualifiedName )
+	{
+		if ( this.hasXmlNamespaceSupport )
+		{
+			return this.__xml_document.createElementNS( this.BIRT_NAMESPACE_URI, qualifiedName );
+		}
+		else
+		{
+			return this.__xml_document.createElement( qualifiedName );
+		}			
+	},
+
+	/**
+	 * Utility method creates an XML document.
 	 *
 	 * @param rootName the name of documentElement
-	 * @return xmlDocument a new XML element
+	 * @return xmlDocument a new XML document
 	 */
 	createXMLDom : function( namespaceUri, qualifiedName )
 	{
@@ -125,6 +170,23 @@ BirtSoapRequest.prototype =
 			var createdDocument = new ActiveXObject( "Microsoft.XMLDOM" );
 			var documentElement = createdDocument.createElement( qualifiedName );
 			createdDocument.appendChild( documentElement );
+
+			// check for a namespace prefix
+			var namespacePrefix = null;
+			var nameParts = qualifiedName.split(":");
+			if ( nameParts.length > 0 )
+			{
+				namespacePrefix = nameParts[0];
+				qualifiedName = nameParts[1];
+			}
+			
+			var nsAttribute = "xmlns";			
+			if ( namespacePrefix )
+			{
+				nsAttribute += ":" + namespacePrefix;
+			}
+			
+			documentElement.setAttribute( nsAttribute, namespaceUri );
 			return createdDocument;
 		}
 		else
@@ -144,26 +206,26 @@ BirtSoapRequest.prototype =
 	addOperation : function( id, type, operator, data )
 	{
 		var optionalArgs = 4; //number of params
-	 	var operation = this.__xml_document.createElement( "Operation" );
+	 	var operation = this.createBirtElement( "Operation" );
 	 	
   		// Target
-  		var target = this.__xml_document.createElement( "Target" );
+  		var target = this.createBirtElement( "Target" );
   		operation.appendChild( target );
   		
   		// Target id
-  		var reportId = this.__xml_document.createElement( "Id" );
+  		var reportId = this.createBirtElement( "Id" );
 		target.appendChild( reportId );
   		var reportIdText = this.__xml_document.createTextNode( id || "Error-id" );
 		reportId.appendChild( reportIdText );
 		
   		// Target type
-  		var reportType = this.__xml_document.createElement( "Type" );
+  		var reportType = this.createBirtElement( "Type" );
 		target.appendChild( reportType );
   		var reportTypeText = this.__xml_document.createTextNode( type || "Error-id" );
 		reportType.appendChild( reportTypeText );
 		
 		// Operator
-		var operatorEl = this.__xml_document.createElement( "Operator" );
+		var operatorEl = this.createBirtElement( "Operator" );
 		var targetText = this.__xml_document.createTextNode( operator || "Error-operator" );
 		operatorEl.appendChild( targetText );
 		operation.appendChild( operatorEl );
@@ -183,12 +245,12 @@ BirtSoapRequest.prototype =
 							continue;
 						}
 						
-						operand = this.__xml_document.createElement( "Oprand" );
-						name = this.__xml_document.createElement( "Name" );
+						operand = this.createBirtElement( "Oprand" );
+						name = this.createBirtElement( "Name" );
 						nameText = this.__xml_document.createTextNode( arguments[i][j].name );
 						name.appendChild( nameText );
 						operand.appendChild( name );
-						value = this.__xml_document.createElement( "Value" );
+						value = this.createBirtElement( "Value" );
 						valueText = this.__xml_document.createTextNode( arguments[i][j].value );
 						value.appendChild( valueText );
 						operand.appendChild( value );
@@ -199,12 +261,12 @@ BirtSoapRequest.prototype =
 				{
 					if ( arguments[i].name )
 					{
-						operand = this.__xml_document.createElement( "Oprand" );
-						name = this.__xml_document.createElement( "Name" );
+						operand = this.createBirtElement( "Oprand" );
+						name = this.createBirtElement( "Name" );
 						nameText = this.__xml_document.createTextNode( arguments[i].name );
 						name.appendChild( nameText );
 						operand.appendChild( name );
-						value = this.__xml_document.createElement( "Value" );
+						value = this.createBirtElement( "Value" );
 						valueText = this.__xml_document.createTextNode( arguments[i].value );
 						value.appendChild( valueText );
 						operand.appendChild( value );
