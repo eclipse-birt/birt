@@ -170,6 +170,7 @@ public class ReportExecutor implements IReportExecutor
 		else
 		{
 			pageContent.setPageNumber( pageNumber );
+			context.setPageNumber( pageNumber );
 		}
 		return new DOMReportItemExecutor( pageContent, true );
 	}
