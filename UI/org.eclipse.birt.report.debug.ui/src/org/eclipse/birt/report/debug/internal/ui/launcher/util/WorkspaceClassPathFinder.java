@@ -138,9 +138,11 @@ public class WorkspaceClassPathFinder implements IWorkspaceClasspathFinder
 			{
 				path = fCurrJProject.readOutputLocation( );
 				String curPath = path.toOSString( );
+				int index = curPath.indexOf( project.getName( ) );
+				curPath = curPath.substring( index
+						+ project.getName( ).length( ) );
 				String directPath = project.getLocation( ).toOSString( );
-				int index = directPath.lastIndexOf( File.separator );
-				String absPath = directPath.substring( 0, index ) + curPath;
+				String absPath = directPath + curPath;
 
 				return absPath;
 			}
