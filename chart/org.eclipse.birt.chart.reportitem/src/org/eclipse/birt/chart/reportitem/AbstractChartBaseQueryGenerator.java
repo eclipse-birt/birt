@@ -361,6 +361,7 @@ public abstract class AbstractChartBaseQueryGenerator
 					groupUnit,
 					groupIntervalRange ) );
 			yGroupDefinition.setIntervalRange( ChartReportItemUtil.convertToDtEIntervalRange( dataType,
+					groupUnit,
 					groupIntervalRange ) );
 			if ( orthSD.isSetSorting( ) )
 			{
@@ -408,6 +409,7 @@ public abstract class AbstractChartBaseQueryGenerator
 					groupUnit,
 					groupIntervalRange ) );
 			baseGroupDefinition.setIntervalRange( ChartReportItemUtil.convertToDtEIntervalRange( dataType,
+					groupUnit,
 					groupIntervalRange ) );
 
 			return baseGroupDefinition;

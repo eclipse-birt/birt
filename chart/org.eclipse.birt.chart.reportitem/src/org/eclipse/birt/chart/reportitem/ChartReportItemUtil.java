@@ -289,11 +289,14 @@ public class ChartReportItemUtil
 	/**
 	 * Convert interval range from Chart's to DtE's.
 	 * 
+	 * @param dataType
+	 * @param groupUnitType
 	 * @param intervalRange
+	 * @return
 	 * @since BIRT 2.3
 	 */
 	public static double convertToDtEIntervalRange( DataType dataType,
-			double intervalRange )
+			GroupingUnitType groupUnitType, double intervalRange )
 	{
 		double range = intervalRange;
 		if ( Double.isNaN( intervalRange ) )
@@ -313,9 +316,12 @@ public class ChartReportItemUtil
 			// so all that interval ranges which are greater than or equal 1
 			// should be increased 1 for DtE, we should add followed code to
 			// convert interval range.
-			if ( range >= 1 )
+			if ( groupUnitType == GroupingUnitType.STRING_LITERAL )
 			{
-				return (long) ( range + 1 );
+				if ( range >= 1 )
+				{
+					return (long) ( range + 1 );
+				}
 			}
 
 			return (long) range;
