@@ -298,9 +298,6 @@
 						<TD>
 							<INPUT TYPE="radio" ID="printServerFitToActual" NAME="printServerFit" CHECKED/><%=BirtResources.getMessage( "birt.viewer.dialog.export.pdf.fittoactual" )%>
 						</TD>
-						<TD STYLE="padding-left:5px">	
-							<INPUT TYPE="radio" ID="printServerFitToWidth" NAME="printServerFit"/><%=BirtResources.getMessage( "birt.viewer.dialog.export.pdf.fittowidth" )%>
-						</TD>
 						<TD STYLE="padding-left:5px">							
 							<INPUT TYPE="radio" ID="printServerFitToWhole" NAME="printServerFit"/><%=BirtResources.getMessage( "birt.viewer.dialog.export.pdf.fittowhole" )%>
 						</TD>

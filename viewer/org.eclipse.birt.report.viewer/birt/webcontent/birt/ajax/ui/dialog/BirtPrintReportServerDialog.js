@@ -211,17 +211,12 @@ BirtPrintReportServerDialog.prototype = Object.extend( new AbstractBaseDialog( )
 			}			
 
 			var fittopage = "false";
-			var pagebreakonly = "false";
+			//var pagebreakonly = "true";
 			
-			// fit to page width
-			if( $( 'printServerFitToWidth' ).checked )
+			// fit to whole page
+			if( $( 'printServerFitToWhole' ).checked )
 			{
 				fittopage = "true";
-			}
-			else if( $( 'printServerFitToWhole' ).checked )
-			{
-				fittopage = "true";
-				pagebreakonly = "true";
 			}
 
 			reg = new RegExp( "([&|?]{1}" + Constants.PARAM_FITTOPAGE + "\s*)=([^&|^#]*)", "gi" );
@@ -234,6 +229,7 @@ BirtPrintReportServerDialog.prototype = Object.extend( new AbstractBaseDialog( )
 				action = action.replace( reg, "$1=" + fittopage );
 			}
 			
+			/*
 			reg = new RegExp( "([&|?]{1}" + Constants.PARAM_PAGEBREAKONLY + "\s*)=([^&|^#]*)", "gi" );
 			if( action.search( reg ) < 0 )
 			{
@@ -243,7 +239,8 @@ BirtPrintReportServerDialog.prototype = Object.extend( new AbstractBaseDialog( )
 			{
 				action = action.replace( reg, "$1=" + pagebreakonly );
 			}				
-												
+			*/
+			
 			// Force "__overwrite" as false
 			reg = new RegExp( "([&|?]{1}" + Constants.PARAM_OVERWRITE + "\s*)=([^&|^#]*)", "gi" );
 			if( action.search( reg ) < 0 )
