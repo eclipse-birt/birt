@@ -161,7 +161,7 @@ class EdgeTraverse
 	{
 		this.currentPosition--;
 		this.curPosOnMap--;
-		if ( currentPosition >= this.traverseLength - 1 || currentPosition > 0 )
+		if ( currentPosition >= 0 )
 		{
 			return true;
 		}
