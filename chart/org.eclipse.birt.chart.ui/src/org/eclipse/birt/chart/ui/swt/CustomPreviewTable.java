@@ -1062,7 +1062,7 @@ public class CustomPreviewTable extends Composite
 			{
 				// TODO: These values will change based on scrolling or
 				// resizing!
-				this.iSelectedRow = e.y / ROW_HEIGHT;
+				this.iSelectedRow = e.y / ROW_HEIGHT + iVScroll;
 				for ( int i = 0, iTmp = 0; i < columnWidths.size( ); i++ )
 				{
 					iTmp = getAdjustedLeftEdgeForColumn( i );
