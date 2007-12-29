@@ -22,6 +22,7 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.engine.adapter.CubeUtil;
@@ -50,7 +51,7 @@ public class CubeResultSet implements ICubeResultSet
 
 	private ICubeQueryDefinition queryDefn;
 
-	private CubeCursor cube;
+	private ICubeCursor cube;
 
 	private ICubeQueryResults queryResults;
 	
