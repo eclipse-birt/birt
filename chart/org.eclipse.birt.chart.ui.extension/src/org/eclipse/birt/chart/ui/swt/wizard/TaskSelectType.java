@@ -1306,12 +1306,20 @@ public class TaskSelectType extends SimpleTask
 		// with axes
 		List sdList = new ArrayList( );
 		sdList.addAll( ChartUIUtil.getBaseSeriesDefinitions( cm ) );
+		for ( int i = 0; i < sdList.size( ); i++ )
+		{
+			SeriesDefinition sd = (SeriesDefinition) sdList.get( i );
+			Series series = sd.getDesignTimeSeries( );
+			checkDataTypeForBaseSeries( ChartUIUtil.getDataQuery( sd, 0 ), series );
+		}
+		
+		sdList.clear();
 		sdList.addAll( ChartUIUtil.getAllOrthogonalSeriesDefinitions( cm ) );
 		for ( int i = 0; i < sdList.size( ); i++ )
 		{
 			SeriesDefinition sd = (SeriesDefinition) sdList.get( i );
 			Series series = sd.getDesignTimeSeries( );
-			checkDataType( ChartUIUtil.getDataQuery( sd, 0 ), series );
+			checkDataTypeForOrthoSeries( ChartUIUtil.getDataQuery( sd, 0 ), series );
 		}
 	}
 
@@ -1335,6 +1343,7 @@ public class TaskSelectType extends SimpleTask
 			if ( cmRunTime instanceof ChartWithAxes )
 			{
 				checkDataTypeForChartWithAxes( cmRunTime );
+				checkDataTypeForChartWithAxes( chartModel );
 			}
 			previewPainter.renderModel( cmRunTime );
 		}
@@ -1345,7 +1354,17 @@ public class TaskSelectType extends SimpleTask
 		return (String) button.getData( );
 	}
 
-	private void checkDataType( Query query, Series series )
+	private void checkDataTypeForBaseSeries( Query query, Series series )
+	{
+		checkDataTypeImpl( query, series, true );
+	}
+	
+	private void checkDataTypeForOrthoSeries( Query query, Series series )
+	{
+		checkDataTypeImpl( query, series, false );
+	}
+
+	private void checkDataTypeImpl( Query query, Series series, boolean isBaseSeries )
 	{
 		String expression = query.getDefinition( );
 
@@ -1399,7 +1418,10 @@ public class TaskSelectType extends SimpleTask
 					SeriesDefinition sd = (SeriesDefinition) ( ChartUIUtil.getBaseSeriesDefinitions( chartModel ).get( 0 ) );
 					if ( sd != null )
 					{
-						if ( sd.getGrouping( ).isEnabled( )
+						// If aggregation is set to count/distinctcount on base
+						// series, don't change data type to numeric.
+						if ( !isBaseSeries
+								&& sd.getGrouping( ).isEnabled( )
 								&& ( sd.getGrouping( )
 										.getAggregateExpression( )
 										.equals( "Count" )//$NON-NLS-1$
@@ -1434,7 +1456,7 @@ public class TaskSelectType extends SimpleTask
 			}
 		}
 	}
-
+	
 	private boolean isValidatedAxis( DataType dataType, AxisType axisType )
 	{
 		if ( dataType == null )
