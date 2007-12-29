@@ -587,7 +587,7 @@ public class ExecutionOptimize
 					node.breakBefore = true;
 					node.execute = true;
 				}
-				else if ( pageBreakAfter != null )
+				if ( pageBreakAfter != null )
 				{
 					node.breakAfter = true;
 					node.execute = true;
