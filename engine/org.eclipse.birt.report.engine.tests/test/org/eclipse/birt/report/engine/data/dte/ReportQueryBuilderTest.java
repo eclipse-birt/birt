@@ -15,10 +15,13 @@ import java.io.InputStream;
 
 import junit.framework.TestCase;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
+import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.GroupDesign;
 import org.eclipse.birt.report.engine.ir.ListBandDesign;
@@ -57,10 +60,20 @@ public class ReportQueryBuilderTest extends TestCase
 		ReportParser parser = new ReportParser( );
 		Report report = parser.parse( "", in );
 		assertTrue( report != null );
-		new ReportQueryBuilder( report, new ExecutionContext( ) ).build( );
+		getQueryBuilder( report ).build( );
 		testGrid( report, report.getContent( 2 ) );
 		testList( report, report.getContent( 1 ) );
 		testTable( report, report.getContent( 0 ) );
+	}
+
+	private ReportQueryBuilder getQueryBuilder( Report report )
+			throws BirtException
+	{
+		DataSessionContext context = new DataSessionContext(
+				DataSessionContext.MODE_DIRECT_PRESENTATION );
+		DataRequestSession dteSession = DataRequestSession.newSession( context );
+		ReportQueryBuilder reportQueryBuilder = new ReportQueryBuilder( report, new ExecutionContext( ), dteSession );
+		return reportQueryBuilder;
 	}
 
 	private void testGrid( Report report, ReportItemDesign item )

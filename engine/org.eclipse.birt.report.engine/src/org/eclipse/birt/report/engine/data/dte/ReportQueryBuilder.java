@@ -40,8 +40,11 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinition;
+import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.data.adapter.api.IQueryDefinitionUtil;
 import org.eclipse.birt.report.engine.adapter.ExpressionUtil;
 import org.eclipse.birt.report.engine.adapter.ITotalExprBindings;
 import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
@@ -147,6 +150,8 @@ public class ReportQueryBuilder
 
 	protected IQueryContext queryContext;
 
+	protected DataRequestSession dteSession;
+	
 	/**
 	 * used to register the unresolved query reference.
 	 */
@@ -156,7 +161,6 @@ public class ReportQueryBuilder
 	{
 		expressionUtil = new ExpressionUtil( );
 		queryBuilder = new QueryBuilderVisitor( );
-
 	}
 
 	/**
@@ -165,10 +169,12 @@ public class ReportQueryBuilder
 	 * @param context
 	 *            the execution context
 	 */
-	public ReportQueryBuilder( Report report, ExecutionContext context )
+	public ReportQueryBuilder( Report report, ExecutionContext context,
+			DataRequestSession dteSession )
 	{
 		expressionUtil = new ExpressionUtil( );
 		queryBuilder = new QueryBuilderVisitor( );
+		this.dteSession = dteSession;
 		this.report = report;
 		this.context = context;
 
@@ -660,8 +666,22 @@ public class ReportQueryBuilder
 						{
 							try
 							{
-								transformExpressions( item,
-										(IBaseQueryDefinition) query, null );
+								IBaseQueryDefinition baseQuery = (IBaseQueryDefinition) query;
+								transformExpressions( item, baseQuery, null );
+								
+								// Fix compatibility bug :211547. extended item may 
+								// define query by itself and doesn't keep query name compatible.
+								// Engine change the query name so that it can keep compatible.
+								// Only sub-query has the problem because sub-query name need to
+								// be used to load query.
+								if ( query instanceof ISubqueryDefinition )
+								{
+									ISubqueryDefinition subQuery = (ISubqueryDefinition) query;
+									String name = String
+											.valueOf( item.getID( ) );
+									queries[0] = changeSubqueryName( subQuery,
+											name );
+								}
 							}
 							catch ( BirtException ex )
 							{
@@ -682,6 +702,18 @@ public class ReportQueryBuilder
 				context.addException( item.getHandle( ), ex );
 			}
 			return getResultQuery( query, value );
+		}
+
+		private SubqueryDefinition changeSubqueryName(
+				ISubqueryDefinition subQuery, String name )
+				throws DataException
+		{
+			IQueryDefinitionUtil queryCopyUtil = dteSession
+					.getQueryDefinitionUtil( );
+			SubqueryDefinition subqueryDefinition = queryCopyUtil
+					.createSubqueryDefinition( name,
+							subQuery );
+			return subqueryDefinition;
 		}
 
 		/*

@@ -17,6 +17,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
+import java.io.ObjectStreamClass;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -37,6 +38,7 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
+import org.eclipse.birt.chart.script.ChartScriptContext;
 import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
@@ -312,7 +314,21 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	{
 		try
 		{
-			ObjectInputStream ois = new ObjectInputStream( is );
+			ObjectInputStream ois = new ObjectInputStream( is ){
+				//Fix compatibility bug: the class ChartScriptContext is moved from package
+				//"org.eclipse.birt.chart.internal.script" to package
+				//"org.eclipse.birt.chart.script", which causes the stored instances of
+				//ChartScriptContext can't be de-serialized. 
+				protected Class resolveClass( ObjectStreamClass desc )
+						throws IOException, ClassNotFoundException
+				{
+					if ( "org.eclipse.birt.chart.internal.script.ChartScriptContext"
+							.equals( desc.getName( ) ) )
+					{
+						return ChartScriptContext.class;
+					}
+					return super.resolveClass( desc );
+				}};
 			Object o = ois.readObject( );
 
 			if ( o instanceof RunTimeContext )
