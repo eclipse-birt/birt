@@ -216,7 +216,7 @@
 				action = action.replace( reg, "$1" );
 			}
 			
-			window.location.href = action + "#" + bookmark;		
+			window.location.href = action + "#" + birtUtility.htmlDecode( bookmark );		
 		}
 		
 	</script>

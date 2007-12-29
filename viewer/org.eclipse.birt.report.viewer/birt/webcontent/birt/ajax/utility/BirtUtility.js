@@ -647,7 +647,32 @@ BirtUtility.prototype =
 		htmlElement.style.left = currentLeft + "px";
 		htmlElement.style.top = currentTop + "px";
 	},
+	
+	/**
+	 * Do html decode for input string
+	 * 
+	 */
+	htmlDecode : function( str )
+	{
+		if( !str )
+			return null;
 		
+		str = str.replace( "&#09;", "\t" );
+		str = str.replace( "<br>", "\n" );
+		str = str.replace( "&#13;", "\r" );
+		str = str.replace( "&#32;", " " );
+		str = str.replace( "&#34;", "\"" );
+		str = str.replace( "&#39;", "'" );
+		str = str.replace( "&#60;", "<" );
+		str = str.replace( "&#62;", ">" );
+		str = str.replace( "&#96;", "`" );
+		str = str.replace( "&#38;", "&" );
+		str = str.replace( "&#92;", "\\" );
+		str = str.replace( "&#47;", "/" );
+
+		return str;
+	},
+	
 	noComma : "" //just to avoid javascript syntax errors
 }
 
