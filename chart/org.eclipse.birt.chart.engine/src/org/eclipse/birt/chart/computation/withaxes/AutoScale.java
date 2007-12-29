@@ -368,7 +368,8 @@ public final class AutoScale extends Methods implements Cloneable
 					dStep /= 2;
 					oStep = new Double( dStep );
 				}
-				if ( ( (Number) oStep ).doubleValue( ) < dPrecision )
+
+				if ( ( (Number) oStep ).doubleValue( ) < getFormatPrecision( ) )
 				{
 					oStep = new Double( oldStep ); // revert step
 					return false; // CANNOT ZOOM ANY MORE
@@ -2378,7 +2379,7 @@ public final class AutoScale extends Methods implements Cloneable
 		double dNewValue = Double.valueOf( sValue ).doubleValue( );
 		return dNewValue;
 	}
-
+	
 	/**
 	 * Computes value precision if more precise than existing one For instance
 	 * 3.4 has a precision of 0.1 and 1400 has a precision of 100. That is the
@@ -2454,6 +2455,39 @@ public final class AutoScale extends Methods implements Cloneable
 		return precision;
 	}
 
+	
+	/*
+	 * if there is a valid user defined multiplier or perhaps fraction digits
+	 * than return the format precision, otherwise return 1.0
+	 * Note: it's NOT a static method like getPrecision
+	 */
+	private double getFormatPrecision( )
+	{
+		double dFormatPrecision = 1D;
+
+		if ( fs != null )
+		{
+			if ( fs instanceof NumberFormatSpecifier )
+			{
+				NumberFormatSpecifier ns = (NumberFormatSpecifier) fs;
+				if ( ns.isSetFractionDigits( ) )
+				{
+					double dMultiplier = ns.isSetMultiplier( ) ? ns.getMultiplier( )
+							: 1D;
+					if ( dMultiplier != 0 )
+					{
+						dFormatPrecision = Math.pow( 10,
+								-ns.getFractionDigits( ) ) /
+								dMultiplier;
+					}
+				}
+			}
+		}
+
+		return dFormatPrecision;
+	}
+
+	
 	/**
 	 * 
 	 * @param la
