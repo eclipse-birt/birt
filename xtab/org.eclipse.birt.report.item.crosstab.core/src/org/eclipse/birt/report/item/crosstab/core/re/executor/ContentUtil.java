@@ -27,6 +27,7 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FactoryPropertyHandle;
 import org.eclipse.birt.report.model.api.HideRuleHandle;
 import org.eclipse.birt.report.model.api.HighlightRuleHandle;
@@ -744,6 +745,16 @@ class ContentUtil
 	static String getElementProperty( ReportElementHandle handle, String name,
 			boolean isColorProperty )
 	{
+		if ( handle instanceof ExtendedItemHandle )
+		{
+			Object localValue = ( (ExtendedItemHandle) handle ).getMetaModelProperty( name );
+
+			if ( localValue == null )
+			{
+				return null;
+			}
+		}
+
 		FactoryPropertyHandle prop = handle.getFactoryPropertyHandle( name );
 		if ( prop != null && prop.isSet( ) )
 		{

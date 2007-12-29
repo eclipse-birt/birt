@@ -20,7 +20,6 @@ import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.IMeasureViewConstants;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
-import org.eclipse.birt.report.model.api.FactoryPropertyHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
