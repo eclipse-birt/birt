@@ -1142,12 +1142,19 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			htmlEmitter.buildPageStyle( page, styleBuffer );
 			// build the width
-			DimensionType width = getPageWidth( page );
-			if ( width != null )
+			if ( fixedReport )
 			{
-				styleBuffer.append( " width:" );
-				styleBuffer.append( width.toString( ) );
-				styleBuffer.append( ";" );
+				DimensionType width = getPageWidth( page );
+				if ( width != null )
+				{
+					styleBuffer.append( " width:" );
+					styleBuffer.append( width.toString( ) );
+					styleBuffer.append( ";" );
+				}
+			}
+			else
+			{
+				styleBuffer.append( " width:100%;" );
 			}
 
 			if ( !pageFooterFloatFlag )
