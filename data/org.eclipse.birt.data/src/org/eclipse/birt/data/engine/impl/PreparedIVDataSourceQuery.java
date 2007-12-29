@@ -19,6 +19,7 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
@@ -126,11 +127,10 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.engine.impl.PreparedDataSourceQuery#execute(org.eclipse.birt.data.engine.api.IQueryResults,
-	 *      org.mozilla.javascript.Scriptable)
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.impl.PreparedDataSourceQuery#initializeExecution(org.eclipse.birt.data.engine.api.IBaseQueryResults, org.mozilla.javascript.Scriptable)
 	 */
-	public IQueryResults execute( IQueryResults outerResults, Scriptable scope )
-			throws DataException
+	protected void initializeExecution( IBaseQueryResults outerResults, Scriptable scope ) throws DataException
 	{
 		String basedID = queryDefn.getQueryResultsID( );
 		
@@ -139,11 +139,19 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 			realBasedQueryID = basedID;
 		else
 			realBasedQueryID = _1partID;
-		
-		QueryResults queryResults = (QueryResults) super.execute( outerResults,
-				scope );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.impl.PreparedDataSourceQuery#produceQueryResults(org.eclipse.birt.data.engine.api.IBaseQueryResults, org.mozilla.javascript.Scriptable)
+	 */
+	protected IQueryResults produceQueryResults( IBaseQueryResults outerResults, Scriptable scope ) throws DataException
+	{
+		QueryResults queryResults = preparedQuery.doPrepare( outerResults,
+				scope,
+				newExecutor( ),
+				this );
 		queryResults.setID( realBasedQueryID );
-		
 		return queryResults;
 	}
 	

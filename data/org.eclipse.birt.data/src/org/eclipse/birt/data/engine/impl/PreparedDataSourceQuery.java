@@ -168,9 +168,31 @@ abstract class PreparedDataSourceQuery
 	 */
 	public IQueryResults execute( IBaseQueryResults outerResults, Scriptable scope ) throws DataException
 	{
+		this.configCache( scope );
+		this.initializeExecution( outerResults, scope );
+		return this.produceQueryResults( outerResults, scope );
+	}
+	
+	/**
+	 * 
+	 * @param scope
+	 * @throws DataException
+	 */
+	protected void configCache( Scriptable scope ) throws DataException
+	{
 		this.configureDataSetCache( queryDefn, appContext, scope != null
 				? scope : dataEngine.getSession( ).getSharedScope( ) );
-		initializeExecution( outerResults, scope );
+	}
+	
+	/**
+	 * 
+	 * @param outerResults
+	 * @param scope
+	 * @return
+	 * @throws DataException
+	 */
+	protected IQueryResults produceQueryResults( IBaseQueryResults outerResults, Scriptable scope ) throws DataException
+	{
 		return preparedQuery.doPrepare( outerResults,
 				scope,
 				newExecutor( ),
