@@ -144,7 +144,47 @@ class CubeQueryDefinitionUtil
 
 		return calculatedMember;
 	}
-
+	
+	/**
+	 * 
+	 * @param queryDefn
+	 * @param levelExpr
+	 * @param type
+	 * @return
+	 * @throws DataException
+	 */
+	static int getLevelIndex( ICubeQueryDefinition queryDefn, String levelExpr,
+			int type ) throws DataException
+	{
+		int index = -1;
+		DimLevel dimLevel = OlapExpressionUtil.getTargetDimLevel( levelExpr );
+		IEdgeDefinition edgeDefn = queryDefn.getEdge( type );
+		Iterator dimIter = edgeDefn.getDimensions( ).iterator( );
+		while ( dimIter.hasNext( ) )
+		{
+			IDimensionDefinition dimDefn = (IDimensionDefinition) dimIter.next( );
+			Iterator hierarchyIter = dimDefn.getHierarchy( ).iterator( );
+			while ( hierarchyIter.hasNext( ) )
+			{
+				IHierarchyDefinition hierarchyDefn = (IHierarchyDefinition) hierarchyIter.next( );
+				for ( int i = 0; i < hierarchyDefn.getLevels( ).size( ); i++ )
+				{
+					index++;
+					ILevelDefinition levelDefn = (ILevelDefinition) hierarchyDefn.getLevels( )
+							.get( i );
+					if ( dimDefn.getName( )
+							.equals( dimLevel.getDimensionName( ) ) &&
+							levelDefn.getName( )
+									.equals( dimLevel.getLevelName( ) ) )
+					{
+						return index;
+					}
+				}
+			}
+		}
+		return -1;
+	}
+	
 	/**
 	 * used for backward capability.
 	 * 

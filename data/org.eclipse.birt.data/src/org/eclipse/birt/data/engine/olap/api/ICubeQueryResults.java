@@ -11,8 +11,6 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.api;
 
-import javax.olap.cursor.CubeCursor;
-
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.core.DataException;
 
@@ -29,7 +27,7 @@ public interface ICubeQueryResults extends IBaseQueryResults
 	 * @return
 	 * @throws DataException
 	 */
-	public CubeCursor getCubeCursor() throws DataException;
+	public ICubeCursor getCubeCursor() throws DataException;
 	
 	/**
 	 * Cancel the current operation.

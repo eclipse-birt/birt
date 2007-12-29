@@ -41,7 +41,10 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
 import org.eclipse.birt.data.engine.olap.script.JSCubeBindingObject;
+import org.eclipse.birt.data.engine.olap.script.JSLevelAccessor;
+import org.eclipse.birt.data.engine.olap.script.JSMeasureAccessor;
 import org.eclipse.birt.data.engine.olap.script.OLAPExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.olap.util.OlapQueryUtil;
@@ -63,11 +66,14 @@ public class CubeCursorImpl implements ICubeCursor
 	private HashMap bindingMap, dataTypeMap;
 	private Set validBindingSet;
 	private Scriptable outerResults;
-	public CubeCursorImpl ( IBaseQueryResults outerResults, CubeCursor cursor, Scriptable scope, ICubeQueryDefinition queryDefn ) throws DataException
+	private BirtCubeView cubeView;
+	
+	public CubeCursorImpl ( IBaseQueryResults outerResults, CubeCursor cursor, Scriptable scope, ICubeQueryDefinition queryDefn, BirtCubeView view ) throws DataException
 	{
 		this.cursor = cursor;
 		this.scope = scope;
 		this.queryDefn = queryDefn;
+		this.cubeView = view;
 		
 		this.outerResults = OlapExpressionUtil.createQueryResultsScriptable( outerResults );
 		OlapQueryUtil.validateBinding( queryDefn, false );
@@ -485,11 +491,62 @@ public class CubeCursorImpl implements ICubeCursor
 		
 	}
 
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.api.ICubeCursor#getSubCubeCursor(java.lang.String, java.lang.String, java.lang.String, org.mozilla.javascript.Scriptable)
+	 */
 	public ICubeCursor getSubCubeCursor( String startingColumnLevel,
-			String startingRowLevel, String stargingPageLevel )
-			throws DataException
+			String startingRowLevel, String startingPageLevel,
+			Scriptable subScope ) throws DataException
 	{
-		// TODO Auto-generated method stub
-		return null;
+		ICubeCursor cubeCursorImpl;
+		if ( this.cubeView != null )
+		{
+			BirtCubeView subCV = new BirtCubeView( this.cubeView.getCubeQueryExecutor( ),
+					null );
+			CubeCursor subCubeCursor = null;
+			if ( subScope == null )
+			{
+				Context cx = Context.enter( );
+				try
+				{
+					subScope = cx.newObject( this.scope );
+					subScope.setParentScope( scope );
+					subScope.setPrototype( scope );
+				}
+				finally
+				{
+					Context.exit( );
+				}
+			}
+			try
+			{
+				subCubeCursor = subCV.getCubeCursor( null,
+						startingColumnLevel,
+						startingRowLevel,
+						startingPageLevel,
+						this.cubeView );
+				subScope.put( ScriptConstants.MEASURE_SCRIPTABLE,
+						subScope,
+						new JSMeasureAccessor( subCubeCursor,
+								subCV.getMeasureMapping( ) ) );
+				subScope.put( ScriptConstants.DIMENSION_SCRIPTABLE,
+						subScope,
+						new JSLevelAccessor( this.queryDefn, subCV ) );
+			}
+			catch ( OLAPException e )
+			{
+				throw new DataException( e.getLocalizedMessage( ) );
+			}
+			cubeCursorImpl = new CubeCursorImpl( null,
+					subCubeCursor,
+					subScope,
+					queryDefn,
+					subCV );
+		}
+		else
+		{
+			throw new DataException( ResourceConstants.NO_PARENT_RESULT_CURSOR );
+		}
+		return cubeCursorImpl;
 	}
 }

@@ -1,0 +1,1236 @@
+
+
+Parent result:16.0
+
+subQuery Result1 
+16.0   11.0   1.0   6.0   21.0   26.0   
+subQuery Result2 
+16.0 11.0 
+subQuery Result3 
+16.0 
+subQuery Result4 
+16.0 11.0 1.0 6.0 21.0 26.0 17.0 12.0 2.0 7.0 22.0 27.0 18.0 13.0 3.0 8.0 23.0 28.0 19.0 14.0 4.0 9.0 24.0 29.0 20.0 15.0 5.0 10.0 25.0 30.0 
+subQuery Result5 
+16.0 11.0 17.0 12.0 18.0 13.0 19.0 14.0 20.0 15.0 
+subQuery Result6 
+16.0 17.0 18.0 19.0 20.0 
+subQuery Result7 
+16.0 11.0 1.0 6.0 21.0 26.0 61.0 56.0 46.0 51.0 36.0 31.0 41.0 
+subQuery Result8 
+16.0 
+
+Parent result:11.0
+
+subQuery Result1 
+16.0   11.0   1.0   6.0   21.0   26.0   
+subQuery Result2 
+16.0 11.0 
+subQuery Result3 
+11.0 
+subQuery Result4 
+16.0 11.0 1.0 6.0 21.0 26.0 17.0 12.0 2.0 7.0 22.0 27.0 18.0 13.0 3.0 8.0 23.0 28.0 19.0 14.0 4.0 9.0 24.0 29.0 20.0 15.0 5.0 10.0 25.0 30.0 
+subQuery Result5 
+16.0 11.0 17.0 12.0 18.0 13.0 19.0 14.0 20.0 15.0 
+subQuery Result6 
+11.0 12.0 13.0 14.0 15.0 
+subQuery Result7 
+16.0 11.0 1.0 6.0 21.0 26.0 61.0 56.0 46.0 51.0 36.0 31.0 41.0 
+subQuery Result8 
+11.0 
+
+Parent result:1.0
+
+subQuery Result1 
+16.0   11.0   1.0   6.0   21.0   26.0   
+subQuery Result2 
+1.0 6.0 
+subQuery Result3 
+1.0 
+subQuery Result4 
+16.0 11.0 1.0 6.0 21.0 26.0 17.0 12.0 2.0 7.0 22.0 27.0 18.0 13.0 3.0 8.0 23.0 28.0 19.0 14.0 4.0 9.0 24.0 29.0 20.0 15.0 5.0 10.0 25.0 30.0 
+subQuery Result5 
+1.0 6.0 2.0 7.0 3.0 8.0 4.0 9.0 5.0 10.0 
+subQuery Result6 
+1.0 2.0 3.0 4.0 5.0 
+subQuery Result7 
+16.0 11.0 1.0 6.0 21.0 26.0 61.0 56.0 46.0 51.0 36.0 31.0 41.0 
+subQuery Result8 
+1.0 
+
+Parent result:6.0
+
+subQuery Result1 
+16.0   11.0   1.0   6.0   21.0   26.0   
+subQuery Result2 
+1.0 6.0 
+subQuery Result3 
+6.0 
+subQuery Result4 
+16.0 11.0 1.0 6.0 21.0 26.0 17.0 12.0 2.0 7.0 22.0 27.0 18.0 13.0 3.0 8.0 23.0 28.0 19.0 14.0 4.0 9.0 24.0 29.0 20.0 15.0 5.0 10.0 25.0 30.0 
+subQuery Result5 
+1.0 6.0 2.0 7.0 3.0 8.0 4.0 9.0 5.0 10.0 
+subQuery Result6 
+6.0 7.0 8.0 9.0 10.0 
+subQuery Result7 
+16.0 11.0 1.0 6.0 21.0 26.0 61.0 56.0 46.0 51.0 36.0 31.0 41.0 
+subQuery Result8 
+6.0 
+
+Parent result:21.0
+
+subQuery Result1 
+16.0   11.0   1.0   6.0   21.0   26.0   
+subQuery Result2 
+21.0 26.0 
+subQuery Result3 
+21.0 
+subQuery Result4 
+16.0 11.0 1.0 6.0 21.0 26.0 17.0 12.0 2.0 7.0 22.0 27.0 18.0 13.0 3.0 8.0 23.0 28.0 19.0 14.0 4.0 9.0 24.0 29.0 20.0 15.0 5.0 10.0 25.0 30.0 
+subQuery Result5 
+21.0 26.0 22.0 27.0 23.0 28.0 24.0 29.0 25.0 30.0 
+subQuery Result6 
+21.0 22.0 23.0 24.0 25.0 
+subQuery Result7 
+16.0 11.0 1.0 6.0 21.0 26.0 61.0 56.0 46.0 51.0 36.0 31.0 41.0 
+subQuery Result8 
+21.0 
+
+Parent result:26.0
+
+subQuery Result1 
+16.0   11.0   1.0   6.0   21.0   26.0   
+subQuery Result2 
+21.0 26.0 
+subQuery Result3 
+26.0 
+subQuery Result4 
+16.0 11.0 1.0 6.0 21.0 26.0 17.0 12.0 2.0 7.0 22.0 27.0 18.0 13.0 3.0 8.0 23.0 28.0 19.0 14.0 4.0 9.0 24.0 29.0 20.0 15.0 5.0 10.0 25.0 30.0 
+subQuery Result5 
+21.0 26.0 22.0 27.0 23.0 28.0 24.0 29.0 25.0 30.0 
+subQuery Result6 
+26.0 27.0 28.0 29.0 30.0 
+subQuery Result7 
+16.0 11.0 1.0 6.0 21.0 26.0 61.0 56.0 46.0 51.0 36.0 31.0 41.0 
+subQuery Result8 
+26.0 
+
+Parent result:61.0
+
+subQuery Result1 
+61.0   56.0   
+subQuery Result2 
+61.0 
+subQuery Result3 
+61.0 
+subQuery Result4 
+61.0 56.0 62.0 57.0 63.0 58.0 65.0 59.0 65.0 60.0 
+subQuery Result5 
+61.0 62.0 63.0 65.0 65.0 
+subQuery Result6 
+61.0 62.0 63.0 65.0 65.0 
+subQuery Result7 
+16.0 11.0 1.0 6.0 21.0 26.0 61.0 56.0 46.0 51.0 36.0 31.0 41.0 
+subQuery Result8 
+61.0 
+
+Parent result:56.0
+
+subQuery Result1 
+61.0   56.0   
+subQuery Result2 
+56.0 
+subQuery Result3 
+56.0 
+subQuery Result4 
+61.0 56.0 62.0 57.0 63.0 58.0 65.0 59.0 65.0 60.0 
+subQuery Result5 
+56.0 57.0 58.0 59.0 60.0 
+subQuery Result6 
+56.0 57.0 58.0 59.0 60.0 
+subQuery Result7 
+16.0 11.0 1.0 6.0 21.0 26.0 61.0 56.0 46.0 51.0 36.0 31.0 41.0 
+subQuery Result8 
+56.0 
+
+Parent result:46.0
+
+subQuery Result1 
+46.0   51.0   
+subQuery Result2 
+46.0 
+subQuery Result3 
+46.0 
+subQuery Result4 
+46.0 51.0 47.0 52.0 48.0 53.0 49.0 54.0 50.0 55.0 
+subQuery Result5 
+46.0 47.0 48.0 49.0 50.0 
+subQuery Result6 
+46.0 47.0 48.0 49.0 50.0 
+subQuery Result7 
+16.0 11.0 1.0 6.0 21.0 26.0 61.0 56.0 46.0 51.0 36.0 31.0 41.0 
+subQuery Result8 
+46.0 
+
+Parent result:51.0
+
+subQuery Result1 
+46.0   51.0   
+subQuery Result2 
+51.0 
+subQuery Result3 
+51.0 
+subQuery Result4 
+46.0 51.0 47.0 52.0 48.0 53.0 49.0 54.0 50.0 55.0 
+subQuery Result5 
+51.0 52.0 53.0 54.0 55.0 
+subQuery Result6 
+51.0 52.0 53.0 54.0 55.0 
+subQuery Result7 
+16.0 11.0 1.0 6.0 21.0 26.0 61.0 56.0 46.0 51.0 36.0 31.0 41.0 
+subQuery Result8 
+51.0 
+
+Parent result:36.0
+
+subQuery Result1 
+36.0   31.0   41.0   
+subQuery Result2 
+36.0 
+subQuery Result3 
+36.0 
+subQuery Result4 
+36.0 31.0 41.0 37.0 32.0 42.0 38.0 33.0 43.0 39.0 34.0 44.0 40.0 35.0 45.0 
+subQuery Result5 
+36.0 37.0 38.0 39.0 40.0 
+subQuery Result6 
+36.0 37.0 38.0 39.0 40.0 
+subQuery Result7 
+16.0 11.0 1.0 6.0 21.0 26.0 61.0 56.0 46.0 51.0 36.0 31.0 41.0 
+subQuery Result8 
+36.0 
+
+Parent result:31.0
+
+subQuery Result1 
+36.0   31.0   41.0   
+subQuery Result2 
+31.0 
+subQuery Result3 
+31.0 
+subQuery Result4 
+36.0 31.0 41.0 37.0 32.0 42.0 38.0 33.0 43.0 39.0 34.0 44.0 40.0 35.0 45.0 
+subQuery Result5 
+31.0 32.0 33.0 34.0 35.0 
+subQuery Result6 
+31.0 32.0 33.0 34.0 35.0 
+subQuery Result7 
+16.0 11.0 1.0 6.0 21.0 26.0 61.0 56.0 46.0 51.0 36.0 31.0 41.0 
+subQuery Result8 
+31.0 
+
+Parent result:41.0
+
+subQuery Result1 
+36.0   31.0   41.0   
+subQuery Result2 
+41.0 
+subQuery Result3 
+41.0 
+subQuery Result4 
+36.0 31.0 41.0 37.0 32.0 42.0 38.0 33.0 43.0 39.0 34.0 44.0 40.0 35.0 45.0 
+subQuery Result5 
+41.0 42.0 43.0 44.0 45.0 
+subQuery Result6 
+41.0 42.0 43.0 44.0 45.0 
+subQuery Result7 
+16.0 11.0 1.0 6.0 21.0 26.0 61.0 56.0 46.0 51.0 36.0 31.0 41.0 
+subQuery Result8 
+41.0 
+
+Parent result:17.0
+
+subQuery Result1 
+17.0   12.0   2.0   7.0   22.0   27.0   
+subQuery Result2 
+17.0 12.0 
+subQuery Result3 
+17.0 
+subQuery Result4 
+16.0 11.0 1.0 6.0 21.0 26.0 17.0 12.0 2.0 7.0 22.0 27.0 18.0 13.0 3.0 8.0 23.0 28.0 19.0 14.0 4.0 9.0 24.0 29.0 20.0 15.0 5.0 10.0 25.0 30.0 
+subQuery Result5 
+16.0 11.0 17.0 12.0 18.0 13.0 19.0 14.0 20.0 15.0 
+subQuery Result6 
+16.0 17.0 18.0 19.0 20.0 
+subQuery Result7 
+17.0 12.0 2.0 7.0 22.0 27.0 62.0 57.0 47.0 52.0 37.0 32.0 42.0 
+subQuery Result8 
+17.0 
+
+Parent result:12.0
+
+subQuery Result1 
+17.0   12.0   2.0   7.0   22.0   27.0   
+subQuery Result2 
+17.0 12.0 
+subQuery Result3 
+12.0 
+subQuery Result4 
+16.0 11.0 1.0 6.0 21.0 26.0 17.0 12.0 2.0 7.0 22.0 27.0 18.0 13.0 3.0 8.0 23.0 28.0 19.0 14.0 4.0 9.0 24.0 29.0 20.0 15.0 5.0 10.0 25.0 30.0 
+subQuery Result5 
+16.0 11.0 17.0 12.0 18.0 13.0 19.0 14.0 20.0 15.0 
+subQuery Result6 
+11.0 12.0 13.0 14.0 15.0 
+subQuery Result7 
+17.0 12.0 2.0 7.0 22.0 27.0 62.0 57.0 47.0 52.0 37.0 32.0 42.0 
+subQuery Result8 
+12.0 
+
+Parent result:2.0
+
+subQuery Result1 
+17.0   12.0   2.0   7.0   22.0   27.0   
+subQuery Result2 
+2.0 7.0 
+subQuery Result3 
+2.0 
+subQuery Result4 
+16.0 11.0 1.0 6.0 21.0 26.0 17.0 12.0 2.0 7.0 22.0 27.0 18.0 13.0 3.0 8.0 23.0 28.0 19.0 14.0 4.0 9.0 24.0 29.0 20.0 15.0 5.0 10.0 25.0 30.0 
+subQuery Result5 
+1.0 6.0 2.0 7.0 3.0 8.0 4.0 9.0 5.0 10.0 
+subQuery Result6 
+1.0 2.0 3.0 4.0 5.0 
+subQuery Result7 
+17.0 12.0 2.0 7.0 22.0 27.0 62.0 57.0 47.0 52.0 37.0 32.0 42.0 
+subQuery Result8 
+2.0 
+
+Parent result:7.0
+
+subQuery Result1 
+17.0   12.0   2.0   7.0   22.0   27.0   
+subQuery Result2 
+2.0 7.0 
+subQuery Result3 
+7.0 
+subQuery Result4 
+16.0 11.0 1.0 6.0 21.0 26.0 17.0 12.0 2.0 7.0 22.0 27.0 18.0 13.0 3.0 8.0 23.0 28.0 19.0 14.0 4.0 9.0 24.0 29.0 20.0 15.0 5.0 10.0 25.0 30.0 
+subQuery Result5 
+1.0 6.0 2.0 7.0 3.0 8.0 4.0 9.0 5.0 10.0 
+subQuery Result6 
+6.0 7.0 8.0 9.0 10.0 
+subQuery Result7 
+17.0 12.0 2.0 7.0 22.0 27.0 62.0 57.0 47.0 52.0 37.0 32.0 42.0 
+subQuery Result8 
+7.0 
+
+Parent result:22.0
+
+subQuery Result1 
+17.0   12.0   2.0   7.0   22.0   27.0   
+subQuery Result2 
+22.0 27.0 
+subQuery Result3 
+22.0 
+subQuery Result4 
+16.0 11.0 1.0 6.0 21.0 26.0 17.0 12.0 2.0 7.0 22.0 27.0 18.0 13.0 3.0 8.0 23.0 28.0 19.0 14.0 4.0 9.0 24.0 29.0 20.0 15.0 5.0 10.0 25.0 30.0 
+subQuery Result5 
+21.0 26.0 22.0 27.0 23.0 28.0 24.0 29.0 25.0 30.0 
+subQuery Result6 
+21.0 22.0 23.0 24.0 25.0 
+subQuery Result7 
+17.0 12.0 2.0 7.0 22.0 27.0 62.0 57.0 47.0 52.0 37.0 32.0 42.0 
+subQuery Result8 
+22.0 
+
+Parent result:27.0
+
+subQuery Result1 
+17.0   12.0   2.0   7.0   22.0   27.0   
+subQuery Result2 
+22.0 27.0 
+subQuery Result3 
+27.0 
+subQuery Result4 
+16.0 11.0 1.0 6.0 21.0 26.0 17.0 12.0 2.0 7.0 22.0 27.0 18.0 13.0 3.0 8.0 23.0 28.0 19.0 14.0 4.0 9.0 24.0 29.0 20.0 15.0 5.0 10.0 25.0 30.0 
+subQuery Result5 
+21.0 26.0 22.0 27.0 23.0 28.0 24.0 29.0 25.0 30.0 
+subQuery Result6 
+26.0 27.0 28.0 29.0 30.0 
+subQuery Result7 
+17.0 12.0 2.0 7.0 22.0 27.0 62.0 57.0 47.0 52.0 37.0 32.0 42.0 
+subQuery Result8 
+27.0 
+
+Parent result:62.0
+
+subQuery Result1 
+62.0   57.0   
+subQuery Result2 
+62.0 
+subQuery Result3 
+62.0 
+subQuery Result4 
+61.0 56.0 62.0 57.0 63.0 58.0 65.0 59.0 65.0 60.0 
+subQuery Result5 
+61.0 62.0 63.0 65.0 65.0 
+subQuery Result6 
+61.0 62.0 63.0 65.0 65.0 
+subQuery Result7 
+17.0 12.0 2.0 7.0 22.0 27.0 62.0 57.0 47.0 52.0 37.0 32.0 42.0 
+subQuery Result8 
+62.0 
+
+Parent result:57.0
+
+subQuery Result1 
+62.0   57.0   
+subQuery Result2 
+57.0 
+subQuery Result3 
+57.0 
+subQuery Result4 
+61.0 56.0 62.0 57.0 63.0 58.0 65.0 59.0 65.0 60.0 
+subQuery Result5 
+56.0 57.0 58.0 59.0 60.0 
+subQuery Result6 
+56.0 57.0 58.0 59.0 60.0 
+subQuery Result7 
+17.0 12.0 2.0 7.0 22.0 27.0 62.0 57.0 47.0 52.0 37.0 32.0 42.0 
+subQuery Result8 
+57.0 
+
+Parent result:47.0
+
+subQuery Result1 
+47.0   52.0   
+subQuery Result2 
+47.0 
+subQuery Result3 
+47.0 
+subQuery Result4 
+46.0 51.0 47.0 52.0 48.0 53.0 49.0 54.0 50.0 55.0 
+subQuery Result5 
+46.0 47.0 48.0 49.0 50.0 
+subQuery Result6 
+46.0 47.0 48.0 49.0 50.0 
+subQuery Result7 
+17.0 12.0 2.0 7.0 22.0 27.0 62.0 57.0 47.0 52.0 37.0 32.0 42.0 
+subQuery Result8 
+47.0 
+
+Parent result:52.0
+
+subQuery Result1 
+47.0   52.0   
+subQuery Result2 
+52.0 
+subQuery Result3 
+52.0 
+subQuery Result4 
+46.0 51.0 47.0 52.0 48.0 53.0 49.0 54.0 50.0 55.0 
+subQuery Result5 
+51.0 52.0 53.0 54.0 55.0 
+subQuery Result6 
+51.0 52.0 53.0 54.0 55.0 
+subQuery Result7 
+17.0 12.0 2.0 7.0 22.0 27.0 62.0 57.0 47.0 52.0 37.0 32.0 42.0 
+subQuery Result8 
+52.0 
+
+Parent result:37.0
+
+subQuery Result1 
+37.0   32.0   42.0   
+subQuery Result2 
+37.0 
+subQuery Result3 
+37.0 
+subQuery Result4 
+36.0 31.0 41.0 37.0 32.0 42.0 38.0 33.0 43.0 39.0 34.0 44.0 40.0 35.0 45.0 
+subQuery Result5 
+36.0 37.0 38.0 39.0 40.0 
+subQuery Result6 
+36.0 37.0 38.0 39.0 40.0 
+subQuery Result7 
+17.0 12.0 2.0 7.0 22.0 27.0 62.0 57.0 47.0 52.0 37.0 32.0 42.0 
+subQuery Result8 
+37.0 
+
+Parent result:32.0
+
+subQuery Result1 
+37.0   32.0   42.0   
+subQuery Result2 
+32.0 
+subQuery Result3 
+32.0 
+subQuery Result4 
+36.0 31.0 41.0 37.0 32.0 42.0 38.0 33.0 43.0 39.0 34.0 44.0 40.0 35.0 45.0 
+subQuery Result5 
+31.0 32.0 33.0 34.0 35.0 
+subQuery Result6 
+31.0 32.0 33.0 34.0 35.0 
+subQuery Result7 
+17.0 12.0 2.0 7.0 22.0 27.0 62.0 57.0 47.0 52.0 37.0 32.0 42.0 
+subQuery Result8 
+32.0 
+
+Parent result:42.0
+
+subQuery Result1 
+37.0   32.0   42.0   
+subQuery Result2 
+42.0 
+subQuery Result3 
+42.0 
+subQuery Result4 
+36.0 31.0 41.0 37.0 32.0 42.0 38.0 33.0 43.0 39.0 34.0 44.0 40.0 35.0 45.0 
+subQuery Result5 
+41.0 42.0 43.0 44.0 45.0 
+subQuery Result6 
+41.0 42.0 43.0 44.0 45.0 
+subQuery Result7 
+17.0 12.0 2.0 7.0 22.0 27.0 62.0 57.0 47.0 52.0 37.0 32.0 42.0 
+subQuery Result8 
+42.0 
+
+Parent result:18.0
+
+subQuery Result1 
+18.0   13.0   3.0   8.0   23.0   28.0   
+subQuery Result2 
+18.0 13.0 
+subQuery Result3 
+18.0 
+subQuery Result4 
+16.0 11.0 1.0 6.0 21.0 26.0 17.0 12.0 2.0 7.0 22.0 27.0 18.0 13.0 3.0 8.0 23.0 28.0 19.0 14.0 4.0 9.0 24.0 29.0 20.0 15.0 5.0 10.0 25.0 30.0 
+subQuery Result5 
+16.0 11.0 17.0 12.0 18.0 13.0 19.0 14.0 20.0 15.0 
+subQuery Result6 
+16.0 17.0 18.0 19.0 20.0 
+subQuery Result7 
+18.0 13.0 3.0 8.0 23.0 28.0 63.0 58.0 48.0 53.0 38.0 33.0 43.0 
+subQuery Result8 
+18.0 
+
+Parent result:13.0
+
+subQuery Result1 
+18.0   13.0   3.0   8.0   23.0   28.0   
+subQuery Result2 
+18.0 13.0 
+subQuery Result3 
+13.0 
+subQuery Result4 
+16.0 11.0 1.0 6.0 21.0 26.0 17.0 12.0 2.0 7.0 22.0 27.0 18.0 13.0 3.0 8.0 23.0 28.0 19.0 14.0 4.0 9.0 24.0 29.0 20.0 15.0 5.0 10.0 25.0 30.0 
+subQuery Result5 
+16.0 11.0 17.0 12.0 18.0 13.0 19.0 14.0 20.0 15.0 
+subQuery Result6 
+11.0 12.0 13.0 14.0 15.0 
+subQuery Result7 
+18.0 13.0 3.0 8.0 23.0 28.0 63.0 58.0 48.0 53.0 38.0 33.0 43.0 
+subQuery Result8 
+13.0 
+
+Parent result:3.0
+
+subQuery Result1 
+18.0   13.0   3.0   8.0   23.0   28.0   
+subQuery Result2 
+3.0 8.0 
+subQuery Result3 
+3.0 
+subQuery Result4 
+16.0 11.0 1.0 6.0 21.0 26.0 17.0 12.0 2.0 7.0 22.0 27.0 18.0 13.0 3.0 8.0 23.0 28.0 19.0 14.0 4.0 9.0 24.0 29.0 20.0 15.0 5.0 10.0 25.0 30.0 
+subQuery Result5 
+1.0 6.0 2.0 7.0 3.0 8.0 4.0 9.0 5.0 10.0 
+subQuery Result6 
+1.0 2.0 3.0 4.0 5.0 
+subQuery Result7 
+18.0 13.0 3.0 8.0 23.0 28.0 63.0 58.0 48.0 53.0 38.0 33.0 43.0 
+subQuery Result8 
+3.0 
+
+Parent result:8.0
+
+subQuery Result1 
+18.0   13.0   3.0   8.0   23.0   28.0   
+subQuery Result2 
+3.0 8.0 
+subQuery Result3 
+8.0 
+subQuery Result4 
+16.0 11.0 1.0 6.0 21.0 26.0 17.0 12.0 2.0 7.0 22.0 27.0 18.0 13.0 3.0 8.0 23.0 28.0 19.0 14.0 4.0 9.0 24.0 29.0 20.0 15.0 5.0 10.0 25.0 30.0 
+subQuery Result5 
+1.0 6.0 2.0 7.0 3.0 8.0 4.0 9.0 5.0 10.0 
+subQuery Result6 
+6.0 7.0 8.0 9.0 10.0 
+subQuery Result7 
+18.0 13.0 3.0 8.0 23.0 28.0 63.0 58.0 48.0 53.0 38.0 33.0 43.0 
+subQuery Result8 
+8.0 
+
+Parent result:23.0
+
+subQuery Result1 
+18.0   13.0   3.0   8.0   23.0   28.0   
+subQuery Result2 
+23.0 28.0 
+subQuery Result3 
+23.0 
+subQuery Result4 
+16.0 11.0 1.0 6.0 21.0 26.0 17.0 12.0 2.0 7.0 22.0 27.0 18.0 13.0 3.0 8.0 23.0 28.0 19.0 14.0 4.0 9.0 24.0 29.0 20.0 15.0 5.0 10.0 25.0 30.0 
+subQuery Result5 
+21.0 26.0 22.0 27.0 23.0 28.0 24.0 29.0 25.0 30.0 
+subQuery Result6 
+21.0 22.0 23.0 24.0 25.0 
+subQuery Result7 
+18.0 13.0 3.0 8.0 23.0 28.0 63.0 58.0 48.0 53.0 38.0 33.0 43.0 
+subQuery Result8 
+23.0 
+
+Parent result:28.0
+
+subQuery Result1 
+18.0   13.0   3.0   8.0   23.0   28.0   
+subQuery Result2 
+23.0 28.0 
+subQuery Result3 
+28.0 
+subQuery Result4 
+16.0 11.0 1.0 6.0 21.0 26.0 17.0 12.0 2.0 7.0 22.0 27.0 18.0 13.0 3.0 8.0 23.0 28.0 19.0 14.0 4.0 9.0 24.0 29.0 20.0 15.0 5.0 10.0 25.0 30.0 
+subQuery Result5 
+21.0 26.0 22.0 27.0 23.0 28.0 24.0 29.0 25.0 30.0 
+subQuery Result6 
+26.0 27.0 28.0 29.0 30.0 
+subQuery Result7 
+18.0 13.0 3.0 8.0 23.0 28.0 63.0 58.0 48.0 53.0 38.0 33.0 43.0 
+subQuery Result8 
+28.0 
+
+Parent result:63.0
+
+subQuery Result1 
+63.0   58.0   
+subQuery Result2 
+63.0 
+subQuery Result3 
+63.0 
+subQuery Result4 
+61.0 56.0 62.0 57.0 63.0 58.0 65.0 59.0 65.0 60.0 
+subQuery Result5 
+61.0 62.0 63.0 65.0 65.0 
+subQuery Result6 
+61.0 62.0 63.0 65.0 65.0 
+subQuery Result7 
+18.0 13.0 3.0 8.0 23.0 28.0 63.0 58.0 48.0 53.0 38.0 33.0 43.0 
+subQuery Result8 
+63.0 
+
+Parent result:58.0
+
+subQuery Result1 
+63.0   58.0   
+subQuery Result2 
+58.0 
+subQuery Result3 
+58.0 
+subQuery Result4 
+61.0 56.0 62.0 57.0 63.0 58.0 65.0 59.0 65.0 60.0 
+subQuery Result5 
+56.0 57.0 58.0 59.0 60.0 
+subQuery Result6 
+56.0 57.0 58.0 59.0 60.0 
+subQuery Result7 
+18.0 13.0 3.0 8.0 23.0 28.0 63.0 58.0 48.0 53.0 38.0 33.0 43.0 
+subQuery Result8 
+58.0 
+
+Parent result:48.0
+
+subQuery Result1 
+48.0   53.0   
+subQuery Result2 
+48.0 
+subQuery Result3 
+48.0 
+subQuery Result4 
+46.0 51.0 47.0 52.0 48.0 53.0 49.0 54.0 50.0 55.0 
+subQuery Result5 
+46.0 47.0 48.0 49.0 50.0 
+subQuery Result6 
+46.0 47.0 48.0 49.0 50.0 
+subQuery Result7 
+18.0 13.0 3.0 8.0 23.0 28.0 63.0 58.0 48.0 53.0 38.0 33.0 43.0 
+subQuery Result8 
+48.0 
+
+Parent result:53.0
+
+subQuery Result1 
+48.0   53.0   
+subQuery Result2 
+53.0 
+subQuery Result3 
+53.0 
+subQuery Result4 
+46.0 51.0 47.0 52.0 48.0 53.0 49.0 54.0 50.0 55.0 
+subQuery Result5 
+51.0 52.0 53.0 54.0 55.0 
+subQuery Result6 
+51.0 52.0 53.0 54.0 55.0 
+subQuery Result7 
+18.0 13.0 3.0 8.0 23.0 28.0 63.0 58.0 48.0 53.0 38.0 33.0 43.0 
+subQuery Result8 
+53.0 
+
+Parent result:38.0
+
+subQuery Result1 
+38.0   33.0   43.0   
+subQuery Result2 
+38.0 
+subQuery Result3 
+38.0 
+subQuery Result4 
+36.0 31.0 41.0 37.0 32.0 42.0 38.0 33.0 43.0 39.0 34.0 44.0 40.0 35.0 45.0 
+subQuery Result5 
+36.0 37.0 38.0 39.0 40.0 
+subQuery Result6 
+36.0 37.0 38.0 39.0 40.0 
+subQuery Result7 
+18.0 13.0 3.0 8.0 23.0 28.0 63.0 58.0 48.0 53.0 38.0 33.0 43.0 
+subQuery Result8 
+38.0 
+
+Parent result:33.0
+
+subQuery Result1 
+38.0   33.0   43.0   
+subQuery Result2 
+33.0 
+subQuery Result3 
+33.0 
+subQuery Result4 
+36.0 31.0 41.0 37.0 32.0 42.0 38.0 33.0 43.0 39.0 34.0 44.0 40.0 35.0 45.0 
+subQuery Result5 
+31.0 32.0 33.0 34.0 35.0 
+subQuery Result6 
+31.0 32.0 33.0 34.0 35.0 
+subQuery Result7 
+18.0 13.0 3.0 8.0 23.0 28.0 63.0 58.0 48.0 53.0 38.0 33.0 43.0 
+subQuery Result8 
+33.0 
+
+Parent result:43.0
+
+subQuery Result1 
+38.0   33.0   43.0   
+subQuery Result2 
+43.0 
+subQuery Result3 
+43.0 
+subQuery Result4 
+36.0 31.0 41.0 37.0 32.0 42.0 38.0 33.0 43.0 39.0 34.0 44.0 40.0 35.0 45.0 
+subQuery Result5 
+41.0 42.0 43.0 44.0 45.0 
+subQuery Result6 
+41.0 42.0 43.0 44.0 45.0 
+subQuery Result7 
+18.0 13.0 3.0 8.0 23.0 28.0 63.0 58.0 48.0 53.0 38.0 33.0 43.0 
+subQuery Result8 
+43.0 
+
+Parent result:19.0
+
+subQuery Result1 
+19.0   14.0   4.0   9.0   24.0   29.0   
+subQuery Result2 
+19.0 14.0 
+subQuery Result3 
+19.0 
+subQuery Result4 
+16.0 11.0 1.0 6.0 21.0 26.0 17.0 12.0 2.0 7.0 22.0 27.0 18.0 13.0 3.0 8.0 23.0 28.0 19.0 14.0 4.0 9.0 24.0 29.0 20.0 15.0 5.0 10.0 25.0 30.0 
+subQuery Result5 
+16.0 11.0 17.0 12.0 18.0 13.0 19.0 14.0 20.0 15.0 
+subQuery Result6 
+16.0 17.0 18.0 19.0 20.0 
+subQuery Result7 
+19.0 14.0 4.0 9.0 24.0 29.0 65.0 59.0 49.0 54.0 39.0 34.0 44.0 
+subQuery Result8 
+19.0 
+
+Parent result:14.0
+
+subQuery Result1 
+19.0   14.0   4.0   9.0   24.0   29.0   
+subQuery Result2 
+19.0 14.0 
+subQuery Result3 
+14.0 
+subQuery Result4 
+16.0 11.0 1.0 6.0 21.0 26.0 17.0 12.0 2.0 7.0 22.0 27.0 18.0 13.0 3.0 8.0 23.0 28.0 19.0 14.0 4.0 9.0 24.0 29.0 20.0 15.0 5.0 10.0 25.0 30.0 
+subQuery Result5 
+16.0 11.0 17.0 12.0 18.0 13.0 19.0 14.0 20.0 15.0 
+subQuery Result6 
+11.0 12.0 13.0 14.0 15.0 
+subQuery Result7 
+19.0 14.0 4.0 9.0 24.0 29.0 65.0 59.0 49.0 54.0 39.0 34.0 44.0 
+subQuery Result8 
+14.0 
+
+Parent result:4.0
+
+subQuery Result1 
+19.0   14.0   4.0   9.0   24.0   29.0   
+subQuery Result2 
+4.0 9.0 
+subQuery Result3 
+4.0 
+subQuery Result4 
+16.0 11.0 1.0 6.0 21.0 26.0 17.0 12.0 2.0 7.0 22.0 27.0 18.0 13.0 3.0 8.0 23.0 28.0 19.0 14.0 4.0 9.0 24.0 29.0 20.0 15.0 5.0 10.0 25.0 30.0 
+subQuery Result5 
+1.0 6.0 2.0 7.0 3.0 8.0 4.0 9.0 5.0 10.0 
+subQuery Result6 
+1.0 2.0 3.0 4.0 5.0 
+subQuery Result7 
+19.0 14.0 4.0 9.0 24.0 29.0 65.0 59.0 49.0 54.0 39.0 34.0 44.0 
+subQuery Result8 
+4.0 
+
+Parent result:9.0
+
+subQuery Result1 
+19.0   14.0   4.0   9.0   24.0   29.0   
+subQuery Result2 
+4.0 9.0 
+subQuery Result3 
+9.0 
+subQuery Result4 
+16.0 11.0 1.0 6.0 21.0 26.0 17.0 12.0 2.0 7.0 22.0 27.0 18.0 13.0 3.0 8.0 23.0 28.0 19.0 14.0 4.0 9.0 24.0 29.0 20.0 15.0 5.0 10.0 25.0 30.0 
+subQuery Result5 
+1.0 6.0 2.0 7.0 3.0 8.0 4.0 9.0 5.0 10.0 
+subQuery Result6 
+6.0 7.0 8.0 9.0 10.0 
+subQuery Result7 
+19.0 14.0 4.0 9.0 24.0 29.0 65.0 59.0 49.0 54.0 39.0 34.0 44.0 
+subQuery Result8 
+9.0 
+
+Parent result:24.0
+
+subQuery Result1 
+19.0   14.0   4.0   9.0   24.0   29.0   
+subQuery Result2 
+24.0 29.0 
+subQuery Result3 
+24.0 
+subQuery Result4 
+16.0 11.0 1.0 6.0 21.0 26.0 17.0 12.0 2.0 7.0 22.0 27.0 18.0 13.0 3.0 8.0 23.0 28.0 19.0 14.0 4.0 9.0 24.0 29.0 20.0 15.0 5.0 10.0 25.0 30.0 
+subQuery Result5 
+21.0 26.0 22.0 27.0 23.0 28.0 24.0 29.0 25.0 30.0 
+subQuery Result6 
+21.0 22.0 23.0 24.0 25.0 
+subQuery Result7 
+19.0 14.0 4.0 9.0 24.0 29.0 65.0 59.0 49.0 54.0 39.0 34.0 44.0 
+subQuery Result8 
+24.0 
+
+Parent result:29.0
+
+subQuery Result1 
+19.0   14.0   4.0   9.0   24.0   29.0   
+subQuery Result2 
+24.0 29.0 
+subQuery Result3 
+29.0 
+subQuery Result4 
+16.0 11.0 1.0 6.0 21.0 26.0 17.0 12.0 2.0 7.0 22.0 27.0 18.0 13.0 3.0 8.0 23.0 28.0 19.0 14.0 4.0 9.0 24.0 29.0 20.0 15.0 5.0 10.0 25.0 30.0 
+subQuery Result5 
+21.0 26.0 22.0 27.0 23.0 28.0 24.0 29.0 25.0 30.0 
+subQuery Result6 
+26.0 27.0 28.0 29.0 30.0 
+subQuery Result7 
+19.0 14.0 4.0 9.0 24.0 29.0 65.0 59.0 49.0 54.0 39.0 34.0 44.0 
+subQuery Result8 
+29.0 
+
+Parent result:65.0
+
+subQuery Result1 
+65.0   59.0   
+subQuery Result2 
+65.0 
+subQuery Result3 
+65.0 
+subQuery Result4 
+61.0 56.0 62.0 57.0 63.0 58.0 65.0 59.0 65.0 60.0 
+subQuery Result5 
+61.0 62.0 63.0 65.0 65.0 
+subQuery Result6 
+61.0 62.0 63.0 65.0 65.0 
+subQuery Result7 
+19.0 14.0 4.0 9.0 24.0 29.0 65.0 59.0 49.0 54.0 39.0 34.0 44.0 
+subQuery Result8 
+65.0 
+
+Parent result:59.0
+
+subQuery Result1 
+65.0   59.0   
+subQuery Result2 
+59.0 
+subQuery Result3 
+59.0 
+subQuery Result4 
+61.0 56.0 62.0 57.0 63.0 58.0 65.0 59.0 65.0 60.0 
+subQuery Result5 
+56.0 57.0 58.0 59.0 60.0 
+subQuery Result6 
+56.0 57.0 58.0 59.0 60.0 
+subQuery Result7 
+19.0 14.0 4.0 9.0 24.0 29.0 65.0 59.0 49.0 54.0 39.0 34.0 44.0 
+subQuery Result8 
+59.0 
+
+Parent result:49.0
+
+subQuery Result1 
+49.0   54.0   
+subQuery Result2 
+49.0 
+subQuery Result3 
+49.0 
+subQuery Result4 
+46.0 51.0 47.0 52.0 48.0 53.0 49.0 54.0 50.0 55.0 
+subQuery Result5 
+46.0 47.0 48.0 49.0 50.0 
+subQuery Result6 
+46.0 47.0 48.0 49.0 50.0 
+subQuery Result7 
+19.0 14.0 4.0 9.0 24.0 29.0 65.0 59.0 49.0 54.0 39.0 34.0 44.0 
+subQuery Result8 
+49.0 
+
+Parent result:54.0
+
+subQuery Result1 
+49.0   54.0   
+subQuery Result2 
+54.0 
+subQuery Result3 
+54.0 
+subQuery Result4 
+46.0 51.0 47.0 52.0 48.0 53.0 49.0 54.0 50.0 55.0 
+subQuery Result5 
+51.0 52.0 53.0 54.0 55.0 
+subQuery Result6 
+51.0 52.0 53.0 54.0 55.0 
+subQuery Result7 
+19.0 14.0 4.0 9.0 24.0 29.0 65.0 59.0 49.0 54.0 39.0 34.0 44.0 
+subQuery Result8 
+54.0 
+
+Parent result:39.0
+
+subQuery Result1 
+39.0   34.0   44.0   
+subQuery Result2 
+39.0 
+subQuery Result3 
+39.0 
+subQuery Result4 
+36.0 31.0 41.0 37.0 32.0 42.0 38.0 33.0 43.0 39.0 34.0 44.0 40.0 35.0 45.0 
+subQuery Result5 
+36.0 37.0 38.0 39.0 40.0 
+subQuery Result6 
+36.0 37.0 38.0 39.0 40.0 
+subQuery Result7 
+19.0 14.0 4.0 9.0 24.0 29.0 65.0 59.0 49.0 54.0 39.0 34.0 44.0 
+subQuery Result8 
+39.0 
+
+Parent result:34.0
+
+subQuery Result1 
+39.0   34.0   44.0   
+subQuery Result2 
+34.0 
+subQuery Result3 
+34.0 
+subQuery Result4 
+36.0 31.0 41.0 37.0 32.0 42.0 38.0 33.0 43.0 39.0 34.0 44.0 40.0 35.0 45.0 
+subQuery Result5 
+31.0 32.0 33.0 34.0 35.0 
+subQuery Result6 
+31.0 32.0 33.0 34.0 35.0 
+subQuery Result7 
+19.0 14.0 4.0 9.0 24.0 29.0 65.0 59.0 49.0 54.0 39.0 34.0 44.0 
+subQuery Result8 
+34.0 
+
+Parent result:44.0
+
+subQuery Result1 
+39.0   34.0   44.0   
+subQuery Result2 
+44.0 
+subQuery Result3 
+44.0 
+subQuery Result4 
+36.0 31.0 41.0 37.0 32.0 42.0 38.0 33.0 43.0 39.0 34.0 44.0 40.0 35.0 45.0 
+subQuery Result5 
+41.0 42.0 43.0 44.0 45.0 
+subQuery Result6 
+41.0 42.0 43.0 44.0 45.0 
+subQuery Result7 
+19.0 14.0 4.0 9.0 24.0 29.0 65.0 59.0 49.0 54.0 39.0 34.0 44.0 
+subQuery Result8 
+44.0 
+
+Parent result:20.0
+
+subQuery Result1 
+20.0   15.0   5.0   10.0   25.0   30.0   
+subQuery Result2 
+20.0 15.0 
+subQuery Result3 
+20.0 
+subQuery Result4 
+16.0 11.0 1.0 6.0 21.0 26.0 17.0 12.0 2.0 7.0 22.0 27.0 18.0 13.0 3.0 8.0 23.0 28.0 19.0 14.0 4.0 9.0 24.0 29.0 20.0 15.0 5.0 10.0 25.0 30.0 
+subQuery Result5 
+16.0 11.0 17.0 12.0 18.0 13.0 19.0 14.0 20.0 15.0 
+subQuery Result6 
+16.0 17.0 18.0 19.0 20.0 
+subQuery Result7 
+20.0 15.0 5.0 10.0 25.0 30.0 65.0 60.0 50.0 55.0 40.0 35.0 45.0 
+subQuery Result8 
+20.0 
+
+Parent result:15.0
+
+subQuery Result1 
+20.0   15.0   5.0   10.0   25.0   30.0   
+subQuery Result2 
+20.0 15.0 
+subQuery Result3 
+15.0 
+subQuery Result4 
+16.0 11.0 1.0 6.0 21.0 26.0 17.0 12.0 2.0 7.0 22.0 27.0 18.0 13.0 3.0 8.0 23.0 28.0 19.0 14.0 4.0 9.0 24.0 29.0 20.0 15.0 5.0 10.0 25.0 30.0 
+subQuery Result5 
+16.0 11.0 17.0 12.0 18.0 13.0 19.0 14.0 20.0 15.0 
+subQuery Result6 
+11.0 12.0 13.0 14.0 15.0 
+subQuery Result7 
+20.0 15.0 5.0 10.0 25.0 30.0 65.0 60.0 50.0 55.0 40.0 35.0 45.0 
+subQuery Result8 
+15.0 
+
+Parent result:5.0
+
+subQuery Result1 
+20.0   15.0   5.0   10.0   25.0   30.0   
+subQuery Result2 
+5.0 10.0 
+subQuery Result3 
+5.0 
+subQuery Result4 
+16.0 11.0 1.0 6.0 21.0 26.0 17.0 12.0 2.0 7.0 22.0 27.0 18.0 13.0 3.0 8.0 23.0 28.0 19.0 14.0 4.0 9.0 24.0 29.0 20.0 15.0 5.0 10.0 25.0 30.0 
+subQuery Result5 
+1.0 6.0 2.0 7.0 3.0 8.0 4.0 9.0 5.0 10.0 
+subQuery Result6 
+1.0 2.0 3.0 4.0 5.0 
+subQuery Result7 
+20.0 15.0 5.0 10.0 25.0 30.0 65.0 60.0 50.0 55.0 40.0 35.0 45.0 
+subQuery Result8 
+5.0 
+
+Parent result:10.0
+
+subQuery Result1 
+20.0   15.0   5.0   10.0   25.0   30.0   
+subQuery Result2 
+5.0 10.0 
+subQuery Result3 
+10.0 
+subQuery Result4 
+16.0 11.0 1.0 6.0 21.0 26.0 17.0 12.0 2.0 7.0 22.0 27.0 18.0 13.0 3.0 8.0 23.0 28.0 19.0 14.0 4.0 9.0 24.0 29.0 20.0 15.0 5.0 10.0 25.0 30.0 
+subQuery Result5 
+1.0 6.0 2.0 7.0 3.0 8.0 4.0 9.0 5.0 10.0 
+subQuery Result6 
+6.0 7.0 8.0 9.0 10.0 
+subQuery Result7 
+20.0 15.0 5.0 10.0 25.0 30.0 65.0 60.0 50.0 55.0 40.0 35.0 45.0 
+subQuery Result8 
+10.0 
+
+Parent result:25.0
+
+subQuery Result1 
+20.0   15.0   5.0   10.0   25.0   30.0   
+subQuery Result2 
+25.0 30.0 
+subQuery Result3 
+25.0 
+subQuery Result4 
+16.0 11.0 1.0 6.0 21.0 26.0 17.0 12.0 2.0 7.0 22.0 27.0 18.0 13.0 3.0 8.0 23.0 28.0 19.0 14.0 4.0 9.0 24.0 29.0 20.0 15.0 5.0 10.0 25.0 30.0 
+subQuery Result5 
+21.0 26.0 22.0 27.0 23.0 28.0 24.0 29.0 25.0 30.0 
+subQuery Result6 
+21.0 22.0 23.0 24.0 25.0 
+subQuery Result7 
+20.0 15.0 5.0 10.0 25.0 30.0 65.0 60.0 50.0 55.0 40.0 35.0 45.0 
+subQuery Result8 
+25.0 
+
+Parent result:30.0
+
+subQuery Result1 
+20.0   15.0   5.0   10.0   25.0   30.0   
+subQuery Result2 
+25.0 30.0 
+subQuery Result3 
+30.0 
+subQuery Result4 
+16.0 11.0 1.0 6.0 21.0 26.0 17.0 12.0 2.0 7.0 22.0 27.0 18.0 13.0 3.0 8.0 23.0 28.0 19.0 14.0 4.0 9.0 24.0 29.0 20.0 15.0 5.0 10.0 25.0 30.0 
+subQuery Result5 
+21.0 26.0 22.0 27.0 23.0 28.0 24.0 29.0 25.0 30.0 
+subQuery Result6 
+26.0 27.0 28.0 29.0 30.0 
+subQuery Result7 
+20.0 15.0 5.0 10.0 25.0 30.0 65.0 60.0 50.0 55.0 40.0 35.0 45.0 
+subQuery Result8 
+30.0 
+
+Parent result:65.0
+
+subQuery Result1 
+65.0   60.0   
+subQuery Result2 
+65.0 
+subQuery Result3 
+65.0 
+subQuery Result4 
+61.0 56.0 62.0 57.0 63.0 58.0 65.0 59.0 65.0 60.0 
+subQuery Result5 
+61.0 62.0 63.0 65.0 65.0 
+subQuery Result6 
+61.0 62.0 63.0 65.0 65.0 
+subQuery Result7 
+20.0 15.0 5.0 10.0 25.0 30.0 65.0 60.0 50.0 55.0 40.0 35.0 45.0 
+subQuery Result8 
+65.0 
+
+Parent result:60.0
+
+subQuery Result1 
+65.0   60.0   
+subQuery Result2 
+60.0 
+subQuery Result3 
+60.0 
+subQuery Result4 
+61.0 56.0 62.0 57.0 63.0 58.0 65.0 59.0 65.0 60.0 
+subQuery Result5 
+56.0 57.0 58.0 59.0 60.0 
+subQuery Result6 
+56.0 57.0 58.0 59.0 60.0 
+subQuery Result7 
+20.0 15.0 5.0 10.0 25.0 30.0 65.0 60.0 50.0 55.0 40.0 35.0 45.0 
+subQuery Result8 
+60.0 
+
+Parent result:50.0
+
+subQuery Result1 
+50.0   55.0   
+subQuery Result2 
+50.0 
+subQuery Result3 
+50.0 
+subQuery Result4 
+46.0 51.0 47.0 52.0 48.0 53.0 49.0 54.0 50.0 55.0 
+subQuery Result5 
+46.0 47.0 48.0 49.0 50.0 
+subQuery Result6 
+46.0 47.0 48.0 49.0 50.0 
+subQuery Result7 
+20.0 15.0 5.0 10.0 25.0 30.0 65.0 60.0 50.0 55.0 40.0 35.0 45.0 
+subQuery Result8 
+50.0 
+
+Parent result:55.0
+
+subQuery Result1 
+50.0   55.0   
+subQuery Result2 
+55.0 
+subQuery Result3 
+55.0 
+subQuery Result4 
+46.0 51.0 47.0 52.0 48.0 53.0 49.0 54.0 50.0 55.0 
+subQuery Result5 
+51.0 52.0 53.0 54.0 55.0 
+subQuery Result6 
+51.0 52.0 53.0 54.0 55.0 
+subQuery Result7 
+20.0 15.0 5.0 10.0 25.0 30.0 65.0 60.0 50.0 55.0 40.0 35.0 45.0 
+subQuery Result8 
+55.0 
+
+Parent result:40.0
+
+subQuery Result1 
+40.0   35.0   45.0   
+subQuery Result2 
+40.0 
+subQuery Result3 
+40.0 
+subQuery Result4 
+36.0 31.0 41.0 37.0 32.0 42.0 38.0 33.0 43.0 39.0 34.0 44.0 40.0 35.0 45.0 
+subQuery Result5 
+36.0 37.0 38.0 39.0 40.0 
+subQuery Result6 
+36.0 37.0 38.0 39.0 40.0 
+subQuery Result7 
+20.0 15.0 5.0 10.0 25.0 30.0 65.0 60.0 50.0 55.0 40.0 35.0 45.0 
+subQuery Result8 
+40.0 
+
+Parent result:35.0
+
+subQuery Result1 
+40.0   35.0   45.0   
+subQuery Result2 
+35.0 
+subQuery Result3 
+35.0 
+subQuery Result4 
+36.0 31.0 41.0 37.0 32.0 42.0 38.0 33.0 43.0 39.0 34.0 44.0 40.0 35.0 45.0 
+subQuery Result5 
+31.0 32.0 33.0 34.0 35.0 
+subQuery Result6 
+31.0 32.0 33.0 34.0 35.0 
+subQuery Result7 
+20.0 15.0 5.0 10.0 25.0 30.0 65.0 60.0 50.0 55.0 40.0 35.0 45.0 
+subQuery Result8 
+35.0 
+
+Parent result:45.0
+
+subQuery Result1 
+40.0   35.0   45.0   
+subQuery Result2 
+45.0 
+subQuery Result3 
+45.0 
+subQuery Result4 
+36.0 31.0 41.0 37.0 32.0 42.0 38.0 33.0 43.0 39.0 34.0 44.0 40.0 35.0 45.0 
+subQuery Result5 
+41.0 42.0 43.0 44.0 45.0 
+subQuery Result6 
+41.0 42.0 43.0 44.0 45.0 
+subQuery Result7 
+20.0 15.0 5.0 10.0 25.0 30.0 65.0 60.0 50.0 55.0 40.0 35.0 45.0 
+subQuery Result8 
+45.0 

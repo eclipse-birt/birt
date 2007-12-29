@@ -178,6 +178,8 @@ public class AggregationAccessor implements Accessor
 			return true;
 		int start = 0, state = 0;
 		boolean find = false;
+		currentPosition[aggrIndex] = rs.getPosition( );
+		
 		for ( ; start < levelList.size( ); )
 		{
 			DimLevel level = (DimLevel) levelList.get( start );

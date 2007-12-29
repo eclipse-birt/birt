@@ -63,6 +63,8 @@ import org.mozilla.javascript.Scriptable;
  */
 public class QueryExecutor
 {
+	
+	private CubeQueryExecutorHelper cubeQueryExcutorHelper;
 
 	/**
 	 * @param view
@@ -81,11 +83,11 @@ public class QueryExecutor
 			return null;
 		IDocumentManager documentManager = getDocumentManager( executor );
 		ICube cube = loadCube( documentManager, executor );
-		CubeQueryValidator.validateCubeQueryDefinition( executor.getCubeQueryDefinition( ), view,
+		CubeQueryValidator.validateCubeQueryDefinition( executor.getCubeQueryDefinition( ),
+				view,
 				cube,
 				manager.getCalculatedMembers( ) );
-		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper(
-				cube,
+		cubeQueryExcutorHelper = new CubeQueryExecutorHelper( cube,
 				executor.getComputedMeasureHelper( ) );
 		cubeQueryExcutorHelper.addJSFilter( executor.getDimensionFilterEvalHelpers( ) );
 		List list = executor.getMeasureFilterEvalHelpers( );
@@ -137,6 +139,26 @@ public class QueryExecutor
 		return new CubeResultSet( rs, view, manager, cubeQueryExcutorHelper );
 	}
 
+	/**
+	 * 
+	 * @param parentResultSet
+	 * @param view
+	 * @param startingColumnLevelIndex
+	 * @param startingRowLevelIndex
+	 * @return
+	 * @throws IOException
+	 */
+	public IResultSet executeSubQuery( IResultSet parentResultSet,
+			BirtCubeView view, int startingColumnLevelIndex,
+			int startingRowLevelIndex ) throws IOException
+	{
+		return new CubeResultSet( parentResultSet,
+				view,
+				cubeQueryExcutorHelper,
+				startingColumnLevelIndex,
+				startingRowLevelIndex );
+	}
+	
 	/**
 	 * Populate the Result Set, either by re-execution ( If it has not been executed yet ) or 
 	 * get it from local time folder.

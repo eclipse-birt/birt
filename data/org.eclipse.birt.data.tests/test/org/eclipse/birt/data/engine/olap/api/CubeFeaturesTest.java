@@ -67,6 +67,8 @@ import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeSortDefinition;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
 
 import testutil.BaseTestCase;
 
@@ -4122,6 +4124,743 @@ public class CubeFeaturesTest extends BaseTestCase
 			}
 		}
 		
+		this.checkOutputFile( );
+	}
+	
+	
+	/**
+	 * Test use all dimension levels.
+	 * 
+	 * @throws Exception
+	 */
+	public void testMirroredCrosstab( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		hier1.createLevel( "level11" );
+		hier1.createLevel( "level12" );
+		ILevelDefinition leve113 = hier1.createLevel( "level13" );
+		columnEdge.setMirrorStartingLevel( leve113 );
+		
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		hier2.createLevel( "level21" );
+
+		cqd.createMeasure( "measure1" );
+
+		IBinding binding1 = new Binding( "edge1level1" );
+
+		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level11\"]" ) );
+		cqd.addBinding( binding1 );
+
+		IBinding binding2 = new Binding( "edge1level2" );
+
+		binding2.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level12\"]" ) );
+		cqd.addBinding( binding2 );
+
+		IBinding binding3 = new Binding( "edge1level3" );
+
+		binding3.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level13\"]" ) );
+		cqd.addBinding( binding3 );
+
+		IBinding binding4 = new Binding( "edge2level1" );
+
+		binding4.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level21\"]" ) );
+		cqd.addBinding( binding4 );
+
+		IBinding binding5 = new Binding( "measure1" );
+		binding5.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		cqd.addBinding( binding5 );
+
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				null,
+				null,
+				null ) );
+		this.createCube( engine );
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = queryResults.getCubeCursor( );
+		List columnEdgeBindingNames = new ArrayList( );
+		columnEdgeBindingNames.add( "edge1level1" );
+		columnEdgeBindingNames.add( "edge1level2" );
+		columnEdgeBindingNames.add( "edge1level3" );
+		this.printCube( cursor,
+				columnEdgeBindingNames,
+				"edge2level1",
+				"measure1" );
+	}
+	
+	/**
+	 * Test subQuery in crosstab
+	 * 
+	 * @throws Exception
+	 */
+	public void testSubQuery1( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		ILevelDefinition level11 = hier1.createLevel( "level11" );
+		ILevelDefinition level12 = hier1.createLevel( "level12" );
+		ILevelDefinition level13 = hier1.createLevel( "level13" );
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		ILevelDefinition level21 = hier2.createLevel( "level21" );
+
+		createSortTestBindings( cqd );
+
+		Context cx = null;
+		try
+		{
+			cx = Context.enter( );
+			Scriptable sharedScope = cx.initStandardObjects( );
+
+			DataEngineImpl engine = (DataEngineImpl) DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+					sharedScope,
+					null,
+					null ) );
+			this.createCube( engine );
+			IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+			ICubeQueryResults cqResults = pcq.execute( sharedScope );
+			ICubeCursor cubeCursor = (ICubeCursor) cqResults.getCubeCursor( );
+
+			Scriptable subScope = cx.newObject( sharedScope );
+			subScope.setParentScope( sharedScope );
+
+
+			int depth = 0;
+			EdgeCursor edge1 = (EdgeCursor) ( cubeCursor.getOrdinateEdge( ).get( 0 ) );
+			EdgeCursor edge2 = (EdgeCursor) ( cubeCursor.getOrdinateEdge( ).get( 1 ) );
+			edge1.beforeFirst( );
+			while ( edge2.next( ) )
+			{
+				/*
+				 * if( depth > 5 ) break;
+				 */edge1.beforeFirst( );
+				while ( edge1.next( ) )
+				{
+					depth++;
+					/*
+					 * if( depth > 5 ) break;
+					 */
+					this.testPrintln( "\n\nParent result:" +
+							cubeCursor.getObject( "measure1" ).toString( ) );
+					
+					//subQuery1
+					ICubeCursor subCubeCursor = cubeCursor.getSubCubeCursor( "dimension[\"dimension1\"][\"level11\"]",
+							"dimension[\"dimension2\"][\"level21\"]",
+							null,
+							subScope );
+					EdgeCursor subEdge1 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 0 ) );
+					EdgeCursor subEdge2 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 1 ) );
+					subEdge2.beforeFirst( );
+					this.testPrintln( "\nsubQuery Result1 " );
+					while ( subEdge2.next( ) )
+					{
+						/*
+						 * if( depth > 5 ) break;
+						 */subEdge1.beforeFirst( );
+						while ( subEdge1.next( ) )
+						{
+							depth++;
+							/*
+							 * if( depth > 5 ) break;
+							 */
+							this.testPrint( subCubeCursor.getObject( "measure1" )
+									.toString( ) +
+									"   " );
+						}
+					}
+
+					// subQuery2
+					subCubeCursor = cubeCursor.getSubCubeCursor( "dimension[\"dimension1\"][\"level12\"]",
+							"dimension[\"dimension2\"][\"level21\"]",
+							null,
+							subScope );
+					subEdge1 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 0 ) );
+					subEdge2 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 1 ) );
+					subEdge2.beforeFirst( );
+					this.testPrintln( "\nsubQuery Result2 " );
+					while ( subEdge2.next( ) )
+					{
+						/*
+						 * if( depth > 5 ) break;
+						 */subEdge1.beforeFirst( );
+						while ( subEdge1.next( ) )
+						{
+							depth++;
+							/*
+							 * if( depth > 5 ) break;
+							 */
+							this.testPrint( subCubeCursor.getObject( "measure1" )
+									.toString( ) +
+									" " );
+						}
+					}
+					
+
+					// subQuery3
+					subCubeCursor = cubeCursor.getSubCubeCursor( "dimension[\"dimension1\"][\"level13\"]",
+							"dimension[\"dimension2\"][\"level21\"]",
+							null,
+							subScope );
+					subEdge1 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 0 ) );
+					subEdge2 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 1 ) );
+					subEdge2.beforeFirst( );
+					this.testPrintln( "\nsubQuery Result3 " );
+					while ( subEdge2.next( ) )
+					{
+						/*
+						 * if( depth > 5 ) break;
+						 */subEdge1.beforeFirst( );
+						while ( subEdge1.next( ) )
+						{
+							depth++;
+							/*
+							 * if( depth > 5 ) break;
+							 */
+							this.testPrint( subCubeCursor.getObject( "measure1" )
+									.toString( ) +
+									" " );
+						}
+					}
+					
+					// subQuery4
+					subCubeCursor = cubeCursor.getSubCubeCursor( "dimension[\"dimension1\"][\"level11\"]",
+							null,
+							null,
+							subScope );
+					subEdge1 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 0 ) );
+					subEdge2 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 1 ) );
+					subEdge2.beforeFirst( );
+					this.testPrintln( "\nsubQuery Result4 " );
+					while ( subEdge2.next( ) )
+					{
+						/*
+						 * if( depth > 5 ) break;
+						 */subEdge1.beforeFirst( );
+						while ( subEdge1.next( ) )
+						{
+							depth++;
+							/*
+							 * if( depth > 5 ) break;
+							 */
+							this.testPrint( subCubeCursor.getObject( "measure1" )
+									.toString( ) +
+									" " );
+						}
+					}
+					
+					// subQuery5
+					subCubeCursor = cubeCursor.getSubCubeCursor( "dimension[\"dimension1\"][\"level12\"]",
+							null,
+							null,
+							subScope );
+					subEdge1 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 0 ) );
+					subEdge2 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 1 ) );
+					subEdge2.beforeFirst( );
+					this.testPrintln( "\nsubQuery Result5 " );
+					while ( subEdge2.next( ) )
+					{
+						/*
+						 * if( depth > 5 ) break;
+						 */subEdge1.beforeFirst( );
+						while ( subEdge1.next( ) )
+						{
+							depth++;
+							/*
+							 * if( depth > 5 ) break;
+							 */
+							this.testPrint( subCubeCursor.getObject( "measure1" )
+									.toString( ) +
+									" " );
+						}
+					}
+					// subQuery6
+					subCubeCursor = cubeCursor.getSubCubeCursor( "dimension[\"dimension1\"][\"level13\"]",
+							null,
+							null,
+							subScope );
+					subEdge1 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 0 ) );
+					subEdge2 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 1 ) );
+					subEdge2.beforeFirst( );
+					this.testPrintln( "\nsubQuery Result6 " );
+					while ( subEdge2.next( ) )
+					{
+						/*
+						 * if( depth > 5 ) break;
+						 */subEdge1.beforeFirst( );
+						while ( subEdge1.next( ) )
+						{
+							depth++;
+							/*
+							 * if( depth > 5 ) break;
+							 */
+							this.testPrint( subCubeCursor.getObject( "measure1" )
+									.toString( ) +
+									" " );
+						}
+					}					
+					// subQuery7
+					subCubeCursor = cubeCursor.getSubCubeCursor( null,
+							"dimension[\"dimension2\"][\"level21\"]",
+							null,
+							subScope );
+					subEdge1 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 0 ) );
+					subEdge2 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 1 ) );
+					subEdge2.beforeFirst( );
+					this.testPrintln( "\nsubQuery Result7 " );
+					while ( subEdge2.next( ) )
+					{
+						/*
+						 * if( depth > 5 ) break;
+						 */subEdge1.beforeFirst( );
+						while ( subEdge1.next( ) )
+						{
+							depth++;
+							/*
+							 * if( depth > 5 ) break;
+							 */
+							this.testPrint( subCubeCursor.getObject( "measure1" )
+									.toString( ) +
+									" " );
+						}
+					}
+					
+					// subQuery8
+					subCubeCursor = cubeCursor.getSubCubeCursor( null,
+							null,
+							null,
+							subScope );
+					subEdge1 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 0 ) );
+					subEdge2 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 1 ) );
+					subEdge2.beforeFirst( );
+					this.testPrintln( "\nsubQuery Result8 " );
+					while ( subEdge2.next( ) )
+					{
+						/*
+						 * if( depth > 5 ) break;
+						 */subEdge1.beforeFirst( );
+						while ( subEdge1.next( ) )
+						{
+							depth++;
+							/*
+							 * if( depth > 5 ) break;
+							 */
+							this.testPrint( subCubeCursor.getObject( "measure1" )
+									.toString( ) +
+									" " );
+						}
+					}
+				}
+			}
+			close( cubeCursor );
+		}
+		finally
+		{
+			if ( cx != null )
+				cx.exit( );
+		}
+		this.checkOutputFile( );
+	}
+
+	/**
+	 * Test subQuery with mirrored level in crosstab
+	 * 
+	 * @throws Exception
+	 */
+	public void testSubQuery2( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		ILevelDefinition level11 = hier1.createLevel( "level11" );
+		ILevelDefinition level12 = hier1.createLevel( "level12" );
+		ILevelDefinition level13 = hier1.createLevel( "level13" );
+		columnEdge.setMirrorStartingLevel( level13 );
+		
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		ILevelDefinition level21 = hier2.createLevel( "level21" );
+
+		createSortTestBindings( cqd );
+
+		Context cx = null;
+		try
+		{
+			cx = Context.enter( );
+			Scriptable sharedScope = cx.initStandardObjects( );
+
+			DataEngineImpl engine = (DataEngineImpl) DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+					sharedScope,
+					null,
+					null ) );
+			this.createCube( engine );
+			IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+			ICubeQueryResults cqResults = pcq.execute( sharedScope );
+			ICubeCursor cubeCursor = (ICubeCursor) cqResults.getCubeCursor( );
+
+			Scriptable subScope = cx.newObject( sharedScope );
+			subScope.setParentScope( sharedScope );
+
+
+			int depth = 0;
+			Object value;
+			EdgeCursor edge1 = (EdgeCursor) ( cubeCursor.getOrdinateEdge( ).get( 0 ) );
+			EdgeCursor edge2 = (EdgeCursor) ( cubeCursor.getOrdinateEdge( ).get( 1 ) );
+			edge1.beforeFirst( );
+			while ( edge2.next( ) )
+			{
+				/*
+				 * if( depth > 5 ) break;
+				 */edge1.beforeFirst( );
+				while ( edge1.next( ) )
+				{
+					depth++;
+					/*
+					 * if( depth > 5 ) break;
+					 */
+					value = cubeCursor.getObject( "measure1" );
+					this.testPrintln( "\n\nParent result:" + value );
+					
+					ICubeCursor subCubeCursor = null;
+					EdgeCursor subEdge1, subEdge2;
+					
+					//subQuery1
+					subCubeCursor = cubeCursor.getSubCubeCursor( "dimension[\"dimension1\"][\"level11\"]",
+							"dimension[\"dimension2\"][\"level21\"]",
+							null,
+							subScope );
+					subEdge1 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 0 ) );
+					subEdge2 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 1 ) );
+					subEdge2.beforeFirst( );
+					this.testPrintln( "\nsubQuery Result1 " );
+					while ( subEdge2.next( ) )
+					{
+						/*
+						 * if( depth > 5 ) break;
+						 */subEdge1.beforeFirst( );
+						while ( subEdge1.next( ) )
+						{
+							depth++;
+							/*
+							 * if( depth > 5 ) break;
+							 */
+							this.testPrint( subCubeCursor.getObject( "measure1" ) +
+									"   " );
+						}
+					}
+
+					// subQuery2
+					subCubeCursor = cubeCursor.getSubCubeCursor( "dimension[\"dimension1\"][\"level12\"]",
+							"dimension[\"dimension2\"][\"level21\"]",
+							null,
+							subScope );
+					subEdge1 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 0 ) );
+					subEdge2 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 1 ) );
+					subEdge2.beforeFirst( );
+					this.testPrintln( "\nsubQuery Result2 " );
+					while ( subEdge2.next( ) )
+					{
+						/*
+						 * if( depth > 5 ) break;
+						 */subEdge1.beforeFirst( );
+						while ( subEdge1.next( ) )
+						{
+							depth++;
+							/*
+							 * if( depth > 5 ) break;
+							 */
+							this.testPrint( subCubeCursor.getObject( "measure1" )
+									+"  " );
+						}
+					}
+					
+
+					// subQuery3
+					subCubeCursor = cubeCursor.getSubCubeCursor( "dimension[\"dimension1\"][\"level13\"]",
+							"dimension[\"dimension2\"][\"level21\"]",
+							null,
+							subScope );
+					subEdge1 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 0 ) );
+					subEdge2 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 1 ) );
+					subEdge2.beforeFirst( );
+					this.testPrintln( "\nsubQuery Result3 " );
+					while ( subEdge2.next( ) )
+					{
+						/*
+						 * if( depth > 5 ) break;
+						 */subEdge1.beforeFirst( );
+						while ( subEdge1.next( ) )
+						{
+							depth++;
+							/*
+							 * if( depth > 5 ) break;
+							 */
+							this.testPrint( subCubeCursor.getObject( "measure1" )
+									+ "  " );
+						}
+					}
+					
+					// subQuery4
+					subCubeCursor = cubeCursor.getSubCubeCursor( "dimension[\"dimension1\"][\"level11\"]",
+							null,
+							null,
+							subScope );
+					subEdge1 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 0 ) );
+					subEdge2 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 1 ) );
+					subEdge2.beforeFirst( );
+					this.testPrintln( "\nsubQuery Result4 " );
+					while ( subEdge2.next( ) )
+					{
+						/*
+						 * if( depth > 5 ) break;
+						 */subEdge1.beforeFirst( );
+						while ( subEdge1.next( ) )
+						{
+							depth++;
+							/*
+							 * if( depth > 5 ) break;
+							 */
+							this.testPrint( subCubeCursor.getObject( "measure1" ) +
+									" " );
+						}
+					}
+					
+					// subQuery5
+					subCubeCursor = cubeCursor.getSubCubeCursor( "dimension[\"dimension1\"][\"level12\"]",
+							null,
+							null,
+							subScope );
+					subEdge1 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 0 ) );
+					subEdge2 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 1 ) );
+					subEdge2.beforeFirst( );
+					this.testPrintln( "\nsubQuery Result5 " );
+					while ( subEdge2.next( ) )
+					{
+						/*
+						 * if( depth > 5 ) break;
+						 */subEdge1.beforeFirst( );
+						while ( subEdge1.next( ) )
+						{
+							depth++;
+							/*
+							 * if( depth > 5 ) break;
+							 */
+							this.testPrint( subCubeCursor.getObject( "measure1" ) +
+									" " );
+						}
+					}
+					// subQuery6
+					subCubeCursor = cubeCursor.getSubCubeCursor( "dimension[\"dimension1\"][\"level13\"]",
+							null,
+							null,
+							subScope );
+					subEdge1 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 0 ) );
+					subEdge2 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 1 ) );
+					subEdge2.beforeFirst( );
+					this.testPrintln( "\nsubQuery Result6 " );
+					while ( subEdge2.next( ) )
+					{
+						/*
+						 * if( depth > 5 ) break;
+						 */subEdge1.beforeFirst( );
+						while ( subEdge1.next( ) )
+						{
+							depth++;
+							/*
+							 * if( depth > 5 ) break;
+							 */
+							this.testPrint( subCubeCursor.getObject( "measure1" ) +
+									" " );
+						}
+					}					
+					// subQuery7
+					subCubeCursor = cubeCursor.getSubCubeCursor( null,
+							"dimension[\"dimension2\"][\"level21\"]",
+							null,
+							subScope );
+					subEdge1 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 0 ) );
+					subEdge2 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 1 ) );
+					subEdge2.beforeFirst( );
+					this.testPrintln( "\nsubQuery Result7 " );
+					while ( subEdge2.next( ) )
+					{
+						/*
+						 * if( depth > 5 ) break;
+						 */subEdge1.beforeFirst( );
+						while ( subEdge1.next( ) )
+						{
+							depth++;
+							/*
+							 * if( depth > 5 ) break;
+							 */
+							this.testPrint( subCubeCursor.getObject( "measure1" ) +
+									" " );
+						}
+					}
+					
+					// subQuery8
+					subCubeCursor = cubeCursor.getSubCubeCursor( null,
+							null,
+							null,
+							subScope );
+					subEdge1 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 0 ) );
+					subEdge2 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 1 ) );
+					subEdge2.beforeFirst( );
+					this.testPrintln( "\nsubQuery Result8 " );
+					while ( subEdge2.next( ) )
+					{
+						/*
+						 * if( depth > 5 ) break;
+						 */subEdge1.beforeFirst( );
+						while ( subEdge1.next( ) )
+						{
+							depth++;
+							/*
+							 * if( depth > 5 ) break;
+							 */
+							this.testPrint( subCubeCursor.getObject( "measure1" ) +
+									" " );
+						}
+					}
+				}
+			}
+			close( cubeCursor );
+		}
+		finally
+		{
+			if ( cx != null )
+				cx.exit( );
+		}
+		this.checkOutputFile( );
+	}
+	
+	/**
+	 * Test subQuery in crosstab
+	 * 
+	 * @throws Exception
+	 */
+	public void testSubQuery3( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		ILevelDefinition level11 = hier1.createLevel( "level11" );
+		ILevelDefinition level12 = hier1.createLevel( "level12" );
+		ILevelDefinition level13 = hier1.createLevel( "level13" );
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		ILevelDefinition level21 = hier2.createLevel( "level21" );
+
+		createSortTestBindings( cqd );
+
+		Context cx = null;
+		try
+		{
+			cx = Context.enter( );
+			Scriptable sharedScope = cx.initStandardObjects( );
+
+			DataEngineImpl engine = (DataEngineImpl) DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+					sharedScope,
+					null,
+					null ) );
+			this.createCube( engine );
+			IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+			ICubeQueryResults cqResults = pcq.execute( sharedScope );
+			ICubeCursor cubeCursor = (ICubeCursor) cqResults.getCubeCursor( );
+
+			Scriptable subScope = cx.newObject( sharedScope );
+			subScope.setParentScope( sharedScope );
+
+			Scriptable subSubScope = cx.newObject( sharedScope );
+			subSubScope.setParentScope( sharedScope );
+
+			int depth = 0;
+			EdgeCursor edge1 = (EdgeCursor) ( cubeCursor.getOrdinateEdge( ).get( 0 ) );
+			EdgeCursor edge2 = (EdgeCursor) ( cubeCursor.getOrdinateEdge( ).get( 1 ) );
+			edge1.beforeFirst( );
+			while ( edge2.next( ) )
+			{
+				/*
+				 * if( depth > 5 ) break;
+				 */edge1.beforeFirst( );
+				while ( edge1.next( ) )
+				{
+					depth++;
+					/*
+					 * if( depth > 5 ) break;
+					 */
+					this.testPrintln( "\n\nParent result:" +
+							cubeCursor.getObject( "measure1" ).toString( ) );
+					
+					//subQuery1
+					ICubeCursor subCubeCursor = cubeCursor.getSubCubeCursor( "dimension[\"dimension1\"][\"level11\"]",
+							"dimension[\"dimension2\"][\"level21\"]",
+							null,
+							subScope );
+					EdgeCursor subEdge1 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 0 ) );
+					EdgeCursor subEdge2 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 1 ) );
+					subEdge2.beforeFirst( );
+					
+					while ( subEdge2.next( ) )
+					{
+						/*
+						 * if( depth > 5 ) break;
+						 */subEdge1.beforeFirst( );
+						while ( subEdge1.next( ) )
+						{
+							depth++;
+							/*
+							 * if( depth > 5 ) break;
+							 */
+							this.testPrintln( "\nsubQuery Result1 " +
+									subCubeCursor.getObject( "measure1" )
+											.toString( ) + "   " );
+							ICubeCursor subSubCubeCursor = subCubeCursor.getSubCubeCursor( "dimension[\"dimension1\"][\"level12\"]",
+									"dimension[\"dimension2\"][\"level21\"]",
+									null,
+									subSubScope );
+							EdgeCursor subSubEdge1 = (EdgeCursor) ( subSubCubeCursor.getOrdinateEdge( ).get( 0 ) );
+							EdgeCursor subSubEdge2 = (EdgeCursor) ( subSubCubeCursor.getOrdinateEdge( ).get( 1 ) );
+							subSubEdge2.beforeFirst( );
+							this.testPrintln( "\nsubSubQuery Result1 " );
+							while ( subSubEdge2.next( ) )
+							{
+								/*
+								 * if( depth > 5 ) break;
+								 */subSubEdge1.beforeFirst( );
+								while ( subSubEdge1.next( ) )
+								{
+									depth++;
+									/*
+									 * if( depth > 5 ) break;
+									 */
+									this.testPrint( subSubCubeCursor.getObject( "measure1" )
+											.toString( ) +
+											"   " );
+								}
+							}
+						}
+					}
+				}
+			}
+			close( cubeCursor );
+		}
+		finally
+		{
+			if ( cx != null )
+				cx.exit( );
+		}
 		this.checkOutputFile( );
 	}
 	

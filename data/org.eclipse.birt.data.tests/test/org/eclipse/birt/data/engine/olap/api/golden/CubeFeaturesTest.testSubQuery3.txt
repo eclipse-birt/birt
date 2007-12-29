@@ -1,0 +1,1256 @@
+
+
+Parent result:16.0
+
+subQuery Result1 16.0   
+
+subSubQuery Result1 
+16.0   11.0   
+subQuery Result1 11.0   
+
+subSubQuery Result1 
+16.0   11.0   
+subQuery Result1 1.0   
+
+subSubQuery Result1 
+1.0   6.0   
+subQuery Result1 6.0   
+
+subSubQuery Result1 
+1.0   6.0   
+subQuery Result1 21.0   
+
+subSubQuery Result1 
+21.0   26.0   
+subQuery Result1 26.0   
+
+subSubQuery Result1 
+21.0   26.0   
+
+Parent result:11.0
+
+subQuery Result1 16.0   
+
+subSubQuery Result1 
+16.0   11.0   
+subQuery Result1 11.0   
+
+subSubQuery Result1 
+16.0   11.0   
+subQuery Result1 1.0   
+
+subSubQuery Result1 
+1.0   6.0   
+subQuery Result1 6.0   
+
+subSubQuery Result1 
+1.0   6.0   
+subQuery Result1 21.0   
+
+subSubQuery Result1 
+21.0   26.0   
+subQuery Result1 26.0   
+
+subSubQuery Result1 
+21.0   26.0   
+
+Parent result:1.0
+
+subQuery Result1 16.0   
+
+subSubQuery Result1 
+16.0   11.0   
+subQuery Result1 11.0   
+
+subSubQuery Result1 
+16.0   11.0   
+subQuery Result1 1.0   
+
+subSubQuery Result1 
+1.0   6.0   
+subQuery Result1 6.0   
+
+subSubQuery Result1 
+1.0   6.0   
+subQuery Result1 21.0   
+
+subSubQuery Result1 
+21.0   26.0   
+subQuery Result1 26.0   
+
+subSubQuery Result1 
+21.0   26.0   
+
+Parent result:6.0
+
+subQuery Result1 16.0   
+
+subSubQuery Result1 
+16.0   11.0   
+subQuery Result1 11.0   
+
+subSubQuery Result1 
+16.0   11.0   
+subQuery Result1 1.0   
+
+subSubQuery Result1 
+1.0   6.0   
+subQuery Result1 6.0   
+
+subSubQuery Result1 
+1.0   6.0   
+subQuery Result1 21.0   
+
+subSubQuery Result1 
+21.0   26.0   
+subQuery Result1 26.0   
+
+subSubQuery Result1 
+21.0   26.0   
+
+Parent result:21.0
+
+subQuery Result1 16.0   
+
+subSubQuery Result1 
+16.0   11.0   
+subQuery Result1 11.0   
+
+subSubQuery Result1 
+16.0   11.0   
+subQuery Result1 1.0   
+
+subSubQuery Result1 
+1.0   6.0   
+subQuery Result1 6.0   
+
+subSubQuery Result1 
+1.0   6.0   
+subQuery Result1 21.0   
+
+subSubQuery Result1 
+21.0   26.0   
+subQuery Result1 26.0   
+
+subSubQuery Result1 
+21.0   26.0   
+
+Parent result:26.0
+
+subQuery Result1 16.0   
+
+subSubQuery Result1 
+16.0   11.0   
+subQuery Result1 11.0   
+
+subSubQuery Result1 
+16.0   11.0   
+subQuery Result1 1.0   
+
+subSubQuery Result1 
+1.0   6.0   
+subQuery Result1 6.0   
+
+subSubQuery Result1 
+1.0   6.0   
+subQuery Result1 21.0   
+
+subSubQuery Result1 
+21.0   26.0   
+subQuery Result1 26.0   
+
+subSubQuery Result1 
+21.0   26.0   
+
+Parent result:61.0
+
+subQuery Result1 61.0   
+
+subSubQuery Result1 
+61.0   
+subQuery Result1 56.0   
+
+subSubQuery Result1 
+56.0   
+
+Parent result:56.0
+
+subQuery Result1 61.0   
+
+subSubQuery Result1 
+61.0   
+subQuery Result1 56.0   
+
+subSubQuery Result1 
+56.0   
+
+Parent result:46.0
+
+subQuery Result1 46.0   
+
+subSubQuery Result1 
+46.0   
+subQuery Result1 51.0   
+
+subSubQuery Result1 
+51.0   
+
+Parent result:51.0
+
+subQuery Result1 46.0   
+
+subSubQuery Result1 
+46.0   
+subQuery Result1 51.0   
+
+subSubQuery Result1 
+51.0   
+
+Parent result:36.0
+
+subQuery Result1 36.0   
+
+subSubQuery Result1 
+36.0   
+subQuery Result1 31.0   
+
+subSubQuery Result1 
+31.0   
+subQuery Result1 41.0   
+
+subSubQuery Result1 
+41.0   
+
+Parent result:31.0
+
+subQuery Result1 36.0   
+
+subSubQuery Result1 
+36.0   
+subQuery Result1 31.0   
+
+subSubQuery Result1 
+31.0   
+subQuery Result1 41.0   
+
+subSubQuery Result1 
+41.0   
+
+Parent result:41.0
+
+subQuery Result1 36.0   
+
+subSubQuery Result1 
+36.0   
+subQuery Result1 31.0   
+
+subSubQuery Result1 
+31.0   
+subQuery Result1 41.0   
+
+subSubQuery Result1 
+41.0   
+
+Parent result:17.0
+
+subQuery Result1 17.0   
+
+subSubQuery Result1 
+17.0   12.0   
+subQuery Result1 12.0   
+
+subSubQuery Result1 
+17.0   12.0   
+subQuery Result1 2.0   
+
+subSubQuery Result1 
+2.0   7.0   
+subQuery Result1 7.0   
+
+subSubQuery Result1 
+2.0   7.0   
+subQuery Result1 22.0   
+
+subSubQuery Result1 
+22.0   27.0   
+subQuery Result1 27.0   
+
+subSubQuery Result1 
+22.0   27.0   
+
+Parent result:12.0
+
+subQuery Result1 17.0   
+
+subSubQuery Result1 
+17.0   12.0   
+subQuery Result1 12.0   
+
+subSubQuery Result1 
+17.0   12.0   
+subQuery Result1 2.0   
+
+subSubQuery Result1 
+2.0   7.0   
+subQuery Result1 7.0   
+
+subSubQuery Result1 
+2.0   7.0   
+subQuery Result1 22.0   
+
+subSubQuery Result1 
+22.0   27.0   
+subQuery Result1 27.0   
+
+subSubQuery Result1 
+22.0   27.0   
+
+Parent result:2.0
+
+subQuery Result1 17.0   
+
+subSubQuery Result1 
+17.0   12.0   
+subQuery Result1 12.0   
+
+subSubQuery Result1 
+17.0   12.0   
+subQuery Result1 2.0   
+
+subSubQuery Result1 
+2.0   7.0   
+subQuery Result1 7.0   
+
+subSubQuery Result1 
+2.0   7.0   
+subQuery Result1 22.0   
+
+subSubQuery Result1 
+22.0   27.0   
+subQuery Result1 27.0   
+
+subSubQuery Result1 
+22.0   27.0   
+
+Parent result:7.0
+
+subQuery Result1 17.0   
+
+subSubQuery Result1 
+17.0   12.0   
+subQuery Result1 12.0   
+
+subSubQuery Result1 
+17.0   12.0   
+subQuery Result1 2.0   
+
+subSubQuery Result1 
+2.0   7.0   
+subQuery Result1 7.0   
+
+subSubQuery Result1 
+2.0   7.0   
+subQuery Result1 22.0   
+
+subSubQuery Result1 
+22.0   27.0   
+subQuery Result1 27.0   
+
+subSubQuery Result1 
+22.0   27.0   
+
+Parent result:22.0
+
+subQuery Result1 17.0   
+
+subSubQuery Result1 
+17.0   12.0   
+subQuery Result1 12.0   
+
+subSubQuery Result1 
+17.0   12.0   
+subQuery Result1 2.0   
+
+subSubQuery Result1 
+2.0   7.0   
+subQuery Result1 7.0   
+
+subSubQuery Result1 
+2.0   7.0   
+subQuery Result1 22.0   
+
+subSubQuery Result1 
+22.0   27.0   
+subQuery Result1 27.0   
+
+subSubQuery Result1 
+22.0   27.0   
+
+Parent result:27.0
+
+subQuery Result1 17.0   
+
+subSubQuery Result1 
+17.0   12.0   
+subQuery Result1 12.0   
+
+subSubQuery Result1 
+17.0   12.0   
+subQuery Result1 2.0   
+
+subSubQuery Result1 
+2.0   7.0   
+subQuery Result1 7.0   
+
+subSubQuery Result1 
+2.0   7.0   
+subQuery Result1 22.0   
+
+subSubQuery Result1 
+22.0   27.0   
+subQuery Result1 27.0   
+
+subSubQuery Result1 
+22.0   27.0   
+
+Parent result:62.0
+
+subQuery Result1 62.0   
+
+subSubQuery Result1 
+62.0   
+subQuery Result1 57.0   
+
+subSubQuery Result1 
+57.0   
+
+Parent result:57.0
+
+subQuery Result1 62.0   
+
+subSubQuery Result1 
+62.0   
+subQuery Result1 57.0   
+
+subSubQuery Result1 
+57.0   
+
+Parent result:47.0
+
+subQuery Result1 47.0   
+
+subSubQuery Result1 
+47.0   
+subQuery Result1 52.0   
+
+subSubQuery Result1 
+52.0   
+
+Parent result:52.0
+
+subQuery Result1 47.0   
+
+subSubQuery Result1 
+47.0   
+subQuery Result1 52.0   
+
+subSubQuery Result1 
+52.0   
+
+Parent result:37.0
+
+subQuery Result1 37.0   
+
+subSubQuery Result1 
+37.0   
+subQuery Result1 32.0   
+
+subSubQuery Result1 
+32.0   
+subQuery Result1 42.0   
+
+subSubQuery Result1 
+42.0   
+
+Parent result:32.0
+
+subQuery Result1 37.0   
+
+subSubQuery Result1 
+37.0   
+subQuery Result1 32.0   
+
+subSubQuery Result1 
+32.0   
+subQuery Result1 42.0   
+
+subSubQuery Result1 
+42.0   
+
+Parent result:42.0
+
+subQuery Result1 37.0   
+
+subSubQuery Result1 
+37.0   
+subQuery Result1 32.0   
+
+subSubQuery Result1 
+32.0   
+subQuery Result1 42.0   
+
+subSubQuery Result1 
+42.0   
+
+Parent result:18.0
+
+subQuery Result1 18.0   
+
+subSubQuery Result1 
+18.0   13.0   
+subQuery Result1 13.0   
+
+subSubQuery Result1 
+18.0   13.0   
+subQuery Result1 3.0   
+
+subSubQuery Result1 
+3.0   8.0   
+subQuery Result1 8.0   
+
+subSubQuery Result1 
+3.0   8.0   
+subQuery Result1 23.0   
+
+subSubQuery Result1 
+23.0   28.0   
+subQuery Result1 28.0   
+
+subSubQuery Result1 
+23.0   28.0   
+
+Parent result:13.0
+
+subQuery Result1 18.0   
+
+subSubQuery Result1 
+18.0   13.0   
+subQuery Result1 13.0   
+
+subSubQuery Result1 
+18.0   13.0   
+subQuery Result1 3.0   
+
+subSubQuery Result1 
+3.0   8.0   
+subQuery Result1 8.0   
+
+subSubQuery Result1 
+3.0   8.0   
+subQuery Result1 23.0   
+
+subSubQuery Result1 
+23.0   28.0   
+subQuery Result1 28.0   
+
+subSubQuery Result1 
+23.0   28.0   
+
+Parent result:3.0
+
+subQuery Result1 18.0   
+
+subSubQuery Result1 
+18.0   13.0   
+subQuery Result1 13.0   
+
+subSubQuery Result1 
+18.0   13.0   
+subQuery Result1 3.0   
+
+subSubQuery Result1 
+3.0   8.0   
+subQuery Result1 8.0   
+
+subSubQuery Result1 
+3.0   8.0   
+subQuery Result1 23.0   
+
+subSubQuery Result1 
+23.0   28.0   
+subQuery Result1 28.0   
+
+subSubQuery Result1 
+23.0   28.0   
+
+Parent result:8.0
+
+subQuery Result1 18.0   
+
+subSubQuery Result1 
+18.0   13.0   
+subQuery Result1 13.0   
+
+subSubQuery Result1 
+18.0   13.0   
+subQuery Result1 3.0   
+
+subSubQuery Result1 
+3.0   8.0   
+subQuery Result1 8.0   
+
+subSubQuery Result1 
+3.0   8.0   
+subQuery Result1 23.0   
+
+subSubQuery Result1 
+23.0   28.0   
+subQuery Result1 28.0   
+
+subSubQuery Result1 
+23.0   28.0   
+
+Parent result:23.0
+
+subQuery Result1 18.0   
+
+subSubQuery Result1 
+18.0   13.0   
+subQuery Result1 13.0   
+
+subSubQuery Result1 
+18.0   13.0   
+subQuery Result1 3.0   
+
+subSubQuery Result1 
+3.0   8.0   
+subQuery Result1 8.0   
+
+subSubQuery Result1 
+3.0   8.0   
+subQuery Result1 23.0   
+
+subSubQuery Result1 
+23.0   28.0   
+subQuery Result1 28.0   
+
+subSubQuery Result1 
+23.0   28.0   
+
+Parent result:28.0
+
+subQuery Result1 18.0   
+
+subSubQuery Result1 
+18.0   13.0   
+subQuery Result1 13.0   
+
+subSubQuery Result1 
+18.0   13.0   
+subQuery Result1 3.0   
+
+subSubQuery Result1 
+3.0   8.0   
+subQuery Result1 8.0   
+
+subSubQuery Result1 
+3.0   8.0   
+subQuery Result1 23.0   
+
+subSubQuery Result1 
+23.0   28.0   
+subQuery Result1 28.0   
+
+subSubQuery Result1 
+23.0   28.0   
+
+Parent result:63.0
+
+subQuery Result1 63.0   
+
+subSubQuery Result1 
+63.0   
+subQuery Result1 58.0   
+
+subSubQuery Result1 
+58.0   
+
+Parent result:58.0
+
+subQuery Result1 63.0   
+
+subSubQuery Result1 
+63.0   
+subQuery Result1 58.0   
+
+subSubQuery Result1 
+58.0   
+
+Parent result:48.0
+
+subQuery Result1 48.0   
+
+subSubQuery Result1 
+48.0   
+subQuery Result1 53.0   
+
+subSubQuery Result1 
+53.0   
+
+Parent result:53.0
+
+subQuery Result1 48.0   
+
+subSubQuery Result1 
+48.0   
+subQuery Result1 53.0   
+
+subSubQuery Result1 
+53.0   
+
+Parent result:38.0
+
+subQuery Result1 38.0   
+
+subSubQuery Result1 
+38.0   
+subQuery Result1 33.0   
+
+subSubQuery Result1 
+33.0   
+subQuery Result1 43.0   
+
+subSubQuery Result1 
+43.0   
+
+Parent result:33.0
+
+subQuery Result1 38.0   
+
+subSubQuery Result1 
+38.0   
+subQuery Result1 33.0   
+
+subSubQuery Result1 
+33.0   
+subQuery Result1 43.0   
+
+subSubQuery Result1 
+43.0   
+
+Parent result:43.0
+
+subQuery Result1 38.0   
+
+subSubQuery Result1 
+38.0   
+subQuery Result1 33.0   
+
+subSubQuery Result1 
+33.0   
+subQuery Result1 43.0   
+
+subSubQuery Result1 
+43.0   
+
+Parent result:19.0
+
+subQuery Result1 19.0   
+
+subSubQuery Result1 
+19.0   14.0   
+subQuery Result1 14.0   
+
+subSubQuery Result1 
+19.0   14.0   
+subQuery Result1 4.0   
+
+subSubQuery Result1 
+4.0   9.0   
+subQuery Result1 9.0   
+
+subSubQuery Result1 
+4.0   9.0   
+subQuery Result1 24.0   
+
+subSubQuery Result1 
+24.0   29.0   
+subQuery Result1 29.0   
+
+subSubQuery Result1 
+24.0   29.0   
+
+Parent result:14.0
+
+subQuery Result1 19.0   
+
+subSubQuery Result1 
+19.0   14.0   
+subQuery Result1 14.0   
+
+subSubQuery Result1 
+19.0   14.0   
+subQuery Result1 4.0   
+
+subSubQuery Result1 
+4.0   9.0   
+subQuery Result1 9.0   
+
+subSubQuery Result1 
+4.0   9.0   
+subQuery Result1 24.0   
+
+subSubQuery Result1 
+24.0   29.0   
+subQuery Result1 29.0   
+
+subSubQuery Result1 
+24.0   29.0   
+
+Parent result:4.0
+
+subQuery Result1 19.0   
+
+subSubQuery Result1 
+19.0   14.0   
+subQuery Result1 14.0   
+
+subSubQuery Result1 
+19.0   14.0   
+subQuery Result1 4.0   
+
+subSubQuery Result1 
+4.0   9.0   
+subQuery Result1 9.0   
+
+subSubQuery Result1 
+4.0   9.0   
+subQuery Result1 24.0   
+
+subSubQuery Result1 
+24.0   29.0   
+subQuery Result1 29.0   
+
+subSubQuery Result1 
+24.0   29.0   
+
+Parent result:9.0
+
+subQuery Result1 19.0   
+
+subSubQuery Result1 
+19.0   14.0   
+subQuery Result1 14.0   
+
+subSubQuery Result1 
+19.0   14.0   
+subQuery Result1 4.0   
+
+subSubQuery Result1 
+4.0   9.0   
+subQuery Result1 9.0   
+
+subSubQuery Result1 
+4.0   9.0   
+subQuery Result1 24.0   
+
+subSubQuery Result1 
+24.0   29.0   
+subQuery Result1 29.0   
+
+subSubQuery Result1 
+24.0   29.0   
+
+Parent result:24.0
+
+subQuery Result1 19.0   
+
+subSubQuery Result1 
+19.0   14.0   
+subQuery Result1 14.0   
+
+subSubQuery Result1 
+19.0   14.0   
+subQuery Result1 4.0   
+
+subSubQuery Result1 
+4.0   9.0   
+subQuery Result1 9.0   
+
+subSubQuery Result1 
+4.0   9.0   
+subQuery Result1 24.0   
+
+subSubQuery Result1 
+24.0   29.0   
+subQuery Result1 29.0   
+
+subSubQuery Result1 
+24.0   29.0   
+
+Parent result:29.0
+
+subQuery Result1 19.0   
+
+subSubQuery Result1 
+19.0   14.0   
+subQuery Result1 14.0   
+
+subSubQuery Result1 
+19.0   14.0   
+subQuery Result1 4.0   
+
+subSubQuery Result1 
+4.0   9.0   
+subQuery Result1 9.0   
+
+subSubQuery Result1 
+4.0   9.0   
+subQuery Result1 24.0   
+
+subSubQuery Result1 
+24.0   29.0   
+subQuery Result1 29.0   
+
+subSubQuery Result1 
+24.0   29.0   
+
+Parent result:65.0
+
+subQuery Result1 65.0   
+
+subSubQuery Result1 
+65.0   
+subQuery Result1 59.0   
+
+subSubQuery Result1 
+59.0   
+
+Parent result:59.0
+
+subQuery Result1 65.0   
+
+subSubQuery Result1 
+65.0   
+subQuery Result1 59.0   
+
+subSubQuery Result1 
+59.0   
+
+Parent result:49.0
+
+subQuery Result1 49.0   
+
+subSubQuery Result1 
+49.0   
+subQuery Result1 54.0   
+
+subSubQuery Result1 
+54.0   
+
+Parent result:54.0
+
+subQuery Result1 49.0   
+
+subSubQuery Result1 
+49.0   
+subQuery Result1 54.0   
+
+subSubQuery Result1 
+54.0   
+
+Parent result:39.0
+
+subQuery Result1 39.0   
+
+subSubQuery Result1 
+39.0   
+subQuery Result1 34.0   
+
+subSubQuery Result1 
+34.0   
+subQuery Result1 44.0   
+
+subSubQuery Result1 
+44.0   
+
+Parent result:34.0
+
+subQuery Result1 39.0   
+
+subSubQuery Result1 
+39.0   
+subQuery Result1 34.0   
+
+subSubQuery Result1 
+34.0   
+subQuery Result1 44.0   
+
+subSubQuery Result1 
+44.0   
+
+Parent result:44.0
+
+subQuery Result1 39.0   
+
+subSubQuery Result1 
+39.0   
+subQuery Result1 34.0   
+
+subSubQuery Result1 
+34.0   
+subQuery Result1 44.0   
+
+subSubQuery Result1 
+44.0   
+
+Parent result:20.0
+
+subQuery Result1 20.0   
+
+subSubQuery Result1 
+20.0   15.0   
+subQuery Result1 15.0   
+
+subSubQuery Result1 
+20.0   15.0   
+subQuery Result1 5.0   
+
+subSubQuery Result1 
+5.0   10.0   
+subQuery Result1 10.0   
+
+subSubQuery Result1 
+5.0   10.0   
+subQuery Result1 25.0   
+
+subSubQuery Result1 
+25.0   30.0   
+subQuery Result1 30.0   
+
+subSubQuery Result1 
+25.0   30.0   
+
+Parent result:15.0
+
+subQuery Result1 20.0   
+
+subSubQuery Result1 
+20.0   15.0   
+subQuery Result1 15.0   
+
+subSubQuery Result1 
+20.0   15.0   
+subQuery Result1 5.0   
+
+subSubQuery Result1 
+5.0   10.0   
+subQuery Result1 10.0   
+
+subSubQuery Result1 
+5.0   10.0   
+subQuery Result1 25.0   
+
+subSubQuery Result1 
+25.0   30.0   
+subQuery Result1 30.0   
+
+subSubQuery Result1 
+25.0   30.0   
+
+Parent result:5.0
+
+subQuery Result1 20.0   
+
+subSubQuery Result1 
+20.0   15.0   
+subQuery Result1 15.0   
+
+subSubQuery Result1 
+20.0   15.0   
+subQuery Result1 5.0   
+
+subSubQuery Result1 
+5.0   10.0   
+subQuery Result1 10.0   
+
+subSubQuery Result1 
+5.0   10.0   
+subQuery Result1 25.0   
+
+subSubQuery Result1 
+25.0   30.0   
+subQuery Result1 30.0   
+
+subSubQuery Result1 
+25.0   30.0   
+
+Parent result:10.0
+
+subQuery Result1 20.0   
+
+subSubQuery Result1 
+20.0   15.0   
+subQuery Result1 15.0   
+
+subSubQuery Result1 
+20.0   15.0   
+subQuery Result1 5.0   
+
+subSubQuery Result1 
+5.0   10.0   
+subQuery Result1 10.0   
+
+subSubQuery Result1 
+5.0   10.0   
+subQuery Result1 25.0   
+
+subSubQuery Result1 
+25.0   30.0   
+subQuery Result1 30.0   
+
+subSubQuery Result1 
+25.0   30.0   
+
+Parent result:25.0
+
+subQuery Result1 20.0   
+
+subSubQuery Result1 
+20.0   15.0   
+subQuery Result1 15.0   
+
+subSubQuery Result1 
+20.0   15.0   
+subQuery Result1 5.0   
+
+subSubQuery Result1 
+5.0   10.0   
+subQuery Result1 10.0   
+
+subSubQuery Result1 
+5.0   10.0   
+subQuery Result1 25.0   
+
+subSubQuery Result1 
+25.0   30.0   
+subQuery Result1 30.0   
+
+subSubQuery Result1 
+25.0   30.0   
+
+Parent result:30.0
+
+subQuery Result1 20.0   
+
+subSubQuery Result1 
+20.0   15.0   
+subQuery Result1 15.0   
+
+subSubQuery Result1 
+20.0   15.0   
+subQuery Result1 5.0   
+
+subSubQuery Result1 
+5.0   10.0   
+subQuery Result1 10.0   
+
+subSubQuery Result1 
+5.0   10.0   
+subQuery Result1 25.0   
+
+subSubQuery Result1 
+25.0   30.0   
+subQuery Result1 30.0   
+
+subSubQuery Result1 
+25.0   30.0   
+
+Parent result:65.0
+
+subQuery Result1 65.0   
+
+subSubQuery Result1 
+65.0   
+subQuery Result1 60.0   
+
+subSubQuery Result1 
+60.0   
+
+Parent result:60.0
+
+subQuery Result1 65.0   
+
+subSubQuery Result1 
+65.0   
+subQuery Result1 60.0   
+
+subSubQuery Result1 
+60.0   
+
+Parent result:50.0
+
+subQuery Result1 50.0   
+
+subSubQuery Result1 
+50.0   
+subQuery Result1 55.0   
+
+subSubQuery Result1 
+55.0   
+
+Parent result:55.0
+
+subQuery Result1 50.0   
+
+subSubQuery Result1 
+50.0   
+subQuery Result1 55.0   
+
+subSubQuery Result1 
+55.0   
+
+Parent result:40.0
+
+subQuery Result1 40.0   
+
+subSubQuery Result1 
+40.0   
+subQuery Result1 35.0   
+
+subSubQuery Result1 
+35.0   
+subQuery Result1 45.0   
+
+subSubQuery Result1 
+45.0   
+
+Parent result:35.0
+
+subQuery Result1 40.0   
+
+subSubQuery Result1 
+40.0   
+subQuery Result1 35.0   
+
+subSubQuery Result1 
+35.0   
+subQuery Result1 45.0   
+
+subSubQuery Result1 
+45.0   
+
+Parent result:45.0
+
+subQuery Result1 40.0   
+
+subSubQuery Result1 
+40.0   
+subQuery Result1 35.0   
+
+subSubQuery Result1 
+35.0   
+subQuery Result1 45.0   
+
+subSubQuery Result1 
+45.0   

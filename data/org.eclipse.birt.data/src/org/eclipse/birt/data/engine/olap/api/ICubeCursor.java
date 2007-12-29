@@ -42,6 +42,6 @@ public interface ICubeCursor extends CubeCursor
 	 * @throws DataException
 	 */
 	public ICubeCursor getSubCubeCursor( String startingColumnLevel,
-			String startingRowLevel, String stargingPageLevel )
+			String startingRowLevel, String startingPageLevel, Scriptable subScope )
 			throws DataException;
 }

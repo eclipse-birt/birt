@@ -1,0 +1,240 @@
+edgePosition is 0
+country edge start at 0
+country edge end at 7
+city edge start at 0
+city edge end at 2
+street edge start at 0
+street edge end at 1
+time edge start at 0
+time edge end at 0
+
+edgePosition is 1
+country edge start at 0
+country edge end at 7
+city edge start at 0
+city edge end at 2
+street edge start at 0
+street edge end at 1
+time edge start at 1
+time edge end at 1
+
+edgePosition is 2
+country edge start at 0
+country edge end at 7
+city edge start at 0
+city edge end at 2
+street edge start at 2
+street edge end at 2
+time edge start at 2
+time edge end at 2
+
+edgePosition is 3
+country edge start at 0
+country edge end at 7
+city edge start at 3
+city edge end at 3
+street edge start at 3
+street edge end at 3
+time edge start at 3
+time edge end at 3
+
+edgePosition is 4
+country edge start at 0
+country edge end at 7
+city edge start at 4
+city edge end at 6
+street edge start at 4
+street edge end at 6
+time edge start at 4
+time edge end at 4
+
+edgePosition is 5
+country edge start at 0
+country edge end at 7
+city edge start at 4
+city edge end at 6
+street edge start at 4
+street edge end at 6
+time edge start at 5
+time edge end at 5
+
+edgePosition is 6
+country edge start at 0
+country edge end at 7
+city edge start at 4
+city edge end at 6
+street edge start at 4
+street edge end at 6
+time edge start at 6
+time edge end at 6
+
+edgePosition is 7
+country edge start at 0
+country edge end at 7
+city edge start at 7
+city edge end at 7
+street edge start at 7
+street edge end at 7
+time edge start at 7
+time edge end at 7
+
+edgePosition is 8
+country edge start at 8
+country edge end at 11
+city edge start at 8
+city edge end at 10
+street edge start at 8
+street edge end at 10
+time edge start at 8
+time edge end at 8
+
+edgePosition is 9
+country edge start at 8
+country edge end at 11
+city edge start at 8
+city edge end at 10
+street edge start at 8
+street edge end at 10
+time edge start at 9
+time edge end at 9
+
+edgePosition is 10
+country edge start at 8
+country edge end at 11
+city edge start at 8
+city edge end at 10
+street edge start at 8
+street edge end at 10
+time edge start at 10
+time edge end at 10
+
+edgePosition is 11
+country edge start at 8
+country edge end at 11
+city edge start at 11
+city edge end at 11
+street edge start at 11
+street edge end at 11
+time edge start at 11
+time edge end at 11
+
+edgePosition is 12
+country edge start at 12
+country edge end at 14
+city edge start at 12
+city edge end at 13
+street edge start at 12
+street edge end at 12
+time edge start at 12
+time edge end at 12
+
+edgePosition is 13
+country edge start at 12
+country edge end at 14
+city edge start at 12
+city edge end at 13
+street edge start at 13
+street edge end at 13
+time edge start at 13
+time edge end at 13
+
+edgePosition is 14
+country edge start at 12
+country edge end at 14
+city edge start at 14
+city edge end at 14
+street edge start at 14
+street edge end at 14
+time edge start at 14
+time edge end at 14
+
+edgePosition is 15
+country edge start at 15
+country edge end at 23
+city edge start at 15
+city edge end at 19
+street edge start at 15
+street edge end at 15
+time edge start at 15
+time edge end at 15
+
+edgePosition is 16
+country edge start at 15
+country edge end at 23
+city edge start at 15
+city edge end at 19
+street edge start at 16
+street edge end at 16
+time edge start at 16
+time edge end at 16
+
+edgePosition is 17
+country edge start at 15
+country edge end at 23
+city edge start at 15
+city edge end at 19
+street edge start at 17
+street edge end at 19
+time edge start at 17
+time edge end at 17
+
+edgePosition is 18
+country edge start at 15
+country edge end at 23
+city edge start at 15
+city edge end at 19
+street edge start at 17
+street edge end at 19
+time edge start at 18
+time edge end at 18
+
+edgePosition is 19
+country edge start at 15
+country edge end at 23
+city edge start at 15
+city edge end at 19
+street edge start at 17
+street edge end at 19
+time edge start at 19
+time edge end at 19
+
+edgePosition is 20
+country edge start at 15
+country edge end at 23
+city edge start at 20
+city edge end at 22
+street edge start at 20
+street edge end at 22
+time edge start at 20
+time edge end at 20
+
+edgePosition is 21
+country edge start at 15
+country edge end at 23
+city edge start at 20
+city edge end at 22
+street edge start at 20
+street edge end at 22
+time edge start at 21
+time edge end at 21
+
+edgePosition is 22
+country edge start at 15
+country edge end at 23
+city edge start at 20
+city edge end at 22
+street edge start at 20
+street edge end at 22
+time edge start at 22
+time edge end at 22
+
+edgePosition is 23
+country edge start at 15
+country edge end at 23
+city edge start at 23
+city edge end at 23
+street edge start at 23
+street edge end at 23
+time edge start at 23
+time edge end at 23
+

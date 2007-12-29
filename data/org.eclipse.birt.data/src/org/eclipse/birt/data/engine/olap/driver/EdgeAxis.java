@@ -17,7 +17,9 @@ import java.util.List;
 
 import javax.olap.OLAPException;
 
-import org.eclipse.birt.data.engine.olap.cursor.EdgeInfoGenerator;
+import org.eclipse.birt.data.engine.olap.cursor.RowDataAccessor;
+import org.eclipse.birt.data.engine.olap.cursor.RowDataAccessorService;
+import org.eclipse.birt.data.engine.olap.cursor.SubRowDataAccessor;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortDefinition;
@@ -33,7 +35,7 @@ public class EdgeAxis
 
 	private DimensionAxis[] dimensionAxis;
 	private IAggregationResultSet rs;
-	private EdgeInfoGenerator edgeInfoUtil;
+	private RowDataAccessor dataAccessor;
 	private List sortList = null;
 	private boolean isPage = false;
 
@@ -61,11 +63,43 @@ public class EdgeAxis
 	public EdgeAxis( IAggregationResultSet resultSet, BirtEdgeView view,
 			List sortList, boolean isPage ) throws IOException
 	{
-		this.dimensionAxis = null;
 		this.rs = resultSet;
 		this.sortList = sortList;
 		this.isPage = isPage;
 		populateDimensionAxis( resultSet, view );
+		RowDataAccessorService service = new RowDataAccessorService( rs, isPage,
+				dimensionAxis,  view.getMirrorStartingLevel( ) );
+		this.dataAccessor = new RowDataAccessor( service );
+
+		for ( int i = 0; i < this.dimensionAxis.length; i++ )
+		{
+			this.dimensionAxis[i].setEdgeInfo( dataAccessor );
+		}
+	}
+	
+	/**
+	 * 
+	 * @param parent
+	 * @param view
+	 * @param sortList
+	 * @param isPage
+	 * @param startingLevelIndex
+	 * @throws IOException
+	 */
+	public EdgeAxis( RowDataAccessor parent, BirtEdgeView view,
+			List sortList, boolean isPage, int startingLevelIndex ) throws IOException
+	{
+		this( parent.getDataAccessorService( ).getAggregationResultSet( ),
+				view,
+				sortList,
+				isPage );
+		this.dataAccessor = new SubRowDataAccessor( parent.getDataAccessorService( ),
+				parent,
+				startingLevelIndex );
+		for( int i=0 ; i< this.dimensionAxis.length; i++ )
+		{
+			this.dimensionAxis[i].setEdgeInfo( dataAccessor );
+		}
 	}
 
 	/**
@@ -132,13 +166,6 @@ public class EdgeAxis
 		{
 			this.dimensionAxis[i] = (DimensionAxis) dimensionAxisList.get( i );
 		}
-
-		edgeInfoUtil = new EdgeInfoGenerator( rs, this.dimensionAxis, view.getMirrorStartingLevel( ) );
-
-		for ( int i = 0; i < this.dimensionAxis.length; i++ )
-		{
-			this.dimensionAxis[i].setEdgeInfo( edgeInfoUtil );
-		}
 	}
 	
 	/**
@@ -150,10 +177,10 @@ public class EdgeAxis
 	 */
 	public void populateEdgeInfo( ) throws OLAPException
 	{
-		if ( this.edgeInfoUtil != null )
+		if ( this.dataAccessor != null )
 			try
 			{
-				this.edgeInfoUtil.populateEdgeInfo( isPage );
+				this.dataAccessor.populateEdgeInfo( isPage );
 			}
 			catch ( IOException e )
 			{
@@ -189,9 +216,9 @@ public class EdgeAxis
 	 * 
 	 * @return
 	 */
-	public EdgeInfoGenerator getEdgeInfo( )
+	public RowDataAccessor getRowDataAccessor( )
 	{
-		return this.edgeInfoUtil;
+		return this.dataAccessor;
 	}
 
 	/**
@@ -221,13 +248,4 @@ public class EdgeAxis
 	{
 		return rs;
 	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public EdgeInfoGenerator getEdgeInfoUtil( )
-	{
-		return this.edgeInfoUtil;
-	}	
 }

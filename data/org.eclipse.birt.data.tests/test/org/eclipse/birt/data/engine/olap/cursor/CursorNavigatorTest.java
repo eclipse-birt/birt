@@ -10,12 +10,12 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.cursor;
 
+import java.io.IOException;
+
 import javax.olap.OLAPException;
 import javax.olap.cursor.CubeCursor;
 import javax.olap.cursor.DimensionCursor;
 import javax.olap.cursor.EdgeCursor;
-
-import junit.framework.TestCase;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
@@ -24,6 +24,7 @@ import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -32,8 +33,10 @@ import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
 import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.Scriptable;
 
+import testutil.BaseTestCase;
 
-public class CursorNavigatorTest extends TestCase
+
+public class CursorNavigatorTest extends BaseTestCase
 {
 	private Scriptable scope;
 	private DataEngineImpl de;
@@ -179,11 +182,11 @@ public class CursorNavigatorTest extends TestCase
 		//------------------------------dimensionCursor setPosition()--------------
 		columnCursor.beforeFirst( );
 		columnCursor.setPosition( 4 );
-		streetCursor.setPosition( 1 );
+		timeCursor.setPosition( 1 );
 		assertTrue( countryCursor.getObject( "level11" ).equals( "CN" ) );
 		assertTrue( cityCursor.getObject( "level12" ).equals( "SH" ) );
 		assertTrue( streetCursor.getObject( "level13" ).equals( "A1" ) );
-		assertTrue( timeCursor.getObject( "level14" ).equals( "1998" ) );
+		assertTrue( timeCursor.getObject( "level14" ).equals( "2000" ) );
 
 		//------------------------------dimensionCursor next()--------------
 		columnCursor.beforeFirst( );
@@ -262,6 +265,69 @@ public class CursorNavigatorTest extends TestCase
 		columnCursor.setPosition( 24 );
 		assertTrue( countryCursor.getEdgeStart( ) == -1 );
 		assertTrue( countryCursor.getEdgeEnd( ) == -1 );
+		close( dataCursor );
+	}
+	
+	public void testNavigator( ) throws DataException, OLAPException, IOException
+	{
+		ICubeQueryDefinition cqd = creator.createQueryDefinition( );
+
+		IBinding rowGrandTotal = new Binding( "rowGrandTotal" );
+		rowGrandTotal.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		rowGrandTotal.setExpression( new ScriptExpression("measure[\"measure1\"]") );
+		rowGrandTotal.addAggregateOn( "dimension[\"dimension5\"][\"level21\"]" );
+		rowGrandTotal.addAggregateOn( "dimension[\"dimension6\"][\"level22\"]" );
+
+		IBinding columnGrandTotal = new Binding( "columnGrandTotal" );
+		columnGrandTotal.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		columnGrandTotal.setExpression( new ScriptExpression("measure[\"measure1\"]") );
+		columnGrandTotal.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+		columnGrandTotal.addAggregateOn( "dimension[\"dimension2\"][\"level12\"]" );
+		columnGrandTotal.addAggregateOn( "dimension[\"dimension3\"][\"level13\"]" );
+		columnGrandTotal.addAggregateOn( "dimension[\"dimension4\"][\"level14\"]" );		
+
+		cqd.addBinding( rowGrandTotal );
+		cqd.addBinding( columnGrandTotal );
+
+		// Create cube view.
+		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,de.getSession( ),this.scope,de.getContext( )) );
+
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) );
+
+		// retrieve the edge cursors
+		// EdgeCursor pageCursor = cubeView.getMeasureEdgeView( );
+		EdgeCursor rowCursor = cubeView.getRowEdgeView( ).getEdgeCursor( );
+		EdgeCursor columnCursor = cubeView.getColumnEdgeView( ).getEdgeCursor( );
+
+		DimensionCursor countryCursor = (DimensionCursor) columnCursor.getDimensionCursor( )
+				.get( 0 );
+		DimensionCursor cityCursor = (DimensionCursor) columnCursor.getDimensionCursor( )
+				.get( 1 );
+		DimensionCursor streetCursor = (DimensionCursor) columnCursor.getDimensionCursor( )
+				.get( 2 );
+		DimensionCursor timeCursor = (DimensionCursor) columnCursor.getDimensionCursor( )
+				.get( 3 );
+		
+		columnCursor.beforeFirst( );
+		String out ="";
+		while ( columnCursor.next( ) )
+		{
+			out += "edgePosition is " + columnCursor.getPosition( ) + "\n";
+			out += "country edge start at " +
+					countryCursor.getEdgeStart( ) + "\n";
+			out += "country edge end at " + countryCursor.getEdgeEnd( ) + "\n";
+			out += "city edge start at " + cityCursor.getEdgeStart( ) + "\n";
+			out += "city edge end at " + cityCursor.getEdgeEnd( ) + "\n";
+			out += "street edge start at " +
+					streetCursor.getEdgeStart( ) + "\n";
+			out += "street edge end at " + streetCursor.getEdgeEnd( ) + "\n";
+			out += "time edge start at " + timeCursor.getEdgeStart( ) + "\n";
+			out += "time edge end at " + timeCursor.getEdgeEnd( ) + "\n";
+			out += "\n";
+		}
+		System.out.print( out );
+		testOut.print( out );
+		checkOutputFile( );
 		close( dataCursor );
 	}
 	

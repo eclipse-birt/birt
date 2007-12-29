@@ -32,14 +32,14 @@ import org.eclipse.birt.data.engine.olap.driver.EdgeAxis;
 class EdgeNavigator implements INavigator
 {
 
-	private EdgeInfoGenerator edgeInfoGenerator;
+	private RowDataAccessor dataAccessor;
 	private IAggregationResultSet rs;
 	private int fetchSize = -1;
 	private List warnings;
 
 	EdgeNavigator( EdgeAxis axis )
 	{
-		this.edgeInfoGenerator = axis.getEdgeInfoUtil( );
+		this.dataAccessor = axis.getRowDataAccessor( );
 		this.rs = axis.getQueryResultSet( );
 	}
 
@@ -48,7 +48,7 @@ class EdgeNavigator implements INavigator
 	 */
 	public void afterLast( ) throws OLAPException
 	{
-		edgeInfoGenerator.edge_afterLast( );
+		dataAccessor.edge_afterLast( );
 	}
 
 	/*
@@ -56,7 +56,7 @@ class EdgeNavigator implements INavigator
 	 */
 	public void beforeFirst( ) throws OLAPException
 	{
-		edgeInfoGenerator.edge_beforeFirst( );
+		dataAccessor.edge_beforeFirst( );
 	}
 
 	/*
@@ -79,7 +79,7 @@ class EdgeNavigator implements INavigator
 	 */
 	public boolean first( ) throws OLAPException
 	{
-		return edgeInfoGenerator.edge_first( );
+		return dataAccessor.edge_first( );
 	}
 
 	/*
@@ -95,7 +95,7 @@ class EdgeNavigator implements INavigator
 	 */
 	public long getPosition( ) throws OLAPException
 	{
-		return edgeInfoGenerator.getEdgePostion( );
+		return dataAccessor.getEdgePostion( );
 	}
 
 	/*
@@ -111,7 +111,7 @@ class EdgeNavigator implements INavigator
 	 */
 	public boolean isAfterLast( ) throws OLAPException
 	{
-		return this.edgeInfoGenerator.edge_isAfterLast( );
+		return this.dataAccessor.edge_isAfterLast( );
 	}
 
 	/*
@@ -119,7 +119,7 @@ class EdgeNavigator implements INavigator
 	 */
 	public boolean isBeforeFirst( )
 	{
-		return this.edgeInfoGenerator.edge_isBeforeFirst( );
+		return this.dataAccessor.edge_isBeforeFirst( );
 	}
 
 	/*
@@ -127,7 +127,7 @@ class EdgeNavigator implements INavigator
 	 */
 	public boolean isFirst( ) throws OLAPException
 	{
-		return this.edgeInfoGenerator.edge_isFirst( );
+		return this.dataAccessor.edge_isFirst( );
 	}
 
 	/*
@@ -135,7 +135,7 @@ class EdgeNavigator implements INavigator
 	 */
 	public boolean isLast( ) throws OLAPException
 	{
-		return this.edgeInfoGenerator.edge_isLast( );
+		return this.dataAccessor.edge_isLast( );
 	}
 
 	/*
@@ -143,7 +143,7 @@ class EdgeNavigator implements INavigator
 	 */
 	public boolean last( ) throws OLAPException
 	{
-		return this.edgeInfoGenerator.edge_last( );
+		return this.dataAccessor.edge_last( );
 	}
 
 	/*
@@ -151,7 +151,7 @@ class EdgeNavigator implements INavigator
 	 */
 	public boolean next( ) throws OLAPException
 	{
-		return this.edgeInfoGenerator.edge_next( );
+		return this.dataAccessor.edge_next( );
 	}
 
 	/*
@@ -159,7 +159,7 @@ class EdgeNavigator implements INavigator
 	 */
 	public boolean previous( ) throws OLAPException
 	{
-		return this.edgeInfoGenerator.edge_previous( );
+		return this.dataAccessor.edge_previous( );
 	}
 
 	/*
@@ -167,7 +167,7 @@ class EdgeNavigator implements INavigator
 	 */
 	public boolean relative( int arg0 ) throws OLAPException
 	{
-		return this.edgeInfoGenerator.edge_relative( arg0 );
+		return this.dataAccessor.edge_relative( arg0 );
 	}
 
 	/*
@@ -175,7 +175,7 @@ class EdgeNavigator implements INavigator
 	 */
 	public void setPosition( long position ) throws OLAPException
 	{
-		this.edgeInfoGenerator.edge_setPostion( position );
+		this.dataAccessor.edge_setPostion( position );
 	}
 
 	/*
@@ -201,7 +201,7 @@ class EdgeNavigator implements INavigator
 	public void setFetchSize( int arg0 ) throws OLAPException
 	{
 		this.fetchSize = arg0;
-		this.edgeInfoGenerator.setFetchSize( arg0 );
+		this.dataAccessor.setFetchSize( arg0 );
 		if ( this.fetchSize >= 0 && this.fetchSize != this.rs.length( ) )
 		{
 			if ( warnings == null )

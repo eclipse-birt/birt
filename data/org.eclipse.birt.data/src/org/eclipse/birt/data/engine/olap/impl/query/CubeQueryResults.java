@@ -22,6 +22,7 @@ import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.StopSign;
+import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
 import org.eclipse.birt.data.engine.olap.script.JSLevelAccessor;
@@ -44,7 +45,7 @@ public class CubeQueryResults implements ICubeQueryResults
 	private Map appContext;
 	private StopSign stopSign;
 	private IBaseQueryResults outResults;
-	private CubeCursor cubeCursor;
+	private ICubeCursor cubeCursor;
 	
 	/**
 	 * 
@@ -67,7 +68,7 @@ public class CubeQueryResults implements ICubeQueryResults
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.olap.api.ICubeQueryResults#getCubeCursor()
 	 */
-	public CubeCursor getCubeCursor( ) throws DataException
+	public ICubeCursor getCubeCursor( ) throws DataException
 	{
 		if ( this.cubeCursor != null )
 			return this.cubeCursor;
@@ -92,9 +93,11 @@ public class CubeQueryResults implements ICubeQueryResults
 					new JSLevelAccessor( this.preparedQuery.getCubeQueryDefinition( ),
 							bcv ) );
 
-			this.cubeCursor =  new CubeCursorImpl( outResults, cubeCursor,
+			this.cubeCursor = new CubeCursorImpl( outResults,
+					cubeCursor,
 					this.scope,
-					this.preparedQuery.getCubeQueryDefinition( ) );
+					this.preparedQuery.getCubeQueryDefinition( ),
+					bcv );
 			return this.cubeCursor;
 
 		}

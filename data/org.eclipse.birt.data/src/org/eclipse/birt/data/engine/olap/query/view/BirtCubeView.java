@@ -23,6 +23,7 @@ import javax.olap.cursor.CubeCursor;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
@@ -49,6 +50,8 @@ public class BirtCubeView
 	private CubeQueryExecutor executor;
 	private Map appContext;
 	private Map measureMapping;
+	private QueryExecutor queryExecutor;
+	private IResultSet parentResultSet;
 
 	/**
 	 * Constructor: construct the row/column/measure EdgeView.
@@ -59,6 +62,7 @@ public class BirtCubeView
 	public BirtCubeView( CubeQueryExecutor queryExecutor, Map appContext ) throws DataException
 	{
 		this.queryDefn = queryExecutor.getCubeQueryDefinition( );
+		this.executor = queryExecutor;
 		columnEdgeView = createBirtEdgeView( this.queryDefn.getEdge( ICubeQueryDefinition.COLUMN_EDGE ) );
 		rowEdgeView = createBirtEdgeView( this.queryDefn.getEdge( ICubeQueryDefinition.ROW_EDGE ) );
 		this.executor = queryExecutor;
@@ -106,10 +110,10 @@ public class BirtCubeView
 	{
 		Map relationMap = CubeQueryDefinitionUtil.getRelationWithMeasure( queryDefn,
 				measureMapping );
-		IResultSet result;
+		queryExecutor = new QueryExecutor( );
 		try
 		{
-			result = new QueryExecutor( ).execute( this, executor, manager, stopSign );
+			parentResultSet = queryExecutor.execute( this, executor, manager, stopSign );
 		}
 		catch ( IOException e )
 		{
@@ -124,16 +128,95 @@ public class BirtCubeView
 				this.executor.getContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION )
 		{
 			cubeCursor = new CubeCursorImpl( this,
-					result,
+					parentResultSet,
 					relationMap,
 					manager,
 					appContext );
 		}
 		else
 		{
-			cubeCursor = new CubeCursorImpl( this, result, relationMap, manager );
+			cubeCursor = new CubeCursorImpl( this, parentResultSet, relationMap, manager );
 		}
 		return cubeCursor;
+	}
+	
+	/**
+	 * Get cubeCursor for current cubeView.
+	 * 
+	 * @param stopSign
+	 * @return CubeCursor
+	 * @throws OLAPException
+	 * @throws DataException
+	 */
+	public CubeCursor getCubeCursor( StopSign stopSign,
+			String startingColumnLevel, String startingRowLevel,
+			String startingPageLevel, BirtCubeView parentView ) throws OLAPException, DataException
+	{
+		if ( parentView == null || parentView.getCubeQueryExecutor( ) == null )
+		{
+			throw new DataException( ResourceConstants.NO_PARENT_RESULT_CURSOR );
+		}
+		Map relationMap = CubeQueryDefinitionUtil.getRelationWithMeasure( queryDefn,
+				measureMapping );
+
+		int startingColumnLevelIndex = -1, startingRowLevelIndex = -1;
+		if ( startingColumnLevel != null )
+			startingColumnLevelIndex = CubeQueryDefinitionUtil.getLevelIndex( this.queryDefn,
+					startingColumnLevel,
+					ICubeQueryDefinition.COLUMN_EDGE );
+		if ( startingRowLevel != null )
+			startingRowLevelIndex = CubeQueryDefinitionUtil.getLevelIndex( this.queryDefn,
+					startingRowLevel,
+					ICubeQueryDefinition.ROW_EDGE );
+		if ( startingColumnLevelIndex == -1 && startingRowLevelIndex == -1 )
+		{
+			startingColumnLevelIndex = CubeQueryDefinitionUtil.getLevelsOnEdge( this.queryDefn.getEdge( ICubeQueryDefinition.COLUMN_EDGE ) ).length - 1;
+			startingRowLevelIndex = CubeQueryDefinitionUtil.getLevelsOnEdge( this.queryDefn.getEdge( ICubeQueryDefinition.ROW_EDGE ) ).length - 1;
+		}
+		this.queryExecutor = parentView.getQueryExecutor( );
+		try
+		{
+			parentResultSet = queryExecutor.executeSubQuery( parentView.getResultSet( ),
+					this,
+					startingColumnLevelIndex,
+					startingRowLevelIndex );
+		}
+		catch ( IOException e )
+		{
+			throw new OLAPException( e.getLocalizedMessage( ) );
+		}
+		CubeCursor cubeCursor = new CubeCursorImpl( this,
+				parentResultSet,
+				relationMap,
+				manager );
+		return cubeCursor;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public QueryExecutor getQueryExecutor( )
+	{
+		return this.queryExecutor;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public CubeQueryExecutor getCubeQueryExecutor( )
+	{
+		return this.executor;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public IResultSet getResultSet( )
+	{
+		return this.parentResultSet;
 	}
 
 	/**

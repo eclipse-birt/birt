@@ -13,8 +13,6 @@ package org.eclipse.birt.data.engine.olap.driver;
 
 import java.io.IOException;
 
-import javax.olap.OLAPException;
-
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
@@ -29,31 +27,65 @@ public class CubeResultSet implements IResultSet
 	private EdgeAxis[] calculatedEdgeAxis;
 	private MeasureNameManager manager;
 	
+	private BirtCubeView cubeView;
+	private IAggregationResultSet[] rsArray;
+	private CubeQueryExecutorHelper cubeQueryExecutorHelper;
+	
 	/**
 	 * 
 	 * @param rsArray
 	 * @param view
 	 * @throws IOException 
-	 * @throws OLAPException
 	 */
 	public CubeResultSet( IAggregationResultSet[] rsArray, BirtCubeView view,
 			MeasureNameManager manager,
-			CubeQueryExecutorHelper cubeQueryExecutorHelper )
-			throws IOException
+			CubeQueryExecutorHelper cubeQueryExecutorHelper ) throws IOException
+	{
+		this.cubeView = view;
+		this.rsArray = rsArray;
+		this.cubeQueryExecutorHelper = cubeQueryExecutorHelper;
+		this.manager = manager;
+		populateEdge( );
+	}
+	
+	/**
+	 * 
+	 * @param resultSet
+	 * @param view
+	 * @param startingColumnIndex
+	 * @param startingRowIndex
+	 * @throws IOException
+	 */
+	public CubeResultSet( IResultSet resultSet, BirtCubeView view,
+			CubeQueryExecutorHelper cubeQueryExcutorHelper,
+			int startingColumnIndex, int startingRowIndex ) throws IOException
+	{
+		this.cubeView = view;
+		populateEdgeOnSubQuery( resultSet,
+				cubeQueryExcutorHelper,
+				startingColumnIndex,
+				startingRowIndex );
+	}
+	
+	/**
+	 * 
+	 * @throws IOException
+	 */
+	private void populateEdge( ) throws IOException
 	{
 		int count = 0;
-		if ( view.getColumnEdgeView( ) != null )
+		if ( cubeView.getColumnEdgeView( ) != null )
 		{
 			this.columnEdgeAxis = new EdgeAxis( rsArray[count],
-					view.getColumnEdgeView( ),
+					cubeView.getColumnEdgeView( ),
 					cubeQueryExecutorHelper.getColumnSort( ),
 					false );
 			count++;
 		}
-		if ( view.getRowEdgeView( ) != null )
+		if ( cubeView.getRowEdgeView( ) != null )
 		{
 			this.rowEdgeAxis = new EdgeAxis( rsArray[count],
-					view.getRowEdgeView( ),
+					cubeView.getRowEdgeView( ),
 					cubeQueryExecutorHelper.getRowSort( ),
 					false );
 			count++;
@@ -65,10 +97,39 @@ public class CubeResultSet implements IResultSet
 			for ( int i = count; i < rsArray.length; i++ )
 			{
 				calculatedEdgeAxis[i - count] = new EdgeAxis( rsArray[i],
-						view.getMeasureEdgeView( )[i - count],
+						cubeView.getMeasureEdgeView( )[i - count],
 						true );
 			}
 		}
+	}
+	
+	private void populateEdgeOnSubQuery( IResultSet parentResult,
+			CubeQueryExecutorHelper cubeQueryExcutorHelper,
+			int startingColumnIndex, int startingRowIndex ) throws IOException
+	{
+		int count = 0;
+		this.cubeQueryExecutorHelper = cubeQueryExcutorHelper;
+		if ( cubeView.getColumnEdgeView( ) != null )
+		{
+			this.columnEdgeAxis = new EdgeAxis( parentResult.getColumnEdgeResult( )
+					.getRowDataAccessor( ),
+					cubeView.getColumnEdgeView( ),
+					cubeQueryExcutorHelper.getColumnSort( ),
+					false,
+					startingColumnIndex );
+			count++;
+		}
+		if ( cubeView.getRowEdgeView( ) != null )
+		{
+			this.rowEdgeAxis = new EdgeAxis( parentResult.getRowEdgeResult( )
+					.getRowDataAccessor( ),
+					cubeView.getRowEdgeView( ),
+					cubeQueryExcutorHelper.getRowSort( ),
+					false,
+					startingRowIndex );
+			count++;
+		}
+		this.calculatedEdgeAxis = parentResult.getMeasureResult( );
 	}
 
 	/*
