@@ -1289,15 +1289,7 @@ public class TaskSelectType extends SimpleTask
 
 	public void changeTask( Notification notification )
 	{
-		if ( previewPainter != null )
-		{
-			// To update data type after chart type conversion
-			if ( chartModel instanceof ChartWithAxes )
-			{
-				checkDataTypeForChartWithAxes( chartModel );
-			}
-			previewPainter.renderModel( chartModel );
-		}
+		doLivePreview( );
 	}
 
 	private void checkDataTypeForChartWithAxes( Chart cm )
@@ -1612,7 +1604,7 @@ public class TaskSelectType extends SimpleTask
 		ChartAdapter.endIgnoreNotifications( );
 		if ( bRender )
 		{
-			previewPainter.renderModel( chartModel );
+			doLivePreview( );
 		}
 	}
 }

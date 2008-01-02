@@ -395,7 +395,7 @@ public class TaskSelectData extends SimpleTask
 				ChartUIUtil.syncRuntimeSeries( getChartModel( ) );
 				ChartAdapter.endIgnoreNotifications( );
 
-				previewPainter.renderModel( getChartModel( ) );
+				doLivePreview( );
 			}
 			else
 			{
