@@ -136,14 +136,17 @@
 			<fixed facet="birt.runtime"/>
 			<fixed facet="jst.java"/>
 			<fixed facet="jst.web"/>
+			<preset id="preset.birt.runtime" />
 		</template>
 		
 	</extension>
 		
 	<extension point="org.eclipse.wst.common.project.facet.core.presets">
-		<static-preset id="preset.birt.runtime" extends="default.configuration">
+		<static-preset id="preset.birt.runtime">
 			<label>%BIRT_FACET_TEMPLATE_LABEL</label>			
 			<facet id="birt.runtime" version="2.3.0"/>
+			<facet id="jst.java" version="1.4"/>
+			<facet id="jst.web" version="2.3"/>
 		</static-preset>
 	</extension>
 
