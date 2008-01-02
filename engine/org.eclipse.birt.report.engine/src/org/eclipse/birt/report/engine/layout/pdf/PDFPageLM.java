@@ -453,6 +453,7 @@ public class PDFPageLM extends PDFBlockContainerLM
 		body.setHeight( pageRoot.getHeight( ) - headerHeight - footerHeight );
 		page.setBody( body );
 		pageRoot.addChild( body );
+		body.setClip( true );
 
 		// TODO add left area and right area;
 
