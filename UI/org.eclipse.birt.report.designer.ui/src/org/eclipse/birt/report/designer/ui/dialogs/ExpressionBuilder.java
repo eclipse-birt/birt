@@ -310,7 +310,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 						}
 						else
 						{
-							handle.getModuleHandle( ).getCommandStack( ).rollbackAll( );
+							handle.getModuleHandle( ).getCommandStack( ).rollback( );
 						}
 						return;
 					}
