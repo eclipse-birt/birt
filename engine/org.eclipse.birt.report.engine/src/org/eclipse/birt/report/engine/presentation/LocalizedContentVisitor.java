@@ -19,9 +19,7 @@ import java.io.InputStream;
 import java.lang.ref.SoftReference;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
@@ -57,16 +55,17 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
+import org.eclipse.birt.report.engine.data.dte.SingleCubeResultSet;
 import org.eclipse.birt.report.engine.data.dte.SingleQueryResultSet;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.template.TemplateExecutor;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
+import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.extension.IReportItemPresentation;
 import org.eclipse.birt.report.engine.extension.Size;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.extension.internal.ReportItemPresentationInfo;
-import org.eclipse.birt.report.engine.ir.AutoTextItemDesign;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
@@ -79,7 +78,6 @@ import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.w3c.dom.css.CSSValue;
 
 import com.ibm.icu.util.ULocale;
@@ -775,8 +773,23 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 				if ( rsets != null )
 				{
 					resultSets = new IBaseResultSet[1];
-					resultSets[0] = new SingleQueryResultSet(
-							(IQueryResultSet) rsets[0] );
+					int type = rsets[0].getType( );
+					if ( IBaseResultSet.QUERY_RESULTSET == type )
+					{
+						resultSets[0] = new SingleQueryResultSet(
+								(IQueryResultSet) rsets[0] );
+					}
+					else if ( IBaseResultSet.CUBE_RESULTSET == type )
+					{
+						resultSets[0] = new SingleCubeResultSet(
+								(ICubeResultSet) rsets[0] );
+					}
+					else
+					{
+						throw new UnsupportedOperationException(
+								"Unknown type of result set is found: "
+										+ rsets[0].getClass( ).getName( ) );
+					}
 				}
 			}
 			else
