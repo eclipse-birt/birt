@@ -16,9 +16,11 @@ import java.util.Iterator;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.ReferenceValue;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
@@ -123,7 +125,7 @@ public class CopyForPastePolicy extends CopyPolicy
 
 				continue;
 			}
-			
+
 			Object tmpValue = source.getLocalProperty( module, propDefn );
 			if ( tmpValue != null )
 				continue;
@@ -131,12 +133,23 @@ public class CopyForPastePolicy extends CopyPolicy
 			current = source.isVirtualElement( )
 					? source.getVirtualParent( )
 					: source.getExtendsElement( );
+
+			Module tmpRoot = current.getRoot( );
 			while ( current != null )
 			{
-				Object value = current.getLocalProperty( module, propDefn );
+				Object value = current.getLocalProperty( tmpRoot, propDefn );
 				if ( value != null )
 				{
 					Object copyValue = ModelUtil.copyValue( propDefn, value );
+
+					if ( tmpRoot != module &&
+							copyValue instanceof ReferenceValue )
+					{
+						assert tmpRoot instanceof Library;
+						( (ReferenceValue) copyValue )
+								.setLibraryNamespace( ( (Library) tmpRoot )
+										.getNamespace( ) );
+					}
 
 					// if this local property has encryption id, then set it
 					String encryptionID = current.getEncryptionID( propDefn );
@@ -164,10 +177,10 @@ public class CopyForPastePolicy extends CopyPolicy
 	}
 
 	/**
-	 * Auxiliary function helps to clear display name and diaplay name id.
+	 * Auxiliary function helps to clear display name and display name id.
 	 * 
 	 * @param e
-	 *            the design element need to clear display name infos.
+	 *            the design element need to clear display name information.
 	 */
 
 	private void clearDisplayName( DesignElement e )
