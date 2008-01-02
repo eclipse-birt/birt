@@ -391,14 +391,6 @@ public class PDFPageLM extends PDFBlockContainerLM
 		 */
 		ContainerArea pageRoot = new LogicContainerArea( report );
 
-		if ( overFlowType == IPDFRenderOption.CLIP_CONTENT )
-		{
-			pageRoot.setNeedClip( true );
-		}
-		else
-		{
-			pageRoot.setNeedClip( false );
-		}
 		rootLeft = getDimensionValue( pageContent.getMarginLeft( ),
 				pageContentWidth );
 		rootTop = getDimensionValue( pageContent.getMarginTop( ), pageContentWidth );
@@ -478,6 +470,15 @@ public class PDFPageLM extends PDFBlockContainerLM
 		page.setBody( body );
 		pageRoot.addChild( body );
 
+		if ( overFlowType == IPDFRenderOption.CLIP_CONTENT )
+		{
+			pageRoot.setNeedClip( true );
+			page.getBody( ).setNeedClip( true );
+		}
+		else
+		{
+			pageRoot.setNeedClip( false );
+		}
 		// TODO add left area and right area;
 
 	}
@@ -491,18 +492,24 @@ public class PDFPageLM extends PDFBlockContainerLM
 	protected void closeLayout( )
 	{
 		int overFlowType = context.getPageOverflow( );
-		float scale = calculatePageScale( );
-		if ( 1f == scale )
-		{
-			return;
-		}
+		
 		if ( overFlowType == IPDFRenderOption.FIT_TO_PAGE_SIZE )
 		{
+			float scale = calculatePageScale( );
+			if ( 1f == scale )
+			{
+				return;
+			}
 			page.setScale( scale );
 			updatePageDimension( scale );
 		}
 		else if ( overFlowType == IPDFRenderOption.ENLARGE_PAGE_SIZE )
 		{
+			float scale = calculatePageScale( );
+			if ( 1f == scale )
+			{
+				return;
+			}
 			updatePageDimension( scale );
 		}
 	}

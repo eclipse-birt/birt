@@ -67,7 +67,7 @@ public interface IPDFRenderOption extends IRenderOption
 	public void setEmbededFont( boolean isEmbededFont );
 	/**
 	 * 
-	 * @return if font is embeded
+	 * @return if font is embedded
 	 */
 	public boolean isEmbededFont( );
 
