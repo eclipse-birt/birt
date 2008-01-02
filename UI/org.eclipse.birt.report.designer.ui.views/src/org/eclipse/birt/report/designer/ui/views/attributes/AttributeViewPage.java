@@ -128,8 +128,8 @@ public class AttributeViewPage extends Page implements
 						MessageDialog.INFORMATION,
 						new String[]{
 								Messages.getString( "AttributeView.dialg.Message.Yes" ),//$NON-NLS-1$
-								Messages.getString( "AttributeView.dialg.Message.No" ),//$NON-NLS-1$
-								Messages.getString( "AttributeView.dialg.Message.Cancel" )}, 0 );//$NON-NLS-1$
+								Messages.getString( "AttributeView.dialg.Message.No" )//$NON-NLS-1$
+								}, 0 );//$NON-NLS-1$
 				int ret = prefDialog.open( );
 
 				if ( !( ret == 2 ) )
