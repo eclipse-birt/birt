@@ -28,7 +28,9 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
+import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
@@ -37,6 +39,7 @@ import org.eclipse.birt.report.model.api.olap.TabularMeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
@@ -296,11 +299,18 @@ public class ExpressionBuilder extends TitleAreaDialog
 					if ( inputArray.length == 2
 							&& inputArray[1] instanceof ReportItemHandle )
 					{
+						ReportItemHandle handle = (ReportItemHandle) inputArray[1];
+						handle.getModuleHandle( ).getCommandStack( ).startTrans( null );
 						ColumnBindingDialog dialog = new ColumnBindingDialog( );
-						dialog.setInput( (ReportItemHandle) inputArray[1] );
-						if ( dialog.open( ) == Window.OK )
+						dialog.setInput( handle );
+						if ( dialog.open( ) == Dialog.OK )
 						{
+							handle.getModuleHandle( ).getCommandStack( ).commit( );
 							functionTable.refresh( );
+						}
+						else
+						{
+							handle.getModuleHandle( ).getCommandStack( ).rollbackAll( );
 						}
 						return;
 					}
