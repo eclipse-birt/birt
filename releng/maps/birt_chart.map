@@ -11,5 +11,5 @@ plugin@org.eclipse.birt.chart.reportitem=v20071229,:pserver:anonymous@dev.eclips
 plugin@org.eclipse.birt.chart.reportitem.ui=v20071229,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.reportitem.ui
 plugin@org.eclipse.birt.chart.ui=v20071229,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.ui
 plugin@org.eclipse.birt.chart.ui.extension=v20071229,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.ui.extension
-plugin@org.eclipse.birt.chart.viewer=v20070102,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.viewer
+plugin@org.eclipse.birt.chart.viewer=v20080102,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.viewer
 plugin@org.eclipse.birt.core.ui=v20071206,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.core.ui
