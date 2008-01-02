@@ -97,5 +97,5 @@ plugin@org.apache.derby.core=v20070710,:pserver:anonymous@dev.eclipse.org:/cvsro
 feature@org.mozilla.rhino=v20071217,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.mozilla.rhino.feature 
 plugin@org.mozilla.rhino=v200712171,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.mozilla.rhino
 
-feature@org.w3c.sac=v20071227,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.w3c.sac.feature 
+feature@org.w3c.sac=v20080102,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.w3c.sac.feature 
 plugin@org.w3c.sac=v20070710,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.w3c.sac
