@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.ui.swt.composites.GroupSortingDialog;
 import org.eclipse.birt.chart.ui.swt.composites.YOptionalGroupSortingDialog;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
@@ -185,7 +186,16 @@ public class YOptionalDataDefinitionComponent extends BaseDataDefinitionComponen
 			{
 				Series s = (Series) baseSD.getSeries( ).get( 0 );
 				String baseExpr = ( (Query) s.getDataDefinition( ).get( 0 ) ).getDefinition( );
-				baseSD.getSortKey( ).setDefinition( baseExpr );
+				if ( baseSD.getSortKey( ) == null )
+				{
+					Query q = QueryImpl.create( baseExpr );
+					baseSD.setSortKey( q );
+					q.eAdapters( ).addAll( baseSD.eAdapters( ) );
+				}
+				else
+				{
+					baseSD.getSortKey( ).setDefinition( baseExpr );
+				}
 			}
 		}
 	}
