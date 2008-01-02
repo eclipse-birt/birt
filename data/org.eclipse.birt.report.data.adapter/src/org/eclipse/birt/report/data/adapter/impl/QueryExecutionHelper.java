@@ -18,13 +18,10 @@ import java.util.List;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
-import org.eclipse.birt.data.engine.api.IBinding;
-import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
-import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -156,11 +153,7 @@ class QueryExecutionHelper
 		{
 			while ( bindingIt != null && bindingIt.hasNext( ) )
 			{
-				IComputedColumn column = this.modelAdaptor.adaptComputedColumn( (ComputedColumnHandle) bindingIt.next( ) );
-				IBinding binding = new Binding( column.getName( ),
-						(ScriptExpression) column.getExpression( ) );
-				binding.setDataType( column.getDataType( ) );
-				queryDefn.addBinding( binding );
+				queryDefn.addBinding( this.modelAdaptor.adaptBinding( (ComputedColumnHandle) bindingIt.next( ) ) );
 			}
 
 			List parameterBindings = convertParamterBindings( paramBindingIt );

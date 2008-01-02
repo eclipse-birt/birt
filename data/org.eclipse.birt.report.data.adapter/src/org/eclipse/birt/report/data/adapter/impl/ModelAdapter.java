@@ -13,9 +13,14 @@
  */ 
 package org.eclipse.birt.report.data.adapter.impl;
 
+import java.util.Iterator;
+import java.util.List;
+
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSourceDesign;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
@@ -25,6 +30,7 @@ import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.ParameterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
@@ -42,6 +48,7 @@ import org.eclipse.birt.report.data.adapter.internal.adapter.ParameterAdapter;
 import org.eclipse.birt.report.data.adapter.internal.adapter.ScriptDataSetAdapter;
 import org.eclipse.birt.report.data.adapter.internal.adapter.ScriptDataSourceAdapter;
 import org.eclipse.birt.report.data.adapter.internal.adapter.SortAdapter;
+import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
@@ -211,4 +218,77 @@ public class ModelAdapter implements IModelAdapter
 	{
 		return new ComputedColumnAdapter( modelHandle);
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.data.adapter.api.IModelAdapter#adaptBinding(org.eclipse.birt.report.model.api.ComputedColumnHandle)
+	 */
+	public IBinding adaptBinding( ComputedColumnHandle handle ) throws AdapterException
+	{
+		if( handle == null )
+			return null;
+		Binding result = new Binding( handle.getName( ),
+				new ScriptExpression( handle.getExpression( ) ) );
+		result.setDataType( org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelDataType( handle.getDataType( ) ) );
+		result.setAggrFunction( org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelAggregationType( handle.getAggregateFunction( ) ) );
+		result.setFilter( handle.getFilterExpression( ) == null ? null
+				: new ScriptExpression( handle.getFilterExpression( ) ) );
+		populateArgument( result, handle );
+
+		populateAggregateOns( result, handle );
+		return result;
+		
+	}
+
+	/**
+	 * 
+	 * @param handle
+	 * @param result
+	 * @throws AdapterException
+	 */
+	private void populateAggregateOns( IBinding result,
+			ComputedColumnHandle handle ) throws AdapterException
+	{
+		List aggrOns = handle.getAggregateOnList( );
+		if ( aggrOns == null )
+			return;
+		for ( int i = 0; i < aggrOns.size( ); i++ )
+		{
+			try
+			{
+				result.addAggregateOn( aggrOns.get( i ).toString( ) );
+			}
+			catch ( DataException e )
+			{
+				throw new AdapterException( e.getLocalizedMessage( ), e );
+			}
+		}
+	}
+
+	/**
+	 * 
+	 * @param binding
+	 * @param modelCmptdColumn
+	 * @throws AdapterException
+	 */
+	private static void populateArgument( IBinding binding,
+			ComputedColumnHandle modelCmptdColumn ) throws AdapterException
+	{
+
+		Iterator it = modelCmptdColumn.argumentsIterator( );
+		while ( it != null && it.hasNext( ) )
+		{
+			AggregationArgumentHandle arg = (AggregationArgumentHandle) it.next( );
+			try
+			{
+				binding.addArgument( new ScriptExpression( arg.getValue( ) ) );
+			}
+			catch ( DataException e )
+			{
+				throw new AdapterException( e.getLocalizedMessage( ), e );
+			}
+		}
+
+	}
+	
 }

@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.data.adapter.api;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
@@ -119,4 +120,11 @@ public interface IModelAdapter
 	 */
 	public SortDefinition adaptSort( String sortKeyExpr, String direction );
 
+	/**
+	 * Adapt a model computed column handle to an IBinding instance.
+	 * @param handle
+	 * @return
+	 * @throws AdapterException 
+	 */
+	public IBinding adaptBinding( ComputedColumnHandle handle ) throws AdapterException;
 }
