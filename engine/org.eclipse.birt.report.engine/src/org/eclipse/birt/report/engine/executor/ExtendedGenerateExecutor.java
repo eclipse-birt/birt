@@ -202,7 +202,15 @@ public class ExtendedGenerateExecutor extends QueryItemExecutor
 			rsets = new IBaseResultSet[queries.length];
 			for ( int i = 0; i < rsets.length; i++ )
 			{
-				rsets[i] = dataEngine.execute( parent, queries[i], useCache );
+				if ( queries[i] == null )
+				{
+					rsets[i] = null;
+				}
+				else
+				{
+					rsets[i] = dataEngine
+							.execute( parent, queries[i], useCache );
+				}
 			}
 			context.setResultSets( rsets );
 		}

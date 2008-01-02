@@ -244,8 +244,15 @@ public class ExtendedItemExecutor extends ContainerExecutor
 					IBaseResultSet prset = restoreParentResultSet( );
 					for ( int i = 0; i < queries.length; i++ )
 					{
-						rsets[i] = context.executeQuery( prset, queries[i],
-								useCache );
+						if ( queries[i] == null )
+						{
+							rsets[i] = null;
+						}
+						else
+						{
+							rsets[i] = context.executeQuery( prset, queries[i],
+									useCache );
+						}
 					}
 					context.setResultSets( rsets );
 				}
