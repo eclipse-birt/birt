@@ -183,13 +183,10 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder
 			}
 			if ( returnValue )
 			{
-				if(newValues.length == 1)
+				if(addExpressionValue == comboWidget)
 				{
-					comboWidget.setText(DEUtil.resolveNull( newValues[0] ));
-					if(valueList.indexOf( DEUtil.resolveNull( newValues[0] ) ) >= 0)
-					{
-						addBtn.setEnabled( false );
-					}
+					comboWidget.setText("");
+					addBtn.setEnabled( false );
 				}
 				
 				if ( isAddClick )

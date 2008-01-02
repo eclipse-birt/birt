@@ -1720,13 +1720,10 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 				}
 				if ( returnValue )
 				{
-				if(newValues.length == 1)
+					if(addExpressionValue == thisCombo)
 					{
-						thisCombo.setText(DEUtil.resolveNull( newValues[0] ));
-						if(valueList.indexOf( DEUtil.resolveNull( newValues[0] ) ) >= 0)
-						{
-							addBtn.setEnabled( false );
-						}
+						thisCombo.setText("");
+						addBtn.setEnabled( false );
 					}
 					
 					if ( isAddClick )
