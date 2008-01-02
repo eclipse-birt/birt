@@ -876,7 +876,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 		try
 		{
-			DataRequestSession session = prepareDataRequestSession( rowCount );
+			DataRequestSession session = prepareDataRequestSession(  getMaxRow( ) );
 
 			BaseQueryHelper cbqh = new BaseQueryHelper( itemHandle, cm );
 			QueryDefinition queryDefn = (QueryDefinition) cbqh.createBaseQuery( columnExpression );
