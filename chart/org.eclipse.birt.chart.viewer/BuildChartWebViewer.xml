@@ -117,12 +117,6 @@
 			</fileset>
 			<fileset dir="${baseLocation}/plugins">
 				<!-- orbit projects -->
-				<include name="org.apache.xerces_*.jar"/>
-				<include name="org.w3c.css.sac_*.jar"/>
-				<include name="org.w3c.dom*.jar"/>
-				<include name="org.apache.xml.resolver_*.jar"/>
-				<include name="org.apache.batik.*jar"/>
-				<include name="org.apache.commons.codec_*.jar"/>
 				<include name="com.ibm.icu_*.jar" />
 				<include name="javax.servlet_*.jar" />
 				<include name="javax.servlet.jsp_*.jar" />
@@ -135,11 +129,16 @@
 				<include name="org.eclipse.emf.ecore.xmi_*.jar" />
 				<include name="org.eclipse.emf.ecore_*.jar" />
 			</fileset>
-<!--
             <fileset dir="${buildDirectory}/plugins">
-                    <include name="org.apache.xalan/*.jar" />
+				<include name="org.apache.xerces_*.jar"/>
+				<include name="org.w3c.css.sac_*.jar"/>
+				<include name="org.w3c.dom*.jar"/>
+				<include name="org.apache.xml.resolver_*.jar"/>
+				<include name="org.apache.batik.*jar"/>
+				<include name="org.apache.commons.codec_*.jar"/>
+            	<include name="javax.xml_*.jar"/>
+            	<include name="org.apache.xml.serializer_*.jar"/>
             </fileset>
--->
 		</copy>
 	</target>
 
