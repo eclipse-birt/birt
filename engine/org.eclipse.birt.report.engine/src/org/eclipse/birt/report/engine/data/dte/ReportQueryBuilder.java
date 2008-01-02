@@ -1303,7 +1303,7 @@ public class ReportQueryBuilder
 								.setCacheQueryResults( true );
 					}
 				}
-				if ( (BaseQueryDefinition) queries[0] instanceof BaseQueryDefinition )
+				if ( queries[0] instanceof BaseQueryDefinition )
 				{
 					return (BaseQueryDefinition) queries[0];
 				}
