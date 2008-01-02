@@ -887,59 +887,60 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				Color borderColor = bi.borderColor;
 				switch ( bi.borderType )
 				{
+					// Draws the outer border first, and then the inner border.
 					case BorderInfo.TOP_BORDER :
-						pageGraphic.drawLine( startX - borderWidth / 2
+						pageGraphic.drawLine( startX - borders[BorderInfo.LEFT_BORDER].borderWidth / 2
 								+ outerBorderWidth / 2, startY - borderWidth
-								/ 2 + outerBorderWidth / 2, endX + borderWidth
+								/ 2 + outerBorderWidth / 2, endX + borders[BorderInfo.RIGHT_BORDER].borderWidth
 								/ 2 - outerBorderWidth / 2, endY - borderWidth
 								/ 2 + outerBorderWidth / 2, outerBorderWidth,
 								borderColor, "solid" ); //$NON-NLS-1$
-						pageGraphic.drawLine( startX - borderWidth / 2
+						pageGraphic.drawLine( startX - borders[BorderInfo.LEFT_BORDER].borderWidth / 2
 								+ outerBorderWidth / 2, startY + borderWidth
-								/ 2 - innerBorderWidth / 2, endX + borderWidth
+								/ 2 - innerBorderWidth / 2, endX + borders[BorderInfo.RIGHT_BORDER].borderWidth
 								/ 2 - outerBorderWidth / 2, endY + borderWidth
 								/ 2 - innerBorderWidth / 2, innerBorderWidth,
 								borderColor, "solid" ); //$NON-NLS-1$	
 						break;
 					case BorderInfo.RIGHT_BORDER :
 						pageGraphic.drawLine( startX + borderWidth / 2
-								- outerBorderWidth / 2, startY - borderWidth
+								- outerBorderWidth / 2, startY - borders[BorderInfo.TOP_BORDER].borderWidth
 								/ 2 + outerBorderWidth / 2, endX + borderWidth
-								/ 2 - outerBorderWidth / 2, endY + borderWidth
+								/ 2 - outerBorderWidth / 2, endY + borders[BorderInfo.BOTTOM_BORDER].borderWidth
 								/ 2 - outerBorderWidth / 2, outerBorderWidth,
 								borderColor, "solid" ); //$NON-NLS-1$
 						pageGraphic.drawLine( startX - borderWidth / 2
-								+ innerBorderWidth / 2, startY - borderWidth
+								+ innerBorderWidth / 2, startY - borders[BorderInfo.TOP_BORDER].borderWidth
 								/ 2 + outerBorderWidth / 2, endX - borderWidth
-								/ 2 + innerBorderWidth / 2, endY + borderWidth
+								/ 2 + innerBorderWidth / 2, endY + borders[BorderInfo.BOTTOM_BORDER].borderWidth
 								/ 2 - outerBorderWidth / 2, innerBorderWidth,
 								borderColor, "solid" ); //$NON-NLS-1$
 						break;
 					case BorderInfo.BOTTOM_BORDER :
-						pageGraphic.drawLine( startX - borderWidth / 2
+						pageGraphic.drawLine( startX - borders[BorderInfo.LEFT_BORDER].borderWidth / 2
 								+ outerBorderWidth / 2, startY + borderWidth
-								/ 2 - outerBorderWidth / 2, endX + borderWidth
+								/ 2 - outerBorderWidth / 2, endX + borders[BorderInfo.RIGHT_BORDER].borderWidth
 								/ 2 - outerBorderWidth / 2, endY + borderWidth
 								/ 2 - outerBorderWidth / 2, outerBorderWidth,
 								borderColor, "solid" ); //$NON-NLS-1$
-						pageGraphic.drawLine( startX - borderWidth / 2
+						pageGraphic.drawLine( startX - borders[BorderInfo.LEFT_BORDER].borderWidth / 2
 								+ outerBorderWidth / 2, startY - borderWidth
-								/ 2 + innerBorderWidth / 2, endX + borderWidth
+								/ 2 + innerBorderWidth / 2, endX + borders[BorderInfo.RIGHT_BORDER].borderWidth
 								/ 2 - outerBorderWidth / 2, endY - borderWidth
 								/ 2 + innerBorderWidth / 2, innerBorderWidth,
 								borderColor, "solid" ); //$NON-NLS-1$
 						break;
 					case BorderInfo.LEFT_BORDER :
 						pageGraphic.drawLine( startX - borderWidth / 2
-								+ outerBorderWidth / 2, startY - borderWidth
+								+ outerBorderWidth / 2, startY - borders[BorderInfo.TOP_BORDER].borderWidth
 								/ 2 + outerBorderWidth / 2, endX - borderWidth
-								/ 2 + outerBorderWidth / 2, endY + borderWidth
+								/ 2 + outerBorderWidth / 2, endY + borders[BorderInfo.BOTTOM_BORDER].borderWidth
 								/ 2 - outerBorderWidth / 2, outerBorderWidth,
 								borderColor, "solid" ); //$NON-NLS-1$
 						pageGraphic.drawLine( startX + borderWidth / 2
-								- innerBorderWidth / 2, startY - borderWidth
+								- innerBorderWidth / 2, startY - borders[BorderInfo.TOP_BORDER].borderWidth
 								/ 2 + outerBorderWidth / 2, endX + borderWidth
-								/ 2 - innerBorderWidth / 2, endY + borderWidth
+								/ 2 - innerBorderWidth / 2, endY + borders[BorderInfo.BOTTOM_BORDER].borderWidth
 								/ 2 - outerBorderWidth / 2, innerBorderWidth,
 								borderColor, "solid" ); //$NON-NLS-1$
 						break;

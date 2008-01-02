@@ -45,12 +45,12 @@ public class PDFPage extends AbstractPage
 {
 
 	/**
-	 * The Pdf Writer
+	 * The PDF Writer
 	 */
 	private PdfWriter writer = null;
 
 	/**
-	 * ContentByte layer for pdf, cb covers cbUnder.
+	 * ContentByte layer for PDF
 	 */
 	private PdfContentByte contentByte = null;
 
@@ -158,7 +158,7 @@ public class PDFPage extends AbstractPage
 				PdfTemplate template = null;
 				// If the width of the container is smaller than the scaled
 				// image width, the repeat will never happen. So it is not 
-				// necessary to build a template for futher usage.
+				// necessary to build a template for further usage.
 				if ( width > img.scaledWidth( ) )
 				{
 					if ( height - absPosY > img.scaledHeight( ) )
@@ -222,7 +222,7 @@ public class PDFPage extends AbstractPage
 				float remainY = height;
 				// If the height of the container is smaller than the scaled
 				// image height, the repeat will never happen. So it is not 
-				// necessary to build a template for futher usage.
+				// necessary to build a template for further usage.
 				PdfTemplate template = null;
 				if ( height > img.scaledHeight( ) )
 				{
@@ -264,7 +264,7 @@ public class PDFPage extends AbstractPage
 				PdfTemplate template = null;
 				// If the width of the container is smaller than the scaled
 				// image width, the repeat will never happen. So it is not 
-				// necessary to build a template for futher usage.
+				// necessary to build a template for further usage.
 				if ( width > img.scaledWidth( ) && height > img.scaledHeight( ) )
 				{
 					template = contentByte.createTemplate( img.scaledWidth( ), img
@@ -377,8 +377,8 @@ public class PDFPage extends AbstractPage
 
 	/**
 	 * Draws a line with the line-style specified in advance from the start
-	 * position to the end position with the given linewidth, color, and style
-	 * at the given pdf layer. If the line-style is NOT set before invoking this
+	 * position to the end position with the given line width, color, and style
+	 * at the given PDF layer. If the line-style is NOT set before invoking this
 	 * method, "solid" will be used as the default line-style.
 	 * 
 	 * @param startX
@@ -399,7 +399,7 @@ public class PDFPage extends AbstractPage
 	protected void drawLine( float startX, float startY, float endX, float endY,
 			float width, Color color, String lineStyle )
 	{
-		// if the border does NOT have color or the linewidth of the border is
+		// if the border does NOT have color or the line width of the border is
 		// zero or the lineStyle is "none", just return.
 		if ( null == color || 0f == width
 				|| "none".equalsIgnoreCase( lineStyle ) ) //$NON-NLS-1$
