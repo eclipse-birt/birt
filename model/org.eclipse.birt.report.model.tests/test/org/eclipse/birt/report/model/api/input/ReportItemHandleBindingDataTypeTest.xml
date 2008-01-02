@@ -44,5 +44,13 @@
 		<table  name="table3">	
 			<property name="dataBindingRef">my list</property>
 		</table>
+		<data  name="data1">	
+			<list-property name="boundDataColumns">
+				<structure>
+					<property name="name">data1 value</property>
+					<expression name="expression">value1</expression>
+				</structure>
+			</list-property>
+		</data>		
     </body>
 </report>

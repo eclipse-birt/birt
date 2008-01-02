@@ -127,8 +127,8 @@ public class ReportItemDataRefTest extends BaseTestCase
 				.findElement( "myText" ); //$NON-NLS-1$
 		assertEquals( ReportItemHandle.DATABINDING_TYPE_DATA, text
 				.getDataBindingType( ) );
-		assertEquals( 3, text.getAvailableCubeBindingReferenceList( ).size( ) );
-		assertEquals( 4, text.getAvailableDataSetBindingReferenceList( ).size( ) );
+		assertEquals( 4, text.getAvailableCubeBindingReferenceList( ).size( ) );
+		assertEquals( 5, text.getAvailableDataSetBindingReferenceList( ).size( ) );
 
 		ListHandle list = (ListHandle) designHandle.findElement( "my list" ); //$NON-NLS-1$
 		assertEquals( ReportItemHandle.DATABINDING_TYPE_DATA, list
@@ -143,12 +143,16 @@ public class ReportItemDataRefTest extends BaseTestCase
 		assertEquals( ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF, table
 				.getDataBindingType( ) );
 
+		DataItemHandle data = (DataItemHandle) designHandle.findElement( "data1" ); //$NON-NLS-1$
+		assertEquals( ReportItemHandle.DATABINDING_TYPE_NONE, data
+				.getDataBindingType( ) );
+		
 		// cannot contain self and elements that refer to self.
 
 		PropertyHandle propHandle = list
 				.getPropertyHandle( ReportItemHandle.DATA_BINDING_REF_PROP );
 		List handleList = propHandle.getReferenceableElementList( );
-		assertEquals( 4, handleList.size( ) );
+		assertEquals( 5, handleList.size( ) );
 
 		assertEquals( "myText", ( (DesignElementHandle) handleList.get( 0 ) ) //$NON-NLS-1$
 				.getName( ) );
@@ -157,6 +161,8 @@ public class ReportItemDataRefTest extends BaseTestCase
 		assertEquals( "table", ( (DesignElementHandle) handleList.get( 2 ) ) //$NON-NLS-1$
 				.getName( ) );
 		assertEquals( "table2", ( (DesignElementHandle) handleList.get( 3 ) ) //$NON-NLS-1$
+				.getName( ) );
+		assertEquals( "data1", ( (DesignElementHandle) handleList.get( 4 ) ) //$NON-NLS-1$
 				.getName( ) );
 	}
 

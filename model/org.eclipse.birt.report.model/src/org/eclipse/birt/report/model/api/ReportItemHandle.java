@@ -867,8 +867,8 @@ public abstract class ReportItemHandle extends ReportElementHandle
 		if ( getDataBindingReferenceName( ) != null )
 			return DATABINDING_TYPE_REPORT_ITEM_REF;
 
-		if ( element.getProperty( module, IReportItemModel.DATA_SET_PROP ) != null
-				|| element.getProperty( module, IReportItemModel.CUBE_PROP ) != null )
+		if ( element.getProperty( module, IReportItemModel.DATA_SET_PROP ) != null ||
+				element.getProperty( module, IReportItemModel.CUBE_PROP ) != null )
 			return DATABINDING_TYPE_DATA;
 
 		return DATABINDING_TYPE_NONE;
@@ -937,6 +937,11 @@ public abstract class ReportItemHandle extends ReportElementHandle
 		return getAvailableDataBindingReferenceList( IReportItemModel.CUBE_PROP );
 	}
 
+	/**
+	 * @param propName
+	 * @return
+	 */
+
 	private List getAvailableDataBindingReferenceList( String propName )
 	{
 		List rtnList = new ArrayList( );
@@ -961,11 +966,23 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 				// element can get the 'dataset' or 'cube' and no reportItem
 				// reference
-				if ( bindingType == DATABINDING_TYPE_DATA
-						&& ( propName == null || ( elementHandle
+
+				if ( bindingType == DATABINDING_TYPE_DATA &&
+						( propName == null || ( elementHandle
 								.getProperty( propName ) != null ) ) )
 				{
 					rtnList.add( elementHandle );
+				}
+				else if ( bindingType == DATABINDING_TYPE_NONE )
+				{
+					// if the report item has no data set, but it defines the
+					// column bindings. It is OK to share result set.
+					
+					Object tmpValue = e.getLocalProperty( module,
+							IReportItemModel.BOUND_DATA_COLUMNS_PROP );
+					if ( tmpValue instanceof List &&
+							!( (List) tmpValue ).isEmpty( ) )
+						rtnList.add( elementHandle );
 				}
 				else if ( bindingType == DATABINDING_TYPE_REPORT_ITEM_REF )
 				{
@@ -982,10 +999,11 @@ public abstract class ReportItemHandle extends ReportElementHandle
 					}
 
 					// defines resolved reportItem reference, must exclude
-					// recusive reference cases
-					if ( element instanceof IReferencableElement
-							&& !ModelUtil.isRecursiveReference(
-									tmpElementHandle.getElement( ),
+					// recursive reference cases
+
+					if ( element instanceof IReferencableElement &&
+							!ModelUtil.isRecursiveReference( tmpElementHandle
+									.getElement( ),
 									(IReferencableElement) element ) )
 						rtnList.add( elementHandle );
 				}
