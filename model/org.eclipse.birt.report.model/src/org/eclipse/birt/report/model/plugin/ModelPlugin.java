@@ -39,13 +39,14 @@ public class ModelPlugin extends BIRTPlugin
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.core.runtime.Plugin#stop(org.osgi.framework.BundleContext)
 	 */
-	
+
 	public void stop( BundleContext context ) throws Exception
 	{
 		ODAProviderFactory.releaseInstance( );
+		BundleFactory.releaseInstance( );
 		super.stop( context );
 	}
-
 }

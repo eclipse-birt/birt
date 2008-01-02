@@ -35,7 +35,7 @@ public class ODAProviderFactory implements IODAProviderFactory
 	/**
 	 * Returns the ODAProviderFactory instance.
 	 * 
-	 * @return ODAProviderFactory intance.
+	 * @return ODAProviderFactory instance.
 	 */
 
 	public static ODAProviderFactory getInstance( )
@@ -65,7 +65,7 @@ public class ODAProviderFactory implements IODAProviderFactory
 	}
 
 	/**
-	 * Set the base factory for this clss. This methdo should be called before
+	 * Set the base factory for this class. This method should be called before
 	 * any other operation.
 	 * 
 	 * @param base

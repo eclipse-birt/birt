@@ -43,4 +43,12 @@ public class BundleFactory
 	{
 		return bundleFactory;
 	}
+
+	/**
+	 * Releases bundle factory.
+	 */
+	public static void releaseInstance( )
+	{
+		bundleFactory = null;
+	}
 }
