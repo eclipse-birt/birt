@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.olap.impl.query;
 import java.io.InputStream;
 import java.io.Reader;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
@@ -105,7 +106,7 @@ public class CubeCursorImpl implements ICubeCursor
 
 	public Collection getPageEdge( ) throws OLAPException
 	{
-		return this.cursor.getPageEdge( );
+		return new ArrayList( );
 	}
 
 	public void synchronizePages( ) throws OLAPException
