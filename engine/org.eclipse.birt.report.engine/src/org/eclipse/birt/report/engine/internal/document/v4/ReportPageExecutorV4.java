@@ -96,10 +96,13 @@ public class ReportPageExecutorV4 extends AbstractReportExecutor
 	{
 		if ( pageSequence.size( ) == 1 )
 		{
-			long[] pages = (long[]) pageSequence.get( 0 );
-			if ( pages[0] == 1 && pages[1] == hintsReader.getTotalPage( ) )
+			if ( context.getReportDocument( ).isComplete( ) )
 			{
-				return null;
+				long[] pages = (long[]) pageSequence.get( 0 );
+				if ( pages[0] == 1 && pages[1] == hintsReader.getTotalPage( ) )
+				{
+					return null;
+				}
 			}
 		}
 	

@@ -983,7 +983,9 @@ public class ReportDocumentReader
 					}
 				}
 			}
-			else if ( version == IPageHintReader.VERSION_2 || version == IPageHintReader.VERSION_3 )
+			else if ( version == IPageHintReader.VERSION_2
+					|| version == IPageHintReader.VERSION_3
+					|| version == IPageHintReader.VERSION_4 )
 			{
 				long totalPage = pageHintReader.getTotalPage( );
 				for ( long pageNumber = 1; pageNumber <= totalPage; pageNumber++ )
