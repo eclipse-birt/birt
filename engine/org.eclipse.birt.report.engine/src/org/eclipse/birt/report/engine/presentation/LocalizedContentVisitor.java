@@ -526,6 +526,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 
 	public Object visitImage( IImageContent image, Object value )
 	{
+		handleOnRender( image );
 		if ( image.getImageSource( ) == IImageContent.IMAGE_FILE
 				|| image.getImageSource( ) == IImageContent.IMAGE_URL )
 		{
@@ -539,8 +540,6 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 				image.setURI( uri.toExternalForm( ) );
 			}
 		}
-		
-		handleOnRender( image );
 		processImage( image );
 		return image;
 	}
