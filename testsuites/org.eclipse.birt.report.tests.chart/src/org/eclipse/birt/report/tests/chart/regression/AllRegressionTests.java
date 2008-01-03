@@ -22,7 +22,6 @@ public class AllRegressionTests
 		// add all test classes here
 		suite.addTestSuite( Regression_101039.class );
 		suite.addTestSuite( Regression_101855.class );
-		suite.addTestSuite( Regression_101868.class );
 		suite.addTestSuite( Regression_103787.class );
 		suite.addTestSuite( Regression_104472.class );
 		suite.addTestSuite( Regression_104627.class );
