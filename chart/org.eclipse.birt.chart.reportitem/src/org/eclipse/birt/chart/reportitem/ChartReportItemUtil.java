@@ -262,6 +262,9 @@ public class ChartReportItemUtil
 				case GroupingUnitType.DAYS :
 					return IGroupDefinition.DAY_INTERVAL;
 
+				case GroupingUnitType.WEEKS :
+					return IGroupDefinition.WEEK_INTERVAL;
+					
 				case GroupingUnitType.MONTHS :
 					return IGroupDefinition.MONTH_INTERVAL;
 
