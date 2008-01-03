@@ -45,6 +45,7 @@ import org.eclipse.birt.chart.internal.factory.IDateFormatWrapper;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.attribute.Angle3D;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Insets;
@@ -1461,30 +1462,95 @@ public final class AxesRenderHelper
 				{
 					if ( bRendering3D )
 					{
-						Bounds cbo = renderer.getPlotBounds( );
+//						Bounds cbo = renderer.getPlotBounds( );
+//
+//						tre.setBlockBounds( BoundsImpl.create( cbo.getLeft( )
+//								+ ( cbo.getWidth( ) / 3d - bb.getWidth( ) )
+//								/ 2d,
+//								cbo.getTop( ) + 30,
+//								bb.getWidth( ),
+//								bb.getHeight( ) ) );
+//
+//						tre.setLabel( la );
+//						tre.setBlockAlignment( la.getCaption( )
+//								.getFont( )
+//								.getAlignment( ) );
+//						tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
+//						ipr.drawText( tre );
+//
+//						tre.setBlockBounds( BoundsImpl.create( cbo.getLeft( )
+//								+ cbo.getWidth( )
+//								- bb.getWidth( ),
+//								cbo.getTop( ) + 30 * 2,
+//								bb.getWidth( ),
+//								bb.getHeight( ) ) );
+//
+//						ipr.drawText( tre );
+						
+						// Comment above code and add following code to partial
+						// fix bugzilla bug 192833. This fix only made that the
+						// axis title position is decided by its axis location.
+						// Create 3D text location for axis title.
+						double yCenter = daEndPoints3D[0] +
+								( ( daEndPoints3D[1] - daEndPoints3D[0] ) / 2 );
+						final double x = ( iLabelLocation == IConstants.LEFT ) ? context.dTick1 - 1
+								: context.dTick2 + 1;
+						double sx = x;
+						double sx2 = dXEnd;
 
-						tre.setBlockBounds( BoundsImpl.create( cbo.getLeft( )
-								+ ( cbo.getWidth( ) / 3d - bb.getWidth( ) )
-								/ 2d,
-								cbo.getTop( ) + 30,
-								bb.getWidth( ),
-								bb.getHeight( ) ) );
+						if ( bAxisLabelStaggered )
+						{
+							if ( iLabelLocation == IConstants.LEFT )
+							{
+								sx -= dStaggeredLabelOffset;
+								sx2 += dStaggeredLabelOffset;
+							}
+							else
+							{
+								sx += dStaggeredLabelOffset;
+								sx2 -= dStaggeredLabelOffset;
+							}
+						}
 
-						tre.setLabel( la );
-						tre.setBlockAlignment( la.getCaption( )
-								.getFont( )
-								.getAlignment( ) );
-						tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
-						ipr.drawText( tre );
+						Angle3D a3D = (Angle3D) ( (ChartWithAxes) renderer.cm ).getRotation( )
+								.getAngles( )
+								.get( 0 );
+						double offset = 2;
+						t3dre = (Text3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+								Text3DRenderEvent.class );
+						sx = sx -
+								pwa.getHorizontalSpacingInPixels( ) -
+								bb.getWidth( ) -
+								bb.getHeight( );
+						t3dre.setLocation3D( Location3DImpl.create( sx - offset,
+								yCenter,
+								dZEnd +
+										offset +
+										pwa.getHorizontalSpacingInPixels( ) +
+										( bb.getWidth( ) + bb.getHeight( ) ) *
+										Math.sin( a3D.getYAngle( ) *
+												Math.PI /
+												180 ) ) );
+						t3dre.setLabel( la );
+						t3dre.setTextPosition( Text3DRenderEvent.LEFT );
+						t3dre.setAction( Text3DRenderEvent.RENDER_TEXT_AT_LOCATION );
+						dc.addLabel( t3dre );
 
-						tre.setBlockBounds( BoundsImpl.create( cbo.getLeft( )
-								+ cbo.getWidth( )
-								- bb.getWidth( ),
-								cbo.getTop( ) + 30 * 2,
-								bb.getWidth( ),
-								bb.getHeight( ) ) );
-
-						ipr.drawText( tre );
+						t3dre = (Text3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+								Text3DRenderEvent.class );
+						sx2 = sx2 + pwa.getHorizontalSpacingInPixels( ) + 100;
+						t3dre.setLocation3D( Location3DImpl.create( sx2,
+								yCenter,
+								dZ -
+										pwa.getHorizontalSpacingInPixels( ) -
+										100 *
+										Math.sin( a3D.getYAngle( ) *
+												Math.PI /
+												180 ) ) );
+						t3dre.setLabel( la );
+						t3dre.setTextPosition( Text3DRenderEvent.RIGHT );
+						t3dre.setAction( Text3DRenderEvent.RENDER_TEXT_AT_LOCATION );
+						dc.addLabel( t3dre );
 					}
 					else
 					{
@@ -1826,41 +1892,99 @@ public final class AxesRenderHelper
 				{
 					if ( bRendering3D )
 					{
-						Bounds cbo = renderer.getPlotBounds( );
-
+//						Bounds cbo = renderer.getPlotBounds( );
+//
+//						if ( axisType == IConstants.BASE_AXIS )
+//						{
+//							tre.setBlockBounds( BoundsImpl.create( cbo.getLeft( )
+//									+ ( cbo.getWidth( ) / 3d - bb.getWidth( ) ),
+//									cbo.getTop( )
+//											+ cbo.getHeight( )
+//											- Math.min( bb.getHeight( ),
+//													bb.getWidth( ) ),
+//									bb.getWidth( ),
+//									bb.getHeight( ) ) );
+//						}
+//						else
+//						{
+//							tre.setBlockBounds( BoundsImpl.create( cbo.getLeft( )
+//									+ cbo.getWidth( )
+//									* 2
+//									/ 3d
+//									+ ( cbo.getWidth( ) / 3d - bb.getWidth( ) )
+//									/ 2d,
+//									cbo.getTop( )
+//											+ cbo.getHeight( )
+//											- Math.min( bb.getHeight( ),
+//													bb.getWidth( ) ),
+//									bb.getWidth( ),
+//									bb.getHeight( ) ) );
+//						}
+//
+//						tre.setLabel( la );
+//						tre.setBlockAlignment( la.getCaption( )
+//								.getFont( )
+//								.getAlignment( ) );
+//						tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
+//						ipr.drawText( tre );
+						
+						// Comment above code and add following code to partial
+						// fix bugzilla bug 192833. This fix only made that the
+						// axis title position is decided by its axis location.
+						Angle3D a3D = (Angle3D) ( (ChartWithAxes) renderer.cm ).getRotation( )
+								.getAngles( )
+								.get( 0 );
 						if ( axisType == IConstants.BASE_AXIS )
 						{
-							tre.setBlockBounds( BoundsImpl.create( cbo.getLeft( )
-									+ ( cbo.getWidth( ) / 3d - bb.getWidth( ) ),
-									cbo.getTop( )
-											+ cbo.getHeight( )
-											- Math.min( bb.getHeight( ),
-													bb.getWidth( ) ),
-									bb.getWidth( ),
-									bb.getHeight( ) ) );
+							t3dre = (Text3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
+									Text3DRenderEvent.class );
+
+							IAxisTypeComputation computation = createAxisTypeComputation( context );
+							computation.initialize( );
+							final int length = computation instanceof TextAxisTypeComputation ? da.size( ) - 1
+									: da.size( );
+
+							int xStart = (int) da3D.getCoordinate( 0 );
+							int xEnd = (int) da3D.getCoordinate( length - 1 );
+							int x = xStart + ( xEnd - xStart ) / 2;
+							Location3D location = Location3DImpl.create( x,
+									context.dY - bb.getHeight( ) * 3,
+									dZEnd + pwa.getVerticalSpacingInPixels( ) );
+							t3dre.setLocation3D( location );
+							t3dre.setLabel( la );
+							double angle = ( a3D.getZAngle( ) + a3D.getXAngle( ) ) % 360;
+							if ( angle > 0 && angle <= 180 )
+							{
+								t3dre.setTextPosition( Text3DRenderEvent.RIGHT );
+							}
+							else
+							{
+								t3dre.setTextPosition( Text3DRenderEvent.LEFT );
+							}
+
+							t3dre.setAction( Text3DRenderEvent.RENDER_TEXT_AT_LOCATION );
+							dc.addLabel( t3dre );
 						}
 						else
 						{
-							tre.setBlockBounds( BoundsImpl.create( cbo.getLeft( )
-									+ cbo.getWidth( )
-									* 2
-									/ 3d
-									+ ( cbo.getWidth( ) / 3d - bb.getWidth( ) )
-									/ 2d,
-									cbo.getTop( )
-											+ cbo.getHeight( )
-											- Math.min( bb.getHeight( ),
-													bb.getWidth( ) ),
-									bb.getWidth( ),
-									bb.getHeight( ) ) );
-						}
+							Location3D location = Location3DImpl.create( dXEnd,
+									context.dY - bb.getHeight( ),
+									dZ + ( dZEnd - dZ ) / 2 );
+							t3dre.setLocation3D( location );
+							t3dre.setLabel( la );
+							double angle = a3D.getZAngle( ) % 360;
+							if ( angle >= 0 && angle < 180 )
+							{
+								t3dre.setTextPosition( Text3DRenderEvent.RIGHT );
+							}
+							else
+							{
+								t3dre.setTextPosition( Text3DRenderEvent.LEFT );
+							}
 
-						tre.setLabel( la );
-						tre.setBlockAlignment( la.getCaption( )
-								.getFont( )
-								.getAlignment( ) );
-						tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
-						ipr.drawText( tre );
+							t3dre.setAction( Text3DRenderEvent.RENDER_TEXT_AT_LOCATION );
+							dc.addLabel( t3dre );
+						}
 					}
 					else
 					{
