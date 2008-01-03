@@ -16,7 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportDesignEditPart;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbenchPart;
@@ -69,7 +69,7 @@ public class ApplyThemeMenuAction extends MenuUpdateAction
 		if ( selection != null && !selection.isEmpty( )
 				&& selection.getFirstElement( ) instanceof ReportDesignEditPart )
 		{
-			return ( (ReportDesignHandle) ( (ReportDesignEditPart) selection
+			return ( (ModuleHandle) ( (ReportDesignEditPart) selection
 					.getFirstElement( ) ).getModel( ) ).getTheme( );
 		}
 		return null;
