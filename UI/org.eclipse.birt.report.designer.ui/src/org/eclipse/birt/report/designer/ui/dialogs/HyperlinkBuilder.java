@@ -54,6 +54,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
@@ -892,7 +893,13 @@ public class HyperlinkBuilder extends BaseDialog
 			final String[] fileExt )
 	{
 		Button button = new Button( parent, SWT.PUSH );
-		button.setLayoutData( new GridData( ) );
+		GridData gd = new GridData( );
+		if ( !Platform.getOS( ).equals( Platform.OS_MACOSX ) )
+		{
+			gd.widthHint = 20;
+			gd.heightHint = 20;
+		}
+		button.setLayoutData( gd );
 		button.setImage( IMAGE_OPEN_FILE );
 		button.setToolTipText( TOOLTIP_BROWSE_FILE );
 		button.addSelectionListener( new SelectionAdapter( ) {
