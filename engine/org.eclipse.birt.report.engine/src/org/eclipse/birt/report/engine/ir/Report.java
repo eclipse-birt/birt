@@ -22,8 +22,7 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.BIRTCSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.parser.EngineIRTransferV213;
-import org.eclipse.birt.report.engine.parser.EngineIRTransferV221;
-import org.eclipse.birt.report.engine.parser.EngineIRVisitor;
+import org.eclipse.birt.report.engine.parser.MultiViewEngineIRVisitor;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.w3c.dom.css.CSSStyleDeclaration;
@@ -385,7 +384,7 @@ public class Report
 		}
 		else
 		{
-			return new EngineIRVisitor( reportDesign ).translate( handle, this );
+			return new MultiViewEngineIRVisitor( reportDesign ).translate( handle, this );
 		}
 	}
 

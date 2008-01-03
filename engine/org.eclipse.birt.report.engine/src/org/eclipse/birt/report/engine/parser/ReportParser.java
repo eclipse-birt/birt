@@ -174,7 +174,7 @@ public class ReportParser
 		assert ( design != null );
 		// assert ( design.getErrorList().isEmpty());
 
-		EngineIRVisitor visitor = new EngineIRVisitor( design );
+		EngineIRVisitor visitor = new MultiViewEngineIRVisitor( design );
 		Report report = visitor.translate( );
 		report.setVersion( ReportDocumentConstants.BIRT_ENGINE_VERSION );
 		return report;

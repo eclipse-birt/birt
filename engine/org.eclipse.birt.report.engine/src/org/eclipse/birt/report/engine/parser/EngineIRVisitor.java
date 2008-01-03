@@ -211,6 +211,8 @@ public class EngineIRVisitor extends DesignVisitor
 	 */
 	StyleDeclaration inheritableReportStyle;
 
+	protected long currentElementId = -1;
+	
 	/**
 	 * Used to fix half-baked handle, such as:
 	 *   fix the new added empty cell created in format irregular table or grid.
@@ -448,10 +450,16 @@ public class EngineIRVisitor extends DesignVisitor
 			}
 		}
 
-		currentElement = page;
+		setCurrentElement( page );
 		
 		// We do not support graphic master page now.
 		Assert.isTrue( false, "Graphic master page is not supported now!" );
+	}
+
+	private void setCurrentElement( ReportElementDesign element )
+	{
+		currentElement = element;
+		currentElementId = -1;
 	}
 
 	public void visitSimpleMasterPage( SimpleMasterPageHandle handle )
@@ -486,7 +494,7 @@ public class EngineIRVisitor extends DesignVisitor
 			}
 		}
 		
-		currentElement = page;
+		setCurrentElement( page );
 	}
 
 	public void visitList( ListHandle handle )
@@ -536,7 +544,7 @@ public class EngineIRVisitor extends DesignVisitor
 			listItem.setFooter( footer );
 		}
 
-		currentElement = listItem;
+		setCurrentElement( listItem );
 	}
 
 	public void visitFreeForm( FreeFormHandle handle )
@@ -556,7 +564,7 @@ public class EngineIRVisitor extends DesignVisitor
 			}
 		}
 		
-		currentElement = container;
+		setCurrentElement( container );
 	}
 
 	public void visitTextDataItem( TextDataHandle handle )
@@ -572,7 +580,7 @@ public class EngineIRVisitor extends DesignVisitor
 		setupHighlight( dynamicTextItem, valueExpr );
 		setMap( dynamicTextItem, valueExpr );
 		
-		currentElement = dynamicTextItem;
+		setCurrentElement( dynamicTextItem );
 	}
 
 	public void visitLabel( LabelHandle handle )
@@ -596,7 +604,7 @@ public class EngineIRVisitor extends DesignVisitor
 		// Fill in help text
 		labelItem.setHelpText( handle.getHelpTextKey( ), handle.getHelpText( ) );
 		
-		currentElement = labelItem;
+		setCurrentElement( labelItem );
 	}
 	
 	public void visitAutoText( AutoTextHandle handle )
@@ -606,7 +614,7 @@ public class EngineIRVisitor extends DesignVisitor
 
 		autoTextItem.setType(handle.getAutoTextType());
 		
-		currentElement = autoTextItem;
+		setCurrentElement( autoTextItem );
 	}
 
 	public void visitDataItem( DataItemHandle handle )
@@ -640,7 +648,7 @@ public class EngineIRVisitor extends DesignVisitor
 			data.setNeedRefreshMapping( true );
 		}
 		
-		currentElement = data;
+		setCurrentElement( data );
 	}
 
 	public void visitGrid( GridHandle handle )
@@ -679,7 +687,7 @@ public class EngineIRVisitor extends DesignVisitor
 		newCellId = new TableItemDesignLayout( ).layout( grid, newCellId );
 		applyColumnHighlight( grid );
 
-		currentElement = grid;
+		setCurrentElement( grid );
 	}
 
 	public void visitImage( ImageHandle handle )
@@ -729,7 +737,7 @@ public class EngineIRVisitor extends DesignVisitor
 			assert false;
 		}
 
-		currentElement = image;
+		setCurrentElement( image );
 	}
 
 	public void visitTable( TableHandle handle )
@@ -854,7 +862,7 @@ public class EngineIRVisitor extends DesignVisitor
 			}
 		}
 		
-		currentElement = table;
+		setCurrentElement( table );
 	}
 
 	private void locateGroupIcon( TableGroupDesign group )
@@ -1086,7 +1094,7 @@ public class EngineIRVisitor extends DesignVisitor
 
 		//setupHighlight( col, null );
 
-		currentElement = col;
+		setCurrentElement( col );
 	}
 
 	public void visitRow( RowHandle handle )
@@ -1144,7 +1152,7 @@ public class EngineIRVisitor extends DesignVisitor
 		row.setOnPageBreak( handle.getOnPageBreak( ) );
 		*/
 		
-		currentElement = row;
+		setCurrentElement( row );
 	}
 
 	private boolean isContainer( ReportElementHandle handle )
@@ -1258,7 +1266,7 @@ public class EngineIRVisitor extends DesignVisitor
 		cell.setOnPageBreak( handle.getOnPageBreak( ) );
 		*/
 		
-		currentElement = cell;
+		setCurrentElement( cell );
 	}
 	
 	private boolean isCellInGroupHeader( CellHandle cellHandle )
@@ -1349,7 +1357,7 @@ public class EngineIRVisitor extends DesignVisitor
 		boolean hideDetail = handle.hideDetail( );
 		listGroup.setHideDetail( hideDetail );
 		
-		currentElement = listGroup;
+		setCurrentElement( listGroup );
 	}
 
 	/**
@@ -1394,7 +1402,7 @@ public class EngineIRVisitor extends DesignVisitor
 		boolean hideDetail = handle.hideDetail( );
 		tableGroup.setHideDetail( hideDetail );
 		
-		currentElement = tableGroup;
+		setCurrentElement( tableGroup );
 	}
 
 	public void visitTextItem( TextItemHandle handle )
@@ -1430,7 +1438,7 @@ public class EngineIRVisitor extends DesignVisitor
 		handleExtendedItemChildren( extendedItem, obj );
 		extendedItemNestingCount--;
 		
-		currentElement = extendedItem;
+		setCurrentElement( extendedItem );
 	}
 	
 	/**
@@ -1482,7 +1490,7 @@ public class EngineIRVisitor extends DesignVisitor
 		template.setPromptTextKey( obj.getDescriptionKey( ) );
 		template.setAllowedType( obj.getAllowedType( ) );
 		
-		currentElement = template;
+		setCurrentElement( template );
 	}
 
 	protected void setupGroup( GroupDesign group, GroupHandle handle )
@@ -1678,7 +1686,8 @@ public class EngineIRVisitor extends DesignVisitor
 	{
 		element.setHandle( handle );
 		element.setName( handle.getName( ) );
-		element.setID( handle.getID( ) );
+		long id = currentElementId == -1 ? handle.getID( ) : currentElementId;
+		element.setID( id );
 				
 		// handle the properties
 		List list = handle.getUserProperties( );

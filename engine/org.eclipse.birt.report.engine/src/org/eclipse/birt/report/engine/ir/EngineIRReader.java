@@ -26,6 +26,7 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 
@@ -1493,6 +1494,15 @@ public class EngineIRReader implements IOConstants
 		{
 			long id = element.getID( );
 			DesignElementHandle elementHandle = handle.getElementByID( id );
+			if ( elementHandle instanceof ReportItemHandle )
+			{
+				DesignElementHandle currentView = ( (ReportItemHandle) elementHandle )
+						.getCurrentView( );
+				if ( currentView != null )
+				{
+					elementHandle = currentView;
+				}
+			}
 			element.setHandle( elementHandle );
 			getScriptIDBack( element );
 			report.setReportItemInstanceID( id, element );
