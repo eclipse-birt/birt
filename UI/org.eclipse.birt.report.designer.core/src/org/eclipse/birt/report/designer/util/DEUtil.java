@@ -999,7 +999,15 @@ public class DEUtil
 		}
 		if ( model instanceof ComputedColumnHandle )
 		{
-			return getColumnExpression( ( (ComputedColumnHandle) model ).getName( ) );
+			if ( isCrosstabElement( ( (ComputedColumnHandle) model ).getElementHandle( ) ) )
+			{
+				return getDataExpression( ( (ComputedColumnHandle) model ).getName( ) );
+			}
+			else
+			{
+				return getColumnExpression( ( (ComputedColumnHandle) model ).getName( ) );
+			}
+
 		}
 		if ( model instanceof ResultSetColumnHandle )
 		{
@@ -2091,16 +2099,16 @@ public class DEUtil
 	public static List getDataSources( )
 	{
 		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
-		.getReportDesignHandle( );
-		if(moduleHandle != null)
+				.getReportDesignHandle( );
+		if ( moduleHandle != null )
 		{
 			return moduleHandle.getVisibleDataSources( );
-		}else
-		{
-			return new ArrayList();
 		}
-		 
-				
+		else
+		{
+			return new ArrayList( );
+		}
+
 	}
 
 	/**
@@ -2753,15 +2761,16 @@ public class DEUtil
 		else
 			return value;
 	}
-	
-	
-	/**Gets the hirarchy name
+
+	/**
+	 * Gets the hirarchy name
+	 * 
 	 * @param object
 	 * @return
 	 */
 	public static String getFlatHirarchyPathName( Object object )
 	{
-		if (!(object instanceof DesignElementHandle))
+		if ( !( object instanceof DesignElementHandle ) )
 		{
 			return null;
 		}
