@@ -375,7 +375,7 @@
 	<!-- copy plugins needed in the system fold ./eclipse/plugins into the directory -->
 	<mkdir dir="${export.dir}/plugins" />
 
-	<copy todir="${export.dir}/plugins">
+	<copy todir="${export.dir}/plugins" overwrite="true">
 		<fileset dir="${baseLocation}/plugins">
 			<include name="org.eclipse.core.runtime.compatibility.registry_*/**" />
 			<!-- <include name="org.eclipse.core.runtime.compatibility.registry_*.jar"/> -->
@@ -409,6 +409,9 @@
 			<include name="org.eclipse.datatools.enablement.oda.xml_*.jar" />
 			<include name="org.eclipse.datatools.enablement.oda.ws_*.jar" />
 			<include name="javax.wsdl_1.4.0*.jar"/>
+			<!-- xerces for DTP, may not be the same version as BIRT uses -->
+			<include name="org.apache.xerces_*.jar"/>
+			<include name="org.apache.xml.resolver_*.jar"/>
 		</fileset>
 		<fileset dir="${baseLocation.emf}/plugins">
 			<include name="org.eclipse.emf.common_*.jar" />
