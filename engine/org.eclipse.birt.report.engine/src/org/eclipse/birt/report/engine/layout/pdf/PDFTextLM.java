@@ -641,5 +641,39 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 		}
 			
 	}
+	
+	/**
+	 * need overwrite this mothod to change default behavour.
+	 * For inline leaf elements, page-break is handled by this layout manager.
+	 * For block leaf elements. page-break is handled by it's block container
+	 */
+	protected boolean handlePageBreakAfter( )
+	{
+		if ( content != null )
+		{
+			if ( PropertyUtil.isInlineElement( content ) )
+			{
+				return super.handlePageBreakAfter( );
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * need overwrite this mothod to change default behavour.
+	 * For inline leaf elements, page-break is handled by this layout manager.
+	 * For block leaf elements. page-break is handled by it's block container
+	 */
+	protected boolean handlePageBreakBefore( )
+	{
+		if ( content != null )
+		{
+			if ( PropertyUtil.isInlineElement( content ) )
+			{
+				return super.handlePageBreakBefore( );
+			}
+		}
+		return false;
+	}
 
 }
