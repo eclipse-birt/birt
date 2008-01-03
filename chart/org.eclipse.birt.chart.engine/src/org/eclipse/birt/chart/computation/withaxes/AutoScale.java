@@ -369,7 +369,7 @@ public final class AutoScale extends Methods implements Cloneable
 					oStep = new Double( dStep );
 				}
 
-				if ( ( (Number) oStep ).doubleValue( ) < getFormatPrecision( ) )
+				if ( ( (Number) oStep ).doubleValue( ) < dPrecision )
 				{
 					oStep = new Double( oldStep ); // revert step
 					return false; // CANNOT ZOOM ANY MORE
@@ -1950,6 +1950,8 @@ public final class AutoScale extends Methods implements Cloneable
 		AutoScale sc = null;
 		AutoScale scCloned = null;
 		final Object oMinValue, oMaxValue;
+		
+		final boolean bIsPercent = ax.getModelAxis( ).isPercent( );
 
 		if ( ( iType & TEXT ) == TEXT || ax.isCategoryScale( ) )
 		{
@@ -1998,7 +2000,8 @@ public final class AutoScale extends Methods implements Cloneable
 				dPrecision = getPrecision( dPrecision,
 						dValue,
 						fs,
-						rtc.getULocale( ) );
+						rtc.getULocale( ),
+						bIsPercent);
 			}
 
 			if ( axisOrigin != null
@@ -2391,7 +2394,7 @@ public final class AutoScale extends Methods implements Cloneable
 	 * @return
 	 */
 	protected static double getPrecision( double precision, double pValue,
-			FormatSpecifier fs, ULocale locale )
+			FormatSpecifier fs, ULocale locale, boolean bIsPercent )
 	{
 		double value = Math.abs( pValue );
 		value = getValidDouble( value );
@@ -2405,11 +2408,19 @@ public final class AutoScale extends Methods implements Cloneable
 
 		if ( precision == 0 )
 		{
-			// precision not initialized yet
-			// use worst precision for the double value
-			precision = Math.pow( 10, Math.floor( Math.log( value )
-					/ Math.log( 10 ) ) );
+			if ( bIsPercent )
+			{
+				precision = 1;
+			}
+			else
+			{
+				// precision not initialized yet
+				// use worst precision for the double value
+				precision = Math.pow( 10, Math.floor( Math.log( value ) /
+						Math.log( 10 ) ) );
+			}
 		}
+		
 		// divide number by precision. If precision good enough, it's an
 		// integer
 		double check = value / precision;
@@ -2453,38 +2464,6 @@ public final class AutoScale extends Methods implements Cloneable
 
 		}
 		return precision;
-	}
-
-	
-	/*
-	 * if there is a valid user defined multiplier or perhaps fraction digits
-	 * than return the format precision, otherwise return 1.0
-	 * Note: it's NOT a static method like getPrecision
-	 */
-	private double getFormatPrecision( )
-	{
-		double dFormatPrecision = 1D;
-
-		if ( fs != null )
-		{
-			if ( fs instanceof NumberFormatSpecifier )
-			{
-				NumberFormatSpecifier ns = (NumberFormatSpecifier) fs;
-				if ( ns.isSetFractionDigits( ) )
-				{
-					double dMultiplier = ns.isSetMultiplier( ) ? ns.getMultiplier( )
-							: 1D;
-					if ( dMultiplier != 0 )
-					{
-						dFormatPrecision = Math.pow( 10,
-								-ns.getFractionDigits( ) ) /
-								dMultiplier;
-					}
-				}
-			}
-		}
-
-		return dFormatPrecision;
 	}
 
 	
