@@ -957,10 +957,10 @@ public final class AutoScale extends Methods implements Cloneable
 
 				if ( !ChartUtil.mathEqual( dMax, dMin ) )
 				{
-					double dNTicks = ( dMax - dMin ) / dStep;
-					if ( ( dNTicks > TICKS_MAX ) || ( dNTicks < 2 ) )
+					long lNTicks = Math.round( ( dMax - dMin ) / dStep );
+					if ( ( lNTicks > TICKS_MAX ) || ( lNTicks < 2 ) )
 					{
-						if ( dNTicks > TICKS_MAX )
+						if ( lNTicks > TICKS_MAX )
 						{
 							nTicks = TICKS_MAX;
 						}
@@ -974,7 +974,7 @@ public final class AutoScale extends Methods implements Cloneable
 					}
 					else
 					{
-						nTicks = (int) Math.ceil( dNTicks - 0.5 ) + 1;
+						nTicks = (int) Math.ceil( lNTicks - 0.5 ) + 1;
 					}
 				}
 				else
