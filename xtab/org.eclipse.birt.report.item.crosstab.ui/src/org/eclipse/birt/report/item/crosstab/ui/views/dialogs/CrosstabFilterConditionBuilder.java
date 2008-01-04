@@ -1468,7 +1468,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 			}
 			else
 			{
-				index = groupLevelList.indexOf( measureViewHandle );
+				index = measureList.indexOf( measureViewHandle );
 			}
 
 			if ( index >= 0 )
