@@ -22,11 +22,13 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
@@ -37,14 +39,20 @@ import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IShutdownListener;
+import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.QueryResults;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
+import org.eclipse.birt.data.engine.olap.impl.query.MeasureDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.PreparedCubeQuery;
+import org.eclipse.birt.data.engine.olap.query.view.CubeQueryDefinitionUtil;
+import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.script.JSDataSources;
+import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -617,12 +625,90 @@ public class DataEngineImpl extends DataEngine
 	public IPreparedCubeQuery prepare( ICubeQueryDefinition query,
 			Map appContext ) throws BirtException
 	{
+		adaptCubeQueryDefinition( query );
 		return new PreparedCubeQuery( query,
 				this.session,
 				this.context,
 				appContext );
 	}
 	
+	/**
+	 * adapt the obsolete query definition for backward compatibility.
+	 * 
+	 * @param query
+	 * @return
+	 * @throws DataException
+	 */
+	private void adaptCubeQueryDefinition( ICubeQueryDefinition query )
+			throws DataException
+	{
+		List bindings = query.getBindings( );
+		List levelExprList = getAllAggrOns( query );
+		
+		for ( int i = 0; i < bindings.size( ); i++ )
+		{
+			IBinding binding = (IBinding) bindings.get( i );
+			String measureName = OlapExpressionCompiler.getReferencedScriptObject( binding.getExpression( ),
+					ScriptConstants.MEASURE_SCRIPTABLE );
+			if ( measureName != null )
+			{
+				if ( binding.getAggrFunction( ) == null )
+				{
+					String aggrFunc = getAggrFunction( query, measureName );
+					binding.setAggrFunction( aggrFunc );
+
+					if ( binding.getAggregatOns( ).size( ) == 0 )
+					{
+						for ( Iterator itr = levelExprList.iterator( ); itr.hasNext( ); )
+						{
+							binding.addAggregateOn( itr.next( ).toString( ) );
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * 
+	 * @param query
+	 * @return
+	 */
+	private List getAllAggrOns( ICubeQueryDefinition query )
+	{
+		List levels = CubeQueryDefinitionUtil.populateMeasureAggrOns( query );
+		List levelExprs = new ArrayList();
+		for ( Iterator itr = levels.iterator( ); itr.hasNext( ); )
+		{
+			DimLevel level = (DimLevel) itr.next( );
+			levelExprs.add( ExpressionUtil.createJSDimensionExpression( level.getDimensionName( ),
+					level.getLevelName( ) ) );
+		}
+		return levelExprs;
+	}
+
+	/**
+	 * 
+	 * @param query
+	 * @param measureName
+	 * @return
+	 */
+	private String getAggrFunction( ICubeQueryDefinition query,
+			String measureName )
+	{
+		for ( Iterator itr = query.getMeasures( ).iterator( ); itr.hasNext( ); )
+		{
+			MeasureDefinition measure = (MeasureDefinition) itr.next( );
+			if ( measure.getName( ).equals( measureName ) )
+			{
+				if ( measure.getAggrFunction( ) != null )
+					return measure.getAggrFunction( );
+				break;
+			}
+		}
+		return IBuildInAggregation.TOTAL_SUM_FUNC;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.api.DataEngine#getCachedDataSetMetaData(org.eclipse.birt.data.engine.api.IBaseDataSourceDesign, org.eclipse.birt.data.engine.api.IBaseDataSetDesign)

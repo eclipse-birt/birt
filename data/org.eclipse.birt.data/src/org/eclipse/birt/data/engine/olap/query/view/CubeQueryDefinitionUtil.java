@@ -48,7 +48,7 @@ import org.mozilla.javascript.Scriptable;
  * Utility class
  *
  */
-class CubeQueryDefinitionUtil
+public class CubeQueryDefinitionUtil
 {
 
 	/**
