@@ -559,10 +559,20 @@ public class CrosstabSubTotalDialog extends BaseDialog
 		{
 			List measureList = new ArrayList( );
 			List functionList = new ArrayList( );
+			measureList.addAll( getLevel( ).getAggregationMeasures( ) );
+			for(int i = 0; i < measureList.size( ); i ++)
+			{
+				functionList.add( getLevel().getAggregationFunction( (MeasureViewHandle)measureList.get( i )));
+			}
 			measureList.add( getMeasure( ) );
 			functionList.add( getFunction( ) );
+			
+			
 			try
 			{
+				// remove first, and then add
+				getLevel( ).removeSubTotal( );
+				
 				CrosstabCellHandle cellHandle = getLevel( ).addSubTotal( measureList,
 						functionList );
 				if ( cellHandle != null )
