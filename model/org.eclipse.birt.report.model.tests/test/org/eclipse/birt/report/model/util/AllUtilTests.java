@@ -31,6 +31,7 @@ public class AllUtilTests
 
 		test.addTestSuite( ContentIteratorTest.class );
 		test.addTestSuite( CssPropertyUtilTest.class );
+		test.addTestSuite( CubeUtilTest.class );
 		test.addTestSuite( DimensionUtilTest.class );
 		test.addTestSuite( EventFilterTest.class );
 		test.addTestSuite( ModelUtilTest.class );
@@ -39,7 +40,7 @@ public class AllUtilTests
 		test.addTestSuite( URIUtilTest.class );
 		test.addTestSuite( VersionUtilTest.class );
 		test.addTestSuite( XPathUtilTest.class );
-		
+
 		// add all test classes here
 
 		return test;
