@@ -356,6 +356,7 @@ data.olap.fetchlimitWarning=El tamaño de recuperación es {0}, menor que la longi
 data.olap.failComputeComputedMeasureValue=Error al procesar los valores para la medida procesada.
 data.olap.duplicateMeasureName=Duplicar nombre de medida \"{0}\".
 data.olap.dataBindingExpressionEmpty=La expresión de enlace de datos no puede ser nula ni estar vacía.
+data.olap.missingParentCursor=The parent result set does not exist.
 
 data.cache.UnsupportedIncrementalCacheMode=El modo \"{0}\" de caché de incremento no se admite aún.
 # Configuration file parser error code

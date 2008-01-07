@@ -356,6 +356,7 @@ data.olap.fetchlimitWarning=반입 크기는 {0}(으)로, 전체 결과 집합 [{1}]의 길이보
 data.olap.failComputeComputedMeasureValue=계산되는 측정에 대한 값을 계산하지 못했습니다.
 data.olap.duplicateMeasureName=중복된 측정값 이름 \"{0}\"입니다.
 data.olap.dataBindingExpressionEmpty=데이터 바인딩 식은 널(null)이거나 비워 둘 수 없습니다!
+data.olap.missingParentCursor=The parent result set does not exist.
 
 data.cache.UnsupportedIncrementalCacheMode=증가 캐시의 \"{0}\" 모드는 아직 지원되지 않습니다.
 # Configuration file parser error code

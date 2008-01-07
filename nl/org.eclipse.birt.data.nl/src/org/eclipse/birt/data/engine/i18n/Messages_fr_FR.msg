@@ -356,6 +356,7 @@ data.olap.fetchlimitWarning=La taille d''extraction est {0}, elle est donc infér
 data.olap.failComputeComputedMeasureValue=Echec du calcul de la valeur pour la mesure calculée.
 data.olap.duplicateMeasureName=Nom de mesure \"{0}\" en double.
 data.olap.dataBindingExpressionEmpty=L'expression de liaison de données ne peut être ni nulle ni vide.
+data.olap.missingParentCursor=The parent result set does not exist.
 
 data.cache.UnsupportedIncrementalCacheMode=Le mode \"{0}\" de cache incrémentiel n''est pas encore pris en charge !
 # Configuration file parser error code

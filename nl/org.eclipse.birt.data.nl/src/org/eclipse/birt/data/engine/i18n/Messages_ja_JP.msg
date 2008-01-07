@@ -356,6 +356,7 @@ data.olap.fetchlimitWarning=Œ‹‰ÊƒZƒbƒg‚Ì‘S‘Ì‚ÌƒTƒCƒY‚Í [{1}] ‚Å‚·‚ªA{0} ‚µ‚©ƒtƒ
 data.olap.failComputeComputedMeasureValue=Œv‘ª’l‚ğŒvZ‚Å‚«‚Ü‚¹‚ñB
 data.olap.duplicateMeasureName=Œv‘ª–¼ \"{0}\" ‚ªd•¡‚µ‚Ä‚¢‚Ü‚·B
 data.olap.dataBindingExpressionEmpty=ƒf[ƒ^‚ÌƒoƒCƒ“ƒh®‚Í NULL ‚â‹ó”’‚É‚Å‚«‚Ü‚¹‚ñB
+data.olap.missingParentCursor=The parent result set does not exist.
 
 data.cache.UnsupportedIncrementalCacheMode=‘•ªƒLƒƒƒbƒVƒ…‚Ì \"{0}\" ƒ‚[ƒh‚Í‚Ü‚¾ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
 # Configuration file parser error code
