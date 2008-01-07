@@ -999,7 +999,7 @@ public class DEUtil
 		}
 		if ( model instanceof ComputedColumnHandle )
 		{
-			if ( isCrosstabElement( ( (ComputedColumnHandle) model ).getElementHandle( ) ) )
+			if ( isBindingCube( ( (ComputedColumnHandle) model ).getElementHandle( ) ) )
 			{
 				return getDataExpression( ( (ComputedColumnHandle) model ).getName( ) );
 			}
@@ -2380,7 +2380,7 @@ public class DEUtil
 			ComputedColumnHandle column )
 	{
 		String exp = IReportElementConstants.BINDING_COLUMN_PREFIX;
-		if ( isCrosstabElement( baseElement ) )
+		if ( isBindingCube( baseElement ) )
 		{
 			exp = ExpressionUtil.DATA_INDICATOR;
 		}
@@ -2393,16 +2393,25 @@ public class DEUtil
 		return exp;
 	}
 
-	private static boolean isCrosstabElement( DesignElementHandle element )
+	private static boolean isBindingCube( DesignElementHandle element )
 	{
-		if ( element instanceof ExtendedItemHandle
-				&& ( (ExtendedItemHandle) element ).getExtensionName( )
-						.equals( "Crosstab" ) )
+		if ( element == null )
+			return false;
+		if ( element instanceof ReportItemHandle )
 		{
-			return true;
+			if ( ( (ReportItemHandle) element ).getCube( ) != null )
+			{
+				return true;
+			}
+			else if ( ( (ReportItemHandle) element ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+			{
+				return isBindingCube( ( (ReportItemHandle) element ).getDataBindingReference( ) );
+			}
+			else if ( ( (ReportItemHandle) element ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA )
+				return false;
 		}
 		if ( element.getContainer( ) != null )
-			return isCrosstabElement( element.getContainer( ) );
+			return isBindingCube( element.getContainer( ) );
 		return false;
 	}
 
