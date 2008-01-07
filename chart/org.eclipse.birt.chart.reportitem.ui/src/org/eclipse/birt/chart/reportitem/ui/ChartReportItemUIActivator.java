@@ -42,10 +42,10 @@ public class ChartReportItemUIActivator extends AbstractUIPlugin
 		// ChartPreferencePage.init( );
 
 		PreferenceFactory.getInstance( )
-				.getPreferences( ChartReportItemUIActivator.getDefault( ) )
+				.getPreferences( this )
 				.setDefault( PREFERENCE_ENALBE_LIVE, true );
 		PreferenceFactory.getInstance( )
-				.getPreferences( ChartReportItemUIActivator.getDefault( ) )
+				.getPreferences( this )
 				.setDefault( PREFERENCE_MAX_ROW, MAX_ROW_DEFAULT );
 	}
 

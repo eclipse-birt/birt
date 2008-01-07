@@ -51,6 +51,8 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -69,6 +71,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.metadata.PredefinedStyle;
+import org.eclipse.core.resources.IProject;
 
 import com.ibm.icu.text.Collator;
 import com.ibm.icu.text.DateFormat;
@@ -91,11 +94,13 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * is to help reduce invalid query.
 	 */
 	private boolean isErrorFound = false;
+	private IProject project = null;
 
 	public ReportDataServiceProvider( ExtendedItemHandle itemHandle )
 	{
 		super( );
 		this.itemHandle = itemHandle;
+		project = UIUtil.getCurrentProject( );
 	}
 
 	private ModuleHandle getReportDesignHandle( )
@@ -184,7 +189,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					null,
 					itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP )
 							.iterator( ),
-							ChartReportItemUtil.getColumnDataBindings( itemHandle ) );
+					ChartReportItemUtil.getColumnDataBindings( itemHandle ) );
 			if ( actualResultSet != null )
 			{
 				String[] expressions = columnExpression;
@@ -614,10 +619,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	public final Object getDAtaForColumns( String[] sExpressions,
 			int iMaxRecords, boolean byRow ) throws ChartException
 	{
-		
+
 		return null;
 	}
-	
+
 	public void dispose( )
 	{
 		// TODO DataEngine should be disposed when closing report design, rather
@@ -628,16 +633,18 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	private int getMaxRow( )
 	{
-		return ChartReportItemUIActivator.getDefault( )
-				.getPluginPreferences( )
+		return PreferenceFactory.getInstance( )
+				.getPreferences( ChartReportItemUIActivator.getDefault( ),
+						project )
 				.getInt( ChartReportItemUIActivator.PREFERENCE_MAX_ROW );
 	}
 
 	public boolean isLivePreviewEnabled( )
 	{
 		return !isErrorFound
-				&& ChartReportItemUIActivator.getDefault( )
-						.getPluginPreferences( )
+				&& PreferenceFactory.getInstance( )
+						.getPreferences( ChartReportItemUIActivator.getDefault( ),
+								project )
 						.getBoolean( ChartReportItemUIActivator.PREFERENCE_ENALBE_LIVE )
 				&& ( getReportDataSet( ) != null || getBoundDataSet( ) != null );
 	}
@@ -876,7 +883,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 		try
 		{
-			DataRequestSession session = prepareDataRequestSession(  getMaxRow( ) );
+			DataRequestSession session = prepareDataRequestSession( getMaxRow( ) );
 
 			BaseQueryHelper cbqh = new BaseQueryHelper( itemHandle, cm );
 			QueryDefinition queryDefn = (QueryDefinition) cbqh.createBaseQuery( columnExpression );
@@ -932,7 +939,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		DataRequestSession session = DataRequestSession.newSession( dsc );
 		return session;
 	}
-	
+
 	/**
 	 * The class is responsible to create query definition.
 	 * 
@@ -940,6 +947,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 */
 	class BaseQueryHelper extends AbstractChartBaseQueryGenerator
 	{
+
 		/**
 		 * Constructor of the class.
 		 * 
@@ -969,7 +977,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 			for ( int i = 0; i < columnExpression.size( ); i++ )
 			{
-				String expr =  (String) columnExpression.get( i );
+				String expr = (String) columnExpression.get( i );
 				Binding colBinding = new Binding( expr );
 				colBinding.setExpression( new ScriptExpression( expr ) );
 				queryDefn.addBinding( colBinding );
@@ -981,7 +989,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			return queryDefn;
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see org.eclipse.birt.chart.reportitem.AbstractChartBaseQueryGenerator#createBaseQuery(org.eclipse.birt.data.engine.api.IDataQueryDefinition)
 		 */
 		public IDataQueryDefinition createBaseQuery( IDataQueryDefinition parent )
