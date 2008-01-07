@@ -1113,8 +1113,9 @@ public class ParameterDialog extends BaseDialog
 		{
 			columnChooser.add( "" );
 		}
-		//		columnChooser.setEnabled( columnChooser.getItemCount( ) > 0 );
-		//		valueColumnExprButton.setEnabled( columnChooser.getItemCount( ) > 0 );
+		// columnChooser.setEnabled( columnChooser.getItemCount( ) > 0 );
+		// valueColumnExprButton.setEnabled( columnChooser.getItemCount( ) > 0
+		// );
 		updateMessageLine( );
 	}
 
@@ -2517,6 +2518,12 @@ public class ParameterDialog extends BaseDialog
 	{
 		Object v1 = null;
 		Object v2 = null;
+		if ( ( value1 == null && value2 != null )
+				|| ( value1 != null && value2 == null ) )
+		{
+			return false;
+		}
+		
 		try
 		{
 			v1 = validateValue( value1 );
@@ -2800,7 +2807,9 @@ public class ParameterDialog extends BaseDialog
 		{
 			return true;
 		}
-		return choiceValue != null && isEqual( choiceValue, defaultValue );
+		return choiceValue != null
+				&& choiceValue != null
+				&& isEqual( choiceValue, defaultValue );
 	}
 
 	private boolean isStatic( )
@@ -2936,7 +2945,7 @@ public class ParameterDialog extends BaseDialog
 		{
 			if ( key.equals( DEUtil.getExpression( columnList.get( i ) ) ) )
 			{
-				//				chooser.select( i );
+				// chooser.select( i );
 				chooser.setText( ( (ResultSetColumnHandle) columnList.get( i ) ).getColumnName( ) );
 				return;
 			}
