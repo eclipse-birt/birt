@@ -1664,7 +1664,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 			{
 				isAddClick = true;
 			}
-			
+
 			if ( value != null )
 			{
 				String newValues[] = new String[1];
@@ -1687,14 +1687,14 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 								.getActiveShell( ),
 								Messages.getString( "ExpressionValueCellEditor.title" ) ); //$NON-NLS-1$
 						dialog.setSelectedValueList( selectValueList );
-						if(isAddClick)
+						if ( isAddClick )
 						{
-							dialog.setMultipleSelection(true);
+							dialog.setMultipleSelection( true );
 						}
 						if ( dialog.open( ) == IDialogConstants.OK_ID )
 						{
 							returnValue = true;
-							newValues[0] = dialog.getSelectedExprValue( );
+							newValues = dialog.getSelectedExprValues( );
 						}
 					}
 
@@ -1720,24 +1720,28 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 				}
 				if ( returnValue )
 				{
-					if(addExpressionValue == thisCombo)
+					if ( addExpressionValue == thisCombo )
 					{
-						thisCombo.setText("");
+						thisCombo.setText( "" );
 						addBtn.setEnabled( false );
 					}
-					
+					else if ( newValues.length == 1 )
+					{
+						thisCombo.setText( DEUtil.resolveNull( newValues[0] ) );
+					}
+
 					if ( isAddClick )
 					{
 						boolean change = false;
-						for(int i = 0; i < newValues.length; i ++)
+						for ( int i = 0; i < newValues.length; i++ )
 						{
 							if ( valueList.indexOf( DEUtil.resolveNull( newValues[i] ) ) < 0 )
 							{
-								valueList.add(  DEUtil.resolveNull( newValues[i] ) );
+								valueList.add( DEUtil.resolveNull( newValues[i] ) );
 								change = true;
-							}					
+							}
 						}
-						if(change)
+						if ( change )
 						{
 							tableViewer.refresh( );
 							updateButtons( );

@@ -186,6 +186,9 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 				{
 					comboWidget.setText("");
 					addBtn.setEnabled( false );
+				}else if ( newValues.length == 1 )
+				{
+					comboWidget.setText( DEUtil.resolveNull( newValues[0] ) );
 				}
 				
 				if ( isAddClick )

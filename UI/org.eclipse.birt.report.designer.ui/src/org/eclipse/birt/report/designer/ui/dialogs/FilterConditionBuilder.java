@@ -603,6 +603,10 @@ public class FilterConditionBuilder extends TitleAreaDialog
 					{
 						thisCombo.setText("");
 						addBtn.setEnabled( false );
+					}else					
+					if(newValues.length == 1)
+					{
+						thisCombo.setText(DEUtil.resolveNull( newValues[0] ));
 					}
 					
 					if ( isAddClick )

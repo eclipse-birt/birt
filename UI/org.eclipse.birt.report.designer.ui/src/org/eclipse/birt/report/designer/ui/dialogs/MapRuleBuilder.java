@@ -1138,14 +1138,13 @@ public class MapRuleBuilder extends BaseDialog
 			return;
 		}
 		String value = comboWidget.getItem( selectionIndex );
-		
+
 		boolean isAddClick = false;
 		if ( tableViewer != null
 				&& ( addBtn != null && ( !addBtn.isDisposed( ) ) ) )
 		{
 			isAddClick = true;
 		}
-		
 
 		for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 		{
@@ -1178,9 +1177,9 @@ public class MapRuleBuilder extends BaseDialog
 						{
 							dialog.setBindingParams( bindingParams );
 						}
-						if(isAddClick)
+						if ( isAddClick )
 						{
-							dialog.setMultipleSelection(true);
+							dialog.setMultipleSelection( true );
 						}
 						if ( dialog.open( ) == IDialogConstants.OK_ID )
 						{
@@ -1257,24 +1256,28 @@ public class MapRuleBuilder extends BaseDialog
 			}
 			if ( returnValue )
 			{
-				if(addExpressionValue == comboWidget)
+				if ( addExpressionValue == comboWidget )
 				{
-					comboWidget.setText("");
+					comboWidget.setText( "" );
 					addBtn.setEnabled( false );
 				}
-				
+				else if ( newValues.length == 1 )
+				{
+					comboWidget.setText( DEUtil.resolveNull( newValues[0] ) );
+				}
+
 				if ( isAddClick )
 				{
 					boolean change = false;
-					for(int i = 0; i < newValues.length; i ++)
+					for ( int i = 0; i < newValues.length; i++ )
 					{
 						if ( valueList.indexOf( DEUtil.resolveNull( newValues[i] ) ) < 0 )
 						{
-							valueList.add(  DEUtil.resolveNull( newValues[i] ) );
+							valueList.add( DEUtil.resolveNull( newValues[i] ) );
 							change = true;
-						}					
+						}
 					}
-					if(change)
+					if ( change )
 					{
 						tableViewer.refresh( );
 						updateButtons( );

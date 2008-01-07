@@ -103,14 +103,14 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder
 			return;
 		}
 		String value = comboWidget.getItem( selectionIndex );
-		
+
 		boolean isAddClick = false;
 		if ( tableViewer != null
 				&& ( addBtn != null && ( !addBtn.isDisposed( ) ) ) )
 		{
 			isAddClick = true;
 		}
-		
+
 		for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 		{
 			String columnName = ( (ComputedColumnHandle) ( iter.next( ) ) ).getName( );
@@ -143,12 +143,12 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder
 							.getActiveShell( ),
 							Messages.getString( "ExpressionValueCellEditor.title" ) ); //$NON-NLS-1$
 					dialog.setSelectedValueList( selectValueList );
-					
-					if(isAddClick)
+
+					if ( isAddClick )
 					{
-						dialog.setMultipleSelection(true);
+						dialog.setMultipleSelection( true );
 					}
-					
+
 					if ( dialog.open( ) == IDialogConstants.OK_ID )
 					{
 						returnValue = true;
@@ -183,24 +183,28 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder
 			}
 			if ( returnValue )
 			{
-				if(addExpressionValue == comboWidget)
+				if ( addExpressionValue == comboWidget )
 				{
-					comboWidget.setText("");
+					comboWidget.setText( "" );
 					addBtn.setEnabled( false );
 				}
-				
+				else if ( newValues.length == 1 )
+				{
+					comboWidget.setText( DEUtil.resolveNull( newValues[0] ) );
+				}
+
 				if ( isAddClick )
 				{
 					boolean change = false;
-					for(int i = 0; i < newValues.length; i ++)
+					for ( int i = 0; i < newValues.length; i++ )
 					{
 						if ( valueList.indexOf( DEUtil.resolveNull( newValues[i] ) ) < 0 )
 						{
-							valueList.add(  DEUtil.resolveNull( newValues[i] ) );
+							valueList.add( DEUtil.resolveNull( newValues[i] ) );
 							change = true;
-						}					
+						}
 					}
-					if(change)
+					if ( change )
 					{
 						tableViewer.refresh( );
 						updateButtons( );
