@@ -508,6 +508,9 @@ public class PDFPageLM extends PDFBlockContainerLM
 				pageRoot.setPosition((int)(pageRoot.getX()/scale), (int)(pageRoot.getY()/scale));
 				pageRoot.setHeight((int)(pageRoot.getHeight()/scale));
 				pageRoot.setWidth((int)(pageRoot.getWidth()/scale));
+				ContainerArea pageBody = (ContainerArea)page.getBody();
+				pageBody.setHeight((int)(pageRoot.getHeight()/scale));
+				pageBody.setWidth((int)(pageRoot.getWidth()/scale));
 			}
 		}
 	}
