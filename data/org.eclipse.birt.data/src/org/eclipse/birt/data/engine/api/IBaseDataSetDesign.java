@@ -157,24 +157,5 @@ public interface IBaseDataSetDesign
 	 * @return
 	 */
 	public int getRowFetchLimit( );
-	
-	/**
-	 * Sets whether to cache the rows from dataset design when rendering the
-	 * report.
-	 * 
-	 * @param needsCache
-	 *            true if needs do caching , otherwise false
-	 * 
-	 * @throws SemanticException
-	 */
-	public void setNeedCache( boolean needsCache );
-
-	/**
-	 * Determines whether to cache the rows from dataset design when rendering
-	 * the report.
-	 * 
-	 * @return true if needs do caching , otherwise false false
-	 */
-	public boolean needCache( );
 
 }

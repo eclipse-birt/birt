@@ -33,7 +33,44 @@ import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 
 public class DteLevelDataSetCacheTest extends TestCase
 {
-	public void testDataSetOneTimeExecution() throws BirtException
+	public void testDataSetWithDteLevelCache() throws BirtException
+	{
+		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION, 
+				null,null,null );
+		DataEngine dataEngine = DataEngine.newDataEngine( context );
+	
+		ScriptDataSourceDesign dataSource = new ScriptDataSourceDesign( "ds" );
+		dataSource.setOpenScript( "i = 0;" );
+		ScriptDataSetDesign dataSet = new ScriptDataSetDesign( "test" );
+		dataSet.setDataSource( "ds" );
+
+		dataSet.addResultSetHint( new ColumnDefinition( "column1" ) );
+
+		dataSet.setFetchScript( " i++; if ( i % 10 == 0 ) return false; row.column1 = i;" +
+				"return true;" );
+
+		dataEngine.defineDataSource( dataSource );
+		dataEngine.defineDataSet( dataSet );
+		
+		QueryDefinition qd = new QueryDefinition();
+		qd.addBinding( new Binding( "column1",
+				new ScriptExpression( "dataSetRow[\"column1\"]",
+						DataType.INTEGER_TYPE ) ) );
+		qd.setDataSetName( "test" );
+		Map appContextMap = new HashMap( );
+		IResultIterator ri1 = dataEngine.prepare( qd, appContextMap ).execute( null ).getResultIterator( );
+		IResultIterator ri2 = dataEngine.prepare( qd, appContextMap ).execute( null ).getResultIterator( );
+		
+		assertTrue(((DataEngineImpl)dataEngine).getSession( ).getDataSetCacheManager( ).doesLoadFromCache( ) );
+		while ( ri1.next( ) )
+		{
+			assertTrue( ri2.next( ) );
+			assertEquals( ri1.getValue( "column1" ), ri2.getValue( "column1" ) );
+		}
+		
+	}
+	
+	public void testDataSetWithJVMCache() throws BirtException
 	{
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION, 
 				null,null,null );
@@ -44,12 +81,11 @@ public class DteLevelDataSetCacheTest extends TestCase
 		ScriptDataSetDesign dataSet = new ScriptDataSetDesign( "test" );
 		dataSet.setCacheRowCount( 100 );
 		dataSet.setDataSource( "ds" );
-		dataSet.setNeedCache( true );
 
 		dataSet.addResultSetHint( new ColumnDefinition( "column1" ) );
 
 		dataSet.setFetchScript( " i++; if ( i % 10 == 0 ) return false; row.column1 = i;" +
-				"Packages.java.lang.System.out.println( \"get row !\");return true;" );
+				"return true;" );
 
 		dataEngine.defineDataSource( dataSource );
 		dataEngine.defineDataSet( dataSet );
@@ -72,5 +108,4 @@ public class DteLevelDataSetCacheTest extends TestCase
 		}
 		
 	}
-	
 }

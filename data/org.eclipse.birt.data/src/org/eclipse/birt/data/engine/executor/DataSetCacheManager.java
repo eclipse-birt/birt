@@ -265,11 +265,24 @@ public class DataSetCacheManager
 	public boolean needsToCache( IBaseDataSetDesign dataSetDesign,
 			int cacheOption, int alwaysCacheRowCount )
 	{
+//		return DataSetCacheUtil.needsToCache( dataSetDesign,
+//						cacheOption,
+//						alwaysCacheRowCount );
+		return true;
+	}
+
+	/**
+	 * 
+	 * @param dataSetDesign
+	 * @return
+	 */
+	private boolean needsToJVMCache( IBaseDataSetDesign dataSetDesign )
+	{
 		return DataSetCacheUtil.needsToCache( dataSetDesign,
 				cacheOption,
 				alwaysCacheRowCount );
 	}
-
+	
 	/**
 	 * @return
 	 */
@@ -389,7 +402,7 @@ public class DataSetCacheManager
 	 */
 	private void switchCacheMap( IBaseDataSetDesign dataSetDesign )
 	{
-		if( !dataSetDesign.needCache( ) )
+		if( needsToJVMCache( dataSetDesign ) )
 		{
 			cacheMapManager = JVMLevelCacheMapManager;
 		}
