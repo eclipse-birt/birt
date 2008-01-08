@@ -194,6 +194,11 @@ public class NumberFormatter
 				num = 0;
 			}
 
+			if ( this.formatPattern == null )
+			{
+				return Double.toString( num );
+			}
+			
 			return numberFormat.format( num );
 
 		}
