@@ -1,3 +1,4 @@
+ChartCubeQueryHelper.Error.MustBindCube=Chart must bind a cube to feed data.
 ChartReportItemPresentationImpl.error.NoData=Vom mit dem Diagramm verbundene Datensatz wurden keine Zeilen zurückgegeben.
 ChartReportItemPresentationImpl.log.UnableToLocateWrapper=Berichtobjekt-Wrapper für Diagrammobjekt kann nicht gefunden werden.
 ChartReportItemPresentationImpl.log.onRowSetsStart=ChartReportItemGenerationImpl: onRowSets(...) – Start

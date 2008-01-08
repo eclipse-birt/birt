@@ -1,3 +1,4 @@
+ChartCubeQueryHelper.Error.MustBindCube=Chart must bind a cube to feed data.
 ChartReportItemPresentationImpl.error.NoData=グラフにバインドされているデータセットからは行が返されません。.
 ChartReportItemPresentationImpl.log.UnableToLocateWrapper=グラフオブジェクトのレポート項目ラッパーが見つかりません。
 ChartReportItemPresentationImpl.log.onRowSetsStart=ChartReportItemGenerationImpl : onRowSets(...) - 開始

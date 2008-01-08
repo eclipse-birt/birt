@@ -1,3 +1,4 @@
+ChartCubeQueryHelper.Error.MustBindCube=Chart must bind a cube to feed data.
 ChartReportItemPresentationImpl.error.NoData=联接至图表的数据集未返回行.
 ChartReportItemPresentationImpl.log.UnableToLocateWrapper=无法为图表对象找到报表项包装程序。
 ChartReportItemPresentationImpl.log.onRowSetsStart=ChartReportItemGenerationImpl: onRowSets(...) - 开始
