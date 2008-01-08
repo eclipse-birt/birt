@@ -16,8 +16,10 @@ import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.command.ICommandParameterNameContants;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
@@ -68,17 +70,29 @@ public class DeleteAction extends AbstractElementAction
 	{
 
 		Object selection = getSelection( );
-		if(selection != null)
+		if ( selection != null && selection instanceof StructuredSelection )
+		{
+			Object element = ( (StructuredSelection) selection ).getFirstElement( );
+			if ( element != null && element instanceof LibraryHandle )
+			{
+				if ( ( (LibraryHandle) element ).getHostHandle( ) != null )
+				{
+					return new RemoveLibraryAction( element ).doAction( );
+				}
+			}
+		}
+		if ( selection != null )
 		{
 			CommandUtils.setVariable( ICommandParameterNameContants.SELECTION,
 					selection );
 		}
-		
+
 		Object exeResult = null;
-			exeResult = CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.deleteCommand", null );
-		
-		hasExecuted = ((Boolean)exeResult).booleanValue( );
-		
+		exeResult = CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.deleteCommand",
+				null );
+
+		hasExecuted = ( (Boolean) exeResult ).booleanValue( );
+
 		return Boolean.TRUE.equals( exeResult );
 	}
 
@@ -94,8 +108,6 @@ public class DeleteAction extends AbstractElementAction
 			return false;
 		return cmd.canExecute( );
 	}
-
-
 
 	/*
 	 * (non-Javadoc)

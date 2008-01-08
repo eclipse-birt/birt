@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
@@ -48,6 +49,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 
 public class DeleteCommand extends Command
 {
+
 	protected static Logger logger = Logger.getLogger( DeleteCommand.class.getName( ) );
 	private Object model = null;
 
@@ -113,7 +115,7 @@ public class DeleteCommand extends Command
 			{
 				System.out.println( "DeleteCommand >> Failed. " ); //$NON-NLS-1$
 			}
-			logger.log( Level.SEVERE,e.getMessage( ), e);
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 	}
 
@@ -165,12 +167,13 @@ public class DeleteCommand extends Command
 				System.out.println( "DeleteCommand >> Dropping " //$NON-NLS-1$
 						+ DEUtil.getDisplayLabel( handle ) );
 			}
-			//if (isExtendedCell( handle ))
-			if (handle instanceof ExtendedItemHandle && isExtendedCell( (ExtendedItemHandle)handle ))
+			// if (isExtendedCell( handle ))
+			if ( handle instanceof ExtendedItemHandle
+					&& isExtendedCell( (ExtendedItemHandle) handle ) )
 			{
-				ExtendedItemHandle extendedHandle = (ExtendedItemHandle)handle;
+				ExtendedItemHandle extendedHandle = (ExtendedItemHandle) handle;
 				List list = extendedHandle.getContents( DEUtil.getDefaultContentName( handle ) );
-				for (int i=0;i<list.size( ); i++)
+				for ( int i = 0; i < list.size( ); i++ )
 				{
 					dropSourceElementHandle( (DesignElementHandle) list.get( i ) );
 				}
@@ -194,12 +197,13 @@ public class DeleteCommand extends Command
 			}
 		}
 	}
-	
-	//This is a temp method to fixed bug 190959.
-	//TODO Through the extened point to do it
-	private boolean isExtendedCell(ExtendedItemHandle handle)
+
+	// This is a temp method to fixed bug 190959.
+	// TODO Through the extened point to do it
+	private boolean isExtendedCell( ExtendedItemHandle handle )
 	{
-		return ((ExtendedItemHandle)handle).getExtensionName( ).indexOf( "Cell" )>-1;//$NON-NLS-1$
+		return ( (ExtendedItemHandle) handle ).getExtensionName( )
+				.indexOf( "Cell" ) > -1;//$NON-NLS-1$
 	}
 
 	protected void dropSourceSlotHandle( SlotHandle slot )
@@ -309,9 +313,11 @@ public class DeleteCommand extends Command
 		{
 			return true;
 		}
-		if (source instanceof ExtendedItemHandle && isExtendedCell( (ExtendedItemHandle)source ))
+		if ( source instanceof ExtendedItemHandle
+				&& isExtendedCell( (ExtendedItemHandle) source ) )
 		{
-			return ((ExtendedItemHandle)source).getContents( DEUtil.getDefaultContentName( source )).size( ) > 0;
+			return ( (ExtendedItemHandle) source ).getContents( DEUtil.getDefaultContentName( source ) )
+					.size( ) > 0;
 		}
 		if ( source instanceof CellHandle )
 		{
@@ -335,6 +341,13 @@ public class DeleteCommand extends Command
 		{
 			return ( (ReportElementHandle) source ).canDrop( );
 
+		}
+		else if ( source instanceof LibraryHandle )
+		{
+			if ( ( (LibraryHandle) source ).getHostHandle( ) != null )
+				return true;
+			else
+				return false;
 		}
 		else if ( source instanceof CssStyleSheetHandle )
 		{
