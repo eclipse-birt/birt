@@ -201,7 +201,7 @@ public class DataSetCacheTest extends APITestCase
 		qr.getResultIterator( );
 
 		assertTrue( getDataSetCacheManager( myDataEngine2 ).doesLoadFromCache( ) );
-		
+		myDataEngine2.clearCache( dataSource, dataSet );
 		qr.close( );
 		myDataEngine2.shutdown( );
 	}

@@ -265,10 +265,9 @@ public class DataSetCacheManager
 	public boolean needsToCache( IBaseDataSetDesign dataSetDesign,
 			int cacheOption, int alwaysCacheRowCount )
 	{
-//		return DataSetCacheUtil.needsToCache( dataSetDesign,
-//						cacheOption,
-//						alwaysCacheRowCount );
-		return true;
+		return needsToDteCache( ) || DataSetCacheUtil.needsToCache( dataSetDesign,
+						cacheOption,
+						alwaysCacheRowCount );
 	}
 
 	/**
@@ -281,6 +280,15 @@ public class DataSetCacheManager
 		return DataSetCacheUtil.needsToCache( dataSetDesign,
 				cacheOption,
 				alwaysCacheRowCount );
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	private boolean needsToDteCache( )
+	{
+		return false;
 	}
 	
 	/**
