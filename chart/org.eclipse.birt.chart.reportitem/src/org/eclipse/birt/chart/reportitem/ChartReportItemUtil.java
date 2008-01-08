@@ -42,6 +42,7 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 
 /**
  * Utility class for Chart integration as report item
@@ -580,5 +581,43 @@ public class ChartReportItemUtil
 			return null;
 		}
 		return (Chart) ( item ).getProperty( PROPERTY_CHART );
+	}
+
+	/**
+	 * Returns the binding cube if the element or its container has cube binding
+	 * or the reference to the cube
+	 * 
+	 * @param element
+	 *            element handle
+	 * @return the binding cube or null
+	 * @since 2.3
+	 */
+	public static CubeHandle getBindingCube( DesignElementHandle element )
+	{
+		if ( element == null )
+		{
+			return null;
+		}
+		if ( element instanceof ReportItemHandle )
+		{
+			CubeHandle cube = ( (ReportItemHandle) element ).getCube( );
+			if ( cube != null )
+			{
+				return cube;
+			}
+			else if ( ( (ReportItemHandle) element ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+			{
+				return getBindingCube( ( (ReportItemHandle) element ).getDataBindingReference( ) );
+			}
+			else if ( ( (ReportItemHandle) element ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA )
+			{
+				return null;
+			}
+		}
+		if ( element.getContainer( ) != null )
+		{
+			return getBindingCube( element.getContainer( ) );
+		}
+		return null;
 	}
 }

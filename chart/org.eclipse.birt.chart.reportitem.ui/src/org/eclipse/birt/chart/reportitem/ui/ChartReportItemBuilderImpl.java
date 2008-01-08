@@ -321,7 +321,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 		// CHECK FOR UNBOUND DATASET
 		final ExtendedItemHandle eih = (ExtendedItemHandle) oContext;
 		if ( DEUtil.getDataSetList( eih ).size( ) == 0
-				&& eih.getCube( ) == null )
+				&& ChartReportItemUtil.getBindingCube( eih ) == null )
 		{
 			alProblems.add( Messages.getString( "ChartReportItemBuilderImpl.problem.hasNotBeenFound" ) ); //$NON-NLS-1$
 		}

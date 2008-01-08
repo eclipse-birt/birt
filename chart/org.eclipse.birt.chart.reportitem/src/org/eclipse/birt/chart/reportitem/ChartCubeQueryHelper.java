@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
@@ -24,6 +25,8 @@ import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.reportitem.i18n.Messages;
+import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
@@ -97,7 +100,13 @@ class ChartCubeQueryHelper
 	public ICubeQueryDefinition createCubeQuery( IDataQueryDefinition parent )
 			throws BirtException
 	{
-		CubeHandle cubeHandle = handle.getCube( );
+		CubeHandle cubeHandle = ChartReportItemUtil.getBindingCube( handle );
+		if ( cubeHandle == null )
+		{
+			throw new ChartException( ChartReportItemPlugin.ID,
+					ChartException.NULL_DATASET,
+					Messages.getString( "ChartCubeQueryHelper.Error.MustBindCube" ) ); //$NON-NLS-1$
+		}
 		ICubeQueryDefinition cubeQuery = ChartReportItemUtil.getCubeElementFactory( )
 				.createCubeQuery( cubeHandle.getQualifiedName( ) );
 
@@ -116,12 +125,12 @@ class ChartCubeQueryHelper
 				Query query = (Query) queryList.get( j );
 				// Add measures or dimensions for data definition, and update
 				// query expression
-				bindSeriesQuery( sd, query, cubeQuery );
+				bindSeriesQuery( sd, query, cubeQuery, cubeHandle );
 			}
 
 			// Add measures or dimensions for optional grouping, and update
 			// query expression
-			bindSeriesQuery( sd, sd.getQuery( ), cubeQuery );
+			bindSeriesQuery( sd, sd.getQuery( ), cubeQuery, cubeHandle );
 		}
 
 		// Add sorting
@@ -130,7 +139,7 @@ class ChartCubeQueryHelper
 		for ( int i = 0; i < sdList.size( ); i++ )
 		{
 			SeriesDefinition sd = (SeriesDefinition) sdList.get( i );
-			addSorting( cubeQuery, sd, i );
+			addSorting( cubeQuery, cubeHandle, sd, i );
 		}
 
 		// Add filter
@@ -168,13 +177,17 @@ class ChartCubeQueryHelper
 		}
 	}
 
-	private void addSorting( ICubeQueryDefinition cubeQuery,
+	private void addSorting( ICubeQueryDefinition cubeQuery, CubeHandle cube,
 			SeriesDefinition sd, int i ) throws BirtException
 	{
+		if ( sd.getSortKey( ) == null )
+		{
+			return;
+		}
 		// Sort key may be modified in the next method, so get it first
 		String sortKey = sd.getSortKey( ).getDefinition( );
 		// Update query expression
-		bindSeriesQuery( sd, sd.getSortKey( ), cubeQuery );
+		bindSeriesQuery( sd, sd.getSortKey( ), cubeQuery, cube );
 
 		if ( sd.isSetSorting( ) && sortKey != null && sortKey.length( ) > 0 )
 		{
@@ -237,7 +250,8 @@ class ChartCubeQueryHelper
 	 * query definition.
 	 */
 	private void bindSeriesQuery( SeriesDefinition sd, Query query,
-			ICubeQueryDefinition cubeQuery ) throws BirtException
+			ICubeQueryDefinition cubeQuery, CubeHandle cube )
+			throws BirtException
 	{
 		String expr = query.getDefinition( );
 		if ( expr != null && expr.length( ) > 0 )
@@ -296,8 +310,7 @@ class ChartCubeQueryHelper
 						// direction
 						edge = cubeQuery.createEdge( edgeType );
 						IDimensionDefinition dimDef = edge.createDimension( dimensionName );
-						hieDef = dimDef.createHierarchy( handle.getCube( )
-								.getDimension( dimDef.getName( ) )
+						hieDef = dimDef.createHierarchy( cube.getDimension( dimDef.getName( ) )
 								.getDefaultHierarchy( )
 								.getQualifiedName( ) );
 					}
@@ -311,10 +324,9 @@ class ChartCubeQueryHelper
 					ILevelDefinition levelDef = hieDef.createLevel( levels[1] );
 					registeredLevels.put( bindingName, levelDef );
 
-					LevelHandle levelHandle = handle.getCube( )
-							.getDimension( levelDef.getHierarchy( )
-									.getDimension( )
-									.getName( ) )
+					LevelHandle levelHandle = cube.getDimension( levelDef.getHierarchy( )
+							.getDimension( )
+							.getName( ) )
 							.getDefaultHierarchy( )
 							.getLevel( levelDef.getName( ) );
 					registeredLevelHandles.put( levelHandle, levelDef );

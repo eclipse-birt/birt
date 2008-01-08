@@ -27,6 +27,7 @@ import org.eclipse.birt.chart.model.type.DifferenceSeries;
 import org.eclipse.birt.chart.model.type.GanttSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
+import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ChartColumnBindingDialog;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ExtendedItemFilterDialog;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ReportItemParametersDialog;
@@ -49,6 +50,7 @@ import org.eclipse.birt.report.designer.ui.dialogs.ColumnBindingDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
@@ -245,7 +247,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 		ViewsTreeProvider provider = new ViewsTreeProvider( );
 		cubeTreeViewer.setLabelProvider( provider );
 		cubeTreeViewer.setContentProvider( provider );
-		cubeTreeViewer.setInput( itemHandle.getCube( ) );
+		cubeTreeViewer.setInput( getCube( ) );
 
 		final DragSource dragSource = new DragSource( cubeTreeViewer.getTree( ),
 				DND.DROP_COPY );
@@ -333,7 +335,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 		if ( isCubeMode( ) )
 		{
 			stackLayout.topControl = cmpCubeTree;
-			cubeTreeViewer.setInput( itemHandle.getCube( ) );
+			cubeTreeViewer.setInput( getCube( ) );
 		}
 		else
 		{
@@ -1247,7 +1249,12 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 
 	private boolean isCubeMode( )
 	{
-		return itemHandle.getCube( ) != null;
+		return ChartReportItemUtil.getBindingCube( itemHandle ) != null;
+	}
+
+	private CubeHandle getCube( )
+	{
+		return ChartReportItemUtil.getBindingCube( itemHandle );
 	}
 
 	/**
