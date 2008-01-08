@@ -764,15 +764,12 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 
 	private void refreshTablePreview( )
 	{
-		if ( isCubeMode( ) )
+		if ( dataProvider.getDataSetFromHandle( ) == null )
 		{
 			return;
 		}
 		tablePreview.clearContents( );
-		if ( cmbDataItems.getText( ) != null )
-		{
-			switchDataTable( );
-		}
+		switchDataTable( );
 		tablePreview.layout( );
 	}
 
