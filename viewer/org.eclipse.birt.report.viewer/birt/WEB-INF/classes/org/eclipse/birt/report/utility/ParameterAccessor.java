@@ -1508,11 +1508,12 @@ public class ParameterAccessor
 		if ( logLevel == null )
 			logLevel = IBirtConstants.DEFAULT_LOGS_LEVEL;
 
+		String rootPath = "${" + IBirtConstants.SYS_PROP_ROOT_PATH + "}/"; //$NON-NLS-1$//$NON-NLS-2$		
 		// Script lib folder setting
 		String initScriptlibFolder = context
 				.getInitParameter( ParameterAccessor.INIT_PARAM_SCRIPTLIB_DIR );
 		if ( isDesigner && initScriptlibFolder == null )
-			initScriptlibFolder = workingPath
+			initScriptlibFolder = rootPath
 					+ IBirtConstants.DEFAULT_SCRIPTLIB_FOLDER;
 		scriptLibDir = processRealPath( context, initScriptlibFolder,
 				IBirtConstants.DEFAULT_SCRIPTLIB_FOLDER, false );
