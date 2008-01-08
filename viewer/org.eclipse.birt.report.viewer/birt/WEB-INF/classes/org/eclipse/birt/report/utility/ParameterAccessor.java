@@ -438,6 +438,11 @@ public class ParameterAccessor
 	public static final String SUFFIX_REPORT_DOCUMENT = ".rptdocument"; //$NON-NLS-1$
 
 	/**
+	 * Prefix of sub document folder
+	 */
+	public static final String PREFIX_SUB_DOC_FOLDER = "BIRTDOC"; //$NON-NLS-1$
+
+	/**
 	 * Default separator
 	 */
 	public static final char DEFAULT_SEP = ',';
@@ -1136,7 +1141,8 @@ public class ParameterAccessor
 		}
 
 		String hashCode = Integer.toHexString( filePath.hashCode( ) );
-		return documentFolder + File.separator + sessionId + File.separator
+		return documentFolder + File.separator
+				+ ( PREFIX_SUB_DOC_FOLDER + sessionId ) + File.separator
 				+ hashCode + File.separator + documentName;
 	}
 
@@ -1148,8 +1154,15 @@ public class ParameterAccessor
 	{
 		// clear the document files
 		File file = new File( documentFolder );
-		deleteDir( file );
-		makeDir( documentFolder );
+		if ( file != null && file.isDirectory( ) )
+		{
+			String[] children = file.list( );
+			for ( int i = 0; i < children.length; i++ )
+			{
+				if ( children[i].startsWith( PREFIX_SUB_DOC_FOLDER ) )
+					deleteDir( new File( file, children[i] ) );
+			}
+		}
 
 		// clear image files
 		file = new File( imageFolder );
@@ -2805,7 +2818,8 @@ public class ParameterAccessor
 			return;
 
 		// clear document folder
-		String tempFolder = documentFolder + File.separator + sessionId;
+		String tempFolder = documentFolder + File.separator
+				+ ( PREFIX_SUB_DOC_FOLDER + sessionId );
 		File file = new File( tempFolder );
 		deleteDir( file );
 
