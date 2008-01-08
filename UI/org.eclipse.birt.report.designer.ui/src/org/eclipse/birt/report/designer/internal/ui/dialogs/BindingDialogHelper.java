@@ -184,17 +184,17 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 			} );
 		}
-		//		WidgetUtil.createGridPlaceholder( composite, 1, false );
+		// WidgetUtil.createGridPlaceholder( composite, 1, false );
 
 		new Label( composite, SWT.NONE ).setText( DISPLAY_NAME );
 		txtDisplayName = new Text( composite, SWT.BORDER );
 		txtDisplayName.setLayoutData( gd );
-		//		WidgetUtil.createGridPlaceholder( composite, 1, false );
+		// WidgetUtil.createGridPlaceholder( composite, 1, false );
 
 		new Label( composite, SWT.NONE ).setText( DATA_TYPE );
 		cmbType = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
 		cmbType.setLayoutData( gd );
-		//		WidgetUtil.createGridPlaceholder( composite, 1, false );
+		// WidgetUtil.createGridPlaceholder( composite, 1, false );
 
 		if ( isAggregate( ) )
 		{
@@ -210,7 +210,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 	public void initDialog( )
 	{
-		if ( isCreate )//create
+		if ( isCreate )// create
 		{
 			if ( isRef )
 			{
@@ -581,7 +581,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		gd.horizontalSpan = 2;
 		cmbFunction.setLayoutData( gd );
 
-		//		WidgetUtil.createGridPlaceholder( composite, 1, false );
+		// WidgetUtil.createGridPlaceholder( composite, 1, false );
 
 		cmbFunction.addSelectionListener( new SelectionAdapter( ) {
 
@@ -860,6 +860,17 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			Control control = (Control) cmbDataField.getData( "express" );
 			if ( control != null )
 				control.setEnabled( function.needDataField( ) );
+
+			try
+			{
+				cmbType.setText( getDataTypeDisplayName( DataAdapterUtil.adapterToModelDataType( DataUtil.getAggregationFactory( )
+						.getAggregation( function.getName( ) )
+						.getDataType( ) ) ) );
+			}
+			catch ( BirtException e )
+			{
+				ExceptionHandler.handle( e );
+			}
 		}
 		else
 		{
@@ -1112,6 +1123,19 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		if ( right == null )
 			return "".equals( left );
 		return left.equals( right );
+	}
+
+	private String getDataTypeDisplayName( String dataType )
+	{
+		for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
+		{
+			if ( dataType.equals( DATA_TYPE_CHOICES[i].getName( ) ) )
+			{
+				return DATA_TYPE_CHOICES[i].getDisplayName( );
+			}
+		}
+
+		return "";
 	}
 
 	private String getDataType( )

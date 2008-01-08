@@ -422,6 +422,19 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			return new IAggregationInfo[0];
 		}
 	}
+	
+	private String getDataTypeDisplayName( String dataType )
+	{
+		for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
+		{
+			if ( dataType.equals( DATA_TYPE_CHOICES[i].getName( ) ) )
+			{
+				return DATA_TYPE_CHOICES[i].getDisplayName( );
+			}
+		}
+
+		return "";
+	}
 
 	/**
 	 * fill the cmbDataField with binding holder's bindings
@@ -647,6 +660,16 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				// ( (GridData) argsComposite.getLayoutData( ) ).exclude = true;
 			}
 			this.cmbDataField.setEnabled( function.needDataField( ) );
+			try
+			{
+				cmbType.setText( getDataTypeDisplayName( DataAdapterUtil.adapterToModelDataType( DataUtil.getAggregationFactory( )
+						.getAggregation( function.getName( ) )
+						.getDataType( ) ) ) );
+			}
+			catch ( BirtException e )
+			{
+				ExceptionHandler.handle( e );
+			}
 		}
 		else
 		{
