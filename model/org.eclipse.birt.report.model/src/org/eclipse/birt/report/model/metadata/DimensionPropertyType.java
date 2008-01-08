@@ -426,7 +426,14 @@ public class DimensionPropertyType extends PropertyType
 		if ( DimensionValue.DEFAULT_UNIT.equalsIgnoreCase( dim.getUnits( ) ) )
 			return dim.getMeasure( );
 
-		return DimensionUtil.convertTo( dim.getMeasure( ), dim.getUnits( ),
-				module.getSession( ).getUnits( ) ).getMeasure( );
+		try
+		{
+			return DimensionUtil.convertTo( dim.getMeasure( ), dim.getUnits( ),
+					module.getSession( ).getUnits( ) ).getMeasure( );
+		}
+		catch ( IllegalArgumentException e )
+		{
+			return 0.0;
+		}
 	}
 }
