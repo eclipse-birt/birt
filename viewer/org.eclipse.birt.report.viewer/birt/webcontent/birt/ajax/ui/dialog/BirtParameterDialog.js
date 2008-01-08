@@ -435,13 +435,20 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 				else
 				{
 					var paramName = oIEC[2].name;
+					var fieldValue = oIEC[2].value;
 					var paramValue = oIEC[3].value;
 					var displayText = oIEC[4].value;
 
-					if( displayText != oIEC[2].value )
+					// convert spaces to non-breakable spaces if data type is a number					
+					if ( this.__is_parameter_number( dataType ) )
+					{
+						fieldValue = this.__convert_spaces_to_nbsp( fieldValue );
+					}
+					
+					if( displayText != fieldValue )
 					{
 						// change the text field value,regard as a locale string
-						paramValue = oIEC[2].value;
+						paramValue = fieldValue;
 						
 						// set isLocale flag							
 						this.__parameter[k].name = this.__islocale;
@@ -482,7 +489,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 						this.__parameter[k] = { };
 					}
 					this.__parameter[k].name = this.__isdisplay + this.__parameter[k-1].name;
-					this.__parameter[k].value = oIEC[2].value;
+					this.__parameter[k].value = fieldValue;
 					k++;					
 				}
 				
@@ -834,6 +841,52 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 
 		return false;		
 	},
+	
+	/**
+	 *	Check if current parameter is a number.
+	 *
+	 *	@dataType data type for parameter 
+	 *	@return true or false
+	 */
+	__is_parameter_number : function( dataType )
+	{
+		if( !dataType )
+			return false;
+		
+		return ( dataType == Constants.TYPE_FLOAT				
+				|| dataType == Constants.TYPE_DECIMAL
+				|| dataType == Constants.TYPE_INTEGER );		
+	},
+	
+	/**
+	 * Converts the spaces to non-breakable spaces (unicode 0x00a0).
+	 * This is mandatory for numbers which use a space separator,
+	 * because the server-side parser expects it.
+	 * @param value formatted string to process
+	 * @return processed string
+	 */
+	__convert_spaces_to_nbsp : function( aValue )
+	{
+		var value = aValue;
+		var startIndex = value.search(/\d/);
+		if ( startIndex < 0 )
+		{
+			return value;
+		}
+		
+		var endIndex = value.search(/\d\D*$/);
+		if ( endIndex < 0 )
+		{
+			endIndex = value.length;
+		}
+		
+		var prefix = value.substring(0, startIndex);
+		var suffix = value.substr(endIndex + 1);
+		var number = value.substring(startIndex, endIndex + 1).replace(/ /g,"\u00a0");
+		
+		
+		return prefix + number + suffix;
+	},	
 	
 	/**
 	 *	Handle mouseover event on select.

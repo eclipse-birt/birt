@@ -71,6 +71,13 @@ var Constants = {
 	// Parameter Data Type
 	TYPE_ANY : '0',
 	TYPE_STRING : '1',
+	TYPE_FLOAT : '2',
+	TYPE_DECIMAL : '3',
+	TYPE_DATE_TIME : '4',
+	TYPE_BOOLEAN : '5',
+	TYPE_INTEGER : '6',
+	TYPE_DATE : '7',
+	TYPE_TIME : '8',
 	
 	// Servlet patterns
 	SERVLET_OUTPUT : 'output',
