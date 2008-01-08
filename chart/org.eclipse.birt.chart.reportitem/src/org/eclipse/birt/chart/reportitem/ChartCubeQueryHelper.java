@@ -29,8 +29,10 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
+import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.olap.api.query.ICubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeSortDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
@@ -42,8 +44,13 @@ import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
+import org.eclipse.birt.report.model.api.MemberValueHandle;
+import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.elements.interfaces.IMemberValueModel;
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -68,10 +75,16 @@ class ChartCubeQueryHelper
 	private Map registeredQueries = new HashMap( );
 
 	/**
-	 * Maps for registered sort keys.<br>
-	 * Key: Binding name of sort key query, value: ILevelDefinition
+	 * Maps for registered level definitions.<br>
+	 * Key: Binding name of query, value: ILevelDefinition
 	 */
 	private Map registeredLevels = new HashMap( );
+
+	/**
+	 * Maps for registered level handles.<br>
+	 * Key: LevelHandle, value: ILevelDefinition
+	 */
+	private Map registeredLevelHandles = new HashMap( );
 
 	private String rowEdgeDimension;
 
@@ -120,7 +133,8 @@ class ChartCubeQueryHelper
 			addSorting( cubeQuery, sd, i );
 		}
 
-		// TODO Add filter
+		// Add filter
+		addCubeFilter( cubeQuery );
 
 		return cubeQuery;
 	}
@@ -186,8 +200,8 @@ class ChartCubeQueryHelper
 						: (Query) sd.getDesignTimeSeries( )
 								.getDataDefinition( )
 								.get( 0 );
-				String aggFun = i == 0
-						? sd.getGrouping( ).getAggregateExpression( )
+				String aggFun = i == 0 ? sd.getGrouping( )
+						.getAggregateExpression( )
 						: AbstractChartBaseQueryGenerator.getAggFuncExpr( sd,
 								getBaseSeriesDefinition( cm ).getGrouping( )
 										.getAggregateExpression( ) );
@@ -294,8 +308,16 @@ class ChartCubeQueryHelper
 					}
 
 					// Create level
-					ILevelDefinition level = hieDef.createLevel( levels[1] );
-					registeredLevels.put( bindingName, level );
+					ILevelDefinition levelDef = hieDef.createLevel( levels[1] );
+					registeredLevels.put( bindingName, levelDef );
+
+					LevelHandle levelHandle = handle.getCube( )
+							.getDimension( levelDef.getHierarchy( )
+									.getDimension( )
+									.getName( ) )
+							.getDefaultHierarchy( )
+							.getLevel( levelDef.getName( ) );
+					registeredLevelHandles.put( levelHandle, levelDef );
 				}
 			}
 
@@ -305,6 +327,88 @@ class ChartCubeQueryHelper
 				// chart runtime model with binding name
 				String newExpr = ExpressionUtil.createJSDataExpression( colBinding.getBindingName( ) );
 				query.setDefinition( newExpr );
+			}
+		}
+	}
+
+	private void addCubeFilter( ICubeQueryDefinition cubeQuery )
+			throws BirtException
+	{
+		List levels = new ArrayList( );
+		List values = new ArrayList( );
+
+		Iterator filterItr = ChartReportItemUtil.getChartReportItemFromHandle( handle )
+				.getCubeFiltersIterator( );
+		while ( filterItr.hasNext( ) )
+		{
+			FilterConditionElementHandle filterCon = (FilterConditionElementHandle) filterItr.next( );
+
+			// clean up first
+			levels.clear( );
+			values.clear( );
+
+			addMembers( levels, values, filterCon.getMember( ) );
+
+			ILevelDefinition[] qualifyLevels = null;
+			Object[] qualifyValues = null;
+
+			if ( levels.size( ) > 0 )
+			{
+				qualifyLevels = (ILevelDefinition[]) levels.toArray( new ILevelDefinition[levels.size( )] );
+				qualifyValues = values.toArray( new Object[values.size( )] );
+			}
+
+			ConditionalExpression filterCondExpr;
+
+			if ( ModuleUtil.isListFilterValue( filterCon ) )
+			{
+				filterCondExpr = new ConditionalExpression( filterCon.getExpr( ),
+						DataAdapterUtil.adaptModelFilterOperator( filterCon.getOperator( ) ),
+						filterCon.getValue1List( ) );
+			}
+			else
+			{
+				filterCondExpr = new ConditionalExpression( filterCon.getExpr( ),
+						DataAdapterUtil.adaptModelFilterOperator( filterCon.getOperator( ) ),
+						filterCon.getValue1( ),
+						filterCon.getValue2( ) );
+			}
+
+			ICubeFilterDefinition filterDef = ChartReportItemUtil.getCubeElementFactory( )
+					.creatCubeFilterDefinition( filterCondExpr,
+							(ILevelDefinition) registeredLevelHandles.get( filterCon.getMember( )
+									.getLevel( ) ),
+							qualifyLevels,
+							qualifyValues );
+
+			cubeQuery.addFilter( filterDef );
+
+		}
+	}
+
+	/**
+	 * Recursively add all member values and associated levels to the given
+	 * list.
+	 */
+	private void addMembers( List levels, List values, MemberValueHandle member )
+	{
+		if ( member != null )
+		{
+			Object levelDef = registeredLevelHandles.get( member.getLevel( ) );
+
+			if ( levelDef != null )
+			{
+				levels.add( levelDef );
+				values.add( member.getValue( ) );
+
+				if ( member.getContentCount( IMemberValueModel.MEMBER_VALUES_PROP ) > 0 )
+				{
+					// only use first member here
+					addMembers( levels,
+							values,
+							(MemberValueHandle) member.getContent( IMemberValueModel.MEMBER_VALUES_PROP,
+									0 ) );
+				}
 			}
 		}
 	}

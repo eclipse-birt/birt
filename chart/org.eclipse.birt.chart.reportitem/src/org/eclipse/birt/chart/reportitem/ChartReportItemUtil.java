@@ -16,6 +16,8 @@ import java.util.Iterator;
 import java.util.regex.Pattern;
 
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
@@ -24,6 +26,7 @@ import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
@@ -38,6 +41,7 @@ import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 
 /**
  * Utility class for Chart integration as report item
@@ -45,6 +49,8 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 public class ChartReportItemUtil
 {
+
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
 	private static ICubeElementFactory cubeFactory = null;
 
@@ -67,6 +73,7 @@ public class ChartReportItemUtil
 	public static final String PROPERTY_SCRIPT = "script"; //$NON-NLS-1$
 	public static final String PROPERTY_ONRENDER = "onRender"; //$NON-NLS-1$
 	public static final String PROPERTY_OUTPUT = "outputFormat"; //$NON-NLS-1$
+	public static final String PROPERTY_CUBE_FILTER = "cubeFilter";//$NON-NLS-1$
 
 	public synchronized static ICubeElementFactory getCubeElementFactory( )
 			throws BirtException
@@ -264,7 +271,7 @@ public class ChartReportItemUtil
 
 				case GroupingUnitType.WEEKS :
 					return IGroupDefinition.WEEK_INTERVAL;
-					
+
 				case GroupingUnitType.MONTHS :
 					return IGroupDefinition.MONTH_INTERVAL;
 
@@ -279,10 +286,10 @@ public class ChartReportItemUtil
 		{
 			switch ( groupUnitType.getValue( ) )
 			{
-				case GroupingUnitType.STRING_PREFIX:
+				case GroupingUnitType.STRING_PREFIX :
 					return IGroupDefinition.STRING_PREFIX_INTERVAL;
 			}
-			
+
 			return IGroupDefinition.NO_INTERVAL;
 		}
 
@@ -295,7 +302,6 @@ public class ChartReportItemUtil
 	 * @param dataType
 	 * @param groupUnitType
 	 * @param intervalRange
-	 * @return
 	 * @since BIRT 2.3
 	 */
 	public static double convertToDtEIntervalRange( DataType dataType,
@@ -487,12 +493,11 @@ public class ChartReportItemUtil
 
 		return false;
 	}
-	
+
 	/**
 	 * Check if chart has aggregation.
 	 * 
 	 * @param cm
-	 * @return
 	 */
 	public static boolean hasAggregation( Chart cm )
 	{
@@ -509,11 +514,71 @@ public class ChartReportItemUtil
 			baseSD = (SeriesDefinition) cwoa.getSeriesDefinitions( ).get( 0 );
 		}
 
-		if ( isBaseGroupingDefined( baseSD ))
+		if ( isBaseGroupingDefined( baseSD ) )
 		{
 			return true;
 		}
-		
+
 		return false;
+	}
+
+	/**
+	 * Finds chart report item from handle
+	 * 
+	 * @param eih
+	 *            extended item handle with chart
+	 * @since 2.3
+	 */
+	public static ChartReportItemImpl getChartReportItemFromHandle(
+			ExtendedItemHandle eih )
+	{
+		ChartReportItemImpl item = null;
+		if ( !"Chart".endsWith( eih.getExtensionName( ) ) ) //$NON-NLS-1$
+		{
+			return null;
+		}
+		try
+		{
+			item = (ChartReportItemImpl) eih.getReportItem( );
+		}
+		catch ( ExtendedElementException e )
+		{
+			logger.log( e );
+		}
+		if ( item == null )
+		{
+			try
+			{
+				eih.loadExtendedElement( );
+				item = (ChartReportItemImpl) eih.getReportItem( );
+			}
+			catch ( ExtendedElementException eeex )
+			{
+				logger.log( eeex );
+			}
+			if ( item == null )
+			{
+				logger.log( ILogger.ERROR,
+						Messages.getString( "ChartReportItemPresentationImpl.log.UnableToLocateWrapper" ) ); //$NON-NLS-1$
+			}
+		}
+		return item;
+	}
+
+	/**
+	 * Finds Chart model from handle
+	 * 
+	 * @param handle
+	 *            the handle with chart
+	 * @since 2.3
+	 */
+	public static Chart getChartFromHandle( ExtendedItemHandle handle )
+	{
+		ChartReportItemImpl item = getChartReportItemFromHandle( handle );
+		if ( item == null )
+		{
+			return null;
+		}
+		return (Chart) ( item ).getProperty( PROPERTY_CHART );
 	}
 }

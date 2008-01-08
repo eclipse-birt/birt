@@ -47,6 +47,7 @@ import org.eclipse.birt.chart.script.internal.ChartWithAxesImpl;
 import org.eclipse.birt.chart.script.internal.ChartWithoutAxesImpl;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IChoiceDefinition;
 import org.eclipse.birt.report.model.api.extension.ICompatibleReportItem;
@@ -711,6 +712,16 @@ public final class ChartReportItemImpl extends ReportItem
 			this.cm = (Chart) value;
 		}
 
+	}
+
+	public Iterator getCubeFiltersIterator( )
+	{
+		PropertyHandle propHandle = handle.getPropertyHandle( ChartReportItemUtil.PROPERTY_CUBE_FILTER );
+		if ( propHandle == null )
+		{
+			return Collections.EMPTY_LIST.iterator( );
+		}
+		return propHandle.getListValue( ).iterator( );
 	}
 
 	protected void checkScriptSyntax( String string ) throws RhinoException

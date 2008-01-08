@@ -36,8 +36,8 @@ import org.eclipse.birt.chart.reportitem.GroupedQueryResultSetEvaluatorAdapter;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
-import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
@@ -70,6 +70,7 @@ import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.metadata.PredefinedStyle;
 import org.eclipse.core.resources.IProject;
 
@@ -87,7 +88,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	private ExtendedItemHandle itemHandle;
 
-	private static final String OPTION_NONE = Messages.getString( "ReportDataServiceProvider.Option.None" ); //$NON-NLS-1$
+	static final String OPTION_NONE = Messages.getString( "ReportDataServiceProvider.Option.None" ); //$NON-NLS-1$
 
 	/**
 	 * This flag indicates whether the error is found when fetching data. This
@@ -108,16 +109,63 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return itemHandle.getModuleHandle( );
 	}
 
-	public String[] getAllDataSets( )
+	String[] getAllDataSets( )
 	{
 		List list = getReportDesignHandle( ).getVisibleDataSets( );
-		String[] names = new String[list.size( ) + 1];
-		names[0] = OPTION_NONE;
+		String[] names = new String[list.size( )];
 		for ( int i = 0; i < list.size( ); i++ )
 		{
-			names[i + 1] = ( (DataSetHandle) list.get( i ) ).getQualifiedName( );
+			names[i] = ( (DataSetHandle) list.get( i ) ).getQualifiedName( );
 		}
 		return names;
+	}
+
+	String[] getAllDataCubes( )
+	{
+		List list = getReportDesignHandle( ).getVisibleCubes( );
+		String[] names = new String[list.size( )];
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			names[i] = ( (CubeHandle) list.get( i ) ).getQualifiedName( );
+		}
+		return names;
+	}
+
+	String getDataCube( )
+	{
+		CubeHandle cube = itemHandle.getCube( );
+		if ( cube == null )
+		{
+			return null;
+		}
+		return cube.getQualifiedName( );
+	}
+
+	void setDataCube( String cubeName )
+	{
+		try
+		{
+			itemHandle.setDataSet( null );
+			itemHandle.setDataBindingReference( null );
+			
+			if ( cubeName == null )
+			{
+				itemHandle.setCube( null );
+			}
+			else
+			{
+				if ( !cubeName.equals( getDataCube( ) ) )
+				{
+					itemHandle.setCube( getReportDesignHandle( ).findCube( cubeName ) );
+					// Clear parameters and filters, binding if dataset changed
+					clearBindings( );
+				}
+			}
+		}
+		catch ( SemanticException e )
+		{
+			ChartWizard.showException( e.getLocalizedMessage( ) );
+		}
 	}
 
 	public final String[] getPreviewHeader( ) throws ChartException
@@ -144,7 +192,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			for ( int i = 0; i < exps.length; i++ )
 			{
-				exps[i] = ChartUIUtil.getExpressionString( exps[i] );
+				exps[i] = ExpressionUtil.createJSRowExpression( exps[i] );
 			}
 		}
 		return exps;
@@ -297,7 +345,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return queryDefn;
 	}
 
-	public String getBoundDataSet( )
+	String getBoundDataSet( )
 	{
 		if ( itemHandle.getDataSet( ) == null )
 		{
@@ -306,7 +354,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return itemHandle.getDataSet( ).getQualifiedName( );
 	}
 
-	public String getReportDataSet( )
+	String getReportDataSet( )
 	{
 		List list = DEUtil.getDataSetList( itemHandle.getContainer( ) );
 		if ( list.size( ) > 0 )
@@ -321,12 +369,14 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		itemHandle = (ExtendedItemHandle) context;
 	}
 
-	public void setDataSet( String datasetName )
+	void setDataSet( String datasetName )
 	{
 		boolean needClean = false;
 		boolean needAddBinding = false;
 		try
 		{
+			itemHandle.setCube( null );
+			
 			// Clean references if it's set
 			if ( itemHandle.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
 			{
@@ -616,21 +666,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return columnData.toArray( );
 	}
 
-	public final Object getDAtaForColumns( String[] sExpressions,
-			int iMaxRecords, boolean byRow ) throws ChartException
-	{
-
-		return null;
-	}
-
-	public void dispose( )
-	{
-		// TODO DataEngine should be disposed when closing report design, rather
-		// than when closing chart wizard. Currently, do nothing at this time.
-
-		// ChartDataSetManager.getCurrentInstance( ).dispose( );
-	}
-
 	private int getMaxRow( )
 	{
 		return PreferenceFactory.getInstance( )
@@ -812,19 +847,18 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return returnObj;
 	}
 
-	public String[] getAllReportItemReferences( )
+	String[] getAllReportItemReferences( )
 	{
 		List referenceList = itemHandle.getAvailableDataBindingReferenceList( );
-		String[] references = new String[referenceList.size( ) + 1];
-		references[0] = OPTION_NONE;
+		String[] references = new String[referenceList.size( )];
 		for ( int i = 0; i < referenceList.size( ); i++ )
 		{
-			references[i + 1] = ( (ReportItemHandle) referenceList.get( i ) ).getQualifiedName( );
+			references[i] = ( (ReportItemHandle) referenceList.get( i ) ).getQualifiedName( );
 		}
 		return references;
 	}
 
-	public String getReportItemReference( )
+	String getReportItemReference( )
 	{
 		ReportItemHandle ref = itemHandle.getDataBindingReference( );
 		if ( ref == null )
@@ -834,10 +868,13 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return ref.getQualifiedName( );
 	}
 
-	public void setReportItemReference( String referenceName )
+	void setReportItemReference( String referenceName )
 	{
 		try
 		{
+			itemHandle.setDataSet( null );
+			itemHandle.setCube( null );
+			
 			if ( referenceName == null )
 			{
 				itemHandle.setDataBindingReference( null );

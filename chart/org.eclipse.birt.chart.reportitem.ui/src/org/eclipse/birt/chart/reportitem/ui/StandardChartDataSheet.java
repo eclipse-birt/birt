@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.reportitem.ui;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -34,17 +35,23 @@ import org.eclipse.birt.chart.ui.swt.ColorPalette;
 import org.eclipse.birt.chart.ui.swt.CustomPreviewTable;
 import org.eclipse.birt.chart.ui.swt.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.swt.DefaultChartDataSheet;
+import org.eclipse.birt.chart.ui.swt.SimpleTextTransfer;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
+import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
 import org.eclipse.birt.report.designer.ui.dialogs.ColumnBindingDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -53,8 +60,15 @@ import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.DragSource;
+import org.eclipse.swt.dnd.DragSourceEvent;
+import org.eclipse.swt.dnd.DragSourceListener;
+import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -64,9 +78,10 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.PlatformUI;
 
@@ -88,18 +103,29 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 	 */
 	private boolean fbException = false;
 
-	private Button btnUseReportData = null;
-	private Button btnUseDataSet = null;
-	private Combo cmbDataSet = null;
+	private Button btnInherit = null;
+	private Button btnUseData = null;
+	private Combo cmbDataItems = null;
 	private Button btnNewData = null;
-	private Button btnUseReference;
-	private Combo cmbReferences = null;
+
+	private StackLayout stackLayout = null;
+	private Composite cmpStack = null;
+	private Composite cmpCubeTree = null;
+	private Composite cmpDataPreview = null;
 
 	private CustomPreviewTable tablePreview = null;
+	private TreeViewer cubeTreeViewer = null;
 
 	private Button btnFilters = null;
 	private Button btnParameters = null;
 	private Button btnBinding = null;
+
+	private static final int SELECT_NONE = 0;
+	private static final int SELECT_NEXT = 1;
+	private static final int SELECT_DATA_SET = 2;
+	private static final int SELECT_DATA_CUBE = 3;
+	private static final int SELECT_REPORT_ITEM = 4;
+	private List selectDataTypes = new ArrayList( );
 
 	public StandardChartDataSheet( ExtendedItemHandle itemHandle,
 			ReportDataServiceProvider dataProvider )
@@ -149,16 +175,26 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 
 	private void setEnabledForButtons( )
 	{
-		btnNewData.setEnabled( btnUseDataSet.getSelection( )
-				&& getDataServiceProvider( ).isInvokingSupported( ) );
-		btnFilters.setEnabled( hasDataSet( )
-				&& getDataServiceProvider( ).isInvokingSupported( ) );
-		// Bugzilla#177704 Chart inheriting data from container doesn't
-		// support parameters due to limitation in DtE
-		btnParameters.setEnabled( getDataServiceProvider( ).getBoundDataSet( ) != null
-				&& getDataServiceProvider( ).isInvokingSupported( ) );
-		btnBinding.setEnabled( hasDataSet( )
-				&& getDataServiceProvider( ).isInvokingSupported( ) );
+		btnNewData.setEnabled( btnUseData.getSelection( ) );
+		if ( isCubeMode( ) )
+		{
+			btnFilters.setEnabled( false );
+			// btnFilters.setEnabled( getDataServiceProvider(
+			// ).isInvokingSupported( ) );
+			btnBinding.setEnabled( getDataServiceProvider( ).isInvokingSupported( ) );
+			btnParameters.setEnabled( false );
+		}
+		else
+		{
+			btnFilters.setEnabled( hasDataSet( )
+					&& getDataServiceProvider( ).isInvokingSupported( ) );
+			// Bugzilla#177704 Chart inheriting data from container doesn't
+			// support parameters due to limitation in DtE
+			btnParameters.setEnabled( getDataServiceProvider( ).getBoundDataSet( ) != null
+					&& getDataServiceProvider( ).isInvokingSupported( ) );
+			btnBinding.setEnabled( hasDataSet( )
+					&& getDataServiceProvider( ).isInvokingSupported( ) );
+		}
 	}
 
 	private boolean hasDataSet( )
@@ -178,26 +214,108 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 
 	public Composite createDataDragSource( Composite parent )
 	{
-		Composite composite = ChartUIUtil.createCompositeWrapper( parent );
+		cmpStack = new Composite( parent, SWT.NONE );
+		cmpStack.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		stackLayout = new StackLayout( );
+		stackLayout.marginHeight = 0;
+		stackLayout.marginWidth = 0;
+		cmpStack.setLayout( stackLayout );
+
+		cmpCubeTree = ChartUIUtil.createCompositeWrapper( cmpStack );
+		cmpDataPreview = ChartUIUtil.createCompositeWrapper( cmpStack );
+
+		Label label = new Label( cmpCubeTree, SWT.NONE );
 		{
-			composite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			label.setText( Messages.getString( "StandardChartDataSheet.Label.CubeTree" ) ); //$NON-NLS-1$
+			label.setFont( JFaceResources.getBannerFont( ) );
 		}
-		Label label = new Label( composite, SWT.NONE );
+
+		Label description = new Label( cmpCubeTree, SWT.WRAP );
+		{
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			description.setLayoutData( gd );
+			description.setText( Messages.getString( "StandardChartDataSheet.Label.DragCube" ) ); //$NON-NLS-1$
+		}
+
+		cubeTreeViewer = new TreeViewer( cmpCubeTree, SWT.SINGLE
+				| SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER );
+		cubeTreeViewer.getTree( )
+				.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		( (GridData) cubeTreeViewer.getTree( ).getLayoutData( ) ).heightHint = 120;
+		ViewsTreeProvider provider = new ViewsTreeProvider( );
+		cubeTreeViewer.setLabelProvider( provider );
+		cubeTreeViewer.setContentProvider( provider );
+		cubeTreeViewer.setInput( itemHandle.getCube( ) );
+
+		final DragSource dragSource = new DragSource( cubeTreeViewer.getTree( ),
+				DND.DROP_COPY );
+		dragSource.setTransfer( new Transfer[]{
+			SimpleTextTransfer.getInstance( )
+		} );
+		dragSource.addDragListener( new DragSourceListener( ) {
+
+			private String text = null;
+
+			public void dragFinished( DragSourceEvent event )
+			{
+				// TODO Auto-generated method stub
+
+			}
+
+			public void dragSetData( DragSourceEvent event )
+			{
+				event.data = text;
+			}
+
+			public void dragStart( DragSourceEvent event )
+			{
+				text = createCubeExpression( );
+				if ( text == null )
+				{
+					event.doit = false;
+				}
+			}
+		} );
+
+		cubeTreeViewer.getTree( ).addListener( SWT.MouseDown, new Listener( ) {
+
+			public void handleEvent( Event event )
+			{
+				if ( event.button == 3 && event.widget instanceof Tree )
+				{
+					Tree tree = (Tree) event.widget;
+					TreeItem treeItem = tree.getSelection( )[0];
+					if ( treeItem.getData( ) instanceof LevelHandle
+							|| treeItem.getData( ) instanceof MeasureHandle )
+					{
+						tree.setMenu( createMenuManager( treeItem.getData( ) ).createContextMenu( tree ) );
+						tree.getMenu( ).setVisible( true );
+					}
+					else
+					{
+						tree.setMenu( null );
+					}
+				}
+			}
+		} );
+
+		label = new Label( cmpDataPreview, SWT.NONE );
 		{
 			label.setText( Messages.getString( "StandardChartDataSheet.Label.DataPreview" ) ); //$NON-NLS-1$
 			label.setFont( JFaceResources.getBannerFont( ) );
 		}
-		Label description = new Label( composite, SWT.WRAP );
+
+		description = new Label( cmpDataPreview, SWT.WRAP );
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			description.setLayoutData( gd );
 			description.setText( Messages.getString( "StandardChartDataSheet.Label.ToBindADataColumn" ) ); //$NON-NLS-1$
 		}
 
-		tablePreview = new CustomPreviewTable( composite, SWT.SINGLE
+		tablePreview = new CustomPreviewTable( cmpDataPreview, SWT.SINGLE
 				| SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION );
 		{
-			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
+			GridData gridData = new GridData( GridData.FILL_BOTH );
 			gridData.widthHint = 400;
 			gridData.heightHint = 120;
 			tablePreview.setLayoutData( gridData );
@@ -205,7 +323,24 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 			tablePreview.addListener( CustomPreviewTable.MOUSE_RIGHT_CLICK_TYPE,
 					this );
 		}
-		return composite;
+
+		updateDragDataSource( );
+		return cmpStack;
+	}
+
+	private void updateDragDataSource( )
+	{
+		if ( isCubeMode( ) )
+		{
+			stackLayout.topControl = cmpCubeTree;
+			cubeTreeViewer.setInput( itemHandle.getCube( ) );
+		}
+		else
+		{
+			stackLayout.topControl = cmpDataPreview;
+			refreshTablePreview( );
+		}
+		cmpStack.layout( );
 	}
 
 	public Composite createDataSelector( Composite parent )
@@ -233,28 +368,24 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 		Composite compRadios = ChartUIUtil.createCompositeWrapper( cmpDetail );
 		{
 			GridData gd = new GridData( );
-			gd.verticalSpan = 3;
+			gd.verticalSpan = 2;
 			compRadios.setLayoutData( gd );
 		}
 
-		btnUseReportData = new Button( compRadios, SWT.RADIO );
-		btnUseReportData.setText( Messages.getString( "StandardChartDataSheet.Label.UseReportData" ) ); //$NON-NLS-1$
-		btnUseReportData.addListener( SWT.Selection, this );
+		btnInherit = new Button( compRadios, SWT.RADIO );
+		btnInherit.setText( Messages.getString( "StandardChartDataSheet.Label.UseReportData" ) ); //$NON-NLS-1$
+		btnInherit.addListener( SWT.Selection, this );
 
-		btnUseDataSet = new Button( compRadios, SWT.RADIO );
-		btnUseDataSet.setText( Messages.getString( "StandardChartDataSheet.Label.UseDataSet" ) ); //$NON-NLS-1$
-		btnUseDataSet.addListener( SWT.Selection, this );
-
-		btnUseReference = new Button( compRadios, SWT.RADIO );
-		btnUseReference.setText( Messages.getString( "StandardChartDataSheet.Label.UseReportItem" ) ); //$NON-NLS-1$
-		btnUseReference.addListener( SWT.Selection, this );
+		btnUseData = new Button( compRadios, SWT.RADIO );
+		btnUseData.setText( Messages.getString( "StandardChartDataSheet.Label.UseDataSet" ) ); //$NON-NLS-1$
+		btnUseData.addListener( SWT.Selection, this );
 
 		new Label( cmpDetail, SWT.NONE );
 		new Label( cmpDetail, SWT.NONE );
 
-		cmbDataSet = new Combo( cmpDetail, SWT.DROP_DOWN | SWT.READ_ONLY );
-		cmbDataSet.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		cmbDataSet.addListener( SWT.Selection, this );
+		cmbDataItems = new Combo( cmpDetail, SWT.DROP_DOWN | SWT.READ_ONLY );
+		cmbDataItems.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		cmbDataItems.addListener( SWT.Selection, this );
 
 		btnNewData = new Button( cmpDetail, SWT.NONE );
 		{
@@ -262,10 +393,6 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 			btnNewData.setToolTipText( Messages.getString( "StandardChartDataSheet.Tooltip.CreateNewDataset" ) ); //$NON-NLS-1$
 			btnNewData.addListener( SWT.Selection, this );
 		}
-
-		cmbReferences = new Combo( cmpDetail, SWT.DROP_DOWN | SWT.READ_ONLY );
-		cmbReferences.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		cmbReferences.addListener( SWT.Selection, this );
 
 		initDataSelector( );
 		return cmpDataSet;
@@ -322,48 +449,79 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 	private void initDataSelector( )
 	{
 		// create Combo items
-		cmbDataSet.setItems( getDataServiceProvider( ).getAllDataSets( ) );
-		cmbReferences.setItems( getDataServiceProvider( ).getAllReportItemReferences( ) );
+		cmbDataItems.setItems( createDataComboItems( ) );
 
-		// select data set
-		String currentDataSet = getDataServiceProvider( ).getBoundDataSet( );
-		if ( currentDataSet != null )
+		// Select report item reference
+		// Since handle may have data set or data cube besides reference, always
+		// check reference first
+		String sItemRef = getDataServiceProvider( ).getReportItemReference( );
+		if ( sItemRef != null )
 		{
-			btnUseDataSet.setSelection( true );
-			cmbDataSet.setText( currentDataSet );
-			if ( currentDataSet != null )
-			{
-				switchDataTable( );
-			}
+			btnUseData.setSelection( true );
+			cmbDataItems.setText( sItemRef );
+			return;
 		}
-		else
-		{
-			btnUseReportData.setSelection( true );
-			cmbDataSet.select( 0 );
-			cmbDataSet.setEnabled( false );
-			// Initializes column bindings from container
-			getDataServiceProvider( ).setDataSet( null );
 
-			String reportDataSet = getDataServiceProvider( ).getReportDataSet( );
-			if ( reportDataSet != null )
+		// Select data set
+		String sDataSet = getDataServiceProvider( ).getBoundDataSet( );
+		if ( sDataSet != null )
+		{
+			btnUseData.setSelection( true );
+			cmbDataItems.setText( sDataSet );
+			if ( sDataSet != null )
 			{
 				switchDataTable( );
 			}
+			return;
+		}
+
+		// Select data cube
+		String sDataCube = getDataServiceProvider( ).getDataCube( );
+		if ( sDataCube != null )
+		{
+			btnUseData.setSelection( true );
+			cmbDataItems.setText( sDataCube );
+			return;
+		}
+
+		btnInherit.setSelection( true );
+		cmbDataItems.select( 0 );
+		cmbDataItems.setEnabled( false );
+		// Initializes column bindings from container
+		getDataServiceProvider( ).setDataSet( null );
+		String reportDataSet = getDataServiceProvider( ).getReportDataSet( );
+		if ( reportDataSet != null )
+		{
+			switchDataTable( );
 		}
 
 		// select reference item
-		selectItemRef( );
-		if ( cmbReferences.getSelectionIndex( ) > 0 )
-		{
-			cmbDataSet.setEnabled( false );
-			btnUseReference.setSelection( true );
-			btnUseReportData.setSelection( false );
-			btnUseDataSet.setSelection( false );
-		}
-		else
-		{
-			cmbReferences.setEnabled( false );
-		}
+		// selectItemRef( );
+		// if ( cmbReferences.getSelectionIndex( ) > 0 )
+		// {
+		// cmbDataSet.setEnabled( false );
+		// btnUseReference.setSelection( true );
+		// btnUseReportData.setSelection( false );
+		// btnUseDataSet.setSelection( false );
+		// }
+		// else
+		// {
+		// cmbReferences.setEnabled( false );
+		// }
+		//
+		// String dataCube = getDataServiceProvider( ).getDataCube( );
+		// if ( dataCube != null )
+		// {
+		// cmbCubes.setText( dataCube );
+		// btnUseReference.setSelection( false );
+		// btnUseReportData.setSelection( false );
+		// btnUseDataSet.setSelection( false );
+		// btnUseCubes.setSelection( true );
+		// }
+		// else
+		// {
+		// cmbCubes.select( 0 );
+		// }
 	}
 
 	public void handleEvent( Event event )
@@ -384,7 +542,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 					// Bind context menu to each header button
 					if ( header.getMenu( ) == null )
 					{
-						header.setMenu( createMenu( ) );
+						header.setMenu( createMenuManager( event.data ).createContextMenu( tablePreview ) );
 					}
 
 					header.getMenu( ).setVisible( true );
@@ -431,12 +589,12 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 
 			try
 			{
-				if ( event.widget == btnUseReportData )
+				if ( event.widget == btnInherit )
 				{
 					ColorPalette.getInstance( ).restore( );
 
 					// Skip when selection is false
-					if ( !btnUseReportData.getSelection( ) )
+					if ( !btnInherit.getSelection( ) )
 					{
 						return;
 					}
@@ -444,94 +602,124 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 					getDataServiceProvider( ).setDataSet( null );
 					switchDataSet( null );
 
-					cmbDataSet.select( 0 );
-					cmbDataSet.setEnabled( false );
-					cmbReferences.select( 0 );
-					cmbReferences.setEnabled( false );
+					cmbDataItems.select( 0 );
+					cmbDataItems.setEnabled( false );
 					setEnabledForButtons( );
+					updateDragDataSource( );
 				}
-				else if ( event.widget == btnUseDataSet )
+				else if ( event.widget == btnUseData )
 				{
 					// Skip when selection is false
-					if ( !btnUseDataSet.getSelection( ) )
+					if ( !btnUseData.getSelection( ) )
 					{
 						return;
 					}
 
 					getDataServiceProvider( ).setReportItemReference( null );
 					selectDataSet( );
-					cmbDataSet.setEnabled( true );
-					cmbReferences.setEnabled( false );
-
+					cmbDataItems.setEnabled( true );
 					setEnabledForButtons( );
+					updateDragDataSource( );
 				}
-				else if ( event.widget == cmbDataSet )
+				else if ( event.widget == cmbDataItems )
 				{
 					ColorPalette.getInstance( ).restore( );
-					if ( cmbDataSet.getSelectionIndex( ) > 0 )
+					int selectedIndex = cmbDataItems.getSelectionIndex( );
+					Integer selectState = (Integer) selectDataTypes.get( selectedIndex );
+					switch ( selectState.intValue( ) )
 					{
-						if ( getDataServiceProvider( ).getBoundDataSet( ) != null
-								&& getDataServiceProvider( ).getBoundDataSet( )
-										.equals( cmbDataSet.getText( ) ) )
-						{
-							return;
-						}
-						getDataServiceProvider( ).setDataSet( cmbDataSet.getText( ) );
-						switchDataSet( cmbDataSet.getText( ) );
+						case SELECT_NONE :
+							// Inherit data from container
+							btnInherit.setSelection( true );
+							btnUseData.setSelection( false );
+							btnInherit.notifyListeners( SWT.Selection,
+									new Event( ) );
+							break;
+						case SELECT_NEXT :
+							selectedIndex++;
+							selectState = (Integer) selectDataTypes.get( selectedIndex );
+							cmbDataItems.select( selectedIndex );
+							break;
+					}
+					switch ( selectState.intValue( ) )
+					{
+						case SELECT_DATA_SET :
+							if ( getDataServiceProvider( ).getBoundDataSet( ) != null
+									&& getDataServiceProvider( ).getBoundDataSet( )
+											.equals( cmbDataItems.getText( ) ) )
+							{
+								return;
+							}
+							getDataServiceProvider( ).setDataSet( cmbDataItems.getText( ) );
+							switchDataSet( cmbDataItems.getText( ) );
+							setEnabledForButtons( );
+							updateDragDataSource( );
+							break;
+						case SELECT_DATA_CUBE :
+							getDataServiceProvider( ).setDataCube( cmbDataItems.getText( ) );
+							updateDragDataSource( );
+							setEnabledForButtons( );
+							break;
+						case SELECT_REPORT_ITEM :
+							if ( cmbDataItems.getText( )
+									.equals( getDataServiceProvider( ).getReportItemReference( ) ) )
+							{
+								return;
+							}
+							getDataServiceProvider( ).setReportItemReference( cmbDataItems.getText( ) );
+							// selectDataSet( );
+							// switchDataSet( cmbDataItems.getText( ) );
+							setEnabledForButtons( );
+							updateDragDataSource( );
+							break;
+					}
 
-						setEnabledForButtons( );
-					}
-					else
-					{
-						// Inherit data from container
-						btnUseReportData.setSelection( true );
-						btnUseDataSet.setSelection( false );
-						btnUseReportData.notifyListeners( SWT.Selection,
-								new Event( ) );
-					}
 				}
-				else if ( event.widget == btnUseReference )
-				{
-					// Skip when selection is false
-					if ( !btnUseReference.getSelection( ) )
-					{
-						return;
-					}
-					cmbDataSet.setEnabled( false );
-					cmbReferences.setEnabled( true );
-					selectItemRef( );
-					setEnabledForButtons( );
-				}
-				else if ( event.widget == cmbReferences )
-				{
-					if ( cmbReferences.getSelectionIndex( ) == 0 )
-					{
-						if ( getDataServiceProvider( ).getReportItemReference( ) == null )
-						{
-							return;
-						}
-						getDataServiceProvider( ).setReportItemReference( null );
-
-						// Auto select the data set
-						selectDataSet( );
-						cmbReferences.setEnabled( false );
-						cmbDataSet.setEnabled( true );
-						btnUseReference.setSelection( false );
-						btnUseDataSet.setSelection( true );
-					}
-					else
-					{
-						if ( cmbReferences.getText( )
-								.equals( getDataServiceProvider( ).getReportItemReference( ) ) )
-						{
-							return;
-						}
-						getDataServiceProvider( ).setReportItemReference( cmbReferences.getText( ) );
-						selectDataSet( );
-					}
-					switchDataSet( cmbDataSet.getText( ) );
-					setEnabledForButtons( );
-				}
+				// else if ( event.widget == btnUseReference )
+				// {
+				// // Skip when selection is false
+				// if ( !btnUseReference.getSelection( ) )
+				// {
+				// return;
+				// }
+				// cmbDataSet.setEnabled( false );
+				// cmbReferences.setEnabled( true );
+				// selectItemRef( );
+				// setEnabledForButtons( );
+				// }
+				// else if ( event.widget == cmbReferences )
+				// {
+				// if ( cmbReferences.getSelectionIndex( ) == 0 )
+				// {
+				// if ( getDataServiceProvider( ).getReportItemReference( ) ==
+				// null )
+				// {
+				// return;
+				// }
+				// getDataServiceProvider( ).setReportItemReference( null );
+				//
+				// // Auto select the data set
+				// selectDataSet( );
+				// cmbReferences.setEnabled( false );
+				// cmbDataSet.setEnabled( true );
+				// btnUseReference.setSelection( false );
+				// btnUseDataSet.setSelection( true );
+				// }
+				// else
+				// {
+				// if ( cmbReferences.getText( )
+				// .equals( getDataServiceProvider( ).getReportItemReference( )
+				// ) )
+				// {
+				// return;
+				// }
+				// getDataServiceProvider( ).setReportItemReference(
+				// cmbReferences.getText( ) );
+				// selectDataSet( );
+				// }
+				// switchDataSet( cmbDataSet.getText( ) );
+				// setEnabledForButtons( );
+				// }
 				else if ( event.widget == btnNewData )
 				{
 					// Bring up the dialog to create a dataset
@@ -541,10 +729,10 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 						return;
 					}
 
-					String currentDataSet = cmbDataSet.getText( );
-					cmbDataSet.removeAll( );
-					cmbDataSet.setItems( getDataServiceProvider( ).getAllDataSets( ) );
-					cmbDataSet.setText( currentDataSet );
+					String currentDataSet = cmbDataItems.getText( );
+					cmbDataItems.removeAll( );
+					cmbDataItems.setItems( createDataComboItems( ) );
+					cmbDataItems.setText( currentDataSet );
 				}
 			}
 			catch ( ChartException e1 )
@@ -564,31 +752,22 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 		String currentDS = getDataServiceProvider( ).getBoundDataSet( );
 		if ( currentDS == null )
 		{
-			cmbDataSet.select( 0 );
+			cmbDataItems.select( 0 );
 		}
 		else
 		{
-			cmbDataSet.setText( currentDS );
-		}
-	}
-
-	private void selectItemRef( )
-	{
-		String currentRef = getDataServiceProvider( ).getReportItemReference( );
-		if ( currentRef == null )
-		{
-			cmbReferences.select( 0 );
-		}
-		else
-		{
-			cmbReferences.setText( currentRef );
+			cmbDataItems.setText( currentDS );
 		}
 	}
 
 	private void refreshTablePreview( )
 	{
+		if ( isCubeMode( ) )
+		{
+			return;
+		}
 		tablePreview.clearContents( );
-		if ( cmbDataSet.getText( ) != null )
+		if ( cmbDataItems.getText( ) != null )
 		{
 			switchDataTable( );
 		}
@@ -597,6 +776,10 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 
 	private void switchDataSet( String datasetName ) throws ChartException
 	{
+		if ( isCubeMode( ) )
+		{
+			return;
+		}
 		try
 		{
 			// Clear old dataset and preview data
@@ -632,6 +815,10 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 
 	private void switchDataTable( )
 	{
+		if ( isCubeMode( ) )
+		{
+			return;
+		}
 		// 1. Create a runnable.
 		Runnable runnable = new Runnable( ) {
 
@@ -711,16 +898,20 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 
 	private void refreshTableColor( )
 	{
+		if ( isCubeMode( ) )
+		{
+			return;
+		}
 		// Reset column color
 		for ( int i = 0; i < tablePreview.getColumnNumber( ); i++ )
 		{
 			tablePreview.setColumnColor( i,
 					ColorPalette.getInstance( )
-							.getColor( ChartUIUtil.getExpressionString( tablePreview.getColumnHeading( i ) ) ) );
+							.getColor( ExpressionUtil.createJSRowExpression( tablePreview.getColumnHeading( i ) ) ) );
 		}
 	}
 
-	private void manageColorAndQuery( Query query )
+	private void manageColorAndQuery( Query query, String expr )
 	{
 		// If it's not used any more, remove color binding
 		if ( DataDefinitionTextManager.getInstance( )
@@ -728,7 +919,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 		{
 			ColorPalette.getInstance( ).retrieveColor( query.getDefinition( ) );
 		}
-		query.setDefinition( ChartUIUtil.getExpressionString( tablePreview.getCurrentColumnHeading( ) ) );
+		query.setDefinition( expr );
 		DataDefinitionTextManager.getInstance( ).updateText( query );
 		// Reset table column color
 		refreshTableColor( );
@@ -739,9 +930,12 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 	class CategoryXAxisAction extends Action
 	{
 
-		CategoryXAxisAction( )
+		String expr;
+
+		CategoryXAxisAction( String expr )
 		{
 			super( getBaseSeriesTitle( getChartModel( ) ) );
+			this.expr = expr;
 		}
 
 		public void run( )
@@ -750,7 +944,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 					.get( 0 ) ).getDesignTimeSeries( )
 					.getDataDefinition( )
 					.get( 0 ) );
-			manageColorAndQuery( query );
+			manageColorAndQuery( query, expr );
 		}
 	}
 
@@ -758,22 +952,23 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 	{
 
 		Query query;
+		String expr;
 
-		GroupYSeriesAction( Query query )
+		GroupYSeriesAction( Query query, String expr )
 		{
 			super( getGroupSeriesTitle( getChartModel( ) ) );
 			this.query = query;
+			this.expr = expr;
 		}
 
 		public void run( )
 		{
 			// Use the first group, and copy to the all groups
 			ChartAdapter.beginIgnoreNotifications( );
-			ChartUIUtil.setAllGroupingQueryExceptFirst( getChartModel( ),
-					ChartUIUtil.getExpressionString( tablePreview.getCurrentColumnHeading( ) ) );
+			ChartUIUtil.setAllGroupingQueryExceptFirst( getChartModel( ), expr );
 			ChartAdapter.endIgnoreNotifications( );
 
-			manageColorAndQuery( query );
+			manageColorAndQuery( query, expr );
 		}
 	}
 
@@ -781,25 +976,27 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 	{
 
 		Query query;
+		String expr;
 
-		ValueYSeriesAction( Query query )
+		ValueYSeriesAction( Query query, String expr )
 		{
 			super( getOrthogonalSeriesTitle( getChartModel( ) ) );
 			this.query = query;
+			this.expr = expr;
 		}
 
 		public void run( )
 		{
-			manageColorAndQuery( query );
+			manageColorAndQuery( query, expr );
 		}
 	}
 
 	class HeaderShowAction extends Action
 	{
 
-		HeaderShowAction( )
+		HeaderShowAction( String header )
 		{
-			super( tablePreview.getCurrentColumnHeading( ) );
+			super( header );
 			setEnabled( false );
 		}
 	}
@@ -814,7 +1011,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 		return this.dataProvider;
 	}
 
-	private Menu createMenu( )
+	private MenuManager createMenuManager( final Object data )
 	{
 		MenuManager menuManager = new MenuManager( );
 		menuManager.setRemoveAllWhenShown( true );
@@ -822,10 +1019,35 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 
 			public void menuAboutToShow( IMenuManager manager )
 			{
-				addMenu( manager, new HeaderShowAction( ) );
-				addMenu( manager, getBaseSeriesMenu( getChartModel( ) ) );
-				addMenu( manager, getOrthogonalSeriesMenu( getChartModel( ) ) );
-				addMenu( manager, getGroupSeriesMenu( getChartModel( ) ) );
+				if ( data instanceof Integer )
+				{
+					// Menu for table
+					addMenu( manager,
+							new HeaderShowAction( tablePreview.getCurrentColumnHeading( ) ) );
+					String expr = ExpressionUtil.createJSRowExpression( tablePreview.getCurrentColumnHeading( ) );
+					addMenu( manager,
+							getBaseSeriesMenu( getChartModel( ), expr ) );
+					addMenu( manager,
+							getOrthogonalSeriesMenu( getChartModel( ), expr ) );
+					addMenu( manager, getGroupSeriesMenu( getChartModel( ),
+							expr ) );
+				}
+				else if ( data instanceof MeasureHandle )
+				{
+					// Menu for Measure
+					String expr = createCubeExpression( );
+					addMenu( manager,
+							getOrthogonalSeriesMenu( getChartModel( ), expr ) );
+				}
+				else if ( data instanceof LevelHandle )
+				{
+					// Menu for Level
+					String expr = createCubeExpression( );
+					addMenu( manager,
+							getBaseSeriesMenu( getChartModel( ), expr ) );
+					addMenu( manager, getGroupSeriesMenu( getChartModel( ),
+							expr ) );
+				}
 			}
 
 			private void addMenu( IMenuManager manager, Object item )
@@ -840,21 +1062,20 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 				}
 			}
 		} );
-
-		return menuManager.createContextMenu( tablePreview );
+		return menuManager;
 	}
 
-	private Object getBaseSeriesMenu( Chart chart )
+	private Object getBaseSeriesMenu( Chart chart, String expr )
 	{
 		EList sds = ChartUIUtil.getBaseSeriesDefinitions( chart );
 		if ( sds.size( ) == 1 )
 		{
-			return new CategoryXAxisAction( );
+			return new CategoryXAxisAction( expr );
 		}
 		return null;
 	}
 
-	private Object getGroupSeriesMenu( Chart chart )
+	private Object getGroupSeriesMenu( Chart chart, String expr )
 	{
 		IMenuManager topManager = new MenuManager( getGroupSeriesTitle( getChartModel( ) ) );
 		int axisNum = ChartUIUtil.getOrthogonalAxisNumber( chart );
@@ -865,7 +1086,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 			for ( int i = 0; i < sds.size( ); i++ )
 			{
 				SeriesDefinition sd = (SeriesDefinition) sds.get( i );
-				IAction action = new GroupYSeriesAction( sd.getQuery( ) );
+				IAction action = new GroupYSeriesAction( sd.getQuery( ), expr );
 				// ONLY USE FIRST GROUPING SERIES FOR CHART ENGINE SUPPORT
 				// if ( axisNum == 1 && sds.size( ) == 1 )
 				{
@@ -881,7 +1102,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 		return topManager;
 	}
 
-	private Object getOrthogonalSeriesMenu( Chart chart )
+	private Object getOrthogonalSeriesMenu( Chart chart, String expr )
 	{
 		IMenuManager topManager = new MenuManager( getOrthogonalSeriesTitle( getChartModel( ) ) );
 		int axisNum = ChartUIUtil.getOrthogonalAxisNumber( chart );
@@ -902,7 +1123,8 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 					topManager.add( secondManager );
 					for ( int j = 0; j < dataDefns.size( ); j++ )
 					{
-						IAction action = new ValueYSeriesAction( (Query) dataDefns.get( j ) );
+						IAction action = new ValueYSeriesAction( (Query) dataDefns.get( j ),
+								expr );
 						action.setText( ChartUIUtil.getStockTitle( j )
 								+ Messages.getString( "StandardChartDataSheet.Label.Component" ) ); //$NON-NLS-1$
 						secondManager.add( action );
@@ -916,7 +1138,8 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 					topManager.add( secondManager );
 					for ( int j = 0; j < dataDefns.size( ); j++ )
 					{
-						IAction action = new ValueYSeriesAction( (Query) dataDefns.get( j ) );
+						IAction action = new ValueYSeriesAction( (Query) dataDefns.get( j ),
+								expr );
 						action.setText( ChartUIUtil.getBubbleTitle( j )
 								+ Messages.getString( "StandardChartDataSheet.Label.Component" ) ); //$NON-NLS-1$
 						secondManager.add( action );
@@ -930,7 +1153,8 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 					topManager.add( secondManager );
 					for ( int j = 0; j < dataDefns.size( ); j++ )
 					{
-						IAction action = new ValueYSeriesAction( (Query) dataDefns.get( j ) );
+						IAction action = new ValueYSeriesAction( (Query) dataDefns.get( j ),
+								expr );
 						action.setText( ChartUIUtil.getDifferenceTitle( j )
 								+ Messages.getString( "StandardChartDataSheet.Label.Component" ) ); //$NON-NLS-1$
 						secondManager.add( action );
@@ -944,7 +1168,8 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 					topManager.add( secondManager );
 					for ( int j = 0; j < dataDefns.size( ); j++ )
 					{
-						IAction action = new ValueYSeriesAction( (Query) dataDefns.get( j ) );
+						IAction action = new ValueYSeriesAction( (Query) dataDefns.get( j ),
+								expr );
 						action.setText( ChartUIUtil.getGanttTitle( j )
 								+ Messages.getString( "StandardChartDataSheet.Label.Component" ) ); //$NON-NLS-1$
 						secondManager.add( action );
@@ -952,7 +1177,8 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 				}
 				else
 				{
-					IAction action = new ValueYSeriesAction( (Query) dataDefns.get( 0 ) );
+					IAction action = new ValueYSeriesAction( (Query) dataDefns.get( 0 ),
+							expr );
 					if ( axisNum == 1 && sds.size( ) == 1 )
 					{
 						// Simplify cascade menu
@@ -1019,9 +1245,88 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 		return Messages.getString( "StandardChartDataSheet.Label.UseToGroupValueSeries" ); //$NON-NLS-1$
 	}
 
-	public void dispose( )
+	private boolean isCubeMode( )
 	{
-		super.dispose( );
-		getDataServiceProvider( ).dispose( );
+		return itemHandle.getCube( ) != null;
+	}
+
+	/**
+	 * Creates the cube expression
+	 * 
+	 * @return expression
+	 */
+	private String createCubeExpression( )
+	{
+		if ( cubeTreeViewer == null )
+		{
+			return null;
+		}
+		TreeItem[] selection = cubeTreeViewer.getTree( ).getSelection( );
+		String expr = null;
+		if ( selection.length > 0 )
+		{
+			TreeItem treeItem = selection[0];
+			if ( treeItem.getData( ) instanceof LevelHandle )
+			{
+				TreeItem dimensionItem = treeItem.getParentItem( );
+				while ( !( dimensionItem.getData( ) instanceof DimensionHandle ) )
+				{
+					dimensionItem = dimensionItem.getParentItem( );
+				}
+				expr = ExpressionUtil.createJSDimensionExpression( dimensionItem.getText( ),
+						treeItem.getText( ) );
+			}
+			else if ( treeItem.getData( ) instanceof MeasureHandle )
+			{
+				expr = ExpressionUtil.createJSMeasureExpression( treeItem.getText( ) );
+			}
+		}
+		return expr;
+	}
+
+	private String[] createDataComboItems( )
+	{
+		List items = new ArrayList( );
+		selectDataTypes.clear( );
+
+		items.add( ReportDataServiceProvider.OPTION_NONE );
+		selectDataTypes.add( new Integer( SELECT_NONE ) );
+
+		String[] dataSets = getDataServiceProvider( ).getAllDataSets( );
+		if ( dataSets.length > 0 )
+		{
+			items.add( Messages.getString( "StandardChartDataSheet.Combo.DataSets" ) ); //$NON-NLS-1$
+			selectDataTypes.add( new Integer( SELECT_NEXT ) );
+			for ( int i = 0; i < dataSets.length; i++ )
+			{
+				items.add( dataSets[i] );
+				selectDataTypes.add( new Integer( SELECT_DATA_SET ) );
+			}
+		}
+
+		String[] dataCubes = getDataServiceProvider( ).getAllDataCubes( );
+		if ( dataCubes.length > 0 )
+		{
+			items.add( Messages.getString( "StandardChartDataSheet.Combo.DataCubes" ) ); //$NON-NLS-1$
+			selectDataTypes.add( new Integer( SELECT_NEXT ) );
+			for ( int i = 0; i < dataCubes.length; i++ )
+			{
+				items.add( dataCubes[i] );
+				selectDataTypes.add( new Integer( SELECT_DATA_CUBE ) );
+			}
+		}
+
+		String[] dataRefs = getDataServiceProvider( ).getAllReportItemReferences( );
+		if ( dataRefs.length > 0 )
+		{
+			items.add( Messages.getString( "StandardChartDataSheet.Combo.ReportItems" ) ); //$NON-NLS-1$
+			selectDataTypes.add( new Integer( SELECT_NEXT ) );
+			for ( int i = 0; i < dataRefs.length; i++ )
+			{
+				items.add( dataRefs[i] );
+				selectDataTypes.add( new Integer( SELECT_REPORT_ITEM ) );
+			}
+		}
+		return (String[]) items.toArray( new String[items.size( )] );
 	}
 }

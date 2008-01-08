@@ -9,7 +9,6 @@
 
 package org.eclipse.birt.chart.ui.swt;
 
-import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTargetAdapter;
 import org.eclipse.swt.dnd.DropTargetEvent;
@@ -73,7 +72,7 @@ public class DataTextDropListener extends DropTargetAdapter
 	 */
 	public void drop( DropTargetEvent event )
 	{
-		String expression = ChartUIUtil.getExpressionString( (String) event.data );
+		String expression = (String) event.data;
 		// If it's last element, remove color binding
 		if ( !expression.equals( getText( txtDataDefn ) )
 				&& DataDefinitionTextManager.getInstance( )
