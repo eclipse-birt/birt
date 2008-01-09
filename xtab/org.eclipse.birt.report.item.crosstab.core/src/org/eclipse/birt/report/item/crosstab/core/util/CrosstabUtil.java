@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.item.crosstab.core.util;
 
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
+import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
@@ -214,11 +215,12 @@ public class CrosstabUtil implements ICrosstabConstants
 	}
 
 	public static void addDataItem( CrosstabReportItemHandle crosstab,
-			MeasureViewHandle measureView, String function,
-			String rowDimension, String rowLevel, String colDimension,
-			String colLevel ) throws SemanticException
+			AggregationCellHandle cell, MeasureViewHandle measureView,
+			String function, String rowDimension, String rowLevel,
+			String colDimension, String colLevel ) throws SemanticException
 	{
 		CrosstabModelUtil.addDataItem( crosstab,
+				cell,
 				measureView,
 				function,
 				rowDimension,
