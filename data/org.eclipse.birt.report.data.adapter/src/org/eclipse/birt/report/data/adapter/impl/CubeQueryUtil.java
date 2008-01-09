@@ -39,6 +39,7 @@ import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.IBindingMetaInfo;
 import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
+import org.eclipse.birt.report.data.adapter.api.IDimensionLevel;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
@@ -812,6 +813,83 @@ public class CubeQueryUtil implements ICubeQueryUtil
 		public String getBindingName( )
 		{
 			return name;
+		}
+		
+	}
+
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil#getReferencedDimensionLevel(java.lang.String)
+	 */
+	public IDimensionLevel[] getReferencedDimensionLevel( String expression )
+			throws AdapterException
+	{
+		try
+		{
+			IDimensionLevel[] result = new IDimensionLevel[0];
+			Set dimLevels = OlapExpressionCompiler.getReferencedDimLevel( new ScriptExpression( expression ), new ArrayList() );
+			if( dimLevels != null )
+			{
+				result = new IDimensionLevel[dimLevels.size( )];
+				Iterator it = dimLevels.iterator( );
+				int index = 0;
+				while( it.hasNext( ) )
+				{
+					DimLevel dimLevel = ( DimLevel )it.next( );
+					result[index] = new DimensionLevel( dimLevel );
+					index ++;
+				}
+			}
+			return result;
+		}
+		catch ( DataException e )
+		{
+			throw new AdapterException( e.getLocalizedMessage( ), e );
+		}
+		
+	}
+	
+	//
+	private class DimensionLevel implements IDimensionLevel
+	{
+		private String dimName;
+		private String lvlName;
+		private String attrName;
+	
+		//
+		DimensionLevel( DimLevel dimLevel )
+		{
+			this.dimName = dimLevel.getDimensionName( );
+			this.lvlName = dimLevel.getLevelName( );
+			this.attrName = dimLevel.getAttrName( );
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.report.data.adapter.api.IDimensionLevel#getAttributeName()
+		 */
+		public String getAttributeName( )
+		{
+			return this.attrName;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.report.data.adapter.api.IDimensionLevel#getDimensionName()
+		 */
+		public String getDimensionName( )
+		{
+			return this.dimName;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.report.data.adapter.api.IDimensionLevel#getLevelName()
+		 */
+		public String getLevelName( )
+		{
+			return this.lvlName;
 		}
 		
 	}

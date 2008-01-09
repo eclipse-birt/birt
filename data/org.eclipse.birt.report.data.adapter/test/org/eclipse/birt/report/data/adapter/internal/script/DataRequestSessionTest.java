@@ -31,6 +31,7 @@ import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IBindingMetaInfo;
+import org.eclipse.birt.report.data.adapter.api.IDimensionLevel;
 import org.eclipse.birt.report.data.adapter.impl.DataRequestSessionImpl;
 
 
@@ -47,6 +48,21 @@ public class DataRequestSessionTest extends TestCase
 		this.session = new DataRequestSessionImpl( new DataSessionContext(DataEngineContext.DIRECT_PRESENTATION));
 	}
 	
+	public void testGetReferredDimLevel( ) throws Exception
+	{
+		IDimensionLevel[] dimSet = this.session.getCubeQueryUtil( ).getReferencedDimensionLevel( "dimension[\"dim1\"][\"lvl1\"][\"attr1\"]+dimension[\"dim2\"][\"lvl2\"][\"attr2\"]" );
+		assertEquals( dimSet.length, 2 );
+		
+		assertEquals( "dim2", dimSet[0].getDimensionName( ));
+		assertEquals( "lvl2", dimSet[0].getLevelName( ));
+		assertEquals( "attr2", dimSet[0].getAttributeName( ));
+
+		
+		assertEquals( "dim1", dimSet[1].getDimensionName( ));
+		assertEquals( "lvl1", dimSet[1].getLevelName( ));
+		assertEquals( "attr1", dimSet[1].getAttributeName( ));
+
+	}
 	public void testGetReferableBindings( ) throws AdapterException, DataException
 	{
 		IBinding binding1 = new Binding( "b1", new ScriptExpression("dimension[\"dim1\"][\"level1\"]"));

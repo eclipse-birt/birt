@@ -29,6 +29,15 @@ public interface ICubeQueryUtil
 	public static String DISPLAY_NAME_ATTR = "DisplayName";
 
 	/**
+	 * Return all the level/level attributes that referenced by an expression.
+	 * 
+	 * @param expression
+	 * @return
+	 * @throws AdapterException
+	 */
+	public IDimensionLevel[] getReferencedDimensionLevel( String expression ) throws AdapterException;
+	
+	/**
 	 * Utility method to acquire referable bindings, either in cube filter or
 	 * cube sort.
 	 * 
