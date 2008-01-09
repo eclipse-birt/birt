@@ -38,6 +38,7 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -58,7 +59,6 @@ public class InputParameterDialog extends Dialog
 
 	private static final String NULL_VALUE_STR = ParameterUtil.LABEL_NULL;
 
-	private Shell parentShell;
 	private Composite contentPane;
 	private ScrolledComposite scrollPane;
 
@@ -97,7 +97,6 @@ public class InputParameterDialog extends Dialog
 	public InputParameterDialog( Shell parentShell, List params, Map paramValues )
 	{
 		super( parentShell );
-		this.parentShell = parentShell;
 		this.params = params;
 		if ( paramValues != null )
 		{
@@ -120,7 +119,7 @@ public class InputParameterDialog extends Dialog
 						|| ( paramValue instanceof String && ( (String) paramValue ).trim( )
 								.length( ) == 0 ) )
 				{
-					MessageDialog.openError( parentShell, "Error", paramName
+					MessageDialog.openError( getShell( ), "Error", paramName
 							+ " cannot be NULL or blank" );
 					return;
 				}
@@ -140,7 +139,7 @@ public class InputParameterDialog extends Dialog
 				catch ( BirtException e )
 				{
 					// TODO: handle exception
-					MessageDialog.openError( parentShell,
+					MessageDialog.openError( getShell( ),
 							"Invalid value type",
 							"The value \""
 									+ paramValue
@@ -456,8 +455,13 @@ public class InputParameterDialog extends Dialog
 	protected void configureShell( Shell newShell )
 	{
 		super.configureShell( newShell );
+
 		newShell.setText( Messages.getString( "InputParameterDialog.msg.title" ) ); //$NON-NLS-1$
-		newShell.setSize( 400, 400 );
+	}
+
+	protected Point getInitialSize( )
+	{
+		return new Point( 400, 400 );
 	}
 
 	public Map getParameters( )
