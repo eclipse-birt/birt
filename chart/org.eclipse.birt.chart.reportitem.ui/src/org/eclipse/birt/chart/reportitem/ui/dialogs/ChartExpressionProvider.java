@@ -20,7 +20,7 @@ import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 
 /**
- * Provide a specific expression builder to explode pie slices.
+ * Provide a specific expression builder depending on context
  */
 
 public class ChartExpressionProvider extends ExpressionProvider
@@ -30,6 +30,13 @@ public class ChartExpressionProvider extends ExpressionProvider
 
 	private static final String DATA_POINTS = org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartExpressionProvider.ChartVariables.DataPoints" );//$NON-NLS-1$
 
+	private static final String JAVASCRIPT = org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartExpressionProvider.ChartVariables.JavaScript" );//$NON-NLS-1$
+
+	private static final String JAVASCRIPT_EVENT = org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartExpressionProvider.ChartVariables.Event" );//$NON-NLS-1$;
+	
+	private static final String JAVASCRIPT_EVENT_PARAMETER = "evt";//$NON-NLS-1$
+	
+	
 	public static final int CATEGORY_BASE = 0;
 
 	public static final int CATEGORY_WITH_CHART_VARIABLES = 1;
@@ -39,6 +46,10 @@ public class ChartExpressionProvider extends ExpressionProvider
 	public static final int CATEGORY_WITH_COLUMN_BINDINGS = 4;
 
 	public static final int CATEGORY_WITH_REPORT_PARAMS = 8;
+	
+	public static final int CATEGORY_WITH_JAVASCRIPT = 16;
+
+	
 
 	private final int _categoryStyle;
 
@@ -87,7 +98,8 @@ public class ChartExpressionProvider extends ExpressionProvider
 	protected List getCategoryList( )
 	{
 		List list = super.getCategoryList( );
-		if ( ( this._categoryStyle & CATEGORY_WITH_CHART_VARIABLES ) == CATEGORY_WITH_CHART_VARIABLES )
+		if ( ( this._categoryStyle & CATEGORY_WITH_CHART_VARIABLES ) == CATEGORY_WITH_CHART_VARIABLES ||
+				( this._categoryStyle &  CATEGORY_WITH_JAVASCRIPT ) == CATEGORY_WITH_JAVASCRIPT )
 		{
 			list.add( CHART_VARIABLES );
 		}
@@ -100,17 +112,27 @@ public class ChartExpressionProvider extends ExpressionProvider
 
 		if ( DATA_POINTS.equals( parent ) )
 		{
+			
 			list.add( ScriptHandler.BASE_VALUE );
 			list.add( ScriptHandler.ORTHOGONAL_VALUE );
 			list.add( ScriptHandler.SERIES_VALUE );
+			
+			
 		}
-		else
+		else if ( CHART_VARIABLES.equals( parent ) )
 		{
-			if ( CHART_VARIABLES.equals( parent ) )
-			{
+			if ( ( this._categoryStyle & CATEGORY_WITH_CHART_VARIABLES ) == CATEGORY_WITH_CHART_VARIABLES  )
 				list.add( DATA_POINTS );
-			}
+			if (( this._categoryStyle &  CATEGORY_WITH_JAVASCRIPT ) == CATEGORY_WITH_JAVASCRIPT )
+				list.add( JAVASCRIPT );
+
+			
 		}
+		else if ( JAVASCRIPT.equals( parent ) )
+		{
+			list.add( JAVASCRIPT_EVENT_PARAMETER );
+		}
+
 
 		return list;
 	}
@@ -133,6 +155,10 @@ public class ChartExpressionProvider extends ExpressionProvider
 		else if ( element.equals( ScriptHandler.SERIES_VALUE ) )
 		{
 			return org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartExpressionProvider.DataPoints.SeriesValue" );//$NON-NLS-1$
+		}
+		else if ( element.equals( JAVASCRIPT_EVENT_PARAMETER ) )
+		{
+			return JAVASCRIPT_EVENT;
 		}
 		return super.getDisplayText( element );
 	}

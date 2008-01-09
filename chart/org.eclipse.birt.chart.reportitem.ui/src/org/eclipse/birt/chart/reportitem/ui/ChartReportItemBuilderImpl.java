@@ -526,11 +526,12 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 		else if ( builderCommand == COMMAND_EXPRESSION_TRIGGERS_DATAPOINTS )
 		{
 			return ChartExpressionProvider.CATEGORY_WITH_CHART_VARIABLES
-					| ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS;
+					| ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS
+					| ChartExpressionProvider.CATEGORY_WITH_JAVASCRIPT;
 		}
 		else if ( builderCommand == COMMAND_EXPRESSION_TRIGGERS_SIMPLE )
 		{
-			return ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS;
+			return ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS | ChartExpressionProvider.CATEGORY_WITH_JAVASCRIPT;
 		}
 		else if ( builderCommand == COMMAND_HYPERLINK )
 		{

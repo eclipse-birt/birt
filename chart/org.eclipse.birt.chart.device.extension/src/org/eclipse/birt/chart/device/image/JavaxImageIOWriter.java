@@ -225,12 +225,12 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 					{
 						dph = null;
 					}
-					String callbackFunction = getJSMethodName( condition, sa )
-							+ "("; //$NON-NLS-1$
-					callbackFunction = ScriptUtil.script( callbackFunction, dph );
-					callbackFunction += ");"; //$NON-NLS-1$
+					StringBuffer callbackFunction = new StringBuffer( getJSMethodName( condition, sa ));
+					callbackFunction.append("(event");//$NON-NLS-1$
+					ScriptUtil.script( callbackFunction, dph );
+					callbackFunction.append( ");" ); //$NON-NLS-1$
 					tag.addAttribute( htmlAttr,
-							eval2JS( callbackFunction, true ) );
+							eval2JS( callbackFunction.toString(), true ) );
 					return true;
 			}
 		}
@@ -305,13 +305,13 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 					{
 						dph = null;
 					}
-					String callbackFunction = getJSMethodName( TriggerCondition.ONMOUSEOVER_LITERAL,
-							sa )
-							+ "("; //$NON-NLS-1$
-					callbackFunction = ScriptUtil.script( callbackFunction, dph );
-					callbackFunction += ");"; //$NON-NLS-1$
+					StringBuffer callbackFunction = new StringBuffer( getJSMethodName( TriggerCondition.ONMOUSEOVER_LITERAL,
+							sa ) );
+					callbackFunction.append( "(event" ); //$NON-NLS-1$
+					ScriptUtil.script( callbackFunction, dph );
+					callbackFunction.append( ");" ); //$NON-NLS-1$
 					tag.addAttribute( HTMLAttribute.ONMOUSEOVER,
-							eval2JS( callbackFunction, true ) );
+							eval2JS( callbackFunction.toString(), true ) );
 					return true;
 			}
 		}
@@ -825,7 +825,7 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 	private String wrapJSMethod( String functionName, String functionContent )
 	{
 		return "<Script>" //$NON-NLS-1$
-				+ "function " + functionName + "(categoryData, valueData, seriesValueName){" //$NON-NLS-1$ //$NON-NLS-2$
+				+ "function " + functionName + "(evt,categoryData, valueData, seriesValueName){" //$NON-NLS-1$ //$NON-NLS-2$
 				+ eval2JS( functionContent, true ) + "}</Script>"; //$NON-NLS-1$
 	}
 	

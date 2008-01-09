@@ -653,21 +653,21 @@ public class SVGInteractiveRenderer
 								String script = ( (ScriptValue) tg.getAction( )
 										.getValue( ) ).getScript( );
 
-								String callbackFunction = "callback" //$NON-NLS-1$
-										+ Math.abs( script.hashCode( ) )
-										+ "(evt," + src.getSource( ).hashCode( );//$NON-NLS-1$ 
+								StringBuffer callbackFunction = new StringBuffer( "callback" );//$NON-NLS-1$
+								callbackFunction.append( Math.abs( script.hashCode( ) ) );
+								callbackFunction.append( "(evt," );
+								callbackFunction.append(  src.getSource( ).hashCode( ) );//$NON-NLS-1$ 
 
 								if ( StructureType.SERIES_DATA_POINT.equals( src.getType( ) ) )
 								{
 									final DataPointHints dph = (DataPointHints) src.getSource( );
-									callbackFunction += ","; //$NON-NLS-1$
-									callbackFunction = ScriptUtil.script( callbackFunction,
+									ScriptUtil.script( callbackFunction,
 											dph );
 								}
-								callbackFunction += ");"; //$NON-NLS-1$
+								callbackFunction.append( ");" ); //$NON-NLS-1$
 								elm.setAttribute( scriptEvent,
 										wrapJS( bDblClick,
-												callbackFunction ) );
+												callbackFunction.toString() ) );
 								setCursor( elm );
 								if ( !( scripts.contains( script ) ) )
 								{

@@ -28,17 +28,22 @@ public class ScriptUtil
 	 * @param dph
 	 * @return the output script
 	 */
-	public static String script( String str, DataPointHints dph )
+	public static void script( StringBuffer str, DataPointHints dph )
 	{
 		if ( dph != null )
 		{
-			str += addDataValueToScript( dph.getBaseValue( ) );
-			str += ","; //$NON-NLS-1$
-			str += addDataValueToScript( dph.getOrthogonalValue( ) );
-			str += ","; //$NON-NLS-1$
-			str += addDataValueToScript( dph.getSeriesValue( ) );
+			str.append( "," );
+			str.append( addDataValueToScript( dph.getBaseValue( ) ) );
+			str.append(  "," ); //$NON-NLS-1$
+			str.append( addDataValueToScript( dph.getOrthogonalValue( ) ) );
+			str.append(  "," ); //$NON-NLS-1$
+			str.append(  addDataValueToScript( dph.getSeriesValue( ) ) );
 		}
-		return str;
+		else
+		{
+			str.append( ",null,null,null");
+		}
+		
 	}
 
 	/**
