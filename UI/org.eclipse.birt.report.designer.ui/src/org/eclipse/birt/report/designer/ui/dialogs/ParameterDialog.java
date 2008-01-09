@@ -33,6 +33,7 @@ import org.eclipse.birt.report.designer.data.ui.util.SelectValueFetcher;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ImportValueDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.SelectionChoiceDialog;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.ImportValueDialog.IAddChoiceValidator;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.ITableAreaModifier;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.TableArea;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
@@ -1565,6 +1566,20 @@ public class ParameterDialog extends BaseDialog
 					}
 				}
 				ImportValueDialog dialog = new ImportValueDialog( type, choices );
+				dialog.setValidate( new ImportValueDialog.IAddChoiceValidator() {
+
+					public String validateString( String value )
+					{
+						// TODO Auto-generated method stub
+						String errorMessage = isValidValue( value );
+						if ( errorMessage != null )
+						{
+							return errorMessage;
+						}
+						return null;
+					}});
+				
+				
 				if ( dialog.open( ) == OK )
 				{
 					String[] importValues = (String[]) dialog.getResult( );

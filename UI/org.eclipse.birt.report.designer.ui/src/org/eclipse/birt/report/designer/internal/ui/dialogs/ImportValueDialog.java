@@ -81,6 +81,8 @@ import com.ibm.icu.util.ULocale;
 public class ImportValueDialog extends BaseDialog
 {
 
+	private boolean hasNullValue = false;
+	private String nullValue = "<null>";
 	private static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
 			.getElement( ReportDesignConstants.SCALAR_PARAMETER_ELEMENT )
 			.getProperty( ScalarParameterHandle.DATA_TYPE_PROP )
@@ -118,6 +120,16 @@ public class ImportValueDialog extends BaseDialog
 
 	private java.util.List choiceList;
 
+	private String beforeValidateString(String value)
+	{
+		if(value.equals( nullValue ) && hasNullValue)
+		{
+			return "";
+		}else
+		{
+			return value;
+		}
+	}
 	/**
 	 * Constructs a new instance of the dialog
 	 */
@@ -127,6 +139,19 @@ public class ImportValueDialog extends BaseDialog
 		Assert.isTrue( DATA_TYPE_CHOICE_SET.contains( style ) );
 		this.style = style;
 		this.choiceList = choices;
+	}
+
+	public static interface IAddChoiceValidator
+	{
+
+		String validateString( String value );
+	}
+
+	private IAddChoiceValidator validator;
+
+	public void setValidate( IAddChoiceValidator validator )
+	{
+		this.validator = validator;
 	}
 
 	protected Control createDialogArea( Composite parent )
@@ -317,9 +342,12 @@ public class ImportValueDialog extends BaseDialog
 
 		if ( selected.length == 0 )
 		{
-			selected = new String[]{
-				valueEditor.getText( )
-			};
+			if((validator == null)||( validator != null && validator.validateString( beforeValidateString(valueEditor.getText( )) ) == null))
+			{
+				selected = new String[]{
+						valueEditor.getText( )};
+			}
+			
 		}
 		for ( int i = 0; i < selected.length; i++ )
 		{
@@ -413,7 +441,7 @@ public class ImportValueDialog extends BaseDialog
 			if ( value != null )
 			{
 				selectedList.add( value );
-			}			
+			}
 		}
 		refreshColumns( );
 		return true;
@@ -484,17 +512,21 @@ public class ImportValueDialog extends BaseDialog
 		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN.equals( column.getDataType( ) ) )
 		{
 			return style.equals( DesignChoiceConstants.PARAM_TYPE_BOOLEAN );
-		}else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals(column.getDataType()))
+		}
+		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals( column.getDataType( ) ) )
 		{
 			return style.equals( DesignChoiceConstants.PARAM_TYPE_DATE );
-		}else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME.equals(column.getDataType()))
+		}
+		else if ( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME.equals( column.getDataType( ) ) )
 		{
 			return style.equals( DesignChoiceConstants.PARAM_TYPE_TIME );
 		}
 		return false;
 	}
+
 	private void refreshValues( )
 	{
+		hasNullValue = false;
 		resultList.clear( );
 		if ( columnChooser.isEnabled( ) )
 		{
@@ -502,8 +534,7 @@ public class ImportValueDialog extends BaseDialog
 			try
 			{
 				IQueryDefinition query = DataUtil.getPreparedQuery( engine,
-						getDataSetHandle( ) )
-						.getReportQueryDefn( );
+						getDataSetHandle( ) ).getReportQueryDefn( );
 				String queryExpr = null;
 				for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 				{
@@ -521,9 +552,9 @@ public class ImportValueDialog extends BaseDialog
 					return;
 				}
 				ScriptExpression expression = new ScriptExpression( queryExpr );
-				String columnBindingName = "_$_COLUMNBINDINGNAME_$_";				
+				String columnBindingName = "_$_COLUMNBINDINGNAME_$_";
 				Binding binding = new Binding( columnBindingName );
-				binding.setExpression(expression );
+				binding.setExpression( expression );
 				if ( expression != null )
 					binding.setDataType( expression.getDataType( ) );
 				query.addBinding( binding );
@@ -542,31 +573,44 @@ public class ImportValueDialog extends BaseDialog
 					IResultIterator iter = results.getResultIterator( );
 					if ( iter != null )
 					{
-//						DateFormatter formatter = new DateFormatter( DATE_TIME_PATTERN,
-//								ULocale.getDefault( ) );
+						// DateFormatter formatter = new DateFormatter(
+						// DATE_TIME_PATTERN,
+						// ULocale.getDefault( ) );
 						while ( iter.next( ) )
 						{
 							String result = null;
-//							if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( selectedColumn.getDataType( ) ) )
-//							{
-//
-//								result = formatter.format( iter.getDate( columnBindingName ) );
-//							}
-//							else
-//							{
-							//	result = iter.getString( columnBindingName );
-//							}
-							Object data = iter.getValue( columnBindingName );						
-							if(data instanceof Date)
+							// if (
+							// DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals(
+							// selectedColumn.getDataType( ) ) )
+							// {
+							//
+							// result = formatter.format( iter.getDate(
+							// columnBindingName ) );
+							// }
+							// else
+							// {
+							// result = iter.getString( columnBindingName );
+							// }
+							Object data = iter.getValue( columnBindingName );
+							if ( data instanceof Date )
 							{
-								result = convertToStandardFormat((Date)data);
-							}else
-							{
-								result = String.valueOf( data );
+								result = convertToStandardFormat( (Date) data );
 							}
-							
-							if ( !StringUtil.isBlank( result )
-									&& !resultList.contains( result ) )
+							else
+							{
+								if ( data == null )
+								{
+									result = nullValue;
+									hasNullValue = true;
+								}
+								else
+								{
+									result = String.valueOf( data );
+								}
+
+							}
+
+							if ( !resultList.contains( result ) )
 							{
 								resultList.add( result );
 							}
@@ -592,7 +636,7 @@ public class ImportValueDialog extends BaseDialog
 			updateButtons( );
 		}
 	}
-	
+
 	private String convertToStandardFormat( Date date )
 	{
 		if ( date == null )
@@ -601,7 +645,7 @@ public class ImportValueDialog extends BaseDialog
 		}
 		if ( date instanceof java.sql.Date )
 		{
-			return new DateFormatter( "yyyy-MM-dd" , ULocale.US ).format( date );
+			return new DateFormatter( "yyyy-MM-dd", ULocale.US ).format( date );
 		}
 		else if ( date instanceof java.sql.Time )
 		{
@@ -610,8 +654,8 @@ public class ImportValueDialog extends BaseDialog
 		else
 		{
 			return new DateFormatter( "yyyy-MM-dd HH:mm:ss.SSS", ULocale.US ).format( date );
-		}	
-		
+		}
+
 	}
 
 	private void filteValues( )
@@ -627,7 +671,12 @@ public class ImportValueDialog extends BaseDialog
 						&& ( value.startsWith( valueEditor.getText( ).trim( ) ) || value.matches( valueEditor.getText( )
 								.trim( ) ) ) )
 				{
-					valueList.add( value );
+					if ( ( validator == null )
+							|| ( validator != null && validator.validateString( beforeValidateString( value ) ) == null ) )
+					{
+						valueList.add( value );
+					}
+
 				}
 			}
 			catch ( PatternSyntaxException e )
@@ -639,9 +688,25 @@ public class ImportValueDialog extends BaseDialog
 
 	private void updateButtons( )
 	{
-		add.setEnabled( valueList.getSelectionCount( ) != 0
-				|| ( valueEditor.getText( ).trim( ).length( ) != 0 && selectedList.indexOf( valueEditor.getText( )
-						.trim( ) ) == -1 ) );
+		if( valueList.getSelectionCount( ) != 0 )
+		{
+			add.setEnabled( true );
+		}else if( valueEditor.getText( ).trim( ).length( ) != 0 && selectedList.indexOf( valueEditor.getText( )
+				.trim( ) ) == -1 )
+		{
+			if((validator == null)||( validator != null && validator.validateString( beforeValidateString(valueEditor.getText( )) ) == null))
+			{
+				add.setEnabled( true );
+			}else
+			{
+				add.setEnabled( false );
+			}
+		}else
+		{
+			add.setEnabled( false );
+		}
+		
+		
 		addAll.setEnabled( valueList.getItemCount( ) != 0 );
 		remove.setEnabled( selectedList.getSelectionCount( ) != 0 );
 		removeAll.setEnabled( selectedList.getItemCount( ) != 0 );
@@ -650,6 +715,11 @@ public class ImportValueDialog extends BaseDialog
 
 	protected void okPressed( )
 	{
+		if(hasNullValue && selectedList.indexOf( nullValue ) != -1)
+		{
+			selectedList.remove( nullValue );
+			selectedList.add( "" );
+		}
 		setResult( selectedList.getItems( ) );
 		super.okPressed( );
 	}
