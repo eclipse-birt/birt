@@ -870,6 +870,10 @@ AxisMarkersSheet.MarkerRange.displayName=マーカの範囲
 AxisMarkersSheet.Label.Interactivity=トリガ
 AbstractPopupSheet.Label.Close=閉じる
 AbstractPopupSheet.Label.Help=ヘルプ
+AggregateEditorComposite.Aggregate.Enabled=Enabled
+AggregateEditorComposite.AggregateParameterDefinition.Title=Aggregate Parameter Definition
+AggregateEditorComposite.Button.Cancel=キャンセル
+AggregateEditorComposite.Button.OK=OK
 
 LocalizedNumberEditorComposite.error.Title=数値の書式のエラー
 LocalizedNumberEditorComposite.error.Message=数値 "{0}" は無効です。

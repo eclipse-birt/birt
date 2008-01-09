@@ -870,6 +870,10 @@ AxisMarkersSheet.MarkerRange.displayName=标记范围
 AxisMarkersSheet.Label.Interactivity=交互
 AbstractPopupSheet.Label.Close=关闭
 AbstractPopupSheet.Label.Help=帮助
+AggregateEditorComposite.Aggregate.Enabled=Enabled
+AggregateEditorComposite.AggregateParameterDefinition.Title=Aggregate Parameter Definition
+AggregateEditorComposite.Button.Cancel=取消
+AggregateEditorComposite.Button.OK=OK
 
 LocalizedNumberEditorComposite.error.Title=数字格式错误
 LocalizedNumberEditorComposite.error.Message=无效数值:“{0}”

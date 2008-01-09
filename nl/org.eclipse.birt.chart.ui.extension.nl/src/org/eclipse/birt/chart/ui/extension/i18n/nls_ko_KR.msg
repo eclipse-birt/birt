@@ -870,6 +870,10 @@ AxisMarkersSheet.MarkerRange.displayName=MarkerRange
 AxisMarkersSheet.Label.Interactivity=대화형 작업
 AbstractPopupSheet.Label.Close=닫기
 AbstractPopupSheet.Label.Help=도움말
+AggregateEditorComposite.Aggregate.Enabled=Enabled
+AggregateEditorComposite.AggregateParameterDefinition.Title=Aggregate Parameter Definition
+AggregateEditorComposite.Button.Cancel=취소
+AggregateEditorComposite.Button.OK=OK
 
 LocalizedNumberEditorComposite.error.Title=숫자 형식 오류
 LocalizedNumberEditorComposite.error.Message=잘못된 숫자 값: "{0}"

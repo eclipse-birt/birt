@@ -870,6 +870,10 @@ AxisMarkersSheet.MarkerRange.displayName=Intervalo de marcador
 AxisMarkersSheet.Label.Interactivity=Activadores
 AbstractPopupSheet.Label.Close=Cerrar
 AbstractPopupSheet.Label.Help=Ayuda
+AggregateEditorComposite.Aggregate.Enabled=Enabled
+AggregateEditorComposite.AggregateParameterDefinition.Title=Aggregate Parameter Definition
+AggregateEditorComposite.Button.Cancel=Cancelar
+AggregateEditorComposite.Button.OK=OK
 
 LocalizedNumberEditorComposite.error.Title=Error de formato de número
 LocalizedNumberEditorComposite.error.Message=Valor de número no válido: "{0}"

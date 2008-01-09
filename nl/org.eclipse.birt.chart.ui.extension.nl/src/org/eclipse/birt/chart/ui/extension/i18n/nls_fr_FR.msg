@@ -870,6 +870,10 @@ AxisMarkersSheet.MarkerRange.displayName=MarkerRange
 AxisMarkersSheet.Label.Interactivity=Déclencheurs
 AbstractPopupSheet.Label.Close=Fermer
 AbstractPopupSheet.Label.Help=Aide
+AggregateEditorComposite.Aggregate.Enabled=Enabled
+AggregateEditorComposite.AggregateParameterDefinition.Title=Aggregate Parameter Definition
+AggregateEditorComposite.Button.Cancel=Annuler
+AggregateEditorComposite.Button.OK=OK
 
 LocalizedNumberEditorComposite.error.Title=Erreur de format des nombres
 LocalizedNumberEditorComposite.error.Message=Valeur de nombre non valide : "{0}"
