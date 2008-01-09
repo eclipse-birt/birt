@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2005 Actuate Corporation.
+# Copyright (c) 2005, 2008 Actuate Corporation.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Eclipse Public License v1.0
 # which accompanies this distribution, and is available at
@@ -8,7 +8,7 @@
 # Contributors:
 #  Actuate Corporation  - initial API and implementation
 ###############################################################################
-
+#Summary aggregates.
 Sum.displayName=Somme
 Average.displayName=Moyenne
 Count.displayName=Nombre
@@ -17,4 +17,25 @@ First.displayName=Premier
 Last.displayName=Dernier
 Min.displayName=Minimum
 Max.displayName=Maximum
-
+WeightedAverage.displayName=Weighted Average
+Median.displayName=Median
+Mode.displayName=Mode
+STDDEV.displayName=STDDEV
+Variance.displayName=Variance
+Irr.displayName=Irr
+Mirr.displayName=Mirr
+NPV.displayName=NPV
+Percentile.displayName=Percentile
+Quartile.displayName=Quartile
+#Running aggregates.
+MovingAverage.displayName=Moving Average
+RunningSum.displayName=Running Sum
+RunningNPV.displayName=Running NPV
+Rank.displayName=Rank
+Top.displayName=Is-Top-N
+TopPercent.displayName=Is-Top-N-Percent
+Bottom.displayName=Is-Bottom-N
+BottomPercent.displayName=Is-Bottom-N-Percent
+PercentRank.displayName=Percent Rank
+PercentSum.displayName=Percent Sum
+RunningCount.displayName=Running Count
