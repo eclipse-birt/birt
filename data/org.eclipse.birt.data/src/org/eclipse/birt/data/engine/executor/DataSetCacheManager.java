@@ -15,13 +15,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
-import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.DataSetCacheUtil;
+import org.eclipse.birt.data.engine.impl.IQueryExecutionHints;
 import org.eclipse.birt.data.engine.impl.ResultMetaData;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 
@@ -66,6 +67,8 @@ public class DataSetCacheManager
 	private CacheMapManager DteLevelCacheMapManager;
 	private CacheMapManager cacheMapManager;
 	
+	private IQueryExecutionHints queryExecutionHints;
+	
 	private int mode;
 	
 	/**
@@ -75,7 +78,7 @@ public class DataSetCacheManager
 	/**
 	 * Construction
 	 */
-	public DataSetCacheManager( String tempDir, DataEngine dataEngine )
+	public DataSetCacheManager( String tempDir, DataEngineImpl dataEngine )
 	{
 		this.tempDir = tempDir;
 		this.dataSourceDesign = null;
@@ -86,6 +89,8 @@ public class DataSetCacheManager
 		this.JVMLevelCacheMapManager = new CacheMapManager( tempDir, true );
 		this.DteLevelCacheMapManager = new CacheMapManager( tempDir, false );
 		this.mode = DataEngineContext.CACHE_MODE_IN_DISK;
+		
+		this.queryExecutionHints = dataEngine.getExecutionHints( );
 	}
 
 	/**
@@ -265,7 +270,7 @@ public class DataSetCacheManager
 	public boolean needsToCache( IBaseDataSetDesign dataSetDesign,
 			int cacheOption, int alwaysCacheRowCount )
 	{
-		return needsToDteCache( ) || DataSetCacheUtil.needsToCache( dataSetDesign,
+		return needsToDteCache( dataSetDesign ) || needsToJVMCache( dataSetDesign,
 						cacheOption,
 						alwaysCacheRowCount );
 	}
@@ -275,7 +280,8 @@ public class DataSetCacheManager
 	 * @param dataSetDesign
 	 * @return
 	 */
-	private boolean needsToJVMCache( IBaseDataSetDesign dataSetDesign )
+	private boolean needsToJVMCache( IBaseDataSetDesign dataSetDesign,
+			int cacheOption, int alwaysCacheRowCount )
 	{
 		return DataSetCacheUtil.needsToCache( dataSetDesign,
 				cacheOption,
@@ -286,9 +292,11 @@ public class DataSetCacheManager
 	 * 
 	 * @return
 	 */
-	private boolean needsToDteCache( )
+	private boolean needsToDteCache( IBaseDataSetDesign dataSetDesign )
 	{
-		return false;
+		if( queryExecutionHints == null || dataSetDesign == null )
+			return false;
+		return this.queryExecutionHints.needCacheDataSet( dataSetDesign.getName( ) );
 	}
 	
 	/**
@@ -410,7 +418,7 @@ public class DataSetCacheManager
 	 */
 	private void switchCacheMap( IBaseDataSetDesign dataSetDesign )
 	{
-		if( needsToJVMCache( dataSetDesign ) )
+		if( needsToJVMCache( dataSetDesign, cacheOption, alwaysCacheRowCount ) )
 		{
 			cacheMapManager = JVMLevelCacheMapManager;
 		}

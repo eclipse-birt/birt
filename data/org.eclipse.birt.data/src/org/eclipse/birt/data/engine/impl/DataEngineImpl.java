@@ -100,8 +100,10 @@ public class DataEngineImpl extends DataEngine
 				"DataEngineImpl",
 				context );
 		
+		this.queryExecutionHints = new QueryExecutionHints( );
+		
 		this.context = context;
-						
+		
 		dataSourceManager = new DataSourceManager( logger );
 		this.session = new DataEngineSession( this );
 		logger.exiting( DataEngineImpl.class.getName( ), "DataEngineImpl" );
@@ -325,20 +327,16 @@ public class DataEngineImpl extends DataEngine
 	 * Returns the runtime defn of a data source. If data source is not found,
 	 * returns null.
 	 */
-	DataSourceRuntime getDataSourceRuntime( String name ) throws DataException
+	DataSourceRuntime getDataSourceRuntime( String name )
 	{
-		if( ! dataSources.containsKey( name ))
-			throw new DataException( ResourceConstants.UNDEFINED_DATA_SOURCE );
 		return (DataSourceRuntime) dataSources.get( name );
 	}
 
 	/**
 	 * Returns the design of a data set. If data set is not found, returns null.
 	 */
-	IBaseDataSetDesign getDataSetDesign( String name ) throws DataException
+	IBaseDataSetDesign getDataSetDesign( String name )
 	{
-		if( ! dataSetDesigns.containsKey( name ))
-			throw new DataException( ResourceConstants.UNDEFINED_DATA_SET );
 		return (IBaseDataSetDesign) dataSetDesigns.get( name );
 	}
 
@@ -729,12 +727,9 @@ public class DataEngineImpl extends DataEngine
 	 * Return whether a data set need to be cached during query execution.
 	 * @param dataSetName
 	 * @return
-	 * @throws DataException
 	 */
-	public IQueryExecutionHints getExecutionHints( ) throws DataException
+	public IQueryExecutionHints getExecutionHints( )
 	{
-		if( this.queryExecutionHints == null )
-			return new QueryExecutionHints( this, null );
 		return this.queryExecutionHints;
 	}
 
@@ -744,6 +739,6 @@ public class DataEngineImpl extends DataEngine
 	 */
 	public void registerQueries( IDataQueryDefinition[] queryDefns ) throws DataException
 	{
-		this.queryExecutionHints = new QueryExecutionHints( this, queryDefns );
+		((QueryExecutionHints)queryExecutionHints).populateCachedDataSets( this, queryDefns );
 	}
 }

@@ -33,42 +33,88 @@ import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 
 public class DteLevelDataSetCacheTest extends TestCase
 {
-//	public void testDataSetWithDteLevelCache() throws BirtException
-//	{
-//		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION, 
-//				null,null,null );
-//		DataEngine dataEngine = DataEngine.newDataEngine( context );
-//	
-//		ScriptDataSourceDesign dataSource = new ScriptDataSourceDesign( "ds" );
-//		dataSource.setOpenScript( "i = 0;" );
-//		ScriptDataSetDesign dataSet = new ScriptDataSetDesign( "test" );
-//		dataSet.setDataSource( "ds" );
-//
-//		dataSet.addResultSetHint( new ColumnDefinition( "column1" ) );
-//
-//		dataSet.setFetchScript( " i++; if ( i % 10 == 0 ) return false; row.column1 = i;" +
-//				"return true;" );
-//
-//		dataEngine.defineDataSource( dataSource );
-//		dataEngine.defineDataSet( dataSet );
-//		
-//		QueryDefinition qd = new QueryDefinition();
-//		qd.addBinding( new Binding( "column1",
-//				new ScriptExpression( "dataSetRow[\"column1\"]",
-//						DataType.INTEGER_TYPE ) ) );
-//		qd.setDataSetName( "test" );
-//		Map appContextMap = new HashMap( );
-//		IResultIterator ri1 = dataEngine.prepare( qd, appContextMap ).execute( null ).getResultIterator( );
-//		IResultIterator ri2 = dataEngine.prepare( qd, appContextMap ).execute( null ).getResultIterator( );
-//		
-//		assertTrue(((DataEngineImpl)dataEngine).getSession( ).getDataSetCacheManager( ).doesLoadFromCache( ) );
-//		while ( ri1.next( ) )
-//		{
-//			assertTrue( ri2.next( ) );
-//			assertEquals( ri1.getValue( "column1" ), ri2.getValue( "column1" ) );
-//		}
-//		
-//	}
+	public void testDataSetWithDteLevelCache() throws BirtException
+	{
+		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION, 
+				null,null,null );
+		DataEngine dataEngine = DataEngine.newDataEngine( context );
+	
+		ScriptDataSourceDesign dataSource = new ScriptDataSourceDesign( "ds" );
+		dataSource.setOpenScript( "i = 0;" );
+		ScriptDataSetDesign dataSet = new ScriptDataSetDesign( "test" );
+		dataSet.setDataSource( "ds" );
+
+		dataSet.addResultSetHint( new ColumnDefinition( "column1" ) );
+
+		dataSet.setFetchScript( " i++; if ( i % 10 == 0 ) return false; row.column1 = i;" +
+				"return true;" );
+
+		dataEngine.defineDataSource( dataSource );
+		dataEngine.defineDataSet( dataSet );
+		
+		QueryDefinition qd = new QueryDefinition();
+		qd.addBinding( new Binding( "column1",
+				new ScriptExpression( "dataSetRow[\"column1\"]",
+						DataType.INTEGER_TYPE ) ) );
+		qd.setDataSetName( "test" );
+		QueryDefinition qd1 = new QueryDefinition();
+		qd1.addBinding( new Binding( "column2",
+				new ScriptExpression( "dataSetRow[\"column1\"]",
+						DataType.INTEGER_TYPE ) ) );
+		qd1.setDataSetName( "test" );
+		IDataQueryDefinition[] QueryDefinition = new IDataQueryDefinition[2];
+		QueryDefinition[0] = qd;
+		QueryDefinition[1] = qd1;
+		dataEngine.registerQueries( QueryDefinition );
+		Map appContextMap = new HashMap( );
+		IResultIterator ri1 = dataEngine.prepare( qd, appContextMap ).execute( null ).getResultIterator( );
+		IResultIterator ri2 = dataEngine.prepare( qd1, appContextMap ).execute( null ).getResultIterator( );
+		
+		assertTrue(((DataEngineImpl)dataEngine).getSession( ).getDataSetCacheManager( ).doesLoadFromCache( ) );
+		while ( ri1.next( ) )
+		{
+			assertTrue( ri2.next( ) );
+			assertEquals( ri1.getValue( "column1" ), ri2.getValue( "column2" ) );
+		}
+		
+	}
+	
+	public void testDataSetWithoutCache() throws BirtException
+	{
+		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION, 
+				null,null,null );
+		DataEngine dataEngine = DataEngine.newDataEngine( context );
+	
+		ScriptDataSourceDesign dataSource = new ScriptDataSourceDesign( "ds" );
+		dataSource.setOpenScript( "i = 0;" );
+		ScriptDataSetDesign dataSet = new ScriptDataSetDesign( "test" );
+		dataSet.setDataSource( "ds" );
+
+		dataSet.addResultSetHint( new ColumnDefinition( "column1" ) );
+
+		dataSet.setFetchScript( " i++; if ( i % 10 == 0 ) return false; row.column1 = i;" +
+				"return true;" );
+
+		dataEngine.defineDataSource( dataSource );
+		dataEngine.defineDataSet( dataSet );
+		
+		QueryDefinition qd = new QueryDefinition();
+		qd.addBinding( new Binding( "column1",
+				new ScriptExpression( "dataSetRow[\"column1\"]",
+						DataType.INTEGER_TYPE ) ) );
+		qd.setDataSetName( "test" );
+		Map appContextMap = new HashMap( );
+		IResultIterator ri1 = dataEngine.prepare( qd, appContextMap ).execute( null ).getResultIterator( );
+		IResultIterator ri2 = dataEngine.prepare( qd, appContextMap ).execute( null ).getResultIterator( );
+		
+		assertFalse(((DataEngineImpl)dataEngine).getSession( ).getDataSetCacheManager( ).doesLoadFromCache( ) );
+		while ( ri1.next( ) )
+		{
+			assertTrue( ri2.next( ) );
+			assertEquals( ((Integer)ri1.getValue( "column1" )).intValue( ) + 10, ((Integer)ri2.getValue( "column1" )).intValue( ) );
+		}
+		
+	}
 	
 	public void testDataSetWithJVMCache() throws BirtException
 	{
