@@ -13,6 +13,7 @@ package org.eclipse.birt.report.data.adapter.api;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -314,6 +315,13 @@ public abstract class DataRequestSession
 	public abstract IPreparedCubeQuery prepare( ICubeQueryDefinition query,
 			Map appContext ) throws BirtException;
 
+	/**
+	 * 
+	 * @param queryDefns
+	 * @throws AdapterException
+	 */
+	public abstract void registerQueries( IDataQueryDefinition[] queryDefns ) throws AdapterException;
+	
 	/**
 	 * Get the ICubeQueryResults instance that is stored in report document
 	 * based on the given id. This is for presentation time only.

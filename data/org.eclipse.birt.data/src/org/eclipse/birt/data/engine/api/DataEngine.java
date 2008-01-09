@@ -15,6 +15,7 @@
 package org.eclipse.birt.data.engine.api;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -307,6 +308,13 @@ abstract public class DataEngine
 	        								Map appContext )
 			throws BirtException;
 
+	/**
+	 * Optimize query execution by analyze a list of query definitions.
+	 * @param queryDefns
+	 * @throws DataException
+	 */
+	abstract public void registerQueries( IDataQueryDefinition[] queryDefns ) throws DataException;
+	
 	/**
 	 * Provides a hint to DtE that the consumer is done with the given 
 	 * data source, and 

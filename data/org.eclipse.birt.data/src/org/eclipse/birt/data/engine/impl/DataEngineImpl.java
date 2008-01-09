@@ -29,6 +29,7 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
@@ -76,6 +77,8 @@ public class DataEngineImpl extends DataEngine
 	
 	//shut down listener list
 	private List shutdownListenerList = null;
+
+	private IQueryExecutionHints queryExecutionHints;
 	
 	protected static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
 
@@ -322,16 +325,20 @@ public class DataEngineImpl extends DataEngine
 	 * Returns the runtime defn of a data source. If data source is not found,
 	 * returns null.
 	 */
-	DataSourceRuntime getDataSourceRuntime( String name )
+	DataSourceRuntime getDataSourceRuntime( String name ) throws DataException
 	{
+		if( ! dataSources.containsKey( name ))
+			throw new DataException( ResourceConstants.UNDEFINED_DATA_SOURCE );
 		return (DataSourceRuntime) dataSources.get( name );
 	}
 
 	/**
 	 * Returns the design of a data set. If data set is not found, returns null.
 	 */
-	IBaseDataSetDesign getDataSetDesign( String name )
+	IBaseDataSetDesign getDataSetDesign( String name ) throws DataException
 	{
+		if( ! dataSetDesigns.containsKey( name ))
+			throw new DataException( ResourceConstants.UNDEFINED_DATA_SET );
 		return (IBaseDataSetDesign) dataSetDesigns.get( name );
 	}
 
@@ -716,5 +723,27 @@ public class DataEngineImpl extends DataEngine
 	public IResultMetaData getCachedDataSetMetaData(IBaseDataSourceDesign dataSource, IBaseDataSetDesign dataSet) throws BirtException 
 	{
 		return this.session.getDataSetCacheManager().getCachedResultMetadata( dataSource, dataSet);
+	}
+	
+	/**
+	 * Return whether a data set need to be cached during query execution.
+	 * @param dataSetName
+	 * @return
+	 * @throws DataException
+	 */
+	public IQueryExecutionHints getExecutionHints( ) throws DataException
+	{
+		if( this.queryExecutionHints == null )
+			return new QueryExecutionHints( this, null );
+		return this.queryExecutionHints;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.DataEngine#prepareQueries(java.util.List)
+	 */
+	public void registerQueries( IDataQueryDefinition[] queryDefns ) throws DataException
+	{
+		this.queryExecutionHints = new QueryExecutionHints( this, queryDefns );
 	}
 }

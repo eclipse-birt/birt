@@ -1010,4 +1010,20 @@ public class DataRequestSessionImpl extends DataRequestSession
 	{
 		return new QueryDefinitionUtil( );
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#prepareQueries(java.util.List)
+	 */
+	public void registerQueries(IDataQueryDefinition[] queryDefns ) throws AdapterException
+	{
+		try
+		{
+			this.dataEngine.registerQueries( queryDefns );
+		}
+		catch ( DataException e )
+		{
+			throw new AdapterException( e.getLocalizedMessage( ), e );
+		}
+	}
 }
