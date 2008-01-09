@@ -136,6 +136,7 @@ public class AggregationCellTextViewProvider extends AggregationCellViewAdapter
 		}
 
 		CrosstabUtil.addDataItem( crosstab,
+				cell,
 				measureView,
 				null,
 				rowDimension,
