@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2006, 2007 Actuate Corporation.
+ * Copyright (c) 2006, 2007, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -95,6 +95,16 @@ public class GroupSortingDialog extends TrayDialog implements Listener, Selectio
 	}
 	
 	/* (non-Javadoc)
+	 * @see org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets.Composite)
+	 */
+	protected Control createContents(Composite parent) {
+		Control c = super.createContents( parent );
+		// Pack shell for dynamic creating aggregate parameters widgets.
+		c.pack( );
+		return c;
+	}
+	
+	/* (non-Javadoc)
 	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
 	 */
 	protected Control createDialogArea( Composite parent )
@@ -146,7 +156,9 @@ public class GroupSortingDialog extends TrayDialog implements Listener, Selectio
 				SWT.NONE,
 				getSeriesDefinitionForProcessing( ),
 				wizardContext.getModel( ) instanceof ChartWithoutAxes,
-				fEnableAggregation );
+				fEnableAggregation,
+				wizardContext,
+				null );
 	}
 
 	/**

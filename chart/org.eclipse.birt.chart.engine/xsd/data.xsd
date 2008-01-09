@@ -168,45 +168,53 @@
 			<xsd:element name="Enabled" type="xsd:boolean">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies whether grouping is enabled for the series.
+						Specifies whether grouping is enabled for the
+						series.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="GroupingUnit" type="attribute:GroupingUnitType">
+			<xsd:element name="GroupingUnit"
+				type="attribute:GroupingUnitType">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies the unit of grouping.
+						Specifies the unit of grouping.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="GroupingOrigin" type="DataElement">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					A data element that specifies the starting point for grouping. This does not apply to grouping of Text values. If undefined, grouping starts at the minimum value.
+						A data element that specifies the starting point
+						for grouping. This does not apply to grouping of
+						Text values. If undefined, grouping starts at
+						the minimum value.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="GroupingInterval" type="xsd:double">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies the interval of grouping.
+						Specifies the interval of grouping.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="GroupType" type="attribute:DataType">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies the type of data to be grouped.
+						Specifies the type of data to be grouped.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element name="AggregateExpression" type="xsd:string">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="en">
-					Specifies the aggregate function to be applied on orthogonal values for each grouped unit.
+						Specifies the aggregate function to be applied
+						on orthogonal values for each grouped unit.
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
+
+			<xsd:element name="AggregateParameters" type="xsd:string" maxOccurs="unbounded" minOccurs="0"></xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="Trigger">
@@ -391,4 +399,5 @@
 	<xsd:simpleType name="Data" ecore:instanceClass="java.lang.Object">
 		<xsd:restriction base="xsd:string"/>
 	</xsd:simpleType>
+
 </xsd:schema>

@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.model.data;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -35,6 +36,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupingInterval <em>Grouping Interval</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getGroupType <em>Group Type</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getAggregateExpression <em>Aggregate Expression</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getAggregateParameters <em>Aggregate Parameters</em>}</li>
  * </ul>
  * </p>
  *
@@ -303,5 +305,22 @@ public interface SeriesGrouping extends EObject
 	 * @generated
 	 */
 	void setAggregateExpression( String value );
+
+	/**
+	 * Returns the value of the '<em><b>Aggregate Parameters</b></em>' attribute list.
+	 * The list contents are of type {@link java.lang.String}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Aggregate Parameters</em>' attribute list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Aggregate Parameters</em>' attribute list.
+	 * @see org.eclipse.birt.chart.model.data.DataPackage#getSeriesGrouping_AggregateParameters()
+	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String"
+	 *        extendedMetaData="kind='element' name='AggregateParameters'"
+	 * @generated
+	 */
+	EList getAggregateParameters( );
 
 } // SeriesGrouping

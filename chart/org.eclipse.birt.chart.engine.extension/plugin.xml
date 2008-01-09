@@ -73,6 +73,7 @@
    </extension>
    <extension
          point="org.eclipse.birt.chart.engine.aggregatefunctions">
+      <!-- The Summary Aggregates -->
       <aggregateFunction
             displayName="%Sum.displayName"
             function="org.eclipse.birt.chart.aggregate.Sum"
@@ -105,6 +106,92 @@
             displayName="%Max.displayName"
             function="org.eclipse.birt.chart.aggregate.Max"
             name="Max"/>
+      <!-- Add new aggregations of DtE(2008.1.4) -->
+      <aggregateFunction
+            displayName="%WeightedAverage.displayName"
+            function="org.eclipse.birt.chart.aggregate.WeightedAverage"
+            name="WeightedAverage"/>
+      <aggregateFunction
+            displayName="%Median.displayName"
+            function="org.eclipse.birt.chart.aggregate.Median"
+            name="Median"/>
+      <aggregateFunction
+            displayName="%Mode.displayName"
+            function="org.eclipse.birt.chart.aggregate.Mode"
+            name="Mode"/>
+      <aggregateFunction
+            displayName="%STDDEV.displayName"
+            function="org.eclipse.birt.chart.aggregate.StdDev"
+            name="STDDEV"/>
+      <aggregateFunction
+            displayName="%Variance.displayName"
+            function="org.eclipse.birt.chart.aggregate.Variance"
+            name="Variance"/>
+      <aggregateFunction
+            displayName="%Irr.displayName"
+            function="org.eclipse.birt.chart.aggregate.Irr"
+            name="Irr"/>
+      <aggregateFunction
+            displayName="%Mirr.displayName"
+            function="org.eclipse.birt.chart.aggregate.Mirr"
+            name="Mirr"/>
+     <aggregateFunction
+            displayName="%NPV.displayName"
+            function="org.eclipse.birt.chart.aggregate.Npv"
+            name="NPV"/>
+      <aggregateFunction
+            displayName="%Percentile.displayName"
+            function="org.eclipse.birt.chart.aggregate.Percentile"
+            name="Percentile"/>
+      <aggregateFunction
+            displayName="%Quartile.displayName"
+            function="org.eclipse.birt.chart.aggregate.Quartile"
+            name="Quartile"/>   
+      <!-- The Running Aggregates -->      
+	  <aggregateFunction
+            displayName="%MovingAverage.displayName"
+            function="org.eclipse.birt.chart.aggregate.MovingAverage"
+            name="MovingAverage"/>
+      <aggregateFunction
+            displayName="%RunningSum.displayName"
+            function="org.eclipse.birt.chart.aggregate.RunningSum"
+            name="RunningSum"/>
+	  <aggregateFunction
+            displayName="%RunningNPV.displayName"
+            function="org.eclipse.birt.chart.aggregate.RunningNpv"
+            name="RunningNPV"/>                                   
+	  <aggregateFunction
+            displayName="%Rank.displayName"
+            function="org.eclipse.birt.chart.aggregate.Rank"
+            name="Rank"/>
+	  <aggregateFunction
+            displayName="%Top.displayName"
+            function="org.eclipse.birt.chart.aggregate.Top"
+            name="Top"/>
+	  <aggregateFunction
+            displayName="%TopPercent.displayName"
+            function="org.eclipse.birt.chart.aggregate.TopPercent"
+            name="TopPercent"/>
+	  <aggregateFunction
+            displayName="%Bottom.displayName"
+            function="org.eclipse.birt.chart.aggregate.Bottom"
+            name="Bottom"/>
+	  <aggregateFunction
+            displayName="%BottomPercent.displayName"
+            function="org.eclipse.birt.chart.aggregate.BottomPercent"
+            name="BottomPercent"/>
+	  <aggregateFunction
+            displayName="%PercentRank.displayName"
+            function="org.eclipse.birt.chart.aggregate.PercentRank"
+            name="PercentRank"/>
+	  <aggregateFunction
+            displayName="%PercentSum.displayName"
+            function="org.eclipse.birt.chart.aggregate.PercentSum"
+            name="PercentSum"/>
+	  <aggregateFunction
+            displayName="%RunningCount.displayName"
+            function="org.eclipse.birt.chart.aggregate.RunningCount"
+            name="RunningCount"/>            
    </extension>
    <extension
          point="org.eclipse.birt.chart.engine.datapointdefinitions">

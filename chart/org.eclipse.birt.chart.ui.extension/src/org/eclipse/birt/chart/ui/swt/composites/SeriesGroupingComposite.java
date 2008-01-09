@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,6 +11,12 @@
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.eclipse.birt.chart.aggregate.IAggregateFunction;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
@@ -19,10 +25,15 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
@@ -36,6 +47,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -73,15 +85,28 @@ public class SeriesGroupingComposite extends Composite implements
 	private transient boolean bTypeEnabled = true;
 
 	private transient boolean fbAggEnabled = true;
+
+	private Composite fCmpAggregate;
+	
+	private List fAggParamtersTextWidgets = new ArrayList();
+
+	private Map fExprBuilderWidgetsMap = new HashMap();
+	
+	private Composite fAggParameterComposite;
+
+	private ChartWizardContext fChartContext;
+	
+	private String fTitle = null;
 	
 	/**
 	 * @param parent
 	 * @param style
 	 */
 	public SeriesGroupingComposite( Composite parent, int style,
-			SeriesDefinition sd, boolean bTypeEnabled )
+			SeriesDefinition sd, boolean bTypeEnabled,
+			ChartWizardContext context )
 	{
-		this(parent, style, sd, bTypeEnabled, true);
+		this( parent, style, sd, bTypeEnabled, true, context, null );
 	}
 
 	/**
@@ -89,14 +114,18 @@ public class SeriesGroupingComposite extends Composite implements
 	 * @param style
 	 */
 	public SeriesGroupingComposite( Composite parent, int style,
-			SeriesDefinition sd, boolean bTypeEnabled, boolean bAggEnabled )
+			SeriesDefinition sd, boolean bTypeEnabled, boolean bAggEnabled,
+			ChartWizardContext context, String title )
 	{
 		super( parent, style );
 		this.sd = sd;
 		this.bTypeEnabled = bTypeEnabled;
 		this.fbAggEnabled = bAggEnabled;
+		fChartContext = context;
 		init( );
 		placeComponents( );
+
+		fTitle = ( title == null || title.length( ) == 0 ) ? Messages.getString( "AggregateEditorComposite.AggregateParameterDefinition.Title" ) : title; //$NON-NLS-1$
 	}
 	
 	private void init( )
@@ -239,23 +268,46 @@ public class SeriesGroupingComposite extends Composite implements
 
 		if ( fbAggEnabled )
 		{
-			Composite cmpAggregate = new Composite( grpContent, SWT.NONE );
+			fCmpAggregate = new Composite( grpContent, SWT.NONE );
 			GridData gdCMPAggregate = new GridData( GridData.FILL_HORIZONTAL );
 			gdCMPAggregate.horizontalSpan = 2;
-			cmpAggregate.setLayoutData( gdCMPAggregate );
-			cmpAggregate.setLayout( glAggregate );
+			fCmpAggregate.setLayoutData( gdCMPAggregate );
+			fCmpAggregate.setLayout( glAggregate );
 
-			lblAggregate = new Label( cmpAggregate, SWT.NONE );
+			lblAggregate = new Label( fCmpAggregate, SWT.NONE );
 			GridData gdLBLAggregate = new GridData( );
 			lblAggregate.setLayoutData( gdLBLAggregate );
 			lblAggregate.setText( Messages.getString( "SeriesGroupingComposite.Lbl.AggregateExpression" ) ); //$NON-NLS-1$
 
-			cmbAggregate = new Combo( cmpAggregate, SWT.DROP_DOWN |
+			cmbAggregate = new Combo( fCmpAggregate, SWT.DROP_DOWN |
 					SWT.READ_ONLY );
 			cmbAggregate.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			cmbAggregate.addSelectionListener( this );
+			
 		}
+		
 		populateLists( );
+		
+		if ( fbAggEnabled )
+		{
+			// Display aggregate parameters.
+			String aggFuncName = ((String[])cmbAggregate.getData( ))[cmbAggregate.getSelectionIndex( )];
+			
+			fAggParameterComposite = new Composite( fCmpAggregate, SWT.NONE );
+			GridData gridData = new GridData( GridData.FILL_HORIZONTAL
+					| GridData.GRAB_HORIZONTAL );
+			gridData.horizontalIndent = 0;
+			gridData.horizontalSpan = 2;
+			gridData.exclude = true;
+			fAggParameterComposite.setLayoutData( gridData );
+			GridLayout layout = new GridLayout( );
+			// layout.horizontalSpacing = layout.verticalSpacing = 0;
+			layout.marginWidth = layout.marginHeight = 0;
+			layout.numColumns = 3;
+			fAggParameterComposite.setLayout( layout );
+			
+			showAggregateParameters( aggFuncName );
+		}
 	}
 
 	/**
@@ -325,6 +377,28 @@ public class SeriesGroupingComposite extends Composite implements
 		}
 	}
 
+	private void populateAggParameters( )
+	{
+		if ( fbAggEnabled )
+		{
+			SeriesGrouping grouping = getGrouping( );
+			EList aggPars = grouping.getAggregateParameters( );
+			if ( aggPars.size( ) > 0 )
+			{
+				int size = aggPars.size( ) > fAggParamtersTextWidgets.size( ) ? fAggParamtersTextWidgets.size( )
+						: aggPars.size( );
+				for ( int i = 0; i < size; i++ )
+				{
+					String value = (String) aggPars.get( i );
+					if ( value != null )
+					{
+						( (Text) fAggParamtersTextWidgets.get( i ) ).setText( value );
+					}
+
+				}
+			}
+		}
+	}
 	/**
 	 * Reset grouping units items.
 	 * 
@@ -464,6 +538,8 @@ public class SeriesGroupingComposite extends Composite implements
 				String[] names = (String[]) cmbAggregate.getData( );
 				aggExpr = names[idx];
 			}
+			showAggregateParameters( aggExpr );
+			getShell( ).pack( );
 			getGrouping( ).setAggregateExpression( aggExpr );
 		}
 		else if ( oSource.equals( btnEnabled ) )
@@ -482,11 +558,171 @@ public class SeriesGroupingComposite extends Composite implements
 
 			// refresh UI
 			populateLists( );
+			populateAggParameters( );
+			
+			String aggFuncName = null;
+			try
+			{
+				aggFuncName = ( (String[]) cmbAggregate.getData( ) )[cmbAggregate.getSelectionIndex( )];
+			}
+			catch ( Exception e1 )
+			{
+				;
+			}
+			
+			showAggregateParameters( aggFuncName );
+			getShell( ).pack( );
 		}
 		else if ( oSource.equals( iscInterval ) )
 		{
 			getGrouping( ).setGroupingInterval( Double.valueOf( iscInterval.getText( ) ).doubleValue( ) );
 		}
+		else if ( isAggParametersWidget( oSource ) )
+		{
+			setAggParameter( (Text) oSource );
+		}
+		else if ( isBuilderBtnWidget( oSource) )
+		{
+			try
+			{
+				Text txtArg = (Text) fExprBuilderWidgetsMap.get( oSource );
+				String sExpr = fChartContext.getUIServiceProvider( )
+						.invoke( IUIServiceProvider.COMMAND_EXPRESSION_DATA_BINDINGS,
+								txtArg.getText( ),
+								fChartContext.getExtendedItem( ),
+								fTitle );
+				txtArg.setText( sExpr );
+				setAggParameter( txtArg );
+			}
+			catch ( ChartException e1 )
+			{
+				WizardBase.displayException( e1 );
+			}
+		}
+	}
+
+	private boolean isBuilderBtnWidget( Object source )
+	{
+		return fExprBuilderWidgetsMap.containsKey( source );
+	}
+	
+	private void setAggParameter( Text oSource )
+	{
+		String text = ( (Text) oSource ).getText( );
+		int index = fAggParamtersTextWidgets.indexOf( oSource );
+		EList parameters = getGrouping( ).getAggregateParameters( );
+		for ( int i = parameters.size( ); i < fAggParamtersTextWidgets.size( ); i++ )
+		{
+			parameters.add( null );
+		}
+		parameters.set( index, text );
+	}
+
+	private boolean isAggParametersWidget( Object source )
+	{
+		return fAggParamtersTextWidgets.contains( source );
+	}
+	
+	private void showAggregateParameters( String aggFuncName )
+	{
+		// Remove old parameters widgets.
+		Control[] children = fAggParameterComposite.getChildren( );
+		for ( int i = 0; i < children.length; i++ )
+		{
+			children[i].dispose( );
+		}
+		fAggParamtersTextWidgets.clear( );
+		fExprBuilderWidgetsMap.clear( );
+		
+		IAggregateFunction aFunc = null;
+		try
+		{
+			aFunc = PluginSettings.instance( )
+					.getAggregateFunction( aggFuncName );
+		}
+		catch ( ChartException e )
+		{
+			;
+		}
+		
+		String[] args = null;
+		if ( aFunc != null )
+		{
+			args = aFunc.getDisplayParameters( );
+		}
+
+		if ( aFunc != null && args != null && args.length > 0 )
+		{
+			( (GridData) fAggParameterComposite.getLayoutData( ) ).exclude = false;
+			( (GridData) fAggParameterComposite.getLayoutData( ) ).heightHint = SWT.DEFAULT;
+			for ( int i = 0; i < args.length; i++ )
+			{
+				Label lblArg = new Label( fAggParameterComposite, SWT.NONE );
+				lblArg.setText( args[i] + ":" ); //$NON-NLS-1$
+				GridData gd = new GridData( );
+				lblArg.setLayoutData( gd );
+
+				Text txtArg = new Text( fAggParameterComposite, SWT.BORDER );
+				GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
+				gridData.horizontalIndent = 0;
+				txtArg.setLayoutData( gridData );
+				fAggParamtersTextWidgets.add( txtArg );
+
+				txtArg.addSelectionListener( this );
+				txtArg.addFocusListener( new FocusListener( ) {
+
+					public void focusGained( FocusEvent e )
+					{
+						// TODO Auto-generated method stub
+
+					}
+
+					public void focusLost( FocusEvent e )
+					{
+						setAggParameter( (Text) e.getSource( ) );
+					}
+				} );
+				
+				Button btnBuilder = new Button( fAggParameterComposite, SWT.PUSH );
+				{
+					fExprBuilderWidgetsMap.put( btnBuilder, txtArg );
+					GridData gdBTNBuilder = new GridData( );
+					gdBTNBuilder.heightHint = 20;
+					gdBTNBuilder.widthHint = 20;
+					btnBuilder.setLayoutData( gdBTNBuilder );
+					btnBuilder.setImage( UIHelper.getImage( "icons/obj16/expressionbuilder.gif" ) ); //$NON-NLS-1$
+					
+					btnBuilder.setToolTipText( Messages.getString( "DataDefinitionComposite.Tooltip.InvokeExpressionBuilder" ) ); //$NON-NLS-1$
+					btnBuilder.getImage( ).setBackground( btnBuilder.getBackground( ) );
+					btnBuilder.setEnabled( fChartContext.getUIServiceProvider( )
+							.isInvokingSupported( ) );
+					btnBuilder.setVisible( fChartContext.getUIServiceProvider( )
+							.isEclipseModeSupported( ) );
+					btnBuilder.addSelectionListener( this );
+				}
+			}
+		}
+		else
+		{
+			( (GridData) fAggParameterComposite.getLayoutData( ) ).heightHint = 0;
+			// ( (GridData) argsComposite.getLayoutData( ) ).exclude = true;
+		}
+
+		fAggParameterComposite.layout( );
+		fCmpAggregate.layout( );
+
+		Composite c = fAggParameterComposite;
+		while ( c != getShell( ) )
+		{
+			c.layout( );
+			c = c.getParent( );
+		}
+		populateAggParameters( );
+	}
+	
+	public String[] getAggParametersName( String aggExpr ) 
+	{
+		return null;
 	}
 
 	/*

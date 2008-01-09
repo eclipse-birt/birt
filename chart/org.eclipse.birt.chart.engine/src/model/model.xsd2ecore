@@ -490,6 +490,8 @@
         outputs="org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/groupType"/>
     <nested inputs="../../xsd/data.xsd#//SeriesGrouping;XSDComplexTypeDefinition=12/XSDParticle/XSDModelGroup/XSDParticle=5"
         outputs="org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/aggregateExpression"/>
+    <nested inputs="../../xsd/data.xsd#//SeriesGrouping;XSDComplexTypeDefinition=12/XSDParticle/XSDModelGroup/XSDParticle=6"
+        outputs="org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/aggregateParameters"/>
   </nested>
   <nested inputs="../../xsd/attribute.xsd#//SortOption;XSDSimpleTypeDefinition=14"
       outputs="org.eclipse.birt.chart.model.attribute.ecore#//SortOption">

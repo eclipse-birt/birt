@@ -439,6 +439,27 @@ public final class ResultSetWrapper
 				{
 					iaDataTypes[i] = IConstants.DATE_TIME;
 				}
+				else if ( oaTuple[i] instanceof Boolean )
+				{
+					iaDataTypes[i] = IConstants.NUMERICAL;
+					// Some new aggregates( Top, TopPercent, Bottom,
+					// BottomPercent ) will return boolean type data, but now
+					// chart doesn't support boolean data type, so convert boolean data as
+					// integer, the true is treated as 1, the false is treated
+					// as 0.
+					for ( int j = 0; j < workingResultSet.size( ); j++ )
+					{
+						Object[] aTuple = (Object[]) workingResultSet.get( j );
+						if ( ( (Boolean) aTuple[i] ).booleanValue( ) )
+						{
+							aTuple[i] = new Integer( 1 );
+						}
+						else
+						{
+							aTuple[i] = new Integer( 0 );
+						}
+					}
+				}
 
 				for ( int j = 0; j < iColumnCount; j++ )
 				{

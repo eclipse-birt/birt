@@ -873,6 +873,53 @@ public final class PluginSettings
 	}
 
 	/**
+     * Returns Summary or Running aggregates name.
+     *
+	 * @param aggregateType
+	 * @return
+	 * @throws ChartException
+	 * @since BIRT 2.3
+	 */
+	public final String[] getRegisteredAggregateFunctions( int aggregateType )
+			throws ChartException
+	{
+		if ( inEclipseEnv( ) )
+		{
+			String[][] aggs = getPluginXmlStrings( "aggregatefunctions", //$NON-NLS-1$
+					"aggregateFunction", //$NON-NLS-1$
+					"name", //$NON-NLS-1$
+					"function" ); //$NON-NLS-1$
+
+			List funcList = new ArrayList();
+			for ( int i = 0; i < aggs.length; i++ )
+			{
+				IAggregateFunction aFunc = getAggregateFunction( aggs[i][0] );
+				if ( aFunc.getType( ) == aggregateType )
+				{
+					funcList.add(aggs[i][0]);
+				}
+			}
+			
+			final String[] saFunctions = new String[funcList.size()];
+			for ( int i = 0; i < saFunctions.length; i++)
+			{
+				saFunctions[i] = (String) funcList.get( i );
+			}
+			
+			return saFunctions;
+		}
+		else
+		{
+			final String[] saFunctions = new String[saAggregateFunctions.length];
+			for ( int i = 0; i < saFunctions.length; i++ )
+			{
+				saFunctions[i] = saAggregateFunctions[i][0];
+			}
+			return saFunctions;
+		}
+	}
+	
+	/**
 	 * Returns a list of all aggregate function display names registered via
 	 * extension point implementations (or simulated)
 	 * 
@@ -907,6 +954,53 @@ public final class PluginSettings
 		}
 	}
 
+	/**
+	 * Returns Summary or Running aggregates display name.
+     *
+	 * @param aggregateType
+	 * @return
+	 * @throws ChartException
+	 * @since BIRT 2.3
+	 */
+	public final String[] getRegisteredAggregateFunctionDisplayNames(
+			int aggregateType ) throws ChartException
+	{
+		if ( inEclipseEnv( ) )
+		{
+			String[][] aggs = getPluginXmlStrings( "aggregatefunctions", //$NON-NLS-1$
+					"aggregateFunction", //$NON-NLS-1$
+					"name", //$NON-NLS-1$
+					"displayName" ); //$NON-NLS-1$
+
+			List funcList = new ArrayList();
+			for ( int i = 0; i < aggs.length; i++ )
+			{
+				IAggregateFunction aFunc = getAggregateFunction( aggs[i][0] );
+				if ( aFunc.getType( ) == aggregateType )
+				{
+					funcList.add(aggs[i][1]);
+				}
+			}
+			
+			final String[] saFunctions = new String[funcList.size()];
+			for ( int i = 0; i < saFunctions.length; i++)
+			{
+				saFunctions[i] = (String) funcList.get( i );
+			}
+			
+			return saFunctions;
+		}
+		else
+		{
+			final String[] saFunctions = new String[saAggregateFunctions.length];
+			for ( int i = 0; i < saFunctions.length; i++ )
+			{
+				saFunctions[i] = saAggregateFunctions[i][1];
+			}
+			return saFunctions;
+		}
+	}
+	
 	/**
 	 * Attempts to internally create an instance of a given class using
 	 * reflection using the default constructor.
@@ -1103,7 +1197,7 @@ public final class PluginSettings
 	 * 
 	 * @return 'true' if using the extension loading framework
 	 */
-	private boolean inEclipseEnv( )
+	public boolean inEclipseEnv( )
 	{
 		if ( bStandalone )
 		{

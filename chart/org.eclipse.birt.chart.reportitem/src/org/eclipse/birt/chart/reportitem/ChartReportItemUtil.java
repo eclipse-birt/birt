@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007 Actuate Corporation.
+ * Copyright (c) 2007, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -368,38 +368,130 @@ public class ChartReportItemUtil
 	public static String convertToDtEAggFunction( String agg )
 	{
 
-		if ( "Sum".equals( agg ) ) { //$NON-NLS-1$
+		if ( "Sum".equals( agg ) ) //$NON-NLS-1$
+		{
 			return DesignChoiceConstants.AGGREGATION_FUNCTION_SUM;
 
 		}
-		else if ( "Average".equals( agg ) ) { //$NON-NLS-1$
+		else if ( "Average".equals( agg ) ) //$NON-NLS-1$
+		{
 			return DesignChoiceConstants.AGGREGATION_FUNCTION_AVERAGE;
 
 		}
-		else if ( "Count".equals( agg ) ) { //$NON-NLS-1$
+		else if ( "Count".equals( agg ) ) //$NON-NLS-1$
+		{
 			return DesignChoiceConstants.AGGREGATION_FUNCTION_COUNT;
 
 		}
-		else if ( "DistinctCount".equals( agg ) ) { //$NON-NLS-1$
+		else if ( "DistinctCount".equals( agg ) ) //$NON-NLS-1$
+		{
 			return DesignChoiceConstants.AGGREGATION_FUNCTION_COUNTDISTINCT;
 
 		}
-		else if ( "First".equals( agg ) ) { //$NON-NLS-1$
+		else if ( "First".equals( agg ) ) //$NON-NLS-1$
+		{
 			return DesignChoiceConstants.AGGREGATION_FUNCTION_FIRST;
 
 		}
-		else if ( "Last".equals( agg ) ) { //$NON-NLS-1$
+		else if ( "Last".equals( agg ) ) //$NON-NLS-1$
+		{
 			return DesignChoiceConstants.AGGREGATION_FUNCTION_LAST;
 
 		}
-		else if ( "Min".equals( agg ) ) { //$NON-NLS-1$
+		else if ( "Min".equals( agg ) ) //$NON-NLS-1$
+		{
 			return DesignChoiceConstants.AGGREGATION_FUNCTION_MIN;
 
 		}
-		else if ( "Max".equals( agg ) ) { //$NON-NLS-1$
+		else if ( "Max".equals( agg ) ) //$NON-NLS-1$
+		{
 			return DesignChoiceConstants.AGGREGATION_FUNCTION_MAX;
 		}
-
+		else if ( "WeightedAverage".equals( agg ) ) //$NON-NLS-1$
+		{
+			return DesignChoiceConstants.AGGREGATION_FUNCTION_WEIGHTEDAVG;
+		}
+		else if ( "Median".equals( agg ) ) //$NON-NLS-1$
+		{
+			return DesignChoiceConstants.AGGREGATION_FUNCTION_MEDIAN;
+		}
+		else if ( "Mode".equals( agg ) ) //$NON-NLS-1$
+		{
+			return DesignChoiceConstants.AGGREGATION_FUNCTION_MODE;
+		}
+		else if ( "STDDEV".equals( agg ) ) //$NON-NLS-1$
+		{
+			return DesignChoiceConstants.AGGREGATION_FUNCTION_STDDEV;
+		}
+		else if ( "Variance".equals( agg ) ) //$NON-NLS-1$
+		{
+			return DesignChoiceConstants.AGGREGATION_FUNCTION_VARIANCE;
+		}
+		else if ( "Irr".equals( agg ) ) //$NON-NLS-1$
+		{
+			return DesignChoiceConstants.AGGREGATION_FUNCTION_IRR;
+		}
+		else if ( "Mirr".equals( agg ) ) //$NON-NLS-1$
+		{
+			return DesignChoiceConstants.AGGREGATION_FUNCTION_MIRR;
+		}
+		else if ( "NPV".equals( agg ) ) //$NON-NLS-1$
+		{
+			return DesignChoiceConstants.AGGREGATION_FUNCTION_NPV;
+		}
+		else if ( "Percentile".equals( agg ) ) //$NON-NLS-1$
+		{
+			return DesignChoiceConstants.AGGREGATION_FUNCTION_PERCENTILE;
+		}
+		else if ( "Quartile".equals( agg ) ) //$NON-NLS-1$
+		{
+			return DesignChoiceConstants.AGGREGATION_FUNCTION_TOP_QUARTILE;
+		}
+		else if ( "MovingAverage".equals( agg ) ) //$NON-NLS-1$
+		{
+			return DesignChoiceConstants.AGGREGATION_FUNCTION_MOVINGAVE;
+		}
+		else if ( "RunningSum".equals( agg ) ) //$NON-NLS-1$
+		{
+			return DesignChoiceConstants.AGGREGATION_FUNCTION_RUNNINGSUM;
+		}
+		else if ( "RunningNPV".equals( agg ) ) //$NON-NLS-1$
+		{
+			return DesignChoiceConstants.AGGREGATION_FUNCTION_RUNNINGNPV;
+		}
+		else if ( "Rank".equals( agg ) ) //$NON-NLS-1$
+		{
+			return DesignChoiceConstants.AGGREGATION_FUNCTION_RANK;
+		}
+		else if ( "Top".equals( agg ) ) //$NON-NLS-1$
+		{
+			return DesignChoiceConstants.AGGREGATION_FUNCTION_IS_TOP_N;
+		}
+		else if ( "TopPercent".equals( agg ) ) //$NON-NLS-1$
+		{
+			return DesignChoiceConstants.AGGREGATION_FUNCTION_IS_TOP_N_PERCENT;
+		}
+		else if ( "Bottom".equals( agg ) ) //$NON-NLS-1$
+		{
+			return DesignChoiceConstants.AGGREGATION_FUNCTION_IS_BOTTOM_N;
+		}
+		else if ( "BottomPercent".equals( agg ) ) //$NON-NLS-1$
+		{
+			return DesignChoiceConstants.AGGREGATION_FUNCTION_IS_BOTTOM_N_PERCENT;
+		}
+		else if ( "PercentRank".equals( agg ) ) //$NON-NLS-1$
+		{
+			return DesignChoiceConstants.AGGREGATION_FUNCTION_PERCENT_RANK;
+		}
+		else if ( "PercentSum".equals( agg ) ) //$NON-NLS-1$
+		{
+			return DesignChoiceConstants.AGGREGATION_FUNCTION_PERCENT_SUM;
+		}
+		else if ( "RunningCount".equals( agg ) ) //$NON-NLS-1$
+		{
+			return DesignChoiceConstants.AGGREGATION_FUNCTION_RUNNINGCOUNT;
+		}
+		
 		return null;
 	}
 

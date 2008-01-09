@@ -741,6 +741,17 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSeriesGrouping_AggregateParameters( )
+	{
+		return (EAttribute) seriesGroupingEClass.getEStructuralFeatures( )
+				.get( 6 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -908,6 +919,8 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 		createEAttribute( seriesGroupingEClass, SERIES_GROUPING__GROUP_TYPE );
 		createEAttribute( seriesGroupingEClass,
 				SERIES_GROUPING__AGGREGATE_EXPRESSION );
+		createEAttribute( seriesGroupingEClass,
+				SERIES_GROUPING__AGGREGATE_PARAMETERS );
 
 		stockDataSetEClass = createEClass( STOCK_DATA_SET );
 
@@ -1136,6 +1149,9 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 		initEAttribute( getSeriesGrouping_AggregateExpression( ),
 				theXMLTypePackage.getString( ),
 				"aggregateExpression", null, 1, 1, SeriesGrouping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getSeriesGrouping_AggregateParameters( ),
+				theXMLTypePackage.getString( ),
+				"aggregateParameters", null, 0, -1, SeriesGrouping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( stockDataSetEClass,
 				StockDataSet.class,
@@ -1394,6 +1410,12 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 				new String[]{
 						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 						"name", "AggregateExpression" //$NON-NLS-1$ //$NON-NLS-2$
+				} );
+		addAnnotation( getSeriesGrouping_AggregateParameters( ),
+				source,
+				new String[]{
+						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+						"name", "AggregateParameters" //$NON-NLS-1$ //$NON-NLS-2$
 				} );
 		addAnnotation( stockDataSetEClass, source, new String[]{
 				"name", "StockDataSet", //$NON-NLS-1$ //$NON-NLS-2$

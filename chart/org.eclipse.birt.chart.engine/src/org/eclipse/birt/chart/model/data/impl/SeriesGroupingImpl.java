@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.model.data.impl;
 
+import java.util.Collection;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.data.DataElement;
@@ -19,10 +20,12 @@ import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.util.EDataTypeEList;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '
@@ -36,6 +39,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl#getGroupingInterval <em>Grouping Interval</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl#getGroupType <em>Group Type</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl#getAggregateExpression <em>Aggregate Expression</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl#getAggregateParameters <em>Aggregate Parameters</em>}</li>
  * </ul>
  * </p>
  *
@@ -69,7 +73,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean enabledESet = false;
+	protected boolean enabledESet;
 
 	/**
 	 * The default value of the '
@@ -100,7 +104,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean groupingUnitESet = false;
+	protected boolean groupingUnitESet;
 
 	/**
 	 * The cached value of the '{@link #getGroupingOrigin() <em>Grouping Origin</em>}' containment reference.
@@ -109,7 +113,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	 * @generated
 	 * @ordered
 	 */
-	protected DataElement groupingOrigin = null;
+	protected DataElement groupingOrigin;
 
 	/**
 	 * The default value of the '{@link #getGroupingInterval() <em>Grouping Interval</em>}' attribute.
@@ -136,7 +140,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean groupingIntervalESet = false;
+	protected boolean groupingIntervalESet;
 
 	/**
 	 * The default value of the '{@link #getGroupType() <em>Group Type</em>}' attribute.
@@ -163,7 +167,7 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean groupTypeESet = false;
+	protected boolean groupTypeESet;
 
 	/**
 	 * The default value of the '{@link #getAggregateExpression() <em>Aggregate Expression</em>}' attribute.
@@ -182,6 +186,16 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	 * @ordered
 	 */
 	protected String aggregateExpression = AGGREGATE_EXPRESSION_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getAggregateParameters() <em>Aggregate Parameters</em>}' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAggregateParameters()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList aggregateParameters;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -523,6 +537,22 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList getAggregateParameters( )
+	{
+		if ( aggregateParameters == null )
+		{
+			aggregateParameters = new EDataTypeEList( String.class,
+					this,
+					DataPackage.SERIES_GROUPING__AGGREGATE_PARAMETERS );
+		}
+		return aggregateParameters;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -555,6 +585,8 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 				return getGroupType( );
 			case DataPackage.SERIES_GROUPING__AGGREGATE_EXPRESSION :
 				return getAggregateExpression( );
+			case DataPackage.SERIES_GROUPING__AGGREGATE_PARAMETERS :
+				return getAggregateParameters( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -585,6 +617,10 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 				return;
 			case DataPackage.SERIES_GROUPING__AGGREGATE_EXPRESSION :
 				setAggregateExpression( (String) newValue );
+				return;
+			case DataPackage.SERIES_GROUPING__AGGREGATE_PARAMETERS :
+				getAggregateParameters( ).clear( );
+				getAggregateParameters( ).addAll( (Collection) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -617,6 +653,9 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 			case DataPackage.SERIES_GROUPING__AGGREGATE_EXPRESSION :
 				setAggregateExpression( AGGREGATE_EXPRESSION_EDEFAULT );
 				return;
+			case DataPackage.SERIES_GROUPING__AGGREGATE_PARAMETERS :
+				getAggregateParameters( ).clear( );
+				return;
 		}
 		super.eUnset( featureID );
 	}
@@ -643,6 +682,9 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 			case DataPackage.SERIES_GROUPING__AGGREGATE_EXPRESSION :
 				return AGGREGATE_EXPRESSION_EDEFAULT == null ? aggregateExpression != null
 						: !AGGREGATE_EXPRESSION_EDEFAULT.equals( aggregateExpression );
+			case DataPackage.SERIES_GROUPING__AGGREGATE_PARAMETERS :
+				return aggregateParameters != null
+						&& !aggregateParameters.isEmpty( );
 		}
 		return super.eIsSet( featureID );
 	}
@@ -679,6 +721,8 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ", aggregateExpression: " ); //$NON-NLS-1$
 		result.append( aggregateExpression );
+		result.append( ", aggregateParameters: " ); //$NON-NLS-1$
+		result.append( aggregateParameters );
 		result.append( ')' );
 		return result.toString( );
 	}

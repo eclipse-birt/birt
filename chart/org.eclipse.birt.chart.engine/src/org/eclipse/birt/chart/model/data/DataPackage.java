@@ -676,12 +676,21 @@ public interface DataPackage extends EPackage
 	int SERIES_GROUPING__AGGREGATE_EXPRESSION = 5;
 
 	/**
+	 * The feature id for the '<em><b>Aggregate Parameters</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SERIES_GROUPING__AGGREGATE_PARAMETERS = 6;
+
+	/**
 	 * The number of structural features of the '<em>Series Grouping</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SERIES_GROUPING_FEATURE_COUNT = 6;
+	int SERIES_GROUPING_FEATURE_COUNT = 7;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.data.impl.StockDataSetImpl <em>Stock Data Set</em>}' class.
@@ -1255,6 +1264,17 @@ public interface DataPackage extends EPackage
 	EAttribute getSeriesGrouping_AggregateExpression( );
 
 	/**
+	 * Returns the meta object for the attribute list '{@link org.eclipse.birt.chart.model.data.SeriesGrouping#getAggregateParameters <em>Aggregate Parameters</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Aggregate Parameters</em>'.
+	 * @see org.eclipse.birt.chart.model.data.SeriesGrouping#getAggregateParameters()
+	 * @see #getSeriesGrouping()
+	 * @generated
+	 */
+	EAttribute getSeriesGrouping_AggregateParameters( );
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.data.StockDataSet <em>Stock Data Set</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Stock Data Set</em>'.
@@ -1759,6 +1779,14 @@ public interface DataPackage extends EPackage
 		 * @generated
 		 */
 		EAttribute SERIES_GROUPING__AGGREGATE_EXPRESSION = eINSTANCE.getSeriesGrouping_AggregateExpression( );
+
+		/**
+		 * The meta object literal for the '<em><b>Aggregate Parameters</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SERIES_GROUPING__AGGREGATE_PARAMETERS = eINSTANCE.getSeriesGrouping_AggregateParameters( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.data.impl.StockDataSetImpl <em>Stock Data Set</em>}' class.
