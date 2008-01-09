@@ -119,7 +119,7 @@
 		
 	</HEAD>
 	
-	<BODY CLASS="BirtViewer_Body"  ONLOAD="javascript:init( );" LEFTMARGIN='0px' STYLE='overflow:hidden'>
+	<BODY CLASS="BirtViewer_Body"  ONLOAD="javascript:init( );" SCROLL="no" LEFTMARGIN='0px' STYLE='overflow:hidden'>
 		<%
 		if( attributeBean.isRtl() )
 		{
