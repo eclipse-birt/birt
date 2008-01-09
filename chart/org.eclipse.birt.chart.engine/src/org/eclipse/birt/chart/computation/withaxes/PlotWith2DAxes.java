@@ -598,8 +598,16 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		{
 			try
 			{
+				CDateTime dtMin = asDateTime( oMin );
+				CDateTime dtMax = asDateTime( oMax );
+
+				if ( dtMin.equals( dtMax ) )
+				{
+					dtMin.setTimeInMillis( 0 );
+				}
+
 				return new Calendar[]{
-						asDateTime( oMin ), asDateTime( oMax )
+						dtMin, dtMax
 				};
 			}
 			catch ( ClassCastException ex )
@@ -615,9 +623,23 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		{
 			try
 			{
+				double dMin = asDouble( oMin ).doubleValue( );
+				double dMax = asDouble( oMax ).doubleValue( );
+
+				if ( dMin == dMax )
+				{
+					if ( dMin > 0 )
+					{
+						dMin = 0;
+					}
+					if ( dMax < 0 )
+					{
+						dMax = 0;
+					}
+				}
+
 				return new double[]{
-						asDouble( oMin ).doubleValue( ),
-						asDouble( oMax ).doubleValue( )
+						dMin, dMax
 				};
 			}
 			catch ( ClassCastException ex )
