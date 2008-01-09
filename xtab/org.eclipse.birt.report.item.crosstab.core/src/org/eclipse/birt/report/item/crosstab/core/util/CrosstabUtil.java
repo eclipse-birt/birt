@@ -23,6 +23,7 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 
 /**
@@ -95,6 +96,8 @@ public class CrosstabUtil implements ICrosstabConstants
 	public static boolean canContain( CrosstabReportItemHandle crosstab,
 			DimensionHandle dimension )
 	{
+		if ( crosstab.getModelHandle( ).getExtends( ) != null )
+			return false;
 		if ( crosstab != null && dimension != null )
 		{
 			CubeHandle currentCube = crosstab.getCube( );
@@ -148,6 +151,8 @@ public class CrosstabUtil implements ICrosstabConstants
 	public static boolean canContain( CrosstabReportItemHandle crosstab,
 			MeasureHandle measure )
 	{
+		if ( crosstab.getModelHandle( ).getExtends( ) != null )
+			return false;
 		if ( crosstab != null && measure != null )
 		{
 			CubeHandle currentCube = crosstab.getCube( );
@@ -177,6 +182,13 @@ public class CrosstabUtil implements ICrosstabConstants
 
 		return false;
 	}
+
+	public static boolean canContain( CrosstabReportItemHandle crosstab,
+			MeasureGroupHandle obj )
+	{
+		return crosstab.getModelHandle( ).getExtends( ) == null;
+	}
+
 
 	/**
 	 * Checks if the add/remove aggregation operation should be perform on all
@@ -215,5 +227,4 @@ public class CrosstabUtil implements ICrosstabConstants
 				colLevel,
 				false );
 	}
-
 }

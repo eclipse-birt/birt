@@ -149,6 +149,8 @@ public class VirtualCrosstabCellAdapter extends CrosstabCellAdapter implements
 				return true;
 			}
 			if ( obj instanceof MeasureGroupHandle
+					&& CrosstabUtil.canContain( crosstab,
+							(MeasureGroupHandle) obj )
 					&& ( crosstab.getCube( ) == CrosstabAdaptUtil.getCubeHandle( (DesignElementHandle) obj ) || crosstab.getCube( ) == null ) )
 			{
 				return true;
