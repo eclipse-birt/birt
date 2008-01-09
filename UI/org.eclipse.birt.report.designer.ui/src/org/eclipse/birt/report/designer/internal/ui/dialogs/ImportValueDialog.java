@@ -120,16 +120,18 @@ public class ImportValueDialog extends BaseDialog
 
 	private java.util.List choiceList;
 
-	private String beforeValidateString(String value)
+	private String beforeValidateString( String value )
 	{
-		if(value.equals( nullValue ) && hasNullValue)
+		if ( value.equals( nullValue ) && hasNullValue )
 		{
 			return "";
-		}else
+		}
+		else
 		{
 			return value;
 		}
 	}
+
 	/**
 	 * Constructs a new instance of the dialog
 	 */
@@ -342,12 +344,14 @@ public class ImportValueDialog extends BaseDialog
 
 		if ( selected.length == 0 )
 		{
-			if((validator == null)||( validator != null && validator.validateString( beforeValidateString(valueEditor.getText( )) ) == null))
+			if ( ( validator == null )
+					|| ( validator != null && validator.validateString( beforeValidateString( valueEditor.getText( ) ) ) == null ) )
 			{
 				selected = new String[]{
-						valueEditor.getText( )};
+					valueEditor.getText( )
+				};
 			}
-			
+
 		}
 		for ( int i = 0; i < selected.length; i++ )
 		{
@@ -688,25 +692,28 @@ public class ImportValueDialog extends BaseDialog
 
 	private void updateButtons( )
 	{
-		if( valueList.getSelectionCount( ) != 0 )
+		if ( valueList.getSelectionCount( ) != 0 )
 		{
 			add.setEnabled( true );
-		}else if( valueEditor.getText( ).trim( ).length( ) != 0 && selectedList.indexOf( valueEditor.getText( )
-				.trim( ) ) == -1 )
+		}
+		else if ( valueEditor.getText( ).trim( ).length( ) != 0
+				&& selectedList.indexOf( valueEditor.getText( ).trim( ) ) == -1 )
 		{
-			if((validator == null)||( validator != null && validator.validateString( beforeValidateString(valueEditor.getText( )) ) == null))
+			if ( ( validator == null )
+					|| ( validator != null && validator.validateString( beforeValidateString( valueEditor.getText( ) ) ) == null ) )
 			{
 				add.setEnabled( true );
-			}else
+			}
+			else
 			{
 				add.setEnabled( false );
 			}
-		}else
+		}
+		else
 		{
 			add.setEnabled( false );
 		}
-		
-		
+
 		addAll.setEnabled( valueList.getItemCount( ) != 0 );
 		remove.setEnabled( selectedList.getSelectionCount( ) != 0 );
 		removeAll.setEnabled( selectedList.getItemCount( ) != 0 );
@@ -715,7 +722,7 @@ public class ImportValueDialog extends BaseDialog
 
 	protected void okPressed( )
 	{
-		if(hasNullValue && selectedList.indexOf( nullValue ) != -1)
+		if ( hasNullValue && selectedList.indexOf( nullValue ) != -1 )
 		{
 			selectedList.remove( nullValue );
 			selectedList.add( "" );

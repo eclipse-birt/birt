@@ -33,7 +33,6 @@ import org.eclipse.birt.report.designer.data.ui.util.SelectValueFetcher;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ImportValueDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.SelectionChoiceDialog;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.ImportValueDialog.IAddChoiceValidator;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.ITableAreaModifier;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.TableArea;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
@@ -1566,7 +1565,7 @@ public class ParameterDialog extends BaseDialog
 					}
 				}
 				ImportValueDialog dialog = new ImportValueDialog( type, choices );
-				dialog.setValidate( new ImportValueDialog.IAddChoiceValidator() {
+				dialog.setValidate( new ImportValueDialog.IAddChoiceValidator( ) {
 
 					public String validateString( String value )
 					{
@@ -1577,9 +1576,9 @@ public class ParameterDialog extends BaseDialog
 							return errorMessage;
 						}
 						return null;
-					}});
-				
-				
+					}
+				} );
+
 				if ( dialog.open( ) == OK )
 				{
 					String[] importValues = (String[]) dialog.getResult( );
@@ -1587,14 +1586,17 @@ public class ParameterDialog extends BaseDialog
 					for ( int i = 0; i < importValues.length; i++ )
 					{
 						SelectionChoice choice = StructureFactory.createSelectionChoice( );
-						choice.setValue( importValues[i] );
-						if ( labelMap.get( importValues[i] ) != null )
+						choice.setValue( UIUtil.convertToModelString( importValues[i],
+								false ) );
+						if ( labelMap.get( UIUtil.convertToModelString( importValues[i],
+								false ) ) != null )
 						{
 							choice.setLabel( (String) labelMap.get( importValues[i] ) );
 						}
 						choiceList.add( choice );
 						if ( defaultValue != null
-								&& defaultValue.equals( importValues[i] ) )
+								&& defaultValue.equals( UIUtil.convertToModelString( importValues[i],
+										false ) ) )
 						{
 							defaultValueRemoved = false;
 						}
@@ -2538,7 +2540,7 @@ public class ParameterDialog extends BaseDialog
 		{
 			return false;
 		}
-		
+
 		try
 		{
 			v1 = validateValue( value1 );
@@ -2823,7 +2825,7 @@ public class ParameterDialog extends BaseDialog
 			return true;
 		}
 		return choiceValue != null
-				&& choiceValue != null
+				&& defaultValue != null
 				&& isEqual( choiceValue, defaultValue );
 	}
 
