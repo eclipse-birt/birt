@@ -23,10 +23,12 @@ ChartPreferencePage.Label.EnableLivePreview=グラフビルダでライブプレビューを有効
 
 ChartReportItemUIImpl.log.ReceivedNotification=拡張された図表を破棄する通知を受け取りました。
 
-ChartExpressionProvider.Category.ChartVariables=グラフの変数
-ChartExpressionProvider.ChartVariables.DataPoints=データポイント
+ChartExpressionProvider.Category.ChartVariables=Variables
+ChartExpressionProvider.ChartVariables.DataPoints=Chart Data Point
 ChartExpressionProvider.DataPoints.BaseValue=カテゴリデータ
 ChartExpressionProvider.DataPoints.OrthogonalValue=値データ
+ChartExpressionProvider.ChartVariables.JavaScript=JavaScript
+ChartExpressionProvider.ChartVariables.Event=Event
 ChartExpressionProvider.DataPoints.SeriesValue=系列データ
 ChartColumnBindingDialog.Button.AddAggregation=集計の追加...
 ChartColumnBindingDialog.Button.Refresh=Refresh

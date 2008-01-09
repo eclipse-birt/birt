@@ -23,10 +23,12 @@ ChartPreferencePage.Label.EnableLivePreview=&Live-Vorschau im Chart Builder akti
 
 ChartReportItemUIImpl.log.ReceivedNotification=Auftrag zur Entfernung einer erweiterten Diagrammabbildung erhalten.
 
-ChartExpressionProvider.Category.ChartVariables=Diagrammvariablen
-ChartExpressionProvider.ChartVariables.DataPoints=Datenpunkte
+ChartExpressionProvider.Category.ChartVariables=Variables
+ChartExpressionProvider.ChartVariables.DataPoints=Chart Data Point
 ChartExpressionProvider.DataPoints.BaseValue=Kategoriedaten
 ChartExpressionProvider.DataPoints.OrthogonalValue=Wertdaten
+ChartExpressionProvider.ChartVariables.JavaScript=JavaScript
+ChartExpressionProvider.ChartVariables.Event=Event
 ChartExpressionProvider.DataPoints.SeriesValue=Datenreihendaten
 ChartColumnBindingDialog.Button.AddAggregation=Aggregat hinzufügen...
 ChartColumnBindingDialog.Button.Refresh=Refresh

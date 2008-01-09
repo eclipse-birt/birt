@@ -23,10 +23,12 @@ ChartPreferencePage.Label.EnableLivePreview=Activer l'aperçu direct dans le géné
 
 ChartReportItemUIImpl.log.ReceivedNotification=Réception d'une notification de rejet des données du graphique étendu.
 
-ChartExpressionProvider.Category.ChartVariables=Variables de graphique
-ChartExpressionProvider.ChartVariables.DataPoints=Points de données
+ChartExpressionProvider.Category.ChartVariables=Variables
+ChartExpressionProvider.ChartVariables.DataPoints=Chart Data Point
 ChartExpressionProvider.DataPoints.BaseValue=Données de catégorie
 ChartExpressionProvider.DataPoints.OrthogonalValue=Données de valeur
+ChartExpressionProvider.ChartVariables.JavaScript=JavaScript
+ChartExpressionProvider.ChartVariables.Event=Event
 ChartExpressionProvider.DataPoints.SeriesValue=Données de la série
 ChartColumnBindingDialog.Button.AddAggregation=Ajouter l'agrégation...
 ChartColumnBindingDialog.Button.Refresh=Refresh

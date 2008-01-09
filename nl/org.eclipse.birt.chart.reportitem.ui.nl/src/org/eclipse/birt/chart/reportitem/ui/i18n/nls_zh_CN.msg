@@ -23,10 +23,12 @@ ChartPreferencePage.Label.EnableLivePreview=在图表生成器中启用实时预览(&E)
 
 ChartReportItemUIImpl.log.ReceivedNotification=收到关于清除扩展图表的通知。
 
-ChartExpressionProvider.Category.ChartVariables=图表变量
-ChartExpressionProvider.ChartVariables.DataPoints=数据点
+ChartExpressionProvider.Category.ChartVariables=Variables
+ChartExpressionProvider.ChartVariables.DataPoints=Chart Data Point
 ChartExpressionProvider.DataPoints.BaseValue=类别数据
 ChartExpressionProvider.DataPoints.OrthogonalValue=值数据
+ChartExpressionProvider.ChartVariables.JavaScript=JavaScript
+ChartExpressionProvider.ChartVariables.Event=Event
 ChartExpressionProvider.DataPoints.SeriesValue=系列数据
 ChartColumnBindingDialog.Button.AddAggregation=添加聚合...
 ChartColumnBindingDialog.Button.Refresh=Refresh

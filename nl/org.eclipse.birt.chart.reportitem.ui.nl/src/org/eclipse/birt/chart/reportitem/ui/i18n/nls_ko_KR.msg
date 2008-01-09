@@ -23,10 +23,12 @@ ChartPreferencePage.Label.EnableLivePreview=차트 빌더에서 실시간 미리 보기 사용(
 
 ChartReportItemUIImpl.log.ReceivedNotification=확장 차트 그림을 삭제하기 위한 통지가 수신되었습니다.
 
-ChartExpressionProvider.Category.ChartVariables=차트 변수
-ChartExpressionProvider.ChartVariables.DataPoints=데이터 요소
+ChartExpressionProvider.Category.ChartVariables=Variables
+ChartExpressionProvider.ChartVariables.DataPoints=Chart Data Point
 ChartExpressionProvider.DataPoints.BaseValue=범주 데이터
 ChartExpressionProvider.DataPoints.OrthogonalValue=값 데이터
+ChartExpressionProvider.ChartVariables.JavaScript=JavaScript
+ChartExpressionProvider.ChartVariables.Event=Event
 ChartExpressionProvider.DataPoints.SeriesValue=계열 데이터
 ChartColumnBindingDialog.Button.AddAggregation=집계 추가...
 ChartColumnBindingDialog.Button.Refresh=Refresh

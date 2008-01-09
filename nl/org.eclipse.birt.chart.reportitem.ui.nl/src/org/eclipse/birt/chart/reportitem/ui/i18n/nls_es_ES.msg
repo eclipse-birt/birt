@@ -23,10 +23,12 @@ ChartPreferencePage.Label.EnableLivePreview=&Activar la vista previa en tiempo r
 
 ChartReportItemUIImpl.log.ReceivedNotification=Se ha recibido la notificación para disponer de la figura de diagrama extendida.
 
-ChartExpressionProvider.Category.ChartVariables=Variables de diagrama
-ChartExpressionProvider.ChartVariables.DataPoints=Puntos de datos
+ChartExpressionProvider.Category.ChartVariables=Variables
+ChartExpressionProvider.ChartVariables.DataPoints=Chart Data Point
 ChartExpressionProvider.DataPoints.BaseValue=Datos de categoría
 ChartExpressionProvider.DataPoints.OrthogonalValue=Datos de valor
+ChartExpressionProvider.ChartVariables.JavaScript=JavaScript
+ChartExpressionProvider.ChartVariables.Event=Event
 ChartExpressionProvider.DataPoints.SeriesValue=Datos de serie
 ChartColumnBindingDialog.Button.AddAggregation=Añadir agregación...
 ChartColumnBindingDialog.Button.Refresh=Refresh
