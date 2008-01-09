@@ -154,7 +154,12 @@ public final class DataTypeUtil
 		if ( toTypeClass == String.class )
 			return toString( source );
 		if ( toTypeClass == Blob.class )
-			return toBlob( source );
+		{
+			if ( source instanceof byte[] )
+				return source;
+			else
+				return toBlob( source );				
+		}
 		if ( toTypeClass == byte[].class )
 			return source;
 
