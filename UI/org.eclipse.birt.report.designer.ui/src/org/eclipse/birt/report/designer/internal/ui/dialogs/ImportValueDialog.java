@@ -445,6 +445,10 @@ public class ImportValueDialog extends BaseDialog
 			if ( value != null )
 			{
 				selectedList.add( value );
+			}else
+			{
+				hasNullValue = true;
+				selectedList.add( nullValue );
 			}
 		}
 		refreshColumns( );
@@ -530,7 +534,6 @@ public class ImportValueDialog extends BaseDialog
 
 	private void refreshValues( )
 	{
-		hasNullValue = false;
 		resultList.clear( );
 		if ( columnChooser.isEnabled( ) )
 		{
