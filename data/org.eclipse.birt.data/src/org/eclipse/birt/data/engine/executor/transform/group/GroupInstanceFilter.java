@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
@@ -335,7 +336,7 @@ class GroupInstanceFilter
 		Object result = ScriptEvalUtil.evalExpr( expr,
 				cx,
 				this.groupProcessor.getExpressionProcessor( ).getScope( ),
-				"GroupFilter",
+				ScriptExpression.defaultID,
 				0 );
 
 		if ( result == null )

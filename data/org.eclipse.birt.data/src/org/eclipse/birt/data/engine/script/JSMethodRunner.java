@@ -14,6 +14,7 @@
 package org.eclipse.birt.data.engine.script;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptExpression;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
@@ -31,7 +32,6 @@ import org.mozilla.javascript.Scriptable;
 public class JSMethodRunner
 {
 	private Scriptable scope;
-	private String scopeName;
 
 	private static final String METHOD_NAME_PREFIX = "__bm_";
 	
@@ -45,7 +45,6 @@ public class JSMethodRunner
 	public JSMethodRunner( Scriptable scope, String scopeName )
 	{
 		this.scope = scope;
-		this.scopeName = scopeName;
 	}
 	
 	/**
@@ -61,7 +60,6 @@ public class JSMethodRunner
 	{
 		// Add a prefix to the method name so it has less chance of conflict with regular functions
 		methodName = METHOD_NAME_PREFIX + methodName;
-		String methodDesc = scopeName + "." + methodName;
 		Context cx = Context.enter();
 		try
 		{
@@ -71,13 +69,13 @@ public class JSMethodRunner
 				// Define the method for the first time
 				String scriptText = "function " + methodName + "() {\n"
 						+ script + "\n} ";
-				ScriptEvalUtil.evaluateJSAsExpr( cx, scope, scriptText, methodDesc, 1 );
+				ScriptEvalUtil.evaluateJSAsExpr( cx, scope, scriptText, ScriptExpression.defaultID, 1 );
 			}
 			
 			// Call pre-defined method
 			String callScriptText = methodName + "()";
 			Object result = ScriptEvalUtil.evaluateJSAsExpr( cx, scope, 
-					callScriptText, methodDesc, 1 );
+					callScriptText, ScriptExpression.defaultID, 1 );
 			return result;
 		}
 		finally

@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.olap.util.sort;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -78,7 +79,7 @@ public class DimensionSortEvalHelper extends DimensionJSEvalHelper
 		Context cx = Context.enter( );
 		try
 		{
-			return ScriptEvalUtil.evalExpr( expr, cx, scope, null, 0 );
+			return ScriptEvalUtil.evalExpr( expr, cx, scope, ScriptExpression.defaultID, 0 );
 		}
 		catch ( IJSObjectPopulator.InMatchDimensionIndicator e )
 		{

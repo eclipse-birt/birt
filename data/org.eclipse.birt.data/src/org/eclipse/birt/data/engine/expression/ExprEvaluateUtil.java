@@ -278,7 +278,7 @@ public class ExprEvaluateUtil
 				Object value = JavascriptEvalUtil.evaluateRawScript( cx,
 						scope,
 						( (IScriptExpression) dataExpr ).getText( ),
-						"source",
+						org.eclipse.birt.core.script.ScriptExpression.defaultID,
 						0 );
 				
 				if ( javaType == true )

@@ -13,6 +13,7 @@ package org.eclipse.birt.data.engine.olap.util.filter;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -78,7 +79,7 @@ BaseDimensionFilterEvalHelper implements IJSDimensionFilterHelper
 					}
 				}
 			}
-			Object result = ScriptEvalUtil.evalExpr( expr, cx, scope, null, 0 );
+			Object result = ScriptEvalUtil.evalExpr( expr, cx, scope, ScriptExpression.defaultID, 0 );
 			return DataTypeUtil.toBoolean( result ).booleanValue( );
 		}
 		catch ( IJSObjectPopulator.InMatchDimensionIndicator e )

@@ -18,6 +18,7 @@ import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
 import org.eclipse.birt.report.model.api.ExtendedPropertyHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
@@ -56,8 +57,11 @@ public class OdaDataSetAdapter extends OdaDataSetDesign
 		if ( propBindingScope != null && queryTextBinding != null
 				&& queryTextBinding.length( ) > 0 )
 		{
-			String queryText = JavascriptEvalUtil.evaluateScript( null, propBindingScope, 
-					queryTextBinding, "queryText binding", 0 ).toString();
+			String queryText = JavascriptEvalUtil.evaluateScript( null,
+					propBindingScope,
+					queryTextBinding,
+					ScriptExpression.defaultID,
+					0 ).toString( );
 			setQueryText( queryText );
 		} else
 		{
@@ -85,8 +89,11 @@ public class OdaDataSetAdapter extends OdaDataSetDesign
 				if ( propBindingScope != null && bindingExpr != null
 						&& bindingExpr.length( ) > 0 )
 				{
-					propValue =  JavascriptEvalUtil.evaluateScript( null, propBindingScope, 
-							bindingExpr, "property binding", 0 ).toString();
+					propValue = JavascriptEvalUtil.evaluateScript( null,
+							propBindingScope,
+							bindingExpr,
+							ScriptExpression.defaultID,
+							0 ).toString( );
 				} else
 				{
 					propValue = ( String ) staticProps.get( propName );

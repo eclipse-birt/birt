@@ -19,6 +19,7 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -379,7 +380,7 @@ class ComputedColumnHelperInstance
 								value = ScriptEvalUtil.evaluateJSAsExpr( cx,
 										dataSet.getJSDataSetObject( ),
 										exprText,
-										"ComputedColumn",
+										ScriptExpression.defaultID,
 										0 );
 						}
 						if ( computedColumn[i] instanceof GroupComputedColumn )

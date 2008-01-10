@@ -18,6 +18,7 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
@@ -127,8 +128,12 @@ public final class ColumnReferenceExpression extends CompiledExpression
 		expr.append(']');
 		try
 		{
-			return DataTypeUtil.convert(ScriptEvalUtil.evaluateJSAsExpr( context, scope, 
-						expr.toString( ),"ROM Expression", 0),this.dataType);
+			return DataTypeUtil.convert( ScriptEvalUtil.evaluateJSAsExpr( context,
+					scope,
+					expr.toString( ),
+					ScriptExpression.defaultID,
+					0 ),
+					this.dataType );
 		} catch (BirtException e)
 		{
 			throw DataException.wrap(e);

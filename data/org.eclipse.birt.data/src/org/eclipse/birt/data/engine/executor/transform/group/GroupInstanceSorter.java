@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.executor.transform.group;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -147,7 +148,7 @@ class GroupInstanceSorter
 					.getGrouping( )[groupPosition].getSorts( ).get( l ) ).getExpression( ),
 					cx,
 					this.groupProcessor.getExpressionProcessor( ).getScope( ),
-					"GroupFilter",
+					ScriptExpression.defaultID,
 					0 );
 			sortDirections[l] = ( (ISortDefinition) this.populator.getQuery( )
 					.getGrouping( )[groupPosition].getSorts( ).get( l ) ).getSortDirection( ) == ISortDefinition.SORT_ASC

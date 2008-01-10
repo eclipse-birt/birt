@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBinding;
@@ -331,7 +332,7 @@ public interface IJSObjectPopulator
 				return ScriptEvalUtil.evalExpr( ( (IBinding) this.bindingMap.get( aggrName ) ).getExpression( ),
 						cx,
 						this.scope,
-						null,
+						ScriptExpression.defaultID,
 						0 );
 			}
 			catch ( DataException e )
@@ -448,7 +449,7 @@ public interface IJSObjectPopulator
 							return ScriptEvalUtil.evalExpr( ( (IBaseExpression) this.computedMeasures.get( aggrName ) ),
 									cx,
 									this.scope,
-									null,
+									ScriptExpression.defaultID,
 									0 );
 						}catch ( Exception e )
 						{

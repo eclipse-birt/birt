@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.data.api.IComputedMeasureHelper;
@@ -80,7 +81,7 @@ public class ComputedMeasureHelper implements IComputedMeasureHelper
 					result[i] = ScriptEvalUtil.evalExpr( (IBaseExpression) this.exprMap.get( this.measureInfos[i].getMeasureName( ) ),
 							cx,
 							scope,
-							null,
+							ScriptExpression.defaultID,
 							0 );
 				}
 				catch ( Exception e )

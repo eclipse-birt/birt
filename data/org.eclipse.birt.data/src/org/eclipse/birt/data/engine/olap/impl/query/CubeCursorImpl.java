@@ -35,6 +35,7 @@ import javax.olap.cursor.Timestamp;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBinding;
@@ -337,7 +338,7 @@ public class CubeCursorImpl implements ICubeCursor
 					result = ScriptEvalUtil.evalExpr( expr,
 							cx,
 							this.scope,
-							null,
+							ScriptExpression.defaultID,
 							0 );
 				}
 				catch ( Exception e )

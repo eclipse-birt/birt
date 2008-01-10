@@ -2,6 +2,7 @@ package org.eclipse.birt.data.engine.script;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.cache.BasicCachedArray;
@@ -140,7 +141,7 @@ public abstract class NEvaluator
 		}
 		
 		// Evaluate operand expression
-		Object value = ScriptEvalUtil.evalExpr( op_expr, cx, scope, "Filter", 0 );
+		Object value = ScriptEvalUtil.evalExpr( op_expr, cx, scope, ScriptExpression.defaultID, 0 );
 		
 		if ( filterPassController.getPassLevel( ) == FilterPassController.FIRST_PASS )
 		{

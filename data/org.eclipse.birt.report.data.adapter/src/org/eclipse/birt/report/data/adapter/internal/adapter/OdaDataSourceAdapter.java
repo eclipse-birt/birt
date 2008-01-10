@@ -19,6 +19,7 @@ import java.util.Map;
 import org.eclipse.birt.core.data.Constants;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.OdaDataSourceDesign;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
@@ -77,8 +78,11 @@ public class OdaDataSourceAdapter extends OdaDataSourceDesign
 				if ( bindingScope != null && bindingExpr != null
 						&& bindingExpr.length( ) > 0 )
 				{
-					propValue = JavascriptEvalUtil.evaluateScript( null, bindingScope, 
-							bindingExpr, "property binding", 0 ).toString();
+					propValue = JavascriptEvalUtil.evaluateScript( null,
+							bindingScope,
+							bindingExpr,
+							ScriptExpression.defaultID,
+							0 ).toString( );
 				} else
 				{
 					propValue = ( String ) staticProps.get( propName );

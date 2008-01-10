@@ -346,8 +346,11 @@ public class ModelDteApiAdapter
 	 */
 	String evaluatePropertyBindingExpr( String expr ) throws BirtException
 	{
-		Object result = JavascriptEvalUtil.evaluateScript( null, jsScope, expr,
-				"property binding", 0 );
+		Object result = JavascriptEvalUtil.evaluateScript( null,
+				jsScope,
+				expr,
+				org.eclipse.birt.core.script.ScriptExpression.defaultID,
+				0 );
 		return result == null ? null : result.toString( );
 	}
 

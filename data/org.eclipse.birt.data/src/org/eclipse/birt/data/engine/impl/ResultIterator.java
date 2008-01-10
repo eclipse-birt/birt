@@ -962,7 +962,7 @@ public class ResultIterator implements IResultIterator
 				fieldValue = ScriptEvalUtil.evalExpr( new ScriptExpression( columnExprs[i] ),
 						cx,
 						ResultIterator.this.scope,
-						"Filter",
+						org.eclipse.birt.core.script.ScriptExpression.defaultID,
 						0 );
 			}
 			finally

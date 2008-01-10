@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.olap.util.filter;
 import java.util.Set;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
@@ -96,7 +97,7 @@ public class TopBottomDimensionFilterEvalHelper
 		Object o =  ScriptEvalUtil.evalExpr( ( (IConditionalExpression) expr ).getOperand1( ),
 					cx,
 					scope,
-					null,
+					ScriptExpression.defaultID,
 					0 );
 		this.N = Double.valueOf( o.toString( ) ).doubleValue( );
 	}
@@ -147,7 +148,7 @@ public class TopBottomDimensionFilterEvalHelper
 			Object result = ScriptEvalUtil.evalExpr( ( (IConditionalExpression) expr ).getExpression( ),
 					cx,
 					scope,
-					null,
+					ScriptExpression.defaultID,
 					0 );
 			return result;
 		}

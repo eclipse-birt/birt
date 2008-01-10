@@ -617,7 +617,7 @@ public class ExecutionContext
 			return ScriptEvalUtil.evalExpr( expr,
 					scriptContext.getContext( ),
 					scriptContext.getScope( ),
-					null,
+					ScriptExpression.defaultID,
 					0 );
 		}
 		catch ( Exception e )

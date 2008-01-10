@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl.jointdataset;
 
+import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
@@ -51,7 +52,7 @@ public class JoinConditionMatchUnit
 			Object leftValue = ScriptEvalUtil.evalExpr( this.expr,
 					cx,
 					this.scope,
-					"JOINDATASET",
+					ScriptExpression.defaultID,
 					0 );
 				
 			return leftValue;
