@@ -1017,39 +1017,41 @@ public class BasePaletteFactory
 				{
 
 					Object newObj = getRequest( ).getNewObject( );
-					if ( newObj instanceof Object[]
-							&& ( (Object[]) newObj ).length > 0 )
+					if ( newObj instanceof Object[] )
 					{
-						newObj = ( (Object[]) newObj )[0];
-					}
-					DesignElementHandle elementHandle = (DesignElementHandle) newObj;
-					if ( elementHandle.getRoot( ) instanceof LibraryHandle )
-					{
-						ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
-								.getReportDesignHandle( );
-						LibraryHandle library = (LibraryHandle) elementHandle.getRoot( );
-						if ( moduleHandle != library )
+						Object[] newObjs = (Object[]) newObj;
+						for ( int i = 0; i < newObjs.length; i++ )
 						{
-							try
+							DesignElementHandle elementHandle = (DesignElementHandle) newObjs[i];
+							if ( elementHandle.getRoot( ) instanceof LibraryHandle )
 							{
-								if ( UIUtil.includeLibrary( moduleHandle,
-										library ) )
+								ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
+										.getReportDesignHandle( );
+								LibraryHandle library = (LibraryHandle) elementHandle.getRoot( );
+								if ( moduleHandle != library )
 								{
-									elementHandle = moduleHandle.getElementFactory( )
-											.newElementFrom( elementHandle,
-													elementHandle.getName( ) );
-									moduleHandle.addElement( elementHandle,
-											ModuleHandle.PARAMETER_SLOT );
+									try
+									{
+										if ( UIUtil.includeLibrary( moduleHandle,
+												library ) )
+										{
+											elementHandle = moduleHandle.getElementFactory( )
+													.newElementFrom( elementHandle,
+															elementHandle.getName( ) );
+											moduleHandle.addElement( elementHandle,
+													ModuleHandle.PARAMETER_SLOT );
+										}
+									}
+									catch ( Exception e )
+									{
+										ExceptionHandler.handle( e );
+									}
 								}
-							}
-							catch ( Exception e )
-							{
-								ExceptionHandler.handle( e );
 							}
 						}
 					}
 
-					Object newHandle = InsertInLayoutUtil.performInsert( elementHandle,
+					Object newHandle = InsertInLayoutUtil.performInsert( newObj,
 							getTargetEditPart( ) );
 					if ( newHandle == null )
 						return false;
