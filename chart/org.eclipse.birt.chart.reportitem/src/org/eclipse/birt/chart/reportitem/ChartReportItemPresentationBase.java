@@ -53,8 +53,10 @@ import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.extension.ReportItemPresentationBase;
 import org.eclipse.birt.report.engine.extension.Size;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
@@ -314,21 +316,24 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	{
 		try
 		{
-			ObjectInputStream ois = new ObjectInputStream( is ){
-				//Fix compatibility bug: the class ChartScriptContext is moved from package
-				//"org.eclipse.birt.chart.internal.script" to package
-				//"org.eclipse.birt.chart.script", which causes the stored instances of
-				//ChartScriptContext can't be de-serialized. 
+			ObjectInputStream ois = new ObjectInputStream( is ) {
+
+				// Fix compatibility bug: the class ChartScriptContext is moved
+				// from package
+				// "org.eclipse.birt.chart.internal.script" to package
+				// "org.eclipse.birt.chart.script", which causes the stored
+				// instances of
+				// ChartScriptContext can't be de-serialized.
 				protected Class resolveClass( ObjectStreamClass desc )
 						throws IOException, ClassNotFoundException
 				{
-					if ( "org.eclipse.birt.chart.internal.script.ChartScriptContext"
-							.equals( desc.getName( ) ) )
+					if ( "org.eclipse.birt.chart.internal.script.ChartScriptContext".equals( desc.getName( ) ) )
 					{
 						return ChartScriptContext.class;
 					}
 					return super.resolveClass( desc );
-				}};
+				}
+			};
 			Object o = ois.readObject( );
 
 			if ( o instanceof RunTimeContext )
@@ -503,9 +508,11 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 			throws BirtException
 	{
 		Object min = baseResultSet.evaluate( "row._outer[\"" //$NON-NLS-1$
-				+ ChartReportItemUtil.QUERY_MIN + "\"]" ); //$NON-NLS-1$
+				+ ChartReportItemUtil.QUERY_MIN
+				+ "\"]" ); //$NON-NLS-1$
 		Object max = baseResultSet.evaluate( "row._outer[\"" //$NON-NLS-1$
-				+ ChartReportItemUtil.QUERY_MAX + "\"]" ); //$NON-NLS-1$
+				+ ChartReportItemUtil.QUERY_MAX
+				+ "\"]" ); //$NON-NLS-1$
 		return ScaleContext.createSimpleScale( min, max );
 	}
 
@@ -699,9 +706,11 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 			sh.setRunTimeModel( cm );
 
 			if ( sScriptContent != null
-					&& sScriptContent.length( ) > 0 && rtc.isScriptingEnabled( ) )
+					&& sScriptContent.length( ) > 0
+					&& rtc.isScriptingEnabled( ) )
 			{
-				sh.register( sScriptContent );
+				sh.register( ModuleUtil.getScriptUID( handle.getPropertyHandle( IReportItemModel.ON_RENDER_METHOD ) ),
+						sScriptContent );
 			}
 		}
 	}

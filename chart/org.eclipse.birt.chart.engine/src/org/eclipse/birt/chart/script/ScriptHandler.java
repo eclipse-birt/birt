@@ -74,8 +74,6 @@ public final class ScriptHandler extends ScriptableObject
 		}
 	}
 
-
-			
 	/**
 	 * @deprecated This is kept for backward compatibility only.
 	 */
@@ -153,9 +151,9 @@ public final class ScriptHandler extends ScriptableObject
 	 * @deprecated This is kept for backward compatibility only.
 	 */
 	public static final String AFTER_DRAW_LEGEND_ENTRY = "afterDrawLegendEntry"; //$NON-NLS-1$
-	
+
 	public static final String BEFORE_DRAW_LEGEND_ITEM = "beforeDrawLegendItem"; //$NON-NLS-1$
-	
+
 	public static final String AFTER_DRAW_LEGEND_ITEM = "afterDrawLegendItem"; //$NON-NLS-1$
 
 	public static final String BEFORE_DRAW_SERIES = "beforeDrawSeries"; //$NON-NLS-1$
@@ -697,13 +695,13 @@ public final class ScriptHandler extends ScriptableObject
 		else if ( ScriptHandler.BEFORE_DRAW_LEGEND_ITEM.equals( name ) )
 		{
 			javahandler.beforeDrawLegendItem( (LegendEntryRenderingHints) tmpArgs[0],
-					(Bounds)tmpArgs[1],
+					(Bounds) tmpArgs[1],
 					(IChartScriptContext) tmpArgs[2] );
 		}
 		else if ( ScriptHandler.AFTER_DRAW_LEGEND_ITEM.equals( name ) )
 		{
 			javahandler.afterDrawLegendItem( (LegendEntryRenderingHints) tmpArgs[0],
-					(Bounds)tmpArgs[1],
+					(Bounds) tmpArgs[1],
 					(IChartScriptContext) tmpArgs[2] );
 		}
 		else if ( ScriptHandler.BEFORE_DRAW_SERIES.equals( name ) )
@@ -988,7 +986,8 @@ public final class ScriptHandler extends ScriptableObject
 	 *            name which has implemented
 	 *            <code>IChartItemScriptHandler</code>
 	 */
-	public final void register( String sScriptContent ) throws ChartException
+	public final void register( String sScriptName, String sScriptContent )
+			throws ChartException
 	{
 		try
 		{
@@ -1058,7 +1057,9 @@ public final class ScriptHandler extends ScriptableObject
 			final Context cx = Context.enter( );
 			try
 			{
-				cx.evaluateString( scope, sScriptContent, "<cmd>", 1, null ); //$NON-NLS-1$
+				cx.evaluateString( scope,
+						sScriptContent,
+						sScriptName == null ? "<cmd>" : sScriptName, 1, null ); //$NON-NLS-1$
 
 				logger.log( ILogger.INFORMATION,
 						Messages.getString( "Info.javascript.content.registered" ) ); //$NON-NLS-1$

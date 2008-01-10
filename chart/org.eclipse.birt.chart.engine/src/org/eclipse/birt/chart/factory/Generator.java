@@ -910,7 +910,7 @@ public final class Generator implements IGenerator
 					&& sScriptContent.length( ) > 0
 					&& rtc.isScriptingEnabled( ) )
 			{
-				sh.register( sScriptContent );
+				sh.register( null, sScriptContent );
 			}
 
 		}
