@@ -1,5 +1,5 @@
 birt.web.category.name=Business Intelligence & Reporting Tools
-birt.web.project.name=BIRT-Diagramm-Webprojekt
+birt.web.project.name=Charting Web Project
 birt.web.project.description=Ein Webprojekt mit der BIRT-Diagrammkomponente erstellen
 birt.web.actionsets.description=Aktionen für BIRT-Diagramm-Webprojekt
 create.birt.web.module=BIRT-Diagramm-Webmodul erstellen

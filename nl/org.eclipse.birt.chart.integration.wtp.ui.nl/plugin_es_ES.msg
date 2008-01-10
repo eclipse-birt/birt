@@ -1,5 +1,5 @@
 birt.web.category.name=Herramientas de generación de informe para la actividad empresarial
-birt.web.project.name=Proyecto Web de diagramas BIRT
+birt.web.project.name=Charting Web Project
 birt.web.project.description=Crear un proyecto Web que contenga un componente de diagramas BIRT
 birt.web.actionsets.description=Acciones para proyecto Web de diagramas BIRT
 create.birt.web.module=Crear un módulo Web de diagramas BIRT

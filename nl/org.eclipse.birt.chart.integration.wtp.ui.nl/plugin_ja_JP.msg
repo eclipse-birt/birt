@@ -1,5 +1,5 @@
 birt.web.category.name=ビジネスインテリジェンスとレポート作成ツール
-birt.web.project.name=BIRT グラフ作成 Web プロジェクト
+birt.web.project.name=Charting Web Project
 birt.web.project.description=BIRT グラフコンポーネントを含む Web プロジェクトを作成します。
 birt.web.actionsets.description=BIRT グラフ作成 Web プロジェクトでの操作
 create.birt.web.module=BIRT グラフ作成 Web モジュールの作成
