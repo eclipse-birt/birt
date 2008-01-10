@@ -26,21 +26,11 @@ public class AddImageResourceFileFolderSelectionDialog extends
 {
 
 	private static final String[] IMAGE_FILTER = new String[]{
-		"*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.ico;*.svg"
+		"*.gif;*.jpg;*.jpeg;*.png;*.ico;*.bmp"
 	};
 
 	private static final String[] IMAGE_TYPES = new String[]{
-			".bmp",
-			".jpg",
-			".jpeg",
-			".jpe",
-			".jfif",
-			".gif",
-			".png",
-			".tif",
-			".tiff",
-			".ico",
-			".svg"
+		".bmp", ".jpg", ".jpeg", ".gif", ".png", ".ico"
 	};
 
 	/**

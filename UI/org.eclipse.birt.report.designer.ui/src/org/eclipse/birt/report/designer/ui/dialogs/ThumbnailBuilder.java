@@ -82,11 +82,11 @@ public class ThumbnailBuilder extends BaseDialog
 	private boolean hasThumbnail;
 
 	private static final String IMAGE_FILTER[] = new String[]{
-		"*.gif;*.jpg;*.png;*.ico;*.bmp" //$NON-NLS-1$
+		"*.gif;*.jpg;*.jpeg;*.png;*.ico;*.bmp" //$NON-NLS-1$
 	};
 
 	private static final String[] IMAGE_TYPES = new String[]{
-			".bmp", ".jpg", ".gif", ".png", ".ico" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+			".bmp", ".jpg", ".jpeg", ".gif", ".png", ".ico" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
 	};
 
 	private ReportDesignHandle handle;
