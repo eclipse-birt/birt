@@ -21,7 +21,9 @@ import org.eclipse.birt.report.designer.internal.ui.processor.ElementProcessorFa
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.IRequestConstants;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.DeleteAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertAction;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.PasteAction;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
@@ -39,11 +41,13 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.gef.Request;
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 
 public class CrossTabCellNodeProvider extends DefaultNodeProvider
@@ -241,5 +245,8 @@ public class CrossTabCellNodeProvider extends DefaultNodeProvider
 	{
 		menu.add( new InsertAction( object ) );
 		menu.add( new CopyCrosstabCellContentsAction( object ) );
+		menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS ) );
+		menu.add( new DeleteAction( object ) );
+		menu.add( new PasteAction( object ) );
 	}
 }
