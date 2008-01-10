@@ -107,6 +107,16 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	protected boolean groupingUnitESet;
 
 	/**
+	 * @since BIRT 2.3
+	 */
+	protected static final int DEFAULT_GROUPING_INTERVAL = 1;
+	
+	/**
+	 * @since BIRT 2.3
+	 */
+	protected static final String DEFAULT_AGGREGATE_EXPRESSION = "Sum"; //$NON-NLS-1$
+	
+	/**
 	 * The cached value of the '{@link #getGroupingOrigin() <em>Grouping Origin</em>}' containment reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getGroupingOrigin()
@@ -738,8 +748,8 @@ public class SeriesGroupingImpl extends EObjectImpl implements SeriesGrouping
 	public static final SeriesGrouping create( )
 	{
 		final SeriesGrouping sg = DataFactory.eINSTANCE.createSeriesGrouping( );
-		sg.setAggregateExpression( "Sum" ); //$NON-NLS-1$
-		sg.setGroupingInterval( 2 );
+		sg.setAggregateExpression( DEFAULT_AGGREGATE_EXPRESSION );
+		sg.setGroupingInterval( DEFAULT_GROUPING_INTERVAL );
 		sg.setEnabled( false );
 		sg.setGroupType( DataType.TEXT_LITERAL );
 		return sg;
