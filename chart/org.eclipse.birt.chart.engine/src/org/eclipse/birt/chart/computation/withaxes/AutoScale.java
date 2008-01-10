@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.computation.withaxes;
 
 import java.util.Arrays;
+import java.util.Locale;
 
 import org.eclipse.birt.chart.computation.BoundingBox;
 import org.eclipse.birt.chart.computation.DataSetIterator;
@@ -44,6 +45,7 @@ import org.eclipse.birt.chart.util.ChartUtil;
 
 import com.ibm.icu.text.DecimalFormat;
 import com.ibm.icu.text.DecimalFormatSymbols;
+import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.ULocale;
 
@@ -107,7 +109,17 @@ public final class AutoScale extends Methods implements Cloneable
 	/** Indicates the max boundary of axis ticks. */
 	private static final int TICKS_MAX = 100;
 
-	private static final DecimalFormat dfDoulbeNormalized = new DecimalFormat( ".###############E0" ); //$NON-NLS-1$
+	private static final NumberFormat dfDoulbeNormalized = NumberFormat.getInstance( Locale.ENGLISH );;
+	
+	static {
+		try
+		{
+			((DecimalFormat)dfDoulbeNormalized).applyPattern( ".###############E0" ); //$NON-NLS-1$
+		}
+		catch ( ClassCastException e )
+		{
+		}
+	}
 
 	/**
 	 * A default numeric pattern for integer number representation of axis
