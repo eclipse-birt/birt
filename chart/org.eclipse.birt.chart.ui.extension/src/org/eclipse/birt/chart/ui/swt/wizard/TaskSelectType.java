@@ -679,13 +679,23 @@ public class TaskSelectType extends SimpleTask
 			{
 				sOldType = sType;
 				// Get the cached orientation
-				this.orientation = ChartCacheManager.getInstance( )
-						.findOrientation( sType );
-
 				if ( chartModel != null
-						&& chartModel instanceof ChartWithAxes
-						&& ChartCacheManager.getInstance( )
-								.findCategory( sType ) != null )
+						&& chartModel instanceof ChartWithAxes)
+				{
+					Orientation lastOrientation = ChartCacheManager.getInstance( )
+							.findOrientation( sType );
+
+					if ( lastOrientation != null &&
+							this.orientation != lastOrientation )
+					{
+						this.orientation = lastOrientation;
+						this.rotateAxisTitle( (ChartWithAxes) chartModel );
+					}
+				}
+
+				if ( chartModel != null &&
+						chartModel instanceof ChartWithAxes &&
+						ChartCacheManager.getInstance( ).findCategory( sType ) != null )
 				{
 					boolean bCategory = ChartCacheManager.getInstance( )
 							.findCategory( sType )
@@ -801,13 +811,6 @@ public class TaskSelectType extends SimpleTask
 			{
 				// Ensure populate list after chart model generated
 				populateSeriesTypesList( );
-
-				// Auto rotates Axis title when changing chart type that may
-				// cause transposition
-				if ( chartModel instanceof ChartWithAxes )
-				{
-					rotateAxisTitle( (ChartWithAxes) chartModel );
-				}
 			}
 			else if ( oSelected.equals( cbOrientation ) )
 			{
