@@ -97,14 +97,14 @@ public abstract class AbstractChartBaseQueryGenerator
 	 * 
 	 * @param query
 	 * @param seriesDefinitions
-	 * @param baseGroupDef
+	 * @param innerGroupDef
 	 * @param valueExprMap
 	 * @param baseSD
 	 * @throws DataException
 	 */
 	protected void addValueSeriesAggregateBindingForGrouping(
 			BaseQueryDefinition query, EList seriesDefinitions,
-			GroupDefinition baseGroupDef, Map valueExprMap,
+			GroupDefinition innerGroupDef, Map valueExprMap,
 			SeriesDefinition baseSD ) throws DataException
 	{
 		for ( Iterator iter = seriesDefinitions.iterator( ); iter.hasNext( ); )
@@ -127,9 +127,9 @@ public abstract class AbstractChartBaseQueryGenerator
 
 					colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
 					colBinding.setExpression( new ScriptExpression( expr ) );
-					if ( baseGroupDef != null )
+					if ( innerGroupDef != null )
 					{
-						colBinding.addAggregateOn( baseGroupDef.getName( ) );
+						colBinding.addAggregateOn( innerGroupDef.getName( ) );
 					}
 
 					// Set aggregate parameters.
@@ -292,7 +292,7 @@ public abstract class AbstractChartBaseQueryGenerator
 			{
 				addValueSeriesAggregateBindingForGrouping( query,
 						( (Axis) orthAxisArray[i] ).getSeriesDefinitions( ),
-						baseGroupDefinition,
+						innerGroupDef,
 						valueExprMap,
 						baseSD );
 			}
@@ -301,7 +301,7 @@ public abstract class AbstractChartBaseQueryGenerator
 		{
 			addValueSeriesAggregateBindingForGrouping( query,
 					baseSD.getSeriesDefinitions( ),
-					baseGroupDefinition,
+					innerGroupDef,
 					valueExprMap,
 					baseSD );
 		}
@@ -372,7 +372,7 @@ public abstract class AbstractChartBaseQueryGenerator
 			String yGroupExpr = orthSD.getQuery( ).getDefinition( );
 
 			if ( orthSD.getGrouping( ) != null &&
-					orthSD.getGrouping( ).isEnabled( ) )
+					orthSD.getGrouping( ).isSetGroupType( ) )
 			{
 				dataType = orthSD.getGrouping( ).getGroupType( );
 				groupUnit = orthSD.getGrouping( ).getGroupingUnit( );
@@ -463,10 +463,8 @@ public abstract class AbstractChartBaseQueryGenerator
 				baseSD.getGrouping( ).isEnabled( ) )
 		{
 			strBaseAggExp = baseSD.getGrouping( ).getAggregateExpression( );
-			return getAggFuncExpr( orthSD, strBaseAggExp );
 		}
-		
-		return orthSD.getGrouping( ).getAggregateExpression( );
+		return getAggFuncExpr( orthSD, strBaseAggExp );
 	}
 
 	protected Object[] getAggFunParameters( SeriesDefinition orthSD,
@@ -612,16 +610,16 @@ public abstract class AbstractChartBaseQueryGenerator
 		String strOrthoAgg = null;
 		SeriesGrouping grouping = orthoSD.getGrouping( );
 		// Only if base series has enabled grouping
-		if ( strBaseAggExp != null )
+		if ( grouping.isSetEnabled( ) && grouping.isEnabled( ) )
 		{
 			// Set own group
 			strOrthoAgg = grouping.getAggregateExpression( );
+		}
 
-			// Set base group
-			if ( strOrthoAgg == null || "".equals( strOrthoAgg ) ) //$NON-NLS-1$
-			{
-				strOrthoAgg = strBaseAggExp;
-			}
+		// Set base group
+		if ( strOrthoAgg == null || "".equals( strOrthoAgg ) ) //$NON-NLS-1$
+		{
+			strOrthoAgg = strBaseAggExp;
 		}
 		return strOrthoAgg;
 	}

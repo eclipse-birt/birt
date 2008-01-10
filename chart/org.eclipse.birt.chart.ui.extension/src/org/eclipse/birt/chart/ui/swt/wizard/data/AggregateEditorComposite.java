@@ -18,10 +18,6 @@ import java.util.Map;
 
 import org.eclipse.birt.chart.aggregate.IAggregateFunction;
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.model.Chart;
-import org.eclipse.birt.chart.model.ChartWithAxes;
-import org.eclipse.birt.chart.model.ChartWithoutAxes;
-import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -71,7 +67,7 @@ public class AggregateEditorComposite extends Composite implements
 	
 	private Button fBtnAggImage;
 	
-//	private Button fBtnDropDown;
+	private Button fBtnDropDown;
 	
 	private AggregateDropDownEditorComposite fAggregateEditor;
 	
@@ -109,7 +105,7 @@ public class AggregateEditorComposite extends Composite implements
 	{
 		super.setEnabled( enabled );
 		fBtnAggImage.setEnabled( enabled );
-//		fBtnDropDown.setEnabled( enabled );
+		fBtnDropDown.setEnabled( enabled );
 	}
 	
 	private void placeComponents( )
@@ -121,7 +117,7 @@ public class AggregateEditorComposite extends Composite implements
 		layout.marginHeight = 0;
 		setLayout( layout );
 
-		fBtnAggImage = new Button( this, SWT.TOGGLE | SWT.DOWN );
+		fBtnAggImage = new Button( this, SWT.NONE );
 		{
 			GridData gd = new GridData( GridData.FILL );
 			gd.heightHint = 20;
@@ -131,14 +127,14 @@ public class AggregateEditorComposite extends Composite implements
 			fBtnAggImage.setImage( UIHelper.getImage( ChartUIConstants.IMAGE_SIGMA ) );
 		}
 
-//		fBtnDropDown = new Button( this, SWT.TOGGLE | SWT.ARROW | SWT.DOWN );
-//		{
-//			GridData gd = new GridData( );
-//			gd.heightHint = 20;
-//			gd.widthHint = 16;
-//			fBtnDropDown.setLayoutData( gd );
-//			fBtnDropDown.addMouseListener( this );
-//		}
+		fBtnDropDown = new Button( this, SWT.TOGGLE | SWT.ARROW | SWT.DOWN );
+		{
+			GridData gd = new GridData( );
+			gd.heightHint = 20;
+			gd.widthHint = 16;
+			fBtnDropDown.setLayoutData( gd );
+			fBtnDropDown.addMouseListener( this );
+		}
 	}
 
 	private void toggleDropDown( )
@@ -186,8 +182,7 @@ public class AggregateEditorComposite extends Composite implements
 
 	private boolean isSetAggregate( )
 	{
-		String agg = fGrouping.getAggregateExpression( );
-		return ( agg != null && !"".equals( agg ) ); //$NON-NLS-1$
+		return ( fGrouping.isEnabled( ) && fGrouping.isSetEnabled( ) );
 	}
 
 	/**
@@ -236,11 +231,12 @@ public class AggregateEditorComposite extends Composite implements
 			fBtnAggEnabled = new Button( this, SWT.CHECK );
 			{
 				fBtnAggEnabled.setText( Messages.getString("AggregateEditorComposite.Aggregate.Enabled") ); //$NON-NLS-1$
-				fBtnAggEnabled.setSelection( isSetAggregate( ) );
 				fBtnAggEnabled.addSelectionListener( this );
 				fBtnAggEnabled.addListener( SWT.FocusOut, this );
 				fBtnAggEnabled.addListener( SWT.Traverse, this );
 				fBtnAggEnabled.setFocus( );
+				
+				fBtnAggEnabled.setSelection( isSetAggregate( ) );
 			}
 
 			fCmpAggregate = new Composite( this, SWT.NONE );
@@ -332,6 +328,7 @@ public class AggregateEditorComposite extends Composite implements
 			// to close it manually. Otherwise, close it silently when clicking
 			// other areas.
 			if ( currentControl != fBtnAggImage
+					&& currentControl != fBtnDropDown
 					&& !isChildrenOfThis( currentControl ) )
 			{
 				closeAggregateEditor( getShell( ) );
@@ -618,20 +615,9 @@ public class AggregateEditorComposite extends Composite implements
 			Object source = e.getSource( );
 			if ( source == fBtnAggEnabled )
 			{
-				
+				fGrouping.setEnabled( fBtnAggEnabled.getSelection( ) );
 				populateAggFuncNames( );
-				
-				if ( !fBtnAggEnabled.getSelection( ) )
-				{
-					fGrouping.setAggregateExpression( null );
-				}
-				else
-				{
-					fGrouping.setAggregateExpression( ( (String[]) fCmbAggregate.getData( ) )[fCmbAggregate.getSelectionIndex( )]) ;
-				}
-				
 				setAggregatesState( );
-				
 			}
 			else if ( source == fCmbAggregate )
 			{

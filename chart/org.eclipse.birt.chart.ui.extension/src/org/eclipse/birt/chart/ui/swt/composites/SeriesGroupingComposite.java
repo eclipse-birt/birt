@@ -735,13 +735,20 @@ public class SeriesGroupingComposite extends Composite implements
 	}
 
 	/**
-	 * Enable grouping and make it read only.
-	 * @see 2.3
+	 * @since BIRT 2.3
 	 */
-	public void stillEnableGroupingSelection( )
+	public void enableGroupingSelection( boolean enabled )
 	{
-		btnEnabled.setSelection( true );
-		btnEnabled.setEnabled(  false );
+		btnEnabled.setEnabled(  enabled );
 	}
-
+	
+	/**
+	 * @param selected
+	 * @since BIRT 2.3
+	 */
+	public void setGroupingSelection( boolean selected )
+	{
+		btnEnabled.setSelection( selected );
+		populateLists( );
+	}
 }

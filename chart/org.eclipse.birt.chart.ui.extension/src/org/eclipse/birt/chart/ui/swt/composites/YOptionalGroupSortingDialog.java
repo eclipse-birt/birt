@@ -142,6 +142,23 @@ public class YOptionalGroupSortingDialog extends GroupSortingDialog
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.composites.GroupSortingDialog#createGroupArea(org.eclipse.swt.widgets.Composite)
+	 */
+	public void createGroupArea(Composite parent )
+	{
+		super.createGroupArea( parent );
+		fGroupingComposite.enableGroupingSelection( false );
+		if ( !isYGroupingEnabled() )
+		{
+			fGroupingComposite.setGroupingSelection( false );
+		}
+		else
+		{
+			fGroupingComposite.setGroupingSelection( true );
+		}
+	}
+	
 	/**
 	 * Get the Y Grouping expression.
 	 * 

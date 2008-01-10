@@ -76,6 +76,8 @@ public class GroupSortingDialog extends TrayDialog implements Listener, Selectio
 	/** The field indicates if Expression builder button is enabled. */
 	private boolean fHasExprBuilder = true;
 
+	protected SeriesGroupingComposite fGroupingComposite;
+
 	public GroupSortingDialog( Shell shell, ChartWizardContext wizardContext,
 			SeriesDefinition sd )
 	{
@@ -152,7 +154,7 @@ public class GroupSortingDialog extends TrayDialog implements Listener, Selectio
 		cmpGrouping.setLayoutData( gdCMPGrouping );
 		cmpGrouping.setLayout( new FillLayout( ) );
 
-		new SeriesGroupingComposite( cmpGrouping,
+		fGroupingComposite = new SeriesGroupingComposite( cmpGrouping,
 				SWT.NONE,
 				getSeriesDefinitionForProcessing( ),
 				wizardContext.getModel( ) instanceof ChartWithoutAxes,

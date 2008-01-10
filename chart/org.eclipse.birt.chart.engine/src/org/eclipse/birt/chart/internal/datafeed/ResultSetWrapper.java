@@ -1681,7 +1681,7 @@ public final class ResultSetWrapper
 		// For previous chart version(before2.3M3), the seriesGrouping argument
 		// may be null, so here needs to check null case.
 		boolean groupingEnabled = false;
-		if ( seriesGrouping != null && seriesGrouping.isEnabled( ) )
+		if ( seriesGrouping != null && seriesGrouping.isSetGroupType( ) )
 		{
 			groupingEnabled = true;
 		}

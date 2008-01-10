@@ -128,6 +128,10 @@ public class YOptionalDataDefinitionComponent extends BaseDataDefinitionComponen
 					.eAdapters( )
 					.addAll( seriesdefinition.eAdapters( ) );
 			
+			// Disabled grouping flag for Y grouping case, it don't use this flag.
+			sdBackup.getGrouping( ).eUnset( DataPackage.eINSTANCE.getSeriesGrouping_Enabled( ) );
+			sdBackup.getGrouping( ).setEnabled( false );
+			
 			seriesdefinition.setGrouping( sdBackup.getGrouping( ) );
 			seriesdefinition.getGrouping( )
 					.eAdapters( )
