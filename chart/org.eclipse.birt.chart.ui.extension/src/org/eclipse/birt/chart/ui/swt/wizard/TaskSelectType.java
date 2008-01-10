@@ -1386,43 +1386,21 @@ public class TaskSelectType extends SimpleTask
 
 			if ( sSeries.equals( series.getClass( ).getName( ) ) )
 			{
-				boolean bException = false;
-				try
-				{
-					provider.validateSeriesBindingType( series,
-							getDataServiceProvider( ) );
-				}
-				catch ( ChartException ce )
-				{
-					bException = true;
-					WizardBase.showException( Messages.getFormattedString( "TaskSelectData.Warning.TypeCheck",//$NON-NLS-1$
-							new String[]{
-									ce.getLocalizedMessage( ),
-									series.getDisplayName( )
-							} ) );
-				}
-
-				if ( !bException )
-				{
-					WizardBase.removeException( );
-				}
-
 				if ( chartModel instanceof ChartWithAxes )
 				{
 					DataType dataType = getDataServiceProvider( ).getDataType( expression );
-					SeriesDefinition sd = (SeriesDefinition) ( ChartUIUtil.getBaseSeriesDefinitions( chartModel ).get( 0 ) );
-					if ( sd != null )
+					SeriesDefinition baseSD = (SeriesDefinition) ( ChartUIUtil.getBaseSeriesDefinitions( chartModel ).get( 0 ) );
+					SeriesDefinition orthSD = null;
+					orthSD = (SeriesDefinition)series.eContainer( );
+					String aggFunc = ChartUtil.getAggregateFuncExpr( orthSD, baseSD );
+					
+					if ( baseSD != null )
 					{
 						// If aggregation is set to count/distinctcount on base
 						// series, don't change data type to numeric.
 						if ( !isBaseSeries
-								&& sd.getGrouping( ).isEnabled( )
-								&& ( sd.getGrouping( )
-										.getAggregateExpression( )
-										.equals( "Count" )//$NON-NLS-1$
-								|| sd.getGrouping( )
-										.getAggregateExpression( )
-										.equals( "DistinctCount" ) ) ) //$NON-NLS-1$
+								&& baseSD != orthSD
+								&& ChartUtil.isMagicAggregate( aggFunc ) )
 						{
 							dataType = DataType.NUMERIC_LITERAL;
 						}
@@ -1447,6 +1425,28 @@ public class TaskSelectType extends SimpleTask
 						}
 					}
 				}
+				
+				boolean bException = false;
+				try
+				{
+					provider.validateSeriesBindingType( series,
+							getDataServiceProvider( ) );
+				}
+				catch ( ChartException ce )
+				{
+					bException = true;
+					WizardBase.showException( Messages.getFormattedString( "TaskSelectData.Warning.TypeCheck",//$NON-NLS-1$
+							new String[]{
+									ce.getLocalizedMessage( ),
+									series.getDisplayName( )
+							} ) );
+				}
+
+				if ( !bException )
+				{
+					WizardBase.removeException( );
+				}
+				
 				break;
 			}
 		}

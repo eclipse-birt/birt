@@ -43,6 +43,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewUtil;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.SimpleTask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.common.notify.Notification;
@@ -431,6 +432,39 @@ public class TaskSelectData extends SimpleTask
 
 			if ( sSeries.equals( series.getClass( ).getName( ) ) )
 			{
+				if ( getChartModel( ) instanceof ChartWithAxes )
+				{
+					DataType dataType = getDataServiceProvider( ).getDataType( expression );
+					SeriesDefinition baseSD = (SeriesDefinition) ( ChartUIUtil.getBaseSeriesDefinitions( getChartModel( ) ).get( 0 ) );
+					SeriesDefinition orthSD = null;
+					orthSD = (SeriesDefinition)series.eContainer( );
+					String aggFunc = ChartUtil.getAggregateFuncExpr( orthSD, baseSD );
+					
+					if ( baseSD != orthSD
+							&& baseSD.eContainer( ) != axis // Is not without axis chart.
+							&& ChartUtil.isMagicAggregate( aggFunc ) )
+					{
+						// Only check aggregation is count in Y axis
+						dataType = DataType.NUMERIC_LITERAL;
+					}
+
+					if ( isValidatedAxis( dataType, axis.getType( ) ) )
+					{
+						break;
+					}
+
+					AxisType[] axisTypes = provider.getCompatibleAxisType( series );
+					for ( int i = 0; i < axisTypes.length; i++ )
+					{
+						if ( isValidatedAxis( dataType, axisTypes[i] ) )
+						{
+							axisNotification( axis, axisTypes[i] );
+							axis.setType( axisTypes[i] );
+							break;
+						}
+					}
+				}
+				
 				boolean bException = false;
 				try
 				{
@@ -458,39 +492,7 @@ public class TaskSelectData extends SimpleTask
 					WizardBase.removeException( );
 				}
 
-				if ( getChartModel( ) instanceof ChartWithAxes )
-				{
-					DataType dataType = getDataServiceProvider( ).getDataType( expression );
-					SeriesDefinition sd = (SeriesDefinition) ( ChartUIUtil.getBaseSeriesDefinitions( getChartModel( ) ).get( 0 ) );
-					if ( sd.eContainer( ) != axis
-							&& sd.getGrouping( ).isEnabled( )
-							&& ( sd.getGrouping( )
-									.getAggregateExpression( )
-									.equals( "Count" )//$NON-NLS-1$
-							|| sd.getGrouping( )
-									.getAggregateExpression( )
-									.equals( "DistinctCount" ) ) ) //$NON-NLS-1$
-					{
-						// Only check aggregation is count in Y axis
-						dataType = DataType.NUMERIC_LITERAL;
-					}
-
-					if ( isValidatedAxis( dataType, axis.getType( ) ) )
-					{
-						break;
-					}
-
-					AxisType[] axisTypes = provider.getCompatibleAxisType( series );
-					for ( int i = 0; i < axisTypes.length; i++ )
-					{
-						if ( isValidatedAxis( dataType, axisTypes[i] ) )
-						{
-							axisNotification( axis, axisTypes[i] );
-							axis.setType( axisTypes[i] );
-							break;
-						}
-					}
-				}
+				
 				break;
 			}
 		}

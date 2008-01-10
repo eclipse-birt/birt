@@ -31,6 +31,7 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
@@ -116,7 +117,7 @@ public abstract class AbstractChartBaseQueryGenerator
 					.get( 0 ) ).getDefinition( );
 			if ( expr != null && !"".equals( expr ) ) //$NON-NLS-1$
 			{
-				String aggName = getAggFunExpr( orthSD, baseSD );
+				String aggName = ChartUtil.getAggregateFuncExpr( orthSD, baseSD );
 				if ( aggName!= null && !"".equals( aggName ) ) //$NON-NLS-1$
 				{
 					// Get a unique name.
@@ -446,27 +447,6 @@ public abstract class AbstractChartBaseQueryGenerator
 		return null;
 	}
 
-	/**
-	 * Returns aggregation function expression.
-	 * 
-	 * @param orthSD
-	 * @param baseSD
-	 * @return
-	 */
-	protected String getAggFunExpr( SeriesDefinition orthSD,
-			SeriesDefinition baseSD )
-	{
-
-		String strBaseAggExp = null;
-		if ( baseSD.getGrouping( ) != null &&
-				baseSD.getGrouping( ).isSetEnabled( ) &&
-				baseSD.getGrouping( ).isEnabled( ) )
-		{
-			strBaseAggExp = baseSD.getGrouping( ).getAggregateExpression( );
-		}
-		return getAggFuncExpr( orthSD, strBaseAggExp );
-	}
-
 	protected Object[] getAggFunParameters( SeriesDefinition orthSD,
 			SeriesDefinition baseSD )
 	{
@@ -528,7 +508,7 @@ public abstract class AbstractChartBaseQueryGenerator
 								.get( 0 );
 						if ( sortKey.equals( q.getDefinition( ) ) )
 						{
-							aggFunction = getAggFuncExpr( sd, baseAggFunExpr );
+							aggFunction = ChartUtil.getAggregateFunctionExpr( sd, baseAggFunExpr );
 							break;
 						}
 					}
@@ -598,32 +578,6 @@ public abstract class AbstractChartBaseQueryGenerator
 		return sortExpr;
 	}
 
-	/**
-	 * Gets the aggregation function expression
-	 * 
-	 * @param orthoSD
-	 * @param strBaseAggExp
-	 */
-	public static String getAggFuncExpr( SeriesDefinition orthoSD,
-			String strBaseAggExp )
-	{
-		String strOrthoAgg = null;
-		SeriesGrouping grouping = orthoSD.getGrouping( );
-		// Only if base series has enabled grouping
-		if ( grouping.isSetEnabled( ) && grouping.isEnabled( ) )
-		{
-			// Set own group
-			strOrthoAgg = grouping.getAggregateExpression( );
-		}
-
-		// Set base group
-		if ( strOrthoAgg == null || "".equals( strOrthoAgg ) ) //$NON-NLS-1$
-		{
-			strOrthoAgg = strBaseAggExp;
-		}
-		return strOrthoAgg;
-	}
-	
 	/**
 	 * @param expression
 	 * @return

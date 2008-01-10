@@ -27,6 +27,7 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
@@ -215,7 +216,7 @@ class ChartCubeQueryHelper
 								.get( 0 );
 				String aggFun = i == 0 ? sd.getGrouping( )
 						.getAggregateExpression( )
-						: AbstractChartBaseQueryGenerator.getAggFuncExpr( sd,
+						: ChartUtil.getAggregateFunctionExpr( sd,
 								getBaseSeriesDefinition( cm ).getGrouping( )
 										.getAggregateExpression( ) );
 				String targetBindingName = getBindingName( targetQuery.getDefinition( ) );

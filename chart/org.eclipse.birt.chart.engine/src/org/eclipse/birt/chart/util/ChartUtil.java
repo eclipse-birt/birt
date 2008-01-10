@@ -32,6 +32,7 @@ import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Label;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
 
 import com.ibm.icu.util.Calendar;
@@ -656,5 +657,79 @@ public class ChartUtil
 		}
 
 		return null;
+	}
+	
+
+	/**
+	 * Gets the aggregation function expression
+	 * 
+	 * @param orthoSD
+	 * @param strBaseAggExp
+	 * @since BIRT 2.3
+	 */
+	public static String getAggregateFunctionExpr( SeriesDefinition orthoSD,
+			String strBaseAggExp )
+	{
+		String strOrthoAgg = null;
+		SeriesGrouping grouping = orthoSD.getGrouping( );
+		// Only if base series has enabled grouping
+		if ( grouping.isSetEnabled( ) && grouping.isEnabled( ) )
+		{
+			// Set own group
+			strOrthoAgg = grouping.getAggregateExpression( );
+		}
+
+		// Set base group
+		if ( strOrthoAgg == null || "".equals( strOrthoAgg ) ) //$NON-NLS-1$
+		{
+			strOrthoAgg = strBaseAggExp;
+		}
+		return strOrthoAgg;
+	}
+	
+
+	/**
+	 * Returns aggregation function expression.
+	 * 
+	 * @param orthSD
+	 * @param baseSD
+	 * @return
+	 * @since BIRT 2.3
+	 */
+	public static String getAggregateFuncExpr( SeriesDefinition orthSD,
+			SeriesDefinition baseSD )
+	{
+
+		String strBaseAggExp = null;
+		if ( baseSD.getGrouping( ) != null &&
+				baseSD.getGrouping( ).isSetEnabled( ) &&
+				baseSD.getGrouping( ).isEnabled( ) )
+		{
+			strBaseAggExp = baseSD.getGrouping( ).getAggregateExpression( );
+		}
+		return getAggregateFunctionExpr( orthSD, strBaseAggExp );
+	}
+	
+	/**
+	 * The method checks if specified aggregate function is a magic aggregate,
+	 * it means these aggregates operations will change data type.
+	 * <p>
+	 * Now the magic aggregates in chart include Count, DistinctCount, Top,
+	 * TopPercent, Bottom, BottomPercent, Rank and PercentRank.
+	 * 
+	 * @param aggFunc
+	 * @return
+	 * @since BIRT 2.3
+	 */
+	public static boolean isMagicAggregate(String aggFunc )
+	{
+		return "Count".equals( aggFunc ) //$NON-NLS-1$
+				|| "DistinctCount".equals( aggFunc )  //$NON-NLS-1$
+				|| "Top".equals( aggFunc ) //$NON-NLS-1$
+				|| "TopPercent".equals( aggFunc ) //$NON-NLS-1$
+				|| "Bottom".equals( aggFunc ) //$NON-NLS-1$
+				|| "BottomPercent".equals( aggFunc ) //$NON-NLS-1$
+				|| "Rank".equals( aggFunc ) //$NON-NLS-1$
+				|| "PercentRank".equals( aggFunc ); //$NON-NLS-1$
 	}
 }
