@@ -97,7 +97,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 	private OutlineSwitchAction outlineSwitchAction;
 
 	private ErrorDetail errorDetail;
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -200,7 +200,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 			Object element = iter.next( );
 			if ( element instanceof ErrorDetail )
 			{
-				errorDetail = (ErrorDetail)element;
+				errorDetail = (ErrorDetail) element;
 				return ( (ErrorDetail) element ).getLineNo( );
 			}
 		}
@@ -270,12 +270,15 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 
 		if ( errorLine > -1 )
 		{
-			if(errorDetail != null && errorDetail.getErrorCode( ).equals( ErrorDetail.DESIGN_EXCEPTION_UNSUPPORTED_VERSION ))
+			if ( errorDetail != null
+					&& errorDetail.getErrorCode( )
+							.equals( ErrorDetail.DESIGN_EXCEPTION_UNSUPPORTED_VERSION ) )
 			{
 				MessageDialog.openError( Display.getCurrent( ).getActiveShell( ),
 						Messages.getString( "XMLSourcePage.Error.Dialog.title" ), //$NON-NLS-1$
 						errorDetail.getMessage( ) ); //$NON-NLS-1$
-			}else
+			}
+			else
 			{
 				// Display.getCurrent( ).beep( );
 				MessageDialog.openError( Display.getCurrent( ).getActiveShell( ),
@@ -290,7 +293,9 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.editors.pages.ReportFormPage#setInput(org.eclipse.ui.IEditorInput)
 	 */
 	public void setInput( IEditorInput input )
@@ -412,7 +417,8 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 
 				public void stackChanged( ActivityStackEvent event )
 				{
-					if ( isActive( ) && event.getAction( ) != ActivityStackEvent.ROLL_BACK )
+					if ( isActive( )
+							&& event.getAction( ) != ActivityStackEvent.ROLL_BACK )
 					{
 						reloadEditorInput( );
 					}
@@ -473,10 +479,14 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		Page reportMultiBookPage = (Page) ( (MultiPageReportEditor) getEditor( ) ).getOutlinePage( );
 		if ( reportMultiBookPage.getSite( ) != null )
 		{
-			reportMultiBookPage.getSite( )
+			if ( reportMultiBookPage.getSite( )
 					.getActionBars( )
 					.getMenuManager( )
-					.add( getOutlineSwitchAction( ) );
+					.find( getOutlineSwitchAction( ).getId( ) ) == null )
+				reportMultiBookPage.getSite( )
+						.getActionBars( )
+						.getMenuManager( )
+						.add( getOutlineSwitchAction( ) );
 			registered = true;
 		}
 	}
@@ -638,7 +648,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 				registerOutlineSwitchAction( );
 				getOutlineSwitchAction( ).setText( SWITCH_REPORT_OUTLINE );
 				return outlinePage;
-			}			
+			}
 		}
 		else if ( ContentOutlinePage.class.equals( required ) )
 		{
