@@ -412,8 +412,20 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 
 	int invokeEditFilter( )
 	{
-		ExtendedItemFilterDialog page = new ExtendedItemFilterDialog( getItemHandle( ) );
-		return page.open( );
+		ExtendedItemHandle handle = getItemHandle( );
+		handle.getModuleHandle( ).getCommandStack( ).startTrans( null );
+		ExtendedItemFilterDialog page = new ExtendedItemFilterDialog( handle );
+		int openStatus = page.open( );
+		if ( openStatus == Window.OK )
+		{
+			handle.getModuleHandle( ).getCommandStack( ).commit( );
+		}
+		else
+		{
+			handle.getModuleHandle( ).getCommandStack( ).rollback( );
+		}
+
+		return openStatus;
 	}
 
 	int invokeEditParameter( )
@@ -431,21 +443,35 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 		// ChartUIUtil.bindHelp( shell,
 		// ChartHelpContextIds.DIALOG_DATA_SET_COLUMN_BINDING );
 		ColumnBindingDialog page = new ChartColumnBindingDialog( shell );
-		page.setInput( getItemHandle( ) );
-
+		
+		ExtendedItemHandle handle = getItemHandle();
+		handle.getModuleHandle( ).getCommandStack( ).startTrans( null );
+		page.setInput( handle );
+		
 		ExpressionProvider ep = new ExpressionProvider( getItemHandle( ) );
 		ep.addFilter( new ExpressionFilter( ) {
 
 			public boolean select( Object parentElement, Object element )
 			{
 				// Remove unsupported expression. See bugzilla#132768
-				return !( parentElement.equals( ExpressionProvider.BIRT_OBJECTS )
-						&& element instanceof IClassInfo && ( (IClassInfo) element ).getName( )
+				return !( parentElement.equals( ExpressionProvider.BIRT_OBJECTS ) &&
+						element instanceof IClassInfo && ( (IClassInfo) element ).getName( )
 						.equals( "Total" ) ); //$NON-NLS-1$
 			}
 		} );
 		page.setExpressionProvider( ep );
-		return page.open( );
+
+		int openStatus = page.open( );
+		if ( openStatus == Window.OK )
+		{
+			handle.getModuleHandle( ).getCommandStack( ).commit( );
+		}
+		else
+		{
+			handle.getModuleHandle( ).getCommandStack( ).rollback( );
+		}
+
+		return openStatus;
 	}
 
 	private void initDataSelector( )
