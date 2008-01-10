@@ -265,13 +265,31 @@ public class DateFormatter
 						// We will need to create our own SimpleDateFormat based
 						// on what the
 						// DateTime factory gives us
+					case 'a' :
+					case 'A' :
 					case 'i' :
 					case 'I' :
-						int timeForm = ( patternTemp == 'i' )
+						int timeForm = ( patternTemp == 'i' || patternTemp == 'a' )
 								? com.ibm.icu.text.DateFormat.MEDIUM
 								: com.ibm.icu.text.DateFormat.LONG;
 						timeFormat = com.ibm.icu.text.DateFormat
 								.getTimeInstance( timeForm, locale );
+						if ( patternTemp == 'a' || patternTemp == 'A' )
+						{
+							if ( timeFormat instanceof com.ibm.icu.text.SimpleDateFormat )
+							{
+								com.ibm.icu.text.SimpleDateFormat temp = (com.ibm.icu.text.SimpleDateFormat) timeFormat;
+								String oldPattern = temp.toPattern( );
+								String newPattern = null;
+								
+								int ssIndex = oldPattern.indexOf( "ss" );
+								newPattern = oldPattern.substring( 0, ssIndex + 2 );
+								newPattern += ".SSS";
+								newPattern += oldPattern.substring( ssIndex + 2 );
+								
+								temp.applyPattern( newPattern );
+							}
+						}
 
 						com.ibm.icu.text.DateFormat factoryFormat = com.ibm.icu.text.DateFormat
 								.getDateInstance(
