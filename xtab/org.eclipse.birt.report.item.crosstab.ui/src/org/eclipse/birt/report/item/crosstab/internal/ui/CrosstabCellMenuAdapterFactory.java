@@ -23,9 +23,11 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertAggregationAction;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddLevelHandleAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddMesureViewHandleAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddSubTotalAction;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.CopyCrosstabCellContentsAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.DeleteDimensionViewHandleAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.DeleteMeasureHandleAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
@@ -110,6 +112,7 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 		{
 			final String position = ( (CrosstabCellAdapter) adaptableObject ).getPositionType( );
 			final CrosstabCellAdapter firstSelectedElement = (CrosstabCellAdapter) adaptableObject;
+			
 			return new ISchematicMenuListener( ) {
 
 				private ActionRegistry actionRegistry;
@@ -213,7 +216,9 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 					action = getAction( InsertAggregationAction.ID );
 					action.setText( InsertAggregationAction.TEXT );
 					subMenu.add( action );
-
+					
+					manager.add( new CopyCrosstabCellContentsAction(firstSelectedElement.getCrosstabCellHandle( )) );
+					
 					manager.add( subMenu );
 				}
 

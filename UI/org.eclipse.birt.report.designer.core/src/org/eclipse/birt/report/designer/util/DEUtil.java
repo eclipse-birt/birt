@@ -58,6 +58,7 @@ import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -209,6 +210,24 @@ public class DEUtil
 		return getElementSupportList( parent, slotID );
 	}
 
+	/**
+	 * Gets the support list of the given property handle.
+	 * 
+	 * @param propertyHandle
+	 * @return
+	 */
+	public static List getElementSupportList( PropertyHandle propertyHandle )
+	{
+		List list = new ArrayList( );
+		IPropertyDefn propertyDefn = propertyHandle.getPropertyDefn( );
+		if ( propertyDefn != null )
+		{
+			list.addAll( propertyDefn.getAllowedElements( true ) );
+			list.removeAll( notSupportList );
+		}
+		return list;
+	}
+	
 	/**
 	 * Find the position of the element. If the element is null, the position is
 	 * last
