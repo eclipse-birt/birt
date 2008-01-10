@@ -1768,7 +1768,7 @@ Class.BirtComp.match.toolTip=x は JavaScript のパターン y と一致
 Class.BirtComp.match.x=x
 Class.BirtComp.match.y=y
 Class.BirtComp.anyOf=anyOf
-Class.BirtComp.anyOf.toolTip=値が特定の範囲に含まれる
+Class.BirtComp.anyOf.toolTip=whether the first argument is in the range of following arguments
 Class.BirtComp.anyOf.val=value
 
 

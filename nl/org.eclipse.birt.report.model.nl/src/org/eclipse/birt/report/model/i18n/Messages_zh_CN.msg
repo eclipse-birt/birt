@@ -1768,7 +1768,7 @@ Class.BirtComp.match.toolTip=x 与 Javascript 模式 y 匹配
 Class.BirtComp.match.x=x
 Class.BirtComp.match.y=y
 Class.BirtComp.anyOf=anyOf
-Class.BirtComp.anyOf.toolTip=该值在值范围内
+Class.BirtComp.anyOf.toolTip=whether the first argument is in the range of following arguments
 Class.BirtComp.anyOf.val=value
 
 
