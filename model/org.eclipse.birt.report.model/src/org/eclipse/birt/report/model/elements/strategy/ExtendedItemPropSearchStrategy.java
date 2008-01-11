@@ -154,49 +154,6 @@ public class ExtendedItemPropSearchStrategy
 		return null;
 	}
 
-	/**
-	 * Gets a property value given its definition. This version does the
-	 * property search with style reference, extends reference and containment.
-	 * The default value style property defined in session is also searched, but
-	 * the default value defined in ROM will not be returned.
-	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the element to start search
-	 * @param prop
-	 *            definition of the property to get
-	 * @return The property value, or null if no value is set.
-	 */
-
-	public Object getPropertyExceptRomDefault( Module module,
-			DesignElement element, ElementPropertyDefn prop )
-	{
-		assert element instanceof ExtendedItem;
-		ExtendedItem extendedItem = (ExtendedItem) element;
-
-		// find useOwnModel property.
-
-		ElementPropertyDefn propDefn = extendedItem.getPropertyDefn( prop
-				.getName( ) );;
-		if ( propDefn != null )
-		{
-			boolean useOwnModel = propDefn.useOverriddenModel( );
-			if ( useOwnModel )
-			{
-				IReportItem reportItem = extendedItem.getExtendedElement( );
-				if ( reportItem != null )
-				{
-					// if useOwnModel is true, get property from extended
-					// item.
-					return reportItem.getProperty( prop.getName( ) );
-				}
-			}
-		}
-
-		return super.getPropertyExceptRomDefault( module, element, prop );
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -219,5 +176,39 @@ public class ExtendedItemPropSearchStrategy
 			return super.getPropertyFromSelf( module, element, prop );
 
 		return grandContainer.getProperty( module, prop );
+	}
+
+	/**
+	 * Returns the property value which is related to container.
+	 * 
+	 * @param module
+	 *            the module
+	 * @param element
+	 *            the element
+	 * @param prop
+	 *            the definition of property
+	 * @return the property value, or null if no value is set.
+	 */
+
+	protected Object getPropertyRelatedToContainer( Module module,
+			DesignElement element, ElementPropertyDefn prop )
+	{
+		ExtendedItem extendedItem = (ExtendedItem) element;
+
+		// find useOwnModel property.
+
+		ElementPropertyDefn propDefn = extendedItem.getPropertyDefn( prop
+				.getName( ) );
+		if ( propDefn == null )
+			return null;
+
+		if ( !propDefn.enableContextSearch( ) )
+			return null;
+
+		IReportItem reportItem = extendedItem.getExtendedElement( );
+		if ( reportItem != null )
+			return reportItem.getProperty( prop.getName( ) );
+
+		return null;
 	}
 }

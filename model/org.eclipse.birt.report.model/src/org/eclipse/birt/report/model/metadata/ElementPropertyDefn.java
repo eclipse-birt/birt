@@ -27,13 +27,6 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 {
 
 	/**
-	 * The proposal is to extend the extension schema to allow extended items to
-	 * override some predefined properties such as "onRender".
-	 */
-
-	protected boolean useOwnModel = false;
-
-	/**
 	 * The message ID for the property group name.
 	 */
 
@@ -45,6 +38,13 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 	 */
 
 	protected boolean isInheritable = true;
+
+	/**
+	 * The proposal is to extend the extension schema to call context related
+	 * property search algorithm.
+	 */
+
+	protected boolean enableContextSearch = false;
 
 	/**
 	 * Default constructor.
@@ -258,13 +258,11 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 	}
 
 	/**
-	 * Gets useOwnModel property value. Only used for overridden properties.
-	 * 
-	 * @return useOwnModel property value.
+	 * @return the enableExtraSearch
 	 */
 
-	public boolean useOverriddenModel( )
+	public boolean enableContextSearch( )
 	{
-		return useOwnModel;
+		return enableContextSearch;
 	}
 }

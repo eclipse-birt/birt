@@ -30,10 +30,8 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
-import org.eclipse.birt.report.model.elements.strategy.ExtendedNonReportItemPropSearchStrategy;
 import org.eclipse.birt.report.model.extension.PeerExtensibilityProvider;
 import org.eclipse.birt.report.model.extension.SimplePeerExtensibilityProvider.UndefinedChildInfo;
-import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 
 /**
  * Represents an extended element. An extended item represents a custom element
@@ -391,29 +389,5 @@ public class ExtendedItemHandle extends ReportItemHandle
 			throws SemanticException
 	{
 		setStringProperty( EXTENSION_VERSION_PROP, extensionVersion );
-	}
-
-	/**
-	 * Returns the property value that is visible to the metadata. If it is an
-	 * extension property with <code>useOwnModel</code>/<code>hasOwnModel</code>
-	 * value <code>true</code>, this method ignores values from
-	 * <code>ReportItem.getProperty</code>/<code>ReportItem.serialize</code>.
-	 * 
-	 * @param propName
-	 *            the property name
-	 * @return the property value
-	 */
-
-	public Object getMetaModelProperty( String propName )
-	{
-		ElementPropertyDefn prop = (ElementPropertyDefn) getPropertyDefn( propName );
-
-		// If the property is not found, then the value is null.
-
-		if ( prop == null )
-			return null;
-
-		return ExtendedNonReportItemPropSearchStrategy.getInstance( )
-				.getPropertyFromElement( module, getElement( ), prop );
 	}
 }

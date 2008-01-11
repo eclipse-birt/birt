@@ -132,7 +132,6 @@ public class PeerExtensionLoader extends ExtensionLoader
 		protected static final String PROPERTY_NAME_ATTRIB = "propertyName";//$NON-NLS-1$
 		protected static final String ALLOWEDCHOICES_ATTRIB = "allowedChoices";//$NON-NLS-1$
 		protected static final String ALLOWEDUNITS_ATTRIB = "allowedUnits";//$NON-NLS-1$
-		protected static final String USEOWNMODEL_ATTRIB = "useOwnModel";//$NON-NLS-1$
 		protected static final String DISPLAY_NAME_ID_ATTRIB = "displayNameID"; //$NON-NLS-1$
 		protected static final String TYPE_ATTRIB = "type"; //$NON-NLS-1$
 		protected static final String CAN_INHERIT_ATTRIB = "canInherit"; //$NON-NLS-1$
@@ -154,6 +153,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 		protected static final String SUB_TYPE_ATTRIB = "subType"; //$NON-NLS-1$
 		protected static final String IS_LIST_ATTRIB = "isList"; //$NON-NLS-1$
 		private static final String HAS_OWN_MODEL = "hasOwnModel"; //$NON-NLS-1$
+		private static final String ENABLE_EXTRA_SEARCH = "enableExtraSearch"; //$NON-NLS-1$
 
 		private static final String CONTEXT_ATTRIB = "context"; //$NON-NLS-1$
 
@@ -397,7 +397,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 		}
 
 		/**
-		 * Add overrideproperty property to element definition.
+		 * Add overridden property property to element definition.
 		 * 
 		 * @param elementTag
 		 *            the element tag
@@ -417,15 +417,15 @@ public class PeerExtensionLoader extends ExtensionLoader
 			String units = elementTag.getAttribute( ALLOWEDUNITS_ATTRIB );
 			String choices = elementTag.getAttribute( ALLOWEDCHOICES_ATTRIB );
 
-			boolean useOwnModel = getBooleanAttrib( elementTag,
-					USEOWNMODEL_ATTRIB, false );
+			boolean enableExtraSearch = getBooleanAttrib( elementTag,
+					ENABLE_EXTRA_SEARCH, false );
 
 			OverridePropertyInfo propInfo = new OverridePropertyInfo( );
-			if ( useOwnModel )
-				propInfo.setUseOwnModel( useOwnModel );
+			if ( enableExtraSearch )
+				propInfo.setEnableExtraSearch( enableExtraSearch );
 			propInfo.setAllowedUnits( units );
 			propInfo.setAllowedChoices( choices );
-			
+
 			elementDefn.setOverridePropertyInfo( name, propInfo );
 		}
 

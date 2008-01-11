@@ -12,77 +12,79 @@
 package org.eclipse.birt.report.model.metadata;
 
 /**
- * OverrideProperty Information
- * see schema #overrideproperty
- *
+ * OverrideProperty Information see schema #overrideproperty
+ * 
  */
 
 public class OverridePropertyInfo
 {
+
 	private String allowedUnits = null;
-	private boolean useOwnModel = false;
 	private String allowedChoices = null;
-	
+
+	private boolean enableExtraSearch = false;
+
 	/**
-	 * Get allowedUnits.
-	 * for example : in,mm,pt
+	 * Get allowedUnits. for example : in,mm,pt
+	 * 
 	 * @return
 	 */
-	
+
 	public String getAllowedUnits( )
 	{
 		return allowedUnits;
 	}
-	
+
 	/**
 	 * Sets allowedUnits.
+	 * 
 	 * @param allowedUnits
 	 */
-	
+
 	public void setAllowedUnits( String allowedUnits )
 	{
 		this.allowedUnits = allowedUnits;
 	}
-	
+
 	/**
-	 * Get allowedUnits.
-	 * for example : in,mm,pt
+	 * Get allowedUnits. for example : in,mm,pt
+	 * 
 	 * @return
 	 */
-	
+
 	public String getAllowedChoices( )
 	{
 		return allowedChoices;
 	}
-	
+
 	/**
 	 * Sets allowedUnits.
+	 * 
 	 * @param allowedUnits
 	 */
-	
+
 	void setAllowedChoices( String allowedChoices )
 	{
 		this.allowedChoices = allowedChoices;
 	}
 
 	/**
-	 * Returns useOwnModel.
-	 * @return
+	 * @return the enableExtraSearch
 	 */
 	
-	public boolean isUseOwnModel( )
+	public boolean enableExtraSearch( )
 	{
-		return useOwnModel;
+		return enableExtraSearch;
 	}
 
 	/**
-	 * Sets useOwnModel.
-	 * @param useOwnModel
+	 * @param enableExtraSearch
+	 *            the enableExtraSearch to set
 	 */
 	
-	public void setUseOwnModel( boolean useOwnModel )
+	void setEnableExtraSearch( boolean enableExtraSearch )
 	{
-		this.useOwnModel = useOwnModel;
+		this.enableExtraSearch = enableExtraSearch;
 	}
-	
+
 }

@@ -134,9 +134,11 @@ public class CopyForPastePolicy extends CopyPolicy
 					? source.getVirtualParent( )
 					: source.getExtendsElement( );
 
-			Module tmpRoot = current.getRoot( );
 			while ( current != null )
 			{
+
+				Module tmpRoot = current.getRoot( );
+
 				Object value = current.getLocalProperty( tmpRoot, propDefn );
 				if ( value != null )
 				{

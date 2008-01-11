@@ -207,8 +207,8 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 				continue;
 
 			String units = propInfo.getAllowedUnits( );
-			boolean isOwn = propInfo.isUseOwnModel( );
 			String choices = propInfo.getAllowedChoices( );
+			boolean enableContextSearch = propInfo.enableExtraSearch( );
 
 			ChoiceSet unitSet = buildChoiceSet( MetaDataDictionary
 					.getInstance( ).getChoiceSet(
@@ -230,7 +230,7 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 					choiceSet = null;
 			}
 
-			if ( unitSet == null && choiceSet == null && !isOwn )
+			if ( unitSet == null && choiceSet == null && !enableContextSearch )
 				continue;
 
 			ElementPropertyDefn clonedDefn = (ElementPropertyDefn) reflectClass( defn );
@@ -243,10 +243,8 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 			if ( unitSet != null )
 				clonedDefn.allowedUnits = unitSet;
 
-			// if the property can be encrypted, it cannot uses its own model.
+			clonedDefn.enableContextSearch = enableContextSearch;
 
-			if ( !defn.isEncryptable( ) )
-				clonedDefn.useOwnModel = isOwn;
 			cachedProperties.put( propName, clonedDefn );
 		}
 	}
@@ -302,17 +300,18 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 
 	private PropertyDefn reflectClass( PropertyDefn defn )
 	{
+		ElementPropertyDefn retDefn = null;
+
 		String className = defn.getClass( ).getName( );
 		try
 		{
 			Class clazz = Class.forName( className );
-			PropertyDefn clonedDefn = (PropertyDefn) clazz.newInstance( );
+			retDefn = (ElementPropertyDefn) clazz.newInstance( );
 
 			Class ownerClass = defn.getClass( );
-			Class clonedClass = clonedDefn.getClass( );
+			Class clonedClass = retDefn.getClass( );
 
-			shadowCopyProperties( defn, clonedDefn, ownerClass, clonedClass );
-			return clonedDefn;
+			shadowCopyProperties( defn, retDefn, ownerClass, clonedClass );
 		}
 		catch ( InstantiationException e )
 		{
@@ -324,7 +323,13 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 		{
 		}
 
-		return null;
+		if ( retDefn == null )
+			return null;
+
+		shadowCopyProperties( defn, retDefn, defn.getClass( ),
+				ExtensionPropertyDefn.class );
+
+		return retDefn;
 	}
 
 	/**

@@ -539,13 +539,12 @@ Designer UI
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="useOwnModel" type="boolean" use="default" value="false">
+         <attribute name="enableContextSearch" type="boolean">
             <annotation>
                <documentation>
-                  The proposal of &apos;useOwnModel&apos; property is to extend the extension schema to allow extended items to 
-override some predefined properties such as &quot;onRender&quot;,&quot;onCreate&quot; property.
+                  If true, the user can write own context related property search algorithm in  ReportItem.getProperty(). Context search algorithm is only called if there is no local value.
 
-If the predefined property can be encrypted, it cannot be set with useOwnModel=true. For such case, the value is ignored.
+The default value is false.
                </documentation>
             </annotation>
          </attribute>

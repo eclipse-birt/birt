@@ -141,7 +141,7 @@ public class PropertySearchStrategy
 	}
 
 	/**
-	 * Gets a non-intrinic property value given its definition. This version
+	 * Gets a non-intrinsic property value given its definition. This version
 	 * does the property search as defined by the given derived component. That
 	 * is, it gets the "effective" property value. The definition can be for a
 	 * system or user-defined property.

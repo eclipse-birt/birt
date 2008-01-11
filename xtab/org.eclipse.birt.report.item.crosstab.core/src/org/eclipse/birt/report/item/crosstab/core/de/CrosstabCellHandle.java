@@ -20,6 +20,7 @@ import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.IMeasureViewConstants;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
+import org.eclipse.birt.report.model.api.FactoryPropertyHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
@@ -168,8 +169,10 @@ public class CrosstabCellHandle extends AbstractCrosstabItemHandle
 		if ( defn == null )
 			return null;
 		assert ( (ElementPropertyDefn) defn ).isStyleProperty( );
-		
-		Object value = handle.getMetaModelProperty( propName );
+
+		FactoryPropertyHandle factoryHandle = handle
+				.getFactoryPropertyHandle( propName );
+		Object value = factoryHandle == null ? null : factoryHandle.getValue( );
 		if ( value != null )
 			return value;
 

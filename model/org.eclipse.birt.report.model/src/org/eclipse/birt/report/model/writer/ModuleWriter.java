@@ -796,8 +796,8 @@ public abstract class ModuleWriter extends ElementVisitor
 		PropertyDefn prop = (ElementPropertyDefn) obj.getDefn( ).getProperty(
 				propName );
 		assert prop != null;
-		assert prop.getTypeCode( ) == IPropertyType.STRUCT_TYPE
-				&& prop.isList( );
+		assert prop.getTypeCode( ) == IPropertyType.STRUCT_TYPE &&
+				prop.isList( );
 
 		List list = (List) obj.getLocalProperty( getModule( ), propName );
 		if ( list == null || list.size( ) == 0 )
@@ -1029,8 +1029,8 @@ public abstract class ModuleWriter extends ElementVisitor
 		PropertyDefn prop = (ElementPropertyDefn) obj.getDefn( ).getProperty(
 				propName );
 		assert prop != null;
-		assert prop.getTypeCode( ) == IPropertyType.STRUCT_TYPE
-				&& prop.isList( );
+		assert prop.getTypeCode( ) == IPropertyType.STRUCT_TYPE &&
+				prop.isList( );
 
 		List list = (List) obj.getLocalProperty( getModule( ), propName );
 		if ( list == null || list.size( ) == 0 )
@@ -1081,8 +1081,8 @@ public abstract class ModuleWriter extends ElementVisitor
 		PropertyDefn prop = (PropertyDefn) obj.getDefn( )
 				.getMember( memberName );
 		assert prop != null;
-		assert prop.getTypeCode( ) == IPropertyType.STRUCT_TYPE
-				&& prop.isList( );
+		assert prop.getTypeCode( ) == IPropertyType.STRUCT_TYPE &&
+				prop.isList( );
 
 		assert obj instanceof Structure;
 		List list = (List) ( (Structure) obj ).getLocalProperty( getModule( ),
@@ -1157,8 +1157,8 @@ public abstract class ModuleWriter extends ElementVisitor
 
 			IChoiceSet choiceSet = propDefn.getChoices( );
 
-			if ( choiceSet != null && choiceSet.getChoices( ) != null
-					&& choiceSet.getChoices( ).length > 0 )
+			if ( choiceSet != null && choiceSet.getChoices( ) != null &&
+					choiceSet.getChoices( ).length > 0 )
 			{
 				writer.startElement( DesignSchemaConstants.LIST_PROPERTY_TAG );
 				writer.attribute( DesignSchemaConstants.NAME_ATTRIB,
@@ -1479,8 +1479,8 @@ public abstract class ModuleWriter extends ElementVisitor
 			{
 				boolean cdata = false;
 
-				if ( prop.getTypeCode( ) == IPropertyType.XML_TYPE
-						|| prop.getTypeCode( ) == IPropertyType.SCRIPT_TYPE )
+				if ( prop.getTypeCode( ) == IPropertyType.XML_TYPE ||
+						prop.getTypeCode( ) == IPropertyType.SCRIPT_TYPE )
 					cdata = true;
 				writeProperty( obj, ModelUtil.getTagByPropertyType( prop ),
 						prop.getName( ), cdata );
@@ -1656,16 +1656,12 @@ public abstract class ModuleWriter extends ElementVisitor
 			{
 				ElementPropertyDefn prop = (ElementPropertyDefn) props.get( i );
 
-				// if property is not extensible and 'isUseOwnModel' then do not
-				// write it directly, it must be serialized in extension Model
-				if ( !prop.isExtended( ) && prop.useOverriddenModel( ) )
-					continue;
 				String propName = prop.getName( );
-				if ( IDesignElementModel.NAME_PROP.equals( propName )
-						|| IExtendedItemModel.EXTENSION_NAME_PROP
-								.equals( propName )
-						|| IDesignElementModel.EXTENDS_PROP.equals( propName )
-						|| IExtendedItemModel.EXTENSION_VERSION_PROP
+				if ( IDesignElementModel.NAME_PROP.equals( propName ) ||
+						IExtendedItemModel.EXTENSION_NAME_PROP
+								.equals( propName ) ||
+						IDesignElementModel.EXTENDS_PROP.equals( propName ) ||
+						IExtendedItemModel.EXTENSION_VERSION_PROP
 								.equals( propName ) )
 					continue;
 
@@ -2482,8 +2478,8 @@ public abstract class ModuleWriter extends ElementVisitor
 		{
 			PropertyDefn propDefn = tmpElement.getPropertyDefn( containerInfor
 					.getPropertyName( ) );
-			if ( propDefn == null
-					|| propDefn.getTypeCode( ) != IPropertyType.CONTENT_ELEMENT_TYPE )
+			if ( propDefn == null ||
+					propDefn.getTypeCode( ) != IPropertyType.CONTENT_ELEMENT_TYPE )
 				return;
 		}
 
@@ -2640,8 +2636,8 @@ public abstract class ModuleWriter extends ElementVisitor
 		String source = (String) obj.getLocalProperty( getModule( ),
 				IImageItemModel.SOURCE_PROP );
 
-		if ( DesignChoiceConstants.IMAGE_REF_TYPE_URL.equalsIgnoreCase( source )
-				|| DesignChoiceConstants.IMAGE_REF_TYPE_FILE
+		if ( DesignChoiceConstants.IMAGE_REF_TYPE_URL.equalsIgnoreCase( source ) ||
+				DesignChoiceConstants.IMAGE_REF_TYPE_FILE
 						.equalsIgnoreCase( source ) )
 		{
 			property( obj, IImageItemModel.URI_PROP );
@@ -3094,8 +3090,8 @@ public abstract class ModuleWriter extends ElementVisitor
 	private void writeColumns( DesignElement obj, int slot )
 	{
 		assert obj instanceof GridItem || obj instanceof TableItem;
-		assert slot == IGridItemModel.COLUMN_SLOT
-				|| slot == ITableItemModel.COLUMN_SLOT;
+		assert slot == IGridItemModel.COLUMN_SLOT ||
+				slot == ITableItemModel.COLUMN_SLOT;
 
 		// TODO: UI requires the column to keep the table layout information, so
 		// the unnecessary columns can not be remove this moment. The related
@@ -3180,8 +3176,8 @@ public abstract class ModuleWriter extends ElementVisitor
 					.getName( ) );
 			writer.attribute( DesignSchemaConstants.ID_ATTRIB, new Long(
 					virtualElement.getID( ) ).toString( ) );
-			if ( !virtualElement.hasLocalPropertyValues( )
-					&& virtualElement.getStyle( ) == null )
+			if ( !virtualElement.hasLocalPropertyValues( ) &&
+					virtualElement.getStyle( ) == null )
 			{
 				writer.endElement( );
 				continue;
@@ -3206,18 +3202,18 @@ public abstract class ModuleWriter extends ElementVisitor
 
 				// name property and element type property must not write out
 				if ( IDesignElementModel.NAME_PROP.equalsIgnoreCase( propDefn
-						.getName( ) )
-						|| propDefn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
+						.getName( ) ) ||
+						propDefn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
 					continue;
 
-				if ( virtualElement instanceof ExtendedItem
-						&& IExtendedItemModel.EXTENSION_NAME_PROP
+				if ( virtualElement instanceof ExtendedItem &&
+						IExtendedItemModel.EXTENSION_NAME_PROP
 								.equalsIgnoreCase( propDefn.getName( ) ) )
 					continue;
 
 				boolean cdata = false;
-				if ( propDefn.getTypeCode( ) == IPropertyType.SCRIPT_TYPE
-						|| propDefn.getTypeCode( ) == IPropertyType.XML_TYPE )
+				if ( propDefn.getTypeCode( ) == IPropertyType.SCRIPT_TYPE ||
+						propDefn.getTypeCode( ) == IPropertyType.XML_TYPE )
 					cdata = true;
 
 				if ( propDefn.getTypeCode( ) == IPropertyType.STRUCT_TYPE )

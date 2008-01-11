@@ -401,29 +401,32 @@ public class PropertyCommand extends AbstractPropertyCommand
 	private void doSetProperty( ElementPropertyDefn prop, Object value )
 			throws SemanticException
 	{
+		Object oldValue = element.getLocalProperty( module, prop );
+
 		// Ignore duplicate values, even if the current value is not local.
 		// This avoids making local copies if the user enters the existing
 		// value, or if the UI gets a bit sloppy.
 
-		Object oldValue = element.getLocalProperty( module, prop );
+		// for extension element, getLocalProperty may be null. However, still
+		// proceed command.
+
 		if ( oldValue == null && value == null )
 			return;
 		if ( oldValue != null && value != null && oldValue.equals( value ) )
 			return;
 
-		// The values differ. Make the change.
-
 		if ( element instanceof ExtendedItem )
 		{
+
 			ExtendedItem extendedItem = ( (ExtendedItem) element );
 
 			// if useOwnModel is true, set property to extended item and return
 			// directly.
 
-			if ( extendedItem.isExtensionModelProperty( prop.getName( ) )
-					|| prop.useOverriddenModel( ) )
+			if ( extendedItem.isExtensionModelProperty( prop.getName( ) ) )
 			{
-				IReportItem extElement = extendedItem.getExtendedElement( );
+				IReportItem extElement = ( (ExtendedItem) element )
+						.getExtendedElement( );
 
 				if ( extElement == null )
 					return;
@@ -605,8 +608,8 @@ public class PropertyCommand extends AbstractPropertyCommand
 
 		if ( targetElement instanceof ReportItem )
 		{
-			propNames = ReportItemPropSearchStrategy.getDataBindingProperties( targetElement )
-					.iterator( );
+			propNames = ReportItemPropSearchStrategy.getDataBindingProperties(
+					targetElement ).iterator( );
 		}
 		else if ( targetElement instanceof GroupElement )
 		{

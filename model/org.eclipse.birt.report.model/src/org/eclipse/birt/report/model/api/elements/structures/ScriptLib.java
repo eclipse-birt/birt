@@ -114,7 +114,7 @@ public class ScriptLib extends Structure
 	 * @throws SemanticException
 	 */
 
-	public void setName( String name ) throws SemanticException
+	public void setName( String name ) 
 	{
 		setProperty( ScriptLib.SCRIPTLIB_NAME_MEMBER , name );
 	}

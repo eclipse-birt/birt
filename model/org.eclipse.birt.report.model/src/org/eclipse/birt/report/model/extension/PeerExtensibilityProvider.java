@@ -324,8 +324,7 @@ public abstract class PeerExtensibilityProvider
 				return retValue;
 			}
 		}
-		else if ( isExtensionModelProperty( propName ) ||
-				prop.useOverriddenModel( ) )
+		else if ( isExtensionModelProperty( propName ) )
 		{
 			// If this property is extension model property, the instance of
 			// IReportItem must exist.

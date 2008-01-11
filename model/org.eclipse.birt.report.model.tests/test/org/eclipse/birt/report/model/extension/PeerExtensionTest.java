@@ -55,7 +55,6 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.TableItem;
-import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
@@ -91,7 +90,6 @@ public class PeerExtensionTest extends BaseTestCase
 	private static final String FILE_NAME_5 = "PeerExtensionTest_5.xml";//$NON-NLS-1$
 	private static final String FILE_NAME_6 = "PeerExtensionTest_6.xml"; //$NON-NLS-1$
 	private static final String FILE_NAME_7 = "PeerExtensionTest_7.xml"; //$NON-NLS-1$
-	private static final String FILE_NAME_9 = "PeerExtensionTest_9.xml"; //$NON-NLS-1$
 	private static final String FILE_NAME_10 = "PeerExtensionTest_10.xml"; //$NON-NLS-1$
 	private static final String FILE_NAME_11 = "PeerExtensionTest_11.xml"; //$NON-NLS-1$
 	private static final String POINTS_PROP_NAME = "points"; //$NON-NLS-1$
@@ -791,34 +789,7 @@ public class PeerExtensionTest extends BaseTestCase
 		assertTrue( compareFile( "PeerExtensionTest_golden_3.xml" ) ); //$NON-NLS-1$
 
 	}
-
-	/**
-	 * Test useOwnModel function.
-	 * 
-	 * @throws Exception
-	 */
-
-	public void testUseOwnModel( ) throws Exception
-	{
-		openDesign( FILE_NAME_9 );
-
-		ExtendedItemHandle extendedItem = (ExtendedItemHandle) designHandle
-				.findElement( "headerMatrix" ); //$NON-NLS-1$
-		assertNotNull( extendedItem );
-
-		assertEquals( "12pt", extendedItem//$NON-NLS-1$
-				.getProperty( "width" ) );//$NON-NLS-1$
-
-		extendedItem.setProperty( "width", "18pt" );//$NON-NLS-1$//$NON-NLS-2$
-		assertEquals( "18pt", extendedItem.getProperty( "width" ) );//$NON-NLS-1$//$NON-NLS-2$
-
-		designHandle.getCommandStack( ).undo( );
-		assertEquals( "12pt", extendedItem.getProperty( "width" ) );//$NON-NLS-1$//$NON-NLS-2$
-
-		designHandle.getCommandStack( ).redo( );
-		assertEquals( "18pt", extendedItem.getProperty( "width" ) );//$NON-NLS-1$//$NON-NLS-2$
-	}
-
+	
 	public void testDataBindingRef( ) throws Exception
 	{
 		openDesign( FILE_NAME_10 );
