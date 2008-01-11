@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.integration.wtp.ui.internal.util.Logger;
 import org.eclipse.birt.chart.integration.wtp.ui.internal.util.WebArtifactUtil;
 import org.eclipse.birt.chart.integration.wtp.ui.internal.webapp.WebAppBean;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -165,6 +166,9 @@ public class BirtWebProjectWizard extends WebProjectWizard
 	{
 		IProject project = this.getFacetedProject( ).getProject( );
 
+		IProjectDescription description = project.getDescription( );
+		description.setComment( CHART_PROJECT_DESCRIPTION_COMMENT );
+		project.setDescription( description, monitor );
 		// Simple OverwriteQuery
 		SimpleImportOverwriteQuery query = new SimpleImportOverwriteQuery( );
 

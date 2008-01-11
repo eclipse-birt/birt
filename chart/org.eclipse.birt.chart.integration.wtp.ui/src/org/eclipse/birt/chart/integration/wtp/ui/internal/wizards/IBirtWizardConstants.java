@@ -17,7 +17,7 @@ package org.eclipse.birt.chart.integration.wtp.ui.internal.wizards;
  */
 public interface IBirtWizardConstants
 {
-
+	public final static String CHART_PROJECT_DESCRIPTION_COMMENT = "ChartingWebProject"; //$NON-NLS-1$
 	// image file path
 	public final static String BIRT_PROJECT_WIZBANNER = "icons/create_project_wizbanner.gif"; //$NON-NLS-1$
 

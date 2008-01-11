@@ -43,9 +43,53 @@
                id="org.eclipse.birt.chart.wtp.ui.internal.actions.NewBirtWebComponentAction">
 	        </action>
 
+				<action 
+		   	   id="org.eclipse.birt.chart.integration.wtp.ui.internal.actions.ImportChartRuntimeAction"
+			   menubarPath="project/additions"
+			   label="%birt.action.importruntime.name"
+			   tooltip="%birt.action.importruntime.name"
+			   class="org.eclipse.birt.chart.integration.wtp.ui.internal.actions.ImportChartRuntimeAction"
+			   enablesFor="1">
+		   	  <enablement>
+				<and>
+					<objectClass name="org.eclipse.jdt.core.IJavaProject"/>
+				</and>
+				</enablement>            
+		 		</action>	
       </actionSet>      
 	</extension> 
 	
+	<extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            objectClass="org.eclipse.core.resources.IProject"
+            adaptable="true"
+            id = "org.eclipse.birt.chart.integration.wtp.ui.internal.actions.ImportChartRuntimeAction">
+				<menu
+        	label="%birt.web.category.name"
+          path="additions"
+          id="ImportBirtRuntimeAction">
+          <separator
+          	name="ImportBirtRuntimeAction">
+          </separator>
+        </menu>
+        <action
+					label="%birt.action.importruntime.name"
+					tooltip="%birt.action.importruntime.name"
+					menubarPath="ImportBirtRuntimeAction/ImportBirtRuntimeAction"
+					class="org.eclipse.birt.chart.integration.wtp.ui.internal.actions.ImportChartRuntimeAction"
+					enablesFor="1"
+					id="org.eclipse.birt.chart.integration.wtp.ui.internal.actions.ImportChartRuntimeAction">
+	 			</action>
+	 			<enablement>
+		  		<adapt type="org.eclipse.core.resources.IProject">
+		    		<test forcePluginActivation="true"
+				  		property="org.eclipse.wst.common.project.facet.core.projectFacet"
+				  		value="jst.web"/>
+		  		</adapt>
+	 			</enablement>
+      </objectContribution>  
+    </extension>
 
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
@@ -135,7 +179,24 @@
 	<!--======================================================================================-->
 	<!--         Web Application Resources Settings                                           -->
 	<!--======================================================================================-->
+	<extension-point id="birtResourcesDefinition" name="%birtResourcesDefinition" />
 	
+	<extension
+       point="org.eclipse.birt.chart.integration.wtp.ui.birtResourcesDefinition">
+    
+    <!-- Conflict Resources Settings( Clear these resources when import ) -->
+		<conflict
+				id="org.eclipse.birt.chart.integration.wtp.ui.defaultConflictResourcesDefinition">
+				<folder path="/WEB-INF/lib">
+						<file name="com.ibm.icu_"/>
+						<file name="org.eclipse.emf"/>
+						<file name="org.eclipse.birt"/>
+						<file name="chart-viewer"/>
+						<file name="org.apache.batik"/>
+				</folder>
+		</conflict>	
+    
+ </extension>
 
 	
 		
