@@ -10,3 +10,10 @@ BIRT_FACET_TEMPLATE_LABEL=BIRT-Diagramm-Webprojekt
 
 JSP_New_context_type_Extension_Element.name=Neue JSP mit BIRT-Diagramm-Tag
 JSP_Tag_context_type_Extension_Element.name=Neuer BIRT-Diagramm-JSP-Tag
+
+BirtResourcesDefinition= Charting Web Application Resources Definition
+
+birt.action.importruntime.name=Import Chart runtime component...
+
+##################Do not externalize the version number
+runtime.version=2.3.0

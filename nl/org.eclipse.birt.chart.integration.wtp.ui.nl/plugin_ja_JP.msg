@@ -10,3 +10,10 @@ BIRT_FACET_TEMPLATE_LABEL=BIRT グラフ作成 Web プロジェクト
 
 JSP_New_context_type_Extension_Element.name=新規 JSP (BIRT グラフ作成タグを使用)
 JSP_Tag_context_type_Extension_Element.name=新規 BIRT グラフ作成 JSP タグ
+
+BirtResourcesDefinition= Charting Web Application Resources Definition
+
+birt.action.importruntime.name=Import Chart runtime component...
+
+##################Do not externalize the version number
+runtime.version=2.3.0
