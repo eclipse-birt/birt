@@ -368,8 +368,7 @@ public class XPathParser
 	{
 		if ( propertyName == null )
 		{
-			ElementDefn elementDefn = (ElementDefn) currentElement.getDefn( );
-			IPropertyDefn propDefn = elementDefn.getProperty( propName );
+			IPropertyDefn propDefn = currentElement.getPropertyDefn( propName );
 			if ( propDefn == null )
 				return null;
 

@@ -182,8 +182,18 @@ public class PropertyHandle extends SimpleValueHandle
 				.getElement( );
 		IPropertyDefn propDefn = ( (PropertyHandle) propertyHandle ).getDefn( );
 
-		return ( element == getElement( ) ) && ( propDefn == getDefn( ) );
+		return ( element == getElement( ) ) && equalsPropertyDefn( propDefn );
 
+	}
+
+	private boolean equalsPropertyDefn( IPropertyDefn defn )
+	{
+		if ( defn == null )
+			return false;
+		if ( ( propDefn.getName( ).equals( defn.getName( ) ) )
+				&& ( propDefn.getTypeCode( ) == defn.getTypeCode( ) ) )
+			return true;
+		return false;
 	}
 
 	/**
@@ -195,8 +205,8 @@ public class PropertyHandle extends SimpleValueHandle
 
 	public List getReferenceableElementList( )
 	{
-		if ( propDefn.getTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE &&
-				propDefn.getSubTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE )
+		if ( propDefn.getTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE
+				&& propDefn.getSubTypeCode( ) != IPropertyType.ELEMENT_REF_TYPE )
 			return Collections.EMPTY_LIST;
 
 		List list = new ArrayList( );
@@ -211,8 +221,8 @@ public class PropertyHandle extends SimpleValueHandle
 				.getName( ) ) )
 			return moduleHandle.getVisibleDataSets( );
 
-		else if ( getElementHandle( ) instanceof ReportItemHandle &&
-				ReportItemHandle.DATA_BINDING_REF_PROP
+		else if ( getElementHandle( ) instanceof ReportItemHandle
+				&& ReportItemHandle.DATA_BINDING_REF_PROP
 						.equalsIgnoreCase( propDefn.getName( ) ) )
 			return ( (ReportItemHandle) getElementHandle( ) )
 					.getAvailableDataBindingReferenceList( );
@@ -364,8 +374,8 @@ public class PropertyHandle extends SimpleValueHandle
 			if ( !masterPage.isCustomType( getModule( ) ) )
 			{
 				String propName = propDefn.getName( );
-				if ( IMasterPageModel.HEIGHT_PROP.equals( propName ) ||
-						IMasterPageModel.WIDTH_PROP.equals( propName ) )
+				if ( IMasterPageModel.HEIGHT_PROP.equals( propName )
+						|| IMasterPageModel.WIDTH_PROP.equals( propName ) )
 					return true;
 			}
 		}
@@ -385,8 +395,8 @@ public class PropertyHandle extends SimpleValueHandle
 					.getDataBindingProperties( element.getElement( ) )
 					.contains( propDefn.getName( ) );
 
-			boolean retValue = containsProp &&
-					( (ReportItem) element.getElement( ) )
+			boolean retValue = containsProp
+					&& ( (ReportItem) element.getElement( ) )
 							.isDataBindingReferring( getModule( ) );
 
 			if ( retValue )

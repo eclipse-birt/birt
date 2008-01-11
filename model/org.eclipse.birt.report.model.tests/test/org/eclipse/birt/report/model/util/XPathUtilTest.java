@@ -103,6 +103,13 @@ public class XPathUtilTest extends BaseTestCase
 				.findElement( "matrix1" ); //$NON-NLS-1$
 		assertEquals( "/report/body/extended-item[@id=\"20\"]", XPathUtil //$NON-NLS-1$
 				.getXPath( tmpMatrix ) );
+		// test extension model property handle
+		propHandle = tmpMatrix.getPropertyHandle( "type" ); //$NON-NLS-1$
+		assertNotNull( propHandle );
+		assertEquals(
+				"/report/body/extended-item[@id=\"20\"]/property[@name=\"type\"]", XPathUtil.getXPath( propHandle ) ); //$NON-NLS-1$
+		assertTrue( propHandle.equals( XPathUtil.getInstance( designHandle,
+				XPathUtil.getXPath( propHandle ) )) );
 
 		OdaDataSetHandle dataSet = (OdaDataSetHandle) designHandle
 				.findDataSet( "firstDataSet" ); //$NON-NLS-1$
@@ -270,10 +277,10 @@ public class XPathUtilTest extends BaseTestCase
 		assertEquals( "\"prepare\"", ( (PropertyHandle) retValue ).getValue( ) );//$NON-NLS-1$
 
 		// make sure for invalid string, no exception
-		
+
 		retValue = XPathUtil.getInstance( designHandle, "<" ); //$NON-NLS-1$
 		assertNull( retValue );
-		
+
 		// cases on extension elements that has content elements.
 
 		retValue = XPathUtil
