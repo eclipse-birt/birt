@@ -382,6 +382,7 @@ public class GroupDialog extends TitleAreaDialog
 			// New
 			if ( levelList.size( ) == 0 )
 			{
+				sortDataType( );
 				for ( int i = 0; i < dateTypeSelectedList.size( ); i++ )
 				{
 					String dateType = (String) dateTypeSelectedList.get( i );
@@ -405,6 +406,7 @@ public class GroupDialog extends TitleAreaDialog
 			else
 			{
 				int j = 0;
+				sortDataType( );
 				for ( int i = 0; i < dateTypeSelectedList.size( ); i++ )
 				{
 					String dateType = (String) dateTypeSelectedList.get( i );
@@ -461,6 +463,27 @@ public class GroupDialog extends TitleAreaDialog
 		}
 		super.okPressed( );
 	}
+
+	private void sortDataType( )
+	{
+		List list = new ArrayList( );
+		List typeNames = getDateTypeNames( getLevelTypesByDateType( ) );
+		for ( int i = 0; i < typeNames.size( ); i++ )
+		{
+			Object typeName = typeNames.get( i );
+			for ( int j = 0; j < dateTypeSelectedList.size( ); j++ )
+			{
+				if ( dateTypeSelectedList.get( j ).equals( typeName ) )
+				{
+					list.add( typeName );
+					break;
+				}
+			}
+		}
+		dateTypeSelectedList.clear( );
+		dateTypeSelectedList.addAll( list );
+	}
+
 	private List dateTypeSelectedList = new ArrayList( );
 	private Text nameText;
 	private CheckboxTreeViewer levelViewer;
