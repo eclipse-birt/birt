@@ -197,7 +197,7 @@
 			<arg line="-o -q birt-third-party-${package.version}.bak.zip -d ${updateJarWorkingDir}" />
 		</exec>
 		<copy todir="${updateJarWorkingDir}/eclipse/plugins">
-			<fileset dir="${baseLocation}/plugins">
+			<fileset dir="${buildDirectory}/plugins">
 				<include name="org.apache.batik.*.jar"/>
 				<include name="org.apache.xerces_*.jar"/>
 				<include name="org.apache.xml.resolver_*.jar"/>
