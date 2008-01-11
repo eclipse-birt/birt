@@ -476,8 +476,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 			btnAntiRotation = new Button( context, SWT.PUSH );
 			{
 				GridData gd = new GridData( );
-				gd.widthHint = 20;
-				gd.heightHint = 20;
+				ChartUIUtil.setChartImageButtonSizeByPlatform( gd );
 				btnAntiRotation.setLayoutData( gd );
 				btnAntiRotation.setImage( UIHelper.getImage( getImagePath( angleType,
 						true ) ) );

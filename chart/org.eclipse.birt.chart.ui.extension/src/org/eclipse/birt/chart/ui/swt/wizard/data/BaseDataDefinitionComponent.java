@@ -246,8 +246,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		btnBuilder = new Button( cmpTop, SWT.PUSH );
 		{
 			GridData gdBTNBuilder = new GridData( );
-			gdBTNBuilder.heightHint = 20;
-			gdBTNBuilder.widthHint = 20;
+			ChartUIUtil.setChartImageButtonSizeByPlatform( gdBTNBuilder );
 			btnBuilder.setLayoutData( gdBTNBuilder );
 			btnBuilder.setImage( UIHelper.getImage( "icons/obj16/expressionbuilder.gif" ) ); //$NON-NLS-1$
 			btnBuilder.addSelectionListener( this );
@@ -263,8 +262,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		{
 			btnGroup = new Button( cmpTop, SWT.PUSH );
 			GridData gdBTNGroup = new GridData( );
-			gdBTNGroup.heightHint = 20;
-			gdBTNGroup.widthHint = 20;
+			ChartUIUtil.setChartImageButtonSizeByPlatform( gdBTNGroup );
 			btnGroup.setLayoutData( gdBTNGroup );
 			btnGroup.setImage( UIHelper.getImage( "icons/obj16/group.gif" ) ); //$NON-NLS-1$
 			btnGroup.addSelectionListener( this );

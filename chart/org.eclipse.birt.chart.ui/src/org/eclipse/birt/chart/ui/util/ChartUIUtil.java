@@ -71,6 +71,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -1490,5 +1491,52 @@ public class ChartUIUtil
 	{
 		return (ISeriesUIProvider) htSeriesAttributeUIProviders.get( series.getClass( )
 				.getName( ) );
+	}
+	
+	/** The default image button height of Chart. */
+	public static final int BUTTON_HEIGHT = 20;
+	
+	/** The default image button width of Chart. */
+	public static final int BUTTON_WIDTH = 20;
+	
+	/**
+	 * @param gridData
+	 * @return
+	 * @since BIRT 2.3
+	 */
+	public static void setChartImageButtonSizeByPlatform(GridData gridData)
+	{
+		if ( isWindows( ) )
+		{
+			gridData.heightHint = BUTTON_HEIGHT;
+			gridData.widthHint = BUTTON_WIDTH;
+		}
+	}
+	
+	/**
+	 * @param gridData
+	 * @return
+	 * @since BIRT 2.3
+	 */
+	public static void setChartImageButtonHeightByPlatform(GridData gridData)
+	{
+		if ( isWindows( ) )
+		{
+			gridData.heightHint = BUTTON_HEIGHT;
+		}
+	}
+	
+	/**
+	 * @return
+	 * @since BIRT 2.3
+	 */
+	public static boolean isWindows()
+	{
+		String platform = SWT.getPlatform( );
+		if ( "win32".equals( platform ) ) //$NON-NLS-1$
+		{
+			return true;
+		}
+		return false;
 	}
 }

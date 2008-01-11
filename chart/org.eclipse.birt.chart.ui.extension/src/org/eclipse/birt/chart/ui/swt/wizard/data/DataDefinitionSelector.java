@@ -200,8 +200,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 		btnSeriesDelete = new Button( cmpTop, SWT.NONE );
 		{
 			GridData gridData = new GridData( );
-			gridData.heightHint = 20;
-			gridData.widthHint = 20;
+			ChartUIUtil.setChartImageButtonSizeByPlatform( gridData );
 			btnSeriesDelete.setLayoutData( gridData );
 			btnSeriesDelete.setImage( UIHelper.getImage( ChartUIConstants.IMAGE_DELETE ) );
 			btnSeriesDelete.setToolTipText( Messages.getString( "DataDefinitionSelector.Tooltip.RemoveSeries" ) ); //$NON-NLS-1$

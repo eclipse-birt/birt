@@ -17,9 +17,8 @@ import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
-import org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.jface.window.Window;
-import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.ACC;
 import org.eclipse.swt.accessibility.AccessibleAdapter;
@@ -30,6 +29,7 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
@@ -142,8 +142,7 @@ public class FontDefinitionComposite extends Composite
 
 		btnFont = new Button( cmpContent, SWT.NONE );
 		GridData gdBEllipsis = new GridData( );
-		gdBEllipsis.widthHint = 20;
-		gdBEllipsis.heightHint = 20;
+		ChartUIUtil.setChartImageButtonSizeByPlatform( gdBEllipsis );
 		btnFont.setLayoutData( gdBEllipsis );
 		btnFont.setText( "A" ); //$NON-NLS-1$
 		btnFont.setFont(  new Font( Display.getCurrent( ), "Times New Roman", 14, SWT.BOLD ) ); //$NON-NLS-1$
@@ -235,7 +234,8 @@ public class FontDefinitionComposite extends Composite
 
 	public Point getPreferredSize( )
 	{
-		return new Point( 120, 24 );
+		int height = btnFont.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y;
+		return new Point( 120, (24 > height) ? 24: height );
 	}
 	
 	void initAccessible( )

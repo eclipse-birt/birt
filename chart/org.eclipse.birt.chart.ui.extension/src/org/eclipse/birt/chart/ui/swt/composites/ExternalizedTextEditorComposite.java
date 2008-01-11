@@ -15,6 +15,7 @@ import java.util.Vector;
 
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -37,8 +38,6 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
     private transient TextEditorComposite txtSelection = null;
 
     private transient Button btnDown = null;
-
-    private transient int iSize = 20;
 
     private transient int iStyle = SWT.SINGLE;
 
@@ -108,8 +107,7 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
 
         btnDown = new Button(this, SWT.PUSH);
         GridData gdBTNDown = new GridData(GridData.VERTICAL_ALIGN_END);
-        gdBTNDown.heightHint = iSize;
-        gdBTNDown.widthHint = iSize;
+        ChartUIUtil.setChartImageButtonSizeByPlatform( gdBTNDown );
         btnDown.setImage( UIHelper.getImage( "icons/obj16/externalizetext.gif" ) ); //$NON-NLS-1$
         btnDown.setToolTipText(Messages.getString("ExternalizedTextEditorComposite.Lbl.EditText")); //$NON-NLS-1$
         btnDown.setLayoutData(gdBTNDown);

@@ -120,8 +120,7 @@ public class AggregateEditorComposite extends Composite implements
 		fBtnAggImage = new Button( this, SWT.NONE );
 		{
 			GridData gd = new GridData( GridData.FILL );
-			gd.heightHint = 20;
-			gd.widthHint = 20;
+			ChartUIUtil.setChartImageButtonSizeByPlatform( gd );
 			fBtnAggImage.setLayoutData( gd );
 			fBtnAggImage.addMouseListener( this );
 			fBtnAggImage.setImage( UIHelper.getImage( ChartUIConstants.IMAGE_SIGMA ) );
@@ -130,7 +129,7 @@ public class AggregateEditorComposite extends Composite implements
 		fBtnDropDown = new Button( this, SWT.TOGGLE | SWT.ARROW | SWT.DOWN );
 		{
 			GridData gd = new GridData( );
-			gd.heightHint = 20;
+			ChartUIUtil.setChartImageButtonHeightByPlatform( gd );
 			gd.widthHint = 16;
 			fBtnDropDown.setLayoutData( gd );
 			fBtnDropDown.addMouseListener( this );
@@ -511,8 +510,7 @@ public class AggregateEditorComposite extends Composite implements
 					{
 						fExprBuilderWidgetsMap.put( btnBuilder, txtArg );
 						GridData gdBTNBuilder = new GridData( );
-						gdBTNBuilder.heightHint = 20;
-						gdBTNBuilder.widthHint = 20;
+						ChartUIUtil.setChartImageButtonSizeByPlatform( gdBTNBuilder );
 						btnBuilder.setLayoutData( gdBTNBuilder );
 						btnBuilder.setImage( UIHelper.getImage( "icons/obj16/expressionbuilder.gif" ) ); //$NON-NLS-1$
 						
