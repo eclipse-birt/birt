@@ -147,7 +147,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			itemHandle.setDataSet( null );
 			itemHandle.setDataBindingReference( null );
-			
+
 			if ( cubeName == null )
 			{
 				itemHandle.setCube( null );
@@ -376,7 +376,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		try
 		{
 			itemHandle.setCube( null );
-			
+
 			// Clean references if it's set
 			if ( itemHandle.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
 			{
@@ -739,7 +739,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 */
 	public DataType getDataType( String expression )
 	{
-		if ( expression == null || expression.trim( ).length( ) == 0 )
+		// Do not check type for cube
+		if ( expression == null
+				|| expression.trim( ).length( ) == 0
+				|| ChartReportItemUtil.getBindingCube( itemHandle ) != null )
 		{
 			return null;
 		}
@@ -805,7 +808,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		Object[] returnObj = new Object[2];
 		returnObj[0] = new Boolean( false );
 
-		Iterator iterator = itemHandle.columnBindingsIterator( );
+		Iterator iterator = getAllColumnBindingsIterator( );
 		while ( iterator.hasNext( ) )
 		{
 			ComputedColumnHandle cc = (ComputedColumnHandle) iterator.next( );
@@ -847,6 +850,26 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return returnObj;
 	}
 
+	Iterator getAllColumnBindingsIterator( )
+	{
+		ReportItemHandle container = ChartReportItemUtil.getBindingHolder( itemHandle );
+		if ( container != null )
+		{
+			// Add all bindings to an iterator
+			List allBindings = new ArrayList( );
+			for ( Iterator ownBindings = itemHandle.columnBindingsIterator( ); ownBindings.hasNext( ); )
+			{
+				allBindings.add( ownBindings.next( ) );
+			}
+			for ( Iterator containerBindings = container.columnBindingsIterator( ); containerBindings.hasNext( ); )
+			{
+				allBindings.add( containerBindings.next( ) );
+			}
+			return allBindings.iterator( );
+		}
+		return itemHandle.columnBindingsIterator( );
+	}
+
 	String[] getAllReportItemReferences( )
 	{
 		List referenceList = itemHandle.getAvailableDataBindingReferenceList( );
@@ -874,7 +897,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			itemHandle.setDataSet( null );
 			itemHandle.setCube( null );
-			
+
 			if ( referenceName == null )
 			{
 				itemHandle.setDataBindingReference( null );

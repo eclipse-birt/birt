@@ -75,6 +75,7 @@ public class ChartReportItemUtil
 	public static final String PROPERTY_ONRENDER = "onRender"; //$NON-NLS-1$
 	public static final String PROPERTY_OUTPUT = "outputFormat"; //$NON-NLS-1$
 	public static final String PROPERTY_CUBE_FILTER = "cubeFilter";//$NON-NLS-1$
+	public static final String PROPERTY_HOST_CHART = "hostChart";//$NON-NLS-1$
 
 	public synchronized static ICubeElementFactory getCubeElementFactory( )
 			throws BirtException

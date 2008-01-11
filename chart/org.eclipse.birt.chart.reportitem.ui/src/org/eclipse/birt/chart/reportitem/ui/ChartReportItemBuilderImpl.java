@@ -39,6 +39,7 @@ import org.eclipse.birt.report.designer.ui.dialogs.HyperlinkBuilder;
 import org.eclipse.birt.report.designer.ui.extensions.ReportItemBuilderUI;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -101,17 +102,29 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			return Window.CANCEL;
 		}
 		iInstanceCount++;
+		
+		DesignElementHandle hostChart = eih.getElementProperty( ChartReportItemUtil.PROPERTY_HOST_CHART );
+		if ( hostChart instanceof ExtendedItemHandle )
+		{
+			// If this handle hosts another chart, use the host chart directly
+			this.extendedHandle = (ExtendedItemHandle) hostChart;
+		}
+		else
+		{
+			// Set the ExtendedItemHandle instance (for use by the Chart Builder UI
+			this.extendedHandle = eih;
+		}
 
 		try
 		{
 			IReportItem item = null;
 			try
 			{
-				item = eih.getReportItem( );
+				item = extendedHandle.getReportItem( );
 				if ( item == null )
 				{
-					eih.loadExtendedElement( );
-					item = eih.getReportItem( );
+					extendedHandle.loadExtendedElement( );
+					item = extendedHandle.getReportItem( );
 				}
 			}
 			catch ( ExtendedElementException exception )
@@ -125,7 +138,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 				return Window.CANCEL;
 			}
 
-			final CommandStack commandStack = eih.getRoot( ).getCommandStack( );
+			final CommandStack commandStack = extendedHandle.getRoot( ).getCommandStack( );
 			final String TRANS_NAME = "chart builder internal transaction"; //$NON-NLS-1$
 			commandStack.startTrans( TRANS_NAME );
 
@@ -137,10 +150,6 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			// apply button
 			final Object[] applyData = new Object[2];
 
-			// Set the ExtendedItemHandle instance (for use by the Chart Builder
-			// UI
-			this.extendedHandle = eih;
-
 			// Use workbench shell to open the dialog
 			Shell parentShell = null;
 			if ( PlatformUI.isWorkbenchRunning( ) )
@@ -150,8 +159,8 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 						.getActiveShell( );
 			}
 			final ChartWizard chartBuilder = new ChartWizard( parentShell );
-			ReportDataServiceProvider dataProvider = new ReportDataServiceProvider( eih );
-			IChartDataSheet dataSheet = new StandardChartDataSheet( eih,
+			ReportDataServiceProvider dataProvider = new ReportDataServiceProvider( extendedHandle );
+			IChartDataSheet dataSheet = new StandardChartDataSheet( extendedHandle,
 					dataProvider );
 			final ChartWizardContext context = new ChartWizardContext( cmClone,
 					this,
@@ -172,7 +181,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			} );
 
 			context.setRtL( ChartReportItemUtil.isRtl( ) );
-			Object of = eih.getProperty( ChartReportItemUtil.PROPERTY_OUTPUT ); 
+			Object of = extendedHandle.getProperty( ChartReportItemUtil.PROPERTY_OUTPUT ); 
 			if ( of instanceof String )
 			{
 				// GIF is deprecated in favor of PNG. Automatically update
@@ -184,8 +193,8 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 				else
 					context.setOutputFormat( (String) of );
 			}
-			context.setExtendedItem( eih );
-			context.setProcessor( new ChartReportStyleProcessor( eih, false ) );
+			context.setExtendedItem( extendedHandle );
+			context.setProcessor( new ChartReportStyleProcessor( extendedHandle, false ) );
 			ChartWizardContext contextResult = (ChartWizardContext) chartBuilder.open( null,
 					taskId,
 					context );
@@ -193,12 +202,18 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			{
 				// Pressing Finish
 				commandStack.commit( );
-				updateModel( eih,
+				updateModel( extendedHandle,
 						chartBuilder,
 						crii,
 						cm,
 						contextResult.getModel( ),
 						contextResult.getOutputFormat( ) );
+				if ( hostChart != null )
+				{
+					// Sync the chart model in the axis chart with host chart
+					ChartReportItemUtil.getChartReportItemFromHandle( eih )
+							.setModel( contextResult.getModel( ) );
+				}
 				return Window.OK;
 			}
 			else if ( applyData[0] != null )
@@ -206,12 +221,18 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 				// Pressing Cancel but Apply was pressed before, so revert to
 				// the point pressing Apply
 				commandStack.rollback( );
-				updateModel( eih,
+				updateModel( extendedHandle,
 						chartBuilder,
 						crii,
 						cm,
 						(Chart) applyData[0],
 						(String) applyData[1] );
+				if ( hostChart != null )
+				{
+					// Sync the chart model in the axis chart with host chart
+					ChartReportItemUtil.getChartReportItemFromHandle( eih )
+							.setModel( (Chart) applyData[0] );
+				}
 				return Window.OK;
 			}
 			commandStack.rollback( );

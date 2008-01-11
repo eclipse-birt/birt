@@ -179,10 +179,13 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 				return;
 			}
 			final Chart cm = (Chart) crii.getProperty( "chart.instance" ); //$NON-NLS-1$
-			if ( dWidthInPoints > 0 )
-				cm.getBlock( ).getBounds( ).setWidth( dWidthInPoints );
-			if ( dHeightInPoints > 0 )
-				cm.getBlock( ).getBounds( ).setHeight( dHeightInPoints );
+			if ( cm != null )
+			{
+				if ( dWidthInPoints > 0 )
+					cm.getBlock( ).getBounds( ).setWidth( dWidthInPoints );
+				if ( dHeightInPoints > 0 )
+					cm.getBlock( ).getBounds( ).setHeight( dHeightInPoints );
+			}
 			if ( crii.getDesignerRepresentation( ) != null )
 			{
 				( (DesignerRepresentation) crii.getDesignerRepresentation( ) ).setDirty( true );
