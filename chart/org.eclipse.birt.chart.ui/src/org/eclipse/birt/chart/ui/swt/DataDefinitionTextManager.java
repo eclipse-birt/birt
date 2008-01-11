@@ -16,7 +16,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.eclipse.birt.chart.model.attribute.AxisType;
+import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.data.DataElement;
+import org.eclipse.birt.chart.model.data.DateTimeDataElement;
+import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.Query;
+import org.eclipse.birt.chart.model.data.TextDataElement;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Control;
@@ -152,11 +159,69 @@ public class DataDefinitionTextManager
 		{
 			Query query = (Query) textCollection.get( control );
 			query.setDefinition( getText( control ) );
-
+			
+			adjustScaleData( query );
+			
 			// Bind color to this data definition
 			ColorPalette.getInstance( ).putColor( getText( control ) );
 			control.setBackground( ColorPalette.getInstance( )
 					.getColor( getText( control ) ) );
+		}
+	}
+
+	/**
+	 * Adjust min/max data element of scale when current expression type is
+	 * different with old expression type.
+	 * 
+	 * @param query
+	 * @since BIRT 2.3
+	 */
+	private void adjustScaleData( Query query )
+	{
+		EObject object = query;
+		while ( !( object instanceof Axis ) )
+		{
+			object = object.eContainer( );
+		}
+
+		Axis axis = (Axis) object;
+		AxisType axisType = axis.getType( );
+		DataElement minElement = axis.getScale( ).getMin( );
+		DataElement maxElement = axis.getScale( ).getMax( );
+
+		if ( axisType == AxisType.DATE_TIME_LITERAL )
+		{
+			if ( !( minElement instanceof DateTimeDataElement ) )
+			{
+				axis.getScale( ).setMin( null );
+			}
+			if ( !( maxElement instanceof DateTimeDataElement ) )
+			{
+				axis.getScale( ).setMax( null );
+			}
+		}
+		else if ( axisType == AxisType.TEXT_LITERAL )
+		{
+			if ( !( minElement instanceof TextDataElement ) )
+			{
+				axis.getScale( ).setMin( null );
+			}
+			if ( !( maxElement instanceof TextDataElement ) )
+			{
+				axis.getScale( ).setMax( null );
+			}
+		}
+		else if ( axisType == AxisType.LINEAR_LITERAL ||
+				axisType == AxisType.LOGARITHMIC_LITERAL )
+		{
+			if ( !( minElement instanceof NumberDataElement ) )
+			{
+				axis.getScale( ).setMin( null );
+			}
+			if ( !( maxElement instanceof NumberDataElement ) )
+			{
+				axis.getScale( ).setMax( null );
+			}
 		}
 	}
 

@@ -256,17 +256,33 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 			DataElement data )
 	{
 		IDataElementComposite picker = null;
-		if ( getValueType( ) == TextEditorComposite.TYPE_NUMBERIC
-				|| getValueType( ) == TextEditorComposite.TYPE_NONE )
+
+		if ( getValueType( ) == TextEditorComposite.TYPE_NUMBERIC ||
+				getValueType( ) == TextEditorComposite.TYPE_NONE )
 		{
-			picker = new NumberDataElementComposite( parent,
-					(NumberDataElement) data );
+			try
+			{
+				picker = new NumberDataElementComposite( parent,
+						(NumberDataElement) data );
+			}
+			catch ( Exception e )
+			{
+				picker = new NumberDataElementComposite( parent, null );
+			}
 		}
 		else if ( getValueType( ) == TextEditorComposite.TYPE_DATETIME )
 		{
-			picker = new DateTimeDataElementComposite( parent,
-					(DateTimeDataElement) data );
+			try
+			{
+				picker = new DateTimeDataElementComposite( parent,
+						(DateTimeDataElement) data );
+			}
+			catch ( Exception e )
+			{
+				picker = new DateTimeDataElementComposite( parent, null );
+			}
 		}
+		
 		if ( picker != null )
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
