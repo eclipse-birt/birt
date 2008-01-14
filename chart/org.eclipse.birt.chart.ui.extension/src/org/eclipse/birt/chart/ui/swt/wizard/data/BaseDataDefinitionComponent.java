@@ -12,7 +12,6 @@
 package org.eclipse.birt.chart.ui.swt.wizard.data;
 
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -203,12 +202,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 				public void handleEvent( Event event )
 				{
 					query.setDefinition( cmbDefinition.getText( ) );
-					// If it's chart with axis, transposed chart when selecting
-					// the non-first choice
-					if ( context.getModel( ) instanceof ChartWithAxes )
-					{
-						( (ChartWithAxes) context.getModel( ) ).setTransposed( cmbDefinition.getSelectionIndex( ) > 0 );
-					}
 				}
 			} );
 			cmbDefinition.addModifyListener( this );
@@ -515,8 +508,9 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 				seriesdefinition, context );
 		SeriesDefinition baseSD = (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( context.getModel( ) )
 				.get( 0 );
-		boolean enabled = !PluginSettings.instance( ).inEclipseEnv( ) && baseSD.getGrouping( ).isEnabled( );
-		fAggEditorComposite.setEnabled( PluginSettings.instance( ).inEclipseEnv( ) || enabled );
+		fAggEditorComposite.setEnabled( ChartUIUtil.isGroupingSupported( context )
+				&& ( PluginSettings.instance( ).inEclipseEnv( ) || baseSD.getGrouping( )
+						.isEnabled( ) ) );
 		
 //		/**
 //		 * Set aggregation expression into grouping.

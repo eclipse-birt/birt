@@ -55,19 +55,22 @@ import org.eclipse.swt.widgets.Shell;
  * The dialog is responsible to set grouping and sort condition.
  */
 
-public class GroupSortingDialog extends TrayDialog implements Listener, SelectionListener
+public class GroupSortingDialog extends TrayDialog
+		implements
+			Listener,
+			SelectionListener
 {
 
 	protected static final String UNSORTED_OPTION = Messages.getString( "BaseSeriesDataSheetImpl.Choice.Unsorted" ); //$NON-NLS-1$
 
 	protected ChartWizardContext wizardContext;
-	
+
 	private SeriesDefinition sd;
 
 	protected Combo cmbSorting;
-	
+
 	protected Combo cmbSortExpr;
-	
+
 	protected Button btnSortExprBuilder;
 
 	/** The field indicates if the aggregation composite should be enabled. */
@@ -87,32 +90,37 @@ public class GroupSortingDialog extends TrayDialog implements Listener, Selectio
 	}
 
 	public GroupSortingDialog( Shell shell, ChartWizardContext wizardContext,
-			SeriesDefinition sd, boolean disableAggregation, boolean hasExprBuilder )
+			SeriesDefinition sd, boolean disableAggregation,
+			boolean hasExprBuilder )
 	{
 		super( shell );
 		this.wizardContext = wizardContext;
 		this.sd = sd;
 		this.fEnableAggregation = disableAggregation;
-		this.fHasExprBuilder  = hasExprBuilder;
+		this.fHasExprBuilder = hasExprBuilder;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets.Composite)
 	 */
-	protected Control createContents(Composite parent) {
+	protected Control createContents( Composite parent )
+	{
 		Control c = super.createContents( parent );
 		// Pack shell for dynamic creating aggregate parameters widgets.
 		c.pack( );
 		return c;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
 	 */
 	protected Control createDialogArea( Composite parent )
 	{
-		ChartUIUtil.bindHelp( parent,
-				ChartHelpContextIds.DIALOG_GROUP_AND_SORT );
+		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.DIALOG_GROUP_AND_SORT );
 		getShell( ).setText( Messages.getString( "GroupSortingDialog.Label.GroupAndSorting" ) ); //$NON-NLS-1$
 
 		Composite cmpContent = new Composite( parent, SWT.NONE );
@@ -132,10 +140,13 @@ public class GroupSortingDialog extends TrayDialog implements Listener, Selectio
 
 		createSortArea( cmpBasic );
 
-		createGroupArea( cmpBasic );
-		
+		if ( ChartUIUtil.isGroupingSupported( wizardContext ) )
+		{
+			createGroupArea( cmpBasic );
+		}
+
 		initSortKey( );
-		
+
 		populateLists( );
 
 		return cmpContent;
@@ -216,7 +227,7 @@ public class GroupSortingDialog extends TrayDialog implements Listener, Selectio
 			}
 		}
 	}
-	
+
 	protected SeriesDefinition getSeriesDefinitionForProcessing( )
 	{
 		return sd;
@@ -247,11 +258,13 @@ public class GroupSortingDialog extends TrayDialog implements Listener, Selectio
 			cmbSorting.select( LiteralHelper.sortOptionSet.getNameIndex( getSeriesDefinitionForProcessing( ).getSorting( )
 					.getName( ) ) + 1 );
 		}
-		
+
 		diableSortKeySelectionStateBySortDirection( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
 	 */
 	public void handleEvent( Event event )
@@ -259,11 +272,12 @@ public class GroupSortingDialog extends TrayDialog implements Listener, Selectio
 		if ( event.widget == cmbSorting )
 		{
 			diableSortKeySelectionStateBySortDirection( );
-			
+
 			if ( cmbSorting.getText( ).equals( UNSORTED_OPTION ) )
 			{
 				getSeriesDefinitionForProcessing( ).eUnset( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) );
-				getSeriesDefinitionForProcessing( ).getSortKey( ).setDefinition( null );
+				getSeriesDefinitionForProcessing( ).getSortKey( )
+						.setDefinition( null );
 			}
 			else
 			{
@@ -272,7 +286,7 @@ public class GroupSortingDialog extends TrayDialog implements Listener, Selectio
 		}
 
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -343,7 +357,8 @@ public class GroupSortingDialog extends TrayDialog implements Listener, Selectio
 
 	/**
 	 * Disable SortKey selection state by check sort direction.
-     * @since BIRT 2.3
+	 * 
+	 * @since BIRT 2.3
 	 */
 	protected void diableSortKeySelectionStateBySortDirection( )
 	{
@@ -352,10 +367,11 @@ public class GroupSortingDialog extends TrayDialog implements Listener, Selectio
 			setSortKeySelectionState( false );
 		}
 	}
-	
+
 	/**
 	 * Initialize SortKey object of chart model if it doesn't exist.
-     * @since BIRT 2.3
+	 * 
+	 * @since BIRT 2.3
 	 */
 	protected void initSortKey( )
 	{
@@ -364,7 +380,7 @@ public class GroupSortingDialog extends TrayDialog implements Listener, Selectio
 			getSeriesDefinitionForProcessing( ).setSortKey( QueryImpl.create( null ) );
 		}
 	}
-	
+
 	/**
 	 * check if Y grouping is set.
 	 * 
@@ -399,11 +415,10 @@ public class GroupSortingDialog extends TrayDialog implements Listener, Selectio
 		{
 			yGroupExpr = orthSD.getQuery( ).getDefinition( );
 		}
-		
+
 		return yGroupExpr != null && !"".equals( yGroupExpr ); //$NON-NLS-1$
 	}
-	
-	
+
 	/**
 	 * Get expressions of base series.
 	 * 

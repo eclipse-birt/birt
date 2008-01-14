@@ -636,6 +636,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 					cmbDataItems.setEnabled( false );
 					setEnabledForButtons( );
 					updateDragDataSource( );
+					updatePredefinedQueries( );
 				}
 				else if ( event.widget == btnUseData )
 				{
@@ -650,6 +651,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 					cmbDataItems.setEnabled( true );
 					setEnabledForButtons( );
 					updateDragDataSource( );
+					updatePredefinedQueries( );
 				}
 				else if ( event.widget == cmbDataItems )
 				{

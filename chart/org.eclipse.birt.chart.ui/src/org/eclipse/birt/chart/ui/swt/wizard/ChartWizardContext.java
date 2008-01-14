@@ -53,6 +53,7 @@ public class ChartWizardContext implements IWizardContext
 		this.uiProvider = uiProvider;
 		this.dataProvider = dataProvider;
 		this.dataSheet = dataSheet;
+		this.dataSheet.setContext( this );
 	}
 
 	/*

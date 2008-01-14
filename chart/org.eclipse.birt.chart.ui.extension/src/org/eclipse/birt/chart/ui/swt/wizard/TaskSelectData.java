@@ -96,6 +96,9 @@ public class TaskSelectData extends SimpleTask
 
 	public void createControl( Composite parent )
 	{
+		getDataSheet( ).setChartModel( getChartModel( ) );
+		getDataSheet( ).addListener( this );
+
 		if ( topControl == null || topControl.isDisposed( ) )
 		{
 			topControl = new Composite( parent, SWT.NONE );
@@ -136,9 +139,6 @@ public class TaskSelectData extends SimpleTask
 
 		ChartUIUtil.bindHelp( getControl( ),
 				ChartHelpContextIds.TASK_SELECT_DATA );
-
-		getDataSheet( ).setChartModel( getChartModel( ) );
-		getDataSheet( ).addListener( IChartDataSheet.EVENT_UPDATE, this );
 	}
 
 	protected void customizeUI( )
@@ -343,10 +343,16 @@ public class TaskSelectData extends SimpleTask
 	{
 		if ( event.data == getDataSheet( ) )
 		{
-			if ( event.type == IChartDataSheet.EVENT_UPDATE )
+			if ( event.type == IChartDataSheet.EVENT_PREVIEW )
 			{
 				doLivePreview( );
 				updateApplyButton( );
+			}
+			else if ( event.type == IChartDataSheet.EVENT_QUERY )
+			{
+				getCustomizeUI( ).refreshBottomBindingArea( );
+				getCustomizeUI( ).refreshLeftBindingArea( );
+				getCustomizeUI( ).refreshRightBindingArea( );
 			}
 		}
 	}
@@ -437,11 +443,15 @@ public class TaskSelectData extends SimpleTask
 					DataType dataType = getDataServiceProvider( ).getDataType( expression );
 					SeriesDefinition baseSD = (SeriesDefinition) ( ChartUIUtil.getBaseSeriesDefinitions( getChartModel( ) ).get( 0 ) );
 					SeriesDefinition orthSD = null;
-					orthSD = (SeriesDefinition)series.eContainer( );
-					String aggFunc = ChartUtil.getAggregateFuncExpr( orthSD, baseSD );
-					
-					if ( baseSD != orthSD
-							&& baseSD.eContainer( ) != axis // Is not without axis chart.
+					orthSD = (SeriesDefinition) series.eContainer( );
+					String aggFunc = ChartUtil.getAggregateFuncExpr( orthSD,
+							baseSD );
+
+					if ( baseSD != orthSD && baseSD.eContainer( ) != axis // Is
+																			// not
+																			// without
+																			// axis
+																			// chart.
 							&& ChartUtil.isMagicAggregate( aggFunc ) )
 					{
 						// Only check aggregation is count in Y axis
@@ -464,7 +474,7 @@ public class TaskSelectData extends SimpleTask
 						}
 					}
 				}
-				
+
 				boolean bException = false;
 				try
 				{
@@ -492,7 +502,6 @@ public class TaskSelectData extends SimpleTask
 					WizardBase.removeException( );
 				}
 
-				
 				break;
 			}
 		}

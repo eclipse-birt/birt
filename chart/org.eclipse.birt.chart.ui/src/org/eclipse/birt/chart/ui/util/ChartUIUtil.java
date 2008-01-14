@@ -62,6 +62,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartUIExtensionsImpl;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.PluginSettings;
@@ -95,7 +96,7 @@ public class ChartUIUtil
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui/swt" ); //$NON-NLS-1$
 
 	private static HashMap htSeriesAttributeUIProviders = new HashMap( );
-	
+
 	static
 	{
 		// Get the SWT device
@@ -108,7 +109,7 @@ public class ChartUIUtil
 		{
 			logger.log( e );
 		}
-		
+
 		// Get collection of registered UI Providers
 		Collection cRegisteredEntries = ChartUIExtensionsImpl.instance( )
 				.getSeriesUIComponents( );
@@ -403,7 +404,7 @@ public class ChartUIUtil
 			{
 				return false;
 			}
-			
+
 			// Only check valid index
 			int[] validIndex = getSeriesUIProvider( series ).validationIndex( series );
 			for ( int j = 0; j < validIndex.length; j++ )
@@ -564,7 +565,8 @@ public class ChartUIUtil
 	public static void doLivePreview( Chart chart,
 			IDataServiceProvider dataProvider ) throws ChartException
 	{
-		final List expressions = Generator.instance( ).getRowExpressions( chart, null );
+		final List expressions = Generator.instance( )
+				.getRowExpressions( chart, null );
 
 		IDataRowExpressionEvaluator evaluator = dataProvider.prepareRowExpressionEvaluator( chart,
 				expressions,
@@ -686,8 +688,7 @@ public class ChartUIUtil
 				{
 					Date dateElement = sdf.parse( strDataElement );
 					dateElement.setTime( dateElement.getTime( )
-							+ ( dateElement.getTime( ) * index )
-							/ 10 );
+							+ ( dateElement.getTime( ) * index ) / 10 );
 					sb.append( sdf.format( dateElement ) );
 				}
 				catch ( ParseException e1 )
@@ -1184,8 +1185,7 @@ public class ChartUIUtil
 		ColorDefinition wall = (ColorDefinition) chartWithAxes.getWallFill( );
 		ColorDefinition floor = (ColorDefinition) chartWithAxes.getFloorFill( );
 		return wall != null
-				&& wall.getTransparency( ) > 0
-				|| floor != null
+				&& wall.getTransparency( ) > 0 || floor != null
 				&& floor.getTransparency( ) > 0;
 	}
 
@@ -1204,16 +1204,17 @@ public class ChartUIUtil
 		}
 		return anchor;
 	}
-	
+
 	/**
 	 * Convert the displayed text alignment in the case of flipped axes.
 	 * 
 	 * @param ta
 	 * @param isFlippedAxes
-	 * 			true if the Orientation is Horizontal
+	 *            true if the Orientation is Horizontal
 	 * @return The flipped text alignment
 	 */
-	public static TextAlignment getFlippedAlignment( TextAlignment ta, boolean isFlippedAxes)
+	public static TextAlignment getFlippedAlignment( TextAlignment ta,
+			boolean isFlippedAxes )
 	{
 		if ( isFlippedAxes )
 		{
@@ -1221,7 +1222,7 @@ public class ChartUIUtil
 		}
 		return ta;
 	}
-	
+
 	/**
 	 * Convert the displayed position in the case of flipped axes.
 	 * 
@@ -1280,7 +1281,7 @@ public class ChartUIUtil
 		}
 		return (String[]) list.toArray( new String[list.size( )] );
 	}
-	
+
 	/**
 	 * Gets the position scope of Series label.
 	 * 
@@ -1328,7 +1329,7 @@ public class ChartUIUtil
 
 		return positionScope;
 	}
-	
+
 	/**
 	 * Gets the array of position display names
 	 * 
@@ -1388,7 +1389,7 @@ public class ChartUIUtil
 
 		return (String[]) items.toArray( new String[items.size( )] );
 	}
-	
+
 	private static void addArrayToList( Object[] array, List list )
 	{
 		for ( int i = 0; i < array.length; i++ )
@@ -1478,7 +1479,7 @@ public class ChartUIUtil
 			}
 		}
 	}
-	
+
 	/**
 	 * Gets the specific series UI provider
 	 * 
@@ -1492,19 +1493,19 @@ public class ChartUIUtil
 		return (ISeriesUIProvider) htSeriesAttributeUIProviders.get( series.getClass( )
 				.getName( ) );
 	}
-	
+
 	/** The default image button height of Chart. */
 	public static final int BUTTON_HEIGHT = 20;
-	
+
 	/** The default image button width of Chart. */
 	public static final int BUTTON_WIDTH = 20;
-	
+
 	/**
 	 * @param gridData
-	 * @return
-	 * @since BIRT 2.3
+	 * 
+	 * @since 2.3
 	 */
-	public static void setChartImageButtonSizeByPlatform(GridData gridData)
+	public static void setChartImageButtonSizeByPlatform( GridData gridData )
 	{
 		if ( isWindows( ) )
 		{
@@ -1512,25 +1513,21 @@ public class ChartUIUtil
 			gridData.widthHint = BUTTON_WIDTH;
 		}
 	}
-	
+
 	/**
 	 * @param gridData
-	 * @return
-	 * @since BIRT 2.3
+	 * 
+	 * @since 2.3
 	 */
-	public static void setChartImageButtonHeightByPlatform(GridData gridData)
+	public static void setChartImageButtonHeightByPlatform( GridData gridData )
 	{
 		if ( isWindows( ) )
 		{
 			gridData.heightHint = BUTTON_HEIGHT;
 		}
 	}
-	
-	/**
-	 * @return
-	 * @since BIRT 2.3
-	 */
-	public static boolean isWindows()
+
+	private static boolean isWindows( )
 	{
 		String platform = SWT.getPlatform( );
 		if ( "win32".equals( platform ) ) //$NON-NLS-1$
@@ -1538,5 +1535,19 @@ public class ChartUIUtil
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Checks if grouping is supported.
+	 * 
+	 * @param wizardContext
+	 * @since 2.3
+	 */
+	public static boolean isGroupingSupported( ChartWizardContext wizardContext )
+	{
+		// If predefined query is found, that means cube bindings is used, so
+		// grouping is unsupported in this case.
+		return wizardContext.getPredefinedQuery( ChartUIConstants.QUERY_CATEGORY ) == null
+				&& wizardContext.getPredefinedQuery( ChartUIConstants.QUERY_VALUE ) == null;
 	}
 }
