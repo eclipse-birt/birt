@@ -17,6 +17,8 @@ import java.util.List;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
@@ -31,10 +33,14 @@ public class DefaultChartDataSheet implements IChartDataSheet
 
 	private List listeners = new ArrayList( 2 );
 	private Chart cm;
+	private ChartWizardContext context;
 
-	public void addListener( int eventType, Listener listener )
+	public void addListener( Listener listener )
 	{
-		listeners.add( listener );
+		if ( !listeners.contains( listener ) )
+		{
+			listeners.add( listener );
+		}
 	}
 
 	public Composite createActionButtons( Composite parent )
@@ -52,12 +58,12 @@ public class DefaultChartDataSheet implements IChartDataSheet
 		return new Composite( parent, SWT.NONE );
 	}
 
-	public void removeListener( int eventType, Listener listener )
+	public void removeListener( Listener listener )
 	{
 		listeners.remove( listener );
 	}
 
-	public void notifyListeners( int eventType, Event event )
+	public void notifyListeners( Event event )
 	{
 		for ( Iterator iterator = listeners.iterator( ); iterator.hasNext( ); )
 		{
@@ -79,6 +85,17 @@ public class DefaultChartDataSheet implements IChartDataSheet
 	protected Chart getChartModel( )
 	{
 		return this.cm;
+	}
+
+	public void setContext( IWizardContext context )
+	{
+		assert context instanceof ChartWizardContext;
+		this.context = (ChartWizardContext) context;
+	}
+
+	protected ChartWizardContext getContext( )
+	{
+		return this.context;
 	}
 
 }

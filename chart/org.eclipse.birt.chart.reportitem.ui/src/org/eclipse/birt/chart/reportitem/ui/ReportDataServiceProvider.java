@@ -145,8 +145,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	{
 		try
 		{
+			// Clean references if it's set
+			if ( itemHandle.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+			{
+				itemHandle.setDataBindingReference( null );
+			}
 			itemHandle.setDataSet( null );
-			itemHandle.setDataBindingReference( null );
 
 			if ( cubeName == null )
 			{
@@ -375,13 +379,13 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		boolean needAddBinding = false;
 		try
 		{
-			itemHandle.setCube( null );
-
 			// Clean references if it's set
 			if ( itemHandle.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
 			{
 				itemHandle.setDataBindingReference( null );
 			}
+			
+			itemHandle.setCube( null );
 
 			if ( datasetName == null )
 			{

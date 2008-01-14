@@ -40,6 +40,7 @@ import org.eclipse.birt.chart.ui.swt.SimpleTextTransfer;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
@@ -211,7 +212,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 		event.data = this;
 		event.widget = widget;
 		event.type = eventType;
-		notifyListeners( eventType, event );
+		notifyListeners( event );
 	}
 
 	public Composite createDataDragSource( Composite parent )
@@ -397,6 +398,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 		}
 
 		initDataSelector( );
+		updatePredefinedQueries( );
 		return cmpDataSet;
 	}
 
@@ -443,19 +445,19 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 		// ChartUIUtil.bindHelp( shell,
 		// ChartHelpContextIds.DIALOG_DATA_SET_COLUMN_BINDING );
 		ColumnBindingDialog page = new ChartColumnBindingDialog( shell );
-		
-		ExtendedItemHandle handle = getItemHandle();
+
+		ExtendedItemHandle handle = getItemHandle( );
 		handle.getModuleHandle( ).getCommandStack( ).startTrans( null );
 		page.setInput( handle );
-		
+
 		ExpressionProvider ep = new ExpressionProvider( getItemHandle( ) );
 		ep.addFilter( new ExpressionFilter( ) {
 
 			public boolean select( Object parentElement, Object element )
 			{
 				// Remove unsupported expression. See bugzilla#132768
-				return !( parentElement.equals( ExpressionProvider.BIRT_OBJECTS ) &&
-						element instanceof IClassInfo && ( (IClassInfo) element ).getName( )
+				return !( parentElement.equals( ExpressionProvider.BIRT_OBJECTS )
+						&& element instanceof IClassInfo && ( (IClassInfo) element ).getName( )
 						.equals( "Total" ) ); //$NON-NLS-1$
 			}
 		} );
@@ -593,7 +595,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 				{
 					refreshTablePreview( );
 					// Update preview via event
-					fireEvent( btnFilters, EVENT_UPDATE );
+					fireEvent( btnFilters, EVENT_PREVIEW );
 				}
 			}
 			else if ( event.widget == btnParameters )
@@ -602,7 +604,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 				{
 					refreshTablePreview( );
 					// Update preview via event
-					fireEvent( btnParameters, EVENT_UPDATE );
+					fireEvent( btnParameters, EVENT_PREVIEW );
 				}
 			}
 			else if ( event.widget == btnBinding )
@@ -611,7 +613,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 				{
 					refreshTablePreview( );
 					// Update preview via event
-					fireEvent( btnBinding, EVENT_UPDATE );
+					fireEvent( btnBinding, EVENT_PREVIEW );
 				}
 			}
 
@@ -701,7 +703,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 							updateDragDataSource( );
 							break;
 					}
-
+					updatePredefinedQueries( );
 				}
 				// else if ( event.widget == btnUseReference )
 				// {
@@ -835,7 +837,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 
 		DataDefinitionTextManager.getInstance( ).refreshAll( );
 		// Update preview via event
-		fireEvent( tablePreview, EVENT_UPDATE );
+		fireEvent( tablePreview, EVENT_PREVIEW );
 	}
 
 	private void switchDataTable( )
@@ -1358,5 +1360,53 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 			}
 		}
 		return (String[]) items.toArray( new String[items.size( )] );
+	}
+
+	private void updatePredefinedQueries( )
+	{
+		CubeHandle cube = getCube( );
+		if ( cube == null )
+		{
+			getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
+					null );
+			getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_VALUE,
+					null );
+			getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_OPTIONAL,
+					null );
+		}
+		else
+		{
+			List measures = ChartReportItemUtil.getAllMeasures( cube );
+			if ( !measures.isEmpty( ) )
+			{
+				String[] exprs = new String[measures.size( )];
+				for ( int i = 0; i < exprs.length; i++ )
+				{
+					exprs[i] = ExpressionUtil.createJSMeasureExpression( ( (MeasureHandle) measures.get( i ) ).getName( ) );
+				}
+				getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_VALUE,
+						exprs );
+			}
+
+			List levels = ChartReportItemUtil.getAllLevels( cube );
+			if ( !levels.isEmpty( ) )
+			{
+				String[] exprs = new String[levels.size( )];
+				for ( int i = 0; i < exprs.length; i++ )
+				{
+					LevelHandle level = (LevelHandle) levels.get( i );
+					exprs[i] = ExpressionUtil.createJSDimensionExpression( level.getContainer( )
+							.getContainer( )
+							.getName( ),
+							level.getName( ) );
+				}
+				getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
+						exprs );
+				getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_OPTIONAL,
+						exprs );
+			}
+		}
+		// Fire event to update predefined queries in outside UI
+		fireEvent( btnBinding, EVENT_QUERY );
 	}
 }

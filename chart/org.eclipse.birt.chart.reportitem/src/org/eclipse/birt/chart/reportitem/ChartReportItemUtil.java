@@ -12,7 +12,9 @@
 package org.eclipse.birt.chart.reportitem;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import org.eclipse.birt.chart.exception.ChartException;
@@ -43,6 +45,9 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.DimensionHandle;
+import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 
 /**
  * Utility class for Chart integration as report item
@@ -492,7 +497,7 @@ public class ChartReportItemUtil
 		{
 			return DesignChoiceConstants.AGGREGATION_FUNCTION_RUNNINGCOUNT;
 		}
-		
+
 		return null;
 	}
 
@@ -712,5 +717,63 @@ public class ChartReportItemUtil
 			return getBindingCube( element.getContainer( ) );
 		}
 		return null;
+	}
+
+	/**
+	 * Gets all measure handles in the cube.
+	 * 
+	 * @param cube
+	 *            cube handle
+	 * @return all measure handles or empty list if no measure. The element in
+	 *         list is <code>MeasureHandle</code>
+	 * @since 2.3
+	 */
+	public static List getAllMeasures( CubeHandle cube )
+	{
+		if ( cube.getContentCount( CubeHandle.MEASURE_GROUPS_PROP ) > 0 )
+		{
+			List measures = new ArrayList( );
+			Iterator measureGroups = cube.getContents( CubeHandle.MEASURE_GROUPS_PROP )
+					.iterator( );
+			while ( measureGroups.hasNext( ) )
+			{
+				MeasureGroupHandle measureGroup = (MeasureGroupHandle) measureGroups.next( );
+				measures.addAll( measureGroup.getContents( MeasureGroupHandle.MEASURES_PROP ) );
+			}
+			return measures;
+		}
+		return Collections.EMPTY_LIST;
+	}
+
+	/**
+	 * Gets all level handles in the cube.
+	 * 
+	 * @param cube
+	 *            cube handle
+	 * @return all level handles or empty list if no level. The element in list
+	 *         is <code>LevelHandle</code>
+	 * @since 2.3
+	 */
+	public static List getAllLevels( CubeHandle cube )
+	{
+		if ( cube.getContentCount( CubeHandle.DIMENSIONS_PROP ) > 0 )
+		{
+			List levels = new ArrayList( );
+			Iterator dimensions = cube.getContents( CubeHandle.DIMENSIONS_PROP )
+					.iterator( );
+			while ( dimensions.hasNext( ) )
+			{
+				DimensionHandle dimensionHandle = (DimensionHandle) dimensions.next( );
+				HierarchyHandle hierarchy = (HierarchyHandle) ( dimensionHandle ).getContent( DimensionHandle.HIERARCHIES_PROP,
+						0 );
+				int count = hierarchy.getLevelCount( );
+				for ( int i = 0; i < count; i++ )
+				{
+					levels.add( hierarchy.getLevel( i ) );
+				}
+			}
+			return levels;
+		}
+		return Collections.EMPTY_LIST;
 	}
 }

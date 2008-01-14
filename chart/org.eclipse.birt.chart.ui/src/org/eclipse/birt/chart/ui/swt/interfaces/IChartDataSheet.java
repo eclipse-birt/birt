@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.ui.swt.interfaces;
 
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
@@ -25,9 +26,14 @@ public interface IChartDataSheet
 {
 
 	/**
-	 * Event type indicates outside update.
+	 * Event type indicates refreshing preview.
 	 */
-	int EVENT_UPDATE = 1;
+	int EVENT_PREVIEW = 1;
+
+	/**
+	 * Event type indicates updating predefined queries.
+	 */
+	int EVENT_QUERY = 2;
 
 	/**
 	 * Sets chart model.
@@ -36,6 +42,14 @@ public interface IChartDataSheet
 	 *            chart model
 	 */
 	void setChartModel( Chart cm );
+
+	/**
+	 * Sets chart context.
+	 * 
+	 * @param context
+	 *            chart context
+	 */
+	void setContext( IWizardContext context );
 
 	/**
 	 * Creates data selector to select data set and etc.
@@ -72,35 +86,31 @@ public interface IChartDataSheet
 	 * <code>handleEvent()</code> message. The event type is one of the event
 	 * constants defined in class <code>SWT</code>.
 	 * 
-	 * @param eventType
-	 *            the type of event to listen for
 	 * @param listener
 	 *            the listener which should be notified when the event occurs
 	 * 
 	 * 
 	 * @see Listener
-	 * @see #removeListener(int, Listener)
-	 * @see #notifyListeners(int, Event)
+	 * @see #removeListener( Listener)
+	 * @see #notifyListeners( Event)
 	 */
-	void addListener( int eventType, Listener listener );
+	void addListener( Listener listener );
 
 	/**
 	 * Removes the listener from the collection of listeners who will be
 	 * notified when an event of the given type occurs. The event type is one of
 	 * the event constants defined in class <code>SWT</code>.
 	 * 
-	 * @param eventType
-	 *            the type of event to listen for
 	 * @param listener
 	 *            the listener which should no longer be notified when the event
 	 *            occurs
 	 * 
 	 * 
 	 * @see Listener
-	 * @see #addListener(int, Listener)
-	 * @see #notifyListeners(int, Event)
+	 * @see #addListener( Listener)
+	 * @see #notifyListeners( Event)
 	 */
-	void removeListener( int eventType, Listener listener );
+	void removeListener( Listener listener );
 
 	/**
 	 * Notifies all of the receiver's listeners for events of the given type
@@ -108,16 +118,17 @@ public interface IChartDataSheet
 	 * <code>handleEvent()</code> method. The event type is one of the event
 	 * constants defined in class <code>SWT</code>.
 	 * 
-	 * @param eventType
-	 *            the type of event which has occurred
 	 * @param event
 	 *            the event data
 	 * 
 	 * 
-	 * @see #addListener(int, Listener)
-	 * @see #removeListener(int, Listener)
+	 * @see #addListener( Listener)
+	 * @see #removeListener( Listener)
 	 */
-	void notifyListeners( int eventType, Event event );
+	void notifyListeners( Event event );
 
+	/**
+	 * Disposes the resources if needed.
+	 */
 	void dispose( );
 }
