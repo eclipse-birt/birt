@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.extensions;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 
 /**
@@ -28,5 +29,6 @@ public interface IReportItemViewProvider
 	/**
 	 * Creates view upon given multiview host
 	 */
-	DesignElementHandle createView( DesignElementHandle host );
+	DesignElementHandle createView( DesignElementHandle host )
+			throws BirtException;
 }
