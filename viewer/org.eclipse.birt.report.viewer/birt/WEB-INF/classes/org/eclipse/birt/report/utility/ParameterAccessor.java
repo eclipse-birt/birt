@@ -34,6 +34,7 @@ import java.util.regex.Pattern;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.IBirtConstants;
@@ -2356,11 +2357,13 @@ public class ParameterAccessor
 	}
 
 	/**
-	 * Push User-defined application context object into engine context map.
-	 * 
-	 * @param map
-	 * @param request
-	 * @return
+	 * Push user-defined application context object into engine context map.
+	 * The user-defined application context is retrieved from the http request,
+	 * if available, else from the session. If nothing is found, nothing is
+	 * added and the map is returned as is.
+	 * @param map application context map
+	 * @param request http request object containing appContext key to push
+	 * @return map containing the appContext key
 	 */
 	public static Map pushAppContext( Map map, HttpServletRequest request )
 	{
@@ -2370,15 +2373,33 @@ public class ParameterAccessor
 		// Get application context key from request
 		String appContextKey = (String) request
 				.getAttribute( ATTR_APPCONTEXT_KEY );
-
-		// Put application context object
+		
 		if ( appContextKey != null )
+		{
 			map.put( appContextKey, request
 					.getAttribute( ATTR_APPCONTEXT_VALUE ) );
+		}
+		else
+		{
+			// check if the session contains it
+			HttpSession session = request.getSession( false );
+			if ( session != null )
+			{
+				// Get application context key from the session
+				appContextKey = (String) session
+						.getAttribute( ATTR_APPCONTEXT_KEY );
+				if ( appContextKey != null )
+				{
+					map.put( appContextKey, session
+						.getAttribute( ATTR_APPCONTEXT_VALUE ) );
+				
+				}
+			}
+		}			
 
 		return map;
 	}
-
+	
 	/**
 	 * Returns the encoding for export data.
 	 * 
