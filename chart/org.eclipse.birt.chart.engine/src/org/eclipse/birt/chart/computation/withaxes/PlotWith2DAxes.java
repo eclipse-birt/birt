@@ -1536,14 +1536,13 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		AutoScale scOA, sc = axPrimary.getScale( );
 		double dStart, dEnd;
 		Object[] oaMinMax;
-		int iAxisType = ( aax.getOverlayCount( ) > 0 ) ? aax.getOverlay( 0 )
-				.getScale( )
-				.getType( ) : 0;
 
 		Label la;
 		for ( int i = 0; i < aax.getOverlayCount( ); i++ )
 		{
 			axOverlay = aax.getOverlay( i );
+			int iAxisType = axOverlay.getAxisType( );
+			
 			la = axOverlay.getLabel( );
 			scOA = axOverlay.getScale( );
 			scOA.setEndPoints( scOA.getStart( )
