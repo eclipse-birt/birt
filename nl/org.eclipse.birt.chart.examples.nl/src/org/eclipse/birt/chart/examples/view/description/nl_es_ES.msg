@@ -15,7 +15,13 @@ StandardMeter=Los diagramas métricos estándar presentan un solo cuadrante con un
 SuperImposedMeter=Los diagramas métricos superpuestos contienen varios cuadrantes con idénticas regiones. Los cuadrantes se superponen, por lo que pueden presentar múltiples indicadores dentro de una misma región.
 Scatter=Los diagramas de dispersión organizan los valores en el dibujo usando los datos de categoría y de valor como coordenadas. Cada valor de datos se indica con un marcador.
 BarStickStock=Un diagrama de cotización de barras contiene una línea vertical con dos líneas horizontales pegadas. Los puntos superior e inferior de la línea vertical son los valores de cotización de apertura y cierre. Las dos líneas horizontales son los valores máximo y mínimo.
-CandleStickStock=Un diagrama de cotización de velas contiene un cuadro con líneas que se extienden hacia arriba y hacia abajo de los extremos. Los bordes superior e inferior del cuadro son los valores de cotización de apertura y cierre. Los puntos superior e inferior de la línea son los valores máximo y mínimo. 
+CandleStickStock=A candle-stick stock chart contains a box with lines extending up and down from the ends. The upper and lower edges of the box are the stock open and close values. The upper and lower points of the line are the high and low values.
+Bubble=Bubble charts are an extension to scatter charts, and display the points as bubbles. The bubble diameters are proportionated to a third data value, besides the x and y coordinates.
+Difference=Difference charts show the area between two lines of values. They inherit all of the area series properties, and can also show a negative area with a different color.
+Gantt=Gantt charts are used to track tasks duration and progress. They are represented on a datetime Y axis, using bars of custom width with optional start/end markers. Each bar is defined by its category, task label, start time and end time. It is possible to overlay several gantt series of different width to track the actual progress of scheduled tasks for instance.
+Tube=Tube charts are similar to bar charts with the bars represented as tubes.
+Cone=Cone charts are similar to bar charts, with the bars represented as cones.
+Pyramid=Pyramid charts are similar to bar charts, with the bars represented as pyramids.
 
 ###########################################################
 #3D Charts

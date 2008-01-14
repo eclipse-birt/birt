@@ -15,7 +15,13 @@ StandardMeter=•W€ƒ[ƒ^[ƒOƒ‰ƒt‚É‚ÍA1‚Â‚Ìƒ_ƒCƒ„ƒ‹‚ªŠÜ‚Ü‚ê‚Ü‚·Bƒ_ƒCƒ„ƒ‹‚Ì”wŒi‚
 SuperImposedMeter=d‚Ë‡‚í‚¹ƒ[ƒ^[ƒOƒ‰ƒt‚É‚ÍA“¯‚¶—Ìˆæ‚ğ‚Â•¡”‚Ìƒ_ƒCƒ„ƒ‹‚ªŠÜ‚Ü‚ê‚Ü‚·BŠeƒ_ƒCƒ„ƒ‹‚Íd‚È‚è‡‚¢A1‚Â‚Ì—Ìˆæ‚É•¡”‚Ìj‚ğ•\¦‚Å‚«‚Ü‚·B
 Scatter=•ª•zƒOƒ‰ƒtBƒJƒeƒSƒŠƒf[ƒ^‚Æ’lƒf[ƒ^‚ğÀ•W‚Æ‚µA’l‚ğ“_‚Åƒvƒƒbƒg‚µ‚Ü‚·BŠeƒf[ƒ^’l‚Íƒ}[ƒJ‚Å¦‚µ‚Ü‚·B
 BarStickStock=–_Š”‰¿ƒOƒ‰ƒtB–_ó‚Ìcü‚Æ‚»‚ê‚ç‚ğŒ‹‚Ô 2 –{‚Ì‰¡ü‚©‚ç\¬‚³‚ê‚Ü‚·Bcü‚Ìã‰º‚Ìƒ|ƒCƒ“ƒg‚ÍŠ”‰¿‚Ìn’l‚ÆI’l‚ğ¦‚µ‚Ü‚·B2 –{‚Ì‰¡ü‚ÍA‚’l‚ÆˆÀ’l‚ğ¦‚µ‚Ü‚·B
-CandleStickStock=ƒ[ƒ\ƒN‘«Š”‰¿ƒOƒ‰ƒtBƒ{ƒbƒNƒX‚Æ‚»‚Ìã‰º—¼’[‚©‚çL‚Ñ‚éü‚©‚ç\¬‚³‚ê‚Ü‚·Bƒ{ƒbƒNƒX‚Ìã‰º‚Ì—¼’[‚ÍŠ”‰¿‚Ìn’l‚ÆI’l‚ğ¦‚µ‚Ü‚·BŠeü‚Ìã’[‚Í‚’l‚ğ•\‚µA‰º’[‚ÍˆÀ’l‚ğ•\‚µ‚Ü‚·B 
+CandleStickStock=A candle-stick stock chart contains a box with lines extending up and down from the ends. The upper and lower edges of the box are the stock open and close values. The upper and lower points of the line are the high and low values.
+Bubble=Bubble charts are an extension to scatter charts, and display the points as bubbles. The bubble diameters are proportionated to a third data value, besides the x and y coordinates.
+Difference=Difference charts show the area between two lines of values. They inherit all of the area series properties, and can also show a negative area with a different color.
+Gantt=Gantt charts are used to track tasks duration and progress. They are represented on a datetime Y axis, using bars of custom width with optional start/end markers. Each bar is defined by its category, task label, start time and end time. It is possible to overlay several gantt series of different width to track the actual progress of scheduled tasks for instance.
+Tube=Tube charts are similar to bar charts with the bars represented as tubes.
+Cone=Cone charts are similar to bar charts, with the bars represented as cones.
+Pyramid=Pyramid charts are similar to bar charts, with the bars represented as pyramids.
 
 ###########################################################
 #3D Charts

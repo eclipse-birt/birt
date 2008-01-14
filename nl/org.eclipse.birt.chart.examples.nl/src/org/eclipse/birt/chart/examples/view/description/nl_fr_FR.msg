@@ -15,7 +15,13 @@ StandardMeter=Les graphiques à cadrans standard contiennent un seul cadran par z
 SuperImposedMeter=Les graphiques à cadrans superposés contiennent plusieurs cadrans avec des zones identiques. Les cadrans se chevauchent afin que plusieurs aiguilles apparaissent dans une même zone.
 Scatter=Les graphiques en nuage de points affichent les valeurs disposées sur le tracé en utilisant les données de catégorie et de valeur comme coordonnées. Chaque valeur de données est indiquée par un repère.
 BarStickStock=Un graphique boursier à barres se présente sous la forme d'une ligne verticale et de deux lignes horizontales associées. Les points supérieurs et inférieurs de la ligne verticale correspondent aux valeurs d'ouverture et de fermeture. Les deux lignes horizontales correspondent à la valeur la plus élevée et la plus basse.
-CandleStickStock=Un graphique boursier en chandelier se présente sous la forme d'un cadre dont les côtés sont joints par des courbes. Les coins supérieurs et inférieurs du cadre correspondent aux valeurs d'ouverture et de fermeture. Les points supérieur et inférieur de la ligne correspondent à la valeur la plus élevée et la plus basse. 
+CandleStickStock=A candle-stick stock chart contains a box with lines extending up and down from the ends. The upper and lower edges of the box are the stock open and close values. The upper and lower points of the line are the high and low values.
+Bubble=Bubble charts are an extension to scatter charts, and display the points as bubbles. The bubble diameters are proportionated to a third data value, besides the x and y coordinates.
+Difference=Difference charts show the area between two lines of values. They inherit all of the area series properties, and can also show a negative area with a different color.
+Gantt=Gantt charts are used to track tasks duration and progress. They are represented on a datetime Y axis, using bars of custom width with optional start/end markers. Each bar is defined by its category, task label, start time and end time. It is possible to overlay several gantt series of different width to track the actual progress of scheduled tasks for instance.
+Tube=Tube charts are similar to bar charts with the bars represented as tubes.
+Cone=Cone charts are similar to bar charts, with the bars represented as cones.
+Pyramid=Pyramid charts are similar to bar charts, with the bars represented as pyramids.
 
 ###########################################################
 #3D Charts
