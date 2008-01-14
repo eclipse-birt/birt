@@ -62,6 +62,7 @@ import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
@@ -237,7 +238,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			// value, otherwise use default value of parameter as its
 			// expression.
 			resetParametersForDataPreview( getDataSetFromHandle( ), queryDefn );
-
+			
 			IQueryResults actualResultSet = session.executeQuery( queryDefn,
 					null,
 					itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP )
@@ -359,6 +360,19 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return itemHandle.getDataSet( ).getQualifiedName( );
 	}
 
+	/**
+	 * Check if current chart is in multi views.
+	 * @return
+	 */
+	boolean isInMultiViews( )
+	{
+		if ( itemHandle.getContainer( ) instanceof MultiViewsHandle )
+		{
+			return true;
+		}
+		return false;
+	}
+	
 	String getReportDataSet( )
 	{
 		List list = DEUtil.getDataSetList( itemHandle.getContainer( ) );

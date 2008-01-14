@@ -494,7 +494,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 
 		// Select data set
 		String sDataSet = getDataServiceProvider( ).getBoundDataSet( );
-		if ( sDataSet != null )
+		if ( sDataSet != null && !getDataServiceProvider( ).isInMultiViews( ) )
 		{
 			btnUseData.setSelection( true );
 			cmbDataItems.setText( sDataSet );
@@ -513,8 +513,13 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 			cmbDataItems.setText( sDataCube );
 			return;
 		}
-
+		
 		btnInherit.setSelection( true );
+		if ( getDataServiceProvider( ).isInMultiViews( ) )
+		{
+			btnUseData.setSelection( false );
+			btnUseData.setEnabled( false );
+		}
 		cmbDataItems.select( 0 );
 		cmbDataItems.setEnabled( false );
 		// Initializes column bindings from container
