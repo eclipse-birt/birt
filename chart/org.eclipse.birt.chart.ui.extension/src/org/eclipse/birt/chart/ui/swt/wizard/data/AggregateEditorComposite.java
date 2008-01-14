@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.aggregate.IAggregateFunction;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
+import org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -95,7 +96,14 @@ public class AggregateEditorComposite extends Composite implements
 	public void setSeriesDefinition( SeriesDefinition sd )
 	{
 		fSeriesDefi = sd;
-		fGrouping = (SeriesGrouping) EcoreUtil.copy( sd.getGrouping( ) );
+		if ( sd.getGrouping( ) != null )
+		{
+			fGrouping = (SeriesGrouping) EcoreUtil.copy( sd.getGrouping( ) );
+		}
+		else
+		{
+			fGrouping = SeriesGroupingImpl.create( );
+		}
 	}
 	
 	/* (non-Javadoc)

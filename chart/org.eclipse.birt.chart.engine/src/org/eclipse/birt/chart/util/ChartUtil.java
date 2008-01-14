@@ -673,7 +673,7 @@ public class ChartUtil
 		String strOrthoAgg = null;
 		SeriesGrouping grouping = orthoSD.getGrouping( );
 		// Only if base series has enabled grouping
-		if ( grouping.isSetEnabled( ) && grouping.isEnabled( ) )
+		if ( grouping != null && grouping.isSetEnabled( ) && grouping.isEnabled( ) )
 		{
 			// Set own group
 			strOrthoAgg = grouping.getAggregateExpression( );
