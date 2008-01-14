@@ -288,7 +288,7 @@ public interface IReportEngine
 	/**
 	 * shut down the engine, release all the resources.
 	 * 
-	 * @deprecated
+	 * @deprecated Use destroy() instead.
 	 */
 	public void shutdown( );
 }
