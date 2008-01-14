@@ -14,6 +14,7 @@ public class DataCache
 	 * Each column is also an arrayList. Its elements are the rows in the column. 
 	 */
 	private ArrayList columns = new ArrayList( );
+	//FIXME: code review: remove the colrow
 	private Hashtable colrow = new Hashtable( );// col -> start line
 	private int height;
 	private int width;

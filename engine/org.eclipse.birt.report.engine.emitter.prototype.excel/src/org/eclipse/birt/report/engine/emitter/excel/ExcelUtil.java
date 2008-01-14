@@ -60,7 +60,8 @@ public class ExcelUtil
        DecimalFormat numberFormat = new DecimalFormat("0.00E00");
        return numberFormat.format( (Number)data);
     }
-      public static String getType(Object val)
+    
+    public static String getType(Object val)
     {
     	if ( val instanceof Number )
     	{

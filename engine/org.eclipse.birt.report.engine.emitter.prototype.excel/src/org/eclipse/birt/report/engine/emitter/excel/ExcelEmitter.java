@@ -97,6 +97,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		}
 	}
 
+	//FIXME: CODE REVIEW: create engine to startPage
 	public void start( IReportContent report )
 	{
 		//We can the page size from the design, maybe there is a better way 
@@ -222,8 +223,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 			engine.addData( data.getText( ).trim( ), data.getComputedStyle( ),
 					url, bookmark );
 		}
-		else if ( !ExcelUtil.getType( data.getValue() ).equals( Data.NUMBER )
-				&& !ExcelUtil.getType( data.getValue() ).equals( Data.DATE ) )
+		else if ( !ExcelUtil.getType( data.getValue() ).equals( Data.NUMBER ) )
 		{
 			engine.addData( data.getText( ), data.getComputedStyle( ), url, bookmark );
 		}
@@ -231,7 +231,6 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		{
 			engine.addData( data.getValue( ), data.getComputedStyle( ), url, bookmark );
 		}
-
 	}
 	
 	public void startImage( IImageContent image )
@@ -314,6 +313,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		{
 			if ( linkaction.getType( ) == IHyperlinkAction.ACTION_BOOKMARK )
 			{
+				//FIXME: CODE REVIEW: encode the bookmark 
 				return new HyperlinkDef( linkaction.getBookmark( ).replaceAll(
 						" ", "_" ), IHyperlinkAction.ACTION_BOOKMARK, null );
 
