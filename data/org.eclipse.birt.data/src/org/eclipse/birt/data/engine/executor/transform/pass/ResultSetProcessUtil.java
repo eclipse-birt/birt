@@ -243,20 +243,22 @@ class ResultSetProcessUtil extends RowProcessUtil
 	 */
 	private void doGroupSorting( StopSign stopSign ) throws DataException
 	{
-		if( !groupingDone )
+		if ( !this.needDoGroupSorting( ))
+			return;
+
+		if ( !groupingDone )
 		{
 			PassUtil.pass( this.populator,
 					new OdiResultSetWrapper( populator.getResultIterator( ) ),
-					true, stopSign );
+					true,
+					stopSign );
 			groupingDone = true;
 		}
-		if ( this.populator.getQuery( ).getGrouping( ) != null
-				&& this.populator.getQuery( ).getGrouping( ).length > 0 )
-		{
-			this.populator.getGroupProcessorManager( )
-					.doGroupSorting( this.populator.getCache( ),
-							this.populator.getExpressionProcessor( ), stopSign );
-		}
+
+		this.populator.getGroupProcessorManager( )
+				.doGroupSorting( this.populator.getCache( ),
+						this.populator.getExpressionProcessor( ),
+						stopSign );
 	}
 
 	/**
@@ -289,20 +291,21 @@ class ResultSetProcessUtil extends RowProcessUtil
 	 */
 	private void doGroupFiltering( StopSign stopSign ) throws DataException
 	{
-		if ( ! groupingDone )
+		if ( !this.needDoGroupFiltering( ) )
+			return;
+		if ( !groupingDone )
 		{
 			PassUtil.pass( this.populator,
 					new OdiResultSetWrapper( populator.getResultIterator( ) ),
-					true, stopSign );
+					true,
+					stopSign );
 			groupingDone = true;
 		}
-		if ( this.populator.getQuery( ).getGrouping( ) != null
-				&& this.populator.getQuery( ).getGrouping( ).length > 0 )
-		{
-			this.populator.getGroupProcessorManager( )
-					.doGroupFiltering( this.populator.getCache( ),
-							this.populator.getExpressionProcessor( ), stopSign );
-		}
+
+		this.populator.getGroupProcessorManager( )
+				.doGroupFiltering( this.populator.getCache( ),
+						this.populator.getExpressionProcessor( ),
+						stopSign );
 	}
 
 	/**
