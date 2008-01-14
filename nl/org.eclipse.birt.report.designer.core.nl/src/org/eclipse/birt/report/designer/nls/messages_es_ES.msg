@@ -4047,3 +4047,11 @@ PasteFormatAction.text=Formato de pegado
 ###########################################################
 #InsertAggregationAction
 InsertAggregationAction.text=Agregación
+
+###########################################################
+#Multiple views
+MultipleAdapter.SetCurrentView=Set current view
+MultipleAdapter.RemoveView=Remove view
+MultipleGuideHandle.RemoveView=Quitar
+CreateChartAction.text=Create Char View
+CreateChartHandler.text=Create Char View

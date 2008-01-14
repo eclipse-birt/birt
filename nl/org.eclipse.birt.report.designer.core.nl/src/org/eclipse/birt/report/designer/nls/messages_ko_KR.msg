@@ -4047,3 +4047,11 @@ PasteFormatAction.text=서식 붙여넣기
 ###########################################################
 #InsertAggregationAction
 InsertAggregationAction.text=집계
+
+###########################################################
+#Multiple views
+MultipleAdapter.SetCurrentView=Set current view
+MultipleAdapter.RemoveView=Remove view
+MultipleGuideHandle.RemoveView=제거
+CreateChartAction.text=Create Char View
+CreateChartHandler.text=Create Char View
