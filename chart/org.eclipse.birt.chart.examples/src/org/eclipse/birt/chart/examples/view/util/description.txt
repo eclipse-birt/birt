@@ -14,6 +14,12 @@
 	<Scatter>
 	<Bar Stick Stock>
 	<Candle Stick Stock>
+	<Bubble>
+	<Difference>
+	<Gantt>
+	<Tube>
+	<Cone>
+	<Pyramid>
 </Primitive Charts>
 <3D Charts>
 	<Bar>
