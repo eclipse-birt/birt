@@ -226,22 +226,49 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor
 			return ""; //$NON-NLS-1$
 		return str.replaceAll( "\\,", "\\\\," ); //$NON-NLS-1$ //$NON-NLS-2$
 	}
+	
+	/**
+	 * return the array of indexes, the DataDefinitions with these id could be
+	 * computed with aggregation function. By default, all the indexes will be
+	 * added to the array. And this method should be overridden for some special
+	 * chart types, such as bubble, stock...
+	 * 
+	 * @param series
+	 * @return
+	 */
+	protected int[] getDataDefIdsForGrouping( Series series )
+	{
+		EList elDD = series.getDataDefinition( );
+		int[] DataDefIds = new int[elDD.size( )];
+		for ( int i = 0; i < DataDefIds.length; i++ )
+		{
+			DataDefIds[i] = i;
+		}
+		return DataDefIds;
+	}
 
+	/**
+	 * 
+	 */
 	public List getDataDefinitionsForGrouping( Series series )
 	{
 		ArrayList list = new ArrayList( 1 );
 		EList elDD = series.getDataDefinition( );
-		// FOR EACH QUERY
-		for ( int n = 0; n < elDD.size( ); n++ )
+		int IDs[] = getDataDefIdsForGrouping(series);
+		
+		for (int i=0;i<IDs.length;i++)
 		{
-			String sExpression = ( (Query) elDD.get( n ) ).getDefinition( );
+			Query query = (Query) elDD.get( IDs[i] );
+			String sExpression = query.getDefinition( );
 
 			if ( sExpression != null && sExpression.trim( ).length( ) > 0 )
 			{
 				// ADD NEW VALID EXPRESSION
-				list.add( sExpression );
+				list.add( query );
 			}
+			
 		}
+
 		return list;
 	}
 }

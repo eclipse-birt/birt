@@ -127,17 +127,23 @@ public class DataProcessor
 				List qlist = ChartEngine.instance( )
 						.getDataSetProcessor( series.getClass( ) )
 						.getDataDefinitionsForGrouping( series );
+				
+				List slist = new ArrayList(1);
+				for ( int i = 0; i < qlist.size( ); i++ )
+				{
+					slist.add( ((Query)qlist.get( i )).getDefinition( ) );
+				}
 
 				String strOrtAgg = lhmLookup.getOrthogonalAggregationExpression( sdOrthogonal );
 				if ( strOrtAgg != null )
 				{
 					// cache orthogonal series grouping
-					addAggregation( strOrtAgg, qlist );
+					addAggregation( strOrtAgg, slist );
 				}
 				else
 				{
 					// If no orthogonal grouping, use base grouping
-					baseQueryList.addAll( qlist );
+					baseQueryList.addAll( slist );
 				}
 			}
 		}

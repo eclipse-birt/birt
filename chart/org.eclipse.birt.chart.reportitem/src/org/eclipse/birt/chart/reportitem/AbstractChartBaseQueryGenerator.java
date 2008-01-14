@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.chart.aggregate.IAggregateFunction;
+import org.eclipse.birt.chart.api.ChartEngine;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
@@ -28,9 +29,11 @@ import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
+import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -91,7 +94,7 @@ public abstract class AbstractChartBaseQueryGenerator
 	 * @return
 	 * @throws DataException
 	 */
-	public abstract IDataQueryDefinition createBaseQuery( List columns ) throws DataException;
+	public abstract IDataQueryDefinition createBaseQuery( List columns ) throws ChartException;
 	
 	/**
 	 * Add aggregate bindings of value series for grouping case.
@@ -101,72 +104,100 @@ public abstract class AbstractChartBaseQueryGenerator
 	 * @param innerGroupDef
 	 * @param valueExprMap
 	 * @param baseSD
+	 * @throws DataException 
 	 * @throws DataException
 	 */
 	protected void addValueSeriesAggregateBindingForGrouping(
 			BaseQueryDefinition query, EList seriesDefinitions,
 			GroupDefinition innerGroupDef, Map valueExprMap,
-			SeriesDefinition baseSD ) throws DataException
+			SeriesDefinition baseSD ) throws ChartException
 	{
 		for ( Iterator iter = seriesDefinitions.iterator( ); iter.hasNext( ); )
 		{
 			SeriesDefinition orthSD = (SeriesDefinition) iter.next( );
+			Series series = orthSD.getDesignTimeSeries( );
+			List qlist = ChartEngine.instance( )
+			.getDataSetProcessor( series.getClass( ) )
+			.getDataDefinitionsForGrouping( series );
 			
-			String expr = ( (Query) orthSD.getDesignTimeSeries( )
-					.getDataDefinition( )
-					.get( 0 ) ).getDefinition( );
-			if ( expr != null && !"".equals( expr ) ) //$NON-NLS-1$
+			for ( Iterator iter_datadef = series.getDataDefinition( ).iterator( ); iter_datadef.hasNext( ); )
 			{
-				String aggName = ChartUtil.getAggregateFuncExpr( orthSD, baseSD );
-				if ( aggName!= null && !"".equals( aggName ) ) //$NON-NLS-1$
+				Query qry = (Query)iter_datadef.next( );
+				if (!qlist.contains( qry ))
 				{
-					// Get a unique name.
-					String name = generateUniqueBindingName( expr );
-					
-					
-					Binding colBinding = new Binding( name );
-
-					colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
-					colBinding.setExpression( new ScriptExpression( expr ) );
-					if ( innerGroupDef != null )
+					continue;
+				}
+				
+				String expr = qry.getDefinition( );
+				if ( expr != null && !"".equals( expr ) ) //$NON-NLS-1$
+				{
+					String aggName = ChartUtil.getAggregateFuncExpr( orthSD, baseSD );
+					if ( aggName!= null && !"".equals( aggName ) ) //$NON-NLS-1$
 					{
-						colBinding.addAggregateOn( innerGroupDef.getName( ) );
-					}
-
-					// Set aggregate parameters.
-					try
-					{
-						colBinding.setAggrFunction( ChartReportItemUtil.convertToDtEAggFunction( aggName ) );
-
-						IAggregateFunction aFunc = PluginSettings.instance( )
-								.getAggregateFunction( aggName );
-						if ( aFunc.getParametersCount( ) > 0 )
+						// Get a unique name.
+						String name = generateUniqueBindingName( expr );
+						
+						
+						Binding colBinding = new Binding( name );
+	
+						colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
+						colBinding.setExpression( new ScriptExpression( expr ) );
+						if ( innerGroupDef != null )
 						{
-							Object[] parameters = getAggFunParameters( orthSD,
-									baseSD );
-
-							for ( int i = 0; i < parameters.length &&
-									i < aFunc.getParametersCount( ); i++ )
+							try
 							{
-								String param = (String) parameters[i];
-								colBinding.addArgument( new ScriptExpression( param ) );
+								colBinding.addAggregateOn( innerGroupDef.getName( ) );
+							}
+							catch ( DataException e )
+							{
+								throw new ChartException( ChartReportItemPlugin.ID,
+										ChartException.DATA_BINDING,
+										e );
 							}
 						}
+	
+						// Set aggregate parameters.
+						try
+						{
+							colBinding.setAggrFunction( ChartReportItemUtil.convertToDtEAggFunction( aggName ) );
+	
+							IAggregateFunction aFunc = PluginSettings.instance( )
+									.getAggregateFunction( aggName );
+							if ( aFunc.getParametersCount( ) > 0 )
+							{
+								Object[] parameters = getAggFunParameters( orthSD,
+										baseSD );
+	
+								for ( int i = 0; i < parameters.length &&
+										i < aFunc.getParametersCount( ); i++ )
+								{
+									String param = (String) parameters[i];
+									colBinding.addArgument( new ScriptExpression( param ) );
+								}
+							}
+						}
+						catch ( ChartException e )
+						{
+							logger.log( e );
+						}
+	
+						String newExpr = getExpressionForEvaluator( name );
+	
+						qry.setDefinition( newExpr );
+	
+						try
+						{
+							query.addBinding( colBinding );
+						}
+						catch ( DataException e )
+						{
+							throw new ChartException( ChartReportItemPlugin.ID,
+									ChartException.DATA_BINDING,
+									e );
+						}
+	
+						valueExprMap.put( expr, newExpr );
 					}
-					catch ( ChartException e )
-					{
-						logger.log( e );
-					}
-
-					String newExpr = getExpressionForEvaluator( name );
-
-					( (Query) orthSD.getDesignTimeSeries( )
-							.getDataDefinition( )
-							.get( 0 ) ).setDefinition( newExpr );
-
-					query.addBinding( colBinding );
-
-					valueExprMap.put( expr, newExpr );
 				}
 			}
 		}
@@ -199,8 +230,7 @@ public abstract class AbstractChartBaseQueryGenerator
 	 * @param query
 	 * @throws DataException
 	 */
-	protected void generateGroupBindings( BaseQueryDefinition query )
-			throws DataException
+	protected void generateGroupBindings( BaseQueryDefinition query ) throws ChartException
 	{
 		// 1. Get first base and orthogonal series definition to get
 		// grouping definition.
@@ -251,11 +281,20 @@ public abstract class AbstractChartBaseQueryGenerator
 					// aggregate on the grouping and sort by the SortKey.
 					String name = generateUniqueBindingName( sortKey );
 					Binding binding = new Binding( name );
-					query.addBinding( binding );
+					try
+					{
+						query.addBinding( binding );
+						binding.setExpression( new ScriptExpression( sortKey ) );
+						binding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
+						binding.addAggregateOn( yGroupingDefinition.getName( ) );
+					}
+					catch ( DataException e )
+					{
+						throw new ChartException( ChartReportItemPlugin.ID,
+								ChartException.DATA_BINDING,
+								e );
+					}
 
-					binding.setExpression( new ScriptExpression( sortKey ) );
-					binding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
-					binding.addAggregateOn( yGroupingDefinition.getName( ) );
 					String aggFunc = getAggFunExpr( sortKey,
 							baseSD,
 							orthAxisArray );

@@ -33,6 +33,7 @@ import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.reportitem.AbstractChartBaseQueryGenerator;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.GroupedQueryResultSetEvaluatorAdapter;
+import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
@@ -1032,7 +1033,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		 * @throws DataException
 		 */
 		public IDataQueryDefinition createBaseQuery( List columnExpression )
-				throws DataException
+				throws ChartException
 		{
 			QueryDefinition queryDefn = new QueryDefinition( );
 			int maxRow = getMaxRow( );
@@ -1044,7 +1045,16 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				String expr = (String) columnExpression.get( i );
 				Binding colBinding = new Binding( expr );
 				colBinding.setExpression( new ScriptExpression( expr ) );
-				queryDefn.addBinding( colBinding );
+				try
+				{
+					queryDefn.addBinding( colBinding );
+				}
+				catch ( DataException e )
+				{
+					throw new ChartException( ChartReportItemPlugin.ID,
+							ChartException.DATA_BINDING,
+							e );
+				}
 				fNameSet.add( expr );
 			}
 
