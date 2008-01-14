@@ -12,10 +12,16 @@ package org.eclipse.birt.report.designer.data.ui.property;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage;
 import org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPageContainer;
+import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.jface.dialogs.DialogMessageArea;
+import org.eclipse.jface.dialogs.DialogPage;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.dialogs.IMessageProvider;
+import org.eclipse.jface.dialogs.IPageChangeProvider;
+import org.eclipse.jface.dialogs.IPageChangedListener;
+import org.eclipse.jface.dialogs.PageChangedEvent;
+import org.eclipse.jface.util.SafeRunnable;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -59,12 +65,13 @@ import com.ibm.icu.util.StringTokenizer;
  * {@link #addPageTo(String, String, String, Image, IPropertyPage) addPageTo}
  * method.
  * 
- * @version $Revision: 1.9 $ $Date: 2007/08/29 09:55:18 $
+ * @version $Revision: 1.10 $ $Date: 2007/08/30 06:46:33 $
  */
 
 public abstract class AbstractPropertyDialog extends BaseDialog
 		implements
-			IPropertyPageContainer
+			IPropertyPageContainer,
+			IPageChangeProvider
 {
 
 	private static final String SASHFORM_RIGHT = "SASHFORM.RIGHT";
@@ -100,6 +107,8 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 	private Control pageContainer;
 
 	private Composite container;
+	
+	private ListenerList pageChangedListeners = new ListenerList();
 
 	/**
 	 * The only constructor for this dialog. It takes the parentShell and the
@@ -536,6 +545,7 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 			// First check whether we can change the page.
 			if ( node == currentNode || !currentNode.getPage( ).canLeave( ) )
 			{
+				setFocusOnPageControl( );
 				return false;
 			}
 		}
@@ -553,8 +563,52 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 		node.getPage( ).pageActivated( );
 		viewer.setSelection( new StructuredSelection( node ) );
 		propertyPane.layout( );
+		setFocusOnPageControl( );
+		firePageChanged( new PageChangedEvent( this,
+				new DialogPageAdapter( currentNode ) ) );
 		return true;
 
+	}
+
+	/**
+	 * 
+	 */
+	private void setFocusOnPageControl( )
+	{
+		currentNode.getPageControl( ).setFocus( );
+	}
+	
+	/**
+	 *
+	 */
+	class DialogPageAdapter extends DialogPage
+	{
+
+		private PropertyNode node;
+
+		/**
+		 * 
+		 * @param node
+		 */
+		DialogPageAdapter( PropertyNode node )
+		{
+			this.node = node;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.jface.dialogs.DialogPage#getControl()
+		 */
+		public Control getControl( )
+		{
+			return node.getPageControl( );
+		}
+
+		public void createControl( Composite parent )
+		{
+			// do nothing here
+		}
 	}
 
 	/**
@@ -624,7 +678,8 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 		//Call the perform help of the current page
 		if ( currentNode != null )
 		{
-			currentNode.getPage( ).performHelp( );
+			currentNode.getPageControl( ).notifyListeners( SWT.Help,
+					new Event( ) );
 		}
 	}
 
@@ -827,6 +882,56 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 		final Sash sash = new Sash( composite, SWT.VERTICAL );
 		sash.setLayoutData( new GridData( GridData.FILL_VERTICAL ) );
 		return sash;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.dialogs.IPageChangeProvider#addPageChangedListener(org.eclipse.jface.dialogs.IPageChangedListener)
+	 */
+	public void addPageChangedListener( IPageChangedListener listener )
+	{
+		pageChangedListeners.add( listener );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.dialogs.IPageChangeProvider#getSelectedPage()
+	 */
+	public Object getSelectedPage( )
+	{
+		return currentNode != null ? currentNode.getPage( ) : null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.dialogs.IPageChangeProvider#removePageChangedListener(org.eclipse.jface.dialogs.IPageChangedListener)
+	 */
+	public void removePageChangedListener( IPageChangedListener listener )
+	{
+		pageChangedListeners.remove( listener );
+	}
+
+	/**
+	 * 
+	 * @param event
+	 */
+	protected void firePageChanged( final PageChangedEvent event )
+	{
+		Object[] listeners = pageChangedListeners.getListeners( );
+		for ( int i = 0; i < listeners.length; i++ )
+		{
+			final IPageChangedListener l = (IPageChangedListener) listeners[i];
+			SafeRunnable.run( new SafeRunnable( ) {
+
+				public void run( )
+				{
+					l.pageChanged( event );
+				}
+			} );
+		}
 	}
 
 }
