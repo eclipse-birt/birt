@@ -871,6 +871,7 @@ AxisMarkersSheet.Label.Interactivity=대화형 작업
 AbstractPopupSheet.Label.Close=닫기
 AbstractPopupSheet.Label.Help=도움말
 AggregateEditorComposite.Aggregate.Enabled=Enabled
+AggregateEditorComposite.AggregateDisplayName.None=없음
 AggregateEditorComposite.AggregateParameterDefinition.Title=Aggregate Parameter Definition
 AggregateEditorComposite.Button.Cancel=취소
 AggregateEditorComposite.Button.OK=OK

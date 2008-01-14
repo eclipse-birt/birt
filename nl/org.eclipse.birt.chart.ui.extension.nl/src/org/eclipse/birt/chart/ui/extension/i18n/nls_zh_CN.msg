@@ -871,6 +871,7 @@ AxisMarkersSheet.Label.Interactivity=交互
 AbstractPopupSheet.Label.Close=关闭
 AbstractPopupSheet.Label.Help=帮助
 AggregateEditorComposite.Aggregate.Enabled=Enabled
+AggregateEditorComposite.AggregateDisplayName.None=无
 AggregateEditorComposite.AggregateParameterDefinition.Title=Aggregate Parameter Definition
 AggregateEditorComposite.Button.Cancel=取消
 AggregateEditorComposite.Button.OK=OK

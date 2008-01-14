@@ -871,6 +871,7 @@ AxisMarkersSheet.Label.Interactivity=トリガ
 AbstractPopupSheet.Label.Close=閉じる
 AbstractPopupSheet.Label.Help=ヘルプ
 AggregateEditorComposite.Aggregate.Enabled=Enabled
+AggregateEditorComposite.AggregateDisplayName.None=なし
 AggregateEditorComposite.AggregateParameterDefinition.Title=Aggregate Parameter Definition
 AggregateEditorComposite.Button.Cancel=キャンセル
 AggregateEditorComposite.Button.OK=OK
