@@ -532,7 +532,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 			{
 				EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
 						.get( 0 ) ).getAssociatedAxes( );
-				for ( int i = 0; i < axes.size( ); i++ )
+				for ( int i = 0, seriesIndex = 0; i < axes.size( ); i++ )
 				{
 					if ( !currentChart.getSubType( ).equals( sNewSubType ) )
 					{
@@ -558,12 +558,18 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 						{
 							if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) )
 							{
+								series = getConvertedSeries( series,
+										seriesIndex++ );
 								if ( !ChartPreviewPainter.isLivePreviewActive( )
 										&& !isNumbericAxis( (Axis) axes.get( i ) ) )
 								{
 									( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
 								}
 								series.setStacked( true );
+								( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
+										.clear( );
+								( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
+										.add( series );								
 							}
 							else
 							{

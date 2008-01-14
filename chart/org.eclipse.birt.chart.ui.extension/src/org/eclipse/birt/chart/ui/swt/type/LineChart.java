@@ -367,7 +367,7 @@ public class LineChart extends DefaultChartTypeImpl
 					currentChart.setSubType( sNewSubType );
 					EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
 							.get( 0 ) ).getAssociatedAxes( );
-					for ( int i = 0; i < axes.size( ); i++ )
+					for ( int i = 0, seriesIndex = 0; i < axes.size( ); i++ )
 					{
 						if ( sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) )
 						{
@@ -388,12 +388,18 @@ public class LineChart extends DefaultChartTypeImpl
 							Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
 							if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) )
 							{
+								series = getConvertedSeries( series,
+											seriesIndex++ );
 								if ( !ChartPreviewPainter.isLivePreviewActive( )
 										&& !isNumbericAxis( (Axis) axes.get( i ) ) )
 								{
 									( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
 								}
 								series.setStacked( true );
+								( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
+										.clear( );
+								( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
+										.add( series );								
 							}
 							else
 							{
@@ -791,7 +797,9 @@ public class LineChart extends DefaultChartTypeImpl
 		return Messages.getString( "LineChart.Txt.DisplayName" ); //$NON-NLS-1$
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSeries()
 	 */
 	public Series getSeries( )
