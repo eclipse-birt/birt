@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.extensions;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 
 /**
@@ -24,7 +25,7 @@ public abstract class ReportItemViewAdapter implements IReportItemViewProvider
 	 * 
 	 * @see org.eclipse.birt.report.designer.ui.extensions.IReportItemViewProvider#createView(org.eclipse.birt.report.model.api.DesignElementHandle)
 	 */
-	public DesignElementHandle createView( DesignElementHandle host )
+	public DesignElementHandle createView( DesignElementHandle host ) throws BirtException
 	{
 		return null;
 	}
