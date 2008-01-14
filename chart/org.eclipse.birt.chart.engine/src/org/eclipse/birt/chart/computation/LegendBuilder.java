@@ -1755,7 +1755,6 @@ public final class LegendBuilder implements IConstants
 		}
 
 		dWidth += legendData.dHorizonalReservedSpace;
-		dHeight += legendData.dVerticalReservedSpace;
 
 		return new double[]{
 				dWidth, dHeight
@@ -1774,7 +1773,6 @@ public final class LegendBuilder implements IConstants
 				+ laiLegend.getHeight( ) + legendData.insCa.getBottom( );
 
 		dWidth += legendData.dHorizonalReservedSpace;
-		dHeight += legendData.dVerticalReservedSpace;
 
 		return new double[]{
 				dWidth, dHeight
