@@ -14,6 +14,7 @@
 
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -800,4 +801,22 @@ public class DataSetRuntime implements IDataSetInstanceHandle
 		else
 			throw new DataException( ResourceConstants.NAMED_PARAMETER_NOT_FOUND, name );
 	}
+
+	/**
+	 * Get a read-only wrapper of data set input parameter value map
+	 */
+	public Map getInputParameters() 
+	{
+		return Collections.unmodifiableMap( this.inParamValues );
+	}
+
+	/**
+	 * Gets a read-only wrapper of data set output parameter value map
+	 */
+	public Map getOutputParameters() 
+	{
+		return Collections.unmodifiableMap( this.outParamValues);
+	}
+	
+	
 }
