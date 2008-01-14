@@ -65,6 +65,9 @@ import org.eclipse.swt.widgets.Text;
 public class AggregateEditorComposite extends Composite implements
 		MouseListener
 {
+	private static final String AGG_DISPLAY_NONE = Messages.getString("AggregateEditorComposite.AggregateDisplayName.None"); //$NON-NLS-1$
+	
+	private static final String AGG_FUNC_NONE = "None"; //$NON-NLS-1$
 	
 	private Button fBtnAggImage;
 	
@@ -200,8 +203,7 @@ public class AggregateEditorComposite extends Composite implements
 			Listener,
 			SelectionListener
 	{
-
-		private Button fBtnAggEnabled;
+//		private Button fBtnAggEnabled;
 
 		private Composite fCmpAggregate;
 
@@ -235,16 +237,16 @@ public class AggregateEditorComposite extends Composite implements
 			GridLayout glDropDown = new GridLayout( );
 			this.setLayout( glDropDown );
 
-			fBtnAggEnabled = new Button( this, SWT.CHECK );
-			{
-				fBtnAggEnabled.setText( Messages.getString("AggregateEditorComposite.Aggregate.Enabled") ); //$NON-NLS-1$
-				fBtnAggEnabled.addSelectionListener( this );
-				fBtnAggEnabled.addListener( SWT.FocusOut, this );
-				fBtnAggEnabled.addListener( SWT.Traverse, this );
-				fBtnAggEnabled.setFocus( );
-				
-				fBtnAggEnabled.setSelection( isSetAggregate( ) );
-			}
+//			fBtnAggEnabled = new Button( this, SWT.CHECK );
+//			{
+//				fBtnAggEnabled.setText( Messages.getString("AggregateEditorComposite.Aggregate.Enabled") ); //$NON-NLS-1$
+//				fBtnAggEnabled.addSelectionListener( this );
+//				fBtnAggEnabled.addListener( SWT.FocusOut, this );
+//				fBtnAggEnabled.addListener( SWT.Traverse, this );
+//				fBtnAggEnabled.setFocus( );
+//				
+//				fBtnAggEnabled.setSelection( isSetAggregate( ) );
+//			}
 
 			fCmpAggregate = new Composite( this, SWT.NONE );
 			GridData gdCMPAggregate = new GridData( GridData.FILL_HORIZONTAL );
@@ -321,6 +323,9 @@ public class AggregateEditorComposite extends Composite implements
 			fBtnCancel.setText( Messages.getString( "AggregateEditorComposite.Button.Cancel" ) ); //$NON-NLS-1$
 
 			getShell( ).pack( );
+			
+			populateAggFuncNames( );
+			setAggregatesState( );
 		}
 
 		void focusLost( FocusEvent e )
@@ -383,14 +388,38 @@ public class AggregateEditorComposite extends Composite implements
 			String aggFuncName = null;
 			fCmbAggregate.removeAll( );
 
+			String[] aggDisplayNames = null;
+			String[] aggFunctions = null;
 			if ( isBaseGroupingDefined( ) )
 			{
 				try
 				{
-					fCmbAggregate.setItems( PluginSettings.instance( )
-							.getRegisteredAggregateFunctionDisplayNames( ) );
-					fCmbAggregate.setData( PluginSettings.instance( )
-							.getRegisteredAggregateFunctions( ) );
+					String[] names = aggDisplayNames = PluginSettings.instance( )
+							.getRegisteredAggregateFunctionDisplayNames( );
+					String[] funcs = PluginSettings.instance( )
+							.getRegisteredAggregateFunctions( );
+					aggDisplayNames = new String[names.length + 1];
+					aggFunctions = new String[names.length + 1];
+					
+					SeriesDefinition baseSD = (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( fChartContext.getModel( ) ).get( 0 );
+					String aggFunc = baseSD.getGrouping( ).getAggregateExpression( );
+					int index = 0;
+					for ( int i = 0;i < funcs.length; i++)
+					{
+						if ( funcs[i].equals( aggFunc ))
+						{
+							index = i;
+							break;
+						}
+					}
+					String noneItem = AGG_DISPLAY_NONE + "(" + names[index] + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+					aggDisplayNames[0] = noneItem;
+					aggFunctions[0] = AGG_FUNC_NONE;
+					for (int i = 1; i < aggDisplayNames.length; i ++)
+					{
+						aggDisplayNames[i] = names[i - 1];
+						aggFunctions[i] = funcs[i - 1];
+					}
 				}
 				catch ( ChartException e )
 				{
@@ -401,10 +430,19 @@ public class AggregateEditorComposite extends Composite implements
 			{
 				try
 				{
-					fCmbAggregate.setItems( PluginSettings.instance( )
-							.getRegisteredAggregateFunctionDisplayNames( IAggregateFunction.RUNNING_AGGR ) );
-					fCmbAggregate.setData( PluginSettings.instance( )
-							.getRegisteredAggregateFunctions( IAggregateFunction.RUNNING_AGGR ) );
+					String[] names = PluginSettings.instance( )
+							.getRegisteredAggregateFunctionDisplayNames( IAggregateFunction.RUNNING_AGGR );
+					String[] funcs = PluginSettings.instance( )
+							.getRegisteredAggregateFunctions( IAggregateFunction.RUNNING_AGGR );
+					aggDisplayNames = new String[names.length + 1];
+					aggFunctions = new String[names.length + 1];
+					aggDisplayNames[0] = AGG_DISPLAY_NONE;
+					aggFunctions[0] = AGG_FUNC_NONE;
+					for (int i = 1; i < aggDisplayNames.length; i ++)
+					{
+						aggDisplayNames[i] = names[i - 1];
+						aggFunctions[i] = funcs[i - 1];
+					}
 				}
 				catch ( ChartException e )
 				{
@@ -412,6 +450,9 @@ public class AggregateEditorComposite extends Composite implements
 				}
 			}
 
+			fCmbAggregate.setItems( aggDisplayNames );
+			fCmbAggregate.setData( aggFunctions );
+			
 			if ( fGrouping.getAggregateExpression( ) != null )
 			{
 				int idx = getAggregateIndexByName( fGrouping.getAggregateExpression( ) );
@@ -590,7 +631,7 @@ public class AggregateEditorComposite extends Composite implements
 		{
 			if ( isSetAggregate( ) )
 			{
-				fCmbAggregate.setEnabled( true );
+//				fCmbAggregate.setEnabled( true );
 				for ( int i = 0; i < fAggParamtersTextWidgets.size( ); i++ )
 				{
 					( (Text) fAggParamtersTextWidgets.get( i ) ).setEnabled( true );
@@ -598,7 +639,7 @@ public class AggregateEditorComposite extends Composite implements
 			}
 			else
 			{
-				fCmbAggregate.setEnabled( false );
+//				fCmbAggregate.setEnabled( false );
 				for ( int i = 0; i < fAggParamtersTextWidgets.size( ); i++ )
 				{
 					( (Text) fAggParamtersTextWidgets.get( i ) ).setEnabled( false );
@@ -619,18 +660,27 @@ public class AggregateEditorComposite extends Composite implements
 		public void widgetSelected( SelectionEvent e )
 		{
 			Object source = e.getSource( );
-			if ( source == fBtnAggEnabled )
-			{
-				fGrouping.setEnabled( fBtnAggEnabled.getSelection( ) );
-				populateAggFuncNames( );
-				setAggregatesState( );
-			}
-			else if ( source == fCmbAggregate )
+//			if ( source == fBtnAggEnabled )
+//			{
+//				fGrouping.setEnabled( fBtnAggEnabled.getSelection( ) );
+//				populateAggFuncNames( );
+//				setAggregatesState( );
+//			}
+//			else
+			if ( source == fCmbAggregate )
 			{
 				String aggFunc = ( (String[]) fCmbAggregate.getData( ) )[fCmbAggregate.getSelectionIndex( )];
 				showAggregateParameters( aggFunc );
-				
-				fGrouping.setAggregateExpression( aggFunc );
+				if (AGG_FUNC_NONE.equals( aggFunc ))
+				{
+					fGrouping.setEnabled( false );
+					fGrouping.setAggregateExpression( null );
+				}
+				else
+				{
+					fGrouping.setEnabled( true );
+					fGrouping.setAggregateExpression( aggFunc );
+				}
 			}
 			else if ( isAggParametersWidget( source ) )
 			{
