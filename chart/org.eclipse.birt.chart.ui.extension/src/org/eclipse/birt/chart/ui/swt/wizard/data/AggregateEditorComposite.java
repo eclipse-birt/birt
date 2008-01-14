@@ -423,7 +423,7 @@ public class AggregateEditorComposite extends Composite implements
 				}
 				catch ( ChartException e )
 				{
-					e.printStackTrace( );
+					WizardBase.displayException( e );
 				}
 			}
 			else
@@ -446,7 +446,7 @@ public class AggregateEditorComposite extends Composite implements
 				}
 				catch ( ChartException e )
 				{
-					e.printStackTrace( );
+					WizardBase.displayException( e );
 				}
 			}
 
