@@ -64,7 +64,14 @@ public class GraphicalPartFactory implements EditPartFactory
 		{
 			return new DestroyEditPart( model );
 		}
-		else if ( model instanceof ReportDesignHandle )
+		else if (model instanceof ReportItemHandle && !(context instanceof MultipleEditPart))
+		{
+			if (((ReportItemHandle)model).getViews( ).size( )>0)
+			{
+				return new MultipleEditPart(model);
+			}
+		}
+		if ( model instanceof ReportDesignHandle )
 		{
 			return new ReportDesignEditPart( model );
 		}

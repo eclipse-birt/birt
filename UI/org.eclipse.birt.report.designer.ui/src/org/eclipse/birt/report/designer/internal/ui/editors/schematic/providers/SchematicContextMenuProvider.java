@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.Ad
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddThemeStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.ChangeDataColumnPartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CopyCellContentsContextAction;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CreateChartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CreatePlaceHolderPartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteColumnAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteGroupAction;
@@ -90,6 +91,7 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
@@ -336,6 +338,15 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				{
 					IAction action = getAction( RevertToReportItemPartAction.ID );
 					menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+							action );
+				}
+				//add for support multiple view
+				if (firstSelectedElement instanceof TableHandle)
+				{
+					menuManager.add( new Separator() );
+					
+					IAction action = getAction( CreateChartAction.ID );
+					menuManager.appendToGroup( GEFActionConstants.GROUP_VIEW,
 							action );
 				}
 			}

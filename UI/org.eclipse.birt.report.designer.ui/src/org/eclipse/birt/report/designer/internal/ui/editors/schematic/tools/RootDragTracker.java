@@ -17,6 +17,7 @@ import java.util.ListIterator;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListBandEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.MultipleEditPart;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
@@ -116,7 +117,12 @@ public class RootDragTracker extends AbstractTool implements DragTracker
 		{
 			return true;
 		}
+		
 		EditPart part = child.getParent( );
+		if (part instanceof MultipleEditPart)
+		{
+			return true;
+		}
 		while ( part != null )
 		{
 			if ( part instanceof AbstractCellEditPart )

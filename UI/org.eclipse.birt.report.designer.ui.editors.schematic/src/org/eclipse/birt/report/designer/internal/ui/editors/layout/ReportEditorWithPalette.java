@@ -27,6 +27,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.Ad
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.ChangeDataColumnPartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CopyCellContentsContextAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CopyPartAction;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CreateChartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CreatePlaceHolderPartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CutPartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteColumnAction;
@@ -202,7 +203,12 @@ abstract public class ReportEditorWithPalette extends
 		action = new SplitAction( this );
 		getActionRegistry( ).registerAction( action );
 		getSelectionActions( ).add( action.getId( ) );
-
+		
+		//add for support the multiple view
+		action = new CreateChartAction( this );
+		getActionRegistry( ).registerAction( action );
+		getSelectionActions( ).add( action.getId( ) );	
+		
 		// register delete actions
 		action = new DeleteRowAction( this );
 		getActionRegistry( ).registerAction( action );

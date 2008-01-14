@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CopyCellContentsContextAction;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CreateChartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CreatePlaceHolderPartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertColumnLeftAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertColumnRightAction;
@@ -142,6 +143,9 @@ public class DesignerActionBarContributor extends
 					Messages.getString( "CreatePlaceHolderAction.text" ) ),
 			new RegisterActions( RevertToReportItemPartAction.ID,
 					Messages.getString( "RevertToReportItemAction.text" ) ),
+			null,
+			new RegisterActions( CreateChartAction.ID,
+					Messages.getString( "CreateChartAction.text" ) ),			
 			null,
 			new RegisterActions( AddGroupAction.ID,
 					Messages.getString( "DesignerActionBarContributor.element.group" ) ), //$NON-NLS-1$,
@@ -423,6 +427,9 @@ public class DesignerActionBarContributor extends
 		elementMenu.add( getAction( RevertToReportItemPartAction.ID ) );
 
 		elementMenu.add( new Separator( ) );
+		elementMenu.add( getAction( CreateChartAction.ID ) );
+		elementMenu.add( new Separator( ) );
+		
 
 		MenuManager styleMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.element.style" ) ); //$NON-NLS-1$
 		contributeStyleMenu( styleMenu );

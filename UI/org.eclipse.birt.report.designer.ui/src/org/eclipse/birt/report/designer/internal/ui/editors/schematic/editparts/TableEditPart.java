@@ -52,10 +52,12 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
+import org.eclipse.birt.report.model.api.command.ViewsContentEvent;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayeredPane;
 import org.eclipse.draw2d.IFigure;
@@ -161,8 +163,32 @@ public class TableEditPart extends AbstractTableEditPart implements
 	 */
 	protected void contentChange(Map info )
 	{
+		Object action = info.get(GraphicsViewModelEventProcessor.CONTENT_EVENTTYPE );
+		if (action instanceof Integer)
+		{
+			int intValue = ((Integer)action).intValue( );
+			if (intValue == ViewsContentEvent.ADD
+					|| intValue == ViewsContentEvent.SHIFT
+					|| intValue == ViewsContentEvent.REMOVE)
+			{
+				if (((TableHandle)getModel()).getViews( ).size( ) > 0)
+				{
+					markDirty( true );
+					EditPart part = getParent( );
+					((ReportElementEditPart)getParent( )).removeChild( this );
+					part.refresh( );
+					removeGuideFeedBack( );
+					return;
+				}
+				else
+				{
+					((ReportElementEditPart)getParent( )).contentChange( info );
+					return;
+				}
+			}
+		}
 		super.contentChange( info );
-		Object action = info.get( GraphicsViewModelEventProcessor.CONTENT_EVENTTYPE );
+		//Object action = info.get( GraphicsViewModelEventProcessor.CONTENT_EVENTTYPE );
 		if (action instanceof Integer)
 		{
 			if (((Integer)action).intValue( ) == ContentEvent.REMOVE)
@@ -708,16 +734,6 @@ public class TableEditPart extends AbstractTableEditPart implements
 		Object cell = getTableAdapter( ).getCell( rowNumber, columnNumber );
 		return (TableCellEditPart) getViewer( ).getEditPartRegistry( )
 				.get( cell );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.gef.editparts.AbstractEditPart#removeChild(org.eclipse.gef.EditPart)
-	 */
-	protected void removeChild( EditPart child )
-	{
-		super.removeChild( child );
 	}
 
 	/**

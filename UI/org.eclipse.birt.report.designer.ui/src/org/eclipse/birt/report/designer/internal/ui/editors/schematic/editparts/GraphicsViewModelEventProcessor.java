@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
+import org.eclipse.birt.report.model.api.command.ViewsContentEvent;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 
 /**
@@ -58,6 +59,7 @@ public class GraphicsViewModelEventProcessor extends AbstractModelEventProcessor
 				| type == NotificationEvent.ELEMENT_LOCALIZE_EVENT
 				| type == NotificationEvent.LIBRARY_RELOADED_EVENT
 				| type == NotificationEvent.CSS_EVENT
+				| type == NotificationEvent.VIEWS_CONTENT_EVENT
 				| type == NotificationEvent.CSS_RELOADED_EVENT;
 	}
 	/**Process the content model event
@@ -72,8 +74,18 @@ public class GraphicsViewModelEventProcessor extends AbstractModelEventProcessor
 			assert ev instanceof ContentEvent;
 			setTarget( focus );
 			setType( ev.getEventType( ) );
-			setContentActionType( ((ContentEvent)ev).getAction( ) );
-			addChangeContents( ((ContentEvent)ev).getContent( ) );
+			if (ev instanceof ContentEvent)
+			{
+				setContentActionType( ((ContentEvent)ev).getAction( ) );
+			
+				addChangeContents( ((ContentEvent)ev).getContent( ) );
+			}
+			else if (ev instanceof ViewsContentEvent)
+			{
+				setContentActionType( ((ViewsContentEvent)ev).getAction( ) );
+				
+				addChangeContents( ((ViewsContentEvent)ev).getContent( ) );
+			}
 		}
 		/* (non-Javadoc)
 		 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GraphicsViewModelEventProcessor.ModelEventInfo#canAcceptModelEvent(org.eclipse.birt.report.model.api.DesignElementHandle, org.eclipse.birt.report.model.api.activity.NotificationEvent)
@@ -153,6 +165,7 @@ public class GraphicsViewModelEventProcessor extends AbstractModelEventProcessor
 		{
 			switch ( ev.getEventType( ) )
 			{
+				case NotificationEvent.VIEWS_CONTENT_EVENT:
 				case NotificationEvent.CONTENT_EVENT :
 				{
 					return new ContentModelEventInfo(focus, ev);

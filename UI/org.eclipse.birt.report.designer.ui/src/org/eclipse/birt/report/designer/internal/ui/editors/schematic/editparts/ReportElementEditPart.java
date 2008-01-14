@@ -32,6 +32,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.Re
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.AbstractGuideHandle;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
@@ -192,10 +193,10 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 
 	private AbstractGuideHandle interCreateGuideHandle()
 	{
-//		if (getParent( ) instanceof MultipleEditPart)
-//		{
-//			return ((MultipleEditPart)getParent( )).createGuideHandle( );
-//		}
+		if (getParent( ) instanceof MultipleEditPart)
+		{
+			return ((MultipleEditPart)getParent( )).createGuideHandle( );
+		}
 		return createGuideHandle();
 	}
 	
@@ -245,7 +246,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		return null;
 	}
 
-	private void clearGuideHandle( )
+	protected void clearGuideHandle( )
 	{
 		IFigure layer = getHandleLayer( );
 		List list = layer.getChildren( );
@@ -968,5 +969,14 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 				| PositionConstants.EAST
 				| PositionConstants.SOUTH_EAST );
 		return policy;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#removeChild(org.eclipse.gef.EditPart)
+	 */
+	public void removeChild( EditPart child )
+	{
+		// TODO Auto-generated method stub
+		super.removeChild( child );
 	}
 }

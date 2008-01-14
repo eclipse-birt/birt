@@ -18,6 +18,7 @@ import java.util.WeakHashMap;
 import org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.ExtendedItemHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
+import org.eclipse.birt.report.designer.core.model.IMultipleAdapterHelper;
 import org.eclipse.birt.report.designer.core.model.LibraryHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.ReportDesignHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -34,6 +35,7 @@ import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
@@ -79,6 +81,11 @@ public class HandleAdapterFactory
 		if (obj instanceof IAdaptable)
 		{
 			obj = ((IAdaptable)obj).getAdapter( DesignElementHandle.class );
+		}
+		
+		if (obj instanceof ReportItemHandle && mark instanceof IMultipleAdapterHelper)
+		{
+			return getMultipleAdapter( obj, mark );
 		}
 		if ( obj instanceof ReportDesignHandle )
 		{
@@ -722,5 +729,36 @@ public class HandleAdapterFactory
 	{
 		return getDataItemHandleAdapter( obj, null );
 	}
+	
+	
+	/**Gets the adapter from the obj
+	 * @param obj
+	 * @param mark
+	 * @return
+	 */
+	public MultipleAdapter getMultipleAdapter( Object obj,
+			IModelAdapterHelper mark )
+	{
+		MultipleAdapter retValue = (MultipleAdapter) map.get( obj );
+		if ( retValue == null )
+		{
+			retValue = new MultipleAdapter( (ReportItemHandle) obj, mark );
+			map.put( obj, retValue );
+		}
+		return retValue;
+	}
 
+	/**
+	 * Get Data Handle Adapter
+	 * 
+	 * @param obj
+	 *            DataItem instance
+	 * @return Data Handle Adapter
+	 */
+	public MultipleAdapter getMultipleAdapter( Object obj )
+	{
+		return getMultipleAdapter( obj, null );
+	}
+
+	
 }

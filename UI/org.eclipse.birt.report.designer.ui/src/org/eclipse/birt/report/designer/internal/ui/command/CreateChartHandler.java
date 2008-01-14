@@ -1,0 +1,75 @@
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.designer.internal.ui.command;
+
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.designer.internal.ui.processor.ElementProcessorFactory;
+import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.extensions.IReportItemViewProvider;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
+
+/**
+ * 
+ */
+
+public class CreateChartHandler extends SelectionHandler
+{
+	
+	private static final String TEXT = Messages.getString( "CreateChartHandler.text" ); //$NON-NLS-1$
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.command.SelectionHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 */
+	public Object execute( ExecutionEvent event ) throws ExecutionException
+	{
+		super.execute( event );
+		
+		ReportItemHandle handle = (ReportItemHandle)getTableEditPart( ).getModel( );
+		ModuleHandle module = handle.getModuleHandle( );
+		
+		
+		Object[] objs = ElementAdapterManager.getAdapters( handle,  IReportItemViewProvider.class);
+		if (objs == null || objs.length>1)
+		{
+			return new Boolean( false );
+		}
+		IReportItemViewProvider provider = (IReportItemViewProvider)objs[0];
+		
+		module.getCommandStack( ).startTrans( TEXT );
+		try
+		{
+			DesignElementHandle chart = provider.createView( handle );
+			handle.addView( chart );
+			
+			if ( ElementProcessorFactory.createProcessor( chart ) != null 
+					&& !ElementProcessorFactory.createProcessor( chart )
+					.editElement( chart ) )	
+			{
+				module.getCommandStack( ).rollbackAll( );
+				return new Boolean( false );
+			}
+		}
+		catch ( BirtException e )
+		{
+			module.getCommandStack( ).rollbackAll( );
+			return new Boolean( false );
+		}
+		module.getCommandStack( ).commit( );
+		return new Boolean( true );
+	}
+	
+}

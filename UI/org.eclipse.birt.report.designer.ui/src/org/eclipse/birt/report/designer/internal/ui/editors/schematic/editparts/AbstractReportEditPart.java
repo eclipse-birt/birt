@@ -30,7 +30,7 @@ public abstract class AbstractReportEditPart extends ReportElementEditPart imple
 	public final static String MODEL_EVENT_DISPATCH = "model event dipatch";//$NON-NLS-1$
 	public final static String START = "start";//$NON-NLS-1$
 	public final static String END = "end";//$NON-NLS-1$
-	private boolean isDispatch = false;
+	//private boolean isDispatch = false;
 	/**
 	 * @param model
 	 */
@@ -61,6 +61,7 @@ public abstract class AbstractReportEditPart extends ReportElementEditPart imple
 		{
 			case NotificationEvent.CONTENT_REPLACE_EVENT :
 			case NotificationEvent.TEMPLATE_TRANSFORM_EVENT :
+			case NotificationEvent.VIEWS_CONTENT_EVENT:
 			case NotificationEvent.CONTENT_EVENT :
 			{
 				return new EditpartReportEventRunnable( focus, type, args ) {
