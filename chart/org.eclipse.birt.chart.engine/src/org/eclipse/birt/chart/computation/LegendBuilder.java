@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -622,7 +622,7 @@ public final class LegendBuilder implements IConstants
 			double[] size = null;
 			// COMPUTATIONS HERE MUST BE IN SYNC WITH THE ACTUAL RENDERER
 			boolean bNeedInvert = needInvert( bPaletteByCategory, cm, seda );
-			rtc.putState( "[Legend]bNeedInvert", Boolean.toString( bNeedInvert ) );
+			rtc.putState( "[Legend]bNeedInvert", Boolean.toString( bNeedInvert ) ); //$NON-NLS-1$
 
 			if ( orientation.getValue( ) == Orientation.VERTICAL )
 			{
@@ -1198,14 +1198,18 @@ public final class LegendBuilder implements IConstants
 			else
 			{
 				// SETUP HORIZONTAL SEPARATOR SPACING
-				dY = putHorizontalSeparator( oneVisibleSerie,
-						bNotLastSeda,
-						needSeparator( cm ),
-						dX,
-						dY,
-						dSeparatorThickness,
-						legendData,
-						dMaxW );
+				if ( oneVisibleSerie && bNotLastSeda && needSeparator( cm ) )
+				{
+					dY += dSeparatorThickness;
+
+					legendData.legendItems.add( new LegendItemHints( LEGEND_SEPERATOR,
+							new Point( dX, dY - dSeparatorThickness / 2 ),
+							dMaxW - legendData.dHorizontalSpacing,
+							0,
+							null,
+							0,
+							null ) );
+				}
 			}
 
 		}
@@ -1522,7 +1526,7 @@ public final class LegendBuilder implements IConstants
 					legendData.legendItems.add( new LegendItemHints( LEGEND_SEPERATOR,
 							new Point( dX - dSeparatorThickness / 2, dY ),
 							0,
-							dMaxH - legendData.dVerticalReservedSpace,
+							dMaxH - legendData.dVerticalSpacing,
 							null,
 							0,
 							null ) );
@@ -1627,77 +1631,77 @@ public final class LegendBuilder implements IConstants
 		return sz;
 	}
 
-	/**
-	 * Checks if current label text should use ellipsis to shorten the length.
-	 * 
-	 * @return a double array contains the new string width and height metrics,
-	 *         e.g. [dNewWidth, dNewHeight]
-	 * @throws ChartException
-	 */
-	private double[] checkEllipsisText( double dExceedingSpace,
-			double dOriginalTextWidth, IDisplayServer xs, ITextMetrics itm,
-			Label la, double dEllipsisWidth, double maxWrappingSize )
-			throws ChartException
-	{
-		// only check when original text length exceeds the bounds.
-		if ( dExceedingSpace > 0 )
-		{
-			String firstRowText = itm.getLine( 0 );
-
-			int nchars = (int) Math.round( 3
-					* ( dExceedingSpace + dEllipsisWidth ) / dEllipsisWidth );
-
-			// check available text length
-			if ( firstRowText.length( ) >= nchars )
-			{
-				double dReducedSpace = 0;
-				int idx = 0;
-				BoundingBox bb = null;
-				String newText;
-
-				// incrementally reduce the text length
-				while ( dReducedSpace < dExceedingSpace )
-				{
-					if ( firstRowText.length( ) >= nchars + idx )
-					{
-						newText = firstRowText.substring( 0,
-								firstRowText.length( ) - nchars - idx )
-								+ ELLIPSIS_STRING;
-					}
-					else
-					{
-						break;
-					}
-
-					la.getCaption( ).setValue( newText );
-					itm.reuse( la, maxWrappingSize );
-
-					try
-					{
-						bb = Methods.computeBox( xs, IConstants.ABOVE, la, 0, 0 );
-					}
-					catch ( IllegalArgumentException uiex )
-					{
-						throw new ChartException( ChartEnginePlugin.ID,
-								ChartException.RENDERING,
-								uiex );
-					}
-
-					dReducedSpace = dOriginalTextWidth - bb.getWidth( );
-					idx++;
-				}
-
-				if ( bb != null )
-				{
-					return new double[]{
-							bb.getWidth( ), bb.getHeight( )
-					};
-				}
-			}
-		}
-
-		return null;
-	}
+//	/**
+//	 * Checks if current label text should use ellipsis to shorten the length.
+//	 * 
+//	 * @return a double array contains the new string width and height metrics,
+//	 *         e.g. [dNewWidth, dNewHeight]
+//	 * @throws ChartException
+//	 */
+//	private double[] checkEllipsisText( double dExceedingSpace,
+//			double dOriginalTextWidth, IDisplayServer xs, ITextMetrics itm,
+//			Label la, double dEllipsisWidth, double maxWrappingSize )
+//			throws ChartException
+//	{
+//		// only check when original text length exceeds the bounds.
+//		if ( dExceedingSpace > 0 )
+//		{
+//			String firstRowText = itm.getLine( 0 );
+//
+//			int nchars = (int) Math.round( 3
+//					* ( dExceedingSpace + dEllipsisWidth ) / dEllipsisWidth );
+//
+//			// check available text length
+//			if ( firstRowText.length( ) >= nchars )
+//			{
+//				double dReducedSpace = 0;
+//				int idx = 0;
+//				BoundingBox bb = null;
+//				String newText;
+//
+//				// incrementally reduce the text length
+//				while ( dReducedSpace < dExceedingSpace )
+//				{
+//					if ( firstRowText.length( ) >= nchars + idx )
+//					{
+//						newText = firstRowText.substring( 0,
+//								firstRowText.length( ) - nchars - idx )
+//								+ ELLIPSIS_STRING;
+//					}
+//					else
+//					{
+//						break;
+//					}
+//
+//					la.getCaption( ).setValue( newText );
+//					itm.reuse( la, maxWrappingSize );
+//
+//					try
+//					{
+//						bb = Methods.computeBox( xs, IConstants.ABOVE, la, 0, 0 );
+//					}
+//					catch ( IllegalArgumentException uiex )
+//					{
+//						throw new ChartException( ChartEnginePlugin.ID,
+//								ChartException.RENDERING,
+//								uiex );
+//					}
+//
+//					dReducedSpace = dOriginalTextWidth - bb.getWidth( );
+//					idx++;
+//				}
+//
+//				if ( bb != null )
+//				{
+//					return new double[]{
+//							bb.getWidth( ), bb.getHeight( )
+//					};
+//				}
+//			}
+//		}
+//
+//		return null;
+//	}
 
 	/**
 	 * return the extra value text, if it exsists and is visible
@@ -1784,28 +1788,6 @@ public final class LegendBuilder implements IConstants
 		return legendData.dAvailableWidth
 				+ legendData.dSafeSpacing - legendData.dHorizonalReservedSpace
 				- dX;
-	}
-
-	private double putHorizontalSeparator( boolean oneVisibleSerie,
-			boolean bNotLastSeda, boolean bNeedSeparator, double dX, double dY,
-			double dSeparatorThickness, LegendData legendData, double dMaxW )
-	{
-		if ( oneVisibleSerie && bNotLastSeda && bNeedSeparator )
-		{
-			dY += dSeparatorThickness;
-
-			legendData.legendItems.add( new LegendItemHints( LEGEND_SEPERATOR,
-					new Point( dX, dY - dSeparatorThickness / 2 ),
-					dMaxW
-							+ legendData.insCa.getLeft( )
-							+ legendData.insCa.getRight( ),
-					0,
-					null,
-					0,
-					null ) );
-		}
-
-		return dY;
 	}
 
 	private boolean isValidValue( Object obj )
