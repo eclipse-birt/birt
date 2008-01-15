@@ -105,25 +105,7 @@ public class ImportChartRuntimeAction extends Action
 	 */
 	protected boolean isValidProject( IProject fProject )
 	{
-		if(J2EEProjectUtilities.isDynamicWebProject( fProject ))
-		{
-			try
-			{
-				if(fProject.getDescription( ).getComment( ).equals( CHART_PROJECT_DESCRIPTION_COMMENT ))
-				{
-					return true;
-				}
-				else
-				{
-					return false;
-				}
-			}
-			catch ( CoreException e )
-			{
-				Logger.logException( e );
-			}
-		}
-		return false;
+		return J2EEProjectUtilities.isDynamicWebProject( fProject );
 	}
 
 	/**

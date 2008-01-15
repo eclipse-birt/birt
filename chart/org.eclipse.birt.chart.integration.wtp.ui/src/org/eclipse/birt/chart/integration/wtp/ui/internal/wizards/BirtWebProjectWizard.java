@@ -166,9 +166,6 @@ public class BirtWebProjectWizard extends WebProjectWizard
 	{
 		IProject project = this.getFacetedProject( ).getProject( );
 
-		IProjectDescription description = project.getDescription( );
-		description.setComment( CHART_PROJECT_DESCRIPTION_COMMENT );
-		project.setDescription( description, monitor );
 		// Simple OverwriteQuery
 		SimpleImportOverwriteQuery query = new SimpleImportOverwriteQuery( );
 
