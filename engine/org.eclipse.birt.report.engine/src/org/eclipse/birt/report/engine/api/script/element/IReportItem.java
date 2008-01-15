@@ -3,6 +3,7 @@ package org.eclipse.birt.report.engine.api.script.element;
 
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 
+
 /**
  * Represents a the design of a report item in the scripting environment
  */
@@ -305,5 +306,20 @@ public interface IReportItem
 	 */
 
 	void addHideRule( IHideRule rule ) throws ScriptException;
+	
+	/**
+	 * Sets the view to be used. If the given element is not in the multiple
+	 * view, it will be added and set as the active view.
+	 * 
+	 * @param viewElement
+	 *            the view element, must not be <code>this</code>. Can be
+	 *            <code>null</code>.
+	 * 
+	 * @throws ScriptException
+	 *             if the given element resides in the other elements.
+	 */
+
+	public void setCurrentView( IDesignElement viewElement )
+			throws ScriptException;
 
 }

@@ -7,9 +7,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
  * Represents a the design of a report item in the scripting environment
  */
 
-public interface IReportItem
-		extends
-			IReportElement
+public interface IReportItem extends IReportElement
 {
 
 	/**
@@ -240,37 +238,41 @@ public interface IReportItem
 	 */
 
 	void addDataBinding( IDataBinding binding ) throws SemanticException;
-	
+
 	/**
 	 * Gets all high light rules.
+	 * 
 	 * @return all high light rules
 	 */
-	
-	IHighlightRule[] getHighlightRules();
-	
+
+	IHighlightRule[] getHighlightRules( );
+
 	/**
 	 * Adds high light rule.
+	 * 
 	 * @param rule
 	 * @throws SemanticException
 	 */
-	
-	void addHighlightRule( IHighlightRule rule) throws SemanticException;
-	
+
+	void addHighlightRule( IHighlightRule rule ) throws SemanticException;
+
 	/**
 	 * Removes all high light rules.
+	 * 
 	 * @throws SemanticException
 	 */
-	
-	void removeHighlightRules() throws SemanticException;
-	
+
+	void removeHighlightRules( ) throws SemanticException;
+
 	/**
 	 * Removes high light rule.
+	 * 
 	 * @param rule
 	 * @throws SemanticException
 	 */
-	
-	void removeHighlightRule( IHighlightRule rule) throws SemanticException;
-	
+
+	void removeHighlightRule( IHighlightRule rule ) throws SemanticException;
+
 	/**
 	 * Removes all hide rules that matches formatType.
 	 * 
@@ -304,5 +306,20 @@ public interface IReportItem
 	 */
 
 	void addHideRule( IHideRule rule ) throws SemanticException;
+
+	/**
+	 * Sets the view to be used. If the given element is not in the multiple
+	 * view, it will be added and set as the active view.
+	 * 
+	 * @param viewElement
+	 *            the view element, must not be <code>this</code>. Can be
+	 *            <code>null</code>.
+	 * 
+	 * @throws SemanticException
+	 *             if the given element resides in the other elements.
+	 */
+
+	public void setCurrentView( IDesignElement viewElement )
+			throws SemanticException;
 
 }

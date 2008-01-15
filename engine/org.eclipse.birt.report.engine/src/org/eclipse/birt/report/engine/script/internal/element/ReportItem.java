@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.script.internal.element;
 
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.element.IDataBinding;
+import org.eclipse.birt.report.engine.api.script.element.IDesignElement;
 import org.eclipse.birt.report.engine.api.script.element.IHideRule;
 import org.eclipse.birt.report.engine.api.script.element.IHighlightRule;
 import org.eclipse.birt.report.engine.api.script.element.IReportItem;
@@ -64,7 +65,7 @@ public class ReportItem extends ReportElement implements IReportItem
 		return ( (org.eclipse.birt.report.model.api.simpleapi.IReportItem) designElementImpl )
 				.getY( );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -503,6 +504,27 @@ public class ReportItem extends ReportElement implements IReportItem
 		{
 			throw new ScriptException( e.getLocalizedMessage( ) );
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setCurrentView(org.eclipse.birt.report.engine.api.script.element.IDesignElement)
+	 */
+
+	public void setCurrentView( IDesignElement viewElement )
+			throws ScriptException
+	{
+		try
+		{
+			( (org.eclipse.birt.report.model.api.simpleapi.IReportItem) designElementImpl )
+					.setCurrentView( ( (DesignElement) viewElement ).designElementImpl );
+		}
+		catch ( SemanticException e )
+		{
+			throw new ScriptException( e.getLocalizedMessage( ) );
+		}
+
 	}
 
 }

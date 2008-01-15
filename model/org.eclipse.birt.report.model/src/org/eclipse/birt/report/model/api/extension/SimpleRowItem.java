@@ -331,7 +331,7 @@ public class SimpleRowItem implements IReportItem
 		item.setWidth( dimension );
 
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -590,6 +590,19 @@ public class SimpleRowItem implements IReportItem
 	{
 
 		item.setUserProperty( name, value );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportItem#setCurrentView(org.eclipse.birt.report.model.api.simpleapi.IDesignElement)
+	 */
+
+	public void setCurrentView( IDesignElement viewElement )
+			throws SemanticException
+	{
+		item.setCurrentView( viewElement );
+
 	}
 
 }

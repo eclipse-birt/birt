@@ -17,11 +17,13 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.IDataBinding;
+import org.eclipse.birt.report.model.api.simpleapi.IDesignElement;
 import org.eclipse.birt.report.model.api.simpleapi.IHideRule;
 import org.eclipse.birt.report.model.api.simpleapi.IHighlightRule;
 import org.eclipse.birt.report.model.api.simpleapi.IReportItem;
@@ -86,7 +88,7 @@ public class ReportItem extends ReportElement implements IReportItem
 		DimensionHandle y = ( (ReportItemHandle) handle ).getY( );
 		return ( y == null ? null : y.getStringValue( ) );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -410,6 +412,22 @@ public class ReportItem extends ReportElement implements IReportItem
 	public void removeHighlightRules( ) throws SemanticException
 	{
 		HighlightRuleMethodUtil.removeHighlightRules( handle );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportItem#setCurrentView(org.eclipse.birt.report.model.api.simpleapi.IDesignElement)
+	 */
+
+	public void setCurrentView( IDesignElement viewElement )
+			throws SemanticException
+	{
+		DesignElementHandle tmpElement = null;
+		if ( viewElement != null )
+			tmpElement = ( (DesignElement) viewElement ).handle;
+
+		( (ReportItemHandle) handle ).setCurrentView( tmpElement );
 	}
 
 }
