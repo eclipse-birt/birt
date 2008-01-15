@@ -31,6 +31,12 @@ import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.ActionContributionItem;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IMenuCreator;
+import org.eclipse.jface.action.ToolBarManager;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
@@ -54,8 +60,10 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.ToolBar;
 
 /**
  * The class is defined to edit aggregates on value series.
@@ -69,9 +77,7 @@ public class AggregateEditorComposite extends Composite implements
 	
 	private static final String AGG_FUNC_NONE = "None"; //$NON-NLS-1$
 	
-	private Button fBtnAggImage;
-	
-	private Button fBtnDropDown;
+	private ToolBar fBtnDropDown;
 	
 	private AggregateDropDownEditorComposite fAggregateEditor;
 	
@@ -81,6 +87,8 @@ public class AggregateEditorComposite extends Composite implements
 
 	private SeriesGrouping fGrouping;
 
+	private boolean fEnabled;
+
 	/** Holds the width of each marker UI block */
 	private final static int BLOCK_WIDTH = 200;
 
@@ -88,11 +96,12 @@ public class AggregateEditorComposite extends Composite implements
 	private final static int BLOCK_HEIGHT = 120;
 
 	
-	public AggregateEditorComposite( Composite parent, SeriesDefinition sd, ChartWizardContext context )
+	public AggregateEditorComposite( Composite parent, SeriesDefinition sd, ChartWizardContext context, boolean enabled  )
 	{
-		super( parent, SWT.BORDER );
+		super( parent, SWT.NONE );
 		setSeriesDefinition( sd );
 		fChartContext = context;
+		fEnabled = enabled;
 		placeComponents( );
 	}
 
@@ -115,7 +124,6 @@ public class AggregateEditorComposite extends Composite implements
 	public void setEnabled( boolean enabled)
 	{
 		super.setEnabled( enabled );
-		fBtnAggImage.setEnabled( enabled );
 		fBtnDropDown.setEnabled( enabled );
 	}
 	
@@ -128,23 +136,11 @@ public class AggregateEditorComposite extends Composite implements
 		layout.marginHeight = 0;
 		setLayout( layout );
 
-		fBtnAggImage = new Button( this, SWT.NONE );
-		{
-			GridData gd = new GridData( GridData.FILL );
-			ChartUIUtil.setChartImageButtonSizeByPlatform( gd );
-			fBtnAggImage.setLayoutData( gd );
-			fBtnAggImage.addMouseListener( this );
-			fBtnAggImage.setImage( UIHelper.getImage( ChartUIConstants.IMAGE_SIGMA ) );
-		}
-
-		fBtnDropDown = new Button( this, SWT.TOGGLE | SWT.ARROW | SWT.DOWN );
-		{
-			GridData gd = new GridData( );
-			ChartUIUtil.setChartImageButtonHeightByPlatform( gd );
-			gd.widthHint = 16;
-			fBtnDropDown.setLayoutData( gd );
-			fBtnDropDown.addMouseListener( this );
-		}
+		fBtnDropDown = new ToolBar( this, SWT.FLAT | SWT.NO_FOCUS );
+		ToolBarManager toolManager = new ToolBarManager( fBtnDropDown );
+		toolManager.add( new AggregationAction( fEnabled ) );
+		toolManager.update( true );
+		fBtnDropDown.addMouseListener( this );
 	}
 
 	private void toggleDropDown( )
@@ -161,9 +157,9 @@ public class AggregateEditorComposite extends Composite implements
 
 	private void createDropDownComponent( )
 	{
-		Point pLoc = UIHelper.getScreenLocation( fBtnAggImage.getParent( ) );
+		Point pLoc = UIHelper.getScreenLocation( fBtnDropDown.getParent( ) );
 		int iXLoc = pLoc.x;
-		int iYLoc = pLoc.y + fBtnAggImage.getParent( ).getSize( ).y;
+		int iYLoc = pLoc.y + fBtnDropDown.getParent( ).getSize( ).y;
 		int iShellWidth = BLOCK_WIDTH;
 		int iShellHeight = BLOCK_HEIGHT;
 
@@ -339,8 +335,7 @@ public class AggregateEditorComposite extends Composite implements
 			// If current control is the dropdown button, that means users want
 			// to close it manually. Otherwise, close it silently when clicking
 			// other areas.
-			if ( currentControl != fBtnAggImage
-					&& currentControl != fBtnDropDown
+			if ( currentControl != fBtnDropDown
 					&& !isChildrenOfThis( currentControl ) )
 			{
 				closeAggregateEditor( getShell( ) );
@@ -753,7 +748,7 @@ public class AggregateEditorComposite extends Composite implements
 	 */
 	public void mouseDown( MouseEvent e )
 	{
-		;
+		toggleDropDown( );
 	}
 
 	/* (non-Javadoc)
@@ -761,7 +756,7 @@ public class AggregateEditorComposite extends Composite implements
 	 */
 	public void mouseUp( MouseEvent e )
 	{
-		toggleDropDown( );
+		;
 	}
 	
 	/**
@@ -774,7 +769,6 @@ public class AggregateEditorComposite extends Composite implements
 		{
 			shell.close( );
 		}
-		fBtnAggImage.setSelection( false );
 	}
 	
 	/**
@@ -791,4 +785,58 @@ public class AggregateEditorComposite extends Composite implements
 
 		return false;
 	}
+	
+	class AggregationAction extends Action implements IMenuCreator
+	{
+
+		private Menu lastMenu;
+
+		public AggregationAction( boolean enabled )
+		{
+			super( "", IAction.AS_DROP_DOWN_MENU ); //$NON-NLS-1$
+			setImageDescriptor( ImageDescriptor.createFromURL( UIHelper.getURL( ChartUIConstants.IMAGE_SIGMA ) ) );
+			setEnabled( enabled );
+		}
+
+		public IMenuCreator getMenuCreator( )
+		{
+			return this;
+		}
+
+		public void dispose( )
+		{
+			if ( lastMenu != null )
+			{
+				lastMenu.dispose( );
+				lastMenu = null;
+			}
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.jface.action.IMenuCreator#getMenu(org.eclipse.swt.widgets.Control)
+		 */
+		public Menu getMenu( Control parent )
+		{
+			return lastMenu;
+		}
+
+		public Menu getMenu( Menu parent )
+		{
+			return null;
+		}
+
+		protected void addActionToMenu( Menu parent, IAction action )
+		{
+			ActionContributionItem item = new ActionContributionItem( action );
+			item.fill( parent, -1 );
+		}
+
+		protected void createEntries( Menu menu )
+		{
+
+		}
+
+	};
 }
