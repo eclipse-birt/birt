@@ -104,7 +104,7 @@ public class ScriptReconcilingStrategy implements IReconcilingStrategy
 	{
 		try
 		{
-			validator.validate( false );
+			validator.validate( true, false );
 		}
 		catch ( ParseException e )
 		{

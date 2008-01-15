@@ -1229,7 +1229,7 @@ public class JSEditor extends EditorPart implements IColleague
 
 		try
 		{
-			scriptValidator.validate( );
+			scriptValidator.validate( true, true );
 			image = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_SCRIPT_NOERROR );
 			message = Messages.getString( "JSEditor.Validate.NoError" );
 		}
