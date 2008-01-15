@@ -507,7 +507,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 
 		// Select data cube
 		String sDataCube = getDataServiceProvider( ).getDataCube( );
-		if ( sDataCube != null )
+		if ( sDataCube != null && !getDataServiceProvider( ).isInMultiViews( ) )
 		{
 			btnUseData.setSelection( true );
 			cmbDataItems.setText( sDataCube );
