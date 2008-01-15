@@ -20,7 +20,7 @@ import org.eclipse.datatools.enablement.oda.xml.util.XMLDataInputStream;
  * infomation.
  * @deprecated Please use DTP xml driver
  */
-public class SaxParserComplexNestedQueryHelper extends org.eclipse.datatools.enablement.oda.xml.util.SaxParserComplexNestedQueryHelper
+public class SaxParserComplexNestedQueryHelper extends org.eclipse.datatools.enablement.oda.xml.util.SaxParserNestedQueryHelper
 {
 
 	/**
