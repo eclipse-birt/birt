@@ -83,6 +83,11 @@ public interface ICubeQueryUtil
 	/**
 	 * Return cascading member values.
 	 * 
+	 * @deprecated use method with signature
+	 *             <code>getMemberValueIterator( TabularCubeHandle cubeHandle,
+			String targetLevel, DimensionLevel[] higherLevelDefns,
+			Object[] values ) throws AdapterException</code>
+	 *             instead.
 	 * @param cubeHandle
 	 * @param targetLevel
 	 * @param higherLevelDefns
@@ -95,7 +100,11 @@ public interface ICubeQueryUtil
 			Object[] values ) throws AdapterException;
 	
 	/**
-	 * 
+	 * @deprecated use method with signature
+	 *             <code>getMemberValueIterator( TabularCubeHandle cubeHandle,
+			String targetLevel, DimensionLevel[] higherLevelDefns,
+			Object[] values, Map appContext ) throws AdapterException</code>
+	 *             instead.
 	 * @param cubeHandle
 	 * @param targetLevel
 	 * @param higherLevelDefns
@@ -108,6 +117,32 @@ public interface ICubeQueryUtil
 			String targetLevel, ILevelDefinition[] higherLevelDefns,
 			Object[] values, Map appContext ) throws AdapterException;
 	
+	/**
+	 * 
+	 * @param cubeHandle
+	 * @param targetLevel
+	 * @param dimensionLevels
+	 * @param values
+	 * @return
+	 * @throws AdapterException
+	 */
+	public Iterator getMemberValueIterator( TabularCubeHandle cubeHandle,
+			String targetLevel, DimensionLevel[] dimensionLevels,
+			Object[] values ) throws AdapterException;
+
+	/**
+	 * 
+	 * @param cubeHandle
+	 * @param targetLevel
+	 * @param dimensionLevels
+	 * @param values
+	 * @param appContext
+	 * @return
+	 * @throws AdapterException
+	 */
+	public Iterator getMemberValueIterator( TabularCubeHandle cubeHandle,
+			String targetLevel, DimensionLevel[] dimensionLevels,
+			Object[] values, Map appContext ) throws AdapterException;
 	/**
 	 * Return member value of a given level.
 	 * @param cubeHandle

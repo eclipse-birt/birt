@@ -37,6 +37,7 @@ import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.olap.util.OlapQueryUtil;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
+import org.eclipse.birt.report.data.adapter.api.DimensionLevel;
 import org.eclipse.birt.report.data.adapter.api.IBindingMetaInfo;
 import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
 import org.eclipse.birt.report.data.adapter.api.IDimensionLevel;
@@ -566,6 +567,69 @@ public class CubeQueryUtil implements ICubeQueryUtil
 	
 	/*
 	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil#getMemberValueIterator(org.eclipse.birt.report.model.api.olap.TabularCubeHandle, java.lang.String, org.eclipse.birt.report.data.adapter.api.DimensionLevel[], java.lang.Object[])
+	 */
+	public Iterator getMemberValueIterator( TabularCubeHandle cubeHandle,
+			String targetLevel, DimensionLevel[] dimensionLevels,
+			Object[] values ) throws AdapterException
+	{
+		return this.getMemberValueIterator( cubeHandle,
+				targetLevel,
+				dimensionLevels,
+				values,
+				null );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil#getMemberValueIterator(org.eclipse.birt.report.model.api.olap.TabularCubeHandle, java.lang.String, org.eclipse.birt.report.data.adapter.api.DimensionLevel[], java.lang.Object[], java.util.Map)
+	 */
+	public Iterator getMemberValueIterator( TabularCubeHandle cubeHandle,
+			String targetLevel, DimensionLevel[] dimensionLevels,
+			Object[] values, Map appContext ) throws AdapterException
+	{
+		try
+		{
+			if ( ( dimensionLevels == null && values != null )
+					|| ( dimensionLevels != null && values == null )
+					|| cubeHandle == null || targetLevel == null )
+				return null;
+			DimLevel target = OlapExpressionUtil.getTargetDimLevel( targetLevel );
+			TabularHierarchyHandle hierHandle = (TabularHierarchyHandle) ( cubeHandle.getDimension( target.getDimensionName( ) ).getContent( TabularDimensionHandle.HIERARCHIES_PROP,
+					0 ) );
+			if ( hierHandle.getDataSet( ) != null )
+				defineDataSourceAndDataSet( hierHandle.getDataSet( ) );
+			else
+				defineDataSourceAndDataSet( cubeHandle.getDataSet( ) );
+			Map levelValueMap = new HashMap( );
+			if ( dimensionLevels != null )
+			{
+				for ( int i = 0; i < dimensionLevels.length; i++ )
+				{
+					if ( target.getDimensionName( )
+							.equals( dimensionLevels[i].getDimensionName( ) ) )
+					{
+						levelValueMap.put( dimensionLevels[i].getLevelName( ),
+								values[i] );
+					}
+				}
+			}
+			DataSetIterator it = new DataSetIterator( this.session,
+					hierHandle,
+					appContext );
+			return new MemberValueIterator( it,
+					levelValueMap,
+					target.getLevelName( ),
+					target.getAttrName( ) );
+		}
+		catch ( BirtException e )
+		{
+			throw new AdapterException( e.getLocalizedMessage( ), e );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil#getMemberValueIterator(org.eclipse.birt.report.model.api.olap.TabularCubeHandle, java.lang.String, org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition[], java.lang.Object[])
 	 */
 	public Iterator getMemberValueIterator( TabularCubeHandle cubeHandle,
@@ -624,7 +688,6 @@ public class CubeQueryUtil implements ICubeQueryUtil
 		}
 
 	}
-
 	/**
 	 * @param hierHandle
 	 * @throws BirtException
@@ -641,7 +704,7 @@ public class CubeQueryUtil implements ICubeQueryUtil
 		if ( dataSet instanceof JointDataSetHandle )
 		{
 			JointDataSetHandle jointDataSet = (JointDataSetHandle) dataSet;
-			Iterator iter = ( (JointDataSetHandle) jointDataSet ).dataSetsIterator( );
+			Iterator iter = jointDataSet.dataSetsIterator( );
 			while ( iter.hasNext( ) )
 			{
 				DataSetHandle childDataSet = (DataSetHandle) iter.next( );
@@ -846,50 +909,6 @@ public class CubeQueryUtil implements ICubeQueryUtil
 		catch ( DataException e )
 		{
 			throw new AdapterException( e.getLocalizedMessage( ), e );
-		}
-		
-	}
-	
-	//
-	private class DimensionLevel implements IDimensionLevel
-	{
-		private String dimName;
-		private String lvlName;
-		private String attrName;
-	
-		//
-		DimensionLevel( DimLevel dimLevel )
-		{
-			this.dimName = dimLevel.getDimensionName( );
-			this.lvlName = dimLevel.getLevelName( );
-			this.attrName = dimLevel.getAttrName( );
-		}
-		
-		/*
-		 * (non-Javadoc)
-		 * @see org.eclipse.birt.report.data.adapter.api.IDimensionLevel#getAttributeName()
-		 */
-		public String getAttributeName( )
-		{
-			return this.attrName;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.eclipse.birt.report.data.adapter.api.IDimensionLevel#getDimensionName()
-		 */
-		public String getDimensionName( )
-		{
-			return this.dimName;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see org.eclipse.birt.report.data.adapter.api.IDimensionLevel#getLevelName()
-		 */
-		public String getLevelName( )
-		{
-			return this.lvlName;
 		}
 		
 	}

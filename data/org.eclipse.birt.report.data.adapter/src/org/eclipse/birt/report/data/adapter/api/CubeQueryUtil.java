@@ -21,6 +21,7 @@ import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.mozilla.javascript.CompilerEnvirons;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Node;
@@ -52,7 +53,7 @@ public class CubeQueryUtil
 		try
 		{
 			List result = new ArrayList( );
-			DimLevel target = getTargetDimLevel( targetLevel );
+			DimensionLevel target = getTargetDimLevel( targetLevel );
 			String bindingName = getReferencedScriptObject( bindingExpr, "data" );
 			if ( bindingName == null )
 				return result;
@@ -103,11 +104,9 @@ public class CubeQueryUtil
 			{
 				for ( int i = 0; i < aggrOns.size( ); i++ )
 				{
-					DimLevel dimLevel = getTargetDimLevel( aggrOns.get( i )
+					DimensionLevel dimLevel = getTargetDimLevel( aggrOns.get( i )
 							.toString( ) );
-					result.add( new String[]{
-							dimLevel.dimensionName, dimLevel.levelName
-					} );
+					result.add( dimLevel );
 				}
 			}
 			return result;
@@ -141,15 +140,16 @@ public class CubeQueryUtil
 	 * @throws AdapterException
 	 */
 	private static int getAxisQualifierEdgeType( List rowEdgeList,
-			List columnEdgeList, DimLevel target ) throws AdapterException
+			List columnEdgeList, DimensionLevel target ) throws AdapterException
 	{
 		if ( rowEdgeList != null )
 		{
 			for ( Iterator i = rowEdgeList.iterator( ); i.hasNext( ); )
 			{
 				String levelExpr = (String) i.next( );
-				DimLevel level = getTargetDimLevel( levelExpr );
-				if ( target.dimensionName.equals( level.dimensionName ) )
+				DimensionLevel level = getTargetDimLevel( levelExpr );
+				if ( target.getDimensionName( )
+						.equals( level.getDimensionName( ) ) )
 				{
 					return ICubeQueryDefinition.ROW_EDGE;
 				}
@@ -160,8 +160,9 @@ public class CubeQueryUtil
 			for ( Iterator i = columnEdgeList.iterator( ); i.hasNext( ); )
 			{
 				String levelExpr = (String) i.next( );
-				DimLevel level = getTargetDimLevel( levelExpr );
-				if ( target.dimensionName.equals( level.dimensionName ) )
+				DimensionLevel level = getTargetDimLevel( levelExpr );
+				if ( target.getDimensionName( )
+						.equals( level.getDimensionName( ) ) )
 				{
 					return ICubeQueryDefinition.COLUMN_EDGE;
 				}
@@ -204,6 +205,21 @@ public class CubeQueryUtil
 		}
 
 		return null;
+	}
+	
+	/**
+	 * 
+	 * @param expr
+	 * @param objectName
+	 * @return
+	 */
+	private static String getReferencedScriptObject( IScriptExpression expr,
+			String objectName )
+	{
+		if ( expr == null )
+			return null;
+		else
+			return getReferencedScriptObject( expr.getText( ), objectName );
 	}
 
 	/**
@@ -288,36 +304,14 @@ public class CubeQueryUtil
 	 * @return
 	 * @throws DataException
 	 */
-	private static DimLevel getTargetDimLevel( String expr )
+	private static DimensionLevel getTargetDimLevel( String expr )
 			throws AdapterException
 	{
 		final String[] target = getTargetLevel( expr );
 		if ( target == null || target.length < 2 )
 		{
-			throw new AdapterException( "The level name \"{0}\" is not found.",
-					expr );
+			throw new AdapterException( ResourceConstants.INVALID_LEVEL_EXPRESSION, expr );
 		}
-		return new DimLevel( target[0], target[1] );
+		return new DimensionLevel( target[0], target[1] );
 	}
-
-	/**
-	 * 
-	 */
-	static class DimLevel
-	{
-
-		String dimensionName;
-		String levelName;
-
-		/**
-		 * @param dimensionName
-		 * @param levelName
-		 */
-		DimLevel( String dimensionName, String levelName )
-		{
-			this.dimensionName = dimensionName;
-			this.levelName = levelName;
-		}
-	}
-
 }
