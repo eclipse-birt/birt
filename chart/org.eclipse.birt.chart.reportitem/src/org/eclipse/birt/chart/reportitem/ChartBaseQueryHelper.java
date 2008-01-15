@@ -22,6 +22,7 @@ import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
@@ -74,7 +75,7 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 		super( handle, cm );
 	}
 	
-	public IDataQueryDefinition createBaseQuery( IDataQueryDefinition parent )
+	public IDataQueryDefinition createBaseQuery( IDataQueryDefinition parent ) throws ChartException
 	{
 		BaseQueryDefinition query = createQueryDefinition( parent );
 
@@ -83,20 +84,13 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 			return null;
 		}
 		
-		try
-		{
-			generateGroupBindings( query );
-		}
-		catch ( ChartException e )
-		{
-			logger.log( e );
-		}
+		generateGroupBindings( query );
 
 		return query;
 	}
 
 	private BaseQueryDefinition createQueryDefinition(
-			IDataQueryDefinition parent )
+			IDataQueryDefinition parent ) throws ChartException
 	{
 		BaseQueryDefinition query = null;
 
@@ -114,8 +108,10 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 			String dsName = (String) fReportItemHandle.getProperty( ReportItemHandle.DATA_SET_PROP );
 			if ( dsName != null && dsName.length( ) > 0 )
 			{
-				logger.log( new EngineException( MessageConstants.UNDEFINED_DATASET_ERROR,
-						dsName ) );
+				throw new ChartException( ChartReportItemPlugin.ID,
+						ChartException.DATA_BINDING,
+						new EngineException( MessageConstants.UNDEFINED_DATASET_ERROR,
+								dsName ) );
 			}
 			// we has data set name defined, so test if we have column
 			// binding here.
@@ -163,7 +159,7 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 	}
 
 	protected void addColumBinding( IBaseQueryDefinition transfer,
-			ComputedColumnHandle columnBinding )
+			ComputedColumnHandle columnBinding ) throws ChartException
 	{
 		String name = columnBinding.getName( );
 		String expr = columnBinding.getExpression( );
@@ -205,12 +201,14 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 		}
 		catch ( DataException ex )
 		{
-			logger.log( ex );
+			throw new ChartException( ChartReportItemPlugin.ID,
+					ChartException.DATA_BINDING,
+					ex );
 		}
 	}
 
 	private void addMinMaxBinding( ReportItemHandle handle,
-			BaseQueryDefinition query )
+			BaseQueryDefinition query ) throws ChartException
 	{
 		// Add min/max bindings for the query expression in first value
 		// series, so share the scale later
@@ -232,12 +230,14 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 		}
 		catch ( SemanticException e )
 		{
-			logger.log( e );
+			throw new ChartException( ChartReportItemPlugin.ID,
+					ChartException.DATA_BINDING,
+					e );
 		}
 	}
 
 	protected BaseQueryDefinition createSubQuery( ExtendedItemHandle handle,
-			BaseQueryDefinition parentQuery )
+			BaseQueryDefinition parentQuery ) throws ChartException
 	{
 		BaseQueryDefinition query = null;
 		// sub query must be defined in a transform

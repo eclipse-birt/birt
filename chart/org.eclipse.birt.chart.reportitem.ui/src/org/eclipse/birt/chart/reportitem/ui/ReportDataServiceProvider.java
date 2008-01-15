@@ -31,8 +31,8 @@ import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.reportitem.AbstractChartBaseQueryGenerator;
+import org.eclipse.birt.chart.reportitem.ChartBuilderGrupedQueryResultSetEvaluator;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
-import org.eclipse.birt.chart.reportitem.GroupedQueryResultSetEvaluatorAdapter;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
@@ -664,25 +664,21 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return getReportDesignHandle( ).findStyle( styleName );
 	}
 
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#getDataForColumns(java.lang.String[],
+	 *      int, boolean)
+	 * @deprecated since BIRT 2.3, the method is not used for chart live
+	 *             preview, use
+	 *             {@link #prepareRowExpressionEvaluator(Chart, List, int, boolean)}
+	 *             instead.
+	 * 
+	 */
 	public final Object[] getDataForColumns( String[] sExpressions,
 			int iMaxRecords, boolean byRow ) throws ChartException
 	{
-		List rowData = getPreviewRowData( sExpressions, iMaxRecords, false );
-		if ( byRow )
-		{
-			return rowData.toArray( );
-		}
-		List columnData = new ArrayList( );
-		for ( int i = 0; i < sExpressions.length; i++ )
-		{
-			Object[] columnArray = new Object[rowData.size( )];
-			for ( int j = 0; j < rowData.size( ); j++ )
-			{
-				columnArray[j] = ( (Object[]) rowData.get( j ) )[i];
-			}
-			columnData.add( columnArray );
-		}
-		return columnData.toArray( );
+		return null;
 	}
 
 	private int getMaxRow( )
@@ -980,7 +976,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					ChartReportItemUtil.getColumnDataBindings( itemHandle ) );
 			if ( actualResultSet != null )
 			{
-				return new GroupedQueryResultSetEvaluatorAdapter( actualResultSet.getResultIterator( ),
+				return new ChartBuilderGrupedQueryResultSetEvaluator( actualResultSet.getResultIterator( ),
 						ChartReportItemUtil.hasAggregation( cm ) );
 			}
 		}

@@ -21,8 +21,6 @@ import java.util.Set;
 import org.eclipse.birt.chart.aggregate.IAggregateFunction;
 import org.eclipse.birt.chart.api.ChartEngine;
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.log.ILogger;
-import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
@@ -56,8 +54,6 @@ import org.eclipse.emf.common.util.EList;
 public abstract class AbstractChartBaseQueryGenerator
 {
 
-	protected static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
-
 	/** The handle of report item handle. */
 	protected ExtendedItemHandle fReportItemHandle;
 
@@ -84,9 +80,11 @@ public abstract class AbstractChartBaseQueryGenerator
 	 * 
 	 * @param parent
 	 * @return
+	 * @throws ChartException
 	 */
-	public abstract IDataQueryDefinition createBaseQuery( IDataQueryDefinition parent );
-	
+	public abstract IDataQueryDefinition createBaseQuery(
+			IDataQueryDefinition parent ) throws ChartException;
+
 	/**
 	 * Create base query definition.
 	 * 
@@ -94,8 +92,9 @@ public abstract class AbstractChartBaseQueryGenerator
 	 * @return
 	 * @throws DataException
 	 */
-	public abstract IDataQueryDefinition createBaseQuery( List columns ) throws ChartException;
-	
+	public abstract IDataQueryDefinition createBaseQuery( List columns )
+			throws ChartException;
+
 	/**
 	 * Add aggregate bindings of value series for grouping case.
 	 * 
@@ -104,7 +103,7 @@ public abstract class AbstractChartBaseQueryGenerator
 	 * @param innerGroupDef
 	 * @param valueExprMap
 	 * @param baseSD
-	 * @throws DataException 
+	 * @throws DataException
 	 * @throws DataException
 	 */
 	protected void addValueSeriesAggregateBindingForGrouping(
@@ -117,29 +116,30 @@ public abstract class AbstractChartBaseQueryGenerator
 			SeriesDefinition orthSD = (SeriesDefinition) iter.next( );
 			Series series = orthSD.getDesignTimeSeries( );
 			List qlist = ChartEngine.instance( )
-			.getDataSetProcessor( series.getClass( ) )
-			.getDataDefinitionsForGrouping( series );
-			
-			for ( Iterator iter_datadef = series.getDataDefinition( ).iterator( ); iter_datadef.hasNext( ); )
+					.getDataSetProcessor( series.getClass( ) )
+					.getDataDefinitionsForGrouping( series );
+
+			for ( Iterator iter_datadef = series.getDataDefinition( )
+					.iterator( ); iter_datadef.hasNext( ); )
 			{
-				Query qry = (Query)iter_datadef.next( );
-				if (!qlist.contains( qry ))
+				Query qry = (Query) iter_datadef.next( );
+				if ( !qlist.contains( qry ) )
 				{
 					continue;
 				}
-				
+
 				String expr = qry.getDefinition( );
 				if ( expr != null && !"".equals( expr ) ) //$NON-NLS-1$
 				{
-					String aggName = ChartUtil.getAggregateFuncExpr( orthSD, baseSD );
-					if ( aggName!= null && !"".equals( aggName ) ) //$NON-NLS-1$
+					String aggName = ChartUtil.getAggregateFuncExpr( orthSD,
+							baseSD );
+					if ( aggName != null && !"".equals( aggName ) ) //$NON-NLS-1$
 					{
 						// Get a unique name.
 						String name = generateUniqueBindingName( expr );
-						
-						
+
 						Binding colBinding = new Binding( name );
-	
+
 						colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
 						colBinding.setExpression( new ScriptExpression( expr ) );
 						if ( innerGroupDef != null )
@@ -155,36 +155,29 @@ public abstract class AbstractChartBaseQueryGenerator
 										e );
 							}
 						}
-	
+
 						// Set aggregate parameters.
-						try
+						colBinding.setAggrFunction( ChartReportItemUtil.convertToDtEAggFunction( aggName ) );
+
+						IAggregateFunction aFunc = PluginSettings.instance( )
+								.getAggregateFunction( aggName );
+						if ( aFunc.getParametersCount( ) > 0 )
 						{
-							colBinding.setAggrFunction( ChartReportItemUtil.convertToDtEAggFunction( aggName ) );
-	
-							IAggregateFunction aFunc = PluginSettings.instance( )
-									.getAggregateFunction( aggName );
-							if ( aFunc.getParametersCount( ) > 0 )
+							Object[] parameters = getAggFunParameters( orthSD,
+									baseSD );
+
+							for ( int i = 0; i < parameters.length &&
+									i < aFunc.getParametersCount( ); i++ )
 							{
-								Object[] parameters = getAggFunParameters( orthSD,
-										baseSD );
-	
-								for ( int i = 0; i < parameters.length &&
-										i < aFunc.getParametersCount( ); i++ )
-								{
-									String param = (String) parameters[i];
-									colBinding.addArgument( new ScriptExpression( param ) );
-								}
+								String param = (String) parameters[i];
+								colBinding.addArgument( new ScriptExpression( param ) );
 							}
 						}
-						catch ( ChartException e )
-						{
-							logger.log( e );
-						}
-	
+
 						String newExpr = getExpressionForEvaluator( name );
-	
+
 						qry.setDefinition( newExpr );
-	
+
 						try
 						{
 							query.addBinding( colBinding );
@@ -195,7 +188,7 @@ public abstract class AbstractChartBaseQueryGenerator
 									ChartException.DATA_BINDING,
 									e );
 						}
-	
+
 						valueExprMap.put( expr, newExpr );
 					}
 				}
@@ -230,17 +223,18 @@ public abstract class AbstractChartBaseQueryGenerator
 	 * @param query
 	 * @throws DataException
 	 */
-	protected void generateGroupBindings( BaseQueryDefinition query ) throws ChartException
+	protected void generateGroupBindings( BaseQueryDefinition query )
+			throws ChartException
 	{
 		// 1. Get first base and orthogonal series definition to get
 		// grouping definition.
-		SeriesDefinition baseSD = null;
+		SeriesDefinition categorySD = null;
 		SeriesDefinition orthSD = null;
 		Object[] orthAxisArray = null;
 		if ( fChartModel instanceof ChartWithAxes )
 		{
 			ChartWithAxes cwa = (ChartWithAxes) fChartModel;
-			baseSD = (SeriesDefinition) cwa.getBaseAxes( )[0].getSeriesDefinitions( )
+			categorySD = (SeriesDefinition) cwa.getBaseAxes( )[0].getSeriesDefinitions( )
 					.get( 0 );
 
 			orthAxisArray = cwa.getOrthogonalAxes( cwa.getBaseAxes( )[0], true );
@@ -250,23 +244,169 @@ public abstract class AbstractChartBaseQueryGenerator
 		else if ( fChartModel instanceof ChartWithoutAxes )
 		{
 			ChartWithoutAxes cwoa = (ChartWithoutAxes) fChartModel;
-			baseSD = (SeriesDefinition) cwoa.getSeriesDefinitions( ).get( 0 );
-			orthSD = (SeriesDefinition) baseSD.getSeriesDefinitions( ).get( 0 );
+			categorySD = (SeriesDefinition) cwoa.getSeriesDefinitions( )
+					.get( 0 );
+			orthSD = (SeriesDefinition) categorySD.getSeriesDefinitions( )
+					.get( 0 );
 		}
 
 		// 2. Add grouping.
 		// 2.1 Add Y optional grouping.
+		initYGroupingNSortKey( query, categorySD, orthSD, orthAxisArray );
+
+		// 2.2 Add base grouping.
+		GroupDefinition categoryGroupDefinition = initCategoryGrouping( query,
+				categorySD );
+
+		// 3. Add binding for value series aggregate.
+		// The returned map is used to map old expression and new expression,
+		// the key is old expression, the value is new expression.
+		// <p>For aggregate case, the expression of value series will be replace
+		// with new expression for evaluator. And if the expression of value
+		// series is a sort key, it also need using new expression instead of
+		// old expression as sort expression, the related code show in section 4.
+		Map valueExprMap = addAggregateBindings( query,
+				categorySD,
+				orthAxisArray );
+
+		// 4. Binding sort on category series.
+		bindSortOnCategorySeries( query,
+				categorySD,
+				categoryGroupDefinition,
+				valueExprMap );
+	}
+
+	/**
+	 * @param query
+	 * @param categorySD
+	 * @param categoryGroupDefinition
+	 * @param valueExprMap
+	 */
+	private void bindSortOnCategorySeries( BaseQueryDefinition query,
+			SeriesDefinition categorySD,
+			GroupDefinition categoryGroupDefinition, Map valueExprMap )
+	{
+		String baseSortExpr = getValidSortExpr( categorySD );
+		if ( categorySD.isSetSorting( ) && baseSortExpr != null )
+		{
+			if ( ChartReportItemUtil.isBaseGroupingDefined( categorySD ) )
+			{
+				// If base series set group, add sort on group definition.
+				String baseExpr = ( (Query) categorySD.getDesignTimeSeries( )
+						.getDataDefinition( )
+						.get( 0 ) ).getDefinition( );
+				if ( baseExpr.equals( getValidSortExpr( categorySD ) ) )
+				{
+					categoryGroupDefinition.setSortDirection( ChartReportItemUtil.convertToDtESortDirection( categorySD.getSorting( ) ) );
+				}
+				else
+				{
+					SortDefinition sd = new SortDefinition( );
+					sd.setSortDirection( ChartReportItemUtil.convertToDtESortDirection( categorySD.getSorting( ) ) );
+
+					String newValueSeriesExpr = (String) valueExprMap.get( baseSortExpr );
+					if ( newValueSeriesExpr != null )
+					{
+						// Use new expression instead of old.
+						categorySD.getSortKey( )
+								.setDefinition( newValueSeriesExpr );
+
+						sd.setExpression( newValueSeriesExpr );
+					}
+					else
+					{
+						sd.setExpression( baseSortExpr );
+					}
+
+					categoryGroupDefinition.addSort( sd );
+				}
+			}
+			else
+			{
+				// If base series doesn't set group, directly add sort on
+				// query definition.
+				SortDefinition sd = new SortDefinition( );
+				sd.setExpression( baseSortExpr );
+				sd.setSortDirection( ChartReportItemUtil.convertToDtESortDirection( categorySD.getSorting( ) ) );
+				query.addSort( sd );
+			}
+		}
+	}
+
+	/**
+	 * @param query
+	 * @param categorySD
+	 * @param orthAxisArray
+	 * @return
+	 * @throws ChartException
+	 */
+	private Map addAggregateBindings( BaseQueryDefinition query,
+			SeriesDefinition categorySD, Object[] orthAxisArray )
+			throws ChartException
+	{
+		GroupDefinition innerGroupDef = null;
+		if ( query.getGroups( ) != null && query.getGroups( ).size( ) > 0 )
+		{
+			innerGroupDef = (GroupDefinition) query.getGroups( )
+					.get( query.getGroups( ).size( ) - 1 );
+		}
+
+		Map valueExprMap = new HashMap( );
+		// Add aggregates.
+		if ( fChartModel instanceof ChartWithAxes )
+		{
+			for ( int i = 0; i < orthAxisArray.length; i++ )
+			{
+				addValueSeriesAggregateBindingForGrouping( query,
+						( (Axis) orthAxisArray[i] ).getSeriesDefinitions( ),
+						innerGroupDef,
+						valueExprMap,
+						categorySD );
+			}
+		}
+		else if ( fChartModel instanceof ChartWithoutAxes )
+		{
+			addValueSeriesAggregateBindingForGrouping( query,
+					categorySD.getSeriesDefinitions( ),
+					innerGroupDef,
+					valueExprMap,
+					categorySD );
+		}
+		return valueExprMap;
+	}
+
+	private GroupDefinition initCategoryGrouping( BaseQueryDefinition query,
+			SeriesDefinition categorySD )
+	{
+		GroupDefinition baseGroupDefinition = createBaseGroupingDefinition( categorySD );
+		if ( baseGroupDefinition != null )
+		{
+			query.addGroup( baseGroupDefinition );
+		}
+		return baseGroupDefinition;
+	}
+
+	/**
+	 * @param query
+	 * @param categorySD
+	 * @param orthSD
+	 * @param orthAxisArray
+	 * @return
+	 * @throws ChartException
+	 */
+	private GroupDefinition initYGroupingNSortKey( BaseQueryDefinition query,
+			SeriesDefinition categorySD, SeriesDefinition orthSD,
+			Object[] orthAxisArray ) throws ChartException
+	{
 		GroupDefinition yGroupingDefinition = createOrthogonalGroupingDefinition( orthSD );
 		if ( yGroupingDefinition != null )
 		{
 			query.addGroup( yGroupingDefinition );
 
-			// If the SortKey of Y grouping isn't Y grouping expression, add
-			// new
-			// sort definition on the group.
-			// If base grouping is set, the value series should be
-			// aggregate.
-			if ( ChartReportItemUtil.isBaseGroupingDefined( baseSD ) &&
+			// If the SortKey of Y grouping isn't Y grouping expression, add new
+			// sort definition on the group. If base grouping is set, the value
+			// series should be aggregate.
+			if ( ChartReportItemUtil.isBaseGroupingDefined( categorySD ) &&
 					orthSD.isSetSorting( ) &&
 					orthSD.getSortKey( ) != null )
 			{
@@ -296,7 +436,7 @@ public abstract class AbstractChartBaseQueryGenerator
 					}
 
 					String aggFunc = getAggFunExpr( sortKey,
-							baseSD,
+							categorySD,
 							orthAxisArray );
 					binding.setAggrFunction( ChartReportItemUtil.convertToDtEAggFunction( aggFunc ) );
 
@@ -309,88 +449,7 @@ public abstract class AbstractChartBaseQueryGenerator
 			}
 		}
 
-		// 2.2 Add base grouping.
-		GroupDefinition baseGroupDefinition = createBaseGroupingDefinition( baseSD );
-		if ( baseGroupDefinition != null )
-		{
-			query.addGroup( baseGroupDefinition );
-		}
-
-		// 3. Add binding for value series aggregate.
-		GroupDefinition innerGroupDef = null;
-		if ( query.getGroups( ) != null && query.getGroups( ).size( ) > 0 )
-		{
-			innerGroupDef = (GroupDefinition) query.getGroups( )
-					.get( query.getGroups( ).size( ) - 1 );
-		}
-
-		Map valueExprMap = new HashMap( );
-		// Add aggregates.
-		if ( fChartModel instanceof ChartWithAxes )
-		{
-			for ( int i = 0; i < orthAxisArray.length; i++ )
-			{
-				addValueSeriesAggregateBindingForGrouping( query,
-						( (Axis) orthAxisArray[i] ).getSeriesDefinitions( ),
-						innerGroupDef,
-						valueExprMap,
-						baseSD );
-			}
-		}
-		else if ( fChartModel instanceof ChartWithoutAxes )
-		{
-			addValueSeriesAggregateBindingForGrouping( query,
-					baseSD.getSeriesDefinitions( ),
-					innerGroupDef,
-					valueExprMap,
-					baseSD );
-		}
-
-		// 4. Binding sort on base series.
-		String baseSortExpr = getValidSortExpr( baseSD );
-		if ( baseSD.isSetSorting( ) && baseSortExpr != null )
-		{
-			if ( ChartReportItemUtil.isBaseGroupingDefined( baseSD ) )
-			{
-				// If base series set group, add sort on group definition.
-				String baseExpr = ( (Query) baseSD.getDesignTimeSeries( )
-						.getDataDefinition( )
-						.get( 0 ) ).getDefinition( );
-				if ( baseExpr.equals( getValidSortExpr( baseSD ) ) )
-				{
-					baseGroupDefinition.setSortDirection( ChartReportItemUtil.convertToDtESortDirection( baseSD.getSorting( ) ) );
-				}
-				else
-				{
-					SortDefinition sd = new SortDefinition( );
-					sd.setSortDirection( ChartReportItemUtil.convertToDtESortDirection( baseSD.getSorting( ) ) );
-
-					String newValueSeriesExpr = (String) valueExprMap.get( baseSortExpr );
-					if ( newValueSeriesExpr != null )
-					{
-						// Use new expression instead of old.
-						baseSD.getSortKey( ).setDefinition( newValueSeriesExpr );
-
-						sd.setExpression( newValueSeriesExpr );
-					}
-					else
-					{
-						sd.setExpression( baseSortExpr );
-					}
-
-					baseGroupDefinition.addSort( sd );
-				}
-			}
-			else
-			{
-				// If base series doesn't set group, directly add sort on
-				// query definition.
-				SortDefinition sd = new SortDefinition( );
-				sd.setExpression( baseSortExpr );
-				sd.setSortDirection( ChartReportItemUtil.convertToDtESortDirection( baseSD.getSorting( ) ) );
-				query.addSort( sd );
-			}
-		}
+		return yGroupingDefinition;
 	}
 
 	/**
@@ -496,10 +555,10 @@ public abstract class AbstractChartBaseQueryGenerator
 			SeriesGrouping grouping = orthSD.getGrouping( );
 			if ( grouping.isSetEnabled( ) && grouping.isEnabled( ) )
 			{
-					// Set own group
-					return grouping.getAggregateParameters( ).toArray( );
+				// Set own group
+				return grouping.getAggregateParameters( ).toArray( );
 			}
-			
+
 			return baseSD.getGrouping( ).getAggregateParameters( ).toArray( );
 		}
 		else
@@ -507,7 +566,7 @@ public abstract class AbstractChartBaseQueryGenerator
 			return orthSD.getGrouping( ).getAggregateParameters( ).toArray( );
 		}
 	}
-	
+
 	/**
 	 * Get aggregation function string of sort key related with value series.
 	 * 
@@ -547,7 +606,8 @@ public abstract class AbstractChartBaseQueryGenerator
 								.get( 0 );
 						if ( sortKey.equals( q.getDefinition( ) ) )
 						{
-							aggFunction = ChartUtil.getAggregateFunctionExpr( sd, baseAggFunExpr );
+							aggFunction = ChartUtil.getAggregateFunctionExpr( sd,
+									baseAggFunExpr );
 							break;
 						}
 					}
