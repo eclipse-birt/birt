@@ -27,3 +27,4 @@ adapter.invalid.aggregationfunctionname=The aggregation function {0} is invalid.
 invalid.datetime.value=Datums-/Uhrzeitwert "{0}" ist ungültig.
 missing.join.condition=Die Knotenpunktbedingung zwischen Faktentabelle und Dimension "{0}" fehlt.
 exception.error=An exception occurred during processing. Please see the following message for details:
+invalid.level.expression=The level name "{0}" is not found.
