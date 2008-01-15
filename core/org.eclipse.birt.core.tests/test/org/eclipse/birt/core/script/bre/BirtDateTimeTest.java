@@ -850,12 +850,10 @@ public class BirtDateTimeTest extends TestCase
 		
 		c.set( 1970, 0, 22, 0, 0, 0 );
 
-		Date d4 = new Date( c.getTimeInMillis( ) );
-		
 		c.clear( );
 
 		Date[] values = new Date[]{
-				d1, d2, d3, d4
+				d1, d2, d3, null
 		};
 
 		for ( int i = 0; i < values.length; i++ )

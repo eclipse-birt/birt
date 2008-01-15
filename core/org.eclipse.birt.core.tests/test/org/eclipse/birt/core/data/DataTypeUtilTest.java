@@ -175,7 +175,7 @@ public class DataTypeUtilTest extends TestCase
 				new Exception( "" ),
 				Boolean.TRUE,
 				Boolean.FALSE,
-				Boolean.FALSE, 
+				null, 
 				new Exception( "" ),
 				Boolean.TRUE, 
 				new Exception( "" ),
