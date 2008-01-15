@@ -11,13 +11,18 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts;
 
+import java.util.Map;
+
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.layer.TableBorderLayer;
 import org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner;
 import org.eclipse.birt.report.designer.internal.ui.layout.TableLayout;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.command.ViewsContentEvent;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayeredPane;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LayeredPane;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.LayerManager;
 
@@ -116,4 +121,33 @@ public abstract class AbstractTableEditPart extends ReportElementEditPart implem
 	 */
 	public abstract AbstractCellEditPart getCell( int rowNumber,
 			int columnNumber );
+	
+	protected void contentChange( Map info )
+	{
+		Object action = info.get(GraphicsViewModelEventProcessor.CONTENT_EVENTTYPE );
+		if (action instanceof Integer)
+		{
+			int intValue = ((Integer)action).intValue( );
+			if (intValue == ViewsContentEvent.ADD
+					|| intValue == ViewsContentEvent.SHIFT
+					|| intValue == ViewsContentEvent.REMOVE)
+			{
+				if (((ReportItemHandle)getModel()).getViews( ).size( ) > 0)
+				{
+					markDirty( true );
+					EditPart part = getParent( );
+					((ReportElementEditPart)getParent( )).removeChild( this );
+					part.refresh( );
+					removeGuideFeedBack( );
+					return;
+				}
+				else
+				{
+					((ReportElementEditPart)getParent( )).contentChange( info );
+					return;
+				}
+			}
+		}
+		super.contentChange( info );
+	}
 }

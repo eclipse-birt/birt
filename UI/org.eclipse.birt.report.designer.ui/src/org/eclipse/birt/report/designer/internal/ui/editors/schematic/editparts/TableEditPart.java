@@ -112,12 +112,15 @@ public class TableEditPart extends AbstractTableEditPart implements
 	protected AbstractGuideHandle createGuideHandle( )
 	{
 		TableGuideHandle handle = new TableGuideHandle( this );
-		handle.setIndicatorLabel( GUIDEHANDLE_TEXT );
+		handle.setIndicatorLabel( getGuideLabel( ) );
 		handle.setIndicatorIcon( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_TABLE ) );
 		return handle;
 	}
 
-	
+	public String getGuideLabel( )
+	{
+		return GUIDEHANDLE_TEXT;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -163,32 +166,8 @@ public class TableEditPart extends AbstractTableEditPart implements
 	 */
 	protected void contentChange(Map info )
 	{
-		Object action = info.get(GraphicsViewModelEventProcessor.CONTENT_EVENTTYPE );
-		if (action instanceof Integer)
-		{
-			int intValue = ((Integer)action).intValue( );
-			if (intValue == ViewsContentEvent.ADD
-					|| intValue == ViewsContentEvent.SHIFT
-					|| intValue == ViewsContentEvent.REMOVE)
-			{
-				if (((TableHandle)getModel()).getViews( ).size( ) > 0)
-				{
-					markDirty( true );
-					EditPart part = getParent( );
-					((ReportElementEditPart)getParent( )).removeChild( this );
-					part.refresh( );
-					removeGuideFeedBack( );
-					return;
-				}
-				else
-				{
-					((ReportElementEditPart)getParent( )).contentChange( info );
-					return;
-				}
-			}
-		}
 		super.contentChange( info );
-		//Object action = info.get( GraphicsViewModelEventProcessor.CONTENT_EVENTTYPE );
+		Object action = info.get( GraphicsViewModelEventProcessor.CONTENT_EVENTTYPE );
 		if (action instanceof Integer)
 		{
 			if (((Integer)action).intValue( ) == ContentEvent.REMOVE)

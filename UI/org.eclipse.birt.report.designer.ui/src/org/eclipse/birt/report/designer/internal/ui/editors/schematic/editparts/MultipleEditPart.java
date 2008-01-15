@@ -45,6 +45,7 @@ import org.eclipse.gef.requests.ChangeBoundsRequest;
 public class MultipleEditPart extends ReportElementEditPart implements IMultipleAdapterHelper
 {
 
+	private String guideLabel;
 	/**Constructor
 	 * @param model
 	 */
@@ -237,5 +238,17 @@ public class MultipleEditPart extends ReportElementEditPart implements IMultiple
 	{
 		super.notifyModelChange( );
 		((MultipleLayout)getFigure( ).getLayoutManager( )).markDirty( );
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#getGuideLabel()
+	 */
+	public String getGuideLabel( )
+	{
+		if (guideLabel == null)
+		{
+			guideLabel = ((ReportElementEditPart)getChildren( ).get( 0 )).getGuideLabel( );
+		}
+		return guideLabel;
 	}
 }

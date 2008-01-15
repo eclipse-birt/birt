@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.MultipleEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.providers.SchematicContextMenuProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -424,9 +425,10 @@ public class MultipleGuideHandle extends AbstractGuideHandle
 	
 	private String getLabel(Object obj)
 	{
-		if (obj instanceof TableHandle)
+		Object ownerModel = getOwner( ).getModel( );
+		if (ownerModel == obj)
 		{
-			return TableEditPart.GUIDEHANDLE_TEXT;
+			return ((ReportElementEditPart)getOwner( )).getGuideLabel( );
 		}
 		
 		Object[] objs = ElementAdapterManager.getAdapters( getOwner( ).getModel( ),  IReportItemViewProvider.class);

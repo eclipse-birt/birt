@@ -14,12 +14,13 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.extensions.IReportItemViewProvider;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.swt.custom.TableEditor;
+import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.gef.EditPart;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
@@ -49,17 +50,22 @@ public class CreateChartAction extends ContextSelectionAction
 		{
 			return false;
 		}
-		TableEditPart part = getTableEditPart( );
-		if (part == null)
+		EditPart part = (EditPart)getSelectedObjects( ).get( 0 );
+		Object model = part.getModel( );
+		if (!(model instanceof ReportItemHandle) && model instanceof IAdaptable)
+		{
+			model = ((IAdaptable)model).getAdapter( DesignElementHandle.class );
+		}
+		if (!(model instanceof ReportItemHandle))
 		{
 			return false;
 		}
-		Object[] objs = ElementAdapterManager.getAdapters( part.getModel( ),  IReportItemViewProvider.class);
+		Object[] objs = ElementAdapterManager.getAdapters( model,  IReportItemViewProvider.class);
 		if (objs == null || objs.length>1)
 		{
 			return false;
 		}
-		if (((ReportItemHandle)part.getModel( )).getViews( ).size( ) != 0)
+		if (((ReportItemHandle)model).getViews( ).size( ) != 0)
 		{
 			return false;
 		}

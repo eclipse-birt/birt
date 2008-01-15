@@ -976,7 +976,11 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	 */
 	public void removeChild( EditPart child )
 	{
-		// TODO Auto-generated method stub
 		super.removeChild( child );
+	}
+	
+	public String getGuideLabel()
+	{
+		return "";
 	}
 }

@@ -75,6 +75,8 @@ import org.eclipse.birt.report.designer.ui.actions.InsertPasteColumnAction;
 import org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction;
 import org.eclipse.birt.report.designer.ui.actions.NoneAction;
 import org.eclipse.birt.report.designer.ui.extensions.IMenuBuilder;
+import org.eclipse.birt.report.designer.ui.extensions.IReportItemViewProvider;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
@@ -341,10 +343,9 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 							action );
 				}
 				//add for support multiple view
-				if (firstSelectedElement instanceof TableHandle)
+				Object[] objs = ElementAdapterManager.getAdapters( firstSelectedElement,  IReportItemViewProvider.class);
+				if (objs != null && objs.length == 1)
 				{
-					menuManager.add( new Separator() );
-					
 					IAction action = getAction( CreateChartAction.ID );
 					menuManager.appendToGroup( GEFActionConstants.GROUP_VIEW,
 							action );

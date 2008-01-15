@@ -62,9 +62,17 @@ public class GridEditPart extends TableEditPart
 	protected AbstractGuideHandle createGuideHandle( )
 	{
 		TableGuideHandle handle = new TableGuideHandle( this );
-		handle.setIndicatorLabel( GUIDEHANDLE_TEXT );
+		handle.setIndicatorLabel( getGuideLabel( ) );
 		handle.setIndicatorIcon( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_GRID ) );
 		return handle;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart#getGuideLabel()
+	 */
+	public String getGuideLabel( )
+	{
+		return GUIDEHANDLE_TEXT;
 	}
 	
 }

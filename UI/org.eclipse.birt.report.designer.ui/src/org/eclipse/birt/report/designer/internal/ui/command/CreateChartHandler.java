@@ -21,6 +21,8 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.gef.EditPart;
 
 /**
  * 
@@ -38,7 +40,14 @@ public class CreateChartHandler extends SelectionHandler
 	{
 		super.execute( event );
 		
-		ReportItemHandle handle = (ReportItemHandle)getTableEditPart( ).getModel( );
+		EditPart part = (EditPart)getSelectedObjects( ).get( 0 );
+		Object model = part.getModel( );
+		if (!(model instanceof ReportItemHandle) && model instanceof IAdaptable)
+		{
+			model = ((IAdaptable)model).getAdapter( DesignElementHandle.class );
+		}
+		
+		ReportItemHandle handle = (ReportItemHandle)model;
 		ModuleHandle module = handle.getModuleHandle( );
 		
 		

@@ -153,11 +153,19 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 	protected AbstractGuideHandle createGuideHandle( )
 	{
 		TableGuideHandle handle = new TableGuideHandle( this );
-		handle.setIndicatorLabel( GUIDEHANDLE_TEXT );
+		handle.setIndicatorLabel( getGuideLabel() );
 		Image image = CrosstabUIHelper.getImage( CrosstabUIHelper.CROSSTAB_IMAGE );
 		handle.setIndicatorIcon( image );
 		//handle.setIndicatorIcon( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_TABLE ) );
 		return handle;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#getGuideLabel()
+	 */
+	public String getGuideLabel( )
+	{
+		return GUIDEHANDLE_TEXT;
 	}
 
 	/*

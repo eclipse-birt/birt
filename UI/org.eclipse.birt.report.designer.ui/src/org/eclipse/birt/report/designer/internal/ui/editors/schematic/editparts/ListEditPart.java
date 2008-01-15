@@ -68,10 +68,18 @@ public class ListEditPart extends ReportElementEditPart
 	protected AbstractGuideHandle createGuideHandle( )
 	{
 		TableGuideHandle handle = new TableGuideHandle( this );
-		handle.setIndicatorLabel( GUIDEHANDLE_TEXT );
+		handle.setIndicatorLabel( getGuideLabel( ) );
 		handle.setIndicatorIcon( ReportPlatformUIImages
 				.getImage( IReportGraphicConstants.ICON_ELEMENT_LIST ) );
 		return handle;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#getGuideLabel()
+	 */
+	public String getGuideLabel( )
+	{
+		return GUIDEHANDLE_TEXT;
 	}
 
 	/*
