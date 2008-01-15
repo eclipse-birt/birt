@@ -102,18 +102,20 @@ public class ReportEngine implements IReportEngine
 	{
 		Logger logger = null;
 		String dest = null;
+		String file = null;
 		Level level = Level.WARNING;
 		if ( config != null )
 		{
 			logger = config.getLogger( );
 			dest = config.getLogDirectory( );
+			file = config.getLogFile( );
 			level = config.getLogLevel( );
 			if ( level == null )
 			{
 				level = Level.WARNING;
 			}
 		}
-		EngineLogger.startEngineLogging( logger, dest, level );
+		EngineLogger.startEngineLogging( logger, dest, file, level );
 	}
 
 	/**
@@ -533,7 +535,7 @@ public class ReportEngine implements IReportEngine
 	{
 		if ( logger != null )
 		{
-			EngineLogger.startEngineLogging( logger, null, null );
+			EngineLogger.startEngineLogging( logger, null, null, null );
 		}
 	}
 }

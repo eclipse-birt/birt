@@ -62,6 +62,11 @@ public class EngineLogger
 	 * the user defined logger output directory.
 	 */
 	static private String dirName = null;
+	
+	/**
+	 * the user defined logger output file.
+	 */
+	static private String fileName = null;
 
 	/**
 	 * the logger uses the file handler
@@ -83,7 +88,7 @@ public class EngineLogger
 	 *            ignored.
 	 */
 	public static void startEngineLogging( Logger logger, String directoryName,
-			Level logLevel )
+			String file, Level logLevel )
 	{
 		Logger rootLogger = Logger.getLogger( BIRT_NAME_SPACE );
 		if ( sharedHandler == null )
@@ -108,13 +113,18 @@ public class EngineLogger
 			{
 				dirName = directoryName;
 			}
+			if ( file != null )
+			{
+				fileName = file;
+			}
 			if ( logLevel == null )
 			{
 				logLevel = rootLogger.getLevel( );
 			}
-			if ( logLevel != Level.OFF && dirName != null )
+			if ( logLevel != Level.OFF
+					&& ( dirName != null || fileName != null ) )
 			{
-				fileLogger = createFileLogger( dirName );
+				fileLogger = createFileLogger( dirName, fileName );
 				sharedHandler.setSharedLogger( fileLogger );
 			}
 			rootLogger.setLevel( logLevel );
@@ -174,9 +184,9 @@ public class EngineLogger
 			if ( userLogger != null )
 			{
 				if ( newLevel != Level.OFF && fileLogger == null
-						&& dirName != null )
+						&& ( dirName != null || fileName != null ) )
 				{
-					fileLogger = createFileLogger( dirName );
+					fileLogger = createFileLogger( dirName, fileName );
 					if ( fileLogger != null )
 					{
 						sharedHandler.setSharedLogger( fileLogger );
@@ -199,39 +209,46 @@ public class EngineLogger
 	 * @return An unique Log file name which is the directory name plus the file
 	 *         name.
 	 */
-	private static String generateUniqueLogFileName( String directoryName )
+	private static String generateUniqueLogFileName( String directoryName,
+			String fileName )
 	{
-		SimpleDateFormat df = new SimpleDateFormat( "yyyy_MM_dd_HH_mm_ss" ); //$NON-NLS-1$
-		String dateTimeString = df.format( new Date( ) );
+		if ( fileName == null )
+		{
+			SimpleDateFormat df = new SimpleDateFormat( "yyyy_MM_dd_HH_mm_ss" ); //$NON-NLS-1$
+			String dateTimeString = df.format( new Date( ) );
+			fileName = "ReportEngine_" + dateTimeString + ".log";
+		}
 
 		if ( directoryName == null )
 			directoryName = ""; //$NON-NLS-1$
 		else if ( directoryName.length( ) > 0 )
 			directoryName += System.getProperty( "file.separator" ); //$NON-NLS-1$
 
-		return new String( directoryName
-				+ "ReportEngine_" + dateTimeString + ".log" ); //$NON-NLS-1$; $NON-NLS-2$;
+		return new String( directoryName + fileName ); //$NON-NLS-1$; $NON-NLS-2$;
 	}
 
-	private static Logger createFileLogger( String dirName )
+	private static Logger createFileLogger( String dirName, String fileName )
 	{
 		try
 		{
-			File directory = new File( dirName );
-			if ( !directory.exists( ) )
+			if ( dirName != null )
 			{
-				if ( !directory.mkdirs( ) )
-					throw new IOException( "logDir \"" + dirName
-							+ "\" doesn't exist and  be created" );
-			}
-			else
-			{
-				if ( directory.isFile( ) )
-					throw new IOException( "logDir \"" + dirName
-							+ "\" should be a folder instead of a file" );
+				File directory = new File( dirName );
+				if ( !directory.exists( ) )
+				{
+					if ( !directory.mkdirs( ) )
+						throw new IOException( "logDir \"" + dirName
+								+ "\" doesn't exist and  be created" );
+				}
+				else
+				{
+					if ( directory.isFile( ) )
+						throw new IOException( "logDir \"" + dirName
+								+ "\" should be a folder instead of a file" );
+				}
 			}
 			Handler logFileHandler = new FileHandler(
-					generateUniqueLogFileName( dirName ), true );
+					generateUniqueLogFileName( dirName, fileName ), true );
 			// In BIRT log, we should always use the simple format.
 			logFileHandler.setFormatter( new SimpleFormatter( ) );
 			logFileHandler.setLevel( Level.FINEST );

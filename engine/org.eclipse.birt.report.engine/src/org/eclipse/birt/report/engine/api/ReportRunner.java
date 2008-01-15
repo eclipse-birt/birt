@@ -907,6 +907,10 @@ public class ReportRunner
 		Level logL = ( level == null ) ? config.getLogLevel( ) : level;
 		config.setLogConfig( logD, logL );
 		
+		String logFile = (String) params.get( "logFile" );
+		if ( logFile != null )
+			config.setLogFile( logFile.trim( ) );
+		
 		return config;
 	}
 }

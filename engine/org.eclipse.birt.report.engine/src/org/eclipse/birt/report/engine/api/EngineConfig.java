@@ -254,6 +254,17 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 		String logDestination = (String) getProperty( LOG_DESTINATION );
 		return logDestination;
 	}
+	
+	public String getLogFile( )
+	{
+		String logFile = (String) getProperty( LOG_FILE );
+		return logFile;
+	}
+	
+	public void setLogFile( String filename )
+	{
+		setProperty( LOG_FILE, filename );
+	}
 
 	/**
 	 * sets the directory for temporary files
