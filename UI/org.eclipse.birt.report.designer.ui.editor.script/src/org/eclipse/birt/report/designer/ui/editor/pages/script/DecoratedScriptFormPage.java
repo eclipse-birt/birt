@@ -75,8 +75,19 @@ public class DecoratedScriptFormPage extends ReportScriptFormPage
 	private  class ReportDecoratedScriptEditor extends DecoratedScriptEditor implements IDebugScriptEditor
 	{
 		private String fileName = "";//$NON-NLS-1$
-		public ReportDecoratedScriptEditor()
+
+		/** The parent editor. */
+		private final IEditorPart parent;
+
+		/**
+		 * Constructs the editor with a specified parent.
+		 * 
+		 * @param parent
+		 *            the parent editor.
+		 */
+		public ReportDecoratedScriptEditor( IEditorPart parent )
 		{
+			this.parent = parent;
 			setRulerContextMenuId( "#ReportScriptRulerContext" ); //$NON-NLS-1$
 		}
 		
@@ -141,7 +152,7 @@ public class DecoratedScriptFormPage extends ReportScriptFormPage
 		{
 			if ( adapter == IReportScriptLocation.class )
 			{
-				return DecoratedScriptFormPage.this.getAdapter( adapter );
+				return parent == null ? null : parent.getAdapter( adapter );
 			}
 			return super.getAdapter( adapter );
 		}
@@ -189,7 +200,7 @@ public class DecoratedScriptFormPage extends ReportScriptFormPage
 		 */
 		protected IScriptEditor createScriptEditor( )
 		{
-			return new ReportDecoratedScriptEditor( );
+			return new ReportDecoratedScriptEditor( getParentEditor( ) );
 		}
 
 		/*
