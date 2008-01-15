@@ -162,7 +162,7 @@ public class JSEditor extends EditorPart implements IColleague
 	public TreeViewPalettePage palettePage = new TreeViewPalettePage( );
 
 	/** the script editor, dosen't include controller. */
-	private final IScriptEditor scriptEditor = createScriptEditor( );
+	private final IScriptEditor scriptEditor;
 
 	/** the script validator */
 	private ScriptValidator scriptValidator = null;
@@ -257,7 +257,7 @@ public class JSEditor extends EditorPart implements IColleague
 
 			// Removes dirty flag when undo/redo to the clean point.
 			setIsModified( false );
-			( (IFormPage) editingDomainEditor ).getEditor( )
+			( (IFormPage) getParentEditor( ) ).getEditor( )
 					.editorDirtyStateChanged( );
 
 			firePropertyChange( PROP_DIRTY );
@@ -272,6 +272,7 @@ public class JSEditor extends EditorPart implements IColleague
 		super( );
 		this.editingDomainEditor = parent;
 		setSite( parent.getEditorSite( ) );
+		scriptEditor = createScriptEditor( );
 	}
 
 	/**
@@ -540,6 +541,16 @@ public class JSEditor extends EditorPart implements IColleague
 	{
 		// return cmbExprListViewer.getInput( );
 		return editObject;
+	}
+
+	/**
+	 * Returns parent editor.
+	 * 
+	 * @return parent editor.
+	 */
+	public IEditorPart getParentEditor( )
+	{
+		return editingDomainEditor;
 	}
 
 	private void updateAnnotationLabel( Object handle )
@@ -1024,8 +1035,9 @@ public class JSEditor extends EditorPart implements IColleague
 		
 		setIsModified( false );
 
-		( (IFormPage) editingDomainEditor ).getEditor( )
+		( (IFormPage) getParentEditor( ) ).getEditor( )
 				.editorDirtyStateChanged( );
+
 		firePropertyChange( PROP_DIRTY );
 		
 		SourceViewer viewer = getViewer( );
@@ -1072,7 +1084,7 @@ public class JSEditor extends EditorPart implements IColleague
 		if ( !isModified )
 		{
 			setIsModified( true );
-			( (IFormPage) editingDomainEditor ).getEditor( )
+			( (IFormPage) getParentEditor( ) ).getEditor( )
 					.editorDirtyStateChanged( );
 
 			firePropertyChange( PROP_DIRTY );
