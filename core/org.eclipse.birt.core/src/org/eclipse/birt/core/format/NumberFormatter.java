@@ -57,6 +57,19 @@ public class NumberFormatter
 	protected NumberFormat decimalFormat;
 
 	/**
+	 * The default format of Double is Double.toString(); need to localize the
+	 * result of Double.toString() to get the final result.
+	 * 
+	 * decimalSeparator is the localized decimal separator.
+	 * 
+	 * currently the exponential character isnt exposed by JDK, so just leave it
+	 * for future
+	 * 
+	 * @see definition of java.text.DecimalFormatSymbols#exponential
+	 */
+	protected char decimalSeparator;
+	
+	/**
 	 * Do we use hex pattern?
 	 */
 	private boolean hexFlag;
@@ -148,6 +161,9 @@ public class NumberFormatter
 			{
 				numberFormat = NumberFormat.getInstance( locale.toLocale( ) );
 				numberFormat.setGroupingUsed( false );
+				DecimalFormatSymbols symbols = new DecimalFormatSymbols( locale
+						.toLocale( ) );
+				decimalSeparator = symbols.getDecimalSeparator( );
 				decimalFormat = new DecimalFormat( "", //$NON-NLS-1$
 						new DecimalFormatSymbols( locale.toLocale( ) ) );
 				decimalFormat.setGroupingUsed( false );
@@ -196,7 +212,8 @@ public class NumberFormatter
 
 			if ( this.formatPattern == null )
 			{
-				return Double.toString( num );
+				String result = Double.toString( num );
+				return result.replace( '.', decimalSeparator );
 			}
 			
 			return numberFormat.format( num );

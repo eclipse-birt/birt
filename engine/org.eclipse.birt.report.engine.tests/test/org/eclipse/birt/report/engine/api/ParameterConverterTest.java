@@ -560,14 +560,14 @@ public class ParameterConverterTest extends TestCase
 		assertEquals( new Double( "123456.789012" ), rpc.parse(
 				"123456,789012", IScalarParameterDefn.TYPE_FLOAT ) );
 		
-		assertEquals( "123456,789", rpc.format( new Double(
+		assertEquals( "123456,789012", rpc.format( new Double(
 				"123456.789012" ) ) );
 		
 		locale = ULocale.US;
 		rpc = new ReportParameterConverter( null, locale.toLocale( ) );
 		assertEquals( new Double( "123456.789012" ), rpc.parse(
 				"123456.789012", IScalarParameterDefn.TYPE_FLOAT ) );
-		assertEquals( "123456.789", rpc.format( new Double(
+		assertEquals( "123456.789012", rpc.format( new Double(
 				"123456.789012" ) ) );
 		
 	}
