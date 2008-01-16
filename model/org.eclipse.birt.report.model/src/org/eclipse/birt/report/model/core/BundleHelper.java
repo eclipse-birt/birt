@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.core;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -165,10 +166,41 @@ public class BundleHelper
 		List bundleHierarchy = new ArrayList( );
 
 		List bundleNames = getMessageFilenames( locale );
+		URL cachedURL = null;
+		String cachedBundleName = null;
+
+		PropertyResourceBundle bundle = null;
 		for ( int i = 0; i < bundleNames.size( ); i++ )
 		{
 			String bundleName = (String) bundleNames.get( i );
-			PropertyResourceBundle bundle = populateBundle( bundleName );
+			if ( cachedURL != null )
+			{
+				String url = cachedURL.toString( );
+				assert cachedBundleName != null;
+				int index = url.lastIndexOf( cachedBundleName );
+				assert index > -1;
+				url = url.substring( 0, index ) + bundleName
+						+ url.substring( index + cachedBundleName.length( ) );
+				try
+				{
+					bundle = populateBundle( new URL( url ) );
+				}
+				catch ( MalformedURLException e )
+				{
+					// do nothing
+				}
+			}
+			else
+			{
+				URL ret = findBundle( bundleName );
+				bundle = populateBundle( ret );
+				if ( ret != null )
+				{
+					cachedBundleName = bundleName;
+					cachedURL = ret;
+				}
+			}
+
 			if ( bundle != null )
 				bundleHierarchy.add( bundle );
 		}
@@ -223,13 +255,13 @@ public class BundleHelper
 			temp.append( country );
 
 			// LANGUAGE_COUNTRY_VARIANT
-			
+
 			StringBuffer variantTmp = new StringBuffer( temp.toString( ) );
 			if ( variantLength > 0 )
 			{
 				variantTmp.append( "_" ); //$NON-NLS-1$
 				variantTmp.append( variant );
-				
+
 				variantTmp.append( ".properties" ); //$NON-NLS-1$
 				bundleNames.add( variantTmp.toString( ) );
 			}
@@ -259,6 +291,13 @@ public class BundleHelper
 		return bundleNames;
 	}
 
+	private URL findBundle( String fileName )
+	{
+		assert fileName != null;
+		return module.getSession( ).getResourceLocator( ).findResource(
+				module.getModuleHandle( ), fileName, 0 );
+	}
+
 	/**
 	 * Populates a <code>ResourceBundle</code> for a input file.
 	 * 
@@ -269,18 +308,14 @@ public class BundleHelper
 	 *         occurred during I/O reading.
 	 */
 
-	private PropertyResourceBundle populateBundle( String fileName )
+	private PropertyResourceBundle populateBundle( URL bundleURL )
 	{
-		assert fileName != null;
-
 		InputStream is = null;
 		try
 		{
-			URL inputURL = module.getSession( ).getResourceLocator( )
-					.findResource( module.getModuleHandle( ), fileName, 0 );
-			if ( inputURL == null )
+			if ( bundleURL == null )
 				return null;
-			is = inputURL.openStream( );
+			is = bundleURL.openStream( );
 			PropertyResourceBundle bundle = new PropertyResourceBundle( is );
 			is.close( );
 			is = null;
@@ -288,9 +323,7 @@ public class BundleHelper
 		}
 		catch ( FileNotFoundException e )
 		{
-			// Already checked the existence.
-
-			assert false;
+			// just ignore
 		}
 		catch ( IOException e )
 		{
