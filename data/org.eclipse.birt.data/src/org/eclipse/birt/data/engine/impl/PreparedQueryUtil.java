@@ -647,8 +647,7 @@ class PreparedQueryUtil
 		{
 			if ( context == null )
 				return new CachedQueryResults( tempDir,
-						this.queryDefn.getQueryResultsID( ) );
-
+						this.queryDefn.getQueryResultsID( ), this );
 			else
 				return new QueryResults( this.tempDir,
 						this.context,
@@ -697,7 +696,7 @@ class PreparedQueryUtil
 			{
 				if ( context == null )
 					return new CachedQueryResults( tempDir,
-							this.queryDefn.getQueryResultsID( ) );
+							this.queryDefn.getQueryResultsID( ), this );
 
 				else
 					return new QueryResults( this.tempDir,

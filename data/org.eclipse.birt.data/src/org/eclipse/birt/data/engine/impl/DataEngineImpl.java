@@ -131,7 +131,7 @@ public class DataEngineImpl extends DataEngine
 		if ( context.getMode( ) == DataEngineContext.MODE_GENERATION
 				|| context.getMode( ) == DataEngineContext.DIRECT_PRESENTATION )
 		{
-			return new CachedQueryResults( session.getTempDir( ), queryResultID );
+			return new CachedQueryResults( session.getTempDir( ), queryResultID, null );
 		}
 
 		return null;

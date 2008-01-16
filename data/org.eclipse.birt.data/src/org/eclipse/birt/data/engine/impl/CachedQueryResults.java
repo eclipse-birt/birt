@@ -29,7 +29,8 @@ public class CachedQueryResults implements IQueryResults
 
 	private String queryResultID;
 	private IResultIterator resultIterator;
-
+	private IPreparedQuery pQuery;
+	
 	private static Logger logger = Logger.getLogger( CachedQueryResults.class.getName( ) );
 
 	/**
@@ -38,7 +39,7 @@ public class CachedQueryResults implements IQueryResults
 	 * @param queryResultID
 	 * @throws DataException
 	 */
-	public CachedQueryResults( String tempDir, String queryResultID )
+	public CachedQueryResults( String tempDir, String queryResultID, IPreparedQuery preparedQuery )
 			throws DataException
 	{
 		Object[] params = {
@@ -50,6 +51,7 @@ public class CachedQueryResults implements IQueryResults
 		
 		this.queryResultID = queryResultID;
 		this.resultIterator = new CacheResultIterator( tempDir, this );
+		this.pQuery = preparedQuery;
 		logger.exiting( CachedQueryResults.class.getName( ),
 				"CachedQueryResults" );
 	}
@@ -61,7 +63,7 @@ public class CachedQueryResults implements IQueryResults
 	 */
 	public IPreparedQuery getPreparedQuery( )
 	{
-		return null;
+		return this.pQuery;
 	}
 
 	/*
