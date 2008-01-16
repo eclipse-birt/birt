@@ -875,6 +875,7 @@ AggregateEditorComposite.AggregateDisplayName.None=Ninguno
 AggregateEditorComposite.AggregateParameterDefinition.Title=Aggregate Parameter Definition
 AggregateEditorComposite.Button.Cancel=Cancelar
 AggregateEditorComposite.Button.OK=OK
+AggregateEditorComposite.Tooltip.SetAggregateFunction=Set aggregation function
 
 LocalizedNumberEditorComposite.error.Title=Error de formato de número
 LocalizedNumberEditorComposite.error.Message=Valor de número no válido: "{0}"

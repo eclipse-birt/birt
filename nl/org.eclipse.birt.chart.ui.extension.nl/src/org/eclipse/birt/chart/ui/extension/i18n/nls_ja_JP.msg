@@ -875,6 +875,7 @@ AggregateEditorComposite.AggregateDisplayName.None=なし
 AggregateEditorComposite.AggregateParameterDefinition.Title=Aggregate Parameter Definition
 AggregateEditorComposite.Button.Cancel=キャンセル
 AggregateEditorComposite.Button.OK=OK
+AggregateEditorComposite.Tooltip.SetAggregateFunction=Set aggregation function
 
 LocalizedNumberEditorComposite.error.Title=数値の書式のエラー
 LocalizedNumberEditorComposite.error.Message=数値 "{0}" は無効です。

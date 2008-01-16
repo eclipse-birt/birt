@@ -875,6 +875,7 @@ AggregateEditorComposite.AggregateDisplayName.None=없음
 AggregateEditorComposite.AggregateParameterDefinition.Title=Aggregate Parameter Definition
 AggregateEditorComposite.Button.Cancel=취소
 AggregateEditorComposite.Button.OK=OK
+AggregateEditorComposite.Tooltip.SetAggregateFunction=Set aggregation function
 
 LocalizedNumberEditorComposite.error.Title=숫자 형식 오류
 LocalizedNumberEditorComposite.error.Message=잘못된 숫자 값: "{0}"
