@@ -272,26 +272,18 @@ public class DateFormatter
 						int timeForm = ( patternTemp == 'i' || patternTemp == 'a' )
 								? com.ibm.icu.text.DateFormat.MEDIUM
 								: com.ibm.icu.text.DateFormat.LONG;
-						timeFormat = com.ibm.icu.text.DateFormat
+						com.ibm.icu.text.DateFormat factoryFormat = com.ibm.icu.text.DateFormat
 								.getTimeInstance( timeForm, locale );
 						if ( patternTemp == 'a' || patternTemp == 'A' )
 						{
-							if ( timeFormat instanceof com.ibm.icu.text.SimpleDateFormat )
-							{
-								com.ibm.icu.text.SimpleDateFormat temp = (com.ibm.icu.text.SimpleDateFormat) timeFormat;
-								String oldPattern = temp.toPattern( );
-								String newPattern = null;
-								
-								int ssIndex = oldPattern.indexOf( "ss" );
-								newPattern = oldPattern.substring( 0, ssIndex + 2 );
-								newPattern += ".SSS";
-								newPattern += oldPattern.substring( ssIndex + 2 );
-								
-								temp.applyPattern( newPattern );
-							}
+							timeFormat = hackMilliSecond( factoryFormat );
+						}
+						else
+						{
+							timeFormat = factoryFormat;
 						}
 
-						com.ibm.icu.text.DateFormat factoryFormat = com.ibm.icu.text.DateFormat
+						factoryFormat = com.ibm.icu.text.DateFormat
 								.getDateInstance(
 										com.ibm.icu.text.DateFormat.SHORT,
 										locale );
@@ -302,6 +294,10 @@ public class DateFormatter
 										com.ibm.icu.text.DateFormat.SHORT,
 										timeForm, locale );
 						dateTimeFormat = hackYear( factoryFormat );
+						if ( patternTemp == 'a' || patternTemp == 'A' )
+						{
+							dateTimeFormat = hackMilliSecond( dateTimeFormat );
+						}
 						return;
 
 					case 'g' :
@@ -442,6 +438,30 @@ public class DateFormatter
 				{
 					StringBuffer strBuf = new StringBuffer( pattern );
 					strBuf.insert( idx, 'y' );
+					pattern = strBuf.toString( );
+				}
+			}
+			return new SimpleDateFormat( pattern, locale );
+		}
+		return factoryFormat;
+	}
+	
+	private com.ibm.icu.text.DateFormat hackMilliSecond(
+			com.ibm.icu.text.DateFormat factoryFormat )
+	{
+		if ( factoryFormat instanceof SimpleDateFormat )
+		{
+			SimpleDateFormat factorySimpleFormat = (SimpleDateFormat) factoryFormat;
+			String pattern = factorySimpleFormat.toPattern( );
+
+			if ( pattern.indexOf( "SSS" ) == -1 )
+			{
+				int idx = pattern.indexOf( "ss" );
+				if ( idx >= 0 )
+				{
+					StringBuffer strBuf = new StringBuffer( pattern );
+
+					strBuf.insert( idx + 2, ".SSS" );
 					pattern = strBuf.toString( );
 				}
 			}
