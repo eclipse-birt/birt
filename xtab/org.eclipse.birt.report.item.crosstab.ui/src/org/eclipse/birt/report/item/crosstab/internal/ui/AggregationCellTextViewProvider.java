@@ -110,9 +110,9 @@ public class AggregationCellTextViewProvider extends AggregationCellViewAdapter
 		LevelHandle colLevelHandle = cell.getAggregationOnColumn( );
 
 		String rowLevel = rowLevelHandle == null ? null
-				: rowLevelHandle.getName( );
+				: rowLevelHandle.getFullName( );
 		String colLevel = colLevelHandle == null ? null
-				: colLevelHandle.getName( );
+				: colLevelHandle.getFullName( );
 
 		String rowDimension = null;
 		String colDimension = null;
@@ -123,7 +123,7 @@ public class AggregationCellTextViewProvider extends AggregationCellViewAdapter
 		{
 			rowDimension = rowLevelHandle.getContainer( )
 					.getContainer( )
-					.getName( );
+					.getFullName( );
 		}
 
 		if ( colLevelHandle != null
@@ -132,7 +132,7 @@ public class AggregationCellTextViewProvider extends AggregationCellViewAdapter
 		{
 			colDimension = colLevelHandle.getContainer( )
 					.getContainer( )
-					.getName( );
+					.getFullName( );
 		}
 
 		CrosstabUtil.addDataItem( crosstab,

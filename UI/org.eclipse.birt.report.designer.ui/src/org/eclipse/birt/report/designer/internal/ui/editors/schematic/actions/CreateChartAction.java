@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
+import java.util.List;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
@@ -29,11 +30,12 @@ import org.eclipse.ui.IWorkbenchPart;
 
 public class CreateChartAction extends ContextSelectionAction
 {
+
 	private static final String TEXT = Messages.getString( "CreateChartAction.text" ); //$NON-NLS-1$
 
 	/** action ID */
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CreateChartAction"; //$NON-NLS-1$
-	
+
 	/**
 	 * @param part
 	 */
@@ -43,48 +45,55 @@ public class CreateChartAction extends ContextSelectionAction
 		setId( ID );
 		setText( TEXT );
 	}
-	
+
 	protected boolean calculateEnabled( )
 	{
-		if (getSelectedObjects( ).size( ) != 1)
+		List selected = getSelectedObjects( );
+
+		if ( selected.size( ) != 1 || !( selected.get( 0 ) instanceof EditPart ) )
 		{
 			return false;
 		}
-		EditPart part = (EditPart)getSelectedObjects( ).get( 0 );
+
+		EditPart part = (EditPart) selected.get( 0 );
 		Object model = part.getModel( );
-		if (!(model instanceof ReportItemHandle) && model instanceof IAdaptable)
+		if ( !( model instanceof ReportItemHandle )
+				&& model instanceof IAdaptable )
 		{
-			model = ((IAdaptable)model).getAdapter( DesignElementHandle.class );
+			model = ( (IAdaptable) model ).getAdapter( DesignElementHandle.class );
 		}
-		if (!(model instanceof ReportItemHandle))
-		{
-			return false;
-		}
-		Object[] objs = ElementAdapterManager.getAdapters( model,  IReportItemViewProvider.class);
-		if (objs == null || objs.length>1)
+		if ( !( model instanceof ReportItemHandle ) )
 		{
 			return false;
 		}
-		if (((ReportItemHandle)model).getViews( ).size( ) != 0)
+		Object[] objs = ElementAdapterManager.getAdapters( model,
+				IReportItemViewProvider.class );
+		if ( objs == null || objs.length > 1 )
+		{
+			return false;
+		}
+		if ( ( (ReportItemHandle) model ).getViews( ).size( ) != 0 )
 		{
 			return false;
 		}
 		return true;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
 	public void run( )
 	{
 		try
 		{
-			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.CreateChartViewCommand", null );
+			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.CreateChartViewCommand", //$NON-NLS-1$
+					null );
 		}
 		catch ( Exception e )
 		{
-			// TODO Auto-generated catch block
-			logger.log( Level.SEVERE, e.getMessage( ),e );
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 	}
 }
