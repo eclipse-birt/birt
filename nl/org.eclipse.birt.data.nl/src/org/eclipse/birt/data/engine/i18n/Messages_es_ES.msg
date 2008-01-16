@@ -357,6 +357,7 @@ data.olap.failComputeComputedMeasureValue=Error al procesar los valores para la 
 data.olap.duplicateMeasureName=Duplicar nombre de medida \"{0}\".
 data.olap.dataBindingExpressionEmpty=La expresión de enlace de datos no puede ser nula ni estar vacía.
 data.olap.missingParentCursor=The parent result set does not exist.
+data.olap.CannotAccessNullDimensionRow=Can't access null dimension row!
 
 data.cache.UnsupportedIncrementalCacheMode=El modo \"{0}\" de caché de incremento no se admite aún.
 # Configuration file parser error code

@@ -357,6 +357,7 @@ data.olap.failComputeComputedMeasureValue=計測値を計算できません。
 data.olap.duplicateMeasureName=計測名 \"{0}\" が重複しています。
 data.olap.dataBindingExpressionEmpty=データのバインド式は NULL や空白にできません。
 data.olap.missingParentCursor=The parent result set does not exist.
+data.olap.CannotAccessNullDimensionRow=Can't access null dimension row!
 
 data.cache.UnsupportedIncrementalCacheMode=増分キャッシュの \"{0}\" モードはまだサポートされていません。
 # Configuration file parser error code
