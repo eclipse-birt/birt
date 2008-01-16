@@ -471,6 +471,36 @@ public class DocumentUtilTest extends BaseTestCase
 		assertTrue( compareFile( "DocumentUtilTest_golden_8.xml" ) ); //$NON-NLS-1$
 	}
 
+	/**
+	 * Tests the serialization when the scriptLibs of library is flatten to the
+	 * report file and the report file does not contain the scriptLibs.
+	 * <p>
+	 * 2 cases are tested:
+	 * <ul>
+	 * <li>The design doesn't define script libs while the library does.
+	 * <li>Both the design and the library define the script libs.
+	 * </ul>
+	 * 
+	 * @throws Exception
+	 */
+	 
+	public void testFlattenReportWithoutScriptLib( ) throws Exception
+	{
+		// the design without script lib defined. 
+		
+		openDesign( "DocumentUtilTest_11.xml" ); //$NON-NLS-1$
+		serializeDocument( );
+
+		assertTrue( compareFile( "DocumentUtilTest_golden_11.xml" ) ); //$NON-NLS-1$
+		
+		// the design with script lib defined. 
+		
+		openDesign( "DocumentUtilTest_12.xml" ); //$NON-NLS-1$
+		serializeDocument( );
+
+		assertTrue( compareFile( "DocumentUtilTest_golden_12.xml" ) ); //$NON-NLS-1$
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

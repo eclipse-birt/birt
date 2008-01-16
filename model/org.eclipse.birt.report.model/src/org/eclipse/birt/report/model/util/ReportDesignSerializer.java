@@ -33,6 +33,7 @@ import org.eclipse.birt.report.model.api.elements.structures.DimensionCondition;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondition;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
+import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
@@ -46,6 +47,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.core.Structure;
+import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.core.StyledElement;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.css.CssStyle;
@@ -94,7 +96,7 @@ import org.eclipse.birt.report.model.metadata.StructRefValue;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 
 /**
- * This class implemented visitor pattern, to flatten the report deisgn.
+ * This class implemented visitor pattern, to flatten the report design.
  */
 
 public class ReportDesignSerializer extends ElementVisitor
@@ -948,6 +950,8 @@ public class ReportDesignSerializer extends ElementVisitor
 
 		localizePropertyValues( source, design );
 
+		localizeLibPropertyValues( source, design );
+
 		// handle local translation table
 		String[] resourceKeys = source.getTranslationResourceKeys( );
 		if ( resourceKeys != null )
@@ -982,6 +986,98 @@ public class ReportDesignSerializer extends ElementVisitor
 
 		visitCssStyleSheets( source, design );
 		return design;
+	}
+
+	/**
+	 * Gets the script library names of root element.
+	 * 
+	 * @param ScriptLibList
+	 *            the list of script library.
+	 * @return the script library names of root element.
+	 */
+
+	private List getRootScriptLibsName( List scriptLibList )
+	{
+		List scriptLibsPath = new ArrayList( );
+
+		for ( int i = 0; i < scriptLibList.size( ); i++ )
+		{
+			ScriptLib sourceScriptLib = (ScriptLib) scriptLibList.get( i );
+			scriptLibsPath.add( sourceScriptLib.getName( ) );
+		}
+
+		return scriptLibsPath;
+	}
+
+	/**
+	 * Gets the script library of root element.
+	 * 
+	 * @param root
+	 *            the root element
+	 * @return the script library of root element.
+	 */
+
+	private List getRootScriptLibs( ReportDesign root )
+	{
+		Object obj = root.getProperty( root, IModuleModel.SCRIPTLIBS_PROP );
+		if ( obj == null )
+			return new ArrayList( );
+
+		return (List) obj;
+	}
+
+	/**
+	 * Flattens the scriptLibs of the libraries to the report design.
+	 * 
+	 * @param source
+	 *            the source element
+	 * @param target
+	 *            the target element
+	 */
+
+	private void localizeLibPropertyValues( ReportDesign source,
+			ReportDesign target )
+	{
+
+		List libs = source.getAllLibraries( );
+
+		List targetValueList = getRootScriptLibs( source );
+		List relativePathList = getRootScriptLibsName( targetValueList );
+
+		ElementPropertyDefn propDefn = source
+				.getPropertyDefn( IModuleModel.SCRIPTLIBS_PROP );
+
+		for ( int i = 0; i < libs.size( ); i++ )
+		{
+			Library lib = (Library) libs.get( i );
+
+			Object obj = lib.getProperty( lib, propDefn );
+			if ( obj == null )
+				continue;
+
+			List sourceValueList = (List) obj;
+
+			for ( int j = 0; j < sourceValueList.size( ); j++ )
+			{
+				ScriptLib sourceScriptLib = (ScriptLib) sourceValueList.get( j );
+				String sourceScriptLibPath = sourceScriptLib.getName( );
+
+				if ( !relativePathList.contains( sourceScriptLibPath ) )
+				{
+
+					ScriptLib targetScriptLib = new ScriptLib( );
+					targetScriptLib.setName( sourceScriptLibPath );
+
+					targetScriptLib.setContext( new StructureContext( target,
+							IModuleModel.SCRIPTLIBS_PROP ) );
+
+					relativePathList.add( sourceScriptLibPath );
+					targetValueList.add( targetScriptLib );
+				}
+			}
+		}
+
+		target.setProperty( propDefn, targetValueList );
 	}
 
 	// css style related methods.
