@@ -25,6 +25,7 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
 import org.eclipse.birt.report.engine.api.EngineConfig;
@@ -38,6 +39,7 @@ import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 
 public abstract class AbstractDataEngine implements IDataEngine
@@ -171,14 +173,31 @@ public abstract class AbstractDataEngine implements IDataEngine
 		this.appContext = appContext;
 		// prepare report queries
 		List queries = report.getQueries( );
-		for ( int i = 0; i < queries.size( ); i++ )
+		int queriesSize = queries.size( );
+
+		// register queries to dte to optimize the performance
+		IDataQueryDefinition[] queryArray = new IDataQueryDefinition[queriesSize];
+		for ( int index = 0; index < queriesSize; index++ )
 		{
-			IDataQueryDefinition query = (IDataQueryDefinition) queries.get( i );
+			queryArray[index] = (IDataQueryDefinition) queries.get( index );
+		}
+		try
+		{
+			this.dteSession.registerQueries( queryArray );
+		}
+		catch ( AdapterException ae )
+		{
+			logger.log( Level.SEVERE, ae.getMessage( ), ae );
+			context.addException( report.getReportDesign( ), ae );
+		}
+
+		for ( int index = 0; index < queriesSize; index++ )
+		{
 			try
 			{
-				IBasePreparedQuery preparedQuery = dteSession.prepare( query,
-						appContext );
-				queryMap.put( query, preparedQuery );
+				IBasePreparedQuery preparedQuery = dteSession.prepare(
+						queryArray[index], appContext );
+				queryMap.put( queryArray[index], preparedQuery );
 			}
 			catch ( BirtException e )
 			{
@@ -315,6 +334,11 @@ public abstract class AbstractDataEngine implements IDataEngine
 		{
 			return null;
 		}
+	}
+	
+	private void regQueries()
+	{
+		
 	}
 
 }
