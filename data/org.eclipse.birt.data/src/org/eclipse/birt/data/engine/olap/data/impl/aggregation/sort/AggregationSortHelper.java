@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
@@ -28,6 +27,7 @@ import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationResultSet;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.AggregationRowAccessor;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedPrimitiveDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
@@ -403,57 +403,18 @@ public class AggregationSortHelper
 			ITargetSort[] targetSorts, int[] sortHelperIndex,
 			IDiskArray[] keyDiskArrays ) throws IOException, DataException
 	{
-		String[] fieldNames = getFieldNames( base );
+		AggregationRowAccessor rowAccessor = new AggregationRowAccessor( base );
 		for ( int i = 0; i < base.length( ); i++ )
 		{
 			base.seek( i );
-			IAggregationResultRow row = base.getCurrentRow( );
 			for ( int j = 0; j < sortHelperIndex.length; j++ )
 			{
 				final int index = sortHelperIndex[j];
 				IJSSortHelper sortHelper = (IJSSortHelper) targetSorts[index];
-				Row4Sort row4sort = new Row4Sort( row, fieldNames );
-				Object keyValue = sortHelper.evaluate( row4sort );
+				Object keyValue = sortHelper.evaluate( rowAccessor );
 				keyDiskArrays[index].add( keyValue );
 			}
 		}
-	}
-
-
-	/**
-	 * 
-	 * @param resultSet
-	 * @return
-	 */
-	private static String[] getFieldNames( IAggregationResultSet resultSet )
-	{
-		List fieldList = new ArrayList( );
-		for ( int i = 0; i < resultSet.getLevelCount( ); i++ )
-		{
-			DimLevel level = resultSet.getAllLevels( )[i];
-			for ( int j = 0; j < resultSet.getLevelKeyColCount( i ); j++ )
-			{
-				String levelKeyName = resultSet.getLevelKeyName( i, j );
-				String name = CubeQueryExecutorHelper.getAttrReference( level.getDimensionName( ),
-						level.getLevelName( ),
-						levelKeyName );
-				fieldList.add( name );
-			}
-			String[] attrNames = resultSet.getLevelAttributes( i );
-			if ( attrNames != null )
-			{
-				for ( int j = 0; j < attrNames.length; j++ )
-				{
-					String name = CubeQueryExecutorHelper.getAttrReference( level.getDimensionName( ),
-							level.getLevelName( ),
-							attrNames[j] );
-					fieldList.add( name );
-				}
-			}
-		}
-		String[] fieldNames = new String[fieldList.size( )];
-		fieldList.toArray( fieldNames );
-		return fieldNames;
 	}
 }
 

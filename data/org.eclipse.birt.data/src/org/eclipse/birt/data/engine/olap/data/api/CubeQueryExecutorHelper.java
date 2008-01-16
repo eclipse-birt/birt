@@ -133,19 +133,6 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	}
 	
 	/**
-	 * get the attribute reference name.
-	 * @param dimName
-	 * @param levelName
-	 * @param attrName
-	 * @return
-	 */
-	public static String getAttrReference( String dimName, String levelName, String attrName )
-	{
-		return dimName + '/' + levelName + '/' + attrName;
-	}
-	
-	
-	/**
 	 * 
 	 * @param cube
 	 * @throws BirtException 

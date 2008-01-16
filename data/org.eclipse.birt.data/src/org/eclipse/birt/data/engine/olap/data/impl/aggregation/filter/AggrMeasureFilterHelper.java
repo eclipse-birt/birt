@@ -18,17 +18,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
-import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
-import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Level;
-import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedPrimitiveDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.SetUtil;
@@ -277,21 +273,17 @@ public class AggrMeasureFilterHelper
 			String[] aggregationNames ) throws DataException, IOException
 	{
 		IDiskArray result = new BufferedPrimitiveDiskArray( );
-		String[] fieldNames = getFieldNames( resultSet );
-		String[] aggrNames = getAggrNames( resultSet.getAggregationDefinition( ) );
+		AggregationRowAccessor rowAccessor = new AggregationRowAccessor( resultSet );
 		for ( int i = 0; i < resultSet.length( ); i++ )
 		{
 			resultSet.seek( i );
-			RowForFilter row4filter = getRowForFilter( resultSet,
-					fieldNames,
-					aggrNames );
 			boolean isFilterByAll = true;
 			for ( int j = 0; j < filterHelpers.size( ); j++ )
 			{
 				if ( resultSet.getAggregationIndex( aggregationNames[j] ) >= 0 )
 				{
 					IAggrMeasureFilterEvalHelper filterHelper = (IAggrMeasureFilterEvalHelper) filterHelpers.get( j );
-					if ( !filterHelper.evaluateFilter( row4filter ) )
+					if ( !filterHelper.evaluateFilter( rowAccessor ) )
 					{
 						isFilterByAll = false;
 						break;
@@ -356,106 +348,5 @@ public class AggrMeasureFilterHelper
 			return dimension.findPosition( (Level) levels[i], keyValue );
 		}
 		throw new DataException( "Can't find level {0} in the dimension!", level );//$NON-NLS-1$
-	}
-
-	/**
-	 * 
-	 * @param resultSet
-	 * @param fieldNames
-	 * @param aggrNames
-	 * @return
-	 * @throws IOException
-	 */
-	private RowForFilter getRowForFilter( IAggregationResultSet resultSet,
-			String[] fieldNames, String[] aggrNames ) throws IOException
-	{
-		RowForFilter row4filter = new RowForFilter( fieldNames, aggrNames );
-		List fieldValues = new ArrayList( );
-		Member[] members = resultSet.getCurrentRow( ).getLevelMembers( );
-		if ( members != null )
-		{
-			for ( int i = 0; i < members.length; i++ )
-			{
-				Object[] keyValues = members[i].getKeyValues( );
-				if ( keyValues != null )
-				{
-					for ( int j = 0; j < keyValues.length; j++ )
-					{
-						fieldValues.add( keyValues[j] );
-					}
-				}
-				Object[] attrValues = members[i].getAttributes( );
-				if ( attrValues != null )
-				{
-					for ( int j = 0; j < attrValues.length; j++ )
-					{
-						fieldValues.add( attrValues[j] );
-					}
-				}
-			}
-		}
-		row4filter.setFieldValues( fieldValues.toArray( ) );
-		List aggrValues = new ArrayList( );
-		for ( int i = 0; i < aggrNames.length; i++ )
-		{
-			int index = resultSet.getAggregationIndex( aggrNames[i] );
-			aggrValues.add( resultSet.getAggregationValue( index ) );
-		}
-		row4filter.setAggrValues( aggrValues.toArray( ) );
-		return row4filter;
-	}
-
-	/**
-	 * 
-	 * @param aggrDefinition
-	 * @return
-	 */
-	private String[] getAggrNames( AggregationDefinition aggrDefinition )
-	{
-		final AggregationFunctionDefinition[] aggrFunctions = aggrDefinition.getAggregationFunctions( );
-		String[] aggrNames = new String[aggrFunctions.length];
-		for ( int i = 0; i < aggrNames.length; i++ )
-		{
-			aggrNames[i] = aggrFunctions[i].getName( );
-		}
-		return aggrNames;
-	}
-
-	/**
-	 * 
-	 * @param resultSet
-	 * @return
-	 */
-	private String[] getFieldNames( IAggregationResultSet resultSet )
-	{
-		List fieldNameList = new ArrayList( );
-		DimLevel[] levels = resultSet.getAllLevels( );
-		String[][] keyNames = resultSet.getKeyNames( );
-		String[][] attrNames = resultSet.getAggributeNames( );
-		for ( int i = 0; i < levels.length; i++ )
-		{
-			int index = resultSet.getLevelIndex( levels[i] );
-			if ( keyNames[index] != null )
-			{
-				for ( int j = 0; j < keyNames[i].length; j++ )
-				{
-					fieldNameList.add( CubeQueryExecutorHelper.getAttrReference( levels[i].getDimensionName( ),
-							levels[i].getLevelName( ),
-							keyNames[index][j] ) );
-				}
-			}
-			if ( attrNames[index] != null )
-			{
-				for ( int j = 0; j < attrNames[i].length; j++ )
-				{
-					fieldNameList.add( CubeQueryExecutorHelper.getAttrReference( levels[i].getDimensionName( ),
-							levels[i].getLevelName( ),
-							attrNames[index][j] ) );
-				}
-			}
-		}
-		String[] fieldNames = new String[fieldNameList.size( )];
-		fieldNameList.toArray( fieldNames );
-		return fieldNames;
 	}
 }

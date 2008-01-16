@@ -21,10 +21,8 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IQueryResults;
-import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
-import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.script.JSCubeBindingObject;
 import org.eclipse.birt.data.engine.olap.util.filter.IFacttableRow;
 import org.eclipse.birt.data.engine.olap.util.filter.IResultRow;
@@ -209,7 +207,7 @@ public interface IJSObjectPopulator
 		{
 			try
 			{
-				return resultRow.getFieldValue( CubeQueryExecutorHelper.getAttrReference( this.dimName,
+				return resultRow.getFieldValue( OlapExpressionUtil.getAttrReference( this.dimName,
 						this.key,
 						this.key ) );
 			}
@@ -230,7 +228,7 @@ public interface IJSObjectPopulator
 		{
 			try
 			{
-				return resultRow.getFieldValue( CubeQueryExecutorHelper.getAttrReference( this.dimName,
+				return resultRow.getFieldValue( OlapExpressionUtil.getAttrReference( this.dimName,
 						this.key,
 						value ) );
 			}

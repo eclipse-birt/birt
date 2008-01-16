@@ -340,6 +340,7 @@ public class ResourceConstants
 	public final static String INVALID_LEVEL_ATTRIBUTE = "data.olap.invalidLevelAttr";
 	public final static String DATA_BINDING_EXPRESSION_EMPTY = "data.olap.dataBindingExpressionEmpty";
 	public final static String NO_PARENT_RESULT_CURSOR = "data.olap.missingParentCursor";
+	public final static String CANNOT_ACCESS_NULL_DIMENSION_ROW = "data.olap.CannotAccessNullDimensionRow";
 	
 	public final static String REFERENCED_BINDING_NOT_EXIST = "data.olap.referencedBindingNotExist";
 	public final static String INVALID_BINDING_REFER_TO_INEXIST_DIMENSION = "data.olap.invalidBindingReferToInexitDim";

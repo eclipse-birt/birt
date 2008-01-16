@@ -27,7 +27,6 @@ import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.ISelection;
 import org.eclipse.birt.data.engine.olap.data.api.cube.IDimension;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
-import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.Constants;
 import org.eclipse.birt.data.engine.olap.data.impl.Cube;
 import org.eclipse.birt.data.engine.olap.data.impl.SelectionFactory;
@@ -181,17 +180,6 @@ public class AggregationFilterHelper
 			AggrFilterDefinition filter, List levelFilters )
 			throws DataException, IOException
 	{
-		AggregationFunctionDefinition[] aggrFuncs = aggregations[j].getAggregationFunctions( );
-		DimLevel[] aggrLevels = filter.getAggrLevels( );
-		// currently we just support one level key
-		// generate a row against levels and aggrNames
-		String[] fields = getAllFieldNames( aggrLevels, resultSet[j] );
-		String[] aggrNames = new String[aggrFuncs.length];
-		for ( int k = 0; k < aggrFuncs.length; k++ )
-		{
-			aggrNames[k] = aggrFuncs[k].getName( );
-		}
-
 		DimLevel targetLevel = filter.getTargetLevel( );
 		ILevel[] levelsOfDimension = getLevelsOfDimension( targetLevel.getDimensionName( ) );
 		int targetIndex = FilterUtil.getTargetLevelIndex( levelsOfDimension,
@@ -203,32 +191,11 @@ public class AggregationFilterHelper
 		// previous aggregation result's target level
 		Member[] preMembers = null;
 		IJSDimensionFilterHelper filterHelper = (IJSDimensionFilterHelper) filter.getFilterHelper( );
+		AggregationRowAccessor row4filter = new AggregationRowAccessor( resultSet[j] );
 		for ( int k = 0; k < resultSet[j].length( ); k++ )
 		{
 			resultSet[j].seek( k );
-			int fieldIndex = 0;
-			Object[] fieldValues = new Object[fields.length];
-			Object[] aggrValues = new Object[aggrFuncs.length];
-			// fill field values
-			for ( int m = 0; m < aggrLevels.length; m++ )
-			{
-				int levelIndex = resultSet[j].getLevelIndex( aggrLevels[m] );
-				if ( levelIndex < 0
-						|| levelIndex >= resultSet[j].getLevelCount( ) )
-					continue;
-				fieldValues[fieldIndex++] = resultSet[j].getLevelKeyValue( levelIndex )[0];
-
-			}
-			// fill aggregation names and values
-			for ( int m = 0; m < aggrFuncs.length; m++ )
-			{
-				int aggrIndex = resultSet[j].getAggregationIndex( aggrNames[m] );
-				aggrValues[m] = resultSet[j].getAggregationValue( aggrIndex );
-			}
-			RowForFilter row = new RowForFilter( fields, aggrNames );
-			row.setFieldValues( fieldValues );
-			row.setAggrValues( aggrValues );
-			boolean isSelect = filterHelper.evaluateFilter( row );
+			boolean isSelect = filterHelper.evaluateFilter( row4filter );
 			if ( isSelect )
 			{// generate level filter here
 				Member[] members = getTargetDimMembers( targetLevel.getDimensionName( ),
@@ -451,49 +418,19 @@ public class AggregationFilterHelper
 
 		IDiskArray aggrValueArray = new OrderedDiskArray( n,
 				filterHelper.isTop( ) );
-		AggregationFunctionDefinition[] aggrFuncs = aggregation.getAggregationFunctions( );
-		DimLevel[] aggrLevels = filter.getAggrLevels( );
+		
 		String dimensionName = filter.getTargetLevel( ).getDimensionName( );
-		// currently we just support one level key
-		// generate a row against levels and aggrNames
-		String[] fields = getAllFieldNames( aggrLevels, resultSet );
-		String[] aggrNames = new String[aggrFuncs.length];
-		for ( int k = 0; k < aggrFuncs.length; k++ )
-		{
-			aggrNames[k] = aggrFuncs[k].getName( );
-		}
 		try
 		{
+			AggregationRowAccessor row4filter = new AggregationRowAccessor( resultSet );
 			for ( int k = 0; k < resultSet.length( ); k++ )
 			{
 				resultSet.seek( k );
-				int fieldIndex = 0;
-				Object[] fieldValues = new Object[fields.length];
-				Object[] aggrValues = new Object[aggrFuncs.length];
-				// fill field values
-				for ( int m = 0; m < aggrLevels.length; m++ )
-				{
-					int levelIndex = resultSet.getLevelIndex( aggrLevels[m] );
-					if ( levelIndex < 0
-							|| levelIndex >= resultSet.getLevelCount( ) )
-						continue;
-					fieldValues[fieldIndex++] = resultSet.getLevelKeyValue( levelIndex )[0];
-				}
-				// fill aggregation names and values
-				for ( int m = 0; m < aggrFuncs.length; m++ )
-				{
-					int aggrIndex = resultSet.getAggregationIndex( aggrNames[m] );
-					aggrValues[m] = resultSet.getAggregationValue( aggrIndex );
-				}
-				RowForFilter row = new RowForFilter( fields, aggrNames );
-				row.setFieldValues( fieldValues );
-				row.setAggrValues( aggrValues );
-
 				int levelIndex = resultSet.getLevelIndex( filter.getTargetLevel( ) );
 				Object[] levelKey = resultSet.getLevelKeyValue( levelIndex );
-				if ( levelKey != null && filterHelper.isQualifiedRow( row ) )
+				if ( levelKey != null && filterHelper.isQualifiedRow( row4filter ) )
 				{
-					Object aggrValue = filterHelper.evaluateFilterExpr( row );
+					Object aggrValue = filterHelper.evaluateFilterExpr( row4filter );
 					Member[] members = getTargetDimMembers( dimensionName,
 							resultSet );
 					aggrValueArray.add( new ValueObject( aggrValue,
@@ -593,33 +530,6 @@ public class AggregationFilterHelper
 		}
 		return SelectionFactory.createMutiKeySelection( keys );
 	}
-
-	/**
-	 * get all field names of a level, including key column names and attribute
-	 * column names. TODO: we just get all the field names, and will further
-	 * support key names and attributes as field names.
-	 * 
-	 * @param levels
-	 * @param resultSet
-	 * @return
-	 */
-	private String[] getAllFieldNames( DimLevel[] levels,
-			IAggregationResultSet resultSet )
-	{
-		List fieldNameList = new ArrayList( );
-		for ( int i = 0; i < levels.length; i++ )
-		{
-			int levelIndex = resultSet.getLevelIndex( levels[i] );
-			if ( levelIndex < 0 || levelIndex >= resultSet.getLevelCount( ) )
-				continue;
-			fieldNameList.add( levels[i].getDimensionName( )
-					+ '/' + levels[i].getLevelName( ) );
-		}
-		String[] fieldNames = new String[fieldNameList.size( )];
-		fieldNameList.toArray( fieldNames );
-		return fieldNames;
-	}
-
 }
 
 /**

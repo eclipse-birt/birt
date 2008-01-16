@@ -11,19 +11,17 @@
 
 package org.eclipse.birt.data.engine.olap.data.api;
 
-import java.util.logging.Logger;
-
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
+import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 
 /**
  * This class is responsible for encapsulating level naming information in the
- * cube. All levels' names are not gurantee to be unique since Birt2.2RC0, which
+ * cube. All levels' names are not guarantee to be unique since Birt2.2RC0, which
  * means two levels in different dimensions maybe share the same level name.
  * Using DimLevel object will avoid these kind of conflict, since it use the
- * qualified name to identify a level. The qualified name of a level consistes
+ * qualified name to identify a level. The qualified name of a level consists
  * of the dimension name and level name and separated with splash.
  * 
- * @author Li Jianchao
  * 
  */
 public class DimLevel implements Comparable
@@ -31,10 +29,10 @@ public class DimLevel implements Comparable
 
 	private String dimensionName;
 	private String levelName;
-
-	private String qualifiedName;// = dimensionName+'/'+levelName
-	private String attrName = null;
-	private static Logger logger = Logger.getLogger( DimLevel.class.getName( ) );
+	private String attrName;
+	
+	private String qualifiedName;
+	
 
 	/**
 	 * @param dimensionName
@@ -42,20 +40,15 @@ public class DimLevel implements Comparable
 	 */
 	public DimLevel( String dimensionName, String levelName )
 	{
-		Object[] params = {
-				dimensionName, levelName
-		};
-		logger.entering( DimLevel.class.getName( ), "DimLevel", params );
-		this.dimensionName = dimensionName;
-		this.levelName = levelName;
-		setQualifiedName( );
-		logger.exiting( DimLevel.class.getName( ), "DimLevel" );
+		this( dimensionName, levelName, null );
 	}
 	
 	public DimLevel( String dimensionName, String levelName, String attrName )
 	{
-		this( dimensionName, levelName );
+		this.dimensionName = dimensionName;
+		this.levelName = levelName;
 		this.attrName  = attrName;
+		setQualifiedName( );
 	}
 
 	/**
@@ -72,11 +65,9 @@ public class DimLevel implements Comparable
 
 	private void setQualifiedName( )
 	{
-		StringBuffer buf = new StringBuffer( );
-		buf.append( dimensionName );
-		buf.append( '/' );
-		buf.append( levelName );
-		qualifiedName = buf.toString( );
+		qualifiedName = OlapExpressionUtil.getAttrReference( dimensionName,
+				levelName,
+				attrName == null ? levelName : attrName );
 	}
 
 	/**

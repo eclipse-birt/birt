@@ -36,6 +36,20 @@ import org.mozilla.javascript.Scriptable;
 public class OlapExpressionUtil
 {
 	/**
+	 * get the attribute reference name.
+	 * 
+	 * @param dimName
+	 * @param levelName
+	 * @param attrName
+	 * @return
+	 */
+	public static String getAttrReference( String dimName, String levelName,
+			String attrName )
+	{
+		return dimName + '/' + levelName + '/' + attrName;
+	}
+	
+	/**
 	 * 
 	 * @param originalMeasureName
 	 * @return

@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.ISelection;
 import org.eclipse.birt.data.engine.olap.data.impl.Constants;
@@ -48,6 +47,7 @@ public class LevelFilterHelper
 	private IDiskArray dimPosition;
 	private List simplelevelFilters;
 	private List levelFilters;
+	private DimensionRowAccessor rowAccessor;
 
 	/**
 	 * @throws IOException
@@ -60,6 +60,7 @@ public class LevelFilterHelper
 		this.dimension = dimension;
 		this.simplelevelFilters = simpleLevelFilters;
 		this.levelFilters = levelFilters;
+		this.rowAccessor = new DimensionRowAccessor( dimension );
 		populatePositions( );
 	}
 
@@ -207,12 +208,11 @@ public class LevelFilterHelper
 	private boolean isDimPositionSelected( int pos, List dimFilterList )
 			throws IOException, DataException
 	{
-		DimensionRow dimRow = dimension.getRowByPosition( pos );
-		RowForFilter rowForFilter = getRowForFilter( dimRow );
+		rowAccessor.seek( pos );
 		for ( int j = 0; j < dimFilterList.size( ); j++ )
 		{
 			IJSDimensionFilterHelper filterHelper = (IJSDimensionFilterHelper) dimFilterList.get( j );
-			if ( !filterHelper.evaluateFilter( rowForFilter ) )
+			if ( !filterHelper.evaluateFilter( rowAccessor ) )
 			{
 				return false;
 			}
@@ -238,8 +238,7 @@ public class LevelFilterHelper
 	{
 		List dimValueArrayList = new ArrayList( ); // 
 		// get target level index, also equals to the length of parent levels
-		int index = FilterUtil.getTargetLevelIndex( levels,
-				filter.getTargetLevel( ).getLevelName( ) );
+		int index = getIndex( levels, filter.getTargetLevel( ).getLevelName( ) );
 
 		Member[] preMembers = null;
 		Object[] preValue = null;
@@ -265,8 +264,9 @@ public class LevelFilterHelper
 		for ( int j = 0; j < dimPosition.size( ); j++ )
 		{
 			Integer pos = (Integer) dimPosition.get( j );
-			DimensionRow dimRow = dimension.getRowByPosition( pos.intValue( ) );
-
+			rowAccessor.seek( pos.intValue( ) );
+			DimensionRow dimRow = rowAccessor.getCurrentRow( );
+			
 			boolean shareParentLevels = preMembers != null
 					&& FilterUtil.shareParentLevels( dimRow.getMembers( ),
 							preMembers,
@@ -289,8 +289,7 @@ public class LevelFilterHelper
 					|| shareParentLevels == false
 					|| CompareUtil.compare( preValue, levelValue ) != 0 )
 			{
-				RowForFilter rowForFilter = getRowForFilter( dimRow );
-				Object value = filter.evaluateFilterExpr( rowForFilter );
+				Object value = filter.evaluateFilterExpr( rowAccessor );
 				range = new IntRange( pos.intValue( ), pos.intValue( ) );
 				dimValueArray.add( new ValueObject( value, range ) );
 			}
@@ -303,76 +302,6 @@ public class LevelFilterHelper
 		return dimValueArrayList;
 	}
 
-	/**
-	 * generate a RowForFilter instance for IJsFilter to evaluate.
-	 * 
-	 * @param dimRow
-	 * @return
-	 */
-	private RowForFilter getRowForFilter( DimensionRow dimRow )
-	{
-		String[] fieldNames = getAllFieldNames( );
-		RowForFilter rowForFilter = new RowForFilter( fieldNames );
-		// fill values for this row
-		List fields = new ArrayList( );
-		for ( int i = 0; i < dimRow.getMembers( ).length; i++ )
-		{
-			if ( dimRow.getMembers( )[i].getKeyValues( ) != null )
-			{
-				for ( int j = 0; j < dimRow.getMembers( )[i].getKeyValues( ).length; j++ )
-				{
-					fields.add( dimRow.getMembers( )[i].getKeyValues( )[j] );
-				}
-			}
-			if ( dimRow.getMembers( )[i].getAttributes( ) != null )
-			{
-				for ( int j = 0; j < dimRow.getMembers( )[i].getAttributes( ).length; j++ )
-				{
-					fields.add( dimRow.getMembers( )[i].getAttributes( )[j] );
-				}
-			}
-		}
-		rowForFilter.setFieldValues( fields.toArray( ) );
-		return rowForFilter;
-	}
-
-	/**
-	 * 
-	 * @param dimension
-	 * @return
-	 */
-	private String[] getAllFieldNames( )
-	{
-		ILevel[] levels = dimension.getHierarchy( ).getLevels( );
-		List fieldNameList = new ArrayList( );
-		for ( int i = 0; i < levels.length; i++ )
-		{
-			String[] keyNames = levels[i].getKeyNames( );
-			if ( keyNames != null )
-			{
-				for ( int j = 0; j < keyNames.length; j++ )
-				{
-					fieldNameList.add( CubeQueryExecutorHelper.getAttrReference( dimension.getName( ),
-							levels[i].getName( ),
-							keyNames[j] ) );
-				}
-			}
-
-			String[] attrNames = levels[i].getAttributeNames( );
-			if ( attrNames != null )
-			{
-				for ( int j = 0; j < attrNames.length; j++ )
-				{
-					fieldNameList.add( CubeQueryExecutorHelper.getAttrReference( dimension.getName( ),
-							levels[i].getName( ),
-							attrNames[j] ) );
-				}
-			}
-		}
-		String[] fieldNames = new String[fieldNameList.size( )];
-		fieldNameList.toArray( fieldNames );
-		return fieldNames;
-	}
 
 	/**
 	 * @param validFilterMap
@@ -386,7 +315,7 @@ public class LevelFilterHelper
 		ILevel[] levels = dimension.getHierarchy( ).getLevels( );
 		for ( int i = 0; i < dimPosition.size( ); i++ )
 		{
-			DimensionRow row = (DimensionRow) dimension.getRowByPosition( ( (Integer) dimPosition.get( i ) ).intValue( ) );
+			DimensionRow row = dimension.getRowByPosition( ( (Integer) dimPosition.get( i ) ).intValue( ) );
 			Member[] curMembers = row.getMembers( );
 			// the filters in different level will be intersected in our
 			// definition, so that if current position i is selected by all
@@ -400,8 +329,7 @@ public class LevelFilterHelper
 				List filterList = (List) validFilterMap.get( levelName );
 				assert filterList.size( ) > 0;
 				LevelFilter firstFilter = (LevelFilter) filterList.get( 0 );
-				int targetIndex = FilterUtil.getTargetLevelIndex( levels,
-						firstFilter.getLevelName( ) );
+				int targetIndex = getIndex( levels, firstFilter.getLevelName( ) );
 				assert targetIndex >= 0;
 				for ( Iterator filterItr = filterList.iterator( ); filterItr.hasNext( ); )
 				{
@@ -457,7 +385,8 @@ public class LevelFilterHelper
 		}
 
 		Map validFilterMap = getValidFilterMap( );
-
+		if ( validFilterMap.isEmpty( ) )
+			return;
 		this.dimPosition = populateValidPositions( validFilterMap );
 	}
 
@@ -521,14 +450,7 @@ public class LevelFilterHelper
 	 */
 	private int getIndex( ILevel[] levels, String levelName )
 	{
-		for( int i=0;i<levels.length;i++)
-		{
-			if( levels[i].getName( ).equals( levelName ))
-			{
-				return i;
-			}
-		}
-		return -1;
+		return FilterUtil.getTargetLevelIndex( levels, levelName );
 	}
 	
 	/**
