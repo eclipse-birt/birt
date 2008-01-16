@@ -13,6 +13,7 @@ DeleteDimensionViewHandleAction.TransName=DimensionViewHandle の削除
 DeleteDimensionViewHandleAction.DisplayName=削除
 DeleteMeasureHandleAction.DisplayName=削除
 DeleteMeasureHandleAction.TransName=MeasureViewHandle の削除
+
 ###########################################################
 # Crosstab Command trans name
 AddDimensionViewHandleCommand.TransName=DimensionHandle の追加
@@ -29,10 +30,16 @@ CrosstabTableEditPart.GuideText=クロスタブ
 ###########################################################
 # Crosstab Dialog trans name
 GrandTotalProvider.Column.DataField=データフィールド
-GrandTotalProvider.Column.Function=関数
+GrandTotalProvider.Column.View=View
+GrandTotalProvider.Column.Function=Functions
+GrandTotalProvider.ViewStatus=Keep Current View
+GrandTotalProvider.ShowAs=Show as {0}
 SubTotalProvider.Column.DataField=データフィールド
-SubTotalProvider.Column.Function=関数
+SubTotalProvider.Column.Function=Functions
 SubTotalProvider.Column.AggregateOn=集計条件
+SubTotalProvider.Column.ViewStatus=Keep Current View
+SubTotalProvider.Column.View=View
+SubTotalProvider.ShowAs=Show as {0}
 LevelViewDialog.Title=グループレベルの表示/非表示
 LevelViewDialog.Label.Info=クロスタブに表示するレベルの選択 :
 AggregationDialog.Title=合計
@@ -42,6 +49,10 @@ AggregationDialog.TabItem.Title.RowArea=行の領域
 AggregationDialog.TabItem.Title.ColumnArea=列の領域
 ShowSummaryFieldDialog.Title=サマリフィールドの表示/非表示
 ShowSummaryFieldDialog.Label.Info=クロスタブに表示するレベルの選択 :
+ShowSummaryFieldDialog.Column.Measures=計測
+ShowSummaryFieldDialog.Column.View=Views
+ShowSummaryFieldDialog.ViewStatus=Keep Current View
+
 
 DeleteBindingDialog.Title=未使用のバインドの削除
 DeleteBindingDialog.Message=この操作により、未使用のデータバインドが削除されます。\n\n未使用のバインドを削除しますか ?

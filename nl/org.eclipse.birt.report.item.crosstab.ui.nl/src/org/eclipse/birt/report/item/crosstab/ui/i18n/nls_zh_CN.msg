@@ -13,6 +13,7 @@ DeleteDimensionViewHandleAction.TransName=删除维视图句柄
 DeleteDimensionViewHandleAction.DisplayName=删除
 DeleteMeasureHandleAction.DisplayName=删除
 DeleteMeasureHandleAction.TransName=删除度量视图句柄
+
 ###########################################################
 # Crosstab Command trans name
 AddDimensionViewHandleCommand.TransName=添加维句柄
@@ -29,10 +30,16 @@ CrosstabTableEditPart.GuideText=交叉表
 ###########################################################
 # Crosstab Dialog trans name
 GrandTotalProvider.Column.DataField=数据字段
-GrandTotalProvider.Column.Function=函数
+GrandTotalProvider.Column.View=View
+GrandTotalProvider.Column.Function=Functions
+GrandTotalProvider.ViewStatus=Keep Current View
+GrandTotalProvider.ShowAs=Show as {0}
 SubTotalProvider.Column.DataField=数据字段
-SubTotalProvider.Column.Function=函数
+SubTotalProvider.Column.Function=Functions
 SubTotalProvider.Column.AggregateOn=聚合条件
+SubTotalProvider.Column.ViewStatus=Keep Current View
+SubTotalProvider.Column.View=View
+SubTotalProvider.ShowAs=Show as {0}
 LevelViewDialog.Title=显示/隐藏组级别
 LevelViewDialog.Label.Info=选择要在交叉表上显示的级别:
 AggregationDialog.Title=总计
@@ -42,6 +49,10 @@ AggregationDialog.TabItem.Title.RowArea=行区域
 AggregationDialog.TabItem.Title.ColumnArea=列区域
 ShowSummaryFieldDialog.Title=显示/隐藏摘要字段
 ShowSummaryFieldDialog.Label.Info=选择要在交叉表上显示的级别:
+ShowSummaryFieldDialog.Column.Measures=度量
+ShowSummaryFieldDialog.Column.View=Views
+ShowSummaryFieldDialog.ViewStatus=Keep Current View
+
 
 DeleteBindingDialog.Title=删除未使用的绑定?
 DeleteBindingDialog.Message=此操作将产生未使用的数据绑定。\n\n是否要删除未使用的绑定?

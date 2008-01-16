@@ -13,6 +13,7 @@ DeleteDimensionViewHandleAction.TransName=Eliminar Dimensionviewhandle
 DeleteDimensionViewHandleAction.DisplayName=Quitar
 DeleteMeasureHandleAction.DisplayName=Quitar
 DeleteMeasureHandleAction.TransName=Eliminar MeasureViewHandle
+
 ###########################################################
 # Crosstab Command trans name
 AddDimensionViewHandleCommand.TransName=Agregar DiminsionHandle
@@ -29,10 +30,16 @@ CrosstabTableEditPart.GuideText=Tabla de referencias cruzadas
 ###########################################################
 # Crosstab Dialog trans name
 GrandTotalProvider.Column.DataField=Campo de datos
-GrandTotalProvider.Column.Function=Función
+GrandTotalProvider.Column.View=View
+GrandTotalProvider.Column.Function=Functions
+GrandTotalProvider.ViewStatus=Keep Current View
+GrandTotalProvider.ShowAs=Show as {0}
 SubTotalProvider.Column.DataField=Campo de datos
-SubTotalProvider.Column.Function=Función
+SubTotalProvider.Column.Function=Functions
 SubTotalProvider.Column.AggregateOn=Agregar en
+SubTotalProvider.Column.ViewStatus=Keep Current View
+SubTotalProvider.Column.View=View
+SubTotalProvider.ShowAs=Show as {0}
 LevelViewDialog.Title=Mostrar/ocultar niveles de grupo
 LevelViewDialog.Label.Info=Seleccionar niveles para mostrar en tabla de referencias cruzadas:
 AggregationDialog.Title=Totales
@@ -42,6 +49,10 @@ AggregationDialog.TabItem.Title.RowArea=Área de fila
 AggregationDialog.TabItem.Title.ColumnArea=Área de columna
 ShowSummaryFieldDialog.Title=Mostrar/ocultar campos de resumen
 ShowSummaryFieldDialog.Label.Info=Seleccionar niveles para mostrar en tabla de referencias cruzadas:
+ShowSummaryFieldDialog.Column.Measures=Medidas
+ShowSummaryFieldDialog.Column.View=Views
+ShowSummaryFieldDialog.ViewStatus=Keep Current View
+
 
 DeleteBindingDialog.Title=¿Eliminar los enlaces no utilizados?
 DeleteBindingDialog.Message=Esta acción producirá enlaces de datos no utilizados.\n\n¿Desea eliminar los enlaces no utilizados?

@@ -13,6 +13,7 @@ DeleteDimensionViewHandleAction.TransName=Dimensionviewhandle löschen
 DeleteDimensionViewHandleAction.DisplayName=Entfernen
 DeleteMeasureHandleAction.DisplayName=Entfernen
 DeleteMeasureHandleAction.TransName=MeasureViewHandle löschen
+
 ###########################################################
 # Crosstab Command trans name
 AddDimensionViewHandleCommand.TransName=DimensionHandle hinzufügen
@@ -29,10 +30,16 @@ CrosstabTableEditPart.GuideText=Kreuztabelle
 ###########################################################
 # Crosstab Dialog trans name
 GrandTotalProvider.Column.DataField=Datenfeld
-GrandTotalProvider.Column.Function=Funktion
+GrandTotalProvider.Column.View=View
+GrandTotalProvider.Column.Function=Functions
+GrandTotalProvider.ViewStatus=Keep Current View
+GrandTotalProvider.ShowAs=Show as {0}
 SubTotalProvider.Column.DataField=Datenfeld
-SubTotalProvider.Column.Function=Funktion
+SubTotalProvider.Column.Function=Functions
 SubTotalProvider.Column.AggregateOn=Aggregat in
+SubTotalProvider.Column.ViewStatus=Keep Current View
+SubTotalProvider.Column.View=View
+SubTotalProvider.ShowAs=Show as {0}
 LevelViewDialog.Title=Gruppenebenen einblenden/ausblenden
 LevelViewDialog.Label.Info=Ebenen zum Anzeigen in Kreuztabelle auswählen:
 AggregationDialog.Title=Summen
@@ -42,6 +49,10 @@ AggregationDialog.TabItem.Title.RowArea=Zeilenbereich
 AggregationDialog.TabItem.Title.ColumnArea=Spaltenbereich
 ShowSummaryFieldDialog.Title=Zusammenfassungsfelder einblenden/ausblenden
 ShowSummaryFieldDialog.Label.Info=Ebenen zum Anzeigen in Kreuztabelle auswählen:
+ShowSummaryFieldDialog.Column.Measures=Einheiten
+ShowSummaryFieldDialog.Column.View=Views
+ShowSummaryFieldDialog.ViewStatus=Keep Current View
+
 
 DeleteBindingDialog.Title=Nicht verwendete Bindungen entfernen?
 DeleteBindingDialog.Message=Dieser Vorgang führt zu nicht verwendeten Datenbindungen.\n\nMöchten Sie nicht verwendete Bindungen entfernen?
