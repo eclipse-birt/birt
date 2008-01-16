@@ -39,17 +39,11 @@ public class PreviewDataPreferencePage extends PreferencePage implements
 
 	public static final int MAX_DATASET_ROW_DEFAULT = ViewerPlugin.DEFAULT_MAX_ROWS;
 
-	public static final int MAX_DATASET_ROW = 10000;
-
 	public static final int MAX_CUBE_ROW_LEVEL_MEMBER_DEFAULT = ViewerPlugin.DEFAULT_MAX_CUBEROWLEVELS;
 
 	public static final int MAX_CUBE_COLUMN_LEVEL_MEMBER_DEFAULT = ViewerPlugin.DEFAULT_MAX_CUBECOLUMNLEVELS;
 	
-	public static final int MAX_CUBE_LEVEL_MEMBER = 10000;
-
 	public static final int MAX_IN_MEMORY_CUBE_SIZE_DEFAULT = ViewerPlugin.DEFAULT_MAX_IN_MEMORY_CUBE_SIZE;
-
-	public static final int MAX_IN_MEMORY_CUBE_SIZE = 10000;
 
 	/** max Row preference name */
 	public static final String PREVIEW_MAXROW = WebViewer.PREVIEW_MAXROW;
@@ -83,14 +77,7 @@ public class PreviewDataPreferencePage extends PreferencePage implements
 				Messages.getString( "designer.preview.preference.resultset.maxrow.description" ), //$NON-NLS-1$
 				cmpTop );
 		txtMaxDataSetRow.setPage( this );
-		txtMaxDataSetRow.setTextLimit( Integer.toString( MAX_DATASET_ROW )
-				.length( ) );
-		txtMaxDataSetRow.setErrorMessage( Messages.getFormattedString( "designer.preview.preference.resultset.maxrow.errormessage", //$NON-NLS-1$
-				new Object[]{
-					new Integer( MAX_DATASET_ROW )
-				} ) );
 		txtMaxDataSetRow.setValidateStrategy( StringFieldEditor.VALIDATE_ON_KEY_STROKE );
-		txtMaxDataSetRow.setValidRange( 1, MAX_DATASET_ROW );
 		txtMaxDataSetRow.setEmptyStringAllowed( false );
 		txtMaxDataSetRow.setPropertyChangeListener( new IPropertyChangeListener( ) {
 
@@ -104,14 +91,7 @@ public class PreviewDataPreferencePage extends PreferencePage implements
 		txtMaxRowLevelMember = new IntegerFieldEditor( PREVIEW_MAX_ROW_LEVEL_MEMBER,
 				Messages.getString( "designer.preview.preference.resultset.maxrowlevelmember.description" ), cmpTop ); //$NON-NLS-1$ 
 		txtMaxRowLevelMember.setPage( this );
-		txtMaxRowLevelMember.setTextLimit( Integer.toString( MAX_CUBE_LEVEL_MEMBER )
-				.length( ) );
-		txtMaxRowLevelMember.setErrorMessage( Messages.getFormattedString( "designer.preview.preference.resultset.maxrowlevelmember.errormessage", //$NON-NLS-1$
-				new Object[]{
-					new Integer( MAX_CUBE_LEVEL_MEMBER )
-				} ) );
 		txtMaxRowLevelMember.setValidateStrategy( StringFieldEditor.VALIDATE_ON_KEY_STROKE );
-		txtMaxRowLevelMember.setValidRange( 1, MAX_CUBE_LEVEL_MEMBER );
 		txtMaxRowLevelMember.setEmptyStringAllowed( false );
 		txtMaxRowLevelMember.setPropertyChangeListener( new IPropertyChangeListener( ) {
 
@@ -125,14 +105,7 @@ public class PreviewDataPreferencePage extends PreferencePage implements
 		txtMaxColumnLevelMember = new IntegerFieldEditor( PREVIEW_MAX_COLUMN_LEVEL_MEMBER,
 				Messages.getString( "designer.preview.preference.resultset.maxcolumnlevelmember.description" ), cmpTop ); //$NON-NLS-1$ 
 		txtMaxColumnLevelMember.setPage( this );
-		txtMaxColumnLevelMember.setTextLimit( Integer.toString( MAX_CUBE_LEVEL_MEMBER )
-				.length( ) );
-		txtMaxColumnLevelMember.setErrorMessage( Messages.getFormattedString( "designer.preview.preference.resultset.maxcolumnlevelmember.errormessage", //$NON-NLS-1$
-				new Object[]{
-					new Integer( MAX_CUBE_LEVEL_MEMBER )
-				} ) );
 		txtMaxColumnLevelMember.setValidateStrategy( StringFieldEditor.VALIDATE_ON_KEY_STROKE );
-		txtMaxColumnLevelMember.setValidRange( 1, MAX_CUBE_LEVEL_MEMBER );
 		txtMaxColumnLevelMember.setEmptyStringAllowed( false );
 		txtMaxColumnLevelMember.setPropertyChangeListener( new IPropertyChangeListener( ) {
 
@@ -146,14 +119,7 @@ public class PreviewDataPreferencePage extends PreferencePage implements
 		txtMaxInMemoryCubeSize = new IntegerFieldEditor( PREVIEW_MAX_IN_MEMORY_CUBE_SIZE,
 				Messages.getString( "designer.preview.preference.resultset.maxinmemorycubesize.description" ), cmpTop ); //$NON-NLS-1$ 
 		txtMaxInMemoryCubeSize.setPage( this );
-		txtMaxInMemoryCubeSize.setTextLimit( Integer.toString( MAX_IN_MEMORY_CUBE_SIZE )
-				.length( ) );
-		txtMaxInMemoryCubeSize.setErrorMessage( Messages.getFormattedString( "designer.preview.preference.resultset.maxinmemorycubesize.errormessage", //$NON-NLS-1$
-				new Object[]{
-					new Integer( MAX_IN_MEMORY_CUBE_SIZE )
-				} ) );
 		txtMaxInMemoryCubeSize.setValidateStrategy( StringFieldEditor.VALIDATE_ON_KEY_STROKE );
-		txtMaxInMemoryCubeSize.setValidRange( 1, MAX_IN_MEMORY_CUBE_SIZE );
 		txtMaxInMemoryCubeSize.setEmptyStringAllowed( false );
 		txtMaxInMemoryCubeSize.setPropertyChangeListener( new IPropertyChangeListener( ) {
 
