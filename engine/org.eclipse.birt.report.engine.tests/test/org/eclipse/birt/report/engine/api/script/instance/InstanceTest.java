@@ -607,25 +607,64 @@ public class InstanceTest extends TestCase {
 			IDataSourceInstanceHandle {
 	}
 
-	private class FakeDataSetHandle extends FakeBaseData implements
-			IDataSetInstanceHandle {
+	private class FakeDataSetHandle extends FakeBaseData
+			implements
+				IDataSetInstanceHandle
+	{
 
 		private String queryText;
+		private Map inputParamValues = new HashMap( );
 
-		public IDataSourceInstanceHandle getDataSource() {
+		public IDataSourceInstanceHandle getDataSource( )
+		{
 			return null;
 		}
 
-		public IResultMetaData getResultMetaData() throws BirtException {
-			return new FakeResultMetadata();
+		public IResultMetaData getResultMetaData( ) throws BirtException
+		{
+			return new FakeResultMetadata( );
 		}
 
-		public String getQueryText() throws BirtException {
+		public String getQueryText( ) throws BirtException
+		{
 			return queryText;
 		}
 
-		public void setQueryText(String queryText) throws BirtException {
+		public void setQueryText( String queryText ) throws BirtException
+		{
 			this.queryText = queryText;
+		}
+
+		public Object getInputParameterValue( String paramName )
+				throws BirtException
+		{
+			return null;
+		}
+
+		public void setInputParameterValue( String paramName, Object paramValue )
+				throws BirtException
+		{
+		}
+
+		public Map getInputParameters( )
+		{
+			return null;
+		}
+
+		public Object getOutputParameterValue( String paramName )
+				throws BirtException
+		{
+			return null;
+		}
+
+		public void setOutputParameterValue( String paramName, Object paramValue )
+				throws BirtException
+		{
+		}
+
+		public Map getOutputParameters( )
+		{
+			return null;
 		}
 	}
 
