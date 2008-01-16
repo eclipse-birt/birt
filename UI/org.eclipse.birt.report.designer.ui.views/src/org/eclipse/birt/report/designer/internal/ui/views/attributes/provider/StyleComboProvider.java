@@ -53,6 +53,11 @@ public abstract class StyleComboProvider extends BorderDescriptorProvider implem
 	{
 		return items;
 	}
+	
+	public Object[] getDisplayItems( )
+	{
+		return items;
+	}
 
 	/*
 	 * (non-Javadoc)

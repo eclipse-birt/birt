@@ -1,8 +1,11 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
+import java.util.Arrays;
+
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -14,6 +17,8 @@ public class BorderWidthDescriptorProvider extends StyleComboProvider
 {
 
 	private static final String LABEL_WIDTH = Messages.getString( "BordersPage.Label.Width" ); //$NON-NLS-1$
+	private String[] nameChoices;
+	private String[] displayChoices;
 
 	public BorderWidthDescriptorProvider( )
 	{
@@ -28,6 +33,7 @@ public class BorderWidthDescriptorProvider extends StyleComboProvider
 	public Object load( )
 	{
 		String value = getLocalStringValue( StyleHandle.BORDER_LEFT_WIDTH_PROP );
+		value = convertNameToDisplayName( value );
 		if ( !"".equals( value ) )
 		{
 			this.indexText = value;
@@ -60,33 +66,56 @@ public class BorderWidthDescriptorProvider extends StyleComboProvider
 	public void save( Object value ) throws SemanticException
 	{
 		this.indexText = value == null ? "" : value;
+		String saveValue = convertDisplayNameToName( value );
 		if ( ( (Boolean) styleMap.get( StyleHandle.BORDER_TOP_STYLE_PROP ) ).booleanValue( ) == true )
 		{
-			save( StyleHandle.BORDER_TOP_WIDTH_PROP, value );
+			save( StyleHandle.BORDER_TOP_WIDTH_PROP, saveValue );
 		}
 		else
 			save( StyleHandle.BORDER_TOP_WIDTH_PROP, null );
 
 		if ( ( (Boolean) styleMap.get( StyleHandle.BORDER_BOTTOM_STYLE_PROP ) ).booleanValue( ) == true )
 		{
-			save( StyleHandle.BORDER_BOTTOM_WIDTH_PROP, value );
+			save( StyleHandle.BORDER_BOTTOM_WIDTH_PROP, saveValue );
 		}
 		else
 			save( StyleHandle.BORDER_BOTTOM_WIDTH_PROP, null );
 
 		if ( ( (Boolean) styleMap.get( StyleHandle.BORDER_LEFT_STYLE_PROP ) ).booleanValue( ) == true )
 		{
-			save( StyleHandle.BORDER_LEFT_WIDTH_PROP, value );
+			save( StyleHandle.BORDER_LEFT_WIDTH_PROP, saveValue );
 		}
 		else
 			save( StyleHandle.BORDER_LEFT_WIDTH_PROP, null );
 
 		if ( ( (Boolean) styleMap.get( StyleHandle.BORDER_RIGHT_STYLE_PROP ) ).booleanValue( ) == true )
 		{
-			save( StyleHandle.BORDER_RIGHT_WIDTH_PROP, value );
+			save( StyleHandle.BORDER_RIGHT_WIDTH_PROP, saveValue );
 		}
 		else
 			save( StyleHandle.BORDER_RIGHT_WIDTH_PROP, null );
+	}
+
+	private String convertNameToDisplayName( String name )
+	{
+		if ( nameChoices == null )
+			getItems( );
+		int index = Arrays.asList( nameChoices ).indexOf( name );
+		if ( index >= 0 && index < displayChoices.length )
+			return displayChoices[index];
+		else
+			return "";
+	}
+
+	private String convertDisplayNameToName( Object displayName )
+	{
+		if ( displayName == null )
+			return null;
+		int index = Arrays.asList( getItems( ) ).indexOf( displayName );
+		if ( index >= 0 && index < nameChoices.length )
+			return nameChoices[index];
+		else
+			return null;
 	}
 
 	private String[] getWidths( IChoiceSet choiceSet )
@@ -94,25 +123,47 @@ public class BorderWidthDescriptorProvider extends StyleComboProvider
 
 		IChoice[] choices = choiceSet.getChoices( );
 
-		String[] strChoices = new String[choices.length + 10];
+		nameChoices = new String[choices.length + 10];
+		displayChoices = new String[choices.length + 10];
 
 		for ( int i = 0; i < choices.length; i++ )
 		{
-			strChoices[i] = choices[i].getName( );
+			nameChoices[i] = choices[i].getName( );
+			displayChoices[i] = choices[i].getDisplayName( );
 		}
 
 		for ( int i = choices.length; i < choices.length + 10; i++ )
 		{
-			strChoices[i] = ( i+1-choices.length ) + DesignChoiceConstants.UNITS_PX;
+			nameChoices[i] = ( i + 1 - choices.length )
+					+ DEUtil.getMetaDataDictionary( )
+							.getChoiceSet( DesignChoiceConstants.CHOICE_UNITS )
+							.findChoice( DesignChoiceConstants.UNITS_PX )
+							.getName( );
+			displayChoices[i] = ( i + 1 - choices.length )
+					+ DEUtil.getMetaDataDictionary( )
+							.getChoiceSet( DesignChoiceConstants.CHOICE_UNITS )
+							.findChoice( DesignChoiceConstants.UNITS_PX )
+							.getName( );
 		}
 
-		return strChoices;
+		return nameChoices;
 	}
 
 	public Object[] getItems( )
 	{
-		return getWidths( ChoiceSetFactory.getElementChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
-				StyleHandle.BORDER_TOP_WIDTH_PROP ) );
+		if ( nameChoices == null )
+			return getWidths( ChoiceSetFactory.getElementChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
+					StyleHandle.BORDER_TOP_WIDTH_PROP ) );
+		else
+			return nameChoices;
+	}
+
+	public Object[] getDisplayItems( )
+	{
+		if ( displayChoices == null )
+			getWidths( ChoiceSetFactory.getElementChoiceSet( ReportDesignConstants.STYLE_ELEMENT,
+					StyleHandle.BORDER_TOP_WIDTH_PROP ) );
+		return displayChoices;
 	}
 
 	public void handleModifyEvent( )

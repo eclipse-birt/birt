@@ -112,7 +112,6 @@ public class BordersPage extends AttributePage
 		borderSection = new BorderSection( LABEL_BORDER, container, true );
 		BorderStyleDescriptorProvider styleProvider = new BorderStyleDescriptorProvider( );
 		styleProvider.setItems( styles );
-		styleProvider.setIndex( styles[0] );
 		borderSection.setStyleProvider( styleProvider );
 
 		BorderColorDescriptorProvider colorProvider = new BorderColorDescriptorProvider( );

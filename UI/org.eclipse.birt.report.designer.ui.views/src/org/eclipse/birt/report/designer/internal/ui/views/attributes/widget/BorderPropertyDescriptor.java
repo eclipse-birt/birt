@@ -33,7 +33,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 
-public class BorderPropertyDescriptor implements IPropertyDescriptor, IModelEventProcessor
+public class BorderPropertyDescriptor implements
+		IPropertyDescriptor,
+		IModelEventProcessor
 {
 
 	private boolean isFormStyle;
@@ -85,7 +87,8 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, IModelEven
 		data = new GridData( );
 		data.widthHint = 200;
 		styleCombo.setLayoutData( data );
-		styleCombo.setItems( ( (IComboProvider) styleProvider ).getItems( ) );
+		styleCombo.setItems( ( (IComboProvider) styleProvider ).getDisplayItems( ) );
+		styleProvider.setIndex( styleProvider.getDisplayItems( )[0].toString( ) );
 
 		Label colorLabel = FormWidgetFactory.getInstance( )
 				.createLabel( choices, SWT.LEFT, isFormStyle );
@@ -116,11 +119,11 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, IModelEven
 					style,
 					(IComboProvider) widthProvider );
 		}
-		widthProvider.setIndex( widthProvider.getItems( )[1].toString( ) );
 		data = new GridData( );
 		data.widthHint = 200;
 		widthCombo.setLayoutData( data );
-		widthCombo.setItems( ( (IComboProvider) widthProvider ).getItems( ) );
+		widthCombo.setItems( ( (IComboProvider) widthProvider ).getDisplayItems( ) );
+		widthProvider.setIndex( widthProvider.getDisplayItems( )[1].toString( ) );
 
 		Composite composite = new Composite( choices, SWT.NONE );
 		layout = new GridLayout( );
@@ -154,8 +157,8 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, IModelEven
 
 						information.setPosition( provider.getPosition( ) );
 						information.setColor( builder.getRGB( ) );
-						information.setStyle( (String) styleCombo.getSelectedItem( ) );
-						information.setWidth( (String) widthCombo.getSelectedItem( ) );
+						information.setStyle( (String) styleProvider.getItems( )[styleCombo.getSelectionIndex( )] );
+						information.setWidth( (String) widthProvider.getItems( )[widthCombo.getSelectionIndex( )] );
 						previewCanvas.setBorderInfomation( information );
 						restoreInfo = information;
 						try
@@ -185,9 +188,9 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, IModelEven
 						{
 							selectedColor = autoColor;
 						}
-						if ( !( oldInfo.getStyle( ).equals( (String) styleCombo.getSelectedItem( ) ) )
+						if ( !( oldInfo.getStyle( ).equals( (String) styleProvider.getItems( )[styleCombo.getSelectionIndex( )] ) )
 								|| !( oldColor.equals( selectedColor ) )
-								|| !( oldInfo.getWidth( ).equals( (String) widthCombo.getSelectedItem( ) ) ) )
+								|| !( oldInfo.getWidth( ).equals( (String) widthProvider.getItems( )[widthCombo.getSelectionIndex( )] ) ) )
 						{
 							SessionHandleAdapter.getInstance( )
 									.getCommandStack( )
@@ -197,8 +200,8 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, IModelEven
 
 							information.setPosition( provider.getPosition( ) );
 							information.setColor( selectedColor );
-							information.setStyle( (String) styleCombo.getSelectedItem( ) );
-							information.setWidth( (String) widthCombo.getSelectedItem( ) );
+							information.setStyle( (String) styleProvider.getItems( )[styleCombo.getSelectionIndex( )] );
+							information.setWidth( (String) widthProvider.getItems( )[widthCombo.getSelectionIndex( )] );
 							previewCanvas.setBorderInfomation( information );
 							restoreInfo = information;
 							try
@@ -267,8 +270,8 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, IModelEven
 						BorderInfomation information = new BorderInfomation( );
 						information.setPosition( toggleProviders[i].getPosition( ) );
 						information.setColor( selectedColor );
-						information.setStyle( (String) styleCombo.getSelectedItem( ) );
-						information.setWidth( (String) widthCombo.getSelectedItem( ) );
+						information.setStyle( (String) styleProvider.getItems( )[styleCombo.getSelectionIndex( )] );
+						information.setWidth( (String) widthProvider.getItems( )[widthCombo.getSelectionIndex( )] );
 						toggles[i].setSelection( true );
 						previewCanvas.setBorderInfomation( information );
 						restoreInfo = information;
@@ -304,9 +307,9 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, IModelEven
 						{
 							selectedColor = autoColor;
 						}
-						if ( !( info.getStyle( ).equals( (String) styleCombo.getSelectedItem( ) ) )
+						if ( !( info.getStyle( ).equals( (String)styleProvider.getItems( )[styleCombo.getSelectionIndex( )] ) )
 								|| !( oldColor.equals( selectedColor ) )
-								|| !( info.getWidth( ).equals( (String) widthCombo.getSelectedItem( ) ) ) )
+								|| !( info.getWidth( ).equals( (String)widthProvider.getItems( )[widthCombo.getSelectionIndex( )] ) ) )
 						{
 							reset = false;
 							break;
@@ -354,8 +357,8 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, IModelEven
 							{
 								information.setColor( builder.getRGB( ) );
 							}
-							information.setStyle( (String) styleCombo.getSelectedItem( ) );
-							information.setWidth( (String) widthCombo.getSelectedItem( ) );
+							information.setStyle( (String) styleProvider.getItems( )[styleCombo.getSelectionIndex( )] );
+							information.setWidth( (String) widthProvider.getItems( )[widthCombo.getSelectionIndex( )] );
 							previewCanvas.setBorderInfomation( information );
 							restoreInfo = information;
 							try
@@ -582,33 +585,34 @@ public class BorderPropertyDescriptor implements IPropertyDescriptor, IModelEven
 			allButton.setSelection( false );
 	}
 
-//	public void elementChanged( DesignElementHandle focus, NotificationEvent ev )
-//	{
-//		PropertyEvent event = (PropertyEvent) ev;
-//		String propertyName = event.getPropertyName( );
-//		if ( propertyName.equals( StyleHandle.BORDER_BOTTOM_WIDTH_PROP )
-//				|| propertyName.equals( StyleHandle.BORDER_TOP_WIDTH_PROP )
-//				|| propertyName.equals( StyleHandle.BORDER_LEFT_WIDTH_PROP )
-//				|| propertyName.equals( StyleHandle.BORDER_RIGHT_WIDTH_PROP ) )
-//		{
-//			load( );
-//		}
-//		else if ( propertyName.equals( StyleHandle.BORDER_BOTTOM_STYLE_PROP )
-//				|| propertyName.equals( StyleHandle.BORDER_TOP_STYLE_PROP )
-//				|| propertyName.equals( StyleHandle.BORDER_LEFT_STYLE_PROP )
-//				|| propertyName.equals( StyleHandle.BORDER_RIGHT_STYLE_PROP ) )
-//		{
-//			load( );
-//		}
-//		else if ( propertyName.equals( StyleHandle.BORDER_BOTTOM_COLOR_PROP )
-//				|| propertyName.equals( StyleHandle.BORDER_LEFT_COLOR_PROP )
-//				|| propertyName.equals( StyleHandle.BORDER_RIGHT_COLOR_PROP )
-//				|| propertyName.equals( StyleHandle.BORDER_TOP_COLOR_PROP ) )
-//		{
-//			load( );
-//		}
-//	}
-	
+	// public void elementChanged( DesignElementHandle focus, NotificationEvent
+	// ev )
+	// {
+	// PropertyEvent event = (PropertyEvent) ev;
+	// String propertyName = event.getPropertyName( );
+	// if ( propertyName.equals( StyleHandle.BORDER_BOTTOM_WIDTH_PROP )
+	// || propertyName.equals( StyleHandle.BORDER_TOP_WIDTH_PROP )
+	// || propertyName.equals( StyleHandle.BORDER_LEFT_WIDTH_PROP )
+	// || propertyName.equals( StyleHandle.BORDER_RIGHT_WIDTH_PROP ) )
+	// {
+	// load( );
+	// }
+	// else if ( propertyName.equals( StyleHandle.BORDER_BOTTOM_STYLE_PROP )
+	// || propertyName.equals( StyleHandle.BORDER_TOP_STYLE_PROP )
+	// || propertyName.equals( StyleHandle.BORDER_LEFT_STYLE_PROP )
+	// || propertyName.equals( StyleHandle.BORDER_RIGHT_STYLE_PROP ) )
+	// {
+	// load( );
+	// }
+	// else if ( propertyName.equals( StyleHandle.BORDER_BOTTOM_COLOR_PROP )
+	// || propertyName.equals( StyleHandle.BORDER_LEFT_COLOR_PROP )
+	// || propertyName.equals( StyleHandle.BORDER_RIGHT_COLOR_PROP )
+	// || propertyName.equals( StyleHandle.BORDER_TOP_COLOR_PROP ) )
+	// {
+	// load( );
+	// }
+	// }
+
 	public void addElementEvent( DesignElementHandle focus, NotificationEvent ev )
 	{
 
