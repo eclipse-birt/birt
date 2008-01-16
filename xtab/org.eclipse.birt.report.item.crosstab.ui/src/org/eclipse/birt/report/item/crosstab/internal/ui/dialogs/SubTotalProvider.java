@@ -11,26 +11,78 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.dialogs;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDialog.SubTotalInfo;
+import org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
+import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.ComboBoxCellEditor;
+import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Item;
 
 public class SubTotalProvider extends TotalProvider implements
 		ITableLabelProvider,
-		IStructuredContentProvider
+		IStructuredContentProvider,
+		ICellModifier
 {
 
+	private CellEditor[] cellEditor;
 	TableViewer viewer;
+	
+	private String[] comboItems = null;
+	private IAggregationCellViewProvider[] providers;
+	private String[] viewNames;
 
-	public SubTotalProvider( TableViewer viewer )
+	private CrosstabReportItemHandle crosstab;
+	
+	private void initialization( )
+	{
+
+		String firstItem = Messages.getString( "SubTotalProvider.Column.ViewStatus" );
+		List viewNameList = new ArrayList( );
+		List itemList = new ArrayList( );
+
+		itemList.add( firstItem );
+		viewNameList.add( "" );
+
+		Object obj = ElementAdapterManager.getAdapters( crosstab.getModelHandle( ),
+				IAggregationCellViewProvider.class );
+		if ( obj instanceof Object[] )
+		{
+			Object arrays[] = (Object[]) obj;
+			providers = new IAggregationCellViewProvider[arrays.length + 1];
+			providers[0] = null;
+			for ( int i = 0; i < arrays.length; i++ )
+			{
+				IAggregationCellViewProvider tmp = (IAggregationCellViewProvider) arrays[i];
+				String viewName = tmp.getViewName( );
+				viewNameList.add( viewName );
+				providers[i + 1] = tmp;
+				itemList.add( Messages.getString( "SubTotalProvider.ShowAs", viewName ) );
+			}
+		}
+
+		comboItems = (String[]) itemList.toArray( new String[itemList.size( )] );
+		viewNames = (String[]) viewNameList.toArray( new String[viewNameList.size( )] );
+
+	}
+	
+	public SubTotalProvider( TableViewer viewer,CrosstabReportItemHandle crosstab )
 	{
 		this.viewer = viewer;
+		this.crosstab = crosstab;
+		initialization();
 	}
 
 	public String[] getColumnNames( )
@@ -41,6 +93,7 @@ public class SubTotalProvider extends TotalProvider implements
 	//private CellEditor[] editors;
 	private String[] columnNames = new String[]{
 			"", Messages.getString("SubTotalProvider.Column.AggregateOn"),//Messages.getString("SubTotalProvider.Column.DataField"), Messages.getString("SubTotalProvider.Column.Function") //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			Messages.getString( "SubTotalProvider.Column.View" )
 	};
 
 	/*
@@ -60,48 +113,8 @@ public class SubTotalProvider extends TotalProvider implements
 		return editors;
 	}
 */
-	/*
-	public boolean canModify( Object element, String property )
-	{
-		int index = Arrays.asList( columnNames ).indexOf( property );
-		if ( index == 3 )
-			return true;
-		else
-			return false;
-	}
 
-	public Object getValue( Object element, String property )
-	{
-		int index = Arrays.asList( columnNames ).indexOf( property );
-		String columnText = getColumnText( element, index );
-		return columnText;
-	}
 
-	public void modify( Object element, String property, Object value )
-	{
-		int index = Arrays.asList( columnNames ).indexOf( property );
-		if ( index == 3 )
-		{
-			if ( element instanceof TableItem )
-			{
-				Object obj = ( (TableItem) element ).getData( );
-				if ( obj instanceof SubTotalInfo )
-				{
-					String functionDisplayName = value.toString( );
-					int functionIndex = Arrays.asList( getFunctionDisplayNames( ) )
-							.indexOf( functionDisplayName );
-					if ( functionIndex > -1
-							&& functionIndex < getFunctionNames( ).length )
-					{
-						( (SubTotalInfo) obj ).setFunction( getFunctionNames( )[functionIndex] );
-					}
-					viewer.refresh( );
-				}
-			}
-		}
-
-	}
-*/
 	public Image getColumnImage( Object element, int columnIndex )
 	{
 		// TODO Auto-generated method stub
@@ -118,6 +131,18 @@ public class SubTotalProvider extends TotalProvider implements
 			case 1 :
 				return info.getLevel( ).getName( )+"- "+(info.getAggregateOnMeasure( ) == null ? "" //$NON-NLS-1$
 						: info.getAggregateOnMeasure( ).getName( ));
+			case 2:
+				String expectedView = info.getExpectedView( );
+				if(expectedView == null || expectedView.length( ) == 0)
+				{
+					return comboItems[0];
+				}
+				int index = Arrays.asList( viewNames ).indexOf( expectedView );
+				if(index <= 0)
+				{
+					index = 0;
+				}
+				return comboItems[index];
 			default :
 				break;
 		}
@@ -132,6 +157,19 @@ public class SubTotalProvider extends TotalProvider implements
 
 	}
 
+	public CellEditor[] getCellEditors()
+	{
+		if(cellEditor != null)
+		{
+			return cellEditor;			
+		}
+		
+		ComboBoxCellEditor comboCell = new ComboBoxCellEditor(viewer.getTable( ),comboItems,SWT.READ_ONLY);
+		cellEditor = new CellEditor[]{null, null, comboCell};
+		return cellEditor;
+	}
+
+	
 	public void inputChanged( Viewer viewer, Object oldInput, Object newInput )
 	{
 	}
@@ -139,8 +177,78 @@ public class SubTotalProvider extends TotalProvider implements
 	public int[] columnWidths( )
 	{
 		return new int[]{
-				20, 300
+				20,210,120
 		};
+	}
+
+	public boolean canModify( Object element, String property )
+	{
+		// TODO Auto-generated method stub
+		if ( Arrays.asList( columnNames ).indexOf( property ) == 2 )
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	public Object getValue( Object element, String property )
+	{
+		// TODO Auto-generated method stub
+		if ( element instanceof Item )
+		{
+			element = ( (Item) element ).getData( );
+		}
+		Object value = null;
+		int index =  Arrays.asList( columnNames ).indexOf( property );
+		switch(index)
+		{
+			case 1:
+				break;
+			case 2:
+				String expectedView = ( (SubTotalInfo) (element )).getExpectedView( );
+				if(expectedView == null || expectedView.length( ) == 0)
+				{
+					return new Integer(0);
+				}					
+				int sel = Arrays.asList( viewNames ).indexOf( expectedView );
+				value = sel <= 0 ? new Integer(0) : new Integer(sel);
+				break;
+			default:
+		}
+		return value;
+	}
+
+	public void modify( Object element, String property, Object value )
+	{
+		// TODO Auto-generated method stub
+		if ( element instanceof Item )
+		{
+			element = ( (Item) element ).getData( );
+		}
+		
+		int index =  Arrays.asList( columnNames ).indexOf( property );
+		switch(index)
+		{
+			case 0:
+				break;
+			case 1:
+				break;
+			case 2:
+				int sel = ((Integer)value).intValue( );
+				if(sel == 0)
+				{
+					( (SubTotalInfo) (element )).setExpectedView( "" );
+				}else
+				{
+					( (SubTotalInfo) element ).setExpectedView( viewNames[sel] );
+				}
+				break;
+			default:
+		}
+		viewer.refresh( );
 	}
 
 }

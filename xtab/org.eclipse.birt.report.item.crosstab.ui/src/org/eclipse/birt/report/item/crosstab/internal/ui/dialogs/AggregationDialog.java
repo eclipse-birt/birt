@@ -18,6 +18,7 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
@@ -54,16 +55,25 @@ public class AggregationDialog extends BaseDialog
 	private TabFolder tabFolder;
 	private TabItem rowArea, columnArea;
 	private int currentAxis = ICrosstabConstants.NO_AXIS_TYPE;
-	
+
+	private CrosstabReportItemHandle crosstab;
+
+
+	private void setCrosstab( CrosstabReportItemHandle crosstab )
+	{
+		this.crosstab = crosstab;
+//		initialization( );
+	}
 
 	/**
 	 * Constructor
 	 * 
 	 * @param shell
 	 */
-	public AggregationDialog( Shell shell )
+	public AggregationDialog( Shell shell, CrosstabReportItemHandle crosstab )
 	{
 		super( shell, DIALOG_NAME );
+		setCrosstab( crosstab );
 	}
 
 	public void setAxis( int axis )
@@ -90,46 +100,47 @@ public class AggregationDialog extends BaseDialog
 			GridLayout layout = new GridLayout( );
 			content.setLayout( layout );
 			SubTotalDialog subTotal = new SubTotalDialog( );
-			if(i == 0)
+			if ( i == 0 )
 			{
 				subTotal.setAxis( ICrosstabConstants.ROW_AXIS_TYPE );
 				subTotal.setInput( rowSubList, rowGrandList );
-			}else if(i == 1)
+			}
+			else if ( i == 1 )
 			{
 				subTotal.setAxis( ICrosstabConstants.COLUMN_AXIS_TYPE );
-				subTotal.setInput( colSubList, colGrandList );				
-			}			
-			
+				subTotal.setInput( colSubList, colGrandList );
+			}
+
 			subTotal.createSubTotalArea( content );
 			subTotal.createGrandTotalArea( content );
 			subTotal.init( );
 			tabFolder.getItem( i ).setControl( content );
 		}
-		tabFolder.pack ();
-		ini();
+		tabFolder.pack( );
+		ini( );
 		return dialogArea;
 	}
-	
-	private void ini()
+
+	private void ini( )
 	{
-		if(currentAxis == ICrosstabConstants.ROW_AXIS_TYPE)
+		if ( currentAxis == ICrosstabConstants.ROW_AXIS_TYPE )
 		{
 			tabFolder.setSelection( rowArea );
-		}else
-		if(currentAxis == ICrosstabConstants.COLUMN_AXIS_TYPE)
+		}
+		else if ( currentAxis == ICrosstabConstants.COLUMN_AXIS_TYPE )
 		{
 			tabFolder.setSelection( columnArea );
 		}
 	}
-	
+
 	private TabFolder createTabFolder( Composite parent )
 	{
 		tabFolder = new TabFolder( parent, SWT.NONE );
-// Should not set layout for TabFolder.
-//		GridData gd = new GridData( GridData.FILL_BOTH );
-//		tabFolder.setLayoutData( gd );
-//		GridLayout layout = new GridLayout( );
-//		tabFolder.setLayout( layout );
+		// Should not set layout for TabFolder.
+		// GridData gd = new GridData( GridData.FILL_BOTH );
+		// tabFolder.setLayoutData( gd );
+		// GridLayout layout = new GridLayout( );
+		// tabFolder.setLayout( layout );
 
 		rowArea = new TabItem( tabFolder, SWT.NONE );
 		rowArea.setText( Messages.getString( "AggregationDialog.TabItem.Title.RowArea" ) );
@@ -181,11 +192,11 @@ public class AggregationDialog extends BaseDialog
 			this.grandList = grandList;
 		}
 
-		public void setAxis(int axis)
+		public void setAxis( int axis )
 		{
 			this.axis = axis;
 		}
-		
+
 		private void init( )
 		{
 
@@ -303,7 +314,6 @@ public class AggregationDialog extends BaseDialog
 			}
 
 			Table table = new Table( content, SWT.SINGLE
-					| SWT.BORDER
 					| SWT.H_SCROLL
 					| SWT.V_SCROLL
 					| SWT.FULL_SELECTION
@@ -316,7 +326,7 @@ public class AggregationDialog extends BaseDialog
 			table.setLayoutData( gd );
 
 			grandTableViewer = new CheckboxTableViewer( table );
-			GrandTotalProvider provider = new GrandTotalProvider( grandTableViewer );
+			GrandTotalProvider provider = new GrandTotalProvider( grandTableViewer,crosstab );
 
 			String[] columnNames = provider.getColumnNames( );
 			int[] columnWidths = provider.columnWidths( );
@@ -329,10 +339,12 @@ public class AggregationDialog extends BaseDialog
 
 			grandTableViewer.setUseHashlookup( true );
 			grandTableViewer.setColumnProperties( provider.getColumnNames( ) );
-			// grandTableViewer.setCellEditors( provider.getEditors( table ) );
+			grandTableViewer.setCellEditors( provider.getCellEditors( ) );
+			grandTableViewer.setCellModifier( provider );
+			grandTableViewer.setCellEditors( provider.getCellEditors() );
 			grandTableViewer.setContentProvider( provider );
 			grandTableViewer.setLabelProvider( provider );
-			// grandTableViewer.setCellModifier( provider );
+			grandTableViewer.setCellModifier( provider );
 
 		}
 
@@ -363,7 +375,7 @@ public class AggregationDialog extends BaseDialog
 			table.setLayoutData( gd );
 
 			subTableViewer = new CheckboxTableViewer( table );
-			SubTotalProvider provider = new SubTotalProvider( subTableViewer );
+			SubTotalProvider provider = new SubTotalProvider( subTableViewer,crosstab );
 
 			String[] columnNames = provider.getColumnNames( );
 			int[] columnWidths = provider.columnWidths( );
@@ -376,10 +388,10 @@ public class AggregationDialog extends BaseDialog
 
 			subTableViewer.setUseHashlookup( true );
 			subTableViewer.setColumnProperties( provider.getColumnNames( ) );
-			// subTableViewer.setCellEditors( provider.getEditors( table ) );
+			subTableViewer.setCellEditors( provider.getCellEditors( ) );
 			subTableViewer.setContentProvider( provider );
 			subTableViewer.setLabelProvider( provider );
-			// subTableViewer.setCellModifier( provider );
+			subTableViewer.setCellModifier( provider );
 
 		}
 	}
@@ -390,6 +402,7 @@ public class AggregationDialog extends BaseDialog
 	public static class SubTotalInfo
 	{
 
+		private String expectedView = "";
 		private LevelHandle level;
 		private MeasureHandle measure;
 
@@ -407,7 +420,18 @@ public class AggregationDialog extends BaseDialog
 			retValue.setFunction( getFunction( ) );
 			retValue.setLevel( getLevel( ) );
 			retValue.setAssociation( isAssociation( ) );
+			retValue.setExpectedView( new String( expectedView ) );
 			return retValue;
+		}
+
+		public String getExpectedView( )
+		{
+			return expectedView;
+		}
+
+		public void setExpectedView( String expectedView )
+		{
+			this.expectedView = expectedView;
 		}
 
 		public MeasureHandle getAggregateOnMeasure( )
@@ -471,7 +495,8 @@ public class AggregationDialog extends BaseDialog
 			return temp.getLevel( ) == level
 					&& temp.getAggregateOnMeasure( ) == measure
 					&& temp.getFunction( ) == function
-					&& temp.isAggregationOn( ) == aggregationOn;
+					&& temp.isAggregationOn( ) == aggregationOn
+			&&( (temp == null && expectedView == null )|| temp.getExpectedView( ).endsWith(expectedView));
 		}
 
 		public boolean isAssociation( )
@@ -491,6 +516,8 @@ public class AggregationDialog extends BaseDialog
 	public static class GrandTotalInfo
 	{
 
+		private String expectedView = "";
+
 		private MeasureHandle measure;
 
 		private boolean aggregationOn = false;
@@ -506,7 +533,18 @@ public class AggregationDialog extends BaseDialog
 			retValue.setFunction( getFunction( ) );
 			retValue.setMeasure( getMeasure( ) );
 			retValue.setAssociation( isAssociation( ) );
+			retValue.setExpectedView( new String( expectedView ) );
 			return retValue;
+		}
+
+		public String getExpectedView( )
+		{
+			return expectedView;
+		}
+
+		public void setExpectedView( String expectedView )
+		{
+			this.expectedView = expectedView;
 		}
 
 		public String getFunction( )

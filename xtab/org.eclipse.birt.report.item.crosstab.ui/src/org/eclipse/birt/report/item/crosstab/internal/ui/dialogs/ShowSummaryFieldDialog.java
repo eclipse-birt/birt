@@ -12,16 +12,23 @@
 package org.eclipse.birt.report.item.crosstab.internal.ui.dialogs;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
+import org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
+import org.eclipse.jface.viewers.ComboBoxCellEditor;
+import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
@@ -32,6 +39,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
@@ -41,9 +49,55 @@ import org.eclipse.swt.widgets.TableItem;
 public class ShowSummaryFieldDialog extends BaseDialog
 {
 
-	public ShowSummaryFieldDialog( Shell parentShell )
+	private String[] columnNames = new String[]{Messages.getString( "ShowSummaryFieldDialog.Column.Measures" ),
+			Messages.getString( "ShowSummaryFieldDialog.Column.View" )}; 
+	private int[] columnWidth = new int[]{230,130};
+	private CellEditor[] cellEditor;
+	private String[] comboItems = null;
+	private IAggregationCellViewProvider[] providers;
+	private String[] viewNames;
+	private CrosstabReportItemHandle crosstab;
+	private void initialization()
+	{
+
+		String firstItem = Messages.getString( "ShowSummaryFieldDialog.ViewStatus" );
+		List viewNameList = new ArrayList(); 
+		List itemList = new ArrayList();
+		
+		itemList.add( firstItem );
+		viewNameList.add( "" );
+		
+		Object obj = ElementAdapterManager.getAdapters( crosstab.getModelHandle( ), IAggregationCellViewProvider.class);
+		if(obj instanceof Object[])
+		{
+			Object arrays[] = (Object[])obj;
+			providers = new IAggregationCellViewProvider[arrays.length + 1];
+			providers[0] = null;
+			for(int i =0; i < arrays.length; i ++)
+			{
+				IAggregationCellViewProvider tmp = (IAggregationCellViewProvider)arrays[i];
+				String viewName = tmp.getViewName( );
+				viewNameList.add( viewName );
+				providers[i + 1] = tmp;
+				itemList.add( "Show as " + viewName);
+			}
+		}
+		
+		comboItems = (String[])itemList.toArray( new String[itemList.size( )] );
+		viewNames = (String[])viewNameList.toArray( new String[viewNameList.size( )] );
+
+	}
+	
+	private void setCrosstab(CrosstabReportItemHandle crosstab)
+	{
+		this.crosstab = crosstab;
+		initialization();
+	}
+	
+	public ShowSummaryFieldDialog( Shell parentShell, CrosstabReportItemHandle crosstab)
 	{
 		super( parentShell, Messages.getString( "ShowSummaryFieldDialog.Title" ) ); //$NON-NLS-1$
+		setCrosstab(crosstab);
 	}
 
 	protected Control createDialogArea( Composite parent )
@@ -71,6 +125,81 @@ public class ShowSummaryFieldDialog extends BaseDialog
 			this.input.addAll( input );
 	}
 
+	private ICellModifier cellModifier = new ICellModifier( )
+	{
+
+		public boolean canModify( Object element, String property )
+		{
+			// TODO Auto-generated method stub
+			if ( Arrays.asList( columnNames ).indexOf( property ) == 1 )
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+		public Object getValue( Object element, String property )
+		{
+			if ( element instanceof Item )
+			{
+				element = ( (Item) element ).getData( );
+			}
+			Object value = null;
+			// TODO Auto-generated method stub
+			int index =  Arrays.asList( columnNames ).indexOf( property );
+			switch(index)
+			{
+				case 0:
+					value = "Measure";
+					break;
+				case 1:
+					String expectedView = ( (MeasureInfo) (element )).getExpectedView( );
+					if(expectedView == null || expectedView.length( ) == 0)
+					{
+						return new Integer(0);
+					}					
+					int sel = Arrays.asList( viewNames ).indexOf( expectedView );
+					value = sel <= 0 ? new Integer(0) : new Integer(sel);
+					break;
+				default:
+			}
+			return value;
+		}
+
+		public void modify( Object element, String property, Object value )
+		{			
+			// TODO Auto-generated method stub
+			
+			if ( element instanceof Item )
+			{
+				element = ( (Item) element ).getData( );
+			}
+			
+			int index =  Arrays.asList( columnNames ).indexOf( property );
+			switch(index)
+			{
+				case 0:
+					break;
+				case 1:
+					int sel = ((Integer)value).intValue( );
+					if(sel == 0)
+					{
+						( (MeasureInfo) (element )).setExpectedView( "" );
+					}else
+					{
+						( (MeasureInfo) element ).setExpectedView( viewNames[sel] );
+					}
+					break;
+				default:
+			}
+			summaryFieldViewer.refresh( );
+		}
+		
+	};
+	
 	private void createSummaryFiledViewer( Composite dialogArea )
 	{
 		Table table = new Table( dialogArea, SWT.BORDER
@@ -79,8 +208,8 @@ public class ShowSummaryFieldDialog extends BaseDialog
 				| SWT.V_SCROLL
 				| SWT.FULL_SELECTION
 				| SWT.CHECK );
-		table.setLinesVisible( false );
-		table.setHeaderVisible( false );
+		table.setLinesVisible( true );
+		table.setHeaderVisible( true );
 
 		GridData gd = new GridData( GridData.FILL_BOTH );
 		gd.heightHint = 250;
@@ -88,10 +217,20 @@ public class ShowSummaryFieldDialog extends BaseDialog
 
 		summaryFieldViewer = new CheckboxTableViewer( table );
 		SummaryFieldProvider provider = new SummaryFieldProvider( );
+		
 
-		TableColumn column = new TableColumn( table, SWT.LEFT );
-		column.setWidth( 340 );
-
+		for(int i =0; i < columnNames.length; i ++)
+		{
+			TableColumn column = new TableColumn( table, SWT.LEFT );
+			column.setText( columnNames[i] );
+			column.setWidth( columnWidth[i] );
+		}
+		ComboBoxCellEditor comboCell = new ComboBoxCellEditor(table, comboItems,SWT.READ_ONLY);
+//		TextCellEditor textCell = new TextCellEditor(table, SWT.NONE);
+		cellEditor = new CellEditor[]{null, comboCell};
+		summaryFieldViewer.setColumnProperties( columnNames );
+		summaryFieldViewer.setCellEditors( cellEditor );
+		summaryFieldViewer.setCellModifier( cellModifier );
 		summaryFieldViewer.setUseHashlookup( true );
 		summaryFieldViewer.setContentProvider( provider );
 		summaryFieldViewer.setLabelProvider( provider );
@@ -167,14 +306,46 @@ public class ShowSummaryFieldDialog extends BaseDialog
 
 		public Image getColumnImage( Object element, int columnIndex )
 		{
-			return CrosstabUIHelper.getImage( CrosstabUIHelper.MEASURE_IMAGE );
+			Image image = null;
+			switch(columnIndex)
+			{
+				case 0:
+					image = CrosstabUIHelper.getImage( CrosstabUIHelper.MEASURE_IMAGE );
+					break;
+				case 1:					
+					break;
+				default:					
+			}
+			return image;
+
+			
 		}
 
 		public String getColumnText( Object element, int columnIndex )
 		{
 			if ( element instanceof MeasureInfo )
-				return ( (MeasureInfo) element ).getMeasure( ) == null ? "" //$NON-NLS-1$
-						: ( (MeasureInfo) element ).getMeasure( ).getName( );
+			{
+				if(columnIndex == 0)
+				{
+					return ( (MeasureInfo) element ).getMeasure( ) == null ? "" //$NON-NLS-1$
+							: ( (MeasureInfo) element ).getMeasure( ).getName( );
+				}else
+				{
+					String expectedView = ((MeasureInfo) element).getExpectedView();
+					if(expectedView == null )
+					{
+						return comboItems[0];
+					}else
+					{
+						int index = Arrays.asList( viewNames ).indexOf( expectedView );
+						return comboItems[index];
+					}
+					
+					
+
+				}
+			}
+
 			return ""; //$NON-NLS-1$
 		}
 
@@ -200,18 +371,42 @@ public class ShowSummaryFieldDialog extends BaseDialog
 	public static class MeasureInfo
 	{
 
-		private MeasureHandle measure;
+		private MeasureHandle measure ;
 
 		private boolean isShow = false;
+		
+		private String expectedView = "";
 
 		public MeasureInfo copy( )
 		{
 			MeasureInfo retValue = new MeasureInfo( );
 			retValue.setShow( isShow( ) );
-			retValue.setMeasure( getMeasure( ) );
+			retValue.setMeasure( getMeasure( ) );	
+			retValue.setExpectedView( new String(expectedView) );
 			return retValue;
 		}
+		
+		public boolean isSameInfo(MeasureInfo comparedOne)
+		{
+			if(comparedOne.measure == this.measure)
+			{
+				return true;
+			}else
+			{
+				return false;
+			}
+		}
 
+		public void setExpectedView(String view)
+		{
+			this.expectedView = new String(view);
+		}
+		
+		public String getExpectedView()
+		{
+			return this.expectedView;
+		}		
+		
 		public void setShow( boolean show )
 		{
 			isShow = show;
@@ -249,7 +444,7 @@ public class ShowSummaryFieldDialog extends BaseDialog
 				return false;
 			}
 			MeasureInfo temp = (MeasureInfo) obj;
-			return temp.getMeasure( ) == measure && temp.isShow( ) == isShow;
+			return temp.getMeasure( ) == measure && temp.isShow( ) == isShow && temp.getExpectedView( ) == expectedView;
 		}
 	}
 }
