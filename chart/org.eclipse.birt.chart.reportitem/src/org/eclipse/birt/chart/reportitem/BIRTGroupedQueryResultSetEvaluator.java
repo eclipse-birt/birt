@@ -21,7 +21,7 @@ import org.eclipse.birt.report.engine.extension.IQueryResultSet;
  */
 public class BIRTGroupedQueryResultSetEvaluator
 		extends
-		ChartBuilderGrupedQueryResultSetEvaluator
+		ChartBuilderGroupedQueryResultSetEvaluator
 {
 
 	private IQueryResultSet fQueryResultSet;

@@ -31,7 +31,7 @@ import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.reportitem.AbstractChartBaseQueryGenerator;
-import org.eclipse.birt.chart.reportitem.ChartBuilderGrupedQueryResultSetEvaluator;
+import org.eclipse.birt.chart.reportitem.ChartBuilderGroupedQueryResultSetEvaluator;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
@@ -976,7 +976,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					ChartReportItemUtil.getColumnDataBindings( itemHandle ) );
 			if ( actualResultSet != null )
 			{
-				return new ChartBuilderGrupedQueryResultSetEvaluator( actualResultSet.getResultIterator( ),
+				return new ChartBuilderGroupedQueryResultSetEvaluator( actualResultSet.getResultIterator( ),
 						ChartReportItemUtil.hasAggregation( cm ) );
 			}
 		}
