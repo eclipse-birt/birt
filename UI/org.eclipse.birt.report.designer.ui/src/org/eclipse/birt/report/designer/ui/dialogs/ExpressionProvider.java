@@ -897,7 +897,7 @@ public class ExpressionProvider implements IExpressionProvider
 				|| element instanceof TabularMeasureGroupHandle
 				|| element instanceof TabularDimensionHandle
 				|| element instanceof LevelHandle )
-			return true;
+			return getChildrenList( element ).size( ) > 0;
 
 		if ( adapterProvider != null )
 		{
