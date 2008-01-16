@@ -314,6 +314,7 @@ public class AggregationDialog extends BaseDialog
 			}
 
 			Table table = new Table( content, SWT.SINGLE
+					| SWT.BORDER
 					| SWT.H_SCROLL
 					| SWT.V_SCROLL
 					| SWT.FULL_SELECTION
