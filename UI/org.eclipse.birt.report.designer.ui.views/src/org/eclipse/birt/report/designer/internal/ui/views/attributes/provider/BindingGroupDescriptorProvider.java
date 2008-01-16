@@ -36,11 +36,15 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 		return null;
 	}
 
+	protected List getAvailableDataBindingReferenceList(ReportItemHandle element){
+		return element.getAvailableDataSetBindingReferenceList( );
+	}
+	
 	public Object load( )
 	{
 		ReportItemHandle element = getReportItemHandle( );
 		int type = element.getDataBindingType( );
-		List referenceList = element.getAvailableDataBindingReferenceList( );
+		List referenceList = getAvailableDataBindingReferenceList(element);
 		references = new String[referenceList.size( ) + 1];
 		references[0] = NONE;
 		for ( int i = 0; i < referenceList.size( ); i++ )
