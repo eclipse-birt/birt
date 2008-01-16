@@ -98,9 +98,9 @@ AbstractBaseToc.prototype = Object.extend( new AbstractUIComponent( ),
 		{
 			var imgid = this.__nodeid + '_' + i ;
 			var tr1 = document.createElement( "tr" );
-			var td1 = document.createElement( "td" );
-			td1.valign = "top";
-			td1.id = "td" + imgid ;
+			var td11 = document.createElement( "td" );
+			td11.valign = "top";
+			td11.id = "td" + imgid;
 
 			var tmp = datas[i];
 
@@ -137,49 +137,55 @@ AbstractBaseToc.prototype = Object.extend( new AbstractUIComponent( ),
 			
 			Event.observe( img, 'keydown', this.__neh_item_click, false );
 
+			td11.width = "10px";
+			td11.appendChild( img );
+			
+			var td12 = document.createElement( "td" );
+			td12.valign = "top";
+			
 			var nodeIds = tmp.getElementsByTagName( 'Id' );
 			img.nodeId = nodeIds[0].firstChild.data;
 			
 			var bookmarks = tmp.getElementsByTagName( 'Bookmark' );
-			img.bookmark = bookmarks[0].firstChild.data;
-			td1.appendChild( img );
-			td1.appendChild( document.createTextNode( " " ) );
+			img.bookmark = bookmarks[0].firstChild.data;			
 
-			var spantmp = document.createElement( "span" );			
-			spantmp.title = s_displayname;
-			spantmp.id =  'span_' + imgid;
-			spantmp.innerHTML = s_displayname;
+			var tocitem = document.createElement( "div" );			
+			tocitem.title = s_displayname;
+			tocitem.id =  'span_' + imgid;
+			tocitem.innerHTML = s_displayname;
 						
 			var cssText = "cursor:pointer;border:0px;font-family:Verdana;font-size:9pt;background-color:#FFFFFF;overflow:visible;";			
 			var styles = tmp.getElementsByTagName( 'Style' );
 			if( styles && styles.length > 0 )
 			{
 				if( styles[0].firstChild )
-					spantmp.style.cssText = cssText + styles[0].firstChild.data;
+					tocitem.style.cssText = cssText + styles[0].firstChild.data;
 				else
-					spantmp.style.cssText = cssText;							
+					tocitem.style.cssText = cssText;							
 			}
 							
-			td1.appendChild( spantmp );
-			td1.noWrap = true;
+			td12.appendChild( tocitem );
+			td12.noWrap = true;
 			
-			tr1.appendChild( td1 );
+			tr1.appendChild( td11 );
+			tr1.appendChild( td12 );
 			
 			var tr2 = document.createElement( "tr" );
 			var td2 = document.createElement( "td" );
 			td2.id = 'display' + imgid;
 			td2.style.paddingLeft = '16px';
 			td2.style.display = 'none';
+			td2.colSpan = 2;
 			tr2.appendChild( td2 );
 			
 			tbody.appendChild( tr1 );
 			tbody.appendChild( tr2 );
 			
 			//observe the text so that when click the text ,we can expand or collapse the toc
-			Event.observe( spantmp, 'mouseover', this.__neh_item_mouse_over, false );
-			Event.observe( spantmp, 'mouseout', this.__neh_item_mouse_out, false );	
-			Event.observe( spantmp, 'click', this.__neh_item_click, false );
-			Event.observe( spantmp, 'keydown', this.__neh_item_click, false );
+			Event.observe( tocitem, 'mouseover', this.__neh_item_mouse_over, false );
+			Event.observe( tocitem, 'mouseout', this.__neh_item_mouse_out, false );	
+			Event.observe( tocitem, 'click', this.__neh_item_click, false );
+			Event.observe( tocitem, 'keydown', this.__neh_item_click, false );
 		}
 		tableEle.appendChild( tbody );
 		var displayid = 'display' + this.__nodeid;
