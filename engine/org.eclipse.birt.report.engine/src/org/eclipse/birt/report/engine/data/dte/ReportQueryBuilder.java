@@ -1374,8 +1374,7 @@ public class ReportQueryBuilder
 
 				if ( parent instanceof CubeQueryDefinition )
 				{
-					return null;
-					// return createSubQuery(item, null);
+					return createSubQuery( item, null );
 				}
 
 				// we have column binding, create a sub query.
