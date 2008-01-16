@@ -39,7 +39,7 @@ public class ChartReportItemPresentationProxy
 
 	private IReportItemPresentation impl;
 	private IReportItemPresentationInfo info;
-	
+
 	public void init( IReportItemPresentationInfo info )
 	{
 		if ( info == null )
@@ -51,19 +51,18 @@ public class ChartReportItemPresentationProxy
 		impl = createImpl( info.getModelObject( ) );
 		impl.init( info );
 	}
-	
+
 	private IReportItemPresentation createImpl( ExtendedItemHandle modelHandle )
 	{
-//		DesignElementHandle handle = modelHandle.getContainer( );
-//		if ( handle instanceof ExtendedItemHandle )
-//		{
-//			String exName = ( (ExtendedItemHandle) handle ).getExtensionName( );
-//			if ( ICrosstabConstants.CROSSTAB_CELL_EXTENSION_NAME.equals( exName ) )
-//			{
-//				// If chart is in cross tab cell, use specific impl
-//				return new ChartCrosstabItemPresentationImpl( );
-//			}
-//		}
+		if ( ChartReportItemUtil.isChartInXTab( modelHandle ) )
+		{
+			// // If chart is in cross tab cell, use specific impl
+			if ( modelHandle.getElementProperty( ChartReportItemUtil.PROPERTY_HOST_CHART ) == null )
+			{
+				return new ChartReportItemPresentationPlotImpl( );
+			}
+			return new ChartReportItemPresentationAxisImpl( );
+		}
 		return new ChartReportItemPresentationImpl( );
 	}
 
@@ -103,15 +102,13 @@ public class ChartReportItemPresentationProxy
 		return impl.onRowSets( results );
 	}
 
-
-
 	public IReportItemPresentationInfo getPresentationConfig( )
 	{
 		return info;
 	}
 
 	// Follows deprecated methods. Empty implementation
-	
+
 	public Object onRowSets( IRowSet[] rowSets ) throws BirtException
 	{
 		assert false;
@@ -121,66 +118,66 @@ public class ChartReportItemPresentationProxy
 	public void setActionHandler( IHTMLActionHandler ah )
 	{
 		assert false;
-		
+
 	}
 
 	public void setApplicationClassLoader( ClassLoader loader )
 	{
 		assert false;
-		
+
 	}
 
 	public void setDynamicStyle( IStyle style )
 	{
 		assert false;
-		
+
 	}
 
 	public void setExtendedItemContent( IContent content )
 	{
 		assert false;
-		
+
 	}
 
 	public void setLocale( Locale locale )
 	{
 		assert false;
-		
+
 	}
 
 	public void setModelObject( ExtendedItemHandle modelHandle )
 	{
 		assert false;
-		
+
 	}
 
 	public void setOutputFormat( String outputFormat )
 	{
 		assert false;
-		
+
 	}
 
 	public void setReportQueries( IDataQueryDefinition[] queries )
 	{
 		assert false;
-		
+
 	}
 
 	public void setResolution( int dpi )
 	{
 		assert false;
-		
+
 	}
 
 	public void setScriptContext( IReportContext context )
 	{
 		assert false;
-		
+
 	}
 
 	public void setSupportedImageFormats( String supportedImageFormats )
 	{
 		assert false;
-		
+
 	}
 }

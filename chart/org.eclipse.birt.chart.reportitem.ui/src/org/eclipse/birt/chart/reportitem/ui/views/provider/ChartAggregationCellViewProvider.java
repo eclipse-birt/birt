@@ -288,6 +288,10 @@ public class ChartAggregationCellViewProvider
 
 	private CrosstabCellHandle getLevelCell( CrosstabViewHandle xtab )
 	{
+		if ( xtab == null )
+		{
+			return null;
+		}
 		DimensionViewHandle dim = xtab.getDimension( 0 );
 		if ( dim != null )
 		{

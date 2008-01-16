@@ -170,13 +170,18 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( ChartReportItemUtil.PROPERTY_CHART );
 		handle = eih;
 
+		setChartModelObject( item );
+	}
+
+	protected void setChartModelObject( IReportItem item )
+	{
 		Object of = handle.getProperty( ChartReportItemUtil.PROPERTY_OUTPUT );
 		if ( of instanceof String )
 		{
 			outputFormat = (String) of;
 		}
 
-		of = ( (ChartReportItemImpl) item ).getProperty( ChartReportItemUtil.PROPERTY_SCALE );
+		of = item.getProperty( ChartReportItemUtil.PROPERTY_SCALE );
 		if ( of instanceof ScaleContext )
 		{
 			if ( rtc == null )
@@ -495,9 +500,10 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		}
 		else if ( set instanceof ICubeResultSet )
 		{
-			if ( ChartReportItemUtil.canContainGrouping( cm ) )
+			if ( ChartReportItemUtil.isChartInXTab( handle ) )
 			{
-				return new BIRTGroupedCubeResultSetEvaluator( (ICubeResultSet) set );
+				return new BIRTChartXtabResultSetEvaluator( (ICubeResultSet) set,
+						handle );
 			}
 			return new BIRTCubeResultSetEvaluator( (ICubeResultSet) set );
 		}
@@ -507,13 +513,16 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	protected ScaleContext createSharedScale( IBaseResultSet baseResultSet )
 			throws BirtException
 	{
-		Object min = baseResultSet.evaluate( "row._outer[\"" //$NON-NLS-1$
-				+ ChartReportItemUtil.QUERY_MIN
-				+ "\"]" ); //$NON-NLS-1$
-		Object max = baseResultSet.evaluate( "row._outer[\"" //$NON-NLS-1$
-				+ ChartReportItemUtil.QUERY_MAX
-				+ "\"]" ); //$NON-NLS-1$
-		return ScaleContext.createSimpleScale( min, max );
+		if ( baseResultSet instanceof IQueryResultSet )
+		{
+			Object min = baseResultSet.evaluate( "row._outer[\"" //$NON-NLS-1$
+					+ ChartReportItemUtil.QUERY_MIN + "\"]" ); //$NON-NLS-1$
+			Object max = baseResultSet.evaluate( "row._outer[\"" //$NON-NLS-1$
+					+ ChartReportItemUtil.QUERY_MAX + "\"]" ); //$NON-NLS-1$
+			return ScaleContext.createSimpleScale( min, max );
+		}
+		// TODO add shared scale support for cube query
+		return null;
 	}
 
 	/*
@@ -706,8 +715,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 			sh.setRunTimeModel( cm );
 
 			if ( sScriptContent != null
-					&& sScriptContent.length( ) > 0
-					&& rtc.isScriptingEnabled( ) )
+					&& sScriptContent.length( ) > 0 && rtc.isScriptingEnabled( ) )
 			{
 				sh.register( ModuleUtil.getScriptUID( handle.getPropertyHandle( IReportItemModel.ON_RENDER_METHOD ) ),
 						sScriptContent );

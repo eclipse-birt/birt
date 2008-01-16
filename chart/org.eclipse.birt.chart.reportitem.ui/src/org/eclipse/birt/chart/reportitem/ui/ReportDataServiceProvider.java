@@ -238,7 +238,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			// value, otherwise use default value of parameter as its
 			// expression.
 			resetParametersForDataPreview( getDataSetFromHandle( ), queryDefn );
-			
+
 			IQueryResults actualResultSet = session.executeQuery( queryDefn,
 					null,
 					itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP )
@@ -362,6 +362,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	/**
 	 * Check if current chart is in multi views.
+	 * 
 	 * @return
 	 */
 	boolean isInMultiViews( )
@@ -372,7 +373,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 		return false;
 	}
-	
+
 	String getReportDataSet( )
 	{
 		List list = DEUtil.getDataSetList( itemHandle.getContainer( ) );
@@ -399,7 +400,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			{
 				itemHandle.setDataBindingReference( null );
 			}
-			
+
 			itemHandle.setCube( null );
 
 			if ( datasetName == null )
@@ -823,7 +824,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		Object[] returnObj = new Object[2];
 		returnObj[0] = new Boolean( false );
 
-		Iterator iterator = getAllColumnBindingsIterator( );
+		Iterator iterator = ChartReportItemUtil.getAllColumnBindingsIterator( itemHandle );
 		while ( iterator.hasNext( ) )
 		{
 			ComputedColumnHandle cc = (ComputedColumnHandle) iterator.next( );
@@ -863,26 +864,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			}
 		}
 		return returnObj;
-	}
-
-	Iterator getAllColumnBindingsIterator( )
-	{
-		ReportItemHandle container = ChartReportItemUtil.getBindingHolder( itemHandle );
-		if ( container != null )
-		{
-			// Add all bindings to an iterator
-			List allBindings = new ArrayList( );
-			for ( Iterator ownBindings = itemHandle.columnBindingsIterator( ); ownBindings.hasNext( ); )
-			{
-				allBindings.add( ownBindings.next( ) );
-			}
-			for ( Iterator containerBindings = container.columnBindingsIterator( ); containerBindings.hasNext( ); )
-			{
-				allBindings.add( containerBindings.next( ) );
-			}
-			return allBindings.iterator( );
-		}
-		return itemHandle.columnBindingsIterator( );
 	}
 
 	String[] getAllReportItemReferences( )

@@ -11,10 +11,13 @@
 
 package org.eclipse.birt.chart.reportitem;
 
+import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
@@ -24,6 +27,20 @@ public final class ChartReportItemPresentationAxisImpl
 		extends
 			ChartReportItemPresentationBase
 {
+
+	public void setModelObject( ExtendedItemHandle eih )
+	{
+		IReportItem item = getReportItem( eih );
+		if ( item == null )
+		{
+			return;
+		}
+		cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( ChartReportItemUtil.PROPERTY_CHART );
+		// Set the host chart handle from axis chart
+		handle = (ExtendedItemHandle) eih.getElementProperty( ChartReportItemUtil.PROPERTY_HOST_CHART );
+
+		setChartModelObject( item );
+	}
 
 	protected Bounds computeBounds( )
 	{

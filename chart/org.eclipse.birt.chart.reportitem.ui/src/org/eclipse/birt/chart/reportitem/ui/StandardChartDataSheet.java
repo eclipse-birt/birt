@@ -1401,11 +1401,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 				String[] exprs = new String[levels.size( )];
 				for ( int i = 0; i < exprs.length; i++ )
 				{
-					LevelHandle level = (LevelHandle) levels.get( i );
-					exprs[i] = ExpressionUtil.createJSDimensionExpression( level.getContainer( )
-							.getContainer( )
-							.getName( ),
-							level.getName( ) );
+					exprs[i] = ChartReportItemUtil.createDimensionExpression( (LevelHandle) levels.get( i ) );
 				}
 				getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
 						exprs );

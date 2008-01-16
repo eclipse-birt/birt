@@ -30,12 +30,14 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeElementFactory;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
+import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
@@ -47,6 +49,7 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 
 /**
@@ -775,5 +778,79 @@ public class ChartReportItemUtil
 			return levels;
 		}
 		return Collections.EMPTY_LIST;
+	}
+
+	/**
+	 * Gets all column bindings. If the handle's contain has column bindings,
+	 * will combine the bindings with the handle's.
+	 * 
+	 * @param itemHandle
+	 *            handle
+	 * @return the iterator of all column bindings
+	 * @since 2.3
+	 */
+	public static Iterator getAllColumnBindingsIterator(
+			ReportItemHandle itemHandle )
+	{
+		ReportItemHandle container = ChartReportItemUtil.getBindingHolder( itemHandle );
+		if ( container != null )
+		{
+			// Add all bindings to an iterator
+			List allBindings = new ArrayList( );
+			for ( Iterator ownBindings = itemHandle.columnBindingsIterator( ); ownBindings.hasNext( ); )
+			{
+				allBindings.add( ownBindings.next( ) );
+			}
+			for ( Iterator containerBindings = container.columnBindingsIterator( ); containerBindings.hasNext( ); )
+			{
+				allBindings.add( containerBindings.next( ) );
+			}
+			return allBindings.iterator( );
+		}
+		return itemHandle.columnBindingsIterator( );
+	}
+
+	/**
+	 * Gets the cell in cross tab which contains the chart
+	 * 
+	 * @param chartHandle
+	 *            the handle with chart
+	 * @return the cell which contains the chart or null
+	 * @throws BirtException
+	 * @since 2.3
+	 */
+	public static AggregationCellHandle getXtabContainerCell(
+			DesignElementHandle chartHandle ) throws BirtException
+	{
+		DesignElementHandle container = chartHandle.getContainer( );
+		if ( container instanceof ExtendedItemHandle )
+		{
+			ExtendedItemHandle xtabHandle = (ExtendedItemHandle) container;
+			String exName = xtabHandle.getExtensionName( );
+			if ( ICrosstabConstants.AGGREGATION_CELL_EXTENSION_NAME.equals( exName ) )
+			{
+				return (AggregationCellHandle) xtabHandle.getReportItem( );
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Creates the dimension expression according to level
+	 * 
+	 * @param level
+	 *            level handle
+	 * @return the dimension expression or null
+	 * @since 2.3
+	 */
+	public static String createDimensionExpression( LevelHandle level )
+	{
+		if ( level == null )
+		{
+			return null;
+		}
+		return ExpressionUtil.createJSDimensionExpression( level.getContainer( )
+				.getContainer( )
+				.getName( ), level.getName( ) );
 	}
 }
