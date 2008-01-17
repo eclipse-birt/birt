@@ -174,9 +174,12 @@ public abstract class AbstractChartBaseQueryGenerator
 							}
 						}
 
+						
 						String newExpr = getExpressionForEvaluator( name );
 
-						qry.setDefinition( newExpr );
+						updateQueryDefinitionForSortOnAggregateExpression( qry,
+								name,
+								newExpr );
 
 						try
 						{
@@ -189,7 +192,7 @@ public abstract class AbstractChartBaseQueryGenerator
 									e );
 						}
 
-						valueExprMap.put( expr, newExpr );
+						valueExprMap.put( expr, new String[]{name, newExpr} );
 					}
 				}
 			}
@@ -304,14 +307,15 @@ public abstract class AbstractChartBaseQueryGenerator
 					SortDefinition sd = new SortDefinition( );
 					sd.setSortDirection( ChartReportItemUtil.convertToDtESortDirection( categorySD.getSorting( ) ) );
 
-					String newValueSeriesExpr = (String) valueExprMap.get( baseSortExpr );
-					if ( newValueSeriesExpr != null )
+					String[] nameNewExprArray = (String[]) valueExprMap.get( baseSortExpr );
+					if ( nameNewExprArray != null && nameNewExprArray.length == 2 )
 					{
 						// Use new expression instead of old.
-						categorySD.getSortKey( )
-								.setDefinition( newValueSeriesExpr );
+						updateQueryDefinitionForSortOnAggregateExpression( categorySD.getSortKey( ),
+								nameNewExprArray[0],
+								nameNewExprArray[1] );
 
-						sd.setExpression( newValueSeriesExpr );
+						sd.setExpression( nameNewExprArray[1] );
 					}
 					else
 					{
@@ -469,14 +473,14 @@ public abstract class AbstractChartBaseQueryGenerator
 			double groupIntervalRange = 0; // Default value is 0.
 
 			String yGroupExpr = orthSD.getQuery( ).getDefinition( );
-
-			if ( orthSD.getGrouping( ) != null &&
-					orthSD.getGrouping( ).isSetGroupType( ) )
+			SeriesGrouping yGroupingInterval = orthSD.getQuery( ).getGrouping( );
+			
+			if ( yGroupingInterval != null &&
+					yGroupingInterval.isSetGroupType( ) )
 			{
-				dataType = orthSD.getGrouping( ).getGroupType( );
-				groupUnit = orthSD.getGrouping( ).getGroupingUnit( );
-				groupIntervalRange = orthSD.getGrouping( )
-						.getGroupingInterval( );
+				dataType = yGroupingInterval.getGroupType( );
+				groupUnit = yGroupingInterval.getGroupingUnit( );
+				groupIntervalRange = yGroupingInterval.getGroupingInterval( );
 			}
 
 			String name = generateUniqueBindingName( yGroupExpr );
@@ -683,6 +687,15 @@ public abstract class AbstractChartBaseQueryGenerator
 	 */
 	protected String getExpressionForEvaluator( String expression )
 	{
-		return expression;
+		return ExpressionUtil.createJSRowExpression( expression );
 	}
+	
+	/**
+	 * Update query definition if the sort key is an aggregate expression.
+	 * 
+	 * @param query
+	 * @param expr
+	 */
+	protected abstract void updateQueryDefinitionForSortOnAggregateExpression(
+			Query query, String bindName, String newExpr );
 }

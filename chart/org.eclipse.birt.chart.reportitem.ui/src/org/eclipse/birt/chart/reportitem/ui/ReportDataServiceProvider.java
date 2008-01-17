@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2007, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -30,6 +30,7 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.DataType;
+import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.reportitem.AbstractChartBaseQueryGenerator;
 import org.eclipse.birt.chart.reportitem.ChartBuilderGroupedQueryResultSetEvaluator;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
@@ -953,7 +954,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			IQueryResults actualResultSet = session.executeQuery( queryDefn,
 					null,
 					itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP )
-							.iterator( ),
+							.iterator( ), 
 					ChartReportItemUtil.getColumnDataBindings( itemHandle ) );
 			if ( actualResultSet != null )
 			{
@@ -1064,5 +1065,14 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			throw new UnsupportedOperationException( "Don't be implemented in the class." ); //$NON-NLS-1$
 		}
 
+		/* (non-Javadoc)
+		 * @see org.eclipse.birt.chart.reportitem.AbstractChartBaseQueryGenerator#updateQueryDefinitionForSortOnAggregateExpression(org.eclipse.birt.chart.model.data.Query, java.lang.String, java.lang.String)
+		 */
+		protected void updateQueryDefinitionForSortOnAggregateExpression(
+				Query query, String bindName, String newExpr )
+		{
+			query.setDefinition( bindName );
+		}
+		
 	} // End of class BaseQueryHelper.
 }

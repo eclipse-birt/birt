@@ -329,20 +329,6 @@ public class ChartReportItemUtil
 		}
 		else if ( dataType == DataType.TEXT_LITERAL )
 		{
-			// Currently, the interval range logic in chart is not uniform with
-			// DtE, the difference is that 1 interval range means separating 2
-			// elements in chart, but it means separating 1 elements in DtE, and
-			// so all that interval ranges which are greater than or equal 1
-			// should be increased 1 for DtE, we should add followed code to
-			// convert interval range.
-			if ( groupUnitType == GroupingUnitType.STRING_LITERAL )
-			{
-				if ( range >= 1 )
-				{
-					return (long) ( range + 1 );
-				}
-			}
-
 			return (long) range;
 		}
 

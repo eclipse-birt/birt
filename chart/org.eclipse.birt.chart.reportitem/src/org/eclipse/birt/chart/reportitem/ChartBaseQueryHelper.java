@@ -23,7 +23,6 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
-import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
@@ -396,20 +395,20 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 		return query.getDefinition( );
 	}
 	
-	/**
-	 * @param expression
-	 * @return
-	 */
-	protected String getExpressionForEvaluator( String expression )
-	{
-		return ExpressionUtil.createJSRowExpression( expression );
-	}
-
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.chart.reportitem.AbstractChartBaseQueryGenerator#createBaseQuery(java.util.List)
 	 */
 	public IDataQueryDefinition createBaseQuery( List columns )
 	{
 		throw new UnsupportedOperationException( "Don't be implemented in the class." ); //$NON-NLS-1$
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.reportitem.AbstractChartBaseQueryGenerator#updateQueryDefinitionForSortOnAggregateExpression(org.eclipse.birt.chart.model.data.Query, java.lang.String, java.lang.String)
+	 */
+	protected void updateQueryDefinitionForSortOnAggregateExpression(
+			Query query, String bindName, String newExpr )
+	{
+		query.setDefinition( newExpr );
 	}
 }
