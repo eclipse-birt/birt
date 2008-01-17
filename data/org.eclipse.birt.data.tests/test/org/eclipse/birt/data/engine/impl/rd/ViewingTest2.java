@@ -1416,7 +1416,7 @@ public class ViewingTest2 extends RDTestCase
 		this.updatePreBasicIV( );
 		this.closeArchiveReader( );
 		this.closeArchiveWriter( );
-
+		myPreDataEngine.shutdown( );
 		DataEngineContext deContext3 = newContext( DataEngineContext.MODE_PRESENTATION,
 				fileName,
 				fileName );
@@ -1426,6 +1426,7 @@ public class ViewingTest2 extends RDTestCase
 		this.preBasicIV( );
 		
 		this.checkOutputFile( );
+		myPreDataEngine.shutdown( );
 	}
 		
 	public void testEmptyResult( ) throws BirtException
