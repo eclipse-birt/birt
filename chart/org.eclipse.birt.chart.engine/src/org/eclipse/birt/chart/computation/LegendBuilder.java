@@ -975,7 +975,11 @@ public final class LegendBuilder implements IConstants
 				double[] dsize = getItemSizeCata( laiLegend, legendData, dX );
 				dW = dsize[0];
 				dH = dsize[1];
-				dMaxW = Math.max( dW, dMaxW );
+
+				if (!hasPlaceForOneItem(dW, dH, legendData))
+				{
+					break all;
+				}
 
 				if ( dX + dW > legendData.dAvailableWidth
 						+ legendData.dSafeSpacing )
@@ -993,11 +997,12 @@ public final class LegendBuilder implements IConstants
 
 						dMaxH = Math.max( dMaxH, dY );
 						dY = 0;
-						dMaxW = dW;
+						dMaxW = 0;
 						bRedo = true;
 					}
 					else
 					{
+						dMaxW = Math.max( dW, dMaxW );
 						dY += dH;
 						bRedo = false;
 					}
@@ -1121,7 +1126,11 @@ public final class LegendBuilder implements IConstants
 								dX );
 						dW = dsize[0];
 						dH = dsize[1];
-						dMaxW = Math.max( dW, dMaxW );
+						
+						if (!hasPlaceForOneItem(dW, dH, legendData))
+						{
+							break all;
+						}
 
 						if ( dX + dW > legendData.dAvailableWidth
 								+ legendData.dSafeSpacing )
@@ -1139,11 +1148,12 @@ public final class LegendBuilder implements IConstants
 
 								dMaxH = Math.max( dMaxH, dY );
 								dY = 0;
-								dMaxW = dW;
+								dMaxW = 0;
 								bRedo = true;
 							}
 							else
 							{
+								dMaxW = Math.max( dW, dMaxW );
 								dY += dH;
 								bRedo = false;
 							}
@@ -1178,6 +1188,8 @@ public final class LegendBuilder implements IConstants
 				if ( oneVisibleSerie )
 				{
 					dX += dMaxW;
+					dMaxW = 0;
+					dMaxH = Math.max( dMaxH, dY );
 					// SETUP VERTICAL SEPARATOR SPACING
 					if ( bNotLastSeda && needSeparator( cm ) )
 					{
@@ -1337,7 +1349,11 @@ public final class LegendBuilder implements IConstants
 				double[] dsize = getItemSizeCata( laiLegend, legendData, dX );
 				dW = dsize[0];
 				dH = dsize[1];
-				dMaxH = Math.max( dH, dMaxH );
+
+				if (!hasPlaceForOneItem(dW, dH, legendData))
+				{
+					break all;
+				}
 
 				if ( dY + dH > legendData.dAvailableHeight
 						+ legendData.dSafeSpacing )
@@ -1353,7 +1369,7 @@ public final class LegendBuilder implements IConstants
 						columnList.clear( );
 
 						dY += dMaxH;
-						dMaxH = dH;
+						dMaxH = 0;
 						dMaxW = Math.max( dMaxW, dX );
 						dX = 0;
 						laiLegend.restoreOriginalText( fs );
@@ -1361,6 +1377,7 @@ public final class LegendBuilder implements IConstants
 					}
 					else
 					{
+						dMaxH = Math.max( dH, dMaxH );
 						dX += dW;
 						bRedo = false;
 					}
@@ -1464,7 +1481,11 @@ public final class LegendBuilder implements IConstants
 							dX );
 					dW = dsize[0];
 					dH = dsize[1];
-					dMaxH = Math.max( dH, dMaxH );
+
+					if (!hasPlaceForOneItem(dW, dH, legendData))
+					{
+						break all;
+					}
 
 					if ( dY + dH > legendData.dAvailableHeight
 							+ legendData.dSafeSpacing )
@@ -1480,7 +1501,7 @@ public final class LegendBuilder implements IConstants
 							columnList.clear( );
 
 							dY += dMaxH;
-							dMaxH = dH;
+							dMaxH = 0;
 							dMaxW = Math.max( dMaxW, dX );
 							dX = 0;
 							laiLegend.restoreOriginalText( fs );
@@ -1489,6 +1510,7 @@ public final class LegendBuilder implements IConstants
 						}
 						else
 						{
+							dMaxH = Math.max( dH, dMaxH );
 							dX += dW;
 							bRedo = false;
 						}
@@ -1535,6 +1557,7 @@ public final class LegendBuilder implements IConstants
 			}
 			else
 			{
+				dMaxW = Math.max( dMaxW, dX );
 				if ( oneVisibleSerie )
 				{
 					dY += dMaxH;
@@ -1553,6 +1576,8 @@ public final class LegendBuilder implements IConstants
 								0,
 								null ) );
 					}
+					
+					dX = 0;
 				}
 
 			}
@@ -1561,7 +1586,7 @@ public final class LegendBuilder implements IConstants
 		}
 
 		columnList.clear( );
-		double dHeight = dMaxH + dY;
+		double dHeight = bIsLeftRight ? dMaxH + dY : dY;
 		double dWidth = Math.max( dMaxW, dX );
 
 		return new double[]{
@@ -1629,6 +1654,22 @@ public final class LegendBuilder implements IConstants
 	public final Size getSize( )
 	{
 		return sz;
+	}
+	
+	
+	/**
+	 * Check if the available size of legend can cantain at 
+	 * least one legend item
+	 * @param dItemWidth
+	 * @param dItemHeight
+	 * @param legendData
+	 * @return
+	 */
+	private static boolean hasPlaceForOneItem( double dItemWidth,
+			double dItemHeight, LegendData legendData )
+	{
+		return dItemWidth <= legendData.dAvailableWidth &&
+				dItemHeight <= legendData.dAvailableHeight;
 	}
 
 //	/**
