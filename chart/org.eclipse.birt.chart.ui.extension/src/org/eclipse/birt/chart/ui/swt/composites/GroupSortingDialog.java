@@ -25,7 +25,9 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
+import org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -74,7 +76,7 @@ public class GroupSortingDialog extends TrayDialog
 	protected Button btnSortExprBuilder;
 
 	/** The field indicates if the aggregation composite should be enabled. */
-	private boolean fEnableAggregation = true;
+	protected boolean fEnableAggregation = true;
 
 	/** The field indicates if Expression builder button is enabled. */
 	private boolean fHasExprBuilder = true;
@@ -164,16 +166,32 @@ public class GroupSortingDialog extends TrayDialog
 		gdCMPGrouping.horizontalSpan = 2;
 		cmpGrouping.setLayoutData( gdCMPGrouping );
 		cmpGrouping.setLayout( new FillLayout( ) );
+		fGroupingComposite = createSeriesGroupingComposite( cmpGrouping );
+	}
 
-		fGroupingComposite = new SeriesGroupingComposite( cmpGrouping,
+	/**
+	 * Create runtime instance of <code>SeriesGroupingComposite</code>.
+	 * 
+	 * @param parent
+	 * @since 2.3
+	 */
+	protected SeriesGroupingComposite createSeriesGroupingComposite( Composite parent )
+	{
+		SeriesGrouping grouping = getSeriesDefinitionForProcessing( ).getGrouping( );
+		if ( grouping == null )
+		{
+			grouping = SeriesGroupingImpl.create( );
+			getSeriesDefinitionForProcessing( ).setGrouping( grouping );
+		}
+		
+		return new SeriesGroupingComposite( parent,
 				SWT.NONE,
-				getSeriesDefinitionForProcessing( ),
-				wizardContext.getModel( ) instanceof ChartWithoutAxes,
+				grouping,
 				fEnableAggregation,
 				wizardContext,
 				null );
 	}
-
+	
 	/**
 	 * Create composite of sort area.
 	 * 

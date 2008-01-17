@@ -449,12 +449,21 @@ public interface DataPackage extends EPackage
 	int QUERY__RULES = 1;
 
 	/**
+	 * The feature id for the '<em><b>Grouping</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int QUERY__GROUPING = 2;
+
+	/**
 	 * The number of structural features of the '<em>Query</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int QUERY_FEATURE_COUNT = 2;
+	int QUERY_FEATURE_COUNT = 3;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.data.impl.RuleImpl <em>Rule</em>}' class.
@@ -1034,6 +1043,17 @@ public interface DataPackage extends EPackage
 	EReference getQuery_Rules( );
 
 	/**
+	 * Returns the meta object for the containment reference '{@link org.eclipse.birt.chart.model.data.Query#getGrouping <em>Grouping</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Grouping</em>'.
+	 * @see org.eclipse.birt.chart.model.data.Query#getGrouping()
+	 * @see #getQuery()
+	 * @generated
+	 */
+	EReference getQuery_Grouping( );
+
+	/**
 	 * Returns the meta object for class '
 	 * {@link org.eclipse.birt.chart.model.data.Rule <em>Rule</em>}'. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
@@ -1587,6 +1607,14 @@ public interface DataPackage extends EPackage
 		 * @generated
 		 */
 		EReference QUERY__RULES = eINSTANCE.getQuery_Rules( );
+
+		/**
+		 * The meta object literal for the '<em><b>Grouping</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference QUERY__GROUPING = eINSTANCE.getQuery_Grouping( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.data.impl.RuleImpl <em>Rule</em>}' class.

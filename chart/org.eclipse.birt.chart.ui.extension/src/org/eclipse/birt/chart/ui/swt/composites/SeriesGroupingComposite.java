@@ -20,10 +20,7 @@ import org.eclipse.birt.chart.aggregate.IAggregateFunction;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
-import org.eclipse.birt.chart.model.data.DataPackage;
-import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
-import org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
@@ -62,7 +59,7 @@ public class SeriesGroupingComposite extends Composite implements
 
 	private transient Group grpContent = null;
 
-	private transient Button btnEnabled = null;
+	protected transient Button btnEnabled = null;
 
 	private transient Label lblType = null;
 
@@ -80,10 +77,6 @@ public class SeriesGroupingComposite extends Composite implements
 
 	private transient Combo cmbAggregate = null;
 
-	private transient SeriesDefinition sd = null;
-
-	private transient boolean bTypeEnabled = true;
-
 	private transient boolean fbAggEnabled = true;
 
 	private Composite fCmpAggregate;
@@ -97,16 +90,18 @@ public class SeriesGroupingComposite extends Composite implements
 	private ChartWizardContext fChartContext;
 	
 	private String fTitle = null;
+
+	protected SeriesGrouping fGrouping;
 	
 	/**
 	 * @param parent
 	 * @param style
 	 */
 	public SeriesGroupingComposite( Composite parent, int style,
-			SeriesDefinition sd, boolean bTypeEnabled,
+			SeriesGrouping grouping,
 			ChartWizardContext context )
 	{
-		this( parent, style, sd, bTypeEnabled, true, context, null );
+		this( parent, style, grouping, true, context, null );
 	}
 
 	/**
@@ -114,17 +109,19 @@ public class SeriesGroupingComposite extends Composite implements
 	 * @param style
 	 */
 	public SeriesGroupingComposite( Composite parent, int style,
-			SeriesDefinition sd, boolean bTypeEnabled, boolean bAggEnabled,
+			SeriesGrouping grouping, boolean bAggEnabled,
 			ChartWizardContext context, String title )
 	{
 		super( parent, style );
-		this.sd = sd;
-		this.bTypeEnabled = bTypeEnabled;
+		fGrouping = grouping;
 		this.fbAggEnabled = bAggEnabled;
 		fChartContext = context;
 		init( );
 		placeComponents( );
-
+		
+		// Init data of UI and widgets status.
+		initDataNWidgetsStatus( );
+		
 		fTitle = ( title == null || title.length( ) == 0 ) ? Messages.getString( "AggregateEditorComposite.AggregateParameterDefinition.Title" ) : title; //$NON-NLS-1$
 	}
 	
@@ -157,27 +154,16 @@ public class SeriesGroupingComposite extends Composite implements
 		btnEnabled.setLayoutData( gdBTNEnabled );
 		btnEnabled.setText( Messages.getString( "SeriesGroupingComposite.Lbl.Enabled" ) ); //$NON-NLS-1$
 		btnEnabled.addSelectionListener( this );
-		if ( sd.eIsSet( DataPackage.eINSTANCE.getSeriesDefinition_Grouping( ) ) )
-		{
-			btnEnabled.setSelection( getGrouping( ).isEnabled( ) );
-		}
-		else
-		{
-			btnEnabled.setSelection( false );
-		}
-
-		boolean bEnableUI = btnEnabled.getSelection( );
+		
 		lblType = new Label( grpContent, SWT.NONE );
 		GridData gdLBLType = new GridData( );
 		lblType.setLayoutData( gdLBLType );
 		lblType.setText( Messages.getString( "SeriesGroupingComposite.Lbl.Type" ) ); //$NON-NLS-1$
-		lblType.setEnabled( bEnableUI & bTypeEnabled );
 
 		cmbType = new Combo( grpContent, SWT.DROP_DOWN | SWT.READ_ONLY );
 		GridData gdCMBType = new GridData( GridData.FILL_HORIZONTAL );
 		cmbType.setLayoutData( gdCMBType );
 		cmbType.addSelectionListener( this );
-		cmbType.setEnabled( bEnableUI & bTypeEnabled );
 
 		lblUnit = new Label( grpContent, SWT.NONE );
 		GridData gdLBLUnit = new GridData( );
@@ -194,23 +180,10 @@ public class SeriesGroupingComposite extends Composite implements
 		lblInterval.setLayoutData( gdLBLInterval );
 		lblInterval.setText( Messages.getString( "SeriesGroupingComposite.Lbl.Interval" ) ); //$NON-NLS-1$
 
-		double iGroupInterval = 2;
-		if ( sd.getGrouping( ) != null )
-		{
-			iGroupInterval = sd.getGrouping( ).getGroupingInterval( );
-		}
-
 		iscInterval = new Text( grpContent, SWT.BORDER );
 		GridData gdISCInterval = new GridData( GridData.FILL_HORIZONTAL );
 		iscInterval.setLayoutData( gdISCInterval );
 		iscInterval.setToolTipText( Messages.getString( "SeriesGroupingComposite.Tooltip.SelectIntervalForGrouping" ) ); //$NON-NLS-1$
-		if ( iGroupInterval - (long)iGroupInterval == 0 ) {
-			iscInterval.setText( String.valueOf( (long)iGroupInterval ) );
-		}
-		else
-		{
-			iscInterval.setText( String.valueOf( iGroupInterval ) );
-		}
 		iscInterval.addSelectionListener( this );
 		iscInterval.addFocusListener( new FocusListener() {
 
@@ -226,7 +199,7 @@ public class SeriesGroupingComposite extends Composite implements
 				if ( text == null || text.trim( ).length( ) == 0 ) {
 					text = "0"; //$NON-NLS-1$
 				}
-				getGrouping( ).setGroupingInterval( Double.valueOf( text ).doubleValue( ) );				
+				fGrouping.setGroupingInterval( Double.valueOf( text ).doubleValue( ) );				
 			}
 			
 		});
@@ -286,13 +259,8 @@ public class SeriesGroupingComposite extends Composite implements
 			
 		}
 		
-		populateLists( );
-		
 		if ( fbAggEnabled )
 		{
-			// Display aggregate parameters.
-			String aggFuncName = ((String[])cmbAggregate.getData( ))[cmbAggregate.getSelectionIndex( )];
-			
 			fAggParameterComposite = new Composite( fCmpAggregate, SWT.NONE );
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL
 					| GridData.GRAB_HORIZONTAL );
@@ -305,30 +273,106 @@ public class SeriesGroupingComposite extends Composite implements
 			layout.marginWidth = layout.marginHeight = 0;
 			layout.numColumns = 3;
 			fAggParameterComposite.setLayout( layout );
-			
+		}
+	}
+
+	/**
+	 * Initialize widgets data and status.
+	 * @since 2.3
+	 */
+	private void initDataNWidgetsStatus( )
+	{
+		setButtonsStatus( );
+		double iGroupInterval = 1;
+		if ( fGrouping != null )
+		{
+			iGroupInterval = fGrouping.getGroupingInterval( );
+		}
+		if ( iGroupInterval - (long)iGroupInterval == 0 ) {
+			iscInterval.setText( String.valueOf( (long)iGroupInterval ) );
+		}
+		else
+		{
+			iscInterval.setText( String.valueOf( iGroupInterval ) );
+		}
+		populateLists( );
+		if ( fbAggEnabled )
+		{
+			// Display aggregate parameters.
+			String aggFuncName = ((String[])cmbAggregate.getData( ))[cmbAggregate.getSelectionIndex( )];
 			showAggregateParameters( aggFuncName );
 		}
 	}
 
 	/**
-	 * Populate grouping property items by data type.
+	 * Set all buttons status.
+	 * @since 2.3
+	 */
+	protected void setButtonsStatus( )
+	{
+		setGroupingButtonSelection( );
+		
+		boolean bEnableUI = btnEnabled.getSelection( );
+		setIntervalButtonsStatus( bEnableUI );
+	}
+
+	/**
+	 * Set all interval buttons status.
 	 * 
+	 * @param bEnableUI
+	 * @since 2.3
+	 */
+	protected void setIntervalButtonsStatus( boolean bEnableUI )
+	{
+		this.lblType.setEnabled( bEnableUI );
+		this.cmbType.setEnabled( bEnableUI );
+
+		this.lblInterval.setEnabled( bEnableUI );
+		this.iscInterval.setEnabled( bEnableUI );
+		
+		if ( fbAggEnabled )
+		{
+			this.lblAggregate.setEnabled( bEnableUI );
+			this.cmbAggregate.setEnabled( bEnableUI );
+		}
+	}
+
+	/**
+	 * Set selection status of grouping enabled button.
+	 * @since 2.3 
+	 */
+	protected void setGroupingButtonSelection( )
+	{
+		btnEnabled.setSelection( fGrouping.isEnabled( ) );
+	}
+
+	/**
+	 * Set the enabled status of grouping enabled button.
+	 * 
+	 * @param enabled
+	 * @since 2.3
+	 */
+	protected void setGroupingButtionEnabled( boolean enabled )
+	{
+		btnEnabled.setEnabled( enabled );
+	}
+	
+	/**
+	 * Populate grouping property items by data type.
 	 */
 	private void populateLists(  )
 	{
 		cmbUnit.removeAll( );
 		
-		SeriesGrouping grouping = getGrouping( );
-
 		boolean isGroupingEnableUI = btnEnabled.getSelection( );
 
 		// Populate the data type combo
 		NameSet ns = LiteralHelper.dataTypeSet;
 		cmbType.setItems( ns.getDisplayNames( ) );
 
-		if ( isGroupingEnableUI && grouping.getGroupType( ) != null )
+		if ( isGroupingEnableUI && fGrouping != null )
 		{
-			cmbType.setText( ns.getDisplayNameByName( getGrouping( ).getGroupType( )
+			cmbType.setText( ns.getDisplayNameByName( fGrouping.getGroupType( )
 					.getName( ) ) );
 		}
 		else
@@ -336,18 +380,13 @@ public class SeriesGroupingComposite extends Composite implements
 			cmbType.select( 0 );
 		}
 
-		this.lblType.setEnabled( isGroupingEnableUI );
-		this.cmbType.setEnabled( isGroupingEnableUI );
-
-		this.lblInterval.setEnabled( isGroupingEnableUI );
-		this.iscInterval.setEnabled( isGroupingEnableUI );
-
 		// Populate grouping unit combo (applicable only if type is DateTime
-		resetGroupingUnitsCombo( grouping, isGroupingEnableUI );
+		resetGroupingUnitsCombo( isGroupingEnableUI );
 
 		// Populate grouping aggregate expression combo
 		if ( fbAggEnabled )
 		{
+			
 			try
 			{
 				cmbAggregate.setItems( PluginSettings.instance( )
@@ -357,12 +396,12 @@ public class SeriesGroupingComposite extends Composite implements
 			}
 			catch ( ChartException e )
 			{
-				e.printStackTrace( );
+				WizardBase.displayException( e );
 			}
 
-			if ( isGroupingEnableUI && grouping.getAggregateExpression( ) != null )
+			if ( isGroupingEnableUI && fGrouping.getAggregateExpression( ) != null )
 			{
-				int idx = getAggregateIndexByName( grouping.getAggregateExpression( ) );
+				int idx = getAggregateIndexByName( fGrouping.getAggregateExpression( ) );
 				if ( cmbAggregate.getItemCount( ) > idx )
 				{
 					cmbAggregate.select( idx );
@@ -372,17 +411,21 @@ public class SeriesGroupingComposite extends Composite implements
 			{
 				cmbAggregate.select( 0 );
 			}
+			
 			lblAggregate.setEnabled( isGroupingEnableUI );
 			cmbAggregate.setEnabled( isGroupingEnableUI );
 		}
 	}
 
+	/**
+	 * Populate aggregate parameters widgets.
+	 * @since 2.3
+	 */
 	private void populateAggParameters( )
 	{
 		if ( fbAggEnabled )
 		{
-			SeriesGrouping grouping = getGrouping( );
-			EList aggPars = grouping.getAggregateParameters( );
+			EList aggPars = fGrouping.getAggregateParameters( );
 			if ( aggPars.size( ) > 0 )
 			{
 				int size = aggPars.size( ) > fAggParamtersTextWidgets.size( ) ? fAggParamtersTextWidgets.size( )
@@ -406,20 +449,19 @@ public class SeriesGroupingComposite extends Composite implements
 	 * @param isGroupingEnableUI
 	 * @since BIRT 2.3
 	 */
-	private void resetGroupingUnitsCombo( SeriesGrouping grouping,
-			boolean isGroupingEnableUI )
+	private void resetGroupingUnitsCombo( boolean isGroupingEnableUI )
 	{
 		NameSet ns;
-		ns = LiteralHelper.getGroupingUnitTypeSet( getGrouping( ).getGroupType( ) );
+		ns = LiteralHelper.getGroupingUnitTypeSet( fGrouping.getGroupType( ) );
 		if ( ns != null )
 		{
 			cmbUnit.setItems( ns.getDisplayNames( ) );
 			if ( isGroupingEnableUI &&
-					grouping.getGroupType( ) != null &&
-					( grouping.getGroupType( ) == DataType.DATE_TIME_LITERAL || grouping.getGroupType( ) == DataType.TEXT_LITERAL ) &&
-					grouping.getGroupingUnit( ) != null )
+					fGrouping.getGroupType( ) != null &&
+					( fGrouping.getGroupType( ) == DataType.DATE_TIME_LITERAL || fGrouping.getGroupType( ) == DataType.TEXT_LITERAL ) &&
+					fGrouping.getGroupingUnit( ) != null )
 			{
-				String name = ChartUtil.getGroupingUnitName( getGrouping( ) );
+				String name = ChartUtil.getGroupingUnitName( fGrouping );
 				if ( name != null )
 				{
 					// When switch between grouping data types, the returned
@@ -492,10 +534,10 @@ public class SeriesGroupingComposite extends Composite implements
 		return 0;
 	}
 
-	private SeriesGrouping getGrouping( )
-	{
-		return sd.getGrouping( );
-	}
+//	private SeriesGrouping getGrouping( )
+//	{
+//		return fGrouping;
+//	}
 
 	/*
 	 * (non-Javadoc)
@@ -507,12 +549,12 @@ public class SeriesGroupingComposite extends Composite implements
 		Object oSource = e.getSource( );
 		if ( oSource.equals( cmbType ) )
 		{
-			getGrouping( ).setGroupType( DataType.getByName( LiteralHelper.dataTypeSet.getNameByDisplayName( cmbType.getText( ) ) ) );
+			fGrouping.setGroupType( DataType.getByName( LiteralHelper.dataTypeSet.getNameByDisplayName( cmbType.getText( ) ) ) );
 
 			boolean bEnableUI = btnEnabled.getSelection( );
 			String selName = LiteralHelper.dataTypeSet.getNameByDisplayName( cmbType.getText( ) );
 			boolean bEnabled = isDateTimeGrouping( selName ) || isTextGrouping( selName );
-			resetGroupingUnitsCombo( getGrouping( ), bEnableUI );
+			resetGroupingUnitsCombo( bEnableUI );
 			
 			lblUnit.setEnabled( bEnableUI & bEnabled );
 			cmbUnit.setEnabled( bEnableUI & bEnabled );
@@ -527,7 +569,7 @@ public class SeriesGroupingComposite extends Composite implements
 		}
 		else if ( oSource.equals( cmbUnit ) )
 		{
-			getGrouping( ).setGroupingUnit( GroupingUnitType.getByName( LiteralHelper.groupingUnitTypeSet.getNameByDisplayName( cmbUnit.getText( ) ) ) );
+			fGrouping.setGroupingUnit( GroupingUnitType.getByName( LiteralHelper.groupingUnitTypeSet.getNameByDisplayName( cmbUnit.getText( ) ) ) );
 		}
 		else if ( oSource.equals( cmbAggregate ) )
 		{
@@ -540,23 +582,14 @@ public class SeriesGroupingComposite extends Composite implements
 			}
 			showAggregateParameters( aggExpr );
 			getShell( ).pack( );
-			getGrouping( ).setAggregateExpression( aggExpr );
+			fGrouping.setAggregateExpression( aggExpr );
 		}
 		else if ( oSource.equals( btnEnabled ) )
 		{
-			SeriesGrouping grp = null;
-			if ( !sd.eIsSet( DataPackage.eINSTANCE.getSeriesDefinition_Grouping( ) ) )
-			{
-				grp = SeriesGroupingImpl.create( );
-				sd.setGrouping( grp );
-			}
-			else
-			{
-				grp = sd.getGrouping( );
-			}
-			grp.setEnabled( btnEnabled.getSelection( ) );
-
+			fGrouping.setEnabled( btnEnabled.getSelection( ) );
+			
 			// refresh UI
+			setButtonsStatus( );
 			populateLists( );
 			populateAggParameters( );
 			
@@ -575,7 +608,7 @@ public class SeriesGroupingComposite extends Composite implements
 		}
 		else if ( oSource.equals( iscInterval ) )
 		{
-			getGrouping( ).setGroupingInterval( Double.valueOf( iscInterval.getText( ) ).doubleValue( ) );
+			fGrouping.setGroupingInterval( Double.valueOf( iscInterval.getText( ) ).doubleValue( ) );
 		}
 		else if ( isAggParametersWidget( oSource ) )
 		{
@@ -610,7 +643,7 @@ public class SeriesGroupingComposite extends Composite implements
 	{
 		String text = ( (Text) oSource ).getText( );
 		int index = fAggParamtersTextWidgets.indexOf( oSource );
-		EList parameters = getGrouping( ).getAggregateParameters( );
+		EList parameters = fGrouping.getAggregateParameters( );
 		for ( int i = parameters.size( ); i < fAggParamtersTextWidgets.size( ); i++ )
 		{
 			parameters.add( null );
@@ -623,6 +656,9 @@ public class SeriesGroupingComposite extends Composite implements
 		return fAggParamtersTextWidgets.contains( source );
 	}
 	
+	/**
+	 * @param aggFuncName The name of aggregate function, it allow null case.
+	 */
 	private void showAggregateParameters( String aggFuncName )
 	{
 		// Remove old parameters widgets.
@@ -642,7 +678,8 @@ public class SeriesGroupingComposite extends Composite implements
 		}
 		catch ( ChartException e )
 		{
-			;
+			// Since the aggFuncName might be null, so we don't display the
+			// exception to user, it is true.
 		}
 		
 		String[] args = null;
@@ -732,23 +769,5 @@ public class SeriesGroupingComposite extends Composite implements
 	 */
 	public void widgetDefaultSelected( SelectionEvent e )
 	{
-	}
-
-	/**
-	 * @since BIRT 2.3
-	 */
-	public void enableGroupingSelection( boolean enabled )
-	{
-		btnEnabled.setEnabled(  enabled );
-	}
-	
-	/**
-	 * @param selected
-	 * @since BIRT 2.3
-	 */
-	public void setGroupingSelection( boolean selected )
-	{
-		btnEnabled.setSelection( selected );
-		populateLists( );
 	}
 }

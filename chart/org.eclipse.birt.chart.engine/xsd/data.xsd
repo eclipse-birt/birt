@@ -318,8 +318,9 @@
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="Definition" type="xsd:string"/>
-			<xsd:element name="Rules" type="Rule" maxOccurs="unbounded"/>
+			<xsd:element name="Definition" type="xsd:string" />
+			<xsd:element name="Rules" type="Rule" maxOccurs="unbounded" />
+			<xsd:element name="Grouping" type="SeriesGrouping"></xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="Rule">

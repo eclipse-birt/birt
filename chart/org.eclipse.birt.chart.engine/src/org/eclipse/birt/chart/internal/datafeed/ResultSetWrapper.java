@@ -192,7 +192,7 @@ public final class ResultSetWrapper
 	{
 		iaGroupBreaks = findGroupBreaks( workingResultSet,
 		( oaGroupKeys != null && oaGroupKeys.length > 0 )
-				? oaGroupKeys[0] : null, sdValue.getGrouping( ) );
+				? oaGroupKeys[0] : null, sdValue.getQuery( ) );
 	}
 	
 	GroupingLookupHelper getLookupHelper( )
@@ -1671,7 +1671,7 @@ public final class ResultSetWrapper
 	 * 
 	 * @return Row indexes containing changing group key values
 	 */
-	private int[] findGroupBreaks( List resultSet, GroupKey groupKey, SeriesGrouping seriesGrouping )
+	private int[] findGroupBreaks( List resultSet, GroupKey groupKey, Query query )
 	{
 		if ( groupKey == null || groupKey.getKey( ) == null )
 		{
@@ -1680,14 +1680,14 @@ public final class ResultSetWrapper
 		
 		// For previous chart version(before2.3M3), the seriesGrouping argument
 		// may be null, so here needs to check null case.
-		boolean groupingEnabled = false;
-		if ( seriesGrouping != null && seriesGrouping.isSetGroupType( ) )
+		boolean groupingIntervalEnabled = false;
+		if ( query != null && query.getGrouping( ) != null && query.getGrouping( ).isSetGroupType( ) )
 		{
-			groupingEnabled = true;
+			groupingIntervalEnabled = true;
 		}
 		
 		GroupKey newGroupKey = groupKey;
-		if ( groupingEnabled && groupKey.getDirection( ) == null )
+		if ( groupingIntervalEnabled && groupKey.getDirection( ) == null )
 		{
 			newGroupKey = new GroupKey( groupKey.getKey( ),
 					SortOption.ASCENDING_LITERAL );
@@ -1705,7 +1705,8 @@ public final class ResultSetWrapper
 		Object oValue, oPreviousValue = null;
 		int iRowIndex = 0;
 		
-		if ( groupingEnabled )
+		SeriesGrouping seriesGrouping = query.getGrouping( );
+		if ( groupingIntervalEnabled )
 		{
 			// Reset grouped data by series grouping setting.
 			resetGroupedData( resultSet, iColumnIndex, seriesGrouping );

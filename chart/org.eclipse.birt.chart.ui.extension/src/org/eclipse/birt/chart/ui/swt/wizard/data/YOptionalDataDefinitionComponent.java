@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007 Actuate Corporation.
+ * Copyright (c) 2007, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -122,20 +122,21 @@ public class YOptionalDataDefinitionComponent extends BaseDataDefinitionComponen
 				}
 			}
 			ChartAdapter.endIgnoreNotifications( );
-			
+
 			seriesdefinition.setSortKey( sdBackup.getSortKey( ) );
 			seriesdefinition.getSortKey( )
 					.eAdapters( )
 					.addAll( seriesdefinition.eAdapters( ) );
-			
-			// Disabled grouping flag for Y grouping case, it don't use this flag.
-			sdBackup.getGrouping( ).eUnset( DataPackage.eINSTANCE.getSeriesGrouping_Enabled( ) );
-			sdBackup.getGrouping( ).setEnabled( false );
-			
-			seriesdefinition.setGrouping( sdBackup.getGrouping( ) );
-			seriesdefinition.getGrouping( )
-					.eAdapters( )
-					.addAll( seriesdefinition.eAdapters( ) );
+
+			if ( seriesdefinition.getQuery( ) != null )
+			{
+				seriesdefinition.getQuery( )
+						.setGrouping( sdBackup.getQuery( ).getGrouping( ) );
+				seriesdefinition.getQuery( )
+						.getGrouping( )
+						.eAdapters( )
+						.addAll( seriesdefinition.getQuery( ).eAdapters( ) );
+			}
 		}
 	}
 	

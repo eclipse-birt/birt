@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007 Actuate Corporation.
+ * Copyright (c) 2007, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -20,9 +20,13 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.DataPackage;
+import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.SeriesGrouping;
+import org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Shell;
@@ -143,22 +147,59 @@ public class YOptionalGroupSortingDialog extends GroupSortingDialog
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.composites.GroupSortingDialog#createGroupArea(org.eclipse.swt.widgets.Composite)
+	 * @see org.eclipse.birt.chart.ui.swt.composites.GroupSortingDialog#createSeriesGroupingComposite(org.eclipse.swt.widgets.Composite)
 	 */
-	public void createGroupArea(Composite parent )
+	protected SeriesGroupingComposite createSeriesGroupingComposite( Composite parent )
 	{
-		super.createGroupArea( parent );
-		fGroupingComposite.enableGroupingSelection( false );
-		if ( !isYGroupingEnabled() )
+		SeriesGrouping grouping = getSeriesDefinitionForProcessing( ).getQuery( ).getGrouping( );
+		if ( grouping == null )
 		{
-			fGroupingComposite.setGroupingSelection( false );
+			grouping = SeriesGroupingImpl.create( );
+			getSeriesDefinitionForProcessing( ).getQuery( ).setGrouping( grouping );
 		}
-		else
-		{
-			fGroupingComposite.setGroupingSelection( true );
-		}
+		
+		SeriesGroupingComposite sgc = new YSeriesGroupingComposite( parent,
+				SWT.NONE,
+				grouping,
+				fEnableAggregation,
+				wizardContext,
+				null );
+		sgc.setGroupingButtionEnabled( false );
+		return sgc;
 	}
 	
+	/**
+	 * 
+	 */
+	class YSeriesGroupingComposite extends SeriesGroupingComposite
+	{
+
+		public YSeriesGroupingComposite( Composite parent, int style,
+				SeriesGrouping grouping, boolean aggEnabled,
+				ChartWizardContext context, String title )
+		{
+			super( parent, style, grouping, aggEnabled, context, title );
+		}
+
+
+		/* (non-Javadoc)
+		 * @see org.eclipse.birt.chart.ui.swt.composites.SeriesGroupingComposite#setGroupingButtonStatus()
+		 */
+		protected void setGroupingButtonSelection( )
+		{
+			Query query = getSeriesDefinitionForProcessing( ).getQuery( );
+			if ( query != null &&
+					query.getDefinition( ) != null &&
+					!"".equals( query.getDefinition( ) ) ) //$NON-NLS-1$
+			{
+				btnEnabled.setSelection( true );
+			}
+			else
+			{
+				btnEnabled.setSelection( false );
+			}
+		}
+	}
 	/**
 	 * Get the Y Grouping expression.
 	 * 

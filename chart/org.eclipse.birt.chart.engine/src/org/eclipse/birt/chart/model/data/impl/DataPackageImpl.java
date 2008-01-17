@@ -518,6 +518,16 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getQuery_Grouping( )
+	{
+		return (EReference) queryEClass.getEStructuralFeatures( ).get( 2 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -886,6 +896,7 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 		queryEClass = createEClass( QUERY );
 		createEAttribute( queryEClass, QUERY__DEFINITION );
 		createEReference( queryEClass, QUERY__RULES );
+		createEReference( queryEClass, QUERY__GROUPING );
 
 		ruleEClass = createEClass( RULE );
 		createEAttribute( ruleEClass, RULE__TYPE );
@@ -1065,6 +1076,10 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 				this.getRule( ),
 				null,
 				"rules", null, 1, -1, Query.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEReference( getQuery_Grouping( ),
+				this.getSeriesGrouping( ),
+				null,
+				"grouping", null, 1, 1, Query.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( ruleEClass,
 				Rule.class,
@@ -1302,6 +1317,10 @@ public class DataPackageImpl extends EPackageImpl implements DataPackage
 		addAnnotation( getQuery_Rules( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "Rules" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getQuery_Grouping( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Grouping" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( ruleEClass, source, new String[]{
 				"name", "Rule", //$NON-NLS-1$ //$NON-NLS-2$

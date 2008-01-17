@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link org.eclipse.birt.chart.model.data.Query#getDefinition <em>Definition</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.data.Query#getRules <em>Rules</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.Query#getGrouping <em>Grouping</em>}</li>
  * </ul>
  * </p>
  *
@@ -70,6 +71,33 @@ public interface Query extends EObject
 	 * @deprecated only reserved for compatibility
 	 */
 	EList getRules( );
+
+	/**
+	 * Returns the value of the '<em><b>Grouping</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Grouping</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Grouping</em>' containment reference.
+	 * @see #setGrouping(SeriesGrouping)
+	 * @see org.eclipse.birt.chart.model.data.DataPackage#getQuery_Grouping()
+	 * @model containment="true" required="true"
+	 *        extendedMetaData="kind='element' name='Grouping'"
+	 * @generated
+	 */
+	SeriesGrouping getGrouping( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.data.Query#getGrouping <em>Grouping</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Grouping</em>' containment reference.
+	 * @see #getGrouping()
+	 * @generated
+	 */
+	void setGrouping( SeriesGrouping value );
 
 	/**
 	 * 

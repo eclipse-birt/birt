@@ -494,6 +494,7 @@
     <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//Query">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//Query/definition"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//Query/rules"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference org.eclipse.birt.chart.model.data.ecore#//Query/grouping"/>
     </genClasses>
     <genClasses ecoreClass="org.eclipse.birt.chart.model.data.ecore#//Rule">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.data.ecore#//Rule/type"/>

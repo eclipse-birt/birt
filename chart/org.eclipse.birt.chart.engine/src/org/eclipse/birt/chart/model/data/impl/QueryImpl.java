@@ -17,6 +17,7 @@ import org.eclipse.birt.chart.model.data.DataFactory;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.Rule;
+import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -35,6 +36,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  *   <li>{@link org.eclipse.birt.chart.model.data.impl.QueryImpl#getDefinition <em>Definition</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.data.impl.QueryImpl#getRules <em>Rules</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.data.impl.QueryImpl#getGrouping <em>Grouping</em>}</li>
  * </ul>
  * </p>
  *
@@ -68,7 +70,17 @@ public class QueryImpl extends EObjectImpl implements Query
 	 * @generated
 	 * @ordered
 	 */
-	protected EList rules = null;
+	protected EList rules;
+
+	/**
+	 * The cached value of the '{@link #getGrouping() <em>Grouping</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getGrouping()
+	 * @generated
+	 * @ordered
+	 */
+	protected SeriesGrouping grouping;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -133,6 +145,73 @@ public class QueryImpl extends EObjectImpl implements Query
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public SeriesGrouping getGrouping( )
+	{
+		return grouping;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetGrouping( SeriesGrouping newGrouping,
+			NotificationChain msgs )
+	{
+		SeriesGrouping oldGrouping = grouping;
+		grouping = newGrouping;
+		if ( eNotificationRequired( ) )
+		{
+			ENotificationImpl notification = new ENotificationImpl( this,
+					Notification.SET,
+					DataPackage.QUERY__GROUPING,
+					oldGrouping,
+					newGrouping );
+			if ( msgs == null )
+				msgs = notification;
+			else
+				msgs.add( notification );
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setGrouping( SeriesGrouping newGrouping )
+	{
+		if ( newGrouping != grouping )
+		{
+			NotificationChain msgs = null;
+			if ( grouping != null )
+				msgs = ( (InternalEObject) grouping ).eInverseRemove( this,
+						EOPPOSITE_FEATURE_BASE - DataPackage.QUERY__GROUPING,
+						null,
+						msgs );
+			if ( newGrouping != null )
+				msgs = ( (InternalEObject) newGrouping ).eInverseAdd( this,
+						EOPPOSITE_FEATURE_BASE - DataPackage.QUERY__GROUPING,
+						null,
+						msgs );
+			msgs = basicSetGrouping( newGrouping, msgs );
+			if ( msgs != null )
+				msgs.dispatch( );
+		}
+		else if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					DataPackage.QUERY__GROUPING,
+					newGrouping,
+					newGrouping ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -141,6 +220,8 @@ public class QueryImpl extends EObjectImpl implements Query
 			case DataPackage.QUERY__RULES :
 				return ( (InternalEList) getRules( ) ).basicRemove( otherEnd,
 						msgs );
+			case DataPackage.QUERY__GROUPING :
+				return basicSetGrouping( null, msgs );
 		}
 		return super.eInverseRemove( otherEnd, featureID, msgs );
 	}
@@ -158,6 +239,8 @@ public class QueryImpl extends EObjectImpl implements Query
 				return getDefinition( );
 			case DataPackage.QUERY__RULES :
 				return getRules( );
+			case DataPackage.QUERY__GROUPING :
+				return getGrouping( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -178,6 +261,9 @@ public class QueryImpl extends EObjectImpl implements Query
 				getRules( ).clear( );
 				getRules( ).addAll( (Collection) newValue );
 				return;
+			case DataPackage.QUERY__GROUPING :
+				setGrouping( (SeriesGrouping) newValue );
+				return;
 		}
 		super.eSet( featureID, newValue );
 	}
@@ -197,6 +283,9 @@ public class QueryImpl extends EObjectImpl implements Query
 			case DataPackage.QUERY__RULES :
 				getRules( ).clear( );
 				return;
+			case DataPackage.QUERY__GROUPING :
+				setGrouping( (SeriesGrouping) null );
+				return;
 		}
 		super.eUnset( featureID );
 	}
@@ -215,6 +304,8 @@ public class QueryImpl extends EObjectImpl implements Query
 						: !DEFINITION_EDEFAULT.equals( definition );
 			case DataPackage.QUERY__RULES :
 				return rules != null && !rules.isEmpty( );
+			case DataPackage.QUERY__GROUPING :
+				return grouping != null;
 		}
 		return super.eIsSet( featureID );
 	}

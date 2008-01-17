@@ -214,11 +214,62 @@
     <nested inputs="../../xsd/data.xsd#//Rule;XSDComplexTypeDefinition=17/XSDParticle/XSDModelGroup/XSDParticle=1"
         outputs="org.eclipse.birt.chart.model.data.ecore#//Rule/value"/>
   </nested>
+  <nested inputs="../../xsd/attribute.xsd#//GroupingUnitType;XSDSimpleTypeDefinition=29"
+      outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType">
+    <nested inputs="../../xsd/attribute.xsd#//GroupingUnitType;XSDSimpleTypeDefinition=29/XSDEnumerationFacet"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/Seconds"/>
+    <nested inputs="../../xsd/attribute.xsd#//GroupingUnitType;XSDSimpleTypeDefinition=29/XSDEnumerationFacet=1"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/Minutes"/>
+    <nested inputs="../../xsd/attribute.xsd#//GroupingUnitType;XSDSimpleTypeDefinition=29/XSDEnumerationFacet=2"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/Hours"/>
+    <nested inputs="../../xsd/attribute.xsd#//GroupingUnitType;XSDSimpleTypeDefinition=29/XSDEnumerationFacet=3"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/Days"/>
+    <nested inputs="../../xsd/attribute.xsd#//GroupingUnitType;XSDSimpleTypeDefinition=29/XSDEnumerationFacet=4"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/Weeks"/>
+    <nested inputs="../../xsd/attribute.xsd#//GroupingUnitType;XSDSimpleTypeDefinition=29/XSDEnumerationFacet=5"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/Months"/>
+    <nested inputs="../../xsd/attribute.xsd#//GroupingUnitType;XSDSimpleTypeDefinition=29/XSDEnumerationFacet=6"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/Quarters"/>
+    <nested inputs="../../xsd/attribute.xsd#//GroupingUnitType;XSDSimpleTypeDefinition=29/XSDEnumerationFacet=7"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/Years"/>
+    <nested inputs="../../xsd/attribute.xsd#//GroupingUnitType;XSDSimpleTypeDefinition=29/XSDEnumerationFacet=8"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/String"/>
+    <nested inputs="../../xsd/attribute.xsd#//GroupingUnitType;XSDSimpleTypeDefinition=29/XSDEnumerationFacet=9"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/StringPrefix"/>
+  </nested>
+  <nested inputs="../../xsd/data.xsd#//DataElement;XSDComplexTypeDefinition=9" outputs="org.eclipse.birt.chart.model.data.ecore#//DataElement"/>
+  <nested inputs="../../xsd/attribute.xsd#//DataType;XSDSimpleTypeDefinition=28" outputs="org.eclipse.birt.chart.model.attribute.ecore#//DataType">
+    <nested inputs="../../xsd/attribute.xsd#//DataType;XSDSimpleTypeDefinition=28/XSDEnumerationFacet"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//DataType/Numeric"/>
+    <nested inputs="../../xsd/attribute.xsd#//DataType;XSDSimpleTypeDefinition=28/XSDEnumerationFacet=1"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//DataType/DateTime"/>
+    <nested inputs="../../xsd/attribute.xsd#//DataType;XSDSimpleTypeDefinition=28/XSDEnumerationFacet=2"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//DataType/Text"/>
+  </nested>
+  <nested inputs="../../xsd/data.xsd#//SeriesGrouping;XSDComplexTypeDefinition=12"
+      outputs="org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping">
+    <nested inputs="../../xsd/data.xsd#//SeriesGrouping;XSDComplexTypeDefinition=12/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/enabled"/>
+    <nested inputs="../../xsd/data.xsd#//SeriesGrouping;XSDComplexTypeDefinition=12/XSDParticle/XSDModelGroup/XSDParticle=1"
+        outputs="org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/groupingUnit"/>
+    <nested inputs="../../xsd/data.xsd#//SeriesGrouping;XSDComplexTypeDefinition=12/XSDParticle/XSDModelGroup/XSDParticle=2"
+        outputs="org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/groupingOrigin"/>
+    <nested inputs="../../xsd/data.xsd#//SeriesGrouping;XSDComplexTypeDefinition=12/XSDParticle/XSDModelGroup/XSDParticle=3"
+        outputs="org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/groupingInterval"/>
+    <nested inputs="../../xsd/data.xsd#//SeriesGrouping;XSDComplexTypeDefinition=12/XSDParticle/XSDModelGroup/XSDParticle=4"
+        outputs="org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/groupType"/>
+    <nested inputs="../../xsd/data.xsd#//SeriesGrouping;XSDComplexTypeDefinition=12/XSDParticle/XSDModelGroup/XSDParticle=5"
+        outputs="org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/aggregateExpression"/>
+    <nested inputs="../../xsd/data.xsd#//SeriesGrouping;XSDComplexTypeDefinition=12/XSDParticle/XSDModelGroup/XSDParticle=6"
+        outputs="org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/aggregateParameters"/>
+  </nested>
   <nested inputs="../../xsd/data.xsd#//Query;XSDComplexTypeDefinition=16" outputs="org.eclipse.birt.chart.model.data.ecore#//Query">
     <nested inputs="../../xsd/data.xsd#//Query;XSDComplexTypeDefinition=16/XSDParticle/XSDModelGroup/XSDParticle"
         outputs="org.eclipse.birt.chart.model.data.ecore#//Query/definition"/>
     <nested inputs="../../xsd/data.xsd#//Query;XSDComplexTypeDefinition=16/XSDParticle/XSDModelGroup/XSDParticle=1"
         outputs="org.eclipse.birt.chart.model.data.ecore#//Query/rules"/>
+    <nested inputs="../../xsd/data.xsd#//Query;XSDComplexTypeDefinition=16/XSDParticle/XSDModelGroup/XSDParticle=2"
+        outputs="org.eclipse.birt.chart.model.data.ecore#//Query/grouping"/>
   </nested>
   <nested inputs="bundleentry://252/cache/www.w3.org/2001/MagicXMLSchema.xsd#//anySimpleType;XSDSimpleTypeDefinition=1"
       outputs="http://www.eclipse.org/emf/2003/XMLType#//AnySimpleType"/>
@@ -443,55 +494,6 @@
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//AxisType/Text"/>
     <nested inputs="../../xsd/attribute.xsd#//AxisType;XSDSimpleTypeDefinition/XSDEnumerationFacet=3"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//AxisType/DateTime"/>
-  </nested>
-  <nested inputs="../../xsd/attribute.xsd#//GroupingUnitType;XSDSimpleTypeDefinition=29"
-      outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType">
-    <nested inputs="../../xsd/attribute.xsd#//GroupingUnitType;XSDSimpleTypeDefinition=29/XSDEnumerationFacet"
-        outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/Seconds"/>
-    <nested inputs="../../xsd/attribute.xsd#//GroupingUnitType;XSDSimpleTypeDefinition=29/XSDEnumerationFacet=1"
-        outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/Minutes"/>
-    <nested inputs="../../xsd/attribute.xsd#//GroupingUnitType;XSDSimpleTypeDefinition=29/XSDEnumerationFacet=2"
-        outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/Hours"/>
-    <nested inputs="../../xsd/attribute.xsd#//GroupingUnitType;XSDSimpleTypeDefinition=29/XSDEnumerationFacet=3"
-        outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/Days"/>
-    <nested inputs="../../xsd/attribute.xsd#//GroupingUnitType;XSDSimpleTypeDefinition=29/XSDEnumerationFacet=4"
-        outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/Weeks"/>
-    <nested inputs="../../xsd/attribute.xsd#//GroupingUnitType;XSDSimpleTypeDefinition=29/XSDEnumerationFacet=5"
-        outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/Months"/>
-    <nested inputs="../../xsd/attribute.xsd#//GroupingUnitType;XSDSimpleTypeDefinition=29/XSDEnumerationFacet=6"
-        outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/Quarters"/>
-    <nested inputs="../../xsd/attribute.xsd#//GroupingUnitType;XSDSimpleTypeDefinition=29/XSDEnumerationFacet=7"
-        outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/Years"/>
-    <nested inputs="../../xsd/attribute.xsd#//GroupingUnitType;XSDSimpleTypeDefinition=29/XSDEnumerationFacet=8"
-        outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/String"/>
-    <nested inputs="../../xsd/attribute.xsd#//GroupingUnitType;XSDSimpleTypeDefinition=29/XSDEnumerationFacet=9"
-        outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/StringPrefix"/>
-  </nested>
-  <nested inputs="../../xsd/data.xsd#//DataElement;XSDComplexTypeDefinition=9" outputs="org.eclipse.birt.chart.model.data.ecore#//DataElement"/>
-  <nested inputs="../../xsd/attribute.xsd#//DataType;XSDSimpleTypeDefinition=28" outputs="org.eclipse.birt.chart.model.attribute.ecore#//DataType">
-    <nested inputs="../../xsd/attribute.xsd#//DataType;XSDSimpleTypeDefinition=28/XSDEnumerationFacet"
-        outputs="org.eclipse.birt.chart.model.attribute.ecore#//DataType/Numeric"/>
-    <nested inputs="../../xsd/attribute.xsd#//DataType;XSDSimpleTypeDefinition=28/XSDEnumerationFacet=1"
-        outputs="org.eclipse.birt.chart.model.attribute.ecore#//DataType/DateTime"/>
-    <nested inputs="../../xsd/attribute.xsd#//DataType;XSDSimpleTypeDefinition=28/XSDEnumerationFacet=2"
-        outputs="org.eclipse.birt.chart.model.attribute.ecore#//DataType/Text"/>
-  </nested>
-  <nested inputs="../../xsd/data.xsd#//SeriesGrouping;XSDComplexTypeDefinition=12"
-      outputs="org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping">
-    <nested inputs="../../xsd/data.xsd#//SeriesGrouping;XSDComplexTypeDefinition=12/XSDParticle/XSDModelGroup/XSDParticle"
-        outputs="org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/enabled"/>
-    <nested inputs="../../xsd/data.xsd#//SeriesGrouping;XSDComplexTypeDefinition=12/XSDParticle/XSDModelGroup/XSDParticle=1"
-        outputs="org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/groupingUnit"/>
-    <nested inputs="../../xsd/data.xsd#//SeriesGrouping;XSDComplexTypeDefinition=12/XSDParticle/XSDModelGroup/XSDParticle=2"
-        outputs="org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/groupingOrigin"/>
-    <nested inputs="../../xsd/data.xsd#//SeriesGrouping;XSDComplexTypeDefinition=12/XSDParticle/XSDModelGroup/XSDParticle=3"
-        outputs="org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/groupingInterval"/>
-    <nested inputs="../../xsd/data.xsd#//SeriesGrouping;XSDComplexTypeDefinition=12/XSDParticle/XSDModelGroup/XSDParticle=4"
-        outputs="org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/groupType"/>
-    <nested inputs="../../xsd/data.xsd#//SeriesGrouping;XSDComplexTypeDefinition=12/XSDParticle/XSDModelGroup/XSDParticle=5"
-        outputs="org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/aggregateExpression"/>
-    <nested inputs="../../xsd/data.xsd#//SeriesGrouping;XSDComplexTypeDefinition=12/XSDParticle/XSDModelGroup/XSDParticle=6"
-        outputs="org.eclipse.birt.chart.model.data.ecore#//SeriesGrouping/aggregateParameters"/>
   </nested>
   <nested inputs="../../xsd/attribute.xsd#//SortOption;XSDSimpleTypeDefinition=14"
       outputs="org.eclipse.birt.chart.model.attribute.ecore#//SortOption">
