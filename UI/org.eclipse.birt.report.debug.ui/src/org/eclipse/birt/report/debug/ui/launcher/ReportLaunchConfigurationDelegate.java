@@ -31,9 +31,10 @@ import org.eclipse.jdt.launching.sourcelookup.containers.JavaProjectSourceContai
 import org.eclipse.pde.ui.launcher.EclipseApplicationLaunchConfiguration;
 
 /**
+ * ReportLaunchConfigurationDelegate
  * 
+ * @deprecated
  */
-
 public class ReportLaunchConfigurationDelegate extends
 		EclipseApplicationLaunchConfiguration implements
 		IReportLauncherSettings
@@ -45,21 +46,23 @@ public class ReportLaunchConfigurationDelegate extends
 	private static final String PROJECT_NAMES_KEY = "user.projectname"; //$NON-NLS-1$
 
 	private static final String PROJECT_CLASSPATH_KEY = "user.projectclasspath"; //$NON-NLS-1$
-	
+
 	private static final String PROJECT_OPENFILES_KEY = "user.openfiles"; //$NON-NLS-1$
 
 	private static WorkspaceClassPathFinder finder = new WorkspaceClassPathFinder( );
 
-	public void launch( ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor monitor ) throws CoreException
+	public void launch( ILaunchConfiguration configuration, String mode,
+			ILaunch launch, IProgressMonitor monitor ) throws CoreException
 	{
-		cofigLaunch(launch, configuration);
+		configLaunch( launch, configuration );
 		super.launch( configuration, mode, launch, monitor );
 	}
-	
+
 	/**
 	 * @param launch
 	 */
-	private void cofigLaunch( ILaunch launch, ILaunchConfiguration configuration )
+	private void configLaunch( ILaunch launch,
+			ILaunchConfiguration configuration )
 	{
 		if ( launch.getSourceLocator( ) instanceof JavaSourceLookupDirector )
 		{
@@ -101,7 +104,7 @@ public class ReportLaunchConfigurationDelegate extends
 			director.setSourceContainers( retValue );
 		}
 	}
-	
+
 	/**
 	 * @param path
 	 *            no use now
@@ -127,7 +130,7 @@ public class ReportLaunchConfigurationDelegate extends
 		}
 		return retValue;
 	}
-	
+
 	/**
 	 * Returns true if the given project is accessible and it has a java nature,
 	 * otherwise false.
@@ -148,6 +151,7 @@ public class ReportLaunchConfigurationDelegate extends
 		}
 		return false;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -158,23 +162,27 @@ public class ReportLaunchConfigurationDelegate extends
 	{
 		String[] temp = super.getVMArguments( configuration );
 		String[] othersArguments = getOthersVMArguments( configuration );
-		if ( temp == null || temp.length == 0)
-		{
-			temp = othersArguments;
-		} 
-		{
-			List list = new ArrayList( );
-			int size = temp.length;
-			for ( int i = 0; i < size; i++ )
-				list.add( temp[i] );
 
-			size = othersArguments.length;
-			for ( int i = 0; i < size; i++ )
-				list.add( othersArguments[i] );
+		String[] rt;
 
-			temp = (String[]) list.toArray( temp );
+		if ( temp == null || temp.length == 0 )
+		{
+			rt = new String[othersArguments.length];
+			System.arraycopy( othersArguments, 0, rt, 0, rt.length );
 		}
-		return temp;
+		else
+		{
+			rt = new String[othersArguments.length + temp.length];
+
+			System.arraycopy( temp, 0, rt, 0, temp.length );
+			System.arraycopy( othersArguments,
+					0,
+					rt,
+					temp.length,
+					othersArguments.length );
+		}
+
+		return rt;
 	}
 
 	private String[] getOthersVMArguments( ILaunchConfiguration configuration )
@@ -187,7 +195,7 @@ public class ReportLaunchConfigurationDelegate extends
 
 		String append = "-D" + PROJECT_NAMES_KEY + "=" + path; //$NON-NLS-1$ //$NON-NLS-2$
 
-		String projectClassPaths = finder.getClassPath( ); //$NON-NLS-1$
+		String projectClassPaths = finder.getClassPath( );
 
 		String classPath = ""; //$NON-NLS-1$
 		// String sourcePath = "";
@@ -196,9 +204,12 @@ public class ReportLaunchConfigurationDelegate extends
 			classPath = "-D" + PROJECT_CLASSPATH_KEY + "=" + projectClassPaths; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
-		String openFiles = "-D" + PROJECT_OPENFILES_KEY + "=" + configuration.getAttribute( OPENFILENAMES, "" );
-		
-		String mode = "-D" + WebViewer.REPORT_DEBUT_MODE + "=" + "TRUE"; //$NON-NLS-1$ //$NON-NLS-2$
+		String openFiles = "-D" //$NON-NLS-1$
+				+ PROJECT_OPENFILES_KEY
+				+ "=" //$NON-NLS-1$
+				+ configuration.getAttribute( OPENFILENAMES, "" ); //$NON-NLS-1$
+
+		String mode = "-D" + WebViewer.REPORT_DEBUT_MODE + "=" + "TRUE"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		return new String[]{
 				append, classPath, openFiles, mode
 		};

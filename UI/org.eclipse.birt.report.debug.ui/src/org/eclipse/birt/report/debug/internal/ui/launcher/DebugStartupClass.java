@@ -39,14 +39,15 @@ import com.ibm.icu.util.StringTokenizer;
  * Copy the seletion of the project in the debug lauch.The key name is
  * user.projectname.
  * 
+ * @deprecated
  */
 public class DebugStartupClass implements IStartup
 {
 
-	private static final String WORKSPACE_CLASSPATH_KEY = "workspace.projectclasspath";
+	private static final String WORKSPACE_CLASSPATH_KEY = "workspace.projectclasspath"; //$NON-NLS-1$
 
 	private static Logger logger = Logger.getLogger( DebugStartupClass.class.getName( ) );
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -84,7 +85,7 @@ public class DebugStartupClass implements IStartup
 			catch ( Exception e1 )
 			{
 				// do nothing, the project has inport to the workspace1
-				logger.log( Level.SEVERE, e1.getMessage( ), e1);
+				logger.log( Level.SEVERE, e1.getMessage( ), e1 );
 			}
 		}
 		Display.getDefault( ).asyncExec( new Runnable( ) {
@@ -116,44 +117,52 @@ public class DebugStartupClass implements IStartup
 				}
 				catch ( PartInitException e )
 				{
-					logger.log( Level.SEVERE, e.getMessage( ), e);
+					logger.log( Level.SEVERE, e.getMessage( ), e );
 				}
-				if (openCount == 1)
+				if ( openCount == 1 )
 				{
-					FormEditor editor = getActiveReportEditor();
-					editor.setActivePage(ReportPreviewFormPage.ID);
+					FormEditor editor = getActiveReportEditor( );
+					editor.setActivePage( ReportPreviewFormPage.ID );
 				}
-				
+
 			}
 
 		} );
 
 	}
-	
-	/**Returns the current active report editor in current active page or
+
+	/**
+	 * Returns the current active report editor in current active page or
 	 * current active workbench.
+	 * 
 	 * @return
 	 */
-	public static FormEditor getActiveReportEditor() 
+	public static FormEditor getActiveReportEditor( )
 	{
-		IWorkbenchWindow window = PlatformUI.getWorkbench()
-				.getActiveWorkbenchWindow();
+		IWorkbenchWindow window = PlatformUI.getWorkbench( )
+				.getActiveWorkbenchWindow( );
 
-		if (window != null) {
+		if ( window != null )
+		{
 
-			IWorkbenchPage pg = window.getActivePage();
+			IWorkbenchPage pg = window.getActivePage( );
 
-			if (pg != null) {
-				IEditorPart editor = pg.getActiveEditor();
+			if ( pg != null )
+			{
+				IEditorPart editor = pg.getActiveEditor( );
 
-				if (editor != null) {
-					if (editor instanceof ReportEditorProxy) {
-						IEditorPart part = ((ReportEditorProxy) editor)
-								.getEditorPart();
-						if (part instanceof FormEditor) {
+				if ( editor != null )
+				{
+					if ( editor instanceof ReportEditorProxy )
+					{
+						IEditorPart part = ( (ReportEditorProxy) editor ).getEditorPart( );
+						if ( part instanceof FormEditor )
+						{
 							return (FormEditor) part;
 						}
-					} else if (editor instanceof FormEditor) {
+					}
+					else if ( editor instanceof FormEditor )
+					{
 						return (FormEditor) editor;
 					}
 				}

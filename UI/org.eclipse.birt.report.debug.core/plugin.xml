@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+    <extension
+         id="ReportDebugger"
+         name="BIRT Report Debugger"
+         point="org.eclipse.core.runtime.applications">
+      <application
+            cardinality="singleton-global"
+            thread="main"
+            visible="true">
+         <run
+               class="org.eclipse.birt.report.debug.internal.core.ReportDebugger">
+         </run>
+      </application>
+   </extension>   
+
+</plugin>

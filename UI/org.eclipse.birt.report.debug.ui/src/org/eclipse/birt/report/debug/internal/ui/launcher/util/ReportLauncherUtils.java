@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
-import com.ibm.icu.util.StringTokenizer;
 import java.util.TreeSet;
 
 import org.eclipse.birt.report.debug.internal.ui.launcher.IReportLauncherSettings;
@@ -31,13 +30,15 @@ import org.eclipse.jdt.launching.IVMInstallType;
 import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.core.plugin.ModelEntry;
-import org.eclipse.pde.internal.core.ExternalModelManager;
 import org.eclipse.pde.internal.core.ICoreConstants;
 import org.eclipse.pde.internal.core.PDECore;
 
+import com.ibm.icu.util.StringTokenizer;
+
 /**
- * add comment here
+ * ReportLauncherUtils
  * 
+ * @deprecated
  */
 public class ReportLauncherUtils
 {
@@ -59,12 +60,12 @@ public class ReportLauncherUtils
 		return getAutoStartPlugins( useDefault, customAutoStart );
 	}
 
+	public static IPath getEclipseHome( )
+	{
+		Preferences preferences = PDECore.getDefault( ).getPluginPreferences( );
+		return new Path( preferences.getString( ICoreConstants.PLATFORM_PATH ) );
+	}
 
-	public static IPath getEclipseHome() {
-		        Preferences preferences = PDECore.getDefault().getPluginPreferences();
-		         return new Path(preferences.getString(ICoreConstants.PLATFORM_PATH));
-		     }
-	
 	public static HashMap getAutoStartPlugins( boolean useDefault,
 			String customAutoStart )
 	{
@@ -79,8 +80,7 @@ public class ReportLauncherUtils
 			String bundles = null;
 			if ( useDefault )
 			{
-				Properties prop = getConfigIniProperties( getEclipseHome()
-						.toOSString( ),
+				Properties prop = getConfigIniProperties( getEclipseHome( ).toOSString( ),
 						"configuration/config.ini" ); //$NON-NLS-1$
 				if ( prop != null )
 					bundles = prop.getProperty( "osgi.bundles" ); //$NON-NLS-1$
@@ -145,7 +145,7 @@ public class ReportLauncherUtils
 		ModelEntry entry = PDECore.getDefault( )
 				.getModelManager( )
 				.findEntry( "org.eclipse.osgi" ); //$NON-NLS-1$
-		if ( entry != null && entry.getActiveModels( ).length > 0)
+		if ( entry != null && entry.getActiveModels( ).length > 0 )
 		{
 			IPluginModelBase model = entry.getActiveModels( )[0];
 			if ( model.getUnderlyingResource( ) != null )
@@ -182,8 +182,7 @@ public class ReportLauncherUtils
 		boolean isOSGi = true;
 		// PDECore.getDefault( ).getModelManager( ).isOSGiRuntime( );
 		String filename = isOSGi ? "configuration/config.ini" : "install.ini"; //$NON-NLS-1$ //$NON-NLS-2$
-		Properties properties = getConfigIniProperties( getEclipseHome( )
-				.toOSString( ),
+		Properties properties = getConfigIniProperties( getEclipseHome( ).toOSString( ),
 				filename );
 
 		String property = isOSGi ? "eclipse.product" : "feature.default.id"; //$NON-NLS-1$ //$NON-NLS-2$
@@ -229,8 +228,8 @@ public class ReportLauncherUtils
 		return deselected;
 	}
 
-	public static TreeSet parseDeselectedOpenFileNames( ILaunchConfiguration config )
-			throws CoreException
+	public static TreeSet parseDeselectedOpenFileNames(
+			ILaunchConfiguration config ) throws CoreException
 	{
 		TreeSet deselected = new TreeSet( );
 		String ids = config.getAttribute( IReportLauncherSettings.OPENFILENAMES,

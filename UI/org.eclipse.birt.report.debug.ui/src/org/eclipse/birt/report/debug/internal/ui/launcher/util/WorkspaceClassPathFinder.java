@@ -8,6 +8,7 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.report.debug.internal.ui.launcher.util;
 
 import java.io.File;
@@ -15,7 +16,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import com.ibm.icu.util.StringTokenizer;
 
 import org.eclipse.birt.report.viewer.utilities.IWorkspaceClasspathFinder;
 import org.eclipse.core.resources.IProject;
@@ -26,12 +26,16 @@ import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 
+import com.ibm.icu.util.StringTokenizer;
+
 /**
  * Class used to find a classpath based on projects or workspace
  * 
+ * @deprecated
  */
 public class WorkspaceClassPathFinder implements IWorkspaceClasspathFinder
 {
+
 	public WorkspaceClassPathFinder( )
 	{
 	}
@@ -54,9 +58,9 @@ public class WorkspaceClassPathFinder implements IWorkspaceClasspathFinder
 			List paths = getProjectPaths( projectName );
 			for ( int i = 0; i < paths.size( ); i++ )
 			{
-				String url = ( String ) paths.get( i );
+				String url = (String) paths.get( i );
 				if ( url != null && url.length( ) != 0 )
-					if ( i == 0 && !hasHeader)
+					if ( i == 0 && !hasHeader )
 					{
 						wbuf.append( url );
 						hasHeader = true;
@@ -74,7 +78,8 @@ public class WorkspaceClassPathFinder implements IWorkspaceClasspathFinder
 
 	public String getClassPath( )
 	{
-		IProject[] projects = ResourcesPlugin.getWorkspace( ).getRoot( )
+		IProject[] projects = ResourcesPlugin.getWorkspace( )
+				.getRoot( )
 				.getProjects( );
 
 		String projectString = ""; //$NON-NLS-1$
@@ -95,7 +100,8 @@ public class WorkspaceClassPathFinder implements IWorkspaceClasspathFinder
 	{
 		List retValue = new ArrayList( );
 
-		IProject project = ResourcesPlugin.getWorkspace( ).getRoot( )
+		IProject project = ResourcesPlugin.getWorkspace( )
+				.getRoot( )
 				.getProject( projectName );
 
 		if ( projectName == null )
@@ -106,7 +112,7 @@ public class WorkspaceClassPathFinder implements IWorkspaceClasspathFinder
 		List paths = getProjectPath( project );
 		for ( int j = 0; j < paths.size( ); j++ )
 		{
-			URL url = ( URL ) paths.get( j );
+			URL url = (URL) paths.get( j );
 			if ( url != null )
 			{
 				retValue.add( url.getPath( ) );
@@ -130,19 +136,16 @@ public class WorkspaceClassPathFinder implements IWorkspaceClasspathFinder
 
 		IJavaProject fCurrJProject = JavaCore.create( project );
 		IPath path = null;
-		boolean projectExists = ( project.exists( ) && project.getFile(
-				".classpath" ).exists( ) ); //$NON-NLS-1$
+		boolean projectExists = ( project.exists( ) && project.getFile( ".classpath" ).exists( ) ); //$NON-NLS-1$
 		if ( projectExists )
 		{
 			if ( path == null )
 			{
 				path = fCurrJProject.readOutputLocation( );
 				String curPath = path.toOSString( );
-				int index = curPath.indexOf( project.getName( ) );
-				curPath = curPath.substring( index
-						+ project.getName( ).length( ) );
 				String directPath = project.getLocation( ).toOSString( );
-				String absPath = directPath + curPath;
+				int index = directPath.lastIndexOf( File.separator );
+				String absPath = directPath.substring( 0, index ) + curPath;
 
 				return absPath;
 			}
@@ -161,8 +164,7 @@ public class WorkspaceClassPathFinder implements IWorkspaceClasspathFinder
 
 		IJavaProject fCurrJProject = JavaCore.create( project );
 		IClasspathEntry[] classpathEntries = null;
-		boolean projectExists = ( project.exists( ) && project.getFile(
-				".classpath" ).exists( ) ); //$NON-NLS-1$
+		boolean projectExists = ( project.exists( ) && project.getFile( ".classpath" ).exists( ) ); //$NON-NLS-1$
 		if ( projectExists )
 		{
 			if ( classpathEntries == null )
@@ -189,7 +191,8 @@ public class WorkspaceClassPathFinder implements IWorkspaceClasspathFinder
 				try
 				{
 					newClassPath.add( curr.getPath( ).toFile( ).toURL( ) );
-				} catch ( MalformedURLException e )
+				}
+				catch ( MalformedURLException e )
 				{
 					// DO nothing
 				}
@@ -211,7 +214,8 @@ public class WorkspaceClassPathFinder implements IWorkspaceClasspathFinder
 		try
 		{
 			return project.hasNature( JavaCore.NATURE_ID );
-		} catch ( CoreException e )
+		}
+		catch ( CoreException e )
 		{
 			// project does not exist or is not open
 		}

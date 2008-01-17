@@ -58,14 +58,15 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * add comment here
+ * ReportAdvancedLauncherTab
  * 
+ * @deprecated
  */
-
 public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 		ILaunchConfigurationTab,
 		IReportLauncherSettings
 {
+
 	protected static Logger logger = Logger.getLogger( ReportAdvancedLauncherTab.class.getName( ) );
 	private static final String REPORTPROJECTKID = "org.eclipse.birt.report.designer.ui.reportprojectnature"; //$NON-NLS-1$	
 	private Label fUseListRadio;
@@ -487,20 +488,20 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 				updateLaunchConfigurationDialog( );
 			}
 		} );
-//		fPluginTreeViewer.setSorter( new ListUtil.PluginSorter( ) {
-//
-//			public int category( Object obj )
-//			{
-//				for ( int i = 0; i < fWorkspacePlugins.length; i++ )
-//				{
-//
-//					if ( obj == fWorkspacePlugins[i] )
-//						return -1;
-//				}
-//				return 0;
-//			}
-//		} );
-		fPluginTreeViewer.setComparator( new ListUtil.PluginComparator() {
+		// fPluginTreeViewer.setSorter( new ListUtil.PluginSorter( ) {
+		//
+		// public int category( Object obj )
+		// {
+		// for ( int i = 0; i < fWorkspacePlugins.length; i++ )
+		// {
+		//
+		// if ( obj == fWorkspacePlugins[i] )
+		// return -1;
+		// }
+		// return 0;
+		// }
+		// } );
+		fPluginTreeViewer.setComparator( new ListUtil.PluginComparator( ) {
 
 			public int category( Object obj )
 			{

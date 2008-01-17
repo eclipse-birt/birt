@@ -34,10 +34,9 @@ import org.eclipse.pde.internal.ui.PDEPlugin;
 import org.eclipse.pde.internal.ui.launcher.LaunchListener;
 
 /**
- * @author Administrator
+ * DebugUtil
  * 
- * TODO To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Style - Code Templates
+ * @deprecated
  */
 public class DebugUtil
 {
@@ -53,7 +52,8 @@ public class DebugUtil
 	{
 		IPath path = new Path( prjFilePath + File.separator + ".project" ); //$NON-NLS-1$
 		final IProjectDescription newDescription = loadProjectDescription( path );
-		final IProject project = ResourcesPlugin.getWorkspace( ).getRoot( )
+		final IProject project = ResourcesPlugin.getWorkspace( )
+				.getRoot( )
 				.getProject( newDescription.getName( ) );
 		if ( project == null )
 			throw new Exception( "DebugUtil.importProject.fail" ); //$NON-NLS-1$
@@ -94,9 +94,12 @@ public class DebugUtil
 		if ( !folder.isDirectory( ) )
 			throw new Exception( );
 		String newFolderName = folder.getName( );
-		String workspaceRootPath = ResourcesPlugin.getWorkspace( ).getRoot( )
-				.getLocation( ).toOSString( );
-		String newFolderPath = workspaceRootPath + File.separator
+		String workspaceRootPath = ResourcesPlugin.getWorkspace( )
+				.getRoot( )
+				.getLocation( )
+				.toOSString( );
+		String newFolderPath = workspaceRootPath
+				+ File.separator
 				+ newFolderName;
 		File newFolder = new File( newFolderPath );
 		if ( !newFolder.exists( ) )
@@ -116,16 +119,16 @@ public class DebugUtil
 			{
 				if ( folderFiles[i].isFile( ) )
 				{
-					File newFile = new File( newFolder, folderFiles[i]
-							.getName( ) );
+					File newFile = new File( newFolder,
+							folderFiles[i].getName( ) );
 					if ( !newFile.exists( ) )
 						newFile.createNewFile( );
 					copyFile( folderFiles[i], newFile );
 				}
 				else
 				{
-					File newSubFolder = new File( newFolder, folderFiles[i]
-							.getName( ) );
+					File newSubFolder = new File( newFolder,
+							folderFiles[i].getName( ) );
 					if ( !newSubFolder.exists( ) )
 						newSubFolder.mkdir( );
 					copyFiles( folderFiles[i], newSubFolder );
@@ -150,14 +153,15 @@ public class DebugUtil
 	public static String getResourceString( String key )
 	{
 
-		ResourceBundle bundle = Platform.getResourceBundle( PDEPlugin
-				.getDefault( ).getBundleContext( ).getBundle( ) );
+		ResourceBundle bundle = Platform.getResourceBundle( PDEPlugin.getDefault( )
+				.getBundleContext( )
+				.getBundle( ) );
 		if ( bundle != null )
 		{
 			try
 			{
 				String bundleString = bundle.getString( key );
-				//return "$"+bundleString;
+				// return "$"+bundleString;
 				return bundleString;
 			}
 			catch ( MissingResourceException e )
@@ -183,10 +187,8 @@ public class DebugUtil
 			{
 				try
 				{
-					method = PDEPlugin.class.getDeclaredMethod(
-							"getLaunchListener", new Class[]{} ); //$NON-NLS-1$
-					return (LaunchListener) ( method
-							.invoke( in, new Object[]{} ) );
+					method = PDEPlugin.class.getDeclaredMethod( "getLaunchListener", new Class[]{} ); //$NON-NLS-1$
+					return (LaunchListener) ( method.invoke( in, new Object[]{} ) );
 				}
 				catch ( Exception e1 )
 				{
@@ -206,12 +208,15 @@ public class DebugUtil
 		Method method = null;
 		try
 		{
-			method = TargetPlatform.class.getDeclaredMethod(
-					"createPlatformConfigurationArea", new Class[]{ //$NON-NLS-1$
-							TreeMap.class, File.class, String.class,
-							HashMap.class} );
-			method.invoke( TargetPlatform.class, new Object[]{pluginMap,
-					configDir, primaryFeatureId, autoStartPlugins} );
+			method = TargetPlatform.class.getDeclaredMethod( "createPlatformConfigurationArea", new Class[]{ //$NON-NLS-1$
+							TreeMap.class,
+							File.class,
+							String.class,
+							HashMap.class
+					} );
+			method.invoke( TargetPlatform.class, new Object[]{
+					pluginMap, configDir, primaryFeatureId, autoStartPlugins
+			} );
 			return;
 		}
 		catch ( Exception e )
@@ -223,16 +228,18 @@ public class DebugUtil
 		{
 			try
 			{
-				method = TargetPlatform.class.getDeclaredMethod(
-						"createPlatformConfigurationArea", new Class[]{ //$NON-NLS-1$
-								TreeMap.class, File.class, String.class} );
-				method.invoke( TargetPlatform.class, new Object[]{pluginMap,
-						configDir, primaryFeatureId} );
+				method = TargetPlatform.class.getDeclaredMethod( "createPlatformConfigurationArea", new Class[]{ //$NON-NLS-1$
+								TreeMap.class, File.class, String.class
+						} );
+				method.invoke( TargetPlatform.class, new Object[]{
+						pluginMap, configDir, primaryFeatureId
+				} );
 			}
 			catch ( Exception e )
 			{
 			}
 		}
 	}
+
 	
 }

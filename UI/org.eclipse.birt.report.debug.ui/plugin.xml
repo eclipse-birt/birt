@@ -2,6 +2,7 @@
 <?eclipse version="3.0"?>
 <plugin>
 
+   <!--
    <extension
 	    point="org.eclipse.debug.core.launchConfigurationTypes">
 	      <launchConfigurationType
@@ -43,4 +44,203 @@
             	id="org.eclipse.jdt.launching.javaSourceLocator">
    		   </sourceLocator>
    </extension>
+   -->
+
+     <extension
+         point="org.eclipse.debug.core.launchConfigurationTypes">
+     <launchConfigurationType
+            sourceLocatorId="org.eclipse.birt.report.debug.sourceLocator.script"
+            name="%script.debug"
+            sourcePathComputerId="org.eclipse.birt.report.debug.sourcePathComputer.script"
+            delegate="org.eclipse.birt.report.debug.internal.ui.script.launcher.ReportApplicationLaunchDelegate"
+            modes="debug"
+            id="org.eclipse.birt.report.debug.ui.launchConfigurationType.script">
+      </launchConfigurationType>
+   </extension>
+   
+    <extension
+         point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+    	  <launchConfigurationTabGroup
+             class="org.eclipse.birt.report.debug.internal.ui.script.launcher.ScriptTabGroup"
+             id="org.eclipse.birt.report.debug.ui.launchConfigurationTabGroup.script"
+             type="org.eclipse.birt.report.debug.ui.launchConfigurationType.script">
+    	  </launchConfigurationTabGroup>
+   </extension>
+   
+   <extension point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+	    <launchConfigurationTypeImage
+	        icon="icons/full/ctool16/birtdebugger.gif"
+	        configTypeID="org.eclipse.birt.report.debug.ui.launchConfigurationType.script"
+	        id="org.eclipse.birt.report.debug.ui.launchConfigurationTypeImage.report">
+	    </launchConfigurationTypeImage>
+	</extension>
+	
+	<extension
+         point="org.eclipse.debug.ui.debugModelPresentations">
+      <debugModelPresentation
+            class="org.eclipse.birt.report.debug.internal.script.model.ScriptModelPresentation"
+            id="org.eclipse.birt.report.debug.script.model">
+      </debugModelPresentation>
+   </extension>
+   
+      <extension
+         point="org.eclipse.debug.core.watchExpressionDelegates">
+         <watchExpressionDelegate
+         	debugModel="org.eclipse.birt.report.debug.script.model"
+         	delegateClass="org.eclipse.birt.report.debug.internal.ui.script.ScriptWatchExpressionDelegate"/>
+   </extension>
+   
+   <extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            class="org.eclipse.birt.report.debug.internal.script.model.ScriptBreakpointAdapterFactory"
+            adaptableType="org.eclipse.birt.report.designer.ui.editor.script.DecoratedScriptEditor">
+         <adapter
+               type="org.eclipse.debug.ui.actions.IToggleBreakpointsTarget">
+         </adapter>
+         <adapter type="org.eclipse.debug.ui.actions.IRunToLineTarget"/>
+      </factory>
+   </extension>
+   
+   <extension
+         point="org.eclipse.debug.core.sourcePathComputers">
+      <sourcePathComputer
+            class="org.eclipse.birt.report.debug.internal.ui.script.launcher.sourcelookup.ScriptSourcePathComputerDelegate"
+            id="org.eclipse.birt.report.debug.sourcePathComputer.script">
+      </sourcePathComputer>
+   </extension>
+      
+    <extension
+         point="org.eclipse.debug.core.sourceLocators">
+       <sourceLocator
+            name="Script Source Lookup Director"
+            class="org.eclipse.birt.report.debug.internal.ui.script.launcher.sourcelookup.ScriptSourceLookupDirector"
+            id="org.eclipse.birt.report.debug.sourceLocator.script">
+      </sourceLocator>
+   </extension>
+   
+   <extension
+         id="script debug editor"
+         point="org.eclipse.ui.editors">
+      <editor
+            name="Debug JavaScript editor"
+            default="true"
+            icon="icons/full/ctool16/birtdebugger.gif"
+            contributorClass="org.eclipse.birt.report.debug.internal.ui.script.actions.ScriptActionBarContributor"
+            class="org.eclipse.birt.report.debug.internal.ui.script.editor.DebugJsEditor"
+            symbolicFontName="org.eclipse.jdt.ui.editors.textfont"
+            id="org.eclipse.birt.report.debug.internal.ui.script.editor.DebugJsEditor">
+      </editor>
+     </extension>
+     
+     <extension
+         point="org.eclipse.ui.elementFactories">
+      <factory
+            class="org.eclipse.birt.report.debug.internal.ui.script.editor.ScriptEditorInputFactory"
+            id="org.eclipse.birt.report.debug.ui.script.ScriptEditorInputFactory"/>
+   </extension>
+   
+   
+   <extension
+         point="org.eclipse.ui.editorActions">
+      <editorContribution
+            targetID="org.eclipse.birt.report.debug.internal.ui.script.editor.DebugJsEditor"
+            id="org.eclipse.birt.report.debug.internal.ui.script.editor.DebugJsEditor.BreakpointRulerActions">
+         <action
+               label="Add Breakpoint"
+               class="org.eclipse.debug.ui.actions.RulerToggleBreakpointActionDelegate"
+               actionID="RulerDoubleClick"
+               id="org.eclipse.birt.report.debug.internal.ui.script.editor.DebugJsEditor.ManageBreakpointRulerAction">
+         </action>
+      </editorContribution>
+    </extension>
+    
+    
+      <extension
+         point="org.eclipse.ui.editorActions">
+      <editorContribution
+            targetID="org.eclipse.birt.report.designer.ui.editor.script.DecoratedScriptEditor"
+            id="org.eclipse.birt.report.designer.ui.editor.script.BreakpointRulerActions">
+         <action
+               label="Add Breakpoint"
+               class="org.eclipse.debug.ui.actions.RulerToggleBreakpointActionDelegate"
+               actionID="RulerDoubleClick"
+               id="org.eclipse.birt.report.designer.ui.editor.script.DecoratedScriptEditor.ManageBreakpointRulerAction">
+         </action>
+      </editorContribution>
+    </extension>
+    
+    <extension
+         point="org.eclipse.debug.core.breakpoints">
+      <breakpoint
+            markerType="org.eclipse.birt.report.debug.ui.script.scriptLineBreakpointMarker"
+            class="org.eclipse.birt.report.debug.internal.script.model.ScriptLineBreakpoint"
+            id="org.eclipse.birt.report.debug.script.LineBreakpoint">
+      </breakpoint>
+     </extension>
+     
+     <extension
+         id="script.scriptLineBreakpointMarker"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.debug.core.lineBreakpointMarker">
+      </super>
+      <persistent
+            value="true">
+      </persistent>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.popupMenus">
+         <viewerContribution
+            targetID="#ScriptRulerContext"
+            id="org.eclipse.Script.debug.ui.ScriptRulerPopupActions">
+         <action
+               label="%EnableBreakpoint.label"
+               helpContextId="enable_disable_breakpoint_action_context"
+               class="org.eclipse.debug.ui.actions.RulerEnableDisableBreakpointActionDelegate"
+               menubarPath="debug"
+               id="org.eclipse.jdt.debug.ui.actions.EnableDisableBreakpointRulerActionDelegate">
+         </action>
+         <action
+               class="org.eclipse.debug.ui.actions.RulerToggleBreakpointActionDelegate"
+               helpContextId="manage_breakpoint_action_context"
+               icon="icons/full/ctool16/brkp_obj.gif"
+               id="org.eclipse.jdt.debug.ui.actions.BreakpointRulerActionDelegate"
+               label="%AddBreakpoint.label"
+               menubarPath="debug">
+         </action>
+      </viewerContribution>
+    </extension>   
+    
+    <extension point="org.eclipse.jdt.launching.classpathProviders">
+       <classpathProvider
+          id="org.eclipse.birt.report.debug.script.ScriptDebugClasspathProvider"
+          class="org.eclipse.birt.report.debug.internal.ui.script.launcher.ScriptDebugClasspathProvider">
+       </classpathProvider>
+    </extension>
+ 
+   <extension
+         point="org.eclipse.ui.popupMenus">
+         <viewerContribution
+            targetID="#ReportScriptRulerContext"
+            id="org.eclipse.birt.report.designer.ui.ScriptRulerPopupActions">
+         <action
+               label="%EnableBreakpoint.label"
+               helpContextId="enable_disable_breakpoint_action_context"
+               class="org.eclipse.debug.ui.actions.RulerEnableDisableBreakpointActionDelegate"
+               menubarPath="debug"
+               id="org.eclipse.jdt.debug.ui.actions.EnableDisableBreakpointRulerActionDelegate">
+         </action>
+         <action
+               class="org.eclipse.debug.ui.actions.RulerToggleBreakpointActionDelegate"
+               helpContextId="manage_breakpoint_action_context"
+               icon="icons/full/ctool16/brkp_obj.gif"
+               id="org.eclipse.jdt.debug.ui.actions.BreakpointRulerActionDelegate"
+               label="%AddBreakpoint.label"
+               menubarPath="debug">
+         </action>
+      </viewerContribution>
+    </extension>   
+  
 </plugin>

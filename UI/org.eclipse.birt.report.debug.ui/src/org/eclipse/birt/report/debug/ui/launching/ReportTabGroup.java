@@ -25,13 +25,11 @@ import org.eclipse.swt.widgets.Display;
 /**
  * Class for report Debug tab group
  * 
+ * @deprecated
  */
 public class ReportTabGroup extends AbstractLaunchConfigurationTabGroup
 {
 
-	/**
-	 * 
-	 */
 	public ReportTabGroup( )
 	{
 	}
@@ -46,7 +44,7 @@ public class ReportTabGroup extends AbstractLaunchConfigurationTabGroup
 	{
 		ILaunchConfigurationTab tabs[] = (ILaunchConfigurationTab[]) null;
 		tabs = ( new ILaunchConfigurationTab[]{
-				new ReportAdvancedLauncherTab( ), new PluginsTab( false)
+				new ReportAdvancedLauncherTab( ), new PluginsTab( false )
 		} );
 		setTabs( tabs );
 	}
