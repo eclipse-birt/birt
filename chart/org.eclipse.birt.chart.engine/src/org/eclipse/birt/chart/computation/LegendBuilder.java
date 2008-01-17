@@ -68,7 +68,7 @@ public final class LegendBuilder implements IConstants
 		private int[] filteredMinSliceEntry;
 		private double maxWrappingSize;
 		private double dHorizonalReservedSpace;
-		private double dVerticalReservedSpace;
+//		private double dVerticalReservedSpace;
 		private double dAvailableWidth;
 		private double dAvailableHeight;
 		private double dItemHeight;
@@ -77,7 +77,7 @@ public final class LegendBuilder implements IConstants
 		private double dScale;
 		private double dSeparatorThickness;
 		private double dSafeSpacing;
-		private double dEllipsisWidth;
+//		private double dEllipsisWidth;
 		private List legendItems = new ArrayList( );
 		private Insets insCa;
 		private String sMinSliceLabel;
@@ -372,7 +372,7 @@ public final class LegendBuilder implements IConstants
 
 	}
 
-	private static final String ELLIPSIS_STRING = "..."; //$NON-NLS-1$
+//	private static final String ELLIPSIS_STRING = "..."; //$NON-NLS-1$
 
 	private Size sz;
 
@@ -436,9 +436,9 @@ public final class LegendBuilder implements IConstants
 			itm = xs.getTextMetrics( la );
 			legendData.dItemHeight = itm.getFullHeight( );
 
-			la.getCaption( ).setValue( ELLIPSIS_STRING );
-			itm.reuse( la );
-			legendData.dEllipsisWidth = itm.getFullWidth( );
+//			la.getCaption( ).setValue( ELLIPSIS_STRING );
+//			itm.reuse( la );
+//			legendData.dEllipsisWidth = itm.getFullWidth( );
 
 			legendData.dScale = xs.getDpiResolution( ) / 72d;
 			legendData.insCa = ca.getInsets( )
@@ -456,9 +456,9 @@ public final class LegendBuilder implements IConstants
 					+ legendData.insCa.getRight( )
 					+ ( 3 * legendData.dItemHeight ) / 2
 					+ legendData.dHorizontalSpacing;
-			legendData.dVerticalReservedSpace = legendData.insCa.getTop( )
-					+ legendData.insCa.getBottom( )
-					+ legendData.dVerticalSpacing;
+//			legendData.dVerticalReservedSpace = legendData.insCa.getTop( )
+//					+ legendData.insCa.getBottom( )
+//					+ legendData.dVerticalSpacing;
 
 			// Get maximum block width/height available
 			final Block bl = cm.getBlock( );
@@ -975,6 +975,7 @@ public final class LegendBuilder implements IConstants
 				double[] dsize = getItemSizeCata( laiLegend, legendData, dX );
 				dW = dsize[0];
 				dH = dsize[1];
+				dMaxW = Math.max( dW, dMaxW );
 
 				if ( dX + dW > legendData.dAvailableWidth
 						+ legendData.dSafeSpacing )
@@ -992,12 +993,11 @@ public final class LegendBuilder implements IConstants
 
 						dMaxH = Math.max( dMaxH, dY );
 						dY = 0;
-						dMaxW = 0;
+						dMaxW = dW;
 						bRedo = true;
 					}
 					else
 					{
-						dMaxW = Math.max( dW, dMaxW );
 						dY += dH;
 						bRedo = false;
 					}
@@ -1121,6 +1121,7 @@ public final class LegendBuilder implements IConstants
 								dX );
 						dW = dsize[0];
 						dH = dsize[1];
+						dMaxW = Math.max( dW, dMaxW );
 
 						if ( dX + dW > legendData.dAvailableWidth
 								+ legendData.dSafeSpacing )
@@ -1138,12 +1139,11 @@ public final class LegendBuilder implements IConstants
 
 								dMaxH = Math.max( dMaxH, dY );
 								dY = 0;
-								dMaxW = 0;
+								dMaxW = dW;
 								bRedo = true;
 							}
 							else
 							{
-								dMaxW = Math.max( dW, dMaxW );
 								dY += dH;
 								bRedo = false;
 							}
@@ -1337,6 +1337,7 @@ public final class LegendBuilder implements IConstants
 				double[] dsize = getItemSizeCata( laiLegend, legendData, dX );
 				dW = dsize[0];
 				dH = dsize[1];
+				dMaxH = Math.max( dH, dMaxH );
 
 				if ( dY + dH > legendData.dAvailableHeight
 						+ legendData.dSafeSpacing )
@@ -1352,7 +1353,7 @@ public final class LegendBuilder implements IConstants
 						columnList.clear( );
 
 						dY += dMaxH;
-						dMaxH = 0;
+						dMaxH = dH;
 						dMaxW = Math.max( dMaxW, dX );
 						dX = 0;
 						laiLegend.restoreOriginalText( fs );
@@ -1361,7 +1362,6 @@ public final class LegendBuilder implements IConstants
 					else
 					{
 						dX += dW;
-						dMaxH = Math.max( dH, dMaxH );
 						bRedo = false;
 					}
 
@@ -1464,6 +1464,7 @@ public final class LegendBuilder implements IConstants
 							dX );
 					dW = dsize[0];
 					dH = dsize[1];
+					dMaxH = Math.max( dH, dMaxH );
 
 					if ( dY + dH > legendData.dAvailableHeight
 							+ legendData.dSafeSpacing )
@@ -1479,7 +1480,7 @@ public final class LegendBuilder implements IConstants
 							columnList.clear( );
 
 							dY += dMaxH;
-							dMaxH = 0;
+							dMaxH = dH;
 							dMaxW = Math.max( dMaxW, dX );
 							dX = 0;
 							laiLegend.restoreOriginalText( fs );
@@ -1489,7 +1490,6 @@ public final class LegendBuilder implements IConstants
 						else
 						{
 							dX += dW;
-							dMaxH = Math.max( dH, dMaxH );
 							bRedo = false;
 						}
 
