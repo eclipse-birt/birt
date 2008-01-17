@@ -216,6 +216,38 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 
 		setState( );
 
+		if ( getValueType( ) == TextEditorComposite.TYPE_DATETIME )
+		{
+			parent.getShell( ).addListener( SWT.Close, new Listener( ) {
+
+				public void handleEvent( Event event )
+				{
+					if ( event.type == SWT.Close )
+					{
+						DataElement data = txtScaleMin.getDataElement( );
+						if ( data == null )
+						{
+							getScale( ).eUnset( ComponentPackage.eINSTANCE.getScale_Min( ) );
+						}
+						else
+						{
+							getScale( ).setMin( data );
+						}
+						data = txtScaleMax.getDataElement( );
+						if ( data == null )
+						{
+							getScale( ).eUnset( ComponentPackage.eINSTANCE.getScale_Max( ) );
+						}
+						else
+						{
+							getScale( ).setMax( data );
+						}
+						setState( );
+					}
+				}
+			} );
+		}
+
 		return cmpContent;
 	}
 
@@ -257,8 +289,8 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 	{
 		IDataElementComposite picker = null;
 
-		if ( getValueType( ) == TextEditorComposite.TYPE_NUMBERIC ||
-				getValueType( ) == TextEditorComposite.TYPE_NONE )
+		if ( getValueType( ) == TextEditorComposite.TYPE_NUMBERIC
+				|| getValueType( ) == TextEditorComposite.TYPE_NONE )
 		{
 			try
 			{
@@ -282,7 +314,7 @@ public abstract class AbstractScaleSheet extends AbstractPopupSheet
 				picker = new DateTimeDataElementComposite( parent, null );
 			}
 		}
-		
+
 		if ( picker != null )
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
