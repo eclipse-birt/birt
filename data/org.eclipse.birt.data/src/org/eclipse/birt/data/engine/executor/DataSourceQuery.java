@@ -491,6 +491,24 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
     	IResultIterator ri = null;
 
     	this.setInputParameterBinding();
+    	
+    	if ( session.getDataSetCacheManager( ).doesSaveToCache( ) )
+		{
+			int fetchRowLimit = 0;
+			if ( session.getDataSetCacheManager( ).getCurrentDataSetDesign( ) != null )
+			{
+				fetchRowLimit = session.getDataSetCacheManager( )
+						.getCurrentDataSetDesign( )
+						.getRowFetchLimit( );
+			}
+			if ( fetchRowLimit != 0
+					&& fetchRowLimit < session.getDataSetCacheManager( )
+							.getCacheRowCount( ) )
+				odaStatement.setMaxRows( fetchRowLimit );
+			else
+				odaStatement.setMaxRows( session.getDataSetCacheManager( )
+						.getCacheRowCount( ) );
+		}
 		// Execute the prepared statement
 		if ( !odaStatement.execute( ) )
 			throw new DataException( ResourceConstants.NO_RESULT_SET );
