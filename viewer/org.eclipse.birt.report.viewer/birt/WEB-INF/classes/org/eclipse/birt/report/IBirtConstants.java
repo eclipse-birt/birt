@@ -116,6 +116,8 @@ public interface IBirtConstants
 	public static final String DEFAULT_LOGS_LEVEL = "WARNING"; //$NON-NLS-1$
 	public static final String DEFAULT_SCRIPTLIB_FOLDER = "scriptlib"; //$NON-NLS-1$
 	
+	public static final String SUB_IMAGE_FOLDER = "birtImages"; //$NON-NLS-1$	
+	
 	// Open type
 	public static final String OPEN_TYPE_INLINE = "inline"; //$NON-NLS-1$
 	public static final String OPEN_TYPE_ATTACHMENT = "attachment"; //$NON-NLS-1$

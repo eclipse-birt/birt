@@ -1492,6 +1492,8 @@ public class ParameterAccessor
 				.getInitParameter( ParameterAccessor.INIT_PARAM_IMAGE_DIR );
 		if ( isDesigner && initImageFolder == null )
 			initImageFolder = workingPath + IBirtConstants.DEFAULT_IMAGE_FOLDER;
+		else
+			initImageFolder += File.separator + IBirtConstants.SUB_IMAGE_FOLDER;
 		imageFolder = processRealPath( context, initImageFolder,
 				IBirtConstants.DEFAULT_IMAGE_FOLDER, true );
 
@@ -2357,12 +2359,15 @@ public class ParameterAccessor
 	}
 
 	/**
-	 * Push user-defined application context object into engine context map.
-	 * The user-defined application context is retrieved from the http request,
-	 * if available, else from the session. If nothing is found, nothing is
-	 * added and the map is returned as is.
-	 * @param map application context map
-	 * @param request http request object containing appContext key to push
+	 * Push user-defined application context object into engine context map. The
+	 * user-defined application context is retrieved from the http request, if
+	 * available, else from the session. If nothing is found, nothing is added
+	 * and the map is returned as is.
+	 * 
+	 * @param map
+	 *            application context map
+	 * @param request
+	 *            http request object containing appContext key to push
 	 * @return map containing the appContext key
 	 */
 	public static Map pushAppContext( Map map, HttpServletRequest request )
@@ -2373,7 +2378,7 @@ public class ParameterAccessor
 		// Get application context key from request
 		String appContextKey = (String) request
 				.getAttribute( ATTR_APPCONTEXT_KEY );
-		
+
 		if ( appContextKey != null )
 		{
 			map.put( appContextKey, request
@@ -2391,15 +2396,15 @@ public class ParameterAccessor
 				if ( appContextKey != null )
 				{
 					map.put( appContextKey, session
-						.getAttribute( ATTR_APPCONTEXT_VALUE ) );
-				
+							.getAttribute( ATTR_APPCONTEXT_VALUE ) );
+
 				}
 			}
-		}			
+		}
 
 		return map;
 	}
-	
+
 	/**
 	 * Returns the encoding for export data.
 	 * 
