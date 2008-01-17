@@ -167,10 +167,11 @@ class ChartCubeQueryHelper
 				String[] levelNames = CubeUtil.splitLevelName( column.getAggregateOn( ) );
 				String dimExpr = ExpressionUtil.createJSDimensionExpression( levelNames[0],
 						levelNames[1] );
-				binding.addAggregateOn( dimExpr );
 
+				// Do not add aggregation for chart in xtab detail cell
 				if ( !bInXtabDetail )
 				{
+					binding.addAggregateOn( dimExpr );
 					binding.setAggrFunction( column.getAggregateFunction( ) == null
 							? null
 							: DataAdapterUtil.adaptModelAggregationType( column.getAggregateFunction( ) ) );

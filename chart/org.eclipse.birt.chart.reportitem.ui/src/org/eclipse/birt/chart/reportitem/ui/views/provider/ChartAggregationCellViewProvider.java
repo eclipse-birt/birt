@@ -30,6 +30,8 @@ import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
@@ -39,9 +41,8 @@ import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellViewAdapter;
 import org.eclipse.birt.report.model.api.DataItemHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 
 /**
  * Provider for conversion between chart and text in cross tab
@@ -72,7 +73,10 @@ public class ChartAggregationCellViewProvider
 			{
 				DataItemHandle dataItemHandle = (DataItemHandle) content;
 				exprMeasure = dataItemHandle.getResultSetColumn( );
-				dataItemHandle.dropAndClear( );
+			}
+			if ( content instanceof DesignElementHandle )
+			{
+				( (DesignElementHandle) content ).dropAndClear( );
 			}
 
 			// Get the row dimension binding name
@@ -125,7 +129,7 @@ public class ChartAggregationCellViewProvider
 						null,
 						cell.getDimensionName( ICrosstabConstants.COLUMN_AXIS_TYPE ),
 						cell.getLevelName( ICrosstabConstants.COLUMN_AXIS_TYPE ) );
-				( (DataItemHandle) getFirstContent( grandTotalAggCell ) ).dropAndClear( );
+				( (DesignElementHandle) getFirstContent( grandTotalAggCell ) ).dropAndClear( );
 				grandTotalAggCell.addContent( axisChartHandle );
 			}
 			else
@@ -146,13 +150,13 @@ public class ChartAggregationCellViewProvider
 						cell.getLevelName( ICrosstabConstants.ROW_AXIS_TYPE ),
 						null,
 						null );
-				( (DataItemHandle) getFirstContent( grandTotalAggCell ) ).dropAndClear( );
+				( (DesignElementHandle) getFirstContent( grandTotalAggCell ) ).dropAndClear( );
 				grandTotalAggCell.addContent( axisChartHandle );
 			}
 		}
-		catch ( SemanticException e )
+		catch ( BirtException e )
 		{
-			e.printStackTrace( );
+			ExceptionHandler.handle( e );
 		}
 	}
 
@@ -188,17 +192,10 @@ public class ChartAggregationCellViewProvider
 
 			}
 		}
-		catch ( ExtendedElementException e )
+		catch ( BirtException e )
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace( );
+			ExceptionHandler.handle( e );
 		}
-		catch ( SemanticException e )
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace( );
-		}
-
 	}
 
 	private ChartWithAxes createDefaultChart( String exprMeasure,

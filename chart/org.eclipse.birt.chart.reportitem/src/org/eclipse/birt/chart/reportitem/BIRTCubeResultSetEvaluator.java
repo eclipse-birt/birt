@@ -40,7 +40,11 @@ public class BIRTCubeResultSetEvaluator
 
 	final protected ICubeResultSet rs;
 
-	protected ICubeCursor cursor;
+	protected ICubeCursor cubeCursor;
+
+	protected EdgeCursor mainEdgeCursor;
+
+	protected EdgeCursor subEdgeCursor;
 
 	private List lstBreaks = new ArrayList( );
 
@@ -90,7 +94,7 @@ public class BIRTCubeResultSetEvaluator
 		{
 			// Use DtE's method to evaluate expression for the sake of
 			// performance
-			result = getCubeCursor( ).getObject( ChartCubeQueryHelper.getBindingName( expression ) );
+			result = cubeCursor.getObject( ChartCubeQueryHelper.getBindingName( expression ) );
 		}
 		catch ( OLAPException e )
 		{
@@ -119,11 +123,10 @@ public class BIRTCubeResultSetEvaluator
 		iIndex++;
 		try
 		{
-			EdgeCursor subEdge = getSubEdge( );
-			if ( subEdge != null )
+			if ( subEdgeCursor != null )
 			{
 				// Break if sub cursor reaches end
-				if ( subEdge.next( ) )
+				if ( subEdgeCursor.next( ) )
 				{
 					return true;
 				}
@@ -131,12 +134,12 @@ public class BIRTCubeResultSetEvaluator
 				// Add break index for each start point
 				lstBreaks.add( new Integer( iIndex ) );
 
-				subEdge.first( );
-				return getMainEdge( ).next( );
+				subEdgeCursor.first( );
+				return mainEdgeCursor.next( );
 			}
 			else
 			{
-				return getMainEdge( ).next( );
+				return mainEdgeCursor.next( );
 			}
 		}
 		catch ( OLAPException e )
@@ -165,13 +168,17 @@ public class BIRTCubeResultSetEvaluator
 	{
 		try
 		{
-			getMainEdge( ).first( );
-			EdgeCursor subEdge = getSubEdge( );
-			if ( subEdge != null )
+			initCubeCursor( );
+
+			mainEdgeCursor.first( );
+			if ( subEdgeCursor != null )
 			{
-				subEdge.first( );
+				subEdgeCursor.first( );
 			}
-			bWithoutSub = getCubeCursor( ).getOrdinateEdge( ).size( ) <= 1;
+			else
+			{
+				bWithoutSub = true;
+			}
 			return true;
 		}
 		catch ( OLAPException e )
@@ -181,27 +188,23 @@ public class BIRTCubeResultSetEvaluator
 		return false;
 	}
 
-	EdgeCursor getMainEdge( ) throws OLAPException
+	protected void initCubeCursor( ) throws OLAPException
 	{
-		return (EdgeCursor) getCubeCursor( ).getOrdinateEdge( ).get( 0 );
-	}
-
-	EdgeCursor getSubEdge( ) throws OLAPException
-	{
-		List edges = getCubeCursor( ).getOrdinateEdge( );
-		if ( edges.size( ) <= 1 )
+		if ( cubeCursor == null )
 		{
-			return null;
-		}
-		return (EdgeCursor) edges.get( 1 );
-	}
+			cubeCursor = (ICubeCursor) rs.getCubeCursor( );
 
-	protected ICubeCursor getCubeCursor( )
-	{
-		if ( cursor == null )
-		{
-			cursor = (ICubeCursor) rs.getCubeCursor( );
+			List edges = cubeCursor.getOrdinateEdge( );
+			if ( edges.size( ) <= 1 )
+			{
+				this.mainEdgeCursor = (EdgeCursor) edges.get( 0 );
+				this.subEdgeCursor = null;
+			}
+			else
+			{
+				this.mainEdgeCursor = (EdgeCursor) edges.get( 0 );
+				this.subEdgeCursor = (EdgeCursor) edges.get( 1 );;
+			}
 		}
-		return cursor;
 	}
 }

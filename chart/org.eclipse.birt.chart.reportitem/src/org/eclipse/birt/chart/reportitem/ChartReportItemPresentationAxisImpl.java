@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.reportitem;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -80,7 +81,7 @@ public final class ChartReportItemPresentationAxisImpl
 			// chart.getPlot( ).getInsets( ).set( 0, 0, 0, 0 );
 			// chart.getPlot( ).getClientArea( ).getInsets( ).set( 0, 0, 0, 0 );
 
-			// boolean bTransposed = chart.isTransposed( );
+			boolean bTransposed = chart.isTransposed( );
 			Axis xAxis = (Axis) chart.getAxes( ).get( 0 );
 			Axis yAxis = (Axis) xAxis.getAssociatedAxes( ).get( 0 );
 
@@ -93,9 +94,13 @@ public final class ChartReportItemPresentationAxisImpl
 			xAxis.getMinorGrid( ).getLineAttributes( ).setVisible( false );
 
 			yAxis.getTitle( ).setVisible( false );
+			yAxis.getLineAttributes( ).setVisible( false );
 			yAxis.getMajorGrid( ).getLineAttributes( ).setVisible( false );
 			yAxis.getMinorGrid( ).getLineAttributes( ).setVisible( false );
-			yAxis.getMajorGrid( ).setTickStyle( TickStyle.LEFT_LITERAL );
+			yAxis.getMajorGrid( ).setTickStyle( bTransposed
+					? TickStyle.LEFT_LITERAL : TickStyle.RIGHT_LITERAL );
+			yAxis.setLabelPosition( bTransposed ? Position.LEFT_LITERAL
+					: Position.RIGHT_LITERAL );
 			yAxis.setLabelWithinAxes( true );
 		}
 	}

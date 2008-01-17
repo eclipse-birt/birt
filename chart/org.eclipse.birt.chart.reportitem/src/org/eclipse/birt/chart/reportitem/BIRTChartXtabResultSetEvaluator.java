@@ -11,6 +11,11 @@
 
 package org.eclipse.birt.chart.reportitem;
 
+import java.util.List;
+
+import javax.olap.OLAPException;
+import javax.olap.cursor.EdgeCursor;
+
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
@@ -28,6 +33,7 @@ public final class BIRTChartXtabResultSetEvaluator
 {
 
 	private final ExtendedItemHandle handle;
+	private boolean bSubCursor = false;
 
 	public BIRTChartXtabResultSetEvaluator( ICubeResultSet rs,
 			ExtendedItemHandle handle )
@@ -36,67 +42,132 @@ public final class BIRTChartXtabResultSetEvaluator
 		this.handle = handle;
 	}
 
-	protected ICubeCursor getCubeCursor( )
+	protected void initCubeCursor( ) throws OLAPException
 	{
-		if ( cursor == null )
+		ICubeCursor parent = (ICubeCursor) rs.getCubeCursor( );
+		cubeCursor = parent;
+		try
 		{
-			ICubeCursor parent = (ICubeCursor) rs.getCubeCursor( );
-			// Chart cm = ChartReportItemUtil.getChartFromHandle( handle );
-			// boolean bTransposed = false;
-			// if ( cm instanceof ChartWithAxes
-			// && ( (ChartWithAxes) cm ).isTransposed( ) )
-			// {
-			// bTransposed = true;
-			// }
-			try
+			AggregationCellHandle cellHandle = ChartReportItemUtil.getXtabContainerCell( handle );
+			LevelHandle levelAggColumn = cellHandle.getAggregationOnColumn( );
+			LevelHandle levelAggRow = cellHandle.getAggregationOnRow( );
+			if ( cellHandle.getSpanOverOnColumn( ) != null )
 			{
-				// CubeHandle cube = ChartReportItemUtil.getBindingCube( handle
-				// );
-				AggregationCellHandle cellHandle = ChartReportItemUtil.getXtabContainerCell( handle );
-				LevelHandle levelAggColumn = cellHandle.getAggregationOnColumn( );
-				LevelHandle levelAggRow = cellHandle.getAggregationOnRow( );
-				if ( cellHandle.getSpanOverOnColumn( ) != null )
+				// Horizontal span
+				if ( levelAggColumn != null && levelAggRow != null )
 				{
-					// Horizontal span
-					if ( levelAggColumn != null && levelAggRow != null )
-					{
-						cursor = parent.getSubCubeCursor( null,
-								ChartReportItemUtil.createDimensionExpression( levelAggRow ),
-								null,
-								null );
-					}
-					else
-					{
-						cursor = parent;
-					}
+					// cubeCursor = parent.getSubCubeCursor( null,
+					// ChartReportItemUtil.createDimensionExpression(
+					// levelAggRow ),
+					// null,
+					// null );
 
-				}
-				else if ( cellHandle.getSpanOverOnRow( ) != null )
-				{
-					// Vertical span
-					if ( levelAggColumn != null && levelAggRow != null )
-					{
-						cursor = parent.getSubCubeCursor( ChartReportItemUtil.createDimensionExpression( levelAggColumn ),
-								null,
-								null,
-								null );
-					}
-					else
-					{
-						cursor = parent;
-					}
+					// row cursor is the main
+					List edges = cubeCursor.getOrdinateEdge( );
+					this.mainEdgeCursor = (EdgeCursor) edges.get( 1 );
+					this.subEdgeCursor = (EdgeCursor) edges.get( 0 );
+
+					bSubCursor = true;
 				}
 				else
 				{
-					cursor = parent;
+					cubeCursor = parent;
+				}
+
+			}
+			else if ( cellHandle.getSpanOverOnRow( ) != null )
+			{
+				// Vertical span
+				if ( levelAggColumn != null && levelAggRow != null )
+				{
+					// cubeCursor = parent.getSubCubeCursor(
+					// ChartReportItemUtil.createDimensionExpression(
+					// levelAggColumn ),
+					// null,
+					// null,
+					// null );
+
+					// column cursor is the main
+					List edges = cubeCursor.getOrdinateEdge( );
+					this.mainEdgeCursor = (EdgeCursor) edges.get( 0 );
+					this.subEdgeCursor = (EdgeCursor) edges.get( 1 );
+
+					bSubCursor = true;
+				}
+				else
+				{
+					cubeCursor = parent;
 				}
 			}
-			catch ( BirtException e )
+			else
 			{
-				logger.log( e );
-				cursor = parent;
+				cubeCursor = parent;
 			}
 		}
-		return cursor;
+		catch ( BirtException e )
+		{
+			logger.log( e );
+			cubeCursor = parent;
+		}
+
+		if ( !bSubCursor )
+		{
+			List edges = cubeCursor.getOrdinateEdge( );
+			this.mainEdgeCursor = (EdgeCursor) edges.get( 0 );
+			this.subEdgeCursor = null;
+		}
 	}
+
+	public boolean first( )
+	{
+		try
+		{
+			initCubeCursor( );
+
+			if ( !bSubCursor )
+			{
+				return super.first( );
+			}
+
+			 mainEdgeCursor.first( );
+			// ChartReportItemImpl item = getReportItem( );
+			// for ( int cursorIndex = item.getIndexOfChartInXtab( );
+			// cursorIndex > 0; cursorIndex-- )
+			// {
+			// // mainEdgeCursor.next( );
+			// }
+			// item.nextChartInXtab( );
+
+			return subEdgeCursor.first( );
+		}
+		catch ( OLAPException e )
+		{
+			logger.log( e );
+		}
+		return false;
+	}
+
+	public boolean next( )
+	{
+		if ( !bSubCursor )
+		{
+			return super.next( );
+		}
+
+		try
+		{
+			return subEdgeCursor.next( );
+		}
+		catch ( OLAPException e )
+		{
+			logger.log( e );
+		}
+		return false;
+	}
+
+	// private ChartReportItemImpl getReportItem( )
+	// throws ExtendedElementException
+	// {
+	// return (ChartReportItemImpl) handle.getReportItem( );
+	// }
 }
