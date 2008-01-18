@@ -697,6 +697,10 @@ public class TaskSelectType extends SimpleTask
 						this.orientation = lastOrientation;
 						this.rotateAxisTitle( (ChartWithAxes) chartModel );
 					}
+					if( lastOrientation == null )
+					{
+						this.orientation = Orientation.VERTICAL_LITERAL;
+					}
 				}
 
 				if ( chartModel != null &&
