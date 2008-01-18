@@ -923,6 +923,11 @@ public class ScriptDebugTarget extends ScriptDebugElement implements
 		{
 			return null;
 		}
+		if (VMConstants.UNDEFINED_TYPE.equals( value.getTypeName( ))
+				|| VMConstants.EXCEPTION_TYPE.equals( value.getTypeName( )))
+		{
+			return null;
+		}
 		ScriptValue debugValue = new ScriptValue( frame, value );
 
 		return debugValue;
