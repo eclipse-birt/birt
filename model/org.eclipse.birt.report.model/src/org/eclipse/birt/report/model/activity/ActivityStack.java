@@ -738,22 +738,7 @@ public class ActivityStack implements CommandStack
 			record.setTransNo( ++transCount );
 			undoStack.push( record );
 
-			if ( !needUndoPersistentRecords.isEmpty( ) )
-			{
-				ArrayList needToUndoRecords = null;
-
-				while ( !needUndoPersistentRecords.isEmpty( ) )
-				{
-					needToUndoRecords = (ArrayList) needUndoPersistentRecords.pop( );
-					for ( int j = 0; j < needToUndoRecords.size( ); j++ )
-					{
-						( (ActivityRecord) needToUndoRecords.get( j ) ).setTransNo( ++transCount );
-						undoStack.push( needToUndoRecords.get( j ) );
-					}
-				}
-
-			}
-			trimUndoStack( );
+			handlePersistentRecords( );
 
 			sendNotifcations( new ActivityStackEvent( this,
 					ActivityStackEvent.DONE ) );
@@ -785,8 +770,8 @@ public class ActivityStack implements CommandStack
 
 		trans.rollback( );
 		trans.destroy( );
-		
-		ArrayList persistentRecord = (ArrayList) trans.getDonePersistentTrans();
+
+		ArrayList persistentRecord = (ArrayList) trans.getDonePersistentTrans( );
 
 		if ( persistentRecord.size( ) != 0 )
 		{
@@ -798,13 +783,19 @@ public class ActivityStack implements CommandStack
 			{
 				for ( int i = 0; i < persistentRecord.size( ); i++ )
 				{
-					( (ActivityRecord) persistentRecord.get( i ) ).setTransNo( ++transCount );
+					( (ActivityRecord) persistentRecord.get( i ) )
+							.setTransNo( ++transCount );
 					undoStack.push( persistentRecord.get( i ) );
 				}
 
 				trimUndoStack( );
 			}
 		}
+		else if ( transStack.isEmpty( ) )
+		{
+			handlePersistentRecords( );
+		}
+
 		// if the trans stack is empty now, then send the notifications
 
 		if ( transStack.empty( ) )
@@ -812,6 +803,27 @@ public class ActivityStack implements CommandStack
 			sendNotifcations( new ActivityStackEvent( this,
 					ActivityStackEvent.ROLL_BACK ) );
 		}
+	}
+
+	private void handlePersistentRecords( )
+	{
+		if ( !needUndoPersistentRecords.isEmpty( ) )
+		{
+			ArrayList needToUndoRecords = null;
+
+			while ( !needUndoPersistentRecords.isEmpty( ) )
+			{
+				needToUndoRecords = (ArrayList) needUndoPersistentRecords.pop( );
+				for ( int j = 0; j < needToUndoRecords.size( ); j++ )
+				{
+					( (ActivityRecord) needToUndoRecords.get( j ) )
+							.setTransNo( ++transCount );
+					undoStack.push( needToUndoRecords.get( j ) );
+				}
+			}
+
+		}
+		trimUndoStack( );
 	}
 
 	/**
@@ -897,7 +909,8 @@ public class ActivityStack implements CommandStack
 			Iterator iter = listeners.iterator( );
 			while ( iter.hasNext( ) )
 			{
-				ActivityStackListener listener = ( (ActivityStackListener) iter.next( ) );
+				ActivityStackListener listener = ( (ActivityStackListener) iter
+						.next( ) );
 
 				listener.stackChanged( event );
 			}
@@ -966,7 +979,8 @@ public class ActivityStack implements CommandStack
 				&& transStack.peek( ) instanceof LayoutCompoundRecord )
 			outerMost = false;
 
-		transStack.push( new LayoutCompoundRecord( label, outerMost, filterAll ) );
+		transStack
+				.push( new LayoutCompoundRecord( label, outerMost, filterAll ) );
 	}
 
 	/**
@@ -990,7 +1004,8 @@ public class ActivityStack implements CommandStack
 					&& transStack.peek( ) instanceof FilterEventsCompoundRecord )
 				outerMost = false;
 
-			transStack.push( new FilterEventsCompoundRecord( label, outerMost ) );
+			transStack
+					.push( new FilterEventsCompoundRecord( label, outerMost ) );
 		}
 	}
 

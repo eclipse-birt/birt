@@ -1079,8 +1079,8 @@ public class ActivityStackTest extends BaseTestCase
 	public void testPersistentTransaction( ) throws Exception
 	{
 		createDesign( );
-		GridHandle grid = designHandle.getElementFactory( )
-				.newGridItem( "grid", 3, 3 ); //$NON-NLS-1$
+		GridHandle grid = designHandle.getElementFactory( ).newGridItem(
+				"grid", 3, 3 ); //$NON-NLS-1$
 		designHandle.getBody( ).add( grid );
 		ActivityStack stack = designHandle.getModule( ).getActivityStack( );
 
@@ -1177,7 +1177,7 @@ public class ActivityStackTest extends BaseTestCase
 	}
 
 	/**
-	 * test the undo sequence after a persistent transaction is commited.
+	 * test the undo sequence after a persistent transaction is committed.
 	 * 
 	 * @throws ContentException
 	 * @throws NameException
@@ -1190,20 +1190,20 @@ public class ActivityStackTest extends BaseTestCase
 		GridHandle grid = designHandle.getElementFactory( )
 				.newGridItem( "grid" ); //$NON-NLS-1$
 
-		TableHandle table = designHandle.getElementFactory( )
-				.newTableItem( "mytable" );
+		TableHandle table = designHandle.getElementFactory( ).newTableItem(
+				"mytable" ); //$NON-NLS-1$
 
 		StyleHandle style = designHandle.getElementFactory( )
-				.newStyle( "style" );
+				.newStyle( "style" ); //$NON-NLS-1$
 
 		DataSetHandle dataset = designHandle.getElementFactory( )
-				.newOdaDataSet( "dataset", null );
+				.newOdaDataSet( "dataset", null ); //$NON-NLS-1$
 
 		DataSourceHandle datasource = designHandle.getElementFactory( )
-				.newOdaDataSource( "datasource", null );
+				.newOdaDataSource( "datasource", null ); //$NON-NLS-1$
 
 		LabelHandle label = designHandle.getElementFactory( )
-				.newLabel( "label" );
+				.newLabel( "label" ); //$NON-NLS-1$
 
 		ActivityStack stack = designHandle.getModule( ).getActivityStack( );
 		stack.flush( );
@@ -1262,6 +1262,11 @@ public class ActivityStackTest extends BaseTestCase
 
 	}
 
+	/**
+	 * 
+	 * @throws ContentException
+	 * @throws NameException
+	 */
 	public void testPersistentTransactionUndo2( ) throws ContentException,
 			NameException
 	{
@@ -1270,17 +1275,17 @@ public class ActivityStackTest extends BaseTestCase
 		GridHandle grid = designHandle.getElementFactory( )
 				.newGridItem( "grid" ); //$NON-NLS-1$
 
-		TableHandle table = designHandle.getElementFactory( )
-				.newTableItem( "mytable" );
+		TableHandle table = designHandle.getElementFactory( ).newTableItem(
+				"mytable" ); //$NON-NLS-1$
 
 		StyleHandle style = designHandle.getElementFactory( )
-				.newStyle( "style" );
+				.newStyle( "style" ); //$NON-NLS-1$
 
 		DataSetHandle dataset = designHandle.getElementFactory( )
-				.newOdaDataSet( "dataset", null );
+				.newOdaDataSet( "dataset", null ); //$NON-NLS-1$
 
 		DataSourceHandle datasource = designHandle.getElementFactory( )
-				.newOdaDataSource( "datasource", null );
+				.newOdaDataSource( "datasource", null ); //$NON-NLS-1$
 
 		ActivityStack stack = designHandle.getModule( ).getActivityStack( );
 		stack.flush( );
@@ -1334,6 +1339,11 @@ public class ActivityStackTest extends BaseTestCase
 
 	}
 
+	/**
+	 * 
+	 * @throws ContentException
+	 * @throws NameException
+	 */
 	public void testPersistentTransactionUndo3( ) throws ContentException,
 			NameException
 	{
@@ -1342,20 +1352,20 @@ public class ActivityStackTest extends BaseTestCase
 		GridHandle grid = designHandle.getElementFactory( )
 				.newGridItem( "grid" ); //$NON-NLS-1$
 
-		TableHandle table = designHandle.getElementFactory( )
-				.newTableItem( "mytable" );
+		TableHandle table = designHandle.getElementFactory( ).newTableItem(
+				"mytable" ); //$NON-NLS-1$
 
 		StyleHandle style = designHandle.getElementFactory( )
-				.newStyle( "style" );
+				.newStyle( "style" ); //$NON-NLS-1$
 
 		DataSetHandle dataset = designHandle.getElementFactory( )
-				.newOdaDataSet( "dataset", null );
+				.newOdaDataSet( "dataset", null ); //$NON-NLS-1$
 
 		DataSourceHandle datasource = designHandle.getElementFactory( )
-				.newOdaDataSource( "datasource", null );
+				.newOdaDataSource( "datasource", null ); //$NON-NLS-1$
 
 		LabelHandle label = designHandle.getElementFactory( )
-				.newLabel( "label" );
+				.newLabel( "label" ); //$NON-NLS-1$
 
 		ActivityStack stack = designHandle.getModule( ).getActivityStack( );
 		stack.flush( );
@@ -1412,8 +1422,12 @@ public class ActivityStackTest extends BaseTestCase
 		assertFalse( stack.canUndo( ) );
 
 	}
-	
 
+	/**
+	 * 
+	 * @throws ContentException
+	 * @throws NameException
+	 */
 	public void testPersistentTransactionUndo4( ) throws ContentException,
 			NameException
 	{
@@ -1422,20 +1436,20 @@ public class ActivityStackTest extends BaseTestCase
 		GridHandle grid = designHandle.getElementFactory( )
 				.newGridItem( "grid" ); //$NON-NLS-1$
 
-		TableHandle table = designHandle.getElementFactory( )
-				.newTableItem( "mytable" );
+		TableHandle table = designHandle.getElementFactory( ).newTableItem(
+				"mytable" ); //$NON-NLS-1$
 
 		StyleHandle style = designHandle.getElementFactory( )
-				.newStyle( "style" );
+				.newStyle( "style" ); //$NON-NLS-1$
 
 		DataSetHandle dataset = designHandle.getElementFactory( )
-				.newOdaDataSet( "dataset", null );
+				.newOdaDataSet( "dataset", null ); //$NON-NLS-1$
 
 		DataSourceHandle datasource = designHandle.getElementFactory( )
-				.newOdaDataSource( "datasource", null );
+				.newOdaDataSource( "datasource", null ); //$NON-NLS-1$
 
 		LabelHandle label = designHandle.getElementFactory( )
-				.newLabel( "label" );
+				.newLabel( "label" ); //$NON-NLS-1$
 
 		ActivityStack stack = designHandle.getModule( ).getActivityStack( );
 		stack.flush( );
@@ -1455,13 +1469,13 @@ public class ActivityStackTest extends BaseTestCase
 
 		stack.startPersistentTrans( );
 		designHandle.getDataSources( ).add( datasource );
-		
+
 		stack.startTrans( );
 		designHandle.getComponents( ).add( label );
 		stack.commit( );
-		
+
 		stack.commit( );
-		
+
 		stack.rollback( );
 
 		stack.rollback( );
@@ -1483,7 +1497,7 @@ public class ActivityStackTest extends BaseTestCase
 		stack.undo( );
 		assertEquals( 0, designHandle.getBody( ).getCount( ) );
 		assertEquals( 0, designHandle.getComponents( ).getCount( ) );
-		
+
 		assertTrue( stack.canRedo( ) );
 		assertTrue( stack.canUndo( ) );
 
@@ -1493,6 +1507,47 @@ public class ActivityStackTest extends BaseTestCase
 		assertTrue( stack.canRedo( ) );
 		assertFalse( stack.canUndo( ) );
 
+	}
+
+	/**
+	 * Tests cases for persistent transaction undo for bug 215321.
+	 * 
+	 * @throws Exception
+	 */
+	public void testPersistentTransactionUndo_1( ) throws Exception
+	{
+		createDesign( );
+		GridHandle grid = designHandle.getElementFactory( )
+				.newGridItem( "grid" ); //$NON-NLS-1$
+
+		TableHandle table = designHandle.getElementFactory( ).newTableItem(
+				"mytable" ); //$NON-NLS-1$
+
+		StyleHandle style = designHandle.getElementFactory( )
+				.newStyle( "style" ); //$NON-NLS-1$
+
+		ActivityStack stack = designHandle.getModule( ).getActivityStack( );
+		stack.flush( );
+
+		// add grid
+		stack.startTrans( );
+		designHandle.getBody( ).add( grid );
+
+		stack.startTrans( );
+		designHandle.getBody( ).add( table );
+
+		stack.startPersistentTrans( );
+		designHandle.getStyles( ).add( style );
+
+		// stack: commit -- rollback -- rollback
+		stack.commit( );
+
+		stack.rollback( );
+
+		stack.rollback( );
+
+		assertTrue( designHandle.needsSave( ) );
+		assertTrue( stack.canUndo( ) );
 	}
 
 	/**
@@ -1522,8 +1577,8 @@ public class ActivityStackTest extends BaseTestCase
 		// normal transaction without filtering events.
 		createDesign( );
 
-		TableHandle table = designHandle.getElementFactory( )
-				.newTableItem( "testTable", 3, 1, 1, 1 ); //$NON-NLS-1$
+		TableHandle table = designHandle.getElementFactory( ).newTableItem(
+				"testTable", 3, 1, 1, 1 ); //$NON-NLS-1$
 
 		ElementListener elementListener = new ElementListener( );
 		table.addListener( elementListener );
@@ -1552,8 +1607,8 @@ public class ActivityStackTest extends BaseTestCase
 
 		// not updated, must throw NPE
 
-		assertEquals( ColorPropertyType.BLACK,
-				cell.getProperty( IStyleModel.COLOR_PROP ) );
+		assertEquals( ColorPropertyType.BLACK, cell
+				.getProperty( IStyleModel.COLOR_PROP ) );
 
 		designHandle.getCommandStack( ).commit( );
 
@@ -1563,8 +1618,8 @@ public class ActivityStackTest extends BaseTestCase
 
 		// now it is OK
 
-		assertEquals( ColorPropertyType.BLUE,
-				cell.getProperty( IStyleModel.COLOR_PROP ) );
+		assertEquals( ColorPropertyType.BLUE, cell
+				.getProperty( IStyleModel.COLOR_PROP ) );
 
 		designHandle.getCommandStack( ).undo( );
 
@@ -1574,13 +1629,13 @@ public class ActivityStackTest extends BaseTestCase
 
 		// detached from the table, the color is default
 
-		assertEquals( ColorPropertyType.BLACK,
-				cell.getProperty( IStyleModel.COLOR_PROP ) );
+		assertEquals( ColorPropertyType.BLACK, cell
+				.getProperty( IStyleModel.COLOR_PROP ) );
 
 		designHandle.getCommandStack( ).redo( );
 
-		assertEquals( ColorPropertyType.BLUE,
-				cell.getProperty( IStyleModel.COLOR_PROP ) );
+		assertEquals( ColorPropertyType.BLUE, cell
+				.getProperty( IStyleModel.COLOR_PROP ) );
 
 		// reset events
 
@@ -1598,13 +1653,13 @@ public class ActivityStackTest extends BaseTestCase
 
 		// detached from the table, the color is default
 
-		assertEquals( ColorPropertyType.BLACK,
-				cell.getProperty( IStyleModel.COLOR_PROP ) );
+		assertEquals( ColorPropertyType.BLACK, cell
+				.getProperty( IStyleModel.COLOR_PROP ) );
 
 		designHandle.getCommandStack( ).undo( );
 
-		assertEquals( ColorPropertyType.BLUE,
-				cell.getProperty( IStyleModel.COLOR_PROP ) );
+		assertEquals( ColorPropertyType.BLUE, cell
+				.getProperty( IStyleModel.COLOR_PROP ) );
 
 		// must rehook the listener to the row element again.
 
@@ -1620,30 +1675,30 @@ public class ActivityStackTest extends BaseTestCase
 
 		LayoutTableModel model = table.getLayoutModel( );
 		assertEquals( 2, model.getLayoutSlotDetail( ).getRowCount( ) );
-		assertEquals( ColorPropertyType.BLACK,
-				cell.getProperty( IStyleModel.COLOR_PROP ) );
+		assertEquals( ColorPropertyType.BLACK, cell
+				.getProperty( IStyleModel.COLOR_PROP ) );
 
 		( (ActivityStack) designHandle.getCommandStack( ) ).commit( );
 		assertEquals( 1, model.getLayoutSlotDetail( ).getRowCount( ) );
 
 		( (ActivityStack) designHandle.getCommandStack( ) ).undo( );
 		assertEquals( 2, model.getLayoutSlotDetail( ).getRowCount( ) );
-		assertEquals( ColorPropertyType.BLUE,
-				cell.getProperty( IStyleModel.COLOR_PROP ) );
+		assertEquals( ColorPropertyType.BLUE, cell
+				.getProperty( IStyleModel.COLOR_PROP ) );
 
 		( (ActivityStack) designHandle.getCommandStack( ) ).startSilentTrans( );
 
 		row.drop( );
 
 		assertEquals( 2, model.getLayoutSlotDetail( ).getRowCount( ) );
-		assertEquals( ColorPropertyType.BLACK,
-				cell.getProperty( IStyleModel.COLOR_PROP ) );
+		assertEquals( ColorPropertyType.BLACK, cell
+				.getProperty( IStyleModel.COLOR_PROP ) );
 
 		( (ActivityStack) designHandle.getCommandStack( ) ).rollback( );
 
 		assertEquals( 2, model.getLayoutSlotDetail( ).getRowCount( ) );
-		assertEquals( ColorPropertyType.BLUE,
-				cell.getProperty( IStyleModel.COLOR_PROP ) );
+		assertEquals( ColorPropertyType.BLUE, cell
+				.getProperty( IStyleModel.COLOR_PROP ) );
 
 		designHandle.getCommandStack( ).startTrans( null );
 
@@ -1661,15 +1716,15 @@ public class ActivityStackTest extends BaseTestCase
 
 		// not updated, returns the default color
 
-		assertEquals( ColorPropertyType.BLACK,
-				cell.getProperty( IStyleModel.COLOR_PROP ) );
+		assertEquals( ColorPropertyType.BLACK, cell
+				.getProperty( IStyleModel.COLOR_PROP ) );
 
 		designHandle.getCommandStack( ).commit( );
 
 		// layout is updated.
 
-		assertEquals( ColorPropertyType.BLUE,
-				cell.getProperty( IStyleModel.COLOR_PROP ) );
+		assertEquals( ColorPropertyType.BLUE, cell
+				.getProperty( IStyleModel.COLOR_PROP ) );
 
 		designHandle.getCommandStack( ).commit( );
 
@@ -1749,8 +1804,8 @@ public class ActivityStackTest extends BaseTestCase
 		ElementListener listener = new ElementListener( );
 
 		ElementFactory factory = new ElementFactory( designHandle.getModule( ) );
-		TableHandle table = factory.newTableItem( "newTable" );
-		GridHandle grid = factory.newGridItem( "newGrid" );
+		TableHandle table = factory.newTableItem( "newTable" ); //$NON-NLS-1$
+		GridHandle grid = factory.newGridItem( "newGrid" ); //$NON-NLS-1$
 
 		try
 		{
@@ -1770,11 +1825,11 @@ public class ActivityStackTest extends BaseTestCase
 		ActivityStack stack = (ActivityStack) designHandle.getCommandStack( );
 
 		stack.startTrans( );
-		stack.startFilterEventTrans( "drop table" );
+		stack.startFilterEventTrans( "drop table" ); //$NON-NLS-1$
 
 		table.drop( );
 
-		stack.startFilterEventTrans( "drop grids" );
+		stack.startFilterEventTrans( "drop grids" ); //$NON-NLS-1$
 
 		grid.drop( );
 
