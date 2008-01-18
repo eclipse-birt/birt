@@ -45,6 +45,7 @@ import org.eclipse.birt.chart.internal.factory.IDateFormatWrapper;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.Angle3D;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
@@ -52,6 +53,7 @@ import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
+import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.Location3DImpl;
@@ -1555,13 +1557,11 @@ public final class AxesRenderHelper
 					else
 					{
 						// #190266 Axis title layout adjustment
-						final Bounds boundsTitle = ( (ChartWithAxes) this.renderer.cm ).getTitle( )
-								.getBounds( );
+//						final Bounds boundsTitle = ( (ChartWithAxes) this.renderer.cm ).getTitle( )
+//								.getBounds( );
+						double dTop = computeTopOfOrthogonalAxisTitle( );
 						final Bounds bo = BoundsImpl.create( ax.getTitleCoordinate( ),
-								bWithinAxis
-										? daEndPoints[1]
-										: ( boundsTitle.getTop( ) + boundsTitle.getHeight( ) )
-												/ 72 * xs.getDpiResolution( ),
+								bWithinAxis ? daEndPoints[1] : dTop,
 								bb.getWidth( ),
 								bWithinAxis ? daEndPoints[0] - daEndPoints[1]
 										: dYAxisHeightPC );
@@ -2030,6 +2030,38 @@ public final class AxesRenderHelper
 			{
 				trae.setTranslation( -dSeriesThickness, dSeriesThickness );
 				ipr.applyTransformation( trae );
+			}
+		}
+	}
+	
+	private double computeTopOfOrthogonalAxisTitle()
+	{
+		Bounds titleBounds = this.renderer.cm.getTitle( ).getBounds( );
+		Bounds legendBounds = this.renderer.cm.getLegend( ).getBounds( );
+		if ( this.renderer.cm.getTitle( ).getAnchor( ).getValue( ) == Anchor.NORTH )
+		{
+			if ( this.renderer.cm.getLegend( ).getPosition( ).getValue( ) == Position.ABOVE )
+			{
+				return ( legendBounds.getTop( ) + legendBounds.getHeight( ) )
+						/ 72 * xs.getDpiResolution( );
+			}
+			else
+			{
+				return ( titleBounds.getTop( ) + titleBounds.getHeight( ) )
+						/ 72 * xs.getDpiResolution( );
+			}
+		}
+		else
+		{
+			if ( this.renderer.cm.getLegend( ).getPosition( ).getValue( ) == Position.ABOVE )
+			{
+				return ( legendBounds.getTop( ) + legendBounds.getHeight( ) )
+						/ 72 * xs.getDpiResolution( );
+			}
+			else
+			{
+				return this.renderer.cm.getBlock( ).getBounds( ).getTop( )
+						/ 72 * xs.getDpiResolution( );
 			}
 		}
 	}

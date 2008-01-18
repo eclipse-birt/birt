@@ -21,6 +21,7 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Anchor;
+import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.Fill;
@@ -28,6 +29,7 @@ import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
 import org.eclipse.birt.chart.model.attribute.HorizontalAlignment;
 import org.eclipse.birt.chart.model.attribute.MultipleFill;
+import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.ScaleUnitType;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
@@ -618,9 +620,67 @@ public class ChartUtil
 	public static double computeHeightOfOrthogonalAxisTitle( ChartWithAxes cm,
 			IDisplayServer xs )
 	{
-		double dTitleHeight = cm.getTitle( ).getBounds( ).getHeight( );
-		double dChartHeight = cm.getBlock( ).getBounds( ).getHeight( );
-		return ( dChartHeight - dTitleHeight ) / 72 * xs.getDpiResolution( );
+		Bounds chartBounds = cm.getBlock( ).getBounds( );
+		Bounds titleBounds = cm.getTitle( ).getBounds( );
+		Bounds legendBounds = cm.getLegend( ).getBounds( );
+		int titleAnchor = cm.getTitle( ).getAnchor( ).getValue( );
+		int legendPosition = cm.getLegend( ).getPosition( ).getValue( );
+		if ( titleAnchor == Anchor.NORTH )
+		{
+			if ( legendPosition == Position.ABOVE )
+			{
+				return ( chartBounds.getHeight( )
+						+ chartBounds.getTop( ) - legendBounds.getTop( ) - legendBounds.getHeight( ) )
+						/ 72 * xs.getDpiResolution( );
+			}
+			else if ( legendPosition == Position.BELOW )
+			{
+				return ( legendBounds.getTop( ) - titleBounds.getTop( ) - titleBounds.getHeight( ) )
+						/ 72 * xs.getDpiResolution( );
+			}
+			else
+			{
+				return ( chartBounds.getHeight( )
+						+ chartBounds.getTop( ) - titleBounds.getTop( ) - titleBounds.getHeight( ) )
+						/ 72 * xs.getDpiResolution( );
+			}
+		}
+		else if ( titleAnchor == Anchor.SOUTH )
+		{
+			if ( legendPosition == Position.ABOVE )
+			{
+				return ( titleBounds.getTop( ) - legendBounds.getTop( ) - legendBounds.getHeight( ) )
+						/ 72 * xs.getDpiResolution( );
+			}
+			else if ( legendPosition == Position.BELOW )
+			{
+				return ( legendBounds.getTop( ) - chartBounds.getTop( ) )
+						/ 72 * xs.getDpiResolution( );
+			}
+			else
+			{
+				return ( titleBounds.getTop( ) - chartBounds.getTop( ) )
+						/ 72 * xs.getDpiResolution( );
+			}
+		}
+		else
+		{
+			if ( legendPosition == Position.ABOVE )
+			{
+				return ( chartBounds.getHeight( )
+						+ chartBounds.getTop( ) - legendBounds.getTop( ) - legendBounds.getHeight( ) )
+						/ 72 * xs.getDpiResolution( );
+			}
+			else if ( legendPosition == Position.BELOW )
+			{
+				return ( legendBounds.getTop( ) - chartBounds.getTop( ) )
+						/ 72 * xs.getDpiResolution( );
+			}
+			else
+			{
+				return chartBounds.getHeight( ) / 72 * xs.getDpiResolution( );
+			}
+		}
 	}	
 	
 	/**
