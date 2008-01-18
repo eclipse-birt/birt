@@ -167,15 +167,18 @@ public class ExcelWriter
 
 		if ( hyperLink != null )
 		{
+			String urlAddress = hyperLink.getUrl( );
 			if ( hyperLink.getType( ) == IHyperlinkAction.ACTION_BOOKMARK )
 			{
 
-				writer.attribute( "ss:HRef", "#Sheet1!" + hyperLink.getUrl( ) );
+				urlAddress = "#Sheet1!" + urlAddress;
+
 			}
-			else
+			if ( urlAddress.length( ) >= 255 )
 			{
-				writer.attribute( "ss:HRef", hyperLink.getUrl( ) );
+				urlAddress = urlAddress.substring( 0, 254 );
 			}
+			writer.attribute( "ss:HRef", urlAddress );
 		}
 
 		writer.attribute( "ss:MergeAcross", colspan );
@@ -283,13 +286,13 @@ public class ExcelWriter
 		{
 			writer.attribute( "ss:Italic", italic );
 		}
-		
+
 		if ( isValid( strikeThrough ) )
 		{
 			writer.attribute( "ss:StrikeThrough", strikeThrough );
 		}
 
-		if ( isValid(underline) && !"0".equalsIgnoreCase( underline ) )
+		if ( isValid( underline ) && !"0".equalsIgnoreCase( underline ) )
 		{
 			writer.attribute( "ss:Underline", "Single" );
 		}
@@ -315,7 +318,7 @@ public class ExcelWriter
 
 	private boolean isValid( String value )
 	{
-		return !StyleEntry.isNull(  value );
+		return !StyleEntry.isNull( value );
 	}
 
 	private void declareStyle( StyleEntry style, int id )
@@ -405,12 +408,56 @@ public class ExcelWriter
 				&& style.getProperty( StyleConstant.NUMBER_FORMAT_PROP ) != null )
 		{
 			writer.openTag( "NumberFormat" );
-			writer.attribute( "ss:Format", style
-					.getProperty( StyleConstant.NUMBER_FORMAT_PROP ) );
+
+			String numberStyle = style
+					.getProperty( StyleConstant.NUMBER_FORMAT_PROP );
+			numberStyle = format( numberStyle );
+			writer.attribute( "ss:Format", numberStyle );
 			writer.closeTag( "NumberFormat" );
-
 		}
+	}
 
+	// here the user input can be divided into two cases :
+	// the case in the birt input like G and the Currency
+	// the case in excel format : like 0.00E00
+	private String format( String givenValue )
+	{
+		String returnStr = "\\";
+		if ( givenValue.length( ) == 1 )
+		{
+			char ch = givenValue.charAt( 0 );
+			if ( ch == 'G' || ch == 'g' || ch == 'd' || ch == 'D' || ch == 'c'
+					|| ch == 'C' || ch == 'f' || ch == 'F' || ch == 'n'
+					|| ch == 'N' || ch == 'e' || ch == 'E' || ch == 'x'
+					|| ch == 'X' )
+			{
+				returnStr = givenValue + "###";
+			}
+			else
+			{
+				returnStr = returnStr + givenValue;
+			}
+		}
+		else
+		{
+			if ( givenValue.equals( "Fixed" ) || givenValue.equals( "#0.00" ) )
+				return "#0.00";
+			if ( givenValue.equals( "Percent" ) || givenValue.equals( "0.00%" ) )
+				return "0.00%";
+			if ( givenValue.equals( "Scientific" )
+					|| givenValue.equals( "0.00E00" ) )
+				return "0.00E00";
+			if ( givenValue.equals( "Standard" )
+					|| givenValue.equals( "###,##0.00" ) )
+				return "###,##0.00";
+			int count = givenValue.length( );
+			for ( int num = 0; num < count - 1; num++ )
+			{
+				returnStr = returnStr + givenValue.charAt( num ) + "\\";
+			}
+			returnStr = returnStr + givenValue.charAt( count - 1 ) + "###";
+		}
+		return returnStr;
 	}
 
 	public void writeDeclarations( )
@@ -446,13 +493,13 @@ public class ExcelWriter
 
 		writer.closeTag( "Styles" );
 	}
-	
-	public void defineNames ( List namesRefer )
+
+	public void defineNames( List namesRefer )
 	{
 		writer.openTag( "Names" );
 		for ( Iterator it = namesRefer.iterator( ); it.hasNext( ); )
 		{
-			BookmarkDef bookmark = (BookmarkDef)it.next( );
+			BookmarkDef bookmark = (BookmarkDef) it.next( );
 
 			String name = bookmark.getName( );
 			String refer = bookmark.getRefer( );
@@ -460,7 +507,7 @@ public class ExcelWriter
 		}
 		writer.closeTag( "Names" );
 	}
-	
+
 	private void defineName( String name, String refer )
 	{
 		writer.openTag( "NamedRange" );
