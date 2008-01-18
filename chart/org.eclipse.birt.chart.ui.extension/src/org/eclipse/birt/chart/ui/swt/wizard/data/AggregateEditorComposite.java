@@ -75,6 +75,8 @@ public class AggregateEditorComposite extends Composite implements
 {
 	private static final String AGG_DISPLAY_NONE = Messages.getString("AggregateEditorComposite.AggregateDisplayName.None"); //$NON-NLS-1$
 	
+	private static final String AGG_DISPLAY_DEFAULT = Messages.getString("AggregateEditorComposite.AggregateDisplayName.Default"); //$NON-NLS-1$
+	
 	private static final String AGG_FUNC_NONE = "None"; //$NON-NLS-1$
 	
 	private ToolBar fBtnDropDown;
@@ -408,7 +410,7 @@ public class AggregateEditorComposite extends Composite implements
 							break;
 						}
 					}
-					String noneItem = AGG_DISPLAY_NONE + "(" + names[index] + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+					String noneItem = AGG_DISPLAY_DEFAULT + "(" + names[index] + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 					aggDisplayNames[0] = noneItem;
 					aggFunctions[0] = AGG_FUNC_NONE;
 					for (int i = 1; i < aggDisplayNames.length; i ++)
@@ -449,7 +451,7 @@ public class AggregateEditorComposite extends Composite implements
 			fCmbAggregate.setItems( aggDisplayNames );
 			fCmbAggregate.setData( aggFunctions );
 			
-			if ( fGrouping.getAggregateExpression( ) != null )
+			if ( fGrouping.isEnabled( ) && fGrouping.getAggregateExpression( ) != null )
 			{
 				int idx = getAggregateIndexByName( fGrouping.getAggregateExpression( ) );
 				if ( fCmbAggregate.getItemCount( ) > idx )
