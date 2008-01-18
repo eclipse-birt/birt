@@ -667,7 +667,13 @@ public class TaskSelectType extends SimpleTask
 						// Clicking on the same button should not cause it to be
 						// unselected
 						btn.setSelection( true );
-						needUpdateModel = false;
+						
+						// Disable the statement to avoid when un-check all
+						// stacked attributes of series on format tab, the
+						// default chart is painted as side-by-side, but it
+						// can't select stacked button to change chart type to
+						// stacked in chart type tab.
+//						needUpdateModel = false;
 					}
 				}
 			}

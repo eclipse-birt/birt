@@ -388,49 +388,45 @@ public class AreaChart extends DefaultChartTypeImpl
 		{
 			if ( currentChart.getType( ).equals( TYPE_LITERAL ) )
 			{
-				if ( !currentChart.getSubType( ).equals( sNewSubType ) )
+				currentChart.setSubType( sNewSubType );
+				EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
+						.get( 0 ) ).getAssociatedAxes( );
+				for ( int i = 0, seriesIndex = 0; i < axes.size( ); i++ )
 				{
-					currentChart.setSubType( sNewSubType );
-					EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
-							.get( 0 ) ).getAssociatedAxes( );
-					for ( int i = 0, seriesIndex = 0; i < axes.size( ); i++ )
+					if ( sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) )
 					{
-						if ( sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) )
+						if ( !ChartPreviewPainter.isLivePreviewActive( )
+								&& !isNumbericAxis( (Axis) axes.get( i ) ) )
 						{
+							( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
+						}
+						( (Axis) axes.get( i ) ).setPercent( true );
+					}
+					else
+					{
+						( (Axis) axes.get( i ) ).setPercent( false );
+					}
+					EList seriesdefinitions = ( (Axis) axes.get( i ) ).getSeriesDefinitions( );
+					for ( int j = 0; j < seriesdefinitions.size( ); j++ )
+					{
+						Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
+						if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) )
+						{
+							series = getConvertedSeries( series, seriesIndex++ );
 							if ( !ChartPreviewPainter.isLivePreviewActive( )
 									&& !isNumbericAxis( (Axis) axes.get( i ) ) )
 							{
 								( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
 							}
-							( (Axis) axes.get( i ) ).setPercent( true );
+							series.setStacked( true );
+							( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
+									.clear( );
+							( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
+									.add( series );
 						}
 						else
 						{
-							( (Axis) axes.get( i ) ).setPercent( false );
-						}
-						EList seriesdefinitions = ( (Axis) axes.get( i ) ).getSeriesDefinitions( );
-						for ( int j = 0; j < seriesdefinitions.size( ); j++ )
-						{
-							Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
-							if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) )
-							{
-								series = getConvertedSeries( series,
-										seriesIndex++ );
-								if ( !ChartPreviewPainter.isLivePreviewActive( )
-										&& !isNumbericAxis( (Axis) axes.get( i ) ) )
-								{
-									( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
-								}
-								series.setStacked( true );
-								( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
-										.clear( );
-								( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
-										.add( series );
-							}
-							else
-							{
-								series.setStacked( false );
-							}
+							series.setStacked( false );
 						}
 					}
 				}

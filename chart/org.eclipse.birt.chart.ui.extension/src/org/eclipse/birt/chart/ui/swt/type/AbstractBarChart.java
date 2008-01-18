@@ -554,27 +554,23 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 					for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 					{
 						Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
-						if ( !currentChart.getSubType( ).equals( sNewSubType ) )
+						if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) )
 						{
-							if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) )
+							series = getConvertedSeries( series, seriesIndex++ );
+							if ( !ChartPreviewPainter.isLivePreviewActive( )
+									&& !isNumbericAxis( (Axis) axes.get( i ) ) )
 							{
-								series = getConvertedSeries( series,
-										seriesIndex++ );
-								if ( !ChartPreviewPainter.isLivePreviewActive( )
-										&& !isNumbericAxis( (Axis) axes.get( i ) ) )
-								{
-									( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
-								}
-								series.setStacked( true );
-								( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
-										.clear( );
-								( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
-										.add( series );								
+								( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
 							}
-							else
-							{
-								series.setStacked( false );
-							}
+							series.setStacked( true );
+							( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
+									.clear( );
+							( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
+									.add( series );
+						}
+						else
+						{
+							series.setStacked( false );
 						}
 					}
 				}
