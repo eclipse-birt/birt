@@ -223,23 +223,22 @@ public final class LegendBuilder implements IConstants
 		}
 
 		/**
-		 * set string value of the label
-		 * 
-		 * @param text_
+		 * set the label text
+		 * @param oText
 		 * @param fs
 		 * @throws ChartException
 		 */
-		public void setText( String text_, FormatSpecifier fs )
-				throws ChartException
+		public void setText( Object oText, FormatSpecifier fs )
+			throws ChartException
 		{
-			text = text_;
-
+			text = oText.toString( );
+		
 			// apply user defined format if exsists
 			if ( fs != null )
 			{
 				try
 				{
-					text = ValueFormatter.format( text,
+					text = ValueFormatter.format( oText,
 							fs,
 							rtc.getULocale( ),
 							null );
@@ -249,7 +248,7 @@ public final class LegendBuilder implements IConstants
 					// ignore, use original text.
 				}
 			}
-
+		
 			updateLabel( text );
 		}
 
@@ -371,8 +370,6 @@ public final class LegendBuilder implements IConstants
 		}
 
 	}
-
-//	private static final String ELLIPSIS_STRING = "..."; //$NON-NLS-1$
 
 	private Size sz;
 
@@ -884,7 +881,7 @@ public final class LegendBuilder implements IConstants
 				legendData.maxWrappingSize );
 
 		SeriesDefinition sdBase = null;
-		if ( cm instanceof ChartWithAxes )
+		if ( cm instanceof ChartWithAxes ) 
 		{
 			// ONLY SUPPORT 1 BASE AXIS FOR NOW
 			final Axis axPrimaryBase = ( (ChartWithAxes) cm ).getBaseAxes( )[0];
@@ -923,7 +920,6 @@ public final class LegendBuilder implements IConstants
 		boolean bHasMoreData = true;
 		all: while ( bHasMoreData )
 		{
-			String lgtext;
 			int categoryIndex;
 
 			if ( dsiBase.hasNext( ) )
@@ -950,12 +946,14 @@ public final class LegendBuilder implements IConstants
 					continue;
 				}
 
-				lgtext = String.valueOf( obj );
+				laiLegend.setText( obj, fs );
+				//lgtext = String.valueOf( obj );
 				categoryIndex = LEGEND_ENTRY;
 			}
 			else if ( legendData.bMinSliceApplied )
 			{
-				lgtext = legendData.sMinSliceLabel;
+				laiLegend.setText( legendData.sMinSliceLabel, null );
+				//lgtext = legendData.sMinSliceLabel;
 				categoryIndex = LEGEND_MINSLICE_ENTRY;
 				bHasMoreData = false;
 				pos++;
@@ -966,10 +964,10 @@ public final class LegendBuilder implements IConstants
 				break;
 			}
 
-			laiLegend.setText( lgtext, fs );
-
 			// check available bounds
-			for ( boolean bRedo = true; bRedo; )
+			boolean bRedo = true;
+			// Here, add loop limit to prevent potential endless loop.
+			for ( int iLoopLimit = 2; bRedo && iLoopLimit > 0; iLoopLimit-- )
 			{
 				// compute the size
 				double[] dsize = getItemSizeCata( laiLegend, legendData, dX );
@@ -1116,7 +1114,9 @@ public final class LegendBuilder implements IConstants
 					}
 
 					// check available bounds
-					for ( boolean bRedo = true; bRedo; )
+					boolean bRedo = true;
+					// Here, add loop limit to prevent potential endless loop.
+					for ( int iLoopLimit = 2; bRedo && iLoopLimit > 0; iLoopLimit-- )
 					{
 						// compute the size
 						double[] dsize = getItemSize( laiLegend,
@@ -1299,7 +1299,6 @@ public final class LegendBuilder implements IConstants
 		boolean bHasMoreData = true;
 		all: while ( bHasMoreData )
 		{
-			String lgtext;
 			int categoryIndex;
 
 			if ( dsiBase.hasNext( ) )
@@ -1324,12 +1323,12 @@ public final class LegendBuilder implements IConstants
 					continue;
 				}
 
-				lgtext = String.valueOf( obj );
+				laiLegend.setText( obj, fs );
 				categoryIndex = LEGEND_ENTRY;
 			}
 			else if ( legendData.bMinSliceApplied )
 			{
-				lgtext = legendData.sMinSliceLabel;
+				laiLegend.setText( legendData.sMinSliceLabel, null );
 				categoryIndex = LEGEND_MINSLICE_ENTRY;
 				bHasMoreData = false;
 				pos++;
@@ -1340,10 +1339,10 @@ public final class LegendBuilder implements IConstants
 				break;
 			}
 
-			laiLegend.setText( lgtext, fs );
-
 			// check available bounds
-			for ( boolean bRedo = true; bRedo; )
+			boolean bRedo = true;
+			// Here, add loop limit to prevent potential endless loop.
+			for ( int iLoopLimit = 2; bRedo && iLoopLimit > 0; iLoopLimit-- )
 			{
 				// compute the size
 				double[] dsize = getItemSizeCata( laiLegend, legendData, dX );
@@ -1471,7 +1470,9 @@ public final class LegendBuilder implements IConstants
 				}
 
 				// check available bounds
-				for ( boolean bRedo = true; bRedo; )
+				boolean bRedo = true;
+				// Here, add loop limit to prevent potential endless loop.
+				for ( int iLoopLimit = 2; bRedo && iLoopLimit > 0; iLoopLimit-- )
 				{
 					// compute the size
 					double[] dsize = getItemSize( laiLegend,
@@ -1672,77 +1673,6 @@ public final class LegendBuilder implements IConstants
 				dItemHeight <= legendData.dAvailableHeight;
 	}
 
-//	/**
-//	 * Checks if current label text should use ellipsis to shorten the length.
-//	 * 
-//	 * @return a double array contains the new string width and height metrics,
-//	 *         e.g. [dNewWidth, dNewHeight]
-//	 * @throws ChartException
-//	 */
-//	private double[] checkEllipsisText( double dExceedingSpace,
-//			double dOriginalTextWidth, IDisplayServer xs, ITextMetrics itm,
-//			Label la, double dEllipsisWidth, double maxWrappingSize )
-//			throws ChartException
-//	{
-//		// only check when original text length exceeds the bounds.
-//		if ( dExceedingSpace > 0 )
-//		{
-//			String firstRowText = itm.getLine( 0 );
-//
-//			int nchars = (int) Math.round( 3
-//					* ( dExceedingSpace + dEllipsisWidth ) / dEllipsisWidth );
-//
-//			// check available text length
-//			if ( firstRowText.length( ) >= nchars )
-//			{
-//				double dReducedSpace = 0;
-//				int idx = 0;
-//				BoundingBox bb = null;
-//				String newText;
-//
-//				// incrementally reduce the text length
-//				while ( dReducedSpace < dExceedingSpace )
-//				{
-//					if ( firstRowText.length( ) >= nchars + idx )
-//					{
-//						newText = firstRowText.substring( 0,
-//								firstRowText.length( ) - nchars - idx )
-//								+ ELLIPSIS_STRING;
-//					}
-//					else
-//					{
-//						break;
-//					}
-//
-//					la.getCaption( ).setValue( newText );
-//					itm.reuse( la, maxWrappingSize );
-//
-//					try
-//					{
-//						bb = Methods.computeBox( xs, IConstants.ABOVE, la, 0, 0 );
-//					}
-//					catch ( IllegalArgumentException uiex )
-//					{
-//						throw new ChartException( ChartEnginePlugin.ID,
-//								ChartException.RENDERING,
-//								uiex );
-//					}
-//
-//					dReducedSpace = dOriginalTextWidth - bb.getWidth( );
-//					idx++;
-//				}
-//
-//				if ( bb != null )
-//				{
-//					return new double[]{
-//							bb.getWidth( ), bb.getHeight( )
-//					};
-//				}
-//			}
-//		}
-//
-//		return null;
-//	}
 
 	/**
 	 * return the extra value text, if it exsists and is visible
