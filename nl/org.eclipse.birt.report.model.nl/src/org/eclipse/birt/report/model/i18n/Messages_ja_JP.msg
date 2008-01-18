@@ -1768,7 +1768,7 @@ Class.BirtComp.match.toolTip=x ‚Í JavaScript ‚Ìƒpƒ^[ƒ“ y ‚Æˆê’v
 Class.BirtComp.match.x=x
 Class.BirtComp.match.y=y
 Class.BirtComp.anyOf=anyOf
-Class.BirtComp.anyOf.toolTip=whether value is in the following arguments
+Class.BirtComp.anyOf.toolTip=‘æ 1 ˆø”‚ªŸ‚Ìˆø”‚Ì”ÍˆÍ“à‚É‚ ‚é‚©‚Ç‚¤‚©
 Class.BirtComp.anyOf.val=value
 
 
@@ -2312,7 +2312,7 @@ Element.DataSet.filter=ƒtƒBƒ‹ƒ^
 Element.DataSet.columnHints=ƒJƒ‰ƒ€‚Ìƒqƒ“ƒg
 Element.DataSet.cachedMetaData=ƒLƒƒƒbƒVƒ…‚³‚ê‚½ƒƒ^ƒf[ƒ^
 Element.DataSet.rowFetchLimit=ƒf[ƒ^ƒZƒbƒg‚©‚çƒtƒFƒbƒ`‚·‚éÅ‘ås”
-Element.DataSet.needsCache=Needs cache for data-engine
+Element.DataSet.needsCache=ƒf[ƒ^ƒGƒ“ƒWƒ“—p‚ÌƒLƒƒƒbƒVƒ…‚ª•K—v‚Å‚·B
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.dataSource=ƒf[ƒ^ƒ\[ƒX
@@ -3564,7 +3564,7 @@ Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=ƒ‰ƒCƒuƒ‰ƒŠ‚Å‚ÍA‚±‚ê‚ç‚Ìƒ
 Info.VersionInfo.INVALID_DESIGN_FILE=ŠJ‚±‚¤‚Æ‚µ‚½ƒfƒUƒCƒ“ƒtƒ@ƒCƒ‹‚ÍA—LŒø‚ÈƒfƒUƒCƒ“ƒtƒ@ƒCƒ‹‚Å‚Í‚È‚¢‚©Aƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚Ü‚¹‚ñB
 Info.VersionInfo.CONVERT_INFO=‚±‚ÌƒfƒUƒCƒ“ƒtƒ@ƒCƒ‹‚ÍAˆÈ‘O‚Ìƒo[ƒWƒ‡ƒ“‚Ì BIRT ‚Åì¬‚³‚ê‚Ä‚¢‚Ü‚·B[OK] ‚ğƒNƒŠƒbƒN‚·‚é‚ÆAŒ»İ‚Ìƒo[ƒWƒ‡ƒ“‚ÅƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚éŒ`®‚É•ÏŠ·‚³‚ê‚Ü‚·B
 Info.VersionInfo.INVALID_VERSION=ƒo[ƒWƒ‡ƒ“ "{0}" ‚ÌƒŒƒ|[ƒgƒtƒ@ƒCƒ‹‚Íg—p‚Å‚«‚Ü‚¹‚ñB
-Info.VersionInfo.EXTENSION_COMPATIBILITY =The opening design/library file or its included libraries has some extended items that need to do compatibilities.
+Info.VersionInfo.EXTENSION_COMPATIBILITY =ŠJ‚¢‚Ä‚¢‚éƒfƒUƒCƒ“ƒtƒ@ƒCƒ‹‚Ü‚½‚Íƒ‰ƒCƒuƒ‰ƒŠƒtƒ@ƒCƒ‹A‚Ü‚½‚Í‚»‚ê‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚éƒ‰ƒCƒuƒ‰ƒŠ‚É‚ÍŒİŠ·«‚ª•K—v‚ÈŠg’£€–Ú‚ªŠÜ‚Ü‚ê‚Ä‚¢‚Ü‚·B
 
 #EncryptionException
 Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY={0} ‚ÌƒvƒƒpƒeƒB {1} ‚ÍˆÃ†‰»‚Å‚«‚È‚¢‚½‚ßAˆÃ†‰»‚ğ•ÏX‚Å‚«‚Ü‚¹‚ñB

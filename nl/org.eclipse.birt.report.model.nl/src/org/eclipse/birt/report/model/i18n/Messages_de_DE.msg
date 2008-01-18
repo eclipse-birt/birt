@@ -1768,7 +1768,7 @@ Class.BirtComp.match.toolTip=x stimmt mit dem Javascript-Muster y überein
 Class.BirtComp.match.x=x
 Class.BirtComp.match.y=y
 Class.BirtComp.anyOf=anyOf
-Class.BirtComp.anyOf.toolTip=whether value is in the following arguments
+Class.BirtComp.anyOf.toolTip=ob sich das erste Argument innerhalb des Bereichs folgender Argumente befindet
 Class.BirtComp.anyOf.val=value
 
 
@@ -2312,7 +2312,7 @@ Element.DataSet.filter=Filter
 Element.DataSet.columnHints=Spaltenhinweise
 Element.DataSet.cachedMetaData=Zwischengespeicherte Metadaten
 Element.DataSet.rowFetchLimit=Maximale Anzahl an Zeilen, die aus dem Datensatz abgerufen werden:
-Element.DataSet.needsCache=Needs cache for data-engine
+Element.DataSet.needsCache=Cache wird für Daten-Engine benötigt
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.dataSource=Datenquelle
@@ -3564,7 +3564,7 @@ Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=Die Elemente der Vorlage 
 Info.VersionInfo.INVALID_DESIGN_FILE=Die zu öffnende Designdatei ist keine gültige Designdatei oder nicht vorhanden.
 Info.VersionInfo.CONVERT_INFO=Die Designdatei wurde von einer früheren Version von BIRT erstellt. Klicken Sie auf OK, um die Datei in ein Format zu konvertieren, das von der aktuellen Version des Produkts unterstützt wird.
 Info.VersionInfo.INVALID_VERSION=Die Berichtdatei für Version {0} wird nicht unterstützt.
-Info.VersionInfo.EXTENSION_COMPATIBILITY =The opening design/library file or its included libraries has some extended items that need to do compatibilities.
+Info.VersionInfo.EXTENSION_COMPATIBILITY =Die öffnende Design-/Bibliotheksdatei oder die darin enthaltenen Bibliotheken weisen einige inkompatible erweiterte Objekte auf.
 
 #EncryptionException
 Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY=Die Eigenschaft {1} in {0} kann nicht verschlüsselt werden. Daher kann die Verschlüsselung nicht geändert werden.

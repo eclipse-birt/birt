@@ -1768,7 +1768,7 @@ Class.BirtComp.match.toolTip=x 与 Javascript 模式 y 匹配
 Class.BirtComp.match.x=x
 Class.BirtComp.match.y=y
 Class.BirtComp.anyOf=anyOf
-Class.BirtComp.anyOf.toolTip=whether value is in the following arguments
+Class.BirtComp.anyOf.toolTip=第一个参数是否在下列参数范围内
 Class.BirtComp.anyOf.val=value
 
 
@@ -2312,7 +2312,7 @@ Element.DataSet.filter=筛选
 Element.DataSet.columnHints=列提示
 Element.DataSet.cachedMetaData=缓存元数据
 Element.DataSet.rowFetchLimit=从数据集提取的最大行数
-Element.DataSet.needsCache=Needs cache for data-engine
+Element.DataSet.needsCache=需要数据引擎缓存
 
 #4. SimpleDataSet  ( prefix  Element.SimpleDataSet )
 Element.SimpleDataSet.dataSource=数据源
@@ -3564,7 +3564,7 @@ Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=模板元素在库中不受支持。
 Info.VersionInfo.INVALID_DESIGN_FILE=正在打开的设计文件不是有效的设计文件，或者该文件不存在。
 Info.VersionInfo.CONVERT_INFO=设计文件是使用较早版本的 BIRT 创建的。单击“确定”将它转换为该产品当前版本支持的格式。
 Info.VersionInfo.INVALID_VERSION=不支持版本“{0}”的报表文件。
-Info.VersionInfo.EXTENSION_COMPATIBILITY =The opening design/library file or its included libraries has some extended items that need to do compatibilities.
+Info.VersionInfo.EXTENSION_COMPATIBILITY =正在打开的设计/库文件或其包括的库有某些扩展项需要设置兼容性。
 
 #EncryptionException
 Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY={0} 中的属性 {1} 不可加密，因此不能更改加密。
