@@ -208,15 +208,15 @@ public class StyleBuilder
 			linestyle = ExcelUtil.getValue( linestyle );
 			int weight = (int)Double.parseDouble( linestyle );
 
-			if (  weight >= 749 && weight < 2249 )
+			if (  weight >= 749 && weight < 1499 )
 			{
 				w = "1";
 			}
-			else if ( weight >= 2249 && weight < 3750 )
+			else if ( weight >= 1499 && weight < 2249 )
 			{
 				w = "2";
 			}
-			else if(weight >= 3750)
+			else if(weight >= 2249)
 			{
 				w = "3";
 			}
