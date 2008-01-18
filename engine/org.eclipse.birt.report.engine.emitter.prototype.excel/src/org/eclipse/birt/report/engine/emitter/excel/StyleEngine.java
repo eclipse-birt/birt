@@ -54,7 +54,7 @@ public class StyleEngine
 		if ( id == DEFAULT_DATE_STYLE )
 		{
 			entry.setProperty( StyleConstant.DATE_FORMAT_PROP,
-					"yyyy-M-d HH:ss:mm AM/PM" );
+					"yyyy-M-d HH:mm:ss AM/PM" );
 			entry.setProperty( StyleConstant.DATA_TYPE_PROP, Data.DATE );
 		}
 		return entry;
