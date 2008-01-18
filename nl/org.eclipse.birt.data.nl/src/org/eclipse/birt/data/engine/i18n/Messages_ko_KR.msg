@@ -70,7 +70,7 @@ data.engine.BadGroupKeyType=그룹 키에 지원되지 않는 데이터 형식이 있습니다: {0}
 data.engine.group.interval=형식이 {1}인 열에서 {0} 간격 설정은 지원되지 않습니다.
 data.engine.group.interval.Rowid=행 ID 열에서는 숫자 간격만 지원됩니다.
 data.engine.group.interval.invalid=주어진 간격이 부적합합니다.
-data.engine.group.intervalRange.invalid=Invalid interval range: {0}.
+data.engine.group.intervalRange.invalid=잘못된 간격 범위: {0}.
 data.engine.NoSupportFilterOnGroup=현재 그룹에서 필터링이 지원되지 않습니다.
 data.engine.InvalidTopBottomArgument=위쪽/아래쪽 필터의 인수는 숫자이어야 합니다.
 data.engine.InvalidTopBottomNArgument=TopN/BottomN 필터의 인수는 0 또는 양의 정수여야 합니다.
@@ -356,7 +356,7 @@ data.olap.fetchlimitWarning=반입 크기는 {0}(으)로, 전체 결과 집합 [{1}]의 길이보
 data.olap.failComputeComputedMeasureValue=계산되는 측정에 대한 값을 계산하지 못했습니다.
 data.olap.duplicateMeasureName=중복된 측정값 이름 \"{0}\"입니다.
 data.olap.dataBindingExpressionEmpty=데이터 바인딩 식은 널(null)이거나 비워 둘 수 없습니다!
-data.olap.missingParentCursor=The parent result set does not exist.
+data.olap.missingParentCursor=상위 결과 집합이 없습니다.
 data.olap.CannotAccessNullDimensionRow=Can't access null dimension row!
 
 data.cache.UnsupportedIncrementalCacheMode=증가 캐시의 \"{0}\" 모드는 아직 지원되지 않습니다.

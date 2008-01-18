@@ -70,7 +70,7 @@ data.engine.BadGroupKeyType=‚±‚Ìƒf[ƒ^Œ^‚ÌƒOƒ‹[ƒvƒL[‚Íg—p‚Å‚«‚Ü‚¹‚ñ : {0}
 data.engine.group.interval={1} Œ^‚Ì—ñ‚É‚ÍA{0} ‚ÌŠÔŠu‚ğİ’è‚Å‚«‚Ü‚¹‚ñB
 data.engine.group.interval.Rowid=ROWID —ñ‚É‚ÍA”’lˆÈŠO‚ÌŒ^‚ÌŠÔŠu‚ğİ’è‚Å‚«‚Ü‚¹‚ñB
 data.engine.group.interval.invalid=w’è‚µ‚½ŠÔŠu‚Í–³Œø‚Å‚·B
-data.engine.group.intervalRange.invalid=Invalid interval range: {0}.
+data.engine.group.intervalRange.invalid=ŠÔŠu‚Ì”ÍˆÍ {0} ‚ª–³Œø‚Å‚·B
 data.engine.NoSupportFilterOnGroup=Œ»İ‚ÍƒOƒ‹[ƒv‚ÉƒtƒBƒ‹ƒ^‚ğ“K—p‚Å‚«‚Ü‚¹‚ñB
 data.engine.InvalidTopBottomArgument=Top ‚Æ Bottom ‚ÌƒtƒBƒ‹ƒ^‚Ìˆø”‚É‚ÍA”’l‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢B
 data.engine.InvalidTopBottomNArgument=TopN ‚Æ BottomN ‚ÌƒtƒBƒ‹ƒ^‚Ìˆø”‚ÍAƒ[ƒ‚Ü‚½‚Í³‚Ì®”‚Å‚ ‚é•K—v‚ª‚ ‚è‚Ü‚·B
@@ -356,7 +356,7 @@ data.olap.fetchlimitWarning=Œ‹‰ÊƒZƒbƒg‚Ì‘S‘Ì‚ÌƒTƒCƒY‚Í [{1}] ‚Å‚·‚ªA{0} ‚µ‚©ƒtƒ
 data.olap.failComputeComputedMeasureValue=Œv‘ª’l‚ğŒvZ‚Å‚«‚Ü‚¹‚ñB
 data.olap.duplicateMeasureName=Œv‘ª–¼ \"{0}\" ‚ªd•¡‚µ‚Ä‚¢‚Ü‚·B
 data.olap.dataBindingExpressionEmpty=ƒf[ƒ^‚ÌƒoƒCƒ“ƒh®‚Í NULL ‚â‹ó”’‚É‚Å‚«‚Ü‚¹‚ñB
-data.olap.missingParentCursor=The parent result set does not exist.
+data.olap.missingParentCursor=eŒ‹‰ÊƒZƒbƒg‚ª‘¶İ‚µ‚Ü‚¹‚ñB
 data.olap.CannotAccessNullDimensionRow=Can't access null dimension row!
 
 data.cache.UnsupportedIncrementalCacheMode=‘•ªƒLƒƒƒbƒVƒ…‚Ì \"{0}\" ƒ‚[ƒh‚Í‚Ü‚¾ƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB

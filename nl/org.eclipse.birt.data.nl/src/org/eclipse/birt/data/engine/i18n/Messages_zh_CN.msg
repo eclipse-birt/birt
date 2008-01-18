@@ -70,7 +70,7 @@ data.engine.BadGroupKeyType=组键具有不支持的数据类型：{0}
 data.engine.group.interval=不支持在类型为 {1} 的列中设置 {0} 间隔。
 data.engine.group.interval.Rowid=数字间隔是 ROWID 列中唯一支持的间隔。
 data.engine.group.interval.invalid=该指定间隔无效。
-data.engine.group.intervalRange.invalid=Invalid interval range: {0}.
+data.engine.group.intervalRange.invalid=无效间隔范围: {0}。
 data.engine.NoSupportFilterOnGroup=当前不支持对组执行筛选。
 data.engine.InvalidTopBottomArgument=顶端/底端筛选器参数必须为数字。
 data.engine.InvalidTopBottomNArgument=TopN/BottomN 筛选器的参数必须为零或正整数。
@@ -356,7 +356,7 @@ data.olap.fetchlimitWarning=取数大小为 {0}，小于整个结果集的长度 [{1}]。
 data.olap.failComputeComputedMeasureValue=无法计算已计算的度量。
 data.olap.duplicateMeasureName=重复度量名称“{0}”。
 data.olap.dataBindingExpressionEmpty=数据绑定表达式不能为 null 或空!
-data.olap.missingParentCursor=The parent result set does not exist.
+data.olap.missingParentCursor=父结果集不存在。
 data.olap.CannotAccessNullDimensionRow=Can't access null dimension row!
 
 data.cache.UnsupportedIncrementalCacheMode=尚未支持增量缓存的“{0}”模式!

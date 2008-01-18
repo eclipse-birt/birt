@@ -70,7 +70,7 @@ data.engine.BadGroupKeyType=La clave de grupo tiene un tipo de datos no admitido
 data.engine.group.interval=No se admite el establecimiento de un intervalo {0} en una columna con el tipo {1}.
 data.engine.group.interval.Rowid=El intervalo numérico es el único intervalo que se admite en la columna ROWID.
 data.engine.group.interval.invalid=El intervalo indicado no es válido.
-data.engine.group.intervalRange.invalid=Invalid interval range: {0}.
+data.engine.group.intervalRange.invalid=Rango del intervalo no válido: {0}.
 data.engine.NoSupportFilterOnGroup=En este momento no se admite el filtrado en grupos.
 data.engine.InvalidTopBottomArgument=El argumento de los filtros Superior/Inferior debe ser un número.
 data.engine.InvalidTopBottomNArgument=El argumento de los filtros TopN/BottomN debe ser cero o un entero positivo.
@@ -356,7 +356,7 @@ data.olap.fetchlimitWarning=El tamaño de recuperación es {0}, menor que la longi
 data.olap.failComputeComputedMeasureValue=Error al procesar los valores para la medida procesada.
 data.olap.duplicateMeasureName=Duplicar nombre de medida \"{0}\".
 data.olap.dataBindingExpressionEmpty=La expresión de enlace de datos no puede ser nula ni estar vacía.
-data.olap.missingParentCursor=The parent result set does not exist.
+data.olap.missingParentCursor=El conjunto de resultados principal no existe.
 data.olap.CannotAccessNullDimensionRow=Can't access null dimension row!
 
 data.cache.UnsupportedIncrementalCacheMode=El modo \"{0}\" de caché de incremento no se admite aún.

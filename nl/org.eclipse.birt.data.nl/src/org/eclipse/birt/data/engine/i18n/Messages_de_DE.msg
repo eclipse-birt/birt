@@ -70,7 +70,7 @@ data.engine.BadGroupKeyType=Gruppenschlüssel hat nicht unterstützten Datentyp: {
 data.engine.group.interval=Das Festlegen von "{0}" als Intervall für eine Spalte des Typs {1} wird nicht unterstützt.
 data.engine.group.interval.Rowid=In der Spalte "ROWID" werden als Intervalltyp nur numerische Intervalle unterstützt.
 data.engine.group.interval.invalid=Das angegebene Intervall ist ungültig.
-data.engine.group.intervalRange.invalid=Invalid interval range: {0}.
+data.engine.group.intervalRange.invalid=Ungültiger Intervallbereich: {0}.
 data.engine.NoSupportFilterOnGroup=Das Filtern nach Gruppen wird momentan nicht unterstützt.
 data.engine.InvalidTopBottomArgument=Das Argument für Top/Bottom-Filter muss eine Zahl sein.
 data.engine.InvalidTopBottomNArgument=Das Argument der Filter "TopN/BottomN" muss entweder Null oder eine positive Ganzzahl sein.
@@ -356,7 +356,7 @@ data.olap.fetchlimitWarning=Die Anzahl der abzurufenden Datensätze beträgt {0} u
 data.olap.failComputeComputedMeasureValue=Werte für berechnete Maßeinheit können nicht berechnet werden.
 data.olap.duplicateMeasureName=Doppelter Einheitenname \"{0}\".
 data.olap.dataBindingExpressionEmpty=Datenbindungsausdruck darf nicht leer oder gleich Null sein.
-data.olap.missingParentCursor=The parent result set does not exist.
+data.olap.missingParentCursor=Das übergeordnete Ergebnis ist nicht vorhanden.
 data.olap.CannotAccessNullDimensionRow=Can't access null dimension row!
 
 data.cache.UnsupportedIncrementalCacheMode=Der \"{0}\"-Modus der inkrementellen Zwischenspeicherung wird noch nicht unterstützt!
