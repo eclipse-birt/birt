@@ -1392,7 +1392,22 @@ public class TaskSelectType extends SimpleTask
 					SeriesDefinition baseSD = (SeriesDefinition) ( ChartUIUtil.getBaseSeriesDefinitions( chartModel ).get( 0 ) );
 					SeriesDefinition orthSD = null;
 					orthSD = (SeriesDefinition)series.eContainer( );
-					String aggFunc = ChartUtil.getAggregateFuncExpr( orthSD, baseSD );
+					String aggFunc = null;
+					boolean hasException = false;
+					try
+					{
+						aggFunc = ChartUtil.getAggregateFuncExpr( orthSD, baseSD );
+					}
+					catch ( ChartException e )
+					{
+						hasException = true;
+						ChartWizard.showException( e.getLocalizedMessage( ) );
+					}
+					
+					if ( !hasException )
+					{
+						ChartWizard.removeException( );
+					}
 					
 					if ( baseSD != null )
 					{

@@ -578,9 +578,10 @@ public abstract class AbstractChartBaseQueryGenerator
 	 * @param baseSD
 	 * @param orthAxisArray
 	 * @return
+	 * @throws ChartException 
 	 */
 	protected String getAggFunExpr( String sortKey, SeriesDefinition baseSD,
-			Object[] orthAxisArray )
+			Object[] orthAxisArray ) throws ChartException
 	{
 		String baseAggFunExpr = null;
 		if ( baseSD.getGrouping( ) != null &&

@@ -504,9 +504,25 @@ public class TaskSelectData extends SimpleTask
 					SeriesDefinition baseSD = (SeriesDefinition) ( ChartUIUtil.getBaseSeriesDefinitions( getChartModel( ) ).get( 0 ) );
 					SeriesDefinition orthSD = null;
 					orthSD = (SeriesDefinition) series.eContainer( );
-					String aggFunc = ChartUtil.getAggregateFuncExpr( orthSD,
-							baseSD );
+					
+					boolean hasException = false;
+					String aggFunc = null;
+					try
+					{
+						aggFunc = ChartUtil.getAggregateFuncExpr( orthSD,
+								baseSD );
+					}
+					catch ( ChartException e )
+					{
+						hasException = true;
+						ChartWizard.showException( e.getLocalizedMessage( ) );
+					}
 
+					if ( !hasException )
+					{
+						ChartWizard.removeException( );
+					}
+					
 					if ( baseSD != orthSD && baseSD.eContainer( ) != axis // Is
 																			// not
 																			// without

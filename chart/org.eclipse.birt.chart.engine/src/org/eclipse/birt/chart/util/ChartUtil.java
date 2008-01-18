@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.util;
 
 import java.text.MessageFormat;
 
+import org.eclipse.birt.chart.aggregate.IAggregateFunction;
 import org.eclipse.birt.chart.computation.Polygon;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
@@ -665,10 +666,11 @@ public class ChartUtil
 	 * 
 	 * @param orthoSD
 	 * @param strBaseAggExp
+	 * @throws ChartException 
 	 * @since BIRT 2.3
 	 */
 	public static String getAggregateFunctionExpr( SeriesDefinition orthoSD,
-			String strBaseAggExp )
+			String strBaseAggExp ) throws ChartException
 	{
 		String strOrthoAgg = null;
 		SeriesGrouping grouping = orthoSD.getGrouping( );
@@ -677,6 +679,18 @@ public class ChartUtil
 		{
 			// Set own group
 			strOrthoAgg = grouping.getAggregateExpression( );
+			if ( strBaseAggExp == null && strOrthoAgg != null )
+			{
+				// If no category grouping is defined, value series aggregate
+				// only allow running aggregates.
+				// Check if series aggregate is running aggregate.
+				IAggregateFunction aFunc = PluginSettings.instance( )
+						.getAggregateFunction( strOrthoAgg );
+				if ( aFunc.getType( ) != IAggregateFunction.RUNNING_AGGR )
+				{
+					strOrthoAgg = null;
+				}
+			}
 		}
 
 		// Set base group
@@ -694,10 +708,11 @@ public class ChartUtil
 	 * @param orthSD
 	 * @param baseSD
 	 * @return
+	 * @throws ChartException 
 	 * @since BIRT 2.3
 	 */
 	public static String getAggregateFuncExpr( SeriesDefinition orthSD,
-			SeriesDefinition baseSD )
+			SeriesDefinition baseSD ) throws ChartException
 	{
 
 		String strBaseAggExp = null;
