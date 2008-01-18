@@ -70,9 +70,9 @@ public class PPTPage extends AbstractPage
 				absPosY, repeat );
 	}
 
-	protected void drawImage( byte[] imageData, String extension, float imageX,
-			float imageY, float height, float width, String helpText )
-			throws Exception
+	protected void drawImage( String imageId, byte[] imageData,
+			String extension, float imageX, float imageY, float height,
+			float width, String helpText ) throws Exception
 	{
 		writer.drawImage( imageData, extension, imageX, imageY, height, width,
 				helpText );
@@ -93,7 +93,7 @@ public class PPTPage extends AbstractPage
 		{
 			byteArrayOut.write( data );
 		}
-		drawImage( byteArrayOut.toByteArray( ), extension, imageX, imageY,
+		drawImage( uri, byteArrayOut.toByteArray( ), extension, imageX, imageY,
 				height, width, helpText );
 	}
 

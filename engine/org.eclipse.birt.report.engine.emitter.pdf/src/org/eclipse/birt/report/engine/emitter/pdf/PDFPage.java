@@ -359,9 +359,9 @@ public class PDFPage extends AbstractPage
 		contentByte.restoreState( );
 	}
 
-	protected void drawImage( byte[] imageData, String extension, float imageX,
-			float imageY, float height, float width, String helpText )
-			throws Exception
+	protected void drawImage( String imageId, byte[] imageData,
+			String extension, float imageX, float imageY, float height,
+			float width, String helpText ) throws Exception
 	{
 		Image image = Image.getInstance( imageData );
 		drawImage( image, imageX, imageY, height, width, helpText );

@@ -85,17 +85,18 @@ public class PostscriptPage extends AbstractPage
 	 * @see org.eclipse.birt.report.engine.emitter.postscript.page.IPageDevice#drawImage(java.io.InputStream,
 	 *      float, float, float, float)
 	 */
-	protected void drawImage( InputStream input, float imageX, float imageY,
+	protected void drawImage( String imageId, InputStream input, float imageX, float imageY,
 			float height, float width, String helpText ) throws Exception
 	{
-		writer.drawImage( input, imageX, imageY, width, height );
+		writer.drawImage( imageId, input, imageX, imageY, width, height );
 	}
 
-	protected void drawImage( byte[] imageData, String extension, float imageX, float imageY,
-			float height, float width, String helpText ) throws Exception
+	protected void drawImage( String imageId, byte[] imageData,
+			String extension, float imageX, float imageY, float height,
+			float width, String helpText ) throws Exception
 	{
 		InputStream input = new ByteArrayInputStream( imageData );
-		drawImage( input, imageX, imageY, height, width, helpText );
+		drawImage( imageId, input, imageX, imageY, height, width, helpText );
 	}
 
 	protected void drawImage( String uri, String extension, float imageX,
@@ -106,8 +107,8 @@ public class PostscriptPage extends AbstractPage
 		{
 			return;
 		}
-		drawImage( new URL( uri ).openStream( ), imageX, imageY, height, width,
-				helpText );
+		drawImage( uri, new URL( uri ).openStream( ), imageX, imageY, height,
+				width, helpText );
 	}
 
 	/*

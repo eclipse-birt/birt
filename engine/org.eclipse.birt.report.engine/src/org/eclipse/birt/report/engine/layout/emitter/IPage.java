@@ -66,8 +66,9 @@ public interface IPage
 	void drawText( String text, int textX, int textY, int width, int height,
 			TextStyle textStyle );
 
-	void drawImage( byte[] imageData, String extension, int imageX, int imageY,
-			int height, int width, String helpText ) throws Exception;
+	void drawImage( String imageId, byte[] imageData, String extension,
+			int imageX, int imageY, int height, int width, String helpText )
+			throws Exception;
 
 	void drawImage( String uri, String extension, int imageX, int imageY,
 			int height, int width, String helpText ) throws Exception;

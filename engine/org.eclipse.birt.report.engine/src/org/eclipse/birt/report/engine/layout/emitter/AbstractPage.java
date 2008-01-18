@@ -63,11 +63,11 @@ public abstract class AbstractPage implements IPage
 				imageUrl, convertToPoint( absPosX ), convertToPoint( absPosY ) );
 	}
 
-	public void drawImage( byte[] imageData, String extension, int imageX,
-			int imageY, int height, int width, String helpText )
+	public void drawImage( String imageId, byte[] imageData, String extension,
+			int imageX, int imageY, int height, int width, String helpText )
 			throws Exception
 	{
-		drawImage( imageData, extension, convertToPoint( imageX ),
+		drawImage( imageId, imageData, extension, convertToPoint( imageX ),
 				convertToPoint( imageY ), convertToPoint( height ),
 				convertToPoint( width ), helpText );
 	}
@@ -135,9 +135,9 @@ public abstract class AbstractPage implements IPage
 			String repeat, String imageUrl, float absPosX, float absPosY )
 			throws IOException;
 
-	protected abstract void drawImage( byte[] imageData, String extension, float imageX,
-			float imageY, float height, float width, String helpText )
-			throws Exception;
+	protected abstract void drawImage( String imageId, byte[] imageData,
+			String extension, float imageX, float imageY, float height,
+			float width, String helpText ) throws Exception;
 
 	protected abstract void drawImage( String uri, String extension, float imageX,
 			float imageY, float height, float width, String helpText )

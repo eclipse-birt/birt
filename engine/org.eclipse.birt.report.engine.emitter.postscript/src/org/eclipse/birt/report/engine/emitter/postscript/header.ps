@@ -10,101 +10,107 @@
 %%BeginSetup
 %%BeginResource: procset FOPprocs
 %%Title: Utility procedures
-
-/pix 3 string def
-% define space for color conversions
-/grays 1 string def  % space for gray scale line
-/npixls 0 def
-/rgbindx 0 def
-% define 'colorimage' if it isn't defined
-% ('colortogray' and 'mergeprocs' come from xwd2ps
-% via xgrab)
-/colorimage where {
-  pop
-}{
-  /colortogray {  % define an RGB->I function
-    /rgbdata exch store    % call input 'rgbdata'
-    rgbdata length 3 idiv
-    /npixls exch store
-    /rgbindx 0 store
-    0 1 npixls 1 sub {
-      grays exch
-      rgbdata rgbindx       get 20 mul    % Red
-      rgbdata rgbindx 1 add get 32 mul    % Green
-      rgbdata rgbindx 2 add get 12 mul    % Blue
-      add add 64 idiv      % I = .5G + .31R + .18B
-      put
-      /rgbindx rgbindx 3 add store
-    } for
-    grays 0 npixls getinterval
-  } bind def
-
-% Utility procedure for colorimage operator.
-% This procedure takes two procedures off the
-% stack and merges them into a single procedure.
-  /mergeprocs { % def
-    dup length
-    3 -1 roll
-    dup
-    length
-    dup
-    5 1 roll
-    3 -1 roll
-    add
-    array cvx
-    dup
-    3 -1 roll
-    0 exch
-    putinterval
-    dup
-    4 2 roll
-    putinterval
-  } bind def
-
-  /colorimage { % def
-    pop pop     % remove 'false 3' operands
-    {colortogray} mergeprocs
-    image
-  } bind def
-} ifelse          % end of 'false' case
-
-% Define a serial number for creating unique XUIDs for TrueType fonts.
-% We used to use the checkSumAdjustment value from the font, but this is
-% not reliable, since some fonts don't set it correctly.
-% Note that we must do this in a string to make it immune to save/restore.
+/rect{
+  3 index 3 -1 roll add 3 1 roll
+  1 index exch sub
+  3 index 2 index moveto
+  2 index 2 index lineto
+  2 index 1 index lineto
+  3 index 1 index lineto
+  3 index 2 index lineto
+  pop pop pop pop
+}def
+/rcl{
+  rect closepath eoclip newpath
+}def
+/drawstring {
+  gsave
+  8 -3 roll setrgbcolor
+  5 -2 roll moveto
+  3 -1 roll 0 8#40
+  5 -1 roll 0 6 -1 roll
+  awidthshow stroke grestore
+}def
+/drawline{
+  gsave
+  9 -3 roll setrgbcolor
+  5 index setlinewidth
+  6 -2 roll dup dup
+  0 eq not{
+    1 eq{
+      pop [exch dup 3 mul exch 2 mul] 0 setdash
+    }{
+      2 eq{[exch] 0 setdash}if
+    }ifelse
+  }{
+    pop pop pop
+  }ifelse
+  4 -2 roll moveto lineto stroke
+  grestore
+}def
+/usefont{
+  exch findfont exch scalefont setfont
+}def
 /xuidstring <80000000> def
-/curxuid {		% - curxuid <int>
+/curxuid{
   0 xuidstring { exch 8 bitshift exch add } forall
-} bind def
-/nextxuid {		% - nextxuid -
-  3 -1 0 {
-    xuidstring 1 index 2 copy get dup 255 ne {
+}bind def
+/nextxuid{
+  3 -1 0{
+    xuidstring 1 index 2 copy get dup 255 ne{
       1 add put pop exit
-    } if pop 0 put pop
-  } for
-} bind def
-
-/AddT42Char
-{
+    }if pop 0 put pop
+  }for
+}bind def
+/AddT42Char{
   /CIDFont findresource
   dup
   /GlyphDirectory get
 	begin
-	  2 index
-	  4 2 roll
-	  def
+	  2 index 4 2 roll def
 	end
 	exch /CIDMap get 3 1 roll put
-} def
-
-/AddT42Glyph
-{
+}def
+/AddT42Glyph{
   /CIDFont findresource
   /GlyphDirectory get begin
     def
   end
 } def
-
+/defimg{
+  <</source 6 -1 roll /len 7 -1 roll /width 8 -1 roll /height 9 -1 roll>>def
+}def
+/drawimage{
+  gsave
+  5 dict begin
+    4 index /width get
+    5 index /height get
+    7 -1 roll dup
+    /source exch /source get def
+    /len exch /len get def
+    /i 0 def
+    6 -2 roll translate
+    4 -2 roll 1 index 1 index 0 eq exch 0 eq or
+    {pop pop 1 index 1 index}if scale
+    8 2 index 2 index [3 -1 roll 0 0 0 6 -1 roll sub 0 0]
+    { i len lt{
+        source i get 
+        /i i 1 add def
+      }{()}ifelse
+    } false 3 colorimage
+  end
+  grestore
+}def
+/drawstreamimage {
+  5 dict begin
+    /pix 2 index 3 mul string def
+    /i 0 def
+    6 -2 roll translate
+    4 -2 roll 1 index 1 index 0 eq exch 0 eq or {
+      pop pop 1 index 1 index}if scale
+    8 2 index 2 index [ 3 -1 roll 0 0 0 6 -1 roll sub 0 0]
+    {currentfile pix readhexstring pop} false 3 colorimage
+}def
 /CIDInit /ProcSet findresource begin
   10 dict begin
     begincmap
@@ -126,6 +132,6 @@
     pop
   end
 end
-
+/Helvetica 0.0 usefont
 %%EndResource
 %%EndSetup

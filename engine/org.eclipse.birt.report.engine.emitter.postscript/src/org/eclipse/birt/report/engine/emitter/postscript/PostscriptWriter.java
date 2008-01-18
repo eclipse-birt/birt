@@ -42,6 +42,7 @@ import org.eclipse.birt.report.engine.layout.emitter.util.BackgroundImageLayout;
 import org.eclipse.birt.report.engine.layout.emitter.util.Position;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontHandler;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
+import org.eclipse.birt.report.model.api.ImageHandle;
 import org.w3c.dom.css.CSSValue;
 
 import com.lowagie.text.DocumentException;
@@ -109,7 +110,7 @@ public class PostscriptWriter
 	/**
 	 * Table mapping decimal numbers to hexadecimal numbers.
 	 */
-	final protected static byte hd[] = {'0', '1', '2', '3', '4', '5', '6', '7',
+	final protected static char hd[] = {'0', '1', '2', '3', '4', '5', '6', '7',
 			'8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 	/**
 	 * Output stream where postscript to be output.
@@ -136,6 +137,10 @@ public class PostscriptWriter
 	
 	private static Set intrinsicFonts = new HashSet( );
 
+	private int imageIndex = 0;
+	
+	private Map cachedImageSource;
+	
 	static
 	{
 		intrinsicFonts.add( COURIER );
@@ -170,7 +175,8 @@ public class PostscriptWriter
 	 */
 	public PostscriptWriter( OutputStream o, String title )
 	{
-		out = new PrintStream( o );
+		this.out = new PrintStream( o );
+		this.cachedImageSource = new HashMap();
 		emitProlog( title );
 		FontHandler.prepareFonts( );
 	}
@@ -178,14 +184,7 @@ public class PostscriptWriter
 	public void clipRect( float x, float y, float width, float height )
 	{
 		y = transformY( y );
-		
-		out.println( x + " " + y + " moveto" );
-		out.println( ( x + width ) + " " + y + " lineto" );
-		out.println( ( x + width ) + " " + ( y - height ) + " lineto" );
-		out.println( x + " " + ( y - height ) + " lineto" );
-		out.println( x + " " + y + " lineto" );
-
-		out.println( "closepath eoclip newpath" );
+		out.println( x + " " + y + " " + width + " " + height + " rcl" );
 	}
 
 	public void clipSave()
@@ -213,11 +212,11 @@ public class PostscriptWriter
 	 *            the image height.
 	 * @throws IOException
 	 */
-	public void drawImage( InputStream imageStream, float x, float y,
+	public void drawImage( String imageId, InputStream imageStream, float x, float y,
 			float width, float height ) throws Exception
 	{
 		Image image = ImageIO.read( imageStream );
-		drawImage( image, x, y, width, height, null );
+		drawImage( imageId, image, x, y, width, height );
 	}
 
 	/**
@@ -238,15 +237,50 @@ public class PostscriptWriter
 	 *            the background color.
 	 * @throws Exception
 	 */
-	public void drawImage( Image image, float x, float y, float width,
-			float height, Color bgcolor ) throws Exception
+	public void drawImage( String imageId, Image image, float x, float y, float width,
+			float height ) throws IOException
 	{
 		if ( image == null )
 		{
 			throw new IllegalArgumentException( "null image." );
 		}
+		y = transformY( y );
+		
+		//if imageId is null, the image will not be cached.
+		if ( imageId == null )
+		{
+			outputUncachedImage( image, x, y, width, height );
+		}
+		else
+		{
+			// NOTICE: if width or height is 0, then the width and height will
+			// be replaced by the intrinsic width and height of the image. this
+			// logic is hard coded in the ps code and can't be found in java
+			// code.
+			outputCachedImage( imageId, image, x, y, width, height );
+		}
+	}
+
+	private void outputCachedImage( String imageId, Image image, float x,
+			float y, float width, float height ) throws IOException
+	{
+		String imageName = getImageName( imageId, image );
+		out.print( imageName + " ");
+		out.print( x + " " + y + " ");
+		out.print( width + " " + height + " ");
+		out.println( " drawimage");
+	}
+
+	private void outputUncachedImage( Image image, float x, float y,
+			float width, float height ) throws IOException
+	{
 		ImageSource imageSource = getImageSource( image );
-		drawImage( imageSource, x, y, width, height, bgcolor );
+		out.print( x + " " + y + " ");
+		out.print( width + " " + height + " " );
+		out.print( imageSource.getWidth( ) + " " + imageSource.getHeight( ) );
+		out.println( " drawstreamimage");
+		outputImageSource( imageSource, "", "" );
+		out.println( "end" );
 	}
 
 	private ArrayImageSource getImageSource( Image image ) throws IOException
@@ -274,138 +308,96 @@ public class PostscriptWriter
 		return imageSource;
 	}
 
-	private void drawImage( ImageSource imageSource, float x, float y,
-			float width, float height, Color bgcolor )
+	private String getImageName( String imageId, Image image ) throws IOException
+	{
+		String name = (String) cachedImageSource.get( imageId );
+		if ( name == null )
+		{
+			name = "image" + imageIndex++;
+			cachedImageSource.put( imageId, name );
+			ImageSource imageSource = getImageSource( image );
+			outputNamedImageSource( name, imageSource );
+		}
+		return name;
+	}
+
+	private void outputNamedImageSource( String name, ImageSource imageSource )
+	{
+		out.println('/' + name + " [");
+		int count = outputImageSource( imageSource, "<", ">" );
+		out.print( "] " + count + " " );
+		out.println( imageSource.getWidth( ) + " " + imageSource.getHeight( )
+				+ " defimg" );
+	}
+
+	private int outputImageSource( ImageSource imageSource, String prefix,
+			String suffix )
 	{
 		int originalWidth = imageSource.getWidth( );
 		int originalHeight = imageSource.getHeight( );
-		y = transformY( y );
-		gSave( );
-		out.println( "% build a temporary dictionary" );
-		out.println( "20 dict begin" );
-		out.print( "/pix " );
-		out.print( originalWidth * 3 );
-		out.println( " string def" );
-
-		out.println( "% define space for color conversions" );
-		out.print( "/grays " );
-		out.print( originalWidth );
-		out.println( " string def  % space for gray scale line" );
-
-		out.println( "% lower left corner" );
-		out.print( x );
-		out.print( " " );
-		out.print( y );
-		out.println( " translate" );
-
-		if ( height == 0 || width == 0 )
-		{
-			height = originalHeight;
-			width = originalWidth;
-		}
-
-		out.println( "% size of image" );
-		out.print( width );
-		out.print( " " );
-		out.print( height );
-		out.println( " scale" );
-
-		out.print( originalWidth );
-		out.print( " " );
-		out.print( originalHeight );
-		out.println( " 8" );
-
-		out.print( "[" );
-		out.print( originalWidth );
-		out.print( " 0 0 -" );
-		out.print( originalHeight );
-		out.print( " 0 " );
-		out.print( 0 );
-		out.println( "]" );
-
-		out.println( "{currentfile pix readhexstring pop}" );
-		out.println( "false 3 colorimage" );
-		out.println( "" );
-
-		byte[] sb = new byte[originalWidth * 6];
-		int offset = 0;
+		StringBuffer buffer = new StringBuffer();
+		int count = 0;
 		for ( int i = 0; i < originalHeight; i++ )
 		{
-			if ( bgcolor == null )
+			for ( int j = 0; j < originalWidth; j++ )
 			{
-				for ( int j = 0; j < originalWidth; j++ )
+				int pixel = imageSource.getRGB( j, i );
+				int alpha = ( pixel >> 24 ) & 0xff;
+				int red = ( pixel >> 16 ) & 0xff;
+				int green = ( pixel >> 8 ) & 0xff;
+				int blue = pixel & 0xff;
+				red = transferColor( alpha, red );
+				green = transferColor( alpha, green );
+				blue = transferColor( alpha, blue );
+				toBytes( buffer, red );
+				toBytes( buffer, green );
+				toBytes( buffer, blue );
+				if ( buffer.length( ) >= 250 )
 				{
-					int pixel = imageSource.getRGB( j, i );
-					int alpha = ( pixel >> 24 ) & 0xff;
-					int red = ( pixel >> 16 ) & 0xff;
-					int green = ( pixel >> 8 ) & 0xff;
-					int blue = pixel & 0xff;
-					red = transferColor( alpha, red );
-					green = transferColor( alpha, green );
-					blue = transferColor( alpha, blue );
-					offset = toBytes( offset, sb, red );
-					offset = toBytes( offset, sb, green );
-					offset = toBytes( offset, sb, blue );
+					outputBuffer( buffer, prefix, suffix );
+					++count;
 				}
-				offset = 0;
-				out.println( new String( sb ) );
-			}
-			else
-			{
-				// TODO:implement or remove it.
 			}
 		}
-		out.println( "" );
-		out.println( "end" );
-		gRestore( );
+		// Output content in buffer if buffer is not empty, which means there is
+		// only one char '<' in buffer.
+		if ( buffer.length( ) > 0 )
+		{
+			outputBuffer( buffer, prefix, suffix );
+			++count;
+		}
+		return count;
 	}
 
+	private void outputBuffer( StringBuffer buffer, String prefix, String suffix )
+	{
+		out.print( prefix );
+		out.print( buffer.toString( ) );
+		out.println( suffix );
+		buffer.setLength( 0 );
+	}
+	
 	private int transferColor( int alpha, int color )
 	{
 		return 255 - (255 - color) * alpha / 255;
 	}
 	
-	private int toBytes( int offset, byte[] buffer, int value )
+	private void toBytes( StringBuffer buffer, int value )
 	{
-		buffer[offset++] = hd[( ( value & 0xF0 ) >> 4 )];
-		buffer[offset++] = hd[( value & 0xF )];
-		return offset;
+		buffer.append( hd[( ( value & 0xF0 ) >> 4 )] );
+		buffer.append( hd[( value & 0xF )] );
 	}
 
-	protected void drawRect( float x, float y, float width, float height,
-			boolean fill )
+	protected void drawRect( float x, float y, float width, float height )
 	{
 		drawRawRect( x, y, width, height );
-		if ( fill )
-			out.println( "fill" );
-		else
-			out.println( "stroke" );
-
+		out.println( "fill" );
 	}
 
 	private void drawRawRect( float x, float y, float width, float height )
 	{
-		y = transformY( y ) - height;
-		out.print( x );
-		out.print( " " );
-		out.print( y );
-		out.println( " moveto " );
-		out.print( width );
-		out.print( " " );
-		out.print( 0 );
-		out.println( " rlineto " );
-		out.print( 0 );
-		out.print( " " );
-		out.print( height );
-		out.println( " rlineto " );
-		out.print( -width );
-		out.print( " " );
-		out.print( 0 );
-		out.println( " rlineto " );
-		out.print( 0 );
-		out.print( " " );
-		out.print( -height );
-		out.println( " rlineto " );
+		y = transformY( y );
+		out.println( x + " " + y + " " + width + " " + height + " rect" );
 	}
 
 	/**
@@ -451,8 +443,7 @@ public class PostscriptWriter
 	 *            the initial y position of the background image.
 	 * @param repeat
 	 *            the repeat mode.
-	 * @throws IOException
-	 *             when the iamge cann't be read from the url.
+	 * @throws Exception 
 	 */
 	public void drawBackgroundImage( String imageURI, float x, float y,
 			float width, float height, float positionX, float positionY,
@@ -464,20 +455,19 @@ public class PostscriptWriter
 		{
 			imageStream = url.openStream( );
 			Image image = ImageIO.read( imageStream );
-			ImageSource imageSource = getImageSource( image );
 
+			ImageIcon imageIcon = new ImageIcon( image );
+			Position imageSize = new Position( imageIcon.getIconWidth( ),
+					imageIcon.getIconHeight( ) );
 			Position areaPosition = new Position( x, y );
 			Position areaSize = new Position( width, height );
 			Position imagePosition = new Position( x + positionX, y + positionY );
 			// TODO: need to confirm the tansformation from unit pixel to
 			// pointer.
-			Position imageSize = new Position( imageSource.getWidth( ),
-					imageSource.getHeight( ) );
 			BackgroundImageLayout layout = new BackgroundImageLayout(
 					areaPosition, areaSize, imagePosition, imageSize );
 			Collection positions = layout.getImagePositions( repeat );
 			gSave( );
-			out.println( "clipsave" );
 			setColor( Color.WHITE );
 			out.println( "newpath" );
 			drawRawRect( x, y, width, height );
@@ -486,10 +476,9 @@ public class PostscriptWriter
 			while ( iterator.hasNext( ) )
 			{
 				Position position = (Position) iterator.next( );
-				drawImage( imageSource, position.getX( ), position.getY( ),
-						imageSize.getX( ), imageSize.getY( ), null );
+				drawImage( imageURI, image, position.getX( ), position.getY( ),
+						imageSize.getX( ), imageSize.getY( ) );
 			}
-			out.println( "cliprestore" );
 			gRestore( );
 		}
 		finally
@@ -500,32 +489,6 @@ public class PostscriptWriter
 				imageStream = null;
 			}
 		}
-	}
-
-	/**
-	 * Draws a line from (startX, startY) to (endX, endY).
-	 * 
-	 * @param startX
-	 *            the x coordinate of start point.
-	 * @param startY
-	 *            the y coordinate of start point.
-	 * @param endX
-	 *            the x coordinate of end point.
-	 * @param endY
-	 *            the y coordinate of end point.
-	 */
-	public void drawLine( float startX, float startY, float endX, float endY )
-	{
-		startY = transformY( startY );
-		endY = transformY( endY );
-		out.print( startX );
-		out.print( " " );
-		out.print( startY );
-		out.print( " moveto " );
-		out.print( endX );
-		out.print( " " );
-		out.print( endY );
-		out.println( " lineto stroke" );
 	}
 
 	/**
@@ -562,22 +525,22 @@ public class PostscriptWriter
 		{
 			return;
 		}
-		gSave( );
-		if ( color != null )
-		{
-			setColor( color );
-		}
-		setLineWidth( width );
+		int dashMode = 0;
 		if ( "dashed".equalsIgnoreCase( lineStyle ) ) //$NON-NLS-1$
 		{
-			setDashLine( width );
+			dashMode = 1;
 		}
 		else if ( "dotted".equalsIgnoreCase( lineStyle ) ) //$NON-NLS-1$
 		{
-			setDottedLine( width );
+			dashMode = 2;
 		}
-		drawLine( startX, startY, endX, endY );
-		gRestore( );
+		startY = transformY( startY );
+		endY = transformY( endY );
+		outputColor( color );
+		out.print( width + " " + dashMode + " ");
+		out.print( startX + " " + startY + " ");
+		out.print( endX + " " + endY + " ");
+		out.println( "drawline");
 	}
 
 	private void gRestore( )
@@ -590,31 +553,7 @@ public class PostscriptWriter
 		out.println( "gsave" );
 	}
 
-	private void setLineWidth( float lineWidth )
-	{
-		out.print( lineWidth );
-		out.println( " setlinewidth" );
-	}
-
-	private void setDashLine( float lineWidth )
-	{
-		int width = (int) Math.ceil( lineWidth );
-		out.println( "[" + 3 * width + " " + 2 * width + "] 0 setdash" );
-	}
-
-	private void setDottedLine( float lineWidth )
-	{
-		int width = (int) Math.ceil( lineWidth );
-		out.println( "[" + width + "] 0 setdash" );
-	}
-
 	private Map trueTypeFontWriters = new HashMap( );
-
-	public void drawRect( int x, int y, int width, int height )
-	{
-		out.println( "%drawRect" );
-		drawRect( x, y, width, height, false );
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -629,7 +568,6 @@ public class PostscriptWriter
 			CSSValue align )
 	{
 		y = transformY( y );
-		gSave( );
 		String text = str;
 		if ( fontInfo != null )
 		{
@@ -639,18 +577,10 @@ public class PostscriptWriter
 					.getFontSize( ), text );
 		}
 		color = color == null ? Color.black : color;
-		setColor( color );
-		out.print( x );
-		out.print( " " );
-		out.print( y );
-		out.print( " moveto " );
-		out.print( wordSpacing );
-		out.print( " 0 8#040 " );
-		out.print( letterSpacing );
-		out.print( " 0 " );
-		out.print( text );
-		out.println( " awidthshow stroke" );
-		gRestore( );
+		outputColor( color );
+		out.print( x + " " + y + " " );
+		out.print( wordSpacing + " " + letterSpacing + " " );
+		out.println( text + " drawstring" );
 	}
 
 	/**
@@ -665,7 +595,6 @@ public class PostscriptWriter
 			out.println( "%%Title: " + title );
 		}
 		out.println( "% (C)2006 Actuate Inc." );
-		setFont( font );
 	}
 
 	public void fillRect( float x, float y, float width, float height,
@@ -673,8 +602,7 @@ public class PostscriptWriter
 	{
 		gSave( );
 		setColor( color );
-		out.println( "%fillRect" );
-		drawRect( x, y, width, height, true );
+		drawRect( x, y, width, height );
 		gRestore( );
 	}
 
@@ -704,15 +632,13 @@ public class PostscriptWriter
 		return font;
 	}
 
-	public void scale( float sx, float sy )
+	public void setColor( Color c )
 	{
-		out.print( sx );
-		out.print( " " );
-		out.print( sy );
-		out.println( " scale" );
+		outputColor( c );
+		out.println( " setrgbcolor" );
 	}
 
-	public void setColor( Color c )
+	private void outputColor( Color c )
 	{
 		if ( c == null )
 		{
@@ -723,9 +649,9 @@ public class PostscriptWriter
 		out.print( c.getGreen( ) / 255.0 );
 		out.print( " " );
 		out.print( c.getBlue( ) / 255.0 );
-		out.println( " setrgbcolor" );
+		out.print( " " );
 	}
-
+	
 	public void setFont( Font f )
 	{
 		if ( f != null )
@@ -739,9 +665,7 @@ public class PostscriptWriter
 
 	private void setFont( String psName, float size )
 	{
-		out.println( "/" + psName + " findfont" );
-		out.print( size );
-		out.println( " scalefont setfont" );
+		out.println( "/" + psName + " " + size + " usefont" );
 	}
 
 	private String applyFont( String fontName, int fontStyle, float fontSize,
@@ -872,20 +796,6 @@ public class PostscriptWriter
 		Object field = fldTrueTypeFonts.get( instaces );
 		return field;
 	}
-
-	/**
-	 * Returns a String object representing this Graphic's value.
-	 */
-
-	public String toString( )
-	{
-		return getClass( ).getName( ) + "[font=" + getFont( ) + ",color="
-				+ getColor( ) + "]";
-	}
-
-	/**
-	 * Flip Y coords so Postscript looks like Java
-	 */
 
 	protected float transformY( float y )
 	{

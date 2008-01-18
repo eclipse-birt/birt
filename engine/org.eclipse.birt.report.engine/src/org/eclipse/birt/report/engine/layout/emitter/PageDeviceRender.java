@@ -709,7 +709,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 					}
 					if ( isSvg )
 					{
-						pageGraphic.drawImage( transSvgToArray( uri ),
+						pageGraphic.drawImage( uri, transSvgToArray( uri ),
 								extension, imageX, imageY, height, width,
 								helpText );
 					}
@@ -734,7 +734,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 											".svg" ) ); //$NON-NLS-1$
 					if ( isSvg )
 						data = transSvgToArray( in );
-					pageGraphic.drawImage( data, extension, imageX, imageY,
+					pageGraphic.drawImage( uri, data, extension, imageX, imageY,
 							height, width, helpText );
 					break;
 			}
