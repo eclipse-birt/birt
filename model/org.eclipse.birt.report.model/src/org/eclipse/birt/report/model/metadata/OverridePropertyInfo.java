@@ -72,7 +72,7 @@ public class OverridePropertyInfo
 	 * @return the enableExtraSearch
 	 */
 	
-	public boolean enableExtraSearch( )
+	public boolean useOwnSearch( )
 	{
 		return enableExtraSearch;
 	}
@@ -82,7 +82,7 @@ public class OverridePropertyInfo
 	 *            the enableExtraSearch to set
 	 */
 	
-	void setEnableExtraSearch( boolean enableExtraSearch )
+	void setUseOwnSearch( boolean enableExtraSearch )
 	{
 		this.enableExtraSearch = enableExtraSearch;
 	}

@@ -583,6 +583,7 @@ public class ExtendedItem extends ReportItem
 	 * @see org.eclipse.birt.report.model.core.DesignElement#setEncryptionHelper(org.eclipse.birt.report.model.metadata.ElementPropertyDefn,
 	 *      java.lang.String)
 	 */
+
 	public void setEncryptionHelper( ElementPropertyDefn propDefn,
 			String encryptionID )
 	{
@@ -604,6 +605,28 @@ public class ExtendedItem extends ReportItem
 		if ( !propDefn.isExtended( ) )
 			return super.hasLocalValue( propDefn );
 		return provider.getExtensionProperty( getRoot( ), propDefn ) != null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.StyledElement#getFactoryProperty(org.eclipse.birt.report.model.core.Module,
+	 *      org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 */
+
+	public Object getFactoryProperty( Module module, ElementPropertyDefn prop )
+	{
+		// this method has to be overridden since IReportItem.getProperty() may
+		// make calls to FactoryPropertyHandle. The idea is that if the
+		// useOwnSearch = true, do not delegate to IReportItem.getProperty().
+
+		if ( !prop.enableContextSearch( ) || !prop.isStyleProperty( ) )
+			return super.getFactoryProperty( module, prop );
+
+		// only the style property with enableContextSearch = true
+
+		return ( (ExtendedItemPropSearchStrategy) ExtendedItemPropSearchStrategy
+				.getInstance( ) ).getMetaFactoryProperty( module, this, prop );
 	}
 
 	/**

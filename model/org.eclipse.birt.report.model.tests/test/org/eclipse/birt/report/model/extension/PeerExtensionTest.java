@@ -255,7 +255,7 @@ public class PeerExtensionTest extends BaseTestCase
 				.findElement( "testTable" ); //$NON-NLS-1$
 		assertNotNull( extendedItem );
 
-		assertNull( extendedItem.getReportItem( ) );
+		assertNotNull( extendedItem.getReportItem( ) );
 		assertEquals( TESTING_TABLE_NAME, extendedItem.getExtensionName( ) );
 		assertNotNull( extendedItem.getDefn( ) );
 
@@ -789,7 +789,7 @@ public class PeerExtensionTest extends BaseTestCase
 		assertTrue( compareFile( "PeerExtensionTest_golden_3.xml" ) ); //$NON-NLS-1$
 
 	}
-	
+
 	public void testDataBindingRef( ) throws Exception
 	{
 		openDesign( FILE_NAME_10 );
@@ -990,6 +990,56 @@ public class PeerExtensionTest extends BaseTestCase
 		assertNotNull( style );
 		assertNotNull( style.getDefn( ).getProperty(
 				StyleHandle.FONT_FAMILY_PROP ) );
+	}
+
+	/**
+	 * Tests useOwnSearch cases:
+	 * 
+	 * <ul>
+	 * <li>No local value, uses container values. tests getFactoryProperty(),
+	 * getProperty() and ReportItem.getProperty().
+	 * <li>Has local value. tests getFactoryProperty(), getProperty() and
+	 * ReportItem.getProperty().
+	 * </ul>
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testUseOwnSearch( ) throws Exception
+	{
+		openDesign( "PeerExtensionTest_13.xml" );//$NON-NLS-1$
+		ExtendedItemHandle table1 = (ExtendedItemHandle) designHandle
+				.findElement( "table1" ); //$NON-NLS-1$
+		ExtendedItemHandle table2 = (ExtendedItemHandle) designHandle
+				.findElement( "table2" ); //$NON-NLS-1$
+
+		assertNull( table1.getFactoryPropertyHandle( StyleHandle.COLOR_PROP ) );
+		assertEquals( "red", table2.getFactoryPropertyHandle( //$NON-NLS-1$
+				StyleHandle.COLOR_PROP ).getStringValue( ) );
+
+		assertEquals( "blue", table1.getReportItem( ).getProperty( //$NON-NLS-1$
+				StyleHandle.COLOR_PROP ) );
+		assertEquals( "blue", table1.getProperty( StyleHandle.COLOR_PROP ) ); //$NON-NLS-1$
+
+		assertEquals( "red", table2.getReportItem( ).getProperty( //$NON-NLS-1$
+				StyleHandle.COLOR_PROP ) );
+
+		assertNull( table1
+				.getFactoryPropertyHandle( StyleHandle.HIGHLIGHT_RULES_PROP ) );
+
+		List rules = (List) table1.getReportItem( ).getProperty(
+				StyleHandle.HIGHLIGHT_RULES_PROP );
+		assertEquals( 1, rules.size( ) );
+
+		rules = table1.getListProperty( StyleHandle.HIGHLIGHT_RULES_PROP );
+		assertEquals( 1, rules.size( ) );
+
+		rules = (List) table2.getFactoryPropertyHandle(
+				StyleHandle.HIGHLIGHT_RULES_PROP ).getValue( );
+		assertEquals( 1, rules.size( ) );
+		rules = (List) table2.getReportItem( ).getProperty(
+				StyleHandle.HIGHLIGHT_RULES_PROP );
+		assertEquals( 1, rules.size( ) );
 	}
 
 	private static class MyListener implements Listener

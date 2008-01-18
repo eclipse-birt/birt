@@ -208,7 +208,7 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 
 			String units = propInfo.getAllowedUnits( );
 			String choices = propInfo.getAllowedChoices( );
-			boolean enableContextSearch = propInfo.enableExtraSearch( );
+			boolean useOwnSearch = propInfo.useOwnSearch( );
 
 			ChoiceSet unitSet = buildChoiceSet( MetaDataDictionary
 					.getInstance( ).getChoiceSet(
@@ -230,7 +230,7 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 					choiceSet = null;
 			}
 
-			if ( unitSet == null && choiceSet == null && !enableContextSearch )
+			if ( unitSet == null && choiceSet == null && !useOwnSearch )
 				continue;
 
 			ElementPropertyDefn clonedDefn = (ElementPropertyDefn) reflectClass( defn );
@@ -243,7 +243,7 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 			if ( unitSet != null )
 				clonedDefn.allowedUnits = unitSet;
 
-			clonedDefn.enableContextSearch = enableContextSearch;
+			clonedDefn.useOwnSearch = useOwnSearch;
 
 			cachedProperties.put( propName, clonedDefn );
 		}

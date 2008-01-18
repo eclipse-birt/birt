@@ -539,12 +539,11 @@ Designer UI
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="enableContextSearch" type="boolean">
+         <attribute name="useOwnSearch" type="boolean">
             <annotation>
                <documentation>
-                  If true, the user can write own context related property search algorithm in  ReportItem.getProperty(). Context search algorithm is only called if there is no local value.
-
-The default value is false.
+                  If true, the property search algorithm is controlled by the extension element self by implementing ReportItem.getProperty(). In such case, ReportItem.getProperty() returns the final effective value. The factory property value won&apos;t call ReportItem.getProperty() directly/indirectly since it may be called in ReportItem.getProperty(). 
+This attribute ONLY works for ROM defined style properties. The default value is false.
                </documentation>
             </annotation>
          </attribute>

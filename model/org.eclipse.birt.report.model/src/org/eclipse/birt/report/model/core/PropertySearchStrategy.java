@@ -160,7 +160,7 @@ public class PropertySearchStrategy
 	 * @return The property value, or null if no value is set.
 	 */
 
-	private Object getNonIntrinsicPropertyFromElement( Module module,
+	protected Object getNonIntrinsicPropertyFromElement( Module module,
 			DesignElement element, ElementPropertyDefn prop )
 	{
 		assert !prop.isIntrinsic( );

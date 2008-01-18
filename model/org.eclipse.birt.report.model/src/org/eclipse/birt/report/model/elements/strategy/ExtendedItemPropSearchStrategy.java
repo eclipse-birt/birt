@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.MultiViews;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
+import org.eclipse.birt.report.model.metadata.SystemPropertyDefn;
 
 /**
  * Provides the specific property searching route for <code>ExtendedItem</code>.
@@ -178,19 +179,15 @@ public class ExtendedItemPropSearchStrategy
 		return grandContainer.getProperty( module, prop );
 	}
 
-	/**
-	 * Returns the property value which is related to container.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the element
-	 * @param prop
-	 *            the definition of property
-	 * @return the property value, or null if no value is set.
+	 * @see org.eclipse.birt.report.model.core.PropertySearchStrategy#getNonIntrinsicPropertyFromElement(org.eclipse.birt.report.model.core.Module,
+	 *      org.eclipse.birt.report.model.core.DesignElement,
+	 *      org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
 	 */
 
-	protected Object getPropertyRelatedToContainer( Module module,
+	protected Object getNonIntrinsicPropertyFromElement( Module module,
 			DesignElement element, ElementPropertyDefn prop )
 	{
 		ExtendedItem extendedItem = (ExtendedItem) element;
@@ -203,12 +200,34 @@ public class ExtendedItemPropSearchStrategy
 			return null;
 
 		if ( !propDefn.enableContextSearch( ) )
-			return null;
+			return super.getNonIntrinsicPropertyFromElement( module, element,
+					prop );
 
 		IReportItem reportItem = extendedItem.getExtendedElement( );
 		if ( reportItem != null )
 			return reportItem.getProperty( prop.getName( ) );
 
 		return null;
+	}
+
+	/**
+	 * Returns the factory property value for the overridden property by the
+	 * extension.
+	 * 
+	 * @param module
+	 *            the module
+	 * @param element
+	 *            the element
+	 * @param prop
+	 *            the property definition
+	 * @return the property value
+	 */
+
+	public Object getMetaFactoryProperty( Module module, DesignElement element,
+			ElementPropertyDefn prop )
+	{
+		assert ( prop.isSystemProperty( ) && ( (SystemPropertyDefn) prop )
+				.enableContextSearch( ) );
+		return super.getNonIntrinsicPropertyFromElement( module, element, prop );
 	}
 }

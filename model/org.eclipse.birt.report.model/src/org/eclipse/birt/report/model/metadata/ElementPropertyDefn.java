@@ -44,7 +44,7 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 	 * property search algorithm.
 	 */
 
-	protected boolean enableContextSearch = false;
+	protected boolean useOwnSearch = false;
 
 	/**
 	 * Default constructor.
@@ -263,6 +263,6 @@ public abstract class ElementPropertyDefn extends PropertyDefn
 
 	public boolean enableContextSearch( )
 	{
-		return enableContextSearch;
+		return useOwnSearch;
 	}
 }

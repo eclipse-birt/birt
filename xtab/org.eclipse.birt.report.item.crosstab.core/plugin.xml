@@ -509,43 +509,43 @@
          </propertyVisibility>
          <overrideProperty
                propertyName="highlightRules"
-               enableContextSearch="true">
+               useOwnSearch="true">
          </overrideProperty>
          <overrideProperty
                propertyName="fontFamily"
-               enableContextSearch="true">
+               useOwnSearch="true">
          </overrideProperty>
          <overrideProperty
                propertyName="fontSize"
-               enableContextSearch="true">
+               useOwnSearch="true">
          </overrideProperty>
          <overrideProperty
                propertyName="fontStyle"
-               enableContextSearch="true">
+               useOwnSearch="true">
          </overrideProperty>
          <overrideProperty
                propertyName="fontWeight"
-               enableContextSearch="true">
+               useOwnSearch="true">
          </overrideProperty>
          <overrideProperty
                propertyName="fontVariant"
-               enableContextSearch="true">
+               useOwnSearch="true">
          </overrideProperty>
          <overrideProperty
                propertyName="color"
-               enableContextSearch="true">
+               useOwnSearch="true">
          </overrideProperty>
          <overrideProperty
                propertyName="textUnderline"
-               enableContextSearch="true">
+               useOwnSearch="true">
          </overrideProperty>
          <overrideProperty
                propertyName="textOverline"
-               enableContextSearch="true">
+               useOwnSearch="true">
          </overrideProperty>
          <overrideProperty
                propertyName="textLineThrough"
-               enableContextSearch="true">
+               useOwnSearch="true">
          </overrideProperty>
       </reportItem>
       <reportItem
@@ -574,43 +574,43 @@
          </property>
          <overrideProperty
                propertyName="highlightRules"
-               enableContextSearch="true">
+               useOwnSearch="true">
          </overrideProperty>
          <overrideProperty
                propertyName="fontFamily"
-               enableContextSearch="true">
+               useOwnSearch="true">
          </overrideProperty>
          <overrideProperty
                propertyName="fontSize"
-               enableContextSearch="true">
+               useOwnSearch="true">
          </overrideProperty>
          <overrideProperty
                propertyName="fontStyle"
-               enableContextSearch="true">
+               useOwnSearch="true">
          </overrideProperty>
          <overrideProperty
                propertyName="fontWeight"
-               enableContextSearch="true">
+               useOwnSearch="true">
          </overrideProperty>
          <overrideProperty
                propertyName="fontVariant"
-               enableContextSearch="true">
+               useOwnSearch="true">
          </overrideProperty>
          <overrideProperty
                propertyName="color"
-               enableContextSearch="true">
+               useOwnSearch="true">
          </overrideProperty>
          <overrideProperty
                propertyName="textUnderline"
-               enableContextSearch="true">
+               useOwnSearch="true">
          </overrideProperty>
          <overrideProperty
                propertyName="textOverline"
-               enableContextSearch="true">
+               useOwnSearch="true">
          </overrideProperty>
          <overrideProperty
                propertyName="textLineThrough"
-               enableContextSearch="true">
+               useOwnSearch="true">
          </overrideProperty>
          <property
                canInherit="true"

@@ -153,7 +153,7 @@ public class PeerExtensionLoader extends ExtensionLoader
 		protected static final String SUB_TYPE_ATTRIB = "subType"; //$NON-NLS-1$
 		protected static final String IS_LIST_ATTRIB = "isList"; //$NON-NLS-1$
 		private static final String HAS_OWN_MODEL = "hasOwnModel"; //$NON-NLS-1$
-		private static final String ENABLE_EXTRA_SEARCH = "enableExtraSearch"; //$NON-NLS-1$
+		private static final String USE_OWN_SEARCH = "useOwnSearch"; //$NON-NLS-1$
 
 		private static final String CONTEXT_ATTRIB = "context"; //$NON-NLS-1$
 
@@ -417,12 +417,12 @@ public class PeerExtensionLoader extends ExtensionLoader
 			String units = elementTag.getAttribute( ALLOWEDUNITS_ATTRIB );
 			String choices = elementTag.getAttribute( ALLOWEDCHOICES_ATTRIB );
 
-			boolean enableExtraSearch = getBooleanAttrib( elementTag,
-					ENABLE_EXTRA_SEARCH, false );
+			boolean useOwnSearch = getBooleanAttrib( elementTag,
+					USE_OWN_SEARCH, false );
 
 			OverridePropertyInfo propInfo = new OverridePropertyInfo( );
-			if ( enableExtraSearch )
-				propInfo.setEnableExtraSearch( enableExtraSearch );
+			if ( useOwnSearch )
+				propInfo.setUseOwnSearch( useOwnSearch );
 			propInfo.setAllowedUnits( units );
 			propInfo.setAllowedChoices( choices );
 
