@@ -721,7 +721,7 @@ public class ScriptDebugTarget extends ScriptDebugElement implements
 							false )
 					&& getLaunch( ).getLaunchConfiguration( )
 							.getAttribute( IReportLaunchConstants.ATTR_TASK_TYPE,
-									IReportLaunchConstants.TASK_TYPE_RUN_AND_RENDER ) != IReportLaunchConstants.TASK_TYPE_RUN )
+									IReportLaunchConstants.DEFAULT_TASK_TYPE ) != IReportLaunchConstants.TASK_TYPE_RUN )
 			{
 				while ( !getProcess( ).isTerminated( ) )
 				{
@@ -745,7 +745,7 @@ public class ScriptDebugTarget extends ScriptDebugElement implements
 							file.getName( ),
 							launch.getLaunchConfiguration( )
 									.getAttribute( IReportLaunchConstants.ATTR_TARGET_FORMAT,
-											IReportLaunchConstants.DEFAULT_OUTPUT_FORMAT ) );
+											IReportLaunchConstants.DEFAULT_TARGET_FORMAT ) );
 
 					if ( fileName != null && new File( fileName ).exists( ) )
 					{

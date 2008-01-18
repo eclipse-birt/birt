@@ -31,6 +31,12 @@ public class JsVariable implements VMVariable, VMConstants, Comparable
 		this.value = new JsValue( value );
 	}
 
+	JsVariable( Object value, String name, String reservedTypeName )
+	{
+		this.name = name;
+		this.value = new JsValue( value, reservedTypeName );
+	}
+
 	JsVariable( Object value, String name, boolean isPrimitive )
 	{
 		this.name = name;

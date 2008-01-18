@@ -126,6 +126,10 @@ public interface IReportLaunchConstants
 
 	int EXIT_FAIL = -1;
 
-	String DEFAULT_OUTPUT_FORMAT = "html"; //$NON-NLS-1$
+	String DEFAULT_TARGET_FORMAT = "html"; //$NON-NLS-1$
+
+	int DEFAULT_DEBUG_TYPE = DEBUG_TYPE_JAVA_SCRIPT;
+
+	int DEFAULT_TASK_TYPE = TASK_TYPE_RUN_AND_RENDER;
 
 }

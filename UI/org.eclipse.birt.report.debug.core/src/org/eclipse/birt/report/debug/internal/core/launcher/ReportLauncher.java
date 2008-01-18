@@ -133,7 +133,7 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 		String str = System.getProperty( ATTR_TASK_TYPE );
 		if ( str == null )
 		{
-			return TASK_TYPE_RUN_PLUS_RENDER;
+			return DEFAULT_TASK_TYPE;
 		}
 
 		return Integer.parseInt( str );
@@ -144,7 +144,7 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 		String str = System.getProperty( ATTR_DEBUG_TYPE );
 		if ( str == null )
 		{
-			return DEBUG_TYPE_ALL;
+			return DEFAULT_DEBUG_TYPE;
 		}
 
 		return Integer.parseInt( str );

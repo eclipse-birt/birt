@@ -25,6 +25,9 @@ public interface VMConstants
 	String EVALUATOR_LITERAL = "<evaluator>"; //$NON-NLS-1$
 	String ERROR_LITERAL = "<error>"; //$NON-NLS-1$
 
+	String UNDEFINED_TYPE = "<undefined>"; //$NON-NLS-1$
+	String EXCEPTION_TYPE = "<exception>"; //$NON-NLS-1$
+
 	int VM_IDLE = 0;
 	int VM_STEP_OVER = 1;
 	int VM_STEP_INTO = 2;

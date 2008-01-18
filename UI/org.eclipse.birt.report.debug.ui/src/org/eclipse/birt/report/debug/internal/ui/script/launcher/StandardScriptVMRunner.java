@@ -140,7 +140,8 @@ public class StandardScriptVMRunner extends AbstractScriptVMRunner
 		delegate.helper.addTempFolder( arguments );
 		delegate.helper.addTypeArgs( arguments );
 		delegate.helper.addPortArgs( arguments );
-		delegate.helper.addUserClassPath( arguments, launch.getLaunchConfiguration( ) );
+		delegate.helper.addUserClassPath( arguments,
+				launch.getLaunchConfiguration( ) );
 
 		arguments.add( config.getClassToLaunch( ) );
 

@@ -44,10 +44,18 @@ public class JsValue implements VMValue, VMConstants
 
 	private boolean isPrimitive;
 	private Object value;
+	private String reservedValueType;
 
 	public JsValue( Object value )
 	{
 		this( value, false );
+	}
+
+	JsValue( Object value, String fixedValueType )
+	{
+		this( value, false );
+
+		this.reservedValueType = fixedValueType;
 	}
 
 	JsValue( Object value, boolean isPrimitive )
@@ -72,21 +80,44 @@ public class JsValue implements VMValue, VMConstants
 
 		if ( this.value == null )
 		{
-			return that.value == null;
+			if ( that.value != null )
+			{
+				return false;
+			}
 		}
 		else
 		{
-			return this.value.equals( that.value );
+			if ( !this.value.equals( that.value ) )
+			{
+				return false;
+			}
 		}
+
+		if ( this.reservedValueType == null )
+		{
+			return that.reservedValueType == null;
+		}
+		else
+		{
+			return this.reservedValueType.equals( that.reservedValueType );
+		}
+
 	}
 
 	public int hashCode( )
 	{
-		if ( value == null )
+		int hash = Boolean.valueOf( isPrimitive ).hashCode( );
+
+		if ( value != null )
 		{
-			return Boolean.valueOf( isPrimitive ).hashCode( );
+			hash ^= value.hashCode( );
 		}
-		return value.hashCode( ) ^ Boolean.valueOf( isPrimitive ).hashCode( );
+
+		if ( reservedValueType != null )
+		{
+			hash ^= reservedValueType.hashCode( );
+		}
+		return hash;
 	}
 
 	public VMVariable[] getMembers( )
@@ -105,7 +136,9 @@ public class JsValue implements VMValue, VMConstants
 					e.printStackTrace( new PrintWriter( sw ) );
 
 					return new VMVariable[]{
-						new JsVariable( sw.toString( ), ERROR_LITERAL )
+						new JsVariable( sw.toString( ),
+								ERROR_LITERAL,
+								EXCEPTION_TYPE )
 					};
 				}
 			}
@@ -124,6 +157,11 @@ public class JsValue implements VMValue, VMConstants
 
 	private VMVariable[] getMembersImpl( Context cx )
 	{
+		if ( reservedValueType != null )
+		{
+			return NO_CHILD;
+		}
+
 		Object valObj = value;
 
 		if ( value instanceof NativeJavaObject )
@@ -335,6 +373,11 @@ public class JsValue implements VMValue, VMConstants
 
 	public String getTypeName( )
 	{
+		if ( reservedValueType != null )
+		{
+			return reservedValueType;
+		}
+
 		Object valObj = value;
 
 		if ( value instanceof NativeJavaObject )

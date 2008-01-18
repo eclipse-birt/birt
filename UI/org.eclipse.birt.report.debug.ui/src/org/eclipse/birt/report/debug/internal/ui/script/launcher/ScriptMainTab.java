@@ -520,7 +520,7 @@ public class ScriptMainTab extends AbstractLaunchConfigurationTab implements
 			cmbOutputFormat.setItems( supportedFormats );
 
 			String targetFormat = configuration.getAttribute( ATTR_TARGET_FORMAT,
-					DEFAULT_OUTPUT_FORMAT );
+					DEFAULT_TARGET_FORMAT );
 
 			int idx = Arrays.asList( supportedFormats ).indexOf( targetFormat );
 			if ( idx != -1 )
@@ -536,9 +536,9 @@ public class ScriptMainTab extends AbstractLaunchConfigurationTab implements
 					false ) );
 
 			int debugType = configuration.getAttribute( ATTR_DEBUG_TYPE,
-					DEBUG_TYPE_ALL );
+					DEFAULT_DEBUG_TYPE );
 			int taskType = configuration.getAttribute( ATTR_TASK_TYPE,
-					TASK_TYPE_RUN_AND_RENDER );
+					DEFAULT_TASK_TYPE );
 
 			bDebugAll.setSelection( false );
 			bDebugJava.setSelection( false );
@@ -624,7 +624,7 @@ public class ScriptMainTab extends AbstractLaunchConfigurationTab implements
 		configuration.setAttribute( ATTR_USE_DEFULT_ENGINE_HOME,
 				bUseDefaultEngineHome.getSelection( ) );
 
-		int debugType = DEBUG_TYPE_ALL;
+		int debugType = DEFAULT_DEBUG_TYPE;
 		if ( bDebugJava.getSelection( ) )
 		{
 			debugType = DEBUG_TYPE_JAVA_CLASS;
@@ -633,9 +633,17 @@ public class ScriptMainTab extends AbstractLaunchConfigurationTab implements
 		{
 			debugType = DEBUG_TYPE_JAVA_SCRIPT;
 		}
+		else if ( bDebugAll.getSelection( ) )
+		{
+			debugType = DEBUG_TYPE_ALL;
+		}
 
-		int taskType = TASK_TYPE_RUN_AND_RENDER;
-		if ( bRunPlusRender.getSelection( ) )
+		int taskType = DEFAULT_TASK_TYPE;
+		if ( bRunAndRender.getSelection( ) )
+		{
+			taskType = TASK_TYPE_RUN_AND_RENDER;
+		}
+		else if ( bRunPlusRender.getSelection( ) )
 		{
 			taskType = TASK_TYPE_RUN_PLUS_RENDER;
 		}
@@ -782,10 +790,10 @@ public class ScriptMainTab extends AbstractLaunchConfigurationTab implements
 		configuration.setAttribute( ATTR_ENGINE_HOME, "" ); //$NON-NLS-1$
 		configuration.setAttribute( ATTR_TEMP_FOLDER, getDefaultTempFolder( ) );
 		configuration.setAttribute( ATTR_OPEN_TARGET, false );
-		configuration.setAttribute( ATTR_TARGET_FORMAT, DEFAULT_OUTPUT_FORMAT );
+		configuration.setAttribute( ATTR_TARGET_FORMAT, DEFAULT_TARGET_FORMAT );
 		configuration.setAttribute( ATTR_USE_DEFULT_ENGINE_HOME, true );
-		configuration.setAttribute( ATTR_DEBUG_TYPE, DEBUG_TYPE_ALL );
-		configuration.setAttribute( ATTR_TASK_TYPE, TASK_TYPE_RUN_AND_RENDER );
+		configuration.setAttribute( ATTR_DEBUG_TYPE, DEFAULT_DEBUG_TYPE );
+		configuration.setAttribute( ATTR_TASK_TYPE, DEFAULT_TASK_TYPE );
 	}
 
 	public boolean isValid( ILaunchConfiguration launchConfig )

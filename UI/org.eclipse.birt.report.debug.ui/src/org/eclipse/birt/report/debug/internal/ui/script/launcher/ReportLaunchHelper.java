@@ -92,13 +92,13 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 					true );
 
 			targetFormat = configuration.getAttribute( ATTR_TARGET_FORMAT,
-					DEFAULT_OUTPUT_FORMAT );
+					DEFAULT_TARGET_FORMAT );
 			isOpenTargetFile = configuration.getAttribute( ATTR_OPEN_TARGET,
 					false );
 			debugType = configuration.getAttribute( ATTR_DEBUG_TYPE,
-					DEBUG_TYPE_ALL );
+					DEFAULT_DEBUG_TYPE );
 			taskType = configuration.getAttribute( ATTR_TASK_TYPE,
-					TASK_TYPE_RUN_AND_RENDER );
+					DEFAULT_TASK_TYPE );
 		}
 		catch ( CoreException e )
 		{

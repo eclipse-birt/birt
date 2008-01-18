@@ -257,7 +257,7 @@ public class JsDebugFrame implements DebugFrame, VMStackFrame, VMConstants
 
 			if ( val == Undefined.instance )
 			{
-				result = new JsValue( UNDEFINED_LITERAL );
+				result = new JsValue( UNDEFINED_LITERAL, UNDEFINED_TYPE );
 			}
 			else
 			{
@@ -266,7 +266,7 @@ public class JsDebugFrame implements DebugFrame, VMStackFrame, VMConstants
 		}
 		catch ( Exception ex )
 		{
-			result = new JsValue( ex.getMessage( ) );
+			result = new JsValue( ex.getMessage( ), EXCEPTION_TYPE );
 		}
 		finally
 		{
@@ -295,7 +295,9 @@ public class JsDebugFrame implements DebugFrame, VMStackFrame, VMConstants
 					e.printStackTrace( new PrintWriter( sw ) );
 
 					return new VMVariable[]{
-						new JsVariable( sw.toString( ), ERROR_LITERAL )
+						new JsVariable( sw.toString( ),
+								ERROR_LITERAL,
+								EXCEPTION_TYPE )
 					};
 				}
 			}
