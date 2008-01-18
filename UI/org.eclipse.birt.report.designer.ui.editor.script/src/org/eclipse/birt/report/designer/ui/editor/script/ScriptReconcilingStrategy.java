@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.script.ScriptParser;
 import org.eclipse.birt.report.designer.internal.ui.editors.script.ScriptValidator;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
