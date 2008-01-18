@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2007, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -87,6 +87,9 @@ public class TaskSelectData extends SimpleTask
 	private SashForm foSashForm;
 	private Point fLeftSize;
 	private Point fRightSize;
+	private final int DEFAULT_HEIGHT = 580;
+	private Composite fHeaderArea;
+	private ScrolledComposite fDataArea;
 
 	public TaskSelectData( )
 	{
@@ -117,10 +120,10 @@ public class TaskSelectData extends SimpleTask
 				GridLayout layout = new GridLayout( );
 				foSashForm.setLayout( layout );
 				GridData gridData = new GridData( GridData.FILL_BOTH );
-				gridData.heightHint = 580;
+				// gridData.heightHint = DEFAULT_HEIGHT;
 				foSashForm.setLayoutData( gridData );
 			}
-
+			foSashForm.addListener( SWT.Resize, this );
 			placeComponents( );
 			createPreviewPainter( );
 			// init( );
@@ -129,6 +132,7 @@ public class TaskSelectData extends SimpleTask
 		{
 			customizeUI( );
 		}
+		reSize( );
 		if ( getChartModel( ) instanceof ChartWithAxes )
 		{
 			changeTask( null );
@@ -147,7 +151,27 @@ public class TaskSelectData extends SimpleTask
 		refreshLeftArea( );
 		refreshRightArea( );
 		refreshBottomArea( );
+		reSize( );
 		getCustomizeUI( ).layoutAll( );
+	}
+
+	private void reSize( )
+	{
+		Point headerSize = computeHeaderAreaSize( );
+		int weight[] = foSashForm.getWeights( );
+		if ( headerSize.y > DEFAULT_HEIGHT / 2 )
+		{
+			weight[0] = headerSize.y;
+			weight[1] = DEFAULT_HEIGHT / 2;
+			( (GridData) foSashForm.getLayoutData( ) ).heightHint = weight[0]
+					+ weight[1];
+		}
+		else
+		{
+			weight[0] = 200;
+			weight[1] = 200;
+			( (GridData) foSashForm.getLayoutData( ) ).heightHint = DEFAULT_HEIGHT;
+		}
 	}
 
 	private void refreshLeftArea( )
@@ -188,24 +212,24 @@ public class TaskSelectData extends SimpleTask
 
 	private void createDataArea( )
 	{
-		ScrolledComposite sc = new ScrolledComposite( foSashForm, SWT.VERTICAL );
+		fDataArea = new ScrolledComposite( foSashForm, SWT.VERTICAL );
 		{
 			GridLayout gl = new GridLayout( );
-			sc.setLayout( gl );
+			fDataArea.setLayout( gl );
 			GridData gd = new GridData( GridData.FILL_VERTICAL );
-			sc.setLayoutData( gd );
-			sc.setExpandHorizontal( true );
-			sc.setExpandVertical( true );
+			fDataArea.setLayoutData( gd );
+			fDataArea.setExpandHorizontal( true );
+			fDataArea.setExpandVertical( true );
 		}
 
-		Composite dataComposite = new Composite( sc, SWT.NONE );
+		Composite dataComposite = new Composite( fDataArea, SWT.NONE );
 		{
 			GridLayout gl = new GridLayout( 3, false );
 			dataComposite.setLayout( gl );
 			GridData gd = new GridData( GridData.FILL_BOTH );
 			dataComposite.setLayoutData( gd );
 		}
-		sc.setContent( dataComposite );
+		fDataArea.setContent( dataComposite );
 
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.widthHint = fLeftSize.x;
@@ -222,22 +246,22 @@ public class TaskSelectData extends SimpleTask
 		new Label( dataComposite, SWT.NONE );
 
 		Point size = dataComposite.computeSize( SWT.DEFAULT, SWT.DEFAULT );
-		sc.setMinSize( size );
+		fDataArea.setMinSize( size );
 	}
 
 	private void createHeadArea( )
 	{
 		// Create header area.
-		Composite headerArea = new Composite( foSashForm, SWT.NONE );
+		fHeaderArea = new Composite( foSashForm, SWT.NONE );
 		{
 			GridLayout layout = new GridLayout( 3, false );
-			headerArea.setLayout( layout );
+			fHeaderArea.setLayout( layout );
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			headerArea.setLayoutData( gd );
+			fHeaderArea.setLayoutData( gd );
 		}
 
 		{
-			Composite cmpLeftContainer = ChartUIUtil.createCompositeWrapper( headerArea );
+			Composite cmpLeftContainer = ChartUIUtil.createCompositeWrapper( fHeaderArea );
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL
 					| GridData.VERTICAL_ALIGN_CENTER );
 			gridData.verticalSpan = 2;
@@ -245,9 +269,9 @@ public class TaskSelectData extends SimpleTask
 			getCustomizeUI( ).createLeftBindingArea( cmpLeftContainer );
 			fLeftSize = cmpLeftContainer.computeSize( SWT.DEFAULT, SWT.DEFAULT );
 		}
-		createPreviewArea( headerArea );
+		createPreviewArea( fHeaderArea );
 		{
-			Composite cmpRightContainer = ChartUIUtil.createCompositeWrapper( headerArea );
+			Composite cmpRightContainer = ChartUIUtil.createCompositeWrapper( fHeaderArea );
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL
 					| GridData.VERTICAL_ALIGN_CENTER );
 			gridData.verticalSpan = 2;
@@ -257,12 +281,22 @@ public class TaskSelectData extends SimpleTask
 					SWT.DEFAULT );
 		}
 		{
-			Composite cmpBottomContainer = ChartUIUtil.createCompositeWrapper( headerArea );
+			Composite cmpBottomContainer = ChartUIUtil.createCompositeWrapper( fHeaderArea );
 			GridData gridData = new GridData( GridData.FILL_HORIZONTAL
 					| GridData.VERTICAL_ALIGN_BEGINNING );
 			cmpBottomContainer.setLayoutData( gridData );
 			getCustomizeUI( ).createBottomBindingArea( cmpBottomContainer );
 		}
+	}
+
+	private Point computeHeaderAreaSize( )
+	{
+		return fHeaderArea.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+	}
+
+	private Point computeDataAreaSize( )
+	{
+		return fDataArea.computeSize( SWT.DEFAULT, SWT.DEFAULT );
 	}
 
 	private void createPreviewArea( Composite parent )
@@ -355,6 +389,32 @@ public class TaskSelectData extends SimpleTask
 				getCustomizeUI( ).refreshRightBindingArea( );
 			}
 		}
+		else if ( event.type == SWT.Resize )
+		{
+			autoSash( );
+		}
+	}
+
+	private void autoSash( )
+	{
+		int headerHeight = computeHeaderAreaSize( ).y;
+		int dataHeight = computeDataAreaSize( ).y;
+		int height = foSashForm.getClientArea( ).height;
+		int weight[] = foSashForm.getWeights( );
+		if ( height > headerHeight && height > dataHeight )
+		{
+			if ( height > headerHeight + dataHeight )
+			{
+				weight[0] = height - dataHeight;
+				weight[1] = dataHeight + 1;
+			}
+			else
+			{
+				weight[0] = headerHeight;
+				weight[1] = height - headerHeight;
+			}
+		}
+		foSashForm.setWeights( weight );
 	}
 
 	public void changeTask( Notification notification )
