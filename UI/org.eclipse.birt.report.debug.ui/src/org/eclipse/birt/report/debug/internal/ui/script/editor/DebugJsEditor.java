@@ -56,6 +56,7 @@ public class DebugJsEditor extends DecoratedScriptEditor
 	public DebugJsEditor( )
 	{
 		setRulerContextMenuId( "#ScriptRulerContext" ); //$NON-NLS-1$
+		setEditorContextMenuId( "#ScriptEditorContext" ); //$NON-NLS-1$
 		setSourceViewerConfiguration( new DebugScriptSourceViewerConfiguration( getContext( ) ) );
 	}
 

@@ -16,6 +16,7 @@ import java.net.URL;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import org.eclipse.birt.report.debug.internal.ui.script.ScriptEvaluationContextManager;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.core.runtime.IPluginDescriptor;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -89,6 +90,8 @@ public class DebugUI extends AbstractUIPlugin
 		super.start( context );
 
 		declareImage( IMAGE_DEBUGGER_ICON_NAME, IMAGE_DEBUGGER_ICON_NAME );
+		
+		ScriptEvaluationContextManager.startup( );
 	}
 
 	private void declareImage( String key, String path )

@@ -241,6 +241,34 @@
                menubarPath="debug">
          </action>
       </viewerContribution>
-    </extension>   
+    </extension> 
+    
+    		      <extension
+         point="org.eclipse.ui.popupMenus">
+  <viewerContribution
+            targetID="#ScriptEditorContext"
+            id="org.eclipse.jdt.debug.ui.CUPopupActions">
+         <visibility>
+            <and>
+               <systemProperty
+                     name="org.eclipse.birt.report.script.debug.launching.debuggerActive"
+                     value="true">
+               </systemProperty>
+               <objectClass
+                     name="org.eclipse.jface.text.ITextSelection">
+               </objectClass>
+            </and>
+         </visibility>
+         
+         <action
+               label="%Watch.label"
+               icon="$nl$/icons/full/etool16/watch_exp.gif"
+               helpContextId="watch_action_context"
+               class="org.eclipse.jdt.internal.debug.ui.actions.WatchAction"
+               menubarPath="additions"
+               id="org.eclipse.jdt.debug.ui.cuPopup.Watch">
+         </action>
+      </viewerContribution>
+      </extension>   
   
 </plugin>
