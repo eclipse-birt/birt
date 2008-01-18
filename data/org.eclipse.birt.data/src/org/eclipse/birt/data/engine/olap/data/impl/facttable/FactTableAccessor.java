@@ -402,12 +402,6 @@ public class FactTableAccessor
 			for ( int i = 0; i < measureColumnIndex.length; i++ )
 			{
 				measures[i] = iterator.getValue( measureColumnIndex[i] );
-				if(measures[i]==null)
-				{
-					factTableRow.setMeasures( measures );
-					throw new DataException( ResourceConstants.FACTTABLE_NULL_MEASURE_VALUE,
-							factTableRow.toString( ) );
-				}
 			}
 			factTableRow.setMeasures( measures );
 			result.push( factTableRow );

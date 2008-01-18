@@ -681,9 +681,9 @@ public class DataSetIterator implements IDatasetIterator
 				columnMeta.setIndex( i + 1 );
 				this.columnMetaMap.put( columnMeta.getName( ), columnMeta );
 				this.indexMap.put( new Integer( i + 1 ), columnMeta );
-				if ( columnMeta.isLevelKey( ) || columnMeta.isMeasure( ) )
+				if ( columnMeta.isLevelKey( ) )
 				{
-					this.nullValueReplacer[i] = createNullValueReplacer( columnMeta.getType( ));
+					this.nullValueReplacer[i] = createNullValueReplacer( columnMeta.getType( ) );
 				}
 			}
 		}
