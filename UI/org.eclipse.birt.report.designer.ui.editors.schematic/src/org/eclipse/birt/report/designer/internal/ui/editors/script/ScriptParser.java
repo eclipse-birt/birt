@@ -304,9 +304,11 @@ public class ScriptParser implements IScriptMethodInfo
 
 					for ( int i = 0; i < method.length( ); i++ )
 					{
-						if ( !Character.isJavaIdentifierPart( method.charAt( i ) ) )
+						char ch = method.charAt( i );
+
+						if ( ch != ' ' && !Character.isJavaIdentifierPart( ch ) )
 						{
-							if ( method.charAt( i ) == '(' )
+							if ( ch == '(' )
 							{
 								method = method.substring( 0, i ).trim( );
 							}
