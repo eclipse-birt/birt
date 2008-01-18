@@ -332,7 +332,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 				protected Class resolveClass( ObjectStreamClass desc )
 						throws IOException, ClassNotFoundException
 				{
-					if ( "org.eclipse.birt.chart.internal.script.ChartScriptContext".equals( desc.getName( ) ) )
+					if ( "org.eclipse.birt.chart.internal.script.ChartScriptContext".equals( desc.getName( ) ) ) //$NON-NLS-1$
 					{
 						return ChartScriptContext.class;
 					}
@@ -471,7 +471,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 				Messages.getString( "ChartReportItemPresentationImpl.log.finishEnd" ) ); //$NON-NLS-1$
 	}
 
-	protected Bounds computeBounds( )
+	protected Bounds computeBounds( ) throws ChartException
 	{
 		// Standard computation for chart bounds
 		final Bounds originalBounds = cm.getBlock( ).getBounds( );

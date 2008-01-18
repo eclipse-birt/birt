@@ -179,10 +179,12 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		final OneAxis oaxPrimaryOrthogonal = new OneAxis( axPrimaryOrthogonal );
 		oaxPrimaryOrthogonal.set( getOrientation( IConstants.ORTHOGONAL ),
 				transposeLabelPosition( IConstants.ORTHOGONAL,
-						getLabelPosition( !isTransposed ? axPrimaryOrthogonal.getLabelPosition( )
+						getLabelPosition( !isTransposed
+								? axPrimaryOrthogonal.getLabelPosition( )
 								: axPrimaryOrthogonal.getLabelPosition( ) ) ),
 				transposeLabelPosition( IConstants.ORTHOGONAL,
-						getLabelPosition( !isTransposed ? axPrimaryOrthogonal.getTitlePosition( )
+						getLabelPosition( !isTransposed
+								? axPrimaryOrthogonal.getTitlePosition( )
 								: axPrimaryOrthogonal.getTitlePosition( ) ) ),
 				axPrimaryOrthogonal.isSetCategoryAxis( )
 						&& axPrimaryOrthogonal.isCategoryAxis( ),
@@ -192,14 +194,12 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				axPrimaryOrthogonal.getMinorGrid( ).getLineAttributes( ),
 				axPrimaryOrthogonal.getMajorGrid( ).getTickAttributes( ),
 				axPrimaryOrthogonal.getMinorGrid( ).getTickAttributes( ),
-				transposeTickStyle( IConstants.ORTHOGONAL,
-						!isTransposed ? getTickStyle( axPrimaryOrthogonal,
-								MAJOR ) : getTickStyle( axPrimaryOrthogonal,
-								MAJOR ) ),
-				transposeTickStyle( IConstants.ORTHOGONAL,
-						!isTransposed ? getTickStyle( axPrimaryOrthogonal,
-								MINOR ) : getTickStyle( axPrimaryOrthogonal,
-								MINOR ) ),
+				transposeTickStyle( IConstants.ORTHOGONAL, !isTransposed
+						? getTickStyle( axPrimaryOrthogonal, MAJOR )
+						: getTickStyle( axPrimaryOrthogonal, MAJOR ) ),
+				transposeTickStyle( IConstants.ORTHOGONAL, !isTransposed
+						? getTickStyle( axPrimaryOrthogonal, MINOR )
+						: getTickStyle( axPrimaryOrthogonal, MINOR ) ),
 				axPrimaryOrthogonal.getScale( ).getMinorGridsPerUnit( ) );
 
 		oaxPrimaryOrthogonal.set( axPrimaryOrthogonal.getLabel( ),
@@ -227,10 +227,12 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			oaxOverlayOrthogonal = new OneAxis( axaOverlayOrthogonal[i] );
 			oaxOverlayOrthogonal.set( getOrientation( IConstants.ORTHOGONAL ),
 					transposeLabelPosition( IConstants.ORTHOGONAL,
-							getLabelPosition( !isTransposed ? axaOverlayOrthogonal[i].getLabelPosition( )
+							getLabelPosition( !isTransposed
+									? axaOverlayOrthogonal[i].getLabelPosition( )
 									: axaOverlayOrthogonal[i].getLabelPosition( ) ) ),
 					transposeLabelPosition( IConstants.ORTHOGONAL,
-							getLabelPosition( !isTransposed ? axaOverlayOrthogonal[i].getTitlePosition( )
+							getLabelPosition( !isTransposed
+									? axaOverlayOrthogonal[i].getTitlePosition( )
 									: axaOverlayOrthogonal[i].getTitlePosition( ) ) ),
 					axaOverlayOrthogonal[i].isSetCategoryAxis( )
 							&& axaOverlayOrthogonal[i].isCategoryAxis( ),
@@ -241,16 +243,12 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					axaOverlayOrthogonal[i].getMinorGrid( ).getLineAttributes( ),
 					axaOverlayOrthogonal[i].getMajorGrid( ).getTickAttributes( ),
 					axaOverlayOrthogonal[i].getMinorGrid( ).getTickAttributes( ),
-					transposeTickStyle( IConstants.ORTHOGONAL,
-							!isTransposed ? getTickStyle( axaOverlayOrthogonal[i],
-									MAJOR )
-									: getTickStyle( axaOverlayOrthogonal[i],
-											MAJOR ) ),
-					transposeTickStyle( IConstants.ORTHOGONAL,
-							!isTransposed ? getTickStyle( axaOverlayOrthogonal[i],
-									MINOR )
-									: getTickStyle( axaOverlayOrthogonal[i],
-											MINOR ) ),
+					transposeTickStyle( IConstants.ORTHOGONAL, !isTransposed
+							? getTickStyle( axaOverlayOrthogonal[i], MAJOR )
+							: getTickStyle( axaOverlayOrthogonal[i], MAJOR ) ),
+					transposeTickStyle( IConstants.ORTHOGONAL, !isTransposed
+							? getTickStyle( axaOverlayOrthogonal[i], MINOR )
+							: getTickStyle( axaOverlayOrthogonal[i], MINOR ) ),
 					axaOverlayOrthogonal[i].getScale( ).getMinorGridsPerUnit( ) );
 
 			oaxOverlayOrthogonal.set( axaOverlayOrthogonal[i].getLabel( ),
@@ -327,7 +325,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				try
 				{
 					if ( oV1 != null ) // SETUP THE MINIMUM VALUE FOR ALL
-										// DATASETS
+					// DATASETS
 					{
 						if ( oMin == null )
 						{
@@ -344,7 +342,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					}
 
 					if ( oV2 != null ) // SETUP THE MAXIMUM VALUE FOR ALL
-										// DATASETS
+					// DATASETS
 					{
 						if ( oMax == null )
 						{
@@ -373,7 +371,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				try
 				{
 					if ( oV1 != null ) // SETUP THE MINIMUM VALUE FOR ALL
-										// DATASETS
+					// DATASETS
 					{
 						if ( oMin == null )
 						{
@@ -391,7 +389,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					}
 
 					if ( oV2 != null ) // SETUP THE MAXIMUM VALUE FOR ALL
-										// DATASETS
+					// DATASETS
 					{
 						if ( oMax == null )
 						{
@@ -475,7 +473,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 							dsi[iSeriesIndex] = new DataSetIterator( ds );
 							// Reverse the series categories if needed.
 							dsi[iSeriesIndex].reverse( cwa.isReverseCategory( ) );
-							
+
 							if ( ( dsi[iSeriesIndex].getDataType( ) & IConstants.NUMERICAL ) != IConstants.NUMERICAL )
 							{
 								throw new ChartException( ChartEnginePlugin.ID,
@@ -500,7 +498,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 									dsi[iSeriesIndex] = new DataSetIterator( ds );
 									// Reverse the series categories if needed.
 									dsi[iSeriesIndex].reverse( cwa.isReverseCategory( ) );
-									
+
 									if ( ( dsi[iSeriesIndex].getDataType( ) & IConstants.NUMERICAL ) != IConstants.NUMERICAL )
 									{
 										throw new ChartException( ChartEnginePlugin.ID,
@@ -734,8 +732,9 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			oaData = getMinMax( axPrimaryBase, iAxisType );
 		}
 
-		DataSetIterator dsi = ( oaData instanceof DataSetIterator ) ? (DataSetIterator) oaData
-				: new DataSetIterator( oaData, iAxisType );
+		DataSetIterator dsi = ( oaData instanceof DataSetIterator )
+				? (DataSetIterator) oaData : new DataSetIterator( oaData,
+						iAxisType );
 		oaData = null;
 
 		dStart = ( aax.areAxesSwapped( ) ) ? dY + dH : dX;
@@ -841,38 +840,26 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		{
 			boPlotBackground.setLeft( daX[1] - insCA.getLeft( ) );
 			boPlotBackground.setWidth( daX[0]
-					- daX[1]
-					+ insCA.getLeft( )
-					+ insCA.getRight( )
-					+ 1 );
+					- daX[1] + insCA.getLeft( ) + insCA.getRight( ) + 1 );
 		}
 		else
 		{
 			boPlotBackground.setLeft( daX[0] - insCA.getLeft( ) );
 			boPlotBackground.setWidth( daX[1]
-					- daX[0]
-					+ insCA.getLeft( )
-					+ insCA.getRight( )
-					+ 1 );
+					- daX[0] + insCA.getLeft( ) + insCA.getRight( ) + 1 );
 		}
 
 		if ( axPV.getScale( ).getDirection( ) == FORWARD )
 		{
 			boPlotBackground.setTop( daY[0] - insCA.getTop( ) );
 			boPlotBackground.setHeight( daY[1]
-					- daY[0]
-					+ insCA.getTop( )
-					+ insCA.getBottom( )
-					+ 1 );
+					- daY[0] + insCA.getTop( ) + insCA.getBottom( ) + 1 );
 		}
 		else
 		{
 			boPlotBackground.setTop( daY[1] - insCA.getTop( ) );
 			boPlotBackground.setHeight( daY[0]
-					- daY[1]
-					+ insCA.getTop( )
-					+ insCA.getBottom( )
-					+ 1 );
+					- daY[1] + insCA.getTop( ) + insCA.getBottom( ) + 1 );
 		}
 		if ( iDimension == TWO_5_D )
 		{
@@ -898,12 +885,12 @@ public final class PlotWith2DAxes extends PlotWithAxes
 								* ( asDouble( scale.getMinimum( ) ).doubleValue( ) - asDouble( scale.getMinWithMargin( ) ).doubleValue( ) ) );
 					}
 					boPlotWithMargin.setWidth( factor
-							* ( asDouble( scale.getMaxWithMargin( ) == null ? scale.getMaximum( )
-									: scale.getMaxWithMargin( ) ).doubleValue( ) - asDouble( scale.getMinWithMargin( ) == null ? scale.getMinimum( )
+							* ( asDouble( scale.getMaxWithMargin( ) == null
+									? scale.getMaximum( )
+									: scale.getMaxWithMargin( ) ).doubleValue( ) - asDouble( scale.getMinWithMargin( ) == null
+									? scale.getMinimum( )
 									: scale.getMinWithMargin( ) ).doubleValue( ) )
-							+ insCA.getLeft( )
-							+ insCA.getRight( )
-							+ 1 );
+							+ insCA.getLeft( ) + insCA.getRight( ) + 1 );
 				}
 			}
 
@@ -922,12 +909,12 @@ public final class PlotWith2DAxes extends PlotWithAxes
 								* ( asDouble( scale.getMaxWithMargin( ) ).doubleValue( ) - asDouble( scale.getMaximum( ) ).doubleValue( ) ) );
 					}
 					boPlotWithMargin.setHeight( factor
-							* ( asDouble( scale.getMaxWithMargin( ) == null ? scale.getMaximum( )
-									: scale.getMaxWithMargin( ) ).doubleValue( ) - asDouble( scale.getMinWithMargin( ) == null ? scale.getMinimum( )
+							* ( asDouble( scale.getMaxWithMargin( ) == null
+									? scale.getMaximum( )
+									: scale.getMaxWithMargin( ) ).doubleValue( ) - asDouble( scale.getMinWithMargin( ) == null
+									? scale.getMinimum( )
 									: scale.getMinWithMargin( ) ).doubleValue( ) )
-							+ insCA.getTop( )
-							+ insCA.getBottom( )
-							+ 1 );
+							+ insCA.getTop( ) + insCA.getBottom( ) + 1 );
 				}
 			}
 		}
@@ -1273,19 +1260,19 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					dX2 = dX;
 					if ( bTicksLeft )
 					{
-						dX1 -= getTickSize();
+						dX1 -= getTickSize( );
 					}
 					if ( oaxOverlay.getLabelPosition( ) == LEFT )
 					{
 						dX1 -= Math.max( dAxisLabelsThickness,
 								dDecorationThickness[0] );
-						dX2 += Math.max( bTicksRight ? getTickSize() : 0,
+						dX2 += Math.max( bTicksRight ? getTickSize( ) : 0,
 								dAppliedYAxisPlotSpacing );
 					}
 					else if ( oaxOverlay.getLabelPosition( ) == RIGHT )
 					{
 						dX1 -= dDecorationThickness[0];
-						dX2 += Math.max( ( bTicksRight ? getTickSize() : 0 )
+						dX2 += Math.max( ( bTicksRight ? getTickSize( ) : 0 )
 								+ dAxisLabelsThickness,
 								dAppliedYAxisPlotSpacing );
 					}
@@ -1318,19 +1305,19 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					dX2 = dX;
 					if ( bTicksRight )
 					{
-						dX2 += getTickSize();
+						dX2 += getTickSize( );
 					}
 
 					if ( oaxOverlay.getLabelPosition( ) == RIGHT )
 					{
 						dX2 += Math.max( dAxisLabelsThickness,
 								dDecorationThickness[1] );
-						dX1 -= Math.max( bTicksLeft ? getTickSize() : 0,
+						dX1 -= Math.max( bTicksLeft ? getTickSize( ) : 0,
 								dAppliedYAxisPlotSpacing );
 					}
 					else if ( oaxOverlay.getLabelPosition( ) == LEFT )
 					{
-						dX1 -= Math.max( ( bTicksLeft ? getTickSize() : 0 )
+						dX1 -= Math.max( ( bTicksLeft ? getTickSize( ) : 0 )
 								+ dAxisLabelsThickness,
 								dAppliedYAxisPlotSpacing );
 						dX2 += dDecorationThickness[1];
@@ -1371,8 +1358,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				oaxOverlay.setAxisCoordinate( dX + dDelta );
 				// dX1<=>dX<=>dX2 INCORPORATES TITLE
 				oaxOverlay.setTitleCoordinate( ( iTitleLocation == LEFT ) ? dX1
-						+ dDelta
-						- 1 : dX2 + 1 - dAxisTitleThickness + dDelta );
+						+ dDelta - 1 : dX2 + 1 - dAxisTitleThickness + dDelta );
 			}
 			else if ( iOrientation == HORIZONTAL )
 			{
@@ -1412,19 +1398,19 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					dY2 = dY;
 					if ( bTicksAbove )
 					{
-						dY1 -= getTickSize();
+						dY1 -= getTickSize( );
 					}
 					if ( oaxOverlay.getLabelPosition( ) == ABOVE )
 					{
 						dY1 -= Math.max( dAxisLabelsThickness,
 								dDecorationThickness[0] );
-						dY2 += Math.max( bTicksBelow ? getTickSize() : 0,
+						dY2 += Math.max( bTicksBelow ? getTickSize( ) : 0,
 								dAppliedXAxisPlotSpacing );
 					}
 					else if ( oaxOverlay.getLabelPosition( ) == BELOW )
 					{
 						dY1 -= dDecorationThickness[0];
-						dY2 += Math.max( ( bTicksBelow ? getTickSize() : 0 )
+						dY2 += Math.max( ( bTicksBelow ? getTickSize( ) : 0 )
 								+ dAxisLabelsThickness,
 								dAppliedXAxisPlotSpacing );
 					}
@@ -1458,19 +1444,19 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					dY2 = dY;
 					if ( bTicksBelow )
 					{
-						dY2 += getTickSize();
+						dY2 += getTickSize( );
 					}
 
 					if ( oaxOverlay.getLabelPosition( ) == BELOW )
 					{
 						dY2 += Math.max( dAxisLabelsThickness,
 								dDecorationThickness[1] );
-						dY1 -= Math.max( bTicksAbove ? getTickSize() : 0,
+						dY1 -= Math.max( bTicksAbove ? getTickSize( ) : 0,
 								dAppliedXAxisPlotSpacing );
 					}
 					else if ( oaxOverlay.getLabelPosition( ) == ABOVE )
 					{
-						dY1 -= Math.max( ( bTicksAbove ? getTickSize() : 0 )
+						dY1 -= Math.max( ( bTicksAbove ? getTickSize( ) : 0 )
 								+ dAxisLabelsThickness,
 								dAppliedXAxisPlotSpacing );
 						dY2 += dDecorationThickness[1];
@@ -1507,10 +1493,9 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				}
 
 				oaxOverlay.setAxisCoordinate( dY + dDelta );
-				oaxOverlay.setTitleCoordinate( ( iTitleLocation == ABOVE ) ? dY1
-						+ dDelta
-						- 1
-						: dY2 + 1 - dAxisTitleThickness + dDelta // dY1<=>dX<=>dY2
+				oaxOverlay.setTitleCoordinate( ( iTitleLocation == ABOVE )
+						? dY1 + dDelta - 1 : dY2
+								+ 1 - dAxisTitleThickness + dDelta // dY1<=>dX<=>dY2
 				// INCORPORATES
 				// TITLE
 				);
@@ -1542,14 +1527,12 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		{
 			axOverlay = aax.getOverlay( i );
 			int iAxisType = axOverlay.getAxisType( );
-			
+
 			la = axOverlay.getLabel( );
 			scOA = axOverlay.getScale( );
 			scOA.setEndPoints( scOA.getStart( )
-					- scOA.getStartShift( )
-					* iDirection, scOA.getEnd( )
-					+ scOA.getEndShift( )
-					* iDirection );
+					- scOA.getStartShift( ) * iDirection, scOA.getEnd( )
+					+ scOA.getEndShift( ) * iDirection );
 
 			dStart = sc.getStart( );
 			dEnd = sc.getEnd( );
@@ -1630,8 +1613,8 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		final int iDirection = scBase.getDirection( );
 
 		// convert to signed unit size.
-		final double dUnitSize = ( iDirection == BACKWARD || ( iDirection == AUTO && aax.areAxesSwapped( ) ) ) ? -scBase.getUnitSize( )
-				: scBase.getUnitSize( );
+		final double dUnitSize = ( iDirection == BACKWARD || ( iDirection == AUTO && aax.areAxesSwapped( ) ) )
+				? -scBase.getUnitSize( ) : scBase.getUnitSize( );
 
 		if ( scBase.getType( ) == IConstants.DATE_TIME )
 		{
@@ -1950,7 +1933,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			iMarginPercent = percent;
 		}
 	}
-	
+
 	/**
 	 * Initializes the chart plot bounds for the dynamic size case.
 	 * 
@@ -2000,17 +1983,20 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				bo.setHeight( axisHeight );
 			}
 		}
-		
+
 		// If one of the dimension is negative, to replace it with data point
 		// total width
 		else if ( bo.getWidth( ) * bo.getHeight( ) < 0 )
 		{
+			// Get the base size
 			double dBase = bo.getHeight( ) < 0 ? Math.abs( bo.getHeight( ) )
 					: Math.abs( bo.getWidth( ) );
-			int iDPCount = 1;
+			// Get the data count
+			Series baseSeries = cwa.getSeries( IConstants.BASE )[0];
+			Object[] values = (Object[]) baseSeries.getDataSet( ).getValues( );
+			int iDPCount = values.length;
+			// Compute the total width by multiplying the data point count
 			double dTotalWidth = dBase * iDPCount;
-			// TODO to compute the total width by multiplying the data point
-			// count
 			if ( bo.getWidth( ) < 0 )
 			{
 				bo.setWidth( dTotalWidth );

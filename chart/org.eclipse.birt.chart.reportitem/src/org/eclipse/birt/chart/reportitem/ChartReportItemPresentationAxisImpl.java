@@ -11,12 +11,10 @@
 
 package org.eclipse.birt.chart.reportitem;
 
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Bounds;
-import org.eclipse.birt.chart.model.attribute.Position;
-import org.eclipse.birt.chart.model.attribute.TickStyle;
-import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -43,7 +41,7 @@ public final class ChartReportItemPresentationAxisImpl
 		setChartModelObject( item );
 	}
 
-	protected Bounds computeBounds( )
+	protected Bounds computeBounds( ) throws ChartException
 	{
 		final Bounds originalBounds = cm.getBlock( ).getBounds( );
 
@@ -70,39 +68,8 @@ public final class ChartReportItemPresentationAxisImpl
 
 	protected void updateChartModel( )
 	{
-		if ( cm instanceof ChartWithAxes )
-		{
-			ChartWithAxes chart = (ChartWithAxes) cm;
-			chart.getLegend( ).setVisible( false );
-			chart.getTitle( ).setVisible( false );
-			chart.getPlot( ).getOutline( ).setVisible( false );
-			chart.getPlot( ).getClientArea( ).setVisible( false );
-			chart.getBlock( ).getInsets( ).set( 0, 0, 0, 0 );
-			// chart.getPlot( ).getInsets( ).set( 0, 0, 0, 0 );
-			// chart.getPlot( ).getClientArea( ).getInsets( ).set( 0, 0, 0, 0 );
-
-			boolean bTransposed = chart.isTransposed( );
-			Axis xAxis = (Axis) chart.getAxes( ).get( 0 );
-			Axis yAxis = (Axis) xAxis.getAssociatedAxes( ).get( 0 );
-
-			xAxis.getTitle( ).setVisible( false );
-			xAxis.getLabel( ).setVisible( false );
-			xAxis.getLineAttributes( ).setVisible( false );
-			xAxis.getMajorGrid( ).getTickAttributes( ).setVisible( false );
-			xAxis.getMajorGrid( ).getLineAttributes( ).setVisible( false );
-			xAxis.getMinorGrid( ).getTickAttributes( ).setVisible( false );
-			xAxis.getMinorGrid( ).getLineAttributes( ).setVisible( false );
-
-			yAxis.getTitle( ).setVisible( false );
-			yAxis.getLineAttributes( ).setVisible( false );
-			yAxis.getMajorGrid( ).getLineAttributes( ).setVisible( false );
-			yAxis.getMinorGrid( ).getLineAttributes( ).setVisible( false );
-			yAxis.getMajorGrid( ).setTickStyle( bTransposed
-					? TickStyle.LEFT_LITERAL : TickStyle.RIGHT_LITERAL );
-			yAxis.setLabelPosition( bTransposed ? Position.LEFT_LITERAL
-					: Position.RIGHT_LITERAL );
-			yAxis.setLabelWithinAxes( true );
-		}
+		// Update runtime model to render axis only
+		ChartReportItemUtil.updateModelToRenderAxis( cm );
 	}
 
 }

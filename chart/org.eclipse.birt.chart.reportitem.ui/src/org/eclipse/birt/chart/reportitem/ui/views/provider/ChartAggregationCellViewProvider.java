@@ -43,6 +43,9 @@ import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellViewAda
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 
 /**
  * Provider for conversion between chart and text in cross tab
@@ -52,9 +55,14 @@ public class ChartAggregationCellViewProvider
 			AggregationCellViewAdapter
 {
 
+	private final static DimensionValue DEFAULT_COLUMN_WIDTH = new DimensionValue( 80,
+			DesignChoiceConstants.UNITS_PT );
+	private final static DimensionValue DEFAULT_ROW_WIDTH = new DimensionValue( 30,
+			DesignChoiceConstants.UNITS_PT );
+
 	public String getViewName( )
 	{
-		return "Chart"; //$NON-NLS-1$
+		return ChartReportItemUtil.CHART_EXTENSION_NAME;
 	}
 
 	public boolean matchView( AggregationCellHandle cell )
@@ -102,7 +110,8 @@ public class ChartAggregationCellViewProvider
 			// Create the ExtendedItemHandle with default chart model
 			ExtendedItemHandle chartHandle = cell.getCrosstabHandle( )
 					.getElementFactory( )
-					.newExtendedItem( null, "Chart" ); //$NON-NLS-1$
+					.newExtendedItem( null,
+							ChartReportItemUtil.CHART_EXTENSION_NAME );
 			ChartReportItemImpl reportItem = (ChartReportItemImpl) chartHandle.getReportItem( );
 			ChartWithAxes cm = createDefaultChart( exprMeasure, new String[]{
 					exprDimRow, exprDimColumn
@@ -114,50 +123,85 @@ public class ChartAggregationCellViewProvider
 			if ( cm.isTransposed( ) )
 			{
 				cell.setSpanOverOnRow( cell.getAggregationOnRow( ) );
-				if ( cell.getCrosstab( )
-						.getGrandTotal( ICrosstabConstants.ROW_AXIS_TYPE ) == null )
+				CrosstabCellHandle rowCell = cell.getCrosstab( )
+						.getDimension( ICrosstabConstants.ROW_AXIS_TYPE, 0 )
+						.getLevel( 0 )
+						.getCell( );
+				if ( rowCell.getHeight( ) == null
+						|| rowCell.getHeight( ).getMeasure( ) == 0 )
 				{
-					cell.getCrosstab( )
-							.addGrandTotal( ICrosstabConstants.ROW_AXIS_TYPE );
+					// Set a default height for cell to fit with chart
+					cell.getCrosstab( ).setRowHeight( rowCell,
+							DEFAULT_ROW_WIDTH );
 				}
-				ExtendedItemHandle axisChartHandle = cell.getCrosstabHandle( )
-						.getElementFactory( )
-						.newExtendedItem( null, "Chart" ); //$NON-NLS-1$
-				axisChartHandle.setProperty( ChartReportItemUtil.PROPERTY_HOST_CHART,
-						chartHandle );
-				CrosstabCellHandle grandTotalAggCell = ( (MeasureViewHandle) cell.getContainer( ) ).getAggregationCell( null,
-						null,
-						cell.getDimensionName( ICrosstabConstants.COLUMN_AXIS_TYPE ),
-						cell.getLevelName( ICrosstabConstants.COLUMN_AXIS_TYPE ) );
-				( (DesignElementHandle) getFirstContent( grandTotalAggCell ) ).dropAndClear( );
-				grandTotalAggCell.addContent( axisChartHandle );
+				rowCell.getCrosstabHandle( )
+						.setProperty( StyleHandle.PADDING_TOP_PROP,
+								new DimensionValue( 0,
+										DesignChoiceConstants.UNITS_PT ) );
+				rowCell.getCrosstabHandle( )
+						.setProperty( StyleHandle.PADDING_BOTTOM_PROP,
+								new DimensionValue( 0,
+										DesignChoiceConstants.UNITS_PT ) );
+				updateXtabForAxisChart( cell,
+						chartHandle,
+						ICrosstabConstants.ROW_AXIS_TYPE );
 			}
 			else
 			{
 				cell.setSpanOverOnColumn( cell.getAggregationOnColumn( ) );
-				if ( cell.getCrosstab( )
-						.getGrandTotal( ICrosstabConstants.COLUMN_AXIS_TYPE ) == null )
+				CrosstabCellHandle columnCell = cell.getCrosstab( )
+						.getDimension( ICrosstabConstants.COLUMN_AXIS_TYPE, 0 )
+						.getLevel( 0 )
+						.getCell( );
+				if ( columnCell.getWidth( ) != null
+						|| columnCell.getWidth( ).getMeasure( ) == 0 )
 				{
-					cell.getCrosstab( )
-							.addGrandTotal( ICrosstabConstants.COLUMN_AXIS_TYPE );
+					// Set a default width for cell to fit with chart
+					cell.getCrosstab( ).setColumnWidth( columnCell,
+							DEFAULT_COLUMN_WIDTH );
 				}
-				ExtendedItemHandle axisChartHandle = cell.getCrosstabHandle( )
-						.getElementFactory( )
-						.newExtendedItem( null, "Chart" ); //$NON-NLS-1$
-				axisChartHandle.setProperty( ChartReportItemUtil.PROPERTY_HOST_CHART,
-						chartHandle );
-				CrosstabCellHandle grandTotalAggCell = ( (MeasureViewHandle) cell.getContainer( ) ).getAggregationCell( cell.getDimensionName( ICrosstabConstants.ROW_AXIS_TYPE ),
-						cell.getLevelName( ICrosstabConstants.ROW_AXIS_TYPE ),
-						null,
-						null );
-				( (DesignElementHandle) getFirstContent( grandTotalAggCell ) ).dropAndClear( );
-				grandTotalAggCell.addContent( axisChartHandle );
+				columnCell.getCrosstabHandle( )
+						.setProperty( StyleHandle.PADDING_LEFT_PROP,
+								new DimensionValue( 0,
+										DesignChoiceConstants.UNITS_PT ) );
+				columnCell.getCrosstabHandle( )
+						.setProperty( StyleHandle.PADDING_RIGHT_PROP,
+								new DimensionValue( 0,
+										DesignChoiceConstants.UNITS_PT ) );
+				updateXtabForAxisChart( cell,
+						chartHandle,
+						ICrosstabConstants.COLUMN_AXIS_TYPE );
 			}
 		}
 		catch ( BirtException e )
 		{
 			ExceptionHandler.handle( e );
 		}
+	}
+
+	private void updateXtabForAxisChart( AggregationCellHandle cell,
+			ExtendedItemHandle chartHandle, int axisType ) throws BirtException
+	{
+		if ( cell.getCrosstab( ).getGrandTotal( axisType ) == null )
+		{
+			cell.getCrosstab( ).addGrandTotal( axisType );
+		}
+		ExtendedItemHandle axisChartHandle = cell.getCrosstabHandle( )
+				.getElementFactory( )
+				.newExtendedItem( null,
+						ChartReportItemUtil.CHART_EXTENSION_NAME );
+		axisChartHandle.setProperty( ChartReportItemUtil.PROPERTY_HOST_CHART,
+				chartHandle );
+
+		int otherAxisType = axisType == ICrosstabConstants.ROW_AXIS_TYPE
+				? ICrosstabConstants.COLUMN_AXIS_TYPE
+				: ICrosstabConstants.ROW_AXIS_TYPE;
+		CrosstabCellHandle grandTotalAggCell = ( (MeasureViewHandle) cell.getContainer( ) ).getAggregationCell( cell.getDimensionName( otherAxisType ),
+				cell.getLevelName( otherAxisType ),
+				null,
+				null );
+		( (DesignElementHandle) getFirstContent( grandTotalAggCell ) ).dropAndClear( );
+		grandTotalAggCell.addContent( axisChartHandle );
 	}
 
 	public void restoreView( AggregationCellHandle cell )
@@ -305,7 +349,7 @@ public class ChartAggregationCellViewProvider
 	{
 		Object content = getFirstContent( cell );
 		if ( content instanceof ExtendedItemHandle
-				&& "Chart".equals( ( (ExtendedItemHandle) content ).getExtensionName( ) ) ) //$NON-NLS-1$
+				&& ChartReportItemUtil.CHART_EXTENSION_NAME.equals( ( (ExtendedItemHandle) content ).getExtensionName( ) ) )
 		{
 			return (ExtendedItemHandle) content;
 		}

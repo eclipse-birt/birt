@@ -25,7 +25,9 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
+import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.SortOption;
+import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
@@ -51,6 +53,7 @@ import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
+import org.eclipse.birt.report.model.api.util.DimensionUtil;
 
 /**
  * Utility class for Chart integration as report item
@@ -72,6 +75,8 @@ public class ChartReportItemUtil
 	 * Specified the query expression of max aggregation binding
 	 */
 	public static final String QUERY_MAX = "chart__max"; //$NON-NLS-1$
+
+	public static final String CHART_EXTENSION_NAME = "Chart";//$NON-NLS-1$
 
 	/**
 	 * Specified property names defined in ExtendedItemHandle or IReportItem
@@ -838,5 +843,116 @@ public class ChartReportItemUtil
 		return ExpressionUtil.createJSDimensionExpression( level.getContainer( )
 				.getContainer( )
 				.getName( ), level.getName( ) );
+	}
+
+	/**
+	 * Updates runtime model to render chart plot only.
+	 * 
+	 * @param cm
+	 *            chart model
+	 * @return the modified chart model
+	 * @since 2.3
+	 */
+	public static Chart updateModelToRenderPlot( Chart cm )
+	{
+		if ( cm instanceof ChartWithAxes )
+		{
+			ChartWithAxes chart = (ChartWithAxes) cm;
+			chart.getLegend( ).setVisible( false );
+			chart.getTitle( ).setVisible( false );
+			chart.getPlot( ).getOutline( ).setVisible( false );
+			chart.getBlock( ).getInsets( ).set( 0, 0, 0, 0 );
+			// chart.getPlot( ).getInsets( ).set( 0, 0, 0, 0 );
+			// chart.getPlot( ).getClientArea( ).getInsets( ).set( 0, 0, 0, 0 );
+
+			// boolean bTransposed = chart.isTransposed( );
+			Axis xAxis = (Axis) chart.getAxes( ).get( 0 );
+			Axis yAxis = (Axis) xAxis.getAssociatedAxes( ).get( 0 );
+
+			xAxis.getTitle( ).setVisible( false );
+			xAxis.getLabel( ).setVisible( false );
+			xAxis.getLineAttributes( ).setVisible( false );
+			xAxis.getMajorGrid( ).getTickAttributes( ).setVisible( false );
+			xAxis.getMinorGrid( ).getTickAttributes( ).setVisible( false );
+
+			yAxis.getTitle( ).setVisible( false );
+			yAxis.getLabel( ).setVisible( false );
+			yAxis.getLineAttributes( ).setVisible( false );
+			yAxis.getMajorGrid( ).getTickAttributes( ).setVisible( false );
+			yAxis.getMinorGrid( ).getTickAttributes( ).setVisible( false );
+		}
+		return cm;
+	}
+
+	/**
+	 * Updates runtime model to render chart axis only.
+	 * 
+	 * @param cm
+	 *            chart model
+	 * @return the modified chart model
+	 * @since 2.3
+	 */
+	public static Chart updateModelToRenderAxis( Chart cm )
+	{
+		if ( cm instanceof ChartWithAxes )
+		{
+			ChartWithAxes chart = (ChartWithAxes) cm;
+			chart.getLegend( ).setVisible( false );
+			chart.getTitle( ).setVisible( false );
+			chart.getPlot( ).getOutline( ).setVisible( false );
+			chart.getPlot( ).getClientArea( ).setVisible( false );
+			chart.getBlock( ).getInsets( ).set( 0, 0, 0, 0 );
+			// chart.getPlot( ).getInsets( ).set( 0, 0, 0, 0 );
+			// chart.getPlot( ).getClientArea( ).getInsets( ).set( 0, 0, 0, 0 );
+
+			boolean bTransposed = chart.isTransposed( );
+			Axis xAxis = (Axis) chart.getAxes( ).get( 0 );
+			Axis yAxis = (Axis) xAxis.getAssociatedAxes( ).get( 0 );
+
+			xAxis.getTitle( ).setVisible( false );
+			xAxis.getLabel( ).setVisible( false );
+			xAxis.getLineAttributes( ).setVisible( false );
+			xAxis.getMajorGrid( ).getTickAttributes( ).setVisible( false );
+			xAxis.getMajorGrid( ).getLineAttributes( ).setVisible( false );
+			xAxis.getMinorGrid( ).getTickAttributes( ).setVisible( false );
+			xAxis.getMinorGrid( ).getLineAttributes( ).setVisible( false );
+
+			yAxis.getTitle( ).setVisible( false );
+			yAxis.getLineAttributes( ).setVisible( false );
+			yAxis.getMajorGrid( ).getLineAttributes( ).setVisible( false );
+			yAxis.getMinorGrid( ).getLineAttributes( ).setVisible( false );
+			yAxis.getMajorGrid( ).setTickStyle( bTransposed
+					? TickStyle.LEFT_LITERAL : TickStyle.RIGHT_LITERAL );
+			yAxis.setLabelPosition( bTransposed ? Position.LEFT_LITERAL
+					: Position.RIGHT_LITERAL );
+			yAxis.setLabelWithinAxes( true );
+		}
+		else
+		{
+			cm = null;
+		}
+		return cm;
+	}
+
+	/**
+	 * Transform dimension value to points.
+	 * 
+	 * @param handle
+	 * 
+	 * @return the dimension value with measure of points
+	 * @since 2.3
+	 */
+	public static double convertToPoints(
+			org.eclipse.birt.report.model.api.DimensionHandle handle )
+	{
+		double retValue = 0.0;
+
+		if ( handle.isSet( ) )
+		{
+			retValue = DimensionUtil.convertTo( handle.getMeasure( ),
+					handle.getUnits( ),
+					DesignChoiceConstants.UNITS_PT ).getMeasure( );
+		}
+		return retValue;
 	}
 }
