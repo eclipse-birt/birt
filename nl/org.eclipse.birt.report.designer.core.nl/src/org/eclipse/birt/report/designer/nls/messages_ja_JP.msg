@@ -1459,7 +1459,7 @@ FormatDateTimePage.label.custom.settings=カスタム設定
 FormatDateTimePage.label.format.code=書式コード :
 FormatDateTimePage.label.format.page=書式設定(&F) :
 FormatDateTimePage.label.general.preview.group=書式付きプレビュー
-FormatDateTimePage.label.guide.text=Please enter as: MM/dd/yyyy hh:mm:ss AM/PM
+FormatDateTimePage.label.guide.text=yyyy/MM/dd hh:mm:ss の形式で入力してください。
 FormatDateTimePage.label.preview.dateTime=プレビューする日時 : 
 FormatDateTimePage.label.preview.group=プレビュー
 FormatDateTimePage.label.preview.label=書式付きプレビュー :
@@ -3952,7 +3952,7 @@ CrosstabPageGenerator.List.PageBreak=ページ区切り
 #CubePageGenerator properties
 CubePageGenerator.List.General=全般
 CubePageGenerator.List.Comments=コメント
-CubePageGenerator.List.AdvancedProperty=使用頻度 : 中
+CubePageGenerator.List.AdvancedProperty=詳細設定
 
 
 ###########################################################

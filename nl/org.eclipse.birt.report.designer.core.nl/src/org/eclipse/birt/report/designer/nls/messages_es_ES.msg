@@ -1459,7 +1459,7 @@ FormatDateTimePage.label.custom.settings=Ajustes personalizados
 FormatDateTimePage.label.format.code=Código de formato:
 FormatDateTimePage.label.format.page=&Formato como:
 FormatDateTimePage.label.general.preview.group=Vista previa con formato
-FormatDateTimePage.label.guide.text=Please enter as: MM/dd/yyyy hh:mm:ss AM/PM
+FormatDateTimePage.label.guide.text=Introducir como: dd/MM/yyyy hh:mm:ss AM/PM
 FormatDateTimePage.label.preview.dateTime=Fecha/hora para vista previa: 
 FormatDateTimePage.label.preview.group=Vista previa
 FormatDateTimePage.label.preview.label=Vista previa con formato:
@@ -3952,7 +3952,7 @@ CrosstabPageGenerator.List.PageBreak=Salto de página
 #CubePageGenerator properties
 CubePageGenerator.List.General=General
 CubePageGenerator.List.Comments=Comentarios
-CubePageGenerator.List.AdvancedProperty=Avanzada
+CubePageGenerator.List.AdvancedProperty=Avanzado
 
 
 ###########################################################
