@@ -138,4 +138,4 @@ NewCubeAction.DataCube=Datenquader
 
 ###########################################################
 #CubePageGenerator properties
-PrimaryDatasetDescriptorProvider.Display.Primary.Dataset.Name=Primary Data Set:
+PrimaryDatasetDescriptorProvider.Display.Primary.Dataset.Name=Primärer Datensatz:

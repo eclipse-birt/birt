@@ -26,5 +26,5 @@ adapter.invalid.aggregationfunctionname=The aggregation function {0} is invalid.
 
 invalid.datetime.value=日期时间值“{0}”无效。
 missing.join.condition=缺少事实表与维“{0}”之间的联接条件。
-exception.error=An exception occurred during processing. Please see the following message for details:
+exception.error=处理过程中出错。有关详情，请参阅下列消息:
 invalid.level.expression=The level name "{0}" is not found.

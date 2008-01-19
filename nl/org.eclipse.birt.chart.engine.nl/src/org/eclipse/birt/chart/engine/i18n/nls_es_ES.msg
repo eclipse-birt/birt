@@ -327,7 +327,7 @@ GroupingUnitType.Months.displayName=Meses
 GroupingUnitType.Years.displayName=Años
 GroupingUnitType.Quarters.displayName=Trimestres
 GroupingUnitType.String.displayName=String
-GroupingUnitType.StringPrefix.displayName=StringPrefix
+GroupingUnitType.StringPrefix.displayName=Prefijo de string
 
 DateFormatType.Long.displayName=Largo
 DateFormatType.Short.displayName=Corto

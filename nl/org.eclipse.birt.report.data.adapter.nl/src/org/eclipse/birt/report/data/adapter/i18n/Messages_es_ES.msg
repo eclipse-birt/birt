@@ -26,5 +26,5 @@ adapter.invalid.aggregationfunctionname=The aggregation function {0} is invalid.
 
 invalid.datetime.value=El valor Fecha/Hora "{0}"no es válido.
 missing.join.condition=Falta la condición de combinación entre la tabla de hechos y las dimensiones "{0}".
-exception.error=An exception occurred during processing. Please see the following message for details:
+exception.error=Se ha producido una excepción durante el procesamiento. Consulte el siguiente mensaje para obtener más información:
 invalid.level.expression=The level name "{0}" is not found.

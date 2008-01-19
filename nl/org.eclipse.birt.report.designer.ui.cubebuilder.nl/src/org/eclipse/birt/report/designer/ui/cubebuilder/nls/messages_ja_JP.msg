@@ -138,4 +138,4 @@ NewCubeAction.DataCube=データキューブ
 
 ###########################################################
 #CubePageGenerator properties
-PrimaryDatasetDescriptorProvider.Display.Primary.Dataset.Name=Primary Data Set:
+PrimaryDatasetDescriptorProvider.Display.Primary.Dataset.Name=プライマリデータセット :
