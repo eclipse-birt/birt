@@ -1,5 +1,5 @@
 birt.web.category.name=Business Intelligence & Reporting Tools
-birt.web.project.name=Charting Web Project
+birt.web.project.name=Diagramm-Webprojekt
 birt.web.project.description=Ein Webprojekt mit der BIRT-Diagrammkomponente erstellen
 birt.web.actionsets.description=Aktionen für BIRT-Diagramm-Webprojekt
 create.birt.web.module=BIRT-Diagramm-Webmodul erstellen
@@ -11,9 +11,9 @@ BIRT_FACET_TEMPLATE_LABEL=BIRT-Diagramm-Webprojekt
 JSP_New_context_type_Extension_Element.name=Neue JSP mit BIRT-Diagramm-Tag
 JSP_Tag_context_type_Extension_Element.name=Neuer BIRT-Diagramm-JSP-Tag
 
-BirtResourcesDefinition= Charting Web Application Resources Definition
+BirtResourcesDefinition= Ressourcendefinition für Diagramm-Webanwendung
 
-birt.action.importruntime.name=Import Chart runtime component...
+birt.action.importruntime.name=Diagramm-Runtime-Komponente importieren...
 
 ##################Do not externalize the version number
 runtime.version=2.3.0

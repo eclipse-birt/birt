@@ -1,4 +1,4 @@
-ChartCubeQueryHelper.Error.MustBindCube=Chart must bind a cube to feed data.
+ChartCubeQueryHelper.Error.MustBindCube=큐브는 공급 데이터로 바인딩되어야 합니다.
 ChartReportItemPresentationImpl.error.NoData=차트에 바인딩된 데이터 집합에서 반환된 행이 없습니다.
 ChartReportItemPresentationImpl.log.UnableToLocateWrapper=차트 객체에 대해 보고서 항목 래퍼를 찾을 수 없습니다.
 ChartReportItemPresentationImpl.log.onRowSetsStart=ChartReportItemGenerationImpl: onRowSets(...) - 시작

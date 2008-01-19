@@ -1,5 +1,5 @@
 birt.web.category.name=Business Intelligence 및 보고 도구
-birt.web.project.name=Charting Web Project
+birt.web.project.name=차트 웹 프로젝트
 birt.web.project.description=BIRT 차트 구성 요소를 포함한 웹 프로젝트 생성
 birt.web.actionsets.description=BIRT 차트 웹 프로젝트 작업
 create.birt.web.module=BIRT 차트 웹 모듈 생성
@@ -11,9 +11,9 @@ BIRT_FACET_TEMPLATE_LABEL=BIRT 차트 웹 프로젝트
 JSP_New_context_type_Extension_Element.name=BIRT 차트 태그를 사용한 새 JSP
 JSP_Tag_context_type_Extension_Element.name=새 BIRT 차트 JSP 태그
 
-BirtResourcesDefinition= Charting Web Application Resources Definition
+BirtResourcesDefinition= 차트 웹 응용 프로그램 리소스 정의
 
-birt.action.importruntime.name=Import Chart runtime component...
+birt.action.importruntime.name=차트 런타임 구성 요소 가져오기...
 
 ##################Do not externalize the version number
 runtime.version=2.3.0

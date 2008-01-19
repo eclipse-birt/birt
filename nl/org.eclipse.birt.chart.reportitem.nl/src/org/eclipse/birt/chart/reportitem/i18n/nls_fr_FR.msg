@@ -1,4 +1,4 @@
-ChartCubeQueryHelper.Error.MustBindCube=Chart must bind a cube to feed data.
+ChartCubeQueryHelper.Error.MustBindCube=Le graphique doit lier un cube à des données d'alimentation.
 ChartReportItemPresentationImpl.error.NoData=Le jeu de données lié au graphique n'a renvoyé aucune ligne.
 ChartReportItemPresentationImpl.log.UnableToLocateWrapper=Impossible de localiser le wrapper d'élément d'état pour l'objet de graphique.
 ChartReportItemPresentationImpl.log.onRowSetsStart=ChartReportItemGenerationImpl: onRowSets(...) - début

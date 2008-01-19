@@ -870,12 +870,12 @@ AxisMarkersSheet.MarkerRange.displayName=Intervalo de marcador
 AxisMarkersSheet.Label.Interactivity=Activadores
 AbstractPopupSheet.Label.Close=Cerrar
 AbstractPopupSheet.Label.Help=Ayuda
-AggregateEditorComposite.Aggregate.Enabled=Enabled
+AggregateEditorComposite.Aggregate.Enabled=Activado
 AggregateEditorComposite.AggregateDisplayName.Default=Default
 AggregateEditorComposite.AggregateDisplayName.None=Ninguno
-AggregateEditorComposite.AggregateParameterDefinition.Title=Aggregate Parameter Definition
+AggregateEditorComposite.AggregateParameterDefinition.Title=Agregar definición de parámetro
 AggregateEditorComposite.Button.Cancel=Cancelar
-AggregateEditorComposite.Button.OK=OK
+AggregateEditorComposite.Button.OK=Aceptar
 AggregateEditorComposite.Tooltip.SetAggregateFunction=Set aggregation function
 
 LocalizedNumberEditorComposite.error.Title=Error de formato de número

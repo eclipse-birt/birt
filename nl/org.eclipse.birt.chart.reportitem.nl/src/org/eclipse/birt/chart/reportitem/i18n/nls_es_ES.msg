@@ -1,4 +1,4 @@
-ChartCubeQueryHelper.Error.MustBindCube=Chart must bind a cube to feed data.
+ChartCubeQueryHelper.Error.MustBindCube=El diagrama debe vincular un cubo a los datos de alimentación.
 ChartReportItemPresentationImpl.error.NoData=El conjunto de datos enlazado al diagrama no ha devuelto ninguna fila.
 ChartReportItemPresentationImpl.log.UnableToLocateWrapper=No se puede localizar el empaquetador de elementos de informe para el objeto de diagrama.
 ChartReportItemPresentationImpl.log.onRowSetsStart=ChartReportItemGenerationImpl: onRowSets(...) - inicio

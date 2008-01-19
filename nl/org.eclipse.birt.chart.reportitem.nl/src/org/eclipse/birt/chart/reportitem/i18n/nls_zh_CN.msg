@@ -1,4 +1,4 @@
-ChartCubeQueryHelper.Error.MustBindCube=Chart must bind a cube to feed data.
+ChartCubeQueryHelper.Error.MustBindCube=图表必须绑定多维数据集以植入数据。
 ChartReportItemPresentationImpl.error.NoData=联接至图表的数据集未返回行.
 ChartReportItemPresentationImpl.log.UnableToLocateWrapper=无法为图表对象找到报表项包装程序。
 ChartReportItemPresentationImpl.log.onRowSetsStart=ChartReportItemGenerationImpl: onRowSets(...) - 开始

@@ -1,5 +1,5 @@
 birt.web.category.name=业务智能和报告工具
-birt.web.project.name=Charting Web Project
+birt.web.project.name=Web 项目图表
 birt.web.project.description=创建包含 BIRT 图表组件的 Web 项目
 birt.web.actionsets.description=对 BIRT 图表 Web 项目的操作
 create.birt.web.module=创建 BIRT 图表 Web 模块
@@ -11,9 +11,9 @@ BIRT_FACET_TEMPLATE_LABEL=BIRT 图表 Web 项目
 JSP_New_context_type_Extension_Element.name=新建具有 BIRT 图表标记的 JSP
 JSP_Tag_context_type_Extension_Element.name=新建 BIRT 图表 JSP 标记
 
-BirtResourcesDefinition= Charting Web Application Resources Definition
+BirtResourcesDefinition= Web 应用程序资源定义图表
 
-birt.action.importruntime.name=Import Chart runtime component...
+birt.action.importruntime.name=导入图表运行时组件...
 
 ##################Do not externalize the version number
 runtime.version=2.3.0
