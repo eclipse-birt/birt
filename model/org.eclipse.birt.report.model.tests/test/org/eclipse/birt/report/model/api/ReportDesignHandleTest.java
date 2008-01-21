@@ -49,7 +49,6 @@ import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.birt.report.model.elements.olap.TabularHierarchy;
 import org.eclipse.birt.report.model.elements.olap.TabularLevel;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
-import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
@@ -874,8 +873,8 @@ public class ReportDesignHandleTest extends BaseTestCase
 
 		// resources with relative uri file path
 
-		designHandle.setFileName( getResource( INPUT_FOLDER ).toString( ) +
-				"NoExistedDesign.xml" ); //$NON-NLS-1$
+		designHandle.setFileName( getResource( INPUT_FOLDER ).toString( )
+				+ "NoExistedDesign.xml" ); //$NON-NLS-1$
 
 		url = designHandle.findResource( "ReportDesignHandleTest.xml", //$NON-NLS-1$
 				IResourceLocator.LIBRARY );
@@ -1298,6 +1297,22 @@ public class ReportDesignHandleTest extends BaseTestCase
 		createDesign( );
 
 		assertNull( designHandle.getVersion( ) );
+	}
+
+	/**
+	 * Tests the method to get the included script file of the libraries.
+	 * 
+	 * @throws Exception
+	 */
+	
+	public void testIncludeScriptsIterator( ) throws Exception
+	{
+		openDesign( "IncludedScriptFileTest.xml" ); //$NON-NLS-1$
+		Iterator scriptIter = designHandle.includeLibraryScriptsIterator( );
+		IncludeScriptHandle script = (IncludeScriptHandle) scriptIter.next( );
+		assertEquals( "script first", script.getFileName( ) ); //$NON-NLS-1$
+		script = (IncludeScriptHandle) scriptIter.next( );
+		assertEquals( "script second", script.getFileName( ) ); //$NON-NLS-1$
 	}
 
 }

@@ -3079,4 +3079,19 @@ public abstract class ModuleHandle extends DesignElementHandle
 		String retVersion = module.getVersionManager( ).getVersion( );
 		return retVersion;
 	}
+	
+	/**
+	 * Returns the iterator over all included scripts. Each one is the instance
+	 * of <code>IncludeScriptHandle</code>
+	 * 
+	 * @return the iterator over all included scripts.
+	 * @see IncludeScriptHandle
+	 */
+
+	public Iterator includeScriptsIterator( )
+	{
+		PropertyHandle propHandle = getPropertyHandle( INCLUDE_SCRIPTS_PROP );
+		assert propHandle != null;
+		return propHandle.iterator( );
+	}
 }

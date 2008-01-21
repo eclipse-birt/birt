@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.css.CssStyleSheet;
 import org.eclipse.birt.report.model.css.CssStyleSheetHandleAdapter;
+import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
@@ -260,18 +261,30 @@ public class ReportDesignHandle extends ModuleHandle
 	}
 
 	/**
-	 * Returns the iterator over all included scripts. Each one is the instance
-	 * of <code>IncludeScriptHandle</code>
+	 * Returns the list of all the included script file of the libraries. Each
+	 * one is the instance of <code>IncludeScriptHandle</code>
 	 * 
-	 * @return the iterator over all included scripts.
-	 * @see IncludeScriptHandle
+	 * @return the iterator of included scripts.
 	 */
 
-	public Iterator includeScriptsIterator( )
+	public Iterator includeLibraryScriptsIterator( )
 	{
-		PropertyHandle propHandle = getPropertyHandle( INCLUDE_SCRIPTS_PROP );
-		assert propHandle != null;
-		return propHandle.iterator( );
+		List libList = module.getAllLibraries( );
+		List includeLibScriptList = new ArrayList( );
+		if ( libList != null )
+		{
+			for ( int i = 0; i < libList.size( ); i++ )
+			{
+				Library lib = (Library) libList.get( i );
+				PropertyHandle propHandle = lib.getHandle( lib )
+						.getPropertyHandle( INCLUDE_SCRIPTS_PROP );
+
+				Iterator scriptIter = propHandle.iterator( );
+				while ( scriptIter.hasNext( ) )
+					includeLibScriptList.add( scriptIter.next( ) );
+			}
+		}
+		return includeLibScriptList.iterator( );
 	}
 
 	/**
@@ -444,8 +457,8 @@ public class ReportDesignHandle extends ModuleHandle
 			{
 				module.makeUniqueName( style.getElement( ) );
 				// Copy CssStyle to Style
-				SharedStyleHandle newStyle = ModelUtil.TransferCssStyleToSharedStyle(
-						module, style );
+				SharedStyleHandle newStyle = ModelUtil
+						.TransferCssStyleToSharedStyle( module, style );
 
 				if ( newStyle == null )
 					continue;
