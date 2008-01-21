@@ -454,7 +454,7 @@ public class ExcelWriter
 			{
 				returnStr = "####";
 			}
-			returnStr = returnStr + givenValue;
+			returnStr = returnStr + givenValue + "###";
 		}
 		else
 		{
