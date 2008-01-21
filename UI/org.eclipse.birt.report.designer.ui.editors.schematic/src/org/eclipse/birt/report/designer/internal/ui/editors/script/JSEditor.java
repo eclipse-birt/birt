@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.script;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -21,6 +22,7 @@ import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.ui.swt.custom.CustomChooserComposite;
 import org.eclipse.birt.core.ui.swt.custom.TextCombo;
 import org.eclipse.birt.core.ui.swt.custom.TextComboViewer;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -62,6 +64,7 @@ import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentListener;
 import org.eclipse.jface.text.IUndoManager;
+import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -91,7 +94,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.text.undo.DocumentUndoEvent;
 import org.eclipse.text.undo.DocumentUndoManagerRegistry;
 import org.eclipse.text.undo.IDocumentUndoListener;
@@ -119,6 +124,8 @@ public class JSEditor extends EditorPart implements IColleague
 	protected static Logger logger = Logger.getLogger( JSEditor.class.getName( ) );
 
 	private static final String NO_EXPRESSION = Messages.getString( "JSEditor.Display.NoExpression" ); //$NON-NLS-1$
+
+	static final String METHOD_DISPLAY_INDENT = "  "; //$NON-NLS-1$
 
 	static final String VIEWER_CATEGORY_KEY = "Category"; //$NON-NLS-1$
 
@@ -433,6 +440,28 @@ public class JSEditor extends EditorPart implements IColleague
 		// also add subProvider as listener of expr viewer.
 		cmbExprListViewer.addSelectionChangedListener( subProvider );
 
+		cmbSubFunctions.addListener( CustomChooserComposite.DROPDOWN_EVENT,
+				new Listener( ) {
+
+					public void handleEvent( Event event )
+					{
+						cmbSubFunctions.deselectAll( );
+
+						ScriptParser parser = new ScriptParser( getEditorText( ) );
+
+						Collection coll = parser.getAllMethodInfo( );
+
+						for ( Iterator itr = coll.iterator( ); itr.hasNext( ); )
+						{
+							IScriptMethodInfo mtd = (IScriptMethodInfo) itr.next( );
+
+							cmbSubFunctions.markSelection( METHOD_DISPLAY_INDENT
+									+ mtd.getName( ) );
+						}
+					}
+
+				} );
+
 		cmbSubFunctionsViewer = new TextComboViewer( cmbSubFunctions );
 		cmbSubFunctionsViewer.setContentProvider( subProvider );
 		cmbSubFunctionsViewer.setLabelProvider( subProvider );
@@ -623,7 +652,7 @@ public class JSEditor extends EditorPart implements IColleague
 			AttributeViewPage page = new AttributeViewPage( );
 			return page;
 		}
-		
+
 		if ( adapter == ITextEditor.class )
 		{
 			return scriptEditor;
@@ -632,11 +661,11 @@ public class JSEditor extends EditorPart implements IColleague
 		return super.getAdapter( adapter );
 	}
 
-	protected PropertyHandle getPropertyHandle()
+	protected PropertyHandle getPropertyHandle( )
 	{
-		if ( editObject instanceof DesignElementHandle)
+		if ( editObject instanceof DesignElementHandle )
 		{
-			DesignElementHandle desHdl = (DesignElementHandle)editObject;
+			DesignElementHandle desHdl = (DesignElementHandle) editObject;
 			if ( cmbItemLastSelected != null )
 			{
 				return desHdl.getPropertyHandle( cmbItemLastSelected.getName( ) );
@@ -644,7 +673,7 @@ public class JSEditor extends EditorPart implements IColleague
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 
 	 * initEditorLayout - initialize the UI components of the editor
@@ -987,7 +1016,7 @@ public class JSEditor extends EditorPart implements IColleague
 	 * getEditorText() - gets the editor content.
 	 * 
 	 */
-	private String getEditorText( )
+	String getEditorText( )
 	{
 		return scriptEditor.getScript( );
 	}
@@ -1032,14 +1061,14 @@ public class JSEditor extends EditorPart implements IColleague
 		{
 			saveEditorContentsDE( (DesignElementHandle) editObject );
 		}
-		
+
 		setIsModified( false );
 
 		( (IFormPage) getParentEditor( ) ).getEditor( )
 				.editorDirtyStateChanged( );
 
 		firePropertyChange( PROP_DIRTY );
-		
+
 		SourceViewer viewer = getViewer( );
 		IUndoManager undoManager = viewer == null ? null
 				: viewer.getUndoManager( );
@@ -1231,7 +1260,7 @@ public class JSEditor extends EditorPart implements IColleague
 		{
 			scriptValidator.validate( true, true );
 			image = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_SCRIPT_NOERROR );
-			message = Messages.getString( "JSEditor.Validate.NoError" );
+			message = Messages.getString( "JSEditor.Validate.NoError" ); //$NON-NLS-1$
 		}
 		catch ( ParseException e )
 		{
@@ -1324,11 +1353,6 @@ class JSExpListProvider implements IStructuredContentProvider, ILabelProvider
 			{
 				IElementPropertyDefn method = (IElementPropertyDefn) iter.next( );
 				if ( extHandle.getMethods( method.getName( ) ) != null )
-				// TODO user visibility to filter context list instead
-				// subfunction count.
-				// if ( extHandle.getElement( )
-				// .getDefn( )
-				// .isPropertyVisible( method.getName( ) ) )
 				{
 					returnList.add( method );
 				}
@@ -1475,7 +1499,7 @@ class JSSubFunctionListProvider implements
 		if ( element instanceof IMethodInfo )
 		{
 			IMethodInfo eleDef = (IMethodInfo) element;
-			return "  " + eleDef.getName( );//$NON-NLS-1$
+			return JSEditor.METHOD_DISPLAY_INDENT + eleDef.getName( );
 		}
 		else if ( element instanceof String )
 		{
@@ -1510,7 +1534,6 @@ class JSSubFunctionListProvider implements
 		ISelection selection = event.getSelection( );
 		if ( selection != null )
 		{
-
 			Object[] sel = ( (IStructuredSelection) selection ).toArray( );
 			if ( sel.length == 1 )
 			{
@@ -1531,27 +1554,45 @@ class JSSubFunctionListProvider implements
 					{
 						IMethodInfo methodInfo = (IMethodInfo) sel[0];
 
-						String signature = createSignature( methodInfo );
+						Position pos = findMethod( methodInfo );
 
-						try
+						if ( pos != null )
 						{
+							// locate to existing method
 							IScriptEditor viewer = editor.getScriptEditor( );
 
 							if ( viewer instanceof AbstractTextEditor )
 							{
 								AbstractTextEditor editor = (AbstractTextEditor) viewer;
-
-								IDocument doc = ( editor.getDocumentProvider( ) ).getDocument( viewer.getEditorInput( ) );
-								int length = doc.getLength( );
-
-								doc.replace( length, 0, signature );
-								editor.selectAndReveal( length + 1,
-										signature.length( ) );
+								editor.selectAndReveal( pos.getOffset( ),
+										pos.length );
 							}
 						}
-						catch ( BadLocationException e )
+						else
 						{
-							logger.log( Level.SEVERE, e.getMessage( ), e );
+							// create new method
+							String signature = createSignature( methodInfo );
+
+							try
+							{
+								IScriptEditor viewer = editor.getScriptEditor( );
+
+								if ( viewer instanceof AbstractTextEditor )
+								{
+									AbstractTextEditor editor = (AbstractTextEditor) viewer;
+
+									IDocument doc = ( editor.getDocumentProvider( ) ).getDocument( viewer.getEditorInput( ) );
+									int length = doc.getLength( );
+
+									doc.replace( length, 0, signature );
+									editor.selectAndReveal( length + 1,
+											signature.length( ) );
+								}
+							}
+							catch ( BadLocationException e )
+							{
+								logger.log( Level.SEVERE, e.getMessage( ), e );
+							}
 						}
 
 						editor.cmbSubFunctions.select( 0 );
@@ -1559,6 +1600,25 @@ class JSSubFunctionListProvider implements
 				}
 			}
 		}
+	}
+
+	private Position findMethod( IMethodInfo methodInfo )
+	{
+		ScriptParser parser = new ScriptParser( editor.getEditorText( ) );
+
+		Collection coll = parser.getAllMethodInfo( );
+
+		for ( Iterator itr = coll.iterator( ); itr.hasNext( ); )
+		{
+			IScriptMethodInfo mtd = (IScriptMethodInfo) itr.next( );
+
+			if ( methodInfo.getName( ).equals( mtd.getName( ) ) )
+			{
+				return mtd.getPosition( );
+			}
+		}
+
+		return null;
 	}
 
 	// create the signature to insert in the document:
