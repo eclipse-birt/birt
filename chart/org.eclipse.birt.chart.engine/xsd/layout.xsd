@@ -48,102 +48,148 @@
 		<xsd:complexContent>
 			<xsd:extension base="Block">
 				<xsd:sequence>
-					<xsd:element name="HorizontalSpacing" type="xsd:int">
+					<xsd:element name="HorizontalSpacing"
+						type="xsd:int">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
-							The horizontal spacing between elements in the legend.
+								The horizontal spacing between elements
+								in the legend.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="VerticalSpacing" type="xsd:int">
+					<xsd:element name="VerticalSpacing"
+						type="xsd:int">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
-							The vertical spacing between elements in the legend.
+								The vertical spacing between elements in
+								the legend.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
 					<xsd:element name="ClientArea" type="ClientArea">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
-							The area of the legend block within which the legend items are displayed.
+								The area of the legend block within
+								which the legend items are displayed.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
 					<xsd:element name="Text" type="attribute:Text">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
-							The actual text content of the block.
+								The actual text content of the block.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="Orientation" type="attribute:Orientation">
+					<xsd:element name="Orientation"
+						type="attribute:Orientation">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
-							The orientation of elements in the legend.
+								The orientation of elements in the
+								legend.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="Direction" type="attribute:Direction">
+					<xsd:element name="Direction"
+						type="attribute:Direction">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
-							The direction in which the entries are added to the legend.
+								The direction in which the entries are
+								added to the legend.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="Separator" type="attribute:LineAttributes">
+					<xsd:element name="Separator"
+						type="attribute:LineAttributes">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
-							The line attributes to be used for the line separating groups of entries in the legend.
+								The line attributes to be used for the
+								line separating groups of entries in the
+								legend.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="Position" type="attribute:Position">
+					<xsd:element name="Position"
+						type="attribute:Position">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
-							The position of the legend.
+								The position of the legend.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="ItemType" type="attribute:LegendItemType">
+					<xsd:element name="ItemType"
+						type="attribute:LegendItemType">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
-							The form rendering of series should take (by Series or by Categories).
+								The form rendering of series should take
+								(by Series or by Categories).
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="Title" type="component:Label" minOccurs="0">
+					<xsd:element name="Title" type="component:Label"
+						minOccurs="0">
 						<xsd:annotation>
 							<xsd:documentation>
-					A label instance to hold attributes for legend title.
-					</xsd:documentation>
+								A label instance to hold attributes for
+								legend title.
+							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="TitlePosition" type="attribute:Position" minOccurs="0">
+					<xsd:element name="TitlePosition"
+						type="attribute:Position" minOccurs="0">
 						<xsd:annotation>
 							<xsd:documentation>
-					Specifies where the title for the legend should be displayed.
-				</xsd:documentation>
+								Specifies where the title for the legend
+								should be displayed.
+							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="ShowValue" type="xsd:boolean" minOccurs="0">
+					<xsd:element name="ShowValue" type="xsd:boolean"
+						minOccurs="0">
 						<xsd:annotation>
-							<xsd:documentation>Specifies if show legend item value.</xsd:documentation>
+							<xsd:documentation>
+								Specifies if show legend item value.
+							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="ShowPercent" type="xsd:boolean" minOccurs="0">
+					<xsd:element name="ShowPercent" type="xsd:boolean"
+						minOccurs="0">
 						<xsd:annotation>
-							<xsd:documentation>Specifies if show legend item  value as percentile.</xsd:documentation>
+							<xsd:documentation>
+								Specifies if show legend item value as
+								percentile.
+							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="ShowTotal" type="xsd:boolean" minOccurs="0">
+					<xsd:element name="ShowTotal" type="xsd:boolean"
+						minOccurs="0">
 						<xsd:annotation>
-							<xsd:documentation>Specifies if show legend item value total.</xsd:documentation>
+							<xsd:documentation>
+								Specifies if show legend item value
+								total.
+							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="WrappingSize" type="xsd:double" minOccurs="0">
+					<xsd:element name="WrappingSize" type="xsd:double"
+						minOccurs="0">
 						<xsd:annotation>
-							<xsd:documentation>Specifies the maximum string size for each legend item. If the string size is greater than this, it will be wrapped. Zero means no wrap.</xsd:documentation>
+							<xsd:documentation>
+								Specifies the maximum string size for
+								each legend item. If the string size is
+								greater than this, it will be wrapped.
+								Zero means no wrap.
+							</xsd:documentation>
 						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="MaxPercent" maxOccurs="1"
+						minOccurs="0" type="xsd:double" default="0.33333333">
+
+						<xsd:annotation>
+							<xsd:documentation>
+								The maximal percent of space which the
+								legend can take from the chart block.
+							</xsd:documentation>
+						</xsd:annotation>
 					</xsd:element>
 				</xsd:sequence>
 			</xsd:extension>

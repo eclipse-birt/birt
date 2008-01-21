@@ -50,33 +50,32 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getHorizontalSpacing <em>Horizontal Spacing</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getVerticalSpacing <em>Vertical Spacing</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getClientArea <em>Client Area</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getText <em>Text</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getOrientation <em>Orientation</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getDirection <em>Direction</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getSeparator <em>Separator</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getPosition <em>Position</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getItemType <em>Item Type</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getTitle <em>Title</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getTitlePosition <em>Title Position</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#isShowValue <em>Show Value</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#isShowPercent <em>Show Percent</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#isShowTotal <em>Show Total</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getWrappingSize <em>Wrapping Size</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getHorizontalSpacing <em>Horizontal Spacing</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getVerticalSpacing <em>Vertical Spacing</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getClientArea <em>Client Area</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getText <em>Text</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getOrientation <em>Orientation</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getDirection <em>Direction</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getSeparator <em>Separator</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getPosition <em>Position</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getItemType <em>Item Type</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getTitle <em>Title</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getTitlePosition <em>Title Position</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#isShowValue <em>Show Value</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#isShowPercent <em>Show Percent</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#isShowTotal <em>Show Total</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getWrappingSize <em>Wrapping Size</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.impl.LegendImpl#getMaxPercent <em>Max Percent</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @generated
  */
-public class LegendImpl extends BlockImpl implements Legend
-{
+public class LegendImpl extends BlockImpl implements Legend {
 
 	/**
-	 * The default value of the '{@link #getHorizontalSpacing() <em>Horizontal Spacing</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getHorizontalSpacing() <em>Horizontal Spacing</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getHorizontalSpacing()
 	 * @generated
 	 * @ordered
@@ -84,9 +83,8 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected static final int HORIZONTAL_SPACING_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '{@link #getHorizontalSpacing() <em>Horizontal Spacing</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getHorizontalSpacing() <em>Horizontal Spacing</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getHorizontalSpacing()
 	 * @generated
 	 * @ordered
@@ -100,7 +98,7 @@ public class LegendImpl extends BlockImpl implements Legend
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean horizontalSpacingESet = false;
+	protected boolean horizontalSpacingESet;
 
 	/**
 	 * The default value of the '
@@ -131,32 +129,29 @@ public class LegendImpl extends BlockImpl implements Legend
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean verticalSpacingESet = false;
+	protected boolean verticalSpacingESet;
 
 	/**
-	 * The cached value of the '{@link #getClientArea() <em>Client Area</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getClientArea() <em>Client Area</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getClientArea()
 	 * @generated
 	 * @ordered
 	 */
-	protected ClientArea clientArea = null;
+	protected ClientArea clientArea;
 
 	/**
-	 * The cached value of the '{@link #getText() <em>Text</em>}' containment
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getText() <em>Text</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getText()
 	 * @generated
 	 * @ordered
 	 */
-	protected Text text = null;
+	protected Text text;
 
 	/**
-	 * The default value of the '{@link #getOrientation() <em>Orientation</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getOrientation() <em>Orientation</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getOrientation()
 	 * @generated
 	 * @ordered
@@ -164,9 +159,8 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected static final Orientation ORIENTATION_EDEFAULT = Orientation.HORIZONTAL_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getOrientation() <em>Orientation</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getOrientation() <em>Orientation</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getOrientation()
 	 * @generated
 	 * @ordered
@@ -180,12 +174,11 @@ public class LegendImpl extends BlockImpl implements Legend
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean orientationESet = false;
+	protected boolean orientationESet;
 
 	/**
-	 * The default value of the '{@link #getDirection() <em>Direction</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getDirection() <em>Direction</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDirection()
 	 * @generated
 	 * @ordered
@@ -193,9 +186,8 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected static final Direction DIRECTION_EDEFAULT = Direction.LEFT_RIGHT_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getDirection() <em>Direction</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getDirection() <em>Direction</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getDirection()
 	 * @generated
 	 * @ordered
@@ -203,28 +195,26 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected Direction direction = DIRECTION_EDEFAULT;
 
 	/**
-	 * This is true if the Direction attribute has been set. <!-- begin-user-doc
+	 * This is true if the Direction attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean directionESet = false;
+	protected boolean directionESet;
 
 	/**
-	 * The cached value of the '{@link #getSeparator() <em>Separator</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getSeparator() <em>Separator</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getSeparator()
 	 * @generated
 	 * @ordered
 	 */
-	protected LineAttributes separator = null;
+	protected LineAttributes separator;
 
 	/**
-	 * The default value of the '{@link #getPosition() <em>Position</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getPosition() <em>Position</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getPosition()
 	 * @generated
 	 * @ordered
@@ -232,9 +222,8 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected static final Position POSITION_EDEFAULT = Position.ABOVE_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getPosition() <em>Position</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getPosition() <em>Position</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getPosition()
 	 * @generated
 	 * @ordered
@@ -242,18 +231,17 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected Position position = POSITION_EDEFAULT;
 
 	/**
-	 * This is true if the Position attribute has been set. <!-- begin-user-doc
+	 * This is true if the Position attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean positionESet = false;
+	protected boolean positionESet;
 
 	/**
-	 * The default value of the '{@link #getItemType() <em>Item Type</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getItemType() <em>Item Type</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getItemType()
 	 * @generated
 	 * @ordered
@@ -261,9 +249,8 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected static final LegendItemType ITEM_TYPE_EDEFAULT = LegendItemType.SERIES_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getItemType() <em>Item Type</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getItemType() <em>Item Type</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getItemType()
 	 * @generated
 	 * @ordered
@@ -271,28 +258,26 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected LegendItemType itemType = ITEM_TYPE_EDEFAULT;
 
 	/**
-	 * This is true if the Item Type attribute has been set. <!-- begin-user-doc
+	 * This is true if the Item Type attribute has been set.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean itemTypeESet = false;
+	protected boolean itemTypeESet;
 
 	/**
-	 * The cached value of the '{@link #getTitle() <em>Title</em>}'
-	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getTitle() <em>Title</em>}' containment reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getTitle()
 	 * @generated
 	 * @ordered
 	 */
-	protected Label title = null;
+	protected Label title;
 
 	/**
-	 * The default value of the '{@link #getTitlePosition() <em>Title Position</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getTitlePosition() <em>Title Position</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getTitlePosition()
 	 * @generated
 	 * @ordered
@@ -300,9 +285,8 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected static final Position TITLE_POSITION_EDEFAULT = Position.ABOVE_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getTitlePosition() <em>Title Position</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getTitlePosition() <em>Title Position</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getTitlePosition()
 	 * @generated
 	 * @ordered
@@ -316,12 +300,11 @@ public class LegendImpl extends BlockImpl implements Legend
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean titlePositionESet = false;
+	protected boolean titlePositionESet;
 
 	/**
-	 * The default value of the '{@link #isShowValue() <em>Show Value</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #isShowValue() <em>Show Value</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isShowValue()
 	 * @generated
 	 * @ordered
@@ -329,9 +312,8 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected static final boolean SHOW_VALUE_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isShowValue() <em>Show Value</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #isShowValue() <em>Show Value</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isShowValue()
 	 * @generated
 	 * @ordered
@@ -345,12 +327,11 @@ public class LegendImpl extends BlockImpl implements Legend
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean showValueESet = false;
+	protected boolean showValueESet;
 
 	/**
-	 * The default value of the '{@link #isShowPercent() <em>Show Percent</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #isShowPercent() <em>Show Percent</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isShowPercent()
 	 * @generated
 	 * @ordered
@@ -358,9 +339,8 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected static final boolean SHOW_PERCENT_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isShowPercent() <em>Show Percent</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #isShowPercent() <em>Show Percent</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isShowPercent()
 	 * @generated
 	 * @ordered
@@ -374,12 +354,11 @@ public class LegendImpl extends BlockImpl implements Legend
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean showPercentESet = false;
+	protected boolean showPercentESet;
 
 	/**
-	 * The default value of the '{@link #isShowTotal() <em>Show Total</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #isShowTotal() <em>Show Total</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isShowTotal()
 	 * @generated
 	 * @ordered
@@ -387,9 +366,8 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected static final boolean SHOW_TOTAL_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isShowTotal() <em>Show Total</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #isShowTotal() <em>Show Total</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #isShowTotal()
 	 * @generated
 	 * @ordered
@@ -403,12 +381,11 @@ public class LegendImpl extends BlockImpl implements Legend
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean showTotalESet = false;
+	protected boolean showTotalESet;
 
 	/**
-	 * The default value of the '{@link #getWrappingSize() <em>Wrapping Size</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The default value of the '{@link #getWrappingSize() <em>Wrapping Size</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getWrappingSize()
 	 * @generated
 	 * @ordered
@@ -416,9 +393,8 @@ public class LegendImpl extends BlockImpl implements Legend
 	protected static final double WRAPPING_SIZE_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #getWrappingSize() <em>Wrapping Size</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached value of the '{@link #getWrappingSize() <em>Wrapping Size</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #getWrappingSize()
 	 * @generated
 	 * @ordered
@@ -432,1253 +408,1107 @@ public class LegendImpl extends BlockImpl implements Legend
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean wrappingSizeESet = false;
+	protected boolean wrappingSizeESet;
+
+	/**
+	 * The default value of the '{@link #getMaxPercent() <em>Max Percent</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMaxPercent()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final double MAX_PERCENT_EDEFAULT = 0.33333333;
+
+	/**
+	 * The cached value of the '{@link #getMaxPercent() <em>Max Percent</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMaxPercent()
+	 * @generated
+	 * @ordered
+	 */
+	protected double maxPercent = MAX_PERCENT_EDEFAULT;
+
+	/**
+	 * This is true if the Max Percent attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean maxPercentESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	protected LegendImpl( )
-	{
-		super( );
+	protected LegendImpl() {
+		super();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	protected EClass eStaticClass( )
-	{
+	protected EClass eStaticClass() {
 		return LayoutPackage.Literals.LEGEND;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public int getHorizontalSpacing( )
-	{
+	public int getHorizontalSpacing() {
 		return horizontalSpacing;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public void setHorizontalSpacing( int newHorizontalSpacing )
-	{
+	public void setHorizontalSpacing(int newHorizontalSpacing) {
 		int oldHorizontalSpacing = horizontalSpacing;
 		horizontalSpacing = newHorizontalSpacing;
 		boolean oldHorizontalSpacingESet = horizontalSpacingESet;
 		horizontalSpacingESet = true;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
 					LayoutPackage.LEGEND__HORIZONTAL_SPACING,
-					oldHorizontalSpacing,
-					horizontalSpacing,
-					!oldHorizontalSpacingESet ) );
+					oldHorizontalSpacing, horizontalSpacing,
+					!oldHorizontalSpacingESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public void unsetHorizontalSpacing( )
-	{
+	public void unsetHorizontalSpacing() {
 		int oldHorizontalSpacing = horizontalSpacing;
 		boolean oldHorizontalSpacingESet = horizontalSpacingESet;
 		horizontalSpacing = HORIZONTAL_SPACING_EDEFAULT;
 		horizontalSpacingESet = false;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.UNSET,
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET,
 					LayoutPackage.LEGEND__HORIZONTAL_SPACING,
-					oldHorizontalSpacing,
-					HORIZONTAL_SPACING_EDEFAULT,
-					oldHorizontalSpacingESet ) );
+					oldHorizontalSpacing, HORIZONTAL_SPACING_EDEFAULT,
+					oldHorizontalSpacingESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public boolean isSetHorizontalSpacing( )
-	{
+	public boolean isSetHorizontalSpacing() {
 		return horizontalSpacingESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public int getVerticalSpacing( )
-	{
+	public int getVerticalSpacing() {
 		return verticalSpacing;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public void setVerticalSpacing( int newVerticalSpacing )
-	{
+	public void setVerticalSpacing(int newVerticalSpacing) {
 		int oldVerticalSpacing = verticalSpacing;
 		verticalSpacing = newVerticalSpacing;
 		boolean oldVerticalSpacingESet = verticalSpacingESet;
 		verticalSpacingESet = true;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					LayoutPackage.LEGEND__VERTICAL_SPACING,
-					oldVerticalSpacing,
-					verticalSpacing,
-					!oldVerticalSpacingESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					LayoutPackage.LEGEND__VERTICAL_SPACING, oldVerticalSpacing,
+					verticalSpacing, !oldVerticalSpacingESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public void unsetVerticalSpacing( )
-	{
+	public void unsetVerticalSpacing() {
 		int oldVerticalSpacing = verticalSpacing;
 		boolean oldVerticalSpacingESet = verticalSpacingESet;
 		verticalSpacing = VERTICAL_SPACING_EDEFAULT;
 		verticalSpacingESet = false;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.UNSET,
-					LayoutPackage.LEGEND__VERTICAL_SPACING,
-					oldVerticalSpacing,
-					VERTICAL_SPACING_EDEFAULT,
-					oldVerticalSpacingESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET,
+					LayoutPackage.LEGEND__VERTICAL_SPACING, oldVerticalSpacing,
+					VERTICAL_SPACING_EDEFAULT, oldVerticalSpacingESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public boolean isSetVerticalSpacing( )
-	{
+	public boolean isSetVerticalSpacing() {
 		return verticalSpacingESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public ClientArea getClientArea( )
-	{
+	public ClientArea getClientArea() {
 		return clientArea;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public NotificationChain basicSetClientArea( ClientArea newClientArea,
-			NotificationChain msgs )
-	{
+	public NotificationChain basicSetClientArea(ClientArea newClientArea,
+			NotificationChain msgs) {
 		ClientArea oldClientArea = clientArea;
 		clientArea = newClientArea;
-		if ( eNotificationRequired( ) )
-		{
-			ENotificationImpl notification = new ENotificationImpl( this,
-					Notification.SET,
-					LayoutPackage.LEGEND__CLIENT_AREA,
-					oldClientArea,
-					newClientArea );
-			if ( msgs == null )
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, LayoutPackage.LEGEND__CLIENT_AREA,
+					oldClientArea, newClientArea);
+			if (msgs == null)
 				msgs = notification;
 			else
-				msgs.add( notification );
+				msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public void setClientArea( ClientArea newClientArea )
-	{
-		if ( newClientArea != clientArea )
-		{
+	public void setClientArea(ClientArea newClientArea) {
+		if (newClientArea != clientArea) {
 			NotificationChain msgs = null;
-			if ( clientArea != null )
-				msgs = ( (InternalEObject) clientArea ).eInverseRemove( this,
-						EOPPOSITE_FEATURE_BASE
-								- LayoutPackage.LEGEND__CLIENT_AREA,
-						null,
-						msgs );
-			if ( newClientArea != null )
-				msgs = ( (InternalEObject) newClientArea ).eInverseAdd( this,
-						EOPPOSITE_FEATURE_BASE
-								- LayoutPackage.LEGEND__CLIENT_AREA,
-						null,
-						msgs );
-			msgs = basicSetClientArea( newClientArea, msgs );
-			if ( msgs != null )
-				msgs.dispatch( );
-		}
-		else if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					LayoutPackage.LEGEND__CLIENT_AREA,
-					newClientArea,
-					newClientArea ) );
+			if (clientArea != null)
+				msgs = ((InternalEObject) clientArea)
+						.eInverseRemove(this, EOPPOSITE_FEATURE_BASE
+								- LayoutPackage.LEGEND__CLIENT_AREA, null, msgs);
+			if (newClientArea != null)
+				msgs = ((InternalEObject) newClientArea)
+						.eInverseAdd(this, EOPPOSITE_FEATURE_BASE
+								- LayoutPackage.LEGEND__CLIENT_AREA, null, msgs);
+			msgs = basicSetClientArea(newClientArea, msgs);
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					LayoutPackage.LEGEND__CLIENT_AREA, newClientArea,
+					newClientArea));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public Text getText( )
-	{
+	public Text getText() {
 		return text;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public NotificationChain basicSetText( Text newText, NotificationChain msgs )
-	{
+	public NotificationChain basicSetText(Text newText, NotificationChain msgs) {
 		Text oldText = text;
 		text = newText;
-		if ( eNotificationRequired( ) )
-		{
-			ENotificationImpl notification = new ENotificationImpl( this,
-					Notification.SET,
-					LayoutPackage.LEGEND__TEXT,
-					oldText,
-					newText );
-			if ( msgs == null )
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, LayoutPackage.LEGEND__TEXT, oldText,
+					newText);
+			if (msgs == null)
 				msgs = notification;
 			else
-				msgs.add( notification );
+				msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public void setText( Text newText )
-	{
-		if ( newText != text )
-		{
+	public void setText(Text newText) {
+		if (newText != text) {
 			NotificationChain msgs = null;
-			if ( text != null )
-				msgs = ( (InternalEObject) text ).eInverseRemove( this,
+			if (text != null)
+				msgs = ((InternalEObject) text).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.LEGEND__TEXT,
-						null,
-						msgs );
-			if ( newText != null )
-				msgs = ( (InternalEObject) newText ).eInverseAdd( this,
+						null, msgs);
+			if (newText != null)
+				msgs = ((InternalEObject) newText).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.LEGEND__TEXT,
-						null,
-						msgs );
-			msgs = basicSetText( newText, msgs );
-			if ( msgs != null )
-				msgs.dispatch( );
-		}
-		else if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					LayoutPackage.LEGEND__TEXT,
-					newText,
-					newText ) );
+						null, msgs);
+			msgs = basicSetText(newText, msgs);
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					LayoutPackage.LEGEND__TEXT, newText, newText));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public Orientation getOrientation( )
-	{
+	public Orientation getOrientation() {
 		return orientation;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public void setOrientation( Orientation newOrientation )
-	{
+	public void setOrientation(Orientation newOrientation) {
 		Orientation oldOrientation = orientation;
 		orientation = newOrientation == null ? ORIENTATION_EDEFAULT
 				: newOrientation;
 		boolean oldOrientationESet = orientationESet;
 		orientationESet = true;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					LayoutPackage.LEGEND__ORIENTATION,
-					oldOrientation,
-					orientation,
-					!oldOrientationESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					LayoutPackage.LEGEND__ORIENTATION, oldOrientation,
+					orientation, !oldOrientationESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public void unsetOrientation( )
-	{
+	public void unsetOrientation() {
 		Orientation oldOrientation = orientation;
 		boolean oldOrientationESet = orientationESet;
 		orientation = ORIENTATION_EDEFAULT;
 		orientationESet = false;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.UNSET,
-					LayoutPackage.LEGEND__ORIENTATION,
-					oldOrientation,
-					ORIENTATION_EDEFAULT,
-					oldOrientationESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET,
+					LayoutPackage.LEGEND__ORIENTATION, oldOrientation,
+					ORIENTATION_EDEFAULT, oldOrientationESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public boolean isSetOrientation( )
-	{
+	public boolean isSetOrientation() {
 		return orientationESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public Direction getDirection( )
-	{
+	public Direction getDirection() {
 		return direction;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public void setDirection( Direction newDirection )
-	{
+	public void setDirection(Direction newDirection) {
 		Direction oldDirection = direction;
 		direction = newDirection == null ? DIRECTION_EDEFAULT : newDirection;
 		boolean oldDirectionESet = directionESet;
 		directionESet = true;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					LayoutPackage.LEGEND__DIRECTION,
-					oldDirection,
-					direction,
-					!oldDirectionESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					LayoutPackage.LEGEND__DIRECTION, oldDirection, direction,
+					!oldDirectionESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public void unsetDirection( )
-	{
+	public void unsetDirection() {
 		Direction oldDirection = direction;
 		boolean oldDirectionESet = directionESet;
 		direction = DIRECTION_EDEFAULT;
 		directionESet = false;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.UNSET,
-					LayoutPackage.LEGEND__DIRECTION,
-					oldDirection,
-					DIRECTION_EDEFAULT,
-					oldDirectionESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET,
+					LayoutPackage.LEGEND__DIRECTION, oldDirection,
+					DIRECTION_EDEFAULT, oldDirectionESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public boolean isSetDirection( )
-	{
+	public boolean isSetDirection() {
 		return directionESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public LineAttributes getSeparator( )
-	{
+	public LineAttributes getSeparator() {
 		return separator;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public NotificationChain basicSetSeparator( LineAttributes newSeparator,
-			NotificationChain msgs )
-	{
+	public NotificationChain basicSetSeparator(LineAttributes newSeparator,
+			NotificationChain msgs) {
 		LineAttributes oldSeparator = separator;
 		separator = newSeparator;
-		if ( eNotificationRequired( ) )
-		{
-			ENotificationImpl notification = new ENotificationImpl( this,
-					Notification.SET,
-					LayoutPackage.LEGEND__SEPARATOR,
-					oldSeparator,
-					newSeparator );
-			if ( msgs == null )
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, LayoutPackage.LEGEND__SEPARATOR,
+					oldSeparator, newSeparator);
+			if (msgs == null)
 				msgs = notification;
 			else
-				msgs.add( notification );
+				msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public void setSeparator( LineAttributes newSeparator )
-	{
-		if ( newSeparator != separator )
-		{
+	public void setSeparator(LineAttributes newSeparator) {
+		if (newSeparator != separator) {
 			NotificationChain msgs = null;
-			if ( separator != null )
-				msgs = ( (InternalEObject) separator ).eInverseRemove( this,
+			if (separator != null)
+				msgs = ((InternalEObject) separator).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE
-								- LayoutPackage.LEGEND__SEPARATOR,
-						null,
-						msgs );
-			if ( newSeparator != null )
-				msgs = ( (InternalEObject) newSeparator ).eInverseAdd( this,
+								- LayoutPackage.LEGEND__SEPARATOR, null, msgs);
+			if (newSeparator != null)
+				msgs = ((InternalEObject) newSeparator).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE
-								- LayoutPackage.LEGEND__SEPARATOR,
-						null,
-						msgs );
-			msgs = basicSetSeparator( newSeparator, msgs );
-			if ( msgs != null )
-				msgs.dispatch( );
-		}
-		else if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					LayoutPackage.LEGEND__SEPARATOR,
-					newSeparator,
-					newSeparator ) );
+								- LayoutPackage.LEGEND__SEPARATOR, null, msgs);
+			msgs = basicSetSeparator(newSeparator, msgs);
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					LayoutPackage.LEGEND__SEPARATOR, newSeparator, newSeparator));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public Position getPosition( )
-	{
+	public Position getPosition() {
 		return position;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public void setPosition( Position newPosition )
-	{
+	public void setPosition(Position newPosition) {
 		Position oldPosition = position;
 		position = newPosition == null ? POSITION_EDEFAULT : newPosition;
 		boolean oldPositionESet = positionESet;
 		positionESet = true;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					LayoutPackage.LEGEND__POSITION,
-					oldPosition,
-					position,
-					!oldPositionESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					LayoutPackage.LEGEND__POSITION, oldPosition, position,
+					!oldPositionESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public void unsetPosition( )
-	{
+	public void unsetPosition() {
 		Position oldPosition = position;
 		boolean oldPositionESet = positionESet;
 		position = POSITION_EDEFAULT;
 		positionESet = false;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.UNSET,
-					LayoutPackage.LEGEND__POSITION,
-					oldPosition,
-					POSITION_EDEFAULT,
-					oldPositionESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET,
+					LayoutPackage.LEGEND__POSITION, oldPosition,
+					POSITION_EDEFAULT, oldPositionESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public boolean isSetPosition( )
-	{
+	public boolean isSetPosition() {
 		return positionESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public LegendItemType getItemType( )
-	{
+	public LegendItemType getItemType() {
 		return itemType;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public void setItemType( LegendItemType newItemType )
-	{
+	public void setItemType(LegendItemType newItemType) {
 		LegendItemType oldItemType = itemType;
 		itemType = newItemType == null ? ITEM_TYPE_EDEFAULT : newItemType;
 		boolean oldItemTypeESet = itemTypeESet;
 		itemTypeESet = true;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					LayoutPackage.LEGEND__ITEM_TYPE,
-					oldItemType,
-					itemType,
-					!oldItemTypeESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					LayoutPackage.LEGEND__ITEM_TYPE, oldItemType, itemType,
+					!oldItemTypeESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public void unsetItemType( )
-	{
+	public void unsetItemType() {
 		LegendItemType oldItemType = itemType;
 		boolean oldItemTypeESet = itemTypeESet;
 		itemType = ITEM_TYPE_EDEFAULT;
 		itemTypeESet = false;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.UNSET,
-					LayoutPackage.LEGEND__ITEM_TYPE,
-					oldItemType,
-					ITEM_TYPE_EDEFAULT,
-					oldItemTypeESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET,
+					LayoutPackage.LEGEND__ITEM_TYPE, oldItemType,
+					ITEM_TYPE_EDEFAULT, oldItemTypeESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public boolean isSetItemType( )
-	{
+	public boolean isSetItemType() {
 		return itemTypeESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public Label getTitle( )
-	{
+	public Label getTitle() {
 		return title;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public NotificationChain basicSetTitle( Label newTitle,
-			NotificationChain msgs )
-	{
+	public NotificationChain basicSetTitle(Label newTitle,
+			NotificationChain msgs) {
 		Label oldTitle = title;
 		title = newTitle;
-		if ( eNotificationRequired( ) )
-		{
-			ENotificationImpl notification = new ENotificationImpl( this,
-					Notification.SET,
-					LayoutPackage.LEGEND__TITLE,
-					oldTitle,
-					newTitle );
-			if ( msgs == null )
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this,
+					Notification.SET, LayoutPackage.LEGEND__TITLE, oldTitle,
+					newTitle);
+			if (msgs == null)
 				msgs = notification;
 			else
-				msgs.add( notification );
+				msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public void setTitle( Label newTitle )
-	{
-		if ( newTitle != title )
-		{
+	public void setTitle(Label newTitle) {
+		if (newTitle != title) {
 			NotificationChain msgs = null;
-			if ( title != null )
-				msgs = ( (InternalEObject) title ).eInverseRemove( this,
+			if (title != null)
+				msgs = ((InternalEObject) title).eInverseRemove(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.LEGEND__TITLE,
-						null,
-						msgs );
-			if ( newTitle != null )
-				msgs = ( (InternalEObject) newTitle ).eInverseAdd( this,
+						null, msgs);
+			if (newTitle != null)
+				msgs = ((InternalEObject) newTitle).eInverseAdd(this,
 						EOPPOSITE_FEATURE_BASE - LayoutPackage.LEGEND__TITLE,
-						null,
-						msgs );
-			msgs = basicSetTitle( newTitle, msgs );
-			if ( msgs != null )
-				msgs.dispatch( );
-		}
-		else if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					LayoutPackage.LEGEND__TITLE,
-					newTitle,
-					newTitle ) );
+						null, msgs);
+			msgs = basicSetTitle(newTitle, msgs);
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					LayoutPackage.LEGEND__TITLE, newTitle, newTitle));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public Position getTitlePosition( )
-	{
+	public Position getTitlePosition() {
 		return titlePosition;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public void setTitlePosition( Position newTitlePosition )
-	{
+	public void setTitlePosition(Position newTitlePosition) {
 		Position oldTitlePosition = titlePosition;
 		titlePosition = newTitlePosition == null ? TITLE_POSITION_EDEFAULT
 				: newTitlePosition;
 		boolean oldTitlePositionESet = titlePositionESet;
 		titlePositionESet = true;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					LayoutPackage.LEGEND__TITLE_POSITION,
-					oldTitlePosition,
-					titlePosition,
-					!oldTitlePositionESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					LayoutPackage.LEGEND__TITLE_POSITION, oldTitlePosition,
+					titlePosition, !oldTitlePositionESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public void unsetTitlePosition( )
-	{
+	public void unsetTitlePosition() {
 		Position oldTitlePosition = titlePosition;
 		boolean oldTitlePositionESet = titlePositionESet;
 		titlePosition = TITLE_POSITION_EDEFAULT;
 		titlePositionESet = false;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.UNSET,
-					LayoutPackage.LEGEND__TITLE_POSITION,
-					oldTitlePosition,
-					TITLE_POSITION_EDEFAULT,
-					oldTitlePositionESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET,
+					LayoutPackage.LEGEND__TITLE_POSITION, oldTitlePosition,
+					TITLE_POSITION_EDEFAULT, oldTitlePositionESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public boolean isSetTitlePosition( )
-	{
+	public boolean isSetTitlePosition() {
 		return titlePositionESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public boolean isShowValue( )
-	{
+	public boolean isShowValue() {
 		return showValue;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public void setShowValue( boolean newShowValue )
-	{
+	public void setShowValue(boolean newShowValue) {
 		boolean oldShowValue = showValue;
 		showValue = newShowValue;
 		boolean oldShowValueESet = showValueESet;
 		showValueESet = true;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					LayoutPackage.LEGEND__SHOW_VALUE,
-					oldShowValue,
-					showValue,
-					!oldShowValueESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					LayoutPackage.LEGEND__SHOW_VALUE, oldShowValue, showValue,
+					!oldShowValueESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public void unsetShowValue( )
-	{
+	public void unsetShowValue() {
 		boolean oldShowValue = showValue;
 		boolean oldShowValueESet = showValueESet;
 		showValue = SHOW_VALUE_EDEFAULT;
 		showValueESet = false;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.UNSET,
-					LayoutPackage.LEGEND__SHOW_VALUE,
-					oldShowValue,
-					SHOW_VALUE_EDEFAULT,
-					oldShowValueESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET,
+					LayoutPackage.LEGEND__SHOW_VALUE, oldShowValue,
+					SHOW_VALUE_EDEFAULT, oldShowValueESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public boolean isSetShowValue( )
-	{
+	public boolean isSetShowValue() {
 		return showValueESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public boolean isShowPercent( )
-	{
+	public boolean isShowPercent() {
 		return showPercent;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public void setShowPercent( boolean newShowPercent )
-	{
+	public void setShowPercent(boolean newShowPercent) {
 		boolean oldShowPercent = showPercent;
 		showPercent = newShowPercent;
 		boolean oldShowPercentESet = showPercentESet;
 		showPercentESet = true;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					LayoutPackage.LEGEND__SHOW_PERCENT,
-					oldShowPercent,
-					showPercent,
-					!oldShowPercentESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					LayoutPackage.LEGEND__SHOW_PERCENT, oldShowPercent,
+					showPercent, !oldShowPercentESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public void unsetShowPercent( )
-	{
+	public void unsetShowPercent() {
 		boolean oldShowPercent = showPercent;
 		boolean oldShowPercentESet = showPercentESet;
 		showPercent = SHOW_PERCENT_EDEFAULT;
 		showPercentESet = false;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.UNSET,
-					LayoutPackage.LEGEND__SHOW_PERCENT,
-					oldShowPercent,
-					SHOW_PERCENT_EDEFAULT,
-					oldShowPercentESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET,
+					LayoutPackage.LEGEND__SHOW_PERCENT, oldShowPercent,
+					SHOW_PERCENT_EDEFAULT, oldShowPercentESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public boolean isSetShowPercent( )
-	{
+	public boolean isSetShowPercent() {
 		return showPercentESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public boolean isShowTotal( )
-	{
+	public boolean isShowTotal() {
 		return showTotal;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public void setShowTotal( boolean newShowTotal )
-	{
+	public void setShowTotal(boolean newShowTotal) {
 		boolean oldShowTotal = showTotal;
 		showTotal = newShowTotal;
 		boolean oldShowTotalESet = showTotalESet;
 		showTotalESet = true;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					LayoutPackage.LEGEND__SHOW_TOTAL,
-					oldShowTotal,
-					showTotal,
-					!oldShowTotalESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					LayoutPackage.LEGEND__SHOW_TOTAL, oldShowTotal, showTotal,
+					!oldShowTotalESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public void unsetShowTotal( )
-	{
+	public void unsetShowTotal() {
 		boolean oldShowTotal = showTotal;
 		boolean oldShowTotalESet = showTotalESet;
 		showTotal = SHOW_TOTAL_EDEFAULT;
 		showTotalESet = false;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.UNSET,
-					LayoutPackage.LEGEND__SHOW_TOTAL,
-					oldShowTotal,
-					SHOW_TOTAL_EDEFAULT,
-					oldShowTotalESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET,
+					LayoutPackage.LEGEND__SHOW_TOTAL, oldShowTotal,
+					SHOW_TOTAL_EDEFAULT, oldShowTotalESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public boolean isSetShowTotal( )
-	{
+	public boolean isSetShowTotal() {
 		return showTotalESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public double getWrappingSize( )
-	{
+	public double getWrappingSize() {
 		return wrappingSize;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public void setWrappingSize( double newWrappingSize )
-	{
+	public void setWrappingSize(double newWrappingSize) {
 		double oldWrappingSize = wrappingSize;
 		wrappingSize = newWrappingSize;
 		boolean oldWrappingSizeESet = wrappingSizeESet;
 		wrappingSizeESet = true;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					LayoutPackage.LEGEND__WRAPPING_SIZE,
-					oldWrappingSize,
-					wrappingSize,
-					!oldWrappingSizeESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					LayoutPackage.LEGEND__WRAPPING_SIZE, oldWrappingSize,
+					wrappingSize, !oldWrappingSizeESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public void unsetWrappingSize( )
-	{
+	public void unsetWrappingSize() {
 		double oldWrappingSize = wrappingSize;
 		boolean oldWrappingSizeESet = wrappingSizeESet;
 		wrappingSize = WRAPPING_SIZE_EDEFAULT;
 		wrappingSizeESet = false;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.UNSET,
-					LayoutPackage.LEGEND__WRAPPING_SIZE,
-					oldWrappingSize,
-					WRAPPING_SIZE_EDEFAULT,
-					oldWrappingSizeESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET,
+					LayoutPackage.LEGEND__WRAPPING_SIZE, oldWrappingSize,
+					WRAPPING_SIZE_EDEFAULT, oldWrappingSizeESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public boolean isSetWrappingSize( )
-	{
+	public boolean isSetWrappingSize() {
 		return wrappingSizeESet;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain eInverseRemove( InternalEObject otherEnd,
-			int featureID, NotificationChain msgs )
-	{
-		switch ( featureID )
-		{
-			case LayoutPackage.LEGEND__CLIENT_AREA :
-				return basicSetClientArea( null, msgs );
-			case LayoutPackage.LEGEND__TEXT :
-				return basicSetText( null, msgs );
-			case LayoutPackage.LEGEND__SEPARATOR :
-				return basicSetSeparator( null, msgs );
-			case LayoutPackage.LEGEND__TITLE :
-				return basicSetTitle( null, msgs );
-		}
-		return super.eInverseRemove( otherEnd, featureID, msgs );
+	public double getMaxPercent() {
+		return maxPercent;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setMaxPercent(double newMaxPercent) {
+		double oldMaxPercent = maxPercent;
+		maxPercent = newMaxPercent;
+		boolean oldMaxPercentESet = maxPercentESet;
+		maxPercentESet = true;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET,
+					LayoutPackage.LEGEND__MAX_PERCENT, oldMaxPercent,
+					maxPercent, !oldMaxPercentESet));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetMaxPercent() {
+		double oldMaxPercent = maxPercent;
+		boolean oldMaxPercentESet = maxPercentESet;
+		maxPercent = MAX_PERCENT_EDEFAULT;
+		maxPercentESet = false;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET,
+					LayoutPackage.LEGEND__MAX_PERCENT, oldMaxPercent,
+					MAX_PERCENT_EDEFAULT, oldMaxPercentESet));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetMaxPercent() {
+		return maxPercentESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public Object eGet( int featureID, boolean resolve, boolean coreType )
-	{
-		switch ( featureID )
-		{
-			case LayoutPackage.LEGEND__HORIZONTAL_SPACING :
-				return new Integer( getHorizontalSpacing( ) );
-			case LayoutPackage.LEGEND__VERTICAL_SPACING :
-				return new Integer( getVerticalSpacing( ) );
-			case LayoutPackage.LEGEND__CLIENT_AREA :
-				return getClientArea( );
-			case LayoutPackage.LEGEND__TEXT :
-				return getText( );
-			case LayoutPackage.LEGEND__ORIENTATION :
-				return getOrientation( );
-			case LayoutPackage.LEGEND__DIRECTION :
-				return getDirection( );
-			case LayoutPackage.LEGEND__SEPARATOR :
-				return getSeparator( );
-			case LayoutPackage.LEGEND__POSITION :
-				return getPosition( );
-			case LayoutPackage.LEGEND__ITEM_TYPE :
-				return getItemType( );
-			case LayoutPackage.LEGEND__TITLE :
-				return getTitle( );
-			case LayoutPackage.LEGEND__TITLE_POSITION :
-				return getTitlePosition( );
-			case LayoutPackage.LEGEND__SHOW_VALUE :
-				return isShowValue( ) ? Boolean.TRUE : Boolean.FALSE;
-			case LayoutPackage.LEGEND__SHOW_PERCENT :
-				return isShowPercent( ) ? Boolean.TRUE : Boolean.FALSE;
-			case LayoutPackage.LEGEND__SHOW_TOTAL :
-				return isShowTotal( ) ? Boolean.TRUE : Boolean.FALSE;
-			case LayoutPackage.LEGEND__WRAPPING_SIZE :
-				return new Double( getWrappingSize( ) );
+	public NotificationChain eInverseRemove(InternalEObject otherEnd,
+			int featureID, NotificationChain msgs) {
+		switch (featureID) {
+		case LayoutPackage.LEGEND__CLIENT_AREA:
+			return basicSetClientArea(null, msgs);
+		case LayoutPackage.LEGEND__TEXT:
+			return basicSetText(null, msgs);
+		case LayoutPackage.LEGEND__SEPARATOR:
+			return basicSetSeparator(null, msgs);
+		case LayoutPackage.LEGEND__TITLE:
+			return basicSetTitle(null, msgs);
 		}
-		return super.eGet( featureID, resolve, coreType );
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public void eSet( int featureID, Object newValue )
-	{
-		switch ( featureID )
-		{
-			case LayoutPackage.LEGEND__HORIZONTAL_SPACING :
-				setHorizontalSpacing( ( (Integer) newValue ).intValue( ) );
-				return;
-			case LayoutPackage.LEGEND__VERTICAL_SPACING :
-				setVerticalSpacing( ( (Integer) newValue ).intValue( ) );
-				return;
-			case LayoutPackage.LEGEND__CLIENT_AREA :
-				setClientArea( (ClientArea) newValue );
-				return;
-			case LayoutPackage.LEGEND__TEXT :
-				setText( (Text) newValue );
-				return;
-			case LayoutPackage.LEGEND__ORIENTATION :
-				setOrientation( (Orientation) newValue );
-				return;
-			case LayoutPackage.LEGEND__DIRECTION :
-				setDirection( (Direction) newValue );
-				return;
-			case LayoutPackage.LEGEND__SEPARATOR :
-				setSeparator( (LineAttributes) newValue );
-				return;
-			case LayoutPackage.LEGEND__POSITION :
-				setPosition( (Position) newValue );
-				return;
-			case LayoutPackage.LEGEND__ITEM_TYPE :
-				setItemType( (LegendItemType) newValue );
-				return;
-			case LayoutPackage.LEGEND__TITLE :
-				setTitle( (Label) newValue );
-				return;
-			case LayoutPackage.LEGEND__TITLE_POSITION :
-				setTitlePosition( (Position) newValue );
-				return;
-			case LayoutPackage.LEGEND__SHOW_VALUE :
-				setShowValue( ( (Boolean) newValue ).booleanValue( ) );
-				return;
-			case LayoutPackage.LEGEND__SHOW_PERCENT :
-				setShowPercent( ( (Boolean) newValue ).booleanValue( ) );
-				return;
-			case LayoutPackage.LEGEND__SHOW_TOTAL :
-				setShowTotal( ( (Boolean) newValue ).booleanValue( ) );
-				return;
-			case LayoutPackage.LEGEND__WRAPPING_SIZE :
-				setWrappingSize( ( (Double) newValue ).doubleValue( ) );
-				return;
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+		case LayoutPackage.LEGEND__HORIZONTAL_SPACING:
+			return new Integer(getHorizontalSpacing());
+		case LayoutPackage.LEGEND__VERTICAL_SPACING:
+			return new Integer(getVerticalSpacing());
+		case LayoutPackage.LEGEND__CLIENT_AREA:
+			return getClientArea();
+		case LayoutPackage.LEGEND__TEXT:
+			return getText();
+		case LayoutPackage.LEGEND__ORIENTATION:
+			return getOrientation();
+		case LayoutPackage.LEGEND__DIRECTION:
+			return getDirection();
+		case LayoutPackage.LEGEND__SEPARATOR:
+			return getSeparator();
+		case LayoutPackage.LEGEND__POSITION:
+			return getPosition();
+		case LayoutPackage.LEGEND__ITEM_TYPE:
+			return getItemType();
+		case LayoutPackage.LEGEND__TITLE:
+			return getTitle();
+		case LayoutPackage.LEGEND__TITLE_POSITION:
+			return getTitlePosition();
+		case LayoutPackage.LEGEND__SHOW_VALUE:
+			return isShowValue() ? Boolean.TRUE : Boolean.FALSE;
+		case LayoutPackage.LEGEND__SHOW_PERCENT:
+			return isShowPercent() ? Boolean.TRUE : Boolean.FALSE;
+		case LayoutPackage.LEGEND__SHOW_TOTAL:
+			return isShowTotal() ? Boolean.TRUE : Boolean.FALSE;
+		case LayoutPackage.LEGEND__WRAPPING_SIZE:
+			return new Double(getWrappingSize());
+		case LayoutPackage.LEGEND__MAX_PERCENT:
+			return new Double(getMaxPercent());
 		}
-		super.eSet( featureID, newValue );
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public void eUnset( int featureID )
-	{
-		switch ( featureID )
-		{
-			case LayoutPackage.LEGEND__HORIZONTAL_SPACING :
-				unsetHorizontalSpacing( );
-				return;
-			case LayoutPackage.LEGEND__VERTICAL_SPACING :
-				unsetVerticalSpacing( );
-				return;
-			case LayoutPackage.LEGEND__CLIENT_AREA :
-				setClientArea( (ClientArea) null );
-				return;
-			case LayoutPackage.LEGEND__TEXT :
-				setText( (Text) null );
-				return;
-			case LayoutPackage.LEGEND__ORIENTATION :
-				unsetOrientation( );
-				return;
-			case LayoutPackage.LEGEND__DIRECTION :
-				unsetDirection( );
-				return;
-			case LayoutPackage.LEGEND__SEPARATOR :
-				setSeparator( (LineAttributes) null );
-				return;
-			case LayoutPackage.LEGEND__POSITION :
-				unsetPosition( );
-				return;
-			case LayoutPackage.LEGEND__ITEM_TYPE :
-				unsetItemType( );
-				return;
-			case LayoutPackage.LEGEND__TITLE :
-				setTitle( (Label) null );
-				return;
-			case LayoutPackage.LEGEND__TITLE_POSITION :
-				unsetTitlePosition( );
-				return;
-			case LayoutPackage.LEGEND__SHOW_VALUE :
-				unsetShowValue( );
-				return;
-			case LayoutPackage.LEGEND__SHOW_PERCENT :
-				unsetShowPercent( );
-				return;
-			case LayoutPackage.LEGEND__SHOW_TOTAL :
-				unsetShowTotal( );
-				return;
-			case LayoutPackage.LEGEND__WRAPPING_SIZE :
-				unsetWrappingSize( );
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+		case LayoutPackage.LEGEND__HORIZONTAL_SPACING:
+			setHorizontalSpacing(((Integer) newValue).intValue());
+			return;
+		case LayoutPackage.LEGEND__VERTICAL_SPACING:
+			setVerticalSpacing(((Integer) newValue).intValue());
+			return;
+		case LayoutPackage.LEGEND__CLIENT_AREA:
+			setClientArea((ClientArea) newValue);
+			return;
+		case LayoutPackage.LEGEND__TEXT:
+			setText((Text) newValue);
+			return;
+		case LayoutPackage.LEGEND__ORIENTATION:
+			setOrientation((Orientation) newValue);
+			return;
+		case LayoutPackage.LEGEND__DIRECTION:
+			setDirection((Direction) newValue);
+			return;
+		case LayoutPackage.LEGEND__SEPARATOR:
+			setSeparator((LineAttributes) newValue);
+			return;
+		case LayoutPackage.LEGEND__POSITION:
+			setPosition((Position) newValue);
+			return;
+		case LayoutPackage.LEGEND__ITEM_TYPE:
+			setItemType((LegendItemType) newValue);
+			return;
+		case LayoutPackage.LEGEND__TITLE:
+			setTitle((Label) newValue);
+			return;
+		case LayoutPackage.LEGEND__TITLE_POSITION:
+			setTitlePosition((Position) newValue);
+			return;
+		case LayoutPackage.LEGEND__SHOW_VALUE:
+			setShowValue(((Boolean) newValue).booleanValue());
+			return;
+		case LayoutPackage.LEGEND__SHOW_PERCENT:
+			setShowPercent(((Boolean) newValue).booleanValue());
+			return;
+		case LayoutPackage.LEGEND__SHOW_TOTAL:
+			setShowTotal(((Boolean) newValue).booleanValue());
+			return;
+		case LayoutPackage.LEGEND__WRAPPING_SIZE:
+			setWrappingSize(((Double) newValue).doubleValue());
+			return;
+		case LayoutPackage.LEGEND__MAX_PERCENT:
+			setMaxPercent(((Double) newValue).doubleValue());
+			return;
 		}
-		super.eUnset( featureID );
+		super.eSet(featureID, newValue);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public boolean eIsSet( int featureID )
-	{
-		switch ( featureID )
-		{
-			case LayoutPackage.LEGEND__HORIZONTAL_SPACING :
-				return isSetHorizontalSpacing( );
-			case LayoutPackage.LEGEND__VERTICAL_SPACING :
-				return isSetVerticalSpacing( );
-			case LayoutPackage.LEGEND__CLIENT_AREA :
-				return clientArea != null;
-			case LayoutPackage.LEGEND__TEXT :
-				return text != null;
-			case LayoutPackage.LEGEND__ORIENTATION :
-				return isSetOrientation( );
-			case LayoutPackage.LEGEND__DIRECTION :
-				return isSetDirection( );
-			case LayoutPackage.LEGEND__SEPARATOR :
-				return separator != null;
-			case LayoutPackage.LEGEND__POSITION :
-				return isSetPosition( );
-			case LayoutPackage.LEGEND__ITEM_TYPE :
-				return isSetItemType( );
-			case LayoutPackage.LEGEND__TITLE :
-				return title != null;
-			case LayoutPackage.LEGEND__TITLE_POSITION :
-				return isSetTitlePosition( );
-			case LayoutPackage.LEGEND__SHOW_VALUE :
-				return isSetShowValue( );
-			case LayoutPackage.LEGEND__SHOW_PERCENT :
-				return isSetShowPercent( );
-			case LayoutPackage.LEGEND__SHOW_TOTAL :
-				return isSetShowTotal( );
-			case LayoutPackage.LEGEND__WRAPPING_SIZE :
-				return isSetWrappingSize( );
+	public void eUnset(int featureID) {
+		switch (featureID) {
+		case LayoutPackage.LEGEND__HORIZONTAL_SPACING:
+			unsetHorizontalSpacing();
+			return;
+		case LayoutPackage.LEGEND__VERTICAL_SPACING:
+			unsetVerticalSpacing();
+			return;
+		case LayoutPackage.LEGEND__CLIENT_AREA:
+			setClientArea((ClientArea) null);
+			return;
+		case LayoutPackage.LEGEND__TEXT:
+			setText((Text) null);
+			return;
+		case LayoutPackage.LEGEND__ORIENTATION:
+			unsetOrientation();
+			return;
+		case LayoutPackage.LEGEND__DIRECTION:
+			unsetDirection();
+			return;
+		case LayoutPackage.LEGEND__SEPARATOR:
+			setSeparator((LineAttributes) null);
+			return;
+		case LayoutPackage.LEGEND__POSITION:
+			unsetPosition();
+			return;
+		case LayoutPackage.LEGEND__ITEM_TYPE:
+			unsetItemType();
+			return;
+		case LayoutPackage.LEGEND__TITLE:
+			setTitle((Label) null);
+			return;
+		case LayoutPackage.LEGEND__TITLE_POSITION:
+			unsetTitlePosition();
+			return;
+		case LayoutPackage.LEGEND__SHOW_VALUE:
+			unsetShowValue();
+			return;
+		case LayoutPackage.LEGEND__SHOW_PERCENT:
+			unsetShowPercent();
+			return;
+		case LayoutPackage.LEGEND__SHOW_TOTAL:
+			unsetShowTotal();
+			return;
+		case LayoutPackage.LEGEND__WRAPPING_SIZE:
+			unsetWrappingSize();
+			return;
+		case LayoutPackage.LEGEND__MAX_PERCENT:
+			unsetMaxPercent();
+			return;
 		}
-		return super.eIsSet( featureID );
+		super.eUnset(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	public String toString( )
-	{
-		if ( eIsProxy( ) )
-			return super.toString( );
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+		case LayoutPackage.LEGEND__HORIZONTAL_SPACING:
+			return isSetHorizontalSpacing();
+		case LayoutPackage.LEGEND__VERTICAL_SPACING:
+			return isSetVerticalSpacing();
+		case LayoutPackage.LEGEND__CLIENT_AREA:
+			return clientArea != null;
+		case LayoutPackage.LEGEND__TEXT:
+			return text != null;
+		case LayoutPackage.LEGEND__ORIENTATION:
+			return isSetOrientation();
+		case LayoutPackage.LEGEND__DIRECTION:
+			return isSetDirection();
+		case LayoutPackage.LEGEND__SEPARATOR:
+			return separator != null;
+		case LayoutPackage.LEGEND__POSITION:
+			return isSetPosition();
+		case LayoutPackage.LEGEND__ITEM_TYPE:
+			return isSetItemType();
+		case LayoutPackage.LEGEND__TITLE:
+			return title != null;
+		case LayoutPackage.LEGEND__TITLE_POSITION:
+			return isSetTitlePosition();
+		case LayoutPackage.LEGEND__SHOW_VALUE:
+			return isSetShowValue();
+		case LayoutPackage.LEGEND__SHOW_PERCENT:
+			return isSetShowPercent();
+		case LayoutPackage.LEGEND__SHOW_TOTAL:
+			return isSetShowTotal();
+		case LayoutPackage.LEGEND__WRAPPING_SIZE:
+			return isSetWrappingSize();
+		case LayoutPackage.LEGEND__MAX_PERCENT:
+			return isSetMaxPercent();
+		}
+		return super.eIsSet(featureID);
+	}
 
-		StringBuffer result = new StringBuffer( super.toString( ) );
-		result.append( " (horizontalSpacing: " ); //$NON-NLS-1$
-		if ( horizontalSpacingESet )
-			result.append( horizontalSpacing );
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String toString() {
+		if (eIsProxy())
+			return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (horizontalSpacing: "); //$NON-NLS-1$
+		if (horizontalSpacingESet)
+			result.append(horizontalSpacing);
 		else
-			result.append( "<unset>" ); //$NON-NLS-1$
-		result.append( ", verticalSpacing: " ); //$NON-NLS-1$
-		if ( verticalSpacingESet )
-			result.append( verticalSpacing );
+			result.append("<unset>"); //$NON-NLS-1$
+		result.append(", verticalSpacing: "); //$NON-NLS-1$
+		if (verticalSpacingESet)
+			result.append(verticalSpacing);
 		else
-			result.append( "<unset>" ); //$NON-NLS-1$
-		result.append( ", orientation: " ); //$NON-NLS-1$
-		if ( orientationESet )
-			result.append( orientation );
+			result.append("<unset>"); //$NON-NLS-1$
+		result.append(", orientation: "); //$NON-NLS-1$
+		if (orientationESet)
+			result.append(orientation);
 		else
-			result.append( "<unset>" ); //$NON-NLS-1$
-		result.append( ", direction: " ); //$NON-NLS-1$
-		if ( directionESet )
-			result.append( direction );
+			result.append("<unset>"); //$NON-NLS-1$
+		result.append(", direction: "); //$NON-NLS-1$
+		if (directionESet)
+			result.append(direction);
 		else
-			result.append( "<unset>" ); //$NON-NLS-1$
-		result.append( ", position: " ); //$NON-NLS-1$
-		if ( positionESet )
-			result.append( position );
+			result.append("<unset>"); //$NON-NLS-1$
+		result.append(", position: "); //$NON-NLS-1$
+		if (positionESet)
+			result.append(position);
 		else
-			result.append( "<unset>" ); //$NON-NLS-1$
-		result.append( ", itemType: " ); //$NON-NLS-1$
-		if ( itemTypeESet )
-			result.append( itemType );
+			result.append("<unset>"); //$NON-NLS-1$
+		result.append(", itemType: "); //$NON-NLS-1$
+		if (itemTypeESet)
+			result.append(itemType);
 		else
-			result.append( "<unset>" ); //$NON-NLS-1$
-		result.append( ", titlePosition: " ); //$NON-NLS-1$
-		if ( titlePositionESet )
-			result.append( titlePosition );
+			result.append("<unset>"); //$NON-NLS-1$
+		result.append(", titlePosition: "); //$NON-NLS-1$
+		if (titlePositionESet)
+			result.append(titlePosition);
 		else
-			result.append( "<unset>" ); //$NON-NLS-1$
-		result.append( ", showValue: " ); //$NON-NLS-1$
-		if ( showValueESet )
-			result.append( showValue );
+			result.append("<unset>"); //$NON-NLS-1$
+		result.append(", showValue: "); //$NON-NLS-1$
+		if (showValueESet)
+			result.append(showValue);
 		else
-			result.append( "<unset>" ); //$NON-NLS-1$
-		result.append( ", showPercent: " ); //$NON-NLS-1$
-		if ( showPercentESet )
-			result.append( showPercent );
+			result.append("<unset>"); //$NON-NLS-1$
+		result.append(", showPercent: "); //$NON-NLS-1$
+		if (showPercentESet)
+			result.append(showPercent);
 		else
-			result.append( "<unset>" ); //$NON-NLS-1$
-		result.append( ", showTotal: " ); //$NON-NLS-1$
-		if ( showTotalESet )
-			result.append( showTotal );
+			result.append("<unset>"); //$NON-NLS-1$
+		result.append(", showTotal: "); //$NON-NLS-1$
+		if (showTotalESet)
+			result.append(showTotal);
 		else
-			result.append( "<unset>" ); //$NON-NLS-1$
-		result.append( ", wrappingSize: " ); //$NON-NLS-1$
-		if ( wrappingSizeESet )
-			result.append( wrappingSize );
+			result.append("<unset>"); //$NON-NLS-1$
+		result.append(", wrappingSize: "); //$NON-NLS-1$
+		if (wrappingSizeESet)
+			result.append(wrappingSize);
 		else
-			result.append( "<unset>" ); //$NON-NLS-1$
-		result.append( ')' );
-		return result.toString( );
+			result.append("<unset>"); //$NON-NLS-1$
+		result.append(", maxPercent: "); //$NON-NLS-1$
+		if (maxPercentESet)
+			result.append(maxPercent);
+		else
+			result.append("<unset>"); //$NON-NLS-1$
+		result.append(')');
+		return result.toString();
 	}
 
 	/**
@@ -1687,8 +1517,7 @@ public class LegendImpl extends BlockImpl implements Legend
 	 * 
 	 * @return
 	 */
-	public boolean isLegend( )
-	{
+	public boolean isLegend() {
 		return true;
 	}
 
@@ -1698,8 +1527,7 @@ public class LegendImpl extends BlockImpl implements Legend
 	 * 
 	 * @return
 	 */
-	public boolean isCustom( )
-	{
+	public boolean isCustom() {
 		return false;
 	}
 
@@ -1710,33 +1538,28 @@ public class LegendImpl extends BlockImpl implements Legend
 	 *      org.eclipse.birt.chart.model.Chart,
 	 *      org.eclipse.birt.chart.factory.RunTimeContext)
 	 */
-	public final Size getPreferredSize( IDisplayServer xs, Chart cm,
-			RunTimeContext rtc ) throws ChartException
-	{
+	public final Size getPreferredSize(IDisplayServer xs, Chart cm,
+			RunTimeContext rtc) throws ChartException {
 		Size sz;
 
 		// TODO check context consistency.
 
-		if ( rtc != null
-				&& rtc.getLegendLayoutHints( ) != null
-				&& rtc.getLegendLayoutHints( ).getLegendSize( ) != null )
-		{
-			sz = rtc.getLegendLayoutHints( ).getLegendSize( );
-		}
-		else
-		{
+		if (rtc != null && rtc.getLegendLayoutHints() != null
+				&& rtc.getLegendLayoutHints().getLegendSize() != null) {
+			sz = rtc.getLegendLayoutHints().getLegendSize();
+		} else {
 			// COMPUTE THE LEGEND CONTENT (TO ENSURE THAT THE PREFERRED SIZE IS
 			// OBTAINED)
-			final LegendBuilder lb = new LegendBuilder( );
-			final SeriesDefinition[] seda = cm.getSeriesForLegend( );
-			sz = lb.compute( xs, cm, seda, rtc );
+			final LegendBuilder lb = new LegendBuilder();
+			final SeriesDefinition[] seda = cm.getSeriesForLegend();
+			sz = lb.compute(xs, cm, seda, rtc);
 		}
 
 		// CONVERT TO POINTS
-		sz = sz.scaleInstance( 72d / xs.getDpiResolution( ) );
-		final Insets ins = this.getInsets( );
-		sz.setWidth( sz.getWidth( ) + ins.getLeft( ) + ins.getRight( ) );
-		sz.setHeight( sz.getHeight( ) + ins.getTop( ) + ins.getBottom( ) );
+		sz = sz.scaleInstance(72d / xs.getDpiResolution());
+		final Insets ins = this.getInsets();
+		sz.setWidth(sz.getWidth() + ins.getLeft() + ins.getRight());
+		sz.setHeight(sz.getHeight() + ins.getTop() + ins.getBottom());
 		return sz;
 	}
 
@@ -1745,10 +1568,9 @@ public class LegendImpl extends BlockImpl implements Legend
 	 * 
 	 * @return
 	 */
-	public static final Block create( )
-	{
-		final Legend lg = LayoutFactory.eINSTANCE.createLegend( );
-		( (LegendImpl) lg ).initialize( );
+	public static final Block create() {
+		final Legend lg = LayoutFactory.eINSTANCE.createLegend();
+		((LegendImpl) lg).initialize();
 		return lg;
 	}
 
@@ -1757,36 +1579,33 @@ public class LegendImpl extends BlockImpl implements Legend
 	 * 
 	 * Note: Manually written
 	 */
-	protected final void initialize( )
-	{
-		super.initialize( );
-		setPosition( Position.RIGHT_LITERAL );
-		setOrientation( Orientation.VERTICAL_LITERAL );
-		setDirection( Direction.TOP_BOTTOM_LITERAL );
-		setItemType( LegendItemType.SERIES_LITERAL );
+	protected final void initialize() {
+		super.initialize();
+		setPosition(Position.RIGHT_LITERAL);
+		setOrientation(Orientation.VERTICAL_LITERAL);
+		setDirection(Direction.TOP_BOTTOM_LITERAL);
+		setItemType(LegendItemType.SERIES_LITERAL);
 
-		Label la = LabelImpl.create( );
-		LineAttributes lia = LineAttributesImpl.create( ColorDefinitionImpl.BLACK( ),
-				LineStyle.SOLID_LITERAL,
-				1 );
-		lia.setVisible( false );
-		la.setOutline( lia );
-		la.setVisible( false );
-		setTitle( la );
-		setTitlePosition( Position.ABOVE_LITERAL );
-		
-		LineAttributes separator = LineAttributesImpl.create( ColorDefinitionImpl.BLACK( ),
-				LineStyle.SOLID_LITERAL,
-				1 );
-		separator.setVisible( true );
-		setSeparator( separator );
+		Label la = LabelImpl.create();
+		LineAttributes lia = LineAttributesImpl.create(ColorDefinitionImpl
+				.BLACK(), LineStyle.SOLID_LITERAL, 1);
+		lia.setVisible(false);
+		la.setOutline(lia);
+		la.setVisible(false);
+		setTitle(la);
+		setTitlePosition(Position.ABOVE_LITERAL);
 
-		final ClientArea ca = LayoutFactory.eINSTANCE.createClientArea( );
-		( (ClientAreaImpl) ca ).initialize( );
-		ca.getInsets( ).set( 2, 2, 2, 2 );
-		setClientArea( ca );
+		LineAttributes separator = LineAttributesImpl.create(
+				ColorDefinitionImpl.BLACK(), LineStyle.SOLID_LITERAL, 1);
+		separator.setVisible(true);
+		setSeparator(separator);
 
-		setText( TextImpl.create( null ) );
+		final ClientArea ca = LayoutFactory.eINSTANCE.createClientArea();
+		((ClientAreaImpl) ca).initialize();
+		ca.getInsets().set(2, 2, 2, 2);
+		setClientArea(ca);
+
+		setText(TextImpl.create(null));
 	}
 
 	/*
@@ -1794,26 +1613,20 @@ public class LegendImpl extends BlockImpl implements Legend
 	 * 
 	 * @see org.eclipse.birt.chart.model.layout.Legend#updateLayout(org.eclipse.birt.chart.model.Chart)
 	 */
-	public final void updateLayout( Chart cm )
-	{
+	public final void updateLayout(Chart cm) {
 		final Legend lg = this;
-		final Plot pl = cm.getPlot( );
-		final EList el = pl.getChildren( );
-		final Position p = lg.getPosition( );
-		final boolean bLegendInsidePlot = p.getValue( ) == Position.INSIDE;
-		final boolean bPlotContainsLegend = el.indexOf( lg ) >= 0;
+		final Plot pl = cm.getPlot();
+		final EList el = pl.getChildren();
+		final Position p = lg.getPosition();
+		final boolean bLegendInsidePlot = p.getValue() == Position.INSIDE;
+		final boolean bPlotContainsLegend = el.indexOf(lg) >= 0;
 
 		// IF PLOT DOESNT CONTAIN LEGEND AND LEGEND IS SUPPOSED TO BE INSIDE
-		if ( !bPlotContainsLegend && bLegendInsidePlot )
-		{
-			el.add( lg ); // ADD LEGEND TO PLOT
-		}
-		else if ( bPlotContainsLegend && !bLegendInsidePlot )
-		{
-			cm.getBlock( ).getChildren( ).add( lg ); // ADD LEGEND TO BLOCK
-		}
-		else
-		{
+		if (!bPlotContainsLegend && bLegendInsidePlot) {
+			el.add(lg); // ADD LEGEND TO PLOT
+		} else if (bPlotContainsLegend && !bLegendInsidePlot) {
+			cm.getBlock().getChildren().add(lg); // ADD LEGEND TO BLOCK
+		} else {
 			// PLOT/LEGEND RELATIONSHIP IS FINE; DON'T DO ANYTHING
 		}
 	}

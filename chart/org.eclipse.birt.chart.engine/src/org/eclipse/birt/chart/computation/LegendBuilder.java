@@ -285,7 +285,7 @@ public final class LegendBuilder implements IConstants
 		 * Checks if current label text should use ellipsis to shorten the
 		 * length.
 		 * 
-		 * @param dExceedingSpace:
+		 * @param dWidthLimit
 		 *            the expected width to be reduced from the text
 		 * @throws ChartException
 		 */
@@ -372,12 +372,97 @@ public final class LegendBuilder implements IConstants
 	}
 
 	private Size sz;
-
+	
 	/**
-	 * The constructor.
+	 * initialize the dAvailableWidth/Height in legendData
+	 * 
+	 * @param legendData
+	 * @param cm
 	 */
-	public LegendBuilder( )
+	private void initAvailableSize( LegendData legendData, final IDisplayServer xs, final Chart cm ) throws ChartException
 	{
+		final Legend lg = cm.getLegend( );
+		final Block bl = cm.getBlock( );
+		final Position lgPosition = lg.getPosition( );
+		final Bounds boFull = bl.getBounds( )
+				.scaledInstance( legendData.dScale );
+		final Insets ins = bl.getInsets( ).scaledInstance( legendData.dScale );
+		final Insets lgIns = lg.getInsets( ).scaledInstance( legendData.dScale );
+
+		int titleWPos = 0;
+		int titleHPos = 0;
+
+		final TitleBlock titleBlock = cm.getTitle( );
+		final Bounds titleBounds = titleBlock.getBounds( )
+				.scaledInstance( legendData.dScale );
+
+		if ( titleBlock.isVisible( ) )
+		{
+			switch ( titleBlock.getAnchor( ).getValue( ) )
+			{
+				case Anchor.EAST :
+				case Anchor.WEST :
+					titleWPos = 1;
+					break;
+				case Anchor.NORTH :
+				case Anchor.NORTH_EAST :
+				case Anchor.NORTH_WEST :
+				case Anchor.SOUTH :
+				case Anchor.SOUTH_EAST :
+				case Anchor.SOUTH_WEST :
+					titleHPos = 1;
+					break;
+			}
+		}
+
+		legendData.dAvailableWidth = boFull.getWidth( ) -
+				ins.getLeft( ) -
+				ins.getRight( ) -
+				lgIns.getLeft( ) -
+				lgIns.getRight( ) -
+				titleBounds.getWidth( ) *
+				titleWPos;
+
+		legendData.dAvailableHeight = boFull.getHeight( ) -
+				ins.getTop( ) -
+				ins.getBottom( ) -
+				lgIns.getTop( ) -
+				lgIns.getBottom( ) -
+				titleBounds.getHeight( ) *
+				titleHPos;
+
+		double dMaxPercent = lg.getMaxPercent( );
+		if ( dMaxPercent < 0 || dMaxPercent > 1 )
+		{
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.GENERATION,
+					Messages.getString("exception.legend.orientation.InvalidMaxPercent"), //$NON-NLS-1$
+					Messages.getResourceBundle( xs.getULocale( ) ) );
+
+		}
+		
+		double dMaxLegendWidth = boFull.getWidth( ) * dMaxPercent;
+		double dMaxLegendHeight = boFull.getHeight( ) * dMaxPercent;
+
+		switch ( lgPosition.getValue( ) )
+		{
+			case Position.LEFT :
+			case Position.RIGHT :
+			case Position.OUTSIDE :
+				if ( legendData.dAvailableWidth > dMaxLegendWidth )
+				{
+					legendData.dAvailableWidth = dMaxLegendWidth;
+				}
+				break;
+			case Position.ABOVE :
+			case Position.BELOW :
+				if ( legendData.dAvailableHeight > dMaxLegendHeight )
+				{
+					legendData.dAvailableHeight = dMaxLegendHeight;
+				}
+				break;
+		}
+
 	}
 
 	/**
@@ -420,7 +505,7 @@ public final class LegendBuilder implements IConstants
 			// INITIALIZATION OF VARS USED IN FOLLOWING LOOPS
 			final Orientation orientation = lg.getOrientation( );
 			final Direction direction = lg.getDirection( );
-			final Position lgPosition = lg.getPosition( );
+//			final Position lgPosition = lg.getPosition( );
 			final boolean bPaletteByCategory = ( lg.getItemType( ).getValue( ) == LegendItemType.CATEGORIES );
 
 			Label la = LabelImpl.create( );
@@ -432,10 +517,6 @@ public final class LegendBuilder implements IConstants
 			la.getCaption( ).setValue( "X" ); //$NON-NLS-1$
 			itm = xs.getTextMetrics( la );
 			legendData.dItemHeight = itm.getFullHeight( );
-
-//			la.getCaption( ).setValue( ELLIPSIS_STRING );
-//			itm.reuse( la );
-//			legendData.dEllipsisWidth = itm.getFullWidth( );
 
 			legendData.dScale = xs.getDpiResolution( ) / 72d;
 			legendData.insCa = ca.getInsets( )
@@ -453,77 +534,11 @@ public final class LegendBuilder implements IConstants
 					+ legendData.insCa.getRight( )
 					+ ( 3 * legendData.dItemHeight ) / 2
 					+ legendData.dHorizontalSpacing;
-//			legendData.dVerticalReservedSpace = legendData.insCa.getTop( )
-//					+ legendData.insCa.getBottom( )
-//					+ legendData.dVerticalSpacing;
 
+			
 			// Get maximum block width/height available
-			final Block bl = cm.getBlock( );
-			final Bounds boFull = bl.getBounds( )
-					.scaledInstance( legendData.dScale );
-			final Insets ins = bl.getInsets( )
-					.scaledInstance( legendData.dScale );
-			final Insets lgIns = lg.getInsets( )
-					.scaledInstance( legendData.dScale );
-
-			int titleWPos = 0;
-			int titleHPos = 0;
-
-			final TitleBlock titleBlock = cm.getTitle( );
-			final Bounds titleBounds = titleBlock.getBounds( )
-					.scaledInstance( legendData.dScale );
-
-			if ( titleBlock.isVisible( ) )
-			{
-				switch ( titleBlock.getAnchor( ).getValue( ) )
-				{
-					case Anchor.EAST :
-					case Anchor.WEST :
-						titleWPos = 1;
-						break;
-					case Anchor.NORTH :
-					case Anchor.NORTH_EAST :
-					case Anchor.NORTH_WEST :
-					case Anchor.SOUTH :
-					case Anchor.SOUTH_EAST :
-					case Anchor.SOUTH_WEST :
-						titleHPos = 1;
-						break;
-				}
-			}
-
-			legendData.dAvailableWidth = boFull.getWidth( )
-					- ins.getLeft( ) - ins.getRight( ) - lgIns.getLeft( )
-					- lgIns.getRight( ) - titleBounds.getWidth( ) * titleWPos;
-
-			legendData.dAvailableHeight = boFull.getHeight( )
-					- ins.getTop( ) - ins.getBottom( ) - lgIns.getTop( )
-					- lgIns.getBottom( ) - titleBounds.getHeight( ) * titleHPos;
-
-			// TODO ...
-			// check 1/3 chart block size constraint for legend block
-			double dMaxLegendWidth = boFull.getWidth( ) / 3;
-			double dMaxLegendHeight = boFull.getHeight( ) / 3;
-
-			switch ( lgPosition.getValue( ) )
-			{
-				case Position.LEFT :
-				case Position.RIGHT :
-				case Position.OUTSIDE :
-					if ( legendData.dAvailableWidth > dMaxLegendWidth )
-					{
-						legendData.dAvailableWidth = dMaxLegendWidth;
-					}
-					break;
-				case Position.ABOVE :
-				case Position.BELOW :
-					if ( legendData.dAvailableHeight > dMaxLegendHeight )
-					{
-						legendData.dAvailableHeight = dMaxLegendHeight;
-					}
-					break;
-			}
-
+			initAvailableSize(legendData, xs, cm);
+			
 			// Calculate if minSlice applicable.
 			boolean bMinSliceDefined = false;
 

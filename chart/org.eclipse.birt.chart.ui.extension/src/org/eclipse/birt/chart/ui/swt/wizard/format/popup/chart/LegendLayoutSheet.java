@@ -80,6 +80,8 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 
 	private transient LocalizedNumberEditorComposite txtWrapping;
 
+	private transient LocalizedNumberEditorComposite txtMaxPercent;
+
 	// private transient Label lblHorizontalSpacing;
 	//
 	// private transient Label lblVerticalSpacing;
@@ -93,6 +95,8 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 	private transient Label lblAnchor;
 
 	private transient Label lblPosition;
+
+	private transient Label lblMaxPercent;
 
 	private transient Label lblOrientation;
 
@@ -231,6 +235,20 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 			txtWrapping.setEnabled( bEnableUI );
 		}
 
+		lblMaxPercent = new Label( cmpLegLeft, SWT.NONE );
+		lblMaxPercent.setText( Messages.getString("LegendLayoutSheet.Label.MaxPercent") ); //$NON-NLS-1$
+		lblMaxPercent.setEnabled( bEnableUI );
+
+		txtMaxPercent = new LocalizedNumberEditorComposite( cmpLegLeft,
+				SWT.BORDER | SWT.SINGLE );
+		{
+			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			txtMaxPercent.setLayoutData( gd );
+			txtMaxPercent.setValue( getBlockForProcessing( ).getMaxPercent( ) );
+			txtMaxPercent.addModifyListener( this );
+			txtMaxPercent.setEnabled( bEnableUI );
+		}
+		
 		// lblVerticalSpacing = new Label( cmpLegLeft, SWT.NONE );
 		// lblVerticalSpacing.setText( Messages.getString(
 		// "BlockAttributeComposite.Lbl.VerticalSpacing" ) ); //$NON-NLS-1$
@@ -330,6 +348,10 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 		if ( e.widget.equals( txtWrapping ) )
 		{
 			getBlockForProcessing( ).setWrappingSize( txtWrapping.getValue( ) );
+		}
+		else if ( e.widget.equals( txtMaxPercent ) )
+		{
+			getBlockForProcessing( ).setMaxPercent( txtMaxPercent.getValue( ) );
 		}
 	}
 

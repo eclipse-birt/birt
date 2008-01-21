@@ -48,6 +48,7 @@ import org.eclipse.birt.chart.model.component.Label;
  *   <li>{@link org.eclipse.birt.chart.model.layout.Legend#isShowPercent <em>Show Percent</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.layout.Legend#isShowTotal <em>Show Total</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.layout.Legend#getWrappingSize <em>Wrapping Size</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.layout.Legend#getMaxPercent <em>Max Percent</em>}</li>
  * </ul>
  * </p>
  *
@@ -55,8 +56,7 @@ import org.eclipse.birt.chart.model.component.Label;
  * @model extendedMetaData="name='Legend' kind='elementOnly'"
  * @generated
  */
-public interface Legend extends Block
-{
+public interface Legend extends Block {
 
 	/**
 	 * Returns the value of the '<em><b>Horizontal Spacing</b></em>' attribute. <!-- begin-user-doc --> Gets the
@@ -74,7 +74,7 @@ public interface Legend extends Block
 	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
 	 * @generated
 	 */
-	int getHorizontalSpacing( );
+	int getHorizontalSpacing();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getHorizontalSpacing <em>Horizontal Spacing</em>}' attribute.
@@ -85,7 +85,7 @@ public interface Legend extends Block
 	 * @see #getHorizontalSpacing()
 	 * @generated
 	 */
-	void setHorizontalSpacing( int value );
+	void setHorizontalSpacing(int value);
 
 	/**
 	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getHorizontalSpacing <em>Horizontal Spacing</em>}' attribute.
@@ -95,7 +95,7 @@ public interface Legend extends Block
 	 * @see #setHorizontalSpacing(int)
 	 * @generated
 	 */
-	void unsetHorizontalSpacing( );
+	void unsetHorizontalSpacing();
 
 	/**
 	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getHorizontalSpacing <em>Horizontal Spacing</em>}' attribute is set.
@@ -106,7 +106,7 @@ public interface Legend extends Block
 	 * @see #setHorizontalSpacing(int)
 	 * @generated
 	 */
-	boolean isSetHorizontalSpacing( );
+	boolean isSetHorizontalSpacing();
 
 	/**
 	 * Returns the value of the '<em><b>Vertical Spacing</b></em>' attribute. <!-- begin-user-doc --> Gets the
@@ -124,7 +124,7 @@ public interface Legend extends Block
 	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
 	 * @generated
 	 */
-	int getVerticalSpacing( );
+	int getVerticalSpacing();
 
 	/**
 	 * Sets the value of the '
@@ -138,7 +138,7 @@ public interface Legend extends Block
 	 * @see #getVerticalSpacing()
 	 * @generated
 	 */
-	void setVerticalSpacing( int value );
+	void setVerticalSpacing(int value);
 
 	/**
 	 * Unsets the value of the '
@@ -150,7 +150,7 @@ public interface Legend extends Block
 	 * @see #setVerticalSpacing(int)
 	 * @generated
 	 */
-	void unsetVerticalSpacing( );
+	void unsetVerticalSpacing();
 
 	/**
 	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getVerticalSpacing <em>Vertical Spacing</em>}' attribute is set.
@@ -161,7 +161,7 @@ public interface Legend extends Block
 	 * @see #setVerticalSpacing(int)
 	 * @generated
 	 */
-	boolean isSetVerticalSpacing( );
+	boolean isSetVerticalSpacing();
 
 	/**
 	 * Returns the value of the '<em><b>Client Area</b></em>' containment reference. <!-- begin-user-doc --> Gets
@@ -178,7 +178,7 @@ public interface Legend extends Block
 	 * @model containment="true" resolveProxies="false" required="true"
 	 * @generated
 	 */
-	ClientArea getClientArea( );
+	ClientArea getClientArea();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getClientArea <em>Client Area</em>}' containment reference.
@@ -187,7 +187,7 @@ public interface Legend extends Block
 	 * @see #getClientArea()
 	 * @generated
 	 */
-	void setClientArea( ClientArea value );
+	void setClientArea(ClientArea value);
 
 	/**
 	 * Returns the value of the '<em><b>Text</b></em>' containment reference. <!-- begin-user-doc --> Gets the text
@@ -204,7 +204,7 @@ public interface Legend extends Block
 	 * @model containment="true" resolveProxies="false" required="true"
 	 * @generated
 	 */
-	Text getText( );
+	Text getText();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getText <em>Text</em>}' containment reference.
@@ -213,7 +213,7 @@ public interface Legend extends Block
 	 * @see #getText()
 	 * @generated
 	 */
-	void setText( Text value );
+	void setText(Text value);
 
 	/**
 	 * Returns the value of the '<em><b>Orientation</b></em>' attribute. The default value is
@@ -235,7 +235,7 @@ public interface Legend extends Block
 	 * @model default="Horizontal" unique="false" unsettable="true" required="true"
 	 * @generated
 	 */
-	Orientation getOrientation( );
+	Orientation getOrientation();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getOrientation <em>Orientation</em>}' attribute.
@@ -247,7 +247,7 @@ public interface Legend extends Block
 	 * @see #getOrientation()
 	 * @generated
 	 */
-	void setOrientation( Orientation value );
+	void setOrientation(Orientation value);
 
 	/**
 	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getOrientation <em>Orientation</em>}' attribute.
@@ -257,7 +257,7 @@ public interface Legend extends Block
 	 * @see #setOrientation(Orientation)
 	 * @generated
 	 */
-	void unsetOrientation( );
+	void unsetOrientation();
 
 	/**
 	 * Returns whether the value of the '
@@ -270,7 +270,7 @@ public interface Legend extends Block
 	 * @see #setOrientation(Orientation)
 	 * @generated
 	 */
-	boolean isSetOrientation( );
+	boolean isSetOrientation();
 
 	/**
 	 * Returns the value of the '<em><b>Direction</b></em>' attribute. The default value is
@@ -292,7 +292,7 @@ public interface Legend extends Block
 	 * @model default="Left_Right" unique="false" unsettable="true" required="true"
 	 * @generated
 	 */
-	Direction getDirection( );
+	Direction getDirection();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getDirection <em>Direction</em>}' attribute.
@@ -304,7 +304,7 @@ public interface Legend extends Block
 	 * @see #getDirection()
 	 * @generated
 	 */
-	void setDirection( Direction value );
+	void setDirection(Direction value);
 
 	/**
 	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getDirection <em>Direction</em>}' attribute.
@@ -314,7 +314,7 @@ public interface Legend extends Block
 	 * @see #setDirection(Direction)
 	 * @generated
 	 */
-	void unsetDirection( );
+	void unsetDirection();
 
 	/**
 	 * Returns whether the value of the '
@@ -327,7 +327,7 @@ public interface Legend extends Block
 	 * @see #setDirection(Direction)
 	 * @generated
 	 */
-	boolean isSetDirection( );
+	boolean isSetDirection();
 
 	/**
 	 * Returns the value of the '<em><b>Separator</b></em>' containment reference. <!-- begin-user-doc --> Gets the
@@ -344,7 +344,7 @@ public interface Legend extends Block
 	 * @model containment="true" resolveProxies="false" required="true"
 	 * @generated
 	 */
-	LineAttributes getSeparator( );
+	LineAttributes getSeparator();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getSeparator <em>Separator</em>}' containment reference.
@@ -353,7 +353,7 @@ public interface Legend extends Block
 	 * @see #getSeparator()
 	 * @generated
 	 */
-	void setSeparator( LineAttributes value );
+	void setSeparator(LineAttributes value);
 
 	/**
 	 * Returns the value of the '<em><b>Position</b></em>' attribute. The default value is <code>"Above"</code>.
@@ -373,7 +373,7 @@ public interface Legend extends Block
 	 * @model default="Above" unique="false" unsettable="true" required="true"
 	 * @generated
 	 */
-	Position getPosition( );
+	Position getPosition();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getPosition <em>Position</em>}' attribute.
@@ -385,7 +385,7 @@ public interface Legend extends Block
 	 * @see #getPosition()
 	 * @generated
 	 */
-	void setPosition( Position value );
+	void setPosition(Position value);
 
 	/**
 	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getPosition <em>Position</em>}' attribute.
@@ -395,7 +395,7 @@ public interface Legend extends Block
 	 * @see #setPosition(Position)
 	 * @generated
 	 */
-	void unsetPosition( );
+	void unsetPosition();
 
 	/**
 	 * Returns whether the value of the '
@@ -408,7 +408,7 @@ public interface Legend extends Block
 	 * @see #setPosition(Position)
 	 * @generated
 	 */
-	boolean isSetPosition( );
+	boolean isSetPosition();
 
 	/**
 	 * Returns the value of the '<em><b>Item Type</b></em>' attribute. The default value is <code>"Series"</code>.
@@ -428,7 +428,7 @@ public interface Legend extends Block
 	 * @model default="Series" unique="false" unsettable="true" required="true"
 	 * @generated
 	 */
-	LegendItemType getItemType( );
+	LegendItemType getItemType();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getItemType <em>Item Type</em>}' attribute.
@@ -440,7 +440,7 @@ public interface Legend extends Block
 	 * @see #getItemType()
 	 * @generated
 	 */
-	void setItemType( LegendItemType value );
+	void setItemType(LegendItemType value);
 
 	/**
 	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getItemType <em>Item Type</em>}' attribute.
@@ -450,7 +450,7 @@ public interface Legend extends Block
 	 * @see #setItemType(LegendItemType)
 	 * @generated
 	 */
-	void unsetItemType( );
+	void unsetItemType();
 
 	/**
 	 * Returns whether the value of the '
@@ -463,7 +463,7 @@ public interface Legend extends Block
 	 * @see #setItemType(LegendItemType)
 	 * @generated
 	 */
-	boolean isSetItemType( );
+	boolean isSetItemType();
 
 	/**
 	 * Returns the value of the '<em><b>Title</b></em>' containment reference.
@@ -471,17 +471,18 @@ public interface Legend extends Block
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
-	 * 					A label instance to hold attributes for legend title.
-	 * 					
+	 * 								A label instance to hold attributes for
+	 * 								legend title.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Title</em>' containment reference.
 	 * @see #setTitle(Label)
 	 * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getLegend_Title()
-	 * @model containment="true" resolveProxies="false"
+	 * @model containment="true"
 	 *        extendedMetaData="kind='element' name='Title'"
 	 * @generated
 	 */
-	Label getTitle( );
+	Label getTitle();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getTitle <em>Title</em>}' containment reference.
@@ -491,7 +492,7 @@ public interface Legend extends Block
 	 * @see #getTitle()
 	 * @generated
 	 */
-	void setTitle( Label value );
+	void setTitle(Label value);
 
 	/**
 	 * Returns the value of the '<em><b>Title Position</b></em>' attribute.
@@ -501,8 +502,9 @@ public interface Legend extends Block
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
-	 * 					Specifies where the title for the legend should be displayed.
-	 * 				
+	 * 								Specifies where the title for the legend
+	 * 								should be displayed.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Title Position</em>' attribute.
 	 * @see org.eclipse.birt.chart.model.attribute.Position
@@ -510,11 +512,11 @@ public interface Legend extends Block
 	 * @see #unsetTitlePosition()
 	 * @see #setTitlePosition(Position)
 	 * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getLegend_TitlePosition()
-	 * @model default="Above" unique="false" unsettable="true"
+	 * @model default="Above" unsettable="true"
 	 *        extendedMetaData="kind='element' name='TitlePosition'"
 	 * @generated
 	 */
-	Position getTitlePosition( );
+	Position getTitlePosition();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getTitlePosition <em>Title Position</em>}' attribute.
@@ -527,7 +529,7 @@ public interface Legend extends Block
 	 * @see #getTitlePosition()
 	 * @generated
 	 */
-	void setTitlePosition( Position value );
+	void setTitlePosition(Position value);
 
 	/**
 	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getTitlePosition <em>Title Position</em>}' attribute.
@@ -538,7 +540,7 @@ public interface Legend extends Block
 	 * @see #setTitlePosition(Position)
 	 * @generated
 	 */
-	void unsetTitlePosition( );
+	void unsetTitlePosition();
 
 	/**
 	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getTitlePosition <em>Title Position</em>}' attribute is set.
@@ -550,25 +552,27 @@ public interface Legend extends Block
 	 * @see #setTitlePosition(Position)
 	 * @generated
 	 */
-	boolean isSetTitlePosition( );
+	boolean isSetTitlePosition();
 
 	/**
 	 * Returns the value of the '<em><b>Show Value</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Specifies if show legend item value.
+	 * 
+	 * 								Specifies if show legend item value.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Show Value</em>' attribute.
 	 * @see #isSetShowValue()
 	 * @see #unsetShowValue()
 	 * @see #setShowValue(boolean)
 	 * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getLegend_ShowValue()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
 	 *        extendedMetaData="kind='element' name='ShowValue'"
 	 * @generated
 	 */
-	boolean isShowValue( );
+	boolean isShowValue();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#isShowValue <em>Show Value</em>}' attribute.
@@ -580,7 +584,7 @@ public interface Legend extends Block
 	 * @see #isShowValue()
 	 * @generated
 	 */
-	void setShowValue( boolean value );
+	void setShowValue(boolean value);
 
 	/**
 	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#isShowValue <em>Show Value</em>}' attribute.
@@ -591,7 +595,7 @@ public interface Legend extends Block
 	 * @see #setShowValue(boolean)
 	 * @generated
 	 */
-	void unsetShowValue( );
+	void unsetShowValue();
 
 	/**
 	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#isShowValue <em>Show Value</em>}' attribute is set.
@@ -603,25 +607,28 @@ public interface Legend extends Block
 	 * @see #setShowValue(boolean)
 	 * @generated
 	 */
-	boolean isSetShowValue( );
+	boolean isSetShowValue();
 
 	/**
 	 * Returns the value of the '<em><b>Show Percent</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Specifies if show legend item  value as percentile.
+	 * 
+	 * 								Specifies if show legend item value as
+	 * 								percentile.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Show Percent</em>' attribute.
 	 * @see #isSetShowPercent()
 	 * @see #unsetShowPercent()
 	 * @see #setShowPercent(boolean)
 	 * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getLegend_ShowPercent()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
 	 *        extendedMetaData="kind='element' name='ShowPercent'"
 	 * @generated
 	 */
-	boolean isShowPercent( );
+	boolean isShowPercent();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#isShowPercent <em>Show Percent</em>}' attribute.
@@ -633,7 +640,7 @@ public interface Legend extends Block
 	 * @see #isShowPercent()
 	 * @generated
 	 */
-	void setShowPercent( boolean value );
+	void setShowPercent(boolean value);
 
 	/**
 	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#isShowPercent <em>Show Percent</em>}' attribute.
@@ -644,7 +651,7 @@ public interface Legend extends Block
 	 * @see #setShowPercent(boolean)
 	 * @generated
 	 */
-	void unsetShowPercent( );
+	void unsetShowPercent();
 
 	/**
 	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#isShowPercent <em>Show Percent</em>}' attribute is set.
@@ -656,25 +663,28 @@ public interface Legend extends Block
 	 * @see #setShowPercent(boolean)
 	 * @generated
 	 */
-	boolean isSetShowPercent( );
+	boolean isSetShowPercent();
 
 	/**
 	 * Returns the value of the '<em><b>Show Total</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Specifies if show legend item value total.
+	 * 
+	 * 								Specifies if show legend item value
+	 * 								total.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Show Total</em>' attribute.
 	 * @see #isSetShowTotal()
 	 * @see #unsetShowTotal()
 	 * @see #setShowTotal(boolean)
 	 * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getLegend_ShowTotal()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean"
 	 *        extendedMetaData="kind='element' name='ShowTotal'"
 	 * @generated
 	 */
-	boolean isShowTotal( );
+	boolean isShowTotal();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#isShowTotal <em>Show Total</em>}' attribute.
@@ -686,7 +696,7 @@ public interface Legend extends Block
 	 * @see #isShowTotal()
 	 * @generated
 	 */
-	void setShowTotal( boolean value );
+	void setShowTotal(boolean value);
 
 	/**
 	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#isShowTotal <em>Show Total</em>}' attribute.
@@ -697,7 +707,7 @@ public interface Legend extends Block
 	 * @see #setShowTotal(boolean)
 	 * @generated
 	 */
-	void unsetShowTotal( );
+	void unsetShowTotal();
 
 	/**
 	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#isShowTotal <em>Show Total</em>}' attribute is set.
@@ -709,25 +719,30 @@ public interface Legend extends Block
 	 * @see #setShowTotal(boolean)
 	 * @generated
 	 */
-	boolean isSetShowTotal( );
+	boolean isSetShowTotal();
 
 	/**
 	 * Returns the value of the '<em><b>Wrapping Size</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
-	 * Specifies the maximum string size for each legend item. If the string size is greater than this, it will be wrapped. Zero means no wrap.
+	 * 
+	 * 								Specifies the maximum string size for
+	 * 								each legend item. If the string size is
+	 * 								greater than this, it will be wrapped.
+	 * 								Zero means no wrap.
+	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Wrapping Size</em>' attribute.
 	 * @see #isSetWrappingSize()
 	 * @see #unsetWrappingSize()
 	 * @see #setWrappingSize(double)
 	 * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getLegend_WrappingSize()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
 	 *        extendedMetaData="kind='element' name='WrappingSize'"
 	 * @generated
 	 */
-	double getWrappingSize( );
+	double getWrappingSize();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getWrappingSize <em>Wrapping Size</em>}' attribute.
@@ -739,7 +754,7 @@ public interface Legend extends Block
 	 * @see #getWrappingSize()
 	 * @generated
 	 */
-	void setWrappingSize( double value );
+	void setWrappingSize(double value);
 
 	/**
 	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getWrappingSize <em>Wrapping Size</em>}' attribute.
@@ -750,7 +765,7 @@ public interface Legend extends Block
 	 * @see #setWrappingSize(double)
 	 * @generated
 	 */
-	void unsetWrappingSize( );
+	void unsetWrappingSize();
 
 	/**
 	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getWrappingSize <em>Wrapping Size</em>}' attribute is set.
@@ -762,12 +777,69 @@ public interface Legend extends Block
 	 * @see #setWrappingSize(double)
 	 * @generated
 	 */
-	boolean isSetWrappingSize( );
+	boolean isSetWrappingSize();
+
+	/**
+	 * Returns the value of the '<em><b>Max Percent</b></em>' attribute.
+	 * The default value is <code>"0.33333333"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * 
+	 * 								The maximal percent of space which the
+	 * 								legend can take from the chart block.
+	 * 							
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Max Percent</em>' attribute.
+	 * @see #isSetMaxPercent()
+	 * @see #unsetMaxPercent()
+	 * @see #setMaxPercent(double)
+	 * @see org.eclipse.birt.chart.model.layout.LayoutPackage#getLegend_MaxPercent()
+	 * @model default="0.33333333" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double"
+	 *        extendedMetaData="kind='element' name='MaxPercent'"
+	 * @generated
+	 */
+	double getMaxPercent();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getMaxPercent <em>Max Percent</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Max Percent</em>' attribute.
+	 * @see #isSetMaxPercent()
+	 * @see #unsetMaxPercent()
+	 * @see #getMaxPercent()
+	 * @generated
+	 */
+	void setMaxPercent(double value);
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getMaxPercent <em>Max Percent</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetMaxPercent()
+	 * @see #getMaxPercent()
+	 * @see #setMaxPercent(double)
+	 * @generated
+	 */
+	void unsetMaxPercent();
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.layout.Legend#getMaxPercent <em>Max Percent</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Max Percent</em>' attribute is set.
+	 * @see #unsetMaxPercent()
+	 * @see #getMaxPercent()
+	 * @see #setMaxPercent(double)
+	 * @generated
+	 */
+	boolean isSetMaxPercent();
 
 	/**
 	 * Update the legend's block relationship in the hierarchy w.r.t. the chart model
 	 * 
 	 * @param cm
 	 */
-	void updateLayout( Chart cm );
+	void updateLayout(Chart cm);
 } // Legend
