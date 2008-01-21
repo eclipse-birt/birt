@@ -444,6 +444,11 @@ public class ParameterAccessor
 	public static final String PREFIX_SUB_DOC_FOLDER = "BIRTDOC"; //$NON-NLS-1$
 
 	/**
+	 * Prefix of sub image folder
+	 */
+	public static final String PREFIX_SUB_IMAGE_FOLDER = "BIRTIMG"; //$NON-NLS-1$
+
+	/**
 	 * Default separator
 	 */
 	public static final char DEFAULT_SEP = ',';
@@ -1167,8 +1172,15 @@ public class ParameterAccessor
 
 		// clear image files
 		file = new File( imageFolder );
-		deleteDir( file );
-		makeDir( imageFolder );
+		if ( file != null && file.isDirectory( ) )
+		{
+			String[] children = file.list( );
+			for ( int i = 0; i < children.length; i++ )
+			{
+				if ( children[i].startsWith( PREFIX_SUB_IMAGE_FOLDER ) )
+					deleteDir( new File( file, children[i] ) );
+			}
+		}
 	}
 
 	/**
@@ -1492,8 +1504,6 @@ public class ParameterAccessor
 				.getInitParameter( ParameterAccessor.INIT_PARAM_IMAGE_DIR );
 		if ( isDesigner && initImageFolder == null )
 			initImageFolder = workingPath + IBirtConstants.DEFAULT_IMAGE_FOLDER;
-		else
-			initImageFolder += File.separator + IBirtConstants.SUB_IMAGE_FOLDER;
 		imageFolder = processRealPath( context, initImageFolder,
 				IBirtConstants.DEFAULT_IMAGE_FOLDER, true );
 
@@ -2829,7 +2839,8 @@ public class ParameterAccessor
 		// get session id
 		String sessionId = request.getSession( ).getId( );
 		if ( sessionId != null )
-			tempFolder = tempFolder + File.separator + sessionId;
+			tempFolder = tempFolder + File.separator
+					+ ( PREFIX_SUB_IMAGE_FOLDER + sessionId );
 
 		return tempFolder;
 	}
@@ -2851,7 +2862,8 @@ public class ParameterAccessor
 		deleteDir( file );
 
 		// clear image folder
-		tempFolder = imageFolder + File.separator + sessionId;
+		tempFolder = imageFolder + File.separator
+				+ ( PREFIX_SUB_IMAGE_FOLDER + sessionId );
 		file = new File( tempFolder );
 		deleteDir( file );
 	}
