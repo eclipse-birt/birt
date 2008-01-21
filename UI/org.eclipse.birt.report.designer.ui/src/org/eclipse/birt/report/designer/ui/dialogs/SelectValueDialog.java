@@ -42,7 +42,7 @@ import com.ibm.icu.util.ULocale;
  * values for selection from the data set. It allows both multiple and single
  * selection. The default is single selection.
  * 
- * @version $Revision: 1.26 $ $Date: 2007/11/14 09:06:53 $
+ * @version $Revision: 1.27 $ $Date: 2007/12/21 09:29:00 $
  */
 public class SelectValueDialog extends BaseDialog
 {
@@ -124,7 +124,7 @@ public class SelectValueDialog extends BaseDialog
 		label.setText( Messages.getString( "SelectValueDialog.selectValue" ) ); //$NON-NLS-1$
 
 		selectValueList = new List( composite,
-				isMultipleSelection( ) ? SWT.MULTI : SWT.SINGLE
+				(isMultipleSelection( ) ? SWT.MULTI : SWT.SINGLE)
 						| SWT.V_SCROLL
 						| SWT.H_SCROLL );
 		GridData data = new GridData( GridData.FILL_BOTH );
