@@ -28,7 +28,7 @@
    		<adaptable
          	class="org.eclipse.birt.report.model.api.ExtendedItemHandle">
       		<adapter
-              factory="org.eclipse.birt.chart.reportitem.ui.PageGeneratorFactory"
+              factory="org.eclipse.birt.chart.reportitem.ui.views.attributes.PageGeneratorFactory"
               id="ReportDesign.AttributeView.ChartPageGenerator"
               priority="1"
               singleton="false"
