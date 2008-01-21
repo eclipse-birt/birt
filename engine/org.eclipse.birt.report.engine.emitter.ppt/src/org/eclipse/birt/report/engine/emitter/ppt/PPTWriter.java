@@ -334,7 +334,7 @@ public class PPTWriter
 		{
 			print( "<b>" );
 		}
-		print( text );
+		print( getEscapedStr(text) );
 		if ( isBold )
 		{
 			print( "</b>" );
@@ -665,5 +665,76 @@ public class PPTWriter
 		}
 		imageData = byteArrayStream.toByteArray( );
 		return imageData;
+	}
+
+	protected String getEscapedStr( String s )
+	{
+		StringBuffer result = null;
+		int spacePos = 1;
+		char[] s2char = s.toCharArray( );
+
+		for ( int i = 0, max = s2char.length, delta = 0; i < max; i++ )
+		{
+			char c = s2char[i];
+			String replacement = null;
+			if ( c == ' ' )
+			{
+				if ( spacePos % 2 == 1 || i == max - 1 )
+				{
+					replacement = "&#160;"; //$NON-NLS-1$
+				}
+				spacePos++;
+			}
+			else
+			{
+				spacePos = 0;
+			}
+
+			// Filters the char not defined.
+			if ( !( c == 0x9 || c == 0xA || c == 0xD
+					|| ( c >= 0x20 && c <= 0xD7FF ) || ( c >= 0xE000 && c <= 0xFFFD ) ) )
+			{
+				// Ignores the illegal character.
+				replacement = ""; //$NON-NLS-1$
+			}
+			else if ( c == '&' )
+			{
+				replacement = "&amp;"; //$NON-NLS-1$
+			}
+			else if ( c == '<' )
+			{
+				replacement = "&lt;"; //$NON-NLS-1$
+			}
+			else if ( c == '>' )
+			{
+				replacement = "&gt;"; //$NON-NLS-1$
+			}
+			else if ( c == '\t' )
+			{
+				replacement = " "; //$NON-NLS-1$
+			}
+			else if ( c == '=')
+			{
+				replacement = "=3D";
+			}
+			else if ( c >= 0x80 )
+			{
+				replacement = "&#x" + Integer.toHexString( c ) + ';'; //$NON-NLS-1$ 
+			}
+			if ( replacement != null )
+			{
+				if ( result == null )
+				{
+					result = new StringBuffer( s );
+				}
+				result.replace( i + delta, i + delta + 1, replacement );
+				delta += ( replacement.length( ) - 1 );
+			}
+		}
+		if ( result == null )
+		{
+			return s;
+		}
+		return result.toString( );
 	}
 }
