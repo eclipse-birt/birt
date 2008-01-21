@@ -176,7 +176,8 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 			final double dHeightInPixels = ( idsSWT.getDpiResolution( ) * dHeightInPoints ) / 72d;
 			final double dWidthInPixels = ( idsSWT.getDpiResolution( ) * dWidthInPoints ) / 72d;
 
-			if ( cm != null )
+			// Do not modify size for axis chart
+			if ( cm != null && !crii.hasHostChart( ) )
 			{
 				if ( dWidthInPoints > 0 )
 					cm.getBlock( ).getBounds( ).setWidth( dWidthInPoints );

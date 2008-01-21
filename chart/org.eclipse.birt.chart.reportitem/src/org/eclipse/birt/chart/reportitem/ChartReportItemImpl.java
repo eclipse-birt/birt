@@ -82,9 +82,9 @@ public final class ChartReportItemImpl extends ReportItem
 
 	private transient DesignElementHandle handle = null;
 
-	private transient ScaleContext sharedScale = null;
+	private transient DesignElementHandle hostChartHandle = null;
 
-	private transient boolean hasHostChart = false;
+	private transient ScaleContext sharedScale = null;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
@@ -230,7 +230,7 @@ public final class ChartReportItemImpl extends ReportItem
 		if ( propName != null
 				&& propName.equalsIgnoreCase( ChartReportItemUtil.PROPERTY_XMLPRESENTATION ) )
 		{
-			if ( !hasHostChart )
+			if ( !hasHostChart( ) )
 			{
 				// If it doesn't reference to host chart, serialize it,
 				// otherwise, do nothing.
@@ -647,8 +647,7 @@ public final class ChartReportItemImpl extends ReportItem
 		{
 			// Use the reference if it references host chart
 			cm = ChartReportItemUtil.getChartFromHandle( (ExtendedItemHandle) hostChart );
-			handle = hostChart;
-			hasHostChart = true;
+			hostChartHandle = hostChart;
 		}
 	}
 
@@ -680,6 +679,15 @@ public final class ChartReportItemImpl extends ReportItem
 				propName,
 				getProperty( propName ),
 				value );
+
+		if ( hasHostChart( ) )
+		{
+			// Also update host handle
+			executeSetSimplePropertyCommand( hostChartHandle,
+					propName,
+					getProperty( propName ),
+					value );
+		}
 
 		// if ( oDesignerRepresentation != null )
 		// {
@@ -895,6 +903,6 @@ public final class ChartReportItemImpl extends ReportItem
 	 */
 	public boolean hasHostChart( )
 	{
-		return this.hasHostChart;
+		return hostChartHandle != null;
 	}
 }

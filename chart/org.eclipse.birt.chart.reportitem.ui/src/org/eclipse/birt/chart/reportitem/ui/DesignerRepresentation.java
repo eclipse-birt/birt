@@ -120,6 +120,20 @@ public final class DesignerRepresentation extends Figure
 		bRtL = ChartReportItemUtil.isRtl( );
 
 		this.crii = crii;
+		updateChartModelAndSize( );
+
+		try
+		{
+			idr = PluginSettings.instance( ).getDevice( "dv.SWT" ); //$NON-NLS-1$
+		}
+		catch ( ChartException pex )
+		{
+			logger.log( pex );
+		}
+	}
+
+	private void updateChartModelAndSize( )
+	{
 		if ( crii != null )
 		{
 			cm = (Chart) crii.getProperty( ChartReportItemUtil.PROPERTY_CHART );
@@ -142,11 +156,15 @@ public final class DesignerRepresentation extends Figure
 			// GET THE MODEL WRAPPED INSIDE THE REPORT ITEM IMPL
 			if ( cm != null )
 			{
-				final IDisplayServer idsSWT = ChartUIUtil.getDisplayServer( ); // REUSE
-				final Bounds bo = cm.getBlock( )
-						.getBounds( )
-						.scaledInstance( 72d / idsSWT.getDpiResolution( ) );
-				setSize( (int) bo.getWidth( ), (int) bo.getHeight( ) );
+				// Do not modify size for axis chart
+				if ( !crii.hasHostChart( ) )
+				{
+					final IDisplayServer idsSWT = ChartUIUtil.getDisplayServer( ); // REUSE
+					final Bounds bo = cm.getBlock( )
+							.getBounds( )
+							.scaledInstance( 72d / idsSWT.getDpiResolution( ) );
+					setSize( (int) bo.getWidth( ), (int) bo.getHeight( ) );
+				}
 			}
 			else
 			{
@@ -159,15 +177,6 @@ public final class DesignerRepresentation extends Figure
 			setSize( (int) ChartReportItemUtil.DEFAULT_CHART_BLOCK_WIDTH,
 					(int) ChartReportItemUtil.DEFAULT_CHART_BLOCK_HEIGHT );
 		}
-
-		try
-		{
-			idr = PluginSettings.instance( ).getDevice( "dv.SWT" ); //$NON-NLS-1$
-		}
-		catch ( ChartException pex )
-		{
-			logger.log( pex );
-		}
 	}
 
 	/**
@@ -177,6 +186,7 @@ public final class DesignerRepresentation extends Figure
 	final void setDirty( boolean bDirty )
 	{
 		this.bDirty = bDirty;
+		updateChartModelAndSize( );
 	}
 
 	/*
