@@ -27,7 +27,6 @@ import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ChartReportStyleProcessor;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
-import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
@@ -39,6 +38,7 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
@@ -71,6 +71,8 @@ public final class DesignerRepresentation extends Figure
 	 * 
 	 */
 	private final ChartReportItemImpl crii;
+
+	private transient Chart cm;
 
 	/**
 	 * 
@@ -120,7 +122,23 @@ public final class DesignerRepresentation extends Figure
 		this.crii = crii;
 		if ( crii != null )
 		{
-			final Chart cm = (Chart) crii.getProperty( ChartReportItemUtil.PROPERTY_CHART );
+			cm = (Chart) crii.getProperty( ChartReportItemUtil.PROPERTY_CHART );
+
+			if ( ChartReportItemUtil.isChartInXTab( crii.getHandle( ) ) )
+			{
+				// In xtab cell, there are two types of chart handle
+				if ( !crii.hasHostChart( ) )
+				{
+					// Plot chart without host chart
+					cm = ChartReportItemUtil.updateModelToRenderPlot( (Chart) EcoreUtil.copy( cm ) );
+				}
+				else
+				{
+					// Axis chart with host chart
+					cm = ChartReportItemUtil.updateModelToRenderAxis( (Chart) EcoreUtil.copy( cm ) );
+				}
+			}
+
 			// GET THE MODEL WRAPPED INSIDE THE REPORT ITEM IMPL
 			if ( cm != null )
 			{
@@ -132,14 +150,14 @@ public final class DesignerRepresentation extends Figure
 			}
 			else
 			{
-				setSize( (int) ChartWizard.DEFAULT_CHART_BLOCK_WIDTH,
-						(int) ChartWizard.DEFAULT_CHART_BLOCK_HEIGHT );
+				setSize( (int) ChartReportItemUtil.DEFAULT_CHART_BLOCK_WIDTH,
+						(int) ChartReportItemUtil.DEFAULT_CHART_BLOCK_HEIGHT );
 			}
 		}
 		else
 		{
-			setSize( (int) ChartWizard.DEFAULT_CHART_BLOCK_WIDTH,
-					(int) ChartWizard.DEFAULT_CHART_BLOCK_HEIGHT );
+			setSize( (int) ChartReportItemUtil.DEFAULT_CHART_BLOCK_WIDTH,
+					(int) ChartReportItemUtil.DEFAULT_CHART_BLOCK_HEIGHT );
 		}
 
 		try
@@ -233,7 +251,6 @@ public final class DesignerRepresentation extends Figure
 		// TODO this is a temp solution, better not refresh model here. and this
 		// can not handle all the cases.
 		setSize( dim.width, dim.height );
-		Chart cm = (Chart) crii.getProperty( ChartReportItemUtil.PROPERTY_CHART );
 		if ( cm != null )
 		{
 			IDisplayServer ids = ChartUIUtil.getDisplayServer( );
@@ -273,7 +290,6 @@ public final class DesignerRepresentation extends Figure
 		{
 			bDirty = false;
 			// GET THE MODEL WRAPPED INSIDE THE REPORT ITEM IMPL
-			final Chart cm = (Chart) crii.getProperty( ChartReportItemUtil.PROPERTY_CHART ); 
 			if ( cm == null )
 			{
 				bPainting = false;

@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.chart.model.Chart;
-import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
@@ -47,11 +46,6 @@ public class ChartWizard extends WizardBase
 	private static final int CHART_WIZARD_WIDTH_MINMUM = 690;
 
 	private static final int CHART_WIZARD_HEIGHT_MINMUM = 670;
-
-	public static final double DEFAULT_CHART_BLOCK_HEIGHT = 130;
-
-	public static final double DEFAULT_CHART_BLOCK_WIDTH = 212;
-
 
 	/**
 	 * Indicates whether the popup is being closed by users
@@ -97,25 +91,6 @@ public class ChartWizard extends WizardBase
 		if ( task instanceof ITaskChangeListener )
 		{
 			adapter.addListener( (ITaskChangeListener) task );
-		}
-	}
-
-	/**
-	 * Resizes chart with a default value when the size is zero or null
-	 * 
-	 * @param chartModelCurrent
-	 *            chart model
-	 */
-	public void resizeChart( Chart chartModelCurrent )
-	{
-		if ( chartModelCurrent.getBlock( ).getBounds( ) == null
-				|| chartModelCurrent.getBlock( ).getBounds( ).getWidth( ) == 0
-				|| chartModelCurrent.getBlock( ).getBounds( ).getHeight( ) == 0 )
-		{
-			chartModelCurrent.getBlock( ).setBounds( BoundsImpl.create( 0,
-					0,
-					DEFAULT_CHART_BLOCK_WIDTH,
-					DEFAULT_CHART_BLOCK_HEIGHT ) );
 		}
 	}
 
@@ -210,7 +185,7 @@ public class ChartWizard extends WizardBase
 			getDialog( ).getShell( ).setText( WIZARD_TITLE_EDIT );
 		}
 	}
-	
+
 	/**
 	 * Updates Apply button with enabled status.
 	 * 

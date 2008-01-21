@@ -58,8 +58,9 @@ import com.ibm.icu.text.NumberFormat;
 /**
  * ChartReportItemBuilderImpl
  */
-public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
-		IUIServiceProvider
+public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
+		implements
+			IUIServiceProvider
 {
 
 	private static int iInstanceCount = 0;
@@ -102,7 +103,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			return Window.CANCEL;
 		}
 		iInstanceCount++;
-		
+
 		DesignElementHandle hostChart = eih.getElementProperty( ChartReportItemUtil.PROPERTY_HOST_CHART );
 		if ( hostChart instanceof ExtendedItemHandle )
 		{
@@ -111,7 +112,8 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 		}
 		else
 		{
-			// Set the ExtendedItemHandle instance (for use by the Chart Builder UI
+			// Set the ExtendedItemHandle instance (for use by the Chart Builder
+			// UI
 			this.extendedHandle = eih;
 		}
 
@@ -138,7 +140,8 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 				return Window.CANCEL;
 			}
 
-			final CommandStack commandStack = extendedHandle.getRoot( ).getCommandStack( );
+			final CommandStack commandStack = extendedHandle.getRoot( )
+					.getCommandStack( );
 			final String TRANS_NAME = "chart builder internal transaction"; //$NON-NLS-1$
 			commandStack.startTrans( TRANS_NAME );
 
@@ -181,7 +184,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			} );
 
 			context.setRtL( ChartReportItemUtil.isRtl( ) );
-			Object of = extendedHandle.getProperty( ChartReportItemUtil.PROPERTY_OUTPUT ); 
+			Object of = extendedHandle.getProperty( ChartReportItemUtil.PROPERTY_OUTPUT );
 			if ( of instanceof String )
 			{
 				// GIF is deprecated in favor of PNG. Automatically update
@@ -194,7 +197,8 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 					context.setOutputFormat( (String) of );
 			}
 			context.setExtendedItem( extendedHandle );
-			context.setProcessor( new ChartReportStyleProcessor( extendedHandle, false ) );
+			context.setProcessor( new ChartReportStyleProcessor( extendedHandle,
+					false ) );
 			ChartWizardContext contextResult = (ChartWizardContext) chartBuilder.open( null,
 					taskId,
 					context );
@@ -265,7 +269,14 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			crii.executeSetModelCommand( eih, cmOld, cmNew );
 
 			// Resizes chart with a default value when the size is zero or null
-			chartBuilder.resizeChart( cmNew );
+			if ( cmNew.getBlock( ).getBounds( ) == null
+					|| cmNew.getBlock( ).getBounds( ).getWidth( ) == 0
+					|| cmNew.getBlock( ).getBounds( ).getHeight( ) == 0 )
+			{
+				cmNew.getBlock( )
+						.setBounds( ChartReportItemUtil.createDefaultChartBounds( crii,
+								cmNew ) );
+			}
 
 			final Bounds bo = cmNew.getBlock( ).getBounds( );
 
@@ -512,7 +523,6 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 				}
 		}
 
-
 		return value;
 	}
 
@@ -520,12 +530,12 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 	{
 		return true;
 	}
-	
+
 	public boolean isEclipseModeSupported( )
 	{
 		return true;
 	}
-	
+
 	/**
 	 * Returns the categories list in BIRT chart expression builder
 	 * 
@@ -552,18 +562,19 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 		}
 		else if ( builderCommand == COMMAND_EXPRESSION_TRIGGERS_SIMPLE )
 		{
-			return ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS | ChartExpressionProvider.CATEGORY_WITH_JAVASCRIPT;
+			return ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS
+					| ChartExpressionProvider.CATEGORY_WITH_JAVASCRIPT;
 		}
 		else if ( builderCommand == COMMAND_HYPERLINK )
 		{
 			return ChartExpressionProvider.CATEGORY_WITH_BIRT_VARIABLES
-			| ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS;
+					| ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS;
 		}
 		else if ( builderCommand == COMMAND_HYPERLINK_DATAPOINTS )
 		{
 			return ChartExpressionProvider.CATEGORY_WITH_BIRT_VARIABLES
-			| ChartExpressionProvider.CATEGORY_WITH_COLUMN_BINDINGS
-			| ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS;
+					| ChartExpressionProvider.CATEGORY_WITH_COLUMN_BINDINGS
+					| ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS;
 		}
 		return ChartExpressionProvider.CATEGORY_BASE;
 	}

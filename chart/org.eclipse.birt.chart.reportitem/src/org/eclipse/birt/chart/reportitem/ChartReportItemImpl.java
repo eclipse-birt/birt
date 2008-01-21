@@ -83,7 +83,7 @@ public final class ChartReportItemImpl extends ReportItem
 	private transient DesignElementHandle handle = null;
 
 	private transient ScaleContext sharedScale = null;
-	
+
 	private transient boolean hasHostChart = false;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
@@ -639,7 +639,7 @@ public final class ChartReportItemImpl extends ReportItem
 		}
 		return null;
 	}
-	
+
 	private void initHostChart( )
 	{
 		DesignElementHandle hostChart = handle.getElementProperty( ChartReportItemUtil.PROPERTY_HOST_CHART );
@@ -882,5 +882,19 @@ public final class ChartReportItemImpl extends ReportItem
 			logger.log( e );
 			return null;
 		}
+	}
+
+	/**
+	 * Checks if the handle has host chart reference. In xtab cell, there are
+	 * two types of chart handle. The one is axis chart with host chart, and the
+	 * other is plot chart without host chart. For the other cases, not in xtab,
+	 * it's always chart without host chart.
+	 * 
+	 * @return true for axis chart, false for plot chart or ordinary chart.
+	 * @since 2.3
+	 */
+	public boolean hasHostChart( )
+	{
+		return this.hasHostChart;
 	}
 }

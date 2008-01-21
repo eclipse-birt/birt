@@ -15,11 +15,13 @@ import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
+import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.ui.extensions.ReportItemFigureProvider;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -85,10 +87,20 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 	{
 		try
 		{
+			eih.loadExtendedElement( );
+			final ChartReportItemImpl crii = (ChartReportItemImpl) eih.getReportItem( );
+			// UPDATE THE MODEL
+			crii.setHandle( eih );
+
+			final Chart cm = (Chart) crii.getProperty( ChartReportItemUtil.PROPERTY_CHART );
+
+			Bounds defaultBounds = ChartReportItemUtil.createDefaultChartBounds( crii,
+					cm );
+
 			// Default size for null dimension
-			double dHeightInPoints = ChartWizard.DEFAULT_CHART_BLOCK_HEIGHT;
-			double dWidthInPoints = ChartWizard.DEFAULT_CHART_BLOCK_WIDTH;		
-			
+			double dHeightInPoints = defaultBounds.getHeight( );
+			double dWidthInPoints = defaultBounds.getWidth( );
+
 			final DimensionHandle dhHeight = eih.getHeight( );
 			final DimensionHandle dhWidth = eih.getWidth( );
 
@@ -99,11 +111,12 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 			String sWidthUnits = dhWidth.getUnits( );
 
 			// USE THE SWT DISPLAY SERVER TO CONVERT POINTS TO PIXELS
-			final IDisplayServer idsSWT = ChartUIUtil.getDisplayServer( ); 
-			
+			final IDisplayServer idsSWT = ChartUIUtil.getDisplayServer( );
+
 			if ( sHeightUnits != null )
-			{				
-				// Convert from pixels to points first...since DimensionUtil does
+			{
+				// Convert from pixels to points first...since DimensionUtil
+				// does
 				// not provide conversion services to and from Pixels
 				if ( sHeightUnits == DesignChoiceConstants.UNITS_PX )
 				{
@@ -127,9 +140,9 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 				}
 				dHeightInPoints = DimensionUtil.convertTo( dOriginalHeight,
 						sHeightUnits,
-						DesignChoiceConstants.UNITS_PT ).getMeasure( );				
+						DesignChoiceConstants.UNITS_PT ).getMeasure( );
 			}
-			
+
 			if ( sWidthUnits != null )
 			{
 				// Convert from pixels to points first...since DimensionUtil
@@ -157,28 +170,12 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 				}
 				dWidthInPoints = DimensionUtil.convertTo( dOriginalWidth,
 						sWidthUnits,
-						DesignChoiceConstants.UNITS_PT ).getMeasure( );				
+						DesignChoiceConstants.UNITS_PT ).getMeasure( );
 			}
-			
+
 			final double dHeightInPixels = ( idsSWT.getDpiResolution( ) * dHeightInPoints ) / 72d;
 			final double dWidthInPixels = ( idsSWT.getDpiResolution( ) * dWidthInPoints ) / 72d;
 
-			final ChartReportItemImpl crii;
-			// UPDATE THE MODEL
-			try
-			{
-				eih.loadExtendedElement( );
-				crii = (ChartReportItemImpl) eih.getReportItem( );
-
-				// update the handle relationship.
-				crii.setHandle( eih );
-			}
-			catch ( ExtendedElementException eeex )
-			{
-				logger.log( eeex );
-				return;
-			}
-			final Chart cm = (Chart) crii.getProperty( "chart.instance" ); //$NON-NLS-1$
 			if ( cm != null )
 			{
 				if ( dWidthInPoints > 0 )
@@ -199,7 +196,7 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 				newSize.height = (int) dHeightInPixels;
 			ifg.setSize( newSize );
 		}
-		catch ( Exception ex )
+		catch ( BirtException ex )
 		{
 			logger.log( ex );
 		}

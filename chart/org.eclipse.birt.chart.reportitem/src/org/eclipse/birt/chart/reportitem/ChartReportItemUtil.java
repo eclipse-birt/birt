@@ -23,11 +23,14 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
+import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
+import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
@@ -89,6 +92,10 @@ public class ChartReportItemUtil
 	public static final String PROPERTY_OUTPUT = "outputFormat"; //$NON-NLS-1$
 	public static final String PROPERTY_CUBE_FILTER = "cubeFilter";//$NON-NLS-1$
 	public static final String PROPERTY_HOST_CHART = "hostChart";//$NON-NLS-1$
+
+	public static final double DEFAULT_CHART_BLOCK_HEIGHT = 130;
+	public static final double DEFAULT_CHART_BLOCK_WIDTH = 212;
+	public static final double DEFAULT_AXIS_CHART_BLOCK_SIZE = 50;
 
 	public synchronized static ICubeElementFactory getCubeElementFactory( )
 			throws BirtException
@@ -926,6 +933,11 @@ public class ChartReportItemUtil
 			yAxis.setLabelPosition( bTransposed ? Position.LEFT_LITERAL
 					: Position.RIGHT_LITERAL );
 			yAxis.setLabelWithinAxes( true );
+			if ( bTransposed )
+			{
+				// Show axis in the top in vertical direction
+				yAxis.getOrigin( ).setType( IntersectionType.MAX_LITERAL );
+			}
 		}
 		else
 		{
@@ -954,5 +966,48 @@ public class ChartReportItemUtil
 					DesignChoiceConstants.UNITS_PT ).getMeasure( );
 		}
 		return retValue;
+	}
+
+	/**
+	 * Creates the default bounds for chart model.
+	 * 
+	 * @param crii
+	 *            ChartReportItemImpl
+	 * @param cm
+	 *            chart model
+	 * @return default bounds
+	 * @since 2.3
+	 */
+	public static Bounds createDefaultChartBounds( ChartReportItemImpl crii,
+			Chart cm )
+	{
+		// Axis chart case
+		if ( crii.hasHostChart( ) )
+		{
+			// Axis chart must be ChartWithAxes
+			ChartWithAxes cmWA = (ChartWithAxes) cm;
+			if ( cmWA.isTransposed( ) )
+			{
+				return BoundsImpl.create( 0,
+						0,
+						DEFAULT_CHART_BLOCK_WIDTH,
+						DEFAULT_AXIS_CHART_BLOCK_SIZE );
+			}
+			else
+			{
+				return BoundsImpl.create( 0,
+						0,
+						DEFAULT_AXIS_CHART_BLOCK_SIZE,
+						DEFAULT_CHART_BLOCK_HEIGHT );
+			}
+		}
+		// Plot or ordinary chart case
+		else
+		{
+			return BoundsImpl.create( 0,
+					0,
+					DEFAULT_CHART_BLOCK_WIDTH,
+					DEFAULT_CHART_BLOCK_HEIGHT );
+		}
 	}
 }
