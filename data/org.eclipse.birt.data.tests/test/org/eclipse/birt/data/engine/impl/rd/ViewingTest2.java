@@ -33,6 +33,8 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
+import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 
 import testutil.ConfigText;
 
@@ -1414,6 +1416,11 @@ public class ViewingTest2 extends RDTestCase
 		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
 				fileName,
 				fileName );
+		if( myPreDataEngine != null )
+		{
+			myPreDataEngine.shutdown( );
+			myGenDataEngine.clearCache( dataSource, dataSet );
+		}
 		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
 		this.UPDATE_add_same_group = true;
 		this.UPDATE_add_subquery = 1;
@@ -2546,6 +2553,7 @@ public class ViewingTest2 extends RDTestCase
 		ri.close( );
 		qr.close( );
 		myGenDataEngine.shutdown( );
+		myGenDataEngine.clearCache( dataSource, dataSet );
 	}
 	
 	/**
