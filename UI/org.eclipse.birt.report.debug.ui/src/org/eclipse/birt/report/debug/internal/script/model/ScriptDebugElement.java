@@ -77,7 +77,7 @@ public abstract class ScriptDebugElement extends PlatformObject implements
 	 */
 	public Object getAdapter( Class adapter )
 	{
-		if ( adapter == IDebugElement.class )
+		if ( adapter == IDebugElement.class || adapter==ScriptDebugElement.class)
 		{
 			return this;
 		}

@@ -38,7 +38,10 @@ public class ScriptDirectorySourceContainer extends DirectorySourceContainer
 	public Object[] findSourceElements( String name ) throws CoreException
 	{
 		int index = name.lastIndexOf( File.separator );
-
+		if (index < 0)
+		{
+			return EMPTY;
+		}
 		String id = name.substring( index + 1 );
 
 		String tName = name.substring( 0, index );

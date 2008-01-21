@@ -115,7 +115,7 @@ public class ScriptEvaluationContextManager implements
 				Object element = ss.getFirstElement( );
 				if ( element instanceof IAdaptable )
 				{
-					ScriptDebugElement frame = (ScriptDebugElement) ( (IAdaptable) element ).getAdapter( IDebugElement.class );
+					ScriptDebugElement frame = (ScriptDebugElement) ( (IAdaptable) element ).getAdapter( ScriptDebugElement.class );
 
 					if ( frame != null )
 					{
