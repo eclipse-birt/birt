@@ -712,6 +712,10 @@ public class PPTWriter
 			{
 				replacement = " "; //$NON-NLS-1$
 			}
+			else if ( c == '=')
+			{
+				replacement = "=3D";
+			}
 			else if ( c >= 0x80 )
 			{
 				replacement = "&#x" + Integer.toHexString( c ) + ';'; //$NON-NLS-1$ 
