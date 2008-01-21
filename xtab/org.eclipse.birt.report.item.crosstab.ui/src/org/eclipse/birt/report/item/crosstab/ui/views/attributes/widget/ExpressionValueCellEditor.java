@@ -18,9 +18,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
-import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.data.adapter.api.DimensionLevel;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
@@ -60,7 +60,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * Expression value cell editor
  * 
- * @version $Revision: 1.11 $ $Date: 2007/11/21 07:10:15 $
+ * @version $Revision: 1.13 $ $Date: 2007/11/30 04:13:15 $
  */
 public class ExpressionValueCellEditor extends CellEditor
 {
@@ -470,18 +470,18 @@ public class ExpressionValueCellEditor extends CellEditor
 		}
 
 		// get List of ILevelDefinition
-		ILevelDefinition[] levelDens = null;
+		DimensionLevel levelDens[] = null;
 		if ( values != null )
 		{
-			levelDens = new ILevelDefinition[values.length];
+			levelDens = new DimensionLevel[values.length];
 			for ( int i = 0; i < values.length; i++ )
 			{
 				Object obj = referencedLevelList.get( i );
-				if ( obj == null || ( !( obj instanceof ILevelDefinition ) ) )
+				if ( obj == null || ( !( obj instanceof DimensionLevel ) ) )
 				{
 					return new ArrayList( );
 				}
-				levelDens[i] = (ILevelDefinition) obj;
+				levelDens[i] = (DimensionLevel) obj;
 			}
 		}
 		else
@@ -499,11 +499,10 @@ public class ExpressionValueCellEditor extends CellEditor
 			index = values.length;
 		}
 
-		ILevelDefinition levelDefn = (ILevelDefinition) referencedLevelList.get( index );
-		String levelName = levelDefn.getName( );
-		String dimensionName = levelDefn.getHierarchy( )
-				.getDimension( )
-				.getName( );
+		DimensionLevel levelDefn = (DimensionLevel) referencedLevelList.get( index );
+	
+		String levelName = levelDefn.getLevelName( );
+		String dimensionName = levelDefn.getDimensionName( );
 		targetLevel = ExpressionUtil.createJSDimensionExpression( dimensionName,
 				levelName );
 
@@ -520,8 +519,7 @@ public class ExpressionValueCellEditor extends CellEditor
 		try
 		{
 			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
-			iter = session.getCubeQueryUtil( )
-					.getMemberValueIterator( tabularCube,
+			iter = session.getCubeQueryUtil( ).getMemberValueIterator(tabularCube,
 							targetLevel,
 							levelDens,
 							values );
