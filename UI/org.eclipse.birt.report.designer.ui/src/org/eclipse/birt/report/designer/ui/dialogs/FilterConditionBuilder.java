@@ -548,7 +548,10 @@ public class FilterConditionBuilder extends TitleAreaDialog
 									.getActiveShell( ),
 									Messages.getString( "ExpressionValueCellEditor.title" ) ); //$NON-NLS-1$
 							dialog.setSelectedValueList( selectValueList );
-							dialog.setMultipleSelection( true );
+							if(isAddClick)
+							{
+								dialog.setMultipleSelection(true);
+							}
 							if ( dialog.open( ) == IDialogConstants.OK_ID )
 							{
 								returnValue = true;
