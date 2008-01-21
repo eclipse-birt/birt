@@ -97,20 +97,20 @@ class ChartCubeQueryHelper
 	{
 		this.handle = handle;
 		this.cm = cm;
-		this.bInXtabDetail = ChartReportItemUtil.isChartInXTab( handle );
+		this.bInXtabDetail = ChartXTabUtil.isChartInXTab( handle );
 	}
 
 	public ICubeQueryDefinition createCubeQuery( IDataQueryDefinition parent )
 			throws BirtException
 	{
-		CubeHandle cubeHandle = ChartReportItemUtil.getBindingCube( handle );
+		CubeHandle cubeHandle = ChartXTabUtil.getBindingCube( handle );
 		if ( cubeHandle == null )
 		{
 			throw new ChartException( ChartReportItemPlugin.ID,
 					ChartException.NULL_DATASET,
 					Messages.getString( "ChartCubeQueryHelper.Error.MustBindCube" ) ); //$NON-NLS-1$
 		}
-		ICubeQueryDefinition cubeQuery = ChartReportItemUtil.getCubeElementFactory( )
+		ICubeQueryDefinition cubeQuery = ChartXTabUtil.getCubeElementFactory( )
 				.createCubeQuery( cubeHandle.getQualifiedName( ) );
 
 		// Add column bindings from handle
@@ -134,6 +134,14 @@ class ChartCubeQueryHelper
 			// Add measures or dimensions for optional grouping, and update
 			// query expression
 			bindSeriesQuery( sd.getQuery( ), cubeQuery, cubeHandle );
+
+			// Iterator triggers = sd.getDesignTimeSeries( ).getTriggers(
+			// ).iterator( );
+			// while(triggers.hasNext( ))
+			// {
+			// Trigger trigger = (Trigger)triggers.next( );
+			// trigger.getTriggerFlow( );
+			// }
 		}
 
 		// Add sorting
@@ -211,7 +219,7 @@ class ChartCubeQueryHelper
 			if ( registeredLevels.containsKey( sortKeyBinding ) )
 			{
 				// Add sorting on dimension
-				ICubeSortDefinition sortDef = ChartReportItemUtil.getCubeElementFactory( )
+				ICubeSortDefinition sortDef = ChartXTabUtil.getCubeElementFactory( )
 						.createCubeSortDefinition( sortKey,
 								(ILevelDefinition) registeredLevels.get( sortKeyBinding ),
 								null,
@@ -243,7 +251,7 @@ class ChartCubeQueryHelper
 				aggBinding.setAggrFunction( aggFun );
 				cubeQuery.addBinding( aggBinding );
 
-				ICubeSortDefinition sortDef = ChartReportItemUtil.getCubeElementFactory( )
+				ICubeSortDefinition sortDef = ChartXTabUtil.getCubeElementFactory( )
 						.createCubeSortDefinition( ExpressionUtil.createJSDataExpression( aggBinding.getBindingName( ) ),
 								(ILevelDefinition) registeredLevels.get( targetBindingName ),
 								null,
@@ -404,7 +412,7 @@ class ChartCubeQueryHelper
 						filterCon.getValue2( ) );
 			}
 
-			ICubeFilterDefinition filterDef = ChartReportItemUtil.getCubeElementFactory( )
+			ICubeFilterDefinition filterDef = ChartXTabUtil.getCubeElementFactory( )
 					.creatCubeFilterDefinition( filterCondExpr,
 							(ILevelDefinition) registeredLevelHandles.get( filterCon.getMember( )
 									.getLevel( ) ),

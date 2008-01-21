@@ -82,7 +82,7 @@ public interface IDataServiceProvider
 
 	/**
 	 * Prepare row expression evaluator for chart to bind data.
-	 *  
+	 * 
 	 * @param cm
 	 * @param lExpressions
 	 * @param iMaxRecords
@@ -94,4 +94,11 @@ public interface IDataServiceProvider
 	public IDataRowExpressionEvaluator prepareRowExpressionEvaluator( Chart cm,
 			List lExpressions, int iMaxRecords, boolean byRow )
 			throws ChartException;
+
+	/**
+	 * Checks if the chart is in cross tab.
+	 * 
+	 * @since 2.3
+	 */
+	public boolean isInXTab( );
 }

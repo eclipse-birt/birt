@@ -12,12 +12,10 @@
 package org.eclipse.birt.chart.reportitem;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
@@ -26,23 +24,15 @@ import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.GroupingUnitType;
-import org.eclipse.birt.chart.model.attribute.IntersectionType;
-import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.SortOption;
-import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
-import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
-import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.ICubeElementFactory;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
-import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
-import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
@@ -51,95 +41,16 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
-import org.eclipse.birt.report.model.api.olap.CubeHandle;
-import org.eclipse.birt.report.model.api.olap.DimensionHandle;
-import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
-import org.eclipse.birt.report.model.api.olap.LevelHandle;
-import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 
 /**
  * Utility class for Chart integration as report item
  */
 
-public class ChartReportItemUtil
+public class ChartReportItemUtil implements ChartReportItemConstants
 {
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
-
-	private static ICubeElementFactory cubeFactory = null;
-
-	/**
-	 * Specified the query expression of min aggregation binding
-	 */
-	public static final String QUERY_MIN = "chart__min"; //$NON-NLS-1$
-
-	/**
-	 * Specified the query expression of max aggregation binding
-	 */
-	public static final String QUERY_MAX = "chart__max"; //$NON-NLS-1$
-
-	public static final String CHART_EXTENSION_NAME = "Chart";//$NON-NLS-1$
-
-	/**
-	 * Specified property names defined in ExtendedItemHandle or IReportItem
-	 */
-	public static final String PROPERTY_XMLPRESENTATION = "xmlRepresentation"; //$NON-NLS-1$
-	public static final String PROPERTY_CHART = "chart.instance"; //$NON-NLS-1$
-	public static final String PROPERTY_SCALE = "chart.scale"; //$NON-NLS-1$
-	public static final String PROPERTY_SCRIPT = "script"; //$NON-NLS-1$
-	public static final String PROPERTY_ONRENDER = "onRender"; //$NON-NLS-1$
-	public static final String PROPERTY_OUTPUT = "outputFormat"; //$NON-NLS-1$
-	public static final String PROPERTY_CUBE_FILTER = "cubeFilter";//$NON-NLS-1$
-	public static final String PROPERTY_HOST_CHART = "hostChart";//$NON-NLS-1$
-
-	public static final double DEFAULT_CHART_BLOCK_HEIGHT = 130;
-	public static final double DEFAULT_CHART_BLOCK_WIDTH = 212;
-	public static final double DEFAULT_AXIS_CHART_BLOCK_SIZE = 50;
-
-	public synchronized static ICubeElementFactory getCubeElementFactory( )
-			throws BirtException
-	{
-		if ( cubeFactory != null )
-		{
-			return cubeFactory;
-		}
-
-		try
-		{
-			Class cls = Class.forName( ICubeElementFactory.CUBE_ELEMENT_FACTORY_CLASS_NAME );
-			cubeFactory = (ICubeElementFactory) cls.newInstance( );
-		}
-		catch ( Exception e )
-		{
-			throw new ChartException( ChartReportItemPlugin.ID,
-					ChartException.ERROR,
-					e );
-		}
-		return cubeFactory;
-	}
-
-	/**
-	 * Checks current chart is within cross tab.
-	 * 
-	 * @param chartHandle
-	 *            the handle holding chart
-	 * @return true means within cross tab, false means not
-	 * @since 2.3
-	 */
-	public static boolean isChartInXTab( DesignElementHandle chartHandle )
-	{
-		DesignElementHandle container = chartHandle.getContainer( );
-		if ( container instanceof ExtendedItemHandle )
-		{
-			String exName = ( (ExtendedItemHandle) container ).getExtensionName( );
-			if ( ICrosstabConstants.AGGREGATION_CELL_EXTENSION_NAME.equals( exName ) )
-			{
-				return true;
-			}
-		}
-		return false;
-	}
 
 	/**
 	 * Returns the element handle which can save binding columns the given
@@ -194,7 +105,7 @@ public class ChartReportItemUtil
 	{
 		return cm instanceof ChartWithAxes
 				&& eih.getDataSet( ) == null && getBindingHolder( eih ) != null
-				&& isChartInXTab( eih );
+				&& ChartXTabUtil.isChartInXTab( eih );
 	}
 
 	/**
@@ -683,102 +594,6 @@ public class ChartReportItemUtil
 	}
 
 	/**
-	 * Returns the binding cube if the element or its container has cube binding
-	 * or the reference to the cube
-	 * 
-	 * @param element
-	 *            element handle
-	 * @return the binding cube or null
-	 * @since 2.3
-	 */
-	public static CubeHandle getBindingCube( DesignElementHandle element )
-	{
-		if ( element == null )
-		{
-			return null;
-		}
-		if ( element instanceof ReportItemHandle )
-		{
-			CubeHandle cube = ( (ReportItemHandle) element ).getCube( );
-			if ( cube != null )
-			{
-				return cube;
-			}
-			else if ( ( (ReportItemHandle) element ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
-			{
-				return getBindingCube( ( (ReportItemHandle) element ).getDataBindingReference( ) );
-			}
-			else if ( ( (ReportItemHandle) element ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA )
-			{
-				return null;
-			}
-		}
-		if ( element.getContainer( ) != null )
-		{
-			return getBindingCube( element.getContainer( ) );
-		}
-		return null;
-	}
-
-	/**
-	 * Gets all measure handles in the cube.
-	 * 
-	 * @param cube
-	 *            cube handle
-	 * @return all measure handles or empty list if no measure. The element in
-	 *         list is <code>MeasureHandle</code>
-	 * @since 2.3
-	 */
-	public static List getAllMeasures( CubeHandle cube )
-	{
-		if ( cube.getContentCount( CubeHandle.MEASURE_GROUPS_PROP ) > 0 )
-		{
-			List measures = new ArrayList( );
-			Iterator measureGroups = cube.getContents( CubeHandle.MEASURE_GROUPS_PROP )
-					.iterator( );
-			while ( measureGroups.hasNext( ) )
-			{
-				MeasureGroupHandle measureGroup = (MeasureGroupHandle) measureGroups.next( );
-				measures.addAll( measureGroup.getContents( MeasureGroupHandle.MEASURES_PROP ) );
-			}
-			return measures;
-		}
-		return Collections.EMPTY_LIST;
-	}
-
-	/**
-	 * Gets all level handles in the cube.
-	 * 
-	 * @param cube
-	 *            cube handle
-	 * @return all level handles or empty list if no level. The element in list
-	 *         is <code>LevelHandle</code>
-	 * @since 2.3
-	 */
-	public static List getAllLevels( CubeHandle cube )
-	{
-		if ( cube.getContentCount( CubeHandle.DIMENSIONS_PROP ) > 0 )
-		{
-			List levels = new ArrayList( );
-			Iterator dimensions = cube.getContents( CubeHandle.DIMENSIONS_PROP )
-					.iterator( );
-			while ( dimensions.hasNext( ) )
-			{
-				DimensionHandle dimensionHandle = (DimensionHandle) dimensions.next( );
-				HierarchyHandle hierarchy = (HierarchyHandle) ( dimensionHandle ).getContent( DimensionHandle.HIERARCHIES_PROP,
-						0 );
-				int count = hierarchy.getLevelCount( );
-				for ( int i = 0; i < count; i++ )
-				{
-					levels.add( hierarchy.getLevel( i ) );
-				}
-			}
-			return levels;
-		}
-		return Collections.EMPTY_LIST;
-	}
-
-	/**
 	 * Gets all column bindings. If the handle's contain has column bindings,
 	 * will combine the bindings with the handle's.
 	 * 
@@ -806,144 +621,6 @@ public class ChartReportItemUtil
 			return allBindings.iterator( );
 		}
 		return itemHandle.columnBindingsIterator( );
-	}
-
-	/**
-	 * Gets the cell in cross tab which contains the chart
-	 * 
-	 * @param chartHandle
-	 *            the handle with chart
-	 * @return the cell which contains the chart or null
-	 * @throws BirtException
-	 * @since 2.3
-	 */
-	public static AggregationCellHandle getXtabContainerCell(
-			DesignElementHandle chartHandle ) throws BirtException
-	{
-		DesignElementHandle container = chartHandle.getContainer( );
-		if ( container instanceof ExtendedItemHandle )
-		{
-			ExtendedItemHandle xtabHandle = (ExtendedItemHandle) container;
-			String exName = xtabHandle.getExtensionName( );
-			if ( ICrosstabConstants.AGGREGATION_CELL_EXTENSION_NAME.equals( exName ) )
-			{
-				return (AggregationCellHandle) xtabHandle.getReportItem( );
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * Creates the dimension expression according to level
-	 * 
-	 * @param level
-	 *            level handle
-	 * @return the dimension expression or null
-	 * @since 2.3
-	 */
-	public static String createDimensionExpression( LevelHandle level )
-	{
-		if ( level == null )
-		{
-			return null;
-		}
-		return ExpressionUtil.createJSDimensionExpression( level.getContainer( )
-				.getContainer( )
-				.getName( ), level.getName( ) );
-	}
-
-	/**
-	 * Updates runtime model to render chart plot only.
-	 * 
-	 * @param cm
-	 *            chart model
-	 * @return the modified chart model
-	 * @since 2.3
-	 */
-	public static Chart updateModelToRenderPlot( Chart cm )
-	{
-		if ( cm instanceof ChartWithAxes )
-		{
-			ChartWithAxes chart = (ChartWithAxes) cm;
-			chart.getLegend( ).setVisible( false );
-			chart.getTitle( ).setVisible( false );
-			chart.getPlot( ).getOutline( ).setVisible( false );
-			chart.getBlock( ).getInsets( ).set( 0, 0, 0, 0 );
-			// chart.getPlot( ).getInsets( ).set( 0, 0, 0, 0 );
-			// chart.getPlot( ).getClientArea( ).getInsets( ).set( 0, 0, 0, 0 );
-
-			// boolean bTransposed = chart.isTransposed( );
-			Axis xAxis = (Axis) chart.getAxes( ).get( 0 );
-			Axis yAxis = (Axis) xAxis.getAssociatedAxes( ).get( 0 );
-
-			xAxis.getTitle( ).setVisible( false );
-			xAxis.getLabel( ).setVisible( false );
-			xAxis.getLineAttributes( ).setVisible( false );
-			xAxis.getMajorGrid( ).getTickAttributes( ).setVisible( false );
-			xAxis.getMinorGrid( ).getTickAttributes( ).setVisible( false );
-
-			yAxis.getTitle( ).setVisible( false );
-			yAxis.getLabel( ).setVisible( false );
-			yAxis.getLineAttributes( ).setVisible( false );
-			yAxis.getMajorGrid( ).getTickAttributes( ).setVisible( false );
-			yAxis.getMinorGrid( ).getTickAttributes( ).setVisible( false );
-		}
-		return cm;
-	}
-
-	/**
-	 * Updates runtime model to render chart axis only.
-	 * 
-	 * @param cm
-	 *            chart model
-	 * @return the modified chart model
-	 * @since 2.3
-	 */
-	public static Chart updateModelToRenderAxis( Chart cm )
-	{
-		if ( cm instanceof ChartWithAxes )
-		{
-			ChartWithAxes chart = (ChartWithAxes) cm;
-			chart.getLegend( ).setVisible( false );
-			chart.getTitle( ).setVisible( false );
-			chart.getPlot( ).getOutline( ).setVisible( false );
-			chart.getPlot( ).getClientArea( ).setVisible( false );
-			chart.getBlock( ).getInsets( ).set( 0, 0, 0, 0 );
-			// chart.getPlot( ).getInsets( ).set( 0, 0, 0, 0 );
-			// chart.getPlot( ).getClientArea( ).getInsets( ).set( 0, 0, 0, 0 );
-
-			boolean bTransposed = chart.isTransposed( );
-			Axis xAxis = (Axis) chart.getAxes( ).get( 0 );
-			Axis yAxis = (Axis) xAxis.getAssociatedAxes( ).get( 0 );
-
-			xAxis.getTitle( ).setVisible( false );
-			xAxis.getLabel( ).setVisible( false );
-			xAxis.getLineAttributes( ).setVisible( false );
-			xAxis.getMajorGrid( ).getTickAttributes( ).setVisible( false );
-			xAxis.getMajorGrid( ).getLineAttributes( ).setVisible( false );
-			xAxis.getMinorGrid( ).getTickAttributes( ).setVisible( false );
-			xAxis.getMinorGrid( ).getLineAttributes( ).setVisible( false );
-
-			yAxis.getTitle( ).setVisible( false );
-			yAxis.getLineAttributes( ).setVisible( false );
-			yAxis.getMajorGrid( ).getLineAttributes( ).setVisible( false );
-			yAxis.getMinorGrid( ).getLineAttributes( ).setVisible( false );
-			yAxis.getMajorGrid( ).setTickStyle( bTransposed
-					? TickStyle.LEFT_LITERAL : TickStyle.RIGHT_LITERAL );
-			yAxis.setLabelPosition( bTransposed ? Position.LEFT_LITERAL
-					: Position.RIGHT_LITERAL );
-			yAxis.setLabelWithinAxes( true );
-			if ( bTransposed )
-			{
-				// Show axis in the top in vertical direction
-				yAxis.getOrigin( ).setType( IntersectionType.MAX_LITERAL );
-			}
-		}
-		else
-		{
-			cm = null;
-		}
-		return cm;
 	}
 
 	/**
@@ -1010,4 +687,5 @@ public class ChartReportItemUtil
 					DEFAULT_CHART_BLOCK_HEIGHT );
 		}
 	}
+
 }

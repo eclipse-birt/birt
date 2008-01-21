@@ -25,6 +25,7 @@ import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ChartReportStyleProcessor;
+import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
@@ -138,18 +139,18 @@ public final class DesignerRepresentation extends Figure
 		{
 			cm = (Chart) crii.getProperty( ChartReportItemUtil.PROPERTY_CHART );
 
-			if ( ChartReportItemUtil.isChartInXTab( crii.getHandle( ) ) )
+			if ( ChartXTabUtil.isChartInXTab( crii.getHandle( ) ) )
 			{
 				// In xtab cell, there are two types of chart handle
 				if ( !crii.hasHostChart( ) )
 				{
 					// Plot chart without host chart
-					cm = ChartReportItemUtil.updateModelToRenderPlot( (Chart) EcoreUtil.copy( cm ) );
+					cm = ChartXTabUtil.updateModelToRenderPlot( (Chart) EcoreUtil.copy( cm ) );
 				}
 				else
 				{
 					// Axis chart with host chart
-					cm = ChartReportItemUtil.updateModelToRenderAxis( (Chart) EcoreUtil.copy( cm ) );
+					cm = ChartXTabUtil.updateModelToRenderAxis( (Chart) EcoreUtil.copy( cm ) );
 				}
 			}
 

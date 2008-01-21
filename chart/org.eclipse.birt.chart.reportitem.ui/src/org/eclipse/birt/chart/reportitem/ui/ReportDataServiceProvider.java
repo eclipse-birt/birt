@@ -34,6 +34,7 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.reportitem.AbstractChartBaseQueryGenerator;
 import org.eclipse.birt.chart.reportitem.ChartBuilderGroupedQueryResultSetEvaluator;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
+import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
@@ -362,13 +363,13 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	}
 
 	/**
-	 * Check if current chart is in multi views.
+	 * Checks if only inheritance allowed.
 	 * 
-	 * @return
 	 */
-	boolean isInMultiViews( )
+	boolean isInheritanceOnly( )
 	{
-		if ( itemHandle.getContainer( ) instanceof MultiViewsHandle )
+		if ( itemHandle.getContainer( ) instanceof MultiViewsHandle
+				|| isInXTab( ) )
 		{
 			return true;
 		}
@@ -759,7 +760,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		// Do not check type for cube
 		if ( expression == null
 				|| expression.trim( ).length( ) == 0
-				|| ChartReportItemUtil.getBindingCube( itemHandle ) != null )
+				|| ChartXTabUtil.getBindingCube( itemHandle ) != null )
 		{
 			return null;
 		}
@@ -954,7 +955,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			IQueryResults actualResultSet = session.executeQuery( queryDefn,
 					null,
 					itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP )
-							.iterator( ), 
+							.iterator( ),
 					ChartReportItemUtil.getColumnDataBindings( itemHandle ) );
 			if ( actualResultSet != null )
 			{
@@ -1065,14 +1066,22 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			throw new UnsupportedOperationException( "Don't be implemented in the class." ); //$NON-NLS-1$
 		}
 
-		/* (non-Javadoc)
-		 * @see org.eclipse.birt.chart.reportitem.AbstractChartBaseQueryGenerator#updateQueryDefinitionForSortOnAggregateExpression(org.eclipse.birt.chart.model.data.Query, java.lang.String, java.lang.String)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.chart.reportitem.AbstractChartBaseQueryGenerator#updateQueryDefinitionForSortOnAggregateExpression(org.eclipse.birt.chart.model.data.Query,
+		 *      java.lang.String, java.lang.String)
 		 */
 		protected void updateQueryDefinitionForSortOnAggregateExpression(
 				Query query, String bindName, String newExpr )
 		{
 			query.setDefinition( bindName );
 		}
-		
+
 	} // End of class BaseQueryHelper.
+
+	public boolean isInXTab( )
+	{
+		return ChartXTabUtil.isChartInXTab( itemHandle );
+	}
 }

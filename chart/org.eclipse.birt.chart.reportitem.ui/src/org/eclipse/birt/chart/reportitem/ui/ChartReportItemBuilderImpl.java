@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ChartReportStyleProcessor;
+import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ChartExpressionProvider;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
@@ -32,6 +33,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.ApplyButtonHandler;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
@@ -169,6 +171,16 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 					this,
 					dataProvider,
 					dataSheet );
+			if ( dataProvider.isInXTab( ) )
+			{
+				// Disable some UI sections for xtab case
+				context.setEnabled( ChartUIConstants.SUBTASK_AXIS, false );
+				context.setEnabled( ChartUIConstants.SUBTASK_AXIS_X, false );
+				context.setEnabled( ChartUIConstants.SUBTASK_AXIS_Y, false );
+				context.setEnabled( ChartUIConstants.SUBTASK_AXIS_Z, false );
+				context.setEnabled( ChartUIConstants.SUBTASK_LEGEND, false );
+				context.setEnabled( ChartUIConstants.SUBTASK_TITLE, false );
+			}
 			chartBuilder.addCustomButton( new ApplyButtonHandler( chartBuilder ) {
 
 				public void run( )
@@ -353,7 +365,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 		// CHECK FOR UNBOUND DATASET
 		final ExtendedItemHandle eih = (ExtendedItemHandle) oContext;
 		if ( DEUtil.getDataSetList( eih ).size( ) == 0
-				&& ChartReportItemUtil.getBindingCube( eih ) == null )
+				&& ChartXTabUtil.getBindingCube( eih ) == null )
 		{
 			alProblems.add( Messages.getString( "ChartReportItemBuilderImpl.problem.hasNotBeenFound" ) ); //$NON-NLS-1$
 		}

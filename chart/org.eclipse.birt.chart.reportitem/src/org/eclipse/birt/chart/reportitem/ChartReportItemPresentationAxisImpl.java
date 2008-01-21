@@ -69,7 +69,7 @@ public final class ChartReportItemPresentationAxisImpl
 	protected void updateChartModel( )
 	{
 		// Update runtime model to render axis only
-		ChartReportItemUtil.updateModelToRenderAxis( cm );
+		ChartXTabUtil.updateModelToRenderAxis( cm );
 	}
 
 }

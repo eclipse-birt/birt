@@ -319,4 +319,9 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 		
 		return evaluator;
 	}
+
+	public boolean isInXTab( )
+	{
+		return false;
+	}
 }

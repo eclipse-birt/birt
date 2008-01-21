@@ -27,8 +27,10 @@ import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
+import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
+import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -62,7 +64,7 @@ public class ChartAggregationCellViewProvider
 
 	public String getViewName( )
 	{
-		return ChartReportItemUtil.CHART_EXTENSION_NAME;
+		return ChartReportItemConstants.CHART_EXTENSION_NAME;
 	}
 
 	public boolean matchView( AggregationCellHandle cell )
@@ -111,7 +113,7 @@ public class ChartAggregationCellViewProvider
 			ExtendedItemHandle chartHandle = cell.getCrosstabHandle( )
 					.getElementFactory( )
 					.newExtendedItem( null,
-							ChartReportItemUtil.CHART_EXTENSION_NAME );
+							ChartReportItemConstants.CHART_EXTENSION_NAME );
 			ChartReportItemImpl reportItem = (ChartReportItemImpl) chartHandle.getReportItem( );
 			ChartWithAxes cm = createDefaultChart( exprMeasure, new String[]{
 					exprDimRow, exprDimColumn
@@ -189,8 +191,8 @@ public class ChartAggregationCellViewProvider
 		ExtendedItemHandle axisChartHandle = cell.getCrosstabHandle( )
 				.getElementFactory( )
 				.newExtendedItem( null,
-						ChartReportItemUtil.CHART_EXTENSION_NAME );
-		axisChartHandle.setProperty( ChartReportItemUtil.PROPERTY_HOST_CHART,
+						ChartReportItemConstants.CHART_EXTENSION_NAME );
+		axisChartHandle.setProperty( ChartReportItemConstants.PROPERTY_HOST_CHART,
 				chartHandle );
 
 		int otherAxisType = axisType == ICrosstabConstants.ROW_AXIS_TYPE
@@ -209,32 +211,7 @@ public class ChartAggregationCellViewProvider
 		try
 		{
 			Chart cm = ChartReportItemUtil.getChartFromHandle( getChartHandle( cell ) );
-			if ( cm instanceof ChartWithAxes )
-			{
-				if ( ( (ChartWithAxes) cm ).isTransposed( ) )
-				{
-					CrosstabCellHandle grandTotalCell = cell.getCrosstab( )
-							.getGrandTotal( ICrosstabConstants.ROW_AXIS_TYPE );
-					if ( grandTotalCell != null
-							&& grandTotalCell.getContents( ).size( ) <= 1 )
-					{
-						cell.getCrosstab( )
-								.removeGrandTotal( ICrosstabConstants.ROW_AXIS_TYPE );
-					}
-				}
-				else
-				{
-					CrosstabCellHandle grandTotalCell = cell.getCrosstab( )
-							.getGrandTotal( ICrosstabConstants.COLUMN_AXIS_TYPE );
-					if ( grandTotalCell != null
-							&& grandTotalCell.getContents( ).size( ) <= 1 )
-					{
-						cell.getCrosstab( )
-								.removeGrandTotal( ICrosstabConstants.COLUMN_AXIS_TYPE );
-					}
-				}
-
-			}
+			ChartXTabUtil.removeAxisChartInXTab( cm, cell.getCrosstab( ) );
 		}
 		catch ( BirtException e )
 		{
@@ -349,7 +326,7 @@ public class ChartAggregationCellViewProvider
 	{
 		Object content = getFirstContent( cell );
 		if ( content instanceof ExtendedItemHandle
-				&& ChartReportItemUtil.CHART_EXTENSION_NAME.equals( ( (ExtendedItemHandle) content ).getExtensionName( ) ) )
+				&& ChartReportItemConstants.CHART_EXTENSION_NAME.equals( ( (ExtendedItemHandle) content ).getExtensionName( ) ) )
 		{
 			return (ExtendedItemHandle) content;
 		}

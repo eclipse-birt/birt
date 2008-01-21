@@ -27,7 +27,7 @@ import org.eclipse.birt.chart.model.type.DifferenceSeries;
 import org.eclipse.birt.chart.model.type.GanttSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
-import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
+import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ChartColumnBindingDialog;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ExtendedItemFilterDialog;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ReportItemParametersDialog;
@@ -43,12 +43,14 @@ import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
 import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
 import org.eclipse.birt.report.designer.ui.dialogs.ColumnBindingDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
@@ -494,7 +496,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 
 		// Select data set
 		String sDataSet = getDataServiceProvider( ).getBoundDataSet( );
-		if ( sDataSet != null && !getDataServiceProvider( ).isInMultiViews( ) )
+		if ( sDataSet != null && !getDataServiceProvider( ).isInheritanceOnly( ) )
 		{
 			btnUseData.setSelection( true );
 			cmbDataItems.setText( sDataSet );
@@ -507,15 +509,15 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 
 		// Select data cube
 		String sDataCube = getDataServiceProvider( ).getDataCube( );
-		if ( sDataCube != null && !getDataServiceProvider( ).isInMultiViews( ) )
+		if ( sDataCube != null && !getDataServiceProvider( ).isInheritanceOnly( ) )
 		{
 			btnUseData.setSelection( true );
 			cmbDataItems.setText( sDataCube );
 			return;
 		}
-		
+
 		btnInherit.setSelection( true );
-		if ( getDataServiceProvider( ).isInMultiViews( ) )
+		if ( getDataServiceProvider( ).isInheritanceOnly( ) )
 		{
 			btnUseData.setSelection( false );
 			btnUseData.setEnabled( false );
@@ -1094,6 +1096,15 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 				{
 					manager.add( (IContributionItem) item );
 				}
+
+				// Do not allow customized query in xtab
+				if ( getDataServiceProvider( ).isInXTab( ) )
+				{
+					if ( item instanceof IAction )
+					{
+						( (IAction) item ).setEnabled( false );
+					}
+				}
 			}
 		} );
 		return menuManager;
@@ -1281,12 +1292,12 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 
 	private boolean isCubeMode( )
 	{
-		return ChartReportItemUtil.getBindingCube( itemHandle ) != null;
+		return ChartXTabUtil.getBindingCube( itemHandle ) != null;
 	}
 
 	private CubeHandle getCube( )
 	{
-		return ChartReportItemUtil.getBindingCube( itemHandle );
+		return ChartXTabUtil.getBindingCube( itemHandle );
 	}
 
 	/**
@@ -1371,44 +1382,66 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 
 	private void updatePredefinedQueries( )
 	{
-		CubeHandle cube = getCube( );
-		if ( cube == null )
+		if ( dataProvider.isInXTab( ) )
 		{
-			getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
-					null );
-			getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_VALUE,
-					null );
-			getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_OPTIONAL,
-					null );
+			try
+			{
+				CrosstabReportItemHandle xtab = ChartXTabUtil.getXtabContainerCell( itemHandle )
+						.getCrosstab( );
+				List levels = ChartXTabUtil.getAllLevels( xtab );
+				String[] exprs = (String[]) levels.toArray( new String[levels.size( )] );
+				getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
+						exprs );
+
+				xtab.getMeasure( 0 ).getAggregationCell( 0 );
+			}
+			catch ( BirtException e )
+			{
+				WizardBase.displayException( e );
+			}
 		}
 		else
 		{
-			List measures = ChartReportItemUtil.getAllMeasures( cube );
-			if ( !measures.isEmpty( ) )
+			CubeHandle cube = getCube( );
+			if ( cube == null )
 			{
-				String[] exprs = new String[measures.size( )];
-				for ( int i = 0; i < exprs.length; i++ )
-				{
-					exprs[i] = ExpressionUtil.createJSMeasureExpression( ( (MeasureHandle) measures.get( i ) ).getName( ) );
-				}
-				getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_VALUE,
-						exprs );
-			}
-
-			List levels = ChartReportItemUtil.getAllLevels( cube );
-			if ( !levels.isEmpty( ) )
-			{
-				String[] exprs = new String[levels.size( )];
-				for ( int i = 0; i < exprs.length; i++ )
-				{
-					exprs[i] = ChartReportItemUtil.createDimensionExpression( (LevelHandle) levels.get( i ) );
-				}
 				getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
-						exprs );
+						null );
+				getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_VALUE,
+						null );
 				getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_OPTIONAL,
-						exprs );
+						null );
+			}
+			else
+			{
+				List measures = ChartXTabUtil.getAllMeasures( cube );
+				if ( !measures.isEmpty( ) )
+				{
+					String[] exprs = new String[measures.size( )];
+					for ( int i = 0; i < exprs.length; i++ )
+					{
+						exprs[i] = ExpressionUtil.createJSMeasureExpression( ( (MeasureHandle) measures.get( i ) ).getName( ) );
+					}
+					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_VALUE,
+							exprs );
+				}
+
+				List levels = ChartXTabUtil.getAllLevels( cube );
+				if ( !levels.isEmpty( ) )
+				{
+					String[] exprs = new String[levels.size( )];
+					for ( int i = 0; i < exprs.length; i++ )
+					{
+						exprs[i] = ChartXTabUtil.createDimensionExpression( (LevelHandle) levels.get( i ) );
+					}
+					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
+							exprs );
+					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_OPTIONAL,
+							exprs );
+				}
 			}
 		}
+
 		// Fire event to update predefined queries in outside UI
 		fireEvent( btnBinding, EVENT_QUERY );
 	}

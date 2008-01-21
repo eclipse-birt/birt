@@ -667,13 +667,13 @@ public class TaskSelectType extends SimpleTask
 						// Clicking on the same button should not cause it to be
 						// unselected
 						btn.setSelection( true );
-						
+
 						// Disable the statement to avoid when un-check all
 						// stacked attributes of series on format tab, the
 						// default chart is painted as side-by-side, but it
 						// can't select stacked button to change chart type to
 						// stacked in chart type tab.
-//						needUpdateModel = false;
+						// needUpdateModel = false;
 					}
 				}
 			}
@@ -684,28 +684,35 @@ public class TaskSelectType extends SimpleTask
 			if ( !sOldType.equals( sType ) )
 			{
 				sOldType = sType;
-				// Get the cached orientation
-				if ( chartModel != null
-						&& chartModel instanceof ChartWithAxes)
+				
+				// Get orientation for non-xtab case. In xtab, orientation won't
+				// be changed
+				if ( !getDataServiceProvider( ).isInXTab( ) )
 				{
-					Orientation lastOrientation = ChartCacheManager.getInstance( )
-							.findOrientation( sType );
+					// Get the cached orientation
+					if ( chartModel != null
+							&& chartModel instanceof ChartWithAxes )
+					{
+						Orientation lastOrientation = ChartCacheManager.getInstance( )
+								.findOrientation( sType );
 
-					if ( lastOrientation != null &&
-							this.orientation != lastOrientation )
-					{
-						this.orientation = lastOrientation;
-						this.rotateAxisTitle( (ChartWithAxes) chartModel );
-					}
-					if( lastOrientation == null )
-					{
-						this.orientation = Orientation.VERTICAL_LITERAL;
+						if ( lastOrientation != null
+								&& this.orientation != lastOrientation )
+						{
+							this.orientation = lastOrientation;
+							this.rotateAxisTitle( (ChartWithAxes) chartModel );
+						}
+						if ( lastOrientation == null )
+						{
+							this.orientation = Orientation.VERTICAL_LITERAL;
+						}
 					}
 				}
 
-				if ( chartModel != null &&
-						chartModel instanceof ChartWithAxes &&
-						ChartCacheManager.getInstance( ).findCategory( sType ) != null )
+				if ( chartModel != null
+						&& chartModel instanceof ChartWithAxes
+						&& ChartCacheManager.getInstance( )
+								.findCategory( sType ) != null )
 				{
 					boolean bCategory = ChartCacheManager.getInstance( )
 							.findCategory( sType )
@@ -1211,12 +1218,13 @@ public class TaskSelectType extends SimpleTask
 	 */
 	private void updateSelection( )
 	{
+		boolean bOutXtab = !getDataServiceProvider( ).isInXTab( );
 		if ( chartModel instanceof ChartWithAxes )
 		{
-			lblMultipleY.setEnabled( !is3D( ) );
-			cbMultipleY.setEnabled( !is3D( ) );
-			lblSeriesType.setEnabled( isTwoAxesEnabled( ) );
-			cbSeriesType.setEnabled( isTwoAxesEnabled( ) );
+			lblMultipleY.setEnabled( bOutXtab && !is3D( ) );
+			cbMultipleY.setEnabled( bOutXtab && !is3D( ) );
+			lblSeriesType.setEnabled( bOutXtab && isTwoAxesEnabled( ) );
+			cbSeriesType.setEnabled( bOutXtab && isTwoAxesEnabled( ) );
 		}
 		else
 		{
@@ -1228,6 +1236,8 @@ public class TaskSelectType extends SimpleTask
 			lblSeriesType.setEnabled( false );
 			cbSeriesType.setEnabled( false );
 		}
+		lblOrientation.setEnabled( bOutXtab );
+		cbOrientation.setEnabled( bOutXtab );
 	}
 
 	/*
@@ -1315,16 +1325,18 @@ public class TaskSelectType extends SimpleTask
 		{
 			SeriesDefinition sd = (SeriesDefinition) sdList.get( i );
 			Series series = sd.getDesignTimeSeries( );
-			checkDataTypeForBaseSeries( ChartUIUtil.getDataQuery( sd, 0 ), series );
+			checkDataTypeForBaseSeries( ChartUIUtil.getDataQuery( sd, 0 ),
+					series );
 		}
-		
-		sdList.clear();
+
+		sdList.clear( );
 		sdList.addAll( ChartUIUtil.getAllOrthogonalSeriesDefinitions( cm ) );
 		for ( int i = 0; i < sdList.size( ); i++ )
 		{
 			SeriesDefinition sd = (SeriesDefinition) sdList.get( i );
 			Series series = sd.getDesignTimeSeries( );
-			checkDataTypeForOrthoSeries( ChartUIUtil.getDataQuery( sd, 0 ), series );
+			checkDataTypeForOrthoSeries( ChartUIUtil.getDataQuery( sd, 0 ),
+					series );
 		}
 	}
 
@@ -1340,7 +1352,7 @@ public class TaskSelectType extends SimpleTask
 		// for some special requirements and processes.
 		final Chart cmRunTime = ChartPreviewUtil.prepareLivePreview( chartModel,
 				getDataServiceProvider( ) );
-		
+
 		// Repaint chart.
 		if ( previewPainter != null )
 		{
@@ -1363,13 +1375,14 @@ public class TaskSelectType extends SimpleTask
 	{
 		checkDataTypeImpl( query, series, true );
 	}
-	
+
 	private void checkDataTypeForOrthoSeries( Query query, Series series )
 	{
 		checkDataTypeImpl( query, series, false );
 	}
 
-	private void checkDataTypeImpl( Query query, Series series, boolean isBaseSeries )
+	private void checkDataTypeImpl( Query query, Series series,
+			boolean isBaseSeries )
 	{
 		String expression = query.getDefinition( );
 
@@ -1401,24 +1414,25 @@ public class TaskSelectType extends SimpleTask
 					DataType dataType = getDataServiceProvider( ).getDataType( expression );
 					SeriesDefinition baseSD = (SeriesDefinition) ( ChartUIUtil.getBaseSeriesDefinitions( chartModel ).get( 0 ) );
 					SeriesDefinition orthSD = null;
-					orthSD = (SeriesDefinition)series.eContainer( );
+					orthSD = (SeriesDefinition) series.eContainer( );
 					String aggFunc = null;
 					boolean hasException = false;
 					try
 					{
-						aggFunc = ChartUtil.getAggregateFuncExpr( orthSD, baseSD );
+						aggFunc = ChartUtil.getAggregateFuncExpr( orthSD,
+								baseSD );
 					}
 					catch ( ChartException e )
 					{
 						hasException = true;
 						ChartWizard.showException( e.getLocalizedMessage( ) );
 					}
-					
+
 					if ( !hasException )
 					{
 						ChartWizard.removeException( );
 					}
-					
+
 					if ( baseSD != null )
 					{
 						// If aggregation is set to count/distinctcount on base
@@ -1450,7 +1464,7 @@ public class TaskSelectType extends SimpleTask
 						}
 					}
 				}
-				
+
 				boolean bException = false;
 				try
 				{
@@ -1471,12 +1485,12 @@ public class TaskSelectType extends SimpleTask
 				{
 					WizardBase.removeException( );
 				}
-				
+
 				break;
 			}
 		}
 	}
-	
+
 	private boolean isValidatedAxis( DataType dataType, AxisType axisType )
 	{
 		if ( dataType == null )

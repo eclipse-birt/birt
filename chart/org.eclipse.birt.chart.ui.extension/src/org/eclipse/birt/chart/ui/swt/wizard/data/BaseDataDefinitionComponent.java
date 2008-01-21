@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.ui.swt.wizard.data;
 
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.data.DataPackage;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -68,7 +69,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 	protected Composite cmpTop;
 
 	private Combo cmbDefinition;
-	
+
 	protected Text txtDefinition = null;
 
 	private Button btnBuilder = null;
@@ -192,7 +193,8 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		String[] predefinedQuery = context.getPredefinedQuery( queryType );
 		if ( predefinedQuery != null )
 		{
-			cmbDefinition = new Combo( cmpTop, SWT.NONE );
+			cmbDefinition = new Combo( cmpTop, context.getDataServiceProvider( )
+					.isInXTab( ) ? SWT.READ_ONLY : SWT.NONE );
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			cmbDefinition.setLayoutData( gd );
 			cmbDefinition.setItems( predefinedQuery );
@@ -202,6 +204,14 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 				public void handleEvent( Event event )
 				{
 					query.setDefinition( cmbDefinition.getText( ) );
+					// Change direction once category query is changed in xtab
+					// case
+					if ( context.getDataServiceProvider( ).isInXTab( )
+							&& ChartUIConstants.QUERY_CATEGORY.equals( queryType )
+							&& context.getModel( ) instanceof ChartWithAxes )
+					{
+						( (ChartWithAxes) context.getModel( ) ).setTransposed( cmbDefinition.getSelectionIndex( ) > 0 );
+					}
 				}
 			} );
 			cmbDefinition.addModifyListener( this );
@@ -212,6 +222,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		{
 			txtDefinition = new Text( cmpTop, SWT.BORDER | SWT.SINGLE );
 			GridData gdTXTDefinition = new GridData( GridData.FILL_HORIZONTAL );
+			gdTXTDefinition.widthHint = 80;
 			txtDefinition.setLayoutData( gdTXTDefinition );
 			if ( query != null && query.getDefinition( ) != null )
 			{
@@ -264,6 +275,20 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 
 		// Updates color setting
 		setColor( );
+
+		// In xtab, only support predefined query
+		if ( context.getDataServiceProvider( ).isInXTab( ) )
+		{
+			if ( txtDefinition != null )
+			{
+				txtDefinition.setEnabled( false );
+			}
+			btnBuilder.setEnabled( false );
+			if ( btnGroup != null )
+			{
+				btnGroup.setEnabled( false );
+			}
+		}
 
 		return cmpTop;
 	}
@@ -326,13 +351,13 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 	}
 
 	/**
-     * Handle grouping/sorting action.
+	 * Handle grouping/sorting action.
 	 */
 	protected void handleGroupAction( )
 	{
 		SeriesDefinition sdBackup = (SeriesDefinition) EcoreUtil.copy( seriesdefinition );
 		GroupSortingDialog groupDialog = createGroupSortingDialog( sdBackup );
-		
+
 		if ( groupDialog.open( ) == Window.OK )
 		{
 			if ( !sdBackup.eIsSet( DataPackage.eINSTANCE.getSeriesDefinition_Sorting( ) ) )
@@ -357,8 +382,8 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 	}
 
 	/**
-     * Handle builder dialog action.
-     */
+	 * Handle builder dialog action.
+	 */
 	private void handleBuilderAction( )
 	{
 		try
@@ -465,7 +490,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 				// query
 				seriesdefinition.setQuery( query );
 			}
-			
+
 			// Refresh color from ColorPalette
 			setColor( );
 			getInputControl( ).getParent( ).layout( );
@@ -473,7 +498,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		}
 	}
 
-	
 	private String getTooltipForDataText( String queryText )
 	{
 		if ( queryText.trim( ).length( ) == 0 )
@@ -506,8 +530,8 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 	{
 		SeriesDefinition baseSD = (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( context.getModel( ) )
 				.get( 0 );
-		boolean enabled = ChartUIUtil.isGroupingSupported( context ) &&
-				( PluginSettings.instance( ).inEclipseEnv( ) || baseSD.getGrouping( )
+		boolean enabled = ChartUIUtil.isGroupingSupported( context )
+				&& ( PluginSettings.instance( ).inEclipseEnv( ) || baseSD.getGrouping( )
 						.isEnabled( ) );
 		fAggEditorComposite = new AggregateEditorComposite( composite,
 				seriesdefinition,

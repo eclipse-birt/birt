@@ -39,7 +39,7 @@ public final class ChartReportItemPresentationPlotImpl
 
 		try
 		{
-			AggregationCellHandle xtabCell = ChartReportItemUtil.getXtabContainerCell( handle );
+			AggregationCellHandle xtabCell = ChartXTabUtil.getXtabContainerCell( handle );
 			if ( xtabCell != null )
 			{
 				if ( xtabCell.getSpanOverOnColumn( ) != null )
@@ -91,7 +91,7 @@ public final class ChartReportItemPresentationPlotImpl
 	protected void updateChartModel( )
 	{
 		// Update runtime model to render plot only
-		ChartReportItemUtil.updateModelToRenderPlot( cm );
+		ChartXTabUtil.updateModelToRenderPlot( cm );
 	}
 
 }

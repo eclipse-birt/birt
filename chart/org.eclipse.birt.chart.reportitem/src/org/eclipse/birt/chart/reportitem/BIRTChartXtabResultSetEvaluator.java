@@ -48,7 +48,7 @@ public final class BIRTChartXtabResultSetEvaluator
 		cubeCursor = parent;
 		try
 		{
-			AggregationCellHandle cellHandle = ChartReportItemUtil.getXtabContainerCell( handle );
+			AggregationCellHandle cellHandle = ChartXTabUtil.getXtabContainerCell( handle );
 			LevelHandle levelAggColumn = cellHandle.getAggregationOnColumn( );
 			LevelHandle levelAggRow = cellHandle.getAggregationOnRow( );
 			if ( cellHandle.getSpanOverOnColumn( ) != null )

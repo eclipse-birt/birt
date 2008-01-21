@@ -500,7 +500,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		}
 		else if ( set instanceof ICubeResultSet )
 		{
-			if ( ChartReportItemUtil.isChartInXTab( handle ) )
+			if ( ChartXTabUtil.isChartInXTab( handle ) )
 			{
 				return new BIRTChartXtabResultSetEvaluator( (ICubeResultSet) set,
 						handle );

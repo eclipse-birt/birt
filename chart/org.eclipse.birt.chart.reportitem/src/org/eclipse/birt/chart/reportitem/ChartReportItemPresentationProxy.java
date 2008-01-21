@@ -54,7 +54,7 @@ public class ChartReportItemPresentationProxy
 
 	private IReportItemPresentation createImpl( ExtendedItemHandle modelHandle )
 	{
-		if ( ChartReportItemUtil.isChartInXTab( modelHandle ) )
+		if ( ChartXTabUtil.isChartInXTab( modelHandle ) )
 		{
 			// // If chart is in cross tab cell, use specific impl
 			if ( modelHandle.getElementProperty( ChartReportItemUtil.PROPERTY_HOST_CHART ) == null )
