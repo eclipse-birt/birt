@@ -303,6 +303,8 @@ public class ParameterDialog extends BaseDialog
 
 	private List columnList;
 
+	private TableArea tableArea;
+	
 	private IStructuredContentProvider contentProvider = new IStructuredContentProvider( ) {
 
 		public void dispose( )
@@ -461,6 +463,14 @@ public class ParameterDialog extends BaseDialog
 				}
 				choiceList.remove( elements[i] );
 			}
+			return true;
+		}
+
+		public boolean removeItemAll( )
+		{
+			// TODO Auto-generated method stub
+			choiceList.clear( );
+			changeDefaultValue( null );
 			return true;
 		}
 	};
@@ -1491,7 +1501,7 @@ public class ParameterDialog extends BaseDialog
 		tableAreaComposite.setLayout( UIUtil.createGridLayoutWithoutMargin( ) );
 		tableAreaComposite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
-		TableArea tableArea = new TableArea( tableAreaComposite, SWT.SINGLE
+		tableArea = new TableArea( tableAreaComposite, SWT.SINGLE
 				| SWT.FULL_SELECTION
 				| SWT.BORDER, tableAreaModifier );
 		tableArea.setLayoutData( new GridData( GridData.FILL_BOTH ) );
@@ -1510,7 +1520,7 @@ public class ParameterDialog extends BaseDialog
 				COLUMN_DISPLAY_TEXT_KEY
 		};
 		columnWidth = new int[]{
-				10, 70, 105, 105, 105
+				10, 70, 100, 100, 100
 		};
 
 		for ( int i = 0; i < columns.length; i++ )
@@ -2294,6 +2304,7 @@ public class ParameterDialog extends BaseDialog
 
 	private void updateTableButtons( )
 	{
+		tableArea.updateButtons();
 		boolean isEnable = true;
 		SelectionChoice selectedChoice = null;
 

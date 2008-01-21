@@ -21,4 +21,6 @@ public interface ITableAreaModifier extends IBaseTableAreaModifier
 	public boolean newItem( );
 
 	public boolean removeItem( Object[] elements );
+	
+	public boolean removeItemAll( );
 }

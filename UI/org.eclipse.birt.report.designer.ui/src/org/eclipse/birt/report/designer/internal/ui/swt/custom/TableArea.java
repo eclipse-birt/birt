@@ -41,13 +41,15 @@ public class TableArea extends Composite
 	private static final String BUTTON_NEW = Messages.getString( "TableArea.Button.New" ); //$NON-NLS-1$
 	private static final String BUTTON_EDIT = Messages.getString( "TableArea.Button.Edit" ); //$NON-NLS-1$
 	private static final String BUTTON_REMOVE = Messages.getString( "TableArea.Button.Remove" ); //$NON-NLS-1$
+	private static final String BUTTON_REMOVE_ALL = Messages.getString( "TableArea.Button.RemoveAll" ); //$NON-NLS-1$
 	private static final String BUTTON_UP = Messages.getString( "TableArea.Button.Up" ); //$NON-NLS-1$
 	private static final String BUTTON_DOWN = Messages.getString( "TableArea.Button.Down" ); //$NON-NLS-1$
 
 	private TableViewer tableViewer;
 	private IBaseTableAreaModifier modifier;
 
-	private Button newButton, editButton, removeButton, upButton, downButton;
+	private Button newButton, editButton, removeButton, upButton, downButton,
+			removeAllButton;
 
 	public TableArea( Composite parent, int tableStyle,
 			IBaseTableAreaModifier modifier )
@@ -68,7 +70,7 @@ public class TableArea extends Composite
 		table.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		table.setHeaderVisible( true );
 		table.setLinesVisible( true );
-		if ( (tableStyle & SWT.CHECK) != 0 )
+		if ( ( tableStyle & SWT.CHECK ) != 0 )
 		{
 			tableViewer = new CheckboxTableViewer( table );
 		}
@@ -155,6 +157,18 @@ public class TableArea extends Composite
 				}
 			} );
 			removeButton.setEnabled( false );
+
+			removeAllButton = new Button( buttonBar, SWT.PUSH );
+			removeAllButton.setText( BUTTON_REMOVE_ALL );
+			setButtonLayout( removeAllButton );
+			removeAllButton.addSelectionListener( new SelectionAdapter( ) {
+
+				public void widgetSelected( SelectionEvent e )
+				{
+					doRemoveAll( );
+				}
+			} );
+			removeButton.setEnabled( false );
 		}
 
 		if ( modifier instanceof ISortedTableAreaModifier )
@@ -218,7 +232,7 @@ public class TableArea extends Composite
 		return (IStructuredSelection) tableViewer.getSelection( );
 	}
 
-	protected void updateButtons( )
+	public void updateButtons( )
 	{
 		boolean enable = ( getSelection( ).size( ) == 1 );
 		editButton.setEnabled( enable );
@@ -232,6 +246,7 @@ public class TableArea extends Composite
 		if ( modifier instanceof ITableAreaModifier )
 		{
 			removeButton.setEnabled( !getSelection( ).isEmpty( ) );
+			removeAllButton.setEnabled( tableViewer.getTable( ).getItemCount( ) > 0 );
 		}
 	}
 
@@ -266,11 +281,34 @@ public class TableArea extends Composite
 
 	private void doRemove( )
 	{
+		int selectIndex = tableViewer.getTable( ).getSelectionIndex( );
 		if ( ( (ITableAreaModifier) modifier ).removeItem( getSelection( ).toArray( ) ) )
 		{
 			tableViewer.refresh( );
+			int count = tableViewer.getTable( ).getItemCount( );
+			if ( count > 0 )
+			{
+				if ( selectIndex >= count )
+				{
+					selectIndex = count - 1;
+				}
+
+				tableViewer.getTable( ).select( selectIndex );
+
+			}
+
 			updateButtons( );
 		}
+	}
+
+	private void doRemoveAll( )
+	{
+		if(( (ITableAreaModifier) modifier ).removeItemAll( ))
+		{
+			tableViewer.refresh( );
+			updateButtons();
+		}
+
 	}
 
 }
