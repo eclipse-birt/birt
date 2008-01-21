@@ -109,10 +109,7 @@ public interface IGetParameterDefinitionTask extends IEngineTask {
 	public Collection getSelectionList(String name);
 	
 	/**
-	 * The first step to work with the cascading parameters. 
-	 * Create the query definition, prepare and execute the query.
-	 * Cache the iterator of the result set and also cache the IBaseExpression used in the prepare.
-	 * 
+	 * @deprecated This api has no use.
 	 * @param parameterGroupName - the cascading parameter group name
 	 */
 	public void evaluateQuery( String parameterGroupName );

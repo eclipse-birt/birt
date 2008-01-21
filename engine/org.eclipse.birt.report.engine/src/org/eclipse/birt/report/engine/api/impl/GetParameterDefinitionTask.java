@@ -34,6 +34,7 @@ import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.engine.data.IDataEngine;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -486,7 +487,12 @@ public class GetParameterDefinitionTask extends EngineTask
 	{
 		CascadingParameterGroupHandle parameterGroup = getCascadingParameterGroup( parameterGroupName );
 		if ( parameterGroup == null )
+		{
+			executionContext.addException( new EngineException(
+					MessageConstants.INVALID_PARAMETER_EXCEPTION,
+					parameterGroupName ) );
 			return Collections.EMPTY_LIST;
+		}
 
 		SlotHandle slotHandle = parameterGroup.getParameters( );
 		if ( groupKeyValues.length >= slotHandle.getCount( ) )
