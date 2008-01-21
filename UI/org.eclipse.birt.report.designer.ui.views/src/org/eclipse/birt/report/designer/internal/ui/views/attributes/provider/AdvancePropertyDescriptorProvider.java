@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.model.views.property.GroupPropertyHandleWrapper;
 import org.eclipse.birt.report.designer.core.model.views.property.PropertySheetRootElement;
 import org.eclipse.birt.report.designer.internal.ui.views.memento.Memento;
 import org.eclipse.birt.report.designer.internal.ui.views.memento.MementoElement;
@@ -34,8 +35,8 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.graphics.Image;
 
 /**
- *
- *
+ * 
+ * 
  */
 public class AdvancePropertyDescriptorProvider implements IDescriptorProvider
 {
@@ -105,13 +106,12 @@ public class AdvancePropertyDescriptorProvider implements IDescriptorProvider
 	{
 		return labelProvider;
 	}
-	
-	public  boolean addNode( Memento element,
-			MementoElement[] nodePath )
+
+	public boolean addNode( Memento element, MementoElement[] nodePath )
 	{
-		if ( nodePath!=null && nodePath.length>0)
+		if ( nodePath != null && nodePath.length > 0 )
 		{
-			MementoElement memento =  element.getMementoElement( );
+			MementoElement memento = element.getMementoElement( );
 			if ( !memento.equals( nodePath[0] ) )
 				return false;
 			for ( int i = 1; i < nodePath.length; i++ )
@@ -130,12 +130,11 @@ public class AdvancePropertyDescriptorProvider implements IDescriptorProvider
 		return false;
 	}
 
-	public boolean removeNode( Memento element,
-			MementoElement[] nodePath )
+	public boolean removeNode( Memento element, MementoElement[] nodePath )
 	{
-		if ( nodePath!=null && nodePath.length>0)
+		if ( nodePath != null && nodePath.length > 0 )
 		{
-			MementoElement memento =  element.getMementoElement( );
+			MementoElement memento = element.getMementoElement( );
 			if ( !memento.equals( nodePath[0] ) )
 				return false;
 			for ( int i = 1; i < nodePath.length; i++ )
@@ -152,8 +151,7 @@ public class AdvancePropertyDescriptorProvider implements IDescriptorProvider
 		return false;
 	}
 
-	private MementoElement getChild( MementoElement parent,
-			MementoElement key )
+	private MementoElement getChild( MementoElement parent, MementoElement key )
 	{
 		MementoElement[] children = parent.getChildren( );
 		for ( int i = 0; i < children.length; i++ )
@@ -164,13 +162,15 @@ public class AdvancePropertyDescriptorProvider implements IDescriptorProvider
 		return null;
 	};
 
-	public MementoElement[] getNodePath(MementoElement node){
-		LinkedList pathList = new LinkedList();
+	public MementoElement[] getNodePath( MementoElement node )
+	{
+		LinkedList pathList = new LinkedList( );
 		MementoElement memento = node;
-		pathList.add( node );//add root
-		while(memento.getChildren( ).length>0){
+		pathList.add( node );// add root
+		while ( memento.getChildren( ).length > 0 )
+		{
 			pathList.add( memento.getChild( 0 ) );
-			memento = (MementoElement)memento.getChild( 0 );
+			memento = (MementoElement) memento.getChild( 0 );
 		}
 		MementoElement[] paths = new MementoElement[pathList.size( )];
 		pathList.toArray( paths );
@@ -179,13 +179,15 @@ public class AdvancePropertyDescriptorProvider implements IDescriptorProvider
 
 	public String getElementType( )
 	{
-		String displayName = ((DesignElementHandle)DEUtil.getInputFirstElement( input )).getDefn( ).getDisplayName( );
+		String displayName = ( (DesignElementHandle) DEUtil.getInputFirstElement( input ) ).getDefn( )
+				.getDisplayName( );
 
 		if ( displayName == null || "".equals( displayName ) )//$NON-NLS-1$ 
 		{
-			displayName = ((DesignElementHandle)DEUtil.getInputFirstElement( input )).getDefn( ).getName( );
+			displayName = ( (DesignElementHandle) DEUtil.getInputFirstElement( input ) ).getDefn( )
+					.getName( );
 		}
-		
+
 		return displayName;
 	}
 }
@@ -206,7 +208,7 @@ class AdvancePropertyLabelProvider implements ITableLabelProvider
 		{
 			if ( element instanceof List )
 			{
-				GroupPropertyHandle property = (GroupPropertyHandle) ( ( (List) element ).get( 0 ) );
+				GroupPropertyHandle property = (GroupPropertyHandle) ( (GroupPropertyHandleWrapper) ( ( (List) element ).get( 0 ) ) ).getModel( );
 				return property.getPropertyDefn( ).getGroupName( );
 			}
 
@@ -214,12 +216,13 @@ class AdvancePropertyLabelProvider implements ITableLabelProvider
 			{
 				return ( (PropertySheetRootElement) element ).getDisplayName( );
 			}
-			GroupPropertyHandle property = (GroupPropertyHandle) element;
+			GroupPropertyHandle property = ( (GroupPropertyHandleWrapper) element ).getModel( );
 			return property.getPropertyDefn( ).getDisplayName( );
 		}
-		else if ( columnIndex == 1 && element instanceof GroupPropertyHandle )
+		else if ( columnIndex == 1
+				&& element instanceof GroupPropertyHandleWrapper )
 		{
-			GroupPropertyHandle propertyHandle = (GroupPropertyHandle) element;
+			GroupPropertyHandle propertyHandle = (GroupPropertyHandle) ( (GroupPropertyHandleWrapper) element ).getModel( );
 			String value = null;
 			if ( propertyHandle != null )
 			{
@@ -283,7 +286,7 @@ class AdvancePropertyContentProvider implements ITreeContentProvider
 				GroupPropertyHandle property = (GroupPropertyHandle) it.next( );
 				IElementPropertyDefn defn = property.getPropertyDefn( );
 				if ( defn.getGroupNameKey( ) == null )
-					items.add( property );
+					items.add( new GroupPropertyHandleWrapper( property ) );
 				else
 				{
 					List group = (List) map.get( defn.getGroupNameKey( ) );
@@ -293,7 +296,7 @@ class AdvancePropertyContentProvider implements ITreeContentProvider
 						items.add( group );
 						map.put( defn.getGroupNameKey( ), group );
 					}
-					group.add( property );
+					group.add( new GroupPropertyHandleWrapper( property ) );
 				}
 			}
 			return items.toArray( );

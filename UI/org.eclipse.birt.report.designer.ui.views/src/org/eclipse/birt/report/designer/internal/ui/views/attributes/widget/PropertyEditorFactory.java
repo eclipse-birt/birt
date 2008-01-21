@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.property.widgets.Combo
 import org.eclipse.birt.report.designer.internal.ui.views.property.widgets.DateTimeCellEditor;
 import org.eclipse.birt.report.designer.internal.ui.views.property.widgets.DimensionCellEditor;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.ui.widget.CTextCellEditor;
 import org.eclipse.birt.report.designer.ui.widget.ComboBoxCellEditor;
 import org.eclipse.birt.report.designer.ui.widget.ExpressionDialogCellEditor;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -34,7 +35,6 @@ import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PredefinedStyle;
 import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
@@ -198,7 +198,7 @@ public class PropertyEditorFactory
 		}
 		else if ( handle.isPassProperty( o ) )
 		{
-			editor = new TextCellEditor( parent, SWT.PASSWORD );
+			editor = new CTextCellEditor( parent, SWT.PASSWORD );
 			editor.setValue( value );
 		}
 		else if ( handle.isBackgroundImageProperty( o ) )
@@ -220,7 +220,7 @@ public class PropertyEditorFactory
 		}
 		else
 		{
-			editor = new TextCellEditor( parent );
+			editor = new CTextCellEditor( parent );
 			editor.setValue( value );
 		}
 

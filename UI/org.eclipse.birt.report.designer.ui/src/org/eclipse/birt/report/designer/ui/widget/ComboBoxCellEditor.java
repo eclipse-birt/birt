@@ -25,19 +25,19 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.events.TraverseListener;
-import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
-/**
- * A cell editor that presents a list of items in a combo box. Cutomized
- * combobox celleditor of eclipse to support text value input.
- * <p>
- * This class may be instantiated; it is not intended to be subclassed.
- * </p>
- */
 public class ComboBoxCellEditor extends CellEditor
 {
+
+	/**
+	 * The ComboBox to keep the system defined and customer defined colors
+	 */
+	private CCombo comboBox;
 
 	/**
 	 * The list of items to present in the combo box.
@@ -50,44 +50,33 @@ public class ComboBoxCellEditor extends CellEditor
 	int selection;
 
 	/**
-	 * The custom combo box control.
+	 * The composite to keep the combobox and button together
 	 */
-	CCombo comboBox;
-
-	/**
-	 * Default BirtComboBoxCellEditor style
-	 */
-	private static final int defaultStyle = SWT.NONE;
-
-	private Object value;
+	private Composite composite;
 
 	private int inProcessing = 0;
 
 	/**
-	 * Creates a new cell editor with no control and no st of choices.
-	 * Initially, the cell editor has no cell validator.
+	 * Creates a new dialog cell editor parented under the given control. The
+	 * combobox lists is <code>null</code> initially
 	 * 
-	 * @since 2.1
-	 * @see #setStyle
-	 * @see #create
-	 * @see #setItems
-	 * @see #dispose
+	 * @param parent
+	 *            the parent control
 	 */
-	public ComboBoxCellEditor( )
+	public ComboBoxCellEditor( Composite parent )
 	{
+		super( parent );
 		setStyle( defaultStyle );
 	}
 
 	/**
-	 * Creates a new cell editor with a combo containing the given list of
-	 * choices and parented under the given control. The cell editor value is
-	 * the zero-based index of the selected item. Initially, the cell editor has
-	 * no cell validator and the first item in the list is selected.
+	 * Creates a new dialog cell editor parented under the given control. The
+	 * combo box box lists is initialized with the items parameter
 	 * 
 	 * @param parent
 	 *            the parent control
 	 * @param items
-	 *            the list of strings for the combo box
+	 *            the initilizing combobox list
 	 */
 	public ComboBoxCellEditor( Composite parent, String[] items )
 	{
@@ -95,69 +84,25 @@ public class ComboBoxCellEditor extends CellEditor
 	}
 
 	/**
-	 * Creates a new cell editor with a combo containing the given list of
-	 * choices and parented under the given control. The cell editor value is
-	 * the zero-based index of the selected item. Initially, the cell editor has
-	 * no cell validator and the first item in the list is selected.
+	 * Creates a new dialog cell editor parented under the given control and
+	 * givend style. The combo box box lists is initialized with the items
+	 * parameter
 	 * 
 	 * @param parent
 	 *            the parent control
 	 * @param items
-	 *            the list of strings for the combo box
+	 *            the initilizing combobox list
 	 * @param style
-	 *            the style bits
-	 * @since 2.1
+	 *            the style of this editor
 	 */
 	public ComboBoxCellEditor( Composite parent, String[] items, int style )
 	{
 		super( parent, style );
+		if ( items != null )
+		{
+			Arrays.sort( items );
+		}
 		setItems( items );
-	}
-
-	/**
-	 * The <code>BirtComboBoxCellEditor</code> implementation of this
-	 * <code>ComboBoxCellEditor</code> framework method returns the String
-	 * value of the current selection.
-	 * 
-	 * @return the value of the current selection wrapped as an
-	 *         <code>String</code>
-	 */
-	protected Object doGetValue( )
-	{
-		CCombo comboBox = (CCombo) super.getControl( );
-
-		if ( selection != -1 )
-			return comboBox.getItem( selection );
-
-		return comboBox.getText( );
-	}
-
-	/**
-	 * The <code>BirtComboBoxCellEditor</code> implementation of this
-	 * <code>ComboBoxCellEditor</code> framework method accepts a String
-	 * value.
-	 * 
-	 * @param value
-	 *            the value to be set as an <code>String</code>
-	 */
-	protected void doSetValue( Object value )
-	{
-		CCombo comboBox = (CCombo) super.getControl( );
-
-		Assert.isTrue( comboBox != null );
-		if ( value instanceof Integer )
-		{
-			selection = ( (Integer) value ).intValue( );
-			comboBox.select( selection );
-		}
-		else
-		{
-			comboBox.setText( (String) value );
-			this.value = value;
-			// comboBox.select( Arrays.asList( comboBox.getItems( ) ).indexOf(
-			// value ) );
-			selection = Arrays.asList( comboBox.getItems( ) ).indexOf( value );
-		}
 	}
 
 	/**
@@ -183,22 +128,44 @@ public class ComboBoxCellEditor extends CellEditor
 		populateComboBoxItems( );
 	}
 
-	/*
-	 * (non-Javadoc) Method declared on CellEditor.
+	/**
+	 * Updates the list of choices for the combo box for the current control.
 	 */
-	protected Control createControl( Composite parent )
+	private void populateComboBoxItems( )
 	{
-		comboBox = new CCombo( parent, getStyle( ) );
-		comboBox.setFont( parent.getFont( ) );
+		if ( comboBox != null && items != null )
+		{
+			comboBox.removeAll( );
+			for ( int i = 0; i < items.length; i++ )
+				comboBox.add( items[i], i );
 
-		comboBox.addKeyListener( new KeyAdapter( ) {
+			setValueValid( true );
+			selection = 0;
+		}
+	}
 
-			// hook key pressed - see PR 14201
-			public void keyPressed( KeyEvent e )
+	/*
+	 * (non-Javadoc) Method declared on DialogCellEditor.
+	 */
+	protected Control createContents( final Composite cell )
+	{
+
+		Color bg = cell.getBackground( );
+
+		cell.addFocusListener( new FocusAdapter( ) {
+
+			public void focusLost( FocusEvent e )
 			{
-				keyReleaseOccured( e );
+				ComboBoxCellEditor.this.focusLost( );
 			}
 		} );
+		composite = new Composite( cell, getStyle( ) );
+		composite.setBackground( bg );
+		composite.setLayout( new FillLayout( ) );
+
+		comboBox = new CCombo( composite, getStyle( ) );
+		comboBox.setBackground( bg );
+		comboBox.setFont( cell.getFont( ) );
 
 		comboBox.addSelectionListener( new SelectionAdapter( ) {
 
@@ -209,7 +176,16 @@ public class ComboBoxCellEditor extends CellEditor
 
 			public void widgetSelected( SelectionEvent event )
 			{
-				selection = comboBox.getSelectionIndex( );
+				applyEditorValueAndDeactivate( );
+			}
+		} );
+
+		comboBox.addKeyListener( new KeyAdapter( ) {
+
+			// hook key pressed - see PR 14201
+			public void keyPressed( KeyEvent e )
+			{
+				keyReleaseOccured( e );
 			}
 		} );
 
@@ -232,55 +208,8 @@ public class ComboBoxCellEditor extends CellEditor
 				ComboBoxCellEditor.this.focusLost( );
 			}
 		} );
-		return comboBox;
-	}
 
-	/*
-	 * (non-Javadoc) Method declared on CellEditor.
-	 */
-	protected void doSetFocus( )
-	{
-		comboBox.setFocus( );
-	}
-
-	/**
-	 * The <code>ComboBoxCellEditor</code> implementation of this
-	 * <code>CellEditor</code> framework method sets the minimum width of the
-	 * cell. The minimum width is 10 characters if <code>comboBox</code> is
-	 * not <code>null</code> or <code>disposed</code> eles it is 60 pixels
-	 * to make sure the arrow button and some text is visible. The list of
-	 * CCombo will be wide enough to show its longest item.
-	 */
-	public LayoutData getLayoutData( )
-	{
-		LayoutData layoutData = super.getLayoutData( );
-		if ( ( comboBox == null ) || comboBox.isDisposed( ) )
-			layoutData.minimumWidth = 60;
-		else
-		{
-			// make the comboBox 10 characters wide
-			GC gc = new GC( comboBox );
-			layoutData.minimumWidth = ( gc.getFontMetrics( )
-					.getAverageCharWidth( ) * 10 ) + 10;
-			gc.dispose( );
-		}
-		return layoutData;
-	}
-
-	/**
-	 * Updates the list of choices for the combo box for the current control.
-	 */
-	private void populateComboBoxItems( )
-	{
-		if ( comboBox != null && items != null )
-		{
-			comboBox.removeAll( );
-			for ( int i = 0; i < items.length; i++ )
-				comboBox.add( items[i], i );
-
-			setValueValid( true );
-			selection = 0;
-		}
+		return composite;
 	}
 
 	/**
@@ -288,50 +217,28 @@ public class ComboBoxCellEditor extends CellEditor
 	 */
 	void applyEditorValueAndDeactivate( )
 	{
-
 		inProcessing = 1;
-		
-		markDirty( );
-		
-		// must set the selection before getting value
-		selection = comboBox.getSelectionIndex( );
-		Object newValue = null;
-		if ( selection == -1 )
-		{
-			newValue = comboBox.getText( );
-		}
-		else
-		{
-			newValue = comboBox.getItem( selection );
-		}
-
-		doSetValue( newValue );
-
-		boolean isValid = isCorrect( newValue );
-		setValueValid( isValid );
+		doValueChanged( );
 		fireApplyEditorValue( );
 		deactivate( );
-		
 		inProcessing = 0;
 	}
 
 	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.viewers.CellEditor#focusLost()
+	 * (non-Javadoc) Method declared on DialogCellEditor.
 	 */
-	protected void focusLost( )
+	protected void updateContents( Object value )
 	{
-		if ( inProcessing == 1 )
+		if ( comboBox == null )
 			return;
-		if ( !comboBox.getText( ).equals( value ) )
+
+		String text = "";//$NON-NLS-1$
+		if ( value != null )
 		{
-			markDirty( );
+			text = value.toString( );
 		}
-		if ( isActivated( ) )
-		{
-			applyEditorValueAndDeactivate( );
-		}
+
+		comboBox.setText( text );
 	}
 
 	/*
@@ -350,10 +257,125 @@ public class ComboBoxCellEditor extends CellEditor
 			applyEditorValueAndDeactivate( );
 		}
 		else if ( keyEvent.character == '\r' )
-		{ // tab key
-			markDirty( );
+		{ // Return key
 			applyEditorValueAndDeactivate( );
 		}
-
 	}
+
+	/**
+	 * Processes a focus lost event that occurred in this cell editor.
+	 * <p>
+	 * The default implementation of this framework method applies the current
+	 * value and deactivates the cell editor. Subclasses should call this method
+	 * at appropriate times. Subclasses may also extend or reimplement.
+	 * </p>
+	 */
+	protected void focusLost( )
+	{
+		if ( inProcessing == 1 )
+			return;
+		super.focusLost( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.viewers.CellEditor#doSetFocus()
+	 */
+	protected void doSetFocus( )
+	{
+		comboBox.setFocus( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.property.widgets.CDialogCellEditor#doValueChanged()
+	 */
+	protected void doValueChanged( )
+	{
+		if ( selection != comboBox.getSelectionIndex( ) )
+		{
+			markDirty( );
+		}
+		// must set the selection before getting value
+		selection = comboBox.getSelectionIndex( );
+		Object newValue = null;
+		if ( selection == -1 )
+		{
+			newValue = comboBox.getText( );
+		}
+		else
+		{
+			newValue = comboBox.getItem( selection );
+		}
+
+		if ( newValue != null )
+		{
+			boolean newValidState = isCorrect( newValue );
+			if ( newValidState )
+			{
+				doSetValue( newValue );
+				markDirty( );
+			}
+			else
+			{
+			}
+		}
+	}
+
+	/**
+	 * The editor control.
+	 */
+	private Composite editor;
+
+	/**
+	 * The value of this cell editor; initially <code>null</code>.
+	 */
+	private Object value = null;
+
+	/**
+	 * Default DialogCellEditor style
+	 */
+	private static final int defaultStyle = SWT.NONE;
+
+	/*
+	 * (non-Javadoc) Method declared on CellEditor.
+	 */
+	protected Control createControl( Composite parent )
+	{
+
+		Font font = parent.getFont( );
+		Color bg = parent.getBackground( );
+
+		editor = new Composite( parent, getStyle( ) );
+		editor.setFont( font );
+		editor.setBackground( bg );
+		editor.setLayout( new FillLayout( ) );
+
+		createContents( editor );
+		updateContents( value );
+
+		setValueValid( true );
+
+		return editor;
+	}
+
+	/*
+	 * (non-Javadoc) Method declared on CellEditor.
+	 */
+	protected Object doGetValue( )
+	{
+		return value;
+	}
+
+	/*
+	 * (non-Javadoc) Method declared on CellEditor.
+	 */
+	protected void doSetValue( Object value )
+	{
+		this.value = value;
+		updateContents( value );
+	}
+
 }

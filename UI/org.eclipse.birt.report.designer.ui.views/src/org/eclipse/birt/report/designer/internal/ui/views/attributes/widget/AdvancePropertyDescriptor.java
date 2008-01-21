@@ -9,6 +9,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
+import org.eclipse.birt.report.designer.core.model.views.property.GroupPropertyHandleWrapper;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -48,6 +49,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
@@ -417,11 +419,11 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 			return;
 		}
 
-		if ( model instanceof GroupPropertyHandle )
+		if ( model instanceof GroupPropertyHandleWrapper )
 		{
 			try
 			{
-				( (GroupPropertyHandle) model ).setValue( cellEditor.getValue( ) );
+				( (GroupPropertyHandle) ( (GroupPropertyHandleWrapper) model ).getModel( ) ).setValue( cellEditor.getValue( ) );
 			}
 			catch ( SemanticException e )
 			{
@@ -498,11 +500,12 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 	private CellEditor createCellEditor( Object data )
 	{
 		CellEditor editor = null;
-		if ( data instanceof GroupPropertyHandle
-				&& ( (GroupPropertyHandle) ( data ) ).isVisible( ) )
+		if ( data instanceof GroupPropertyHandleWrapper
+				&& ( (GroupPropertyHandle) ( ( (GroupPropertyHandleWrapper) data ) ).getModel( ) ).isVisible( ) )
 		{
 			editor = PropertyEditorFactory.getInstance( )
-					.createPropertyEditor( tableTree, data );
+					.createPropertyEditor( tableTree,
+							( (GroupPropertyHandleWrapper) data ).getModel( ) );
 
 			if ( editor instanceof ExpressionDialogCellEditor )
 			{
@@ -578,23 +581,7 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 			Object obj = DEUtil.getInputFirstElement( input );
 			if ( obj instanceof DesignElementHandle )
 			{
-				IMemento memento = viewerMemento.getChild( provider.getElementType( ) );
-				if ( memento == null )
-				{
-					expandToDefaultLevel( );
-					if ( viewer.getTree( ).getItemCount( ) > 0 )
-					{
-						Memento elementMemento = (Memento) viewerMemento.createChild( provider.getElementType( ),
-								MementoElement.Type_Element );
-						elementMemento.getMementoElement( )
-								.setValue( new Integer( 0 ) );
-					}
-				}
-				if ( memento != null && memento instanceof Memento )
-				{
-					expandToDefaultLevel( );
-					expandTreeFromMemento( (Memento) memento );
-				}
+				execMemento( );
 			}
 		}
 
@@ -703,21 +690,47 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 
 		registerEventManager( );
 
-		IMemento memento = viewerMemento.getChild( provider.getElementType( ) );
-		if ( memento == null )
+		execMemento( );
+
+	}
+
+	private boolean execMemento = false;
+
+	private void execMemento( )
+	{
+		if ( !execMemento )
 		{
-			expandToDefaultLevel( );
-			if ( viewer.getTree( ).getItemCount( ) > 0 )
-			{
-				Memento elementMemento = (Memento) viewerMemento.createChild( provider.getElementType( ),
-						MementoElement.Type_Element );
-				elementMemento.getMementoElement( ).setValue( new Integer( 0 ) );
-			}
-		}
-		else if ( memento instanceof Memento )
-		{
-			expandToDefaultLevel( );
-			expandTreeFromMemento( (Memento) memento );
+			execMemento = true;
+			new Thread( ) {
+				public void run( )
+				{
+					Display.getDefault( ).syncExec( new Runnable( ) {
+
+						public void run( )
+						{
+							IMemento memento = viewerMemento.getChild( provider.getElementType( ) );
+							if ( memento == null )
+							{
+								expandToDefaultLevel( );
+								if ( viewer.getTree( ).getItemCount( ) > 0 )
+								{
+									Memento elementMemento = (Memento) viewerMemento.createChild( provider.getElementType( ),
+											MementoElement.Type_Element );
+									elementMemento.getMementoElement( )
+											.setValue( new Integer( 0 ) );
+								}
+							}
+							else if ( memento instanceof Memento )
+							{
+								expandToDefaultLevel( );
+								expandTreeFromMemento( (Memento) memento );
+							}
+							execMemento = false;
+						}
+					} );
+
+				}
+			}.start( );
 		}
 
 	}

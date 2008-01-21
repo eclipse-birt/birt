@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.model.views.property.GroupPropertyHandleWrapper;
 import org.eclipse.birt.report.designer.core.model.views.property.PropertySheetRootElement;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -25,13 +26,13 @@ import org.eclipse.jface.viewers.Viewer;
 
 /**
  * Content provider for property sheet table tree view
- *  
+ * 
  */
 public class ReportPropertySheetContentProvider implements ITreeContentProvider
 {
 
 	private static final String ROOT_DEFAUL_TITLE = Messages.getString( "ReportPropertySheetPage.Root.Default.Title" ); //$NON-NLS-1$
-	
+
 	public Object[] getChildren( Object parentElement )
 	{
 		if ( parentElement instanceof List )
@@ -42,15 +43,14 @@ public class ReportPropertySheetContentProvider implements ITreeContentProvider
 		{
 			ArrayList items = new ArrayList( );
 			HashMap map = new HashMap( );
-			GroupElementHandle handle = (GroupElementHandle) ( (PropertySheetRootElement) parentElement )
-					.getModel( );
+			GroupElementHandle handle = (GroupElementHandle) ( (PropertySheetRootElement) parentElement ).getModel( );
 
 			for ( Iterator it = handle.visiblePropertyIterator( ); it.hasNext( ); )
 			{
 				GroupPropertyHandle property = (GroupPropertyHandle) it.next( );
 				IElementPropertyDefn defn = property.getPropertyDefn( );
 				if ( defn.getGroupNameKey( ) == null )
-					items.add( property );
+					items.add( new GroupPropertyHandleWrapper( property ) );
 				else
 				{
 					List group = (List) map.get( defn.getGroupNameKey( ) );
@@ -60,7 +60,7 @@ public class ReportPropertySheetContentProvider implements ITreeContentProvider
 						items.add( group );
 						map.put( defn.getGroupNameKey( ), group );
 					}
-					group.add( property );
+					group.add( new GroupPropertyHandleWrapper( property ) );
 				}
 			}
 			return items.toArray( );
@@ -75,8 +75,7 @@ public class ReportPropertySheetContentProvider implements ITreeContentProvider
 
 	public boolean hasChildren( Object element )
 	{
-		return ( ( element instanceof List && ( (List) element ).size( ) > 0 ) 
-				|| element instanceof PropertySheetRootElement );
+		return ( ( element instanceof List && ( (List) element ).size( ) > 0 ) || element instanceof PropertySheetRootElement );
 	}
 
 	public Object[] getElements( Object inputElement )
@@ -86,12 +85,11 @@ public class ReportPropertySheetContentProvider implements ITreeContentProvider
 		if ( inputElement instanceof GroupElementHandle )
 		{
 
-			PropertySheetRootElement root = new PropertySheetRootElement(
-					inputElement );
+			PropertySheetRootElement root = new PropertySheetRootElement( (GroupElementHandle) inputElement );
 
 			String displayName = null;
-			Object element = ( (GroupElementHandle) inputElement )
-					.getElements( ).get( 0 );
+			Object element = ( (GroupElementHandle) inputElement ).getElements( )
+					.get( 0 );
 
 			if ( element instanceof DesignElementHandle )
 			{

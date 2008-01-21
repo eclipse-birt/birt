@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.model.views.property.GroupPropertyHandleWrapper;
 import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
@@ -158,9 +159,9 @@ public class ReportPropertySheetPage extends Page implements
 				COLUMN_TITLE_PROPERTY, COLUMN_TITLE_VALUE
 		} );
 
-		AlphabeticallyViewSorter sorter = new AlphabeticallyViewSorter( );
-		sorter.setAscending( true );
-		viewer.setSorter( sorter );
+		 AlphabeticallyViewSorter sorter = new AlphabeticallyViewSorter( );
+		 sorter.setAscending( true );
+		 viewer.setSorter( sorter );
 
 		hookControl( );
 
@@ -456,11 +457,11 @@ public class ReportPropertySheetPage extends Page implements
 			return;
 		}
 
-		if ( model instanceof GroupPropertyHandle )
+		if ( model instanceof GroupPropertyHandleWrapper )
 		{
 			try
 			{
-				( (GroupPropertyHandle) model ).setValue( cellEditor.getValue( ) );
+				( (GroupPropertyHandle) ((GroupPropertyHandleWrapper)model).getModel( ) ).setValue( cellEditor.getValue( ) );
 			}
 			catch ( SemanticException e )
 			{
@@ -537,15 +538,15 @@ public class ReportPropertySheetPage extends Page implements
 	private CellEditor createCellEditor( Object data )
 	{
 		CellEditor editor = null;
-		if ( data instanceof GroupPropertyHandle
-				&& ( (GroupPropertyHandle) ( data ) ).isVisible( ) )
+		if ( data instanceof GroupPropertyHandleWrapper
+				&& ( (GroupPropertyHandle) ( ( (GroupPropertyHandleWrapper) data ) ).getModel( ) ).isVisible( ) )
 		{
 			editor = PropertyEditorFactory.getInstance( )
-					.createPropertyEditor( tableTree, data );
+					.createPropertyEditor( tableTree,
+							( (GroupPropertyHandleWrapper) data ).getModel( ) );
 
 			if ( editor instanceof ExpressionDialogCellEditor )
 			{
-				List dataSetList = null;
 				Object arrays[] = list.toArray( );
 				int len = arrays.length;
 				if ( len > 0 )
