@@ -229,12 +229,12 @@ public class ExcelWriter
 		{
 			writer.attribute( "ss:Horizontal", horizontal );
 		}
-		
+
 		if ( isValid( vertical ) )
 		{
 			writer.attribute( "ss:Vertical", vertical );
 		}
-		
+
 		writer.attribute( "ss:WrapText", "1" );
 		writer.closeTag( "Alignment" );
 	}
@@ -276,7 +276,7 @@ public class ExcelWriter
 		{
 			writer.attribute( "ss:Size", size );
 		}
-		
+
 		if ( isValid( bold ) )
 		{
 			writer.attribute( "ss:Bold", bold );
@@ -426,17 +426,35 @@ public class ExcelWriter
 		if ( givenValue.length( ) == 1 )
 		{
 			char ch = givenValue.charAt( 0 );
-			if ( ch == 'G' || ch == 'g' || ch == 'd' || ch == 'D' || ch == 'c'
-					|| ch == 'C' || ch == 'f' || ch == 'F' || ch == 'n'
-					|| ch == 'N' || ch == 'e' || ch == 'E' || ch == 'x'
-					|| ch == 'X' )
+			if ( ch == 'G' || ch == 'g' || ch == 'd' || ch == 'D' )
 			{
 				returnStr = givenValue + "###";
 			}
-			else
+			if ( ch == 'C' || ch == 'c' )
 			{
-				returnStr = returnStr + givenValue;
+				return "¤###,##0.00";
 			}
+			if ( ch == 'f' || ch == 'F' )
+			{
+				return "#0.00";
+			}
+			if ( ch == 'N' || ch == 'n' )
+			{
+				return "###,##0.00";
+			}
+			if ( ch == 'p' || ch == 'P' )
+			{
+				return "###,##0.00 %";
+			}
+			if ( ch == 'e' || ch == 'E' )
+			{
+				return "0.000000E00";
+			}
+			if ( ch == 'x' || ch == 'X' )
+			{
+				returnStr = "####";
+			}
+			returnStr = returnStr + givenValue;
 		}
 		else
 		{
@@ -450,6 +468,13 @@ public class ExcelWriter
 			if ( givenValue.equals( "Standard" )
 					|| givenValue.equals( "###,##0.00" ) )
 				return "###,##0.00";
+			if(givenValue.equals( "General Number" )){
+				return "General";
+			}
+			
+			if(validType(givenValue)){
+				return givenValue + "###";
+			}
 			int count = givenValue.length( );
 			for ( int num = 0; num < count - 1; num++ )
 			{
@@ -460,6 +485,17 @@ public class ExcelWriter
 		return returnStr;
 	}
 
+	private boolean validType(String str){
+		for(int count = 0 ; count < str.length( ) ; count ++){
+			char ch = str.charAt( count );
+			if(ch != '$' && ch != '0' && ch != '#' && ch != '?' && ch != '@' && ch != '%'
+				&& ch != '.' && ch != ';' && ch != ' '){
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	public void writeDeclarations( )
 	{
 		writer.startWriter( );
