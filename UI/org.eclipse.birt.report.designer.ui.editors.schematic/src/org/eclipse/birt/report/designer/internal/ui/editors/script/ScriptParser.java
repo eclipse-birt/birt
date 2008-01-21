@@ -21,7 +21,7 @@ import org.eclipse.jface.text.Position;
 /**
  * The script parser.
  */
-public class ScriptParser implements IScriptMethodInfo
+public class ScriptParser
 {
 
 	/**
@@ -278,10 +278,12 @@ public class ScriptParser implements IScriptMethodInfo
 		return Collections.unmodifiableCollection( methodPositions );
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Returns a collection of all method info. Elements are instance of
+	 * <code>MethodInfo</code>.
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.script.IScriptMethodInfo#getAllMethodInfo()
+	 * @return a unmodifiable collection of all method info. Elements are
+	 *         instance of <code>IScriptMethodInfo</code>.
 	 */
 	public Collection getAllMethodInfo( )
 	{
@@ -319,7 +321,7 @@ public class ScriptParser implements IScriptMethodInfo
 							break;
 						}
 					}
-					allMethodInfo.add( new MethodInfo( method, position ) );
+					allMethodInfo.add( new ScriptMethodInfo( method, position ) );
 				}
 			}
 		}

@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.script;
 
-import java.util.Collection;
+import org.eclipse.jface.text.Position;
 
 /**
  * This interface for method info of script.
@@ -20,11 +20,16 @@ public interface IScriptMethodInfo
 {
 
 	/**
-	 * Returns a collection of all method info. Elements are instance of
-	 * <code>MethodInfo</code>.
+	 * Returns the method name.
 	 * 
-	 * @return a unmodifiable collection of all method info. Elements are instance of
-	 *         <code>MethodInfo</code>.
+	 * @return the method name.
 	 */
-	Collection getAllMethodInfo( );
+	String getName( );
+
+	/**
+	 * Returns the method position.
+	 * 
+	 * @return the method position.
+	 */
+	Position getPosition( );
 }
