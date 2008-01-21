@@ -63,6 +63,8 @@ public class PropertySheetRootElement
 
 	public boolean equals( Object obj )
 	{
+		if ( obj == this )
+			return true;
 		if ( obj == null || !( obj instanceof PropertySheetRootElement ) )
 			return false;
 		PropertySheetRootElement tmp = (PropertySheetRootElement) obj;

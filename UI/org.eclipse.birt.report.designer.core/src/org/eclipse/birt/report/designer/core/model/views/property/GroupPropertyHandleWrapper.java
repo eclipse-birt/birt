@@ -23,15 +23,35 @@ public class GroupPropertyHandleWrapper
 
 	public boolean equals( Object obj )
 	{
-		if ( obj == null || !( obj instanceof GroupPropertyHandle ) )
-			return false;
-		GroupPropertyHandle tmp = (GroupPropertyHandle) obj;
-		if ( tmp.getDisplayValue( ) == null || tmp.getStringValue( ) == null )
-			return false;
-		if ( tmp.getPropertyDefn( ).equals( handle.getPropertyDefn( ) )
-				&& tmp.getDisplayValue( ).equals( handle.getDisplayValue( ) )
-				&& tmp.getStringValue( ).equals( tmp.getStringValue( ) ) )
+		if ( obj == this )
 			return true;
+		if ( obj == null
+				|| ( !( obj instanceof GroupPropertyHandle ) && !( obj instanceof GroupPropertyHandleWrapper ) ) )
+			return false;
+		GroupPropertyHandle tmp = null;
+		if ( obj instanceof GroupPropertyHandleWrapper )
+		{
+			tmp = ( (GroupPropertyHandleWrapper) obj ).getModel( );
+			if(tmp.getPropertyDefn( )
+					.getGroupNameKey( ) == null)
+				return false;
+			if ( tmp.getPropertyDefn( )
+					.getGroupNameKey( )
+					.equals( handle.getPropertyDefn( ).getGroupNameKey( ) ) )
+				return true;
+		}
+		else
+		{
+			tmp = (GroupPropertyHandle) obj;
+			if ( tmp.getDisplayValue( ) == null
+					|| tmp.getStringValue( ) == null )
+				return false;
+			if ( tmp.getPropertyDefn( ).equals( handle.getPropertyDefn( ) )
+					&& tmp.getDisplayValue( )
+							.equals( handle.getDisplayValue( ) )
+					&& tmp.getStringValue( ).equals( tmp.getStringValue( ) ) )
+				return true;
+		}
 		return false;
 	}
 
@@ -44,8 +64,9 @@ public class GroupPropertyHandleWrapper
 			hashCode += handle.getStringValue( ).hashCode( ) * 13;
 		return hashCode;
 	}
-	
-	public GroupPropertyHandle getModel(){
+
+	public GroupPropertyHandle getModel( )
+	{
 		return handle;
 	}
 }

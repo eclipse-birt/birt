@@ -9,6 +9,9 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.eclipse.birt.report.designer.core.model.views.property.GroupPropertyHandleWrapper;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -686,14 +689,21 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 			return;
 		}
 
-		viewer.setInput( input );
-
+		if ( input == null || viewer.getInput( ) == null )
+		{
+			viewer.setInput( input );
+		}
+		else if ( input.equals( viewer.getInput( ) ) )
+		{
+			viewer.refresh( );
+		}
+		else
+			viewer.setInput( input );
+		
 		registerEventManager( );
-
 		execMemento( );
-
 	}
-
+	
 	private boolean execMemento = false;
 
 	private void execMemento( )
@@ -701,36 +711,32 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 		if ( !execMemento )
 		{
 			execMemento = true;
-			new Thread( ) {
+
+			Display.getDefault( ).asyncExec( new Runnable( ) {
+
 				public void run( )
 				{
-					Display.getDefault( ).syncExec( new Runnable( ) {
-
-						public void run( )
+					IMemento memento = viewerMemento.getChild( provider.getElementType( ) );
+					if ( memento == null )
+					{
+						expandToDefaultLevel( );
+						if ( viewer.getTree( ).getItemCount( ) > 0 )
 						{
-							IMemento memento = viewerMemento.getChild( provider.getElementType( ) );
-							if ( memento == null )
-							{
-								expandToDefaultLevel( );
-								if ( viewer.getTree( ).getItemCount( ) > 0 )
-								{
-									Memento elementMemento = (Memento) viewerMemento.createChild( provider.getElementType( ),
-											MementoElement.Type_Element );
-									elementMemento.getMementoElement( )
-											.setValue( new Integer( 0 ) );
-								}
-							}
-							else if ( memento instanceof Memento )
-							{
-								expandToDefaultLevel( );
-								expandTreeFromMemento( (Memento) memento );
-							}
-							execMemento = false;
+							Memento elementMemento = (Memento) viewerMemento.createChild( provider.getElementType( ),
+									MementoElement.Type_Element );
+							elementMemento.getMementoElement( )
+									.setValue( new Integer( 0 ) );
 						}
-					} );
-
+					}
+					else if ( memento instanceof Memento )
+					{
+						expandToDefaultLevel( );
+						expandTreeFromMemento( (Memento) memento );
+					}
+					execMemento = false;
 				}
-			}.start( );
+			} );
+
 		}
 
 	}

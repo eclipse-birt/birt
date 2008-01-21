@@ -314,10 +314,9 @@ class AdvancePropertyContentProvider implements ITreeContentProvider
 		return ( ( element instanceof List && ( (List) element ).size( ) > 0 ) || element instanceof PropertySheetRootElement );
 	}
 
+	PropertySheetRootElement[] roots = new PropertySheetRootElement[1];
 	public Object[] getElements( Object input )
 	{
-		ArrayList items = new ArrayList( );
-
 		GroupElementHandle inputElement = DEUtil.getGroupElementHandle( DEUtil.getInputElements( input ) );
 		if ( inputElement instanceof GroupElementHandle )
 		{
@@ -345,10 +344,10 @@ class AdvancePropertyContentProvider implements ITreeContentProvider
 				displayName = ROOT_DEFAUL_TITLE;
 			}
 			root.setDisplayName( displayName );
-
-			items.add( root );
+			
+			roots[0] = root;
 		}
-		return items.toArray( );
+		return roots;
 	}
 
 	public void dispose( )
