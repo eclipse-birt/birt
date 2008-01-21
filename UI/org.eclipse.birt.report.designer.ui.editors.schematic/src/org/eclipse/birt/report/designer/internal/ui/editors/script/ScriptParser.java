@@ -297,8 +297,7 @@ public class ScriptParser
 
 			if ( offset < script.length( ) )
 			{
-				String[] strs = script.substring( offset )
-						.split( "\\Wfunction\\W", 2 ); //$NON-NLS-1$
+				String[] strs = ( " " + script.substring( offset ) ).split( "\\Wfunction\\W", 2 ); //$NON-NLS-1$ //$NON-NLS-2$
 
 				if ( strs.length > 1 )
 				{
