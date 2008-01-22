@@ -34,6 +34,9 @@ public interface ICubeQueryDefinition extends INamedObject, IDataQueryDefinition
 	// The column edge type
 	public static final int COLUMN_EDGE = 2;
 
+	//The page edge type
+	public static final int PAGE_EDGE = 3;
+	
 	/**
 	 * When this value is not null, the data set name will not be used, since it
 	 * indicates query is running on the data of report document or local caching of QueryResults.

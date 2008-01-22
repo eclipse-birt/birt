@@ -49,6 +49,15 @@ public class JSLevelAccessor extends ScriptableObject
 		this.dims = new HashMap( );
 		this.cubeQueryDefn = defn;
 
+		if ( cursor.getPageEdgeView( ) != null
+				&& this.cubeQueryDefn.getEdge( ICubeQueryDefinition.PAGE_EDGE ) != null )
+			populateDimensionObjects( this.cubeQueryDefn.getEdge( ICubeQueryDefinition.PAGE_EDGE )
+					.getDimensions( ),
+					cursor.getPageEdgeView( )
+							.getEdgeCursor( )
+							.getDimensionCursor( )
+							.iterator( ) );
+		
 		/*
 		 * Populate Row Edge dimension objects.
 		 */

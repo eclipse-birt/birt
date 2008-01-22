@@ -169,5 +169,11 @@ public interface INavigator
 	 * @throws OLAPException
 	 */
 	public void clearWarnings( ) throws OLAPException;
+	
+	/**
+	 * 
+	 * @param position
+	 */
+	public void synchronizedPages( int position );
 
 }

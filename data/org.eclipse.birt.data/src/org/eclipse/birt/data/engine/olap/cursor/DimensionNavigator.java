@@ -184,4 +184,11 @@ class DimensionNavigator implements INavigator
 	public void setFetchSize( int arg0 ) throws OLAPException
 	{
 	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.cursor.INavigator#synchronizedPages(int)
+	 */
+	public void synchronizedPages( int position )
+	{	
+	}
 }

@@ -33,6 +33,12 @@ public interface IResultSet
 	public EdgeAxis getColumnEdgeResult( );
 
 	/**
+	 * Get resultset axis for page edge.
+	 * @return
+	 */
+	public EdgeAxis getPageEdgeResult( );
+	
+	/**
 	 * Get resultset axis for all aggregation.
 	 * @return
 	 */

@@ -32,7 +32,7 @@ import org.eclipse.birt.data.engine.olap.driver.EdgeAxis;
 class EdgeNavigator implements INavigator
 {
 
-	private RowDataAccessor dataAccessor;
+	private IRowDataAccessor dataAccessor;
 	private IAggregationResultSet rs;
 	private int fetchSize = -1;
 	private List warnings;
@@ -213,5 +213,13 @@ class EdgeNavigator implements INavigator
 					} );
 			warnings.add( new OLAPWarning( ex.getLocalizedMessage( ) ) );
 		}
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.cursor.INavigator#synchronizedPages(int)
+	 */
+	public void synchronizedPages( int position )
+	{
+		dataAccessor.sychronizedWithPage( position );
 	}
 }

@@ -12,6 +12,7 @@ package org.eclipse.birt.data.engine.olap.cursor;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -20,10 +21,8 @@ import javax.olap.cursor.CubeCursor;
 import javax.olap.cursor.EdgeCursor;
 
 import org.eclipse.birt.data.engine.api.DataEngine;
-import org.eclipse.birt.data.engine.olap.driver.EdgeAxis;
 import org.eclipse.birt.data.engine.olap.driver.IResultSet;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
-import org.eclipse.birt.data.engine.olap.query.view.BirtEdgeView;
 import org.eclipse.birt.data.engine.olap.query.view.MeasureNameManager;
 
 /**
@@ -73,19 +72,6 @@ public class CubeCursorImpl extends AbstractCursorSupport implements CubeCursor
 		if ( result == null )
 			return;
 
-		EdgeAxis[] calculatedMemberAxis = result.getMeasureResult( );
-		BirtEdgeView[] calculatedMemberView = cubeView.getMeasureEdgeView( );
-
-		if ( calculatedMemberAxis != null )
-		{
-			for ( int i = 0; i < calculatedMemberAxis.length; i++ )
-			{
-				pageEdge.add( new EdgeCursorImpl( calculatedMemberView[i],
-						true,
-						calculatedMemberAxis[i],
-						this ) );
-			}
-		}
 		if ( cubeView.getColumnEdgeView( ) != null )
 		{
 			EdgeCursor columnEdgeCursor = new EdgeCursorImpl( cubeView.getColumnEdgeView( ),
@@ -96,7 +82,7 @@ public class CubeCursorImpl extends AbstractCursorSupport implements CubeCursor
 			if ( appContext != null )
 				columnEdgeCursor.setFetchSize( populateFetchLimitSize( appContext.get( DataEngine.CUBECURSOR_FETCH_LIMIT_ON_COLUMN_EDGE ) ) );
 			
-			result.getColumnEdgeResult( ).populateEdgeInfo( );
+			result.getColumnEdgeResult( ).populateEdgeInfo( false );
 			ordinateEdge.add( columnEdgeCursor );
 		}
 		// create row edge cursor
@@ -109,8 +95,18 @@ public class CubeCursorImpl extends AbstractCursorSupport implements CubeCursor
 			if ( appContext != null )
 				rowEdgeCursor.setFetchSize( populateFetchLimitSize( appContext.get( DataEngine.CUBECUSROR_FETCH_LIMIT_ON_ROW_EDGE ) ) );
 
-			result.getRowEdgeResult( ).populateEdgeInfo( );
+			result.getRowEdgeResult( ).populateEdgeInfo( false );
 			ordinateEdge.add( rowEdgeCursor );
+		}
+		
+		if ( cubeView.getPageEdgeView( ) != null )
+		{
+			EdgeCursor pageEdgeCursor = new EdgeCursorImpl( cubeView.getPageEdgeView( ),
+					true,
+					result.getPageEdgeResult( ),
+					this );
+			result.getPageEdgeResult( ).populateEdgeInfo( true );
+			pageEdge.add( pageEdgeCursor );
 		}
 	}
 
@@ -135,7 +131,18 @@ public class CubeCursorImpl extends AbstractCursorSupport implements CubeCursor
 	 */
 	public void synchronizePages( ) throws OLAPException
 	{
-		//no-op
+		if( this.pageEdge!= null && !this.pageEdge.isEmpty( ) )
+		{
+			//assume we just has on page cursor at most.
+			EdgeCursorImpl pageCursor =( EdgeCursorImpl )this.pageEdge.get( 0 );
+			long position = pageCursor.getPosition( );
+			Iterator iter = this.ordinateEdge.iterator( );
+			while( iter.hasNext( ) )
+			{
+				EdgeCursorImpl cursor = (EdgeCursorImpl)iter.next( );
+				cursor.synchronizedPages( (int)position );				
+			}
+		}
 	}
 	
 	/**

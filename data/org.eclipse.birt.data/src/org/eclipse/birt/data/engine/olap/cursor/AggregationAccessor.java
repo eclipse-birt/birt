@@ -36,7 +36,7 @@ import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
 import org.eclipse.birt.data.engine.olap.query.view.BirtEdgeView;
 import org.eclipse.birt.data.engine.olap.query.view.CalculatedMember;
 import org.eclipse.birt.data.engine.olap.query.view.MeasureNameManager;
-import org.eclipse.birt.data.engine.olap.query.view.RelationShip;
+import org.eclipse.birt.data.engine.olap.query.view.Relationship;
 
 /**
  * This class is to access all aggregation value's according to its result set
@@ -116,8 +116,8 @@ public class AggregationAccessor implements Accessor
 		if ( rs == null || rs.length( )<=0 )
 			return false;
 				
-		EdgeCursor rowEdgeCursor = null, columnEdgeCursor = null;
-		List columnDimList = null, rowDimList = null;
+		EdgeCursor rowEdgeCursor = null, columnEdgeCursor = null, pageEdgeCursor = null;
+		List columnDimList = null, rowDimList = null, pageDimList = null;
 		if ( this.view.getRowEdgeView( ) != null )
 		{
 			rowEdgeCursor = (EdgeCursor) ( (BirtEdgeView) this.view.getRowEdgeView( ) ).getEdgeCursor( );
@@ -130,16 +130,31 @@ public class AggregationAccessor implements Accessor
 			if ( columnEdgeCursor != null )
 				columnDimList = columnEdgeCursor.getDimensionCursor( );
 		}
+		if ( this.view.getPageEdgeView( ) != null )
+		{
+			pageEdgeCursor = (EdgeCursor) ( (BirtEdgeView) this.view.getPageEdgeView( ) ).getEdgeCursor( );
+			if ( pageEdgeCursor != null )
+				pageDimList = pageEdgeCursor.getDimensionCursor( );
+		}
 
 		CalculatedMember member = manager.getCalculatedMember( aggrName );
 		List memberList = member.getAggrOnList( );
 
-		RelationShip relation = (RelationShip) this.relationMap.get( aggrName );
+		Relationship relation = (Relationship) this.relationMap.get( aggrName );
+		List pageLevelList = relation.getLevelListOnPage( );
 		List columnLevelList = relation.getLevelListOnColumn( );
 		List rowLevelList = relation.getLevelListOnRow( );
 
 		Map valueMap = new HashMap( );
-
+	
+		for ( int index = 0; index < pageLevelList.size( ); index++ )
+		{
+			DimLevel level = (DimLevel) pageLevelList.get( index );
+			DimensionCursor cursor = (DimensionCursor) pageDimList.get( index );
+			Object value = cursor.getObject( level.getLevelName( ) );
+			valueMap.put( level, value );
+		}
+		
 		for ( int i = 0; i < columnLevelList.size( ); i++ )
 		{
 			DimLevel level = (DimLevel) columnLevelList.get( i );
@@ -155,7 +170,7 @@ public class AggregationAccessor implements Accessor
 			valueMap.put( level, value );
 		}
 
-		if ( columnLevelList.isEmpty( ) && rowLevelList.isEmpty( ) )
+		if ( columnLevelList.isEmpty( ) && rowLevelList.isEmpty( ) && pageLevelList.isEmpty( ) )
 			return true;
 
 		return findValueMatcher( rs, memberList, valueMap, aggrIndex );

@@ -43,9 +43,7 @@ public class AbstractCursorSupport implements
 
 	INavigator navigator;
 	private Accessor accessor;
-	private int fetchDirection = 0;
-	//-1 indicate fetch all
-	private int fetchSize = -1;
+	private int fetchDirection = 0, fetchSize = -1;
 	
 	/**
 	 * 
@@ -731,9 +729,11 @@ public class AbstractCursorSupport implements
 		return null;
 	}
 
+	/*
+	 * @see javax.olap.query.querycoremodel.NamedObject#getName()
+	 */
 	public String getName( ) throws OLAPException
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -743,10 +743,21 @@ public class AbstractCursorSupport implements
 		
 	}
 
+	/*
+	 * @see javax.olap.query.querycoremodel.NamedObject#setName(java.lang.String)
+	 */
 	public void setName( String value ) throws OLAPException
 	{
-		// TODO Auto-generated method stub
-		
+	}
+	
+	/**
+	 * 
+	 * @param position
+	 */
+	public void synchronizedPages( int position )
+	{
+		if ( this.navigator != null )
+			this.navigator.synchronizedPages( position );
 	}
 
 }

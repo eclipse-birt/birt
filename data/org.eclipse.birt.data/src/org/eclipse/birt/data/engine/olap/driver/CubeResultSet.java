@@ -22,8 +22,7 @@ import org.eclipse.birt.data.engine.olap.query.view.MeasureNameManager;
 public class CubeResultSet implements IResultSet
 {
 
-	private EdgeAxis rowEdgeAxis;
-	private EdgeAxis columnEdgeAxis;
+	private EdgeAxis rowEdgeAxis, columnEdgeAxis, pageEdgeAxis;
 	private EdgeAxis[] calculatedEdgeAxis;
 	private MeasureNameManager manager;
 	
@@ -90,6 +89,14 @@ public class CubeResultSet implements IResultSet
 					false );
 			count++;
 		}
+		if ( cubeView.getPageEdgeView( ) != null )
+		{
+			this.pageEdgeAxis = new EdgeAxis( rsArray[count],
+					cubeView.getPageEdgeView( ),
+					cubeQueryExecutorHelper.getPageSort( ),
+					false );
+			count++;
+		}
 
 		if ( rsArray.length > count )
 		{
@@ -146,6 +153,14 @@ public class CubeResultSet implements IResultSet
 	public EdgeAxis getRowEdgeResult( )
 	{
 		return this.rowEdgeAxis;
+	}
+	
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.driver.IResultSet#getPageEdgeResult()
+	 */
+	public EdgeAxis getPageEdgeResult( )
+	{
+		return this.pageEdgeAxis;
 	}
 
 	/*

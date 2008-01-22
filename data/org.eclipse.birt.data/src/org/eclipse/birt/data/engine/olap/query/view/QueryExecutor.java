@@ -96,8 +96,10 @@ public class QueryExecutor
 			IAggrMeasureFilterEvalHelper filterHelper = (IAggrMeasureFilterEvalHelper) itr.next( );
 			cubeQueryExcutorHelper.addAggrMeasureFilter( filterHelper );
 		}
-		populateAggregationSort( executor, cubeQueryExcutorHelper, true );
-		populateAggregationSort( executor, cubeQueryExcutorHelper, false );
+		populateAggregationSort( executor, cubeQueryExcutorHelper, ICubeQueryDefinition.COLUMN_EDGE );
+		populateAggregationSort( executor, cubeQueryExcutorHelper, ICubeQueryDefinition.ROW_EDGE );
+		populateAggregationSort( executor, cubeQueryExcutorHelper, ICubeQueryDefinition.PAGE_EDGE );
+		
 		IAggregationResultSet[] rs = null;
 		cubeQueryExcutorHelper.setBreakHierarchy( executor.getCubeQueryDefinition( )
 				.getFilterOption( ) == 0 );
@@ -234,11 +236,23 @@ public class QueryExecutor
 	 * @throws DataException
 	 */
 	private void populateAggregationSort( CubeQueryExecutor executor,
-			CubeQueryExecutorHelper cubeQueryExcutorHelper, boolean isRow )
+			CubeQueryExecutorHelper cubeQueryExcutorHelper, int type )
 			throws DataException
 	{
-		List columnSort = isRow ? executor.getRowEdgeSort( )
-				: executor.getColumnEdgeSort( );
+		List columnSort;
+		switch ( type )
+		{
+			case ICubeQueryDefinition.COLUMN_EDGE :
+				columnSort = executor.getColumnEdgeSort( );
+				break;
+			case ICubeQueryDefinition.ROW_EDGE :
+				columnSort = executor.getRowEdgeSort( );
+				break;
+			case ICubeQueryDefinition.PAGE_EDGE :
+				columnSort = executor.getPageEdgeSort( );
+			default :
+				return;
+		}
 		for ( int i = 0; i < columnSort.size( ); i++ )
 		{
 			ICubeSortDefinition cubeSort = (ICubeSortDefinition) columnSort.get( i );
@@ -310,10 +324,17 @@ public class QueryExecutor
 						new DimLevel( cubeSort.getTargetLevel( ) ),
 						cubeSort.getSortDirection( ) );
 			}
-			if ( isRow )
-				cubeQueryExcutorHelper.addRowSort( targetSort );
-			else
-				cubeQueryExcutorHelper.addColumnSort( targetSort );
+			switch( type)
+			{
+				case ICubeQueryDefinition.COLUMN_EDGE:
+					cubeQueryExcutorHelper.addColumnSort( targetSort );
+					break;
+				case ICubeQueryDefinition.ROW_EDGE:
+					cubeQueryExcutorHelper.addRowSort( targetSort );
+					break;
+				case ICubeQueryDefinition.PAGE_EDGE:
+					cubeQueryExcutorHelper.addPageSort( targetSort );
+			}
 		}
 	}
 
@@ -377,28 +398,34 @@ public class QueryExecutor
 		ILevelDefinition[] levelsOnColumn = CubeQueryDefinitionUtil.getLevelsOnEdge( columnEdgeDefn );
 		IEdgeDefinition rowEdgeDefn = query.getEdge( ICubeQueryDefinition.ROW_EDGE );
 		ILevelDefinition[] levelsOnRow = CubeQueryDefinitionUtil.getLevelsOnEdge( rowEdgeDefn );
+		IEdgeDefinition pageEdgeDefn = query.getEdge( ICubeQueryDefinition.PAGE_EDGE );
+		ILevelDefinition[] levelsOnPage = CubeQueryDefinitionUtil.getLevelsOnEdge( pageEdgeDefn );
 
 		int aggregationCount = getDistinctCalculatedMemberCount( calculatedMember );
-
-		AggregationDefinition[] aggregations;
-		if ( columnEdgeDefn == null && rowEdgeDefn == null )
-			aggregations = new AggregationDefinition[aggregationCount];
-		else if ( columnEdgeDefn == null || rowEdgeDefn == null )
-			aggregations = new AggregationDefinition[aggregationCount + 1];
-		else
-			aggregations = new AggregationDefinition[aggregationCount + 2];
+		int edgeCount = getNotNullEdgeCount( query );
+		AggregationDefinition[] aggregations = new AggregationDefinition[ aggregationCount + edgeCount ];
 
 		int aggrIndex = 0;
 
 		int[] sortType;
 		if ( columnEdgeDefn != null )
 		{
-			DimLevel[] levelsForFilter = new DimLevel[levelsOnColumn.length];
-			sortType = new int[levelsOnColumn.length];
+			DimLevel[] levelsForFilter = new DimLevel[levelsOnColumn.length
+					+ levelsOnPage.length];
+			sortType = new int[levelsOnColumn.length + levelsOnPage.length];
+			int index = 0;
+			for ( ; index < levelsOnPage.length; )
+			{
+				levelsForFilter[index] = new DimLevel( levelsOnPage[index] );
+				sortType[index] = getSortDirection( levelsForFilter[index],
+						query );
+				index++;
+			}
 			for ( int i = 0; i < levelsOnColumn.length; i++ )
 			{
-				levelsForFilter[i] = new DimLevel( levelsOnColumn[i] );
-				sortType[i] = getSortDirection( levelsForFilter[i], query );
+				levelsForFilter[index] = new DimLevel( levelsOnColumn[i] );
+				sortType[index] = getSortDirection( levelsForFilter[i], query );
+				index++;
 			}
 			aggregations[aggrIndex] = new AggregationDefinition( levelsForFilter,
 					sortType,
@@ -407,18 +434,42 @@ public class QueryExecutor
 		}
 		if ( rowEdgeDefn != null )
 		{
-			DimLevel[] levelsForFilter = new DimLevel[levelsOnRow.length];
-			sortType = new int[levelsOnRow.length];
+			DimLevel[] levelsForFilter = new DimLevel[levelsOnRow.length
+					+ levelsOnPage.length];
+			sortType = new int[levelsOnRow.length + levelsOnPage.length];
+			int index = 0;
+			for ( ; index < levelsOnPage.length; )
+			{
+				levelsForFilter[index] = new DimLevel( levelsOnPage[index] );
+				sortType[index] = getSortDirection( levelsForFilter[index],
+						query );
+				index++;
+			}
 			for ( int i = 0; i < levelsOnRow.length; i++ )
 			{
-				levelsForFilter[i] = new DimLevel( levelsOnRow[i] );
-				sortType[i] = getSortDirection( levelsForFilter[i], query );
+				levelsForFilter[index] = new DimLevel( levelsOnRow[i] );
+				sortType[index] = getSortDirection( levelsForFilter[i], query );
+				index++;
 			}
 			aggregations[aggrIndex] = new AggregationDefinition( levelsForFilter,
 					sortType,
 					null );
 			aggrIndex++;
 		}
+		if( pageEdgeDefn!= null )
+		{
+			DimLevel[] levelsForFilter = new DimLevel[levelsOnPage.length];
+			sortType = new int[levelsOnPage.length];
+			for ( int i = 0; i < levelsOnPage.length; i++ )
+			{
+				levelsForFilter[i] = new DimLevel( levelsOnPage[i] );
+				sortType[i] = getSortDirection( levelsForFilter[i], query );
+			}
+			aggregations[aggrIndex] = new AggregationDefinition( levelsForFilter,
+					sortType,
+					null );
+			aggrIndex++;
+		}		
 
 		if ( calculatedMember != null && calculatedMember.length > 0 )
 		{
@@ -567,5 +618,17 @@ public class QueryExecutor
 			return null;
 		else 
 			return OlapExpressionUtil.getTargetDimLevel( expr );
+	}
+	
+	private int getNotNullEdgeCount( ICubeQueryDefinition query )
+	{
+		int count = 0;
+		if ( query.getEdge( ICubeQueryDefinition.COLUMN_EDGE ) != null )
+			count++;
+		if ( query.getEdge( ICubeQueryDefinition.ROW_EDGE ) != null )
+			count++;
+		if ( query.getEdge( ICubeQueryDefinition.PAGE_EDGE ) != null )
+			count++;
+		return count;
 	}
 }

@@ -44,7 +44,7 @@ public class BirtCubeView
 {
 
 	private ICubeQueryDefinition queryDefn;
-	private BirtEdgeView columnEdgeView, rowEdgeView;
+	private BirtEdgeView columnEdgeView, rowEdgeView, pageEdgeView;
 	private BirtEdgeView calculatedMemberView[];
 	private MeasureNameManager manager;
 	private CubeQueryExecutor executor;
@@ -63,8 +63,10 @@ public class BirtCubeView
 	{
 		this.queryDefn = queryExecutor.getCubeQueryDefinition( );
 		this.executor = queryExecutor;
-		columnEdgeView = createBirtEdgeView( this.queryDefn.getEdge( ICubeQueryDefinition.COLUMN_EDGE ) );
-		rowEdgeView = createBirtEdgeView( this.queryDefn.getEdge( ICubeQueryDefinition.ROW_EDGE ) );
+		pageEdgeView = createBirtEdgeView( this.queryDefn.getEdge( ICubeQueryDefinition.PAGE_EDGE ), ICubeQueryDefinition.PAGE_EDGE );
+		columnEdgeView = createBirtEdgeView( this.queryDefn.getEdge( ICubeQueryDefinition.COLUMN_EDGE ), ICubeQueryDefinition.COLUMN_EDGE );
+		rowEdgeView = createBirtEdgeView( this.queryDefn.getEdge( ICubeQueryDefinition.ROW_EDGE ), ICubeQueryDefinition.ROW_EDGE );
+		
 		this.executor = queryExecutor;
 		this.appContext = appContext;
 		measureMapping = new HashMap( );
@@ -236,6 +238,14 @@ public class BirtCubeView
 	}
 
 	/**
+	 * @return
+	 */
+	public BirtEdgeView getPageEdgeView( )
+	{
+		return this.pageEdgeView;
+	}
+	
+	/**
 	 * 
 	 * @return
 	 */
@@ -258,11 +268,11 @@ public class BirtCubeView
 	 * @param edgeDefn
 	 * @return
 	 */
-	private BirtEdgeView createBirtEdgeView( IEdgeDefinition edgeDefn )
+	private BirtEdgeView createBirtEdgeView( IEdgeDefinition edgeDefn, int type )
 	{
 		if ( edgeDefn == null )
 			return null;
-		return new BirtEdgeView( this, edgeDefn );
+		return new BirtEdgeView( this, edgeDefn, type );
 	}
 
 	/**

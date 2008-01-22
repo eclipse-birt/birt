@@ -41,13 +41,12 @@ class EdgeCursorImpl extends AbstractCursorSupport implements EdgeCursor
 		else
 			ordinateOwner = cursor;
 		view.setEdgeCursor( this );
-		for ( int i = 0; i < axis.getAllDimensionAxis( ).length; i++ )
+		for ( int i = view.getPageEndingIndex( ) + 1; i < axis.getAllDimensionAxis( ).length; i++ )
 		{
 			dimensionCursorList.add( new DimensionCursorImpl( this,
 					axis.getDimensionAxis( i ),
 					new DimensionNavigator( axis.getDimensionAxis( i ) ) ) );
 		}
-
 	}
 
 	/*

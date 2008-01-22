@@ -17,6 +17,7 @@ import java.util.List;
 
 import javax.olap.cursor.EdgeCursor;
 
+import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
@@ -34,6 +35,7 @@ public class BirtEdgeView
 	private List dimensionViewList;
 	private String name;
 	private IEdgeDefinition edgeDefn;
+	private int pageEndingPosition, type;
 	private final static String CALCULATED_MEMBER ="CALCULATED_MEMBER";
 
 	/**
@@ -41,12 +43,14 @@ public class BirtEdgeView
 	 * @param cubeView
 	 * @param edgeDefn
 	 */
-	public BirtEdgeView( BirtCubeView cubeView, IEdgeDefinition edgeDefn )
+	public BirtEdgeView( BirtCubeView cubeView, IEdgeDefinition edgeDefn, int type )
 	{
 		this.cubeView = cubeView;
 		this.dimensionViewList = new ArrayList( );
 		this.edgeDefn = edgeDefn;
-		populateDimensionView( edgeDefn );
+		this.pageEndingPosition = -1;
+		this.type = type;
+		populateDimensionView( edgeDefn, cubeView );
 		if ( edgeDefn != null )
 			this.name = edgeDefn.getName( );
 	}
@@ -57,6 +61,7 @@ public class BirtEdgeView
 	 */
 	public BirtEdgeView( CalculatedMember calculatedMember )
 	{
+		this.pageEndingPosition = -1;
 		this.name = CALCULATED_MEMBER + calculatedMember.getRsID( );
 	}
 
@@ -64,10 +69,18 @@ public class BirtEdgeView
 	 * 
 	 * @param edgeDefn
 	 */
-	private void populateDimensionView( IEdgeDefinition edgeDefn )
+	private void populateDimensionView( IEdgeDefinition edgeDefn, BirtCubeView cubeView )
 	{
-		if( edgeDefn== null )
+		if ( edgeDefn == null )
 			return;
+		if ( cubeView.getPageEdgeView( ) != null
+				&& type != ICubeQueryDefinition.PAGE_EDGE )
+		{
+			dimensionViewList.clear( );
+			dimensionViewList.addAll( cubeView.getPageEdgeView( )
+					.getDimensionViews( ) );
+			this.pageEndingPosition = dimensionViewList.size( ) - 1;
+		}
 		Iterator dims = edgeDefn.getDimensions( ).iterator( );
 		while ( dims.hasNext( ) )
 		{
@@ -156,5 +169,15 @@ public class BirtEdgeView
 		}
 		else
 			return index;
+	}
+	
+	public int getPageEndingIndex( )
+	{
+		return this.pageEndingPosition;
+	}
+	
+	public int getEdgeType( )
+	{
+		return this.type;
 	}
 }

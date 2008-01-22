@@ -10,10 +10,9 @@ import org.eclipse.birt.data.engine.olap.driver.DimensionAxis;
 public class RowDataAccessorService
 {
 
-	private int mirrorStartPosition, fetchLimit = -1;
+	private int mirrorStartPosition, pagePosition, fetchLimit = -1;
 	private IAggregationResultSet rs;
 	private DimensionAxis[] dimAxis;
-	private boolean isPage;
 
 	/**
 	 * 
@@ -22,23 +21,18 @@ public class RowDataAccessorService
 	 * @param dimAxis
 	 * @param mirrorStartPosition
 	 */
-	public RowDataAccessorService( IAggregationResultSet rs, boolean isPage,
-			DimensionAxis[] dimAxis, int mirrorStartPosition )
+	public RowDataAccessorService( IAggregationResultSet rs,
+			DimensionAxis[] dimAxis, int mirrorStartPosition, int pagePosition )
 	{
 		this.rs = rs;
-		this.isPage = isPage;
 		this.dimAxis = dimAxis;
 		this.mirrorStartPosition = mirrorStartPosition;
+		this.pagePosition = pagePosition;
 	}
 
 	public IAggregationResultSet getAggregationResultSet( )
 	{
 		return this.rs;
-	}
-
-	public boolean isPage( )
-	{
-		return this.isPage;
 	}
 
 	public DimensionAxis[] getDimensionAxis( )
@@ -49,6 +43,11 @@ public class RowDataAccessorService
 	public int getMirrorStartPosition( )
 	{
 		return this.mirrorStartPosition;
+	}
+	
+	public int getPagePosition()
+	{
+		return this.pagePosition;
 	}
 	
 	public int getFetchSize( )

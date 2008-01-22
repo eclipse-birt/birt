@@ -71,6 +71,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	
 	private List rowSort = null;
 	private List columnSort = null;
+	private List pageSort = null;
 	
 	private boolean isBreakHierarchy = true;
 	
@@ -117,6 +118,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		
 		this.rowSort = new ArrayList( );
 		this.columnSort = new ArrayList( );
+		this.pageSort = new ArrayList( );
 		
 		logger.exiting( CubeQueryExecutorHelper.class.getName( ),
 				"CubeQueryExecutorHelper" );//$NON-NLS-1$
@@ -249,6 +251,24 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	public void addColumnSort( ITargetSort sort )
 	{
 		this.columnSort.add( sort );
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public List getPageSort( )
+	{
+		return this.pageSort;
+	}
+	
+	/**
+	 * 
+	 * @param sort
+	 */
+	public void addPageSort( ITargetSort sort )
+	{
+		this.pageSort.add( sort );
 	}
 	
 	/*

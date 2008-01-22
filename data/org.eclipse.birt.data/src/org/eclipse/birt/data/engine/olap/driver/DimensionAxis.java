@@ -21,7 +21,7 @@ import java.util.Vector;
 import javax.olap.OLAPException;
 import javax.olap.cursor.RowDataMetaData;
 
-import org.eclipse.birt.data.engine.olap.cursor.RowDataAccessor;
+import org.eclipse.birt.data.engine.olap.cursor.IRowDataAccessor;
 import org.eclipse.birt.data.engine.olap.cursor.RowDataMetaDataImpl;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
@@ -37,8 +37,8 @@ public class DimensionAxis
 
 	private IResultSetMetaData metaData;
 	private IAggregationResultSet rs;
-	private int dimAxisIndex, levelIndex, attrIndex;
-	private RowDataAccessor accessor;
+	private int dimAxisIndex, levelIndex;
+	private IRowDataAccessor accessor;
 	private boolean isMirrored = false; 
 	private int aggrSortType = IDimensionSortDefn.SORT_UNDEFINED;
 	private Vector valueObjects = null;
@@ -47,14 +47,14 @@ public class DimensionAxis
 	 * 
 	 * @param container
 	 * @param rs
-	 * @param dimAixsIndex
+	 * @param dimAxisIndex 
 	 * @param levelIndex
 	 * @param attrIndex
 	 */
 	public DimensionAxis( EdgeAxis container, IAggregationResultSet rs,
-			int dimAixsIndex, int levelIndex, int attrIndex )
+			int dimAxisIndex, int levelIndex )
 	{
-		this( container, rs, dimAixsIndex, levelIndex, attrIndex, false, null );
+		this( container, rs, dimAxisIndex, levelIndex, false, null );
 	}
 	
 	/**
@@ -66,13 +66,12 @@ public class DimensionAxis
 	 * @param attrIndex
 	 */
 	public DimensionAxis( EdgeAxis container, IAggregationResultSet rs,
-			int dimAixsIndex, int levelIndex, int attrIndex,
-			boolean isMirrored, AggrSortDefinition aggrSortDefinition )
+			int dimAixsIndex, int levelIndex, boolean isMirrored,
+			AggrSortDefinition aggrSortDefinition )
 	{
 		this.metaData = new ResultSetMetadata( rs, levelIndex );
 		this.rs = rs;
 		this.levelIndex = levelIndex;
-		this.attrIndex = attrIndex;
 		this.accessor = container.getRowDataAccessor( );
 		this.dimAxisIndex = dimAixsIndex;
 		this.isMirrored = isMirrored;
@@ -164,16 +163,7 @@ public class DimensionAxis
 	 * 
 	 * @return
 	 */
-	public int getAttributeName( )
-	{
-		return this.attrIndex;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public RowDataAccessor getRowDataAccessor( )
+	public IRowDataAccessor getRowDataAccessor( )
 	{
 		return this.accessor;
 	}
@@ -416,20 +406,9 @@ public class DimensionAxis
 	
 	/**
 	 * 
-	 * @param index
-	 * @return
-	 * @throws IOException
-	 */
-	public Object getCurrentAggregation( int index ) throws IOException
-	{
-		return this.accessor.dim_getCurrentAggregation( index );
-	}
-
-	/**
-	 * 
 	 * @param edgeInfoUtil
 	 */
-	public void setEdgeInfo( RowDataAccessor accessor )
+	public void setEdgeInfo( IRowDataAccessor accessor )
 	{
 		this.accessor = accessor;
 	}

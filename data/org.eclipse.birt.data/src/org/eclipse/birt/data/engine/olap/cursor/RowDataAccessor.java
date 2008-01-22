@@ -32,7 +32,7 @@ import org.eclipse.birt.data.engine.olap.driver.DimensionAxis;
  * data of the cubeCursor.
  * 
  */
-public class RowDataAccessor
+public class RowDataAccessor implements IRowDataAccessor
 {
 	
 	// result set for this edge
@@ -66,17 +66,17 @@ public class RowDataAccessor
 	 * to its children. Here, it will distinguish the non-mirrored level and
 	 * mirrored level. Only non-mirrored level will generate its EdgeInfo
 	 * 
-	 * @param isPage
+	 * @param isCalculatedMember
 	 * @throws IOException
 	 */
-	public void populateEdgeInfo( boolean isPage ) throws IOException
+	public void initialize( boolean isPage ) throws IOException
 	{
 		ResultSetFetcher fetcher = new ResultSetFetcher( this.rs );
 
 		service.setFetchSize( fetchRowLimit );
 		edgeDimensRelation = new EdgeDimensionRelation( service,
 				fetcher,
-				this.fetchRowLimit );
+				this.fetchRowLimit, isPage );
 		dimTraverse = new DimensionTraverse( dimAxis, edgeDimensRelation );
 		edgeTraverse = new EdgeTraverse( edgeDimensRelation );
 	}
@@ -628,18 +628,6 @@ public class RowDataAccessor
 	
 	/**
 	 * 
-	 * @param aggregationIndex
-	 * @return
-	 * @throws IOException
-	 */
-	public Object dim_getCurrentAggregation( int aggregationIndex )
-			throws IOException
-	{
-		return this.rs.getAggregationValue( aggregationIndex );
-	}
-
-	/**
-	 * 
 	 * @param fetchSize
 	 */
 	public void setFetchSize( int fetchSize )
@@ -685,19 +673,31 @@ public class RowDataAccessor
 	private int getRangeInLastDimension( int dimIndex )
 	{
 		if ( dimIndex == 0 )
-			return this.edgeDimensRelation.relation[0].size( );
-		int size = this.edgeDimensRelation.relation[dimIndex].size( );
+			return this.edgeDimensRelation.currentRelation[0].size( );
+		int size = this.edgeDimensRelation.currentRelation[dimIndex].size( );
 		if ( size == 0 )
 			return -1;
 		int count = 1;
-		EdgeInfo edgeInfo = (EdgeInfo) this.edgeDimensRelation.relation[dimIndex].get( size - 1 );
+		EdgeInfo edgeInfo = (EdgeInfo) this.edgeDimensRelation.currentRelation[dimIndex].get( size - 1 );
 		EdgeInfo previousInfo;
 		for ( int i = size - 2; i >= 0; i-- )
 		{
-			previousInfo = (EdgeInfo) this.edgeDimensRelation.relation[dimIndex].get( i );
+			previousInfo = (EdgeInfo) this.edgeDimensRelation.currentRelation[dimIndex].get( i );
 			if ( previousInfo.parent == edgeInfo.parent )
 				count++;
 		}
 		return count;
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.olap.cursor.IRowDataAccessor#sychronizedWithPage(int)
+	 */
+	public void sychronizedWithPage( int position )
+	{
+		this.edgeDimensRelation.synchronizedWithPage( position );
+		this.dimTraverse = new DimensionTraverse( this.service.getDimensionAxis( ),
+				this.edgeDimensRelation );
+		this.edgeTraverse = new EdgeTraverse( this.edgeDimensRelation );
+		this.edge_beforeFirst( );
 	}
 }

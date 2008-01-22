@@ -90,9 +90,9 @@ class DimensionTraverse
 			if ( this.relationMap.mirrorLength[i] == 0 )
 			{
 				EdgeInfo info = null;
-				if ( this.relationMap.relation[i].size( ) > position )
+				if ( this.relationMap.currentRelation[i].size( ) > position )
 				{
-					info = (EdgeInfo) this.relationMap.relation[i].get( position );
+					info = (EdgeInfo) this.relationMap.currentRelation[i].get( position );
 				}
 				else
 				{
@@ -101,7 +101,7 @@ class DimensionTraverse
 				}
 				for ( int j = position - 1; j >= 0; j-- )
 				{
-					EdgeInfo lastInfo = (EdgeInfo) this.relationMap.relation[i].get( j );
+					EdgeInfo lastInfo = (EdgeInfo) this.relationMap.currentRelation[i].get( j );
 					if ( info.parent == lastInfo.parent )
 					{
 						count++;
@@ -371,7 +371,7 @@ class DimensionTraverse
 			EdgeInfo info = edgeInfo;
 			for ( position = dimAxisIndex + 1; position < outer; position++ )
 			{
-				info = (EdgeInfo) ( (List) this.relationMap.relation[position] ).get( endPosition );
+				info = (EdgeInfo) ( (List) this.relationMap.currentRelation[position] ).get( endPosition );
 				endPosition = info.firstChild;
 			}
 			return info.firstChild;
@@ -419,10 +419,10 @@ class DimensionTraverse
 				return -1;
 			int endPosition = edgeInfo.firstChild;
 
-			int index = this.relationMap.relation[dimAxisIndex].indexOf( edgeInfo );
-			if ( index < this.relationMap.relation[dimAxisIndex].size( ) - 1 )
+			int index = this.relationMap.currentRelation[dimAxisIndex].indexOf( edgeInfo );
+			if ( index < this.relationMap.currentRelation[dimAxisIndex].size( ) - 1 )
 			{
-				EdgeInfo nextEdgeInfo = (EdgeInfo) this.relationMap.relation[dimAxisIndex].get( index + 1 );
+				EdgeInfo nextEdgeInfo = (EdgeInfo) this.relationMap.currentRelation[dimAxisIndex].get( index + 1 );
 				EdgeInfo nextOuterEdgeInfo = this.findOuterMostChildEdgeInfo( dimAxisIndex,
 						nextEdgeInfo );
 				endPosition = nextOuterEdgeInfo.firstChild - 1;
@@ -439,10 +439,10 @@ class DimensionTraverse
 			{
 				EdgeInfo edgeInfo = findCurrentEdgeInfo( dimAxisIndex );
 
-				int index = this.relationMap.relation[dimAxisIndex].indexOf( edgeInfo );
-				if ( index < this.relationMap.relation[dimAxisIndex].size( ) - 1 )
+				int index = this.relationMap.currentRelation[dimAxisIndex].indexOf( edgeInfo );
+				if ( index < this.relationMap.currentRelation[dimAxisIndex].size( ) - 1 )
 				{
-					EdgeInfo nextEdgeInfo = (EdgeInfo) this.relationMap.relation[dimAxisIndex].get( index + 1 );
+					EdgeInfo nextEdgeInfo = (EdgeInfo) this.relationMap.currentRelation[dimAxisIndex].get( index + 1 );
 					int start = findOuterMostChildEdgeInfoIndex( dimAxisIndex,
 							nextEdgeInfo );
 					if ( relationMap.mirrorStartPosition > 0 )
@@ -545,7 +545,7 @@ class DimensionTraverse
 		{
 			if ( this.dimAxis[i].isMirrored( ) )
 				break;
-			info = (EdgeInfo) ( (List) this.relationMap.relation[i] ).get( endPosition );
+			info = (EdgeInfo) ( (List) this.relationMap.currentRelation[i] ).get( endPosition );
 			endPosition = info.firstChild;
 		}
 		return info;
@@ -606,13 +606,13 @@ class DimensionTraverse
 		{
 			if ( this.dimAxis[index].isMirrored( ) )
 				break;
-			info = (EdgeInfo) ( (List) this.relationMap.relation[index] ).get( endPosition );
+			info = (EdgeInfo) ( (List) this.relationMap.currentRelation[index] ).get( endPosition );
 			endPosition = info.firstChild;
 		}
 		if ( index == this.relationMap.mirrorStartPosition )
-			return this.relationMap.relation[index - 1].indexOf( info );
+			return this.relationMap.currentRelation[index - 1].indexOf( info );
 		else
-			return this.relationMap.relation[index].indexOf( info );
+			return this.relationMap.currentRelation[index].indexOf( info );
 	}
 
 	/**
@@ -638,10 +638,10 @@ class DimensionTraverse
 					return false;
 			}
 
-			int index = this.relationMap.relation[dimAxisIndex].indexOf( currentEdgeInfo );
+			int index = this.relationMap.currentRelation[dimAxisIndex].indexOf( currentEdgeInfo );
 			EdgeInfo nextEdgeInfo = null;
-			if ( this.relationMap.relation[dimAxisIndex].size( ) > index + 1 )
-				nextEdgeInfo = (EdgeInfo) this.relationMap.relation[dimAxisIndex].get( index + 1 );
+			if ( this.relationMap.currentRelation[dimAxisIndex].size( ) > index + 1 )
+				nextEdgeInfo = (EdgeInfo) this.relationMap.currentRelation[dimAxisIndex].get( index + 1 );
 
 			if ( nextEdgeInfo == null )
 				return false;
@@ -680,13 +680,13 @@ class DimensionTraverse
 			if ( dimensionAxis == index )
 			{
 
-				if ( this.relationMap.relation[index].size( ) > endPosition &&
+				if ( this.relationMap.currentRelation[index].size( ) > endPosition &&
 						this.dimensionCursorPosition[index] > -1 &&
-						this.dimensionCursorPosition[index] + endPosition < this.relationMap.relation[index].size( ) &&
+						this.dimensionCursorPosition[index] + endPosition < this.relationMap.currentRelation[index].size( ) &&
 						( tempEdgeInfo2 == null || this.dimensionCursorPosition[index] +
 								endPosition < tempEdgeInfo2.firstChild ) )
 				{
-					edgeInfo = (EdgeInfo) this.relationMap.relation[index].get( this.dimensionCursorPosition[index] +
+					edgeInfo = (EdgeInfo) this.relationMap.currentRelation[index].get( this.dimensionCursorPosition[index] +
 							endPosition );
 				}
 				else if ( this.dimensionCursorPosition[index] == -1 )
@@ -695,15 +695,15 @@ class DimensionTraverse
 			}
 			else
 			{
-				if ( this.dimensionCursorPosition[index] + endPosition < this.relationMap.relation[index].size( ) &&
+				if ( this.dimensionCursorPosition[index] + endPosition < this.relationMap.currentRelation[index].size( ) &&
 						this.dimensionCursorPosition[index] > -1 &&
-						this.relationMap.relation[index].size( ) > endPosition )
+						this.relationMap.currentRelation[index].size( ) > endPosition )
 				{
-					tempEdgeInfo1 = (EdgeInfo) this.relationMap.relation[index].get( this.dimensionCursorPosition[index] +
+					tempEdgeInfo1 = (EdgeInfo) this.relationMap.currentRelation[index].get( this.dimensionCursorPosition[index] +
 							endPosition );
-					if ( this.dimensionCursorPosition[index] + endPosition + 1 < this.relationMap.relation[index].size( ) )
+					if ( this.dimensionCursorPosition[index] + endPosition + 1 < this.relationMap.currentRelation[index].size( ) )
 					{
-						tempEdgeInfo2 = (EdgeInfo) this.relationMap.relation[index].get( this.dimensionCursorPosition[index] +
+						tempEdgeInfo2 = (EdgeInfo) this.relationMap.currentRelation[index].get( this.dimensionCursorPosition[index] +
 								endPosition + 1 );
 					}
 				}
@@ -733,8 +733,8 @@ class DimensionTraverse
 
 		if ( dimensionAxis == 0 )
 		{
-			if ( this.dimensionCursorPosition[0] < this.relationMap.relation[0].size( ) )
-				return this.relationMap.relation[0].size( ) -
+			if ( this.dimensionCursorPosition[0] < this.relationMap.currentRelation[0].size( ) )
+				return this.relationMap.currentRelation[0].size( ) -
 						this.dimensionCursorPosition[dimensionAxis] - 1;
 			else
 				return range;
@@ -756,10 +756,10 @@ class DimensionTraverse
 			range = 0;
 			while ( true )
 			{
-				int index = this.relationMap.relation[dimensionAxis].indexOf( currentInfo );
+				int index = this.relationMap.currentRelation[dimensionAxis].indexOf( currentInfo );
 				EdgeInfo nextEdgeInfo = null;
-				if ( this.relationMap.relation[dimensionAxis].size( ) > index + 1 )
-					nextEdgeInfo = (EdgeInfo) this.relationMap.relation[dimensionAxis].get( index + 1 );
+				if ( this.relationMap.currentRelation[dimensionAxis].size( ) > index + 1 )
+					nextEdgeInfo = (EdgeInfo) this.relationMap.currentRelation[dimensionAxis].get( index + 1 );
 				else
 					break;
 				if ( nextEdgeInfo != null &&

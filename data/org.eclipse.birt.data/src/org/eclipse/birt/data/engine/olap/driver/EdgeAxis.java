@@ -17,6 +17,7 @@ import java.util.List;
 
 import javax.olap.OLAPException;
 
+import org.eclipse.birt.data.engine.olap.cursor.IRowDataAccessor;
 import org.eclipse.birt.data.engine.olap.cursor.RowDataAccessor;
 import org.eclipse.birt.data.engine.olap.cursor.RowDataAccessorService;
 import org.eclipse.birt.data.engine.olap.cursor.SubRowDataAccessor;
@@ -35,40 +36,42 @@ public class EdgeAxis
 
 	private DimensionAxis[] dimensionAxis;
 	private IAggregationResultSet rs;
-	private RowDataAccessor dataAccessor;
+	private IRowDataAccessor dataAccessor;
 	private List sortList = null;
-	private boolean isPage = false;
+	private boolean isCalculatedMember = false;
 
 	/**
 	 * 
 	 * @param resultSet
 	 * @param view
-	 * @param isPage
+	 * @param isCalculatedMember
 	 * @throws IOException
 	 */
 	public EdgeAxis( IAggregationResultSet resultSet, BirtEdgeView view,
-			boolean isPage ) throws IOException
+			boolean isCalculatedMember ) throws IOException
 	{
-		this( resultSet, view, null, isPage );
+		this( resultSet, view, null, isCalculatedMember );
 	}
 
 	/**
 	 * 
 	 * @param resultSet
 	 * @param view
-	 * @param isPage
+	 * @param isCalculatedMember
 	 * @param isMirrored
 	 * @throws IOException
 	 */
 	public EdgeAxis( IAggregationResultSet resultSet, BirtEdgeView view,
-			List sortList, boolean isPage ) throws IOException
+			List sortList, boolean isCalculatedMember ) throws IOException
 	{
 		this.rs = resultSet;
 		this.sortList = sortList;
-		this.isPage = isPage;
+		this.isCalculatedMember = isCalculatedMember;
 		populateDimensionAxis( resultSet, view );
-		RowDataAccessorService service = new RowDataAccessorService( rs, isPage,
-				dimensionAxis,  view.getMirrorStartingLevel( ) );
+		RowDataAccessorService service = new RowDataAccessorService( rs,
+				dimensionAxis,
+				view.getMirrorStartingLevel( ),
+				view.getPageEndingIndex( ) );
 		this.dataAccessor = new RowDataAccessor( service );
 
 		for ( int i = 0; i < this.dimensionAxis.length; i++ )
@@ -86,7 +89,7 @@ public class EdgeAxis
 	 * @param startingLevelIndex
 	 * @throws IOException
 	 */
-	public EdgeAxis( RowDataAccessor parent, BirtEdgeView view,
+	public EdgeAxis( IRowDataAccessor parent, BirtEdgeView view,
 			List sortList, boolean isPage, int startingLevelIndex ) throws IOException
 	{
 		this( parent.getDataAccessorService( ).getAggregationResultSet( ),
@@ -106,7 +109,7 @@ public class EdgeAxis
 	 * 
 	 * @param rs
 	 * @param view
-	 * @param isPage
+	 * @param isCalculatedMember
 	 * @throws OLAPException
 	 * @throws IOException
 	 */
@@ -117,10 +120,10 @@ public class EdgeAxis
 		List dimensionAxisList = new ArrayList( );
 		int mirrorStartLevel = view.getMirrorStartingLevel( );
 
-		int index = 0;
-		if ( !isPage )
+		int index = -1, levelIndex = -1;
+		if ( !isCalculatedMember )
 		{
-			int levelIndex = 0;
+			levelIndex = index =0;
 			for ( int i = 0; i < view.getDimensionViews( ).size( ); i++ )
 			{
 				BirtDimensionView dv = (BirtDimensionView) ( view.getDimensionViews( ).get( i ) );
@@ -138,27 +141,22 @@ public class EdgeAxis
 								rs,
 								index,
 								levelIndex,
-								0,
 								true,
 								findAggregationSort( levelIndex ) );
-						levelIndex++;
 					}
 					else
 					{
-						axis = new DimensionAxis( this,
-								rs,
-								index,
-								levelIndex++,
-								0 );
+						axis = new DimensionAxis( this, rs, index, levelIndex );
 					}
 					index++;
+					levelIndex++;
 					dimensionAxisList.add( axis );
 				}
 			}
 		}
-		else if ( isPage )
+		else if ( isCalculatedMember )
 		{
-			DimensionAxis axis = new DimensionAxis( this, rs, index, 0, 0 );
+			DimensionAxis axis = new DimensionAxis( this, rs, index, 0 );
 			dimensionAxisList.add( axis );
 		}
 		this.dimensionAxis = new DimensionAxis[dimensionAxisList.size( )];
@@ -175,12 +173,12 @@ public class EdgeAxis
 	 * @throws OLAPException
 	 * @throws IOException
 	 */
-	public void populateEdgeInfo( ) throws OLAPException
+	public void populateEdgeInfo( boolean isPage ) throws OLAPException
 	{
 		if ( this.dataAccessor != null )
 			try
 			{
-				this.dataAccessor.populateEdgeInfo( isPage );
+				this.dataAccessor.initialize( isPage );
 			}
 			catch ( IOException e )
 			{
@@ -216,7 +214,7 @@ public class EdgeAxis
 	 * 
 	 * @return
 	 */
-	public RowDataAccessor getRowDataAccessor( )
+	public IRowDataAccessor getRowDataAccessor( )
 	{
 		return this.dataAccessor;
 	}

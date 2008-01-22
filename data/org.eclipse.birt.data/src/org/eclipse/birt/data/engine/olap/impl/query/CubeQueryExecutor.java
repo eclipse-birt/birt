@@ -187,6 +187,15 @@ public class CubeQueryExecutor
 	 * 
 	 * @return
 	 */
+	public List getPageEdgeSort( )
+	{
+		return getEdgeSort( ICubeQueryDefinition.PAGE_EDGE );
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public String getQueryResultsId()
 	{
 		return this.queryResultsId;

@@ -33,7 +33,7 @@ public class CubeQueryDefinition extends NamedObject
 		implements
 			ICubeQueryDefinition 
 {
-	private IEdgeDefinition columnEdge, rowEdge;
+	private IEdgeDefinition columnEdge, rowEdge, pageEdge;
 	private List measureList, bindingList, filterList, sortList, computedMeasureList;
 	private String queryResultsID;
 	private boolean cacheQueryResults;
@@ -98,6 +98,11 @@ public class CubeQueryDefinition extends NamedObject
 			rowEdge = new EdgeDefinition( "ROW_EDGE" );
 			return rowEdge;
 		}
+		else if ( type == ICubeQueryDefinition.PAGE_EDGE )
+		{
+			pageEdge = new EdgeDefinition( "PAGE_EDGE" );
+			return pageEdge;
+		}
 		return null;
 
 	}
@@ -135,6 +140,10 @@ public class CubeQueryDefinition extends NamedObject
 		else if ( type == ICubeQueryDefinition.ROW_EDGE )
 		{
 			return this.rowEdge;
+		}
+		else if( type == ICubeQueryDefinition.PAGE_EDGE )
+		{
+			return this.pageEdge;
 		}
 		return null;
 	}

@@ -53,6 +53,9 @@ public class OlapQueryUtil
 				validDimLevels,
 				ICubeQueryDefinition.COLUMN_EDGE );
 		populateLevel( queryDefn, validDimLevels, ICubeQueryDefinition.ROW_EDGE );
+		populateLevel( queryDefn,
+				validDimLevels,
+				ICubeQueryDefinition.PAGE_EDGE );
 
 		for ( int i = 0; i < queryDefn.getBindings( ).size( ); i++ )
 		{

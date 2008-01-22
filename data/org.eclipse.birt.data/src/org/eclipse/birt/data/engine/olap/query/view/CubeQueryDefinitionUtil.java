@@ -399,6 +399,7 @@ public class CubeQueryDefinitionUtil
 		List levelList = new ArrayList( );
 		ILevelDefinition[] rowLevels = getLevelsOnEdge( queryDefn.getEdge( ICubeQueryDefinition.ROW_EDGE ) );
 		ILevelDefinition[] columnLevels = getLevelsOnEdge( queryDefn.getEdge( ICubeQueryDefinition.COLUMN_EDGE ) );
+		ILevelDefinition[] pageLevels = getLevelsOnEdge( queryDefn.getEdge( ICubeQueryDefinition.PAGE_EDGE ) );
 
 		for ( int i = 0; i < rowLevels.length; i++ )
 		{
@@ -407,6 +408,10 @@ public class CubeQueryDefinitionUtil
 		for ( int i = 0; i < columnLevels.length; i++ )
 		{
 			levelList.add( new DimLevel( columnLevels[i] ) );
+		}
+		for ( int i = 0; i < pageLevels.length; i++ )
+		{
+			levelList.add( new DimLevel( pageLevels[i] ) );
 		}
 		return levelList;
 	}
@@ -474,9 +479,18 @@ public class CubeQueryDefinitionUtil
 	public static Map getRelationWithMeasure( ICubeQueryDefinition queryDefn, Map measureMapping ) throws DataException
 	{
 		Map measureRelationMap = new HashMap( );
+		List pageLevelList = new ArrayList( );
 		List rowLevelList = new ArrayList( );
 		List columnLevelList = new ArrayList( );
 
+		if( queryDefn.getEdge( ICubeQueryDefinition.PAGE_EDGE )!= null )
+		{
+			ILevelDefinition[] levels = getLevelsOnEdge( queryDefn.getEdge( ICubeQueryDefinition.PAGE_EDGE ) );
+			for ( int i = 0; i < levels.length; i++ )
+			{
+				pageLevelList.add( new DimLevel( levels[i] ) );
+			}
+		}
 		if ( queryDefn.getEdge( ICubeQueryDefinition.COLUMN_EDGE ) != null )
 		{
 			ILevelDefinition[] levels = getLevelsOnEdge( queryDefn.getEdge( ICubeQueryDefinition.COLUMN_EDGE ) );
@@ -494,7 +508,7 @@ public class CubeQueryDefinitionUtil
 				rowLevelList.add( new DimLevel( levels[i] ) );
 			}
 		}
-
+		
 		if ( queryDefn.getMeasures( ) != null
 				&& !queryDefn.getMeasures( ).isEmpty( ) )
 		{
@@ -503,7 +517,7 @@ public class CubeQueryDefinitionUtil
 			{
 				IMeasureDefinition measure = (MeasureDefinition) measureIter.next( );
 				measureRelationMap.put( measureMapping.get( measure.getName( ) ),
-						new RelationShip( rowLevelList, columnLevelList ) );
+						new Relationship( rowLevelList, columnLevelList, pageLevelList ) );
 			}
 		}
 		ICubeAggrDefn[] cubeAggrs = OlapExpressionUtil.getAggrDefns( queryDefn.getBindings( ) );
@@ -517,16 +531,24 @@ public class CubeQueryDefinitionUtil
 				List aggrOns = cubeAggrs[i].getAggrLevels( );
 				List usedLevelOnRow = new ArrayList( );
 				List usedLevelOnColumn = new ArrayList( );
+				List usedLevelOnPage = new ArrayList( );
 				for ( int j = 0; j < aggrOns.size( ); j++ )
 				{
+					if ( pageLevelList.contains( aggrOns.get( j ) ) )
+					{
+						usedLevelOnPage.add( aggrOns.get( j ) );
+					}
 					if ( rowLevelList.contains( aggrOns.get( j ) ) )
+					{
 						usedLevelOnRow.add( aggrOns.get( j ) );
+					}
 					else if ( columnLevelList.contains( aggrOns.get( j ) ) )
+					{
 						usedLevelOnColumn.add( aggrOns.get( j ) );
+					}
 				}
-
 				measureRelationMap.put( cubeAggrs[i].getName( ),
-						new RelationShip( usedLevelOnRow, usedLevelOnColumn ) );
+						new Relationship( usedLevelOnRow, usedLevelOnColumn, usedLevelOnPage ) );
 			}
 		}
 		return measureRelationMap;

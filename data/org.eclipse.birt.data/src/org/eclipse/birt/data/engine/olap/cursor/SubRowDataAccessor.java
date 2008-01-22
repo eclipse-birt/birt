@@ -31,10 +31,10 @@ public class SubRowDataAccessor extends RowDataAccessor
 	 * @param parentNavigator
 	 * @param startingLevel
 	 */
-	public SubRowDataAccessor( RowDataAccessorService service, RowDataAccessor parentNavigator, int startingLevel )
+	public SubRowDataAccessor( RowDataAccessorService service, IRowDataAccessor parentNavigator, int startingLevel )
 	{
 		super( service );
-		this.parentNavigator = parentNavigator;
+		this.parentNavigator = (RowDataAccessor)parentNavigator;
 		this.startingLevel = startingLevel;
 		this.service = service;
 		this.rs = service.getAggregationResultSet( );
@@ -43,7 +43,7 @@ public class SubRowDataAccessor extends RowDataAccessor
 	/*
 	 * @see org.eclipse.birt.data.engine.olap.cursor.RowDataAccessor#populateEdgeInfo(boolean)
 	 */
-	public void populateEdgeInfo( boolean isPage ) throws IOException
+	public void initialize( boolean isPage ) throws IOException
 	{
 		if ( startingLevel < 0 )
 		{

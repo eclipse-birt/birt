@@ -11,8 +11,11 @@
 package org.eclipse.birt.data.engine.olap.cursor;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
+
+import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
+import org.eclipse.birt.data.engine.olap.driver.DimensionAxis;
 
 /**
  * This class contains the relation description between dimension and its
@@ -60,138 +63,139 @@ import java.util.Vector;
  */
 class EdgeDimensionRelation
 {
-	Vector[] relation;
+	List[] currentRelation;
 	int traverseLength, mirrorStartPosition;
 	// the dimension cursor position for each dimension axis
 	int[] mirrorLength;
 	ResultSetFetcher fetcher;
+	private List sectionList;
 	
-	/**
-	 * 
-	 * @param service
-	 * @param fetcher
-	 * @param fetchSize
-	 * @throws IOException
-	 */
 	EdgeDimensionRelation( RowDataAccessorService service,
-			ResultSetFetcher fetcher, int fetchSize ) throws IOException
-	{
-		this( service, fetcher, fetchSize, 0, service.getAggregationResultSet( )
-				.length( ) - 1 );
-	}
-
-	/**
-	 * 
-	 * @param service
-	 * @param fetcher
-	 * @param fetchSize
-	 * @param edgeStart
-	 * @param edgeEnd
-	 * @throws IOException
-	 */
-	EdgeDimensionRelation( RowDataAccessorService service,
-			ResultSetFetcher fetcher, int fetchSize, int edgeStart, int edgeEnd )
+			ResultSetFetcher fetcher, int fetchSize, boolean isPage )
 			throws IOException
 	{
-		int dimensionLength = service.getDimensionAxis( ).length;
+		IAggregationResultSet rs = service.getAggregationResultSet( );
+		DimensionAxis[] dimAxis = service.getDimensionAxis( );
 
-		this.fetcher = fetcher;
 		this.mirrorStartPosition = service.getMirrorStartPosition( );
-		this.mirrorLength = new int[dimensionLength];
+		this.mirrorLength = new int[dimAxis.length];
+		this.sectionList = new ArrayList( );
+		this.fetcher = fetcher;
 		
-		for ( int i = 0; i < dimensionLength; i++ )
+		//initial all variable
+		for ( int i = 0; i < dimAxis.length; i++ )
 		{
-			mirrorLength[i] = 0;
-		}
-
-		if ( mirrorStartPosition > 0 )
-		{
-			for ( int i = mirrorStartPosition; i < dimensionLength; i++ )
+			if ( i >= mirrorStartPosition && mirrorStartPosition>0  )
 			{
 				mirrorLength[i] = service.getDimensionAxis( )[i].getDisctinctValue( )
 						.size( );
 			}
+			else
+				mirrorLength[i] = 0;
 		}
 
-		int customDimSize = 0;
-		if ( mirrorStartPosition > 0 )
-		{
-			customDimSize = mirrorStartPosition;
-		}
-		else
-		{
-			customDimSize = service.getDimensionAxis( ).length;
-		}
+		int customDimSize = mirrorStartPosition > 0 ? mirrorStartPosition
+				: dimAxis.length;
 
-		relation = new Vector[customDimSize];
-
-		for ( int i = 0; i < customDimSize; i++ )
-		{
-			relation[i] = new Vector( );
-		}
-
-		if ( fetchSize > 0 && edgeEnd - edgeStart >= fetchSize )
+		if ( fetchSize > 0 && rs.length( ) > fetchSize )
 		{
 			this.traverseLength = fetchSize;
 		}
 		else
 		{
-			this.traverseLength = edgeEnd - edgeStart + 1;
+			this.traverseLength = rs.length( );
 		}
-
+			
 		Object[] preValue = new Object[customDimSize];
 		Object[] currValue = new Object[customDimSize];
-
-		for ( int rowId = 0; rowId < traverseLength; rowId++ )
+		
+		Section section = null;
+		boolean newSection = true;
+		int startId = 0;
+		
+		if ( this.traverseLength == 0 )
 		{
-			if ( rowId + edgeStart >= service.getAggregationResultSet( ).length( ) )
+			section = new Section( customDimSize, -1, -1 );
+			this.sectionList.add( section );
+			this.currentRelation = ( (Section) this.sectionList.get( 0 ) ).getRelation( );
+		}
+		else
+		{
+			for ( int rowId = 0; rowId < traverseLength; rowId++ )
 			{
-				break;
-			}
-			service.getAggregationResultSet( ).seek( rowId + edgeStart );
-			if ( !service.isPage( ) )
+				rs.seek( rowId );
 				for ( int i = 0; i < customDimSize; i++ )
 				{
-					// TODO Default use 0 index as level key
 					currValue[i] = fetcher.getLevelKeyValue( service.getDimensionAxis( )[i].getLevelIndex( ) )[fetcher.getAggrResultSet( )
 							.getLevelKeyColCount( service.getDimensionAxis( )[i].getLevelIndex( ) ) - 1];
 				}
-			int breakLevel;
-			if ( rowId == 0 || service.isPage( ) )
-				breakLevel = 0;
-			else
-				breakLevel = getBreakLevel( currValue, preValue, rowId );
-
-			for ( int level = breakLevel; level < customDimSize; level++ )
-			{
-				EdgeInfo edge = new EdgeInfo( );
-
-				if ( level != 0 )
-					edge.parent = relation[level - 1].size( ) - 1;
-				if ( level == relation.length - 1 )
+				int breakLevel;
+				if ( newSection )
 				{
-					edge.firstChild = rowId;
+					section = new Section( customDimSize, -1, -1 );
+					newSection = false;
+					this.sectionList.add( section );
+					breakLevel = 0;
 				}
 				else
 				{
-					edge.firstChild = relation[level + 1].size( );
-				}
-				relation[level].add( edge );
-			}
-			for ( int i = 0; i < customDimSize; i++ )
-			{
-				preValue[i] = currValue[i];
-			}
-		}
+					breakLevel = getBreakLevel( currValue,
+							preValue,
+							section,
+							rowId );
 
-		if ( mirrorStartPosition > 0 )
-		{
-			this.traverseLength = this.relation[mirrorStartPosition - 1].size( );
-			for ( int i = mirrorStartPosition; i < dimensionLength; i++ )
-			{
-				this.traverseLength = this.traverseLength *
-						this.mirrorLength[i];
+					if ( breakLevel <= service.getPagePosition( ) && !isPage )
+					{
+						section.setBaseStart( startId );
+						section.setBaseEnd( rowId - 1 );
+						startId = rowId;
+						rowId--;
+						newSection = true;
+					}
+				}
+
+				if ( !newSection )
+				{
+					for ( int level = breakLevel; level < customDimSize; level++ )
+					{
+						EdgeInfo edge = new EdgeInfo( );
+
+						if ( level != 0 )
+							edge.parent = section.getRelation( )[level - 1].size( ) - 1;
+						if ( level == section.getRelation( ).length - 1 )
+						{
+							edge.firstChild = rowId;
+						}
+						else
+						{
+							edge.firstChild = section.getRelation( )[level + 1].size( );
+						}
+						section.getRelation( )[level].add( edge );
+					}
+
+					for ( int i = 0; i < customDimSize; i++ )
+					{
+						preValue[i] = currValue[i];
+					}
+				}
 			}
+			section.setBaseStart( startId );
+			section.setBaseEnd( this.traverseLength - 1 );
+
+			this.currentRelation = ( (Section) this.sectionList.get( 0 ) ).getRelation( );
+			if ( mirrorStartPosition > 0 )
+			{
+				this.traverseLength = this.currentRelation[mirrorStartPosition - 1].size( );
+				for ( int i = mirrorStartPosition; i < dimAxis.length; i++ )
+				{
+					this.traverseLength = this.traverseLength
+							* this.mirrorLength[i];
+				}
+			}
+			else
+				this.traverseLength = ( (Section) this.sectionList.get( 0 ) ).getBaseEnd( )
+						- ( (Section) this.sectionList.get( 0 ) ).getBaseStart( )
+						+ 1;
 		}
 	}
 	
@@ -202,23 +206,23 @@ class EdgeDimensionRelation
 	 * @param rowId
 	 * @return
 	 */
-	private int getBreakLevel( Object[] currValue, Object[] preValue, int rowId )
+	private int getBreakLevel( Object[] currValue, Object[] preValue, Section section, int rowId )
 	{
 		assert preValue != null && currValue != null;
 		int breakLevel = 0;
 		for ( ; breakLevel < currValue.length; breakLevel++ )
 		{
 			// get the first child of current group in level of breakLevel
-			List list = this.relation[breakLevel];
+			List list = section.getRelation( )[breakLevel];
 			EdgeInfo edgeInfo = (EdgeInfo) list.get( list.size( ) - 1 );
 			int child = edgeInfo.firstChild;
 
 			Object currObjectValue = currValue[breakLevel];
 			Object prevObjectValue = preValue[breakLevel];
 
-			for ( int level = breakLevel + 1; level < this.relation.length; level++ )
+			for ( int level = breakLevel + 1; level < section.getRelation( ).length; level++ )
 			{
-				list = this.relation[level];
+				list = section.getRelation( )[level];
 				edgeInfo = (EdgeInfo) list.get( child );
 				child = edgeInfo.firstChild;
 			}
@@ -231,6 +235,33 @@ class EdgeDimensionRelation
 
 		}
 		return breakLevel;
+	}
+	
+	/**
+	 * 
+	 * @param position
+	 */
+	public void synchronizedWithPage( int position )
+	{
+		if ( this.sectionList.size( ) > position )
+		{
+			this.currentRelation = ( (Section) this.sectionList.get( position ) ).getRelation( );
+			if ( mirrorStartPosition > 0 )
+			{
+				this.traverseLength = this.currentRelation[mirrorStartPosition - 1].size( );
+				for ( int i = mirrorStartPosition; i < this.mirrorLength.length; i++ )
+				{
+					this.traverseLength = this.traverseLength
+							* this.mirrorLength[i];
+				}
+			}
+			else
+			{
+				this.traverseLength = ( (Section) this.sectionList.get( position ) ).getBaseEnd( )
+						- ( (Section) this.sectionList.get( position ) ).getBaseStart( )
+						+ 1;
+			}
+		}
 	}
 
 	/**
