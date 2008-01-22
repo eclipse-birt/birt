@@ -80,6 +80,7 @@ exception.internal.stack.series.setup=未正确设置轴 {0} 的堆积系列
 exception.invalid.minimum.scale.value=为轴类型 {1} 指定的最小刻度值 {0} 无效
 exception.invalid.maximum.scale.value=为轴类型 {1} 指定的最大刻度值 {0} 无效
 exception.legend.orientation.horzvert=图例方位未明确设置为“水平”或“垂直”
+exception.legend.orientation.InvalidMaxPercent=Max Percent must be between 0 and 1.
 info.processing.stacked.info=正在处理轴 {0} 的堆积信息
 info.eclenv.creating.device=（日蚀式环境）将设备 {0} 创建为 {1}
 info.stdenv.creating.device=（独立环境）将设备 {0} 创建为 {1}

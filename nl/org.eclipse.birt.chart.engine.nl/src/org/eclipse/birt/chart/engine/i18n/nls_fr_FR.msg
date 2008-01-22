@@ -80,6 +80,7 @@ exception.internal.stack.series.setup=Série empilée réglée de façon incorrecte p
 exception.invalid.minimum.scale.value=Valeur d''échelle minimum {0} non valide indiquée pour le type d''axe {1}
 exception.invalid.maximum.scale.value=Valeur d''échelle maximum {0} non valide indiquée pour le type d''axe {1}
 exception.legend.orientation.horzvert=L'orientation de la légende n'a pas été réglée clairement à l'horizontale ou à la verticale
+exception.legend.orientation.InvalidMaxPercent=Max Percent must be between 0 and 1.
 info.processing.stacked.info=Traitement des informations empilées pour l''axe {0}
 info.eclenv.creating.device=(ENV-ECLIPSE) Création du périphérique {0} en tant que {1}
 info.stdenv.creating.device=(ENV-AUTONOME) Création du périphérique {0} en tant que {1}

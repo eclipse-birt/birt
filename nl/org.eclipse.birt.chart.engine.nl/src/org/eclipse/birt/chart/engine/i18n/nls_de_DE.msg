@@ -80,6 +80,7 @@ exception.internal.stack.series.setup=Gestapelte Datenreihe für Achse {0} nicht 
 exception.invalid.minimum.scale.value=Ungültiger minimaler Skalenwert {0} für Achsentyp {1} festgelegt
 exception.invalid.maximum.scale.value=Ungültiger maximaler Skalenwert {0} für Achsentyp {1} festgelegt
 exception.legend.orientation.horzvert=Die Ausrichtung der Legende wurde nicht ausdrücklich auf horizontal oder vertikal festgelegt
+exception.legend.orientation.InvalidMaxPercent=Max Percent must be between 0 and 1.
 info.processing.stacked.info=Gestapelte Informationen für Achse {0} werden verarbeitet
 info.eclenv.creating.device=(ECLIPSE-UMG) Gerät {0} wird als {1} erstellt
 info.stdenv.creating.device=(EINZELPLATZ-UMG) Gerät {0} wird als {1} erstellt

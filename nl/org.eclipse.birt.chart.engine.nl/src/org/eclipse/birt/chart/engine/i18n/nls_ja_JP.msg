@@ -80,6 +80,7 @@ exception.internal.stack.series.setup=² {0} ‚ÌÏ‚İã‚°Œn—ñ‚ª³‚µ‚­w’è‚³‚ê‚Ä‚¢‚
 exception.invalid.minimum.scale.value=²‚ÌŒ^ {1} ‚Éw’è‚µ‚½ƒXƒP[ƒ‹‚ÌÅ¬’l {0} ‚ª–³Œø‚Å‚·B
 exception.invalid.maximum.scale.value=²‚ÌŒ^ {1} ‚Éw’è‚µ‚½ƒXƒP[ƒ‹‚ÌÅ‘å’l {0} ‚ª–³Œø‚Å‚·B
 exception.legend.orientation.horzvert=–}—á‚ÌŒü‚«‚ª‰¡‚Ü‚½‚Íc‚Ì‚¢‚¸‚ê‚©‚É–¾Šm‚Éw’è‚µ‚Ä‚¢‚Ü‚¹‚ñB
+exception.legend.orientation.InvalidMaxPercent=Max Percent must be between 0 and 1.
 info.processing.stacked.info={0} ²‚ÌÏ‚İã‚°î•ñ‚ğˆ—’†B
 info.eclenv.creating.device=(ECLIPSE ŠÂ‹«) ƒfƒoƒCƒX {0} ‚ğ {1} ‚Æ‚µ‚Äì¬’†B
 info.stdenv.creating.device=(ƒXƒ^ƒ“ƒhƒAƒ[ƒ“ŠÂ‹«) ƒfƒoƒCƒX {0} ‚ğ {1} ‚Æ‚µ‚Äì¬’†B
