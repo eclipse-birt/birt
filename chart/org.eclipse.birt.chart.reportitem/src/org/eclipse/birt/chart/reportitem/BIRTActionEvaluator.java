@@ -12,12 +12,16 @@
 package org.eclipse.birt.chart.reportitem;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.event.StructureType;
 import org.eclipse.birt.chart.factory.ActionEvaluatorAdapter;
+import org.eclipse.birt.chart.factory.IActionEvaluator;
+import org.eclipse.birt.chart.factory.IQueryExpressionReplaceable;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ActionType;
@@ -25,6 +29,7 @@ import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.URLValue;
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.report.model.api.ActionHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
@@ -38,6 +43,26 @@ public class BIRTActionEvaluator extends ActionEvaluatorAdapter
 {
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
+
+	private IQueryExpressionReplaceable iqer;
+
+	private static Map instances = new HashMap( );
+
+	private BIRTActionEvaluator( )
+	{
+
+	}
+
+	public static IActionEvaluator getInstance( DesignElementHandle handle )
+	{
+		if ( instances.containsKey( handle ) )
+		{
+			return (IActionEvaluator) instances.get( handle );
+		}
+		BIRTActionEvaluator instance = new BIRTActionEvaluator( );
+		instances.put( handle, instance );
+		return instance;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -112,7 +137,7 @@ public class BIRTActionEvaluator extends ActionEvaluatorAdapter
 
 				if ( expList.size( ) > 0 )
 				{
-					return (String[]) expList.toArray( new String[expList.size( )] );
+					return replaceRawExpression( (String[]) expList.toArray( new String[expList.size( )] ) );
 				}
 			}
 			catch ( DesignFileException e )
@@ -129,13 +154,32 @@ public class BIRTActionEvaluator extends ActionEvaluatorAdapter
 				String exp = tv.getText( );
 				if ( exp != null && exp.trim( ).length( ) > 0 )
 				{
-					return new String[]{
+					return replaceRawExpression( new String[]{
 						exp
-					};
+					} );
 				}
 			}
 		}
 
 		return null;
+	}
+
+	private String[] replaceRawExpression( String[] expArray )
+	{
+		if ( iqer != null )
+		{
+			// Replace raw expression like measure or dimension by data
+			// expression
+			for ( int i = 0; i < expArray.length; i++ )
+			{
+				expArray[i] = iqer.replaceRawExpressionByBinding( expArray[i] );
+			}
+		}
+		return expArray;
+	}
+
+	public void addExpressionReplaceable( IQueryExpressionReplaceable iqer )
+	{
+		this.iqer = iqer;
 	}
 }

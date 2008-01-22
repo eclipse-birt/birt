@@ -850,7 +850,7 @@ public final class ChartReportItemImpl extends ReportItem
 		try
 		{
 			return Generator.instance( ).getRowExpressions( cm,
-					new BIRTActionEvaluator( ) );
+					BIRTActionEvaluator.getInstance( handle ) );
 		}
 		catch ( ChartException e )
 		{

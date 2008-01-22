@@ -30,6 +30,7 @@ import org.eclipse.birt.chart.device.IImageMapEmitter;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.factory.Generator;
+import org.eclipse.birt.chart.factory.IActionEvaluator;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.log.ILogger;
@@ -586,7 +587,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 			IDataRowExpressionEvaluator rowAdapter = createEvaluator( resultSet );
 
 			// Prepare data processor for hyperlinks/tooltips
-			BIRTActionEvaluator evaluator = new BIRTActionEvaluator( );
+			IActionEvaluator evaluator = BIRTActionEvaluator.getInstance( handle );
 
 			// Bind Data to series
 			Generator.instance( ).bindData( rowAdapter, evaluator, cm, rtc );

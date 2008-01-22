@@ -21,6 +21,7 @@ import org.eclipse.birt.chart.factory.DataRowExpressionEvaluatorAdapter;
 import org.eclipse.birt.chart.factory.IGroupedDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 
@@ -92,11 +93,24 @@ public class BIRTCubeResultSetEvaluator
 		Object result = null;
 		try
 		{
-			// Use DtE's method to evaluate expression for the sake of
-			// performance
-			result = cubeCursor.getObject( ChartCubeQueryHelper.getBindingName( expression ) );
+			String bindingName = ChartCubeQueryHelper.getBindingName( expression );
+			if ( bindingName != null )
+			{
+				// Use DtE's method to evaluate binding for the sake of
+				// performance
+				result = cubeCursor.getObject( bindingName );
+			}
+			else
+			{
+				// If not binding name, evaluate it via report engine
+				result = rs.evaluate( expression );
+			}
 		}
 		catch ( OLAPException e )
+		{
+			logger.log( e );
+		}
+		catch ( BirtException e )
 		{
 			logger.log( e );
 		}
