@@ -11,6 +11,8 @@
 package org.eclipse.birt.data.engine.olap.cursor;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.olap.OLAPException;
 import javax.olap.cursor.CubeCursor;
@@ -329,6 +331,133 @@ public class CursorNavigatorTest extends BaseTestCase
 		testOut.print( out );
 		checkOutputFile( );
 		close( dataCursor );
+	}
+	
+	public void testNavigatorOnPage( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = creator.createQueryDefintionWithPage1( );
+		
+		IBinding rowGrandTotal = new Binding( "rowGrandTotal" );
+		rowGrandTotal.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		rowGrandTotal.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		rowGrandTotal.addAggregateOn( "dimension[\"dimension4\"][\"level14\"]" );
+		rowGrandTotal.addAggregateOn( "dimension[\"dimension5\"][\"level21\"]" );
+		rowGrandTotal.addAggregateOn( "dimension[\"dimension6\"][\"level22\"]" );
+
+		IBinding columnGrandTotal = new Binding( "columnGrandTotal" );
+		columnGrandTotal.setAggrFunction( IBuildInAggregation.TOTAL_AVE_FUNC );
+		columnGrandTotal.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		columnGrandTotal.addAggregateOn( "dimension[\"dimension4\"][\"level14\"]" );
+		columnGrandTotal.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+		columnGrandTotal.addAggregateOn( "dimension[\"dimension2\"][\"level12\"]" );
+		columnGrandTotal.addAggregateOn( "dimension[\"dimension3\"][\"level13\"]" );
+		
+		IBinding totalGrandTotal = new Binding( "totalGrandTotal" );
+		totalGrandTotal.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		totalGrandTotal.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		totalGrandTotal.addAggregateOn( "dimension[\"dimension4\"][\"level14\"]" );
+		
+		cqd.addBinding( rowGrandTotal );
+		cqd.addBinding( columnGrandTotal );
+		cqd.addBinding( totalGrandTotal );
+		
+		// Create cube view.
+		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null,
+				cqd,
+				de.getSession( ),
+				this.scope,
+				de.getContext( ) ), null );
+
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) );
+		EdgeCursor pageCursor = (EdgeCursor) dataCursor.getPageEdge( ).toArray( )[0];
+		
+		List columnEdgeBindingNames = new ArrayList( );
+		columnEdgeBindingNames.add( "level11" );
+		columnEdgeBindingNames.add( "level12" );
+		columnEdgeBindingNames.add( "level13" );
+
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "level21" );
+		rowEdgeBindingNames.add( "level22" );
+
+		List measureBindingNames = new ArrayList( );
+		measureBindingNames.add( "measure1" );
+		
+		List rowGrandTotalNames = new ArrayList();
+		rowGrandTotalNames.add( "rowGrandTotal" );
+		
+		pageCursor.setPosition( 0 );
+		dataCursor.synchronizePages( );
+		String output = "The NO." + pageCursor.getPosition( ) +" is:";
+		for( int i=0; i< pageCursor.getDimensionCursor( ).size( ); i++ )
+		{
+			output += ((DimensionCursor)pageCursor.getDimensionCursor( ).get( i )).getObject( 0 );
+		}
+		output +="\n";
+		output += this.creator.printCubeAlongEdge( dataCursor, 
+				columnEdgeBindingNames,
+				rowEdgeBindingNames,
+				measureBindingNames,
+				rowGrandTotalNames,
+				"columnGrandTotal",
+				"totalGrandTotal", null );
+		output +="\n";
+
+		
+		pageCursor.setPosition( 3 );
+		dataCursor.synchronizePages( );
+		output += "The NO." + pageCursor.getPosition( ) +" is:";
+		for( int i=0; i< pageCursor.getDimensionCursor( ).size( ); i++ )
+		{
+			output += ((DimensionCursor)pageCursor.getDimensionCursor( ).get( i )).getObject( 0 );
+		}
+		output +="\n";
+		output += this.creator.printCubeAlongEdge( dataCursor, 
+				columnEdgeBindingNames,
+				rowEdgeBindingNames,
+				measureBindingNames,
+				rowGrandTotalNames,
+				"columnGrandTotal",
+				"totalGrandTotal", null );
+		output +="\n";
+		
+		pageCursor.setPosition( 1 );
+		dataCursor.synchronizePages( );
+		output += "The NO." + pageCursor.getPosition( ) +" is:";
+		for( int i=0; i< pageCursor.getDimensionCursor( ).size( ); i++ )
+		{
+			output += ((DimensionCursor)pageCursor.getDimensionCursor( ).get( i )).getObject( 0 );
+		}
+		output +="\n";
+		output += this.creator.printCubeAlongEdge( dataCursor, 
+				columnEdgeBindingNames,
+				rowEdgeBindingNames,
+				measureBindingNames,
+				rowGrandTotalNames,
+				"columnGrandTotal",
+				"totalGrandTotal", null );
+		output +="\n";
+
+		pageCursor.last( );
+		dataCursor.synchronizePages( );
+		output += "The NO." + pageCursor.getPosition( ) +" is:";
+		for( int i=0; i< pageCursor.getDimensionCursor( ).size( ); i++ )
+		{
+			output += ((DimensionCursor)pageCursor.getDimensionCursor( ).get( i )).getObject( 0 );
+		}
+		output +="\n";
+		output += this.creator.printCubeAlongEdge( dataCursor, 
+				columnEdgeBindingNames,
+				rowEdgeBindingNames,
+				measureBindingNames,
+				rowGrandTotalNames,
+				"columnGrandTotal",
+				"totalGrandTotal", null );
+		output +="\n";
+		
+		testOut.print( output );
+		checkOutputFile( );
+		close( dataCursor );		
 	}
 	
 	/**

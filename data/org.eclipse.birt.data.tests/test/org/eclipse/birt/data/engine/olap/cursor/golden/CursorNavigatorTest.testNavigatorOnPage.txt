@@ -1,0 +1,38 @@
+The NO.0 is:1998
+
+		CN   CN   CN   UN   US   US   
+		HZ   SH   SZ   LP   CS   LA   
+		A2   A1   A1   A3   A2   A2   
+P1   PP1   null,  1.0,  null,  null,  36.0,  null,  37.0&
+P2   PP1   null,  null,  11.0,  51.0,  null,  null,  62.0&
+P3   PP1   16.0,  null,  null,  null,  null,  21.0,  37.0&
+columnGrandTotal  16.0   1.0   11.0   51.0   36.0   21.0   136.0
+The NO.3 is:2001
+
+		CN   UN   US   US   
+		BJ   LD   CS   LA   
+		A1   A1   A4   A2   
+P2   PP1   null,  null,  39.0,  null,  39.0&
+P2   PP2   null,  46.0,  null,  null,  46.0&
+P3   PP2   7.0,  null,  null,  22.0,  29.0&
+columnGrandTotal  7.0   46.0   39.0   22.0   114.0
+The NO.1 is:1999
+
+		JP   JP   US   
+		IL   TK   CS   
+		A4   A4   A3   
+P1   PP2   null,  null,  37.0,  37.0&
+P2   PP2   61.0,  null,  null,  61.0&
+P3   PP2   null,  56.0,  null,  56.0&
+columnGrandTotal  61.0   56.0   37.0   154.0
+The NO.4 is:2002
+
+		CN   CN   JP   UN   US   US   US   
+		BJ   SH   IL   LD   CS   LA   NY   
+		A4   A1   A4   A3   A4   A2   A1   
+P1   PP1   null,  null,  null,  null,  null,  null,  41.0,  41.0&
+P2   PP3   null,  3.0,  null,  47.0,  null,  null,  null,  50.0&
+P3   PP1   null,  null,  65.0,  null,  null,  null,  null,  65.0&
+P3   PP2   null,  null,  null,  null,  40.0,  null,  null,  40.0&
+P3   PP3   8.0,  null,  null,  null,  null,  23.0,  null,  31.0&
+columnGrandTotal  8.0   3.0   65.0   47.0   40.0   23.0   41.0   227.0

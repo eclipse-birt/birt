@@ -1,0 +1,100 @@
+
+1998
+CN
+		HZ   SH   SZ   
+		A2   A1   A1   
+P1   PP1   null,  1.0,  null,  1.0&
+P2   PP1   null,  null,  11.0,  11.0&
+P3   PP1   16.0,  null,  null,  16.0&
+columnGrandTotal  16.0   1.0   11.0   28.0
+1998
+UN
+		LP   
+		A3   
+P2   PP1   51.0,  51.0&
+columnGrandTotal  51.0   51.0
+1998
+US
+		CS   LA   
+		A2   A2   
+P1   PP1   36.0,  null,  36.0&
+P3   PP1   null,  21.0,  21.0&
+columnGrandTotal  36.0   21.0   57.0
+1999
+JP
+		IL   TK   
+		A4   A4   
+P2   PP2   61.0,  null,  61.0&
+P3   PP2   null,  56.0,  56.0&
+columnGrandTotal  61.0   56.0   117.0
+1999
+US
+		CS   
+		A3   
+P1   PP2   37.0,  37.0&
+columnGrandTotal  37.0   37.0
+2000
+CN
+		BJ   SH   
+		A1   A1   
+P1   PP2   null,  2.0,  2.0&
+P2   PP1   6.0,  null,  6.0&
+columnGrandTotal  6.0   2.0   8.0
+2000
+JP
+		IL   
+		A4   
+P2   PP3   64.0,  64.0&
+columnGrandTotal  64.0   64.0
+2000
+US
+		CS   
+		A4   
+P1   PP3   38.0,  38.0&
+columnGrandTotal  38.0   38.0
+2001
+CN
+		BJ   
+		A1   
+P3   PP2   7.0,  7.0&
+columnGrandTotal  7.0   7.0
+2001
+UN
+		LD   
+		A1   
+P2   PP2   46.0,  46.0&
+columnGrandTotal  46.0   46.0
+2001
+US
+		CS   LA   
+		A4   A2   
+P2   PP1   39.0,  null,  39.0&
+P3   PP2   null,  22.0,  22.0&
+columnGrandTotal  39.0   22.0   61.0
+2002
+CN
+		BJ   SH   
+		A4   A1   
+P2   PP3   null,  3.0,  3.0&
+P3   PP3   8.0,  null,  8.0&
+columnGrandTotal  8.0   3.0   11.0
+2002
+JP
+		IL   
+		A4   
+P3   PP1   65.0,  65.0&
+columnGrandTotal  65.0   65.0
+2002
+UN
+		LD   
+		A3   
+P2   PP3   47.0,  47.0&
+columnGrandTotal  47.0   47.0
+2002
+US
+		CS   LA   NY   
+		A4   A2   A1   
+P1   PP1   null,  null,  41.0,  41.0&
+P3   PP2   40.0,  null,  null,  40.0&
+P3   PP3   null,  23.0,  null,  23.0&
+columnGrandTotal  40.0   23.0   41.0   104.0

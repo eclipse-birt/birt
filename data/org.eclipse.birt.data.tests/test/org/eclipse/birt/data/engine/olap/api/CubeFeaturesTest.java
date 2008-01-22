@@ -140,9 +140,13 @@ public class CubeFeaturesTest extends BaseTestCase
 		columnEdgeBindingNames.add( "edge1level1" );
 		columnEdgeBindingNames.add( "edge1level2" );
 		columnEdgeBindingNames.add( "edge1level3" );
+		
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
+
 		this.printCube( cursor,
 				columnEdgeBindingNames,
-				"edge2level1",
+				rowEdgeBindingNames,
 				"measure1" );
 	}
 
@@ -197,10 +201,12 @@ public class CubeFeaturesTest extends BaseTestCase
 		List columnEdgeBindingNames = new ArrayList( );
 		columnEdgeBindingNames.add( "edge1level1" );
 		columnEdgeBindingNames.add( "edge1level2" );
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
 
 		this.printCube( cursor,
 				columnEdgeBindingNames,
-				"edge2level1",
+				rowEdgeBindingNames,
 				"measure1" );
 
 	}
@@ -270,10 +276,13 @@ public class CubeFeaturesTest extends BaseTestCase
 		columnEdgeBindingNames.add( "edge1level1" );
 		columnEdgeBindingNames.add( "edge1level2" );
 		columnEdgeBindingNames.add( "edge1level3" );
+		
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
 
 		this.printCube( cursor,
 				columnEdgeBindingNames,
-				"edge2level1",
+				rowEdgeBindingNames,
 				"measure1",
 				null,
 				"rowGrandTotal",
@@ -349,15 +358,206 @@ public class CubeFeaturesTest extends BaseTestCase
 		columnEdgeBindingNames.add( "edge1level2" );
 		columnEdgeBindingNames.add( "edge1level3" );
 
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
+
 		this.printCube( cursor,
 				columnEdgeBindingNames,
-				"edge2level1",
+				rowEdgeBindingNames,
 				"measure1",
 				null,
 				"rowGrandTotal",
 				null );
 	}
 
+	/**
+	 * Test use page cursor
+	 * 
+	 * @throws Exception
+	 */
+	public void testBasic5( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IEdgeDefinition pageEdge = cqd.createEdge( ICubeQueryDefinition.PAGE_EDGE );
+		
+		IDimensionDefinition dim0 = pageEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier0 = dim0.createHierarchy( "dimension1" );
+		hier0.createLevel( "level11" );
+
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension2" );
+		hier1.createLevel( "level12" );
+		
+		IDimensionDefinition dim2 = columnEdge.createDimension( "dimension3" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension3" );
+		hier2.createLevel( "level13" );
+		
+		IDimensionDefinition dim3 = rowEdge.createDimension( "dimension4" );
+		IHierarchyDefinition hier3 = dim3.createHierarchy( "dimension4" );
+		hier3.createLevel( "level21" );
+				
+		cqd.createMeasure( "measure1" );
+
+		IBinding binding1 = new Binding( "edge1level1" );
+
+		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level11\"]" ) );
+		cqd.addBinding( binding1 );
+
+		IBinding binding2 = new Binding( "edge1level2" );
+
+		binding2.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level12\"]" ) );
+		cqd.addBinding( binding2 );
+
+		IBinding binding3 = new Binding( "edge1level3" );
+		binding3.setExpression( new ScriptExpression( "dimension[\"dimension3\"][\"level13\"]" ) );
+		cqd.addBinding( binding3 );
+
+		IBinding binding4 = new Binding( "edge2level1" );
+
+		binding4.setExpression( new ScriptExpression( "dimension[\"dimension4\"][\"level21\"]" ) );
+		cqd.addBinding( binding4 );
+
+		IBinding binding5 = new Binding( "measure1" );
+		binding5.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		cqd.addBinding( binding5 );
+
+		IBinding binding6 = new Binding( "attr21" );
+		binding6.setExpression( new ScriptExpression( "dimension[\"dimension4\"][\"level21\"][\"attr21\"]" ) );
+		cqd.addBinding( binding6 );
+
+		IBinding binding7 = new Binding( "rowGrandTotal" );
+		binding7.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		binding7.setAggrFunction( IBuildInAggregation.TOTAL_WEIGHTEDAVE_FUNC );
+		binding7.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+		binding7.addAggregateOn( "dimension[\"dimension4\"][\"level21\"]" );
+		binding7.addArgument( new ScriptExpression( "data[\"attr21\"]" ) );
+		cqd.addBinding( binding7 );
+
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				null,
+				null,
+				null ) );
+		this.createCube1( engine );
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = queryResults.getCubeCursor( );
+		List pageEdgeBindingNames = new ArrayList( );
+		pageEdgeBindingNames.add( "edge1level1" );
+		
+		List columnEdgeBindingNames = new ArrayList( );
+		columnEdgeBindingNames.add( "edge1level2" );
+		columnEdgeBindingNames.add( "edge1level3" );
+		
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
+
+		this.printCubeWithPage( cursor,
+				pageEdgeBindingNames,
+				columnEdgeBindingNames,
+				rowEdgeBindingNames,
+				"measure1",
+				null,
+				"rowGrandTotal",
+				null );
+	}
+	
+
+	/**
+	 * Test use page cursor
+	 * 
+	 * @throws Exception
+	 */
+	public void testBasic6( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IEdgeDefinition pageEdge = cqd.createEdge( ICubeQueryDefinition.PAGE_EDGE );
+		
+		IDimensionDefinition dim0 = pageEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier0 = dim0.createHierarchy( "dimension1" );
+		hier0.createLevel( "level11" );
+
+		IDimensionDefinition dim1 = pageEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension2" );
+		hier1.createLevel( "level12" );
+		
+		IDimensionDefinition dim2 = columnEdge.createDimension( "dimension3" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension3" );
+		hier2.createLevel( "level13" );
+		
+		IDimensionDefinition dim3 = rowEdge.createDimension( "dimension4" );
+		IHierarchyDefinition hier3 = dim3.createHierarchy( "dimension4" );
+		hier3.createLevel( "level21" );
+				
+		cqd.createMeasure( "measure1" );
+
+		IBinding binding1 = new Binding( "edge1level1" );
+
+		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level11\"]" ) );
+		cqd.addBinding( binding1 );
+
+		IBinding binding2 = new Binding( "edge1level2" );
+
+		binding2.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level12\"]" ) );
+		cqd.addBinding( binding2 );
+
+		IBinding binding3 = new Binding( "edge1level3" );
+		binding3.setExpression( new ScriptExpression( "dimension[\"dimension3\"][\"level13\"]" ) );
+		cqd.addBinding( binding3 );
+
+		IBinding binding4 = new Binding( "edge2level1" );
+
+		binding4.setExpression( new ScriptExpression( "dimension[\"dimension4\"][\"level21\"]" ) );
+		cqd.addBinding( binding4 );
+
+		IBinding binding5 = new Binding( "measure1" );
+		binding5.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		cqd.addBinding( binding5 );
+
+		IBinding binding6 = new Binding( "attr21" );
+		binding6.setExpression( new ScriptExpression( "dimension[\"dimension4\"][\"level21\"][\"attr21\"]" ) );
+		cqd.addBinding( binding6 );
+
+		IBinding binding7 = new Binding( "rowGrandTotal" );
+		binding7.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		binding7.setAggrFunction( IBuildInAggregation.TOTAL_WEIGHTEDAVE_FUNC );
+		binding7.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+		binding7.addAggregateOn( "dimension[\"dimension2\"][\"level12\"]" );
+		binding7.addAggregateOn( "dimension[\"dimension4\"][\"level21\"]" );
+		binding7.addArgument( new ScriptExpression( "data[\"attr21\"]" ) );
+		cqd.addBinding( binding7 );
+
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				null,
+				null,
+				null ) );
+		this.createCube1( engine );
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = queryResults.getCubeCursor( );
+		List pageEdgeBindingNames = new ArrayList( );
+		pageEdgeBindingNames.add( "edge1level1" );
+		pageEdgeBindingNames.add( "edge1level2" );
+		
+		List columnEdgeBindingNames = new ArrayList( );
+		columnEdgeBindingNames.add( "edge1level3" );
+		
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
+
+		this.printCubeWithPage( cursor,
+				pageEdgeBindingNames,
+				columnEdgeBindingNames,
+				rowEdgeBindingNames,
+				"measure1",
+				null,
+				"rowGrandTotal",
+				null );
+	}
+	
 	/**
 	 * Test use aggregation with one more arguments
 	 * 
@@ -486,10 +686,12 @@ public class CubeFeaturesTest extends BaseTestCase
 		List columnEdgeBindingNames = new ArrayList( );
 		columnEdgeBindingNames.add( "edge1level1" );
 		columnEdgeBindingNames.add( "edge1level2" );
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
 
 		this.printCube( cursor,
 				columnEdgeBindingNames,
-				"edge2level1",
+				rowEdgeBindingNames,
 				"measure1" );
 
 	}
@@ -554,10 +756,12 @@ public class CubeFeaturesTest extends BaseTestCase
 		List columnEdgeBindingNames = new ArrayList( );
 		columnEdgeBindingNames.add( "edge1level1" );
 		columnEdgeBindingNames.add( "edge1level2" );
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
 
 		this.printCube( cursor,
 				columnEdgeBindingNames,
-				"edge2level1",
+				rowEdgeBindingNames,
 				"measure1" );
 
 	}
@@ -622,10 +826,12 @@ public class CubeFeaturesTest extends BaseTestCase
 		List columnEdgeBindingNames = new ArrayList( );
 		columnEdgeBindingNames.add( "edge1level1" );
 		columnEdgeBindingNames.add( "edge1level2" );
-
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
+		
 		this.printCube( cursor,
 				columnEdgeBindingNames,
-				"edge2level1",
+				rowEdgeBindingNames,
 				"measure1" );
 
 	}
@@ -1055,10 +1261,12 @@ public class CubeFeaturesTest extends BaseTestCase
 		List columnEdgeBindingNames = new ArrayList( );
 		columnEdgeBindingNames.add( "edge1level1" );
 		columnEdgeBindingNames.add( "edge1level2" );
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
 
 		this.printCube( cursor,
 				columnEdgeBindingNames,
-				"edge2level1",
+				rowEdgeBindingNames,
 				"measure1" );
 
 	}
@@ -1133,10 +1341,12 @@ public class CubeFeaturesTest extends BaseTestCase
 		List columnEdgeBindingNames = new ArrayList( );
 		columnEdgeBindingNames.add( "edge1level1" );
 		columnEdgeBindingNames.add( "edge1level2" );
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
 
 		this.printCube( cursor,
 				columnEdgeBindingNames,
-				"edge2level1",
+				rowEdgeBindingNames,
 				"measure1" );
 
 	}
@@ -1213,10 +1423,12 @@ public class CubeFeaturesTest extends BaseTestCase
 		List columnEdgeBindingNames = new ArrayList( );
 		columnEdgeBindingNames.add( "edge1level1" );
 		columnEdgeBindingNames.add( "edge1level2" );
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
 
 		this.printCube( cursor,
 				columnEdgeBindingNames,
-				"edge2level1",
+				rowEdgeBindingNames,
 				"measure1" );
 
 	}
@@ -1285,10 +1497,12 @@ public class CubeFeaturesTest extends BaseTestCase
 		List columnEdgeBindingNames = new ArrayList( );
 		columnEdgeBindingNames.add( "edge1level1" );
 		columnEdgeBindingNames.add( "edge1level2" );
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
 
 		this.printCube( cursor,
 				columnEdgeBindingNames,
-				"edge2level1",
+				rowEdgeBindingNames,
 				"measure1" );
 
 	}
@@ -1354,10 +1568,12 @@ public class CubeFeaturesTest extends BaseTestCase
 		List columnEdgeBindingNames = new ArrayList( );
 		columnEdgeBindingNames.add( "edge1level1" );
 		columnEdgeBindingNames.add( "edge1level2" );
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
 
 		this.printCube( cursor,
 				columnEdgeBindingNames,
-				"edge2level1",
+				rowEdgeBindingNames,
 				"measure1" );
 
 	}
@@ -1529,10 +1745,13 @@ public class CubeFeaturesTest extends BaseTestCase
 		List columnEdgeBindingNames = new ArrayList( );
 		columnEdgeBindingNames.add( "edge1level1" );
 		columnEdgeBindingNames.add( "edge1level2" );
+		
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
 
 		this.printCube( cursor,
 				columnEdgeBindingNames,
-				"edge2level1",
+				rowEdgeBindingNames,
 				"measure1",
 				"columnGrandTotal",
 				"rowGrandTotal",
@@ -1634,9 +1853,12 @@ public class CubeFeaturesTest extends BaseTestCase
 		columnEdgeBindingNames.add( "edge1level1" );
 		columnEdgeBindingNames.add( "edge1level2" );
 
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
+
 		this.printCube( cursor,
 				columnEdgeBindingNames,
-				"edge2level1",
+				rowEdgeBindingNames,
 				"measure1",
 				"columnGrandTotal",
 				"rowGrandTotal",
@@ -2223,9 +2445,12 @@ public class CubeFeaturesTest extends BaseTestCase
 		columnEdgeBindingNames.add( "edge1level1" );
 		columnEdgeBindingNames.add( "edge1level2" );
 
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
+
 		this.printCube( cursor,
 				columnEdgeBindingNames,
-				"edge2level1",
+				rowEdgeBindingNames,
 				"row_measure1",
 				"row_columnGrandTotal",
 				"row_rowGrandTotal",
@@ -2293,9 +2518,12 @@ public class CubeFeaturesTest extends BaseTestCase
 		columnEdgeBindingNames.add( "edge1level1" );
 		columnEdgeBindingNames.add( "edge1level2" );
 		columnEdgeBindingNames.add( "edge1level3" );
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
+
 		this.printCube( cursor,
 				columnEdgeBindingNames,
-				"edge2level1",
+				rowEdgeBindingNames,
 				"measure2" );
 	}
 
@@ -2362,9 +2590,12 @@ public class CubeFeaturesTest extends BaseTestCase
 		columnEdgeBindingNames.add( "edge1level1" );
 		columnEdgeBindingNames.add( "edge1level2" );
 		columnEdgeBindingNames.add( "edge1level3" );
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
+
 		this.printCube( cursor,
 				columnEdgeBindingNames,
-				"edge2level1",
+				rowEdgeBindingNames,
 				"measure2" );
 	}
 
@@ -2462,10 +2693,12 @@ public class CubeFeaturesTest extends BaseTestCase
 		List columnEdgeBindingNames = new ArrayList( );
 		columnEdgeBindingNames.add( "edge1level1" );
 		columnEdgeBindingNames.add( "edge1level2" );
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
 
 		this.printCube( cursor,
 				columnEdgeBindingNames,
-				"edge2level1",
+				rowEdgeBindingNames,
 				"measure2",
 				"columnGrandTotal",
 				"rowGrandTotal",
@@ -2605,9 +2838,12 @@ public class CubeFeaturesTest extends BaseTestCase
 		columnEdgeBindingNames.add( "edge1level1" );
 		columnEdgeBindingNames.add( "edge1level2" );
 		columnEdgeBindingNames.add( "edge1level3" );
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
+
 		this.printCube( cursor,
 				columnEdgeBindingNames,
-				"edge2level1",
+				rowEdgeBindingNames,
 				"measure1" );
 	}
 
@@ -2664,6 +2900,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		List columnEdgeBindingNames = new ArrayList( );
 		columnEdgeBindingNames.add( "edge1level1" );
 		columnEdgeBindingNames.add( "edge1level2" );
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
 
 		// Load from cache.
 		cqd.setQueryResultsID( queryResults.getID( ) );
@@ -2673,7 +2911,7 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		this.printCube( cursor,
 				columnEdgeBindingNames,
-				"edge2level1",
+				rowEdgeBindingNames,
 				"measure1" );
 
 	}
@@ -2736,6 +2974,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		List columnEdgeBindingNames = new ArrayList( );
 		columnEdgeBindingNames.add( "edge1level1" );
 		columnEdgeBindingNames.add( "edge1level2" );
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
 
 		// Load from cache.
 		cqd.setQueryResultsID( queryResults.getID( ) );
@@ -2745,7 +2985,7 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		this.printCube( cursor,
 				columnEdgeBindingNames,
-				"edge2level1",
+				rowEdgeBindingNames,
 				"measure1" );
 
 	}
@@ -2812,6 +3052,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		List columnEdgeBindingNames = new ArrayList( );
 		columnEdgeBindingNames.add( "edge1level1" );
 		columnEdgeBindingNames.add( "edge1level2" );
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
 
 		// Load from cache.
 		cqd.setQueryResultsID( queryResults.getID( ) );
@@ -2821,7 +3063,7 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		this.printCube( cursor,
 				columnEdgeBindingNames,
-				"edge2level1",
+				rowEdgeBindingNames,
 				"measure1" );
 
 	}
@@ -2885,6 +3127,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		List columnEdgeBindingNames = new ArrayList( );
 		columnEdgeBindingNames.add( "edge1level1" );
 		columnEdgeBindingNames.add( "edge1level2" );
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
 
 		// Load from cache.
 		cqd.setQueryResultsID( queryResults.getID( ) );
@@ -2894,7 +3138,7 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		this.printCube( cursor,
 				columnEdgeBindingNames,
-				"edge2level1",
+				rowEdgeBindingNames,
 				"measure1" );
 
 	}
@@ -2971,6 +3215,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		List columnEdgeBindingNames = new ArrayList( );
 		columnEdgeBindingNames.add( "edge1level1" );
 		columnEdgeBindingNames.add( "edge1level2" );
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
 
 		// Load from cache.
 		cqd.setQueryResultsID( queryResults.getID( ) );
@@ -2980,7 +3226,7 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		this.printCube( cursor,
 				columnEdgeBindingNames,
-				"edge2level1",
+				rowEdgeBindingNames,
 				"measure1" );
 
 	}
@@ -3075,6 +3321,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		List columnEdgeBindingNames = new ArrayList( );
 		columnEdgeBindingNames.add( "edge1level1" );
 		columnEdgeBindingNames.add( "edge1level2" );
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
 
 		// Load from cache.
 		cqd.setQueryResultsID( queryResults.getID( ) );
@@ -3084,7 +3332,7 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		this.printCube( cursor,
 				columnEdgeBindingNames,
-				"edge2level1",
+				rowEdgeBindingNames,
 				"measure1",
 				"columnGrandTotal",
 				"rowGrandTotal",
@@ -3627,6 +3875,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		List columnEdgeBindingNames = new ArrayList( );
 		columnEdgeBindingNames.add( "edge1level1" );
 		columnEdgeBindingNames.add( "edge1level2" );
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
 
 		// Load from cache.
 		cqd.setQueryResultsID( queryResults.getID( ) );
@@ -3636,7 +3886,7 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		this.printCube( cursor,
 				columnEdgeBindingNames,
-				"edge2level1",
+				rowEdgeBindingNames,
 				"row_measure1",
 				"row_columnGrandTotal",
 				"row_rowGrandTotal",
@@ -3712,9 +3962,12 @@ public class CubeFeaturesTest extends BaseTestCase
 		columnEdgeBindingNames.add( "edge1level1" );
 		columnEdgeBindingNames.add( "edge1level2" );
 		columnEdgeBindingNames.add( "edge1level3" );
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
+
 		this.printCube( cursor,
 				columnEdgeBindingNames,
-				"edge2level1",
+				rowEdgeBindingNames,
 				"measure2" );
 	}
 
@@ -4187,9 +4440,12 @@ public class CubeFeaturesTest extends BaseTestCase
 		columnEdgeBindingNames.add( "edge1level1" );
 		columnEdgeBindingNames.add( "edge1level2" );
 		columnEdgeBindingNames.add( "edge1level3" );
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
+
 		this.printCube( cursor,
 				columnEdgeBindingNames,
-				"edge2level1",
+				rowEdgeBindingNames,
 				"measure1" );
 	}
 	
@@ -4262,6 +4518,15 @@ public class CubeFeaturesTest extends BaseTestCase
 					this.testPrintln( "\nsubQuery Result1 " );
 					while ( subEdge2.next( ) )
 					{
+						List dimension = subEdge2.getDimensionCursor( );
+
+						for ( int i = 0; i < dimension.size( ); i++ )
+						{
+							DimensionCursor dim = (DimensionCursor) dimension.get( i );
+							System.out.println( "####dim"
+									+ i + "Edge start=" + dim.getEdgeStart( )
+									+ "Edge end=" + dim.getEdgeEnd( ) + "   " );
+						}
 						/*
 						 * if( depth > 5 ) break;
 						 */subEdge1.beforeFirst( );
@@ -4271,6 +4536,16 @@ public class CubeFeaturesTest extends BaseTestCase
 							/*
 							 * if( depth > 5 ) break;
 							 */
+							List dimensions = subEdge1.getDimensionCursor( );
+
+							for ( int i = 0; i < dimensions.size( ); i++ )
+							{
+								DimensionCursor dim = (DimensionCursor) dimensions.get( i );
+								System.out.println( "****dim"
+										+ i + "Edge start="
+										+ dim.getEdgeStart( ) + "Edge end="
+										+ dim.getEdgeEnd( ) + "   " );
+							}
 							this.testPrint( subCubeCursor.getObject( "measure1" )
 									.toString( ) +
 									"   " );
@@ -4518,17 +4793,14 @@ public class CubeFeaturesTest extends BaseTestCase
 			edge1.beforeFirst( );
 			while ( edge2.next( ) )
 			{
-				/*
-				 * if( depth > 5 ) break;
-				 */edge1.beforeFirst( );
+				edge1.beforeFirst( );
 				while ( edge1.next( ) )
 				{
-					depth++;
-					/*
-					 * if( depth > 5 ) break;
-					 */
 					value = cubeCursor.getObject( "measure1" );
-					this.testPrintln( "\n\nParent result:" + value );
+					if ( value != null )
+						this.testPrintln( "\n\nParent result:" + value );
+					else
+						continue;
 					
 					ICubeCursor subCubeCursor = null;
 					EdgeCursor subEdge1, subEdge2;
@@ -4544,17 +4816,11 @@ public class CubeFeaturesTest extends BaseTestCase
 					this.testPrintln( "\nsubQuery Result1 " );
 					while ( subEdge2.next( ) )
 					{
-						/*
-						 * if( depth > 5 ) break;
-						 */subEdge1.beforeFirst( );
+						subEdge1.beforeFirst( );
 						while ( subEdge1.next( ) )
 						{
-							depth++;
-							/*
-							 * if( depth > 5 ) break;
-							 */
-							this.testPrint( subCubeCursor.getObject( "measure1" ) +
-									"   " );
+							this.testPrint( subCubeCursor.getObject( "measure1" )
+										+ "   " );
 						}
 					}
 
@@ -4569,17 +4835,11 @@ public class CubeFeaturesTest extends BaseTestCase
 					this.testPrintln( "\nsubQuery Result2 " );
 					while ( subEdge2.next( ) )
 					{
-						/*
-						 * if( depth > 5 ) break;
-						 */subEdge1.beforeFirst( );
+						subEdge1.beforeFirst( );
 						while ( subEdge1.next( ) )
 						{
-							depth++;
-							/*
-							 * if( depth > 5 ) break;
-							 */
 							this.testPrint( subCubeCursor.getObject( "measure1" )
-									+"  " );
+									+ "   " );
 						}
 					}
 					
@@ -4595,17 +4855,10 @@ public class CubeFeaturesTest extends BaseTestCase
 					this.testPrintln( "\nsubQuery Result3 " );
 					while ( subEdge2.next( ) )
 					{
-						/*
-						 * if( depth > 5 ) break;
-						 */subEdge1.beforeFirst( );
+						subEdge1.beforeFirst( );
 						while ( subEdge1.next( ) )
 						{
-							depth++;
-							/*
-							 * if( depth > 5 ) break;
-							 */
-							this.testPrint( subCubeCursor.getObject( "measure1" )
-									+ "  " );
+								this.testPrint(  subCubeCursor.getObject( "measure1" ) + "   " );	
 						}
 					}
 					
@@ -4620,17 +4873,10 @@ public class CubeFeaturesTest extends BaseTestCase
 					this.testPrintln( "\nsubQuery Result4 " );
 					while ( subEdge2.next( ) )
 					{
-						/*
-						 * if( depth > 5 ) break;
-						 */subEdge1.beforeFirst( );
+						subEdge1.beforeFirst( );
 						while ( subEdge1.next( ) )
 						{
-							depth++;
-							/*
-							 * if( depth > 5 ) break;
-							 */
-							this.testPrint( subCubeCursor.getObject( "measure1" ) +
-									" " );
+							this.testPrint( subCubeCursor.getObject( "measure1" ) + "   " );	
 						}
 					}
 					
@@ -4645,17 +4891,12 @@ public class CubeFeaturesTest extends BaseTestCase
 					this.testPrintln( "\nsubQuery Result5 " );
 					while ( subEdge2.next( ) )
 					{
-						/*
-						 * if( depth > 5 ) break;
-						 */subEdge1.beforeFirst( );
+
+						subEdge1.beforeFirst( );
 						while ( subEdge1.next( ) )
 						{
-							depth++;
-							/*
-							 * if( depth > 5 ) break;
-							 */
-							this.testPrint( subCubeCursor.getObject( "measure1" ) +
-									" " );
+							if ( value != null )
+								this.testPrint( subCubeCursor.getObject( "measure1" ) + "   " );	
 						}
 					}
 					// subQuery6
@@ -4669,17 +4910,10 @@ public class CubeFeaturesTest extends BaseTestCase
 					this.testPrintln( "\nsubQuery Result6 " );
 					while ( subEdge2.next( ) )
 					{
-						/*
-						 * if( depth > 5 ) break;
-						 */subEdge1.beforeFirst( );
+						subEdge1.beforeFirst( );
 						while ( subEdge1.next( ) )
 						{
-							depth++;
-							/*
-							 * if( depth > 5 ) break;
-							 */
-							this.testPrint( subCubeCursor.getObject( "measure1" ) +
-									" " );
+							this.testPrint( subCubeCursor.getObject( "measure1" ) + "   " );	
 						}
 					}					
 					// subQuery7
@@ -4693,17 +4927,10 @@ public class CubeFeaturesTest extends BaseTestCase
 					this.testPrintln( "\nsubQuery Result7 " );
 					while ( subEdge2.next( ) )
 					{
-						/*
-						 * if( depth > 5 ) break;
-						 */subEdge1.beforeFirst( );
+						subEdge1.beforeFirst( );
 						while ( subEdge1.next( ) )
 						{
-							depth++;
-							/*
-							 * if( depth > 5 ) break;
-							 */
-							this.testPrint( subCubeCursor.getObject( "measure1" ) +
-									" " );
+							this.testPrint( subCubeCursor.getObject( "measure1" ) + "   " );	
 						}
 					}
 					
@@ -4718,17 +4945,10 @@ public class CubeFeaturesTest extends BaseTestCase
 					this.testPrintln( "\nsubQuery Result8 " );
 					while ( subEdge2.next( ) )
 					{
-						/*
-						 * if( depth > 5 ) break;
-						 */subEdge1.beforeFirst( );
+						subEdge1.beforeFirst( );
 						while ( subEdge1.next( ) )
 						{
-							depth++;
-							/*
-							 * if( depth > 5 ) break;
-							 */
-							this.testPrint( subCubeCursor.getObject( "measure1" ) +
-									" " );
+							this.testPrint( subCubeCursor.getObject( "measure1" ) + "   " );	
 						}
 					}
 				}
@@ -4791,15 +5011,9 @@ public class CubeFeaturesTest extends BaseTestCase
 			edge1.beforeFirst( );
 			while ( edge2.next( ) )
 			{
-				/*
-				 * if( depth > 5 ) break;
-				 */edge1.beforeFirst( );
+				edge1.beforeFirst( );
 				while ( edge1.next( ) )
 				{
-					depth++;
-					/*
-					 * if( depth > 5 ) break;
-					 */
 					this.testPrintln( "\n\nParent result:" +
 							cubeCursor.getObject( "measure1" ).toString( ) );
 					
@@ -4814,15 +5028,9 @@ public class CubeFeaturesTest extends BaseTestCase
 					
 					while ( subEdge2.next( ) )
 					{
-						/*
-						 * if( depth > 5 ) break;
-						 */subEdge1.beforeFirst( );
+						subEdge1.beforeFirst( );
 						while ( subEdge1.next( ) )
 						{
-							depth++;
-							/*
-							 * if( depth > 5 ) break;
-							 */
 							this.testPrintln( "\nsubQuery Result1 " +
 									subCubeCursor.getObject( "measure1" )
 											.toString( ) + "   " );
@@ -4836,15 +5044,11 @@ public class CubeFeaturesTest extends BaseTestCase
 							this.testPrintln( "\nsubSubQuery Result1 " );
 							while ( subSubEdge2.next( ) )
 							{
-								/*
-								 * if( depth > 5 ) break;
-								 */subSubEdge1.beforeFirst( );
+								subSubEdge1.beforeFirst( );
 								while ( subSubEdge1.next( ) )
 								{
 									depth++;
-									/*
-									 * if( depth > 5 ) break;
-									 */
+
 									this.testPrint( subSubCubeCursor.getObject( "measure1" )
 											.toString( ) +
 											"   " );
@@ -5072,7 +5276,7 @@ public class CubeFeaturesTest extends BaseTestCase
 	}
 
 	private void printCube( CubeCursor cursor, List columnEdgeBindingNames,
-			String rowEdgeBindingNames, String measureBindingNames )
+			List rowEdgeBindingNames, String measureBindingNames )
 			throws Exception
 	{
 		this.printCube( cursor,
@@ -5083,24 +5287,89 @@ public class CubeFeaturesTest extends BaseTestCase
 				null,
 				null );
 	}
-
-	private void printCube( CubeCursor cursor, List columnEdgeBindingNames,
-			String rowEdgeBindingNames, String measureBindingNames,
+	
+	private void printCubeWithPage( CubeCursor cursor,
+			List pageEdgeBindingNames, List columnEdgeBindingNames,
+			List rowEdgeBindingNames, String measureBindingNames,
 			String columnAggr, String rowAggr, String overallAggr )
 			throws Exception
+	{
+		if ( !cursor.getPageEdge( ).isEmpty( ) )
+		{
+			EdgeCursor pageCursor = (EdgeCursor) cursor.getPageEdge( )
+					.toArray( )[0];
+			pageCursor.beforeFirst( );
+			String output = "";
+
+			while ( pageCursor.next( ) )
+			{
+				for ( int i = 0; i < pageEdgeBindingNames.size( ); i++ )
+				{
+					output += "\n"
+							+ cursor.getObject( pageEdgeBindingNames.get( i )
+									.toString( ) ) + "		";
+				}
+				cursor.synchronizePages( );
+				output += this.getOutputFromCursor( cursor,
+						columnEdgeBindingNames,
+						rowEdgeBindingNames,
+						measureBindingNames,
+						columnAggr,
+						rowAggr,
+						overallAggr );
+			}
+			this.testPrint( output );
+
+			this.checkOutputFile( );
+			close( cursor );
+		}
+		else
+		{
+			this.printCube( cursor,
+					columnEdgeBindingNames,
+					rowEdgeBindingNames,
+					measureBindingNames,
+					columnAggr,
+					rowAggr,
+					overallAggr );
+		}
+	}
+
+	private void printCube( CubeCursor cursor, List columnEdgeBindingNames,
+			List rowEdgeBindingNames, String measureBindingNames,
+			String columnAggr, String rowAggr, String overallAggr )
+			throws Exception
+	{
+		String output = getOutputFromCursor( cursor,
+				columnEdgeBindingNames,
+				rowEdgeBindingNames,
+				measureBindingNames,
+				columnAggr,
+				rowAggr,
+				overallAggr );
+		this.testPrint( output );
+
+		this.checkOutputFile( );
+		close( cursor );
+	}
+
+	private String getOutputFromCursor( CubeCursor cursor,
+			List columnEdgeBindingNames, List rowEdgeBindingNames,
+			String measureBindingNames, String columnAggr, String rowAggr,
+			String overallAggr ) throws OLAPException
 	{
 		EdgeCursor edge1 = (EdgeCursor) ( cursor.getOrdinateEdge( ).get( 0 ) );
 		EdgeCursor edge2 = (EdgeCursor) ( cursor.getOrdinateEdge( ).get( 1 ) );
 
-		String[] lines = new String[edge1.getDimensionCursor( ).size( )];
-		for ( int i = 0; i < lines.length; i++ )
+		String[] lines = new String[columnEdgeBindingNames.size( )];
+		for ( int i = 0; i < columnEdgeBindingNames.size( ); i++ )
 		{
 			lines[i] = "		";
 		}
 
 		while ( edge1.next( ) )
 		{
-			for ( int i = 0; i < lines.length; i++ )
+			for ( int i = 0; i < columnEdgeBindingNames.size( ); i++ )
 			{
 				lines[i] += cursor.getObject( columnEdgeBindingNames.get( i )
 						.toString( ) )
@@ -5119,8 +5388,13 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		while ( edge2.next( ) )
 		{
-			String line = cursor.getObject( rowEdgeBindingNames ).toString( )
-					+ "		";
+			String line = "";
+			for ( int i = 0; i < rowEdgeBindingNames.size( ); i++ )
+			{
+				line += cursor.getObject( rowEdgeBindingNames.get( i )
+						.toString( ) ).toString( )
+						+ "		";
+			}
 			edge1.beforeFirst( );
 			while ( edge1.next( ) )
 			{
@@ -5145,10 +5419,7 @@ public class CubeFeaturesTest extends BaseTestCase
 
 			output += "\n" + line;
 		}
-		this.testPrint( output );
-
-		this.checkOutputFile( );
-		close( cursor );
+		return output;
 	}
 
 	/**
@@ -5269,6 +5540,131 @@ public class CubeFeaturesTest extends BaseTestCase
 		hierarchy = dimensions[1].getHierarchy( );
 		assertEquals( hierarchy.getName( ), "dimension2" );
 		assertEquals( dimensions[1].length( ), 5 );
+
+		TestFactTable factTable2 = new TestFactTable( );
+		String[] measureColumnName = new String[1];
+		measureColumnName[0] = "measure1";
+		Cube cube = new Cube( cubeName, documentManager );
+
+		cube.create( getKeyColNames( dimensions ),
+				dimensions,
+				factTable2,
+				measureColumnName,
+				new StopSign( ) );
+
+		cube.close( );
+		documentManager.flush( );
+
+	}
+
+	private void createCube1(
+			org.eclipse.birt.data.engine.impl.DataEngineImpl engine )
+			throws BirtException, IOException
+	{
+		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( engine.getSession( ).getTempDir( ),
+				cubeName );
+		DocManagerMap.getDocManagerMap( )
+				.set( String.valueOf( engine.hashCode( ) ),
+						engine.getSession( ).getTempDir( ) + cubeName,
+						documentManager );
+		engine.addShutdownListener( new DocManagerReleaser( engine ) );
+		Dimension[] dimensions = new Dimension[4];
+
+		// dimension0
+		String[] levelNames = new String[1];
+		levelNames[0] = "level11";
+		DimensionForTest iterator = new DimensionForTest( levelNames );
+		iterator.setLevelMember( 0, TestFactTable.DIM0_L1Col );
+
+		ILevelDefn[] levelDefs = new ILevelDefn[1];
+		levelDefs[0] = new LevelDefinition( "level11", new String[]{
+			"level11"
+		}, null );
+		dimensions[0] = (Dimension) DimensionFactory.createDimension( "dimension1",
+				documentManager,
+				iterator,
+				levelDefs,
+				false );
+		IHierarchy hierarchy = dimensions[0].getHierarchy( );
+		assertEquals( hierarchy.getName( ), "dimension1" );
+
+		// dimension1
+		levelNames = new String[1];
+		levelNames[0] = "level12";
+		iterator = new DimensionForTest( levelNames );
+		iterator.setLevelMember( 0, TestFactTable.DIM0_L2Col );
+
+		levelDefs = new ILevelDefn[1];
+		levelDefs[0] = new LevelDefinition( "level12", new String[]{
+			"level12"
+		}, null );
+		dimensions[1] = (Dimension) DimensionFactory.createDimension( "dimension2",
+				documentManager,
+				iterator,
+				levelDefs,
+				false );
+		hierarchy = dimensions[1].getHierarchy( );
+		assertEquals( hierarchy.getName( ), "dimension2" );
+
+		// dimension2
+		levelNames = new String[1];
+		levelNames[0] = "level13";
+		iterator = new DimensionForTest( levelNames );
+		iterator.setLevelMember( 0, TestFactTable.DIM0_L3Col );
+
+		levelDefs = new ILevelDefn[1];
+		levelDefs[0] = new LevelDefinition( "level13", new String[]{
+			"level13"
+		}, null );
+		dimensions[2] = (Dimension) DimensionFactory.createDimension( "dimension3",
+				documentManager,
+				iterator,
+				levelDefs,
+				false );
+		hierarchy = dimensions[2].getHierarchy( );
+		assertEquals( hierarchy.getName( ), "dimension3" );
+		
+		// dimension3
+		levelNames = new String[]{
+				"level21", "attr21"
+		};
+		iterator = new DimensionForTest( levelNames );
+		iterator.setLevelMember( 0, distinct( TestFactTable.DIM1_L1Col ) );
+		iterator.setLevelMember( 1, TestFactTable.ATTRIBUTE_Col );
+
+		levelDefs = new ILevelDefn[1];
+		levelDefs[0] = new LevelDefinition( "level21", new String[]{
+			"level21"
+		}, new String[]{
+			"attr21"
+		} );
+		dimensions[3] = (Dimension) DimensionFactory.createDimension( "dimension4",
+				documentManager,
+				iterator,
+				levelDefs,
+				false );
+		hierarchy = dimensions[3].getHierarchy( );
+		assertEquals( hierarchy.getName( ), "dimension4" );
+		assertEquals( dimensions[3].length( ), 5 );
+		
+//		// dimension2
+//		levelNames = new String[1];
+//		levelNames[0] = "level31";
+//		iterator = new DimensionForTest( levelNames );
+//		iterator.setLevelMember( 0, distinct( TestFactTable.DIM0_L1Col ));
+//
+//		levelDefs = new ILevelDefn[1];
+//		levelDefs[0] = new LevelDefinition( "level31", new String[]{
+//			"level31"
+//		}, null );
+//		dimensions[2] = (Dimension) DimensionFactory.createDimension( "dimension3",
+//				documentManager,
+//				iterator,
+//				levelDefs,
+//				false );
+//		hierarchy = dimensions[2].getHierarchy( );
+//		assertEquals( hierarchy.getName( ), "dimension3" );
+//		assertEquals( dimensions[2].length( ), 4 );
 
 		TestFactTable factTable2 = new TestFactTable( );
 		String[] measureColumnName = new String[1];

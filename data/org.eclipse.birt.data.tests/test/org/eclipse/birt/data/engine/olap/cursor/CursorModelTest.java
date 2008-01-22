@@ -801,4 +801,197 @@ public class CursorModelTest extends BaseTestCase
 			fail( "fail to get here!" );
 		}
 	}
+	
+	public void testCursorWithPageEdge1( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = creator.createQueryDefintionWithPage1( );
+		
+		IBinding rowGrandTotal = new Binding( "rowGrandTotal" );
+		rowGrandTotal.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		rowGrandTotal.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		rowGrandTotal.addAggregateOn( "dimension[\"dimension4\"][\"level14\"]" );
+		rowGrandTotal.addAggregateOn( "dimension[\"dimension5\"][\"level21\"]" );
+		rowGrandTotal.addAggregateOn( "dimension[\"dimension6\"][\"level22\"]" );
+
+		IBinding columnGrandTotal = new Binding( "columnGrandTotal" );
+		columnGrandTotal.setAggrFunction( IBuildInAggregation.TOTAL_AVE_FUNC );
+		columnGrandTotal.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		columnGrandTotal.addAggregateOn( "dimension[\"dimension4\"][\"level14\"]" );
+		columnGrandTotal.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+		columnGrandTotal.addAggregateOn( "dimension[\"dimension2\"][\"level12\"]" );
+		columnGrandTotal.addAggregateOn( "dimension[\"dimension3\"][\"level13\"]" );
+		
+		IBinding totalGrandTotal = new Binding( "totalGrandTotal" );
+		totalGrandTotal.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		totalGrandTotal.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		totalGrandTotal.addAggregateOn( "dimension[\"dimension4\"][\"level14\"]" );
+		
+		cqd.addBinding( rowGrandTotal );
+		cqd.addBinding( columnGrandTotal );
+		cqd.addBinding( totalGrandTotal );
+		
+		// Create cube view.
+		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null,
+				cqd,
+				de.getSession( ),
+				this.scope,
+				de.getContext( ) ), null );
+
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) );
+
+		List pageEdgeBindingNames = new ArrayList( );
+		pageEdgeBindingNames.add( "level14" );
+
+		List columnEdgeBindingNames = new ArrayList( );
+		columnEdgeBindingNames.add( "level11" );
+		columnEdgeBindingNames.add( "level12" );
+		columnEdgeBindingNames.add( "level13" );
+
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "level21" );
+		rowEdgeBindingNames.add( "level22" ); 
+
+		List measureBindingNames = new ArrayList( );
+		measureBindingNames.add( "measure1" );
+		
+		List rowGrandTotalNames = new ArrayList();
+		rowGrandTotalNames.add( "rowGrandTotal" );
+			
+		testOut.print( creator.printCubeAlongPageEdge( dataCursor,
+				pageEdgeBindingNames,
+				columnEdgeBindingNames,
+				rowEdgeBindingNames,
+				measureBindingNames,
+				rowGrandTotalNames,
+				"columnGrandTotal",
+				"totalGrandTotal",
+				null ) );
+		this.checkOutputFile( );
+
+	}
+	
+	public void testCursorWithPageEdge2( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = creator.createQueryDefintionWithPage2( );
+		
+		IBinding rowGrandTotal = new Binding( "rowGrandTotal" );
+		rowGrandTotal.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		rowGrandTotal.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		rowGrandTotal.addAggregateOn( "dimension[\"dimension4\"][\"level14\"]" );
+		rowGrandTotal.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+		rowGrandTotal.addAggregateOn( "dimension[\"dimension5\"][\"level21\"]" );
+		rowGrandTotal.addAggregateOn( "dimension[\"dimension6\"][\"level22\"]" );
+
+		IBinding columnGrandTotal = new Binding( "columnGrandTotal" );
+		columnGrandTotal.setAggrFunction( IBuildInAggregation.TOTAL_AVE_FUNC );
+		columnGrandTotal.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		columnGrandTotal.addAggregateOn( "dimension[\"dimension4\"][\"level14\"]" );
+		columnGrandTotal.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+		columnGrandTotal.addAggregateOn( "dimension[\"dimension2\"][\"level12\"]" );
+		columnGrandTotal.addAggregateOn( "dimension[\"dimension3\"][\"level13\"]" );
+		
+		IBinding totalGrandTotal = new Binding( "totalGrandTotal" );
+		totalGrandTotal.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		totalGrandTotal.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		totalGrandTotal.addAggregateOn( "dimension[\"dimension4\"][\"level14\"]" );
+		totalGrandTotal.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+
+		cqd.addBinding( rowGrandTotal );
+		cqd.addBinding( columnGrandTotal );
+		cqd.addBinding( totalGrandTotal );
+		
+		// Create cube view.
+		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null,
+				cqd,
+				de.getSession( ),
+				this.scope,
+				de.getContext( ) ), null );
+
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) );
+
+		List pageEdgeBindingNames = new ArrayList( );
+		pageEdgeBindingNames.add( "level14" );
+		pageEdgeBindingNames.add( "level11" );
+
+		List columnEdgeBindingNames = new ArrayList( );
+		columnEdgeBindingNames.add( "level12" );
+		columnEdgeBindingNames.add( "level13" );
+
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "level21" );
+		rowEdgeBindingNames.add( "level22" );
+
+		List measureBindingNames = new ArrayList( );
+		measureBindingNames.add( "measure1" );
+		
+		List rowGrandTotalNames = new ArrayList();
+		rowGrandTotalNames.add( "rowGrandTotal" );
+		
+		testOut.print( creator.printCubeAlongPageEdge( dataCursor,
+				pageEdgeBindingNames,
+				columnEdgeBindingNames,
+				rowEdgeBindingNames,
+				measureBindingNames,
+				rowGrandTotalNames,
+				"columnGrandTotal",
+				"totalGrandTotal",
+				null ) );
+		this.checkOutputFile( );
+
+	}
+	
+	/**
+	 * without one row/column edge
+	 * @throws Exception
+	 */
+	public void testCursorWithPageEdge3( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( CubeUtility.cubeName );
+
+		cqd.createMeasure( "measure1" );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = rowEdge.createDimension( "dimension5" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension5" );
+		hier1.createLevel( "level21" );
+
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension6" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension6" );
+		hier2.createLevel( "level22" );
+		
+		IEdgeDefinition pageEdge = cqd.createEdge( ICubeQueryDefinition.PAGE_EDGE );
+		IDimensionDefinition dim3 = pageEdge.createDimension( "dimension4" );
+		IHierarchyDefinition hier3 = dim3.createHierarchy( "dimension4" );
+		hier3.createLevel( "level14" );
+
+		// Create cube view.
+		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null, cqd,
+				de.getSession( ),
+				this.scope,
+				de.getContext( ) ) );
+
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) );
+
+		// retrieve the edge cursors
+		// EdgeCursor pageCursor = cubeView.getMeasureEdgeView( );
+		List pageEdgeBindingNames = new ArrayList( );
+		pageEdgeBindingNames.add( "level14" );
+
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "level21" );
+		rowEdgeBindingNames.add( "level22" );
+
+		List measureBindingNames = new ArrayList( );
+		measureBindingNames.add( "measure1" );
+
+		testOut.print( creator.printCubeAlongPageEdge( dataCursor,
+				pageEdgeBindingNames,
+				new ArrayList( ),
+				rowEdgeBindingNames,
+				measureBindingNames,
+				null,
+				null,
+				null,
+				null ) );
+		this.checkOutputFile( );
+	}
 }

@@ -260,6 +260,114 @@ public class CubeUtility
 		return cqd;
 	}
 	
+	ICubeQueryDefinition createMirroredQueryDefinitionWithPage( )
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
+
+		cqd.createMeasure( "measure1" );
+		IEdgeDefinition pageEdge = cqd.createEdge( ICubeQueryDefinition.PAGE_EDGE );
+		IDimensionDefinition pageDim1 = pageEdge.createDimension( "dimension5" );
+		IHierarchyDefinition pagetLineHie1 = pageDim1.createHierarchy( "dimension5" );
+		ILevelDefinition pageLevel1 = pagetLineHie1.createLevel( "level21" );
+		
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition productLineDim2 = columnEdge.createDimension( "dimension6" );
+		IHierarchyDefinition porductLineHie2 = productLineDim2.createHierarchy( "dimension6" );
+		ILevelDefinition columnLevel2 = porductLineHie2.createLevel( "level22" );
+
+		columnEdge.setMirrorStartingLevel( columnLevel2 );
+
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IDimensionDefinition geographyDim1 = rowEdge.createDimension( "dimension1" );
+		IHierarchyDefinition geographyHier1 = geographyDim1.createHierarchy( "dimension1" );
+		geographyHier1.createLevel( "level11" );
+
+		IDimensionDefinition geographyDim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition geographyHier2 = geographyDim2.createHierarchy( "dimension2" );
+		geographyHier2.createLevel( "level12" );
+
+		IDimensionDefinition geographyDim3 = rowEdge.createDimension( "dimension3" );
+		IHierarchyDefinition geographyHier3 = geographyDim3.createHierarchy( "dimension3" );
+		geographyHier3.createLevel( "level13" );
+
+		IDimensionDefinition geographyDim4 = rowEdge.createDimension( "dimension4" );
+		IHierarchyDefinition geographyHier4 = geographyDim4.createHierarchy( "dimension4" );
+		ILevelDefinition startLevel = geographyHier4.createLevel( "level14" );
+
+		rowEdge.setMirrorStartingLevel( startLevel );
+		return cqd;
+	}
+	
+	ICubeQueryDefinition createQueryDefintionWithPage1( )
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
+		
+		cqd.createMeasure( "measure1" );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition productLineDim1 = rowEdge.createDimension( "dimension5" );
+		IHierarchyDefinition porductLineHie1 = productLineDim1.createHierarchy( "dimension5" );
+		ILevelDefinition columnLevel1 = porductLineHie1.createLevel( "level21" );
+
+		IDimensionDefinition productLineDim2 = rowEdge.createDimension( "dimension6" );
+		IHierarchyDefinition porductLineHie2 = productLineDim2.createHierarchy( "dimension6" );
+		ILevelDefinition columnLevel2 = porductLineHie2.createLevel( "level22" );
+		
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IDimensionDefinition geographyDim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition geographyHier1 = geographyDim1.createHierarchy( "dimension1" );
+		geographyHier1.createLevel( "level11" );
+
+		IDimensionDefinition geographyDim2 = columnEdge.createDimension( "dimension2" );
+		IHierarchyDefinition geographyHier2 = geographyDim2.createHierarchy( "dimension2" );
+		geographyHier2.createLevel( "level12" );
+
+		IDimensionDefinition geographyDim3 = columnEdge.createDimension( "dimension3" );
+		IHierarchyDefinition geographyHier3 = geographyDim3.createHierarchy( "dimension3" );
+		ILevelDefinition startLevel = geographyHier3.createLevel( "level13" );
+		
+		IEdgeDefinition pageEdge = cqd.createEdge( ICubeQueryDefinition.PAGE_EDGE );
+		IDimensionDefinition geographyDim4 = pageEdge.createDimension( "dimension4" );
+		IHierarchyDefinition geographyHier4 = geographyDim4.createHierarchy( "dimension4" );
+		geographyHier4.createLevel( "level14" );
+		
+		return cqd;
+	}
+
+	ICubeQueryDefinition createQueryDefintionWithPage2( )
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
+		
+		cqd.createMeasure( "measure1" );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition productLineDim1 = rowEdge.createDimension( "dimension5" );
+		IHierarchyDefinition porductLineHie1 = productLineDim1.createHierarchy( "dimension5" );
+		ILevelDefinition columnLevel1 = porductLineHie1.createLevel( "level21" );
+
+		IDimensionDefinition productLineDim2 = rowEdge.createDimension( "dimension6" );
+		IHierarchyDefinition porductLineHie2 = productLineDim2.createHierarchy( "dimension6" );
+		ILevelDefinition columnLevel2 = porductLineHie2.createLevel( "level22" );
+		
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IDimensionDefinition geographyDim2 = columnEdge.createDimension( "dimension2" );
+		IHierarchyDefinition geographyHier2 = geographyDim2.createHierarchy( "dimension2" );
+		geographyHier2.createLevel( "level12" );
+
+		IDimensionDefinition geographyDim3 = columnEdge.createDimension( "dimension3" );
+		IHierarchyDefinition geographyHier3 = geographyDim3.createHierarchy( "dimension3" );
+		ILevelDefinition startLevel = geographyHier3.createLevel( "level13" );
+		
+		IEdgeDefinition pageEdge = cqd.createEdge( ICubeQueryDefinition.PAGE_EDGE );
+		IDimensionDefinition geographyDim4 = pageEdge.createDimension( "dimension4" );
+		IHierarchyDefinition geographyHier4 = geographyDim4.createHierarchy( "dimension4" );
+		geographyHier4.createLevel( "level14" );
+
+		IDimensionDefinition geographyDim1 = pageEdge.createDimension( "dimension1" );
+		IHierarchyDefinition geographyHier1 = geographyDim1.createHierarchy( "dimension1" );
+		geographyHier1.createLevel( "level11" );
+		
+		return cqd;
+	}
+	
 	
 	String printCubeAlongEdge( CubeCursor cursor,
 			List columnEdgeBindingNames, List rowEdgeBindingNames,
@@ -267,25 +375,33 @@ public class CubeUtility
 			String columnGrandTotal, String totalGrandTotal,
 			List countryGrandTotal ) throws Exception
 	{
-		EdgeCursor edge1 = (EdgeCursor) ( cursor.getOrdinateEdge( ).get( 0 ) );
-		EdgeCursor edge2 = (EdgeCursor) ( cursor.getOrdinateEdge( ).get( 1 ) );
-
-		String[] lines = new String[edge1.getDimensionCursor( ).size( )];
+		EdgeCursor edge1 = null, edge2 = null;
+		if ( columnEdgeBindingNames.size( ) > 0 )
+			edge1 = (EdgeCursor) cursor.getOrdinateEdge( ).get( 0 );
+		if ( rowEdgeBindingNames.size( ) > 0 )
+			edge2 = (EdgeCursor) cursor.getOrdinateEdge( )
+					.get( cursor.getOrdinateEdge( ).size( ) - 1 );
+		String[] lines = new String[0];
+		if ( edge1 != null )
+			lines = new String[edge1.getDimensionCursor( ).size( )];
 
 		for ( int i = 0; i < lines.length; i++ )
 		{
 			lines[i] = "		";
 		}
 
-		while ( edge1.next( ) )
+		if ( edge1 != null )
 		{
-			for ( int i = 0; i < lines.length; i++ )
+			while ( edge1.next( ) )
 			{
-				DimensionCursor dimCursor = (DimensionCursor) edge1.getDimensionCursor( )
-						.get( i );
-				lines[i] += dimCursor.getObject( columnEdgeBindingNames.get( i )
-						.toString( ) )
-						+ "   ";
+				for ( int i = 0; i < columnEdgeBindingNames.size( ); i++ )
+				{
+					DimensionCursor dimCursor = (DimensionCursor) edge1.getDimensionCursor( )
+							.get( i );
+					lines[i] += dimCursor.getObject( columnEdgeBindingNames.get( i )
+							.toString( ) )
+							+ "   ";
+				}
 			}
 		}
 
@@ -294,55 +410,76 @@ public class CubeUtility
 		{
 			output += "\n" + lines[i];
 		}
-
-		while ( edge2.next( ) )
+		if ( edge2 != null )
 		{
-			String line = "";
-			for ( int k = 0; k < rowEdgeBindingNames.size( ); k++ )
+			while ( edge2.next( ) )
 			{
-				DimensionCursor dimCursor = (DimensionCursor) edge2.getDimensionCursor( )
-						.get( k );
-				line += dimCursor.getObject( rowEdgeBindingNames.get( k )
-						.toString( ) ).toString( )
-						+ "   ";
-			}
-			edge1.beforeFirst( );
-			while ( edge1.next( ) )
-			{
-				DimensionCursor countryCursor = (DimensionCursor) edge1.getDimensionCursor( )
-						.get( 0 );
-				if ( measureBindingNames != null )
+				String line = "";
+				for ( int k = 0; k < rowEdgeBindingNames.size( ); k++ )
 				{
-					for ( int j = 0; j < measureBindingNames.size( ); j++ )
+					DimensionCursor dimCursor = (DimensionCursor) edge2.getDimensionCursor( )
+							.get( k );
+					line += dimCursor.getObject( rowEdgeBindingNames.get( k )
+							.toString( ) ).toString( )
+							+ "   ";
+				}
+				if ( edge1 != null )
+				{
+					edge1.beforeFirst( );
+					while ( edge1.next( ) )
 					{
-						line += cursor.getObject( OlapExpressionUtil.createMeasureCalculateMemeberName( measureBindingNames.get( j )
-								.toString( ) ) )
-								+ ",";
-					}
-					if ( countryGrandTotal != null )
-						for ( int k = 0; k < countryGrandTotal.size( ); k++ )
+						DimensionCursor countryCursor = (DimensionCursor) edge1.getDimensionCursor( )
+								.get( 0 );
+						if ( measureBindingNames != null )
 						{
-							if ( edge1.getPosition( ) == countryCursor.getEdgeEnd( )
-									&& countryGrandTotal != null )
+							for ( int j = 0; j < measureBindingNames.size( ); j++ )
 							{
-								line += cursor.getObject( countryGrandTotal.get( k )
-										.toString( ) );
+								line += cursor.getObject( OlapExpressionUtil.createMeasureCalculateMemeberName( measureBindingNames.get( j )
+										.toString( ) ) )
+										+ ",";
 							}
+							if ( countryGrandTotal != null )
+								for ( int k = 0; k < countryGrandTotal.size( ); k++ )
+								{
+									if ( edge1.getPosition( ) == countryCursor.getEdgeEnd( )
+											&& countryGrandTotal != null )
+									{
+										line += cursor.getObject( countryGrandTotal.get( k )
+												.toString( ) );
+									}
+								}
+							line += "  ";
 						}
-					line += "  ";
+					}
 				}
-			}
-			if ( rowGrandTotal != null )
-				for ( int j = 0; j < rowGrandTotal.size( ); j++ )
+				else
 				{
-					line += cursor.getObject( rowGrandTotal.get( j ).toString( ) )
-							+ "&";
+					if ( measureBindingNames != null )
+					{
+						for ( int j = 0; j < measureBindingNames.size( ); j++ )
+						{
+							line += cursor.getObject( OlapExpressionUtil.createMeasureCalculateMemeberName( measureBindingNames.get( j )
+									.toString( ) ) )
+									+ ",";
+						}
+						line += "  ";
+					}
 				}
-			output += "\n" + line;
+				if ( rowGrandTotal != null )
+					for ( int j = 0; j < rowGrandTotal.size( ); j++ )
+					{
+						line += cursor.getObject( rowGrandTotal.get( j )
+								.toString( ) )
+								+ "&";
+					}
+				output += "\n" + line;
 
+			}
 		}
-		edge1.close( );
-		edge2.close( );
+		if ( edge1 != null )
+			edge1.close( );
+		if ( edge2 != null )
+			edge2.close( );
 		if ( columnGrandTotal != null )
 		{
 			output += "\n" + columnGrandTotal + "  ";
@@ -495,6 +632,38 @@ public class CubeUtility
 		}
 		output += "\n" + lines[0];
 		System.out.print( output );
+		return output;
+	}
+    
+    String printCubeAlongPageEdge( CubeCursor cursor, List pageEdgeBindingName,
+			List columnEdgeBindingNames, List rowEdgeBindingNames,
+			List measureBindingNames, List rowGrandTotal,
+			String columnGrandTotal, String totalGrandTotal,
+			List countryGrandTotal ) throws Exception
+    {
+    	EdgeCursor pageCursor = (EdgeCursor) cursor.getPageEdge( ).toArray( )[0];
+		pageCursor.beforeFirst( );
+		String output = "";
+		while ( pageCursor.next( ) )
+		{
+			cursor.synchronizePages( );
+			for ( int i = 0; i < pageEdgeBindingName.size( ); i++ )
+			{
+				output += "\n"
+						+ ( (DimensionCursor) pageCursor.getDimensionCursor( )
+								.get( i ) ).getObject( pageEdgeBindingName.get( i )
+								.toString( ) );
+			}
+			output += this.printCubeAlongEdge( cursor,
+					columnEdgeBindingNames,
+					rowEdgeBindingNames,
+					measureBindingNames,
+					rowGrandTotal,
+					columnGrandTotal,
+					totalGrandTotal,
+					countryGrandTotal );
+		}
+
 		return output;
 	}
     
