@@ -135,8 +135,11 @@ public class ScriptReconcilingStrategy implements IReconcilingStrategy
 		ScriptParser parser = new ScriptParser( document == null ? null
 				: document.get( ) );
 
-		positions.addAll( parser.getCommentPositions( ) );
-		positions.addAll( parser.getMethodPositions( ) );
+		Collection comments = parser.getCommentPositions( );
+		Collection methods = parser.getMethodPositions( );
+
+		positions.addAll( comments );
+		positions.addAll( methods );
 
 		for ( Iterator iterator = annotationModel.getAnnotationIterator( ); iterator.hasNext( ); )
 		{
@@ -150,10 +153,12 @@ public class ScriptReconcilingStrategy implements IReconcilingStrategy
 
 		for ( Iterator iterator = positions.iterator( ); iterator.hasNext( ); )
 		{
-			ProjectionAnnotation annotation = new ProjectionAnnotation( );
+			Position position = (Position) iterator.next( );
+			ProjectionAnnotation annotation = new ScriptProjectionAnnotation( comments.contains( position ) ? ScriptProjectionAnnotation.SCRIPT_COMMENT
+					: methods.contains( position ) ? ScriptProjectionAnnotation.SCRIPT_METHOD
+							: 0 );
 
-			annotationModel.addAnnotation( annotation,
-					(Position) iterator.next( ) );
+			annotationModel.addAnnotation( annotation, position );
 		}
 	}
 }

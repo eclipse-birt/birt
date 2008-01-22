@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.designer.ui.editor.script;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.eclipse.birt.report.designer.internal.ui.editors.script.IScriptEditor;
 import org.eclipse.birt.report.designer.internal.ui.editors.script.JSEditorInput;
 import org.eclipse.birt.report.designer.internal.ui.editors.script.JSSyntaxContext;
@@ -19,12 +23,15 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IUndoManager;
+import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.jface.text.source.SourceViewer;
+import org.eclipse.jface.text.source.projection.ProjectionAnnotationModel;
 import org.eclipse.jface.text.source.projection.ProjectionSupport;
 import org.eclipse.jface.text.source.projection.ProjectionViewer;
 import org.eclipse.swt.widgets.Composite;
@@ -32,11 +39,14 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.editors.text.IFoldingCommandIds;
 import org.eclipse.ui.texteditor.AbstractDecoratedTextEditor;
 import org.eclipse.ui.texteditor.AbstractMarkerAnnotationModel;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 import org.eclipse.ui.texteditor.ITextEditorActionDefinitionIds;
+import org.eclipse.ui.texteditor.IUpdate;
+import org.eclipse.ui.texteditor.ResourceAction;
 import org.eclipse.ui.texteditor.TextOperationAction;
 
 /**
@@ -46,7 +56,7 @@ import org.eclipse.ui.texteditor.TextOperationAction;
  * print margins, current line highlighting, etc.
  */
 public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implements
-	IScriptEditor
+		IScriptEditor
 {
 
 	/**
@@ -196,8 +206,49 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 		IAction contentAssistAction = new TextOperationAction( Messages.getReportResourceBundle( ),
 				"ContentAssistProposal_", this, ISourceViewer.CONTENTASSIST_PROPOSALS, true );//$NON-NLS-1$
 
+		IAction expandAll = new TextOperationAction( Messages.getReportResourceBundle( ),
+				"JSEditor.Folding.ExpandAll.", this, ProjectionViewer.EXPAND_ALL, true ); //$NON-NLS-1$
+
+		IAction collapseAll = new TextOperationAction( Messages.getReportResourceBundle( ),
+				"JSEditor.Folding.CollapseAll.", this, ProjectionViewer.COLLAPSE_ALL, true ); //$NON-NLS-1$
+
+		IAction collapseComments = new ResourceAction( Messages.getReportResourceBundle( ),
+				"JSEditor.Folding.CollapseComments." ) { //$NON-NLS-1$
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.jface.action.Action#run()
+			 */
+			public void run( )
+			{
+				collapseStyle( ScriptProjectionAnnotation.SCRIPT_COMMENT );
+			}
+		};
+
+		IAction collapseMethods = new ResourceAction( Messages.getReportResourceBundle( ),
+				"JSEditor.Folding.CollapseMethods." ) { //$NON-NLS-1$
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.jface.action.Action#run()
+			 */
+			public void run( )
+			{
+				collapseStyle( ScriptProjectionAnnotation.SCRIPT_METHOD );
+			}
+		};
+
 		contentAssistAction.setActionDefinitionId( ITextEditorActionDefinitionIds.CONTENT_ASSIST_PROPOSALS );
+		expandAll.setActionDefinitionId( IFoldingCommandIds.FOLDING_EXPAND_ALL );
+		collapseAll.setActionDefinitionId( IFoldingCommandIds.FOLDING_COLLAPSE_ALL );
+
 		setAction( "ContentAssistProposal", contentAssistAction );//$NON-NLS-1$
+		setAction( "FoldingExpandAll", expandAll ); //$NON-NLS-1$
+		setAction( "FoldingCollapseAll", collapseAll ); //$NON-NLS-1$
+		setAction( "FoldingCollapseComments", collapseComments ); //$NON-NLS-1$
+		setAction( "FoldingCollapseMethods", collapseMethods ); //$NON-NLS-1$
 	}
 
 	/*
@@ -311,7 +362,9 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 		return context;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.editor.script.IDebugScriptEditor#saveDocument()
 	 */
 	public void saveDocument( )
@@ -319,11 +372,11 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 		ScriptDocumentProvider provider = (ScriptDocumentProvider) getDocumentProvider( );
 		try
 		{
-			((AbstractMarkerAnnotationModel)provider.getAnnotationModel( getEditorInput( ))).commit( provider.getDocument( getEditorInput( ) ) );
+			( (AbstractMarkerAnnotationModel) provider.getAnnotationModel( getEditorInput( ) ) ).commit( provider.getDocument( getEditorInput( ) ) );
 		}
 		catch ( CoreException e )
 		{
-			//do nothing
+			// do nothing
 		}
 	}
 
@@ -357,5 +410,104 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 		getSourceViewerDecorationSupport( viewer );
 
 		return viewer;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.texteditor.AbstractDecoratedTextEditor#rulerContextMenuAboutToShow(org.eclipse.jface.action.IMenuManager)
+	 */
+	protected void rulerContextMenuAboutToShow( IMenuManager menu )
+	{
+		super.rulerContextMenuAboutToShow( menu );
+
+		IMenuManager foldingMenu = new MenuManager( Messages.getString( "JSEditor.Folding.Group" ) ); //$NON-NLS-1$
+
+		menu.appendToGroup( ITextEditorActionConstants.GROUP_RULERS,
+				foldingMenu );
+
+		IAction expandAll = getAction( "FoldingExpandAll" ); //$NON-NLS-1$
+		IAction collapseAll = getAction( "FoldingCollapseAll" ); //$NON-NLS-1$
+		IAction collapseComments = getAction( "FoldingCollapseComments" ); //$NON-NLS-1$
+		IAction collapseMethods = getAction( "FoldingCollapseMethods" ); //$NON-NLS-1$
+
+		// Enables all actions.
+		enableAction( expandAll );
+		enableAction( collapseAll );
+		enableAction( collapseComments );
+		enableAction( collapseMethods );
+
+		// Adds all actions into folding group.
+		foldingMenu.add( expandAll );
+		foldingMenu.add( collapseAll );
+		foldingMenu.add( collapseComments );
+		foldingMenu.add( collapseMethods );
+	}
+
+	/**
+	 * Set the specified action enabled.
+	 * 
+	 * @param action
+	 *            the specified action to set enable.
+	 */
+	private void enableAction( IAction action )
+	{
+		if ( action instanceof IUpdate )
+		{
+			( (IUpdate) action ).update( );
+		}
+		else
+		{
+			ISourceViewer viewer = getViewer( );
+
+			action.setEnabled( viewer instanceof ProjectionViewer ? ( (ProjectionViewer) viewer ).isProjectionMode( )
+					: true );
+		}
+	}
+
+	/**
+	 * Collapses all item with the specified style.
+	 * 
+	 * @param style
+	 *            the style to collapse
+	 */
+	private void collapseStyle( int style )
+	{
+		ISourceViewer viewer = getViewer( );
+
+		if ( !( viewer instanceof ProjectionViewer ) )
+		{
+			return;
+		}
+
+		ProjectionAnnotationModel model = ( (ProjectionViewer) viewer ).getProjectionAnnotationModel( );
+
+		if ( model == null )
+		{
+			return;
+		}
+
+		List modified = new ArrayList( );
+		Iterator iter = model.getAnnotationIterator( );
+
+		while ( iter.hasNext( ) )
+		{
+			Object annotation = iter.next( );
+
+			if ( annotation instanceof ScriptProjectionAnnotation )
+			{
+				ScriptProjectionAnnotation scriptAnnotation = (ScriptProjectionAnnotation) annotation;
+
+				if ( !scriptAnnotation.isCollapsed( ) &&
+						scriptAnnotation.isStyle( style ) )
+				{
+					scriptAnnotation.markCollapsed( );
+					modified.add( scriptAnnotation );
+				}
+			}
+		}
+		model.modifyAnnotations( null,
+				null,
+				(Annotation[]) modified.toArray( new Annotation[modified.size( )] ) );
 	}
 }
