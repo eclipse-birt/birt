@@ -490,7 +490,9 @@ public class ExcelWriter
 		for(int count = 0 ; count < str.length( ) ; count ++){
 			char ch = str.charAt( count );
 			if(ch != '$' && ch != '0' && ch != '#' && ch != '?' && ch != '@' && ch != '%'
-				&& ch != '.' && ch != ';' && ch != ' '){
+				&& ch != '.' && ch != ';' && ch != ' ' && ch!= ',' && ch != '+' && ch!= '/'
+					&& ch != '_' && ch!= '*' && ch != '(' && ch != ')' && ch != '[' && ch != ']'
+						&& ch != '"'){
 				return false;
 			}
 		}
