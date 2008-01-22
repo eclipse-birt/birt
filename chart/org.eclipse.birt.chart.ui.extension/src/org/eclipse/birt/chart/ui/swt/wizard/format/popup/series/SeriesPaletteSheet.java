@@ -112,24 +112,44 @@ public class SeriesPaletteSheet extends AbstractPopupSheet
 			tf.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		}
 
-		for ( int i = 0; i < vSeriesDefns.length; i++ )
-		{
-			TabItem ti = new TabItem( tf, SWT.NONE );
-			ti.setText( "Series" + ( i + 1 ) ); //$NON-NLS-1$
-			ti.setControl( new PaletteEditorComposite( tf,
-					getContext( ),
-					vSeriesDefns[i].getSeriesPalette( ),
-					null ) );
-		}
-		tf.setSelection( 0 );
-
 		if ( isGroupedSeries && isColoredByValue( ) )
 		{
+			for ( int i = 0; i < vSeriesDefns.length; i++ )
+			{
+				TabItem ti = new TabItem( tf, SWT.NONE );
+				ti.setText( "Series" + ( i + 1 ) ); //$NON-NLS-1$
+				ti.setControl( new PaletteEditorComposite( tf,
+						getContext( ),
+						vSeriesDefns[i].getSeriesPalette( ),
+						null ) );
+			}
+			tf.setSelection( 0 );
 			slPalette.topControl = cmpMPE;
 		}
 		else
 		{
-			slPalette.topControl = cmpPE;
+			if ( isMultiAxes( ) )
+			{
+
+				for ( int i = 0; i < ChartUIUtil.getOrthogonalAxisNumber( context.getModel( ) ); i++ )
+				{
+					SeriesDefinition[] seriesDefns = ( (SeriesDefinition[]) ChartUIUtil.getOrthogonalSeriesDefinitions( context.getModel( ),
+							i )
+							.toArray( ) );
+					TabItem ti = new TabItem( tf, SWT.NONE );
+					ti.setText( "Axis" + ( i + 1 ) ); //$NON-NLS-1$
+					ti.setControl( new PaletteEditorComposite( tf,
+							getContext( ),
+							seriesDefns[0].getSeriesPalette( ),
+							seriesDefns ) );
+				}
+				tf.setSelection( 0 );
+				slPalette.topControl = cmpMPE;
+			}
+			else
+			{
+				slPalette.topControl = cmpPE;
+			}
 		}
 
 		return cmpContent;
@@ -149,4 +169,10 @@ public class SeriesPaletteSheet extends AbstractPopupSheet
 	{
 		return context.getModel( ).getLegend( ).getItemType( ).getValue( ) == LegendItemType.SERIES;
 	}
+	
+	private boolean isMultiAxes( )
+	{
+		return ChartUIUtil.getOrthogonalAxisNumber( context.getModel( ) ) > 1;
+	}
+	
 }
