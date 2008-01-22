@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.data.engine.impl.rd;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +34,6 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
-import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 
 import testutil.ConfigText;
 
@@ -1406,20 +1405,26 @@ public class ViewingTest2 extends RDTestCase
 	 */
 	private void incomprehensiveColumnBinding( ) throws BirtException, DataException, IOException
 	{
+		File file = new File( fileName );
+		if( file.exists( ) )
+		{
+			file.delete( );
+		}
 		this.GEN_add_group = true;
 		this.GEN_add_subquery = true;
 		this.GEN_print = true;
 		this.USE_DATE_IN_COLUMNBINDING = false;
 		this.genBasicIV( );
+		this.closeArchiveReader( );
 		this.closeArchiveWriter( );
-
+		
 		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
 				fileName,
 				fileName );
 		if( myPreDataEngine != null )
 		{
 			myPreDataEngine.shutdown( );
-			myGenDataEngine.clearCache( dataSource, dataSet );
+			myPreDataEngine.clearCache( dataSource, dataSet );
 		}
 		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
 		this.UPDATE_add_same_group = true;
