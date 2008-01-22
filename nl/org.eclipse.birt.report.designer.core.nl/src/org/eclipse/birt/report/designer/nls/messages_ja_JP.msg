@@ -2021,7 +2021,11 @@ JSEditor.Input.trial=試用
 JSEditor.Text.NoText=No text
 JSEditor.Validate.Title=検証
 JSEditor.Validate.NoError=このスクリプトに構文エラーはありませんでした。
-
+JSEditor.Folding.Group=Folding
+JSEditor.Folding.ExpandAll.label=Expand All
+JSEditor.Folding.CollapseAll.label=Collapse All
+JSEditor.Folding.CollapseMethods.label=Collapse Methods
+JSEditor.Folding.CollapseComments.label=Collapse Comments
 
 ###########################################################
 #label properties
@@ -3265,6 +3269,7 @@ TableArea.Button.New=新規作成(&W)...
 TableArea.Button.Edit=編集(&E)...
 TableArea.Button.Remove=削除(&R)
 TableArea.Button.Down=下へ(&O)
+TableArea.Button.RemoveAll=Remo&ve All 
 
 ###########################################################
 #TableHandleAdapter properties
@@ -4053,5 +4058,5 @@ InsertAggregationAction.text=集計
 MultipleAdapter.SetCurrentView=Set current view
 MultipleAdapter.RemoveView=Remove view
 MultipleGuideHandle.RemoveView=削除
-CreateChartAction.text=Create Char View
-CreateChartHandler.text=Create Char View
+CreateChartAction.text=Create Chart View
+CreateChartHandler.text=Create Chart View

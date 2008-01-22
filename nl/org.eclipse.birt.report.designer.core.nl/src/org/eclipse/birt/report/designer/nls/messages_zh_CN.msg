@@ -2021,7 +2021,11 @@ JSEditor.Input.trial=试用版
 JSEditor.Text.NoText=No text
 JSEditor.Validate.Title=验证
 JSEditor.Validate.NoError=当前脚本中找不到语法错误。
-
+JSEditor.Folding.Group=Folding
+JSEditor.Folding.ExpandAll.label=Expand All
+JSEditor.Folding.CollapseAll.label=Collapse All
+JSEditor.Folding.CollapseMethods.label=Collapse Methods
+JSEditor.Folding.CollapseComments.label=Collapse Comments
 
 ###########################################################
 #label properties
@@ -3265,6 +3269,7 @@ TableArea.Button.New=新建(&W)...
 TableArea.Button.Edit=编辑(&E)...
 TableArea.Button.Remove=删除(&R)
 TableArea.Button.Down=下移(&O)
+TableArea.Button.RemoveAll=Remo&ve All 
 
 ###########################################################
 #TableHandleAdapter properties
@@ -4053,5 +4058,5 @@ InsertAggregationAction.text=聚合
 MultipleAdapter.SetCurrentView=Set current view
 MultipleAdapter.RemoveView=Remove view
 MultipleGuideHandle.RemoveView=删除
-CreateChartAction.text=Create Char View
-CreateChartHandler.text=Create Char View
+CreateChartAction.text=Create Chart View
+CreateChartHandler.text=Create Chart View

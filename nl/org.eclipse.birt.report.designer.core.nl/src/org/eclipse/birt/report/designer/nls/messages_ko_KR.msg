@@ -2021,7 +2021,11 @@ JSEditor.Input.trial=시도
 JSEditor.Text.NoText=No text
 JSEditor.Validate.Title=유효성 검사
 JSEditor.Validate.NoError=현재 스크립트에 구문 오류가 없습니다.
-
+JSEditor.Folding.Group=Folding
+JSEditor.Folding.ExpandAll.label=Expand All
+JSEditor.Folding.CollapseAll.label=Collapse All
+JSEditor.Folding.CollapseMethods.label=Collapse Methods
+JSEditor.Folding.CollapseComments.label=Collapse Comments
 
 ###########################################################
 #label properties
@@ -3265,6 +3269,7 @@ TableArea.Button.New=새로 만들기(&W)...
 TableArea.Button.Edit=편집(&E)...
 TableArea.Button.Remove=제거(&R)
 TableArea.Button.Down=아래로(&D)
+TableArea.Button.RemoveAll=Remo&ve All 
 
 ###########################################################
 #TableHandleAdapter properties
@@ -4053,5 +4058,5 @@ InsertAggregationAction.text=집계
 MultipleAdapter.SetCurrentView=Set current view
 MultipleAdapter.RemoveView=Remove view
 MultipleGuideHandle.RemoveView=제거
-CreateChartAction.text=Create Char View
-CreateChartHandler.text=Create Char View
+CreateChartAction.text=Create Chart View
+CreateChartHandler.text=Create Chart View

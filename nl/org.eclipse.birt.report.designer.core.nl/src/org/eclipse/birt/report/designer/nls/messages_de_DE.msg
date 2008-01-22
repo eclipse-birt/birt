@@ -2021,7 +2021,11 @@ JSEditor.Input.trial=Test
 JSEditor.Text.NoText=No text
 JSEditor.Validate.Title=Validierung
 JSEditor.Validate.NoError=Im aktuellen Skript wurde kein Syntaxfehler gefunden.
-
+JSEditor.Folding.Group=Folding
+JSEditor.Folding.ExpandAll.label=Expand All
+JSEditor.Folding.CollapseAll.label=Collapse All
+JSEditor.Folding.CollapseMethods.label=Collapse Methods
+JSEditor.Folding.CollapseComments.label=Collapse Comments
 
 ###########################################################
 #label properties
@@ -3265,6 +3269,7 @@ TableArea.Button.New=N&eu...
 TableArea.Button.Edit=&Bearbeiten...
 TableArea.Button.Remove=&Entfernen
 TableArea.Button.Down=Nach &unten
+TableArea.Button.RemoveAll=Remo&ve All 
 
 ###########################################################
 #TableHandleAdapter properties
@@ -4053,5 +4058,5 @@ InsertAggregationAction.text=Aggregat
 MultipleAdapter.SetCurrentView=Set current view
 MultipleAdapter.RemoveView=Remove view
 MultipleGuideHandle.RemoveView=Entfernen
-CreateChartAction.text=Create Char View
-CreateChartHandler.text=Create Char View
+CreateChartAction.text=Create Chart View
+CreateChartHandler.text=Create Chart View
