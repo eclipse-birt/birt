@@ -1509,6 +1509,17 @@ public class EngineIRVisitor extends DesignVisitor
 		group.setPageBreakAfter( pageBreakAfter );
 		group.setPageBreakInside( pageBreakInside );
 		
+		// setup TOC expression
+		TOCHandle tocHandle = handle.getTOC( );
+		if ( tocHandle != null )
+		{
+			String toc = tocHandle.getExpression( );
+			group.setTOC( createExpression( toc ) );
+		}
+		// bookmark
+		String bookmark = handle.getBookmark( );
+		group.setBookmark( bookmark );
+		
 		// TODO: review: group should support OnCreate and OnRender. But model didn't support it now. 
 		String scriptText = handle.getOnPageBreak( );
 		if ( null != scriptText )
