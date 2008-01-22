@@ -422,6 +422,7 @@ TitleBlockAttributeSheetImpl.Title.SheetTitle=Mise en page > Bloc du titre - For
 LegendAttributeSheetImpl.Lbl.GeneralProperties=Propriétés générales - Zone entourant les légendes
 LegendAttributeSheetImpl.Lbl.ClientAreaProperties=Propriétés de la zone client - Zone des légendes
 LegendAttributeSheetImpl.Title.SheetTitle=Mise en page > Légende - Formater la zone de légende
+LegendLayoutSheet.Label.MaxPercent=&Max Percent:
 LegendLayoutSheet.Label.WrappingWidth=&Largeur d'habillage :
 SampleDataSheetImpl.Lbl.XSeries=Série X
 SampleDataSheetImpl.Lbl.BaseSampleValues=Exemples de valeurs :\n {0}
