@@ -479,7 +479,7 @@ public class DesignElementFactory extends ElementFactory
 
 	public ExtendedItemHandle newExtendedItem( String name, String extensionName )
 	{
-		String newName = getNewName( ReportDesignConstants.EXTENDED_ITEM, name );
+		String newName = getNewName( extensionName, name );
 		return factory.newExtendedItem( newName, extensionName );
 	}
 

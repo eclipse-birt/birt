@@ -143,6 +143,13 @@ public class ReportPlugin extends AbstractUIPlugin
 			ReportDesignConstants.TABULAR_MEASURE_ELEMENT,
 			ReportDesignConstants.LEVEL_ELEMENT,
 			ReportDesignConstants.TABULAR_DIMENSION_ELEMENT,
+			
+			// filter some extension items;
+			"CrosstabView",
+			"DimensionView",
+			"LevelView",
+			"MeasureView"
+			
 	} );
 
 	private List reportExtensionNames;
@@ -455,6 +462,8 @@ public class ReportPlugin extends AbstractUIPlugin
 	private void setDefaultElementNamePreference( IPreferences store )
 	{
 		List tmpList = DEUtil.getMetaDataDictionary( ).getElements( );
+		List tmpList2 = DEUtil.getMetaDataDictionary( ).getExtensions( );
+		tmpList.addAll( tmpList2 );
 		int i;
 		StringBuffer bufferDefaultName = new StringBuffer( );
 		StringBuffer bufferCustomName = new StringBuffer( );
@@ -536,10 +545,6 @@ public class ReportPlugin extends AbstractUIPlugin
 		else if ( defaultName.equals( ReportDesignConstants.TEXT_ITEM ) )
 		{
 			preference.append( Messages.getString( "DesignerPaletteFactory.toolTip.textReportItem" ) ); //$NON-NLS-1$
-		}
-		else if ( defaultName.equalsIgnoreCase( "Chart" ) ) //$NON-NLS-1$
-		{
-			preference.append( "Insert chart" ); //$NON-NLS-1$
 		}
 		else
 		{

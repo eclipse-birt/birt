@@ -45,12 +45,14 @@ public class CrosstabExtendedItemFactory implements ICrosstabConstants
 	 *             if the given cube can not be set to a crosstab
 	 */
 	public static ExtendedItemHandle createCrosstabReportItem(
-			ModuleHandle module, CubeHandle cube ) throws SemanticException
+			ModuleHandle module, CubeHandle cube, String name ) throws SemanticException
 	{
 		if ( module == null )
 			return null;
+
+
 		ExtendedItemHandle extendedItem = module.getElementFactory( )
-				.newExtendedItem( null, CROSSTAB_EXTENSION_NAME );
+				.newExtendedItem( name, CROSSTAB_EXTENSION_NAME );
 
 		if ( extendedItem != null )
 		{
