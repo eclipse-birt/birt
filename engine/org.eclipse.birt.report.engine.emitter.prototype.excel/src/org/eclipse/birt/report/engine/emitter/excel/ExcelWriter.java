@@ -176,6 +176,7 @@ public class ExcelWriter
 			}
 			if ( urlAddress.length( ) >= 255 )
 			{
+				logger.log( Level.WARNING, "The WRL: {" + urlAddress + "} is too long!" );
 				urlAddress = urlAddress.substring( 0, 254 );
 			}
 			writer.attribute( "ss:HRef", urlAddress );
@@ -432,7 +433,7 @@ public class ExcelWriter
 			}
 			if ( ch == 'C' || ch == 'c' )
 			{
-				return "¤###,##0.00";
+				return "ï¿½###,##0.00";
 			}
 			if ( ch == 'f' || ch == 'F' )
 			{
