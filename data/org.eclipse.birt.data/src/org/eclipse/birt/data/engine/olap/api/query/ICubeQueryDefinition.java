@@ -15,7 +15,6 @@ import java.util.List;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
-import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -25,7 +24,7 @@ import org.eclipse.birt.data.engine.core.DataException;
  * edges, bindings, etc. for the cube query.
  */
 
-public interface ICubeQueryDefinition extends INamedObject, IDataQueryDefinition
+public interface ICubeQueryDefinition extends IBaseCubeQueryDefinition
 {
 
 	// The row edge type

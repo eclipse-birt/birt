@@ -31,6 +31,7 @@ import org.eclipse.birt.data.engine.api.aggregation.IAggregationFactory;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
@@ -336,6 +337,16 @@ public abstract class DataRequestSession
 	public abstract IPreparedCubeQuery prepare( ICubeQueryDefinition query,
 			Map appContext ) throws BirtException;
 
+	/**
+	 * 
+	 * @param query
+	 * @param appContext
+	 * @return
+	 * @throws BirtException
+	 */
+	public abstract IPreparedCubeQuery prepare( ISubCubeQueryDefinition query,
+			Map appContext ) throws BirtException;
+	
 	/**
 	 * 
 	 * @param queryDefns

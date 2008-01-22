@@ -14,7 +14,7 @@ package org.eclipse.birt.data.engine.olap.api;
 import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -28,6 +28,7 @@ public interface IPreparedCubeQuery extends IBasePreparedQuery
 	 * @param scope
 	 * @return
 	 * @throws DataException 
+	 * @deprecated
 	 */
 	public ICubeQueryResults execute( Scriptable scope ) throws DataException;
 	
@@ -35,10 +36,10 @@ public interface IPreparedCubeQuery extends IBasePreparedQuery
 	 * Return the query definition which is used to generate current IPreparedCubeQuery instance.
 	 * @return
 	 */
-	public ICubeQueryDefinition getCubeQueryDefinition();
+	public IBaseCubeQueryDefinition getCubeQueryDefinition();
 	
 	/**
-     * Executes the prepared                       execution plan as an inner query 
+     * Executes the prepared execution plan as an inner query 
      * that appears within the scope of another query. 
      * The outer query must have been prepared and executed, and 
      * its results given as a parameter to this method.

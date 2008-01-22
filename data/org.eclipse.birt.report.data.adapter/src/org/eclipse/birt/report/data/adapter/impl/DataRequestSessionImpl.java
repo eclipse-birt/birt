@@ -52,6 +52,7 @@ import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.api.cube.CubeElementFactory;
 import org.eclipse.birt.data.engine.olap.data.api.cube.CubeMaterializer;
@@ -480,6 +481,11 @@ public class DataRequestSessionImpl extends DataRequestSession
 						? this.sessionContext.getAppContext( ) : appContext );
 			else if ( query instanceof ICubeQueryDefinition )
 				return prepare( (ICubeQueryDefinition) query,
+						appContext == null
+								? this.sessionContext.getAppContext( )
+								: appContext );
+			else if ( query instanceof ISubCubeQueryDefinition )
+				return prepare( (ISubCubeQueryDefinition) query,
 						appContext == null
 								? this.sessionContext.getAppContext( )
 								: appContext );
@@ -1037,6 +1043,15 @@ public class DataRequestSessionImpl extends DataRequestSession
 		{
 			throw new AdapterException( e.getLocalizedMessage( ), e );
 		}
+	}
+
+	/*
+	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#prepare(org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition, java.util.Map)
+	 */
+	public IPreparedCubeQuery prepare( ISubCubeQueryDefinition query,
+			Map appContext ) throws BirtException
+	{
+		return this.dataEngine.prepare( query, appContext );
 	}
 
 }

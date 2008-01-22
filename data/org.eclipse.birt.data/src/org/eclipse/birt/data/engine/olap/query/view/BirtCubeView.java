@@ -152,7 +152,7 @@ public class BirtCubeView
 	 */
 	public CubeCursor getCubeCursor( StopSign stopSign,
 			String startingColumnLevel, String startingRowLevel,
-			String startingPageLevel, BirtCubeView parentView ) throws OLAPException, DataException
+			BirtCubeView parentView ) throws OLAPException, DataException
 	{
 		if ( parentView == null || parentView.getCubeQueryExecutor( ) == null )
 		{

@@ -47,9 +47,11 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.QueryResults;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.impl.query.MeasureDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.PreparedCubeQuery;
+import org.eclipse.birt.data.engine.olap.impl.query.PreparedSubCubeQuery;
 import org.eclipse.birt.data.engine.olap.query.view.CubeQueryDefinitionUtil;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.script.JSDataSources;
@@ -373,6 +375,15 @@ public class DataEngineImpl extends DataEngine
 		throws DataException
 	{
 	    return prepare( querySpec, null );
+	}
+
+	/*
+	 * @see org.eclipse.birt.data.engine.api.DataEngine#prepare(org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition)
+	 */
+	public IPreparedCubeQuery prepare( ISubCubeQueryDefinition querySpec,
+			Map appContext ) throws BirtException
+	{
+		return new PreparedSubCubeQuery( querySpec, appContext );
 	}
 
 	/*

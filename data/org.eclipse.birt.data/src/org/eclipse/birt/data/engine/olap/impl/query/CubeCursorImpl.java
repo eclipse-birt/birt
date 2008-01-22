@@ -491,63 +491,9 @@ public class CubeCursorImpl implements ICubeCursor
 		return cursor;
 		
 	}
-
-	/*
-	 * @see org.eclipse.birt.data.engine.olap.api.ICubeCursor#getSubCubeCursor(java.lang.String, java.lang.String, java.lang.String, org.mozilla.javascript.Scriptable)
-	 */
-	public ICubeCursor getSubCubeCursor( String startingColumnLevel,
-			String startingRowLevel, String startingPageLevel,
-			Scriptable subScope ) throws DataException
+	
+	public BirtCubeView getCubeView( )
 	{
-		ICubeCursor cubeCursorImpl;
-		if ( this.cubeView != null )
-		{
-			BirtCubeView subCV = new BirtCubeView( this.cubeView.getCubeQueryExecutor( ),
-					null );
-			CubeCursor subCubeCursor = null;
-			if ( subScope == null )
-			{
-				Context cx = Context.enter( );
-				try
-				{
-					subScope = cx.newObject( this.scope );
-					subScope.setParentScope( scope );
-					subScope.setPrototype( scope );
-				}
-				finally
-				{
-					Context.exit( );
-				}
-			}
-			try
-			{
-				subCubeCursor = subCV.getCubeCursor( null,
-						startingColumnLevel,
-						startingRowLevel,
-						startingPageLevel,
-						this.cubeView );
-				subScope.put( ScriptConstants.MEASURE_SCRIPTABLE,
-						subScope,
-						new JSMeasureAccessor( subCubeCursor,
-								subCV.getMeasureMapping( ) ) );
-				subScope.put( ScriptConstants.DIMENSION_SCRIPTABLE,
-						subScope,
-						new JSLevelAccessor( this.queryDefn, subCV ) );
-			}
-			catch ( OLAPException e )
-			{
-				throw new DataException( e.getLocalizedMessage( ) );
-			}
-			cubeCursorImpl = new CubeCursorImpl( null,
-					subCubeCursor,
-					subScope,
-					queryDefn,
-					subCV );
-		}
-		else
-		{
-			throw new DataException( ResourceConstants.NO_PARENT_RESULT_CURSOR );
-		}
-		return cubeCursorImpl;
+		return this.cubeView;
 	}
 }
