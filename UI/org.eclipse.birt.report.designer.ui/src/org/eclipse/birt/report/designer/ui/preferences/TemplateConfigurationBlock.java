@@ -111,7 +111,7 @@ public class TemplateConfigurationBlock extends OptionsConfigurationBlock
 		pageContent.setLayout( layout );
 
 		resourceText = addTextField( pageContent,
-				Messages.getString( "ResourecePreferencePage.folder" ), //$NON-NLS-1$
+				TEMPLATE_IMAGE_LABEL,
 				PREF_TEMPLATE,
 				0,
 				0 );
