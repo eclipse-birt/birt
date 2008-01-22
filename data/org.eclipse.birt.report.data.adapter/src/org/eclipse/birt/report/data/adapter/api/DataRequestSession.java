@@ -13,7 +13,6 @@ package org.eclipse.birt.report.data.adapter.api;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -202,6 +201,28 @@ public abstract class DataRequestSession
 	 *         expressions, an empty collection will be returned.
 	 */
 	public abstract Collection getColumnValueSet( DataSetHandle dataSet,
+			Iterator inputParamBindings, Iterator columnBindings,
+			String boundColumnName ) throws BirtException;
+	/**
+	 * Retrieves all distinct values of a data set column and return them in a
+	 * iterator.
+	 * 
+	 * @param dataSet
+	 *            Handle of data set to query
+	 * @param inputParamBindings
+	 *            An iterator of ParamBindingHandle objects that defines
+	 *            bindings for the data set's input parameters
+	 * @param columnBindings
+	 *            An iterator of ComputedColumnHandle objects that define all
+	 *            column binding expressions
+	 * @param columnName
+	 *            Name of the bound column to retrieve values for
+	 * @return If boundColumnName is bound to a single data set column, this
+	 *         method returns a iterator of distinct values for that data set
+	 *         column. If boundColumnName to mapped to any other type of
+	 *         expressions, an empty iterator will be returned.
+	 */
+	public abstract IColumnValueIterator getColumnValueIterator( DataSetHandle dataSet,
 			Iterator inputParamBindings, Iterator columnBindings,
 			String boundColumnName ) throws BirtException;
 	

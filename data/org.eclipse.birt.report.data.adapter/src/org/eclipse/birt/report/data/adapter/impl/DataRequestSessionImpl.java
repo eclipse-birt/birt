@@ -40,7 +40,6 @@ import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
-import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.aggregation.IAggregationFactory;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
@@ -63,6 +62,7 @@ import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.data.adapter.api.IColumnValueIterator;
 import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.api.IQueryDefinitionUtil;
@@ -183,12 +183,11 @@ public class DataRequestSessionImpl extends DataRequestSession
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#getColumnValueSet(org.eclipse.birt.report.model.api.DataSetHandle, java.util.Iterator, java.util.Iterator, java.lang.String, int, int)
+	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#getColumnValueIterator(org.eclipse.birt.report.model.api.DataSetHandle, java.util.Iterator, java.util.Iterator, java.lang.String)
 	 */
-	public Collection getColumnValueSet( DataSetHandle dataSet,
+	public IColumnValueIterator getColumnValueIterator( DataSetHandle dataSet,
 			Iterator inputParamBindings, Iterator columnBindings,
-			String boundColumnName, IRequestInfo requestInfo )
-			throws BirtException
+			String boundColumnName ) throws BirtException
 	{
 		ArrayList temp = new ArrayList( );
 		
@@ -197,14 +196,29 @@ public class DataRequestSessionImpl extends DataRequestSession
 			temp.add( columnBindings.next( ) );
 		}
 		if ( referToAggregation( temp, boundColumnName ) )
-			return new ArrayList( );
+			return new ColumnValueIterator( null, null );
 		
 		IQueryResults queryResults = getGroupingQueryResults( dataSet,
 				inputParamBindings,
 				temp.iterator( ),
 				boundColumnName );
-		IResultIterator resultIt = queryResults.getResultIterator( );
-
+		return new ColumnValueIterator( queryResults, boundColumnName );
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#getColumnValueSet(org.eclipse.birt.report.model.api.DataSetHandle, java.util.Iterator, java.util.Iterator, java.lang.String, int, int)
+	 */
+	public Collection getColumnValueSet( DataSetHandle dataSet,
+			Iterator inputParamBindings, Iterator columnBindings,
+			String boundColumnName, IRequestInfo requestInfo )
+			throws BirtException
+	{
+		IColumnValueIterator columnValueIterator = getColumnValueIterator( dataSet,
+				inputParamBindings,
+				columnBindings,
+				boundColumnName );
+		
 		int maxRowCount = -1;
 
 		// Iterate through result, getting one column value per group, skipping
@@ -216,22 +230,20 @@ public class DataRequestSessionImpl extends DataRequestSession
 			if ( requestInfo.getStartRow( ) >= 0 )
 			{
 				//get the current value if the cursor has been moved to certain position.
-				resultIt.moveTo( requestInfo.getStartRow( ) );
-				Object value = resultIt.getValue( boundColumnName );
+				( (ColumnValueIterator) columnValueIterator ).moveTo( requestInfo.getStartRow( ) );
+				Object value = columnValueIterator.getValue( );
 				values.add( value );
 			}
 			maxRowCount = requestInfo.getMaxRow( );
 		}
 
-		while ( resultIt.next( ) && maxRowCount != 0 )
+		while ( columnValueIterator.next( ) && maxRowCount != 0 )
 		{
-			Object value = resultIt.getValue( boundColumnName );
+			Object value = columnValueIterator.getValue( );
 			values.add( value );
-			resultIt.skipToEnd( 1 );
 			maxRowCount--;
 		}
-		resultIt.close( );
-		queryResults.close( );
+		columnValueIterator.close( );
 
 		return values;
 	}
@@ -1026,4 +1038,5 @@ public class DataRequestSessionImpl extends DataRequestSession
 			throw new AdapterException( e.getLocalizedMessage( ), e );
 		}
 	}
+
 }
