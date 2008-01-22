@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
@@ -40,14 +41,10 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
-import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellViewAdapter;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.api.StyleHandle;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 
 /**
  * Provider for conversion between chart and text in cross tab
@@ -56,11 +53,6 @@ public class ChartAggregationCellViewProvider
 		extends
 			AggregationCellViewAdapter
 {
-
-	private final static DimensionValue DEFAULT_COLUMN_WIDTH = new DimensionValue( 80,
-			DesignChoiceConstants.UNITS_PT );
-	private final static DimensionValue DEFAULT_ROW_WIDTH = new DimensionValue( 30,
-			DesignChoiceConstants.UNITS_PT );
 
 	public String getViewName( )
 	{
@@ -76,37 +68,32 @@ public class ChartAggregationCellViewProvider
 	{
 		try
 		{
-			// Get the measure binding name and drop the DataItemHandle
-			String exprMeasure = null;
+			// Get the measure binding expression and drop the DataItemHandle
 			Object content = getFirstContent( cell );
-			if ( content instanceof DataItemHandle )
-			{
-				DataItemHandle dataItemHandle = (DataItemHandle) content;
-				exprMeasure = dataItemHandle.getResultSetColumn( );
-			}
+			String exprMeasure = getMeasureBindingExpr( content );
 			if ( content instanceof DesignElementHandle )
 			{
 				( (DesignElementHandle) content ).dropAndClear( );
 			}
 
 			// Get the row dimension binding name
-			String exprDimRow = null;
+			String nameDimRow = null;
 			content = getFirstContent( getLevelCell( cell.getCrosstab( )
 					.getCrosstabView( ICrosstabConstants.ROW_AXIS_TYPE ) ) );
 			if ( content instanceof DataItemHandle )
 			{
 				DataItemHandle dataItemHandle = (DataItemHandle) content;
-				exprDimRow = dataItemHandle.getResultSetColumn( );
+				nameDimRow = dataItemHandle.getResultSetColumn( );
 			}
 
 			// Get the column dimension binding name
-			String exprDimColumn = null;
+			String nameDimColumn = null;
 			content = getFirstContent( getLevelCell( cell.getCrosstab( )
 					.getCrosstabView( ICrosstabConstants.COLUMN_AXIS_TYPE ) ) );
 			if ( content instanceof DataItemHandle )
 			{
 				DataItemHandle dataItemHandle = (DataItemHandle) content;
-				exprDimColumn = dataItemHandle.getResultSetColumn( );
+				nameDimColumn = dataItemHandle.getResultSetColumn( );
 			}
 
 			// Create the ExtendedItemHandle with default chart model
@@ -116,7 +103,7 @@ public class ChartAggregationCellViewProvider
 							ChartReportItemConstants.CHART_EXTENSION_NAME );
 			ChartReportItemImpl reportItem = (ChartReportItemImpl) chartHandle.getReportItem( );
 			ChartWithAxes cm = createDefaultChart( exprMeasure, new String[]{
-					exprDimRow, exprDimColumn
+					nameDimRow, nameDimColumn
 			} );
 			reportItem.setModel( cm );
 			cell.addContent( chartHandle, 0 );
@@ -124,55 +111,15 @@ public class ChartAggregationCellViewProvider
 			// Set span and add axis cell
 			if ( cm.isTransposed( ) )
 			{
-				cell.setSpanOverOnRow( cell.getAggregationOnRow( ) );
-				CrosstabCellHandle rowCell = cell.getCrosstab( )
-						.getDimension( ICrosstabConstants.ROW_AXIS_TYPE, 0 )
-						.getLevel( 0 )
-						.getCell( );
-				if ( rowCell.getHeight( ) == null
-						|| rowCell.getHeight( ).getMeasure( ) == 0 )
-				{
-					// Set a default height for cell to fit with chart
-					cell.getCrosstab( ).setRowHeight( rowCell,
-							DEFAULT_ROW_WIDTH );
-				}
-				rowCell.getCrosstabHandle( )
-						.setProperty( StyleHandle.PADDING_TOP_PROP,
-								new DimensionValue( 0,
-										DesignChoiceConstants.UNITS_PT ) );
-				rowCell.getCrosstabHandle( )
-						.setProperty( StyleHandle.PADDING_BOTTOM_PROP,
-								new DimensionValue( 0,
-										DesignChoiceConstants.UNITS_PT ) );
-				updateXtabForAxisChart( cell,
-						chartHandle,
-						ICrosstabConstants.ROW_AXIS_TYPE );
+				ChartXTabUtil.addAxisChartInXTab( cell,
+						ICrosstabConstants.ROW_AXIS_TYPE,
+						chartHandle );
 			}
 			else
 			{
-				cell.setSpanOverOnColumn( cell.getAggregationOnColumn( ) );
-				CrosstabCellHandle columnCell = cell.getCrosstab( )
-						.getDimension( ICrosstabConstants.COLUMN_AXIS_TYPE, 0 )
-						.getLevel( 0 )
-						.getCell( );
-				if ( columnCell.getWidth( ) != null
-						|| columnCell.getWidth( ).getMeasure( ) == 0 )
-				{
-					// Set a default width for cell to fit with chart
-					cell.getCrosstab( ).setColumnWidth( columnCell,
-							DEFAULT_COLUMN_WIDTH );
-				}
-				columnCell.getCrosstabHandle( )
-						.setProperty( StyleHandle.PADDING_LEFT_PROP,
-								new DimensionValue( 0,
-										DesignChoiceConstants.UNITS_PT ) );
-				columnCell.getCrosstabHandle( )
-						.setProperty( StyleHandle.PADDING_RIGHT_PROP,
-								new DimensionValue( 0,
-										DesignChoiceConstants.UNITS_PT ) );
-				updateXtabForAxisChart( cell,
-						chartHandle,
-						ICrosstabConstants.COLUMN_AXIS_TYPE );
+				ChartXTabUtil.addAxisChartInXTab( cell,
+						ICrosstabConstants.COLUMN_AXIS_TYPE,
+						chartHandle );
 			}
 		}
 		catch ( BirtException e )
@@ -181,37 +128,14 @@ public class ChartAggregationCellViewProvider
 		}
 	}
 
-	private void updateXtabForAxisChart( AggregationCellHandle cell,
-			ExtendedItemHandle chartHandle, int axisType ) throws BirtException
-	{
-		if ( cell.getCrosstab( ).getGrandTotal( axisType ) == null )
-		{
-			cell.getCrosstab( ).addGrandTotal( axisType );
-		}
-		ExtendedItemHandle axisChartHandle = cell.getCrosstabHandle( )
-				.getElementFactory( )
-				.newExtendedItem( null,
-						ChartReportItemConstants.CHART_EXTENSION_NAME );
-		axisChartHandle.setProperty( ChartReportItemConstants.PROPERTY_HOST_CHART,
-				chartHandle );
-
-		int otherAxisType = axisType == ICrosstabConstants.ROW_AXIS_TYPE
-				? ICrosstabConstants.COLUMN_AXIS_TYPE
-				: ICrosstabConstants.ROW_AXIS_TYPE;
-		CrosstabCellHandle grandTotalAggCell = ( (MeasureViewHandle) cell.getContainer( ) ).getAggregationCell( cell.getDimensionName( otherAxisType ),
-				cell.getLevelName( otherAxisType ),
-				null,
-				null );
-		( (DesignElementHandle) getFirstContent( grandTotalAggCell ) ).dropAndClear( );
-		grandTotalAggCell.addContent( axisChartHandle );
-	}
-
 	public void restoreView( AggregationCellHandle cell )
 	{
 		try
 		{
 			Chart cm = ChartReportItemUtil.getChartFromHandle( getChartHandle( cell ) );
-			ChartXTabUtil.removeAxisChartInXTab( cm, cell.getCrosstab( ) );
+			// Remove axis chart
+			ChartXTabUtil.removeAxisChartInXTab( cell, cm );
+			// Plot chart will be removed by designer itself
 		}
 		catch ( BirtException e )
 		{
@@ -220,7 +144,7 @@ public class ChartAggregationCellViewProvider
 	}
 
 	private ChartWithAxes createDefaultChart( String exprMeasure,
-			String[] exprDimensions )
+			String[] nameDimensions )
 	{
 		ChartWithAxes cm = ChartWithAxesImpl.create( );
 		cm.setType( "Bar Chart" );//$NON-NLS-1$
@@ -231,13 +155,13 @@ public class ChartAggregationCellViewProvider
 		cm.getTitle( ).setVisible( false );
 
 		String exprCategory = null;
-		if ( exprDimensions[1] != null )
+		if ( nameDimensions[1] != null )
 		{
-			exprCategory = exprDimensions[1];
+			exprCategory = nameDimensions[1];
 		}
-		else if ( exprDimensions[0] != null )
+		else if ( nameDimensions[0] != null )
 		{
-			exprCategory = exprDimensions[0];
+			exprCategory = nameDimensions[0];
 			// Transpose the chart to fit the direction
 			cm.setTransposed( true );
 		}
@@ -263,7 +187,7 @@ public class ChartAggregationCellViewProvider
 				.add( sdOrth );
 		if ( exprMeasure != null )
 		{
-			Query query = QueryImpl.create( ExpressionUtil.createJSDataExpression( exprMeasure ) );
+			Query query = QueryImpl.create( exprMeasure );
 			series.getDataDefinition( ).add( query );
 		}
 		// if ( exprYGroup != null )
@@ -329,6 +253,35 @@ public class ChartAggregationCellViewProvider
 				&& ChartReportItemConstants.CHART_EXTENSION_NAME.equals( ( (ExtendedItemHandle) content ).getExtensionName( ) ) )
 		{
 			return (ExtendedItemHandle) content;
+		}
+		return null;
+	}
+
+	private String getMeasureBindingExpr( Object cellContent )
+	{
+		if ( cellContent instanceof DataItemHandle )
+		{
+			DataItemHandle dataItemHandle = (DataItemHandle) cellContent;
+			return ExpressionUtil.createJSDataExpression( dataItemHandle.getResultSetColumn( ) );
+		}
+		if ( ChartReportItemUtil.isChartHandle( cellContent ) )
+		{
+			Chart cm = ChartReportItemUtil.getChartFromHandle( (ExtendedItemHandle) cellContent );
+			SeriesDefinition sdValue;
+			if ( cm instanceof ChartWithAxes )
+			{
+				sdValue = (SeriesDefinition) ( (ChartWithAxes) cm ).getOrthogonalAxes( ( (ChartWithAxes) cm ).getBaseAxes( )[0],
+						true )[0].getSeriesDefinitions( ).get( 0 );
+			}
+			else
+			{
+				sdValue = (SeriesDefinition) ( (SeriesDefinition) ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
+						.get( 0 ) ).getSeriesDefinitions( ).get( 0 );
+			}
+			Query query = (Query) sdValue.getDesignTimeSeries( )
+					.getDataDefinition( )
+					.get( 0 );
+			return query.getDefinition( );
 		}
 		return null;
 	}

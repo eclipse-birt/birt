@@ -224,11 +224,12 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 						cm,
 						contextResult.getModel( ),
 						contextResult.getOutputFormat( ) );
-				if ( hostChart != null )
+				if ( dataProvider.isInXTab( ) )
 				{
-					// Sync the chart model in the axis chart with host chart
-					ChartReportItemUtil.getChartReportItemFromHandle( eih )
-							.setModel( contextResult.getModel( ) );
+					ChartXTabUtil.updateXTabForAxis( ChartXTabUtil.getXtabContainerCell( extendedHandle ),
+							extendedHandle,
+							cm,
+							contextResult.getModel( ) );
 				}
 				return Window.OK;
 			}
@@ -243,11 +244,12 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 						cm,
 						(Chart) applyData[0],
 						(String) applyData[1] );
-				if ( hostChart != null )
+				if ( dataProvider.isInXTab( ) )
 				{
-					// Sync the chart model in the axis chart with host chart
-					ChartReportItemUtil.getChartReportItemFromHandle( eih )
-							.setModel( (Chart) applyData[0] );
+					ChartXTabUtil.updateXTabForAxis( ChartXTabUtil.getXtabContainerCell( extendedHandle ),
+							extendedHandle,
+							cm,
+							(Chart) applyData[0] );
 				}
 				return Window.OK;
 			}

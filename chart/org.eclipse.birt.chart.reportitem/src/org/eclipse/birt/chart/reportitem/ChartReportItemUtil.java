@@ -544,7 +544,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 			ExtendedItemHandle eih )
 	{
 		ChartReportItemImpl item = null;
-		if ( !"Chart".endsWith( eih.getExtensionName( ) ) ) //$NON-NLS-1$
+		if ( !isChartHandle( eih ) )
 		{
 			return null;
 		}
@@ -574,6 +574,19 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 			}
 		}
 		return item;
+	}
+
+	/**
+	 * Checks if the object is handle with Chart model
+	 * 
+	 * @param content
+	 *            the object to check
+	 * @since 2.3
+	 */
+	public static boolean isChartHandle( Object content )
+	{
+		return content instanceof ExtendedItemHandle
+				&& CHART_EXTENSION_NAME.equals( ( (ExtendedItemHandle) content ).getExtensionName( ) );
 	}
 
 	/**
