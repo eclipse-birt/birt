@@ -713,8 +713,8 @@ public class TableContentLayout
 		{
 			return columnSpan;
 		}
-		int endColumnId = columnId + columnSpan;
-		return adjustedColumnIds[endColumnId] - adjustedColumnIds[columnId];
+		int endColumnId = columnId + columnSpan - 1;
+		return adjustedColumnIds[endColumnId] - adjustedColumnIds[columnId] + 1;
 	}
 	
 	private int getAdjustedColumnId( int columnId )
