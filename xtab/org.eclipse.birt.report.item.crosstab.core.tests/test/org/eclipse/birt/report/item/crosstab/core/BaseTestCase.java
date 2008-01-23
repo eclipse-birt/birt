@@ -387,7 +387,7 @@ public class BaseTestCase extends TestCase
 			// create cross tab
 			CrosstabReportItemHandle crosstabItem = (CrosstabReportItemHandle) CrosstabUtil
 					.getReportItem( CrosstabExtendedItemFactory
-							.createCrosstabReportItem( module, cubeHandle ) );
+							.createCrosstabReportItem( module, cubeHandle, null ) );
 
 			DimensionViewHandle dimensionViewHandle = crosstabItem
 					.insertDimension( dimensionHandle,

@@ -87,7 +87,7 @@ public class CrosstabViewParseTest extends BaseTestCase
 		createDesign( );
 		CubeHandle cubeHandle = prepareCube( );
 		ExtendedItemHandle extendHandle = CrosstabExtendedItemFactory
-				.createCrosstabReportItem( designHandle.getRoot( ), cubeHandle );
+				.createCrosstabReportItem( designHandle.getRoot( ), cubeHandle, null );
 		designHandle.getBody( ).add( extendHandle );
 
 		// create cross tab

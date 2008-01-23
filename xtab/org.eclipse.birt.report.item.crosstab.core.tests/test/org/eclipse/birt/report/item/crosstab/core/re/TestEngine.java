@@ -193,7 +193,7 @@ public class TestEngine extends TestCase implements ICrosstabConstants
 		try
 		{
 			CrosstabReportItemHandle crosstabItem = (CrosstabReportItemHandle) CrosstabUtil.getReportItem( CrosstabExtendedItemFactory.createCrosstabReportItem( module,
-					null ) );
+					null, null ) );
 
 			if ( isVerticalMeasureHeader )
 			{

@@ -91,7 +91,7 @@ public class LevelViewParseTest extends BaseTestCase
 		CubeHandle cubeHandle = prepareCube( );
 
 		ExtendedItemHandle extendHandle = CrosstabExtendedItemFactory
-				.createCrosstabReportItem( designHandle.getRoot( ), cubeHandle );
+				.createCrosstabReportItem( designHandle.getRoot( ), cubeHandle, null );
 		designHandle.getBody( ).add( extendHandle );
 
 		// create cross tab

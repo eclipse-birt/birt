@@ -37,7 +37,7 @@ public class CrosstabSamples implements ICrosstabConstants
 		try
 		{
 			CrosstabReportItemHandle crosstabItem = (CrosstabReportItemHandle) CrosstabUtil.getReportItem( CrosstabExtendedItemFactory.createCrosstabReportItem( module,
-					null ) );
+					null, null ) );
 
 			crosstabItem.addGrandTotal( COLUMN_AXIS_TYPE );
 
@@ -92,7 +92,7 @@ public class CrosstabSamples implements ICrosstabConstants
 		try
 		{
 			CrosstabReportItemHandle crosstabItem = (CrosstabReportItemHandle) CrosstabUtil.getReportItem( CrosstabExtendedItemFactory.createCrosstabReportItem( module,
-					null ) );
+					null,null ) );
 
 			crosstabItem.addGrandTotal( COLUMN_AXIS_TYPE );
 
@@ -142,7 +142,7 @@ public class CrosstabSamples implements ICrosstabConstants
 		try
 		{
 			CrosstabReportItemHandle crosstabItem = (CrosstabReportItemHandle) CrosstabUtil.getReportItem( CrosstabExtendedItemFactory.createCrosstabReportItem( module,
-					null ) );
+					null, null ) );
 			crosstabItem.setMeasureDirection( MEASURE_DIRECTION_VERTICAL );
 
 			crosstabItem.addGrandTotal( COLUMN_AXIS_TYPE );
@@ -188,7 +188,7 @@ public class CrosstabSamples implements ICrosstabConstants
 		try
 		{
 			CrosstabReportItemHandle crosstabItem = (CrosstabReportItemHandle) CrosstabUtil.getReportItem( CrosstabExtendedItemFactory.createCrosstabReportItem( module,
-					null ) );
+					null, null ) );
 
 			crosstabItem.addGrandTotal( COLUMN_AXIS_TYPE );
 
@@ -240,7 +240,7 @@ public class CrosstabSamples implements ICrosstabConstants
 		try
 		{
 			CrosstabReportItemHandle crosstabItem = (CrosstabReportItemHandle) CrosstabUtil.getReportItem( CrosstabExtendedItemFactory.createCrosstabReportItem( module,
-					null ) );
+					null, null ) );
 			crosstabItem.setMeasureDirection( MEASURE_DIRECTION_VERTICAL );
 
 			crosstabItem.addGrandTotal( COLUMN_AXIS_TYPE );
