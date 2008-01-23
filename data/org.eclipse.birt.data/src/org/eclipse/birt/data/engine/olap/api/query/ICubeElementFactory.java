@@ -26,7 +26,14 @@ public interface ICubeElementFactory
 	 * @return
 	 */
 	public ICubeQueryDefinition createCubeQuery( String name );
-	
+
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public ISubCubeQueryDefinition createSubCubeQuery( String name );
+
 	/**
 	 * 
 	 * @param filterExpr

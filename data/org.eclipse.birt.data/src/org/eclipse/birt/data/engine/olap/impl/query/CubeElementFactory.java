@@ -17,6 +17,7 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeSortDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition;
 
 /**
  * CubeElementFactory can be used to create the elements that are needed in defining queries.
@@ -31,6 +32,15 @@ public class CubeElementFactory implements ICubeElementFactory
 	public ICubeQueryDefinition createCubeQuery( String name )
 	{
 		return new CubeQueryDefinition( name );
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.api.query.ICubeElementFactory#createSubCubeQuery(java.lang.String)
+	 */
+	public ISubCubeQueryDefinition createSubCubeQuery( String name )
+	{
+		return new SubCubeQueryDefinition( name );
 	}
 	
 	/**

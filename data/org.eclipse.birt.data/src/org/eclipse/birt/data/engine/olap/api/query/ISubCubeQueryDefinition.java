@@ -27,4 +27,16 @@ public interface ISubCubeQueryDefinition extends IBaseCubeQueryDefinition
 	 * @return the starting level on column edge
 	 */
 	public String getStartingLevelOnColumn( );
+	
+	/**
+	 * 
+	 * @param level
+	 */
+	public void setStartingLevelOnColumn( String level );
+	
+	/**
+	 * 
+	 * @param level
+	 */
+	public void setStartingLevelOnRow( String level );
 }
