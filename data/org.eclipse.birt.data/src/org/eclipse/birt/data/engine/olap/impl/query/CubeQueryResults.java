@@ -24,6 +24,7 @@ import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
+import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
 import org.eclipse.birt.data.engine.olap.script.JSLevelAccessor;
 import org.eclipse.birt.data.engine.olap.script.JSMeasureAccessor;
@@ -59,7 +60,7 @@ public class CubeQueryResults implements ICubeQueryResults
 		this.context = context;
 		this.session = session;
 		this.appContext = appContext;
-		this.queryResultsId = preparedQuery.getCubeQueryDefinition( ).getQueryResultsID( );
+		this.queryResultsId = ((ICubeQueryDefinition)preparedQuery.getCubeQueryDefinition( )).getQueryResultsID( );
 		this.outResults = outResults;
 		this.stopSign = new StopSign( );
 	}
@@ -75,7 +76,7 @@ public class CubeQueryResults implements ICubeQueryResults
 		try
 		{
 			stopSign.start( );
-			CubeQueryExecutor executor = new CubeQueryExecutor( this.outResults, preparedQuery.getCubeQueryDefinition( ), this.session,
+			CubeQueryExecutor executor = new CubeQueryExecutor( this.outResults, (ICubeQueryDefinition)preparedQuery.getCubeQueryDefinition( ), this.session,
 					this.scope,
 					this.context );
 			BirtCubeView bcv = new BirtCubeView( executor, appContext );
@@ -90,13 +91,13 @@ public class CubeQueryResults implements ICubeQueryResults
 					new JSMeasureAccessor( cubeCursor, bcv.getMeasureMapping( )) );
 			this.scope.put( ScriptConstants.DIMENSION_SCRIPTABLE,
 					this.scope,
-					new JSLevelAccessor( this.preparedQuery.getCubeQueryDefinition( ),
+					new JSLevelAccessor( (ICubeQueryDefinition) this.preparedQuery.getCubeQueryDefinition( ),
 							bcv ) );
 
 			this.cubeCursor = new CubeCursorImpl( outResults,
 					cubeCursor,
 					this.scope,
-					this.preparedQuery.getCubeQueryDefinition( ),
+					(ICubeQueryDefinition) this.preparedQuery.getCubeQueryDefinition( ),
 					bcv );
 			return this.cubeCursor;
 

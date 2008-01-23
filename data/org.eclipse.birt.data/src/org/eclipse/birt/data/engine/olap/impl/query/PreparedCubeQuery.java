@@ -19,6 +19,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
+import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -89,7 +90,7 @@ public class PreparedCubeQuery implements IPreparedCubeQuery
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery#getCubeQueryDefinition()
 	 */
-	public ICubeQueryDefinition getCubeQueryDefinition( )
+	public IBaseCubeQueryDefinition getCubeQueryDefinition( )
 	{
 		return this.cubeQueryDefn;
 	}
