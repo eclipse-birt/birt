@@ -442,11 +442,15 @@ public class TaskSelectData extends SimpleTask
 				checkDataTypeForChartWithAxes( );
 			}
 
+			// In old logic, the following statements are used to disable
+			// aggregate button if category grouping is canceled?
+			// But new logic is that aggregate button is still enabled, so
+			// remove code below.(Bugzilla#216082, 2008/1/23)
 			// Update Grouping aggregation button
-			if ( notification.getNewValue( ) instanceof SeriesGrouping )
-			{
-				getCustomizeUI( ).refreshLeftBindingArea( );
-			}
+//			if ( notification.getNewValue( ) instanceof SeriesGrouping )
+//			{
+//				getCustomizeUI( ).refreshLeftBindingArea( );
+//			}
 
 			// Query and series change need to update Live Preview
 			if ( notification.getNotifier( ) instanceof Query
