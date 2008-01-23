@@ -101,4 +101,12 @@ public interface IDataServiceProvider
 	 * @since 2.3
 	 */
 	public boolean isInXTab( );
+	
+	/**
+	 * Checks if shared binding is used.
+	 * 
+	 * @return
+	 * @since 2.3
+	 */
+	public boolean isSharedBinding( );
 }

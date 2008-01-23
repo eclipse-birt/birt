@@ -368,12 +368,22 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 */
 	boolean isInheritanceOnly( )
 	{
-		if ( itemHandle.getContainer( ) instanceof MultiViewsHandle
+		if ( isInMultiViewWithTable( )
 				|| isInXTab( ) )
 		{
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Check if chart is in table multiple view.
+	 * 
+	 * @return
+	 */
+	private boolean isInMultiViewWithTable( )
+	{
+		return itemHandle.getContainer( ) instanceof MultiViewsHandle;
 	}
 
 	String getReportDataSet( )
@@ -706,7 +716,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	{
 		// If report item reference is set, all operations, including filters,
 		// parameter bindings and column bindings are not supported
-		if ( itemHandle.getDataBindingReference( ) != null )
+		if ( isSharedBinding( ) || isInMultiViewWithTable( ) )
 		{
 			return false;
 		}
@@ -1083,5 +1093,13 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	public boolean isInXTab( )
 	{
 		return ChartXTabUtil.isChartInXTab( itemHandle );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#isSharedBinding()
+	 */
+	public boolean isSharedBinding( )
+	{
+		return itemHandle.getDataBindingReference( ) != null;
 	}
 }
