@@ -15,14 +15,13 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.MultipleEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.providers.SchematicContextMenuProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.extensions.IReportItemViewProvider;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
+import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.draw2d.Figure;
@@ -420,6 +419,11 @@ public class MultipleGuideHandle extends AbstractGuideHandle
 		{
 			return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_TABLE );
 		}
+		Object ownerModel = getOwner( ).getModel( );
+		if (ownerModel == obj)
+		{
+			return ProviderFactory.createProvider( obj ).getNodeIcon( obj );
+		}
 		return null;
 	}
 	
@@ -428,7 +432,7 @@ public class MultipleGuideHandle extends AbstractGuideHandle
 		Object ownerModel = getOwner( ).getModel( );
 		if (ownerModel == obj)
 		{
-			return ((ReportElementEditPart)getOwner( )).getGuideLabel( );
+			return ProviderFactory.createProvider( obj ).getNodeDisplayName( obj );
 		}
 		
 		Object[] objs = ElementAdapterManager.getAdapters( getOwner( ).getModel( ),  IReportItemViewProvider.class);
