@@ -2656,11 +2656,18 @@ public final class AutoScale extends Methods implements Cloneable
 			return IConstants.NULL_STRING;
 		}
 
-		if ( iType == IConstants.TEXT ) // MOST LIKELY
+		if ( ( iType & IConstants.TEXT ) == IConstants.TEXT ) // MOST LIKELY
 		{
+			if ( oValue instanceof Number )
+			{
+				// Bugzilla#216085 format numerical value even if in Text type
+				return formatCategoryValue( IConstants.NUMERICAL,
+						oValue,
+						iDateTimeUnit );
+			}
 			return oValue.toString( );
 		}
-		else if ( iType == IConstants.DATE_TIME )
+		else if ( ( iType & IConstants.DATE_TIME ) == IConstants.DATE_TIME )
 		{
 			final Calendar ca = (Calendar) oValue;
 			IDateFormatWrapper sdf = null;
