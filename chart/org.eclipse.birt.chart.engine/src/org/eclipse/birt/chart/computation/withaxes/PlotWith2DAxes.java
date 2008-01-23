@@ -1526,7 +1526,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		for ( int i = 0; i < aax.getOverlayCount( ); i++ )
 		{
 			axOverlay = aax.getOverlay( i );
-			int iAxisType = axOverlay.getAxisType( );
+			int iAxisType = axOverlay.getScale( ).getType( );
 
 			la = axOverlay.getLabel( );
 			scOA = axOverlay.getScale( );
