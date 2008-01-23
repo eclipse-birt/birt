@@ -152,5 +152,17 @@ public class ImageContent extends AbstractContentWrapper implements IImageConten
 		imageContent.setMIMEType( mimeType );
 	}
 
+
+	public int getResolution( )
+	{
+		return imageContent.getResolution( );
+	}
+
+
+	public void setResolution( int resolution )
+	{
+		imageContent.setResolution( resolution );
+	}
+
 	
 }

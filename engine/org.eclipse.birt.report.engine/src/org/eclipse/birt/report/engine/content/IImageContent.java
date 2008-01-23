@@ -85,4 +85,7 @@ public interface IImageContent extends IContent
 
 	public void setMIMEType( String mimeType );
 
+	public int getResolution( );
+	
+	public void setResolution( int resolution );
 }

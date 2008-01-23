@@ -27,7 +27,6 @@ import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.impl.ActionContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
-import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.layout.ILineStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.area.IImageArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
@@ -176,11 +175,11 @@ public class PDFImageLM extends PDFLeafItemLM
 		}
 		if ( image != null )
 		{
-			Object design = content.getGenerateBy( );
 			int resolution = 96;
-			if ( design instanceof ExtendedItemDesign )
+			int contentResolution = content.getResolution( );
+			if ( contentResolution != 0 )
 			{
-				resolution = 192;
+				resolution = contentResolution;
 			}
 			return new Dimension( (int) ( image.plainWidth( ) * 1000
 					/ resolution * 72 ), (int) ( image.plainHeight( ) * 1000

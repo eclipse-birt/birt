@@ -43,6 +43,9 @@ public class ImageContent extends AbstractContent implements IImageContent
 
 	protected String MIMEType;
 	
+	/**Resolution of the image*/
+	private int resolution;
+	
 	ImageContent( IImageContent image )
 	{
 		super( image );
@@ -393,5 +396,15 @@ public class ImageContent extends AbstractContent implements IImageContent
 	protected IContent cloneContent()
 	{
 		return new ImageContent(this);
+	}
+
+	public int getResolution( )
+	{
+		return resolution;
+	}
+
+	public void setResolution( int resolution )
+	{
+		this.resolution = resolution;
 	}
 }

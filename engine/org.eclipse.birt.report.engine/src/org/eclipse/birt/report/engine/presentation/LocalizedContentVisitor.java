@@ -728,6 +728,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		// call the presentation peer to create the content object
 		IReportItemPresentation itemPresentation = ExtensionManager
 				.getInstance( ).createPresentationItem( tagName );
+		int resolution = 0;
 		if ( itemPresentation != null )
 		{
 			IDataQueryDefinition[] queries = design.getQueries( );
@@ -739,7 +740,8 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 							.getApplicationClassLoader( ) );
 			info.setReportContext( context.getReportContext( ) );
 			info.setReportQueries( queries );
-			info.setResolution( getChartResolution( ) );
+			resolution = getChartResolution( );
+			info.setResolution( resolution );
 			info.setExtendedItemContent( content );
 			info.setSupportedImageFormats( getChartFormats( ) );
 			info.setActionHandler( context.getActionHandler( ) );
@@ -804,7 +806,6 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 					int type = itemPresentation.getOutputType( );
 					String imageMIMEType = itemPresentation.getImageMIMEType( );
 					generatedContent = processExtendedContent( content, type, output, imageMIMEType );
-					
 					Size size = itemPresentation.getSize( );
 					if ( size != null )
 					{
@@ -826,7 +827,11 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 				logger.log( Level.SEVERE, ex.getMessage( ), ex );
 			}
 		}
-		
+		if ( generatedContent instanceof IImageContent )
+		{
+			IImageContent imageContent = (IImageContent)generatedContent;
+			imageContent.setResolution( resolution );
+		}
 		return generatedContent;
 	}
 
