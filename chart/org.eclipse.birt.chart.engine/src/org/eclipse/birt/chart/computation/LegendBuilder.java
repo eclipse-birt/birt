@@ -334,7 +334,7 @@ public final class LegendBuilder implements IConstants
 		/**
 		 * get the display text of the label
 		 * 
-		 * @return
+		 * @return caption string
 		 */
 		public String getCaption( )
 		{
@@ -1665,7 +1665,7 @@ public final class LegendBuilder implements IConstants
 	/**
 	 * Returns the size computed previously.
 	 * 
-	 * @return
+	 * @return size
 	 */
 	public final Size getSize( )
 	{
@@ -1772,7 +1772,7 @@ public final class LegendBuilder implements IConstants
 	private static double getWidthLimit( double dX, LegendData legendData )
 	{
 		return legendData.dAvailableWidth
-				+ legendData.dSafeSpacing - legendData.dHorizonalReservedSpace
+				- legendData.dSafeSpacing - legendData.dHorizonalReservedSpace
 				- dX;
 	}
 
