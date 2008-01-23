@@ -163,7 +163,7 @@ public final class DesignerRepresentation extends Figure
 					final IDisplayServer idsSWT = ChartUIUtil.getDisplayServer( ); // REUSE
 					final Bounds bo = cm.getBlock( )
 							.getBounds( )
-							.scaledInstance( 72d / idsSWT.getDpiResolution( ) );
+							.scaledInstance( idsSWT.getDpiResolution( ) / 72d  );
 					setSize( (int) bo.getWidth( ), (int) bo.getHeight( ) );
 				}
 			}
