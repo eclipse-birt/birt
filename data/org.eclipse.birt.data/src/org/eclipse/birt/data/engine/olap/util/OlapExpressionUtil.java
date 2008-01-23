@@ -23,6 +23,7 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.IQueryService;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.script.JSCubeBindingObject;
@@ -459,11 +460,11 @@ public class OlapExpressionUtil
 		{
 			return new JSCubeBindingObject( ( (ICubeQueryResults) outResults ).getCubeCursor( ) );
 		}
-		else if ( outResults instanceof IQueryResults )
+		else if ( outResults instanceof IQueryService )
 		{
 			try
 			{
-				return new DummyJSTableColumnBindingAccessor( ( (IQueryResults) outResults ).getResultIterator( ) );
+				return ( (IQueryService) outResults ).getExecutorHelper( ).getScriptable( );
 			}
 			catch ( BirtException e )
 			{
@@ -472,4 +473,5 @@ public class OlapExpressionUtil
 		}
 		return null;
 	}
+
 }

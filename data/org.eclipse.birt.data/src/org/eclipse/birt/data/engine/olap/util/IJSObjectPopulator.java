@@ -302,7 +302,7 @@ public interface IJSObjectPopulator
 				{
 					try
 					{
-						this.outResultsScriptable = new DummyJSTableColumnBindingAccessor( ( (IQueryResults) outResults ).getResultIterator( ));
+						this.outResultsScriptable = OlapExpressionUtil.createQueryResultsScriptable( outResults );
 					}
 					catch ( BirtException e )
 					{

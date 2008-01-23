@@ -41,6 +41,7 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.StopSign;
@@ -4382,6 +4383,110 @@ public class CubeFeaturesTest extends BaseTestCase
 		this.checkOutputFile( );
 	}
 	
+	/**
+	 * Test Table + subTable + crosstab
+	 * 
+	 * @throws Exception
+	 */
+	public void testNestedCrossTab4( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		ILevelDefinition level11 = hier1.createLevel( "level11" );
+		ILevelDefinition level12 = hier1.createLevel( "level12" );
+		ILevelDefinition level13 = hier1.createLevel( "level13" );
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		ILevelDefinition level21 = hier2.createLevel( "level21" );
+
+		createSortTestBindings( cqd );
+
+		// filter on year
+		CubeFilterDefinition filter1 = new CubeFilterDefinition( new ScriptExpression( "data[\"measure1\"] > data._outer._outer[\"column1\"]" ) );
+	
+
+		CubeSortDefinition sorter4 = new CubeSortDefinition( );
+		sorter4.setExpression( "dimension[\"dimension1\"][\"level13\"]" );
+		sorter4.setAxisQualifierLevels( null );
+		sorter4.setAxisQualifierValues( null );
+		sorter4.setTargetLevel( level13 );
+		sorter4.setSortDirection( ISortDefinition.SORT_DESC );
+
+		// Make UN before China.
+		CubeSortDefinition sorter5 = new CubeSortDefinition( );
+		sorter5.setExpression( "dimension[\"dimension1\"][\"level11\"]" );
+		sorter5.setAxisQualifierLevels( null );
+		sorter5.setAxisQualifierValues( null );
+		sorter5.setTargetLevel( level11 );
+		sorter5.setSortDirection( ISortDefinition.SORT_DESC );
+
+		/*
+		 * //sort on city. SortDefinition sorter3 = new SortDefinition();
+		 * sorter3.setExpression( "dimension[\"dimension1\"][\"level12\"]" );
+		 * sorter3.setSortDirection( ISortDefinition.SORT_DESC );
+		 */
+		cqd.addFilter( filter1 );
+
+		cqd.addSort( sorter4 );
+		cqd.addSort( sorter5 );
+		DataEngineImpl engine = (DataEngineImpl) DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				null,
+				null,
+				null ) );
+		this.createCube( engine );
+		this.defineDataSourceDataSet( engine );
+		IQueryDefinition query = this.createScriptDataSetQuery( );
+		SubqueryDefinition subQuery = new SubqueryDefinition( "Test", query );
+		subQuery.setApplyOnGroupFlag( false );
+		subQuery.addBinding( new Binding("TestBinding", new ScriptExpression( "row._outer.column1")) );
+		((QueryDefinition)query).addSubquery( subQuery );
+		
+		IPreparedQuery pq = engine.prepare( query );
+		IQueryResults queryResults = pq.execute( null );
+		IResultIterator it = queryResults.getResultIterator( );
+		while ( it.next( ) )
+		{
+			IResultIterator subIt = it.getSecondaryIterator( "Test", null );
+			IQueryResults subQueryResults = subIt.getQueryResults( );
+			while ( subIt.next( ) )
+			{
+				if ( "55".equals( subIt.getValue( "column1" ).toString( ) )
+						|| "34".equals( subIt.getValue( "column1" ).toString( ) ) )
+				{
+					this.testPrintln( "\nOUTER RESULT:"
+							+ subIt.getValue( "column1" ).toString( ) );
+					IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+					ICubeQueryResults cqResults = (ICubeQueryResults) pcq.execute( subQueryResults,
+							null );
+					CubeCursor cursor = cqResults.getCubeCursor( );
+					List columnEdgeBindingNames = new ArrayList( );
+					columnEdgeBindingNames.add( "edge1level1" );
+					columnEdgeBindingNames.add( "edge1level2" );
+					columnEdgeBindingNames.add( "edge1level3" );
+
+					printCube( cursor,
+							"country_year_total",
+							"city_year_total",
+							"dist_total",
+							"city_total",
+							"country_total",
+							"rowGrandTotal",
+							"grandTotal",
+							new String[]{
+									"edge1level1", "edge1level2", "edge1level3"
+							},
+							"edge2level1",
+							"measure1",
+							false );
+
+				}
+			}
+		}
+		this.checkOutputFile( );
+	}
 	
 	/**
 	 * Test use all dimension levels.
