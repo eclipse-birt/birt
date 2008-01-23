@@ -68,7 +68,6 @@ class ChartCubeQueryHelper implements IQueryExpressionReplaceable
 
 	private final ExtendedItemHandle handle;
 	private final Chart cm;
-	private final boolean bInXtabDetail;
 
 	/**
 	 * Maps for registered column bindings.<br>
@@ -99,7 +98,6 @@ class ChartCubeQueryHelper implements IQueryExpressionReplaceable
 	{
 		this.handle = handle;
 		this.cm = cm;
-		this.bInXtabDetail = ChartXTabUtil.isChartInXTab( handle );
 
 		// Add this to IActionEvaluator to replace raw expression later
 		IActionEvaluator iae = BIRTActionEvaluator.getInstance( handle );
@@ -167,23 +165,14 @@ class ChartCubeQueryHelper implements IQueryExpressionReplaceable
 			Binding binding = new Binding( column.getName( ) );
 			binding.setDataType( DataAdapterUtil.adaptModelDataType( column.getDataType( ) ) );
 			binding.setExpression( new ScriptExpression( column.getExpression( ) ) );
-			if ( column.getAggregateOn( ) != null )
+			List lstAggOn = column.getAggregateOnList( );
+			if ( !lstAggOn.isEmpty( ) )
 			{
-				// Convert full level name to dimension expression
-				String[] levelNames = CubeUtil.splitLevelName( column.getAggregateOn( ) );
-				String dimExpr = ExpressionUtil.createJSDimensionExpression( levelNames[0],
-						levelNames[1] );
-
-				// Do not add aggregation for chart in xtab detail cell
-				if ( !bInXtabDetail )
-				{
-					binding.addAggregateOn( dimExpr );
-					binding.setAggrFunction( column.getAggregateFunction( ) == null
-							? null
-							: DataAdapterUtil.adaptModelAggregationType( column.getAggregateFunction( ) ) );
-				}
-
-				bindSeriesQuery( QueryImpl.create( dimExpr ), cubeQuery, cube );
+				// Add aggregate on in binding
+				addAggregateOn( cubeQuery, cube, binding, lstAggOn );
+				binding.setAggrFunction( column.getAggregateFunction( ) == null
+						? null
+						: DataAdapterUtil.adaptModelAggregationType( column.getAggregateFunction( ) ) );
 			}
 
 			// Add binding query expression here
@@ -195,6 +184,24 @@ class ChartCubeQueryHelper implements IQueryExpressionReplaceable
 
 			// Do not add every binding to cube query, since it may be not used.
 			// The binding will be added when found in chart.
+		}
+	}
+
+	private void addAggregateOn( ICubeQueryDefinition cubeQuery,
+			CubeHandle cube, Binding binding, List lstAggOn )
+			throws BirtException
+	{
+		for ( Iterator iAggs = lstAggOn.iterator( ); iAggs.hasNext( ); )
+		{
+			String aggOn = (String) iAggs.next( );
+			// Convert full level name to dimension expression
+			String[] levelNames = CubeUtil.splitLevelName( aggOn );
+			String dimExpr = ExpressionUtil.createJSDimensionExpression( levelNames[0],
+					levelNames[1] );
+			binding.addAggregateOn( dimExpr );
+
+			// Add dimension expression to map and add binding
+			bindSeriesQuery( QueryImpl.create( dimExpr ), cubeQuery, cube );
 		}
 	}
 
@@ -309,16 +316,12 @@ class ChartCubeQueryHelper implements IQueryExpressionReplaceable
 					// Add measure
 					IMeasureDefinition mDef = cubeQuery.createMeasure( measure );
 
-					if ( !bInXtabDetail )
-					{
-						// Do not aggregation detail data
-						String aggFun = DataAdapterUtil.adaptModelAggregationType( cube.getMeasure( measure )
-								.getFunction( ) );
-						mDef.setAggrFunction( aggFun );
-					}
+					String aggFun = DataAdapterUtil.adaptModelAggregationType( cube.getMeasure( measure )
+							.getFunction( ) );
+					mDef.setAggrFunction( aggFun );
 
-					// Can't add aggregation function to this column binding,
-					// otherwise the data will be aggregated
+					// AggregateOn has been added in binding when initializing
+					// column bindings
 				}
 				else if ( isReferenceToDimLevel( expr ) )
 				{
