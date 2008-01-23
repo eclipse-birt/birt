@@ -130,6 +130,7 @@ public class ReportDesignParseTest extends BaseTestCase
 
 	String scriptLibFileName = "ReportDesignScriptLibParseTest.xml";//$NON-NLS-1$
 
+
 	/*
 	 * @see BaseTestCase#setUp()
 	 */
@@ -156,7 +157,7 @@ public class ReportDesignParseTest extends BaseTestCase
 		assertEquals(
 				"30", design.getStringProperty( design, ReportDesign.REFRESH_RATE_PROP ) ); //$NON-NLS-1$
 		assertEquals( "c:\\", designHandle.getBase( ) ); //$NON-NLS-1$
-		assertEquals( "old_message", designHandle.getIncludeResource( ) ); //$NON-NLS-1$
+		assertEquals( "library", designHandle.getIncludeResource( ) ); //$NON-NLS-1$
 
 		// title
 
@@ -307,40 +308,42 @@ public class ReportDesignParseTest extends BaseTestCase
 		assertEquals( "script of beforeRender", designHandle.getBeforeRender( ) ); //$NON-NLS-1$
 		assertEquals( "script of afterRender", designHandle.getAfterRender( ) ); //$NON-NLS-1$
 
-		//test parser css in report design
+		// test parser css in report design
 		Iterator iterator = designHandle.includeCssesIterator( );
 		IncludedCssStyleSheetHandle css = (IncludedCssStyleSheetHandle) iterator
 				.next( );
 		assertEquals( "base.css", css.getFileName( ) );//$NON-NLS-1$
 		List styles = designHandle.getAllStyles( );
-		assertEquals( 5 , styles.size( ) );
-		
-		//Check styles in css
-		
-		assertEquals( "code" , ((StyleHandle)styles.get( 0 )).getName( ) );//$NON-NLS-1$
-		assertEquals( "captionfigcolumn" , ((StyleHandle)styles.get( 1 )).getName( ) );//$NON-NLS-1$
-		assertEquals( "note" , ((StyleHandle)styles.get( 2 )).getName( ) );//$NON-NLS-1$
-		assertEquals( "uilabel" , ((StyleHandle)styles.get( 3 )).getName( ) );//$NON-NLS-1$
-		assertEquals( "codename" , ((StyleHandle)styles.get( 4 )).getName( ) );//$NON-NLS-1$
-		
-		StyleHandle style = (StyleHandle)styles.get(0);
-		assertEquals( "left" , style.getTextAlign( ));//$NON-NLS-1$
-	
+		assertEquals( 5, styles.size( ) );
+
+		// Check styles in css
+
+		assertEquals( "code", ( (StyleHandle) styles.get( 0 ) ).getName( ) );//$NON-NLS-1$
+		assertEquals(
+				"captionfigcolumn", ( (StyleHandle) styles.get( 1 ) ).getName( ) );//$NON-NLS-1$
+		assertEquals( "note", ( (StyleHandle) styles.get( 2 ) ).getName( ) );//$NON-NLS-1$
+		assertEquals( "uilabel", ( (StyleHandle) styles.get( 3 ) ).getName( ) );//$NON-NLS-1$
+		assertEquals( "codename", ( (StyleHandle) styles.get( 4 ) ).getName( ) );//$NON-NLS-1$
+
+		StyleHandle style = (StyleHandle) styles.get( 0 );
+		assertEquals( "left", style.getTextAlign( ) );//$NON-NLS-1$
+
 	}
-	
+
 	/**
 	 * Tests design file with css file that can't be found
+	 * 
 	 * @throws Exception
 	 */
-	
-	public void testOpenBadCssFile() throws Exception
+
+	public void testOpenBadCssFile( ) throws Exception
 	{
-		openDesign( "ReportDesignParseTest_BadCss.xml");//$NON-NLS-1$
+		openDesign( "ReportDesignParseTest_BadCss.xml" );//$NON-NLS-1$
 		List errorList = design.getAllErrors( );
-		assertEquals( 1 , errorList.size( ) );
-		
-		String errorCode = ((ErrorDetail)errorList.get( 0 )).getErrorCode( );
-		assertEquals( errorCode , CssException.DESIGN_EXCEPTION_CSS_NOT_FOUND );
+		assertEquals( 1, errorList.size( ) );
+
+		String errorCode = ( (ErrorDetail) errorList.get( 0 ) ).getErrorCode( );
+		assertEquals( errorCode, CssException.DESIGN_EXCEPTION_CSS_NOT_FOUND );
 	}
 
 	/**
@@ -394,7 +397,7 @@ public class ReportDesignParseTest extends BaseTestCase
 		// set layout preference
 		designHandle
 				.setLayoutPreference( DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT );
-	
+
 		save( );
 		assertTrue( compareFile( goldenFileName ) );
 	}
@@ -877,37 +880,39 @@ public class ReportDesignParseTest extends BaseTestCase
 		// test theme property
 		ThemeHandle theme = designHandle.getTheme( );
 		assertEquals( 6, designHandle.getLineNo( theme ) );
-		
+
 		// test slot of table
 		SlotHandle footer = table.getFooter( );
 		assertEquals( 392, designHandle.getLineNo( footer ) );
-		
-		// test slot of design 
+
+		// test slot of design
 		SlotHandle body = designHandle.getBody( );
 		assertEquals( 372, designHandle.getLineNo( body ) );
-		
+
 		SlotHandle pages = designHandle.getMasterPages( );
 		assertEquals( 362, designHandle.getLineNo( pages ) );
-		
+
 	}
-	
+
 	/**
 	 * Tests the created-by in moduleOption.
+	 * 
 	 * @throws Exception
 	 */
-	public void testWriterForCreatedBy() throws Exception
+	public void testWriterForCreatedBy( ) throws Exception
 	{
 		openDesign( fileName );
-		
+
 		// clear all properties
 		designHandle.clearAllProperties( );
-		
+
 		ModuleOption options = new ModuleOption( );
 		options.setProperty( ModuleOption.CREATED_BY_KEY, "createdByOption" ); //$NON-NLS-1$
 		design.setOptions( options );
-		
+
 		designHandle.setCreatedBy( "created by Birt2.2" ); //$NON-NLS-1$
 		save( );
 		assertTrue( compareFile( "ReportDesignParseTest_golden_3.xml" ) ); //$NON-NLS-1$
 	}
+
 }

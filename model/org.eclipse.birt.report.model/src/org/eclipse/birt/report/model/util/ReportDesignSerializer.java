@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -950,7 +951,9 @@ public class ReportDesignSerializer extends ElementVisitor
 
 		localizePropertyValues( source, design );
 
-		localizeLibPropertyValues( source, design );
+		localizeIncludeResourceValues( source, design );
+
+		localizeScriptLibValues( source, design );
 
 		// handle local translation table
 		String[] resourceKeys = source.getTranslationResourceKeys( );
@@ -1000,9 +1003,9 @@ public class ReportDesignSerializer extends ElementVisitor
 	{
 		List scriptLibsPath = new ArrayList( );
 
-		for ( int i = 0; i < scriptLibList.size( ); i++ )
+		for ( int i = 0; i < scriptLibsPath.size( ); i++ )
 		{
-			ScriptLib sourceScriptLib = (ScriptLib) scriptLibList.get( i );
+			ScriptLib sourceScriptLib = (ScriptLib) scriptLibsPath.get( i );
 			scriptLibsPath.add( sourceScriptLib.getName( ) );
 		}
 
@@ -1021,7 +1024,7 @@ public class ReportDesignSerializer extends ElementVisitor
 	{
 		Object obj = root.getProperty( root, IModuleModel.SCRIPTLIBS_PROP );
 		if ( obj == null )
-			return new ArrayList( );
+			return Collections.EMPTY_LIST;
 
 		return (List) obj;
 	}
@@ -1035,13 +1038,14 @@ public class ReportDesignSerializer extends ElementVisitor
 	 *            the target element
 	 */
 
-	private void localizeLibPropertyValues( ReportDesign source,
+	private void localizeScriptLibValues( ReportDesign source,
 			ReportDesign target )
 	{
 
 		List libs = source.getAllLibraries( );
 
-		List targetValueList = getRootScriptLibs( source );
+		List targetValueList = new ArrayList( );
+		targetValueList.addAll( getRootScriptLibs( source ) );
 		List relativePathList = getRootScriptLibsName( targetValueList );
 
 		ElementPropertyDefn propDefn = source
@@ -1052,6 +1056,7 @@ public class ReportDesignSerializer extends ElementVisitor
 			Library lib = (Library) libs.get( i );
 
 			Object obj = lib.getProperty( lib, propDefn );
+
 			if ( obj == null )
 				continue;
 
@@ -1077,7 +1082,53 @@ public class ReportDesignSerializer extends ElementVisitor
 			}
 		}
 
-		target.setProperty( propDefn, targetValueList );
+
+		if ( !targetValueList.isEmpty( ) )
+			target.setProperty( propDefn, targetValueList );
+	}
+
+	/**
+	 * Flattens the included resources of the library to the report design.
+	 * 
+	 * @param source
+	 *            the source element
+	 * @param target
+	 *            the target element
+	 */
+
+	void localizeIncludeResourceValues( ReportDesign source, ReportDesign target )
+	{
+		List libs = source.getAllLibraries( );
+
+		ElementPropertyDefn propDefn = source
+				.getPropertyDefn( IModuleModel.INCLUDE_RESOURCE_PROP );
+
+		Object obj = source.getProperty( source, propDefn );
+		List newValues = new ArrayList( );
+		if ( obj != null )
+			newValues.addAll( (List) obj );
+
+		for ( int i = 0; i < libs.size( ); i++ )
+		{
+			Library lib = (Library) libs.get( i );
+			Object libObj = lib.getProperty( lib, propDefn );
+
+			if ( libObj == null )
+				continue;
+
+			List libIncludedResourceList = (List) libObj;
+
+			for ( int j = 0; j < libIncludedResourceList.size( ); j++ )
+			{
+				String resourceName = (String) libIncludedResourceList.get( j );
+
+				if ( !newValues.contains( resourceName ) )
+					newValues.add( resourceName );
+			}
+		}
+
+		if ( !newValues.isEmpty( ) )
+			target.setProperty( propDefn, newValues );
 	}
 
 	// css style related methods.

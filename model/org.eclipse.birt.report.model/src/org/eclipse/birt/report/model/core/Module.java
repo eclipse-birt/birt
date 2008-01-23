@@ -846,15 +846,15 @@ public abstract class Module extends DesignElement
 		// should have already caught this case.
 
 		String name = element.getName( );
-		assert !StringUtil.isBlank( name ) ||
-				defn.getNameOption( ) != MetaDataConstants.REQUIRED_NAME;
+		assert !StringUtil.isBlank( name )
+				|| defn.getNameOption( ) != MetaDataConstants.REQUIRED_NAME;
 
 		// Disallow duplicate names.
 
 		assert element.getContainer( ) != null;
 		int id = defn.getNameSpaceID( );
-		if ( name != null && id != MetaDataConstants.NO_NAME_SPACE &&
-				element.isManagedByNameSpace( ) )
+		if ( name != null && id != MetaDataConstants.NO_NAME_SPACE
+				&& element.isManagedByNameSpace( ) )
 		{
 			// most element name resides in module, however not all; for
 			// example, level resides in dimension. Therefore, we will get name
@@ -1037,14 +1037,22 @@ public abstract class Module extends DesignElement
 
 		// find it in the linked resource file.
 
-		String baseName = getStringProperty( this, INCLUDE_RESOURCE_PROP );
-		if ( baseName == null )
+		List baseNameList = getListProperty( this, INCLUDE_RESOURCE_PROP );
+		if ( baseNameList == null || baseNameList.size( ) == 0 )
 			return null;
 
 		// try the resource path first.
 
-		msg = BundleHelper.getHelper( this, baseName ).getMessage( resourceKey,
-				locale );
+		for ( int i = 0; i < baseNameList.size( ); i++ )
+		{
+			String baseName = (String) baseNameList.get( i );
+			msg = BundleHelper.getHelper( this, baseName ).getMessage(
+					resourceKey, locale );
+			if ( msg != null )
+			{
+				return msg;
+			}
+		}
 
 		return msg;
 	}
@@ -1956,8 +1964,8 @@ public abstract class Module extends DesignElement
 
 	public void broadcastResourceChangeEvent( ResourceChangeEvent event )
 	{
-		if ( resourceChangeListeners == null ||
-				resourceChangeListeners.isEmpty( ) )
+		if ( resourceChangeListeners == null
+				|| resourceChangeListeners.isEmpty( ) )
 			return;
 
 		List temp = new ArrayList( resourceChangeListeners );
@@ -1993,12 +2001,16 @@ public abstract class Module extends DesignElement
 		// find from the referenced message files.
 		// e.g: message
 
-		String baseName = getStringProperty( this, INCLUDE_RESOURCE_PROP );
-		if ( baseName == null )
+		List baseNameList = getListProperty( this, INCLUDE_RESOURCE_PROP );
+		if ( baseNameList == null || baseNameList.size( ) == 0 )
 			return new ArrayList( keys );
 
-		keys.addAll( BundleHelper.getHelper( this, baseName ).getMessageKeys(
-				ThreadResources.getLocale( ) ) );
+		for ( int i = 0; i < baseNameList.size( ); i++ )
+		{
+			String baseName = (String) baseNameList.get( i );
+			keys.addAll( BundleHelper.getHelper( this, baseName )
+					.getMessageKeys( ThreadResources.getLocale( ) ) );
+		}
 
 		return new ArrayList( keys );
 	}
@@ -2271,8 +2283,8 @@ public abstract class Module extends DesignElement
 		{
 			// the element has no id or a duplicate id, re-allocate another one
 
-			if ( element.getID( ) <= NO_ID ||
-					( getElementByID( element.getID( ) ) != null && getElementByID( element
+			if ( element.getID( ) <= NO_ID
+					|| ( getElementByID( element.getID( ) ) != null && getElementByID( element
 							.getID( ) ) != element ) )
 			{
 				element.setID( getNextID( ) );
@@ -2409,8 +2421,8 @@ public abstract class Module extends DesignElement
 	public boolean isDuplicateNamespace( String namespaceToCheck )
 	{
 		Module rootHost = this;
-		while ( rootHost instanceof Library &&
-				( (Library) rootHost ).getHost( ) != null )
+		while ( rootHost instanceof Library
+				&& ( (Library) rootHost ).getHost( ) != null )
 			rootHost = ( (Library) rootHost ).getHost( );
 
 		// List libraries = rootHost.getAllLibraries( );
@@ -2466,9 +2478,9 @@ public abstract class Module extends DesignElement
 			PropertyBinding propBinding = (PropertyBinding) propertyBindings
 					.get( i );
 			BigDecimal id = propBinding.getID( );
-			if ( id != null &&
-					propName.equalsIgnoreCase( propBinding.getName( ) ) &&
-					getElementByID( id.longValue( ) ) == element )
+			if ( id != null
+					&& propName.equalsIgnoreCase( propBinding.getName( ) )
+					&& getElementByID( id.longValue( ) ) == element )
 				return propBinding;
 
 		}

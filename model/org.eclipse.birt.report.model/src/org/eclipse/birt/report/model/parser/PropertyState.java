@@ -124,7 +124,7 @@ class PropertyState extends AbstractPropertyState
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#AbstractPropertyState(DesignParserHandler
-	 *      theHandler, DesignElement element, )
+	 *      theHandler, DesignElement element )
 	 */
 
 	PropertyState( ModuleParserHandler theHandler, DesignElement element )
@@ -325,15 +325,6 @@ class PropertyState extends AbstractPropertyState
 				return state;
 			}
 
-			if ( element instanceof Module
-					&& "msgBaseName".equalsIgnoreCase( name ) ) //$NON-NLS-1$
-			{
-				CompatibleRenamedPropertyState state = new CompatibleRenamedPropertyState(
-						handler, element, "msgBaseName" ); //$NON-NLS-1$
-				state.setName( IModuleModel.INCLUDE_RESOURCE_PROP );
-				return state;
-			}
-
 			int jmpDefnValue = -1;
 			int jmpStructDefnValue = -1;
 			if ( jmpDefn != null )
@@ -397,6 +388,22 @@ class PropertyState extends AbstractPropertyState
 					return new CompatibleIgnorePropertyState( handler, element );
 			}
 
+		}
+
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_16 )
+		{
+			if ( element instanceof Module
+					&& ( IModuleModel.INCLUDE_RESOURCE_PROP
+							.equalsIgnoreCase( name ) || "msgBaseName" //$NON-NLS-1$
+							.equalsIgnoreCase( name ) ) )
+			{
+
+				CompatibleIncludeResourceState state = new CompatibleIncludeResourceState(
+						handler, element );
+				state.setName( IModuleModel.INCLUDE_RESOURCE_PROP );
+
+				return state;
+			}
 		}
 
 		// change 'week' to 'week-of-year' and change 'day' to 'day-of-year'.

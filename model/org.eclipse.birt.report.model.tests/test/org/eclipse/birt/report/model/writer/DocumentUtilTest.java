@@ -189,7 +189,7 @@ public class DocumentUtilTest extends BaseTestCase
 
 	/**
 	 * For extended item, the extension name must be set first. So that, other
-	 * properties can be set propertyly.
+	 * properties can be set properly.
 	 * 
 	 * @throws Exception
 	 */
@@ -474,31 +474,54 @@ public class DocumentUtilTest extends BaseTestCase
 	/**
 	 * Tests the serialization when the scriptLibs of library is flatten to the
 	 * report file and the report file does not contain the scriptLibs.
-	 * <p>
-	 * 2 cases are tested:
-	 * <ul>
-	 * <li>The design doesn't define script libs while the library does.
-	 * <li>Both the design and the library define the script libs.
-	 * </ul>
 	 * 
 	 * @throws Exception
 	 */
-	 
 	public void testFlattenReportWithoutScriptLib( ) throws Exception
 	{
-		// the design without script lib defined. 
-		
 		openDesign( "DocumentUtilTest_11.xml" ); //$NON-NLS-1$
 		serializeDocument( );
 
 		assertTrue( compareFile( "DocumentUtilTest_golden_11.xml" ) ); //$NON-NLS-1$
-		
-		// the design with script lib defined. 
-		
+	}
+
+	/**
+	 * Tests the serialization when the scriptLibs of library is flatten to the
+	 * report file and the report file contain the scriptLibs.
+	 * 
+	 * @throws Exception
+	 */
+	public void testFlattenReportWithScriptLib( ) throws Exception
+	{
 		openDesign( "DocumentUtilTest_12.xml" ); //$NON-NLS-1$
 		serializeDocument( );
 
 		assertTrue( compareFile( "DocumentUtilTest_golden_12.xml" ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * when there are some external resource files set for the report and
+	 * libraries, the external resource file should be saved into the report
+	 * file after serialization.
+	 * 
+	 * @throws Exception
+	 */
+	public void testFlattenReportWithIncludedResource( ) throws Exception
+	{
+
+		// flatten the external resource files to the report before version
+		// 3.2.16
+		openDesign( "DocumentUtilTest_13.xml" ); //$NON-NLS-1$
+		serializeDocument( );
+
+		assertTrue( compareFile( "DocumentUtilTest_golden_13.xml" ) );
+
+		// flatten the external resource files to the report which is version
+		// 3.2.16
+		openDesign( "DocumentUtilTest_14.xml" );
+		serializeDocument( );
+
+		assertTrue( compareFile( "DocumentUtilTest_golden_14.xml" ) ); //$NON-NLS-1$//$NON-NLS-1$
 	}
 
 	/*

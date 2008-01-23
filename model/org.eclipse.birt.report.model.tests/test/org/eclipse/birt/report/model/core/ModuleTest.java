@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.core;
 
+import java.util.List;
+
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
@@ -70,7 +72,7 @@ public class ModuleTest extends BaseTestCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
-		
+
 		sessionHandle = engine.newSessionHandle( ULocale.ENGLISH );
 
 		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
@@ -305,6 +307,42 @@ public class ModuleTest extends BaseTestCase
 		assertEquals( "Data Set", setHandle.getName( ) );//$NON-NLS-1$
 		setHandle = (DataSetHandle) slotHandle.get( 2 );
 		assertEquals( "Data Set2", setHandle.getName( ) );//$NON-NLS-1$
+
+	}
+
+	/**
+	 * Tests refer to external resource file.
+	 * 
+	 * @throws Exception
+	 */
+	 
+	public void testGetMessage( ) throws Exception
+	{
+		openDesign( "ModuleTest_4.xml", ULocale.ENGLISH ); //$NON-NLS-1$
+
+		LabelHandle handle1 = (LabelHandle) designHandle.findElement( "label1" );//$NON-NLS-1$
+		assertEquals( "label1 in i18n", handle1.getRoot( ).getMessage(
+				handle1.getTextKey( ) ) );//$NON-NLS-1$
+
+		LabelHandle handle2 = (LabelHandle) designHandle.findElement( "label2" );//$NON-NLS-1$
+		assertEquals( "label2 in i18n", handle2.getRoot( ).getMessage(
+				handle2.getTextKey( ) ) );//$NON-NLS-1$
+
+	}
+
+	/**
+	 * Tests the message keys.
+	 * 
+	 * @throws Exception
+	 */
+	 
+	public void testGetMessageKeys( ) throws Exception
+	{
+		openDesign( "ModuleTest_4.xml", ULocale.ENGLISH ); //$NON-NLS-1$
+
+		List keyList = designHandle.getMessageKeys( );
+		assertEquals( "a1", keyList.get( 0 ) );
+		assertEquals( "a2", keyList.get( 1 ) ); //$NON-NLS-1$
 
 	}
 

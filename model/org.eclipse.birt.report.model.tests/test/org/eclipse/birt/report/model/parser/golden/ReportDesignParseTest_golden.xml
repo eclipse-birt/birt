@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.15" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.16" id="1">
     <property name="author">Report Author</property>
     <property name="helpGuide">Help guide</property>
     <property name="createdBy">Report Creator</property>
-    <property name="includeResource">new_message</property>
+    <simple-property-list name="includeResource">
+		<value>new_message</value>
+	</simple-property-list>
     <text-property name="title" key="New title id">New title</text-property>
     <property name="comments">New comments</property>
     <html-property name="description" key="New description id">New description</html-property>

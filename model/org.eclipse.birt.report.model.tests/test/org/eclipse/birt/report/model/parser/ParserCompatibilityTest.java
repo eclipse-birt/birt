@@ -12,8 +12,10 @@
 package org.eclipse.birt.report.model.parser;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.model.api.DataItemHandle;
+import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.HighlightRuleHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
@@ -25,11 +27,14 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextDataHandle;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Tests parser compatibility.
@@ -40,6 +45,7 @@ public class ParserCompatibilityTest extends BaseTestCase
 
 	private String resultSetClearFileName = "CompatibleResultSetClearTest.xml";//$NON-NLS-1$
 	private String resultSetHintClearFileName = "CompatibleResultSetHintClearTest.xml";//$NON-NLS-1$
+	private String resouceFileName = "CompatibleResourceFileTest.xml";//$NON-NLS-1$
 
 	/**
 	 * Test clear 'resultSet' property before version 3.2.2
@@ -721,4 +727,23 @@ public class ParserCompatibilityTest extends BaseTestCase
 		assertTrue( compareFile( "CompatibleInvalidCharsInName_golden.xml" ) ); //$NON-NLS-1$
 	}
 
+	/**
+	 * If the design version is less than 3.2.16 and the string value is
+	 * converted into the list value.
+	 * 
+	 * @throws DesignFileException
+	 */
+
+	public void testIncludeResource( ) throws DesignFileException
+	{
+		// validate the included resource which is parsed before version 3.2.16
+
+		openDesign( resouceFileName, ULocale.ENGLISH );
+
+		List list = designHandle
+				.getListProperty( IModuleModel.INCLUDE_RESOURCE_PROP );
+
+		assertEquals( 1, list.size( ) );
+		assertEquals( "library", list.get( 0 ) ); //$NON-NLS-1$
+	}
 }

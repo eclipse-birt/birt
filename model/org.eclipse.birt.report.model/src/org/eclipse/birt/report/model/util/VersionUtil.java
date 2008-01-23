@@ -43,25 +43,27 @@ public class VersionUtil
 	public final static int VERSION_3_2_4 = 3020400;
 
 	public final static int VERSION_3_2_6 = 3020600;
-	
+
 	public final static int VERSION_3_2_7 = 3020700;
-	
+
 	public final static int VERSION_3_2_8 = 3020800;
-	
+
 	public final static int VERSION_3_2_9 = 3020900;
-	
-	public final static int VERSION_3_2_10 =3021000;
-	
-	public final static int VERSION_3_2_11 =3021100;
-	
-	public final static int VERSION_3_2_12 =3021200; 
-	
-	public final static int VERSION_3_2_13 =3021300;
-	
-	public final static int VERSION_3_2_14 =3021400;
-	
-	public final static int VERSION_3_2_15 =3021500;
-	
+
+	public final static int VERSION_3_2_10 = 3021000;
+
+	public final static int VERSION_3_2_11 = 3021100;
+
+	public final static int VERSION_3_2_12 = 3021200;
+
+	public final static int VERSION_3_2_13 = 3021300;
+
+	public final static int VERSION_3_2_14 = 3021400;
+
+	public final static int VERSION_3_2_15 = 3021500;
+
+	public final static int VERSION_3_2_16 = 3021600;
+
 	/**
 	 * 
 	 * @param version
@@ -94,5 +96,4 @@ public class VersionUtil
 		return parsedVersionNumber;
 	}
 
-	
 }

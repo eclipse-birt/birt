@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.15" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.16" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.qualifier Build &lt;@BUILD@></property>
     <property name="units">in</property>
-    <property name="includeResource">a</property>
+    <simple-property-list name="includeResource">
+        <value>a</value>
+    </simple-property-list>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
             <page-footer>

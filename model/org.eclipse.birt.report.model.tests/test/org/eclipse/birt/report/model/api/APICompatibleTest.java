@@ -40,20 +40,19 @@ public class APICompatibleTest extends BaseTestCase
 	{
 		createDesign( );
 
-		DataItemHandle data = designHandle.getElementFactory( )
-				.newDataItem( "data1" ); //$NON-NLS-1$
+		DataItemHandle data = designHandle.getElementFactory( ).newDataItem(
+				"data1" ); //$NON-NLS-1$
 
 		designHandle.getBody( ).add( data );
 		data.setValueExpr( "row[\"column1\"] + row[\"column2\"]" ); //$NON-NLS-1$
 
-		TableHandle table = designHandle.getElementFactory( )
-				.newTableItem( "table1", 2 ); //$NON-NLS-1$
+		TableHandle table = designHandle.getElementFactory( ).newTableItem(
+				"table1", 2 ); //$NON-NLS-1$
 		data = designHandle.getElementFactory( ).newDataItem( "data2" ); //$NON-NLS-1$
 		data.setValueExpr( "row[\"value1\"] + row[\"value2\"]" ); //$NON-NLS-1$
 
-		table.getCell( TableHandle.HEADER_SLOT, -1, 1, 1 )
-				.getContent( )
-				.add( data );
+		table.getCell( TableHandle.HEADER_SLOT, -1, 1, 1 ).getContent( ).add(
+				data );
 
 		designHandle.getBody( ).add( table );
 
@@ -71,26 +70,26 @@ public class APICompatibleTest extends BaseTestCase
 	{
 		createDesign( );
 
-		DataItemHandle data = designHandle.getElementFactory( )
-				.newDataItem( "data1" ); //$NON-NLS-1$
+		DataItemHandle data = designHandle.getElementFactory( ).newDataItem(
+				"data1" ); //$NON-NLS-1$
 
 		designHandle.getBody( ).add( data );
 		Action action = new Action( );
 		data.setAction( action );
 		ActionHandle actionHandle = data.getActionHandle( );
-		actionHandle.setLinkType( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK );
+		actionHandle
+				.setLinkType( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK );
 		actionHandle.setTargetBookmark( "row[\"actionBookMark\"]" ); //$NON-NLS-1$
 
-		TableHandle table = designHandle.getElementFactory( )
-				.newTableItem( "table1", 2 ); //$NON-NLS-1$
-		ImageHandle image = designHandle.getElementFactory( )
-				.newImage( "image1" ); //$NON-NLS-1$
+		TableHandle table = designHandle.getElementFactory( ).newTableItem(
+				"table1", 2 ); //$NON-NLS-1$
+		ImageHandle image = designHandle.getElementFactory( ).newImage(
+				"image1" ); //$NON-NLS-1$
 		image.setBookmark( "row[\"bookmark1\"] + row[\"bookmark2\"]" ); //$NON-NLS-1$
 		image.setValueExpression( "row[\"image1\"] + row[\"valueExpr\"]" ); //$NON-NLS-1$
 
-		table.getCell( TableHandle.HEADER_SLOT, -1, 1, 1 )
-				.getContent( )
-				.add( image );
+		table.getCell( TableHandle.HEADER_SLOT, -1, 1, 1 ).getContent( ).add(
+				image );
 
 		TableHandle nestedTable = designHandle.getElementFactory( )
 				.newTableItem( "table2", 2 ); //$NON-NLS-1$
@@ -104,27 +103,25 @@ public class APICompatibleTest extends BaseTestCase
 		HideRule hideRule = new HideRule( );
 		hideRule.setExpression( "row[\"hide1Expr\"]" ); //$NON-NLS-1$
 		hideRule.setFormat( DesignChoiceConstants.FORMAT_TYPE_REPORTLET );
-		column.getPropertyHandle( ColumnHandle.VISIBILITY_PROP )
-				.addItem( hideRule );
+		column.getPropertyHandle( ColumnHandle.VISIBILITY_PROP ).addItem(
+				hideRule );
 
-		table.getCell( TableHandle.DETAIL_SLOT, -1, 1, 2 )
-				.getContent( )
-				.add( nestedTable );
+		table.getCell( TableHandle.DETAIL_SLOT, -1, 1, 2 ).getContent( ).add(
+				nestedTable );
 
 		designHandle.getBody( ).add( table );
 
 		TextDataHandle textData = designHandle.getElementFactory( )
 				.newTextData( "textData1" ); //$NON-NLS-1$
 		textData.setValueExpr( "row[\"textData1ValueExpr\"]" ); //$NON-NLS-1$
-		GridHandle grid = designHandle.getElementFactory( )
-				.newGridItem( "grid1", 2, 2 ); //$NON-NLS-1$
+		GridHandle grid = designHandle.getElementFactory( ).newGridItem(
+				"grid1", 2, 2 ); //$NON-NLS-1$
 		grid.getCell( 2, 2 ).getContent( ).add( textData );
 
-		table.getCell( TableHandle.FOOTER_SLOT, -1, 1, 1 )
-				.getContent( )
-				.add( grid );
-		table.getCell( TableHandle.FOOTER_SLOT, -1, 1, 1 )
-				.setOnCreate( "row[\"onCreateValueExpr\"] + 1" );//$NON-NLS-1$
+		table.getCell( TableHandle.FOOTER_SLOT, -1, 1, 1 ).getContent( ).add(
+				grid );
+		table.getCell( TableHandle.FOOTER_SLOT, -1, 1, 1 ).setOnCreate(
+				"row[\"onCreateValueExpr\"] + 1" );//$NON-NLS-1$
 
 		ListHandle list = designHandle.getElementFactory( ).newList( "list1" ); //$NON-NLS-1$
 		FilterCondition filter = new FilterCondition( );
@@ -177,17 +174,16 @@ public class APICompatibleTest extends BaseTestCase
 		createDesign( );
 		design.getVersionManager( ).setVersion( "1" ); //$NON-NLS-1$
 
-		DataItemHandle data = designHandle.getElementFactory( )
-				.newDataItem( "data1" ); //$NON-NLS-1$
+		DataItemHandle data = designHandle.getElementFactory( ).newDataItem(
+				"data1" ); //$NON-NLS-1$
 
 		data.setTocExpression( "row[\"value1\"]" ); //$NON-NLS-1$
 		data.setValueExpr( "row[\"valueExpr\"]" );//$NON-NLS-1$
-		TableHandle table = designHandle.getElementFactory( )
-				.newTableItem( "table1", 2 ); //$NON-NLS-1$
+		TableHandle table = designHandle.getElementFactory( ).newTableItem(
+				"table1", 2 ); //$NON-NLS-1$
 
-		table.getCell( TableHandle.HEADER_SLOT, -1, 1, 1 )
-				.getContent( )
-				.add( data );
+		table.getCell( TableHandle.HEADER_SLOT, -1, 1, 1 ).getContent( ).add(
+				data );
 
 		designHandle.getBody( ).add( table );
 
@@ -211,35 +207,33 @@ public class APICompatibleTest extends BaseTestCase
 	{
 		createDesign( );
 
-		TableHandle table = designHandle.getElementFactory( )
-				.newTableItem( "table1", 3 ); //$NON-NLS-1$
+		TableHandle table = designHandle.getElementFactory( ).newTableItem(
+				"table1", 3 ); //$NON-NLS-1$
 		designHandle.getBody( ).add( table );
 
 		TableGroupHandle group = designHandle.getElementFactory( )
 				.newTableGroup( );
-		group.getFooter( ).add( designHandle.getElementFactory( )
-				.newTableRow( 3 ) );
+		group.getFooter( ).add(
+				designHandle.getElementFactory( ).newTableRow( 3 ) );
 		table.getGroups( ).add( group );
 
 		group = designHandle.getElementFactory( ).newTableGroup( );
-		group.getFooter( ).add( designHandle.getElementFactory( )
-				.newTableRow( 3 ) );
+		group.getFooter( ).add(
+				designHandle.getElementFactory( ).newTableRow( 3 ) );
 		table.getGroups( ).add( group );
 
-		DataItemHandle data = designHandle.getElementFactory( )
-				.newDataItem( "data1" ); //$NON-NLS-1$
+		DataItemHandle data = designHandle.getElementFactory( ).newDataItem(
+				"data1" ); //$NON-NLS-1$
 		data.setValueExpr( "row[\"valueData\"]" ); //$NON-NLS-1$
 
-		table.getCell( GroupHandle.FOOTER_SLOT, 2, 1, 1 )
-				.getContent( )
-				.add( data );
+		table.getCell( GroupHandle.FOOTER_SLOT, 2, 1, 1 ).getContent( ).add(
+				data );
 
 		data = designHandle.getElementFactory( ).newDataItem( "data1" ); //$NON-NLS-1$
 		data.setValueExpr( "row[\"valueData\"]" ); //$NON-NLS-1$
 
-		table.getCell( GroupHandle.FOOTER_SLOT, 1, 1, 1 )
-				.getContent( )
-				.add( data );
+		table.getCell( GroupHandle.FOOTER_SLOT, 1, 1, 1 ).getContent( ).add(
+				data );
 
 		save( );
 
@@ -261,7 +255,8 @@ public class APICompatibleTest extends BaseTestCase
 		ScriptDataSetHandle ds = designHandle.getElementFactory( )
 				.newScriptDataSet( "dataSet1" ); //$NON-NLS-1$
 
-		PropertyHandle ph = ds.getPropertyHandle( ScriptDataSetHandle.RESULT_SET_PROP );
+		PropertyHandle ph = ds
+				.getPropertyHandle( ScriptDataSetHandle.RESULT_SET_PROP );
 
 		assertNotNull( ph );
 
@@ -287,8 +282,8 @@ public class APICompatibleTest extends BaseTestCase
 	{
 		createDesign( );
 
-		LabelHandle labelHandle = designHandle.getElementFactory( )
-				.newLabel( "label1" ); //$NON-NLS-1$
+		LabelHandle labelHandle = designHandle.getElementFactory( ).newLabel(
+				"label1" ); //$NON-NLS-1$
 		designHandle.getBody( ).add( labelHandle );
 
 		labelHandle.setTocExpression( "toc1" ); //$NON-NLS-1$
@@ -308,8 +303,10 @@ public class APICompatibleTest extends BaseTestCase
 	{
 		createDesign( );
 
-		OdaDataSetHandle dsHandle = designHandle.getElementFactory( )
-				.newOdaDataSet( "dataSet", "org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" ); //$NON-NLS-1$ //$NON-NLS-2$
+		OdaDataSetHandle dsHandle = designHandle
+				.getElementFactory( )
+				.newOdaDataSet(
+						"dataSet", "org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" ); //$NON-NLS-1$ //$NON-NLS-2$
 		designHandle.getDataSets( ).add( dsHandle );
 
 		assertEquals( 0, dsHandle.getCachedRowCount( ) );
@@ -367,8 +364,8 @@ public class APICompatibleTest extends BaseTestCase
 		column.setExpression( "expression1" ); //$NON-NLS-1$
 		createDesign( );
 
-		DataItemHandle data = designHandle.getElementFactory( )
-				.newDataItem( "data1" ); //$NON-NLS-1$
+		DataItemHandle data = designHandle.getElementFactory( ).newDataItem(
+				"data1" ); //$NON-NLS-1$
 		ComputedColumnHandle columnHandle = data.addColumnBinding( column,
 				false );
 		columnHandle.setAggregateOn( "new aggregate on" ); //$NON-NLS-1$
@@ -376,7 +373,36 @@ public class APICompatibleTest extends BaseTestCase
 
 		columnHandle.setProperty( ComputedColumn.AGGREGATEON_MEMBER,
 				"new aggregate on1" ); //$NON-NLS-1$
-		List values = (List) columnHandle.getProperty( ComputedColumn.AGGREGATEON_MEMBER );
+		List values = (List) columnHandle
+				.getProperty( ComputedColumn.AGGREGATEON_MEMBER );
 		assertTrue( "new aggregate on1".equals( values.get( 0 ) ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * API compatibility for the include resource of Module since the version
+	 * 3.2.16.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testCompatibleIncludeResource( ) throws Exception
+	{
+		createDesign( );
+
+		PropertyHandle propHandle = designHandle
+				.getPropertyHandle( ReportDesignHandle.INCLUDE_RESOURCE_PROP );
+		propHandle.addItem( "resource1" ); //$NON-NLS-1$
+		propHandle.addItem( "resource2" ); //$NON-NLS-1$
+
+		// the value is a list with two items. 
+		
+		assertEquals( "resource1; resource2", designHandle.getIncludeResource( ) ); //$NON-NLS-1$
+
+		designHandle.setIncludeResource( "new_resource" ); //$NON-NLS-1$
+
+		// the value is a list with a single item.
+		
+		assertEquals( "new_resource", designHandle.getIncludeResource( ) ); //$NON-NLS-1$
+
 	}
 }
