@@ -236,7 +236,7 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 		}
 
 		lblMaxPercent = new Label( cmpLegLeft, SWT.NONE );
-		lblMaxPercent.setText( Messages.getString("LegendLayoutSheet.Label.MaxPercent") ); //$NON-NLS-1$
+		lblMaxPercent.setText( Messages.getString( "LegendLayoutSheet.Label.MaxPercent" ) ); //$NON-NLS-1$
 		lblMaxPercent.setEnabled( bEnableUI );
 
 		txtMaxPercent = new LocalizedNumberEditorComposite( cmpLegLeft,
@@ -248,7 +248,7 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 			txtMaxPercent.addModifyListener( this );
 			txtMaxPercent.setEnabled( bEnableUI );
 		}
-		
+
 		// lblVerticalSpacing = new Label( cmpLegLeft, SWT.NONE );
 		// lblVerticalSpacing.setText( Messages.getString(
 		// "BlockAttributeComposite.Lbl.VerticalSpacing" ) ); //$NON-NLS-1$
@@ -333,7 +333,7 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 		cmbPosition.setItems( ns.getDisplayNames( ) );
 		cmbPosition.select( ns.getSafeNameIndex( getBlockForProcessing( ).getPosition( )
 				.getName( ) ) );
-		
+
 		// Set block Anchor property
 		getAnchorSet( );
 	}
@@ -351,7 +351,10 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 		}
 		else if ( e.widget.equals( txtMaxPercent ) )
 		{
-			getBlockForProcessing( ).setMaxPercent( txtMaxPercent.getValue( ) );
+			if ( e.data != null && ( (Boolean) e.data ).booleanValue( ) )
+			{
+				getBlockForProcessing( ).setMaxPercent( txtMaxPercent.getValue( ) );
+			}
 		}
 	}
 
@@ -423,7 +426,8 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 		Object oSource = e.getSource( );
 		if ( oSource.equals( cmbAnchor ) )
 		{
-			String positionValue = getBlockForProcessing( ).getPosition( ).getLiteral( );
+			String positionValue = getBlockForProcessing( ).getPosition( )
+					.getLiteral( );
 			NameSet ns;
 			if ( positionValue.equals( Position.LEFT_LITERAL.getLiteral( ) )
 					|| positionValue.equals( Position.RIGHT_LITERAL.getLiteral( ) ) )
@@ -464,10 +468,11 @@ public class LegendLayoutSheet extends AbstractPopupSheet
 	{
 		return getChart( ).getLegend( );
 	}
-	
+
 	private void getAnchorSet( )
 	{
-		String positionValue = getBlockForProcessing( ).getPosition( ).getLiteral( );
+		String positionValue = getBlockForProcessing( ).getPosition( )
+				.getLiteral( );
 		NameSet ns;
 		if ( positionValue.equals( Position.LEFT_LITERAL.getLiteral( ) )
 				|| positionValue.equals( Position.RIGHT_LITERAL.getLiteral( ) ) )

@@ -45,10 +45,11 @@ import com.ibm.icu.text.NumberFormat;
 /**
  * LocalizedNumberEditorComposite
  */
-public class LocalizedNumberEditorComposite extends Composite implements
-		ModifyListener,
-		KeyListener,
-		FocusListener
+public class LocalizedNumberEditorComposite extends Composite
+		implements
+			ModifyListener,
+			KeyListener,
+			FocusListener
 {
 
 	public static final int TEXT_MODIFIED = TextEditorComposite.TEXT_MODIFIED;
@@ -66,7 +67,7 @@ public class LocalizedNumberEditorComposite extends Composite implements
 	private transient boolean bTextModified = false;
 
 	private transient boolean bValueIsSet = false;
-	
+
 	private transient boolean bOriginalValueIsSet = false;
 
 	private transient boolean bEnabled = true;
@@ -172,7 +173,7 @@ public class LocalizedNumberEditorComposite extends Composite implements
 	public void modifyText( ModifyEvent e )
 	{
 		this.bTextModified = true;
-		fireEvent( );
+		fireEvent( true );
 	}
 
 	/*
@@ -234,18 +235,23 @@ public class LocalizedNumberEditorComposite extends Composite implements
 					value
 				} ) );
 		mbox.open( );
-		
+
 		if ( bOriginalValueIsSet )
 		{
 			txtValue.setText( String.valueOf( (int) dValue ) );
 		}
 		else
 		{
-			txtValue.setText(""); //$NON-NLS-1$
+			txtValue.setText( "" ); //$NON-NLS-1$
 		}
 	}
 
 	private void fireEvent( )
+	{
+		fireEvent( false );
+	}
+
+	private void fireEvent( boolean bByModifyText )
 	{
 		boolean isFractionConverted = false;
 
@@ -275,7 +281,11 @@ public class LocalizedNumberEditorComposite extends Composite implements
 					dValue = nume.doubleValue( ) / deno.doubleValue( );
 					bValueIsSet = true;
 					sText = numberFormat.format( dValue );
-					this.txtValue.setText( sText );
+
+					if ( !bByModifyText )
+					{
+						this.txtValue.setText( sText );
+					}
 				}
 				catch ( ParseException e )
 				{
@@ -307,7 +317,7 @@ public class LocalizedNumberEditorComposite extends Composite implements
 		for ( int i = 0; i < vModifyListeners.size( ); i++ )
 		{
 			Event e = new Event( );
-			e.data = sText;
+			e.data = bByModifyText ? Boolean.FALSE : Boolean.TRUE;
 			e.widget = this;
 			e.type = TEXT_MODIFIED;
 			( (ModifyListener) vModifyListeners.get( i ) ).modifyText( new ModifyEvent( e ) );
