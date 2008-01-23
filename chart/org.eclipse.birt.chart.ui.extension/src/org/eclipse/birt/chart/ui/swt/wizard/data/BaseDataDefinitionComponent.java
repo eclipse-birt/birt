@@ -284,8 +284,9 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		// Updates color setting
 		setColor( );
 
-		// In xtab, only support predefined query
-		if ( context.getDataServiceProvider( ).isInXTab( ) )
+		// In xtab or shared binding, only support predefined query
+		if ( context.getDataServiceProvider( ).isInXTab( ) ||
+				context.getDataServiceProvider( ).isSharedBinding( ) )
 		{
 			if ( txtDefinition != null )
 			{
@@ -297,7 +298,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 				btnGroup.setEnabled( false );
 			}
 		}
-
+		
 		return cmpTop;
 	}
 
