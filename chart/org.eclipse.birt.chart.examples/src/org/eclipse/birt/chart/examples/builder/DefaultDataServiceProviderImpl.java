@@ -320,7 +320,18 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 		return evaluator;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#isInXTab()
+	 */
 	public boolean isInXTab( )
+	{
+		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#isSharedBinding()
+	 */
+	public boolean isSharedBinding( )
 	{
 		return false;
 	}
