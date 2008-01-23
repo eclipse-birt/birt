@@ -44,6 +44,16 @@ public interface IHyperlinkAction
 	 */
 	public int getType( );
 
+	/**
+	 * @deprecated replaced by IDrillThroughAction.isBookmark();
+	 * 
+	 * Return the bookmark type set in the drillthrough action. The return
+	 * result indicated the target element is a toc or not.
+	 * 
+	 * @return <code>true</code>, the target element is a bookmark.
+	 *         <code>false</code>, the target element is indicated to be a
+	 *         toc.
+	 */
 	public boolean isBookmark();
 	/**
 	 * @return the bookmark string (not the bookmark expression) when action
