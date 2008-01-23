@@ -623,7 +623,7 @@ public class ExecutionContext
 		catch ( Exception e )
 		{
 			throw new EngineException(
-					MessageConstants.INVALID_EXPRESSION_ERROR, expr, e );
+					MessageConstants.INVALID_EXPRESSION_ERROR, testExpr.getText( ), e );
 		}
 	}
 
