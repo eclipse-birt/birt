@@ -242,7 +242,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				GroupHandle gh = (GroupHandle) groupList.get( i );
 				String groupName = gh.getName( );
 				String groupKeyExpr = gh.getKeyExpr( );
-				String tooltip = org.eclipse.birt.chart.reportitem.ui.Messages.getString("ReportDataServiceProvider.Tooltip.GroupExpression") + groupKeyExpr; //$NON-NLS-1$
+				String tooltip = Messages.getString("ReportDataServiceProvider.Tooltip.GroupExpression") + groupKeyExpr; //$NON-NLS-1$
 				columnHeaders[index++] = new ColumnBindingInfo( groupName,
 						groupKeyExpr,
 						ColumnBindingInfo.GROUP_COLUMN,
@@ -260,7 +260,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 						// Remove the column binding form list.
 						iter.remove( );
 
-						tooltip = org.eclipse.birt.chart.reportitem.ui.Messages.getString("ReportDataServiceProvider.Tooltip.Aggregate") + cch.getAggregateFunction( ) + org.eclipse.birt.chart.reportitem.ui.Messages.getString("ReportDataServiceProvider.Tooltip.OnGroup") + groupName; //$NON-NLS-1$ //$NON-NLS-2$
+						tooltip = Messages.getString( "ReportDataServiceProvider.Tooltip.Aggregate" ) + cch.getAggregateFunction( ) + "\n" + Messages.getString( "ReportDataServiceProvider.Tooltip.OnGroup" ) + groupName; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 						columnHeaders[index++] = new ColumnBindingInfo( cch.getName( ),
 								cch.getExpression( ),
 								ColumnBindingInfo.AGGREGATE_COLUMN,
@@ -281,7 +281,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					// Remove the column binding form list.
 					iter.remove( );
 
-					String tooltip = org.eclipse.birt.chart.reportitem.ui.Messages.getString("ReportDataServiceProvider.Tooltip.Aggregate") + cch.getAggregateFunction( ) + org.eclipse.birt.chart.reportitem.ui.Messages.getString("ReportDataServiceProvider.Tooltip.OnGroup"); //$NON-NLS-1$ //$NON-NLS-2$
+					String tooltip = Messages.getString("ReportDataServiceProvider.Tooltip.Aggregate") + cch.getAggregateFunction( ) + "\n" + Messages.getString("ReportDataServiceProvider.Tooltip.OnGroup"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 					columnHeaders[index++] = new ColumnBindingInfo( cch.getName( ),
 							cch.getExpression( ),
 							ColumnBindingInfo.AGGREGATE_COLUMN,
