@@ -184,7 +184,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 		btnNewData.setEnabled( btnUseData.getSelection( ) );
 		if ( isCubeMode( ) )
 		{
-			btnFilters.setEnabled( false );
+			btnFilters.setEnabled( false);
 			// btnFilters.setEnabled( getDataServiceProvider(
 			// ).isInvokingSupported( ) );
 			btnBinding.setEnabled( getDataServiceProvider( ).isInvokingSupported( ) );

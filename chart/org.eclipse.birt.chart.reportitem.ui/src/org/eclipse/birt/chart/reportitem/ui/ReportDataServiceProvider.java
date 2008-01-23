@@ -232,7 +232,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			// Process grouping and aggregate on group case.
 			// Get groups.
-			List groupList = getGroupsForSharedBinding( );
+			List groupList = getGroupsOfSharedBinding( );
 
 			columnHeaders = new ColumnBindingInfo[columnList.size( ) +
 					groupList.size( )];
@@ -321,12 +321,14 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	}
 
 	/**
+	 * Returns groups in shared binding.
+	 * 
 	 * @return
 	 */
-	private List getGroupsForSharedBinding( )
+	private List getGroupsOfSharedBinding( )
 	{
 		List groupList = new ArrayList( );
-		ReportItemHandle handle = itemHandle.getDataBindingReference( );
+		ReportItemHandle handle = getReportItemHandleOfSharedBinding( );
 		if ( handle instanceof TableHandle )
 		{
 			SlotHandle groups = ( (TableHandle) handle ).getGroups( );
@@ -442,9 +444,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			throws AdapterException, DataException
 	{
 		List columns = new ArrayList();
-		queryDefn.setDataSetName( itemHandle.getDataBindingReference( )
-				.getDataSet( )
-				.getQualifiedName( ) );
+		ReportItemHandle reportItemHandle = getReportItemHandleOfSharedBinding( ); 
+		queryDefn.setDataSetName( reportItemHandle.getDataSet( ).getQualifiedName( ) );
 		for ( int i = 0; i < headers.length; i++ )
 		{
 			ColumnBindingInfo chi = headers[i];
@@ -465,7 +466,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 							.adaptGroup( (GroupHandle) chi.getObjectHandle( ) );
 					queryDefn.addGroup( gd );
 					
-					String name = StructureFactory.newComputedColumn( itemHandle.getDataBindingReference( ),
+					String name = StructureFactory.newComputedColumn( reportItemHandle,
 							gd.getName( ) )
 							.getName( );
 					binding = new Binding(name);
@@ -643,7 +644,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 */
 	boolean isInheritanceOnly( )
 	{
-		if ( isInMultiViewWithTable( )
+		if ( isInMultiView( )
 				|| isInXTab( ) )
 		{
 			return true;
@@ -658,9 +659,20 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 */
 	private boolean isInMultiViewWithTable( )
 	{
-		return itemHandle.getContainer( ) instanceof MultiViewsHandle;
+		return itemHandle.getContainer( ) instanceof MultiViewsHandle &&
+				ChartXTabUtil.getBindingCube( itemHandle ) == null;
 	}
-
+	
+	/**
+	 * Check if chart is in multiple view.
+	 * 
+	 * @return
+	 */
+	private boolean isInMultiView( )
+	{
+		return itemHandle.getContainer( ) instanceof MultiViewsHandle ;
+	}
+	
 	String getReportDataSet( )
 	{
 		List list = DEUtil.getDataSetList( itemHandle.getContainer( ) );
@@ -994,7 +1006,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	{
 		// If report item reference is set, all operations, including filters,
 		// parameter bindings and column bindings are not supported
-		if ( isSharedBinding( ) || isInMultiViewWithTable( ) )
+		if ( isSharedBinding( ) || isInMultiView( ) )
 		{
 			return false;
 		}
@@ -1438,7 +1450,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 */
 	public boolean isSharedBinding( )
 	{
-		return itemHandle.getDataBindingReference( ) != null;
+		return ( itemHandle.getDataBindingReference( ) != null || isInMultiViewWithTable( ) );
 	}
 	
 	/**
@@ -1541,5 +1553,24 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			context.addPredefinedQuery( ChartUIConstants.QUERY_VALUE, null );
 			context.addPredefinedQuery( ChartUIConstants.QUERY_OPTIONAL, null );
 		}
+	}
+	
+	/**
+	 * Returns report item handle of shared binding.
+	 * @return
+	 */
+	private ReportItemHandle getReportItemHandleOfSharedBinding( )
+	{
+		if ( isSharedBinding() )
+		{
+			if ( isInMultiViewWithTable( ) )
+			{
+				return (ReportItemHandle) itemHandle.getContainer( ).getContainer( );
+			}
+			
+			return itemHandle.getDataBindingReference( );
+		}
+		
+		return itemHandle;
 	}
 }

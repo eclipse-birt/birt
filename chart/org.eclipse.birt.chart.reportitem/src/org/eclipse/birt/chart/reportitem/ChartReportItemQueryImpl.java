@@ -21,6 +21,7 @@ import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.engine.extension.ReportItemQueryBase;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 
@@ -97,6 +98,12 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 		if ( handle.getDataSet( ) != null
 				|| parent instanceof IBaseQueryDefinition )
 		{
+			// If chart is multiple view, it means chart shares dataset with table, don't create query by chart, directly use query on table.
+			if ( eih.getContainer( ) instanceof MultiViewsHandle )
+			{
+				return parent;
+			}
+			
 			return new ChartBaseQueryHelper( handle, cm ).createBaseQuery( parent );
 		}
 		else if ( handle.getCube( ) != null
