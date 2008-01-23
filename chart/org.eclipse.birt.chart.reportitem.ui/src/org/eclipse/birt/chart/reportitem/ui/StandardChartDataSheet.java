@@ -33,6 +33,7 @@ import org.eclipse.birt.chart.reportitem.ui.dialogs.ExtendedItemFilterDialog;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ReportItemParametersDialog;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ColorPalette;
+import org.eclipse.birt.chart.ui.swt.ColumnBindingInfo;
 import org.eclipse.birt.chart.ui.swt.CustomPreviewTable;
 import org.eclipse.birt.chart.ui.swt.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.swt.DefaultChartDataSheet;
@@ -683,8 +684,9 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 					switch ( selectState.intValue( ) )
 					{
 						case SELECT_DATA_SET :
-							if ( getDataServiceProvider( ).getBoundDataSet( ) != null
-									&& getDataServiceProvider( ).getBoundDataSet( )
+							if ( getDataServiceProvider( ).getReportItemReference( ) == null &&
+									getDataServiceProvider( ).getBoundDataSet( ) != null &&
+									getDataServiceProvider( ).getBoundDataSet( )
 											.equals( cmbDataItems.getText( ) ) )
 							{
 								return;
@@ -868,20 +870,24 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 				try
 				{
 					// Get header and data in other thread.
-					final String[] header = getDataServiceProvider( ).getPreviewHeader( );
-					final List dataList = getDataServiceProvider( ).getPreviewData( );
-
+					final ColumnBindingInfo[] headers = getDataServiceProvider( ).getPreviewHeaderForSharedBinding(  );
+					final List dataList = getDataServiceProvider( ).getPreviewData(  );
+					getDataServiceProvider().setPredefinedExpressionsForSharedBinding( getContext(), headers );
+									
+					
 					// Execute UI operation in UI thread.
 					Display.getDefault( ).syncExec( new Runnable( ) {
 
 						public void run( )
 						{
+							fireEvent( tablePreview, EVENT_QUERY );	
+							
 							if ( tablePreview.isDisposed( ) )
 							{
 								return;
 							}
 
-							if ( header == null )
+							if ( headers == null )
 							{
 								tablePreview.setEnabled( false );
 								tablePreview.createDummyTable( );
@@ -889,7 +895,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 							else
 							{
 								tablePreview.setEnabled( true );
-								tablePreview.setColumns( header );
+								tablePreview.setColumns( headers );
 
 								refreshTableColor( );
 

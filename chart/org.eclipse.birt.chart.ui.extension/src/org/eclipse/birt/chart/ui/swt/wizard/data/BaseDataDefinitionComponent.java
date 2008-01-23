@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ColorPalette;
+import org.eclipse.birt.chart.ui.swt.ColumnBindingInfo;
 import org.eclipse.birt.chart.ui.swt.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.swt.DataTextDropListener;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
@@ -190,20 +191,27 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 			createAggregationItem( cmpTop );
 		}
 
-		String[] predefinedQuery = context.getPredefinedQuery( queryType );
+		Object[] predefinedQuery = context.getPredefinedQuery( queryType );
 		if ( predefinedQuery != null )
 		{
-			cmbDefinition = new Combo( cmpTop, context.getDataServiceProvider( )
-					.isInXTab( ) ? SWT.READ_ONLY : SWT.NONE );
+			cmbDefinition = new Combo( cmpTop,
+					context.getDataServiceProvider( ).isInXTab( ) ? SWT.READ_ONLY : SWT.NONE );
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			cmbDefinition.setLayoutData( gd );
-			cmbDefinition.setItems( predefinedQuery );
-			cmbDefinition.setText( query.getDefinition( ) );
+			
+			if ( predefinedQuery.length > 0 )
+			{
+				populateExprComboItems( predefinedQuery );
+			}
+			
+			initComboExprText( );
+			
 			cmbDefinition.addListener( SWT.Selection, new Listener( ) {
 
 				public void handleEvent( Event event )
 				{
-					query.setDefinition( cmbDefinition.getText( ) );
+					query.setDefinition( getExpression( cmbDefinition ) );
+					updateGroupingAggregate( );
 					// Change direction once category query is changed in xtab
 					// case
 					if ( context.getDataServiceProvider( ).isInXTab( )
@@ -293,6 +301,84 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		return cmpTop;
 	}
 
+	/**
+	 * Initialize combo text and data.
+	 */
+	private void initComboExprText( )
+	{
+		if ( context.getDataServiceProvider( ).isSharedBinding( ) && cmbDefinition.getData( ) != null ) 
+		{
+			initComboExprTextForSharedBinding( );
+		}
+		else
+		{
+			cmbDefinition.setText( query.getDefinition( ) );
+		}
+	}
+
+	/**
+	 * Initialize combo text and data for shared binding.
+	 */
+	private void initComboExprTextForSharedBinding( )
+	{
+		Object[] data = (Object[]) cmbDefinition.getData( );
+		for ( int i = 0; i < data.length; i++ )
+		{
+			ColumnBindingInfo chi = (ColumnBindingInfo) data[i];
+			if ( chi.getExpression( ).equals( query.getDefinition( ) ) )
+			{
+				if ( seriesdefinition.getGrouping( ).isEnabled( ) )
+				{
+					// It means it is category seroes or value series.
+					if ( chi.getColumnType( ) == ColumnBindingInfo.GROUP_COLUMN ||
+							chi.getColumnType( ) == ColumnBindingInfo.AGGREGATE_COLUMN )
+					{
+						cmbDefinition.select( i );
+						break;
+					}
+				}
+				else
+				{
+					cmbDefinition.select( i );
+					break;
+				}
+
+			}
+		}
+	}
+
+	/**
+	 * Populate expression items for combo.
+	 * 
+	 * @param predefinedQuery
+	 */
+	private void populateExprComboItems( Object[] predefinedQuery )
+	{
+		if ( predefinedQuery[0] instanceof String )
+		{
+			String[] items = new String[predefinedQuery.length];
+			for ( int i = 0; i < items.length; i++ )
+			{
+				items[i] = (String) predefinedQuery[i];
+			}
+			cmbDefinition.setItems( items );
+			cmbDefinition.setData( items );
+		}
+		else if ( predefinedQuery[0] instanceof Object[] )
+		{
+			String[] items = new String[predefinedQuery.length];
+			Object[] data = new Object[predefinedQuery.length];
+			for ( int i = 0; i < items.length; i++ )
+			{
+				items[i] = (String) ( (Object[]) predefinedQuery[i] )[0];
+				data[i] = ( (Object[]) predefinedQuery[i] )[1];
+			}
+
+			cmbDefinition.setItems( items );
+			cmbDefinition.setData( data );
+		}
+	}
+
 	public void selectArea( boolean selected, Object data )
 	{
 		if ( data instanceof Object[] )
@@ -300,7 +386,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 			Object[] array = (Object[]) data;
 			seriesdefinition = (SeriesDefinition) array[0];
 			query = (Query) array[1];
-			setText( getInputControl( ), query.getDefinition( ) );
+			setUIText( getInputControl( ), query.getDefinition( ) );
 			DataDefinitionTextManager.getInstance( )
 					.addDataDefinitionText( getInputControl( ), query );
 			fAggEditorComposite.setSeriesDefinition( seriesdefinition );
@@ -390,10 +476,10 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		{
 			String sExpr = context.getUIServiceProvider( )
 					.invoke( IUIServiceProvider.COMMAND_EXPRESSION_DATA_BINDINGS,
-							getText( getInputControl( ) ),
+							getExpression( getInputControl( ) ),
 							context.getExtendedItem( ),
 							sTitle );
-			setText( getInputControl( ), sExpr );
+			setUIText( getInputControl( ), sExpr );
 			query.setDefinition( sExpr );
 		}
 		catch ( ChartException e1 )
@@ -437,7 +523,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		{
 			isQueryModified = true;
 			// Reset tooltip
-			getInputControl( ).setToolTipText( getTooltipForDataText( getText( getInputControl( ) ) ) );
+			getInputControl( ).setToolTipText( getTooltipForDataText( getExpression( getInputControl( ) ) ) );
 		}
 	}
 
@@ -471,7 +557,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		if ( isQueryModified )
 		{
 			Event e = new Event( );
-			e.text = getText( getInputControl( ) );
+			e.text = getExpression( getInputControl( ) );
 			e.data = e.text;
 			e.widget = getInputControl( );
 			e.type = 0;
@@ -479,18 +565,18 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 
 			if ( query != null )
 			{
-				query.setDefinition( getText( getInputControl( ) ) );
+				query.setDefinition( getExpression( getInputControl( ) ) );
 			}
 			else
 			{
-				query = QueryImpl.create( getText( getInputControl( ) ) );
+				query = QueryImpl.create( getExpression( getInputControl( ) ) );
 				query.eAdapters( ).addAll( seriesdefinition.eAdapters( ) );
 				// Since the data query must be non-null, it's created in
 				// ChartUIUtil.getDataQuery(), assume current null is a grouping
 				// query
 				seriesdefinition.setQuery( query );
 			}
-
+			updateGroupingAggregate( );
 			// Refresh color from ColorPalette
 			setColor( );
 			getInputControl( ).getParent( ).layout( );
@@ -500,6 +586,19 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 
 	private String getTooltipForDataText( String queryText )
 	{
+		if ( context.getDataServiceProvider( ).isSharedBinding( ) && cmbDefinition != null )
+		{
+			int index = cmbDefinition.getSelectionIndex( );
+			if ( index >= 0 )
+			{
+				ColumnBindingInfo cbi = (ColumnBindingInfo) ( (Object[]) cmbDefinition.getData( ) )[index];
+				if ( cbi.getColumnType( ) == ColumnBindingInfo.GROUP_COLUMN ||
+						cbi.getColumnType( ) == ColumnBindingInfo.AGGREGATE_COLUMN )
+				{
+					return cbi.getTooltip( );
+				}
+			}
+		}
 		if ( queryText.trim( ).length( ) == 0 )
 		{
 			return tooltipWhenBlank;
@@ -552,7 +651,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		return null;
 	}
 
-	private String getText( Control control )
+	private String getExpression( Control control )
 	{
 		if ( control instanceof Text )
 		{
@@ -560,20 +659,110 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		}
 		if ( control instanceof Combo )
 		{
-			return ( (Combo) control ).getText( );
+			Combo c = ( (Combo) control );
+			if ( c.getSelectionIndex( ) >= 0 )
+			{
+				Object value = ( (Object[]) c.getData( ) )[c.getSelectionIndex( )];
+				if ( value instanceof String )
+				{
+					return (String) value;
+				}
+				else if ( value instanceof ColumnBindingInfo )
+				{
+					ColumnBindingInfo chi = (ColumnBindingInfo) value;
+					return chi.getExpression( );
+				}
+			}
 		}
 		return ""; //$NON-NLS-1$
 	}
 
-	private void setText( Control control, String text )
+	private void setUIText( Control control, String expression )
 	{
 		if ( control instanceof Text )
 		{
-			( (Text) control ).setText( text );
+			( (Text) control ).setText( expression );
 		}
 		else if ( control instanceof Combo )
 		{
-			( (Combo) control ).setText( text );
+			if ( context.getDataServiceProvider( ).isSharedBinding( ) )
+			{
+				setUITextForSharedBinding( (Combo) control, expression );
+			}
+			else
+			{
+				( (Combo) control ).setText( expression );
+			}
+		}
+	}
+
+	/**
+	 * @param control
+	 * @param expression
+	 */
+	private void setUITextForSharedBinding( Combo control, String expression )
+	{
+		Object[] data = (Object[]) control.getData( );
+		if ( data == null || data.length == 0 )
+		{
+			control.setText( expression );
+		}
+		else
+		{
+			for ( int i = 0; i < data.length; i++ )
+			{
+				ColumnBindingInfo chi = (ColumnBindingInfo) data[i];
+				if ( chi.getExpression( ).equals( expression ) )
+				{
+					control.select( i );
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Under shared binding case, update grouping/aggregate attributes of chart
+	 * model if the selected item is group/aggregate expression.
+	 */
+	private void updateGroupingAggregate( )
+	{
+		if ( !context.getDataServiceProvider( ).isSharedBinding( ) )
+		{
+			return;
+		}
+		
+		Object[] data = (Object[]) cmbDefinition.getData( );
+		if ( data != null && data.length > 0)
+		{
+			int i = cmbDefinition.getSelectionIndex( );
+			if ( i < 0 )
+			{
+				return;
+			}
+			ColumnBindingInfo chi = (ColumnBindingInfo) data[i];
+			int type = chi.getColumnType( );
+			if( ChartUIConstants.QUERY_CATEGORY.equals( queryType ) )
+			{
+				if ( type == ColumnBindingInfo.GROUP_COLUMN )
+				{
+					seriesdefinition.getGrouping( ).setEnabled( true );
+				}
+				else
+				{
+					seriesdefinition.getGrouping( ).setEnabled( false );
+				}
+			}
+			else if( ChartUIConstants.QUERY_VALUE.equals( queryType ) )
+			{
+				if ( type == ColumnBindingInfo.AGGREGATE_COLUMN )
+				{
+					seriesdefinition.getGrouping( ).setEnabled( true );
+				}
+				else
+				{
+					seriesdefinition.getGrouping( ).setEnabled( false );
+				}
+			}
 		}
 	}
 }

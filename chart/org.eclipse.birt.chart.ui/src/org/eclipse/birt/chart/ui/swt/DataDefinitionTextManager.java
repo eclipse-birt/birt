@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.TextDataElement;
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Combo;
@@ -246,7 +247,23 @@ public class DataDefinitionTextManager
 		}
 		else if ( control instanceof Combo )
 		{
-			( (Combo) control ).setText( text );
+			Object[] data = (Object[]) control.getData( );
+			if( data != null && data.length > 0 && data[0] instanceof ColumnBindingInfo )
+			{
+				for ( int i = 0; i < data.length; i++ )
+				{
+					if ( ((ColumnBindingInfo)data[i]).getExpression( ).equals( text ) )
+					{
+						String expr =  ExpressionUtil.createJSRowExpression( ((ColumnBindingInfo)data[i]).getName( ) );
+						( (Combo) control ).setText( expr );
+						break;
+					}
+				}
+			}
+			else
+			{
+				( (Combo) control ).setText( text );
+			}
 		}
 	}
 }

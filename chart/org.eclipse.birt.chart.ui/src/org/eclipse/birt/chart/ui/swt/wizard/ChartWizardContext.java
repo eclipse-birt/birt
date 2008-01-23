@@ -242,7 +242,7 @@ public class ChartWizardContext implements IWizardContext
 	 *            expression array
 	 * @since 2.3
 	 */
-	public void addPredefinedQuery( String queryType, String[] expressions )
+	public void addPredefinedQuery( String queryType, Object[] expressions )
 	{
 		if ( mQueries == null )
 		{
@@ -261,11 +261,11 @@ public class ChartWizardContext implements IWizardContext
 	 * @return expression array
 	 * @since 2.3
 	 */
-	public String[] getPredefinedQuery( String queryType )
+	public Object[] getPredefinedQuery( String queryType )
 	{
 		if ( mQueries != null && mQueries.containsKey( queryType ) )
 		{
-			return (String[]) mQueries.get( queryType );
+			return (Object[]) mQueries.get( queryType );
 		}
 		return null;
 	}

@@ -1527,6 +1527,20 @@ public class ChartUIUtil
 		}
 	}
 
+	/**
+	 * @return
+	 * @since 2.3
+	 */
+	public static int getImageButtonDefaultHeightByPlatform( )
+	{
+		if ( isWindows( ) )
+		{
+			return BUTTON_HEIGHT;
+		}
+		
+		return 0; 
+	}
+	
 	private static boolean isWindows( )
 	{
 		String platform = SWT.getPlatform( );
