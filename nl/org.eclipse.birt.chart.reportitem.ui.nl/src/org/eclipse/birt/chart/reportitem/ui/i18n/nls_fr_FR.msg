@@ -40,6 +40,9 @@ OpenChartTaskAction.Text.FormatChart=&Formater le graphique...
 GeneralPage.Library.Included=Bibliothèque :
 ChartEventHandlerPage.dialog.Browse=& Parcourir...
 ReportDataServiceProvider.Option.None=<Aucun>
+ReportDataServiceProvider.Tooltip.Aggregate=Aggregate: 
+ReportDataServiceProvider.Tooltip.GroupExpression=Group Expression: 
+ReportDataServiceProvider.Tooltip.OnGroup=On Group: 
 
 StandardChartDataSheet.Combo.DataCubes=---Cubes de données---
 StandardChartDataSheet.Combo.DataSets=---Jeux de données---

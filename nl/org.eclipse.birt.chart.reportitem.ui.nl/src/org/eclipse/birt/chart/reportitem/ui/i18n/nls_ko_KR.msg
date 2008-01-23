@@ -40,6 +40,9 @@ OpenChartTaskAction.Text.FormatChart=차트 형식 지정(&F)...
 GeneralPage.Library.Included=라이브러리:
 ChartEventHandlerPage.dialog.Browse=찾아보기(&B)...
 ReportDataServiceProvider.Option.None=<없음>
+ReportDataServiceProvider.Tooltip.Aggregate=Aggregate: 
+ReportDataServiceProvider.Tooltip.GroupExpression=Group Expression: 
+ReportDataServiceProvider.Tooltip.OnGroup=On Group: 
 
 StandardChartDataSheet.Combo.DataCubes=---데이터 큐브---
 StandardChartDataSheet.Combo.DataSets=---데이터 집합---
