@@ -273,10 +273,6 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 					}
 					break;
 				case 2 :
-					if ( getEditorInput( ) != null )
-					{
-						this.setInput( getEditorInput( ) );
-					}
 					return false;
 			}
 		}

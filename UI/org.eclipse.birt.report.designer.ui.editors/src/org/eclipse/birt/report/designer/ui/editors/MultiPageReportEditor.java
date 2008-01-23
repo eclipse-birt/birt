@@ -621,6 +621,16 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		{
 			Object oldPage = pages.get( oldPageIndex );
 			Object newPage = pages.get( newPageIndex );
+
+			if ( oldPage instanceof IFormPage )
+			{
+				if ( !( (IFormPage) oldPage ).canLeaveThePage( ) )
+				{
+					setActivePage( oldPageIndex );
+					return;
+				}
+			}
+
 			// change to new page, must do it first, because must check old page
 			// is canleave.
 			isChanging = true;
