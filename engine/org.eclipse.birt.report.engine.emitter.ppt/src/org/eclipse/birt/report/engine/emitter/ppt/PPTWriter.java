@@ -382,7 +382,7 @@ public class PPTWriter
 	private void exportImageDefn( String imageName, String imageTitle,
 			double width, double height, double x, double y )
 	{
-		println( "<v:shape id=3D'" + ( shapeCount ) + "' type=3D'#r'" ); //$NON-NLS-1$ //$NON-NLS-2$
+		println( "<v:shape id=3D'" + ( shapeCount ) + "' type=3D'#_x0000_t75'" ); //$NON-NLS-1$ //$NON-NLS-2$
 		println( " style=3D'position:absolute;left:" + x + "pt;top:" + y + "pt;width:" + width + "pt;height:" + height + "pt'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		println( " filled=3D'f' stroked=3D'f'>" ); //$NON-NLS-1$
 		println( "<v:imagedata src=3D\"" + imageName + "\" o:title=3D\"" + imageTitle + "\"/>" ); //$NON-NLS-1$
