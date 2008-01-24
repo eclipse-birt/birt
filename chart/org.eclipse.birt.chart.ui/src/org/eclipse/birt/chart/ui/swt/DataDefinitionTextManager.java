@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.TextDataElement;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.graphics.Color;
@@ -159,7 +160,7 @@ public class DataDefinitionTextManager
 		if ( textCollection.containsKey( control ) )
 		{
 			Query query = (Query) textCollection.get( control );
-			query.setDefinition( getText( control ) );
+			query.setDefinition( ChartUIUtil.getActualExpression( control ) );
 			
 			adjustScaleData( query );
 			
@@ -246,31 +247,32 @@ public class DataDefinitionTextManager
 		return ""; //$NON-NLS-1$
 	}
 
-	private void setText( Control control, String text )
+	private void setText( Control control, String expression )
 	{
 		if ( control instanceof Text )
 		{
-			( (Text) control ).setText( text );
+			( (Text) control ).setText( expression );
 		}
 		else if ( control instanceof Combo )
 		{
 			Object[] data = (Object[]) control.getData( );
-			if( data != null && data.length > 0 && data[0] instanceof ColumnBindingInfo )
+			if ( data != null &&
+					data.length > 0 &&
+					data[0] instanceof ColumnBindingInfo )
 			{
 				for ( int i = 0; i < data.length; i++ )
 				{
-					if ( ((ColumnBindingInfo)data[i]).getExpression( ).equals( text ) )
+					if ( ( (ColumnBindingInfo) data[i] ).getExpression( )
+							.equals( expression ) )
 					{
-						String expr =  ExpressionUtil.createJSRowExpression( ((ColumnBindingInfo)data[i]).getName( ) );
-						( (Combo) control ).setText( expr );
-						break;
+						String txt = ExpressionUtil.createJSRowExpression( ( (ColumnBindingInfo) data[i] ).getName( ) );
+						( (Combo) control ).setText( txt );
+						return;
 					}
 				}
 			}
-			else
-			{
-				( (Combo) control ).setText( text );
-			}
+			
+			( (Combo) control ).setText( expression );
 		}
 	}
 }

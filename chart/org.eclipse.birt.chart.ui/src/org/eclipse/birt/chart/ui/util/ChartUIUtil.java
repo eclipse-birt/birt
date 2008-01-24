@@ -57,6 +57,7 @@ import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl;
 import org.eclipse.birt.chart.ui.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.ColumnBindingInfo;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
@@ -74,8 +75,10 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 
@@ -1563,5 +1566,49 @@ public class ChartUIUtil
 		// grouping is unsupported in this case.
 		return wizardContext.getPredefinedQuery( ChartUIConstants.QUERY_CATEGORY ) == null
 				&& wizardContext.getPredefinedQuery( ChartUIConstants.QUERY_VALUE ) == null;
+	}
+	
+	/**
+	 * The method is used to get actual expression from input control.For shared
+	 * binding case, the expression is stored in data field of combo widget.
+	 * 
+	 * @param control
+	 * @return
+	 * @since 2.3
+	 */
+	public static String getActualExpression( Control control )
+	{
+		if ( control instanceof Text )
+		{
+			return ( (Text) control ).getText( );
+		}
+		if ( control instanceof Combo )
+		{
+			Object[] data = (Object[]) control.getData( );
+			if ( data != null &&
+					data.length > 0 &&
+					data[0] instanceof ColumnBindingInfo )
+			{
+				String txt = ( (Combo) control ).getText( );
+				String[] items = ( (Combo) control ).getItems( );
+				int index = 0;
+				for ( ; items != null && items.length > 0 && index < items.length; index++ )
+				{
+					if ( items[index].equals( txt ) )
+					{
+						break;
+					}
+				}
+				if ( items!= null && index >= 0 && index < items.length )
+				{
+					return ( (ColumnBindingInfo) data[index] ).getExpression( );
+				}
+			}
+			else
+			{
+				return ((Combo)control).getText( );
+			}
+		}
+		return ""; //$NON-NLS-1$
 	}
 }

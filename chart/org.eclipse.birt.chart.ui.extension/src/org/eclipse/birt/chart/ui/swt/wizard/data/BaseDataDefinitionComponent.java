@@ -222,6 +222,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 					}
 				}
 			} );
+			
 			cmbDefinition.addModifyListener( this );
 			cmbDefinition.addFocusListener( this );
 			cmbDefinition.addKeyListener( this );
@@ -299,6 +300,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 			}
 		}
 		
+		setTooltipForInputControl( );
 		return cmpTop;
 	}
 
@@ -330,7 +332,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 			{
 				if ( seriesdefinition.getGrouping( ).isEnabled( ) )
 				{
-					// It means it is category seroes or value series.
+					// It means it is category series or value series.
 					if ( chi.getColumnType( ) == ColumnBindingInfo.GROUP_COLUMN ||
 							chi.getColumnType( ) == ColumnBindingInfo.AGGREGATE_COLUMN )
 					{
@@ -524,8 +526,16 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		{
 			isQueryModified = true;
 			// Reset tooltip
-			getInputControl( ).setToolTipText( getTooltipForDataText( getExpression( getInputControl( ) ) ) );
+			setTooltipForInputControl( );
 		}
+	}
+
+	/**
+	 * Set tooltip for input control.
+	 */
+	private void setTooltipForInputControl( )
+	{
+		getInputControl( ).setToolTipText( getTooltipForDataText( getExpression( getInputControl( ) ) ) );
 	}
 
 	/**
@@ -654,28 +664,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 
 	private String getExpression( Control control )
 	{
-		if ( control instanceof Text )
-		{
-			return ( (Text) control ).getText( );
-		}
-		if ( control instanceof Combo )
-		{
-			Combo c = ( (Combo) control );
-			if ( c.getSelectionIndex( ) >= 0 )
-			{
-				Object value = ( (Object[]) c.getData( ) )[c.getSelectionIndex( )];
-				if ( value instanceof String )
-				{
-					return (String) value;
-				}
-				else if ( value instanceof ColumnBindingInfo )
-				{
-					ColumnBindingInfo chi = (ColumnBindingInfo) value;
-					return chi.getExpression( );
-				}
-			}
-		}
-		return ""; //$NON-NLS-1$
+		return ChartUIUtil.getActualExpression( control );
 	}
 
 	private void setUIText( Control control, String expression )
