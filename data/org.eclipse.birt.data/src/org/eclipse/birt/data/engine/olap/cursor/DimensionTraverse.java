@@ -42,7 +42,7 @@ class DimensionTraverse
 		this.dimAxis = axis;
 		this.relationMap = relationMap;
 		this.dimensionCursorPosition = new int[dimAxis.length];
-		this.resetDimensionPosition( );
+		this.beforeFirst( );
 		this.fetcher = relationMap.fetcher;
 		dimensionCursorPosition = findDimensionPosition( -1 );
 		endPosition = findDimensionPosition( this.relationMap.traverseLength - 1 );
@@ -61,7 +61,7 @@ class DimensionTraverse
 		this.dimAxis = axis;
 		this.relationMap = relationMap;
 		this.dimensionCursorPosition = new int[dimAxis.length];
-		this.resetDimensionPosition( );
+		this.beforeFirst( );
 		this.fetcher = relationMap.fetcher;
 		this.edgeStart = edgeStart;
 		this.edgeEnd = edgeEnd;
@@ -474,9 +474,14 @@ class DimensionTraverse
 	/**
 	 * reset the dimension position to the initial status.
 	 */
-	void resetDimensionPosition( )
+	void beforeFirst( )
 	{
 		this.dimensionCursorPosition = this.findDimensionPosition( edgeStart -1 );
+	}
+	
+	void first( )
+	{
+		this.dimensionCursorPosition = this.findDimensionPosition( edgeStart );
 	}
 	
 	/**

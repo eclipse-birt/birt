@@ -333,6 +333,110 @@ public class CursorNavigatorTest extends BaseTestCase
 		close( dataCursor );
 	}
 	
+	public void testNavigatorOnSubCursor( ) throws DataException, OLAPException, IOException
+	{
+		ICubeQueryDefinition cqd = creator.createQueryDefinition( );
+
+		IBinding rowGrandTotal = new Binding( "rowGrandTotal" );
+		rowGrandTotal.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		rowGrandTotal.setExpression( new ScriptExpression("measure[\"measure1\"]") );
+		rowGrandTotal.addAggregateOn( "dimension[\"dimension5\"][\"level21\"]" );
+		rowGrandTotal.addAggregateOn( "dimension[\"dimension6\"][\"level22\"]" );
+
+		IBinding columnGrandTotal = new Binding( "columnGrandTotal" );
+		columnGrandTotal.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		columnGrandTotal.setExpression( new ScriptExpression("measure[\"measure1\"]") );
+		columnGrandTotal.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+		columnGrandTotal.addAggregateOn( "dimension[\"dimension2\"][\"level12\"]" );
+		columnGrandTotal.addAggregateOn( "dimension[\"dimension3\"][\"level13\"]" );
+		columnGrandTotal.addAggregateOn( "dimension[\"dimension4\"][\"level14\"]" );		
+
+		cqd.addBinding( rowGrandTotal );
+		cqd.addBinding( columnGrandTotal );
+
+		// Create cube view.
+		BirtCubeView cubeView = new BirtCubeView( new CubeQueryExecutor( null,
+				cqd,
+				de.getSession( ),
+				this.scope,
+				de.getContext( ) ) );
+		CubeCursor dataCursor = cubeView.getCubeCursor( new StopSign( ) );
+
+
+		// retrieve the edge cursors
+		// EdgeCursor pageCursor = cubeView.getMeasureEdgeView( );
+		EdgeCursor rowCursor = cubeView.getRowEdgeView( ).getEdgeCursor( );
+		EdgeCursor columnCursor = cubeView.getColumnEdgeView( ).getEdgeCursor( );
+
+		BirtCubeView subCubeView = new BirtCubeView( cubeView.getCubeQueryExecutor( ),
+				null );
+
+		columnCursor.beforeFirst( );
+		rowCursor.next( );
+		columnCursor.setPosition( 8 );
+		CubeCursor subCursor = subCubeView.getCubeCursor( new StopSign( ),
+				"dimension[\"dimension1\"][\"level11\"]",
+				"dimension[\"dimension5\"][\"level21\"]",
+				cubeView );
+
+		EdgeCursor subRowCursor = subCubeView.getRowEdgeView( ).getEdgeCursor( );
+		EdgeCursor subColumnCursor = subCubeView.getColumnEdgeView( )
+				.getEdgeCursor( );
+		subRowCursor.beforeFirst( );
+		subColumnCursor.beforeFirst( );
+		assertTrue( subRowCursor.isBeforeFirst( ) );
+		assertTrue( subColumnCursor.isBeforeFirst( ) );
+		subRowCursor.first( );
+		subColumnCursor.first( );
+		assertTrue( subRowCursor.isFirst( ) );
+		assertTrue( subColumnCursor.isFirst( ) );
+		assertTrue( subRowCursor.getPosition( ) == 0 );
+		assertTrue( subColumnCursor.getPosition( ) == 0 );
+		subColumnCursor.setPosition( 3 );
+		assertTrue( subColumnCursor.getPosition( ) == 3 );
+		
+		subRowCursor.beforeFirst( );
+		subRowCursor.next( );
+		subColumnCursor.setPosition( 3 );
+		DimensionCursor c1 = (DimensionCursor) subColumnCursor.getDimensionCursor( )
+				.get( 0 );
+		DimensionCursor c2 = (DimensionCursor) subColumnCursor.getDimensionCursor( )
+				.get( 1 );
+		DimensionCursor c3 = (DimensionCursor) subColumnCursor.getDimensionCursor( )
+				.get( 2 );
+		DimensionCursor c4 = (DimensionCursor) subColumnCursor.getDimensionCursor( )
+				.get( 3 );
+		assertTrue( c1.getObject( 0 ).toString( ).equals( "JP" ) );
+		assertTrue( c2.getObject( 0 ).toString( ).equals( "TK" ) );
+		assertTrue( c3.getObject( 0 ).toString( ).equals( "A4" ) );
+		assertTrue( c4.getObject( 0 ).toString( ).equals( "1999" ) );
+		
+		columnCursor.setPosition( 5 );
+		subCursor = subCubeView.getCubeCursor( new StopSign( ),
+				"dimension[\"dimension1\"][\"level11\"]",
+				"dimension[\"dimension5\"][\"level21\"]",
+				cubeView );
+
+		subRowCursor = subCubeView.getRowEdgeView( ).getEdgeCursor( );
+		subColumnCursor = subCubeView.getColumnEdgeView( )
+				.getEdgeCursor( );
+		subColumnCursor.setPosition( 7 );
+		c1 = (DimensionCursor) subColumnCursor.getDimensionCursor( )
+				.get( 0 );
+		c2 = (DimensionCursor) subColumnCursor.getDimensionCursor( )
+				.get( 1 );
+		c3 = (DimensionCursor) subColumnCursor.getDimensionCursor( )
+				.get( 2 );
+		c4 = (DimensionCursor) subColumnCursor.getDimensionCursor( )
+				.get( 3 );
+		assertTrue( c1.getObject( 0 ).toString( ).equals( "CN" ) );
+		assertTrue( c2.getObject( 0 ).toString( ).equals( "SZ" ) );
+		assertTrue( c3.getObject( 0 ).toString( ).equals( "A1" ) );
+		assertTrue( c4.getObject( 0 ).toString( ).equals( "1998" ) );
+		
+		close( dataCursor );
+	}
+	
 	public void testNavigatorOnPage( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = creator.createQueryDefintionWithPage1( );

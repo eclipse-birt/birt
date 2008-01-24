@@ -385,7 +385,7 @@ public class RowDataAccessor implements IRowDataAccessor
 	public void edge_beforeFirst( )
 	{
 		this.edgeTraverse.beforeFirst( );
-		this.dimTraverse.resetDimensionPosition(  );
+		this.dimTraverse.beforeFirst( );
 	}
 
 	/**
@@ -396,10 +396,7 @@ public class RowDataAccessor implements IRowDataAccessor
 	{
 		if ( this.edgeTraverse.first( ) )
 		{
-			for ( int i = 0; i < this.dimAxis.length; i++ )
-			{
-				this.dimTraverse.dimensionCursorPosition[i] = 0;
-			}
+			this.dimTraverse.first( );
 			return true;
 		}
 		else
@@ -548,7 +545,7 @@ public class RowDataAccessor implements IRowDataAccessor
 		else
 		{
 			this.edgeTraverse.currentPosition = -1;
-			this.dimTraverse.resetDimensionPosition( );
+			this.dimTraverse.beforeFirst( );
 			return false;
 		}
 	}
@@ -571,7 +568,7 @@ public class RowDataAccessor implements IRowDataAccessor
 		}
 		else if ( position < 0 )
 		{
-			this.dimTraverse.resetDimensionPosition( );
+			this.dimTraverse.beforeFirst( );
 			this.edgeTraverse.currentPosition = -1;
 			return false;
 		}
@@ -598,7 +595,7 @@ public class RowDataAccessor implements IRowDataAccessor
 	{
 		if ( position < 0 )
 		{
-			this.dimTraverse.resetDimensionPosition( );
+			this.dimTraverse.beforeFirst( );
 			this.edgeTraverse.currentPosition = -1;
 			return;
 		}
