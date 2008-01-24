@@ -249,9 +249,9 @@
 		<replace file="${OutputDir}\${birt.info}" token="#branch#" value="${package.version}"/>
 		<replace file="${OutputDir}\${birt.info}" token="#ECLIPSEVERSION#" value="3.4 M4 SDK"/>
 		<replace file="${OutputDir}\${birt.info}" token="#EMFVERSION#" value="2.4 M4 EMF+SDO+XSD"/>
-		<replace file="${OutputDir}\${birt.info}" token="#GEFVERSION#" value="3.4 M3 runtime"/>
-		<replace file="${OutputDir}\${birt.info}" token="#DTPVERSION#" value="1.6 M4" />
-		<replace file="${OutputDir}\${birt.info}" token="#WTPVERSION#" value="3.0 I-I20071213223850-20071213223850"/>
+		<replace file="${OutputDir}\${birt.info}" token="#GEFVERSION#" value="3.4 M4 runtime"/>
+		<replace file="${OutputDir}\${birt.info}" token="#DTPVERSION#" value="1.6 M5 Nightly" />
+		<replace file="${OutputDir}\${birt.info}" token="#WTPVERSION#" value="3.0 M4"/>
 	
 	</target>
 
@@ -704,6 +704,17 @@
                 <exec executable="zip" dir="${OutputDir}">
                         <arg line="-q ${OutputDir}/${birt.rcp.zip.name}.zip -r ${birt.rcp.zip.name}" />
                 </exec>
+
+		<!-- Fix bugzilla bug[214678]Adding org.eclipse.birt.report.designer.ui.rcp plugin to the SDK package-->
+		<!-- Copy rcp bundles for SDK package -->
+		<copy todir="${deposit}/eclipse/plugins">
+			<fileset dir="${OutputDir}/${birt.rcp.zip.name}/plugins">
+                                <include name="org.eclipse.birt.report.designer.ui.rcp*/**" />
+                                <include name="org.eclipse.birt.report.designer.ui.samples.rcp_*/**" />
+			</fileset>
+		</copy>
+  
+
 		<delete dir="${OutputDir}/${birt.rcp.zip.name}"/>
 	</target>
 	
