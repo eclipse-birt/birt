@@ -24,7 +24,9 @@ import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
+import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.engine.adapter.ModelDteApiAdapter;
@@ -39,8 +41,8 @@ import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.mozilla.javascript.Scriptable;
 
 public abstract class AbstractDataEngine implements IDataEngine
 {
@@ -248,6 +250,11 @@ public abstract class AbstractDataEngine implements IDataEngine
 			return doExecuteCube( parent, (ICubeQueryDefinition) query,
 					useCache );
 		}
+		else if ( query instanceof ISubCubeQueryDefinition )
+		{
+			doExecuteSubCubeQuery( (ICubeResultSet) parent,
+					(ISubCubeQueryDefinition) query );
+		}
 		throw new EngineException( "Unsupported query type "
 				+ query.getClass( ).getName( ) );
 	}
@@ -258,6 +265,30 @@ public abstract class AbstractDataEngine implements IDataEngine
 	abstract protected IBaseResultSet doExecuteCube( IBaseResultSet parent,
 			ICubeQueryDefinition query, boolean useCache ) throws BirtException;
 
+	/**
+	 * get the sub cube query result from the current query.
+	 * @param parent
+	 * @param query
+	 * @return
+	 * @throws BirtException
+	 */
+	protected IBaseResultSet doExecuteSubCubeQuery( ICubeResultSet parent,
+			ISubCubeQueryDefinition query ) throws BirtException
+	{
+		Scriptable scope = context.getSharedScope( );
+		IBasePreparedQuery pQuery = (IBasePreparedQuery) queryMap.get( query );
+		if ( pQuery == null )
+		{
+			throw new EngineException( "can't find the prepared query " + query );
+		}
+
+		ICubeQueryResults dteResults = (ICubeQueryResults) dteSession.execute(
+				pQuery, parent.getQueryResults( ), scope );
+		IBaseResultSet resultSet = new CubeResultSet( this, context, parent,
+				query, (ICubeQueryResults) dteResults );
+		return resultSet;
+	}
+	
 	/**
 	 * get the sub query result from the current query.
 	 * 

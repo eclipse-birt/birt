@@ -24,7 +24,9 @@ import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
+import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition;
 import org.eclipse.birt.report.engine.adapter.CubeUtil;
 import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -49,7 +51,7 @@ public class CubeResultSet implements ICubeResultSet
 
 	private ExecutionContext context;
 
-	private ICubeQueryDefinition queryDefn;
+	private IBaseCubeQueryDefinition queryDefn;
 
 	private ICubeCursor cube;
 
@@ -89,6 +91,30 @@ public class CubeResultSet implements ICubeResultSet
 	// Nest query
 	public CubeResultSet( IDataEngine dataEngine, ExecutionContext context,
 			IBaseResultSet parent, ICubeQueryDefinition queryDefn,
+			ICubeQueryResults rsets ) throws BirtException
+	{
+		assert parent != null;
+		this.parent = parent;
+		// TODO: the rset.getID() is null since data do not check the code in
+		if ( rsets.getID( ) != null )
+		{
+			this.id = new DataSetID( rsets.getID( ) );
+		}
+		else
+		{
+			this.id = new DataSetID( "cube" );
+		}
+		this.context = context;
+		this.dataEngine = dataEngine;
+		this.queryDefn = queryDefn;
+		this.cube = rsets.getCubeCursor( );
+		this.queryResults = rsets;
+		this.queryResultsID = rsets.getID( );
+	}
+	
+	// Sub cube query
+	public CubeResultSet( IDataEngine dataEngine, ExecutionContext context,
+			IBaseResultSet parent, ISubCubeQueryDefinition queryDefn,
 			ICubeQueryResults rsets ) throws BirtException
 	{
 		assert parent != null;
