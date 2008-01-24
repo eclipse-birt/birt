@@ -252,7 +252,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 		}
 		else if ( query instanceof ISubCubeQueryDefinition )
 		{
-			doExecuteSubCubeQuery( (ICubeResultSet) parent,
+			return doExecuteSubCubeQuery( (ICubeResultSet) parent,
 					(ISubCubeQueryDefinition) query );
 		}
 		throw new EngineException( "Unsupported query type "
