@@ -25,6 +25,8 @@ import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.IncreDataSetCacheObject;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
+import org.eclipse.birt.data.engine.impl.IIncreCacheDataSetDesign;
 
 /**
  * 
@@ -181,13 +183,13 @@ public class CacheUtil
 	 * @param dataSetDesign
 	 * @return
 	 */
-	public static String createIncrementalTempDir( String tempDir,
-			String configFilePath, String dataSetName )
+	public static String createIncrementalTempDir( DataEngineSession session, 
+			IIncreCacheDataSetDesign dataSetDesign)
 	{
 		final String prefix = PS_;
-		File cacheDir = new File( tempDir
+		File cacheDir = new File( session.getTempDir( )
 				+ PATH_SEP + prefix + PATH_SEP
-				+ Md5Util.getMD5( configFilePath ) + PATH_SEP + dataSetName );
+				+ Md5Util.getMD5( dataSetDesign.getConfigFileUrl( ).toString( ) ) + PATH_SEP + dataSetDesign.getName( ) );
 		if ( cacheDir.exists( ) == false )
 		{
 			cacheDir.mkdirs( );

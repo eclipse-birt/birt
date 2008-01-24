@@ -26,9 +26,13 @@ public class MemoryDataSetCacheObject implements IDataSetCacheObject
 	private IResultClass rs;
 	private SoftReference softCachedResult;
 	
-	public MemoryDataSetCacheObject( )
+	private int cacheCapability;
+	
+	public MemoryDataSetCacheObject( int cacheCapability )
 	{
+		assert cacheCapability > 0;
 		this.softCachedResult = new SoftReference( new ArrayList());
+		this.cacheCapability = cacheCapability;
 	}
 
 	private List getCachedResult( )
@@ -55,11 +59,6 @@ public class MemoryDataSetCacheObject implements IDataSetCacheObject
 		return (IResultObject)this.getCachedResult( ).get( index );
 	}
 	
-	public boolean needPopulateResult( )
-	{
-		return this.getCachedResult( ).size( ) == 0;
-	}
-	
 	public void setResultClass( IResultClass rs )
 	{
 		this.rs = rs;
@@ -70,4 +69,34 @@ public class MemoryDataSetCacheObject implements IDataSetCacheObject
 		if ( ro != null )
 			this.getCachedResult( ).add( ro );
 	}
+
+	public boolean isCachedDataReusable( int requiredCapability )
+	{
+		assert requiredCapability > 0;
+		
+		if ( this.getSize( ) == 0 )
+			return false;
+		
+		if ( isAllRowsAlreadyCached( ) )
+			return true;
+		
+		return cacheCapability >= requiredCapability;
+	}
+
+	private boolean isAllRowsAlreadyCached( )
+	{
+		return this.getSize( ) < this.cacheCapability;
+	}
+
+	public boolean needUpdateCache( int requiredCapability )
+	{
+		return !isCachedDataReusable(requiredCapability);
+	}
+
+	public void release( )
+	{
+		//nothing to do 
+	}
+	
+	
 }

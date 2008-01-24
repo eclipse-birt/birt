@@ -64,7 +64,7 @@ public class DataEngineSession
 		tempDir = engine.getContext( ).getTmpdir( ) +
 				"DataEngine_" + engine.hashCode( ) + File.separator;
 
-		this.dataSetCacheManager = new DataSetCacheManager( tempDir, engine );
+		this.dataSetCacheManager = new DataSetCacheManager( this );
 		logger.exiting( DataEngineSession.class.getName( ), "DataEngineSession" );
 	}
 	

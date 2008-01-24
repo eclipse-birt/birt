@@ -259,7 +259,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 		{
 			// TODO: potential bug
 			if ( !dataSource.isOpen( )
-					|| session.getDataSetCacheManager( ).doesLikeToCache( ) == true )
+					|| session.getDataSetCacheManager( ).needsToCache( ))
 			{
 				// Data source is not open; create an Odi Data Source and open it
 				// We should run the beforeOpen script now to give it a chance to modify

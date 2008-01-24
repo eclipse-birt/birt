@@ -105,7 +105,7 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 		/*
 		 * @see org.eclipse.birt.data.engine.impl.PreparedQuery.Executor#createOdiDataSource()
 		 */
-		protected IDataSource createOdiDataSource( )
+		protected IDataSource createOdiDataSource( ) throws DataException
 		{
 			// An empty odi data source is used for script data set
 			PreparedScriptDSQuery self = PreparedScriptDSQuery.this;
@@ -115,9 +115,6 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 							this.dataSource.getDesign( ),
 							this.dataSet.getDesign( ),
 							self.queryDefn.getInputParamBindings( ),
-							DataSetCacheUtil.getCacheOption( self.dataEngine.getContext( ),
-									appContext ),
-							DataSetCacheUtil.getCacheCount( self.dataEngine.getContext(), appContext ),
 							self.dataEngine.getSession( ),
 							appContext);
 		}

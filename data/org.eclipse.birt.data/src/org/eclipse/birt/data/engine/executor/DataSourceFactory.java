@@ -17,6 +17,7 @@ import java.util.Map;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSourceDesign;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odi.IDataSource;
 import org.eclipse.birt.data.engine.odi.IDataSourceFactory;
@@ -72,15 +73,13 @@ public class DataSourceFactory implements IDataSourceFactory
 	public IDataSource getDataSource( String driverName, Map connProperties,
 			IBaseDataSourceDesign dataSourceDesign,
 			IBaseDataSetDesign dataSetDesign, Collection parameterHints,
-			int cacheOption, int alwaysCacheRowCount, DataEngineSession session, Map appContext)
+			DataEngineSession session, Map appContext) throws DataException
 	{
-		if ( session.getDataSetCacheManager( )
+		if ( !session.getDataSetCacheManager( )
 				.doesLoadFromCache( dataSourceDesign,
 						dataSetDesign,
 						parameterHints,
-						 appContext,
-						cacheOption,
-						alwaysCacheRowCount ) == false )
+						 appContext) )
 		{
 			// TODO: connection pooling
 			return new DataSource( driverName, connProperties, session );

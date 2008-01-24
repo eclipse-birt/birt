@@ -14,6 +14,9 @@ package org.eclipse.birt.data.engine.executor;
 import java.io.File;
 import java.security.NoSuchAlgorithmException;
 
+import org.eclipse.birt.data.engine.impl.DataSetCacheUtil;
+import org.eclipse.birt.data.engine.odi.IResultClass;
+
 /**
  * This IncreDataSetCacheObject serves for incremental data set cache.
  */
@@ -70,5 +73,28 @@ public class IncreDataSetCacheObject implements IDataSetCacheObject
 	public File getTimeStampFile( )
 	{
 		return new File( cacheDir + PATH_SEP + TIMESTAMP_DATA );
+	}
+
+	public boolean isCachedDataReusable( int requiredMaxRowCount )
+	{
+		return true;
+	}
+
+	public boolean needUpdateCache( int requiredCapability )
+	{
+		return true;
+	}
+
+	public void release( )
+	{
+		if (cacheDir != null)
+		{
+			DataSetCacheUtil.deleteDir( cacheDir );	
+		}
+	}
+
+	public IResultClass getResultClass( )
+	{
+		return null;
 	}
 }

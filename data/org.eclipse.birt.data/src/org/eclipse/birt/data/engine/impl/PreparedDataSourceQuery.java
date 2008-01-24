@@ -17,7 +17,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
@@ -228,10 +227,7 @@ abstract class PreparedDataSourceQuery
 		if ( dataSetDesign == null )
 			return;
 
-		if ( getDataSetCacheManager( ).needsToCache( dataSetDesign,
-				DataSetCacheUtil.getCacheOption( dataEngine.getContext( ),
-						appContext ),
-				DataSetCacheUtil.getCacheCount( dataEngine.getContext( ), appContext ) ) == false )
+		if ( !getDataSetCacheManager( ).needsToCache( dataSetDesign, appContext ))
 			return;
 		
 		Collection parameterHints = null;
@@ -254,21 +250,6 @@ abstract class PreparedDataSourceQuery
 						dataSetDesign,
 						parameterHints,
 						this.appContext);
-
-		if ( DataSetCacheUtil.getCacheOption( dataEngine.getContext( ), appContext ) == DataEngineContext.CACHE_USE_ALWAYS )
-		{
-			getDataSetCacheManager( )
-					.setAlwaysCacheRowCount( DataSetCacheUtil.getCacheCount( dataEngine.getContext( ), appContext ));
-		}
-
-		getDataSetCacheManager( )
-				.setCacheOption( DataSetCacheUtil.getCacheOption( dataEngine.getContext( ),
-						appContext ) );
-		
-		getDataSetCacheManager( )
-				.setCacheMode( DataSetCacheUtil.getCacheMode( appContext ) );
-
-
 	}
 
 	/**

@@ -10,13 +10,16 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.io.File;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
+import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.DataSetCacheConfig;
+import org.eclipse.birt.data.engine.executor.DataSetCacheConfig.DataSetCacheMode;
+import org.eclipse.birt.data.engine.executor.cache.CacheUtil;
 
 /**
  * 
@@ -24,66 +27,112 @@ import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 public class DataSetCacheUtil
 {
 	/**
-	 * @param context
+	 * used to get DataSetCacheConfig from all boring options outside
 	 * @param appContext
+	 * @param context
+	 * @param session
+	 * @param dataSetDesign
 	 * @return
+	 * @throws DataException
 	 */
-	public static int getCacheOption( DataEngineContext context, Map appContext )
-	{
-		int cacheOption = context.getCacheOption( );
-		
+	public static DataSetCacheConfig getJVMDataSetCacheConfig(
+			Map appContext,
+			DataEngineContext context, 
+			DataEngineSession session,
+			IBaseDataSetDesign dataSetDesign) throws DataException
+	{	
+		String sessionTempDir = session.getTempDir( );
+		if (dataSetDesign != null && dataSetDesign instanceof IIncreCacheDataSetDesign)
+		{
+			IIncreCacheDataSetDesign icDataSetDesign = (IIncreCacheDataSetDesign) dataSetDesign;
+			String cacheDir = CacheUtil.createIncrementalTempDir(session, icDataSetDesign);
+			return DataSetCacheConfig.getInstance( DataSetCacheMode.IN_DISK, Integer.MAX_VALUE, true, cacheDir );
+		}
 		if ( appContext != null )
 		{
-	
 			Object option = appContext.get( DataEngine.MEMORY_DATA_SET_CACHE );
 			if( option != null )
 			{
 				int rowLimit = getIntValueFromString(option);
-				if( rowLimit > 0 )
-					return DataEngineContext.CACHE_USE_ALWAYS;
+				return DataSetCacheConfig.getInstacne( DataSetCacheMode.IN_MEMORY, rowLimit, null );
 			}
 			
 			option = appContext.get( DataEngine.DATA_SET_CACHE_ROW_LIMIT );
 			if( option != null )
 			{
 				int rowLimit = getIntValueFromString(option);
-				if( rowLimit == 0 )
-				{
-					return DataEngineContext.CACHE_USE_DISABLE;
-				}
-				else
-				{
-					return DataEngineContext.CACHE_USE_ALWAYS;
-				}
+				return DataSetCacheConfig.getInstacne( DataSetCacheMode.IN_DISK, rowLimit,
+						CacheUtil.createSessionTempDir( CacheUtil.createTempRootDir(sessionTempDir) ));
 			}
-			
 		}
 		
-		int realCacheOption;
-		
+		int cacheOption = context.getCacheOption( );
 		if ( cacheOption == DataEngineContext.CACHE_USE_ALWAYS )
 		{
-			realCacheOption = DataEngineContext.CACHE_USE_ALWAYS;
+			return DataSetCacheConfig.getInstacne( DataSetCacheMode.IN_DISK, context.getCacheCount( ),
+					CacheUtil.createSessionTempDir( CacheUtil.createTempRootDir(sessionTempDir) ));
 		}
 		else if ( cacheOption == DataEngineContext.CACHE_USE_DISABLE )
 		{
-			realCacheOption = DataEngineContext.CACHE_USE_DISABLE;
+			return null;
 		}
 		else if ( appContext != null )
 		{
 			Object option = appContext.get( DataEngine.DATASET_CACHE_OPTION );
 			if ( option != null && option.toString( ).equals( "true" ) )
-				realCacheOption = DataEngineContext.CACHE_USE_DEFAULT;
-			else
-				realCacheOption = DataEngineContext.CACHE_USE_DISABLE;
+			{
+				int cacheCount = dataSetDesign.getCacheRowCount( );
+				if (cacheCount == 0)
+				{
+					cacheCount = context.getCacheCount( );
+				}
+				return DataSetCacheConfig.getInstacne( DataSetCacheMode.IN_DISK, cacheCount,
+						CacheUtil.createSessionTempDir( CacheUtil.createTempRootDir(sessionTempDir) ));
+			}
+		}
+		return null;
+	}
+	
+	public static DataSetCacheConfig getDteDataSetCacheConfig(IQueryExecutionHints queryExecutionHints,
+			IBaseDataSetDesign dataSetDesign,
+			DataEngineSession session) throws DataException
+	{
+		if( queryExecutionHints == null || dataSetDesign == null )
+		{
+			return null;
 		}
 		else
 		{
-			realCacheOption = DataEngineContext.CACHE_USE_DISABLE;
+			if (queryExecutionHints.needCacheDataSet( dataSetDesign.getName( ) ))
+			{
+				return DataSetCacheConfig.getInstacne( DataSetCacheMode.IN_DISK, Integer.MAX_VALUE,
+						CacheUtil.createSessionTempDir( CacheUtil.createTempRootDir(session.getTempDir( )) ));
+			}
+			else
+			{
+				return null;
+			}
 		}
-
-		return realCacheOption;
 	}
+	
+	/**
+	 * Delete folder
+	 * 
+	 * @param dirStr
+	 */
+	public static void deleteDir( String dirStr )
+	{
+		File curDir = new File( dirStr );
+		if ( !curDir.exists( ) )
+			return;
+		File[] files = curDir.listFiles( );
+		for ( int i = 0; i < files.length; i++ )
+			files[i].delete( );
+		File parentDir = curDir.getParentFile( );
+		curDir.delete( );
+		parentDir.delete( );
+	}
+	
 
 	/**
 	 * 
@@ -94,157 +143,6 @@ public class DataSetCacheUtil
 	{
 		return Integer.valueOf(option.toString()).intValue();
 	}
-	
-	/**
-	 * 
-	 * @param context
-	 * @param appContext
-	 * @return 
-	 */
-	public static int getCacheCount( DataEngineContext context, Map appContext )
-	{
-		if ( appContext != null )
-		{
-			Object option = appContext.get( DataEngine.MEMORY_DATA_SET_CACHE );
-			if( option != null )
-			{
-				int rowLimit = getIntValueFromString(option);
-				if( rowLimit > 0 )
-					return rowLimit;
-			}
-			option = appContext.get( DataEngine.DATA_SET_CACHE_ROW_LIMIT );
-			if( option != null )
-			{
-				return getIntValueFromString(option);
-			}
-		}
-		
-		return context.getCacheCount();
-	}
-	
-	/**
-	 * 
-	 * @param appContext
-	 * @return
-	 */
-	public static int getCacheMode( Map appContext )
-	{	
-		if ( appContext != null )
-		{
-			Object option = appContext.get( DataEngine.MEMORY_DATA_SET_CACHE );
-			if( option != null )
-			{
-				int rowLimit = getIntValueFromString(option);
-				if( rowLimit > 0 )
-					return DataEngineContext.CACHE_MODE_IN_MEMORY;
-			}
-		}
-		return DataEngineContext.CACHE_MODE_IN_DISK;
-	}
-	
-	/**
-	 * the specified configure value can be a path or an URL object represents
-	 * the location of the configure file, but the final returned value must be
-	 * an URL object or null if fails to parse it.
-	 * 
-	 * @param appContext
-	 * @return
-	 */
-	public static URL getCacheConfig( Map appContext )
-	{
-		if ( appContext != null )
-		{
-			Object configValue = appContext.get( DataEngine.INCREMENTAL_CACHE_CONFIG );
-			URL url = null;
-			if ( configValue instanceof URL )
-			{
-				url = (URL) configValue;
-			}
-			else if ( configValue instanceof String )
-			{
-				String configPath = configValue.toString( );
-				try
-				{
-					url = new URL( configPath );
-				}
-				catch ( MalformedURLException e )
-				{
-					try
-					{// try to use file protocol to parse configPath
-						url = new URL( "file", "/", configPath );
-					}
-					catch ( MalformedURLException e1 )
-					{
-						return null;
-					}
-				}
-			}
-			return url;
-		}
-		return null;
-	}
-	
-	/**
-	 * 
-	 * @param dataSetDesign
-	 * @param cacheOption
-	 * @param alwaysCacheRowCount
-	 * @return
-	 */
-	public static boolean needsToCache( IBaseDataSetDesign dataSetDesign,
-			int cacheOption, int alwaysCacheRowCount )
-	{
-		if ( dataSetDesign == null )
-			return false;
-
-		if ( dataSetDesign instanceof IIncreCacheDataSetDesign )
-		{
-			return true;
-		}
-		if ( cacheOption == DataEngineContext.CACHE_USE_DISABLE )
-		{
-			return false;
-		}
-		else if ( cacheOption == DataEngineContext.CACHE_USE_ALWAYS )
-		{
-			if ( alwaysCacheRowCount == 0 )
-				return false;
-		}
-		else if ( dataSetDesign.getCacheRowCount( ) == 0 )
-		{
-			return false;
-		}
-
-		return true;
-	}
-	
-	/**
-	 * 
-	 * @param cacheOption
-	 * @param alwaysCacheRowCount
-	 * @param cacheRowCount
-	 * @return
-	 */
-	public static int getCacheRowCount( int cacheOption,
-			int alwaysCacheRowCount, int cacheRowCount )
-	{
-		if ( cacheOption == DataEngineContext.CACHE_USE_ALWAYS )
-		{
-			if ( alwaysCacheRowCount <= 0 )
-				return Integer.MAX_VALUE;
-			else
-				return alwaysCacheRowCount;
-		}
-		else if ( cacheOption == DataEngineContext.CACHE_USE_DISABLE )
-		{
-			return Integer.MAX_VALUE;
-		}
-		else
-		{
-			if ( cacheRowCount == -1 )
-				return Integer.MAX_VALUE;
-			else
-				return cacheRowCount;
-		}
-	}
 }
+
+

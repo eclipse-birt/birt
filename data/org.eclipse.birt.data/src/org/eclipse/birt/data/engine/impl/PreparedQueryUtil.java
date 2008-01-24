@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.impl;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
@@ -27,6 +28,7 @@ import java.util.regex.Pattern;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
@@ -193,7 +195,7 @@ class PreparedQueryUtil
 			throws DataException
 	{
 		IBaseDataSetDesign adaptedDesign = null;
-		URL configFileUrl = DataSetCacheUtil.getCacheConfig( appContext );
+		URL configFileUrl = IncreCacheDataSetAdapter.getConfigFileURL( appContext );
 		if ( configFileUrl != null )
 		{
 			try
@@ -773,6 +775,9 @@ abstract class DataSetAdapter implements IBaseDataSetDesign
 	{
 		return this.source.getBeforeOpenScript( );
 	}
+	/**
+	 * @deprecated
+	 */
 	public int getCacheRowCount( )
 	{
 		return this.source.getCacheRowCount( );
@@ -1106,5 +1111,47 @@ class IncreCacheDataSetAdapter extends OdaDataSetAdapter
 	public void setCacheMode( int cacheMode )
 	{
 		this.cacheMode = cacheMode;
+	}
+	
+	/**
+	 * the specified configure value can be a path or an URL object represents
+	 * the location of the configure file, but the final returned value must be
+	 * an URL object or null if fails to parse it.
+	 * 
+	 * @param appContext
+	 * @return
+	 */
+	public static URL getConfigFileURL( Map appContext )
+	{
+		if ( appContext != null )
+		{
+			Object configValue = appContext.get( DataEngine.INCREMENTAL_CACHE_CONFIG );
+			URL url = null;
+			if ( configValue instanceof URL )
+			{
+				url = (URL) configValue;
+			}
+			else if ( configValue instanceof String )
+			{
+				String configPath = configValue.toString( );
+				try
+				{
+					url = new URL( configPath );
+				}
+				catch ( MalformedURLException e )
+				{
+					try
+					{// try to use file protocol to parse configPath
+						url = new URL( "file", "/", configPath );
+					}
+					catch ( MalformedURLException e1 )
+					{
+						return null;
+					}
+				}
+			}
+			return url;
+		}
+		return null;
 	}
 }

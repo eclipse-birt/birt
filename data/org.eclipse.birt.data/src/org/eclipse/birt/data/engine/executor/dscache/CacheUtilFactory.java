@@ -29,7 +29,6 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngine;
-import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
@@ -136,7 +135,7 @@ class CacheUtilFactory
 			this.metaFile.deleteOnExit( );
 			this.rsClass = rsClass;
 			this.rowCount = 0;
-			this.tempFolder = cacheObject.getTempDir( );
+			this.tempFolder = cacheObject.getCacheDir( );
 		}
 		
 		/**
@@ -542,8 +541,7 @@ class CacheUtilFactory
 			this.session = session;
 			this.rowCount = 0;
 			this.currIndex = -1;
-			if ( this.session.getDataSetCacheManager( ).getCacheOption( ) == DataEngineContext.CACHE_USE_ALWAYS )
-				this.mergeDelta();
+			this.mergeDelta();
 		}
 		
 		/**
@@ -669,7 +667,7 @@ class CacheUtilFactory
 						File metaFile = this.metaFile;
 						mergeDeltaToFile( dataFile, list, metaFile );
 
-						CacheUtil.saveCurrentTime( this.cacheObject.getTempDir( ) );
+						CacheUtil.saveCurrentTime( this.cacheObject.getCacheDir( ));
 					}
 				}
 			}
@@ -830,13 +828,13 @@ class CacheUtilFactory
 			qd.setDataSetName( this.session.getDataSetCacheManager( ).getCurrentDataSetDesign( ).getName( ) );
 			
 			String queryBack = ( (OdaDataSetDesign) this.session.getDataSetCacheManager( ).getCurrentDataSetDesign( ) ).getQueryText( );
-			int savedCacheOption = this.session.getDataSetCacheManager( ).suspendCache( );
+			//int savedCacheOption = this.session.getDataSetCacheManager( ).suspendCache( );
 			qd.setAutoBinding( true );
 			IResultIterator iterator = this.session.getEngine( ).prepare( qd, new HashMap() )
 					.execute( null )
 					.getResultIterator( );
 			( (OdaDataSetDesign) this.session.getDataSetCacheManager( ).getCurrentDataSetDesign( ) ).setQueryText( queryBack );
-			this.session.getDataSetCacheManager( ).setCacheOption( savedCacheOption );
+			//this.session.getDataSetCacheManager( ).setCacheOption( savedCacheOption );
 			return iterator;
 		}
 
@@ -903,7 +901,7 @@ class CacheUtilFactory
 		private String resetQueryText( String text ) throws IOException,
 				DataException, ClassNotFoundException
 		{
-			String timestamp = CacheUtil.getLastTime( this.cacheObject.getTempDir( ) );
+			String timestamp = CacheUtil.getLastTime( this.cacheObject.getCacheDir() );
 			if ( timestamp == null || timestamp.length( ) != 14 )
 			{
 				return null;

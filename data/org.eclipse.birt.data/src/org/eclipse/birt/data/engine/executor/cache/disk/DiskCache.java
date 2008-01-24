@@ -316,7 +316,7 @@ public class DiskCache implements ResultSetCache
 				if ( tempRootDirStr == null )
 				{
 					// tempDir is user specified temporary directory
-					String tempDir = session.getDataSetCacheManager( ).getTempDir( );
+					String tempDir = session.getTempDir( );
 					tempRootDirStr = CacheUtil.createTempRootDir( tempDir );
 				}
 			}

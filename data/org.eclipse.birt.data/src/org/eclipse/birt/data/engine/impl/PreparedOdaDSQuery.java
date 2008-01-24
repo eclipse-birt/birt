@@ -237,10 +237,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 
 			Collection paramHints = null;
 			if ( getDataSetCacheManager()
-					.needsToCache( this.dataSet.getDesign( ),
-							DataSetCacheUtil.getCacheOption( dataEngine.getContext( ),
-									appContext ),
-							DataSetCacheUtil.getCacheCount( dataEngine.getContext( ), appContext )) == true )
+					.needsToCache( this.dataSet.getDesign( ), appContext ))
 				paramHints = new ParameterUtil( null,
 						this.dataSet,
 						self.queryDefn,
@@ -252,9 +249,6 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 							this.dataSource.getDesign( ),
 							this.dataSet.getDesign( ),
 							paramHints,
-							DataSetCacheUtil.getCacheOption( self.dataEngine.getContext( ),
-									appContext ),
-							DataSetCacheUtil.getCacheCount( self.dataEngine.getContext( ), appContext),
 							self.dataEngine.getSession( ),
 							appContext );
 		}

@@ -126,10 +126,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	 */
 	private void initialize( DataEngineImpl dataEngine, Map appContext )
 	{
-		int savedCacheOption = getDataSetCacheManager( ).suspendCache( );
-
-		getDataSetCacheManager( ).setCacheOption( savedCacheOption );
-		getDataSetCacheManager( ).setCacheMode( DataSetCacheUtil.getCacheMode( appContext ) );
+		//int savedCacheOption = getDataSetCacheManager( ).suspendCache( );
 		this.joinType = dataSet.getJoinType( );
 		this.matcher = new JoinConditionMatcher( left.getOdiResult( ),
 				right.getOdiResult( ),
@@ -634,18 +631,16 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 
 		/**
 		 * @return
+		 * @throws DataException 
 		 */
-		private boolean doesLoadFromCache( )
+		private boolean doesLoadFromCache( ) throws DataException
 		{
-			PreparedJointDataSourceQuery self = PreparedJointDataSourceQuery.this;
 			return getDataSetCacheManager()
 					.doesLoadFromCache( null,
 							dataSetDesign,
 							null,
-							appContext,
-							DataSetCacheUtil.getCacheOption( self.dataEngine.getContext( ),
-									appContext ),
-							DataSetCacheUtil.getCacheCount( self.dataEngine.getContext( ), appContext ));
+							appContext
+							);
 		}
 
 		/**

@@ -11,11 +11,13 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.executor;
 
-/**
- * This interface serves as type safty checker for DataSet Cache Objects.
- */
+import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.odi.IResultClass;
 
 public interface IDataSetCacheObject
 {
-
+	boolean isCachedDataReusable(int requiredCapability);
+	boolean needUpdateCache(int requiredCapability);
+	IResultClass getResultClass() throws DataException;
+	void release();
 }

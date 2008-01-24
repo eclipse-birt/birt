@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 
 /**
@@ -60,6 +61,6 @@ public interface IDataSourceFactory
 	public IDataSource getDataSource( String driverName, Map connProperties,
 			IBaseDataSourceDesign dataSourceDesign,
 			IBaseDataSetDesign dataSetDesign, Collection parameterBindings,
-			int cacheOption, int alwaysCacheRowCount, DataEngineSession session, Map appContext );
+			DataEngineSession session, Map appContext ) throws DataException;
     
 }

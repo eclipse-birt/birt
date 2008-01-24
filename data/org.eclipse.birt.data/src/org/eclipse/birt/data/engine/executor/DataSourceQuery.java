@@ -503,11 +503,11 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 			}
 			if ( fetchRowLimit != 0
 					&& fetchRowLimit < session.getDataSetCacheManager( )
-							.getCacheRowCount( ) )
+							.getCacheCapability( ) )
 				odaStatement.setMaxRows( fetchRowLimit );
 			else
 				odaStatement.setMaxRows( session.getDataSetCacheManager( )
-						.getCacheRowCount( ) );
+						.getCacheCapability( ) );
 		}
 		// Execute the prepared statement
 		if ( !odaStatement.execute( ) )

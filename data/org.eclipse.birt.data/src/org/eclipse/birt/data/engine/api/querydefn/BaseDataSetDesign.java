@@ -84,6 +84,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
 	}
 	
 	/**
+	 * @deprecated
      * @return cache row count
      */
     public int getCacheRowCount( )
@@ -92,6 +93,7 @@ public class BaseDataSetDesign implements IBaseDataSetDesign
     }
     
     /**
+     * @deprecated
      * @param cacheRowCount
      */
     public void setCacheRowCount( int cacheRowCount )

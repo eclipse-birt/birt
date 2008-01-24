@@ -304,6 +304,9 @@ public class NewInstanceHelper
 			return null;
 		}
 
+		/**
+		 * @deprecated
+		 */
 		public int getCacheRowCount( )
 		{
 			return 0;

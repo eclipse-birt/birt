@@ -35,7 +35,7 @@ public interface IBaseDataSetDesign
     /**
 	 * When cache option is true, user needs to specify how many rows will be
 	 * retrieved into cache for use.
-	 * 
+	 * @deprecated
 	 * @return cache row count
 	 */
     public abstract int getCacheRowCount( );
