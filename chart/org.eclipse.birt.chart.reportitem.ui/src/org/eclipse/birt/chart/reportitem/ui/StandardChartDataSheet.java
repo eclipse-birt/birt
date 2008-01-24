@@ -52,7 +52,9 @@ import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
 import org.eclipse.birt.report.designer.ui.dialogs.ColumnBindingDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
@@ -1420,30 +1422,62 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 			}
 			else
 			{
-				List measures = ChartXTabUtil.getAllMeasures( cube );
-				if ( !measures.isEmpty( ) )
+				if ( dataProvider.isInheritanceOnly( ) )
 				{
-					String[] exprs = new String[measures.size( )];
-					for ( int i = 0; i < exprs.length; i++ )
+					// Get all column bindings.
+					List dimensionExprs = new ArrayList( );
+					List measureExprs = new ArrayList( );
+					for ( Iterator iter = ( (ReportItemHandle) itemHandle.getContainer( )
+							.getContainer( ) ).getColumnBindings( ).iterator( ); iter.hasNext( ); )
 					{
-						exprs[i] = ExpressionUtil.createJSMeasureExpression( ( (MeasureHandle) measures.get( i ) ).getName( ) );
+						ComputedColumnHandle cch = (ComputedColumnHandle) iter.next( );
+						String dataExpr = ExpressionUtil.createJSDataExpression( cch.getName( ) );
+						if ( ChartXTabUtil.isDimensionExpresion( cch.getExpression( ) ) )
+						{
+							dimensionExprs.add( dataExpr );
+						}
+						else if ( ChartXTabUtil.isMeasureExpresion( cch.getExpression( ) ) )
+						{
+							measureExprs.add( dataExpr );
+						}
 					}
-					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_VALUE,
-							exprs );
-				}
-
-				List levels = ChartXTabUtil.getAllLevels( cube );
-				if ( !levels.isEmpty( ) )
-				{
-					String[] exprs = new String[levels.size( )];
-					for ( int i = 0; i < exprs.length; i++ )
-					{
-						exprs[i] = ChartXTabUtil.createDimensionExpression( (LevelHandle) levels.get( i ) );
-					}
+					String[] exprs = (String[]) dimensionExprs.toArray( new String[dimensionExprs.size( )] );
 					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
 							exprs );
 					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_OPTIONAL,
 							exprs );
+
+					exprs = (String[]) measureExprs.toArray( new String[measureExprs.size( )] );
+					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_VALUE,
+							exprs );
+				}
+				else
+				{
+					List measures = ChartXTabUtil.getAllMeasures( cube );
+					if ( !measures.isEmpty( ) )
+					{
+						String[] exprs = new String[measures.size( )];
+						for ( int i = 0; i < exprs.length; i++ )
+						{
+							exprs[i] = ExpressionUtil.createJSMeasureExpression( ( (MeasureHandle) measures.get( i ) ).getName( ) );
+						}
+						getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_VALUE,
+								exprs );
+					}
+
+					List levels = ChartXTabUtil.getAllLevels( cube );
+					if ( !levels.isEmpty( ) )
+					{
+						String[] exprs = new String[levels.size( )];
+						for ( int i = 0; i < exprs.length; i++ )
+						{
+							exprs[i] = ChartXTabUtil.createDimensionExpression( (LevelHandle) levels.get( i ) );
+						}
+						getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
+								exprs );
+						getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_OPTIONAL,
+								exprs );
+					}
 				}
 			}
 		}
