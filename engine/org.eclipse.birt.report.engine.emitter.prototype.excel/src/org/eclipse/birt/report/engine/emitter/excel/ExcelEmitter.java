@@ -216,11 +216,12 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		super.startData( data );
 		HyperlinkDef url = parseHyperLink( data );
 		BookmarkDef bookmark = getBookmark( data );
+		
 		if ( ( (StyledElementDesign) data.getGenerateBy( ) ).getMap( ) != null
 				&& ( (StyledElementDesign) data.getGenerateBy( ) ).getMap( )
-						.getRuleCount( ) > 0 )
+						.getRuleCount( ) > 0 && data.getLabelText() != null )
 		{
-			engine.addData( data.getText( ).trim( ), data.getComputedStyle( ),
+			engine.addData( data.getLabelText( ).trim( ), data.getComputedStyle( ),
 					url, bookmark );
 		}
 		else if ( !ExcelUtil.getType( data.getValue() ).equals( Data.NUMBER ) )
