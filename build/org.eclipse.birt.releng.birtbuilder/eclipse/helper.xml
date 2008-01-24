@@ -409,8 +409,8 @@
 	<target name="getDTPDownloads" depends="init">
 
 		<tstamp prefix="timestamp">
-			<format property="TODAY_US" pattern="MMddyy" timezone="GMT-16"/>
-			<format property="TODAY_SH" pattern="MMddyy" />
+			<format property="TODAY_US" pattern="yyyyMMdd" timezone="GMT-16"/>
+			<format property="TODAY_SH" pattern="yyyyMMdd" />
 		</tstamp>
 
 		<property name="plugin-dest" value="${baseLocation}"/>
