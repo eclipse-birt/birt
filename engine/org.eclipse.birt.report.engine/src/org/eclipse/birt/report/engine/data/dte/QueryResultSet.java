@@ -293,22 +293,44 @@ public class QueryResultSet implements IQueryResultSet
 
 	public Object evaluate( String expr ) throws BirtException
 	{
-		// FIXME: use the RSet to evaluate is diffent with
-		// the context evaluate.
-		return context.evaluate( expr );
+		IBaseResultSet oldRSet = context.getResultSet( );
+		if ( oldRSet != this )
+		{
+			context.setResultSet( this );
+		}
+
+		Object result = context.evaluate( expr );
+
+		if ( oldRSet != this )
+		{
+			context.setResultSet( oldRSet );
+		}
+		return result;
 	}
 
 	public Object evaluate( IBaseExpression expr ) throws BirtException
 	{
+		IBaseResultSet oldRSet = context.getResultSet( );
+		if ( oldRSet != this )
+		{
+			context.setResultSet( this );
+		}
+
+		Object result = null;
 		if ( expr instanceof IScriptExpression )
 		{
-			return context.evaluate( ( (IScriptExpression) expr ).getText( ) );
+			result = context.evaluate( ( (IScriptExpression) expr ).getText( ) );
 		}
-		if ( expr instanceof IConditionalExpression )
+		else if ( expr instanceof IConditionalExpression )
 		{
-			return context.evaluateCondExpr( (IConditionalExpression) expr );
+			result = context.evaluateCondExpr( (IConditionalExpression) expr );
 		}
-		return null;
+
+		if ( oldRSet != this )
+		{
+			context.setResultSet( oldRSet );
+		}
+		return result;
 	}
 
 	public DataSetID getID( )
