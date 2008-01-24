@@ -38,8 +38,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
-import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
-import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellViewAdapter;
 import org.eclipse.birt.report.model.api.DataItemHandle;
@@ -78,22 +76,30 @@ public class ChartAggregationCellViewProvider
 
 			// Get the row dimension binding name
 			String nameDimRow = null;
-			content = getFirstContent( getLevelCell( cell.getCrosstab( )
-					.getCrosstabView( ICrosstabConstants.ROW_AXIS_TYPE ) ) );
-			if ( content instanceof DataItemHandle )
+			LevelViewHandle levelView = ChartXTabUtil.getInnermostLevelCell( cell.getCrosstab( ),
+					ICrosstabConstants.ROW_AXIS_TYPE );
+			if ( levelView != null )
 			{
-				DataItemHandle dataItemHandle = (DataItemHandle) content;
-				nameDimRow = dataItemHandle.getResultSetColumn( );
+				content = getFirstContent( levelView.getCell( ) );
+				if ( content instanceof DataItemHandle )
+				{
+					DataItemHandle dataItemHandle = (DataItemHandle) content;
+					nameDimRow = dataItemHandle.getResultSetColumn( );
+				}
 			}
 
 			// Get the column dimension binding name
 			String nameDimColumn = null;
-			content = getFirstContent( getLevelCell( cell.getCrosstab( )
-					.getCrosstabView( ICrosstabConstants.COLUMN_AXIS_TYPE ) ) );
-			if ( content instanceof DataItemHandle )
+			levelView = ChartXTabUtil.getInnermostLevelCell( cell.getCrosstab( ),
+					ICrosstabConstants.COLUMN_AXIS_TYPE );
+			if ( levelView != null )
 			{
-				DataItemHandle dataItemHandle = (DataItemHandle) content;
-				nameDimColumn = dataItemHandle.getResultSetColumn( );
+				content = getFirstContent( levelView.getCell( ) );
+				if ( content instanceof DataItemHandle )
+				{
+					DataItemHandle dataItemHandle = (DataItemHandle) content;
+					nameDimColumn = dataItemHandle.getResultSetColumn( );
+				}
 			}
 
 			// Create the ExtendedItemHandle with default chart model
@@ -223,24 +229,6 @@ public class ChartAggregationCellViewProvider
 			if ( contents != null && contents.size( ) >= 1 )
 			{
 				return contents.get( 0 );
-			}
-		}
-		return null;
-	}
-
-	private CrosstabCellHandle getLevelCell( CrosstabViewHandle xtab )
-	{
-		if ( xtab == null )
-		{
-			return null;
-		}
-		DimensionViewHandle dim = xtab.getDimension( 0 );
-		if ( dim != null )
-		{
-			LevelViewHandle level = dim.getLevel( 0 );
-			if ( level != null )
-			{
-				return level.getCell( );
 			}
 		}
 		return null;

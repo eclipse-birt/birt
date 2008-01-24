@@ -16,6 +16,8 @@ import java.util.List;
 import javax.olap.OLAPException;
 import javax.olap.cursor.EdgeCursor;
 
+import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
@@ -34,6 +36,7 @@ public final class BIRTChartXtabResultSetEvaluator
 
 	private final ExtendedItemHandle handle;
 	private boolean bSubCursor = false;
+	private boolean bTransposed = false;
 
 	public BIRTChartXtabResultSetEvaluator( ICubeResultSet rs,
 			ExtendedItemHandle handle )
@@ -51,22 +54,18 @@ public final class BIRTChartXtabResultSetEvaluator
 			AggregationCellHandle cellHandle = ChartXTabUtil.getXtabContainerCell( handle );
 			LevelHandle levelAggColumn = cellHandle.getAggregationOnColumn( );
 			LevelHandle levelAggRow = cellHandle.getAggregationOnRow( );
-			if ( cellHandle.getSpanOverOnColumn( ) != null )
+			Chart cm = ChartReportItemUtil.getChartFromHandle( handle );
+			bTransposed = ( (ChartWithAxes) cm ).isTransposed( );
+			if ( !bTransposed )
 			{
 				// Horizontal span
 				if ( levelAggColumn != null && levelAggRow != null )
 				{
-					// cubeCursor = parent.getSubCubeCursor( null,
-					// ChartReportItemUtil.createDimensionExpression(
-					// levelAggRow ),
-					// null,
-					// null );
-
 					// row cursor is the main
 					List edges = cubeCursor.getOrdinateEdge( );
 					this.mainEdgeCursor = (EdgeCursor) edges.get( 1 );
 					this.subEdgeCursor = (EdgeCursor) edges.get( 0 );
-
+					
 					bSubCursor = true;
 				}
 				else
@@ -80,13 +79,6 @@ public final class BIRTChartXtabResultSetEvaluator
 				// Vertical span
 				if ( levelAggColumn != null && levelAggRow != null )
 				{
-					// cubeCursor = parent.getSubCubeCursor(
-					// ChartReportItemUtil.createDimensionExpression(
-					// levelAggColumn ),
-					// null,
-					// null,
-					// null );
-
 					// column cursor is the main
 					List edges = cubeCursor.getOrdinateEdge( );
 					this.mainEdgeCursor = (EdgeCursor) edges.get( 0 );
@@ -126,17 +118,10 @@ public final class BIRTChartXtabResultSetEvaluator
 
 			if ( !bSubCursor )
 			{
-				return super.first( );
+				return mainEdgeCursor.first( );
 			}
 
-			 mainEdgeCursor.first( );
-			// ChartReportItemImpl item = getReportItem( );
-			// for ( int cursorIndex = item.getIndexOfChartInXtab( );
-			// cursorIndex > 0; cursorIndex-- )
-			// {
-			// // mainEdgeCursor.next( );
-			// }
-			// item.nextChartInXtab( );
+			mainEdgeCursor.first( );
 
 			return subEdgeCursor.first( );
 		}
@@ -149,13 +134,12 @@ public final class BIRTChartXtabResultSetEvaluator
 
 	public boolean next( )
 	{
-		if ( !bSubCursor )
-		{
-			return super.next( );
-		}
-
 		try
 		{
+			if ( !bSubCursor )
+			{
+				return mainEdgeCursor.next( );
+			}
 			return subEdgeCursor.next( );
 		}
 		catch ( OLAPException e )
@@ -164,10 +148,4 @@ public final class BIRTChartXtabResultSetEvaluator
 		}
 		return false;
 	}
-
-	// private ChartReportItemImpl getReportItem( )
-	// throws ExtendedElementException
-	// {
-	// return (ChartReportItemImpl) handle.getReportItem( );
-	// }
 }

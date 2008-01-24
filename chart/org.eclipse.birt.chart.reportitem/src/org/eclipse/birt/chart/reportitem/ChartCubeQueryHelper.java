@@ -38,6 +38,7 @@ import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeSortDefinition;
@@ -46,7 +47,11 @@ import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
+import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
@@ -104,17 +109,75 @@ class ChartCubeQueryHelper implements IQueryExpressionReplaceable
 		iae.addExpressionReplaceable( this );
 	}
 
-	public ICubeQueryDefinition createCubeQuery( IDataQueryDefinition parent )
+	public IBaseCubeQueryDefinition createCubeQuery( IDataQueryDefinition parent )
 			throws BirtException
 	{
-		CubeHandle cubeHandle = ChartXTabUtil.getBindingCube( handle );
+		CubeHandle cubeHandle = handle.getCube( );
+		ICubeQueryDefinition cubeQuery = null;
 		if ( cubeHandle == null )
 		{
-			throw new ChartException( ChartReportItemPlugin.ID,
-					ChartException.NULL_DATASET,
-					Messages.getString( "ChartCubeQueryHelper.Error.MustBindCube" ) ); //$NON-NLS-1$
+			// Create sub query for chart in xtab
+			cubeHandle = ChartXTabUtil.getBindingCube( handle );
+			if ( cubeHandle == null )
+			{
+				throw new ChartException( ChartReportItemPlugin.ID,
+						ChartException.NULL_DATASET,
+						Messages.getString( "ChartCubeQueryHelper.Error.MustBindCube" ) ); //$NON-NLS-1$
+			}
+
+			CrosstabReportItemHandle xtab = ChartXTabUtil.getXtabContainerCell( handle )
+					.getCrosstab( );
+			LevelViewHandle levelColumn = ChartXTabUtil.getInnermostLevelCell( xtab,
+					ICrosstabConstants.COLUMN_AXIS_TYPE );
+			LevelViewHandle levelRow = ChartXTabUtil.getInnermostLevelCell( xtab,
+					ICrosstabConstants.ROW_AXIS_TYPE );
+
+			if ( cm instanceof ChartWithAxes )
+			{
+				if ( ( (ChartWithAxes) cm ).isTransposed( ) )
+				{
+					if ( levelColumn != null )
+					{
+						ISubCubeQueryDefinition subCubeQuery = ChartXTabUtil.getCubeElementFactory( )
+								.createSubCubeQuery( cubeHandle.getQualifiedName( ) );
+						subCubeQuery.setStartingLevelOnColumn( ChartXTabUtil.createDimensionExpression( levelColumn.getCubeLevel( ) ) );
+						return subCubeQuery;
+					}
+					else if ( ChartXTabUtil.getLevelCount( xtab,
+							ICrosstabConstants.ROW_AXIS_TYPE ) > 1 )
+					{
+						// Multiple levels
+						ISubCubeQueryDefinition subCubeQuery = ChartXTabUtil.getCubeElementFactory( )
+								.createSubCubeQuery( cubeHandle.getQualifiedName( ) );
+						subCubeQuery.setStartingLevelOnRow( ChartXTabUtil.createDimensionExpression( levelRow.getCubeLevel( ) ) );
+						return subCubeQuery;
+					}
+					// If corresponding column is null, do not use subquery
+				}
+				else
+				{
+					if ( levelRow != null )
+					{
+						ISubCubeQueryDefinition subCubeQuery = ChartXTabUtil.getCubeElementFactory( )
+								.createSubCubeQuery( cubeHandle.getQualifiedName( ) );
+						subCubeQuery.setStartingLevelOnRow( ChartXTabUtil.createDimensionExpression( levelRow.getCubeLevel( ) ) );
+						return subCubeQuery;
+					}
+					else if ( ChartXTabUtil.getLevelCount( xtab,
+							ICrosstabConstants.COLUMN_AXIS_TYPE ) > 1 )
+					{
+						// Multiple levels
+						ISubCubeQueryDefinition subCubeQuery = ChartXTabUtil.getCubeElementFactory( )
+								.createSubCubeQuery( cubeHandle.getQualifiedName( ) );
+						subCubeQuery.setStartingLevelOnColumn( ChartXTabUtil.createDimensionExpression( levelColumn.getCubeLevel( ) ) );
+						return subCubeQuery;
+					}
+					// If corresponding row is null, do not use subquery
+				}
+			}
 		}
-		ICubeQueryDefinition cubeQuery = ChartXTabUtil.getCubeElementFactory( )
+
+		cubeQuery = ChartXTabUtil.getCubeElementFactory( )
 				.createCubeQuery( cubeHandle.getQualifiedName( ) );
 
 		// Add column bindings from handle
