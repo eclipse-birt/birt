@@ -357,13 +357,23 @@ public class ExcelUtil
 			return 0;
 		}
 	}
-    public static boolean isNumber( String val )
+
+	// the parse method can just see if the start of the String is a number
+	// like "123 bbs"
+	// it will parse successful and returns the value of 123 in number
+	public static boolean isNumber( String val )
 	{
 		NumberFormat nf = NumberFormat.getInstance( );
 		try
 		{
-			nf.parse( val );
-			return true;
+			if ( nf.parse( val ).toString( ).length( ) == val.length( ) )
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 		catch ( Exception e )
 		{
