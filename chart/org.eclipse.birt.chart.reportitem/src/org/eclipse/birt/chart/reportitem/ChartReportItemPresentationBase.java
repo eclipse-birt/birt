@@ -495,7 +495,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 			if ( ChartReportItemUtil.canContainGrouping( cm ) )
 			{
 				return new BIRTGroupedQueryResultSetEvaluator( (IQueryResultSet) set,
-						ChartReportItemUtil.hasAggregation( cm ) );
+						ChartReportItemUtil.hasAggregation( cm ), isSubQuery( ) );
 			}
 			return new BIRTQueryResultSetEvaluator( (IQueryResultSet) set );
 		}
@@ -509,6 +509,11 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 			return new BIRTCubeResultSetEvaluator( (ICubeResultSet) set );
 		}
 		return null;
+	}
+	
+	private boolean isSubQuery( )
+	{
+		return handle.getDataSet( ) == null;
 	}
 
 	protected ScaleContext createSharedScale( IBaseResultSet baseResultSet )

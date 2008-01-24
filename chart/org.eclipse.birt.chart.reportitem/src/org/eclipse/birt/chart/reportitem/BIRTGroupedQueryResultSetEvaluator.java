@@ -38,6 +38,21 @@ public class BIRTGroupedQueryResultSetEvaluator
 		
 		fQueryResultSet = resultSet;
 	}
+	
+	/**
+	 * Constructor.
+	 * 
+	 * @param resultSet
+	 * @param hasAggregation
+	 * @param isSubQuery
+	 * @since 2.3
+	 */
+	public BIRTGroupedQueryResultSetEvaluator( IQueryResultSet resultSet,
+			boolean hasAggregation, boolean isSubQuery )
+	{
+		super( resultSet.getResultIterator( ), hasAggregation, isSubQuery );
+		fQueryResultSet = resultSet;
+	}
 
 	/*
 	 * (non-Javadoc)
