@@ -182,7 +182,14 @@ public class DataDefinitionTextManager
 		EObject object = query;
 		while ( !( object instanceof Axis ) )
 		{
-			object = object.eContainer( );
+			if ( object != null )
+			{
+				object = object.eContainer( );
+			}
+			else
+			{
+				return;
+			}
 		}
 
 		Axis axis = (Axis) object;
