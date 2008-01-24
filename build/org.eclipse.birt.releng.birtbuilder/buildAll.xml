@@ -17,7 +17,7 @@
 	<property name="eclipse.build.configs" value="${basedir}/eclipse/buildConfigs" />
 	
 	<property name="sdkHelper" location="${eclipse.build.configs}/eclipse/helper.xml"/>
-	<property name="base.builder" value="${basedir}/../BaseBuilder" />
+	<property name="base.builder" value="${basedir}/../org.eclipse.releng.basebuilder" />
 	
 	<!--location of properties file containing last tag used for integration build-->
 	<property name="mapTag.properties" value="/home/users/releng/buildTools/eclipse33/mapTag.properties"/>
@@ -55,15 +55,15 @@
 				<antcall target="pushUpdateSiteLocal"/>
 			</sequential>
 			<sequential>
-				<!--
+			<!--
 				<antcall target="generateJavaCrossReference"/>
 				<antcall target="generateDocumentCheck"/>
 				<antcall target="generateJavaDoc"/>
-				-->
+			-->
 			</sequential>
 		</parallel>
-		<antcall target="runBirtTest"/>
 		<!--
+		<antcall target="runBirtTest"/>
 		<antcall target="runBirtPerformance"/>
 		-->
 	</target>
@@ -233,7 +233,7 @@
 			<arg line=" pack200" />
 		</exec>
 		<!--
-		<java jar="${basedir}/../BaseBuilder/plugins/org.eclipse.equinox.launcher.jar"
+		<java jar="${basedir}/../org.eclipse.releng.basebuilder/plugins/org.eclipse.equinox.launcher.jar"
 				fork="true"
 				timeout="10800000"
 				jvm="${jvm15_home}/bin/java"
@@ -248,7 +248,7 @@
 		
 		<!-- create Pack200 update jars -->
 		<!--
-		<java jar="${basedir}/../BaseBuilder/plugins/org.eclipse.equinox.launcher.jar"
+		<java jar="${basedir}/../org.eclipse.releng.basebuilder/plugins/org.eclipse.equinox.launcher.jar"
 				fork="true"
 				timeout="10800000"
 				jvm="${jvm15_home}/bin/java"

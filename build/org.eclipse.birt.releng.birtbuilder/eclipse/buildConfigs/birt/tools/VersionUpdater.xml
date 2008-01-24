@@ -521,7 +521,7 @@
 				<param name="project.name" value="${projectName}"/>
 			</antcall>	
 		</forEach>
-        <exec executable="/home/adb/farrah/BIRTBuilder/eclipse/buildConfigs/birt/tools/test.sh" output="result">
+        <exec executable="/home/adb/farrah/org.eclipse.birt.releng.birtbuilder/eclipse/buildConfigs/birt/tools/test.sh" output="result">
                 <arg value="=.v"/>
                 <arg value="=v"/>
                 <arg value="${buildDirectory}/pluginVersions.properties"/>
@@ -547,7 +547,7 @@
         <echo message="${p4.home}/CvsResult/DaysInPast/${project.name}_DayInPast.xml" />
         <echo message=" ${plugin.LastDate} days" />
         <echo message="replacing version in ${buildDirectory}/pluginVersions.properties ..." />
-        <exec executable="/home/adb/farrah/BIRTBuilder/eclipse/buildConfigs/birt/tools/test.sh" >
+        <exec executable="/home/adb/farrah/org.eclipse.birt.releng.birtbuilder/eclipse/buildConfigs/birt/tools/test.sh" >
                 <arg value="${project.name}=HEAD"/>
                 <arg value="${project.name}=${plugin.LastDate}"/>
                 <arg value="${buildDirectory}/pluginVersions.properties"/>

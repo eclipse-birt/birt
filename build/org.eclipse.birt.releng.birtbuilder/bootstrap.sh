@@ -58,7 +58,7 @@ buildLabel=""
 mapVersionTag=HEAD
 
 # directory in which to export builder projects
-builderDir=/home/adb/releng.230/BIRTBuilder/
+builderDir=/home/adb/releng.230/org.eclipse.birt.releng.birtbuilder/
 
 # buildtype determines whether map file tags are used as entered or are replaced with HEAD
 buildType=I
@@ -105,7 +105,7 @@ do
 		 		 -skipTest) skipTest="-Dskip.tests=true";;
 		 		 -buildDirectory) builderDir="$2"; shift;;
 		 		 -notify) recipients="$2"; shift;;
-		 		 -test) postingDirectory="/builds/transfer/files/bogus/downloads/drops";testBuild="-Dtest=true";;
+		 		 -test) testBuild="-Dnomail=true";;
 		 		 -builderTag) buildProjectTags="$2"; shift;;
 		 		 -compareMaps) compareMaps="-DcompareMaps=true";;
 		 		 -updateSite) updateSite="-DupdateSite=$2";shift;;
@@ -177,10 +177,10 @@ chmod -R 755 $builderDir
 
 #default value of the bootclasspath attribute used in ant javac calls.  
 bootclasspath="/usr/local/j2sdk1.4.2_13/jre/lib/rt.jar:/usr/local/j2sdk1.4.2_13/jre/lib/jsse.jar"
-bootclasspath_15="/usr/local/jdk1.5.0_02/jre/lib/rt.jar"
+bootclasspath_15="/usr/local/jdk1.5.0_02/jre/lib/rt.jar:/usr/local/jdk1.5.0_02/jre/lib/jsse.jar"
 jvm15_home="/usr/local/jdk1.5.0_02"
 
-cd /home/adb/releng.230/BIRTBuilder
+cd /home/adb/releng.230/org.eclipse.birt.releng.birtbuilder
 
 echo buildId=$buildId >> monitor.properties 
 echo timestamp=$timestamp >> monitor.properties 
@@ -189,12 +189,12 @@ echo recipients=$recipients >> monitor.properties
 echo log=$postingDirectory/$buildLabel/index.php >> monitor.properties
 
 #the base command used to run AntRunner headless
-antRunner="/usr/local/j2sdk1.4.2_13/bin/java -Xmx500m -jar ../BaseBuilder/plugins/org.eclipse.equinox.launcher.jar -Dosgi.os=linux -Dosgi.ws=gtk -Dosgi.arch=ppc -application org.eclipse.ant.core.antRunner"
+antRunner="/usr/local/jdk1.5.0_02/bin/java -Xmx500m -jar ../org.eclipse.releng.basebuilder/plugins/org.eclipse.equinox.launcher.jar -Dosgi.os=linux -Dosgi.ws=gtk -Dosgi.arch=ppc -application org.eclipse.ant.core.antRunner"
 
 echo "==========[antRunner]: $antRunner" >> adb.log
 
 
-/home/adb/releng.230/BIRTBuilder/replaceBuildInfo.sh $buildinfoDate $buildinfounivDate
+/home/adb/releng.230/org.eclipse.birt.releng.birtbuilder/replaceBuildInfo.sh $buildinfoDate $buildinfounivDate
 
 #clean drop directories
 #ant -buildfile eclipse/helper.xml cleanBuild -propertyfile build.properties>> adb.log
@@ -202,22 +202,22 @@ ant -buildfile eclipse/helper.xml getDTPDownloads -propertyfile build.properties
 ant -buildfile eclipse/helper.xml CheckoutFromP4 >> adb.log
 
 #full command with args
-#buildId=v20070626-1010
-echo $tagMaps >> adb.log
+#buildId=v20071219-1029
+echo "tagMaps flag:" $tagMaps >> adb.log
 echo $compareMaps >> adb.log
 
 
 buildCommand="$antRunner -q -buildfile buildAll.xml $mail $testBuild $compareMaps \
 -DmapVersionTag=$mapVersionTag -DpostingDirectory=$postingDirectory \
--Dbootclasspath=$bootclasspath -DbuildType=$buildType -D$buildType=true \
+-Dbootclasspath=$bootclasspath_15 -DbuildType=$buildType -D$buildType=true \
 -DbuildId=$buildId -Dbuildid=$buildId -DbuildLabel=$buildId -Dtimestamp=$timestamp $skipPerf $skipTest $tagMaps \
 -DJ2SE-1.5=$bootclasspath_15  -DlogExtension=.xml $javadoc $updateSite $sign  \
 -Djava15-home=$bootclasspath_15 -DbuildDirectory=/home/adb/releng.230/src \
 -DbaseLocation=/home/adb/releng.230/baseLocation -DbaseLocation.emf=/home/adb/releng.230/baseLocation.emf \
--DgroupConfiguration=true -DjavacSource=1.4 -DjavacTarget=1.4 -DjavacVerbose=true \
--Dbasebuilder=/home/adb/releng.230/BaseBuilder -DpostPackage=BIRTOutput  \
+-DgroupConfiguration=true -DjavacVerbose=true \
+-Dbasebuilder=/home/adb/releng.230/org.eclipse.releng.basebuilder -DpostPackage=BIRTOutput  \
 -Dtest.dir=/home/adb/releng.230/unittest -Dp4.home=/home/adb/releng.230/P4 \
--Djvm15_home=$jvm15_home  -DmapTag.properties=/home/adb/releng.230/BIRTBuilder/mapTag.properties \
+-Djvm15_home=$jvm15_home  -DmapTag.properties=/home/adb/releng.230/org.eclipse.birt.releng.birtbuilder/mapTag.properties \
 -Dbuild.date=$builddate -DmapCvsRoot=:ext:xgu@dev.eclipse.org:/cvsroot/birt -Dpackage.version=2_3_0 \
 -DmapVersionTag=HEAD -DBranchVersion=2.3.0"
 
