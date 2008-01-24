@@ -94,7 +94,9 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 	private String outputFormat;
 	protected HashMap templates = new HashMap( );
 	private OnRenderScriptVisitor onRenderVisitor;
-	
+    final static char[] HEX = {'0', '1', '2', '3', '4', '5', '6', '7', '8',
+		'9', 'A', 'B', 'C', 'D', 'E', 'F'}; 
+    
 	public LocalizedContentVisitor( ExecutionContext context )
 	{
 		this.context = context;
@@ -329,7 +331,40 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 				}
 				else
 				{
-					text = value.toString( );
+					if ( value instanceof byte[] )
+					{
+						byte[] bytes = (byte[]) value;
+						int length = ( bytes.length <= 8 ? bytes.length : 8 );
+
+						StringBuilder buffer = new StringBuilder( );
+						int index = 0;
+						while ( index < length )
+						{
+							byte byteValue = bytes[index];
+							int lowValue = byteValue & 0x0F;
+							int highValue = byteValue >>> 4;
+							buffer.append( HEX[highValue] ).append(
+									HEX[lowValue] ).append( ' ' );
+							index++;
+						}
+						if ( length > 0 )
+						{
+							if ( length != bytes.length )
+							{
+								buffer.append( "..." );
+							}
+							else
+							{
+								buffer.setLength( buffer.length( ) - 1 );
+							}
+						}
+
+						text = buffer.toString( );
+					}
+					else
+					{
+						text = value.toString( );
+					}
 				}
 			}
 		}
