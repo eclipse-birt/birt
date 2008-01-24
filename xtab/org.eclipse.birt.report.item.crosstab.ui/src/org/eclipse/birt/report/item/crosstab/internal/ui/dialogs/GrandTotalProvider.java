@@ -21,6 +21,7 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDial
 import org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -176,7 +177,14 @@ public class GrandTotalProvider extends TotalProvider implements
 		// TODO Auto-generated method stub
 		if ( Arrays.asList( columnNames ).indexOf( property ) == 2 )
 		{
-			return true;
+			if(viewer instanceof CheckboxTableViewer)
+			{
+				return ((CheckboxTableViewer)viewer).getChecked( element );
+			}else
+			{
+				return true;
+			}
+			
 		}
 		else
 		{

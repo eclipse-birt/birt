@@ -133,7 +133,7 @@ public class ShowSummaryFieldDialog extends BaseDialog
 			// TODO Auto-generated method stub
 			if ( Arrays.asList( columnNames ).indexOf( property ) == 1 )
 			{
-				return true;
+				return summaryFieldViewer.getChecked( element );
 			}
 			else
 			{
