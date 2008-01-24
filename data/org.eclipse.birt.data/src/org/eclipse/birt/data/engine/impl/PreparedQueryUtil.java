@@ -45,6 +45,7 @@ import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
+import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
@@ -344,6 +345,35 @@ class PreparedQueryUtil
 		if ( runningOnRS == false )
 			return BASED_ON_DATASET;
 
+		if ( ! QueryCompUtil.isEqualSorts( queryDefn.getSorts( ),
+					qd.getSorts( )))
+		{
+			Iterator bindings = queryDefn.getBindings( ).values( ).iterator( );
+			while( bindings.hasNext( ) )
+			{
+				IBinding binding = (IBinding)bindings.next( );
+				if( binding.getAggrFunction( ) != null )
+				{
+					if( IBuildInAggregation.TOTAL_FIRST_FUNC.equals( binding.getAggrFunction( ) )
+						|| IBuildInAggregation.TOTAL_LAST_FUNC.equals( binding.getAggrFunction( ) )	)
+					{
+						return BASED_ON_DATASET;
+					}	
+				}
+				//TODO:Remove me after iportal team switch to use new aggregation definition in binding.
+				if( binding.getExpression( )!= null && binding.getExpression( ) instanceof IScriptExpression )
+				{
+					IScriptExpression expr = (IScriptExpression)binding.getExpression( );
+					if ( ExpressionUtil.hasAggregation( expr.getText( ) ))
+					{
+						if( expr.getText( ).matches( ".*\\QTotal.first\\E.*" ) || expr.getText( ).matches( ".*\\QTotal.last\\E.*" ))
+						{
+							return BASED_ON_DATASET;
+						}
+					}
+				}
+			}
+		}
 		// TODO enhance me
 		// If the following conditions hold, running on data set
 		// 1.There are sorts that different from that of original design
