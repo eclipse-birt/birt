@@ -155,6 +155,7 @@ class FilterCalculator
 		sCache.reset( );
 		sCache.next( );
 
+		populator.getQuery( ).setMaxRows( max );
 		makeSecondPassToMultiPassFilter( filterPass, stopSign );
 
 		// Prepare filter expression for top/bottom(n) evaluation
@@ -170,8 +171,6 @@ class FilterCalculator
 		}
 
 		filterPass.setSecondPassRowCount( 0 );
-
-		populator.getQuery( ).setMaxRows( max );
 	}
 
 	/**
