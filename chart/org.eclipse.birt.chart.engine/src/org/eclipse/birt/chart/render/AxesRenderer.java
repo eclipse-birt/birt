@@ -3045,6 +3045,62 @@ public abstract class AxesRenderer extends BaseRenderer
 	}
 
 	/**
+	 * To judge whether current series is the last runtime series in a series
+	 * definition or not .
+	 * 
+	 * @return true current series is the last in series definition
+	 * @since 2.3
+	 */
+	public final boolean isLastRuntimeSeriesInGroup( )
+	{
+		SeriesDefinition sd = null;
+
+		Series se = getSeries( );
+
+		if ( se.eContainer( ) instanceof SeriesDefinition )
+		{
+			sd = (SeriesDefinition) se.eContainer( );
+		}
+
+		if ( sd != null )
+		{
+			Axis cax = getAxis( );
+
+			int iDefintionIndex = cax.getSeriesDefinitions( ).indexOf( sd );
+			int iDefinitionCount = cax.getSeriesDefinitions( ).size( );
+
+			if( sd.getRunTimeSeries( ).size( ) == 1 )
+			{
+				if( iDefinitionCount > 0 && iDefintionIndex == iDefinitionCount - 1 )
+				{
+					int iThisSeriesIndex = sd.getRunTimeSeries( ).indexOf( se );
+					int iSeriesCount = sd.getRunTimeSeries( ).size( );
+
+					if ( iSeriesCount > 0 && iThisSeriesIndex == iSeriesCount - 1 )
+					{
+						return true;
+					}
+				}
+			}
+			else
+			{
+				if ( iDefinitionCount > 0 )
+				{
+					int iThisSeriesIndex = sd.getRunTimeSeries( ).indexOf( se );
+					int iSeriesCount = sd.getRunTimeSeries( ).size( );
+
+					if ( iSeriesCount > 0 && iThisSeriesIndex == iSeriesCount - 1 )
+					{
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Returns the 3D engine for this render.
 	 */
 	protected Engine3D get3DEngine( )
