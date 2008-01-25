@@ -28,6 +28,8 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.graphics.BirtImageLoader;
 import org.eclipse.birt.report.designer.internal.ui.util.graphics.ImageCanvas;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -41,6 +43,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.window.Window;
@@ -92,7 +95,7 @@ public class ImageBuilder extends BaseDialog
 
 	public static final String DLG_TITLE_EDIT = Messages.getString( "ImageBuilder.DialogTitle.Edit" ); //$NON-NLS-1$
 
-	private static final String BUTTON_BROWSE = Messages.getString( "ImageBuilder.Button.Browser" );
+	private static final String BUTTON_BROWSE_TOOLTIP = Messages.getString( "ImageBuilder.Button.Browser.Tooltip" );
 
 	private static final String BUTTON_IMPORT = Messages.getString( "ImageBuilder.Button.Import" );
 
@@ -120,7 +123,7 @@ public class ImageBuilder extends BaseDialog
 
 	private ImageHandle inputImage;
 
-	private Button embedded, uri, dynamic, resource, inputButton, importButton;
+	private Button embedded, uri, dynamic, resource, inputButton, importButton, expressionButton;
 
 	private Composite inputArea;
 
@@ -297,7 +300,7 @@ public class ImageBuilder extends BaseDialog
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.heightHint = 80;
 		inputArea.setLayoutData( gd );
-		inputArea.setLayout( new GridLayout( 2, false ) );
+		inputArea.setLayout( new GridLayout( 3, false ) );
 	}
 
 	private void createPreviewArea( Composite composite )
@@ -352,7 +355,7 @@ public class ImageBuilder extends BaseDialog
 		// Indication Label
 		Label uriEditorLabel = new Label( inputArea, SWT.NONE );
 		GridData labelGd = new GridData( GridData.FILL_HORIZONTAL );
-		labelGd.horizontalSpan = 2;
+		labelGd.horizontalSpan = 3;
 		uriEditorLabel.setLayoutData( labelGd );
 		uriEditorLabel.setText( (String) uriEditorLabelMap.get( new Integer( type ) ) );
 
@@ -399,6 +402,27 @@ public class ImageBuilder extends BaseDialog
 		initList( );
 	}
 
+	public void setOpenFileButtonImage( Button button )
+	{
+		String imageName = IReportGraphicConstants.ICON_OPEN_FILE;
+		Image image = ReportPlatformUIImages.getImage( imageName );
+
+		GridData gd = new GridData( );
+		if ( !Platform.getOS( ).equals( Platform.OS_MACOSX ) )
+		{
+			gd.widthHint = 20;
+			gd.heightHint = 20;
+		}
+		button.setLayoutData( gd );
+
+		button.setImage( image );
+		if ( button.getImage( ) != null )
+		{
+			button.getImage( ).setBackground( button.getBackground( ) );
+		}
+
+	}
+	
 	private void buildInputAreaButton( int type )
 	{
 
@@ -414,16 +438,38 @@ public class ImageBuilder extends BaseDialog
 					openExpression( );
 				}
 			} );
+			new Label(inputArea, SWT.NONE);
 		}
 		else if ( type == FILE_TYPE )
 		{
 			inputButton = new Button( inputArea, SWT.PUSH );
-			inputButton.setText( BUTTON_BROWSE ); //$NON-NLS-1$
+	//		inputButton.setText( BUTTON_BROWSE ); //$NON-NLS-1$
+			setOpenFileButtonImage( inputButton );
 			inputButton.addSelectionListener( new SelectionAdapter( ) {
 
 				public void widgetSelected( SelectionEvent event )
 				{
 					openResourceBrowser( );
+				}
+			} );
+			inputButton.setToolTipText( BUTTON_BROWSE_TOOLTIP );
+			
+			expressionButton = new Button(inputArea, SWT.PUSH);
+			UIUtil.setExpressionButtonImage( expressionButton );
+			expressionButton.addSelectionListener( new SelectionAdapter( ) {
+
+				public void widgetSelected( SelectionEvent event )
+				{
+					ExpressionBuilder expressionBuilder = new ExpressionBuilder( uriEditor.getText( ) );
+					unionDataSets( );
+
+					expressionBuilder.setExpressionProvier( new ExpressionProvider( inputImage ) );
+					if ( expressionBuilder.open( ) == OK )
+					{
+						String uri = expressionBuilder.getResult( );
+						uriEditor.setText( uri );
+						preview( DEUtil.RemoveQuote( uri ) );
+					}
 				}
 			} );
 		}
@@ -491,6 +537,8 @@ public class ImageBuilder extends BaseDialog
 					}
 				}
 			} );
+			
+			new Label(inputArea, SWT.NONE);
 		}
 		else if ( type == BLOB_TYPE )
 		{
@@ -505,6 +553,7 @@ public class ImageBuilder extends BaseDialog
 					openBidingDialog( );
 				}
 			} );
+			new Label(inputArea, SWT.NONE);
 		}
 	}
 
