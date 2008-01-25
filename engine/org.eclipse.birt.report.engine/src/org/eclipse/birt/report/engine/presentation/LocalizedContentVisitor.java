@@ -336,7 +336,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 						byte[] bytes = (byte[]) value;
 						int length = ( bytes.length <= 8 ? bytes.length : 8 );
 
-						StringBuilder buffer = new StringBuilder( );
+						StringBuffer buffer = new StringBuffer( );
 						int index = 0;
 						while ( index < length )
 						{
