@@ -127,9 +127,9 @@ class ChartCubeQueryHelper implements IQueryExpressionReplaceable
 
 			CrosstabReportItemHandle xtab = ChartXTabUtil.getXtabContainerCell( handle )
 					.getCrosstab( );
-			LevelViewHandle levelColumn = ChartXTabUtil.getInnermostLevelCell( xtab,
+			LevelViewHandle levelColumn = ChartXTabUtil.getInnermostLevel( xtab,
 					ICrosstabConstants.COLUMN_AXIS_TYPE );
-			LevelViewHandle levelRow = ChartXTabUtil.getInnermostLevelCell( xtab,
+			LevelViewHandle levelRow = ChartXTabUtil.getInnermostLevel( xtab,
 					ICrosstabConstants.ROW_AXIS_TYPE );
 
 			if ( cm instanceof ChartWithAxes )

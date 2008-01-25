@@ -45,11 +45,8 @@ public final class ChartReportItemPresentationPlotImpl
 				if ( xtabCell.getSpanOverOnColumn( ) != null )
 				{
 					// Horizontal direction
-					CrosstabCellHandle columnCell = xtabCell.getCrosstab( )
-							.getDimension( ICrosstabConstants.COLUMN_AXIS_TYPE,
-									0 )
-							.getLevel( 0 )
-							.getCell( );
+					CrosstabCellHandle columnCell = ChartXTabUtil.getInnermostLevelCell( xtabCell.getCrosstab( ),
+							ICrosstabConstants.COLUMN_AXIS_TYPE );
 					// Get the column width plus border
 					double dWidth = ChartReportItemUtil.convertToPoints( xtabCell.getCrosstab( )
 							.getColumnWidth( columnCell ) );
@@ -63,10 +60,8 @@ public final class ChartReportItemPresentationPlotImpl
 				else if ( xtabCell.getSpanOverOnRow( ) != null )
 				{
 					// Vertical direction plus border
-					CrosstabCellHandle rowCell = xtabCell.getCrosstab( )
-							.getDimension( ICrosstabConstants.ROW_AXIS_TYPE, 0 )
-							.getLevel( 0 )
-							.getCell( );
+					CrosstabCellHandle rowCell = ChartXTabUtil.getInnermostLevelCell( xtabCell.getCrosstab( ),
+							ICrosstabConstants.ROW_AXIS_TYPE );
 					double dHeight = ChartReportItemUtil.convertToPoints( xtabCell.getCrosstab( )
 							.getRowHeight( rowCell ) );
 					double dTopBorder = ChartReportItemUtil.convertToPoints( xtabCell.getCrosstabHandle( )

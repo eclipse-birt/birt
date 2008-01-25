@@ -38,7 +38,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
-import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellViewAdapter;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -76,30 +75,22 @@ public class ChartAggregationCellViewProvider
 
 			// Get the row dimension binding name
 			String nameDimRow = null;
-			LevelViewHandle levelView = ChartXTabUtil.getInnermostLevelCell( cell.getCrosstab( ),
-					ICrosstabConstants.ROW_AXIS_TYPE );
-			if ( levelView != null )
+			content = getFirstContent( ChartXTabUtil.getInnermostLevelCell( cell.getCrosstab( ),
+					ICrosstabConstants.ROW_AXIS_TYPE ) );
+			if ( content instanceof DataItemHandle )
 			{
-				content = getFirstContent( levelView.getCell( ) );
-				if ( content instanceof DataItemHandle )
-				{
-					DataItemHandle dataItemHandle = (DataItemHandle) content;
-					nameDimRow = dataItemHandle.getResultSetColumn( );
-				}
+				DataItemHandle dataItemHandle = (DataItemHandle) content;
+				nameDimRow = dataItemHandle.getResultSetColumn( );
 			}
 
 			// Get the column dimension binding name
 			String nameDimColumn = null;
-			levelView = ChartXTabUtil.getInnermostLevelCell( cell.getCrosstab( ),
-					ICrosstabConstants.COLUMN_AXIS_TYPE );
-			if ( levelView != null )
+			content = getFirstContent( ChartXTabUtil.getInnermostLevelCell( cell.getCrosstab( ),
+					ICrosstabConstants.COLUMN_AXIS_TYPE ) );
+			if ( content instanceof DataItemHandle )
 			{
-				content = getFirstContent( levelView.getCell( ) );
-				if ( content instanceof DataItemHandle )
-				{
-					DataItemHandle dataItemHandle = (DataItemHandle) content;
-					nameDimColumn = dataItemHandle.getResultSetColumn( );
-				}
+				DataItemHandle dataItemHandle = (DataItemHandle) content;
+				nameDimColumn = dataItemHandle.getResultSetColumn( );
 			}
 
 			// Create the ExtendedItemHandle with default chart model
@@ -138,6 +129,20 @@ public class ChartAggregationCellViewProvider
 	{
 		try
 		{
+			// Set null size back
+			CrosstabCellHandle levelCell = ChartXTabUtil.getInnermostLevelCell( cell.getCrosstab( ),
+					ICrosstabConstants.ROW_AXIS_TYPE );
+			if ( levelCell != null )
+			{
+				cell.getCrosstab( ).setRowHeight( levelCell, null );
+			}
+			levelCell = ChartXTabUtil.getInnermostLevelCell( cell.getCrosstab( ),
+					ICrosstabConstants.COLUMN_AXIS_TYPE );
+			if ( levelCell != null )
+			{
+				cell.getCrosstab( ).setColumnWidth( levelCell, null );
+			}
+
 			Chart cm = ChartReportItemUtil.getChartFromHandle( getChartHandle( cell ) );
 			// Remove axis chart
 			ChartXTabUtil.removeAxisChartInXTab( cell, cm );
