@@ -62,7 +62,7 @@ public class CubesNodeProvider extends DefaultNodeProvider
 	 */
 	public String getNodeDisplayName( Object object )
 	{
-		return Messages.getString( "DefaultNodeProvider.Tree.Cubes" );
+		return Messages.getString( "DefaultNodeProvider.Tree.Cubes" ); //$NON-NLS-1$
 	}
 
 	public Image getNodeIcon( Object model )

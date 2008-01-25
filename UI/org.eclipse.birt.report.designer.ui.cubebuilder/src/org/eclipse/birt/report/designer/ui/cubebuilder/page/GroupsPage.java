@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Control;
 public class GroupsPage extends AbstractDescriptionPropertyPage
 {
 
-	public static final String GROUPPAGE_MESSAGE = Messages.getString( "GroupsPage.Title.Message" );
+	public static final String GROUPPAGE_MESSAGE = Messages.getString( "GroupsPage.Title.Message" ); //$NON-NLS-1$
 	private TabularCubeHandle input;
 	private CubeGroupContent cubeGroup;
 	private CubeBuilder builder;
@@ -47,7 +47,7 @@ public class GroupsPage extends AbstractDescriptionPropertyPage
 	{
 		getContainer( ).setMessage( Messages.getString( "GroupsPage.Container.Title.Message" ),//$NON-NLS-1$
 				IMessageProvider.NONE );
-		builder.setTitleTitle( Messages.getString( "GroupsPage.Title.Title" ) );
+		builder.setTitleTitle( Messages.getString( "GroupsPage.Title.Title" ) ); //$NON-NLS-1$
 		builder.setErrorMessage( null );
 		builder.setTitleMessage( GROUPPAGE_MESSAGE );
 		load( );

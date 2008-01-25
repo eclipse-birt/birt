@@ -34,27 +34,27 @@ public class StaticHTMLPrviewPlugin extends AbstractUIPlugin
 {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.eclipse.birt.report.designer.ui.preview.static_html";
+	public static final String PLUGIN_ID = "org.eclipse.birt.report.designer.ui.preview.static_html"; //$NON-NLS-1$
 
-	public static final String IMG_NAV_FIRST = "FirstPage.gif";
+	public static final String IMG_NAV_FIRST = "FirstPage.gif"; //$NON-NLS-1$
 
-	public static final String IMG_NAV_PRE = "PreviousPage.gif";
+	public static final String IMG_NAV_PRE = "PreviousPage.gif"; //$NON-NLS-1$
 
-	public static final String IMG_NAV_NEXT = "NextPage.gif";
+	public static final String IMG_NAV_NEXT = "NextPage.gif"; //$NON-NLS-1$
 
-	public static final String IMG_NAV_LAST = "LastPage.gif";
+	public static final String IMG_NAV_LAST = "LastPage.gif"; //$NON-NLS-1$
 
-	public static final String IMG_NAV_GO = "Go.gif";
+	public static final String IMG_NAV_GO = "Go.gif"; //$NON-NLS-1$
 
-	public static final String IMG_PARAMS = "parameter.gif";
+	public static final String IMG_PARAMS = "parameter.gif"; //$NON-NLS-1$
 
-	public static final String IMG_TOC = "Toc.gif";
+	public static final String IMG_TOC = "Toc.gif"; //$NON-NLS-1$
 
-	public static final String IMG_FORM_TITLE = "form_title.gif";
+	public static final String IMG_FORM_TITLE = "form_title.gif"; //$NON-NLS-1$
 
-	public static final String IMG_TOC_LEAF = "Leaf.gif";
+	public static final String IMG_TOC_LEAF = "Leaf.gif"; //$NON-NLS-1$
 	
-	public static final String IMG_RE_RUN = "preview.gif";
+	public static final String IMG_RE_RUN = "preview.gif"; //$NON-NLS-1$
 
 	// The shared instance
 	private static StaticHTMLPrviewPlugin plugin;
@@ -124,7 +124,7 @@ public class StaticHTMLPrviewPlugin extends AbstractUIPlugin
 
 	private void deleteTempFile( )
 	{
-		Job deleteJob = new Job( "Delete temporary files" ) {
+		Job deleteJob = new Job( "Delete temporary files" ) { //$NON-NLS-1$
 
 			protected IStatus run( IProgressMonitor monitor )
 			{

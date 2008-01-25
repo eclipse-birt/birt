@@ -16,7 +16,7 @@ public class CheckSection extends Section
 
 	public CheckSection( Composite parent, boolean isFormStyle )
 	{
-		super( " ", parent, isFormStyle );
+		super( " ", parent, isFormStyle ); //$NON-NLS-1$
 	}
 
 	public CheckSection( Composite parent, String title, boolean isFormStyle )
@@ -28,7 +28,7 @@ public class CheckSection extends Section
 
 	public void createSection( )
 	{
-		if ( !getLabelText( ).trim( ).equals( "" ) )
+		if ( !getLabelText( ).trim( ).equals( "" ) ) //$NON-NLS-1$
 			getLabelControl( parent );
 		getCheckControl( parent );
 		getGridPlaceholder( parent );

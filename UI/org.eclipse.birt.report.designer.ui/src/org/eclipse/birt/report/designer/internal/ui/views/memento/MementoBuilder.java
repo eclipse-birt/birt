@@ -29,7 +29,7 @@ public class MementoBuilder
 	
 	public MementoElement createElement( String id, String type )
 	{
-		if ( id != null && !"".equals( id ) )
+		if ( id != null && !"".equals( id ) ) //$NON-NLS-1$
 		{
 			MementoElement memento;
 

@@ -27,7 +27,6 @@ import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularLevelHandle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
-import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 
 /**
  * A factory for creating new Edit Parts for the Joins Page

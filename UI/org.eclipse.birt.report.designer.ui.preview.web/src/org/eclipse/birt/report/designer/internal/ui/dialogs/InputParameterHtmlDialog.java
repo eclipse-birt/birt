@@ -70,7 +70,7 @@ public class InputParameterHtmlDialog extends Dialog
 	/**
 	 * Taget Browser object
 	 */
-	private Browser target;
+	//private Browser target;
 
 	// parameter viewer model.
 	public static final String VIEWER_PARAMETER = "parameter"; //$NON-NLS-1$
@@ -104,7 +104,7 @@ public class InputParameterHtmlDialog extends Dialog
 		super( parent );
 		this.title = title;
 		this.uri = uri;
-		this.target = target;
+		//this.target = target;
 	}
 
 	/**

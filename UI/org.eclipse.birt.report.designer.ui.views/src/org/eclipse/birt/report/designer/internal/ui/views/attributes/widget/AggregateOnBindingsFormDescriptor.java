@@ -57,14 +57,14 @@ public class AggregateOnBindingsFormDescriptor extends DataSetColumnBindingsForm
 
 		if ( isFormStyle( ) )
 			btnAddAggregateOn = FormWidgetFactory.getInstance( )
-					.createButton( (Composite) control, "", SWT.PUSH );
+					.createButton( (Composite) control, "", SWT.PUSH ); //$NON-NLS-1$
 		else
 			btnAddAggregateOn = new Button( (Composite) control, SWT.BORDER );
 
 		if ( bAddWithDialog )
 			btnAddAggregateOn.setText( Messages.getString( "FormPage.Button.AddWithDialog.AggregateOn" ) ); //$NON-NLS-1$
 		else
-			btnAddAggregateOn.setText( Messages.getString( "FormPage.Button.Add.AggregateOn" ) );
+			btnAddAggregateOn.setText( Messages.getString( "FormPage.Button.Add.AggregateOn" ) ); //$NON-NLS-1$
 		btnAddAggregateOn.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )

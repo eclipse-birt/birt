@@ -145,10 +145,10 @@ public class ReportPlugin extends AbstractUIPlugin
 			ReportDesignConstants.TABULAR_DIMENSION_ELEMENT,
 			
 			// filter some extension items;
-			"CrosstabView",
-			"DimensionView",
-			"LevelView",
-			"MeasureView"
+			"CrosstabView", //$NON-NLS-1$
+			"DimensionView", //$NON-NLS-1$
+			"LevelView", //$NON-NLS-1$
+			"MeasureView" //$NON-NLS-1$
 			
 	} );
 
@@ -1130,9 +1130,9 @@ public class ReportPlugin extends AbstractUIPlugin
 				String id = elements[i].getAttribute( "id" ); //$NON-NLS-1$
 				if ( "org.eclipse.birt.report.designer.ui.editors.ReportEditor".equals( id ) ) //$NON-NLS-1$
 				{
-					if ( elements[i].getAttribute( "extensions" ) != null )
+					if ( elements[i].getAttribute( "extensions" ) != null ) //$NON-NLS-1$
 					{
-						String[] extensionNames = elements[i].getAttribute( "extensions" )
+						String[] extensionNames = elements[i].getAttribute( "extensions" ) //$NON-NLS-1$
 								//$NON-NLS-1$
 								.split( "," ); //$NON-NLS-1$
 						for ( int j = 0; j < extensionNames.length; j++ )

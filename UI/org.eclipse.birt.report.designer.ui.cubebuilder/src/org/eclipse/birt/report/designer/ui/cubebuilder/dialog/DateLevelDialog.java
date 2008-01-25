@@ -38,7 +38,7 @@ import org.eclipse.swt.widgets.Text;
 public class DateLevelDialog extends TitleAreaDialog
 {
 
-	private static final String NONE = Messages.getString( "DateLevelDialog.None" );
+	private static final String NONE = Messages.getString( "DateLevelDialog.None" ); //$NON-NLS-1$
 	private Text nameText;
 	private Combo typeCombo;
 	private TabularLevelHandle input;
@@ -50,81 +50,81 @@ public class DateLevelDialog extends TitleAreaDialog
 		formatMap.put( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR,
 				new String[][]{
 						{
-								new DateFormatter( "yyyy" ).format( defaultDate ),
-								"yyyy"
+								new DateFormatter( "yyyy" ).format( defaultDate ), //$NON-NLS-1$
+								"yyyy" //$NON-NLS-1$
 						},
 						{
-								new DateFormatter( "yy" ).format( defaultDate ),
-								"yy"
+								new DateFormatter( "yy" ).format( defaultDate ), //$NON-NLS-1$
+								"yy" //$NON-NLS-1$
 						}
 				} );
 		formatMap.put( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH,
 				new String[][]{
 						{
-								new DateFormatter( "MMMM" ).format( defaultDate ),
-								"MMMM"
+								new DateFormatter( "MMMM" ).format( defaultDate ), //$NON-NLS-1$
+								"MMMM" //$NON-NLS-1$
 						},
 						{
-								new DateFormatter( "MMM yyyy" ).format( defaultDate ),
-								"MMM yyyy"
+								new DateFormatter( "MMM yyyy" ).format( defaultDate ), //$NON-NLS-1$
+								"MMM yyyy" //$NON-NLS-1$
 						},
 						{
-								new DateFormatter( "MMM yy" ).format( defaultDate ),
-								"MMM yy"
+								new DateFormatter( "MMM yy" ).format( defaultDate ), //$NON-NLS-1$
+								"MMM yy" //$NON-NLS-1$
 						}
 				} );
 		formatMap.put( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR,
 				new String[][]{
 						{
-								new DateFormatter( "MMMM dd, yyyy" ).format( defaultDate ),
-								"MMMM dd, yyyy"
+								new DateFormatter( "MMMM dd, yyyy" ).format( defaultDate ), //$NON-NLS-1$
+								"MMMM dd, yyyy" //$NON-NLS-1$
 						},
 						{
-								new DateFormatter( "MMMM dd, yy" ).format( defaultDate ),
-								"MMMM dd, yy"
+								new DateFormatter( "MMMM dd, yy" ).format( defaultDate ), //$NON-NLS-1$
+								"MMMM dd, yy" //$NON-NLS-1$
 						}
 				} );
 		formatMap.put( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_MONTH,
 				new String[][]{
 					{
-							new DateFormatter( "dd" ).format( defaultDate ),
-							"dd"
+							new DateFormatter( "dd" ).format( defaultDate ), //$NON-NLS-1$
+							"dd" //$NON-NLS-1$
 					}
 				} );
 		formatMap.put( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_WEEK,
 				new String[][]{
 					{
-							new DateFormatter( "EEEE" ).format( defaultDate ),
-							"EEEE"
+							new DateFormatter( "EEEE" ).format( defaultDate ), //$NON-NLS-1$
+							"EEEE" //$NON-NLS-1$
 					}
 				} );
 		formatMap.put( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_HOUR,
 				new String[][]{
 						{
-								new DateFormatter( "HH:mm:ss aaa" ).format( defaultDate ),
-								"HH:mm:ss aaa"
+								new DateFormatter( "HH:mm:ss aaa" ).format( defaultDate ), //$NON-NLS-1$
+								"HH:mm:ss aaa" //$NON-NLS-1$
 						},
 						{
-								new DateFormatter( "HH:mm:ss" ).format( defaultDate ),
-								"HH:mm:ss"
+								new DateFormatter( "HH:mm:ss" ).format( defaultDate ), //$NON-NLS-1$
+								"HH:mm:ss" //$NON-NLS-1$
 						},
 						{
-								new DateFormatter( "HH:mm" ).format( defaultDate ),
-								"HH:mm"
+								new DateFormatter( "HH:mm" ).format( defaultDate ), //$NON-NLS-1$
+								"HH:mm" //$NON-NLS-1$
 						}
 				} );
 		formatMap.put( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MINUTE,
 				new String[][]{
 					{
-							new DateFormatter( "mm" ).format( defaultDate ),
-							"mm"
+							new DateFormatter( "mm" ).format( defaultDate ), //$NON-NLS-1$
+							"mm" //$NON-NLS-1$
 					}
 				} );
 		formatMap.put( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_SECOND,
 				new String[][]{
 					{
-							new DateFormatter( "ss" ).format( defaultDate ),
-							"ss"
+							new DateFormatter( "ss" ).format( defaultDate ), //$NON-NLS-1$
+							"ss" //$NON-NLS-1$
 					}
 				} );
 	};
@@ -245,7 +245,7 @@ public class DateLevelDialog extends TitleAreaDialog
 
 	protected Control createDialogArea( Composite parent )
 	{
-		UIUtil.bindHelp( parent, IHelpContextIds.CUBE_DATE_LEVEL_DIALOG ); //$NON-NLS-1$
+		UIUtil.bindHelp( parent, IHelpContextIds.CUBE_DATE_LEVEL_DIALOG ); 
 		setTitle( Messages.getString( "DateLevelDialog.Title" ) ); //$NON-NLS-1$
 		getShell( ).setText( Messages.getString( "DateLevelDialog.Shell.Title" ) ); //$NON-NLS-1$
 		setMessage( Messages.getString( "DateLevelDialog.Message" ) ); //$NON-NLS-1$

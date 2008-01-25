@@ -141,7 +141,7 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 				}
 				else if ( vv == 3 )
 				{
-					exp += " ";
+					exp += " "; //$NON-NLS-1$
 					int count = handle.getValue1List( ).size( );
 					for ( int i = 0; i < count; i++ )
 					{
@@ -150,7 +150,7 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 							exp += handle.getValue1List( ).get( i ).toString( );
 						}else
 						{
-							exp += "; " + handle.getValue1List( ).get( i ).toString( );
+							exp += "; " + handle.getValue1List( ).get( i ).toString( ); //$NON-NLS-1$
 						}
 					}
 				}
@@ -481,7 +481,7 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 	public String getDisplayName( )
 	{
 		// TODO Auto-generated method stub
-		return Messages.getString( "MapPage.label.mapList" );
+		return Messages.getString( "MapPage.label.mapList" ); //$NON-NLS-1$
 	}
 
 	public Object load( )
@@ -501,27 +501,27 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 		switch ( key )
 		{
 			case 0 :
-				return Messages.getString( "MapPage.label.mapList" );
+				return Messages.getString( "MapPage.label.mapList" ); //$NON-NLS-1$
 			case 1 :
-				return Messages.getString( "MapPage.label.add" );
+				return Messages.getString( "MapPage.label.add" ); //$NON-NLS-1$
 			case 2 :
-				return Messages.getString( "MapPage.label.delete" );
+				return Messages.getString( "MapPage.label.delete" ); //$NON-NLS-1$
 			case 3 :
-				return Messages.getString( "FormPage.Button.Up" );
+				return Messages.getString( "FormPage.Button.Up" ); //$NON-NLS-1$
 			case 4 :
-				return Messages.getString( "MapPage.toolTipText.moveUp" );
+				return Messages.getString( "MapPage.toolTipText.moveUp" ); //$NON-NLS-1$
 			case 5 :
-				return Messages.getString( "FormPage.Button.Down" );
+				return Messages.getString( "FormPage.Button.Down" ); //$NON-NLS-1$
 			case 6 :
-				return Messages.getString( "MapPage.toolTipText.moveDown" );
+				return Messages.getString( "MapPage.toolTipText.moveDown" ); //$NON-NLS-1$
 			case 7 :
-				return Messages.getString( "MapPage.label.displayValue" );
+				return Messages.getString( "MapPage.label.displayValue" ); //$NON-NLS-1$
 			case 8 :
-				return Messages.getString( "MapPage.label.condition" );
+				return Messages.getString( "MapPage.label.condition" ); //$NON-NLS-1$
 			case 9 :
-				return Messages.getString( "" );
+				return Messages.getString( "" ); //$NON-NLS-1$
 		}
-		return "";
+		return ""; //$NON-NLS-1$
 	}
 
 	public String getDisplayText( Object handle )

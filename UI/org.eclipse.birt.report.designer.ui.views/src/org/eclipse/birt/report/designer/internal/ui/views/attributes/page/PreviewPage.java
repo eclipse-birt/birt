@@ -2,7 +2,6 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.PreviewPropertyDescriptorProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.BorderSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.PreviewSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.PreviewPropertyDescriptor;
 import org.eclipse.swt.widgets.Composite;

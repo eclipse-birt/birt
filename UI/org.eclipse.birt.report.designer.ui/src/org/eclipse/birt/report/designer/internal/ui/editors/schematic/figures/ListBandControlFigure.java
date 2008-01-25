@@ -223,7 +223,7 @@ public class ListBandControlFigure extends Figure
 	{
 
 		private ListBandEditPart owner;
-		private String text = "";
+		private String text = ""; //$NON-NLS-1$
 
 		/**
 		 * @param owner

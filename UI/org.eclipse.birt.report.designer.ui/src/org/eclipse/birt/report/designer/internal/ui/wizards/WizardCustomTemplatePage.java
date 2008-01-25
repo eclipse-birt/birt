@@ -244,7 +244,7 @@ public class WizardCustomTemplatePage extends WizardPage
 				.getReportExtensionNameList( )
 				.iterator( ); iter.hasNext( ); )
 		{
-			String extensionName = "." + iter.next( );
+			String extensionName = "." + iter.next( ); //$NON-NLS-1$
 			if ( getReportPath( ).endsWith( extensionName ) )
 			{
 				String xmlPath = getReportPath( ).substring( 0,

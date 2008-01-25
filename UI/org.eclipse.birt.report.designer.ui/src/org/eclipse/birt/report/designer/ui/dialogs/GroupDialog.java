@@ -309,7 +309,7 @@ public class GroupDialog extends BaseDialog
 		bookmakrComposite.setLayoutData( gd );
 		bookmakrComposite.setLayout( layout );
 
-		new Label( bookmakrComposite, SWT.NONE ).setText( Messages.getString( "GroupDialog.Label.Bookmark" ) );
+		new Label( bookmakrComposite, SWT.NONE ).setText( Messages.getString( "GroupDialog.Label.Bookmark" ) ); //$NON-NLS-1$
 		bookmarkEditor = new Text( bookmakrComposite, SWT.SINGLE | SWT.BORDER );
 		gd = new GridData( );
 		gd.widthHint = 180;
@@ -317,7 +317,7 @@ public class GroupDialog extends BaseDialog
 		
 		bookmarkExprButton = new Button( bookmakrComposite, SWT.PUSH );
 		UIUtil.setExpressionButtonImage( bookmarkExprButton );
-		bookmarkExprButton.setToolTipText( Messages.getString( "GroupDialog.toolTipText.openExprButton" ) );
+		bookmarkExprButton.setToolTipText( Messages.getString( "GroupDialog.toolTipText.openExprButton" ) ); //$NON-NLS-1$
 		bookmarkExprButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent event )
@@ -336,7 +336,7 @@ public class GroupDialog extends BaseDialog
 	private void createTOCArea( Composite parent )
 	{
 		Group group = new Group( parent, SWT.NONE );
-		group.setText( Messages.getString( "GroupDialog.Dialog.TOCGroup" ) );
+		group.setText( Messages.getString( "GroupDialog.Dialog.TOCGroup" ) ); //$NON-NLS-1$
 		GridLayout layout = new GridLayout( );
 		layout.numColumns = 2;
 		group.setLayout( layout );
@@ -376,7 +376,7 @@ public class GroupDialog extends BaseDialog
 		tocExprButton = new Button( tocArea, SWT.PUSH );
 		// exprButton.setText( "..." ); //$NON-NLS-1$
 		UIUtil.setExpressionButtonImage( tocExprButton );
-		tocExprButton.setToolTipText( Messages.getString( "GroupDialog.toolTipText.openExprButton" ) );
+		tocExprButton.setToolTipText( Messages.getString( "GroupDialog.toolTipText.openExprButton" ) ); //$NON-NLS-1$
 		tocExprButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent event )
@@ -545,7 +545,7 @@ public class GroupDialog extends BaseDialog
 		exprButton = new Button( keyArea, SWT.PUSH );
 		// exprButton.setText( "..." ); //$NON-NLS-1$
 		UIUtil.setExpressionButtonImage( exprButton );
-		exprButton.setToolTipText( Messages.getString( "GroupDialog.toolTipText.openExprButton" ) );
+		exprButton.setToolTipText( Messages.getString( "GroupDialog.toolTipText.openExprButton" ) ); //$NON-NLS-1$
 		exprButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent event )
@@ -1118,7 +1118,7 @@ public class GroupDialog extends BaseDialog
 			inputGroup.setName( nameEditor.getText( ) );
 
 			String bookmark = bookmarkEditor.getText( );
-			if ( bookmark != null && !bookmark.equals( "" ) )
+			if ( bookmark != null && !bookmark.equals( "" ) ) //$NON-NLS-1$
 			{
 				inputGroup.setBookmark( bookmark );
 			}

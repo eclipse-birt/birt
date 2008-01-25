@@ -23,11 +23,11 @@ import org.eclipse.jface.action.Action;
 public class NewParameterAction extends Action
 {
 
-	public static final String INSERT_SCALAR_PARAMETER = "org.eclipse.birt.report.designer.ui.actions.newScalarParameter";
+	public static final String INSERT_SCALAR_PARAMETER = "org.eclipse.birt.report.designer.ui.actions.newScalarParameter"; //$NON-NLS-1$
 
-	public static final String INSERT_PARAMETER_GROUP = "org.eclipse.birt.report.designer.ui.actions.newParameterGroup";
+	public static final String INSERT_PARAMETER_GROUP = "org.eclipse.birt.report.designer.ui.actions.newParameterGroup"; //$NON-NLS-1$
 
-	public static final String INSERT_CASCADING_PARAMETER_GROUP = "org.eclipse.birt.report.designer.ui.actions.newCascadingParameterGroup";
+	public static final String INSERT_CASCADING_PARAMETER_GROUP = "org.eclipse.birt.report.designer.ui.actions.newCascadingParameterGroup"; //$NON-NLS-1$
 
 	private Action action = null;
 

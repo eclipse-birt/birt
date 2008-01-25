@@ -65,7 +65,7 @@ import com.ibm.icu.util.StringTokenizer;
  * {@link #addPageTo(String, String, String, Image, IPropertyPage) addPageTo}
  * method.
  * 
- * @version $Revision: 1.10 $ $Date: 2007/08/30 06:46:33 $
+ * @version $Revision: 1.11 $ $Date: 2008/01/14 08:46:46 $
  */
 
 public abstract class AbstractPropertyDialog extends BaseDialog
@@ -74,9 +74,9 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 			IPageChangeProvider
 {
 
-	private static final String SASHFORM_RIGHT = "SASHFORM.RIGHT";
+	private static final String SASHFORM_RIGHT = "SASHFORM.RIGHT"; //$NON-NLS-1$
 
-	private static final String SASHFORM_LEFT = "SASHFORM.LEFT";
+	private static final String SASHFORM_LEFT = "SASHFORM.LEFT"; //$NON-NLS-1$
 
 	private transient Object modelObject = null;
 

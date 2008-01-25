@@ -69,7 +69,7 @@ public abstract class StyleComboProvider extends BorderDescriptorProvider implem
 		this.items = items;
 	}
 
-	protected Object indexText = "";
+	protected Object indexText = ""; //$NON-NLS-1$
 
 	public void setIndex( Object index )
 	{

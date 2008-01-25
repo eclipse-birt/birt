@@ -53,7 +53,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * Expression value cell editor
  * 
- * @version $Revision: 1.2 $ $Date: 2006/11/21 10:21:02 $
+ * @version $Revision: 1.3 $ $Date: 2007/11/14 09:06:53 $
  */
 public class ExpressionValueCellEditor extends CellEditor
 {
@@ -243,17 +243,17 @@ public class ExpressionValueCellEditor extends CellEditor
 							catch ( Exception ex )
 							{
 								MessageDialog.openError( null,
-										Messages.getString( "SelectValueDialog.selectValue" ),
-										Messages.getString( "SelectValueDialog.messages.error.selectVauleUnavailable" )
-												+ "\n"
+										Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
+										Messages.getString( "SelectValueDialog.messages.error.selectVauleUnavailable" ) //$NON-NLS-1$
+												+ "\n" //$NON-NLS-1$
 												+ ex.getMessage( ) );
 							}
 						}
 						else
 						{
 							MessageDialog.openInformation( null,
-									Messages.getString( "SelectValueDialog.selectValue" ),
-									Messages.getString( "SelectValueDialog.messages.info.selectVauleUnavailable" ) );
+									Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
+									Messages.getString( "SelectValueDialog.messages.info.selectVauleUnavailable" ) ); //$NON-NLS-1$
 						}
 					}
 					else if ( value.equals( actions[1] ) )

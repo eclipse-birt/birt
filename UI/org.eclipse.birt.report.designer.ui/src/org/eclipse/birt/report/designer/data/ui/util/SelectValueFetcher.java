@@ -48,9 +48,9 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 public class SelectValueFetcher
 {
 
-	private final static String BINDING_GROUP_NAME = "GROUP";
-	private final static String BINDING_ROW_NAME = "FILTER_SELECT_VALUE";
-	private final static String BINDING_GROUP_EXPRESSION = "row.FILTER_SELECT_VALUE";
+	private final static String BINDING_GROUP_NAME = "GROUP"; //$NON-NLS-1$
+	private final static String BINDING_ROW_NAME = "FILTER_SELECT_VALUE"; //$NON-NLS-1$
+	private final static String BINDING_GROUP_EXPRESSION = "row.FILTER_SELECT_VALUE"; //$NON-NLS-1$
 
 	/**
 	 * private constructor
@@ -68,7 +68,7 @@ public class SelectValueFetcher
 				false );
 		if ( !startsWithRow && !startsWithDataSetRow )
 		{
-			throw new DataException( Messages.getString( "SelectValueDialog.messages.info.invalidSelectVauleExpression" ) );
+			throw new DataException( Messages.getString( "SelectValueDialog.messages.info.invalidSelectVauleExpression" ) ); //$NON-NLS-1$
 		}
 		List selectValueList = new ArrayList( );
 		if ( expression != null && expression.trim( ).length( ) > 0 )
@@ -129,7 +129,7 @@ public class SelectValueFetcher
 				String columnName = getReferenceColumnName( expression, startsWithRow );
 				if ( columnName == null )
 				{
-					throw new DataException( Messages.getString( "SelectValueDialog.messages.info.invalidSelectVauleExpression" ) );
+					throw new DataException( Messages.getString( "SelectValueDialog.messages.info.invalidSelectVauleExpression" ) ); //$NON-NLS-1$
 				}
 				IResultMetaData metaData = results.getResultMetaData( );
 				for ( int i = 0; i < metaData.getColumnCount( ); i++ )
@@ -138,7 +138,7 @@ public class SelectValueFetcher
 					{
 						if ( metaData.getColumnType( i + 1 ) == DataType.BLOB_TYPE )
 						{
-							throw new DataException( Messages.getString( "SelectValueDialog.messages.warning.BlobColumn.unsupported" ) );
+							throw new DataException( Messages.getString( "SelectValueDialog.messages.warning.BlobColumn.unsupported" ) ); //$NON-NLS-1$
 						}
 						break;
 					}

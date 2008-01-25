@@ -14,18 +14,9 @@ package org.eclipse.birt.report.designer.internal.ui.views.actions;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.LibraryHandle;
-import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.commands.NotEnabledException;
-import org.eclipse.core.commands.NotHandledException;
-import org.eclipse.core.commands.ParameterValueConversionException;
-import org.eclipse.core.commands.common.NotDefinedException;
 
 /**
  * 
@@ -79,7 +70,7 @@ public class RefreshModuleHandleAction extends AbstractViewAction
 	{
 		try
 		{
-			CommandUtils.executeCommand("org.eclipse.birt.report.designer.ui.command.refreshLibraryCommand", null);
+			CommandUtils.executeCommand("org.eclipse.birt.report.designer.ui.command.refreshLibraryCommand", null); //$NON-NLS-1$
 		}
 		catch ( Exception e )
 		{

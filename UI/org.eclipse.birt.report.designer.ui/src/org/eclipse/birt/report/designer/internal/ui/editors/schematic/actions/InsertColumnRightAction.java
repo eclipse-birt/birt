@@ -11,13 +11,10 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.command.ICommandParameterNameContants;
-import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -65,7 +62,7 @@ public class InsertColumnRightAction extends InsertColumnAction {
 		try {
 			CommandUtils
 					.executeCommand(
-							"org.eclipse.birt.report.designer.ui.command.insertColumnCommand",
+							"org.eclipse.birt.report.designer.ui.command.insertColumnCommand", //$NON-NLS-1$
 							null);
 		} catch (Exception e) {
 			logger.log( Level.SEVERE, e.getMessage( ),e );

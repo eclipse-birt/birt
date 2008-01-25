@@ -25,7 +25,7 @@ public class ReferenceDescriptorProvider implements ITextDescriptorProvider
 
 	public String getDisplayName( )
 	{
-		return Messages.getString( "ReferencePage.Label.Source" );
+		return Messages.getString( "ReferencePage.Label.Source" ); //$NON-NLS-1$
 	}
 
 	private String property;
@@ -90,7 +90,7 @@ public class ReferenceDescriptorProvider implements ITextDescriptorProvider
 		}
 		if(value == null)isEnableButton = false;
 		else isEnableButton = true;
-		return value == null ? "" : value;
+		return value == null ? "" : value; //$NON-NLS-1$
 	}
 
 	public void save( Object value ) throws SemanticException

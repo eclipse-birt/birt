@@ -16,9 +16,9 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.PageSe
 
 public class CubePageSectionId extends PageSectionId
 {
-	public static final String CUBE_NAME = "CUBE_NAME";
-	public static final String CUBE_LIBRARY = "CUBE_LIBRARY";
-	public static final String CUBE_SEPERATOR = "CUBE_SEPERATOR";
-	public static final String CUBE_ELEMENT_ID = "CUBE_ELEMENT_ID";
-	public static final String CUBE_PRIMARY_DATASET = "CUBE_PRIMARY_DATASET";
+	public static final String CUBE_NAME = "CUBE_NAME"; //$NON-NLS-1$
+	public static final String CUBE_LIBRARY = "CUBE_LIBRARY"; //$NON-NLS-1$
+	public static final String CUBE_SEPERATOR = "CUBE_SEPERATOR"; //$NON-NLS-1$
+	public static final String CUBE_ELEMENT_ID = "CUBE_ELEMENT_ID"; //$NON-NLS-1$
+	public static final String CUBE_PRIMARY_DATASET = "CUBE_PRIMARY_DATASET"; //$NON-NLS-1$
 }

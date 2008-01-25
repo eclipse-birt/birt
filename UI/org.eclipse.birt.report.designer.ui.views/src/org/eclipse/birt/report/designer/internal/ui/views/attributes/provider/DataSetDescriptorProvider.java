@@ -5,7 +5,6 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ParameterBindingDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.BindingGroupSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ComboAndButtonSection;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
@@ -24,10 +23,10 @@ public class DataSetDescriptorProvider implements IDescriptorProvider
 
 	public String getDisplayName( )
 	{
-		return Messages.getString( "Element.ReportItem.dataSet" );
+		return Messages.getString( "Element.ReportItem.dataSet" ); //$NON-NLS-1$
 	}
 
-	private static final String NONE = Messages.getString( "BindingPage.None" );
+	private static final String NONE = Messages.getString( "BindingPage.None" ); //$NON-NLS-1$
 
 	public Object load( )
 	{
@@ -105,7 +104,7 @@ public class DataSetDescriptorProvider implements IDescriptorProvider
 				break;
 			// Cancel.
 			case 2 :
-				section.getComboControl( ).setStringValue( load( ) == null ? ""
+				section.getComboControl( ).setStringValue( load( ) == null ? "" //$NON-NLS-1$
 						: load( ).toString( ) );
 		}
 

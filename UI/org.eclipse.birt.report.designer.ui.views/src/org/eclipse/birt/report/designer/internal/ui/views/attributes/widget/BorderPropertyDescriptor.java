@@ -42,7 +42,7 @@ public class BorderPropertyDescriptor implements
 
 	private BorderInfomation restoreInfo;
 
-	private static final RGB autoColor = DEUtil.getRGBValue( ColorUtil.parsePredefinedColor( "black" ) );
+	private static final RGB autoColor = DEUtil.getRGBValue( ColorUtil.parsePredefinedColor( "black" ) ); //$NON-NLS-1$
 
 	public BorderPropertyDescriptor( boolean isFormStyle )
 	{
@@ -151,7 +151,7 @@ public class BorderPropertyDescriptor implements
 					{
 						SessionHandleAdapter.getInstance( )
 								.getCommandStack( )
-								.startTrans( Messages.getString( "BordersPage.Trans.SelectBorder" ) );
+								.startTrans( Messages.getString( "BordersPage.Trans.SelectBorder" ) ); //$NON-NLS-1$
 
 						BorderInfomation information = new BorderInfomation( );
 
@@ -194,7 +194,7 @@ public class BorderPropertyDescriptor implements
 						{
 							SessionHandleAdapter.getInstance( )
 									.getCommandStack( )
-									.startTrans( Messages.getString( "BordersPage.Trans.SelectBorder" ) );
+									.startTrans( Messages.getString( "BordersPage.Trans.SelectBorder" ) ); //$NON-NLS-1$
 
 							BorderInfomation information = new BorderInfomation( );
 
@@ -221,7 +221,7 @@ public class BorderPropertyDescriptor implements
 						{
 							SessionHandleAdapter.getInstance( )
 									.getCommandStack( )
-									.startTrans( Messages.getString( "BordersPage.Trans.UnSelectBorder" ) );
+									.startTrans( Messages.getString( "BordersPage.Trans.UnSelectBorder" ) ); //$NON-NLS-1$
 
 							previewCanvas.removeBorderInfomation( provider.getPosition( ) );
 							if ( allButton.getSelection( ) )
@@ -247,7 +247,7 @@ public class BorderPropertyDescriptor implements
 
 		allButton = new Button( composite, SWT.TOGGLE );
 		allButton.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ATTRIBUTE_BORDER_FRAME ) );
-		allButton.setToolTipText( Messages.getString( "BordersPage.Tooltip.All" ) );
+		allButton.setToolTipText( Messages.getString( "BordersPage.Tooltip.All" ) ); //$NON-NLS-1$
 		allButton.setLayoutData( new GridData( ) );
 		allButton.addSelectionListener( new SelectionAdapter( ) {
 
@@ -259,7 +259,7 @@ public class BorderPropertyDescriptor implements
 				{
 					SessionHandleAdapter.getInstance( )
 							.getCommandStack( )
-							.startTrans( Messages.getString( "BordersPage.Trans.SelectAllborders" ) );
+							.startTrans( Messages.getString( "BordersPage.Trans.SelectAllborders" ) ); //$NON-NLS-1$
 					selectedColor = builder.getRGB( );
 					if ( selectedColor == null )
 					{
@@ -319,7 +319,7 @@ public class BorderPropertyDescriptor implements
 					{
 						SessionHandleAdapter.getInstance( )
 								.getCommandStack( )
-								.startTrans( Messages.getString( "BordersPage.Trans.UnSelectAllborders" ) );
+								.startTrans( Messages.getString( "BordersPage.Trans.UnSelectAllborders" ) ); //$NON-NLS-1$
 
 						for ( int i = 0; i < toggleProviders.length; i++ )
 						{
@@ -342,7 +342,7 @@ public class BorderPropertyDescriptor implements
 					{
 						SessionHandleAdapter.getInstance( )
 								.getCommandStack( )
-								.startTrans( Messages.getString( "BordersPage.Trans.SelectAllborders" ) );
+								.startTrans( Messages.getString( "BordersPage.Trans.SelectAllborders" ) ); //$NON-NLS-1$
 
 						for ( int i = 0; i < toggleProviders.length; i++ )
 						{
@@ -393,7 +393,7 @@ public class BorderPropertyDescriptor implements
 				.createLabel( previewContainer, SWT.LEFT, isFormStyle );
 		data = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
 		previewLabel.setLayoutData( data );
-		previewLabel.setText( Messages.getString( "BordersPage.text.Preview" ) );
+		previewLabel.setText( Messages.getString( "BordersPage.text.Preview" ) ); //$NON-NLS-1$
 
 		previewCanvas = new BorderCanvas( previewContainer, SWT.NONE );
 		data = new GridData( );
@@ -451,7 +451,7 @@ public class BorderPropertyDescriptor implements
 		{
 			BorderInfomation info = (BorderInfomation) toggleProviders[i].load( );
 			previewCanvas.setBorderInfomation( info );
-			if ( !info.getStyle( ).equals( "" ) )
+			if ( !info.getStyle( ).equals( "" ) ) //$NON-NLS-1$
 			{
 				toggles[i].setSelection( true );
 			}

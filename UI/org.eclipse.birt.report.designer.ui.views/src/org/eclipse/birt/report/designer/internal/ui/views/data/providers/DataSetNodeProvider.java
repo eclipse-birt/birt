@@ -37,7 +37,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
@@ -193,7 +192,7 @@ public class DataSetNodeProvider extends DefaultNodeProvider
 				DataSourceSelectionDialog dataSorucedialog = new DataSourceSelectionDialog( PlatformUI.getWorkbench( )
 						.getDisplay( )
 						.getActiveShell( ),
-						Messages.getString( "dataSourceSelectionPage.title" ),
+						Messages.getString( "dataSourceSelectionPage.title" ), //$NON-NLS-1$
 						names );
 				if ( dataSorucedialog.open( ) == Dialog.CANCEL )
 					return false;

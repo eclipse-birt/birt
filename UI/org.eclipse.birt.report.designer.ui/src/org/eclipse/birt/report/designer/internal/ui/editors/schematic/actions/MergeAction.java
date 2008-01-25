@@ -14,8 +14,6 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
-import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -76,7 +74,7 @@ public class MergeAction extends ContextSelectionAction
 //		}
 		try
 		{
-			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.mergeCommand", null );
+			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.mergeCommand", null ); //$NON-NLS-1$
 		}
 		catch ( Exception e )
 		{

@@ -74,7 +74,7 @@ public class PublishLibraryAction implements IWorkbenchWindowActionDelegate
 					.getReportDesignHandle( );
 		}
 		else if ( libFile != null
-				&& libFile.getFileExtension( ).equals( "rptlibrary" ) )
+				&& libFile.getFileExtension( ).equals( "rptlibrary" ) ) //$NON-NLS-1$
 		{
 			String url = libFile.getLocation( ).toOSString( );
 			ModuleHandle handle = null;
@@ -139,7 +139,7 @@ public class PublishLibraryAction implements IWorkbenchWindowActionDelegate
 			}
 			if ( file != null )
 			{
-				if ( file.getFileExtension( ).equals( "rptlibrary" ) )
+				if ( file.getFileExtension( ).equals( "rptlibrary" ) ) //$NON-NLS-1$
 				{
 					libFile = file;
 					selectLibrary = true;

@@ -764,7 +764,7 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 					&& OBJECTS_TYPE_BIRT.equals( objectType )
 					|| !classInfo.isNative( )
 					&& OBJECTS_TYPE_NATIVE.equals( objectType ) 
-					|| classInfo.getName( ).equals( "Total" ))
+					|| classInfo.getName( ).equals( "Total" )) //$NON-NLS-1$
 			{
 				continue;
 			}

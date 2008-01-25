@@ -282,18 +282,18 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 	{
 		categoryPageMaps = new HashMap( );
 
-		categoryPageMaps.put( "General", getGeneralPage( parent ) );
+		categoryPageMaps.put( "General", getGeneralPage( parent ) ); //$NON-NLS-1$
 
-		categoryPageMaps.put( "Custom", getCustomPage( parent ) );
+		categoryPageMaps.put( "Custom", getCustomPage( parent ) ); //$NON-NLS-1$
 	}
 
 	private Object getPagebyCategory( String category )
 	{
 		if ( category.equals( formatAdapter.getCustomCategoryName( ) ) )
 		{
-			return categoryPageMaps.get( "Custom" );
+			return categoryPageMaps.get( "Custom" ); //$NON-NLS-1$
 		}
-		return categoryPageMaps.get( "General" );
+		return categoryPageMaps.get( "General" ); //$NON-NLS-1$
 	}
 
 	private void createFormatCodePages( Composite parent )

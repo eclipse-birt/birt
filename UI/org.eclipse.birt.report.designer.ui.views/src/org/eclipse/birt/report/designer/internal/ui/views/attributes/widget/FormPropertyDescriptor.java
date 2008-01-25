@@ -297,7 +297,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 
 		if ( isFormStyle( ) )
 			btnDel = FormWidgetFactory.getInstance( ).createButton( formPanel,
-					"",
+					"", //$NON-NLS-1$
 					SWT.PUSH );
 		else
 			btnDel = new Button( formPanel, SWT.BORDER );
@@ -313,7 +313,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 
 		if ( isFormStyle( ) )
 			btnAdd = FormWidgetFactory.getInstance( ).createButton( formPanel,
-					"",
+					"", //$NON-NLS-1$
 					SWT.PUSH );
 		else
 			btnAdd = new Button( formPanel, SWT.BORDER );
@@ -341,7 +341,7 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 		{
 			if ( isFormStyle( ) )
 				btnEdit = FormWidgetFactory.getInstance( )
-						.createButton( formPanel, "", SWT.PUSH );
+						.createButton( formPanel, "", SWT.PUSH ); //$NON-NLS-1$
 			else
 				btnEdit = new Button( formPanel, SWT.BORDER );
 			if ( bAddWithDialog == true )
@@ -366,11 +366,11 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 		{
 			if ( isFormStyle( ) )
 				btnUp = FormWidgetFactory.getInstance( )
-						.createButton( formPanel, "", SWT.PUSH );
+						.createButton( formPanel, "", SWT.PUSH ); //$NON-NLS-1$
 			else
 				btnUp = new Button( formPanel, SWT.BORDER );
-			btnUp.setText( Messages.getString( "FormPage.Button.Up" ) );
-			btnUp.setToolTipText( Messages.getString( "FormPage.toolTipText.Up" ) );
+			btnUp.setText( Messages.getString( "FormPage.Button.Up" ) ); //$NON-NLS-1$
+			btnUp.setToolTipText( Messages.getString( "FormPage.toolTipText.Up" ) ); //$NON-NLS-1$
 			btnUp.addSelectionListener( new SelectionAdapter( ) {
 
 				public void widgetSelected( SelectionEvent e )
@@ -380,11 +380,11 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 			} );
 			if ( isFormStyle( ) )
 				btnDown = FormWidgetFactory.getInstance( )
-						.createButton( formPanel, "", SWT.PUSH );
+						.createButton( formPanel, "", SWT.PUSH ); //$NON-NLS-1$
 			else
 				btnDown = new Button( formPanel, SWT.BORDER );
-			btnDown.setText( Messages.getString( "FormPage.Button.Down" ) );
-			btnDown.setToolTipText( Messages.getString( "FormPage.toolTipText.Down" ) );
+			btnDown.setText( Messages.getString( "FormPage.Button.Down" ) ); //$NON-NLS-1$
+			btnDown.setToolTipText( Messages.getString( "FormPage.toolTipText.Down" ) ); //$NON-NLS-1$
 			btnDown.addSelectionListener( new SelectionAdapter( ) {
 
 				public void widgetSelected( SelectionEvent e )

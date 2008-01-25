@@ -64,7 +64,7 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 		container.setLayout( layout );
 
 		Label nameLabel = new Label( container, SWT.NONE );
-		nameLabel.setText( Messages.getString( "DatasetPage.Label.Name" ) );
+		nameLabel.setText( Messages.getString( "DatasetPage.Label.Name" ) ); //$NON-NLS-1$
 		nameText = new Text( container, SWT.BORDER );
 		nameText.addModifyListener( new ModifyListener( ) {
 
@@ -74,7 +74,7 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 				{
 					input.setName( nameText.getText( ) );
 					builder.setErrorMessage( null );
-					builder.setTitleMessage( Messages.getString( "DatasetPage.Title.Message" ) );
+					builder.setTitleMessage( Messages.getString( "DatasetPage.Title.Message" ) ); //$NON-NLS-1$
 				}
 				catch ( NameException e1 )
 				{
@@ -90,7 +90,7 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 		nameText.setLayoutData( data );
 
 		Label dateSetLabel = new Label( container, SWT.NONE );
-		dateSetLabel.setText( Messages.getString( "DatasetPage.Label.PrimaryDataset" ) );
+		dateSetLabel.setText( Messages.getString( "DatasetPage.Label.PrimaryDataset" ) ); //$NON-NLS-1$
 		dataSetCombo = new Combo( container, SWT.BORDER | SWT.READ_ONLY );
 		dataSetCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		dataSetCombo.addSelectionListener( new SelectionAdapter( ) {
@@ -123,7 +123,7 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 		} );
 
 		filterButton = new Button( container, SWT.PUSH );
-		filterButton.setText( Messages.getString( "DatasetPage.Button.Filter" ) );
+		filterButton.setText( Messages.getString( "DatasetPage.Button.Filter" ) ); //$NON-NLS-1$
 		data = new GridData( );
 		data.widthHint = Math.max( 60, filterButton.computeSize( SWT.DEFAULT,
 				SWT.DEFAULT ).x );
@@ -147,9 +147,9 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 	{
 		getContainer( ).setMessage( Messages.getString( "DatasetPage.Container.Title.Message" ),//$NON-NLS-1$
 				IMessageProvider.NONE );
-		builder.setTitleTitle( Messages.getString( "DatasetPage.Title.Title" ) );
+		builder.setTitleTitle( Messages.getString( "DatasetPage.Title.Title" ) ); //$NON-NLS-1$
 		builder.setErrorMessage( null );
-		builder.setTitleMessage( Messages.getString( "DatasetPage.Title.Message" ) );
+		builder.setTitleMessage( Messages.getString( "DatasetPage.Title.Message" ) ); //$NON-NLS-1$
 		load( );
 	}
 

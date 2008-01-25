@@ -87,7 +87,7 @@ public class ImportLibraryDialog extends BaseDialog
 				else
 				{
 					canFinish = true;
-					messageLine.setText( "" );
+					messageLine.setText( "" ); //$NON-NLS-1$
 				}
 				if ( canFinish )
 				{

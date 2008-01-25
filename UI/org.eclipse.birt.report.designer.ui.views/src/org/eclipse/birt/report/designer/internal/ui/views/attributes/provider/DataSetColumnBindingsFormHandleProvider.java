@@ -142,7 +142,7 @@ public class DataSetColumnBindingsFormHandleProvider extends
 		if ( isEditable( ) )
 			return Messages.getString( "DataSetColumnBindingsFormHandleProvider.DatasetTitle" ); //$NON-NLS-1$
 		else
-			return Messages.getString( "DataSetColumnBindingsFormHandleProvider.ReportItemTitle" );
+			return Messages.getString( "DataSetColumnBindingsFormHandleProvider.ReportItemTitle" ); //$NON-NLS-1$
 	}
 
 	public CellEditor[] getEditors( Table table )

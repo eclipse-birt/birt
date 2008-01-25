@@ -23,7 +23,7 @@ public class ChangeDataColumnPartAction extends WrapperSelectionAction
 
 	private static final String DEFAULT_TEXT = Messages.getString( "ChangeDataColumnAction.text" ); //$NON-NLS-1$
 	
-	public static String ID = "org.eclipse.birt.report.designer.ui.actions.ChangeDataColumnAction";
+	public static String ID = "org.eclipse.birt.report.designer.ui.actions.ChangeDataColumnAction"; //$NON-NLS-1$
 
 	public ChangeDataColumnPartAction( IWorkbenchPart part )
 	{

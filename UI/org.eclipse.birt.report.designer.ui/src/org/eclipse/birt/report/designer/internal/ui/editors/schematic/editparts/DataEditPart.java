@@ -29,7 +29,7 @@ public class DataEditPart extends LabelEditPart
 {
 
 	private static final String FIGURE_DEFAULT_TEXT = Messages.getString( "DataEditPart.Figure.Dafault" ); //$NON-NLS-1$
-	protected static final String AGGREGATE_ON = Messages.getString( "DataEditPart.text.AggregateOn" );
+	protected static final String AGGREGATE_ON = Messages.getString( "DataEditPart.text.AggregateOn" ); //$NON-NLS-1$
 	protected static final String PREFIX = "\u2211"; //$NON-NLS-1$
 	/**
 	 * Constructor

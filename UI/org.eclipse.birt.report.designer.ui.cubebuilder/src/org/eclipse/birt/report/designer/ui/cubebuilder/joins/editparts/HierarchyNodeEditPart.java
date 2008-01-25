@@ -23,7 +23,6 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures.TablePaneFi
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstancts;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
-import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
@@ -84,9 +83,9 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 	protected IFigure createFigure( )
 	{
 		String name = dimension.getName( )
-				+ "("
-				+ ( (DataSetHandle) hierarchy.getDataSet( ) ).getName( )
-				+ ")";
+				+ "(" //$NON-NLS-1$
+				+ ( hierarchy.getDataSet( ) ).getName( )
+				+ ")"; //$NON-NLS-1$
 		tableNode = new TableNodeFigure( name );
 		scrollPane = new TablePaneFigure( name );
 		scrollPane.setContents( tableNode );

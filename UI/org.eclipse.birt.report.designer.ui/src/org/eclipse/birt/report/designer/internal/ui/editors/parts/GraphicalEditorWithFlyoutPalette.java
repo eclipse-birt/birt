@@ -101,7 +101,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		IColleague
 {
 
-	private static final String VIEW_CONTEXT_ID = "org.eclipse.birt.report.designer.internal.ui.editors.parts.graphicaleditorwithflyoutpalette.context";
+	private static final String VIEW_CONTEXT_ID = "org.eclipse.birt.report.designer.internal.ui.editors.parts.graphicaleditorwithflyoutpalette.context"; //$NON-NLS-1$
 	private PaletteViewerProvider provider;
 	private FlyoutPaletteComposite splitter;
 	private CustomPalettePage page;

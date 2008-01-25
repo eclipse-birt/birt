@@ -45,7 +45,7 @@ public class DestroyEditPart extends DummyEditpart
 	public void refreshFigure( )
 	{
 		StyleHandle style = ( (DesignElementHandle) getModel( ) ).getPrivateStyle( );
-		( (LabelFigure) getFigure( ) ).setFont( FontManager.getFont("Dialog", 10, SWT.ITALIC) );
+		( (LabelFigure) getFigure( ) ).setFont( FontManager.getFont("Dialog", 10, SWT.ITALIC) ); //$NON-NLS-1$
 		
 		//( (LabelFigure) getFigure( ) ).setImage( getImage( ) );
 		( (LabelFigure) getFigure( ) ).setAlignment( PositionConstants.WEST );

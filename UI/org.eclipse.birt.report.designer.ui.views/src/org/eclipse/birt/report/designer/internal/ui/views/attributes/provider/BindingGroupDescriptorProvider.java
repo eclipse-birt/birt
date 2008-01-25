@@ -227,7 +227,7 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 
 	}
 
-	public static final String NONE = Messages.getString( "BindingPage.None" );
+	public static final String NONE = Messages.getString( "BindingPage.None" ); //$NON-NLS-1$
 
 	public boolean isEnable( )
 	{
@@ -395,12 +395,12 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 		switch ( key )
 		{
 			case 0 :
-				return Messages.getString( "BindingPage.Dataset.Label" );
+				return Messages.getString( "BindingPage.Dataset.Label" ); //$NON-NLS-1$
 			case 1 :
-				return Messages.getString( "parameterBinding.title" );
+				return Messages.getString( "parameterBinding.title" ); //$NON-NLS-1$
 			case 2 :
-				return Messages.getString( "BindingPage.ReportItem.Label" );
+				return Messages.getString( "BindingPage.ReportItem.Label" ); //$NON-NLS-1$
 		}
-		return "";
+		return ""; //$NON-NLS-1$
 	}
 }

@@ -34,7 +34,6 @@ import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLActionHandler;
 import org.eclipse.birt.report.engine.api.HTMLCompleteImageHandler;
-import org.eclipse.birt.report.engine.api.HTMLEmitterConfig;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IAction;
 import org.eclipse.birt.report.engine.api.IRenderOption;
@@ -79,7 +78,7 @@ import com.ibm.icu.util.ULocale;
 public class StaticHTMLViewer extends SWTAbstractViewer
 {
 
-	private static final String TITLE_MESSAGE = "Showing page {0} of {1}";
+	private static final String TITLE_MESSAGE = "Showing page {0} of {1}"; //$NON-NLS-1$
 
 	private final HTMLRenderOption renderOption = new HTMLRenderOption( );
 	private final EngineConfig engineConfig = new HyperlinkEngineConfig( );
@@ -99,7 +98,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 	private boolean isTocUpdate;
 
 	private boolean isDrillThrough = false;
-	
+
 	/**
 	 * The report design file to render.
 	 */
@@ -157,14 +156,14 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 
 	protected void configEngine( )
 	{
-		HTMLEmitterConfig emitterConfig = new HTMLEmitterConfig( );
+		HTMLRenderOption emitterConfig = new HTMLRenderOption( );
 
 		emitterConfig.setActionHandler( new HTMLActionHandler( ) {
 
 			public String getURL( IAction actionDefn, Object context )
 			{
 				if ( actionDefn.getType( ) == IAction.ACTION_DRILLTHROUGH )
-					return "birt://"
+					return "birt://" //$NON-NLS-1$
 							+ URLEncoder.encode( super.getURL( actionDefn,
 									context ) );
 				return super.getURL( actionDefn, context );
@@ -174,7 +173,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 		// emitterConfig.setImageHandler( new HTMLCompleteImageHandler( ) );
 		// emitterConfig.setImageHandler( new HTMLImageHandler( ) );
 		engineConfig.getEmitterConfigs( ).put( RenderOption.OUTPUT_FORMAT_HTML,
-				emitterConfig ); //$NON-NLS-1$
+				emitterConfig );
 	}
 
 	protected void configRender( )
@@ -212,7 +211,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 		form.getBody( ).setLayout( layout );
 
 		// Re-run the report action
-		reRunReportAction = new Action( "Re-run the report",
+		reRunReportAction = new Action( "Re-run the report", //$NON-NLS-1$
 				Action.AS_PUSH_BUTTON ) {
 
 			public void run( )
@@ -220,7 +219,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 				render( );
 			}
 		};
-		reRunReportAction.setToolTipText( "Re-run the report" );
+		reRunReportAction.setToolTipText( "Re-run the report" ); //$NON-NLS-1$
 		reRunReportAction.setImageDescriptor( StaticHTMLPrviewPlugin.getDefault( )
 				.getImageRegistry( )
 				.getDescriptor( StaticHTMLPrviewPlugin.IMG_RE_RUN ) );
@@ -351,9 +350,9 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 				container.setLayout( layout );
 				Label label = new Label( container, SWT.NULL );
 				label.setFont( container.getFont( ) );
-				label.setText( "Go to page:" );
+				label.setText( "Go to page:" ); //$NON-NLS-1$
 
-				goPageInput = toolkit.createText( container, "", SWT.BORDER );
+				goPageInput = toolkit.createText( container, "", SWT.BORDER ); //$NON-NLS-1$
 				goPageInput.setFont( container.getFont( ) );
 
 				goPageInput.setLayoutData( new GridData( GridData.FILL_BOTH ) );
@@ -382,7 +381,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 
 					public void modifyText( ModifyEvent e )
 					{
-						if ( !"".equals( goPageInput.getText( ) ) )
+						if ( !"".equals( goPageInput.getText( ) ) ) //$NON-NLS-1$
 						{
 							try
 							{
@@ -398,9 +397,9 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 								}
 								else
 								{
-									form.setMessage( "Page Number '"
+									form.setMessage( "Page Number '" //$NON-NLS-1$
 											+ page
-											+ "' is invalid!",
+											+ "' is invalid!", //$NON-NLS-1$
 											IMessageProvider.ERROR );
 									isValid = false;
 									navGoAction.setEnabled( false );
@@ -408,9 +407,9 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 							}
 							catch ( NumberFormatException e1 )
 							{
-								form.setMessage( "Page Number '"
+								form.setMessage( "Page Number '" //$NON-NLS-1$
 										+ goPageInput.getText( )
-										+ "' is invalid!",
+										+ "' is invalid!", //$NON-NLS-1$
 										IMessageProvider.ERROR );
 								isValid = false;
 								navGoAction.setEnabled( false );
@@ -502,7 +501,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 		layout.numColumns = 1;
 		toc.setLayout( new GridLayout( ) );
 
-		toolkit.createLabel( toc, "Table of Contents:" );
+		toolkit.createLabel( toc, "Table of Contents:" ); //$NON-NLS-1$
 		Tree t = toolkit.createTree( toc, SWT.NULL );
 		t.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		tocViewer = new TreeViewer( t );
@@ -614,7 +613,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 		this.assignParamValues = true;
 		isDrillThrough = true;
 		drillRenderOption.setOption( RenderOption.OUTPUT_FORMAT,
-				paramValues.get( "__format" ) );
+				paramValues.get( "__format" ) ); //$NON-NLS-1$
 	}
 
 	public void setReportDesignFile( String reportDesignFile )
@@ -663,7 +662,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 		else
 		{
 			this.hasParas = false;
-			paramAction.setToolTipText( "No Parameters" );
+			paramAction.setToolTipText( "No Parameters" ); //$NON-NLS-1$
 		}
 	}
 
@@ -693,7 +692,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 			return;
 		assignParamValues = false;
 
-		monitor.subTask( "Collecting parameters" );
+		monitor.subTask( "Collecting parameters" ); //$NON-NLS-1$
 		// getParameterValues( );
 
 		if ( monitor.isCanceled( ) )
@@ -702,7 +701,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 		}
 		monitor.worked( 1 );
 
-		monitor.subTask( "Rendering report" );
+		monitor.subTask( "Rendering report" ); //$NON-NLS-1$
 		if ( monitor.isCanceled( ) )
 		{
 			return;
@@ -711,15 +710,15 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 		File reportFile = new File( reportDesignFile );
 		String outputFolder = getOutputFolder( reportFile );
 
-		String outputFormat = "html";
+		String outputFormat = "html"; //$NON-NLS-1$
 		if ( isDrillThrough )
 		{
-			outputFormat = (String) drillRenderOption.getOutputFormat( );
+			outputFormat = drillRenderOption.getOutputFormat( );
 		}
 		this.outputLocation = outputFolder
 				+ File.separator
 				+ reportFile.getName( )
-				+ "."
+				+ "." //$NON-NLS-1$
 				+ outputFormat;
 		try
 		{
@@ -761,7 +760,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 
 	private void setControlStatus( )
 	{
-		form.setText( "Running report..." );
+		form.setText( "Running report..." ); //$NON-NLS-1$
 		form.setBusy( true );
 
 		paramAction.setEnabled( false );
@@ -798,18 +797,18 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 
 	private void initJob( RenderJobRule jobRule )
 	{
-		Job initJob = new AbstractJob( "Initialize engine",
+		Job initJob = new AbstractJob( "Initialize engine", //$NON-NLS-1$
 				this.reportDesignFile ) {
 
 			public void work( IProgressMonitor monitor )
 			{
 				if ( !isInitialize )
 				{
-					monitor.subTask( "Initialize engine" );
+					monitor.subTask( "Initialize engine" ); //$NON-NLS-1$
 					init( );
 					isInitialize = true;
 				}
-				monitor.subTask( "Prepair collect parameters" );
+				monitor.subTask( "Prepair collect parameters" ); //$NON-NLS-1$
 				setParameters( getInputParameters( reportDesignFile ) );
 			}
 		};
@@ -818,12 +817,12 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 
 	private void getParamValuesJob( RenderJobRule jobRule )
 	{
-		Job getParameterJob = new AbstractUIJob( "Collecting parameters",
+		Job getParameterJob = new AbstractUIJob( "Collecting parameters", //$NON-NLS-1$
 				this.reportDesignFile ) {
 
 			public void work( IProgressMonitor monitor )
 			{
-				monitor.subTask( "Collecting parameters" );
+				monitor.subTask( "Collecting parameters" ); //$NON-NLS-1$
 				getParameterValues( inputParameters );
 			}
 		};
@@ -833,7 +832,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 
 	private void renderJob( RenderJobRule jobRule )
 	{
-		Job renderJob = new AbstractJob( "Rendering report",
+		Job renderJob = new AbstractJob( "Rendering report", //$NON-NLS-1$
 				this.reportDesignFile ) {
 
 			public void work( IProgressMonitor monitor )
@@ -847,12 +846,12 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 
 	private void showReportOutputJob( RenderJobRule jobRule )
 	{
-		Job showJob = new AbstractUIJob( "Showing report",
+		Job showJob = new AbstractUIJob( "Showing report", //$NON-NLS-1$
 				this.reportDesignFile ) {
 
 			public void work( IProgressMonitor monitor )
 			{
-				monitor.subTask( "Show report in Browser" );
+				monitor.subTask( "Show report in Browser" ); //$NON-NLS-1$
 				if ( !form.isDisposed( ) )
 				{
 					// browser.setUrl( outputLocation
@@ -881,7 +880,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 						navPreAction.setEnabled( false );
 						navFirstAction.setEnabled( false );
 					}
-					goPageInput.setText( currentPageNum + "" );
+					goPageInput.setText( currentPageNum + "" ); //$NON-NLS-1$
 					refreshTOC( );
 				}
 			}
@@ -892,7 +891,7 @@ public class StaticHTMLViewer extends SWTAbstractViewer
 
 	private void updateFormJob( RenderJobRule jobRule )
 	{
-		Job updateFormJob = new AbstractUIJob( "Update", "" ) {
+		Job updateFormJob = new AbstractUIJob( "Update", "" ) { //$NON-NLS-1$ //$NON-NLS-2$
 
 			public void work( IProgressMonitor monitor )
 			{
@@ -955,7 +954,7 @@ class HyperlinkEngineConfig extends EngineConfig
 	{
 		super( );
 
-		HTMLEmitterConfig emitterConfig = (HTMLEmitterConfig) getEmitterConfigs( ).get( RenderOption.OUTPUT_FORMAT_HTML );
+		HTMLRenderOption emitterConfig = (HTMLRenderOption) getEmitterConfigs( ).get( RenderOption.OUTPUT_FORMAT_HTML );
 
 		emitterConfig.setImageHandler( new HTMLCompleteImageHandler( ) );
 	}

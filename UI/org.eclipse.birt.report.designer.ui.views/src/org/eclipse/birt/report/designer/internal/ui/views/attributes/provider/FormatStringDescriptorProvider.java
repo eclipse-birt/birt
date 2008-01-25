@@ -74,7 +74,7 @@ public class FormatStringDescriptorProvider implements IDescriptorProvider
 			return;
 		SessionHandleAdapter.getInstance( )
 				.getCommandStack( )
-				.startTrans( Messages.getString( "FormatStringAttributePage.Trans.SetStringFormat" ) );
+				.startTrans( Messages.getString( "FormatStringAttributePage.Trans.SetStringFormat" ) ); //$NON-NLS-1$
 
 		for ( Iterator iter = DEUtil.getInputElements( input ).iterator( ); iter.hasNext( ); )
 		{

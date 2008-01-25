@@ -99,7 +99,7 @@ public class CopyAction extends AbstractViewAction
 //		Clipboard.getDefault( ).setContents( cloneElements );
 		try
 		{
-			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.copyAction" );
+			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.copyAction" ); //$NON-NLS-1$
 		}
 		catch ( Exception e )
 		{			

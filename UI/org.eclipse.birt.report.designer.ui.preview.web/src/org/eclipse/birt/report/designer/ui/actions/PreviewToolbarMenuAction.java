@@ -42,12 +42,12 @@ public class PreviewToolbarMenuAction implements
 		IWorkbenchWindowPulldownDelegate
 {
 
-	private Image previewIcon = Activator.getImageDescriptor( "icons/etool16/preview.gif" )
+	private Image previewIcon = Activator.getImageDescriptor( "icons/etool16/preview.gif" ) //$NON-NLS-1$
 			.createImage( );
-	private Image previewPDFIcon = Activator.getImageDescriptor( "icons/etool16/preview_pdf.gif" )
+	private Image previewPDFIcon = Activator.getImageDescriptor( "icons/etool16/preview_pdf.gif" ) //$NON-NLS-1$
 			.createImage( );
 	// TODO create a word Icon
-	private Image previewDOCIcon = Activator.getImageDescriptor( "icons/etool16/preview_pdf.gif" )
+	private Image previewDOCIcon = Activator.getImageDescriptor( "icons/etool16/preview_pdf.gif" ) //$NON-NLS-1$
 			.createImage( );
 
 	/**
@@ -72,12 +72,12 @@ public class PreviewToolbarMenuAction implements
 
 		MenuItem previewWebViewer = new MenuItem( menu, SWT.PUSH );
 		previewWebViewer.setText( Messages.getString( "designer.preview.previewaction.label.webviewer" ) ); //$NON-NLS-1$
-		previewWebViewer.setImage( previewIcon ); //$NON-NLS-1$		
+		previewWebViewer.setImage( previewIcon ); 
 		previewWebViewer.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				preview( "html", true );
+				preview( "html", true ); //$NON-NLS-1$
 			}
 		} );
 
@@ -85,16 +85,16 @@ public class PreviewToolbarMenuAction implements
 		{
 			final String format = supportedFormats[i];
 			MenuItem previewOption = new MenuItem( menu, SWT.PUSH );
-			previewOption.setText( Messages.getFormattedString( "designer.preview.previewaction.label",
+			previewOption.setText( Messages.getFormattedString( "designer.preview.previewaction.label", //$NON-NLS-1$
 					new Object[]{
 						format.toUpperCase( )
 					} ) );
-			if ( format.equals( "pdf" ) )
+			if ( format.equals( "pdf" ) ) //$NON-NLS-1$
 			{
 				previewOption.setImage( previewPDFIcon );
 			}
 			// add a logic to deal with word
-			else if ( format.equals( "doc" ) )
+			else if ( format.equals( "doc" ) ) //$NON-NLS-1$
 			{
 				previewOption.setImage( previewDOCIcon );
 			}
@@ -140,7 +140,7 @@ public class PreviewToolbarMenuAction implements
 		{
 			System.out.println( "Preview action >> Run ..." ); //$NON-NLS-1$
 		}
-		preview( "html", true );
+		preview( "html", true ); //$NON-NLS-1$
 	}
 
 	/**
@@ -183,8 +183,8 @@ public class PreviewToolbarMenuAction implements
 			if ( contentTypes.length > 0
 					&& contentTypes[0] != null
 					&& ( contentTypes[0].getId( )
-							.equals( "org.eclipse.birt.report.designer.ui.editors.reportdesign" ) || contentTypes[0].getId( )
-							.equals( "org.eclipse.birt.report.designer.ui.editors.reporttemplate" ) ) )
+							.equals( "org.eclipse.birt.report.designer.ui.editors.reportdesign" ) || contentTypes[0].getId( ) //$NON-NLS-1$
+							.equals( "org.eclipse.birt.report.designer.ui.editors.reporttemplate" ) ) ) //$NON-NLS-1$
 			{
 				return true;
 			}

@@ -34,28 +34,28 @@ public class BorderWidthDescriptorProvider extends StyleComboProvider
 	{
 		String value = getLocalStringValue( StyleHandle.BORDER_LEFT_WIDTH_PROP );
 		value = convertNameToDisplayName( value );
-		if ( !"".equals( value ) )
+		if ( !"".equals( value ) ) //$NON-NLS-1$
 		{
 			this.indexText = value;
 			return value;
 		}
 
 		value = getLocalStringValue( StyleHandle.BORDER_RIGHT_WIDTH_PROP );
-		if ( !"".equals( value ) )
+		if ( !"".equals( value ) ) //$NON-NLS-1$
 		{
 			this.indexText = value;
 			return value;
 		}
 
 		value = getLocalStringValue( StyleHandle.BORDER_TOP_WIDTH_PROP );
-		if ( !"".equals( value ) )
+		if ( !"".equals( value ) ) //$NON-NLS-1$
 		{
 			this.indexText = value;
 			return value;
 		}
 
 		value = getLocalStringValue( StyleHandle.BORDER_BOTTOM_WIDTH_PROP );
-		if ( !"".equals( value ) )
+		if ( !"".equals( value ) ) //$NON-NLS-1$
 		{
 			this.indexText = value;
 			return value;
@@ -65,7 +65,7 @@ public class BorderWidthDescriptorProvider extends StyleComboProvider
 
 	public void save( Object value ) throws SemanticException
 	{
-		this.indexText = value == null ? "" : value;
+		this.indexText = value == null ? "" : value; //$NON-NLS-1$
 		String saveValue = convertDisplayNameToName( value );
 		if ( ( (Boolean) styleMap.get( StyleHandle.BORDER_TOP_STYLE_PROP ) ).booleanValue( ) == true )
 		{
@@ -104,7 +104,7 @@ public class BorderWidthDescriptorProvider extends StyleComboProvider
 		if ( index >= 0 && index < displayChoices.length )
 			return displayChoices[index];
 		else
-			return "";
+			return ""; //$NON-NLS-1$
 	}
 
 	private String convertDisplayNameToName( Object displayName )

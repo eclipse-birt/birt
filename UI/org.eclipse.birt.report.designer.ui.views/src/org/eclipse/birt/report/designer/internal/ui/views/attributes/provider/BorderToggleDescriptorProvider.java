@@ -43,7 +43,7 @@ public class BorderToggleDescriptorProvider extends BorderDescriptorProvider imp
 			return IReportGraphicConstants.ICON_ATTRIBUTE_BORDER_TOP;
 		if ( property.equals( StyleHandle.BORDER_BOTTOM_STYLE_PROP ) )
 			return IReportGraphicConstants.ICON_ATTRIBUTE_BORDER_BOTTOM;
-		return "";
+		return ""; //$NON-NLS-1$
 	}
 
 	public String getToogleValue( )
@@ -55,14 +55,14 @@ public class BorderToggleDescriptorProvider extends BorderDescriptorProvider imp
 	public String getTooltipText( )
 	{
 		if ( property.equals( StyleHandle.BORDER_LEFT_STYLE_PROP ) )
-			return Messages.getString( "BordersPage.Tooltip.Left" );
+			return Messages.getString( "BordersPage.Tooltip.Left" ); //$NON-NLS-1$
 		if ( property.equals( StyleHandle.BORDER_RIGHT_STYLE_PROP ) )
-			return Messages.getString( "BordersPage.Tooltip.Right" );
+			return Messages.getString( "BordersPage.Tooltip.Right" ); //$NON-NLS-1$
 		if ( property.equals( StyleHandle.BORDER_TOP_STYLE_PROP ) )
-			return Messages.getString( "BordersPage.Tooltip.Top" );
+			return Messages.getString( "BordersPage.Tooltip.Top" ); //$NON-NLS-1$
 		if ( property.equals( StyleHandle.BORDER_BOTTOM_STYLE_PROP ) )
-			return Messages.getString( "BordersPage.Tooltip.Bottom" );
-		return "";
+			return Messages.getString( "BordersPage.Tooltip.Bottom" ); //$NON-NLS-1$
+		return ""; //$NON-NLS-1$
 	}
 
 	public String getDisplayName( )

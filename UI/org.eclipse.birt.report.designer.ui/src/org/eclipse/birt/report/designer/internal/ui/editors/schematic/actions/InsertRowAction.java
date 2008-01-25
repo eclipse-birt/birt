@@ -93,7 +93,7 @@ public class InsertRowAction extends ContextSelectionAction
 		
 		try
 		{
-			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.insertRowCommand",null );
+			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.insertRowCommand",null ); //$NON-NLS-1$
 		}
 		catch ( Exception e )
 		{

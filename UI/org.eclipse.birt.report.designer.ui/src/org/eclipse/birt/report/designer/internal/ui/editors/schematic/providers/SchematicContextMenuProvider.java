@@ -93,7 +93,6 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
-import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
@@ -125,7 +124,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 	private static final String EDIT_GROUP_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.EditGroup" ); //$NON-NLS-1$
 
-	private static final String INSERT_GROUP_HEADER_FOOTER_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter" );
+	private static final String INSERT_GROUP_HEADER_FOOTER_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter" ); //$NON-NLS-1$
 
 	private static final String DELETE_GROUP_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.DeleteGroup" ); //$NON-NLS-1$
 

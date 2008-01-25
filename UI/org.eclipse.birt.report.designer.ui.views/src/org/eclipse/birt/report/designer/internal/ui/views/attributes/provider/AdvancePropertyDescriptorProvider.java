@@ -44,7 +44,7 @@ public class AdvancePropertyDescriptorProvider implements IDescriptorProvider
 	public String getDisplayName( )
 	{
 		// TODO Auto-generated method stub
-		return "Advance";
+		return "Advance"; //$NON-NLS-1$
 	}
 
 	public Object load( )
@@ -89,7 +89,7 @@ public class AdvancePropertyDescriptorProvider implements IDescriptorProvider
 
 		if ( !isEnable( ) || displayName == null || "".equals( displayName ) )//$NON-NLS-1$ 
 		{
-			displayName = Messages.getString( "ReportPropertySheetPage.Root.Default.Title" );
+			displayName = Messages.getString( "ReportPropertySheetPage.Root.Default.Title" ); //$NON-NLS-1$
 		}
 		return displayName;
 	}

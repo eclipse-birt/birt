@@ -144,7 +144,7 @@ public class HighlightHandleProvider
 				}
 				else if ( vv == 3 )
 				{
-					exp += " ";
+					exp += " "; //$NON-NLS-1$
 					int count = handle.getValue1List( ).size( );
 					for ( int i = 0; i < count; i++ )
 					{
@@ -153,7 +153,7 @@ public class HighlightHandleProvider
 							exp += handle.getValue1List( ).get( i ).toString( );
 						}else
 						{
-							exp += "; " + handle.getValue1List( ).get( i ).toString( );
+							exp += "; " + handle.getValue1List( ).get( i ).toString( ); //$NON-NLS-1$
 						}
 					}
 				}

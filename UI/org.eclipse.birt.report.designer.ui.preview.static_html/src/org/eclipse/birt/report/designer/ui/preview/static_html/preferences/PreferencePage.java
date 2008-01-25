@@ -40,12 +40,12 @@ public class PreferencePage extends FieldEditorPreferencePage implements
 	public void createFieldEditors( )
 	{
 		DirectoryFieldEditor tempFolder = new DirectoryFieldEditor( PreferenceConstants.TEMP_PATH,
-				"&Temporary files folder :",
+				"&Temporary files folder :", //$NON-NLS-1$
 				getFieldEditorParent( ) );
 		addField( tempFolder );
 
 		addField( new BooleanFieldEditor( PreferenceConstants.CLEAM_TEMP,
-				"&Clean temporary folder on exist" , getFieldEditorParent( ) ));
+				"&Clean temporary folder on exist" , getFieldEditorParent( ) )); //$NON-NLS-1$
 
 	}
 

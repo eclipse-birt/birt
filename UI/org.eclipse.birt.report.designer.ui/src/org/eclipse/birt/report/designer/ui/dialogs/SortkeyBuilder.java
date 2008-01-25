@@ -134,7 +134,7 @@ public class SortkeyBuilder extends TitleAreaDialog
 	protected Composite createInputContents( Composite parent )
 	{
 		Label lb = new Label( parent, SWT.NONE );
-		lb.setText( Messages.getString( "SortkeyBuilder.DialogTitle.Label.Prompt" ) );
+		lb.setText( Messages.getString( "SortkeyBuilder.DialogTitle.Label.Prompt" ) ); //$NON-NLS-1$
 
 		Composite content = new Composite( parent, SWT.NONE );
 		content.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -142,7 +142,7 @@ public class SortkeyBuilder extends TitleAreaDialog
 		content.setLayout( glayout );
 
 		Label labelKey = new Label( content, SWT.NONE );
-		labelKey.setText( Messages.getString( "SortkeyBuilder.DialogTitle.Label.Key" ) );
+		labelKey.setText( Messages.getString( "SortkeyBuilder.DialogTitle.Label.Key" ) ); //$NON-NLS-1$
 		comboKey = new Combo( content, SWT.BORDER );
 		GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
 		gdata.widthHint = 240;
@@ -185,7 +185,7 @@ public class SortkeyBuilder extends TitleAreaDialog
 		} );
 
 		Label labelDirection = new Label( content, SWT.NONE );
-		labelDirection.setText( Messages.getString( "SortkeyBuilder.DialogTitle.Label.Direction" ) );
+		labelDirection.setText( Messages.getString( "SortkeyBuilder.DialogTitle.Label.Direction" ) ); //$NON-NLS-1$
 
 		comboDirection = new Combo( content, SWT.READ_ONLY | SWT.BORDER );
 		String[] displayNames = ChoiceSetFactory.getDisplayNamefromChoiceSet( choiceSet );
@@ -257,7 +257,7 @@ public class SortkeyBuilder extends TitleAreaDialog
 	{
 		if ( input == null )
 		{
-			comboKey.setText( "" );
+			comboKey.setText( "" ); //$NON-NLS-1$
 			comboDirection.select( 0 );
 			return true;
 		}
@@ -358,7 +358,7 @@ public class SortkeyBuilder extends TitleAreaDialog
 		catch ( SemanticException e )
 		{
 			ExceptionHandler.handle( e,
-					Messages.getString( "SortkeyBuilder.DialogTitle.Error.SetSortKey.Title" ),
+					Messages.getString( "SortkeyBuilder.DialogTitle.Error.SetSortKey.Title" ), //$NON-NLS-1$
 					e.getLocalizedMessage( ) );
 			stack.rollback( );
 		}

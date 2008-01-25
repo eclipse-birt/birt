@@ -350,7 +350,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 			setValid( false );
 			if ( initialized && ( !isValid( ) ) )
 			{
-				String errorMessage = Messages.getString( "GeneralPreferencePage.label.nameEmpty" );
+				String errorMessage = Messages.getString( "GeneralPreferencePage.label.nameEmpty" ); //$NON-NLS-1$
 				setMessage( errorMessage, PreferencePage.ERROR );
 				setErrorMessage( errorMessage );
 			}
@@ -360,7 +360,7 @@ public class GeneralPreferencePage extends BaseStylePreferencePage
 			setValid( checkName( name, false ) );
 			if ( initialized && ( !isValid( ) ) )
 			{
-				String errorMessage = Messages.getFormattedString( "GeneralPreferencePage.label.styleNameDuplicate",
+				String errorMessage = Messages.getFormattedString( "GeneralPreferencePage.label.styleNameDuplicate", //$NON-NLS-1$
 						new String[]{
 							name
 						} );

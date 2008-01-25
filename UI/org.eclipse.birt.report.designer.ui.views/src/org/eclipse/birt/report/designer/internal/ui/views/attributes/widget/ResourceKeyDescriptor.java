@@ -125,7 +125,7 @@ public class ResourceKeyDescriptor extends PropertyDescriptor
 		innerParent.setLayout( new GridLayout( 3, false ) );
 		if ( isFormStyle( ) )
 			text = FormWidgetFactory.getInstance( ).createText( innerParent,
-					"",
+					"", //$NON-NLS-1$
 					SWT.READ_ONLY );
 		else
 			text = new Text( innerParent, SWT.BORDER | SWT.READ_ONLY );

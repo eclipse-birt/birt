@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.provider;
 
-import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
@@ -149,8 +147,8 @@ public class CubeLabelProvider extends LabelProvider
 					&& input.getDataSet( ) != null
 					&& input.getDataSet( ) == element )
 				return ( (DataSetHandle) element ).getName( )
-						+ " "
-						+ Messages.getString( "GroupsPage.Primary.Dataset" );
+						+ " " //$NON-NLS-1$
+						+ Messages.getString( "GroupsPage.Primary.Dataset" ); //$NON-NLS-1$
 			else
 				return ( (DataSetHandle) element ).getName( );
 		}
@@ -185,16 +183,16 @@ public class CubeLabelProvider extends LabelProvider
 			try
 			{
 				return ( (MeasureHandle) element ).getName( )
-						+ "("
+						+ "(" //$NON-NLS-1$
 						+ DataUtil.getAggregationFactory( )
 								.getAggrInfo( DataAdapterUtil.adaptModelAggregationType( ( (MeasureHandle) element ).getFunction( ) ) )
 								.getDisplayName( )
-						+ ")";
+						+ ")"; //$NON-NLS-1$
 			}
 			catch ( Exception e )
 			{
 				e.printStackTrace( );
-				return "";
+				return ""; //$NON-NLS-1$
 			}
 		}
 		else if ( element instanceof String )

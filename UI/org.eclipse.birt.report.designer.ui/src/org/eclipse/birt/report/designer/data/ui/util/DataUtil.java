@@ -164,14 +164,14 @@ public class DataUtil
 		String designFileName = moduleHandle.getFileName( );
 		// replace the file extension
 		String reportConfigName = designFileName.substring( 0,
-				designFileName.length( ) - "rptdesign".length( ) )
-				+ "rptconfig";
+				designFileName.length( ) - "rptdesign".length( ) ) //$NON-NLS-1$
+				+ "rptconfig"; //$NON-NLS-1$
 		File file = new File( reportConfigName );
 		if ( file.exists( ) )
 		{
 			String paraName = paramDefn.getParamName( );
 			ScalarParameterHandle parameterHandle = ( ScalarParameterHandle )moduleHandle.findParameter( paraName );
-			paraName = paraName + "_" + parameterHandle.getID( );
+			paraName = paraName + "_" + parameterHandle.getID( ); //$NON-NLS-1$
 			SessionHandle sessionHandle = new DesignEngine( null ).newSessionHandle( ULocale.US );
 			ReportDesignHandle rdHandle = null;
 			// Open report config file
@@ -199,7 +199,7 @@ public class DataUtil
 							//if the value actually is in String type, convert it by adding quotation marks
 							if( isToBeConverted( parameterHandle.getDataType( ) ) )
 							{
-								value = "\"" + JavascriptEvalUtil.transformToJsConstants( value )+ "\"";
+								value = "\"" + JavascriptEvalUtil.transformToJsConstants( value )+ "\""; //$NON-NLS-1$ //$NON-NLS-2$
 							}
 							return value;
 						}
@@ -245,7 +245,7 @@ public class DataUtil
 	private static boolean isNullValue( String varName, String varValue,
 			String newParaName )
 	{
-		return varName.toLowerCase( ).startsWith( "__isnull" )
+		return varName.toLowerCase( ).startsWith( "__isnull" ) //$NON-NLS-1$
 				&& varValue.equals( newParaName );
 	}
 	

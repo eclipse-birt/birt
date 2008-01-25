@@ -3,12 +3,9 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.section;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.PropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.MarginsPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.DescriptorToolkit;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormWidgetFactory;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.ImageLabel;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.PropertyDescriptor;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.MarginsPropertyDescriptor;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;

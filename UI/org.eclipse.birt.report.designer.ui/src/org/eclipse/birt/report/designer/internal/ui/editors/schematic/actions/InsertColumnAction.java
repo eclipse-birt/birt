@@ -26,7 +26,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * Action of inserting a column into table.
  * 
  * @author Dazhen Gao
- * @version $Revision: 1.6 $ $Date: 2007/03/02 09:53:22 $
+ * @version $Revision: 1.7 $ $Date: 2007/08/01 08:04:52 $
  */
 public class InsertColumnAction extends ContextSelectionAction
 {
@@ -91,7 +91,7 @@ public class InsertColumnAction extends ContextSelectionAction
 
 		try
 		{
-			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.insertColumnCommand", null );
+			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.insertColumnCommand", null ); //$NON-NLS-1$
 		}
 		catch ( Exception e )
 		{

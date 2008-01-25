@@ -129,7 +129,7 @@ public class TabularCubeNodeProvider extends DefaultNodeProvider
 		{
 			return ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
 		}
-		if ( OlapUtil.needLibraryImage( (CubeHandle) model ) )
+		if ( OlapUtil.needLibraryImage( model ) )
 			return UIHelper.getImage( BuilderConstancts.IMAGE_LINK_CUBE );
 		else
 			return UIHelper.getImage( BuilderConstancts.IMAGE_CUBE );

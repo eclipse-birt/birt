@@ -119,8 +119,8 @@ public class InputParameterDialog extends Dialog
 						|| ( paramValue instanceof String && ( (String) paramValue ).trim( )
 								.length( ) == 0 ) )
 				{
-					MessageDialog.openError( getShell( ), "Error", paramName
-							+ " cannot be NULL or blank" );
+					MessageDialog.openError( getShell( ), "Error", paramName //$NON-NLS-1$
+							+ " cannot be NULL or blank" ); //$NON-NLS-1$
 					return;
 				}
 			}
@@ -140,10 +140,10 @@ public class InputParameterDialog extends Dialog
 				{
 					// TODO: handle exception
 					MessageDialog.openError( getShell( ),
-							"Invalid value type",
-							"The value \""
+							"Invalid value type", //$NON-NLS-1$
+							"The value \"" //$NON-NLS-1$
 									+ paramValue
-									+ "\" is invalid with type "
+									+ "\" is invalid with type " //$NON-NLS-1$
 									+ scalarParameter.getHandle( )
 											.getDataType( ) );
 					return;

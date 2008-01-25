@@ -159,12 +159,12 @@ public class LevelPropertyDialog extends TitleAreaDialog
 	protected Control createDialogArea( Composite parent )
 	{
 		// createTitleArea( parent );
-		UIUtil.bindHelp( parent, IHelpContextIds.LEVEL_PROPERTY_DIALOG ); //$NON-NLS-1$
+		UIUtil.bindHelp( parent, IHelpContextIds.LEVEL_PROPERTY_DIALOG ); 
 		getShell( ).setText( Messages.getString( "LevelPropertyDialog.Shell.Title" ) ); //$NON-NLS-1$
 		if ( isNew )
-			this.setTitle( Messages.getString( "LevelPropertyDialog.Title.Add" ) );
+			this.setTitle( Messages.getString( "LevelPropertyDialog.Title.Add" ) ); //$NON-NLS-1$
 		else
-			this.setTitle( Messages.getString( "LevelPropertyDialog.Title.Edit" ) );
+			this.setTitle( Messages.getString( "LevelPropertyDialog.Title.Edit" ) ); //$NON-NLS-1$
 		this.setMessage( Messages.getString( "LevelPropertyDialog.Message" ) ); //$NON-NLS-1$
 
 		Composite area = (Composite) super.createDialogArea( parent );
@@ -348,7 +348,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 				}
 				if ( displayKeyCombo.getText( ).trim( ).length( ) > 0
 						&& !displayKeyCombo.getText( )
-								.equals( Messages.getString( "LevelPropertyDialog.None" ) ) )
+								.equals( Messages.getString( "LevelPropertyDialog.None" ) ) ) //$NON-NLS-1$
 				{
 					input.setDisplayColumnName( displayKeyCombo.getText( ) );
 				}
@@ -809,7 +809,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			{
 				ExpressionBuilder expressionBuilder = new ExpressionBuilder( displayKeyCombo.getText( )
 						.trim( )
-						.equals( Messages.getString( "LevelPropertyDialog.None" ) ) ? ""
+						.equals( Messages.getString( "LevelPropertyDialog.None" ) ) ? "" //$NON-NLS-1$ //$NON-NLS-2$
 						: displayKeyCombo.getText( ).trim( ) );
 				ExpressionProvider provider = new CubeExpressionProvider( input );
 				expressionBuilder.setExpressionProvier( provider );
@@ -961,7 +961,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		column1.setWidth( 200 );
 
 		dynamicViewer.setColumnProperties( new String[]{
-				"", prop_Attribute
+				"", prop_Attribute //$NON-NLS-1$
 		} );
 		editor = new ComboBoxCellEditor( dynamicViewer.getTable( ),
 				attributeItems,
@@ -1162,7 +1162,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 	protected int staticSelectIndex;
 	private static final String Prop_Name = "Name"; //$NON-NLS-1$
 	private static final String prop_Expression = "Expression"; //$NON-NLS-1$
-	private static final String prop_Attribute = "Attribute";
+	private static final String prop_Attribute = "Attribute"; //$NON-NLS-1$
 	private Table dynamicTable;
 	private ExpressionCellEditor expressionEditor;
 	private Combo staticDataTypeCombo;
@@ -1277,7 +1277,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		}
 
 		staticViewer.setColumnProperties( new String[]{
-				"",
+				"", //$NON-NLS-1$
 				LevelPropertyDialog.Prop_Name,
 				LevelPropertyDialog.prop_Expression
 		} );

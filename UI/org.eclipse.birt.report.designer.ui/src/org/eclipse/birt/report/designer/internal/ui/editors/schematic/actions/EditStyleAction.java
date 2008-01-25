@@ -15,18 +15,10 @@ import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.command.ICommandParameterNameContants;
-import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction.DynamicItemAction;
-import org.eclipse.birt.report.designer.ui.dialogs.StyleBuilder;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
-import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.commands.NotEnabledException;
-import org.eclipse.core.commands.NotHandledException;
-import org.eclipse.core.commands.ParameterValueConversionException;
-import org.eclipse.core.commands.common.NotDefinedException;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * Edits style.
@@ -51,7 +43,7 @@ public class EditStyleAction extends DynamicItemAction
 		{
 			setText( ( (ThemeHandle) handle.getContainerSlotHandle( )
 					.getElementHandle( ) ).getName( )
-					+ "."
+					+ "." //$NON-NLS-1$
 					+ DEUtil.getEscapedMenuItemText( DEUtil.getDisplayLabel( handle,
 							false ) ) );
 		}
@@ -89,7 +81,7 @@ public class EditStyleAction extends DynamicItemAction
 		CommandUtils.setVariable(ICommandParameterNameContants.EDIT_STYLE_SHARED_STYLE_HANDLE_NAME, handle);
 		try
 		{
-			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.editStyleCommand", null );
+			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.editStyleCommand", null ); //$NON-NLS-1$
 		}
 		catch ( Exception e )
 		{

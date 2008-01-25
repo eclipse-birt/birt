@@ -94,7 +94,7 @@ public final class DataSetUIUtil
 		catch ( BirtException e )
 		{
 			logger.entering( DataSetUIUtil.class.getName( ),
-					"updateColumnCache",
+					"updateColumnCache", //$NON-NLS-1$
 					new Object[]{
 						e
 					} );

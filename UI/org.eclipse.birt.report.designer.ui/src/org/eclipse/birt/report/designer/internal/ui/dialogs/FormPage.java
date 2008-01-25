@@ -428,8 +428,8 @@ public class FormPage extends Composite implements Listener
 		if ( style != SIMPLE_FUNCTION )
 		{
 			btnUp = new Button( this, SWT.PUSH );
-			btnUp.setText( Messages.getString( "FormPage.Button.Up" ) );
-			btnUp.setToolTipText( Messages.getString( "FormPage.toolTipText.Up" ) );
+			btnUp.setText( Messages.getString( "FormPage.Button.Up" ) ); //$NON-NLS-1$
+			btnUp.setToolTipText( Messages.getString( "FormPage.toolTipText.Up" ) ); //$NON-NLS-1$
 			btnUp.addSelectionListener( new SelectionAdapter( ) {
 
 				public void widgetSelected( SelectionEvent e )
@@ -447,8 +447,8 @@ public class FormPage extends Composite implements Listener
 			} );
 
 			btnDown = new Button( this, SWT.PUSH );
-			btnDown.setText( Messages.getString( "FormPage.Button.Down" ) );
-			btnDown.setToolTipText( Messages.getString( "FormPage.toolTipText.Down" ) );
+			btnDown.setText( Messages.getString( "FormPage.Button.Down" ) ); //$NON-NLS-1$
+			btnDown.setToolTipText( Messages.getString( "FormPage.toolTipText.Down" ) ); //$NON-NLS-1$
 			btnDown.addSelectionListener( new SelectionAdapter( ) {
 
 				public void widgetSelected( SelectionEvent e )

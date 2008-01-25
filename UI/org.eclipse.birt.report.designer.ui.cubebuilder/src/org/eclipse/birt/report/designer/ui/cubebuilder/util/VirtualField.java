@@ -16,11 +16,11 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 public class VirtualField
 {
 
-	public final static String TYPE_MEASURE = "measure";
-	public final static String TYPE_MEASURE_GROUP = "measureGroup";
-	public final static String TYPE_LEVEL = "level";
-	public final static String TYPE_DIMENSION = "dimension";
-	public final static String TYPE_OTHER_DATASETS = "other";
+	public final static String TYPE_MEASURE = "measure"; //$NON-NLS-1$
+	public final static String TYPE_MEASURE_GROUP = "measureGroup"; //$NON-NLS-1$
+	public final static String TYPE_LEVEL = "level"; //$NON-NLS-1$
+	public final static String TYPE_DIMENSION = "dimension"; //$NON-NLS-1$
+	public final static String TYPE_OTHER_DATASETS = "other"; //$NON-NLS-1$
 	private String type;
 
 	public VirtualField( String type )
@@ -43,15 +43,15 @@ public class VirtualField
 	public String toString( )
 	{
 		if ( type.equals( TYPE_MEASURE ) )
-			return Messages.getString( "GroupsPage.VirtualField.Measure" );
+			return Messages.getString( "GroupsPage.VirtualField.Measure" ); //$NON-NLS-1$
 		if ( type.equals( TYPE_LEVEL ) )
-			return Messages.getString( "GroupsPage.VirtualField.Level" );
+			return Messages.getString( "GroupsPage.VirtualField.Level" ); //$NON-NLS-1$
 		if ( type.equals( TYPE_MEASURE_GROUP ) )
-			return Messages.getString( "GroupsPage.VirtualField.MeasureGroup" );
+			return Messages.getString( "GroupsPage.VirtualField.MeasureGroup" ); //$NON-NLS-1$
 		if ( type.equals( TYPE_DIMENSION ) )
-			return Messages.getString( "GroupsPage.VirtualField.Dimension" );
+			return Messages.getString( "GroupsPage.VirtualField.Dimension" ); //$NON-NLS-1$
 		if ( type.equals( TYPE_OTHER_DATASETS ) )
-			return Messages.getString( "Cube.Other.Datasets" );
+			return Messages.getString( "Cube.Other.Datasets" ); //$NON-NLS-1$
 		return super.toString( );
 	}
 

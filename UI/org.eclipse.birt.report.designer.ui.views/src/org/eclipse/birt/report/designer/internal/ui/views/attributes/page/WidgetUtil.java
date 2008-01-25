@@ -239,7 +239,7 @@ public class WidgetUtil
 	public static Label createHorizontalLine( Composite parent, int hSpan )
 	{
 		Label label = FormWidgetFactory.getInstance( ).createLabel( parent,
-				"",
+				"", //$NON-NLS-1$
 				SWT.SEPARATOR | SWT.HORIZONTAL );
 		GridData data = new GridData( );
 		data.horizontalSpan = hSpan;

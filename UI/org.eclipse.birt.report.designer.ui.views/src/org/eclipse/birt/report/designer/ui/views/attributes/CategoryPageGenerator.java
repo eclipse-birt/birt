@@ -30,13 +30,13 @@ import org.eclipse.swt.widgets.Composite;
 public class CategoryPageGenerator extends TabPageGenerator
 {
 
-	public static final String ATTRIBUTESTITLE = Messages.getString( "PageGenerator.TabItem.Attributes" );
-	public static final String BINDINGTITLE = Messages.getString( "PageGenerator.TabItem.Binding" );
-	public static final String SORTINGTITLE = Messages.getString( "PageGenerator.TabItem.Sorting" );
-	public static final String FILTERTITLE = Messages.getString( "PageGenerator.TabItem.Filters" );
-	public static final String HIGHLIGHTSTITLE = Messages.getString( "PageGenerator.TabItem.Highlights" );
-	public static final String GROUPSSTITLE = Messages.getString( "PageGenerator.TabItem.Groups" );
-	public static final String MAPTITLE = Messages.getString( "PageGenerator.TabItem.map" );
+	public static final String ATTRIBUTESTITLE = Messages.getString( "PageGenerator.TabItem.Attributes" ); //$NON-NLS-1$
+	public static final String BINDINGTITLE = Messages.getString( "PageGenerator.TabItem.Binding" ); //$NON-NLS-1$
+	public static final String SORTINGTITLE = Messages.getString( "PageGenerator.TabItem.Sorting" ); //$NON-NLS-1$
+	public static final String FILTERTITLE = Messages.getString( "PageGenerator.TabItem.Filters" ); //$NON-NLS-1$
+	public static final String HIGHLIGHTSTITLE = Messages.getString( "PageGenerator.TabItem.Highlights" ); //$NON-NLS-1$
+	public static final String GROUPSSTITLE = Messages.getString( "PageGenerator.TabItem.Groups" ); //$NON-NLS-1$
+	public static final String MAPTITLE = Messages.getString( "PageGenerator.TabItem.map" ); //$NON-NLS-1$
 
 	/**
 	 * A <code>Composite<code> contains all category-like attribute pages.

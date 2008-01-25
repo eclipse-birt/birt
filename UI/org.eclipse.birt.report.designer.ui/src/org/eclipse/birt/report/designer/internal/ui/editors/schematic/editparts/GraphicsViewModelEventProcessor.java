@@ -29,8 +29,8 @@ import org.eclipse.birt.report.model.api.core.IDesignElement;
 public class GraphicsViewModelEventProcessor extends AbstractModelEventProcessor implements IFastConsumerProcessor
 {
 
-	public static String CONTENT_EVENTTYPE = "Content event type";
-	public static String EVENT_CONTENTS = "Event contents";
+	public static String CONTENT_EVENTTYPE = "Content event type"; //$NON-NLS-1$
+	public static String EVENT_CONTENTS = "Event contents"; //$NON-NLS-1$
 
 	/**
 	 * @param factory

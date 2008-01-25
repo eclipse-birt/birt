@@ -17,7 +17,7 @@ public class LibraryNameSpaceDescriptorProvider implements
 
 	public String getDisplayName( )
 	{
-		return Messages.getString( "LibraryPage.Label.Namespace" ) ;
+		return Messages.getString( "LibraryPage.Label.Namespace" ) ; //$NON-NLS-1$
 	}
 
 	public Object load( )
@@ -30,7 +30,7 @@ public class LibraryNameSpaceDescriptorProvider implements
 				return handle.getNamespace( );
 			}
 		}
-		return "";
+		return ""; //$NON-NLS-1$
 	}
 
 	public void save( Object value ) throws SemanticException

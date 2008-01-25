@@ -17,7 +17,7 @@ public class SeperatorSection extends Section
 
 	public SeperatorSection( Composite parent, int style )
 	{
-		super( " ", parent, false );
+		super( " ", parent, false ); //$NON-NLS-1$
 		this.style = style;
 	}
 

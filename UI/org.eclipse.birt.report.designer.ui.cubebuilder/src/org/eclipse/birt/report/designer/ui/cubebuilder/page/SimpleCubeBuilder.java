@@ -65,8 +65,8 @@ public class SimpleCubeBuilder extends TitleAreaDialog
 		container.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		container.setLayout( new GridLayout( ) );
 
-		this.setTitle( Messages.getString( "SimpleCubeBuilder.Title.Title" ) );
-		this.setMessage( Messages.getString( "SimpleCubeBuilder.Title.Message" ) );
+		this.setTitle( Messages.getString( "SimpleCubeBuilder.Title.Title" ) ); //$NON-NLS-1$
+		this.setMessage( Messages.getString( "SimpleCubeBuilder.Title.Message" ) ); //$NON-NLS-1$
 
 		createNameArea( container );
 		group = new CubeGroupContent( container, SWT.NONE );
@@ -80,7 +80,7 @@ public class SimpleCubeBuilder extends TitleAreaDialog
 	{
 		if ( cube != null )
 		{
-			nameText.setText( cube.getName( ) == null ? "" : cube.getName( ) );
+			nameText.setText( cube.getName( ) == null ? "" : cube.getName( ) ); //$NON-NLS-1$
 			group.setInput( cube, dataset );
 			group.load( );
 		}
@@ -98,7 +98,7 @@ public class SimpleCubeBuilder extends TitleAreaDialog
 		nameArea.setLayout( layout );
 
 		Label nameLabel = new Label( nameArea, SWT.NONE );
-		nameLabel.setText( Messages.getString( "SimpleCubeBuilder.Label.Name" ) );
+		nameLabel.setText( Messages.getString( "SimpleCubeBuilder.Label.Name" ) ); //$NON-NLS-1$
 
 		nameText = new Text( nameArea, SWT.BORDER );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
@@ -109,7 +109,7 @@ public class SimpleCubeBuilder extends TitleAreaDialog
 			public void modifyText( ModifyEvent e )
 			{
 				Button finishButton = getButton( IDialogConstants.OK_ID );
-				if ( !nameText.getText( ).trim( ).equals( "" ) )
+				if ( !nameText.getText( ).trim( ).equals( "" ) ) //$NON-NLS-1$
 				{
 					String name = nameText.getText( ).trim( );
 					try
@@ -118,7 +118,7 @@ public class SimpleCubeBuilder extends TitleAreaDialog
 						if ( finishButton != null )
 							finishButton.setEnabled( true );
 						SimpleCubeBuilder.this.setErrorMessage( null );
-						SimpleCubeBuilder.this.setMessage( Messages.getString( "SimpleCubeBuilder.Title.Message" ) );
+						SimpleCubeBuilder.this.setMessage( Messages.getString( "SimpleCubeBuilder.Title.Message" ) ); //$NON-NLS-1$
 					}
 					catch ( NameException e1 )
 					{
@@ -154,7 +154,7 @@ public class SimpleCubeBuilder extends TitleAreaDialog
 	protected void configureShell( Shell shell )
 	{
 		super.configureShell( shell );
-		shell.setText( Messages.getString( "SimpleCubeBuilder.Title" ) );
+		shell.setText( Messages.getString( "SimpleCubeBuilder.Title" ) ); //$NON-NLS-1$
 	}
 
 }

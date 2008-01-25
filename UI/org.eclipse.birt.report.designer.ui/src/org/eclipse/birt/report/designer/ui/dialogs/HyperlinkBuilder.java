@@ -723,7 +723,7 @@ public class HyperlinkBuilder extends BaseDialog
 		formatsGroup.setLayout( new GridLayout( 2, false ) );
 
 		checkButton = new Button( formatsGroup, SWT.CHECK );
-		checkButton.setText( Messages.getString( "HyperlinkBuilder.TargetReportFormat" )  );
+		checkButton.setText( Messages.getString( "HyperlinkBuilder.TargetReportFormat" )  ); //$NON-NLS-1$
 		checkButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -939,8 +939,8 @@ public class HyperlinkBuilder extends BaseDialog
 						File file = new File( filename );
 						if ( !( file.isFile( ) && file.exists( ) ) )
 						{
-							ExceptionHandler.openErrorMessageBox( Messages.getString( "HyperlinkBuilder.FileNameError.Title" ),
-									Messages.getString( "HyperlinkBuilder.FileNameError.Message" ) );
+							ExceptionHandler.openErrorMessageBox( Messages.getString( "HyperlinkBuilder.FileNameError.Title" ), //$NON-NLS-1$
+									Messages.getString( "HyperlinkBuilder.FileNameError.Message" ) ); //$NON-NLS-1$
 							return;
 						}
 
@@ -950,8 +950,8 @@ public class HyperlinkBuilder extends BaseDialog
 						if ( needFilter
 								&& checkExtensions( fileExt, filename ) == false )
 						{
-							ExceptionHandler.openErrorMessageBox( Messages.getString( "HyperlinkBuilder.FileNameError.Title" ),
-									Messages.getString( "HyperlinkBuilder.FileNameError.Message" ) );
+							ExceptionHandler.openErrorMessageBox( Messages.getString( "HyperlinkBuilder.FileNameError.Title" ), //$NON-NLS-1$
+									Messages.getString( "HyperlinkBuilder.FileNameError.Message" ) ); //$NON-NLS-1$
 							return;
 						}
 
@@ -1069,7 +1069,7 @@ public class HyperlinkBuilder extends BaseDialog
 				}
 
 				if ( !StringUtil.isBlank( bookmarkEditor.getText( ) )
-						&& !bookmarkEditor.getText( ).equals( "---" ) )
+						&& !bookmarkEditor.getText( ).equals( "---" ) ) //$NON-NLS-1$
 				{
 					inputHandle.setTargetBookmark( bookmarkEditor.getText( )
 							.trim( ) );
@@ -1268,7 +1268,7 @@ public class HyperlinkBuilder extends BaseDialog
 			}
 			else
 			{
-				bookmarkEditor.setText( "---" );
+				bookmarkEditor.setText( "---" ); //$NON-NLS-1$
 			}
 
 			if ( DesignChoiceConstants.TARGET_NAMES_TYPE_BLANK.equals( inputHandle.getTargetWindow( ) ) )
@@ -1379,7 +1379,7 @@ public class HyperlinkBuilder extends BaseDialog
 			if ( isToc )
 			{
 				List chooserItems = ( (ReportDesignHandle) handle ).getAllTocs( );
-				chooserItems.add( 0, (Object) new String( "---" ) );
+				chooserItems.add( 0, (Object) new String( "---" ) ); //$NON-NLS-1$
 				// anchorChooser.setItems( (String[]) ( (ReportDesignHandle)
 				// handle ).getAllTocs( )
 				// .toArray( new String[0] ) );
@@ -1388,7 +1388,7 @@ public class HyperlinkBuilder extends BaseDialog
 			else
 			{
 				List chooserItems = ( (ReportDesignHandle) handle ).getAllBookmarks( );
-				chooserItems.add( 0, (Object) new String( "---" ) );
+				chooserItems.add( 0, (Object) new String( "---" ) ); //$NON-NLS-1$
 				// anchorChooser.setItems( (String[]) ( (ReportDesignHandle)
 				// handle ).getAllBookmarks( )
 				// .toArray( new String[0] ) );
@@ -1399,7 +1399,7 @@ public class HyperlinkBuilder extends BaseDialog
 		{
 			if ( isToc )
 			{
-				String format = "html";
+				String format = "html"; //$NON-NLS-1$
 				if ( targetFormatsChooser.getSelectionIndex( ) != -1 )
 				{
 					format = supportedFormats[targetFormatsChooser.getSelectionIndex( )];
@@ -1412,7 +1412,7 @@ public class HyperlinkBuilder extends BaseDialog
 				// TOCNode rootTocNode = ( (IReportDocument) handle ).findTOC(
 				// null );
 				List chooserItems = getAllTocDisplayString( rootTocNode );
-				chooserItems.add( 0, (Object) new String( "---" ) );
+				chooserItems.add( 0, (Object) new String( "---" ) ); //$NON-NLS-1$
 				// anchorChooser.setItems( (String[]) getAllTocDisplayString(
 				// rootTocNode ).toArray( new String[0] ) );
 				anchorChooser.setItems( (String[]) chooserItems.toArray( new String[0] ) );
@@ -1447,7 +1447,7 @@ public class HyperlinkBuilder extends BaseDialog
 	{
 		List bookmarks = rdoc.getBookmarks( );
 		String[] bookmarkArray = new String[bookmarks.size( ) + 1];
-		bookmarkArray[0] = "---";
+		bookmarkArray[0] = "---"; //$NON-NLS-1$
 		int i = 1;
 		for ( Iterator iter = bookmarks.iterator( ); iter.hasNext( ); )
 		{

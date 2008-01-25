@@ -33,9 +33,9 @@ import org.eclipse.swt.widgets.Shell;
 
 public abstract class BaseDialog extends TrayDialog
 {
-	private static final String DIALOG_HEIGHT = "DIALOG_HEIGHT";
+	private static final String DIALOG_HEIGHT = "DIALOG_HEIGHT"; //$NON-NLS-1$
 
-	private static final String DIALOG_WIDTH = "DIALOG_WIDTH";
+	private static final String DIALOG_WIDTH = "DIALOG_WIDTH"; //$NON-NLS-1$
 	
 	protected Logger logger = Logger.getLogger( BaseDialog.class.getName( ) );
 

@@ -10,7 +10,7 @@ public class FontStylePropertyDescriptorProvider extends
 		PropertyDescriptorProvider implements IToggleDescriptorProvider
 {
 
-	private String defaltValue = "", toggleValue = "";
+	private String defaltValue = "", toggleValue = ""; //$NON-NLS-1$ //$NON-NLS-2$
 
 	public FontStylePropertyDescriptorProvider( String property, String element )
 	{
@@ -39,24 +39,24 @@ public class FontStylePropertyDescriptorProvider extends
 
 	public String getTooltipText( )
 	{
-		if ( toggleValue.equals( "bold" ) )
-			return ( Messages.getString( "TogglePropertyDescriptor.toolTipText.Bold" ) );
-		if ( toggleValue.equals( "italic" ) )
-			return ( Messages.getString( "TogglePropertyDescriptor.toolTipText.Italic" ) );
-		if ( toggleValue.equals( "underline" ) )
-			return ( Messages.getString( "TogglePropertyDescriptor.toolTipText.Underline" ) );
-		if ( toggleValue.equals( "line-through" ) )
-			return ( Messages.getString( "TogglePropertyDescriptor.toolTipText.Text_Line_Through" ) );
-		if ( toggleValue.equals( "bold" ) )
-			return ( Messages.getString( "TogglePropertyDescriptor.toolTipText.Bold" ) );
-		if ( toggleValue.equals( "italic" ) )
-			return ( Messages.getString( "TogglePropertyDescriptor.toolTipText.Italic" ) );
-		if ( toggleValue.equals( "underline" ) )
-			return ( Messages.getString( "TogglePropertyDescriptor.toolTipText.Underline" ) );
-		if ( toggleValue.equals( "line-through" ) )
-			return ( Messages.getString( "TogglePropertyDescriptor.toolTipText.Text_Line_Through" ) );
+		if ( toggleValue.equals( "bold" ) ) //$NON-NLS-1$
+			return ( Messages.getString( "TogglePropertyDescriptor.toolTipText.Bold" ) ); //$NON-NLS-1$
+		if ( toggleValue.equals( "italic" ) ) //$NON-NLS-1$
+			return ( Messages.getString( "TogglePropertyDescriptor.toolTipText.Italic" ) ); //$NON-NLS-1$
+		if ( toggleValue.equals( "underline" ) ) //$NON-NLS-1$
+			return ( Messages.getString( "TogglePropertyDescriptor.toolTipText.Underline" ) ); //$NON-NLS-1$
+		if ( toggleValue.equals( "line-through" ) ) //$NON-NLS-1$
+			return ( Messages.getString( "TogglePropertyDescriptor.toolTipText.Text_Line_Through" ) ); //$NON-NLS-1$
+		if ( toggleValue.equals( "bold" ) ) //$NON-NLS-1$
+			return ( Messages.getString( "TogglePropertyDescriptor.toolTipText.Bold" ) ); //$NON-NLS-1$
+		if ( toggleValue.equals( "italic" ) ) //$NON-NLS-1$
+			return ( Messages.getString( "TogglePropertyDescriptor.toolTipText.Italic" ) ); //$NON-NLS-1$
+		if ( toggleValue.equals( "underline" ) ) //$NON-NLS-1$
+			return ( Messages.getString( "TogglePropertyDescriptor.toolTipText.Underline" ) ); //$NON-NLS-1$
+		if ( toggleValue.equals( "line-through" ) ) //$NON-NLS-1$
+			return ( Messages.getString( "TogglePropertyDescriptor.toolTipText.Text_Line_Through" ) ); //$NON-NLS-1$
 
-		return "";
+		return ""; //$NON-NLS-1$
 	}
 
 	public String getImageName( )

@@ -145,10 +145,10 @@ public class WizardSelectCssStylePage extends WizardPage
 				if ( fileName != null )
 				{
 					// should check extensions in Linux enviroment
-					if (checkExtensions( new String[]{"*.css","*.CSS"}, fileName ) == false )
+					if (checkExtensions( new String[]{"*.css","*.CSS"}, fileName ) == false ) //$NON-NLS-1$ //$NON-NLS-2$
 					{
-						ExceptionHandler.openErrorMessageBox( Messages.getString( "WizardSelectCssStylePage.FileNameError.Title" ),
-								Messages.getString( "WizardSelectCssStylePage.FileNameError.Message" ) );
+						ExceptionHandler.openErrorMessageBox( Messages.getString( "WizardSelectCssStylePage.FileNameError.Title" ), //$NON-NLS-1$
+								Messages.getString( "WizardSelectCssStylePage.FileNameError.Message" ) ); //$NON-NLS-1$
 						
 					}else
 					{

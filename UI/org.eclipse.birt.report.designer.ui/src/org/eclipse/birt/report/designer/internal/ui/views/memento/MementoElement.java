@@ -7,12 +7,12 @@ import java.util.LinkedList;
 public class MementoElement
 {
 
-	public static final String Type_Element = "Element";
-	public static final String Type_Viewer = "Viewer";
-	public static final String Type_View = "View";
-	public static final String Type_Memento = "Memento";
+	public static final String Type_Element = "Element"; //$NON-NLS-1$
+	public static final String Type_Viewer = "Viewer"; //$NON-NLS-1$
+	public static final String Type_View = "View"; //$NON-NLS-1$
+	public static final String Type_Memento = "Memento"; //$NON-NLS-1$
 	
-	public static final String ATTRIBUTE_SELECTED = "Selected";
+	public static final String ATTRIBUTE_SELECTED = "Selected"; //$NON-NLS-1$
 
 	private String key;
 	private Object value;

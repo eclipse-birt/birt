@@ -34,17 +34,17 @@ public class BackgroundImageCellEditor extends DialogCellEditor
 {
 
 	private static final String[] IMAGE_TYPES = new String[]{
-			".bmp",
-			".jpg",
-			".jpeg",
-			".jpe",
-			".jfif",
-			".gif",
-			".png",
-			".tif",
-			".tiff",
-			".ico",
-			".svg"
+			".bmp", //$NON-NLS-1$
+			".jpg", //$NON-NLS-1$
+			".jpeg", //$NON-NLS-1$
+			".jpe", //$NON-NLS-1$
+			".jfif", //$NON-NLS-1$
+			".gif", //$NON-NLS-1$
+			".png", //$NON-NLS-1$
+			".tif", //$NON-NLS-1$
+			".tiff", //$NON-NLS-1$
+			".ico", //$NON-NLS-1$
+			".svg" //$NON-NLS-1$
 	};
 
 	private static final int defaultStyle = SWT.SINGLE;
@@ -143,8 +143,8 @@ public class BackgroundImageCellEditor extends DialogCellEditor
 		{
 			if ( checkExtensions( IMAGE_TYPES, file ) == false )
 			{
-				ExceptionHandler.openErrorMessageBox( Messages.getString( "EmbeddedImagesNodeProvider.FileNameError.Title" ),
-						Messages.getString( "EmbeddedImagesNodeProvider.FileNameError.Message" ) );
+				ExceptionHandler.openErrorMessageBox( Messages.getString( "EmbeddedImagesNodeProvider.FileNameError.Title" ), //$NON-NLS-1$
+						Messages.getString( "EmbeddedImagesNodeProvider.FileNameError.Message" ) ); //$NON-NLS-1$
 			}
 		}
 		return file;

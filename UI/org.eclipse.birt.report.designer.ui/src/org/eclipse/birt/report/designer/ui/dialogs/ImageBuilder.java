@@ -74,40 +74,40 @@ public class ImageBuilder extends BaseDialog
 {
 
 	private static final String[] IMAGE_TYPES = new String[]{
-			".bmp",
-			".jpg",
-			".jpeg",
-			".jpe",
-			".jfif",
-			".gif",
-			".png",
-			".tif",
-			".tiff",
-			".ico",
-			".svg"
+			".bmp", //$NON-NLS-1$
+			".jpg", //$NON-NLS-1$
+			".jpeg", //$NON-NLS-1$
+			".jpe", //$NON-NLS-1$
+			".jfif", //$NON-NLS-1$
+			".gif", //$NON-NLS-1$
+			".png", //$NON-NLS-1$
+			".tif", //$NON-NLS-1$
+			".tiff", //$NON-NLS-1$
+			".ico", //$NON-NLS-1$
+			".svg" //$NON-NLS-1$
 	};
 
 	private static final String[] IMAGE_FILEFILTERS = new String[]{
-		"*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.ico;*.svg"
+		"*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.ico;*.svg" //$NON-NLS-1$
 	};
 
 	public static final String DLG_TITLE_NEW = Messages.getString( "ImageBuilder.DialogTitle.New" ); //$NON-NLS-1$
 
 	public static final String DLG_TITLE_EDIT = Messages.getString( "ImageBuilder.DialogTitle.Edit" ); //$NON-NLS-1$
 
-	private static final String BUTTON_BROWSE_TOOLTIP = Messages.getString( "ImageBuilder.Button.Browser.Tooltip" );
+	private static final String BUTTON_BROWSE_TOOLTIP = Messages.getString( "ImageBuilder.Button.Browser.Tooltip" ); //$NON-NLS-1$
 
-	private static final String BUTTON_IMPORT = Messages.getString( "ImageBuilder.Button.Import" );
+	private static final String BUTTON_IMPORT = Messages.getString( "ImageBuilder.Button.Import" ); //$NON-NLS-1$
 
-	private static final String BUTTON_SELECT_IMAGE_DATA = Messages.getString( "ImageBuilder.Button.SelectImageData" );
+	private static final String BUTTON_SELECT_IMAGE_DATA = Messages.getString( "ImageBuilder.Button.SelectImageData" ); //$NON-NLS-1$
 
-	private static final String TYPE_URI = Messages.getString( "ImageBuilder.Type.URI" );
+	private static final String TYPE_URI = Messages.getString( "ImageBuilder.Type.URI" ); //$NON-NLS-1$
 
-	private static final String TYPE_RESOURCE_FILE = Messages.getString( "ImageBuilder.Type.ResourceFile" );
+	private static final String TYPE_RESOURCE_FILE = Messages.getString( "ImageBuilder.Type.ResourceFile" ); //$NON-NLS-1$
 
-	private static final String TYPE_EMBEDDED_IMAGE = Messages.getString( "ImageBuilder.Type.EmbededImage" );
+	private static final String TYPE_EMBEDDED_IMAGE = Messages.getString( "ImageBuilder.Type.EmbededImage" ); //$NON-NLS-1$
 
-	private static final String TYPE_DYNAMIC_IMAGE = Messages.getString( "ImageBuilder.Type.DynamicImage" );
+	private static final String TYPE_DYNAMIC_IMAGE = Messages.getString( "ImageBuilder.Type.DynamicImage" ); //$NON-NLS-1$
 
 	private static final String DLG_SELECT_PICTURE_LABEL = Messages.getString( "ImageBuilder.Label.SelectFrom" ); //$NON-NLS-1$
 
@@ -148,13 +148,13 @@ public class ImageBuilder extends BaseDialog
 	static
 	{
 		descriptionMap.put( new Integer( URI_TYPE ),
-				Messages.getString( "ImageBuilder.Description.URI" ) );
+				Messages.getString( "ImageBuilder.Description.URI" ) ); //$NON-NLS-1$
 		descriptionMap.put( new Integer( FILE_TYPE ),
-				Messages.getString( "ImageBuilder.Description.ResourceFile" ) );
+				Messages.getString( "ImageBuilder.Description.ResourceFile" ) ); //$NON-NLS-1$
 		descriptionMap.put( new Integer( EMBEDDED_TYPE ),
-				Messages.getString( "ImageBuilder.Description.Embedded" ) );
+				Messages.getString( "ImageBuilder.Description.Embedded" ) ); //$NON-NLS-1$
 		descriptionMap.put( new Integer( BLOB_TYPE ),
-				Messages.getString( "ImageBuilder.Description.Dynamic" ) );
+				Messages.getString( "ImageBuilder.Description.Dynamic" ) ); //$NON-NLS-1$
 	}
 
 	private static final Map uriEditorLabelMap = new HashMap( );
@@ -162,11 +162,11 @@ public class ImageBuilder extends BaseDialog
 	static
 	{
 		uriEditorLabelMap.put( new Integer( URI_TYPE ),
-				Messages.getString( "ImageBuilder.Label.EnterURI" ) );
+				Messages.getString( "ImageBuilder.Label.EnterURI" ) ); //$NON-NLS-1$
 		uriEditorLabelMap.put( new Integer( FILE_TYPE ),
-				Messages.getString( "ImageBuilder.Label.EnterResourceFile" ) );
+				Messages.getString( "ImageBuilder.Label.EnterResourceFile" ) ); //$NON-NLS-1$
 		uriEditorLabelMap.put( new Integer( BLOB_TYPE ),
-				Messages.getString( "ImageBuilder.Label.EnterExpr" ) );
+				Messages.getString( "ImageBuilder.Label.EnterExpr" ) ); //$NON-NLS-1$
 	}
 
 	private int selectedType = -1;
@@ -726,7 +726,7 @@ public class ImageBuilder extends BaseDialog
 		uriEditor.setFocus( );
 		// Listener will be called automatically
 		clearPreview( );
-		if ( !uri.equals( "" ) && selectedType != BLOB_TYPE )
+		if ( !uri.equals( "" ) && selectedType != BLOB_TYPE ) //$NON-NLS-1$
 		{
 			preview( DEUtil.RemoveQuote( uri ) );
 		}

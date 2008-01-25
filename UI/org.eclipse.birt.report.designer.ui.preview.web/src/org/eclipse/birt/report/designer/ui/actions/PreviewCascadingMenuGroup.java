@@ -41,9 +41,9 @@ public class PreviewCascadingMenuGroup implements
 		IWorkbenchWindowPulldownDelegate2
 {
 
-	private Image previewIcon = Activator.getImageDescriptor( "icons/etool16/preview.gif" )
+	private Image previewIcon = Activator.getImageDescriptor( "icons/etool16/preview.gif" ) //$NON-NLS-1$
 			.createImage( );
-	private Image previewPDFIcon = Activator.getImageDescriptor( "icons/etool16/preview_pdf.gif" )
+	private Image previewPDFIcon = Activator.getImageDescriptor( "icons/etool16/preview_pdf.gif" ) //$NON-NLS-1$
 			.createImage( );
 
 	/**
@@ -106,12 +106,12 @@ public class PreviewCascadingMenuGroup implements
 
 		MenuItem previewWebViewer = new MenuItem( menu, SWT.PUSH );
 		previewWebViewer.setText( Messages.getString( "designer.preview.run.webviewer" ) ); //$NON-NLS-1$
-		previewWebViewer.setImage( previewIcon ); //$NON-NLS-1$		
+		previewWebViewer.setImage( previewIcon ); 
 		previewWebViewer.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				preview( "html", true );
+				preview( "html", true ); //$NON-NLS-1$
 			}
 		} );
 
@@ -119,11 +119,11 @@ public class PreviewCascadingMenuGroup implements
 		{
 			final String format = supportedFormats[i];
 			MenuItem previewOption = new MenuItem( menu, SWT.PUSH );
-			previewOption.setText( Messages.getFormattedString( "designer.preview.run",
+			previewOption.setText( Messages.getFormattedString( "designer.preview.run", //$NON-NLS-1$
 					new Object[]{
 						format.toUpperCase( )
 					} ) );
-			if ( format.equals( "pdf" ) )
+			if ( format.equals( "pdf" ) ) //$NON-NLS-1$
 			{
 				previewOption.setImage( previewPDFIcon );
 			}
@@ -181,8 +181,8 @@ public class PreviewCascadingMenuGroup implements
 			if ( contentTypes.length > 0
 					&& contentTypes[0] != null
 					&& ( contentTypes[0].getId( )
-							.equals( "org.eclipse.birt.report.designer.ui.editors.reportdesign" ) || contentTypes[0].getId( )
-							.equals( "org.eclipse.birt.report.designer.ui.editors.reporttemplate" ) ) )
+							.equals( "org.eclipse.birt.report.designer.ui.editors.reportdesign" ) || contentTypes[0].getId( ) //$NON-NLS-1$
+							.equals( "org.eclipse.birt.report.designer.ui.editors.reporttemplate" ) ) ) //$NON-NLS-1$
 			{
 				return true;
 			}

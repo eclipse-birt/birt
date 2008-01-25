@@ -43,7 +43,7 @@ public class ExportToLibraryAction extends AbstractViewAction
 {
 
 	private static String windowTitle = Messages
-			.getString( "ExportToLibraryAction.wizard.windowTitle" );
+			.getString( "ExportToLibraryAction.wizard.windowTitle" ); //$NON-NLS-1$
 
 	private static final String DISPLAY_TEXT = Messages
 			.getString( "ExportToLibraryAction.action.text" ); //$NON-NLS-1$
@@ -131,7 +131,7 @@ public class ExportToLibraryAction extends AbstractViewAction
 		{
 			super( );
 			setWindowTitle( windowTitle );
-			page = new ExportReportWizardPage( "" );
+			page = new ExportReportWizardPage( "" ); //$NON-NLS-1$
 			addPage( page );
 
 		}

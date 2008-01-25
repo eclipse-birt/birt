@@ -140,12 +140,12 @@ public class DesignerActionBarContributor extends
 					Messages.getString( "CopyCellContentsContextAction.actionText" ) ), //$NON-NLS-1$
 			null,
 			new RegisterActions( CreatePlaceHolderPartAction.ID,
-					Messages.getString( "CreatePlaceHolderAction.text" ) ),
+					Messages.getString( "CreatePlaceHolderAction.text" ) ), //$NON-NLS-1$
 			new RegisterActions( RevertToReportItemPartAction.ID,
-					Messages.getString( "RevertToReportItemAction.text" ) ),
+					Messages.getString( "RevertToReportItemAction.text" ) ), //$NON-NLS-1$
 			null,
 			new RegisterActions( CreateChartAction.ID,
-					Messages.getString( "CreateChartAction.text" ) ),			
+					Messages.getString( "CreateChartAction.text" ) ),			 //$NON-NLS-1$
 			null,
 			new RegisterActions( AddGroupAction.ID,
 					Messages.getString( "DesignerActionBarContributor.element.group" ) ), //$NON-NLS-1$,
@@ -367,18 +367,18 @@ public class DesignerActionBarContributor extends
 		MenuManager dataMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.data" ), M_DATA ); //$NON-NLS-1$
 		dataMenu.add( getAction( dataActions[0].id ) );
 
-		MenuManager dataSetMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.data-NewDataSetParent" ) );
+		MenuManager dataSetMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.data-NewDataSetParent" ) ); //$NON-NLS-1$
 		contributeActionsToMenu( dataSetMenu, dataSetActions );
 		dataMenu.add( dataSetMenu );
 
-		MenuManager parameterMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.data-NewParameter" ) );
+		MenuManager parameterMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.data-NewParameter" ) ); //$NON-NLS-1$
 		//$NON-NLS-1$
 		contributeActionsToMenu( parameterMenu, parameterActions );
 		dataMenu.add( parameterMenu );
 
 		IMenuService menuService = (IMenuService) PlatformUI.getWorkbench( )
 				.getService( IMenuService.class );
-		menuService.populateContributionManager( dataMenu, "menu:birtData" );
+		menuService.populateContributionManager( dataMenu, "menu:birtData" ); //$NON-NLS-1$
 		menubar.insertAfter( M_ELEMENT, dataMenu );
 
 		menubar.update( );

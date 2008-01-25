@@ -1,8 +1,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.resourcelocator;
 
-import java.io.File;
-
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry.Filter;
 
 public class ResourceEntryFilter implements Filter

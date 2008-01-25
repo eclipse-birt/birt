@@ -54,7 +54,7 @@ public class WizardReportSettingPage extends WizardPage
 
 	
 //	private static final String PAGE_DESC = Messages.getString( "PublishTemplateAction.wizard.page.desc" ); //$NON-NLS-1$
-	private static final String PLUGIN_ID = "org.eclipse.birt.report.designer.ui.actions.PublishTemplateWizard";
+	private static final String PLUGIN_ID = "org.eclipse.birt.report.designer.ui.actions.PublishTemplateWizard"; //$NON-NLS-1$
 
 	private static final String STR_EMPTY = ""; //$NON-NLS-1$
 
@@ -69,26 +69,26 @@ public class WizardReportSettingPage extends WizardPage
 	private Status previewImageStatus;
 
 	private static final String[] IMAGE_TYPES = new String[]{
-			".bmp",
-			".jpg",
-			".jpeg",
-			".jpe",
-			".jfif",
-			".gif",
-			".png",
-			".tif",
-			".tiff",
-			".ico",
-			".svg"
+			".bmp", //$NON-NLS-1$
+			".jpg", //$NON-NLS-1$
+			".jpeg", //$NON-NLS-1$
+			".jpe", //$NON-NLS-1$
+			".jfif", //$NON-NLS-1$
+			".gif", //$NON-NLS-1$
+			".png", //$NON-NLS-1$
+			".tif", //$NON-NLS-1$
+			".tiff", //$NON-NLS-1$
+			".ico", //$NON-NLS-1$
+			".svg" //$NON-NLS-1$
 	};
 
 	private static final String[] IMAGE_FILEFILTERS = new String[]{
-		"*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.ico;*.svg"
+		"*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.ico;*.svg" //$NON-NLS-1$
 	};
 
 	public WizardReportSettingPage( ReportDesignHandle handle )
 	{
-		super( "" );
+		super( "" ); //$NON-NLS-1$
 		module = handle;
 		pageDesc = null;
 	}
@@ -253,7 +253,7 @@ public class WizardReportSettingPage extends WizardPage
 			status = new Status( IStatus.ERROR,
 					PLUGIN_ID,
 					0,
-					Messages.getString( "PublishTemplateAction.wizard.page.nameInfo" ),
+					Messages.getString( "PublishTemplateAction.wizard.page.nameInfo" ), //$NON-NLS-1$
 					null );
 			nameStatus = status;
 		}
@@ -262,12 +262,12 @@ public class WizardReportSettingPage extends WizardPage
 		// exist or it's an iamge.
 		if ( !isTextEmpty( previewImageText ) && (module != null && module.getIconFile( ) == null) )
 		{
-			if(imageFileName.equals( Messages.getString( "ThumbnailBuilder.Image.DefaultName" ) ))
+			if(imageFileName.equals( Messages.getString( "ThumbnailBuilder.Image.DefaultName" ) )) //$NON-NLS-1$
 			{
 				status = new Status( IStatus.ERROR,
 						PLUGIN_ID,
 						0,
-						Messages.getString( "PublishTemplateAction.wizard.message.ThumbnailImageNotExist" ),
+						Messages.getString( "PublishTemplateAction.wizard.message.ThumbnailImageNotExist" ), //$NON-NLS-1$
 						null );
 				previewImageStatus = status;
 			}
@@ -281,7 +281,7 @@ public class WizardReportSettingPage extends WizardPage
 				status = new Status( IStatus.ERROR,
 						PLUGIN_ID,
 						0,
-						Messages.getString( "PublishTemplateAction.wizard.message.PreviewImageNotExist" ),
+						Messages.getString( "PublishTemplateAction.wizard.message.PreviewImageNotExist" ), //$NON-NLS-1$
 						null );
 				previewImageStatus = status;
 			}
@@ -290,7 +290,7 @@ public class WizardReportSettingPage extends WizardPage
 				status = new Status( IStatus.ERROR,
 						PLUGIN_ID,
 						0,
-						Messages.getString( "PublishTemplateAction.wizard.message.PreviewImageNotValid" ),
+						Messages.getString( "PublishTemplateAction.wizard.message.PreviewImageNotValid" ), //$NON-NLS-1$
 						null );
 				previewImageStatus = status;
 			}

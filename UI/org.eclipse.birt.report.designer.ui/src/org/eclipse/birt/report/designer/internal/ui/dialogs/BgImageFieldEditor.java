@@ -33,17 +33,17 @@ import org.eclipse.swt.widgets.Text;
 public class BgImageFieldEditor extends AbstractFieldEditor
 {
 	private static final String[] IMAGE_TYPES = new String[]{
-		".bmp",
-		".jpg",
-		".jpeg",
-		".jpe",
-		".jfif",
-		".gif",
-		".png",
-		".tif",
-		".tiff",
-		".ico",
-		".svg"
+		".bmp", //$NON-NLS-1$
+		".jpg", //$NON-NLS-1$
+		".jpeg", //$NON-NLS-1$
+		".jpe", //$NON-NLS-1$
+		".jfif", //$NON-NLS-1$
+		".gif", //$NON-NLS-1$
+		".png", //$NON-NLS-1$
+		".tif", //$NON-NLS-1$
+		".tiff", //$NON-NLS-1$
+		".ico", //$NON-NLS-1$
+		".svg" //$NON-NLS-1$
 };
 	/**
 	 * the text widget.
@@ -217,8 +217,8 @@ public class BgImageFieldEditor extends AbstractFieldEditor
 					// should check extensions in Linux enviroment
 						if ( checkExtensions( IMAGE_TYPES,file ) == false )
 						{
-							ExceptionHandler.openErrorMessageBox( Messages.getString( "EmbeddedImagesNodeProvider.FileNameError.Title" ),
-									Messages.getString( "EmbeddedImagesNodeProvider.FileNameError.Message" ) );
+							ExceptionHandler.openErrorMessageBox( Messages.getString( "EmbeddedImagesNodeProvider.FileNameError.Title" ), //$NON-NLS-1$
+									Messages.getString( "EmbeddedImagesNodeProvider.FileNameError.Message" ) ); //$NON-NLS-1$
 						}else
 						{
 							getTextControl( null ).setText( file );

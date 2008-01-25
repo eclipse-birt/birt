@@ -15,7 +15,6 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.TableFigure;
 import org.eclipse.draw2d.AbstractHintLayout;
-import org.eclipse.draw2d.DeferredUpdateManager;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LayeredPane;

@@ -135,7 +135,7 @@ public class ReportPage extends ModulePage
 
 					}
 					
-					prvImageSection.setStringValue("");
+					prvImageSection.setStringValue(""); //$NON-NLS-1$
 					prvImageSection.forceFocus( );
 				}
 				
@@ -146,8 +146,8 @@ public class ReportPage extends ModulePage
 		
 		prvImageSection.setWidth( 500 );
 //		prvImageSection.setFristButtonText(  Messages.getString( "ReportPage.text.Browse" ) );
-		prvImageSection.setSecondButtonText( "..." );
-		prvImageSection.setSecondButtonTooltipText(Messages.getString( "ReportPage.PreviewImage.Button.ToolTip"));
+		prvImageSection.setSecondButtonText( "..." ); //$NON-NLS-1$
+		prvImageSection.setSecondButtonTooltipText(Messages.getString( "ReportPage.PreviewImage.Button.ToolTip")); //$NON-NLS-1$
 		
 		addSection( PageSectionId.REPORT_PRVIMAGE, prvImageSection );
 		

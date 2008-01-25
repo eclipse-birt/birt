@@ -36,10 +36,10 @@ public class EmbeddedImagesNodeProvider extends DefaultNodeProvider {
 	// private static final String SUPPORTED_IMAGE_FILE_EXTS = Messages
 	// .getString( "ImageBuilderDialog.FileDialog.FilterMessage" );
 	// //$NON-NLS-1$
-	private static String[] EXTENSIONS = new String[] { ".bmp", ".jpg",
-			".jpeg", ".jpe", ".jfif", ".gif", ".png", ".tif", ".tiff",".svg" };
+	private static String[] EXTENSIONS = new String[] { ".bmp", ".jpg", //$NON-NLS-1$ //$NON-NLS-2$
+			".jpeg", ".jpe", ".jfif", ".gif", ".png", ".tif", ".tiff",".svg" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
 
-	private static String[] ALLEXTENSIONS = new String[] { "*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.svg" };
+	private static String[] ALLEXTENSIONS = new String[] { "*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.svg" }; //$NON-NLS-1$
 
 	public Object[] getChildren(Object model) {
 		return ((EmbeddedImageNode) model).getChildren();
@@ -104,9 +104,9 @@ public class EmbeddedImagesNodeProvider extends DefaultNodeProvider {
 					ExceptionHandler
 							.openErrorMessageBox(
 									Messages
-											.getString("EmbeddedImagesNodeProvider.FileNameError.Title"),
+											.getString("EmbeddedImagesNodeProvider.FileNameError.Title"), //$NON-NLS-1$
 									Messages
-											.getString("EmbeddedImagesNodeProvider.FileNameError.Message"));
+											.getString("EmbeddedImagesNodeProvider.FileNameError.Message")); //$NON-NLS-1$
 					return false;
 				}
 

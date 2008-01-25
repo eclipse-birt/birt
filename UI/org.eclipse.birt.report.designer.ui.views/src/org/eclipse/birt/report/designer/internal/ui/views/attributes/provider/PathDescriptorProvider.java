@@ -22,17 +22,17 @@ public class PathDescriptorProvider implements ITextDescriptorProvider
 
 	public String getDisplayName( )
 	{
-		return Messages.getString( "ModulePage.text.Path" );
+		return Messages.getString( "ModulePage.text.Path" ); //$NON-NLS-1$
 	}
 
 	public Object load( )
 	{
 		if ( input == null )
-			return "";
+			return ""; //$NON-NLS-1$
 		DesignElementHandle handle = (DesignElementHandle) DEUtil.getInputFirstElement( input );
 		if ( handle != null )
 			return TextProcessor.process( ( (ModuleHandle) handle ).getFileName( ), PATH_DELIMETER );
-		return "";
+		return ""; //$NON-NLS-1$
 	}
 
 	public void save( Object value ) throws SemanticException

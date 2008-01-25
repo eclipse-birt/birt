@@ -43,7 +43,7 @@ public class DeleteJoinAction extends AbstractViewAction
 		super( selectedObject );
 		if ( editPart instanceof JoinConditionEditPart )
 		{
-			this.editPart = (JoinConditionEditPart) editPart;
+			this.editPart = editPart;
 		}
 	}
 

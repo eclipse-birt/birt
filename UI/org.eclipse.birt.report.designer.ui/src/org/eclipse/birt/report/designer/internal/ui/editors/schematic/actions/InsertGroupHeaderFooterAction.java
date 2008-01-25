@@ -38,9 +38,9 @@ public class InsertGroupHeaderFooterAction extends Action
 
 	public static final int FOOTER = 2;
 
-	public static final String INSERT_HEADER_TEXT = Messages.getString( "InsertGroupHeaderFooterAction.Text.Header" );
+	public static final String INSERT_HEADER_TEXT = Messages.getString( "InsertGroupHeaderFooterAction.Text.Header" ); //$NON-NLS-1$
 
-	public static final String INSERT_FOOTER_TEXT = Messages.getString( "InsertGroupHeaderFooterAction.Text.Footer" );
+	public static final String INSERT_FOOTER_TEXT = Messages.getString( "InsertGroupHeaderFooterAction.Text.Footer" ); //$NON-NLS-1$
 
 	private SlotHandle slotHandle;
 
@@ -58,7 +58,7 @@ public class InsertGroupHeaderFooterAction extends Action
 		if ( handle == null )
 		{
 			slotHandle = null;
-			setText( Messages.getString( "NoneAction.text" ) );
+			setText( Messages.getString( "NoneAction.text" ) ); //$NON-NLS-1$
 			return;
 		}
 		switch ( type )

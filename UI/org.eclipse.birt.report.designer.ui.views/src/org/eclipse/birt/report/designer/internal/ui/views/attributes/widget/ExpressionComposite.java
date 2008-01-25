@@ -63,7 +63,7 @@ public class ExpressionComposite extends Composite
 		setLayout( layout );
 		if ( isFormStyle )
 			text = FormWidgetFactory.getInstance( ).createText( this,
-					"",
+					"", //$NON-NLS-1$
 					SWT.READ_ONLY | SWT.SINGLE );
 		else
 			text = new Text( this, SWT.READ_ONLY | SWT.SINGLE );
@@ -99,7 +99,7 @@ public class ExpressionComposite extends Composite
 //		button.setLayoutData( data );
 //		button.setText( "..." );//$NON-NLS-1$
 		UIUtil.setExpressionButtonImage(button);
-		button.setToolTipText( Messages.getString( "ExpressionBuilder.toolTipText.Button" ) );
+		button.setToolTipText( Messages.getString( "ExpressionBuilder.toolTipText.Button" ) ); //$NON-NLS-1$
 		initAccessible( );
 	}
 

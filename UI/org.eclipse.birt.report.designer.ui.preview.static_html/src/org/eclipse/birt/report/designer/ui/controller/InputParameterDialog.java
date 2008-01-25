@@ -66,7 +66,7 @@ public class InputParameterDialog extends Dialog
 
 		public String getLabel( )
 		{
-			return "Null Value";
+			return "Null Value"; //$NON-NLS-1$
 		}
 
 		public Object getValue( )
@@ -80,12 +80,12 @@ public class InputParameterDialog extends Dialog
 
 		public String getLabel( )
 		{
-			return "";
+			return ""; //$NON-NLS-1$
 		}
 
 		public Object getValue( )
 		{
-			return "";
+			return ""; //$NON-NLS-1$
 		}
 	};
 
@@ -109,10 +109,10 @@ public class InputParameterDialog extends Dialog
 				String paramName = (String) ite.next( );
 				Object paramValue = paramValues.get( paramName );
 				if ( paramValue == null
-						|| ( paramValue instanceof String && ( (String) paramValue ).equals( "" ) ) )
+						|| ( paramValue instanceof String && ( (String) paramValue ).equals( "" ) ) ) //$NON-NLS-1$
 				{
-					MessageDialog.openError( parentShell, "Error", paramName
-							+ " cannot be NULL or blank" );
+					MessageDialog.openError( parentShell, "Error", paramName //$NON-NLS-1$
+							+ " cannot be NULL or blank" ); //$NON-NLS-1$
 					return;
 
 				}
@@ -134,10 +134,10 @@ public class InputParameterDialog extends Dialog
 				{
 					// TODO: handle exception
 					MessageDialog.openError( parentShell,
-							"Invalid value type",
-							"The value \""
+							"Invalid value type", //$NON-NLS-1$
+							"The value \"" //$NON-NLS-1$
 									+ paramValue
-									+ "\" is invalid with type "
+									+ "\" is invalid with type " //$NON-NLS-1$
 									+ scalarParam.getHandle( ).getDataType( ) );
 					return;
 				}
@@ -237,7 +237,7 @@ public class InputParameterDialog extends Dialog
 		container.setLayout( layout );
 		new Label( container, SWT.NONE ).setText( param.getHandle( )
 				.getDisplayLabel( )
-				+ ":" );
+				+ ":" ); //$NON-NLS-1$
 
 		if ( param instanceof StaticTextParam )
 		{
@@ -307,7 +307,7 @@ public class InputParameterDialog extends Dialog
 					button.setSelection( true );
 				}
 				else if ( value == null
-						&& choice.getLabel( ).equals( "Null Value" ) )
+						&& choice.getLabel( ).equals( "Null Value" ) ) //$NON-NLS-1$
 				{
 					button.setSelection( true );
 				}
@@ -429,7 +429,7 @@ public class InputParameterDialog extends Dialog
 	protected void configureShell( Shell newShell )
 	{
 		super.configureShell( newShell );
-		newShell.setText( "Input parameters" );
+		newShell.setText( "Input parameters" ); //$NON-NLS-1$
 		newShell.setSize( 400, 400 );
 	}
 

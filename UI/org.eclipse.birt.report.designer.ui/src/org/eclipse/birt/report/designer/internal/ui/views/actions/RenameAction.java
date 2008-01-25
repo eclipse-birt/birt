@@ -133,8 +133,8 @@ public class RenameAction extends AbstractViewerAction
 			initOriginalName( );
 			RenameInputDialog inputDialog = new RenameInputDialog( selectedItem.getParent( )
 					.getShell( ),
-					Messages.getString( "RenameInputDialog.DialogTitle" ),
-					Messages.getString( "RenameInputDialog.DialogMessage" ),
+					Messages.getString( "RenameInputDialog.DialogTitle" ), //$NON-NLS-1$
+					Messages.getString( "RenameInputDialog.DialogMessage" ), //$NON-NLS-1$
 					originalName,
 					null );
 			inputDialog.create( );

@@ -32,8 +32,8 @@ public class SlotHandleConverter extends AbstractParameterValueConverter
 			throws ParameterValueConversionException
 	{
 		String elementId = parameterValue.substring( 0,
-				parameterValue.indexOf( "#" ) );
-		String slotId = parameterValue.substring( parameterValue.indexOf( "#" ) + 1,
+				parameterValue.indexOf( "#" ) ); //$NON-NLS-1$
+		String slotId = parameterValue.substring( parameterValue.indexOf( "#" ) + 1, //$NON-NLS-1$
 				parameterValue.length( ) );
 		return SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
@@ -46,7 +46,7 @@ public class SlotHandleConverter extends AbstractParameterValueConverter
 	{
 
 		return ( (SlotHandle) parameterValue ).getElement( ).getID( )
-				+ "#"
+				+ "#" //$NON-NLS-1$
 				+ ( (SlotHandle) parameterValue ).getSlotID( );
 	}
 

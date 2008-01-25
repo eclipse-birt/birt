@@ -20,7 +20,7 @@ import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 public class JoinConditionEditPart extends AbstractConnectionEditPart
 {
 
-	private static final String SELECTION_POLICY = "Selection Policy";
+	private static final String SELECTION_POLICY = "Selection Policy"; //$NON-NLS-1$
 
 	/**
 	 * @param context

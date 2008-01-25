@@ -42,7 +42,7 @@ import com.ibm.icu.util.ULocale;
  * values for selection from the data set. It allows both multiple and single
  * selection. The default is single selection.
  * 
- * @version $Revision: 1.27 $ $Date: 2007/12/21 09:29:00 $
+ * @version $Revision: 1.28 $ $Date: 2008/01/21 08:23:47 $
  */
 public class SelectValueDialog extends BaseDialog
 {
@@ -207,7 +207,7 @@ public class SelectValueDialog extends BaseDialog
 
 			if ( modelValue == null )
 			{
-				return "null";
+				return "null"; //$NON-NLS-1$
 			}
 			else
 			{
@@ -221,9 +221,9 @@ public class SelectValueDialog extends BaseDialog
 				}
 				else
 				{
-					exprValue = "\""
+					exprValue = "\"" //$NON-NLS-1$
 							+ JavascriptEvalUtil.transformToJsConstants( viewerValue )
-							+ "\"";
+							+ "\""; //$NON-NLS-1$
 				}
 			}
 		}
@@ -255,7 +255,7 @@ public class SelectValueDialog extends BaseDialog
 
 			if ( modelValue == null )
 			{
-				exprValues[i] = "null";
+				exprValues[i] = "null"; //$NON-NLS-1$
 			}
 			else
 			{
@@ -269,9 +269,9 @@ public class SelectValueDialog extends BaseDialog
 				}
 				else
 				{
-					exprValues[i] = "\""
+					exprValues[i] = "\"" //$NON-NLS-1$
 							+ JavascriptEvalUtil.transformToJsConstants( viewerValue )
-							+ "\"";
+							+ "\""; //$NON-NLS-1$
 				}
 			}
 			}
@@ -301,17 +301,17 @@ public class SelectValueDialog extends BaseDialog
 						Object displayCandiateValue;
 						if ( candiateValue instanceof java.sql.Date )
 						{
-							formatter.applyPattern( "yyyy-MM-dd" );
+							formatter.applyPattern( "yyyy-MM-dd" ); //$NON-NLS-1$
 							displayCandiateValue = formatter.format( (Date) candiateValue );
 						}
 						else if ( candiateValue instanceof java.sql.Time )
 						{
-							formatter.applyPattern( "HH:mm:ss" );
+							formatter.applyPattern( "HH:mm:ss" ); //$NON-NLS-1$
 							displayCandiateValue = formatter.format( (Date) candiateValue );
 						}
 						else if ( candiateValue instanceof Date )
 						{
-							formatter.applyPattern( "yyyy-MM-dd HH:mm:ss.SSS" );
+							formatter.applyPattern( "yyyy-MM-dd HH:mm:ss.SSS" ); //$NON-NLS-1$
 							displayCandiateValue = formatter.format( (Date) candiateValue );
 						}
 						else

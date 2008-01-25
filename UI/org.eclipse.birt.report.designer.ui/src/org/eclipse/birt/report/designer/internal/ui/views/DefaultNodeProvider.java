@@ -112,9 +112,9 @@ public class DefaultNodeProvider implements INodeProvider
 
 	public static final String MISSINGNAME = Messages.getString( "DefaultNodeProvider.Tree.Invalid" ); //$NON-NLS-1$
 
-	public static final String WARNING_DIALOG_TITLE = Messages.getString( "DefaultNodeProvider.WarningDialog.Title" );
+	public static final String WARNING_DIALOG_TITLE = Messages.getString( "DefaultNodeProvider.WarningDialog.Title" ); //$NON-NLS-1$
 
-	public static final String WARNING_DIALOG_MESSAGE_EMPTY_LIST = Messages.getString( "DefaultNodeProvider.WarningDialog.EmptyList" );
+	public static final String WARNING_DIALOG_MESSAGE_EMPTY_LIST = Messages.getString( "DefaultNodeProvider.WarningDialog.EmptyList" ); //$NON-NLS-1$
 	private Comparator comparator;
 
 	/**
@@ -485,9 +485,9 @@ public class DefaultNodeProvider implements INodeProvider
 				.getCustomName( ReportDesignConstants.TEMPLATE_REPORT_ITEM );
 		if ( name == null )
 		{
-			name = "";
+			name = ""; //$NON-NLS-1$
 		}
-		String desc = "";
+		String desc = ""; //$NON-NLS-1$
 		try
 		{
 
@@ -576,7 +576,7 @@ public class DefaultNodeProvider implements INodeProvider
 			//TODO filter auto-text
 			List supportList = DEUtil.getElementSupportList( slotHandle );
 			//bug#207731
-			supportList.remove( DEUtil.getElementDefn( "AutoText" ) );
+			supportList.remove( DEUtil.getElementDefn( "AutoText" ) ); //$NON-NLS-1$
 			if ( supportList.size( ) == 0 )
 			{
 				ExceptionHandler.openMessageBox( WARNING_DIALOG_TITLE,

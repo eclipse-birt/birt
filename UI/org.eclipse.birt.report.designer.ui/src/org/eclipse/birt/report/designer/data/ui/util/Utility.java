@@ -309,7 +309,7 @@ public class Utility
 	 */
 	public static void setScriptActivityEditor( )
 	{
-		final String SCRIPT_EDITOR_ID = "org.eclipse.birt.report.designer.ui.editors.script";
+		final String SCRIPT_EDITOR_ID = "org.eclipse.birt.report.designer.ui.editors.script"; //$NON-NLS-1$
 		if ( UIUtil.getActiveReportEditor( ).findPage( SCRIPT_EDITOR_ID ) != null ) //$NON-NLS-1$
 		{
 			UIUtil.getActiveReportEditor( ).setActivePage( SCRIPT_EDITOR_ID );//$NON-NLS-1$
@@ -372,7 +372,7 @@ public class Utility
 	 */
 	public static String getNonNullString( String value )
 	{
-		return value == null ? "" : value;
+		return value == null ? "" : value; //$NON-NLS-1$
 	}
 
 	/**

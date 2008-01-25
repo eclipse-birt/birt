@@ -32,14 +32,14 @@ public class HeaderFooterPage extends AttributePage
 		CheckSection headerSection = new CheckSection( container, true );
 		headerSection.setProvider( headerProvider );
 		headerSection.setLayoutNum( 1 );
-		addSection( "HEADERSECTION", headerSection );
+		addSection( "HEADERSECTION", headerSection ); //$NON-NLS-1$
 
 		
 		PropertyDescriptorProvider footerProvider = new PropertyDescriptorProvider( SimpleMasterPageHandle.SHOW_FOOTER_ON_LAST_PROP,ReportDesignConstants.SIMPLE_MASTER_PAGE_ELEMENT);
 		CheckSection footerSection = new CheckSection( container, true );
 		footerSection.setProvider( footerProvider );
 		footerSection.setLayoutNum( 1 );
-		addSection( "FOOTERSECTION", footerSection );
+		addSection( "FOOTERSECTION", footerSection ); //$NON-NLS-1$
 		
 		createSections( );
 		layoutSections( );

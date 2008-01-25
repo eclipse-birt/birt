@@ -18,22 +18,16 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.actions.DeleteAction;
-import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ReloadCssStyleAction;
-import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
-import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.ISharedImages;
 
 
 
@@ -61,7 +55,7 @@ public class CssStyleSheetNodeProvider extends DefaultNodeProvider
 	public String getNodeDisplayName( Object model )
 	{
 		String fileName = ( (CssStyleSheetHandle) model ).getFileName( );		
-		return fileName.substring( fileName.lastIndexOf( "/" ) + 1 );
+		return fileName.substring( fileName.lastIndexOf( "/" ) + 1 ); //$NON-NLS-1$
 	}
 
 

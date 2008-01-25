@@ -37,14 +37,14 @@ public class PublishLibraryWizard extends Wizard
 	LibraryHandle handle;
 
 	private static String windowTitle = Messages
-			.getString( "PublishLibraryDialog.ShellText" );
+			.getString( "PublishLibraryDialog.ShellText" ); //$NON-NLS-1$
 	private static String PAGE_TITLE = Messages
-			.getString( "PublishLibraryDialog.TitleArea" );
+			.getString( "PublishLibraryDialog.TitleArea" ); //$NON-NLS-1$
 	private static String PAGE_DESC = Messages
-			.getString( "PublishLibraryDialog.Message" );
+			.getString( "PublishLibraryDialog.Message" ); //$NON-NLS-1$
 
 	private static String addLibraryTitle = Messages
-			.getString( "PublishLibraryDialog.AddLibrary" );
+			.getString( "PublishLibraryDialog.AddLibrary" ); //$NON-NLS-1$
 
 	private String filePath;
 	private String fileName;
@@ -105,9 +105,9 @@ public class PublishLibraryWizard extends Wizard
 		{
 			page
 					.setTitle( Messages
-							.getString( "PublishLibraryDialog.AddText" ) );
+							.getString( "PublishLibraryDialog.AddText" ) ); //$NON-NLS-1$
 			page.setMessage( Messages
-					.getString( "PublishLibraryDialog.AddMessage" ) );
+					.getString( "PublishLibraryDialog.AddMessage" ) ); //$NON-NLS-1$
 			page.setfolderName( folderName );
 		}
 		page.setType( type );
@@ -164,7 +164,7 @@ public class PublishLibraryWizard extends Wizard
 							Messages
 									.getString( "PublishLibraryAction.wizard.errorTitle" ), //$NON-NLS-1$
 							Messages
-									.getString( "PublishLibraryAction.wizard.notvalidfolder" ) );
+									.getString( "PublishLibraryAction.wizard.notvalidfolder" ) ); //$NON-NLS-1$
 			//$NON-NLS-1$
 			return true;
 		}

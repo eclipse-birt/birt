@@ -100,7 +100,7 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 	private static final int FORMAT_TYPE_INDEX = 0;
 	private static final int DEFAULT_CATEGORY_CONTAINER_WIDTH = 220;
 
-	private static final String DEFAULT_PREVIEW_TEXT = "1234.56";
+	private static final String DEFAULT_PREVIEW_TEXT = "1234.56"; //$NON-NLS-1$
 	private static final String DEFAULT_LOCALE_TEXT = NumberFormat.getNumberInstance( Locale.getDefault( ) )
 			.format( 1234.56 );
 	private static final double DEFAULT_PREVIEW_NUMBER = Double.parseDouble( DEFAULT_PREVIEW_TEXT );
@@ -109,12 +109,12 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 	static
 	{
 		java.util.List list = new ArrayList( );
-		list.add( Messages.getString( "FormatNumberPage.currency.symbol.none" ) );
-		list.add( "\u00A5" );
-		list.add( "$" );
-		list.add( "\u20ac" );
-		list.add( "\u00A3" );
-		list.add( "\u20A9" );
+		list.add( Messages.getString( "FormatNumberPage.currency.symbol.none" ) ); //$NON-NLS-1$
+		list.add( "\u00A5" ); //$NON-NLS-1$
+		list.add( "$" ); //$NON-NLS-1$
+		list.add( "\u20ac" ); //$NON-NLS-1$
+		list.add( "\u00A3" ); //$NON-NLS-1$
+		list.add( "\u20A9" ); //$NON-NLS-1$
 		String localSymbol = Currency.getInstance( Locale.getDefault( ) )
 				.getSymbol( );
 		if ( !list.contains( localSymbol ) )
@@ -1157,7 +1157,7 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 						isFormStyle( ) ).setText( LABEL_FORMAT_CODE );
 				if ( isFormStyle( ) )
 					formatCodeBox = FormWidgetFactory.getInstance( )
-							.createText( container, "", SWT.SINGLE );
+							.createText( container, "", SWT.SINGLE ); //$NON-NLS-1$
 				else
 					formatCodeBox = new Text( container, SWT.SINGLE
 							| SWT.BORDER );
@@ -1216,7 +1216,7 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 					isFormStyle( ) ).setText( LABEL_FORMAT_CODE );
 			if ( isFormStyle( ) )
 				formatCodeBox = FormWidgetFactory.getInstance( )
-						.createText( container, "", SWT.SINGLE );
+						.createText( container, "", SWT.SINGLE ); //$NON-NLS-1$
 			else
 				formatCodeBox = new Text( container, SWT.SINGLE | SWT.BORDER );
 			formatCodeBox.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -1232,7 +1232,7 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 		if ( !isFormStyle( ) )
 			setting = new Group( parent, SWT.NONE );
 		else
-			setting = FormWidgetFactory.getInstance( ).createGroup( parent, "" );
+			setting = FormWidgetFactory.getInstance( ).createGroup( parent, "" ); //$NON-NLS-1$
 		setting.setText( LABEL_CURRENCY_SETTINGS_GROUP );
 		setting.setLayoutData( createGridData4Part( ) );
 		GridLayout layout = new GridLayout( 2, false );
@@ -1341,8 +1341,8 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 		else
 			cNegNumChoice = FormWidgetFactory.getInstance( )
 					.createList( setting, SWT.SINGLE | SWT.V_SCROLL );
-		cNegNumChoice.add( "-" + DEFAULT_LOCALE_TEXT + "" ); //$NON-NLS-1$
-		cNegNumChoice.add( "(" + DEFAULT_LOCALE_TEXT + ")" ); //$NON-NLS-1$
+		cNegNumChoice.add( "-" + DEFAULT_LOCALE_TEXT + "" ); //$NON-NLS-1$ //$NON-NLS-2$
+		cNegNumChoice.add( "(" + DEFAULT_LOCALE_TEXT + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
 		data = new GridData( GridData.FILL_BOTH );
 		cNegNumChoice.setLayoutData( data );
 		cNegNumChoice.addSelectionListener( mySelectionListener );
@@ -1355,7 +1355,7 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 		if ( !isFormStyle( ) )
 			setting = new Group( parent, SWT.NONE );
 		else
-			setting = FormWidgetFactory.getInstance( ).createGroup( parent, "" );
+			setting = FormWidgetFactory.getInstance( ).createGroup( parent, "" ); //$NON-NLS-1$
 		setting.setText( LABEL_FIXED_SETTINGS_GROUP );
 		setting.setLayoutData( createGridData4Part( ) );
 		GridLayout layout = new GridLayout( 2, false );
@@ -1419,8 +1419,8 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 			fNegNumChoice = FormWidgetFactory.getInstance( )
 					.createList( setting, SWT.SINGLE | SWT.V_SCROLL );
 
-		fNegNumChoice.add( "-" + DEFAULT_LOCALE_TEXT + "" ); //$NON-NLS-1$
-		fNegNumChoice.add( "(" + DEFAULT_LOCALE_TEXT + ")" ); //$NON-NLS-1$
+		fNegNumChoice.add( "-" + DEFAULT_LOCALE_TEXT + "" ); //$NON-NLS-1$ //$NON-NLS-2$
+		fNegNumChoice.add( "(" + DEFAULT_LOCALE_TEXT + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
 		gData = new GridData( GridData.FILL_BOTH );
 		fNegNumChoice.setLayoutData( gData );
 		fNegNumChoice.addSelectionListener( mySelectionListener );
@@ -1434,7 +1434,7 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 			setting = new Group( percent, SWT.NONE );
 		else
 			setting = FormWidgetFactory.getInstance( )
-					.createGroup( percent, "" );
+					.createGroup( percent, "" ); //$NON-NLS-1$
 		setting.setText( LABEL_PERCENT_SETTINGS_GROUP );
 		setting.setLayoutData( createGridData4Part( ) );
 		GridLayout layout = new GridLayout( 2, false );
@@ -1515,7 +1515,7 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 			pNegNumChoice = FormWidgetFactory.getInstance( )
 					.createList( setting, SWT.SINGLE | SWT.V_SCROLL );
 		pNegNumChoice.add( "-" + DEFAULT_LOCALE_TEXT ); //$NON-NLS-1$
-		pNegNumChoice.add( "(" + DEFAULT_LOCALE_TEXT + ")" ); //$NON-NLS-1$
+		pNegNumChoice.add( "(" + DEFAULT_LOCALE_TEXT + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
 		pNegNumChoice.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		pNegNumChoice.addSelectionListener( mySelectionListener );
 		pNegNumChoice.select( 0 );
@@ -1527,7 +1527,7 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 		if ( !isFormStyle( ) )
 			group = new Group( percent, SWT.NONE );
 		else
-			group = FormWidgetFactory.getInstance( ).createGroup( percent, "" );
+			group = FormWidgetFactory.getInstance( ).createGroup( percent, "" ); //$NON-NLS-1$
 		group.setText( LABEL_SCIENTIFIC_SETTINGS_GROUP );
 		group.setLayoutData( createGridData4Part( ) );
 		group.setLayout( new GridLayout( 2, false ) );
@@ -1559,7 +1559,7 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 		if ( !isFormStyle( ) )
 			group = new Group( parent, SWT.NONE );
 		else
-			group = FormWidgetFactory.getInstance( ).createGroup( parent, "" );
+			group = FormWidgetFactory.getInstance( ).createGroup( parent, "" ); //$NON-NLS-1$
 		group.setText( LABEL_CUSTOM_SETTINGS_GROUP );
 		group.setLayoutData( createGridData4Part( ) );
 		group.setLayout( new GridLayout( 1, false ) );
@@ -1578,7 +1578,7 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 		if ( !isFormStyle( ) )
 			group = new Group( parent, SWT.NONE );
 		else
-			group = FormWidgetFactory.getInstance( ).createGroup( parent, "" );
+			group = FormWidgetFactory.getInstance( ).createGroup( parent, "" ); //$NON-NLS-1$
 		group.setText( LABEL_CUSTOM_PREVIEW_GROUP );
 		if ( pageAlignment == PAGE_ALIGN_HORIZONTAL )
 		{
@@ -1599,7 +1599,7 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 			previewTextBox = new Text( group, SWT.SINGLE | SWT.BORDER );
 		else
 			previewTextBox = FormWidgetFactory.getInstance( )
-					.createText( group, "", SWT.SINGLE );
+					.createText( group, "", SWT.SINGLE ); //$NON-NLS-1$
 
 		previewTextBox.setText( DEFAULT_PREVIEW_TEXT ); //$NON-NLS-1$
 		GridData data = new GridData( GridData.FILL_HORIZONTAL );
@@ -1637,7 +1637,7 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 		if ( !isFormStyle( ) )
 			group = new Group( parent, SWT.NONE );
 		else
-			group = FormWidgetFactory.getInstance( ).createGroup( parent, "" );
+			group = FormWidgetFactory.getInstance( ).createGroup( parent, "" ); //$NON-NLS-1$
 		group.setText( LABEL_GENERAL_PREVIEW_GROUP );
 		GridData data;
 		if ( pageAlignment == PAGE_ALIGN_HORIZONTAL )

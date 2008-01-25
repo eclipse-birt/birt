@@ -25,8 +25,8 @@ import org.eclipse.jface.wizard.WizardDialog;
 public class PublishTemplateViewAction extends AbstractViewAction
 {
 
-	private static String DISPLAY_TEXT = Messages.getString( "PublishTemplateViewAction.action.displaytext" );
-	private static String TEMPLATE_SUFFIX = Messages.getString( "DefaultNodeProvider.template.suffix" );
+	private static String DISPLAY_TEXT = Messages.getString( "PublishTemplateViewAction.action.displaytext" ); //$NON-NLS-1$
+	private static String TEMPLATE_SUFFIX = Messages.getString( "DefaultNodeProvider.template.suffix" ); //$NON-NLS-1$
 
 	/**
 	 * @param selectedObject

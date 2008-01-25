@@ -25,7 +25,7 @@ public class BindingGroupSection extends Section
 
 	public BindingGroupSection( Composite parent, boolean isFormStyle )
 	{
-		super( " ", parent, isFormStyle );
+		super( " ", parent, isFormStyle ); //$NON-NLS-1$
 	}
 
 	protected BindingGroupDescriptor bindingGroup;

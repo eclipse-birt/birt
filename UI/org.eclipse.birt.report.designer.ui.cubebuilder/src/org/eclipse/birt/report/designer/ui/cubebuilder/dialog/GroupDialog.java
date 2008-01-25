@@ -85,7 +85,7 @@ public class GroupDialog extends TitleAreaDialog
 
 	protected Control createDialogArea( Composite parent )
 	{
-		UIUtil.bindHelp( parent, IHelpContextIds.CUBE_BUILDER_GROUP_DIALOG ); //$NON-NLS-1$
+		UIUtil.bindHelp( parent, IHelpContextIds.CUBE_BUILDER_GROUP_DIALOG ); 
 		setTitle( Messages.getString( "DateGroupDialog.Title" ) ); //$NON-NLS-1$
 		getShell( ).setText( Messages.getString( "DateGroupDialog.Shell.Title" ) ); //$NON-NLS-1$
 		setMessage( Messages.getString( "DateGroupDialog.Message" ) ); //$NON-NLS-1$
@@ -116,7 +116,7 @@ public class GroupDialog extends TitleAreaDialog
 	private void createGroupTypeArea( Composite contents )
 	{
 		regularButton = new Button( contents, SWT.RADIO );
-		regularButton.setText( "Regular Group" );
+		regularButton.setText( "Regular Group" ); //$NON-NLS-1$
 		regularButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -126,7 +126,7 @@ public class GroupDialog extends TitleAreaDialog
 
 		} );
 		dateButton = new Button( contents, SWT.RADIO );
-		dateButton.setText( "Date Group" );
+		dateButton.setText( "Date Group" ); //$NON-NLS-1$
 		dateButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -144,7 +144,7 @@ public class GroupDialog extends TitleAreaDialog
 			regularButton.setSelection( true );
 			dateButton.setSelection( false );
 			levelViewer.getTree( ).setVisible( false );
-			setMessage( "" );
+			setMessage( "" ); //$NON-NLS-1$
 		}
 		else
 		{
@@ -153,12 +153,12 @@ public class GroupDialog extends TitleAreaDialog
 			if ( dataField != null )
 			{
 				levelViewer.getTree( ).setVisible( true );
-				setMessage( Messages.getString( "DateGroupDialog.Message" ) );
+				setMessage( Messages.getString( "DateGroupDialog.Message" ) ); //$NON-NLS-1$
 			}
 			else
 			{
 				levelViewer.getTree( ).setVisible( false );
-				setMessage( "" );
+				setMessage( "" ); //$NON-NLS-1$
 			}
 		}
 		checkOKButtonStatus( );
@@ -196,7 +196,7 @@ public class GroupDialog extends TitleAreaDialog
 
 		levelViewer.setInput( getDateTypeNames( getLevelTypesByDateType( ) ) );
 		levelViewer.expandAll( );
-		TreeItem topNode = (TreeItem) levelViewer.getTree( ).getItem( 0 );
+		TreeItem topNode = levelViewer.getTree( ).getItem( 0 );
 		do
 		{
 			if ( levelList.contains( topNode.getData( ) ) )
@@ -210,7 +210,7 @@ public class GroupDialog extends TitleAreaDialog
 
 	private TreeItem getItem( String text )
 	{
-		TreeItem topNode = (TreeItem) levelViewer.getTree( ).getItem( 0 );
+		TreeItem topNode = levelViewer.getTree( ).getItem( 0 );
 		do
 		{
 			if ( text.equals( topNode.getData( ) ) )

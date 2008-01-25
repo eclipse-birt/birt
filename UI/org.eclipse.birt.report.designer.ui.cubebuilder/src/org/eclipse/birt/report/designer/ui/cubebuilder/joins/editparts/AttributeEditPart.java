@@ -135,7 +135,7 @@ public class AttributeEditPart extends NodeEditPartHelper implements Listener
 		while ( iter.hasNext( ) )
 		{
 			DimensionConditionHandle condition = (DimensionConditionHandle) iter.next( );
-			HierarchyHandle conditionHierarchy = (HierarchyHandle) condition.getHierarchy( );
+			HierarchyHandle conditionHierarchy = condition.getHierarchy( );
 			if ( ModuleUtil.isEqualHierarchiesForJointCondition( conditionHierarchy,
 					(HierarchyHandle) hierarchyEditpart.getModel( ) ) )
 			{

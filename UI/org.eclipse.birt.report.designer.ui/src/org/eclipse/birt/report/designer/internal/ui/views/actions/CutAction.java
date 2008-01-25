@@ -81,7 +81,7 @@ public class CutAction extends AbstractViewAction
 		
 		try
 		{
-			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.cutCommand", null );
+			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.cutCommand", null ); //$NON-NLS-1$
 		}
 		catch ( Exception e )
 		{

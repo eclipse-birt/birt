@@ -42,9 +42,6 @@ public class MarginsPropertyDescriptor extends PropertyDescriptor
 
 	protected Composite container;
 
-	private boolean isKeyPressed = false;
-
-
 	public MarginsPropertyDescriptor( boolean formStyle )
 	{
 		setFormStyle( formStyle );
@@ -133,7 +130,7 @@ public class MarginsPropertyDescriptor extends PropertyDescriptor
 		spinner.setMinimum( -100.00 );
 		spinner.setStep( 0.25 );
 		spinner.setSelection( 0.00 );
-		spinner.setFormatPattern( "0.00" );
+		spinner.setFormatPattern( "0.00" ); //$NON-NLS-1$
 		spinner.addValueChangeListener( new IValueChangedListener(){
 
 			public void valueChanged( double newValue )

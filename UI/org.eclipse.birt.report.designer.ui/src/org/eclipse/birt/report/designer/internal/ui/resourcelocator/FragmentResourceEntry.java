@@ -18,7 +18,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.LibraryHandle;
@@ -64,7 +63,7 @@ public class FragmentResourceEntry extends BaseResourceEntity
 	{
 		this( Messages.getString( "FragmentResourceEntry.RootName" ), "/", null, false ); //$NON-NLS-1$//$NON-NLS-2$
 		this.isRoot = true;
-		this.displayName = Messages.getString( "FragmentResourceEntry.RootDisplayName" );
+		this.displayName = Messages.getString( "FragmentResourceEntry.RootDisplayName" ); //$NON-NLS-1$
 		bundle = Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST );
 		if ( bundle != null )
 		{
@@ -96,8 +95,8 @@ public class FragmentResourceEntry extends BaseResourceEntity
 		{
 			URL element = (URL) enumeration.nextElement( );
 			String path = element.getPath( )
-					+ ( element.getRef( ) != null ? "#" + element.getRef( )
-							: "" );
+					+ ( element.getRef( ) != null ? "#" + element.getRef( ) //$NON-NLS-1$
+							: "" ); //$NON-NLS-1$
 			String[] pathtoken = path.split( "/" ); //$NON-NLS-1$
 			FragmentResourceEntry parent = this;
 			for ( int m = 0; m < pathtoken.length; m++ )
@@ -221,7 +220,7 @@ public class FragmentResourceEntry extends BaseResourceEntity
 					&& this.library == null
 					&& getURL( ).toString( )
 							.toLowerCase( )
-							.endsWith( ".rptlibrary" ) )
+							.endsWith( ".rptlibrary" ) ) //$NON-NLS-1$
 			{
 				try
 				{
@@ -238,7 +237,7 @@ public class FragmentResourceEntry extends BaseResourceEntity
 		else if ( adapter == CssStyleSheetHandle.class )
 		{
 			if ( this.cssStyleHandle == null
-					&& getURL( ).toString( ).toLowerCase( ).endsWith( ".css" ) )
+					&& getURL( ).toString( ).toLowerCase( ).endsWith( ".css" ) ) //$NON-NLS-1$
 			{
 				try
 				{

@@ -162,7 +162,7 @@ public class ModelEventManager implements Listener
 	{
 		if ( isPost )
 		{
-			throw new RuntimeException( "The event is post now" );
+			throw new RuntimeException( "The event is post now" ); //$NON-NLS-1$
 		}
 	}
 

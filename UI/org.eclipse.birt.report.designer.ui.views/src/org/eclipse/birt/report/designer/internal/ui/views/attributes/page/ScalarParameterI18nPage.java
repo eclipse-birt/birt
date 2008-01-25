@@ -26,8 +26,8 @@ import org.eclipse.swt.widgets.Composite;
 public class ScalarParameterI18nPage extends AttributePage
 {
 	private static final String MESSAGE_NOTE = Messages.getString( "I18nPage.text.Note" ); //$NON-NLS-1$
-	public static final String I18N_I18N_PROMPT_TEXT = "I18N_I18N_PROMPT_TEXT";
-	public static final String I18N_I18N_HELP_TEXT = "I18N_I18N_HELP_TEXT";
+	public static final String I18N_I18N_PROMPT_TEXT = "I18N_I18N_PROMPT_TEXT"; //$NON-NLS-1$
+	public static final String I18N_I18N_HELP_TEXT = "I18N_I18N_HELP_TEXT"; //$NON-NLS-1$
 
 	public void buildUI( Composite parent  )
 	{

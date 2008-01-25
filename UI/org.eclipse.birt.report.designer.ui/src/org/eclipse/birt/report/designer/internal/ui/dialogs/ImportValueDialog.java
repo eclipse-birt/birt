@@ -20,19 +20,14 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
-import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
-import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
-import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
-import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.data.ui.dataset.DataSetEditor;
 import org.eclipse.birt.report.designer.data.ui.util.DataSetProvider;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -48,7 +43,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
-import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -82,7 +76,7 @@ public class ImportValueDialog extends BaseDialog
 {
 
 	private boolean hasNullValue = false;
-	private String nullValue = "<null>";
+	private String nullValue = "<null>"; //$NON-NLS-1$
 	private static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
 			.getElement( ReportDesignConstants.SCALAR_PARAMETER_ELEMENT )
 			.getProperty( ScalarParameterHandle.DATA_TYPE_PROP )
@@ -124,7 +118,7 @@ public class ImportValueDialog extends BaseDialog
 	{
 		if ( value.equals( nullValue ) && hasNullValue )
 		{
-			return "";
+			return ""; //$NON-NLS-1$
 		}
 		else
 		{
@@ -559,7 +553,7 @@ public class ImportValueDialog extends BaseDialog
 					return;
 				}
 				ScriptExpression expression = new ScriptExpression( queryExpr );
-				String columnBindingName = "_$_COLUMNBINDINGNAME_$_";
+				String columnBindingName = "_$_COLUMNBINDINGNAME_$_"; //$NON-NLS-1$
 				Binding binding = new Binding( columnBindingName );
 				binding.setExpression( expression );
 				if ( expression != null )
@@ -652,15 +646,15 @@ public class ImportValueDialog extends BaseDialog
 		}
 		if ( date instanceof java.sql.Date )
 		{
-			return new DateFormatter( "yyyy-MM-dd", ULocale.US ).format( date );
+			return new DateFormatter( "yyyy-MM-dd", ULocale.US ).format( date ); //$NON-NLS-1$
 		}
 		else if ( date instanceof java.sql.Time )
 		{
-			return new DateFormatter( "HH:mm:ss", ULocale.US ).format( date );
+			return new DateFormatter( "HH:mm:ss", ULocale.US ).format( date ); //$NON-NLS-1$
 		}
 		else
 		{
-			return new DateFormatter( "yyyy-MM-dd HH:mm:ss.SSS", ULocale.US ).format( date );
+			return new DateFormatter( "yyyy-MM-dd HH:mm:ss.SSS", ULocale.US ).format( date ); //$NON-NLS-1$
 		}
 
 	}
@@ -728,7 +722,7 @@ public class ImportValueDialog extends BaseDialog
 		if ( hasNullValue && selectedList.indexOf( nullValue ) != -1 )
 		{
 			selectedList.remove( nullValue );
-			selectedList.add( "" );
+			selectedList.add( "" ); //$NON-NLS-1$
 		}
 		setResult( selectedList.getItems( ) );
 		super.okPressed( );

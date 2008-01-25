@@ -258,12 +258,12 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 
 				ResourceFileFolderSelectionDialog dialog = new ResourceFileFolderSelectionDialog( true,
 						new String[]{
-								"*.css", "*.CSS"
+								"*.css", "*.CSS" //$NON-NLS-1$ //$NON-NLS-2$
 						} );
 				dialog.setTitle( DIALOG_BROWSE );
 				dialog.setMessage( DIALOG_BROWSE_TITLE );
 				ResourceSelectionValidator validator = new ResourceSelectionValidator( new String[]{
-						".css", ".CSS"
+						".css", ".CSS" //$NON-NLS-1$ //$NON-NLS-2$
 				} );
 				dialog.setValidator( validator );
 
@@ -366,7 +366,7 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 			}
 		}
 
-		title.setText( Messages.getFormattedString( "UseCssInReportDialog.Label.Styles",
+		title.setText( Messages.getFormattedString( "UseCssInReportDialog.Label.Styles", //$NON-NLS-1$
 				new String[]{
 					fileName
 				} ) );
@@ -424,7 +424,7 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 			if ( fileName!=null && !theme.canAddCssStyleSheet( fileName ) )
 			{
 				getButton( IDialogConstants.OK_ID ).setEnabled( false );
-				setErrorMessage( Messages.getFormattedString( "UseCssInReportDialog.Error.Already.Include",
+				setErrorMessage( Messages.getFormattedString( "UseCssInReportDialog.Error.Already.Include", //$NON-NLS-1$
 						new String[]{
 							fileName
 						} ) );

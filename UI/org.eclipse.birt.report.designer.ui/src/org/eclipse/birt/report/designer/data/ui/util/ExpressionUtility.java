@@ -28,8 +28,8 @@ import org.mozilla.javascript.Token;
  */
 public class ExpressionUtility
 {
-	private final static String STRING_ROW = "row";
-	private final static String STRING_DATASET_ROW = "dataSetRow";
+	private final static String STRING_ROW = "row"; //$NON-NLS-1$
+	private final static String STRING_DATASET_ROW = "dataSetRow"; //$NON-NLS-1$
 	// the default cache size
 	private final static int EXPR_CACHE_SIZE = 20;
 	/**
@@ -142,7 +142,7 @@ public class ExpressionUtility
 	{
 		if ( isColumnExpression( columnStr, true ) )
 		{
-			return columnStr.replaceFirst( "\\Qrow\\E", "dataSetRow" );
+			return columnStr.replaceFirst( "\\Qrow\\E", "dataSetRow" ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		else
 			return columnStr;

@@ -15,7 +15,6 @@ import java.util.HashMap;
 
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
-import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.eclipse.draw2d.AbstractBorder;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.swt.SWT;
@@ -28,7 +27,7 @@ import org.eclipse.swt.SWT;
 public abstract class BaseBorder extends AbstractBorder
 {
 	
-	public static final String STYLE_NONO = "none";
+	public static final String STYLE_NONO = "none"; //$NON-NLS-1$
 
 	/**
 	 * Bottom border width.

@@ -106,79 +106,79 @@ public interface IReportGraphicConstants
 
 	public final static String ICON_ELEMENT_THEME = ReportDesignConstants.THEME_ITEM;
 
-	public final static String ICON_ELEMENT_CSS_STYLE_SHEET = "ReportDesignConstants.CSS_STYLE_SHEET";
+	public final static String ICON_ELEMENT_CSS_STYLE_SHEET = "ReportDesignConstants.CSS_STYLE_SHEET"; //$NON-NLS-1$
 
 	public final static String ICON_ELEMENT_TEMPLATEITEM = ReportDesignConstants.TEMPLATE_REPORT_ITEM;
 
 	// Library report item icons
-	public final static String LINK = "LINK";
+	public final static String LINK = "LINK"; //$NON-NLS-1$
 
 	public final static String ICON_ELEMENT_CSS_STYLE_SHEET_LINK = ICON_ELEMENT_CSS_STYLE_SHEET
-			+ "_"
+			+ "_" //$NON-NLS-1$
 			+ LINK;
 
 	public final static String ICON_ELEMENT_STYLE_LINK = ICON_ELEMENT_STYLE
-			+ "_"
+			+ "_" //$NON-NLS-1$
 			+ LINK;
 
 	public final static String ICON_ELEMENT_DATA_LINK = ICON_ELEMENT_DATA
-			+ "_"
+			+ "_" //$NON-NLS-1$
 			+ LINK;
 
 	public final static String ICON_ELEMENT_DATA_SET_LINK = ICON_ELEMENT_DATA_SET
-			+ "_"
+			+ "_" //$NON-NLS-1$
 			+ LINK;
 
 	public final static String ICON_ELEMENT_DATA_SOURCE_LINK = ICON_ELEMENT_DATA_SOURCE
-			+ "_"
+			+ "_" //$NON-NLS-1$
 			+ LINK;
 
 	public final static String ICON_ELEMENT_GRID_LINK = ICON_ELEMENT_GRID
-			+ "_"
+			+ "_" //$NON-NLS-1$
 			+ LINK;
 
 	public final static String ICON_ELEMENT_IMAGE_LINK = ICON_ELEMENT_IMAGE
-			+ "_"
+			+ "_" //$NON-NLS-1$
 			+ LINK;
 
 	public final static String ICON_ELEMENT_LABEL_LINK = ICON_ELEMENT_LABEL
-			+ "_"
+			+ "_" //$NON-NLS-1$
 			+ LINK;
 
 	public final static String ICON_ELEMENT_LIST_LINK = ICON_ELEMENT_LIST
-			+ "_"
+			+ "_" //$NON-NLS-1$
 			+ LINK;
 
 	public final static String ICON_ELEMENT_TABLE_LINK = ICON_ELEMENT_TABLE
-			+ "_"
+			+ "_" //$NON-NLS-1$
 			+ LINK;
 
 	public final static String ICON_ELEMENT_TEXT_LINK = ICON_ELEMENT_TEXT
-			+ "_"
+			+ "_" //$NON-NLS-1$
 			+ LINK;
 
 	public final static String ICON_ELEMENT_TEXTDATA_LINK = ICON_ELEMENT_TEXTDATA
-			+ "_"
+			+ "_" //$NON-NLS-1$
 			+ LINK;
 
 	public final static String ICON_ELEMENT_ODA_DATA_SET_LINK = ReportDesignConstants.ODA_DATA_SET
-			+ "_"
+			+ "_" //$NON-NLS-1$
 			+ LINK;
 
 	public final static String ICON_ELEMENT_ODA_DATA_SOURCE_LINK = ReportDesignConstants.ODA_DATA_SOURCE
-			+ "_"
+			+ "_" //$NON-NLS-1$
 			+ LINK;
 
 	public final static String ICON_ELEMENT_SCRIPT_DATA_SET_LINK = ReportDesignConstants.SCRIPT_DATA_SET
-			+ "_"
+			+ "_" //$NON-NLS-1$
 			+ LINK;
 
 	public final static String ICON_ELEMENT_SCRIPT_DATA_SOURCE_LINK = ReportDesignConstants.SCRIPT_DATA_SOURCE
-			+ "_"
+			+ "_" //$NON-NLS-1$
 			+ LINK;
 
 	public final static String ICON_ELEMENT_JOINT_DATA_SET_LINK = ReportDesignConstants.JOINT_DATA_SET
-			+ "_"
+			+ "_" //$NON-NLS-1$
 			+ LINK;
 
 	// outline view icons
@@ -351,18 +351,18 @@ public interface IReportGraphicConstants
 	// Open file flag image
 	public static final String ICON_OPEN_FILE = "Open file";//$NON-NLS-1$
 
-	public static final String ICON_ENABLE_RESTORE_PROPERTIES = "Enable Resotre Properties";
+	public static final String ICON_ENABLE_RESTORE_PROPERTIES = "Enable Resotre Properties"; //$NON-NLS-1$
 
-	public static final String ICON_DISABLE_RESTORE_PROPERTIES = "Disable Restore Properties";
+	public static final String ICON_DISABLE_RESTORE_PROPERTIES = "Disable Restore Properties"; //$NON-NLS-1$
 
-	public static final String ICON_ENABLE_EXPRESSION_BUILDERS = "Enable Expression Builder";
+	public static final String ICON_ENABLE_EXPRESSION_BUILDERS = "Enable Expression Builder"; //$NON-NLS-1$
 
-	public static final String ICON_DISABLE_EXPRESSION_BUILDERS = "Disable Expression Builder";
+	public static final String ICON_DISABLE_EXPRESSION_BUILDERS = "Disable Expression Builder"; //$NON-NLS-1$
 
 	// Template preview image
 	public static final String ICON_TEMPLATE_NO_PREVIEW = "no_preview";//$NON-NLS-1$
 
-	public static final String ICON_SCRIPTS_NODE = "Scripts Node";
+	public static final String ICON_SCRIPTS_NODE = "Scripts Node"; //$NON-NLS-1$
 
 	public final static String[] IMAGE_FILTER_NAMES = {
 			Messages.getString( "IReportGraphicConstants.ImageType.All" ), //$NON-NLS-1$
@@ -384,7 +384,7 @@ public interface IReportGraphicConstants
 			"*.ico" //$NON-NLS-1$
 	};
 
-	public static final String REPORT_KEY_WORD = "report";
+	public static final String REPORT_KEY_WORD = "report"; //$NON-NLS-1$
 
 	// Quick tools aggregation icon
 	public static final String ICON_ELEMENT_AGGREGATION = "aggregation";//$NON-NLS-1$
@@ -398,13 +398,13 @@ public interface IReportGraphicConstants
 
 	public final static String ICON_VIEW_MENU = "view menu"; //$NON-NLS-1$
 
-	public static final String ICON_ENABLE_EXPORT = "export_enable";
+	public static final String ICON_ENABLE_EXPORT = "export_enable"; //$NON-NLS-1$
 
-	public static final String ICON_ENABLE_IMPORT = "import_enable";
+	public static final String ICON_ENABLE_IMPORT = "import_enable"; //$NON-NLS-1$
 
-	public static final String ICON_DISABLE_EXPORT = "export_disable";
+	public static final String ICON_DISABLE_EXPORT = "export_disable"; //$NON-NLS-1$
 	
-	public static final String ICON_DISABLE_IMPORT = "import_edisable";
+	public static final String ICON_DISABLE_IMPORT = "import_edisable"; //$NON-NLS-1$
 	
 	// Script icons
 	public final static String ICON_SCRIPT_ERROR = "Script Error";//$NON-NLS-1$
@@ -419,5 +419,5 @@ public interface IReportGraphicConstants
 	// Annotation type
 	public final static String ANNOTATION_ERROR = "org.eclipse.ui.workbench.texteditor.error"; //$NON-NLS-1$
 
-	public static final String ICON_SCRIPTS_METHOD_NODE = "Script Method Node";
+	public static final String ICON_SCRIPTS_METHOD_NODE = "Script Method Node"; //$NON-NLS-1$
 }

@@ -57,9 +57,9 @@ public class ResourcesPage extends AttributePage
 				if ( dialog.open( ) == Window.OK )
 				{
 					String path = dialog.getPath( );
-					if ( path.lastIndexOf( "." ) > 0 )
+					if ( path.lastIndexOf( "." ) > 0 ) //$NON-NLS-1$
 					{
-						path = path.substring( 0, path.lastIndexOf( "." ) );
+						path = path.substring( 0, path.lastIndexOf( "." ) ); //$NON-NLS-1$
 					}
 					includeSourceSection.setStringValue( path );
 					includeSourceSection.forceFocus( );
@@ -68,7 +68,7 @@ public class ResourcesPage extends AttributePage
 
 		} );
 		includeSourceSection.setWidth( 500 );
-		includeSourceSection.setButtonText( Messages.getString( "ReportPage.text.Resource.Add" ) );
+		includeSourceSection.setButtonText( Messages.getString( "ReportPage.text.Resource.Add" ) ); //$NON-NLS-1$
 		includeSourceSection.setButtonWidth( 60 );
 		includeSourceSection.setGridPlaceholder( 1, true );
 		addSection( PageSectionId.RESOURCE_INCLUDE, includeSourceSection );

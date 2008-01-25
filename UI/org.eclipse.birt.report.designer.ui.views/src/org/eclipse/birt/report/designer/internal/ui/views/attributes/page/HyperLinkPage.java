@@ -47,9 +47,9 @@ public class HyperLinkPage extends AttributePage
 
 		} );
 		hyperLinkSection.setWidth( 300 );
-		hyperLinkSection.setButtonText( "..." );
+		hyperLinkSection.setButtonText( "..." ); //$NON-NLS-1$
 		hyperLinkSection.setButtonTooltipText( Messages
-				.getString("HyperLinkPage.toolTipText.Button") );
+				.getString("HyperLinkPage.toolTipText.Button") ); //$NON-NLS-1$
 		hyperLinkSection.setButtonIsComputeSize( true );
 		addSection( PageSectionId.HYPERLINK_HYPERLINK, hyperLinkSection );
 

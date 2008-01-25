@@ -71,7 +71,7 @@ public class LinkGroupsPage extends AbstractDescriptionPropertyPage
 		createCubeArea( contents );
 
 		filterButton = new Button( contents, SWT.PUSH );
-		filterButton.setText( Messages.getString( "DatasetPage.Button.Filter" ) );
+		filterButton.setText( Messages.getString( "DatasetPage.Button.Filter" ) ); //$NON-NLS-1$
 		GridData gd = new GridData( );
 		gd.widthHint = Math.max( 60, filterButton.computeSize( SWT.DEFAULT,
 				SWT.DEFAULT ).x );
@@ -141,9 +141,9 @@ public class LinkGroupsPage extends AbstractDescriptionPropertyPage
 	{
 		getContainer( ).setMessage( Messages.getString( "LinkGroupsPage.Container.Title.Message" ),//$NON-NLS-1$
 				IMessageProvider.NONE );
-		builder.setTitleTitle( Messages.getString( "LinkGroupsPage.Title.Title" ) );
+		builder.setTitleTitle( Messages.getString( "LinkGroupsPage.Title.Title" ) ); //$NON-NLS-1$
 		builder.setErrorMessage( null );
-		builder.setTitleMessage( Messages.getString( "LinkGroupsPage.Title.Message" ) );
+		builder.setTitleMessage( Messages.getString( "LinkGroupsPage.Title.Message" ) ); //$NON-NLS-1$
 		load( );
 	}
 

@@ -84,7 +84,7 @@ public class ReloadCssStyleAction extends AbstractViewAction
 		
 		try
 		{
-			CommandUtils.executeCommand("org.eclipse.birt.report.designer.ui.command.reloadCssStyleCommand", null);
+			CommandUtils.executeCommand("org.eclipse.birt.report.designer.ui.command.reloadCssStyleCommand", null); //$NON-NLS-1$
 		}
 		catch ( Exception e )
 		{

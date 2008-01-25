@@ -67,7 +67,7 @@ public class DNDService implements IRegistryChangeListener
 		addDNDAdapter( new RowHandleDNDAdapter( ), IDNDAdapter.CAPABLE_HIGH );
 		*/
 		IExtensionRegistry registry = Platform.getExtensionRegistry( );
-		IExtensionPoint extensionPoint = registry.getExtensionPoint( "org.eclipse.birt.report.designer.ui.DNDServices" );
+		IExtensionPoint extensionPoint = registry.getExtensionPoint( "org.eclipse.birt.report.designer.ui.DNDServices" ); //$NON-NLS-1$
 		if ( extensionPoint != null )
 		{
 			addRegistry( extensionPoint );
@@ -203,8 +203,8 @@ public class DNDService implements IRegistryChangeListener
 	*/
 	public void registryChanged( IRegistryChangeEvent event )
 	{
-		IExtensionDelta[] deltas = event.getExtensionDeltas( "org.eclipse.birt.report.designer.ui",
-				"DNDServices" );
+		IExtensionDelta[] deltas = event.getExtensionDeltas( "org.eclipse.birt.report.designer.ui", //$NON-NLS-1$
+				"DNDServices" ); //$NON-NLS-1$
 		for ( int i = 0; i < deltas.length; i++ )
 		{
 			if ( deltas[i].getKind( ) == IExtensionDelta.ADDED )
@@ -223,17 +223,17 @@ public class DNDService implements IRegistryChangeListener
 		IConfigurationElement[] configElements = extensionPoint.getConfigurationElements( );
 		for ( int i = 0; i < configElements.length; i++ )
 		{
-			if ( configElements[i].getName( ).equals( "dragAdapter" ) )
+			if ( configElements[i].getName( ).equals( "dragAdapter" ) ) //$NON-NLS-1$
 			{
 				//				int priority = getPriority( configElements[i].getAttribute( "priority" ) );
 				try
 				{
-					IDragAdapter adapter = (IDragAdapter) configElements[i].createExecutableExtension( "adapter" );
+					IDragAdapter adapter = (IDragAdapter) configElements[i].createExecutableExtension( "adapter" ); //$NON-NLS-1$
 					dragAdapterList.add( adapter );
 					if ( Policy.TRACING_DND )
 					{
-						System.out.println( "[add dragAdapter]"
-								+ configElements[i].getAttribute( "adapter" ) );
+						System.out.println( "[add dragAdapter]" //$NON-NLS-1$
+								+ configElements[i].getAttribute( "adapter" ) ); //$NON-NLS-1$
 					}
 				}
 				catch ( CoreException e )
@@ -241,17 +241,17 @@ public class DNDService implements IRegistryChangeListener
 					logger.log( Level.SEVERE, e.getMessage( ), e );
 				}
 			}
-			else if ( configElements[i].getName( ).equals( "dropAdapter" ) )
+			else if ( configElements[i].getName( ).equals( "dropAdapter" ) ) //$NON-NLS-1$
 			{
 				//				int priority = getPriority( configElements[i].getAttribute( "priority" ) );
 				try
 				{
-					IDropAdapter adapter = (IDropAdapter) configElements[i].createExecutableExtension( "adapter" );
+					IDropAdapter adapter = (IDropAdapter) configElements[i].createExecutableExtension( "adapter" ); //$NON-NLS-1$
 					dropAdapterList.add( adapter );
 					if ( Policy.TRACING_DND )
 					{
-						System.out.println( "[add dropAdapter]"
-								+ configElements[i].getAttribute( "adapter" ) );
+						System.out.println( "[add dropAdapter]" //$NON-NLS-1$
+								+ configElements[i].getAttribute( "adapter" ) ); //$NON-NLS-1$
 					}
 				}
 				catch ( CoreException e )

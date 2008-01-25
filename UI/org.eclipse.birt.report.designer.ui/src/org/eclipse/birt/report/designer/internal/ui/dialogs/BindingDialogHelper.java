@@ -225,14 +225,14 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 						{
 							if ( computedColumn.getAggregateFunction( ) == null
 									|| computedColumn.getAggregateFunction( )
-											.equals( "" ) )
+											.equals( "" ) ) //$NON-NLS-1$
 								continue;
 						}
 						else
 						{
 							if ( computedColumn.getAggregateFunction( ) != null
 									&& !computedColumn.getAggregateFunction( )
-											.equals( "" ) )
+											.equals( "" ) ) //$NON-NLS-1$
 								continue;
 						}
 						cmbName.add( computedColumn.getName( ) );
@@ -276,14 +276,14 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 					{
 						if ( computedColumn.getAggregateFunction( ) == null
 								|| computedColumn.getAggregateFunction( )
-										.equals( "" ) )
+										.equals( "" ) ) //$NON-NLS-1$
 							continue;
 					}
 					else
 					{
 						if ( computedColumn.getAggregateFunction( ) != null
 								&& !computedColumn.getAggregateFunction( )
-										.equals( "" ) )
+										.equals( "" ) ) //$NON-NLS-1$
 							continue;
 					}
 					cmbName.add( computedColumn.getName( ) );
@@ -748,7 +748,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	{
 		if ( isRef
 				&& ( cmbName.getText( ) == null || cmbName.getText( )
-						.equals( "" ) ) )
+						.equals( "" ) ) ) //$NON-NLS-1$
 		{
 			dialog.getOkButton( ).setEnabled( false );
 			return;
@@ -857,7 +857,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				// ( (GridData) argsComposite.getLayoutData( ) ).exclude = true;
 			}
 			this.cmbDataField.setEnabled( function.needDataField( ) );
-			Control control = (Control) cmbDataField.getData( "express" );
+			Control control = (Control) cmbDataField.getData( "express" ); //$NON-NLS-1$
 			if ( control != null )
 				control.setEnabled( function.needDataField( ) );
 
@@ -914,7 +914,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			final Combo combo )
 	{
 		Button expressionButton = new Button( parent, SWT.PUSH );
-		combo.setData( "express", expressionButton );
+		combo.setData( "express", expressionButton ); //$NON-NLS-1$
 		if ( expressionProvider == null )
 			expressionProvider = new BindingExpressionProvider( this.bindingHolder );
 
@@ -1119,9 +1119,9 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		if ( left == right )
 			return true;
 		if ( left == null )
-			return "".equals( right );
+			return "".equals( right ); //$NON-NLS-1$
 		if ( right == null )
-			return "".equals( left );
+			return "".equals( left ); //$NON-NLS-1$
 		return left.equals( right );
 	}
 
@@ -1135,7 +1135,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			}
 		}
 
-		return "";
+		return ""; //$NON-NLS-1$
 	}
 
 	private String getDataType( )
@@ -1148,7 +1148,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				return DATA_TYPE_CHOICES[i].getName( );
 			}
 		}
-		return "";
+		return ""; //$NON-NLS-1$
 	}
 
 	public ComputedColumnHandle editBinding( ComputedColumnHandle binding )

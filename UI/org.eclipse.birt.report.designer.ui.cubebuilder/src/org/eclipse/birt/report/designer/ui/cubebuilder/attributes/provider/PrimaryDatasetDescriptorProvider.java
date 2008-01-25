@@ -36,11 +36,11 @@ public class PrimaryDatasetDescriptorProvider implements
 	{
 		if ( DEUtil.getInputSize( input ) != 1 )
 			return null;
-		DataSetHandle dataset = (DataSetHandle) ( (TabularCubeHandle) DEUtil.getInputFirstElement( input ) ).getDataSet( );
+		DataSetHandle dataset = ( (TabularCubeHandle) DEUtil.getInputFirstElement( input ) ).getDataSet( );
 		if ( dataset != null )
 			return dataset.getName( );
 		else
-			return "";
+			return ""; //$NON-NLS-1$
 	}
 
 	public void save( Object value ) throws SemanticException

@@ -17,7 +17,6 @@ import org.eclipse.birt.report.designer.core.model.schematic.CellHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
-import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -93,7 +92,7 @@ public class SplitAction extends ContextSelectionAction
 
 		try
 		{
-			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.splitCommand", null );
+			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.splitCommand", null ); //$NON-NLS-1$
 		}
 		catch ( Exception e )
 		{

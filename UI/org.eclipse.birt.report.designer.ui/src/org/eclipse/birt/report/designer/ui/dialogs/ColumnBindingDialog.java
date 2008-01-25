@@ -381,7 +381,7 @@ public class ColumnBindingDialog extends BaseDialog
 			} );
 
 			reportItemRadio = new Button( composite, SWT.RADIO );
-			reportItemRadio.setText( "Report Item:" );
+			reportItemRadio.setText( "Report Item:" ); //$NON-NLS-1$
 			reportItemRadio.addSelectionListener( new SelectionAdapter( ) {
 
 				public void widgetSelected( SelectionEvent e )

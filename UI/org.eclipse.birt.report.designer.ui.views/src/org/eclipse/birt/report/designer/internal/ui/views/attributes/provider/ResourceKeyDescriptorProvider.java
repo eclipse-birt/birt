@@ -32,12 +32,12 @@ public class ResourceKeyDescriptorProvider extends PropertyDescriptorProvider im
 
 	public String getBrowserText( )
 	{
-		return "...";
+		return "..."; //$NON-NLS-1$
 	}
 
 	public String getResetText( )
 	{
-		return Messages.getString( "ResourceKeyDescriptor.text.Reset" );
+		return Messages.getString( "ResourceKeyDescriptor.text.Reset" ); //$NON-NLS-1$
 	}
 
 	public boolean isEnable( )

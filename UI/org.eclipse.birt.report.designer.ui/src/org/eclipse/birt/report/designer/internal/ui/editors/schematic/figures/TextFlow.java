@@ -32,7 +32,7 @@ import org.eclipse.swt.graphics.Color;
 public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 {
 
-	private String specialPREFIX = "";
+	private String specialPREFIX = ""; //$NON-NLS-1$
 	/**
 	 * The multiple of this is the actual drawing line width.
 	 */

@@ -137,8 +137,8 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 			}
 			if ( file != null )
 			{
-				if ( file.getFileExtension( ).equals( "rpttemplate" )
-						|| file.getFileExtension( ).equals( "rptdesign" ) )
+				if ( file.getFileExtension( ).equals( "rpttemplate" ) //$NON-NLS-1$
+						|| file.getFileExtension( ).equals( "rptdesign" ) ) //$NON-NLS-1$
 				{
 					reportFile = file;
 					selectReport = true;
@@ -169,7 +169,7 @@ public class PublishTemplateAction implements IWorkbenchWindowActionDelegate
 			if ( editor.getEditorInput( ).getName( ).endsWith( ".rpttemplate" ) //$NON-NLS-1$
 					|| editor.getEditorInput( )
 							.getName( )
-							.endsWith( ".rptdesign" )
+							.endsWith( ".rptdesign" ) //$NON-NLS-1$
 					|| ReportPlugin.getDefault( )
 							.isReportDesignFile( editor.getEditorInput( )
 									.getName( ) ) )

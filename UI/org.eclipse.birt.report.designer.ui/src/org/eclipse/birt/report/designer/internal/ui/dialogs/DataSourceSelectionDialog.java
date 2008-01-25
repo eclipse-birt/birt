@@ -41,7 +41,7 @@ public class DataSourceSelectionDialog extends BaseDialog
 	protected Control createDialogArea( Composite parent )
 	{
 		Composite composite = (Composite) super.createDialogArea( parent );
-		new Label( composite, SWT.NONE ).setText( Messages.getString( "dataset.editor.label.selectDataSource" ) );
+		new Label( composite, SWT.NONE ).setText( Messages.getString( "dataset.editor.label.selectDataSource" ) ); //$NON-NLS-1$
 		combo = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
 		combo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		combo.setItems( dataSourceNames );

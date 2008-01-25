@@ -922,7 +922,7 @@ public class HighlightRuleBuilder extends BaseDialog
 			{
 				if(addExpressionValue == comboWidget)
 				{
-					comboWidget.setText("");
+					comboWidget.setText(""); //$NON-NLS-1$
 					addBtn.setEnabled( false );
 				}else if ( newValues.length == 1 )
 				{
@@ -1682,7 +1682,7 @@ public class HighlightRuleBuilder extends BaseDialog
 				if ( valueVisible == 3 )
 				{
 					rule.setValue1( valueList );
-					rule.setValue2( "" );
+					rule.setValue2( "" ); //$NON-NLS-1$
 				}
 				else
 				{
@@ -1781,7 +1781,7 @@ public class HighlightRuleBuilder extends BaseDialog
 				else
 				{
 					handle.setValue1( valueList );
-					handle.setValue2( "" );
+					handle.setValue2( "" ); //$NON-NLS-1$
 				}
 
 				if ( !stylesChooser.getText( ).equals( NONE_DISPLAY_TEXT ) )
@@ -2030,7 +2030,7 @@ public class HighlightRuleBuilder extends BaseDialog
 		layout.numColumns = 4;
 		group.setLayout( layout );
 
-		new Label( group, SWT.NONE ).setText( Messages.getString( "FilterConditionBuilder.label.value" ) );
+		new Label( group, SWT.NONE ).setText( Messages.getString( "FilterConditionBuilder.label.value" ) ); //$NON-NLS-1$
 
 		GridData expgd = new GridData( );
 		expgd.widthHint = 100;
@@ -2039,8 +2039,8 @@ public class HighlightRuleBuilder extends BaseDialog
 		addExpressionValue.setLayoutData( expgd );
 
 		addBtn = new Button( group, SWT.PUSH );
-		addBtn.setText( Messages.getString( "FilterConditionBuilder.button.add" ) );
-		addBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.add.tooltip" ) );
+		addBtn.setText( Messages.getString( "FilterConditionBuilder.button.add" ) ); //$NON-NLS-1$
+		addBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.add.tooltip" ) ); //$NON-NLS-1$
 		setButtonLayoutData( addBtn );
 		addBtn.addSelectionListener( new SelectionListener( ) {
 
@@ -2060,7 +2060,7 @@ public class HighlightRuleBuilder extends BaseDialog
 					tableViewer.refresh( );
 					updateButtons( );
 					addExpressionValue.setFocus( );
-					addExpressionValue.setText( "" );
+					addExpressionValue.setText( "" ); //$NON-NLS-1$
 				}
 				else
 				{
@@ -2087,7 +2087,7 @@ public class HighlightRuleBuilder extends BaseDialog
 		TableColumn column;
 		int i;
 		String[] columNames = new String[]{
-			Messages.getString( "FilterConditionBuilder.list.item1" ),
+			Messages.getString( "FilterConditionBuilder.list.item1" ), //$NON-NLS-1$
 		};
 		int[] columLength = new int[]{
 			488
@@ -2204,8 +2204,8 @@ public class HighlightRuleBuilder extends BaseDialog
 		rightPart.setLayout( layout );
 
 		editBtn = new Button( rightPart, SWT.PUSH );
-		editBtn.setText( Messages.getString( "FilterConditionBuilder.button.edit" ) );
-		editBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.edit.tooltip" ) );
+		editBtn.setText( Messages.getString( "FilterConditionBuilder.button.edit" ) ); //$NON-NLS-1$
+		editBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.edit.tooltip" ) ); //$NON-NLS-1$
 		setButtonLayoutData( editBtn );
 		editBtn.addSelectionListener( new SelectionListener( ) {
 
@@ -2255,8 +2255,8 @@ public class HighlightRuleBuilder extends BaseDialog
 		} );
 
 		delBtn = new Button( rightPart, SWT.PUSH );
-		delBtn.setText( Messages.getString( "FilterConditionBuilder.button.delete" ) );
-		delBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.delete.tooltip" ) );
+		delBtn.setText( Messages.getString( "FilterConditionBuilder.button.delete" ) ); //$NON-NLS-1$
+		delBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.delete.tooltip" ) ); //$NON-NLS-1$
 		setButtonLayoutData( delBtn );
 		delBtn.addSelectionListener( new SelectionListener( ) {
 
@@ -2293,8 +2293,8 @@ public class HighlightRuleBuilder extends BaseDialog
 		} );
 
 		delAllBtn = new Button( rightPart, SWT.PUSH );
-		delAllBtn.setText( Messages.getString( "FilterConditionBuilder.button.deleteall" ) );
-		delAllBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.deleteall.tooltip" ) );
+		delAllBtn.setText( Messages.getString( "FilterConditionBuilder.button.deleteall" ) ); //$NON-NLS-1$
+		delAllBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.deleteall.tooltip" ) ); //$NON-NLS-1$
 		setButtonLayoutData( delAllBtn );
 		delAllBtn.addSelectionListener( new SelectionListener( ) {
 
@@ -2407,7 +2407,7 @@ public class HighlightRuleBuilder extends BaseDialog
 			{
 				return (String) element;
 			}
-			return "";
+			return ""; //$NON-NLS-1$
 		}
 
 		public void addListener( ILabelProviderListener listener )

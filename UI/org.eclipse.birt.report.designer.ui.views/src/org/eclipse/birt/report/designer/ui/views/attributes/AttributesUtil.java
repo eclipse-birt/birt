@@ -61,57 +61,57 @@ public class AttributesUtil
 	/**
 	 * Category name for standard General page.
 	 */
-	public static final String GENERAL = CategoryProviderFactory.CATEGORY_KEY_GENERAL; //$NON-NLS-1$
+	public static final String GENERAL = CategoryProviderFactory.CATEGORY_KEY_GENERAL; 
 	/**
 	 * Category name for standard Font page.
 	 */
-	public static final String FONT = CategoryProviderFactory.CATEGORY_KEY_FONT; //$NON-NLS-1$
+	public static final String FONT = CategoryProviderFactory.CATEGORY_KEY_FONT; 
 	/**
 	 * Category name for standard Padding page.
 	 */
-	public static final String PADDING = CategoryProviderFactory.CATEGORY_KEY_PADDING; //$NON-NLS-1$
+	public static final String PADDING = CategoryProviderFactory.CATEGORY_KEY_PADDING; 
 	/**
 	 * Category name for standard alt_text page.
 	 */
-	public static final String ALT = CategoryProviderFactory.CATEGORY_KEY_ALTTEXT; //$NON-NLS-1$
+	public static final String ALT = CategoryProviderFactory.CATEGORY_KEY_ALTTEXT; 
 	/**
 	 * Category name for standard Border page.
 	 */
-	public static final String BORDER = CategoryProviderFactory.CATEGORY_KEY_BORDERS; //$NON-NLS-1$
+	public static final String BORDER = CategoryProviderFactory.CATEGORY_KEY_BORDERS; 
 	/**
 	 * Category name for standard Margin page.
 	 */
-	public static final String MARGIN = CategoryProviderFactory.CATEGORY_KEY_MARGIN; //$NON-NLS-1$
+	public static final String MARGIN = CategoryProviderFactory.CATEGORY_KEY_MARGIN; 
 	/**
 	 * Category name for standard Hyperlink page.
 	 */
-	public static final String HYPERLINK = CategoryProviderFactory.CATEGORY_KEY_HYPERLINK; //$NON-NLS-1$
+	public static final String HYPERLINK = CategoryProviderFactory.CATEGORY_KEY_HYPERLINK; 
 	/**
 	 * Category name for standard Section page.
 	 */
-	public static final String SECTION = CategoryProviderFactory.CATEGORY_KEY_SECTION; //$NON-NLS-1$
+	public static final String SECTION = CategoryProviderFactory.CATEGORY_KEY_SECTION; 
 	/**
 	 * Category name for standard Visibility page.
 	 */
-	public static final String VISIBILITY = CategoryProviderFactory.CATEGORY_KEY_VISIBILITY; //$NON-NLS-1$
+	public static final String VISIBILITY = CategoryProviderFactory.CATEGORY_KEY_VISIBILITY; 
 	/**
 	 * Category name for standard TOC page.
 	 */
-	public static final String TOC = CategoryProviderFactory.CATEGORY_KEY_TOC; //$NON-NLS-1$
+	public static final String TOC = CategoryProviderFactory.CATEGORY_KEY_TOC; 
 	/**
 	 * Category name for standard Bookmark page.
 	 */
-	public static final String BOOKMARK = CategoryProviderFactory.CATEGORY_KEY_BOOKMARK; //$NON-NLS-1$
+	public static final String BOOKMARK = CategoryProviderFactory.CATEGORY_KEY_BOOKMARK; 
 	/**
 	 * Category name for standard UserProperties page.
 	 */
-	public static final String USERPROPERTIES = CategoryProviderFactory.CATEGORY_KEY_USERPROPERTIES; //$NON-NLS-1$
+	public static final String USERPROPERTIES = CategoryProviderFactory.CATEGORY_KEY_USERPROPERTIES; 
 	/**
 	 * Category name for standard NamedExpression page.
 	 */
-	public static final String NAMEDEXPRESSIONS = CategoryProviderFactory.CATEGORY_KEY_NAMEDEXPRESSIONS; //$NON-NLS-1$
+	public static final String NAMEDEXPRESSIONS = CategoryProviderFactory.CATEGORY_KEY_NAMEDEXPRESSIONS; 
 	
-	public static final String ADVANCEPROPERTY = CategoryProviderFactory.CATEGORY_KEY_ADVANCEPROPERTY; //$NON-NLS-1$
+	public static final String ADVANCEPROPERTY = CategoryProviderFactory.CATEGORY_KEY_ADVANCEPROPERTY; 
 	/**
 	 * Category name for standard EventHandler page.
 	 */

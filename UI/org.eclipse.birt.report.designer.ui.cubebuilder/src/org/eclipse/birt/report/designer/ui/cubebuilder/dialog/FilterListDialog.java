@@ -53,7 +53,7 @@ public class FilterListDialog extends BaseDialog
 
 	protected Control createDialogArea( Composite parent )
 	{
-		UIUtil.bindHelp( parent, IHelpContextIds.CUBE_FILTER_LIST_DIALOG ); //$NON-NLS-1$
+		UIUtil.bindHelp( parent, IHelpContextIds.CUBE_FILTER_LIST_DIALOG ); 
 
 		Composite dialogArea = (Composite) super.createDialogArea( parent );
 

@@ -16,8 +16,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteStyleAction;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditStyleAction;
-import org.eclipse.birt.report.designer.internal.ui.views.actions.DeleteAction;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.ui.IWorkbenchPart;

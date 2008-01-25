@@ -68,7 +68,7 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 	private static final String LABEL_PREVIEW_LABEL = Messages.getString( "FormatDateTimePage.label.preview.label" ); //$NON-NLS-1$
 	private static final String LABEL_TABLE_COLUMN_EXAMPLE_FORMAT_NAME = Messages.getString( "FormatDateTimePage.label.table.column.format.name" ); //$NON-NLS-1$
 	private static final String LABEL_TABLE_COLUMN_EXAMPLE_FORMAT_RESULT = Messages.getString( "FormatDateTimePage.label.table.column.format.result" ); //$NON-NLS-1$
-	private static final String LABEL_TABLE_COLUMN_EXAMPLE_FORMAT_CODE = Messages.getString( "FormatDateTimePage.label.table.column.format.code" );
+	private static final String LABEL_TABLE_COLUMN_EXAMPLE_FORMAT_CODE = Messages.getString( "FormatDateTimePage.label.table.column.format.code" ); //$NON-NLS-1$
 
 	private static final String ENTER_DATE_TIME_GUIDE_TEXT = Messages.getString( "FormatDateTimePage.label.guide.text" ); //$NON-NLS-1$
 
@@ -762,7 +762,7 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 					formatCode = new Text( container, SWT.SINGLE | SWT.BORDER );
 				else
 					formatCode = FormWidgetFactory.getInstance( )
-							.createText( container, "", SWT.SINGLE );
+							.createText( container, "", SWT.SINGLE ); //$NON-NLS-1$
 				formatCode.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 				formatCode.addModifyListener( new ModifyListener( ) {
 
@@ -835,7 +835,7 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 				formatCode = new Text( container, SWT.SINGLE | SWT.BORDER );
 			else
 				formatCode = FormWidgetFactory.getInstance( )
-						.createText( container, "", SWT.SINGLE );
+						.createText( container, "", SWT.SINGLE ); //$NON-NLS-1$
 			formatCode.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			formatCode.addModifyListener( new ModifyListener( ) {
 
@@ -872,7 +872,7 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 		if ( !isFormStyle( ) )
 			group = new Group( parent, SWT.NONE );
 		else
-			group = FormWidgetFactory.getInstance( ).createGroup( parent, "" );
+			group = FormWidgetFactory.getInstance( ).createGroup( parent, "" ); //$NON-NLS-1$
 		group.setText( LABEL_GENERAL_PREVIEW_GROUP );
 		GridData data;
 		if ( pageAlignment == PAGE_ALIGN_HORIZONTAL )
@@ -901,7 +901,7 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 		if ( !isFormStyle( ) )
 			group = new Group( parent, SWT.NONE );
 		else
-			group = FormWidgetFactory.getInstance( ).createGroup( parent, "" );
+			group = FormWidgetFactory.getInstance( ).createGroup( parent, "" ); //$NON-NLS-1$
 		group.setText( LABEL_CUSTOM_SETTINGS ); //$NON-NLS-1$
 		group.setLayoutData( createGridData4Part( ) );
 		group.setLayout( new GridLayout( 2, false ) );
@@ -922,7 +922,7 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 		if ( !isFormStyle( ) )
 			group = new Group( parent, SWT.NONE );
 		else
-			group = FormWidgetFactory.getInstance( ).createGroup( parent, "" );
+			group = FormWidgetFactory.getInstance( ).createGroup( parent, "" ); //$NON-NLS-1$
 		group.setText( LABEL_PREVIEW_GROUP ); //$NON-NLS-1$
 		if ( pageAlignment == PAGE_ALIGN_HORIZONTAL )
 		{
@@ -942,8 +942,8 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 			previewTextBox = new Text( group, SWT.SINGLE | SWT.BORDER );
 		else
 			previewTextBox = FormWidgetFactory.getInstance( )
-					.createText( group, "", SWT.SINGLE );
-		previewTextBox.setText( defaultDateTime == null ? "" : defaultDateTime );
+					.createText( group, "", SWT.SINGLE ); //$NON-NLS-1$
+		previewTextBox.setText( defaultDateTime == null ? "" : defaultDateTime ); //$NON-NLS-1$
 		GridData data = new GridData( GridData.FILL_HORIZONTAL );
 		if ( pageAlignment == PAGE_ALIGN_HORIZONTAL )
 		{

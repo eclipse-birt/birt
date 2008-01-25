@@ -136,7 +136,7 @@ public class ReportDesignNodeProvider extends DefaultNodeProvider
 		menu.add( new RefreshModuleHandleAction( object ) );
 		menu.add( new ExportToLibraryAction( object ) );
 		ReportDesignHandle report = (ReportDesignHandle) object;
-		if ( report.getModuleHandle( ).getFileName( ).endsWith( ".rpttemplate" )
+		if ( report.getModuleHandle( ).getFileName( ).endsWith( ".rpttemplate" ) //$NON-NLS-1$
 				|| ReportPlugin.getDefault( )
 						.isReportDesignFile( report.getModuleHandle( )
 								.getFileName( ) ) )

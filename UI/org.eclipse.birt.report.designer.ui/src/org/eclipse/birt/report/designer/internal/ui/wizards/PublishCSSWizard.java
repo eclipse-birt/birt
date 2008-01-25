@@ -35,9 +35,9 @@ public class PublishCSSWizard extends Wizard
 
 	// CSSHandle handle;
 
-	private static String WINDOWS_TITLE = Messages.getString( "PublishCSSDialog.ShellText" );
-	private static String PAGE_TITLE = Messages.getString( "PublishCSSDialog.TitleArea" );
-	private static String PAGE_DESC = Messages.getString( "PublishCSSDialog.Message" );
+	private static String WINDOWS_TITLE = Messages.getString( "PublishCSSDialog.ShellText" ); //$NON-NLS-1$
+	private static String PAGE_TITLE = Messages.getString( "PublishCSSDialog.TitleArea" ); //$NON-NLS-1$
+	private static String PAGE_DESC = Messages.getString( "PublishCSSDialog.Message" ); //$NON-NLS-1$
 
 	private String filePath;
 	private String fileName;
@@ -157,7 +157,7 @@ public class PublishCSSWizard extends Wizard
 		if ( targetFolder.exists( ) && ( !targetFolder.isDirectory( ) ) )
 		{
 			ExceptionHandler.openErrorMessageBox( Messages.getString( "PublishCSSAction.wizard.errorTitle" ), //$NON-NLS-1$
-					Messages.getString( "PublishCSSAction.wizard.notvalidfolder" ) );
+					Messages.getString( "PublishCSSAction.wizard.notvalidfolder" ) ); //$NON-NLS-1$
 			//$NON-NLS-1$
 			return true;
 		}

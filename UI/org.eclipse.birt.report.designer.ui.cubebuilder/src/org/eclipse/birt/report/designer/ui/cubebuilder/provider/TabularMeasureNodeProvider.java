@@ -53,7 +53,7 @@ public class TabularMeasureNodeProvider extends DefaultNodeProvider
 		{
 			menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,
 					new EditCubeMeasureAction( object,
-							Messages.getString( "CubeMeasureNodeProvider.menu.text" ) ) );
+							Messages.getString( "CubeMeasureNodeProvider.menu.text" ) ) ); //$NON-NLS-1$
 		}
 
 		menu.insertBefore( IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", //$NON-NLS-1$

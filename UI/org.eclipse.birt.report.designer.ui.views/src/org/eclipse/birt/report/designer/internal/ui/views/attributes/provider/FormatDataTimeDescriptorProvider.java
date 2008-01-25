@@ -71,7 +71,7 @@ public class FormatDataTimeDescriptorProvider implements IDescriptorProvider
 		{
 			SessionHandleAdapter.getInstance( )
 					.getCommandStack( )
-					.startTrans( Messages.getString( "FormatDateTimeAttributePage.Trans.SetDateTimeFormat" ) );
+					.startTrans( Messages.getString( "FormatDateTimeAttributePage.Trans.SetDateTimeFormat" ) ); //$NON-NLS-1$
 
 			for ( Iterator iter = DEUtil.getInputElements( input ).iterator( ); iter.hasNext( ); )
 			{

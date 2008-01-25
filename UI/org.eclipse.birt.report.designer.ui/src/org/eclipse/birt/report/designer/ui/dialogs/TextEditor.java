@@ -158,9 +158,9 @@ public class TextEditor extends BaseDialog
 
 	private static final String TOOL_TIP_TEXT_COPY = Messages.getString( "TextEditDialog.toolTipText.copy" ); //$NON-NLS-1$
 
-	public static final String DLG_TITLE_NEW = "New Text Item";
+	public static final String DLG_TITLE_NEW = "New Text Item"; //$NON-NLS-1$
 
-	public static final String DLG_TITLE_EDIT = "Edit Text Item";
+	public static final String DLG_TITLE_EDIT = "Edit Text Item"; //$NON-NLS-1$
 
 	private static final int FORMAT_CHOICE_INDEX_FORMATTING = 0;
 
@@ -1183,13 +1183,13 @@ public class TextEditor extends BaseDialog
 
 			// Punctuations will be regarded as delimiter so that different
 			// splits could be rendered separately.
-			Object[] splits = lineText.split( "\\p{Punct}" );
+			Object[] splits = lineText.split( "\\p{Punct}" ); //$NON-NLS-1$
 
 			// !=, <> etc. leading to "" will be filtered to meet the rule that
 			// segments must not have duplicates.
 			for ( int i = 0; i < splits.length; i++ )
 			{
-				if ( !splits[i].equals( "" ) )
+				if ( !splits[i].equals( "" ) ) //$NON-NLS-1$
 					list.add( splits[i] );
 			}
 			splits = list.toArray( );

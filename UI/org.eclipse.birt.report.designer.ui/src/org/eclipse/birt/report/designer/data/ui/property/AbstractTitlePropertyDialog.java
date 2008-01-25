@@ -55,7 +55,7 @@ public abstract class AbstractTitlePropertyDialog extends
 	private Label titleLabel;
 	private Label titleImageLabel;
 	private Image titleImage;
-	public static final String DLG_IMG_TITLE_BANNER = "dialog_title_banner_image";
+	public static final String DLG_IMG_TITLE_BANNER = "dialog_title_banner_image"; //$NON-NLS-1$
 	 public static final String DLG_IMG_TITLE_ERROR = DLG_IMG_MESSAGE_ERROR;
 	private Label messageImageLabel;
 	private Label messageLabel;

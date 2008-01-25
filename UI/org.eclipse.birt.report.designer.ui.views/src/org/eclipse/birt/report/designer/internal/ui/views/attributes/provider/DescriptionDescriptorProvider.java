@@ -16,7 +16,7 @@ public class DescriptionDescriptorProvider implements ITextDescriptorProvider
 
 	public String getDisplayName( )
 	{
-		return Messages.getString( "TemplateReportItemPage.description.Label.Instructions" );
+		return Messages.getString( "TemplateReportItemPage.description.Label.Instructions" ); //$NON-NLS-1$
 	}
 
 	public Object load( )
@@ -30,7 +30,7 @@ public class DescriptionDescriptorProvider implements ITextDescriptorProvider
 				result = handle.getDescription( );
 		}
 		if ( result == null )
-			return "";
+			return ""; //$NON-NLS-1$
 		else
 			return result.trim( );
 	}

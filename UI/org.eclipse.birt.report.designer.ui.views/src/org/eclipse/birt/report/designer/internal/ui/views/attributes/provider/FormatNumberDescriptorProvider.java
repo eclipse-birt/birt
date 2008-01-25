@@ -41,7 +41,7 @@ public class FormatNumberDescriptorProvider implements IDescriptorProvider
 		{
 			SessionHandleAdapter.getInstance( )
 					.getCommandStack( )
-					.startTrans( Messages.getString( "FormatNumberAttributePage.Trans.SetNumberFormat" ) );
+					.startTrans( Messages.getString( "FormatNumberAttributePage.Trans.SetNumberFormat" ) ); //$NON-NLS-1$
 
 			for ( Iterator iter = DEUtil.getInputElements( input ).iterator( ); iter.hasNext( ); )
 			{

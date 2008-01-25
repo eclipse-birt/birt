@@ -30,12 +30,12 @@ public class TemplateDescriptorProvider implements IResourceKeyDescriptorProvide
 
 	public String getBrowserText( )
 	{
-		return "...";
+		return "..."; //$NON-NLS-1$
 	}
 
 	public String getResetText( )
 	{
-		return Messages.getString( "ResourceKeyDescriptor.text.Reset" );
+		return Messages.getString( "ResourceKeyDescriptor.text.Reset" ); //$NON-NLS-1$
 	}
 
 	public boolean isEnable( )
@@ -45,17 +45,17 @@ public class TemplateDescriptorProvider implements IResourceKeyDescriptorProvide
 
 	public String getDisplayName( )
 	{
-		return Messages.getString( "TemplateReportItemPageGenerator.List.TextKey" );
+		return Messages.getString( "TemplateReportItemPageGenerator.List.TextKey" ); //$NON-NLS-1$
 	}
 
 	public Object load( )
 	{
-		String key = "";
+		String key = ""; //$NON-NLS-1$
 		if (DEUtil.getInputSize( input ) == 1
 				&& DEUtil.getInputFirstElement( input ) instanceof TemplateReportItemHandle )
 		{
 			TemplateReportItemHandle handle = (TemplateReportItemHandle) DEUtil.getInputFirstElement( input );
-			key = ( handle.getDescriptionKey( ) == null ) ? ""
+			key = ( handle.getDescriptionKey( ) == null ) ? "" //$NON-NLS-1$
 					: handle.getDescriptionKey( ).trim( );
 		}
 		return key;

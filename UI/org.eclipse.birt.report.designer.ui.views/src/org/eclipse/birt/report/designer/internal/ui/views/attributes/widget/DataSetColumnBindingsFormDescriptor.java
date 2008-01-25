@@ -63,7 +63,7 @@ public class DataSetColumnBindingsFormDescriptor extends FormPropertyDescriptor
 
 		if ( isFormStyle( ) )
 			btnRefresh = FormWidgetFactory.getInstance( )
-					.createButton( (Composite) control, "", SWT.PUSH );
+					.createButton( (Composite) control, "", SWT.PUSH ); //$NON-NLS-1$
 		else
 			btnRefresh = new Button( (Composite) control, SWT.BORDER );
 

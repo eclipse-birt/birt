@@ -75,7 +75,7 @@ public class DataSetPage extends AttributePage
 		TextPropertyDescriptorProvider dataSetProvider = new TextPropertyDescriptorProvider( DataSetHandle.DATA_SOURCE_PROP,
 				ReportDesignConstants.DATA_SET_ELEMENT ){
 			public String getDisplayName(){
-				return Messages.getString( "DataSetPageGenerator.DataSourceName" );
+				return Messages.getString( "DataSetPageGenerator.DataSourceName" ); //$NON-NLS-1$
 			}
 		};
 		TextSection dataSetSection = new TextSection( dataSetProvider.getDisplayName( ),

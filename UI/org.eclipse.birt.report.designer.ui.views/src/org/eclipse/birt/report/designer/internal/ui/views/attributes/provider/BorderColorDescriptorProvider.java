@@ -32,28 +32,28 @@ public class BorderColorDescriptorProvider extends BorderDescriptorProvider
 	public Object load( )
 	{
 		String value = getLocalStringValue( StyleHandle.BORDER_LEFT_COLOR_PROP );
-		if ( !"".equals( value ) )
+		if ( !"".equals( value ) ) //$NON-NLS-1$
 		{
 			this.indexText = value;
 			return value;
 		}
 
 		value = getLocalStringValue( StyleHandle.BORDER_RIGHT_COLOR_PROP );
-		if ( !"".equals( value ) )
+		if ( !"".equals( value ) ) //$NON-NLS-1$
 		{
 			this.indexText = value;
 			return value;
 		}
 
 		value = getLocalStringValue( StyleHandle.BORDER_TOP_COLOR_PROP );
-		if ( !"".equals( value ) )
+		if ( !"".equals( value ) ) //$NON-NLS-1$
 		{
 			this.indexText = value;
 			return value;
 		}
 
 		value = getLocalStringValue( StyleHandle.BORDER_BOTTOM_COLOR_PROP );
-		if ( !"".equals( value ) )
+		if ( !"".equals( value ) ) //$NON-NLS-1$
 		{
 			this.indexText = value;
 			return value;
@@ -61,7 +61,7 @@ public class BorderColorDescriptorProvider extends BorderDescriptorProvider
 		return indexText;
 	}
 
-	protected Object indexText = "";
+	protected Object indexText = ""; //$NON-NLS-1$
 
 	public void setIndex( Object index )
 	{
@@ -70,7 +70,7 @@ public class BorderColorDescriptorProvider extends BorderDescriptorProvider
 
 	public void save( Object value ) throws SemanticException
 	{
-		this.indexText = value == null ? "" : value;
+		this.indexText = value == null ? "" : value; //$NON-NLS-1$
 		if ( ( (Boolean) styleMap.get( StyleHandle.BORDER_TOP_STYLE_PROP ) ).booleanValue( ) == true )
 		{
 			save( StyleHandle.BORDER_TOP_COLOR_PROP, value );

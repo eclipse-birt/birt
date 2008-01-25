@@ -17,7 +17,7 @@ public class TogglesSection extends Section
 
 	public TogglesSection( Composite parent )
 	{
-		super( " ", parent, true );
+		super( " ", parent, true ); //$NON-NLS-1$
 	}
 
 	public TogglesSection( Composite parent, String title )
@@ -29,7 +29,7 @@ public class TogglesSection extends Section
 
 	public void createSection( )
 	{
-		if ( !getLabelText( ).trim( ).equals( "" ) )
+		if ( !getLabelText( ).trim( ).equals( "" ) ) //$NON-NLS-1$
 			getLabelControl( parent );
 		getTogglesControl( parent );
 		getGridPlaceholder( parent );

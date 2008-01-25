@@ -57,9 +57,9 @@ public class CssErrDialog extends TitleAreaDialog
 	protected Control createContents( Composite parent )
 	{
 		Control control = super.createContents( parent );
-		setMessage( Messages.getString("CssErrDialog.AreaMessage") );	
-		setTitle( Messages.getString("CssErrDialog.AreaTitle"));
-		getShell( ).setText( Messages.getString("CssErrDialog.shellTitle.ImportCssStyleMssageTitle"));
+		setMessage( Messages.getString("CssErrDialog.AreaMessage") );	 //$NON-NLS-1$
+		setTitle( Messages.getString("CssErrDialog.AreaTitle")); //$NON-NLS-1$
+		getShell( ).setText( Messages.getString("CssErrDialog.shellTitle.ImportCssStyleMssageTitle")); //$NON-NLS-1$
 
 		return control;
 	}
@@ -80,10 +80,10 @@ public class CssErrDialog extends TitleAreaDialog
 		GridLayout layout = new GridLayout(2,false);
 		composite.setLayout( layout );
 		
-		new Label(composite,  SWT.NONE).setText( Messages.getString( "CssErrDialog.Severity" ));
+		new Label(composite,  SWT.NONE).setText( Messages.getString( "CssErrDialog.Severity" )); //$NON-NLS-1$
 		Label messageLine = new Label(composite, SWT.NONE);
 		Label messageLabel= new Label(composite, SWT.NONE);
-		messageLabel.setText( Messages.getString( "CssErrDialog.Message" ));
+		messageLabel.setText( Messages.getString( "CssErrDialog.Message" )); //$NON-NLS-1$
 		messageLabel.setLayoutData( new GridData( GridData.VERTICAL_ALIGN_BEGINNING ) );
 		Text messageText = new Text(composite, SWT.MULTI
 				| SWT.WRAP
@@ -99,13 +99,13 @@ public class CssErrDialog extends TitleAreaDialog
 		switch(level)
 		{
 			case FATAL_ERROR:
-				messageLine.setText(Messages.getString( "CssErrDialog.FatalError" ));
+				messageLine.setText(Messages.getString( "CssErrDialog.FatalError" )); //$NON-NLS-1$
 				break;
 			case ERROR:
-				messageLine.setText(Messages.getString( "CssErrDialog.Error" ));
+				messageLine.setText(Messages.getString( "CssErrDialog.Error" )); //$NON-NLS-1$
 				break;
 			case WARNING:
-				messageLine.setText(Messages.getString( "CssErrDialog.Warning" ));
+				messageLine.setText(Messages.getString( "CssErrDialog.Warning" )); //$NON-NLS-1$
 				break;
 			default:
 		}
@@ -114,7 +114,7 @@ public class CssErrDialog extends TitleAreaDialog
 		while ( errorIter.hasNext( ) )
 		{
 			messageText.append( errorIter.next( ).toString( ) ) ;
-			messageText.append( "\n" );
+			messageText.append( "\n" ); //$NON-NLS-1$
 		}	
 
 		

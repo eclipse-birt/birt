@@ -42,13 +42,13 @@ import org.eclipse.swt.widgets.Text;
 public class ExportReportWizardPage extends WizardPage implements Listener
 {
 
-	private static String LABEL_FILE_NAME = Messages.getString( "ExportToLibraryAction.wizard.page.label.filename" );
-	private static String LABEL_FOLDER = Messages.getString( "ExportToLibraryAction.wizard.page.label.folder" );
-	private static String BUTTON_BROWSER = Messages.getString( "ExportToLibraryAction.wizard.page.button.browser" );
-	private static String PLUGIN_ID = "org.eclipse.birt.report.designer.internal.ui.wizards.ExportReportWizardPage";
+	private static String LABEL_FILE_NAME = Messages.getString( "ExportToLibraryAction.wizard.page.label.filename" ); //$NON-NLS-1$
+	private static String LABEL_FOLDER = Messages.getString( "ExportToLibraryAction.wizard.page.label.folder" ); //$NON-NLS-1$
+	private static String BUTTON_BROWSER = Messages.getString( "ExportToLibraryAction.wizard.page.button.browser" ); //$NON-NLS-1$
+	private static String PLUGIN_ID = "org.eclipse.birt.report.designer.internal.ui.wizards.ExportReportWizardPage"; //$NON-NLS-1$
 
-	private static String PAGE_TITLE = Messages.getString( "ExportToLibraryAction.wizard.page.title" );
-	private static String PAGE_DESC = Messages.getString( "ExportToLibraryAction.wizard.page.desc" );
+	private static String PAGE_TITLE = Messages.getString( "ExportToLibraryAction.wizard.page.title" ); //$NON-NLS-1$
+	private static String PAGE_DESC = Messages.getString( "ExportToLibraryAction.wizard.page.desc" ); //$NON-NLS-1$
 
 	Status nameStatus;
 	Status folderStatus;
@@ -115,7 +115,7 @@ public class ExportReportWizardPage extends WizardPage implements Listener
 			public void widgetSelected( SelectionEvent e )
 			{
 				DirectoryDialog dialog = new DirectoryDialog( UIUtil.getDefaultShell( ) );
-				dialog.setMessage( Messages.getString( "ExportToLibraryAction.wizard.page.dirdialog.message" ) );
+				dialog.setMessage( Messages.getString( "ExportToLibraryAction.wizard.page.dirdialog.message" ) ); //$NON-NLS-1$
 
 				String dirName = Platform.getLocation( ).toString( );
 				if ( dirName != null && dirName.trim( ).length( ) > 0 )
@@ -175,7 +175,7 @@ public class ExportReportWizardPage extends WizardPage implements Listener
 			status = new Status( IStatus.ERROR,
 					PLUGIN_ID,
 					0,
-					Messages.getString( "ExportToLibraryAction.wizard.page.nameempty" ),
+					Messages.getString( "ExportToLibraryAction.wizard.page.nameempty" ), //$NON-NLS-1$
 					null );
 		}
 		nameStatus = status;
@@ -186,7 +186,7 @@ public class ExportReportWizardPage extends WizardPage implements Listener
 			status = new Status( IStatus.ERROR,
 					PLUGIN_ID,
 					0,
-					Messages.getString( "ExportToLibraryAction.wizard.page.folderempty" ),
+					Messages.getString( "ExportToLibraryAction.wizard.page.folderempty" ), //$NON-NLS-1$
 					null );
 		}
 		else
@@ -198,7 +198,7 @@ public class ExportReportWizardPage extends WizardPage implements Listener
 				status = new Status( IStatus.ERROR,
 						PLUGIN_ID,
 						0,
-						Messages.getString( "ExportToLibraryAction.wizard.page.foldererror" ),
+						Messages.getString( "ExportToLibraryAction.wizard.page.foldererror" ), //$NON-NLS-1$
 						null );
 			}
 		}

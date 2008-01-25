@@ -111,7 +111,7 @@ public class OutputPropertyDescriptor extends PropertyDescriptor
 
 		if ( isFormStyle( ) )
 			group = FormWidgetFactory.getInstance( )
-					.createGroup( container, "" );
+					.createGroup( container, "" ); //$NON-NLS-1$
 		else
 			group = new Group( container, SWT.NONE );
 		group.setLayout( new GridLayout( ) );
@@ -322,7 +322,7 @@ public class OutputPropertyDescriptor extends PropertyDescriptor
 		for ( int i = 0; i < outputDescriptorProvider.getTypeInfo( ).length; i++ )
 		{
 			( (Button) specCheckButtons.get( outputDescriptorProvider.getTypeInfo( )[i] ) ).setSelection( false );
-			( (ExpressionComposite) specExpressions.get( outputDescriptorProvider.getTypeInfo( )[i] ) ).setText( "true" );
+			( (ExpressionComposite) specExpressions.get( outputDescriptorProvider.getTypeInfo( )[i] ) ).setText( "true" ); //$NON-NLS-1$
 		}
 		allExpression.setText( "true" );//$NON-NLS-1$
 	}

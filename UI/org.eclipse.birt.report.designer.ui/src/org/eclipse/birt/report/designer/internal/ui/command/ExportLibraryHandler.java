@@ -109,7 +109,7 @@ public class ExportLibraryHandler extends SelectionHandler
 		{
 			super( );
 			setWindowTitle( windowTitle );
-			page = new ExportReportWizardPage( "" );
+			page = new ExportReportWizardPage( "" ); //$NON-NLS-1$
 			addPage( page );
 
 		}

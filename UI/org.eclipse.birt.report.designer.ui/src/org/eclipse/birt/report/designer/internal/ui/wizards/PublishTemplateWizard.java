@@ -43,17 +43,17 @@ public class PublishTemplateWizard extends Wizard
 	private ReportDesignHandle handle;
 
 	private static final String[] IMAGE_TYPES = new String[]{
-			".bmp",
-			".jpg",
-			".jpeg",
-			".jpe",
-			".jfif",
-			".gif",
-			".png",
-			".tif",
-			".tiff",
-			".ico",
-			".svg"
+			".bmp", //$NON-NLS-1$
+			".jpg", //$NON-NLS-1$
+			".jpeg", //$NON-NLS-1$
+			".jpe", //$NON-NLS-1$
+			".jfif", //$NON-NLS-1$
+			".gif", //$NON-NLS-1$
+			".png", //$NON-NLS-1$
+			".tif", //$NON-NLS-1$
+			".tiff", //$NON-NLS-1$
+			".ico", //$NON-NLS-1$
+			".svg" //$NON-NLS-1$
 	};
 
 	public PublishTemplateWizard( ReportDesignHandle handle )
@@ -110,8 +110,8 @@ public class PublishTemplateWizard extends Wizard
 		String targetFileName = fileName;
 		if ( ReportPlugin.getDefault( ).isReportDesignFile( fileName ) )
 		{
-			int index = fileName.lastIndexOf( "." );
-			targetFileName = fileName.substring( 0, index ) + ".rpttemplate";
+			int index = fileName.lastIndexOf( "." ); //$NON-NLS-1$
+			targetFileName = fileName.substring( 0, index ) + ".rpttemplate"; //$NON-NLS-1$
 		}
 		File targetFile = new File( targetFolder, targetFileName );
 		if ( new File( filePath ).compareTo( targetFile ) == 0 )
@@ -206,7 +206,7 @@ public class PublishTemplateWizard extends Wizard
 		}
 		else
 		{
-			handle.setIconFile( "" );
+			handle.setIconFile( "" ); //$NON-NLS-1$
 		}
 		// if ( !page.getCheetSheetPath( ).equals( "" ) ) //$NON-NLS-1$
 		// handle.setCheetSheet( page.getCheetSheetPath( ) );

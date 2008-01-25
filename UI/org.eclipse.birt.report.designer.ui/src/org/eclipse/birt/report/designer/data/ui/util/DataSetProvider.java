@@ -854,7 +854,7 @@ public final class DataSetProvider
 		if ( element == null )
 		{
 			IConfigurationElement[] elements = Platform.getExtensionRegistry( )
-					.getConfigurationElementsFor( "org.eclipse.birt.report.designer.ui.odadatasource" );
+					.getConfigurationElementsFor( "org.eclipse.birt.report.designer.ui.odadatasource" ); //$NON-NLS-1$
 			for ( int n = 0; n < elements.length; n++ )
 			{
 				if ( elements[n].getAttribute( "id" ).equals( dataSourceType ) ) //$NON-NLS-1$
@@ -865,7 +865,7 @@ public final class DataSetProvider
 				}
 			}
 			elements = Platform.getExtensionRegistry( )
-					.getConfigurationElementsFor( "org.eclipse.datatools.connectivity.oda.design.ui.dataSource" );
+					.getConfigurationElementsFor( "org.eclipse.datatools.connectivity.oda.design.ui.dataSource" ); //$NON-NLS-1$
 			for ( int n = 0; n < elements.length; n++ )
 			{
 				if ( elements[n].getAttribute( "id" ).equals( dataSourceType ) ) //$NON-NLS-1$
@@ -1104,7 +1104,7 @@ public final class DataSetProvider
 		// All workspace Java project's class path (this class path is already
 		// has already calculated byorg.eclipse.birt.report.debug.ui plugin, and
 		// set as system property "workspace.projectclasspath"
-		String classPath = System.getProperty( "workspace.projectclasspath" );
+		String classPath = System.getProperty( "workspace.projectclasspath" ); //$NON-NLS-1$
 		if ( classPath == null || classPath.length( ) == 0  )
 			return parent;
 		

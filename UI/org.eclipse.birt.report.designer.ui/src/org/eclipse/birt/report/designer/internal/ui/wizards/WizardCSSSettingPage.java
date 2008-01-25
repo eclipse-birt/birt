@@ -49,18 +49,18 @@ import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 public class WizardCSSSettingPage extends WizardPage
 {
 
-	String CSS_FILE_EXTENSIONS[] = new String[]{"*.css;*.CSS"};
-	String CSS_FILE_END[] = new String[]{"css","CSS"};
-	private static String LABEL_FILE_NAME = Messages.getString( "PublishCSSDialog.Label.FileName" );
+	String CSS_FILE_EXTENSIONS[] = new String[]{"*.css;*.CSS"}; //$NON-NLS-1$
+	String CSS_FILE_END[] = new String[]{"css","CSS"}; //$NON-NLS-1$ //$NON-NLS-2$
+	private static String LABEL_FILE_NAME = Messages.getString( "PublishCSSDialog.Label.FileName" ); //$NON-NLS-1$
 
-	private static String LABEL_SOURCE_FILE_NAME = Messages.getString( "PublishCSSDialog.Label.SourceFileName" );
+	private static String LABEL_SOURCE_FILE_NAME = Messages.getString( "PublishCSSDialog.Label.SourceFileName" ); //$NON-NLS-1$
 
-	private static String LABEL_FOLDER = Messages.getString( "PublishCSSDialog.Label.Folder" );
+	private static String LABEL_FOLDER = Messages.getString( "PublishCSSDialog.Label.Folder" ); //$NON-NLS-1$
 
-	private static String BUTTON_BROWSE = Messages.getString( "PublishCSSDialog.Label.Browse" );
-	private static String BUTTON_BROWSE2 = Messages.getString( "PublishCSSDialog.Label.Browse2" );
+	private static String BUTTON_BROWSE = Messages.getString( "PublishCSSDialog.Label.Browse" ); //$NON-NLS-1$
+	private static String BUTTON_BROWSE2 = Messages.getString( "PublishCSSDialog.Label.Browse2" ); //$NON-NLS-1$
 
-	private static final String PLUGIN_ID = "org.eclipse.birt.report.designer.ui.actions.AddCSSFileAction";
+	private static final String PLUGIN_ID = "org.eclipse.birt.report.designer.ui.actions.AddCSSFileAction"; //$NON-NLS-1$
 
 	private String fileDialogTitle = Messages.getString( "PublishCSSDialog.Dialog.FileSeclect.Tilte" ); //$NON-NLS-1$
 
@@ -145,7 +145,7 @@ public class WizardCSSSettingPage extends WizardPage
 	public WizardCSSSettingPage(String pageTitle,
 			String pageDesc )
 	{
-		super( "" );
+		super( "" ); //$NON-NLS-1$
 		setTitle( pageTitle );
 		setMessage( pageDesc );
 		pageStatus = new Status( IStatus.OK, PLUGIN_ID, 0, pageDesc, null );
@@ -330,7 +330,7 @@ public class WizardCSSSettingPage extends WizardPage
 			status = new Status( IStatus.ERROR,
 					PLUGIN_ID,
 					0,
-					Messages.getString( "PublishCSSDialog.Message.FileNameEmpty" ),
+					Messages.getString( "PublishCSSDialog.Message.FileNameEmpty" ), //$NON-NLS-1$
 					null );
 		}
 		else if ( !isCSSFile(nameText.getText( )) )
@@ -338,7 +338,7 @@ public class WizardCSSSettingPage extends WizardPage
 			status = new Status( IStatus.ERROR,
 					PLUGIN_ID,
 					0,
-					Messages.getString( "PublishCSSDialog.Message.FileNameError" ),
+					Messages.getString( "PublishCSSDialog.Message.FileNameError" ), //$NON-NLS-1$
 					null );
 		}
 		else if ( isTextEmpty( folderText ) )
@@ -346,7 +346,7 @@ public class WizardCSSSettingPage extends WizardPage
 			status = new Status( IStatus.ERROR,
 					PLUGIN_ID,
 					0,
-					Messages.getString( "PublishCSSDialog.Message.FolderEmpty" ),
+					Messages.getString( "PublishCSSDialog.Message.FolderEmpty" ), //$NON-NLS-1$
 					null );
 		}
 

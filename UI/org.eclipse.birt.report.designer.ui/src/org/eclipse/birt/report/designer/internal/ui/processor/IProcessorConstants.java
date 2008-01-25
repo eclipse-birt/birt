@@ -18,5 +18,5 @@ package org.eclipse.birt.report.designer.internal.ui.processor;
 public interface IProcessorConstants
 {
 
-	public static final String ELEMENT_NAME = "element name";
+	public static final String ELEMENT_NAME = "element name"; //$NON-NLS-1$
 }

@@ -110,7 +110,7 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor {
 		containerPane.setLayout(layout);
 		if (isFormStyle())
 			text = FormWidgetFactory.getInstance().createText(containerPane,
-					"", SWT.MULTI | SWT.WRAP | SWT.H_SCROLL | SWT.V_SCROLL);
+					"", SWT.MULTI | SWT.WRAP | SWT.H_SCROLL | SWT.V_SCROLL); //$NON-NLS-1$
 		else
 			text = new Text(containerPane, SWT.MULTI | SWT.WRAP | SWT.BORDER
 					| SWT.H_SCROLL | SWT.V_SCROLL);

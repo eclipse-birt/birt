@@ -184,7 +184,7 @@ public class ResourceFilterDialog extends BaseDialog
 				return ( (ResourceFilter) element ).getDisplayName( );
 			}
 			else
-				return "";
+				return ""; //$NON-NLS-1$
 		}
 
 		public String getToolTip( Object element )

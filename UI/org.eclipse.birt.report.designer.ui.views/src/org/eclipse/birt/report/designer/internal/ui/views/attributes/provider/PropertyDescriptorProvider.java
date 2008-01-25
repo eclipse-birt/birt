@@ -36,7 +36,7 @@ public class PropertyDescriptorProvider implements IDescriptorProvider
 			value = DEUtil.getGroupElementHandle( (List) input )
 					.getStringProperty( property );
 		}
-		return value == null ? "" : value;
+		return value == null ? "" : value; //$NON-NLS-1$
 	}
 
 	public void save( Object value ) throws SemanticException
@@ -87,11 +87,11 @@ public class PropertyDescriptorProvider implements IDescriptorProvider
 		{
 			String value = ( (GroupElementHandle) input ).getLocalStringProperty( property );
 			if ( value == null )
-				return "";
+				return ""; //$NON-NLS-1$
 			else
 				return value;
 		}
-		return "";
+		return ""; //$NON-NLS-1$
 	}
 
 	public void setInput( Object input )

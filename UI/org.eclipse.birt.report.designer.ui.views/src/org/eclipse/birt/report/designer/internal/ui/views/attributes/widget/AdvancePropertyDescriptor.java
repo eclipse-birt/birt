@@ -9,9 +9,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.eclipse.birt.report.designer.core.model.views.property.GroupPropertyHandleWrapper;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -99,7 +96,7 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 	private Composite container;
 	private IMemento propertySheetMemento;
 	private IMemento viewerMemento;
-	protected String propertyViewerID = "Report_Property_Sheet_Page_Viewer_ID";
+	protected String propertyViewerID = "Report_Property_Sheet_Page_Viewer_ID"; //$NON-NLS-1$
 
 	public AdvancePropertyDescriptor( boolean formStyle )
 	{

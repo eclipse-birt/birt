@@ -56,7 +56,7 @@ public class TabularMeasureGroupNodeProvider extends DefaultNodeProvider
 		{
 			menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,
 					new EditCubeMeasureGroupAction( object,
-							Messages.getString( "CubeMeasureGroupNodeProvider.menu.text" ) ) );
+							Messages.getString( "CubeMeasureGroupNodeProvider.menu.text" ) ) ); //$NON-NLS-1$
 		}
 
 		menu.insertBefore( IWorkbenchActionConstants.MB_ADDITIONS + "-refresh", //$NON-NLS-1$

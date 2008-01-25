@@ -77,7 +77,7 @@ public class FormatDateTimeAdapter
 				UNFORMATTED_NAME = DateFormatter.DATE_UNFORMATTED;
 				break;
 			case FormatBuilder.TIME :
-				UNFORMATTED_DISPLAYNAME = "Unformatted";
+				UNFORMATTED_DISPLAYNAME = "Unformatted"; //$NON-NLS-1$
 				CUSTOM = DesignChoiceConstants.TIME_FORMAT_TYPE_CUSTOM;
 				UNFORMATTED_NAME = DateFormatter.TIME_UNFORMATTED;
 				break;

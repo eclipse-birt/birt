@@ -172,7 +172,7 @@ public class MeasureDialog extends BaseDialog
 
 	public MeasureDialog( boolean newOrEdit )
 	{
-		super( Messages.getString( "MeasureDialog.Title" ) );
+		super( Messages.getString( "MeasureDialog.Title" ) ); //$NON-NLS-1$
 		this.isEdit = !newOrEdit;
 	}
 
@@ -188,7 +188,7 @@ public class MeasureDialog extends BaseDialog
 	protected Control createDialogArea( Composite parent )
 	{
 		createTitleArea( parent );
-		UIUtil.bindHelp( parent, IHelpContextIds.MEASURE_DIALOG ); //$NON-NLS-1$
+		UIUtil.bindHelp( parent, IHelpContextIds.MEASURE_DIALOG ); 
 
 		Composite contents = new Composite( parent, SWT.NONE );
 		GridLayout layout = new GridLayout( );
@@ -224,20 +224,20 @@ public class MeasureDialog extends BaseDialog
 		}
 		else
 		{
-			typeCombo.setText( getDataTypeDisplaName( input.getDataType( ) ) == null ? ""
+			typeCombo.setText( getDataTypeDisplaName( input.getDataType( ) ) == null ? "" //$NON-NLS-1$
 					: getDataTypeDisplaName( input.getDataType( ) ) );
 			try
 			{
-				functionCombo.setText( getFunctionDisplayName( DataAdapterUtil.adaptModelAggregationType( input.getFunction( ) ) ) == null ? ""
+				functionCombo.setText( getFunctionDisplayName( DataAdapterUtil.adaptModelAggregationType( input.getFunction( ) ) ) == null ? "" //$NON-NLS-1$
 						: getFunctionDisplayName( DataAdapterUtil.adaptModelAggregationType( input.getFunction( ) ) ) );
 			}
 			catch ( AdapterException e )
 			{
 				ExceptionHandler.handle( e );
 			}
-			expressionText.setText( input.getMeasureExpression( ) == null ? ""
+			expressionText.setText( input.getMeasureExpression( ) == null ? "" //$NON-NLS-1$
 					: input.getMeasureExpression( ) );
-			nameText.setText( input.getName( ) == null ? "" : input.getName( ) );
+			nameText.setText( input.getName( ) == null ? "" : input.getName( ) ); //$NON-NLS-1$
 		}
 		handleFunctionSelectEvent( );
 	}
@@ -303,7 +303,7 @@ public class MeasureDialog extends BaseDialog
 		group.setLayout( layout );
 
 		Label nameLabel = new Label( group, SWT.NONE );
-		nameLabel.setText( Messages.getString( "MeasureDialog.Label.Name" ) );
+		nameLabel.setText( Messages.getString( "MeasureDialog.Label.Name" ) ); //$NON-NLS-1$
 		nameText = new Text( group, SWT.BORDER );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
@@ -318,7 +318,7 @@ public class MeasureDialog extends BaseDialog
 		} );
 
 		Label functionLabel = new Label( group, SWT.NONE );
-		functionLabel.setText( Messages.getString( "MeasureDialog.Label.Function" ) );
+		functionLabel.setText( Messages.getString( "MeasureDialog.Label.Function" ) ); //$NON-NLS-1$
 		functionCombo = new Combo( group, SWT.BORDER | SWT.READ_ONLY );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
@@ -334,7 +334,7 @@ public class MeasureDialog extends BaseDialog
 		} );
 
 		Label typeLabel = new Label( group, SWT.NONE );
-		typeLabel.setText( Messages.getString( "MeasureDialog.Label.DataType" ) );
+		typeLabel.setText( Messages.getString( "MeasureDialog.Label.DataType" ) ); //$NON-NLS-1$
 		typeCombo = new Combo( group, SWT.BORDER | SWT.READ_ONLY );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
@@ -349,7 +349,7 @@ public class MeasureDialog extends BaseDialog
 		} );
 
 		Label expressionLabel = new Label( group, SWT.NONE );
-		expressionLabel.setText( Messages.getString( "MeasureDialog.Label.Expression" ) );
+		expressionLabel.setText( Messages.getString( "MeasureDialog.Label.Expression" ) ); //$NON-NLS-1$
 		expressionText = new Text( group, SWT.SINGLE | SWT.BORDER );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		expressionText.setLayoutData( gd );
@@ -389,7 +389,7 @@ public class MeasureDialog extends BaseDialog
 	protected void checkOkButtonStatus( )
 	{
 		if ( nameText.getText( ) == null
-				|| nameText.getText( ).trim( ).equals( "" )
+				|| nameText.getText( ).trim( ).equals( "" ) //$NON-NLS-1$
 				|| functionCombo.getSelectionIndex( ) == -1
 				|| typeCombo.getSelectionIndex( ) == -1 )
 		{

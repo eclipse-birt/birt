@@ -34,7 +34,7 @@ import org.eclipse.swt.widgets.Spinner;
 public class TableOptionDialog extends BaseDialog
 {
 
-	private static final String MSG_DATA_SET = Messages.getString( "TableOptionDialog.text.DataSet" );
+	private static final String MSG_DATA_SET = Messages.getString( "TableOptionDialog.text.DataSet" ); //$NON-NLS-1$
 
 	private static final String MSG_REMEMBER_DIMENSIONS_FOR_NEW_GRIDS = Messages.getString( "TableOptionDialog.message.RememberGrid" ); //$NON-NLS-1$
 

@@ -144,9 +144,9 @@ public class ReportTemplateTransferDropTargetListener extends
 					{
 						try
 						{
-							CommandUtils.setVariable( "targetEditPart",
+							CommandUtils.setVariable( "targetEditPart", //$NON-NLS-1$
 									getTargetEditPart( ) );
-							CommandUtils.setVariable( "request", getTargetRequest( ) );
+							CommandUtils.setVariable( "request", getTargetRequest( ) ); //$NON-NLS-1$
 							getCreateRequest( ).getExtendedData( )
 									.put( DesignerConstants.KEY_NEWOBJECT,
 											entries[i].executeCreate( ) );

@@ -42,22 +42,22 @@ import org.eclipse.swt.widgets.Text;
 public class DataItemBindingDialog extends BaseDialog
 {
 
-	protected static final String NAME = Messages.getString( "DataItemBindingDialog.text.Name" );
-	protected static final String DISPLAY_NAME = Messages.getString( "DataItemBindingDialog.text.displayName" );
+	protected static final String NAME = Messages.getString( "DataItemBindingDialog.text.Name" ); //$NON-NLS-1$
+	protected static final String DISPLAY_NAME = Messages.getString( "DataItemBindingDialog.text.displayName" ); //$NON-NLS-1$
 
-	protected static final String DATA_TYPE = Messages.getString( "DataItemBindingDialog.text.DataType" );
+	protected static final String DATA_TYPE = Messages.getString( "DataItemBindingDialog.text.DataType" ); //$NON-NLS-1$
 
-	protected static final String EXPRESSION = Messages.getString( "DataItemBindingDialog.text.Expression" );
+	protected static final String EXPRESSION = Messages.getString( "DataItemBindingDialog.text.Expression" ); //$NON-NLS-1$
 
-	protected static final String AGGREGATE_ON = Messages.getString( "DataItemBindingDialog.text.AggregateOn" );
+	protected static final String AGGREGATE_ON = Messages.getString( "DataItemBindingDialog.text.AggregateOn" ); //$NON-NLS-1$
 
-	protected static final String FORCE_BINDING_TEXT = Messages.getString( "DataItemBindingDialog.text.ForceBinding" );
+	protected static final String FORCE_BINDING_TEXT = Messages.getString( "DataItemBindingDialog.text.ForceBinding" ); //$NON-NLS-1$
 
-	protected static final String DEFAULT_ITEM_NAME = "data item";
+	protected static final String DEFAULT_ITEM_NAME = "data item"; //$NON-NLS-1$
 
-	protected static final String ALL = Messages.getString( "DataItemBindingDialog.text.All" );
+	protected static final String ALL = Messages.getString( "DataItemBindingDialog.text.All" ); //$NON-NLS-1$
 
-	protected static final String NONE = Messages.getString( "DataItemBindingDialog.text.None" );
+	protected static final String NONE = Messages.getString( "DataItemBindingDialog.text.None" ); //$NON-NLS-1$
 
 	protected static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
 			.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
@@ -66,9 +66,9 @@ public class DataItemBindingDialog extends BaseDialog
 
 	protected static final IChoice[] DATA_TYPE_CHOICES = DATA_TYPE_CHOICE_SET.getChoices( null );
 
-	protected static final String NEW_DATAITEM_TITLE = Messages.getString( "DataItemBindingDialog.title.CreateNewItem" );
+	protected static final String NEW_DATAITEM_TITLE = Messages.getString( "DataItemBindingDialog.title.CreateNewItem" ); //$NON-NLS-1$
 
-	protected static final String EDIT_DATAITEM_TITLE = Messages.getString( "DataItemBindingDialog.title.EditDataItem" );
+	protected static final String EDIT_DATAITEM_TITLE = Messages.getString( "DataItemBindingDialog.title.EditDataItem" ); //$NON-NLS-1$
 
 	protected ReportItemHandle input;
 
@@ -578,9 +578,9 @@ public class DataItemBindingDialog extends BaseDialog
 		if ( DataItemBindingDialog.this.getOkButton( ) != null )
 		{
 			if ( itemName.getText( ) == null
-					|| itemName.getText( ).trim( ).equals( "" )
+					|| itemName.getText( ).trim( ).equals( "" ) //$NON-NLS-1$
 					||itemExpression.getText( ) == null
-					|| itemExpression.getText( ).trim( ).equals( "" ))
+					|| itemExpression.getText( ).trim( ).equals( "" )) //$NON-NLS-1$
 				DataItemBindingDialog.this.getOkButton( )
 						.setEnabled( false );
 			else

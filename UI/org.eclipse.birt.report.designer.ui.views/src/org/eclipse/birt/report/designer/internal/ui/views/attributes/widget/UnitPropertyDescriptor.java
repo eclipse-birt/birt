@@ -157,7 +157,7 @@ public class UnitPropertyDescriptor extends PropertyDescriptor
 		if ( isFormStyle( ) )
 		{
 			text = FormWidgetFactory.getInstance( ).createText( container,
-					"",
+					"", //$NON-NLS-1$
 					SWT.SINGLE | SWT.RIGHT );
 		}
 		else

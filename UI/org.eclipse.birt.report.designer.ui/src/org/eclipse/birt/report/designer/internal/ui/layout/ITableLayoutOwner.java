@@ -98,7 +98,7 @@ public interface ITableLayoutOwner
 	public static class DimensionInfomation
 	{
 		private double measure;
-		private String units = "";
+		private String units = ""; //$NON-NLS-1$
 		
 		public DimensionInfomation(double measure, String units)
 		{

@@ -20,7 +20,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.HighlightRuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
-import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
@@ -145,7 +144,7 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 				}
 				else if ( vv == 3 )
 				{
-					exp += " ";
+					exp += " "; //$NON-NLS-1$
 					int count = handle.getValue1List( ).size( );
 					for ( int i = 0; i < count; i++ )
 					{
@@ -154,7 +153,7 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 							exp += handle.getValue1List( ).get( i ).toString( );
 						}else
 						{
-							exp += "; " + handle.getValue1List( ).get( i ).toString( );
+							exp += "; " + handle.getValue1List( ).get( i ).toString( ); //$NON-NLS-1$
 						}
 					}
 				}
@@ -503,7 +502,7 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 	public String getDisplayName( )
 	{
 		// TODO Auto-generated method stub
-		return Messages.getString( "HighlightsPage.Label.Highlights" );
+		return Messages.getString( "HighlightsPage.Label.Highlights" ); //$NON-NLS-1$
 	}
 
 	public Object load( )
@@ -600,27 +599,27 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 		switch ( key )
 		{
 			case 0 :
-				return Messages.getString( "HighlightsPage.Label.Highlights" );
+				return Messages.getString( "HighlightsPage.Label.Highlights" ); //$NON-NLS-1$
 			case 1 :
-				return Messages.getString( "HighlightsPage.Button.Add" );
+				return Messages.getString( "HighlightsPage.Button.Add" ); //$NON-NLS-1$
 			case 2 :
-				return Messages.getString( "HighlightsPage.Button.Delete" );
+				return Messages.getString( "HighlightsPage.Button.Delete" ); //$NON-NLS-1$
 			case 3 :
-				return Messages.getString( "FormPage.Button.Up" );
+				return Messages.getString( "FormPage.Button.Up" ); //$NON-NLS-1$
 			case 4 :
-				return Messages.getString( "HighlightsPage.toolTipText.MoveUp" );
+				return Messages.getString( "HighlightsPage.toolTipText.MoveUp" ); //$NON-NLS-1$
 			case 5 :
-				return Messages.getString( "FormPage.Button.Down" );
+				return Messages.getString( "FormPage.Button.Down" ); //$NON-NLS-1$
 			case 6 :
-				return Messages.getString( "HighlightsPage.toolTipText.MoveDown" );
+				return Messages.getString( "HighlightsPage.toolTipText.MoveDown" ); //$NON-NLS-1$
 			case 7 :
-				return Messages.getString( "HighlightsPage.TableColumn.Preview" );
+				return Messages.getString( "HighlightsPage.TableColumn.Preview" ); //$NON-NLS-1$
 			case 8 :
-				return Messages.getString( "HighlightsPage.TableColumn.Condition" );
+				return Messages.getString( "HighlightsPage.TableColumn.Condition" ); //$NON-NLS-1$
 			case 9 :
-				return Messages.getString( "HighlightRuleBuilderDialog.text.PreviewContent" );
+				return Messages.getString( "HighlightRuleBuilderDialog.text.PreviewContent" ); //$NON-NLS-1$
 		}
-		return "";
+		return ""; //$NON-NLS-1$
 	}
 
 

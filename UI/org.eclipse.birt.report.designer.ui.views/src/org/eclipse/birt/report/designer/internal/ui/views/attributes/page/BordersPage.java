@@ -12,21 +12,13 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.BorderColorDescriptorProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.BorderDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.BorderStyleDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.BorderToggleDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.BorderWidthDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.BorderSection;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ColorSection;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.FormSection;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.StyleComboSection;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TogglesSection;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
-import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.metadata.IColorConstants;
 import org.eclipse.swt.widgets.Composite;
 
 /**

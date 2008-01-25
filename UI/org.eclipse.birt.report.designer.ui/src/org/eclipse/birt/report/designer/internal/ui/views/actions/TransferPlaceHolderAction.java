@@ -20,7 +20,7 @@ public class TransferPlaceHolderAction extends CreatePlaceHolderAction
 
 	public TransferPlaceHolderAction( Object selectedObject )
 	{
-		super( selectedObject, "transfer place Holder" );
+		super( selectedObject, "transfer place Holder" ); //$NON-NLS-1$
 	}
 
 	/*

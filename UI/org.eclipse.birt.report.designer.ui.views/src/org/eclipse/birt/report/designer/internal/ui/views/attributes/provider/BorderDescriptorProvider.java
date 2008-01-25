@@ -40,7 +40,7 @@ public abstract class BorderDescriptorProvider implements IDescriptorProvider
 		if ( input instanceof List )
 			handle = DEUtil.getGroupElementHandle( (List) input );
 		if ( handle == null )
-			return "";
+			return ""; //$NON-NLS-1$
 		String value = handle.getLocalStringProperty( property );
 		if ( value == null )
 		// && multiSelectionHandle.shareSameValue( property ) )

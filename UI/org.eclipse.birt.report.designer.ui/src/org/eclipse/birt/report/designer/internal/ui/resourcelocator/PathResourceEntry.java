@@ -276,7 +276,7 @@ public class PathResourceEntry extends BaseResourceEntity
 			return library;
 		}
 		else if ( adapter == CssStyleSheetHandle.class
-				&& getURL( ).toString( ).toLowerCase( ).endsWith( ".css" ) )
+				&& getURL( ).toString( ).toLowerCase( ).endsWith( ".css" ) ) //$NON-NLS-1$
 		{
 			if ( !this.isFolder && this.cssStyleHandle == null )
 			{

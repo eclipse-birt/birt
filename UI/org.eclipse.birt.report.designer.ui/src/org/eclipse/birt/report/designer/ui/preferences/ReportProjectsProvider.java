@@ -22,7 +22,7 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.internal.SharedImages;
+import org.eclipse.ui.ISharedImages;
 
 public class ReportProjectsProvider extends LabelProvider implements
 		ITreeContentProvider
@@ -33,7 +33,7 @@ public class ReportProjectsProvider extends LabelProvider implements
 		return new ReportImageDescriptor( ReportPlugin.getDefault( )
 				.getWorkbench( )
 				.getSharedImages( )
-				.getImageDescriptor( SharedImages.IMG_OBJ_PROJECT ) ).createImage( );
+				.getImageDescriptor( ISharedImages.IMG_OBJ_PROJECT ) ).createImage( );
 	}
 
 	/**

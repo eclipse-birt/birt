@@ -33,9 +33,9 @@ import org.eclipse.swt.graphics.Image;
 public class ScriptTreeNodeProvider implements INodeProvider
 {
 
-	private static final String SCRIPS_NODE_NAME = Messages.getString( "Scripts.Node.DisplayName" );
+	private static final String SCRIPS_NODE_NAME = Messages.getString( "Scripts.Node.DisplayName" ); //$NON-NLS-1$
 	private static final Object[] EMPTY = new Object[0];
-	private static final String EMPTY_STR = "";
+	private static final String EMPTY_STR = ""; //$NON-NLS-1$
 
 	public void createContextMenu( TreeViewer sourceViewer, Object object,
 			IMenuManager menu )

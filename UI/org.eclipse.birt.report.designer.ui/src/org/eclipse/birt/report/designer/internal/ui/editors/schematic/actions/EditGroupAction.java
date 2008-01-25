@@ -13,23 +13,11 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions;
 
 import java.util.logging.Level;
 
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
-import org.eclipse.birt.report.designer.internal.ui.util.Policy;
-import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction.DynamicItemAction;
-import org.eclipse.birt.report.designer.ui.dialogs.GroupDialog;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.GroupHandle;
-import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.commands.NotEnabledException;
-import org.eclipse.core.commands.NotHandledException;
-import org.eclipse.core.commands.ParameterValueConversionException;
-import org.eclipse.core.commands.common.NotDefinedException;
-import org.eclipse.jface.window.Window;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * 
@@ -41,7 +29,7 @@ public class EditGroupAction extends DynamicItemAction
 
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditGroupAction"; //$NON-NLS-1$
 
-	public static final String GROUP_HANDLE_NAME = "EditGroupAction.GroupHandleName";
+	public static final String GROUP_HANDLE_NAME = "EditGroupAction.GroupHandleName"; //$NON-NLS-1$
 	private GroupHandle handle;
 
 	/**
@@ -84,7 +72,7 @@ public class EditGroupAction extends DynamicItemAction
 		CommandUtils.setVariable(GROUP_HANDLE_NAME, handle);
 		try
 		{
-			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.editGroupCommand", null );
+			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.editGroupCommand", null ); //$NON-NLS-1$
 		}
 		catch (Exception e )
 		{

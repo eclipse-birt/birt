@@ -138,15 +138,15 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 		}
 		if ( date instanceof java.sql.Date )
 		{
-			return new DateFormatter( "yyyy-MM-dd" , ULocale.US ).format( date );
+			return new DateFormatter( "yyyy-MM-dd" , ULocale.US ).format( date ); //$NON-NLS-1$
 		}
 		else if ( date instanceof java.sql.Time )
 		{
-			return new DateFormatter( "HH:mm:ss", ULocale.US ).format( date );
+			return new DateFormatter( "HH:mm:ss", ULocale.US ).format( date ); //$NON-NLS-1$
 		}
 		else
 		{
-			return new DateFormatter( "yyyy-MM-dd HH:mm:ss.SSS", ULocale.US ).format( date );
+			return new DateFormatter( "yyyy-MM-dd HH:mm:ss.SSS", ULocale.US ).format( date ); //$NON-NLS-1$
 		}
 		
 		

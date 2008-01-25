@@ -60,9 +60,9 @@ public class DataSetColumnBindingsFormHandleProvider implements
 	private static final String NONE = Messages.getString( "DataSetColumnBindingsFormHandleProvider.NONE" );//$NON-NLS-1$
 
 	private String[] columnNames = new String[]{
-			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Name" ),
-			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DataType" ),
-			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Expression" ),
+			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Name" ), //$NON-NLS-1$
+			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DataType" ), //$NON-NLS-1$
+			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Expression" ), //$NON-NLS-1$
 			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.AggregateOn" )//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	};
 
@@ -116,7 +116,7 @@ public class DataSetColumnBindingsFormHandleProvider implements
 	{
 		if(isEditable( ))
 			return Messages.getString( "DataSetColumnBindingsFormHandleProvider.DatasetTitle" ); //$NON-NLS-1$
-		else return Messages.getString( "DataSetColumnBindingsFormHandleProvider.ReportItemTitle" );
+		else return Messages.getString( "DataSetColumnBindingsFormHandleProvider.ReportItemTitle" ); //$NON-NLS-1$
 	}
 	
 	public boolean isEditable( )

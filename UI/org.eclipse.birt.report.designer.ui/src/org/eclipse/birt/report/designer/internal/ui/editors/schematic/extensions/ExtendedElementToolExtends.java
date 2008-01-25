@@ -62,7 +62,7 @@ public class ExtendedElementToolExtends extends AbstractToolHandleExtends
 				{
 					try
 					{
-						CommandUtils.setVariable( "targetEditPart",
+						CommandUtils.setVariable( "targetEditPart", //$NON-NLS-1$
 								getTargetEditPart( ) );
 						setModel( extensions[i].executeCreate( ) );
 						return super.preHandleMouseUp( );

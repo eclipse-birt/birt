@@ -43,9 +43,9 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 
 	// public static final String MEASURESPAGE =
 	// "org.eclipse.birt.datasource.editor.cubebuilder.measurespage";
-	public static final String GROUPPAGE = "org.eclipse.birt.datasource.editor.cubebuilder.grouppage";
-	public static final String DATASETSELECTIONPAGE = "org.eclipse.birt.datasource.editor.cubebuilder.datasetselectionpage";
-	public static final String LINKGROUPSPAGE = "org.eclipse.birt.datasource.editor.cubebuilder.linkgroupspage";
+	public static final String GROUPPAGE = "org.eclipse.birt.datasource.editor.cubebuilder.grouppage"; //$NON-NLS-1$
+	public static final String DATASETSELECTIONPAGE = "org.eclipse.birt.datasource.editor.cubebuilder.datasetselectionpage"; //$NON-NLS-1$
+	public static final String LINKGROUPSPAGE = "org.eclipse.birt.datasource.editor.cubebuilder.linkgroupspage"; //$NON-NLS-1$
 	private TabularCubeHandle input;
 
 	public CubeBuilder( Shell parentShell, TabularCubeHandle input )
@@ -62,20 +62,20 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 	private void addCommonPage( TabularCubeHandle model )
 	{
 		datasetNode = new PropertyNode( DATASETSELECTIONPAGE,
-				Messages.getString( "DatasetPage.Title" ),
+				Messages.getString( "DatasetPage.Title" ), //$NON-NLS-1$
 				null,
 				datasetPage = new DatasetSelectionPage( this, model ) );
 		groupsNode = new PropertyNode( GROUPPAGE,
-				Messages.getString( "GroupsPage.Title" ),
+				Messages.getString( "GroupsPage.Title" ), //$NON-NLS-1$
 				null,
 				groupsPage = new GroupsPage( this, model ) );
 		linkGroupNode = new PropertyNode( LINKGROUPSPAGE,
-				Messages.getString( "LinkGroupsPage.Title" ),
+				Messages.getString( "LinkGroupsPage.Title" ), //$NON-NLS-1$
 				null,
 				linkGroupsPage = new LinkGroupsPage( this, model ) );
-		addNodeTo( "/", datasetNode );
-		addNodeTo( "/", groupsNode );
-		addNodeTo( "/", linkGroupNode );
+		addNodeTo( "/", datasetNode ); //$NON-NLS-1$
+		addNodeTo( "/", groupsNode ); //$NON-NLS-1$
+		addNodeTo( "/", linkGroupNode ); //$NON-NLS-1$
 	}
 	private String showNodeId;
 
@@ -126,7 +126,7 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 				while ( iter.hasNext( ) )
 				{
 					DimensionConditionHandle condition = (DimensionConditionHandle) iter.next( );
-					HierarchyHandle conditionHierarchy = (HierarchyHandle) condition.getHierarchy( );
+					HierarchyHandle conditionHierarchy = condition.getHierarchy( );
 					if ( ModuleUtil.isEqualHierarchiesForJointCondition( conditionHierarchy,
 							hierarchy ) )
 					{
@@ -154,7 +154,7 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 				MessageDialog d = new MessageDialog( getShell( ),
 						Messages.getString( "MissLinkDialog.Title" ), //$NON-NLS-1$
 						null,
-						Messages.getString( "MissLinkDialog.Question" ),
+						Messages.getString( "MissLinkDialog.Question" ), //$NON-NLS-1$
 						MessageDialog.INFORMATION,
 						buttons,
 						0 );
@@ -176,7 +176,7 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 
 	protected Control createContents( Composite parent )
 	{
-		String title = Messages.getString( "CubeBuilder.Title" );
+		String title = Messages.getString( "CubeBuilder.Title" ); //$NON-NLS-1$
 		getShell( ).setText( title );
 
 		if ( showNodeId != null )
@@ -213,7 +213,7 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 			if ( ( (CubeHandle) getModel( ) ).getName( ) != null
 					&& !( (CubeHandle) getModel( ) ).getName( )
 							.trim( )
-							.equals( "" ) )
+							.equals( "" ) ) //$NON-NLS-1$
 			{
 				getOkButton( ).setEnabled( true );
 			}

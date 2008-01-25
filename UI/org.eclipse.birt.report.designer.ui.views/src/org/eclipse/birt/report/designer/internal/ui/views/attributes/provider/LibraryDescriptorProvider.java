@@ -22,16 +22,16 @@ public class LibraryDescriptorProvider implements ITextDescriptorProvider
 
 	public String getDisplayName( )
 	{
-		return Messages.getString( "GeneralPage.Library.Included" );
+		return Messages.getString( "GeneralPage.Library.Included" ); //$NON-NLS-1$
 	}
 
 	public Object load( )
 	{
 		if ( input == null )
-			return "";
+			return ""; //$NON-NLS-1$
 		DesignElementHandle handle = (DesignElementHandle) DEUtil.getInputFirstElement( input );
 		if ( handle.getExtends( ) == null )
-			return "";
+			return ""; //$NON-NLS-1$
 		try
 		{
 			File libraryFile = new File( new URL( handle.getExtends( )
@@ -44,7 +44,7 @@ public class LibraryDescriptorProvider implements ITextDescriptorProvider
 		{
 			e.printStackTrace( );
 		}
-		return "";
+		return ""; //$NON-NLS-1$
 	}
 
 	public void save( Object value ) throws SemanticException

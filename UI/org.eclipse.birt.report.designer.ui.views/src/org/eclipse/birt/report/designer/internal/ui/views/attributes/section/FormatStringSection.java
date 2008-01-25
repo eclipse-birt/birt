@@ -18,7 +18,7 @@ public class FormatStringSection extends Section
 
 	public FormatStringSection( Composite parent, int style, boolean isFormStyle )
 	{
-		super( " ", parent, isFormStyle );
+		super( " ", parent, isFormStyle ); //$NON-NLS-1$
 		this.style = style;
 	}
 

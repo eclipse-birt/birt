@@ -22,7 +22,6 @@ import java.util.logging.Logger;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFileFolderSelectionDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceSelectionValidator;
-import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -247,12 +246,12 @@ public class UseCssInReportDialog extends TitleAreaDialog
 
 				ResourceFileFolderSelectionDialog dialog = new ResourceFileFolderSelectionDialog( true,
 						new String[]{
-								"*.css", "*.CSS"
+								"*.css", "*.CSS" //$NON-NLS-1$ //$NON-NLS-2$
 						} );
 				dialog.setTitle( DIALOG_BROWSE );
 				dialog.setMessage( DIALOG_BROWSE_TITLE );
 				ResourceSelectionValidator validator = new ResourceSelectionValidator( new String[]{
-						".css", ".CSS"
+						".css", ".CSS" //$NON-NLS-1$ //$NON-NLS-2$
 				} );
 				dialog.setValidator( validator );
 
@@ -316,7 +315,7 @@ public class UseCssInReportDialog extends TitleAreaDialog
 			}
 		}
 
-		stylesTitle.setText( Messages.getFormattedString( "UseCssInReportDialog.Label.Styles",
+		stylesTitle.setText( Messages.getFormattedString( "UseCssInReportDialog.Label.Styles", //$NON-NLS-1$
 				new String[]{
 					fileName
 				} ) );
@@ -368,7 +367,7 @@ public class UseCssInReportDialog extends TitleAreaDialog
 			if ( fileName!=null && !moduleHandle.canAddCssStyleSheet( fileName ) )
 			{
 				getButton( IDialogConstants.OK_ID ).setEnabled( false );
-				setErrorMessage( Messages.getFormattedString( "UseCssInReportDialog.Error.Already.Include",
+				setErrorMessage( Messages.getFormattedString( "UseCssInReportDialog.Error.Already.Include", //$NON-NLS-1$
 						new String[]{
 							fileName
 						} ) );

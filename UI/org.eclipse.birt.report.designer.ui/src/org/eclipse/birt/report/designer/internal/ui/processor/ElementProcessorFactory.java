@@ -12,9 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.processor;
 
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 
 /**

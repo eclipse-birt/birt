@@ -84,7 +84,7 @@ public abstract class AbstractElementProcessor implements IElementProcessor
 	 */
 	public String getCreateTransactionLabel( )
 	{
-		return MessageFormat.format( "Create {0}", new Object[]{
+		return MessageFormat.format( "Create {0}", new Object[]{ //$NON-NLS-1$
 			elementType
 		} );
 	}
@@ -96,7 +96,7 @@ public abstract class AbstractElementProcessor implements IElementProcessor
 	 */
 	public String getEditeTransactionLabel( DesignElementHandle handle )
 	{
-		return MessageFormat.format( "Edit {0}", new Object[]{
+		return MessageFormat.format( "Edit {0}", new Object[]{ //$NON-NLS-1$
 			DEUtil.getDisplayLabel( handle )
 		} );
 	}

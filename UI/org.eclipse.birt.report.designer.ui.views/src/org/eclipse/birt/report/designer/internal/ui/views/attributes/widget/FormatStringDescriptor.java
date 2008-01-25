@@ -766,7 +766,7 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 					formatCode = new Text( container, SWT.SINGLE | SWT.BORDER );
 				else
 					formatCode = FormWidgetFactory.getInstance( )
-							.createText( container, "", SWT.SINGLE );
+							.createText( container, "", SWT.SINGLE ); //$NON-NLS-1$
 				formatCode.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 				formatCode.addModifyListener( new ModifyListener( ) {
 
@@ -840,7 +840,7 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 				formatCode = new Text( container, SWT.SINGLE | SWT.BORDER );
 			else
 				formatCode = FormWidgetFactory.getInstance( )
-						.createText( container, "", SWT.SINGLE );
+						.createText( container, "", SWT.SINGLE ); //$NON-NLS-1$
 			formatCode.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			formatCode.addModifyListener( new ModifyListener( ) {
 
@@ -873,7 +873,7 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 		if ( !isFormStyle( ) )
 			group = new Group( parent, SWT.NONE );
 		else
-			group = FormWidgetFactory.getInstance( ).createGroup( parent, "" );
+			group = FormWidgetFactory.getInstance( ).createGroup( parent, "" ); //$NON-NLS-1$
 		group.setText( LABEL_GENERAL_PREVIEW_GROUP );
 		GridData data;
 		if ( pageAlignment == PAGE_ALIGN_HORIZONTAL )
@@ -901,7 +901,7 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 		if ( !isFormStyle( ) )
 			group = new Group( parent, SWT.NONE );
 		else
-			group = FormWidgetFactory.getInstance( ).createGroup( parent, "" );
+			group = FormWidgetFactory.getInstance( ).createGroup( parent, "" ); //$NON-NLS-1$
 		group.setText( LABEL_CUSTOM_SETTINGS_GROUP );
 		group.setLayoutData( createGridData4Part( ) );
 		group.setLayout( new GridLayout( 2, false ) );
@@ -922,7 +922,7 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 		if ( !isFormStyle( ) )
 			group = new Group( parent, SWT.NONE );
 		else
-			group = FormWidgetFactory.getInstance( ).createGroup( parent, "" );
+			group = FormWidgetFactory.getInstance( ).createGroup( parent, "" ); //$NON-NLS-1$
 		group.setText( LABEL_CUSTOM_PREVIEW_GROUP );
 		if ( pageAlignment == PAGE_ALIGN_HORIZONTAL )
 		{
@@ -942,7 +942,7 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 			previewTextBox = new Text( group, SWT.SINGLE | SWT.BORDER );
 		else
 			previewTextBox = FormWidgetFactory.getInstance( )
-					.createText( group, "", SWT.SINGLE );
+					.createText( group, "", SWT.SINGLE ); //$NON-NLS-1$
 		previewTextBox.setText( DEFAULT_PREVIEW_TEXT ); //$NON-NLS-1$
 		GridData data = new GridData( GridData.FILL_HORIZONTAL );
 		if ( pageAlignment == PAGE_ALIGN_HORIZONTAL )

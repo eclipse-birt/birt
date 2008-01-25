@@ -1121,7 +1121,7 @@ public class ParameterDialog extends BaseDialog
 		}
 		if ( columnChooser.getItemCount( ) == 0 )
 		{
-			columnChooser.add( "" );
+			columnChooser.add( "" ); //$NON-NLS-1$
 		}
 		// columnChooser.setEnabled( columnChooser.getItemCount( ) > 0 );
 		// valueColumnExprButton.setEnabled( columnChooser.getItemCount( ) > 0

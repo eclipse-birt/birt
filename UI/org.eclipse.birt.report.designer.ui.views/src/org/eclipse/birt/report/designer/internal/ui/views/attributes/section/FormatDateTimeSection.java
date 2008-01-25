@@ -19,7 +19,7 @@ public class FormatDateTimeSection extends Section
 	public FormatDateTimeSection( Composite parent, int style,
 			boolean isFormStyle )
 	{
-		super( " ", parent, isFormStyle );
+		super( " ", parent, isFormStyle ); //$NON-NLS-1$
 		this.style = style;
 	}
 

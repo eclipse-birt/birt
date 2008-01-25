@@ -48,19 +48,19 @@ import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 public class WizardLibrarySettingPage extends WizardPage
 {
 
-	private static String PAGE_DESC = Messages.getString( "PublishLibraryDialog.Message" );
-	private static String PAGE_DESC2 = Messages.getString( "PublishLibraryDialog.AddMessage" );
+	private static String PAGE_DESC = Messages.getString( "PublishLibraryDialog.Message" ); //$NON-NLS-1$
+	private static String PAGE_DESC2 = Messages.getString( "PublishLibraryDialog.AddMessage" ); //$NON-NLS-1$
 
-	private static String LABEL_FILE_NAME = Messages.getString( "PublishLibraryDialog.Label.FileName" );
+	private static String LABEL_FILE_NAME = Messages.getString( "PublishLibraryDialog.Label.FileName" ); //$NON-NLS-1$
 
-	private static String LABEL_SOURCE_FILE_NAME = Messages.getString( "PublishLibraryDialog.Label.SourceFileName" );
+	private static String LABEL_SOURCE_FILE_NAME = Messages.getString( "PublishLibraryDialog.Label.SourceFileName" ); //$NON-NLS-1$
 
-	private static String LABEL_FOLDER = Messages.getString( "PublishLibraryDialog.Label.Folder" );
+	private static String LABEL_FOLDER = Messages.getString( "PublishLibraryDialog.Label.Folder" ); //$NON-NLS-1$
 
-	private static String BUTTON_BROWSE = Messages.getString( "PublishLibraryDialog.Label.Browse" );
-	private static String BUTTON_BROWSE2 = Messages.getString( "PublishLibraryDialog.Label.Browse2" );
+	private static String BUTTON_BROWSE = Messages.getString( "PublishLibraryDialog.Label.Browse" ); //$NON-NLS-1$
+	private static String BUTTON_BROWSE2 = Messages.getString( "PublishLibraryDialog.Label.Browse2" ); //$NON-NLS-1$
 
-	private static final String PLUGIN_ID = "org.eclipse.birt.report.designer.ui.actions.PublishLibraryAction";
+	private static final String PLUGIN_ID = "org.eclipse.birt.report.designer.ui.actions.PublishLibraryAction"; //$NON-NLS-1$
 
 	private String[] libraryExtensions = {
 		Messages.getString( "report.designer.ui.preferences.extensions" ), //$NON-NLS-1$
@@ -136,7 +136,7 @@ public class WizardLibrarySettingPage extends WizardPage
 	 */
 	public WizardLibrarySettingPage( int type )
 	{
-		super( "" );
+		super( "" ); //$NON-NLS-1$
 		if ( type == PublishLibraryWizard.HAVE_NO_HANDLE )
 		{
 			pageStatus = new Status( IStatus.OK, PLUGIN_ID, 0, PAGE_DESC2, null );
@@ -330,15 +330,15 @@ public class WizardLibrarySettingPage extends WizardPage
 			status = new Status( IStatus.ERROR,
 					PLUGIN_ID,
 					0,
-					Messages.getString( "PublishLibraryDialog.Message.FileNameEmpty" ),
+					Messages.getString( "PublishLibraryDialog.Message.FileNameEmpty" ), //$NON-NLS-1$
 					null );
 		}
-		else if ( !nameText.getText( ).endsWith( ".rptlibrary" ) )
+		else if ( !nameText.getText( ).endsWith( ".rptlibrary" ) ) //$NON-NLS-1$
 		{
 			status = new Status( IStatus.ERROR,
 					PLUGIN_ID,
 					0,
-					Messages.getString( "PublishLibraryDialog.Message.FileNameError" ),
+					Messages.getString( "PublishLibraryDialog.Message.FileNameError" ), //$NON-NLS-1$
 					null );
 		}
 		else if ( isTextEmpty( folderText ) )
@@ -346,7 +346,7 @@ public class WizardLibrarySettingPage extends WizardPage
 			status = new Status( IStatus.ERROR,
 					PLUGIN_ID,
 					0,
-					Messages.getString( "PublishLibraryDialog.Message.FolderEmpty" ),
+					Messages.getString( "PublishLibraryDialog.Message.FolderEmpty" ), //$NON-NLS-1$
 					null );
 		}
 

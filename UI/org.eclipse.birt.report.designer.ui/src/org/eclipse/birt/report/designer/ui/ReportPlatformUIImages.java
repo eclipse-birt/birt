@@ -63,9 +63,9 @@ public class ReportPlatformUIImages
 	public final static String MISC_PATH = "misc/";//$NON-NLS-1$
 	public final static String WIZBAN_PATH = "wizban/";//$NON-NLS-1$
 	public final static String LINK_PATH = "lib/";//$NON-NLS-1$
-	public final static String DATA_PATH = "data/";
-	public final static String OTHERS_PATH = "others/";
-	public final static String OVR16_PATH = "ovr16/";
+	public final static String DATA_PATH = "data/"; //$NON-NLS-1$
+	public final static String OTHERS_PATH = "others/"; //$NON-NLS-1$
+	public final static String OVR16_PATH = "ovr16/"; //$NON-NLS-1$
 
 	static
 	{
@@ -141,7 +141,7 @@ public class ReportPlatformUIImages
 				+ "view_menu.gif" );  //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_TEMPLATEITEM,
-				ICONS_PATH + OBJ16_PATH + "templatereportitem.gif" );
+				ICONS_PATH + OBJ16_PATH + "templatereportitem.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_NEW_REPORT, ICONS_PATH
 				+ OBJ16_PATH
@@ -629,7 +629,7 @@ public class ReportPlatformUIImages
 		// Scripts Node Icon
 		declareImage( IReportGraphicConstants.ICON_SCRIPTS_NODE, ICONS_PATH
 				+ OBJ16_PATH
-				+ "script-16.gif" );
+				+ "script-16.gif" ); //$NON-NLS-1$
 		
 		declareImage( IReportGraphicConstants.ICON_LEVEL_ATTRI,
 				ICONS_PATH + OBJ16_PATH + "levelAttribute-16.gif" ); //$NON-NLS-1$
@@ -738,7 +738,7 @@ public class ReportPlatformUIImages
 				image = getImage( ( (DesignElementHandle) model ).getElement( )
 						.getDefn( )
 						.getName( )
-						+ "_"
+						+ "_" //$NON-NLS-1$
 						+ IReportGraphicConstants.LINK );
 			}
 			else
@@ -753,7 +753,7 @@ public class ReportPlatformUIImages
 			if ( isCSSLinkImg( (CssStyleSheetHandle) model ) == true )
 			{
 				image = getImage( IReportGraphicConstants.ICON_ELEMENT_CSS_STYLE_SHEET
-						+ "_"
+						+ "_" //$NON-NLS-1$
 						+ IReportGraphicConstants.LINK );
 			}
 			else
@@ -828,7 +828,7 @@ public class ReportPlatformUIImages
 				imageDescriptor = getImageDescriptor( ( (DesignElementHandle) model ).getElement( )
 						.getDefn( )
 						.getName( )
-						+ "_"
+						+ "_" //$NON-NLS-1$
 						+ IReportGraphicConstants.LINK );
 			}
 			else

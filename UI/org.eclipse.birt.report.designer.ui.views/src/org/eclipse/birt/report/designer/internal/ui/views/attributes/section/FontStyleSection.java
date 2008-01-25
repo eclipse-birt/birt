@@ -17,7 +17,7 @@ public class FontStyleSection extends Section
 
 	public FontStyleSection( Composite parent, boolean isFormStyle )
 	{
-		super( " ", parent, isFormStyle );
+		super( " ", parent, isFormStyle ); //$NON-NLS-1$
 	}
 
 	private boolean showLabel = false;
@@ -25,7 +25,7 @@ public class FontStyleSection extends Section
 	public FontStyleSection( Composite parent, boolean isFormStyle,
 			boolean showLable )
 	{
-		super( " ", parent, isFormStyle );
+		super( " ", parent, isFormStyle ); //$NON-NLS-1$
 		this.showLabel = showLable;
 	}
 

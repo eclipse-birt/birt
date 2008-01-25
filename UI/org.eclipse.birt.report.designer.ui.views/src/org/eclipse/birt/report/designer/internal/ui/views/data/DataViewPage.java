@@ -19,8 +19,8 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.jface.util.ListenerList;
+import org.eclipse.core.runtime.ListenerList;
+import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.jface.util.SafeRunnable;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -47,7 +47,7 @@ public abstract class DataViewPage extends Page implements
 
 	private TreeViewer treeViewer;
 
-	private ListenerList selectionChangedListeners = new ListenerList( );
+	private ListenerList selectionChangedListeners = new ListenerList( ListenerList.IDENTITY );
 
 	/**
 	 * Creates the SWT control for this page under the given parent control.
@@ -172,7 +172,7 @@ public abstract class DataViewPage extends Page implements
 		for ( int i = 0; i < listeners.length; ++i )
 		{
 			final ISelectionChangedListener l = (ISelectionChangedListener) listeners[i];
-			Platform.run( new SafeRunnable( ) {
+			SafeRunner.run( new SafeRunnable( ) {
 
 				public void run( )
 				{

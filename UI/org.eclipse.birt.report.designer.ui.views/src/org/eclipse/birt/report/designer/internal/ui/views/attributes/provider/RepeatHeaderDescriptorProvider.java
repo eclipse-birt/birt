@@ -11,7 +11,7 @@ public class RepeatHeaderDescriptorProvider implements IDescriptorProvider
 
 	public String getDisplayName( )
 	{
-		return Messages.getString( "ListingSectionPage.RepeatHeader" );
+		return Messages.getString( "ListingSectionPage.RepeatHeader" ); //$NON-NLS-1$
 	}
 
 	public Object load( )
@@ -24,7 +24,7 @@ public class RepeatHeaderDescriptorProvider implements IDescriptorProvider
 			return new Boolean( listingHandle.repeatHeader( ) ).toString( );
 
 		}
-		return "false";
+		return "false"; //$NON-NLS-1$
 	}
 
 	public void save( Object value ) throws SemanticException

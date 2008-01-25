@@ -24,9 +24,9 @@ import org.eclipse.ui.PlatformUI;
 public class RemoveLibraryAction extends AbstractElementAction
 {
 
-	private static final String ACTION_TEXT = Messages.getString( "RemoveLibraryAction.Text" );
-	private static final String CONFIRM_LIBRARY_REMOVE_TITLE = Messages.getString( "RemoveLibraryAction.config.Title" );
-	private static final String CONFIRM_LIBRARY_REMOVE_MESSAGE = Messages.getString( "RemoveLibraryAction.config.Message" );
+	private static final String ACTION_TEXT = Messages.getString( "RemoveLibraryAction.Text" ); //$NON-NLS-1$
+	private static final String CONFIRM_LIBRARY_REMOVE_TITLE = Messages.getString( "RemoveLibraryAction.config.Title" ); //$NON-NLS-1$
+	private static final String CONFIRM_LIBRARY_REMOVE_MESSAGE = Messages.getString( "RemoveLibraryAction.config.Message" ); //$NON-NLS-1$
 
 	public RemoveLibraryAction( Object selectedObject )
 	{

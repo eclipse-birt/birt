@@ -34,7 +34,7 @@ public class StringConverter extends AbstractParameterValueConverter
 	public String convertToString( Object parameterValue )
 			throws ParameterValueConversionException
 	{
-		return parameterValue != null ? parameterValue.toString( ) : "";
+		return parameterValue != null ? parameterValue.toString( ) : ""; //$NON-NLS-1$
 	}
 
 }

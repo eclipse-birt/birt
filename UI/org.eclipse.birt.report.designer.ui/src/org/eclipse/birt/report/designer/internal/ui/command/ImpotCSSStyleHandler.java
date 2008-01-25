@@ -11,11 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.command;
 
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.SelectCssStyleWizard;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.internal.ui.wizards.PublishTemplateWizard;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.dialogs.Dialog;

@@ -38,7 +38,7 @@ public class TextPropertyDescriptor extends PropertyDescriptor
 		if ( isFormStyle( ) )
 		{
 			text = FormWidgetFactory.getInstance( ).createText( parent,
-					"",
+					"", //$NON-NLS-1$
 					style );
 		}
 		else

@@ -115,12 +115,12 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	static
 	{
 		java.util.List list = new ArrayList( );
-		list.add( Messages.getString( "FormatNumberPage.currency.symbol.none" ) );
-		list.add( "\u00A5" );
-		list.add( "$" );
-		list.add( "\u20ac" );
-		list.add( "\u00A3" );
-		list.add( "\u20A9" );
+		list.add( Messages.getString( "FormatNumberPage.currency.symbol.none" ) ); //$NON-NLS-1$
+		list.add( "\u00A5" ); //$NON-NLS-1$
+		list.add( "$" ); //$NON-NLS-1$
+		list.add( "\u20ac" ); //$NON-NLS-1$
+		list.add( "\u00A3" ); //$NON-NLS-1$
+		list.add( "\u20A9" ); //$NON-NLS-1$
 		String localSymbol = Currency.getInstance( Locale.getDefault( ) )
 				.getSymbol( );
 		if ( !list.contains( localSymbol ) )
@@ -1416,7 +1416,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 				| SWT.BORDER
 				| SWT.V_SCROLL );
 		cNegNumChoice.add( "-" + DEFAULT_LOCALE_TEXT ); //$NON-NLS-1$
-		cNegNumChoice.add( "(" + DEFAULT_LOCALE_TEXT + ")" ); //$NON-NLS-1$
+		cNegNumChoice.add( "(" + DEFAULT_LOCALE_TEXT + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
 		data = new GridData( GridData.FILL_BOTH );
 		cNegNumChoice.setLayoutData( data );
 		cNegNumChoice.addSelectionListener( mySelectionListener );
@@ -1470,7 +1470,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 				| SWT.BORDER
 				| SWT.V_SCROLL );
 		fNegNumChoice.add( "-" + DEFAULT_LOCALE_TEXT ); //$NON-NLS-1$
-		fNegNumChoice.add( "(" + DEFAULT_LOCALE_TEXT + ")" ); //$NON-NLS-1$
+		fNegNumChoice.add( "(" + DEFAULT_LOCALE_TEXT + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
 		gData = new GridData( GridData.FILL_BOTH );
 		fNegNumChoice.setLayoutData( gData );
 		fNegNumChoice.addSelectionListener( mySelectionListener );
@@ -1532,7 +1532,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 				| SWT.BORDER
 				| SWT.V_SCROLL );
 		pNegNumChoice.add( "-" + DEFAULT_LOCALE_TEXT ); //$NON-NLS-1$
-		pNegNumChoice.add( "(" + DEFAULT_LOCALE_TEXT + ")" ); //$NON-NLS-1$
+		pNegNumChoice.add( "(" + DEFAULT_LOCALE_TEXT + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
 		pNegNumChoice.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		pNegNumChoice.addSelectionListener( mySelectionListener );
 		pNegNumChoice.select( 0 );

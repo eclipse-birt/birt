@@ -441,7 +441,7 @@ public class MultipleGuideHandle extends AbstractGuideHandle
 			return ((IReportItemViewProvider)objs[0]).getViewName( );
 		}
 		
-		return "";
+		return ""; //$NON-NLS-1$
 	}
 	
 	

@@ -92,9 +92,9 @@ public class SelectionChoiceDialog extends BaseDialog
 	protected Control createDialogArea( Composite parent )
 	{
 		String[] labels = new String[]{
-				Messages.getString( "ParameterDialog.SelectionDialog.Label.DisplayTextKey" ),
-				Messages.getString( "ParameterDialog.SelectionDialog.Label.DisplayText" ),
-				Messages.getString( "ParameterDialog.SelectionDialog.Label.Value" )
+				Messages.getString( "ParameterDialog.SelectionDialog.Label.DisplayTextKey" ), //$NON-NLS-1$
+				Messages.getString( "ParameterDialog.SelectionDialog.Label.DisplayText" ), //$NON-NLS-1$
+				Messages.getString( "ParameterDialog.SelectionDialog.Label.Value" ) //$NON-NLS-1$
 		};
 		Composite composite = (Composite) super.createDialogArea( parent );
 		GridLayout layout = new GridLayout( 3, false );
@@ -108,7 +108,7 @@ public class SelectionChoiceDialog extends BaseDialog
 		resourceText.setLayoutData( gd );
 		resourceText.setEditable( false );
 		Button resourceBtn = new Button( composite, SWT.PUSH );
-		resourceBtn.setText( Messages.getString( "ParameterDialog.SelectionDialog.Button.Resource" ) );
+		resourceBtn.setText( Messages.getString( "ParameterDialog.SelectionDialog.Button.Resource" ) ); //$NON-NLS-1$
 		resourceBtn.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -145,7 +145,7 @@ public class SelectionChoiceDialog extends BaseDialog
 		noteContainer.setLayout( layout );
 
 		Label note = new Label( noteContainer, SWT.WRAP );
-		note.setText( Messages.getString( "ParameterDialog.SelectionDialog.Label.Note" ) );
+		note.setText( Messages.getString( "ParameterDialog.SelectionDialog.Label.Note" ) ); //$NON-NLS-1$
 		gd = new GridData( );
 		gd.widthHint = UIUtil.getMaxStringWidth( labels, composite )
 				+ 200
@@ -203,7 +203,7 @@ public class SelectionChoiceDialog extends BaseDialog
 		}
 		else
 		{
-			messageLine.setText( "" );
+			messageLine.setText( "" ); //$NON-NLS-1$
 			messageLine.setImage( null );
 			getOkButton( ).setEnabled( true );
 		}

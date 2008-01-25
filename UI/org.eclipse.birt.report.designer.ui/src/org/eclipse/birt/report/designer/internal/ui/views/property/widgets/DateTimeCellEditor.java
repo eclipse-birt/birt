@@ -63,7 +63,7 @@ public class DateTimeCellEditor extends CDialogCellEditor
 			if ( value != null )
 			{
 				TimeDialogInfo time = new TimeDialogInfo( );
-				if( value instanceof String && !value.toString().trim().equals("") )
+				if( value instanceof String && !value.toString().trim().equals("") ) //$NON-NLS-1$
 				{
 					dateValue  = new SimpleDateFormat( time.getFormat()).parse(value.toString() );
 				}

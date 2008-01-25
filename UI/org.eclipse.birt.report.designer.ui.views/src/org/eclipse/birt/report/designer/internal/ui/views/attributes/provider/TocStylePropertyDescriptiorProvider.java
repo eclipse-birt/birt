@@ -43,7 +43,7 @@ public class TocStylePropertyDescriptiorProvider extends
 	 */
 	public String getDisplayName() {
 		// TODO Auto-generated method stub
-		return Messages.getString("Element.Toc.Sytle");
+		return Messages.getString("Element.Toc.Sytle"); //$NON-NLS-1$
 	}
 
 	public TOCHandle getTocHandle() {
@@ -92,7 +92,7 @@ public class TocStylePropertyDescriptiorProvider extends
 			value = tocHandle.getStyleName();
 		}
 
-		return value == null ? "" : value;
+		return value == null ? "" : value; //$NON-NLS-1$
 	}
 
 	public void save(Object value) throws SemanticException {

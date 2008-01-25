@@ -11,10 +11,10 @@ public class ResourceFilter
 	public static final String FILTER_EMPTY_FOLDERS = "empty_folder";//$NON-NLS-1$
 	//public static final String FILTER_FOLDERS_WITHOUTRESOURCE = "folders_withoutresource";//$NON-NLS-1$
 	
-	private String type = "";
-	private String displayName = "";
+	private String type = ""; //$NON-NLS-1$
+	private String displayName = ""; //$NON-NLS-1$
 	private boolean isEnabled;
-	private String description = "";
+	private String description = ""; //$NON-NLS-1$
 
 	public ResourceFilter( )
 	{

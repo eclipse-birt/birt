@@ -133,7 +133,7 @@ public class ImageCanvas extends Canvas
 
 			public void getValue( AccessibleControlEvent e )
 			{
-				e.result = "Preview Image";
+				e.result = "Preview Image"; //$NON-NLS-1$
 			}
 
 		} );
@@ -142,12 +142,12 @@ public class ImageCanvas extends Canvas
 
 			public void getHelp( AccessibleEvent e )
 			{
-				e.result = "Preview Image";
+				e.result = "Preview Image"; //$NON-NLS-1$
 			}
 
 			public void getName( AccessibleEvent e )
 			{
-				e.result = "Preview Image";
+				e.result = "Preview Image"; //$NON-NLS-1$
 			}
 		};
 		getAccessible( ).addAccessibleListener( accessibleAdapter );

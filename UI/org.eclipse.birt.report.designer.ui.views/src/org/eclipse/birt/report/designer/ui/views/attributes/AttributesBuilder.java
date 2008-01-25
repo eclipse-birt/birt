@@ -273,7 +273,7 @@ public class AttributesBuilder
 		}
 		else if ( type == TemplateReportItemHandle.class )
 		{
-			typeInfo = Messages.getString( "AttributesBuilder.Label.TemplateReportItemHandle" );
+			typeInfo = Messages.getString( "AttributesBuilder.Label.TemplateReportItemHandle" ); //$NON-NLS-1$
 		}
 		else if ( type == ReportDesignHandle.class )
 		{

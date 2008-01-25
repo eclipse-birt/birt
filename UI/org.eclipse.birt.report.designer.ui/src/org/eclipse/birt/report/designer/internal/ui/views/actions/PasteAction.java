@@ -70,7 +70,7 @@ public class PasteAction extends AbstractViewAction
 		
 		try
 		{
-			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.pasteAction", null );
+			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.pasteAction", null ); //$NON-NLS-1$
 		}
 		catch ( Exception e )
 		{

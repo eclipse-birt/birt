@@ -349,7 +349,7 @@ public class TableGridLayer extends GridLayer
 			return getColumnAdapter( handle ).getBackgroundImage( handle );
 		}
 		
-		return "";
+		return ""; //$NON-NLS-1$
 	}
 
 	private Object[] getBackgroundPosition( DesignElementHandle handle )

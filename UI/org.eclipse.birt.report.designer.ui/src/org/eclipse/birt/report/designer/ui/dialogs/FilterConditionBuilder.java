@@ -461,7 +461,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		else if ( obj instanceof ResultSetColumnHandle )
 			return ( (ResultSetColumnHandle) obj ).getColumnName( );
 		else
-			return "";
+			return ""; //$NON-NLS-1$
 	}
 
 	private Listener expValueSelectionListener = new Listener( ) {
@@ -529,9 +529,9 @@ public class FilterConditionBuilder extends TitleAreaDialog
 						catch ( Exception ex )
 						{
 							MessageDialog.openError( null,
-									Messages.getString( "SelectValueDialog.selectValue" ),
-									Messages.getString( "SelectValueDialog.messages.error.selectVauleUnavailable" )
-											+ "\n"
+									Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
+									Messages.getString( "SelectValueDialog.messages.error.selectVauleUnavailable" ) //$NON-NLS-1$
+											+ "\n" //$NON-NLS-1$
 											+ ex.getMessage( ) );
 						}
 					}
@@ -564,17 +564,17 @@ public class FilterConditionBuilder extends TitleAreaDialog
 						{
 							// TODO Auto-generated catch block
 							MessageDialog.openError( null,
-									Messages.getString( "SelectValueDialog.selectValue" ),
-									Messages.getString( "SelectValueDialog.messages.error.selectVauleUnavailable" )
-											+ "\n"
+									Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
+									Messages.getString( "SelectValueDialog.messages.error.selectVauleUnavailable" ) //$NON-NLS-1$
+											+ "\n" //$NON-NLS-1$
 											+ e1.getMessage( ) );
 						}
 					}
 					else
 					{
 						MessageDialog.openInformation( null,
-								Messages.getString( "SelectValueDialog.selectValue" ),
-								Messages.getString( "SelectValueDialog.messages.info.selectVauleUnavailable" ) );
+								Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
+								Messages.getString( "SelectValueDialog.messages.info.selectVauleUnavailable" ) ); //$NON-NLS-1$
 					}
 				}
 				else if ( value.equals( actions[1] ) )
@@ -604,7 +604,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 				{
 					if(addExpressionValue == thisCombo)
 					{
-						thisCombo.setText("");
+						thisCombo.setText(""); //$NON-NLS-1$
 						addBtn.setEnabled( false );
 					}else					
 					if(newValues.length == 1)
@@ -755,7 +755,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		layout.numColumns = 4;
 		group.setLayout( layout );
 
-		new Label( group, SWT.NONE ).setText( Messages.getString( "FilterConditionBuilder.label.value" ) );
+		new Label( group, SWT.NONE ).setText( Messages.getString( "FilterConditionBuilder.label.value" ) ); //$NON-NLS-1$
 
 		GridData expgd = new GridData( );
 		expgd.widthHint = 100;
@@ -764,8 +764,8 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		addExpressionValue.setLayoutData( expgd );
 
 		addBtn = new Button( group, SWT.PUSH );
-		addBtn.setText( Messages.getString( "FilterConditionBuilder.button.add" ) );
-		addBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.add.tooltip" ) );
+		addBtn.setText( Messages.getString( "FilterConditionBuilder.button.add" ) ); //$NON-NLS-1$
+		addBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.add.tooltip" ) ); //$NON-NLS-1$
 		setButtonLayoutData( addBtn );
 		addBtn.addSelectionListener( new SelectionListener( ) {
 
@@ -785,7 +785,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 					tableViewer.refresh( );
 					updateButtons( );
 					addExpressionValue.setFocus( );
-					addExpressionValue.setText( "" );
+					addExpressionValue.setText( "" ); //$NON-NLS-1$
 				}
 				else
 				{
@@ -812,7 +812,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		TableColumn column;
 		int i;
 		String[] columNames = new String[]{
-			Messages.getString( "FilterConditionBuilder.list.item1" ),
+			Messages.getString( "FilterConditionBuilder.list.item1" ), //$NON-NLS-1$
 		};
 		int[] columLength = new int[]{
 			288
@@ -927,8 +927,8 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		rightPart.setLayout( layout );
 
 		editBtn = new Button( rightPart, SWT.PUSH );
-		editBtn.setText( Messages.getString( "FilterConditionBuilder.button.edit" ) );
-		editBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.edit.tooltip" ) );
+		editBtn.setText( Messages.getString( "FilterConditionBuilder.button.edit" ) ); //$NON-NLS-1$
+		editBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.edit.tooltip" ) ); //$NON-NLS-1$
 		setButtonLayoutData( editBtn );
 		editBtn.addSelectionListener( new SelectionListener( ) {
 
@@ -978,8 +978,8 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		} );
 
 		delBtn = new Button( rightPart, SWT.PUSH );
-		delBtn.setText( Messages.getString( "FilterConditionBuilder.button.delete" ) );
-		delBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.delete.tooltip" ) );
+		delBtn.setText( Messages.getString( "FilterConditionBuilder.button.delete" ) ); //$NON-NLS-1$
+		delBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.delete.tooltip" ) ); //$NON-NLS-1$
 		setButtonLayoutData( delBtn );
 		delBtn.addSelectionListener( new SelectionListener( ) {
 
@@ -1016,8 +1016,8 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		} );
 
 		delAllBtn = new Button( rightPart, SWT.PUSH );
-		delAllBtn.setText( Messages.getString( "FilterConditionBuilder.button.deleteall" ) );
-		delAllBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.deleteall.tooltip" ) );
+		delAllBtn.setText( Messages.getString( "FilterConditionBuilder.button.deleteall" ) ); //$NON-NLS-1$
+		delAllBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.deleteall.tooltip" ) ); //$NON-NLS-1$
 		setButtonLayoutData( delAllBtn );
 		delAllBtn.addSelectionListener( new SelectionListener( ) {
 
@@ -1080,7 +1080,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 			{
 				return (String) element;
 			}
-			return "";
+			return ""; //$NON-NLS-1$
 		}
 
 		public void addListener( ILabelProviderListener listener )
@@ -1561,7 +1561,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 				if ( valueVisible == 3 )
 				{
 					filter.setValue1( valueList );
-					filter.setValue2( "" );
+					filter.setValue2( "" ); //$NON-NLS-1$
 				}
 				else
 				{

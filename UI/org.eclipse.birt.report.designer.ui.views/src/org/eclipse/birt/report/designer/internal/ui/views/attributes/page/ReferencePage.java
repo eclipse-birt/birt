@@ -56,7 +56,7 @@ public class ReferencePage extends AttributePage
 
 		} );
 		referenceSection.setWidth( 300 );
-		referenceSection.setButtonText( Messages.getString( "ReferencePage.Button.Edit" ) );
+		referenceSection.setButtonText( Messages.getString( "ReferencePage.Button.Edit" ) ); //$NON-NLS-1$
 		referenceSection.setButtonIsComputeSize( true );
 		addSection( PageSectionId.REFERENCE_REFERENCE, referenceSection );
 

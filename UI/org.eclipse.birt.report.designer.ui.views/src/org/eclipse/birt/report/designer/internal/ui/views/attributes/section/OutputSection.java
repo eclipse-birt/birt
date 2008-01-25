@@ -15,7 +15,7 @@ public class OutputSection extends Section
 
 	public OutputSection( Composite parent, boolean isFormStyle )
 	{
-		super( " ", parent, isFormStyle );
+		super( " ", parent, isFormStyle ); //$NON-NLS-1$
 	}
 
 	protected OutputPropertyDescriptor output;
