@@ -872,9 +872,9 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 				try
 				{
 					// Get header and data in other thread.
-					final ColumnBindingInfo[] headers = getDataServiceProvider( ).getPreviewHeaderForSharedBinding(  );
+					final ColumnBindingInfo[] headers = getDataServiceProvider( ).getPreviewHeaderForTableSharedBinding(  );
 					final List dataList = getDataServiceProvider( ).getPreviewData(  );
-					getDataServiceProvider().setPredefinedExpressionsForSharedBinding( getContext(), headers );
+					getDataServiceProvider().setPredefinedExpressionsForTableSharedBinding( getContext(), headers );
 									
 					
 					// Execute UI operation in UI thread.
@@ -1080,17 +1080,23 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 				{
 					// Menu for Measure
 					String expr = createCubeExpression( );
-					addMenu( manager,
-							getOrthogonalSeriesMenu( getChartModel( ), expr ) );
+					if ( expr != null )
+					{
+						addMenu( manager,
+								getOrthogonalSeriesMenu( getChartModel( ), expr ) );
+					}
 				}
 				else if ( data instanceof LevelHandle )
 				{
 					// Menu for Level
 					String expr = createCubeExpression( );
-					addMenu( manager,
-							getBaseSeriesMenu( getChartModel( ), expr ) );
-					addMenu( manager, getGroupSeriesMenu( getChartModel( ),
-							expr ) );
+					if ( expr != null )
+					{
+						addMenu( manager, getBaseSeriesMenu( getChartModel( ),
+								expr ) );
+						addMenu( manager, getGroupSeriesMenu( getChartModel( ),
+								expr ) );
+					}
 				}
 			}
 
@@ -1339,7 +1345,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 				expr = ExpressionUtil.createJSMeasureExpression( treeItem.getText( ) );
 			}
 		}
-		return expr;
+		return dataProvider.getExpressionForCubeMode( expr );
 	}
 
 	private String[] createDataComboItems( )
@@ -1422,13 +1428,13 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 			}
 			else
 			{
-				if ( dataProvider.isInheritanceOnly( ) )
+				if ( dataProvider.isInheritanceOnly( ) || dataProvider.isSharedBinding( ) )
 				{
 					// Get all column bindings.
 					List dimensionExprs = new ArrayList( );
 					List measureExprs = new ArrayList( );
-					for ( Iterator iter = ( (ReportItemHandle) itemHandle.getContainer( )
-							.getContainer( ) ).getColumnBindings( ).iterator( ); iter.hasNext( ); )
+					ReportItemHandle reportItemHandle = (ReportItemHandle)dataProvider.getReportItemHandleOfSharedBinding( );
+					for ( Iterator iter = reportItemHandle.getColumnBindings( ).iterator( ); iter.hasNext( ); )
 					{
 						ComputedColumnHandle cch = (ComputedColumnHandle) iter.next( );
 						String dataExpr = ExpressionUtil.createJSDataExpression( cch.getName( ) );

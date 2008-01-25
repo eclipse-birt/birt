@@ -205,7 +205,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 		else
 		{
-			return getPreviewRowDataForSharedBinding( getPreviewHeaderForSharedBinding( ), -1, true );
+			return getPreviewRowDataForTableSharedBinding( getPreviewHeaderForTableSharedBinding( ), -1, true );
 		}
 	}
 
@@ -216,7 +216,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @throws ChartException
 	 * @since BIRT 2.3
 	 */
-	public final ColumnBindingInfo[] getPreviewHeaderForSharedBinding(  )
+	public final ColumnBindingInfo[] getPreviewHeaderForTableSharedBinding(  )
 			throws ChartException
 	{
 		Iterator iterator = ChartReportItemUtil.getColumnDataBindings( itemHandle );
@@ -228,7 +228,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 		ColumnBindingInfo[] columnHeaders = null;
 
-		if ( isSharedBinding( ) )
+		if ( isTableSharedBinding( ) )
 		{
 			// Process grouping and aggregate on group case.
 			// Get groups.
@@ -355,13 +355,17 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	}
 
 	/**
+	 * Returns preview row data for table shared binding, it will share table's
+	 * bindings and get them data.
+	 * 
 	 * @param headers
 	 * @param rowCount
 	 * @param isStringType
 	 * @return
 	 * @throws ChartException
+	 * @since 2.3
 	 */
-	protected List getPreviewRowDataForSharedBinding( ColumnBindingInfo[] headers, int rowCount, boolean isStringType ) throws ChartException
+	protected List getPreviewRowDataForTableSharedBinding( ColumnBindingInfo[] headers, int rowCount, boolean isStringType ) throws ChartException
 	{
 		ArrayList dataList = new ArrayList( );
 		// Set thread context class loader so Rhino can find POJOs in workspace
@@ -384,7 +388,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			DataRequestSession session = prepareDataRequestSession( getMaxRow( ) );
 			
 			// Binding columns, aggregates, filters and sorts.
-			List columns = generateSharedBindingQuery( headers,
+			List columns = generateTableSharedBindingQuery( headers,
 					queryDefn,
 					session,
 					new HashMap() );
@@ -439,7 +443,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return dataList;
 	}
 
-	private List generateSharedBindingQuery( ColumnBindingInfo[] headers,
+	private List generateTableSharedBindingQuery( ColumnBindingInfo[] headers,
 			QueryDefinition queryDefn, DataRequestSession session, Map bindingExprsMap )
 			throws AdapterException, DataException
 	{
@@ -653,20 +657,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	}
 
 	/**
-	 * Check if chart is in table multiple view.
-	 * 
-	 * @return
-	 */
-	private boolean isInMultiViewWithTable( )
-	{
-		return itemHandle.getContainer( ) instanceof MultiViewsHandle &&
-				ChartXTabUtil.getBindingCube( itemHandle ) == null;
-	}
-	
-	/**
 	 * Check if chart is in multiple view.
 	 * 
 	 * @return
+	 * @since 2.3
 	 */
 	private boolean isInMultiView( )
 	{
@@ -1244,6 +1238,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			IQueryResults actualResultSet = null;
 			if ( isSharedBinding( ) )
 			{
+				 // Now only create query for table shared binding.
 				// Create query definition.
 				QueryDefinition queryDefn = new QueryDefinition( );
 				int maxRow = getMaxRow( );
@@ -1253,7 +1248,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 				// Binding columns, aggregates, filters and sorts.
 				final Map bindingExprsMap = new HashMap();
-				generateSharedBindingQuery( getPreviewHeaderForSharedBinding( ),
+				generateTableSharedBindingQuery( getPreviewHeaderForTableSharedBinding( ),
 						queryDefn,
 						session,
 						bindingExprsMap );
@@ -1450,14 +1445,29 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 */
 	public boolean isSharedBinding( )
 	{
-		return ( itemHandle.getDataBindingReference( ) != null || isInMultiViewWithTable( ) );
+		return ( itemHandle.getDataBindingReference( ) != null || isInMultiView( ) );
 	}
 	
 	/**
+	 * Check if current item handle is table shared binding reference.
+	 * 
+	 * @return
+	 * @since 2.3
+	 */
+	private boolean isTableSharedBinding( )
+	{
+		return isSharedBinding( ) && ChartXTabUtil.getBindingCube( itemHandle ) == null;
+	}
+	
+	/**
+	 * Set predefined expressions for table shared binding, in table shared
+	 * binding case, the binding/expression is read only, so predefined them.
+	 * 
 	 * @param context
 	 * @param headers
+	 * @since 2.3
 	 */
-	public void setPredefinedExpressionsForSharedBinding( ChartWizardContext context, ColumnBindingInfo[] headers )
+	public void setPredefinedExpressionsForTableSharedBinding( ChartWizardContext context, ColumnBindingInfo[] headers )
 	{
 		if ( isSharedBinding() )
 		{
@@ -1557,13 +1567,15 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	
 	/**
 	 * Returns report item handle of shared binding.
+	 * 
 	 * @return
+	 * @since 2.3
 	 */
-	private ReportItemHandle getReportItemHandleOfSharedBinding( )
+	public ReportItemHandle getReportItemHandleOfSharedBinding( )
 	{
 		if ( isSharedBinding() )
 		{
-			if ( isInMultiViewWithTable( ) )
+			if ( isInMultiView( ) )
 			{
 				return (ReportItemHandle) itemHandle.getContainer( ).getContainer( );
 			}
@@ -1572,5 +1584,41 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 		
 		return itemHandle;
+	}
+	
+	/**
+	 * Returns expression for cube and shared binding.
+	 * 
+	 * @param expression
+	 * @return data binding name of specified expression. If it is not in cude
+	 *         mode, return <code>null</code>. If it is not shared binding,
+	 *         return specified expression. If it is not a valid crosstab
+	 *         expression, return <code>null</code>.
+	 * @since 2.3
+	 */
+	public String getExpressionForCubeMode( String expression )
+	{
+		if ( ChartXTabUtil.getBindingCube( itemHandle ) == null )
+		{
+			return null;
+		}
+		
+		if ( expression == null || !isSharedBinding( ) )
+		{
+			return expression;
+		}
+		
+		ReportItemHandle reportItemHandle = (ReportItemHandle)getReportItemHandleOfSharedBinding( );
+		for ( Iterator iter = reportItemHandle.getColumnBindings( ).iterator( ); iter.hasNext( ); )
+		{
+			ComputedColumnHandle cch = (ComputedColumnHandle) iter.next( );
+			
+			if ( cch.getExpression( ).equals( expression) )
+			{
+				return ExpressionUtil.createJSDataExpression( cch.getName( ) );
+			}
+		}
+		
+		return null;
 	}
 }

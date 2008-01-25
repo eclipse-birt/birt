@@ -585,7 +585,9 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 
 	private String getTooltipForDataText( String queryText )
 	{
-		if ( context.getDataServiceProvider( ).isSharedBinding( ) && cmbDefinition != null )
+		if ( context.getDataServiceProvider( ).isSharedBinding( ) &&
+				cmbDefinition != null &&
+				cmbDefinition.getData( ) != null )
 		{
 			int index = cmbDefinition.getSelectionIndex( );
 			if ( index >= 0 )
