@@ -26,6 +26,8 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.util.DNDUtil;
+import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
@@ -34,6 +36,7 @@ import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.dnd.DND;
@@ -127,12 +130,18 @@ public class DesignerDropListener extends DesignElementDropAdapter
 		// }
 		// else
 
+		boolean validateContainer = getCurrentLocation( ) != LOCATION_ON;
+		if ( target instanceof DataSourceHandle
+				|| target instanceof DataSetHandle
+				|| target instanceof CubeHandle )
+			validateContainer = false;
+
 		if ( DNDUtil.handleValidateTargetCanContainMore( target,
 				DNDUtil.getObjectLength( transfer ) ) )
 		{
 			canContain = DNDUtil.handleValidateTargetCanContain( target,
 					transfer,
-					getCurrentLocation( ) != LOCATION_ON );
+					validateContainer );
 			return canContain != DNDUtil.CONTAIN_NO;
 		}
 		return false;

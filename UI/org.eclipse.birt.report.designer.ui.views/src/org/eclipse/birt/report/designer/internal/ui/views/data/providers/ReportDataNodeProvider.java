@@ -45,6 +45,7 @@ public class ReportDataNodeProvider extends ReportDesignNodeProvider
 
 		list.add( handle.getDataSources( ) );
 		list.add( handle.getDataSets( ) );
+		list.add( handle.getCubes( ) );
 		list.add( handle.getParameters( ) );
 
 		return list.toArray( );

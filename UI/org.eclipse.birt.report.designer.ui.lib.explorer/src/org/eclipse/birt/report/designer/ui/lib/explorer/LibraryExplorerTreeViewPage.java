@@ -27,9 +27,11 @@ import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntr
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceLocator;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.outline.ItemSorter;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.lib.explorer.dnd.LibraryDragListener;
+import org.eclipse.birt.report.designer.ui.lib.explorer.resource.DesignElementEntry;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ResourceEntryWrapper;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.widget.TreeViewerBackup;
@@ -53,6 +55,7 @@ import org.eclipse.gef.dnd.TemplateTransfer;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
@@ -119,6 +122,18 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 		treeViewer = new TreeViewer( parent, SWT.MULTI
 				| SWT.H_SCROLL
 				| SWT.V_SCROLL );
+		treeViewer.setSorter( new ItemSorter( ){
+
+			public int compare( Viewer viewer, Object e1, Object e2 )
+			{
+				if(e1 instanceof DesignElementEntry)
+					e1 = ((DesignElementEntry)e1).getReportElement( );
+				if(e2 instanceof DesignElementEntry)
+					e2 = ((DesignElementEntry)e2).getReportElement( );
+				return super.compare( viewer, e1, e2 );
+			}
+			
+		} );
 		configTreeViewer( );
 		initPage( );
 		refreshRoot( );

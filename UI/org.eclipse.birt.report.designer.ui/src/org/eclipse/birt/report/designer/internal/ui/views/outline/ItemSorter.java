@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.outline;
 
+import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DataSourceHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
 
@@ -54,6 +58,19 @@ public class ItemSorter extends ViewerSorter
 		 * (ITreeItemNode) e2 ).getType(); if ( type1 == type2 && type1 ==
 		 * ITreeItemNode.ITEM ) { return super.compare( viewer, e1, e2 ); } }
 		 */
+		if ( e1 instanceof DataSourceHandle && e2 instanceof DataSourceHandle )
+		{
+			return super.compare( viewer, e1, e2 );
+		}
+		if ( e1 instanceof DataSetHandle && e2 instanceof DataSetHandle )
+		{
+			return super.compare( viewer, e1, e2 );
+		}
+		if ( e1 instanceof CubeHandle && e2 instanceof CubeHandle )
+		{
+			return super.compare( viewer, e1, e2 );
+		}
 		return 0;
 	}
+
 }
