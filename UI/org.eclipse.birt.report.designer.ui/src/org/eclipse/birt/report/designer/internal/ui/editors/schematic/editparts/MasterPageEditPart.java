@@ -22,6 +22,7 @@ import org.eclipse.birt.report.designer.internal.ui.layout.MasterPageLayout;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
@@ -290,6 +291,11 @@ public class MasterPageEditPart extends AbstractReportEditPart
 
 		return children;
 	}
+	
+	public boolean isinterest( Object model )
+	{
+		return super.isinterest( model ) || model instanceof ModuleHandle;
+	}
 }
 
 /**
@@ -338,5 +344,6 @@ class MasterPageEditPolicy extends GraphicalEditPolicy
 		//Returns a invalid command to disable the whole request
 		return new PasteCommand( null, null, null );
 	}
+
 
 }
