@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.ui.swt.ColumnBindingInfo;
 import org.eclipse.birt.chart.ui.swt.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.swt.DataTextDropListener;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
+import org.eclipse.birt.chart.ui.swt.IQueryExpressionManager;
 import org.eclipse.birt.chart.ui.swt.SimpleTextTransfer;
 import org.eclipse.birt.chart.ui.swt.composites.BaseGroupSortingDialog;
 import org.eclipse.birt.chart.ui.swt.composites.GroupSortingDialog;
@@ -64,7 +65,8 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 			SelectionListener,
 			ModifyListener,
 			FocusListener,
-			KeyListener
+			KeyListener,
+			IQueryExpressionManager
 {
 
 	protected Composite cmpTop;
@@ -210,8 +212,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 
 				public void handleEvent( Event event )
 				{
-					query.setDefinition( getExpression( cmbDefinition ) );
-					updateGroupingAggregate( );
+					updateQuery( getExpression( cmbDefinition ) );
 					// Change direction once category query is changed in xtab
 					// case
 					if ( context.getDataServiceProvider( ).isInXTab( )
@@ -254,7 +255,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		target.addDropListener( new DataTextDropListener( dropControl ) );
 		// Add color manager
 		DataDefinitionTextManager.getInstance( )
-				.addDataDefinitionText( dropControl, query );
+				.addDataDefinitionText( dropControl, this );
 
 		btnBuilder = new Button( cmpTop, SWT.PUSH );
 		{
@@ -357,17 +358,8 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 	 */
 	private void populateExprComboItems( Object[] predefinedQuery )
 	{
-		if ( predefinedQuery[0] instanceof String )
-		{
-			String[] items = new String[predefinedQuery.length];
-			for ( int i = 0; i < items.length; i++ )
-			{
-				items[i] = (String) predefinedQuery[i];
-			}
-			cmbDefinition.setItems( items );
-			cmbDefinition.setData( items );
-		}
-		else if ( predefinedQuery[0] instanceof Object[] )
+		
+		if ( predefinedQuery[0] instanceof Object[] )
 		{
 			String[] items = new String[predefinedQuery.length];
 			Object[] data = new Object[predefinedQuery.length];
@@ -380,6 +372,15 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 			cmbDefinition.setItems( items );
 			cmbDefinition.setData( data );
 		}
+		else if ( predefinedQuery[0] instanceof String )
+		{
+			String[] items = new String[predefinedQuery.length];
+			for ( int i = 0; i < items.length; i++ )
+			{
+				items[i] = (String) predefinedQuery[i];
+			}
+			cmbDefinition.setItems( items );
+		} 
 	}
 
 	public void selectArea( boolean selected, Object data )
@@ -391,7 +392,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 			query = (Query) array[1];
 			setUIText( getInputControl( ), query.getDefinition( ) );
 			DataDefinitionTextManager.getInstance( )
-					.addDataDefinitionText( getInputControl( ), query );
+					.addDataDefinitionText( getInputControl( ), this );
 			fAggEditorComposite.setSeriesDefinition( seriesdefinition );
 		}
 		setColor( );
@@ -574,20 +575,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 			e.type = 0;
 			fireEvent( e );
 
-			if ( query != null )
-			{
-				query.setDefinition( getExpression( getInputControl( ) ) );
-			}
-			else
-			{
-				query = QueryImpl.create( getExpression( getInputControl( ) ) );
-				query.eAdapters( ).addAll( seriesdefinition.eAdapters( ) );
-				// Since the data query must be non-null, it's created in
-				// ChartUIUtil.getDataQuery(), assume current null is a grouping
-				// query
-				seriesdefinition.setQuery( query );
-			}
-			updateGroupingAggregate( );
+			updateQuery( getExpression( getInputControl( ) ) );
 			// Refresh color from ColorPalette
 			setColor( );
 			getInputControl( ).getParent( ).layout( );
@@ -711,48 +699,88 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 	}
 	
 	/**
+	 * Update query by specified expression.
+	 * <p>
 	 * Under shared binding case, update grouping/aggregate attributes of chart
 	 * model if the selected item is group/aggregate expression.
 	 */
-	private void updateGroupingAggregate( )
+	public void updateQuery( String expression )
 	{
+		if ( query != null )
+		{
+			query.setDefinition( expression );
+		}
+		else
+		{
+			query = QueryImpl.create( expression );
+			query.eAdapters( ).addAll( seriesdefinition.eAdapters( ) );
+			// Since the data query must be non-null, it's created in
+			// ChartUIUtil.getDataQuery(), assume current null is a grouping
+			// query
+			seriesdefinition.setQuery( query );
+		}
+		
 		if ( !context.getDataServiceProvider( ).isSharedBinding( ) )
 		{
 			return;
 		}
 		
 		Object[] data = (Object[]) cmbDefinition.getData( );
-		if ( data != null && data.length > 0)
+		if ( data != null && data.length > 0 )
 		{
-			int i = cmbDefinition.getSelectionIndex( );
-			if ( i < 0 )
+			String text = cmbDefinition.getText( );
+			String[] items = cmbDefinition.getItems( );
+
+			for ( int i = 0; i < items.length; i++ )
 			{
-				return;
-			}
-			ColumnBindingInfo chi = (ColumnBindingInfo) data[i];
-			int type = chi.getColumnType( );
-			if( ChartUIConstants.QUERY_CATEGORY.equals( queryType ) )
-			{
-				if ( type == ColumnBindingInfo.GROUP_COLUMN )
+				if ( items[i] != null && items[i].equals( text ) )
 				{
-					seriesdefinition.getGrouping( ).setEnabled( true );
-				}
-				else
-				{
-					seriesdefinition.getGrouping( ).setEnabled( false );
-				}
-			}
-			else if( ChartUIConstants.QUERY_VALUE.equals( queryType ) )
-			{
-				if ( type == ColumnBindingInfo.AGGREGATE_COLUMN )
-				{
-					seriesdefinition.getGrouping( ).setEnabled( true );
-				}
-				else
-				{
-					seriesdefinition.getGrouping( ).setEnabled( false );
+					ColumnBindingInfo chi = (ColumnBindingInfo) data[i];
+					int type = chi.getColumnType( );
+					if ( ChartUIConstants.QUERY_CATEGORY.equals( queryType ) )
+					{
+						if ( type == ColumnBindingInfo.GROUP_COLUMN )
+						{
+							seriesdefinition.getGrouping( ).setEnabled( true );
+						}
+						else
+						{
+							seriesdefinition.getGrouping( ).setEnabled( false );
+						}
+					}
+					else if ( ChartUIConstants.QUERY_VALUE.equals( queryType ) )
+					{
+						if ( type == ColumnBindingInfo.AGGREGATE_COLUMN )
+						{
+							seriesdefinition.getGrouping( ).setEnabled( true );
+						}
+						else
+						{
+							seriesdefinition.getGrouping( ).setEnabled( false );
+						}
+					}
+
+					return;
 				}
 			}
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.IQueryExpressionManager#getQuery()
+	 */
+	public Query getQuery( )
+	{
+		if ( query == null )
+		{
+			query = QueryImpl.create( getExpression( getInputControl( ) ) );
+			query.eAdapters( ).addAll( seriesdefinition.eAdapters( ) );
+			// Since the data query must be non-null, it's created in
+			// ChartUIUtil.getDataQuery(), assume current null is a grouping
+			// query
+			seriesdefinition.setQuery( query );
+		}
+		
+		return query;
 	}
 }

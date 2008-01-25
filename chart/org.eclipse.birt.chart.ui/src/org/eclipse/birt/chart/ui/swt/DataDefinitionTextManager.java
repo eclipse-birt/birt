@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -53,9 +53,9 @@ public class DataDefinitionTextManager
 		return instance;
 	}
 
-	public void addDataDefinitionText( Control text, Query query )
+	public void addDataDefinitionText( Control text, IQueryExpressionManager queryManager )
 	{
-		textCollection.put( text, query );
+		textCollection.put( text, queryManager );
 	}
 
 	public void removeDataDefinitionText( Control text )
@@ -116,16 +116,13 @@ public class DataDefinitionTextManager
 
 	public Control findText( Query query )
 	{
-		if ( textCollection.containsValue( query ) )
+		Iterator iterator = textCollection.entrySet( ).iterator( );
+		while ( iterator.hasNext( ) )
 		{
-			Iterator iterator = textCollection.entrySet( ).iterator( );
-			while ( iterator.hasNext( ) )
+			Map.Entry entry = (Map.Entry) iterator.next( );
+			if ( ( (IQueryExpressionManager) entry.getValue( ) ).getQuery( ) == query )
 			{
-				Map.Entry entry = (Map.Entry) iterator.next( );
-				if ( entry.getValue( ) == query )
-				{
-					return (Control) entry.getKey( );
-				}
+				return (Control) entry.getKey( );
 			}
 		}
 		return null;
@@ -135,8 +132,8 @@ public class DataDefinitionTextManager
 	{
 		if ( textCollection.containsKey( text ) )
 		{
-			Query query = (Query) textCollection.get( text );
-			setText( text, query.getDefinition( ) );
+			IQueryExpressionManager query = (IQueryExpressionManager) textCollection.get( text );
+			setText( text, query.getQuery( ).getDefinition( ) );
 			Color color = ColorPalette.getInstance( )
 					.getColor( getText( text ) );
 			text.setBackground( color );
@@ -159,10 +156,10 @@ public class DataDefinitionTextManager
 	{
 		if ( textCollection.containsKey( control ) )
 		{
-			Query query = (Query) textCollection.get( control );
-			query.setDefinition( ChartUIUtil.getActualExpression( control ) );
+			IQueryExpressionManager queryManager = (IQueryExpressionManager) textCollection.get( control );
+			queryManager.updateQuery(  ChartUIUtil.getActualExpression( control ) );
 			
-			adjustScaleData( query );
+			adjustScaleData( queryManager.getQuery( ) );
 			
 			// Bind color to this data definition
 			ColorPalette.getInstance( ).putColor( getText( control ) );
