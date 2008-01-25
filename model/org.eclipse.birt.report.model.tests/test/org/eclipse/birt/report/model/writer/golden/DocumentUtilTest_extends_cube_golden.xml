@@ -35,7 +35,7 @@ from CLASSICMODELS.CUSTOMERS</property>
             <property name="defaultMeasureGroup">Summary Field</property>
             <property name="dimensions">
                 <tabular-dimension name="Group2" id="9">
-                    <property name="defaultHierarchy">NewTabularHierarchy</property>
+                    <property name="defaultHierarchy">NewTabularHierarchy2</property>
                     <property name="hierarchies">
                         <tabular-hierarchy name="NewTabularHierarchy2" id="10">
                             <property name="levels">
@@ -51,7 +51,7 @@ from CLASSICMODELS.CUSTOMERS</property>
                     </property>
                 </tabular-dimension>
                 <tabular-dimension name="Group11" id="13">
-                    <property name="defaultHierarchy">NewTabularHierarchy1</property>
+                    <property name="defaultHierarchy">NewTabularHierarchy11</property>
                     <property name="hierarchies">
                         <tabular-hierarchy name="NewTabularHierarchy11" id="14">
                             <property name="levels">

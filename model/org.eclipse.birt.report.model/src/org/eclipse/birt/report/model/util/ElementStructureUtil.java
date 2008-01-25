@@ -311,14 +311,7 @@ public class ElementStructureUtil
 		{
 			Dimension targetDimension = (Dimension) target;
 			Dimension sourceDimension = (Dimension) source;
-			DesignElement hierarchy = sourceDimension
-					.getDefaultHierarchy( sourceDimension.getRoot( ) );
-			if ( hierarchy != null )
-			{
-				int index = hierarchy.getIndex( sourceDimension.getRoot( ) );
-				assert index > -1;
-				targetDimension.setDefaultHierarchy( index );
-			}
+			ModelUtil.duplicateDefaultHierarchy( targetDimension, sourceDimension );
 		}
 
 		return true;

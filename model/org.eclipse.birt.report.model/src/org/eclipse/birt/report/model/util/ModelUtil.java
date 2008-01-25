@@ -88,6 +88,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IOdaExtendableElementMo
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
+import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
@@ -1733,5 +1734,29 @@ public class ModelUtil
 			tmpErrorCode = CssException.DESIGN_EXCEPTION_BADCSSFILE;
 
 		return new CssException( module, new String[]{fileName}, tmpErrorCode );
+	}
+
+	/**
+	 * Duplicates the default hierarchy for the given target dimension by the
+	 * position index where the default hierarchy set in source dimension
+	 * resides in the source dimension.
+	 * 
+	 * @param targetDimension
+	 * @param sourceDimension
+	 */
+	public static void duplicateDefaultHierarchy( Dimension targetDimension,
+			Dimension sourceDimension )
+	{
+		if ( targetDimension == null || sourceDimension == null )
+			return;
+
+		DesignElement hierarchy = sourceDimension
+				.getDefaultHierarchy( sourceDimension.getRoot( ) );
+		if ( hierarchy != null )
+		{
+			int index = hierarchy.getIndex( sourceDimension.getRoot( ) );
+			assert index > -1;
+			targetDimension.setDefaultHierarchy( index );
+		}
 	}
 }

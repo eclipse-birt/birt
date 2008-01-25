@@ -77,12 +77,14 @@ import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.elements.ValueAccessControl;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IDimensionModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITabularCubeModel;
 import org.eclipse.birt.report.model.elements.olap.Cube;
+import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -123,14 +125,14 @@ public class ReportDesignSerializer extends ElementVisitor
 	private Stack elements = new Stack( );
 
 	/**
-	 * Elements are not direcly in source design. Hence, it should be created
+	 * Elements are not directly in source design. Hence, it should be created
 	 * with new names and added to the target design.
 	 */
 
 	private Map externalElements = new LinkedHashMap( );
 
 	/**
-	 * Structures are not direcly in source design. Hence, it should be created
+	 * Structures are not directly in source design. Hence, it should be created
 	 * with new names and added to the target design. Currently, only have cases
 	 * with embedded images.
 	 */
@@ -142,6 +144,12 @@ public class ReportDesignSerializer extends ElementVisitor
 	 * newCube/oldCube pair.
 	 */
 	private Map cubes = new LinkedHashMap( );
+
+	/**
+	 * Dimensions that need to build the 'defaultHierarchy'. It stores
+	 * newDimension/oldDimension pair.
+	 */
+	private Map dimensions = new LinkedHashMap( );
 
 	/**
 	 * The element is on process.
@@ -186,6 +194,9 @@ public class ReportDesignSerializer extends ElementVisitor
 
 		// handle dimension conditions
 		localizeDimensionConditions( );
+
+		// handle default hierarchy in dimension elements
+		localizeDefaultHierarchy( );
 
 		// add property bindings to the design, do this after external elements
 		// have been added to the target design
@@ -1081,7 +1092,7 @@ public class ReportDesignSerializer extends ElementVisitor
 				}
 			}
 		}
-
+		
 
 		if ( !targetValueList.isEmpty( ) )
 			target.setProperty( propDefn, targetValueList );
@@ -1427,6 +1438,14 @@ public class ReportDesignSerializer extends ElementVisitor
 			switch ( propDefn.getTypeCode( ) )
 			{
 				case IPropertyType.ELEMENT_REF_TYPE :
+					if ( newElement instanceof Dimension
+							&& IDimensionModel.DEFAULT_HIERARCHY_PROP
+									.equals( propName ) )
+					{
+						handleDefaultHierarchy( (Dimension) newElement,
+								(Dimension) element );
+						break;
+					}
 					handleElementRefValue( newElement, propDefn,
 							(ElementRefValue) value );
 					break;
@@ -1497,7 +1516,7 @@ public class ReportDesignSerializer extends ElementVisitor
 		if ( newCube.getLocalProperty( targetDesign,
 				ITabularCubeModel.DIMENSION_CONDITIONS_PROP ) != null )
 			return;
-		if ( cubes.get( cube ) == null )
+		if ( cubes.get( newCube ) == null )
 			cubes.put( newCube, cube );
 	}
 
@@ -1600,6 +1619,39 @@ public class ReportDesignSerializer extends ElementVisitor
 					}
 				}
 			}
+		}
+	}
+
+	/**
+	 * 
+	 * @param newCube
+	 * @param cube
+	 */
+	private void handleDefaultHierarchy( Dimension newDimension,
+			Dimension dimension )
+	{
+		if ( newDimension.getLocalProperty( targetDesign,
+				IDimensionModel.DEFAULT_HIERARCHY_PROP ) != null )
+			return;
+		if ( dimensions.get( newDimension ) == null )
+			dimensions.put( newDimension, dimension );
+	}
+
+	/**
+	 * 
+	 */
+	private void localizeDefaultHierarchy( )
+	{
+		if ( dimensions.isEmpty( ) )
+			return;
+		Iterator iter = dimensions.keySet( ).iterator( );
+		while ( iter.hasNext( ) )
+		{
+			Dimension newDimension = (Dimension) iter.next( );
+			Dimension srcDimension = (Dimension) dimensions.get( newDimension );
+
+			// handle default hierarchy by the index
+			ModelUtil.duplicateDefaultHierarchy( newDimension, srcDimension );
 		}
 	}
 
