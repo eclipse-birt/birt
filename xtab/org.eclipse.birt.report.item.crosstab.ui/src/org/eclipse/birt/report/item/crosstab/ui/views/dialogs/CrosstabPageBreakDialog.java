@@ -61,7 +61,7 @@ public class CrosstabPageBreakDialog extends BaseDialog
 	protected LevelViewHandle levelHandle;
 	protected CrosstabReportItemHandle reportItemHandle;
 
-	public final static String TITLE = Messages.getString( "CrosstabPageBreakDialog.Title" );
+	public final static String TITLE = Messages.getString( "CrosstabPageBreakDialog.Title" ); //$NON-NLS-1$
 
 	protected Combo levelCombo, pageBreakBeforeCombo, pageBreakAfterCombo;
 
@@ -225,7 +225,7 @@ public class CrosstabPageBreakDialog extends BaseDialog
 		container.setLayout( glayout );
 
 		Label lb = new Label( container, SWT.NONE );
-		lb.setText( Messages.getString( "CrosstabPageBreakDialog.Text.GroupLevel" ) );
+		lb.setText( Messages.getString( "CrosstabPageBreakDialog.Text.GroupLevel" ) ); //$NON-NLS-1$
 
 		levelCombo = new Combo( container, SWT.BORDER | SWT.READ_ONLY );
 		GridData gdata = new GridData( );
@@ -235,7 +235,7 @@ public class CrosstabPageBreakDialog extends BaseDialog
 		levelCombo.addListener( SWT.Selection, updateButtonListener );
 
 		lb = new Label( container, SWT.NONE );
-		lb.setText( Messages.getString( "CrosstabPageBreakDialog.Text.PageBreakBefore" ) );
+		lb.setText( Messages.getString( "CrosstabPageBreakDialog.Text.PageBreakBefore" ) ); //$NON-NLS-1$
 
 		pageBreakBeforeCombo = new Combo( container, SWT.BORDER | SWT.READ_ONLY );
 		pageBreakBeforeCombo.setLayoutData( gdata );
@@ -243,7 +243,7 @@ public class CrosstabPageBreakDialog extends BaseDialog
 		pageBreakBeforeCombo.addListener( SWT.Selection, updateButtonListener );
 
 		lb = new Label( container, SWT.NONE );
-		lb.setText( Messages.getString( "CrosstabPageBreakDialog.Text.PageBreakAfter" ) );
+		lb.setText( Messages.getString( "CrosstabPageBreakDialog.Text.PageBreakAfter" ) ); //$NON-NLS-1$
 
 		pageBreakAfterCombo = new Combo( container, SWT.BORDER | SWT.READ_ONLY );
 		pageBreakAfterCombo.setLayoutData( gdata );
@@ -287,7 +287,7 @@ public class CrosstabPageBreakDialog extends BaseDialog
 		label.setFont( FontManager.getFont( label.getFont( ).toString( ),
 				10,
 				SWT.BOLD ) );
-		label.setText( getTitle( ) ); //$NON-NLS-1$
+		label.setText( getTitle( ) ); 
 
 		return titleArea;
 	}
@@ -334,7 +334,7 @@ public class CrosstabPageBreakDialog extends BaseDialog
 
 		}
 
-		return "";
+		return ""; //$NON-NLS-1$
 
 	}
 

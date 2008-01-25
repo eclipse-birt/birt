@@ -60,7 +60,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * Expression value cell editor
  * 
- * @version $Revision: 1.13 $ $Date: 2007/11/30 04:13:15 $
+ * @version $Revision: 1.14 $ $Date: 2008/01/21 07:30:34 $
  */
 public class ExpressionValueCellEditor extends CellEditor
 {
@@ -68,7 +68,7 @@ public class ExpressionValueCellEditor extends CellEditor
 	protected static Logger logger = Logger.getLogger( ExpressionValueCellEditor.class.getName( ) );
 
 	private static String[] actions = new String[]{
-		Messages.getString( "ExpressionValueCellEditor.selectValueAction" )
+		Messages.getString( "ExpressionValueCellEditor.selectValueAction" ) //$NON-NLS-1$
 	};
 
 	private transient ParamBindingHandle[] bindingParams = null;
@@ -233,8 +233,8 @@ public class ExpressionValueCellEditor extends CellEditor
 						if ( valueList == null || valueList.size( ) == 0 )
 						{
 							MessageDialog.openInformation( null,
-									Messages.getString( "SelectValueDialog.selectValue" ),
-									Messages.getString( "SelectValueDialog.messages.info.selectVauleUnavailable" ) );
+									Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
+									Messages.getString( "SelectValueDialog.messages.info.selectVauleUnavailable" ) ); //$NON-NLS-1$
 						}
 						else
 						{

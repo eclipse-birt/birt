@@ -27,7 +27,7 @@ public class CrosstabBindingDialogFactory implements IAdapterFactory
 		if ( adapterType == IBindingDialogHelper.class
 				&& adaptableObject instanceof ExtendedItemHandle
 				&& ( (ExtendedItemHandle) adaptableObject ).getDefn( ).getName( )
-						.equals( "Crosstab" ) )
+						.equals( "Crosstab" ) ) //$NON-NLS-1$
 		{
 			return new CrosstabBindingDialogHelper( );
 		}

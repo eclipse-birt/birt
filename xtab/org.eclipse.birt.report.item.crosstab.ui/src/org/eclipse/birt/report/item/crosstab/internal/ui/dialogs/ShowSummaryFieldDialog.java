@@ -49,8 +49,8 @@ import org.eclipse.swt.widgets.TableItem;
 public class ShowSummaryFieldDialog extends BaseDialog
 {
 
-	private String[] columnNames = new String[]{Messages.getString( "ShowSummaryFieldDialog.Column.Measures" ),
-			Messages.getString( "ShowSummaryFieldDialog.Column.View" )}; 
+	private String[] columnNames = new String[]{Messages.getString( "ShowSummaryFieldDialog.Column.Measures" ), //$NON-NLS-1$
+			Messages.getString( "ShowSummaryFieldDialog.Column.View" )};  //$NON-NLS-1$
 	private int[] columnWidth = new int[]{230,130};
 	private CellEditor[] cellEditor;
 	private String[] comboItems = null;
@@ -60,12 +60,12 @@ public class ShowSummaryFieldDialog extends BaseDialog
 	private void initialization()
 	{
 
-		String firstItem = Messages.getString( "ShowSummaryFieldDialog.ViewStatus" );
+		String firstItem = Messages.getString( "ShowSummaryFieldDialog.ViewStatus" ); //$NON-NLS-1$
 		List viewNameList = new ArrayList(); 
 		List itemList = new ArrayList();
 		
 		itemList.add( firstItem );
-		viewNameList.add( "" );
+		viewNameList.add( "" ); //$NON-NLS-1$
 		
 		Object obj = ElementAdapterManager.getAdapters( crosstab.getModelHandle( ), IAggregationCellViewProvider.class);
 		if(obj instanceof Object[])
@@ -79,7 +79,7 @@ public class ShowSummaryFieldDialog extends BaseDialog
 				String viewName = tmp.getViewName( );
 				viewNameList.add( viewName );
 				providers[i + 1] = tmp;
-				itemList.add( "Show as " + viewName);
+				itemList.add( "Show as " + viewName); //$NON-NLS-1$
 			}
 		}
 		
@@ -153,7 +153,7 @@ public class ShowSummaryFieldDialog extends BaseDialog
 			switch(index)
 			{
 				case 0:
-					value = "Measure";
+					value = "Measure"; //$NON-NLS-1$
 					break;
 				case 1:
 					String expectedView = ( (MeasureInfo) (element )).getExpectedView( );
@@ -187,7 +187,7 @@ public class ShowSummaryFieldDialog extends BaseDialog
 					int sel = ((Integer)value).intValue( );
 					if(sel == 0)
 					{
-						( (MeasureInfo) (element )).setExpectedView( "" );
+						( (MeasureInfo) (element )).setExpectedView( "" ); //$NON-NLS-1$
 					}else
 					{
 						( (MeasureInfo) element ).setExpectedView( viewNames[sel] );
@@ -375,7 +375,7 @@ public class ShowSummaryFieldDialog extends BaseDialog
 
 		private boolean isShow = false;
 		
-		private String expectedView = "";
+		private String expectedView = ""; //$NON-NLS-1$
 
 		public MeasureInfo copy( )
 		{

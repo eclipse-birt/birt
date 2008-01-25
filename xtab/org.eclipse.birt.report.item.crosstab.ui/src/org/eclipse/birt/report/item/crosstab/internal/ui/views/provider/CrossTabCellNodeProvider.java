@@ -153,7 +153,7 @@ public class CrossTabCellNodeProvider extends DefaultNodeProvider
 			}
 			List supportList = DEUtil.getElementSupportList( propertyHandle );
 			//bug#207731
-			supportList.remove( DEUtil.getElementDefn( "AutoText" ) );
+			supportList.remove( DEUtil.getElementDefn( "AutoText" ) ); //$NON-NLS-1$
 			if ( supportList.size( ) == 0 )
 			{
 				ExceptionHandler.openMessageBox( WARNING_DIALOG_TITLE,

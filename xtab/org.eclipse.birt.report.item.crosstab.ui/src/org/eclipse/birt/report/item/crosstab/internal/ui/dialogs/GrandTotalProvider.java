@@ -49,12 +49,12 @@ public class GrandTotalProvider extends TotalProvider implements
 	private void initialization( )
 	{
 
-		String firstItem = Messages.getString( "GrandTotalProvider.ViewStatus" );
+		String firstItem = Messages.getString( "GrandTotalProvider.ViewStatus" ); //$NON-NLS-1$
 		List viewNameList = new ArrayList( );
 		List itemList = new ArrayList( );
 
 		itemList.add( firstItem );
-		viewNameList.add( "" );
+		viewNameList.add( "" ); //$NON-NLS-1$
 
 		Object obj = ElementAdapterManager.getAdapters( crosstab.getModelHandle( ),
 				IAggregationCellViewProvider.class );
@@ -69,7 +69,7 @@ public class GrandTotalProvider extends TotalProvider implements
 				String viewName = tmp.getViewName( );
 				viewNameList.add( viewName );
 				providers[i + 1] = tmp;
-				itemList.add( Messages.getString( "GrandTotalProvider.ShowAs",
+				itemList.add( Messages.getString( "GrandTotalProvider.ShowAs", //$NON-NLS-1$
 						new String[]{
 							viewName
 						} ) );
@@ -112,11 +112,11 @@ public class GrandTotalProvider extends TotalProvider implements
 
 	// private CellEditor[] editors;
 	private String[] columnNames = new String[]{
-			"", Messages.getString( "GrandTotalProvider.Column.DataField" ),// Messages.getString("GrandTotalProvider.Column.Function")
+			"", Messages.getString( "GrandTotalProvider.Column.DataField" ),// Messages.getString("GrandTotalProvider.Column.Function") //$NON-NLS-1$ //$NON-NLS-2$
 																			// //$NON-NLS-1$
 																			// //$NON-NLS-2$
 																			// //$NON-NLS-3$
-			Messages.getString( "GrandTotalProvider.Column.View" )
+			Messages.getString( "GrandTotalProvider.Column.View" ) //$NON-NLS-1$
 	};
 
 	public Image getColumnImage( Object element, int columnIndex )
@@ -239,7 +239,7 @@ public class GrandTotalProvider extends TotalProvider implements
 				int sel = ( (Integer) value ).intValue( );
 				if ( sel == 0 )
 				{
-					( (GrandTotalInfo) ( element ) ).setExpectedView( "" );
+					( (GrandTotalInfo) ( element ) ).setExpectedView( "" ); //$NON-NLS-1$
 				}
 				else
 				{

@@ -29,9 +29,9 @@ public class CrosstabPlugin extends AbstractUIPlugin
 	/** Preference ID */
 	public static final String PREFERENCE_FILTER_LIMIT = "Filter.Limit"; //$NON-NLS-1$
 
-	public static final String PREFERENCE_AUTO_DEL_BINDINGS = "Auto.Del.Bindings";
+	public static final String PREFERENCE_AUTO_DEL_BINDINGS = "Auto.Del.Bindings"; //$NON-NLS-1$
 
-	public static final String CUBE_BUILDER_WARNING_PREFERENCE = "org.eclipse.birt.report.designer.ui.cubebuilder.warning";
+	public static final String CUBE_BUILDER_WARNING_PREFERENCE = "org.eclipse.birt.report.designer.ui.cubebuilder.warning"; //$NON-NLS-1$
 
 	public static final int FILTER_LIMIT_DEFAULT = 100;
 

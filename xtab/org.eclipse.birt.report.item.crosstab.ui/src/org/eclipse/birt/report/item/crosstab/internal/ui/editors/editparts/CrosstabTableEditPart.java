@@ -74,8 +74,8 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 	//private static final String GUIDEHANDLE_TEXT = "Cross Tab";
 	private static final String GUIDEHANDLE_TEXT = Messages.getString( "CrosstabTableEditPart.GuideText");//$NON-NLS-1$
 	
-	protected static final String AGGREGATE_ON_ROW = "Aggregate On Row";
-	protected static final String AGGREGATE_ON_COLUMN = "Aggregate On Column";
+	protected static final String AGGREGATE_ON_ROW = "Aggregate On Row"; //$NON-NLS-1$
+	protected static final String AGGREGATE_ON_COLUMN = "Aggregate On Column"; //$NON-NLS-1$
 
 	// LEFT RIGHT is define virtual editpart column size.
 	private static final double LEFT = 30.0;
@@ -140,7 +140,7 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 			}
 			catch ( ExtendedElementException e )
 			{
-				throw new RuntimeException( "load extended item error" );
+				throw new RuntimeException( "load extended item error" ); //$NON-NLS-1$
 			}
 		}
 	}
@@ -616,7 +616,7 @@ public class CrosstabTableEditPart extends AbstractTableEditPart implements Prop
 			ITableLayoutOwner.DimensionInfomation info = getColumnWidth( columNumber );
 			if (info.getUnits( ) == null)
 			{
-				return "";
+				return ""; //$NON-NLS-1$
 			}
 			return String.valueOf( info.getMeasure( ) ) + info.getUnits( );
 		}

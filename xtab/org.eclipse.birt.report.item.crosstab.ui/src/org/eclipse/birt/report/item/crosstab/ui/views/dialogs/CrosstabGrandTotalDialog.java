@@ -63,7 +63,7 @@ import org.eclipse.swt.widgets.Shell;
 public class CrosstabGrandTotalDialog extends BaseDialog
 {
 
-	public final static String TITLE = Messages.getString( "CrosstabGrandTotalDialog.Title" );
+	public final static String TITLE = Messages.getString( "CrosstabGrandTotalDialog.Title" ); //$NON-NLS-1$
 
 	protected String[] FUNCTION_LIST_ARRAY;
 
@@ -258,7 +258,7 @@ public class CrosstabGrandTotalDialog extends BaseDialog
 		container.setLayout( glayout );
 
 		Label lb = new Label( container, SWT.NONE );
-		lb.setText( Messages.getString( "CrosstabGrandTotalDialog.Text.DataField" ) );
+		lb.setText( Messages.getString( "CrosstabGrandTotalDialog.Text.DataField" ) ); //$NON-NLS-1$
 
 		dataFieldCombo = new Combo( container, SWT.BORDER | SWT.READ_ONLY );
 		GridData gdata = new GridData( );
@@ -266,7 +266,7 @@ public class CrosstabGrandTotalDialog extends BaseDialog
 		dataFieldCombo.setLayoutData( gdata );
 
 		lb = new Label( container, SWT.NONE );
-		lb.setText( Messages.getString( "CrosstabGrandTotalDialog.Text.Function" ) );
+		lb.setText( Messages.getString( "CrosstabGrandTotalDialog.Text.Function" ) ); //$NON-NLS-1$
 
 		dataFieldCombo.addModifyListener( new ModifyListener( ) {
 
@@ -328,7 +328,7 @@ public class CrosstabGrandTotalDialog extends BaseDialog
 		label.setFont( FontManager.getFont( label.getFont( ).toString( ),
 				10,
 				SWT.BOLD ) );
-		label.setText( getTitle( ) ); //$NON-NLS-1$
+		label.setText( getTitle( ) ); 
 		UIUtil.bindHelp( parent,
 				IHelpContextIds.INSERT_EDIT_GRAND_TOTAL_DIALOG_ID );
 		return titleArea;

@@ -17,8 +17,6 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
-import org.eclipse.birt.data.engine.api.IBinding;
-import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
@@ -46,8 +44,6 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.widget.ExpressionValueCellEditor;
 import org.eclipse.birt.report.model.api.CommandStack;
-import org.eclipse.birt.report.model.api.ComputedColumnHandle;
-import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.MemberValueHandle;
@@ -105,9 +101,9 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 	protected static final String VALUE_OF_THIS_DATA_ITEM = Messages.getString( "HighlightRuleBuilderDialog.choice.ValueOfThisDataItem" ); //$NON-NLS-1$
 
 	protected final String[] columns = new String[]{
-			" ",
-			Messages.getString( "SelColumnMemberValue.Column.Level" ),
-			Messages.getString( "SelColumnMemberValue.Column.Value" )
+			" ", //$NON-NLS-1$
+			Messages.getString( "SelColumnMemberValue.Column.Level" ), //$NON-NLS-1$
+			Messages.getString( "SelColumnMemberValue.Column.Value" ) //$NON-NLS-1$
 	};
 
 	protected SortElementHandle input;
@@ -152,7 +148,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 	{
 		if ( input == null )
 		{
-			textKey.setText( "" );
+			textKey.setText( "" ); //$NON-NLS-1$
 			if ( comboGroupLevel.getItemCount( ) == 0 )
 			{
 				comboGroupLevel.add( DEUtil.resolveNull( null ) );
@@ -226,7 +222,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		index = comboDirection.indexOf( direction );
 		CommandStack stack = SessionHandleAdapter.getInstance( )
 				.getCommandStack( );
-		stack.startTrans( title ); //$NON-NLS-1$ 
+		stack.startTrans( title ); 
 		try
 		{
 			if ( input == null )
@@ -357,7 +353,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		catch ( SemanticException e )
 		{
 			ExceptionHandler.handle( e,
-					Messages.getString( "SortkeyBuilder.DialogTitle.Error.SetSortKey.Title" ),
+					Messages.getString( "SortkeyBuilder.DialogTitle.Error.SetSortKey.Title" ), //$NON-NLS-1$
 					e.getLocalizedMessage( ) );
 			stack.rollback( );
 		}
@@ -394,7 +390,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		GridLayout glayout = new GridLayout( 3, false );
 		content.setLayout( glayout );
 		Label groupLevel = new Label( content, SWT.NONE );
-		groupLevel.setText( Messages.getString( "CrosstabSortkeyBuilder.DialogTitle.Label.GroupLevel" ) );
+		groupLevel.setText( Messages.getString( "CrosstabSortkeyBuilder.DialogTitle.Label.GroupLevel" ) ); //$NON-NLS-1$
 		comboGroupLevel = new Combo( content, SWT.READ_ONLY | SWT.BORDER );
 		GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
 		gdata.horizontalSpan = 2;
@@ -407,7 +403,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 
 
 		Label labelKey = new Label( content, SWT.NONE );
-		labelKey.setText( Messages.getString( "SortkeyBuilder.DialogTitle.Label.Key" ) );
+		labelKey.setText( Messages.getString( "SortkeyBuilder.DialogTitle.Label.Key" ) ); //$NON-NLS-1$
 		textKey = new Combo( content, SWT.BORDER );
 		gdata = new GridData( GridData.FILL_HORIZONTAL );
 		textKey.setLayoutData( gdata );
@@ -437,7 +433,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 
 
 		Label labelDirection = new Label( content, SWT.NONE );
-		labelDirection.setText( Messages.getString( "SortkeyBuilder.DialogTitle.Label.Direction" ) );
+		labelDirection.setText( Messages.getString( "SortkeyBuilder.DialogTitle.Label.Direction" ) ); //$NON-NLS-1$
 
 		comboDirection = new Combo( content, SWT.READ_ONLY | SWT.BORDER );
 		gdata = new GridData( GridData.FILL_HORIZONTAL );
@@ -661,14 +657,14 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			if ( columnIndex == 0 )
 			{
 				if ( element == dummyChoice )
-					return Messages.getString( "LevelPropertyDialog.MSG.CreateNew" );
+					return Messages.getString( "LevelPropertyDialog.MSG.CreateNew" ); //$NON-NLS-1$
 				else
 				{
 					if ( element instanceof RuleHandle )
 					{
 						return ( (RuleHandle) element ).getDisplayExpression( );
 					}
-					return "";
+					return ""; //$NON-NLS-1$
 				}
 			}
 			else if ( columnIndex == 1 )
@@ -678,9 +674,9 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			else if ( columnIndex == 2 )
 			{
 				String value = ( (MemberValueHandle) element ).getValue( );
-				return value == null ? "" : value;
+				return value == null ? "" : value; //$NON-NLS-1$
 			}
-			return "";
+			return ""; //$NON-NLS-1$
 		}
 
 		public void addListener( ILabelProviderListener listener )
@@ -721,10 +717,10 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		{
 			if ( Arrays.asList( columns ).indexOf( property ) != 2 )
 			{
-				return "";
+				return ""; //$NON-NLS-1$
 			}
 			String value = ( (MemberValueHandle) element ).getValue( );
-			return value == null ? "" : value;
+			return value == null ? "" : value; //$NON-NLS-1$
 
 		}
 
@@ -738,7 +734,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			MemberValueHandle memberValue = (MemberValueHandle) item.getData( );
 			try
 			{
-				( (MemberValueHandle) memberValue ).setValue( (String) value );
+				( memberValue ).setValue( (String) value );
 			}
 			catch ( SemanticException e )
 			{
@@ -929,7 +925,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			group.setText( Messages.getString( "CrosstabSortKeyBuilder.Label.SelColumnMemberValue" ) ); //$NON-NLS-1$
 		}else
 		{
-			group.setText( Messages.getString( "CrosstabSortKeyBuilder.Label.SelRowMemberValue" ) );
+			group.setText( Messages.getString( "CrosstabSortKeyBuilder.Label.SelRowMemberValue" ) ); //$NON-NLS-1$
 		}
 		
 		String bindingExpr = textKey.getText( ) ;

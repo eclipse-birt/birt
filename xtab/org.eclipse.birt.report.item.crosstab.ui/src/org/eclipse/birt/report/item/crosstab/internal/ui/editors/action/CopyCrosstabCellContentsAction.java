@@ -40,7 +40,7 @@ public class CopyCrosstabCellContentsAction extends AbstractViewAction
 		Object cloneElements = null;
 		if ( getSelection( ) instanceof ExtendedItemHandle )
 		{
-			PropertyHandle container = ( (ExtendedItemHandle) getSelection( ) ).getPropertyHandle( "content" );
+			PropertyHandle container = ( (ExtendedItemHandle) getSelection( ) ).getPropertyHandle( "content" ); //$NON-NLS-1$
 			cloneElements = DNDUtil.cloneSource( container.getContents( )
 					.toArray( ) );
 		}
@@ -65,7 +65,7 @@ public class CopyCrosstabCellContentsAction extends AbstractViewAction
 	private boolean canCopy( Object selection )
 	{
 		if ( selection instanceof ExtendedItemHandle )
-			return ( (ExtendedItemHandle) selection ).getPropertyHandle( "content" )
+			return ( (ExtendedItemHandle) selection ).getPropertyHandle( "content" ) //$NON-NLS-1$
 					.getContentCount( ) > 0;
 		if ( selection instanceof CrosstabCellHandle )
 			return ( (CrosstabCellHandle) selection ).getContents( ).size( ) > 0;

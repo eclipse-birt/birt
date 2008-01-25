@@ -52,7 +52,7 @@ public class CrosstabMapDescriptorProvider extends MapDescriptorProvider
 			stack.startTrans( Messages.getString( "MapPage.transName.editMapRule" ) ); //$NON-NLS-1$
 
 			CrosstabMapRuleBuilder builder = new CrosstabMapRuleBuilder( UIUtil.getDefaultShell( ),
-					MapRuleBuilder.DLG_TITLE_EDIT, //$NON-NLS-1$
+					MapRuleBuilder.DLG_TITLE_EDIT, 
 					this );
 
 			MapRuleHandle handle = (MapRuleHandle) input;
@@ -90,7 +90,7 @@ public class CrosstabMapDescriptorProvider extends MapDescriptorProvider
 	protected MapRuleBuilder createAddDialog( int handleCount )
 	{
 		CrosstabMapRuleBuilder builder = new CrosstabMapRuleBuilder( UIUtil.getDefaultShell( ),
-				MapRuleBuilder.DLG_TITLE_NEW, //$NON-NLS-1$
+				MapRuleBuilder.DLG_TITLE_NEW, 
 				this );
 
 		builder.updateHandle( null, handleCount );

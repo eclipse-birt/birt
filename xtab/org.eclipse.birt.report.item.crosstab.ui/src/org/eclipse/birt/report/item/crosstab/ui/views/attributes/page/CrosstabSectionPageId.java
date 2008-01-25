@@ -20,6 +20,6 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.PageSe
 
 public class CrosstabSectionPageId extends PageSectionId
 {
-	public final static String CROSSTAB_SECTION_REPEAT_COLUMN_HEADER = "CROSSTAB_SECTION_REPEAT_COLUMN_HEADER";
+	public final static String CROSSTAB_SECTION_REPEAT_COLUMN_HEADER = "CROSSTAB_SECTION_REPEAT_COLUMN_HEADER"; //$NON-NLS-1$
 
 }

@@ -37,7 +37,7 @@ import org.eclipse.swt.widgets.Display;
  */
 public class CrosstabUIHelper
 {
-	public static String CROSSTAB_LINK_IMAGE = "icons/pal/crosstab-link.gif";
+	public static String CROSSTAB_LINK_IMAGE = "icons/pal/crosstab-link.gif"; //$NON-NLS-1$
 	public static String CROSSTAB_IMAGE = "icons/pal/crosstab.gif";//$NON-NLS-1$
 	public static String MEASURE_IMAGE = "icons/pal/data.gif";//$NON-NLS-1$
 	public static String COLUMNS_AREA_IMAGE = "icons/pal/column-area.gif";//$NON-NLS-1$
@@ -51,10 +51,10 @@ public class CrosstabUIHelper
 	public static String LEVEL_AGGREGATION = "icons/pal/cell-level-aggregation.gif";//$NON-NLS-1$
 	public static String SHOW_HIDE_LECEL = "icons/pal/show-hide-level.gif";//$NON-NLS-1$
 	public static String LEVEL_ARROW = "icons/pal/level-arrow.gif";//$NON-NLS-1$
-	public static String COLUMN_GRAND_TOTAL_IMAGE="icons/pal/col-grand-total.gif";
-	public static String ROW_GRAND_TOTAL_IMAGE="icons/pal/row-grand-total.gif";
-	public static String COLUMN_SUB_TOTAL_IMAGE="icons/pal/col-subtotal.gif";
-	public static String ROW_SUB_TOTAL_IMAGE="icons/pal/row-subtotal.gif";
+	public static String COLUMN_GRAND_TOTAL_IMAGE="icons/pal/col-grand-total.gif"; //$NON-NLS-1$
+	public static String ROW_GRAND_TOTAL_IMAGE="icons/pal/row-grand-total.gif"; //$NON-NLS-1$
+	public static String COLUMN_SUB_TOTAL_IMAGE="icons/pal/col-subtotal.gif"; //$NON-NLS-1$
+	public static String ROW_SUB_TOTAL_IMAGE="icons/pal/row-subtotal.gif"; //$NON-NLS-1$
 	public static String OPTIONS_ICON = "icons/pal/options.gif";//$NON-NLS-1$
 	
 	

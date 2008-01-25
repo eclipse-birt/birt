@@ -34,6 +34,6 @@ public class CrosstabCellPage extends CellPage
 		widthSection.setWidth( 200 );
 		widthSection.setLayoutNum( 6 );
 		widthSection.setGridPlaceholder( 4, true );
-		addSectionAfter( CrosstabPageSectionId.CROSSTAB_CELL_WIDTH, widthSection, PageSectionId.CELL_STYLE); //$NON-NLS-1$
+		addSectionAfter( CrosstabPageSectionId.CROSSTAB_CELL_WIDTH, widthSection, PageSectionId.CELL_STYLE); 
 	}
 }

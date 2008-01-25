@@ -23,7 +23,6 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertAggregationAction;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddLevelHandleAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddMesureViewHandleAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddSubTotalAction;
@@ -68,10 +67,10 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 		}
 		if ( element != null )
 		{
-			IAction action = new AddMesureViewHandleAction( (DesignElementHandle) element );
+			IAction action = new AddMesureViewHandleAction( element );
 			menu.insertBefore( firstId, action );
 
-			action = new DeleteMeasureHandleAction( (DesignElementHandle) element );
+			action = new DeleteMeasureHandleAction( element );
 			menu.insertBefore( firstId, action );
 		}
 	}
@@ -92,13 +91,13 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 		String firstId = beforeThis.getId( );
 		if ( element != null )
 		{
-			IAction action = new AddLevelHandleAction( (DesignElementHandle) element );
+			IAction action = new AddLevelHandleAction( element );
 			menu.insertBefore( firstId, action );
 
-			action = new AddSubTotalAction( (DesignElementHandle) element );
+			action = new AddSubTotalAction( element );
 			menu.insertBefore( firstId, action );
 
-			action = new DeleteDimensionViewHandleAction( (DesignElementHandle) element );
+			action = new DeleteDimensionViewHandleAction( element );
 			menu.insertBefore( firstId, action );
 		}
 
@@ -140,7 +139,7 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 								new Separator( ) );
 					}
 
-					MenuManager subMenu = new MenuManager( Messages.getString( "SchematicContextMenuProvider.Menu.insertElement" ) );
+					MenuManager subMenu = new MenuManager( Messages.getString( "SchematicContextMenuProvider.Menu.insertElement" ) ); //$NON-NLS-1$
 
 					IAction action = getAction( GeneralInsertMenuAction.INSERT_LABEL_ID );
 					action.setText( GeneralInsertMenuAction.INSERT_LABEL_DISPLAY_TEXT );

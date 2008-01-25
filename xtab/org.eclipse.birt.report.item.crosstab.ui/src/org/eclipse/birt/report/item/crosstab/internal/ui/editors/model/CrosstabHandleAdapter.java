@@ -471,7 +471,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 				}
 				if ( temp == null )
 				{
-					throw new RuntimeException( "build error" );
+					throw new RuntimeException( "build error" ); //$NON-NLS-1$
 				}
 				measureCount = measuresHandles.size( );
 				position = measuresHandles.indexOf( measureHandle );
@@ -499,7 +499,7 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 				}
 				if ( temp == null )
 				{
-					throw new RuntimeException( "build error" );
+					throw new RuntimeException( "build error" ); //$NON-NLS-1$
 				}
 
 				int row = temp.intValue( );
@@ -1192,26 +1192,26 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 
 	private void debug( String area, List list )
 	{
-		System.out.println( "///////////////////////////////////" );
+		System.out.println( "///////////////////////////////////" ); //$NON-NLS-1$
 		for ( int i = 0; i < list.size( ); i++ )
 		{
 			CrosstabCellAdapter adapter = (CrosstabCellAdapter) list.get( i );
 
 			String classNmae = adapter.getClass( ).getName( );
-			int index = classNmae.lastIndexOf( "." );
+			int index = classNmae.lastIndexOf( "." ); //$NON-NLS-1$
 			classNmae = classNmae.substring( index + 1 );
-			System.out.println( "cell row=="
+			System.out.println( "cell row==" //$NON-NLS-1$
 					+ adapter.getRowNumber( )
-					+ " rowSpan=="
+					+ " rowSpan==" //$NON-NLS-1$
 					+ adapter.getRowSpan( )
-					+ " column=="
+					+ " column==" //$NON-NLS-1$
 					+ adapter.getColumnNumber( )
-					+ " columnSpan=="
+					+ " columnSpan==" //$NON-NLS-1$
 					+ adapter.getColumnSpan( )
-					+ "           "
+					+ "           " //$NON-NLS-1$
 					+ classNmae );
 		}
-		System.out.println( "///////////////////////////////////" );
+		System.out.println( "///////////////////////////////////" ); //$NON-NLS-1$
 	}
 
 	/**
@@ -1224,12 +1224,12 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 		Integer columnRow = (Integer) map.get( COLUMNAREA_ROW );
 		if ( columnRow == null )
 		{
-			throw new RuntimeException( "model don't build" );
+			throw new RuntimeException( "model don't build" ); //$NON-NLS-1$
 		}
 		Integer rowRow = (Integer) map.get( ROWAREA_ROW );
 		if ( columnRow == null )
 		{
-			throw new RuntimeException( "model don't build" );
+			throw new RuntimeException( "model don't build" ); //$NON-NLS-1$
 		}
 		int value = rowRow.intValue( );
 		if ( getAdjustNumber( ICrosstabConstants.ROW_AXIS_TYPE ) > value )
@@ -1249,12 +1249,12 @@ public class CrosstabHandleAdapter extends BaseCrosstabAdapter
 		Integer rowColumn = (Integer) map.get( ROWAREA_COLUMN );
 		if ( rowColumn == null )
 		{
-			throw new RuntimeException( "model don't build" );
+			throw new RuntimeException( "model don't build" ); //$NON-NLS-1$
 		}
 		Integer columnColumn = (Integer) map.get( COLUMNAREA_COLUMN );
 		if ( columnColumn == null )
 		{
-			throw new RuntimeException( "model don't build" );
+			throw new RuntimeException( "model don't build" ); //$NON-NLS-1$
 		}
 
 		int value = columnColumn.intValue( );

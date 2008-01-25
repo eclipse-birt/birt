@@ -114,14 +114,14 @@ public class CrosstabConfigurationBlock extends OptionsConfigurationBlock
 		pageContent.setLayout( layout );
 
 		Group group = new Group( pageContent, SWT.NONE );
-		group.setText( Messages.getString( "CrosstabPreferencePage.filterLimit" ) );
+		group.setText( Messages.getString( "CrosstabPreferencePage.filterLimit" ) ); //$NON-NLS-1$
 		group.setLayout( new GridLayout( 3, false ) );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 3;
 		group.setLayoutData( gd );
 
 		addTextField( group,
-				Messages.getString( "CrosstabPreferencePage.filterLimit.prompt" ),
+				Messages.getString( "CrosstabPreferencePage.filterLimit.prompt" ), //$NON-NLS-1$
 				PREF_FILTER_LIMIT,
 				0,
 				0 );
@@ -129,7 +129,7 @@ public class CrosstabConfigurationBlock extends OptionsConfigurationBlock
 		if ( fProject == null )
 		{
 			Group promptGroup = new Group( pageContent, SWT.NONE );
-			promptGroup.setText( Messages.getString( "CrosstabPreferencePage.promptGroup" ) );
+			promptGroup.setText( Messages.getString( "CrosstabPreferencePage.promptGroup" ) ); //$NON-NLS-1$
 			promptGroup.setLayout( new GridLayout( 3, false ) );
 			gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.horizontalSpan = 3;
@@ -140,13 +140,13 @@ public class CrosstabConfigurationBlock extends OptionsConfigurationBlock
 			};
 
 			addCheckBox( promptGroup,
-					Messages.getString( "CrosstabPreferencePage.autoDelBindings.Text" ),
+					Messages.getString( "CrosstabPreferencePage.autoDelBindings.Text" ), //$NON-NLS-1$
 					PREF_AUTO_DEL_BINDINGS,
 					enableDisableValues,
 					0 );
 
 			addCheckBox( promptGroup,
-					Messages.getString( "CrosstabPreferencePage.cubePopup.Text" ),
+					Messages.getString( "CrosstabPreferencePage.cubePopup.Text" ), //$NON-NLS-1$
 					PREF_CUBE_BUILDER_WARNING,
 					enableDisableValues,
 					0 );

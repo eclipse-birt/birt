@@ -788,7 +788,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 					info.setFunction( CrosstabUtil.getRollUpAggregationFunction( reportHandle.getMeasure( j )
 							.getCubeMeasure( )
 							.getFunction( ) ) );
-					info.setExpectedView( "" );
+					info.setExpectedView( "" ); //$NON-NLS-1$
 					retValue.add( info );
 					// fix bug
 					info.setAssociation( getAssociation( axis ) );
@@ -818,7 +818,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 					// tempMeasureHandle.getFunction( );
 					// info.setFunction(
 					// DesignChoiceConstants.MEASURE_FUNCTION_SUM);
-					info.setExpectedView( "" );
+					info.setExpectedView( "" ); //$NON-NLS-1$
 					replaceInfo( info, retValue );
 				}
 			}
@@ -860,7 +860,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 			info.setFunction( CrosstabUtil.getRollUpAggregationFunction( reportHandle.getMeasure( i )
 					.getCubeMeasure( )
 					.getFunction( ) ) );
-			info.setExpectedView( "" );
+			info.setExpectedView( "" ); //$NON-NLS-1$
 			retValue.add( info );
 			info.setAssociation( getAssociation( axis ) );
 		}
@@ -877,7 +877,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 
 			info.setFunction( CrosstabUtil.getRollUpAggregationFunction( measureViewHandle.getCubeMeasure( )
 					.getFunction( ) ) );
-			info.setExpectedView( "" );
+			info.setExpectedView( "" ); //$NON-NLS-1$
 			replaceInfo( info, retValue );
 		}
 

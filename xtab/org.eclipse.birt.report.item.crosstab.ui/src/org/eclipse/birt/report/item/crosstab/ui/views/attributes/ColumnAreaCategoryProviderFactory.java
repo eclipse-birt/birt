@@ -27,8 +27,8 @@ public class ColumnAreaCategoryProviderFactory extends CategoryProviderFactory
 {
 	private static ICategoryProviderFactory instance = new ColumnAreaCategoryProviderFactory( );
 
-	public final static String SUB_TOTLES = "SubTotals";
-	public final static String GRAND_TOTALS = "GrandTotals";
+	public final static String SUB_TOTLES = "SubTotals"; //$NON-NLS-1$
+	public final static String GRAND_TOTALS = "GrandTotals"; //$NON-NLS-1$
 //	public final static String PAGE_BREAK = "PageBreak";
 
 	protected ColumnAreaCategoryProviderFactory( )

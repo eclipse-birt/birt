@@ -119,7 +119,7 @@ public class AddDimensionViewHandleCommand extends AbstractCrosstabCommand
 	public void execute( )
 	{
 		transStart( NAME );
-		CrosstabReportItemHandle crosstabHandle = (CrosstabReportItemHandle) handleAdpter.getCrosstabCellHandle( ).getCrosstab( );
+		CrosstabReportItemHandle crosstabHandle = handleAdpter.getCrosstabCellHandle( ).getCrosstab( );
 
 		int position = findPosition( );
 

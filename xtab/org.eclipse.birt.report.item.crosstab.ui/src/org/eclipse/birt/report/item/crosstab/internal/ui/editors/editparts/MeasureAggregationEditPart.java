@@ -50,7 +50,7 @@ public class MeasureAggregationEditPart extends DataEditPart
 			return super.getText( );
 		}
 		((LabelFigure)getFigure( )).setSpecialPREFIX( PREFIX );
-		return PREFIX+ "[" + retValue + "]"; //$NON-NLS-1$
+		return PREFIX+ "[" + retValue + "]"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
 	private String getMeasureName()

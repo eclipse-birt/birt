@@ -120,7 +120,7 @@ public class CrosstabGeneralPage extends AttributePage
 
 		layoutMeasuresProvider = new MeasureComboPropertyDescriptorProvider( ICrosstabReportItemConstants.MEASURE_DIRECTION_PROP,
 				ICrosstabConstants.CROSSTAB_EXTENSION_NAME );
-		ComboSection layoutMeasureSection = new ComboSection( Messages.getString( "LayoutMeasuresSection.DisplayName" ),
+		ComboSection layoutMeasureSection = new ComboSection( Messages.getString( "LayoutMeasuresSection.DisplayName" ), //$NON-NLS-1$
 				container,
 				true );
 		layoutMeasureSection.setProvider( layoutMeasuresProvider );
@@ -130,7 +130,7 @@ public class CrosstabGeneralPage extends AttributePage
 
 		TextPropertyDescriptorProvider emptyCellValueProvider = new TextPropertyDescriptorProvider( ICrosstabReportItemConstants.EMPTY_CELL_VALUE_PROP,
 				ReportDesignConstants.EXTENDED_ITEM );
-		InnerTextSection emptyCellValueSection = new InnerTextSection( Messages.getString( "CrosstabGeneraPage.ForEmptyCell" ),
+		InnerTextSection emptyCellValueSection = new InnerTextSection( Messages.getString( "CrosstabGeneraPage.ForEmptyCell" ), //$NON-NLS-1$
 				container,
 				true );
 		emptyCellValueSection.setProvider( emptyCellValueProvider );

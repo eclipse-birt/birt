@@ -18,12 +18,10 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.ui.dialogs.FilterConditionBuilder;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.FilterModelProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ILevelViewConstants;
-import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
@@ -57,7 +55,7 @@ public class CrosstabFilterModelProvider extends FilterModelProvider
 	 */
 	private static final String[] EMPTY = new String[0];
 
-	private static final String EMPTY_STRING = "";
+	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
 
 	/**
 	 * 
@@ -81,7 +79,7 @@ public class CrosstabFilterModelProvider extends FilterModelProvider
 	{
 		if ( item instanceof ExtendedItemHandle
 				&& ( (ExtendedItemHandle) item ).getExtensionName( )
-						.equals( "Crosstab" ) )
+						.equals( "Crosstab" ) ) //$NON-NLS-1$
 		{
 			List list = new ArrayList( );
 			list.add( item );
@@ -189,7 +187,7 @@ public class CrosstabFilterModelProvider extends FilterModelProvider
 	{
 		if ( item instanceof ExtendedItemHandle
 				&& ( (ExtendedItemHandle) item ).getExtensionName( )
-						.equals( "Crosstab" ) )
+						.equals( "Crosstab" ) ) //$NON-NLS-1$
 		{
 			CrosstabFilterConditionBuilder dialog = new CrosstabFilterConditionBuilder( UIUtil.getDefaultShell( ),
 					CrosstabFilterConditionBuilder.DLG_TITLE_NEW,
@@ -290,7 +288,7 @@ public class CrosstabFilterModelProvider extends FilterModelProvider
 	{
 		assert keys != null;
 		String[] columnNames = new String[keys.length];
-		columnNames[0] = Messages.getString( "CrosstabFilterModelProvider.ColumnName.GroupLevelOrMeasure" );
+		columnNames[0] = Messages.getString( "CrosstabFilterModelProvider.ColumnName.GroupLevelOrMeasure" ); //$NON-NLS-1$
 		for ( int i = 1; i < keys.length; i++ )
 		{
 			IElementDefn ElementDefn = DEUtil.getMetaDataDictionary( )

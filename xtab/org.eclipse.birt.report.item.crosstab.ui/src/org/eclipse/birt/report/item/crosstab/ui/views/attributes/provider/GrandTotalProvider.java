@@ -31,7 +31,6 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
@@ -50,7 +49,7 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 
 	private CellEditor[] editors;
 	private String[] columnNames = new String[]{
-			Messages.getString( "GrandTotalProvider.Column.DataField" ), Messages.getString( "GrandTotalProvider.Column.Function" ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			Messages.getString( "GrandTotalProvider.Column.DataField" ), Messages.getString( "GrandTotalProvider.Column.Function" ) //$NON-NLS-1$ //$NON-NLS-2$ 
 	};
 
 	protected CrosstabReportItemHandle crosstabReportItemHandle;
@@ -206,7 +205,7 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 		switch ( columnIndex )
 		{
 			case 0 :
-				return info.getMeasure( ) == null ? "" : info.getMeasure( )
+				return info.getMeasure( ) == null ? "" : info.getMeasure( ) //$NON-NLS-1$
 						.getCubeMeasureName( );
 			case 1 :
 				if ( info.getFunction( ) == null
@@ -339,7 +338,7 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 	public String getDisplayName( )
 	{
 		// TODO Auto-generated method stub
-		return Messages.getString( "CrosstabPageGenerator.List.GrandTotals" );
+		return Messages.getString( "CrosstabPageGenerator.List.GrandTotals" ); //$NON-NLS-1$
 	}
 
 	public String[] getFunctionDisplayNames( )

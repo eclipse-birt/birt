@@ -36,15 +36,15 @@ public class CrosstabPageSectionId extends PageSectionId
 	public final static String CROSSTAB_HEIGHT = "CROSSTAB_HEIGHT";//$NON-NLS-1$
 	public final static String CROSSTAB_STYLE = "CROSSTAB_STYLE";//$NON-NLS-1$
 
-	public final static String COLUMN_GRAND_TOTALS = "COLUMN_GRAND_TOTALS";
-	public final static String ROW_GRAND_TOTALS = "ROW_GRAND_TOTALS";
+	public final static String COLUMN_GRAND_TOTALS = "COLUMN_GRAND_TOTALS"; //$NON-NLS-1$
+	public final static String ROW_GRAND_TOTALS = "ROW_GRAND_TOTALS"; //$NON-NLS-1$
 
-	public final static String COLUMN_SUB_TOTALS = "COLUMN_SUB_TOTALS";
-	public final static String ROW_SUB_TOTALS = "ROW_SUB_TOTALS";
+	public final static String COLUMN_SUB_TOTALS = "COLUMN_SUB_TOTALS"; //$NON-NLS-1$
+	public final static String ROW_SUB_TOTALS = "ROW_SUB_TOTALS"; //$NON-NLS-1$
 
-	public final static String ROW_PAGE_BREAK = "ROW_PAGE_BREAK";
-	public final static String COLUMN_PAGE_BREAK = "COLUMN_PAGE_BREAK";
-	public static final String CROSSTAB_CELL_WIDTH = "CROSSTAB_Cell_WIDTH";
-	public static final String CROSSTAB_ELEMENT_ID = "CROSSTAB_ELEMENT_ID";
+	public final static String ROW_PAGE_BREAK = "ROW_PAGE_BREAK"; //$NON-NLS-1$
+	public final static String COLUMN_PAGE_BREAK = "COLUMN_PAGE_BREAK"; //$NON-NLS-1$
+	public static final String CROSSTAB_CELL_WIDTH = "CROSSTAB_Cell_WIDTH"; //$NON-NLS-1$
+	public static final String CROSSTAB_ELEMENT_ID = "CROSSTAB_ELEMENT_ID"; //$NON-NLS-1$
 
 }

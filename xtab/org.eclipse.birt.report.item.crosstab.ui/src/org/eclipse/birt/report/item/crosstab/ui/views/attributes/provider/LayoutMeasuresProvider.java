@@ -39,7 +39,7 @@ public class LayoutMeasuresProvider implements IDescriptorProvider {
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider#getDisplayName()
 	 */
 	public String getDisplayName() {
-		return Messages.getString("LayoutMeasuresProvider.DisplayName");
+		return Messages.getString("LayoutMeasuresProvider.DisplayName"); //$NON-NLS-1$
 	}
 
 	/*
@@ -51,7 +51,7 @@ public class LayoutMeasuresProvider implements IDescriptorProvider {
 		String vertical = ICrosstabConstants.MEASURE_DIRECTION_VERTICAL;
 		if(input == null)
 		{
-			return "false";
+			return "false"; //$NON-NLS-1$
 		}else
 		if(crosstabHandle == null)
 		{
@@ -60,8 +60,8 @@ public class LayoutMeasuresProvider implements IDescriptorProvider {
 		if (crosstabHandle != null) {
 			vertical = crosstabHandle.getMeasureDirection();
 		}
-		return (vertical.equals(ICrosstabConstants.MEASURE_DIRECTION_VERTICAL)) ? "true"
-				: "false";
+		return (vertical.equals(ICrosstabConstants.MEASURE_DIRECTION_VERTICAL)) ? "true" //$NON-NLS-1$
+				: "false"; //$NON-NLS-1$
 	}
 
 	/*
@@ -79,7 +79,7 @@ public class LayoutMeasuresProvider implements IDescriptorProvider {
 		{
 			initializeCrosstab();
 		}
-		if (stringValue != null && stringValue.equalsIgnoreCase("true")) {
+		if (stringValue != null && stringValue.equalsIgnoreCase("true")) { //$NON-NLS-1$
 			crosstabHandle
 					.setMeasureDirection(ICrosstabConstants.MEASURE_DIRECTION_VERTICAL);
 

@@ -142,8 +142,8 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 						DataSetHandle dataSetHandle = (DataSetHandle) columnHandle.getElementHandle( );
 
 						TabularCubeHandle newCube = DesignElementFactory.getInstance( )
-								.newTabularCube( Messages.getString( "DataColumnXTabDropAdapter.DataCube" )
-										+ " - "
+								.newTabularCube( Messages.getString( "DataColumnXTabDropAdapter.DataCube" ) //$NON-NLS-1$
+										+ " - " //$NON-NLS-1$
 										+ dataSetHandle.getName( ) );
 
 						SessionHandleAdapter.getInstance( )
@@ -216,7 +216,7 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 			TabularCubeHandle newCube )
 	{
 		TabularMeasureGroupHandle measureGroup = DesignElementFactory.getInstance( )
-				.newTabularMeasureGroup( null ); //$NON-NLS-1$
+				.newTabularMeasureGroup( null ); 
 		try
 		{
 			newCube.add( CubeHandle.MEASURE_GROUPS_PROP, measureGroup );
@@ -238,7 +238,7 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 			TabularCubeHandle newCube )
 	{
 		TabularDimensionHandle dimension = DesignElementFactory.getInstance( )
-				.newTabularDimension( null ); //$NON-NLS-1$
+				.newTabularDimension( null ); 
 		try
 		{
 			newCube.add( CubeHandle.DIMENSIONS_PROP, dimension );
@@ -249,7 +249,7 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 			{
 				SessionHandleAdapter.getInstance( )
 						.getCommandStack( )
-						.startTrans( "" );
+						.startTrans( "" ); //$NON-NLS-1$
 				GroupDialog dialog = new GroupDialog( true );
 				dialog.setInput( hierarchy, columnHandle.getColumnName( ) );
 				if ( dialog.open( ) == Window.CANCEL )

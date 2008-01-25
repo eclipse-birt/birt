@@ -303,7 +303,7 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 				{
 					return new ChangeAreaCommand( parentAdapter.getDesignElementHandle( ),
 							childAdapter.getDesignElementHandle( ),
-							(DesignElementHandle) DNDUtil.unwrapToModel( afterObj ) );
+							DNDUtil.unwrapToModel( afterObj ) );
 				}
 				else
 				{
@@ -322,7 +322,7 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 				{
 					return new ChangeMeasureOrderCommand( parentAdapter.getDesignElementHandle( ),
 							childAdapter.getDesignElementHandle( ),
-							(DesignElementHandle) DNDUtil.unwrapToModel( afterObj ) );
+							DNDUtil.unwrapToModel( afterObj ) );
 				}
 				else
 				{

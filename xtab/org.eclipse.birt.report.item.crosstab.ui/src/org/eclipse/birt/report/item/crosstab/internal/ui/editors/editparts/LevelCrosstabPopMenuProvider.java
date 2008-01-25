@@ -65,13 +65,13 @@ public class LevelCrosstabPopMenuProvider extends ContextMenuProvider
 		//if ( firstSelectedElement instanceof DesignElementHandle )
 		if (element != null)
 		{
-			IAction action = new AddLevelHandleAction( (DesignElementHandle) element );
+			IAction action = new AddLevelHandleAction( element );
 			menu.add( action );
 
-			action = new AddSubTotalAction( (DesignElementHandle) element );
+			action = new AddSubTotalAction( element );
 			menu.add( action );
 		
-			action = new DeleteDimensionViewHandleAction( (DesignElementHandle) element);
+			action = new DeleteDimensionViewHandleAction( element);
 			menu.add( action );
 		}
 	}

@@ -125,11 +125,11 @@ public class CrosstabSectionPage extends AttributePage
 //		pageLayoutComboSection.setWidth( 200 );
 //		pageLayoutComboSection.setGridPlaceholder( 3, true );
 
-		addSection( PageSectionId.SECION_PAGE_BREAK_BEFORE, beforeSection ); //$NON-NLS-1$
-		addSection( PageSectionId.SECION_PAGE_BREAK_AFTER, afterSection ); //$NON-NLS-1$
-		addSection( PageSectionId.SECION_PAGE_BREAK_INSIDE, insideSection ); //$NON-NLS-1$
-		addSection( PageSectionId.SECION_SEPERATOR, sepSection ); //$NON-NLS-1$
-		addSection( PageSectionId.SECION_MASTER_PAGE, masterSection ); //$NON-NLS-1$
+		addSection( PageSectionId.SECION_PAGE_BREAK_BEFORE, beforeSection ); 
+		addSection( PageSectionId.SECION_PAGE_BREAK_AFTER, afterSection ); 
+		addSection( PageSectionId.SECION_PAGE_BREAK_INSIDE, insideSection ); 
+		addSection( PageSectionId.SECION_SEPERATOR, sepSection ); 
+		addSection( PageSectionId.SECION_MASTER_PAGE, masterSection ); 
 //		addSection( CrosstabPageSectionId.PAGE_LAYOUT, pageLayoutComboSection );
 		addSection( CrosstabSectionPageId.CROSSTAB_SECTION_REPEAT_COLUMN_HEADER,
 				repeatColumnHeaderSection );

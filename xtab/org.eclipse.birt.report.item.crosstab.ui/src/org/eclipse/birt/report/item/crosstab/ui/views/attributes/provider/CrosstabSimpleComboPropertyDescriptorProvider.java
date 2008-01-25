@@ -37,7 +37,7 @@ public class CrosstabSimpleComboPropertyDescriptorProvider extends
 		SimpleComboPropertyDescriptorProvider
 {
 
-	private static final String NONE = Messages.getString( "BindingPage.None" );
+	private static final String NONE = Messages.getString( "BindingPage.None" ); //$NON-NLS-1$
 
 	public CrosstabSimpleComboPropertyDescriptorProvider( String property,
 			String element )
@@ -60,7 +60,7 @@ public class CrosstabSimpleComboPropertyDescriptorProvider extends
 		}
 
 		ExtendedItemHandle handle = (ExtendedItemHandle) selecteObj;
-		if ( !handle.getExtensionName( ).equals( "Crosstab" ) )
+		if ( !handle.getExtensionName( ).equals( "Crosstab" ) ) //$NON-NLS-1$
 		{
 			return items;
 		}
@@ -72,7 +72,7 @@ public class CrosstabSimpleComboPropertyDescriptorProvider extends
 		}
 
 		items = new String[tmpItems.length + 1];
-		items[0] = Messages.getString( "ChoiceSetFactory.choice.None" );
+		items[0] = Messages.getString( "ChoiceSetFactory.choice.None" ); //$NON-NLS-1$
 		System.arraycopy( tmpItems, 0, items, 1, tmpItems.length );
 
 		return items;
@@ -93,7 +93,7 @@ public class CrosstabSimpleComboPropertyDescriptorProvider extends
 	{
 		if ( IReportItemModel.CUBE_PROP.equals( getProperty( ) ) )
 		{
-			return Messages.getString( "Element.ReportElement.Cube" );
+			return Messages.getString( "Element.ReportElement.Cube" ); //$NON-NLS-1$
 		}
 		else
 		{

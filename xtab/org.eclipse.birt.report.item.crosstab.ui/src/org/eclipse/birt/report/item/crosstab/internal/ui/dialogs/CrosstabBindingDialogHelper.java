@@ -28,7 +28,6 @@ import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractBindingDialogHelper;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
@@ -215,7 +214,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			String[] aggOns = getAggOns( xtabHandle );
 			cmbAggOn.setItems( aggOns );
 
-			String aggstr = "";
+			String aggstr = ""; //$NON-NLS-1$
 			if ( getBinding( ) != null )
 			{
 				List aggOnList = getBinding( ).getAggregateOnList( );
@@ -223,7 +222,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				for ( Iterator iterator = aggOnList.iterator( ); iterator.hasNext( ); )
 				{
 					if ( i > 0 )
-						aggstr += ",";
+						aggstr += ","; //$NON-NLS-1$
 					String name = (String) iterator.next( );
 					aggstr += name;
 					i++;
@@ -237,7 +236,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 					aggstr += cellHandle.getAggregationOnRow( ).getFullName( );
 					if ( cellHandle.getAggregationOnColumn( ) != null )
 					{
-						aggstr += ",";
+						aggstr += ","; //$NON-NLS-1$
 					}
 				}
 				if ( cellHandle.getAggregationOnColumn( ) != null )
@@ -287,7 +286,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			for ( Iterator iterator2 = columnLevelList.iterator( ); iterator2.hasNext( ); )
 			{
 				String name2 = (String) iterator2.next( );
-				aggOnList.add( name + "," + name2 );
+				aggOnList.add( name + "," + name2 ); //$NON-NLS-1$
 			}
 		}
 		return (String[]) aggOnList.toArray( new String[aggOnList.size( )] );
@@ -433,7 +432,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			}
 		}
 
-		return "";
+		return ""; //$NON-NLS-1$
 	}
 
 	/**
@@ -638,7 +637,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				{
 					String argName = (String) iterator.next( );
 					Label lblArg = new Label( argsComposite, SWT.NONE );
-					lblArg.setText( argName + ":" );
+					lblArg.setText( argName + ":" ); //$NON-NLS-1$
 
 					GridData gd = new GridData( );
 					gd.widthHint = lbName.getBounds( ).width
@@ -1053,9 +1052,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		if ( left == right )
 			return true;
 		if ( left == null )
-			return "".equals( right );
+			return "".equals( right ); //$NON-NLS-1$
 		if ( right == null )
-			return "".equals( left );
+			return "".equals( left ); //$NON-NLS-1$
 		return left.equals( right );
 	}
 
@@ -1069,7 +1068,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				return DATA_TYPE_CHOICES[i].getName( );
 			}
 		}
-		return "";
+		return ""; //$NON-NLS-1$
 	}
 
 	public ComputedColumnHandle editBinding( ComputedColumnHandle binding )
@@ -1095,7 +1094,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 			binding.clearAggregateOnList( );
 			String aggStr = cmbAggOn.getText( );
-			StringTokenizer token = new StringTokenizer( aggStr, "," );
+			StringTokenizer token = new StringTokenizer( aggStr, "," ); //$NON-NLS-1$
 
 			while ( token.hasMoreTokens( ) )
 			{

@@ -30,7 +30,7 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter
 	int columnNumber;
 	int rowSpan = 1;
 	int columnSpan = 1;
-	private String positionType = "";
+	private String positionType = ""; //$NON-NLS-1$
 
 	/**
 	 * Constructor
@@ -149,13 +149,13 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter
 	 */
 	public String toString( )
 	{
-		return "rownumber == "
+		return "rownumber == " //$NON-NLS-1$
 				+ getRowNumber( )
-				+ " rowspan == "
+				+ " rowspan == " //$NON-NLS-1$
 				+ getRowSpan( )
-				+ " columnnumber="
+				+ " columnnumber=" //$NON-NLS-1$
 				+ getColumnNumber( )
-				+ " columnspan =="
+				+ " columnspan ==" //$NON-NLS-1$
 				+ getColumnSpan( );
 	}
 
@@ -239,13 +239,13 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter
 	public String getDefaultContentName( DesignElementHandle parent )
 	{
 
-		List propDefns = ( (DesignElementHandle) parent ).getDefn( )
+		List propDefns = ( parent ).getDefn( )
 				.getContents( );
 		if ( !propDefns.isEmpty( ) )
 		{
 			return ( (IPropertyDefn) propDefns.get( 0 ) ).getName( );
 		}
 
-		return "";
+		return ""; //$NON-NLS-1$
 	}
 }

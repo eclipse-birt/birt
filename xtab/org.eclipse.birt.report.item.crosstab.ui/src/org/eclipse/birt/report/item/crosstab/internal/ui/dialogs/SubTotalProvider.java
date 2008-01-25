@@ -50,12 +50,12 @@ public class SubTotalProvider extends TotalProvider implements
 	private void initialization( )
 	{
 
-		String firstItem = Messages.getString( "SubTotalProvider.Column.ViewStatus" );
+		String firstItem = Messages.getString( "SubTotalProvider.Column.ViewStatus" ); //$NON-NLS-1$
 		List viewNameList = new ArrayList( );
 		List itemList = new ArrayList( );
 
 		itemList.add( firstItem );
-		viewNameList.add( "" );
+		viewNameList.add( "" ); //$NON-NLS-1$
 
 		Object obj = ElementAdapterManager.getAdapters( crosstab.getModelHandle( ),
 				IAggregationCellViewProvider.class );
@@ -70,7 +70,7 @@ public class SubTotalProvider extends TotalProvider implements
 				String viewName = tmp.getViewName( );
 				viewNameList.add( viewName );
 				providers[i + 1] = tmp;
-				itemList.add( Messages.getString( "SubTotalProvider.ShowAs", viewName ) );
+				itemList.add( Messages.getString( "SubTotalProvider.ShowAs", viewName ) ); //$NON-NLS-1$
 			}
 		}
 
@@ -93,8 +93,8 @@ public class SubTotalProvider extends TotalProvider implements
 
 	//private CellEditor[] editors;
 	private String[] columnNames = new String[]{
-			"", Messages.getString("SubTotalProvider.Column.AggregateOn"),//Messages.getString("SubTotalProvider.Column.DataField"), Messages.getString("SubTotalProvider.Column.Function") //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			Messages.getString( "SubTotalProvider.Column.View" )
+			"", Messages.getString("SubTotalProvider.Column.AggregateOn"),//Messages.getString("SubTotalProvider.Column.DataField"), Messages.getString("SubTotalProvider.Column.Function") //$NON-NLS-1$ //$NON-NLS-2$ 
+			Messages.getString( "SubTotalProvider.Column.View" ) //$NON-NLS-1$
 	};
 
 	/*
@@ -130,7 +130,7 @@ public class SubTotalProvider extends TotalProvider implements
 			case 0 :
 				return ""; //$NON-NLS-1$
 			case 1 :
-				return info.getLevel( ).getName( )+"- "+(info.getAggregateOnMeasure( ) == null ? "" //$NON-NLS-1$
+				return info.getLevel( ).getName( )+"- "+(info.getAggregateOnMeasure( ) == null ? "" //$NON-NLS-1$ //$NON-NLS-2$
 						: info.getAggregateOnMeasure( ).getName( ));
 			case 2:
 				String expectedView = info.getExpectedView( );
@@ -247,7 +247,7 @@ public class SubTotalProvider extends TotalProvider implements
 				int sel = ((Integer)value).intValue( );
 				if(sel == 0)
 				{
-					( (SubTotalInfo) (element )).setExpectedView( "" );
+					( (SubTotalInfo) (element )).setExpectedView( "" ); //$NON-NLS-1$
 				}else
 				{
 					( (SubTotalInfo) element ).setExpectedView( viewNames[sel] );

@@ -49,7 +49,7 @@ import org.eclipse.jface.dialogs.Dialog;
 
 public class CrosstabSortingModelProvider extends SortingModelProvider
 {
-	private static final String EMPTY_STRING = "";
+	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
 
 	/**
 	 * Edit one item into the given position.
@@ -63,7 +63,7 @@ public class CrosstabSortingModelProvider extends SortingModelProvider
 	 */
 	public boolean doEditItem( Object item, int pos )
 	{
-		if ( item instanceof ExtendedItemHandle && ((ExtendedItemHandle)item).getExtensionName( ).equals( "Crosstab" ) )
+		if ( item instanceof ExtendedItemHandle && ((ExtendedItemHandle)item).getExtensionName( ).equals( "Crosstab" ) ) //$NON-NLS-1$
 		{
 			List list = new ArrayList();
 			list.add( item );
@@ -146,7 +146,7 @@ public class CrosstabSortingModelProvider extends SortingModelProvider
 	 */
 	public boolean doAddItem( Object item, int pos ) throws SemanticException
 	{
-		if ( item instanceof ExtendedItemHandle && ((ExtendedItemHandle)item).getExtensionName( ).equals( "Crosstab" ) )
+		if ( item instanceof ExtendedItemHandle && ((ExtendedItemHandle)item).getExtensionName( ).equals( "Crosstab" ) ) //$NON-NLS-1$
 		{
 			CrosstabSortKeyBuilder dialog = new CrosstabSortKeyBuilder( UIUtil.getDefaultShell( ),
 					SortkeyBuilder.DLG_TITLE_NEW, SortkeyBuilder.DLG_MESSAGE_NEW );
@@ -243,7 +243,7 @@ public class CrosstabSortingModelProvider extends SortingModelProvider
 	{
 		assert keys != null;
 		String[] columnNames = new String[keys.length];
-		columnNames[0] = Messages.getString("CrosstabSortingModelProvider.ColumnName.GroupLevel");
+		columnNames[0] = Messages.getString("CrosstabSortingModelProvider.ColumnName.GroupLevel"); //$NON-NLS-1$
 		for ( int i = 1; i < keys.length; i++ )
 		{
 			IElementDefn ElementDefn = DEUtil.getMetaDataDictionary( )

@@ -16,8 +16,6 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BaseAttributePage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.PreviewPage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.HighlightDescriptorProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.MapDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormPropertyDescriptor;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.HighlightPropertyDescriptor;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.MapPropertyDescriptor;
@@ -36,8 +34,8 @@ import org.eclipse.swt.widgets.Composite;
 public class CrosstabPageGenerator extends AbstractPageGenerator
 {
 
-	public static final String ROWAREATITLE = Messages.getString( "CrosstabPageGenerator.TabItem.RowArea" );
-	public static final String COLUMNAREATITLE = Messages.getString( "CrosstabPageGenerator.TabItem.ColumnArea" );
+	public static final String ROWAREATITLE = Messages.getString( "CrosstabPageGenerator.TabItem.RowArea" ); //$NON-NLS-1$
+	public static final String COLUMNAREATITLE = Messages.getString( "CrosstabPageGenerator.TabItem.ColumnArea" ); //$NON-NLS-1$
 
 	protected CrosstabBindingPage bindingPage;
 	protected BaseAttributePage rowAreaPage;

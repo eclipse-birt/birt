@@ -11,10 +11,8 @@
 
 package org.eclipse.birt.report.item.crosstab.ui.views.attributes.page;
 
-import org.eclipse.birt.report.designer.internal.ui.util.ModelEventInfo;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.FormSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormPropertyDescriptor;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;

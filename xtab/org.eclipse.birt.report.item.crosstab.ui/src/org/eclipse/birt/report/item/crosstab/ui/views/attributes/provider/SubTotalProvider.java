@@ -33,7 +33,6 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
@@ -53,9 +52,9 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 
 	private CellEditor[] editors;
 	private String[] columnNames = new String[]{
-			Messages.getString( "CrosstabSubToatalProvider.Column.AggregateOn" ),
-			Messages.getString( "CrosstabSubToatalProvider.Column.DataField" ),
-			Messages.getString( "CrosstabSubToatalProvider.Column.Function" ),
+			Messages.getString( "CrosstabSubToatalProvider.Column.AggregateOn" ), //$NON-NLS-1$
+			Messages.getString( "CrosstabSubToatalProvider.Column.DataField" ), //$NON-NLS-1$
+			Messages.getString( "CrosstabSubToatalProvider.Column.Function" ), //$NON-NLS-1$
 	};
 
 	private int[] columnWidths = new int[]{
@@ -450,7 +449,7 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 	public String getDisplayName( )
 	{
 		// TODO Auto-generated method stub
-		return Messages.getString( "CrosstabPageGenerator.List.SubTotals" );
+		return Messages.getString( "CrosstabPageGenerator.List.SubTotals" ); //$NON-NLS-1$
 	}
 
 	public String[] getFunctionNames( )

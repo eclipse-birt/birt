@@ -65,10 +65,10 @@ public class MeasureCrosstabPopMenuProvider extends ContextMenuProvider
 		
 		if ( element instanceof DesignElementHandle )
 		{					
-			IAction action = new AddMesureViewHandleAction( (DesignElementHandle) element);
+			IAction action = new AddMesureViewHandleAction( element);
 			menu.add( action );
 			
-			action = new DeleteMeasureHandleAction( (DesignElementHandle) element);
+			action = new DeleteMeasureHandleAction( element);
 			menu.add( action );
 		}
 	}

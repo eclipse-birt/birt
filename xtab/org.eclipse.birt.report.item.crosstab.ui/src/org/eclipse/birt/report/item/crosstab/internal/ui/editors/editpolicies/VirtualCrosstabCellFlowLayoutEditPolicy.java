@@ -28,7 +28,6 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabC
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabHandleAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.ICrosstabCellAdapterFactory;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
@@ -178,7 +177,7 @@ public class VirtualCrosstabCellFlowLayoutEditPolicy extends
 				{
 					ChangeAreaCommand command = new ChangeAreaCommand( parentAdapter.getDesignElementHandle( ),
 							childAdapter.getDesignElementHandle( ),
-							(DesignElementHandle) DNDUtil.unwrapToModel( afterObj ) );
+							DNDUtil.unwrapToModel( afterObj ) );
 
 					command.setType( parentAdapter.getType( ) );
 					return command;

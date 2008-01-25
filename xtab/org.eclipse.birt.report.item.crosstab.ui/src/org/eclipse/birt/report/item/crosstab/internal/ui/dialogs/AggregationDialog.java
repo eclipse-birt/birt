@@ -143,11 +143,11 @@ public class AggregationDialog extends BaseDialog
 		// tabFolder.setLayout( layout );
 
 		rowArea = new TabItem( tabFolder, SWT.NONE );
-		rowArea.setText( Messages.getString( "AggregationDialog.TabItem.Title.RowArea" ) );
+		rowArea.setText( Messages.getString( "AggregationDialog.TabItem.Title.RowArea" ) ); //$NON-NLS-1$
 		rowArea.setImage( CrosstabUIHelper.getImage( CrosstabUIHelper.ROWS_AREA_IMAGE ) );
 
 		columnArea = new TabItem( tabFolder, SWT.NONE );
-		columnArea.setText( Messages.getString( "AggregationDialog.TabItem.Title.ColumnArea" ) );
+		columnArea.setText( Messages.getString( "AggregationDialog.TabItem.Title.ColumnArea" ) ); //$NON-NLS-1$
 		columnArea.setImage( CrosstabUIHelper.getImage( CrosstabUIHelper.COLUMNS_AREA_IMAGE ) );
 
 		return tabFolder;
@@ -403,7 +403,7 @@ public class AggregationDialog extends BaseDialog
 	public static class SubTotalInfo
 	{
 
-		private String expectedView = "";
+		private String expectedView = ""; //$NON-NLS-1$
 		private LevelHandle level;
 		private MeasureHandle measure;
 
@@ -517,7 +517,7 @@ public class AggregationDialog extends BaseDialog
 	public static class GrandTotalInfo
 	{
 
-		private String expectedView = "";
+		private String expectedView = ""; //$NON-NLS-1$
 
 		private MeasureHandle measure;
 

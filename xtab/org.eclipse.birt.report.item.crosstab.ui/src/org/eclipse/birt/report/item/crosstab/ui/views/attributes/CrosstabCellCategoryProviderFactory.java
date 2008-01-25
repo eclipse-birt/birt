@@ -69,7 +69,7 @@ public class CrosstabCellCategoryProviderFactory extends
 				"CellPageGenerator.List.Borders", //$NON-NLS-1$
 				"ReportPageGenerator.List.UserProperties", //$NON-NLS-1$
 				"ReportPageGenerator.List.NamedExpressions", //$NON-NLS-1$
-				"ReportPageGenerator.List.AdvancedProperty",
+				"ReportPageGenerator.List.AdvancedProperty", //$NON-NLS-1$
 		}, new Class[]{
 				CrosstabCellPage.class,
 				CellPaddingPage.class,

@@ -132,8 +132,8 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder
 				if ( selectValueList == null || selectValueList.size( ) == 0 )
 				{
 					MessageDialog.openInformation( null,
-							Messages.getString( "SelectValueDialog.selectValue" ),
-							Messages.getString( "SelectValueDialog.messages.info.selectVauleUnavailable" ) );
+							Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
+							Messages.getString( "SelectValueDialog.messages.info.selectVauleUnavailable" ) ); //$NON-NLS-1$
 
 				}
 				else
@@ -185,7 +185,7 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder
 			{
 				if ( addExpressionValue == comboWidget )
 				{
-					comboWidget.setText( "" );
+					comboWidget.setText( "" ); //$NON-NLS-1$
 					addBtn.setEnabled( false );
 				}
 				else if ( newValues.length == 1 )

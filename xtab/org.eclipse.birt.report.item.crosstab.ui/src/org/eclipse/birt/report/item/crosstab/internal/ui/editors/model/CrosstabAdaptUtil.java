@@ -27,7 +27,6 @@ import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
-import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
@@ -120,7 +119,7 @@ public class CrosstabAdaptUtil
 						.length( ) > 0 )
 		{
 			DesignElementHandle temp = levelHandle.getContainer( );
-			String dimensionName = "";
+			String dimensionName = ""; //$NON-NLS-1$
 			while ( temp != null )
 			{
 				if ( temp instanceof org.eclipse.birt.report.model.api.olap.DimensionHandle )

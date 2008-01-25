@@ -114,7 +114,7 @@ public class AddMultipleMeasureCommand extends AbstractCrosstabCommand
 	private void addMeasureHandle( MeasureHandle measureHandle )
 			throws SemanticException
 	{
-		CrosstabReportItemHandle reportHandle = (CrosstabReportItemHandle) handleAdpter.getCrosstabCellHandle( ).getCrosstab( );
+		CrosstabReportItemHandle reportHandle = handleAdpter.getCrosstabCellHandle( ).getCrosstab( );
 		
 		
 		if (isContainMeasureHandle( measureHandle ))
@@ -133,7 +133,7 @@ public class AddMultipleMeasureCommand extends AbstractCrosstabCommand
 
 	private boolean isContainMeasureHandle( MeasureHandle measureHandle )
 	{
-		CrosstabReportItemHandle reportHandle = (CrosstabReportItemHandle) handleAdpter.getCrosstabCellHandle( ).getCrosstab( );
+		CrosstabReportItemHandle reportHandle = handleAdpter.getCrosstabCellHandle( ).getCrosstab( );
 
 		int count = reportHandle.getMeasureCount( );
 		// loop the measure
