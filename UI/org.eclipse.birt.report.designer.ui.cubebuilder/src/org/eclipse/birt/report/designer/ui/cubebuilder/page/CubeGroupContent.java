@@ -31,6 +31,7 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.util.VirtualField;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.widget.TreeViewerBackup;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
@@ -341,7 +342,7 @@ public class CubeGroupContent extends Composite implements Listener
 				}
 			}
 		} );
-		
+
 		groupViewer.getTree( ).addSelectionListener( new SelectionListener( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -353,7 +354,8 @@ public class CubeGroupContent extends Composite implements Listener
 			// Handle double click event
 			public void widgetDefaultSelected( SelectionEvent e )
 			{
-				if(editBtn.isEnabled( ))handleEditEvent( );
+				if ( editBtn.isEnabled( ) )
+					handleEditEvent( );
 			}
 
 		} );
@@ -569,9 +571,9 @@ public class CubeGroupContent extends Composite implements Listener
 						{
 							if ( element instanceof MeasureHandle )
 							{
-								SessionHandleAdapter.getInstance( )
-										.getCommandStack( )
-										.startTrans( "" ); //$NON-NLS-1$
+								CommandStack stack = SessionHandleAdapter.getInstance( )
+										.getCommandStack( );
+								stack.startTrans( "" ); //$NON-NLS-1$
 								try
 								{
 									TabularMeasureHandle measure = DesignElementFactory.getInstance( )
@@ -590,15 +592,11 @@ public class CubeGroupContent extends Composite implements Listener
 									 * SessionHandleAdapter.getInstance( )
 									 * .getCommandStack( ) .rollback( ); } else
 									 */
-									SessionHandleAdapter.getInstance( )
-											.getCommandStack( )
-											.commit( );
+									stack.commit( );
 								}
 								catch ( SemanticException e )
 								{
-									SessionHandleAdapter.getInstance( )
-											.getCommandStack( )
-											.rollback( );
+									stack.rollback( );
 									refresh( );
 									ExceptionHandler.handle( e );
 									return;
@@ -615,9 +613,9 @@ public class CubeGroupContent extends Composite implements Listener
 									return;
 								}
 								int index = ( (LevelHandle) element ).getIndex( );
-								SessionHandleAdapter.getInstance( )
-										.getCommandStack( )
-										.startTrans( "" ); //$NON-NLS-1$
+								CommandStack stack = SessionHandleAdapter.getInstance( )
+										.getCommandStack( );
+								stack.startTrans( "" ); //$NON-NLS-1$
 								try
 								{
 									TabularLevelHandle level = DesignElementFactory.getInstance( )
@@ -637,15 +635,11 @@ public class CubeGroupContent extends Composite implements Listener
 									 * SessionHandleAdapter.getInstance( )
 									 * .getCommandStack( ) .rollback( ); } else
 									 */
-									SessionHandleAdapter.getInstance( )
-											.getCommandStack( )
-											.commit( );
+									stack.commit( );
 								}
 								catch ( SemanticException e )
 								{
-									SessionHandleAdapter.getInstance( )
-											.getCommandStack( )
-											.rollback( );
+									stack.rollback( );
 									refresh( );
 									ExceptionHandler.handle( e );
 									return;
@@ -656,9 +650,9 @@ public class CubeGroupContent extends Composite implements Listener
 						{
 							if ( element instanceof MeasureHandle )
 							{
-								SessionHandleAdapter.getInstance( )
-										.getCommandStack( )
-										.startTrans( "" ); //$NON-NLS-1$
+								CommandStack stack = SessionHandleAdapter.getInstance( )
+										.getCommandStack( );
+								stack.startTrans( "" ); //$NON-NLS-1$
 								try
 								{
 									TabularMeasureHandle measure = DesignElementFactory.getInstance( )
@@ -675,15 +669,11 @@ public class CubeGroupContent extends Composite implements Listener
 									 * SessionHandleAdapter.getInstance( )
 									 * .getCommandStack( ) .rollback( ); } else
 									 */
-									SessionHandleAdapter.getInstance( )
-											.getCommandStack( )
-											.commit( );
+									stack.commit( );
 								}
 								catch ( SemanticException e )
 								{
-									SessionHandleAdapter.getInstance( )
-											.getCommandStack( )
-											.rollback( );
+									stack.rollback( );
 									refresh( );
 									ExceptionHandler.handle( e );
 									return;
@@ -699,9 +689,9 @@ public class CubeGroupContent extends Composite implements Listener
 											.equals( ICubeModel.MEASURE_GROUPS_PROP ) ) )
 							{
 								MeasureGroupHandle measureGroup = null;
-								SessionHandleAdapter.getInstance( )
-										.getCommandStack( )
-										.startTrans( "" ); //$NON-NLS-1$
+								CommandStack stack = SessionHandleAdapter.getInstance( )
+										.getCommandStack( );
+								stack.startTrans( "" ); //$NON-NLS-1$
 								try
 								{
 									if ( ( element instanceof VirtualField && ( (VirtualField) element ).getType( )
@@ -711,7 +701,7 @@ public class CubeGroupContent extends Composite implements Listener
 													.equals( ICubeModel.MEASURE_GROUPS_PROP ) ) )
 									{
 										measureGroup = DesignElementFactory.getInstance( )
-												.newTabularMeasureGroup( null ); 
+												.newTabularMeasureGroup( null );
 										input.add( CubeHandle.MEASURE_GROUPS_PROP,
 												measureGroup );
 										if ( input.getContentCount( ICubeModel.MEASURE_GROUPS_PROP ) == 1 )
@@ -737,15 +727,11 @@ public class CubeGroupContent extends Composite implements Listener
 									 * SessionHandleAdapter.getInstance( )
 									 * .getCommandStack( ) .rollback( ); } else
 									 */
-									SessionHandleAdapter.getInstance( )
-											.getCommandStack( )
-											.commit( );
+									stack.commit( );
 								}
 								catch ( SemanticException e )
 								{
-									SessionHandleAdapter.getInstance( )
-											.getCommandStack( )
-											.rollback( );
+									stack.rollback( );
 									refresh( );
 									ExceptionHandler.handle( e );
 									return;
@@ -768,9 +754,9 @@ public class CubeGroupContent extends Composite implements Listener
 									event.detail = DND.DROP_NONE;
 									return;
 								}
-								SessionHandleAdapter.getInstance( )
-										.getCommandStack( )
-										.startTrans( "" ); //$NON-NLS-1$
+								CommandStack stack = SessionHandleAdapter.getInstance( )
+										.getCommandStack( );
+								stack.startTrans( "" ); //$NON-NLS-1$
 								// if ( hierarchy.getDataSet( ) == null
 								// && dataset != null )
 								// {
@@ -796,15 +782,11 @@ public class CubeGroupContent extends Composite implements Listener
 									 * SessionHandleAdapter.getInstance( )
 									 * .getCommandStack( ) .rollback( ); } else
 									 */
-									SessionHandleAdapter.getInstance( )
-											.getCommandStack( )
-											.commit( );
+									stack.commit( );
 								}
 								catch ( SemanticException e )
 								{
-									SessionHandleAdapter.getInstance( )
-											.getCommandStack( )
-											.rollback( );
+									stack.rollback( );
 									refresh( );
 									ExceptionHandler.handle( e );
 									return;
@@ -820,9 +802,9 @@ public class CubeGroupContent extends Composite implements Listener
 											.equals( ICubeModel.DIMENSIONS_PROP ) ) )
 							{
 								DimensionHandle dimension = null;
-								SessionHandleAdapter.getInstance( )
-										.getCommandStack( )
-										.startTrans( "" ); //$NON-NLS-1$
+								CommandStack stack = SessionHandleAdapter.getInstance( )
+										.getCommandStack( );
+								stack.startTrans( "" ); //$NON-NLS-1$
 								try
 								{
 									if ( ( element instanceof VirtualField && ( (VirtualField) element ).getType( )
@@ -832,7 +814,7 @@ public class CubeGroupContent extends Composite implements Listener
 													.equals( ICubeModel.DIMENSIONS_PROP ) ) )
 									{
 										dimension = DesignElementFactory.getInstance( )
-												.newTabularDimension( null ); 
+												.newTabularDimension( null );
 										input.add( CubeHandle.DIMENSIONS_PROP,
 												dimension );
 									}
@@ -848,9 +830,7 @@ public class CubeGroupContent extends Composite implements Listener
 													.getLevelCount( ) > 0 )
 									{
 										event.detail = DND.DROP_NONE;
-										SessionHandleAdapter.getInstance( )
-												.getCommandStack( )
-												.rollback( );
+										stack.rollback( );
 										return;
 									}
 
@@ -880,14 +860,10 @@ public class CubeGroupContent extends Composite implements Listener
 												dataField.getColumnName( ) );
 										if ( dialog.open( ) != Window.OK )
 										{
-											SessionHandleAdapter.getInstance( )
-													.getCommandStack( )
-													.rollback( );
+											stack.rollback( );
 										}
 										else
-											SessionHandleAdapter.getInstance( )
-													.getCommandStack( )
-													.commit( );
+											stack.commit( );
 										// }
 
 									}
@@ -910,16 +886,12 @@ public class CubeGroupContent extends Composite implements Listener
 										 * .getCommandStack( ) .rollback( ); }
 										 * else
 										 */
-										SessionHandleAdapter.getInstance( )
-												.getCommandStack( )
-												.commit( );
+										stack.commit( );
 									}
 								}
 								catch ( SemanticException e )
 								{
-									SessionHandleAdapter.getInstance( )
-											.getCommandStack( )
-											.rollback( );
+									stack.rollback( );
 									refresh( );
 									ExceptionHandler.handle( e );
 									return;
@@ -972,22 +944,18 @@ public class CubeGroupContent extends Composite implements Listener
 							else
 								newIndex = element.getIndex( );
 						}
-						SessionHandleAdapter.getInstance( )
-								.getCommandStack( )
-								.startTrans( "" ); //$NON-NLS-1$
+						CommandStack stack = SessionHandleAdapter.getInstance( )
+								.getCommandStack( );
+						stack.startTrans( "" ); //$NON-NLS-1$
 						try
 						{
 							( (LevelHandle) obj ).moveTo( newIndex );
-							SessionHandleAdapter.getInstance( )
-									.getCommandStack( )
-									.commit( );
+							stack.commit( );
 						}
 						catch ( SemanticException e )
 						{
 
-							SessionHandleAdapter.getInstance( )
-									.getCommandStack( )
-									.rollback( );
+							stack.rollback( );
 							refresh( );
 							ExceptionHandler.handle( e );
 							return;
@@ -1390,9 +1358,9 @@ public class CubeGroupContent extends Composite implements Listener
 		while ( iter.hasNext( ) )
 		{
 			Object obj = iter.next( );
-			SessionHandleAdapter.getInstance( )
-					.getCommandStack( )
-					.startTrans( "" ); //$NON-NLS-1$
+			CommandStack stack = SessionHandleAdapter.getInstance( )
+					.getCommandStack( );
+			stack.startTrans( "" ); //$NON-NLS-1$
 			try
 			{
 				if ( obj instanceof DimensionHandle )
@@ -1444,13 +1412,11 @@ public class CubeGroupContent extends Composite implements Listener
 						measure.dropAndClear( );
 					}
 				}
-				SessionHandleAdapter.getInstance( ).getCommandStack( ).commit( );
+				stack.commit( );
 			}
 			catch ( SemanticException e )
 			{
-				SessionHandleAdapter.getInstance( )
-						.getCommandStack( )
-						.rollback( );
+				stack.rollback( );
 				refresh( );
 				ExceptionHandler.handle( e );
 			}
@@ -1494,9 +1460,9 @@ public class CubeGroupContent extends Composite implements Listener
 						measureGroup = (MeasureGroupHandle) obj;
 					else
 						measureGroup = (MeasureGroupHandle) ( (VirtualField) obj ).getModel( );
-					SessionHandleAdapter.getInstance( )
-							.getCommandStack( )
-							.startTrans( "" ); //$NON-NLS-1$
+					CommandStack stack = SessionHandleAdapter.getInstance( )
+							.getCommandStack( );
+					stack.startTrans( "" ); //$NON-NLS-1$
 					TabularMeasureHandle measure = DesignElementFactory.getInstance( )
 							.newTabularMeasure( null );
 					try
@@ -1507,30 +1473,24 @@ public class CubeGroupContent extends Composite implements Listener
 						dialog.setInput( input, measure );
 						if ( dialog.open( ) == Window.CANCEL )
 						{
-							SessionHandleAdapter.getInstance( )
-									.getCommandStack( )
-									.rollback( );
+							stack.rollback( );
 						}
 						else
-							SessionHandleAdapter.getInstance( )
-									.getCommandStack( )
-									.commit( );
+							stack.commit( );
 					}
 					catch ( SemanticException e1 )
 					{
 						ExceptionHandler.handle( e1 );
-						SessionHandleAdapter.getInstance( )
-								.getCommandStack( )
-								.rollback( );
+						stack.rollback( );
 					}
 					refresh( );
 					return;
 				}
 				else if ( obj instanceof MeasureHandle )
 				{
-					SessionHandleAdapter.getInstance( )
-							.getCommandStack( )
-							.startTrans( "" ); //$NON-NLS-1$
+					CommandStack stack = SessionHandleAdapter.getInstance( )
+							.getCommandStack( );
+					stack.startTrans( "" ); //$NON-NLS-1$
 					TabularMeasureHandle measure = DesignElementFactory.getInstance( )
 							.newTabularMeasure( null );
 					try
@@ -1541,21 +1501,15 @@ public class CubeGroupContent extends Composite implements Listener
 						dialog.setInput( input, measure );
 						if ( dialog.open( ) == Window.CANCEL )
 						{
-							SessionHandleAdapter.getInstance( )
-									.getCommandStack( )
-									.rollback( );
+							stack.rollback( );
 						}
 						else
-							SessionHandleAdapter.getInstance( )
-									.getCommandStack( )
-									.commit( );
+							stack.commit( );
 					}
 					catch ( SemanticException e1 )
 					{
 						ExceptionHandler.handle( e1 );
-						SessionHandleAdapter.getInstance( )
-								.getCommandStack( )
-								.rollback( );
+						stack.rollback( );
 					}
 					refresh( );
 					return;
@@ -1573,9 +1527,9 @@ public class CubeGroupContent extends Composite implements Listener
 							.getName( )
 							.equals( ICubeModel.DIMENSIONS_PROP ) )
 					{
-						SessionHandleAdapter.getInstance( )
-								.getCommandStack( )
-								.startTrans( "" ); //$NON-NLS-1$
+						CommandStack stack = SessionHandleAdapter.getInstance( )
+								.getCommandStack( );
+						stack.startTrans( "" ); //$NON-NLS-1$
 						DimensionHandle dimension = DesignElementFactory.getInstance( )
 								.newTabularDimension( null );
 						try
@@ -1585,9 +1539,7 @@ public class CubeGroupContent extends Composite implements Listener
 						}
 						catch ( SemanticException e1 )
 						{
-							SessionHandleAdapter.getInstance( )
-									.getCommandStack( )
-									.rollback( );
+							stack.rollback( );
 							ExceptionHandler.handle( e1 );
 							refresh( );
 							continue;
@@ -1605,22 +1557,16 @@ public class CubeGroupContent extends Composite implements Listener
 							{
 								( (DesignElementHandle) dimension ).setName( inputDialog.getValue( )
 										.trim( ) );
-								SessionHandleAdapter.getInstance( )
-										.getCommandStack( )
-										.commit( );
+								stack.commit( );
 							}
 							catch ( Exception e1 )
 							{
 								ExceptionHandler.handle( e1 );
-								SessionHandleAdapter.getInstance( )
-										.getCommandStack( )
-										.rollback( );
+								stack.rollback( );
 							}
 						}
 						else
-							SessionHandleAdapter.getInstance( )
-									.getCommandStack( )
-									.rollback( );
+							stack.rollback( );
 
 						refresh( );
 					}
@@ -1628,9 +1574,9 @@ public class CubeGroupContent extends Composite implements Listener
 							.getName( )
 							.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
 					{
-						SessionHandleAdapter.getInstance( )
-								.getCommandStack( )
-								.startTrans( "" ); //$NON-NLS-1$
+						CommandStack stack = SessionHandleAdapter.getInstance( )
+								.getCommandStack( );
+						stack.startTrans( "" ); //$NON-NLS-1$
 						MeasureGroupHandle measureGroup = DesignElementFactory.getInstance( )
 								.newTabularMeasureGroup( null );
 						try
@@ -1644,9 +1590,7 @@ public class CubeGroupContent extends Composite implements Listener
 						}
 						catch ( SemanticException e1 )
 						{
-							SessionHandleAdapter.getInstance( )
-									.getCommandStack( )
-									.rollback( );
+							stack.rollback( );
 							ExceptionHandler.handle( e1 );
 							refresh( );
 							continue;
@@ -1664,22 +1608,16 @@ public class CubeGroupContent extends Composite implements Listener
 							{
 								( (DesignElementHandle) measureGroup ).setName( inputDialog.getValue( )
 										.trim( ) );
-								SessionHandleAdapter.getInstance( )
-										.getCommandStack( )
-										.commit( );
+								stack.commit( );
 							}
 							catch ( Exception e1 )
 							{
 								ExceptionHandler.handle( e1 );
-								SessionHandleAdapter.getInstance( )
-										.getCommandStack( )
-										.rollback( );
+								stack.rollback( );
 							}
 						}
 						else
-							SessionHandleAdapter.getInstance( )
-									.getCommandStack( )
-									.rollback( );
+							stack.rollback( );
 
 						refresh( );
 					}
@@ -1735,9 +1673,9 @@ public class CubeGroupContent extends Composite implements Listener
 						continue;
 					}
 
-					SessionHandleAdapter.getInstance( )
-							.getCommandStack( )
-							.startTrans( "" ); //$NON-NLS-1$
+					CommandStack stack = SessionHandleAdapter.getInstance( )
+							.getCommandStack( );
+					stack.startTrans( "" ); //$NON-NLS-1$
 					// if ( hierarchy.getDataSet( ) == null )
 					// {
 					// try
@@ -1765,9 +1703,7 @@ public class CubeGroupContent extends Composite implements Listener
 					}
 					catch ( SemanticException e )
 					{
-						SessionHandleAdapter.getInstance( )
-								.getCommandStack( )
-								.rollback( );
+						stack.rollback( );
 						refresh( );
 						ExceptionHandler.handle( e );
 						continue;
@@ -1778,9 +1714,7 @@ public class CubeGroupContent extends Composite implements Listener
 					 * Window.CANCEL ) { SessionHandleAdapter.getInstance( )
 					 * .getCommandStack( ) .rollback( ); } else
 					 */
-					SessionHandleAdapter.getInstance( )
-							.getCommandStack( )
-							.commit( );
+					stack.commit( );
 					refresh( );
 					return;
 				}
@@ -1793,9 +1727,9 @@ public class CubeGroupContent extends Composite implements Listener
 								.getName( )
 								.equals( ICubeModel.DIMENSIONS_PROP ) ) )
 				{
-					SessionHandleAdapter.getInstance( )
-							.getCommandStack( )
-							.startTrans( "" ); //$NON-NLS-1$
+					CommandStack stack = SessionHandleAdapter.getInstance( )
+							.getCommandStack( );
+					stack.startTrans( "" ); //$NON-NLS-1$
 					TabularDimensionHandle dimension = null;
 					if ( ( obj instanceof VirtualField && ( (VirtualField) obj ).getType( )
 							.equals( VirtualField.TYPE_DIMENSION ) )
@@ -1804,16 +1738,14 @@ public class CubeGroupContent extends Composite implements Listener
 									.equals( ICubeModel.DIMENSIONS_PROP ) ) )
 					{
 						dimension = DesignElementFactory.getInstance( )
-								.newTabularDimension( null ); 
+								.newTabularDimension( null );
 						try
 						{
 							input.add( CubeHandle.DIMENSIONS_PROP, dimension );
 						}
 						catch ( SemanticException e )
 						{
-							SessionHandleAdapter.getInstance( )
-									.getCommandStack( )
-									.rollback( );
+							stack.rollback( );
 							refresh( );
 							ExceptionHandler.handle( e );
 							continue;
@@ -1830,9 +1762,7 @@ public class CubeGroupContent extends Composite implements Listener
 					{
 						if ( dimension.getDefaultHierarchy( ).getLevelCount( ) > 0
 								|| !isDateType( dataField.getDataType( ) ) )
-							SessionHandleAdapter.getInstance( )
-									.getCommandStack( )
-									.rollback( );
+							stack.rollback( );
 						continue;
 					}
 
@@ -1844,9 +1774,7 @@ public class CubeGroupContent extends Composite implements Listener
 							&& dataset != null
 							&& dataset != dasetTemp )
 					{
-						SessionHandleAdapter.getInstance( )
-								.getCommandStack( )
-								.rollback( );
+						stack.rollback( );
 						continue;
 					}
 
@@ -1860,9 +1788,7 @@ public class CubeGroupContent extends Composite implements Listener
 						}
 						catch ( SemanticException e )
 						{
-							SessionHandleAdapter.getInstance( )
-									.getCommandStack( )
-									.rollback( );
+							stack.rollback( );
 							refresh( );
 							ExceptionHandler.handle( e );
 							continue;
@@ -1879,14 +1805,10 @@ public class CubeGroupContent extends Composite implements Listener
 									dataField.getColumnName( ) );
 							if ( dialog.open( ) == Window.CANCEL )
 							{
-								SessionHandleAdapter.getInstance( )
-										.getCommandStack( )
-										.rollback( );
+								stack.rollback( );
 							}
 							else
-								SessionHandleAdapter.getInstance( )
-										.getCommandStack( )
-										.commit( );
+								stack.commit( );
 
 						}
 						else
@@ -1904,9 +1826,7 @@ public class CubeGroupContent extends Composite implements Listener
 							 * SessionHandleAdapter.getInstance( )
 							 * .getCommandStack( ) .rollback( ); } else
 							 */
-							SessionHandleAdapter.getInstance( )
-									.getCommandStack( )
-									.commit( );
+							stack.commit( );
 						}
 
 						// if ( dataset != input.getDataSet( ) )
@@ -1917,9 +1837,7 @@ public class CubeGroupContent extends Composite implements Listener
 					}
 					catch ( SemanticException e )
 					{
-						SessionHandleAdapter.getInstance( )
-								.getCommandStack( )
-								.rollback( );
+						stack.rollback( );
 						ExceptionHandler.handle( e );
 					}
 					refresh( );
@@ -1937,9 +1855,9 @@ public class CubeGroupContent extends Composite implements Listener
 									.equals( ICubeModel.MEASURE_GROUPS_PROP ) ) )
 					{
 						MeasureGroupHandle measureGroup = null;
-						SessionHandleAdapter.getInstance( )
-								.getCommandStack( )
-								.startTrans( "" ); //$NON-NLS-1$
+						CommandStack stack = SessionHandleAdapter.getInstance( )
+								.getCommandStack( );
+						stack.startTrans( "" ); //$NON-NLS-1$
 						if ( ( obj instanceof VirtualField && ( (VirtualField) obj ).getType( )
 								.equals( VirtualField.TYPE_MEASURE_GROUP ) )
 								|| ( obj instanceof PropertyHandle && ( (PropertyHandle) obj ).getPropertyDefn( )
@@ -1947,7 +1865,7 @@ public class CubeGroupContent extends Composite implements Listener
 										.equals( ICubeModel.MEASURE_GROUPS_PROP ) ) )
 						{
 							measureGroup = DesignElementFactory.getInstance( )
-									.newTabularMeasureGroup( null ); 
+									.newTabularMeasureGroup( null );
 							try
 							{
 								input.add( CubeHandle.MEASURE_GROUPS_PROP,
@@ -1957,9 +1875,7 @@ public class CubeGroupContent extends Composite implements Listener
 							}
 							catch ( SemanticException e )
 							{
-								SessionHandleAdapter.getInstance( )
-										.getCommandStack( )
-										.rollback( );
+								stack.rollback( );
 								refresh( );
 								ExceptionHandler.handle( e );
 								continue;
@@ -1990,25 +1906,17 @@ public class CubeGroupContent extends Composite implements Listener
 								dialog.setInput( input, measure );
 								if ( dialog.open( ) == Window.CANCEL )
 								{
-									SessionHandleAdapter.getInstance( )
-											.getCommandStack( )
-											.rollback( );
+									stack.rollback( );
 								}
 								else
-									SessionHandleAdapter.getInstance( )
-											.getCommandStack( )
-											.commit( );
+									stack.commit( );
 							}
 							else
-								SessionHandleAdapter.getInstance( )
-										.getCommandStack( )
-										.commit( );
+								stack.commit( );
 						}
 						catch ( SemanticException e1 )
 						{
-							SessionHandleAdapter.getInstance( )
-									.getCommandStack( )
-									.rollback( );
+							stack.rollback( );
 							ExceptionHandler.handle( e1 );
 						}
 						refresh( );
@@ -2016,9 +1924,9 @@ public class CubeGroupContent extends Composite implements Listener
 					}
 					else if ( obj instanceof MeasureHandle )
 					{
-						SessionHandleAdapter.getInstance( )
-								.getCommandStack( )
-								.startTrans( "" ); //$NON-NLS-1$
+						CommandStack stack = SessionHandleAdapter.getInstance( )
+								.getCommandStack( );
+						stack.startTrans( "" ); //$NON-NLS-1$
 						TabularMeasureHandle measure = DesignElementFactory.getInstance( )
 								.newTabularMeasure( dataField.getColumnName( ) );
 						try
@@ -2037,25 +1945,17 @@ public class CubeGroupContent extends Composite implements Listener
 								dialog.setInput( input, measure );
 								if ( dialog.open( ) == Window.CANCEL )
 								{
-									SessionHandleAdapter.getInstance( )
-											.getCommandStack( )
-											.rollback( );
+									stack.rollback( );
 								}
 								else
-									SessionHandleAdapter.getInstance( )
-											.getCommandStack( )
-											.commit( );
+									stack.commit( );
 							}
 							else
-								SessionHandleAdapter.getInstance( )
-										.getCommandStack( )
-										.commit( );
+								stack.commit( );
 						}
 						catch ( SemanticException e1 )
 						{
-							SessionHandleAdapter.getInstance( )
-									.getCommandStack( )
-									.rollback( );
+							stack.rollback( );
 							ExceptionHandler.handle( e1 );
 						}
 						refresh( );
@@ -2127,23 +2027,19 @@ public class CubeGroupContent extends Composite implements Listener
 				}
 				else
 				{
-					SessionHandleAdapter.getInstance( )
-							.getCommandStack( )
-							.startTrans( "" ); //$NON-NLS-1$
+					CommandStack stack = SessionHandleAdapter.getInstance( )
+							.getCommandStack( );
+					stack.startTrans( "" ); //$NON-NLS-1$
 					LevelPropertyDialog dialog = new LevelPropertyDialog( false );
 					dialog.setInput( level );
 					if ( dialog.open( ) == Window.OK )
 					{
-						SessionHandleAdapter.getInstance( )
-								.getCommandStack( )
-								.commit( );
+						stack.commit( );
 						refresh( );
 					}
 					else
 					{
-						SessionHandleAdapter.getInstance( )
-								.getCommandStack( )
-								.rollback( );
+						stack.rollback( );
 					}
 				}
 			}

@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.core.model;
 
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -72,21 +71,21 @@ public class SessionHandleAdapter
 			targetElement.removeDisposeListener( this );
 		}
 	};
-	
-	IWindowListener pageListener = new IWindowListener()
-	{
+
+	IWindowListener pageListener = new IWindowListener( ) {
+
 		public void windowActivated( IWorkbenchWindow window )
 		{
 		}
 
 		public void windowClosed( IWorkbenchWindow window )
 		{
-			reportHandleMap.remove( window );			
+			reportHandleMap.remove( window );
 		}
 
 		public void windowDeactivated( IWorkbenchWindow window )
 		{
-			
+
 		}
 
 		public void windowOpened( IWorkbenchWindow window )
@@ -97,9 +96,9 @@ public class SessionHandleAdapter
 	// add field support mediator
 	private Map mediatorMap = new WeakHashMap( );
 
-	//fix bug when open in new window.
+	// fix bug when open in new window.
 	private Map reportHandleMap = new HashMap( );
-	
+
 	/**
 	 * constructor Mark it to private to avoid new opeartion.
 	 */
@@ -255,10 +254,11 @@ public class SessionHandleAdapter
 	 */
 	public ModuleHandle getReportDesignHandle( )
 	{
-		if (model == null)
+		if ( model == null )
 		{
-			IWorkbenchWindow activeWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-			model = (ModuleHandle)reportHandleMap.get( activeWindow );
+			IWorkbenchWindow activeWindow = PlatformUI.getWorkbench( )
+					.getActiveWorkbenchWindow( );
+			model = (ModuleHandle) reportHandleMap.get( activeWindow );
 		}
 		return model;
 	}
@@ -271,17 +271,18 @@ public class SessionHandleAdapter
 	 */
 	public void setReportDesignHandle( ModuleHandle handle )
 	{
-		PlatformUI.getWorkbench().removeWindowListener(pageListener );
-		IWorkbenchWindow activeWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-		if (handle == null)
+		PlatformUI.getWorkbench( ).removeWindowListener( pageListener );
+		IWorkbenchWindow activeWindow = PlatformUI.getWorkbench( )
+				.getActiveWorkbenchWindow( );
+		if ( handle == null )
 		{
-			reportHandleMap.remove( activeWindow );		
+			reportHandleMap.remove( activeWindow );
 		}
 		else
 		{
-			PlatformUI.getWorkbench().addWindowListener( pageListener );
+			PlatformUI.getWorkbench( ).addWindowListener( pageListener );
 		}
-		if(activeWindow != null)
+		if ( activeWindow != null )
 		{
 			reportHandleMap.put( activeWindow, handle );
 		}
@@ -289,8 +290,9 @@ public class SessionHandleAdapter
 	}
 
 	/**
-	 * @deprecated
 	 * @return Command stack of current session.
+	 * 
+	 * @deprecated use {@link #getCommandStack(ModuleHandle)}
 	 */
 	public CommandStack getCommandStack( )
 	{
@@ -302,26 +304,48 @@ public class SessionHandleAdapter
 		return null;
 	}
 
+	public CommandStack getCommandStack( ModuleHandle handle )
+	{
+		if ( handle != null )
+		{
+			return handle.getCommandStack( );
+		}
+		return null;
+	}
+
 	/**
-	 * @deprecated Gets the first MasterPageHandle
+	 * Returns the first MasterPageHandle in current module
+	 * 
+	 * @deprecated use {@link #getFirstMasterPageHandle(ModuleHandle)}
 	 * 
 	 */
 	public MasterPageHandle getMasterPageHandle( )
 	{
-		return getMasterPageHandle( getReportDesignHandle( ) );
+		return getFirstMasterPageHandle( getReportDesignHandle( ) );
 	}
 
 	/**
-	 * @deprecated Gets the first MasterPageHandle
+	 * Returns the first master page handle in given module
 	 * 
-	 * @param handle
-	 * @return
+	 * @deprecated use {@link #getFirstMasterPageHandle(ModuleHandle)}
 	 */
 	public MasterPageHandle getMasterPageHandle( ModuleHandle handle )
 	{
+		return getFirstMasterPageHandle( handle );
+	}
+
+	/**
+	 * @return Returns the first master page handle in given module
+	 */
+	public MasterPageHandle getFirstMasterPageHandle( ModuleHandle handle )
+	{
 		SlotHandle slotHandle = handle.getMasterPages( );
-		Iterator iter = slotHandle.iterator( );
-		return (MasterPageHandle) iter.next( );
+
+		if ( slotHandle.getCount( ) > 0 )
+		{
+			return (MasterPageHandle) slotHandle.getContents( ).get( 0 );
+		}
+		return null;
 	}
 
 	/**

@@ -17,6 +17,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
@@ -68,10 +69,11 @@ public class SelectCssStyleWizard extends Wizard
 		if ( selection != null && selection instanceof DesignElementHandle )
 		{
 			DesignElementHandle element = (DesignElementHandle) selection;
-			if(element instanceof ThemeHandle || element.getContainer( ) instanceof ThemeHandle  )
+			if ( element instanceof ThemeHandle
+					|| element.getContainer( ) instanceof ThemeHandle )
 			{
 				pageDesc = WIZARD_PAGE_DESCRIPTION_LIBRARY;
-			}			
+			}
 		}
 		stylePage.setDescription( pageDesc );
 		addPage( stylePage );
@@ -88,49 +90,49 @@ public class SelectCssStyleWizard extends Wizard
 		if ( cssHandle != null )
 		{
 			List styleList = stylePage.getStyleList( );
+			ModuleHandle module = SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( );
+
 			if ( selection != null && selection instanceof DesignElementHandle )
 			{
 				DesignElementHandle element = (DesignElementHandle) selection;
-				if ( selection instanceof ThemeHandle )// selection is Theme node.
+				if ( selection instanceof ThemeHandle )// selection is Theme
+				// node.
 				{
-					LibraryHandle libraryHandle = (LibraryHandle) ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) );
+					LibraryHandle libraryHandle = (LibraryHandle) module;
 					libraryHandle.importCssStyles( cssHandle,
 							styleList,
 							element.getName( ) );
 				}
-				else if ( element.getContainer( ) instanceof ThemeHandle )// selection is a Style node under Theme node.
+				else if ( element.getContainer( ) instanceof ThemeHandle )
+				// selection is a Style node under Theme node.
 				{
-					LibraryHandle libraryHandle = (LibraryHandle) ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) );
+					LibraryHandle libraryHandle = (LibraryHandle) module;
 					libraryHandle.importCssStyles( cssHandle,
 							styleList,
 							element.getContainer( ).getName( ) );
 				}
-				else if ( element instanceof StyleHandle )//selection is a Style node in Report. 
+				else if ( element instanceof StyleHandle )// selection is a
+				// Style node in
+				// Report.
 				{
-					SessionHandleAdapter.getInstance( )
-							.getReportDesignHandle( )
-							.importCssStyles( cssHandle, styleList );
+					module.importCssStyles( cssHandle, styleList );
 				}
 			}
 			else
 			{
 				// no selection.
-				if ( SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( ) instanceof LibraryHandle )
+				if ( module instanceof LibraryHandle )
 				{
-					LibraryHandle libraryHandle = (LibraryHandle) ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) );
+					LibraryHandle libraryHandle = (LibraryHandle) module;
 					libraryHandle.importCssStyles( cssHandle, styleList );
 				}
-				else if ( SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( ) instanceof ReportDesignHandle )
+				else if ( module instanceof ReportDesignHandle )
 				{
-					SessionHandleAdapter.getInstance( )
-							.getReportDesignHandle( )
-							.importCssStyles( cssHandle, styleList );
+					module.importCssStyles( cssHandle, styleList );
 				}
 			}
 		}
 		return true;
 	}
-
 }

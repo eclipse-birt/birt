@@ -32,6 +32,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
@@ -143,13 +144,12 @@ public class ReportPlugin extends AbstractUIPlugin
 			ReportDesignConstants.TABULAR_MEASURE_ELEMENT,
 			ReportDesignConstants.LEVEL_ELEMENT,
 			ReportDesignConstants.TABULAR_DIMENSION_ELEMENT,
-			
 			// filter some extension items;
 			"CrosstabView", //$NON-NLS-1$
 			"DimensionView", //$NON-NLS-1$
 			"LevelView", //$NON-NLS-1$
 			"MeasureView" //$NON-NLS-1$
-			
+
 	} );
 
 	private List reportExtensionNames;
@@ -1196,15 +1196,14 @@ public class ReportPlugin extends AbstractUIPlugin
 		String resourceFolder = SessionHandleAdapter.getInstance( )
 				.getSessionHandle( )
 				.getResourceFolder( );
+		ModuleHandle module = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
+
 		if ( ( resourceFolder == null || resourceFolder.equals( "" ) ) //$NON-NLS-1$
-				&& SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) != null
-				&& SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.getResourceFolder( ) != null )
+				&& module != null
+				&& module.getResourceFolder( ) != null )
 		{
-			resourceFolder = SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( )
-					.getResourceFolder( );
+			resourceFolder = module.getResourceFolder( );
 		}
 		return resourceFolder;
 	}

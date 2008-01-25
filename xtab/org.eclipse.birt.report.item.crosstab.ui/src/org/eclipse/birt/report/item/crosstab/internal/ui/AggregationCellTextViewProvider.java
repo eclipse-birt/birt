@@ -20,6 +20,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellViewAdapter;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -70,9 +71,9 @@ public class AggregationCellTextViewProvider extends AggregationCellViewAdapter
 			return;
 		}
 
-		SessionHandleAdapter.getInstance( )
-				.getCommandStack( )
-				.startTrans( "Switch to Text View" ); //$NON-NLS-1$
+		CommandStack stack = SessionHandleAdapter.getInstance( )
+				.getCommandStack( );
+		stack.startTrans( "Switch to Text View" ); //$NON-NLS-1$
 
 		try
 		{
@@ -90,11 +91,11 @@ public class AggregationCellTextViewProvider extends AggregationCellViewAdapter
 			// create text view
 			createTextView( cell );
 
-			SessionHandleAdapter.getInstance( ).getCommandStack( ).commit( );
+			stack.commit( );
 		}
 		catch ( Exception e )
 		{
-			SessionHandleAdapter.getInstance( ).getCommandStack( ).rollback( );
+			stack.rollback( );
 			ExceptionHandler.handle( e );
 		}
 	}

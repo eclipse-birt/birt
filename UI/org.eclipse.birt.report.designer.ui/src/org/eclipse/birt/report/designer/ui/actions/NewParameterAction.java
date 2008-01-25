@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.ui.actions;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertAction;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.jface.action.Action;
 
 /**
@@ -54,13 +55,14 @@ public class NewParameterAction extends Action
 	{
 		if ( action == null )
 		{
-			if(SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) == null)
+			ModuleHandle module = SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( );
+
+			if ( module == null )
 			{
 				return false;
 			}
-			action = new InsertAction( SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( )
-					.getParameters( ),
+			action = new InsertAction( module.getParameters( ),
 					Messages.getString( "ParametersNodeProvider.menu.text.cascadingParameter" ), //$NON-NLS-1$
 					type );
 		}

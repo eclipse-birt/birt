@@ -1592,17 +1592,17 @@ public class DEUtil
 	public static Iterator getStyles( Comparator comparator )
 	{
 		List styles = null;
-		if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) instanceof ReportDesignHandle )
+		ModuleHandle module = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
+
+		if ( module instanceof ReportDesignHandle )
 		{
-			styles = SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( )
-					.getAllStyles( );
+			styles = module.getAllStyles( );
 		}
-		else if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) instanceof LibraryHandle )
+		else if ( module instanceof LibraryHandle )
 		{
 			styles = new ArrayList( );
-			ThemeHandle theme = ( (LibraryHandle) SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( ) ).getTheme( );
+			ThemeHandle theme = ( (LibraryHandle) module ).getTheme( );
 
 			if ( theme != null )
 			{
@@ -1639,19 +1639,17 @@ public class DEUtil
 	public static Iterator getLocalStyles( Comparator comparator )
 	{
 		List styles = null;
+		ModuleHandle module = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
 
-		if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) instanceof ReportDesignHandle )
+		if ( module instanceof ReportDesignHandle )
 		{
-			styles = SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( )
-					.getStyles( )
-					.getContents( );
+			styles = module.getStyles( ).getContents( );
 		}
-		else if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) instanceof LibraryHandle )
+		else if ( module instanceof LibraryHandle )
 		{
 			styles = new ArrayList( );
-			ThemeHandle theme = ( (LibraryHandle) SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( ) ).getTheme( );
+			ThemeHandle theme = ( (LibraryHandle) module ).getTheme( );
 
 			if ( theme != null )
 			{
@@ -1693,15 +1691,20 @@ public class DEUtil
 		{
 			styles.addAll( theme.getAllStyles( ) );
 		}
-		else if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) instanceof LibraryHandle )
+		else
 		{
-			styles = new ArrayList( );
-			theme = ( (LibraryHandle) SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( ) ).getTheme( );
+			ModuleHandle module = SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( );
 
-			if ( theme != null )
+			if ( module instanceof LibraryHandle )
 			{
-				styles.addAll( theme.getAllStyles( ) );
+				styles = new ArrayList( );
+				theme = ( (LibraryHandle) module ).getTheme( );
+
+				if ( theme != null )
+				{
+					styles.addAll( theme.getAllStyles( ) );
+				}
 			}
 		}
 
@@ -1907,15 +1910,15 @@ public class DEUtil
 	 */
 	public static GroupElementHandle getGroupElementHandle( List modelList )
 	{
-		if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) == null )
+		ModuleHandle handle = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
+
+		if ( handle == null )
 		{
-			return GroupElementFactory.newGroupElement( SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( ),
+			return GroupElementFactory.newGroupElement( handle,
 					Collections.EMPTY_LIST );
 		}
-		return GroupElementFactory.newGroupElement( SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( ),
-				modelList );
+		return GroupElementFactory.newGroupElement( handle, modelList );
 
 	}
 
@@ -2802,8 +2805,7 @@ public class DEUtil
 				flatHirarchyName = slotHandle.getDefn( ).getDisplayName( )
 						+ flatHirarchyName;
 			}
-			flatHirarchyName = getCombinatedName( container )
-					+ "." //$NON-NLS-1$
+			flatHirarchyName = getCombinatedName( container ) + "." //$NON-NLS-1$
 					+ flatHirarchyName;
 			handle = container;
 			container = container.getContainer( );

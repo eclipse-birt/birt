@@ -216,7 +216,7 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 			TabularCubeHandle newCube )
 	{
 		TabularMeasureGroupHandle measureGroup = DesignElementFactory.getInstance( )
-				.newTabularMeasureGroup( null ); 
+				.newTabularMeasureGroup( null );
 		try
 		{
 			newCube.add( CubeHandle.MEASURE_GROUPS_PROP, measureGroup );
@@ -238,7 +238,7 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 			TabularCubeHandle newCube )
 	{
 		TabularDimensionHandle dimension = DesignElementFactory.getInstance( )
-				.newTabularDimension( null ); 
+				.newTabularDimension( null );
 		try
 		{
 			newCube.add( CubeHandle.DIMENSIONS_PROP, dimension );
@@ -247,21 +247,17 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 
 			if ( isDateType( columnHandle.getDataType( ) ) )
 			{
-				SessionHandleAdapter.getInstance( )
-						.getCommandStack( )
-						.startTrans( "" ); //$NON-NLS-1$
+				CommandStack stack = SessionHandleAdapter.getInstance( )
+						.getCommandStack( );
+				stack.startTrans( "" ); //$NON-NLS-1$
 				GroupDialog dialog = new GroupDialog( true );
 				dialog.setInput( hierarchy, columnHandle.getColumnName( ) );
 				if ( dialog.open( ) == Window.CANCEL )
 				{
-					SessionHandleAdapter.getInstance( )
-							.getCommandStack( )
-							.rollback( );
+					stack.rollback( );
 				}
 				else
-					SessionHandleAdapter.getInstance( )
-							.getCommandStack( )
-							.commit( );
+					stack.commit( );
 
 			}
 			else
@@ -329,7 +325,7 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 	private void storePreference( )
 	{
 		String prompt = PreferenceFactory.getInstance( )
-				.getPreferences( CrosstabPlugin.getDefault( ))
+				.getPreferences( CrosstabPlugin.getDefault( ) )
 				.getString( CrosstabPlugin.CUBE_BUILDER_WARNING_PREFERENCE );
 		if ( prompt == null
 				|| prompt.length( ) == 0

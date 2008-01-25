@@ -88,6 +88,7 @@ import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
@@ -143,7 +144,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	private static final String NEW_STYLE_MENU_ITEM_TEXT = Messages.getString( "SchematicContextMenuProvider.Menu.NewStyle" ); //$NON-NLS-1$
 
 	private IMenuListener proxy;
-	
+
 	/** the action registry */
 	private final ActionRegistry actionRegistry;
 
@@ -219,7 +220,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 */
 	public void buildContextMenu( IMenuManager menuManager )
 	{
-		if (proxy != null)
+		if ( proxy != null )
 		{
 			proxy.menuAboutToShow( menuManager );
 			proxy = null;
@@ -326,13 +327,13 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 					menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
 							action );
 
-					//					action = getAction( RevertToReportItemPartAction.ID );
-					//					menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
-					//							action );
+					// action = getAction( RevertToReportItemPartAction.ID );
+					// menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+					// action );
 
-					//					action = getAction( RevertToTemplatePartAction.ID );
-					//					menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
-					//							action );
+					// action = getAction( RevertToTemplatePartAction.ID );
+					// menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+					// action );
 				}
 
 				if ( firstSelectedElement instanceof TemplateReportItemHandle )
@@ -341,9 +342,10 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 					menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
 							action );
 				}
-				//add for support multiple view
-				Object[] objs = ElementAdapterManager.getAdapters( firstSelectedElement,  IReportItemViewProvider.class);
-				if (objs != null && objs.length == 1)
+				// add for support multiple view
+				Object[] objs = ElementAdapterManager.getAdapters( firstSelectedElement,
+						IReportItemViewProvider.class );
+				if ( objs != null && objs.length == 1 )
 				{
 					IAction action = getAction( CreateChartAction.ID );
 					menuManager.appendToGroup( GEFActionConstants.GROUP_VIEW,
@@ -743,14 +745,16 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 
 	private void populateAddStyleAction( MenuManager menu )
 	{
-		if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) instanceof ReportDesignHandle )
+		ModuleHandle module = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
+
+		if ( module instanceof ReportDesignHandle )
 		{
 			menu.add( getAction( AddStyleAction.ID ) );
 		}
-		else if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) instanceof LibraryHandle )
+		else if ( module instanceof LibraryHandle )
 		{
-			LibraryHandle libraryHandle = (LibraryHandle) SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( );
+			LibraryHandle libraryHandle = (LibraryHandle) module;
 			MenuManager subMenu = new MenuManager( NEW_STYLE_MENU_ITEM_TEXT );
 
 			// AddThemeStyleAction
@@ -1259,13 +1263,11 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		menuManager.appendToGroup( group_name, subMenu );
 	}
 
-	
 	public IMenuListener getProxy( )
 	{
 		return proxy;
 	}
 
-	
 	public void setProxy( IMenuListener proxy )
 	{
 		this.proxy = proxy;

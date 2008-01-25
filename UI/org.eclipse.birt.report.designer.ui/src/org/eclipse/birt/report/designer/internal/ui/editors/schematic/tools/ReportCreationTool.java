@@ -17,6 +17,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DNDUtil;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.draw2d.IFigure;
@@ -64,10 +65,10 @@ public class ReportCreationTool extends CreationTool
 	protected void performCreation( int button )
 	{
 		isCreating = true;
-		SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getCommandStack( )
-				.startTrans( MODEL_CREATE_ELEMENT_TRANS );
+		CommandStack stack = SessionHandleAdapter.getInstance( )
+				.getCommandStack( );
+
+		stack.startTrans( MODEL_CREATE_ELEMENT_TRANS );
 
 		Command command = getCurrentCommand( );
 		boolean hasCommand = command != null && command.canExecute( );
@@ -85,10 +86,7 @@ public class ReportCreationTool extends CreationTool
 					{
 						// if a popup dialog was cancelled.
 						// All create logic should be finished there.
-						SessionHandleAdapter.getInstance( )
-								.getReportDesignHandle( )
-								.getCommandStack( )
-								.rollback( );
+						stack.rollback( );
 						handleFinished( );
 						return;
 					}
@@ -102,18 +100,12 @@ public class ReportCreationTool extends CreationTool
 		if ( !hasCommand
 				|| ( preHandle != null && !preHandle.postHandleCreation( ) ) )
 		{
-			SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( )
-					.getCommandStack( )
-					.rollback( );
+			stack.rollback( );
 			handleFinished( );
 			return;
 		}
 
-		SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getCommandStack( )
-				.commit( );
+		stack.commit( );
 		selectAddedObject( );
 		isCreating = false;
 	}
@@ -299,7 +291,7 @@ public class ReportCreationTool extends CreationTool
 		{
 			if ( template.startsWith( IReportElementConstants.REPORT_ELEMENT_EXTENDED ) )
 			{
-// type = ReportDesignConstants.EXTENDED_ITEM;
+				// type = ReportDesignConstants.EXTENDED_ITEM;
 				type = template.substring( IReportElementConstants.REPORT_ELEMENT_EXTENDED.length( ) );
 			}
 		}

@@ -18,6 +18,7 @@ import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.command.ICommandParameterNameContants;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -63,48 +64,49 @@ public class AddStyleAction extends ContextSelectionAction
 	 */
 	public void run( )
 	{
-// if ( Policy.TRACING_ACTIONS )
-// {
-// System.out.println( "Add Style rule action >> Run ..." ); //$NON-NLS-1$
-// }
-// CommandStack stack = getActiveCommandStack( );
-// stack.startTrans( STACK_MSG_ADD_STYLE );
-//
-// ModuleHandle reportDesignHandle = SessionHandleAdapter.getInstance( )
-// .getReportDesignHandle( );
-// // StyleHandle styleHandle = reportDesignHandle.getElementFactory( )
-// // .newStyle( null );
-// StyleHandle styleHandle = DesignElementFactory.getInstance(
-// reportDesignHandle )
-// .newStyle( null );
-//
-// try
-// {
-// StyleBuilder dialog = new StyleBuilder( PlatformUI.getWorkbench( )
-// .getDisplay( )
-// .getActiveShell( ), styleHandle, StyleBuilder.DLG_TITLE_NEW );
-// if ( dialog.open( ) == Window.OK )
-// {
-// if ( themeHandle != null )
-// {
-// themeHandle.getStyles( ).add( styleHandle );
-// }
-// else
-// {
-// reportDesignHandle.getStyles( ).add( styleHandle );
-// }
-// if ( !styleHandle.isPredefined( ) )
-// {
-// applyStyle( (SharedStyleHandle) styleHandle );
-// }
-// stack.commit( );
-// }
-// }
-// catch ( Exception e )
-// {
-// stack.rollbackAll( );
-// ExceptionHandler.handle( e );
-// }
+		// if ( Policy.TRACING_ACTIONS )
+		// {
+		// System.out.println( "Add Style rule action >> Run ..." );
+		// //$NON-NLS-1$
+		// }
+		// CommandStack stack = getActiveCommandStack( );
+		// stack.startTrans( STACK_MSG_ADD_STYLE );
+		//
+		// ModuleHandle reportDesignHandle = SessionHandleAdapter.getInstance( )
+		// .getReportDesignHandle( );
+		// // StyleHandle styleHandle = reportDesignHandle.getElementFactory( )
+		// // .newStyle( null );
+		// StyleHandle styleHandle = DesignElementFactory.getInstance(
+		// reportDesignHandle )
+		// .newStyle( null );
+		//
+		// try
+		// {
+		// StyleBuilder dialog = new StyleBuilder( PlatformUI.getWorkbench( )
+		// .getDisplay( )
+		// .getActiveShell( ), styleHandle, StyleBuilder.DLG_TITLE_NEW );
+		// if ( dialog.open( ) == Window.OK )
+		// {
+		// if ( themeHandle != null )
+		// {
+		// themeHandle.getStyles( ).add( styleHandle );
+		// }
+		// else
+		// {
+		// reportDesignHandle.getStyles( ).add( styleHandle );
+		// }
+		// if ( !styleHandle.isPredefined( ) )
+		// {
+		// applyStyle( (SharedStyleHandle) styleHandle );
+		// }
+		// stack.commit( );
+		// }
+		// }
+		// catch ( Exception e )
+		// {
+		// stack.rollbackAll( );
+		// ExceptionHandler.handle( e );
+		// }
 
 		boolean hasTheme = false;
 
@@ -114,16 +116,21 @@ public class AddStyleAction extends ContextSelectionAction
 			CommandUtils.setVariable( ICommandParameterNameContants.NEW_STYLE_THEME_HANDLE_NAME,
 					themeHandle );
 		}
-		else if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) instanceof LibraryHandle )
+		else
 		{
-			ThemeHandle theme = ( (LibraryHandle) SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( ) ).getTheme( );
+			ModuleHandle module = SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( );
 
-			if ( theme != null )
+			if ( module instanceof LibraryHandle )
 			{
-				hasTheme = true;
-				CommandUtils.setVariable( ICommandParameterNameContants.NEW_STYLE_THEME_HANDLE_NAME,
-						theme );
+				ThemeHandle theme = ( (LibraryHandle) module ).getTheme( );
+
+				if ( theme != null )
+				{
+					hasTheme = true;
+					CommandUtils.setVariable( ICommandParameterNameContants.NEW_STYLE_THEME_HANDLE_NAME,
+							theme );
+				}
 			}
 		}
 
@@ -133,7 +140,7 @@ public class AddStyleAction extends ContextSelectionAction
 		}
 		catch ( Exception e )
 		{
-			logger.log( Level.SEVERE, e.getMessage( ),e );
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 		finally
 		{
@@ -144,7 +151,6 @@ public class AddStyleAction extends ContextSelectionAction
 		}
 
 	}
-
 
 	public void setThemeHandle( ThemeHandle themeHandle )
 	{

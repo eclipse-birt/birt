@@ -31,12 +31,14 @@ import org.eclipse.gef.commands.Command;
  */
 public class MoveGuideCommand extends Command
 {
+
 	protected static Logger logger = Logger.getLogger( MoveGuideCommand.class.getName( ) );
 	private int pDelta;
 	private String propertyName;
 
 	/**
-	 *  Constructor 
+	 * Constructor
+	 * 
 	 * @param delta
 	 * @param propertyName
 	 */
@@ -48,21 +50,22 @@ public class MoveGuideCommand extends Command
 	}
 
 	/**
-	 *  Ececute this command 
+	 * Ececute this command
 	 */
 	public void execute( )
 	{
 		ModuleHandle handle = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
 		MasterPageHandle page = SessionHandleAdapter.getInstance( )
-				.getMasterPageHandle( );
+				.getFirstMasterPageHandle( handle );
 		String unit = handle.getDefaultUnits( );
-		
-		//This is only a patch, maybe the old report design file the default unin of the 
-		//LibraryHandle is null, 
-		if (unit == null)
+
+		// This is only a patch, maybe the old report design file the default
+		// unin of the
+		// LibraryHandle is null,
+		if ( unit == null )
 		{
-			unit=DesignChoiceConstants.UNITS_IN;
+			unit = DesignChoiceConstants.UNITS_IN;
 		}
 		double value = MetricUtility.pixelToPixelInch( pDelta );
 		if ( value < 0.0 )
@@ -96,7 +99,7 @@ public class MoveGuideCommand extends Command
 			{
 				System.out.println( "MoveGuideCommand >> Failed." ); //$NON-NLS-1$
 			}
-			logger.log( Level.SEVERE,e.getMessage( ), e);
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 
 	}

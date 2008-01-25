@@ -24,6 +24,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CellHandle;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
@@ -82,9 +83,10 @@ public class AggDataDropAdapter implements IDropAdapter
 
 		// create data item, and pass it to AggregationDataBindingDialog
 		// start transaction
-		SessionHandleAdapter.getInstance( )
-				.getCommandStack( )
-				.startTrans( TRANS_NAME );
+		CommandStack stack = SessionHandleAdapter.getInstance( )
+				.getCommandStack( );
+
+		stack.startTrans( TRANS_NAME );
 
 		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 				.newDataItem( null );
@@ -109,18 +111,16 @@ public class AggDataDropAdapter implements IDropAdapter
 			{
 				dataHandle.setResultSetColumn( dialog.getBindingColumn( )
 						.getName( ) );
-				SessionHandleAdapter.getInstance( ).getCommandStack( ).commit( );
+				stack.commit( );
 			}
 			else
 			{
-				SessionHandleAdapter.getInstance( )
-						.getCommandStack( )
-						.rollback( );
+				stack.rollback( );
 			}
 		}
 		catch ( Exception e )
 		{
-			SessionHandleAdapter.getInstance( ).getCommandStack( ).rollback( );
+			stack.rollback( );
 			ExceptionHandler.handle( e );
 		}
 		return true;

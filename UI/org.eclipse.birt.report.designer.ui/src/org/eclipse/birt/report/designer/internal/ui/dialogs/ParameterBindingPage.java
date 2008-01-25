@@ -28,6 +28,7 @@ import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -112,7 +113,7 @@ public class ParameterBindingPage extends Composite implements Listener
 	public ParameterBindingPage( Composite parent, int style )
 	{
 		super( parent, style );
-		buildUI();
+		buildUI( );
 	}
 
 	/*
@@ -184,7 +185,7 @@ public class ParameterBindingPage extends Composite implements Listener
 	 */
 	protected void refreshValues( )
 	{
-		if ( input.size( ) != 1 || this.isDisposed( ))
+		if ( input.size( ) != 1 || this.isDisposed( ) )
 		{
 			return;
 		}
@@ -522,11 +523,13 @@ public class ParameterBindingPage extends Composite implements Listener
 				element.removeListener( this );
 			}
 		}
-		if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) != null )
+
+		ModuleHandle module = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
+
+		if ( module != null )
 		{
-			SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( )
-					.removeListener( this );
+			module.removeListener( this );
 		}
 	}
 

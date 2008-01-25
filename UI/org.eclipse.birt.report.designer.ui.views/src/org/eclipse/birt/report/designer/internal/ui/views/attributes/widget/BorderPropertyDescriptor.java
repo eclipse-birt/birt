@@ -17,6 +17,7 @@ import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.views.attributes.IPropertyDescriptor;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -149,9 +150,9 @@ public class BorderPropertyDescriptor implements
 				{
 					if ( ( (Button) e.widget ).getSelection( ) )
 					{
-						SessionHandleAdapter.getInstance( )
-								.getCommandStack( )
-								.startTrans( Messages.getString( "BordersPage.Trans.SelectBorder" ) ); //$NON-NLS-1$
+						CommandStack stack = SessionHandleAdapter.getInstance( )
+								.getCommandStack( );
+						stack.startTrans( Messages.getString( "BordersPage.Trans.SelectBorder" ) ); //$NON-NLS-1$
 
 						BorderInfomation information = new BorderInfomation( );
 
@@ -171,9 +172,7 @@ public class BorderPropertyDescriptor implements
 						}
 						checkToggleButtons( );
 
-						SessionHandleAdapter.getInstance( )
-								.getCommandStack( )
-								.commit( );
+						stack.commit( );
 					}
 					else
 					{
@@ -192,9 +191,9 @@ public class BorderPropertyDescriptor implements
 								|| !( oldColor.equals( selectedColor ) )
 								|| !( oldInfo.getWidth( ).equals( (String) widthProvider.getItems( )[widthCombo.getSelectionIndex( )] ) ) )
 						{
-							SessionHandleAdapter.getInstance( )
-									.getCommandStack( )
-									.startTrans( Messages.getString( "BordersPage.Trans.SelectBorder" ) ); //$NON-NLS-1$
+							CommandStack stack = SessionHandleAdapter.getInstance( )
+									.getCommandStack( );
+							stack.startTrans( Messages.getString( "BordersPage.Trans.SelectBorder" ) ); //$NON-NLS-1$
 
 							BorderInfomation information = new BorderInfomation( );
 
@@ -213,15 +212,13 @@ public class BorderPropertyDescriptor implements
 								ExceptionHandler.handle( e1 );
 							}
 							( (Button) e.widget ).setSelection( true );
-							SessionHandleAdapter.getInstance( )
-									.getCommandStack( )
-									.commit( );
+							stack.commit( );
 						}
 						else
 						{
-							SessionHandleAdapter.getInstance( )
-									.getCommandStack( )
-									.startTrans( Messages.getString( "BordersPage.Trans.UnSelectBorder" ) ); //$NON-NLS-1$
+							CommandStack stack = SessionHandleAdapter.getInstance( )
+									.getCommandStack( );
+							stack.startTrans( Messages.getString( "BordersPage.Trans.UnSelectBorder" ) ); //$NON-NLS-1$
 
 							previewCanvas.removeBorderInfomation( provider.getPosition( ) );
 							if ( allButton.getSelection( ) )
@@ -234,9 +231,7 @@ public class BorderPropertyDescriptor implements
 							{
 								ExceptionHandler.handle( e1 );
 							}
-							SessionHandleAdapter.getInstance( )
-									.getCommandStack( )
-									.commit( );
+							stack.commit( );
 						}
 					}
 					previewCanvas.redraw( );
@@ -257,9 +252,9 @@ public class BorderPropertyDescriptor implements
 				RGB oldColor = null;
 				if ( ( (Button) e.widget ).getSelection( ) )
 				{
-					SessionHandleAdapter.getInstance( )
-							.getCommandStack( )
-							.startTrans( Messages.getString( "BordersPage.Trans.SelectAllborders" ) ); //$NON-NLS-1$
+					CommandStack stack = SessionHandleAdapter.getInstance( )
+							.getCommandStack( );
+					stack.startTrans( Messages.getString( "BordersPage.Trans.SelectAllborders" ) ); //$NON-NLS-1$
 					selectedColor = builder.getRGB( );
 					if ( selectedColor == null )
 					{
@@ -287,9 +282,7 @@ public class BorderPropertyDescriptor implements
 					// restoreInfo = (BorderInfomation)
 					// toggleProviders[toggleProviders.length - 1].load( );
 					// restoreInfo.setColor( selectedColor );
-					SessionHandleAdapter.getInstance( )
-							.getCommandStack( )
-							.commit( );
+					stack.commit( );
 				}
 				else
 				{
@@ -307,9 +300,9 @@ public class BorderPropertyDescriptor implements
 						{
 							selectedColor = autoColor;
 						}
-						if ( !( info.getStyle( ).equals( (String)styleProvider.getItems( )[styleCombo.getSelectionIndex( )] ) )
+						if ( !( info.getStyle( ).equals( (String) styleProvider.getItems( )[styleCombo.getSelectionIndex( )] ) )
 								|| !( oldColor.equals( selectedColor ) )
-								|| !( info.getWidth( ).equals( (String)widthProvider.getItems( )[widthCombo.getSelectionIndex( )] ) ) )
+								|| !( info.getWidth( ).equals( (String) widthProvider.getItems( )[widthCombo.getSelectionIndex( )] ) ) )
 						{
 							reset = false;
 							break;
@@ -317,9 +310,9 @@ public class BorderPropertyDescriptor implements
 					}
 					if ( reset )
 					{
-						SessionHandleAdapter.getInstance( )
-								.getCommandStack( )
-								.startTrans( Messages.getString( "BordersPage.Trans.UnSelectAllborders" ) ); //$NON-NLS-1$
+						CommandStack stack = SessionHandleAdapter.getInstance( )
+								.getCommandStack( );
+						stack.startTrans( Messages.getString( "BordersPage.Trans.UnSelectAllborders" ) ); //$NON-NLS-1$
 
 						for ( int i = 0; i < toggleProviders.length; i++ )
 						{
@@ -334,15 +327,13 @@ public class BorderPropertyDescriptor implements
 								ExceptionHandler.handle( e1 );
 							}
 						}
-						SessionHandleAdapter.getInstance( )
-								.getCommandStack( )
-								.commit( );
+						stack.commit( );
 					}
 					else
 					{
-						SessionHandleAdapter.getInstance( )
-								.getCommandStack( )
-								.startTrans( Messages.getString( "BordersPage.Trans.SelectAllborders" ) ); //$NON-NLS-1$
+						CommandStack stack = SessionHandleAdapter.getInstance( )
+								.getCommandStack( );
+						stack.startTrans( Messages.getString( "BordersPage.Trans.SelectAllborders" ) ); //$NON-NLS-1$
 
 						for ( int i = 0; i < toggleProviders.length; i++ )
 						{
@@ -371,9 +362,7 @@ public class BorderPropertyDescriptor implements
 							}
 						}
 						( (Button) e.widget ).setSelection( true );
-						SessionHandleAdapter.getInstance( )
-								.getCommandStack( )
-								.commit( );
+						stack.commit( );
 					}
 				}
 				previewCanvas.redraw( );

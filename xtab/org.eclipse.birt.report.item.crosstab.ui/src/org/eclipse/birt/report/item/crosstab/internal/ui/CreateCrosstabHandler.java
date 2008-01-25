@@ -26,6 +26,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
@@ -48,26 +49,24 @@ public class CreateCrosstabHandler extends AbstractHandler
 
 	public Object execute( ExecutionEvent event ) throws ExecutionException
 	{
-		SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getCommandStack( )
-				.startTrans( Messages.getString( "InsertAction.text" ) ); //$NON-NLS-1$
+		CommandStack stack = SessionHandleAdapter.getInstance( )
+				.getCommandStack( );
+		stack.startTrans( Messages.getString( "InsertAction.text" ) ); //$NON-NLS-1$
 		ExtendedItemHandle handle = null;
 
 		try
 		{
-			String name = ReportPlugin.getDefault( ).getCustomName( ICrosstabConstants.CROSSTAB_EXTENSION_NAME );
+			String name = ReportPlugin.getDefault( )
+					.getCustomName( ICrosstabConstants.CROSSTAB_EXTENSION_NAME );
 
 			handle = CrosstabExtendedItemFactory.createCrosstabReportItem( SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( ),
-					null, name );
+					null,
+					name );
 		}
 		catch ( Exception e )
 		{
-			SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( )
-					.getCommandStack( )
-					.rollback( );
+			stack.rollback( );
 
 			throw new ExecutionException( e.getLocalizedMessage( ), e );
 		}
@@ -92,17 +91,11 @@ public class CreateCrosstabHandler extends AbstractHandler
 			try
 			{
 				targetEditPart.getCommand( request ).execute( );
-				SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.getCommandStack( )
-						.commit( );
+				stack.commit( );
 			}
 			catch ( Exception e )
 			{
-				SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.getCommandStack( )
-						.rollback( );
+				stack.rollback( );
 			}
 		}
 		else
@@ -160,116 +153,14 @@ public class CreateCrosstabHandler extends AbstractHandler
 							.getReportDesignHandle( ) );
 				}
 				command.execute( );
-				SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.getCommandStack( )
-						.commit( );
+				stack.commit( );
 			}
 			catch ( Exception e )
 			{
-				SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.getCommandStack( )
-						.rollback( );
+				stack.rollback( );
 			}
-			// SlotHandle slotHandle = getDefaultSlotHandle( itemName,
-			// parentModel );
-			// int pos = DNDUtil.calculateNextPosition( parentModel,
-			// DNDUtil.handleValidateTargetCanContain( parentModel,
-			// handle,
-			// true ) );
-			//
-			// try
-			// {
-			// if ( pos == -1 )
-			// {
-			// slotHandle.add( handle );
-			// }
-			// else
-			// {
-			// slotHandle.add( handle, pos );
-			// }
-			// SessionHandleAdapter.getInstance( )
-			// .getReportDesignHandle( )
-			// .getCommandStack( )
-			// .commit( );
-			// }
-			// catch ( Exception e )
-			// {
-			// SessionHandleAdapter.getInstance( )
-			// .getReportDesignHandle( )
-			// .getCommandStack( )
-			// .rollback( );
-			// }
 		}
-		// if ( parentModel instanceof DesignElementHandle )
-		// {
-		// DesignElementHandle parentHandle = (DesignElementHandle) parentModel;
-		// if ( parentHandle.getDefn( ).isContainer( ) )
-		// {
-		// command.setParent( parentModel );
-		// }
-		// else
-		// {
-		// command.setParent( parentHandle.getContainer( ) );
-		// }
-		// }
-		// else
-		// {
-		// command.setParent( SessionHandleAdapter.getInstance( )
-		// .getReportDesignHandle( ) );
-		// }
-		//		
-		// if ( request != null )
-		// {
-		// request.getExtendedData( ).put( DesignerConstants.KEY_NEWOBJECT,
-		// handle );
-		// command = (CreateCommand) targetEditPart.getCommand( request );
-		// command.setParent( DNDUtil.unwrapToModel( targetEditPart.getModel( )
-		// ) );
-		// }
-		// else
-		// {
-		//			
-		// command = new CreateCommand( map );
-		// Object parentModel = DNDUtil.unwrapToModel(
-		// UIUtil.getCurrentEditPart( )
-		// .getModel( ) );
-		// if ( parentModel instanceof DesignElementHandle )
-		// {
-		// DesignElementHandle parentHandle = (DesignElementHandle) parentModel;
-		// if ( parentHandle.getDefn( ).isContainer( ) )
-		// {
-		// command.setParent( parentModel );
-		// }
-		// else
-		// {
-		// command.setParent( SessionHandleAdapter.getInstance( )
-		// .getReportDesignHandle( ) );
-		// }
-		// }
-		// else
-		// {
-		// command.setParent( SessionHandleAdapter.getInstance( )
-		// .getReportDesignHandle( ) );
-		// }
-		// }
 
-		// try
-		// {
-		// command.execute( );
-		// SessionHandleAdapter.getInstance( )
-		// .getReportDesignHandle( )
-		// .getCommandStack( )
-		// .commit( );
-		// }
-		// catch ( Exception e )
-		// {
-		// SessionHandleAdapter.getInstance( )
-		// .getReportDesignHandle( )
-		// .getCommandStack( )
-		// .rollback( );
-		// }
 		// if parent is library, select new object
 		if ( parentModel instanceof LibraryHandle )
 		{
@@ -287,31 +178,4 @@ public class CreateCrosstabHandler extends AbstractHandler
 		return handle;
 	}
 
-	// private SlotHandle getDefaultSlotHandle( String insertType, Object model
-	// )
-	// {
-	// if ( model instanceof LibRootModel )
-	// {
-	// model = ( (LibRootModel) model ).getModel( );
-	// }
-	// if ( model instanceof SlotHandle )
-	// {
-	// return (SlotHandle) model;
-	// }
-	// else if ( model instanceof DesignElementHandle )
-	// {
-	// DesignElementHandle handle = (DesignElementHandle) model;
-	//
-	// if ( handle.getDefn( ).isContainer( ) )
-	// {
-	// int slotId = DEUtil.getDefaultSlotID( handle );
-	// if ( handle.canContain( slotId, insertType ) )
-	// {
-	// return handle.getSlot( slotId );
-	// }
-	// }
-	// return handle.getContainerSlotHandle( );
-	// }
-	// return null;
-	// }
 }

@@ -23,6 +23,7 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.Cross
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.ICrosstabCellAdapterFactory;
 import org.eclipse.birt.report.model.api.CellHandle;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.jface.window.Window;
 
@@ -52,9 +53,9 @@ public class AggregationDropAdapter implements IDropAdapter
 	public boolean performDrop( Object transfer, Object target, int operation,
 			DNDLocation location )
 	{
-		SessionHandleAdapter.getInstance( )
-				.getCommandStack( )
-				.startTrans( "Add Aggregation" ); //$NON-NLS-1$
+		CommandStack stack = SessionHandleAdapter.getInstance( )
+				.getCommandStack( );
+		stack.startTrans( "Add Aggregation" ); //$NON-NLS-1$
 
 		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 				.newDataItem( null );
@@ -72,18 +73,16 @@ public class AggregationDropAdapter implements IDropAdapter
 			{
 				dataHandle.setResultSetColumn( dialog.getBindingColumn( )
 						.getName( ) );
-				SessionHandleAdapter.getInstance( ).getCommandStack( ).commit( );
+				stack.commit( );
 			}
 			else
 			{
-				SessionHandleAdapter.getInstance( )
-						.getCommandStack( )
-						.rollback( );
+				stack.rollback( );
 			}
 		}
 		catch ( Exception e )
 		{
-			SessionHandleAdapter.getInstance( ).getCommandStack( ).rollback( );
+			stack.rollback( );
 			ExceptionHandler.handle( e );
 		}
 

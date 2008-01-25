@@ -28,6 +28,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
@@ -59,6 +60,7 @@ import org.eclipse.swt.widgets.Text;
 
 public class UseCssInThemeDialog extends TitleAreaDialog
 {
+
 	protected Logger logger = Logger.getLogger( UseCssInThemeDialog.class.getName( ) );
 
 	private final static String DIALOG_TITLE = Messages.getString( "UseCssInReportDialog.Wizard.Title" ); //$NON-NLS-1$
@@ -188,12 +190,14 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 		title = new Label( styleComposite, SWT.NULL );
 		GridData data = new GridData( GridData.FILL_HORIZONTAL );
 		title.setLayoutData( data );
-		//		title.setText( Messages.getFormattedString( "UseCssInReportDialog.Label.Styles", new String[]( ) ) ); //$NON-NLS-1$
+		// title.setText( Messages.getFormattedString(
+		// "UseCssInReportDialog.Label.Styles", new String[]( ) ) );
+		// //$NON-NLS-1$
 		title.setText( DIALOG_LABEL_NOFILE );
 		stylesTable = new Table( styleComposite, SWT.SINGLE
 				| SWT.FULL_SELECTION
 				| SWT.BORDER
-		//				| SWT.CHECK 
+		// | SWT.CHECK
 		);
 		data = new GridData( GridData.FILL_HORIZONTAL );
 		data.heightHint = 100;
@@ -214,10 +218,10 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 	{
 		Composite nameComposite = new Composite( parent, SWT.NULL );
 		GridLayout layout = new GridLayout( 3, false );
-		//		layout.marginWidth = 0;
+		// layout.marginWidth = 0;
 		nameComposite.setLayout( layout );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		//		gd.widthHint = 360;
+		// gd.widthHint = 360;
 		nameComposite.setLayoutData( gd );
 
 		Label title = new Label( nameComposite, SWT.NULL );
@@ -240,7 +244,7 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 				catch ( StyleSheetException e1 )
 				{
 					// TODO Auto-generated catch block
-					logger.log(Level.SEVERE, e1.getMessage(),e1);
+					logger.log( Level.SEVERE, e1.getMessage( ), e1 );
 				}
 				themeCombo.removeAll( );
 				refresh( );
@@ -313,7 +317,7 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 		}
 
 		title.setText( DIALOG_LABEL_NOFILE );
-		
+
 		if ( themeCombo.getItemCount( ) == 0 )
 		{
 			List themeList = getThemes( );
@@ -421,7 +425,7 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 
 		if ( getButton( IDialogConstants.OK_ID ) != null )
 		{
-			if ( fileName!=null && !theme.canAddCssStyleSheet( fileName ) )
+			if ( fileName != null && !theme.canAddCssStyleSheet( fileName ) )
 			{
 				getButton( IDialogConstants.OK_ID ).setEnabled( false );
 				setErrorMessage( Messages.getFormattedString( "UseCssInReportDialog.Error.Already.Include", //$NON-NLS-1$
@@ -444,12 +448,14 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 
 	private List getThemes( )
 	{
-		if ( !( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) instanceof LibraryHandle ) )
+		ModuleHandle module = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
+
+		if ( !( module instanceof LibraryHandle ) )
 		{
 			return new ArrayList( 0 );
 		}
-		LibraryHandle libraryHandle = (LibraryHandle) SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
+		LibraryHandle libraryHandle = (LibraryHandle) module;
 		SlotHandle slotHandle = libraryHandle.getThemes( );
 		List list = new ArrayList( );
 		for ( Iterator iter = slotHandle.iterator( ); iter.hasNext( ); )

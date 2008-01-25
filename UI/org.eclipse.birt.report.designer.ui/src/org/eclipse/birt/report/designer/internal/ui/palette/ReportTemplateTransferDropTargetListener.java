@@ -110,7 +110,7 @@ public class ReportTemplateTransferDropTargetListener extends
 	{
 		updateTargetRequest( );
 		updateTargetEditPart( );
-		//use new DNDService
+		// use new DNDService
 		if ( DNDService.getInstance( )
 				.performDrop( TemplateTransfer.getInstance( ).getTemplate( ),
 						getTargetEditPart( ),
@@ -239,10 +239,10 @@ public class ReportTemplateTransferDropTargetListener extends
 
 		if ( preHandle != null )
 		{
-			SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( )
-					.getCommandStack( )
-					.startTrans( transName );
+			CommandStack stack = SessionHandleAdapter.getInstance( )
+					.getCommandStack( );
+
+			stack.startTrans( transName );
 			preHandle.setRequest( this.getCreateRequest( ) );
 			preHandle.setTargetEditPart( getTargetEditPart( ) );
 
@@ -251,10 +251,7 @@ public class ReportTemplateTransferDropTargetListener extends
 			{
 				if ( !( preHandle.preHandleMouseUp( ) ) )
 				{
-					SessionHandleAdapter.getInstance( )
-							.getReportDesignHandle( )
-							.getCommandStack( )
-							.rollback( );
+					stack.rollback( );
 					return;
 				}
 			}
@@ -262,10 +259,7 @@ public class ReportTemplateTransferDropTargetListener extends
 					getSingleTransferData( template ) );
 			if ( isTheme )
 			{
-				SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.getCommandStack( )
-						.commit( );
+				stack.commit( );
 			}
 			else
 			{
@@ -274,17 +268,11 @@ public class ReportTemplateTransferDropTargetListener extends
 				// fix bugzilla#145284
 				if ( !preHandle.postHandleCreation( ) )
 				{
-					SessionHandleAdapter.getInstance( )
-							.getReportDesignHandle( )
-							.getCommandStack( )
-							.rollback( );
+					stack.rollback( );
 					return;
 				}
 
-				SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.getCommandStack( )
-						.commit( );
+				stack.commit( );
 
 				if ( isScalarparameter || isResultSetColumn )
 				{
@@ -304,8 +292,6 @@ public class ReportTemplateTransferDropTargetListener extends
 					{
 						ExceptionHandler.handle( e );
 					}
-					CommandStack stack = SessionHandleAdapter.getInstance( )
-							.getCommandStack( );
 					stack.startTrans( IMG_TRANS_MSG );
 					stack.commit( );
 				}
@@ -338,7 +324,7 @@ public class ReportTemplateTransferDropTargetListener extends
 				.validDrop( TemplateTransfer.getInstance( ).getTemplate( ),
 						getTargetEditPart( ),
 						DND.DROP_DEFAULT,
-						new DNDLocation(getDropLocation( )) ) )
+						new DNDLocation( getDropLocation( ) ) ) )
 		{
 			return true;
 		}
@@ -456,8 +442,8 @@ public class ReportTemplateTransferDropTargetListener extends
 						// enable DataSetHandle,ParameterHandle to drag in lib
 						// explorer view.
 						// 180426 disabled drop to library editor
-						if ( (dragObj instanceof DataSetHandle
-								|| dragObj instanceof ParameterHandle ) && getTargetEditPart( )==null)
+						if ( ( dragObj instanceof DataSetHandle || dragObj instanceof ParameterHandle )
+								&& getTargetEditPart( ) == null )
 							return true;
 						if ( !DNDUtil.handleValidateTargetCanContain( targetEditPart.getModel( ),
 								dragObj )
@@ -491,10 +477,10 @@ public class ReportTemplateTransferDropTargetListener extends
 		}
 		return false;
 	} /*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.gef.dnd.AbstractTransferDropTargetListener#dragOver(org.eclipse.swt.dnd.DropTargetEvent)
-	 */
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.gef.dnd.AbstractTransferDropTargetListener#dragOver(org.eclipse.swt.dnd.DropTargetEvent)
+		 */
 
 	public void dragOver( DropTargetEvent event )
 	{

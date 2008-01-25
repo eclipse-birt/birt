@@ -26,6 +26,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -64,22 +65,22 @@ public class DimensionHandleDropAdapter implements IDropAdapter
 					return DNDService.LOGIC_FALSE;
 			}
 		}
-//		else if ( target instanceof PropertyHandle )
-//		{
-//			if ( ( (PropertyHandle) target ).getPropertyDefn( )
-//					.getName( )
-//					.equals( ICrosstabReportItemConstants.COLUMNS_PROP )
-//					|| ( (PropertyHandle) target ).getPropertyDefn( )
-//							.getName( )
-//							.equals( ICrosstabReportItemConstants.ROWS_PROP ) )
-//			{
-//				return DNDService.LOGIC_TRUE;
-//			}
-//			else
-//			{
-//				return DNDService.LOGIC_UNKNOW;
-//			}
-//		}
+		// else if ( target instanceof PropertyHandle )
+		// {
+		// if ( ( (PropertyHandle) target ).getPropertyDefn( )
+		// .getName( )
+		// .equals( ICrosstabReportItemConstants.COLUMNS_PROP )
+		// || ( (PropertyHandle) target ).getPropertyDefn( )
+		// .getName( )
+		// .equals( ICrosstabReportItemConstants.ROWS_PROP ) )
+		// {
+		// return DNDService.LOGIC_TRUE;
+		// }
+		// else
+		// {
+		// return DNDService.LOGIC_UNKNOW;
+		// }
+		// }
 		return DNDService.LOGIC_UNKNOW;
 	}
 
@@ -106,58 +107,64 @@ public class DimensionHandleDropAdapter implements IDropAdapter
 	public boolean performDrop( Object transfer, Object target, int operation,
 			DNDLocation location )
 	{
-		//		if ( transfer instanceof Object[] )
-		//		{
-		//			Object[] objects = (Object[]) transfer;
-		//			for ( int i = 0; i < objects.length; i++ )
-		//			{
-		//				if ( !performDrop( objects[i], target, operation, location ) )
-		//					return false;
-		//			}
-		//			return true;
-		//		}
+		// if ( transfer instanceof Object[] )
+		// {
+		// Object[] objects = (Object[]) transfer;
+		// for ( int i = 0; i < objects.length; i++ )
+		// {
+		// if ( !performDrop( objects[i], target, operation, location ) )
+		// return false;
+		// }
+		// return true;
+		// }
 		//
-		//		DimensionHandle dimensionHandle = (DimensionHandle) transfer;
-		//		CrosstabReportItemHandle xtabHandle = null;
-		//		int axisType = 0;
+		// DimensionHandle dimensionHandle = (DimensionHandle) transfer;
+		// CrosstabReportItemHandle xtabHandle = null;
+		// int axisType = 0;
 		//
-		//		if ( target instanceof EditPart )//drop on layout
-		//		{
-		//			EditPart editPart = (EditPart) target;
-		//			CrosstabTableEditPart parent = (CrosstabTableEditPart) editPart.getParent( );
-		//			CrosstabHandleAdapter handleAdpter = parent.getCrosstabHandleAdapter( );
-		//			if ( editPart.getModel( ) instanceof VirtualCrosstabCellAdapter )
-		//				axisType = ( (VirtualCrosstabCellAdapter) editPart.getModel( ) ).getType( );
-		//			else if ( editPart.getModel( ) instanceof NormalCrosstabCellAdapter )
-		//				axisType = ( (NormalCrosstabCellAdapter) editPart.getModel( ) ).
-		//			xtabHandle = (CrosstabReportItemHandle) handleAdpter.getCrosstabItemHandle( );
-		//		}
-		//		else if ( target instanceof PropertyHandle )//drop on outline
-		//		{
-		//			PropertyHandle property = (PropertyHandle) target;
-		//			Object handle = property.getElementHandle( );
-		//			if ( handle instanceof CrosstabReportItemHandle )
-		//			{
-		//				xtabHandle = (CrosstabReportItemHandle) handle;
-		//			}
-		//			else if ( handle instanceof DesignElementHandle )
-		//			{
-		//				xtabHandle = (CrosstabReportItemHandle) CrosstabUtil.getReportItem( (DesignElementHandle) handle );
-		//			}
-		//			if ( property.getPropertyDefn( )
-		//					.getName( )
-		//					.equals( ICrosstabReportItemConstants.COLUMNS_PROP ) )
-		//			{
-		//				axisType = ICrosstabConstants.COLUMN_AXIS_TYPE;
-		//			}
-		//			else
-		//			{
-		//				axisType = ICrosstabConstants.ROW_AXIS_TYPE;
-		//			}
-		//		}
-		//		return createDimensionViewHandle( xtabHandle, dimensionHandle, axisType );
+		// if ( target instanceof EditPart )//drop on layout
+		// {
+		// EditPart editPart = (EditPart) target;
+		// CrosstabTableEditPart parent = (CrosstabTableEditPart)
+		// editPart.getParent( );
+		// CrosstabHandleAdapter handleAdpter = parent.getCrosstabHandleAdapter(
+		// );
+		// if ( editPart.getModel( ) instanceof VirtualCrosstabCellAdapter )
+		// axisType = ( (VirtualCrosstabCellAdapter) editPart.getModel( )
+		// ).getType( );
+		// else if ( editPart.getModel( ) instanceof NormalCrosstabCellAdapter )
+		// axisType = ( (NormalCrosstabCellAdapter) editPart.getModel( ) ).
+		// xtabHandle = (CrosstabReportItemHandle)
+		// handleAdpter.getCrosstabItemHandle( );
+		// }
+		// else if ( target instanceof PropertyHandle )//drop on outline
+		// {
+		// PropertyHandle property = (PropertyHandle) target;
+		// Object handle = property.getElementHandle( );
+		// if ( handle instanceof CrosstabReportItemHandle )
+		// {
+		// xtabHandle = (CrosstabReportItemHandle) handle;
+		// }
+		// else if ( handle instanceof DesignElementHandle )
+		// {
+		// xtabHandle = (CrosstabReportItemHandle) CrosstabUtil.getReportItem(
+		// (DesignElementHandle) handle );
+		// }
+		// if ( property.getPropertyDefn( )
+		// .getName( )
+		// .equals( ICrosstabReportItemConstants.COLUMNS_PROP ) )
+		// {
+		// axisType = ICrosstabConstants.COLUMN_AXIS_TYPE;
+		// }
+		// else
+		// {
+		// axisType = ICrosstabConstants.ROW_AXIS_TYPE;
+		// }
+		// }
+		// return createDimensionViewHandle( xtabHandle, dimensionHandle,
+		// axisType );
 
-		if ( target instanceof EditPart )//drop on layout
+		if ( target instanceof EditPart )// drop on layout
 		{
 			EditPart editPart = (EditPart) target;
 
@@ -181,12 +188,15 @@ public class DimensionHandleDropAdapter implements IDropAdapter
 					return false;
 			}
 			return false;
-			//			CrosstabTableEditPart parent = (CrosstabTableEditPart) editPart.getParent( );
-			//			CrosstabHandleAdapter handleAdpter = parent.getCrosstabHandleAdapter( );
+			// CrosstabTableEditPart parent = (CrosstabTableEditPart)
+			// editPart.getParent( );
+			// CrosstabHandleAdapter handleAdpter =
+			// parent.getCrosstabHandleAdapter( );
 			//			
-			//			xtabHandle = (CrosstabReportItemHandle) handleAdpter.getCrosstabItemHandle( );
+			// xtabHandle = (CrosstabReportItemHandle)
+			// handleAdpter.getCrosstabItemHandle( );
 		}
-		else if ( target instanceof PropertyHandle )//drop on outline
+		else if ( target instanceof PropertyHandle )// drop on outline
 		{
 			DimensionHandle dimensionHandle = (DimensionHandle) transfer;
 			CrosstabReportItemHandle xtabHandle = null;
@@ -224,9 +234,9 @@ public class DimensionHandleDropAdapter implements IDropAdapter
 			DimensionHandle dimensionHandle, int type )
 	{
 
-		SessionHandleAdapter.getInstance( )
-				.getCommandStack( )
-				.startTrans( "DimensionHandleDropAdapter" ); //$NON-NLS-1$
+		CommandStack stack = SessionHandleAdapter.getInstance( )
+				.getCommandStack( );
+		stack.startTrans( "DimensionHandleDropAdapter" ); //$NON-NLS-1$
 		try
 		{
 			DimensionViewHandle viewHandle = xtabHandle.insertDimension( dimensionHandle,
@@ -236,13 +246,11 @@ public class DimensionHandleDropAdapter implements IDropAdapter
 			int count = hierarchyHandle.getLevelCount( );
 			if ( count == 0 )
 			{
-				SessionHandleAdapter.getInstance( )
-						.getCommandStack( )
-						.rollback( );
+				stack.rollback( );
 				return false;
 			}
 			LevelHandle levelHandle = hierarchyHandle.getLevel( 0 );
-			//new a bing
+			// new a bing
 			DataItemHandle dataHandle = CrosstabAdaptUtil.createColumnBindingAndDataItem( (ExtendedItemHandle) xtabHandle.getModelHandle( ),
 					levelHandle );
 
@@ -252,11 +260,11 @@ public class DimensionHandleDropAdapter implements IDropAdapter
 			CrosstabCellHandle cellHandle = levelViewHandle.getCell( );
 
 			cellHandle.addContent( dataHandle );
-			SessionHandleAdapter.getInstance( ).getCommandStack( ).commit( );
+			stack.commit( );
 		}
 		catch ( SemanticException e )
 		{
-			SessionHandleAdapter.getInstance( ).getCommandStack( ).rollback( );
+			stack.rollback( );
 			ExceptionHandler.handle( e );
 			return false;
 		}

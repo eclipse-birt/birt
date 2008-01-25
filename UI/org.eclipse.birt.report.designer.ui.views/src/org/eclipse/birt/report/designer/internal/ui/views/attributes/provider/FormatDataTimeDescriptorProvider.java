@@ -16,6 +16,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FormatDateTimePattern;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -69,9 +70,9 @@ public class FormatDataTimeDescriptorProvider implements IDescriptorProvider
 		String[] result = (String[]) value;
 		if ( result.length == 2 )
 		{
-			SessionHandleAdapter.getInstance( )
-					.getCommandStack( )
-					.startTrans( Messages.getString( "FormatDateTimeAttributePage.Trans.SetDateTimeFormat" ) ); //$NON-NLS-1$
+			CommandStack stack = SessionHandleAdapter.getInstance( )
+					.getCommandStack( );
+			stack.startTrans( Messages.getString( "FormatDateTimeAttributePage.Trans.SetDateTimeFormat" ) ); //$NON-NLS-1$
 
 			for ( Iterator iter = DEUtil.getInputElements( input ).iterator( ); iter.hasNext( ); )
 			{
@@ -95,13 +96,11 @@ public class FormatDataTimeDescriptorProvider implements IDescriptorProvider
 				catch ( SemanticException e )
 				{
 					ExceptionHandler.handle( e );
-					SessionHandleAdapter.getInstance( )
-							.getCommandStack( )
-							.rollbackAll( );
+					stack.rollbackAll( );
 					return;
 				}
 			}
-			SessionHandleAdapter.getInstance( ).getCommandStack( ).commit( );
+			stack.commit( );
 
 		}
 

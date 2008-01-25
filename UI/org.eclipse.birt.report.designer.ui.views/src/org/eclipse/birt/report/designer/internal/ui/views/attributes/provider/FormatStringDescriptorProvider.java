@@ -11,6 +11,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -72,9 +73,9 @@ public class FormatStringDescriptorProvider implements IDescriptorProvider
 		String[] values = (String[]) value;
 		if ( values.length != 2 )
 			return;
-		SessionHandleAdapter.getInstance( )
-				.getCommandStack( )
-				.startTrans( Messages.getString( "FormatStringAttributePage.Trans.SetStringFormat" ) ); //$NON-NLS-1$
+		CommandStack stack = SessionHandleAdapter.getInstance( )
+				.getCommandStack( );
+		stack.startTrans( Messages.getString( "FormatStringAttributePage.Trans.SetStringFormat" ) ); //$NON-NLS-1$
 
 		for ( Iterator iter = DEUtil.getInputElements( input ).iterator( ); iter.hasNext( ); )
 		{
@@ -94,14 +95,12 @@ public class FormatStringDescriptorProvider implements IDescriptorProvider
 			}
 			catch ( SemanticException e )
 			{
-				SessionHandleAdapter.getInstance( )
-						.getCommandStack( )
-						.rollbackAll( );
+				stack.rollbackAll( );
 				ExceptionHandler.handle( e );
 			}
 		}
-		SessionHandleAdapter.getInstance( ).getCommandStack( ).commit( );
-		
+		stack.commit( );
+
 	}
 
 	private Object input;
@@ -256,6 +255,5 @@ public class FormatStringDescriptorProvider implements IDescriptorProvider
 	public String FORMAT_VALUE_STRUCT = StringFormatValue.FORMAT_VALUE_STRUCT;
 
 	public String CATEGORY_MEMBER = StringFormatValue.CATEGORY_MEMBER;
-	
 
 }

@@ -66,12 +66,12 @@ public class PublishLibraryAction implements IWorkbenchWindowActionDelegate
 
 		if ( editLibrary( ) )
 		{
-			String filePath = SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( )
-					.getFileName( );
-			fileName = filePath.substring( filePath.lastIndexOf( File.separator ) + 1 );
-			libHandle = (LibraryHandle) SessionHandleAdapter.getInstance( )
+			ModuleHandle module = SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( );
+
+			String filePath = module.getFileName( );
+			fileName = filePath.substring( filePath.lastIndexOf( File.separator ) + 1 );
+			libHandle = (LibraryHandle) module;
 		}
 		else if ( libFile != null
 				&& libFile.getFileExtension( ).equals( "rptlibrary" ) ) //$NON-NLS-1$
@@ -155,7 +155,7 @@ public class PublishLibraryAction implements IWorkbenchWindowActionDelegate
 				return;
 			}
 		}
-		
+
 		libFile = null;
 		selectLibrary = false;
 		action.setEnabled( isEnable( ) ); //$NON-NLS-1$

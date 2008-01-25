@@ -31,6 +31,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.widget.ExpressionDialogCellEditor;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupElementHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
@@ -158,9 +159,9 @@ public class ReportPropertySheetPage extends Page implements
 				COLUMN_TITLE_PROPERTY, COLUMN_TITLE_VALUE
 		} );
 
-		 AlphabeticallyViewSorter sorter = new AlphabeticallyViewSorter( );
-		 sorter.setAscending( true );
-		 viewer.setSorter( sorter );
+		AlphabeticallyViewSorter sorter = new AlphabeticallyViewSorter( );
+		sorter.setAscending( true );
+		viewer.setSorter( sorter );
 
 		hookControl( );
 
@@ -371,11 +372,12 @@ public class ReportPropertySheetPage extends Page implements
 	{
 		try
 		{
-			if ( SessionHandleAdapter.getInstance( )
-					.getCommandStack( )
-					.canRedo( ) )
+			CommandStack stack = SessionHandleAdapter.getInstance( )
+					.getCommandStack( );
+			
+			if ( stack.canRedo( ) )
 			{
-				SessionHandleAdapter.getInstance( ).getCommandStack( ).redo( );
+				stack.redo( );
 			}
 		}
 		catch ( Exception e )
@@ -460,7 +462,8 @@ public class ReportPropertySheetPage extends Page implements
 		{
 			try
 			{
-				((GroupPropertyHandleWrapper)model).getModel( ).setValue( cellEditor.getValue( ) );
+				( (GroupPropertyHandleWrapper) model ).getModel( )
+						.setValue( cellEditor.getValue( ) );
 			}
 			catch ( SemanticException e )
 			{
@@ -538,7 +541,8 @@ public class ReportPropertySheetPage extends Page implements
 	{
 		CellEditor editor = null;
 		if ( data instanceof GroupPropertyHandleWrapper
-				&& ( ( (GroupPropertyHandleWrapper) data ) ).getModel( ).isVisible( ) )
+				&& ( ( (GroupPropertyHandleWrapper) data ) ).getModel( )
+						.isVisible( ) )
 		{
 			editor = PropertyEditorFactory.getInstance( )
 					.createPropertyEditor( tableTree,

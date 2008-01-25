@@ -14,7 +14,6 @@ package org.eclipse.birt.report.debug.internal.ui.script;
 import org.eclipse.birt.report.debug.internal.script.model.ScriptDebugElement;
 import org.eclipse.birt.report.debug.ui.DebugUI;
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.debug.core.model.IDebugElement;
 import org.eclipse.debug.ui.DebugUITools;
 import org.eclipse.debug.ui.contexts.DebugContextEvent;
 import org.eclipse.debug.ui.contexts.IDebugContextListener;
@@ -34,7 +33,7 @@ public class ScriptEvaluationContextManager implements
 		IDebugContextListener
 {
 
-	private static final String KEY = DebugUI.getUniqueIdentifier( ) + ".debuggerActive";
+	private static final String KEY = DebugUI.getUniqueIdentifier( ) + ".debuggerActive"; //$NON-NLS-1$
 	private static ScriptEvaluationContextManager fgManager;
 	//TODO get the stack from the fActiveWindow
 	private IWorkbenchWindow fActiveWindow;
@@ -119,12 +118,12 @@ public class ScriptEvaluationContextManager implements
 
 					if ( frame != null )
 					{
-						System.setProperty( KEY, "true" );
+						System.setProperty( KEY, "true" ); //$NON-NLS-1$
 						return;
 					}
 				}
 			}
 		}
-		System.setProperty(KEY, "false" );
+		System.setProperty(KEY, "false" ); //$NON-NLS-1$
 	}
 }
