@@ -33,23 +33,23 @@ class ArchiveEntryV2 extends ArchiveEntry implements ArchiveConstants
 		}
 	}
 
-	public long getLength( ) throws IOException
+	public synchronized long getLength( ) throws IOException
 	{
 		return entry.getLength( );
 	}
 
-	public void setLength( long length ) throws IOException
+	public synchronized void setLength( long length ) throws IOException
 	{
 		ensureSize( length );
 		entry.setLength( length );
 	}
 
-	public void flush( ) throws IOException
+	public synchronized void flush( ) throws IOException
 	{
 		// TODO: support flush in future
 	}
 
-	public void refresh( ) throws IOException
+	public synchronized void refresh( ) throws IOException
 	{
 		// TODO: support refresh in future.
 	}
@@ -64,7 +64,8 @@ class ArchiveEntryV2 extends ArchiveEntry implements ArchiveConstants
 		af.unlockEntry( lock );
 	}
 
-	public int read( long pos, byte[] b, int off, int len ) throws IOException
+	public synchronized int read( long pos, byte[] b, int off, int len )
+			throws IOException
 	{
 		long length = entry.getLength( );
 
@@ -77,7 +78,7 @@ class ArchiveEntryV2 extends ArchiveEntry implements ArchiveConstants
 		{
 			len = (int) ( length - pos );
 		}
-		
+
 		if ( len == 0 )
 		{
 			return 0;
@@ -117,7 +118,7 @@ class ArchiveEntryV2 extends ArchiveEntry implements ArchiveConstants
 		return readSize;
 	}
 
-	public void write( long pos, byte[] b, int off, int len )
+	public synchronized void write( long pos, byte[] b, int off, int len )
 			throws IOException
 	{
 		ensureSize( pos + len );

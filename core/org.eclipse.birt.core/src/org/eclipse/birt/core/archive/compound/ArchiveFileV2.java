@@ -338,7 +338,7 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 	 * 
 	 * @throws IOException
 	 */
-	public void close( ) throws IOException
+	public synchronized void close( ) throws IOException
 	{
 		if ( isWritable )
 		{
@@ -361,7 +361,7 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		isClosed = true;
 	}
 
-	public void flush( ) throws IOException
+	public synchronized void flush( ) throws IOException
 	{
 		assertWritable( );
 		if ( !isTransient )
@@ -373,7 +373,7 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		}
 	}
 
-	public void save( ) throws IOException
+	public synchronized void save( ) throws IOException
 	{
 		assertWritable( );
 		if ( isTransient )
@@ -383,7 +383,7 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		flush( );
 	}
 
-	public void refresh( ) throws IOException
+	public synchronized void refresh( ) throws IOException
 	{
 		assertOpen( );
 		if ( !isWritable )
@@ -397,17 +397,17 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 
 	}
 
-	public boolean exists( String name )
+	public synchronized boolean exists( String name )
 	{
 		return entries.containsKey( name );
 	}
 
-	public ArchiveEntry getEntry( String name )
+	public synchronized ArchiveEntry getEntry( String name )
 	{
 		return (ArchiveEntry) entries.get( name );
 	}
 
-	public List listEntries( String namePattern )
+	public synchronized List listEntries( String namePattern )
 	{
 		ArrayList list = new ArrayList( );
 		Iterator iter = entries.keySet( ).iterator( );
@@ -422,7 +422,8 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		return list;
 	}
 
-	public ArchiveEntry createEntry( String name ) throws IOException
+	public synchronized ArchiveEntry createEntry( String name )
+			throws IOException
 	{
 		assertWritable( );
 
@@ -441,7 +442,7 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		return entry;
 	}
 
-	public boolean removeEntry( String name ) throws IOException
+	public synchronized boolean removeEntry( String name ) throws IOException
 	{
 		assertWritable( );
 
