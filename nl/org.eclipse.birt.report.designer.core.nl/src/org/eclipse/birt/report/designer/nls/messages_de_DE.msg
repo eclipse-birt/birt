@@ -1236,7 +1236,7 @@ EmbeddedImagesNodeProvider.action.New=Neues eingebettetes Bild
 
 ###########################################################
 #ElementIdDescriptorProvider properties
-ElementIdDescriptorProvider.Display.Element.ID=Element-ID:
+ElementIdDescriptorProvider.Display.Element.ID=&Element ID:
 
 ###########################################################
 #EmptyEditPart properties
@@ -1816,6 +1816,7 @@ ImageBuilder.Description.URI=Verknüpfen mit Bild im Internet
 ImageBuilder.Description.ResourceFile=Verknüpfen mit Bild in gemeinsamen Ressourcen
 ImageBuilder.Description.Embedded=Bild in Bericht einbetten
 ImageBuilder.Description.Dynamic=Bild aus Datensatz (Datenbanken) abrufen
+ImageBuilder.Button.Browser.Tooltip=Browse Image File
 
 ###########################################################
 #ImageEditPart properties

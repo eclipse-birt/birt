@@ -1236,7 +1236,7 @@ EmbeddedImagesNodeProvider.action.New=新しく埋め込まれたイメージ
 
 ###########################################################
 #ElementIdDescriptorProvider properties
-ElementIdDescriptorProvider.Display.Element.ID=要素 ID :
+ElementIdDescriptorProvider.Display.Element.ID=&Element ID:
 
 ###########################################################
 #EmptyEditPart properties
@@ -1816,6 +1816,7 @@ ImageBuilder.Description.URI=Web 上のイメージへのリンク
 ImageBuilder.Description.ResourceFile=共有リソース内のイメージへのリンク
 ImageBuilder.Description.Embedded=レポートへのイメージの埋め込み
 ImageBuilder.Description.Dynamic=データセット (データベース) からのイメージの取得
+ImageBuilder.Button.Browser.Tooltip=Browse Image File
 
 ###########################################################
 #ImageEditPart properties

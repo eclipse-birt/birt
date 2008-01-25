@@ -1236,7 +1236,7 @@ EmbeddedImagesNodeProvider.action.New=新建嵌入图像
 
 ###########################################################
 #ElementIdDescriptorProvider properties
-ElementIdDescriptorProvider.Display.Element.ID=元素 ID:
+ElementIdDescriptorProvider.Display.Element.ID=&Element ID:
 
 ###########################################################
 #EmptyEditPart properties
@@ -1816,6 +1816,7 @@ ImageBuilder.Description.URI=链接到 web 上的图像
 ImageBuilder.Description.ResourceFile=链接到共享资源中的图像
 ImageBuilder.Description.Embedded=将图像嵌入到报表
 ImageBuilder.Description.Dynamic=从数据集(数据库)中检索图像
+ImageBuilder.Button.Browser.Tooltip=Browse Image File
 
 ###########################################################
 #ImageEditPart properties

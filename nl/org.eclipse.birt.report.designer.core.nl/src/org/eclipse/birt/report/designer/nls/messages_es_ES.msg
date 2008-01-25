@@ -1236,7 +1236,7 @@ EmbeddedImagesNodeProvider.action.New=Nueva imagen incrustada
 
 ###########################################################
 #ElementIdDescriptorProvider properties
-ElementIdDescriptorProvider.Display.Element.ID=ID del elemento:
+ElementIdDescriptorProvider.Display.Element.ID=&Element ID:
 
 ###########################################################
 #EmptyEditPart properties
@@ -1816,6 +1816,7 @@ ImageBuilder.Description.URI=Link a imagen en web
 ImageBuilder.Description.ResourceFile=Link a imagen en recursos compartidos
 ImageBuilder.Description.Embedded=Incrustar imagen en el informe
 ImageBuilder.Description.Dynamic=Recuperar imagen desde conjunto de datos (bases de datos)
+ImageBuilder.Button.Browser.Tooltip=Browse Image File
 
 ###########################################################
 #ImageEditPart properties

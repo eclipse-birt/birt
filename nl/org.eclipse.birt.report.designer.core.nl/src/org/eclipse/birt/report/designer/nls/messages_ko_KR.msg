@@ -1236,7 +1236,7 @@ EmbeddedImagesNodeProvider.action.New=새 내장된 이미지
 
 ###########################################################
 #ElementIdDescriptorProvider properties
-ElementIdDescriptorProvider.Display.Element.ID=요소 ID:
+ElementIdDescriptorProvider.Display.Element.ID=&Element ID:
 
 ###########################################################
 #EmptyEditPart properties
@@ -1816,6 +1816,7 @@ ImageBuilder.Description.URI=웹 상의 이미지에 링크
 ImageBuilder.Description.ResourceFile=공유된 리소스의 이미지에 링크
 ImageBuilder.Description.Embedded=이미지를 보고서에 포함
 ImageBuilder.Description.Dynamic=데이터 집합(데이터베이스)에서 이미지 검색
+ImageBuilder.Button.Browser.Tooltip=Browse Image File
 
 ###########################################################
 #ImageEditPart properties
