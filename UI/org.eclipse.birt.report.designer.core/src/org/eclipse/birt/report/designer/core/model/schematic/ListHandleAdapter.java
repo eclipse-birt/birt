@@ -27,7 +27,6 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
-import org.eclipse.jface.util.Assert;
 
 /**
  * List element handle adapter
@@ -209,7 +208,7 @@ public class ListHandleAdapter extends ReportItemtHandleAdapter
 	 */
 	public void removeGroup( Object group ) throws SemanticException
 	{
-		Assert.isLegal( group instanceof ListBandProxy );
+		assert group instanceof ListBandProxy;
 		( (ListBandProxy) group ).getElemtHandle( ).drop( );
 	}
 

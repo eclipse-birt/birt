@@ -16,27 +16,25 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 /**
- * 
+ * LibraryPlugin
  */
-
 public class LibraryPlugin extends AbstractUIPlugin
 {
 
 	public LibraryPlugin( IPluginDescriptor descriptor )
 	{
 		super( descriptor );
-		// TODO Auto-generated constructor stub
 	}
 
 	public LibraryPlugin( )
 	{
 		super( );
-		// TODO Auto-generated constructor stub
 	}
 
 	public void start( BundleContext context ) throws Exception
 	{
 		super.start( context );
-		ReportPlugin.getDefault().addIgnoreViewID("org.eclipse.birt.report.designer.ui.editors.LibraryEditor");
+		ReportPlugin.getDefault( )
+				.addIgnoreViewID( "org.eclipse.birt.report.designer.ui.editors.LibraryEditor" ); //$NON-NLS-1$
 	}
 }

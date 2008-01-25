@@ -18,7 +18,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -40,8 +39,6 @@ public class WizardSaveAsPage extends WizardPage
 {
 
 	private NewReportPageSupport support;
-	private IResource originalFile;
-	private String originalName;
 
 	private static final String MSG_EMPTY_FILE_LOCATION_DIRECTORY = Messages.getString( "WizardNewReportCreationPage.msg.empty.file.locationDirectory" ); //$NON-NLS-1$
 	private static final String MSG_EMPTY_FILE_NAME = Messages.getString( "WizardNewReportCreationPage.msg.empty.file.name" ); //$NON-NLS-1$
@@ -87,19 +84,6 @@ public class WizardSaveAsPage extends WizardPage
 		support.setInitialFileName( input.getName( ) );
 	}
 
-	/**
-	 * Set the original file name to use. Used instead of
-	 * <code>setOriginalFile</code> when the original resource is not an
-	 * IFile. Must be called before <code>create</code>.
-	 * 
-	 * @param originalName
-	 *            default file name
-	 */
-	public void setOriginalName( String originalName )
-	{
-		this.originalName = originalName;
-	}
-
 	public boolean validatePage( )
 	{
 		if ( support.getFileName( ).equals( "" ) )//$NON-NLS-1$
@@ -140,9 +124,9 @@ public class WizardSaveAsPage extends WizardPage
 			path = path.addFileExtension( parts[parts.length - 1] );
 		}
 		else if ( support.getInitialFileName( )
-				.endsWith( IReportEditorContants.TEMPLATE_FILE_EXTENTION ) //$NON-NLS-1$
+				.endsWith( IReportEditorContants.TEMPLATE_FILE_EXTENTION )
 				&& !path.toOSString( )
-						.endsWith( IReportEditorContants.TEMPLATE_FILE_EXTENTION ) ) //$NON-NLS-1$
+						.endsWith( IReportEditorContants.TEMPLATE_FILE_EXTENTION ) )
 		{
 			path = path.addFileExtension( "rpttemplate" ); //$NON-NLS-1$
 		}

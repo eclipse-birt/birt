@@ -33,7 +33,6 @@ import org.eclipse.birt.report.designer.ui.widget.ExpressionDialogCellEditor;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupElementHandle;
-import org.eclipse.birt.report.model.api.GroupPropertyHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.Listener;
@@ -117,7 +116,7 @@ public class ReportPropertySheetPage extends Page implements
 	private Composite container;
 	private IMemento propertySheetMemento;
 	private IMemento viewerMemento;
-	protected String propertyViewerID = "Report_Property_Sheet_Page_Viewer_ID";
+	protected String propertyViewerID = "Report_Property_Sheet_Page_Viewer_ID"; //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
@@ -461,7 +460,7 @@ public class ReportPropertySheetPage extends Page implements
 		{
 			try
 			{
-				( (GroupPropertyHandle) ((GroupPropertyHandleWrapper)model).getModel( ) ).setValue( cellEditor.getValue( ) );
+				((GroupPropertyHandleWrapper)model).getModel( ).setValue( cellEditor.getValue( ) );
 			}
 			catch ( SemanticException e )
 			{
@@ -539,7 +538,7 @@ public class ReportPropertySheetPage extends Page implements
 	{
 		CellEditor editor = null;
 		if ( data instanceof GroupPropertyHandleWrapper
-				&& ( (GroupPropertyHandle) ( ( (GroupPropertyHandleWrapper) data ) ).getModel( ) ).isVisible( ) )
+				&& ( ( (GroupPropertyHandleWrapper) data ) ).getModel( ).isVisible( ) )
 		{
 			editor = PropertyEditorFactory.getInstance( )
 					.createPropertyEditor( tableTree,
@@ -791,7 +790,7 @@ public class ReportPropertySheetPage extends Page implements
 
 		if ( displayName == null || "".equals( displayName ) )//$NON-NLS-1$ 
 		{
-			displayName = Messages.getString( "ReportPropertySheetPage.Root.Default.Title" );
+			displayName = Messages.getString( "ReportPropertySheetPage.Root.Default.Title" ); //$NON-NLS-1$
 		}
 		title.setTitle( displayName, null );
 	}
@@ -880,13 +879,13 @@ public class ReportPropertySheetPage extends Page implements
 			// viewer.refresh( true );
 			if ( getControl( ).isFocusControl( ) )
 			{
-				IMemento memento = viewerMemento.getChild( PropertyMementoUtil.getElementType( (DesignElementHandle) focus ) );
+				IMemento memento = viewerMemento.getChild( PropertyMementoUtil.getElementType( focus ) );
 				if ( memento == null )
 				{
 					expandToDefaultLevel( );
 					if ( viewer.getTree( ).getItemCount( ) > 0 )
 					{
-						Memento elementMemento = (Memento) viewerMemento.createChild( PropertyMementoUtil.getElementType( (DesignElementHandle) focus ),
+						Memento elementMemento = (Memento) viewerMemento.createChild( PropertyMementoUtil.getElementType( focus ),
 								MementoElement.Type_Element );
 						elementMemento.getMementoElement( )
 								.setValue( new Integer( 0 ) );

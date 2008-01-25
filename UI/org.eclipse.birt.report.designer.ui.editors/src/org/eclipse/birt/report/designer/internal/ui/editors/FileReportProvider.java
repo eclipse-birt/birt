@@ -357,7 +357,7 @@ public class FileReportProvider implements IReportProvider
 			IEditorInput input = (IEditorInput) element;
 
 			SaveReportAsWizardDialog dialog = new SaveReportAsWizardDialog( UIUtil.getDefaultShell( ),
-					new SaveReportAsWizard( (ModuleHandle) model, input ) );
+					new SaveReportAsWizard( model, input ) );
 			if ( dialog.open( ) == Window.OK )
 			{
 				return dialog.getResult( );

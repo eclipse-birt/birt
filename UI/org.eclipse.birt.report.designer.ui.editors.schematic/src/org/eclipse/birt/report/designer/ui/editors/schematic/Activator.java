@@ -67,7 +67,7 @@ public class Activator extends AbstractUIPlugin
 	 */
 	public static ImageDescriptor getImageDescriptor( String path )
 	{
-		return AbstractUIPlugin.imageDescriptorFromPlugin( "org.eclipse.birt.report.designer.ui.editors",
+		return AbstractUIPlugin.imageDescriptorFromPlugin( "org.eclipse.birt.report.designer.ui.editors", //$NON-NLS-1$
 				path );
 	}
 }

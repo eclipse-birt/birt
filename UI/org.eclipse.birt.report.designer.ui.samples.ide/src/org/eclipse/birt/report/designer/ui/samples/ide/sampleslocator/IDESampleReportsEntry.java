@@ -26,13 +26,13 @@ public class IDESampleReportsEntry implements ISampleReportEntry
 	public IDESampleReportsEntry( )
 	{
 		samplesEntries = new SampleReportsEntry( REPORTDESIGN_FILENAME_PATTERN,
-				"Report Examples",
-				"/samplereports",
+				"Report Examples", //$NON-NLS-1$
+				"/samplereports", //$NON-NLS-1$
 				null,
 				false );
 		ideSamplesEntries = new SampleReportsEntry( REPORTDESIGN_FILENAME_PATTERN,
-				"IDE Report Examples",
-				"/samplereports.ide",
+				"IDE Report Examples", //$NON-NLS-1$
+				"/samplereports.ide", //$NON-NLS-1$
 				null,
 				false );
 	}

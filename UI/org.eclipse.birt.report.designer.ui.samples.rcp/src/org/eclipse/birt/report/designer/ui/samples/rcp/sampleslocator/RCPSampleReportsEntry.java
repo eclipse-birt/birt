@@ -26,8 +26,8 @@ public class RCPSampleReportsEntry implements ISampleReportEntry
 	public RCPSampleReportsEntry( )
 	{
 		samplesEntries = new SampleReportsEntry( REPORTDESIGN_FILENAME_PATTERN,
-				"Report Examples",
-				"/samplereports",
+				"Report Examples", //$NON-NLS-1$
+				"/samplereports", //$NON-NLS-1$
 				null,
 				false );
 	}

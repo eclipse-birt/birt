@@ -74,7 +74,7 @@ public class PropertyMementoUtil
 		pathList.add( node );//add root
 		while(memento.getChildren( ).length>0){
 			pathList.add( memento.getChild( 0 ) );
-			memento = (MementoElement)memento.getChild( 0 );
+			memento = memento.getChild( 0 );
 		}
 		MementoElement[] paths = new MementoElement[pathList.size( )];
 		pathList.toArray( paths );

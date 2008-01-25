@@ -66,13 +66,13 @@ public class IDEOpenSampleReportAction extends Action implements
 		Listener
 {
 
-	private static final String ACTION_TEXT = Messages.getString( "SampleReportsView.Action.openSampleReport" );
+	private static final String ACTION_TEXT = Messages.getString( "SampleReportsView.Action.openSampleReport" ); //$NON-NLS-1$
 
-	private static final String SCRIPTING_CATEGORY = "Scripted Data Source";
+	private static final String SCRIPTING_CATEGORY = "Scripted Data Source"; //$NON-NLS-1$
 
-	private static final String EXTENDING_CATEGORY = "Extending BIRT";
+	private static final String EXTENDING_CATEGORY = "Extending BIRT"; //$NON-NLS-1$
 
-	private static final String DRILL_TO_DETAILS_CATEGORY = "Drill to Details";
+	private static final String DRILL_TO_DETAILS_CATEGORY = "Drill to Details"; //$NON-NLS-1$
 
 	private static final String[] EXTENDING_PLUGIN_PATTERN = new String[]{
 		"*.zip" //$NON-NLS-1$
@@ -85,7 +85,7 @@ public class IDEOpenSampleReportAction extends Action implements
 	public IDEOpenSampleReportAction( )
 	{
 		super( ACTION_TEXT );
-		setToolTipText( Messages.getString( "SampleReportsView.Action.openSampleReport.toolTipText.ide" ) );
+		setToolTipText( Messages.getString( "SampleReportsView.Action.openSampleReport.toolTipText.ide" ) ); //$NON-NLS-1$
 		setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ENABLE_IMPORT ) );
 		setDisabledImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_DISABLE_IMPORT ) );
 		setEnabled( false );
@@ -122,7 +122,7 @@ public class IDEOpenSampleReportAction extends Action implements
 		}
 		else
 			reportProject = createProject( item.getText( ).substring( 0,
-					item.getText( ).lastIndexOf( "." ) ), false );
+					item.getText( ).lastIndexOf( "." ) ), false ); //$NON-NLS-1$
 		/*
 		 * 2.Place the sample report into project folder
 		 */
@@ -170,7 +170,7 @@ public class IDEOpenSampleReportAction extends Action implements
 				String desFileName = filename.substring( filename.lastIndexOf( '/' ) + 1 );
 
 				PlaceResources.copy( composite.getShell( ),
-						javaProject.getFolder( "src" )
+						javaProject.getFolder( "src" ) //$NON-NLS-1$
 								.getLocation( )
 								.toOSString( ),
 						desFileName,
@@ -255,7 +255,7 @@ public class IDEOpenSampleReportAction extends Action implements
 
 		final FileDialog saveDialog = new FileDialog( composite.getShell( ),
 				SWT.SAVE );
-		saveDialog.setFilterExtensions( EXTENDING_PLUGIN_PATTERN ); //$NON-NLS-1$
+		saveDialog.setFilterExtensions( EXTENDING_PLUGIN_PATTERN );
 		saveDialog.setFileName( pluginName );
 		if ( saveDialog.open( ) == null )
 			return;
@@ -291,7 +291,7 @@ public class IDEOpenSampleReportAction extends Action implements
 		else
 		{
 			String[] natures = new String[]{
-				"org.eclipse.birt.report.designer.ui.reportprojectnature"
+				"org.eclipse.birt.report.designer.ui.reportprojectnature" //$NON-NLS-1$
 			};
 			description.setNatureIds( natures );
 		}
@@ -409,7 +409,7 @@ public class IDEOpenSampleReportAction extends Action implements
 	private void createSourceAndOutputFolder( IProject project )
 	{
 
-		IFolder srcFolder = project.getFolder( "src" );
+		IFolder srcFolder = project.getFolder( "src" ); //$NON-NLS-1$
 		if ( !srcFolder.exists( ) )
 			try
 			{
@@ -420,7 +420,7 @@ public class IDEOpenSampleReportAction extends Action implements
 				ExceptionHandler.handle( e );
 			}
 
-		IFolder outputFolder = project.getFolder( "bin" );
+		IFolder outputFolder = project.getFolder( "bin" ); //$NON-NLS-1$
 		if ( !outputFolder.exists( ) )
 			try
 			{
@@ -451,7 +451,7 @@ public class IDEOpenSampleReportAction extends Action implements
 	{
 		IJavaProject javaProject = JavaCore.create( project );
 
-		IPath path = project.getFullPath( ).append( "bin" );
+		IPath path = project.getFullPath( ).append( "bin" ); //$NON-NLS-1$
 		javaProject.setOutputLocation( path, null );
 
 		IClasspathEntry[] entries = getClassPathEntries( project );
@@ -467,14 +467,14 @@ public class IDEOpenSampleReportAction extends Action implements
 				entries,
 				0,
 				internalClassPathEntries.length );
-		entries[entries.length - 1] = JavaCore.newContainerEntry( new Path( "org.eclipse.jdt.launching.JRE_CONTAINER" ) );
+		entries[entries.length - 1] = JavaCore.newContainerEntry( new Path( "org.eclipse.jdt.launching.JRE_CONTAINER" ) ); //$NON-NLS-1$
 		return entries;
 	}
 
 	protected IClasspathEntry[] getInternalClassPathEntries( IProject project )
 	{
 		IClasspathEntry[] entries = new IClasspathEntry[1];
-		IPath path = project.getFullPath( ).append( "src" );
+		IPath path = project.getFullPath( ).append( "src" ); //$NON-NLS-1$
 		entries[0] = JavaCore.newSourceEntry( path );
 		return entries;
 	}

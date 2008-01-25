@@ -11,10 +11,8 @@
 
 package org.eclipse.birt.report.designer.util;
 
-import java.util.HashMap;
-
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 /**
  * A pattern class serves for getting and setting pattern string for a number.
@@ -22,12 +20,13 @@ import org.eclipse.birt.report.designer.nls.Messages;
 
 public class FormatNumberPattern
 {
+
 	public static final String TEXT_CURRENCY_SYMBOL_NONE = Messages.getString( "FormatNumberPage.currency.symbol.none" ); //$NON-NLS-1$
 	public static final String SYMBOL_POSITION_AFTER = Messages.getString( "FormatNumberPage.symblePos.after" ); //$NON-NLS-1$
 	public static final String SYMBOL_POSITION_BEFORE = Messages.getString( "FormatNumberPage.symblePos.before" ); //$NON-NLS-1$
-	
-//	private HashMap categoryPatternMaps;
-	
+
+	// private HashMap categoryPatternMaps;
+
 	/**
 	 * Category of number format pattern
 	 */
@@ -70,7 +69,7 @@ public class FormatNumberPattern
 	{
 		this.category = category;
 		setType( 'G' );
-//		createCategoryPatterns( );
+		// createCategoryPatterns( );
 	}
 
 	/**
@@ -80,11 +79,12 @@ public class FormatNumberPattern
 	{
 		this.category = DesignChoiceConstants.NUMBER_FORMAT_TYPE_GENERAL_NUMBER;
 		setType( 'G' );
-//		createCategoryPatterns( );
+		// createCategoryPatterns( );
 	}
 
-	/** 
-	 *  Get category name
+	/**
+	 * Get category name
+	 * 
 	 * @return Returns the name.
 	 */
 	public String getCategory( )
@@ -92,7 +92,9 @@ public class FormatNumberPattern
 		return category;
 	}
 
-	/** Get type
+	/**
+	 * Get type
+	 * 
 	 * @return Returns the type.
 	 */
 	protected char getType( )
@@ -101,9 +103,10 @@ public class FormatNumberPattern
 	}
 
 	/**
-	 *  Set type
+	 * Set type
+	 * 
 	 * @param t
-	 * 	The type to set
+	 *            The type to set
 	 */
 	protected void setType( char t )
 	{

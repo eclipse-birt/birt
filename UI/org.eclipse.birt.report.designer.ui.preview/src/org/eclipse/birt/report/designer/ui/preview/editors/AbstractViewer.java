@@ -75,7 +75,7 @@ public abstract class AbstractViewer implements IViewer
 		String reportDocumentFile = outputFolder
 				+ File.separator
 				+ designFile.getName( )
-				+ "."
+				+ "." //$NON-NLS-1$
 				+ RPTDOC_SUFFIX;
 
 		IDocArchiveWriter archive = new FileArchiveWriter( reportDocumentFile );

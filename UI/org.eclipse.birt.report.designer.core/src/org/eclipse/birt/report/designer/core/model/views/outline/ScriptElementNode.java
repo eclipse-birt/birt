@@ -55,8 +55,10 @@ public class ScriptElementNode implements IScriptTreeNode, IMenuListener
 	{
 		manager.add( new GotoReportElementAction( getParent( ) ) );
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	public boolean equals( Object arg0 )
@@ -71,12 +73,12 @@ public class ScriptElementNode implements IScriptTreeNode, IMenuListener
 		}
 		return false;
 	}
-	
+
 	public int hashCode( )
 	{
 		int hashCode = 13;
-		if(parent!=null)
-			hashCode +=  parent.hashCode( ) * 7;
+		if ( parent != null )
+			hashCode += parent.hashCode( ) * 7;
 		return hashCode;
 	}
 
@@ -85,7 +87,7 @@ public class ScriptElementNode implements IScriptTreeNode, IMenuListener
 class GotoReportElementAction extends Action
 {
 
-	private static final String ACTION_TEXT = Messages.getString( "ScriptElementNode.Action.Text" );
+	private static final String ACTION_TEXT = Messages.getString( "ScriptElementNode.Action.Text" ); //$NON-NLS-1$
 	private Object source;
 
 	public GotoReportElementAction( Object seletedElement )

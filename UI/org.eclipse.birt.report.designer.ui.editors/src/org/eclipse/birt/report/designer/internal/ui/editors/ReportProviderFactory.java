@@ -14,12 +14,10 @@ package org.eclipse.birt.report.designer.internal.ui.editors;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.designer.ui.editors.IReportProviderFactory;
 import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IPathEditorInput;
 
 /**
- * 
+ * ReportProviderFactory
  */
-
 public class ReportProviderFactory implements IReportProviderFactory
 {
 

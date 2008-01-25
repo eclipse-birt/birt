@@ -72,12 +72,12 @@ public class NewReportTemplateWizard extends Wizard implements
 
 	private static final String NEW_REPORT_FILE_NAME_PREFIX = Messages.getString( "NewTemplateWizard.displayName.NewReportFileNamePrefix" ); //$NON-NLS-1$
 
-	private String fileExtension = "."+IReportElementConstants.TEMPLATE_FILE_EXTENSION;
+	private String fileExtension = "." + IReportElementConstants.TEMPLATE_FILE_EXTENSION; //$NON-NLS-1$
 
 	private static final String TEMPLATE_FILE = "/templates/blank_report.rpttemplate"; //$NON-NLS-1$
-	
-	private static final String SAVE_TEMPLATE_PROPERTIES_MESSAGES = Messages.getString( "SaveReportAsWizard.SettingPage.Messages" );
-	
+
+	private static final String SAVE_TEMPLATE_PROPERTIES_MESSAGES = Messages.getString( "SaveReportAsWizard.SettingPage.Messages" ); //$NON-NLS-1$
+
 	private WizardNewReportCreationPage newReportFileWizardPage;
 
 	private WizardReportSettingPage settingPage;
@@ -104,9 +104,11 @@ public class NewReportTemplateWizard extends Wizard implements
 	 */
 	public void addPages( )
 	{
-		newReportFileWizardPage = new WizardNewReportCreationPage( WIZARDPAGE ){
-			public boolean validatePage(){
-				return validatePage(fileExtension);
+		newReportFileWizardPage = new WizardNewReportCreationPage( WIZARDPAGE ) {
+
+			public boolean validatePage( )
+			{
+				return validatePage( fileExtension );
 			}
 		};
 
@@ -177,9 +179,9 @@ public class NewReportTemplateWizard extends Wizard implements
 		final String fileName;
 		if ( !Platform.getOS( ).equals( Platform.WS_WIN32 ) )
 		{
-			if ( !fn.endsWith( fileExtension ) ) //$NON-NLS-1$
+			if ( !fn.endsWith( fileExtension ) )
 			{
-				fileName = fn + fileExtension; //$NON-NLS-1$
+				fileName = fn + fileExtension;
 			}
 			else
 			{
@@ -189,24 +191,25 @@ public class NewReportTemplateWizard extends Wizard implements
 		else
 		{
 			if ( !fn.toLowerCase( Locale.getDefault( ) )
-					.endsWith( fileExtension ) ) //$NON-NLS-1$
+					.endsWith( fileExtension ) )
 			{
-				fileName = fn + fileExtension; //$NON-NLS-1$
+				fileName = fn + fileExtension;
 			}
 			else
 			{
 				fileName = fn;
 			}
-		}	
-		
-		if(Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ) == null)
+		}
+
+		if ( Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ) == null )
 		{
 			return true;
 		}
 		URL url = FileLocator.find( Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ),
-				new Path( TEMPLATE_FILE ), null );
+				new Path( TEMPLATE_FILE ),
+				null );
 
-		if(url == null)
+		if ( url == null )
 		{
 			return true;
 		}
@@ -219,7 +222,6 @@ public class NewReportTemplateWizard extends Wizard implements
 		{
 			return false;
 		}
-		
 
 		IRunnableWithProgress op = new IRunnableWithProgress( ) {
 
@@ -302,7 +304,7 @@ public class NewReportTemplateWizard extends Wizard implements
 		catch ( Exception e )
 		{
 		}
-		
+
 		monitor.worked( 1 );
 		monitor.setTaskName( OPENING_FILE_FOR_EDITING );
 		getShell( ).getDisplay( ).asyncExec( new Runnable( ) {
@@ -325,12 +327,17 @@ public class NewReportTemplateWizard extends Wizard implements
 					IEditorPart editorPart = page.openEditor( new ReportEditorInput( file ),
 							IReportEditorContants.TEMPLATE_EDITOR_ID,
 							true );
-					ModuleHandle model = SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
-					if(ReportPlugin.getDefault( ).getEnableCommentPreference( )){
-					    model.setStringProperty( ModuleHandle.COMMENTS_PROP, ReportPlugin.getDefault( ).getCommentPreference( ) );
+					ModuleHandle model = SessionHandleAdapter.getInstance( )
+							.getReportDesignHandle( );
+					if ( ReportPlugin.getDefault( )
+							.getEnableCommentPreference( ) )
+					{
+						model.setStringProperty( ModuleHandle.COMMENTS_PROP,
+								ReportPlugin.getDefault( )
+										.getCommentPreference( ) );
 					}
-					    
-					setReportSettings(model);
+
+					setReportSettings( model );
 					model.save( );
 					editorPart.doSave( null );
 
@@ -352,20 +359,17 @@ public class NewReportTemplateWizard extends Wizard implements
 
 	public boolean canFinish( )
 	{
-		return newReportFileWizardPage.isPageComplete( ) && settingPage.canFinish( );
+		return newReportFileWizardPage.isPageComplete( )
+				&& settingPage.canFinish( );
 	}
 
 	public void init( IWorkbench workbench, IStructuredSelection selection )
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	public void setInitializationData( IConfigurationElement config,
 			String propertyName, Object data ) throws CoreException
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	/**

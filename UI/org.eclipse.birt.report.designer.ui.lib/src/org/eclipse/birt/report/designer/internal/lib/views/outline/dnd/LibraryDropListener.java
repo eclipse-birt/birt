@@ -33,18 +33,16 @@ import org.eclipse.birt.report.designer.internal.ui.palette.ReportElementFactory
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.DesignerDropListener;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.EditPart;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 
 /**
  * Supports dropping elements to outline view.
- *  
+ * 
  */
 public class LibraryDropListener extends DesignerDropListener
 {
@@ -100,10 +98,10 @@ public class LibraryDropListener extends DesignerDropListener
 	 */
 	protected boolean validateTarget( Object target, Object transfer )
 	{
-		//		if (!validateSameParent(target, transfer))
-		//		{
-		//			return false;
-		//		}
+		// if (!validateSameParent(target, transfer))
+		// {
+		// return false;
+		// }
 
 		boolean retValue = super.validateTarget( target, transfer );
 		if ( !retValue )
@@ -114,52 +112,55 @@ public class LibraryDropListener extends DesignerDropListener
 		return retValue;
 	}
 
-	private boolean validateSameParent( Object targetObj, Object transferData )
-	{
-		if ( targetObj == null || transferData == null )
-			return false;
-
-		if ( transferData instanceof String )
-		{
-			return true;
-		}
-		if ( !( targetObj instanceof DesignElementHandle ) )
-		{
-			return false;
-		}
-		if ( transferData instanceof StructuredSelection )
-		{
-			return validateSameParent( targetObj,
-					( (StructuredSelection) transferData ).toArray( ) );
-		}
-		else if ( transferData instanceof Object[] )
-		{
-			Object[] array = (Object[]) transferData;
-			int len = array.length;
-			for ( int i = 0; i < len; i++ )
-			{
-				if ( !validateSameParent( targetObj, array[i] ) )
-				{
-					return false;
-				}
-			}
-			return true;
-		}
-		else if ( transferData instanceof DesignElementHandle )
-		{
-			return ( (DesignElementHandle) targetObj ).getContainer( ) == ( (DesignElementHandle) transferData ).getContainer( );
-		}
-
-		return false;
-	}
+	// private boolean validateSameParent( Object targetObj, Object transferData
+	// )
+	// {
+	// if ( targetObj == null || transferData == null )
+	// return false;
+	//
+	// if ( transferData instanceof String )
+	// {
+	// return true;
+	// }
+	// if ( !( targetObj instanceof DesignElementHandle ) )
+	// {
+	// return false;
+	// }
+	// if ( transferData instanceof StructuredSelection )
+	// {
+	// return validateSameParent( targetObj,
+	// ( (StructuredSelection) transferData ).toArray( ) );
+	// }
+	// else if ( transferData instanceof Object[] )
+	// {
+	// Object[] array = (Object[]) transferData;
+	// int len = array.length;
+	// for ( int i = 0; i < len; i++ )
+	// {
+	// if ( !validateSameParent( targetObj, array[i] ) )
+	// {
+	// return false;
+	// }
+	// }
+	// return true;
+	// }
+	// else if ( transferData instanceof DesignElementHandle )
+	// {
+	// return ( (DesignElementHandle) targetObj ).getContainer( ) == (
+	// (DesignElementHandle) transferData ).getContainer( );
+	// }
+	//
+	// return false;
+	// }
 
 	private boolean isSupportPalletType( Object target, Object transfer )
 	{
 		boolean bool = false;
-		//		if ( target instanceof ReportElementModel )
-		//		{
-		//			bool = ( (ReportElementModel) target ).getSlotId( ) == ModuleHandle.COMPONENT_SLOT;
-		//		}
+		// if ( target instanceof ReportElementModel )
+		// {
+		// bool = ( (ReportElementModel) target ).getSlotId( ) ==
+		// ModuleHandle.COMPONENT_SLOT;
+		// }
 		if ( target instanceof SlotHandle )
 		{
 			bool = ( (SlotHandle) target ).getSlotID( ) == ModuleHandle.COMPONENT_SLOT;
@@ -171,19 +172,22 @@ public class LibraryDropListener extends DesignerDropListener
 		return bool & supportList.indexOf( transfer ) >= 0;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.dnd.DesignElementDropAdapter#moveData(java.lang.Object, java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.dnd.DesignElementDropAdapter#moveData(java.lang.Object,
+	 *      java.lang.Object)
 	 */
 	protected boolean moveData( Object transfer, Object target )
 	{
-		//execute creation in new extension
+		// execute creation in new extension
 		//
 		PaletteEntryExtension[] paletteEntries = EditpartExtensionManager.getPaletteEntries( );
 		for ( int i = 0; i < paletteEntries.length; i++ )
 		{
 			if ( ( IReportElementConstants.REPORT_ELEMENT_EXTENDED + paletteEntries[i].getItemName( ) ).equals( transfer ) )
 			{
-				CommandUtils.setVariable( "targetEditPart",
+				CommandUtils.setVariable( "targetEditPart", //$NON-NLS-1$
 						getLibrartReportEditPart( ) );
 				try
 				{

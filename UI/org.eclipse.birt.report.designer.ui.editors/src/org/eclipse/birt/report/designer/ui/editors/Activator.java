@@ -24,7 +24,7 @@ public class Activator extends AbstractUIPlugin
 	// The shared instance.
 	private static Activator plugin;
 
-	public static final String PLUGIN_ID = "org.eclipse.birt.report.designer.ui.editors";
+	public static final String PLUGIN_ID = "org.eclipse.birt.report.designer.ui.editors"; //$NON-NLS-1$
 
 	/**
 	 * The constructor.

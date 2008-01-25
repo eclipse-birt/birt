@@ -20,9 +20,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -43,7 +41,6 @@ import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DimensionHandle;
-import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GraphicMasterPageHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.GroupElementFactory;
@@ -66,7 +63,6 @@ import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
-import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -94,7 +90,6 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.jface.resource.JFaceResources;
-import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.RGB;
@@ -123,15 +118,15 @@ public class DEUtil
 
 	private static final DesignEngine designEngine = new DesignEngine( new DesignConfig( ) );
 
-	private static final String XMLDATE_PATTERN_FULL = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-	private static final String XMLDATE_PATTERN_DATE_ONLY = "yyyy-MM-dd";
-	private static final String XMLDATE_PATTERN_WITH_OUT_SECOND = "yyyy-MM-dd'T'HH:mm";
-	private static final String XMLDATE_PATTERN_WITH_OUT_MILLISECOND = "yyyy-MM-dd'T'HH:mm:ss";
+	private static final String XMLDATE_PATTERN_FULL = "yyyy-MM-dd'T'HH:mm:ss.SSS"; //$NON-NLS-1$
+	private static final String XMLDATE_PATTERN_DATE_ONLY = "yyyy-MM-dd"; //$NON-NLS-1$
+	private static final String XMLDATE_PATTERN_WITH_OUT_SECOND = "yyyy-MM-dd'T'HH:mm"; //$NON-NLS-1$
+	private static final String XMLDATE_PATTERN_WITH_OUT_MILLISECOND = "yyyy-MM-dd'T'HH:mm:ss"; //$NON-NLS-1$
 
 	/**
 	 * The class info of total
 	 */
-	public static final IClassInfo TOTAL_CLASS = getMetaDataDictionary( ).getClass( IMetaDataDictionary.TOTAL_CLASS_NAME ); //$NON-NLS-1$
+	public static final IClassInfo TOTAL_CLASS = getMetaDataDictionary( ).getClass( IMetaDataDictionary.TOTAL_CLASS_NAME );
 
 	static
 	{
@@ -227,7 +222,7 @@ public class DEUtil
 		}
 		return list;
 	}
-	
+
 	/**
 	 * Find the position of the element. If the element is null, the position is
 	 * last
@@ -421,7 +416,7 @@ public class DEUtil
 				return ( (IPropertyDefn) propDefns.get( 0 ) ).getName( );
 			}
 		}
-		return "";
+		return ""; //$NON-NLS-1$
 	}
 
 	/**
@@ -524,7 +519,7 @@ public class DEUtil
 	{
 		assert parent instanceof DesignElementHandle;
 
-		String retValue = "";
+		String retValue = ""; //$NON-NLS-1$
 
 		if ( child != null )
 		{
@@ -666,7 +661,7 @@ public class DEUtil
 					units,
 					DesignChoiceConstants.UNITS_IN ).getMeasure( );
 		}
-		else if ( units == null )//$NON-NLS-1$
+		else if ( units == null )
 		{
 			px = 0.0;
 		}
@@ -988,7 +983,7 @@ public class DEUtil
 		{
 			LevelHandle handle = (LevelHandle) model;
 			DesignElementHandle temp = handle.getContainer( );
-			String dimensionName = "";
+			String dimensionName = ""; //$NON-NLS-1$
 			while ( temp != null )
 			{
 				if ( temp instanceof org.eclipse.birt.report.model.api.olap.DimensionHandle )
@@ -1043,7 +1038,7 @@ public class DEUtil
 			String levelName = levelAttri.getElement( ).getName( );
 			DesignElementHandle temp = levelAttri.getElementHandle( )
 					.getContainer( );
-			String dimensionName = "";
+			String dimensionName = ""; //$NON-NLS-1$
 			while ( temp != null )
 			{
 				if ( temp instanceof org.eclipse.birt.report.model.api.olap.DimensionHandle )
@@ -1475,14 +1470,13 @@ public class DEUtil
 	 */
 	public static String[] getSystemFontNames( Comparator comparator )
 	{
-		FontData[] fontDatas = (FontData[]) Display.getCurrent( )
-				.getFontList( null, false );
+		FontData[] fontDatas = Display.getCurrent( ).getFontList( null, false );
 		SortedSet set = new TreeSet( comparator );
 		for ( int i = 0; i < fontDatas.length; i++ )
 		{
 			set.add( fontDatas[i].getName( ) );
 		}
-		fontDatas = (FontData[]) Display.getCurrent( ).getFontList( null, true );
+		fontDatas = Display.getCurrent( ).getFontList( null, true );
 		for ( int i = 0; i < fontDatas.length; i++ )
 		{
 			set.add( fontDatas[i].getName( ) );
@@ -1750,20 +1744,15 @@ public class DEUtil
 	 */
 	public static String getColumnExpression( String columnName )
 	{
-		Assert.isNotNull( columnName );
 		if ( StringUtil.isBlank( columnName ) )
 		{
 			return null;
 		}
-		// return IReportElementConstants.BINDING_COLUMN_PREFIX
-		// + "[\"" + DEUtil.escape( columnName ) + "\"]";//$NON-NLS-1$
-		// //$NON-NLS-2$
 		return ExpressionUtil.createJSRowExpression( columnName );
 	}
 
 	public static String getDataExpression( String columnName )
 	{
-		Assert.isNotNull( columnName );
 		if ( StringUtil.isBlank( columnName ) )
 		{
 			return null;
@@ -1780,14 +1769,10 @@ public class DEUtil
 	 */
 	public static String getResultSetColumnExpression( String columnName )
 	{
-		Assert.isNotNull( columnName );
 		if ( StringUtil.isBlank( columnName ) )
 		{
 			return null;
 		}
-		// return IReportElementConstants.RESULTSET_COLUMN_PREFIX
-		// + "[\"" + DEUtil.escape( columnName ) + "\"]";//$NON-NLS-1$
-		// //$NON-NLS-2$
 		return ExpressionUtil.createJSDataSetRowExpression( columnName );
 	}
 
@@ -2043,9 +2028,9 @@ public class DEUtil
 			String methodName, int argIndex )
 	{
 		if ( handle instanceof DataSetHandle )
-			return ReportDesignConstants.DATA_SET_ELEMENT; //$NON-NLS-1$
+			return ReportDesignConstants.DATA_SET_ELEMENT;
 		if ( handle instanceof DataSourceHandle )
-			return ReportDesignConstants.DATA_SOURCE_ELEMENT; //$NON-NLS-1$
+			return ReportDesignConstants.DATA_SOURCE_ELEMENT;
 
 		List methods = handle.getDefn( ).getLocalMethods( );
 		for ( Iterator iter = methods.iterator( ); iter.hasNext( ); )
@@ -2364,7 +2349,7 @@ public class DEUtil
 	public static ComputedColumnHandle addColumn( DesignElementHandle handle,
 			ComputedColumn column, boolean inForce ) throws SemanticException
 	{
-		Assert.isLegal( handle instanceof ReportItemHandle );
+		assert handle instanceof ReportItemHandle;
 		return ( (ReportItemHandle) handle ).addColumnBinding( column, inForce );
 	}
 
@@ -2408,7 +2393,7 @@ public class DEUtil
 		{
 			exp += IReportElementConstants.OUTER_BINDING_COLUMN_PREFIX;
 		}
-		exp += "[\"" + DEUtil.escape( column.getName( ) ) + "\"]";
+		exp += "[\"" + DEUtil.escape( column.getName( ) ) + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
 		return exp;
 	}
 
@@ -2520,17 +2505,17 @@ public class DEUtil
 	/**
 	 * The group container is ListingHandler, list, table, and so on.
 	 */
-	public static final String TYPE_GROUP_LISTING = "listing";
+	public static final String TYPE_GROUP_LISTING = "listing"; //$NON-NLS-1$
 
 	/**
 	 * The group container is GroupHandler
 	 */
-	public static final String TYPE_GROUP_GROUP = "group";
+	public static final String TYPE_GROUP_GROUP = "group"; //$NON-NLS-1$
 
 	/**
 	 * other container, has none group.
 	 */
-	public static final String TYPE_GROUP_NONE = "none";
+	public static final String TYPE_GROUP_NONE = "none"; //$NON-NLS-1$
 
 	/**
 	 * Return the group container type of the given element handle.
@@ -2776,15 +2761,15 @@ public class DEUtil
 	public static String getAggregateOn( ComputedColumnHandle element )
 	{
 		List aggregateOnList = element.getAggregateOnList( );
-		String value = "";
+		String value = ""; //$NON-NLS-1$
 		int i = 0;
 		for ( Iterator iterator = aggregateOnList.iterator( ); iterator.hasNext( ); i++ )
 		{
 			if ( i > 0 )
-				value += ",";
+				value += ","; //$NON-NLS-1$
 			value += (String) iterator.next( );
 		}
-		if ( value.equals( "" ) )
+		if ( value.equals( "" ) ) //$NON-NLS-1$
 			return null;
 		else
 			return value;
@@ -2818,7 +2803,7 @@ public class DEUtil
 						+ flatHirarchyName;
 			}
 			flatHirarchyName = getCombinatedName( container )
-					+ "."
+					+ "." //$NON-NLS-1$
 					+ flatHirarchyName;
 			handle = container;
 			container = container.getContainer( );
@@ -2841,8 +2826,8 @@ public class DEUtil
 		}
 		if ( !StringUtil.isBlank( displayName ) )
 		{
-			return elementName + "(" + displayName + ")"; //$NON-NLS-1$	
+			return elementName + "(" + displayName + ")"; //$NON-NLS-1$	//$NON-NLS-2$
 		}
-		return elementName + "(" + handle.getID( ) + ")";
+		return elementName + "(" + handle.getID( ) + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 }

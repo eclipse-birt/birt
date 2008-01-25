@@ -28,11 +28,11 @@ public class SampleReportsSorter extends ViewerSorter
 		}
 		if ( provider != null && provider instanceof SampleReportsExplorerProvider )
 		{
-			if( ( ( SampleReportsExplorerProvider )provider ).getText( e1 ).equals( "Contribute Samples" ) )
+			if( ( ( SampleReportsExplorerProvider )provider ).getText( e1 ).equals( "Contribute Samples" ) ) //$NON-NLS-1$
 			{
 				return 1;
 			}
-			else if ( ( ( SampleReportsExplorerProvider )provider ).getText( e2 ).equals( "Contribute Samples" ) )
+			else if ( ( ( SampleReportsExplorerProvider )provider ).getText( e2 ).equals( "Contribute Samples" ) ) //$NON-NLS-1$
 			{
 				return -1;
 			}

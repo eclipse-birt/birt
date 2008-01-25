@@ -57,8 +57,8 @@ public class NewTemplateWizard extends NewReportWizard
 	private static final String NEW_TEMPLATE_DESCRIPTION = Messages.getString( "NewTemplateWizard.pageDescription.createNewTemplate" ); //$NON-NLS-1$
 	private static final String NEW_TEMPLATE_TITLE = Messages.getString( "NewTemplateWizard.title.Template" ); //$NON-NLS-1$
 
-	private static final String SAVE_TEMPLATE_PROPERTIES_TITLE = Messages.getString( "SaveReportAsWizard.SettingPage.title" );
-	private static final String SAVE_TEMPLATE_PROPERTIES_MESSAGES = Messages.getString( "SaveReportAsWizard.SettingPage.Messages" );
+	private static final String SAVE_TEMPLATE_PROPERTIES_TITLE = Messages.getString( "SaveReportAsWizard.SettingPage.title" ); //$NON-NLS-1$
+	private static final String SAVE_TEMPLATE_PROPERTIES_MESSAGES = Messages.getString( "SaveReportAsWizard.SettingPage.Messages" ); //$NON-NLS-1$
 
 	public NewTemplateWizard( )
 	{
@@ -91,13 +91,13 @@ public class NewTemplateWizard extends NewReportWizard
 
 		resetUniqueCount( );
 		newReportFileWizardPage.setFileName( getUniqueReportName( NEW_TEMPLATE_FILE_NAME_PREFIX,
-				getFileExtension( ) ) ); //$NON-NLS-1$ //$NON-NLS-2$
+				getFileExtension( ) ) );
 		newReportFileWizardPage.setContainerFullPath( getDefaultContainerPath( ) );
 		newReportFileWizardPage.setDescription( NEW_TEMPLATE_DESCRIPTION );
 		newReportFileWizardPage.setTitle( NEW_TEMPLATE_TITLE );
 
 		settingPage = new WizardReportSettingPage( null );
-		settingPage.setTitle( SAVE_TEMPLATE_PROPERTIES_TITLE );//$NON-NLS-1$
+		settingPage.setTitle( SAVE_TEMPLATE_PROPERTIES_TITLE );
 		settingPage.setPageDesc( SAVE_TEMPLATE_PROPERTIES_MESSAGES );
 
 		addPage( settingPage );
@@ -126,9 +126,9 @@ public class NewTemplateWizard extends NewReportWizard
 		final String fileName;
 		if ( !Platform.getOS( ).equals( Platform.WS_WIN32 ) )
 		{
-			if ( !fn.endsWith( getFileExtension( ) ) ) //$NON-NLS-1$
+			if ( !fn.endsWith( getFileExtension( ) ) )
 			{
-				fileName = fn + getFileExtension( ); //$NON-NLS-1$
+				fileName = fn + getFileExtension( );
 			}
 			else
 			{
@@ -138,9 +138,9 @@ public class NewTemplateWizard extends NewReportWizard
 		else
 		{
 			if ( !fn.toLowerCase( Locale.getDefault( ) )
-					.endsWith( getFileExtension( ) ) ) //$NON-NLS-1$
+					.endsWith( getFileExtension( ) ) )
 			{
-				fileName = fn + getFileExtension( ); //$NON-NLS-1$
+				fileName = fn + getFileExtension( );
 			}
 			else
 			{
@@ -226,7 +226,7 @@ public class NewTemplateWizard extends NewReportWizard
 	{
 		// create a sample file
 		monitor.beginTask( CREATING + fileName, 2 );
-		IResource resource = (IContainer) ResourcesPlugin.getWorkspace( )
+		IResource resource = ResourcesPlugin.getWorkspace( )
 				.getRoot( )
 				.findMember( containerName );
 		IContainer container = null;

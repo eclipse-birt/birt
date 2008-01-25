@@ -80,10 +80,10 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 
 	private ModelEventManager manager;
 	public static final String ID = "org.eclipse.birt.report.designer.ui.editors.xmlsource"; //$NON-NLS-1$
-	private static final String switchAction_ID = "switch";
+	private static final String switchAction_ID = "switch"; //$NON-NLS-1$
 	private ActionRegistry registry;
-	private static final String SWITCH_REPORT_OUTLINE = Messages.getString( "ContentOutlinePage.action.text.reportOutline" );
-	private static final String SWITCH_REPORT_XML_OUTLINE = Messages.getString( "ContentOutlinePage.action.text.reportXMLSourceOutline" );
+	private static final String SWITCH_REPORT_OUTLINE = Messages.getString( "ContentOutlinePage.action.text.reportOutline" ); //$NON-NLS-1$
+	private static final String SWITCH_REPORT_XML_OUTLINE = Messages.getString( "ContentOutlinePage.action.text.reportXMLSourceOutline" ); //$NON-NLS-1$
 
 	// Leverage from WST
 	private StructuredTextEditor reportXMLEditor;
@@ -272,7 +272,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 			{
 				MessageDialog.openError( Display.getCurrent( ).getActiveShell( ),
 						Messages.getString( "XMLSourcePage.Error.Dialog.title" ), //$NON-NLS-1$
-						errorDetail.getMessage( ) ); //$NON-NLS-1$
+						errorDetail.getMessage( ) );
 			}
 			else
 			{

@@ -36,8 +36,6 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -70,7 +68,7 @@ import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 public class ReportExamples
 {
 
-	private static final String CONTRIBUTION_ITEM_TEXT = Messages.getString( "SampleReportsView.Text.Contribute_Samples" );
+	private static final String CONTRIBUTION_ITEM_TEXT = Messages.getString( "SampleReportsView.Text.Contribute_Samples" ); //$NON-NLS-1$
 
 	private Composite mainComposite;
 
@@ -107,7 +105,7 @@ public class ReportExamples
 	private void createSamplesGroup( SashForm hSash )
 	{
 		Group samplesGroup = new Group( hSash, SWT.NONE );
-		samplesGroup.setText( Messages.getString( "SampleReportsView.Text.Explorer" ) );
+		samplesGroup.setText( Messages.getString( "SampleReportsView.Text.Explorer" ) ); //$NON-NLS-1$
 		samplesGroup.setLayout( new GridLayout( 1, false ) );
 
 		createSamplesExplorer( samplesGroup );
@@ -147,7 +145,7 @@ public class ReportExamples
 		Group previewGroup = new Group( vSash, SWT.NONE );
 		previewGroup.setLayout( new GridLayout( ) );
 		previewGroup.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		previewGroup.setText( Messages.getString( "SampleReportsView.Text.Preview" ) );
+		previewGroup.setText( Messages.getString( "SampleReportsView.Text.Preview" ) ); //$NON-NLS-1$
 
 		previewCanvas = new SampleReportCanvas( previewGroup, SWT.BORDER );
 		previewCanvas.setLayoutData( new GridData( GridData.FILL_BOTH ) );
@@ -161,7 +159,7 @@ public class ReportExamples
 		Group descriptionGroup = new Group( vSash, SWT.NONE );
 		descriptionGroup.setLayout( new GridLayout( ) );
 		descriptionGroup.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		descriptionGroup.setText( Messages.getString( "SampleReportsView.Text.Description" ) );
+		descriptionGroup.setText( Messages.getString( "SampleReportsView.Text.Description" ) ); //$NON-NLS-1$
 
 		vSash.setWeights( new int[]{
 				8, 1
@@ -173,7 +171,7 @@ public class ReportExamples
 				| SWT.READ_ONLY );
 		description.setLayoutData( new GridData( GridData.FILL_VERTICAL
 				| GridData.FILL_HORIZONTAL ) );
-		description.setText( Messages.getString( "SampleReportsView.defautDescription" ) );
+		description.setText( Messages.getString( "SampleReportsView.defautDescription" ) ); //$NON-NLS-1$
 	}
 
 	private void setSelectedElement( TreeItem element )
@@ -211,19 +209,19 @@ public class ReportExamples
 					if ( item.getData( ) instanceof ReportDesignHandle )
 					{
 						String reportname = item.getText( ).substring( 0,
-								item.getText( ).lastIndexOf( "." ) );
+								item.getText( ).lastIndexOf( "." ) ); //$NON-NLS-1$
 						description.setText( DescriptionMessages.getDescription( reportname ) );
 						previewSampleReport( reportname );
 						setSelectedElement( item );
 					}
 					else if ( item.getText( ).equals( CONTRIBUTION_ITEM_TEXT ) )
 					{
-						description.setText( DescriptionMessages.getDescription( "Contribute_Samples" ) );
+						description.setText( DescriptionMessages.getDescription( "Contribute_Samples" ) ); //$NON-NLS-1$
 						setSelectedElement( item );
 					}
 					else
 					{
-						description.setText( Messages.getString( "SampleReportsView.defautDescription" ) );
+						description.setText( Messages.getString( "SampleReportsView.defautDescription" ) ); //$NON-NLS-1$
 						setSelectedElement( item );
 					}
 				}
@@ -256,7 +254,6 @@ public class ReportExamples
 
 			public void doubleClick( DoubleClickEvent event )
 			{
-				// TODO Auto-generated method stub
 				Object obj = getSelectedElement();
 				if ( obj instanceof TreeItem )
 				{		
@@ -445,9 +442,9 @@ public class ReportExamples
 		
 		protected Control createDialogArea(Composite parent) {
 			Composite container = (Composite)super.createDialogArea( parent );
-			setTitle( Messages.getString( "ReportExamples.ContributeSamples.title" ) );
-			setMessage( Messages.getString("ReportExamples.ContributeSamples.messages" ));			
-			getShell().setText( Messages.getString( "ReportExamples.ContributeSamples.title" ) );
+			setTitle( Messages.getString( "ReportExamples.ContributeSamples.title" ) ); //$NON-NLS-1$
+			setMessage( Messages.getString("ReportExamples.ContributeSamples.messages" )); //$NON-NLS-1$	
+			getShell().setText( Messages.getString( "ReportExamples.ContributeSamples.title" ) ); //$NON-NLS-1$
 			
 			Composite composite = new Composite(container, SWT.NONE);			
 			GridData gd = new GridData(GridData.FILL_BOTH | GridData.VERTICAL_ALIGN_BEGINNING);
@@ -460,13 +457,13 @@ public class ReportExamples
 			Link link = new Link(composite, SWT.WRAP);
 			link.setLayoutData( new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING) );
 			String []arguments = new String[2];
-			arguments[0] = "<a>";
-			arguments[1] = "</a>";
-			String linkText = Messages.getFormattedString( "ReportExamples.ContributeSamples.description", arguments );
+			arguments[0] = "<a>"; //$NON-NLS-1$
+			arguments[1] = "</a>"; //$NON-NLS-1$
+			String linkText = Messages.getFormattedString( "ReportExamples.ContributeSamples.description", arguments ); //$NON-NLS-1$
 			link.setText(linkText);
 			link.addListener (SWT.Selection, new Listener () {
 				public void handleEvent(Event event) {
-					openLink("https://bugs.eclipse.org/bugs/enter_bug.cgi?product=BIRT&bug_severity=enhancement");				
+					openLink("https://bugs.eclipse.org/bugs/enter_bug.cgi?product=BIRT&bug_severity=enhancement"); //$NON-NLS-1$				
 				}
 			});
 			link.setSize(300, 50);
@@ -531,8 +528,8 @@ public class ReportExamples
 	     * display an error message
 	     */
 	    private void openWebBrowserError(final String href, final Throwable t) {
-	        String title = Messages.getString( "ReportExamples.OpenBrowser.Error.title" );
-			String msg = Messages.getString( "ReportExamples.OpenBrowser.Error.message" );
+	        String title = Messages.getString( "ReportExamples.OpenBrowser.Error.title" ); //$NON-NLS-1$
+			String msg = Messages.getString( "ReportExamples.OpenBrowser.Error.message" ); //$NON-NLS-1$
 			
 			MessageBox messageBox = new MessageBox(UIUtil.getDefaultShell( ), SWT.OK | SWT.ICON_ERROR);
 			messageBox.setText( title );

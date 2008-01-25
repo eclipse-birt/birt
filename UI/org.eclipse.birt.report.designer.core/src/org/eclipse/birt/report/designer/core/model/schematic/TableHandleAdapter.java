@@ -38,9 +38,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.jface.util.Assert;
 
 /**
  * Adapter class to adapt model handle. This adapter provides convenience
@@ -52,35 +50,21 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 {
 
 	// private static Log log = LogFactory.getLog( TableHandleAdapter.class );
-	private static final String TRANS_LABEL_INSERT_ROW = Messages
-			.getString( "TableHandleAdapter.transLabel.insertRow" ); //$NON-NLS-1$
+	private static final String TRANS_LABEL_INSERT_ROW = Messages.getString( "TableHandleAdapter.transLabel.insertRow" ); //$NON-NLS-1$
 	private static final String NAME_NULL = ""; //$NON-NLS-1$
-	private static final String NAME_DETAIL = Messages
-			.getString( "TableHandleAdapter.name.detail" ); //$NON-NLS-1$
-	private static final String NAME_FOOTER = Messages
-			.getString( "TableHandleAdapter.name.footer" ); //$NON-NLS-1$
-	private static final String NAME_HEADRER = Messages
-			.getString( "TableHandleAdapter.name.header" ); //$NON-NLS-1$
-	private static final String TRANS_LABEL_NOT_INCLUDE = Messages
-			.getString( "TableHandleAdapter.transLabel.notInclude" ); //$NON-NLS-1$
-	private static final String TRANS_LABEL_INCLUDE = Messages
-			.getString( "TableHandleAdapter.transLabel.include" ); //$NON-NLS-1$
-	private static final String TRANS_LABEL_INSERT_GROUP = Messages
-			.getString( "TableHandleAdapter.transLabel.insertGroup" ); //$NON-NLS-1$
-	private static final String TRANS_LABEL_SPLIT_CELLS = Messages
-			.getString( "TableHandleAdapter.transLabel.splitCells" ); //$NON-NLS-1$
-	private static final String TRANS_LABEL_DELETE_ROW = Messages
-			.getString( "TableHandleAdapter.transLabel.deleteRow" ); //$NON-NLS-1$
-	private static final String TRANS_LABEL_DELETE_ROWS = Messages
-			.getString( "TableHandleAdapter.transLabel.deleteRows" ); //$NON-NLS-1$
-	private static final String TRANS_LABEL_DELETE_COLUMN = Messages
-			.getString( "TableHandleAdapter.transLabel.deleteColumn" ); //$NON-NLS-1$
-	private static final String TRANS_LABEL_DELETE_COLUMNS = Messages
-			.getString( "TableHandleAdapter.transLabel.deleteColumns" ); //$NON-NLS-1$
-	private static final String TRANS_LABEL_INSERT_COLUMN = Messages
-			.getString( "TableHandleAdapter.transLabel.insertColumn" ); //$NON-NLS-1$
-	private static final String TRANS_LABEL_DELETE_GROUP = Messages
-			.getString( "TableHandleAdapter.transLable.deleteGroup" ); //$NON-NLS-1$
+	private static final String NAME_DETAIL = Messages.getString( "TableHandleAdapter.name.detail" ); //$NON-NLS-1$
+	private static final String NAME_FOOTER = Messages.getString( "TableHandleAdapter.name.footer" ); //$NON-NLS-1$
+	private static final String NAME_HEADRER = Messages.getString( "TableHandleAdapter.name.header" ); //$NON-NLS-1$
+	private static final String TRANS_LABEL_NOT_INCLUDE = Messages.getString( "TableHandleAdapter.transLabel.notInclude" ); //$NON-NLS-1$
+	private static final String TRANS_LABEL_INCLUDE = Messages.getString( "TableHandleAdapter.transLabel.include" ); //$NON-NLS-1$
+	private static final String TRANS_LABEL_INSERT_GROUP = Messages.getString( "TableHandleAdapter.transLabel.insertGroup" ); //$NON-NLS-1$
+	private static final String TRANS_LABEL_SPLIT_CELLS = Messages.getString( "TableHandleAdapter.transLabel.splitCells" ); //$NON-NLS-1$
+	private static final String TRANS_LABEL_DELETE_ROW = Messages.getString( "TableHandleAdapter.transLabel.deleteRow" ); //$NON-NLS-1$
+	private static final String TRANS_LABEL_DELETE_ROWS = Messages.getString( "TableHandleAdapter.transLabel.deleteRows" ); //$NON-NLS-1$
+	private static final String TRANS_LABEL_DELETE_COLUMN = Messages.getString( "TableHandleAdapter.transLabel.deleteColumn" ); //$NON-NLS-1$
+	private static final String TRANS_LABEL_DELETE_COLUMNS = Messages.getString( "TableHandleAdapter.transLabel.deleteColumns" ); //$NON-NLS-1$
+	private static final String TRANS_LABEL_INSERT_COLUMN = Messages.getString( "TableHandleAdapter.transLabel.insertColumn" ); //$NON-NLS-1$
+	private static final String TRANS_LABEL_DELETE_GROUP = Messages.getString( "TableHandleAdapter.transLable.deleteGroup" ); //$NON-NLS-1$
 	public static final int HEADER = TableHandle.HEADER_SLOT;
 	public static final int DETAIL = TableHandle.DETAIL_SLOT;
 	public static final int FOOTER = TableHandle.FOOTER_SLOT;
@@ -91,7 +75,8 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	public static final String TABLE_GROUP_HEADER = "gh"; //$NON-NLS-1$
 	public static final String TABLE_GROUP_FOOTER = "gf"; //$NON-NLS-1$
 
-	public static final String DEFAULT_WIDTH = "100.0" + DesignChoiceConstants.UNITS_PERCENTAGE;
+	public static final String DEFAULT_WIDTH = "100.0" //$NON-NLS-1$
+			+ DesignChoiceConstants.UNITS_PERCENTAGE;
 	/* the name model should support */
 	private HashMap rowInfo = new HashMap( );
 	private List rows = new ArrayList( );
@@ -132,11 +117,10 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		{
 			TableGroupHandle tableGroups = (TableGroupHandle) groupIter.next( );
 			SlotHandle groupHeaders = tableGroups.getHeader( );
-			for ( Iterator groupHeaderIter = groupHeaders.iterator( ); groupHeaderIter
-					.hasNext( ); )
+			for ( Iterator groupHeaderIter = groupHeaders.iterator( ); groupHeaderIter.hasNext( ); )
 			{
-				children.addAll( ( (RowHandle) groupHeaderIter.next( ) )
-						.getCells( ).getContents( ) );
+				children.addAll( ( (RowHandle) groupHeaderIter.next( ) ).getCells( )
+						.getContents( ) );
 			}
 		}
 
@@ -148,17 +132,15 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 					.getContents( ) );
 		}
 
-		for ( ListIterator groupIter = group.getContents( ).listIterator(
-				group.getCount( ) ); groupIter.hasPrevious( ); )
+		for ( ListIterator groupIter = group.getContents( )
+				.listIterator( group.getCount( ) ); groupIter.hasPrevious( ); )
 		{
-			TableGroupHandle tableGroups = (TableGroupHandle) groupIter
-					.previous( );
+			TableGroupHandle tableGroups = (TableGroupHandle) groupIter.previous( );
 			SlotHandle groupFooters = tableGroups.getFooter( );
-			for ( Iterator groupFooterIter = groupFooters.iterator( ); groupFooterIter
-					.hasNext( ); )
+			for ( Iterator groupFooterIter = groupFooters.iterator( ); groupFooterIter.hasNext( ); )
 			{
-				children.addAll( ( (RowHandle) groupFooterIter.next( ) )
-						.getCells( ).getContents( ) );
+				children.addAll( ( (RowHandle) groupFooterIter.next( ) ).getCells( )
+						.getContents( ) );
 			}
 		}
 
@@ -226,8 +208,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		{
 			RowHandle handle = (RowHandle) it.next( );
 			rows.add( handle );
-			TableHandleAdapter.RowUIInfomation info = new TableHandleAdapter.RowUIInfomation(
-					getColumnCount( ) );
+			TableHandleAdapter.RowUIInfomation info = new TableHandleAdapter.RowUIInfomation( getColumnCount( ) );
 			info.setType( type );
 			info.setRowDisplayName( displayName );
 			info.addChildren( handle.getCells( ).getContents( ) );
@@ -238,6 +219,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 
 	/**
 	 * Get rows
+	 * 
 	 * @return The list of rows
 	 */
 	public List getRows( )
@@ -250,8 +232,8 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	}
 
 	/**
-	 *  Clear the buffer.
-	 *
+	 * Clear the buffer.
+	 * 
 	 */
 	protected void clearBuffer( )
 	{
@@ -273,7 +255,8 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 
 	protected void buildRowInfo( )
 	{
-		insertRowInfo( getTableHandle( ).getHeader( ), TABLE_HEADER,
+		insertRowInfo( getTableHandle( ).getHeader( ),
+				TABLE_HEADER,
 				TABLE_HEADER );
 
 		SlotHandle groups = getTableHandle( ).getGroups( );
@@ -283,25 +266,28 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		{
 			number++;
 			TableGroupHandle tableGroup = (TableGroupHandle) itor.next( );
-			insertRowInfo( tableGroup.getHeader( ), Integer.toString( number ),
+			insertRowInfo( tableGroup.getHeader( ),
+					Integer.toString( number ),
 					TABLE_GROUP_HEADER );
 		}
 
-		insertRowInfo( getTableHandle( ).getDetail( ), TABLE_DETAIL,
+		insertRowInfo( getTableHandle( ).getDetail( ),
+				TABLE_DETAIL,
 				TABLE_DETAIL );
 
 		number = groups.getCount( );
 
-		for ( ListIterator itor = groups.getContents( ).listIterator( number ); itor
-				.hasPrevious( ); )
+		for ( ListIterator itor = groups.getContents( ).listIterator( number ); itor.hasPrevious( ); )
 		{
 			TableGroupHandle tableGroup = (TableGroupHandle) itor.previous( );
-			insertRowInfo( tableGroup.getFooter( ), Integer.toString( number ),
+			insertRowInfo( tableGroup.getFooter( ),
+					Integer.toString( number ),
 					TABLE_GROUP_FOOTER );
 			number--;
 		}
 
-		insertRowInfo( getTableHandle( ).getFooter( ), TABLE_FOOTER,
+		insertRowInfo( getTableHandle( ).getFooter( ),
+				TABLE_FOOTER,
 				TABLE_FOOTER );
 	}
 
@@ -319,15 +305,13 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 			List cellChildren = adapt.getChildren( );
 			int len = cellChildren.size( );
 
-			TableHandleAdapter.RowUIInfomation info = (TableHandleAdapter.RowUIInfomation) rowInfo
-					.get( children.get( i ) );
+			TableHandleAdapter.RowUIInfomation info = (TableHandleAdapter.RowUIInfomation) rowInfo.get( children.get( i ) );
 			for ( int j = 0; j < len; j++ )
 			{
-				CellHandleAdapter cellAdapt = HandleAdapterFactory
-						.getInstance( ).getCellHandleAdapter(
-								cellChildren.get( j ) );
-				int cellIndex = info.getAllChildren( ).indexOf(
-						cellChildren.get( j ) );
+				CellHandleAdapter cellAdapt = HandleAdapterFactory.getInstance( )
+						.getCellHandleAdapter( cellChildren.get( j ) );
+				int cellIndex = info.getAllChildren( )
+						.indexOf( cellChildren.get( j ) );
 
 				if ( cellAdapt.getColumnSpan( ) != 1 )
 				{
@@ -335,7 +319,8 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 							&& cellIndex >= 0 )
 					{
 						fillRowInfoChildrenList( children.get( i ),
-								cellIndex + 2, cellAdapt.getColumnSpan( ) - 1,
+								cellIndex + 2,
+								cellAdapt.getColumnSpan( ) - 1,
 								cellChildren.get( j ) );
 					}
 
@@ -345,13 +330,14 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 					for ( int k = i + 1; k < i + cellAdapt.getRowSpan( ); k++ )
 					{
 						if ( cellIndex < 0
-								|| cellIndex + cellAdapt.getColumnSpan( ) > info
-										.getAllChildren( ).size( ) )
+								|| cellIndex + cellAdapt.getColumnSpan( ) > info.getAllChildren( )
+										.size( ) )
 						{
 							continue;
 						}
 						fillRowInfoChildrenList( children.get( k ),
-								cellIndex + 1, cellAdapt.getColumnSpan( ),
+								cellIndex + 1,
+								cellAdapt.getColumnSpan( ),
 								cellChildren.get( j ) );
 					}
 				}
@@ -362,8 +348,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	private void fillRowInfoChildrenList( Object row, int columnNumber,
 			int colSpan, Object cell )
 	{
-		TableHandleAdapter.RowUIInfomation info = (TableHandleAdapter.RowUIInfomation) rowInfo
-				.get( row );
+		TableHandleAdapter.RowUIInfomation info = (TableHandleAdapter.RowUIInfomation) rowInfo.get( row );
 		if ( info == null )
 		{
 			return;
@@ -466,7 +451,8 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		Object obj = getRow( rowNumber );
 		TableHandleAdapter.RowUIInfomation info = getRowInfo( obj );
 		Object retValue = null;
-		if ( info != null && columnNumber >= 1
+		if ( info != null
+				&& columnNumber >= 1
 				&& info.getAllChildren( ).size( ) >= columnNumber )
 		{
 			retValue = info.getAllChildren( ).get( columnNumber - 1 );
@@ -477,9 +463,11 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		}
 
 		if ( HandleAdapterFactory.getInstance( )
-				.getCellHandleAdapter( retValue ).getRowNumber( ) != rowNumber
-				|| HandleAdapterFactory.getInstance( ).getCellHandleAdapter(
-						retValue ).getColumnNumber( ) != columnNumber )
+				.getCellHandleAdapter( retValue )
+				.getRowNumber( ) != rowNumber
+				|| HandleAdapterFactory.getInstance( )
+						.getCellHandleAdapter( retValue )
+						.getColumnNumber( ) != columnNumber )
 		{
 			retValue = null;
 		}
@@ -532,9 +520,9 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 			samRowHeight = samRowHeight + tableHelper.caleVisualHeight( i + 1 );
 		}
 
-		return new Dimension( samColumnWidth, samRowHeight ).expand(
-				tableHelper.getInsets( ).getWidth( ), tableHelper.getInsets( )
-						.getHeight( ) );
+		return new Dimension( samColumnWidth, samRowHeight ).expand( tableHelper.getInsets( )
+				.getWidth( ),
+				tableHelper.getInsets( ).getHeight( ) );
 	}
 
 	/**
@@ -566,8 +554,8 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 			{
 				if ( i != columnCount - 1 )
 				{
-					samColumnWidth = samColumnWidth +
-							tableHelper.caleVisualWidth( i + 1 );
+					samColumnWidth = samColumnWidth
+							+ tableHelper.caleVisualWidth( i + 1 );
 				}
 			}
 			int lastColumnWidth = size.width - samColumnWidth;
@@ -595,8 +583,8 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 			{
 				if ( i != rowCount - 1 )
 				{
-					samRowHeight = samRowHeight +
-							tableHelper.caleVisualHeight( i + 1 );
+					samRowHeight = samRowHeight
+							+ tableHelper.caleVisualHeight( i + 1 );
 				}
 			}
 			int lastRowHeight = size.height - samRowHeight;
@@ -654,8 +642,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	{
 		if ( getModelAdaptHelper( ) instanceof ITableAdapterHelper )
 		{
-			return ( (ITableAdapterHelper) getModelAdaptHelper( ) )
-					.getClientAreaSize( );
+			return ( (ITableAdapterHelper) getModelAdaptHelper( ) ).getClientAreaSize( );
 		}
 
 		return new Dimension( );
@@ -677,13 +664,13 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 
 		if ( handle.getUnits( ) == null || handle.getUnits( ).length( ) == 0 )
 		{
-			//TODO The default value is 100.0% to fix the bug 124051, but it is a temp solution.
-			//default value is 100.0%
+			// TODO The default value is 100.0% to fix the bug 124051, but it is
+			// a temp solution.
+			// default value is 100.0%
 			return DEFAULT_WIDTH;
-			//return null;
+			// return null;
 		}
-		else if ( DesignChoiceConstants.UNITS_PERCENTAGE.equals( handle
-				.getUnits( ) ) )
+		else if ( DesignChoiceConstants.UNITS_PERCENTAGE.equals( handle.getUnits( ) ) )
 		{
 			return handle.getMeasure( )
 					+ DesignChoiceConstants.UNITS_PERCENTAGE;
@@ -789,9 +776,8 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 			throws SemanticException
 	{
 		transStar( TRANS_LABEL_INSERT_ROW );
-		Assert.isLegal( rowNumber != 0 );
-		int realRowNumber = rowNumber > 0
-				? parentRowNumber + rowNumber
+		assert rowNumber != 0;
+		int realRowNumber = rowNumber > 0 ? parentRowNumber + rowNumber
 				: parentRowNumber + rowNumber + 1;
 		int shiftPos = rowNumber > 0 ? rowNumber : rowNumber + 1;
 		RowHandle row = (RowHandle) getRow( parentRowNumber );
@@ -820,7 +806,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 				.getRowHandleAdapter( copy );
 		List copyChildren = copyAdapt.getChildren( );
 
-		if (getModelAdaptHelper( )!=null)
+		if ( getModelAdaptHelper( ) != null )
 		{
 			getModelAdaptHelper( ).markDirty( true );
 		}
@@ -912,8 +898,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 			TableHandleAdapter.RowUIInfomation rowInfo = getRowInfo( getRow( i + 1 ) );
 			List rowList = rowInfo.getAllChildren( );
 
-			CellHandle parentCell = (CellHandle) rowList
-					.get( parentColumnNumber - 1 );
+			CellHandle parentCell = (CellHandle) rowList.get( parentColumnNumber - 1 );
 			CellHandle cell = getCellHandleCopy( parentCell );
 
 			copyChildren.add( cell );
@@ -924,8 +909,8 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		{
 			RowHandle row = (RowHandle) getRow( i + 1 );
 			int number = getReallyRowNumber( row, realColumnNumber );
-			row.getSlot( RowHandle.CONTENT_SLOT ).add(
-					(CellHandle) ( copyChildren.get( i ) ), number - 1 );
+			row.getSlot( RowHandle.CONTENT_SLOT )
+					.add( (CellHandle) ( copyChildren.get( i ) ), number - 1 );
 
 		}
 		SlotHandle parentHandle = column.getContainerSlotHandle( );
@@ -937,8 +922,9 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		List temp = new ArrayList( );
 
 		List hasAdjust = new ArrayList( );
-		//There are some logic error, but is the framework error after change the event dispatch framework.
-		//same to the insertrow method.
+		// There are some logic error, but is the framework error after change
+		// the event dispatch framework.
+		// same to the insertrow method.
 		reload( );
 		for ( int i = 0; i < rowNumber; i++ )
 		{
@@ -974,7 +960,8 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	{
 		TableHandleAdapter.RowUIInfomation rowInfo = getRowInfo( rowHandle );
 		int rowNumber = HandleAdapterFactory.getInstance( )
-				.getRowHandleAdapter( rowHandle ).getRowNumber( );
+				.getRowHandleAdapter( rowHandle )
+				.getRowNumber( );
 		List rowList = rowInfo.getAllChildren( );
 
 		int retValue = number;
@@ -1067,7 +1054,8 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		{
 			// deleteColumn( columns[i] );
 			deleteColumn( HandleAdapterFactory.getInstance( )
-					.getColumnHandleAdapter( temp.get( i ) ).getColumnNumber( ) );
+					.getColumnHandleAdapter( temp.get( i ) )
+					.getColumnNumber( ) );
 		}
 		transEnd( );
 	}
@@ -1113,8 +1101,8 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 			Object cell = deleteCells.get( i );
 			if ( !trueDeleteCells.contains( cell ) && !temp.contains( cell ) )
 			{
-				CellHandleAdapter cellAdapt = HandleAdapterFactory
-						.getInstance( ).getCellHandleAdapter( cell );
+				CellHandleAdapter cellAdapt = HandleAdapterFactory.getInstance( )
+						.getCellHandleAdapter( cell );
 				cellAdapt.setColumnSpan( cellAdapt.getColumnSpan( ) - 1 );
 				temp.add( cell );
 			}
@@ -1166,8 +1154,9 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		for ( int i = len - 1; i >= 0; i-- )
 		{
 			// deleteRow( rows[i] );
-			deleteRow( HandleAdapterFactory.getInstance( ).getRowHandleAdapter(
-					temp.get( i ) ).getRowNumber( ) );
+			deleteRow( HandleAdapterFactory.getInstance( )
+					.getRowHandleAdapter( temp.get( i ) )
+					.getRowNumber( ) );
 		}
 		transEnd( );
 	}
@@ -1214,9 +1203,8 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 					for ( int j = 0; j < index; j++ )
 					{
 						Object nextRowCell = nextRowChildren.get( j );
-						CellHandleAdapter nextRowCellAdapt = HandleAdapterFactory
-								.getInstance( ).getCellHandleAdapter(
-										nextRowCell );
+						CellHandleAdapter nextRowCellAdapt = HandleAdapterFactory.getInstance( )
+								.getCellHandleAdapter( nextRowCell );
 
 						if ( nextRowCellAdapt.getRowNumber( ) == rowsNumber + 1
 								&& !temp.contains( nextRowCell ) )
@@ -1259,8 +1247,10 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 					.getCellHandleAdapter( shiftInfo.cell );
 			cellAdapt.setRowSpan( cellAdapt.getRowSpan( ) - 1 );
 			SlotHandle slotHandle = row.getCells( );
-			slotHandle.move( (DesignElementHandle) shiftInfo.cell, nextRow,
-					RowHandle.CONTENT_SLOT, shiftInfo.index );
+			slotHandle.move( (DesignElementHandle) shiftInfo.cell,
+					nextRow,
+					RowHandle.CONTENT_SLOT,
+					shiftInfo.index );
 		}
 
 		row.drop( );
@@ -1290,7 +1280,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	static class RowUIInfomation
 	{
 
-		protected static final String GRID_ROW = NAME_NULL; //$NON-NLS-1$
+		protected static final String GRID_ROW = NAME_NULL;
 
 		private String type = ""; //$NON-NLS-1$
 		private String rowDisplayName = ""; //$NON-NLS-1$
@@ -1304,6 +1294,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 
 		/**
 		 * Get row display name
+		 * 
 		 * @return display name
 		 */
 		public String getRowDisplayName( )
@@ -1312,9 +1303,10 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		}
 
 		/**
-		 *  Set row display name
+		 * Set row display name
+		 * 
 		 * @param rowDisplayName
-		 * 	Display name
+		 *            Display name
 		 */
 		public void setRowDisplayName( String rowDisplayName )
 		{
@@ -1323,8 +1315,8 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 
 		/**
 		 * Get type
-		 * @return type
-		 *  The type gotten
+		 * 
+		 * @return type The type gotten
 		 */
 		public String getType( )
 		{
@@ -1332,9 +1324,10 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		}
 
 		/**
-		 *  Set type
-		 *  @param type
-		 *   The type to set
+		 * Set type
+		 * 
+		 * @param type
+		 *            The type to set
 		 */
 		public void setType( String type )
 		{
@@ -1342,7 +1335,8 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		}
 
 		/**
-		 *  Add children
+		 * Add children
+		 * 
 		 * @param obj
 		 * @param index
 		 */
@@ -1411,9 +1405,10 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		}
 
 		/**
-		 *  Add children
+		 * Add children
+		 * 
 		 * @param c
-		 *  Children in collection
+		 *            Children in collection
 		 */
 		public void addChildren( Collection c )
 		{
@@ -1434,7 +1429,8 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		}
 
 		/**
-		 *  Get all the children in list
+		 * Get all the children in list
+		 * 
 		 * @return
 		 */
 		public List getAllChildren( )
@@ -1465,8 +1461,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		{
 			return false;
 		}
-		RowUIInfomation rowInfo = getRowInfo( ( (CellHandle) list.get( 0 ) )
-				.getContainer( ) );
+		RowUIInfomation rowInfo = getRowInfo( ( (CellHandle) list.get( 0 ) ).getContainer( ) );
 		if ( rowInfo == null )
 		{
 			// when delete row, this can be null.
@@ -1476,14 +1471,14 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		String first = rowInfo.getRowDisplayName( );
 		for ( int i = 1; i < size; i++ )
 		{
-			CellHandle cell = (CellHandle) list.get(i);
-			
-			if(!cell.canDrop())
+			CellHandle cell = (CellHandle) list.get( i );
+
+			if ( !cell.canDrop( ) )
 			{
 				return false;
 			}
 
-			RowUIInfomation info = getRowInfo( cell	.getContainer( ) );
+			RowUIInfomation info = getRowInfo( cell.getContainer( ) );
 			if ( info == null )
 			{
 				return false;
@@ -1527,7 +1522,8 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 			for ( int i = 1; i < colSpan; i++ )
 			{
 				rowHandle.addElement( getCellHandleCopy( cellHandle ),
-						RowHandle.CONTENT_SLOT, i + index );
+						RowHandle.CONTENT_SLOT,
+						i + index );
 			}
 		}
 		if ( rowSpan != 1 )
@@ -1539,7 +1535,8 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 				for ( int j = 0; j < colSpan; j++ )
 				{
 					rowHandle.addElement( getCellHandleCopy( cellHandle ),
-							RowHandle.CONTENT_SLOT, j + index );
+							RowHandle.CONTENT_SLOT,
+							j + index );
 				}
 			}
 
@@ -1553,16 +1550,15 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 	{
 		CellHandleAdapter cellAdapt = HandleAdapterFactory.getInstance( )
 				.getCellHandleAdapter( cellHandle );
-		TableHandleAdapter.RowUIInfomation info = getRowInfo( cellHandle
-				.getContainer( ) );
+		TableHandleAdapter.RowUIInfomation info = getRowInfo( cellHandle.getContainer( ) );
 		List list = info.getAllChildren( );
 		int index = list.indexOf( cellHandle );
 		List temp = new ArrayList( );
 		int number = 0;
 		for ( int j = 0; j < index; j++ )
 		{
-			CellHandleAdapter childCellAdapt = HandleAdapterFactory
-					.getInstance( ).getCellHandleAdapter( list.get( j ) );
+			CellHandleAdapter childCellAdapt = HandleAdapterFactory.getInstance( )
+					.getCellHandleAdapter( list.get( j ) );
 			if ( childCellAdapt.getRowNumber( ) == cellAdapt.getRowNumber( )
 					&& !temp.contains( list.get( j ) ) )
 			{
@@ -1594,8 +1590,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 			PropertyHandle handle = (PropertyHandle) iter.next( );
 			String key = handle.getDefn( ).getName( );
 			if ( handle.isLocal( )
-					&& ( !( CellHandle.COL_SPAN_PROP.equals( key ) || CellHandle.ROW_SPAN_PROP
-							.equals( key ) ) ) )
+					&& ( !( CellHandle.COL_SPAN_PROP.equals( key ) || CellHandle.ROW_SPAN_PROP.equals( key ) ) ) )
 			{
 				// cell.setProperty( key, cellHandle.getProperty( key ) );
 				cellHandle.copyPropertyTo( key, cell );
@@ -1722,7 +1717,7 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 			case DETAIL :
 				return NAME_DETAIL;
 			default :
-				return NAME_NULL; //$NON-NLS-1$
+				return NAME_NULL;
 		}
 	}
 

@@ -1,13 +1,13 @@
 /*******************************************************************************
-* Copyright (c) 2004 Actuate Corporation .
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the Eclipse Public License v1.0
-* which accompanies this distribution, and is available at
-* http://www.eclipse.org/legal/epl-v10.html
-*
-* Contributors:
-*  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+ * Copyright (c) 2004 Actuate Corporation .
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 
 package org.eclipse.birt.report.designer.core.model;
 
@@ -20,9 +20,8 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 
-
 /**
- *Adapter class to adapt model handle. This adapter provides convenience
+ * Adapter class to adapt model handle. This adapter provides convenience
  * methods to GUI requirement ReportDesignHandleAdapter responds to model
  * LibraryHandle
  * 
@@ -31,138 +30,153 @@ public class LibraryHandleAdapter extends ReportDesignHandleAdapter
 {
 
 	private Object currentEditorModel;
-	
+
 	private Object oldEditorModel;
-	
-	public static final String CURRENTMODEL = "current model";
-	
-	public static final String CREATE_ELEMENT = "create element";
-	
-	private List listeners = new ArrayList();
-	
-	/** 
+
+	public static final String CURRENTMODEL = "current model"; //$NON-NLS-1$
+
+	public static final String CREATE_ELEMENT = "create element"; //$NON-NLS-1$
+
+	private List listeners = new ArrayList( );
+
+	/**
 	 * Constructor
+	 * 
 	 * @param handle
-	 * The moudle handle
+	 *            The moudle handle
 	 */
 	public LibraryHandleAdapter( ModuleHandle handle )
 	{
 		super( handle );
-		setCurrentEditorModel(handle, CURRENTMODEL);
+		setCurrentEditorModel( handle, CURRENTMODEL );
 	}
-	
+
 	/**
-	 *  Add listener
+	 * Add listener
+	 * 
 	 * @param listener
-	 * 	The listener to add
+	 *            The listener to add
 	 */
-	public void addPropertyChangeListener(PropertyChangeListener listener)
+	public void addPropertyChangeListener( PropertyChangeListener listener )
 	{
-		
-		if (!listeners.contains(listener))
+
+		if ( !listeners.contains( listener ) )
 		{
-			listeners.add(listener);
+			listeners.add( listener );
 		}
 	}
-	
+
 	/**
-	 *  Remove listener
+	 * Remove listener
+	 * 
 	 * @param listener
-	 * 	The listener to remove
+	 *            The listener to remove
 	 */
-	public void removePropertyChangeListener(PropertyChangeListener listener)
+	public void removePropertyChangeListener( PropertyChangeListener listener )
 	{
-		listeners.remove(listener);
+		listeners.remove( listener );
 	}
-	
+
 	/**
 	 * Fire property change
+	 * 
 	 * @param event
-	 * 	The property change event
+	 *            The property change event
 	 */
-	public void firePropertyChangeEvent(PropertyChangeEvent event)
+	public void firePropertyChangeEvent( PropertyChangeEvent event )
 	{
-		int size = listeners.size();
-		for (int i=0; i<size; i++)
+		int size = listeners.size( );
+		for ( int i = 0; i < size; i++ )
 		{
-			PropertyChangeListener listener = (PropertyChangeListener)(listeners.get(i));
-			listener.propertyChange(event);
+			PropertyChangeListener listener = (PropertyChangeListener) ( listeners.get( i ) );
+			listener.propertyChange( event );
 		}
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter#getChildren()
 	 */
 	public List getChildren( )
 	{
-		//if currentEditorModel is a compound componnet , gets its childrem
-		List list = new ArrayList();
-		list.add(getTopContainer(getCurrentEditorModel()));
+		// if currentEditorModel is a compound componnet , gets its childrem
+		List list = new ArrayList( );
+		list.add( getTopContainer( getCurrentEditorModel( ) ) );
 		return list;
-		//return getModuleHandle().getComponents().getContents( );
+		// return getModuleHandle().getComponents().getContents( );
 	}
-	
+
 	/**
 	 * Get top container
+	 * 
 	 * @param currentModel
-	 * 	The specified object
-	 * @return
-	 * 	The sepecifed object's container
+	 *            The specified object
+	 * @return The sepecifed object's container
 	 */
-	private Object getTopContainer(Object currentModel)
+	private Object getTopContainer( Object currentModel )
 	{
 		Object obj = currentModel;
-		if (currentModel instanceof DesignElementHandle)
+		if ( currentModel instanceof DesignElementHandle )
 		{
-			DesignElementHandle handle = (DesignElementHandle)currentModel;
-			while (handle.getContainer() != null)
+			DesignElementHandle handle = (DesignElementHandle) currentModel;
+			while ( handle.getContainer( ) != null )
 			{
-				if (handle.getContainer() instanceof ModuleHandle)
+				if ( handle.getContainer( ) instanceof ModuleHandle )
 				{
 					obj = handle;
 					break;
 				}
-				handle = handle.getContainer();
+				handle = handle.getContainer( );
 			}
-			
+
 		}
 		return obj;
 	}
+
 	/**
 	 * Get current eitor model
+	 * 
 	 * @return Returns the currentEditorModel.
 	 */
 	public Object getCurrentEditorModel( )
 	{
 		return currentEditorModel;
 	}
+
 	/**
 	 * Get current eitor model
-	 *  
-	 * @param current The current editor model to set.
-	 * @param type	The type
+	 * 
+	 * @param current
+	 *            The current editor model to set.
+	 * @param type
+	 *            The type
 	 */
-	public void setCurrentEditorModel( Object current, String type)
+	public void setCurrentEditorModel( Object current, String type )
 	{
 		oldEditorModel = this.currentEditorModel;
-		if (current == null || current instanceof LibraryHandle)
+		if ( current == null || current instanceof LibraryHandle )
 		{
-			this.currentEditorModel = new LibRootModel(current);
+			this.currentEditorModel = new LibRootModel( current );
 		}
 		else
 		{
 			this.currentEditorModel = current;
 		}
-		
-//		if (currentEditorModel == old)
-//		{
-//			return;
-//		}
-		PropertyChangeEvent event = new PropertyChangeEvent(this, type,oldEditorModel, this.currentEditorModel );
-		firePropertyChangeEvent(event);
+
+		// if (currentEditorModel == old)
+		// {
+		// return;
+		// }
+		PropertyChangeEvent event = new PropertyChangeEvent( this,
+				type,
+				oldEditorModel,
+				this.currentEditorModel );
+		firePropertyChangeEvent( event );
 	}
 
-	public Object getOldEditorModel() {
+	public Object getOldEditorModel( )
+	{
 		return oldEditorModel;
 	}
 }

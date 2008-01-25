@@ -84,7 +84,7 @@ public class HandlerPage extends AttributePage
 		} );
 		eventSection.setWidth( 400 );
 		eventSection.setGridPlaceholder( 1, true );
-		eventSection.setButtonText( Messages.getString( "EventHandlerPage.Browse" ) );
+		eventSection.setButtonText( Messages.getString( "EventHandlerPage.Browse" ) ); //$NON-NLS-1$
 		addSection( PageSectionId.HANDLER_EVENT, eventSection );
 		
 		createSections( );

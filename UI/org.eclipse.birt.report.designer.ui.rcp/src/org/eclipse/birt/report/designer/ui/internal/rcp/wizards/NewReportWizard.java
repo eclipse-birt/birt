@@ -72,7 +72,7 @@ public class NewReportWizard extends Wizard implements
 
 	private static final String NEW_REPORT_FILE_NAME_PREFIX = Messages.getString( "NewReportWizard.displayName.NewReportFileNamePrefix" ); //$NON-NLS-1$
 
-	private String fileExtension = "."
+	private String fileExtension = "." //$NON-NLS-1$
 			+ IReportElementConstants.DESIGN_FILE_EXTENSION;
 
 	private WizardNewReportCreationPage newReportFileWizardPage;
@@ -180,9 +180,9 @@ public class NewReportWizard extends Wizard implements
 		final String fileName;
 		if ( !Platform.getOS( ).equals( Platform.WS_WIN32 ) )
 		{
-			if ( !fn.endsWith( fileExtension ) ) //$NON-NLS-1$
+			if ( !fn.endsWith( fileExtension ) )
 			{
-				fileName = fn + fileExtension; //$NON-NLS-1$
+				fileName = fn + fileExtension;
 			}
 			else
 			{
@@ -192,9 +192,9 @@ public class NewReportWizard extends Wizard implements
 		else
 		{
 			if ( !fn.toLowerCase( Locale.getDefault( ) )
-					.endsWith( fileExtension ) ) //$NON-NLS-1$
+					.endsWith( fileExtension ) )
 			{
-				fileName = fn + fileExtension; //$NON-NLS-1$
+				fileName = fn + fileExtension;
 			}
 			else
 			{
@@ -211,7 +211,7 @@ public class NewReportWizard extends Wizard implements
 		cheatSheetIdFromPage = selTemplate.getCheatSheet( );
 		if ( cheatSheetIdFromPage == null )
 		{
-			cheatSheetIdFromPage = "";
+			cheatSheetIdFromPage = ""; //$NON-NLS-1$
 		}
 		showCheatSheetFromPage = templateChoicePage.getShowCheatSheet( );
 
@@ -371,15 +371,11 @@ public class NewReportWizard extends Wizard implements
 
 	public void init( IWorkbench workbench, IStructuredSelection selection )
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	public void setInitializationData( IConfigurationElement config,
 			String propertyName, Object data ) throws CoreException
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	private boolean isPredifinedTemplate( String sourceFileName )

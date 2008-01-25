@@ -21,7 +21,6 @@ import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.jface.util.Assert;
 
 /**
  * This command deletes an object from the RowHandle.
@@ -41,7 +40,7 @@ public class DeleteRowCommand extends Command
 
 	public DeleteRowCommand( Object model )
 	{
-		Assert.isTrue( model instanceof RowHandle );
+		assert model instanceof RowHandle;
 		this.handle = (RowHandle) model;
 	}
 
@@ -114,6 +113,6 @@ public class DeleteRowCommand extends Command
 	 */
 	public boolean canExecute( )
 	{
-		return super.canExecute( ) && ((RowHandle)handle).canDrop();
+		return super.canExecute( ) && handle.canDrop();
 	}
 }

@@ -23,26 +23,26 @@ import org.osgi.framework.Bundle;
 public class SampleIncludedSourceEntry
 {
 
-	private static final String SAMPLE_REPORTS_HOST = "org.eclipse.birt.report.designer.samplereports";
+	private static final String SAMPLE_REPORTS_HOST = "org.eclipse.birt.report.designer.samplereports"; //$NON-NLS-1$
 
 	private static Bundle samplesBundle = Platform.getBundle( SAMPLE_REPORTS_HOST );
 
-	private static final String imageFragmentPath = "/screenshots";
+	private static final String imageFragmentPath = "/screenshots"; //$NON-NLS-1$
 
-	private static final String librariesFragmentPath = "/samplereports/Reporting Feature Examples/Libraries";
+	private static final String librariesFragmentPath = "/samplereports/Reporting Feature Examples/Libraries"; //$NON-NLS-1$
 
-	private static final String scriptedDataSourceFragmentPath = "/samplereports.ide/Scripting/Scripted Data Source";
+	private static final String scriptedDataSourceFragmentPath = "/samplereports.ide/Scripting/Scripted Data Source"; //$NON-NLS-1$
 
-	private static final String extendingFragmentPath = "/samplereports.ide/Extending BIRT";
+	private static final String extendingFragmentPath = "/samplereports.ide/Extending BIRT"; //$NON-NLS-1$
 
-	private static final String pngFragmentPath = "/samplereports/Reporting Feature Examples/XML Data Source";
+	private static final String pngFragmentPath = "/samplereports/Reporting Feature Examples/XML Data Source"; //$NON-NLS-1$
 
-	private static final String drillThroughFragmentPath = "/samplereports/Reporting Feature Examples/Drill to Details";
+	private static final String drillThroughFragmentPath = "/samplereports/Reporting Feature Examples/Drill to Details"; //$NON-NLS-1$
 
 	public static URL getImagePath( String name )
 	{
 		Enumeration enumeration = samplesBundle.findEntries( imageFragmentPath,
-				name + ".PNG",
+				name + ".PNG", //$NON-NLS-1$
 				false );
 		if ( enumeration != null && enumeration.hasMoreElements( ) )
 		{
@@ -54,21 +54,21 @@ public class SampleIncludedSourceEntry
 	public static Enumeration getDrillDetailsReports( )
 	{
 		return samplesBundle.findEntries( drillThroughFragmentPath,
-				"*.rptdesign",
+				"*.rptdesign", //$NON-NLS-1$
 				false );
 	}
 
 	public static Enumeration getIncludedLibraries( )
 	{
 		return samplesBundle.findEntries( librariesFragmentPath,
-				"*.rptlibrary",
+				"*.rptlibrary", //$NON-NLS-1$
 				false );
 	}
 
 	public static Enumeration getJavaObjects( )
 	{
 		return samplesBundle.findEntries( scriptedDataSourceFragmentPath,
-				"*.java",
+				"*.java", //$NON-NLS-1$
 				false );
 	}
 
@@ -76,18 +76,18 @@ public class SampleIncludedSourceEntry
 	{
 		// The plug-in should be packaged in zip
 		return samplesBundle.findEntries( extendingFragmentPath
-				+ "/"
-				+ categoryName, "*.zip", false );
+				+ "/" //$NON-NLS-1$
+				+ categoryName, "*.zip", false ); //$NON-NLS-1$
 	}
 
 	public static Enumeration getEntries( String path )
 	{
 		// The plug-in should be packaged in zip
-		return samplesBundle.findEntries( path, "*.*", false );
+		return samplesBundle.findEntries( path, "*.*", false ); //$NON-NLS-1$
 	}
 
 	public static Enumeration getIncludedPng( )
 	{
-		return samplesBundle.findEntries( pngFragmentPath, "*.png", false );
+		return samplesBundle.findEntries( pngFragmentPath, "*.png", false ); //$NON-NLS-1$
 	}
 }

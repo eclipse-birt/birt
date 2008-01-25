@@ -254,7 +254,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 		} );
 
 		// Listen to preference change.
-		prefs = (IPreferences) PreferenceFactory.getInstance( )
+		prefs = PreferenceFactory.getInstance( )
 				.getPreferences( ReportPlugin.getDefault( ),
 						UIUtil.getCurrentProject( ) );
 		prefs.addPreferenceChangeListener( this );
@@ -485,7 +485,9 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 		{
 			if ( !requesList.equals( request.getSelectionModelList( ) ) )
 			{
-				if ( requesList!= null & requesList.size( )>0 && requesList.get( 0 ) != null
+				if ( requesList != null
+						& requesList.size( ) > 0
+						&& requesList.get( 0 ) != null
 						&& requesList.get( 0 ) instanceof ModuleHandle )
 				{
 					requesList = request.getSelectionModelList( );
@@ -505,6 +507,5 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 			}
 		}
 	}
-
 
 }

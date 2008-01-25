@@ -52,7 +52,6 @@ import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
-import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.LibraryHandle;
@@ -85,7 +84,6 @@ import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -158,38 +156,6 @@ public class UIUtil
 		}
 		gc.dispose( );
 		return width;
-	}
-
-	/**
-	 * @param string
-	 * @return
-	 * @deprecated see DEUtil.AddQuote( String string )
-	 */
-	public static String AddQuote( String string )
-	{
-		if ( string != null
-				&& ( !( string.startsWith( "\"" ) && string.endsWith( "\"" ) ) ) )
-		{
-			return "\"" + string + "\"";
-		}
-		return string;
-	}
-
-	/**
-	 * @param string
-	 * @return
-	 * @deprecated see DEUtil.RemoveQuote( String string )
-	 */
-	public static String RemoveQuote( String string )
-	{
-		if ( string != null
-				&& string.length( ) >= 2
-				&& string.startsWith( "\"" ) //$NON-NLS-1$
-				&& string.endsWith( "\"" ) ) //$NON-NLS-1$
-		{
-			return string.substring( 1, string.length( ) - 1 );
-		}
-		return string;
 	}
 
 	/**
@@ -477,13 +443,6 @@ public class UIUtil
 		return shell;
 	}
 
-	public static ElementFactory getElementFactory( )
-	{
-		return SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getElementFactory( );
-	}
-
 	/**
 	 * Creates a new group under the given parent
 	 * 
@@ -495,7 +454,8 @@ public class UIUtil
 	 */
 	public static boolean createGroup( DesignElementHandle parent )
 	{
-		Assert.isNotNull( parent );
+		assert parent != null;
+
 		try
 		{
 			return addGroup( parent, -1 );
@@ -520,7 +480,8 @@ public class UIUtil
 	 */
 	public static boolean createGroup( DesignElementHandle parent, int position )
 	{
-		Assert.isNotNull( parent );
+		assert parent != null;
+		
 		try
 		{
 			return addGroup( parent, position );
@@ -960,7 +921,8 @@ public class UIUtil
 
 	private static String getBundleValue( String pluginId, String key )
 	{
-		Assert.isNotNull( pluginId );
+		assert pluginId != null;
+		
 		Bundle bundle = Platform.getBundle( pluginId );
 		if ( bundle != null )
 		{
@@ -1115,7 +1077,7 @@ public class UIUtil
 		String home = null;
 		try
 		{
-			home = Platform.resolve( url ).getPath( );
+			home = FileLocator.resolve( url ).getPath( );
 		}
 		catch ( IOException e )
 		{
@@ -1341,7 +1303,6 @@ public class UIUtil
 			}
 			catch ( SemanticException e )
 			{
-				// TODO Auto-generated catch block
 				GUIException exception = GUIException.createGUIException( ReportPlugin.REPORT_UI,
 						e,
 						"Library.DND.messages.cannotApplyTheme" );//$NON-NLS-1$
@@ -1594,9 +1555,9 @@ public class UIUtil
 	{
 		IEditorPart input = null;
 		String ids[] = {
-				"org.eclipse.birt.report.designer.ui.editors.ReportEditor",
-				"org.eclipse.birt.report.designer.ui.editors.LibraryEditor",
-				"org.eclipse.birt.report.designer.ui.editors.TemplateEditor"
+				"org.eclipse.birt.report.designer.ui.editors.ReportEditor", //$NON-NLS-1$
+				"org.eclipse.birt.report.designer.ui.editors.LibraryEditor", //$NON-NLS-1$
+				"org.eclipse.birt.report.designer.ui.editors.TemplateEditor" //$NON-NLS-1$
 		};
 
 		for ( int i = 0; i < ids.length; i++ )
@@ -1706,7 +1667,7 @@ public class UIUtil
 		{
 			button.getImage( ).setBackground( button.getBackground( ) );
 		}
-		button.setToolTipText( Messages.getString( "ExpressionBuilder.ToolTip" ) );
+		button.setToolTipText( Messages.getString( "ExpressionBuilder.ToolTip" ) ); //$NON-NLS-1$
 
 	}
 }

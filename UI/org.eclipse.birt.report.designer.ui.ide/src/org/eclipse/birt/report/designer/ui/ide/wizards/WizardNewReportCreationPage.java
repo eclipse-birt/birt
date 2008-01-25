@@ -143,7 +143,7 @@ public class WizardNewReportCreationPage extends WizardNewFileCreationPage
 			{
 				IPath resourcePath;
 				if ( !fn.toLowerCase( )
-						.endsWith( ( "." + fileExtension ).toLowerCase( ) ) )
+						.endsWith( ( "." + fileExtension ).toLowerCase( ) ) ) //$NON-NLS-1$
 				{
 
 					resourcePath = getContainerFullPath( ).append( getFileName( )

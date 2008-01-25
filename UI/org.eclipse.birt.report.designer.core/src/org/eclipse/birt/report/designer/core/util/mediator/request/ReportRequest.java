@@ -46,10 +46,10 @@ public class ReportRequest extends Request
 	public static final String CREATE_ELEMENT = "create element"; //$NON-NLS-1$
 
 	/**
-	 * Added for fixing bugs 144165 and 151317
-	 * Create scalarparameter or resultsetcolumn request.
+	 * Added for fixing bugs 144165 and 151317 Create scalarparameter or
+	 * resultsetcolumn request.
 	 */
-	public static final String CREATE_SCALARPARAMETER_OR_RESULTSETCOLUMN = "create scalarparameter or resultsetcolumn";
+	public static final String CREATE_SCALARPARAMETER_OR_RESULTSETCOLUMN = "create scalarparameter or resultsetcolumn"; //$NON-NLS-1$
 
 	private Object source;
 

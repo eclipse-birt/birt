@@ -38,7 +38,7 @@ public class LibDirectoryNodeModel
 					|| pathname.isFile( )
 					&& (pathname.getPath( )
 							.toLowerCase( )
-							.endsWith( ".rptlibrary" )
+							.endsWith( ".rptlibrary" ) //$NON-NLS-1$
 					|| pathname.getPath( )
 					.toLowerCase( )
 					.endsWith( ".css" )); //$NON-NLS-1$
@@ -82,7 +82,7 @@ public class LibDirectoryNodeModel
 			{
 				if ( children[i].isDirectory( ) )
 				{
-					childrenList.add( new LibDirectoryNodeModel( ( (File) children[i] ).getAbsolutePath( ) ) );
+					childrenList.add( new LibDirectoryNodeModel( children[i].getAbsolutePath( ) ) );
 				}
 				else
 				{
@@ -91,7 +91,7 @@ public class LibDirectoryNodeModel
 					{
 						library = SessionHandleAdapter.getInstance( )
 								.getSessionHandle( )
-								.openLibrary( ( (File) children[i] ).getAbsolutePath( ) );
+								.openLibrary( children[i].getAbsolutePath( ) );
 
 						if ( resourceListener != null )
 						{

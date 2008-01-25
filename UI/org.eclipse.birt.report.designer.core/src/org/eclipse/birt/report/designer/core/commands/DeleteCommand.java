@@ -202,8 +202,7 @@ public class DeleteCommand extends Command
 	// TODO Through the extened point to do it
 	private boolean isExtendedCell( ExtendedItemHandle handle )
 	{
-		return ( (ExtendedItemHandle) handle ).getExtensionName( )
-				.indexOf( "Cell" ) > -1;//$NON-NLS-1$
+		return handle.getExtensionName( ).indexOf( "Cell" ) > -1;//$NON-NLS-1$
 	}
 
 	protected void dropSourceSlotHandle( SlotHandle slot )

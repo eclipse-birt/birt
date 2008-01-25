@@ -15,7 +15,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.commands.CreateCommand;
 import org.eclipse.birt.report.designer.core.model.LibraryHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
@@ -31,7 +30,6 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolici
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportFlowLayoutEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportRootFigure;
 import org.eclipse.birt.report.designer.internal.ui.layout.AbstractPageFlowLayout;
-import org.eclipse.birt.report.designer.internal.ui.layout.ReportDesignLayout;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.draw2d.IFigure;
@@ -207,9 +205,9 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 
 					protected org.eclipse.gef.commands.Command getCreateCommand(
 							CreateRequest request) {
-						List list = getHost().getChildren();
-						Boolean direct = (Boolean) request.getExtendedData()
-								.get(DesignerConstants.DIRECT_CREATEITEM);
+//						List list = getHost().getChildren();
+//						Boolean direct = (Boolean) request.getExtendedData()
+//								.get(DesignerConstants.DIRECT_CREATEITEM);
 //						if (list.size() != 0
 //								&& !(list.get(0) instanceof EmptyEditPart)
 //								&& (direct == null || !direct.booleanValue())) {

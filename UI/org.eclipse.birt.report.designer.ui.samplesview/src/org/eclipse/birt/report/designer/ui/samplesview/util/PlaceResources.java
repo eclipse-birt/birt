@@ -54,8 +54,8 @@ public class PlaceResources
 		if ( targetfile.exists( ) )
 		{
 			if ( !MessageDialog.openConfirm( shell,
-					Messages.getString( "SampleReportsView.MessageDialog.Title" ),
-					Messages.getFormattedString( "SampleReportsView.MessageDialog.Message",
+					Messages.getString( "SampleReportsView.MessageDialog.Title" ), //$NON-NLS-1$
+					Messages.getFormattedString( "SampleReportsView.MessageDialog.Message", //$NON-NLS-1$
 							new Object[]{
 								desFileName
 							} ) ) )
@@ -156,7 +156,7 @@ public class PlaceResources
 				URL reportURL = (URL) enumeration.nextElement( );
 				String filename = reportURL.getFile( );
 				String desFileName = filename.substring( filename.lastIndexOf( '/' ) + 1 );
-				if ( !desFileName.toLowerCase( ).endsWith( ".rptdesign" ) )
+				if ( !desFileName.toLowerCase( ).endsWith( ".rptdesign" ) ) //$NON-NLS-1$
 				{
 					PlaceResources.copy( shell,
 							projectPath,

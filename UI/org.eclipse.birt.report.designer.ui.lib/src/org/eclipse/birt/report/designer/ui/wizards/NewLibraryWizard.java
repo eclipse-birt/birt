@@ -274,11 +274,10 @@ public class NewLibraryWizard extends Wizard implements
 				return NEW_REPORT_FILE_NAME;
 			}
 			return NEW_REPORT_FILE_NAME_PREFIX + "_" //$NON-NLS-1$
-					+ UNIQUE_COUNTER + NEW_REPORT_FILE_EXTENSION; //$NON-NLS-1$
+					+ UNIQUE_COUNTER + NEW_REPORT_FILE_EXTENSION;
 		}
 		else
 		{
-			String extension = NEW_REPORT_FILE_EXTENSION;
 			String path = Platform.getLocation( ).toOSString();
 			String name = NEW_REPORT_FILE_NAME_PREFIX + NEW_REPORT_FILE_EXTENSION;
 

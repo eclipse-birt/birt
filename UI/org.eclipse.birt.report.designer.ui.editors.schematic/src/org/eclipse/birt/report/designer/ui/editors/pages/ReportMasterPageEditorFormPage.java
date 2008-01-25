@@ -40,7 +40,7 @@ public class ReportMasterPageEditorFormPage extends ReportMasterPageEditor
 			IReportEditorPage
 {
 
-	public static final String ID = MultiPageReportEditor.LayoutMasterPage_ID; //$NON-NLS-1$
+	public static final String ID = MultiPageReportEditor.LayoutMasterPage_ID;
 	private FormEditor editor;
 	private Control control;
 	private int index;

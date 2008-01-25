@@ -190,7 +190,7 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 	private String getNewFileFullName( String defaultName )
 	{
 		String path = getDefaultLocation( );
-		String name = defaultName + "." + fileExtension;
+		String name = defaultName + "." + fileExtension; //$NON-NLS-1$
 
 		int count = 0;
 
@@ -201,7 +201,7 @@ public class WizardNewLibraryCreationPage extends WizardPage implements
 		while ( file.exists( ) )
 		{
 			count++;
-			name = defaultName + "_" + count + "." + fileExtension; //$NON-NLS-1$
+			name = defaultName + "_" + count + "." + fileExtension; //$NON-NLS-1$ //$NON-NLS-2$
 			file = null;
 			file = new File( path, name );
 		}

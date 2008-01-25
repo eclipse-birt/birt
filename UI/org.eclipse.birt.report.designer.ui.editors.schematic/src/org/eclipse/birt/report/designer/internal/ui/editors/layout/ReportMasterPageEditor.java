@@ -59,7 +59,7 @@ public class ReportMasterPageEditor extends
 	 */
 	public void setViewContentsAsMasterPage( )
 	{
-		ModuleHandle designHandle = (ModuleHandle) getModel( );
+		ModuleHandle designHandle = getModel( );
 		SimpleMasterPageHandle masterPage = null;
 		if ( designHandle.getMasterPages( ).getCount( ) == 0 )
 		{

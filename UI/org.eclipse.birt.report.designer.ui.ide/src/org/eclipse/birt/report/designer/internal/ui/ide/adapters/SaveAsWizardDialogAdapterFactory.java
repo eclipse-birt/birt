@@ -16,7 +16,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.ide.wizards.SaveReportAsWizard;
 import org.eclipse.birt.report.designer.ui.ide.wizards.SaveReportAsWizardDialog;
 import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.IEditorPart;
@@ -35,7 +34,7 @@ public class SaveAsWizardDialogAdapterFactory implements IAdapterFactory
 			IEditorPart part = (IEditorPart)adaptableObject;
 			ModuleHandle handle = SessionHandleAdapter.getInstance( ).creatReportDesign( );
 			return new SaveReportAsWizardDialog( UIUtil.getDefaultShell( ),
-					new SaveReportAsWizard( (ReportDesignHandle) handle,
+					new SaveReportAsWizard( handle,
 							( (IFileEditorInput) part.getEditorInput( ) ).getFile( ) ) );
 			
 		}

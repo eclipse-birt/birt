@@ -446,7 +446,7 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 		getTreeViewer( ).getControl( ).setMenu( menu );
 
 		getSite( ).registerContextMenu( "outlinemenu", menuManager, //$NON-NLS-1$
-				getSite( ).getSelectionProvider( ) );//$NON-NLS-1$
+				getSite( ).getSelectionProvider( ) );
 		getSite( ).setSelectionProvider( getTreeViewer( ) );
 	}
 

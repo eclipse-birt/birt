@@ -38,7 +38,7 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor
 			IReportEditorPage
 {
 
-	public static final String ID = MultiPageReportEditor.LayoutEditor_ID; //$NON-NLS-1$
+	public static final String ID = MultiPageReportEditor.LayoutEditor_ID;
 
 	private int index;
 

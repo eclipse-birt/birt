@@ -246,7 +246,7 @@ public class DecoratedScriptFormPage extends ReportScriptFormPage
 					public String getDisplayName( )
 					{
 						return DEUtil.getFlatHirarchyPathName( handle.getElementHandle( ) )
-						+ "."
+						+ "." //$NON-NLS-1$
 						+ handle.getDefn( ).getName( );
 					}
 

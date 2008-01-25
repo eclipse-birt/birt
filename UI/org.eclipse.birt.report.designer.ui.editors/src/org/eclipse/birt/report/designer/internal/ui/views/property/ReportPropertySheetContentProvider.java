@@ -43,7 +43,7 @@ public class ReportPropertySheetContentProvider implements ITreeContentProvider
 		{
 			ArrayList items = new ArrayList( );
 			HashMap map = new HashMap( );
-			GroupElementHandle handle = (GroupElementHandle) ( (PropertySheetRootElement) parentElement ).getModel( );
+			GroupElementHandle handle =  ( (PropertySheetRootElement) parentElement ).getModel( );
 
 			for ( Iterator it = handle.visiblePropertyIterator( ); it.hasNext( ); )
 			{

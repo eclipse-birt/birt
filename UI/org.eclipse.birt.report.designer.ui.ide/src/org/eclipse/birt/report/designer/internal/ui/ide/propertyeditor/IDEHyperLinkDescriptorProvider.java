@@ -41,9 +41,8 @@ public class IDEHyperLinkDescriptorProvider extends HyperLinkDescriptorProvider
 			}
 		}
 		dialog.setInput( handle );
-		needRefresh = false;
+
 		boolean isOK = dialog.open( ) == Dialog.OK;
-		needRefresh = true;
 		if ( isOK )
 		{
 			getActionStack( ).commit( );
@@ -56,8 +55,6 @@ public class IDEHyperLinkDescriptorProvider extends HyperLinkDescriptorProvider
 		}
 		return flag;
 	}
-
-	private boolean needRefresh = true;
 
 	private CommandStack getActionStack( )
 	{

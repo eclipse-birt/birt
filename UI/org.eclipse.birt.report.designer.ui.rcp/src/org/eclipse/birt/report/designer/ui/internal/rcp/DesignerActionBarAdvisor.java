@@ -187,18 +187,18 @@ public class DesignerActionBarAdvisor extends ActionBarAdvisor
 
 		coolBar.add( new GroupMarker( IWorkbenchActionConstants.GROUP_EDITOR ) );
 
-		coolBar.add( new GroupMarker( IWorkbenchActionConstants.GROUP_HELP ) ); //$NON-NLS-1$
+		coolBar.add( new GroupMarker( IWorkbenchActionConstants.GROUP_HELP ) );
 
 		{
 			// Help group
 			IToolBarManager helpToolBar = new ToolBarManager( coolBar.getStyle( ) );
-			helpToolBar.add( new Separator( IWorkbenchActionConstants.GROUP_HELP ) ); //$NON-NLS-1$
+			helpToolBar.add( new Separator( IWorkbenchActionConstants.GROUP_HELP ) );
 
 			// Add the group for applications to contribute
 			helpToolBar.add( new GroupMarker( IWorkbenchActionConstants.GROUP_APP ) );
 			// Add to the cool bar manager
 			coolBar.add( new ToolBarContributionItem( helpToolBar,
-					IWorkbenchActionConstants.TOOLBAR_HELP ) ); //$NON-NLS-1$
+					IWorkbenchActionConstants.TOOLBAR_HELP ) );
 		}
 
 	}

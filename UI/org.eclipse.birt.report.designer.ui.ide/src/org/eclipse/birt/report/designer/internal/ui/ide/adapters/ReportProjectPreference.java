@@ -24,7 +24,7 @@ import org.eclipse.core.runtime.Preferences;
 public class ReportProjectPreference extends Preferences
 {
 
-	protected static final String ENABLE_SPECIAL_SETTINGS = "Enable Special Settings";
+	protected static final String ENABLE_SPECIAL_SETTINGS = "Enable Special Settings"; //$NON-NLS-1$
 	protected static final String DEFAULT_PREFERENCES_DIRNAME = ".settings"; //$NON-NLS-1$
 	public static final String PREFS_FILE_EXTENSION = "prefs"; //$NON-NLS-1$
 	private IProject project;

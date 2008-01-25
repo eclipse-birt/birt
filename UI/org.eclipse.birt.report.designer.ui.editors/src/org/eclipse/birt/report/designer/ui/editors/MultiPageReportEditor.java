@@ -82,9 +82,9 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		IColleague
 {
 
-	public static final String LayoutMasterPage_ID = "org.eclipse.birt.report.designer.ui.editors.masterpage";
-	public static final String LayoutEditor_ID = "org.eclipse.birt.report.designer.ui.editors.layout";
-	public static final String XMLSourcePage_ID = "org.eclipse.birt.report.designer.ui.editors.xmlsource";
+	public static final String LayoutMasterPage_ID = "org.eclipse.birt.report.designer.ui.editors.masterpage"; //$NON-NLS-1$
+	public static final String LayoutEditor_ID = "org.eclipse.birt.report.designer.ui.editors.layout"; //$NON-NLS-1$
+	public static final String XMLSourcePage_ID = "org.eclipse.birt.report.designer.ui.editors.xmlsource"; //$NON-NLS-1$
 	private ReportMultiBookPage fPalettePage;
 
 	private ReportMultiBookPage outlinePage;
@@ -239,7 +239,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 				for ( Iterator iter = formPageList.iterator( ); iter.hasNext( ); )
 				{
 					FormPageDef pagedef = (FormPageDef) iter.next( );
-					if ( XMLSourcePage_ID.equals( pagedef.id ) ) //$NON-NLS-1$
+					if ( XMLSourcePage_ID.equals( pagedef.id ) )
 
 					{
 						try
@@ -271,7 +271,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 		if ( error )
 		{
-			setActivePage( XMLSourcePage_ID ); //$NON-NLS-1$
+			setActivePage( XMLSourcePage_ID );
 		}
 	}
 

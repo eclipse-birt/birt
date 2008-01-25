@@ -165,7 +165,7 @@ public class NewReportWizard extends Wizard implements
 				.getCheatSheet( );
 		if ( cheatSheetIdFromPage == null )
 		{
-			cheatSheetIdFromPage = "";
+			cheatSheetIdFromPage = ""; //$NON-NLS-1$
 		}
 		showCheatSheetFromPage = templateChoicePage.getShowCheatSheet( );
 
@@ -283,7 +283,7 @@ public class NewReportWizard extends Wizard implements
 
 		resetUniqueCount( );
 		newReportFileWizardPage.setFileName( getUniqueReportName( NEW_REPORT_FILE_NAME_PREFIX,
-				NEW_REPORT_FILE_EXTENSION ) );//$NON-NLS-1$
+				NEW_REPORT_FILE_EXTENSION ) );
 		newReportFileWizardPage.setContainerFullPath( getDefaultContainerPath( ) );
 
 	}
@@ -366,10 +366,9 @@ public class NewReportWizard extends Wizard implements
 	String getUniqueReportName( String prefix, String ext )
 	{
 		int counter = getCounter( prefix, ext );
-		return counter == 0 ? prefix + ext //$NON-NLS-1$
-		: prefix + "_" //$NON-NLS-1$
+		return counter == 0 ? prefix + ext : prefix + "_" //$NON-NLS-1$
 				+ counter
-				+ ext; //$NON-NLS-1$
+				+ ext;
 	}
 
 	int getCounter( String prefix, String ext )
@@ -512,7 +511,7 @@ public class NewReportWizard extends Wizard implements
 	{
 		// create a sample file
 		monitor.beginTask( CREATING + fileName, 2 );
-		IResource resource = (IContainer) ResourcesPlugin.getWorkspace( )
+		IResource resource = ResourcesPlugin.getWorkspace( )
 				.getRoot( )
 				.findMember( containerName );
 		IContainer container = null;

@@ -262,7 +262,7 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 
 		getTreeViewer( ).getControl( ).setMenu( menu );
 		getSite( ).registerContextMenu( "#Pop up", menuManager, //$NON-NLS-1$
-				getSite( ).getSelectionProvider( ) );//$NON-NLS-1$				
+				getSite( ).getSelectionProvider( ) );				
 	}
 
 	/**
@@ -438,7 +438,6 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 
 			public void run( )
 			{
-				// TODO Auto-generated method stub
 				String variableName = null;
 				variableName = (String)args.get( DataViewEventProcessor.VARIABLE_NAME );
 				if ( variableName != null )

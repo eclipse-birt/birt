@@ -29,8 +29,8 @@ public abstract class TOCHtmlFactory
 				DesignChoiceConstants.FORMAT_TYPE_VIEWER, locale );
 		TOCNode root = tree.getRoot( );
 
-		String preValue = "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody> ";
-		String postValue = "</tbody></table>";
+		String preValue = "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><tbody> "; //$NON-NLS-1$
+		String postValue = "</tbody></table>"; //$NON-NLS-1$
 
 		String value = buildTOCHtml( root, 0 );
 		value = preValue + value + postValue;
@@ -79,7 +79,7 @@ public abstract class TOCHtmlFactory
 		assert node != null;
 		
 		StringBuffer buffer = new StringBuffer( );
-		buffer.append( "<tr><td " );
+		buffer.append( "<tr><td " ); //$NON-NLS-1$
 		
 		String id = node.getNodeID( );
 		String displayValue = node.getDisplayString( );
@@ -93,17 +93,17 @@ public abstract class TOCHtmlFactory
 
 		// add id
 
-		buffer.append( "id=\"" );
+		buffer.append( "id=\"" ); //$NON-NLS-1$
 		buffer.append( id );
-		buffer.append( "\" " );
+		buffer.append( "\" " ); //$NON-NLS-1$
 
 		// add bookmark
 
 		if ( bookmark != null )
 		{
-			buffer.append( "bookmark=\"" );
+			buffer.append( "bookmark=\"" ); //$NON-NLS-1$
 			buffer.append( bookmark );
-			buffer.append( "\" " );
+			buffer.append( "\" " ); //$NON-NLS-1$
 		}
 
 		// add toc style
@@ -111,11 +111,11 @@ public abstract class TOCHtmlFactory
 		String styleValue = getTOCHtmlStyle( );
 		if ( styleValue != null )
 		{
-			buffer.append( "style=\"" );
+			buffer.append( "style=\"" ); //$NON-NLS-1$
 			buffer.append( styleValue );
-			buffer.append( "\"" );
+			buffer.append( "\"" ); //$NON-NLS-1$
 		}
-		buffer.append( " >" );
+		buffer.append( " >" ); //$NON-NLS-1$
 
 		// add html script
 
@@ -128,12 +128,12 @@ public abstract class TOCHtmlFactory
 		else
 		{
 			buffer.append( scriptValue );
-			buffer.append( "('" );
+			buffer.append( "('" ); //$NON-NLS-1$
 			buffer.append( displayValue );
-			buffer.append( "') " );
+			buffer.append( "') " ); //$NON-NLS-1$
 		}
 		
-		buffer.append( "</td></tr>" );
+		buffer.append( "</td></tr>" ); //$NON-NLS-1$
 		
 		List nodeList = node.getChildren( );
 		if ( nodeList.size( ) == 0 )
@@ -169,7 +169,7 @@ public abstract class TOCHtmlFactory
 		StringBuffer buffer = new StringBuffer( );
 		for ( int i = 0; i < level; ++i )
 		{
-			buffer.append( "&nbsp;" );
+			buffer.append( "&nbsp;" ); //$NON-NLS-1$
 		}
 		return buffer.toString( );
 	}

@@ -48,7 +48,7 @@ public class CorePlugin extends AbstractUIPlugin
 		plugin = this;
 		try
 		{
-			resourceBundle = ResourceBundle.getBundle( RESOURCE_BUNDLE_BASE_NAME ); //$NON-NLS-1$
+			resourceBundle = ResourceBundle.getBundle( RESOURCE_BUNDLE_BASE_NAME );
 		}
 		catch ( MissingResourceException x )
 		{

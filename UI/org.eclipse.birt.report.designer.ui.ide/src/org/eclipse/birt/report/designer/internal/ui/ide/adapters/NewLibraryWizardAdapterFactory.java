@@ -168,7 +168,7 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage implements
 		}
 
 		URL url = FileLocator.find( Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ),
-				new Path( "/templates/blank_library.rpttemplate" ),
+				new Path( "/templates/blank_library.rpttemplate" ), //$NON-NLS-1$
 				null );
 
 		if ( url == null )
@@ -227,7 +227,7 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage implements
 	{
 		// create a sample file
 		monitor.beginTask( CREATING + fileName, 2 );
-		IResource resource = (IContainer) ResourcesPlugin.getWorkspace( )
+		IResource resource = ResourcesPlugin.getWorkspace( )
 				.getRoot( )
 				.findMember( containerName );
 		IContainer container = null;
@@ -378,7 +378,7 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage implements
 			{
 				IPath resourcePath;
 				if ( !fn.toLowerCase( )
-						.endsWith( ( "." + fileExtension ).toLowerCase( ) ) )
+						.endsWith( ( "." + fileExtension ).toLowerCase( ) ) ) //$NON-NLS-1$
 				{
 
 					resourcePath = getContainerFullPath( ).append( getFileName( )

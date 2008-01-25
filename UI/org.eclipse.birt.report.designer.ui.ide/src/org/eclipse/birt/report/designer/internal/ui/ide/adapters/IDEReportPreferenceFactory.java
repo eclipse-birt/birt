@@ -21,7 +21,7 @@ import org.eclipse.core.runtime.Preferences;
 public class IDEReportPreferenceFactory implements IReportPreferenceFactory
 {
 
-	private String pluginId = "";
+	private String pluginId = ""; //$NON-NLS-1$
 
 	public IDEReportPreferenceFactory( Plugin plugin )
 	{

@@ -31,7 +31,7 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern
 
 	private static String[] symbols = {
 			// "none", "£¤","$", "?", "¡ê"
-			Messages.getString( "FormatNumberPage.currency.symbol.none" ),
+			Messages.getString( "FormatNumberPage.currency.symbol.none" ), //$NON-NLS-1$
 			Currency.getInstance( Locale.getDefault( ) ).getSymbol( ),
 			"\u00A5", "$", "\u20ac", "\u00A3", "\u20A9" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 	};

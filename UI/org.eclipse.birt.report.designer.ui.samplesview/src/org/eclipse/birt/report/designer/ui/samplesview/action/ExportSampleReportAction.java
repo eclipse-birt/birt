@@ -27,19 +27,19 @@ import org.eclipse.swt.widgets.TreeItem;
 public class ExportSampleReportAction extends Action implements Listener
 {
 
-	private static final String DRILL_TO_DETAILS_CATEGORY = "Drill to Details";
+	private static final String DRILL_TO_DETAILS_CATEGORY = "Drill to Details"; //$NON-NLS-1$
 	private static final String[] REPORTDESIGN_FILENAME_PATTERN = new String[]{
 		"*.rptdesign" //$NON-NLS-1$
 	};
 
-	private static final String ACTION_TEXT = Messages.getString( "SampleReportsView.Action.exportSampleReport" );
+	private static final String ACTION_TEXT = Messages.getString( "SampleReportsView.Action.exportSampleReport" ); //$NON-NLS-1$
 
 	private ReportExamples composite;
 
 	public ExportSampleReportAction( ReportExamples composite )
 	{
 		super( ACTION_TEXT );
-		setToolTipText( Messages.getString( "SampleReportsView.Action.exportSampleReport.toolTipText" ) );
+		setToolTipText( Messages.getString( "SampleReportsView.Action.exportSampleReport.toolTipText" ) ); //$NON-NLS-1$
 		setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ENABLE_EXPORT ) );
 		setDisabledImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_DISABLE_EXPORT ) );
 		setEnabled( false );
@@ -57,10 +57,10 @@ public class ExportSampleReportAction extends Action implements Listener
 		}
 
 		String filename = ( (ReportDesignHandle) selectedElement ).getFileName( );
-		String reportName = filename.substring( filename.lastIndexOf( "/" ) + 1 );
+		String reportName = filename.substring( filename.lastIndexOf( "/" ) + 1 ); //$NON-NLS-1$
 		final FileDialog saveDialog = new FileDialog( composite.getShell( ),
 				SWT.SAVE );
-		saveDialog.setFilterExtensions( REPORTDESIGN_FILENAME_PATTERN ); //$NON-NLS-1$
+		saveDialog.setFilterExtensions( REPORTDESIGN_FILENAME_PATTERN );
 		saveDialog.setFileName( reportName );
 		if ( saveDialog.open( ) == null )
 			return;

@@ -33,8 +33,8 @@ public class ScriptDocumentProvider extends JSDocumentProvider
 	 * File name key
 	 */
 	public static final String FILENAME = "file name";//$NON-NLS-1$
-	private String id = "";
-	private String fileName = "";
+	private String id = ""; //$NON-NLS-1$
+	private String fileName = ""; //$NON-NLS-1$
 	/*
 	 * (non-Javadoc)
 	 * 

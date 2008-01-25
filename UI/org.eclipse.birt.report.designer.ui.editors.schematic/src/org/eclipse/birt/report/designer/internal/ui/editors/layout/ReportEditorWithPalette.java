@@ -138,7 +138,7 @@ abstract public class ReportEditorWithPalette extends
 
 	private FileReportProvider provider;
 
-	private static final String DLG_ERROR_OPEN_ERROR_MSG = "Can't open file";
+	private static final String DLG_ERROR_OPEN_ERROR_MSG = "Can't open file"; //$NON-NLS-1$
 
 	public ReportEditorWithPalette( )
 	{

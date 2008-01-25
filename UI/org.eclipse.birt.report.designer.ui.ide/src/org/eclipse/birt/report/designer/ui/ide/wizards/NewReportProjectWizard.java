@@ -80,7 +80,7 @@ public class NewReportProjectWizard extends BasicNewResourceWizard implements
 	{
 		super.addPages( );
 
-		mainPage = new WizardNewProjectCreationPage( "basicNewProjectPage" ) {
+		mainPage = new WizardNewProjectCreationPage( "basicNewProjectPage" ) { //$NON-NLS-1$
 
 			public void createControl( Composite parent )
 			{
@@ -142,7 +142,7 @@ public class NewReportProjectWizard extends BasicNewResourceWizard implements
 				return validatePage( ) || super.isPageComplete( );
 			}
 
-		};//$NON-NLS-1$
+		};
 		mainPage.setTitle( Messages.getString( "NewReportProjectWizard.title" ) ); //$NON-NLS-1$
 		mainPage.setDescription( Messages.getString( "NewReportProjectWizard.description" ) ); //$NON-NLS-1$
 		this.addPage( mainPage );
@@ -185,15 +185,15 @@ public class NewReportProjectWizard extends BasicNewResourceWizard implements
 		String[] natures = null;
 		if ( isJavaProject )
 			natures = new String[]{
-					"org.eclipse.birt.report.designer.ui.reportprojectnature",
+					"org.eclipse.birt.report.designer.ui.reportprojectnature", //$NON-NLS-1$
 					JavaCore.NATURE_ID
 			};
 		else
 			natures = new String[]{
-				"org.eclipse.birt.report.designer.ui.reportprojectnature"
+				"org.eclipse.birt.report.designer.ui.reportprojectnature" //$NON-NLS-1$
 			};
 
-		description.setNatureIds( natures ); //$NON-NLS-1$
+		description.setNatureIds( natures );
 
 		if ( isJavaProject )
 			addJavaBuildSpec( description );
@@ -498,14 +498,14 @@ public class NewReportProjectWizard extends BasicNewResourceWizard implements
 				entries,
 				0,
 				internalClassPathEntries.length );
-		entries[entries.length - 1] = JavaCore.newContainerEntry( new Path( "org.eclipse.jdt.launching.JRE_CONTAINER" ) );
+		entries[entries.length - 1] = JavaCore.newContainerEntry( new Path( "org.eclipse.jdt.launching.JRE_CONTAINER" ) ); //$NON-NLS-1$
 		return entries;
 	}
 
 	protected IClasspathEntry[] getInternalClassPathEntries( IProject project )
 	{
 		if ( sourceText.getText( ) == null
-				|| sourceText.getText( ).trim( ).equals( "" ) )
+				|| sourceText.getText( ).trim( ).equals( "" ) ) //$NON-NLS-1$
 		{
 			return new IClasspathEntry[0];
 		}

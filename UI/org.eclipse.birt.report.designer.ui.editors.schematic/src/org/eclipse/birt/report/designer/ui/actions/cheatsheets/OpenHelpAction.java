@@ -12,23 +12,28 @@
 package org.eclipse.birt.report.designer.ui.actions.cheatsheets;
 
 import org.eclipse.jface.action.Action;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.cheatsheets.ICheatSheetAction;
 import org.eclipse.ui.cheatsheets.ICheatSheetManager;
-import org.eclipse.ui.help.WorkbenchHelp;
 
 /**
  */
 public class OpenHelpAction extends Action implements ICheatSheetAction
 {
 
-    /* (non-Javadoc)
-     * @see org.eclipse.ui.cheatsheets.ICheatSheetAction#run(java.lang.String[], org.eclipse.ui.cheatsheets.ICheatSheetManager)
-     */
-    public void run( String[] params, ICheatSheetManager manager )
-    {
-        if ( params.length < 1 )
-            throw new IllegalArgumentException();
-        WorkbenchHelp.displayHelpResource( params[0] );
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.cheatsheets.ICheatSheetAction#run(java.lang.String[],
+	 *      org.eclipse.ui.cheatsheets.ICheatSheetManager)
+	 */
+	public void run( String[] params, ICheatSheetManager manager )
+	{
+		if ( params.length < 1 )
+			throw new IllegalArgumentException( );
+		PlatformUI.getWorkbench( )
+				.getHelpSystem( )
+				.displayHelpResource( params[0] );
+	}
 
 }

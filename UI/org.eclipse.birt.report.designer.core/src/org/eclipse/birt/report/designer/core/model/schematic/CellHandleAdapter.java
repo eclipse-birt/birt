@@ -23,12 +23,11 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.jface.util.Assert;
 
 /**
  * Adapter class to adapt model handle. This adapter provides convenience.
  * methods to GUI requirement CellHandleAdapter responds to model CellHandle
- *  
+ * 
  */
 
 public class CellHandleAdapter extends DesignElementHandleAdapter
@@ -66,7 +65,7 @@ public class CellHandleAdapter extends DesignElementHandleAdapter
 	 */
 	public int getRowNumber( )
 	{
-		Assert.isLegal( getCellHandle( ).getContainer( ) instanceof RowHandle );
+		assert getCellHandle( ).getContainer( ) instanceof RowHandle;
 		return HandleAdapterFactory.getInstance( )
 				.getRowHandleAdapter( getCellHandle( ).getContainer( ) )
 				.getRowNumber( );
@@ -79,7 +78,7 @@ public class CellHandleAdapter extends DesignElementHandleAdapter
 	 */
 	public int getColumnNumber( )
 	{
-		Assert.isLegal( getCellHandle( ).getContainer( ) instanceof RowHandle );
+		assert getCellHandle( ).getContainer( ) instanceof RowHandle;
 
 		if ( getCellHandle( ).getColumn( ) == 0 )
 		{
@@ -121,7 +120,6 @@ public class CellHandleAdapter extends DesignElementHandleAdapter
 	{
 		return new Point( 1, 1 );
 	}
-
 
 	/**
 	 * Gets the size.

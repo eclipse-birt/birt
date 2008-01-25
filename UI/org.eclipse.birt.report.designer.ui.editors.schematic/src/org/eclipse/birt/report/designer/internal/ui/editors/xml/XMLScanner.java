@@ -23,7 +23,7 @@ public class XMLScanner extends RuleBasedScanner
 
 		IRule[] rules = new IRule[2];
 		// Add rule for processing instructions
-		rules[0] = new SingleLineRule( "<?", "?>", procInstr );
+		rules[0] = new SingleLineRule( "<?", "?>", procInstr ); //$NON-NLS-1$ //$NON-NLS-2$
 		// Add generic whitespace rule.
 		rules[1] = new WhitespaceRule( new XMLWhitespaceDetector( ) );
 

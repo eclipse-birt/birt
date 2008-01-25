@@ -34,7 +34,7 @@ import org.osgi.framework.Bundle;
 public class SampleReportsEntry implements ResourceEntry
 {
 
-	private static final String SAMPLE_REPORTS_HOST = "org.eclipse.birt.report.designer.samplereports";
+	private static final String SAMPLE_REPORTS_HOST = "org.eclipse.birt.report.designer.samplereports"; //$NON-NLS-1$
 
 	public static Bundle samplesBundle = Platform.getBundle( SAMPLE_REPORTS_HOST );
 
@@ -61,7 +61,7 @@ public class SampleReportsEntry implements ResourceEntry
 		// //$NON-NLS-1$//$NON-NLS-2$
 		this( entryname, fragmentPath, parentEntry, false );
 		this.isRoot = true;
-		this.displayName = "BIRT Examples";
+		this.displayName = "BIRT Examples"; //$NON-NLS-1$
 		// samplesBundle = Platform.getBundle( SAMPLE_REPORTS_HOST );
 		if ( samplesBundle != null )
 		{
@@ -72,7 +72,7 @@ public class SampleReportsEntry implements ResourceEntry
 					String[] patterns = filePattern[i].split( ";" ); //$NON-NLS-1$
 					for ( int j = 0; j < patterns.length; j++ )
 					{
-						Enumeration enumeration = samplesBundle.findEntries( fragmentPath, //$NON-NLS-1$
+						Enumeration enumeration = samplesBundle.findEntries( fragmentPath,
 								patterns[j],
 								true );
 						while ( enumeration != null
@@ -80,8 +80,8 @@ public class SampleReportsEntry implements ResourceEntry
 						{
 							URL element = (URL) enumeration.nextElement( );
 							String path = element.getPath( )
-									+ ( element.getRef( ) != null ? "#"
-											+ element.getRef( ) : "" );
+									+ ( element.getRef( ) != null ? "#" //$NON-NLS-1$
+											+ element.getRef( ) : "" ); //$NON-NLS-1$
 							String[] pathtoken = path.split( "/" ); //$NON-NLS-1$
 							SampleReportsEntry parent = this;
 							for ( int m = 0; m < pathtoken.length; m++ )

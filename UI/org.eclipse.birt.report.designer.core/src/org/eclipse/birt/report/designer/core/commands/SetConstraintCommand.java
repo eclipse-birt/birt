@@ -69,7 +69,7 @@ public class SetConstraintCommand extends Command
 		CommandStack stack = SessionHandleAdapter.getInstance( )
 				.getCommandStack( );
 		// start trans
-		stack.startTrans( TRANS_LABEL_SET_CONSTRAINT ); //$NON-NLS-1$
+		stack.startTrans( TRANS_LABEL_SET_CONSTRAINT );
 
 		try
 		{

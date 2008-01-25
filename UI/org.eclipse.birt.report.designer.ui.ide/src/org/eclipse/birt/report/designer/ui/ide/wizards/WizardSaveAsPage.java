@@ -61,28 +61,27 @@ import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.eclipse.ui.part.DrillDownComposite;
 
 /**
- * 
+ * WizardSaveAsPage
  */
-
 public class WizardSaveAsPage extends WizardPage
 {
 
-	private static String EXTENSIONS = ".rptdesign";
+	private static String EXTENSIONS = ".rptdesign"; //$NON-NLS-1$
 	static
 	{
 		List extensionList = ReportPlugin.getDefault( )
 				.getReportExtensionNameList( );
 		if ( !extensionList.isEmpty( ) )
 		{
-			EXTENSIONS = "." + extensionList.get( 0 );
+			EXTENSIONS = "." + extensionList.get( 0 ); //$NON-NLS-1$
 		}
 
 		for ( int i = 1; i < extensionList.size( ); i++ )
 		{
-			EXTENSIONS += ", ." + extensionList.get( i );
+			EXTENSIONS += ", ." + extensionList.get( i ); //$NON-NLS-1$
 		}
 	}
-	private static final String WRONG_EXTENSION = MessageFormat.format( Messages.getString( "WizardReportSettingPage.Error.ReportorTemplate" ),
+	private static final String WRONG_EXTENSION = MessageFormat.format( Messages.getString( "WizardReportSettingPage.Error.ReportorTemplate" ), //$NON-NLS-1$
 			new String[]{
 				EXTENSIONS
 			} );
@@ -108,7 +107,7 @@ public class WizardSaveAsPage extends WizardPage
 			return false;
 		}
 
-		if ( resourceGroup.getResource( ).endsWith( ".rpttemplate" ) )
+		if ( resourceGroup.getResource( ).endsWith( ".rpttemplate" ) ) //$NON-NLS-1$
 		{
 			return true;
 		}
@@ -227,8 +226,8 @@ public class WizardSaveAsPage extends WizardPage
 		setErrorMessage( null );
 		if ( !resourceGroup.areAllValuesValid( ) )
 		{
-			if ( !resourceGroup.getResource( ).equals( "" ) ) // if blank name
-				// //$NON-NLS-1$
+			if ( !resourceGroup.getResource( ).equals( "" ) ) //$NON-NLS-1$ 
+				// if blank name
 				// then fail
 				// silently//$NON-NLS-1$
 				setErrorMessage( resourceGroup.getProblemMessage( ) );
@@ -237,9 +236,9 @@ public class WizardSaveAsPage extends WizardPage
 		if ( resourceGroup.getResource( ) != null
 				&& model instanceof LibraryHandle )
 		{
-			if ( !resourceGroup.getResource( ).endsWith( ".rptlibrary" ) )
+			if ( !resourceGroup.getResource( ).endsWith( ".rptlibrary" ) ) //$NON-NLS-1$
 			{
-				setErrorMessage( Messages.getString( "WizardReportSettingPage.Error.Library" ) );
+				setErrorMessage( Messages.getString( "WizardReportSettingPage.Error.Library" ) ); //$NON-NLS-1$
 				return false;
 			}
 		}
@@ -249,7 +248,7 @@ public class WizardSaveAsPage extends WizardPage
 		{
 			if ( !( ReportPlugin.getDefault( )
 					.isReportDesignFile( resourceGroup.getResource( ) ) || resourceGroup.getResource( )
-					.endsWith( ".rpttemplate" ) ) )
+					.endsWith( ".rpttemplate" ) ) ) //$NON-NLS-1$
 			{
 				setErrorMessage( WRONG_EXTENSION );
 				return false;

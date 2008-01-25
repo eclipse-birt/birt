@@ -19,7 +19,6 @@ import java.util.logging.Logger;
 import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
 import org.eclipse.birt.report.designer.core.commands.PasteCommand;
 import org.eclipse.birt.report.designer.core.commands.PasteStructureCommand;
-import org.eclipse.birt.report.designer.core.commands.SetPropertyCommand;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.CellHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.ColumnHandleAdapter;
@@ -1358,11 +1357,11 @@ public class DNDUtil
 		{
 			if ( handle instanceof TableHandle )
 			{
-				return ( (TableHandle) handle );
+				return handle;
 			}
 			if ( handle instanceof GridHandle )
 			{
-				return ( (GridHandle) handle );
+				return handle;
 			}
 			handle = handle.getContainer( );
 		}

@@ -112,7 +112,7 @@ public class ClassFinder
 		if ( element instanceof IProject && hasJavaNature( (IProject) element ) )
 		{
 			IJavaElement javaElement = JavaCore.create( (IProject) element );
-			List testCases = findCLasses( (IJavaElement) javaElement,
+			List testCases = findCLasses( javaElement,
 					new SubProgressMonitor( pm, 7 ) );
 			result.addAll( testCases );
 			pm.done( );
@@ -164,7 +164,7 @@ public class ClassFinder
 			{
 				return null;
 			}
-			return javaProject.findType( getParentClassName( ) ); //$NON-NLS-1$
+			return javaProject.findType( getParentClassName( ) );
 		}
 		catch ( JavaModelException e )
 		{

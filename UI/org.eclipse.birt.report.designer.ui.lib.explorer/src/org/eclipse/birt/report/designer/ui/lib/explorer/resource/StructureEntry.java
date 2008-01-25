@@ -40,9 +40,9 @@ public class StructureEntry extends ReportResourceEntry
 	protected INodeProvider createProvider( StructureHandle structure )
 	{
 		if ( structure instanceof EmbeddedImageHandle )
-			return ProviderFactory.createProvider( (EmbeddedImageHandle) structure );
+			return ProviderFactory.createProvider( structure );
 		else if ( structure instanceof ResultSetColumnHandle )
-			return ProviderFactory.createProvider( (ResultSetColumnHandle) structure );
+			return ProviderFactory.createProvider( structure );
 		return ProviderFactory.createProvider( structure );
 	}
 

@@ -75,7 +75,7 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 		return instance;
 	}
 
-	public static final String CATEGORY_KEY_EVENTHANDLER = "EventHandler";
+	public static final String CATEGORY_KEY_EVENTHANDLER = "EventHandler"; //$NON-NLS-1$
 
 	public ICategoryProvider getCategoryProvider( String elementName )
 	{
@@ -96,7 +96,7 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 					"ReportPageGenerator.List.UserProperties", //$NON-NLS-1$
 					"ReportPageGenerator.List.NamedExpressions", //$NON-NLS-1$
 					"ReportPageGenerator.List.EventHandler", //$NON-NLS-1$	
-					"ReportPageGenerator.List.AdvancedProperty",
+					"ReportPageGenerator.List.AdvancedProperty", //$NON-NLS-1$
 			}, new Class[]{
 					CellPage.class,
 					CellPaddingPage.class,
@@ -117,8 +117,8 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 			}, new String[]{
 					"ColumnPageGenerator.List.General", //$NON-NLS-1$
 					"ColumnPageGenerator.List.Visibility",//$NON-NLS-1$
-					"ReportPageGenerator.List.EventHandler",
-					"ReportPageGenerator.List.AdvancedProperty",
+					"ReportPageGenerator.List.EventHandler", //$NON-NLS-1$
+					"ReportPageGenerator.List.AdvancedProperty", //$NON-NLS-1$
 			}, new Class[]{
 					ColumnPage.class,
 					VisibilityPage.class,
@@ -164,7 +164,7 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 					"ReportPageGenerator.List.UserProperties", //$NON-NLS-1$
 					"ReportPageGenerator.List.NamedExpressions", //$NON-NLS-1$
 					"ReportPageGenerator.List.EventHandler", //$NON-NLS-1$
-					"ReportPageGenerator.List.AdvancedProperty",
+					"ReportPageGenerator.List.AdvancedProperty", //$NON-NLS-1$
 			}, new Class[]{
 					DataPage.class,
 					// ExpressionPage.class,
@@ -214,7 +214,7 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 					"ReportPageGenerator.List.UserProperties", //$NON-NLS-1$
 					"ReportPageGenerator.List.NamedExpressions", //$NON-NLS-1$
 					"ReportPageGenerator.List.EventHandler", //$NON-NLS-1$
-					"ReportPageGenerator.List.AdvancedProperty",
+					"ReportPageGenerator.List.AdvancedProperty", //$NON-NLS-1$
 			}, new Class[]{
 					GridPage.class,
 					ItemMarginPage.class,
@@ -261,7 +261,7 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 					"ReportPageGenerator.List.UserProperties", //$NON-NLS-1$
 					"ReportPageGenerator.List.NamedExpressions", //$NON-NLS-1$
 					"ReportPageGenerator.List.EventHandler", //$NON-NLS-1$
-					"ReportPageGenerator.List.AdvancedProperty",
+					"ReportPageGenerator.List.AdvancedProperty", //$NON-NLS-1$
 			}, new Class[]{
 					ImagePage.class,
 					ReferencePage.class,
@@ -348,9 +348,9 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 					"ReportPageGenerator.List.Comments", //$NON-NLS-1$
 					"ReportPageGenerator.List.UserProperties", //$NON-NLS-1$
 					"ReportPageGenerator.List.NamedExpressions", //$NON-NLS-1$
-					"ReportPageGenerator.List.Resources",
+					"ReportPageGenerator.List.Resources", //$NON-NLS-1$
 					"ReportPageGenerator.List.EventHandler", //$NON-NLS-1$
-					"ReportPageGenerator.List.AdvancedProperty",
+					"ReportPageGenerator.List.AdvancedProperty", //$NON-NLS-1$
 			}, new Class[]{
 					LibraryPage.class,
 					DescriptionPage.class,
@@ -387,7 +387,7 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 					"ReportPageGenerator.List.UserProperties", //$NON-NLS-1$
 					"ReportPageGenerator.List.NamedExpressions", //$NON-NLS-1$
 					"ReportPageGenerator.List.EventHandler", //$NON-NLS-1$
-					"ReportPageGenerator.List.AdvancedProperty",
+					"ReportPageGenerator.List.AdvancedProperty", //$NON-NLS-1$
 			}, new Class[]{
 					ListPage.class,
 					BordersPage.class,
@@ -419,9 +419,9 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 					"ReportPageGenerator.List.Comments", //$NON-NLS-1$
 					"ReportPageGenerator.List.UserProperties", //$NON-NLS-1$
 					"ReportPageGenerator.List.NamedExpressions", //$NON-NLS-1$
-					"ReportPageGenerator.List.Resources",
+					"ReportPageGenerator.List.Resources", //$NON-NLS-1$
 					"ReportPageGenerator.List.EventHandler",//$NON-NLS-1$
-					"ReportPageGenerator.List.AdvancedProperty",
+					"ReportPageGenerator.List.AdvancedProperty", //$NON-NLS-1$
 			}, new Class[]{
 					ReportPage.class,
 					DescriptionPage.class,
@@ -448,13 +448,13 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 			}, new String[]{
 					"RowPageGenerator.List.General", //$NON-NLS-1$
 					"RowPageGenerator.List.Borders", //$NON-NLS-1$
-					"RowPageGenerator.List.Section",
+					"RowPageGenerator.List.Section", //$NON-NLS-1$
 					"RowPageGenerator.List.Visibility", //$NON-NLS-1$
 					"RowPageGenerator.List.Bookmark", //$NON-NLS-1$
 					"ReportPageGenerator.List.UserProperties", //$NON-NLS-1$
 					"ReportPageGenerator.List.NamedExpressions", //$NON-NLS-1$
 					"ReportPageGenerator.List.EventHandler", //$NON-NLS-1$
-					"ReportPageGenerator.List.AdvancedProperty",
+					"ReportPageGenerator.List.AdvancedProperty", //$NON-NLS-1$
 			}, new Class[]{
 					RowPage.class,
 					BordersPage.class,
@@ -494,7 +494,7 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 					"ReportPageGenerator.List.UserProperties", //$NON-NLS-1$
 					"ReportPageGenerator.List.NamedExpressions", //$NON-NLS-1$
 					"ReportPageGenerator.List.EventHandler", //$NON-NLS-1$
-					"ReportPageGenerator.List.AdvancedProperty",
+					"ReportPageGenerator.List.AdvancedProperty", //$NON-NLS-1$
 			}, new Class[]{
 					TablePage.class,
 					ItemMarginPage.class,
@@ -541,7 +541,7 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 					"ReportPageGenerator.List.UserProperties", //$NON-NLS-1$
 					"ReportPageGenerator.List.NamedExpressions", //$NON-NLS-1$
 					"ReportPageGenerator.List.EventHandler", //$NON-NLS-1$
-					"ReportPageGenerator.List.AdvancedProperty",
+					"ReportPageGenerator.List.AdvancedProperty", //$NON-NLS-1$
 			}, new Class[]{
 					TextPage.class,
 					ExpressionPage.class,
@@ -590,7 +590,7 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 					"ReportPageGenerator.List.UserProperties", //$NON-NLS-1$
 					"ReportPageGenerator.List.NamedExpressions", //$NON-NLS-1$
 					"ReportPageGenerator.List.EventHandler", //$NON-NLS-1$
-					"ReportPageGenerator.List.AdvancedProperty",
+					"ReportPageGenerator.List.AdvancedProperty", //$NON-NLS-1$
 			}, new Class[]{
 					TextPage.class,
 					CellPaddingPage.class,
@@ -637,7 +637,7 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 					"ReportPageGenerator.List.UserProperties", //$NON-NLS-1$
 					"ReportPageGenerator.List.NamedExpressions", //$NON-NLS-1$
 					"ReportPageGenerator.List.EventHandler", //$NON-NLS-1$
-					"ReportPageGenerator.List.AdvancedProperty",
+					"ReportPageGenerator.List.AdvancedProperty", //$NON-NLS-1$
 			}, new Class[]{
 					AutoTextPage.class,
 					CellPaddingPage.class,
@@ -669,7 +669,7 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 					CATEGORY_KEY_ADVANCEPROPERTY,
 			},
 					new String[]{
-							"DataSourcePageGenerator.List.General", "ReportPageGenerator.List.Comments", "ReportPageGenerator.List.EventHandler", "ReportPageGenerator.List.AdvancedProperty",},//$NON-NLS-1$
+							"DataSourcePageGenerator.List.General", "ReportPageGenerator.List.Comments", "ReportPageGenerator.List.EventHandler", "ReportPageGenerator.List.AdvancedProperty",},//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 					new Class[]{
 							DataSourcePage.class,
 							CommentsPage.class,
@@ -686,7 +686,7 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 					CATEGORY_KEY_ADVANCEPROPERTY,
 			},
 					new String[]{
-							"DataSetPageGenerator.List.General", "ReportPageGenerator.List.Comments", "ReportPageGenerator.List.EventHandler", "ReportPageGenerator.List.AdvancedProperty",}, //$NON-NLS-1$
+							"DataSetPageGenerator.List.General", "ReportPageGenerator.List.Comments", "ReportPageGenerator.List.EventHandler", "ReportPageGenerator.List.AdvancedProperty",}, //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 					new Class[]{
 							DataSetPage.class,
 							CommentsPage.class,

@@ -29,6 +29,8 @@ import org.eclipse.swt.SWTException;
 public class GUIException extends BirtException
 {
 
+	private static final long serialVersionUID = 1L;
+
 	private static final String MSG_FILE_NOT_FOUND = Messages.getString( "ExceptionHandler.Message.FileNotFound" ); //$NON-NLS-1$
 
 	private static final String MSG_UNKNOWN_HOST = Messages.getString( "ExceptionHandler.Message.UnknownHost" ); //$NON-NLS-1$
@@ -46,7 +48,7 @@ public class GUIException extends BirtException
 	public static final String GUI_ERROR_CODE_OUT_OF_MEMORY = "Error.GUIException.invokedByOutOfMemory"; //$NON-NLS-1$
 
 	public static final String GUI_ERROR_CODE_UNEXPECTED = "Error.GUIException.invokedByUnexpectedException"; //$NON-NLS-1$
-	
+
 	/**
 	 * Creates a new instance of GUI exception
 	 * 
@@ -80,7 +82,7 @@ public class GUIException extends BirtException
 		}
 		return ex;
 	}
-	
+
 	/**
 	 * Creates a new instance of GUI exception
 	 * 
@@ -92,7 +94,7 @@ public class GUIException extends BirtException
 	 * @return the GUIException created
 	 */
 	public static GUIException createGUIException( String pluginId,
-			Throwable cause,String errorCode )
+			Throwable cause, String errorCode )
 	{
 		GUIException ex = new GUIException( pluginId, errorCode, cause );
 		if ( errorCode != GUI_ERROR_CODE_UNEXPECTED )
@@ -100,7 +102,7 @@ public class GUIException extends BirtException
 			ex.setSeverity( BirtException.INFO | BirtException.ERROR );
 		}
 		return ex;
-	}	
+	}
 
 	/**
 	 * Creates a new instance of GUI exception with the specified error code
@@ -125,9 +127,9 @@ public class GUIException extends BirtException
 	 */
 	public String getMessage( )
 	{
-		String message = Messages.getString(getErrorCode());
-		
-		if(message.equalsIgnoreCase(getErrorCode()))
+		String message = Messages.getString( getErrorCode( ) );
+
+		if ( message.equalsIgnoreCase( getErrorCode( ) ) )
 		{
 			message = getCause( ).getLocalizedMessage( );
 			if ( getCause( ) instanceof UnknownHostException )

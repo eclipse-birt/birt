@@ -42,16 +42,16 @@ public class RCPOpenSampleReportAction extends Action implements
 		Listener
 {
 
-	private static final String ACTION_TEXT = Messages.getString( "SampleReportsView.Action.openSampleReport" );
+	private static final String ACTION_TEXT = Messages.getString( "SampleReportsView.Action.openSampleReport" ); //$NON-NLS-1$
 
-	private static final String DRILL_TO_DETAILS_CATEGORY = "Drill to Details";
+	private static final String DRILL_TO_DETAILS_CATEGORY = "Drill to Details"; //$NON-NLS-1$
 
 	private ReportExamples composite;
 
 	public RCPOpenSampleReportAction( )
 	{
 		super( ACTION_TEXT );
-		setToolTipText( Messages.getString( "SampleReportsView.Action.openSampleReport.toolTipText.rcp" ) );
+		setToolTipText( Messages.getString( "SampleReportsView.Action.openSampleReport.toolTipText.rcp" ) ); //$NON-NLS-1$
 		setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_ENABLE_IMPORT ) );
 		setDisabledImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_DISABLE_IMPORT ) );
 		setEnabled( false );

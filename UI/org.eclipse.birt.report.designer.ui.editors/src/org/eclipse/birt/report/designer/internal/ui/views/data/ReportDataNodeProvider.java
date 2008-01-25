@@ -11,19 +11,10 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.data;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.actions.ExportToLibraryAction;
-import org.eclipse.birt.report.designer.internal.ui.views.actions.PublishTemplateViewAction;
-import org.eclipse.birt.report.designer.internal.ui.views.actions.RefreshModuleHandleAction;
-import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
-import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.viewers.TreeViewer;
 
 /**
  * Root node - Report design node provider - Implements the getChildren -

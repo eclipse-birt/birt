@@ -287,7 +287,7 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 			{
 				MessageDialog.openError( Display.getCurrent( ).getActiveShell( ),
 						Messages.getString( "XMLSourcePage.Error.Dialog.title" ), //$NON-NLS-1$
-						errorDetail.getMessage( ) ); //$NON-NLS-1$
+						errorDetail.getMessage( ) );
 			}
 			else
 			{
