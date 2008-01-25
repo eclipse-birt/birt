@@ -32,9 +32,11 @@ import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
+import org.eclipse.birt.chart.reportitem.ui.ChartXTabUIUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
@@ -94,9 +96,10 @@ public class ChartAggregationCellViewProvider
 			}
 
 			// Create the ExtendedItemHandle with default chart model
+			String name = ReportPlugin.getDefault( ).getCustomName( ChartReportItemConstants.CHART_EXTENSION_NAME  );
 			ExtendedItemHandle chartHandle = cell.getCrosstabHandle( )
 					.getElementFactory( )
-					.newExtendedItem( null,
+					.newExtendedItem( name,
 							ChartReportItemConstants.CHART_EXTENSION_NAME );
 			ChartReportItemImpl reportItem = (ChartReportItemImpl) chartHandle.getReportItem( );
 			ChartWithAxes cm = createDefaultChart( exprMeasure, new String[]{
@@ -108,13 +111,13 @@ public class ChartAggregationCellViewProvider
 			// Set span and add axis cell
 			if ( cm.isTransposed( ) )
 			{
-				ChartXTabUtil.addAxisChartInXTab( cell,
+				ChartXTabUIUtil.addAxisChartInXTab( cell,
 						ICrosstabConstants.ROW_AXIS_TYPE,
 						chartHandle );
 			}
 			else
 			{
-				ChartXTabUtil.addAxisChartInXTab( cell,
+				ChartXTabUIUtil.addAxisChartInXTab( cell,
 						ICrosstabConstants.COLUMN_AXIS_TYPE,
 						chartHandle );
 			}
@@ -145,7 +148,7 @@ public class ChartAggregationCellViewProvider
 
 			Chart cm = ChartReportItemUtil.getChartFromHandle( getChartHandle( cell ) );
 			// Remove axis chart
-			ChartXTabUtil.removeAxisChartInXTab( cell, cm );
+			ChartXTabUIUtil.removeAxisChartInXTab( cell, cm );
 			// Plot chart will be removed by designer itself
 		}
 		catch ( BirtException e )

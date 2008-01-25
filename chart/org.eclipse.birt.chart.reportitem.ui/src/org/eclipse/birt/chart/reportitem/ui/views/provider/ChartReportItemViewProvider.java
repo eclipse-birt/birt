@@ -24,24 +24,29 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.SeriesDefinitionImpl;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
+import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.extensions.ReportItemViewAdapter;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
 /**
- * ChartReportItemViewProvider
- * @since BIRT 2.3
+ * Provider for creating Chart view in multi-view
  */
 public class ChartReportItemViewProvider extends ReportItemViewAdapter
 {
+
 	protected static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem.ui" ); //$NON-NLS-1$
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.extensions.ReportItemViewAdapter#createView(org.eclipse.birt.report.model.api.DesignElementHandle)
 	 */
-	public DesignElementHandle createView( DesignElementHandle host ) throws BirtException
+	public DesignElementHandle createView( DesignElementHandle host )
+			throws BirtException
 	{
 		// Create chart
 		ChartWithAxes cm = ChartWithAxesImpl.create( );
@@ -81,8 +86,10 @@ public class ChartReportItemViewProvider extends ReportItemViewAdapter
 		cm.setSampleData( sampleData );
 
 		// Create a new item handle.
+		String name = ReportPlugin.getDefault( )
+				.getCustomName( ChartReportItemConstants.CHART_EXTENSION_NAME );
 		ExtendedItemHandle itemHandle = host.getElementFactory( )
-				.newExtendedItem( null, getViewName( ) );
+				.newExtendedItem( name, getViewName( ) );
 
 		itemHandle.getReportItem( )
 				.setProperty( ChartReportItemUtil.PROPERTY_CHART, cm );

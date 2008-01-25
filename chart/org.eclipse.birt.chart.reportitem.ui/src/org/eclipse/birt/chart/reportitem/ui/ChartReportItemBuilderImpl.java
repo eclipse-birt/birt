@@ -226,7 +226,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 						contextResult.getOutputFormat( ) );
 				if ( dataProvider.isInXTab( ) )
 				{
-					ChartXTabUtil.updateXTabForAxis( ChartXTabUtil.getXtabContainerCell( extendedHandle ),
+					ChartXTabUIUtil.updateXTabForAxis( ChartXTabUtil.getXtabContainerCell( extendedHandle ),
 							extendedHandle,
 							cm,
 							contextResult.getModel( ) );
@@ -246,7 +246,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 						(String) applyData[1] );
 				if ( dataProvider.isInXTab( ) )
 				{
-					ChartXTabUtil.updateXTabForAxis( ChartXTabUtil.getXtabContainerCell( extendedHandle ),
+					ChartXTabUIUtil.updateXTabForAxis( ChartXTabUtil.getXtabContainerCell( extendedHandle ),
 							extendedHandle,
 							cm,
 							(Chart) applyData[0] );
