@@ -113,31 +113,71 @@ public class AutoText extends ReportItem implements IAutoTextModel
 	public String getDisplayLabel( Module module, int level )
 	{
 		String displayLabel = super.getDisplayLabel( module, level );
+
 		if ( level == IDesignElementModel.FULL_LABEL )
 		{
 			String value = getStringProperty( module,
 					IAutoTextModel.AUTOTEXT_TYPE_PROP );
+
 			if ( !StringUtil.isBlank( value ) )
 			{
-				MetaDataDictionary dictionary = MetaDataDictionary
-						.getInstance( );
-				IChoiceSet cSet = dictionary
-						.getChoiceSet( DesignChoiceConstants.CHOICE_AUTO_TEXT_TYPE );
-				IChoice choice = cSet.findChoice( value );
-
-				// First get message in message.properties.
-				// Second get value of choice type
-				// At last get displayName of element
-
-				if ( choice != null )
-				{
-					value = choice.getDisplayName( );
-					value = limitStringLength( value );
-					displayLabel += "(" + value + ")"; //$NON-NLS-1$ //$NON-NLS-2$
-				}
+				String rtnValue = getChoiceDisplayName( value );
+				displayLabel += "(" + rtnValue + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 			}
 		}
 		return displayLabel;
+	}
+
+	/**
+	 * Gets the localized display name of the auto text.
+	 * 
+	 * @param value
+	 *            the property value
+	 * @return the display label of this element.
+	 */
+
+	private String getChoiceDisplayName( String value )
+	{
+		MetaDataDictionary dictionary = MetaDataDictionary.getInstance( );
+		IChoiceSet cSet = dictionary
+				.getChoiceSet( DesignChoiceConstants.CHOICE_AUTO_TEXT_TYPE );
+		IChoice choice = cSet.findChoice( value );
+
+		// First get message in message.properties.
+		// Second get value of choice type
+
+		if ( choice != null )
+		{
+			String thevalue = choice.getDisplayName( );
+			return limitStringLength( thevalue );
+		}
+
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getDefnDisplayName(org.eclipse.birt.report.model.core.Module)
+	 */
+	
+	protected String getDefnDisplayName( Module module )
+	{
+		// the parameter of module will be used in the override method.
+
+		String retValue = null;
+
+		String value = getStringProperty( module,
+				IAutoTextModel.AUTOTEXT_TYPE_PROP );
+		if ( !StringUtil.isBlank( value ) )
+		{
+			retValue = getChoiceDisplayName( value );
+		}
+
+		if ( !StringUtil.isBlank( retValue ) )
+			return retValue;
+
+		return super.getDefnDisplayName( module );
 	}
 
 }

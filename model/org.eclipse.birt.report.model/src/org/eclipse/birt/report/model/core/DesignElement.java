@@ -2761,17 +2761,33 @@ public abstract class DesignElement
 			return displayLabel;
 		}
 
+		if ( !StringUtil.isBlank( displayLabel ) )
+			return displayLabel;
+
+		return getDefnDisplayName( module );
+	}
+
+	/**
+	 * Returns the display name of the element definition. If the element
+	 * definition display name is not defined, uses the element definition name.
+	 * 
+	 * @param module
+	 *            the module
+	 *            
+	 * @return the display label of the element definition
+	 */
+
+	protected String getDefnDisplayName( Module module )
+	{
 		MetaDataDictionary dictionary = MetaDataDictionary.getInstance( );
 		IElementDefn elementDefn = dictionary.getElement( getElementName( ) );
-		if ( StringUtil.isBlank( displayLabel ) )
-		{
-			displayLabel = elementDefn.getDisplayName( );
-		}
+		String displayLabel = elementDefn.getDisplayName( );
 
 		if ( StringUtil.isBlank( displayLabel ) )
 		{
 			displayLabel = elementDefn.getName( );
 		}
+
 		return displayLabel;
 	}
 
