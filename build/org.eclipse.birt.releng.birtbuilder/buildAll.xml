@@ -62,8 +62,8 @@
 			-->
 			</sequential>
 		</parallel>
-		<!--
 		<antcall target="runBirtTest"/>
+		<!--
 		<antcall target="runBirtPerformance"/>
 		-->
 	</target>
@@ -155,9 +155,12 @@
 			<property name="OutputDir" value="${postingDirectory}/${buildId}" />
 			<property name="deposit" value="${buildDirectory}/${buildId}" />
 		</ant>
+		<antcall target="sendNotification"/>
+	</target>
+
+	<target name="sendNotification" unless="nomail">
 		<!-- copy directory.txt to output directory -->
 		<copy tofile="${postingDirectory}/${buildId}/directory.txt" file="${buildDirectory}/directory.txt"/>
-		
 		<copy tofile="${postingDirectory}/monitor.properties" file="monitor.properties" overwrite="true" />
 		<copy tofile="${postingDirectory}/finalPluginsVersions.properties" file="${buildDirectory}/finalPluginsVersions.properties" overwrite="true" />
 		<!-- Send build ready mail to QA -->
