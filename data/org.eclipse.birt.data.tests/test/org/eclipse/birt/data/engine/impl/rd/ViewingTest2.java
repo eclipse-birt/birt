@@ -197,11 +197,7 @@ public class ViewingTest2 extends RDTestCase
 	 */
 	public void testMemoryCacheColumnBinding( ) throws Exception
 	{
-		String initialStr = System.getProperty( "birt.data.engine.test.memcachesize" );
-		System.setProperty( "birt.data.engine.test.memcachesize", "2" );
 		incomprehensiveColumnBinding( );
-		System.setProperty( "birt.data.engine.test.memcachesize",
-				initialStr == null ? "" : initialStr );
 	}
 	
 	/**
