@@ -61,10 +61,7 @@ public class GridPage extends GeneralPage
 
 		IDescriptorProvider canShrinkProvider = new PropertyDescriptorProvider( StyleHandle.CAN_SHRINK_PROP,
 				ReportDesignConstants.GRID_ITEM );
-
-		IDescriptorProvider hAlignProvider = new ComboPropertyDescriptorProvider( StyleHandle.TEXT_ALIGN_PROP,
-				ReportDesignConstants.STYLE_ELEMENT );
-
+		
 		IDescriptorProvider vAlignProvider = new ComboPropertyDescriptorProvider( StyleHandle.VERTICAL_ALIGN_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
 
@@ -92,9 +89,6 @@ public class GridPage extends GeneralPage
 
 		CheckSection canShrinkSection = new CheckSection( container, true );
 
-		ComboSection hAlignSection = new ComboSection( hAlignProvider.getDisplayName( ),
-				container,
-				true );
 
 		ComboSection vAlignSection = new ComboSection( vAlignProvider.getDisplayName( ),
 				container,
@@ -114,7 +108,6 @@ public class GridPage extends GeneralPage
 		widthSection.setProvider( widthProvider );
 		heightSection.setProvider( heightProvider );
 		canShrinkSection.setProvider( canShrinkProvider );
-		hAlignSection.setProvider( hAlignProvider );
 		vAlignSection.setProvider( vAlignProvider );
 		styleSection.setProvider( styleProvider );
 		backgroundSection.setProvider( backgroundProvider );
@@ -124,7 +117,6 @@ public class GridPage extends GeneralPage
 		nameSection.setWidth( 200 );
 		widthSection.setWidth( 200 );
 		heightSection.setWidth( 200 );
-		hAlignSection.setWidth( 200 );
 		vAlignSection.setWidth( 200 );
 		styleSection.setWidth( 200 );
 		backgroundSection.setWidth( 200 );
@@ -133,23 +125,21 @@ public class GridPage extends GeneralPage
 
 		nameSection.setLayoutNum( 2 );
 		widthSection.setLayoutNum( 2 );
-		heightSection.setLayoutNum( 2 );
+		heightSection.setLayoutNum( 4 );
 		canShrinkSection.setLayoutNum( 2 );
-		hAlignSection.setLayoutNum( 2 );
-		vAlignSection.setLayoutNum( 4 );
-		styleSection.setLayoutNum( 4 );
-		backgroundSection.setLayoutNum( 2 );
+		vAlignSection.setLayoutNum( 2 );
+		styleSection.setLayoutNum( 2 );
+		backgroundSection.setLayoutNum( 4 );
 
 		// Sets fill grid num.
 
 		nameSection.setGridPlaceholder( 0, true );
 		widthSection.setGridPlaceholder( 0, true );
-		heightSection.setGridPlaceholder( 0, true );
-		canShrinkSection.setGridPlaceholder( 1, true );
-		hAlignSection.setGridPlaceholder( 0, true );
-		vAlignSection.setGridPlaceholder( 2, true );
-		styleSection.setGridPlaceholder( 2, true );
-		backgroundSection.setGridPlaceholder( 0, true );
+		heightSection.setGridPlaceholder( 2, true );
+		canShrinkSection.setGridPlaceholder( 2, true );
+		vAlignSection.setGridPlaceholder( 0, true );
+		styleSection.setGridPlaceholder( 0, true );
+		backgroundSection.setGridPlaceholder( 2, true );
 
 
 		addSection( PageSectionId.GRID_NAME, nameSection ); //$NON-NLS-1$
@@ -166,12 +156,11 @@ public class GridPage extends GeneralPage
 		
 		addSection( PageSectionId.GRID_SEPERATOR, seperatorSection ); //$NON-NLS-1$
 		addSection( PageSectionId.GRID_WIDTH, widthSection ); //$NON-NLS-1$
-		addSection( PageSectionId.GRID_HORIZONTAL_ALIGN, hAlignSection ); //$NON-NLS-1$
-		addSection( PageSectionId.GRID_CAN_SHRINK, canShrinkSection ); //$NON-NLS-1$
 		addSection( PageSectionId.GRID_HEIGHT, heightSection ); //$NON-NLS-1$
 		addSection( PageSectionId.GRID_VERTICAL_ALIGN, vAlignSection ); //$NON-NLS-1$
 		addSection( PageSectionId.GRID_BACKGROUND_COLOR, backgroundSection ); //$NON-NLS-1$
 		addSection( PageSectionId.GRID_STYLE, styleSection ); //$NON-NLS-1$
+		addSection( PageSectionId.GRID_CAN_SHRINK, canShrinkSection ); //$NON-NLS-1$
 		
 		Section seperatorSection1 = new SeperatorSection( container, SWT.HORIZONTAL );
 		addSection( PageSectionId.GRID_SEPERATOR1, seperatorSection1 ); //$NON-NLS-1$

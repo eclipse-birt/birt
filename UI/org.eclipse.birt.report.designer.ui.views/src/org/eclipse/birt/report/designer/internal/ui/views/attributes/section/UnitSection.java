@@ -5,7 +5,6 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.Widget
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.DescriptorToolkit;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.UnitPropertyDescriptor;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.GridData;
@@ -72,7 +71,6 @@ public class UnitSection extends Section
 			gd.horizontalSpan = ( (GridLayout) parent.getLayout( ) ).numColumns
 					- 1
 					- placeholder;
-		gd.horizontalAlignment = SWT.FILL;
 		if ( width > -1 )
 		{
 			gd.widthHint = width;

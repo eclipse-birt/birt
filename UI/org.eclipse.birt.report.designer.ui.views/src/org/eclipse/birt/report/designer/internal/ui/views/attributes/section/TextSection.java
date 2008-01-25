@@ -52,7 +52,6 @@ public class TextSection extends Section
 			gd.horizontalSpan = ( (GridLayout) parent.getLayout( ) ).numColumns
 					- 1
 					- placeholder;
-		gd.horizontalAlignment = SWT.FILL;
 		if ( width > -1 )
 		{
 			gd.widthHint = width;

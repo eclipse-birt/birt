@@ -36,7 +36,9 @@ public class FontStylePropertyDescriptor extends PropertyDescriptor
 		composite = new Composite( parent, SWT.NONE );
 		GridLayout layout = new GridLayout( );
 		layout.horizontalSpacing = 0;
+		layout.verticalSpacing = 0;
 		layout.numColumns = 4;
+		layout.marginWidth = layout.marginHeight = 0;
 		composite.setLayout( layout );
 		composite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		Composite styleContainer = new Composite( composite, SWT.NONE );

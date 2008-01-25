@@ -3,9 +3,8 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.section;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.DescriptorToolkit;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.ColorPropertyDescriptor;
-import org.eclipse.swt.SWT;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.DescriptorToolkit;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.RGB;
@@ -72,7 +71,6 @@ public class ColorSection extends Section
 			gd.horizontalSpan = ( (GridLayout) parent.getLayout( ) ).numColumns
 					- 1
 					- placeholder;
-		gd.horizontalAlignment = SWT.FILL;
 		if ( width > -1 )
 		{
 			gd.widthHint = width;

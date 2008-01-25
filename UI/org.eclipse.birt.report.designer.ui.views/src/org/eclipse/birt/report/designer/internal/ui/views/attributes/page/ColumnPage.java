@@ -47,9 +47,6 @@ public class ColumnPage extends GeneralFontPage
 		IDescriptorProvider widthProvider = new UnitPropertyDescriptorProvider( ColumnHandle.WIDTH_PROP,
 				ReportDesignConstants.COLUMN_ELEMENT );
 
-		IDescriptorProvider hAlignProvider = new ComboPropertyDescriptorProvider( StyleHandle.TEXT_ALIGN_PROP,
-				ReportDesignConstants.STYLE_ELEMENT );
-
 		IDescriptorProvider backgroundProvider = new ColorPropertyDescriptorProvider( StyleHandle.BACKGROUND_COLOR_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
 
@@ -65,10 +62,6 @@ public class ColumnPage extends GeneralFontPage
 		// Defines sections.
 
 		UnitSection widthSection = new UnitSection( widthProvider.getDisplayName( ),
-				container,
-				true );
-
-		ComboSection hAlignSection = new ComboSection( hAlignProvider.getDisplayName( ),
 				container,
 				true );
 
@@ -91,7 +84,6 @@ public class ColumnPage extends GeneralFontPage
 		// Sets providers.
 
 		widthSection.setProvider( widthProvider );
-		hAlignSection.setProvider( hAlignProvider );
 		backgroundSection.setProvider( backgroundProvider );
 		vAlignSection.setProvider( vAlignProvider );
 		styleSection.setProvider( styleProvider );
@@ -100,7 +92,6 @@ public class ColumnPage extends GeneralFontPage
 		// Sets widths.
 
 		widthSection.setWidth( 200 );
-		hAlignSection.setWidth( 200 );
 		backgroundSection.setWidth( 200 );
 		vAlignSection.setWidth( 200 );
 		styleSection.setWidth( 200 );
@@ -108,36 +99,29 @@ public class ColumnPage extends GeneralFontPage
 		// Sets layout num.
 
 		widthSection.setLayoutNum( 2 );
-		hAlignSection.setLayoutNum( 4 );
-		backgroundSection.setLayoutNum( 2 );
-		vAlignSection.setLayoutNum( 4 );
+		backgroundSection.setLayoutNum( 4 );
+		vAlignSection.setLayoutNum( 2 );
 		styleSection.setLayoutNum( 2 );
-		suppressDuplicatesSection.setLayoutNum( 4 );
+		suppressDuplicatesSection.setLayoutNum( 2 );
 
 		// Sets fill grid num.
 
 		widthSection.setGridPlaceholder( 0, true );
-		hAlignSection.setGridPlaceholder( 2, true );
-		backgroundSection.setGridPlaceholder( 0, true );
-		vAlignSection.setGridPlaceholder( 2, true );
+		backgroundSection.setGridPlaceholder( 2, true );
+		vAlignSection.setGridPlaceholder( 0, true );
 		styleSection.setGridPlaceholder( 0, true );
-		suppressDuplicatesSection.setGridPlaceholder( 3, true );
+		suppressDuplicatesSection.setGridPlaceholder( 0, true );
 
 		// Adds sections into this page.
 
 		addSection( PageSectionId.COLUMN_WIDTH, widthSection ); //$NON-NLS-1$
-		addSection( PageSectionId.COLUMN_HORIZONTAL_ALIGN, hAlignSection ); //$NON-NLS-1$
 		addSection( PageSectionId.COLUMN_BACKGROUND_COLOR, backgroundSection ); //$NON-NLS-1$
 		addSection( PageSectionId.COLUMN_VERTICAL_ALIGN, vAlignSection ); //$NON-NLS-1$
-		
-		Section seperatorSection1 = new SeperatorSection( container, SWT.HORIZONTAL );
-		addSection( PageSectionId.COLUMN_SEPERATOR1, seperatorSection1 ); //$NON-NLS-1$
-
-		addFontsSection( );
-		
-		addSection( PageSectionId.COLUMN_SEPERATOR, seperatorSection ); //$NON-NLS-1$
 		addSection( PageSectionId.COLUMN_STYLE, styleSection ); //$NON-NLS-1$
 		addSection( PageSectionId.COLUMN_SUPPRESS_DUPLICATES, suppressDuplicatesSection ); //$NON-NLS-1$
+		addSection( PageSectionId.COLUMN_SEPERATOR, seperatorSection ); //$NON-NLS-1$
+
+		addFontsSection( );
 
 		createSections( );
 		layoutSections( );

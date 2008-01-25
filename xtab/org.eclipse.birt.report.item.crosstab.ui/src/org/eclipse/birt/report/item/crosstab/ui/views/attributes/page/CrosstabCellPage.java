@@ -32,8 +32,8 @@ public class CrosstabCellPage extends CellPage
 				true );
 		widthSection.setProvider( widthProvider );
 		widthSection.setWidth( 200 );
-		widthSection.setLayoutNum( 5 );
-		widthSection.setGridPlaceholder( 3, true );
-		addSectionAfter( CrosstabPageSectionId.CROSSTAB_CELL_WIDTH, widthSection, PageSectionId.CELL_HORIZONTAL_ALIGN); //$NON-NLS-1$
+		widthSection.setLayoutNum( 6 );
+		widthSection.setGridPlaceholder( 4, true );
+		addSectionAfter( CrosstabPageSectionId.CROSSTAB_CELL_WIDTH, widthSection, PageSectionId.CELL_STYLE); //$NON-NLS-1$
 	}
 }

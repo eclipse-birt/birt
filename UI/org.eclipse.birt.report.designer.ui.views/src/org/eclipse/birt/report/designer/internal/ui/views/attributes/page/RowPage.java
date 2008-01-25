@@ -45,9 +45,6 @@ public class RowPage extends GeneralFontPage
 		IDescriptorProvider heightProvider = new UnitPropertyDescriptorProvider( RowHandle.HEIGHT_PROP,
 				ReportDesignConstants.ROW_ELEMENT );
 
-		IDescriptorProvider hAlignProvider = new ComboPropertyDescriptorProvider( StyleHandle.TEXT_ALIGN_PROP,
-				ReportDesignConstants.STYLE_ELEMENT );
-
 		IDescriptorProvider backgroundProvider = new ColorPropertyDescriptorProvider( StyleHandle.BACKGROUND_COLOR_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
 
@@ -60,10 +57,6 @@ public class RowPage extends GeneralFontPage
 		// Defines sections.
 
 		UnitSection heightSection = new UnitSection( heightProvider.getDisplayName( ),
-				container,
-				true );
-
-		ComboSection hAlignSection = new ComboSection( hAlignProvider.getDisplayName( ),
 				container,
 				true );
 
@@ -83,7 +76,6 @@ public class RowPage extends GeneralFontPage
 		// Sets providers.
 
 		heightSection.setProvider( heightProvider );
-		hAlignSection.setProvider( hAlignProvider );
 		backgroundSection.setProvider( backgroundProvider );
 		vAlignSection.setProvider( vAlignProvider );
 		styleSection.setProvider( styleProvider );
@@ -91,7 +83,6 @@ public class RowPage extends GeneralFontPage
 		// Sets widths.
 
 		heightSection.setWidth( 200 );
-		hAlignSection.setWidth( 200 );
 		backgroundSection.setWidth( 200 );
 		vAlignSection.setWidth( 200 );
 		styleSection.setWidth( 200 );
@@ -99,33 +90,27 @@ public class RowPage extends GeneralFontPage
 		// Sets layout num.
 
 		heightSection.setLayoutNum( 2 );
-		hAlignSection.setLayoutNum( 4 );
-		backgroundSection.setLayoutNum( 2 );
-		vAlignSection.setLayoutNum( 4 );
-		styleSection.setLayoutNum( 6 );
+		backgroundSection.setLayoutNum( 4 );
+		vAlignSection.setLayoutNum( 2 );
+		styleSection.setLayoutNum( 4 );
 
 		// Sets fill grid num.
 
 		heightSection.setGridPlaceholder( 0, true );
-		hAlignSection.setGridPlaceholder( 2, true );
-		backgroundSection.setGridPlaceholder( 0, true );
-		vAlignSection.setGridPlaceholder( 2, true );
-		styleSection.setGridPlaceholder( 4, true );
+		backgroundSection.setGridPlaceholder( 2, true );
+		vAlignSection.setGridPlaceholder( 0, true );
+		styleSection.setGridPlaceholder( 2, true );
 
 		// Adds sections into container page.
 
 		addSection( PageSectionId.ROW_HEIGHT, heightSection ); //$NON-NLS-1$
-		addSection( PageSectionId.ROW_HORIZONTAL_ALIGN, hAlignSection ); //$NON-NLS-1$
 		addSection( PageSectionId.ROW_BACKGROUND_COLOR, backgroundSection ); //$NON-NLS-1$
 		addSection( PageSectionId.ROW_VERTICAL_ALIGN, vAlignSection ); //$NON-NLS-1$
-		
-		Section seperatorSection1 = new SeperatorSection( container, SWT.HORIZONTAL );
-		addSection( PageSectionId.ROW_SEPERATOR1, seperatorSection1 ); //$NON-NLS-1$
+		addSection( PageSectionId.ROW_STYLE, styleSection ); //$NON-NLS-1$
+		addSection( PageSectionId.ROW_SEPERATOR, seperatorSection ); //$NON-NLS-1$
 
 		addFontsSection( );
-		
-		addSection( PageSectionId.ROW_SEPERATOR, seperatorSection ); //$NON-NLS-1$
-		addSection( PageSectionId.ROW_STYLE, styleSection ); //$NON-NLS-1$
+	
 
 		createSections( );
 		layoutSections( );

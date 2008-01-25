@@ -51,9 +51,6 @@ public class CellPage extends GeneralFontPage
 		IDescriptorProvider vAlignProvider = new ComboPropertyDescriptorProvider( StyleHandle.VERTICAL_ALIGN_PROP,
 				ReportDesignConstants.STYLE_ELEMENT );
 
-		IDescriptorProvider hAlignProvider = new ComboPropertyDescriptorProvider( StyleHandle.TEXT_ALIGN_PROP,
-				ReportDesignConstants.STYLE_ELEMENT );
-
 		IDescriptorProvider styleProvider = new SimpleComboPropertyDescriptorProvider( ReportItemHandle.STYLE_PROP,
 				ReportDesignConstants.CELL_ELEMENT );
 
@@ -71,10 +68,6 @@ public class CellPage extends GeneralFontPage
 				container,
 				true );
 
-		ComboSection hAlignSection = new ComboSection( hAlignProvider.getDisplayName( ),
-				container,
-				true );
-
 		Section seperatorSection = new SeperatorSection( container, SWT.HORIZONTAL );
 
 		SimpleComboSection styleSection = new SimpleComboSection( styleProvider.getDisplayName( ),
@@ -86,7 +79,6 @@ public class CellPage extends GeneralFontPage
 		dropSection.setProvider( dropProvider );
 		backgroundSection.setProvider( backgroundProvider );
 		vAlignSection.setProvider( vAlignProvider );
-		hAlignSection.setProvider( hAlignProvider );
 		styleSection.setProvider( styleProvider );
 
 		// Sets widths.
@@ -94,7 +86,6 @@ public class CellPage extends GeneralFontPage
 		dropSection.setWidth( 200 );
 		backgroundSection.setWidth( 200 );
 		vAlignSection.setWidth( 200 );
-		hAlignSection.setWidth( 200 );
 		styleSection.setWidth( 200 );
 
 		// Sets layout num.
@@ -102,16 +93,14 @@ public class CellPage extends GeneralFontPage
 		dropSection.setLayoutNum( 2 );
 		backgroundSection.setLayoutNum( 4 );
 		vAlignSection.setLayoutNum( 2 );
-		hAlignSection.setLayoutNum( 4 );
-		styleSection.setLayoutNum( 6 );
+		styleSection.setLayoutNum( 4 );
 
 		// Sets fill grid num.
 
 		dropSection.setGridPlaceholder( 0, true );
 		backgroundSection.setGridPlaceholder( 2, true );
 		vAlignSection.setGridPlaceholder( 0, true );
-		hAlignSection.setGridPlaceholder( 2, true );
-		styleSection.setGridPlaceholder( 4, true );
+		styleSection.setGridPlaceholder( 2, true );
 
 		// Adds sections into this page.
 
@@ -128,15 +117,14 @@ public class CellPage extends GeneralFontPage
 		addSection( PageSectionId.CELL_DROP, dropSection ); //$NON-NLS-1$
 		addSection( PageSectionId.CELL_BACKGROUND, backgroundSection ); //$NON-NLS-1$
 		addSection( PageSectionId.CELL_VERTICAL_ALIGN, vAlignSection ); //$NON-NLS-1$
-		addSection( PageSectionId.CELL_HORIZONTAL_ALIGN, hAlignSection ); //$NON-NLS-1$
+		addSection( PageSectionId.CELL_STYLE, styleSection ); //$NON-NLS-1$
 		
-		Section seperatorSection1 = new SeperatorSection( container, SWT.HORIZONTAL );
-		addSection( PageSectionId.CELL_SEPERATOR1, seperatorSection1 ); //$NON-NLS-1$
+		addSection( PageSectionId.CELL_SEPERATOR, seperatorSection ); //$NON-NLS-1$
+		
 
 		addFontsSection( );
 		
-		addSection( PageSectionId.CELL_SEPERATOR, seperatorSection ); //$NON-NLS-1$
-		addSection( PageSectionId.CELL_STYLE, styleSection ); //$NON-NLS-1$
+
 
 		createSections( );
 		layoutSections( );
