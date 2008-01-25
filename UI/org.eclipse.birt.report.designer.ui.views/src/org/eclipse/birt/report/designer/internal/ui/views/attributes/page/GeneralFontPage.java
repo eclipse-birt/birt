@@ -65,11 +65,10 @@ public abstract class GeneralFontPage extends AttributePage
 		IDescriptorProvider[] fontStyleProviders = createFontStyleProviders( );
 		FontStyleSection fontStyleSection = new FontStyleSection( container,
 				true,
-				true );
+				false );
 		fontStyleSection.setProviders( fontStyleProviders );
 		fontStyleSection.setLayoutNum( 4 );
-		fontStyleSection.setGridPlaceholder( 2, true );
-		fontStyleSection.setLabelText( "Font Style:" );
+		fontStyleSection.setGridPlaceholder( 1, true );
 		addSection( PageSectionId.FONT_STYLE, fontStyleSection );
 		
 	}
