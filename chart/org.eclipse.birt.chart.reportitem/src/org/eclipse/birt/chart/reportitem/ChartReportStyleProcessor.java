@@ -372,35 +372,38 @@ public class ChartReportStyleProcessor implements IStyleProcessor
 			}
 		}
 
-		Object fontSizeValue = handle.getPrivateStyle( )
-				.getFontSize( )
-				.getValue( );
-		if ( fontSizeValue instanceof DimensionValue )
+		StyleHandle style = handle.getPrivateStyle( );
+		if ( style != null )
 		{
-			// use parent's font size as the base size for converting sizeValue
-			// to a int value.
-			int size = getFontSizeIntValue( handle.getContainer( ) );
-			return (int) convertToPoint( fontSizeValue, size );
-		}
-		else if ( fontSizeValue instanceof String )
-		{
-			String fontSize = (String) fontSizeValue;
+			Object fontSizeValue = style.getFontSize( ).getValue( );
+			if ( fontSizeValue instanceof DimensionValue )
+			{
+				// use parent's font size as the base size for converting
+				// sizeValue
+				// to a int value.
+				int size = getFontSizeIntValue( handle.getContainer( ) );
+				return (int) convertToPoint( fontSizeValue, size );
+			}
+			else if ( fontSizeValue instanceof String )
+			{
+				String fontSize = (String) fontSizeValue;
 
-			if ( fontSize.equals( DesignChoiceConstants.FONT_SIZE_LARGER ) )
-			{
-				return getLargerFontSizeIntValue( handle.getContainer( ) );
-			}
-			else if ( fontSize.equals( DesignChoiceConstants.FONT_SIZE_SMALLER ) )
-			{
-				return getSmallerFontSizeIntValue( handle.getContainer( ) );
-			}
-			else
-			{
-				for ( int i = 0; i < fontSizes.length; i++ )
+				if ( fontSize.equals( DesignChoiceConstants.FONT_SIZE_LARGER ) )
 				{
-					if ( fontSizes[i][0].equals( fontSize ) )
+					return getLargerFontSizeIntValue( handle.getContainer( ) );
+				}
+				else if ( fontSize.equals( DesignChoiceConstants.FONT_SIZE_SMALLER ) )
+				{
+					return getSmallerFontSizeIntValue( handle.getContainer( ) );
+				}
+				else
+				{
+					for ( int i = 0; i < fontSizes.length; i++ )
 					{
-						return Integer.parseInt( fontSizes[i][1] );
+						if ( fontSizes[i][0].equals( fontSize ) )
+						{
+							return Integer.parseInt( fontSizes[i][1] );
+						}
 					}
 				}
 			}
