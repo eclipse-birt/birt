@@ -20,7 +20,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
-public abstract class GeneralPage extends AttributePage
+public abstract class GeneralPage extends GeneralFontPage
 {
 
 	private TextSection librarySection;

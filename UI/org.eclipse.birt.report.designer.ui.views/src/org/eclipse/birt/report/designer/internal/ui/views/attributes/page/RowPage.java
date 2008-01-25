@@ -32,13 +32,13 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * The general attribute page of Row element.
  */
-public class RowPage extends AttributePage
+public class RowPage extends GeneralFontPage
 {
 
 	public void buildUI( Composite parent  )
 	{
 		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 5 ,15) );
+		container.setLayout( WidgetUtil.createGridLayout( 6 ,15) );
 
 		// Defines providers.
 
@@ -90,27 +90,27 @@ public class RowPage extends AttributePage
 
 		// Sets widths.
 
-		heightSection.setWidth( 180 );
-		hAlignSection.setWidth( 180 );
-		backgroundSection.setWidth( 180 );
-		vAlignSection.setWidth( 180 );
-		styleSection.setWidth( 180 );
+		heightSection.setWidth( 200 );
+		hAlignSection.setWidth( 200 );
+		backgroundSection.setWidth( 200 );
+		vAlignSection.setWidth( 200 );
+		styleSection.setWidth( 200 );
 
 		// Sets layout num.
 
 		heightSection.setLayoutNum( 2 );
-		hAlignSection.setLayoutNum( 3 );
+		hAlignSection.setLayoutNum( 4 );
 		backgroundSection.setLayoutNum( 2 );
-		vAlignSection.setLayoutNum( 3 );
-		styleSection.setLayoutNum( 5 );
+		vAlignSection.setLayoutNum( 4 );
+		styleSection.setLayoutNum( 6 );
 
 		// Sets fill grid num.
 
 		heightSection.setGridPlaceholder( 0, true );
-		hAlignSection.setGridPlaceholder( 1, true );
+		hAlignSection.setGridPlaceholder( 2, true );
 		backgroundSection.setGridPlaceholder( 0, true );
-		vAlignSection.setGridPlaceholder( 1, true );
-		styleSection.setGridPlaceholder( 3, true );
+		vAlignSection.setGridPlaceholder( 2, true );
+		styleSection.setGridPlaceholder( 4, true );
 
 		// Adds sections into container page.
 
@@ -118,6 +118,12 @@ public class RowPage extends AttributePage
 		addSection( PageSectionId.ROW_HORIZONTAL_ALIGN, hAlignSection ); //$NON-NLS-1$
 		addSection( PageSectionId.ROW_BACKGROUND_COLOR, backgroundSection ); //$NON-NLS-1$
 		addSection( PageSectionId.ROW_VERTICAL_ALIGN, vAlignSection ); //$NON-NLS-1$
+		
+		Section seperatorSection1 = new SeperatorSection( container, SWT.HORIZONTAL );
+		addSection( PageSectionId.ROW_SEPERATOR1, seperatorSection1 ); //$NON-NLS-1$
+
+		addFontsSection( );
+		
 		addSection( PageSectionId.ROW_SEPERATOR, seperatorSection ); //$NON-NLS-1$
 		addSection( PageSectionId.ROW_STYLE, styleSection ); //$NON-NLS-1$
 

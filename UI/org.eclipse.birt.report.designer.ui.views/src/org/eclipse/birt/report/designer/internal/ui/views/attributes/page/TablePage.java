@@ -165,7 +165,12 @@ public class TablePage extends GeneralPage
 		addSection( PageSectionId.TABLE_BACKGROUND_COLOR, backgroundSection ); //$NON-NLS-1$
 		addSection( PageSectionId.TABLE_STYLE, styleSection ); //$NON-NLS-1$
 		
-
+		
+		Section seperatorSection1 = new SeperatorSection( container, SWT.HORIZONTAL );
+		addSection( PageSectionId.TABLE_SEPERATOR1, seperatorSection1 ); //$NON-NLS-1$
+		
+		addFontsSection( );
+		
 		createSections( );
 		layoutSections( );
 	}

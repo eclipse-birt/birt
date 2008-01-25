@@ -27,7 +27,6 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.DataSe
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.DataSourcePage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.DescriptionPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.ExpressionPage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FontPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormatDateTimeAttributePage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormatNumberAttributePage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormatStringAttributePage;
@@ -150,7 +149,6 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 			return new CategoryProvider( new String[]{
 					CATEGORY_KEY_GENERAL,
 					CATEGORY_KEY_PADDING,
-					CATEGORY_KEY_FONT,
 					CATEGORY_KEY_BORDERS,
 					CATEGORY_KEY_USERPROPERTIES,
 					CATEGORY_KEY_NAMEDEXPRESSIONS,
@@ -158,7 +156,6 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 			}, new String[]{
 					"CellPageGenerator.List.General", //$NON-NLS-1$
 					"CellPageGenerator.List.CellPadding", //$NON-NLS-1$
-					"CellPageGenerator.List.Font", //$NON-NLS-1$
 					"CellPageGenerator.List.Borders", //$NON-NLS-1$
 					"ReportPageGenerator.List.UserProperties", //$NON-NLS-1$
 					"ReportPageGenerator.List.NamedExpressions", //$NON-NLS-1$
@@ -166,7 +163,6 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 			}, new Class[]{
 					CellPage.class,
 					CellPaddingPage.class,
-					FontPage.class,
 					BordersPage.class,
 					UserPropertiesPage.class,
 					NamedExpressionsPage.class,
@@ -177,17 +173,14 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 		{
 			return new CategoryProvider( new String[]{
 					CATEGORY_KEY_GENERAL,
-					CATEGORY_KEY_FONT,
 					CATEGORY_KEY_VISIBILITY,
 					CATEGORY_KEY_ADVANCEPROPERTY,
 			}, new String[]{
 					"ColumnPageGenerator.List.General", //$NON-NLS-1$
-					"ColumnPageGenerator.List.Font", //$NON-NLS-1$
 					"ColumnPageGenerator.List.Visibility",//$NON-NLS-1$
 					"ReportPageGenerator.List.AdvancedProperty",
 			}, new Class[]{
 					ColumnPage.class,
-					FontPage.class,
 					VisibilityPage.class,
 					AdvancePropertyPage.class,
 			} );
@@ -254,7 +247,6 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 			return new CategoryProvider( new String[]{
 					CATEGORY_KEY_GENERAL,
 					CATEGORY_KEY_MARGIN,
-					CATEGORY_KEY_FONT,
 					CATEGORY_KEY_BORDERS,
 					CATEGORY_KEY_SECTION,
 					CATEGORY_KEY_VISIBILITY,
@@ -268,7 +260,6 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 			}, new String[]{
 					"GridPageGenerator.List.General", //$NON-NLS-1$
 					"GridPageGenerator.List.Margin", //$NON-NLS-1$
-					"GridPageGenerator.List.Font", //$NON-NLS-1$
 					"GridPageGenerator.List.Borders", //$NON-NLS-1$
 					"GridPageGenerator.List.Section", //$NON-NLS-1$
 					"GridPageGenerator.List.Visibility", //$NON-NLS-1$
@@ -281,7 +272,6 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 			}, new Class[]{
 					GridPage.class,
 					ItemMarginPage.class,
-					FontPage.class,
 					BordersPage.class,
 					SectionPage.class,
 					VisibilityPage.class,
@@ -420,7 +410,6 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 		{
 			return new CategoryProvider( new String[]{
 					CATEGORY_KEY_GENERAL,
-					CATEGORY_KEY_FONT,
 					CATEGORY_KEY_BORDERS,
 					CATEGORY_KEY_SECTION,
 					CATEGORY_KEY_VISIBILITY,
@@ -432,7 +421,6 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 					CATEGORY_KEY_ADVANCEPROPERTY,
 			}, new String[]{
 					"ListPageGenerator.List.General", //$NON-NLS-1$
-					"ListPageGenerator.List.Font", //$NON-NLS-1$
 					"ListPageGenerator.List.Borders", //$NON-NLS-1$
 					"ListPageGenerator.List.Section", //$NON-NLS-1$
 					"ListPageGenerator.List.Visibility", //$NON-NLS-1$
@@ -444,7 +432,6 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 					"ReportPageGenerator.List.AdvancedProperty",
 			}, new Class[]{
 					ListPage.class,
-					FontPage.class,
 					BordersPage.class,
 					ListingSectionPage.class,
 					VisibilityPage.class,
@@ -488,7 +475,6 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 		{
 			return new CategoryProvider( new String[]{
 					CATEGORY_KEY_GENERAL,
-					CATEGORY_KEY_FONT,
 					CATEGORY_KEY_BORDERS,
 					CATEGORY_KEY_SECTION,
 					CATEGORY_KEY_VISIBILITY,
@@ -498,8 +484,6 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 					CATEGORY_KEY_ADVANCEPROPERTY,
 			}, new String[]{
 					"RowPageGenerator.List.General", //$NON-NLS-1$
-					// "RowPageGenerator.List.CellPadding" //$NON-NLS-1$
-					"RowPageGenerator.List.Font", //$NON-NLS-1$
 					"RowPageGenerator.List.Borders", //$NON-NLS-1$
 					"TextPageGenerator.List.Section",
 					"RowPageGenerator.List.Visibility", //$NON-NLS-1$
@@ -509,8 +493,6 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 					"ReportPageGenerator.List.AdvancedProperty",
 			}, new Class[]{
 					RowPage.class,
-					// CellPaddingPage.class,
-					FontPage.class,
 					BordersPage.class,
 					SectionPage.class,
 					VisibilityPage.class,
@@ -550,7 +532,6 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 			return new CategoryProvider( new String[]{
 					CATEGORY_KEY_GENERAL,
 					CATEGORY_KEY_MARGIN,
-					CATEGORY_KEY_FONT,
 					CATEGORY_KEY_BORDERS,
 					CATEGORY_KEY_SECTION,
 					CATEGORY_KEY_VISIBILITY,
@@ -563,7 +544,6 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 			}, new String[]{
 					"TablePageGenerator.List.General", //$NON-NLS-1$
 					"TablePageGenerator.List.Marign", //$NON-NLS-1$
-					"TablePageGenerator.List.Font", //$NON-NLS-1$
 					"TablePageGenerator.List.Borders", //$NON-NLS-1$
 					"TablePageGenerator.List.Section", //$NON-NLS-1$
 					"TablePageGenerator.List.Visibility", //$NON-NLS-1$
@@ -576,7 +556,6 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 			}, new Class[]{
 					TablePage.class,
 					ItemMarginPage.class,
-					FontPage.class,
 					BordersPage.class,
 					ListingSectionPage.class,
 					VisibilityPage.class,

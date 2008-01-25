@@ -34,13 +34,13 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * The general attribute page of Column element.
  */
-public class ColumnPage extends AttributePage
+public class ColumnPage extends GeneralFontPage
 {
 
 	public void buildUI( Composite parent  )
 	{
 		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 5 ,15) );
+		container.setLayout( WidgetUtil.createGridLayout( 6 ,15) );
 
 		// Defines providers.
 
@@ -99,29 +99,29 @@ public class ColumnPage extends AttributePage
 
 		// Sets widths.
 
-		widthSection.setWidth( 180 );
-		hAlignSection.setWidth( 180 );
-		backgroundSection.setWidth( 180 );
-		vAlignSection.setWidth( 180 );
-		styleSection.setWidth( 180 );
+		widthSection.setWidth( 200 );
+		hAlignSection.setWidth( 200 );
+		backgroundSection.setWidth( 200 );
+		vAlignSection.setWidth( 200 );
+		styleSection.setWidth( 200 );
 
 		// Sets layout num.
 
 		widthSection.setLayoutNum( 2 );
-		hAlignSection.setLayoutNum( 3 );
+		hAlignSection.setLayoutNum( 4 );
 		backgroundSection.setLayoutNum( 2 );
-		vAlignSection.setLayoutNum( 3 );
+		vAlignSection.setLayoutNum( 4 );
 		styleSection.setLayoutNum( 2 );
-		suppressDuplicatesSection.setLayoutNum( 3 );
+		suppressDuplicatesSection.setLayoutNum( 4 );
 
 		// Sets fill grid num.
 
 		widthSection.setGridPlaceholder( 0, true );
-		hAlignSection.setGridPlaceholder( 1, true );
+		hAlignSection.setGridPlaceholder( 2, true );
 		backgroundSection.setGridPlaceholder( 0, true );
-		vAlignSection.setGridPlaceholder( 1, true );
+		vAlignSection.setGridPlaceholder( 2, true );
 		styleSection.setGridPlaceholder( 0, true );
-		suppressDuplicatesSection.setGridPlaceholder( 2, true );
+		suppressDuplicatesSection.setGridPlaceholder( 3, true );
 
 		// Adds sections into this page.
 
@@ -129,6 +129,12 @@ public class ColumnPage extends AttributePage
 		addSection( PageSectionId.COLUMN_HORIZONTAL_ALIGN, hAlignSection ); //$NON-NLS-1$
 		addSection( PageSectionId.COLUMN_BACKGROUND_COLOR, backgroundSection ); //$NON-NLS-1$
 		addSection( PageSectionId.COLUMN_VERTICAL_ALIGN, vAlignSection ); //$NON-NLS-1$
+		
+		Section seperatorSection1 = new SeperatorSection( container, SWT.HORIZONTAL );
+		addSection( PageSectionId.COLUMN_SEPERATOR1, seperatorSection1 ); //$NON-NLS-1$
+
+		addFontsSection( );
+		
 		addSection( PageSectionId.COLUMN_SEPERATOR, seperatorSection ); //$NON-NLS-1$
 		addSection( PageSectionId.COLUMN_STYLE, styleSection ); //$NON-NLS-1$
 		addSection( PageSectionId.COLUMN_SUPPRESS_DUPLICATES, suppressDuplicatesSection ); //$NON-NLS-1$

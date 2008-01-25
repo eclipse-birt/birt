@@ -32,13 +32,13 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * The general attribute page of Cell element.
  */
-public class CellPage extends AttributePage
+public class CellPage extends GeneralFontPage
 {
 
 	public void buildUI( Composite parent  )
 	{
 		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 5 ,15) );
+		container.setLayout( WidgetUtil.createGridLayout( 6 ,15) );
 
 		// Defines providers.
 
@@ -100,18 +100,18 @@ public class CellPage extends AttributePage
 		// Sets layout num.
 
 		dropSection.setLayoutNum( 2 );
-		backgroundSection.setLayoutNum( 3 );
+		backgroundSection.setLayoutNum( 4 );
 		vAlignSection.setLayoutNum( 2 );
-		hAlignSection.setLayoutNum( 3 );
-		styleSection.setLayoutNum( 5 );
+		hAlignSection.setLayoutNum( 4 );
+		styleSection.setLayoutNum( 6 );
 
 		// Sets fill grid num.
 
 		dropSection.setGridPlaceholder( 0, true );
-		backgroundSection.setGridPlaceholder( 1, true );
+		backgroundSection.setGridPlaceholder( 2, true );
 		vAlignSection.setGridPlaceholder( 0, true );
-		hAlignSection.setGridPlaceholder( 1, true );
-		styleSection.setGridPlaceholder( 3, true );
+		hAlignSection.setGridPlaceholder( 2, true );
+		styleSection.setGridPlaceholder( 4, true );
 
 		// Adds sections into this page.
 
@@ -121,14 +121,20 @@ public class CellPage extends AttributePage
 				true );
 		elementIdSection.setProvider( elementIdProvider );
 		elementIdSection.setWidth( 200 );
-		elementIdSection.setLayoutNum( 5 );
-		elementIdSection.setGridPlaceholder( 3, true );
+		elementIdSection.setLayoutNum( 6 );
+		elementIdSection.setGridPlaceholder( 4, true );
 		addSection( PageSectionId.CELL_ELEMENT_ID, elementIdSection );
 		
 		addSection( PageSectionId.CELL_DROP, dropSection ); //$NON-NLS-1$
 		addSection( PageSectionId.CELL_BACKGROUND, backgroundSection ); //$NON-NLS-1$
 		addSection( PageSectionId.CELL_VERTICAL_ALIGN, vAlignSection ); //$NON-NLS-1$
 		addSection( PageSectionId.CELL_HORIZONTAL_ALIGN, hAlignSection ); //$NON-NLS-1$
+		
+		Section seperatorSection1 = new SeperatorSection( container, SWT.HORIZONTAL );
+		addSection( PageSectionId.CELL_SEPERATOR1, seperatorSection1 ); //$NON-NLS-1$
+
+		addFontsSection( );
+		
 		addSection( PageSectionId.CELL_SEPERATOR, seperatorSection ); //$NON-NLS-1$
 		addSection( PageSectionId.CELL_STYLE, styleSection ); //$NON-NLS-1$
 

@@ -173,6 +173,11 @@ public class GridPage extends GeneralPage
 		addSection( PageSectionId.GRID_BACKGROUND_COLOR, backgroundSection ); //$NON-NLS-1$
 		addSection( PageSectionId.GRID_STYLE, styleSection ); //$NON-NLS-1$
 		
+		Section seperatorSection1 = new SeperatorSection( container, SWT.HORIZONTAL );
+		addSection( PageSectionId.GRID_SEPERATOR1, seperatorSection1 ); //$NON-NLS-1$
+
+		addFontsSection( );
+		
 		createSections( );
 		layoutSections( );
 	}

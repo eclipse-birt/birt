@@ -261,4 +261,16 @@ public class PageSectionId
 
 	public static final String SCALAR_PARAMETER_ELEMENT_ID = "SCALAR_PARAMETER_ELEMENT_ID";
 
+	public static final String TABLE_SEPERATOR1 = "TABLE_SEPERATOR1";
+
+	public static final String LIST_SEPERATOR = "LIST_SEPERATOR";
+
+	public static final String GRID_SEPERATOR1 = "GRID_SEPERATOR1";
+
+	public static final String ROW_SEPERATOR1 = "ROW_SEPERATOR1";
+
+	public static final String CELL_SEPERATOR1 = "CELL_SEPERATOR1";
+
+	public static final String COLUMN_SEPERATOR1 = "COLUMN_SEPERATOR1";
+
 }

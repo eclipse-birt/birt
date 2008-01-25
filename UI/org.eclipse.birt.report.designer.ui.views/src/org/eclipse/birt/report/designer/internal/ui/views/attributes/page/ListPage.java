@@ -16,11 +16,14 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.El
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.SimpleComboPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TextPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ColorSection;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Section;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SeperatorSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SimpleComboSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextSection;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.swt.SWT;
 
 /**
  * The general attribute page of ListItem element.
@@ -97,6 +100,12 @@ public class ListPage extends GeneralPage
 		 * 
 		 * WidgetUtil.createGridPlaceholder( this, 2, true );
 		 */
+		
+		Section seperatorSection = new SeperatorSection( container, SWT.HORIZONTAL );
+		addSection( PageSectionId.LIST_SEPERATOR, seperatorSection ); //$NON-NLS-1$
+
+		addFontsSection( );
+		
 		createSections( );
 		layoutSections( );
 	}

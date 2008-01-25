@@ -14,8 +14,6 @@ package org.eclipse.birt.report.item.crosstab.ui.views.attributes;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AdvancePropertyPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BordersPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.CellPaddingPage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.CellPage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FontPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.NamedExpressionsPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.UserPropertiesPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.CategoryProvider;
@@ -61,7 +59,6 @@ public class CrosstabCellCategoryProviderFactory extends
 		CategoryProvider provider = new CategoryProvider( new String[]{
 				CATEGORY_KEY_GENERAL,
 				CATEGORY_KEY_PADDING,
-				CATEGORY_KEY_FONT,
 				CATEGORY_KEY_BORDERS,
 				CATEGORY_KEY_USERPROPERTIES,
 				CATEGORY_KEY_NAMEDEXPRESSIONS,
@@ -69,7 +66,6 @@ public class CrosstabCellCategoryProviderFactory extends
 		}, new String[]{
 				"CellPageGenerator.List.General", //$NON-NLS-1$
 				"CellPageGenerator.List.CellPadding", //$NON-NLS-1$
-				"CellPageGenerator.List.Font", //$NON-NLS-1$
 				"CellPageGenerator.List.Borders", //$NON-NLS-1$
 				"ReportPageGenerator.List.UserProperties", //$NON-NLS-1$
 				"ReportPageGenerator.List.NamedExpressions", //$NON-NLS-1$
@@ -77,7 +73,6 @@ public class CrosstabCellCategoryProviderFactory extends
 		}, new Class[]{
 				CrosstabCellPage.class,
 				CellPaddingPage.class,
-				FontPage.class,
 				BordersPage.class,
 				UserPropertiesPage.class,
 				NamedExpressionsPage.class,
