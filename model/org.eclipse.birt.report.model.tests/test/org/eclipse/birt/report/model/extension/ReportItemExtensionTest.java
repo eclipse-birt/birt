@@ -1763,12 +1763,18 @@ public class ReportItemExtensionTest extends BaseTestCase
 	public void testLocalizedMessage( ) throws Exception
 	{
 		openDesign( fileName_8, ULocale.ENGLISH );
-		assertEquals( 1, design.getErrorList( ).size( ) );
+		assertEquals( 2, design.getErrorList( ).size( ) );
 
 		ErrorDetail eDetail = (ErrorDetail) design.getErrorList( ).get( 0 );
 		String localizedMessage = eDetail.getMessage( );
 		String expect = "Extended exception in TestingMatrix"; //$NON-NLS-1$		
 		assertEquals( expect, localizedMessage );
+
+		eDetail = (ErrorDetail) design.getErrorList( ).get( 1 );
+		localizedMessage = eDetail.getMessage( );
+		expect = "local actuate"; //$NON-NLS-1$
+		assertEquals( expect, localizedMessage );
+
 	}
 
 	/**
@@ -1782,11 +1788,16 @@ public class ReportItemExtensionTest extends BaseTestCase
 	{
 		openDesign( fileName_9, ULocale.ENGLISH );
 
-		assertEquals( 1, design.getErrorList( ).size( ) );
+		assertEquals( 2, design.getErrorList( ).size( ) );
 
 		ErrorDetail eDetail = (ErrorDetail) design.getErrorList( ).get( 0 );
 		String localizedMessage = eDetail.getMessage( );
 		String expect = "Extended exception in TestingMatrix"; //$NON-NLS-1$		
+		assertEquals( expect, localizedMessage );
+
+		eDetail = (ErrorDetail) design.getErrorList( ).get( 1 );
+		localizedMessage = eDetail.getMessage( );
+		expect = "local actuate"; //$NON-NLS-1$
 		assertEquals( expect, localizedMessage );
 	}
 

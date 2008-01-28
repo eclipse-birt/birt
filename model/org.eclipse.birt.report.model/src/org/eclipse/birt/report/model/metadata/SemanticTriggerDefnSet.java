@@ -113,4 +113,31 @@ public class SemanticTriggerDefnSet
 		}
 	}
 
+	/**
+	 * Validates whether the list contains the validator with the given
+	 * <code>validatorName</code>.
+	 * 
+	 * @param validatorName
+	 *            the name of the validator definition
+	 * @return <code>true</code> if the list contains the given validator.
+	 *         Otherwise <code>false</code>.
+	 */
+
+	boolean contain( String validatorName )
+	{
+		if ( triggerList == null )
+			return false;
+
+		assert validatorName != null;
+		
+		for ( int i = 0; i < triggerList.size( ); i++ )
+		{
+			SemanticTriggerDefn tmpDefn = (SemanticTriggerDefn) triggerList
+					.get( i );
+			if ( validatorName.equalsIgnoreCase( tmpDefn.getValidatorName( ) ) )
+				return true;
+		}
+		return false;
+	}
+
 }

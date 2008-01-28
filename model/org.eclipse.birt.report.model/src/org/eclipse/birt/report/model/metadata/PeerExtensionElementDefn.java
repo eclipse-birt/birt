@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.scripts.IScriptableObjectClassInfo;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.api.validators.ExtensionValidator;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 
@@ -427,5 +428,31 @@ public final class PeerExtensionElementDefn extends ExtensionElementDefn
 	void setScriptableFactory( IScriptableObjectClassInfo scriptableFactory )
 	{
 		this.scriptableFactory = scriptableFactory;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.metadata.ElementDefn#buildTriggerDefnSet()
+	 */
+
+	protected void buildTriggerDefnSet( )
+	{
+		super.buildTriggerDefnSet( );
+
+		if ( !StringUtil.isBlank( name ) )
+		{
+			SemanticTriggerDefnSet tmpTriggerSet = getTriggerDefnSet( );
+			String tmpTriggerDefnName = ExtensionValidator.NAME;
+			if ( !tmpTriggerSet.contain( tmpTriggerDefnName ) )
+			{
+				SemanticTriggerDefn triggerDefn = new SemanticTriggerDefn(
+						tmpTriggerDefnName );
+				triggerDefn.setPropertyName( getName( ) );
+				triggerDefn.setValidator( ExtensionValidator.getInstance( ) );
+
+				tmpTriggerSet.add( triggerDefn );
+			}
+		}
 	}
 }
