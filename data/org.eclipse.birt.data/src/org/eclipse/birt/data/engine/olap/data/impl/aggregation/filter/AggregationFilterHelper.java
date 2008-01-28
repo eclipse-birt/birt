@@ -153,30 +153,38 @@ public class AggregationFilterHelper
 			for ( int j = 0; !isEmptyXtab && j < aggregations.length; j++ )
 			{
 				if ( aggregations[j].getAggregationFunctions( ) != null
-						&& FilterUtil.isEqualLevels( aggregations[j].getLevels( ),
-								filter.getAggrLevels( ) ) )
+						&& isMatch( aggregations[j], resultSet[j], filter ) )
 				{
-					applyAggrFilter( aggregations,
-							resultSet,
-							j,
-							filter,
-							levelFilterList );
+					applyAggrFilter( resultSet[j], filter, levelFilterList );
 				}
 			}
 		}
 	}
 
 	/**
-	 * @param aggregations
+	 * 
+	 * @param aggregation
+	 * @param resultSet 
+	 * @param filter
+	 * @return
+	 */
+	private boolean isMatch( AggregationDefinition aggregation,
+			IAggregationResultSet resultSet, AggrFilterDefinition filter )
+	{
+		return filter.getAggrLevels( ) == null
+				&& resultSet.getLevelIndex( filter.getTargetLevel( ) ) >= 0
+				|| FilterUtil.isEqualLevels( aggregation.getLevels( ),
+						filter.getAggrLevels( ) );
+	}
+
+	/**
 	 * @param resultSet
-	 * @param j
 	 * @param filter
 	 * @param levelFilters
 	 * @throws IOException
 	 * @throws DataException
 	 */
-	private void applyAggrFilter( AggregationDefinition[] aggregations,
-			IAggregationResultSet[] resultSet, int j,
+	private void applyAggrFilter( IAggregationResultSet resultSet,
 			AggrFilterDefinition filter, List levelFilters )
 			throws DataException, IOException
 	{
@@ -191,15 +199,15 @@ public class AggregationFilterHelper
 		// previous aggregation result's target level
 		Member[] preMembers = null;
 		IJSDimensionFilterHelper filterHelper = (IJSDimensionFilterHelper) filter.getFilterHelper( );
-		AggregationRowAccessor row4filter = new AggregationRowAccessor( resultSet[j] );
-		for ( int k = 0; k < resultSet[j].length( ); k++ )
+		AggregationRowAccessor row4filter = new AggregationRowAccessor( resultSet );
+		for ( int k = 0; k < resultSet.length( ); k++ )
 		{
-			resultSet[j].seek( k );
+			resultSet.seek( k );
 			boolean isSelect = filterHelper.evaluateFilter( row4filter );
 			if ( isSelect )
 			{// generate level filter here
 				Member[] members = getTargetDimMembers( targetLevel.getDimensionName( ),
-						resultSet[j] );
+						resultSet );
 				if ( preMembers != null
 						&& !FilterUtil.shareParentLevels( members,
 								preMembers,
@@ -212,9 +220,9 @@ public class AggregationFilterHelper
 					levelFilters.add( levelFilter );
 					selKeyValueList.clear( );
 				}
-				int levelIndex = resultSet[j].getLevelIndex( targetLevel );
+				int levelIndex = resultSet.getLevelIndex( targetLevel );
 				// select aggregation row
-				Object[] levelKeyValue = resultSet[j].getLevelKeyValue( levelIndex );
+				Object[] levelKeyValue = resultSet.getLevelKeyValue( levelIndex );
 				if ( levelKeyValue != null && levelKeyValue[0] != null )
 					selKeyValueList.add( levelKeyValue );
 				preMembers = members;
