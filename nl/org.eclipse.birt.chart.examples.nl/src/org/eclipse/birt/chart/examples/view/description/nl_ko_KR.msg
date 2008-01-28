@@ -15,13 +15,13 @@ StandardMeter=표준 측정기 차트에는 영역을 포함한 단일 다이얼이 포함됩니다. 다이�
 SuperImposedMeter=중첩 측정기 차트에는 동일한 영역을 포함한 다중 다이얼이 포함됩니다. 다이얼이 동시에 겹치므로 단일 영역 내 여러 바늘을 나타낼 수 있습니다.
 Scatter=분산형 차트에는 범주와 값 데이터를 좌표로 사용하여 플롯 위에 정렬된 값이 표시됩니다. 각 데이터 값은 표지로 표시됩니다.
 BarStickStock=막대형 주식 차트에는 수직선 한 개가 있고 두 수평선이 수직선에 붙어 있습니다. 수직선의 위쪽 끝과 아래쪽 끝이 주식의 시가와 종가 값입니다. 두 수평선은 고가와 저가를 나타냅니다.
-CandleStickStock=A candle-stick stock chart contains a box with lines extending up and down from the ends. The upper and lower edges of the box are the stock open and close values. The upper and lower points of the line are the high and low values.
-Bubble=Bubble charts are an extension to scatter charts, and display the points as bubbles. The bubble diameters are proportionated to a third data value, besides the x and y coordinates.
-Difference=Difference charts show the area between two lines of values. They inherit all of the area series properties, and can also show a negative area with a different color.
-Gantt=Gantt charts are used to track tasks duration and progress. They are represented on a datetime Y axis, using bars of custom width with optional start/end markers. Each bar is defined by its category, task label, start time and end time. It is possible to overlay several gantt series of different width to track the actual progress of scheduled tasks for instance.
-Tube=Tube charts are similar to bar charts with the bars represented as tubes.
-Cone=Cone charts are similar to bar charts, with the bars represented as cones.
-Pyramid=Pyramid charts are similar to bar charts, with the bars represented as pyramids.
+CandleStickStock=원통형 주식 차트에는 상자 한 개가 있고 상자의 위 아래로 선이 나와 있습니다. 상자의 위쪽 가장자리와 아래쪽 가장자리가 주식의 시가와 종가 값입니다. 위로 나온 선은 고가를, 아래로 나온 선은 저가를 나타냅니다.
+Bubble=거품형 차트는 분산형 차트로 확장되며 거품으로 값을 표시합니다. 거품의 지름은 x, y 좌표 외에 세 번째 데이터 값에 비례합니다.
+Difference=차이점 차트는 값을 나타내는 두 선 사이의 영역을 표시합니다. 이 차트는 영역 계열의 속성을 모두 상속받고 서로 다른 색상으로 음수 영역을 표시할 수도 있습니다.
+Gantt=간트 차트는 작업 기간 및 진행 상황을 추적하는 데 사용됩니다. 이 차트의 Y 축에는 날짜/시간이 표시되며 사용자 지정 너비의 막대를 사용해 시작/종료 표지를 나타냅니다. 각각의 막대는 해당 범주, 작업 레이블, 시작 시간 및 종료 시간으로 정의됩니다. 서로 다른 너비의 여러 간트 계열을 오버레이하여 인스턴스에 대해 예약된 작업의 실제 진행 상황을 추적할 수 있습니다.
+Tube=튜브형 차트는 막대형 차트와 유사하게 튜브 모양의 막대로 표시됩니다.
+Cone=원뿔형 차트는 막대형 차트와 유사하게 원뿔 모양의 막대로 표시됩니다.
+Pyramid=피라미드 차트는 막대형 차트와 유사하게 피라피드 모양의 막대로 표시됩니다.
 
 ###########################################################
 #3D Charts

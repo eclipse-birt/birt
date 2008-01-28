@@ -872,12 +872,12 @@ AxisMarkersSheet.Label.Interactivity=交互
 AbstractPopupSheet.Label.Close=关闭
 AbstractPopupSheet.Label.Help=帮助
 AggregateEditorComposite.Aggregate.Enabled=启用
-AggregateEditorComposite.AggregateDisplayName.Default=Default
+AggregateEditorComposite.AggregateDisplayName.Default=默认
 AggregateEditorComposite.AggregateDisplayName.None=无
 AggregateEditorComposite.AggregateParameterDefinition.Title=聚合函数定义
 AggregateEditorComposite.Button.Cancel=取消
 AggregateEditorComposite.Button.OK=确定
-AggregateEditorComposite.Tooltip.SetAggregateFunction=Set aggregation function
+AggregateEditorComposite.Tooltip.SetAggregateFunction=设置聚合函数
 
 LocalizedNumberEditorComposite.error.Title=数字格式错误
 LocalizedNumberEditorComposite.error.Message=无效数值:“{0}”

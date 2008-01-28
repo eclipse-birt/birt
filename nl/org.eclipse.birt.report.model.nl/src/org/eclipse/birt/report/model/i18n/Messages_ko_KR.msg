@@ -1768,7 +1768,7 @@ Class.BirtComp.match.toolTip=x는 Javascript 패턴 y와 일치함
 Class.BirtComp.match.x=x
 Class.BirtComp.match.y=y
 Class.BirtComp.anyOf=anyOf
-Class.BirtComp.anyOf.toolTip=첫 번째 인수가 다음 인수 범위에 있는지 확인
+Class.BirtComp.anyOf.toolTip=값이 다음 인수에 있는지 확인
 Class.BirtComp.anyOf.val=value
 
 

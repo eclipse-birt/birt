@@ -1768,7 +1768,7 @@ Class.BirtComp.match.toolTip=x correspond à la correspondance JavaScript y
 Class.BirtComp.match.x=x
 Class.BirtComp.match.y=y
 Class.BirtComp.anyOf=anyOf
-Class.BirtComp.anyOf.toolTip=si le premier élément est contenu dans la plage des arguments suivants
+Class.BirtComp.anyOf.toolTip=si la valeur appartient aux éléments suivants
 Class.BirtComp.anyOf.val=value
 
 

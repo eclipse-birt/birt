@@ -357,7 +357,7 @@ data.olap.failComputeComputedMeasureValue=无法计算已计算的度量。
 data.olap.duplicateMeasureName=重复度量名称“{0}”。
 data.olap.dataBindingExpressionEmpty=数据绑定表达式不能为 null 或空!
 data.olap.missingParentCursor=父结果集不存在。
-data.olap.CannotAccessNullDimensionRow=Can't access null dimension row!
+data.olap.CannotAccessNullDimensionRow=不能访问空维行!
 
 data.cache.UnsupportedIncrementalCacheMode=尚未支持增量缓存的“{0}”模式!
 # Configuration file parser error code

@@ -1768,7 +1768,7 @@ Class.BirtComp.match.toolTip=x coincide con el patrón Javascript de y
 Class.BirtComp.match.x=x
 Class.BirtComp.match.y=y
 Class.BirtComp.anyOf=anyOf
-Class.BirtComp.anyOf.toolTip=si el primer argumento está en el intervalo de los siguientes argumentos o no
+Class.BirtComp.anyOf.toolTip=si el valor está en los siguientes argumentos
 Class.BirtComp.anyOf.val=value
 
 

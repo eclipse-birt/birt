@@ -872,12 +872,12 @@ AxisMarkersSheet.Label.Interactivity=Activadores
 AbstractPopupSheet.Label.Close=Cerrar
 AbstractPopupSheet.Label.Help=Ayuda
 AggregateEditorComposite.Aggregate.Enabled=Activado
-AggregateEditorComposite.AggregateDisplayName.Default=Default
+AggregateEditorComposite.AggregateDisplayName.Default=Predeterminado
 AggregateEditorComposite.AggregateDisplayName.None=Ninguno
 AggregateEditorComposite.AggregateParameterDefinition.Title=Agregar definición de parámetro
 AggregateEditorComposite.Button.Cancel=Cancelar
 AggregateEditorComposite.Button.OK=Aceptar
-AggregateEditorComposite.Tooltip.SetAggregateFunction=Set aggregation function
+AggregateEditorComposite.Tooltip.SetAggregateFunction=Establecer función de agregación
 
 LocalizedNumberEditorComposite.error.Title=Error de formato de número
 LocalizedNumberEditorComposite.error.Message=Valor de número no válido: "{0}"

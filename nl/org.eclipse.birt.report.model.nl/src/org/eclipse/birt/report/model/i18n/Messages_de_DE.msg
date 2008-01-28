@@ -1768,7 +1768,7 @@ Class.BirtComp.match.toolTip=x stimmt mit dem Javascript-Muster y überein
 Class.BirtComp.match.x=x
 Class.BirtComp.match.y=y
 Class.BirtComp.anyOf=anyOf
-Class.BirtComp.anyOf.toolTip=ob sich das erste Argument innerhalb des Bereichs folgender Argumente befindet
+Class.BirtComp.anyOf.toolTip=ob sich der Wert innerhalb des Bereichs folgender Argumente befindet
 Class.BirtComp.anyOf.val=value
 
 

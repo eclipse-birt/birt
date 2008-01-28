@@ -27,4 +27,4 @@ adapter.invalid.aggregationfunctionname=The aggregation function {0} is invalid.
 invalid.datetime.value=La valeur DateHeure "{0}" est incorrecte.
 missing.join.condition=La condition de jointure nécessaire entre la table de faits et la dimension "{0}" est manquante.
 exception.error=Une exception s'est produite au cours du traitement. Pour plus de détails, consultez le message suivant :
-invalid.level.expression=The level name "{0}" is not found.
+invalid.level.expression=Le nom de niveau "{0}" est introuvable.

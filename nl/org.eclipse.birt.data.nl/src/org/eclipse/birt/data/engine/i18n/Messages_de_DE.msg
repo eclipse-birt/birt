@@ -357,7 +357,7 @@ data.olap.failComputeComputedMeasureValue=Werte für berechnete Maßeinheit können
 data.olap.duplicateMeasureName=Doppelter Einheitenname \"{0}\".
 data.olap.dataBindingExpressionEmpty=Datenbindungsausdruck darf nicht leer oder gleich Null sein.
 data.olap.missingParentCursor=Das übergeordnete Ergebnis ist nicht vorhanden.
-data.olap.CannotAccessNullDimensionRow=Can't access null dimension row!
+data.olap.CannotAccessNullDimensionRow=Zugriff auf Zeile ohne Dimension nicht möglich
 
 data.cache.UnsupportedIncrementalCacheMode=Der \"{0}\"-Modus der inkrementellen Zwischenspeicherung wird noch nicht unterstützt!
 # Configuration file parser error code

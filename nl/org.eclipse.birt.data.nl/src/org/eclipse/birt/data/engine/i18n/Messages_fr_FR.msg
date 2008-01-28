@@ -357,7 +357,7 @@ data.olap.failComputeComputedMeasureValue=Echec du calcul de la valeur pour la m
 data.olap.duplicateMeasureName=Nom de mesure \"{0}\" en double.
 data.olap.dataBindingExpressionEmpty=L'expression de liaison de données ne peut être ni nulle ni vide.
 data.olap.missingParentCursor=L'ensemble des résultats parents n'existe pas.
-data.olap.CannotAccessNullDimensionRow=Can't access null dimension row!
+data.olap.CannotAccessNullDimensionRow=Impossible d'accéder à une ligne de dimension nulle !
 
 data.cache.UnsupportedIncrementalCacheMode=Le mode \"{0}\" de cache incrémentiel n''est pas encore pris en charge !
 # Configuration file parser error code

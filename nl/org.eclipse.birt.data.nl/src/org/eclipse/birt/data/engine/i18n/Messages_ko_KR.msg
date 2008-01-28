@@ -357,7 +357,7 @@ data.olap.failComputeComputedMeasureValue=°è»êµÇ´Â ÃøÁ¤¿¡ ´ëÇÑ °ªÀ» °è»êÇÏÁö ¸øÇ
 data.olap.duplicateMeasureName=Áßº¹µÈ ÃøÁ¤°ª ÀÌ¸§ \"{0}\"ÀÔ´Ï´Ù.
 data.olap.dataBindingExpressionEmpty=µ¥ÀÌÅÍ ¹ÙÀÎµù ½ÄÀº ³Î(null)ÀÌ°Å³ª ºñ¿ö µÑ ¼ö ¾ø½À´Ï´Ù!
 data.olap.missingParentCursor=»óÀ§ °á°ú ÁıÇÕÀÌ ¾ø½À´Ï´Ù.
-data.olap.CannotAccessNullDimensionRow=Can't access null dimension row!
+data.olap.CannotAccessNullDimensionRow=³Î(null) Â÷¿ø Çà¿¡ ¾×¼¼½ºÇÒ ¼ö ¾ø½À´Ï´Ù!
 
 data.cache.UnsupportedIncrementalCacheMode=Áõ°¡ Ä³½ÃÀÇ \"{0}\" ¸ğµå´Â ¾ÆÁ÷ Áö¿øµÇÁö ¾Ê½À´Ï´Ù.
 # Configuration file parser error code

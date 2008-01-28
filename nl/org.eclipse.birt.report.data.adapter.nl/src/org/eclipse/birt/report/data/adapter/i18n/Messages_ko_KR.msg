@@ -27,4 +27,4 @@ adapter.invalid.aggregationfunctionname=The aggregation function {0} is invalid.
 invalid.datetime.value=날짜/시간 값 "{0}"이(가) 잘못되었습니다.
 missing.join.condition=팩트 테이블과 차원 "{0}" 간의 조인 조건이 없습니다.
 exception.error=처리 도중 예외가 발생했습니다. 자세한 내용은 다음 메시지를 참조하십시오.
-invalid.level.expression=The level name "{0}" is not found.
+invalid.level.expression=수준 이름 "{0}"을(를) 찾을 수 없습니다.

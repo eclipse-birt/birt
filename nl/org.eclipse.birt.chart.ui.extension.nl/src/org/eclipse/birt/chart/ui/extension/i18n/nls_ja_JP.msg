@@ -872,12 +872,12 @@ AxisMarkersSheet.Label.Interactivity=トリガ
 AbstractPopupSheet.Label.Close=閉じる
 AbstractPopupSheet.Label.Help=ヘルプ
 AggregateEditorComposite.Aggregate.Enabled=有効化
-AggregateEditorComposite.AggregateDisplayName.Default=Default
+AggregateEditorComposite.AggregateDisplayName.Default=デフォルト
 AggregateEditorComposite.AggregateDisplayName.None=なし
 AggregateEditorComposite.AggregateParameterDefinition.Title=パラメタの定義の集計
 AggregateEditorComposite.Button.Cancel=キャンセル
 AggregateEditorComposite.Button.OK=OK
-AggregateEditorComposite.Tooltip.SetAggregateFunction=Set aggregation function
+AggregateEditorComposite.Tooltip.SetAggregateFunction=総計関数の設定
 
 LocalizedNumberEditorComposite.error.Title=数値の書式のエラー
 LocalizedNumberEditorComposite.error.Message=数値 "{0}" は無効です。

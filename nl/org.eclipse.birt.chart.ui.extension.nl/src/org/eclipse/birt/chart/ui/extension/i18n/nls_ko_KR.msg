@@ -872,12 +872,12 @@ AxisMarkersSheet.Label.Interactivity=대화형 작업
 AbstractPopupSheet.Label.Close=닫기
 AbstractPopupSheet.Label.Help=도움말
 AggregateEditorComposite.Aggregate.Enabled=사용
-AggregateEditorComposite.AggregateDisplayName.Default=Default
+AggregateEditorComposite.AggregateDisplayName.Default=기본값
 AggregateEditorComposite.AggregateDisplayName.None=없음
 AggregateEditorComposite.AggregateParameterDefinition.Title=집계 매개 변수 정의
 AggregateEditorComposite.Button.Cancel=취소
 AggregateEditorComposite.Button.OK=확인
-AggregateEditorComposite.Tooltip.SetAggregateFunction=Set aggregation function
+AggregateEditorComposite.Tooltip.SetAggregateFunction=집계 함수 설정
 
 LocalizedNumberEditorComposite.error.Title=숫자 형식 오류
 LocalizedNumberEditorComposite.error.Message=잘못된 숫자 값: "{0}"

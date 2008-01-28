@@ -15,13 +15,13 @@ StandardMeter=标准仪表图包含具有区域的单个刻度盘。刻度盘的背景可分成具有不同颜色
 SuperImposedMeter=超级拼版仪表图包含具有相同区域的多个刻度盘。这些刻度盘重叠在一起，以便可以表示单个区域内的多个指针。
 Scatter=散点图使用类别和值数据作为坐标，以在图形上显示经过排列的值。每个数据值由一个标记表示。
 BarStickStock=条形股票图包含一条垂直线和两条水平线。垂直线的上下两个端点表示股票开盘价和收盘价。两条水平线表示最高价和最低价。
-CandleStickStock=A candle-stick stock chart contains a box with lines extending up and down from the ends. The upper and lower edges of the box are the stock open and close values. The upper and lower points of the line are the high and low values.
-Bubble=Bubble charts are an extension to scatter charts, and display the points as bubbles. The bubble diameters are proportionated to a third data value, besides the x and y coordinates.
-Difference=Difference charts show the area between two lines of values. They inherit all of the area series properties, and can also show a negative area with a different color.
-Gantt=Gantt charts are used to track tasks duration and progress. They are represented on a datetime Y axis, using bars of custom width with optional start/end markers. Each bar is defined by its category, task label, start time and end time. It is possible to overlay several gantt series of different width to track the actual progress of scheduled tasks for instance.
-Tube=Tube charts are similar to bar charts with the bars represented as tubes.
-Cone=Cone charts are similar to bar charts, with the bars represented as cones.
-Pyramid=Pyramid charts are similar to bar charts, with the bars represented as pyramids.
+CandleStickStock=烛形股票图包含一个方框以及从端点向上下伸展的线段。方框的上边和下边表示开盘价和收盘价。线段的上端点和下端点表示最高价和最低价。
+Bubble=气泡图是散点图的扩展，将点显示为气泡。气泡直径与 X 和 Y 坐标外的第三个数据值成比例对应。
+Difference=差异图显示两条数值线之间的区域。它们继承所有区域系列属性，也可以使用不同颜色显示负值区域。
+Gantt=甘特图用于跟踪任务的持续时间和进度。它们通过日期时间 Y 轴表示，使用自定义宽度的条形，并包含可选的开始/结束标记。每个条形按其类别、开始时间和结束时间进行定义。可以覆盖若干个宽度不同的甘特图系列来跟踪已计划任务的实际进度。
+Tube=管形图与条形图类似，其条形用管形表示。
+Cone=锥形图与条形图类似，其条形用锥形表示。
+Pyramid=棱锥图与条形图类似，其条形用棱锥表示。
 
 ###########################################################
 #3D Charts

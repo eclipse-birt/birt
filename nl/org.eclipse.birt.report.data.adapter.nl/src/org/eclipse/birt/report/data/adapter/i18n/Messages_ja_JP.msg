@@ -27,4 +27,4 @@ adapter.invalid.aggregationfunctionname=The aggregation function {0} is invalid.
 invalid.datetime.value=日時の値 "{0}" が無効です。
 missing.join.condition=ファクトテーブルと次元 "{0}" の間のジョイン条件がありません。
 exception.error=処理中に例外が発生しました。詳しくは次のメッセージを参照してください :
-invalid.level.expression=The level name "{0}" is not found.
+invalid.level.expression=レベル名 "{0}" が見つかりません。
