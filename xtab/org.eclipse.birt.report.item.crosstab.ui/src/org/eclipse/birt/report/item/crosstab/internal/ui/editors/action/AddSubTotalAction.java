@@ -356,9 +356,14 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 			int counterAxisType = getOppositeAxisType( axisType );
 			DimensionViewHandle counterDimension = crosstab.getDimension( counterAxisType,
 					crosstab.getDimensionCount( counterAxisType ) - 1 );
-			String counterDimensionName = counterDimension.getCubeDimensionName( );
-			String counterLevelName = counterDimension.getLevel( counterDimension.getLevelCount( ) - 1 )
-					.getCubeLevelName( );
+			String counterDimensionName = null;
+			String counterLevelName = null;
+			if(counterDimension != null)
+			{
+				counterDimensionName = counterDimension.getCubeDimensionName( );
+				counterLevelName = counterDimension.getLevel( counterDimension.getLevelCount( ) - 1 )
+						.getCubeLevelName( );
+			}
 
 			String rowDimension = null;
 			String rowLevel = null;
@@ -416,9 +421,17 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 			CrosstabReportItemHandle crosstab = levelHandle.getCrosstab( );
 			DimensionViewHandle counterDimension = crosstab.getDimension( counterAxisType,
 					crosstab.getDimensionCount( counterAxisType ) - 1 );
-			String counterDimensionName = counterDimension.getCubeDimensionName( );
-			String counterLevelName = counterDimension.getLevel( counterDimension.getLevelCount( ) - 1 )
-					.getCubeLevelName( );
+			
+			String counterDimensionName = null;
+			String counterLevelName = null;
+			if(counterDimension != null)
+			{
+				counterDimensionName = counterDimension.getCubeDimensionName( );
+				counterLevelName = counterDimension.getLevel( counterDimension.getLevelCount( ) - 1 )
+						.getCubeLevelName( );
+			}
+			
+
 			String dimensionName = ( (DimensionViewHandle) levelView.getContainer( ) ).getCubeDimensionName( );
 			String levelName = levelView.getCubeLevelName( );
 			if ( levelName == null || dimensionName == null )
