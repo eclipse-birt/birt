@@ -30,16 +30,16 @@ CrosstabTableEditPart.GuideText=クロスタブ
 ###########################################################
 # Crosstab Dialog trans name
 GrandTotalProvider.Column.DataField=データフィールド
-GrandTotalProvider.Column.View=View
-GrandTotalProvider.Column.Function=Functions
-GrandTotalProvider.ViewStatus=Keep Current View
-GrandTotalProvider.ShowAs=Show as {0}
+GrandTotalProvider.Column.View=ビュー
+GrandTotalProvider.Column.Function=関数
+GrandTotalProvider.ViewStatus=現在のビューの保存
+GrandTotalProvider.ShowAs={0} として表示
 SubTotalProvider.Column.DataField=データフィールド
-SubTotalProvider.Column.Function=Functions
+SubTotalProvider.Column.Function=関数
 SubTotalProvider.Column.AggregateOn=集計条件
-SubTotalProvider.Column.ViewStatus=Keep Current View
-SubTotalProvider.Column.View=View
-SubTotalProvider.ShowAs=Show as {0}
+SubTotalProvider.Column.ViewStatus=現在のビューの保存
+SubTotalProvider.Column.View=ビュー
+SubTotalProvider.ShowAs={0} として表示
 LevelViewDialog.Title=グループレベルの表示/非表示
 LevelViewDialog.Label.Info=クロスタブに表示するレベルの選択 :
 AggregationDialog.Title=合計
@@ -50,8 +50,8 @@ AggregationDialog.TabItem.Title.ColumnArea=列の領域
 ShowSummaryFieldDialog.Title=サマリフィールドの表示/非表示
 ShowSummaryFieldDialog.Label.Info=クロスタブに表示するレベルの選択 :
 ShowSummaryFieldDialog.Column.Measures=計測
-ShowSummaryFieldDialog.Column.View=Views
-ShowSummaryFieldDialog.ViewStatus=Keep Current View
+ShowSummaryFieldDialog.Column.View=ビュー
+ShowSummaryFieldDialog.ViewStatus=現在のビューの保存
 
 
 DeleteBindingDialog.Title=未使用のバインドの削除

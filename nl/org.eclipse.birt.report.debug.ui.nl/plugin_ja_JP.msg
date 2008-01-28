@@ -1,5 +1,5 @@
 report.debug=BIRT レポート
-script.debug=Report
+script.debug=レポート
 LaunchActionSet.label=Java レポートプログラムの実行とデバッグ
 javaSourceLocatorName=Java ソースのロケータ
-Watch.label=Watch
+Watch.label=ウォッチ

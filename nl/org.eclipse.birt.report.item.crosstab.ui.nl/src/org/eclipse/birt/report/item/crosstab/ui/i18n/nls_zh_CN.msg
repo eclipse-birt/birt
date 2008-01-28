@@ -30,16 +30,16 @@ CrosstabTableEditPart.GuideText=交叉表
 ###########################################################
 # Crosstab Dialog trans name
 GrandTotalProvider.Column.DataField=数据字段
-GrandTotalProvider.Column.View=View
-GrandTotalProvider.Column.Function=Functions
-GrandTotalProvider.ViewStatus=Keep Current View
-GrandTotalProvider.ShowAs=Show as {0}
+GrandTotalProvider.Column.View=视图
+GrandTotalProvider.Column.Function=函数
+GrandTotalProvider.ViewStatus=保留当前视图
+GrandTotalProvider.ShowAs=显示为 {0}
 SubTotalProvider.Column.DataField=数据字段
-SubTotalProvider.Column.Function=Functions
+SubTotalProvider.Column.Function=函数
 SubTotalProvider.Column.AggregateOn=聚合条件
-SubTotalProvider.Column.ViewStatus=Keep Current View
-SubTotalProvider.Column.View=View
-SubTotalProvider.ShowAs=Show as {0}
+SubTotalProvider.Column.ViewStatus=保留当前视图
+SubTotalProvider.Column.View=视图
+SubTotalProvider.ShowAs=显示为 {0}
 LevelViewDialog.Title=显示/隐藏组级别
 LevelViewDialog.Label.Info=选择要在交叉表上显示的级别:
 AggregationDialog.Title=总计
@@ -50,8 +50,8 @@ AggregationDialog.TabItem.Title.ColumnArea=列区域
 ShowSummaryFieldDialog.Title=显示/隐藏摘要字段
 ShowSummaryFieldDialog.Label.Info=选择要在交叉表上显示的级别:
 ShowSummaryFieldDialog.Column.Measures=度量
-ShowSummaryFieldDialog.Column.View=Views
-ShowSummaryFieldDialog.ViewStatus=Keep Current View
+ShowSummaryFieldDialog.Column.View=视图
+ShowSummaryFieldDialog.ViewStatus=保留当前视图
 
 
 DeleteBindingDialog.Title=删除未使用的绑定?

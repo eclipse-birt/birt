@@ -30,16 +30,16 @@ CrosstabTableEditPart.GuideText=Tableau croisé
 ###########################################################
 # Crosstab Dialog trans name
 GrandTotalProvider.Column.DataField=Champ de données
-GrandTotalProvider.Column.View=View
-GrandTotalProvider.Column.Function=Functions
-GrandTotalProvider.ViewStatus=Keep Current View
-GrandTotalProvider.ShowAs=Show as {0}
+GrandTotalProvider.Column.View=Vue
+GrandTotalProvider.Column.Function=Fonctions
+GrandTotalProvider.ViewStatus=Conserver la Vue actuelle
+GrandTotalProvider.ShowAs=Afficher sous {0}
 SubTotalProvider.Column.DataField=Champ de données
-SubTotalProvider.Column.Function=Functions
+SubTotalProvider.Column.Function=Fonctions
 SubTotalProvider.Column.AggregateOn=Regrouper par
-SubTotalProvider.Column.ViewStatus=Keep Current View
-SubTotalProvider.Column.View=View
-SubTotalProvider.ShowAs=Show as {0}
+SubTotalProvider.Column.ViewStatus=Conserver la Vue actuelle
+SubTotalProvider.Column.View=Affichage
+SubTotalProvider.ShowAs=Afficher sous {0}
 LevelViewDialog.Title=Afficher/Masquer les niveaux de groupe
 LevelViewDialog.Label.Info=Sélectionner les niveaux à afficher sur le tableau croisé :
 AggregationDialog.Title=Totaux
@@ -50,8 +50,8 @@ AggregationDialog.TabItem.Title.ColumnArea=Zone de colonne
 ShowSummaryFieldDialog.Title=Afficher/Masquer les champs de récapitulation
 ShowSummaryFieldDialog.Label.Info=Sélectionner les niveaux à afficher sur le tableau croisé :
 ShowSummaryFieldDialog.Column.Measures=Mesures
-ShowSummaryFieldDialog.Column.View=Views
-ShowSummaryFieldDialog.ViewStatus=Keep Current View
+ShowSummaryFieldDialog.Column.View=Vues
+ShowSummaryFieldDialog.ViewStatus=Conserver la Vue actuelle
 
 
 DeleteBindingDialog.Title=Supprimer les liaisons inutilisées ?

@@ -30,16 +30,16 @@ CrosstabTableEditPart.GuideText=Kreuztabelle
 ###########################################################
 # Crosstab Dialog trans name
 GrandTotalProvider.Column.DataField=Datenfeld
-GrandTotalProvider.Column.View=View
-GrandTotalProvider.Column.Function=Functions
-GrandTotalProvider.ViewStatus=Keep Current View
-GrandTotalProvider.ShowAs=Show as {0}
+GrandTotalProvider.Column.View=Anzeigen
+GrandTotalProvider.Column.Function=Funktionen
+GrandTotalProvider.ViewStatus=Aktuelle Ansicht beibehalten
+GrandTotalProvider.ShowAs=Anzeigen als {0}
 SubTotalProvider.Column.DataField=Datenfeld
-SubTotalProvider.Column.Function=Functions
+SubTotalProvider.Column.Function=Funktionen
 SubTotalProvider.Column.AggregateOn=Aggregat in
-SubTotalProvider.Column.ViewStatus=Keep Current View
-SubTotalProvider.Column.View=View
-SubTotalProvider.ShowAs=Show as {0}
+SubTotalProvider.Column.ViewStatus=Aktuelle Ansicht beibehalten
+SubTotalProvider.Column.View=Anzeigen
+SubTotalProvider.ShowAs=Anzeigen als {0}
 LevelViewDialog.Title=Gruppenebenen einblenden/ausblenden
 LevelViewDialog.Label.Info=Ebenen zum Anzeigen in Kreuztabelle auswählen:
 AggregationDialog.Title=Summen
@@ -50,8 +50,8 @@ AggregationDialog.TabItem.Title.ColumnArea=Spaltenbereich
 ShowSummaryFieldDialog.Title=Zusammenfassungsfelder einblenden/ausblenden
 ShowSummaryFieldDialog.Label.Info=Ebenen zum Anzeigen in Kreuztabelle auswählen:
 ShowSummaryFieldDialog.Column.Measures=Einheiten
-ShowSummaryFieldDialog.Column.View=Views
-ShowSummaryFieldDialog.ViewStatus=Keep Current View
+ShowSummaryFieldDialog.Column.View=Ansichten
+ShowSummaryFieldDialog.ViewStatus=Aktuelle Ansicht beibehalten
 
 
 DeleteBindingDialog.Title=Nicht verwendete Bindungen entfernen?

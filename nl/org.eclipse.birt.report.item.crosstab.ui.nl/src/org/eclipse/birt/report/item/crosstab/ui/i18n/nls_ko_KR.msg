@@ -30,16 +30,16 @@ CrosstabTableEditPart.GuideText=크로스 탭
 ###########################################################
 # Crosstab Dialog trans name
 GrandTotalProvider.Column.DataField=데이터 필드
-GrandTotalProvider.Column.View=View
-GrandTotalProvider.Column.Function=Functions
-GrandTotalProvider.ViewStatus=Keep Current View
-GrandTotalProvider.ShowAs=Show as {0}
+GrandTotalProvider.Column.View=보기
+GrandTotalProvider.Column.Function=함수
+GrandTotalProvider.ViewStatus=현재 보기 유지
+GrandTotalProvider.ShowAs={0}(으)로 표시
 SubTotalProvider.Column.DataField=데이터 필드
-SubTotalProvider.Column.Function=Functions
+SubTotalProvider.Column.Function=함수
 SubTotalProvider.Column.AggregateOn=집계 대상:
-SubTotalProvider.Column.ViewStatus=Keep Current View
-SubTotalProvider.Column.View=View
-SubTotalProvider.ShowAs=Show as {0}
+SubTotalProvider.Column.ViewStatus=현재 보기 유지
+SubTotalProvider.Column.View=보기
+SubTotalProvider.ShowAs={0}(으)로 표시
 LevelViewDialog.Title=그룹 수준 표시/숨기기
 LevelViewDialog.Label.Info=크로스 탭에 표시할 수준 선택:
 AggregationDialog.Title=전체
@@ -50,8 +50,8 @@ AggregationDialog.TabItem.Title.ColumnArea=열 영역
 ShowSummaryFieldDialog.Title=요약 필드 표시/숨기기
 ShowSummaryFieldDialog.Label.Info=크로스 탭에 표시할 수준 선택:
 ShowSummaryFieldDialog.Column.Measures=측정값
-ShowSummaryFieldDialog.Column.View=Views
-ShowSummaryFieldDialog.ViewStatus=Keep Current View
+ShowSummaryFieldDialog.Column.View=보기
+ShowSummaryFieldDialog.ViewStatus=현재 보기 유지
 
 
 DeleteBindingDialog.Title=사용하지 않는 바인딩을 제거하시겠습니까?

@@ -30,16 +30,16 @@ CrosstabTableEditPart.GuideText=Tabla de referencias cruzadas
 ###########################################################
 # Crosstab Dialog trans name
 GrandTotalProvider.Column.DataField=Campo de datos
-GrandTotalProvider.Column.View=View
-GrandTotalProvider.Column.Function=Functions
-GrandTotalProvider.ViewStatus=Keep Current View
-GrandTotalProvider.ShowAs=Show as {0}
+GrandTotalProvider.Column.View=Ver
+GrandTotalProvider.Column.Function=Funciones
+GrandTotalProvider.ViewStatus=Mantener vista actual
+GrandTotalProvider.ShowAs=Mostrar como {0}
 SubTotalProvider.Column.DataField=Campo de datos
-SubTotalProvider.Column.Function=Functions
+SubTotalProvider.Column.Function=Funciones
 SubTotalProvider.Column.AggregateOn=Agregar en
-SubTotalProvider.Column.ViewStatus=Keep Current View
-SubTotalProvider.Column.View=View
-SubTotalProvider.ShowAs=Show as {0}
+SubTotalProvider.Column.ViewStatus=Mantener vista actual
+SubTotalProvider.Column.View=Ver
+SubTotalProvider.ShowAs=Mostrar como {0}
 LevelViewDialog.Title=Mostrar/ocultar niveles de grupo
 LevelViewDialog.Label.Info=Seleccionar niveles para mostrar en tabla de referencias cruzadas:
 AggregationDialog.Title=Totales
@@ -50,8 +50,8 @@ AggregationDialog.TabItem.Title.ColumnArea=Área de columna
 ShowSummaryFieldDialog.Title=Mostrar/ocultar campos de resumen
 ShowSummaryFieldDialog.Label.Info=Seleccionar niveles para mostrar en tabla de referencias cruzadas:
 ShowSummaryFieldDialog.Column.Measures=Medidas
-ShowSummaryFieldDialog.Column.View=Views
-ShowSummaryFieldDialog.ViewStatus=Keep Current View
+ShowSummaryFieldDialog.Column.View=Vistas
+ShowSummaryFieldDialog.ViewStatus=Mantener vista actual
 
 
 DeleteBindingDialog.Title=¿Eliminar los enlaces no utilizados?
