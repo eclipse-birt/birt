@@ -205,7 +205,7 @@ public class DataSetCacheManager
 		return getDataSetCacheConfig(dataSetDesign, appContext) != null;
  	}
 	
-	private DataSetCacheConfig getDataSetCacheConfig(IBaseDataSetDesign dataSetDesign, Map appContect) throws DataException
+	private DataSetCacheConfig getDataSetCacheConfig(IBaseDataSetDesign dataSetDesign, Map appContext) throws DataException
 	{
 		DataSetCacheConfig result = DataSetCacheUtil.getJVMDataSetCacheConfig( appContext, context, session, dataSetDesign );
 		if (result == null)
@@ -248,8 +248,10 @@ public class DataSetCacheManager
 		DataSourceAndDataSet ds = DataSourceAndDataSet.newInstance( dataSourceDesign,
 				dataSetDesign,
 				null );
-		switchCacheMap( dataSetDesign );
-		cacheMapManager.clearCache( ds );
+		//switchCacheMap( dataSetDesign );
+		//cacheMapManager.clearCache( ds );
+		jvmLevelCacheMapManager.clearCache( ds );
+		dteLevelCacheMapManager.clearCache( ds );
 	}
 
 	/**
@@ -309,8 +311,9 @@ public class DataSetCacheManager
 			IBaseDataSourceDesign dataSource, IBaseDataSetDesign dataSet )
 			throws DataException
 	{
-		switchCacheMap( dataSet );
-		IResultClass resultClass = this.cacheMapManager.getCachedResultClass( DataSourceAndDataSet.newInstance( dataSource,
+		//switchCacheMap( dataSet );
+		//meta data is always from jvmLevelCacheMapManager
+		IResultClass resultClass = this.jvmLevelCacheMapManager.getCachedResultClass( DataSourceAndDataSet.newInstance( dataSource,
 				dataSet,
 				null ) );
 		if ( resultClass != null )
