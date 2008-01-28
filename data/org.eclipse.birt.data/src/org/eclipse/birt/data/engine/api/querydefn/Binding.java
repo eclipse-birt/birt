@@ -31,6 +31,7 @@ public class Binding implements IBinding
 	private IBaseExpression filter;
 	private String aggrFunc;
 	private String name;
+	private String displayName;
 	private int dataType;
 	
 	public Binding( String name )
@@ -167,5 +168,15 @@ public class Binding implements IBinding
 	public IBaseExpression getExpression( )
 	{
 		return this.expr;
+	}
+
+	public String getDisplayName( ) throws DataException
+	{
+		return this.displayName == null ? this.name:this.displayName;
+	}
+
+	public void setDisplayName( String displayName ) throws DataException
+	{
+		this.displayName = displayName;
 	}
 }

@@ -46,4 +46,7 @@ public interface IBinding
 
 	public void setAggrFunction( String functionName ) throws DataException;
 
+	public String getDisplayName( ) throws DataException;
+	
+	public void setDisplayName( String displayName ) throws DataException;
 }
