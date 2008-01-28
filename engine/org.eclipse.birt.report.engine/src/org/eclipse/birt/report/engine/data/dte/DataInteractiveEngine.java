@@ -236,15 +236,12 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			// this is the root query
 			if ( useCache )
 			{
-				dteResults = getCachedQueryResult( query );
+				dteResults = getCachedQueryResult( query, parentResult );
 			}
 			if ( dteResults == null )
 			{
 				dteResults = dteSession.execute( pQuery, null, scope );
-				if ( query.cacheQueryResults( ) )
-				{
-					cachedQueryToResults.put( query, dteResults.getID( ) );
-				}					
+				putCachedQueryResult( query, dteResults.getID( ) );
 			}
 			resultSet = new QueryResultSet( this, context,
 					query,
@@ -268,15 +265,12 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			// parent results
 			if ( useCache )
 			{
-				dteResults = getCachedQueryResult( query );
+				dteResults = getCachedQueryResult( query, parentResult );
 			}
 			if ( dteResults == null )
 			{
 				dteResults = dteSession.execute( pQuery, parentQueryResults, scope );
-				if ( query.cacheQueryResults( ) )
-				{
-					cachedQueryToResults.put( query, dteResults.getID( ) );
-				}
+				putCachedQueryResult( query, dteResults.getID( ) );
 			}
 			resultSet = new QueryResultSet( this, context, parentResult,
 					(IQueryDefinition) query,

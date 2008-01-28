@@ -102,7 +102,7 @@ public class DteDataEngine extends AbstractDataEngine
 		IBaseQueryResults dteResults = null; // the dteResults of this query
 		if ( useCache )
 		{
-			dteResults = getCachedQueryResult( query );
+			dteResults = getCachedQueryResult( query, parentResultSet );
 		}
 		if ( dteResults == null )
 		{
@@ -118,10 +118,7 @@ public class DteDataEngine extends AbstractDataEngine
 				dteResults = dteSession.execute( pQuery, parentResultSet
 						.getQueryResults( ), scope );
 			}
-			if ( query.cacheQueryResults( ) )
-			{
-				cachedQueryToResults.put( query, dteResults.getID( ) );
-			}
+			putCachedQueryResult( query, dteResults.getID( ) );
 		}		
 		if ( parentResultSet == null )
 		{

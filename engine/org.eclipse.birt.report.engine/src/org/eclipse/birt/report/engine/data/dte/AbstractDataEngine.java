@@ -19,11 +19,13 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition;
@@ -352,18 +354,30 @@ public abstract class AbstractDataEngine implements IDataEngine
 		return null;
 	}
 
-	protected IBaseQueryResults getCachedQueryResult( IDataQueryDefinition query )
+	protected IBaseQueryResults getCachedQueryResult(
+			IBaseQueryDefinition query, IBaseResultSet outer )
 			throws BirtException
 	{
 		Object rsetId = cachedQueryToResults.get( query );
 
 		if ( rsetId != null )
 		{
-			return dteSession.getQueryResults( String.valueOf( rsetId ) );
+			( (QueryDefinition) query ).setQueryResultsID( (String) rsetId );
+			IBasePreparedQuery pQuery = dteSession.prepare( query, null );
+			return dteSession.execute( pQuery, outer == null ? null : outer.getQueryResults( ), 
+					context.getSharedScope( ) );
 		}
 		else
 		{
 			return null;
+		}
+	}
+	
+	protected void putCachedQueryResult( IBaseQueryDefinition query, String id )
+	{
+		if ( query.cacheQueryResults( ) )
+		{
+			cachedQueryToResults.put( query, id );
 		}
 	}
 	
