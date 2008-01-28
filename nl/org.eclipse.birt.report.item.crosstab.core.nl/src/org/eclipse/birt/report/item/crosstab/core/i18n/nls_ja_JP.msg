@@ -112,3 +112,5 @@ CrosstabReportItemTask.msg.pivot.dimension=ŽŸŒ³‚Ì‰ñ“]
 CrosstabReportItemTask.msg.insert.dimension=ŽŸŒ³‚Ì‘}“ü
 CrosstabReportItemTask.msg.set.mirroredStartingLevel=Set Mirrored Starting Level
 
+CrosstabReportItemHandle.Error.HasNoCube=The cross table must be able to access one cube
+CrosstabReportItemHandle.log.validate=validating(...)
