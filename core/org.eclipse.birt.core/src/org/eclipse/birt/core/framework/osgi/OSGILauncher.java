@@ -85,7 +85,7 @@ public class OSGILauncher
 		if ( !platformDirectory.exists( ) || !platformDirectory.isDirectory( ) )
 		{
 			throw new BirtException( PluginId,
-					"Could not start the Framework - {0}" + root, root ); //$NON-NLS-1$
+					"Could not start the Framework - {0}", root ); //$NON-NLS-1$
 		}
 
 		String path = new File( platformDirectory, "plugins" ).toString( ); //$NON-NLS-1$
