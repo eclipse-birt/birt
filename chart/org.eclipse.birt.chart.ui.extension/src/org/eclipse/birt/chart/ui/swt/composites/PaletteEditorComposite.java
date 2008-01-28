@@ -29,7 +29,9 @@ import org.eclipse.birt.chart.model.attribute.impl.LineAttributesImpl;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlEvent;
@@ -764,44 +766,78 @@ public final class PaletteEditorComposite extends Composite implements
 		{
 			int index1 = iIndex1;
 			int index2 = iIndex2;
-			for ( int i = 0; i < vSeriesDefns.length; i++ )
+			if( isMultiAxes( ) )
 			{
-				int size = vSeriesDefns[i].getSeriesPalette( ).getEntries( ).size( );
-				if ( ( iIndex1 - i ) >= 0 )
-				{
-					index1 = iIndex1 - i;
-				}
-				else
-				{
-					index1 = size - i + iIndex1;
-				}
+				int min = Math.min( index1, index2 );
+				int max = Math.max( index1, index2 );
 
-				if ( ( iIndex2 - i ) >= 0 )
+				if ( vSeriesDefns.length - 1 < min )
 				{
-					index2 = iIndex2 - i;
+					// do not need to change series definitions.
 				}
-				else
+				else if ( min <= vSeriesDefns.length - 1
+						&& vSeriesDefns.length - 1 < max )
 				{
-					index2 = size - i + iIndex2;
+					// change the min
+					vSeriesDefns[min].getSeriesPalette( )
+							.getEntries( )
+							.set( 0,
+									EcoreUtil.copy( (EObject) elPaletteEntries1.get( min ) ) );
 				}
+				else if ( vSeriesDefns.length - 1 >= max )
+				{
+					// change the min and max
+					vSeriesDefns[min].getSeriesPalette( )
+							.getEntries( )
+							.set( 0,
+									EcoreUtil.copy( (EObject) elPaletteEntries1.get( min ) ) );
+					vSeriesDefns[max].getSeriesPalette( )
+							.getEntries( )
+							.set( 0,
+									EcoreUtil.copy( (EObject) elPaletteEntries1.get( max ) ) );
+				}
+			}
+			else
+			{
+				for ( int i = 0; i < vSeriesDefns.length; i++ )
+				{
+					int size = vSeriesDefns[i].getSeriesPalette( ).getEntries( ).size( );
+					if ( ( iIndex1 - i ) >= 0 )
+					{
+						index1 = iIndex1 - i;
+					}
+					else
+					{
+						index1 = size - i + iIndex1;
+					}
 
-				EList el = vSeriesDefns[i].getSeriesPalette( ).getEntries( );
-				final Object o3 = el.get( index1 );
-				final Object o4 = el.get( index2 );
+					if ( ( iIndex2 - i ) >= 0 )
+					{
+						index2 = iIndex2 - i;
+					}
+					else
+					{
+						index2 = size - i + iIndex2;
+					}
 
-				if ( index1 < index2 )
-				{
-					el.remove( index2 );
-					el.remove( index1 );
-					el.add( index1, o4 );
-					el.add( index2, o3 );
-				}
-				else
-				{
-					el.remove( index1 );
-					el.remove( index2 );
-					el.add( index2, o3 );
-					el.add( index1, o4 );
+					EList el = vSeriesDefns[i].getSeriesPalette( ).getEntries( );
+					final Object o3 = el.get( index1 );
+					final Object o4 = el.get( index2 );
+
+					if ( index1 < index2 )
+					{
+						el.remove( index2 );
+						el.remove( index1 );
+						el.add( index1, o4 );
+						el.add( index2, o3 );
+					}
+					else
+					{
+						el.remove( index1 );
+						el.remove( index2 );
+						el.add( index2, o3 );
+						el.add( index1, o4 );
+					}
 				}
 			}
 		}
@@ -934,5 +970,10 @@ public final class PaletteEditorComposite extends Composite implements
 	public void keyReleased( KeyEvent e )
 	{
 		// TODO Auto-generated method stub
+	}
+	
+	private boolean isMultiAxes( )
+	{
+		return ChartUIUtil.getOrthogonalAxisNumber( wizardContext.getModel( ) ) > 1;
 	}
 }
