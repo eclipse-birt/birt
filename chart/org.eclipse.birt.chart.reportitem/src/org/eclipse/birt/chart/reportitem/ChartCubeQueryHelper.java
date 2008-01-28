@@ -34,6 +34,7 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
+import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
@@ -50,6 +51,7 @@ import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
+import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
@@ -128,6 +130,10 @@ class ChartCubeQueryHelper implements IQueryExpressionReplaceable
 			ISubCubeQueryDefinition subQuery = createSubCubeQuery( );
 			if ( subQuery != null )
 			{
+				// Adds min and max binding to parent query definition for
+				// shared scale.
+				// TODO blocked by DTE for multiple aggregations
+				// addMinMaxBinding( parent );
 				return subQuery;
 			}
 		}
@@ -175,9 +181,13 @@ class ChartCubeQueryHelper implements IQueryExpressionReplaceable
 
 	private ISubCubeQueryDefinition createSubCubeQuery( ) throws BirtException
 	{
-		String queryName = "Chart_Sub_Cube_Query"; //$NON-NLS-1$
-		CrosstabReportItemHandle xtab = ChartXTabUtil.getXtabContainerCell( handle )
-				.getCrosstab( );
+		String queryName = ChartReportItemConstants.CHART_SUBQUERY;
+		AggregationCellHandle containerCell = ChartXTabUtil.getXtabContainerCell( handle );
+		if ( containerCell == null )
+		{
+			return null;
+		}
+		CrosstabReportItemHandle xtab = containerCell.getCrosstab( );
 		LevelViewHandle levelColumn = ChartXTabUtil.getLevel( xtab,
 				ICrosstabConstants.COLUMN_AXIS_TYPE,
 				0 );
@@ -249,6 +259,54 @@ class ChartCubeQueryHelper implements IQueryExpressionReplaceable
 		return null;
 	}
 
+	/**
+	 * Adds min and max binding to parent query definition
+	 * 
+	 * @param parent
+	 * @throws BirtException
+	 */
+	private void addMinMaxBinding( IDataQueryDefinition parent )
+			throws BirtException
+	{
+		SeriesDefinition sdValue = (SeriesDefinition) ( (ChartWithAxes) cm ).getOrthogonalAxes( ( (ChartWithAxes) cm ).getBaseAxes( )[0],
+				true )[0].getSeriesDefinitions( ).get( 0 );
+		Query query = (Query) sdValue.getDesignTimeSeries( )
+				.getDataDefinition( )
+				.get( 0 );
+		String bindingName = getBindingName( query.getDefinition( ) );
+		for ( Iterator bindings = ChartReportItemUtil.getAllColumnBindingsIterator( handle ); bindings.hasNext( ); )
+		{
+			ComputedColumnHandle column = (ComputedColumnHandle) bindings.next( );
+			if ( column.getName( ).equals( bindingName ) )
+			{
+				// Create max binding
+				Binding binding = new Binding( ChartReportItemConstants.QUERY_MAX );
+				binding.setDataType( DataAdapterUtil.adaptModelDataType( column.getDataType( ) ) );
+				binding.setExpression( new ScriptExpression( column.getExpression( ) ) );
+				binding.setAggrFunction( IBuildInAggregation.TOTAL_MAX_FUNC );
+				addAggregateOn( binding,
+						column.getAggregateOnList( ),
+						null,
+						null );
+				( (ICubeQueryDefinition) parent ).addBinding( binding );
+
+				// Create min binding
+				binding = new Binding( ChartReportItemConstants.QUERY_MIN );
+				binding.setDataType( DataAdapterUtil.adaptModelDataType( column.getDataType( ) ) );
+				binding.setExpression( new ScriptExpression( column.getExpression( ) ) );
+				binding.setAggrFunction( IBuildInAggregation.TOTAL_MIN_FUNC );
+				addAggregateOn( binding,
+						column.getAggregateOnList( ),
+						null,
+						null );
+				( (ICubeQueryDefinition) parent ).addBinding( binding );
+
+				break;
+			}
+
+		}
+	}
+
 	private void initBindings( ICubeQueryDefinition cubeQuery, CubeHandle cube )
 			throws BirtException
 	{
@@ -263,7 +321,7 @@ class ChartCubeQueryHelper implements IQueryExpressionReplaceable
 			if ( !lstAggOn.isEmpty( ) )
 			{
 				// Add aggregate on in binding
-				addAggregateOn( cubeQuery, cube, binding, lstAggOn );
+				addAggregateOn( binding, lstAggOn, cubeQuery, cube );
 				binding.setAggrFunction( column.getAggregateFunction( ) == null
 						? null
 						: DataAdapterUtil.adaptModelAggregationType( column.getAggregateFunction( ) ) );
@@ -281,8 +339,8 @@ class ChartCubeQueryHelper implements IQueryExpressionReplaceable
 		}
 	}
 
-	private void addAggregateOn( ICubeQueryDefinition cubeQuery,
-			CubeHandle cube, Binding binding, List lstAggOn )
+	private void addAggregateOn( Binding binding, List lstAggOn,
+			ICubeQueryDefinition cubeQuery, CubeHandle cube )
 			throws BirtException
 	{
 		for ( Iterator iAggs = lstAggOn.iterator( ); iAggs.hasNext( ); )
@@ -294,8 +352,11 @@ class ChartCubeQueryHelper implements IQueryExpressionReplaceable
 					levelNames[1] );
 			binding.addAggregateOn( dimExpr );
 
-			// Add dimension expression to map and add binding
-			bindSeriesQuery( QueryImpl.create( dimExpr ), cubeQuery, cube );
+			if ( cubeQuery != null && cube != null )
+			{
+				// Add dimension expression to map and add binding
+				bindSeriesQuery( QueryImpl.create( dimExpr ), cubeQuery, cube );
+			}
 		}
 	}
 
