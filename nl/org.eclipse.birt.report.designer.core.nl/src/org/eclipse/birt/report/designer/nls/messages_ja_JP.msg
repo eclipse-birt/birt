@@ -1067,7 +1067,7 @@ Element.ReportDesign.beforeRender.toolTip=プレゼンテーション時のアクションを開始
 Element.ReportDesign.beforeRender=レンダリング前 :
 Element.ReportDesign.displayName=表示名(&Y) : 
 Element.ReportDesign.eventHandlerClass=イベントハンドラのクラス(&V) :
-Element.ReportDesign.iconFile=Thumb&nail: 
+Element.ReportDesign.iconFile=サムネール(&N) : 
 Element.ReportDesign.refreshRate=更新頻度 :
 Element.ReportElement.comments=コメント(&C) :
 Element.ReportElement.Cube=データ(&D) :
@@ -4056,8 +4056,8 @@ InsertAggregationAction.text=集計
 
 ###########################################################
 #Multiple views
-MultipleAdapter.SetCurrentView=Set current view
-MultipleAdapter.RemoveView=Remove view
+MultipleAdapter.SetCurrentView=現在のビューの設定
+MultipleAdapter.RemoveView=ビューの削除
 MultipleGuideHandle.RemoveView=削除
-CreateChartAction.text=Create Chart View
-CreateChartHandler.text=Create Chart View
+CreateChartAction.text=グラフビューの作成
+CreateChartHandler.text=グラフビューの作成

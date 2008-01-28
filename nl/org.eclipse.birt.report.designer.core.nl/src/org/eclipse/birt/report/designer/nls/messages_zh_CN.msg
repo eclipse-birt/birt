@@ -1067,7 +1067,7 @@ Element.ReportDesign.beforeRender.toolTip=开始展示时间操作前调用。
 Element.ReportDesign.beforeRender=实施前:
 Element.ReportDesign.displayName=显示名称(&Y): 
 Element.ReportDesign.eventHandlerClass=事件处理程序类(&V):
-Element.ReportDesign.iconFile=Thumb&nail: 
+Element.ReportDesign.iconFile=缩略图(&N): 
 Element.ReportDesign.refreshRate=刷新率:
 Element.ReportElement.comments=备注(&C):
 Element.ReportElement.Cube=数据(&D):
@@ -4056,8 +4056,8 @@ InsertAggregationAction.text=聚合
 
 ###########################################################
 #Multiple views
-MultipleAdapter.SetCurrentView=Set current view
-MultipleAdapter.RemoveView=Remove view
+MultipleAdapter.SetCurrentView=设置当前视图
+MultipleAdapter.RemoveView=删除视图
 MultipleGuideHandle.RemoveView=删除
-CreateChartAction.text=Create Chart View
-CreateChartHandler.text=Create Chart View
+CreateChartAction.text=创建图表视图
+CreateChartHandler.text=创建图表视图

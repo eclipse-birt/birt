@@ -1067,7 +1067,7 @@ Element.ReportDesign.beforeRender.toolTip=Llamado antes de iniciar una acción de
 Element.ReportDesign.beforeRender=Antes de procesamiento:
 Element.ReportDesign.displayName=N&ombre en pantalla: 
 Element.ReportDesign.eventHandlerClass=Clase de controlador de e&vento:
-Element.ReportDesign.iconFile=Thumb&nail: 
+Element.ReportDesign.iconFile=Miniatura: 
 Element.ReportDesign.refreshRate=Intervalo de actualización:
 Element.ReportElement.comments=&Comentarios:
 Element.ReportElement.Cube=&Datos:
@@ -4056,8 +4056,8 @@ InsertAggregationAction.text=Agregación
 
 ###########################################################
 #Multiple views
-MultipleAdapter.SetCurrentView=Set current view
-MultipleAdapter.RemoveView=Remove view
+MultipleAdapter.SetCurrentView=Establecer vista actual
+MultipleAdapter.RemoveView=Quitar vista
 MultipleGuideHandle.RemoveView=Quitar
-CreateChartAction.text=Create Chart View
-CreateChartHandler.text=Create Chart View
+CreateChartAction.text=Crear vista de diagrama
+CreateChartHandler.text=Crear vista de diagrama

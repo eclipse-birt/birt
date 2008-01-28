@@ -1067,7 +1067,7 @@ Element.ReportDesign.beforeRender.toolTip=Wird vor dem Starten einer Aktion währ
 Element.ReportDesign.beforeRender=Vor dem Rendern:
 Element.ReportDesign.displayName=&Anzeigename: 
 Element.ReportDesign.eventHandlerClass=E&reignis-Handler-Klasse:
-Element.ReportDesign.iconFile=Thumb&nail: 
+Element.ReportDesign.iconFile=Mini&atur: 
 Element.ReportDesign.refreshRate=Aktualisierungsrate:
 Element.ReportElement.comments=&Kommentare:
 Element.ReportElement.Cube=&Daten:
@@ -4056,8 +4056,8 @@ InsertAggregationAction.text=Aggregat
 
 ###########################################################
 #Multiple views
-MultipleAdapter.SetCurrentView=Set current view
-MultipleAdapter.RemoveView=Remove view
+MultipleAdapter.SetCurrentView=Aktuelle Ansicht einstellen
+MultipleAdapter.RemoveView=Ansicht entfernen
 MultipleGuideHandle.RemoveView=Entfernen
-CreateChartAction.text=Create Chart View
-CreateChartHandler.text=Create Chart View
+CreateChartAction.text=Char-Ansicht erstellen
+CreateChartHandler.text=Char-Ansicht erstellen

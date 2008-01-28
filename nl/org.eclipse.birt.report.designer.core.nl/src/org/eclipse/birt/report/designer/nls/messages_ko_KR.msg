@@ -1067,7 +1067,7 @@ Element.ReportDesign.beforeRender.toolTip=프리젠테이션 시간 작업 시작 전에 호출�
 Element.ReportDesign.beforeRender=렌더링 이전:
 Element.ReportDesign.displayName=표시 이름(&Y): 
 Element.ReportDesign.eventHandlerClass=이벤트 처리기 클래스(&V):
-Element.ReportDesign.iconFile=Thumb&nail: 
+Element.ReportDesign.iconFile=섬네일(&N): 
 Element.ReportDesign.refreshRate=새로 고침 빈도:
 Element.ReportElement.comments=설명(&C):
 Element.ReportElement.Cube=데이터(&D):
@@ -4056,8 +4056,8 @@ InsertAggregationAction.text=집계
 
 ###########################################################
 #Multiple views
-MultipleAdapter.SetCurrentView=Set current view
-MultipleAdapter.RemoveView=Remove view
+MultipleAdapter.SetCurrentView=현재 보기 설정
+MultipleAdapter.RemoveView=보기 제거
 MultipleGuideHandle.RemoveView=제거
-CreateChartAction.text=Create Chart View
-CreateChartHandler.text=Create Chart View
+CreateChartAction.text=차트 보기 생성
+CreateChartHandler.text=차트 보기 생성
