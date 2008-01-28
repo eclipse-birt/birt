@@ -54,6 +54,7 @@ public class CrosstabGeneralPage extends AttributePage
 				true );
 		librarySection.setProvider( provider );
 		librarySection.setGridPlaceholder( 1, true );
+		librarySection.setWidth( 200 );
 		addSection( CrosstabPageSectionId.CROSSTAB_LIBRARY, librarySection );
 
 		seperatorSection = new SeperatorSection( container, SWT.HORIZONTAL );
@@ -66,7 +67,7 @@ public class CrosstabGeneralPage extends AttributePage
 				true );
 		nameSection.setProvider( nameProvider );
 		nameSection.setGridPlaceholder( 2, true );
-		// nameSection.setWidth( 280 );
+		nameSection.setWidth( 200 );
 		addSection( CrosstabPageSectionId.CROSSTAB_NAME, nameSection );
 
 		ElementIdDescriptorProvider elementIdProvider = new ElementIdDescriptorProvider( );
