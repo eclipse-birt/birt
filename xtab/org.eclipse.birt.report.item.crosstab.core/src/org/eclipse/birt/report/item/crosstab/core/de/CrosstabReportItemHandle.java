@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.item.crosstab.core.de;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -31,11 +32,14 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.extension.CompatibilityStatus;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.RhinoException;
 
 /**
  * CrosstabReportItemHandle.
@@ -1090,4 +1094,36 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 
 		return COMP_OK_STATUS;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.extension.IElement#validate()
+	 */
+	public List validate( )
+	{
+		// this line is used only for log, can be removed.
+		logger.log( Level.INFO,
+				Messages.getString( "CrosstabReportItemHandle.log.validate" ) ); //$NON-NLS-1$		
+		
+		List list = new ArrayList( );
+
+		if(this.getCube( ) == null)
+		{
+				ExtendedElementException extendedException = new ExtendedElementException(this.getModelHandle( )
+						.getElement( ),
+						"crosstab",
+						"CrosstabReportItemHandle.Error.HasNoCube",//$NON-NLS-1$
+						new Object[]{
+							"Erorr"
+						},
+						Messages.getResourceBundle( ) );
+				list.add( extendedException );
+		}
+
+		return list;
+	}
+	
+
+	
 }
