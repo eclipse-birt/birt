@@ -198,21 +198,21 @@ public class ExtensionPropertyDefn extends SystemPropertyDefn
 
 		// add extension validator on extension xml property
 
-		if ( getValueType( ) == EXTENSION_PROPERTY
-				&& getTypeCode( ) == IPropertyType.XML_TYPE && hasOwnModel )
-		{
-			SemanticTriggerDefnSet tmpTriggerSet = getTriggerDefnSet( );
-			String tmpTriggerDefnName = ExtensionValidator.NAME;
-			if ( !tmpTriggerSet.contain( tmpTriggerDefnName ) )
-			{
-				SemanticTriggerDefn triggerDefn = new SemanticTriggerDefn(
-						tmpTriggerDefnName );
-				triggerDefn.setPropertyName( getName( ) );
-				triggerDefn.setValidator( ExtensionValidator.getInstance( ) );
-
-				tmpTriggerSet.add( triggerDefn );
-			}
-		}
+		// if ( getValueType( ) == EXTENSION_PROPERTY
+		// && getTypeCode( ) == IPropertyType.XML_TYPE && hasOwnModel )
+		// {
+		// SemanticTriggerDefnSet tmpTriggerSet = getTriggerDefnSet( );
+		// String tmpTriggerDefnName = ExtensionValidator.NAME;
+		// if ( !tmpTriggerSet.contain( tmpTriggerDefnName ) )
+		// {
+		// SemanticTriggerDefn triggerDefn = new SemanticTriggerDefn(
+		// tmpTriggerDefnName );
+		// triggerDefn.setPropertyName( getName( ) );
+		// triggerDefn.setValidator( ExtensionValidator.getInstance( ) );
+		//
+		// tmpTriggerSet.add( triggerDefn );
+		//			}
+		//		}
 
 		super.buildTriggerDefnSet( );
 	}

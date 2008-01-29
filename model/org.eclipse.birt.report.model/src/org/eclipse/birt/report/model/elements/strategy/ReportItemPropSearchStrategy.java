@@ -40,18 +40,49 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 	private final static ReportItemPropSearchStrategy instance = new ReportItemPropSearchStrategy( );
 
 	/**
-	 * 
+	 * Data binding properties for the listing elements.
 	 */
 
-	protected final static Set dataBindingProps;
+	protected final static Set listingElementDataBindingProps;
+
+	/**
+	 * Data binding properties for the extended elements.
+	 */
+
+	protected final static Set extendedItemDataBindingProps;
+
+	/**
+	 * Data binding properties for the report items.
+	 */
+
+	protected final static Set reportItemDataBindingProps;
 
 	static
 	{
-		dataBindingProps = new HashSet( );
-		dataBindingProps.add( IReportItemModel.PARAM_BINDINGS_PROP );
-		dataBindingProps.add( IReportItemModel.BOUND_DATA_COLUMNS_PROP );
-		dataBindingProps.add( IReportItemModel.DATA_SET_PROP );
-		dataBindingProps.add( IReportItemModel.CUBE_PROP );
+		Set tmpSet = new HashSet( );
+		tmpSet.add( IReportItemModel.PARAM_BINDINGS_PROP );
+		tmpSet.add( IReportItemModel.BOUND_DATA_COLUMNS_PROP );
+		tmpSet.add( IReportItemModel.DATA_SET_PROP );
+		tmpSet.add( IReportItemModel.CUBE_PROP );
+		tmpSet.add( IListingElementModel.FILTER_PROP );
+		tmpSet.add( IListingElementModel.SORT_PROP );
+		listingElementDataBindingProps = Collections.unmodifiableSet( tmpSet );
+
+		tmpSet = new HashSet( );
+		tmpSet.add( IReportItemModel.PARAM_BINDINGS_PROP );
+		tmpSet.add( IReportItemModel.BOUND_DATA_COLUMNS_PROP );
+		tmpSet.add( IReportItemModel.DATA_SET_PROP );
+		tmpSet.add( IReportItemModel.CUBE_PROP );
+		tmpSet.add( IExtendedItemModel.FILTER_PROP );
+		extendedItemDataBindingProps = Collections.unmodifiableSet( tmpSet );
+
+		tmpSet = new HashSet( );
+		tmpSet = new HashSet( );
+		tmpSet.add( IReportItemModel.PARAM_BINDINGS_PROP );
+		tmpSet.add( IReportItemModel.BOUND_DATA_COLUMNS_PROP );
+		tmpSet.add( IReportItemModel.DATA_SET_PROP );
+		tmpSet.add( IReportItemModel.CUBE_PROP );
+		reportItemDataBindingProps = Collections.unmodifiableSet( tmpSet );
 	}
 
 	/**
@@ -89,8 +120,8 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 	{
 		assert prop != null;
 
-		if ( IStyleModel.VERTICAL_ALIGN_PROP.equalsIgnoreCase( prop.getName( ) ) &&
-				element.getContainer( ) instanceof Cell )
+		if ( IStyleModel.VERTICAL_ALIGN_PROP.equalsIgnoreCase( prop.getName( ) )
+				&& element.getContainer( ) instanceof Cell )
 			return true;
 
 		return super.isInheritableProperty( element, prop );
@@ -131,29 +162,19 @@ public class ReportItemPropSearchStrategy extends PropertySearchStrategy
 
 	public static Set getDataBindingProperties( DesignElement tmpElement )
 	{
-		Set tmpSet = null;
 
 		if ( tmpElement instanceof ListingElement )
 		{
-			tmpSet = new HashSet( );
-			tmpSet.addAll( dataBindingProps );
-
-			tmpSet.add( IListingElementModel.FILTER_PROP );
-			tmpSet.add( IListingElementModel.SORT_PROP );
+			return listingElementDataBindingProps;
 		}
 		else if ( tmpElement instanceof ExtendedItem )
 		{
-			tmpSet = new HashSet( );
-			tmpSet.addAll( dataBindingProps );
-
-			tmpSet.add( IExtendedItemModel.FILTER_PROP );
+			return extendedItemDataBindingProps;
 		}
 		else if ( tmpElement instanceof ReportItem )
-			tmpSet = dataBindingProps;
-
-		if ( tmpSet == null )
+			return reportItemDataBindingProps;
+		else
 			return Collections.EMPTY_SET;
 
-		return Collections.unmodifiableSet( tmpSet );
 	}
 }
