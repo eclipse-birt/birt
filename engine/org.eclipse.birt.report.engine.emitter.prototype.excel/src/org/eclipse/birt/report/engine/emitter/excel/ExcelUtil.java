@@ -10,6 +10,7 @@ import java.sql.Time;
 import java.util.Date;
 import java.lang.Number;
 import java.lang.String;
+import java.math.BigDecimal;
 
 import org.eclipse.birt.report.engine.emitter.excel.GroupInfo.Position;
 import org.eclipse.birt.report.engine.ir.DimensionType;
@@ -65,7 +66,12 @@ public class ExcelUtil
     {
     	if ( val instanceof Number )
     	{
-    	   return Data.NUMBER;	
+    		if(isNumber(val.toString( ))){
+    			return Data.NUMBER;
+    		}
+    		else{
+    			return Data.STRING;
+    		}
     	}
     	else if(val instanceof Date)
     	{
@@ -363,17 +369,11 @@ public class ExcelUtil
 	// it will parse successful and returns the value of 123 in number
 	public static boolean isNumber( String val )
 	{
-		NumberFormat nf = NumberFormat.getInstance( );
+		
 		try
 		{
-			if ( nf.parse( val ).toString( ).length( ) == val.length( ) )
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+			new BigDecimal(val);
+			return true;
 		}
 		catch ( Exception e )
 		{
