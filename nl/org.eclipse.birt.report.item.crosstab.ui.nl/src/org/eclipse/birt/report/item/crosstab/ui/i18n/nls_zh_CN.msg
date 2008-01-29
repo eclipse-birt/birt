@@ -93,6 +93,8 @@ CrosstabPageGenerator.List.NamedExpressions=命名表达式
 CrosstabPageGenerator.List.UserProperties=用户属性
 CrosstabPageGenerator.List.AdvancedProperty=高级
 
+CrosstabPageGenerator.List.EmptyRowColumn=Empty Rows/Columns
+
 CrosstabPageGenerator.TabItem.Binding=绑定
 CrosstabPageGenerator.TabItem.RowArea=行区域
 CrosstabPageGenerator.TabItem.ColumnArea=列区域
@@ -102,7 +104,7 @@ CrosstabPageGenerator.TabItem.Highlights=突出显示
 CrosstabPageGenerator.TabItem.map=映射
 CrosstabPageGenerator.TabItem.Sorting=排序
 
-CrosstabGeneraPage.ForEmptyCell=对于空单元格，显示:
+CrosstabGeneraPage.ForEmptyCell=For empty cells, &show:
 CrosstabGeneraPage.FormatOption=格式选项:
 LayoutMeasuresSection.DisplayName=方向:
 
@@ -116,8 +118,10 @@ Element.ReportItem.dataSet=数据集:
 Element.ReportElement.Cube=数据(&D):
 BindingPage.None=无
 
-
-FilterHandleProvider.Label.Filterby=筛选依据:
+###########################################################
+#EmptyRowColumnProvider properties
+EmptyRowColumnProvider.RowView.Button.Text=Show empty &rows
+EmptyRowColumnProvider.ColumnView.Button.Text=Show empty &columns
 
 ###########################################################
 #CategoryPageGenerator properties
