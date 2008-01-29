@@ -143,7 +143,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	 */
 	public static Iterator getColumnDataBindings( ReportItemHandle itemHandle )
 	{
-		if ( itemHandle.getDataSet( ) != null )
+		if ( itemHandle.getDataSet( ) != null || itemHandle.getCube( ) != null )
 		{
 			return itemHandle.columnBindingsIterator( );
 		}
@@ -156,10 +156,14 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 			{
 				list.add( i.next( ) );
 			}
-			i = itemHandle.columnBindingsIterator( );
-			while ( i.hasNext( ) )
+			if ( handle != itemHandle )
 			{
-				list.add( i.next( ) );
+				// Do not add same handle twice
+				i = itemHandle.columnBindingsIterator( );
+				while ( i.hasNext( ) )
+				{
+					list.add( i.next( ) );
+				}
 			}
 			return list.iterator( );
 		}
@@ -705,7 +709,6 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	 * Convert model/engine aggregate expression to chart.
 	 * 
 	 * @param agg
-	 * @return
 	 * @since 2.3
 	 */
 	public static String convertToChartAggExpression( String agg )

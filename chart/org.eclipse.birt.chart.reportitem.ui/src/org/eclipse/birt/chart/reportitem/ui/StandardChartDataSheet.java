@@ -57,7 +57,6 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
-import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.emf.common.util.EList;
@@ -186,7 +185,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 		btnNewData.setEnabled( btnUseData.getSelection( ) );
 		if ( isCubeMode( ) )
 		{
-			btnFilters.setEnabled( false);
+			btnFilters.setEnabled( false );
 			// btnFilters.setEnabled( getDataServiceProvider(
 			// ).isInvokingSupported( ) );
 			btnBinding.setEnabled( getDataServiceProvider( ).isInvokingSupported( ) );
@@ -512,7 +511,8 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 
 		// Select data cube
 		String sDataCube = getDataServiceProvider( ).getDataCube( );
-		if ( sDataCube != null && !getDataServiceProvider( ).isInheritanceOnly( ) )
+		if ( sDataCube != null
+				&& !getDataServiceProvider( ).isInheritanceOnly( ) )
 		{
 			btnUseData.setSelection( true );
 			cmbDataItems.setText( sDataCube );
@@ -686,9 +686,9 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 					switch ( selectState.intValue( ) )
 					{
 						case SELECT_DATA_SET :
-							if ( getDataServiceProvider( ).getReportItemReference( ) == null &&
-									getDataServiceProvider( ).getBoundDataSet( ) != null &&
-									getDataServiceProvider( ).getBoundDataSet( )
+							if ( getDataServiceProvider( ).getReportItemReference( ) == null
+									&& getDataServiceProvider( ).getBoundDataSet( ) != null
+									&& getDataServiceProvider( ).getBoundDataSet( )
 											.equals( cmbDataItems.getText( ) ) )
 							{
 								return;
@@ -872,18 +872,18 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 				try
 				{
 					// Get header and data in other thread.
-					final ColumnBindingInfo[] headers = getDataServiceProvider( ).getPreviewHeaderForTableSharedBinding(  );
-					final List dataList = getDataServiceProvider( ).getPreviewData(  );
-					getDataServiceProvider().setPredefinedExpressionsForTableSharedBinding( getContext(), headers );
-									
-					
+					final ColumnBindingInfo[] headers = getDataServiceProvider( ).getPreviewHeaderForTableSharedBinding( );
+					final List dataList = getDataServiceProvider( ).getPreviewData( );
+					getDataServiceProvider( ).setPredefinedExpressionsForTableSharedBinding( getContext( ),
+							headers );
+
 					// Execute UI operation in UI thread.
 					Display.getDefault( ).syncExec( new Runnable( ) {
 
 						public void run( )
 						{
-							fireEvent( tablePreview, EVENT_QUERY );	
-							
+							fireEvent( tablePreview, EVENT_QUERY );
+
 							if ( tablePreview.isDisposed( ) )
 							{
 								return;
@@ -1332,20 +1332,14 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 			TreeItem treeItem = selection[0];
 			if ( treeItem.getData( ) instanceof LevelHandle )
 			{
-				TreeItem dimensionItem = treeItem.getParentItem( );
-				while ( !( dimensionItem.getData( ) instanceof DimensionHandle ) )
-				{
-					dimensionItem = dimensionItem.getParentItem( );
-				}
-				expr = ExpressionUtil.createJSDimensionExpression( dimensionItem.getText( ),
-						treeItem.getText( ) );
+				expr = ChartXTabUtil.createLevelBindingName( (LevelHandle) treeItem.getData( ) );
 			}
 			else if ( treeItem.getData( ) instanceof MeasureHandle )
 			{
-				expr = ExpressionUtil.createJSMeasureExpression( treeItem.getText( ) );
+				expr = ChartXTabUtil.createMeasureBindingName( (MeasureHandle) treeItem.getData( ) );
 			}
 		}
-		return dataProvider.getExpressionForCubeMode( expr );
+		return dataProvider.getExpressionForCubeMode( ExpressionUtil.createJSDataExpression( expr ) );
 	}
 
 	private String[] createDataComboItems( )
@@ -1428,13 +1422,15 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 			}
 			else
 			{
-				if ( dataProvider.isInheritanceOnly( ) || dataProvider.isSharedBinding( ) )
+				if ( dataProvider.isInheritanceOnly( )
+						|| dataProvider.isSharedBinding( ) )
 				{
 					// Get all column bindings.
 					List dimensionExprs = new ArrayList( );
 					List measureExprs = new ArrayList( );
-					ReportItemHandle reportItemHandle = (ReportItemHandle)dataProvider.getReportItemHandleOfSharedBinding( );
-					for ( Iterator iter = reportItemHandle.getColumnBindings( ).iterator( ); iter.hasNext( ); )
+					ReportItemHandle reportItemHandle = dataProvider.getReportItemHandleOfSharedBinding( );
+					for ( Iterator iter = reportItemHandle.getColumnBindings( )
+							.iterator( ); iter.hasNext( ); )
 					{
 						ComputedColumnHandle cch = (ComputedColumnHandle) iter.next( );
 						String dataExpr = ExpressionUtil.createJSDataExpression( cch.getName( ) );
@@ -1465,7 +1461,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 						String[] exprs = new String[measures.size( )];
 						for ( int i = 0; i < exprs.length; i++ )
 						{
-							exprs[i] = ExpressionUtil.createJSMeasureExpression( ( (MeasureHandle) measures.get( i ) ).getName( ) );
+							exprs[i] = ExpressionUtil.createJSDataExpression( ChartXTabUtil.createMeasureBindingName( (MeasureHandle) measures.get( i ) ) );
 						}
 						getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_VALUE,
 								exprs );
@@ -1477,7 +1473,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 						String[] exprs = new String[levels.size( )];
 						for ( int i = 0; i < exprs.length; i++ )
 						{
-							exprs[i] = ChartXTabUtil.createDimensionExpression( (LevelHandle) levels.get( i ) );
+							exprs[i] = ExpressionUtil.createJSDataExpression( ChartXTabUtil.createLevelBindingName( (LevelHandle) levels.get( i ) ) );
 						}
 						getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
 								exprs );

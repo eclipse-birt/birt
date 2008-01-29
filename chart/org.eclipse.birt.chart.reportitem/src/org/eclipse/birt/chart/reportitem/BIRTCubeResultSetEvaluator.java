@@ -93,7 +93,8 @@ public class BIRTCubeResultSetEvaluator
 		Object result = null;
 		try
 		{
-			String bindingName = ChartCubeQueryHelper.getBindingName( expression );
+			String bindingName = ChartXTabUtil.getBindingName( expression,
+					false );
 			if ( bindingName != null )
 			{
 				// Use DtE's method to evaluate binding for the sake of

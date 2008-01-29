@@ -273,7 +273,8 @@ class ChartCubeQueryHelper implements IQueryExpressionReplaceable
 		Query query = (Query) sdValue.getDesignTimeSeries( )
 				.getDataDefinition( )
 				.get( 0 );
-		String bindingName = getBindingName( query.getDefinition( ) );
+		String bindingName = ChartXTabUtil.getBindingName( query.getDefinition( ),
+				true );
 		for ( Iterator bindings = ChartReportItemUtil.getAllColumnBindingsIterator( handle ); bindings.hasNext( ); )
 		{
 			ComputedColumnHandle column = (ComputedColumnHandle) bindings.next( );
@@ -374,8 +375,9 @@ class ChartCubeQueryHelper implements IQueryExpressionReplaceable
 
 		if ( sd.isSetSorting( ) && sortKey != null && sortKey.length( ) > 0 )
 		{
-			String sortKeyBinding = getBindingName( sd.getSortKey( )
-					.getDefinition( ) );
+			String sortKeyBinding = ChartXTabUtil.getBindingName( sd.getSortKey( )
+					.getDefinition( ),
+					true );
 			if ( registeredLevels.containsKey( sortKeyBinding ) )
 			{
 				// Add sorting on dimension
@@ -398,7 +400,8 @@ class ChartCubeQueryHelper implements IQueryExpressionReplaceable
 								.get( 0 );
 				String aggFun = DataAdapterUtil.adaptModelAggregationType( cube.getMeasure( getMeasure( sortKey ) )
 						.getFunction( ) );
-				String targetBindingName = getBindingName( targetQuery.getDefinition( ) );
+				String targetBindingName = ChartXTabUtil.getBindingName( targetQuery.getDefinition( ),
+						true );
 
 				// Find measure binding
 				Binding measureBinding = (Binding) registeredBindings.get( sortKey );
@@ -435,7 +438,13 @@ class ChartCubeQueryHelper implements IQueryExpressionReplaceable
 		String expr = query.getDefinition( );
 		if ( expr != null && expr.length( ) > 0 )
 		{
-			boolean bBindingExp = isBinding( expr );
+			boolean bBindingExp = ChartXTabUtil.isBinding( expr, true );
+			if ( !ChartXTabUtil.isBinding( expr, false ) )
+			{
+				// Remove the operations from expression
+				expr = ExpressionUtil.createJSDataExpression( ChartXTabUtil.getBindingName( expr,
+						true ) );
+			}
 			Binding colBinding = (Binding) registeredBindings.get( expr );
 			if ( bBindingExp || colBinding == null )
 			{
@@ -660,26 +669,6 @@ class ChartCubeQueryHelper implements IQueryExpressionReplaceable
 		return expr.replaceFirst( "\\Qmeasure[\"\\E", "" ) //$NON-NLS-1$ //$NON-NLS-2$
 				.replaceFirst( "\\Q\"]\\E", "" ); //$NON-NLS-1$ //$NON-NLS-2$
 
-	}
-
-	/**
-	 * Return the binding name of data["binding"]
-	 * 
-	 * @param expr
-	 */
-	public static String getBindingName( String expr )
-	{
-		if ( !isBinding( expr ) )
-			return null;
-		return expr.replaceFirst( "\\Qdata[\"\\E", "" ) //$NON-NLS-1$ //$NON-NLS-2$
-				.replaceFirst( "\\Q\"]\\E", "" ); //$NON-NLS-1$ //$NON-NLS-2$
-	}
-
-	static boolean isBinding( String expr )
-	{
-		if ( expr == null )
-			return false;
-		return expr.matches( "\\Qdata[\"\\E.*\\Q\"]\\E" ); //$NON-NLS-1$
 	}
 
 	static boolean isReferenceToDimLevel( String expr )
