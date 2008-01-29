@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.item.crosstab.core.de;
 
-import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -38,8 +37,6 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.RhinoException;
 
 /**
  * CrosstabReportItemHandle.
@@ -1094,7 +1091,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 
 		return COMP_OK_STATUS;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1105,25 +1102,23 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 		// this line is used only for log, can be removed.
 		logger.log( Level.INFO,
 				Messages.getString( "CrosstabReportItemHandle.log.validate" ) ); //$NON-NLS-1$		
-		
+
 		List list = new ArrayList( );
 
-		if(this.getCube( ) == null)
+		if ( this.getCube( ) == null )
 		{
-				ExtendedElementException extendedException = new ExtendedElementException(this.getModelHandle( )
-						.getElement( ),
-						"crosstab",
-						"CrosstabReportItemHandle.Error.HasNoCube",//$NON-NLS-1$
-						new Object[]{
-							"Erorr"
-						},
-						Messages.getResourceBundle( ) );
-				list.add( extendedException );
+			ExtendedElementException extendedException = new ExtendedElementException( this.getModelHandle( )
+					.getElement( ),
+					"org.eclipse.birt.report.item.crosstab.core",//$NON-NLS-1$
+					"CrosstabReportItemHandle.Error.HasNoCube",//$NON-NLS-1$
+					new Object[]{
+						"Erorr" //$NON-NLS-1$
+					},
+					Messages.getResourceBundle( ) );
+			list.add( extendedException );
 		}
 
 		return list;
 	}
-	
 
-	
 }

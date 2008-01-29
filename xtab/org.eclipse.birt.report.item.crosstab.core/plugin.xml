@@ -222,6 +222,14 @@
                name="members"
                visibility="hide">
          </propertyVisibility>
+         <property
+               canInherit="true"
+               detailType="Level"
+               displayNameID="Element.MirrorStartingLevel"
+               isEncryptable="false"
+               name="mirrorStartingLevel"
+               type="elementRef">
+         </property>
       </reportItem>
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"

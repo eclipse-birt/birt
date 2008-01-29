@@ -520,6 +520,16 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 				removeMeasureAggregations( levelView );
 			}
 		}
+
+		// validate mirror starting level setting
+		LevelHandle mirrorLevel = crosstab.getCrosstabView( axisType )
+				.getMirroredStartingLevel( );
+
+		if ( mirrorLevel != null && levelView.getCubeLevel( ) == mirrorLevel )
+		{
+			crosstab.getCrosstabView( axisType )
+					.setMirroredStartingLevel( null );
+		}
 	}
 
 	/**

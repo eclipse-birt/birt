@@ -33,10 +33,10 @@ public interface ICrosstabViewConstants
 	 */
 	String MEMBERS_PROP = "members"; //$NON-NLS-1$
 
-	// /**
-	// * Name of the property that specifies if start from which level this view
-	// * is mirrored.
-	// */
-	// String MIRRORED_STARTING_LEVEL_PROP = "mirroredStartingLevel"; //$NON-NLS-1$
+	/**
+	 * Name of the property that specifies if start from which level this view
+	 * is mirrored.
+	 */
+	String MIRROR_STARTING_LEVEL_PROP = "mirrorStartingLevel"; //$NON-NLS-1$
 
 }
