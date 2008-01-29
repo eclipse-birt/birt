@@ -54,6 +54,7 @@ ChartSelector.Lbl.Accept=Accepter
 ChartWizard.Title.ChartBuilder=Générateur de graphiques
 ChartWizard.Title.NewChart=Nouveau graphique
 ChartWizard.Title.EditChart=Modifier le graphique
+ChartUIUtil.SeriesLabel=Series{0}
 ChartUIUtil.StockExp.Low=Faible
 ChartUIUtil.Font.Auto=Auto
 ChartDlg.Info.ChartSubType2=Sous-type :        

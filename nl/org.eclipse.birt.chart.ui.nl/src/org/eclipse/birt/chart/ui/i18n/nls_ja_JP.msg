@@ -54,6 +54,7 @@ ChartSelector.Lbl.Accept=確認
 ChartWizard.Title.ChartBuilder=グラフビルダ
 ChartWizard.Title.NewChart=グラフの新規作成
 ChartWizard.Title.EditChart=グラフの編集
+ChartUIUtil.SeriesLabel=Series{0}
 ChartUIUtil.StockExp.Low=最安値
 ChartUIUtil.Font.Auto=自動
 ChartDlg.Info.ChartSubType2=サブタイプ :        

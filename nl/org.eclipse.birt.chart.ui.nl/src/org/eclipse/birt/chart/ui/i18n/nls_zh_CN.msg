@@ -54,6 +54,7 @@ ChartSelector.Lbl.Accept=接受
 ChartWizard.Title.ChartBuilder=图表生成器
 ChartWizard.Title.NewChart=新建图表
 ChartWizard.Title.EditChart=编辑图表
+ChartUIUtil.SeriesLabel=Series{0}
 ChartUIUtil.StockExp.Low=低
 ChartUIUtil.Font.Auto=自动
 ChartDlg.Info.ChartSubType2=子类型:        

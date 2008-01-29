@@ -54,6 +54,7 @@ ChartSelector.Lbl.Accept=수락
 ChartWizard.Title.ChartBuilder=차트 빌더
 ChartWizard.Title.NewChart=새 차트
 ChartWizard.Title.EditChart=차트 편집
+ChartUIUtil.SeriesLabel=Series{0}
 ChartUIUtil.StockExp.Low=낮음
 ChartUIUtil.Font.Auto=자동
 ChartDlg.Info.ChartSubType2=하위 형식:        
