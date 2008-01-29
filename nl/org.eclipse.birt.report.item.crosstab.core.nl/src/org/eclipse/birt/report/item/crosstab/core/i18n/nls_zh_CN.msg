@@ -27,7 +27,7 @@ Element.EmptyCellValue=空单元格值
 Element.RepeatRowHeader=重复行标题
 Element.RepeatColumnHeader=重复列标题
 Element.Mirrored=镜像
-Element.MirroredStartingLevel=Mirrored Starting Level
+Element.MirrorStartingLevel=Mirror Starting Level
 Element.HideMeasureHeader=隐藏度量头
 
 ###########################################################

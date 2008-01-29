@@ -27,7 +27,7 @@ Element.EmptyCellValue=Valor de celda vacía
 Element.RepeatRowHeader=Repetir encabezado de fila
 Element.RepeatColumnHeader=Repetir encabezado de columna
 Element.Mirrored=Reflejado
-Element.MirroredStartingLevel=Mirrored Starting Level
+Element.MirrorStartingLevel=Mirror Starting Level
 Element.HideMeasureHeader=Encabezado Ocultar medidas
 
 ###########################################################

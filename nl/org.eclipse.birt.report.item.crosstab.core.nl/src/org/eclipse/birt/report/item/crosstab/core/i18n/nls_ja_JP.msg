@@ -27,7 +27,7 @@ Element.EmptyCellValue=空のセル値
 Element.RepeatRowHeader=行のヘッダの繰り返し
 Element.RepeatColumnHeader=列のヘッダの繰り返し
 Element.Mirrored=ミラー化
-Element.MirroredStartingLevel=Mirrored Starting Level
+Element.MirrorStartingLevel=Mirror Starting Level
 Element.HideMeasureHeader=計測のヘッダを隠す
 
 ###########################################################

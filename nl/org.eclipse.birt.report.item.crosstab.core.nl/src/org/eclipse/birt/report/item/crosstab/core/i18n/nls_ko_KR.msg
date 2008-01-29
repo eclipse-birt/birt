@@ -27,7 +27,7 @@ Element.EmptyCellValue=빈 셀 값
 Element.RepeatRowHeader=행 머리글 반복
 Element.RepeatColumnHeader=열 머리글 반복
 Element.Mirrored=미러링됨
-Element.MirroredStartingLevel=Mirrored Starting Level
+Element.MirrorStartingLevel=Mirror Starting Level
 Element.HideMeasureHeader=측정값 머리글 숨기기
 
 ###########################################################

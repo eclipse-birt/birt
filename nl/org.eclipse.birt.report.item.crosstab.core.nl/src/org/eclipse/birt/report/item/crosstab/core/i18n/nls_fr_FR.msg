@@ -27,7 +27,7 @@ Element.EmptyCellValue=Valeur de cellule vide
 Element.RepeatRowHeader=Répéter l'en-tête de ligne
 Element.RepeatColumnHeader=Répéter l'en-tête de colonne
 Element.Mirrored=En miroir
-Element.MirroredStartingLevel=Mirrored Starting Level
+Element.MirrorStartingLevel=Mirror Starting Level
 Element.HideMeasureHeader=Masquer l'en-tête de Mesure
 
 ###########################################################

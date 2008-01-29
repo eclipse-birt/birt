@@ -27,7 +27,7 @@ Element.EmptyCellValue=Leerer Zellenwert
 Element.RepeatRowHeader=Zeilenüberschrift wiederholen
 Element.RepeatColumnHeader=Spaltenüberschrift wiederholen
 Element.Mirrored=Gespiegelt
-Element.MirroredStartingLevel=Mirrored Starting Level
+Element.MirrorStartingLevel=Mirror Starting Level
 Element.HideMeasureHeader=Maßeinheiten-Kopfzeile ausblenden
 
 ###########################################################
