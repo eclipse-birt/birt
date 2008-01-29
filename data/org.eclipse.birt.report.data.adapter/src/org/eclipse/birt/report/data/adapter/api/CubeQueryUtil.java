@@ -102,11 +102,14 @@ public class CubeQueryUtil
 			}
 			else
 			{
-				for ( int i = 0; i < aggrOns.size( ); i++ )
+				switch ( candidateEdge )
 				{
-					DimensionLevel dimLevel = getTargetDimLevel( aggrOns.get( i )
-							.toString( ) );
-					result.add( dimLevel );
+					case ICubeQueryDefinition.ROW_EDGE :
+						populateAxisLevels( aggrOns, rowEdgeExprList, result );
+						break;
+					case ICubeQueryDefinition.COLUMN_EDGE :
+						populateAxisLevels( aggrOns, columnEdgeExprList, result );
+						break;
 				}
 			}
 			return result;
@@ -115,6 +118,46 @@ public class CubeQueryUtil
 		{
 			throw new AdapterException( e.getLocalizedMessage( ), e );
 		}
+	}
+
+	/**
+	 * Populate axis levels to the <code>result</code> for the aggregate on
+	 * levels only if they are on the specified level.
+	 * 
+	 * @param aggrOns
+	 * @param edgeExprList
+	 * @param result
+	 * @throws AdapterException
+	 */
+	private static void populateAxisLevels( List aggrOns, List edgeExprList,
+			List result ) throws AdapterException
+	{
+		for ( int i = 0; i < aggrOns.size( ); i++ )
+		{
+			final String levelExpr = aggrOns.get( i ).toString( );
+			if ( isAxisQualifierLevel( levelExpr, edgeExprList ) )
+			{
+				result.add( getTargetDimLevel( levelExpr ) );
+			}
+		}
+	}
+
+	/**
+	 * 
+	 * @param levelExpr
+	 * @param rowEdgeExprList
+	 * @return
+	 */
+	private static boolean isAxisQualifierLevel( String levelExpr,
+			List rowEdgeExprList )
+	{
+		for ( Iterator i = rowEdgeExprList.iterator( ); i.hasNext( ); )
+		{
+			String expr = (String) i.next( );
+			if ( expr.equals( levelExpr ) )
+				return true;
+		}
+		return false;
 	}
 
 	/**
@@ -153,7 +196,7 @@ public class CubeQueryUtil
 				if ( target.getDimensionName( )
 						.equals( level.getDimensionName( ) ) )
 				{
-					return ICubeQueryDefinition.ROW_EDGE;
+					return ICubeQueryDefinition.COLUMN_EDGE;
 				}
 			}
 		}
@@ -166,7 +209,7 @@ public class CubeQueryUtil
 				if ( target.getDimensionName( )
 						.equals( level.getDimensionName( ) ) )
 				{
-					return ICubeQueryDefinition.COLUMN_EDGE;
+					return ICubeQueryDefinition.ROW_EDGE;
 				}
 			}
 		}
