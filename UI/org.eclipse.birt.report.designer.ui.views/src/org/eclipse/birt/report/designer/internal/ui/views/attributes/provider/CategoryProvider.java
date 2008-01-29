@@ -30,10 +30,11 @@ public class CategoryProvider implements ICategoryProvider
 
 	private ICategoryPage[] categories;
 
-	public CategoryProvider( String categoryKey, String category, Class pageClass )
+	public CategoryProvider( String categoryKey, String category,
+			Class pageClass )
 	{
 		this( new String[]{
-				categoryKey
+			categoryKey
 		}, new String[]{
 			category
 		}, new Class[]{
@@ -49,31 +50,60 @@ public class CategoryProvider implements ICategoryProvider
 		for ( int i = 0; i < categories.length; i++ )
 		{
 			String displayLabel = Messages.getString( categories[i] );
-			this.categories[i] = new CategoryPage( categoryKeys[i],displayLabel, pageClasses[i] );
+			this.categories[i] = new CategoryPage( categoryKeys[i],
+					displayLabel,
+					pageClasses[i] );
 		}
 	}
 
-	public void addCategory(String categoryKey, String categorie,
-			Class pageClass){
-		
+	public void addCategory( String categoryKey, String categorie,
+			Class pageClass )
+	{
+		ICategoryPage page = new CategoryPage( categoryKey,
+				categorie,
+				pageClass );
+		addCategory( page );
+	}
+
+	public void addCategory( String categoryKey, String categorie,
+			Class pageClass, int index )
+	{
+		ICategoryPage page = new CategoryPage( categoryKey,
+				categorie,
+				pageClass );
+		addCategory( page, index );
+	}
+
+	public void addCategory( ICategoryPage category )
+	{
+		addCategory( category, categories.length );
+	}
+
+	public void addCategory( ICategoryPage category, int index )
+	{
 		List temp = Arrays.asList( categories );
-		List list = new LinkedList();
+		List list = new LinkedList( );
 		list.addAll( temp );
-		list.add( new CategoryPage( categoryKey,Messages.getString(categorie), pageClass ) );
-		categories = new ICategoryPage[list.size()];
+		list.add( index, category );
+		categories = new ICategoryPage[list.size( )];
 		list.toArray( categories );
 	}
-	
-	public void addCategory(ICategoryPage category){
-		
-		List temp = Arrays.asList( categories );
-		List list = new LinkedList();
-		list.addAll( temp );
-		list.add( category );
-		categories = new ICategoryPage[list.size()];
-		list.toArray( categories );
+
+	public int getCategoryIndex( ICategoryPage category )
+	{
+		return getCategoryIndex( category.getCategoryKey( ) );
 	}
-	
+
+	public int getCategoryIndex( String categoryKey )
+	{
+		for ( int i = 0; i < categories.length; i++ )
+		{
+			if ( categories[i].getCategoryKey( ).equals( categoryKey ) )
+				return i;
+		}
+		return -1;
+	}
+
 	public ICategoryPage[] getCategories( )
 	{
 		return categories;

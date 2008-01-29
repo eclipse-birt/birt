@@ -25,8 +25,10 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.Ca
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.CategoryProviderFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ICategoryProvider;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ICategoryProviderFactory;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.page.CrosstabGeneralPage;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.page.CrosstabSectionPage;
+import org.eclipse.birt.report.item.crosstab.ui.views.attributes.page.EmptyRowColumnPage;
 
 /**
  * @author Administrator
@@ -37,7 +39,8 @@ public class CrosstabCategoryProviderFactory extends CategoryProviderFactory
 
 	private static ICategoryProviderFactory instance = new CrosstabCategoryProviderFactory( );
 
-//	public static final String CATEGORY_KEY_EVENTHANDLER = "EventHandler"; //$NON-NLS-1$
+	// public static final String CATEGORY_KEY_EVENTHANDLER = "EventHandler";
+	// //$NON-NLS-1$
 
 	protected CrosstabCategoryProviderFactory( )
 	{
@@ -107,6 +110,10 @@ public class CrosstabCategoryProviderFactory extends CategoryProviderFactory
 		// AttributesUtil.getCategoryDisplayName( AttributesUtil.EVENTHANDLER ),
 		// CrosstabEventHandlerPage.class );
 		// }
+		provider.addCategory( "EmptyRowColumn",
+				Messages.getString( "CrosstabPageGenerator.List.EmptyRowColumn"),
+				EmptyRowColumnPage.class,
+				provider.getCategoryIndex( CategoryProviderFactory.CATEGORY_KEY_TOC ) );
 		return provider;
 	}
 }

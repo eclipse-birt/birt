@@ -38,7 +38,7 @@ public class ChartCategoryProviderFactory extends CategoryProviderFactory
 {
 
 	private static ICategoryProviderFactory instance = new ChartCategoryProviderFactory( );
-	
+
 	public static final String CATEGORY_KEY_EVENTHANDLER = "EventHandler"; //$NON-NLS-1$
 
 	protected ChartCategoryProviderFactory( )
@@ -61,50 +61,52 @@ public class ChartCategoryProviderFactory extends CategoryProviderFactory
 	 */
 	public ICategoryProvider getCategoryProvider( Object input )
 	{
-		CategoryProvider provider =  new CategoryProvider( new String[]{
-					CategoryProviderFactory.CATEGORY_KEY_GENERAL,
-					CategoryProviderFactory.CATEGORY_KEY_BORDERS,
-					CategoryProviderFactory.CATEGORY_KEY_MARGIN,
-					CategoryProviderFactory.CATEGORY_KEY_ALTTEXT,
-					CategoryProviderFactory.CATEGORY_KEY_SECTION,
-					CategoryProviderFactory.CATEGORY_KEY_VISIBILITY,
-					CategoryProviderFactory.CATEGORY_KEY_TOC,
-					CategoryProviderFactory.CATEGORY_KEY_BOOKMARK,
-					CategoryProviderFactory.CATEGORY_KEY_COMMENTS,
-					CategoryProviderFactory.CATEGORY_KEY_USERPROPERTIES,
-					CategoryProviderFactory.CATEGORY_KEY_NAMEDEXPRESSIONS,
-					CategoryProviderFactory.CATEGORY_KEY_ADVANCEPROPERTY,
-			}, new String[]{
-					"DataPageGenerator.List.General", //$NON-NLS-1$
-					"DataPageGenerator.List.Borders", //$NON-NLS-1$
-					"DataPageGenerator.List.Margin", //$NON-NLS-1$
-					"ImagePageGenerator.List.AltText", //$NON-NLS-1$
-					"DataPageGenerator.List.Section", //$NON-NLS-1$
-					"DataPageGenerator.List.Visibility", //$NON-NLS-1$
-					"DataPageGenerator.List.TOC", //$NON-NLS-1$
-					"DataPageGenerator.List.Bookmark", //$NON-NLS-1$
-					"ReportPageGenerator.List.Comments", //$NON-NLS-1$
-					"ReportPageGenerator.List.UserProperties", //$NON-NLS-1$
-					"ReportPageGenerator.List.NamedExpressions", //$NON-NLS-1$
-					"ReportPageGenerator.List.AdvancedProperty", //$NON-NLS-1$
-			}, new Class[]{
-					ChartGeneralPage.class,
-					BordersPage.class,
-					ItemMarginPage.class,
-					AlterPage.class,
-					SectionPage.class,
-					VisibilityPage.class,
-					TOCExpressionPage.class,
-					BookMarkExpressionPage.class,
-					CommentsPage.class,
-					UserPropertiesPage.class,
-					NamedExpressionsPage.class,
-					AdvancePropertyPage.class,
-			} );
+		CategoryProvider provider = new CategoryProvider( new String[]{
+				CategoryProviderFactory.CATEGORY_KEY_GENERAL,
+				CategoryProviderFactory.CATEGORY_KEY_BORDERS,
+				CategoryProviderFactory.CATEGORY_KEY_MARGIN,
+				CategoryProviderFactory.CATEGORY_KEY_ALTTEXT,
+				CategoryProviderFactory.CATEGORY_KEY_SECTION,
+				CategoryProviderFactory.CATEGORY_KEY_VISIBILITY,
+				CategoryProviderFactory.CATEGORY_KEY_TOC,
+				CategoryProviderFactory.CATEGORY_KEY_BOOKMARK,
+				CategoryProviderFactory.CATEGORY_KEY_COMMENTS,
+				CategoryProviderFactory.CATEGORY_KEY_USERPROPERTIES,
+				CategoryProviderFactory.CATEGORY_KEY_NAMEDEXPRESSIONS,
+				CategoryProviderFactory.CATEGORY_KEY_ADVANCEPROPERTY,
+		}, new String[]{
+				"DataPageGenerator.List.General", //$NON-NLS-1$
+				"DataPageGenerator.List.Borders", //$NON-NLS-1$
+				"DataPageGenerator.List.Margin", //$NON-NLS-1$
+				"ImagePageGenerator.List.AltText", //$NON-NLS-1$
+				"DataPageGenerator.List.Section", //$NON-NLS-1$
+				"DataPageGenerator.List.Visibility", //$NON-NLS-1$
+				"DataPageGenerator.List.TOC", //$NON-NLS-1$
+				"DataPageGenerator.List.Bookmark", //$NON-NLS-1$
+				"ReportPageGenerator.List.Comments", //$NON-NLS-1$
+				"ReportPageGenerator.List.UserProperties", //$NON-NLS-1$
+				"ReportPageGenerator.List.NamedExpressions", //$NON-NLS-1$
+				"ReportPageGenerator.List.AdvancedProperty", //$NON-NLS-1$
+		}, new Class[]{
+				ChartGeneralPage.class,
+				BordersPage.class,
+				ItemMarginPage.class,
+				AlterPage.class,
+				SectionPage.class,
+				VisibilityPage.class,
+				TOCExpressionPage.class,
+				BookMarkExpressionPage.class,
+				CommentsPage.class,
+				UserPropertiesPage.class,
+				NamedExpressionsPage.class,
+				AdvancePropertyPage.class,
+		} );
 		if ( AttributesUtil.containCategory( AttributesUtil.EVENTHANDLER ) )
 		{
-			provider.addCategory( CATEGORY_KEY_EVENTHANDLER, AttributesUtil.getCategoryDisplayName( AttributesUtil.EVENTHANDLER ),
-					ChartEventHandlerPage.class );
+			provider.addCategory( CATEGORY_KEY_EVENTHANDLER,
+					AttributesUtil.getCategoryDisplayName( AttributesUtil.EVENTHANDLER ),
+					ChartEventHandlerPage.class,
+					provider.getCategoryIndex( CategoryProviderFactory.CATEGORY_KEY_ADVANCEPROPERTY ) );
 		}
 		return provider;
 	}

@@ -129,17 +129,6 @@ public class CrosstabGeneralPage extends AttributePage
 		layoutMeasureSection.setGridPlaceholder( 2, true );
 		addSection( CrosstabPageSectionId.LAYOUT_MEASURES, layoutMeasureSection );
 
-		TextPropertyDescriptorProvider emptyCellValueProvider = new TextPropertyDescriptorProvider( ICrosstabReportItemConstants.EMPTY_CELL_VALUE_PROP,
-				ReportDesignConstants.EXTENDED_ITEM );
-		InnerTextSection emptyCellValueSection = new InnerTextSection( Messages.getString( "CrosstabGeneraPage.ForEmptyCell" ), //$NON-NLS-1$
-				container,
-				true );
-		emptyCellValueSection.setProvider( emptyCellValueProvider );
-		emptyCellValueSection.setLayoutNum( 3 );
-		emptyCellValueSection.setGridPlaceholder( 2, true );
-		addSection( CrosstabPageSectionId.EMPTY_CELL_VALUE,
-				emptyCellValueSection );
-
 		createSections( );
 		layoutSections( );
 	}
