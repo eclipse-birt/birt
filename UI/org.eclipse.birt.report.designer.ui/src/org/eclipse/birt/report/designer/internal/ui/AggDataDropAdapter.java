@@ -26,6 +26,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataItemHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.jface.window.Window;
@@ -92,19 +93,22 @@ public class AggDataDropAdapter implements IDropAdapter
 				.newDataItem( null );
 		try
 		{
+			DesignElementHandle targetElement = null;
 			if ( target instanceof TableCellEditPart )
 			{
 				CellHandle cellHandle = (CellHandle) ( (TableCellEditPart) target ).getModel( );
 				cellHandle.addElement( dataHandle, CellHandle.CONTENT_SLOT );
+				targetElement = cellHandle;
 			}
 			else if ( target instanceof ListBandEditPart )
 			{
 				ListBandProxy cellHandle = (ListBandProxy) ( (ListBandEditPart) target ).getModel( );
 				cellHandle.getSlotHandle( ).add( dataHandle );
+				targetElement = cellHandle.getElemtHandle( );
 			}
 
 			DataColumnBindingDialog dialog = new DataColumnBindingDialog( true );
-			dialog.setInput( dataHandle );
+			dialog.setInput( dataHandle, null, targetElement );
 			dialog.setAggreate( true );
 
 			if ( dialog.open( ) == Window.OK )

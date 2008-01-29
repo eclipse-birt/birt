@@ -70,12 +70,6 @@ public class DataColumnBindingDialog extends BaseDialog
 	public void setInput( ReportItemHandle bindingObject,
 			ComputedColumnHandle bindingColumn, Object container )
 	{
-		this.setInput( bindingObject, bindingColumn );
-	}
-
-	public void setInput( ReportItemHandle bindingObject,
-			ComputedColumnHandle bindingColumn )
-	{
 		this.bindingObject = bindingObject;
 		//setAggregateOns( DEUtil.getGroups( input ) );
 		//		setDataTypes( ChoiceSetFactory.getDisplayNamefromChoiceSet( DATA_TYPE_CHOICE_SET ) );
@@ -109,6 +103,7 @@ public class DataColumnBindingDialog extends BaseDialog
 				IBindingDialogHelper.class );
 		dialogHelper.setBindingHolder( DEUtil.getBindingHolder( bindingObject ) );
 		dialogHelper.setBinding( bindingColumn );
+		dialogHelper.setContainer(container);
 		dialogHelper.setDialog( this );
 		if ( isAggregate )
 		{
@@ -121,6 +116,12 @@ public class DataColumnBindingDialog extends BaseDialog
 		{
 			setTitle( AGG_BUILDER_TITLE );
 		}
+	}
+
+	public void setInput( ReportItemHandle bindingObject,
+			ComputedColumnHandle bindingColumn )
+	{
+		this.setInput( bindingObject, bindingColumn, null );
 	}
 
 	public void setAggreate( boolean isAggregate )
@@ -167,20 +168,20 @@ public class DataColumnBindingDialog extends BaseDialog
 					if ( isBindingMultipleReferenced( ) )
 					{
 						MessageDialog dialog = new MessageDialog( UIUtil.getDefaultShell( ),
-								Messages.getString("DataColumnBindingDialog.NewBindingDialogTitle"), //$NON-NLS-1$
+								Messages.getString( "DataColumnBindingDialog.NewBindingDialogTitle" ), //$NON-NLS-1$
 								null,
-								Messages.getString("DataColumnBindingDialog.NewBindingDialogMessage"), //$NON-NLS-1$
+								Messages.getString( "DataColumnBindingDialog.NewBindingDialogMessage" ), //$NON-NLS-1$
 								MessageDialog.QUESTION,
 								new String[]{
-										Messages.getString("DataColumnBindingDialog.NewBindingDialogButtonYes"), Messages.getString("DataColumnBindingDialog.NewBindingDialogButtonNo"), Messages.getString("DataColumnBindingDialog.NewBindingDialogButtonCancel") //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+										Messages.getString( "DataColumnBindingDialog.NewBindingDialogButtonYes" ), Messages.getString( "DataColumnBindingDialog.NewBindingDialogButtonNo" ), Messages.getString( "DataColumnBindingDialog.NewBindingDialogButtonCancel" ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 								},
 								0 );
 						int dialogClick = dialog.open( );
 						if ( dialogClick == 0 )
 						{
 							InputDialog inputDialog = new InputDialog( UIUtil.getDefaultShell( ),
-									Messages.getString("DataColumnBindingDialog.NewBindingDialogInputNewNameTitle"), //$NON-NLS-1$
-									Messages.getString("DataColumnBindingDialog.NewBindingDialogInputNewNameMessage"), //$NON-NLS-1$
+									Messages.getString( "DataColumnBindingDialog.NewBindingDialogInputNewNameTitle" ), //$NON-NLS-1$
+									Messages.getString( "DataColumnBindingDialog.NewBindingDialogInputNewNameMessage" ), //$NON-NLS-1$
 									"", //$NON-NLS-1$
 									new IInputValidator( ) {
 
@@ -226,7 +227,8 @@ public class DataColumnBindingDialog extends BaseDialog
 			}
 			else
 			{
-				bindingColumn = dialogHelper.newBinding( DEUtil.getBindingHolder( bindingObject ), null );
+				bindingColumn = dialogHelper.newBinding( DEUtil.getBindingHolder( bindingObject ),
+						null );
 			}
 			super.okPressed( );
 		}

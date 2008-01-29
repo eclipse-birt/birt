@@ -37,10 +37,12 @@ import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetF
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
+import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
@@ -115,6 +117,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 	private boolean isCreate;
 	private boolean isRef;
+	private Object container;
 
 	public void createContent( Composite parent )
 	{
@@ -490,10 +493,24 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			}
 			else
 			{
-				btnTable.setSelection( true );
-				btnGroup.setSelection( false );
-				cmbGroup.select( 0 );
-				cmbGroup.setEnabled( false );
+				//BUG 201963
+				if(this.container instanceof DesignElementHandle && ((DesignElementHandle)this.container).getContainer( ).getContainer( ) instanceof TableGroupHandle){
+					TableGroupHandle groupHandle = (TableGroupHandle)((DesignElementHandle)this.container).getContainer( ).getContainer( );
+					for ( int i = 0; i < groups.length; i++ )
+					{
+						if ( groups[i].equals( groupHandle.getName( ) ) )
+						{
+							cmbGroup.select( i );
+						}
+					}
+					btnTable.setSelection( false );
+					btnGroup.setSelection( true );
+				}else{
+					btnTable.setSelection( true );
+					btnGroup.setSelection( false );
+					cmbGroup.select( 0 );
+					cmbGroup.setEnabled( false );
+				}
 			}
 		}
 		else
@@ -1223,5 +1240,10 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				column,
 				true );
 		return editBinding( binding );
+	}
+
+	public void setContainer( Object container )
+	{
+		this.container = container;
 	}
 }

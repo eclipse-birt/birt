@@ -40,6 +40,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
@@ -111,6 +112,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	private ComputedColumn newBinding;
 	private CLabel messageLine;
 	private Label lbName;
+	private Object container;
 
 	public void createContent( Composite parent )
 	{
@@ -231,6 +233,23 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			else if ( getDataItemContainer( ) instanceof AggregationCellHandle )
 			{
 				AggregationCellHandle cellHandle = (AggregationCellHandle) getDataItemContainer( );
+				if ( cellHandle.getAggregationOnRow( ) != null )
+				{
+					aggstr += cellHandle.getAggregationOnRow( ).getFullName( );
+					if ( cellHandle.getAggregationOnColumn( ) != null )
+					{
+						aggstr += ","; //$NON-NLS-1$
+					}
+				}
+				if ( cellHandle.getAggregationOnColumn( ) != null )
+				{
+					aggstr += cellHandle.getAggregationOnColumn( )
+							.getFullName( );
+				}
+			}
+			else if ( container instanceof AggregationCellHandle )
+			{
+				AggregationCellHandle cellHandle = (AggregationCellHandle) container;
 				if ( cellHandle.getAggregationOnRow( ) != null )
 				{
 					aggstr += cellHandle.getAggregationOnRow( ).getFullName( );
@@ -421,7 +440,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			return new IAggregationInfo[0];
 		}
 	}
-	
+
 	private String getDataTypeDisplayName( String dataType )
 	{
 		for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
@@ -574,7 +593,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 		new Label( composite, SWT.NONE ).setText( FILTER_CONDITION );
 		txtFilter = new Text( composite, SWT.BORDER );
-		gridData = new GridData( GridData.FILL_HORIZONTAL ) ;
+		gridData = new GridData( GridData.FILL_HORIZONTAL );
 		txtFilter.setLayoutData( gridData );
 
 		createExpressionButton( composite, txtFilter );
@@ -586,7 +605,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		lblAggOn.setLayoutData( gridData );
 
 		cmbAggOn = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
-		gridData = new GridData( GridData.FILL_HORIZONTAL ); 
+		gridData = new GridData( GridData.FILL_HORIZONTAL );
 		gridData.horizontalSpan = 2;
 		cmbAggOn.setLayoutData( gridData );
 
@@ -946,7 +965,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		else
 		{
 			if ( this.binding == null )// create bindnig, we should check if
-										// the binding name already exists.
+			// the binding name already exists.
 			{
 				for ( Iterator iterator = this.bindingHolder.getColumnBindings( )
 						.iterator( ); iterator.hasNext( ); )
@@ -1141,6 +1160,11 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				column,
 				true );
 		return editBinding( binding );
+	}
+
+	public void setContainer( Object container )
+	{
+		this.container = container;
 	}
 
 }
