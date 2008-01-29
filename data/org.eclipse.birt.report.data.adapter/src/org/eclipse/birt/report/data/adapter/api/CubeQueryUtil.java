@@ -121,13 +121,15 @@ public class CubeQueryUtil
 	 * 
 	 * @param levelExprList
 	 * @param result
+	 * @throws AdapterException 
 	 */
 	private static void populateLevels( List levelExprList, List result )
+			throws AdapterException
 	{
 		for ( Iterator i = levelExprList.iterator( ); i.hasNext( ); )
 		{
 			String levelExpr = (String) i.next( );
-			result.add( getTargetLevel( levelExpr ) );
+			result.add( getTargetDimLevel( levelExpr ) );
 		}
 	}
 
