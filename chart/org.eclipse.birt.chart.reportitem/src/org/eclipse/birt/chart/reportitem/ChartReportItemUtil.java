@@ -701,4 +701,141 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		}
 	}
 
+	/**
+	 * Convert model/engine aggregate expression to chart.
+	 * 
+	 * @param agg
+	 * @return
+	 * @since 2.3
+	 */
+	public static String convertToChartAggExpression( String agg )
+	{
+
+		if ( DesignChoiceConstants.AGGREGATION_FUNCTION_SUM.equalsIgnoreCase( agg ) )
+		{
+			return "Sum"; //$NON-NLS-1$
+
+		}
+		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_AVERAGE.equalsIgnoreCase( agg ) )
+		{
+			return "Average"; //$NON-NLS-1$
+
+		}
+		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_COUNT.equalsIgnoreCase( agg ) )
+		{
+			return "Count"; //$NON-NLS-1$
+
+		}
+		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_COUNTDISTINCT.equalsIgnoreCase( agg ) )
+		{
+			return "DistinctCount"; //$NON-NLS-1$
+
+		}
+		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_FIRST.equalsIgnoreCase( agg ) )
+		{
+			return "First"; //$NON-NLS-1$
+
+		}
+		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_LAST.equalsIgnoreCase( agg ) )
+		{
+			return "Last"; //$NON-NLS-1$
+
+		}
+		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_MIN.equalsIgnoreCase( agg ) )
+		{
+			return "Min"; //$NON-NLS-1$
+
+		}
+		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_MAX.equalsIgnoreCase( agg ) )
+		{
+			return "Max"; //$NON-NLS-1$
+		}
+		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_WEIGHTEDAVG.equalsIgnoreCase( agg ) )
+		{
+			return "WeightedAverage"; //$NON-NLS-1$
+		}
+		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_MEDIAN.equalsIgnoreCase( agg ) )
+		{
+			return "Median"; //$NON-NLS-1$
+		}
+		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_MODE.equalsIgnoreCase( agg ) )
+		{
+			return "Mode"; //$NON-NLS-1$
+		}
+		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_STDDEV.equalsIgnoreCase( agg ) )
+		{
+			return "STDDEV"; //$NON-NLS-1$
+		}
+		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_VARIANCE.equalsIgnoreCase( agg ) )
+		{
+			return "Variance"; //$NON-NLS-1$
+		}
+		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_IRR.equalsIgnoreCase( agg ) )
+		{
+			return "Irr"; //$NON-NLS-1$
+		}
+		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_MIRR.equalsIgnoreCase( agg ) )
+		{
+			return "Mirr"; //$NON-NLS-1$
+		}
+		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_NPV.equalsIgnoreCase( agg ) )
+		{
+			return "NPV"; //$NON-NLS-1$
+		}
+		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_PERCENTILE.equalsIgnoreCase( agg ) )
+		{
+			return "Percentile"; //$NON-NLS-1$
+		}
+		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_TOP_QUARTILE.equalsIgnoreCase( agg ) )
+		{
+			return "Quartile"; //$NON-NLS-1$
+		}
+		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_MOVINGAVE.equalsIgnoreCase( agg ) )
+		{
+			return "MovingAverage"; //$NON-NLS-1$
+		}
+		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_RUNNINGSUM.equalsIgnoreCase( agg ) )
+		{
+			return "RunningSum"; //$NON-NLS-1$
+		}
+		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_RUNNINGNPV.equalsIgnoreCase( agg ) )
+		{
+			return "RunningNPV"; //$NON-NLS-1$
+		}
+		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_RANK.equalsIgnoreCase( agg ) )
+		{
+			return "Rank"; //$NON-NLS-1$
+		}
+		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_IS_TOP_N.equalsIgnoreCase( agg ) )
+		{
+			return "Top"; //$NON-NLS-1$
+		}
+		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_IS_TOP_N_PERCENT.equalsIgnoreCase( agg ) )
+		{
+			return "TopPercent"; //$NON-NLS-1$
+		}
+		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_IS_BOTTOM_N.equalsIgnoreCase( agg ) )
+		{
+			return "Bottom"; //$NON-NLS-1$
+		}
+		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_IS_BOTTOM_N_PERCENT.equalsIgnoreCase( agg ) )
+		{
+			return "BottomPercent"; //$NON-NLS-1$
+		}
+		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_PERCENT_RANK.equalsIgnoreCase( agg ) )
+		{
+			return "PercentRank"; //$NON-NLS-1$
+		}
+		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_PERCENT_SUM.equalsIgnoreCase( agg ) )
+		{
+			return "PercentSum"; //$NON-NLS-1$
+		}
+		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_RUNNINGCOUNT.equalsIgnoreCase( agg ) )
+		{
+			return "RunningCount"; //$NON-NLS-1$
+		}
+
+		return null;
+	}
+
 }

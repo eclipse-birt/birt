@@ -212,7 +212,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 
 				public void handleEvent( Event event )
 				{
-					updateQuery( getExpression( cmbDefinition ) );
+					updateQuery( cmbDefinition.getText( ) );
 					// Change direction once category query is changed in xtab
 					// case
 					if ( context.getDataServiceProvider( ).isInXTab( )
@@ -310,7 +310,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 	 */
 	private void initComboExprText( )
 	{
-		if ( context.getDataServiceProvider( ).isSharedBinding( ) && cmbDefinition.getData( ) != null ) 
+		if ( isTableSharedBinding( ) ) 
 		{
 			initComboExprTextForSharedBinding( );
 		}
@@ -318,6 +318,18 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		{
 			cmbDefinition.setText( query.getDefinition( ) );
 		}
+	}
+
+	/**
+	 * Check if current is using table shared binding.
+	 * @return
+	 * @since 2.3
+	 */
+	private boolean isTableSharedBinding( )
+	{
+		return context.getDataServiceProvider( ).isSharedBinding( ) &&
+				cmbDefinition != null &&
+				cmbDefinition.getData( ) != null;
 	}
 
 	/**
@@ -331,22 +343,40 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 			ColumnBindingInfo chi = (ColumnBindingInfo) data[i];
 			if ( chi.getExpression( ).equals( query.getDefinition( ) ) )
 			{
-				if ( seriesdefinition.getGrouping( ).isEnabled( ) )
+				// It means it is category series or value series.
+				if ( queryType == ChartUIConstants.QUERY_CATEGORY ||
+						queryType == ChartUIConstants.QUERY_OPTIONAL )
 				{
-					// It means it is category series or value series.
-					if ( chi.getColumnType( ) == ColumnBindingInfo.GROUP_COLUMN ||
-							chi.getColumnType( ) == ColumnBindingInfo.AGGREGATE_COLUMN )
+					boolean isGrouped = seriesdefinition.getGrouping( )
+							.isEnabled( );
+					boolean isGroupedBinding = ( chi.getColumnType( ) == ColumnBindingInfo.GROUP_COLUMN );
+					if ( isGrouped == isGroupedBinding )
 					{
 						cmbDefinition.select( i );
-						break;
+						return;
 					}
 				}
-				else
+				else if ( queryType == ChartUIConstants.QUERY_VALUE )
 				{
-					cmbDefinition.select( i );
-					break;
-				}
+					boolean isAggregate = seriesdefinition.getGrouping( )
+							.isEnabled( );
 
+					boolean isAggBinding = ( chi.getColumnType( ) == ColumnBindingInfo.AGGREGATE_COLUMN );
+					if ( isAggregate == isAggBinding )
+					{
+						cmbDefinition.select( i );
+						return;
+					}
+				}
+			}
+		}
+		
+		if ( query.getDefinition( ) != null ){
+			int index = cmbDefinition.indexOf( query.getDefinition( ) );
+			if ( index >=0 )
+			{
+				cmbDefinition.select( index );
+				return;
 			}
 		}
 	}
@@ -575,7 +605,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 			e.type = 0;
 			fireEvent( e );
 
-			updateQuery( getExpression( getInputControl( ) ) );
+			updateQuery( getText( getInputControl( ) ) );
 			// Refresh color from ColorPalette
 			setColor( );
 			getInputControl( ).getParent( ).layout( );
@@ -583,11 +613,22 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		}
 	}
 
+	private String getText( Control control )
+	{
+		if ( control instanceof Text )
+		{
+			return ( (Text) control ).getText( );
+		}
+		if ( control instanceof Combo )
+		{
+			return ( (Combo) control ).getText( );
+		}
+		return ""; //$NON-NLS-1$
+	}
+	
 	private String getTooltipForDataText( String queryText )
 	{
-		if ( context.getDataServiceProvider( ).isSharedBinding( ) &&
-				cmbDefinition != null &&
-				cmbDefinition.getData( ) != null )
+		if ( isTableSharedBinding( ) )
 		{
 			int index = cmbDefinition.getSelectionIndex( );
 			if ( index >= 0 )
@@ -665,7 +706,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		}
 		else if ( control instanceof Combo )
 		{
-			if ( context.getDataServiceProvider( ).isSharedBinding( ) )
+			if ( isTableSharedBinding( ) )
 			{
 				setUITextForSharedBinding( (Combo) control, expression );
 			}
@@ -708,6 +749,83 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 	 */
 	public void updateQuery( String expression )
 	{
+		if ( !isTableSharedBinding( ) )
+		{
+			setQueryExpression( expression );
+			return;
+		}
+		
+		Object[] data = (Object[]) cmbDefinition.getData( );		
+		if ( data != null && data.length > 0 )
+		{
+			int exprIndex = getExprIndex( cmbDefinition, expression );
+			if ( exprIndex < 0 )
+			{
+				setQueryExpression( null );
+				return;
+			}
+			
+			ColumnBindingInfo chi = (ColumnBindingInfo) data[exprIndex];
+			int type = chi.getColumnType( );
+			String expr = chi.getExpression( );
+			if ( ChartUIConstants.QUERY_CATEGORY.equals( queryType ) )
+			{
+				if ( type == ColumnBindingInfo.GROUP_COLUMN )
+				{
+					seriesdefinition.getGrouping( ).setEnabled( true );
+				}
+				else
+				{
+					seriesdefinition.getGrouping( ).setEnabled( false );
+				}
+			}
+			else if ( ChartUIConstants.QUERY_VALUE.equals( queryType ) )
+			{
+				if ( type == ColumnBindingInfo.AGGREGATE_COLUMN )
+				{
+					seriesdefinition.getGrouping( ).setEnabled( true );
+					seriesdefinition.getGrouping( )
+							.setAggregateExpression( chi.getChartAggExpression( ) );
+				}
+				else
+				{
+					seriesdefinition.getGrouping( ).setEnabled( false );
+					seriesdefinition.getGrouping( )
+							.setAggregateExpression( null );
+				}
+			}
+
+			setQueryExpression( expr );
+		}
+	}
+
+	private int getExprIndex( Combo control, String txt )
+	{
+		if ( control instanceof Combo )
+		{
+			Object[] data = (Object[]) control.getData( );
+			if ( data != null &&
+					data.length > 0 &&
+					data[0] instanceof ColumnBindingInfo )
+			{
+				String[] items = ( (Combo) control ).getItems( );
+				int index = 0;
+				for ( ; items != null &&
+						items.length > 0 &&
+						index < items.length; index++ )
+				{
+					if ( items[index].equals( txt ) )
+					{
+						return index;
+					}
+				}
+			}
+		}
+		return -1;	
+	}
+	
+	private void setQueryExpression( String expression )
+	{
 		if ( query != null )
 		{
 			query.setDefinition( expression );
@@ -720,51 +838,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 			// ChartUIUtil.getDataQuery(), assume current null is a grouping
 			// query
 			seriesdefinition.setQuery( query );
-		}
-		
-		if ( !context.getDataServiceProvider( ).isSharedBinding( ) )
-		{
-			return;
-		}
-		
-		Object[] data = (Object[]) cmbDefinition.getData( );
-		if ( data != null && data.length > 0 )
-		{
-			String text = cmbDefinition.getText( );
-			String[] items = cmbDefinition.getItems( );
-
-			for ( int i = 0; i < items.length; i++ )
-			{
-				if ( items[i] != null && items[i].equals( text ) )
-				{
-					ColumnBindingInfo chi = (ColumnBindingInfo) data[i];
-					int type = chi.getColumnType( );
-					if ( ChartUIConstants.QUERY_CATEGORY.equals( queryType ) )
-					{
-						if ( type == ColumnBindingInfo.GROUP_COLUMN )
-						{
-							seriesdefinition.getGrouping( ).setEnabled( true );
-						}
-						else
-						{
-							seriesdefinition.getGrouping( ).setEnabled( false );
-						}
-					}
-					else if ( ChartUIConstants.QUERY_VALUE.equals( queryType ) )
-					{
-						if ( type == ColumnBindingInfo.AGGREGATE_COLUMN )
-						{
-							seriesdefinition.getGrouping( ).setEnabled( true );
-						}
-						else
-						{
-							seriesdefinition.getGrouping( ).setEnabled( false );
-						}
-					}
-
-					return;
-				}
-			}
 		}
 	}
 
@@ -784,5 +857,39 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		}
 		
 		return query;
+	}
+
+	public String getDisplayExpression( )
+	{
+		if ( cmbDefinition != null && isTableSharedBinding( ) )
+		{
+
+			Object[] data = (Object[]) cmbDefinition.getData( );
+			for ( int i = 0; data != null && i < data.length; i++ )
+			{
+				ColumnBindingInfo chi = (ColumnBindingInfo) data[i];
+				if ( chi.getExpression( ).equals( query.getDefinition( ) ) )
+				{
+					if ( queryType == ChartUIConstants.QUERY_CATEGORY ||
+							queryType == ChartUIConstants.QUERY_OPTIONAL )
+					{
+
+						boolean sdGrouped = seriesdefinition.getGrouping( ).isEnabled( );
+						boolean groupedBinding = ( chi.getColumnType( ) == ColumnBindingInfo.GROUP_COLUMN );
+						if ( sdGrouped == groupedBinding )
+						{
+							return cmbDefinition.getItem( i );
+						}
+					}
+
+				}
+			}
+			
+			return query.getDefinition( );
+		}
+		else
+		{
+			return query.getDefinition( );
+		}
 	}
 }

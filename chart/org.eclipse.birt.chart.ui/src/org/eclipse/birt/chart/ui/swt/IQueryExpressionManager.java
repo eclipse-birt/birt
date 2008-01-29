@@ -32,4 +32,9 @@ public interface IQueryExpressionManager
 	 * @param expression
 	 */
 	public void updateQuery( String expression );
+	
+	/**
+	 * Returns display expression.
+	 */
+	public String getDisplayExpression();
 }

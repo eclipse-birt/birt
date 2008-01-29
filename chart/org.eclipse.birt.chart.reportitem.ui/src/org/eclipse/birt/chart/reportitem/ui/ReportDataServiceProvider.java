@@ -43,6 +43,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -242,31 +243,37 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				GroupHandle gh = (GroupHandle) groupList.get( i );
 				String groupName = gh.getName( );
 				String groupKeyExpr = gh.getKeyExpr( );
-				String tooltip = Messages.getString("ReportDataServiceProvider.Tooltip.GroupExpression") + groupKeyExpr; //$NON-NLS-1$
+				String tooltip = Messages.getString( "ReportDataServiceProvider.Tooltip.GroupExpression" ) + groupKeyExpr; //$NON-NLS-1$
 				columnHeaders[index++] = new ColumnBindingInfo( groupName,
-						groupKeyExpr,
+						groupKeyExpr, // Use expression for group.
 						ColumnBindingInfo.GROUP_COLUMN,
 						"icons/obj16/group.gif", //$NON-NLS-1$
 						tooltip,
-						gh);
+						gh );
 
 				for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 				{
 					ComputedColumnHandle cch = (ComputedColumnHandle) iter.next( );
-					
+
 					String aggOn = cch.getAggregateOn( );
 					if ( groupName.equals( aggOn ) )
 					{
-						// Remove the column binding form list.
+						// Remove the column binding from list.
 						iter.remove( );
 
 						tooltip = Messages.getString( "ReportDataServiceProvider.Tooltip.Aggregate" ) + cch.getAggregateFunction( ) + "\n" + Messages.getString( "ReportDataServiceProvider.Tooltip.OnGroup" ) + groupName; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-						columnHeaders[index++] = new ColumnBindingInfo( cch.getName( ),
-								cch.getExpression( ),
+						columnHeaders[index] = new ColumnBindingInfo( cch.getName( ),
+								ExpressionUtil.createJSRowExpression( cch.getName( ) ), // Use
+																						// binding
+																						// expression
+																						// for
+																						// aggregate.
 								ColumnBindingInfo.AGGREGATE_COLUMN,
 								ChartUIConstants.IMAGE_SIGMA,
 								tooltip,
 								cch );
+						columnHeaders[index].setChartAggExpression( ChartReportItemUtil.convertToChartAggExpression( cch.getAggregateFunction( ) ) );
+						index++;
 					}
 				}
 			}
@@ -275,28 +282,39 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 			{
 				ComputedColumnHandle cch = (ComputedColumnHandle) iter.next( );
-				
+
 				if ( cch.getAggregateFunction( ) != null )
 				{
 					// Remove the column binding form list.
 					iter.remove( );
 
-					String tooltip = Messages.getString("ReportDataServiceProvider.Tooltip.Aggregate") + cch.getAggregateFunction( ) + "\n" + Messages.getString("ReportDataServiceProvider.Tooltip.OnGroup"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-					columnHeaders[index++] = new ColumnBindingInfo( cch.getName( ),
-							cch.getExpression( ),
+					String tooltip = Messages.getString( "ReportDataServiceProvider.Tooltip.Aggregate" ) + cch.getAggregateFunction( ) + "\n" + Messages.getString( "ReportDataServiceProvider.Tooltip.OnGroup" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					columnHeaders[index] = new ColumnBindingInfo( cch.getName( ),
+							ExpressionUtil.createJSRowExpression( cch.getName( ) ), // Use
+																					// binding
+																					// expression
+																					// for
+																					// aggregate.
 							ColumnBindingInfo.AGGREGATE_COLUMN,
 							ChartUIConstants.IMAGE_SIGMA,
 							tooltip,
 							cch );
+					columnHeaders[index].setChartAggExpression( ChartReportItemUtil.convertToChartAggExpression( cch.getAggregateFunction( ) ) );
+					index++;
 				}
 			}
-			
+
 			// Process common bindings.
 			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 			{
 				ComputedColumnHandle cch = (ComputedColumnHandle) iter.next( );
 				columnHeaders[index++] = new ColumnBindingInfo( cch.getName( ),
-						cch.getExpression( ),
+						ExpressionUtil.createJSRowExpression( cch.getName( ) ), // Use
+																				// binding
+																				// expression
+																				// for
+																				// common
+																				// binding.
 						ColumnBindingInfo.COMMON_COLUMN,
 						null,
 						null,
@@ -463,7 +481,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					queryDefn.addBinding( binding );
 					
 					columns.add( binding.getBindingName( ) );
-					bindingExprsMap.put( ((ScriptExpression)binding.getExpression( )).getText( ), binding.getBindingName( ) );
+					// Use original binding expression as map key for aggregate and common binding.
+					bindingExprsMap.put( chi.getExpression( ), binding.getBindingName( ) );
+
 					break;
 				case ColumnBindingInfo.GROUP_COLUMN :
 					GroupDefinition gd = session.getModelAdaptor( )
@@ -479,6 +499,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					
 					columns.add( name );
 					
+					// Use created binding expression as map key for group.
 					bindingExprsMap.put( ((ScriptExpression)binding.getExpression( )).getText( ), binding.getBindingName( ) );
 					break;
 			}
@@ -1473,6 +1494,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			Map commons = new LinkedHashMap( );
 			Map aggs = new LinkedHashMap( );
+			Map groups = new LinkedHashMap( );
 			Map groupsWithAgg = new LinkedHashMap( );
 			Map groupsWithoutAgg = new LinkedHashMap( );
 
@@ -1489,11 +1511,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 						aggs.put( ExpressionUtil.createJSRowExpression( headers[i].getName( ) ), headers[i] );
 						break;
 					case ColumnBindingInfo.GROUP_COLUMN :
-						groupsWithoutAgg.put( ExpressionUtil.createJSRowExpression( headers[i].getName( ) ), headers[i] );
+						groups.put( ExpressionUtil.createJSRowExpression( headers[i].getName( ) ), headers[i] );
 						break;
 				}
 			}
 			
+			groupsWithoutAgg = new LinkedHashMap( groups );
 			for ( Iterator iter = groupsWithoutAgg.entrySet( ).iterator( ); iter.hasNext( ); )
 			{
 				Entry entry = (Entry) iter.next( );
@@ -1509,6 +1532,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				}
 			}
 			
+			// Prepare category items.
 			Object[][] categorys = new Object[groupsWithAgg.size( ) + commons.size( )][2];
 			int index = 0;
 			for ( Iterator iter = groupsWithAgg.entrySet( ).iterator( ); iter.hasNext( ); )
@@ -1526,8 +1550,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				index++;
 			}
 			
-			Object[][] optionals = new Object[groupsWithoutAgg.size( ) ][2];
+			// Prepare Y optional items.
+			Object[][] optionals = new Object[groupsWithoutAgg.size( ) + groupsWithAgg.size( ) - 1 ][2];
 			index = 0;
+			// add groups which don't include aggregate.
 			for ( Iterator iter = groupsWithoutAgg.entrySet( ).iterator( ); iter.hasNext( ); )
 			{
 				Entry entry = (Entry) iter.next();
@@ -1535,7 +1561,17 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				optionals[index][1] = entry.getValue( );
 				index++;
 			}
+			// Add groups which includes aggregate, except the inner most group.
+			for ( Iterator iter = groupsWithAgg.entrySet( ).iterator( ); index < optionals.length &&
+					iter.hasNext( ); )
+			{
+				Entry entry = (Entry) iter.next( );
+				optionals[index][0] = entry.getKey( );
+				optionals[index][1] = entry.getValue( );
+				index++;
+			} 
 			
+			// Prepare value items.
 			Object[][] values = new Object[aggs.size( ) + commons.size( )][2];
 			index = 0;
 			for ( Iterator iter = aggs.entrySet( ).iterator( ); iter.hasNext( ); )

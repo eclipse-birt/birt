@@ -35,7 +35,9 @@ public class ColumnBindingInfo
 	private String fTooltip;
 	
 	private Object fObjectHandle;
-
+	
+	private String fChartAggExpression;
+	
 	public ColumnBindingInfo(String name, String expression, int columnType, String imageName, String tooltip, Object objHandle )
 	{
 		fName = name;
@@ -87,5 +89,16 @@ public class ColumnBindingInfo
 	public Object getObjectHandle( )
 	{
 		return fObjectHandle;
+	}
+
+	public String getChartAggExpression( )
+	{
+		return fChartAggExpression;
+	}
+
+	
+	public void setChartAggExpression( String chartAggExpression )
+	{
+		fChartAggExpression = chartAggExpression;
 	}
 }

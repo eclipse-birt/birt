@@ -23,8 +23,6 @@ import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.TextDataElement;
-import org.eclipse.birt.chart.ui.util.ChartUIUtil;
-import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Combo;
@@ -133,7 +131,7 @@ public class DataDefinitionTextManager
 		if ( textCollection.containsKey( text ) )
 		{
 			IQueryExpressionManager query = (IQueryExpressionManager) textCollection.get( text );
-			setText( text, query.getQuery( ).getDefinition( ) );
+			setText( text, query.getDisplayExpression( ) );
 			Color color = ColorPalette.getInstance( )
 					.getColor( getText( text ) );
 			text.setBackground( color );
@@ -145,7 +143,8 @@ public class DataDefinitionTextManager
 		Control text = findText( query );
 		if ( text != null )
 		{
-			setText( text, query.getDefinition( ) );
+			IQueryExpressionManager queryManager = (IQueryExpressionManager) textCollection.get( text );
+			setText( text, queryManager.getDisplayExpression( ) );
 			ColorPalette.getInstance( ).putColor( query.getDefinition( ) );
 			text.setBackground( ColorPalette.getInstance( )
 					.getColor( getText( text ) ) );
@@ -157,7 +156,7 @@ public class DataDefinitionTextManager
 		if ( textCollection.containsKey( control ) )
 		{
 			IQueryExpressionManager queryManager = (IQueryExpressionManager) textCollection.get( control );
-			queryManager.updateQuery(  ChartUIUtil.getActualExpression( control ) );
+			queryManager.updateQuery(  getText( control  ) );
 			
 			adjustScaleData( queryManager.getQuery( ) );
 			
@@ -252,23 +251,6 @@ public class DataDefinitionTextManager
 		}
 		else if ( control instanceof Combo )
 		{
-			Object[] data = (Object[]) control.getData( );
-			if ( data != null &&
-					data.length > 0 &&
-					data[0] instanceof ColumnBindingInfo )
-			{
-				for ( int i = 0; i < data.length; i++ )
-				{
-					if ( ( (ColumnBindingInfo) data[i] ).getExpression( )
-							.equals( expression ) )
-					{
-						String txt = ExpressionUtil.createJSRowExpression( ( (ColumnBindingInfo) data[i] ).getName( ) );
-						( (Combo) control ).setText( txt );
-						return;
-					}
-				}
-			}
-			
 			( (Combo) control ).setText( expression );
 		}
 	}
