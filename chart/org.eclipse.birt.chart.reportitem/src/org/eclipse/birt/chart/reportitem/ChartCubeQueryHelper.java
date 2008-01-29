@@ -53,7 +53,6 @@ import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
-import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
@@ -188,28 +187,29 @@ class ChartCubeQueryHelper implements IQueryExpressionReplaceable
 			return null;
 		}
 		CrosstabReportItemHandle xtab = containerCell.getCrosstab( );
-		LevelViewHandle levelColumn = ChartXTabUtil.getLevel( xtab,
-				ICrosstabConstants.COLUMN_AXIS_TYPE,
-				0 );
-		LevelViewHandle levelRow = ChartXTabUtil.getLevel( xtab,
-				ICrosstabConstants.ROW_AXIS_TYPE,
-				0 );
-
+		int columnLevelCount = ChartXTabUtil.getLevelCount( xtab,
+				ICrosstabConstants.COLUMN_AXIS_TYPE );
+		int rowLevelCount = ChartXTabUtil.getLevelCount( xtab,
+				ICrosstabConstants.ROW_AXIS_TYPE );
 		if ( cm instanceof ChartWithAxes )
 		{
 			if ( ( (ChartWithAxes) cm ).isTransposed( ) )
 			{
-				int rowLevelCount = ChartXTabUtil.getLevelCount( xtab,
-						ICrosstabConstants.ROW_AXIS_TYPE );
-				if ( levelColumn != null )
+				if ( columnLevelCount >= 1 )
 				{
 					ISubCubeQueryDefinition subCubeQuery = ChartXTabUtil.getCubeElementFactory( )
 							.createSubCubeQuery( queryName );
-					subCubeQuery.setStartingLevelOnColumn( ChartXTabUtil.createDimensionExpression( levelColumn.getCubeLevel( ) ) );
-					if ( levelRow != null && rowLevelCount > 1 )
+					subCubeQuery.setStartingLevelOnColumn( ChartXTabUtil.createDimensionExpression( ChartXTabUtil.getLevel( xtab,
+							ICrosstabConstants.COLUMN_AXIS_TYPE,
+							columnLevelCount - 1 )
+							.getCubeLevel( ) ) );
+					if ( rowLevelCount > 1 )
 					{
 						// Only add another level in multiple levels case
-						subCubeQuery.setStartingLevelOnRow( ChartXTabUtil.createDimensionExpression( levelRow.getCubeLevel( ) ) );
+						subCubeQuery.setStartingLevelOnRow( ChartXTabUtil.createDimensionExpression( ChartXTabUtil.getLevel( xtab,
+								ICrosstabConstants.ROW_AXIS_TYPE,
+								rowLevelCount - 2 )
+								.getCubeLevel( ) ) );
 					}
 					return subCubeQuery;
 				}
@@ -219,7 +219,10 @@ class ChartCubeQueryHelper implements IQueryExpressionReplaceable
 					// row level
 					ISubCubeQueryDefinition subCubeQuery = ChartXTabUtil.getCubeElementFactory( )
 							.createSubCubeQuery( queryName );
-					subCubeQuery.setStartingLevelOnRow( ChartXTabUtil.createDimensionExpression( levelRow.getCubeLevel( ) ) );
+					subCubeQuery.setStartingLevelOnRow( ChartXTabUtil.createDimensionExpression( ChartXTabUtil.getLevel( xtab,
+							ICrosstabConstants.ROW_AXIS_TYPE,
+							rowLevelCount - 2 )
+							.getCubeLevel( ) ) );
 					return subCubeQuery;
 				}
 				// If corresponding column is null and without multiple
@@ -227,17 +230,21 @@ class ChartCubeQueryHelper implements IQueryExpressionReplaceable
 			}
 			else
 			{
-				int columnLevelCount = ChartXTabUtil.getLevelCount( xtab,
-						ICrosstabConstants.COLUMN_AXIS_TYPE );
-				if ( levelRow != null )
+				if ( rowLevelCount >= 1 )
 				{
 					ISubCubeQueryDefinition subCubeQuery = ChartXTabUtil.getCubeElementFactory( )
 							.createSubCubeQuery( queryName );
-					subCubeQuery.setStartingLevelOnRow( ChartXTabUtil.createDimensionExpression( levelRow.getCubeLevel( ) ) );
-					if ( levelColumn != null && columnLevelCount > 1 )
+					subCubeQuery.setStartingLevelOnRow( ChartXTabUtil.createDimensionExpression( ChartXTabUtil.getLevel( xtab,
+							ICrosstabConstants.ROW_AXIS_TYPE,
+							rowLevelCount - 1 )
+							.getCubeLevel( ) ) );
+					if ( columnLevelCount > 1 )
 					{
 						// Only add another level in multiple levels case
-						subCubeQuery.setStartingLevelOnColumn( ChartXTabUtil.createDimensionExpression( levelColumn.getCubeLevel( ) ) );
+						subCubeQuery.setStartingLevelOnColumn( ChartXTabUtil.createDimensionExpression( ChartXTabUtil.getLevel( xtab,
+								ICrosstabConstants.COLUMN_AXIS_TYPE,
+								columnLevelCount - 2 )
+								.getCubeLevel( ) ) );
 					}
 					return subCubeQuery;
 				}
@@ -247,7 +254,10 @@ class ChartCubeQueryHelper implements IQueryExpressionReplaceable
 					// column level
 					ISubCubeQueryDefinition subCubeQuery = ChartXTabUtil.getCubeElementFactory( )
 							.createSubCubeQuery( queryName );
-					subCubeQuery.setStartingLevelOnColumn( ChartXTabUtil.createDimensionExpression( levelColumn.getCubeLevel( ) ) );
+					subCubeQuery.setStartingLevelOnColumn( ChartXTabUtil.createDimensionExpression( ChartXTabUtil.getLevel( xtab,
+							ICrosstabConstants.COLUMN_AXIS_TYPE,
+							columnLevelCount - 2 )
+							.getCubeLevel( ) ) );
 					return subCubeQuery;
 				}
 				// If corresponding row is null and without multiple levels,
