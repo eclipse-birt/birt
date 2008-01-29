@@ -282,6 +282,8 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 					.size( ) );
 			sdTmp.getSeries( )
 					.add( EcoreUtil.copy( ( (SeriesDefinition) seriesDefns.get( 0 ) ).getDesignTimeSeries( ) ) );
+			ChartUIUtil.setSeriesName( wizardContext.getModel( ),
+					sdTmp.getDesignTimeSeries( ) );
 			// Add grouping query of the first series definition
 			sdTmp.setQuery( (Query) EcoreUtil.copy( ( (SeriesDefinition) seriesDefns.get( 0 ) ).getQuery( ) ) );
 			cleanDataDefinition( sdTmp );
