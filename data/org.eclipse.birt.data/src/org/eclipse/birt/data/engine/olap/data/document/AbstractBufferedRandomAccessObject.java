@@ -22,13 +22,10 @@ import java.util.Date;
 import org.eclipse.birt.data.engine.olap.data.util.Bytes;
 
 /**
- * Extension fo the RandomAccessFile to use currBuf.bytesfered I/O as much as
- * possible. Usable with the <code>com.objectwave.persist.FileBroker</code> .
- * Publically identical to <code>java.io.RandomAccessFile</code> , except for
+ * Extension for the <code>java.io.RandomAccessFile</code>, except for
  * the constuctor and <code>flush()</code> .
  * <p>
  * 
- * <b>Note:</b> This class is not threadsafe.
  * 
  * @see java.io.RandomAccessFile
  */
