@@ -220,7 +220,7 @@ final class PreparedQuery
 	private void mappingParentColumnBinding( ) throws DataException
 	{
 		IBaseQueryDefinition queryDef =  baseQueryDefn;
-		if ( queryDef instanceof ISubqueryDefinition )
+		while( queryDef instanceof ISubqueryDefinition )
 		{
 			queryDef = queryDef.getParentQuery();
 			Map parentBindings = queryDef.getBindings( );
