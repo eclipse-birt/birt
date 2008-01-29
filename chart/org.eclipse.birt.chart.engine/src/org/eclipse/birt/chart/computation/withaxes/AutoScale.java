@@ -61,6 +61,11 @@ public final class AutoScale extends Methods implements Cloneable
 	private Object oMinimum;
 
 	private Object oMaximum;
+	
+	private Object oMinimumFixed;
+
+	private Object oMaximumFixed;
+	
 
 	/**
 	 * Minimum without considering fixed value. Only valid if margin percent is
@@ -584,7 +589,8 @@ public final class AutoScale extends Methods implements Cloneable
 							if ( ia == null ) // HANDLE YEARS
 							{
 								oStep = new Integer( 1 );
-								return false; // DO NO PROCEED FOR YEARS
+								return true;
+//								return false; // DO NO PROCEED FOR YEARS
 							}
 							i = -1; // MANIPULATE OFFSET TO START-1
 						}
@@ -1009,10 +1015,12 @@ public final class AutoScale extends Methods implements Cloneable
 		{
 			final CDateTime cdt1 = (CDateTime) oMinimum;
 			final CDateTime cdt2 = (CDateTime) oMaximum;
-			nTicks = (int) ( Math.ceil( CDateTime.computeDifference( cdt2,
+			double diff = CDateTime.computeDifference( cdt2,
 					cdt1,
-					asInteger( oUnit ) ) ) / asInteger( oStep ) ) + 1;
-
+					asInteger( oUnit ) ) /
+					asInteger( oStep );
+			
+			nTicks = (int)Math.round( diff ) + 1;
 		}
 		else
 		{
@@ -1259,7 +1267,7 @@ public final class AutoScale extends Methods implements Cloneable
 					oMaxValue,
 					oStep );
 		}
-		sct.setFixedValue( bMinimumFixed, bMaximumFixed, oMinimum, oMaximum );
+		sct.setFixedValue( bMinimumFixed, bMaximumFixed, oMinimumFixed, oMaximumFixed );
 		sct.setFixedStep( bStepFixed, oStepNumber );
 		sct.computeMinMax( );
 		updateContext( sct );
@@ -2247,6 +2255,7 @@ public final class AutoScale extends Methods implements Cloneable
 				if ( oMinimum instanceof DateTimeDataElement )
 				{
 					sc.oMinimum = ( (DateTimeDataElement) oMinimum ).getValueAsCDateTime( );
+					sc.oMinimumFixed = ( (DateTimeDataElement) oMinimum ).getValueAsCDateTime( );
 				}
 				else
 				{
@@ -2268,6 +2277,7 @@ public final class AutoScale extends Methods implements Cloneable
 				if ( oMaximum instanceof DateTimeDataElement )
 				{
 					sc.oMaximum = ( (DateTimeDataElement) oMaximum ).getValueAsCDateTime( );
+					sc.oMaximumFixed = ( (DateTimeDataElement) oMaximum ).getValueAsCDateTime( );
 				}
 				else
 				{
@@ -2300,6 +2310,7 @@ public final class AutoScale extends Methods implements Cloneable
 
 			// OVERRIDE STEP IF SPECIFIED
 			setStepToScale( sc, oStep, oStepNumber, rtc );
+			sc.updateAxisMinMax( oMinValue, oMaxValue );
 		}
 		else
 		{

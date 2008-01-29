@@ -489,7 +489,7 @@ public class CDateTime extends GregorianCalendar
 		}
 		else if ( iUnit == Calendar.SECOND )
 		{
-			double rt = ( l1 - l2 ) / MILLIS_IN_SECOND;
+			double rt = (double) ( l1 - l2 ) / MILLIS_IN_SECOND;
 			if ( trimBelow )
 			{
 				rt = Math.floor( rt );
@@ -498,16 +498,16 @@ public class CDateTime extends GregorianCalendar
 		}
 		else if ( iUnit == Calendar.MINUTE )
 		{
-			double rt = ( l1 - l2 ) / MILLIS_IN_MINUTE;
+			double rt = (double) ( l1 - l2 ) / MILLIS_IN_MINUTE;
 			if ( trimBelow )
 			{
 				rt = Math.floor( rt );
 			}
 			return rt;
 		}
-		else if ( iUnit == Calendar.HOUR_OF_DAY )
+		else if ( iUnit == Calendar.HOUR_OF_DAY || iUnit == Calendar.HOUR )
 		{
-			double rt = ( l1 - l2 ) / MILLIS_IN_HOUR;
+			double rt = (double) ( l1 - l2 ) / MILLIS_IN_HOUR;
 			if ( trimBelow )
 			{
 				rt = Math.floor( rt );
@@ -516,7 +516,7 @@ public class CDateTime extends GregorianCalendar
 		}
 		else if ( iUnit == Calendar.DATE )
 		{
-			double rt = ( l1 - l2 ) / MILLIS_IN_DAY;
+			double rt = (double) ( l1 - l2 ) / MILLIS_IN_DAY;
 			if ( trimBelow )
 			{
 				rt = Math.floor( rt );
@@ -570,14 +570,14 @@ public class CDateTime extends GregorianCalendar
 			int endQuarter = cdt2.getYear( ) * 4 + numberOfQuarter( cdt2 );
 			return endQuarter - startQuarter;
 		}
-		
+
 		return 0;
 	}
 
 	/**
-	 * Quarter number (1 to 4) of date/time value d
-	 * The method is merged from DtE's API.
-     *
+	 * Quarter number (1 to 4) of date/time value d The method is merged from
+	 * DtE's API.
+	 * 
 	 * @param d
 	 * @return
 	 * @since 2.3
@@ -610,7 +610,7 @@ public class CDateTime extends GregorianCalendar
 				return -1;
 		}
 	}
-	
+
 	/**
 	 * Walks through all values in a dataset and computes the least significant
 	 * unit for which a difference was noted.
@@ -794,10 +794,10 @@ public class CDateTime extends GregorianCalendar
 			set( Calendar.HOUR, 0 );
 			set( Calendar.AM_PM, AM );
 			set( Calendar.DATE, 1 );
-			
-			if ( iUnit == GroupingUnitType.QUARTERS ) 
+
+			if ( iUnit == GroupingUnitType.QUARTERS )
 			{
-				set( Calendar.MONTH, ( getMonth() / 3 ) * 3 );
+				set( Calendar.MONTH, ( getMonth( ) / 3 ) * 3 );
 			}
 		}
 		else if ( iUnit == WEEK_OF_YEAR )

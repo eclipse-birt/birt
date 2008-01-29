@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.computation.withaxes;
 
 import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.util.CDateTime;
+import org.eclipse.birt.chart.util.ChartUtil;
 
 /**
  * Scale context for min/max computation.
@@ -381,19 +382,53 @@ public class ScaleContext extends Methods
 	private void computeDateTimeMinMax( )
 	{
 		int iStep = asInteger( oStep );
-		CDateTime cdtMinValue = asDateTime( oMinAuto );
-		CDateTime cdtMaxValue = asDateTime( oMaxAuto );
+		CDateTime cdtMinValue = bMinimumFixed ? asDateTime( oMinFixed )
+				: asDateTime( oMinAuto );
+		CDateTime cdtMaxValue = bMaximumFixed ? asDateTime( oMaxFixed )
+				: asDateTime( oMaxAuto );
 
-		if ( !bMinimumFixed )
+		if ( bMaximumFixed && !bMinimumFixed )
 		{
-			oMin = cdtMinValue.backward( iUnit, iStep );
+			oMax = cdtMaxValue;
+			double diff = CDateTime.computeDifference( cdtMaxValue,
+					cdtMinValue,
+					iUnit )
+					/ iStep;
+			int count = (int) diff * iStep;
+
+			if ( !ChartUtil.mathEqual( diff, Math.floor( diff ) ) )
+			{
+				count += iStep;
+			}
+
+			CDateTime cdtMinValue_new = (CDateTime) cdtMaxValue.clone( );
+			cdtMinValue_new.add( iUnit, -count );
+			oMin = cdtMinValue_new;
+
 		}
-		( (CDateTime) oMin ).clearBelow( iUnit );
-		if ( !bMaximumFixed )
+		else
 		{
-			oMax = cdtMaxValue.forward( iUnit, iStep );
+			if ( !bMinimumFixed )
+			{
+				cdtMinValue.clearBelow( iUnit );
+			}
+			oMin = cdtMinValue;
+
+			double diff = CDateTime.computeDifference( cdtMaxValue,
+					cdtMinValue,
+					iUnit )
+					/ iStep;
+			int count = (int) diff * iStep;
+
+			if ( !ChartUtil.mathEqual( diff, Math.floor( diff ) ) )
+			{
+				count += iStep;
+			}
+
+			CDateTime cdtMaxValue_new = (CDateTime) cdtMinValue.clone( );
+			cdtMaxValue_new.add( iUnit, count );
+			oMax = cdtMaxValue_new;
 		}
-		( (CDateTime) oMax ).clearBelow( iUnit );
 
 		// Not support margin computation for Datetime type
 		oMinAuto = null;
