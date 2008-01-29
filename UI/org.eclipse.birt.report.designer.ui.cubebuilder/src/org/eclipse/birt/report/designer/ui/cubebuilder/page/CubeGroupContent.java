@@ -704,8 +704,6 @@ public class CubeGroupContent extends Composite implements Listener
 												.newTabularMeasureGroup( null );
 										input.add( CubeHandle.MEASURE_GROUPS_PROP,
 												measureGroup );
-										if ( input.getContentCount( ICubeModel.MEASURE_GROUPS_PROP ) == 1 )
-											input.setDefaultMeasureGroup( measureGroup );
 									}
 									else
 									{
@@ -1584,9 +1582,6 @@ public class CubeGroupContent extends Composite implements Listener
 							model.getElementHandle( )
 									.add( ICubeModel.MEASURE_GROUPS_PROP,
 											measureGroup );
-							if ( model.getElementHandle( )
-									.getContentCount( ICubeModel.MEASURE_GROUPS_PROP ) == 1 )
-								( (CubeHandle) model.getElementHandle( ) ).setDefaultMeasureGroup( measureGroup );
 						}
 						catch ( SemanticException e1 )
 						{
@@ -1870,8 +1865,6 @@ public class CubeGroupContent extends Composite implements Listener
 							{
 								input.add( CubeHandle.MEASURE_GROUPS_PROP,
 										measureGroup );
-								if ( input.getContentCount( ICubeModel.MEASURE_GROUPS_PROP ) == 1 )
-									input.setDefaultMeasureGroup( measureGroup );
 							}
 							catch ( SemanticException e )
 							{
