@@ -23,7 +23,7 @@ import org.eclipse.birt.data.engine.olap.data.util.Bytes;
 
 /**
  * Extension for the <code>java.io.RandomAccessFile</code>, except for
- * the constuctor and <code>flush()</code> .
+ * the constructor and <code>flush()</code> .
  * <p>
  * 
  * 

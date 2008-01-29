@@ -18,15 +18,10 @@ import java.io.RandomAccessFile;
 import org.eclipse.birt.data.engine.olap.data.document.AbstractBufferedRandomAccessObject;
 
 /**
- * Extension fo the RandomAccessFile to use currBuf.bytesfered I/O as much as
- * possible. Usable with the <code>com.objectwave.persist.FileBroker</code> .
- * Publically identical to <code>java.io.RandomAccessFile</code> , except for
- * the constuctor and <code>flush()</code> .
- * <p>
+ * Extension to the AbstractBufferedRandomAccessObject, use memory delegate
+ * according to the setting of cacheSize if memory is available, or use the disk
+ * cache instead.
  * 
- * <b>Note:</b> This class is not threadsafe.
- * 
- * @see java.io.RandomAccessFile
  */
 public class BufferedRandomAccessFile extends AbstractBufferedRandomAccessObject
 {
