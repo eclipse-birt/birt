@@ -1370,6 +1370,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					ChartException.DATA_BINDING,
 					e );
 		}
+		catch ( RuntimeException e )
+		{
+			throw new ChartException( ChartReportItemUIActivator.ID,
+					ChartException.DATA_BINDING,
+					e );
+		}
 		finally
 		{
 			// Restore old thread context class loader
