@@ -241,12 +241,12 @@ public class ScriptParser
 	{
 		int start = index;
 
-		while ( start > 0 && script.charAt( start - 1 ) != '\n' )
+		while ( start >= 0 && script.charAt( start ) != '\n' )
 		{
-			if ( start < script.length( ) )
+			if ( start + 1 < script.length( ) )
 			{
 				if ( script.charAt( start ) == '/' &&
-						script.charAt( start - 1 ) == '/' )
+						script.charAt( start + 1 ) == '/' )
 				{
 					return true;
 				}
