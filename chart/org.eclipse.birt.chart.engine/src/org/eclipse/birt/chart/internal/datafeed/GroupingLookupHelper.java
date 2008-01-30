@@ -474,7 +474,9 @@ public class GroupingLookupHelper
 	static String getBaseAggregationExpression( SeriesDefinition sd )
 	{
 		SeriesGrouping grouping = sd.getGrouping( );
-		if ( grouping.isSetEnabled( ) && grouping.isEnabled( ) )
+		if ( grouping != null &&
+				grouping.isSetEnabled( ) &&
+				grouping.isEnabled( ) )
 		{
 			return grouping.getAggregateExpression( );
 		}

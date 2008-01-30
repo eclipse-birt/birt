@@ -211,7 +211,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 		else
 		{
-			return getPreviewRowDataForTableSharedBinding( getPreviewHeaderForTableSharedBinding( ),
+			return getPreviewRowDataForTableSharedBinding( getPreviewHeadersInfo( ),
 					-1,
 					true );
 		}
@@ -223,7 +223,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @throws ChartException
 	 * @since BIRT 2.3
 	 */
-	public final ColumnBindingInfo[] getPreviewHeaderForTableSharedBinding( )
+	public final ColumnBindingInfo[] getPreviewHeadersInfo( )
 			throws ChartException
 	{
 		Iterator iterator = ChartReportItemUtil.getColumnDataBindings( itemHandle );
@@ -233,8 +233,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			columnList.add( iterator.next( ) );
 		}
 
+		if ( columnList.size( ) == 0 )
+		{
+			return null;
+		}
+		
 		ColumnBindingInfo[] columnHeaders = null;
-
 		if ( isTableSharedBinding( ) )
 		{
 			// Process grouping and aggregate on group case.
@@ -1293,7 +1297,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 				// Binding columns, aggregates, filters and sorts.
 				final Map bindingExprsMap = new HashMap( );
-				generateTableSharedBindingQuery( getPreviewHeaderForTableSharedBinding( ),
+				generateTableSharedBindingQuery( getPreviewHeadersInfo( ),
 						queryDefn,
 						session,
 						bindingExprsMap );
@@ -1589,8 +1593,13 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			}
 
 			// Prepare Y optional items.
-			Object[][] optionals = new Object[groupsWithoutAgg.size( )
-					+ groupsWithAgg.size( ) - 1][2];
+			int size = 0;
+			if ( groupsWithAgg.size( ) > 0 )
+			{
+			    // Except inner most group, since the Y optional group is always not a inner most group.
+				size = groupsWithAgg.size( ) - 1;
+			}
+			Object[][] optionals = new Object[groupsWithoutAgg.size( ) + size][2];
 			index = 0;
 			// add groups which don't include aggregate.
 			for ( Iterator iter = groupsWithoutAgg.entrySet( ).iterator( ); iter.hasNext( ); )

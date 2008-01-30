@@ -872,7 +872,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 				try
 				{
 					// Get header and data in other thread.
-					final ColumnBindingInfo[] headers = getDataServiceProvider( ).getPreviewHeaderForTableSharedBinding( );
+					final ColumnBindingInfo[] headers = getDataServiceProvider( ).getPreviewHeadersInfo( );
 					final List dataList = getDataServiceProvider( ).getPreviewData( );
 					getDataServiceProvider( ).setPredefinedExpressionsForTableSharedBinding( getContext( ),
 							headers );
@@ -900,7 +900,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 								tablePreview.setColumns( headers );
 
 								refreshTableColor( );
-
+								
 								// Add data value
 								for ( Iterator iterator = dataList.iterator( ); iterator.hasNext( ); )
 								{
