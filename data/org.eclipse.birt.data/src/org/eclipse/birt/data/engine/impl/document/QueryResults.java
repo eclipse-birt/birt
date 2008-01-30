@@ -29,6 +29,7 @@ import org.eclipse.birt.data.engine.impl.ExecutorHelper;
 import org.eclipse.birt.data.engine.impl.IExecutorHelper;
 import org.eclipse.birt.data.engine.impl.IQueryService;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
+import org.eclipse.birt.data.engine.script.DataExceptionMocker;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
@@ -394,17 +395,17 @@ public class QueryResults implements IQueryResults, IQueryService
 	private class DummyJSResultSetRow extends ScriptableObject
 	{
 		//
-		private IExecutorHelper helper;
+		private IExecutorHelper parentHelper;
 		private IResultIterator currentIterator;
 		
 		/**
 		 * 
-		 * @param helper
+		 * @param parentHelper
 		 * @param currentIterator
 		 */
-		DummyJSResultSetRow( IExecutorHelper helper, IResultIterator currentIterator )
+		DummyJSResultSetRow( IExecutorHelper parentHelper, IResultIterator currentIterator )
 		{
-			this.helper = helper;
+			this.parentHelper = parentHelper;
 			this.currentIterator = currentIterator;
 		}
 		
@@ -414,9 +415,14 @@ public class QueryResults implements IQueryResults, IQueryService
 		 */
 		public Object get( String name, Scriptable scope )
 		{
-			if( ScriptConstants.OUTER_RESULT_KEYWORD.equalsIgnoreCase( name ) && this.helper!= null )
+			if( ScriptConstants.OUTER_RESULT_KEYWORD.equalsIgnoreCase( name ) )
 			{
-				return this.helper.getScriptable( );
+				if( this.parentHelper == null )
+				{
+					return new DataExceptionMocker( new DataException( ResourceConstants.NO_OUTER_RESULTS_EXIST ));
+				}
+				else
+					return this.parentHelper.getScriptable( );
 			}
 			try
 			{
