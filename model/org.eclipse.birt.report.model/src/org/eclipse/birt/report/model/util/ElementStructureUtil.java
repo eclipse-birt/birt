@@ -30,6 +30,7 @@ import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.OdaDataSource;
 import org.eclipse.birt.report.model.elements.TableItem;
+import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
@@ -294,12 +295,15 @@ public class ElementStructureUtil
 		}
 
 		// do some special handle for cube and dimension
+
 		if ( target instanceof Cube )
 		{
 			Cube targetCube = (Cube) target;
 			Cube sourceCube = (Cube) source;
-			DesignElement group = sourceCube.getDefaultMeasureGroup( sourceCube
-					.getRoot( ) );
+			Module sourceRoot = sourceCube.getRoot( );
+
+			DesignElement group = source.getReferenceProperty( sourceRoot,
+					ICubeModel.DEFAULT_MEASURE_GROUP_PROP );
 			if ( group != null )
 			{
 				int index = group.getIndex( sourceCube.getRoot( ) );
@@ -311,7 +315,8 @@ public class ElementStructureUtil
 		{
 			Dimension targetDimension = (Dimension) target;
 			Dimension sourceDimension = (Dimension) source;
-			ModelUtil.duplicateDefaultHierarchy( targetDimension, sourceDimension );
+			ModelUtil.duplicateDefaultHierarchy( targetDimension,
+					sourceDimension );
 		}
 
 		return true;

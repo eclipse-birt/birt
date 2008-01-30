@@ -77,20 +77,35 @@ public abstract class Cube extends ReferenceableElement implements ICubeModel
 	}
 
 	/**
-	 * Gets the default measure group in this cube.
+	 * Gets the default measure group in this cube. If the measure group is not
+	 * set, the first available measure group is treated as the default measure
+	 * group.
 	 * 
 	 * @param module
-	 * @return
+	 *            the root design/library
+	 * @return the default measure group
 	 */
+
 	public DesignElement getDefaultMeasureGroup( Module module )
 	{
 		DesignElement measureGroup = getReferenceProperty( module,
 				DEFAULT_MEASURE_GROUP_PROP );
-		// if measure group is not set or resolved, or the group does not reside
-		// in this cube, then return null
-		if ( measureGroup == null || measureGroup.getContainer( ) != this )
+
+		if ( measureGroup != null )
+		{
+			// if measure group is not set or resolved, or the group does not
+			// reside in this cube, then return null
+
+			if ( measureGroup.getContainer( ) != this )
+				return null;
+			return measureGroup;
+		}
+
+		List groups = getListProperty( module, MEASURE_GROUPS_PROP );
+		if ( groups == null || groups.isEmpty( ) )
 			return null;
-		return measureGroup;
+
+		return (DesignElement) groups.get( 0 );
 	}
 
 	/**
