@@ -1267,7 +1267,16 @@ public final class AutoScale extends Methods implements Cloneable
 					oMaxValue,
 					oStep );
 		}
-		sct.setFixedValue( bMinimumFixed, bMaximumFixed, oMinimumFixed, oMaximumFixed );
+
+		if ( ( iType & DATE_TIME ) == DATE_TIME )
+		{
+			// Bugzilla#217044
+			sct.setFixedValue( bMinimumFixed, bMaximumFixed, oMinimumFixed, oMaximumFixed );
+		}
+		else
+		{
+			sct.setFixedValue( bMinimumFixed, bMaximumFixed, oMinimum, oMaximum );
+		}
 		sct.setFixedStep( bStepFixed, oStepNumber );
 		sct.computeMinMax( );
 		updateContext( sct );
