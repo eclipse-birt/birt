@@ -404,13 +404,19 @@ public class ScaleContext extends Methods
 			CDateTime cdtMinValue_new = (CDateTime) cdtMaxValue.clone( );
 			cdtMinValue_new.add( iUnit, -count );
 			oMin = cdtMinValue_new;
-
 		}
 		else
 		{
 			if ( !bMinimumFixed )
 			{
+				cdtMinValue = cdtMinValue.backward( iUnit, iStep );
 				cdtMinValue.clearBelow( iUnit );
+				
+				if (!bMaximumFixed)
+				{
+					cdtMaxValue = cdtMaxValue.forward( iUnit, iStep );
+					cdtMaxValue.clearBelow( iUnit );
+				}
 			}
 			oMin = cdtMinValue;
 

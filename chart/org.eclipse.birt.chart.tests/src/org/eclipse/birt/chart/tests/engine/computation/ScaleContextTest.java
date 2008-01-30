@@ -214,7 +214,7 @@ public class ScaleContextTest extends TestCase
 				CDateTime.parse( "03-31-2007 00:00:00" ),
 				new Integer( 1 ) );
 		scale.computeMinMax( );
-		assertEquals( CDateTime.parse( "01-01-2007 00:00:00" ), scale.getMin( ) );
+		assertEquals( CDateTime.parse( "01-01-2006 00:00:00" ), scale.getMin( ) );
 		assertEquals( CDateTime.parse( "01-01-2008 00:00:00" ), scale.getMax( ) );
 		// Margin not supported for datetime
 		assertEquals( null, scale.getMinWithMargin( ) );
@@ -227,17 +227,17 @@ public class ScaleContextTest extends TestCase
 				CDateTime.parse( "03-31-2007 00:00:00" ),
 				new Integer( 1 ) );
 		scale.computeMinMax( );
-		assertEquals( CDateTime.parse( "01-01-2007 00:00:00" ), scale.getMin( ) );
+		assertEquals( CDateTime.parse( "12-01-2006 00:00:00" ), scale.getMin( ) );
 		assertEquals( CDateTime.parse( "04-01-2007 00:00:00" ), scale.getMax( ) );
 
 		scale = new ScaleContext( 0,
 				IConstants.DATE_TIME,
 				CDateTime.DAY_OF_MONTH,
 				CDateTime.parse( "01-01-2007 00:00:00" ),
-				CDateTime.parse( "03-31-2007 00:00:01" ),
+				CDateTime.parse( "03-31-2007 00:00:00" ),
 				new Integer( 1 ) );
 		scale.computeMinMax( );
-		assertEquals( CDateTime.parse( "01-01-2007 00:00:00" ), scale.getMin( ) );
+		assertEquals( CDateTime.parse( "12-31-2006 00:00:00" ), scale.getMin( ) );
 		assertEquals( CDateTime.parse( "04-01-2007 00:00:00" ), scale.getMax( ) );
 
 		scale = new ScaleContext( 0,
@@ -247,7 +247,7 @@ public class ScaleContextTest extends TestCase
 				CDateTime.parse( "03-31-2007 09:13:22" ),
 				new Integer( 1 ) );
 		scale.computeMinMax( );
-		assertEquals( CDateTime.parse( "03-10-2007 10:00:00" ), scale.getMin( ) );
+		assertEquals( CDateTime.parse( "03-10-2007 09:00:00" ), scale.getMin( ) );
 		assertEquals( CDateTime.parse( "03-31-2007 10:00:00" ), scale.getMax( ) );
 
 		scale = new ScaleContext( 0,
@@ -257,7 +257,7 @@ public class ScaleContextTest extends TestCase
 				CDateTime.parse( "03-31-2007 09:13:22" ),
 				new Integer( 1 ) );
 		scale.computeMinMax( );
-		assertEquals( CDateTime.parse( "03-10-2007 10:12:00" ), scale.getMin( ) );
+		assertEquals( CDateTime.parse( "03-10-2007 10:11:00" ), scale.getMin( ) );
 		assertEquals( CDateTime.parse( "03-31-2007 09:14:00" ), scale.getMax( ) );
 
 		scale = new ScaleContext( 0,
@@ -267,8 +267,8 @@ public class ScaleContextTest extends TestCase
 				CDateTime.parse( "03-31-2007 09:13:22" ),
 				new Integer( 1 ) );
 		scale.computeMinMax( );
-		assertEquals( CDateTime.parse( "03-10-2007 10:12:12" ), scale.getMin( ) );
-		assertEquals( CDateTime.parse( "03-31-2007 09:13:22" ), scale.getMax( ) );
+		assertEquals( CDateTime.parse( "03-10-2007 10:12:11" ), scale.getMin( ) );
+		assertEquals( CDateTime.parse( "03-31-2007 09:13:23" ), scale.getMax( ) );
 	}
 
 	public void testDateTimeScaleWithFixed( )

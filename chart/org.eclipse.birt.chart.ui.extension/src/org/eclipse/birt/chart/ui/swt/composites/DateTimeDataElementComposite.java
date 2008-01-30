@@ -86,6 +86,7 @@ public class DateTimeDataElementComposite extends Composite
 				pickerTime.getHours( ),
 				pickerTime.getMinutes( ),
 				pickerTime.getSeconds( ) );
+		calendar.set( calendar.MILLISECOND, 0 );
 		return DateTimeDataElementImpl.create( calendar );
 	}
 

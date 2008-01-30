@@ -3524,11 +3524,17 @@ public abstract class AxesRenderer extends BaseRenderer
 		CDateTime cmax = Methods.asDateTime( max );
 		if ( entry.before( cmin ) )
 		{
-			iOutside = 1;
+			if ( CDateTime.getDifference( entry, cmin ) != 0 )
+			{
+				iOutside = 1;
+			}
 		}
 		else if ( entry.after( cmax ) )
 		{
-			iOutside = 2;
+			if ( CDateTime.getDifference( entry, cmax ) != 0 )
+			{
+				iOutside = 2;
+			}
 		}
 		return iOutside;
 	}
