@@ -61,14 +61,16 @@ public class AggregationRowAccessor extends AbstractRowAccessor
 			{
 				for ( int j = 0; j < attrNames.length; j++ )
 				{
+					String attrName = parseAttributeName( attrNames[j] );
 					String name = OlapExpressionUtil.getAttrReference( level.getDimensionName( ),
 							level.getLevelName( ),
-							attrNames[j] );
+							attrName );
 					fieldIndexMap.put( name, new AggregationAttrIndex( i, j ) );
 				}
 			}
 		}
 	}
+
 
 	/*
 	 * (non-Javadoc)

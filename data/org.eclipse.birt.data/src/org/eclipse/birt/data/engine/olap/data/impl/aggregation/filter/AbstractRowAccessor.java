@@ -25,6 +25,19 @@ public abstract class AbstractRowAccessor implements IResultRow
 {
 
 	protected Map fieldIndexMap = new HashMap( );
+	
+	/**
+	 * parse the complex attribute name to get the original name since it's
+	 * composed of level name and original attribute name.
+	 * 
+	 * @param attrName
+	 * @return
+	 */
+	protected String parseAttributeName( String attrName )
+	{
+		final int index = attrName.indexOf( "/" );//$NON-NLS-1$
+		return index > 0 ? attrName.substring( index + 1 ) : attrName;
+	}
 
 	/**
 	 * populate the field indices to the fieldIndexMap, which should be called

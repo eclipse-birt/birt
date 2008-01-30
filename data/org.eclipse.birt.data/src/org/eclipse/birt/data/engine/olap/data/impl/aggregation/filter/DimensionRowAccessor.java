@@ -57,10 +57,10 @@ public class DimensionRowAccessor extends AbstractRowAccessor
 			{
 				for ( int j = 0; j < keyNames.length; j++ )
 				{
-					String keyName = OlapExpressionUtil.getAttrReference( dimension.getName( ),
+					String name = OlapExpressionUtil.getAttrReference( dimension.getName( ),
 							levels[i].getName( ),
 							keyNames[j] );
-					fieldIndexMap.put( keyName, new DimensionKeyIndex( i, j ) );
+					fieldIndexMap.put( name, new DimensionKeyIndex( i, j ) );
 				}
 			}
 
@@ -69,10 +69,11 @@ public class DimensionRowAccessor extends AbstractRowAccessor
 			{
 				for ( int j = 0; j < attrNames.length; j++ )
 				{
-					String attrName = OlapExpressionUtil.getAttrReference( dimension.getName( ),
+					String attrName = parseAttributeName( attrNames[j] );
+					String name = OlapExpressionUtil.getAttrReference( dimension.getName( ),
 							levels[i].getName( ),
-							attrNames[j] );
-					fieldIndexMap.put( attrName, new DimensionAttrIndex( i, j ) );
+							attrName );
+					fieldIndexMap.put( name, new DimensionAttrIndex( i, j ) );
 				}
 			}
 		}
