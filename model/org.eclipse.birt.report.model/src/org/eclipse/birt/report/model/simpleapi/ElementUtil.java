@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
@@ -33,8 +34,20 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.simpleapi.IDesignElement;
 
+/**
+ * 
+ */
+
 public class ElementUtil
 {
+
+	/**
+	 * Returns the simple api element for the given <code>element</code>.
+	 * 
+	 * @param element
+	 *            the element handle
+	 * @return the simple api element instance
+	 */
 
 	public static IDesignElement getElement( DesignElementHandle element )
 	{
@@ -86,9 +99,15 @@ public class ElementUtil
 		if ( element instanceof ColumnHandle )
 			return new Column( (ColumnHandle) element );
 
-		if( element instanceof MasterPageHandle )
+		if ( element instanceof MasterPageHandle )
 		{
-			return new MasterPage( (MasterPageHandle)element );
+			return new MasterPage( (MasterPageHandle) element );
+		}
+
+		if ( element instanceof FilterConditionElementHandle )
+		{
+			return new FilterConditionElement(
+					(FilterConditionElementHandle) element );
 		}
 
 		if ( element instanceof ExtendedItemHandle )
@@ -112,7 +131,7 @@ public class ElementUtil
 
 			return item;
 		}
-		
+
 		return new ReportElement( (ReportElementHandle) element );
 	}
 
