@@ -724,8 +724,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		try
 		{
 			// Clean references if it's set
+			boolean isPreviousDataBindingReference = false;
 			if ( itemHandle.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
 			{
+				isPreviousDataBindingReference = true;
 				itemHandle.setDataBindingReference( null );
 			}
 
@@ -743,7 +745,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			else
 			{
 				DataSetHandle dataset = getReportDesignHandle( ).findDataSet( datasetName );
-				if ( itemHandle.getDataSet( ) != dataset )
+				if ( isPreviousDataBindingReference || itemHandle.getDataSet( ) != dataset )
 				{
 					itemHandle.setDataSet( dataset );
 

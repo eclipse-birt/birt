@@ -859,6 +859,9 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		return query;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.IQueryExpressionManager#getDisplayExpression()
+	 */
 	public String getDisplayExpression( )
 	{
 		if ( cmbDefinition != null && isTableSharedBinding( ) )
@@ -878,18 +881,21 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 						boolean groupedBinding = ( chi.getColumnType( ) == ColumnBindingInfo.GROUP_COLUMN );
 						if ( sdGrouped == groupedBinding )
 						{
-							return cmbDefinition.getItem( i );
+							String expr = cmbDefinition.getItem( i );
+							return ( expr == null ) ? "" : expr; //$NON-NLS-1$
 						}
 					}
 
 				}
 			}
 			
-			return query.getDefinition( );
+			String expr = query.getDefinition( );
+			return ( expr == null ) ? "" : expr; //$NON-NLS-1$
 		}
 		else
 		{
-			return query.getDefinition( );
+			String expr = query.getDefinition( );
+			return ( expr == null ) ? "" : expr; //$NON-NLS-1$
 		}
 	}
 }
