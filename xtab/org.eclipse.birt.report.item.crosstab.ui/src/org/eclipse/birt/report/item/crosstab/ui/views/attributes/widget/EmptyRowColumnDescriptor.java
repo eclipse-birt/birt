@@ -71,16 +71,23 @@ public class EmptyRowColumnDescriptor implements IPropertyDescriptor
 			{
 				if ( button.getSelection( ) )
 				{
-					if ( list.getSelectionCount( ) == 0 )
+					initList( );
+					if ( list.getItemCount( ) > 0 )
 					{
-						initList( );
-						if ( list.getSelectionCount( ) > 0 )
+						button.setEnabled( true );
+						list.setEnabled( true );
+						if ( list.getSelectionCount( ) == 0 )
 						{
 							list.setSelection( 0 );
-							handleListSelectEvent( );
 						}
+						handleListSelectEvent( );
 					}
-					list.setEnabled( true );
+					else
+					{
+						button.setEnabled( false );
+						button.setSelection( false );
+						list.setEnabled( false );
+					}
 				}
 				else
 				{
@@ -118,13 +125,13 @@ public class EmptyRowColumnDescriptor implements IPropertyDescriptor
 		} );
 
 		GridData gd = new GridData( );
-		gd.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;
+		gd.verticalAlignment = GridData.VERTICAL_ALIGN_FILL;
 		int width = provider.getMaxLengthOfDisplayName( button );
 		gd.widthHint = width + buttonWidth;
 		button.setLayoutData( gd );
 
 		gd = new GridData( );
-		gd.heightHint = 100;
+		gd.heightHint = 80;
 		gd.widthHint = 180;
 		list.setLayoutData( gd );
 
@@ -154,7 +161,9 @@ public class EmptyRowColumnDescriptor implements IPropertyDescriptor
 		if ( list.getItemCount( ) == 0 )
 		{
 			button.setEnabled( false );
+			button.setSelection( false );
 			list.setEnabled( false );
+			return;
 		}
 		else
 			button.setEnabled( true );
