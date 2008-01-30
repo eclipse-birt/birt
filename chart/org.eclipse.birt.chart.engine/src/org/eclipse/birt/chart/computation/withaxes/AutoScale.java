@@ -3168,9 +3168,7 @@ public final class AutoScale extends Methods implements Cloneable
 					Messages.getResourceBundle( rtc.getULocale( ) ) );
 		}
 
-		// Bugzilla#207270 Even if labels are invisible but if within axes,
-		// still need to compute label thickness
-		if ( !la.isVisible( ) && !bLabelWithinAxes )
+		if ( !la.isVisible( ) )
 		{
 			return 0;
 		}
