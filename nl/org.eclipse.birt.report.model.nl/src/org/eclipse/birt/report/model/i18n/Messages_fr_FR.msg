@@ -3564,7 +3564,7 @@ Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=Les éléments de modèle ne
 Info.VersionInfo.INVALID_DESIGN_FILE=Le fichier modèle d'ouverture n'est pas un fichier modèle valide ou le fichier n'existe pas.
 Info.VersionInfo.CONVERT_INFO=Le fichier modèle a été créé à l'aide d'une version antérieure de BIRT. Cliquez sur OK pour le convertir dans un format pris en charge par la version actuelle du produit.
 Info.VersionInfo.INVALID_VERSION=Le fichier d''état de la version "{0}" n''est pas pris en charge.
-Info.VersionInfo.EXTENSION_COMPATIBILITY =Le fichier modèle d'ouverture/bibliothèque (ou les bibliothèques qu'il contient) est doté d'éléments étendus qui doivent être compatibles.
+Info.VersionInfo.EXTENSION_COMPATIBILITY =The design/library may be changed since the backward compatibility is applied to the opening design/library or its included libraries.
 
 #EncryptionException
 Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY=La propriété {1} dans {0} ne peut pas être chiffrée, vous ne pouvez donc pas modifier le chiffrement.
