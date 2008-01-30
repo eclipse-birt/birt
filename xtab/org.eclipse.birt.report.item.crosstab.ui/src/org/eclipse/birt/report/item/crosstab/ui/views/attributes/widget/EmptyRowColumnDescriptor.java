@@ -14,11 +14,9 @@ package org.eclipse.birt.report.item.crosstab.ui.views.attributes.widget;
 import java.util.Arrays;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormWidgetFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.IPropertyDescriptor;
-import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.EmptyRowColumnProvider;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
@@ -59,12 +57,13 @@ public class EmptyRowColumnDescriptor implements IPropertyDescriptor
 		composite = new Composite( parent, SWT.NONE );
 		GridLayout layout = new GridLayout( );
 		layout.marginWidth = layout.marginHeight = 2;
-		layout.horizontalSpacing = 15;
+		layout.horizontalSpacing = 10;
 		layout.numColumns = 2;
 		composite.setLayout( layout );
 		button = FormWidgetFactory.getInstance( ).createButton( composite,
 				SWT.CHECK,
 				isFormStyle( ) );
+		int buttonWidth = button.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
 		button.setText( provider.getDisplayName( ) );
 		button.addSelectionListener( new SelectionAdapter( ) {
 
@@ -117,15 +116,13 @@ public class EmptyRowColumnDescriptor implements IPropertyDescriptor
 
 		GridData gd = new GridData( );
 		gd.verticalAlignment = GridData.VERTICAL_ALIGN_BEGINNING;
-		int width = UIUtil.getMaxStringWidth( new String[]{
-				Messages.getString( "EmptyRowColumnProvider.RowView.Button.Text" ),
-				Messages.getString( "EmptyRowColumnProvider.ColumnView.Button.Text" )
-		},
-				button );
-		gd.widthHint = width + 30;
+		int width = provider.getMaxLengthOfDisplayName( button );
+		gd.widthHint = width + buttonWidth;
 		button.setLayoutData( gd );
 
-		gd = new GridData( GridData.FILL_BOTH );
+		gd = new GridData( );
+		gd.heightHint = 100;
+		gd.widthHint = 180;
 		list.setLayoutData( gd );
 
 		return composite;
@@ -151,6 +148,13 @@ public class EmptyRowColumnDescriptor implements IPropertyDescriptor
 	public void load( )
 	{
 		initList( );
+		if ( list.getItemCount( ) == 0 )
+		{
+			button.setEnabled( false );
+			list.setEnabled( false );
+		}
+		else
+			button.setEnabled( true );
 		Object value = provider.load( );
 		if ( value == null )
 		{

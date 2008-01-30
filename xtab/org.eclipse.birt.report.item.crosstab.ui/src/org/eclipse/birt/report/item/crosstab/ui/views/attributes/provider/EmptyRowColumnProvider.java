@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
@@ -26,10 +27,13 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.swt.widgets.Control;
 
 public class EmptyRowColumnProvider implements IDescriptorProvider
 {
 
+	private static final String EMPTY_COLUMN_TEXT = Messages.getString( "EmptyRowColumnProvider.ColumnView.Button.Text" );
+	private static final String EMPTY_ROW_TEXT = Messages.getString( "EmptyRowColumnProvider.RowView.Button.Text" );
 	private int viewType;
 	protected Object input;
 
@@ -41,9 +45,16 @@ public class EmptyRowColumnProvider implements IDescriptorProvider
 	public String getDisplayName( )
 	{
 		if ( viewType == ICrosstabConstants.ROW_AXIS_TYPE )
-			return Messages.getString( "EmptyRowColumnProvider.RowView.Button.Text" );
+			return EMPTY_ROW_TEXT;
 		else
-			return Messages.getString( "EmptyRowColumnProvider.ColumnView.Button.Text" );
+			return EMPTY_COLUMN_TEXT;
+	}
+
+	public int getMaxLengthOfDisplayName( Control control )
+	{
+		return UIUtil.getMaxStringWidth( new String[]{
+				EMPTY_COLUMN_TEXT, EMPTY_ROW_TEXT
+		}, control );
 	}
 
 	public Object load( )
@@ -124,6 +135,8 @@ public class EmptyRowColumnProvider implements IDescriptorProvider
 		catch ( ExtendedElementException e )
 		{
 		}
+		if ( list.size( ) > 0 )
+			list.remove( 0 );
 		return list;
 	}
 

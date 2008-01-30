@@ -50,8 +50,7 @@ public class EmptyRowColumnPage extends AttributePage
 		emptyRowSection.setProvider( emptyRowProvider );
 		emptyRowSection.setLayoutNum( 3 );
 		emptyRowSection.setGridPlaceholder( 0, true );
-		emptyRowSection.setWidth( 400 );
-		emptyRowSection.setHeight( 120 );
+		emptyRowSection.setWidth( 500 );
 		addSection( CrosstabPageSectionId.EMPTY_ROW, emptyRowSection );
 
 		EmptyRowColumnProvider emptyColumnProvider = new EmptyRowColumnProvider( ICrosstabConstants.COLUMN_AXIS_TYPE );
@@ -60,8 +59,7 @@ public class EmptyRowColumnPage extends AttributePage
 		emptyColumnSection.setProvider( emptyColumnProvider );
 		emptyColumnSection.setLayoutNum( 3 );
 		emptyColumnSection.setGridPlaceholder( 0, true );
-		emptyColumnSection.setWidth( 400 );
-		emptyColumnSection.setHeight( 120 );
+		emptyColumnSection.setWidth( 500 );
 		addSection( CrosstabPageSectionId.EMPTY_COLUMN, emptyColumnSection );
 
 		TextPropertyDescriptorProvider emptyCellValueProvider = new TextPropertyDescriptorProvider( ICrosstabReportItemConstants.EMPTY_CELL_VALUE_PROP,
