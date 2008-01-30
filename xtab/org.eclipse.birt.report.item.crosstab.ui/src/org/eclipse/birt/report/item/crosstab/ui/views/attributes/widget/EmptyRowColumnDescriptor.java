@@ -178,6 +178,9 @@ public class EmptyRowColumnDescriptor implements IPropertyDescriptor
 			button.setSelection( true );
 			list.setEnabled( true );
 
+			if ( list.getSelectionCount( ) > 0
+					&& list.getSelection( )[0].equals( ( (LevelHandle) value ).getName( ) ) )
+				return;
 			list.setSelection( new String[]{
 				( (LevelHandle) value ).getName( )
 			} );
