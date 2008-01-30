@@ -176,6 +176,14 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 	public void initDialog( )
 	{
+		if ( isAggregate( ) )
+		{
+			initFunction( );
+			initDataFields( );
+			initFilter( );
+			initAggOn( );
+		}
+		
 		if ( getBinding( ) == null )// create
 		{
 			setTypeSelect( dataTypes[0] );
@@ -198,13 +206,6 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			this.txtName.setEnabled( false );
 		}
 
-		if ( isAggregate( ) )
-		{
-			initFunction( );
-			initDataFields( );
-			initFilter( );
-			initAggOn( );
-		}
 		validate( );
 	}
 

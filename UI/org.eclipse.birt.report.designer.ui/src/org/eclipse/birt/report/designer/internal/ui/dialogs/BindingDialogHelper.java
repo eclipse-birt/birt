@@ -213,6 +213,15 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 	public void initDialog( )
 	{
+		//initiate function firstly then data type field.
+		if ( isAggregate( ) )
+		{
+			initFunction( );
+			initDataFields( );
+			initFilter( );
+			initGroups( );
+		}
+		
 		if ( isCreate )// create
 		{
 			if ( isRef )
@@ -329,13 +338,6 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			}
 		}
 
-		if ( isAggregate( ) )
-		{
-			initFunction( );
-			initDataFields( );
-			initFilter( );
-			initGroups( );
-		}
 		validate( );
 	}
 
