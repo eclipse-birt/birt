@@ -33,7 +33,7 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.reportitem.AbstractChartBaseQueryGenerator;
-import org.eclipse.birt.chart.reportitem.ChartBuilderGroupedQueryResultSetEvaluator;
+import org.eclipse.birt.chart.reportitem.BaseGroupedQueryResultSetEvaluator;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
@@ -1312,7 +1312,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 				if ( actualResultSet != null )
 				{
-					return new ChartBuilderGroupedQueryResultSetEvaluator( actualResultSet.getResultIterator( ),
+					return new BaseGroupedQueryResultSetEvaluator( actualResultSet.getResultIterator( ),
 							ChartReportItemUtil.hasAggregation( cm ) ) {
 
 						/*
@@ -1364,7 +1364,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 						ChartReportItemUtil.getColumnDataBindings( itemHandle ) );
 				if ( actualResultSet != null )
 				{
-					return new ChartBuilderGroupedQueryResultSetEvaluator( actualResultSet.getResultIterator( ),
+					return new BaseGroupedQueryResultSetEvaluator( actualResultSet.getResultIterator( ),
 							ChartReportItemUtil.hasAggregation( cm ) );
 				}
 			}
