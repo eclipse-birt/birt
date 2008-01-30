@@ -44,8 +44,6 @@ import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
 import org.eclipse.birt.data.engine.olap.script.JSCubeBindingObject;
-import org.eclipse.birt.data.engine.olap.script.JSLevelAccessor;
-import org.eclipse.birt.data.engine.olap.script.JSMeasureAccessor;
 import org.eclipse.birt.data.engine.olap.script.OLAPExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.olap.util.OlapQueryUtil;
@@ -315,11 +313,10 @@ public class CubeCursorImpl implements ICubeCursor
 		
 		if ( !validBindingSet.contains( arg0 ) )
 		{
-			if ( arg0.equals( ScriptEvalUtil.OUTER_RESULTS_SCRIPTABLE ))
+			if ( arg0.equals( ScriptConstants.OUTER_RESULT_KEYWORD ) && this.outerResults!= null )
 				return this.outerResults;
 			
-			result = new DataException( ResourceConstants.REFERENCED_BINDING_NOT_EXIST,
-					arg0 );
+			throw new OLAPException( ResourceConstants.NO_OUTER_RESULTS_EXIST );
 			
 		}
 		else

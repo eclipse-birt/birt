@@ -22,9 +22,6 @@ import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.expression.ColumnReferenceExpression;
-import org.eclipse.birt.data.engine.expression.CompiledExpression;
-import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.mozilla.javascript.Context;
 
 /**

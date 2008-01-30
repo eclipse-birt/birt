@@ -15,7 +15,6 @@ import javax.olap.OLAPException;
 
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
-import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
@@ -46,7 +45,7 @@ public class JSCubeBindingObject extends ScriptableObject
 		try
 		{
 			if( ScriptConstants.OUTER_RESULT_KEYWORD.equals( arg0 ))
-				return cursor.getObject( ScriptEvalUtil.OUTER_RESULTS_SCRIPTABLE );
+				return cursor.getObject( ScriptConstants.OUTER_RESULT_KEYWORD );
 			return cursor.getObject( arg0 );
 		}
 		catch ( OLAPException e )

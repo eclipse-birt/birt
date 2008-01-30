@@ -22,7 +22,6 @@ public final class ScriptConstants
 	public static final String DATA_BINDING_SCRIPTABLE = "data";
 	public static final String MEASURE_SCRIPTABLE = "measure";
 	public static final String DIMENSION_SCRIPTABLE = "dimension";
-	public static final String OUTER_RESULT_SCRIPTABLE = "{$OUTER_RESULTS_SCRIPTABLE$}";
 	public static final String OUTER_RESULT_KEYWORD = "_outer";
 	public static final String ROW_NUM_KEYWORD = "__rownum";
 }

@@ -115,7 +115,7 @@ public class JSResultSetRow extends ScriptableObject
 			if( this.helper.getParent( )!= null)
 				return helper.getParent( ).getScriptable( );
 			else
-				return null;
+				return new DataExceptionMocker( new DataException( ResourceConstants.NO_OUTER_RESULTS_EXIST ));
 		}
 		int rowIndex = -1;
 		try

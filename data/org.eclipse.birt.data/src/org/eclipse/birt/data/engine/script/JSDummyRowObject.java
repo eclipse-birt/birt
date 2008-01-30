@@ -16,7 +16,9 @@ import java.util.Map;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.ExprManager;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
@@ -65,7 +67,14 @@ public class JSDummyRowObject extends ScriptableObject
 	{
 		if ( ScriptConstants.OUTER_RESULT_KEYWORD.equalsIgnoreCase( name ) )
 		{
-			return parent;
+			if ( parent == null )
+			{
+				return new DataExceptionMocker( new DataException( ResourceConstants.NO_OUTER_RESULTS_EXIST ) );
+			}
+			else
+			{
+				return parent;
+			}
 		}
 		
 		if ( valueCacheMap.containsKey( name ) )

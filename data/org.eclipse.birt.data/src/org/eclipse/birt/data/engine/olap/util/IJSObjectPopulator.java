@@ -22,10 +22,12 @@ import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.script.JSCubeBindingObject;
 import org.eclipse.birt.data.engine.olap.util.filter.IFacttableRow;
 import org.eclipse.birt.data.engine.olap.util.filter.IResultRow;
+import org.eclipse.birt.data.engine.script.DataExceptionMocker;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
@@ -321,8 +323,10 @@ public interface IJSObjectPopulator
 				Context cx = Context.enter( );
 				if ( !this.bindingMap.containsKey( aggrName ) )
 				{
-					if( aggrName.equals( ScriptConstants.OUTER_RESULT_KEYWORD ) && this.outResultsScriptable!= null )
+					if( aggrName.equals( ScriptConstants.OUTER_RESULT_KEYWORD )  )
 					{
+						if ( this.outResultsScriptable == null )
+							return new DataExceptionMocker( new DataException( ResourceConstants.NO_OUTER_RESULTS_EXIST ) );
 						return this.outResultsScriptable;
 					}
 					return null;
@@ -370,8 +374,10 @@ public interface IJSObjectPopulator
 		
 		public Object get( String aggrName, Scriptable scope )
 		{
-			if( aggrName.equals( ScriptConstants.OUTER_RESULT_KEYWORD ) && this.outResultsScriptable!= null )
+			if( aggrName.equals( ScriptConstants.OUTER_RESULT_KEYWORD ) )
 			{
+				if ( this.outResultsScriptable == null )
+					return new DataExceptionMocker( new DataException( ResourceConstants.NO_OUTER_RESULTS_EXIST ) );
 				return this.outResultsScriptable;
 			}
 			
@@ -383,7 +389,7 @@ public interface IJSObjectPopulator
 				}
 				catch ( DataException e )
 				{
-					return null;
+					return e;
 				}
 			}
 			else
