@@ -473,14 +473,10 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		Page reportMultiBookPage = (Page) ( (MultiPageReportEditor) getEditor( ) ).getOutlinePage( );
 		if ( reportMultiBookPage.getSite( ) != null )
 		{
-			if ( reportMultiBookPage.getSite( )
+			reportMultiBookPage.getSite( )
 					.getActionBars( )
 					.getMenuManager( )
-					.find( getOutlineSwitchAction( ).getId( ) ) == null )
-				reportMultiBookPage.getSite( )
-						.getActionBars( )
-						.getMenuManager( )
-						.add( getOutlineSwitchAction( ) );
+					.add( getOutlineSwitchAction( ) );
 			registered = true;
 		}
 	}
