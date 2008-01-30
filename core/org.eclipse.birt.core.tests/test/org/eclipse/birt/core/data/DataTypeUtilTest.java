@@ -175,7 +175,7 @@ public class DataTypeUtilTest extends TestCase
 				new Exception( "" ),
 				Boolean.TRUE,
 				Boolean.FALSE,
-				null, 
+				Boolean.FALSE, 
 				new Exception( "" ),
 				Boolean.TRUE, 
 				new Exception( "" ),
@@ -338,6 +338,7 @@ public class DataTypeUtilTest extends TestCase
 		Boolean result;
 		for ( int i = 0; i < testObject.length; i++ )
 		{
+			System.out.println(i);
 			try
 			{
 				result = DataTypeUtil.toBoolean( testObject[i] );
