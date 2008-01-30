@@ -353,19 +353,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 				}
 
 				rtc = drtc;
-				cm = rtc.getScriptContext( ).getChartInstance( );
-				// Set back the cm into the handle from the engine, so that the
-				// chart inside the
-				// reportdesignhandle is the same as the one used during
-				// presentation.
-				// No command should be executed, since it's a runtime operation
-				// Set the model directly through setModel and not setProperty
-				if ( cm != null && handle != null )
-				{
-					IReportItem item = handle.getReportItem( );
-					( (ChartReportItemImpl) item ).setModel( cm );
-					( (ChartReportItemImpl) item ).setScale( rtc.getScale( ) );
-				}
+		
 
 				// Get chart max row number from application context
 				Object oMaxRow = context.getAppContext( )

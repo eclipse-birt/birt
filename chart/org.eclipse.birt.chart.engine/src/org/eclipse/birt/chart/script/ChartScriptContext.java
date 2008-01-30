@@ -46,7 +46,7 @@ public class ChartScriptContext implements IChartScriptContext
 		super( );
 	}
 
-	private void writeObject( java.io.ObjectOutputStream out )
+	/*private void writeObject( java.io.ObjectOutputStream out )
 			throws IOException
 	{
 		out.defaultWriteObject( );
@@ -89,7 +89,7 @@ public class ChartScriptContext implements IChartScriptContext
 			cm = null;
 		}
 	}
-
+*/
 	/*
 	 * (non-Javadoc)
 	 * 

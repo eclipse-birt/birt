@@ -872,6 +872,7 @@ public final class Generator implements IGenerator
 		{
 			// reset logger.
 			( (ChartScriptContext) icsc ).setLogger( logger );
+			( (ChartScriptContext)icsc ).setChartInstance( (Chart) EcoreUtil.copy( cmDesignTime ) );
 		}
 
 		if ( externalContext != null && icsc instanceof ChartScriptContext )
