@@ -1695,18 +1695,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			return expression;
 		}
-
-		ReportItemHandle reportItemHandle = getReportItemHandleOfSharedBinding( );
-		for ( Iterator iter = reportItemHandle.getColumnBindings( ).iterator( ); iter.hasNext( ); )
-		{
-			ComputedColumnHandle cch = (ComputedColumnHandle) iter.next( );
-
-			if ( cch.getExpression( ).equals( expression ) )
-			{
-				return ExpressionUtil.createJSDataExpression( cch.getName( ) );
-			}
-		}
-
+		
+		// Return null if it is crosstab sharing case.
 		return null;
 	}
 }
