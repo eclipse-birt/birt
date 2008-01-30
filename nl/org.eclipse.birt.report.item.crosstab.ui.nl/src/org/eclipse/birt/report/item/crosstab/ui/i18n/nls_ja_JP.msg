@@ -118,6 +118,8 @@ Element.ReportItem.dataSet=データセット :
 Element.ReportElement.Cube=データ(&D) :
 BindingPage.None=なし
 
+FilterHandleProvider.Label.Filterby=Filter by:
+
 ###########################################################
 #EmptyRowColumnProvider properties
 EmptyRowColumnProvider.RowView.Button.Text=Show empty &rows

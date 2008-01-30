@@ -118,6 +118,8 @@ Element.ReportItem.dataSet=Jeu de données :
 Element.ReportElement.Cube=&Données :
 BindingPage.None=Aucun
 
+FilterHandleProvider.Label.Filterby=Filter by:
+
 ###########################################################
 #EmptyRowColumnProvider properties
 EmptyRowColumnProvider.RowView.Button.Text=Show empty &rows
