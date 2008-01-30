@@ -254,4 +254,23 @@ public class DataDefinitionTextManager
 			( (Combo) control ).setText( expression );
 		}
 	}
+	
+	/**
+     * Check if expresion is valid.
+     *
+	 * @param control
+	 * @param expression
+	 * @return
+     * @since 2.3
+	 */
+	public boolean isValidExpression( Control control, String expression )
+	{
+		if ( textCollection.containsKey( control ) )
+		{
+			IQueryExpressionManager queryManager = (IQueryExpressionManager) textCollection.get( control );
+			return queryManager.isValidExpression( expression );
+		}
+		
+		return false;
+	}
 }

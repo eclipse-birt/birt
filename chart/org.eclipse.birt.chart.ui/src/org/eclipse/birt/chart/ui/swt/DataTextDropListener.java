@@ -80,6 +80,14 @@ public class DataTextDropListener extends DropTargetAdapter
 		{
 			ColorPalette.getInstance( ).retrieveColor( getText( txtDataDefn ) );
 		}
+		
+		// Check if dragged expression can be put on target series. For sharing
+		// binding case, Y optional only allow grouped binding.
+		if ( !DataDefinitionTextManager.getInstance( ).isValidExpression( txtDataDefn, expression ) )
+		{
+			return;
+		}
+		
 		setText( txtDataDefn, expression );
 
 		DataDefinitionTextManager.getInstance( ).updateQuery( txtDataDefn );

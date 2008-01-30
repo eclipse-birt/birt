@@ -898,4 +898,21 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 			return ( expr == null ) ? "" : expr; //$NON-NLS-1$
 		}
 	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.IQueryExpressionManager#isValidExpression(java.lang.String)
+	 */
+	public boolean isValidExpression( String expression )
+	{
+		if ( context.getDataServiceProvider( ).isSharedBinding( ) )
+		{
+			int index = cmbDefinition.indexOf( expression );
+			if ( index < 0 )
+			{
+				return false;
+			}
+			return true;
+		}
+		return true;
+	}
 }

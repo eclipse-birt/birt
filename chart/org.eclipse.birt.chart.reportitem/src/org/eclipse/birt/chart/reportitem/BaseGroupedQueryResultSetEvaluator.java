@@ -161,6 +161,13 @@ public class BaseGroupedQueryResultSetEvaluator implements
 	 */
 	protected List getGroupBreaksList( int groupLevel )
 	{
+		if ( faGroupBreaks == null ||
+				groupLevel < 0 ||
+				groupLevel > ( faGroupBreaks.length - 1 ) )
+		{
+			return new ArrayList();
+		}
+		
 		return faGroupBreaks[groupLevel];
 	}
 

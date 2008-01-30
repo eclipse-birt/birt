@@ -37,4 +37,12 @@ public interface IQueryExpressionManager
 	 * Returns display expression.
 	 */
 	public String getDisplayExpression();
+	
+	/**
+	 * Check if expression is valid to current query.
+	 * 
+	 * @param expression
+	 * @return
+	 */
+	public boolean isValidExpression( String expression );
 }
