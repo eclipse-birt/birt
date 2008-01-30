@@ -430,7 +430,11 @@ public class TaskSelectType extends SimpleTask
 		while ( iterTypes.hasNext( ) )
 		{
 			IChartType type = (IChartType) iterTypes.next( );
-			htTypes.put( type.getName( ), type );
+			// Only support enabled chart types
+			if ( ( (ChartWizardContext) context ).isEnabled( type.getName( ) ) )
+			{
+				htTypes.put( type.getName( ), type );
+			}
 		}
 	}
 
@@ -867,6 +871,7 @@ public class TaskSelectType extends SimpleTask
 		for ( int i = 0; i < dimensionArray.length; i++ )
 		{
 			boolean isSupported = chartType.isDimensionSupported( dimensionArray[i],
+					(ChartWizardContext) context,
 					axesNum,
 					0 );
 			if ( isSupported )

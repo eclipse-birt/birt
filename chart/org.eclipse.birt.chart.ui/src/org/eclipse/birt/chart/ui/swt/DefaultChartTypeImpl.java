@@ -161,12 +161,12 @@ public class DefaultChartTypeImpl implements IChartType
 		return new DefaultSelectDataComponent( );
 	}
 
-	public boolean isDimensionSupported( String dimensionType, int nbOfAxes,
-			int nbOfSeries )
+	public boolean isDimensionSupported( String dimensionType,
+			ChartWizardContext context, int nbOfAxes, int nbOfSeries )
 	{
 		boolean isSupported = false;
-		
-		//Check whether general dimension types include specified type
+
+		// Check whether general dimension types include specified type
 		String[] supportedDimensions = getSupportedDimensions( );
 		for ( int i = 0; i < supportedDimensions.length; i++ )
 		{
@@ -176,13 +176,15 @@ public class DefaultChartTypeImpl implements IChartType
 				break;
 			}
 		}
-		
-		if ( isSupported )
+
+		if ( isSupported && THREE_DIMENSION_TYPE.equals( dimensionType ) )
 		{
-			if ( THREE_DIMENSION_TYPE.equals( dimensionType ) )
+			if ( context.getDataServiceProvider( ).isInXTab( ) )
 			{
-				isSupported = nbOfAxes <= 1;
+				// Not support 3D in xtab
+				return false;
 			}
+			isSupported = nbOfAxes <= 1;
 		}
 
 		return isSupported;

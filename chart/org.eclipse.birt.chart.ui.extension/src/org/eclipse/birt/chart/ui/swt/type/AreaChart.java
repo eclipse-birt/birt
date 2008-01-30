@@ -54,6 +54,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.data.DefaultBaseSeriesComponent;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
+import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.common.util.EList;
@@ -69,7 +70,7 @@ public class AreaChart extends DefaultChartTypeImpl
 	/**
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
-	public static final String TYPE_LITERAL = "Area Chart"; //$NON-NLS-1$$
+	public static final String TYPE_LITERAL = ChartUIConstants.TYPE_AREA;
 
 	private static final String STACKED_SUBTYPE_LITERAL = "Stacked"; //$NON-NLS-1$
 
@@ -827,10 +828,11 @@ public class AreaChart extends DefaultChartTypeImpl
 		return Messages.getString( "AreaChart.Txt.DisplayName" ); //$NON-NLS-1$
 	}
 
-	public boolean isDimensionSupported( String dimensionType, int nbOfAxes,
-			int nbOfSeries )
+	public boolean isDimensionSupported( String dimensionType,
+			ChartWizardContext context, int nbOfAxes, int nbOfSeries )
 	{
 		boolean isSupported = super.isDimensionSupported( dimensionType,
+				context,
 				nbOfAxes,
 				nbOfSeries );
 		if ( isSupported )

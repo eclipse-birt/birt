@@ -518,6 +518,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 				String currentDimension = ChartUIUtil.getDimensionString( getChart( ).getDimension( ) );
 				boolean isDimensionSupported = wizardContext.getChartType( )
 						.isDimensionSupported( currentDimension,
+								wizardContext,
 								cmbAxisSelect.getItemCount( ),
 								0 );
 				if ( !isDimensionSupported )

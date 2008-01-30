@@ -44,6 +44,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.data.DefaultBaseSeriesComponent;
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
+import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.common.util.EList;
@@ -56,7 +57,7 @@ public class GanttChart extends DefaultChartTypeImpl
 	/**
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
-	public static final String TYPE_LITERAL = "Gantt Chart"; //$NON-NLS-1$
+	public static final String TYPE_LITERAL = ChartUIConstants.TYPE_GANTT;
 
 	private static final String STANDARD_SUBTYPE_LITERAL = "Standard Gantt Chart"; //$NON-NLS-1$
 

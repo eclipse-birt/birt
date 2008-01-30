@@ -53,6 +53,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.data.DefaultBaseSeriesComponent;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
+import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.emf.common.util.EList;
@@ -68,7 +69,7 @@ public class LineChart extends DefaultChartTypeImpl
 	/**
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
-	public static final String TYPE_LITERAL = "Line Chart"; //$NON-NLS-1$
+	public static final String TYPE_LITERAL = ChartUIConstants.TYPE_LINE;
 
 	private static final String STACKED_SUBTYPE_LITERAL = "Stacked"; //$NON-NLS-1$
 
@@ -800,6 +801,6 @@ public class LineChart extends DefaultChartTypeImpl
 	 */
 	public Series getSeries( )
 	{
-		return (LineSeries) LineSeriesImpl.create( );
+		return LineSeriesImpl.create( );
 	}
 }

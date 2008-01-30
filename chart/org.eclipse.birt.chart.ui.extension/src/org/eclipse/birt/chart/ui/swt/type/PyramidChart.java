@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.ui.swt.type;
 
 import org.eclipse.birt.chart.model.attribute.RiserType;
+import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 
 /**
  * 
@@ -23,7 +24,7 @@ public class PyramidChart extends AbstractBarChart
 	/**
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
-	public static final String TYPE_LITERAL = "Pyramid Chart"; //$NON-NLS-1$
+	public static final String TYPE_LITERAL = ChartUIConstants.TYPE_PYRAMID;
 
 	public PyramidChart( )
 	{

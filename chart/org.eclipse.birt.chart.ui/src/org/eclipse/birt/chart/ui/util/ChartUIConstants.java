@@ -97,4 +97,19 @@ public interface ChartUIConstants
 	public static final String BUTTON_POSITIVE_MARKERS = ".Positive"; //$NON-NLS-1$
 	public static final String BUTTON_NEGATIVE_MARKERS = ".Negative"; //$NON-NLS-1$
 	public static final String BUTTON_DECORATION = ".Decoration"; //$NON-NLS-1$
+
+	// Constants for Chart types
+	public static final String TYPE_BAR = "Bar Chart"; //$NON-NLS-1$
+	public static final String TYPE_PYRAMID = "Pyramid Chart"; //$NON-NLS-1$
+	public static final String TYPE_TUBE = "Tube Chart"; //$NON-NLS-1$
+	public static final String TYPE_CONE = "Cone Chart"; //$NON-NLS-1$
+	public static final String TYPE_LINE = "Line Chart"; //$NON-NLS-1$
+	public static final String TYPE_AREA = "Area Chart"; //$NON-NLS-1$
+	public static final String TYPE_SCATTER = "Scatter Chart"; //$NON-NLS-1$
+	public static final String TYPE_STOCK = "Stock Chart"; //$NON-NLS-1$
+	public static final String TYPE_BUBBLE = "Bubble Chart"; //$NON-NLS-1$
+	public static final String TYPE_DIFFERENCE = "Difference Chart"; //$NON-NLS-1$
+	public static final String TYPE_GANTT = "Gantt Chart"; //$NON-NLS-1$
+	public static final String TYPE_PIE = "Pie Chart"; //$NON-NLS-1$
+	public static final String TYPE_METER = "Meter Chart"; //$NON-NLS-1$
 }

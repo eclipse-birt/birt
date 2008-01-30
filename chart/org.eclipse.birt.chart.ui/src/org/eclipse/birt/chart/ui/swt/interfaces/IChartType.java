@@ -166,8 +166,8 @@ public interface IChartType
 	 * @return dimension is valid or invalid
 	 * @since 2.1
 	 */
-	public boolean isDimensionSupported( String dimensionType, int nbOfAxes,
-			int nbOfSeries );
+	public boolean isDimensionSupported( String dimensionType,
+			ChartWizardContext context, int nbOfAxes, int nbOfSeries );
 	
 	/**
 	 * 

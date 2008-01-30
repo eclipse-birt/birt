@@ -11,6 +11,7 @@
 package org.eclipse.birt.chart.ui.swt.type;
 
 import org.eclipse.birt.chart.model.attribute.RiserType;
+import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 
 /**
  * BarChart
@@ -21,7 +22,7 @@ public class BarChart extends AbstractBarChart
 	/**
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
-	public static String TYPE_LITERAL = "Bar Chart";//$NON-NLS-1$
+	public static String TYPE_LITERAL = ChartUIConstants.TYPE_BAR;
 
 	/**
 	 * Constructor of the class.
