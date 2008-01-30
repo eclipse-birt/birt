@@ -74,8 +74,11 @@ public class EmptyRowColumnDescriptor implements IPropertyDescriptor
 					if ( list.getSelectionCount( ) == 0 )
 					{
 						initList( );
-						list.setSelection( 0 );
-						handleListSelectEvent( );
+						if ( list.getSelectionCount( ) > 0 )
+						{
+							list.setSelection( 0 );
+							handleListSelectEvent( );
+						}
 					}
 					list.setEnabled( true );
 				}
