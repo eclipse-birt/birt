@@ -95,6 +95,7 @@ data.engine.ColumnBindingCycle="{0}" 열 바인딩에 종속 사이클이 형성되어 있습니다
 data.engine.ColumnBindingReferToInexistColumn=열 바인딩 "{0}"이(가) 존재하지 않는 데이터 집합 열 "{1}"을(를) 참조합니다.
 data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=열 바인딩"{0}"이 잘못되었습니다:집계를 포함한 부모 쿼리 열 바인딩은 하위 쿼리 열 바인딩에 사용될 수 없습니다.
 data.engine.ReadColumnValueFromDocumentError=열 값을 읽는 동안 오류가 발생했습니다: {0}.  바인딩 식 평가에서 0으로 나누기 오류와 같은 런타임 오류가 발생했을 수 있습니다.
+data.engine.NoOuterResultsExist=The outer query results does not exist. This might be caused by a "_outer" reference in a query without parent query.
 #computed column value
 data.engine.BadCompColExpr=계산된 열 "{0}"에 대한 식이 잘못되었습니다.
 data.engine.CompCol.FailRetrieveValueComputedColumn=계산된 열 "{0}"에 대한 값을 계산하지 못했습니다.

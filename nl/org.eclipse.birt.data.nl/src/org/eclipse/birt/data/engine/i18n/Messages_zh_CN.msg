@@ -95,6 +95,7 @@ data.engine.ColumnBindingCycle=列绑定“{0}”具有相关性循环。
 data.engine.ColumnBindingReferToInexistColumn=列绑定“{0}”引用了一个不存在的数据集列“{1}”。
 data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=列绑定“{0}”不正确: 包含聚合的父查询列绑定不能用于子查询的列绑定。
 data.engine.ReadColumnValueFromDocumentError=尝试读取列 {0} 的值时出错。这可能由绑定表达式的判定中的运行时错误(即除数为 0 错误)引起。
+data.engine.NoOuterResultsExist=The outer query results does not exist. This might be caused by a "_outer" reference in a query without parent query.
 #computed column value
 data.engine.BadCompColExpr=计算列 "{0}" 的表达式无效。
 data.engine.CompCol.FailRetrieveValueComputedColumn=未能为已计算的列“{0}”计算值。
