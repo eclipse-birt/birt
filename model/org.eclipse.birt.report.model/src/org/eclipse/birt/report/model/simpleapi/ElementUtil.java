@@ -26,6 +26,7 @@ import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
+import org.eclipse.birt.report.model.api.SortElementHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextDataHandle;
@@ -108,6 +109,11 @@ public class ElementUtil
 		{
 			return new FilterConditionElement(
 					(FilterConditionElementHandle) element );
+		}
+
+		if ( element instanceof SortElementHandle )
+		{
+			return new SortElement( (SortElementHandle) element );
 		}
 
 		if ( element instanceof ExtendedItemHandle )
