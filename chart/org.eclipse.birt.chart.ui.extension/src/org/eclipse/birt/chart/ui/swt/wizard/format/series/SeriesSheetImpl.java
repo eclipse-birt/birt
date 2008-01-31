@@ -67,8 +67,9 @@ import org.eclipse.swt.widgets.TreeItem;
  * series items in the navigator tree.
  * 
  */
-public class SeriesSheetImpl extends SubtaskSheetImpl implements
-		SelectionListener
+public class SeriesSheetImpl extends SubtaskSheetImpl
+		implements
+			SelectionListener
 
 {
 
@@ -77,7 +78,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 	private Combo cmbColorBy;
 
 	private ITaskPopupSheet popup = null;
-	
+
 	private static final int COLUMN_DETAIL = 6;
 	private static final int HORIZONTAL_SPACING = 5;
 
@@ -87,7 +88,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_SERIES );
 		final int COLUMN_CONTENT = 4;
-		
+
 		cmpContent = new Composite( parent, SWT.NONE );
 		{
 			GridLayout glContent = new GridLayout( COLUMN_CONTENT, false );
@@ -113,7 +114,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		}
 
 		ScrolledComposite cmpScroll = new ScrolledComposite( cmpContent,
-				SWT.V_SCROLL  | SWT.H_SCROLL );
+				SWT.V_SCROLL | SWT.H_SCROLL );
 		{
 			GridData gd = new GridData( GridData.FILL_BOTH );
 			gd.horizontalSpan = COLUMN_CONTENT;
@@ -213,27 +214,36 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 				new SeriesOptionChoser( ( (SeriesDefinition) seriesDefns.get( i ) ),
 						Messages.getString( "SeriesSheetImpl.Label.CategoryBaseSeries" ), //$NON-NLS-1$ 
 						i,
-						treeIndex++, false ).placeComponents( cmpList );
+						treeIndex++,
+						false ).placeComponents( cmpList );
 			}
 		}
 
-		seriesDefns = ChartUIUtil.getAllOrthogonalSeriesDefinitions( getChart( ) );
+		List allSeriesDefns = ChartUIUtil.getAllOrthogonalSeriesDefinitions( getChart( ) );
 
-		boolean canStack = true;
-		for ( int i = 0; i < seriesDefns.size( ); i++ )
+		String text = getChart( ) instanceof ChartWithAxes
+				? Messages.getString( "SeriesSheetImpl.Label.ValueYSeries" ) : Messages.getString( "SeriesSheetImpl.Label.ValueOrthogonalSeries" ); //$NON-NLS-1$ //$NON-NLS-2$
+		boolean canStack;
+		int seriesIndex = 0;
+		for ( int i = 0; i < ChartUIUtil.getOrthogonalAxisNumber( getChart( ) ); i++ )
 		{
-			if ( !( ( (SeriesDefinition) seriesDefns.get( i ) ).getDesignTimeSeries( ) ).canBeStacked( ) )
+			canStack = true;
+			seriesDefns = ChartUIUtil.getOrthogonalSeriesDefinitions( getChart( ),
+					i );
+			for ( int j = 0; j < seriesDefns.size( ); j++ )
 			{
-				canStack = false;
-				break;
+				if ( !( ( (SeriesDefinition) seriesDefns.get( j ) ).getDesignTimeSeries( ) ).canBeStacked( ) )
+				{
+					canStack = false;
+					break;
+				}
 			}
-		}
-		for ( int i = 0; i < seriesDefns.size( ); i++ )
-		{
-			String text = getChart( ) instanceof ChartWithAxes ? Messages.getString( "SeriesSheetImpl.Label.ValueYSeries" ) : Messages.getString( "SeriesSheetImpl.Label.ValueOrthogonalSeries" ); //$NON-NLS-1$ //$NON-NLS-2$		
-			new SeriesOptionChoser( ( (SeriesDefinition) seriesDefns.get( i ) ),
-					( seriesDefns.size( ) == 1 ? text
-							: ( text + " - " + ( i + 1 ) ) ), i, treeIndex++, canStack ).placeComponents( cmpList ); //$NON-NLS-1$
+			for ( int j = 0; j < seriesDefns.size( ); j++ )
+			{
+				new SeriesOptionChoser( ( (SeriesDefinition) seriesDefns.get( j ) ),
+						( allSeriesDefns.size( ) == 1 ? text
+								: ( text + " - " + ( seriesIndex + 1 ) ) ), seriesIndex++, treeIndex++, canStack, i ).placeComponents( cmpList ); //$NON-NLS-1$
+			}
 		}
 
 	}
@@ -306,10 +316,11 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		private Button btnVisible;
 		private Button btnStack;
 		private Button btnTranslucent;
-		
+
 		private boolean canStack;
 
 		private int iSeriesDefinitionIndex = 0;
+		private int axisIndex = 0;
 		// Index of tree item in the navigator tree
 		private int treeIndex = 0;
 
@@ -322,6 +333,18 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			this.iSeriesDefinitionIndex = iSeriesDefinitionIndex;
 			this.treeIndex = treeIndex;
 			this.canStack = canStack;
+		}
+
+		public SeriesOptionChoser( SeriesDefinition seriesDefn,
+				String seriesName, int iSeriesDefinitionIndex, int treeIndex,
+				boolean canStack, int axisIndex )
+		{
+			this.seriesDefn = seriesDefn;
+			this.seriesName = seriesName;
+			this.iSeriesDefinitionIndex = iSeriesDefinitionIndex;
+			this.treeIndex = treeIndex;
+			this.canStack = canStack;
+			this.axisIndex = axisIndex;
 		}
 
 		public void placeComponents( Composite parent )
@@ -367,7 +390,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 					cmbTypes.setEnabled( false );
 				}
 			}
-			
+
 			if ( !series.getClass( ).isAssignableFrom( SeriesImpl.class ) )
 			{
 				btnVisible = new Button( parent, SWT.CHECK );
@@ -407,7 +430,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 					btnTranslucent.setSelection( series.isTranslucent( ) );
 					btnTranslucent.addSelectionListener( this );
 				}
-				
+
 				setTypeComboState( );
 				setStackedBoxState( );
 			}
@@ -422,7 +445,6 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 			populateLists( seriesDefn.getDesignTimeSeries( ) );
 		}
-
 
 		public void widgetSelected( SelectionEvent e )
 		{
@@ -455,7 +477,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 				{
 					series.setLabelPosition( Position.INSIDE_LITERAL );
 				}
-				
+
 				setTypeComboState( );
 			}
 			else if ( e.getSource( ).equals( btnTranslucent ) )
@@ -480,14 +502,16 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		{
 			Series newSeries = getNewSeries( typeName, series );
 			ChartAdapter.beginIgnoreNotifications( );
+			SeriesDefinition[] seriesDefns = (SeriesDefinition[]) ChartUIUtil.getOrthogonalSeriesDefinitions( getChart( ),
+					axisIndex )
+					.toArray( );
 			if ( !newSeries.canBeStacked( ) )
 			{
-				for ( int i = 0; i < getValueSeriesDefinition( ).length; i++ )
+				for ( int i = 0; i < seriesDefns.length; i++ )
 				{
-					if ( ( getValueSeriesDefinition( )[i] ).getDesignTimeSeries( )
-							.isStacked( ) )
+					if ( ( seriesDefns[i] ).getDesignTimeSeries( ).isStacked( ) )
 					{
-						( getValueSeriesDefinition( )[i] ).getDesignTimeSeries( )
+						( seriesDefns[i] ).getDesignTimeSeries( )
 								.setStacked( false );
 					}
 				}
@@ -516,7 +540,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 								iSeriesDefinitionIndex );
 				if ( series == null )
 				{
-					series = (Series)htSeriesNames.get( sSeriesName );
+					series = (Series) htSeriesNames.get( sSeriesName );
 					ChartAdapter.beginIgnoreNotifications( );
 					ChartUIUtil.copyGeneralSeriesAttributes( oldSeries, series );
 					// newSeries.translateFrom( oldSeries,
@@ -623,8 +647,8 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			}
 
 			ChartDimension cd = getChart( ).getDimension( );
-			if ( cd == ChartDimension.TWO_DIMENSIONAL_LITERAL ||
-					cd == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL )
+			if ( cd == ChartDimension.TWO_DIMENSIONAL_LITERAL
+					|| cd == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL )
 			{
 				if ( btnStack.getSelection( ) )
 				{
@@ -632,16 +656,20 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 				}
 				else
 				{
-					List seriesDefns = ChartUIUtil.getAllOrthogonalSeriesDefinitions( getChart( ) );
+					List seriesDefns = ChartUIUtil.getOrthogonalSeriesDefinitions( getChart( ),
+							axisIndex );
 					Series s = ( (SeriesDefinition) seriesDefns.get( 0 ) ).getDesignTimeSeries( );
 					if ( s != seriesDefn.getDesignTimeSeries( ) )
 					{
 						cmbTypes.setEnabled( true );
 					}
+					else
+					{
+						cmbTypes.setEnabled( false );
+					}
 				}
 			}
 		}
-		
 
 		/**
 		 * Set state of stacked CheckBox by type of series.
@@ -656,14 +684,15 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 			ChartDimension cd = getChart( ).getDimension( );
 			if ( ( cd == ChartDimension.TWO_DIMENSIONAL_LITERAL || cd == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL ) )
 			{
-				List seriesDefns = ChartUIUtil.getAllOrthogonalSeriesDefinitions( getChart( ) );
+				List seriesDefns = ChartUIUtil.getOrthogonalSeriesDefinitions( getChart( ),
+						axisIndex );
 				Series s = ( (SeriesDefinition) seriesDefns.get( 0 ) ).getDesignTimeSeries( );
 				if ( s.getDisplayName( )
 						.equals( seriesDefn.getDesignTimeSeries( )
 								.getDisplayName( ) ) )
 				{
-					if ( canStack &&
-							seriesDefn.getDesignTimeSeries( ).canBeStacked( ) )
+					if ( canStack
+							&& seriesDefn.getDesignTimeSeries( ).canBeStacked( ) )
 					{
 						btnStack.setEnabled( true );
 					}

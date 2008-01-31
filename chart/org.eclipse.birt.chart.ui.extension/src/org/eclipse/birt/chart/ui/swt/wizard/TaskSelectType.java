@@ -57,6 +57,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EContentAdapter;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -688,7 +689,7 @@ public class TaskSelectType extends SimpleTask
 			if ( !sOldType.equals( sType ) )
 			{
 				sOldType = sType;
-				
+
 				// Get orientation for non-xtab case. In xtab, orientation won't
 				// be changed
 				if ( !getDataServiceProvider( ).isInXTab( ) )
@@ -937,7 +938,7 @@ public class TaskSelectType extends SimpleTask
 			ChartAdapter.beginIgnoreNotifications( );
 			for ( int i = 0; i < iOverlaySeriesCount; i++ )
 			{
-				Series newSeries = (Series) htSeriesNames.get( cbSeriesType.getText( ) );
+				Series newSeries = (Series) EcoreUtil.copy( (EObject) htSeriesNames.get( cbSeriesType.getText( ) ) );
 				newSeries.translateFrom( ( (SeriesDefinition) ( (Axis) XAxis.getAssociatedAxes( )
 						.get( 1 ) ).getSeriesDefinitions( ).get( i ) ).getDesignTimeSeries( ),
 						iSeriesDefinitionIndex,
@@ -951,6 +952,7 @@ public class TaskSelectType extends SimpleTask
 				( (SeriesDefinition) ( (Axis) XAxis.getAssociatedAxes( )
 						.get( 1 ) ).getSeriesDefinitions( ).get( i ) ).getSeries( )
 						.add( newSeries );
+				ChartUIUtil.setSeriesName( chartModel, newSeries );
 			}
 		}
 		catch ( Exception e )

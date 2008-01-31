@@ -18,11 +18,16 @@ import java.util.Vector;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
+import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IHelpContent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.chart.ui.util.ChartCacheManager;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -197,6 +202,41 @@ public class DefaultChartTypeImpl implements IChartType
 	{
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	/**
+	 * Make the series the same type as the other one
+	 * 
+	 * @param series
+	 * @param seriesIndex
+	 * @param firtsSeries
+	 * @return converted series
+	 * @since 2.3
+	 */
+	protected Series getConvertedSeriesAsFirst( Series series, int seriesIndex, Series firstSeries )
+	{
+		// Do not convert base series
+		if ( series.getClass( ).getName( ).equals( SeriesImpl.class.getName( ) ) )
+		{
+			return series;
+		}
+
+		Series tmpseries =  ChartCacheManager.getInstance( )
+				.findSeries( firstSeries.getClass( ).getName( ), seriesIndex );
+		if ( tmpseries == null )
+		{
+			tmpseries = (Series)EcoreUtil.copy( firstSeries );
+		}
+
+		// Copy generic series properties
+		ChartUIUtil.copyGeneralSeriesAttributes( series, tmpseries );
+		
+		if( firstSeries instanceof BarSeriesImpl )
+		{
+			( (BarSeriesImpl) tmpseries ).setRiser( ( (BarSeriesImpl) firstSeries ).getRiser( ) );
+		}
+
+		return tmpseries;
 	}
 
 }

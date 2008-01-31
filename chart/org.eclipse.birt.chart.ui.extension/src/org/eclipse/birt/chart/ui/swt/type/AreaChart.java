@@ -408,18 +408,26 @@ public class AreaChart extends DefaultChartTypeImpl
 						( (Axis) axes.get( i ) ).setPercent( false );
 					}
 					EList seriesdefinitions = ( (Axis) axes.get( i ) ).getSeriesDefinitions( );
+					Series firstSeries = ( (SeriesDefinition) seriesdefinitions.get( 0 ) ).getDesignTimeSeries( );
 					for ( int j = 0; j < seriesdefinitions.size( ); j++ )
 					{
 						Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
 						if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) )
 						{
-							series = getConvertedSeries( series, seriesIndex++ );
+							if( j != 0 )
+							{
+								series = getConvertedSeriesAsFirst( series, seriesIndex, firstSeries );
+							}
+							seriesIndex++;
 							if ( !ChartPreviewPainter.isLivePreviewActive( )
 									&& !isNumbericAxis( (Axis) axes.get( i ) ) )
 							{
 								( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
 							}
-							series.setStacked( true );
+							if( series.canBeStacked( ) )
+							{
+								series.setStacked( true );
+							}
 							( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
 									.clear( );
 							( (SeriesDefinition) seriesdefinitions.get( j ) ).getSeries( )
