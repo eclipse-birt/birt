@@ -956,14 +956,12 @@ public class BirtUtility
 	}
 
 	/**
-	 * Returns app context
+	 * Returns appcontext
 	 * 
 	 * @param request
-	 * @param loader
 	 * @return
 	 */
-	public static Map getAppContext( HttpServletRequest request,
-			ClassLoader loader )
+	public static Map getAppContext( HttpServletRequest request )
 	{
 		HashMap context = new HashMap( );
 		Boolean isDesigner = Boolean.valueOf( ParameterAccessor
@@ -972,7 +970,6 @@ public class BirtUtility
 				isDesigner );
 		context.put( EngineConstants.APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST,
 				request );
-		context.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY, loader );
 
 		// Client DPI setting
 		context.put( EngineConstants.APPCONTEXT_CHART_RESOLUTION,

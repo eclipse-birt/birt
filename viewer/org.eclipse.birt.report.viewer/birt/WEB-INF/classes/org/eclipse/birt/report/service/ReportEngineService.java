@@ -179,6 +179,11 @@ public class ReportEngineService
 		config.setProperty( EngineConstants.WEBAPP_CLASSPATH_KEY,
 				scriptlibClassPath );
 
+		// Set appcontext classloader to Engine config
+		config.getAppContext( ).put(
+				EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
+				ReportEngineService.class.getClassLoader( ) );
+
 		config.setEngineHome( "" ); //$NON-NLS-1$
 
 		// configure the loggers
@@ -409,8 +414,7 @@ public class ReportEngineService
 			task.setLocale( locale );
 
 			// set app context
-			Map context = BirtUtility.getAppContext( request,
-					ReportEngineService.class.getClassLoader( ) );
+			Map context = BirtUtility.getAppContext( request );
 			task.setAppContext( context );
 		}
 		catch ( Exception e )
@@ -707,8 +711,7 @@ public class ReportEngineService
 		}
 
 		// set app context
-		Map context = BirtUtility.getAppContext( request,
-				ReportEngineService.class.getClassLoader( ) );
+		Map context = BirtUtility.getAppContext( request );
 		runAndRenderTask.setAppContext( context );
 
 		// Render options
@@ -886,8 +889,7 @@ public class ReportEngineService
 		}
 
 		// set app context
-		Map context = BirtUtility.getAppContext( request,
-				ReportEngineService.class.getClassLoader( ) );
+		Map context = BirtUtility.getAppContext( request );
 		runTask.setAppContext( context );
 
 		// Run report.
@@ -1048,8 +1050,7 @@ public class ReportEngineService
 		BirtUtility.addTask( request, renderTask );
 
 		// set app context
-		Map context = BirtUtility.getAppContext( request,
-				ReportEngineService.class.getClassLoader( ) );
+		Map context = BirtUtility.getAppContext( request );
 		renderTask.setAppContext( context );
 
 		RenderOption renderOption = null;
