@@ -280,7 +280,7 @@ public class PostscriptWriter
 		out.print( imageSource.getWidth( ) + " " + imageSource.getHeight( ) );
 		out.println( " drawstreamimage");
 		outputImageSource( imageSource, "", "" );
-		out.println( "end" );
+		out.println( "end grestore" );
 	}
 
 	private ArrayImageSource getImageSource( Image image ) throws IOException
