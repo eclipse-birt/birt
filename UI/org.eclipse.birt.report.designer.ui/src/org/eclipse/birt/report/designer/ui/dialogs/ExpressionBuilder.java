@@ -40,6 +40,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IMessageProvider;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.text.ITextOperationTarget;
 import org.eclipse.jface.text.source.AnnotationModel;
@@ -776,6 +777,23 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 	protected void okPressed( )
 	{
+		if ( !validateScript( ) )
+		{
+			MessageDialog dialog = new MessageDialog( getShell( ),
+					Messages.getString( "ExpressionBuilder.Script.Warning" ), //$NON-NLS-1$
+					null, // Accept the default window icon.
+					Messages.getString( "ExpressionBuilder.Script.Confirm" ), //$NON-NLS-1$
+					MessageDialog.WARNING,
+					new String[]{
+							IDialogConstants.OK_LABEL,
+							IDialogConstants.CANCEL_LABEL
+					},
+					1 ); // Cancel is the default.
+			if ( dialog.open( ) != 0 )
+			{
+				return;
+			}
+		}
 		expression = sourceViewer.getTextWidget( ).getText( ).trim( );
 		super.okPressed( );
 	}
