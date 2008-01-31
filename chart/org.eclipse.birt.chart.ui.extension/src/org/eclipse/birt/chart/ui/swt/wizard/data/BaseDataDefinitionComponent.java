@@ -341,20 +341,25 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		for ( int i = 0; i < data.length; i++ )
 		{
 			ColumnBindingInfo chi = (ColumnBindingInfo) data[i];
-			if ( chi.getExpression( ).equals( query.getDefinition( ) ) )
+			if ( chi.getExpression( ) != null &&
+					chi.getExpression( ).equals( query.getDefinition( ) ) )
 			{
 				// It means it is category series or value series.
-				if ( queryType == ChartUIConstants.QUERY_CATEGORY ||
-						queryType == ChartUIConstants.QUERY_OPTIONAL )
+				if ( queryType == ChartUIConstants.QUERY_CATEGORY )
 				{
 					boolean isGrouped = seriesdefinition.getGrouping( )
 							.isEnabled( );
 					boolean isGroupedBinding = ( chi.getColumnType( ) == ColumnBindingInfo.GROUP_COLUMN );
-					if ( isGrouped == isGroupedBinding )
+					if ( isGrouped && isGroupedBinding )
 					{
 						cmbDefinition.select( i );
 						return;
 					}
+				}
+				else if (  queryType == ChartUIConstants.QUERY_OPTIONAL )
+				{
+					cmbDefinition.select( i );
+					return;
 				}
 				else if ( queryType == ChartUIConstants.QUERY_VALUE )
 				{
@@ -871,21 +876,24 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 			for ( int i = 0; data != null && i < data.length; i++ )
 			{
 				ColumnBindingInfo chi = (ColumnBindingInfo) data[i];
-				if ( chi.getExpression( ).equals( query.getDefinition( ) ) )
+				if ( chi.getExpression( ) != null &&
+						chi.getExpression( ).equals( query.getDefinition( ) ) )
 				{
-					if ( queryType == ChartUIConstants.QUERY_CATEGORY ||
-							queryType == ChartUIConstants.QUERY_OPTIONAL )
+					if ( queryType == ChartUIConstants.QUERY_CATEGORY )
 					{
-
 						boolean sdGrouped = seriesdefinition.getGrouping( ).isEnabled( );
 						boolean groupedBinding = ( chi.getColumnType( ) == ColumnBindingInfo.GROUP_COLUMN );
-						if ( sdGrouped == groupedBinding )
+						if ( sdGrouped && groupedBinding )
 						{
 							String expr = cmbDefinition.getItem( i );
 							return ( expr == null ) ? "" : expr; //$NON-NLS-1$
 						}
 					}
-
+					else if ( queryType == ChartUIConstants.QUERY_OPTIONAL )
+					{
+						String expr = cmbDefinition.getItem( i );
+						return ( expr == null ) ? "" : expr; //$NON-NLS-1$
+					}
 				}
 			}
 			
