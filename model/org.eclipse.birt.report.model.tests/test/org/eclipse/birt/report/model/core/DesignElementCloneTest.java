@@ -20,6 +20,8 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ErrorDetail;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
 import org.eclipse.birt.report.model.api.GraphicMasterPageHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
@@ -608,6 +610,40 @@ public class DesignElementCloneTest extends BaseTestCase
 		assertNull( copySource.getProperty( design.getRoot( ),
 				DesignElement.DISPLAY_NAME_ID_PROP ) );
 
+	}
+
+	/**
+	 * Tests if the the extension properties are cloned correctly.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testExtensionPropertyAfterClone( ) throws Exception
+	{
+		String name = "DesignElementCloneTest_ExtensionProperty.xml"; //$NON-NLS-1$
+		openDesign( name );
+
+		DesignElementHandle testTable = designHandle.findElement( "testTable" ); //$NON-NLS-1$
+		List valueList = testTable.getListProperty( "filter" ); //$NON-NLS-1$
+		FilterConditionElementHandle filterElementHandle = (FilterConditionElementHandle) valueList
+				.get( 0 );
+		DesignElement element = filterElementHandle.getElement( );
+
+		// validate the element has the container.
+		
+		assertNotNull( element.getContainer( ) );
+
+		ExtendedItemHandle copyExtendedItemHandle = (ExtendedItemHandle) testTable
+				.copy( ).getHandle( design );
+
+		List copyvalueList = copyExtendedItemHandle.getListProperty( "filter" ); //$NON-NLS-1$
+		FilterConditionElementHandle copyFilterElementHandle = (FilterConditionElementHandle) copyvalueList
+				.get( 0 );
+		DesignElement copyFilterElement = copyFilterElementHandle.getElement( );
+
+		// validate the copy element has the container
+		
+		assertNotNull( copyFilterElement.getContainer( ) );
 	}
 
 }

@@ -325,9 +325,9 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 		}
 
 		// do some parser compatibility about extended elements
+		
 		if ( !extendedItemList.isEmpty( ) )
 		{
-			;
 			module.getVersionManager( ).setHasExtensionCompatibilities(
 					handleExtendedItemCompatibility( ) );
 		}

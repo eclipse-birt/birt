@@ -506,8 +506,8 @@ public abstract class PeerExtensibilityProvider
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) localPropDefns
 					.get( i );
 
-			if ( propDefn.getTypeCode( ) != IPropertyType.XML_TYPE ||
-					!propDefn.canInherit( ) || !propDefn.hasOwnModel( ) )
+			if ( propDefn.getTypeCode( ) != IPropertyType.XML_TYPE
+					|| !propDefn.canInherit( ) || !propDefn.hasOwnModel( ) )
 				continue;
 
 			String propName = propDefn.getName( );
@@ -613,8 +613,8 @@ public abstract class PeerExtensibilityProvider
 		{
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) extDefn
 					.getProperty( propName );
-			if ( propDefn != null && propDefn.hasOwnModel( ) &&
-					IPropertyType.XML_TYPE == propDefn.getTypeCode( ) )
+			if ( propDefn != null && propDefn.hasOwnModel( )
+					&& IPropertyType.XML_TYPE == propDefn.getTypeCode( ) )
 				return true;
 		}
 
@@ -660,7 +660,7 @@ public abstract class PeerExtensibilityProvider
 
 			// if the property is element type, then set-up the container
 			// relationship
-			if ( propDefn.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
+			if ( propDefn.isElementType( ) )
 			{
 				if ( propDefn.isList( ) )
 				{
@@ -679,8 +679,8 @@ public abstract class PeerExtensibilityProvider
 			}
 
 			// copy encryption map
-			if ( source.encryptionMap != null &&
-					!source.encryptionMap.isEmpty( ) )
+			if ( source.encryptionMap != null
+					&& !source.encryptionMap.isEmpty( ) )
 			{
 				encryptionMap = new HashMap( );
 				encryptionMap.putAll( source.encryptionMap );
@@ -721,8 +721,8 @@ public abstract class PeerExtensibilityProvider
 
 	public boolean hasLocalPropertyValues( )
 	{
-		if ( !extensionPropValues.isEmpty( ) ||
-				hasLocalPropertyValuesOnOwnModel( ) )
+		if ( !extensionPropValues.isEmpty( )
+				|| hasLocalPropertyValuesOnOwnModel( ) )
 			return true;
 
 		return false;
@@ -753,8 +753,8 @@ public abstract class PeerExtensibilityProvider
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) localPropDefns
 					.get( i );
 
-			if ( propDefn.getTypeCode( ) != IPropertyType.XML_TYPE ||
-					!propDefn.canInherit( ) || !propDefn.hasOwnModel( ) )
+			if ( propDefn.getTypeCode( ) != IPropertyType.XML_TYPE
+					|| !propDefn.canInherit( ) || !propDefn.hasOwnModel( ) )
 				continue;
 
 			String propName = propDefn.getName( );
@@ -838,8 +838,8 @@ public abstract class PeerExtensibilityProvider
 	{
 		if ( propDefn == null || !propDefn.isEncryptable( ) )
 			return null;
-		if ( encryptionMap != null &&
-				encryptionMap.get( propDefn.getName( ) ) != null )
+		if ( encryptionMap != null
+				&& encryptionMap.get( propDefn.getName( ) ) != null )
 		{
 			String encryptionID = (String) encryptionMap.get( propDefn
 					.getName( ) );
