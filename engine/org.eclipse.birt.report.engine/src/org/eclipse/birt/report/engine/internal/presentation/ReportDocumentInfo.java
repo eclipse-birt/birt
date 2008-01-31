@@ -80,7 +80,8 @@ public class ReportDocumentInfo implements IReportDocumentInfo
 		}
 		IReportDocument document = engine.openReportDocument( documentName );
 
-		return new TransientReportDocument( document, pageNumber, params, parameterDisplayTexts, beans, finished );
+		return new TransientReportDocument( document, context, pageNumber,
+				params, parameterDisplayTexts, beans, finished );
 	}
 
 	public List getErrors( )

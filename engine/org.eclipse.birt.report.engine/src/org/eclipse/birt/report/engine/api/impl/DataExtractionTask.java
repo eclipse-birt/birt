@@ -37,7 +37,7 @@ public class DataExtractionTask implements IDataExtractionTask
 	
 	TimeZone timeZone = TimeZone.getDefault( );
 
-	public DataExtractionTask( IReportEngine engine, IReportRunnable runnable,
+	public DataExtractionTask( ReportEngine engine, IReportRunnable runnable,
 			IReportDocument reader ) throws EngineException
 	{
 		String version = reader

@@ -53,7 +53,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	 * @param runnable
 	 *            the report runnable instance
 	 */
-	public RunTask( IReportEngine engine, IReportRunnable runnable )
+	public RunTask( ReportEngine engine, IReportRunnable runnable )
 	{
 		super( engine, runnable, IEngineTask.TASK_RUN );
 		executionContext.setFactoryMode( true );

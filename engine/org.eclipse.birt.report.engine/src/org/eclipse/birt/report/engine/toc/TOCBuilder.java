@@ -194,6 +194,11 @@ public class TOCBuilder
 
 	public static void read( TOCTree tree, DataInputStream input ) throws IOException
 	{
+		read( tree, input, null );
+	}
+	
+	public static void read( TOCTree tree, DataInputStream input, ClassLoader loader ) throws IOException
+	{
 		TOCTreeNode node = tree.getTOCRoot( );
 		String head = IOUtil.readString( input );
 		if ( head == null || ! head.startsWith( VERSION_PREFIX ) )
@@ -205,12 +210,12 @@ public class TOCBuilder
 			String versionNo = head.substring( VERSION_PREFIX.length( ) );
 			if ( "1.0".equals( versionNo ) )
 			{
-				readV1( node, input );
+				readV1( node, input, loader );
 				return;
 			}
 			if ( "2.0".equals( versionNo ) )
 			{
-				readV2( node, input );
+				readV2( node, input, loader );
 				return;
 			}
 		}
@@ -238,15 +243,15 @@ public class TOCBuilder
 		}
 	}
 
-	static public void readV1( TOCTreeNode node, DataInputStream input )
-			throws IOException
+	static public void readV1( TOCTreeNode node, DataInputStream input,
+			ClassLoader loader ) throws IOException
 	{
 		String nodeId = IOUtil.readString( input );
 		String displayString = IOUtil.readString( input );
 		String bookmark = IOUtil.readString( input );
 		String hiddenFormats = IOUtil.readString( input );
 		boolean isGroupRoot = IOUtil.readBool( input );
-		Object tocValue = IOUtil.readObject( input );
+		Object tocValue = IOUtil.readObject( input, loader );
 		node.setNodeID( nodeId );
 		node.setDisplayString( displayString );
 		node.setBookmark( bookmark );
@@ -257,20 +262,21 @@ public class TOCBuilder
 		for ( int i = 0; i < size; i++ )
 		{
 			TOCTreeNode child = new TOCTreeNode( );
-			readV1( child, input );
+			readV1( child, input, loader );
 			child.setParent( node );
 			node.getChildren( ).add( child );
 		}
 	}
 	
-	static public void readV2( TOCTreeNode node, DataInputStream input ) throws IOException
+	static public void readV2( TOCTreeNode node, DataInputStream input,
+			ClassLoader loader ) throws IOException
 	{
 		String nodeId = IOUtil.readString( input );
 		String displayString = IOUtil.readString( input );
 		String bookmark = IOUtil.readString( input );
 		String hiddenFormats = IOUtil.readString( input );
 		boolean isGroupRoot = IOUtil.readBool( input );
-		Object tocValue = IOUtil.readObject( input );
+		Object tocValue = IOUtil.readObject( input, loader );
 		long elementId = IOUtil.readLong( input );
 		node.setNodeID( nodeId );
 		node.setDisplayString( displayString );
@@ -283,7 +289,7 @@ public class TOCBuilder
 		for ( int i = 0; i < size; i++ )
 		{
 			TOCTreeNode child = new TOCTreeNode( );
-			readV2( child, input );
+			readV2( child, input, loader );
 			child.setParent( node );
 			node.getChildren( ).add( child );
 		}

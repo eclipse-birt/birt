@@ -1,7 +1,6 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
-import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
 import org.eclipse.birt.report.engine.executor.ReportExecutor;
@@ -12,7 +11,7 @@ abstract public class AbstractRunTask extends EngineTask
 	ReportExecutor executor;
 	EngineEmitterServices services;
 
-	AbstractRunTask( IReportEngine engine, IReportRunnable runnable,
+	AbstractRunTask( ReportEngine engine, IReportRunnable runnable,
 			int taskType )
 	{
 		super( engine, runnable, taskType );

@@ -52,7 +52,7 @@ public class ReportEngineHelper
 	/**
 	 * reference the the public report engine object
 	 */
-	private IReportEngine engine;
+	private ReportEngine engine;
 
 	/**
 	 * logger used to log syntax errors.
@@ -70,7 +70,7 @@ public class ReportEngineHelper
 	 * @param engine
 	 *            the report engine
 	 */
-	public ReportEngineHelper( IReportEngine engine )
+	public ReportEngineHelper( ReportEngine engine )
 	{
 		this.engine = engine;
 		this.logger = engine.getLogger( );

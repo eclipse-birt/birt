@@ -22,11 +22,13 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.TOCNode;
+import org.eclipse.birt.report.engine.api.impl.IInternalReportDocument;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
 import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
-public class TransientReportDocument implements IReportDocument
+public class TransientReportDocument implements IInternalReportDocument
 {
 
 	protected IReportDocument document;
@@ -35,11 +37,14 @@ public class TransientReportDocument implements IReportDocument
 	protected Map parameterDisplayTexts;
 	protected long pageNumber;
 	protected boolean isComplete;
+	protected ExecutionContext context;
 
-	TransientReportDocument( IReportDocument document, long pageNumber,
-			Map paramters, Map parameterDisplayTexts, Map globalVariables, boolean isComplete )
+	TransientReportDocument( IReportDocument document,
+			ExecutionContext context, long pageNumber, Map paramters,
+			Map parameterDisplayTexts, Map globalVariables, boolean isComplete )
 	{
 		this.document = document;
+		this.context = context;
 		this.pageNumber = pageNumber;
 		this.parameters = paramters;
 		this.parameterDisplayTexts = parameterDisplayTexts;
@@ -170,5 +175,10 @@ public class TransientReportDocument implements IReportDocument
 	public ITOCTree getTOCTree( String format, ULocale locale, TimeZone timeZone )
 	{
 		return null;
+	}
+
+	public ClassLoader getClassLoader( )
+	{
+		return context.getApplicationClassLoader( );
 	} 
 }

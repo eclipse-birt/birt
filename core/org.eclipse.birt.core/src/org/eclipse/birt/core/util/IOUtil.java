@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.ObjectStreamClass;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.io.UTFDataFormatException;
@@ -429,6 +430,21 @@ public class IOUtil
 	public final static Object readObject( DataInputStream dis )
 			throws IOException
 	{
+		return readObject(dis, null);
+	}
+
+	/**
+	 * Currently these data types are supported.
+	 * 
+	 * Integer Float Double BigDecimal Date Time Timestamp Boolean String byte[]
+	 * List Map
+	 * 
+	 * @return
+	 * @throws IOException
+	 */
+	public final static Object readObject( DataInputStream dis, ClassLoader classLoader )
+			throws IOException
+	{
 		// read data type from its index value
 		int typeIndex = readInt( dis );
 		// read real data
@@ -478,10 +494,10 @@ public class IOUtil
 				obValue = bytes;
 				break;
 			case TYPE_LIST :
-				obValue = readList( dis );
+				obValue = readList( dis, classLoader );
 				break;
 			case TYPE_MAP :
-				obValue = readMap( dis );
+				obValue = readMap( dis, classLoader );
 				break;
 			case TYPE_SERIALIZABLE :
 				len = readInt( dis );
@@ -489,18 +505,29 @@ public class IOUtil
 				{
 					bytes = new byte[len];
 					dis.readFully( bytes );
+					final ClassLoader loader = classLoader;
 					try
 					{
-						ObjectInputStream oo = new ObjectInputStream( new ByteArrayInputStream( bytes ) );
+						ObjectInputStream oo = new ObjectInputStream(
+								new ByteArrayInputStream( bytes ) ) {
+
+							protected Class resolveClass( ObjectStreamClass desc )
+									throws IOException, ClassNotFoundException
+							{
+								return Class.forName( desc.getName( ), false,
+										loader );
+							}
+						};
 						obValue = oo.readObject( );
 					}
 					catch ( Exception ex )
 					{
+						ex.printStackTrace( );
 					}
 				}
 				break;
 			case TYPE_JSObject :
-				Object ob = IOUtil.readObject( dis );
+				Object ob = IOUtil.readObject( dis, classLoader );
 				obValue = JavascriptEvalUtil.convertToJavascriptValue( ob );
 				break;
 			default :
@@ -757,6 +784,20 @@ public class IOUtil
 	 */
 	public final static List readList( DataInputStream dis ) throws IOException
 	{
+		return readList( dis, null );
+	}
+
+	/**
+	 * Read a list from an input stream
+	 * 
+	 * @param dos
+	 * @return
+	 * @throws IOException
+	 * @throws BirtException
+	 */
+	public final static List readList( DataInputStream dis,
+			ClassLoader classLoader ) throws IOException
+	{
 		// check null
 		if ( readInt( dis ) == TYPE_NULL )
 			return null;
@@ -769,7 +810,7 @@ public class IOUtil
 
 		// write real data
 		for ( int i = 0; i < size; i++ )
-			dataList.add( readObject( dis ) );
+			dataList.add( readObject( dis, classLoader ) );
 
 		return dataList;
 	}
@@ -816,6 +857,20 @@ public class IOUtil
 	 */
 	public final static Map readMap( DataInputStream dis ) throws IOException
 	{
+		return readMap( dis, null );
+	}
+
+	/**
+	 * Read a Map from an input stream
+	 * 
+	 * @param dos
+	 * @return
+	 * @throws IOException
+	 * @throws BirtException
+	 */
+	public final static Map readMap( DataInputStream dis, ClassLoader loader )
+			throws IOException
+	{
 		// check null
 		if ( readInt( dis ) == TYPE_NULL )
 			return null;
@@ -829,8 +884,8 @@ public class IOUtil
 		// write real data
 		for ( int i = 0; i < size; i++ )
 		{
-			Object key = readObject( dis );
-			Object value = readObject( dis );
+			Object key = readObject( dis, loader );
+			Object value = readObject( dis, loader );
 			dataMap.put( key, value );
 		}
 

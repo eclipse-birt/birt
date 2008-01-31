@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.layout.pdf;
 
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -25,6 +26,7 @@ import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.PDFRenderOption;
+import org.eclipse.birt.report.engine.api.impl.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.RunAndRenderTask;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.impl.PageContent;
@@ -167,15 +169,36 @@ class TestRunAndRenderTask extends RunAndRenderTask
 	public TestRunAndRenderTask( IReportEngine engine,
 			IReportRunnable runnable, IEmitterMonitor monitor )
 	{
-		super( engine, runnable );
+		super( getReportEngine( engine ), runnable );
 		this.monitor = monitor;
+	}
+
+	public static ReportEngine getReportEngine( IReportEngine engine )
+	{
+		if ( engine instanceof ReportEngine )
+		{
+			return (ReportEngine) engine;
+		}
+		assert engine instanceof org.eclipse.birt.report.engine.api.ReportEngine;
+		try
+		{
+			Field field = engine.getClass( ).getDeclaredField( "engine" );
+			field.setAccessible( true );
+			return (ReportEngine) field.get( engine );
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace( );
+		}
+		assert false;
+		return null;
 	}
 
 	protected IContentEmitter createContentEmitter( ) throws EngineException
 	{
 		final IContentEmitter emitter = super.createContentEmitter( );
-		return (IContentEmitter) Proxy.newProxyInstance(
-				emitter.getClass( ).getClassLoader( ), new Class[]{IContentEmitter.class},
+		return (IContentEmitter) Proxy.newProxyInstance( emitter.getClass( )
+				.getClassLoader( ), new Class[]{IContentEmitter.class},
 				new InvocationHandler( ) {
 
 					public Object invoke( Object proxy, Method method,

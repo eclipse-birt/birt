@@ -30,6 +30,7 @@ import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.CompositeContentEmitter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.report.engine.executor.ApplicationClassLoader;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.OnPageBreakLayoutPageHandle;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
@@ -60,7 +61,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 	 * @param reportDoc
 	 *            the report document instance
 	 */
-	public RenderTask( IReportEngine engine, IReportRunnable runnable,
+	public RenderTask( ReportEngine engine, IReportRunnable runnable,
 			IReportDocument reportDoc )
 	{
 		super( engine, runnable, IEngineTask.TASK_RENDER );
@@ -68,6 +69,14 @@ public class RenderTask extends EngineTask implements IRenderTask
 		executionContext.setFactoryMode( false );
 		executionContext.setPresentationMode( true );
 
+		assert ( reportDoc instanceof IInternalReportDocument );
+		IInternalReportDocument internalReportDoc = (IInternalReportDocument) reportDoc;
+		ClassLoader documentLoader = internalReportDoc
+				.getClassLoader( );
+		ClassLoader renderLoader = ApplicationClassLoader
+				.createClassLoaderFromDesign( runnable, documentLoader );
+		executionContext.setApplicationClassLoader( renderLoader );
+		
 		// open the report document
 		openReportDocument( reportDoc );
 

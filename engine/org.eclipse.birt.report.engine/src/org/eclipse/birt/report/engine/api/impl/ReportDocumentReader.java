@@ -27,12 +27,12 @@ import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.api.EngineException;
-import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.TOCNode;
+import org.eclipse.birt.report.engine.executor.ApplicationClassLoader;
 import org.eclipse.birt.report.engine.internal.document.IPageHintReader;
 import org.eclipse.birt.report.engine.internal.document.PageHintReader;
 import org.eclipse.birt.report.engine.internal.document.v4.InstanceIDComparator;
@@ -50,13 +50,13 @@ import com.ibm.icu.util.ULocale;
 
 public class ReportDocumentReader
 		implements
-			IReportDocument,
+			IInternalReportDocument,
 			ReportDocumentConstants
 {
 	static private Logger logger = Logger.getLogger( ReportDocumentReader.class
 			.getName( ) );
 
-	private IReportEngine engine;
+	private ReportEngine engine;
 	private IDocArchiveReader archive;
 	private ReportRunnable reportRunnable;
 	private Map moduleOptions;
@@ -90,26 +90,28 @@ public class ReportDocumentReader
 	
 	private boolean sharedArchive;
 
-	public ReportDocumentReader( IReportEngine engine,
+	private ClassLoader applicationClassLoader;
+
+	public ReportDocumentReader( ReportEngine engine,
 			IDocArchiveReader archive, boolean sharedArchive )
 			throws EngineException
 	{
 		this( null, engine, archive, sharedArchive );
 	}
 
-	public ReportDocumentReader( IReportEngine engine, IDocArchiveReader archive )
+	public ReportDocumentReader( ReportEngine engine, IDocArchiveReader archive )
 		throws EngineException
 	{
 		this( null, engine, archive, false );
 	}
 
-	public ReportDocumentReader( String systemId, IReportEngine engine,
+	public ReportDocumentReader( String systemId, ReportEngine engine,
 			IDocArchiveReader archive ) throws EngineException
 	{
 		this( systemId, engine, archive, false );
 	}
 
-	public ReportDocumentReader( String systemId, IReportEngine engine,
+	public ReportDocumentReader( String systemId, ReportEngine engine,
 		IDocArchiveReader archive, boolean sharedArchive ) throws EngineException
 	{
 		this.engine = engine;
@@ -252,10 +254,11 @@ public class ReportDocumentReader
 			documentInfo.systemId = systemId;
 		}
 		// load the report paramters
-		Map originalParameters = IOUtil.readMap( di );
+		ClassLoader applicationClassLoader = getClassLoader( );
+		Map originalParameters = IOUtil.readMap( di, applicationClassLoader );
 		documentInfo.parameters = convertToCompatibleParameter( originalParameters );
 		// load the persistence object
-		documentInfo.globalVariables = (HashMap) IOUtil.readMap( di );
+		documentInfo.globalVariables = (HashMap) IOUtil.readMap( di, applicationClassLoader );
 
 		// save the document info into the object.
 		checkpoint = documentInfo.checkpoint;
@@ -268,7 +271,7 @@ public class ReportDocumentReader
 		{
 			bookmarks = readMap( di );
 			tocTree = new TOCTree( );
-			TOCBuilder.read( tocTree, di );
+			TOCBuilder.read( tocTree, di, applicationClassLoader );
 			reportletsIndexById = readMap( di );
 			reportletsIndexByBookmark = readMap( di );
 		}
@@ -338,10 +341,13 @@ public class ReportDocumentReader
 			documentInfo.systemId = systemId;
 		}
 		// load the report paramters
-		Map originalParameters = IOUtil.readMap( coreStream );
-		documentInfo.parameters = convertToCompatibleParameter( originalParameters );
+		ClassLoader applicationClassLoader = getClassLoader( );
+		Map originalParameters = IOUtil.readMap( coreStream,
+				applicationClassLoader );
+		documentInfo.parameters = convertToCompatibleParameter( originalParameters);
 		// load the persistence object
-		documentInfo.globalVariables = (HashMap) IOUtil.readMap( coreStream );
+		documentInfo.globalVariables = (HashMap) IOUtil.readMap( coreStream,
+				applicationClassLoader );
 		// save the document info into the object.
 
 		checkpoint = documentInfo.checkpoint;
@@ -801,7 +807,7 @@ public class ReportDocumentReader
 				{
 					in = archive.getStream( TOC_STREAM );
 					DataInputStream input = new DataInputStream( in );
-					TOCBuilder.read( tocTree, input );
+					TOCBuilder.read( tocTree, input, applicationClassLoader );
 				}
 				catch ( Exception ex )
 				{
@@ -1117,6 +1123,16 @@ public class ReportDocumentReader
 		}
 	}
 
+	public ClassLoader getClassLoader( )
+	{
+		if ( applicationClassLoader == null )
+		{
+			applicationClassLoader = new ApplicationClassLoader( engine,
+					getReportRunnable( ) );
+		}
+		return applicationClassLoader;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

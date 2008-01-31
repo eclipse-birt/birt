@@ -16,7 +16,6 @@ import java.util.logging.Level;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IEngineTask;
-import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.content.IReportContent;
@@ -47,7 +46,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 	 * @param runnable
 	 *            the runnable report design reference
 	 */
-	public RunAndRenderTask( IReportEngine engine, IReportRunnable runnable )
+	public RunAndRenderTask( ReportEngine engine, IReportRunnable runnable )
 	{
 		super( engine, runnable, IEngineTask.TASK_RUNANDRENDER );
 	}

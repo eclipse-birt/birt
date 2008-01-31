@@ -124,7 +124,7 @@ public class DataExtractionTaskV0 extends EngineTask
 	protected static Logger logger = Logger.getLogger( DteDataEngine.class
 			.getName( ) );
 
-	public DataExtractionTaskV0( IReportEngine engine, IReportRunnable runnable,
+	public DataExtractionTaskV0( ReportEngine engine, IReportRunnable runnable,
 			IReportDocument reader ) throws EngineException
 	{
 		super( engine, runnable, IEngineTask.TASK_DATAEXTRACTION );

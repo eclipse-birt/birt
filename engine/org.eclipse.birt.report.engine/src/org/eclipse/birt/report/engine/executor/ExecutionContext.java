@@ -12,13 +12,10 @@
 package org.eclipse.birt.report.engine.executor;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -47,8 +44,6 @@ import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.ILinkedResult;
-import org.eclipse.birt.report.engine.api.EngineConfig;
-import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
@@ -60,6 +55,7 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.impl.EngineTask;
 import org.eclipse.birt.report.engine.api.impl.ParameterAttribute;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentWriter;
+import org.eclipse.birt.report.engine.api.impl.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ReportRunnable;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -79,9 +75,7 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
-import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.ScriptLibHandle;
 import org.eclipse.birt.report.model.api.simpleapi.IDesignElement;
 import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
 import org.mozilla.javascript.Context;
@@ -102,8 +96,6 @@ import com.ibm.icu.util.ULocale;
  */
 public class ExecutionContext
 {
-	public static final String PROPERTYSEPARATOR = File.pathSeparator;
-	
 	/**
 	 * how many errors or exceptions will be registered.
 	 */
@@ -111,7 +103,7 @@ public class ExecutionContext
 
 	// engines used to create the context
 	/** the engine used to create this context */
-	private IReportEngine engine;
+	private ReportEngine engine;
 
 	/**
 	 * task which uses this context.
@@ -297,7 +289,7 @@ public class ExecutionContext
 		if ( engineTask != null )
 		{
 			task = engineTask;
-			engine = task.getEngine( );
+			engine = (ReportEngine)task.getEngine( );
 			log = task.getLogger( );
 		}
 		else
@@ -308,7 +300,10 @@ public class ExecutionContext
 		locale = Locale.getDefault( );
 		
 		timeZone = TimeZone.getDefault( );
+	}
 
+	private void initializeScriptContext( )
+	{
 		ScriptableObject rootScope = null;
 		if ( engine != null )
 		{
@@ -338,7 +333,7 @@ public class ExecutionContext
 		}
 		context.setLocale( locale );
 
-		initailizeScriptContext( context, scriptContext
+		initializeScriptContext( context, scriptContext
 				.getRootScope( ) );
 
 		// create script context used to execute the script statements
@@ -355,14 +350,41 @@ public class ExecutionContext
 				.eval( "function registerGlobal( name, value) { _jsContext.registerGlobalBean(name, value); }" );
 		scriptContext
 				.eval( "function unregisterGlobal(name) { _jsContext.unregisterGlobalBean(name); }" );
-		
-		applicationClassLoader = new ApplicationClassLoader( this );
-		context.setApplicationClassLoader(
-				applicationClassLoader );
-		
+		if ( runnable != null )
+		{
+			registerDesign( runnable );
+		}
+		if ( reportContext != null )
+		{
+			scriptContext.registerBean( "reportContext", reportContext );
+		}
+		scriptContext.getContext( ).setLocale( locale );
+		scriptContext.registerBean( "pageNumber", new Long( pageNumber ) );
+		scriptContext.registerBean( "totalPage", new Long( totalPage ) );
+		if (transientBeans != null )
+		{
+			Iterator entries = transientBeans.entrySet( ).iterator( );
+			while( entries.hasNext( ))
+			{
+				Map.Entry entry = (Map.Entry)entries.next( );
+				scriptContext.registerBean( (String) entry.getKey( ), entry
+						.getValue( ) );
+			}
+		}
+		if (persistentBeans != null )
+		{
+			Iterator entries = persistentBeans.entrySet( ).iterator( );
+			while( entries.hasNext( ))
+			{
+				Map.Entry entry = (Map.Entry)entries.next( );
+				registerInRoot( (String) entry.getKey( ), entry.getValue( ) );
+			}
+		}
+		scriptContext.getContext( ).setApplicationClassLoader(
+				getApplicationClassLoader( ) );
 	}
 
-	protected void initailizeScriptContext( Context cx, Scriptable scope )
+	protected void initializeScriptContext( Context cx, Scriptable scope )
 	{
 		scriptContext.getContext( ).setWrapFactory( new WrapFactory( ) {
 
@@ -430,7 +452,7 @@ public class ExecutionContext
 	 */
 	public void newScope( )
 	{
-		scriptContext.enterScope( );
+		getScriptContext( ).enterScope( );
 	}
 
 	/**
@@ -441,6 +463,7 @@ public class ExecutionContext
 	 */
 	public void newScope( Object object )
 	{
+		ScriptContext scriptContext = getScriptContext( );
 		Object jsObject = scriptContext.javaToJs( object );
 		if ( jsObject instanceof Scriptable )
 		{
@@ -457,7 +480,7 @@ public class ExecutionContext
 	 */
 	public void exitScope( )
 	{
-		scriptContext.exitScope( );
+		getScriptContext( ).exitScope( );
 	}
 
 	/**
@@ -499,13 +522,19 @@ public class ExecutionContext
 	public void registerBean( String name, Object value )
 	{
 		transientBeans.put( name, value );
-		scriptContext.registerBean( name, value );
+		if( scriptContext != null )
+		{
+			scriptContext.registerBean( name, value );
+		}
 	}
 
 	public void unregisterBean( String name )
 	{
 		transientBeans.remove( name );
-		scriptContext.registerBean( name, null );
+		if( scriptContext != null )
+		{
+			scriptContext.registerBean( name, null );
+		}
 	}
 
 	public Map getBeans( )
@@ -536,13 +565,19 @@ public class ExecutionContext
 	public void registerGlobalBean( String name, Serializable value )
 	{
 		persistentBeans.put( name, value );
-		registerInRoot( name, value );
+		if ( scriptContext != null )
+		{
+			registerInRoot( name, value );
+		}
 	}
 
 	public void unregisterGlobalBean( String name )
 	{
 		persistentBeans.remove( name );
-		registerInRoot( name, null );
+		if ( scriptContext != null )
+		{
+			registerInRoot( name, null );
+		}
 	}
 
 	public Map getGlobalBeans( )
@@ -575,7 +610,7 @@ public class ExecutionContext
 		{
 			try
 			{
-				return scriptContext.eval( expr );
+				return getScriptContext( ).eval( expr );
 			}
 			catch ( Throwable e )
 			{
@@ -591,7 +626,7 @@ public class ExecutionContext
 	//By Lion 2007.11.30.
 	public Object evaluate( String scriptText )
 	{
-		return scriptContext.eval( scriptText );
+		return getScriptContext( ).eval( scriptText );
 	}
 
 	/**
@@ -609,7 +644,7 @@ public class ExecutionContext
 	public Object evaluateCondExpr( IConditionalExpression expr ) throws BirtException
 	{
 		IScriptExpression testExpr = expr.getExpression( );
-
+		ScriptContext scriptContext = getScriptContext( );
 		if ( testExpr == null )
 			return Boolean.FALSE;
 		try
@@ -665,7 +700,10 @@ public class ExecutionContext
 	public void setLocale( Locale locale )
 	{
 		this.locale = locale;
-		this.scriptContext.getContext( ).setLocale( locale );
+		if (scriptContext != null)
+		{
+			scriptContext.getContext( ).setLocale( locale );
+		}
 	}
 	
 	public TimeZone getTimeZone()
@@ -915,16 +953,20 @@ public class ExecutionContext
 	 */
 	public Scriptable getScope( )
 	{
-		return scriptContext.getScope( );
+		return getScriptContext( ).getScope( );
 	}
 
 	public Scriptable getSharedScope( )
 	{
-		return scriptContext.getSharedScope( );
+		return getScriptContext( ).getSharedScope( );
 	}
 
 	ScriptContext getScriptContext( )
 	{
+		if ( scriptContext == null )
+		{
+			initializeScriptContext( );
+		}
 		return this.scriptContext;
 	}
 
@@ -1068,7 +1110,7 @@ public class ExecutionContext
 		 */
 		public Object getDesign( )
 		{
-			return scriptContext.eval( "design" );
+			return getScriptContext( ).eval( "design" );
 		}
 
 		/**
@@ -1095,7 +1137,7 @@ public class ExecutionContext
 		 */
 		public Object getDataSets( )
 		{
-			return scriptContext.eval( "design.dataSets" );
+			return getScriptContext( ).eval( "design.dataSets" );
 		}
 
 		/**
@@ -1103,7 +1145,7 @@ public class ExecutionContext
 		 */
 		public Object getDataSources( )
 		{
-			return scriptContext.eval( "design.dataSources" );
+			return getScriptContext( ).eval( "design.dataSources" );
 		}
 
 		/**
@@ -1135,8 +1177,16 @@ public class ExecutionContext
 	public void setRunnable( IReportRunnable runnable )
 	{
 		this.runnable = (ReportRunnable)runnable;
+		if (scriptContext != null)
+		{
+			registerDesign( runnable );
+		}
+	}
+
+	private void registerDesign( IReportRunnable runnable )
+	{
 		ReportDesignHandle reportDesign = (ReportDesignHandle) runnable
-				.getDesignHandle( );
+			.getDesignHandle( );
 		IDesignElement element = SimpleElementFactory.getInstance( ).getElement( reportDesign );
 		scriptContext.registerBean( "design", element );
 	}
@@ -1258,13 +1308,19 @@ public class ExecutionContext
 	public void setReportContext( IReportContext reportContext )
 	{
 		this.reportContext = reportContext;
-		scriptContext.registerBean( "reportContext", reportContext );
+		if ( scriptContext != null)
+		{
+			scriptContext.registerBean( "reportContext", reportContext );
+		}
 	}
 
 	public void setPageNumber( long pageNo )
 	{
 		pageNumber = pageNo;
-		scriptContext.registerBean( "pageNumber", new Long( pageNumber ) );
+		if ( scriptContext != null)
+		{
+			scriptContext.registerBean( "pageNumber", new Long( pageNumber ) );
+		}
 		if ( totalPage < pageNumber )
 		{
 			setTotalPage( pageNumber );
@@ -1282,7 +1338,10 @@ public class ExecutionContext
 		if ( totalPage > this.totalPage )
 		{
 			this.totalPage = totalPage;
-			scriptContext.registerBean( "totalPage", new Long( totalPage ) );
+			if ( scriptContext != null )
+			{
+				scriptContext.registerBean( "totalPage", new Long( totalPage ) );
+			}
 			if ( reportContent instanceof ReportContent )
 			{
 				( (ReportContent) reportContent ).setTotalPage( totalPage );
@@ -1502,179 +1561,26 @@ public class ExecutionContext
 	 */
 	public ClassLoader getApplicationClassLoader( )
 	{
+		initializeClassLoader( );
 		return applicationClassLoader;
 	}
 
-	/**
-	 * the application class loader.
-	 * 
-	 * The class loader first try to the load the class as following sequence:
-	 * <li>1. standard java class loader,
-	 * <li>2. classloader setted through the appContext.
-	 * <li>3. CLASSPATH setted by WEBAPP_CLASSPATH_KEY
-	 * <li>4. PROJECT_CLASSPATH_KEY
-	 * <li>5. WORKSAPCE_CLASSPATH_KEY
-	 * <li>6. JARs define in the report design
-	 */
-	static private class ApplicationClassLoader extends ClassLoader
+	private void initializeClassLoader( )
 	{
-		
-		/**
-		 * the logger
-		 */
-		protected static Logger logger = Logger.getLogger( ClassLoader.class.getName( ) );
-
-		private static String[] classPathes = new String[]{
-				EngineConstants.WEBAPP_CLASSPATH_KEY,
-				EngineConstants.PROJECT_CLASSPATH_KEY,
-				EngineConstants.WORKSPACE_CLASSPATH_KEY};
-
-		private ExecutionContext context = null;
-		private ClassLoader loader = null;
-
-		public ApplicationClassLoader( ExecutionContext context )
+		if ( applicationClassLoader == null )
 		{
-			this.context = context;
-		}
-
-		public Class loadClass( String className )
-				throws ClassNotFoundException
-
-		{
-			try
-			{
-				return Class.forName( className );
-			}
-			catch ( ClassNotFoundException ex )
-			{
-				if ( loader == null )
-				{
-					createWrappedClassLoaders( );
-				}
-				return loader.loadClass( className );
-			}
-		}
-
-		public URL getResource( String name )
-		{
-			URL url = ApplicationClassLoader.class.getClassLoader( )
-					.getResource( name );
-			if ( url == null )
-			{
-				if ( loader == null )
-				{
-					createWrappedClassLoaders( );
-				}
-				return loader.getResource( name );
-			}
-			return null;
-		}
-
-		protected void createWrappedClassLoaders( )
-		{
-			ClassLoader root = getAppClassLoader( );
-			if ( root == null )
-			{
-				root = ExecutionContext.class.getClassLoader( );
-			}
-			loader = createClassLoaderFromProperty( root );
-			loader = createClassLoaderFromDesign( loader );
-		}
-
-		protected ClassLoader createClassLoaderFromProperty( ClassLoader parent )
-		{
-			EngineConfig config = context.getEngine( ).getConfig( );
-			ArrayList urls = new ArrayList( );
-			for ( int i = 0; i < classPathes.length; i++ )
-			{
-				String classPath = null;
-				if ( config != null )
-				{
-					Object propValue = config.getProperty( classPathes[i] );
-					if ( propValue instanceof String )
-					{
-						classPath = (String) propValue;
-					}
-				}
-
-				if ( classPath == null )
-				{
-					classPath = System.getProperty( classPathes[i] );
-				}
-
-				if ( classPath != null && classPath.length( ) != 0 )
-				{
-					String[] jars = classPath.split( PROPERTYSEPARATOR, -1 );
-					if ( jars != null && jars.length != 0 )
-					{
-						for ( int j = 0; j < jars.length; j++ )
-						{
-							File file = new File( jars[j] );
-							try
-							{
-								urls.add( file.toURL( ) );
-							}
-							catch ( MalformedURLException e )
-							{
-								logger.log( Level.WARNING, e.getMessage( ), e );
-							}
-						}
-					}
-				}
-			}
-			if ( urls.size( ) != 0 )
-			{
-				return new URLClassLoader( (URL[]) urls.toArray( new URL[0] ),
-						parent );
-			}
-			return parent;
-		}
-
-		protected ClassLoader getAppClassLoader( )
-		{
-			Map appContext = context.getAppContext( );
-			if ( appContext != null )
-			{
-				Object appLoader = appContext
-						.get( EngineConstants.APPCONTEXT_CLASSLOADER_KEY );
-				if ( appLoader instanceof ClassLoader )
-				{
-					return (ClassLoader) appLoader;
-				}
-			}
-			return null;
-		}
-
-		protected ClassLoader createClassLoaderFromDesign( ClassLoader parent )
-		{
-			IReportRunnable runnable = context.getRunnable( );
-			if ( runnable != null )
-			{
-				ModuleHandle module = (ModuleHandle) runnable.getDesignHandle( );
-				ArrayList urls = new ArrayList( );
-				Iterator iter = module.scriptLibsIterator( );
-				while ( iter.hasNext( ) )
-				{
-					ScriptLibHandle lib = (ScriptLibHandle) iter.next( );
-					String libPath = lib.getName( );
-					URL url = module.findResource( libPath,
-							IResourceLocator.LIBRARY );
-					if ( url != null )
-					{
-						urls.add( url );
-					}
-				}
-				if ( urls.size( ) != 0 )
-				{
-					URL[] jarUrls = (URL[]) urls.toArray( new URL[]{} );
-					return new URLClassLoader( jarUrls, parent );
-				}
-			}
-			return parent;
+			applicationClassLoader = new ApplicationClassLoader( engine,
+					runnable );
+			getScriptContext( ).getContext( ).setApplicationClassLoader(
+					applicationClassLoader );
 		}
 	}
 
-
+	public void setApplicationClassLoader( ClassLoader classLoader )
+	{
+		this.applicationClassLoader = classLoader;
+	}
+	
 	/**
 	 * Set the cancel flag.
 	 */
@@ -1753,7 +1659,7 @@ public class ExecutionContext
 			this.rsets = rsets;
 			if ( rsets[0] != null )
 			{
-				Scriptable scope = scriptContext.getRootScope( );
+				Scriptable scope = getScriptContext( ).getRootScope( );
 				DataAdapterUtil.registerJSObject( scope,
 						new ResultIteratorTree( rsets[0] ) );
 			}

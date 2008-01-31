@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,7 +11,12 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
+import java.io.File;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
@@ -20,6 +25,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.report.engine.api.EmitterInfo;
 import org.eclipse.birt.report.engine.api.EngineConfig;
+import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IDataExtractionTask;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
@@ -54,6 +60,8 @@ import org.mozilla.javascript.ScriptableObject;
 public class ReportEngine implements IReportEngine
 {
 
+	public static final String PROPERTYSEPARATOR = File.pathSeparator;
+
 	static protected Logger logger = Logger.getLogger( ReportEngine.class
 			.getName( ) );
 
@@ -72,6 +80,13 @@ public class ReportEngine implements IReportEngine
 	 */
 	protected ScriptableObject rootScope;
 
+	protected ClassLoader applicationClassLoader;
+	
+	private static String[] classPathes = new String[]{
+		EngineConstants.WEBAPP_CLASSPATH_KEY,
+		EngineConstants.PROJECT_CLASSPATH_KEY,
+		EngineConstants.WORKSPACE_CLASSPATH_KEY};
+
 	/**
 	 * Constructor. If config is null, engine derives BIRT_HOME from the
 	 * location of the engine jar file, and derives data driver directory as
@@ -85,7 +100,8 @@ public class ReportEngine implements IReportEngine
 	public ReportEngine( EngineConfig config )
 	{
 		this.config = config;
-		
+		mergeConfigToAppContext( );
+
 		intializeLogger( );
 
 		logger.log( Level.FINE, "ReportEngine created. EngineConfig: {0} ",
@@ -93,6 +109,33 @@ public class ReportEngine implements IReportEngine
 		this.helper = new ReportEngineHelper( this );
 
 		setupScriptScope( );
+	}
+
+	private void mergeConfigToAppContext( )
+	{
+		if ( config == null )
+		{
+			return;
+		}
+		mergeProperty( EngineConstants.APPCONTEXT_CLASSLOADER_KEY );
+		mergeProperty( EngineConstants.WEBAPP_CLASSPATH_KEY );
+		mergeProperty( EngineConstants.PROJECT_CLASSPATH_KEY );
+		mergeProperty( EngineConstants.WORKSPACE_CLASSPATH_KEY );
+	}
+
+	private void mergeProperty( String property )
+	{
+		Map appContext = config.getAppContext( );
+		// The configuration in appContext has higher priority.
+		if ( appContext.containsKey( property ) )
+		{
+			return;
+		}
+		Object value = config.getProperty( property );
+		if ( value != null )
+		{
+			appContext.put( property, value );
+		}
 	}
 
 	/**
@@ -537,5 +580,99 @@ public class ReportEngine implements IReportEngine
 		{
 			EngineLogger.startEngineLogging( logger, null, null, null );
 		}
+	}
+
+	public ClassLoader getClassLoader( )
+	{
+		if ( applicationClassLoader == null )
+		{
+			applicationClassLoader = createClassLoaderFromEngine( this );
+		}
+		return applicationClassLoader;
+	}
+
+	private static ClassLoader createClassLoaderFromEngine( IReportEngine engine )
+	{
+		ClassLoader root = getAppClassLoader( engine );
+		if ( root == null )
+		{
+			root = IReportEngine.class.getClassLoader( );
+		}
+		return createClassLoaderFromProperty( engine, root );
+	}
+
+	private static ClassLoader createClassLoaderFromProperty(
+			IReportEngine engine, ClassLoader parent )
+	{
+		EngineConfig config = engine.getConfig( );
+		if ( config == null )
+		{
+			return parent;
+		}
+		Map appContext = config.getAppContext( );
+		ArrayList urls = new ArrayList( );
+		if ( appContext != null )
+		{
+			for ( int i = 0; i < classPathes.length; i++ )
+			{
+				String classPath = null;
+				Object propValue = appContext.get( classPathes[i] );
+				if ( propValue instanceof String )
+				{
+					classPath = (String) propValue;
+				}
+
+				if ( classPath == null )
+				{
+					classPath = System.getProperty( classPathes[i] );
+				}
+
+				if ( classPath != null && classPath.length( ) != 0 )
+				{
+					String[] jars = classPath.split( PROPERTYSEPARATOR, -1 );
+					if ( jars != null && jars.length != 0 )
+					{
+						for ( int j = 0; j < jars.length; j++ )
+						{
+							File file = new File( jars[j] );
+							try
+							{
+								urls.add( file.toURL( ) );
+							}
+							catch ( MalformedURLException e )
+							{
+								logger.log( Level.WARNING, e.getMessage( ), e );
+							}
+						}
+					}
+				}
+			}
+		}
+		if ( urls.size( ) != 0 )
+		{
+			return new URLClassLoader( (URL[]) urls.toArray( new URL[urls
+					.size( )] ), parent );
+		}
+		return parent;
+	}
+
+	private static ClassLoader getAppClassLoader( IReportEngine engine )
+	{
+		EngineConfig config = engine.getConfig( );
+		if ( config == null )
+		{
+			return null;
+		}
+		Map appContext = config.getAppContext( );
+		if ( appContext != null )
+		{
+			Object appLoader = appContext
+					.get( EngineConstants.APPCONTEXT_CLASSLOADER_KEY );
+			if ( appLoader instanceof ClassLoader )
+			{
+				return (ClassLoader) appLoader;
+			}
+		}
+		return null;
 	}
 }

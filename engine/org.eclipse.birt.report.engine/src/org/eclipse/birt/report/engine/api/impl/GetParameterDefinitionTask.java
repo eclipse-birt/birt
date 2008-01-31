@@ -70,7 +70,7 @@ public class GetParameterDefinitionTask extends EngineTask
 	 * @param runnable
 	 *            the runnable report design
 	 */
-	public GetParameterDefinitionTask( IReportEngine engine,
+	public GetParameterDefinitionTask( ReportEngine engine,
 			IReportRunnable runnable )
 	{
 		super( engine, runnable, IEngineTask.TASK_GETPARAMETERDEFINITION);

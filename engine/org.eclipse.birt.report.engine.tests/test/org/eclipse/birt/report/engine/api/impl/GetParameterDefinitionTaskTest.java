@@ -15,6 +15,7 @@ import java.util.Collection;
 
 import org.eclipse.birt.report.engine.EngineCase;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.impl.GetParameterDefinitionTaskUtil.SelectionChoiceUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -50,8 +51,8 @@ public class GetParameterDefinitionTaskTest extends EngineCase
 		ScalarParameterHandle parameter2 = (ScalarParameterHandle) design
 				.findParameter( "NewParameter3" ); //$NON-NLS-1$
 		parameter2.setDataSetName( "Data Set" ); //$NON-NLS-1$
-		GetParameterDefinitionTask task = new GetParameterDefinitionTask(
-				engine, report );
+		IGetParameterDefinitionTask task = engine
+				.createGetParameterDefinitionTask( report );
 		Collection list = task.getSelectionListForCascadingGroup(
 				"NewCascadingParameterGroup", new Object[0] ); //$NON-NLS-1$
 		Object[] content = list.toArray( );

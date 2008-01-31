@@ -109,8 +109,7 @@ public class ReportDocumentTest extends EngineCase
 			document.close( );
 
 			IDocArchiveReader reader = new FileArchiveReader( REPORT_DOCUMENT );
-			ReportDocumentReader docReader = new ReportDocumentReader( engine,
-					reader );
+			IReportDocument docReader = engine.openReportDocument( null, reader, null );
 
 			assertFalse( reader.exists( ReportDocumentReader.BOOKMARK_STREAM ) );
 			// we now create TOC_STREAM whenever where is TOC or not.
@@ -170,8 +169,8 @@ public class ReportDocumentTest extends EngineCase
 		try
 		{
 			IDocArchiveReader archive = new FileArchiveReader( REPORT_DOCUMENT );
-			ReportDocumentReader document = new ReportDocumentReader( engine,
-					archive );
+			IReportDocument document = engine.openReportDocument( null,
+					archive, null );
 
 			assertTrue( document.getName( ) != null );
 			assertTrue( document.getReportRunnable( ) != null );
@@ -257,7 +256,7 @@ public class ReportDocumentTest extends EngineCase
 		return builder.createEntry( entry, displayString, bookmark, elementId );
 	}
 	
-	protected void checkTOC( ReportDocumentReader document )
+	protected void checkTOC( IReportDocument document )
 	{
 		// assertTOCNode( root, null, "/", "ROOT", "0" );
 		ITOCTree tree = document.getTOCTree( "viewer", null );
@@ -293,7 +292,7 @@ public class ReportDocumentTest extends EngineCase
 		checkFindTOCByName( document );
 	}
 
-	protected void checkFindTOCByName( ReportDocumentReader document )
+	protected void checkFindTOCByName( IReportDocument document )
 	{
 		TOCNode root = document.findTOC( "/" );
 		assertTrue( root != null );

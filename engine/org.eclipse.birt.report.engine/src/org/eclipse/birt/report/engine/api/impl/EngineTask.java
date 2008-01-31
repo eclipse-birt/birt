@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.engine.api.impl;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -87,7 +86,7 @@ public abstract class EngineTask implements IEngineTask
 	/**
 	 * a reference to the report engine
 	 */
-	protected IReportEngine engine;
+	protected ReportEngine engine;
 
 	/**
 	 * logger used to output the message
@@ -155,7 +154,7 @@ public abstract class EngineTask implements IEngineTask
 	 *            that are written by those who embeds engine in their
 	 *            applications
 	 */
-	protected EngineTask( IReportEngine engine, IReportRunnable runnable )
+	protected EngineTask( ReportEngine engine, IReportRunnable runnable )
 	{
 		taskID = id++;
 
@@ -176,7 +175,7 @@ public abstract class EngineTask implements IEngineTask
 		runningStatus = STATUS_NOT_STARTED;
 	}
 
-	protected EngineTask( IReportEngine engine, IReportRunnable runnable,
+	protected EngineTask( ReportEngine engine, IReportRunnable runnable,
 			int taskType )
 	{
 		this( engine, runnable );
@@ -255,11 +254,8 @@ public abstract class EngineTask implements IEngineTask
 		{
 			appContext.putAll( sysAppContext );
 		}
-		if ( context != null )
-		{
-			appContext.putAll( context );
-		}
-
+		addAppContext( context, appContext );
+		
 		executionContext.setAppContext( appContext );
 
 		StringBuffer logStr = null;
@@ -300,6 +296,58 @@ public abstract class EngineTask implements IEngineTask
 		if ( logStr != null )
 			log.log( Level.FINE, "EngineTask.setAppContext: context={0}",
 					logStr );
+	}
+
+	/**
+	 * Merges user specified app context to that of EngineTask. The context
+	 * variables in entry with following keys will be ignored:
+	 * 
+	 * <ul>
+	 * <li><code>EngineConstants.APPCONTEXT_CLASSLOADER_KEY</code>
+	 * <li><code>EngineConstants.WEBAPP_CLASSPATH_KEY</code>
+	 * <li><code>EngineConstants.PROJECT_CLASSPATH_KEY</code>
+	 * <li><code>EngineConstants.WORKSPACE_CLASSPATH_KEY</code>
+	 * </ul>
+	 * 
+	 * @param from
+	 *            the source app contexts.
+	 * @param to
+	 *            the destination app contexts.
+	 */
+	private void addAppContext( Map from, Map to )
+	{
+		if ( to == null )
+		{
+			return;
+		}
+		Iterator iterator = from.entrySet( ).iterator( );
+		while ( iterator.hasNext( ) )
+		{
+			Map.Entry entry = (Map.Entry) iterator.next( );
+			//Ignore the entry that should not be set from engine task.
+			if ( !isDeprecatedEntry( entry ) )
+			{
+				to.put( entry.getKey( ), entry.getValue( ) );
+			}
+		}
+	}
+	
+	private boolean isDeprecatedEntry( Map.Entry entry )
+	{
+		Object key = entry.getKey( );
+		if ( EngineConstants.APPCONTEXT_CLASSLOADER_KEY.equals( key )
+				|| EngineConstants.WEBAPP_CLASSPATH_KEY.equals( key )
+				|| EngineConstants.PROJECT_CLASSPATH_KEY.equals( key )
+				|| EngineConstants.WORKSPACE_CLASSPATH_KEY.equals( key ) )
+		{
+			log
+					.log(
+							Level.WARNING,
+							key
+									+ " could not be set in appContext of IEngineTask, please set it in appContext of IReportEngine" );
+			return true;
+		}
+		return false;
 	}
 
 	/**
