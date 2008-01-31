@@ -1565,12 +1565,15 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				Entry entry = (Entry) iter.next( );
 				String groupName = ( (ColumnBindingInfo) entry.getValue( ) ).getName( );
 				Object[] aggsValues = aggs.values( ).toArray( );
+				
+				// Remove some groups defined aggregate.
 				for ( int j = 0; j < aggs.size( ); j++ )
 				{
 					if ( groupName.equals( ( (ComputedColumnHandle) ( (ColumnBindingInfo) aggsValues[j] ).getObjectHandle( ) ).getAggregateOn( ) ) )
 					{
 						iter.remove( );
 						groupsWithAgg.put( entry.getKey( ), entry.getValue( ) );
+						break;
 					}
 				}
 			}
