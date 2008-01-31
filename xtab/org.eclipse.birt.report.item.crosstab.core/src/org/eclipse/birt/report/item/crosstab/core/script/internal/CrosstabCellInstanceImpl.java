@@ -1,0 +1,197 @@
+/*******************************************************************************
+ * Copyright (c) 2007 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.item.crosstab.core.script.internal;
+
+import org.eclipse.birt.report.engine.api.script.ScriptException;
+import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
+import org.eclipse.birt.report.engine.content.ICellContent;
+import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.eclipse.birt.report.engine.script.internal.instance.StyleInstance;
+import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
+import org.eclipse.birt.report.item.crosstab.core.script.ICrosstabCellInstance;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.UserPropertyDefnHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.extension.IReportItem;
+
+/**
+ * CrosstabCellInstanceImpl
+ */
+public class CrosstabCellInstanceImpl implements ICrosstabCellInstance
+{
+
+	private ICellContent content;
+	private ExtendedItemHandle modelHandle;
+	private long id = -1;
+	private String type = TYPE_HEADER;
+
+	public CrosstabCellInstanceImpl( ICellContent content,
+			ExtendedItemHandle modelHandle )
+	{
+		this.content = content;
+		this.modelHandle = modelHandle;
+
+		if ( modelHandle != null )
+		{
+			id = modelHandle.getID( );
+		}
+
+		try
+		{
+			IReportItem item = modelHandle.getReportItem( );
+			if ( item instanceof AggregationCellHandle )
+			{
+				type = TYPE_AGGREGATION;
+			}
+		}
+		catch ( ExtendedElementException e )
+		{
+			e.printStackTrace( );
+		}
+	}
+
+	public long getCellID( )
+	{
+		return id;
+	}
+
+	public String getCellType( )
+	{
+		return type;
+	}
+
+	public String getHeight( )
+	{
+		DimensionType height = content.getHeight( );
+		if ( height != null )
+		{
+			return height.toString( );
+		}
+		return null;
+	}
+
+	public String getHelpText( )
+	{
+		return content.getHelpText( );
+	}
+
+	public String getHorizontalPosition( )
+	{
+		DimensionType x = content.getX( );
+		if ( x != null )
+		{
+			return x.toString( );
+		}
+		return null;
+	}
+
+	public String getName( )
+	{
+		return content.getName( );
+	}
+
+	public Object getNamedExpressionValue( String name )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public IScriptStyle getStyle( )
+	{
+		return new StyleInstance( content.getStyle( ) );
+	}
+
+	public Object getUserPropertyValue( String name )
+	{
+		if ( modelHandle != null )
+		{
+			UserPropertyDefnHandle prop = modelHandle.getUserPropertyDefnHandle( name );
+			if ( prop != null )
+			{
+				return modelHandle.getProperty( prop.getName( ) );
+			}
+		}
+		return null;
+	}
+
+	public String getVerticalPosition( )
+	{
+		DimensionType y = content.getY( );
+		if ( y != null )
+		{
+			return y.toString( );
+		}
+		return null;
+	}
+
+	public String getWidth( )
+	{
+		DimensionType width = content.getWidth( );
+		if ( width != null )
+		{
+			return width.toString( );
+		}
+		return null;
+	}
+
+	public void setHeight( String height )
+	{
+		content.setHeight( DimensionType.parserUnit( height ) );
+	}
+
+	public void setHelpText( String help )
+	{
+		content.setHelpText( help );
+	}
+
+	public void setHorizontalPosition( String position )
+	{
+		content.setX( DimensionType.parserUnit( position ) );
+	}
+
+	public void setName( String name )
+	{
+		content.setName( name );
+	}
+
+	public void setUserPropertyValue( String name, Object value )
+			throws ScriptException
+	{
+		if ( modelHandle != null )
+		{
+			UserPropertyDefnHandle prop = modelHandle.getUserPropertyDefnHandle( name );
+			if ( prop != null )
+			{
+				try
+				{
+					modelHandle.setProperty( prop.getName( ), value );
+				}
+				catch ( SemanticException e )
+				{
+					throw new ScriptException( e.getLocalizedMessage( ) );
+				}
+			}
+		}
+	}
+
+	public void setVerticalPosition( String position )
+	{
+		content.setY( DimensionType.parserUnit( position ) );
+	}
+
+	public void setWidth( String width )
+	{
+		content.setWidth( DimensionType.parserUnit( width ) );
+	}
+
+}

@@ -172,6 +172,30 @@
                   name="CrosstabCell">
             </elementType>
          </property>
+         <method
+               context="startup"
+               displayNameID="Method.onPrepare"
+               isStatic="false"
+               name="onPrepare">
+         </method>
+         <method
+               context="factory"
+               displayNameID="Method.onCreate"
+               isStatic="false"
+               name="onCreate">
+         </method>
+         <method
+               context="presentation"
+               displayNameID="Method.onRender"
+               isStatic="false"
+               name="onRender">
+         </method>
+         <method
+               context="presentation"
+               displayNameID="Method.onPageBreak"
+               isStatic="false"
+               name="onPageBreak">
+         </method>
       </reportItem>
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"

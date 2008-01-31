@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.item.crosstab.core.de;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -22,6 +23,9 @@ import org.eclipse.birt.report.item.crosstab.core.de.internal.CrosstabModelUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.internal.CrosstabReportItemTask;
 import org.eclipse.birt.report.item.crosstab.core.i18n.MessageConstants;
 import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
+import org.eclipse.birt.report.item.crosstab.core.script.ICrosstabEventHandler;
+import org.eclipse.birt.report.item.crosstab.core.script.internal.CrosstabImpl;
+import org.eclipse.birt.report.item.crosstab.core.script.internal.CrosstabClassInfo;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
@@ -33,10 +37,11 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.extension.CompatibilityStatus;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
+import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
-import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.api.simpleapi.IReportItem;
 
 /**
  * CrosstabReportItemHandle.
@@ -438,6 +443,15 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	}
 
 	/**
+	 * Sets the empty cell value of this crosstab.
+	 */
+
+	public void setEmptyCellValue( String value ) throws SemanticException
+	{
+		handle.setStringProperty( EMPTY_CELL_VALUE_PROP, value );
+	}
+
+	/**
 	 * @since 2.3
 	 */
 	public CrosstabCellHandle getHeader( )
@@ -470,7 +484,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	 */
 	public void setCube( CubeHandle cube ) throws SemanticException
 	{
-		handle.setProperty( IReportItemModel.CUBE_PROP, cube );
+		handle.setProperty( ReportItemHandle.CUBE_PROP, cube );
 	}
 
 	/**
@@ -480,7 +494,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	 */
 	public String getCubeName( )
 	{
-		return handle.getStringProperty( IReportItemModel.CUBE_PROP );
+		return handle.getStringProperty( ReportItemHandle.CUBE_PROP );
 	}
 
 	/**
@@ -877,7 +891,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	 */
 	public org.eclipse.birt.report.model.api.DimensionHandle getWidth( )
 	{
-		return handle.getDimensionProperty( IReportItemModel.WIDTH_PROP );
+		return handle.getDimensionProperty( ReportItemHandle.WIDTH_PROP );
 	}
 
 	/**
@@ -887,7 +901,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	 */
 	public org.eclipse.birt.report.model.api.DimensionHandle getHeight( )
 	{
-		return handle.getDimensionProperty( IReportItemModel.HEIGHT_PROP );
+		return handle.getDimensionProperty( ReportItemHandle.HEIGHT_PROP );
 	}
 
 	/**
@@ -1034,6 +1048,50 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.birt.report.model.api.extension.ReportItem#getSimpleElement()
+	 */
+//	public IReportItem getSimpleElement( )
+//	{
+//		return new CrosstabImpl( this );
+//	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.extension.ReportItem#getMethods(java.lang.String)
+	 */
+	public IMethodInfo[] getMethods( String methodName )
+	{
+//		if ( ON_PREPARE_METHOD.equals( methodName ) )
+//		{
+//			CrosstabClassInfo info = new CrosstabClassInfo( ICrosstabEventHandler.class );
+//			List list = info.getMethods( );
+//
+//			List filtered = new ArrayList( );
+//
+//			for ( Iterator itr = list.iterator( ); itr.hasNext( ); )
+//			{
+//				IMethodInfo md = (IMethodInfo) itr.next( );
+//
+//				String name = md.getName( );
+//
+//				if ( name != null && name.startsWith( ON_PREPARE_METHOD ) )
+//				{
+//					filtered.add( md );
+//				}
+//			}
+//
+//			return (IMethodInfo[]) filtered.toArray( new IMethodInfo[filtered.size( )] );
+//		}
+//		else
+		{
+			return null;
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.extension.ReportItem#checkCompatibility()
 	 */
 	public CompatibilityStatus checkCompatibility( )
@@ -1099,10 +1157,6 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	 */
 	public List validate( )
 	{
-		// this line is used only for log, can be removed.
-		logger.log( Level.INFO,
-				Messages.getString( "CrosstabReportItemHandle.log.validate" ) ); //$NON-NLS-1$		
-
 		List list = new ArrayList( );
 
 		if ( this.getCube( ) == null )

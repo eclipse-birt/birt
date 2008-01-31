@@ -83,4 +83,24 @@ public interface ICrosstabReportItemConstants
 	 * @since 2.3
 	 */
 	String HEADER_PROP = "header"; //$NON-NLS-1$
+
+	/**
+	 * Name of the onPrepare method
+	 */
+	String ON_PREPARE_METHOD = "onPrepare"; //$NON-NLS-1$
+
+	/**
+	 * Name of the onCreate method
+	 */
+	String ON_CREATE_METHOD = "onCreate"; //$NON-NLS-1$
+
+	/**
+	 * Name of the onRender method
+	 */
+	String ON_RENDER_METHOD = "onRender"; //$NON-NLS-1$
+
+	/**
+	 * Name of the onPageBreak method
+	 */
+	String ON_PAGEBREAK_METHOD = "onPageBreak"; //$NON-NLS-1$
 }

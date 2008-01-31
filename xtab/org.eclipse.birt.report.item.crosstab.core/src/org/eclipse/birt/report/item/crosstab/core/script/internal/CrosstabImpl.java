@@ -1,0 +1,127 @@
+/*******************************************************************************
+ * Copyright (c) 2007 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.report.item.crosstab.core.script.internal;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.script.ICrosstab;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.extension.SimpleRowItem;
+
+/**
+ * CrosstabImpl
+ */
+public class CrosstabImpl extends SimpleRowItem implements ICrosstab
+{
+
+	private CrosstabReportItemHandle crh;
+
+	public CrosstabImpl( CrosstabReportItemHandle crh )
+	{
+		super( (ExtendedItemHandle) crh.getModelHandle( ) );
+
+		this.crh = crh;
+	}
+
+	public List getColumnLevels( )
+	{
+		List ms = new ArrayList( );
+
+		for ( int i = 0; i < crh.getDimensionCount( COLUMN_AXIS_TYPE ); i++ )
+		{
+			DimensionViewHandle dv = crh.getDimension( COLUMN_AXIS_TYPE, i );
+
+			for ( int j = 0; j < dv.getLevelCount( ); j++ )
+			{
+				ms.add( new LevelImpl( dv.getLevel( j ) ) );
+			}
+		}
+
+		return Collections.unmodifiableList( ms );
+	}
+
+	public String getEmptyCellValue( )
+	{
+		return crh.getEmptyCellValue( );
+	}
+
+	public String getMeasureDirection( )
+	{
+		return crh.getMeasureDirection( );
+	}
+
+	public List getMeasures( )
+	{
+		List ms = new ArrayList( );
+
+		for ( int i = 0; i < crh.getMeasureCount( ); i++ )
+		{
+			ms.add( new MeasureImpl( crh.getMeasure( i ) ) );
+		}
+
+		return Collections.unmodifiableList( ms );
+	}
+
+	public List getRowLevels( )
+	{
+		List ms = new ArrayList( );
+
+		for ( int i = 0; i < crh.getDimensionCount( ROW_AXIS_TYPE ); i++ )
+		{
+			DimensionViewHandle dv = crh.getDimension( ROW_AXIS_TYPE, i );
+
+			for ( int j = 0; j < dv.getLevelCount( ); j++ )
+			{
+				ms.add( new LevelImpl( dv.getLevel( j ) ) );
+			}
+		}
+
+		return Collections.unmodifiableList( ms );
+	}
+
+	public boolean isRepeatColumnHeader( )
+	{
+		return crh.isRepeatColumnHeader( );
+	}
+
+	public boolean isRepeatRowHeader( )
+	{
+		return crh.isRepeatRowHeader( );
+	}
+
+	public void setEmptyCellValue( String value ) throws SemanticException
+	{
+		crh.setEmptyCellValue( value );
+	}
+
+	public void setMeasureDirection( String direction )
+			throws SemanticException
+	{
+		crh.setMeasureDirection( direction );
+	}
+
+	public void setRepeatColumnHeader( boolean value ) throws SemanticException
+	{
+		crh.setRepeatColumnHeader( value );
+	}
+
+	public void setRepeatRowHeader( boolean value ) throws SemanticException
+	{
+		crh.setRepeatRowHeader( value );
+	}
+
+}
