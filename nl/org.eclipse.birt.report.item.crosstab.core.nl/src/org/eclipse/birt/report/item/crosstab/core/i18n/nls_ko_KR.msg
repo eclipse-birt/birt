@@ -30,6 +30,11 @@ Element.Mirrored=미러링됨
 Element.MirrorStartingLevel=Mirror Starting Level
 Element.HideMeasureHeader=측정값 머리글 숨기기
 
+Method.onPrepare=onPrepare
+Method.onCreate=onCreate
+Method.onRender=onRender
+Method.onPageBreak=onPageBreak
+
 ###########################################################
 # Crosstab exception
 Error.CrosstabException.DUPLICATE_DIMENSION=큐브 차원 요소 {0}이(가) 크로스 탭 {1}의 차원 보기에 중복 적용되었습니다. 

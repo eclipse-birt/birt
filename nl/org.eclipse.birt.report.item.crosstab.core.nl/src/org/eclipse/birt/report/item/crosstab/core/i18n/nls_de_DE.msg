@@ -30,6 +30,11 @@ Element.Mirrored=Gespiegelt
 Element.MirrorStartingLevel=Mirror Starting Level
 Element.HideMeasureHeader=Maßeinheiten-Kopfzeile ausblenden
 
+Method.onPrepare=onPrepare
+Method.onCreate=onCreate
+Method.onRender=onRender
+Method.onPageBreak=onPageBreak
+
 ###########################################################
 # Crosstab exception
 Error.CrosstabException.DUPLICATE_DIMENSION=Duplikat von Quaderdimensionselement {0} für Dimensionsansicht in Kreuztabelle {1} verwendet.

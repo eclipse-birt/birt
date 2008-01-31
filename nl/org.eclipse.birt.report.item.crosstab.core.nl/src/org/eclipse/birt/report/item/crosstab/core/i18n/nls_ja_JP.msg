@@ -30,6 +30,11 @@ Element.Mirrored=ミラー化
 Element.MirrorStartingLevel=Mirror Starting Level
 Element.HideMeasureHeader=計測のヘッダを隠す
 
+Method.onPrepare=onPrepare
+Method.onCreate=onCreate
+Method.onRender=onRender
+Method.onPageBreak=onPageBreak
+
 ###########################################################
 # Crosstab exception
 Error.CrosstabException.DUPLICATE_DIMENSION=重複するキューブの次元要素 {0} が、クロスタブ {1} の次元ビューに適用されています。

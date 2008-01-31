@@ -30,6 +30,11 @@ Element.Mirrored=En miroir
 Element.MirrorStartingLevel=Mirror Starting Level
 Element.HideMeasureHeader=Masquer l'en-tête de Mesure
 
+Method.onPrepare=onPrepare
+Method.onCreate=onCreate
+Method.onRender=onRender
+Method.onPageBreak=onPageBreak
+
 ###########################################################
 # Crosstab exception
 Error.CrosstabException.DUPLICATE_DIMENSION=L''élément de dimension du cube {0} présente des doublons appliqués pour l''affichage de dimension dans le tableau croisé {1}.

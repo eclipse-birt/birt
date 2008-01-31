@@ -30,6 +30,11 @@ Element.Mirrored=镜像
 Element.MirrorStartingLevel=Mirror Starting Level
 Element.HideMeasureHeader=隐藏度量头
 
+Method.onPrepare=onPrepare
+Method.onCreate=onCreate
+Method.onRender=onRender
+Method.onPageBreak=onPageBreak
+
 ###########################################################
 # Crosstab exception
 Error.CrosstabException.DUPLICATE_DIMENSION=多维数据集维元素 {0} 具有应用于交叉表 {1} 中的维视图的重复项。
