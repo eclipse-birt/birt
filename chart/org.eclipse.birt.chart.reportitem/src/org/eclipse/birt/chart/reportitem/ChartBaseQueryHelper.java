@@ -51,6 +51,7 @@ import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
+import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
@@ -69,7 +70,7 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 	 * @param chart
 	 * @param handle
 	 */
-	public ChartBaseQueryHelper( ExtendedItemHandle handle, Chart cm )
+	public ChartBaseQueryHelper( ReportItemHandle handle, Chart cm )
 	{
 		super( handle, cm );
 	}
@@ -87,8 +88,8 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 
 		return query;
 	}
-
-	private BaseQueryDefinition createQueryDefinition(
+	
+	protected BaseQueryDefinition createQueryDefinition(
 			IDataQueryDefinition parent ) throws ChartException
 	{
 		BaseQueryDefinition query = null;
@@ -235,7 +236,7 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 		}
 	}
 
-	protected BaseQueryDefinition createSubQuery( ExtendedItemHandle handle,
+	protected BaseQueryDefinition createSubQuery( ReportItemHandle handle,
 			BaseQueryDefinition parentQuery ) throws ChartException
 	{
 		BaseQueryDefinition query = null;
@@ -264,10 +265,19 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 		return query;
 	}
 
-	private void addSortAndFilter( ExtendedItemHandle handle,
+	private void addSortAndFilter( ReportItemHandle handle,
 			BaseQueryDefinition query )
 	{
-		query.getFilters( ).addAll( createFilters( handle.filtersIterator( ) ) );
+		if ( handle instanceof ExtendedItemHandle )
+		{
+			query.getFilters( )
+					.addAll( createFilters( ( (ExtendedItemHandle) handle ).filtersIterator( ) ) );
+		}
+		else if ( handle instanceof TableHandle )
+		{
+			query.getFilters( )
+					.addAll( createFilters( ( (TableHandle) handle ).filtersIterator( ) ) );
+		}
 	}
 
 	/**
@@ -300,7 +310,7 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 	 *            a filter condition handle
 	 * @return the filter
 	 */
-	private IFilterDefinition createFilter( FilterConditionHandle handle )
+	protected IFilterDefinition createFilter( FilterConditionHandle handle )
 	{
 		String filterExpr = handle.getExpr( );
 		if ( filterExpr == null || filterExpr.length( ) == 0 )

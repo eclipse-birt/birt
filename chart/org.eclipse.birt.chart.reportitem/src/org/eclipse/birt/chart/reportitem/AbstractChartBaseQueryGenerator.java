@@ -42,7 +42,7 @@ import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.emf.common.util.EList;
 
@@ -55,7 +55,7 @@ public abstract class AbstractChartBaseQueryGenerator
 {
 
 	/** The handle of report item handle. */
-	protected ExtendedItemHandle fReportItemHandle;
+	protected ReportItemHandle fReportItemHandle;
 
 	/** Current chart handle. */
 	protected Chart fChartModel;
@@ -69,7 +69,7 @@ public abstract class AbstractChartBaseQueryGenerator
 	 * @param chart
 	 * @param handle
 	 */
-	public AbstractChartBaseQueryGenerator( ExtendedItemHandle handle, Chart cm )
+	public AbstractChartBaseQueryGenerator( ReportItemHandle handle, Chart cm )
 	{
 		fChartModel = cm;
 		fReportItemHandle = handle;

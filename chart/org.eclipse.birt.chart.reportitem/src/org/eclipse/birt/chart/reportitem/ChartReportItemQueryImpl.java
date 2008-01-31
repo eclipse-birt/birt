@@ -22,6 +22,7 @@ import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.engine.extension.ReportItemQueryBase;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 
@@ -77,6 +78,9 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 		this.eih = eih;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.extension.ReportItemQueryBase#createReportQueries(org.eclipse.birt.data.engine.api.IDataQueryDefinition)
+	 */
 	public IDataQueryDefinition[] createReportQueries(
 			IDataQueryDefinition parent ) throws BirtException
 	{
@@ -92,16 +96,33 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 		};
 	}
 
+	/**
+	 * Create query definition by report item handle.
+	 * 
+	 * @param handle
+	 * @param parent
+	 * @return
+	 * @throws BirtException
+	 */
 	IDataQueryDefinition createQuery( ExtendedItemHandle handle,
 			IDataQueryDefinition parent ) throws BirtException
 	{
 		if ( handle.getDataSet( ) != null
 				|| parent instanceof IBaseQueryDefinition )
 		{
-			// If chart is multiple view, it means chart shares dataset with table, don't create query by chart, directly use query on table.
-			if ( eih.getContainer( ) instanceof MultiViewsHandle )
+			// If chart is in multiple view, it means chart shares host query
+			// with table, don't create query by chart, directly use query on
+			// table.
+			if ( handle.getContainer( ) instanceof MultiViewsHandle )
 			{
-				return parent;
+				ReportItemHandle tableHandle = (ReportItemHandle) handle.getContainer( ).getContainer( );
+				if ( tableHandle == null)
+				{
+					return null;
+				}
+				
+				return new ChartMultiViewQueryHelper(  tableHandle ,
+						cm ).createQuery( parent );
 			}
 			
 			return new ChartBaseQueryHelper( handle, cm ).createBaseQuery( parent );
@@ -111,6 +132,7 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 		{
 			return new ChartCubeQueryHelper( handle, cm ).createCubeQuery( parent );
 		}
+		
 		return null;
 	}
 }

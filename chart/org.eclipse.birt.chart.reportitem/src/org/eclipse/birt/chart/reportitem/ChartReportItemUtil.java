@@ -101,7 +101,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	 * @return shared binding needed or not
 	 * @since 2.3
 	 */
-	public static boolean canScaleShared( ExtendedItemHandle eih, Chart cm )
+	public static boolean canScaleShared( ReportItemHandle eih, Chart cm )
 	{
 		return cm instanceof ChartWithAxes
 				&& eih.getDataSet( ) == null && getBindingHolder( eih ) != null
