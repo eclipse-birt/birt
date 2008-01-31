@@ -54,8 +54,6 @@ import org.eclipse.swt.widgets.Display;
 public class ReportLaunchHelper implements IReportLaunchConstants
 {
 
-	private EngineConfig engineConfig;
-	private IReportEngine engine;
 	private Map paramValues = new HashMap( );
 
 	String fileName;
@@ -69,42 +67,25 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 	int eventPort;
 	int requestPort;
 
-	void init( ILaunchConfiguration configuration )
+	void init( ILaunchConfiguration configuration ) throws CoreException
 	{
-		engineConfig = new LauncherEngineConfig( );
+		fileName = covertVariables( configuration.getAttribute( ATTR_REPORT_FILE_NAME,
+				"" ) ); //$NON-NLS-1$
+		engineHome = covertVariables( configuration.getAttribute( ATTR_ENGINE_HOME,
+				"" ) ); //$NON-NLS-1$
+		tempFolder = covertVariables( configuration.getAttribute( ATTR_TEMP_FOLDER,
+				"" ) ); //$NON-NLS-1$
 
-		IReportEngineFactory factory = (IReportEngineFactory) Platform.createFactoryObject( IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY );
+		useDefaultEngineHome = configuration.getAttribute( ATTR_USE_DEFULT_ENGINE_HOME,
+				true );
 
-		engine = factory.createReportEngine( engineConfig );
-		engine.changeLogLevel( Level.WARNING );
-		configEngine( );
-
-		try
-		{
-			fileName = covertVariables( configuration.getAttribute( ATTR_REPORT_FILE_NAME,
-					"" ) ); //$NON-NLS-1$
-			engineHome = covertVariables( configuration.getAttribute( ATTR_ENGINE_HOME,
-					"" ) ); //$NON-NLS-1$
-			tempFolder = covertVariables( configuration.getAttribute( ATTR_TEMP_FOLDER,
-					"" ) ); //$NON-NLS-1$
-
-			useDefaultEngineHome = configuration.getAttribute( ATTR_USE_DEFULT_ENGINE_HOME,
-					true );
-
-			targetFormat = configuration.getAttribute( ATTR_TARGET_FORMAT,
-					DEFAULT_TARGET_FORMAT );
-			isOpenTargetFile = configuration.getAttribute( ATTR_OPEN_TARGET,
-					false );
-			debugType = configuration.getAttribute( ATTR_DEBUG_TYPE,
-					DEFAULT_DEBUG_TYPE );
-			taskType = configuration.getAttribute( ATTR_TASK_TYPE,
-					DEFAULT_TASK_TYPE );
-		}
-		catch ( CoreException e )
-		{
-			e.printStackTrace( );
-		}
-
+		targetFormat = configuration.getAttribute( ATTR_TARGET_FORMAT,
+				DEFAULT_TARGET_FORMAT );
+		isOpenTargetFile = configuration.getAttribute( ATTR_OPEN_TARGET, false );
+		debugType = configuration.getAttribute( ATTR_DEBUG_TYPE,
+				DEFAULT_DEBUG_TYPE );
+		taskType = configuration.getAttribute( ATTR_TASK_TYPE,
+				DEFAULT_TASK_TYPE );
 	}
 
 	void addUserClassPath( List list, ILaunchConfiguration config )
@@ -161,85 +142,7 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 		list.add( "-D" + ATTR_ENGINE_HOME + "=" + engineHome ); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
-	private void configEngine( )
-	{
-		HTMLRenderOption emitterConfig = new HTMLRenderOption( );
-
-		emitterConfig.setActionHandler( new HTMLActionHandler( ) {
-
-			public String getURL( IAction actionDefn, Object context )
-			{
-				if ( actionDefn.getType( ) == IAction.ACTION_DRILLTHROUGH )
-					return "birt://" //$NON-NLS-1$
-							+ URLEncoder.encode( super.getURL( actionDefn,
-									context ) );
-				return super.getURL( actionDefn, context );
-			}
-
-		} );
-		// emitterConfig.setImageHandler( new HTMLCompleteImageHandler( ) );
-		// emitterConfig.setImageHandler( new HTMLImageHandler( ) );
-		engineConfig.getEmitterConfigs( ).put( RenderOption.OUTPUT_FORMAT_HTML,
-				emitterConfig );
-
-	}
-
-	/**
-	 * Gets the parameter
-	 * 
-	 * @param params
-	 * @return
-	 */
-	private boolean getParameterValues( List params )
-	{
-		if ( params != null && params.size( ) > 0 )
-		{
-			InputParameterDialog dialog = new InputParameterDialog( DebugUI.getShell( ),
-					params,
-					paramValues );
-			if ( dialog.open( ) == Window.OK )
-			{
-				paramValues = dialog.getParameters( );
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-		else
-		{
-			return true;
-		}
-	}
-
-	private List getInputParameters( String reportDesignFile )
-	{
-		try
-		{
-			IGetParameterDefinitionTask task;
-			if ( taskType == TASK_TYPE_RENDER )
-			{
-				task = engine.createGetParameterDefinitionTask( engine.openReportDocument( reportDesignFile )
-						.getReportRunnable( ) );
-			}
-			else
-			{
-				task = engine.createGetParameterDefinitionTask( engine.openReportDesign( reportDesignFile ) );
-			}
-			ParameterFactory factory = new ParameterFactory( task );
-			List parameters = factory.getRootChildren( );
-			task.close( );
-			task = null;
-			return parameters;
-		}
-		catch ( EngineException e )
-		{
-		}
-		return null;
-	}
-
-	private String covertVariables( String str )
+	private static String covertVariables( String str )
 	{
 		try
 		{
@@ -251,7 +154,7 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 		}
 	}
 
-	private String[] getUserClasspath( ILaunchConfiguration configuration )
+	private static String[] getUserClasspath( ILaunchConfiguration configuration )
 	{
 		try
 		{
@@ -290,7 +193,7 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 		return null;
 	}
 
-	private String convertClassPath( String[] cp )
+	private static String convertClassPath( String[] cp )
 	{
 		int pathCount = 0;
 		StringBuffer buf = new StringBuffer( );
@@ -310,7 +213,7 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 		return buf.toString( );
 	}
 
-	protected static int findFreePort( )
+	private static int findFreePort( )
 	{
 		ServerSocket socket = null;
 		try
@@ -337,19 +240,114 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 		return -1;
 	}
 
+	private static void configEngine( EngineConfig engineConfig )
+	{
+		HTMLRenderOption emitterConfig = new HTMLRenderOption( );
+
+		emitterConfig.setActionHandler( new HTMLActionHandler( ) {
+
+			public String getURL( IAction actionDefn, Object context )
+			{
+				if ( actionDefn.getType( ) == IAction.ACTION_DRILLTHROUGH )
+					return "birt://" //$NON-NLS-1$
+							+ URLEncoder.encode( super.getURL( actionDefn,
+									context ) );
+				return super.getURL( actionDefn, context );
+			}
+
+		} );
+		// emitterConfig.setImageHandler( new HTMLCompleteImageHandler( ) );
+		// emitterConfig.setImageHandler( new HTMLImageHandler( ) );
+		engineConfig.getEmitterConfigs( ).put( RenderOption.OUTPUT_FORMAT_HTML,
+				emitterConfig );
+
+	}
+
+	/**
+	 * Gets the parameter
+	 * 
+	 * @param params
+	 * @return
+	 */
+	private static boolean getParameterValues( List params, Map paramValues )
+	{
+		if ( params != null && params.size( ) > 0 )
+		{
+			InputParameterDialog dialog = new InputParameterDialog( DebugUI.getShell( ),
+					params,
+					paramValues );
+			if ( dialog.open( ) == Window.OK )
+			{
+				paramValues.clear( );
+				paramValues.putAll( dialog.getParameters( ) );
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return true;
+		}
+	}
+
+	private static List getInputParameters( String reportDesignFile,
+			int taskType, IReportEngine engine )
+	{
+		IGetParameterDefinitionTask task = null;
+		try
+		{
+			if ( taskType == TASK_TYPE_RENDER )
+			{
+				task = engine.createGetParameterDefinitionTask( engine.openReportDocument( reportDesignFile )
+						.getReportRunnable( ) );
+			}
+			else
+			{
+				task = engine.createGetParameterDefinitionTask( engine.openReportDesign( reportDesignFile ) );
+			}
+			ParameterFactory factory = new ParameterFactory( task );
+			List parameters = factory.getRootChildren( );
+			task.close( );
+			task = null;
+			return parameters;
+		}
+		catch ( EngineException e )
+		{
+			if ( task != null )
+			{
+				task.close( );
+			}
+		}
+		return null;
+	}
+
 	boolean finalLaunchCheck( final ILaunchConfiguration configuration,
 			String mode, IProgressMonitor monitor ) throws CoreException
 	{
+		paramValues = new HashMap( );
 
-		if ( engine == null )
-		{
-			init( configuration );
-		}
+		LauncherEngineConfig engineConfig = new LauncherEngineConfig( );
+
+		IReportEngineFactory factory = (IReportEngineFactory) Platform.createFactoryObject( IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY );
+
+		final IReportEngine engine = factory.createReportEngine( engineConfig );
+		engine.changeLogLevel( Level.WARNING );
+		configEngine( engineConfig );
+
+		final String fileName = covertVariables( configuration.getAttribute( ATTR_REPORT_FILE_NAME,
+				"" ) ); //$NON-NLS-1$
+		final int taskType = configuration.getAttribute( ATTR_TASK_TYPE,
+				DEFAULT_TASK_TYPE );
 
 		Display display = DebugUI.getStandardDisplay( );
 		if ( display.getThread( ).equals( Thread.currentThread( ) ) )
 		{
-			return getParameterValues( getInputParameters( fileName ) );
+			return getParameterValues( getInputParameters( fileName,
+					taskType,
+					engine ), paramValues );
 		}
 
 		final Object[] result = new Object[]{
@@ -360,7 +358,10 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 
 			public void run( )
 			{
-				result[0] = new Boolean( getParameterValues( getInputParameters( fileName ) ) );
+				result[0] = new Boolean( getParameterValues( getInputParameters( fileName,
+						taskType,
+						engine ),
+						paramValues ) );
 			}
 		};
 
@@ -368,5 +369,4 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 
 		return ( (Boolean) result[0] ).booleanValue( );
 	}
-
 }
