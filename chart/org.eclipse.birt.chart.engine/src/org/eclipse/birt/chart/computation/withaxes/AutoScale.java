@@ -460,6 +460,7 @@ public final class AutoScale extends Methods implements Cloneable
 		{
 			return false;
 		}
+
 		if ( ( (Number) oStep ).doubleValue( ) >= Double.MAX_VALUE )
 		{
 			return false; // CANNOT ZOOM ANY MORE
@@ -491,12 +492,27 @@ public final class AutoScale extends Methods implements Cloneable
 			else if ( ( iType & LINEAR ) == LINEAR )
 			{
 				double dStep = asDouble( oStep ).doubleValue( );
+
 				if ( bIntegralZoom )
 				{
 					double dPower = ( Math.log( dStep ) / LOG_10 );
+					
 					if ( dPower < 0 )
 					{
 						dPower = Math.floor( dPower );
+					}
+					else
+					{
+						double dPower_r = Math.round( dPower );
+						
+						if ( ChartUtil.mathEqual( dPower, dPower_r ) )
+						{
+							dPower = dPower_r;
+						}
+						else
+						{
+							dPower = Math.floor( dPower );
+						}
 					}
 					dPower = Math.pow( 10, dPower );
 					dStep /= dPower;
@@ -510,19 +526,11 @@ public final class AutoScale extends Methods implements Cloneable
 							if ( i < n - 1 )
 							{
 								dStep = iaLinearDeltas[i + 1] * dPower;
-								if ( dStep > 1 )
-								{
-									dStep = Math.round( dStep );
-								}
 							}
 							else
 							{
 								dPower *= 20;
 								dStep = iaLinearDeltas[0] * dPower;
-								if ( dStep > 1 )
-								{
-									dStep = Math.round( dStep );
-								}
 							}
 							break;
 						}
@@ -533,7 +541,7 @@ public final class AutoScale extends Methods implements Cloneable
 								ChartException.COMPUTATION,
 								"exception.step.zoom.out", //$NON-NLS-1$
 								new Object[]{
-									new Double( dStep )
+									new Double( dStep * dPower )
 								},
 								Messages.getResourceBundle( rtc.getULocale( ) ) ) );
 					}
@@ -590,7 +598,6 @@ public final class AutoScale extends Methods implements Cloneable
 							{
 								oStep = new Integer( 1 );
 								return true;
-//								return false; // DO NO PROCEED FOR YEARS
 							}
 							i = -1; // MANIPULATE OFFSET TO START-1
 						}
@@ -604,7 +611,7 @@ public final class AutoScale extends Methods implements Cloneable
 		}
 		return true;
 	}
-
+	
 	/**
 	 * Returns an auto computed decimal format pattern for representing axis
 	 * labels on a numeric axis This is used for representing logarithmic values
@@ -613,24 +620,39 @@ public final class AutoScale extends Methods implements Cloneable
 	 */
 	public final String getNumericPattern( double dValue )
 	{
-
 		if ( ChartUtil.mathEqual( dValue, (long) dValue ) )
 		{
 			// IF MANTISSA IS INSIGNIFICANT, SHOW LABELS AS INTEGERS
 			return sNumericPattern;
 		}
-
+		
 		final DecimalFormatSymbols dfs = new DecimalFormatSymbols( );
-		final String sMinimum = String.valueOf( dValue );
-		final int iEPosition = sMinimum.indexOf( dfs.getExponentSeparator( ) );
-		final int iDecimalPosition = sMinimum.indexOf( dfs.getDecimalSeparator( ) );
+		String sValue = String.valueOf( dValue );
+		int iEPosition = sValue.indexOf( dfs.getExponentSeparator( ) );
+		
+		if ( iEPosition > 0 )
+		{
+			dValue = Double.valueOf( sValue.substring( 0, iEPosition ) ).doubleValue( );
+
+			if ( ChartUtil.mathEqual( dValue, Math.round( dValue ) ) )
+			{
+				// IF MANTISSA IS INSIGNIFICANT, SHOW LABELS AS INTEGERS
+				return "0E0"; //$NON-NLS-1$
+			}
+			else
+			{
+				sValue = String.valueOf( dValue );
+			}
+		}
+		
+		final int iDecimalPosition = sValue.indexOf( dfs.getDecimalSeparator( ) );
 		// THIS RELIES ON THE FACT THAT IN ANY LOCALE, DECIMAL IS A DOT
 		if ( iDecimalPosition >= 0 )
 		{
-			int n = ( iEPosition > 0 ) ? iEPosition : sMinimum.length( );
+			int n = ( iEPosition > 0 ) ? iEPosition : sValue.length( );
 			for ( int i = n - 1; i > 0; i-- )
 			{
-				if ( sMinimum.charAt( i ) == '0' )
+				if ( sValue.charAt( i ) == '0' )
 				{
 					n--;
 				}
@@ -649,6 +671,10 @@ public final class AutoScale extends Methods implements Cloneable
 					sb.append( '0' );
 				}
 			}
+			if (iEPosition>0)
+			{
+				sb.append( "E0" ); //$NON-NLS-1$
+			}
 			return sb.toString( );
 		}
 		return sNumericPattern;
@@ -666,80 +692,17 @@ public final class AutoScale extends Methods implements Cloneable
 		{
 			return "0.00"; //$NON-NLS-1$
 		}
-		final double dMinValue = asDouble( oMinimum ).doubleValue( );
-		final double dStep = asDouble( oStep ).doubleValue( );
+
+		double dMinValue = asDouble( oMinimum ).doubleValue( );
+		double dStep = asDouble( oStep ).doubleValue( );
 
 		if ( ( iType & LOGARITHMIC ) == LOGARITHMIC )
 		{
-			final DecimalFormatSymbols dfs = new DecimalFormatSymbols( );
-			final String sMinimum = oMinimum.toString( );
-			final int iDecimalPosition = sMinimum.indexOf( dfs.getDecimalSeparator( ) );
-			if ( iDecimalPosition >= 0 )
-			{
-				int n = sMinimum.length( );
-				for ( int i = n - 1; i > 0; i-- )
-				{
-					if ( sMinimum.charAt( i ) == '0' )
-					{
-						n--;
-					}
-					else
-					{
-						break;
-					}
-				}
-				final int iMantissaCount = n - 1 - iDecimalPosition;
-				final StringBuffer sb = new StringBuffer( sNumericPattern );
-				sb.append( '.' );
-				for ( int i = 0; i < iMantissaCount; i++ )
-				{
-					sb.append( '0' );
-				}
-				return sb.toString( );
-			}
-			else
-			{
-				return sNumericPattern;
-			}
-
-		}
-
-		if ( dMinValue - (int) dMinValue == 0 // IF MANTISSA IS INSIGNIFICANT,
-				// SHOW LABELS AS INTEGERS
-				&& dStep - (int) dStep == 0 )
-		{
-			return sNumericPattern;
-		}
-
-		final DecimalFormatSymbols dfs = new DecimalFormatSymbols( );
-		final String sStep = oStep.toString( );
-		final int iDecimalPosition = sStep.indexOf( dfs.getDecimalSeparator( ) );
-		if ( iDecimalPosition >= 0 )
-		{
-			int n = sStep.length( );
-			for ( int i = n - 1; i > 0; i-- )
-			{
-				if ( sStep.charAt( i ) == '0' )
-				{
-					n--;
-				}
-				else
-				{
-					break;
-				}
-			}
-			final int iMantissaCount = n - 1 - iDecimalPosition;
-			final StringBuffer sb = new StringBuffer( sNumericPattern );
-			sb.append( '.' );
-			for ( int i = 0; i < iMantissaCount; i++ )
-			{
-				sb.append( '0' );
-			}
-			return sb.toString( );
+			return getNumericPattern( dMinValue );
 		}
 		else
 		{
-			return sNumericPattern;
+			return getNumericPattern( dStep );
 		}
 	}
 
@@ -930,6 +893,27 @@ public final class AutoScale extends Methods implements Cloneable
 		}
 	}
 
+	
+	private void checkValible( double dValue, String sName ) throws ChartException
+	{
+		if ( Double.isInfinite( dValue ) )
+		{
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.GENERATION,
+					sName + Messages.getString("AutoScale.Exception.IsInfiite"), //$NON-NLS-1$
+					Messages.getResourceBundle( rtc.getULocale( ) ) );
+		}
+
+		if ( Double.isNaN( dValue ) )
+		{
+			throw new ChartException( ChartEnginePlugin.ID,
+					ChartException.GENERATION,
+					sName + Messages.getString("AutoScale.Exception.IsNaN"), //$NON-NLS-1$
+					Messages.getResourceBundle( rtc.getULocale( ) ) );
+		}
+	}
+	
+	
 	/**
 	 * Computes tick count
 	 * 
@@ -987,7 +971,8 @@ public final class AutoScale extends Methods implements Cloneable
 							nTicks = 2;
 						}
 						// update the step size
-						dStep = ( dMax - dMin ) / ( nTicks - 1 );
+						dStep = dMax / ( nTicks - 1 ) - dMin / ( nTicks - 1 );
+						checkValible(dStep, Messages.getString("AutoScale.ValueName.StepSize")); //$NON-NLS-1$
 						oStep = new Double( dStep );
 					}
 					else

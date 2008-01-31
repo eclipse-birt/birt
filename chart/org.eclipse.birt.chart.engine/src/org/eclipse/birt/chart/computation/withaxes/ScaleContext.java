@@ -414,7 +414,7 @@ public class ScaleContext extends Methods
 				
 				if (!bMaximumFixed)
 				{
-					cdtMaxValue = cdtMaxValue.forward( iUnit, iStep );
+					cdtMaxValue = cdtMaxValue.forward( iUnit, 1 );
 					cdtMaxValue.clearBelow( iUnit );
 				}
 			}
