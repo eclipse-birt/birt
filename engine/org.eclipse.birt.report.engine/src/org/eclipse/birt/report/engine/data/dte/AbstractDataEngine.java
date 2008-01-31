@@ -278,12 +278,7 @@ public abstract class AbstractDataEngine implements IDataEngine
 			ISubCubeQueryDefinition query ) throws BirtException
 	{
 		Scriptable scope = context.getSharedScope( );
-		IBasePreparedQuery pQuery = (IBasePreparedQuery) queryMap.get( query );
-		if ( pQuery == null )
-		{
-			throw new EngineException( "can't find the prepared query " + query );
-		}
-
+		IBasePreparedQuery pQuery = dteSession.prepare( query, appContext );
 		ICubeQueryResults dteResults = (ICubeQueryResults) dteSession.execute(
 				pQuery, parent.getQueryResults( ), scope );
 		IBaseResultSet resultSet = new CubeResultSet( this, context, parent,
