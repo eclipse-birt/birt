@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -486,13 +487,15 @@ public class ExcelWriter
 		return returnStr;
 	}
 
-	private boolean validType(String str){
-		for(int count = 0 ; count < str.length( ) ; count ++){
+	private String reservedStr = "$0#?@%.; ,+/_*()[]\"";
+
+	private boolean validType( String str )
+	{
+		for ( int count = 0; count < str.length( ); count++ )
+		{
 			char ch = str.charAt( count );
-			if(ch != '$' && ch != '0' && ch != '#' && ch != '?' && ch != '@' && ch != '%'
-				&& ch != '.' && ch != ';' && ch != ' ' && ch!= ',' && ch != '+' && ch!= '/'
-					&& ch != '_' && ch!= '*' && ch != '(' && ch != ')' && ch != '[' && ch != ']'
-						&& ch != '"'){
+			if ( reservedStr.indexOf( ch ) == -1 )
+			{
 				return false;
 			}
 		}
