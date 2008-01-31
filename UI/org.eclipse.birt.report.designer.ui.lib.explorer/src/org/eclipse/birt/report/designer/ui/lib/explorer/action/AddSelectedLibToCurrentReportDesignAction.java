@@ -83,7 +83,7 @@ public class AddSelectedLibToCurrentReportDesignAction extends Action
 	private LibraryHandle getSelectedLibrary( )
 	{
 		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection( );
-		if ( selection != null )
+		if ( selection != null && selection.size( ) == 1)
 		{
 			Object selected = selection.getFirstElement( );
 

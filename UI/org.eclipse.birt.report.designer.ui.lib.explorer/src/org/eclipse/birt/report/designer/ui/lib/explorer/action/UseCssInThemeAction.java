@@ -81,7 +81,7 @@ public class UseCssInThemeAction extends Action
 	private CssStyleSheetHandle getSelectedCssStyleHandle( )
 	{
 		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection( );
-		if ( selection != null )
+		if ( selection != null && selection.size( ) == 1)
 		{
 			Object selected = selection.getFirstElement( );
 			if ( selected instanceof CssStyleSheetHandle )
