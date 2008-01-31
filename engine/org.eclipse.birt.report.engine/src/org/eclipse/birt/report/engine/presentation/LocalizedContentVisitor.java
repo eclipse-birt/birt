@@ -342,7 +342,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 						{
 							byte byteValue = bytes[index];
 							int lowValue = byteValue & 0x0F;
-							int highValue = byteValue >>> 4;
+							int highValue = ( byteValue >> 4 ) & 0x0F;
 							buffer.append( HEX[highValue] ).append(
 									HEX[lowValue] ).append( ' ' );
 							index++;
