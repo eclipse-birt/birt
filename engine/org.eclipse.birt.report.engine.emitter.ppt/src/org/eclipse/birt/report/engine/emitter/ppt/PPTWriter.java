@@ -296,17 +296,6 @@ public class PPTWriter
 		BaseFont baseFont = fontInfo.getBaseFont( );
 		String fontName = getFontName( baseFont );
 
-		// splits font-family list
-		// CSSValueList fontFamilies = fontInfo.(CSSValueList)
-		// style.getProperty( StyleConstants.STYLE_FONT_FAMILY );
-		String red = Integer.toHexString( color.getRed( ) );
-		String green = Integer.toHexString( color.getGreen( ) );
-		String blue = Integer.toHexString( color.getBlue( ) );
-
-		red = red.length( ) == 1 ? "0" + red : red; //$NON-NLS-1$
-		green = green.length( ) == 1 ? "0" + green : green; //$NON-NLS-1$
-		blue = blue.length( ) == 1 ? "0" + blue : blue; //$NON-NLS-1$
-
 		println( "<v:shape id=3D't" + ( ++shapeCount ) + "' type=3D'#r'" ); //$NON-NLS-1$ //$NON-NLS-2$
 		println( " style=3D'position:absolute;left:" + textX + "pt;top:" + textY + "pt;width:" + width + "pt;height:" + height + "pt;v-text-anchor:top;mso-wrap-style:square;'" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		println( " filled=3D'f' stroked=3D'f'>" ); //$NON-NLS-1$
@@ -319,7 +308,7 @@ public class PPTWriter
 				+ "<span style=3D'font-family:" //$NON-NLS-1$
 				+ fontName + ";font-size:" //$NON-NLS-1$
 				+ fontInfo.getFontSize( ) + "pt;color:#" //$NON-NLS-1$
-				+ red + green + blue + ";'>" ); //$NON-NLS-1$
+				+ getColorString( color ) + ";'>" ); //$NON-NLS-1$
 
 		boolean isItalic = fontInfo != null
 				&& ( fontInfo.getFontStyle( ) & Font.ITALIC ) != 0;
@@ -344,6 +333,25 @@ public class PPTWriter
 		}
 		println( "</span></div>" ); //$NON-NLS-1$
 		println( "</div>" ); //$NON-NLS-1$
+	}
+
+	private String getColorString( Color color )
+	{
+		StringBuffer buffer = new StringBuffer();
+		appendComponent( buffer, color.getRed( ) );
+		appendComponent( buffer, color.getGreen( ) );
+		appendComponent( buffer, color.getBlue( ) );
+		return buffer.toString( );
+	}
+
+	private void appendComponent( StringBuffer buffer, int component )
+	{
+		String hex = Integer.toHexString( component );
+		if ( hex.length( ) == 1)
+		{
+			buffer.append( '0' );
+		}
+		buffer.append( hex );
 	}
 
 	public void drawImage( byte[] imageData, String extension, float imageX,
@@ -494,7 +502,7 @@ public class PPTWriter
 		print( "<v:line id=3D\"" + ( ++shapeCount ) + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
 		print( " style=3D'position:absolute' from=3D\"" + startX + "pt," + startY + "pt\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		print( " to=3D\"" + endX + "pt," + endY + "pt\"" );
-		print( " strokecolor=3D\"#" + Integer.toHexString( color.getRGB( ) & 0x00ffffff ) + "\"" ); //$NON-NLS-1$
+		print( " strokecolor=3D\"#" + getColorString( color ) + "\"" ); //$NON-NLS-1$
 		print( " strokeweight=3D\"" + width + "pt\"" ); //$NON-NLS-1$
 		if ( lineStyle.equalsIgnoreCase( "dashed" ) )
 		{
