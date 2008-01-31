@@ -289,6 +289,9 @@ AnchorVertical.West.displayName=中间
 AnchorHorizontal.East.displayName=右
 AnchorHorizontal.South.displayName=中间
 AnchorHorizontal.West.displayName=左
+AutoScale.Exception.IsInfiite=\ is infinite
+AutoScale.Exception.IsNaN=\ is NaN
+AutoScale.ValueName.StepSize=step size
 
 Stretch.Horizontal.displayName=水平
 Stretch.Vertical.displayName=垂直

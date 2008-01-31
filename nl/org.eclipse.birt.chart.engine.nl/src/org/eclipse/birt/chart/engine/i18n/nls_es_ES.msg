@@ -289,6 +289,9 @@ AnchorVertical.West.displayName=Medio
 AnchorHorizontal.East.displayName=Derecha
 AnchorHorizontal.South.displayName=Medio
 AnchorHorizontal.West.displayName=Izquierda
+AutoScale.Exception.IsInfiite=\ is infinite
+AutoScale.Exception.IsNaN=\ is NaN
+AutoScale.ValueName.StepSize=step size
 
 Stretch.Horizontal.displayName=Horizontal
 Stretch.Vertical.displayName=Vertical

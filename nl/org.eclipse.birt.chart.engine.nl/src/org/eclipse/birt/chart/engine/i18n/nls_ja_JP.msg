@@ -289,6 +289,9 @@ AnchorVertical.West.displayName=’†‰›‘µ‚¦ (ã‰º)
 AnchorHorizontal.East.displayName=‰E
 AnchorHorizontal.South.displayName=’†‰›‘µ‚¦ (ã‰º)
 AnchorHorizontal.West.displayName=¶
+AutoScale.Exception.IsInfiite=\ is infinite
+AutoScale.Exception.IsNaN=\ is NaN
+AutoScale.ValueName.StepSize=step size
 
 Stretch.Horizontal.displayName=‰¡
 Stretch.Vertical.displayName=c

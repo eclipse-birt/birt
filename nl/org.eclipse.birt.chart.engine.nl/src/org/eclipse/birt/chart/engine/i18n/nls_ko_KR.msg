@@ -289,6 +289,9 @@ AnchorVertical.West.displayName=중간
 AnchorHorizontal.East.displayName=오른쪽
 AnchorHorizontal.South.displayName=중간
 AnchorHorizontal.West.displayName=왼쪽
+AutoScale.Exception.IsInfiite=\ is infinite
+AutoScale.Exception.IsNaN=\ is NaN
+AutoScale.ValueName.StepSize=step size
 
 Stretch.Horizontal.displayName=가로
 Stretch.Vertical.displayName=세로
