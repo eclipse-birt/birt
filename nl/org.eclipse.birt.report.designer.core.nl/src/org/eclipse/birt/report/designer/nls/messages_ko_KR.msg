@@ -1315,6 +1315,8 @@ ExpressionBuilder.ToolTip=식 빌더 열기
 ExpressionBuilder.toolTipText.validate=확인
 ExpressionBuilder.Script.NoError=현재 스크립트에 구문 오류가 없습니다.
 ExpressionBuilder.Script.Error=[행:{0}, 열:{1}] {2}
+ExpressionBuilder.Script.Warning=경고
+ExpressionBuilder.Script.Confirm=\nA syntax error is found in current script. Do you really want to save it?
 
 ###########################################################
 #ExpressionPropertyDescriptor properties

@@ -1315,6 +1315,8 @@ ExpressionBuilder.ToolTip=Ouvrir le Générateur d'expression
 ExpressionBuilder.toolTipText.validate=Valider
 ExpressionBuilder.Script.NoError=Aucune erreur de syntaxe n'a été trouvée dans le script actuel.
 ExpressionBuilder.Script.Error=[Rang : {0}, Colonne : {1}] {2}
+ExpressionBuilder.Script.Warning=Avertissement
+ExpressionBuilder.Script.Confirm=\nA syntax error is found in current script. Do you really want to save it?
 
 ###########################################################
 #ExpressionPropertyDescriptor properties

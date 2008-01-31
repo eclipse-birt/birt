@@ -1315,6 +1315,8 @@ ExpressionBuilder.ToolTip=式ビルダを開く
 ExpressionBuilder.toolTipText.validate=検証
 ExpressionBuilder.Script.NoError=このスクリプトに構文エラーはありませんでした。
 ExpressionBuilder.Script.Error=[行 :{0}、列 :{1}] {2}
+ExpressionBuilder.Script.Warning=警告
+ExpressionBuilder.Script.Confirm=\nA syntax error is found in current script. Do you really want to save it?
 
 ###########################################################
 #ExpressionPropertyDescriptor properties

@@ -1315,6 +1315,8 @@ ExpressionBuilder.ToolTip=打开表达式生成器
 ExpressionBuilder.toolTipText.validate=验证
 ExpressionBuilder.Script.NoError=当前脚本中找不到语法错误。
 ExpressionBuilder.Script.Error=[行:{0}, 列:{1}] {2}
+ExpressionBuilder.Script.Warning=警告
+ExpressionBuilder.Script.Confirm=\nA syntax error is found in current script. Do you really want to save it?
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
