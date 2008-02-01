@@ -205,6 +205,12 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 			{
 				populateExprComboItems( predefinedQuery );
 			}
+			else if ( context.getDataServiceProvider( ).isSharedBinding( ) )
+			{
+				// The sharing binding case only allow valid expressions, so
+				// disable the component if not have valid expressions.
+				cmbDefinition.setEnabled( false );
+			}
 			
 			initComboExprText( );
 			

@@ -387,6 +387,11 @@ public class TaskSelectData extends SimpleTask
 				getCustomizeUI( ).refreshBottomBindingArea( );
 				getCustomizeUI( ).refreshLeftBindingArea( );
 				getCustomizeUI( ).refreshRightBindingArea( );
+				
+				// Above statements might create Text or Combo widgets for
+				// expression, so here must invoke refreshAll to clear old
+				// widgets info.
+				DataDefinitionTextManager.getInstance( ).refreshAll( );
 			}
 		}
 		else if ( event.type == SWT.Resize )

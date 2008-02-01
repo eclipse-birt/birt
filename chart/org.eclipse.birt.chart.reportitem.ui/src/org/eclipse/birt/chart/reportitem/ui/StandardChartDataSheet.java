@@ -712,6 +712,11 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 							getDataServiceProvider( ).setReportItemReference( cmbDataItems.getText( ) );
 							// selectDataSet( );
 							// switchDataSet( cmbDataItems.getText( ) );
+
+							// Update preview via event
+							DataDefinitionTextManager.getInstance( ).refreshAll( );
+							fireEvent( tablePreview, EVENT_PREVIEW );
+							
 							setEnabledForButtons( );
 							updateDragDataSource( );
 							break;
@@ -963,7 +968,12 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 		{
 			ColorPalette.getInstance( ).retrieveColor( query.getDefinition( ) );
 		}
-		query.setDefinition( expr );
+
+		// Update query, if it is sharing binding case, the specified expression
+		// will be converted and set to query, else directly set specified
+		// expression to query.
+		DataDefinitionTextManager.getInstance( ).updateQuery( query, expr );
+		
 		DataDefinitionTextManager.getInstance( ).updateText( query );
 		// Reset table column color
 		refreshTableColor( );
@@ -973,21 +983,26 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 
 	class CategoryXAxisAction extends Action
 	{
-
+		Query query;
 		String expr;
 
 		CategoryXAxisAction( String expr )
 		{
 			super( getBaseSeriesTitle( getChartModel( ) ) );
+			this.query = ( (Query) ( (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( getChartModel( ) )
+					.get( 0 ) ).getDesignTimeSeries( )
+					.getDataDefinition( )
+					.get( 0 ) );
 			this.expr = expr;
+			
+			setEnabled( DataDefinitionTextManager.getInstance( )
+					.isAcceptableExpression( query,
+							expr,
+							dataProvider.isSharedBinding( ) ) );
 		}
 
 		public void run( )
 		{
-			Query query = ( (Query) ( (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( getChartModel( ) )
-					.get( 0 ) ).getDesignTimeSeries( )
-					.getDataDefinition( )
-					.get( 0 ) );
 			manageColorAndQuery( query, expr );
 		}
 	}
@@ -1003,6 +1018,11 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 			super( getGroupSeriesTitle( getChartModel( ) ) );
 			this.query = query;
 			this.expr = expr;
+			
+			setEnabled( DataDefinitionTextManager.getInstance( )
+					.isAcceptableExpression( query,
+							expr,
+							dataProvider.isSharedBinding( ) ) );
 		}
 
 		public void run( )
@@ -1027,6 +1047,11 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 			super( getOrthogonalSeriesTitle( getChartModel( ) ) );
 			this.query = query;
 			this.expr = expr;
+			
+			setEnabled( DataDefinitionTextManager.getInstance( )
+					.isAcceptableExpression( query,
+							expr,
+							dataProvider.isSharedBinding( ) ) );
 		}
 
 		public void run( )

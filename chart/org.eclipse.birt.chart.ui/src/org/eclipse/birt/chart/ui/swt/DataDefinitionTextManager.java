@@ -151,6 +151,25 @@ public class DataDefinitionTextManager
 		}
 	}
 
+	/**
+	 * Update query data by specified expression, if current is sharing-binding
+	 * case, the expression will be converted and set to query, else directly
+	 * set query with the expression.
+	 * 
+	 * @param query
+	 * @param expression
+	 * @since 2.3
+	 */
+	public void updateQuery( Query query, String expression )
+	{
+		Control control = findText( query );
+		if ( control != null )
+		{
+			IQueryExpressionManager queryManager = (IQueryExpressionManager) textCollection.get( control );
+			queryManager.updateQuery( expression );
+		}
+	}
+	
 	public void updateQuery( Control control )
 	{
 		if ( textCollection.containsKey( control ) )
@@ -269,6 +288,31 @@ public class DataDefinitionTextManager
 		{
 			IQueryExpressionManager queryManager = (IQueryExpressionManager) textCollection.get( control );
 			return queryManager.isValidExpression( expression );
+		}
+		
+		return false;
+	}
+
+	/**
+	 * Check if specified expression is valid to specified query. Now, only for
+	 * share binding case, it should check it, other's case still returns true.
+	 * 
+	 * @param query
+	 * @param expr
+	 * @param isShareBinding
+	 * @since 2.3
+	 */
+	public boolean isAcceptableExpression( Query query, String expr, boolean isShareBinding )
+	{
+		if ( !isShareBinding )
+		{
+			return true;
+		}
+		
+		Control control = findText( query );
+		if ( control != null )
+		{
+			return isValidExpression( control, expr );
 		}
 		
 		return false;
