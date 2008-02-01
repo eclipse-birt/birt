@@ -31,7 +31,6 @@ import org.eclipse.birt.report.engine.api.IReportEngineFactory;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.IRunTask;
-import org.eclipse.birt.report.engine.api.ReportEngine;
 
 abstract public class EngineCase extends TestCase
 {
@@ -43,7 +42,7 @@ abstract public class EngineCase extends TestCase
 
 	protected void setUp( ) throws Exception
 	{
-		engine = new ReportEngine( new EngineConfig( ) );
+		engine = createReportEngine( );
 	}
 	
 	public void copyResource( String src, String tgt )

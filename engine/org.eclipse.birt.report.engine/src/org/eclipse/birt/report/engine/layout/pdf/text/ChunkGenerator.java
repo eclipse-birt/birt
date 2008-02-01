@@ -13,10 +13,12 @@ package org.eclipse.birt.report.engine.layout.pdf.text;
 
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.layout.pdf.ISplitter;
+import org.eclipse.birt.report.engine.layout.pdf.font.FontMappingManager;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontSplitter;
 
 public class ChunkGenerator
 {	
+	private FontMappingManager fontManager;
 	private ITextContent textContent;
 	private boolean bidiProcessing;
 	private boolean fontSubstitution;
@@ -24,16 +26,16 @@ public class ChunkGenerator
 	
 	private ISplitter bidiSplitter = null;
 	private ISplitter fontSplitter = null;
-	private String format = null;
 	
-	public ChunkGenerator(ITextContent textContent, 
-			boolean bidiProcessing, boolean fontSubstitution, String format)
+	public ChunkGenerator( FontMappingManager fontManager,
+			ITextContent textContent, boolean bidiProcessing,
+			boolean fontSubstitution )
 	{
+		this.fontManager = fontManager;
 		this.textContent = textContent;
 		this.text = textContent.getText();
 		this.bidiProcessing = bidiProcessing;
 		this.fontSubstitution = fontSubstitution;
-		this.format = format;
 		
 		if (text == null || text.length()==0)
 			return;
@@ -42,18 +44,18 @@ public class ChunkGenerator
 			bidiSplitter = new BidiSplitter(new Chunk(text));
 		}
 		
-		if (null==bidiSplitter)
+		if ( null == bidiSplitter )
 		{
-			fontSplitter = new FontSplitter(new Chunk(text), 
-					textContent, fontSubstitution, format);
+			fontSplitter = new FontSplitter( fontManager, new Chunk( text ),
+					textContent, fontSubstitution );
 		}
 		else
 		{
-			if (bidiSplitter.hasMore())
+			if ( bidiSplitter.hasMore( ) )
 			{
-				fontSplitter = new FontSplitter(bidiSplitter.getNext(), 
-						textContent, fontSubstitution, format);
-			}	
+				fontSplitter = new FontSplitter( fontManager, bidiSplitter
+						.getNext( ), textContent, fontSubstitution );
+			}
 		}		
 				
 	}
@@ -90,8 +92,8 @@ public class ChunkGenerator
 			}
 			if ( null != bidiSplitter && bidiSplitter.hasMore())
 			{
-				fontSplitter = new FontSplitter(bidiSplitter.getNext(), 
-						textContent, fontSubstitution, format);
+				fontSplitter = new FontSplitter( fontManager, bidiSplitter
+						.getNext( ), textContent, fontSubstitution );
 			}else
 			{
 				return null;

@@ -232,7 +232,8 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 			boolean bidiProcessing = context.getBidiProcessing();
 			boolean fontSubstitution = context.getFontSubstitution();
 			this.pdfTextWrapping = context.getTextWrapping();
-			cg = new ChunkGenerator(content, bidiProcessing, fontSubstitution, context.getFormat( ));
+			cg = new ChunkGenerator( context.getFontManager( ), content,
+					bidiProcessing, fontSubstitution );
 			this.isInline = PropertyUtil.isInlineElement(content);
 			this.maxLineSpace = lineLM.getMaxLineWidth( );		
 			IStyle style = content.getComputedStyle();
@@ -311,7 +312,8 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 					chunk = cg.getNext();
 					if (chunk == Chunk.HARD_LINE_BREAK)
 					{
-						FontHandler handler = new FontHandler(content, false, context.getFormat( ));
+						FontHandler handler = new FontHandler( context
+								.getFontManager( ), content, false );
 						Dimension d = new Dimension( 0,
 								(int)(handler.getFontInfo().getWordHeight()*PDFConstants.LAYOUT_TO_PDF_RATIO));	
 						IArea con = buildArea( "", content, handler.getFontInfo(), d);

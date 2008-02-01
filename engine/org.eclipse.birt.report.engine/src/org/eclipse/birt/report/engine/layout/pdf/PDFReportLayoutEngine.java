@@ -24,7 +24,6 @@ import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecuto
 import org.eclipse.birt.report.engine.layout.ILayoutManager;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
-import org.eclipse.birt.report.engine.layout.pdf.font.FontHandler;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 
 public class PDFReportLayoutEngine implements IReportLayoutEngine
@@ -58,7 +57,6 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 		{
 			return;
 		}
-		FontHandler.prepareFonts( );
 		PDFPageLM pageLM = new PDFPageLM( this, context, report, output,
 				executor );
 		while ( pageLM.layout( ) );

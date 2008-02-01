@@ -6,16 +6,17 @@
 	Two major levels of configuration files:
 	1. Configuration files without format in name are divided into three sub-levels:
 		a. default configuration file: fontsConfig.xml
-		b. configuration files specified for special platform: fontsConfig_Windows_XP.xml
-		c. configuration files specified for special platform and special locale: fontsConfig_Windows_XP_zh.xml/fontsConfig_Windows_XP_zh_CN.xml
-	2. Configuration files with format in name are divided into 2 sub-levels:
+		b. configuration files specified for special platform: fontsConfig_Windows_XP.xml or fontsConfig_win32.xml.
+		c. configuration files specified for special platform and special locale: fontsConfig_win32_zh.xml/fontsConfig_win32_zh_CN.xml
+	2. Configuration files with format in name are also divided into 3 sub-levels:
 		d. default configuration files for a format: fontsConfig_pdf.xml
-		e. configuration files for a format under special platform: fontsConfig_pdf_Windows_XP.xml
-	From level a to level e, the priority of configuration files increase.
+		e. configuration files for a format under special platform: fontsConfig_pdf_win32.xml
+		f. configuration files for a format under special platform: fontsConfig_pdf_win32_zh.xml
+	From level a to level f, the priority of configuration files increase.
 	
 	The logic how a single configuration is loaded and used is described below:
 	1. 	PDF layout engine loads the font files from the fonts folder of the plug-in 
-	"org.ecllipse.birt.report.engine.fonts". and then the system defined font
+	"org.eclipse.birt.report.engine.fonts". and then the system defined font
 	folder. If the section <font-paths> is set in fontsConfig.xml, the system 
 	defined font folder will be ignored, and the font files specified in section 
 	<font-paths> will be loaded instead.
@@ -32,7 +33,6 @@
 	If this also fails, the character will be replaced with '?' using the default font, 
 	currently "Times-Roman", to denote a place of missing character. 
 -->
-
 <font>
 <!--
 	In <font-aliases> section, you can:
@@ -53,13 +53,32 @@
 	"font-aliases" will override those in "font-mapping".
 -->
 	<font-aliases>
-		<mapping name="serif" font-family="Times-Roman"/>
-		<mapping name="sans-serif" font-family="Helvetica"/>
-		<mapping name="monospace" font-family="Courier"/>
-		<mapping name="cursive" font-family="Times-Roman"/>
-		<mapping name="fantasy" font-family="Times-Roman"/>
+		<mapping name="serif" font-family="Times-Roman" />
+		<mapping name="sans-serif" font-family="Helvetica" />
+		<mapping name="monospace" font-family="Courier" />
+		<mapping name="cursive" font-family="Times-Roman" />
+		<mapping name="fantasy" font-family="Times-Roman" />
 	</font-aliases>
-	
+	<search-sequences>
+		<sequence locale="cn">
+			<catalog name="Western" />
+			<catalog name="Chinese" />
+			<catalog name="Japanese" />
+			<catalog name="Korean" />
+		</sequence>
+		<sequence locale="ja">
+			<catalog name="Western" />
+			<catalog name="Japanese" />
+			<catalog name="Chinese" />
+			<catalog name="Korean" />
+		</sequence>
+		<sequence name="ko">
+			<catalog name="Western" />
+			<catalog name="Korean" />
+			<catalog name="Chinese" />
+			<catalog name="Japanese" />
+		</sequence>
+	</search-sequences>
 <!--
 	<composite-font> section is used to define a composite font, which is a font consists of many physical
 	fonts used for different characters. The component fonts are defined by <block> entries. Each <block>
@@ -82,167 +101,8 @@
 	A composite font named "all-fonts" will be applied as default font, that is, when a character is not 
 	defined in desired font, the font defined in "all-fonts" will be used.
 -->
-
-	<composite-font name="all-fonts">
-		<block name="Basic Latin" range-start="0" range-end="7f" index="0" font-family="Times-Roman"/>
-		<block name="Latin-1 Supplement" range-start="80" range-end="ff" index="1" font-family="Times-Roman"/>
-		<block name="Latin Extended-A" range-start="100" range-end="17f" index="2" font-family="HeiseiKakuGo-W5"/>
-		<block name="Latin Extended-B" range-start="180" range-end="24f" index="3" font-family="MSung-Light"/>
-		<block name="IPA Extensions" range-start="250" range-end="2af" index="4" font-family="MSung-Light"/>
-		<block name="Spacing Modifier Letters" range-start="2b0" range-end="2ff" index="5" font-family="HYGoThic-Medium"/>
-		<block name="Combining Diacritical Marks" range-start="300" range-end="36f" index="6" font-family="HeiseiKakuGo-W5"/>
-		<block name="Greek and Coptic" range-start="370" range-end="3ff" index="7" font-family="HeiseiKakuGo-W5"/>
-		<block name="Cyrillic" range-start="400" range-end="4ff" index="8" font-family="Times New Roman"/>
-		<block name="Lao" range-start="e80" range-end="eff" index="28" font-family="HeiseiKakuGo-W5"/>
-		<block name="Latin Extended Additional" range-start="1e00" range-end="1eff" index="54" font-family="MSung-Light"/>
-		<block name="General Punctuation" range-start="2000" range-end="206f" index="56" font-family="HeiseiKakuGo-W5"/>
-		<block name="Superscripts and Subscripts" range-start="2070" range-end="209f" index="57" font-family="HeiseiKakuGo-W5"/>
-		<block name="Currency Symbols" range-start="20a0" range-end="20cf" index="58" font-family="STSong-Light"/>
-		<block name="Combining Diacritical Marks for Symbols" range-start="20d0" range-end="20ff" index="59" font-family="HeiseiKakuGo-W5"/>
-		<block name="Letterlike Symbols" range-start="2100" range-end="214f" index="60" font-family="HeiseiKakuGo-W5"/>
-		<block name="Number Forms" range-start="2150" range-end="218f" index="61" font-family="HeiseiKakuGo-W5"/>
-		<block name="Arrows" range-start="2190" range-end="21ff" index="62" font-family="HYGoThic-Medium"/>
-		<block name="Mathematical Operators" range-start="2200" range-end="22ff" index="63" font-family="HYGoThic-Medium"/>
-		<block name="Miscellaneous Technical" range-start="2300" range-end="23ff" index="64" font-family="HeiseiKakuGo-W5"/>
-		<block name="Control Pictures" range-start="2400" range-end="243f" index="65" font-family="MSung-Light"/>
-		<block name="Optical Character Recognition" range-start="2440" range-end="245f" index="66" font-family="HeiseiKakuGo-W5"/>
-		<block name="Enclosed Alphanumerics" range-start="2460" range-end="24ff" index="67" font-family="HeiseiKakuGo-W5"/>
-		<block name="Box Drawing" range-start="2500" range-end="257f" index="68" font-family="STSong-Light"/>
-		<block name="Block Elements" range-start="2580" range-end="259f" index="69" font-family="STSong-Light"/>
-		<block name="Geometric Shapes" range-start="25a0" range-end="25ff" index="70" font-family="HYGoThic-Medium"/>
-		<block name="Miscellaneous Symbols" range-start="2600" range-end="26ff" index="71" font-family="HeiseiKakuGo-W5"/>
-		<block name="Dingbats" range-start="2700" range-end="27bf" index="72" font-family="HYGoThic-Medium"/>
-		<block name="CJK Radicals Supplement" range-start="2e80" range-end="2eff" index="87" font-family="STSong-Light"/>
-		<block name="Kangxi Radicals" range-start="2f00" range-end="2fdf" index="88" font-family="STSong-Light"/>
-		<block name="Ideographic Description Characters" range-start="2ff0" range-end="2fff" index="89" font-family="STSong-Light"/>
-		<block name="CJK Symbols and Punctuation" range-start="3000" range-end="303f" index="90" font-family="STSong-Light"/>
-		<block name="Hiragana" range-start="3040" range-end="309f" index="91" font-family="STSong-Light"/>
-		<block name="Katakana" range-start="30a0" range-end="30ff" index="92" font-family="STSong-Light"/>
-		<block name="Bopomofo" range-start="3100" range-end="312f" index="93" font-family="STSong-Light"/>
-		<block name="Hangul Compatibility Jamo" range-start="3130" range-end="318f" index="94" font-family="HYGoThic-Medium"/>
-		<block name="Bopomofo Extended" range-start="31a0" range-end="31bf" index="96" font-family="STSong-Light"/>
-		<block name="Enclosed CJK Letters and Months" range-start="3200" range-end="32ff" index="99" font-family="HeiseiKakuGo-W5"/>
-		<block name="CJK Compatibility" range-start="3300" range-end="33ff" index="100" font-family="HeiseiKakuGo-W5"/>
-		<block name="CJK Unified Ideographs Extension A" range-start="3400" range-end="4dbf" index="101" font-family="STSong-Light"/>
-		<block name="CJK Unified Ideographs" range-start="4e00" range-end="9fff" index="103" font-family="STSong-Light"/>
-		<block name="Hangul Syllables" range-start="ac00" range-end="d7af" index="110" font-family="HYGoThic-Medium"/>
-		<block name="Private Use Area" range-start="e000" range-end="f8ff" index="114" font-family="MSung-Light"/>
-		<block name="CJK Compatibility Ideographs" range-start="f900" range-end="faff" index="115" font-family="HYGoThic-Medium"/>
-		<block name="Alphabetic Presentation Forms" range-start="fb00" range-end="fb4f" index="116" font-family="HeiseiKakuGo-W5"/>
-		<block name="CJK Compatibility Forms" range-start="fe30" range-end="fe4f" index="121" font-family="MSung-Light"/>
-		<block name="Small Form Variants" range-start="fe50" range-end="fe6f" index="122" font-family="STSong-Light"/>
-		<block name="Halfwidth and Fullwidth Forms" range-start="ff00" range-end="ffef" index="124" font-family="HeiseiKakuGo-W5"/>
-		<block name="Linear B Syllabary" range-start="10000" range-end="1007f" index="126" font-family="Symbol"/>
-		<block name="Linear B Ideograms" range-start="10080" range-end="100ff" index="127" font-family="Symbol"/>
-		<block name="Aegean Numbers" range-start="10100" range-end="1013f" index="128" font-family="HeiseiKakuGo-W5"/>
-		<block name="Ancient Greek Numbers" range-start="10140" range-end="1018f" index="129" font-family="HeiseiKakuGo-W5"/>
-		<block name="Old Italic" range-start="10300" range-end="1032f" index="130" font-family="HeiseiKakuGo-W5"/>
-		<block name="Gothic" range-start="10330" range-end="1034f" index="131" font-family="HeiseiKakuGo-W5"/>
-		<block name="Ugaritic" range-start="10380" range-end="1039f" index="132" font-family="STSong-Light"/>
-		<block name="Old Persian" range-start="103a0" range-end="103df" index="133" font-family="HeiseiKakuGo-W5"/>
-		<block name="Deseret" range-start="10400" range-end="1044f" index="134" font-family="STSong-Light"/>
-		<block name="Shavian" range-start="10450" range-end="1047f" index="135" font-family="HeiseiKakuGo-W5"/>
-		<block name="Cuneiform" range-start="12000" range-end="123ff" index="140" font-family="HYGoThic-Medium"/>
-		<block name="Cuneiform Numbers and Punctuation" range-start="12400" range-end="1247f" index="141" font-family="MSung-Light"/>
-		<block name="Byzantine Musical Symbols" range-start="1d000" range-end="1d0ff" index="142" font-family="HYGoThic-Medium"/>
-		<block name="Musical Symbols" range-start="1d100" range-end="1d1ff" index="143" font-family="HYGoThic-Medium"/>
-		<block name="Ancient Greek Musical Notation" range-start="1d200" range-end="1d24f" index="144" font-family="HYGoThic-Medium"/>
-		<block name="Tai Xuan Jing Symbols" range-start="1d300" range-end="1d35f" index="145" font-family="HYGoThic-Medium"/>
-		<block name="Counting Rod Numerals" range-start="1d360" range-end="1d37f" index="146" font-family="HYGoThic-Medium"/>
-		<block name="Mathematical Alphanumeric Symbols" range-start="1d400" range-end="1d7ff" index="147" font-family="HYGoThic-Medium"/>
-		<block name="CJK Unified Ideographs Extension B" range-start="20000" range-end="2a6df" index="148" font-family="STSong-Light"/>
-		<block name="CJK Compatibility Ideographs Supplement" range-start="2f800" range-end="2fa1f" index="149" font-family="HYGoThic-Medium"/>
-		<block name="Tags" range-start="e0000" range-end="e007f" index="150" font-family="Symbol"/>
-		<block name="Variation Selectors Supplement" range-start="e0100" range-end="e01ef" index="151" font-family="HeiseiKakuGo-W5"/>
-		<block name="Supplementary Private Use Area-A" range-start="f0000" range-end="fffff" index="152" font-family="STSong-Light"/>
-		<block name="Supplementary Private Use Area-B" range-start="100000" range-end="10ffff" index="153" font-family="STSong-Light"/>
-<!--
-		<block name="Cyrillic Supplement" range-start="500" range-end="52f" index="9" font-family="Font-Family"/>
-		<block name="Armenian" range-start="530" range-end="58f" index="10" font-family="Font-Family"/>
-		<block name="Hebrew" range-start="590" range-end="5ff" index="11" font-family="Font-Family"/>
-		<block name="Arabic" range-start="600" range-end="6ff" index="12" font-family="Font-Family"/>
-		<block name="Syriac" range-start="700" range-end="74f" index="13" font-family="Font-Family"/>
-		<block name="Arabic Supplement" range-start="750" range-end="77f" index="14" font-family="Font-Family"/>
-		<block name="Thaana" range-start="780" range-end="7bf" index="15" font-family="Font-Family"/>
-		<block name="NKo" range-start="7c0" range-end="7ff" index="16" font-family="Font-Family"/>
-		<block name="Devanagari" range-start="900" range-end="97f" index="17" font-family="Font-Family"/>
-		<block name="Bengali" range-start="980" range-end="9ff" index="18" font-family="Font-Family"/>
-		<block name="Gurmukhi" range-start="a00" range-end="a7f" index="19" font-family="Font-Family"/>
-		<block name="Gujarati" range-start="a80" range-end="aff" index="20" font-family="Font-Family"/>
-		<block name="Oriya" range-start="b00" range-end="b7f" index="21" font-family="Font-Family"/>
-		<block name="Tamil" range-start="b80" range-end="bff" index="22" font-family="Font-Family"/>
-		<block name="Telugu" range-start="c00" range-end="c7f" index="23" font-family="Font-Family"/>
-		<block name="Kannada" range-start="c80" range-end="cff" index="24" font-family="Font-Family"/>
-		<block name="Malayalam" range-start="d00" range-end="d7f" index="25" font-family="Font-Family"/>
-		<block name="Sinhala" range-start="d80" range-end="dff" index="26" font-family="Font-Family"/>
-		<block name="Thai" range-start="e00" range-end="e7f" index="27" font-family="Font-Family"/>
-		<block name="Tibetan" range-start="f00" range-end="fff" index="29" font-family="Font-Family"/>
-		<block name="Myanmar" range-start="1000" range-end="109f" index="30" font-family="Font-Family"/>
-		<block name="Georgian" range-start="10a0" range-end="10ff" index="31" font-family="Font-Family"/>
-		<block name="Hangul Jamo" range-start="1100" range-end="11ff" index="32" font-family="Font-Family"/>
-		<block name="Ethiopic" range-start="1200" range-end="137f" index="33" font-family="Font-Family"/>
-		<block name="Ethiopic Supplement" range-start="1380" range-end="139f" index="34" font-family="Font-Family"/>
-		<block name="Cherokee" range-start="13a0" range-end="13ff" index="35" font-family="Font-Family"/>
-		<block name="Unified Canadian Aboriginal Syllabics" range-start="1400" range-end="167f" index="36" font-family="Font-Family"/>
-		<block name="Ogham" range-start="1680" range-end="169f" index="37" font-family="Font-Family"/>
-		<block name="Runic" range-start="16a0" range-end="16ff" index="38" font-family="Font-Family"/>
-		<block name="Tagalog" range-start="1700" range-end="171f" index="39" font-family="Font-Family"/>
-		<block name="Hanunoo" range-start="1720" range-end="173f" index="40" font-family="Font-Family"/>
-		<block name="Buhid" range-start="1740" range-end="175f" index="41" font-family="Font-Family"/>
-		<block name="Tagbanwa" range-start="1760" range-end="177f" index="42" font-family="Font-Family"/>
-		<block name="Khmer" range-start="1780" range-end="17ff" index="43" font-family="Font-Family"/>
-		<block name="Mongolian" range-start="1800" range-end="18af" index="44" font-family="Font-Family"/>
-		<block name="Limbu" range-start="1900" range-end="194f" index="45" font-family="Font-Family"/>
-		<block name="Tai Le" range-start="1950" range-end="197f" index="46" font-family="Font-Family"/>
-		<block name="New Tai Lue" range-start="1980" range-end="19df" index="47" font-family="Font-Family"/>
-		<block name="Khmer Symbols" range-start="19e0" range-end="19ff" index="48" font-family="Font-Family"/>
-		<block name="Buginese" range-start="1a00" range-end="1a1f" index="49" font-family="Font-Family"/>
-		<block name="Balinese" range-start="1b00" range-end="1b7f" index="50" font-family="Font-Family"/>
-		<block name="Phonetic Extensions" range-start="1d00" range-end="1d7f" index="51" font-family="Font-Family"/>
-		<block name="Phonetic Extensions Supplement" range-start="1d80" range-end="1dbf" index="52" font-family="Font-Family"/>
-		<block name="Combining Diacritical Marks Supplement" range-start="1dc0" range-end="1dff" index="53" font-family="Font-Family"/>
-		<block name="Greek Extended" range-start="1f00" range-end="1fff" index="55" font-family="Font-Family"/>
-		<block name="Miscellaneous Mathematical Symbols-A" range-start="27c0" range-end="27ef" index="73" font-family="Font-Family"/>
-		<block name="Supplemental Arrows-A" range-start="27f0" range-end="27ff" index="74" font-family="Font-Family"/>
-		<block name="Braille Patterns" range-start="2800" range-end="28ff" index="75" font-family="Font-Family"/>
-		<block name="Supplemental Arrows-B" range-start="2900" range-end="297f" index="76" font-family="Font-Family"/>
-		<block name="Miscellaneous Mathematical Symbols-B" range-start="2980" range-end="29ff" index="77" font-family="Font-Family"/>
-		<block name="Supplemental Mathematical Operators" range-start="2a00" range-end="2aff" index="78" font-family="Font-Family"/>
-		<block name="Miscellaneous Symbols and Arrows" range-start="2b00" range-end="2bff" index="79" font-family="Font-Family"/>
-		<block name="Glagolitic" range-start="2c00" range-end="2c5f" index="80" font-family="Font-Family"/>
-		<block name="Latin Extended-C" range-start="2c60" range-end="2c7f" index="81" font-family="Font-Family"/>
-		<block name="Coptic" range-start="2c80" range-end="2cff" index="82" font-family="Font-Family"/>
-		<block name="Georgian Supplement" range-start="2d00" range-end="2d2f" index="83" font-family="Font-Family"/>
-		<block name="Tifinagh" range-start="2d30" range-end="2d7f" index="84" font-family="Font-Family"/>
-		<block name="Ethiopic Extended" range-start="2d80" range-end="2ddf" index="85" font-family="Font-Family"/>
-		<block name="Supplemental Punctuation" range-start="2e00" range-end="2e7f" index="86" font-family="Font-Family"/>
-		<block name="Kanbun" range-start="3190" range-end="319f" index="95" font-family="Font-Family"/>
-		<block name="CJK Strokes" range-start="31c0" range-end="31ef" index="97" font-family="Font-Family"/>
-		<block name="Katakana Phonetic Extensions" range-start="31f0" range-end="31ff" index="98" font-family="Font-Family"/>
-		<block name="Yijing Hexagram Symbols" range-start="4dc0" range-end="4dff" index="102" font-family="Font-Family"/>
-		<block name="Yi Syllables" range-start="a000" range-end="a48f" index="104" font-family="Font-Family"/>
-		<block name="Yi Radicals" range-start="a490" range-end="a4cf" index="105" font-family="Font-Family"/>
-		<block name="Modifier Tone Letters" range-start="a700" range-end="a71f" index="106" font-family="Font-Family"/>
-		<block name="Latin Extended-D" range-start="a720" range-end="a7ff" index="107" font-family="Font-Family"/>
-		<block name="Syloti Nagri" range-start="a800" range-end="a82f" index="108" font-family="Font-Family"/>
-		<block name="Phags-pa" range-start="a840" range-end="a87f" index="109" font-family="Font-Family"/>
-		<block name="High Surrogates" range-start="d800" range-end="db7f" index="111" font-family="Font-Family"/>
-		<block name="High Private Use Surrogates" range-start="db80" range-end="dbff" index="112" font-family="Font-Family"/>
-		<block name="Low Surrogates" range-start="dc00" range-end="dfff" index="113" font-family="Font-Family"/>
-		<block name="Arabic Presentation Forms-A" range-start="fb50" range-end="fdff" index="117" font-family="Font-Family"/>
-		<block name="Variation Selectors" range-start="fe00" range-end="fe0f" index="118" font-family="Font-Family"/>
-		<block name="Vertical Forms" range-start="fe10" range-end="fe1f" index="119" font-family="Font-Family"/>
-		<block name="Combining Half Marks" range-start="fe20" range-end="fe2f" index="120" font-family="Font-Family"/>
-		<block name="Arabic Presentation Forms-B" range-start="fe70" range-end="feff" index="123" font-family="Font-Family"/>
-		<block name="Specials" range-start="fff0" range-end="ffff" index="125" font-family="Font-Family"/>
-		<block name="Osmanya" range-start="10480" range-end="104af" index="136" font-family="Font-Family"/>
-		<block name="Cypriot Syllabary" range-start="10800" range-end="1083f" index="137" font-family="Font-Family"/>
-		<block name="Phoenician" range-start="10900" range-end="1091f" index="138" font-family="Font-Family"/>
-		<block name="Kharoshthi" range-start="10a00" range-end="10a5f" index="139" font-family="Font-Family"/>
--->
-		<block name="default" font-family="Times-Roman"/>
+	<composite-font name="all-fonts" font-family="Times-Roman">
 	</composite-font>
-
 
 <!--
 	In this section, you can set the font path you want PDF layout engine to read, ranging from one font
@@ -262,55 +122,52 @@
 	this issue, please add the font path to this section.
 -->
 	<font-paths>
-		<path path="C:/windows/fonts"/>
-		<path path="d:/windows/fonts"/>
-		<path path="e:/windows/fonts"/>
-		<path path="f:/windows/fonts"/>
-		<path path="g:/windows/fonts"/>
-		<path path="C:/WINNT/fonts"/>
-		<path path="d:/WINNT/fonts"/>
-		<path path="e:/WINNT/fonts"/>
-		<path path="f:/WINNT/fonts"/>
-		<path path="g:/WINNT/fonts"/>
-
-		<path path="/usr/X/lib/X11/fonts/TrueType"/>
-		<path path="/usr/share/fonts/default/TrueType"/>
-
-		<path path="/usr/openwin/lib/X11/fonts/TrueType"/>
-		<path path="/usr/openwin/lib/locale/euro_fonts/X11/fonts/TrueType"/>
-		<path path="/usr/openwin/lib/locale/iso_8859_2/X11/fonts/TrueType"/>
-		<path path="/usr/openwin/lib/locale/iso_8859_5/X11/fonts/TrueType"/>
-		<path path="/usr/openwin/lib/locale/iso_8859_7/X11/fonts/TrueType"/>
-		<path path="/usr/openwin/lib/locale/iso_8859_8/X11/fonts/TrueType"/>
-		<path path="/usr/openwin/lib/locale/iso_8859_9/X11/fonts/TrueType"/>
-		<path path="/usr/openwin/lib/locale/iso_8859_13/X11/fonts/TrueType"/>
-		<path path="/usr/openwin/lib/locale/iso_8859_15/X11/fonts/TrueType"/>
-		<path path="/usr/openwin/lib/locale/ar/X11/fonts/TrueType"/>
-		<path path="/usr/openwin/lib/locale/hi_IN.UTF-8/X11/fonts/TrueType"/>
-		<path path="/usr/openwin/lib/locale/ja/X11/fonts/TT"/>
-		<path path="/usr/openwin/lib/locale/ko/X11/fonts/TrueType"/>
-		<path path="/usr/openwin/lib/locale/ko.UTF-8/X11/fonts/TrueType"/>
-		<path path="/usr/openwin/lib/locale/KOI8-R/X11/fonts/TrueType"/>
-		<path path="/usr/openwin/lib/locale/ru.ansi-1251/X11/fonts/TrueType"/>
-		<path path="/usr/openwin/lib/locale/th_TH/X11/fonts/TrueType"/>
-		<path path="/usr/openwin/lib/locale/zh_TW/X11/fonts/TrueType"/>
-		<path path="/usr/openwin/lib/locale/zh_TW.BIG5/X11/fonts/TT"/>
-		<path path="/usr/openwin/lib/locale/zh_HK.BIG5HK/X11/fonts/TT"/>
-		<path path="/usr/openwin/lib/locale/zh_CN.GB18030/X11/fonts/TrueType"/>
-		<path path="/usr/openwin/lib/locale/zh/X11/fonts/TrueType"/>
-		<path path="/usr/openwin/lib/locale/zh.GBK/X11/fonts/TrueType"/>
-		   
-		<path path="/usr/X11R6/lib/X11/fonts/TrueType"/>
-		<path path="/usr/X11R6/lib/X11/fonts/truetype"/>
-		<path path="/usr/X11R6/lib/X11/fonts/tt"/>
-		<path path="/usr/X11R6/lib/X11/fonts/TTF"/>
-		<path path="/usr/X11R6/lib/X11/fonts/OTF"/>
-		<path path="/usr/share/fonts/ja/TrueType"/>
-		<path path="/usr/share/fonts/truetype"/>
-		<path path="/usr/share/fonts/ko/TrueType"/>
-		<path path="/usr/share/fonts/zh_CN/TrueType"/>
-		<path path="/usr/share/fonts/zh_TW/TrueType"/>
-		<path path="/var/lib/defoma/x-ttcidfont-conf.d/dirs/TrueType"/>
+		<path path="C:/windows/fonts" />
+		<path path="d:/windows/fonts" />
+		<path path="e:/windows/fonts" />
+		<path path="f:/windows/fonts" />
+		<path path="g:/windows/fonts" />
+		<path path="C:/WINNT/fonts" />
+		<path path="d:/WINNT/fonts" />
+		<path path="e:/WINNT/fonts" />
+		<path path="f:/WINNT/fonts" />
+		<path path="g:/WINNT/fonts" />
+		<path path="/usr/X/lib/X11/fonts/TrueType" />
+		<path path="/usr/share/fonts/default/TrueType" />
+		<path path="/usr/openwin/lib/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/euro_fonts/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/iso_8859_2/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/iso_8859_5/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/iso_8859_7/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/iso_8859_8/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/iso_8859_9/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/iso_8859_13/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/iso_8859_15/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/ar/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/hi_IN.UTF-8/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/ja/X11/fonts/TT" />
+		<path path="/usr/openwin/lib/locale/ko/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/ko.UTF-8/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/KOI8-R/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/ru.ansi-1251/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/th_TH/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/zh_TW/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/zh_TW.BIG5/X11/fonts/TT" />
+		<path path="/usr/openwin/lib/locale/zh_HK.BIG5HK/X11/fonts/TT" />
+		<path path="/usr/openwin/lib/locale/zh_CN.GB18030/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/zh/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/zh.GBK/X11/fonts/TrueType" />
+		<path path="/usr/X11R6/lib/X11/fonts/TrueType" />
+		<path path="/usr/X11R6/lib/X11/fonts/truetype" />
+		<path path="/usr/X11R6/lib/X11/fonts/tt" />
+		<path path="/usr/X11R6/lib/X11/fonts/TTF" />
+		<path path="/usr/X11R6/lib/X11/fonts/OTF" />
+		<path path="/usr/share/fonts/ja/TrueType" />
+		<path path="/usr/share/fonts/truetype" />
+		<path path="/usr/share/fonts/ko/TrueType" />
+		<path path="/usr/share/fonts/zh_CN/TrueType" />
+		<path path="/usr/share/fonts/zh_TW/TrueType" />
+		<path path="/var/lib/defoma/x-ttcidfont-conf.d/dirs/TrueType" />
 	</font-paths>
 <!--
 	For <font-encodings> section,
@@ -318,21 +175,21 @@
 	PDF rendering.
 -->
 	<font-encodings>
-		<encoding font-family="Times-Roman" encoding="Cp1252"/>
-		<encoding font-family="Helvetica" encoding="Cp1252"/>
-		<encoding font-family="Courier" encoding="Cp1252"/>
-		<encoding font-family="Zapfdingbats" encoding="Cp1252"/>
-		<encoding font-family="Symbol" encoding="Cp1252"/>
-		<encoding font-family="STSong-Light" encoding="UniGB-UCS2-H"/>
-		<encoding font-family="STSongStd-Light" encoding="UniGB-UCS2-H"/>
-		<encoding font-family="MHei-Medium" encoding="UniCNS-UCS2-H"/>
-		<encoding font-family="MSung-Light" encoding="UniCNS-UCS2-H"/>
-		<encoding font-family="MSungStd-Light" encoding="UniCNS-UCS2-H"/>
-		<encoding font-family="HeiseiMin-W3" encoding="UniJIS-UCS2-H"/>
-		<encoding font-family="HeiseiKakuGo-W5" encoding="UniJIS-UCS2-H"/>
-		<encoding font-family="KozMinPro-Regular" encoding="UniJIS-UCS2-H"/>
-		<encoding font-family="HYGoThic-Medium" encoding="UniKS-UCS2-H"/>
-		<encoding font-family="HYSMyeongJo-Medium" encoding="UniKS-UCS2-H"/>
-		<encoding font-family="HYSMyeongJoStd" encoding="UniKS-UCS2-H"/>
+		<encoding font-family="Times-Roman" encoding="Cp1252" />
+		<encoding font-family="Helvetica" encoding="Cp1252" />
+		<encoding font-family="Courier" encoding="Cp1252" />
+		<encoding font-family="Zapfdingbats" encoding="Cp1252" />
+		<encoding font-family="Symbol" encoding="Cp1252" />
+		<encoding font-family="STSong-Light" encoding="UniGB-UCS2-H" />
+		<encoding font-family="STSongStd-Light" encoding="UniGB-UCS2-H" />
+		<encoding font-family="MHei-Medium" encoding="UniCNS-UCS2-H" />
+		<encoding font-family="MSung-Light" encoding="UniCNS-UCS2-H" />
+		<encoding font-family="MSungStd-Light" encoding="UniCNS-UCS2-H" />
+		<encoding font-family="HeiseiMin-W3" encoding="UniJIS-UCS2-H" />
+		<encoding font-family="HeiseiKakuGo-W5" encoding="UniJIS-UCS2-H" />
+		<encoding font-family="KozMinPro-Regular" encoding="UniJIS-UCS2-H" />
+		<encoding font-family="HYGoThic-Medium" encoding="UniKS-UCS2-H" />
+		<encoding font-family="HYSMyeongJo-Medium" encoding="UniKS-UCS2-H" />
+		<encoding font-family="HYSMyeongJoStd" encoding="UniKS-UCS2-H" />
 	</font-encodings>
 </font>

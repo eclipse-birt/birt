@@ -38,6 +38,8 @@ import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.report.engine.layout.pdf.font.FontMappingManager;
+import org.eclipse.birt.report.engine.layout.pdf.font.FontMappingManagerFactory;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
 
@@ -577,5 +579,16 @@ public class PDFLayoutEngineContext
 	{
 		return outputDisplayNone;
 	}
+	
+	private FontMappingManager fontManager;
 
+	public FontMappingManager getFontManager( )
+	{
+		if ( fontManager == null )
+		{
+			fontManager = FontMappingManagerFactory.getInstance( )
+					.getFontMappingManager( format, locale );
+		}
+		return fontManager;
+	}
 }

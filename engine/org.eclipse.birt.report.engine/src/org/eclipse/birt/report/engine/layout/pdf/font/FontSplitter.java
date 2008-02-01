@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -40,15 +40,15 @@ public class FontSplitter implements ISplitter
 	
 	private boolean encounteredReturn = false;
 
-	public FontSplitter(Chunk inputChunk, ITextContent textContent, 
-			boolean fontSubstitution, String format)
+	public FontSplitter( FontMappingManager fontManager, Chunk inputChunk,
+			ITextContent textContent, boolean fontSubstitution )
 	{
 		this.fontSubstitution = fontSubstitution;
-		this.chunkText = inputChunk.getText().toCharArray();
-		baseOffset = inputChunk.getOffset();
-		baseLevel = inputChunk.getBaseLevel();
-		runDirection = inputChunk.getRunDirection();
-		this.fh = new FontHandler(textContent, fontSubstitution, format);
+		this.chunkText = inputChunk.getText( ).toCharArray( );
+		baseOffset = inputChunk.getOffset( );
+		baseLevel = inputChunk.getBaseLevel( );
+		runDirection = inputChunk.getRunDirection( );
+		this.fh = new FontHandler( fontManager, textContent, fontSubstitution );
 	}
 	
 	private Chunk buildChunk()

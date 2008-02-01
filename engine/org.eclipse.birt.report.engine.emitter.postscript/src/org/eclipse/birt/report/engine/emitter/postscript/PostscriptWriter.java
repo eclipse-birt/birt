@@ -40,9 +40,7 @@ import org.eclipse.birt.report.engine.emitter.postscript.truetypefont.TrueTypeFo
 import org.eclipse.birt.report.engine.emitter.postscript.util.FileUtil;
 import org.eclipse.birt.report.engine.layout.emitter.util.BackgroundImageLayout;
 import org.eclipse.birt.report.engine.layout.emitter.util.Position;
-import org.eclipse.birt.report.engine.layout.pdf.font.FontHandler;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
-import org.eclipse.birt.report.model.api.ImageHandle;
 import org.w3c.dom.css.CSSValue;
 
 import com.lowagie.text.DocumentException;
@@ -178,7 +176,6 @@ public class PostscriptWriter
 		this.out = new PrintStream( o );
 		this.cachedImageSource = new HashMap();
 		emitProlog( title );
-		FontHandler.prepareFonts( );
 	}
 
 	public void clipRect( float x, float y, float width, float height )
