@@ -101,6 +101,10 @@ driverManagerDialog.error.CanNotAddDriver=No se puede añadir ningún archivo jar 
 driverManagerDialog.text.DriverError=Error de adición de controlador.
 driverManagerDialog.fileDelete.title=Eliminación de archivo
 driverManagerDialog.fileDelete.text=El archivo se eliminará la próxima vez que se inicie BIRT. Téngalo en cuenta, especialmente cuando intercambie diferentes versiones de controladores.
+driverManagerDialog.ErrorDialog.addDriver.title=Failed to register the driver
+driverManagerDialog.ErrorDialog.addDriver.message=Failed to register the driver : 
+driverManagerDialog.ErrorDialog.deregisterDriver.title=Failed to deregister the driver
+driverManagerDialog.ErrorDialog.deregisterDriver.message=Failed to deregister the driver : 
 datasource.propertyPage.tooltip=Fuente de datos JDBC
 
 designer.preview.preference.resultset.previewpage.group.title=Página de vista previa

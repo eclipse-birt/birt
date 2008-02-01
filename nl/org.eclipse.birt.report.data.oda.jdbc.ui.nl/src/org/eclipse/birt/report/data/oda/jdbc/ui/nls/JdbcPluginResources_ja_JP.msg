@@ -101,6 +101,10 @@ driverManagerDialog.error.CanNotAddDriver=jar ファイルが重複するため、追加できま
 driverManagerDialog.text.DriverError=ドライバの追加エラーが発生しました。
 driverManagerDialog.fileDelete.title=ファイルの削除
 driverManagerDialog.fileDelete.text=ファイルは、次回 BIRT を起動したときに削除されます。異なるバージョンのドライバを交換するときは特に注意してください。
+driverManagerDialog.ErrorDialog.addDriver.title=Failed to register the driver
+driverManagerDialog.ErrorDialog.addDriver.message=Failed to register the driver : 
+driverManagerDialog.ErrorDialog.deregisterDriver.title=Failed to deregister the driver
+driverManagerDialog.ErrorDialog.deregisterDriver.message=Failed to deregister the driver : 
 datasource.propertyPage.tooltip=JDBC データソース
 
 designer.preview.preference.resultset.previewpage.group.title=プレビューページ
