@@ -1223,7 +1223,17 @@ public class JdbcDriverManagerDialog extends TrayDialog
 		for( int i = 0; i < drivers.size( ); i++ )
 		{
 			info = ( JDBCDriverInformation )drivers.get( i );
-			manager.updateStatus( info.getDriverClassName( ) );
+			try
+			{
+				manager.loadAndRegisterDriver( info.getDriverClassName( ), null );
+				manager.updateStatus( info.getDriverClassName( ) );
+			}
+			catch ( OdaException e )
+			{
+				MessageDialog.openError( null,
+						JdbcPlugin.getResourceString( "driverManagerDialog.ErrorDialog.addDriver.title" ),
+						JdbcPlugin.getResourceString( "driverManagerDialog.ErrorDialog.addDriver.message" ) + info.getDriverClassName( ) );
+			}
 		}
 		drivers.clear( );
 		Iterator jarsDeleteIterator = jarsToBeDeleted.values( ).iterator( );
@@ -1247,8 +1257,8 @@ public class JdbcDriverManagerDialog extends TrayDialog
 			catch ( OdaException e )
 			{
 				MessageDialog.openError( null,
-						"Failed to deregister the driver ",
-						"Failed to deregister the driver : " + info.getDriverClassName( ) );
+						JdbcPlugin.getResourceString( "driverManagerDialog.ErrorDialog.deregisterDriver.title" ),
+						JdbcPlugin.getResourceString( "driverManagerDialog.ErrorDialog.deregisterDriver.message" ) + info.getDriverClassName( ) );
 			}
 		}
 		refreshDriverPage( );

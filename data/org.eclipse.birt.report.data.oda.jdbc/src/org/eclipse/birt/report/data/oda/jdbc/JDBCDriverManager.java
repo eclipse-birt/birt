@@ -755,7 +755,7 @@ public class JDBCDriverManager
 				&& registeredDrivers.get( className ).equals( DRIVER_DEREGISTERED );
 	}
 	
-	private void loadAndRegisterDriver( String className, String driverClassPath ) 
+	public void loadAndRegisterDriver( String className, String driverClassPath ) 
 		throws OdaException
 	{
 		if ( className == null || className.length() == 0)
