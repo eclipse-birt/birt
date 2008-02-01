@@ -449,9 +449,9 @@ class ChartCubeQueryHelper implements IQueryExpressionReplaceable
 		if ( expr != null && expr.length( ) > 0 )
 		{
 			boolean bBindingExp = ChartXTabUtil.isBinding( expr, true );
-			if ( !ChartXTabUtil.isBinding( expr, false ) )
+			if ( bBindingExp && !ChartXTabUtil.isBinding( expr, false ) )
 			{
-				// Remove the operations from expression
+				// Remove the operations from expression if it references binding
 				expr = ExpressionUtil.createJSDataExpression( ChartXTabUtil.getBindingName( expr,
 						true ) );
 			}
