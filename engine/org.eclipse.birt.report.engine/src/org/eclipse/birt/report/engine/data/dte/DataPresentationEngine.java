@@ -15,20 +15,21 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
+import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
+import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.ir.Report;
@@ -137,7 +138,10 @@ public class DataPresentationEngine extends AbstractDataEngine
 			throw new EngineException("Can't load report query: " + queryID );
 		}
 
-		IBaseQueryResults queryResults = dteSession.getQueryResults( resultSetID );
+		((QueryDefinition)query).setQueryResultsID( resultSetID );
+		IPreparedQuery pq = dteSession.prepare( query );
+		IBaseQueryResults queryResults = pq.execute( parentResult == null?null:parentResult.getQueryResults( ), context.getScope( ) );
+		//IBaseQueryResults queryResults = dteSession.getQueryResults( resultSetID );
 
 		//FIXME: hchu, return the result set directly.
 		QueryResultSet resultSet = null;

@@ -71,8 +71,7 @@ public class QueryResults implements IQueryResults, IQueryService
 	public QueryResults( String tempDir, DataEngineContext context,
 			String queryResultID, IBaseQueryResults outer )
 	{
-		this( tempDir, context, null, queryResultID, null, null, -1 );
-		this.outer = outer;
+		this( tempDir, context, null, queryResultID, null, null, -1, outer );
 	}
 	
 	/**
@@ -81,7 +80,7 @@ public class QueryResults implements IQueryResults, IQueryService
 	 */
 	public QueryResults( String tempDir, DataEngineContext context, String queryResultID )
 	{
-		this( tempDir, context, null, queryResultID, null, null, -1 );
+		this( tempDir, context, null, queryResultID, null, null, -1, null );
 	}
 	
 	/**
@@ -93,7 +92,7 @@ public class QueryResults implements IQueryResults, IQueryService
 	 */
 	QueryResults( String tempDir, DataEngineContext context, String baseResultID, String queryResultID,
 			IResultMetaData resultMetaData, String subQueryName,
-			int currParentIndex )
+			int currParentIndex, IBaseQueryResults parentQueryResults )
 	{
 		assert tempDir != null;
 		assert context != null;
@@ -104,7 +103,7 @@ public class QueryResults implements IQueryResults, IQueryService
 		this.context = context;
 		this.queryResultID = queryResultID;
 		this.baseQueryResultID = baseResultID;
-		
+		this.outer = parentQueryResults;
 		this.resultMetaData = resultMetaData;
 		this.subQueryName = subQueryName;
 		this.currParentIndex = currParentIndex;

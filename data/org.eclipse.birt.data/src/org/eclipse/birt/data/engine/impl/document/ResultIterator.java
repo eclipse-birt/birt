@@ -295,7 +295,8 @@ class ResultIterator implements IResultIterator
 					parentQueryResultsID,
 					this.getResultMetaData( ),
 					subQueryName,
-					this.exprResultSet.getCurrentIndex( ) );
+					this.exprResultSet.getCurrentIndex( ),
+					this.queryResults );
 		}
 		catch ( Exception e )
 		{
