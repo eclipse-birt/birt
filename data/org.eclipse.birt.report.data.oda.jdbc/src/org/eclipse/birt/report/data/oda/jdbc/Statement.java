@@ -367,7 +367,7 @@ public class Statement implements IQuery
 			resultmd = preStat.getMetaData( );
 			//Even in policy 1 some driver cannot guarantee to return the metadata. Say, for jtds driver 0.9, when the sql query is very simple is
 			//returns the metadata as normal. But if the sql query is complex, i.e. involve some joins, the metadata is not rechieved.
-			if( resultmd!= null )
+			if( resultmd!= null && resultmd.getColumnCount( ) > 0 )
 				this.cachedResultMetaData = new ResultSetMetaData( resultmd );
 		}
 		catch ( Throwable e )
