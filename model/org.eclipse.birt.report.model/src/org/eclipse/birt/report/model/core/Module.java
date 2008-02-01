@@ -1674,12 +1674,14 @@ public abstract class Module extends DesignElement
 		if ( newLevel == IAccessControl.NATIVE_LEVEL )
 			return Collections.unmodifiableList( libraries );
 
-		List allLibraries = new ArrayList( libraries );
-		Iterator iter = new ArrayList( allLibraries ).iterator( );
+		List allLibraries = new ArrayList( );
+
+		Iterator iter = libraries.iterator( );
 		while ( iter.hasNext( ) )
 		{
 			Library library = (Library) iter.next( );
 			allLibraries.addAll( library.getLibraries( newLevel ) );
+			allLibraries.add( library );
 		}
 
 		return allLibraries;
