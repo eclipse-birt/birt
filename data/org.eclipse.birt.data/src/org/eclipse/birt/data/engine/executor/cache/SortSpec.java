@@ -10,27 +10,30 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.executor.cache;
 
+import java.util.Comparator;
+
 /**
  * A simple sort specification store class, which is used to generate
  * corresponding comparator.
  */
 public class SortSpec
 {
-	int[] sortKeyIndexes;
-	String[] sortKeyColumns;
-	boolean[] sortAscending;
-
+	private int[] sortKeyIndexes;
+	private String[] sortKeyColumns;
+	private boolean[] sortAscending;
+	private Comparator[] comparator;
 	/**
 	 * @param sortKeyIndexes
 	 * @param sortKeyColumns
 	 * @param sortAscending
 	 */
 	public SortSpec( int[] sortKeyIndexes, String[] sortKeyColumns,
-			boolean[] sortAscending )
+			boolean[] sortAscending, Comparator[] comparator )
 	{
-		this.sortKeyIndexes = sortKeyIndexes;
-		this.sortKeyColumns = sortKeyColumns;
-		this.sortAscending = sortAscending;
+		this.setSortKeyIndexes( sortKeyIndexes );
+		this.setSortKeyColumns( sortKeyColumns );
+		this.setSortAscending( sortAscending );
+		this.setComparator( comparator );
 	}
 	
 	/**
@@ -38,10 +41,50 @@ public class SortSpec
 	 */
 	public int length( )
 	{
-		if ( sortAscending != null )
-			return sortAscending.length;
+		if ( getSortAscending() != null )
+			return getSortAscending().length;
 		else
 			return 0;
+	}
+
+	void setComparator( Comparator[] comparator )
+	{
+		this.comparator = comparator;
+	}
+
+	Comparator[] getComparator( )
+	{
+		return comparator;
+	}
+
+	void setSortAscending( boolean[] sortAscending )
+	{
+		this.sortAscending = sortAscending;
+	}
+
+	boolean[] getSortAscending( )
+	{
+		return sortAscending;
+	}
+
+	void setSortKeyColumns( String[] sortKeyColumns )
+	{
+		this.sortKeyColumns = sortKeyColumns;
+	}
+
+	String[] getSortKeyColumns( )
+	{
+		return sortKeyColumns;
+	}
+
+	void setSortKeyIndexes( int[] sortKeyIndexes )
+	{
+		this.sortKeyIndexes = sortKeyIndexes;
+	}
+
+	int[] getSortKeyIndexes( )
+	{
+		return sortKeyIndexes;
 	}
 	
 }

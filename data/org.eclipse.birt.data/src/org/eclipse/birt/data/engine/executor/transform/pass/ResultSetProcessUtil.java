@@ -19,6 +19,7 @@ import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.executor.aggregation.AggrDefnRoundManager;
 import org.eclipse.birt.data.engine.executor.aggregation.AggregationHelper;
+import org.eclipse.birt.data.engine.executor.cache.SortSpec;
 import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
 import org.eclipse.birt.data.engine.executor.transform.OdiResultSetWrapper;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
@@ -269,18 +270,15 @@ class ResultSetProcessUtil extends RowProcessUtil
 	{
 		this.populator.getQuery( ).setOrdering( this.cachedSort );
 		
-		if ( this.populator.getGroupProcessorManager( )
+		SortSpec spec = this.populator.getGroupProcessorManager( )
 				.getGroupCalculationUtil( )
-				.getSortSpec( ) != null
-				&& this.populator.getGroupProcessorManager( )
-						.getGroupCalculationUtil( )
-						.getSortSpec( )
-						.length( ) > 0 )
+				.getSortSpec( );
+		if ( spec != null && spec.length( ) > 0 )
 		{
 			PassUtil.pass( this.populator,
 					new OdiResultSetWrapper( populator.getResultIterator( ) ),
 					true,
-					stopSign);
+					stopSign );
 			this.groupingDone = true;
 		}
 	}

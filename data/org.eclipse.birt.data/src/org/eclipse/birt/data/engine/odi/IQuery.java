@@ -14,6 +14,7 @@
 
 package org.eclipse.birt.data.engine.odi;
 
+import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
@@ -120,12 +121,14 @@ public interface IQuery
     	private int index = -1;
         private String field;
         private boolean ascendingOrder;
+        private Comparator comparator;
         
-        public SortSpec( int index, String field, boolean ascendingOrder )
+        public SortSpec( int index, String field, boolean ascendingOrder, Comparator comparator )
         {
         	this.index = index;
             this.field = field;
             this.ascendingOrder = ascendingOrder;
+            this.comparator = comparator;
         }
         
         public int getIndex( )
@@ -141,7 +144,12 @@ public interface IQuery
         public boolean isAscendingOrder()
         {
             return ascendingOrder;
-        }       
+        }      
+        
+        public Comparator getComparator()
+        {
+        	return this.comparator;
+        }
     }
  
     /**

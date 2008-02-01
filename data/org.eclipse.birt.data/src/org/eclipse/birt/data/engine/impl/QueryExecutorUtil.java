@@ -12,7 +12,6 @@ package org.eclipse.birt.data.engine.impl;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
-import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ColumnReferenceExpression;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
@@ -71,9 +70,8 @@ public final class QueryExecutorUtil
 		dest.setInterval( src.getInterval());
 		dest.setIntervalRange( src.getIntervalRange());
 		dest.setIntervalStart( src.getIntervalStart());
-		dest.setSortDirection( src.getSortDirection( ) != ISortDefinition.SORT_DESC? 
-								 ISortDefinition.SORT_ASC:ISortDefinition.SORT_DESC );
-		//	dest.setSortDirection( src.getSortDirection());
+		dest.setSortDirection( src.getSortDirection( ) );
+
 		dest.setFilters( src.getFilters());
 		if( src.getSorts( ).size( ) != 0)
 		{

@@ -78,8 +78,8 @@ public interface IGroupDefinition extends IBaseTransform
 	
 	// Enumeration constants for SortDirection
 	public static final int NO_SORT = -1;		// No sort direction is specified. 
-	public static final int SORT_ASC = 0;		// Sort asending
-	public static final int SORT_DESC = 1;		// Sort descending
+	public static final int SORT_ASC = ISortDefinition.SORT_ASC;		// Sort asending
+	public static final int SORT_DESC = ISortDefinition.SORT_DESC;		// Sort descending
    	
 	/**
 	 * Returns the name of the group

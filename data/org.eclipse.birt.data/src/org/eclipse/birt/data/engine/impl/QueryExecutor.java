@@ -60,6 +60,8 @@ import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
+import com.ibm.icu.text.Collator;
+
 /**
  * 
  */
@@ -499,11 +501,12 @@ public abstract class QueryExecutor implements IQueryExecutor
 						sortKey,
 						DataType.ANY_TYPE ) );
 				sortIndex = -1;
-				sortKey = String.valueOf( "_{$TEMP_SORT_" + i + "$}_" );
+				sortKey = String.valueOf( "_{$TEMP_SORT_" + i + "$}_");
 
 				IQuery.SortSpec dest = new IQuery.SortSpec( sortIndex,
 						sortKey,
-						src.getSortDirection( ) == ISortDefinition.SORT_ASC );
+						src.getSortDirection( ) == ISortDefinition.SORT_ASC,
+						src.getSortStrength( ) == -1? null:Collator.getInstance( ));
 				sortSpecs[i] = dest;
 			}
 			odiQuery.setOrdering( Arrays.asList( sortSpecs ) );

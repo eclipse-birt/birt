@@ -54,7 +54,7 @@ public class GroupDefnUtil
 				IOUtil.writeDouble( dos, groupDefn.getIntervalRange( ) );
 				IOUtil.writeInt( dos, groupDefn.getSortDirection( ) );
 				FilterDefnUtil.saveFilterDefn( dos, groupDefn.getFilters( ) );
-				QueryDefnIOUtil.saveSorts( dos, groupDefn.getSorts( ) );
+				QueryDefnIOUtil.saveSorts( dos, groupDefn.getSorts( ), version );
 				QueryDefnIOUtil.saveSubQuery( dos, groupDefn.getSubqueries( ), version );
 			}
 			
@@ -92,7 +92,7 @@ public class GroupDefnUtil
 				groupDefn.setIntervalRange( IOUtil.readDouble( dis ) );
 				groupDefn.setSortDirection( IOUtil.readInt( dis ) );
 				groupDefn.getFilters( ).addAll( FilterDefnUtil.loadFilterDefn( dis ) );
-				groupDefn.getSorts( ).addAll( QueryDefnIOUtil.loadSorts( dis ) );
+				groupDefn.getSorts( ).addAll( QueryDefnIOUtil.loadSorts( dis, version ) );
 				groupDefn.getSubqueries( )
 						.addAll( QueryDefnIOUtil.loadSubQuery( dis, parent, version ) );
 				groupList.add( groupDefn );

@@ -135,6 +135,8 @@ public final class LogUtil
 			stringBuffer.append( "getExpression : " + sort.getExpression( )+", " );
 		
 		stringBuffer.append( "SortDirection : " + sort.getSortDirection( ) +")");
+		
+		stringBuffer.append( "SortStrength : " + sort.getSortStrength( ) +")" );
 		return stringBuffer.toString( ); 
 	}
 	private static String toString_GroupDefinition(Object source){

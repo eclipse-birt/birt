@@ -26,6 +26,7 @@ import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
+import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 
 /**
  * Help SmartCache to get the ResultSetCache, the real data cache.
@@ -118,12 +119,13 @@ class SmartCacheHelper
 		int[] sortKeyIndexs = new int[fieldCount];
 		String[] sortKeyNames = new String[fieldCount];
 		boolean[] ascending = new boolean[fieldCount];
+		Comparator[] comparator = new Comparator[fieldCount];
 		for ( int i = 0; i < fieldCount; i++ )
 		{
 			sortKeyIndexs[i] = i + 1; // 1-based
 			ascending[i] = true;
 		}
-		return new SortSpec( sortKeyIndexs, sortKeyNames, ascending );
+		return new SortSpec( sortKeyIndexs, sortKeyNames, ascending, comparator );
 	}
 
 	/**
@@ -373,14 +375,14 @@ class SmartCacheHelper
 		if ( sortSpec == null )
 			return null;
 
-		final int[] sortKeyIndexes = sortSpec.sortKeyIndexes;
-		final String[] sortKeyColumns = sortSpec.sortKeyColumns;
+		final int[] sortKeyIndexes = sortSpec.getSortKeyIndexes();
+		final String[] sortKeyColumns = sortSpec.getSortKeyColumns();
 
 		if ( sortKeyIndexes == null || sortKeyIndexes.length == 0 )
 			return null;
 
-		final boolean[] sortAscending = sortSpec.sortAscending;
-
+		final boolean[] sortAscending = sortSpec.getSortAscending();
+		final Comparator[] comparators = sortSpec.getComparator( );
 		Comparator comparator = new Comparator( ) {
 
 			/**
@@ -417,7 +419,7 @@ class SmartCacheHelper
 							colObj2 = row2.getFieldValue( colIndex );
 						}
 
-						int result = CompareUtil.compare( colObj1, colObj2 );
+						int result = ScriptEvalUtil.compare( colObj1, colObj2, comparators[i] );
 						if ( result != 0 )
 						{
 							return sortAscending[i] ? result : -result;

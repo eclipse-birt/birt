@@ -13,6 +13,8 @@
  */
 package org.eclipse.birt.data.engine.api;
 
+import com.ibm.icu.text.Collator;
+
 /**
  * Describes one sort (key, direction) pair in a sort sequence. The sort key can be a single column name
  * or a Javascript expression.<br>
@@ -21,6 +23,17 @@ package org.eclipse.birt.data.engine.api;
  */
 public interface ISortDefinition
 {
+	/**
+	 * When the sort strength is set to -1, it indicate we do an ASCII sort rather
+	 * than Collator sort.
+	 */
+	public static final int ASCII_SORT_STRENGTH = -1;
+	
+	/**
+	 * 
+	 */
+	public static final int DEFAULT_SORT_STRENGTH = Collator.TERTIARY;
+    
     // Enumeration constants for sort direction
     /**
      * Sorts in ascending order of sort key values
@@ -49,4 +62,10 @@ public interface ISortDefinition
      * @return the sort direction: one of SORT_ASC or SORT_DESC
      */
     public abstract int getSortDirection();
+    
+    /**
+     * Returns the Strength of sort.
+     * @return
+     */
+    public abstract int getSortStrength();
 }

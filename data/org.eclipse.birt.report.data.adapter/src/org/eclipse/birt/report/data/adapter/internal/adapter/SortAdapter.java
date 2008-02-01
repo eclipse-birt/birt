@@ -13,7 +13,7 @@
  */ 
 package org.eclipse.birt.report.data.adapter.internal.adapter;
 
-import org.eclipse.birt.data.engine.api.ISortDefinition;
+import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.report.model.api.SortKeyHandle;
 
@@ -49,10 +49,10 @@ public class SortAdapter extends SortDefinition
 	public static int sortDirectionFromModel( String modelDirectionStr )
 	{
 		if ( "asc".equals( modelDirectionStr ) ) //$NON-NLS-1$
-			return ISortDefinition.SORT_ASC;
+			return IGroupDefinition.SORT_ASC;
 		if ( "desc".equals( modelDirectionStr ) ) //$NON-NLS-1$
-			return ISortDefinition.SORT_DESC;
-		assert false;		// unexpected
-		return ISortDefinition.SORT_ASC;
+			return IGroupDefinition.SORT_DESC;
+
+		return IGroupDefinition.NO_SORT;
 	}
 }

@@ -308,10 +308,23 @@ public class GroupCalculationUtil
 			sortCount = query.getOrdering( ).length;
 		}
 
+		boolean doGroupSort = false;
+		for( int i = 0; i < groupCount; i++ )
+		{
+			if( groupDefs[i].getGroupSpec( ).getSortDirection( ) != IGroupDefinition.NO_SORT )
+			{
+				doGroupSort = true;
+				break;
+			}
+		}
+		
+		if( !doGroupSort )
+			groupCount = 0;
+		
 		int[] sortKeyIndexes = new int[groupCount + sortCount];
 		String[] sortKeyColumns = new String[groupCount + sortCount];
 		boolean[] sortAscending = new boolean[groupCount + sortCount];
-
+		Comparator[] comparator = new Comparator[groupCount + sortCount];
 		for ( int i = 0; i < groupCount; i++ )
 		{
 			int index = groupDefs[i].getColumnIndex( );
@@ -321,6 +334,9 @@ public class GroupCalculationUtil
 				sortKeyColumns[i] = groupDefs[i].getColumnName( );
 				sortAscending[i] = groupDefs[i].getGroupSpec( )
 						.getSortDirection( ) != IGroupDefinition.SORT_DESC;
+				//TODO:support collation sort in grouping. At current stage
+				//we only support collation sort in sort definition.
+				comparator[i] = null;
 			}
 		}
 		for ( int i = 0; i < sortCount; i++ )
@@ -340,9 +356,10 @@ public class GroupCalculationUtil
 			sortKeyIndexes[groupCount + i] = keyIndex;
 			sortKeyColumns[groupCount + i] = keyName;
 			sortAscending[groupCount + i] = query.getOrdering( )[i].isAscendingOrder( );
+			comparator[groupCount + i] = query.getOrdering( )[i].getComparator( );
 		}
 
-		return new SortSpec( sortKeyIndexes, sortKeyColumns, sortAscending );
+		return new SortSpec( sortKeyIndexes, sortKeyColumns, sortAscending, comparator );
 	}
 }
 

@@ -26,6 +26,7 @@ public class SortDefinition implements ISortDefinition
     protected IScriptExpression keyExpr;
 	protected String keyColumn;
 	protected int direction;
+	private int strength = ISortDefinition.ASCII_SORT_STRENGTH;
 	
 	/**
 	 * Returns the name of the column to sort on. Either the KeyColumn or KeyExpr can
@@ -79,5 +80,23 @@ public class SortDefinition implements ISortDefinition
 	public void setSortDirection(int sortDirection) 
 	{
 		this.direction = sortDirection;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.ISortDefinition#getSortStrength()
+	 */
+	public int getSortStrength( )
+	{
+		return this.strength;
+	}
+	
+	/**
+	 * Set the collator sort strength of the destine sort.
+	 * @param strength
+	 */
+	public void setSortStrength( int strength )
+	{
+		this.strength = strength;
 	}
 }

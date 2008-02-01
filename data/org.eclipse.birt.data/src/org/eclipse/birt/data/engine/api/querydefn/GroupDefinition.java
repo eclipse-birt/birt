@@ -14,6 +14,7 @@
 package org.eclipse.birt.data.engine.api.querydefn;
 
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
+import org.eclipse.birt.data.engine.api.ISortDefinition;
 
 /**
  * Default implementation of {@link org.eclipse.birt.data.engine.api.IGroupDefinition}.
@@ -26,7 +27,7 @@ public class GroupDefinition extends BaseTransform implements IGroupDefinition
 	protected String keyColumn;
 	protected int interval = NO_INTERVAL;
 	protected double intervalRange = 0;
-	protected int sortDirection = NO_SORT;
+	protected int sortDirection = ISortDefinition.SORT_ASC;
 	protected Object intervalStart;
 	
 	

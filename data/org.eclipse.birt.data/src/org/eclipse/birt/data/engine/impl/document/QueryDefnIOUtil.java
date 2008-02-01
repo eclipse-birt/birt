@@ -66,7 +66,7 @@ public class QueryDefnIOUtil
 			// group definition
 			GroupDefnUtil.saveGroupDefn( outputStream, queryDefn.getGroups( ), version );
 			// sort definition
-			saveSorts( outputStream, queryDefn.getSorts( ) );
+			saveSorts( outputStream, queryDefn.getSorts( ), version );
 
 			// misc property: max row, use details
 			IOUtil.writeInt( outputStream, queryDefn.getMaxRows( ) );
@@ -205,7 +205,7 @@ public class QueryDefnIOUtil
 	 * @param sorts
 	 * @throws IOException 
 	 */
-	public static void saveSorts( OutputStream outputStream, List sorts )
+	public static void saveSorts( OutputStream outputStream, List sorts, int version )
 			throws IOException
 	{
 		DataOutputStream dos = new DataOutputStream( outputStream );
@@ -225,6 +225,8 @@ public class QueryDefnIOUtil
 				IOUtil.writeString( dos, sortDefn.getColumn( ) );
 				ExprUtil.saveBaseExpr( dos, sortDefn.getExpression( ) );
 				IOUtil.writeInt( dos, sortDefn.getSortDirection( ) );
+				if ( version >= VersionManager.VERSION_2_3_1 )
+					IOUtil.writeInt( dos, sortDefn.getSortStrength( ) );
 			}
 		}
 
@@ -295,7 +297,7 @@ public class QueryDefnIOUtil
 			queryDefn.getGroups( )
 					.addAll( GroupDefnUtil.loadGroupDefn( inputStream, queryDefn, version ) );
 			// sort definition
-			queryDefn.getSorts( ).addAll( loadSorts( inputStream ) );
+			queryDefn.getSorts( ).addAll( loadSorts( inputStream, version ) );
 
 			// misc property: max row, use details
 			queryDefn.setMaxRows( IOUtil.readInt( inputStream ) );
@@ -342,7 +344,7 @@ public class QueryDefnIOUtil
 	 * @param sorts
 	 * @throws IOException
 	 */
-	public static List loadSorts( InputStream inputStream ) throws IOException
+	public static List loadSorts( InputStream inputStream, int version ) throws IOException
 	{
 		DataInputStream dis = new DataInputStream( inputStream );
 
@@ -360,6 +362,9 @@ public class QueryDefnIOUtil
 			else
 				sortDefn.setExpression( sortKeyExpr.getText( ) );
 			sortDefn.setSortDirection( direction );
+			
+			if ( version >= VersionManager.VERSION_2_3_1 )
+				sortDefn.setSortStrength( IOUtil.readInt( dis ));
 			sortList.add( sortDefn );
 		}
 		

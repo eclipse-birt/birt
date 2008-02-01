@@ -12,6 +12,7 @@ package org.eclipse.birt.data.engine.script;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -24,8 +25,8 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
@@ -240,38 +241,40 @@ public class ScriptEvalUtil
 	}
 
 	/**
-	 * Most objects should already be formatted to the same type by method
-	 * formatToComparable at this point if neither of them is null. This method
-	 * will therefore be terminated pretty soon except for calling from method
-	 * between with weird parameters like obj:String, op1:Double and op2:Date.
-	 * 
+	 * Compare two value according to given comparator.
 	 * @param obj1
 	 * @param obj2
-	 * @return -1,0 and 1 standing for <,= and > respectively
+	 * @param comp
+	 * @return
 	 * @throws DataException
 	 */
-	public static int compare( Object obj1, Object obj2 ) throws DataException
+	public static int compare( Object obj1, Object obj2, Comparator strComp )
+			throws DataException
 	{
-	    if (obj1 == null || obj2 == null) 
-	    {
-            // all non-null values are greater than null value
-	        if (obj1 == null && obj2 != null)
-                return -1;
-            else if (obj1 != null && obj2 == null)
-                return 1;
-            else
-                return 0;
-        }
-	    
+		if ( obj1 == null || obj2 == null )
+		{
+			// all non-null values are greater than null value
+			if ( obj1 == null && obj2 != null )
+				return -1;
+			else if ( obj1 != null && obj2 == null )
+				return 1;
+			else
+				return 0;
+		}
+
 		try
 		{
 			if ( MiscUtil.isSameType( obj1, obj2 ) )
 			{
+				if ( obj1 instanceof String )
+				{
+					return compareAsString( obj1, obj2, strComp );
+				}
 				if ( obj1 instanceof Boolean )
 				{
 					if ( obj1.equals( obj2 ) )
 						return 0;
-					
+
 					Boolean bool = (Boolean) obj1;
 					if ( bool.equals( Boolean.TRUE ) )
 						return 1;
@@ -285,35 +288,37 @@ public class ScriptEvalUtil
 				// most judgements should end here
 				else
 				{
-					return obj1.toString( ).compareTo( obj2.toString( ) );
+					return compareAsString( obj1, obj2, strComp );
 				}
 			}
-			else if ( MiscUtil.isNumericOrString( obj1 ) && MiscUtil.isNumericOrString( obj2 ) )
+			else if ( MiscUtil.isNumericOrString( obj1 )
+					&& MiscUtil.isNumericOrString( obj2 ) )
 			{
 				try
 				{
-					return DataTypeUtil.toDouble( obj1 ).compareTo(
-						DataTypeUtil.toDouble( obj2 ) );
-				}catch (Exception e )
+					return DataTypeUtil.toDouble( obj1 )
+							.compareTo( DataTypeUtil.toDouble( obj2 ) );
+				}
+				catch ( Exception e )
 				{
-					return DataTypeUtil.toString( obj1 ).compareTo(
-							DataTypeUtil.toString( obj2 ) );
+					return compareAsString( obj1, obj2, strComp );
 				}
 			}
-			else if ( MiscUtil.isDateOrString( obj1 ) && MiscUtil.isDateOrString( obj2 ) )
+			else if ( MiscUtil.isDateOrString( obj1 )
+					&& MiscUtil.isDateOrString( obj2 ) )
 			{
-			try
+				try
 				{
 					return DataTypeUtil.toDate( obj1 )
 							.compareTo( DataTypeUtil.toDate( obj2 ) );
 				}
 				catch ( Exception e )
 				{
-					return DataTypeUtil.toString( obj1 )
-							.compareTo( DataTypeUtil.toString( obj2 ) );
+					return compareAsString( obj1, obj2, strComp );
 				}
 			}
-			else if ( MiscUtil.isBooleanOrString( obj1 ) && MiscUtil.isBooleanOrString( obj2 ) )
+			else if ( MiscUtil.isBooleanOrString( obj1 )
+					&& MiscUtil.isBooleanOrString( obj2 ) )
 			{
 				try
 				{
@@ -334,8 +339,7 @@ public class ScriptEvalUtil
 				}
 				catch ( Exception e )
 				{
-					return DataTypeUtil.toString( obj1 )
-							.compareTo( DataTypeUtil.toString( obj2 ) );
+					return compareAsString( obj1, obj2, strComp );
 				}
 			}
 			else
@@ -345,6 +349,32 @@ public class ScriptEvalUtil
 		{
 			throw new DataException( ResourceConstants.DATATYPEUTIL_ERROR, e );
 		}
+
+	}
+
+	private static int compareAsString( Object obj1, Object obj2,
+			Comparator comp ) throws BirtException
+	{
+		return comp == null ? DataTypeUtil.toString( obj1 )
+				.compareTo( DataTypeUtil.toString( obj2 ) )
+				: comp.compare( DataTypeUtil.toString( obj1 ),
+						DataTypeUtil.toString( obj2 ) );
+	}
+	
+	/**
+	 * Most objects should already be formatted to the same type by method
+	 * formatToComparable at this point if neither of them is null. This method
+	 * will therefore be terminated pretty soon except for calling from method
+	 * between with weird parameters like obj:String, op1:Double and op2:Date.
+	 * 
+	 * @param obj1
+	 * @param obj2
+	 * @return -1,0 and 1 standing for <,= and > respectively
+	 * @throws DataException
+	 */
+	public static int compare( Object obj1, Object obj2 ) throws DataException
+	{
+		return compare( obj1, obj2, null );
 	}
 	
 	/**
