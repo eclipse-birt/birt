@@ -269,6 +269,90 @@
                id="org.eclipse.jdt.debug.ui.cuPopup.Watch">
          </action>
       </viewerContribution>
-      </extension>   
-  
+      </extension> 
+      
+        
+  <extension
+         point="org.eclipse.debug.ui.launchShortcuts">
+      <shortcut
+            class="org.eclipse.birt.report.debug.internal.ui.script.launcher.ScriptLaunchShortcut"
+            description="%JavaLaunchShortcut.description"
+            helpContextId="org.eclipse.jdt.debug.ui.shortcut_local_java_application"
+            icon="$nl$/icons/full/ctool16/java_app.gif"
+            id="org.eclipse.birt.report.debug.script.ScriptLaunchShortcut"
+            label="%ScriptLaunchShortcut.label"
+            modes="debug">
+         <contextualLaunch>
+           <enablement>
+             <with variable="selection">
+                
+             <count
+                   value="1">
+             </count>
+             <iterate>
+                <and>
+                <test
+                      forcePluginActivation="true"
+                      property="scriptdebug.isRptdesign">
+                </test></and>
+             </iterate>
+               </with>
+           </enablement>
+  		 </contextualLaunch>
+         <configurationType
+               id="org.eclipse.birt.report.debug.ui.launchConfigurationType.script">
+         </configurationType>
+        
+         <description
+               description="%DebugJavaLaunchShortcut.description"
+               mode="debug">
+         </description>
+      </shortcut>
+   </extension>
+  <extension
+        point="org.eclipse.core.expressions.propertyTesters">
+     <propertyTester
+           class="org.eclipse.birt.report.debug.internal.ui.script.ScriptDebuggerPropertyTester"
+           id="org.eclipse.birt.report.debug.ui.propertyTester1"
+           namespace="scriptdebug"
+           properties="isRptdesign"
+           type="org.eclipse.core.runtime.IAdaptable">
+     </propertyTester>
+  </extension>
+  <extension
+        point="org.eclipse.ui.actionSets">
+     <actionSet
+           id="org.eclipse.birt.report.debug.ui.DeubgScript"
+           label="label"
+           visible="false">
+        <action
+              class="org.eclipse.birt.report.debug.internal.ui.script.actions.DebugScriptAction"
+              icon="$nl$/icons/full/ctool16/java_app.gif"
+              id="org.eclipse.birt.report.debug.ui.DebugScript"
+              label="%Debug.Label"
+              menubarPath="org.eclipse.ui.run/preview"
+              style="push">
+        </action>
+        <menu
+              id="org.eclipse.ui.run"
+              label="Run"
+              path="additions">
+           <groupMarker
+                 name="preview">
+           </groupMarker>
+        </menu>
+     </actionSet>
+  </extension>
+  <extension
+        point="org.eclipse.ui.actionSetPartAssociations">
+     <actionSetPartAssociation
+           targetID="org.eclipse.birt.report.debug.ui.DeubgScript">
+        <part
+              id="org.eclipse.birt.report.designer.ui.editors.ReportEditor">
+        </part>
+        <part
+              id="org.eclipse.birt.report.designer.ui.editors.TemplateEditor">
+        </part>
+     </actionSetPartAssociation>
+  </extension>
 </plugin>
