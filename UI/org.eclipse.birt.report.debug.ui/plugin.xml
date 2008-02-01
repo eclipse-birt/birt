@@ -329,7 +329,7 @@
               class="org.eclipse.birt.report.debug.internal.ui.script.actions.DebugScriptAction"
               icon="$nl$/icons/full/ctool16/java_app.gif"
               id="org.eclipse.birt.report.debug.ui.DebugScript"
-              label="%Debug.Label"
+              label="%ScriptLaunchShortcut.label"
               menubarPath="org.eclipse.ui.run/preview"
               style="push">
         </action>
