@@ -82,6 +82,7 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 		lineLM = (ILineStackingLayoutManager) parent;
 
 		ITextContent textContent = (ITextContent) content;
+		lineLM.setTextIndent( textContent );
 		String text = textContent.getText( );
 		if ( text != null && text.length( ) != 0 )
 		{
@@ -662,9 +663,9 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 	}
 	
 	/**
-	 * need overwrite this mothod to change default behavour.
+	 * need overwrite this method to change default behavior.
 	 * For inline leaf elements, page-break is handled by this layout manager.
-	 * For block leaf elements. page-break is handled by it's block container
+	 * For block leaf elements, page-break is handled by it's block container
 	 */
 	protected boolean handlePageBreakBefore( )
 	{

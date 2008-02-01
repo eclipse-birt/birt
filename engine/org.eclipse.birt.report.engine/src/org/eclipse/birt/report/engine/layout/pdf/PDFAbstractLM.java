@@ -112,7 +112,7 @@ public abstract class PDFAbstractLM implements ILayoutManager
 		{
 			case STATUS_START :
 				// this element is in-visible, just as it doesn't exits.
-				// we must tranverse all its children (to let the generate
+				// we must traverse all its children (to let the generate
 				// engine create all the content).
 				if ( handleVisibility( ) )
 				{

@@ -28,9 +28,6 @@ import org.eclipse.birt.report.engine.content.ILabelContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.impl.ActionContent;
-import org.eclipse.birt.report.engine.content.impl.ContainerContent;
-import org.eclipse.birt.report.engine.content.impl.ImageContent;
-import org.eclipse.birt.report.engine.content.impl.LabelContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.content.impl.TextContent;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
@@ -312,19 +309,19 @@ public class HTML2Content
 						CSSValueConstants.TOP_VALUE );
 				TextContent text = (TextContent) content.getReportContent( )
 						.createTextContent( );
-				addChild( content, text );
+				addChild( container, text );
 				if ( ele.getParentNode( ).getNodeName( ).equals( "dl" ) ) //$NON-NLS-1$
 				{
-					text.setText( "" ); //$NON-NLS-1$
+					text.setText( " " ); //$NON-NLS-1$
 				}
-				style.setTextIndent( "3em" ); //$NON-NLS-1$
+				style.setTextIndent( "2em" ); //$NON-NLS-1$
 				text.setInlineStyle( style );
 
 				IContainerContent childContainer = content.getReportContent( )
 						.createContainerContent( );
 				childContainer.setInlineStyle( style );
 				addChild( container, childContainer );
-
+				
 				processNodes( ele, cssStyles, container, action );
 
 			}

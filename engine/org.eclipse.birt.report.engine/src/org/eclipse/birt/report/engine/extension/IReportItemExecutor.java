@@ -68,7 +68,7 @@ public interface IReportItemExecutor
 
 	/**
 	 * close the executor, if the executor is closed, all sub executor will be
-	 * termiante also.
+	 * terminate also.
 	 */
 	void close( );
 

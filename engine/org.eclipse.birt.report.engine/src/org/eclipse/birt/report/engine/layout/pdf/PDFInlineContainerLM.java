@@ -15,15 +15,14 @@ import java.util.Iterator;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
-import org.eclipse.birt.report.engine.layout.ILayoutManager;
 import org.eclipse.birt.report.engine.layout.ILineStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.area.IArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
-import org.w3c.dom.css.CSSValue;
 
 public class PDFInlineContainerLM extends PDFInlineStackingLM
 		implements
@@ -123,8 +122,19 @@ public class PDFInlineContainerLM extends PDFInlineStackingLM
 		createRoot( );
 		maxAvaWidth =  parent.getCurrentMaxContentWidth( ) ;
 		maxAvaHeight = parent.getCurrentMaxContentHeight( )  ;
-		currentBP =0;
+		currentBP = 0;
 		currentIP = 0;
+	}
+	
+	public int getTextIndent( )
+	{
+		if ( content != null )
+		{
+			IStyle contentStyle = content.getComputedStyle( );
+			return getDimensionValue( contentStyle
+					.getProperty( StyleConstants.STYLE_TEXT_INDENT ), maxAvaWidth );
+		}
+		return 0;
 	}
 
 	public boolean addArea( IArea area, boolean keepWithPrevious, boolean keepWithNext )
@@ -175,6 +185,14 @@ public class PDFInlineContainerLM extends PDFInlineStackingLM
 			return false;
 		}
 		return lineParent.isEmptyLine( );
+	}
+	
+	public void setTextIndent( ITextContent content )
+	{
+		if ( parent instanceof ILineStackingLayoutManager )
+		{
+			( (ILineStackingLayoutManager) parent ).setTextIndent( content );
+		}
 	}
 
 }

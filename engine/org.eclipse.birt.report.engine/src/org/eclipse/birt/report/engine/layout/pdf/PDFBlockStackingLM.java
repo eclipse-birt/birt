@@ -274,17 +274,6 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 		return null;
 	}
 
-	public int getTextIndent( )
-	{
-		if ( content != null )
-		{
-			IStyle contentStyle = content.getComputedStyle( );
-			return getDimensionValue( contentStyle
-					.getProperty( StyleConstants.STYLE_TEXT_INDENT ), maxAvaWidth );
-		}
-		return 0;
-	}
-
 	protected void cancelChildren( )
 	{
 		if ( child != null )

@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.layout;
 
+import org.eclipse.birt.report.engine.content.ITextContent;
+
 public interface ILineStackingLayoutManager
 		extends
 			IInlineStackingLayoutManager
@@ -26,5 +28,7 @@ public interface ILineStackingLayoutManager
 	boolean isEmptyLine( );
 	
 	int getMaxLineWidth();
+	
+	void setTextIndent( ITextContent content );
 
 }

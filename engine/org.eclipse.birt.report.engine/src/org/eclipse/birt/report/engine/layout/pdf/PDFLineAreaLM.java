@@ -16,11 +16,11 @@ import java.util.Iterator;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
-import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.ILineStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.area.IArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
@@ -62,6 +62,8 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 	protected int expectedIP = 0;
 	
 	protected IReportItemExecutor unfinishedExecutor = null;
+	
+	protected boolean isEmpty = true;
 	
 	public PDFLineAreaLM( PDFLayoutEngineContext context, PDFStackingLM parent,
 			IReportItemExecutor executor )
@@ -201,18 +203,23 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 		maxAvaHeight = parent.getCurrentMaxContentHeight( );
 		root.setWidth( parent.getCurrentMaxContentWidth( ) );
 		setCurrentBP( 0 );
-		if ( lineCount == 1 )
-		{
-			assert ( parent instanceof IBlockStackingLayoutManager );
-			setCurrentIP( ( (PDFBlockStackingLM) parent ).getTextIndent( ) );
-		}
-		else
-		{
-			setCurrentIP( currentPosition );
-		}
+
 		setupMinHeight( );
 	}
-
+	
+	public void setTextIndent( ITextContent content )
+	{
+		if( isEmpty )
+		{
+			if ( content != null )
+			{
+				IStyle contentStyle = content.getComputedStyle( );
+				setCurrentIP( getDimensionValue( contentStyle
+						.getProperty( StyleConstants.STYLE_TEXT_INDENT ), maxAvaWidth ) );
+			}
+		}
+	}
+	
 	/**
 	 * submit current line to parent true if succeed
 	 * 
@@ -406,6 +413,7 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 		}
 		
 		root.addChild( area );
+		isEmpty = false;
 		lineFinished = false;
 	}
 	
