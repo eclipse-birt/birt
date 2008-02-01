@@ -1244,8 +1244,18 @@ public abstract class EngineTask implements IEngineTask
 		if ( runnable != null )
 		{
 			ReportDesignHandle reportDesign = executionContext.getDesign( );
+			// execute scripts defined in include-script element of the libraries
+			Iterator iter = reportDesign.includeLibraryScriptsIterator( );
+			while ( iter.hasNext( ) )
+			{
+				IncludeScriptHandle includeScript = (IncludeScriptHandle) iter
+						.next( );
+				String fileName = includeScript.getFileName( );
+				executionContext.loadScript( fileName );
+			}
+				
 			// execute scripts defined in include-script element of this report
-			Iterator iter = reportDesign.includeScriptsIterator( );
+			iter = reportDesign.includeScriptsIterator( );
 			while ( iter.hasNext( ) )
 			{
 				IncludeScriptHandle includeScript = (IncludeScriptHandle) iter
