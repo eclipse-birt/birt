@@ -23,7 +23,6 @@ import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.impl.AbstractElement;
-import org.eclipse.birt.report.engine.content.impl.ListGroupContent;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
@@ -254,7 +253,8 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.IContent#readContent(java.io.DataInputStream)
 	 */
-	public void readContent( DataInputStream in ) throws IOException
+	public void readContent( DataInputStream in, ClassLoader loader )
+			throws IOException
 	{
 		throw new IOException( "Not supported" );
 	}

@@ -189,13 +189,13 @@ public class DataContent extends TextContent implements IDataContent
 		return super.needSave( );
 	}
 
-	protected void readField( int version, int filedId, DataInputStream in )
-			throws IOException
+	protected void readField( int version, int filedId, DataInputStream in,
+			ClassLoader loader ) throws IOException
 	{
 		switch ( filedId )
 		{
 			case FIELD_VALUE :
-				value = IOUtil.readObject( in );
+				value = IOUtil.readObject( in, loader );
 				break;
 			case FIELD_LAVELTEXT :
 				labelText = IOUtil.readString( in );
@@ -207,7 +207,7 @@ public class DataContent extends TextContent implements IDataContent
 				helpKey = IOUtil.readString( in );
 				break;
 			default :
-				super.readField( version, filedId, in );
+				super.readField( version, filedId, in, loader );
 		}
 	}
 	

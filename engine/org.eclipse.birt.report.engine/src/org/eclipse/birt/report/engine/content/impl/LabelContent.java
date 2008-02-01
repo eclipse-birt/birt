@@ -169,8 +169,8 @@ public class LabelContent extends TextContent implements ILabelContent
 		return super.needSave( );
 	}
 
-	protected void readField( int version, int filedId, DataInputStream in )
-			throws IOException
+	protected void readField( int version, int filedId, DataInputStream in,
+			ClassLoader loader ) throws IOException
 	{
 		switch ( filedId )
 		{
@@ -184,7 +184,7 @@ public class LabelContent extends TextContent implements ILabelContent
 				labelTextKey = IOUtil.readString( in );
 				break;
 			default :
-				super.readField( version, filedId, in );
+				super.readField( version, filedId, in, loader );
 		}
 	}
 	

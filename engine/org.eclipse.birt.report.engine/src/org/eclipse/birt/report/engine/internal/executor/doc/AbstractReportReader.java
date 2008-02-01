@@ -100,13 +100,14 @@ public abstract class AbstractReportReader implements IReportExecutor
 		IDocArchiveReader archive = reportDoc.getArchive( );
 		RAInputStream in = archive
 				.getStream( ReportDocumentConstants.CONTENT_STREAM );
-		reader = new CachedReportContentReaderV3( reportContent, in );
+		reader = new CachedReportContentReaderV3( reportContent, in, context );
 
 		// open the page hints stream and the page content stream
 		hintReader = new PageHintReader( reportDoc );
 
 		in = archive.getStream( ReportDocumentConstants.PAGE_STREAM );
-		pageReader = new CachedReportContentReaderV3( reportContent, in );
+		pageReader = new CachedReportContentReaderV3( reportContent, in,
+				context );
 	}
 
 	protected void closeReaders( )

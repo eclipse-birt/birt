@@ -105,8 +105,8 @@ public class TextContent extends AbstractContent implements ITextContent
 		}
 	}
 
-	protected void readField( int version, int filedId, DataInputStream in )
-			throws IOException
+	protected void readField( int version, int filedId, DataInputStream in,
+			ClassLoader loader ) throws IOException
 	{
 		switch ( filedId )
 		{
@@ -114,7 +114,7 @@ public class TextContent extends AbstractContent implements ITextContent
 				text = IOUtil.readString( in );
 				break;
 			default :
-				super.readField( version, filedId, in );
+				super.readField( version, filedId, in, loader );
 		}
 	}
 	

@@ -85,7 +85,7 @@ public class ExecutorManager
 	/**
 	 * constructor
 	 * 
-	 * @param context
+	 * @param loader
 	 * @param visitor
 	 */
 	public ExecutorManager( AbstractReportExecutor reportExecutor )

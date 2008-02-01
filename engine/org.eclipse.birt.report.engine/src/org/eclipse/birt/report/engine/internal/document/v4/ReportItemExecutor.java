@@ -134,7 +134,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	 * construct a report item executor by giving execution context and report
 	 * executor visitor
 	 * 
-	 * @param context
+	 * @param loader
 	 *            the executor context
 	 * @param visitor
 	 *            the report executor visitor

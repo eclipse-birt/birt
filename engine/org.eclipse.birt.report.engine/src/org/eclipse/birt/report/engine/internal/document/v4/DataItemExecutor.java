@@ -37,7 +37,7 @@ public class DataItemExecutor extends ReportItemExecutor
 	 * construct a data item executor by giving execution context and report
 	 * executor visitor
 	 * 
-	 * @param context
+	 * @param loader
 	 *            the executor context
 	 * @param itemEmitter
 	 *            the emitter

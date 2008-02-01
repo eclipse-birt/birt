@@ -81,8 +81,8 @@ public class AbstractBandContent extends ContainerContent
 		IOUtil.writeInt( out, getBandType( ) );
 	}
 
-	protected void readField( int version, int filedId, DataInputStream in )
-			throws IOException
+	protected void readField( int version, int filedId, DataInputStream in,
+			ClassLoader loader ) throws IOException
 	{
 		switch ( filedId )
 		{
@@ -90,7 +90,7 @@ public class AbstractBandContent extends ContainerContent
 				bandType = IOUtil.readInt( in );
 				break;
 			default :
-				super.readField( version, filedId, in );
+				super.readField( version, filedId, in, loader );
 		}
 	}
 

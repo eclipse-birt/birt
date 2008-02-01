@@ -359,8 +359,8 @@ public class ImageContent extends AbstractContent implements IImageContent
 		return true;
 	}
 
-	protected void readField( int version, int filedId, DataInputStream in )
-			throws IOException
+	protected void readField( int version, int filedId, DataInputStream in,
+			ClassLoader loader ) throws IOException
 	{
 		switch ( filedId )
 		{
@@ -380,7 +380,7 @@ public class ImageContent extends AbstractContent implements IImageContent
 				sourceType = IOUtil.readInt( in );
 				break;
 			case FIELD_IMAGEMAP :
-				imageMap = IOUtil.readObject( in );
+				imageMap = IOUtil.readObject( in, loader );
 				break;
 			case FIELD_MIMETYPE :
 				MIMEType = IOUtil.readString( in );
@@ -389,7 +389,7 @@ public class ImageContent extends AbstractContent implements IImageContent
 				data = IOUtil.readBytes( in );
 				break;
 			default :
-				super.readField( version, filedId, in );
+				super.readField( version, filedId, in, loader );
 		}
 	}
 	

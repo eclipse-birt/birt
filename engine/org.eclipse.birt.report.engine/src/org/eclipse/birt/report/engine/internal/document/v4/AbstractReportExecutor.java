@@ -23,7 +23,6 @@ import org.eclipse.birt.report.engine.internal.document.PageHintReader;
 import org.eclipse.birt.report.engine.internal.document.v3.CachedReportContentReaderV3;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.Report;
-import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.toc.DocumentTOCTree;
 import org.eclipse.birt.report.engine.toc.TOCTree;
 
@@ -85,9 +84,11 @@ abstract public class AbstractReportExecutor implements IReportExecutor
 			IDocArchiveReader archive = reportDoc.getArchive( );
 			RAInputStream in = archive
 					.getStream( ReportDocumentConstants.CONTENT_STREAM );
-			reader = new CachedReportContentReaderV3( reportContent, in );
+			reader = new CachedReportContentReaderV3( reportContent, in,
+					context );
 			in = archive.getStream( ReportDocumentConstants.PAGE_STREAM );
-			pageReader = new CachedReportContentReaderV3( reportContent, in );
+			pageReader = new CachedReportContentReaderV3( reportContent, in,
+					context );
 			hintsReader = new PageHintReader( reportDoc );
 		}
 		catch ( IOException ex )

@@ -241,8 +241,8 @@ public class Column implements IColumn
 		}
 	}
 
-	protected void readField( int version, int filedId, DataInputStream in )
-			throws IOException
+	protected void readField( int version, int filedId, DataInputStream in,
+			ClassLoader loader ) throws IOException
 	{
 		switch ( filedId )
 		{
@@ -271,13 +271,14 @@ public class Column implements IColumn
 		}
 	}
 
-	public void readObject( DataInputStream in ) throws IOException
+	public void readObject( DataInputStream in, ClassLoader loader )
+			throws IOException
 	{
 		int version = IOUtil.readInt( in );
 		int filedId = IOUtil.readInt( in );
 		while ( filedId != FIELD_NONE )
 		{
-			readField( version, filedId, in );
+			readField( version, filedId, in, loader );
 			filedId = IOUtil.readInt( in );
 		}
 	}

@@ -17,15 +17,18 @@ import java.util.HashMap;
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 
 public class CachedReportContentReaderV3
 {
 	protected ReportContentReaderV3 reader;
 	public CachedReportContentReaderV3( ReportContent reportContent,
-			RAInputStream stream ) throws IOException
+			RAInputStream stream, ExecutionContext context )
+			throws IOException
 	{
-		this.reader = new ReportContentReaderV3(reportContent, stream);
+		this.reader = new ReportContentReaderV3( reportContent, stream, context
+				.getApplicationClassLoader( ) );
 	}
 	
 	public boolean isEmpty()

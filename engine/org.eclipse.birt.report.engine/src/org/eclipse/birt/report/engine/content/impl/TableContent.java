@@ -227,8 +227,8 @@ public class TableContent extends AbstractContent implements ITableContent
 		return true;
 	}
 
-	protected void readField( int version, int filedId, DataInputStream in )
-			throws IOException
+	protected void readField( int version, int filedId, DataInputStream in,
+			ClassLoader loader ) throws IOException
 	{
 		switch ( filedId )
 		{
@@ -237,7 +237,7 @@ public class TableContent extends AbstractContent implements ITableContent
 				for ( int i = 0; i < columnsSize; i++ )
 				{
 					Column column = new Column( report );
-					column.readObject( in );
+					column.readObject( in, loader );
 					addColumn( column );
 				}
 				break;
@@ -251,7 +251,7 @@ public class TableContent extends AbstractContent implements ITableContent
 				headerRepeat = Boolean.valueOf( IOUtil.readBool( in ) );
 				break;
 			default :
-				super.readField( version, filedId, in );
+				super.readField( version, filedId, in, loader );
 		}
 	}
 

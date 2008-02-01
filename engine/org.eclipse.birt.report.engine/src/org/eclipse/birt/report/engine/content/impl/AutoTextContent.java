@@ -88,8 +88,8 @@ public class AutoTextContent extends TextContent implements IAutoTextContent
 		return true;
 	}
 
-	protected void readField( int version, int filedId, DataInputStream in )
-			throws IOException
+	protected void readField( int version, int filedId, DataInputStream in,
+			ClassLoader loader ) throws IOException
 	{
 		switch ( filedId )
 		{
@@ -100,7 +100,7 @@ public class AutoTextContent extends TextContent implements IAutoTextContent
 				text = IOUtil.readString( in );
 				break;
 			default :
-				super.readField( version, filedId, in );
+				super.readField( version, filedId, in, loader );
 		}
 	}
 	

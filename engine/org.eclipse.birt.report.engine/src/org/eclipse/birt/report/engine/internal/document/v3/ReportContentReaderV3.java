@@ -21,23 +21,7 @@ import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.impl.AbstractContent;
-import org.eclipse.birt.report.engine.content.impl.AutoTextContent;
-import org.eclipse.birt.report.engine.content.impl.CellContent;
-import org.eclipse.birt.report.engine.content.impl.ContainerContent;
-import org.eclipse.birt.report.engine.content.impl.DataContent;
-import org.eclipse.birt.report.engine.content.impl.ForeignContent;
-import org.eclipse.birt.report.engine.content.impl.ImageContent;
-import org.eclipse.birt.report.engine.content.impl.LabelContent;
-import org.eclipse.birt.report.engine.content.impl.ListBandContent;
-import org.eclipse.birt.report.engine.content.impl.ListContent;
-import org.eclipse.birt.report.engine.content.impl.ListGroupContent;
-import org.eclipse.birt.report.engine.content.impl.PageContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
-import org.eclipse.birt.report.engine.content.impl.RowContent;
-import org.eclipse.birt.report.engine.content.impl.TableBandContent;
-import org.eclipse.birt.report.engine.content.impl.TableContent;
-import org.eclipse.birt.report.engine.content.impl.TableGroupContent;
-import org.eclipse.birt.report.engine.content.impl.TextContent;
 import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 
 /**
@@ -68,10 +52,13 @@ public class ReportContentReaderV3
 
 	protected boolean isEmpty = false;
 
+	protected ClassLoader loader;
+	
 	public ReportContentReaderV3( ReportContent reportContent,
-			RAInputStream stream ) throws IOException
+			RAInputStream stream, ClassLoader loader ) throws IOException
 	{
 		this.reportContent = reportContent;
+		this.loader = loader;
 		this.stream = stream;
 		long length = stream.length( );
 		if ( this.stream.length( ) >= 4 )
@@ -205,7 +192,7 @@ public class ReportContentReaderV3
 						+ contentType + " at object offset " + offset );
 		}
 		object.setVersion( version );
-		object.readContent( oi );
+		object.readContent( oi, loader );
 		return object;
 	}
 

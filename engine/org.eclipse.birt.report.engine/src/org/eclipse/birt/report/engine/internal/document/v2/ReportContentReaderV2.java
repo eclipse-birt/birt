@@ -58,10 +58,13 @@ public class ReportContentReaderV2
 	 */
 	protected long offset;
 
+	protected ClassLoader loader;
+	
 	public ReportContentReaderV2( ReportContent reportContent,
-			IReportDocument document )
+			IReportDocument document, ClassLoader loader )
 	{
 		this.reportContent = reportContent;
+		this.loader = loader;
 		this.document = document;
 	}
 
@@ -109,79 +112,79 @@ public class ReportContentReaderV2
 			case IContent.CONTAINER_CONTENT :
 				ContainerContent containerContent = (ContainerContent) reportContent
 						.createContainerContent( );
-				containerContent.readContent( oi );
+				containerContent.readContent( oi, loader );
 				object = containerContent;
 				break;
 			case IContent.DATA_CONTENT :
 				DataContent dataContent = (DataContent) reportContent
 						.createDataContent( );
-				dataContent.readContent( oi );
+				dataContent.readContent( oi, loader );
 				object = dataContent;
 				break;
 			case IContent.FOREIGN_CONTENT :
 				ForeignContent foreignContent = (ForeignContent) reportContent
 						.createForeignContent( );
-				foreignContent.readContent( oi );
+				foreignContent.readContent( oi, loader );
 				object = foreignContent;
 				break;
 			case IContent.IMAGE_CONTENT :
 				ImageContent imageContent = (ImageContent) reportContent
 						.createImageContent( );
-				imageContent.readContent( oi );
+				imageContent.readContent( oi, loader );
 				object = imageContent;
 				break;
 			case IContent.LABEL_CONTENT :
 				LabelContent labelContent = (LabelContent) reportContent
 						.createLabelContent( );
-				labelContent.readContent( oi );
+				labelContent.readContent( oi, loader );
 				object = labelContent;
 				break;
 			case IContent.PAGE_CONTENT :
 				PageContent pageContent = (PageContent) reportContent
 						.createPageContent( );
-				pageContent.readContent( oi );
+				pageContent.readContent( oi, loader );
 				object = pageContent;
 				break;
 			case IContent.ROW_CONTENT :
 				RowContent rowContent = (RowContent) reportContent
 						.createRowContent( );
-				rowContent.readContent( oi );
+				rowContent.readContent( oi, loader );
 				object = rowContent;
 				break;
 			case IContent.TABLE_BAND_CONTENT :
 				TableBandContent tableBandContent = (TableBandContent) reportContent
 						.createTableBandContent( );
-				tableBandContent.readContent( oi );
+				tableBandContent.readContent( oi, loader );
 				object = tableBandContent;
 				break;
 			case IContent.TABLE_CONTENT :
 				TableContent tableContent = (TableContent) reportContent
 						.createTableContent( );
-				tableContent.readContent( oi );
+				tableContent.readContent( oi, loader );
 				object = tableContent;
 				break;
 			case IContent.TEXT_CONTENT :
 				TextContent textContent = (TextContent) reportContent
 						.createTextContent( );
-				textContent.readContent( oi );
+				textContent.readContent( oi, loader );
 				object = textContent;
 				break;
 			case IContent.AUTOTEXT_CONTENT :
 				AutoTextContent autoText = (AutoTextContent) reportContent
 						.createAutoTextContent( );
-				autoText.readContent( oi );
+				autoText.readContent( oi, loader );
 				object = autoText;
 				break;
 			case IContent.LIST_CONTENT :
 				ListContent list = (ListContent) reportContent
 						.createListContent( );
-				list.readContent( oi );
+				list.readContent( oi, loader );
 				object = list;
 				break;
 			case IContent.LIST_BAND_CONTENT :
 				ListBandContent listBand = (ListBandContent) reportContent
 						.createListBandContent( );
-				listBand.readContent( oi );
+				listBand.readContent( oi, loader );
 				object = listBand;
 				break;
 		}
@@ -196,7 +199,7 @@ public class ReportContentReaderV2
 	 * @return the object read out.
 	 * 
 	 */
-	public IContent readContent( ) throws IOException
+	public IContent readContent( )throws IOException
 	{
 		if ( offset >= stream.length( ) )
 		{

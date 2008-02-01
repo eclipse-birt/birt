@@ -395,77 +395,77 @@ public class ReportContentReaderAndWriterTest extends EngineCase
 				CellContent cellContent = (CellContent) reportContent
 						.createCellContent( );
 				cellContent.setVersion( VERSION_1 );
-				cellContent.readContent( oi );
+				cellContent.readContent( oi, null );
 				object = cellContent;
 				break;
 			case IContent.CONTAINER_CONTENT :
 				ContainerContent containerContent = (ContainerContent) reportContent
 						.createContainerContent( );
 				containerContent.setVersion( version );
-				containerContent.readContent( oi );
+				containerContent.readContent( oi, null );
 				object = containerContent;
 				break;
 			case IContent.DATA_CONTENT :
 				DataContent dataContent = (DataContent) reportContent
 						.createDataContent( );
 				dataContent.setVersion( version );
-				dataContent.readContent( oi );
+				dataContent.readContent( oi, null );
 				object = dataContent;
 				break;
 			case IContent.FOREIGN_CONTENT :
-				ForeignContent foreignContent = foreignContent = (ForeignContent) reportContent
+				ForeignContent foreignContent = (ForeignContent) reportContent
 						.createForeignContent( );
 				foreignContent.setVersion( version );
-				foreignContent.readContent( oi );
+				foreignContent.readContent( oi, null );
 				object = foreignContent;
 				break;
 			case IContent.IMAGE_CONTENT :
 				ImageContent imageContent = (ImageContent) reportContent
 						.createImageContent( );
 				imageContent.setVersion( version );
-				imageContent.readContent( oi );
+				imageContent.readContent( oi, null );
 				object = imageContent;
 				break;
 			case IContent.LABEL_CONTENT :
 				LabelContent labelContent = (LabelContent) reportContent
 						.createLabelContent( );
 				labelContent.setVersion( version );
-				labelContent.readContent( oi );
+				labelContent.readContent( oi, null );
 				object = labelContent;
 				break;
 			case IContent.PAGE_CONTENT :
 				PageContent pageContent = (PageContent) reportContent
 						.createPageContent( );
 				pageContent.setVersion( version );
-				pageContent.readContent( oi );
+				pageContent.readContent( oi, null );
 				object = pageContent;
 				break;
 			case IContent.ROW_CONTENT :
 				RowContent rowContent = (RowContent) reportContent
 						.createRowContent( );
 				rowContent.setVersion( version );
-				rowContent.readContent( oi );
+				rowContent.readContent( oi, null );
 				object = rowContent;
 				break;
 			case IContent.TABLE_BAND_CONTENT :
 				TableBandContent tableBandContent = (TableBandContent) reportContent
 						.createTableBandContent( );
 				tableBandContent.setVersion( version );
-				tableBandContent.readContent( oi );
+				tableBandContent.readContent( oi, null );
 				object = tableBandContent;
 				break;
 			case IContent.TABLE_CONTENT :
 				TableContent tableContent = (TableContent) reportContent
 						.createTableContent( );
 				tableContent.setVersion( version );
-				tableContent.readContent( oi );
+				tableContent.readContent( oi, null );
 				object = tableContent;
 				break;
 			case IContent.TEXT_CONTENT :
 				TextContent textContent = (TextContent) reportContent
 						.createTextContent( );
 				textContent.setVersion( version );
-				textContent.readContent( oi );
+				textContent.readContent( oi, null );
 				object = textContent;
 				break;
 			default :

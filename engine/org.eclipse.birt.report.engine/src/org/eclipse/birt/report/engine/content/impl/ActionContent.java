@@ -330,8 +330,8 @@ public class ActionContent implements IHyperlinkAction
 		}
 	}
 
-	protected void readField( int version, int filedId, DataInputStream in )
-			throws IOException
+	protected void readField( int version, int filedId,
+			DataInputStream in, ClassLoader loader ) throws IOException
 	{
 		switch ( filedId )
 		{
@@ -364,14 +364,14 @@ public class ActionContent implements IHyperlinkAction
 				}
 				break;
 			case FIELD_PARAMETERBINDINGS :
-				Map bindings = IOUtil.readMap( in );
+				Map bindings = IOUtil.readMap( in, loader );
 				if ( isDrillThrough( ) )
 				{
 					drillThrough.setParameterBindings( bindings );
 				}
 				break;
 			case FIELD_SEARCHCRITERIA :
-				Map search = IOUtil.readMap( in );
+				Map search = IOUtil.readMap( in, loader );
 				if ( isDrillThrough( ) )
 				{
 					drillThrough.setSearchCriteria( search );
@@ -412,13 +412,14 @@ public class ActionContent implements IHyperlinkAction
 		}
 	}
 
-	public void readObject( DataInputStream in ) throws IOException
+	public void readObject( DataInputStream in, ClassLoader loader )
+			throws IOException
 	{
 		int version = IOUtil.readInt( in );
 		int filedId = IOUtil.readInt( in );
 		while ( filedId != FIELD_NONE )
 		{
-			readField( version, filedId, in );
+			readField( version, filedId, in, loader );
 			filedId = IOUtil.readInt( in );
 		}
 	}

@@ -48,7 +48,6 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
-import org.eclipse.birt.report.engine.content.impl.LabelContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.emitter.ContentDOMVisitor;
@@ -117,9 +116,11 @@ public class ReportContentLoaderV2 implements IReportContentLoader
 	{
 		try
 		{
-			reader = new ReportContentReaderV2( reportContent, reportDoc );
+			reader = new ReportContentReaderV2( reportContent, reportDoc,
+					context.getApplicationClassLoader( ) );
 			reader.open( ReportDocumentConstants.CONTENT_STREAM );
-			pageReader = new ReportContentReaderV2( reportContent, reportDoc );
+			pageReader = new ReportContentReaderV2( reportContent, reportDoc,
+					context.getApplicationClassLoader( ) );
 			pageReader.open( ReportDocumentConstants.PAGE_STREAM );
 			hintReader = new PageHintReaderV2( reportDoc.getArchive( ) );
 		}

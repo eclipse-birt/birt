@@ -119,9 +119,11 @@ public class ReportContentLoaderV1 implements IReportContentLoader
 	{
 		try
 		{
-			reader = new ReportContentReaderV1( reportContent, reportDoc );
+			reader = new ReportContentReaderV1( reportContent, reportDoc,
+					context.getApplicationClassLoader( ) );
 			reader.open( ReportDocumentConstants.CONTENT_STREAM );
-			pageReader = new ReportContentReaderV1( reportContent, reportDoc );
+			pageReader = new ReportContentReaderV1( reportContent, reportDoc,
+					context.getApplicationClassLoader( ) );
 			pageReader.open( ReportDocumentConstants.PAGE_STREAM );
 			hintReader = new PageHintReaderV1( reportDoc );
 		}

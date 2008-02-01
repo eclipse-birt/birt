@@ -208,8 +208,8 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 		}
 	}
 
-	protected void readField( int version, int filedId, DataInputStream in )
-			throws IOException
+	protected void readField( int version, int filedId, DataInputStream in,
+			ClassLoader loader ) throws IOException
 	{
 		switch ( filedId )
 		{
@@ -217,7 +217,7 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 				rawType = IOUtil.readString( in  );
 				break;
 			case FIELD_RAWVALUE :
-				rawValue = IOUtil.readObject( in );
+				rawValue = IOUtil.readObject( in, loader );
 				if (rawType.equals( TEMPLATE_TYPE ) && rawValue instanceof HashMap )
 				{
 					rawValue = new Object[]{ null, rawValue };
@@ -233,7 +233,7 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 				rawKey = IOUtil.readString( in );
 				break;
 			default :
-				super.readField( version, filedId, in );
+				super.readField( version, filedId, in, loader );
 		}
 	}
 

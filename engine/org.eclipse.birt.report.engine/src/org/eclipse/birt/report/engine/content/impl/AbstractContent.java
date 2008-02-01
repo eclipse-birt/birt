@@ -553,8 +553,8 @@ abstract public class AbstractContent extends AbstractElement
 		}
 	}
 
-	protected void readField( int version, int filedId, DataInputStream in )
-			throws IOException
+	protected void readField( int version, int filedId, DataInputStream in,
+			ClassLoader loader ) throws IOException
 	{
 		switch ( filedId )
 		{
@@ -579,7 +579,7 @@ abstract public class AbstractContent extends AbstractElement
 				break;
 			case FIELD_HYPERLINK :
 				ActionContent action = new ActionContent( );
-				action.readObject( in );
+				action.readObject( in, loader );
 				hyperlink = action;
 				break;
 			case FIELD_BOOKMARK :
@@ -601,20 +601,21 @@ abstract public class AbstractContent extends AbstractElement
 				instanceId = InstanceID.parse( value );
 				break;
 			case FIELD_TOC :
-				toc = IOUtil.readObject( in );
+				toc = IOUtil.readObject( in, loader );
 				break;
 		}
 	}
 
-	public void readContent( DataInputStream in ) throws IOException
+	public void readContent( DataInputStream in, ClassLoader loader )
+			throws IOException
 	{
 		if ( this.version == VERSION_1 )
 		{
-			readContentV1( in );
+			readContentV1( in, loader );
 		}
 		else if ( this.version == VERSION_0 )
 		{
-			readContentV0( in );
+			readContentV0( in, loader );
 		}
 		else
 		{
@@ -622,7 +623,8 @@ abstract public class AbstractContent extends AbstractElement
 		}
 	}
 
-	protected void readContentV0( DataInputStream in ) throws IOException
+	protected void readContentV0( DataInputStream in, ClassLoader loader )
+			throws IOException
 	{
 		//int version = IOUtil.readInt( in );
 		//read version
@@ -631,17 +633,18 @@ abstract public class AbstractContent extends AbstractElement
 		int filedId = IOUtil.readInt( in );
 		while ( filedId != FIELD_NONE )
 		{
-			readField( VERSION_0, filedId, in );
+			readField( VERSION_0, filedId, in, loader );
 			filedId = IOUtil.readInt( in );
 		}
 	}
 
-	protected void readContentV1( DataInputStream in ) throws IOException
+	protected void readContentV1( DataInputStream in, ClassLoader loader )
+			throws IOException
 	{
 		while ( in.available( ) > 0 )
 		{
 			int filedId = IOUtil.readShort( in );
-			readField( VERSION_1, filedId, in );
+			readField( VERSION_1, filedId, in, loader );
 		}
 	}
 

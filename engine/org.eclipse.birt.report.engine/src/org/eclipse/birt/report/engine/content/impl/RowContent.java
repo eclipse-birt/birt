@@ -119,8 +119,8 @@ public class RowContent extends AbstractContent implements IRowContent
 		return true;
 	}
 
-	protected void readField( int version, int filedId, DataInputStream in )
-			throws IOException
+	protected void readField( int version, int filedId, DataInputStream in,
+			ClassLoader loader ) throws IOException
 	{
 		switch ( filedId )
 		{
@@ -137,7 +137,7 @@ public class RowContent extends AbstractContent implements IRowContent
 				groupId = IOUtil.readString( in );
 				break;
 			default :
-				super.readField( version, filedId, in );
+				super.readField( version, filedId, in, loader );
 		}
 	}
 

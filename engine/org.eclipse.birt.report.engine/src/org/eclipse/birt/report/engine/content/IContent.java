@@ -191,7 +191,7 @@ public interface IContent extends IElement, CSSStylableElement
 	void setTOC(Object toc);
 	
 	void writeContent( DataOutputStream out ) throws IOException;
-	void readContent( DataInputStream in ) throws IOException;
+	void readContent( DataInputStream in, ClassLoader loader ) throws IOException;
 	
 	IContent cloneContent(boolean isDeep);
 }

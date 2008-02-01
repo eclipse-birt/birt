@@ -199,9 +199,10 @@ public class ClonedCellContent implements ICellContent
 		return cellContent.getY( );
 	}
 
-	public void readContent( DataInputStream in ) throws IOException
+	public void readContent( DataInputStream in, ClassLoader loader )
+			throws IOException
 	{
-		cellContent.readContent( in );
+		cellContent.readContent( in, loader );
 
 	}
 
