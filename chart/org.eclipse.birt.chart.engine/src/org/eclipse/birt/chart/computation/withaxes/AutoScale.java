@@ -495,7 +495,7 @@ public final class AutoScale extends Methods implements Cloneable
 
 				if ( bIntegralZoom )
 				{
-					double dPower = ( Math.log( dStep ) / LOG_10 );
+					double dPower = Math.log( dStep ) / LOG_10;
 					
 					if ( dPower < 0 )
 					{
@@ -511,7 +511,7 @@ public final class AutoScale extends Methods implements Cloneable
 						}
 						else
 						{
-							dPower = Math.floor( dPower );
+//							dPower = Math.floor( dPower );
 						}
 					}
 					dPower = Math.pow( 10, dPower );
@@ -521,6 +521,11 @@ public final class AutoScale extends Methods implements Cloneable
 					int i = 0;
 					for ( ; i < n; i++ )
 					{
+//						if ( dStep < iaLinearDeltas[i] )
+//						{
+//							dStep = iaLinearDeltas[i] * dPower;
+//							break;
+//						}
 						if ( dStep == iaLinearDeltas[i] )
 						{
 							if ( i < n - 1 )
@@ -531,6 +536,10 @@ public final class AutoScale extends Methods implements Cloneable
 							{
 								dPower *= 20;
 								dStep = iaLinearDeltas[0] * dPower;
+							}
+							if ( dStep > 1 )
+							{
+								dStep = Math.round( dStep );
 							}
 							break;
 						}
@@ -649,7 +658,7 @@ public final class AutoScale extends Methods implements Cloneable
 		// THIS RELIES ON THE FACT THAT IN ANY LOCALE, DECIMAL IS A DOT
 		if ( iDecimalPosition >= 0 )
 		{
-			int n = ( iEPosition > 0 ) ? iEPosition : sValue.length( );
+			int n = sValue.length( );
 			for ( int i = n - 1; i > 0; i-- )
 			{
 				if ( sValue.charAt( i ) == '0' )

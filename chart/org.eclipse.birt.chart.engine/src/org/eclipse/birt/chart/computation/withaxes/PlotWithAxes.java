@@ -2040,6 +2040,7 @@ public abstract class PlotWithAxes extends Methods
 						{
 							break;
 						}
+						double dOldStep = ((Double)scY.getStep( )).doubleValue( );
 						scY.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
 						int tickCount = scY.computeTicks( ids,
 								laYAxisLabels,
@@ -2049,6 +2050,12 @@ public abstract class PlotWithAxes extends Methods
 								dEnd,
 								true,
 								aax );
+						double dNewStep = ((Double) scY.getStep( ) ).doubleValue( );
+						if ( dNewStep < dOldStep )
+						{
+							break;
+						}
+						
 						if ( scY.getUnit( ) != null
 								&& asInteger( scY.getUnit( ) ) == Calendar.YEAR
 								&& tickCount <= 3 )
