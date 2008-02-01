@@ -130,7 +130,11 @@ public class ChartXTabUIUtil
 					null,
 					null );
 		}
-		( (DesignElementHandle) ChartXTabUtil.getFirstContent( grandTotalAggCell ) ).dropAndClear( );
+		Object content = ChartXTabUtil.getFirstContent( grandTotalAggCell );
+		if ( content instanceof DesignElementHandle )
+		{
+			( (DesignElementHandle) content ).dropAndClear( );
+		}
 		grandTotalAggCell.addContent( axisChartHandle );
 	}
 

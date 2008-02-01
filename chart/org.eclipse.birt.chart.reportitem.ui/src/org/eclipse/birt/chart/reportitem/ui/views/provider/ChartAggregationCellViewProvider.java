@@ -15,7 +15,6 @@ import java.util.List;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
-import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
@@ -69,7 +68,7 @@ public class ChartAggregationCellViewProvider
 		{
 			// Get the measure binding expression and drop the DataItemHandle
 			Object content = getFirstContent( cell );
-			String exprMeasure = getMeasureBindingExpr( content );
+			String exprMeasure = ExpressionUtil.createJSDataExpression( ChartXTabUtil.generateComputedColumnName( cell ) );
 			if ( content instanceof DesignElementHandle )
 			{
 				( (DesignElementHandle) content ).dropAndClear( );
@@ -96,7 +95,8 @@ public class ChartAggregationCellViewProvider
 			}
 
 			// Create the ExtendedItemHandle with default chart model
-			String name = ReportPlugin.getDefault( ).getCustomName( ChartReportItemConstants.CHART_EXTENSION_NAME  );
+			String name = ReportPlugin.getDefault( )
+					.getCustomName( ChartReportItemConstants.CHART_EXTENSION_NAME );
 			ExtendedItemHandle chartHandle = cell.getCrosstabHandle( )
 					.getElementFactory( )
 					.newExtendedItem( name,
@@ -249,35 +249,6 @@ public class ChartAggregationCellViewProvider
 				&& ChartReportItemConstants.CHART_EXTENSION_NAME.equals( ( (ExtendedItemHandle) content ).getExtensionName( ) ) )
 		{
 			return (ExtendedItemHandle) content;
-		}
-		return null;
-	}
-
-	private String getMeasureBindingExpr( Object cellContent )
-	{
-		if ( cellContent instanceof DataItemHandle )
-		{
-			DataItemHandle dataItemHandle = (DataItemHandle) cellContent;
-			return ExpressionUtil.createJSDataExpression( dataItemHandle.getResultSetColumn( ) );
-		}
-		if ( ChartReportItemUtil.isChartHandle( cellContent ) )
-		{
-			Chart cm = ChartReportItemUtil.getChartFromHandle( (ExtendedItemHandle) cellContent );
-			SeriesDefinition sdValue;
-			if ( cm instanceof ChartWithAxes )
-			{
-				sdValue = (SeriesDefinition) ( (ChartWithAxes) cm ).getOrthogonalAxes( ( (ChartWithAxes) cm ).getBaseAxes( )[0],
-						true )[0].getSeriesDefinitions( ).get( 0 );
-			}
-			else
-			{
-				sdValue = (SeriesDefinition) ( (SeriesDefinition) ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
-						.get( 0 ) ).getSeriesDefinitions( ).get( 0 );
-			}
-			Query query = (Query) sdValue.getDesignTimeSeries( )
-					.getDataDefinition( )
-					.get( 0 );
-			return query.getDefinition( );
 		}
 		return null;
 	}
