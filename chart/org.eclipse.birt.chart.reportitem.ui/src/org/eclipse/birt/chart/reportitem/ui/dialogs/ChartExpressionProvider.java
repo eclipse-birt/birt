@@ -33,10 +33,9 @@ public class ChartExpressionProvider extends ExpressionProvider
 	private static final String JAVASCRIPT = org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartExpressionProvider.ChartVariables.JavaScript" );//$NON-NLS-1$
 
 	private static final String JAVASCRIPT_EVENT = org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartExpressionProvider.ChartVariables.Event" );//$NON-NLS-1$;
-	
+
 	private static final String JAVASCRIPT_EVENT_PARAMETER = "evt";//$NON-NLS-1$
-	
-	
+
 	public static final int CATEGORY_BASE = 0;
 
 	public static final int CATEGORY_WITH_CHART_VARIABLES = 1;
@@ -46,10 +45,8 @@ public class ChartExpressionProvider extends ExpressionProvider
 	public static final int CATEGORY_WITH_COLUMN_BINDINGS = 4;
 
 	public static final int CATEGORY_WITH_REPORT_PARAMS = 8;
-	
-	public static final int CATEGORY_WITH_JAVASCRIPT = 16;
 
-	
+	public static final int CATEGORY_WITH_JAVASCRIPT = 16;
 
 	private final int _categoryStyle;
 
@@ -77,6 +74,8 @@ public class ChartExpressionProvider extends ExpressionProvider
 		if ( ( this._categoryStyle & CATEGORY_WITH_COLUMN_BINDINGS ) != CATEGORY_WITH_COLUMN_BINDINGS )
 		{
 			filteredList.add( COLUMN_BINDINGS );
+			// Remove Cube with ColumnBindings at one time
+			filteredList.add( CURRENT_CUBE );
 		}
 		if ( ( this._categoryStyle & CATEGORY_WITH_REPORT_PARAMS ) != CATEGORY_WITH_REPORT_PARAMS )
 		{
@@ -98,8 +97,8 @@ public class ChartExpressionProvider extends ExpressionProvider
 	protected List getCategoryList( )
 	{
 		List list = super.getCategoryList( );
-		if ( ( this._categoryStyle & CATEGORY_WITH_CHART_VARIABLES ) == CATEGORY_WITH_CHART_VARIABLES ||
-				( this._categoryStyle &  CATEGORY_WITH_JAVASCRIPT ) == CATEGORY_WITH_JAVASCRIPT )
+		if ( ( this._categoryStyle & CATEGORY_WITH_CHART_VARIABLES ) == CATEGORY_WITH_CHART_VARIABLES
+				|| ( this._categoryStyle & CATEGORY_WITH_JAVASCRIPT ) == CATEGORY_WITH_JAVASCRIPT )
 		{
 			list.add( CHART_VARIABLES );
 		}
@@ -112,27 +111,24 @@ public class ChartExpressionProvider extends ExpressionProvider
 
 		if ( DATA_POINTS.equals( parent ) )
 		{
-			
+
 			list.add( ScriptHandler.BASE_VALUE );
 			list.add( ScriptHandler.ORTHOGONAL_VALUE );
 			list.add( ScriptHandler.SERIES_VALUE );
-			
-			
+
 		}
 		else if ( CHART_VARIABLES.equals( parent ) )
 		{
-			if ( ( this._categoryStyle & CATEGORY_WITH_CHART_VARIABLES ) == CATEGORY_WITH_CHART_VARIABLES  )
+			if ( ( this._categoryStyle & CATEGORY_WITH_CHART_VARIABLES ) == CATEGORY_WITH_CHART_VARIABLES )
 				list.add( DATA_POINTS );
-			if (( this._categoryStyle &  CATEGORY_WITH_JAVASCRIPT ) == CATEGORY_WITH_JAVASCRIPT )
+			if ( ( this._categoryStyle & CATEGORY_WITH_JAVASCRIPT ) == CATEGORY_WITH_JAVASCRIPT )
 				list.add( JAVASCRIPT );
 
-			
 		}
 		else if ( JAVASCRIPT.equals( parent ) )
 		{
 			list.add( JAVASCRIPT_EVENT_PARAMETER );
 		}
-
 
 		return list;
 	}
