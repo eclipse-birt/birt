@@ -49,11 +49,14 @@ public final class ChartReportItemPresentationPlotImpl
 							ICrosstabConstants.COLUMN_AXIS_TYPE );
 					// Get the column width plus border
 					double dWidth = ChartReportItemUtil.convertToPoints( xtabCell.getCrosstab( )
-							.getColumnWidth( columnCell ) );
+							.getColumnWidth( columnCell ),
+							dpi );
 					double dLeftBorder = ChartReportItemUtil.convertToPoints( xtabCell.getCrosstabHandle( )
-							.getDimensionProperty( StyleHandle.BORDER_LEFT_WIDTH_PROP ) );
+							.getDimensionProperty( StyleHandle.BORDER_LEFT_WIDTH_PROP ),
+							dpi );
 					double dRightBorder = ChartReportItemUtil.convertToPoints( xtabCell.getCrosstabHandle( )
-							.getDimensionProperty( StyleHandle.BORDER_RIGHT_WIDTH_PROP ) );
+							.getDimensionProperty( StyleHandle.BORDER_RIGHT_WIDTH_PROP ),
+							dpi );
 					// Set negative size to be replaced by actual size
 					bounds.setWidth( -dWidth - dLeftBorder - dRightBorder );
 				}
@@ -63,11 +66,14 @@ public final class ChartReportItemPresentationPlotImpl
 					CrosstabCellHandle rowCell = ChartXTabUtil.getInnermostLevelCell( xtabCell.getCrosstab( ),
 							ICrosstabConstants.ROW_AXIS_TYPE );
 					double dHeight = ChartReportItemUtil.convertToPoints( xtabCell.getCrosstab( )
-							.getRowHeight( rowCell ) );
+							.getRowHeight( rowCell ),
+							dpi );
 					double dTopBorder = ChartReportItemUtil.convertToPoints( xtabCell.getCrosstabHandle( )
-							.getDimensionProperty( StyleHandle.BORDER_TOP_WIDTH_PROP ) );
+							.getDimensionProperty( StyleHandle.BORDER_TOP_WIDTH_PROP ),
+							dpi );
 					double dBottomBorder = ChartReportItemUtil.convertToPoints( xtabCell.getCrosstabHandle( )
-							.getDimensionProperty( StyleHandle.BORDER_BOTTOM_WIDTH_PROP ) );
+							.getDimensionProperty( StyleHandle.BORDER_BOTTOM_WIDTH_PROP ),
+							dpi );
 					// Set negative size to be replaced by actual size
 					bounds.setHeight( -dHeight - dTopBorder - dBottomBorder );
 				}

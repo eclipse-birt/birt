@@ -641,23 +641,36 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	}
 
 	/**
-	 * Transform dimension value to points.
+	 * Transforms dimension value to points.
 	 * 
 	 * @param handle
+	 * @param dpi
+	 *            to convert px unit
 	 * 
 	 * @return the dimension value with measure of points
 	 * @since 2.3
 	 */
 	public static double convertToPoints(
-			org.eclipse.birt.report.model.api.DimensionHandle handle )
+			org.eclipse.birt.report.model.api.DimensionHandle handle, int dpi )
 	{
 		double retValue = 0.0;
 
 		if ( handle.isSet( ) )
 		{
-			retValue = DimensionUtil.convertTo( handle.getMeasure( ),
-					handle.getUnits( ),
-					DesignChoiceConstants.UNITS_PT ).getMeasure( );
+			if ( handle.getUnits( ) == DesignChoiceConstants.UNITS_PT )
+			{
+				retValue = handle.getMeasure( );
+			}
+			else if ( handle.getUnits( ) == DesignChoiceConstants.UNITS_PX )
+			{
+				retValue = ( handle.getMeasure( ) * 72d ) / dpi;
+			}
+			else
+			{
+				retValue = DimensionUtil.convertTo( handle.getMeasure( ),
+						handle.getUnits( ),
+						DesignChoiceConstants.UNITS_PT ).getMeasure( );
+			}
 		}
 		return retValue;
 	}
