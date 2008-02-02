@@ -36,6 +36,7 @@ import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
+import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
@@ -300,11 +301,26 @@ public abstract class AbstractChartBaseQueryGenerator
 						.get( 0 ) ).getDefinition( );
 				if ( baseExpr.equals( getValidSortExpr( categorySD ) ) )
 				{
-					categoryGroupDefinition.setSortDirection( ChartReportItemUtil.convertToDtESortDirection( categorySD.getSorting( ) ) );
+					SortDefinition sd = new SortDefinition( );
+					// Chart need to set SortStrength to support sorting locale
+					// characters, it is compatibility with old logic of
+					// chart(version<2.3).
+					sd.setSortStrength( ISortDefinition.DEFAULT_SORT_STRENGTH );
+					
+					sd.setSortDirection( ChartReportItemUtil.convertToDtESortDirection( categorySD.getSorting( ) ) );
+					sd.setExpression( baseExpr );
+					
+					categoryGroupDefinition.addSort( sd );
 				}
 				else
 				{
 					SortDefinition sd = new SortDefinition( );
+					
+					// Chart need to set SortStrength to support sorting locale
+					// characters, it is compatibility with old logic of
+					// chart(version<2.3).
+					sd.setSortStrength( ISortDefinition.DEFAULT_SORT_STRENGTH );
+					
 					sd.setSortDirection( ChartReportItemUtil.convertToDtESortDirection( categorySD.getSorting( ) ) );
 
 					String[] nameNewExprArray = (String[]) valueExprMap.get( baseSortExpr );
@@ -330,6 +346,11 @@ public abstract class AbstractChartBaseQueryGenerator
 				// If base series doesn't set group, directly add sort on
 				// query definition.
 				SortDefinition sd = new SortDefinition( );
+				// Chart need to set SortStrength to support sorting locale
+				// characters, it is compatibility with old logic of
+				// chart(version<2.3).
+				sd.setSortStrength( ISortDefinition.DEFAULT_SORT_STRENGTH );
+				
 				sd.setExpression( baseSortExpr );
 				sd.setSortDirection( ChartReportItemUtil.convertToDtESortDirection( categorySD.getSorting( ) ) );
 				query.addSort( sd );
@@ -445,6 +466,12 @@ public abstract class AbstractChartBaseQueryGenerator
 					binding.setAggrFunction( ChartReportItemUtil.convertToDtEAggFunction( aggFunc ) );
 
 					SortDefinition sortDefinition = new SortDefinition( );
+					
+					// Chart need to set SortStrength to support sorting locale
+					// characters, it is compatibility with old logic of
+					// chart(version<2.3).
+					sortDefinition.setSortStrength( ISortDefinition.DEFAULT_SORT_STRENGTH );
+					
 					sortDefinition.setColumn( binding.getBindingName( ) );
 					sortDefinition.setExpression( ExpressionUtil.createRowExpression( binding.getBindingName( ) ) );
 					sortDefinition.setSortDirection( ChartReportItemUtil.convertToDtESortDirection( orthSD.getSorting( ) ) );
@@ -462,8 +489,7 @@ public abstract class AbstractChartBaseQueryGenerator
 	 * @param orthSD
 	 * @return
 	 */
-	private GroupDefinition createOrthogonalGroupingDefinition(
-			SeriesDefinition orthSD )
+	private GroupDefinition createOrthogonalGroupingDefinition( SeriesDefinition orthSD )
 	{
 
 		if ( ChartReportItemUtil.isYGroupingDefined( orthSD ) )
@@ -497,7 +523,17 @@ public abstract class AbstractChartBaseQueryGenerator
 					groupIntervalRange ) );
 			if ( orthSD.isSetSorting( ) )
 			{
-				yGroupDefinition.setSortDirection( ChartReportItemUtil.convertToDtESortDirection( orthSD.getSorting( ) ) );
+				// Create a new sort
+				SortDefinition sortDefinition = new SortDefinition( );
+
+				// Chart need to set SortStrength to support sorting locale
+				// characters, it is compatibility with old logic of
+				// chart(version<2.3).
+				sortDefinition.setSortStrength( ISortDefinition.DEFAULT_SORT_STRENGTH );
+
+				sortDefinition.setExpression( yGroupExpr );
+				sortDefinition.setSortDirection( ChartReportItemUtil.convertToDtESortDirection( orthSD.getSorting( ) ) );
+				yGroupDefinition.addSort( sortDefinition );
 			}
 
 			return yGroupDefinition;
