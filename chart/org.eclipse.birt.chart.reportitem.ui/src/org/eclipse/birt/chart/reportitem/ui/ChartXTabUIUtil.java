@@ -198,7 +198,7 @@ public class ChartXTabUIUtil
 				addAxisChartInXTab( cell, axisType, hostChartHandle );
 			}
 		}
-		else
+		else if ( cmOld instanceof ChartWithAxes )
 		{
 			if ( cmNew instanceof ChartWithoutAxes )
 			{
