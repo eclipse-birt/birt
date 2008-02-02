@@ -139,6 +139,7 @@ class GroupInstanceSorter
 		Object[] sortKeys = new Object[this.populator.getQuery( ).getGrouping( )[groupPosition].getSorts( )
 				.size( )];
 		boolean[] sortDirections = new boolean[sortKeys.length];
+		int[] sortStrength = new int[sortKeys.length];
 		// populate the sortKeys
 		// this.smartCache.moveTo(((GroupBoundaryInfo)groupArray[groupPosition].get(groupIndex)).getStartIndex());
 		this.populator.getResultIterator( ).last( groupPosition + 1 );
@@ -153,9 +154,13 @@ class GroupInstanceSorter
 			sortDirections[l] = ( (ISortDefinition) this.populator.getQuery( )
 					.getGrouping( )[groupPosition].getSorts( ).get( l ) ).getSortDirection( ) == ISortDefinition.SORT_ASC
 					? true : false;
+			sortStrength[l] =  ( (ISortDefinition) this.populator.getQuery( )
+					.getGrouping( )[groupPosition].getSorts( ).get( l ) ).getSortStrength( );
+			
+			
 		}
 		( (GroupBoundaryInfo) groupArray[groupPosition].get( groupIndex ) ).setSortCondition( sortKeys,
-				sortDirections );
+				sortDirections, sortStrength );
 		this.populator.getResultIterator( ).next( );
 	}
 

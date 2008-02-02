@@ -93,7 +93,7 @@ public class DataSetCacheUtil
 		return null;
 	}
 	
-	public static DataSetCacheConfig getDteDataSetCacheConfig(IQueryExecutionHints queryExecutionHints,
+	public static DataSetCacheConfig getDteDataSetCacheConfig(IEngineExecutionHints queryExecutionHints,
 			IBaseDataSetDesign dataSetDesign,
 			DataEngineSession session) throws DataException
 	{

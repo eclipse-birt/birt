@@ -372,7 +372,11 @@ public abstract class QueryExecutor implements IQueryExecutor
 						src,
 						expr,
 						groupName,
-						-1 );
+						-1,
+						this.baseQueryDefn.getQueryExecutionHints( ) == null
+								? true
+								: this.baseQueryDefn.getQueryExecutionHints( )
+										.doSortBeforeGrouping( ) );
 				
 				int dataType = getColumnDataType( cx, expr );
 				groupSpecs[i] = dest;

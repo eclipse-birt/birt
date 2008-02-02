@@ -119,6 +119,15 @@ class ResultSetProcessUtil extends RowProcessUtil
 		//Do group sorting
 		doGroupSorting( stopSign );
 		
+		if ( !groupingDone )
+		{
+			PassUtil.pass( this.populator,
+					new OdiResultSetWrapper( populator.getResultIterator( ) ),
+					true,
+					stopSign );
+			groupingDone = true;
+		}
+		
 		clearTemporaryComputedColumns( iccState, stopSign );
 	}
 

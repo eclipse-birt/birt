@@ -14,7 +14,6 @@
 package org.eclipse.birt.data.engine.api.querydefn;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -23,6 +22,7 @@ import java.util.Map;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IQueryExecutionHints;
 import org.eclipse.birt.data.engine.core.DataException;
 
 
@@ -44,6 +44,7 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	//	 order might be sensitive, use LinkedHashMap instead of HashMap
 	private 	Map resultExprsMap = new LinkedHashMap( );
 	private 	Map bindingMap = new LinkedHashMap();
+	private IQueryExecutionHints queryExecutionHints;
 	/**
 	 * Constructs an instance with parent set to the specified <code>BaseQueryDefinition</code>
 	 */
@@ -195,5 +196,24 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	public void setCacheQueryResults( boolean cacheQueryResults )
 	{
 		this.cacheQueryResults = cacheQueryResults ;
+	}
+	
+	/**
+	 * Set the query execution hints.
+	 * 
+	 * @param hints
+	 */
+	public void setQueryExecutionHints( IQueryExecutionHints hints )
+	{
+		this.queryExecutionHints = hints;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IBaseQueryDefinition#getQueryExecutionHints()
+	 */
+	public IQueryExecutionHints getQueryExecutionHints()
+	{
+		return this.queryExecutionHints;
 	}
 }

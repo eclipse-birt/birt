@@ -91,4 +91,12 @@ public interface IBaseQueryDefinition extends IBaseTransform, IDataQueryDefiniti
 	 * @throws DataException
 	 */
 	public Map getBindings( );
+	
+	/**
+	 * Return the Query Execution Hints information. The Query Execution Hints information defines hints info for Data
+	 * engine to execution the query.
+	 * 
+	 * @return
+	 */
+	public IQueryExecutionHints getQueryExecutionHints();
 }

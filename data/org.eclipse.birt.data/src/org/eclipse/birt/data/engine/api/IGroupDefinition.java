@@ -77,7 +77,6 @@ public interface IGroupDefinition extends IBaseTransform
 	public static final int STRING_PREFIX_INTERVAL = 100;
 	
 	// Enumeration constants for SortDirection
-	public static final int NO_SORT = -1;		// No sort direction is specified. 
 	public static final int SORT_ASC = ISortDefinition.SORT_ASC;		// Sort asending
 	public static final int SORT_DESC = ISortDefinition.SORT_DESC;		// Sort descending
    	

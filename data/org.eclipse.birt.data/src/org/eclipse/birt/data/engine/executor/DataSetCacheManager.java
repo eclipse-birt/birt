@@ -23,7 +23,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.DataSetCacheUtil;
-import org.eclipse.birt.data.engine.impl.IQueryExecutionHints;
+import org.eclipse.birt.data.engine.impl.IEngineExecutionHints;
 import org.eclipse.birt.data.engine.impl.ResultMetaData;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 
@@ -63,7 +63,7 @@ public class DataSetCacheManager
 	private CacheMapManager dteLevelCacheMapManager;
 	private CacheMapManager cacheMapManager;
 	
-	private IQueryExecutionHints queryExecutionHints;
+	private IEngineExecutionHints queryExecutionHints;
 	
 	private DataEngineContext context;
 	private DataEngineSession session;

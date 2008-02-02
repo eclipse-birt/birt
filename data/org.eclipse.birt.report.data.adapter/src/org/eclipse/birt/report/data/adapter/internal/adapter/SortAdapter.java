@@ -53,6 +53,6 @@ public class SortAdapter extends SortDefinition
 		if ( "desc".equals( modelDirectionStr ) ) //$NON-NLS-1$
 			return IGroupDefinition.SORT_DESC;
 
-		return IGroupDefinition.NO_SORT;
+		return IGroupDefinition.SORT_ASC;
 	}
 }

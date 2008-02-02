@@ -18,9 +18,8 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-import org.eclipse.birt.core.data.DataTypeUtil;
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
+import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.cache.CachedList;
 import org.eclipse.birt.data.engine.cache.ICachedObject;
 import org.eclipse.birt.data.engine.cache.ICachedObjectCreator;
@@ -32,6 +31,9 @@ import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IQuery;
 import org.eclipse.birt.data.engine.odi.IResultClass;
+import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
+
+import com.ibm.icu.text.Collator;
 
 /**
  * The instance of this class is used by CachedResultSet to deal with
@@ -311,7 +313,7 @@ public class GroupCalculationUtil
 		boolean doGroupSort = false;
 		for( int i = 0; i < groupCount; i++ )
 		{
-			if( groupDefs[i].getGroupSpec( ).getSortDirection( ) != IGroupDefinition.NO_SORT )
+			if( groupDefs[i].getGroupSpec( ).getSortDirection( ) != IQuery.NO_SORT_BEFORE_GROUPING )
 			{
 				doGroupSort = true;
 				break;
@@ -381,6 +383,7 @@ final class GroupBoundaryInfo implements ICachedObject
 
 	// Used by Group filtering
 	private boolean accept = true;
+	private Collator[] comparator;
 
 	/**
 	 * 
@@ -411,12 +414,12 @@ final class GroupBoundaryInfo implements ICachedObject
 	public Object[] getFieldValues()
 	{
 		ArrayList fields = new ArrayList();
-		fields.add( new Integer(startIndex) );
-		fields.add( new Integer(endIndex) );
+		fields.add( new Integer(startIndex) ); //idx 0
+		fields.add( new Integer(endIndex) ); //idx 1
 		
 		if(sortKeys != null)
 		{
-			fields.add( new Integer(sortKeys.length) );
+			fields.add( new Integer(sortKeys.length) ); //idx 2
 			for(int i=0;i<sortKeys.length;i++)
 				fields.add(sortKeys[i]);
 		}
@@ -427,7 +430,7 @@ final class GroupBoundaryInfo implements ICachedObject
 		
 		if ( sortDirections != null)
 		{
-			fields.add( new Integer( sortDirections.length ) );
+			fields.add( new Integer( sortDirections.length ) ); //idx 2 + n + 1 
 			for ( int i = 0; i < sortDirections.length; i++ )
 				fields.add( new Boolean( sortDirections[i] ) );
 		}
@@ -436,8 +439,17 @@ final class GroupBoundaryInfo implements ICachedObject
 			fields.add(null);
 		}
 		
+		if ( this.comparator!= null )				
+		{
+			fields.add( new Integer( comparator.length ) );		//idx 2 + n + 1 + n + 1
+			for ( int i = 0; i < comparator.length; i++ )
+				fields.add( new Integer( comparator[i].getStrength() ) );
+		}
+		else
+		{
+			fields.add( null );
+		}
 		fields.add( new Boolean( accept ) );
-		
 		return fields.toArray( );
 	}
 
@@ -483,10 +495,16 @@ final class GroupBoundaryInfo implements ICachedObject
 	 * @param sortKeys
 	 * @param sortOrderings
 	 */
-	void setSortCondition( Object[] sortKeys, boolean[] sortOrderings )
+	void setSortCondition( Object[] sortKeys, boolean[] sortOrderings, int[] sortStrength )
 	{
 		this.sortKeys = sortKeys;
 		this.sortDirections = sortOrderings;
+		this.comparator = new Collator[this.sortKeys.length];
+		for( int i = 0; i < this.comparator.length; i++ )
+		{
+			this.comparator[i] = sortStrength[i] == ISortDefinition.ASCII_SORT_STRENGTH
+					? null : Collator.getInstance( );
+		}
 	}
 
 	/**
@@ -509,6 +527,15 @@ final class GroupBoundaryInfo implements ICachedObject
 		return this.sortDirections;
 	}
 
+	/**
+	 * Return the sort strength;
+	 * @return
+	 */
+	Comparator[] getCollarComparator()
+	{
+		return this.comparator;
+	}
+	
 	/**
 	 * Set the filter value of GroupBoundaryInfo.
 	 * 
@@ -548,11 +575,18 @@ final class GroupBoundaryInfoComparator implements Comparator
 		Object[] sortKeys1 = ( (GroupBoundaryInfo) o1 ).getSortKeys( );
 		Object[] sortKeys2 = ( (GroupBoundaryInfo) o2 ).getSortKeys( );
 		boolean[] sortDirection = ( (GroupBoundaryInfo) o1 ).getSortDirection( );
-
+		Comparator[] comparator = ( (GroupBoundaryInfo) o1 ).getCollarComparator( );
 		int result = 0;
 		for ( int i = 0; i < sortKeys1.length; i++ )
 		{
-			result = compareTwoValues( sortKeys1[i], sortKeys2[i] );
+			try
+			{
+				result = ScriptEvalUtil.compare( sortKeys1[i], sortKeys2[i], comparator[i] );
+			}
+			catch ( DataException e )
+			{
+				result = 0;
+			}
 			if ( result != 0 )
 			{
 				if ( sortDirection[i] == false )
@@ -565,58 +599,6 @@ final class GroupBoundaryInfoComparator implements Comparator
 		}
 
 		return result;
-	}
-
-	private int compareTwoValues( Object obj1, Object obj2 )
-	{
-		if ( obj1 == null || obj2 == null )
-		{
-			// all non-null values are greater than null value
-			if ( obj1 == null && obj2 != null )
-				return -1;
-			else if ( obj1 != null && obj2 == null )
-				return 1;
-			else
-				return 0;
-		}
-
-		if ( obj1 instanceof Boolean )
-		{
-			if ( obj1.equals( obj2 ) )
-				return 0;
-
-			Boolean bool = (Boolean) obj1;
-			if ( bool.equals( Boolean.TRUE ) )
-				return 1;
-			else
-				return -1;
-		}
-		else if ( obj1 instanceof Comparable )
-		{
-			Comparable comp1 = (Comparable) obj1;
-			Comparable comp2 = (Comparable) obj2;
-
-			// Integer can not be compared with Double.
-			if ( obj1.getClass( ) != obj2.getClass( )
-					&& obj1 instanceof Number && obj2 instanceof Number )
-			{
-				try
-				{
-					comp1 = (Comparable) DataTypeUtil.toDouble( obj1 );
-					comp2 = (Comparable) DataTypeUtil.toDouble( obj2 );
-				}
-				catch ( BirtException ex )
-				{
-					// impossible
-				}
-			}
-
-			return comp1.compareTo( comp2 );
-		}
-		else
-		{
-			return obj1.toString( ).compareTo( obj2.toString( ) );
-		}
 	}
 }
 
@@ -656,7 +638,19 @@ class GroupBoundaryInfoCreator implements ICachedObjectCreator
 				sortDirections[i] = ( (Boolean) fields[3 + sortKeysTotalLength + i ] ).booleanValue( );
 			}
 		}
-		groupBoundaryInfo.setSortCondition( sortKeys, sortDirections );
+		int[] sortStrength = null;
+		if ( fields[2 + sortKeysTotalLength*2] != null )
+		{
+			sortStrength = new int[( (Integer) fields[2 + sortKeysTotalLength*2] ).intValue( )];
+			
+			for ( int i = 0; i < sortStrength.length; i++ )
+			{
+				sortStrength[i] = ( (Integer) fields[3 + sortKeysTotalLength*2 + i ] ).intValue( );
+				
+			}
+		}
+		
+		groupBoundaryInfo.setSortCondition( sortKeys, sortDirections, sortStrength );
 		
 		groupBoundaryInfo.setAccepted( ( (Boolean) fields[fields.length - 1] ).booleanValue( ) );
 

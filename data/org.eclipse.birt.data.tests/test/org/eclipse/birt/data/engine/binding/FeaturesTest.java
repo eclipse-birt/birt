@@ -36,6 +36,7 @@ import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ParameterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.QueryExecutionHints;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
@@ -215,6 +216,55 @@ public class FeaturesTest extends APITestCase
 				null,
 				bindingNameRow,
 				bindingExprRow );
+		
+		checkOutputFile();
+	}
+	
+	/**
+	 * Test feature of
+	 * 		group, without pre-sorting.
+	 */
+	public void test31( ) throws Exception
+	{
+		String[] bindingNameGroup = new String[2];
+		bindingNameGroup[0] = "GROUP_COUNTRY";
+		bindingNameGroup[1] = "GROUP_CITY";
+		IBaseExpression[] bindingExprGroup = new IBaseExpression[2];
+		bindingExprGroup[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
+		bindingExprGroup[1] = new ScriptExpression( "dataSetRow.CITY" );		
+		GroupDefinition[] groupDefn = new GroupDefinition[]{new GroupDefinition( "group0"),
+				new GroupDefinition("group1" )};
+		groupDefn[0].setKeyExpression( "row.GROUP_COUNTRY" );
+		groupDefn[1].setKeyExpression( "row.GROUP_CITY" );
+		
+		String[] bindingNameRow = new String[5];		
+		bindingNameRow[0] = "ROW_COUNTRY";
+		bindingNameRow[1] = "ROW_CITY";
+		bindingNameRow[2] = "ROW_SALE_DATE";
+		bindingNameRow[3] = "ROW_AMOUNT";
+		bindingNameRow[4] = "ROW_TOTAL_AMOUNT";
+		IBaseExpression[] bindingExprRow = new IBaseExpression[5];
+		bindingExprRow[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
+		bindingExprRow[1] = new ScriptExpression( "dataSetRow.CITY" );
+		bindingExprRow[2] = new ScriptExpression( "dataSetRow.SALE_DATE" );
+		bindingExprRow[3] = new ScriptExpression( "dataSetRow.AMOUNT" );
+		bindingExprRow[4] = new ScriptExpression( "Total.Sum(row.ROW_AMOUNT, null, \"group0\")");
+		QueryDefinition query = createQuery( bindingNameGroup,
+				bindingExprGroup,
+				groupDefn,
+				null,
+				null,
+				null,
+				null,
+				null,
+				null,
+				bindingNameRow,
+				bindingExprRow );
+		
+		QueryExecutionHints hints = new QueryExecutionHints();
+		hints.setSortBeforeGrouping( false );
+		query.setQueryExecutionHints( hints );
+		executeQuery( query, bindingNameRow );
 		
 		checkOutputFile();
 	}

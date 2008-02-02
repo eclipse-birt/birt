@@ -52,6 +52,7 @@ import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
 
 public interface IQuery
 {
+	public static final int NO_SORT_BEFORE_GROUPING = -1;
 	/**
 	 * Bind the ordering/sorting specification to the query instance.  
 	 * Specify the ordering of one or more fields in the query result objects.
@@ -160,7 +161,7 @@ public interface IQuery
         private String keyColumn;
         private int keyIndex;
         private String name;
-    	private int sortDirection = IGroupDefinition.NO_SORT;        
+    	private int sortDirection = IGroupDefinition.SORT_ASC;        
         private int interval = IGroupDefinition.NO_INTERVAL;
         private boolean isComplexExpression = false;
         private double intervalRange = 0;

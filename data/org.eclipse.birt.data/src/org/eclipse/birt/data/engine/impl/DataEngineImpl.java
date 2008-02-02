@@ -80,7 +80,7 @@ public class DataEngineImpl extends DataEngine
 	//shut down listener list
 	private List shutdownListenerList = null;
 
-	private IQueryExecutionHints queryExecutionHints;
+	private IEngineExecutionHints queryExecutionHints;
 	
 	protected static Logger logger = Logger.getLogger( DataEngineImpl.class.getName( ) );
 
@@ -102,7 +102,7 @@ public class DataEngineImpl extends DataEngine
 				"DataEngineImpl",
 				context );
 		
-		this.queryExecutionHints = new QueryExecutionHints( );
+		this.queryExecutionHints = new EngineExecutionHints( );
 		
 		this.context = context;
 		
@@ -739,7 +739,7 @@ public class DataEngineImpl extends DataEngine
 	 * @param dataSetName
 	 * @return
 	 */
-	public IQueryExecutionHints getExecutionHints( )
+	public IEngineExecutionHints getExecutionHints( )
 	{
 		return this.queryExecutionHints;
 	}
@@ -750,6 +750,6 @@ public class DataEngineImpl extends DataEngine
 	 */
 	public void registerQueries( IDataQueryDefinition[] queryDefns ) throws DataException
 	{
-		((QueryExecutionHints)queryExecutionHints).populateCachedDataSets( this, queryDefns );
+		((EngineExecutionHints)queryExecutionHints).populateCachedDataSets( this, queryDefns );
 	}
 }
