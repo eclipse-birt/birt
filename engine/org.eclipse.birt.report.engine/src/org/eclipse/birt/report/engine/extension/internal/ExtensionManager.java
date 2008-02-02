@@ -297,7 +297,7 @@ public class ExtensionManager
 		if ( config != null )
 		{
 			Object object = createObject( config, "class" ); //$NON-NLS-1$
-			if ( object instanceof IReportItemQuery )
+			if ( object instanceof IReportEventHandler )
 			{
 				return (IReportEventHandler) object;
 			}
