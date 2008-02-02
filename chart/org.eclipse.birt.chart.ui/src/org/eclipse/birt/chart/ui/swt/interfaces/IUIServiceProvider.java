@@ -69,6 +69,12 @@ public interface IUIServiceProvider
 	 * series.
 	 */
 	public static final int COMMAND_EXPRESSION_TRIGGERS_DATAPOINTS = 4;
+	
+	/**
+	 * Constant indicating an expression builder to input tooltips (one type of
+	 * triggers) for value series.
+	 */
+	public static final int COMMAND_EXPRESSION_TOOLTIPS_DATAPOINTS = 5;
 
 	/**
 	 * Constant indicating a common expression builder.
@@ -85,12 +91,12 @@ public interface IUIServiceProvider
 	/**
 	 * Constant indicating a builder to input hyper-link except for data points.
 	 */
-	public static final int COMMAND_HYPERLINK = 5;
+	public static final int COMMAND_HYPERLINK = 6;
 	
 	/**
 	 * Constant indicating a builder to input hyper-link for data points.
 	 */
-	public static final int COMMAND_HYPERLINK_DATAPOINTS = 6;
+	public static final int COMMAND_HYPERLINK_DATAPOINTS = 7;
 
 	/**
 	 * This method will be used by the Chart Builder UI to invoke the expression

@@ -62,8 +62,9 @@ import org.eclipse.swt.widgets.Text;
  * @author Actuate Corporation
  * 
  */
-public class TriggerDataComposite extends Composite implements
-		SelectionListener
+public class TriggerDataComposite extends Composite
+		implements
+			SelectionListener
 {
 
 	private Group grpValue = null;
@@ -377,8 +378,7 @@ public class TriggerDataComposite extends Composite implements
 			lblText.setLayoutData( lblGd );
 
 			txtTooltipText = new Text( cmpTooltip, SWT.BORDER
-					| SWT.MULTI
-					| SWT.V_SCROLL );
+					| SWT.MULTI | SWT.V_SCROLL );
 			GridData gdTXTTooltipText = new GridData( GridData.FILL_BOTH );
 			gdTXTTooltipText.horizontalSpan = 3;
 			txtTooltipText.setLayoutData( gdTXTTooltipText );
@@ -739,8 +739,8 @@ public class TriggerDataComposite extends Composite implements
 				TooltipValue tooltipValue = (TooltipValue) trigger.getAction( )
 						.getValue( );
 				// iscDelay.setSelection( tooltipValue.getDelay( ) );
-				txtTooltipText.setText( ( tooltipValue.getText( ) != null ) ? tooltipValue.getText( )
-						: "" ); //$NON-NLS-1$
+				txtTooltipText.setText( ( tooltipValue.getText( ) != null )
+						? tooltipValue.getText( ) : "" ); //$NON-NLS-1$
 				break;
 			case INDEX_3_TOOGLE_VISABILITY :
 				this.slValues.topControl = cmpVisiblity;
@@ -754,8 +754,8 @@ public class TriggerDataComposite extends Composite implements
 				this.slValues.topControl = cmpScript;
 				ScriptValue scriptValue = (ScriptValue) trigger.getAction( )
 						.getValue( );
-				txtScript.setText( ( scriptValue.getScript( ).length( ) > 0 ) ? scriptValue.getScript( )
-						: "" ); //$NON-NLS-1$
+				txtScript.setText( ( scriptValue.getScript( ).length( ) > 0 )
+						? scriptValue.getScript( ) : "" ); //$NON-NLS-1$
 				break;
 			case INDEX_5_HIGHLIGHT :
 				this.slValues.topControl = cmpHighlight;
@@ -822,8 +822,8 @@ public class TriggerDataComposite extends Composite implements
 		}
 		Action action = ActionImpl.create( ActionType.getByName( LiteralHelper.actionTypeSet.getNameByDisplayName( cmbActionType.getText( ) ) ),
 				value );
-		return TriggerImpl.create( TriggerCondition.getByName( LiteralHelper.triggerConditionSet.getNameByDisplayName( lastTriggerType == null ? cmbTriggerType.getText( )
-				: lastTriggerType ) ),
+		return TriggerImpl.create( TriggerCondition.getByName( LiteralHelper.triggerConditionSet.getNameByDisplayName( lastTriggerType == null
+				? cmbTriggerType.getText( ) : lastTriggerType ) ),
 				action );
 	}
 
@@ -926,7 +926,7 @@ public class TriggerDataComposite extends Composite implements
 				// Bugzilla#202386: Tooltips never support chart
 				// variables. Use COMMAND_EXPRESSION_TRIGGERS_SIMPLE
 				String sExpr = wizardContext.getUIServiceProvider( )
-						.invoke( IUIServiceProvider.COMMAND_EXPRESSION_TRIGGERS_SIMPLE,
+						.invoke( getExpressionBuilderTooltipCommand( ),
 								txtTooltipText.getText( ),
 								wizardContext.getExtendedItem( ),
 								null );
@@ -942,7 +942,7 @@ public class TriggerDataComposite extends Composite implements
 			try
 			{
 				String sExpr = wizardContext.getUIServiceProvider( )
-						.invoke( getExpressionBuilderCommand( ),
+						.invoke( getExpressionBuilderScriptCommand( ),
 								txtScript.getText( ),
 								wizardContext.getExtendedItem( ),
 								null );
@@ -1012,12 +1012,23 @@ public class TriggerDataComposite extends Composite implements
 
 	}
 
-	private int getExpressionBuilderCommand( )
+	private int getExpressionBuilderScriptCommand( )
 	{
 		int type = this.triggerMatrix.getType( );
 		if ( ( type & TriggerSupportMatrix.TYPE_DATAPOINT ) == TriggerSupportMatrix.TYPE_DATAPOINT )
 		{
 			return IUIServiceProvider.COMMAND_EXPRESSION_TRIGGERS_DATAPOINTS;
+		}
+		return IUIServiceProvider.COMMAND_EXPRESSION_TRIGGERS_SIMPLE;
+	}
+
+	private int getExpressionBuilderTooltipCommand( )
+	{
+		// Bugzilla#202386: Tooltips never support chart variables.
+		int type = this.triggerMatrix.getType( );
+		if ( ( type & TriggerSupportMatrix.TYPE_DATAPOINT ) == TriggerSupportMatrix.TYPE_DATAPOINT )
+		{
+			return IUIServiceProvider.COMMAND_EXPRESSION_TOOLTIPS_DATAPOINTS;
 		}
 		return IUIServiceProvider.COMMAND_EXPRESSION_TRIGGERS_SIMPLE;
 	}

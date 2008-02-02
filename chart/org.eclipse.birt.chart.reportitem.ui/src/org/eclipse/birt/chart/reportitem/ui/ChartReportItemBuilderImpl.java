@@ -180,7 +180,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 				context.setEnabled( ChartUIConstants.SUBTASK_AXIS_Z, false );
 				context.setEnabled( ChartUIConstants.SUBTASK_LEGEND, false );
 				context.setEnabled( ChartUIConstants.SUBTASK_TITLE, false );
-				
+
 				// Disable some chart types
 				context.setEnabled( ChartUIConstants.TYPE_PIE, false );
 				context.setEnabled( ChartUIConstants.TYPE_METER, false );
@@ -529,6 +529,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 			case COMMAND_EXPRESSION_DATA_BINDINGS :
 			case COMMAND_EXPRESSION_TRIGGERS_SIMPLE :
 			case COMMAND_EXPRESSION_TRIGGERS_DATAPOINTS :
+			case COMMAND_EXPRESSION_TOOLTIPS_DATAPOINTS :
 				shell = new Shell( Display.getDefault( ), SWT.DIALOG_TRIM
 						| SWT.RESIZE | SWT.APPLICATION_MODAL );
 				ChartUIUtil.bindHelp( shell,
@@ -580,11 +581,22 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 		{
 			return ChartExpressionProvider.CATEGORY_WITH_CHART_VARIABLES
 					| ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS
+					| ChartExpressionProvider.CATEGORY_WITH_COLUMN_BINDINGS
 					| ChartExpressionProvider.CATEGORY_WITH_JAVASCRIPT;
 		}
 		else if ( builderCommand == COMMAND_EXPRESSION_TRIGGERS_SIMPLE )
 		{
+			// Bugzilla#202386: Tooltips never support chart
+			// variables. Use COMMAND_EXPRESSION_TRIGGERS_SIMPLE for un-dp
 			return ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS
+					| ChartExpressionProvider.CATEGORY_WITH_JAVASCRIPT;
+		}
+		else if ( builderCommand == COMMAND_EXPRESSION_TOOLTIPS_DATAPOINTS )
+		{
+			// Bugzilla#202386: Tooltips never support chart
+			// variables. Use COMMAND_EXPRESSION_TOOLTIPS_DATAPOINTS for dp
+			return ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS
+					| ChartExpressionProvider.CATEGORY_WITH_COLUMN_BINDINGS
 					| ChartExpressionProvider.CATEGORY_WITH_JAVASCRIPT;
 		}
 		else if ( builderCommand == COMMAND_HYPERLINK )
