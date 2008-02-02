@@ -107,7 +107,6 @@ public class ApplicationClassLoader extends ClassLoader
 				String libPath = lib.getName( );
 				URL url = module.findResource( libPath,
 						IResourceLocator.LIBRARY );
-				System.out.println( url.getPath( ) );
 				if ( url != null )
 				{
 					urls.add( url );
