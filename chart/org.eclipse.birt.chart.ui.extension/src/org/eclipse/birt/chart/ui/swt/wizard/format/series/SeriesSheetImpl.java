@@ -731,6 +731,8 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 				if ( ( getChart( ).getLegend( ).getItemType( ).getValue( ) == LegendItemType.CATEGORIES )
 						&& isGroupedSeries( ) )
 				{
+					ChartAdapter.beginIgnoreNotifications( );
+					
 					// Update color palette of base series
 					SeriesDefinition[] osds = getValueSeriesDefinition( );
 					SeriesDefinition bsd = getCategorySeriesDefinition( );
@@ -745,6 +747,9 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 												.get( 0 ) ) );
 					}
 					( (SeriesPaletteSheet) popup ).setCategorySeries( bsd );
+					
+					ChartAdapter.endIgnoreNotifications( );
+					
 				}
 				( (SeriesPaletteSheet) popup ).setGroupedPalette( isGroupedSeries( ) );
 				refreshPopupSheet( );
