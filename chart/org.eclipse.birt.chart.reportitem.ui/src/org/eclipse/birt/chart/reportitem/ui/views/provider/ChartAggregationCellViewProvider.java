@@ -68,30 +68,9 @@ public class ChartAggregationCellViewProvider
 		{
 			// Get the measure binding expression and drop the DataItemHandle
 			Object content = getFirstContent( cell );
-			String exprMeasure = ExpressionUtil.createJSDataExpression( ChartXTabUtil.generateComputedColumnName( cell ) );
 			if ( content instanceof DesignElementHandle )
 			{
 				( (DesignElementHandle) content ).dropAndClear( );
-			}
-
-			// Get the row dimension binding name
-			String nameDimRow = null;
-			content = getFirstContent( ChartXTabUtil.getInnermostLevelCell( cell.getCrosstab( ),
-					ICrosstabConstants.ROW_AXIS_TYPE ) );
-			if ( content instanceof DataItemHandle )
-			{
-				DataItemHandle dataItemHandle = (DataItemHandle) content;
-				nameDimRow = dataItemHandle.getResultSetColumn( );
-			}
-
-			// Get the column dimension binding name
-			String nameDimColumn = null;
-			content = getFirstContent( ChartXTabUtil.getInnermostLevelCell( cell.getCrosstab( ),
-					ICrosstabConstants.COLUMN_AXIS_TYPE ) );
-			if ( content instanceof DataItemHandle )
-			{
-				DataItemHandle dataItemHandle = (DataItemHandle) content;
-				nameDimColumn = dataItemHandle.getResultSetColumn( );
 			}
 
 			// Create the ExtendedItemHandle with default chart model
@@ -102,9 +81,7 @@ public class ChartAggregationCellViewProvider
 					.newExtendedItem( name,
 							ChartReportItemConstants.CHART_EXTENSION_NAME );
 			ChartReportItemImpl reportItem = (ChartReportItemImpl) chartHandle.getReportItem( );
-			ChartWithAxes cm = createDefaultChart( exprMeasure, new String[]{
-					nameDimRow, nameDimColumn
-			} );
+			ChartWithAxes cm = createDefaultChart( cell );
 			reportItem.setModel( cm );
 			cell.addContent( chartHandle, 0 );
 
@@ -157,8 +134,7 @@ public class ChartAggregationCellViewProvider
 		}
 	}
 
-	private ChartWithAxes createDefaultChart( String exprMeasure,
-			String[] nameDimensions )
+	private ChartWithAxes createDefaultChart( AggregationCellHandle cell )
 	{
 		ChartWithAxes cm = ChartWithAxesImpl.create( );
 		cm.setType( "Bar Chart" );//$NON-NLS-1$
@@ -168,16 +144,37 @@ public class ChartAggregationCellViewProvider
 		cm.getLegend( ).setVisible( false );
 		cm.getTitle( ).setVisible( false );
 
+		String exprMeasure = ExpressionUtil.createJSDataExpression( ChartXTabUtil.generateComputedColumnName( cell ) );
+
 		String exprCategory = null;
-		if ( nameDimensions[1] != null )
+
+		// If cell is aggregation to right, or aggregation to right is existent,
+		// use aggregation to bottom, and set transposed chart
+		if ( cell.getAggregationOnColumn( ) == null
+				|| cell.getCrosstab( )
+						.getGrandTotal( ICrosstabConstants.COLUMN_AXIS_TYPE ) != null )
 		{
-			exprCategory = nameDimensions[1];
-		}
-		else if ( nameDimensions[0] != null )
-		{
-			exprCategory = nameDimensions[0];
-			// Transpose the chart to fit the direction
 			cm.setTransposed( true );
+
+			// Get the row dimension binding name as Category expression
+			Object content = getFirstContent( ChartXTabUtil.getInnermostLevelCell( cell.getCrosstab( ),
+					ICrosstabConstants.ROW_AXIS_TYPE ) );
+			if ( content instanceof DataItemHandle )
+			{
+				DataItemHandle dataItemHandle = (DataItemHandle) content;
+				exprCategory = dataItemHandle.getResultSetColumn( );
+			}
+		}
+		else
+		{
+			// Get the column dimension binding name as Category expression
+			Object content = getFirstContent( ChartXTabUtil.getInnermostLevelCell( cell.getCrosstab( ),
+					ICrosstabConstants.COLUMN_AXIS_TYPE ) );
+			if ( content instanceof DataItemHandle )
+			{
+				DataItemHandle dataItemHandle = (DataItemHandle) content;
+				exprCategory = dataItemHandle.getResultSetColumn( );
+			}
 		}
 
 		// Add base series
@@ -204,12 +201,6 @@ public class ChartAggregationCellViewProvider
 			Query query = QueryImpl.create( exprMeasure );
 			series.getDataDefinition( ).add( query );
 		}
-		// if ( exprYGroup != null )
-		// {
-		// sdOrth.getQuery( )
-		// .setDefinition( ExpressionUtil.createJSDataExpression( exprYGroup )
-		// );
-		// }
 
 		// Add sample data
 		SampleData sampleData = DataFactory.eINSTANCE.createSampleData( );

@@ -65,7 +65,7 @@ public final class BIRTChartXtabResultSetEvaluator
 					List edges = cubeCursor.getOrdinateEdge( );
 					this.mainEdgeCursor = (EdgeCursor) edges.get( 1 );
 					this.subEdgeCursor = (EdgeCursor) edges.get( 0 );
-					
+
 					bSubCursor = true;
 				}
 				else
@@ -105,7 +105,15 @@ public final class BIRTChartXtabResultSetEvaluator
 		if ( !bSubCursor )
 		{
 			List edges = cubeCursor.getOrdinateEdge( );
-			this.mainEdgeCursor = (EdgeCursor) edges.get( 0 );
+			if ( edges.size( ) == 1 )
+			{
+				this.mainEdgeCursor = (EdgeCursor) edges.get( 0 );
+			}
+			else if ( edges.size( ) > 1 )
+			{
+				this.mainEdgeCursor = (EdgeCursor) edges.get( bTransposed ? 1
+						: 0 );
+			}
 			this.subEdgeCursor = null;
 		}
 	}
