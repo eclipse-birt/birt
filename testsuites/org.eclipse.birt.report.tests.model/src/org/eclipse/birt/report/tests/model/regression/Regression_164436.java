@@ -29,6 +29,18 @@ public class Regression_164436 extends BaseTestCase
 
 	private final static String REPORT = "regression_164436.xml";
 
+	public void setUp( ) throws Exception
+	{
+		super.setUp( );
+		removeResource( );
+
+		copyInputToFile ( INPUT_FOLDER + "/" + REPORT );
+	}
+	
+	public void tearDown( )
+	{
+		removeResource( );
+	}
 	public void test_regression_164436( ) throws Exception
 	{
 		openDesign( REPORT );
