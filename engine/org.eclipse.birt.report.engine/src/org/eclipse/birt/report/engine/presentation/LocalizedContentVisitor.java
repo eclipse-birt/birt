@@ -463,9 +463,10 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		String rawFormat = foreignContent.getRawType( );
 		Object rawValue = foreignContent.getRawValue( );
 
+		handleOnRender( foreignContent );
+		
 		if ( IForeignContent.TEMPLATE_TYPE.equals( rawFormat ) )
 		{
-			handleOnRender( foreignContent );
 			processTemplateContent( foreignContent );
 			return foreignContent;
 		}
@@ -496,7 +497,6 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		
 		if ( IForeignContent.TEXT_TYPE.equals( rawFormat ) )
 		{
-			handleOnRender( foreignContent );
 			ITextContent textContent = reportContent
 					.createDataContent( foreignContent );
 			textContent.setText( rawValue == null ? "" : rawValue.toString( ) ); //$NON-NLS-1$
@@ -505,7 +505,6 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		
 		if ( IForeignContent.HTML_TYPE.equals( rawFormat ) )
 		{
-			handleOnRender( foreignContent );
 			String key = foreignContent.getRawKey( );
 			if (key != null)
 			{
@@ -520,7 +519,6 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		
 		if ( IForeignContent.VALUE_TYPE.equals( rawFormat ) )
 		{
-			handleOnRender( foreignContent );
 			IDataContent dataContent = reportContent
 					.createDataContent( foreignContent );
 			dataContent.setValue( rawValue );

@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.eclipse.birt.report.engine">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="org.eclipse.birt.report.engine" id="reportEventHandler" name="Extended Item Java Event Handler"/>
+      </appInfo>
+      <documentation>
+         This extension point specifies how to process java events. In a server environment, the plugin registry uses this extension point registration to discover supported report event hander extensions.
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <complexType>
+         <choice>
+            <element ref="reportEventHandler"/>
+         </choice>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute translatable="true"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="reportEventHandler">
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.birt.report.engine.extension.IReportEventHandler"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="since"/>
+      </appInfo>
+      <documentation>
+         [Enter the first release in which this extension point appears.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="examples"/>
+      </appInfo>
+      <documentation>
+         The following is a sample usage of the reportEventHandler extension point:
+
+&lt;p&gt;
+&lt;pre&gt;
+&lt;extension point=&quot;org.eclipse.birt.report.engine.reportEventHandler&quot; 
+name=&quot;chart event handler extension&quot;&gt;
+  &lt;reportItem name=&quot;org.eclipse.birt.chart&quot;    
+  class=&quot;an event hanndler implementation from org.eclipse.birt.report.engine.extension.IReportEventHandler&quot; /&gt;
+ &lt;/extension&gt;
+ &lt;/pre&gt;
+&lt;/p&gt;
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="apiInfo"/>
+      </appInfo>
+      <documentation>
+         [Enter API information here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="implementation"/>
+      </appInfo>
+      <documentation>
+         [Enter information about supplied implementation of this extension point.]
+      </documentation>
+   </annotation>
+
+
+</schema>

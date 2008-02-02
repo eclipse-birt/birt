@@ -98,7 +98,9 @@ public class OnRenderScriptVisitor extends DefaultReportItemVisitorImpl
 
 	public Object visitExtendedItem( ExtendedItemDesign item, Object value )
 	{
-		return visitReportItem( item, value );
+		ExtendedItemScriptExecutor.handleOnRender( item, (IContent) value,
+				context );
+		return value;
 	}
 
 	public Object visitFreeFormItem( FreeFormItemDesign container, Object value )

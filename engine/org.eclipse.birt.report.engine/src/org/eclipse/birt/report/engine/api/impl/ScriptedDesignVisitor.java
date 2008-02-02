@@ -20,6 +20,7 @@ import org.eclipse.birt.report.engine.script.internal.AutoTextScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.CellScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.DataItemScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.DynamicTextScriptExecutor;
+import org.eclipse.birt.report.engine.script.internal.ExtendedItemScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.GridScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.ImageScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.LabelScriptExecutor;
@@ -174,6 +175,10 @@ class ScriptedDesignVisitor extends DesignVisitor
 			{
 				AutoTextScriptExecutor.handleOnPrepare(
 						( AutoTextHandle ) handle, executionContext );
+			} else if ( handle instanceof ExtendedItemHandle )
+			{
+				ExtendedItemScriptExecutor.handleOnPrepare(
+						( ExtendedItemHandle ) handle, executionContext );
 			} else
 			{
 				// if there's no ScriptExecutor available, execute javascript

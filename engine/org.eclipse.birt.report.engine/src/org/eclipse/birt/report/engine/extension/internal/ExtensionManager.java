@@ -26,6 +26,7 @@ import org.eclipse.birt.report.engine.api.EmitterInfo;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ExecutorManager;
 import org.eclipse.birt.report.engine.executor.ExtendedGenerateExecutor;
+import org.eclipse.birt.report.engine.extension.IReportEventHandler;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.extension.IReportItemGeneration;
 import org.eclipse.birt.report.engine.extension.IReportItemPresentation;
@@ -43,6 +44,7 @@ public class ExtensionManager
 	public final static String EXTENSION_POINT_GENERATION = "org.eclipse.birt.report.engine.reportitemGeneration"; //$NON-NLS-1$
 	public final static String EXTENSION_POINT_PRESENTATION = "org.eclipse.birt.report.engine.reportitemPresentation"; //$NON-NLS-1$
 	public final static String EXTENSION_POINT_QUERY = "org.eclipse.birt.report.engine.reportitemQuery"; //$NON-NLS-1$
+	public final static String EXTENSION_POINT_EVENTHANDLER = "org.eclipse.birt.report.engine.reportEventHandler"; //$NON-NLS-1$
 	
 	/**
 	 * the singleton isntance
@@ -68,6 +70,11 @@ public class ExtensionManager
 	 * stores all the emitter extensions 
 	 */
 	protected ArrayList emitterExtensions = new ArrayList();
+	
+	/*
+	 * stores references to extended event handlers
+	 */
+	protected HashMap eventHandlerExtensions = new HashMap();
 	
 	/**
 	 * stores all the mime types that are supported
@@ -108,6 +115,7 @@ public class ExtensionManager
 		loadPresentationExtensionDefns();
 		loadQueryExtensionDefns();
 		loadEmitterExtensionDefns();
+		loadEventHandlerExtensionDefns();
 	}
 	
 	/**
@@ -279,6 +287,25 @@ public class ExtensionManager
 	}
 	
 	/**
+	 * @param itemType the type of the extended item, i.e., "chart"
+	 * @return an object that extended items use to handle java event 
+	 */
+	public IReportEventHandler createEventHandler( String itemType )
+	{
+		IConfigurationElement config = (IConfigurationElement) queryExtensions
+				.get( itemType );
+		if ( config != null )
+		{
+			Object object = createObject( config, "class" ); //$NON-NLS-1$
+			if ( object instanceof IReportItemQuery )
+			{
+				return (IReportEventHandler) object;
+			}
+		}
+		return null;
+	}
+	
+	/**
 	 * @return all the emitter extensions
 	 */
 	public Collection getSupportedFormat()
@@ -435,6 +462,36 @@ public class ExtensionManager
 				formats.put(format.toLowerCase( ), emitterInfo);
 				emitters.put( id, emitterInfo );
 				logger.log(Level.FINE, "Load {0} emitter {1}", new String[]{format, id}); //$NON-NLS-1$
+			}
+		}
+	}
+	
+	/*
+	 * load extended event handler definitions
+	 */
+	protected void loadEventHandlerExtensionDefns( )
+	{
+		IExtensionRegistry registry = Platform.getExtensionRegistry( );
+		IExtensionPoint extPoint = registry
+				.getExtensionPoint( EXTENSION_POINT_EVENTHANDLER );
+		if ( extPoint == null )
+			return;
+
+		IExtension[] exts = extPoint.getExtensions( );
+		logger
+				.log(
+						Level.FINE,
+						"Start load extension point: {0}", EXTENSION_POINT_EVENTHANDLER ); //$NON-NLS-1$
+		for ( int i = 0; i < exts.length; i++ )
+		{
+			IConfigurationElement[] configs = exts[i]
+					.getConfigurationElements( );
+			for ( int j = 0; j < configs.length; j++ )
+			{
+				String itemName = configs[j].getAttribute( "name" ); //$NON-NLS-1$
+				eventHandlerExtensions.put( itemName, configs[j] );
+				logger.log( Level.FINE,
+						"Load reportEventHandler extension: {0}", itemName ); //$NON-NLS-1$
 			}
 		}
 	}
