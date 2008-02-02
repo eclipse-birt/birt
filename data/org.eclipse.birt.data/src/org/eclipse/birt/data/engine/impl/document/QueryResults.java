@@ -206,7 +206,7 @@ public class QueryResults implements IQueryResults, IQueryService
 							this,
 							queryResultID,
 							subQueryName,
-							currParentIndex );
+							currParentIndex);
 				else
 					resultIterator = new ResultIterator2( tempDir,
 							context,
@@ -214,7 +214,7 @@ public class QueryResults implements IQueryResults, IQueryService
 							queryResultID,
 							subQueryName,
 							currParentIndex,
-							subQuery.getGroups( ).size( ) );
+							subQuery.getGroups( ).size( ));
 
 			}
 		}

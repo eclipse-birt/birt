@@ -49,6 +49,7 @@ class ResultIterator implements IResultIterator
 	protected IExprResultSet exprResultSet;
 	
 	private String tempDir;
+
 	
 	/**
 	 * @param context
@@ -83,7 +84,6 @@ class ResultIterator implements IResultIterator
 		
 		this.queryResultID = queryResultID;
 		this.subQueryName = subQueryName;
-
 		this.currParentIndex = currParentIndex;
 		
 		this.prepare( );
@@ -105,10 +105,14 @@ class ResultIterator implements IResultIterator
 						selfID,
 						this.subQueryName,
 						this.currParentIndex ) );
-		if ( this.subQueryName != null )
-			subQueryIndex = valueLoader.getSubQueryIndex( currParentIndex );
 		
-		this.exprResultSet = valueLoader.loadExprResultSet( );
+		int rowIdStartingIndex = 0;
+		if ( this.subQueryName != null )
+		{
+			subQueryIndex = valueLoader.getSubQueryIndex( currParentIndex );
+			rowIdStartingIndex = currParentIndex;
+		}
+		this.exprResultSet = valueLoader.loadExprResultSet( rowIdStartingIndex );
 	}
 	
     /*

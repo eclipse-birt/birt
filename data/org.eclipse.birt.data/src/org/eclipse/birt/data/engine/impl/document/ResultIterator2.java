@@ -53,7 +53,7 @@ public class ResultIterator2 extends ResultIterator
 				queryResults,
 				queryResultID,
 				subQueryName,
-				currParentIndex );
+				currParentIndex);
 		this.lowestGroupLevel = lowestGroupLevel;
 		this.currRowIndex = -1;
 	}

@@ -191,16 +191,6 @@ public class ViewingTest2 extends RDTestCase
 	}
 	
 	/**
-	 * Test disable some column binding on MemoryCache.
-	 * 
-	 * @throws Exception
-	 */
-	public void testMemoryCacheColumnBinding( ) throws Exception
-	{
-		incomprehensiveColumnBinding( );
-	}
-	
-	/**
 	 * With filter
 	 * @throws BirtException
 	 */
@@ -1389,10 +1379,23 @@ public class ViewingTest2 extends RDTestCase
 		String initialStr = System.getProperty( "birt.data.engine.test.memcachesize" );
 		System.setProperty( "birt.data.engine.test.memcachesize", "2" );
 		incomprehensiveColumnBinding( );
-		System.setProperty( "birt.data.engine.test.memcachesize",
-				initialStr == null ? "" : initialStr );
+		
+		if( initialStr == null )
+			System.clearProperty( "birt.data.engine.test.memcachesize" );
+		else
+			System.setProperty( "birt.data.engine.test.memcachesize",
+					initialStr );	
 	}
 	
+	/**
+	 * Test disable some column binding on MemoryCache.
+	 * 
+	 * @throws Exception
+	 */
+	public void testMemoryCacheColumnBinding( ) throws Exception
+	{
+		incomprehensiveColumnBinding( );
+	}
 	/**
 	 * 
 	 * @throws BirtException

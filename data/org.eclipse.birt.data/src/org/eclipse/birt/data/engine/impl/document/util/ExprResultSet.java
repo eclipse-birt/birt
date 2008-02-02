@@ -40,6 +40,7 @@ public class ExprResultSet implements IExprResultSet
 	protected int version;
 
 	private boolean isBasedOnSecondRD;
+	private int rowIdStartingIndex;
 	
 	protected RDGroupUtil rdGroupUtil;
 	protected IExprDataReader exprResultReader;
@@ -55,13 +56,14 @@ public class ExprResultSet implements IExprResultSet
 	 * @throws DataException
 	 */
 	public ExprResultSet( String tempDir, StreamManager streamManager, int version,
-			boolean isBasedOnSecondRD,  DataSetResultSet dataSetResultSet ) throws DataException
+			boolean isBasedOnSecondRD,  DataSetResultSet dataSetResultSet, int rowIdStartingIndex ) throws DataException
 	{
 		this.tempDir = tempDir;
 		this.streamManager = streamManager;
 		this.version = version;
 		this.isBasedOnSecondRD = isBasedOnSecondRD;
 		this.dataSetResultSet = dataSetResultSet;
+		this.rowIdStartingIndex = rowIdStartingIndex;
 		this.prepare( );
 		
 		this.rdGroupUtil.setCacheProvider( new CacheProviderImpl( this ) );
@@ -153,7 +155,7 @@ public class ExprResultSet implements IExprResultSet
 	 */
 	public int getCurrentId( )
 	{
-		return this.exprResultReader.getRowId( );
+		return this.rowIdStartingIndex + this.exprResultReader.getRowId( );
 	}
 
 	/* (non-Javadoc)

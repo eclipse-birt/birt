@@ -106,19 +106,19 @@ public class RDLoad
 	 * @return
 	 * @throws DataException
 	 */
-	IExprResultSet loadExprResultSet( ) throws DataException
+	IExprResultSet loadExprResultSet( int rowIdStartingIndex ) throws DataException
 	{
 		if ( streamManager.isSecondRD( ) == true
 				&& streamManager.isSubquery( ) == true )
 			return new ExprResultSet2( tempDir, streamManager,
 					version,
-					streamManager.isSecondRD( ) );
+					streamManager.isSecondRD( ), rowIdStartingIndex );
 
 		return new ExprResultSet( tempDir, streamManager,
 				version,
 				streamManager.isSecondRD( ),
 				( streamManager.isSubquery( ) || this.version < VersionManager.VERSION_2_2_1_3 )
-						? null : this.loadDataSetData( ) );
+						? null : this.loadDataSetData( ), streamManager.isSubquery( ) ? rowIdStartingIndex:0 );
 	}
 	
 	/**

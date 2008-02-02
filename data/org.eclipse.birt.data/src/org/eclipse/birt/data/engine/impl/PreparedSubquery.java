@@ -281,7 +281,8 @@ class PreparedSubquery implements IPreparedQueryService
 		 */
 		public int getSubQueryStartingIndex( ) throws DataException
 		{
-			
+			if( !subQueryOnGroup )
+				return this.parentIterator.getCurrentResultIndex( );
 			int groupIndex = this.parentIterator.getCurrentGroupIndex( groupLevel );
 			
 			int[] groupStartingEndingIndex = this.parentIterator.getGroupStartAndEndIndex( groupLevel );
