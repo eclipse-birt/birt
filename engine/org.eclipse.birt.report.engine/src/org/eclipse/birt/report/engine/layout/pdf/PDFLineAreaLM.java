@@ -203,7 +203,7 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 		maxAvaHeight = parent.getCurrentMaxContentHeight( );
 		root.setWidth( parent.getCurrentMaxContentWidth( ) );
 		setCurrentBP( 0 );
-
+		setCurrentIP( 0 );
 		setupMinHeight( );
 	}
 	
