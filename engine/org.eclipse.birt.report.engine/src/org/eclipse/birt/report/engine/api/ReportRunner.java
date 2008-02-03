@@ -387,7 +387,7 @@ public class ReportRunner
 		System.out.println( "For RENDER mode:" );
 		System.out.println( "\t we should add it in the end<design file>" ); //$NON-NLS-1$
 		System.out.println( "\t --output/-o <target file>" ); //$NON-NLS-1$
-		System.out.println( "\\t --page/-p <pageNumber>" );
+		System.out.println( "\\t --page/-n <pageNumber>" );
 		System.out.println( "\t --config/-c <\"configName=configValue\">" );
 		System.out.println( "\t --renderOption/-r <\"optionName=optionValue\">" );
 		System.out.println( "\t --file/-F <file>" ); //$NON-NLS-1$
@@ -495,10 +495,16 @@ public class ReportRunner
 		}
 		
 		// pageNumber
+		// -p is for backward compatibility.
+		// -n takes precedence over -p in new cases
 		String paramPageNumber = (String)params.get( "page" );
 		if ( results.hasOption( 'p' ) )
 		{
 			paramPageNumber = results.getOptionValue( 'p' );
+		}
+		if ( results.hasOption( 'n' ) )
+		{
+			paramPageNumber = results.getOptionValue( 'n' );
 		}
 		if (paramPageNumber != null)
 		{
@@ -598,6 +604,7 @@ public class ReportRunner
 			option.addOption( "l", "locale", true, "" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			option.addOption( "e", "encoding", true, "" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			option.addOption( "p", "parameter", true, "" );
+			option.addOption( "n", "page", true, "" );
 			option.addOption( "p", "page", true, "" );
 			// CHANGE: change file's desc since --file is used for config,parameter and renderoption
 			option.addOption( "F", "file", true, "" );
