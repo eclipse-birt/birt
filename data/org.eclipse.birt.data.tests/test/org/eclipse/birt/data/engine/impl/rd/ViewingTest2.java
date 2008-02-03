@@ -1381,7 +1381,7 @@ public class ViewingTest2 extends RDTestCase
 		incomprehensiveColumnBinding( );
 		
 		if( initialStr == null )
-			System.clearProperty( "birt.data.engine.test.memcachesize" );
+			System.getProperties( ).remove( "birt.data.engine.test.memcachesize" );
 		else
 			System.setProperty( "birt.data.engine.test.memcachesize",
 					initialStr );	
