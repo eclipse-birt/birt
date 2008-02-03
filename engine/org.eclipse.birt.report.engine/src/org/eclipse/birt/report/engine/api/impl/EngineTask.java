@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.engine.api.EngineConstants;
@@ -143,6 +144,8 @@ public abstract class EngineTask implements IEngineTask
 	 * Engine task type. for usage in BIRT scripting.
 	 */
 	protected int taskType = IEngineTask.TASK_UNKNOWN;
+	
+	private ClassLoader contextClassLoader;
 
 	/**
 	 * @param engine
@@ -1568,5 +1571,24 @@ public abstract class EngineTask implements IEngineTask
 		EngineLoggerHandler.setLogger( logger );
 		this.log = logger;
 		this.executionContext.setLogger( logger );
+	}
+
+	protected void switchToOsgiClassLoader( )
+	{
+		ClassLoader newLoader = Platform.getContextClassLoader( );
+		if ( newLoader != null )
+		{
+			Thread thread = Thread.currentThread( );
+			contextClassLoader = thread.getContextClassLoader( );
+			thread.setContextClassLoader( newLoader );
+		}
+	}
+
+	protected void switchClassLoaderBack( )
+	{
+		if ( contextClassLoader != null )
+		{
+			Thread.currentThread( ).setContextClassLoader( contextClassLoader );
+		}
 	}
 }

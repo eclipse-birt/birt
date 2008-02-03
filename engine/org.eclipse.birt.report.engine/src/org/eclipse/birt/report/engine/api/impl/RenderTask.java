@@ -24,7 +24,6 @@ import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
-import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IReportContent;
@@ -148,6 +147,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 	{
 		try
 		{
+			switchToOsgiClassLoader( );
 			changeStatusToRunning( );
 			if ( renderOptions == null )
 			{
@@ -204,6 +204,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		finally
 		{
 			changeStatusToStopped( );
+			switchClassLoaderBack( );
 		}
 	}
 

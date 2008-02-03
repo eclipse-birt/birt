@@ -61,12 +61,14 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 	{
 		try
 		{
+			switchToOsgiClassLoader( );
 			changeStatusToRunning( );
 			doRun( );
 		}
 		finally
 		{
 			changeStatusToStopped( );
+			switchClassLoaderBack( );
 		}
 	}
 

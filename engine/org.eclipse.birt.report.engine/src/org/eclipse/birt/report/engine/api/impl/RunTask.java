@@ -23,13 +23,11 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IPageHandler;
 import org.eclipse.birt.report.engine.api.IReportDocumentInfo;
-import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.ReportExecutor;
-import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.executor.dup.SuppressDuplciateReportExecutor;
 import org.eclipse.birt.report.engine.internal.executor.emitter.ReportEmitterExecutor;
 import org.eclipse.birt.report.engine.internal.presentation.ReportDocumentInfo;
@@ -79,6 +77,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	{
 		try
 		{
+			switchToOsgiClassLoader( );
 			changeStatusToRunning( );
 			if ( reportDocName == null || reportDocName.length( ) == 0 )
 			{
@@ -91,6 +90,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		finally
 		{
 			changeStatusToStopped( );
+			switchClassLoaderBack( );
 		}
 	}
 
@@ -103,6 +103,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	{
 		try
 		{
+			switchToOsgiClassLoader( );
 			changeStatusToRunning( );
 			if ( archive == null )
 			{
@@ -115,6 +116,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		finally
 		{
 			changeStatusToStopped( );
+			switchClassLoaderBack( );
 		}
 	}
 

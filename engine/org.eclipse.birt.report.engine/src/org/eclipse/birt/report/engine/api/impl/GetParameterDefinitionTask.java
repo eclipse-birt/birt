@@ -30,7 +30,6 @@ import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IParameterGroupDefn;
 import org.eclipse.birt.report.engine.api.IParameterSelectionChoice;
-import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.engine.data.IDataEngine;
@@ -301,6 +300,19 @@ public class GetParameterDefinitionTask extends EngineTask
 	 */
 	public Collection getSelectionList( String name )
 	{
+		try
+		{
+			switchToOsgiClassLoader( );
+			return doGetSelectionList( name );
+		}
+		finally
+		{
+			switchClassLoaderBack( );
+		}
+	}
+
+	private Collection doGetSelectionList( String name )
+	{
 		usingParameterValues( );
 
 		ReportDesignHandle report = (ReportDesignHandle) this.runnable
@@ -518,6 +530,20 @@ public class GetParameterDefinitionTask extends EngineTask
 	}
 
 	public Collection getSelectionTreeForCascadingGroup(
+			String parameterGroupName )
+	{
+		try
+		{
+			switchToOsgiClassLoader( );
+			return doGetSelectionTreeForCascadingGroup( parameterGroupName );
+		}
+		finally
+		{
+			switchClassLoaderBack( );
+		}
+	}
+
+	private Collection doGetSelectionTreeForCascadingGroup(
 			String parameterGroupName )
 	{
 		CascadingParameterGroupHandle parameterGroup = getCascadingParameterGroup( parameterGroupName );
