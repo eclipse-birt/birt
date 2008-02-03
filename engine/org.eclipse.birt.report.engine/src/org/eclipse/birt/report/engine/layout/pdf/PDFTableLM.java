@@ -853,6 +853,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 		PDFLayoutEngineContext con = new PDFLayoutEngineContext( engine );
 		con.setFactory( new PDFLayoutManagerFactory( con ) );
 		con.setFormat( context.getFormat( ) );
+		con.setLocale( context.getLocale( ) );
 		con.setReport( context.getReport( ) );
 		con.setMaxHeight( context.getMaxHeight( ) );
 		con.setMaxWidth( context.getMaxWidth( ) );
