@@ -33,7 +33,7 @@ class WrapperedRAInputStream extends RAInputStream
 		this.size = size;
 		try
 		{
-			this.skip( this.startOffset );
+			this.raIn.seek( this.startOffset );
 		}
 		catch ( IOException e )
 		{
