@@ -48,6 +48,7 @@ public class Platform
 	protected static Logger log = Logger.getLogger( Platform.class.getName( ) );
 
 	protected static OSGILauncher launcher;
+	private static ClassLoader contextClassLoader;
 
 	/**
 	 * startup the platform. 
@@ -263,4 +264,13 @@ public class Platform
 		return null;
 	}
 
+	public static void setContextClassLoader( ClassLoader classLoader )
+	{
+		contextClassLoader = classLoader;
+	}
+
+	public static ClassLoader getContextClassLoader( )
+	{
+		return contextClassLoader;
+	}
 }

@@ -26,6 +26,8 @@ public class CorePlugin extends BIRTPlugin
 	{
 		super.start( context );
 		Platform.setPlatform( new EclipsePlatform( context ) );
+		Platform.setContextClassLoader( Thread.currentThread( )
+				.getContextClassLoader( ) );
 	}
 
 	/**
@@ -35,5 +37,6 @@ public class CorePlugin extends BIRTPlugin
 	{
 		super.stop( context );
 		Platform.setPlatform( null );
+		Platform.setContextClassLoader( null );
 	}
 }
