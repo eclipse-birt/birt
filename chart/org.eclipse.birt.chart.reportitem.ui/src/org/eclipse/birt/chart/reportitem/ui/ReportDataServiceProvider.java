@@ -34,6 +34,7 @@ import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.reportitem.AbstractChartBaseQueryGenerator;
 import org.eclipse.birt.chart.reportitem.BaseGroupedQueryResultSetEvaluator;
+import org.eclipse.birt.chart.reportitem.ChartMultiViewQueryHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
@@ -71,6 +72,7 @@ import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
+import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
@@ -521,6 +523,14 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					break;
 			}
 		}
+		
+		// Add sorts.
+		if ( reportItemHandle instanceof ListingHandle )
+		{
+			queryDefn.getSorts( )
+					.addAll( ChartMultiViewQueryHelper.createSorts( ( (ListingHandle) reportItemHandle ).sortsIterator( ) ) );
+		}
+		
 		return columns;
 	}
 

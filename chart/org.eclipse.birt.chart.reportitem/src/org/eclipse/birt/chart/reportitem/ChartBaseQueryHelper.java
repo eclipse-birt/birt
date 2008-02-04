@@ -265,7 +265,7 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 		return query;
 	}
 
-	private void addSortAndFilter( ReportItemHandle handle,
+	protected void addSortAndFilter( ReportItemHandle handle,
 			BaseQueryDefinition query )
 	{
 		if ( handle instanceof ExtendedItemHandle )
@@ -277,7 +277,7 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 		{
 			query.getFilters( )
 					.addAll( createFilters( ( (TableHandle) handle ).filtersIterator( ) ) );
-		}
+		}		
 	}
 
 	/**
