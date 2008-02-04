@@ -172,12 +172,12 @@ public class ExcelWriter
 			if ( hyperLink.getType( ) == IHyperlinkAction.ACTION_BOOKMARK )
 			{
 
-				urlAddress = "#Sheet1!" + urlAddress;
+				urlAddress = "#" + urlAddress;
 
 			}
 			if ( urlAddress.length( ) >= 255 )
 			{
-				logger.log( Level.WARNING, "The WRL: {" + urlAddress + "} is too long!" );
+				logger.log( Level.WARNING, "The URL: {" + urlAddress + "} is too long!" );
 				urlAddress = urlAddress.substring( 0, 254 );
 			}
 			writer.attribute( "ss:HRef", urlAddress );

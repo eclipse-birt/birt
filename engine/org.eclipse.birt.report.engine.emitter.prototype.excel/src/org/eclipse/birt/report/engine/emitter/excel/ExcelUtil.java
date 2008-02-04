@@ -2,7 +2,6 @@
 package org.eclipse.birt.report.engine.emitter.excel;
 
 import java.util.List;
-import java.text.NumberFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.Calendar;
@@ -22,15 +21,71 @@ import com.ibm.icu.text.DecimalFormat;
 import com.ibm.icu.text.SimpleDateFormat;
 public class ExcelUtil
 {
-
 	public static String ridQuote( String val )
 	{
 		if ( val.charAt( 0 ) == '"' && val.charAt( val.length( ) - 1 ) == '"' )
 		{
 			return val.substring( 1, val.length( ) - 1 );
 		}
-
 		return val;
+	}
+	
+	
+	private static String invalidBookmarkChars = 
+		"`~!@#$%^&*()-=+\\|[]{};:'\",./?>< \t\n\r！￥（）：；，";
+	
+	// This check can not cover all cases, cause we do not know exactly the
+	// excel range name restraint.
+	public static boolean isValidBookmarkName( String name )
+	{
+		if( name.equalsIgnoreCase( "r" ) )
+		{
+			return false;
+		}
+		if( name.equalsIgnoreCase( "c" ) )
+		{
+			return false;
+		}
+		for ( int i = 0; i < name.length( ); i++ )
+		{
+			if( invalidBookmarkChars.indexOf( name.charAt( i ) ) != -1 )
+			{	
+				return false;
+			}
+		}
+		
+		//The bookmark name can not start with a digit.
+		if (name.matches( "[0-9].*" ))
+		{
+			return false;	
+		}
+		//columnID<=IV, rowID<=65536 
+		if( name.matches("([A-Za-z]|[A-Ha-h][A-Za-z]|[Ii][A-Va-v])[0-9]{1,5}" ))
+		{
+			String[] strs = name.split( "[A-Za-z]" );
+			if (strs.length>0)
+			{
+				int rowId = 0;
+				try
+				{
+					rowId = Integer.parseInt( strs[strs.length-1]);	
+				}
+				catch( NumberFormatException e )
+				{
+					return true;
+				}
+				if (rowId<=65536)
+				{
+					return false;
+				}
+				else
+				{
+					return true;
+				}
+			}
+			return true;
+		}
+		return true;
 	}
 	
     public static String formatDate( Object data )

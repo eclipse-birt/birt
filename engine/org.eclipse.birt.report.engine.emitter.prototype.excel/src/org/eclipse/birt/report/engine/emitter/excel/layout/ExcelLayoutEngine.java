@@ -2,13 +2,11 @@
 package org.eclipse.birt.report.engine.emitter.excel.layout;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.emitter.excel.BookmarkDef;
 import org.eclipse.birt.report.engine.emitter.excel.Data;
@@ -25,7 +23,7 @@ public class ExcelLayoutEngine
 {
 	public final static String EMPTY = "";
 	
-	public final static int MAX_ROW = 65525;
+	public final static int MAX_ROW = 65535;
 	
 	public final static int MAX_COLUMN = 255;
 
@@ -69,6 +67,7 @@ public class ExcelLayoutEngine
 		Rule rule = getCurrentContainer( ).getRule( );
 
 		int start = rule.getStart( );
+		//npos is the start position of each column.
 		int[] npos = new int[table.getColumnCount( ) + 1];
 		npos[0] = start;
 
@@ -88,7 +87,7 @@ public class ExcelLayoutEngine
 
 			if ( range.length > 0 )
 			{				
-				int pos = axis.getCoordinate( sp );
+				int pos = axis.getCoordinateIndex( sp );
 				cache.insertColumns( pos, range.length );
 
 				for ( int j = 0; j < range.length; j++ )
@@ -164,8 +163,8 @@ public class ExcelLayoutEngine
 		Rule rule = getCurrentContainer( ).getRule( );
 		int start = rule.getStart( );
 		int end = rule.getEnd( );
-		int startcol = axis.getCoordinate( start );
-		int endcol = axis.getCoordinate( end );
+		int startcol = axis.getCoordinateIndex( start );
+		int endcol = axis.getCoordinateIndex( end );
 
 		int max = 0;
 		int len[] = new int[endcol - startcol];
@@ -227,7 +226,7 @@ public class ExcelLayoutEngine
 	public void addContainer( XlsContainer container )
 	{
 		getCurrentContainer( ).setEmpty( false );
-		int col = axis.getCoordinate( container.getRule( ).getStart( ) );
+		int col = axis.getCoordinateIndex( container.getRule( ).getStart( ) );
 		int pos = cache.getColumnSize( col );
 		container.setStart( pos );
 		containers.push( container );
@@ -298,8 +297,8 @@ public class ExcelLayoutEngine
 	private void addData( Data data )
 	{
 		getCurrentContainer( ).setEmpty( false );
-		int col = axis.getCoordinate( data.getRule( ).getStart( ) );
-		int span = axis.getCoordinate( data.getRule( ).getEnd( ) ) - col;
+		int col = axis.getCoordinateIndex( data.getRule( ).getStart( ) );
+		int span = axis.getCoordinateIndex( data.getRule( ).getEnd( ) ) - col;
 		addDatatoCache( col, data );
 
 		for ( int i = col + 1; i < col + span; i++ )
@@ -381,14 +380,6 @@ public class ExcelLayoutEngine
 				continue;
 			}
 
-			HyperlinkDef def = d.getHyperlinkDef( );
-
-			if ( def != null && 
-				 def.getType( ) == IHyperlinkAction.ACTION_BOOKMARK )
-			{
-				def.setUrl( (String) links.get( def.getUrl( ) ) );
-			}
-
 			d.setProcessed( true );
 			data.add( row[i] );
 		}
@@ -423,13 +414,13 @@ public class ExcelLayoutEngine
 				d.setStyleId( styleid );
 				Rule rule = d.getRule( );
 				
-				//Excel Cell Is Start From 1
-				int start = axis.getCoordinate( rule.getStart( ) ) + 1;
-				int end = axis.getCoordinate( rule.getEnd( ) ) + 1;
+				//Excel Cell Starts From 1
+				int start = axis.getCoordinateIndex( rule.getStart( ) ) + 1;
+				int end = axis.getCoordinateIndex( rule.getEnd( ) ) + 1;
 				
 				end = Math.min( end, MAX_COLUMN );
 				int scount = Math.max(0, end - start - 1);
-				//Excel Span Is Start From 1
+				//Excel Span Starts From 1
 				Span span = new Span( start, scount );
 
 				HyperlinkDef link = d.getHyperlinkDef( );

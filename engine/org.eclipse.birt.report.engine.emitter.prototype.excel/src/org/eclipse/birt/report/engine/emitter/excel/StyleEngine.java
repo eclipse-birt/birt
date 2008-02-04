@@ -62,7 +62,7 @@ public class StyleEngine
 
 	public StyleEntry createEntry(Rule rule, IStyle style)
 	{
-		if(style ==  null)
+		if ( style == null )
 		{
 			return StyleBuilder.createEmptyStyleEntry( );
 		}	
@@ -90,7 +90,7 @@ public class StyleEngine
 		}
 	}
 
-	public StyleEntry createHorizionStyle( Rule rule )
+	public StyleEntry createHorizontalStyle( Rule rule )
 	{
 		StyleEntry entry = StyleBuilder.createEmptyStyleEntry( );
 		
@@ -138,8 +138,8 @@ public class StyleEngine
 		}
 
 		int start = rule.getStart( );
-		int col = engine.getAxis().getCoordinate( start );
-		int span = engine.getAxis().getCoordinate( rule.getEnd( ) ) - col;
+		int col = engine.getAxis().getCoordinateIndex( start );
+		int span = engine.getAxis().getCoordinateIndex( rule.getEnd( ) ) - col;
 		int cp = engine.getColumnSize( col );
 
 		cp = cp > 0 ? cp - 1 : 0;
@@ -192,8 +192,8 @@ public class StyleEngine
 		
 		XlsContainer container = engine.getCurrentContainer( );
 		StyleEntry entry = container.getStyle( );
-		int col = engine.getAxis( ).getCoordinate( rule.getStart( ) );
-		int span = engine.getAxis( ).getCoordinate( rule.getEnd( ) ) - col;
+		int col = engine.getAxis( ).getCoordinateIndex( rule.getStart( ) );
+		int span = engine.getAxis( ).getCoordinateIndex( rule.getEnd( ) ) - col;
 
 		for ( int i = col; i < span + col; i++ )
 		{

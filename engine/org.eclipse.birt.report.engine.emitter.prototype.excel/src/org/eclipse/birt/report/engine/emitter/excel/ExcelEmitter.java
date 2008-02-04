@@ -219,7 +219,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		
 		if ( ( (StyledElementDesign) data.getGenerateBy( ) ).getMap( ) != null
 				&& ( (StyledElementDesign) data.getGenerateBy( ) ).getMap( )
-						.getRuleCount( ) > 0 && data.getLabelText() != null )
+						.getRuleCount( ) > 0 && data.getLabelText( ) != null )
 		{
 			engine.addData( data.getLabelText( ).trim( ), data.getComputedStyle( ),
 					url, bookmark );
@@ -314,10 +314,17 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		{
 			if ( linkaction.getType( ) == IHyperlinkAction.ACTION_BOOKMARK )
 			{
-				//FIXME: CODE REVIEW: encode the bookmark 
-				return new HyperlinkDef( linkaction.getBookmark( ).replaceAll(
-						" ", "_" ), IHyperlinkAction.ACTION_BOOKMARK, null );
-
+				String bookmark = linkaction.getBookmark( );
+				if (ExcelUtil.isValidBookmarkName( bookmark ))
+				{
+					return new HyperlinkDef(  linkaction.getBookmark( ), 
+							IHyperlinkAction.ACTION_BOOKMARK, null );	
+				}
+				else
+				{
+					return null;
+				}
+				
 			}
 			else if ( linkaction.getType( ) == IHyperlinkAction.ACTION_HYPERLINK )
 			{
@@ -333,8 +340,8 @@ public class ExcelEmitter extends ContentEmitterAdapter
 				if ( ac != null && ac instanceof IHTMLActionHandler )
 				{
 					actionHandler = (IHTMLActionHandler) ac;
-					return new HyperlinkDef( actionHandler.getURL( act, service
-							.getReportContext( ) ),
+					return new HyperlinkDef( actionHandler.getURL( act,
+							service.getReportContext( ) ),
 							IHyperlinkAction.ACTION_DRILLTHROUGH, null );
 				}
 			}
@@ -344,8 +351,15 @@ public class ExcelEmitter extends ContentEmitterAdapter
 
 	private BookmarkDef getBookmark( IContent content )
 	{
-		if (content.getBookmark( ) == null)
+		String bookmark = content.getBookmark( );
+		if (bookmark == null)
 			return null;
+		
+		if ( !ExcelUtil.isValidBookmarkName( bookmark ) )
+		{
+			logger.log( Level.WARNING, "Invalid bookmark name for Excel!" );
+			return null;
+		}
 		
 		// !( content.getBookmark( ).startsWith( "__TOC" ) ) )
 		// bookmark starting with "__TOC" is not OK?
