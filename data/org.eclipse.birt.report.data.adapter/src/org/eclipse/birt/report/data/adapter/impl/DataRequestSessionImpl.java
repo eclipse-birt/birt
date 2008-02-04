@@ -557,7 +557,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		}
 		catch ( Exception e )
 		{
-			throw new DataException( e.getLocalizedMessage( ) );
+			throw new DataException( ResourceConstants.EXCEPTION_ERROR, e);
 		}
 	}
 
