@@ -215,10 +215,9 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 
 		IReportEngineFactory factory = (IReportEngineFactory) Platform.createFactoryObject( IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY );
 
+		configEngine( );
 		this.engine = factory.createReportEngine( engineConfig );
 		engine.changeLogLevel( Level.WARNING );
-
-		configEngine( );
 	}
 
 	private void configEngine( )
@@ -247,8 +246,8 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 
 		if ( userClassPath != null )
 		{
-			engineConfig.setProperty( EngineConstants.PROJECT_CLASSPATH_KEY,
-					userClassPath );
+			engineConfig.getAppContext( ).put(
+					EngineConstants.PROJECT_CLASSPATH_KEY, userClassPath );
 		}
 	}
 
