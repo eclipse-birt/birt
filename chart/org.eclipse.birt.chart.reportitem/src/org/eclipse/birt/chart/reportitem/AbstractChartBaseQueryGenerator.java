@@ -101,7 +101,7 @@ public abstract class AbstractChartBaseQueryGenerator
 	 * 
 	 * @param query
 	 * @param seriesDefinitions
-	 * @param innerGroupDef
+	 * @param innerMostGroupDef
 	 * @param valueExprMap
 	 * @param baseSD
 	 * @throws DataException
@@ -109,7 +109,7 @@ public abstract class AbstractChartBaseQueryGenerator
 	 */
 	protected void addValueSeriesAggregateBindingForGrouping(
 			BaseQueryDefinition query, EList seriesDefinitions,
-			GroupDefinition innerGroupDef, Map valueExprMap,
+			GroupDefinition innerMostGroupDef, Map valueExprMap,
 			SeriesDefinition baseSD ) throws ChartException
 	{
 		for ( Iterator iter = seriesDefinitions.iterator( ); iter.hasNext( ); )
@@ -130,72 +130,75 @@ public abstract class AbstractChartBaseQueryGenerator
 				}
 
 				String expr = qry.getDefinition( );
-				if ( expr != null && !"".equals( expr ) ) //$NON-NLS-1$
+				if ( expr == null || "".equals( expr ) ) //$NON-NLS-1$
 				{
-					String aggName = ChartUtil.getAggregateFuncExpr( orthSD,
-							baseSD );
-					if ( aggName != null && !"".equals( aggName ) ) //$NON-NLS-1$
+					continue;
+				}
+
+				String aggName = ChartUtil.getAggregateFuncExpr( orthSD, baseSD );
+				if ( aggName == null || "".equals( aggName ) ) //$NON-NLS-1$
+				{
+					continue;
+				}
+				
+				// Get a unique name.
+				String name = generateUniqueBindingName( expr );
+
+				Binding colBinding = new Binding( name );
+
+				colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
+				colBinding.setExpression( new ScriptExpression( expr ) );
+				if ( innerMostGroupDef != null )
+				{
+					try
 					{
-						// Get a unique name.
-						String name = generateUniqueBindingName( expr );
-
-						Binding colBinding = new Binding( name );
-
-						colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
-						colBinding.setExpression( new ScriptExpression( expr ) );
-						if ( innerGroupDef != null )
-						{
-							try
-							{
-								colBinding.addAggregateOn( innerGroupDef.getName( ) );
-							}
-							catch ( DataException e )
-							{
-								throw new ChartException( ChartReportItemPlugin.ID,
-										ChartException.DATA_BINDING,
-										e );
-							}
-						}
-
-						// Set aggregate parameters.
-						colBinding.setAggrFunction( ChartReportItemUtil.convertToDtEAggFunction( aggName ) );
-
-						IAggregateFunction aFunc = PluginSettings.instance( )
-								.getAggregateFunction( aggName );
-						if ( aFunc.getParametersCount( ) > 0 )
-						{
-							Object[] parameters = getAggFunParameters( orthSD,
-									baseSD );
-
-							for ( int i = 0; i < parameters.length &&
-									i < aFunc.getParametersCount( ); i++ )
-							{
-								String param = (String) parameters[i];
-								colBinding.addArgument( new ScriptExpression( param ) );
-							}
-						}
-
-						
-						String newExpr = getExpressionForEvaluator( name );
-
-						updateQueryDefinitionForSortOnAggregateExpression( qry,
-								name,
-								newExpr );
-
-						try
-						{
-							query.addBinding( colBinding );
-						}
-						catch ( DataException e )
-						{
-							throw new ChartException( ChartReportItemPlugin.ID,
-									ChartException.DATA_BINDING,
-									e );
-						}
-
-						valueExprMap.put( expr, new String[]{name, newExpr} );
+						colBinding.addAggregateOn( innerMostGroupDef.getName( ) );
+					}
+					catch ( DataException e )
+					{
+						throw new ChartException( ChartReportItemPlugin.ID,
+								ChartException.DATA_BINDING,
+								e );
 					}
 				}
+
+				// Set aggregate parameters.
+				colBinding.setAggrFunction( ChartReportItemUtil.convertToDtEAggFunction( aggName ) );
+
+				IAggregateFunction aFunc = PluginSettings.instance( )
+						.getAggregateFunction( aggName );
+				if ( aFunc.getParametersCount( ) > 0 )
+				{
+					Object[] parameters = getAggFunParameters( orthSD, baseSD );
+
+					for ( int i = 0; i < parameters.length &&
+							i < aFunc.getParametersCount( ); i++ )
+					{
+						String param = (String) parameters[i];
+						colBinding.addArgument( new ScriptExpression( param ) );
+					}
+				}
+
+				String newExpr = getExpressionForEvaluator( name );
+
+				updateQueryDefinitionForSortOnAggregateExpression( qry,
+						name,
+						newExpr );
+
+				try
+				{
+					query.addBinding( colBinding );
+				}
+				catch ( DataException e )
+				{
+					throw new ChartException( ChartReportItemPlugin.ID,
+							ChartException.DATA_BINDING,
+							e );
+				}
+
+				valueExprMap.put( expr, new String[]{
+						name, newExpr
+				} );
 			}
 		}
 	}
@@ -230,7 +233,7 @@ public abstract class AbstractChartBaseQueryGenerator
 	protected void generateGroupBindings( BaseQueryDefinition query )
 			throws ChartException
 	{
-		// 1. Get first base and orthogonal series definition to get
+		// 1. Get first category and orthogonal series definition to get
 		// grouping definition.
 		SeriesDefinition categorySD = null;
 		SeriesDefinition orthSD = null;
@@ -291,70 +294,54 @@ public abstract class AbstractChartBaseQueryGenerator
 			GroupDefinition categoryGroupDefinition, Map valueExprMap )
 	{
 		String baseSortExpr = getValidSortExpr( categorySD );
-		if ( categorySD.isSetSorting( ) && baseSortExpr != null )
+		if ( !categorySD.isSetSorting( ) || baseSortExpr == null )
 		{
-			if ( ChartReportItemUtil.isBaseGroupingDefined( categorySD ) )
+			return;
+		}
+		
+		SortDefinition sd = new SortDefinition( );
+
+		// Chart need to set SortStrength to support sorting locale
+		// characters, it is compatibility with old logic of
+		// chart(version<2.3).
+		sd.setSortStrength( ISortDefinition.DEFAULT_SORT_STRENGTH );
+
+		sd.setSortDirection( ChartReportItemUtil.convertToDtESortDirection( categorySD.getSorting( ) ) );
+		
+		if ( ChartReportItemUtil.isBaseGroupingDefined( categorySD ) )
+		{
+			// If base series set group, add sort on group definition.
+			String baseExpr = ( (Query) categorySD.getDesignTimeSeries( )
+					.getDataDefinition( )
+					.get( 0 ) ).getDefinition( );
+			if ( baseExpr.equals( getValidSortExpr( categorySD ) ) )
 			{
-				// If base series set group, add sort on group definition.
-				String baseExpr = ( (Query) categorySD.getDesignTimeSeries( )
-						.getDataDefinition( )
-						.get( 0 ) ).getDefinition( );
-				if ( baseExpr.equals( getValidSortExpr( categorySD ) ) )
-				{
-					SortDefinition sd = new SortDefinition( );
-					// Chart need to set SortStrength to support sorting locale
-					// characters, it is compatibility with old logic of
-					// chart(version<2.3).
-					sd.setSortStrength( ISortDefinition.DEFAULT_SORT_STRENGTH );
-					
-					sd.setSortDirection( ChartReportItemUtil.convertToDtESortDirection( categorySD.getSorting( ) ) );
-					sd.setExpression( baseExpr );
-					
-					categoryGroupDefinition.addSort( sd );
-				}
-				else
-				{
-					SortDefinition sd = new SortDefinition( );
-					
-					// Chart need to set SortStrength to support sorting locale
-					// characters, it is compatibility with old logic of
-					// chart(version<2.3).
-					sd.setSortStrength( ISortDefinition.DEFAULT_SORT_STRENGTH );
-					
-					sd.setSortDirection( ChartReportItemUtil.convertToDtESortDirection( categorySD.getSorting( ) ) );
-
-					String[] nameNewExprArray = (String[]) valueExprMap.get( baseSortExpr );
-					if ( nameNewExprArray != null && nameNewExprArray.length == 2 )
-					{
-						// Use new expression instead of old.
-						updateQueryDefinitionForSortOnAggregateExpression( categorySD.getSortKey( ),
-								nameNewExprArray[0],
-								nameNewExprArray[1] );
-
-						sd.setExpression( nameNewExprArray[1] );
-					}
-					else
-					{
-						sd.setExpression( baseSortExpr );
-					}
-
-					categoryGroupDefinition.addSort( sd );
-				}
+				sd.setExpression( baseExpr );
 			}
 			else
 			{
-				// If base series doesn't set group, directly add sort on
-				// query definition.
-				SortDefinition sd = new SortDefinition( );
-				// Chart need to set SortStrength to support sorting locale
-				// characters, it is compatibility with old logic of
-				// chart(version<2.3).
-				sd.setSortStrength( ISortDefinition.DEFAULT_SORT_STRENGTH );
-				
-				sd.setExpression( baseSortExpr );
-				sd.setSortDirection( ChartReportItemUtil.convertToDtESortDirection( categorySD.getSorting( ) ) );
-				query.addSort( sd );
+				String[] nameNewExprArray = (String[]) valueExprMap.get( baseSortExpr );
+				if ( nameNewExprArray != null && nameNewExprArray.length == 2 )
+				{
+					// Use new expression instead of old.
+					updateQueryDefinitionForSortOnAggregateExpression( categorySD.getSortKey( ),
+							nameNewExprArray[0],
+							nameNewExprArray[1] );
+
+					sd.setExpression( nameNewExprArray[1] );
+				}
+				else
+				{
+					sd.setExpression( baseSortExpr );
+				}
 			}
+			
+			categoryGroupDefinition.addSort( sd );			
+		}
+		else
+		{
+			sd.setExpression( baseSortExpr );
+			query.addSort( sd );
 		}
 	}
 
@@ -369,10 +356,10 @@ public abstract class AbstractChartBaseQueryGenerator
 			SeriesDefinition categorySD, Object[] orthAxisArray )
 			throws ChartException
 	{
-		GroupDefinition innerGroupDef = null;
+		GroupDefinition innerMostGroupDef = null;
 		if ( query.getGroups( ) != null && query.getGroups( ).size( ) > 0 )
 		{
-			innerGroupDef = (GroupDefinition) query.getGroups( )
+			innerMostGroupDef = (GroupDefinition) query.getGroups( )
 					.get( query.getGroups( ).size( ) - 1 );
 		}
 
@@ -384,7 +371,7 @@ public abstract class AbstractChartBaseQueryGenerator
 			{
 				addValueSeriesAggregateBindingForGrouping( query,
 						( (Axis) orthAxisArray[i] ).getSeriesDefinitions( ),
-						innerGroupDef,
+						innerMostGroupDef,
 						valueExprMap,
 						categorySD );
 			}
@@ -393,7 +380,7 @@ public abstract class AbstractChartBaseQueryGenerator
 		{
 			addValueSeriesAggregateBindingForGrouping( query,
 					categorySD.getSeriesDefinitions( ),
-					innerGroupDef,
+					innerMostGroupDef,
 					valueExprMap,
 					categorySD );
 		}
@@ -426,58 +413,83 @@ public abstract class AbstractChartBaseQueryGenerator
 		GroupDefinition yGroupingDefinition = createOrthogonalGroupingDefinition( orthSD );
 		if ( yGroupingDefinition != null )
 		{
+			// Add y optional group to query.
 			query.addGroup( yGroupingDefinition );
 
-			// If the SortKey of Y grouping isn't Y grouping expression, add new
-			// sort definition on the group. If base grouping is set, the value
-			// series should be aggregate.
-			if ( ChartReportItemUtil.isBaseGroupingDefined( categorySD ) &&
-					orthSD.isSetSorting( ) &&
-					orthSD.getSortKey( ) != null )
+			if ( !orthSD.isSetSorting( ) )
 			{
-				String sortKey = orthSD.getSortKey( ).getDefinition( );
-				String yGroupingExpr = orthSD.getQuery( ).getDefinition( );
+				return yGroupingDefinition;
+			}
 
+			// Create a new sort
+			SortDefinition sortDefinition = new SortDefinition( );
+
+			// Chart need to set SortStrength to support sorting locale
+			// characters, it is compatibility with old logic of
+			// chart(version<2.3).
+			sortDefinition.setSortStrength( ISortDefinition.DEFAULT_SORT_STRENGTH );
+			
+			sortDefinition.setSortDirection( ChartReportItemUtil.convertToDtESortDirection( orthSD.getSorting( ) ) );
+
+			String sortKey = null;
+			if ( orthSD.getSortKey( ) != null &&
+					orthSD.getSortKey( ).getDefinition( ) != null )
+			{
+				sortKey = orthSD.getSortKey( ).getDefinition( );
+			}
+
+			if ( sortKey == null || yGroupingDefinition.getKeyExpression( ).equals( sortKey ) )
+			{
+				// Sort key is group expression.
+				sortDefinition.setExpression( yGroupingDefinition.getKeyExpression( ) );
+			}
+			else
+			{
 				// Add additional sort on the grouping.
-				if ( sortKey != null && !yGroupingExpr.equals( sortKey ) )
+				String name = generateUniqueBindingName( sortKey );
+				Binding binding = new Binding( name );
+				try
 				{
-					// If the SortKey does't equal Y grouping expression, we
-					// must create new sort definition and calculate
-					// aggregate on the grouping and sort by the SortKey.
-					String name = generateUniqueBindingName( sortKey );
-					Binding binding = new Binding( name );
-					try
-					{
-						query.addBinding( binding );
-						binding.setExpression( new ScriptExpression( sortKey ) );
-						binding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
-						binding.addAggregateOn( yGroupingDefinition.getName( ) );
-					}
-					catch ( DataException e )
-					{
-						throw new ChartException( ChartReportItemPlugin.ID,
-								ChartException.DATA_BINDING,
-								e );
-					}
+					query.addBinding( binding );
+					binding.setExpression( new ScriptExpression( sortKey ) );
+					binding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
+					binding.addAggregateOn( yGroupingDefinition.getName( ) );
+				}
+				catch ( DataException e )
+				{
+					throw new ChartException( ChartReportItemPlugin.ID,
+							ChartException.DATA_BINDING,
+							e );
+				}
 
-					String aggFunc = getAggFunExpr( sortKey,
-							categorySD,
-							orthAxisArray );
+				// Get aggregate func.
+				String aggFunc = getAggFunExpr( sortKey,
+						categorySD,
+						orthAxisArray );
+				if ( aggFunc != null )
+				{
 					binding.setAggrFunction( ChartReportItemUtil.convertToDtEAggFunction( aggFunc ) );
 
-					SortDefinition sortDefinition = new SortDefinition( );
-					
-					// Chart need to set SortStrength to support sorting locale
-					// characters, it is compatibility with old logic of
-					// chart(version<2.3).
-					sortDefinition.setSortStrength( ISortDefinition.DEFAULT_SORT_STRENGTH );
-					
-					sortDefinition.setColumn( binding.getBindingName( ) );
-					sortDefinition.setExpression( ExpressionUtil.createRowExpression( binding.getBindingName( ) ) );
-					sortDefinition.setSortDirection( ChartReportItemUtil.convertToDtESortDirection( orthSD.getSorting( ) ) );
-					yGroupingDefinition.addSort( sortDefinition );
+					IAggregateFunction aFunc = PluginSettings.instance( )
+							.getAggregateFunction( aggFunc );
+					if ( aFunc.getParametersCount( ) > 0 )
+					{
+						Object[] parameters = getAggFunParameters( orthSD,
+								categorySD );
+
+						for ( int i = 0; i < parameters.length &&
+								i < aFunc.getParametersCount( ); i++ )
+						{
+							String param = (String) parameters[i];
+							binding.addArgument( new ScriptExpression( param ) );
+						}
+					}
 				}
+		
+				sortDefinition.setExpression( ExpressionUtil.createRowExpression( binding.getBindingName( ) ) );
 			}
+			
+			yGroupingDefinition.addSort( sortDefinition );
 		}
 
 		return yGroupingDefinition;
@@ -521,20 +533,6 @@ public abstract class AbstractChartBaseQueryGenerator
 			yGroupDefinition.setIntervalRange( ChartReportItemUtil.convertToDtEIntervalRange( dataType,
 					groupUnit,
 					groupIntervalRange ) );
-			if ( orthSD.isSetSorting( ) )
-			{
-				// Create a new sort
-				SortDefinition sortDefinition = new SortDefinition( );
-
-				// Chart need to set SortStrength to support sorting locale
-				// characters, it is compatibility with old logic of
-				// chart(version<2.3).
-				sortDefinition.setSortStrength( ISortDefinition.DEFAULT_SORT_STRENGTH );
-
-				sortDefinition.setExpression( yGroupExpr );
-				sortDefinition.setSortDirection( ChartReportItemUtil.convertToDtESortDirection( orthSD.getSorting( ) ) );
-				yGroupDefinition.addSort( sortDefinition );
-			}
 
 			return yGroupDefinition;
 		}
@@ -669,8 +667,8 @@ public abstract class AbstractChartBaseQueryGenerator
 							.get( 0 );
 					if ( sortKey.equals( q.getDefinition( ) ) )
 					{
-						aggFunction = sd.getGrouping( )
-								.getAggregateExpression( );
+						aggFunction =  ChartUtil.getAggregateFunctionExpr( sd,
+								baseAggFunExpr );
 						break;
 					}
 				}

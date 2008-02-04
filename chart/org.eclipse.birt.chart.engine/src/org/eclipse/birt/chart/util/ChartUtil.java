@@ -734,7 +734,7 @@ public class ChartUtil
 	{
 		String strOrthoAgg = null;
 		SeriesGrouping grouping = orthoSD.getGrouping( );
-		// Only if base series has enabled grouping
+		// The enabled grouping means that aggregate is set on orthogonal series.
 		if ( grouping != null && grouping.isSetEnabled( ) && grouping.isEnabled( ) )
 		{
 			// Set own group
