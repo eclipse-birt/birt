@@ -59,6 +59,11 @@ ProductLinesAfter=Cet exemple décrit comment utiliser les éléments Etiquette, Te
 #Sub Report
 OrdersAfter=Cet exemple explique comment créer un état utilisant des tables imbriquées. La requête liée à la table interne est paramétrée afin de renvoyer les détails de commande d'un numéro de commande donné d'une table externe. Cet exemple explique également comment référencer des colonnes de table externe dans une table imbriquée. Cette opération permet d'intégrer des informations principales provenant d'un état dans les états BIRT. La table externe traite ses lignes et la requête de la table interne est réexécutée en fonction des informations de la table externe. 
 
+#Sorting
+SortTableByReportParameter=Cet exemple explique comment créer un état utilisant des tables imbriquées. La requête liée à la table interne est paramétrée afin de renvoyer les détails de commande d'un numéro de commande donné d'une table externe. Cet exemple explique également comment référencer des colonnes de table externe dans une table imbriquée. Cette opération permet d'intégrer des informations principales provenant d'un état dans les états BIRT. La table externe traite ses lignes et la requête de la table interne est réexécutée en fonction des informations de la table externe. 
+
+#Cross tab
+CrosstabSampleRevenue=This example demonstrates building a simple report with a cross tab report item ( which is based on a BIRT cube). It create a cross tab with product line along the column area and year->quarter along the row area.
 ###########################################################
 #Contribute Samples
 Contribute_Samples=Veuillez soumettre une entrée bugzilla à l'adresse https://bugs.eclipse.org/bugs/enter_bug.cgi?product=BIRTb&bug_severity=enhancement et joignez le fichier du modèle d'état et une capture d'écran de la sortie d'état (au format .png, résolution de 800*600, taille inférieure ou égale à 250 Ko)
@@ -69,7 +74,7 @@ Contribute_Samples=Veuillez soumettre une entrée bugzilla à l'adresse https://bu
 #Dynamic Map Rule
 DynamicMapRule=Cet exemple décrit comment appeler l'outil de conception de rapports API dans le script avant génération pour ajouter une règle de mappage à un élément d'état.  
 
-#Group Spearator
+#Group Separator
 GroupSeparator=Cet exemple décrit comment ajouter, dans un groupe, un séparateur toutes les 3 lignes. Ce nombre est réinitialisé lors d'un saut de page.  
 
 #Retrieve Session Information
@@ -80,6 +85,9 @@ ScriptedDatasourceExampleAfter=Les exemples présentés dans cette section illustr
 
 #Visibility Rule
 Addvisrule=Cet exemple décrit comment ajouter une règle de visibilité à un script.  
+
+#Chart
+SimpleChartAPI=This example illustrate many of the available java script methods in within the simple Chart API.  They are called from the beforeFactory event handler of the report.
 
 ###########################################################
 #Extending BIRT

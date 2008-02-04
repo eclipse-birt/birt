@@ -59,6 +59,11 @@ ProductLinesAfter=この例では、レポートデザインに Label、Text、Dynamic Text、Data
 #Sub Report
 OrdersAfter=この例では、テーブルをネスト化してレポートを構築する方法を示します。内側のテーブルのクエリにはパラメタが組み込まれており、外側のテーブルの注文番号の詳細な注文内容が内側のテーブルに表示されます。また、内側のテーブルから外側のテーブルを参照する構造により、マスターの詳細情報を同じレポート内で示すことができます。つまり、外側のテーブルの行を処理するときに、その情報に基づいて内側のテーブルのクエリが再実行されます。 
 
+#Sorting
+SortTableByReportParameter=この例では、テーブルをネスト化してレポートを構築する方法を示します。内側のテーブルのクエリにはパラメタが組み込まれており、外側のテーブルの注文番号の詳細な注文内容が内側のテーブルに表示されます。また、内側のテーブルから外側のテーブルを参照する構造により、マスターの詳細情報を同じレポート内で示すことができます。つまり、外側のテーブルの行を処理するときに、その情報に基づいて内側のテーブルのクエリが再実行されます。 
+
+#Cross tab
+CrosstabSampleRevenue=This example demonstrates building a simple report with a cross tab report item ( which is based on a BIRT cube). It create a cross tab with product line along the column area and year->quarter along the row area.
 ###########################################################
 #Contribute Samples
 Contribute_Samples=Bugzilla のエントリは、https://bugs.eclipse.org/bugs/enter_bug.cgi?product=BIRTb&bug_severity=enhancement まで送信してください。同時に、レポートデザインファイルと、レポート出力のスクリーンショット (.png 形式、800 x 600 の解像度、250 KB 以内) も添付してください。
@@ -69,7 +74,7 @@ Contribute_Samples=Bugzilla のエントリは、https://bugs.eclipse.org/bugs/enter_bu
 #Dynamic Map Rule
 DynamicMapRule=この例では、beforeFactory スクリプトからデザインエンジン API を呼び出し、レポート要素にマップ規則を追加する方法を示します。  
 
-#Group Spearator
+#Group Separator
 GroupSeparator=この例では、グループ内で 3 行ごとに区切りを追加する方法を示します。この計算は改ページごとにリセットされます。  
 
 #Retrieve Session Information
@@ -80,6 +85,9 @@ ScriptedDatasourceExampleAfter=ここでは、BIRT のスクリプト機能について、シンプル
 
 #Visibility Rule
 Addvisrule=この例では、スクリプトに可視性規則を追加する方法を示します。  
+
+#Chart
+SimpleChartAPI=This example illustrate many of the available java script methods in within the simple Chart API.  They are called from the beforeFactory event handler of the report.
 
 ###########################################################
 #Extending BIRT

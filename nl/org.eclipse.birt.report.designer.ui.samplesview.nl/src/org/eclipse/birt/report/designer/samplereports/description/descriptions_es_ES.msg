@@ -59,6 +59,11 @@ ProductLinesAfter=En este ejemplo se muestra el uso de los elementos Etiqueta, T
 #Sub Report
 OrdersAfter=En este ejemplo se muestra la compilación de un informe que utiliza tablas anidadas. La consulta vinculada a la tabla interna dispone de parámetros para devolver detalles del pedido de un número de pedido determinado de la tabla externa. En este ejemplo se muestra también la referencia a columnas de tabla externas dentro de una tabla anidada. Esto permite diseñar informes BIRT con información de datos principales contenidos dentro del mismo informe. Al procesar la tabla externa, se vuelve a ejecutar su consulta de tabla interior basada en información de la tabla exterior. 
 
+#Sorting
+SortTableByReportParameter=En este ejemplo se muestra la compilación de un informe que utiliza tablas anidadas. La consulta vinculada a la tabla interna dispone de parámetros para devolver detalles del pedido de un número de pedido determinado de la tabla externa. En este ejemplo se muestra también la referencia a columnas de tabla externas dentro de una tabla anidada. Esto permite diseñar informes BIRT con información de datos principales contenidos dentro del mismo informe. Al procesar la tabla externa, se vuelve a ejecutar su consulta de tabla interior basada en información de la tabla exterior. 
+
+#Cross tab
+CrosstabSampleRevenue=This example demonstrates building a simple report with a cross tab report item ( which is based on a BIRT cube). It create a cross tab with product line along the column area and year->quarter along the row area.
 ###########################################################
 #Contribute Samples
 Contribute_Samples=Envíe una entrada de Bugzilla en https://bugs.eclipse.org/bugs/enter_bug.cgi?product=BIRTb&bug_severity=enhancement, adjunte el archivo de diseño de informe y la captura de pantalla de la salida de informe (en formato de imagen .png, resolución 800*600, inferior a 250 KB)
@@ -69,7 +74,7 @@ Contribute_Samples=Envíe una entrada de Bugzilla en https://bugs.eclipse.org/bug
 #Dynamic Map Rule
 DynamicMapRule=En este ejemplo se ilustra la llamada a la API del motor de diseño dentro del script beforeFactory para agregar una regla de asignación a un elemento de informe.  
 
-#Group Spearator
+#Group Separator
 GroupSeparator=En este ejemplo se ilustra la adición de un separador cada tres filas dentro de un grupo. Este recuento se restablece en un salto de página.  
 
 #Retrieve Session Information
@@ -80,6 +85,9 @@ ScriptedDatasourceExampleAfter=Esta sección de Ejemplos se centra en los scripts
 
 #Visibility Rule
 Addvisrule=En este ejemplo se ilustra cómo agregar una regla de visibilidad a un script.  
+
+#Chart
+SimpleChartAPI=This example illustrate many of the available java script methods in within the simple Chart API.  They are called from the beforeFactory event handler of the report.
 
 ###########################################################
 #Extending BIRT

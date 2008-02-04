@@ -59,6 +59,11 @@ ProductLinesAfter=Dieses Beispiel veranschaulicht die Verwendung von Beschriftun
 #Sub Report
 OrdersAfter=Dieses Beispiel veranschaulicht die Erstellung eines Berichts, der verschachtelte Tabellen verwendet. Die an die innere Tabelle gebundene Abfrage enthält Parameter, um Auftragsdetails für eine gegebene Auftragsnummer in der äußeren Tabelle zurückzugeben. Dieses Beispiel erklärt auch das Verweisen der äußeren Tabellenspalten innerhalb einer verschachtelten Tabelle. Dadurch können BIRT-Berichte mit Master-Detailinformationen ausgestattet werden, die im selben Bericht enthalten sind. Während die Zeilen der äußeren Tabelle verarbeitet werden, wird die Abfrage für die innere Tabelle basierend auf den Informationen der äußeren Tabelle erneut durchgeführt. 
 
+#Sorting
+SortTableByReportParameter=Dieses Beispiel veranschaulicht die Erstellung eines Berichts, der verschachtelte Tabellen verwendet. Die an die innere Tabelle gebundene Abfrage enthält Parameter, um Auftragsdetails für eine gegebene Auftragsnummer in der äußeren Tabelle zurückzugeben. Dieses Beispiel erklärt auch das Verweisen der äußeren Tabellenspalten innerhalb einer verschachtelten Tabelle. Dadurch können BIRT-Berichte mit Master-Detailinformationen ausgestattet werden, die im selben Bericht enthalten sind. Während die Zeilen der äußeren Tabelle verarbeitet werden, wird die Abfrage für die innere Tabelle basierend auf den Informationen der äußeren Tabelle erneut durchgeführt. 
+
+#Cross tab
+CrosstabSampleRevenue=This example demonstrates building a simple report with a cross tab report item ( which is based on a BIRT cube). It create a cross tab with product line along the column area and year->quarter along the row area.
 ###########################################################
 #Contribute Samples
 Contribute_Samples=Reichen Sie einen Bugzilla-Eintrag unter https://bugs.eclipse.org/bugs/enter_bug.cgi?product=BIRTbb&bug_severity=enhancement ein, und hängen Sie die Berichtdesigndatei und den Screenshot über die Berichtausgabe an (im .png-Bildformat, mit einer Auflösung von 800 x 600 und unter 250 KB).
@@ -69,7 +74,7 @@ Contribute_Samples=Reichen Sie einen Bugzilla-Eintrag unter https://bugs.eclipse
 #Dynamic Map Rule
 DynamicMapRule=Dieses Beispiel veranschaulicht die Design Engine-API innerhalb des vorFactory-Skripts, um einem Berichtselement eine Zuordnungsregel hinzuzufügen.  
 
-#Group Spearator
+#Group Separator
 GroupSeparator=Dieses Beispiel veranschaulicht, wie ein Trennzeichen alle 3 Reihen innerhalb einer Gruppe hinzugefügt wird. Diese Zahl wird bei jedem Seitenumbruch zurückgesetzt.  
 
 #Retrieve Session Information
@@ -80,6 +85,9 @@ ScriptedDatasourceExampleAfter=Dieser Abschnitt mit Beispielen konzentriert sich
 
 #Visibility Rule
 Addvisrule=Dieses Beispiel veranschaulicht, wie eine Sichtbarkeitsregel in einem Skript hinzugefügt wird.  
+
+#Chart
+SimpleChartAPI=This example illustrate many of the available java script methods in within the simple Chart API.  They are called from the beforeFactory event handler of the report.
 
 ###########################################################
 #Extending BIRT

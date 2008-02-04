@@ -59,6 +59,11 @@ ProductLinesAfter=±¾Ê¾ÀıÊ¾·¶ÈçºÎÔÚ±¨±íÉè¼ÆÖĞÊ¹ÓÃ¡°±êÇ©¡±¡¢¡°ÎÄ±¾¡±¡¢¡°¶¯Ì¬ÎÄ±¾¡±
 #Sub Report
 OrdersAfter=±¾Ê¾ÀıÊ¾·¶ÈçºÎÉú³ÉÊ¹ÓÃÇ¶Ì×±íµÄ±¨±í¡£°ó¶¨µ½ÄÚ²¿±íµÄ²éÑ¯ÒÑ±»²ÎÊı»¯ÒÔ·µ»ØÍâ²¿±íÖĞ¸ø¶¨¶©µ¥ºÅµÄ¶©µ¥Ï¸½Ú¡£±¾Ê¾ÀıÒ²ËµÃ÷ÈçºÎÔÚÇ¶Ì×±íÖĞÒıÓÃÍâ²¿±íÁĞ¡£ÕâÔÊĞí½« BIRT ±¨±íÉè¼ÆÎª½«Ö÷Ã÷Ï¸ĞÅÏ¢°üº¬ÔÚÏàÍ¬µÄ±¨±íÖĞ¡£µ±Íâ²¿±íÕıÔÚ´¦ÀíĞĞµÄÊ±ºò£¬»á¸ù¾İÀ´×ÔÍâ²¿±íµÄĞÅÏ¢ÔÙÖ´ĞĞÄÚ²¿±í²éÑ¯¡£ 
 
+#Sorting
+SortTableByReportParameter=±¾Ê¾ÀıÊ¾·¶ÈçºÎÉú³ÉÊ¹ÓÃÇ¶Ì×±íµÄ±¨±í¡£°ó¶¨µ½ÄÚ²¿±íµÄ²éÑ¯ÒÑ±»²ÎÊı»¯ÒÔ·µ»ØÍâ²¿±íÖĞ¸ø¶¨¶©µ¥ºÅµÄ¶©µ¥Ï¸½Ú¡£±¾Ê¾ÀıÒ²ËµÃ÷ÈçºÎÔÚÇ¶Ì×±íÖĞÒıÓÃÍâ²¿±íÁĞ¡£ÕâÔÊĞí½« BIRT ±¨±íÉè¼ÆÎª½«Ö÷Ã÷Ï¸ĞÅÏ¢°üº¬ÔÚÏàÍ¬µÄ±¨±íÖĞ¡£µ±Íâ²¿±íÕıÔÚ´¦ÀíĞĞµÄÊ±ºò£¬»á¸ù¾İÀ´×ÔÍâ²¿±íµÄĞÅÏ¢ÔÙÖ´ĞĞÄÚ²¿±í²éÑ¯¡£ 
+
+#Cross tab
+CrosstabSampleRevenue=This example demonstrates building a simple report with a cross tab report item ( which is based on a BIRT cube). It create a cross tab with product line along the column area and year->quarter along the row area.
 ###########################################################
 #Contribute Samples
 Contribute_Samples=Çë½« bugzilla ÌõÄ¿Ìá½»µ½ https://bugs.eclipse.org/bugs/enter_bug.cgi?product=BIRTb&bug_severity=enhancement£¬¸½¼Ó±¨±íÉè¼ÆÎÄ¼şºÍ±¨±íÊä³ö×¥Í¼£¨.png Í¼Ïñ¸ñÊ½¡¢800*600 ·Ö±æÂÊ¡¢²»³¬¹ı 250 KB£©
@@ -69,7 +74,7 @@ Contribute_Samples=Çë½« bugzilla ÌõÄ¿Ìá½»µ½ https://bugs.eclipse.org/bugs/enter_
 #Dynamic Map Rule
 DynamicMapRule=´ËÊ¾ÀıËµÃ÷ÈçºÎµ÷ÓÃ beforeFactory ½Å±¾ÄÚ²¿µÄÉè¼ÆÒıÇæ API ½«Ó³Éä¹æÔòÌí¼Óµ½±¨±íÔªËØ¡£  
 
-#Group Spearator
+#Group Separator
 GroupSeparator=´ËÊ¾ÀıËµÃ÷ÈçºÎÔÚ×éÖĞÃ¿ 3 ĞĞÌí¼ÓÒ»¸ö·Ö¸ô·û¡£  
 
 #Retrieve Session Information
@@ -80,6 +85,9 @@ ScriptedDatasourceExampleAfter=¸Ã²¿·ÖÊ¾Àı¼¯ÖĞÔÚ BIRT ÄÚµÄ½Å±¾ÉÏ¡£Ê¹ÓÃ¼òµ¥±¨±íËµÃ
 
 #Visibility Rule
 Addvisrule=´ËÊ¾ÀıËµÃ÷ÈçºÎÔÚ½Å±¾ÖĞÌí¼Ó¿É¼ûĞÔ¹æÔò¡£  
+
+#Chart
+SimpleChartAPI=This example illustrate many of the available java script methods in within the simple Chart API.  They are called from the beforeFactory event handler of the report.
 
 ###########################################################
 #Extending BIRT
