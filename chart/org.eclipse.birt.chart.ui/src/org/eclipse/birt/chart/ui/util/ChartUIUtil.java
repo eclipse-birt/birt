@@ -1618,6 +1618,8 @@ public class ChartUIUtil
 	{
 		// If predefined query is found, that means cube bindings is used, so
 		// grouping is unsupported in this case.
+		// TODO 2/4/2008
+		// ? The logic should be changed, because predefined query also can be found when it is share binding case.
 		return wizardContext.getPredefinedQuery( ChartUIConstants.QUERY_CATEGORY ) == null
 				&& wizardContext.getPredefinedQuery( ChartUIConstants.QUERY_VALUE ) == null;
 	}

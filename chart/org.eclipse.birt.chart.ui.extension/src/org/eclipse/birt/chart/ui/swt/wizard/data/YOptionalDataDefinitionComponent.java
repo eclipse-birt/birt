@@ -130,6 +130,12 @@ public class YOptionalDataDefinitionComponent extends BaseDataDefinitionComponen
 
 			if ( seriesdefinition.getQuery( ) != null )
 			{
+				if ( sdBackup.getQuery( ).getGrouping( ) == null )
+				{
+					// If it is cube set case, the grouping should be null.
+					return;
+				}
+				
 				seriesdefinition.getQuery( )
 						.setGrouping( sdBackup.getQuery( ).getGrouping( ) );
 				seriesdefinition.getQuery( )
