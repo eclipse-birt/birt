@@ -278,12 +278,6 @@ class PreparedQueryUtil
 	private static int runQueryOnRS( DataEngineImpl dataEngine,
 			IQueryDefinition queryDefn ) throws DataException
 	{
-		if( !queryDefn.usesDetails( ) )
-		{
-			queryDefn.getSorts( ).clear( );
-		}
-	
-		
 		String queryResultID = queryDefn.getQueryResultsID( );
 
 		String rootQueryResultID = QueryResultIDUtil.get1PartID( queryResultID );
@@ -307,6 +301,11 @@ class PreparedQueryUtil
 		if( QueryCompUtil.isIVQueryDefnEqual( rootQueryDefn, queryDefn ))
 		{
 			return BASED_ON_PRESENTATION;
+		}
+		
+		if( !queryDefn.usesDetails( ) )
+		{
+			queryDefn.getSorts( ).clear( );
 		}
 		
 		boolean runningOnRS = GroupDefnUtil.isEqualGroups( queryDefn.getGroups( ),
