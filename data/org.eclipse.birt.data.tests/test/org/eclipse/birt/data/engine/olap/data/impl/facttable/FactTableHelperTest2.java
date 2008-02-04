@@ -17,8 +17,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
@@ -57,11 +55,13 @@ import org.eclipse.birt.data.engine.olap.data.util.BufferedPrimitiveDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 
+import testutil.BaseTestCase;
+
 /**
  * 
  */
 
-public class FactTableHelperTest2 extends TestCase
+public class FactTableHelperTest2 extends BaseTestCase
 {
 	//private static final String tmpPath = System.getProperty( "java.io.tmpdir" ) + File.separator;
 	private DimLevel dimLevel31 = new DimLevel("dimension3","level31");
@@ -698,10 +698,12 @@ public class FactTableHelperTest2 extends TestCase
 	 */
 	public void testFactTableSaveAndLoad5( ) throws IOException, BirtException
 	{
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_GENERATION,
+		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.MODE_GENERATION,
 				null,
 				null,
-				null ) );
+				null );
+		context.setTmpdir( this.getTempDir( ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( context );
 		CubeMaterializer cubeCreatorHelper = new CubeMaterializer( engine, "cub1" );
 		
 		testFactTableSaveAndLoad5( cubeCreatorHelper );

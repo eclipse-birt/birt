@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl.rd;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.birt.core.archive.FileArchiveReader;
@@ -67,6 +66,7 @@ public class ReportDocumentTest2 extends APITestCase
 		String fileName = getOutputFolder( ) + "testData";
 		DataEngineContext deContext1 = newContext( DataEngineContext.MODE_GENERATION,
 				fileName );
+		deContext1.setTmpdir( this.getTempDir( ) );
 		myGenDataEngine = DataEngine.newDataEngine( deContext1 );
 		
 		myGenDataEngine.defineDataSource( this.dataSource );
@@ -318,15 +318,6 @@ public class ReportDocumentTest2 extends APITestCase
 		this.totalExprName[1] = "TOTAL_AMOUNT_1";
 		
 		return totalBeArray;
-	}
-	
-	/**
-	 * @return folder for report document
-	 */
-	private String getOutputFolder() 
-	{
-		return new File(new File(System.getProperty("java.io.tmpdir")),
-				"output").getAbsolutePath();
 	}
 	
 	/**

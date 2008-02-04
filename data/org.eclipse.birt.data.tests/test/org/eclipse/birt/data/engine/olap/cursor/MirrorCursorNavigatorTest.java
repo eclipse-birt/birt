@@ -16,8 +16,6 @@ import javax.olap.cursor.CubeCursor;
 import javax.olap.cursor.DimensionCursor;
 import javax.olap.cursor.EdgeCursor;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -29,7 +27,9 @@ import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
 import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.Scriptable;
 
-public class MirrorCursorNavigatorTest extends TestCase
+import testutil.BaseTestCase;
+
+public class MirrorCursorNavigatorTest extends BaseTestCase
 {
 
 	private Scriptable scope;
@@ -44,10 +44,12 @@ public class MirrorCursorNavigatorTest extends TestCase
 		super.setUp( );
 
 		this.scope = new ImporterTopLevel( );
-		de = (DataEngineImpl) DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				scope,
 				null,
-				null ) );
+				null );
+		context.setTmpdir( this.getTempDir( ) );
+		de = (DataEngineImpl) DataEngine.newDataEngine( context );
 		creator = new CubeUtility( );
 		creator.createCube( de );
 	}

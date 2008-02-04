@@ -75,11 +75,12 @@ abstract public class APITestCase extends BaseTestCase
 		
 		defaultTimeZone = TimeZone.getDefault( );
 		TimeZone.setDefault( TimeZone.getTimeZone( "GMT" ) );
-		
-		dataEngine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				jsScope,
 				null,
-				null ) );
+				null );
+		context.setTmpdir( this.getTempDir( ) );
+		dataEngine = DataEngine.newDataEngine( context );
 		prepareDataSource( );
 	}
 	

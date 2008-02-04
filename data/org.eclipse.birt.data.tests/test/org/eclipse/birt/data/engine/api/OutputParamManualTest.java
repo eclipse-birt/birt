@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.data.engine.api;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.Platform;
@@ -23,12 +21,14 @@ import org.eclipse.birt.data.engine.api.querydefn.ParameterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 
+import testutil.BaseTestCase;
+
 /**
  * Derby does not support DatabaseMetaData in Connection, and then
  * registerOutputParameter can not be successfully done. Because of it, the test
  * has to be done on other database and then it is marked as manual test.
  */
-public class OutputParamManualTest extends TestCase
+public class OutputParamManualTest extends BaseTestCase
 {
 	// connection property
 	private String url = "jdbc:jtds:sqlserver://linzhu:1433/pubs";
@@ -167,10 +167,12 @@ public class OutputParamManualTest extends TestCase
 	public void testOutputParameter( ) throws BirtException, Exception
 	{
 		// prepare
-		DataEngine de = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
-				null ) );
+				null );
+		context.setTmpdir( this.getTempDir( ) );
+		DataEngine de = DataEngine.newDataEngine( context );
 		de.defineDataSource( this.getDataSource( ) );
 		de.defineDataSet( this.getDataSet( ) );
 

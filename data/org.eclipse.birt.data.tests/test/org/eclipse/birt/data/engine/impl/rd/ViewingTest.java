@@ -96,6 +96,7 @@ public class ViewingTest extends RDTestCase
 
 		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
 				fileName );
+		deContext2.setTmpdir( this.getTempDir( ) );
 		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
 		
 		this.preBasicIV( );
@@ -418,6 +419,7 @@ public class ViewingTest extends RDTestCase
 		DataEngineContext deContext2 = newContext( 
 				DataEngineContext.MODE_PRESENTATION,
 				fileName );
+		deContext2.setTmpdir( this.getTempDir( ) );
 		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
 
 		this.PRE_add_filter = true;

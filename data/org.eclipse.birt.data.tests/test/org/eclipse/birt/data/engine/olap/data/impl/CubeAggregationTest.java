@@ -18,8 +18,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.archive.compound.ArchiveFile;
 import org.eclipse.birt.core.archive.compound.ArchiveReader;
@@ -71,11 +69,13 @@ import org.eclipse.birt.data.engine.olap.util.filter.IJSMeasureFilterEvalHelper;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
 
+import testutil.BaseTestCase;
+
 /**
  * 
  */
 
-public class CubeAggregationTest extends TestCase
+public class CubeAggregationTest extends BaseTestCase
 {
 	String pathName;
 	private ImporterTopLevel baseScope;
@@ -103,10 +103,12 @@ public class CubeAggregationTest extends TestCase
 	 */
 	public void setUp() throws Exception
 	{
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
-				null ) );
+				null );
+		context.setTmpdir( this.getTempDir( ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( context );
 		materializer = new CubeMaterializer( engine );
 		documentManager = materializer.getDocumentManager( );
 		createCube1( documentManager );

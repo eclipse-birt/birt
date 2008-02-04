@@ -14,8 +14,6 @@ package org.eclipse.birt.data.engine.api;
 import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
@@ -26,17 +24,20 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 
+import testutil.BaseTestCase;
+
 
 /**
  * 
  */
 
-public class DteLevelDataSetCacheTest extends TestCase
+public class DteLevelDataSetCacheTest extends BaseTestCase
 {
 	public void testDataSetWithDteLevelCache() throws BirtException
 	{
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION, 
 				null,null,null );
+		context.setTmpdir( this.getTempDir( ) );
 		DataEngine dataEngine = DataEngine.newDataEngine( context );
 	
 		ScriptDataSourceDesign dataSource = new ScriptDataSourceDesign( "ds" );
@@ -83,6 +84,7 @@ public class DteLevelDataSetCacheTest extends TestCase
 	{
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION, 
 				null,null,null );
+		context.setTmpdir( this.getTempDir( ) );
 		DataEngine dataEngine = DataEngine.newDataEngine( context );
 	
 		ScriptDataSourceDesign dataSource = new ScriptDataSourceDesign( "ds" );
@@ -120,6 +122,7 @@ public class DteLevelDataSetCacheTest extends TestCase
 	{
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION, 
 				null,null,null );
+		context.setTmpdir( this.getTempDir( ) );
 		DataEngine dataEngine = DataEngine.newDataEngine( context );
 	
 		ScriptDataSourceDesign dataSource = new ScriptDataSourceDesign( "ds" );

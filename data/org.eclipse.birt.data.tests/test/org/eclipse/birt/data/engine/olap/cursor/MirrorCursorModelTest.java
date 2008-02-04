@@ -49,10 +49,12 @@ public class MirrorCursorModelTest  extends BaseTestCase
 		super.setUp( );
 
 		this.scope = new ImporterTopLevel( );
-		de = (DataEngineImpl) DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				scope,
 				null,
-				null ) );
+				null );
+		context.setTmpdir( this.getTempDir( ) );
+		de = (DataEngineImpl) DataEngine.newDataEngine( context );
 		this.creator = new CubeUtility( );
 		creator.createCube( de );
 	}

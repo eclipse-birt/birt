@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.binding.newbinding;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -1336,14 +1335,6 @@ public class ColumnBindingTest extends APITestCase
 		myPreDataEngine.shutdown( );
 	}
 	
-	/**
-	 * @return folder for report document
-	 */
-	private String getOutputFolder( )
-	{
-		return new File(new File(System.getProperty("java.io.tmpdir")), "output").getAbsolutePath();
-	}
-		
 	/**
 	 * @param type
 	 * @param fileName

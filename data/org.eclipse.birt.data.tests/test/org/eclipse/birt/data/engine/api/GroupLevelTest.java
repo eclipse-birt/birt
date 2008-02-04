@@ -20,7 +20,7 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
-import junit.framework.TestCase;
+import testutil.BaseTestCase;
 
 /**
  * 
@@ -35,7 +35,7 @@ import junit.framework.TestCase;
  * 		2: the retrievation of data is still available
  * 
  */
-public class GroupLevelTest extends TestCase
+public class GroupLevelTest extends BaseTestCase
 {
 	private IQueryResults qr;
 	private DataEngine dataEngine;
@@ -231,10 +231,12 @@ public class GroupLevelTest extends TestCase
 			dataSet.getResultSetHints( ).add( colInfo );
 		}
 
-		dataEngine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
-				null ) );
+				null );
+		context.setTmpdir( this.getTempDir() );
+		dataEngine = DataEngine.newDataEngine( context );
 		dataEngine.defineDataSource( dataSource );
 		dataEngine.defineDataSet( dataSet );
 

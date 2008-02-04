@@ -38,7 +38,7 @@ abstract public class BaseTestCase extends TestCase
 	protected Scriptable jsScope;
 
 	//private static final String TEST_FOLDER = "test";
-	private static final String OUTPUT_FOLDER = "output";
+	private static final String OUTPUT_FOLDER = "DtETestTempDataoutput";
 	private static final String INPUT_FOLDER = "input";
 	private static final String GOLDEN_FOLDER = "golden";
 	//private String classFolder;
@@ -87,12 +87,16 @@ abstract public class BaseTestCase extends TestCase
 	}
 	
 	/** return output folder */
-	private File getOutputFolder()
+	protected File getOutputFolder()
 	{
 		return new File( new File(System.getProperty("java.io.tmpdir")),
 				OUTPUT_FOLDER );
 	}
 
+	protected String getTempDir()
+	{
+		return this.getOutputFolder( ).getAbsolutePath( ) + File.separator + "DataEngineSessionTemp" + File.separator;
+	}
 	/** return golder folder *//*
 	private File getGoldenFolder( )
 	{

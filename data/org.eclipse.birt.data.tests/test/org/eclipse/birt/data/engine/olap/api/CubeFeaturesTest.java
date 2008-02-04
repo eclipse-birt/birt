@@ -131,10 +131,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		binding5.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		cqd.addBinding( binding5 );
 
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
@@ -193,10 +190,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		binding5.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		cqd.addBinding( binding5 );
 
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
@@ -267,10 +261,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		binding6.addArgument( new ScriptExpression( "dimension[\"dimension2\"][\"level21\"][\"attr21\"]" ) );
 		cqd.addBinding( binding6 );
 
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
@@ -348,10 +339,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		binding7.addArgument( new ScriptExpression( "data[\"attr21\"]" ) );
 		cqd.addBinding( binding7 );
 
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
@@ -438,10 +426,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		binding7.addArgument( new ScriptExpression( "data[\"attr21\"]" ) );
 		cqd.addBinding( binding7 );
 
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube1( engine );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
@@ -533,10 +518,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		binding7.addArgument( new ScriptExpression( "data[\"attr21\"]" ) );
 		cqd.addBinding( binding7 );
 
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube1( engine );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
@@ -615,10 +597,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		binding6.addArgument( new ScriptExpression( "dimension[\"dimension2\"][\"level21\"][\"attr21\"]" ) );
 		cqd.addBinding( binding6 );
 
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 
 		try
@@ -678,10 +657,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				IConditionalExpression.OP_EQ,
 				"\"CN\"" ) );
 		cqd.addFilter( filter );
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
@@ -748,10 +724,7 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		cqd.addFilter( filter1 );
 		cqd.addFilter( filter2 );
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
@@ -818,10 +791,7 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		cqd.addFilter( filter1 );
 		cqd.addFilter( filter2 );
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
@@ -885,10 +855,7 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		cqd.addFilter( filter1 );
 
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		try
 		{
 			this.createCube( engine );
@@ -976,10 +943,9 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addFilter( filter3 );
 		cqd.addSort( sorter4 );
 		cqd.addSort( sorter5 );
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineContext context = createPresentationContext( );
+		context.setTmpdir( this.getTempDir( ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( context );
 		this.createCube( engine );
 
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
@@ -1057,10 +1023,9 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addFilter( filter2 );
 		cqd.addFilter( filter3 );
 
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineContext context = createPresentationContext( );
+		context.setTmpdir( this.getTempDir( ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( context );
 		this.createCube( engine );
 
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
@@ -1119,10 +1084,9 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addFilter( filter1 );
 		cqd.addFilter( filter2 );
 
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineContext context = createPresentationContext( );
+		context.setTmpdir( this.getTempDir( ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( context );
 		this.createCube( engine );
 
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
@@ -1177,10 +1141,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addFilter( filter1 );
 		cqd.addFilter( filter2 );
 
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
@@ -1214,10 +1175,7 @@ public class CubeFeaturesTest extends BaseTestCase
 	 */
 	public void testSort1( ) throws Exception
 	{
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -1333,10 +1291,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );
 		cqd.addSort( sorter3 );
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
@@ -1415,10 +1370,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );
 		cqd.addSort( sorter3 );
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
@@ -1444,10 +1396,7 @@ public class CubeFeaturesTest extends BaseTestCase
 	 */
 	public void testSortWithExpr( ) throws Exception
 	{
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -1515,10 +1464,7 @@ public class CubeFeaturesTest extends BaseTestCase
 	 */
 	public void testSortWithExpr1( ) throws Exception
 	{
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -1628,10 +1574,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addSort( sorter2 );
 		cqd.addSort( sorter3 );
 
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
@@ -1737,10 +1680,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );
 		cqd.addSort( sorter3 );
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
@@ -1844,10 +1784,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );
 		cqd.addSort( sorter3 );
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
@@ -1946,10 +1883,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addSort( sorter3 );
 		cqd.addSort( sorter4 );
 		cqd.addSort( sorter5 );
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineContext context = createPresentationContext( );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( context );
 		this.createCube( engine );
 
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
@@ -1974,6 +1909,16 @@ public class CubeFeaturesTest extends BaseTestCase
 				"edge2level1",
 				"measure1" );
 
+	}
+
+	private DataEngineContext createPresentationContext( ) throws BirtException
+	{
+		DataEngineContext context =  DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				null,
+				null,
+				null );
+		context.setTmpdir( this.getTempDir( ) );
+		return context;
 	}
 
 	/**
@@ -2006,10 +1951,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		sorter1.setSortDirection( ISortDefinition.SORT_DESC );
 
 		cqd.addSort( sorter1 );
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
@@ -2078,10 +2020,7 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
@@ -2162,10 +2101,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );
 		cqd.addSort( sorter3 );
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
@@ -2225,10 +2161,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		sorter1.setSortDirection( ISortDefinition.SORT_DESC );
 
 		cqd.addSort( sorter1 );
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
@@ -2310,10 +2243,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );
 		cqd.addSort( sorter3 );
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
@@ -2435,10 +2365,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );
 		cqd.addSort( sorter3 );
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
@@ -2509,10 +2436,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		binding5.setExpression( new ScriptExpression( "measure[\"measure2\"]" ) );
 		cqd.addBinding( binding5 );
 
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
@@ -2581,10 +2505,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		binding5.setExpression( new ScriptExpression( "measure[\"measure2\"]" ) );
 		cqd.addBinding( binding5 );
 
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
@@ -2685,10 +2606,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );
 		cqd.addSort( sorter3 );
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
@@ -2757,10 +2675,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		binding5.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		cqd.addBinding( binding5 );
 
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );
@@ -2821,10 +2736,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		binding5.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		cqd.addBinding( binding5 );
 
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 		cqd.setCacheQueryResults( true );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
@@ -2890,10 +2802,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		binding5.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		cqd.addBinding( binding5 );
 
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 		cqd.setCacheQueryResults( true );
 
@@ -2963,10 +2872,7 @@ public class CubeFeaturesTest extends BaseTestCase
 				IConditionalExpression.OP_EQ,
 				"\"CN\"" ) );
 		cqd.addFilter( filter );
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 
 		cqd.setCacheQueryResults( true );
@@ -3042,10 +2948,7 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		cqd.addFilter( filter1 );
 		cqd.addFilter( filter2 );
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 		cqd.setCacheQueryResults( true );
 
@@ -3116,10 +3019,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		sorter.setSortDirection( ISortDefinition.SORT_DESC );
 		sorter.setTargetLevel( level21 );
 		cqd.addSort( sorter );
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 
 		cqd.setCacheQueryResults( true );
@@ -3204,10 +3104,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );
 		cqd.addSort( sorter3 );
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 
 		this.createCube( engine );
 		cqd.setCacheQueryResults( true );
@@ -3310,10 +3207,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );
 		cqd.addSort( sorter3 );
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 
 		cqd.setCacheQueryResults( true );
@@ -3420,10 +3314,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addSort( sorter3 );
 		cqd.addSort( sorter4 );
 		cqd.addSort( sorter5 );
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 
 		cqd.setCacheQueryResults( true );
@@ -3488,10 +3379,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		sorter1.setSortDirection( ISortDefinition.SORT_DESC );
 
 		cqd.addSort( sorter1 );
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 		cqd.setCacheQueryResults( true );
 
@@ -3568,10 +3456,7 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 
 		cqd.setCacheQueryResults( true );
@@ -3661,10 +3546,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );
 		cqd.addSort( sorter3 );
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 
 		cqd.setCacheQueryResults( true );
@@ -3733,10 +3615,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		sorter1.setSortDirection( ISortDefinition.SORT_DESC );
 
 		cqd.addSort( sorter1 );
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 
 		cqd.setCacheQueryResults( true );
@@ -3864,10 +3743,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addSort( sorter1 );
 		cqd.addSort( sorter2 );
 		cqd.addSort( sorter3 );
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 
 		cqd.setCacheQueryResults( true );
@@ -3945,10 +3821,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		binding5.setExpression( new ScriptExpression( "measure[\"measure2\"]" ) );
 		cqd.addBinding( binding5 );
 
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 		cqd.setCacheQueryResults( true );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
@@ -4047,10 +3920,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addFilter( filter3 );
 		cqd.addSort( sorter4 );
 		cqd.addSort( sorter5 );
-		DataEngineImpl engine = (DataEngineImpl) DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl) DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 		this.defineDataSourceDataSet( engine );
 		IQueryDefinition query = this.createScriptDataSetQuery( );
@@ -4142,10 +4012,7 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		cqd.addSort( sorter4 );
 		cqd.addSort( sorter5 );
-		DataEngineImpl engine = (DataEngineImpl) DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl) DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 		this.defineDataSourceDataSet( engine );
 		IQueryDefinition query = this.createScriptDataSetQuery( );
@@ -4233,10 +4100,7 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		cqd.addSort( sorter4 );
 		cqd.addSort( sorter5 );
-		DataEngineImpl engine = (DataEngineImpl) DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl) DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults cqResults = pcq.execute( null );
@@ -4343,10 +4207,7 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		cqd.addSort( sorter4 );
 		cqd.addSort( sorter5 );
-		DataEngineImpl engine = (DataEngineImpl) DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl) DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults cqResults = pcq.execute( null );
@@ -4432,10 +4293,7 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		cqd.addSort( sorter4 );
 		cqd.addSort( sorter5 );
-		DataEngineImpl engine = (DataEngineImpl) DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl) DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 		this.defineDataSourceDataSet( engine );
 		IQueryDefinition query = this.createScriptDataSetQuery( );
@@ -4535,10 +4393,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		binding5.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
 		cqd.addBinding( binding5 );
 
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				null,
-				null,
-				null ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
 		ICubeQueryResults queryResults = pcq.execute( null );

@@ -51,15 +51,16 @@ public abstract class RDTestCase extends APITestCase
 	public void setUp( ) throws Exception
 	{
 		super.setUp( );
-
+		
 		index++;
-		fileName = getOutputFolder( ) + "testData_" + index;
+		fileName = getOutputPath( ) + this.getName( ) + File.separator  + "RptDocumentTemp" + File.separator + "testData_" + index;
 		index++;
-		fileName2 = getOutputFolder( ) + "testData_" + index;
+		fileName2 = getOutputPath( ) + this.getName( ) + File.separator + "RptDocumentTemp" + File.separator + "testData_" + index;
 
 		DataEngineContext deContext1 = newContext( DataEngineContext.MODE_GENERATION,
 				fileName,
 				fileName2 );
+		deContext1.setTmpdir( this.getTempDir( ) );
 		myGenDataEngine = DataEngine.newDataEngine( deContext1 );
 
 		myGenDataEngine.defineDataSource( this.dataSource );
@@ -73,19 +74,9 @@ public abstract class RDTestCase extends APITestCase
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#tearDown()
 	 */
-	public void tearDown( )
+	public void tearDown( ) throws Exception
 	{
-		if ( fileName != null )
-		{
-			File file = new File( fileName );
-			file.delete( );
-		}
-
-		if ( fileName2 != null )
-		{
-			File file = new File( fileName2 );
-			file.delete( );
-		}
+		super.tearDown( );
 		if( archiveWriter != null )
 		{
 			try
@@ -110,6 +101,21 @@ public abstract class RDTestCase extends APITestCase
 				e.printStackTrace();
 			}
 		}
+		if ( fileName != null )
+		{
+			File file = new File( fileName );
+			if( !file.delete( ))
+				file.deleteOnExit( );
+		}
+
+		if ( fileName2 != null )
+		{
+			File file = new File( fileName2 );
+			file.delete( );
+			if( !file.delete( ))
+				file.deleteOnExit( );
+		}
+		
 	}
 	
 	/**
@@ -123,10 +129,9 @@ public abstract class RDTestCase extends APITestCase
 	/**
 	 * @return folder for report document
 	 */
-	protected String getOutputFolder( )
+	private String getOutputPath( )
 	{
-		return new File( new File(System.getProperty("java.io.tmpdir")),
-				"output" ).getAbsolutePath();
+		return this.getOutputFolder( ).getAbsolutePath( ) + File.separator;
 	}
 
 	/**
@@ -166,10 +171,12 @@ public abstract class RDTestCase extends APITestCase
 				{
 					throw new IllegalArgumentException( e.getMessage( ) );
 				}
-				return DataEngineContext.newInstance( DataEngineContext.MODE_GENERATION,
+				DataEngineContext context =  DataEngineContext.newInstance( DataEngineContext.MODE_GENERATION,
 						null,
 						null,
 						archiveWriter );
+				context.setTmpdir( this.getTempDir( ) );
+				return context;
 			}
 			case DataEngineContext.MODE_PRESENTATION :
 			{
@@ -185,10 +192,12 @@ public abstract class RDTestCase extends APITestCase
 				{
 					throw new IllegalArgumentException( e.getMessage( ) );
 				}
-				return DataEngineContext.newInstance( DataEngineContext.MODE_PRESENTATION,
+				DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.MODE_PRESENTATION,
 						null,
 						archiveReader,
 						null );
+				context.setTmpdir( this.getTempDir( ) );
+				return context;
 			}
 			case DataEngineContext.MODE_UPDATE :
 			{
@@ -211,14 +220,16 @@ public abstract class RDTestCase extends APITestCase
 				{
 					throw new IllegalArgumentException( e.getMessage( ) );
 				}
-				return DataEngineContext.newInstance( DataEngineContext.MODE_UPDATE,
+				DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.MODE_UPDATE,
 						null,
 						archiveReader,
 						archiveWriter );
+				context.setTmpdir( this.getTempDir( ) );
+				return context;
 			}
 			default :
 				throw new IllegalArgumentException( "" + type );
 		}
 	}
-
+	
 }

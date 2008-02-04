@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.executor.cache;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.Platform;
@@ -31,12 +29,14 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 
+import testutil.BaseTestCase;
+
 /**
  * Test the feature of disk-based data manuipulation. Only used in manual test
  * situation, since it needs the outer data base other than derby embed data
  * base.
  */
-public class DiskBasedManualTest extends TestCase
+public class DiskBasedManualTest extends BaseTestCase
 {
 	// connection property
 	private String url = "jdbc:mysql://spmdb/test";
@@ -160,10 +160,12 @@ public class DiskBasedManualTest extends TestCase
 		System.setProperty( "PROPERTY_RUN_UNDER_ECLIPSE", "false" );
 		Platform.startup( null );
 		
-		DataEngine de = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
-				null ) );
+				null );
+		context.setTmpdir( this.getTempDir( ) );
+		DataEngine de = DataEngine.newDataEngine( context );
 		
 		de.defineDataSource( this.getDataSource( ) );
 		de.defineDataSet( this.getDataSet( ) );

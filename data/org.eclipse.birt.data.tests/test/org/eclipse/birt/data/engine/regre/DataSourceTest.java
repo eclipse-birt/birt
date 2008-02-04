@@ -37,10 +37,12 @@ public class DataSourceTest extends APITestCase
 	
 	public DataSourceTest( ) throws BirtException
 	{
-		myDataEngine = DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
-				null ) );
+				null );
+		context.setTmpdir( this.getTempDir( ) );
+		myDataEngine = DataEngine.newDataEngine( context );
 	}
 	
 	/*

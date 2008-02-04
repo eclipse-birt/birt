@@ -128,10 +128,12 @@ public class CubeIVTest extends BaseTestCase
 		
 		cqd.setCacheQueryResults( true );
 		FileArchiveWriter writter = new FileArchiveWriter( documentPath + "testTemp" );
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_GENERATION,
+		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.MODE_GENERATION,
 				null,
 				null,
-				writter ) );
+				writter );
+		context.setTmpdir( this.getTempDir( ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( context );
 		this.createCube( writter, engine );
 		
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
@@ -217,10 +219,12 @@ public class CubeIVTest extends BaseTestCase
 		
 		cqd.setCacheQueryResults( true );
 		FileArchiveWriter writter = new FileArchiveWriter( documentPath + "testTemp1" );
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_GENERATION,
+		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.MODE_GENERATION,
 				null,
 				null,
-				writter ) );
+				writter );
+		context.setTmpdir( this.getTempDir( ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( context );
 		this.createCube( writter, engine );
 		
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
@@ -324,10 +328,12 @@ public class CubeIVTest extends BaseTestCase
 		
 		cqd.setCacheQueryResults( true );
 		FileArchiveWriter writter = new FileArchiveWriter( documentPath + "testTemp" );
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_GENERATION,
+		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.MODE_GENERATION,
 				null,
 				null,
-				writter ) );
+				writter );
+		context.setTmpdir( this.getTempDir( ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( context );
 		this.createCube( writter, engine );
 		
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
@@ -800,10 +806,13 @@ public class CubeIVTest extends BaseTestCase
 
 		cqd.setCacheQueryResults( true );
 		FileArchiveWriter writter = new FileArchiveWriter(documentPath + "testTemp" );
-		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_GENERATION,
+		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.MODE_GENERATION,
 				null,
 				null,
-				writter ) );
+				writter );
+		context.setTmpdir( this.getTempDir( ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( context );
+		
 		this.createCube( writter, engine );
 		
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );

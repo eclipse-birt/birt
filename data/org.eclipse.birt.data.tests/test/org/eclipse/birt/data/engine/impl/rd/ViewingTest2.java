@@ -182,9 +182,10 @@ public class ViewingTest2 extends RDTestCase
 	}
 	
 	/**
+	 * @throws Exception 
 	 * 
 	 */
-	public void tearDown()
+	public void tearDown() throws Exception
 	{
 		super.tearDown( );
 		TimeZone.setDefault( this.currentTimeZone  );
@@ -227,6 +228,7 @@ public class ViewingTest2 extends RDTestCase
 		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
 				fileName,
 				fileName );
+		deContext2.setTmpdir( this.getTempDir( ) );
 		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
 
 		this.UPDATE_add_sort = true;
@@ -286,6 +288,7 @@ public class ViewingTest2 extends RDTestCase
 
 		DataEngineContext deContext2 = newContext(
 				DataEngineContext.MODE_UPDATE, fileName, fileName);
+		deContext2.setTmpdir( this.getTempDir( ) );
 		myPreDataEngine = DataEngine.newDataEngine(deContext2);
 
 		this.UPDATE_add_filter = 0;
@@ -316,6 +319,7 @@ public class ViewingTest2 extends RDTestCase
 		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
 				fileName,
 				fileName );
+		deContext2.setTmpdir( this.getTempDir( ) );
 		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
 
 		this.UPDATE_add_filter = 0;
@@ -353,6 +357,7 @@ public class ViewingTest2 extends RDTestCase
 		//First IV
 		DataEngineContext deContext2 = newContext(
 				DataEngineContext.MODE_UPDATE, fileName, fileName);
+		deContext2.setTmpdir( this.getTempDir( ) );
 		myPreDataEngine = DataEngine.newDataEngine(deContext2);
 		
 		qd.setQueryResultsID( this.GEN_queryResultID );
@@ -399,6 +404,7 @@ public class ViewingTest2 extends RDTestCase
 		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
 				fileName,
 				fileName );
+		deContext2.setTmpdir( this.getTempDir( ) );
 		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
 
 		this.UPDATE_add_filter = 0;
@@ -567,6 +573,7 @@ public class ViewingTest2 extends RDTestCase
 		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
 				fileName,
 				fileName );
+		deContext2.setTmpdir( this.getTempDir( ) );
 		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
 
 		this.UPDATE_add_filter = 0;
@@ -602,6 +609,7 @@ public class ViewingTest2 extends RDTestCase
 		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
 				fileName,
 				fileName );
+		deContext2.setTmpdir( this.getTempDir( ) );
 		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
 
 		this.UPDATE_add_sort = false;
@@ -1449,6 +1457,7 @@ public class ViewingTest2 extends RDTestCase
 			myPreDataEngine.shutdown( );
 			myPreDataEngine.clearCache( dataSource, dataSet );
 		}
+		deContext2.setTmpdir( this.getTempDir( ) );
 		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
 		this.UPDATE_add_same_group = true;
 		this.UPDATE_add_subquery = 1;
@@ -2394,6 +2403,7 @@ public class ViewingTest2 extends RDTestCase
 		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
 				fileName,
 				fileName );
+		deContext2.setTmpdir( this.getTempDir( ) );
 		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
 		
 		// add basic column binding
