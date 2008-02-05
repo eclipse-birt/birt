@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,8 +16,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import org.eclipse.birt.core.archive.ArchiveUtil;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.archive.IStreamSorter;
+import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.archive.RAOutputStream;
 
 public class ArchiveWriter implements IDocArchiveWriter
@@ -67,7 +69,33 @@ public class ArchiveWriter implements IDocArchiveWriter
 		streams.add( stream );
 		return stream;
 	}
-	
+
+	public RAOutputStream createOutputStream( String relativePath )
+			throws IOException
+	{
+		return createRandomAccessStream( relativePath );
+	}
+
+	public RAOutputStream getOutputStream( String relativePath )
+			throws IOException
+	{
+		return openRandomAccessStream( relativePath );
+	}
+
+	public RAInputStream getInputStream( String relativePath )
+			throws IOException
+	{
+		if ( !relativePath.startsWith( ArchiveUtil.UNIX_SEPERATOR ) )
+			relativePath = ArchiveUtil.UNIX_SEPERATOR + relativePath;
+		ArchiveEntry entry = archive.getEntry( relativePath );
+		if ( entry != null )
+		{
+			return new ArchiveEntryInputStream( entry );
+		}
+		throw new IOException( relativePath + " doesn't exist" );
+
+	}
+
 	public boolean dropStream( String relativePath )
 	{
 		try

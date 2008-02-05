@@ -366,4 +366,25 @@ public class FileArchiveTest extends TestCase
 		assertEquals( 12, ws.length( ) );
 		writer.finish( );
 	}
+
+	public void testReadWriteStream( ) throws Exception
+	{
+		FileArchiveWriter writer = new FileArchiveWriter( ARCHIVE_NAME );
+		writer.initialize( );
+		RAOutputStream os = writer.createOutputStream( STREAM_NAME );
+		RAInputStream is = writer.getInputStream( STREAM_NAME );
+		os.writeInt( 1 );
+		os.flush( );
+		is.refresh( );
+		assertEquals( 1, is.readInt( ) );
+
+		os.writeLong( -1L );
+		os.flush( );
+		is.refresh( );
+		assertEquals( -1L, is.readLong( ) );
+
+		assertEquals( 12, os.length( ) );
+		assertEquals( 12, is.length( ) );
+		writer.finish( );
+	}
 }

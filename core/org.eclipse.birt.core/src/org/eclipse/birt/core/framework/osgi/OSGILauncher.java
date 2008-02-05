@@ -591,7 +591,7 @@ public class OSGILauncher
 	 * before delegating to it's parent. Sometimes also referred to as a
 	 * ParentLastClassLoader
 	 */
-	protected class ChildFirstURLClassLoader extends URLClassLoader
+	static protected class ChildFirstURLClassLoader extends URLClassLoader
 	{
 
 		public ChildFirstURLClassLoader( URL[] urls )

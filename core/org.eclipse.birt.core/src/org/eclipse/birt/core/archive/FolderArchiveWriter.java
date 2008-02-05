@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,67 +18,100 @@ import java.util.LinkedList;
 
 public class FolderArchiveWriter implements IDocArchiveWriter
 {
+
 	private String folderName;
 	private IStreamSorter streamSorter = null;
 	private LinkedList openStreams = new LinkedList( );
-	
 
 	/**
-	 * @param absolute fileName the archive file name
+	 * @param absolute
+	 *            fileName the archive file name
 	 */
 	public FolderArchiveWriter( String folderName ) throws IOException
 	{
-		if ( folderName == null ||
-				folderName.length() == 0 )
-			throw new IOException("The folder name is null or empty string.");
-		
+		if ( folderName == null || folderName.length( ) == 0 )
+			throw new IOException( "The folder name is null or empty string." );
+
 		File fd = new File( folderName );
-		folderName = fd.getCanonicalPath();   // make sure the file name is an absolute path
-		this.folderName = folderName;		
+		folderName = fd.getCanonicalPath( ); // make sure the file name is an
+		// absolute path
+		this.folderName = folderName;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.core.archive.IDocArchiveWriter#initialize()
 	 */
-	public void initialize() 
+	public void initialize( )
 	{
-		new File(folderName).mkdirs( );
+		new File( folderName ).mkdirs( );
 		// Do nothing
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.core.archive.IDocArchiveWriter#createRandomAccessStream(java.lang.String)
 	 */
-	public RAOutputStream createRandomAccessStream( String relativePath ) throws IOException
+	public RAOutputStream createRandomAccessStream( String relativePath )
+			throws IOException
 	{
-		String path = ArchiveUtil.generateFullPath(folderName, relativePath);
-		File fd = new File(path);
+		String path = ArchiveUtil.generateFullPath( folderName, relativePath );
+		File fd = new File( path );
 
-		ArchiveUtil.createParentFolder(fd);
+		ArchiveUtil.createParentFolder( fd );
 
-		RAFolderOutputStream out = new RAFolderOutputStream(this, fd);
-		synchronized (openStreams) 
+		RAFolderOutputStream out = new RAFolderOutputStream( this, fd );
+		synchronized ( openStreams )
 		{
-			openStreams.add(out);
+			openStreams.add( out );
 		}
 		return out;
 	}
 
-	public RAOutputStream openRandomAccessStream( String relativePath ) throws IOException
+	public RAOutputStream openRandomAccessStream( String relativePath )
+			throws IOException
 	{
-		String path = ArchiveUtil.generateFullPath(folderName, relativePath);
-		File fd = new File(path);
+		String path = ArchiveUtil.generateFullPath( folderName, relativePath );
+		File fd = new File( path );
 
-		ArchiveUtil.createParentFolder(fd);
+		ArchiveUtil.createParentFolder( fd );
 
-		RAFolderOutputStream out = new RAFolderOutputStream(this, fd, true);
-		synchronized (openStreams) 
+		RAFolderOutputStream out = new RAFolderOutputStream( this, fd, true );
+		synchronized ( openStreams )
 		{
-			openStreams.add(out);
+			openStreams.add( out );
 		}
 		return out;
 	}
-	
+
+	public RAOutputStream createOutputStream( String relativePath )
+			throws IOException
+	{
+		return createRandomAccessStream( relativePath );
+	}
+
+	public RAOutputStream getOutputStream( String relativePath )
+			throws IOException
+	{
+		return openRandomAccessStream( relativePath );
+	}
+
+	public RAInputStream getInputStream( String relativePath )
+			throws IOException
+	{
+		String path = ArchiveUtil.generateFullPath( folderName, relativePath );
+
+		File file = new File( path );
+		if ( file.exists( ) )
+		{
+			RAFolderInputStream in = new RAFolderInputStream( file );
+			return in;
+		}
+		throw new IOException( relativePath + " doesn't exit" );
+	}
+
 	/**
 	 * Delete a stream from the archive and make sure the stream has been
 	 * closed.
@@ -95,40 +128,47 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 		return removeFileAndFolder( fd );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.core.archive.IDocArchiveWriter#getName()
 	 */
-	public String getName() 
+	public String getName( )
 	{
 		return folderName;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.core.archive.IDocArchiveWriter#exists()
 	 */
-	public boolean exists( String relativePath ) 
+	public boolean exists( String relativePath )
 	{
 		String path = ArchiveUtil.generateFullPath( folderName, relativePath );
-		File fd = new File(path);
-		return fd.exists();
-	}	
+		File fd = new File( path );
+		return fd.exists( );
+	}
 
 	public void setStreamSorter( IStreamSorter streamSorter )
 	{
 		this.streamSorter = streamSorter;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.core.archive.IDocArchiveWriter#finish()
 	 */
-	public void finish() throws IOException
+	public void finish( ) throws IOException
 	{
 		closeAllStream( );
 	}
-	
+
 	/**
-	 * Convert the current folder archive to file archive. 
-	 * The original folder archive will NOT be removed.
+	 * Convert the current folder archive to file archive. The original folder
+	 * archive will NOT be removed.
+	 * 
 	 * @param fileArchiveName
 	 * @throws IOException
 	 */
@@ -136,9 +176,10 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 	{
 		ArchiveUtil.archive( folderName, streamSorter, fileArchiveName );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.core.archive.IDocArchiveWriter#flush()
 	 */
 	public void flush( ) throws IOException
@@ -169,21 +210,21 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 			throw ioex;
 		}
 	}
-	
-	void removeStream(RAFolderOutputStream stream)
-	{
-		synchronized (openStreams)
-		{
-			openStreams.remove(stream);
-		}
-		//remove the stream out from the ouptutStreams.
-	}
 
-	protected void closeAllStream()
+	void removeStream( RAFolderOutputStream stream )
 	{
 		synchronized ( openStreams )
 		{
-			LinkedList streams = new LinkedList(openStreams);
+			openStreams.remove( stream );
+		}
+		// remove the stream out from the ouptutStreams.
+	}
+
+	protected void closeAllStream( )
+	{
+		synchronized ( openStreams )
+		{
+			LinkedList streams = new LinkedList( openStreams );
 			Iterator iter = streams.iterator( );
 			while ( iter.hasNext( ) )
 			{
@@ -203,7 +244,7 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 			openStreams.clear( );
 		}
 	}
-	
+
 	/**
 	 * delete file or folder with its sub-folders and sub-files
 	 * 
@@ -231,7 +272,7 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 		}
 		return true;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -239,7 +280,8 @@ public class FolderArchiveWriter implements IDocArchiveWriter
 	 */
 	public Object lock( String stream ) throws IOException
 	{
-		String path = ArchiveUtil.generateFullPath( folderName, stream + ".lck" );
+		String path = ArchiveUtil
+				.generateFullPath( folderName, stream + ".lck" );
 		IArchiveLockManager lockManager = ArchiveLockManager.getInstance( );
 		return lockManager.lock( path );
 	}

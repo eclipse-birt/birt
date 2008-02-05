@@ -97,6 +97,12 @@ public class ArchiveReader implements IDocArchiveReader
 		}
 		throw new IOException( relativePath + " doesn't exist" );
 	}
+	
+	public RAInputStream getInputStream( String relativePath )
+			throws IOException
+	{
+		return getStream( relativePath );
+	}
 
 	public List listAllStreams( ) throws IOException
 	{

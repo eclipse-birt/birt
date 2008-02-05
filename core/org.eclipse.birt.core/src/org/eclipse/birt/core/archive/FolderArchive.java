@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -98,7 +98,32 @@ public class FolderArchive implements IDocArchiveWriter, IDocArchiveReader
 		return raOutputStream;
 	}
 
-	
+	public RAOutputStream createOutputStream( String relativePath )
+			throws IOException
+	{
+		return createRandomAccessStream( relativePath );
+	}
+
+	public RAOutputStream getOutputStream( String relativePath )
+			throws IOException
+	{
+		return openRandomAccessStream( relativePath );
+	}
+
+	public RAInputStream getInputStream( String relativePath )
+			throws IOException
+	{
+		String path = ArchiveUtil.generateFullPath( folderName, relativePath );
+
+		File file = new File( path );
+		if ( file.exists( ) )
+		{
+			RAFolderInputStream in = new RAFolderInputStream( file );
+			return in;
+		}
+		throw new IOException( relativePath + " doesn't exit" );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.core.archive.IDocArchiveWriter#dropStream(java.lang.String)
