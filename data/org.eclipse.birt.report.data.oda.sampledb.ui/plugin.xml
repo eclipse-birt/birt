@@ -14,12 +14,24 @@
    </extension>
 
    <extension
+         point="org.eclipse.datatools.connectivity.ui.connectionProfileImage">
+      <profileImage
+            profileID="%oda.data.source.id"
+            icon="icons/profile.gif">
+      </profileImage>
+   </extension>
+
+   <extension
          point="org.eclipse.ui.propertyPages">
       <page
             id="%oda.data.source.id"
             name="%profile.propertypage.name"
-            class="org.eclipse.birt.report.data.oda.sampledb.ui.profile.SampleDbPropertyPage"
-            objectClass="org.eclipse.datatools.connectivity.IConnectionProfile">
+            class="org.eclipse.birt.report.data.oda.sampledb.ui.profile.SampleDbPropertyPage">
+         <enabledWhen>
+            <instanceof
+                  value="org.eclipse.datatools.connectivity.IConnectionProfile">
+            </instanceof>
+         </enabledWhen>
          <filter
                name="org.eclipse.datatools.profile.property.id"
                value="%oda.data.source.id"/>

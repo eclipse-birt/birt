@@ -12,14 +12,24 @@
             icon="icons/new_oda_dswiz.ico"
             profile="%oda.data.source.id"/>
    </extension>
-
+   <extension
+         point="org.eclipse.datatools.connectivity.ui.connectionProfileImage">
+      <profileImage
+            profileID="%oda.data.source.id"
+            icon="icons/profile.gif">
+      </profileImage>
+   </extension>
    <extension
          point="org.eclipse.ui.propertyPages">
       <page
             id="%oda.data.source.id"
             name="%profile.propertypage.name"
-            class="org.eclipse.birt.report.data.oda.jdbc.ui.profile.JDBCPropertyPage"
-            objectClass="org.eclipse.datatools.connectivity.IConnectionProfile">
+            class="org.eclipse.birt.report.data.oda.jdbc.ui.profile.JDBCPropertyPage">
+         <enabledWhen>
+            <instanceof
+                  value="org.eclipse.datatools.connectivity.IConnectionProfile">
+            </instanceof>
+         </enabledWhen>
          <filter
                name="org.eclipse.datatools.profile.property.id"
                value="%oda.data.source.id"/>
