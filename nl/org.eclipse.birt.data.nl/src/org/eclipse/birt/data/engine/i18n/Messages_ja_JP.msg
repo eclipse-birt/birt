@@ -95,7 +95,7 @@ data.engine.ColumnBindingCycle=カラムバインド "{0}" の依存関係が循環参照になって
 data.engine.ColumnBindingReferToInexistColumn=列バインド "{0}" は、存在しないデータセット列 "{1}" を参照しています。
 data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=列バインド "{0}" が正しくありません。親クエリの列バインドに集計が含まれていますが、サブクエリの列バインドには使用できません。
 data.engine.ReadColumnValueFromDocumentError=列 {0} の値を読み取り中にエラーが発生しました。バインドの式 (ゼロ除算エラー) を評価中に実行時エラーが発生した可能性があります。
-data.engine.NoOuterResultsExist=The outer query results does not exist. This might be caused by a "_outer" reference in a query without parent query.
+data.engine.NoOuterResultsExist=外部クエリの結果が存在しません。これは、クエリで "_outer" が参照されているのに親クエリがないことが原因と考えられます。
 #computed column value
 data.engine.BadCompColExpr=計算列 "{0}" の式が無効です。
 data.engine.CompCol.FailRetrieveValueComputedColumn=計算列 "{0}" の値を計算できません。

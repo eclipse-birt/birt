@@ -101,10 +101,10 @@ driverManagerDialog.error.CanNotAddDriver=Impossible d'ajouter un fichier jar du
 driverManagerDialog.text.DriverError=Ajouter une erreur de pilote.
 driverManagerDialog.fileDelete.title=Suppression du fichier
 driverManagerDialog.fileDelete.text=Le fichier sera supprimé au prochain lancement de BIRT. Tenez-en compte notamment lors de l'échange de différentes versions de pilotes.
-driverManagerDialog.ErrorDialog.addDriver.title=Failed to register the driver
-driverManagerDialog.ErrorDialog.addDriver.message=Failed to register the driver : 
-driverManagerDialog.ErrorDialog.deregisterDriver.title=Failed to deregister the driver
-driverManagerDialog.ErrorDialog.deregisterDriver.message=Failed to deregister the driver : 
+driverManagerDialog.ErrorDialog.addDriver.title=Impossible de sélectionner le pilote
+driverManagerDialog.ErrorDialog.addDriver.message=Impossible de sélectionner le pilote : 
+driverManagerDialog.ErrorDialog.deregisterDriver.title=Impossible de désélectionner le pilote
+driverManagerDialog.ErrorDialog.deregisterDriver.message=Impossible de désélectionner le pilote : 
 datasource.propertyPage.tooltip=Source de données JDBC
 
 designer.preview.preference.resultset.previewpage.group.title=Page de prévisualisation

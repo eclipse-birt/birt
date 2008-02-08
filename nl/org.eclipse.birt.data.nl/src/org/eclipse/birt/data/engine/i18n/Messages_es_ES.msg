@@ -95,7 +95,7 @@ data.engine.ColumnBindingCycle=El enlace de columna "{0}" tiene un ciclo de depe
 data.engine.ColumnBindingReferToInexistColumn=El enlace de columna "{0}" hace referencia a una columna de conjunto de datos "{1}" que no existe.
 data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=El enlace de columna "{0}" es incorrecto: los enlaces de la columna de consulta principal que incluyen agregaciones no pueden utilizarse en enlaces de columnas de subconsulta.
 data.engine.ReadColumnValueFromDocumentError=Se produce un error al intentar leer un valor de la columna: {0}. Esto puede deberse a un error de tiempo de ejecución en la evaluación de una expresión de enlace, por ejemplo, un error de división entre 0.
-data.engine.NoOuterResultsExist=The outer query results does not exist. This might be caused by a "_outer" reference in a query without parent query.
+data.engine.NoOuterResultsExist=No existen resultados de consulta externa. Puede deberse a que una referencia "_externa" en una consulta no tiene una consulta principal.
 #computed column value
 data.engine.BadCompColExpr=La expresión de la columna procesada "{0}" no es válida.
 data.engine.CompCol.FailRetrieveValueComputedColumn=Error al procesar el valor para la columna procesada "{0}".
