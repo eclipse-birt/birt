@@ -93,7 +93,7 @@ CrosstabPageGenerator.List.NamedExpressions=명명된 식
 CrosstabPageGenerator.List.UserProperties=사용자 속성
 CrosstabPageGenerator.List.AdvancedProperty=고급
 
-CrosstabPageGenerator.List.EmptyRowColumn=Empty Rows/Columns
+CrosstabPageGenerator.List.EmptyRowColumn=빈 행/열
 
 CrosstabPageGenerator.TabItem.Binding=바인딩
 CrosstabPageGenerator.TabItem.RowArea=행 영역
@@ -104,7 +104,7 @@ CrosstabPageGenerator.TabItem.Highlights=강조
 CrosstabPageGenerator.TabItem.map=맵
 CrosstabPageGenerator.TabItem.Sorting=정렬
 
-CrosstabGeneraPage.ForEmptyCell=For empty cells, &show:
+CrosstabGeneraPage.ForEmptyCell=빈 셀의 경우 표시(&S):
 CrosstabGeneraPage.FormatOption=서식 옵션:
 LayoutMeasuresSection.DisplayName=방향:
 
@@ -118,12 +118,12 @@ Element.ReportItem.dataSet=데이터 집합:
 Element.ReportElement.Cube=데이터(&D):
 BindingPage.None=없음
 
-FilterHandleProvider.Label.Filterby=Filter by:
+FilterHandleProvider.Label.Filterby=필터링 기준:
 
 ###########################################################
 #EmptyRowColumnProvider properties
-EmptyRowColumnProvider.RowView.Button.Text=Show empty &rows
-EmptyRowColumnProvider.ColumnView.Button.Text=Show empty &columns
+EmptyRowColumnProvider.RowView.Button.Text=빈 행 표시(&R)
+EmptyRowColumnProvider.ColumnView.Button.Text=빈 열 표시(&C)
 
 ###########################################################
 #CategoryPageGenerator properties

@@ -93,7 +93,7 @@ CrosstabPageGenerator.List.NamedExpressions=Expressions nommées
 CrosstabPageGenerator.List.UserProperties=Propriétés de l'utilisateur
 CrosstabPageGenerator.List.AdvancedProperty=Avancé
 
-CrosstabPageGenerator.List.EmptyRowColumn=Empty Rows/Columns
+CrosstabPageGenerator.List.EmptyRowColumn=Lignes et colonnes vides
 
 CrosstabPageGenerator.TabItem.Binding=Liaison
 CrosstabPageGenerator.TabItem.RowArea=Zone de ligne
@@ -104,7 +104,7 @@ CrosstabPageGenerator.TabItem.Highlights=Surbrillances
 CrosstabPageGenerator.TabItem.map=Mappage
 CrosstabPageGenerator.TabItem.Sorting=Tri en cours
 
-CrosstabGeneraPage.ForEmptyCell=For empty cells, &show:
+CrosstabGeneraPage.ForEmptyCell=Pour les cellules vides, &afficher :
 CrosstabGeneraPage.FormatOption=Options de format :
 LayoutMeasuresSection.DisplayName=Orientation :
 
@@ -118,12 +118,12 @@ Element.ReportItem.dataSet=Jeu de données :
 Element.ReportElement.Cube=&Données :
 BindingPage.None=Aucun
 
-FilterHandleProvider.Label.Filterby=Filter by:
+FilterHandleProvider.Label.Filterby=Filtrer par :
 
 ###########################################################
 #EmptyRowColumnProvider properties
-EmptyRowColumnProvider.RowView.Button.Text=Show empty &rows
-EmptyRowColumnProvider.ColumnView.Button.Text=Show empty &columns
+EmptyRowColumnProvider.RowView.Button.Text=Afficher les &lignes vides
+EmptyRowColumnProvider.ColumnView.Button.Text=Afficher les &colonnes vides
 
 ###########################################################
 #CategoryPageGenerator properties

@@ -1236,7 +1236,7 @@ EmbeddedImagesNodeProvider.action.New=새 내장된 이미지
 
 ###########################################################
 #ElementIdDescriptorProvider properties
-ElementIdDescriptorProvider.Display.Element.ID=&Element ID:
+ElementIdDescriptorProvider.Display.Element.ID=요소 ID(&E):
 
 ###########################################################
 #EmptyEditPart properties
@@ -1316,7 +1316,7 @@ ExpressionBuilder.toolTipText.validate=확인
 ExpressionBuilder.Script.NoError=현재 스크립트에 구문 오류가 없습니다.
 ExpressionBuilder.Script.Error=[행:{0}, 열:{1}] {2}
 ExpressionBuilder.Script.Warning=경고
-ExpressionBuilder.Script.Confirm=\nA syntax error is found in current script. Do you really want to save it?
+ExpressionBuilder.Script.Confirm=\n현재 스크립트에 구문 오류가 있습니다. 저장하시겠습니까?
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
@@ -1818,7 +1818,7 @@ ImageBuilder.Description.URI=웹 상의 이미지에 링크
 ImageBuilder.Description.ResourceFile=공유된 리소스의 이미지에 링크
 ImageBuilder.Description.Embedded=이미지를 보고서에 포함
 ImageBuilder.Description.Dynamic=데이터 집합(데이터베이스)에서 이미지 검색
-ImageBuilder.Button.Browser.Tooltip=Browse Image File
+ImageBuilder.Button.Browser.Tooltip=이미지 파일 찾아보기
 
 ###########################################################
 #ImageEditPart properties
@@ -2024,11 +2024,11 @@ JSEditor.Input.trial=시도
 JSEditor.Text.NoText=No text
 JSEditor.Validate.Title=유효성 검사
 JSEditor.Validate.NoError=현재 스크립트에 구문 오류가 없습니다.
-JSEditor.Folding.Group=Folding
-JSEditor.Folding.ExpandAll.label=Expand All
-JSEditor.Folding.CollapseAll.label=Collapse All
-JSEditor.Folding.CollapseMethods.label=Collapse Methods
-JSEditor.Folding.CollapseComments.label=Collapse Comments
+JSEditor.Folding.Group=접기
+JSEditor.Folding.ExpandAll.label=모두 확대
+JSEditor.Folding.CollapseAll.label=모두 축소
+JSEditor.Folding.CollapseMethods.label=메서드 축소
+JSEditor.Folding.CollapseComments.label=설명 축소
 
 ###########################################################
 #label properties
@@ -3272,7 +3272,7 @@ TableArea.Button.New=새로 만들기(&W)...
 TableArea.Button.Edit=편집(&E)...
 TableArea.Button.Remove=제거(&R)
 TableArea.Button.Down=아래로(&D)
-TableArea.Button.RemoveAll=Remo&ve All 
+TableArea.Button.RemoveAll=모두 제거(&V) 
 
 ###########################################################
 #TableHandleAdapter properties

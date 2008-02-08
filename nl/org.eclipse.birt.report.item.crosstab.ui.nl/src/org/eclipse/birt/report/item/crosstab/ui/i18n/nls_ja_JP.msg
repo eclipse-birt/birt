@@ -93,7 +93,7 @@ CrosstabPageGenerator.List.NamedExpressions=名前付き式
 CrosstabPageGenerator.List.UserProperties=ユーザのプロパティ
 CrosstabPageGenerator.List.AdvancedProperty=詳細設定
 
-CrosstabPageGenerator.List.EmptyRowColumn=Empty Rows/Columns
+CrosstabPageGenerator.List.EmptyRowColumn=空の行と列
 
 CrosstabPageGenerator.TabItem.Binding=バインド
 CrosstabPageGenerator.TabItem.RowArea=行の領域
@@ -104,7 +104,7 @@ CrosstabPageGenerator.TabItem.Highlights=ハイライト
 CrosstabPageGenerator.TabItem.map=マップ
 CrosstabPageGenerator.TabItem.Sorting=ソート
 
-CrosstabGeneraPage.ForEmptyCell=For empty cells, &show:
+CrosstabGeneraPage.ForEmptyCell=空のセルに次を表示(&S) :
 CrosstabGeneraPage.FormatOption=書式設定オプション :
 LayoutMeasuresSection.DisplayName=向き :
 
@@ -118,12 +118,12 @@ Element.ReportItem.dataSet=データセット :
 Element.ReportElement.Cube=データ(&D) :
 BindingPage.None=なし
 
-FilterHandleProvider.Label.Filterby=Filter by:
+FilterHandleProvider.Label.Filterby=フィルタの条件 :
 
 ###########################################################
 #EmptyRowColumnProvider properties
-EmptyRowColumnProvider.RowView.Button.Text=Show empty &rows
-EmptyRowColumnProvider.ColumnView.Button.Text=Show empty &columns
+EmptyRowColumnProvider.RowView.Button.Text=空の行を表示(&R)
+EmptyRowColumnProvider.ColumnView.Button.Text=空の列を表示(&C)
 
 ###########################################################
 #CategoryPageGenerator properties

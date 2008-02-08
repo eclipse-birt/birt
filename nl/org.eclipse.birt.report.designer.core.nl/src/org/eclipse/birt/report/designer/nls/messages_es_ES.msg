@@ -1236,7 +1236,7 @@ EmbeddedImagesNodeProvider.action.New=Nueva imagen incrustada
 
 ###########################################################
 #ElementIdDescriptorProvider properties
-ElementIdDescriptorProvider.Display.Element.ID=&Element ID:
+ElementIdDescriptorProvider.Display.Element.ID=&ID del elemento:
 
 ###########################################################
 #EmptyEditPart properties
@@ -1316,7 +1316,7 @@ ExpressionBuilder.toolTipText.validate=Validar
 ExpressionBuilder.Script.NoError=No se ha encontrado ningún error de sintaxis en el script actual.
 ExpressionBuilder.Script.Error=[Fila:{0}, Columna:{1}] {2}
 ExpressionBuilder.Script.Warning=Advertencia
-ExpressionBuilder.Script.Confirm=\nA syntax error is found in current script. Do you really want to save it?
+ExpressionBuilder.Script.Confirm=\nSe ha encontrado un error de sintaxis en el script actual. ¿Desea guardarlo?
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
@@ -1818,7 +1818,7 @@ ImageBuilder.Description.URI=Link a imagen en web
 ImageBuilder.Description.ResourceFile=Link a imagen en recursos compartidos
 ImageBuilder.Description.Embedded=Incrustar imagen en el informe
 ImageBuilder.Description.Dynamic=Recuperar imagen desde conjunto de datos (bases de datos)
-ImageBuilder.Button.Browser.Tooltip=Browse Image File
+ImageBuilder.Button.Browser.Tooltip=Examinar archivo de imagen
 
 ###########################################################
 #ImageEditPart properties
@@ -2024,11 +2024,11 @@ JSEditor.Input.trial=prueba
 JSEditor.Text.NoText=No text
 JSEditor.Validate.Title=Validación
 JSEditor.Validate.NoError=No se ha encontrado ningún error de sintaxis en el script actual.
-JSEditor.Folding.Group=Folding
-JSEditor.Folding.ExpandAll.label=Expand All
-JSEditor.Folding.CollapseAll.label=Collapse All
-JSEditor.Folding.CollapseMethods.label=Collapse Methods
-JSEditor.Folding.CollapseComments.label=Collapse Comments
+JSEditor.Folding.Group=Plegar
+JSEditor.Folding.ExpandAll.label=Expandir todo
+JSEditor.Folding.CollapseAll.label=Contraer todo
+JSEditor.Folding.CollapseMethods.label=Contraer métodos
+JSEditor.Folding.CollapseComments.label=Contraer comentarios
 
 ###########################################################
 #label properties
@@ -3272,7 +3272,7 @@ TableArea.Button.New=Nue&vo...
 TableArea.Button.Edit=&Editar...
 TableArea.Button.Remove=&Quitar
 TableArea.Button.Down=&Abajo
-TableArea.Button.RemoveAll=Remo&ve All 
+TableArea.Button.RemoveAll=&Eliminar todo 
 
 ###########################################################
 #TableHandleAdapter properties

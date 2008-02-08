@@ -27,7 +27,7 @@ Element.EmptyCellValue=空のセル値
 Element.RepeatRowHeader=行のヘッダの繰り返し
 Element.RepeatColumnHeader=列のヘッダの繰り返し
 Element.Mirrored=ミラー化
-Element.MirrorStartingLevel=Mirror Starting Level
+Element.MirrorStartingLevel=ミラー化開始レベル
 Element.HideMeasureHeader=計測のヘッダを隠す
 
 Method.onPrepare=onPrepare
@@ -117,5 +117,5 @@ CrosstabReportItemTask.msg.pivot.dimension=次元の回転
 CrosstabReportItemTask.msg.insert.dimension=次元の挿入
 CrosstabReportItemTask.msg.set.mirroredStartingLevel=Set Mirrored Starting Level
 
-CrosstabReportItemHandle.Error.HasNoCube=The cross table must be able to access one cube
-CrosstabReportItemHandle.log.validate=validating(...)
+CrosstabReportItemHandle.Error.HasNoCube=クロステーブルは、1 つのキューブにアクセスできる必要があります。
+CrosstabReportItemHandle.log.validate=検証中 (...)

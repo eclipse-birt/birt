@@ -1236,7 +1236,7 @@ EmbeddedImagesNodeProvider.action.New=新しく埋め込まれたイメージ
 
 ###########################################################
 #ElementIdDescriptorProvider properties
-ElementIdDescriptorProvider.Display.Element.ID=&Element ID:
+ElementIdDescriptorProvider.Display.Element.ID=要素 ID(&E) :
 
 ###########################################################
 #EmptyEditPart properties
@@ -1316,7 +1316,7 @@ ExpressionBuilder.toolTipText.validate=検証
 ExpressionBuilder.Script.NoError=このスクリプトに構文エラーはありませんでした。
 ExpressionBuilder.Script.Error=[行 :{0}、列 :{1}] {2}
 ExpressionBuilder.Script.Warning=警告
-ExpressionBuilder.Script.Confirm=\nA syntax error is found in current script. Do you really want to save it?
+ExpressionBuilder.Script.Confirm=\n現在のスクリプトに構文エラーがあります。保存しますか ?
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
@@ -1818,7 +1818,7 @@ ImageBuilder.Description.URI=Web 上のイメージへのリンク
 ImageBuilder.Description.ResourceFile=共有リソース内のイメージへのリンク
 ImageBuilder.Description.Embedded=レポートへのイメージの埋め込み
 ImageBuilder.Description.Dynamic=データセット (データベース) からのイメージの取得
-ImageBuilder.Button.Browser.Tooltip=Browse Image File
+ImageBuilder.Button.Browser.Tooltip=イメージファイルの参照
 
 ###########################################################
 #ImageEditPart properties
@@ -2024,11 +2024,11 @@ JSEditor.Input.trial=試用
 JSEditor.Text.NoText=No text
 JSEditor.Validate.Title=検証
 JSEditor.Validate.NoError=このスクリプトに構文エラーはありませんでした。
-JSEditor.Folding.Group=Folding
-JSEditor.Folding.ExpandAll.label=Expand All
-JSEditor.Folding.CollapseAll.label=Collapse All
-JSEditor.Folding.CollapseMethods.label=Collapse Methods
-JSEditor.Folding.CollapseComments.label=Collapse Comments
+JSEditor.Folding.Group=折りたたみ
+JSEditor.Folding.ExpandAll.label=すべて展開
+JSEditor.Folding.CollapseAll.label=すべて折りたたむ
+JSEditor.Folding.CollapseMethods.label=メソッドを折りたたむ
+JSEditor.Folding.CollapseComments.label=コメントを折りたたむ
 
 ###########################################################
 #label properties
@@ -3272,7 +3272,7 @@ TableArea.Button.New=新規作成(&W)...
 TableArea.Button.Edit=編集(&E)...
 TableArea.Button.Remove=削除(&R)
 TableArea.Button.Down=下へ(&O)
-TableArea.Button.RemoveAll=Remo&ve All 
+TableArea.Button.RemoveAll=すべて削除(&V) 
 
 ###########################################################
 #TableHandleAdapter properties

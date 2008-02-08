@@ -93,7 +93,7 @@ CrosstabPageGenerator.List.NamedExpressions=Benannte Ausdrücke
 CrosstabPageGenerator.List.UserProperties=Benutzereigenschaften
 CrosstabPageGenerator.List.AdvancedProperty=Erweitert
 
-CrosstabPageGenerator.List.EmptyRowColumn=Empty Rows/Columns
+CrosstabPageGenerator.List.EmptyRowColumn=Leere Zeilen/Spalten
 
 CrosstabPageGenerator.TabItem.Binding=Bindung
 CrosstabPageGenerator.TabItem.RowArea=Zeilenbereich
@@ -104,7 +104,7 @@ CrosstabPageGenerator.TabItem.Highlights=Kennzeichnungen
 CrosstabPageGenerator.TabItem.map=Zuordnung
 CrosstabPageGenerator.TabItem.Sorting=Sortierung
 
-CrosstabGeneraPage.ForEmptyCell=For empty cells, &show:
+CrosstabGeneraPage.ForEmptyCell=Leere Zellen anzeigen &als:
 CrosstabGeneraPage.FormatOption=Formatierungsoptionen:
 LayoutMeasuresSection.DisplayName=Ausrichtung:
 
@@ -118,12 +118,12 @@ Element.ReportItem.dataSet=Datensatz:
 Element.ReportElement.Cube=&Daten:
 BindingPage.None=Ohne
 
-FilterHandleProvider.Label.Filterby=Filter by:
+FilterHandleProvider.Label.Filterby=Filtern nach:
 
 ###########################################################
 #EmptyRowColumnProvider properties
-EmptyRowColumnProvider.RowView.Button.Text=Show empty &rows
-EmptyRowColumnProvider.ColumnView.Button.Text=Show empty &columns
+EmptyRowColumnProvider.RowView.Button.Text=Leere &Zeilen anzeigen
+EmptyRowColumnProvider.ColumnView.Button.Text=Leere &Spalten anzeigen
 
 ###########################################################
 #CategoryPageGenerator properties

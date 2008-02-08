@@ -27,7 +27,7 @@ Element.EmptyCellValue=빈 셀 값
 Element.RepeatRowHeader=행 머리글 반복
 Element.RepeatColumnHeader=열 머리글 반복
 Element.Mirrored=미러링됨
-Element.MirrorStartingLevel=Mirror Starting Level
+Element.MirrorStartingLevel=미러 시작 수준
 Element.HideMeasureHeader=측정값 머리글 숨기기
 
 Method.onPrepare=onPrepare
@@ -117,5 +117,5 @@ CrosstabReportItemTask.msg.pivot.dimension=차원 피벗
 CrosstabReportItemTask.msg.insert.dimension=차원 삽입
 CrosstabReportItemTask.msg.set.mirroredStartingLevel=Set Mirrored Starting Level
 
-CrosstabReportItemHandle.Error.HasNoCube=The cross table must be able to access one cube
-CrosstabReportItemHandle.log.validate=validating(...)
+CrosstabReportItemHandle.Error.HasNoCube=교차 테이블은 하나의 큐브에 액세스할 수 있어야 합니다.
+CrosstabReportItemHandle.log.validate=확인 중(...)

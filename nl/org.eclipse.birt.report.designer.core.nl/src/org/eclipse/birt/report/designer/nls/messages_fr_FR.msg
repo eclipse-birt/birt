@@ -1236,7 +1236,7 @@ EmbeddedImagesNodeProvider.action.New=Nouvelle image incorporée
 
 ###########################################################
 #ElementIdDescriptorProvider properties
-ElementIdDescriptorProvider.Display.Element.ID=&Element ID:
+ElementIdDescriptorProvider.Display.Element.ID=ID de l'&élément :
 
 ###########################################################
 #EmptyEditPart properties
@@ -1316,7 +1316,7 @@ ExpressionBuilder.toolTipText.validate=Valider
 ExpressionBuilder.Script.NoError=Aucune erreur de syntaxe n'a été trouvée dans le script actuel.
 ExpressionBuilder.Script.Error=[Rang : {0}, Colonne : {1}] {2}
 ExpressionBuilder.Script.Warning=Avertissement
-ExpressionBuilder.Script.Confirm=\nA syntax error is found in current script. Do you really want to save it?
+ExpressionBuilder.Script.Confirm=\nLe script actuel comporte une erreur de syntaxe. Voulez-vous vraiment l'enregistrer ?
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
@@ -1818,7 +1818,7 @@ ImageBuilder.Description.URI=Lien vers l'image sur le Web
 ImageBuilder.Description.ResourceFile=Lien vers l'image dans les ressources partagées
 ImageBuilder.Description.Embedded=Incorporer l'image dans l'état
 ImageBuilder.Description.Dynamic=Extraire l'image du jeu de données (bases de données)
-ImageBuilder.Button.Browser.Tooltip=Browse Image File
+ImageBuilder.Button.Browser.Tooltip=Parcourir le fichier image
 
 ###########################################################
 #ImageEditPart properties
@@ -2024,11 +2024,11 @@ JSEditor.Input.trial=évaluation
 JSEditor.Text.NoText=No text
 JSEditor.Validate.Title=Validation
 JSEditor.Validate.NoError=Aucune erreur de syntaxe n'a été trouvée dans le script actuel.
-JSEditor.Folding.Group=Folding
-JSEditor.Folding.ExpandAll.label=Expand All
-JSEditor.Folding.CollapseAll.label=Collapse All
-JSEditor.Folding.CollapseMethods.label=Collapse Methods
-JSEditor.Folding.CollapseComments.label=Collapse Comments
+JSEditor.Folding.Group=Pliage
+JSEditor.Folding.ExpandAll.label=Tout développer
+JSEditor.Folding.CollapseAll.label=Tout réduire
+JSEditor.Folding.CollapseMethods.label=Méthodes de réduction
+JSEditor.Folding.CollapseComments.label=Réduire les commentaires
 
 ###########################################################
 #label properties
@@ -3272,7 +3272,7 @@ TableArea.Button.New=&Nouveau...
 TableArea.Button.Edit=&Modifier...
 TableArea.Button.Remove=&Supprimer
 TableArea.Button.Down=Vers le &bas
-TableArea.Button.RemoveAll=Remo&ve All 
+TableArea.Button.RemoveAll=Tout suppri&mer 
 
 ###########################################################
 #TableHandleAdapter properties
@@ -4061,5 +4061,5 @@ InsertAggregationAction.text=Agrégation
 MultipleAdapter.SetCurrentView=Définir la vue actuelle
 MultipleAdapter.RemoveView=Supprimer la vue
 MultipleGuideHandle.RemoveView=Supprimer
-CreateChartAction.text=Créer Vue Graphique
-CreateChartHandler.text=Créer Vue Graphique
+CreateChartAction.text=Créer un graphique
+CreateChartHandler.text=Créer un graphique

@@ -1236,7 +1236,7 @@ EmbeddedImagesNodeProvider.action.New=Neues eingebettetes Bild
 
 ###########################################################
 #ElementIdDescriptorProvider properties
-ElementIdDescriptorProvider.Display.Element.ID=&Element ID:
+ElementIdDescriptorProvider.Display.Element.ID=&Element-ID:
 
 ###########################################################
 #EmptyEditPart properties
@@ -1316,7 +1316,7 @@ ExpressionBuilder.toolTipText.validate=Validieren
 ExpressionBuilder.Script.NoError=Im aktuellen Skript wurde kein Syntaxfehler gefunden.
 ExpressionBuilder.Script.Error=[Zeile:{0}, Spalte:{1}] {2}
 ExpressionBuilder.Script.Warning=Warnung
-ExpressionBuilder.Script.Confirm=\nA syntax error is found in current script. Do you really want to save it?
+ExpressionBuilder.Script.Confirm=\nIm aktuellen Skript ist ein Syntaxfehler aufgetreten. Möchten Sie es wirklich speichern?
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
@@ -1818,7 +1818,7 @@ ImageBuilder.Description.URI=Verknüpfen mit Bild im Internet
 ImageBuilder.Description.ResourceFile=Verknüpfen mit Bild in gemeinsamen Ressourcen
 ImageBuilder.Description.Embedded=Bild in Bericht einbetten
 ImageBuilder.Description.Dynamic=Bild aus Datensatz (Datenbanken) abrufen
-ImageBuilder.Button.Browser.Tooltip=Browse Image File
+ImageBuilder.Button.Browser.Tooltip=Bilddatei durchsuchen
 
 ###########################################################
 #ImageEditPart properties
@@ -2025,10 +2025,10 @@ JSEditor.Text.NoText=No text
 JSEditor.Validate.Title=Validierung
 JSEditor.Validate.NoError=Im aktuellen Skript wurde kein Syntaxfehler gefunden.
 JSEditor.Folding.Group=Folding
-JSEditor.Folding.ExpandAll.label=Expand All
-JSEditor.Folding.CollapseAll.label=Collapse All
-JSEditor.Folding.CollapseMethods.label=Collapse Methods
-JSEditor.Folding.CollapseComments.label=Collapse Comments
+JSEditor.Folding.ExpandAll.label=Alle erweitern
+JSEditor.Folding.CollapseAll.label=Alle ausblenden
+JSEditor.Folding.CollapseMethods.label=Methoden ausblenden
+JSEditor.Folding.CollapseComments.label=Kommentare ausblenden
 
 ###########################################################
 #label properties
@@ -3272,7 +3272,7 @@ TableArea.Button.New=N&eu...
 TableArea.Button.Edit=&Bearbeiten...
 TableArea.Button.Remove=&Entfernen
 TableArea.Button.Down=Nach &unten
-TableArea.Button.RemoveAll=Remo&ve All 
+TableArea.Button.RemoveAll=&Alle entfernen 
 
 ###########################################################
 #TableHandleAdapter properties
@@ -4061,5 +4061,5 @@ InsertAggregationAction.text=Aggregat
 MultipleAdapter.SetCurrentView=Aktuelle Ansicht einstellen
 MultipleAdapter.RemoveView=Ansicht entfernen
 MultipleGuideHandle.RemoveView=Entfernen
-CreateChartAction.text=Char-Ansicht erstellen
-CreateChartHandler.text=Char-Ansicht erstellen
+CreateChartAction.text=Diagramm-Ansicht erstellen
+CreateChartHandler.text=Diagramm-Ansicht erstellen

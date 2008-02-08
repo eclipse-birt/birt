@@ -27,7 +27,7 @@ Element.EmptyCellValue=Valor de celda vacía
 Element.RepeatRowHeader=Repetir encabezado de fila
 Element.RepeatColumnHeader=Repetir encabezado de columna
 Element.Mirrored=Reflejado
-Element.MirrorStartingLevel=Mirror Starting Level
+Element.MirrorStartingLevel=Nivel de inicio reflejado
 Element.HideMeasureHeader=Encabezado Ocultar medidas
 
 Method.onPrepare=onPrepare
@@ -117,5 +117,5 @@ CrosstabReportItemTask.msg.pivot.dimension=Dimensión dinámica
 CrosstabReportItemTask.msg.insert.dimension=Insertar dimensión
 CrosstabReportItemTask.msg.set.mirroredStartingLevel=Set Mirrored Starting Level
 
-CrosstabReportItemHandle.Error.HasNoCube=The cross table must be able to access one cube
-CrosstabReportItemHandle.log.validate=validating(...)
+CrosstabReportItemHandle.Error.HasNoCube=La tabla de referencias cruzadas debe tener acceder a un cubo
+CrosstabReportItemHandle.log.validate=validando(...)
