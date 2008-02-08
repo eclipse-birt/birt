@@ -40,9 +40,9 @@ OpenChartTaskAction.Text.FormatChart=グラフの書式設定(&F)...
 GeneralPage.Library.Included=ライブラリ :
 ChartEventHandlerPage.dialog.Browse=参照(&B)...
 ReportDataServiceProvider.Option.None=<なし>
-ReportDataServiceProvider.Tooltip.Aggregate=Aggregate: 
-ReportDataServiceProvider.Tooltip.GroupExpression=Group Expression: 
-ReportDataServiceProvider.Tooltip.OnGroup=On Group: 
+ReportDataServiceProvider.Tooltip.Aggregate=総計 : 
+ReportDataServiceProvider.Tooltip.GroupExpression=グループ式 : 
+ReportDataServiceProvider.Tooltip.OnGroup=グループ : 
 
 StandardChartDataSheet.Combo.DataCubes=---データキューブ---
 StandardChartDataSheet.Combo.DataSets=---データセット---
