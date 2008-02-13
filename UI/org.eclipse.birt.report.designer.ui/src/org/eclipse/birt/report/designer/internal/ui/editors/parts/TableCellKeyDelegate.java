@@ -218,7 +218,7 @@ public class TableCellKeyDelegate extends GraphicalViewerKeyHandler
 	 * 
 	 * @return a list of navigation editparts
 	 */
-	List getNavigationSiblings( )
+	protected List getNavigationSiblings( )
 	{
 		EditPart focusPart = getFocusEditPart( );
 		if ( focusPart.getParent( ) != null )
