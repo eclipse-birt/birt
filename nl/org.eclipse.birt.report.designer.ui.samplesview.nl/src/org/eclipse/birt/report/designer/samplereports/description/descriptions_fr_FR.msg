@@ -63,7 +63,7 @@ OrdersAfter=Cet exemple explique comment créer un état utilisant des tables imbr
 SortTableByReportParameter=Cet exemple explique comment créer un état utilisant des tables imbriquées. La requête liée à la table interne est paramétrée afin de renvoyer les détails de commande d'un numéro de commande donné d'une table externe. Cet exemple explique également comment référencer des colonnes de table externe dans une table imbriquée. Cette opération permet d'intégrer des informations principales provenant d'un état dans les états BIRT. La table externe traite ses lignes et la requête de la table interne est réexécutée en fonction des informations de la table externe. 
 
 #Cross tab
-CrosstabSampleRevenue=This example demonstrates building a simple report with a cross tab report item ( which is based on a BIRT cube). It create a cross tab with product line along the column area and year->quarter along the row area.
+CrosstabSampleRevenue=Cet exemple explique comment créer un état simple avec un élément d'état de tableau croisé (basé sur un cube BIRT). Il crée un tableau croisé affichant la gamme des produits dans la zone de colonne et année->trimestre dans la zone de ligne.
 ###########################################################
 #Contribute Samples
 Contribute_Samples=Veuillez soumettre une entrée bugzilla à l'adresse https://bugs.eclipse.org/bugs/enter_bug.cgi?product=BIRTb&bug_severity=enhancement et joignez le fichier du modèle d'état et une capture d'écran de la sortie d'état (au format .png, résolution de 800*600, taille inférieure ou égale à 250 Ko)
@@ -87,7 +87,7 @@ ScriptedDatasourceExampleAfter=Les exemples présentés dans cette section illustr
 Addvisrule=Cet exemple décrit comment ajouter une règle de visibilité à un script.  
 
 #Chart
-SimpleChartAPI=This example illustrate many of the available java script methods in within the simple Chart API.  They are called from the beforeFactory event handler of the report.
+SimpleChartAPI=Cet exemple illustre un grand nombre des méthodes de script java disponibles dans l'API graphique simple. Ils proviennent du gestionnaire d'événement avant génération de l'état.
 
 ###########################################################
 #Extending BIRT

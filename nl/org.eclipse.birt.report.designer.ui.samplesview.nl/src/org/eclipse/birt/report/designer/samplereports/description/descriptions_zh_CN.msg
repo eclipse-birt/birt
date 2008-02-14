@@ -60,10 +60,10 @@ ProductLinesAfter=±¾Ê¾ÀıÊ¾·¶ÈçºÎÔÚ±¨±íÉè¼ÆÖĞÊ¹ÓÃ¡°±êÇ©¡±¡¢¡°ÎÄ±¾¡±¡¢¡°¶¯Ì¬ÎÄ±¾¡±
 OrdersAfter=±¾Ê¾ÀıÊ¾·¶ÈçºÎÉú³ÉÊ¹ÓÃÇ¶Ì×±íµÄ±¨±í¡£°ó¶¨µ½ÄÚ²¿±íµÄ²éÑ¯ÒÑ±»²ÎÊı»¯ÒÔ·µ»ØÍâ²¿±íÖĞ¸ø¶¨¶©µ¥ºÅµÄ¶©µ¥Ï¸½Ú¡£±¾Ê¾ÀıÒ²ËµÃ÷ÈçºÎÔÚÇ¶Ì×±íÖĞÒıÓÃÍâ²¿±íÁĞ¡£ÕâÔÊĞí½« BIRT ±¨±íÉè¼ÆÎª½«Ö÷Ã÷Ï¸ĞÅÏ¢°üº¬ÔÚÏàÍ¬µÄ±¨±íÖĞ¡£µ±Íâ²¿±íÕıÔÚ´¦ÀíĞĞµÄÊ±ºò£¬»á¸ù¾İÀ´×ÔÍâ²¿±íµÄĞÅÏ¢ÔÙÖ´ĞĞÄÚ²¿±í²éÑ¯¡£ 
 
 #Sorting
-SortTableByReportParameter=±¾Ê¾ÀıÊ¾·¶ÈçºÎÉú³ÉÊ¹ÓÃÇ¶Ì×±íµÄ±¨±í¡£°ó¶¨µ½ÄÚ²¿±íµÄ²éÑ¯ÒÑ±»²ÎÊı»¯ÒÔ·µ»ØÍâ²¿±íÖĞ¸ø¶¨¶©µ¥ºÅµÄ¶©µ¥Ï¸½Ú¡£±¾Ê¾ÀıÒ²ËµÃ÷ÈçºÎÔÚÇ¶Ì×±íÖĞÒıÓÃÍâ²¿±íÁĞ¡£ÕâÔÊĞí½« BIRT ±¨±íÉè¼ÆÎª½«Ö÷Ã÷Ï¸ĞÅÏ¢°üº¬ÔÚÏàÍ¬µÄ±¨±íÖĞ¡£µ±Íâ²¿±íÕıÔÚ´¦ÀíĞĞµÄÊ±ºò£¬»á¸ù¾İÀ´×ÔÍâ²¿±íµÄĞÅÏ¢ÔÙÖ´ĞĞÄÚ²¿±í²éÑ¯¡£ 
+SortTableByReportParameter=±¾Ê¾ÀıËµÃ÷ÈçºÎÉú³ÉÊ¹ÓÃÇ¶Ì×±íµÄ±¨±í¡£°ó¶¨µ½ÄÚ²¿±íµÄ²éÑ¯ÒÑ±»²ÎÊı»¯ÒÔ·µ»ØÍâ²¿±íÖĞ¸ø¶¨¶©µ¥ºÅµÄ¶©µ¥Ï¸½Ú¡£±¾Ê¾Àı»¹ËµÃ÷ÈçºÎÔÚÇ¶Ì×±íÖĞÒıÓÃÍâ²¿±íÁĞ¡£ÕâÔÊĞí½« BIRT ±¨±íÉè¼ÆÎª½«Ö÷Ã÷Ï¸ĞÅÏ¢°üº¬ÔÚÏàÍ¬µÄ±¨±íÖĞ¡£µ±Íâ²¿±íÕıÔÚ´¦ÀíÆäĞĞÊ±£¬¸ù¾İÀ´×ÔÍâ²¿±íµÄĞÅÏ¢ÖØĞÂÖ´ĞĞÄÚ²¿±í²éÑ¯¡£ 
 
 #Cross tab
-CrosstabSampleRevenue=This example demonstrates building a simple report with a cross tab report item ( which is based on a BIRT cube). It create a cross tab with product line along the column area and year->quarter along the row area.
+CrosstabSampleRevenue=´ËÊ¾ÀıËµÃ÷ÈçºÎÉú³É¾ßÓĞ½»²æ±í±¨±íÏî(»ùÓÚ BIRT ¶àÎ¬Êı¾İ¼¯)µÄ¼òµ¥±¨±í¡£Ëü´´½¨¾ßÓĞÑØÁĞÇøÓòµÄ²úÆ·ÏµÁĞÒÔ¼°ÑØĞĞÇøÓòµÄÄê->¼¾¶ÈµÄ½»²æ±í¡£
 ###########################################################
 #Contribute Samples
 Contribute_Samples=Çë½« bugzilla ÌõÄ¿Ìá½»µ½ https://bugs.eclipse.org/bugs/enter_bug.cgi?product=BIRTb&bug_severity=enhancement£¬¸½¼Ó±¨±íÉè¼ÆÎÄ¼şºÍ±¨±íÊä³ö×¥Í¼£¨.png Í¼Ïñ¸ñÊ½¡¢800*600 ·Ö±æÂÊ¡¢²»³¬¹ı 250 KB£©
@@ -87,7 +87,7 @@ ScriptedDatasourceExampleAfter=¸Ã²¿·ÖÊ¾Àı¼¯ÖĞÔÚ BIRT ÄÚµÄ½Å±¾ÉÏ¡£Ê¹ÓÃ¼òµ¥±¨±íËµÃ
 Addvisrule=´ËÊ¾ÀıËµÃ÷ÈçºÎÔÚ½Å±¾ÖĞÌí¼Ó¿É¼ûĞÔ¹æÔò¡£  
 
 #Chart
-SimpleChartAPI=This example illustrate many of the available java script methods in within the simple Chart API.  They are called from the beforeFactory event handler of the report.
+SimpleChartAPI=´ËÊ¾ÀıËµÃ÷¼òµ¥Í¼±í API ÖĞµÄĞí¶à¿ÉÓÃ java ½Å±¾·½·¨¡£ËüÃÇµ÷ÓÃ×Ô±¨±íµÄ beforeFactory ÊÂ¼ş´¦Àí³ÌĞò¡£
 
 ###########################################################
 #Extending BIRT

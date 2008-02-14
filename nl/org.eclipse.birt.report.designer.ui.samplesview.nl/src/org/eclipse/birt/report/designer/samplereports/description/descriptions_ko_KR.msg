@@ -60,10 +60,10 @@ ProductLinesAfter=이 예제는 레이블, 텍스트, 동적 텍스트, 데이터, 이미지 요소를 �
 OrdersAfter=이 예제는 중첩 테이블을 사용하여 보고서를 만드는 것을 보여 줍니다. 내부 테이블에 바인딩된 쿼리의 매개 변수를 사용하여 외부 테이블에 있는 주문 번호에 대한 주문 상세 내역을 내부 테이블에 보여 줍니다. 또한 중첩 테이블 내에서 외부 테이블을 참조하는 방법도 보여 줍니다. 이를 통해 마스터 정보와 상세 정보를 한 보고서에 포함시킬 수 있습니다. 외부 테이블에서 행을 처리해 외부 테이블의 정보를 기준으로 내부 테이블의 쿼리가 재실행됩니다. 
 
 #Sorting
-SortTableByReportParameter=이 예제는 중첩 테이블을 사용하여 보고서를 만드는 것을 보여 줍니다. 내부 테이블에 바인딩된 쿼리의 매개 변수를 사용하여 외부 테이블에 있는 주문 번호에 대한 주문 상세 내역을 내부 테이블에 보여 줍니다. 또한 중첩 테이블 내에서 외부 테이블을 참조하는 방법도 보여 줍니다. 이를 통해 마스터 정보와 상세 정보를 한 보고서에 포함시킬 수 있습니다. 외부 테이블에서 행을 처리해 외부 테이블의 정보를 기준으로 내부 테이블의 쿼리가 재실행됩니다. 
+SortTableByReportParameter=이 예는 중첩 테이블을 사용하는 보고서 작성 방법을 보여 줍니다. 내부 테이블에 바인딩된 쿼리의 매개 변수를 사용하여 외부 테이블에 있는 주문 번호에 대한 주문 상세 내역을 내부 테이블에 보여 줍니다. 또한 중첩 테이블 내에서 외부 테이블을 참조하는 방법도 보여 줍니다. 이를 통해 마스터 정보와 상세 정보를 BIRT 보고서에 포함시킬 수 있습니다. 외부 테이블에서 행을 처리해 외부 테이블의 정보를 기준으로 내부 테이블의 쿼리가 재실행됩니다. 
 
 #Cross tab
-CrosstabSampleRevenue=This example demonstrates building a simple report with a cross tab report item ( which is based on a BIRT cube). It create a cross tab with product line along the column area and year->quarter along the row area.
+CrosstabSampleRevenue=이 예는 크로스 탭 보고서 항목(BIRT 큐브 기반)을 포함하는 간단한 보고서 작성 방법을 보여 줍니다. 이 보고서의 열 영역에는 제품 라인이, 행 영역에는 연->분기가 표시된 크로스 탭이 만들어 집니다.
 ###########################################################
 #Contribute Samples
 Contribute_Samples=Bugzilla 항목을 다음 주소로 제출해 주십시오. https://bugs.eclipse.org/bugs/enter_bug.cgi?product=BIRTb&bug_severity=enhancement. 제출하실 때 보고서 디자인 파일과 보고서 출력 스크린 샷(.png 이미지 형식, 800*600 해상도, 250 KB 이하)을 첨부해 주십시오.
@@ -87,7 +87,7 @@ ScriptedDatasourceExampleAfter=이 예제 섹션은 BIRT에서 스크립트를 작성하는 것을 
 Addvisrule=이 예는 스크립트에 표시 규칙을 추가하는 방법을 보여 줍니다.  
 
 #Chart
-SimpleChartAPI=This example illustrate many of the available java script methods in within the simple Chart API.  They are called from the beforeFactory event handler of the report.
+SimpleChartAPI=이 예는 간단한 Chart API 내에서 사용 가능한 다양한 Java 스크립트 메서드를 보여 줍니다. 이들은 보고서의 beforeFactory 이벤트 처리기에서 호출됩니다.
 
 ###########################################################
 #Extending BIRT
