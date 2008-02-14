@@ -27,12 +27,12 @@ Element.EmptyCellValue=空单元格值
 Element.RepeatRowHeader=重复行标题
 Element.RepeatColumnHeader=重复列标题
 Element.Mirrored=镜像
-Element.MirrorStartingLevel=Mirror Starting Level
+Element.MirrorStartingLevel=镜像起始级别
 Element.HideMeasureHeader=隐藏度量头
 
 Method.onPrepare=onPrepare
 Method.onCreate=onCreate
-Method.onRender=onRender
+Method.onRender=绘制时
 Method.onPageBreak=onPageBreak
 
 ###########################################################
@@ -117,5 +117,5 @@ CrosstabReportItemTask.msg.pivot.dimension=透视维
 CrosstabReportItemTask.msg.insert.dimension=插入维
 CrosstabReportItemTask.msg.set.mirroredStartingLevel=Set Mirrored Starting Level
 
-CrosstabReportItemHandle.Error.HasNoCube=The cross table must be able to access one cube
-CrosstabReportItemHandle.log.validate=validating(...)
+CrosstabReportItemHandle.Error.HasNoCube=交叉表必须能够访问一个多维
+CrosstabReportItemHandle.log.validate=正在验证(...)

@@ -3564,7 +3564,7 @@ Error.TemplateException.TEMPLATE_ELEMENT_NOT_SUPPORTED=模板元素在库中不受支持。
 Info.VersionInfo.INVALID_DESIGN_FILE=正在打开的设计文件不是有效的设计文件，或者该文件不存在。
 Info.VersionInfo.CONVERT_INFO=设计文件是使用较早版本的 BIRT 创建的。单击“确定”将它转换为该产品当前版本支持的格式。
 Info.VersionInfo.INVALID_VERSION=不支持版本“{0}”的报表文件。
-Info.VersionInfo.EXTENSION_COMPATIBILITY =The design/library may be changed since the backward compatibility is applied to the opening design/library or its included libraries.
+Info.VersionInfo.EXTENSION_COMPATIBILITY =设计/库可能已被更改，因为对正在打开的设计/库或其包含的库应用了后向兼容性。
 
 #EncryptionException
 Error.EncryptionException.INVALID_ENCRYPTABLE_PROPERTY={0} 中的属性 {1} 不可加密，因此不能更改加密。

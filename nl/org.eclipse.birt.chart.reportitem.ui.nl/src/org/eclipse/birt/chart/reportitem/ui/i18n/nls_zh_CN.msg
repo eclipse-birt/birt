@@ -40,9 +40,9 @@ OpenChartTaskAction.Text.FormatChart=图表格式(&F)...
 GeneralPage.Library.Included=库:
 ChartEventHandlerPage.dialog.Browse=浏览(&B)...
 ReportDataServiceProvider.Option.None=<无>
-ReportDataServiceProvider.Tooltip.Aggregate=Aggregate: 
-ReportDataServiceProvider.Tooltip.GroupExpression=Group Expression: 
-ReportDataServiceProvider.Tooltip.OnGroup=On Group: 
+ReportDataServiceProvider.Tooltip.Aggregate=聚合: 
+ReportDataServiceProvider.Tooltip.GroupExpression=组表达式: 
+ReportDataServiceProvider.Tooltip.OnGroup=按组: 
 
 StandardChartDataSheet.Combo.DataCubes=---多维数据集---
 StandardChartDataSheet.Combo.DataSets=---数据集---

@@ -1236,7 +1236,7 @@ EmbeddedImagesNodeProvider.action.New=新建嵌入图像
 
 ###########################################################
 #ElementIdDescriptorProvider properties
-ElementIdDescriptorProvider.Display.Element.ID=&Element ID:
+ElementIdDescriptorProvider.Display.Element.ID=元素 ID(&E):
 
 ###########################################################
 #EmptyEditPart properties
@@ -1316,7 +1316,7 @@ ExpressionBuilder.toolTipText.validate=验证
 ExpressionBuilder.Script.NoError=当前脚本中找不到语法错误。
 ExpressionBuilder.Script.Error=[行:{0}, 列:{1}] {2}
 ExpressionBuilder.Script.Warning=警告
-ExpressionBuilder.Script.Confirm=\nA syntax error is found in current script. Do you really want to save it?
+ExpressionBuilder.Script.Confirm=\n当前脚本中找到语法错误。是否确实要保存?
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
@@ -1818,7 +1818,7 @@ ImageBuilder.Description.URI=链接到 web 上的图像
 ImageBuilder.Description.ResourceFile=链接到共享资源中的图像
 ImageBuilder.Description.Embedded=将图像嵌入到报表
 ImageBuilder.Description.Dynamic=从数据集(数据库)中检索图像
-ImageBuilder.Button.Browser.Tooltip=Browse Image File
+ImageBuilder.Button.Browser.Tooltip=浏览图像文件
 
 ###########################################################
 #ImageEditPart properties
@@ -2024,11 +2024,11 @@ JSEditor.Input.trial=试用版
 JSEditor.Text.NoText=No text
 JSEditor.Validate.Title=验证
 JSEditor.Validate.NoError=当前脚本中找不到语法错误。
-JSEditor.Folding.Group=Folding
-JSEditor.Folding.ExpandAll.label=Expand All
-JSEditor.Folding.CollapseAll.label=Collapse All
-JSEditor.Folding.CollapseMethods.label=Collapse Methods
-JSEditor.Folding.CollapseComments.label=Collapse Comments
+JSEditor.Folding.Group=折叠
+JSEditor.Folding.ExpandAll.label=全部展开
+JSEditor.Folding.CollapseAll.label=全部折叠
+JSEditor.Folding.CollapseMethods.label=折叠方法
+JSEditor.Folding.CollapseComments.label=折叠备注
 
 ###########################################################
 #label properties
@@ -3272,7 +3272,7 @@ TableArea.Button.New=新建(&W)...
 TableArea.Button.Edit=编辑(&E)...
 TableArea.Button.Remove=删除(&R)
 TableArea.Button.Down=下移(&O)
-TableArea.Button.RemoveAll=Remo&ve All 
+TableArea.Button.RemoveAll=全部删除(&V) 
 
 ###########################################################
 #TableHandleAdapter properties

@@ -101,10 +101,10 @@ driverManagerDialog.error.CanNotAddDriver=不能添加重复的 jar 文件
 driverManagerDialog.text.DriverError=添加驱动程序错误。
 driverManagerDialog.fileDelete.title=文件删除
 driverManagerDialog.fileDelete.text=下次 BIRT 启动时，文件将被删除。特别是在交换驱动程序的不同版本时请注意。
-driverManagerDialog.ErrorDialog.addDriver.title=Failed to register the driver
-driverManagerDialog.ErrorDialog.addDriver.message=Failed to register the driver : 
-driverManagerDialog.ErrorDialog.deregisterDriver.title=Failed to deregister the driver
-driverManagerDialog.ErrorDialog.deregisterDriver.message=Failed to deregister the driver : 
+driverManagerDialog.ErrorDialog.addDriver.title=注册驱动程序失败
+driverManagerDialog.ErrorDialog.addDriver.message=注册驱动程序失败: 
+driverManagerDialog.ErrorDialog.deregisterDriver.title=注销驱动程序失败:
+driverManagerDialog.ErrorDialog.deregisterDriver.message=注销驱动程序失败: 
 datasource.propertyPage.tooltip=JDBC 数据源
 
 designer.preview.preference.resultset.previewpage.group.title=预览页面
