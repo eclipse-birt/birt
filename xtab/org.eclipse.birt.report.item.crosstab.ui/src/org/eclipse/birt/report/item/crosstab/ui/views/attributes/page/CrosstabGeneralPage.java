@@ -19,7 +19,6 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.El
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.LibraryDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TextPropertyDescriptorProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.CheckSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ComboSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SeperatorSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextSection;
@@ -27,8 +26,8 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
-import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.HideMeasureHeaderProvider;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.MeasureComboPropertyDescriptorProvider;
+import org.eclipse.birt.report.item.crosstab.ui.views.attributes.section.InnerTextSection;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.swt.SWT;
@@ -129,12 +128,6 @@ public class CrosstabGeneralPage extends AttributePage
 		layoutMeasureSection.setWidth( 200 );
 		layoutMeasureSection.setGridPlaceholder( 2, true );
 		addSection( CrosstabPageSectionId.LAYOUT_MEASURES, layoutMeasureSection );
-		
-		HideMeasureHeaderProvider hideMeasureProvider = new HideMeasureHeaderProvider( ICrosstabReportItemConstants.HIDE_MEASURE_HEADER_PROP,
-				ReportDesignConstants.EXTENDED_ITEM );
-		CheckSection hideMeasureSection = new CheckSection( container, true );
-		hideMeasureSection.setProvider( hideMeasureProvider );
-		addSection( CrosstabPageSectionId.HIDE_MEASURE_HEADER, hideMeasureSection );		
 
 		createSections( );
 		layoutSections( );
