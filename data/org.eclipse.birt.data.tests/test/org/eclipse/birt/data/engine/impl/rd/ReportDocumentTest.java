@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.data.engine.impl.rd;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -1952,38 +1951,6 @@ public class ReportDocumentTest extends RDTestCase
 		assertTrue( ri.getResultMetaData( ) != null );
 		ri.close( );
 		myPreDataEngine.shutdown( );
-	}
-	
-	/**
-	 * @throws DataException
-	 */
-	private void closeArchiveWriter( ) throws DataException
-	{
-		if ( archiveWriter != null )
-			try
-			{
-				archiveWriter.finish( );
-			}
-			catch ( IOException e )
-			{
-				throw new DataException( "error", e );
-			}
-	}
-	
-	/**
-	 * @throws DataException
-	 */
-	private void closeArchiveReader( ) throws DataException
-	{
-		if ( archiveReader != null )
-			try
-			{
-				archiveReader.close( );
-			}
-			catch ( IOException e )
-			{
-				throw new DataException( "error", e );
-			}
 	}
 	
 	/*

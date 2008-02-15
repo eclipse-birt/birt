@@ -3044,37 +3044,5 @@ public class ViewingTest2 extends RDTestCase
 		return totalBeArray;
 
 	}
-	
-	/**
-	 * @throws DataException
-	 */
-	private void closeArchiveWriter( ) throws DataException
-	{
-		if ( archiveWriter != null )
-			try
-			{
-				archiveWriter.finish( );
-			}
-			catch ( IOException e )
-			{
-				throw new DataException( "error", e );
-			}
-	}
-
-	/**
-	 * @throws DataException
-	 */
-	private void closeArchiveReader( ) throws DataException
-	{
-		if ( archiveReader != null )
-			try
-			{
-				archiveReader.close( );
-			}
-			catch ( Exception e )
-			{
-				throw new DataException( "error", e );
-			}
-	}
 
 }

@@ -10,7 +10,6 @@
 *******************************************************************************/
 package org.eclipse.birt.data.engine.impl.rd;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +27,6 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
-import org.eclipse.birt.data.engine.core.DataException;
 
 import testutil.ConfigText;
 
@@ -632,39 +630,6 @@ public class ViewingTest extends RDTestCase
 
 		for ( int i = 0; i < num2; i++ )
 			qd.addResultSetExpression( this.totalExprName[i], totalBeArray[i] );
-	}
-
-	/**
-	 * @throws DataException
-	 */
-	private void closeArchiveWriter( ) throws DataException
-	{
-		if ( archiveWriter != null )
-			try
-			{
-				archiveWriter.finish( );
-			}
-			catch ( IOException e )
-			{
-				throw new DataException( "error", e );
-			}
-	}
-
-
-	/**
-	 * @throws DataException
-	 */
-	private void closeArchiveReader( ) throws DataException
-	{
-		if ( archiveReader != null )
-			try
-			{
-				archiveReader.close( );
-			}
-			catch ( IOException e )
-			{
-				throw new DataException( "error", e );
-			}
 	}
 
 	/*

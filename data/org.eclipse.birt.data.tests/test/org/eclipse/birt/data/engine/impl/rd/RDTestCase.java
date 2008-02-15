@@ -24,6 +24,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.APITestCase;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ScriptableObject;
 
@@ -230,6 +231,38 @@ public abstract class RDTestCase extends APITestCase
 			default :
 				throw new IllegalArgumentException( "" + type );
 		}
+	}
+
+	/**
+	 * @throws DataException
+	 */
+	protected void closeArchiveWriter( ) throws DataException
+	{
+		if ( archiveWriter != null )
+			try
+			{
+				archiveWriter.finish( );
+			}
+			catch ( IOException e )
+			{
+				throw new DataException( "error", e );
+			}
+	}
+
+	/**
+	 * @throws DataException
+	 */
+	protected void closeArchiveReader( ) throws DataException
+	{
+		if ( archiveReader != null )
+			try
+			{
+				archiveReader.close( );
+			}
+			catch ( Exception e )
+			{
+				throw new DataException( "error", e );
+			}
 	}
 	
 }

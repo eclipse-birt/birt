@@ -342,18 +342,22 @@ public class QueryResults implements IQueryResults, IQueryService
 	public IExecutorHelper getExecutorHelper( ) throws DataException
 	{
 		if( this.executorHelper != null )
+		{
 			return this.executorHelper;
+		}
 		else
 		{
+			IExecutorHelper parent = null;
 			if( this.outer!= null )
 			{
 				if( this.outer instanceof IQueryService )
 				{
-					this.executorHelper = new ExecutorHelper( ( (IQueryService) this.outer ).getExecutorHelper( ) );
-					this.executorHelper.setScriptable( new DummyJSResultSetRow( ( (IQueryService) this.outer ).getExecutorHelper( ), this.resultIterator ) );
+					parent = ( (IQueryService) this.outer ).getExecutorHelper( );
 				}
 			}
-
+			
+			this.executorHelper = new ExecutorHelper( parent  );
+			this.executorHelper.setScriptable( new DummyJSResultSetRow( parent, this.resultIterator ) );
 			return this.executorHelper;
 		}
 	}
