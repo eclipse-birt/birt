@@ -199,6 +199,8 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 			cmbDefinition = new Combo( cmpTop,
 					context.getDataServiceProvider( ).isInXTab( ) ? SWT.READ_ONLY : SWT.NONE );
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd.widthHint = 80;
+			gd.grabExcessHorizontalSpace = true;
 			cmbDefinition.setLayoutData( gd );
 			
 			if ( predefinedQuery.length > 0 )
@@ -239,6 +241,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 			txtDefinition = new Text( cmpTop, SWT.BORDER | SWT.SINGLE );
 			GridData gdTXTDefinition = new GridData( GridData.FILL_HORIZONTAL );
 			gdTXTDefinition.widthHint = 80;
+			gdTXTDefinition.grabExcessHorizontalSpace = true;
 			txtDefinition.setLayoutData( gdTXTDefinition );
 			if ( query != null && query.getDefinition( ) != null )
 			{
