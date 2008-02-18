@@ -26,6 +26,7 @@ import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.extensions.ReportItemViewAdapter;
@@ -61,6 +62,7 @@ public class ChartReportItemViewProvider extends ReportItemViewAdapter
 		Series series = SeriesImpl.create( );
 		sdBase.getSeries( ).add( series );
 		cm.getBaseAxes( )[0].getSeriesDefinitions( ).add( sdBase );
+		cm.getBaseAxes( )[0].setCategoryAxis( true );
 
 		// Add orthogonal series
 		SeriesDefinition sdOrth = SeriesDefinitionImpl.create( );
@@ -69,6 +71,7 @@ public class ChartReportItemViewProvider extends ReportItemViewAdapter
 		sdOrth.getSeries( ).add( series );
 		cm.getOrthogonalAxes( cm.getBaseAxes( )[0], true )[0].getSeriesDefinitions( )
 				.add( sdOrth );
+		ChartUIUtil.setSeriesName( cm, sdOrth.getDesignTimeSeries( ) );
 
 		// Add sample data
 		SampleData sampleData = DataFactory.eINSTANCE.createSampleData( );
