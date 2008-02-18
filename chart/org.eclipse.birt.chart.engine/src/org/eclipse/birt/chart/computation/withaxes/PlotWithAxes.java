@@ -2040,7 +2040,7 @@ public abstract class PlotWithAxes extends Methods
 						{
 							break;
 						}
-						double dOldStep = ((Double)scY.getStep( )).doubleValue( );
+						double dOldStep = ( (Number) scY.getStep( ) ).doubleValue( );
 						scY.updateAxisMinMax( oaMinMax[0], oaMinMax[1] );
 						int tickCount = scY.computeTicks( ids,
 								laYAxisLabels,
@@ -2050,7 +2050,7 @@ public abstract class PlotWithAxes extends Methods
 								dEnd,
 								true,
 								aax );
-						double dNewStep = ((Double) scY.getStep( ) ).doubleValue( );
+						double dNewStep = ( (Number) scY.getStep( ) ).doubleValue( );
 						if ( dNewStep < dOldStep )
 						{
 							break;
