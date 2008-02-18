@@ -338,7 +338,14 @@ public class HighlightRuleBuilder extends BaseDialog
 			if ( expression.getText( ).equals( VALUE_OF_THIS_DATA_ITEM )
 					&& designHandle instanceof DataItemHandle )
 			{
-				expression.setText( DEUtil.getColumnExpression( ( (DataItemHandle) designHandle ).getResultSetColumn( ) ) );
+				if(designHandle.getContainer( ) instanceof ExtendedItemHandle)
+				{
+					expression.setText( DEUtil.getDataExpression( ( (DataItemHandle) designHandle ).getResultSetColumn( ) ) );
+				}else
+				{
+					expression.setText( DEUtil.getColumnExpression( ( (DataItemHandle) designHandle ).getResultSetColumn( ) ) );
+				}
+				
 			}
 			else
 			{
