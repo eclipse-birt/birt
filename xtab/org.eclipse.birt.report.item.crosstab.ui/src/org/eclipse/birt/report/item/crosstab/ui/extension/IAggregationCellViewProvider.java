@@ -40,4 +40,9 @@ public interface IAggregationCellViewProvider
 	 */
 	void restoreView( AggregationCellHandle cell );
 
+	/**
+	 * Updates current view when necessary
+	 */
+	void updateView( AggregationCellHandle cell );
+
 }
