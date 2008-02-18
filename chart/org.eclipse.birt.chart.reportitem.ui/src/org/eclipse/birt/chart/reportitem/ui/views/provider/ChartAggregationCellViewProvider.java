@@ -37,8 +37,10 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
+import org.eclipse.birt.report.item.crosstab.core.IMeasureViewConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellViewAdapter;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -76,7 +78,7 @@ public class ChartAggregationCellViewProvider
 			// Create the ExtendedItemHandle with default chart model
 			String name = ReportPlugin.getDefault( )
 					.getCustomName( ChartReportItemConstants.CHART_EXTENSION_NAME );
-			ExtendedItemHandle chartHandle = cell.getCrosstabHandle( )
+			ExtendedItemHandle chartHandle = cell.getModelHandle( )
 					.getElementFactory( )
 					.newExtendedItem( name,
 							ChartReportItemConstants.CHART_EXTENSION_NAME );
@@ -148,11 +150,8 @@ public class ChartAggregationCellViewProvider
 
 		String exprCategory = null;
 
-		// If cell is aggregation to right, or aggregation to right is existent,
-		// use aggregation to bottom, and set transposed chart
-		if ( cell.getAggregationOnColumn( ) == null
-				|| cell.getCrosstab( )
-						.getGrandTotal( ICrosstabConstants.COLUMN_AXIS_TYPE ) != null )
+		// Compute the correct chart direction according to xtab
+		if ( checkTransposed( cell ) )
 		{
 			cm.setTransposed( true );
 
@@ -242,5 +241,50 @@ public class ChartAggregationCellViewProvider
 			return (ExtendedItemHandle) content;
 		}
 		return null;
+	}
+
+	private boolean checkTransposed( AggregationCellHandle cell )
+	{
+		if ( isDetailCell( cell ) )
+		{
+			// If no column area, transpose chart.
+			if ( cell.getAggregationOnColumn( ) == null )
+			{
+				return true;
+			}
+			// If row total cell has chart, transpose the chart to keep the same
+			// direction
+			AggregationCellHandle rowTotalCell = ( (MeasureViewHandle) cell.getContainer( ) ).getAggregationCell( cell.getDimensionName( ICrosstabConstants.ROW_AXIS_TYPE ),
+					cell.getLevelName( ICrosstabConstants.ROW_AXIS_TYPE ),
+					null,
+					null );
+			if ( ChartXTabUtil.getFirstContent( rowTotalCell ) instanceof ExtendedItemHandle )
+			{
+				return true;
+			}
+			return false;
+		}
+		if ( isAggregationCell( cell ) )
+		{
+			// If aggregation is on row, i.e. to right side, transpose chart
+			return cell.getAggregationOnRow( ) != null;
+		}
+		return false;
+	}
+
+	private boolean isDetailCell( AggregationCellHandle cell )
+	{
+		return IMeasureViewConstants.DETAIL_PROP.equals( cell.getModelHandle( )
+				.getContainerPropertyHandle( )
+				.getPropertyDefn( )
+				.getName( ) );
+	}
+
+	private boolean isAggregationCell( AggregationCellHandle cell )
+	{
+		return IMeasureViewConstants.AGGREGATIONS_PROP.equals( cell.getModelHandle( )
+				.getContainerPropertyHandle( )
+				.getPropertyDefn( )
+				.getName( ) );
 	}
 }
