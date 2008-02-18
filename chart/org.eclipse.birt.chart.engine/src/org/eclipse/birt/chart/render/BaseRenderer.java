@@ -1238,7 +1238,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 									seBase,
 									fPaletteEntry,
 									lirh,
-									i,
+									lih.getCategoryIndex( ),
 									dScale );
 						}
 					}
