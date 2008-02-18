@@ -179,8 +179,7 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 		{
 			datasetRadio.setSelection( true );
 			datasetCombo.setEnabled( true );
-			bindingButton.setEnabled( !datasetCombo.getText( )
-					.equals( BindingGroupDescriptorProvider.NONE ) );
+			bindingButton.setEnabled( getProvider( ).enableBindingButton( ) );
 			reportItemRadio.setSelection( false );
 			reportItemCombo.setEnabled( false );
 			if ( datasetCombo.getSelectionIndex( ) == -1 )
@@ -226,8 +225,7 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 				datasetRadio.setSelection( true );
 				datasetCombo.setEnabled( true );
 				datasetCombo.setText( value.toString( ) );
-				bindingButton.setEnabled( !value.toString( )
-						.equals( BindingGroupDescriptorProvider.NONE ) );
+				bindingButton.setEnabled( getProvider( ).enableBindingButton( ) );
 				reportItemRadio.setSelection( false );
 				reportItemCombo.setEnabled( false );
 				break;
@@ -250,7 +248,7 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 
 	public void setDescriptorProvider( IDescriptorProvider provider )
 	{
-		this.descriptorProvider = provider;
+		this.descriptorProvider = (BindingGroupDescriptorProvider)provider;
 		if ( provider instanceof BindingGroupDescriptorProvider )
 			this.provider = (BindingGroupDescriptorProvider) provider;
 	}

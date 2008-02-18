@@ -36,15 +36,17 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 		return null;
 	}
 
-	protected List getAvailableDataBindingReferenceList(ReportItemHandle element){
+	protected List getAvailableDataBindingReferenceList(
+			ReportItemHandle element )
+	{
 		return element.getAvailableDataSetBindingReferenceList( );
 	}
-	
+
 	public Object load( )
 	{
 		ReportItemHandle element = getReportItemHandle( );
 		int type = element.getDataBindingType( );
-		List referenceList = getAvailableDataBindingReferenceList(element);
+		List referenceList = getAvailableDataBindingReferenceList( element );
 		references = new String[referenceList.size( ) + 1];
 		references[0] = NONE;
 		for ( int i = 0; i < referenceList.size( ); i++ )
@@ -168,6 +170,10 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 	public String[] getReferences( )
 	{
 		return references;
+	}
+	
+	public void setReferences(String[] references){
+		this.references = references;
 	}
 
 	public String[] getAvailableDatasetItems( )
@@ -312,12 +318,12 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 	 * 
 	 * @return CommandStack instance
 	 */
-	private CommandStack getActionStack( )
+	protected CommandStack getActionStack( )
 	{
 		return SessionHandleAdapter.getInstance( ).getCommandStack( );
 	}
 
-	private void startTrans( String name )
+	protected void startTrans( String name )
 	{
 		if ( isEnableAutoCommit( ) )
 		{
@@ -325,7 +331,7 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 		}
 	}
 
-	private void commit( )
+	protected void commit( )
 	{
 		if ( isEnableAutoCommit( ) )
 		{
@@ -333,7 +339,7 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 		}
 	}
 
-	private void rollback( )
+	protected void rollback( )
 	{
 		if ( isEnableAutoCommit( ) )
 		{
@@ -360,15 +366,19 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 
 	private transient boolean enableAutoCommit = true;
 
-	DataSetColumnBindingsFormHandleProvider dataSetProvider;
+	private DataSetColumnBindingsFormHandleProvider dataSetProvider;
 
 	public void setDependedProvider(
 			DataSetColumnBindingsFormHandleProvider provider )
 	{
 		this.dataSetProvider = provider;
 	}
+	
+	public DataSetColumnBindingsFormHandleProvider getDependedProvider(){
+		return dataSetProvider;
+	}
 
-	BindingGroupSection section;
+	protected BindingGroupSection section;
 
 	public void setRefrenceSection( BindingGroupSection section )
 	{
@@ -402,5 +412,10 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 				return Messages.getString( "BindingPage.ReportItem.Label" ); //$NON-NLS-1$
 		}
 		return ""; //$NON-NLS-1$
+	}
+
+	public boolean enableBindingButton( )
+	{
+		return !NONE.equals( ( (BindingInfo) load( ) ).getBindingValue( ) );
 	}
 }

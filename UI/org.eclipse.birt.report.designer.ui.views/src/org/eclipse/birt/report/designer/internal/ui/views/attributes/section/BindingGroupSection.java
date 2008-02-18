@@ -49,7 +49,7 @@ public class BindingGroupSection extends Section
 			bindingGroup.setDescriptorProvider( provider );
 			bindingGroup.createControl( parent );
 			bindingGroup.getControl( )
-					.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+					.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 			bindingGroup.getControl( )
 					.addDisposeListener( new DisposeListener( ) {
 
