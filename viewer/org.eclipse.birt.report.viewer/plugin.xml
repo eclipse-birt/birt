@@ -96,7 +96,7 @@
    
    <extension id="ViewerProblemMarker" 
               point="org.eclipse.core.resources.markers"
-              name="Viewer Problem"> 
+              name="%birt.viewer.problem.marker"> 
        <persistent value="false"/> 
        <super type="org.eclipse.core.resources.problemmarker"/>
        <super type="org.eclipse.core.resources.textmarker"/>  
