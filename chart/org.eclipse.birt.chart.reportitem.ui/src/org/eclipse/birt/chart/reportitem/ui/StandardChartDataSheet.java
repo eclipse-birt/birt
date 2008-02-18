@@ -112,6 +112,8 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 
 	private Button btnInherit = null;
 	private Button btnUseData = null;
+	private boolean bIsInheritSelected = true;
+	
 	private Combo cmbDataItems = null;
 	private Button btnNewData = null;
 
@@ -492,6 +494,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 		if ( sItemRef != null )
 		{
 			btnUseData.setSelection( true );
+			bIsInheritSelected = false;
 			cmbDataItems.setText( sItemRef );
 			return;
 		}
@@ -501,6 +504,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 		if ( sDataSet != null && !getDataServiceProvider( ).isInheritanceOnly( ) )
 		{
 			btnUseData.setSelection( true );
+			bIsInheritSelected = false;
 			cmbDataItems.setText( sDataSet );
 			if ( sDataSet != null )
 			{
@@ -515,11 +519,13 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 				&& !getDataServiceProvider( ).isInheritanceOnly( ) )
 		{
 			btnUseData.setSelection( true );
+			bIsInheritSelected = false;
 			cmbDataItems.setText( sDataCube );
 			return;
 		}
 
 		btnInherit.setSelection( true );
+		bIsInheritSelected = true;
 		if ( getDataServiceProvider( ).isInheritanceOnly( ) )
 		{
 			btnUseData.setSelection( false );
@@ -638,6 +644,15 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 					{
 						return;
 					}
+					
+					// Avoid duplicate loading data set.
+					if ( bIsInheritSelected )
+					{
+						return;
+					}
+					
+					bIsInheritSelected = true;
+					
 					getDataServiceProvider( ).setReportItemReference( null );
 					getDataServiceProvider( ).setDataSet( null );
 					switchDataSet( null );
@@ -655,7 +670,14 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 					{
 						return;
 					}
-
+					
+					//Avoid duplicate loading data set.
+					if ( !bIsInheritSelected ) {
+						return;
+					}
+					
+					bIsInheritSelected = false;
+					
 					getDataServiceProvider( ).setReportItemReference( null );
 					selectDataSet( );
 					cmbDataItems.setEnabled( true );
@@ -673,6 +695,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 						case SELECT_NONE :
 							// Inherit data from container
 							btnInherit.setSelection( true );
+							bIsInheritSelected = true;
 							btnUseData.setSelection( false );
 							btnInherit.notifyListeners( SWT.Selection,
 									new Event( ) );
