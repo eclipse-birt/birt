@@ -23,7 +23,6 @@ public interface IBirtConstants
 	public static final String OPRAND_TASKID = "__taskid"; //$NON-NLS-1$
 	public static final String OPRAND_ISTOC = "__istoc"; //$NON-NLS-1$
 	public static final String OPRAND_PARAM = "param"; //$NON-NLS-1$
-	public static final String OPRAND_IID = "iid"; //$NON-NLS-1$	
 	
 	public static final String MIME_TYPE = "text/xml"; //$NON-NLS-1$
 	public static final String HTML_RENDER_FORMAT = HTMLRenderOption.OUTPUT_FORMAT_HTML;
@@ -136,6 +135,7 @@ public interface IBirtConstants
 	
 	// System property name
 	public static final String SYS_PROP_WORKING_PATH = "birt.viewer.working.path"; //$NON-NLS-1$
+	public static final String SYS_PROP_RESOURCE_PATH = "birt.viewer.resource.path"; //$NON-NLS-1$
 	public static final String SYS_PROP_ROOT_PATH = "birt.viewer.root.path"; //$NON-NLS-1$
 	public static final String SYS_PROP_BIRT_ISDESIGNER = "birt.designer"; //$NON-NLS-1$
 

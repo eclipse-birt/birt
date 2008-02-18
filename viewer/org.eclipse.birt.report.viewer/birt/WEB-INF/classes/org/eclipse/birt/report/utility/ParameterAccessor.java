@@ -1592,8 +1592,12 @@ public class ParameterAccessor
 		}
 
 		// default resource path
-		birtResourceFolder = processRealPath( context, context
-				.getInitParameter( INIT_PARAM_BIRT_RESOURCE_PATH ), null, false );
+		String initResourceFolder = context
+				.getInitParameter( INIT_PARAM_BIRT_RESOURCE_PATH );
+		if ( isDesigner && initResourceFolder == null )
+			initResourceFolder = "${" + IBirtConstants.SYS_PROP_RESOURCE_PATH + "}"; //$NON-NLS-1$ //$NON-NLS-2$
+		birtResourceFolder = processRealPath( context, initResourceFolder,
+				null, false );
 
 		// get the overwrite flag
 		String s_overwrite = DataUtil.trimString( context
