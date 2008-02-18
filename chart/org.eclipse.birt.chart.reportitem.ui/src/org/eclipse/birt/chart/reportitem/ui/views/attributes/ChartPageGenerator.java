@@ -18,9 +18,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.Bindin
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.PreviewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.HighlightDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormPropertyDescriptor;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.HighlightPropertyDescriptor;
 import org.eclipse.birt.report.designer.ui.views.attributes.AbstractPageGenerator;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.widgets.Composite;
@@ -49,17 +47,6 @@ public class ChartPageGenerator extends AbstractPageGenerator
 				item.setControl( bindingPage.getControl( ) );
 				itemMap.put( item, bindingPage );
 			}
-//			else if ( title.equals( SORTINGTITLE ) )
-//			{
-//				sortingPage = new FormPage( FormPropertyDescriptor.FULL_FUNCTION,
-//						new SortingHandleProvider( ),
-//						true,
-//						true );
-//				setPageInput( sortingPage );
-//				refresh( tabFolder, sortingPage, true );
-//				item.setControl( sortingPage.getControl( ) );
-//				itemMap.put( item, sortingPage );
-//			}
 			else if ( title.equals( FILTERTITLE ) )
 			{
 				filterPage = new FormPage( FormPropertyDescriptor.FULL_FUNCTION,
@@ -70,16 +57,6 @@ public class ChartPageGenerator extends AbstractPageGenerator
 				refresh( tabFolder, filterPage, true );
 				item.setControl( filterPage.getControl( ) );
 				itemMap.put( item, filterPage );
-			}
-			else if ( title.equals( HIGHLIGHTSTITLE ) )
-			{
-				highlightsPage = new PreviewPage( true );
-				highlightsPage.setPreview( new HighlightPropertyDescriptor( true ) );
-				highlightsPage.setProvider( new HighlightDescriptorProvider( ) );
-				setPageInput( highlightsPage );
-				refresh( tabFolder, highlightsPage, true );
-				item.setControl( highlightsPage.getControl( ) );
-				itemMap.put( item, highlightsPage );
 			}
 		}
 		else if ( itemMap.get( item ) != null )
@@ -105,7 +82,6 @@ public class ChartPageGenerator extends AbstractPageGenerator
 	{
 		createTabItem( BINDINGTITLE, ATTRIBUTESTITLE );
 		createTabItem( FILTERTITLE, BINDINGTITLE );
-		createTabItem( HIGHLIGHTSTITLE, FILTERTITLE );
 	}
 
 	public void createControl( Composite parent, Object input )
