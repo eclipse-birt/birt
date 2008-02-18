@@ -190,7 +190,8 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 			btnFilters.setEnabled( false );
 			// btnFilters.setEnabled( getDataServiceProvider(
 			// ).isInvokingSupported( ) );
-			btnBinding.setEnabled( getDataServiceProvider( ).isInvokingSupported( ) );
+			btnBinding.setEnabled( getDataServiceProvider( ).isInvokingSupported( ) ||
+					getDataServiceProvider( ).isSharedBinding( ) );
 			btnParameters.setEnabled( false );
 		}
 		else
@@ -201,8 +202,8 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 			// support parameters due to limitation in DtE
 			btnParameters.setEnabled( getDataServiceProvider( ).getBoundDataSet( ) != null
 					&& getDataServiceProvider( ).isInvokingSupported( ) );
-			btnBinding.setEnabled( hasDataSet( )
-					&& getDataServiceProvider( ).isInvokingSupported( ) );
+			btnBinding.setEnabled( hasDataSet( ) &&
+					( getDataServiceProvider( ).isInvokingSupported( ) || getDataServiceProvider( ).isSharedBinding( ) ) );
 		}
 	}
 
@@ -468,7 +469,11 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 			}
 		} );
 		page.setExpressionProvider( ep );
-
+		
+		// Make all bindings under share binding case read-only.
+		( (ChartColumnBindingDialog) page ).setReadOnly( getDataServiceProvider( ).isSharedBinding( ) ||
+				getDataServiceProvider( ).isInheritanceOnly( ) );
+		
 		int openStatus = page.open( );
 		if ( openStatus == Window.OK )
 		{

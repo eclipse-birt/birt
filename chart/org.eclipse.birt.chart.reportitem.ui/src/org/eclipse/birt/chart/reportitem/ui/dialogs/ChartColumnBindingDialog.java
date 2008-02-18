@@ -49,10 +49,28 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 
 	private Button btnAddAgg;
 	private Button btnRefresh;
+	
+	/** The field indicates if all bindings are read-only in chart. */
+	private boolean fIsReadOnly;
 
 	public ChartColumnBindingDialog( Shell parent )
 	{
 		super( parent, false, false );
+	}
+	
+	/**
+	 * Disable/enable button to make all items in the dialog read-only.
+	 * @since 2.3
+	 */
+	private void updateButtonStatusForReadOnly( )
+	{
+		if ( fIsReadOnly )
+		{
+			btnAdd.setEnabled( false );
+			btnEdit.setEnabled( false );
+			btnDel.setEnabled( false );
+			btnAddAgg.setEnabled( false );
+		}
 	}
 
 	protected int addButtons( Composite cmp, final Table table )
@@ -147,6 +165,8 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 	{
 		super.updateButtons( );
 		btnAddAgg.setEnabled( btnAdd.isEnabled( ) );
+		
+		updateButtonStatusForReadOnly( );
 	}
 
 	protected void addBinding( ComputedColumn column )
@@ -178,5 +198,16 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 				| SWT.DIALOG_TRIM
 				| SWT.RESIZE
 				| SWT.APPLICATION_MODAL );
+	}
+	
+	/**
+	 * Set read-only flag.
+	 * 
+	 * @param isReadOnly
+	 * @since 2.3
+	 */
+	public void setReadOnly( boolean isReadOnly )
+	{
+		fIsReadOnly = isReadOnly;
 	}
 }
