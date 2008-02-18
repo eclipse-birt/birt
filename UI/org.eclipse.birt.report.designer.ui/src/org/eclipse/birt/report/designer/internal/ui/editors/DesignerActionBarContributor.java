@@ -355,7 +355,7 @@ public class DesignerActionBarContributor extends
 		insertMenu.add( new Separator( ) );
 		insertMenu.add( getAction( InsertAggregationAction.ID ) );
 		insertMenu.add( new Separator( ) );
-		insertMenu.add( getAction( ImportLibraryAction.ID ) );
+//		insertMenu.add( getAction( ImportLibraryAction.ID ) );
 		menubar.insertAfter( IWorkbenchActionConstants.M_EDIT, insertMenu );
 
 		// Element Menu
