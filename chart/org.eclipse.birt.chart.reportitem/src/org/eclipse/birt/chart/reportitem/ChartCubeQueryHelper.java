@@ -93,6 +93,12 @@ class ChartCubeQueryHelper implements IQueryExpressionReplaceable
 	private Map registeredLevels = new HashMap( );
 
 	/**
+	 * Maps for registered measure definitions.<br>
+	 * Key: Binding name of query, value: IMeasureDefinition
+	 */
+	private Map registeredMeasures = new HashMap( );
+
+	/**
 	 * Maps for registered level handles.<br>
 	 * Key: LevelHandle, value: ILevelDefinition
 	 */
@@ -378,11 +384,8 @@ class ChartCubeQueryHelper implements IQueryExpressionReplaceable
 		{
 			return;
 		}
-		// Sort key may be modified in the next method, so get it first
-		String sortKey = sd.getSortKey( ).getDefinition( );
-		// Update query expression
-		bindSeriesQuery( sd.getSortKey( ), cubeQuery, cube );
 
+		String sortKey = sd.getSortKey( ).getDefinition( );
 		if ( sd.isSetSorting( ) && sortKey != null && sortKey.length( ) > 0 )
 		{
 			String sortKeyBinding = ChartXTabUtil.getBindingName( sd.getSortKey( )
@@ -401,15 +404,14 @@ class ChartCubeQueryHelper implements IQueryExpressionReplaceable
 										: ISortDefinition.SORT_DESC );
 				cubeQuery.addSort( sortDef );
 			}
-			else if ( getMeasure( sortKey ) != null )
+			else if ( registeredMeasures.containsKey( sortKeyBinding ) )
 			{
 				// Add sorting on measures
 				Query targetQuery = i > 0 ? sd.getQuery( )
 						: (Query) sd.getDesignTimeSeries( )
 								.getDataDefinition( )
 								.get( 0 );
-				String aggFun = DataAdapterUtil.adaptModelAggregationType( cube.getMeasure( getMeasure( sortKey ) )
-						.getFunction( ) );
+				IMeasureDefinition mDef = (IMeasureDefinition) registeredMeasures.get( sortKeyBinding );
 				String targetBindingName = ChartXTabUtil.getBindingName( targetQuery.getDefinition( ),
 						true );
 
@@ -421,7 +423,7 @@ class ChartCubeQueryHelper implements IQueryExpressionReplaceable
 				aggBinding.setDataType( measureBinding.getDataType( ) );
 				aggBinding.setExpression( measureBinding.getExpression( ) );
 				aggBinding.addAggregateOn( (String) registeredQueries.get( targetBindingName ) );
-				aggBinding.setAggrFunction( aggFun );
+				aggBinding.setAggrFunction( mDef.getAggrFunction( ) );
 				cubeQuery.addBinding( aggBinding );
 
 				ICubeSortDefinition sortDef = ChartXTabUtil.getCubeElementFactory( )
@@ -451,7 +453,8 @@ class ChartCubeQueryHelper implements IQueryExpressionReplaceable
 			boolean bBindingExp = ChartXTabUtil.isBinding( expr, true );
 			if ( bBindingExp && !ChartXTabUtil.isBinding( expr, false ) )
 			{
-				// Remove the operations from expression if it references binding
+				// Remove the operations from expression if it references
+				// binding
 				expr = ExpressionUtil.createJSDataExpression( ChartXTabUtil.getBindingName( expr,
 						true ) );
 			}
@@ -493,6 +496,7 @@ class ChartCubeQueryHelper implements IQueryExpressionReplaceable
 					String aggFun = DataAdapterUtil.adaptModelAggregationType( cube.getMeasure( measure )
 							.getFunction( ) );
 					mDef.setAggrFunction( aggFun );
+					registeredMeasures.put( bindingName, mDef );
 
 					// AggregateOn has been added in binding when initializing
 					// column bindings
