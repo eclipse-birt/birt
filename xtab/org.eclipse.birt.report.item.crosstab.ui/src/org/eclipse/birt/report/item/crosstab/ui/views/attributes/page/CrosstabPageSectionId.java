@@ -49,5 +49,6 @@ public class CrosstabPageSectionId extends PageSectionId
 	public static final String EMPTY_ROWCOLUMN_INFO = "EMPTY_ROWCOLUMN_INFO";
 	public static final String EMPTY_ROW = "EMPTY_ROW";
 	public static final String EMPTY_COLUMN = "EMPTY_COLUMN";
+	public static final String HIDE_MEASURE_HEADER = "HIDE_MEASURE_HEADER";
 
 }
