@@ -411,11 +411,15 @@ public class JSEditor extends EditorPart implements IColleague
 						{
 							IArgumentInfo aiinfo = (IArgumentInfo) argItr.next( );
 
+							String argName = aiinfo.getName( );
 							IClassInfo ci = aiinfo.getClassType( );
 
-							String name = convertToParameterName( ci.getName( ) );
+							if ( argName == null || argName.length( ) == 0 )
+							{
+								argName = convertToParameterName( ci.getName( ) );
+							}
 
-							context.setVariable( name, ci );
+							context.setVariable( argName, ci );
 						}
 					}
 				}
@@ -1634,7 +1638,7 @@ class JSSubFunctionListProvider implements
 		}
 		signature.append( "\nfunction " ); //$NON-NLS-1$
 		signature.append( info.getName( ) );
-		signature.append( '(' );
+		signature.append( "( " ); //$NON-NLS-1$
 		Iterator iter = info.argumentListIterator( );
 		if ( iter.hasNext( ) )
 		{
@@ -1647,16 +1651,24 @@ class JSSubFunctionListProvider implements
 			{
 				IArgumentInfo argument = (IArgumentInfo) argumentIter.next( );
 
-				String type = argument.getType( );
-				// convert string to parameter name
-				signature.append( JSEditor.convertToParameterName( type ) );
+				String argName = argument.getName( );
+
+				if ( argName == null || argName.length( ) == 0 )
+				{
+					String type = argument.getType( );
+					// convert type to parameter name
+					argName = JSEditor.convertToParameterName( type );
+				}
+
+				signature.append( argName );
+
 				if ( argumentIter.hasNext( ) )
 				{
 					signature.append( ", " );//$NON-NLS-1$
 				}
 			}
 		}
-		signature.append( ")\n{\n}\n" ); //$NON-NLS-1$
+		signature.append( " )\n{\n}\n" ); //$NON-NLS-1$
 		return signature.toString( );
 	}
 }

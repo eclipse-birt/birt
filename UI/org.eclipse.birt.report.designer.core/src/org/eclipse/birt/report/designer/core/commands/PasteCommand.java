@@ -175,11 +175,10 @@ public class PasteCommand extends Command
 			// Gets new handle
 			ModuleHandle currentDesignHandle = SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( );
-			DesignElementHandle newHandle = copyNewHandle( cloneElement,
-					currentDesignHandle );
 
 			// Adds new handle to report
-			addHandleToReport( newHandle );
+			addHandleToReport( copyNewHandle( cloneElement ),
+					currentDesignHandle );
 		}
 		catch ( Exception e )
 		{
@@ -197,9 +196,27 @@ public class PasteCommand extends Command
 	 * @param newHandle
 	 *            The design element to add
 	 */
-	private void addHandleToReport( DesignElementHandle newHandle )
-			throws ContentException, NameException, SemanticException
+	private void addHandleToReport( IDesignElement newElement,
+			ModuleHandle currentDesignHandle ) throws ContentException,
+			NameException, SemanticException
 	{
+
+		DesignElementHandle newHandle = newElement.getHandle( currentDesignHandle.getModule( ) );
+
+		if ( newContainer instanceof ThemeHandle )
+		{
+			currentDesignHandle.rename( (ThemeHandle) newContainer, newHandle );
+		}
+		else if ( newContainer instanceof SlotHandle
+				&& ( (SlotHandle) newContainer ).getElementHandle( ) instanceof ThemeHandle )
+		{
+			currentDesignHandle.rename( ( (SlotHandle) newContainer ).getElementHandle( ),
+					newHandle );
+		}
+		else
+		{
+			currentDesignHandle.rename( newHandle );
+		}
 
 		SlotHandle slotHandle = null;
 		if ( newContainer instanceof DesignElementHandle )
@@ -219,16 +236,16 @@ public class PasteCommand extends Command
 		// }
 		if ( slotHandle != null )
 		{
-			slotHandle.paste( newHandle, position );
+			slotHandle.paste( newElement, position );
 		}
 		else if ( newContainer instanceof PropertyHandle )
 		{
-			( (PropertyHandle) newContainer ).paste( newHandle, position );
+			( (PropertyHandle) newContainer ).paste( newElement, position );
 		}
 		else if ( newContainer instanceof DesignElementHandle )
 		{
 			( (DesignElementHandle) newContainer ).getPropertyHandle( contentString )
-					.paste( newHandle, position );
+					.paste( newElement, position );
 		}
 
 		if ( DesignerConstants.TRACING_COMMANDS )
@@ -242,6 +259,7 @@ public class PasteCommand extends Command
 					+ ",Position: " //$NON-NLS-1$
 					+ position );
 		}
+
 	}
 
 	/**
@@ -322,29 +340,12 @@ public class PasteCommand extends Command
 	 * @return The copied handle
 	 * @throws CloneNotSupportedException
 	 */
-	private DesignElementHandle copyNewHandle( IDesignElement element,
-			ModuleHandle currentDesignHandle )
+	private IDesignElement copyNewHandle( IDesignElement element )
 			throws CloneNotSupportedException
 	{
 		IDesignElement newElement = isCloned ? element
 				: (IDesignElement) element.clone( );
-		DesignElementHandle handle = newElement.getHandle( currentDesignHandle.getModule( ) );
-
-		if ( newContainer instanceof ThemeHandle )
-		{
-			currentDesignHandle.rename( (ThemeHandle) newContainer, handle );
-		}
-		else if ( newContainer instanceof SlotHandle
-				&& ( (SlotHandle) newContainer ).getElementHandle( ) instanceof ThemeHandle )
-		{
-			currentDesignHandle.rename( ( (SlotHandle) newContainer ).getElementHandle( ),
-					handle );
-		}
-		else
-		{
-			currentDesignHandle.rename( handle );
-		}
-		return handle;
+		return newElement;
 	}
 
 	/**
