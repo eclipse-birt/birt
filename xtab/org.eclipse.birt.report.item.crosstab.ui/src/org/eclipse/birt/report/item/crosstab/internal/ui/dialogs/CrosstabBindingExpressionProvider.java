@@ -39,10 +39,9 @@ public class CrosstabBindingExpressionProvider extends
 		BindingExpressionProvider
 {
 
-	public CrosstabBindingExpressionProvider( DesignElementHandle handle )
+	protected void addFilterToProvider()
 	{
-		super( handle );
-		addFilter( new ExpressionFilter( ) {
+		this.addFilter( new ExpressionFilter( ) {
 
 			public boolean select( Object parentElement, Object element )
 			{
@@ -113,7 +112,13 @@ public class CrosstabBindingExpressionProvider extends
 				//				}
 				return true;
 			}
-		} );
+		}  );
+	}
+	
+	public CrosstabBindingExpressionProvider( DesignElementHandle handle )
+	{
+		super( handle );
+		addFilterToProvider( );
 	}
 
 	protected List getChildrenList( Object parent )

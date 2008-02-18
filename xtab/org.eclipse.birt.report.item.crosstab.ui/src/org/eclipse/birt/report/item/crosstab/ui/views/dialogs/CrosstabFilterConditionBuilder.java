@@ -51,7 +51,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
-import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.CrosstabBindingExpressionProvider;
+import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.CrosstabFilterExpressionProvider;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.item.crosstab.plugin.CrosstabPlugin;
@@ -218,7 +218,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		super.setDesignHandle( handle );
 		if ( editor != null )
 		{
-			editor.setExpressionProvider( new CrosstabBindingExpressionProvider( handle ) );
+			editor.setExpressionProvider( new CrosstabFilterExpressionProvider( handle ) );
 		}
 
 	}
@@ -413,9 +413,9 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 					if ( designHandle != null )
 					{
 						if ( expressionProvider == null
-								|| ( !( expressionProvider instanceof CrosstabBindingExpressionProvider ) ) )
+								|| ( !( expressionProvider instanceof CrosstabFilterExpressionProvider ) ) )
 						{
-							expressionProvider = new CrosstabBindingExpressionProvider( designHandle );
+							expressionProvider = new CrosstabFilterExpressionProvider( designHandle );
 						}
 						expressionBuilder.setExpressionProvier( expressionProvider );
 					}
@@ -477,9 +477,9 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 					if ( designHandle != null )
 					{
 						if ( expressionProvider == null
-								|| ( !( expressionProvider instanceof CrosstabBindingExpressionProvider ) ) )
+								|| ( !( expressionProvider instanceof CrosstabFilterExpressionProvider ) ) )
 						{
-							expressionProvider = new CrosstabBindingExpressionProvider( designHandle );
+							expressionProvider = new CrosstabFilterExpressionProvider( designHandle );
 						}
 						expressionBuilder.setExpressionProvier( expressionProvider );
 					}
@@ -1007,7 +1007,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 							.getActiveShell( ),
 							expression.getText( ) );
 
-					dialog.setExpressionProvier( new CrosstabBindingExpressionProvider( designHandle ) );
+					dialog.setExpressionProvier( new CrosstabFilterExpressionProvider( designHandle ) );
 
 					if ( dialog.open( ) == IDialogConstants.OK_ID )
 					{
@@ -1231,7 +1231,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		};
 		if ( designHandle != null )
 		{
-			editor.setExpressionProvider( new CrosstabBindingExpressionProvider( designHandle ) );
+			editor.setExpressionProvider( new CrosstabFilterExpressionProvider( designHandle ) );
 			editor.setReportElement( (ExtendedItemHandle) designHandle );
 		}
 
@@ -1671,7 +1671,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 							.getActiveShell( ),
 							thisCombo.getText( ) );
 
-					dialog.setExpressionProvier( new CrosstabBindingExpressionProvider( designHandle ) );
+					dialog.setExpressionProvier( new CrosstabFilterExpressionProvider( designHandle ) );
 
 					if ( dialog.open( ) == IDialogConstants.OK_ID )
 					{
