@@ -67,6 +67,8 @@ public class CrosstabRowExecutor extends BaseRowExecutor
 	{
 		super.prepareChildren( );
 
+		initMeasureCache( );
+
 		rowEdgeStarted = false;
 		isLayoutDownThenOver = PAGE_LAYOUT_DOWN_THEN_OVER.equals( crosstabItem.getPageLayout( ) );
 
@@ -209,9 +211,7 @@ public class CrosstabRowExecutor extends BaseRowExecutor
 			case ColumnEvent.MEASURE_CHANGE :
 			case ColumnEvent.COLUMN_EDGE_CHANGE :
 
-				spanLevel = crosstabItem.getMeasure( ev.measureIndex )
-						.getCell( )
-						.getSpanOverOnRow( );
+				spanLevel = getMeasureCell( ev.measureIndex ).getSpanOverOnRow( );
 				break;
 
 			case ColumnEvent.COLUMN_TOTAL_CHANGE :
@@ -330,13 +330,11 @@ public class CrosstabRowExecutor extends BaseRowExecutor
 
 						if ( measureDetailStarted
 								&& isMeetMeasureDetailEnd( ev,
-										totalMeasureCount > 0 ? crosstabItem.getMeasure( mx )
-												.getCell( )
+										totalMeasureCount > 0 ? getMeasureCell( mx )
 												: null ) )
 						{
 							nextExecutor = new CrosstabCellExecutor( this,
-									totalMeasureCount > 0 ? crosstabItem.getMeasure( mx )
-											.getCell( )
+									totalMeasureCount > 0 ? getMeasureCell( mx )
 											: null,
 									rowSpan,
 									colSpan,
@@ -408,9 +406,7 @@ public class CrosstabRowExecutor extends BaseRowExecutor
 					{
 						rowSpan = GroupUtil.computeAggregationCellRowOverSpan( crosstabItem,
 								rowGroups,
-								crosstabItem.getMeasure( ev.measureIndex )
-										.getCell( )
-										.getSpanOverOnRow( ),
+								getMeasureCell( ev.measureIndex ).getSpanOverOnRow( ),
 								getRowEdgeCursor( ) );
 					}
 					colSpan = 0;
@@ -553,8 +549,7 @@ public class CrosstabRowExecutor extends BaseRowExecutor
 				mx = lastMeasureIndex < 0 ? rowIndex : lastMeasureIndex;
 
 				nextExecutor = new CrosstabCellExecutor( this,
-						totalMeasureCount > 0 ? crosstabItem.getMeasure( mx )
-								.getCell( ) : null,
+						totalMeasureCount > 0 ? getMeasureCell( mx ) : null,
 						rowSpan,
 						colSpan,
 						currentColIndex - colSpan + 1 );

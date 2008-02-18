@@ -52,6 +52,8 @@ public abstract class BaseRowExecutor extends BaseCrosstabExecutor
 
 	protected IReportItemExecutor nextExecutor;
 
+	private AggregationCellHandle[] measureCellCache;
+
 	protected BaseRowExecutor( BaseCrosstabExecutor parent, int rowIndex )
 	{
 		super( parent );
@@ -64,6 +66,24 @@ public abstract class BaseRowExecutor extends BaseCrosstabExecutor
 		super.close( );
 
 		nextExecutor = null;
+
+		measureCellCache = null;
+	}
+
+	protected void initMeasureCache( )
+	{
+		// prepare cache
+		measureCellCache = new AggregationCellHandle[crosstabItem.getMeasureCount( )];
+
+		for ( int i = 0; i < measureCellCache.length; i++ )
+		{
+			measureCellCache[i] = crosstabItem.getMeasure( i ).getCell( );
+		}
+	}
+
+	protected AggregationCellHandle getMeasureCell( int mx )
+	{
+		return measureCellCache[mx];
 	}
 
 	protected void prepareChildren( )

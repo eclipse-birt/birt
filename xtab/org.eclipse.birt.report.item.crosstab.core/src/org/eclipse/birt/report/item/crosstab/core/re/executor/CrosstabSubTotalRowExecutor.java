@@ -76,6 +76,8 @@ public class CrosstabSubTotalRowExecutor extends BaseRowExecutor
 	{
 		super.prepareChildren( );
 
+		initMeasureCache( );
+
 		isLayoutDownThenOver = PAGE_LAYOUT_DOWN_THEN_OVER.equals( crosstabItem.getPageLayout( ) );
 
 		if ( isLayoutDownThenOver )
@@ -203,9 +205,7 @@ public class CrosstabSubTotalRowExecutor extends BaseRowExecutor
 			case ColumnEvent.MEASURE_CHANGE :
 			case ColumnEvent.COLUMN_EDGE_CHANGE :
 
-				spanLevel = crosstabItem.getMeasure( ev.measureIndex )
-						.getCell( )
-						.getSpanOverOnRow( );
+				spanLevel = getMeasureCell( ev.measureIndex ).getSpanOverOnRow( );
 				break;
 
 			case ColumnEvent.COLUMN_TOTAL_CHANGE :

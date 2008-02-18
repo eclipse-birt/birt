@@ -51,6 +51,8 @@ public class CrosstabMeasureRowExecutor extends BaseRowExecutor
 	{
 		super.prepareChildren( );
 
+		initMeasureCache( );
+
 		walker.reload( );
 	}
 
@@ -97,13 +99,11 @@ public class CrosstabMeasureRowExecutor extends BaseRowExecutor
 
 						if ( measureDetailStarted
 								&& isMeetMeasureDetailEnd( ev,
-										totalMeasureCount > 0 ? crosstabItem.getMeasure( mx )
-												.getCell( )
+										totalMeasureCount > 0 ? getMeasureCell( mx )
 												: null ) )
 						{
 							nextExecutor = new CrosstabCellExecutor( this,
-									totalMeasureCount > 0 ? crosstabItem.getMeasure( mx )
-											.getCell( )
+									totalMeasureCount > 0 ? getMeasureCell( mx )
 											: null,
 									rowSpan,
 									colSpan,
@@ -233,8 +233,7 @@ public class CrosstabMeasureRowExecutor extends BaseRowExecutor
 				mx = lastMeasureIndex < 0 ? rowIndex : lastMeasureIndex;
 
 				nextExecutor = new CrosstabCellExecutor( this,
-						totalMeasureCount > 0 ? crosstabItem.getMeasure( mx )
-								.getCell( ) : null,
+						totalMeasureCount > 0 ? getMeasureCell( mx ) : null,
 						rowSpan,
 						colSpan,
 						currentColIndex - colSpan + 1 );
