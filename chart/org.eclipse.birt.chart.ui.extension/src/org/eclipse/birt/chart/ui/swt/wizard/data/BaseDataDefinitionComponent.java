@@ -512,6 +512,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 			seriesdefinition.getGrouping( )
 					.eAdapters( )
 					.addAll( seriesdefinition.eAdapters( ) );
+			ChartUIUtil.checkGroupType( context, context.getModel( ) );
 		}
 	}
 

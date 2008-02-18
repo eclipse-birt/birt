@@ -142,6 +142,7 @@ public class YOptionalDataDefinitionComponent extends BaseDataDefinitionComponen
 						.getGrouping( )
 						.eAdapters( )
 						.addAll( seriesdefinition.getQuery( ).eAdapters( ) );
+				ChartUIUtil.checkGroupType( context, context.getModel() );
 			}
 		}
 	}

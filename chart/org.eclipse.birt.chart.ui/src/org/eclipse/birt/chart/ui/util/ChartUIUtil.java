@@ -34,6 +34,7 @@ import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
+import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.Position;
@@ -69,6 +70,7 @@ import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -1666,5 +1668,100 @@ public class ChartUIUtil
 			}
 		}
 		return ""; //$NON-NLS-1$
+	}
+	
+	private static String checkGroupTypeOnCategory( ChartWizardContext context,
+			Chart chart )
+	{
+		String isConsistent = ""; //$NON-NLS-1$
+		SeriesDefinition seriesdefinition = (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( chart )
+				.get( 0 );
+		DataType queryDataType = context.getDataServiceProvider( )
+				.getDataType( ChartUIUtil.getDataQuery( seriesdefinition, 0 )
+						.getDefinition( ) );
+		if ( queryDataType != null && seriesdefinition.getGrouping( ) != null )
+		{
+			if ( !seriesdefinition.getGrouping( ).isEnabled( ) )
+			{
+				return isConsistent;
+			}
+
+			DataType groupDataType = seriesdefinition.getGrouping( ).getGroupType( );
+			if ( queryDataType == DataType.NUMERIC_LITERAL
+					&& groupDataType == DataType.DATE_TIME_LITERAL  )
+			{
+				return groupDataType.getName( );
+			}
+			else if ( queryDataType == DataType.TEXT_LITERAL 
+					&& groupDataType != DataType.TEXT_LITERAL  )
+			{
+				return groupDataType.getName( );
+			}
+		}
+
+		return isConsistent;
+	}
+
+	private static String checkGroupTypeOnYGrouping( ChartWizardContext context,
+			Chart chart )
+	{
+		String isConsistent = ""; //$NON-NLS-1$
+		SeriesDefinition seriesdefinition = (SeriesDefinition) ChartUIUtil.getOrthogonalSeriesDefinitions( chart,
+				0 )
+				.get( 0 );
+		if ( seriesdefinition.getQuery( ) != null )
+		{
+			DataType queryDataType = context.getDataServiceProvider( )
+					.getDataType( seriesdefinition.getQuery( ).getDefinition( ) );
+			if ( queryDataType != null
+					&& seriesdefinition.getQuery( ).getGrouping( ) != null )
+			{
+				DataType groupDataType = seriesdefinition.getGrouping( )
+						.getGroupType( );
+				if ( queryDataType == DataType.NUMERIC_LITERAL 
+						&& groupDataType == DataType.DATE_TIME_LITERAL )
+				{
+					return groupDataType.getName( );
+				}
+				else if ( queryDataType == DataType.TEXT_LITERAL 
+						&& groupDataType != DataType.TEXT_LITERAL  )
+				{
+					return groupDataType.getName( );
+				}
+			}
+		}
+		
+		return isConsistent;
+	}
+
+	/**
+	 * To check the group type of category and y series. If not compatible ,
+	 * show a warning.
+	 * 
+	 * @param context
+	 * @param chart
+	 */
+	public static void checkGroupType( ChartWizardContext context, Chart chart )
+	{
+		String cGroupWarning = checkGroupTypeOnCategory( context, chart );
+		if ( cGroupWarning.length( ) != 0 )
+		{
+			cGroupWarning = MessageFormat.format( Messages.getString( "TaskSelectData.Warning.CategoryGroupTypeCheck" ), //$NON-NLS-1$
+					new String[]{
+						cGroupWarning
+					} );
+		}
+		String yGroupWarning = checkGroupTypeOnYGrouping( context, chart );
+		if ( yGroupWarning.length( ) != 0 )
+		{
+			yGroupWarning = MessageFormat.format( Messages.getString( "TaskSelectData.Warning.YGroupTypeCheck" ), //$NON-NLS-1$
+					new String[]{
+						yGroupWarning
+					} );
+		}
+		if ( cGroupWarning.length( ) != 0 || yGroupWarning.length( ) != 0 )
+		{
+			WizardBase.showException( cGroupWarning + yGroupWarning );
+		}
 	}
 }

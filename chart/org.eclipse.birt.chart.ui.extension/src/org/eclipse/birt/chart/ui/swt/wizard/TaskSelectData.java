@@ -140,6 +140,7 @@ public class TaskSelectData extends SimpleTask
 		doLivePreview( );
 		// Refresh all data definition text
 		DataDefinitionTextManager.getInstance( ).refreshAll( );
+		ChartUIUtil.checkGroupType( (ChartWizardContext)getContext(), getChartModel() );
 
 		ChartUIUtil.bindHelp( getControl( ),
 				ChartHelpContextIds.TASK_SELECT_DATA );
