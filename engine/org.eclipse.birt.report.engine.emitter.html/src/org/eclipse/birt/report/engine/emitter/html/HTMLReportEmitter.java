@@ -1837,28 +1837,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		// action
 		String tagName;
-		String url = validate( text.getHyperlinkAction( ) );
 		boolean metadataOutput = false;
-		if ( url != null )
+		if ( enableMetadata )
 		{
-			//output select class
-			if ( enableMetadata )
-			{
-				metadataOutput = metadataEmitter.startText( text,
-						HTMLTags.TAG_SPAN );
-			}
-			tagName = HTMLTags.TAG_A;
-			outputAction( text.getHyperlinkAction( ), url );
+			metadataOutput = metadataEmitter.startText( text,
+					HTMLEmitterUtil.getTagByType( display, DISPLAY_FLAG_ALL ) );
 		}
-		else
-		{
-			if ( enableMetadata )
-			{
-				metadataOutput = metadataEmitter.startText( text, HTMLEmitterUtil.getTagByType(
-						display, DISPLAY_FLAG_ALL ) );
-			}
-			tagName = openTagByType( display, DISPLAY_FLAG_ALL );
-		}
+		tagName = openTagByType( display, DISPLAY_FLAG_ALL );
 
 		// output class attribute.
 		String styleClass = text.getStyleClass( );
@@ -1874,11 +1859,22 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.attribute( HTMLTags.ATTR_TITLE, text.getHelpText( ) ); //$NON-NLS-1$
 		
 		StringBuffer styleBuffer = new StringBuffer( );
-		htmlEmitter.buildTextStyle( text, styleBuffer, display, url );
+		htmlEmitter.buildTextStyle( text, styleBuffer, display );
 		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 		
 		htmlEmitter.handleVerticalAlignBegin( text );
-		writer.text( textValue );
+		
+		String url = validate( text.getHyperlinkAction( ) );
+		if ( url != null )
+		{
+			outputAction( text.getHyperlinkAction( ), url );
+			writer.text( textValue );
+			writer.closeTag( HTMLTags.TAG_A );
+		}
+		else
+		{
+			writer.text( textValue );
+		}
 		htmlEmitter.handleVerticalAlignEnd( text );
 		
 		writer.closeTag( tagName );
@@ -1921,27 +1917,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		// action
 		String tagName;
-		String url = validate( foreign.getHyperlinkAction( ) );
 		boolean metadataOutput = false;
-		if ( url != null )
+		if ( enableMetadata )
 		{
-			if ( enableMetadata )
-			{
-				metadataOutput = metadataEmitter.startForeign( foreign,
-						HTMLTags.TAG_SPAN );
-			}
-			tagName = HTMLTags.TAG_A;
-			outputAction( foreign.getHyperlinkAction( ), url );
+			metadataOutput = metadataEmitter.startForeign( foreign,
+					HTMLEmitterUtil.getTagByType( display, DISPLAY_FLAG_ALL ) );
 		}
-		else
-		{
-			if ( enableMetadata )
-			{
-				metadataOutput = metadataEmitter.startForeign( foreign, HTMLEmitterUtil.getTagByType(
-						display, DISPLAY_FLAG_ALL ) );
-			}
-			tagName = openTagByType( display, DISPLAY_FLAG_ALL );
-		}
+		tagName = openTagByType( display, DISPLAY_FLAG_ALL );
 
 		// output class attribute.
 		String styleClass = foreign.getStyleClass( );
@@ -1957,7 +1939,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.attribute( HTMLTags.ATTR_TITLE, foreign.getHelpText( ) );
 
 		StringBuffer styleBuffer = new StringBuffer( );
-		htmlEmitter.buildForeignStyle( foreign, styleBuffer, display, url );
+		htmlEmitter.buildForeignStyle( foreign, styleBuffer, display );
 		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
 
 		String rawType = foreign.getRawType( );
@@ -1965,7 +1947,17 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		if ( isHtml )
 		{
 			htmlEmitter.handleVerticalAlignBegin( foreign );
-			outputHtmlText( foreign );
+			String url = validate( foreign.getHyperlinkAction( ) );
+			if ( url != null )
+			{
+				outputAction( foreign.getHyperlinkAction( ), url );
+				outputHtmlText( foreign );
+				writer.closeTag( HTMLTags.TAG_A );
+			}
+			else
+			{
+				outputHtmlText( foreign );
+			}
 			htmlEmitter.handleVerticalAlignEnd( foreign );
 		}
 

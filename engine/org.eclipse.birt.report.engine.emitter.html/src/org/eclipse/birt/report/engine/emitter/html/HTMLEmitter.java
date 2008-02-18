@@ -92,10 +92,10 @@ public abstract class HTMLEmitter
 	// the HTMLReportEmitter, so we can build the display there too. We needn't
 	// pass the display here.
 	public abstract void buildTextStyle( ITextContent text,
-			StringBuffer styleBuffer, int display, String url );
+			StringBuffer styleBuffer, int display );
 
 	public abstract void buildForeignStyle( IForeignContent foreign,
-			StringBuffer styleBuffer, int display, String url );
+			StringBuffer styleBuffer, int display );
 
 	public abstract void buildImageStyle( IImageContent image,
 			StringBuffer styleBuffer, int display );

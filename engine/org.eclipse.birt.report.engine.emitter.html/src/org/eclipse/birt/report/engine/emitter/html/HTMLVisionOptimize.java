@@ -449,7 +449,7 @@ public class HTMLVisionOptimize extends HTMLEmitter
 	 * Build the style of text content.
 	 */
 	public void buildTextStyle( ITextContent text, StringBuffer styleBuffer,
-			int display, String url )
+			int display )
 	{
 		IStyle style = text.getStyle( );
 		// check 'can-shrink' property
@@ -459,17 +459,11 @@ public class HTMLVisionOptimize extends HTMLEmitter
 				text.getWidth( ),
 				styleBuffer );
 
-		if ( url != null )
-		{
-			setDisplayProperty( display, HTMLEmitterUtil.DISPLAY_BLOCK
-					| HTMLEmitterUtil.DISPLAY_INLINE_BLOCK, styleBuffer );
-		}
-		else
-		{
-			setDisplayProperty( display,
-					HTMLEmitterUtil.DISPLAY_INLINE_BLOCK,
-					styleBuffer );
-		}
+
+		setDisplayProperty( display,
+				HTMLEmitterUtil.DISPLAY_INLINE_BLOCK,
+				styleBuffer );
+
 		
 		IStyle textComputedStyle = text.getComputedStyle( );
 		if( null != textComputedStyle )
@@ -503,7 +497,7 @@ public class HTMLVisionOptimize extends HTMLEmitter
 	 * Build the style of foreign content.
 	 */
 	public void buildForeignStyle( IForeignContent foreign,
-			StringBuffer styleBuffer, int display, String url )
+			StringBuffer styleBuffer, int display )
 	{
 		IStyle style = foreign.getStyle( );
 		// check 'can-shrink' property
@@ -513,17 +507,9 @@ public class HTMLVisionOptimize extends HTMLEmitter
 				foreign.getWidth( ),
 				styleBuffer );
 
-		if ( url != null )
-		{
-			setDisplayProperty( display, HTMLEmitterUtil.DISPLAY_BLOCK
-					| HTMLEmitterUtil.DISPLAY_INLINE_BLOCK, styleBuffer );
-		}
-		else
-		{
-			setDisplayProperty( display,
-					HTMLEmitterUtil.DISPLAY_INLINE_BLOCK,
-					styleBuffer );
-		}
+		setDisplayProperty( display,
+				HTMLEmitterUtil.DISPLAY_INLINE_BLOCK,
+				styleBuffer );
 		
 		IStyle textComputedStyle = foreign.getComputedStyle( );
 		if( null != textComputedStyle )
