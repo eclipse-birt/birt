@@ -11,15 +11,12 @@
 
 package org.eclipse.birt.report.debug.internal.script.model;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.report.debug.internal.core.launcher.IReportLaunchConstants;
-import org.eclipse.birt.report.debug.internal.core.launcher.ReportLauncher;
 import org.eclipse.birt.report.debug.internal.core.vm.ReportVMClient;
 import org.eclipse.birt.report.debug.internal.core.vm.VMConstants;
 import org.eclipse.birt.report.debug.internal.core.vm.VMContextData;
@@ -48,7 +45,6 @@ import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.debug.core.model.IStackFrame;
 import org.eclipse.debug.core.model.IThread;
 import org.eclipse.debug.core.model.IVariable;
-import org.eclipse.swt.program.Program;
 
 import com.ibm.icu.util.ULocale;
 
@@ -713,51 +709,6 @@ public class ScriptDebugTarget extends ScriptDebugElement implements
 			fireTerminateEvent( );
 		}
 		breakPoints.clear( );
-
-		try
-		{
-			if ( getLaunch( ).getLaunchConfiguration( )
-					.getAttribute( IReportLaunchConstants.ATTR_OPEN_TARGET,
-							false )
-					&& getLaunch( ).getLaunchConfiguration( )
-							.getAttribute( IReportLaunchConstants.ATTR_TASK_TYPE,
-									IReportLaunchConstants.DEFAULT_TASK_TYPE ) != IReportLaunchConstants.TASK_TYPE_RUN )
-			{
-				while ( !getProcess( ).isTerminated( ) )
-				{
-					try
-					{
-						synchronized ( this )
-						{
-							wait( DELAY_TIME );
-						}
-					}
-					catch ( InterruptedException e )
-					{
-						// donothing
-					}
-				}
-
-				if ( getProcess( ).getExitValue( ) == ReportLauncher.EXIT_OK )
-				{
-					File file = new File( getFileName( ) );
-					String fileName = ReportLauncher.getOutputFileName( tempFolder,
-							file.getName( ),
-							launch.getLaunchConfiguration( )
-									.getAttribute( IReportLaunchConstants.ATTR_TARGET_FORMAT,
-											IReportLaunchConstants.DEFAULT_TARGET_FORMAT ) );
-
-					if ( fileName != null && new File( fileName ).exists( ) )
-					{
-						Program.launch( fileName );
-					}
-				}
-			}
-		}
-		catch ( Exception e )
-		{
-			// ignore
-		}
 	}
 
 	/**
@@ -923,8 +874,8 @@ public class ScriptDebugTarget extends ScriptDebugElement implements
 		{
 			return null;
 		}
-		if (VMConstants.UNDEFINED_TYPE.equals( value.getTypeName( ))
-				|| VMConstants.EXCEPTION_TYPE.equals( value.getTypeName( )))
+		if ( VMConstants.UNDEFINED_TYPE.equals( value.getTypeName( ) )
+				|| VMConstants.EXCEPTION_TYPE.equals( value.getTypeName( ) ) )
 		{
 			return null;
 		}

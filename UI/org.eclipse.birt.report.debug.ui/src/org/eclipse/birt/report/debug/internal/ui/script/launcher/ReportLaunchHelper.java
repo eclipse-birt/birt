@@ -27,6 +27,7 @@ import java.util.logging.Level;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.debug.internal.core.launcher.IReportLaunchConstants;
 import org.eclipse.birt.report.debug.internal.core.launcher.LauncherEngineConfig;
+import org.eclipse.birt.report.debug.internal.core.launcher.ReportLauncher;
 import org.eclipse.birt.report.debug.internal.ui.script.util.ScriptDebugUtil;
 import org.eclipse.birt.report.debug.ui.DebugUI;
 import org.eclipse.birt.report.designer.ui.dialogs.InputParameterDialog;
@@ -42,10 +43,13 @@ import org.eclipse.birt.report.engine.api.IReportEngineFactory;
 import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.jdt.launching.IRuntimeClasspathEntry;
 import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.program.Program;
 import org.eclipse.swt.widgets.Display;
 
 /**
@@ -368,5 +372,63 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 		DebugUI.getStandardDisplay( ).syncExec( r );
 
 		return ( (Boolean) result[0] ).booleanValue( );
+	}
+
+	static void handleProcessTermination( ILaunch launch,
+			final IProcess process, final String fileName,
+			final String outputFolder ) throws CoreException
+	{
+		if ( launch.getLaunchConfiguration( ).getAttribute( ATTR_OPEN_TARGET,
+				false )
+				&& launch.getLaunchConfiguration( )
+						.getAttribute( ATTR_TASK_TYPE, DEFAULT_TASK_TYPE ) != TASK_TYPE_RUN )
+		{
+			final String suffix = launch.getLaunchConfiguration( )
+					.getAttribute( ATTR_TARGET_FORMAT, DEFAULT_TARGET_FORMAT );
+
+			Thread monitorThread = new Thread( new Runnable( ) {
+
+				public void run( )
+				{
+					try
+					{
+						while ( !process.isTerminated( ) )
+						{
+							try
+							{
+								Thread.sleep( 100 );
+							}
+							catch ( InterruptedException e )
+							{
+								// donothing
+							}
+						}
+
+						if ( process.getExitValue( ) == ReportLauncher.EXIT_OK )
+						{
+							File file = new File( fileName );
+
+							String openName = ReportLauncher.getOutputFileName( outputFolder,
+									file.getName( ),
+									suffix );
+
+							if ( openName != null
+									&& new File( openName ).exists( ) )
+							{
+								Program.launch( openName );
+							}
+						}
+					}
+					catch ( Exception e )
+					{
+						// ignore
+					}
+				}
+			},
+					"Process Termination Monitor" ); //$NON-NLS-1$
+
+			monitorThread.setDaemon( true );
+			monitorThread.start( );
+		}
 	}
 }

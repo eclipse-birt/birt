@@ -312,6 +312,12 @@ public class StandardScriptVMRunner extends AbstractScriptVMRunner
 									subMonitor.worked( 1 );
 								}
 								subMonitor.done( );
+
+								ReportLaunchHelper.handleProcessTermination( launch,
+										process,
+										delegate.getFileName( ),
+										delegate.getTempFolder( ) );
+
 							}
 							return;
 						}
@@ -407,6 +413,11 @@ public class StandardScriptVMRunner extends AbstractScriptVMRunner
 
 			subMonitor.worked( 1 );
 			subMonitor.done( );
+
+			ReportLaunchHelper.handleProcessTermination( launch,
+					process,
+					delegate.getFileName( ),
+					delegate.getTempFolder( ) );
 		}
 
 	}

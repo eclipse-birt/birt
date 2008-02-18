@@ -66,6 +66,11 @@ class ReportDebuggerVMRunner implements IVMRunner
 
 			subMonitor.worked( 1 );
 			subMonitor.done( );
+
+			ReportLaunchHelper.handleProcessTermination( launch,
+					ps[0],
+					config.helper.fileName,
+					config.helper.tempFolder );
 		}
 	}
 
