@@ -29,7 +29,6 @@ import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDialog;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDialog.GrandTotalInfo;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDialog.SubTotalInfo;
-import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.ShowSummaryFieldDialog.MeasureInfo;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider;
@@ -291,52 +290,6 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 		}
 	}
 
-	private void updateShowStatus( MeasureViewHandle measureView,
-			MeasureInfo info )
-	{
-		if ( info.isShow( ) == false )
-		{
-			return;
-		}
-		String expectedView = info.getExpectedView( );
-		AggregationCellHandle cell = measureView.getCell( );
-		if ( expectedView == null || expectedView.length( ) == 0 )
-		{
-			return;
-		}
-		if ( providers == null || providers.length == 0 )
-		{
-			return;
-		}
-
-		IAggregationCellViewProvider matchProvider;
-		for ( int i = 0; i < providers.length; i++ )
-		{
-			if ( providers[i] == null )
-			{
-				continue;
-			}
-			if ( providers[i].matchView( cell ) )
-			{
-				providers[i].restoreView( cell );
-				break;
-			}
-		}
-
-		for ( int i = 0; i < providers.length; i++ )
-		{
-			if ( providers[i] == null )
-			{
-				continue;
-			}
-			if ( providers[i].getViewName( ).equals( expectedView ) )
-			{
-				providers[i].switchView( cell );
-				break;
-			}
-		}
-	}
-
 	private void switchViews( GrandOpration newOperation, int axisType )
 	{
 		int count = newOperation.getMeasures( ).size( );
@@ -489,7 +442,6 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 			return;
 		}
 
-		IAggregationCellViewProvider matchProvider;
 		for ( int i = 0; i < providers.length; i++ )
 		{
 			if ( providers[i] == null )
@@ -498,7 +450,12 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 			}
 			if ( providers[i].matchView( cell ) )
 			{
-				providers[i].restoreView( cell );
+				// if current view is the same view with the expected one, then don't restore
+				if(! providers[i].getViewName( ).equals( expectedView ))
+				{
+					providers[i].restoreView( cell );
+				}
+				
 				break;
 			}
 		}
