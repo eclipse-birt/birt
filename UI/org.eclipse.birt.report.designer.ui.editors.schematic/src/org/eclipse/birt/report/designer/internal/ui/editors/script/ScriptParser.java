@@ -143,12 +143,17 @@ public class ScriptParser
 					case 'f' :
 						if ( !inComment && !inString )
 						{
+							// When the value of 'i - 2' is less than 0, 'f' is
+							// the first char of the script.
 							int begin = i - 2 >= 0 ? i - 2 : 0;
-							int end = begin + "funciton".length( ) + 2; //$NON-NLS-1$
+							int end = begin +
+									"funciton".length( ) + ( i - 2 >= 0 ? 2 : 1 ); //$NON-NLS-1$
 
+							String keyword = script.substring( begin, end );
+
+							keyword = i - 2 >= 0 ? keyword : " " + keyword; //$NON-NLS-1$
 							if ( end <= script.length( ) &&
-									script.substring( begin, end )
-											.matches( "\\Wfunction\\W" ) ) //$NON-NLS-1$
+									keyword.matches( "\\Wfunction\\W" ) ) //$NON-NLS-1$
 							{
 								int start = i;
 
