@@ -1588,11 +1588,15 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				}
 			}
 
+			// TODO
+			// ? Now(2008/02/18), for share binding case, we use following rules:
+			// 1. Y optional grouping just allow to use first grouping definition in table.
+			// 2. Category series allow to use all grouping definitions and binding.
+
 			// Prepare category items.
-			Object[][] categorys = new Object[groupsWithAgg.size( )
-					+ commons.size( )][2];
+			Object[][] categorys = new Object[groups.size( ) + commons.size( )][2];
 			int index = 0;
-			for ( Iterator iter = groupsWithAgg.entrySet( ).iterator( ); iter.hasNext( ); )
+			for ( Iterator iter = groups.entrySet( ).iterator( ); iter.hasNext( ); )
 			{
 				Entry entry = (Entry) iter.next( );
 				categorys[index][0] = entry.getKey( );
@@ -1608,30 +1612,39 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			}
 
 			// Prepare Y optional items.
-			int size = 0;
-			if ( groupsWithAgg.size( ) > 0 )
+//			int size = 0;
+//			if ( groupsWithAgg.size( ) > 0 )
+//			{
+//			    // Except inner most group, since the Y optional group is always not a inner most group.
+//				size = groupsWithAgg.size( ) - 1;
+//			}
+//			Object[][] optionals = new Object[groupsWithoutAgg.size( ) + size][2];
+//			index = 0;
+//			// add groups which don't include aggregate.
+//			for ( Iterator iter = groupsWithoutAgg.entrySet( ).iterator( ); iter.hasNext( ); )
+//			{
+//				Entry entry = (Entry) iter.next( );
+//				optionals[index][0] = entry.getKey( );
+//				optionals[index][1] = entry.getValue( );
+//				index++;
+//			}
+//			// Add groups which includes aggregate, except the inner most group.
+//			for ( Iterator iter = groupsWithAgg.entrySet( ).iterator( ); index < optionals.length
+//					&& iter.hasNext( ); )
+//			{
+//				Entry entry = (Entry) iter.next( );
+//				optionals[index][0] = entry.getKey( );
+//				optionals[index][1] = entry.getValue( );
+//				index++;
+//			}
+			
+			int size = ( groups.size( ) > 0 ) ? 1 : 0;
+			Object[][] optionals = new Object[size][2];
+			if ( groups.size( ) > 0 )
 			{
-			    // Except inner most group, since the Y optional group is always not a inner most group.
-				size = groupsWithAgg.size( ) - 1;
-			}
-			Object[][] optionals = new Object[groupsWithoutAgg.size( ) + size][2];
-			index = 0;
-			// add groups which don't include aggregate.
-			for ( Iterator iter = groupsWithoutAgg.entrySet( ).iterator( ); iter.hasNext( ); )
-			{
-				Entry entry = (Entry) iter.next( );
-				optionals[index][0] = entry.getKey( );
-				optionals[index][1] = entry.getValue( );
-				index++;
-			}
-			// Add groups which includes aggregate, except the inner most group.
-			for ( Iterator iter = groupsWithAgg.entrySet( ).iterator( ); index < optionals.length
-					&& iter.hasNext( ); )
-			{
-				Entry entry = (Entry) iter.next( );
-				optionals[index][0] = entry.getKey( );
-				optionals[index][1] = entry.getValue( );
-				index++;
+				Entry entry = (Entry) groups.entrySet( ).iterator( ).next( );;
+				optionals[0][0] = entry.getKey( );
+				optionals[0][1] = entry.getValue( );
 			}
 
 			// Prepare value items.

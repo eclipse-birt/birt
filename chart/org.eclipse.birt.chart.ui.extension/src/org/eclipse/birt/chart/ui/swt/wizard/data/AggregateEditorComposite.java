@@ -148,6 +148,11 @@ public class AggregateEditorComposite extends Composite implements
 
 	private void toggleDropDown( )
 	{
+		if ( !fEnabled || !this.isEnabled( ) )
+		{
+			return;
+		}
+		
 		if ( fAggregateEditor == null || fAggregateEditor.isDisposed( ) )
 		{
 			createDropDownComponent( );
