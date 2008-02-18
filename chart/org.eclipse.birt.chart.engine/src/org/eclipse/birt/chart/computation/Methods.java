@@ -21,13 +21,17 @@ import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.ITextMetrics;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
+import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
+import org.eclipse.birt.chart.model.layout.Plot;
+import org.eclipse.birt.chart.render.ISeriesRenderingHints;
 import org.eclipse.birt.chart.util.CDateTime;
 
 import com.ibm.icu.util.Calendar;
@@ -1131,4 +1135,54 @@ public class Methods implements IConstants
 		}
 		return iLabelPosition;
 	}
+	
+	/**
+	 * Limits the Datapoint Label within the ClientArea of the plot
+	 * 
+	 * @param xs
+	 * @param srh
+	 * @param laDataPoint
+	 * @param p
+	 * @param lo 
+	 * @throws ChartException
+	 * @since 2.3
+	 */
+	public static void limitDataPointLabelLocation( IDisplayServer xs,
+			ISeriesRenderingHints srh, Label laDataPoint, Plot p, Location lo )
+			throws ChartException
+	{
+		BoundingBox bb = Methods.computeBox( xs,
+				IConstants.ABOVE,
+				laDataPoint,
+				0,
+				0 );
+
+		Insets lbInset = laDataPoint.getInsets( );
+		double lbHeight = bb.getHeight( )
+				+ lbInset.getTop( ) + lbInset.getBottom( );
+		Bounds boCa = srh.getClientAreaBounds( true );
+
+		double dCaTop = boCa.getTop( ) + p.getInsets( ).getTop( );
+
+		double dYmin = dCaTop + lbHeight;
+		double dCaRight = boCa.getLeft( )
+				+ boCa.getWidth( ) - p.getInsets( ).getRight( );
+
+		double dXmax = dCaRight - bb.getWidth( );
+
+		double dX = lo.getX( );
+		double dY = lo.getY( );
+
+		if ( dY < dYmin )
+		{
+			lo.setY( dYmin );
+		}
+
+		if ( dX > dXmax )
+		{
+			lo.setX( dXmax );
+		}
+	}
+	
+
 }
