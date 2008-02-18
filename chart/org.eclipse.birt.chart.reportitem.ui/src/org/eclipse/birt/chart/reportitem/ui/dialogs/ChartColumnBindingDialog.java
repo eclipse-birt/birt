@@ -118,6 +118,7 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 			{
 				try
 				{
+					inputElement.getPropertyHandle( ReportItemHandle.BOUND_DATA_COLUMNS_PROP ).clearValue( );
 					List columnList = new ArrayList( );
 					DataSetHandle dataSetHandle = inputElement.getDataSet( );
 					if ( dataSetHandle == null )
