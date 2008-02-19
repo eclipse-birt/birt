@@ -460,19 +460,16 @@ public class ExcelWriter
 		}
 		else
 		{
-			if ( givenValue.equals( "Fixed" ) || givenValue.equals( "#0.00" ) )
-				return "#0.00";
-			if ( givenValue.equals( "Percent" ) || givenValue.equals( "0.00%" ) )
-				return "0.00%";
-			if ( givenValue.equals( "Scientific" )
-					|| givenValue.equals( "0.00E00" ) )
-				return "0.00E00";
-			if ( givenValue.equals( "Standard" )
-					|| givenValue.equals( "###,##0.00" ) )
-				return "###,##0.00";
-			if(givenValue.equals( "General Number" )){
+			if ( givenValue.equals( "Fixed" ) )
+				return "Fixed";
+			if ( givenValue.equals( "Percent" ) )
+				return "Percent";
+			if ( givenValue.equals( "Scientific" ) )
+				return "Scientific";
+			if ( givenValue.equals( "Standard" ) )
+				return "Standard";
+			if(givenValue.equals( "General Number" ))
 				return "General";
-			}
 			
 			if(validType(givenValue)){
 				return givenValue + "###";
