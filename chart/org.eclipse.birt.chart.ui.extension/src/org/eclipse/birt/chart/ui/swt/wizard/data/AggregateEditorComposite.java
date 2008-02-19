@@ -139,7 +139,10 @@ public class AggregateEditorComposite extends Composite implements
 		setLayout( layout );
 
 		fBtnDropDown = new ToolBar( this, SWT.FLAT | SWT.NO_FOCUS );
-		fBtnDropDown.setToolTipText( Messages.getString("AggregateEditorComposite.Tooltip.SetAggregateFunction") ); //$NON-NLS-1$
+		if( fEnabled && this.isEnabled( ) )
+		{
+			fBtnDropDown.setToolTipText( Messages.getString("AggregateEditorComposite.Tooltip.SetAggregateFunction") ); //$NON-NLS-1$
+		}
 		ToolBarManager toolManager = new ToolBarManager( fBtnDropDown );
 		toolManager.add( new AggregationAction( fEnabled ) );
 		toolManager.update( true );
