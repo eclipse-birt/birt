@@ -25,7 +25,6 @@ import org.eclipse.birt.chart.model.attribute.SortOption;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
-import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -362,12 +361,6 @@ class ChartCubeQueryHelper
 			String dimExpr = ExpressionUtil.createJSDimensionExpression( levelNames[0],
 					levelNames[1] );
 			binding.addAggregateOn( dimExpr );
-
-			if ( cubeQuery != null && cube != null )
-			{
-				// Add dimension expression to map and add binding
-				bindSeriesQuery( QueryImpl.create( dimExpr ), cubeQuery, cube );
-			}
 		}
 	}
 
