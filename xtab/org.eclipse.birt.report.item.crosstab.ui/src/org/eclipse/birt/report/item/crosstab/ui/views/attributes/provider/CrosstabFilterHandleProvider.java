@@ -40,7 +40,7 @@ public class CrosstabFilterHandleProvider extends AbstractFormHandleProvider
 	/**
 	 * The current selections in outline or Editor.
 	 */
-	private List input;
+	protected List contentInput;
 
 	/**
 	 * Column properties.
@@ -63,7 +63,7 @@ public class CrosstabFilterHandleProvider extends AbstractFormHandleProvider
 	/**
 	 * Model processor, provide data process of Filter model.
 	 */
-	private CrosstabFilterModelProvider modelAdapter = new CrosstabFilterModelProvider( );
+	protected CrosstabFilterModelProvider modelAdapter = new CrosstabFilterModelProvider( );
 
 	/**
 	 * The display name of columns.
@@ -142,7 +142,7 @@ public class CrosstabFilterHandleProvider extends AbstractFormHandleProvider
 	 */
 	public boolean doDeleteItem( int pos ) throws PropertyValueException
 	{
-		return modelAdapter.deleteItem( input.get( 0 ), pos );
+		return modelAdapter.deleteItem( contentInput.get( 0 ), pos );
 	}
 
 	/*
@@ -152,7 +152,7 @@ public class CrosstabFilterHandleProvider extends AbstractFormHandleProvider
 	 */
 	public boolean doAddItem( int pos ) throws SemanticException
 	{
-		return modelAdapter.doAddItem( input.get( 0 ), pos );
+		return modelAdapter.doAddItem( contentInput.get( 0 ), pos );
 	}
 
 	/*
@@ -162,7 +162,7 @@ public class CrosstabFilterHandleProvider extends AbstractFormHandleProvider
 	 */
 	public boolean doEditItem( int pos )
 	{
-		return modelAdapter.doEditItem( input.get( 0 ), pos );
+		return modelAdapter.doEditItem( contentInput.get( 0 ), pos );
 	}
 
 	/*
@@ -197,15 +197,15 @@ public class CrosstabFilterHandleProvider extends AbstractFormHandleProvider
 	{
 		if ( inputElement instanceof List )
 		{
-			input = (List) inputElement;
+			contentInput = (List) inputElement;
 		}
 		else
 		{
-			input = new ArrayList( );
-			input.add( inputElement );
+			contentInput = new ArrayList( );
+			contentInput.add( inputElement );
 		}
 //		getDataSetColumns( input.get( 0 ) );
-		Object[] elements = modelAdapter.getElements( input );
+		Object[] elements = modelAdapter.getElements( contentInput );
 		return elements;
 	}
 

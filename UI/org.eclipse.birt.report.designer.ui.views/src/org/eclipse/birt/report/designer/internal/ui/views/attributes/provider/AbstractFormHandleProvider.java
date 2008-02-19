@@ -26,6 +26,11 @@ public abstract class AbstractFormHandleProvider implements IFormProvider
 
 	}
 
+	public Object getInput( )
+	{
+		return input;
+	}
+	
 	public boolean isEnable( )
 	{
 		if ( DEUtil.getInputSize( input ) != 1 )

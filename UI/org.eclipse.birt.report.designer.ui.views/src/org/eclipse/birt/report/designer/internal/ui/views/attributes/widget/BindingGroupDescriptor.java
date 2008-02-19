@@ -233,9 +233,21 @@ public class BindingGroupDescriptor extends PropertyDescriptor
 				datasetRadio.setSelection( false );
 				datasetCombo.setEnabled( false );
 				bindingButton.setEnabled( false );
+				
 				reportItemRadio.setSelection( true );
 				reportItemCombo.setEnabled( true );
 				reportItemCombo.setText( value.toString( ) );
+				
+				// From 2.3, Multi-view is supported to create related chart
+				// view with current table/crosstab, the chart query in
+				// multi-view is sharing table/crosstab, so it should be
+				// read-only, disable button status for the case.
+				if ( info.isReadOnly( ) )
+				{
+					datasetRadio.setEnabled( false );
+					reportItemRadio.setEnabled( false );
+					reportItemCombo.setEnabled( false );
+				}
 		}
 	}
 

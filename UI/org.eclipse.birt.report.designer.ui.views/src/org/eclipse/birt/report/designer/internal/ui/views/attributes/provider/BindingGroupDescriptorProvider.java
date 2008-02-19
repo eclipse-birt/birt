@@ -200,7 +200,9 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 
 		private int bindingType;
 		private Object bindingValue;
-
+		
+		private boolean isReadOnly = false;
+		
 		public BindingInfo( int type, Object value )
 		{
 			this.bindingType = type;
@@ -231,6 +233,17 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 			this.bindingValue = bindingValue;
 		}
 
+		
+		public boolean isReadOnly( )
+		{
+			return isReadOnly;
+		}
+
+		
+		public void setReadOnly( boolean isReadOnly )
+		{
+			this.isReadOnly = isReadOnly;
+		}
 	}
 
 	public static final String NONE = Messages.getString( "BindingPage.None" ); //$NON-NLS-1$

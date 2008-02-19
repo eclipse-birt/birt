@@ -49,7 +49,7 @@ public class FilterHandleProvider extends AbstractFormHandleProvider
 	/**
 	 * The current selections in outline or Editor.
 	 */
-	private List input;
+	private List contentInput;
 
 	/**
 	 * Column properties.
@@ -165,7 +165,7 @@ public class FilterHandleProvider extends AbstractFormHandleProvider
 	public boolean doMoveItem( int oldPos, int newPos )
 			throws PropertyValueException
 	{
-		return modelAdapter.moveItem( input.get( 0 ), oldPos, newPos );
+		return modelAdapter.moveItem( contentInput.get( 0 ), oldPos, newPos );
 	}
 
 	/*
@@ -175,7 +175,7 @@ public class FilterHandleProvider extends AbstractFormHandleProvider
 	 */
 	public boolean doDeleteItem( int pos ) throws PropertyValueException
 	{
-		return modelAdapter.deleteItem( input.get( 0 ), pos );
+		return modelAdapter.deleteItem( contentInput.get( 0 ), pos );
 	}
 
 	/*
@@ -186,7 +186,7 @@ public class FilterHandleProvider extends AbstractFormHandleProvider
 	public boolean doAddItem( int pos ) throws SemanticException
 	{
 		// return modelAdapter.doAddItem( input.get( 0 ), pos );
-		Object item = input.get( 0 );
+		Object item = contentInput.get( 0 );
 		if ( item instanceof DesignElementHandle )
 		{
 			FilterConditionBuilder dialog = new FilterConditionBuilder( UIUtil.getDefaultShell( ),
@@ -219,7 +219,7 @@ public class FilterHandleProvider extends AbstractFormHandleProvider
 	public boolean doEditItem( int pos )
 	{
 
-		Object item = input.get( 0 );
+		Object item = contentInput.get( 0 );
 		if ( item instanceof DesignElementHandle )
 		{
 			DesignElementHandle element = (DesignElementHandle) item;
@@ -284,15 +284,15 @@ public class FilterHandleProvider extends AbstractFormHandleProvider
 	{
 		if ( inputElement instanceof List )
 		{
-			input = (List) inputElement;
+			contentInput = (List) inputElement;
 		}
 		else
 		{
-			input = new ArrayList( );
-			input.add( inputElement );
+			contentInput = new ArrayList( );
+			contentInput.add( inputElement );
 		}
-		getDataSetColumns( input.get( 0 ) );
-		Object[] elements = modelAdapter.getElements( input );
+		getDataSetColumns( contentInput.get( 0 ) );
+		Object[] elements = modelAdapter.getElements( contentInput );
 		return elements;
 	}
 
@@ -363,7 +363,7 @@ public class FilterHandleProvider extends AbstractFormHandleProvider
 			}
 			else
 			{
-				String[] choices = modelAdapter.getChoiceSet( input.get( 0 ),
+				String[] choices = modelAdapter.getChoiceSet( contentInput.get( 0 ),
 						columnKeys[index] );
 				strValue = choices[intValue];
 			}
@@ -373,7 +373,7 @@ public class FilterHandleProvider extends AbstractFormHandleProvider
 			strValue = (String) value;
 		}
 
-		return modelAdapter.setStringValue( input.get( 0 ), data, key, strValue );
+		return modelAdapter.setStringValue( contentInput.get( 0 ), data, key, strValue );
 	}
 
 	// private void updateValueCellEditor( String exp )
@@ -416,7 +416,7 @@ public class FilterHandleProvider extends AbstractFormHandleProvider
 			String propertyName = ( (PropertyEvent) event ).getPropertyName( );
 			if ( ReportItemHandle.BOUND_DATA_COLUMNS_PROP.equals( propertyName ) )
 			{
-				getDataSetColumns( input.get( 0 ) );
+				getDataSetColumns( contentInput.get( 0 ) );
 			}
 			if ( ListingHandle.FILTER_PROP.equals( propertyName ) )
 			{
@@ -434,9 +434,9 @@ public class FilterHandleProvider extends AbstractFormHandleProvider
 	{
 		ParamBindingHandle[] bindingParams = null;
 
-		if ( DEUtil.getInputFirstElement( input ) instanceof ReportItemHandle )
+		if ( DEUtil.getInputFirstElement( contentInput ) instanceof ReportItemHandle )
 		{
-			ReportItemHandle inputHandle = (ReportItemHandle) DEUtil.getInputFirstElement( input );
+			ReportItemHandle inputHandle = (ReportItemHandle) DEUtil.getInputFirstElement( contentInput );
 			List list = new ArrayList( );
 			for ( Iterator iterator = inputHandle.paramBindingsIterator( ); iterator.hasNext( ); )
 			{
