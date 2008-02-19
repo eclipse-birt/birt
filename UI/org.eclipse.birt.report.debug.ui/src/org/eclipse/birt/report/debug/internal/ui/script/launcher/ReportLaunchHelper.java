@@ -43,6 +43,7 @@ import org.eclipse.birt.report.engine.api.IReportEngineFactory;
 import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.model.IProcess;
@@ -390,8 +391,7 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 
 				public void run( )
 				{
-					try
-					{
+					
 						while ( !process.isTerminated( ) )
 						{
 							try
@@ -403,26 +403,38 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 								// donothing
 							}
 						}
-
-						if ( process.getExitValue( ) == ReportLauncher.EXIT_OK )
+						DebugUI.getStandardDisplay( ).asyncExec( new Runnable()
 						{
-							File file = new File( fileName );
 
-							String openName = ReportLauncher.getOutputFileName( outputFolder,
-									file.getName( ),
-									suffix );
-
-							if ( openName != null
-									&& new File( openName ).exists( ) )
+							public void run( )
 							{
-								Program.launch( openName );
+								try
+								{
+									if ( process.getExitValue( ) == ReportLauncher.EXIT_OK )
+									{
+										File file = new File( fileName );
+
+										String openName = ReportLauncher.getOutputFileName( outputFolder,
+												file.getName( ),
+												suffix );
+
+										if ( openName != null
+												&& new File( openName ).exists( ) )
+										{
+											Program.launch( openName );
+										}
+									}
+								}
+								catch ( DebugException e )
+								{
+									// donothing
+								}
+								
 							}
-						}
-					}
-					catch ( Exception e )
-					{
-						// ignore
-					}
+							
+						});
+						
+					
 				}
 			},
 					"Process Termination Monitor" ); //$NON-NLS-1$
