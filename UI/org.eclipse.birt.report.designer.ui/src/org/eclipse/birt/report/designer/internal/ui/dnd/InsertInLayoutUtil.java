@@ -590,6 +590,7 @@ public class InsertInLayoutUtil
 					model.getColumnName( ) );
 			bindingColumn.setDataType( model.getDataType( ) );
 			bindingColumn.setExpression( DEUtil.getExpression( model ) );
+			bindingColumn.setDisplayName( UIUtil.getColumnDisplayName( model ) );
 			if ( target instanceof DesignElementHandle )
 			{
 				if ( ExpressionUtil.hasAggregation( bindingColumn.getExpression( ) ) )
@@ -688,6 +689,7 @@ public class InsertInLayoutUtil
 					model.getColumnName( ) );
 			bindingColumn.setDataType( model.getDataType( ) );
 			bindingColumn.setExpression( DEUtil.getExpression( model ) );
+			bindingColumn.setDisplayName( UIUtil.getColumnDisplayName( model ) );
 			if ( target instanceof DesignElementHandle )
 			{
 				if ( ExpressionUtil.hasAggregation( bindingColumn.getExpression( ) ) )
@@ -1247,6 +1249,7 @@ public class InsertInLayoutUtil
 								columns[j].getColumnName( ) );
 						bindingColumn.setDataType( columns[j].getDataType( ) );
 						bindingColumn.setExpression( DEUtil.getExpression( columns[j] ) );
+						bindingColumn.setDisplayName( UIUtil.getColumnDisplayName( columns[j] ) );
 						tableHandle.addColumnBinding( bindingColumn, false );
 					}
 				}
