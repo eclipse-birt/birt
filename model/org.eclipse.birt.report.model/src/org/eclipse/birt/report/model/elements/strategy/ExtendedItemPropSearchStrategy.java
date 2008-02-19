@@ -230,4 +230,26 @@ public class ExtendedItemPropSearchStrategy
 				.enableContextSearch( ) );
 		return super.getNonIntrinsicPropertyFromElement( module, element, prop );
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.PropertySearchStrategy#getStyleContainer(org.eclipse.birt.report.model.core.DesignElement)
+	 */
+
+	protected DesignElement getStyleContainer( DesignElement designElement )
+	{
+		DesignElement tmpContainer = designElement.getContainer( );
+		if ( tmpContainer == null || !( tmpContainer instanceof MultiViews ) )
+			return tmpContainer;
+
+		assert tmpContainer instanceof MultiViews;
+		tmpContainer = tmpContainer.getContainer( );
+
+		if ( tmpContainer == null )
+			return null;
+
+		return tmpContainer.getContainer( );
+
+	}
 }

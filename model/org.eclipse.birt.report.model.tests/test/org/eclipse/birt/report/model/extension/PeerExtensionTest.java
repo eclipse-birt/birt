@@ -1042,6 +1042,23 @@ public class PeerExtensionTest extends BaseTestCase
 		assertEquals( 1, rules.size( ) );
 	}
 
+	/**
+	 * Tests the property of the extension item which locates in the multiviews.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testExtensionMultiViewProperty( ) throws Exception
+	{
+		openDesign( "ExtensionMultiViewPropertyTest.xml" ); //$NON-NLS-1$
+
+		TableHandle table = (TableHandle) designHandle.findElement( "MyTable1" ); //$NON-NLS-1$
+		assertEquals( "red", table.getStringProperty( IStyleModel.COLOR_PROP ) ); //$NON-NLS-1$
+
+		ExtendedItemHandle box = (ExtendedItemHandle) table.getCurrentView( );		
+		assertEquals( "black", box.getStringProperty( IStyleModel.COLOR_PROP ) ); //$NON-NLS-1$		
+	}
+
 	private static class MyListener implements Listener
 	{
 

@@ -98,12 +98,25 @@ public class PropertySearchStrategy
 			// Try to get the value of this property from container
 			// hierarchy.
 
-			e = e.getContainer( );
+			e = getStyleContainer( e );
 		}
 
 		// Still not found. Use the default.
 
 		return getSessionDefaultValue( module, prop );
+	}
+
+	/**
+	 * Gets the container element.
+	 * 
+	 * @param designElement
+	 *            the design element
+	 * @return the container of design element.
+	 */
+	 
+	protected DesignElement getStyleContainer( DesignElement designElement )
+	{
+		return designElement.getContainer( );
 	}
 
 	/**
