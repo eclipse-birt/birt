@@ -21,6 +21,9 @@ import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.ITextMetrics;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.FontDefinition;
 import org.eclipse.birt.chart.model.attribute.Insets;
@@ -1137,52 +1140,57 @@ public class Methods implements IConstants
 	}
 	
 	/**
-	 * Limits the Datapoint Label within the ClientArea of the plot
+	 * Limits the Data point Label inside area including axes
 	 * 
+	 * @param cm
 	 * @param xs
-	 * @param srh
 	 * @param laDataPoint
-	 * @param p
-	 * @param lo 
+	 * @param dScale
+	 * @param lo
 	 * @throws ChartException
 	 * @since 2.3
 	 */
-	public static void limitDataPointLabelLocation( IDisplayServer xs,
-			ISeriesRenderingHints srh, Label laDataPoint, Plot p, Location lo )
+	public static void limitDataPointLabelLocation( Chart cm,
+			IDisplayServer xs, Label laDataPoint, double dScale, Location lo )
 			throws ChartException
 	{
+		if ( lo == null || cm instanceof ChartWithoutAxes )
+		{
+			return;
+		}
+
+		ChartWithAxes cwa = (ChartWithAxes) cm;
+		Plot p = cwa.getPlot( );
+
 		BoundingBox bb = Methods.computeBox( xs,
 				IConstants.ABOVE,
 				laDataPoint,
 				0,
 				0 );
 
-		Insets lbInset = laDataPoint.getInsets( );
-		double lbHeight = bb.getHeight( )
-				+ lbInset.getTop( ) + lbInset.getBottom( );
-		Bounds boCa = srh.getClientAreaBounds( true );
+		Bounds boCa = p.getBounds( ).scaledInstance( dScale );
 
-		double dCaTop = boCa.getTop( ) + p.getInsets( ).getTop( );
-
-		double dYmin = dCaTop + lbHeight;
-		double dCaRight = boCa.getLeft( )
-				+ boCa.getWidth( ) - p.getInsets( ).getRight( );
-
-		double dXmax = dCaRight - bb.getWidth( );
-
-		double dX = lo.getX( );
-		double dY = lo.getY( );
-
-		if ( dY < dYmin )
+		if ( !cwa.isTransposed( ) )
 		{
-			lo.setY( dYmin );
+			double dYmin = boCa.getTop( ) + bb.getHeight( );
+			double dY = lo.getY( );
+
+			if ( dY < dYmin )
+			{
+				lo.setY( dYmin );
+			}
 		}
-
-		if ( dX > dXmax )
+		else
 		{
-			lo.setX( dXmax );
+			double dCaRight = boCa.getLeft( ) + boCa.getWidth( );
+			double dXmax = dCaRight - bb.getWidth( );
+			double dX = lo.getX( );
+
+			if ( dX > dXmax )
+			{
+				lo.setX( dXmax );
+			}
 		}
 	}
-	
 
 }
