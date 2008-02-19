@@ -401,16 +401,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		{
 			return;
 		}
-		String imageUrl = imageUri;
-		if ( reportDesign != null )
-		{
-			URL url = reportDesign.findResource( imageUri,
-					IResourceLocator.IMAGE );
-			if ( url != null )
-			{
-				imageUrl = url.toExternalForm( );
-			}
-		}
+		String imageUrl = getImageUrl( imageUri );
 
 		if ( imageUrl == null || "".equals( imageUrl ) ) //$NON-NLS-1$
 		{
@@ -985,8 +976,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		{
 			return;
 		}
-		String imageUrl = getImageUrl( imageURI );
-		if ( imageUrl == null || "".equals( imageUrl ) ) //$NON-NLS-1$
+
+		if ( imageURI == null || "".equals( imageURI ) ) //$NON-NLS-1$
 		{
 			return;
 		}
@@ -1000,7 +991,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		Image img = null;
 		try
 		{
-			img = Image.getInstance( imageUrl );
+			img = Image.getInstance( new URL( imageURI ) );
 			int absPosX, absPosY;
 			if ( xMode )
 			{
@@ -1021,7 +1012,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				absPosY = (int) positionY;
 			}
 			pageGraphic.drawBackgroundImage( x, y, width, height, repeat,
-					imageUrl, absPosX, absPosY );
+					imageURI, absPosX, absPosY );
 		}
 		catch ( Exception e )
 		{

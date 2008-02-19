@@ -130,7 +130,7 @@ public class PDFPage extends AbstractPage
 		Image img = null;
 		try
 		{
-			img = Image.getInstance( imageUrl );
+			img = Image.getInstance( new URL(imageUrl) );
 			if ( "no-repeat".equalsIgnoreCase( repeat ) ) //$NON-NLS-1$
 			{
 				TplValueTriple triple = computeTplHorizontalValPair( absPosX,
