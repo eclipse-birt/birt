@@ -37,6 +37,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
+import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -854,4 +855,21 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		return null;
 	}
 
+	
+	/**
+	 * Check if chart is child of multi-views handle.
+	 * 
+	 * @param handle
+	 * @return
+	 * @since 2.3
+	 */
+	public static boolean isChildOfMultiViewsHandle( DesignElementHandle handle )
+	{
+		if ( handle != null &&
+				handle.getContainer( ) instanceof MultiViewsHandle )
+		{
+			return true;
+		}
+		return false;
+	}
 }

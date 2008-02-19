@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.reportitem.ui.views.attributes.provider;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -76,6 +77,17 @@ public class ChartBindingGroupDescriptorProvider extends
 				value = NONE;
 		}
 		BindingInfo info = new BindingInfo( type, value );
+		
+		// set correct binding info for chart in multi-view case.
+		if ( ChartReportItemUtil.isChildOfMultiViewsHandle( getReportItemHandle( ) ) )
+		{
+			Object name = element.getContainer( ).getContainer( ).getQualifiedName( );
+			info.setBindingType( ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF );
+			name = ( name == null ) ? NONE : name;
+			info.setBindingValue( name );
+			info.setReadOnly( true );
+		}
+		
 		return info;
 	}
 
