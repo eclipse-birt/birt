@@ -37,6 +37,7 @@ import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.QueryExecutionHints;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
@@ -744,6 +745,7 @@ public class ReportQueryBuilder
 			}
 			else
 			{
+				handleListingQuery( list, query );
 				handleListingBand( list.getHeader( ), query, true, null );
 
 				SlotHandle groupsSlot = ( (ListHandle) list.getHandle( ) )
@@ -886,6 +888,7 @@ public class ReportQueryBuilder
 			{
 				// transformExpressions( table, query, null );
 
+				handleListingQuery( table, query );
 				for ( int i = 0; i < table.getColumnCount( ); i++ )
 				{
 					handleColumn( table.getColumn( i ), query );
@@ -923,6 +926,15 @@ public class ReportQueryBuilder
 				context.addException( table.getHandle( ), ex );
 			}
 			return getResultQuery( query, value );
+		}
+
+		private void handleListingQuery( ListingDesign design,
+				BaseQueryDefinition query )
+		{
+			QueryExecutionHints executionHints = new QueryExecutionHints( );
+			ListingHandle handle = (ListingHandle) design.getHandle( );
+			executionHints.setSortBeforeGrouping( handle.isSortByGroups( ) );
+			query.setQueryExecutionHints( executionHints );
 		}
 
 		/*
