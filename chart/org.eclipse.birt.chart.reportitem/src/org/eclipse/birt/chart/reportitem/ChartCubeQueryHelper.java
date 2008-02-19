@@ -18,8 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.factory.IActionEvaluator;
-import org.eclipse.birt.chart.factory.IQueryExpressionReplaceable;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
@@ -69,7 +67,7 @@ import org.eclipse.emf.common.util.EList;
  * Query helper for cube query definition
  */
 
-class ChartCubeQueryHelper implements IQueryExpressionReplaceable
+class ChartCubeQueryHelper
 {
 
 	private final ExtendedItemHandle handle;
@@ -110,10 +108,6 @@ class ChartCubeQueryHelper implements IQueryExpressionReplaceable
 	{
 		this.handle = handle;
 		this.cm = cm;
-
-		// Add this to IActionEvaluator to replace raw expression later
-		IActionEvaluator iae = BIRTActionEvaluator.getInstance( handle );
-		iae.addExpressionReplaceable( this );
 	}
 
 	public IBaseCubeQueryDefinition createCubeQuery( IDataQueryDefinition parent )
@@ -715,15 +709,5 @@ class ChartCubeQueryHelper implements IQueryExpressionReplaceable
 		result[0] = result[0].replaceAll( "\\Q[\"\\E", "" ); //$NON-NLS-1$ //$NON-NLS-2$
 		result[1] = result[1].replaceAll( "\\Q\"]\\E", "" ); //$NON-NLS-1$ //$NON-NLS-2$
 		return result;
-	}
-
-	public String replaceRawExpressionByBinding( String rawExpression )
-	{
-		if ( registeredBindings.containsKey( rawExpression ) )
-		{
-			Binding binding = (Binding) registeredBindings.get( rawExpression );
-			return ExpressionUtil.createJSDataExpression( binding.getBindingName( ) );
-		}
-		return rawExpression;
 	}
 }

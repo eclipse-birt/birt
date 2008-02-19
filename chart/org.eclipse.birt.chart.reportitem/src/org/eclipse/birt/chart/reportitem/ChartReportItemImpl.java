@@ -872,7 +872,7 @@ public final class ChartReportItemImpl extends ReportItem
 		try
 		{
 			return Generator.instance( ).getRowExpressions( cm,
-					BIRTActionEvaluator.getInstance( handle ) );
+					new BIRTActionEvaluator( ) );
 		}
 		catch ( ChartException e )
 		{

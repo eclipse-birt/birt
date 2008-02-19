@@ -67,6 +67,11 @@ public class ChartExpressionProvider extends ExpressionProvider
 	{
 		// Filter categories according to the style
 		final List filteredList = new ArrayList( 3 );
+		
+		// Always remove Cube since measure/dimension expression are not
+		// supported
+		filteredList.add( CURRENT_CUBE );
+		
 		if ( ( this._categoryStyle & CATEGORY_WITH_BIRT_VARIABLES ) != CATEGORY_WITH_BIRT_VARIABLES )
 		{
 			filteredList.add( BIRT_OBJECTS );
@@ -74,8 +79,6 @@ public class ChartExpressionProvider extends ExpressionProvider
 		if ( ( this._categoryStyle & CATEGORY_WITH_COLUMN_BINDINGS ) != CATEGORY_WITH_COLUMN_BINDINGS )
 		{
 			filteredList.add( COLUMN_BINDINGS );
-			// Remove Cube with ColumnBindings at one time
-			filteredList.add( CURRENT_CUBE );
 		}
 		if ( ( this._categoryStyle & CATEGORY_WITH_REPORT_PARAMS ) != CATEGORY_WITH_REPORT_PARAMS )
 		{

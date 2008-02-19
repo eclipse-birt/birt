@@ -592,7 +592,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 			IDataRowExpressionEvaluator rowAdapter = createEvaluator( resultSet );
 
 			// Prepare data processor for hyperlinks/tooltips
-			IActionEvaluator evaluator = BIRTActionEvaluator.getInstance( handle );
+			IActionEvaluator evaluator = new BIRTActionEvaluator( );
 
 			// Bind Data to series
 			Generator.instance( ).bindData( rowAdapter, evaluator, cm, rtc );

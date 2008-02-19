@@ -29,10 +29,4 @@ public class ActionEvaluatorAdapter implements IActionEvaluator
 	{
 		return null;
 	}
-
-	public void addExpressionReplaceable( IQueryExpressionReplaceable iqer )
-	{
-		// TODO Auto-generated method stub
-
-	}
 }

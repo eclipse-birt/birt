@@ -65,10 +65,10 @@ public interface IUIServiceProvider
 	public static final int COMMAND_EXPRESSION_TRIGGERS_SIMPLE = 3;
 
 	/**
-	 * Constant indicating an expression builder to input triggers for value
-	 * series.
+	 * Constant indicating an expression builder to input script (one type of
+	 * triigers) for value series.
 	 */
-	public static final int COMMAND_EXPRESSION_TRIGGERS_DATAPOINTS = 4;
+	public static final int COMMAND_EXPRESSION_SCRIPT_DATAPOINTS = 4;
 	
 	/**
 	 * Constant indicating an expression builder to input tooltips (one type of

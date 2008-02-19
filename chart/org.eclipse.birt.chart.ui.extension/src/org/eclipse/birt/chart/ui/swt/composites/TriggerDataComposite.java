@@ -1017,7 +1017,7 @@ public class TriggerDataComposite extends Composite
 		int type = this.triggerMatrix.getType( );
 		if ( ( type & TriggerSupportMatrix.TYPE_DATAPOINT ) == TriggerSupportMatrix.TYPE_DATAPOINT )
 		{
-			return IUIServiceProvider.COMMAND_EXPRESSION_TRIGGERS_DATAPOINTS;
+			return IUIServiceProvider.COMMAND_EXPRESSION_SCRIPT_DATAPOINTS;
 		}
 		return IUIServiceProvider.COMMAND_EXPRESSION_TRIGGERS_SIMPLE;
 	}

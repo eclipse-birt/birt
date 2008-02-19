@@ -528,7 +528,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 			case COMMAND_EXPRESSION_CHART_DATAPOINTS :
 			case COMMAND_EXPRESSION_DATA_BINDINGS :
 			case COMMAND_EXPRESSION_TRIGGERS_SIMPLE :
-			case COMMAND_EXPRESSION_TRIGGERS_DATAPOINTS :
+			case COMMAND_EXPRESSION_SCRIPT_DATAPOINTS :
 			case COMMAND_EXPRESSION_TOOLTIPS_DATAPOINTS :
 				shell = new Shell( Display.getDefault( ), SWT.DIALOG_TRIM
 						| SWT.RESIZE | SWT.APPLICATION_MODAL );
@@ -577,11 +577,11 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 		{
 			return ChartExpressionProvider.CATEGORY_WITH_CHART_VARIABLES;
 		}
-		else if ( builderCommand == COMMAND_EXPRESSION_TRIGGERS_DATAPOINTS )
+		else if ( builderCommand == COMMAND_EXPRESSION_SCRIPT_DATAPOINTS )
 		{
+			// Script doesn't support column binding expression.
 			return ChartExpressionProvider.CATEGORY_WITH_CHART_VARIABLES
 					| ChartExpressionProvider.CATEGORY_WITH_REPORT_PARAMS
-					| ChartExpressionProvider.CATEGORY_WITH_COLUMN_BINDINGS
 					| ChartExpressionProvider.CATEGORY_WITH_JAVASCRIPT;
 		}
 		else if ( builderCommand == COMMAND_EXPRESSION_TRIGGERS_SIMPLE )

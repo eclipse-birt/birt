@@ -25,12 +25,4 @@ public interface IActionEvaluator
 	 * containing any expression.
 	 */
 	String[] getActionExpressions( Action action, StructureSource source );
-
-	/**
-	 * Adds the expression replaceable class to replace raw expression in
-	 * runtime
-	 * 
-	 * @param iqer
-	 */
-	void addExpressionReplaceable( IQueryExpressionReplaceable iqer );
 }
