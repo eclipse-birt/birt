@@ -35,17 +35,15 @@ import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.ReportItem;
-import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
+import org.eclipse.birt.report.model.elements.strategy.ContextCopiedDesignElement;
 import org.eclipse.birt.report.model.elements.strategy.GroupPropSearchStrategy;
 import org.eclipse.birt.report.model.elements.strategy.ReportItemPropSearchStrategy;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * A handle for working with a top-level property of an element.
@@ -467,8 +465,10 @@ public class PropertyHandle extends SimpleValueHandle
 	{
 		if ( content == null )
 			return Collections.EMPTY_LIST;
+
 		add( content );
-		return checkPostPasteErrors( content.getElement( ) );
+
+		return getElementHandle( ).checkPostPasteErrors( content.getElement( ) );
 	}
 
 	/**
@@ -481,13 +481,22 @@ public class PropertyHandle extends SimpleValueHandle
 	 * @throws SemanticException
 	 *             if the element is not allowed to paste
 	 */
+
 	public List paste( IDesignElement content ) throws SemanticException
 	{
 		if ( content == null )
 			return Collections.EMPTY_LIST;
+
+		// checks whether the content can be pasted.
+
+		getElementHandle( ).checkCopiedObject(
+				new ContainerContext( getElement( ), propDefn.getName( ) ),
+				content, true );
+
 		add( content.getHandle( getModule( ) ) );
 
-		return checkPostPasteErrors( (DesignElement) content );
+		return getElementHandle( ).checkPostPasteErrors(
+				( (ContextCopiedDesignElement) content ).getCopiedElement( ) );
 	}
 
 	/**
@@ -532,40 +541,18 @@ public class PropertyHandle extends SimpleValueHandle
 	{
 		if ( content == null )
 			return Collections.EMPTY_LIST;
+
+		// checks whether the content can be pasted.
+
+		getElementHandle( ).checkCopiedObject(
+				new ContainerContext( getElement( ), propDefn.getName( ) ),
+				content, true );
+
 		add( content.getHandle( getModule( ) ), newPos );
 
-		return checkPostPasteErrors( (DesignElement) content );
+		return getElementHandle( ).checkPostPasteErrors(
+				( (ContextCopiedDesignElement) content ).getCopiedElement( ) );
 
-	}
-
-	/**
-	 * Checks the element after the paste action.
-	 * 
-	 * @param content
-	 *            the pasted element
-	 * 
-	 * @return a list containing parsing errors. Each element in the list is
-	 *         <code>ErrorDetail</code>.
-	 */
-
-	private List checkPostPasteErrors( DesignElement content )
-	{
-		Module currentModule = getElementHandle( ).getModule( );
-		String nameSpace = null;
-
-		if ( currentModule != null && currentModule instanceof Library )
-			nameSpace = ( (Library) currentModule ).getNamespace( );
-
-		ModelUtil.revisePropertyNameSpace( getModule( ), content, content
-				.getDefn( ).getProperty( IDesignElementModel.EXTENDS_PROP ),
-				nameSpace );
-
-		ModelUtil.reviseNameSpace( getModule( ), content, nameSpace );
-
-		List exceptionList = content.validateWithContents( getModule( ) );
-		List errorDetailList = ErrorDetail.convertExceptionList( exceptionList );
-
-		return errorDetailList;
 	}
 
 	/*
@@ -825,7 +812,7 @@ public class PropertyHandle extends SimpleValueHandle
 	 * 
 	 * @param posn
 	 *            the index where the content resides
-	 * @return
+	 * @return the corresponding element
 	 */
 
 	public DesignElementHandle getContent( int posn )

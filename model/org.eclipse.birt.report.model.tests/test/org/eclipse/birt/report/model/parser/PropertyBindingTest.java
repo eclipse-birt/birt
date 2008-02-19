@@ -24,7 +24,6 @@ import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
@@ -56,7 +55,7 @@ public class PropertyBindingTest extends BaseTestCase
 	 * 
 	 * @param moduleHandle
 	 */
-	
+
 	private void testParser( ModuleHandle moduleHandle )
 	{
 		List bindingList = moduleHandle.getListProperty( moduleHandle
@@ -154,9 +153,8 @@ public class PropertyBindingTest extends BaseTestCase
 
 		// save and compare
 
-		save(); 
-		assertTrue( compareFile(
-				"PropertyBindingTest_golden.xml") ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareFile( "PropertyBindingTest_golden.xml" ) ); //$NON-NLS-1$
 
 		// test exception
 
@@ -206,9 +204,8 @@ public class PropertyBindingTest extends BaseTestCase
 
 		// save and compare
 
-		save(); 
-		assertTrue( compareFile(
-				"PropertyBindingTest_golden_1.xml") ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareFile( "PropertyBindingTest_golden_1.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -223,19 +220,17 @@ public class PropertyBindingTest extends BaseTestCase
 		openDesign( "PropertyBindingTest.xml" ); //$NON-NLS-1$
 		assertNotNull( designHandle );
 
-		ReportDesignHandle copyHandle = null;
-		ReportDesign copy = (ReportDesign) designHandle.copy( );
-		assertNotNull( copy );
-		copyHandle = copy.handle( );
+		ReportDesignHandle copyHandle = (ReportDesignHandle) designHandle
+				.copy( ).getHandle( null );
 		assertNotNull( copyHandle );
-		
+		assertNotNull( copyHandle );
+
 		testParser( copyHandle );
 
 		// save and compare, the input and the output is the same
 
-		save(); 
-		assertTrue( compareFile(
-				"PropertyBindingTest_golden_2.xml") ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareFile( "PropertyBindingTest_golden_2.xml" ) ); //$NON-NLS-1$
 
 	}
 }

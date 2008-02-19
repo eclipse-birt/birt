@@ -18,8 +18,8 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.EncryptionException;
+import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.extension.IEncryptionHelper;
-import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -371,8 +371,8 @@ public class EncryptionHelperExtensionTest extends BaseTestCase
 		String prefix = "copyOf"; //$NON-NLS-1$
 		SlotHandle bodyHandle = designHandle.getBody( );
 
-		DesignElement copiedItem = (DesignElement) item.copy( );
-		copiedItem.setName( prefix + item.getName( ) );
+		IDesignElement copiedItem = item.copy( );
+		copiedItem.getHandle( design ).setName( prefix + item.getName( ) );
 		bodyHandle.add( copiedItem.getHandle( design ) );
 	}
 

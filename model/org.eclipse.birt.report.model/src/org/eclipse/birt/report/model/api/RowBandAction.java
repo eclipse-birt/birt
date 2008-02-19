@@ -12,6 +12,7 @@ package org.eclipse.birt.report.model.api;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.TableRow;
@@ -52,9 +53,9 @@ abstract class RowBandAction
 	 * @return a new row instance
 	 */
 
-	protected TableRow copyRow( RowHandle rowHandle )
+	protected IDesignElement copyRow( RowHandle rowHandle )
 	{
-		return (TableRow) rowHandle.copy( );
+		return rowHandle.copy( );		
 	}
 
 	/**

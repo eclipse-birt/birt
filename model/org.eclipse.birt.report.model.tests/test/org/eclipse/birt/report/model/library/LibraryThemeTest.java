@@ -34,7 +34,6 @@ import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Style;
-import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
@@ -409,7 +408,7 @@ public class LibraryThemeTest extends BaseTestCase
 		libraryHandle.getCommandStack( ).redo( );
 		assertEquals( ColorPropertyType.BLACK, label1
 				.getProperty( Style.COLOR_PROP ) );
-		
+
 		// test dropAndClear
 		libraryHandle.getCommandStack( ).undo( );
 		libraryHandle.getThemes( ).dropAndClear( theme1 );
@@ -611,16 +610,15 @@ public class LibraryThemeTest extends BaseTestCase
 
 		libraryHandle.getThemes( ).add( theme1 );
 
-		Theme themeCloned = (Theme) theme1.copy( );
-		ThemeHandle clonedTheme1 = themeCloned.handle( libraryHandle
-				.getModule( ) );
+		ThemeHandle themeCloned = (ThemeHandle) theme1.copy( ).getHandle(
+				libraryHandle.getModule( ) );
 
 		StyleHandle style1 = libraryHandle.getElementFactory( ).newStyle(
 				"style1" ); //$NON-NLS-1$
 		theme1.getStyles( ).add( style1 );
 
 		assertEquals( 1, theme1.getStyles( ).getCount( ) );
-		assertEquals( 0, clonedTheme1.getStyles( ).getCount( ) );
+		assertEquals( 0, themeCloned.getStyles( ).getCount( ) );
 
 	}
 

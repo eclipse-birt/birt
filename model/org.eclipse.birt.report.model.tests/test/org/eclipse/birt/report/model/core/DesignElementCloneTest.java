@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
@@ -116,14 +117,14 @@ public class DesignElementCloneTest extends BaseTestCase
 		assertNotNull( gridHandle );
 		assertEquals( "hexingjie", gridHandle.getName( ) ); //$NON-NLS-1$
 
-		GridItem grid = (GridItem) gridHandle.copy( );
+		GridHandle grid = (GridHandle) gridHandle.copy( ).getHandle( design );
 		assertNotNull( grid );
 		assertEquals( "hexingjie", grid.getName( ) ); //$NON-NLS-1$
-		ContainerSlot rowSlot = grid.getSlot( GridItem.ROW_SLOT );
-		assertEquals( grid, rowSlot.getContent( 0 ).getContainer( ) );
+		RowHandle row = (RowHandle) grid.getRows( ).get( 0 );
+		assertEquals( grid, row.getContainer( ) );
 
-		designHandle.rename( grid.getHandle( design ) );
-		designHandle.getBody( ).paste( grid.getHandle( design ) );
+		designHandle.rename( grid );
+		designHandle.getBody( ).paste( grid );
 
 		save( );
 
@@ -148,25 +149,24 @@ public class DesignElementCloneTest extends BaseTestCase
 		assertNotNull( imageHandle );
 		assertEquals( "Image1", imageHandle.getName( ) ); //$NON-NLS-1$
 
-		ImageItem image = (ImageItem) imageHandle.copy( );
+		ImageHandle image = (ImageHandle) imageHandle.copy( )
+				.getHandle( design );
 		assertNotNull( image );
 
-		designHandle.rename( image.getHandle( design ) );
+		designHandle.rename( image );
 		designHandle.findMasterPage( "My Page" ).getSlot( //$NON-NLS-1$
-				GraphicMasterPage.CONTENT_SLOT )
-				.add( image.getHandle( design ) );
+				GraphicMasterPage.CONTENT_SLOT ).add( image );
 
 		imageHandle = (ImageHandle) designHandle.findElement( "Image3" ); //$NON-NLS-1$
 		assertNotNull( imageHandle );
 		assertEquals( "Image3", imageHandle.getName( ) ); //$NON-NLS-1$
 
-		image = (ImageItem) imageHandle.copy( );
+		image = (ImageHandle) imageHandle.copy( ).getHandle( design );
 		assertNotNull( image );
 
-		designHandle.rename( image.getHandle( design ) );
+		designHandle.rename( image );
 		designHandle.findMasterPage( "My Page" ).getSlot( //$NON-NLS-1$
-				GraphicMasterPage.CONTENT_SLOT ).paste(
-				image.getHandle( design ) );
+				GraphicMasterPage.CONTENT_SLOT ).paste( image );
 
 		save( );
 		assertTrue( compareFile( "DesignElementCloneTest_ImageClone_golden.xml" ) ); //$NON-NLS-1$
@@ -196,27 +196,28 @@ public class DesignElementCloneTest extends BaseTestCase
 		assertNotNull( labelHandle );
 		assertEquals( 1, labelHandle.getElement( ).getDerived( ).size( ) );
 
-		Label label = (Label) labelHandle.copy( );
+		LabelHandle label = (LabelHandle) labelHandle.copy( )
+				.getHandle( design );
 		assertNotNull( label );
-		assertEquals( 0, label.getDerived( ).size( ) );
-		design.makeUniqueName( label );
-		designHandle.getComponents( ).paste( label.getHandle( design ) );
+		assertEquals( 0, label.getElement( ).getDerived( ).size( ) );
+		design.makeUniqueName( label.getElement( ) );
+		designHandle.getComponents( ).paste( label );
 
 		// Add again.
 
 		labelHandle = (LabelHandle) designHandle.findElement( label.getName( ) );
-		label = (Label) labelHandle.copy( );
-		design.makeUniqueName( label );
-		designHandle.getComponents( ).paste( label.getHandle( design ) );
+		label = (LabelHandle) labelHandle.copy( ).getHandle( design );
+		design.makeUniqueName( label.getElement( ) );
+		designHandle.getComponents( ).paste( label );
 
-		// The extends is not cloned.
+		// The extends is cloned.
 
 		labelHandle = (LabelHandle) designHandle.findElement( "Body Label" ); //$NON-NLS-1$
 		assertEquals( "Base Label", labelHandle.getExtends( ).getName( ) ); //$NON-NLS-1$
-		label = (Label) labelHandle.copy( );
-		assertNull( label.getExtendsElement( ) );
-		design.makeUniqueName( label );
-		designHandle.getBody( ).paste( label.getHandle( design ) );
+		label = (LabelHandle) labelHandle.copy( ).getHandle( design );
+		assertNull( label.getElement( ).getExtendsElement( ) );
+		design.makeUniqueName( label.getElement( ) );
+		designHandle.getBody( ).paste( label );
 
 		save( );
 		assertTrue( compareFile( "DesignElementCloneTest_ExtendedClone_golden.xml" ) ); //$NON-NLS-1$
@@ -249,20 +250,22 @@ public class DesignElementCloneTest extends BaseTestCase
 				.size( ) );
 		assertEquals( design, pageHandle.getContainer( ) );
 
-		GraphicMasterPage masterPage = (GraphicMasterPage) pageHandle.copy( );
+		GraphicMasterPageHandle masterPage = (GraphicMasterPageHandle) pageHandle
+				.copy( ).getHandle( design );
 
 		// the listeners should be set to null after clone.
 
-		assertNull( CoreTestUtil.getListeners( masterPage ) );
+		assertNull( CoreTestUtil.getListeners( masterPage.getElement( ) ) );
 
 		// the container should not be kept after clone
 
 		assertNull( masterPage.getContainer( ) );
 
 		DataSetHandle dataset = designHandle.findDataSet( "firstDataSet" ); //$NON-NLS-1$
-		SimpleDataSet newDataSet = (SimpleDataSet) dataset.copy( );
+		DataSetHandle newDataSet = (DataSetHandle) dataset.copy( ).getHandle(
+				design );
 
-		dataset = (DataSetHandle) newDataSet.getHandle( design );
+		dataset = newDataSet;
 
 		SessionHandle sessionHandle = new DesignEngine( new DesignConfig( ) )
 				.newSessionHandle( ULocale.ENGLISH );
@@ -309,11 +312,13 @@ public class DesignElementCloneTest extends BaseTestCase
 		List client = ( (Style) styleHandle.getElement( ) ).getClientList( );
 		assertEquals( 3, client.size( ) );
 
-		Style style = (Style) styleHandle.copy( );
+		StyleHandle style = (StyleHandle) styleHandle.copy( )
+				.getHandle( design );
 		assertNotNull( style );
 		// assertNull( style.cachedDefn );
 
-		assertEquals( 0, style.getClientList( ).size( ) );
+		assertEquals( 0, ( (Style) style.getElement( ) ).getClientList( )
+				.size( ) );
 
 		// Copy styled element and check style
 
@@ -322,16 +327,16 @@ public class DesignElementCloneTest extends BaseTestCase
 		assertNotNull( labelHandle );
 		assertNotNull( labelHandle.getStyle( ) );
 
-		Label page = (Label) labelHandle.copy( );
-		designHandle.rename( page.getHandle( design ) );
-		labelHandle = (LabelHandle) page.getHandle( design );
+		LabelHandle page = (LabelHandle) labelHandle.copy( ).getHandle( design );
+		designHandle.rename( page );
+		labelHandle = page;
 
 		designHandle.getBody( ).paste( labelHandle );
 
 		// resolved style reference
 
 		assertEquals( styleHandle, labelHandle.getStyle( ) );
-		assertEquals( "My Style", page.getStyleName( ) ); //$NON-NLS-1$
+		assertEquals( "My Style", page.getStyle( ).getName( ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -350,16 +355,16 @@ public class DesignElementCloneTest extends BaseTestCase
 		TableHandle tableHandle = (TableHandle) designHandle
 				.findElement( "my table1" ); //$NON-NLS-1$
 		assertEquals( 1, tableHandle.getDetail( ).getCount( ) );
-		TableItem newTable = (TableItem) tableHandle.copy( );
+		TableHandle newTable = (TableHandle) tableHandle.copy( ).getHandle(
+				design );
 		newTable.setName( "new table 1" ); //$NON-NLS-1$
-		designHandle.getSlot( ReportDesign.BODY_SLOT ).paste(
-				newTable.getHandle( design ) );
+		designHandle.getSlot( ReportDesign.BODY_SLOT ).paste( newTable );
 
 		// Drop the old table and check the new one.
 
 		tableHandle.dropAndClear( );
 
-		TableHandle newTableHandle = (TableHandle) newTable.getHandle( design );
+		TableHandle newTableHandle = newTable;
 		assertEquals( newTableHandle, newTableHandle.getDetail( ).get( 0 )
 				.getContainer( ) );
 		assertEquals( 1, newTableHandle.getDetail( ).getCount( ) );
@@ -367,26 +372,24 @@ public class DesignElementCloneTest extends BaseTestCase
 		// Clone a grid
 
 		GridHandle grid = (GridHandle) designHandle.findElement( "my grid1" ); //$NON-NLS-1$		
-		GridItem newGrid = (GridItem) grid.copy( );
+		GridHandle newGrid = (GridHandle) grid.copy( ).getHandle( design );
 		newGrid.setName( "new grid 1" ); //$NON-NLS-1$
 
-		designHandle.rename( newGrid.handle( design ) );
+		designHandle.rename( newGrid );
 
-		designHandle.getSlot( ReportDesign.BODY_SLOT ).paste(
-				newGrid.getHandle( design ) );
+		designHandle.getSlot( ReportDesign.BODY_SLOT ).paste( newGrid );
 
 		// Drop the old grid and check the new one
 
 		grid.dropAndClear( );
 
-		GridHandle newGridHandle = (GridHandle) newGrid.getHandle( design );
+		GridHandle newGridHandle = newGrid;
 		assertEquals( 2, newGridHandle.getRows( ).getCount( ) );
 
 		// make sure there is no NPE to copy empty tables.
 
 		tableHandle = designHandle.getElementFactory( ).newTableItem( "table3" ); //$NON-NLS-1$
 		tableHandle.copy( );
-
 	}
 
 	/**
@@ -408,11 +411,11 @@ public class DesignElementCloneTest extends BaseTestCase
 
 		StyleHandle myStyle = (StyleHandle) designHandle.getStyles( ).get( 0 );
 
-		Style newStyle = (Style) myStyle.copy( );
+		StyleHandle newStyle = (StyleHandle) myStyle.copy( ).getHandle( design );
 		assertEquals( myStyle.getID( ), newStyle.getID( ) );
 		assertEquals( 4, newStyle.getID( ) );
 
-		designHandle.rename( newStyle.getHandle( design ) );
+		designHandle.rename( newStyle );
 		designHandle.getStyles( ).paste( newStyle );
 
 		assertFalse( newStyle.getID( ) == myStyle.getID( ) );
@@ -499,9 +502,8 @@ public class DesignElementCloneTest extends BaseTestCase
 		assertEquals(
 				"red", table.getFactoryPropertyHandle( Style.COLOR_PROP ).getValue( ) ); //$NON-NLS-1$
 
-		ReportDesign design = (ReportDesign) designHandle.copy( );
-		ReportDesignHandle myDesignHandle = (ReportDesignHandle) design
-				.getHandle( design );
+		ReportDesignHandle myDesignHandle = (ReportDesignHandle) designHandle
+				.copy( ).getHandle( null );
 		table = (TableHandle) myDesignHandle.findElement( "myTable" ); //$NON-NLS-1$
 		assertEquals( "red", table.getProperty( Style.COLOR_PROP ) ); //$NON-NLS-1$
 		assertEquals(
@@ -598,14 +600,14 @@ public class DesignElementCloneTest extends BaseTestCase
 		openDesign( name );
 		DataSet ds = (DataSet) design.findDataSet( "Data Set" ); //$NON-NLS-1$
 		DataSet copyDs = (DataSet) ds.clone( );
-		assertNull( copyDs.getProperty( design.getRoot( ),
+		assertEquals( "Data Set", copyDs.getProperty( design.getRoot( ), //$NON-NLS-1$
 				DesignElement.DISPLAY_NAME_PROP ) );
 		assertNull( copyDs.getProperty( design.getRoot( ),
 				DesignElement.DISPLAY_NAME_ID_PROP ) );
 
 		DataSource source = (DataSource) design.findDataSource( "Data Source" ); //$NON-NLS-1$
 		DataSource copySource = (DataSource) source.clone( );
-		assertNull( copySource.getProperty( design.getRoot( ),
+		assertEquals( "Data Source", copySource.getProperty( design.getRoot( ), //$NON-NLS-1$
 				DesignElement.DISPLAY_NAME_PROP ) );
 		assertNull( copySource.getProperty( design.getRoot( ),
 				DesignElement.DISPLAY_NAME_ID_PROP ) );
@@ -630,7 +632,7 @@ public class DesignElementCloneTest extends BaseTestCase
 		DesignElement element = filterElementHandle.getElement( );
 
 		// validate the element has the container.
-		
+
 		assertNotNull( element.getContainer( ) );
 
 		ExtendedItemHandle copyExtendedItemHandle = (ExtendedItemHandle) testTable
@@ -642,7 +644,7 @@ public class DesignElementCloneTest extends BaseTestCase
 		DesignElement copyFilterElement = copyFilterElementHandle.getElement( );
 
 		// validate the copy element has the container
-		
+
 		assertNotNull( copyFilterElement.getContainer( ) );
 	}
 

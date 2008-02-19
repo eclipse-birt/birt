@@ -22,8 +22,7 @@ import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
-import org.eclipse.birt.report.model.elements.DataSet;
-import org.eclipse.birt.report.model.elements.DataSource;
+import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Style;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
@@ -284,28 +283,32 @@ public class ModuleTest extends BaseTestCase
 		DataSourceHandle dsHandle2 = designHandle
 				.findDataSource( "Data Source2" );//$NON-NLS-1$
 
-		DataSource ds = (DataSource) dsHandle2.copy( );
-		dsHandle2.drop( );
+		IDesignElement ds = dsHandle2.copy( );
+		designHandle.rename( ds.getHandle( design ) );
 		slotHandle.paste( ds, 1 );
 
 		DataSourceHandle dsHandle = (DataSourceHandle) slotHandle.get( 0 );
-		assertEquals( "Data Source3", dsHandle.getName( ) );//$NON-NLS-1$
-		dsHandle = (DataSourceHandle) slotHandle.get( 1 );
 		assertEquals( "Data Source2", dsHandle.getName( ) );//$NON-NLS-1$
+		dsHandle = (DataSourceHandle) slotHandle.get( 1 );
+		assertEquals( "Data Source21", dsHandle.getName( ) );//$NON-NLS-1$
 		dsHandle = (DataSourceHandle) slotHandle.get( 2 );
+		assertEquals( "Data Source3", dsHandle.getName( ) );//$NON-NLS-1$
+		dsHandle = (DataSourceHandle) slotHandle.get( 3);
 		assertEquals( "Data Source4", dsHandle.getName( ) );//$NON-NLS-1$
 
 		slotHandle = designHandle.getDataSets( );
 		DataSetHandle setHandle1 = designHandle.findDataSet( "Data Set" );//$NON-NLS-1$
-		DataSet set = (DataSet) setHandle1.copy( );
-		setHandle1.drop( );
+		IDesignElement set = setHandle1.copy( );
+		designHandle.rename( set.getHandle( design ) );
 		slotHandle.paste( set, 1 );
 
 		DataSetHandle setHandle = (DataSetHandle) slotHandle.get( 0 );
-		assertEquals( "Data Set1", setHandle.getName( ) );//$NON-NLS-1$
-		setHandle = (DataSetHandle) slotHandle.get( 1 );
 		assertEquals( "Data Set", setHandle.getName( ) );//$NON-NLS-1$
+		setHandle = (DataSetHandle) slotHandle.get( 1 );
+		assertEquals( "Data Set3", setHandle.getName( ) );//$NON-NLS-1$
 		setHandle = (DataSetHandle) slotHandle.get( 2 );
+		assertEquals( "Data Set1", setHandle.getName( ) );//$NON-NLS-1$
+		setHandle = (DataSetHandle) slotHandle.get( 3 );
 		assertEquals( "Data Set2", setHandle.getName( ) );//$NON-NLS-1$
 
 	}
@@ -315,18 +318,18 @@ public class ModuleTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	 
+
 	public void testGetMessage( ) throws Exception
 	{
 		openDesign( "ModuleTest_4.xml", ULocale.ENGLISH ); //$NON-NLS-1$
 
 		LabelHandle handle1 = (LabelHandle) designHandle.findElement( "label1" );//$NON-NLS-1$
-		assertEquals( "label1 in i18n", handle1.getRoot( ).getMessage(
-				handle1.getTextKey( ) ) );//$NON-NLS-1$
+		assertEquals( "label1 in i18n", handle1.getRoot( ).getMessage( //$NON-NLS-1$
+				handle1.getTextKey( ) ) );
 
 		LabelHandle handle2 = (LabelHandle) designHandle.findElement( "label2" );//$NON-NLS-1$
-		assertEquals( "label2 in i18n", handle2.getRoot( ).getMessage(
-				handle2.getTextKey( ) ) );//$NON-NLS-1$
+		assertEquals( "label2 in i18n", handle2.getRoot( ).getMessage( //$NON-NLS-1$
+				handle2.getTextKey( ) ) );
 
 	}
 
@@ -335,13 +338,13 @@ public class ModuleTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	 
+
 	public void testGetMessageKeys( ) throws Exception
 	{
 		openDesign( "ModuleTest_4.xml", ULocale.ENGLISH ); //$NON-NLS-1$
 
 		List keyList = designHandle.getMessageKeys( );
-		assertEquals( "a1", keyList.get( 0 ) );
+		assertEquals( "a1", keyList.get( 0 ) ); //$NON-NLS-1$
 		assertEquals( "a2", keyList.get( 1 ) ); //$NON-NLS-1$
 
 	}

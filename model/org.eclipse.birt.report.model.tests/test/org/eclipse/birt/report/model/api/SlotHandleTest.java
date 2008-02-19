@@ -23,10 +23,8 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.metadata.IColorConstants;
 import org.eclipse.birt.report.model.api.metadata.ISlotDefn;
-import org.eclipse.birt.report.model.elements.OdaDataSet;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.Style;
-import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
@@ -112,26 +110,23 @@ public class SlotHandleTest extends BaseTestCase
 		ReportDesignHandle newDesignHandle = sessionHandle.createDesign( );
 		ReportDesign newDesign = (ReportDesign) newDesignHandle.getModule( );
 
-		OdaDataSet newDataSet = (OdaDataSet) dataset.copy( );
-		List errors = newDesignHandle.getDataSets( ).paste(
-				newDataSet.getHandle( newDesign ) );
+		OdaDataSetHandle newDataSet = (OdaDataSetHandle) dataset.copy( )
+				.getHandle( newDesign );
+		List errors = newDesignHandle.getDataSets( ).paste( newDataSet );
 		assertEquals( 1, errors.size( ) );
 		assertEquals( SemanticError.DESIGN_EXCEPTION_INVALID_ELEMENT_REF,
 				( (ErrorDetail) errors.get( 0 ) ).getErrorCode( ) );
 
-		assertNull( ( (OdaDataSetHandle) newDataSet.getHandle( newDesign ) )
-				.getDataSource( ) );
+		assertNull( newDataSet.getDataSource( ) );
 
 		// if copy/paste to the same report, no errors.
 
-		newDataSet = (OdaDataSet) dataset.copy( );
-		designHandle.rename( newDataSet.getHandle( design ) );
-		errors = designHandle.getDataSets( ).paste(
-				newDataSet.getHandle( design ) );
+		newDataSet = (OdaDataSetHandle) dataset.copy( ).getHandle( design );
+		designHandle.rename( newDataSet );
+		errors = designHandle.getDataSets( ).paste( newDataSet );
 
 		assertEquals( 0, errors.size( ) );
-		assertNotNull( ( (OdaDataSetHandle) newDataSet.getHandle( newDesign ) )
-				.getDataSource( ) );
+		assertNotNull( newDataSet.getDataSource( ) );
 
 		Iterator iter = designHandle.findDataSource( "DataSource1" ) //$NON-NLS-1$
 				.clientsIterator( );
@@ -145,24 +140,24 @@ public class SlotHandleTest extends BaseTestCase
 
 		// test on copy/paste for a styledElement and Style
 
-		TextItem newText = (TextItem) text.copy( );
-		errors = newDesignHandle.getBody( ).paste(
-				newText.getHandle( newDesign ) );
+		TextItemHandle newText = (TextItemHandle) text.copy( ).getHandle(
+				newDesign );
+		errors = newDesignHandle.getBody( ).paste( newText );
 		assertEquals( 1, errors.size( ) );
 		assertEquals( StyleException.DESIGN_EXCEPTION_NOT_FOUND,
 				( (ErrorDetail) errors.get( 0 ) ).getErrorCode( ) );
-		assertEquals( IColorConstants.BLACK, ( (TextItemHandle) newText
-				.getHandle( newDesign ) ).getProperty( Style.COLOR_PROP ) );
+		assertEquals( IColorConstants.BLACK, newText
+				.getProperty( Style.COLOR_PROP ) );
 
 		// if copy/paste to the same report, no errors.
 
-		newText = (TextItem) text.copy( );
-		designHandle.rename( newText.getHandle( design ) );
-		errors = designHandle.getBody( ).paste( newText.getHandle( design ) );
+		newText = (TextItemHandle) text.copy( ).getHandle( design );
+		designHandle.rename( newText );
+		errors = designHandle.getBody( ).paste( newText );
 		assertEquals( 0, errors.size( ) );
 
-		assertEquals( IColorConstants.AQUA, ( (TextItemHandle) newText
-				.getHandle( newDesign ) ).getProperty( Style.COLOR_PROP ) );
+		assertEquals( IColorConstants.AQUA, newText
+				.getProperty( Style.COLOR_PROP ) );
 
 		iter = style.clientsIterator( );
 		count = 0;
@@ -174,13 +169,12 @@ public class SlotHandleTest extends BaseTestCase
 		assertEquals( 2, count );
 
 		// copy row/column that is without extends definition
-		
+
 		TableHandle table = factory.newTableItem( "table1", 3 ); //$NON-NLS-1$
-		
+
 		ColumnHandle column = (ColumnHandle) table.getColumns( ).get( 0 );
 		IDesignElement tocopy = column.copy( );
 		table.getColumns( ).paste( tocopy, 1 );
-
 	}
 
 	/**

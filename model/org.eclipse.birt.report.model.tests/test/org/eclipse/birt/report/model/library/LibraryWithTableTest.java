@@ -21,8 +21,8 @@ import org.eclipse.birt.report.model.api.RowOperationParameters;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
-import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
@@ -113,7 +113,7 @@ public class LibraryWithTableTest extends BaseTestCase
 		SlotHandle slotHandle = tableHandle.getSlot( 0 );
 		RowHandle rowHandle = (RowHandle) slotHandle.get( 0 );
 
-		TableRow row = (TableRow) rowHandle.copy( );
+		IDesignElement row = rowHandle.copy( );
 		RowOperationParameters parameters = new RowOperationParameters( 0, -1,
 				0 );
 		assertFalse( tableHandle.canPasteRow( row, parameters ) );

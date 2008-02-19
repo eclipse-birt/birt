@@ -150,6 +150,13 @@ public class ContentException extends SemanticException
 	public static final String DESIGN_EXCEPTION_GROUPS_CHANGE_FORBIDDEN = MessageConstants.CONTENT_EXCEPTION_GROUPS_CHANGE_FORBIDDEN;
 
 	/**
+	 * The content element cannot be pasted into the container.
+	 */
+
+	public static final String DESIGN_EXCEPTION_CONTENT_NOT_ALLOWED_PASTED = MessageConstants.CONTENT_EXCEPTION_CONTENT_NOT_ALLOWED_PASTED;
+
+	
+	/**
 	 * Constructs the exception with container element, slot id, and error code.
 	 * 
 	 * @param element
@@ -297,7 +304,8 @@ public class ContentException extends SemanticException
 			return ModelMessages.getMessage( sResourceKey, new String[]{
 					getContainerName( ), getElementName( element )} );
 		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT )
+		else if ( sResourceKey == DESIGN_EXCEPTION_INVALID_CONTEXT_CONTAINMENT 
+				|| sResourceKey == DESIGN_EXCEPTION_CONTENT_NOT_ALLOWED_PASTED  )
 		{
 			return ModelMessages.getMessage( sResourceKey, new String[]{
 					getElementName( content ), element.getElementName( ),

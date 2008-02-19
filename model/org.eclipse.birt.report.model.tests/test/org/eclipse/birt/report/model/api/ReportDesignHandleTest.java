@@ -43,7 +43,6 @@ import org.eclipse.birt.report.model.elements.FreeForm;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.SimpleMasterPage;
 import org.eclipse.birt.report.model.elements.TableItem;
-import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.elements.olap.Hierarchy;
 import org.eclipse.birt.report.model.elements.olap.Level;
 import org.eclipse.birt.report.model.elements.olap.TabularHierarchy;
@@ -507,9 +506,8 @@ public class ReportDesignHandleTest extends BaseTestCase
 		// hierarchy not in the tree, but can find dimension
 		// in this case name change in level
 
-		Dimension dimension = (Dimension) dimensionHandle.copy( );
-		dimensionHandle = (DimensionHandle) dimension.getHandle( libraryHandle
-				.getModule( ) );
+		dimensionHandle = (DimensionHandle) dimensionHandle.copy( )
+				.getHandle( libraryHandle.getModule( ) );
 
 		hierarchy = new TabularHierarchy( "NewTabularHierarchy" );//$NON-NLS-1$
 		hierarchyHandle = (HierarchyHandle) hierarchy.getHandle( libraryHandle
@@ -527,9 +525,8 @@ public class ReportDesignHandleTest extends BaseTestCase
 		// the content level is managed by dimension
 
 		dimensionHandle = cubeHandle.getDimension( "Group" );//$NON-NLS-1$	
-		dimension = (Dimension) dimensionHandle.copy( );
-		dimensionHandle = (DimensionHandle) dimension.getHandle( libraryHandle
-				.getModule( ) );
+		dimensionHandle = (DimensionHandle) dimensionHandle.copy( ).getHandle(
+				libraryHandle.getModule( ) );
 
 		hierarchy = new TabularHierarchy( "NewTabularHierarchy" );//$NON-NLS-1$
 		hierarchyHandle = (HierarchyHandle) hierarchy.getHandle( libraryHandle
@@ -1304,7 +1301,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	
+
 	public void testIncludeScriptsIterator( ) throws Exception
 	{
 		openDesign( "IncludedScriptFileTest.xml" ); //$NON-NLS-1$

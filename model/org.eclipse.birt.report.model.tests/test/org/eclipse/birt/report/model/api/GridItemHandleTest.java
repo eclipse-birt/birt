@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.Label;
@@ -49,7 +50,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 public class GridItemHandleTest extends BaseTestCase
 {
 
-	String fileName = "GridItemHandleTest.xml"; //$NON-NLS-1$
+	private String fileName = "GridItemHandleTest.xml"; //$NON-NLS-1$
 
 	/*
 	 * @see TestCase#setUp()
@@ -129,7 +130,10 @@ public class GridItemHandleTest extends BaseTestCase
 		assertFalse( gridHandle.canCopyRow( parameters3 ) );
 		assertFalse( gridHandle.canCopyRow( parameters4 ) );
 
-		TableRow clonedRow = (TableRow) gridHandle.copyRow( parameters1 );
+		IDesignElement clonedData = gridHandle.copyRow( parameters1 );
+		TableRow clonedRow = (TableRow) clonedData.getHandle( design )
+				.getElement( );
+
 
 		Cell cell = (Cell) clonedRow.getContentsSlot( ).get( 0 );
 		Object obj = cell.getSlot( 0 ).getContents( ).get( 0 );
@@ -151,14 +155,14 @@ public class GridItemHandleTest extends BaseTestCase
 
 		// Test canPaste method.
 
-		assertTrue( gridHandle.canPasteRow( clonedRow, parameters1 ) );
+		assertTrue( gridHandle.canPasteRow( clonedData, parameters1 ) );
 
 		// slotid is out of range.
 
-		assertFalse( gridHandle.canPasteRow( clonedRow, parameters3 ) );
-		assertFalse( gridHandle.canPasteRow( clonedRow, parameters4 ) );
+		assertFalse( gridHandle.canPasteRow( clonedData, parameters3 ) );
+		assertFalse( gridHandle.canPasteRow( clonedData, parameters4 ) );
 
-		gridHandle.pasteRow( clonedRow, parameters2 );
+		gridHandle.pasteRow( clonedData, parameters2 );
 		save( );
 		assertTrue( compareFile( "GridRowCopy_golden_1.xml" ) ); //$NON-NLS-1$
 
@@ -172,7 +176,7 @@ public class GridItemHandleTest extends BaseTestCase
 			assertEquals( "empty row to paste.", e.getMessage( ) ); //$NON-NLS-1$
 		}
 
-		clonedRow = (TableRow) clonedRow.clone( );
+		clonedData = (IDesignElement) clonedData.clone( );
 
 		// Test canInsert method.
 
@@ -185,8 +189,6 @@ public class GridItemHandleTest extends BaseTestCase
 		// slotid is out of range.
 
 		assertFalse( gridHandle2.canInsertRow( parameters3 ) );
-
-		clonedRow = (TableRow) clonedRow.clone( );
 
 		try
 		{
@@ -204,8 +206,6 @@ public class GridItemHandleTest extends BaseTestCase
 		gridHandle2.insertRow( parameters1 );
 		save( );
 		assertTrue( compareFile( "GridRowCopy_golden_2.xml" ) ); //$NON-NLS-1$
-
-		clonedRow = (TableRow) clonedRow.clone( );
 
 		// Test canShift method.
 
@@ -237,16 +237,16 @@ public class GridItemHandleTest extends BaseTestCase
 
 		// Test canInsertAndPaste method.
 
-		clonedRow = (TableRow) clonedRow.clone( );
-		assertTrue( gridHandle.canInsertAndPasteRow( clonedRow, parameters2 ) );
+		clonedData = (IDesignElement) clonedData.clone( );
+		assertTrue( gridHandle.canInsertAndPasteRow( clonedData, parameters2 ) );
 
 		// slotid out of range.
 
-		assertFalse( gridHandle.canInsertAndPasteRow( clonedRow, parameters3 ) );
+		assertFalse( gridHandle.canInsertAndPasteRow( clonedData, parameters3 ) );
 
 		try
 		{
-			gridHandle.insertAndPasteRow( clonedRow, parameters3 );
+			gridHandle.insertAndPasteRow( clonedData, parameters3 );
 			fail( "fail to insert and paste table row" ); //$NON-NLS-1$
 		}
 		catch ( SemanticException e )
@@ -256,7 +256,7 @@ public class GridItemHandleTest extends BaseTestCase
 					e.getErrorCode( ) );
 		}
 
-		gridHandle.insertAndPasteRow( clonedRow, parameters2 );
+		gridHandle.insertAndPasteRow( clonedData, parameters2 );
 		save( );
 		assertTrue( compareFile( "GridRowCopy_golden_4.xml" ) ); //$NON-NLS-1$
 

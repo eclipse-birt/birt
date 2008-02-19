@@ -11,8 +11,8 @@ package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
-import org.eclipse.birt.report.model.elements.TableRow;
 
 /**
  * Does table row shift operation. Shift is only allowed in the same slot
@@ -112,7 +112,7 @@ public class RowBandShiftAction extends RowBandAction
 			// add source row to destination position.
 
 			RowHandle rowHandle = (RowHandle) slotHandle.get( sourceIndex );
-			TableRow copiedRow = copyRow( rowHandle );
+			IDesignElement copiedRow = copyRow( rowHandle );
 
 			adapter.getModule( ).getModuleHandle( ).rename(
 					copiedRow.getHandle( adapter.getModule( ) ) );

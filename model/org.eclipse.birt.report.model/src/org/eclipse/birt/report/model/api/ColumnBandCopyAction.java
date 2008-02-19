@@ -102,7 +102,16 @@ abstract class ColumnBandCopyAction extends ColumnBandAction
 		for ( int i = 0; i < cells.size( ); i++ )
 		{
 			CellHandle originalCell = (CellHandle) cells.get( i );
-			Cell clonedCell = (Cell) originalCell.copy( );
+			Cell clonedCell = null;
+			
+			try
+			{
+				clonedCell = (Cell) originalCell.getElement( ).clone( );
+			}
+			catch ( CloneNotSupportedException e )
+			{
+				assert false;
+			}
 
 			// clears the column property in the cell is not useful here.
 

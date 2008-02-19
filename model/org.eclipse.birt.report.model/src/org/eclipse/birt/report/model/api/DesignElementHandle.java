@@ -56,6 +56,7 @@ import org.eclipse.birt.report.model.command.UserPropertyCommand;
 import org.eclipse.birt.report.model.core.CachedMemberRef;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.MemberRef;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
@@ -65,12 +66,16 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TemplateElement;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
+import org.eclipse.birt.report.model.elements.strategy.ContextCopiedDesignElement;
+import org.eclipse.birt.report.model.elements.strategy.ContextCopyForPastePolicy;
+import org.eclipse.birt.report.model.elements.strategy.LocalizationForPastePolicy;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.ReferenceValue;
 import org.eclipse.birt.report.model.metadata.StructRefValue;
+import org.eclipse.birt.report.model.util.ContentExceptionFactory;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
 
@@ -114,7 +119,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	/**
 	 * Property handle for element type properties.
 	 */
-	
+
 	protected Map propHandles = new HashMap( );
 
 	/**
@@ -128,7 +133,6 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	{
 		this.module = module;
 	}
-
 
 	/**
 	 * Constructs slot handles in the constructor to make sure that getMumble()
@@ -172,7 +176,7 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			propHandles.put( propDefn.getName( ), pHandle );
 		}
 	}
-	
+
 	/**
 	 * Returns the report design only when the module is report design.
 	 * Otherwise, null is returned. So this method can also be used to check
@@ -1534,9 +1538,9 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public String getDisplayLabel( int level )
 	{
-		assert level == IDesignElementModel.USER_LABEL ||
-				level == IDesignElementModel.SHORT_LABEL ||
-				level == IDesignElementModel.FULL_LABEL;
+		assert level == IDesignElementModel.USER_LABEL
+				|| level == IDesignElementModel.SHORT_LABEL
+				|| level == IDesignElementModel.FULL_LABEL;
 
 		return getElement( ).getDisplayLabel( module, level );
 	}
@@ -1623,16 +1627,20 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public IDesignElement copy( )
 	{
+		DesignElement copy = null;
+
 		try
 		{
-			return (DesignElement) getElement( ).clone( );
+			copy = (DesignElement) getElement( ).clone( );
 		}
 		catch ( CloneNotSupportedException e )
 		{
 			assert false;
+			return null;
 		}
 
-		return null;
+		return ContextCopyForPastePolicy.getInstance( ).smartExecute(
+				getElement( ), copy );
 	}
 
 	/**
@@ -1692,8 +1700,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			return;
 		}
 
-		if ( IDesignElementModel.NAME_PROP.equals( propName ) ||
-				IDesignElementModel.EXTENDS_PROP.equals( propName ) )
+		if ( IDesignElementModel.NAME_PROP.equals( propName )
+				|| IDesignElementModel.EXTENDS_PROP.equals( propName ) )
 		{
 			throw new SemanticError( getElement( ), new String[]{propName},
 					SemanticError.DESIGN_EXCEPTION_PROPERTY_COPY_FORBIDDEN );
@@ -2478,12 +2486,18 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * @throws SemanticException
 	 *             if the element is not allowed to paste
 	 */
+
 	public List paste( String propName, IDesignElement content )
 			throws SemanticException
 	{
 		if ( content == null )
 			return Collections.EMPTY_LIST;
-		add( propName, content.getHandle( getModule( ) ) );
+
+		checkCopiedObject( new ContainerContext( getElement( ), propName ),
+				content, true );
+
+		add( propName, ( (ContextCopiedDesignElement) content )
+				.getCopiedElement( ).getHandle( getModule( ) ) );
 
 		return checkPostPasteErrors( (DesignElement) content );
 	}
@@ -2511,7 +2525,6 @@ public abstract class DesignElementHandle implements IDesignElementModel
 		add( propName, content, newPos );
 
 		return Collections.EMPTY_LIST;
-		// return checkPostPasteErrors( content.getElement( ) );
 	}
 
 	/**
@@ -2534,6 +2547,10 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	{
 		if ( content == null )
 			return Collections.EMPTY_LIST;
+
+		checkCopiedObject( new ContainerContext( getElement( ), propName ),
+				content, true );
+
 		add( propName, content.getHandle( getModule( ) ), newPos );
 
 		return checkPostPasteErrors( (DesignElement) content );
@@ -2550,24 +2567,128 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 *         <code>ErrorDetail</code>.
 	 */
 
-	private List checkPostPasteErrors( DesignElement content )
+	List checkPostPasteErrors( DesignElement content )
 	{
-		Module currentModule = getModule( );
-		String nameSpace = null;
-
-		if ( currentModule != null && currentModule instanceof Library )
-			nameSpace = ( (Library) currentModule ).getNamespace( );
-
 		ModelUtil.revisePropertyNameSpace( getModule( ), content, content
-				.getDefn( ).getProperty( IDesignElementModel.EXTENDS_PROP ),
-				nameSpace );
+				.getDefn( ).getProperty( IDesignElementModel.EXTENDS_PROP ) );
 
-		ModelUtil.reviseNameSpace( getModule( ), content, nameSpace );
+		ModelUtil.reviseNameSpace( getModule( ), content );
 
 		List exceptionList = content.validateWithContents( getModule( ) );
 		List errorDetailList = ErrorDetail.convertExceptionList( exceptionList );
 
 		return errorDetailList;
+	}
+
+	/**
+	 * Pastes a report item to this property. The item must be newly created and
+	 * not yet added to the design.
+	 * 
+	 * @param propName
+	 *            name of the property where the content to insert
+	 * @param content
+	 *            the newly created element
+	 * @return a list containing all errors for the pasted element
+	 * @throws SemanticException
+	 *             if the element is not allowed to paste
+	 */
+
+	public boolean canPaste( String propName, IDesignElement content )
+			throws SemanticException
+	{
+		if ( content == null )
+			return false;
+
+		if ( !( content instanceof ContextCopiedDesignElement ) )
+			throw new IllegalArgumentException(
+					"the content to paste is not recognizable..." ); //$NON-NLS-1$
+
+		try
+		{
+			checkCopiedObject( new ContainerContext( getElement( ), propName ),
+					content, false );
+		}
+		catch ( ContentException e )
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Checks whether the <code>content</code> can be pasted. And if
+	 * localization is needed, localize property values to <code>content</code>.
+	 * 
+	 * @param context
+	 *            the place where the content is to pasted
+	 * @param content
+	 *            the content
+	 * @param needsLocalization
+	 *            <code>true</code> indicates localization is needed.
+	 *            Otherwise <code>false</code>
+	 *            
+	 * @throws ContentException if the content is not allowed to be pasted
+	 */
+
+	void checkCopiedObject( ContainerContext context, IDesignElement content,
+			boolean needsLocalization ) throws ContentException
+	{
+		assert content instanceof ContextCopiedDesignElement;
+
+		ContextCopiedDesignElement copy = (ContextCopiedDesignElement) content;
+
+		String location = copy.getRootLocation( );
+		if ( location == null )
+			return;
+
+		DesignElement copiedElement = copy.getCopiedElement( );
+
+		long id = copy.getId( );
+		ContentException e = null;
+
+		if ( !context.isROMSlot( ) )
+			e = ContentExceptionFactory
+					.createContentException(
+							new ContainerContext( getElement( ), context
+									.getPropertyName( ) ),
+							copiedElement,
+							ContentException.DESIGN_EXCEPTION_CONTENT_NOT_ALLOWED_PASTED );
+		else
+			e = ContentExceptionFactory
+					.createContentException(
+							new ContainerContext( getElement( ), context
+									.getSlotID( ) ),
+							copiedElement,
+							ContentException.DESIGN_EXCEPTION_CONTENT_NOT_ALLOWED_PASTED );
+
+		DesignSession session = getModule( ).getSession( );
+		Module copiedRoot = session.getOpenedModule( location );
+		if ( copiedRoot == null )
+			throw e;
+
+		DesignElement foundElement = copiedRoot.getElementByID( id );
+		if ( foundElement == null )
+			throw e;
+
+		if ( copiedElement.getDefn( ) != foundElement.getDefn( ) )
+			throw e;
+
+		String originalExtendsName = foundElement.getExtendsName( );
+		String copiedExtendsName = copiedElement.getExtendsName( );
+
+		if ( originalExtendsName != null
+				&& !originalExtendsName.equalsIgnoreCase( copiedExtendsName ) )
+			throw e;
+
+		if ( copiedExtendsName != null
+				&& !copiedExtendsName.equalsIgnoreCase( originalExtendsName ) )
+			throw e;
+
+		if ( needsLocalization
+				&& !getModule( ).getLocation( ).equalsIgnoreCase( location ) )
+			LocalizationForPastePolicy.getInstance( ).execute( foundElement,
+					copiedElement );
 	}
 
 	/**

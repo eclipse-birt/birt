@@ -32,9 +32,8 @@ import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
+import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
@@ -278,13 +277,12 @@ public class LibraryHandleTest extends BaseTestCase
 				.get( 0 );
 		assertEquals( "dataSource1", libDataSet.getDataSourceName( ) ); //$NON-NLS-1$
 
-		SimpleDataSet designDataSet = (SimpleDataSet) libDataSet.copy( );
-		DataSetHandle designDataSetHandle = (DataSetHandle) designDataSet
+		DataSetHandle designDataSet = (DataSetHandle) libDataSet.copy( )
 				.getHandle( designHandle.getModule( ) );
 
-		designHandle.getDataSets( ).add( designDataSetHandle );
+		designHandle.getDataSets( ).add( designDataSet );
 
-		assertEquals( "libraryNameSpace.dataSource1", designDataSetHandle //$NON-NLS-1$
+		assertEquals( "libraryNameSpace.dataSource1", designDataSet //$NON-NLS-1$
 				.getDataSourceName( ) );
 
 		// Test the table with a dataSet. To see if the dataSet is accessable
@@ -310,7 +308,7 @@ public class LibraryHandleTest extends BaseTestCase
 		extended.setHeight( 50 );
 		designHandle.getBody( ).paste( extended );
 
-		DesignElement copied = (DesignElement) extended.copy( );
+		IDesignElement copied = extended.copy( );
 		designHandle.rename( copied.getHandle( design ) );
 		designHandle.getBody( ).paste( copied.getHandle( design ) );
 
@@ -496,7 +494,7 @@ public class LibraryHandleTest extends BaseTestCase
 		refValue = (ElementRefValue) copiedLibTable.getElement( )
 				.getLocalProperty( design, IReportItemModel.DATA_SET_PROP );
 		assertNotNull( refValue );
-		assertNull( refValue.getLibraryNamespace( ) );
+		assertEquals( "new_library", refValue.getLibraryNamespace( ) ); //$NON-NLS-1$
 	}
 
 	/**

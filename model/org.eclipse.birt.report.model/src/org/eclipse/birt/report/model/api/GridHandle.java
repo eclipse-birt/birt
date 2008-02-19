@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.elements.CellHelper;
 import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.interfaces.IGridItemModel;
+import org.eclipse.birt.report.model.elements.strategy.ContextCopiedDesignElement;
 
 /**
  * Represents a grid item in the design. A grid item contains a set of report
@@ -366,12 +367,14 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel
 			RowOperationParameters parameters )
 	{
 		if ( copiedRow == null || parameters == null
-				|| !( copiedRow instanceof TableRow ) )
+				|| !( copiedRow instanceof ContextCopiedDesignElement ) )
 			return false;
 		RowBandPasteAction pasteAction = new RowBandPasteAction(
 				new GridRowBandAdapter( this ) );
 
-		return pasteAction.canPaste( (TableRow) copiedRow, parameters );
+		TableRow copy = (TableRow) ( (ContextCopiedDesignElement) copiedRow )
+				.getCopiedElement( );
+		return pasteAction.canPaste( copy, parameters );
 	}
 
 	/**
@@ -409,13 +412,15 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel
 			RowOperationParameters parameters )
 	{
 		if ( copiedRow == null || parameters == null
-				|| !( copiedRow instanceof TableRow ) )
+				|| !( copiedRow instanceof ContextCopiedDesignElement ) )
 			return false;
 
 		RowBandInsertAndPasteAction action = new RowBandInsertAndPasteAction(
 				new GridRowBandAdapter( this ) );
 
-		return action.canInsertAndPaste( (TableRow) copiedRow, parameters );
+		TableRow copy = (TableRow) ( (ContextCopiedDesignElement) copiedRow )
+				.getCopiedElement( );
+		return action.canInsertAndPaste( copy, parameters );
 	}
 
 	/**
@@ -448,9 +453,10 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel
 	 * @throws IllegalArgumentException
 	 *             throw if the input parameters are not valid
 	 */
-	public IDesignElement copyRow( RowOperationParameters parameters ) throws SemanticException
+	public IDesignElement copyRow( RowOperationParameters parameters )
+			throws SemanticException
 	{
-		if( parameters == null )
+		if ( parameters == null )
 			throw new IllegalArgumentException( "empty row to copy." );//$NON-NLS-1$
 		RowBandCopyAction action = new RowBandCopyAction(
 				new GridRowBandAdapter( this ) );
@@ -475,12 +481,17 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel
 	public void pasteRow( IDesignElement copiedRow,
 			RowOperationParameters parameters ) throws SemanticException
 	{
-		if ( copiedRow == null || parameters == null )
+		if ( copiedRow == null || parameters == null
+				|| !( copiedRow instanceof ContextCopiedDesignElement ) )
 			throw new IllegalArgumentException( "empty row to paste." );//$NON-NLS-1$
+		
 		RowBandPasteAction pasteAction = new RowBandPasteAction(
 				new GridRowBandAdapter( this ) );
 
-		pasteAction.doPaste( (TableRow) copiedRow, parameters );
+		TableRow copy = (TableRow) ( (ContextCopiedDesignElement) copiedRow )
+				.getCopiedElement( );
+
+		pasteAction.doPaste( copy, parameters );
 	}
 
 	/**
@@ -523,13 +534,16 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel
 			RowOperationParameters parameters ) throws SemanticException
 	{
 		if ( copiedRow == null || parameters == null
-				|| !( copiedRow instanceof TableRow ) )
-			throw new IllegalArgumentException( "empty row to insert and paste." );//$NON-NLS-1$
+				|| !( copiedRow instanceof ContextCopiedDesignElement ) )
+			throw new IllegalArgumentException(
+					"empty row to insert and paste." );//$NON-NLS-1$
 
 		RowBandInsertAndPasteAction action = new RowBandInsertAndPasteAction(
 				new GridRowBandAdapter( this ) );
 
-		action.doInsertAndPaste( (TableRow) copiedRow, parameters );
+		TableRow copy = (TableRow) ( (ContextCopiedDesignElement) copiedRow )
+				.getCopiedElement( );
+		action.doInsertAndPaste( copy, parameters );
 	}
 
 	/**

@@ -28,6 +28,7 @@ import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
+import org.eclipse.birt.report.model.elements.strategy.ContextCopiedDesignElement;
 
 /**
  * Represents a table element. A table has a localized caption and can repeat
@@ -225,13 +226,17 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	public boolean canPasteRow( IDesignElement copiedRow,
 			RowOperationParameters parameters )
 	{
-		if ( copiedRow == null || parameters == null ||
-				!( copiedRow instanceof TableRow ) )
+		if ( copiedRow == null || parameters == null
+				|| !( copiedRow instanceof ContextCopiedDesignElement ) )			
 			return false;
+		
 		RowBandPasteAction pasteAction = new RowBandPasteAction(
 				new TableRowBandAdapter( this ) );
 
-		return pasteAction.canPaste( (TableRow) copiedRow, parameters );
+		TableRow copy = (TableRow) ( (ContextCopiedDesignElement) copiedRow )
+				.getCopiedElement( );
+
+		return pasteAction.canPaste( copy, parameters );
 	}
 
 	/**
@@ -268,14 +273,17 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	public boolean canInsertAndPasteRow( IDesignElement copiedRow,
 			RowOperationParameters parameters )
 	{
-		if ( copiedRow == null || parameters == null ||
-				!( copiedRow instanceof TableRow ) )
+		if ( copiedRow == null || parameters == null
+				|| !( copiedRow instanceof ContextCopiedDesignElement ) )
 			return false;
 
 		RowBandInsertAndPasteAction action = new RowBandInsertAndPasteAction(
 				new TableRowBandAdapter( this ) );
 
-		return action.canInsertAndPaste( (TableRow) copiedRow, parameters );
+		TableRow copy = (TableRow) ( (ContextCopiedDesignElement) copiedRow )
+				.getCopiedElement( );
+
+		return action.canInsertAndPaste( copy, parameters );
 	}
 
 	/**
@@ -383,14 +391,17 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	public void pasteRow( IDesignElement copiedRow,
 			RowOperationParameters parameters ) throws SemanticException
 	{
-		if ( copiedRow == null || parameters == null ||
-				!( copiedRow instanceof TableRow ) )
+		if ( copiedRow == null || parameters == null
+				|| !( copiedRow instanceof ContextCopiedDesignElement ) )
 			throw new IllegalArgumentException( "empty row to paste." );//$NON-NLS-1$
 
 		RowBandPasteAction pasteAction = new RowBandPasteAction(
 				new TableRowBandAdapter( this ) );
 
-		pasteAction.doPaste( (TableRow) copiedRow, parameters );
+		TableRow copy = (TableRow) ( (ContextCopiedDesignElement) copiedRow )
+				.getCopiedElement( );
+		pasteAction.doPaste( copy, parameters );
+
 	}
 
 	/**
@@ -433,15 +444,17 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	public void insertAndPasteRow( IDesignElement copiedRow,
 			RowOperationParameters parameters ) throws SemanticException
 	{
-		if ( copiedRow == null || parameters == null ||
-				!( copiedRow instanceof TableRow ) )
+		if ( copiedRow == null || parameters == null
+				|| !( copiedRow instanceof ContextCopiedDesignElement ) )
 			throw new IllegalArgumentException(
 					"empty row to insert and paste." );//$NON-NLS-1$
 
 		RowBandInsertAndPasteAction action = new RowBandInsertAndPasteAction(
 				new TableRowBandAdapter( this ) );
 
-		action.doInsertAndPaste( (TableRow) copiedRow, parameters );
+		TableRow copy = (TableRow) ( (ContextCopiedDesignElement) copiedRow )
+				.getCopiedElement( );
+		action.doInsertAndPaste( copy, parameters );
 	}
 
 	/**

@@ -12,7 +12,6 @@ package org.eclipse.birt.report.model.api;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
-import org.eclipse.birt.report.model.elements.TableRow;
 
 /**
  * Does table row copy operation. 
@@ -80,8 +79,7 @@ class RowBandCopyAction extends RowBandAction
 		
 		SlotHandle slotHandle = getSlotHandle( parameters );
 		RowHandle rowHandle = (RowHandle) slotHandle.get( destIndex );
-		TableRow clonedRow = copyRow( rowHandle );
-		return clonedRow;
+		return copyRow( rowHandle );
 	}	
 	
 }

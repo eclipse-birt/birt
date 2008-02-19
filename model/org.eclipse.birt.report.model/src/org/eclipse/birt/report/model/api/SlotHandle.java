@@ -25,10 +25,7 @@ import org.eclipse.birt.report.model.command.ContentCommand;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.Library;
-import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
-import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.elements.strategy.ContextCopiedDesignElement;
 
 /**
  * Represents a "slot" within an element. A slot holds a collection of report
@@ -176,7 +173,7 @@ public class SlotHandle extends ElementDetailHandle
 			return Collections.EMPTY_LIST;
 		add( content );
 
-		return checkPostPasteErrors( content.getElement( ) );
+		return getElementHandle( ).checkPostPasteErrors( content.getElement( ) );
 	}
 
 	/**
@@ -191,14 +188,22 @@ public class SlotHandle extends ElementDetailHandle
 	 * @throws NameException
 	 *             if the element has a duplicate or illegal name
 	 */
+
 	public List paste( IDesignElement content ) throws ContentException,
 			NameException
 	{
 		if ( content == null )
 			return Collections.EMPTY_LIST;
+
+		// checks whether the content can be pasted.
+
+		getElementHandle( ).checkCopiedObject(
+				new ContainerContext( getElement( ), slotID ), content, true );
+
 		add( content.getHandle( getModule( ) ) );
 
-		return checkPostPasteErrors( (DesignElement) content );
+		return getElementHandle( ).checkPostPasteErrors(
+				( (ContextCopiedDesignElement) content ).getCopiedElement( ) );
 	}
 
 	/**
@@ -247,40 +252,17 @@ public class SlotHandle extends ElementDetailHandle
 	{
 		if ( content == null )
 			return Collections.EMPTY_LIST;
+
+		// checks whether the content can be pasted.
+
+		getElementHandle( ).checkCopiedObject(
+				new ContainerContext( getElement( ), slotID ), content, true );
+
 		add( content.getHandle( getModule( ) ), newPos );
 
-		return checkPostPasteErrors( (DesignElement) content );
+		return getElementHandle( ).checkPostPasteErrors(
+				( (ContextCopiedDesignElement) content ).getCopiedElement( ) );
 
-	}
-
-	/**
-	 * Checks the element after the paste action.
-	 * 
-	 * @param content
-	 *            the pasted element
-	 * 
-	 * @return a list containing parsing errors. Each element in the list is
-	 *         <code>ErrorDetail</code>.
-	 */
-
-	private List checkPostPasteErrors( DesignElement content )
-	{
-		Module currentModule = getElementHandle( ).getModule( );
-		String nameSpace = null;
-
-		if ( currentModule != null && currentModule instanceof Library )
-			nameSpace = ( (Library) currentModule ).getNamespace( );
-
-		ModelUtil.revisePropertyNameSpace( getModule( ), content, content
-				.getDefn( ).getProperty( IDesignElementModel.EXTENDS_PROP ),
-				nameSpace );
-
-		ModelUtil.reviseNameSpace( getModule( ), content, nameSpace );
-
-		List exceptionList = content.validateWithContents( getModule( ) );
-		List errorDetailList = ErrorDetail.convertExceptionList( exceptionList );
-
-		return errorDetailList;
 	}
 
 	/**
@@ -487,7 +469,7 @@ public class SlotHandle extends ElementDetailHandle
 				posn );
 		ContentCommand cmd = new ContentCommand( getModule( ),
 				new ContainerContext( getElement( ), slotID ) );
-		cmd.remove( content  );
+		cmd.remove( content );
 	}
 
 	/**
@@ -505,7 +487,7 @@ public class SlotHandle extends ElementDetailHandle
 		DesignElement content = getElement( ).getSlot( slotID ).getContent(
 				posn );
 		ContentCommand cmd = new ContentCommand( getModule( ),
-				new ContainerContext( getElement( ), slotID ), false ,true );
+				new ContainerContext( getElement( ), slotID ), false, true );
 		cmd.remove( content );
 	}
 

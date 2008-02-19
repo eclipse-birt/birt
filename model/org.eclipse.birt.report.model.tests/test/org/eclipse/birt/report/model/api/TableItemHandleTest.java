@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.api;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
+import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.DataItem;
@@ -96,33 +97,34 @@ public class TableItemHandleTest extends BaseTestCase
 
 		assertNotNull( table1 );
 		assertEquals( 13, table1.getColumnCount( ) );
-		
-		//get first row in group header of group 0 .
-		
+
+		// get first row in group header of group 0 .
+
 		RowOperationParameters parameters1 = new RowOperationParameters( 0, 0,
 				0 );
-		
-		//get second row in group header of group 0.
-		
+
+		// get second row in group header of group 0.
+
 		RowOperationParameters parameters2 = new RowOperationParameters( 0, 0,
 				1 );
-		
-		//get second row in table footer. 
-		
+
+		// get second row in table footer.
+
 		RowOperationParameters parameters3 = new RowOperationParameters( 2, -1,
 				1 );
-		
-		//get first row in table header.
-		
+
+		// get first row in table header.
+
 		RowOperationParameters parameters4 = new RowOperationParameters( 0, -1,
 				0 );
-		
-		//get second row in table detail which contain row span.
-		
-		RowOperationParameters parameters5 = new RowOperationParameters( 2 , -1 , 1 );
-		
-		//get first row in group header of group 1.
-		
+
+		// get second row in table detail which contain row span.
+
+		RowOperationParameters parameters5 = new RowOperationParameters( 2, -1,
+				1 );
+
+		// get first row in group header of group 1.
+
 		RowOperationParameters parameters6 = new RowOperationParameters( 0, 1,
 				0 );
 
@@ -140,7 +142,10 @@ public class TableItemHandleTest extends BaseTestCase
 
 		// copy row in header of group 0.
 
-		TableRow clonedRow = (TableRow)table1.copyRow( parameters1 );
+		IDesignElement clonedData = table1.copyRow( parameters1 );
+		TableRow clonedRow = (TableRow) clonedData.getHandle( design )
+				.getElement( );
+
 		Cell cell = (Cell) clonedRow.getContentsSlot( ).get( 0 );
 		Object obj = cell.getSlot( 0 ).getContents( ).get( 0 );
 		assertTrue( obj instanceof DataItem );
@@ -163,20 +168,20 @@ public class TableItemHandleTest extends BaseTestCase
 
 		// test canPaste method.
 
-		assertTrue( table1.canPasteRow( clonedRow, parameters1 ) );
-		assertTrue( table1.canPasteRow( clonedRow, parameters6 ) );
+		assertTrue( table1.canPasteRow( clonedData, parameters1 ) );
+		assertTrue( table1.canPasteRow( clonedData, parameters6 ) );
 
 		// the different column count.
 
-		assertFalse( table3.canPasteRow( clonedRow, parameters4 ) );
+		assertFalse( table3.canPasteRow( clonedData, parameters4 ) );
 
 		// slot id is out of range.
 
-		assertFalse( table1.canPasteRow( clonedRow, parameters3 ) );
+		assertFalse( table1.canPasteRow( clonedData, parameters3 ) );
 
-		table1.pasteRow( clonedRow, parameters6 );
+		table1.pasteRow( clonedData, parameters6 );
 		save( );
-		assertTrue( compareFile( "TableRowCopy_golden_1.xml" )); //$NON-NLS-1$
+		assertTrue( compareFile( "TableRowCopy_golden_1.xml" ) ); //$NON-NLS-1$
 
 		// paste a null table row
 
@@ -206,8 +211,8 @@ public class TableItemHandleTest extends BaseTestCase
 		// no group in table2 , but should insert into group element.
 
 		assertFalse( table2.canInsertRow( parameters1 ) );
-		
-		//there is row span in the table row.
+
+		// there is row span in the table row.
 		parameters5.setDestIndex( 2 );
 		assertFalse( table1.canInsertRow( parameters5 ) );
 
@@ -226,13 +231,13 @@ public class TableItemHandleTest extends BaseTestCase
 
 		table2.insertRow( parameters4 );
 		save( );
-		assertTrue( compareFile( "TableRowCopy_golden_2.xml")); //$NON-NLS-1$
+		assertTrue( compareFile( "TableRowCopy_golden_2.xml" ) ); //$NON-NLS-1$
 
 		// can insert the same element twice.
 
 		table2.insertRow( parameters4 );
 		save( );
-		assertTrue( compareFile( "TableRowCopy_golden_3.xml")); //$NON-NLS-1$
+		assertTrue( compareFile( "TableRowCopy_golden_3.xml" ) ); //$NON-NLS-1$
 
 		// source row is the same as destination row.
 
@@ -244,13 +249,13 @@ public class TableItemHandleTest extends BaseTestCase
 
 		parameters9.setSourceIndex( 0 );
 		assertFalse( table1.canShiftRow( parameters9 ) );
-		
+
 		parameters5.setSourceIndex( 0 );
-		assertFalse( table1.canShiftRow( parameters5 ));
+		assertFalse( table1.canShiftRow( parameters5 ) );
 
 		parameters4.setSourceIndex( 2 );
 		assertTrue( table2.canShiftRow( parameters4 ) );
-		
+
 		try
 		{
 			table2.shiftRow( parameters9 );
@@ -264,26 +269,26 @@ public class TableItemHandleTest extends BaseTestCase
 
 		table2.shiftRow( parameters4 );
 		save( );
-		assertTrue( compareFile( "TableRowCopy_golden_4.xml")); //$NON-NLS-1$
+		assertTrue( compareFile( "TableRowCopy_golden_4.xml" ) ); //$NON-NLS-1$
 
-		clonedRow = (TableRow) clonedRow.clone( );
-		
-		//Test canInsertAndPaste method.
-		
-		assertTrue( table2.canInsertAndPasteRow( clonedRow, parameters4 ) );
+		clonedData = (IDesignElement) clonedData.clone( );
+
+		// Test canInsertAndPaste method.
+
+		assertTrue( table2.canInsertAndPasteRow( clonedData, parameters4 ) );
 
 		// no group in table2 , but should insert into group element.
 
-		assertFalse( table2.canInsertAndPasteRow( clonedRow, parameters1 ) );
-		
-		//there is row span in table row.
-		assertFalse( table1.canInsertAndPasteRow( clonedRow , parameters5 ));
+		assertFalse( table2.canInsertAndPasteRow( clonedData, parameters1 ) );
+
+		// there is row span in table row.
+		assertFalse( table1.canInsertAndPasteRow( clonedData, parameters5 ) );
 
 		// insert forbidden table row.
 
 		try
 		{
-			table2.insertAndPasteRow( clonedRow, parameters1 );
+			table2.insertAndPasteRow( clonedData, parameters1 );
 			fail( "table2 inert and paste error " ); //$NON-NLS-1$
 		}
 		catch ( SemanticException e )
@@ -293,9 +298,9 @@ public class TableItemHandleTest extends BaseTestCase
 					e.getErrorCode( ) );
 		}
 
-		table2.insertAndPasteRow( clonedRow, parameters4 );
+		table2.insertAndPasteRow( clonedData, parameters4 );
 		save( );
-		assertTrue( compareFile( "TableRowCopy_golden_5.xml"));//$NON-NLS-1$
+		assertTrue( compareFile( "TableRowCopy_golden_5.xml" ) );//$NON-NLS-1$
 
 	}
 
@@ -318,18 +323,24 @@ public class TableItemHandleTest extends BaseTestCase
 				TableItem.DETAIL_SLOT, -1, 0 );
 
 		assertTrue( table3.canCopyRow( parameters2 ) );
-		TableRow clonedRow = (TableRow)table3.copyRow( parameters2 );
+
+		IDesignElement clonedData = table3.copyRow( parameters2 );
+		TableRow clonedRow = (TableRow) clonedData.getHandle( design )
+				.getElement( );
+
 		assertNotNull( clonedRow );
 		assertNull( clonedRow.getContainer( ) );
-		
+
 		try
 		{
-			table3.pasteRow( clonedRow, parameters1 );
+			table3.pasteRow( clonedData, parameters1 );
 			fail( "Paste Row error in header slot" ); //$NON-NLS-1$
 		}
 		catch ( SemanticException e )
 		{
-			assertEquals( MessageConstants.CONTENT_EXCEPTION_INVALID_CONTEXT_CONTAINMENT , e.getErrorCode( ));
+			assertEquals(
+					MessageConstants.CONTENT_EXCEPTION_INVALID_CONTEXT_CONTAINMENT,
+					e.getErrorCode( ) );
 		}
 	}
 

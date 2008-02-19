@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.ColumnHelper;
@@ -451,8 +452,20 @@ abstract class ColumnBandAction
 			if ( !isInsert )
 				repeat2 -= 1;
 
-			ColumnHandle newColumn = ( (TableColumn) target.copy( ) )
-					.handle( adapter.getModule( ) );
+			ColumnHandle newColumn = null;
+
+			try
+			{
+				newColumn = (ColumnHandle) ( (IDesignElement) target
+						.getElement( ).clone( ) ).getHandle( adapter
+						.getModule( ) );
+			}
+			catch ( CloneNotSupportedException e )
+			{
+				assert false;
+				return;
+			}
+			
 			target.setRepeatCount( repeat1 );
 			newColumn.setRepeatCount( repeat2 );
 			int pos = oldPos;
