@@ -113,7 +113,7 @@
     <extension
          point="org.eclipse.debug.core.sourceLocators">
        <sourceLocator
-            name="Script Source Lookup Director"
+            name="%Script.source.locator"
             class="org.eclipse.birt.report.debug.internal.ui.script.launcher.sourcelookup.ScriptSourceLookupDirector"
             id="org.eclipse.birt.report.debug.sourceLocator.script">
       </sourceLocator>
@@ -123,7 +123,7 @@
          id="script debug editor"
          point="org.eclipse.ui.editors">
       <editor
-            name="Debug JavaScript editor"
+            name="%Debug.jsEditor"
             default="true"
             icon="icons/full/ctool16/birtdebugger.gif"
             contributorClass="org.eclipse.birt.report.debug.internal.ui.script.actions.ScriptActionBarContributor"
@@ -147,7 +147,7 @@
             targetID="org.eclipse.birt.report.debug.internal.ui.script.editor.DebugJsEditor"
             id="org.eclipse.birt.report.debug.internal.ui.script.editor.DebugJsEditor.BreakpointRulerActions">
          <action
-               label="Add Breakpoint"
+               label="%ToggleBreakpoint.label"
                class="org.eclipse.debug.ui.actions.RulerToggleBreakpointActionDelegate"
                actionID="RulerDoubleClick"
                id="org.eclipse.birt.report.debug.internal.ui.script.editor.DebugJsEditor.ManageBreakpointRulerAction">
@@ -162,7 +162,7 @@
             targetID="org.eclipse.birt.report.designer.ui.editor.script.DecoratedScriptEditor"
             id="org.eclipse.birt.report.designer.ui.editor.script.BreakpointRulerActions">
          <action
-               label="Add Breakpoint"
+               label="%ToggleBreakpoint.label"
                class="org.eclipse.debug.ui.actions.RulerToggleBreakpointActionDelegate"
                actionID="RulerDoubleClick"
                id="org.eclipse.birt.report.designer.ui.editor.script.DecoratedScriptEditor.ManageBreakpointRulerAction">
@@ -207,7 +207,7 @@
                helpContextId="manage_breakpoint_action_context"
                icon="icons/full/ctool16/brkp_obj.gif"
                id="org.eclipse.jdt.debug.ui.actions.BreakpointRulerActionDelegate"
-               label="%AddBreakpoint.label"
+               label="%ToggleBreakpoint.label"
                menubarPath="debug">
          </action>
       </viewerContribution>
@@ -237,7 +237,7 @@
                helpContextId="manage_breakpoint_action_context"
                icon="icons/full/ctool16/brkp_obj.gif"
                id="org.eclipse.jdt.debug.ui.actions.BreakpointRulerActionDelegate"
-               label="%AddBreakpoint.label"
+               label="%ToggleBreakpoint.label"
                menubarPath="debug">
          </action>
       </viewerContribution>
@@ -262,7 +262,6 @@
          
          <action
                label="%Watch.label"
-               icon="$nl$/icons/full/etool16/watch_exp.gif"
                helpContextId="watch_action_context"
                class="org.eclipse.jdt.internal.debug.ui.actions.WatchAction"
                menubarPath="additions"
@@ -278,7 +277,7 @@
             class="org.eclipse.birt.report.debug.internal.ui.script.launcher.ScriptLaunchShortcut"
             description="%JavaLaunchShortcut.description"
             helpContextId="org.eclipse.jdt.debug.ui.shortcut_local_java_application"
-            icon="$nl$/icons/full/ctool16/java_app.gif"
+            icon="$nl$/icons/full/ctool16/birtdebugger.gif"
             id="org.eclipse.birt.report.debug.script.ScriptLaunchShortcut"
             label="%ScriptLaunchShortcut.label"
             modes="debug">
@@ -304,7 +303,7 @@
          </configurationType>
         
          <description
-               description="%DebugJavaLaunchShortcut.description"
+               description="%DebugReportLaunchShortcut.description"
                mode="debug">
          </description>
       </shortcut>
@@ -323,19 +322,19 @@
         point="org.eclipse.ui.actionSets">
      <actionSet
            id="org.eclipse.birt.report.debug.ui.DeubgScript"
-           label="label"
+           label="%ReportActionSet"
            visible="false">
         <action
               class="org.eclipse.birt.report.debug.internal.ui.script.actions.DebugScriptAction"
-              icon="$nl$/icons/full/ctool16/java_app.gif"
+              icon="$nl$/icons/full/ctool16/birtdebugger.gif"
               id="org.eclipse.birt.report.debug.ui.DebugScript"
-              label="%ScriptLaunchShortcut.label"
+              label="%LaunchActionSet.label"
               menubarPath="org.eclipse.ui.run/preview"
               style="push">
         </action>
         <menu
               id="org.eclipse.ui.run"
-              label="Run"
+              label="%Run"
               path="additions">
            <groupMarker
                  name="preview">

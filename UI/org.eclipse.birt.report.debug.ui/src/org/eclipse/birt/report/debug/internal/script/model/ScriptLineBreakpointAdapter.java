@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.debug.internal.script.model;
 
+import org.eclipse.birt.report.debug.internal.core.vm.js.JsUtil;
 import org.eclipse.birt.report.debug.internal.ui.script.util.ScriptDebugUtil;
 import org.eclipse.birt.report.designer.ui.editor.script.DecoratedScriptEditor;
 import org.eclipse.birt.report.designer.ui.editors.IReportScriptLocation;
@@ -22,7 +23,6 @@ import org.eclipse.debug.ui.actions.IToggleBreakpointsTarget;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.texteditor.ITextEditor;
 
 /**
  * Adapter to create the brea point.
@@ -30,17 +30,50 @@ import org.eclipse.ui.texteditor.ITextEditor;
 public class ScriptLineBreakpointAdapter implements IToggleBreakpointsTarget
 {
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.debug.ui.actions.IToggleBreakpointsTarget#canToggleLineBreakpoints(org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.debug.ui.actions.IToggleBreakpointsTarget#canToggleLineBreakpoints(org.eclipse.ui.IWorkbenchPart,
+	 *      org.eclipse.jface.viewers.ISelection)
 	 */
 	public boolean canToggleLineBreakpoints( IWorkbenchPart part,
 			ISelection selection )
 	{
-		return getEditor( part ) != null;
+		DecoratedScriptEditor textEditor = getEditor( part );
+
+		if ( textEditor != null )
+		{
+			String script = textEditor.getScript( );
+
+			if ( script == null || script.trim( ).length( ) == 0 )
+			{
+				return false;
+			}
+
+			ITextSelection textSelection = (ITextSelection) selection;
+			IReportScriptLocation location = (IReportScriptLocation) textEditor.getAdapter( IReportScriptLocation.class );
+
+			if ( location != null )
+			{
+				int lineNumber = textSelection.getStartLine( );
+
+				if ( location.getLineNumber( ) > 0 )
+				{
+					lineNumber = location.getLineNumber( );
+				}
+
+				return JsUtil.checkBreakable( script, lineNumber );
+			}
+		}
+
+		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.debug.ui.actions.IToggleBreakpointsTarget#canToggleMethodBreakpoints(org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.debug.ui.actions.IToggleBreakpointsTarget#canToggleMethodBreakpoints(org.eclipse.ui.IWorkbenchPart,
+	 *      org.eclipse.jface.viewers.ISelection)
 	 */
 	public boolean canToggleMethodBreakpoints( IWorkbenchPart part,
 			ISelection selection )
@@ -48,8 +81,11 @@ public class ScriptLineBreakpointAdapter implements IToggleBreakpointsTarget
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.debug.ui.actions.IToggleBreakpointsTarget#canToggleWatchpoints(org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.debug.ui.actions.IToggleBreakpointsTarget#canToggleWatchpoints(org.eclipse.ui.IWorkbenchPart,
+	 *      org.eclipse.jface.viewers.ISelection)
 	 */
 	public boolean canToggleWatchpoints( IWorkbenchPart part,
 			ISelection selection )
@@ -57,15 +93,31 @@ public class ScriptLineBreakpointAdapter implements IToggleBreakpointsTarget
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.debug.ui.actions.IToggleBreakpointsTarget#toggleLineBreakpoints(org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.debug.ui.actions.IToggleBreakpointsTarget#toggleLineBreakpoints(org.eclipse.ui.IWorkbenchPart,
+	 *      org.eclipse.jface.viewers.ISelection)
 	 */
 	public void toggleLineBreakpoints( IWorkbenchPart part, ISelection selection )
 			throws CoreException
 	{
-		ITextEditor textEditor = getEditor( part );
+		DecoratedScriptEditor textEditor = getEditor( part );
 		if ( textEditor != null )
 		{
+			ITextSelection textSelection = (ITextSelection) selection;
+			IReportScriptLocation location = (IReportScriptLocation) textEditor.getAdapter( IReportScriptLocation.class );
+			if ( location == null )
+			{
+				return;
+			}
+
+			int lineNumber = textSelection.getStartLine( );
+			if ( location.getLineNumber( ) > 0 )
+			{
+				lineNumber = location.getLineNumber( );
+			}
+
 			IResource resource = (IResource) textEditor.getEditorInput( )
 					.getAdapter( IResource.class );
 			if ( resource == null )
@@ -73,17 +125,6 @@ public class ScriptLineBreakpointAdapter implements IToggleBreakpointsTarget
 				resource = ScriptDebugUtil.getDefaultResource( );
 			}
 
-			ITextSelection textSelection = (ITextSelection) selection;
-			int lineNumber = textSelection.getStartLine( );
-			IReportScriptLocation location = (IReportScriptLocation) textEditor.getAdapter( IReportScriptLocation.class );
-			if ( location == null )
-			{
-				return;
-			}
-			if ( location.getLineNumber( ) > 0 )
-			{
-				lineNumber = location.getLineNumber( );
-			}
 			IBreakpoint[] breakpoints = DebugPlugin.getDefault( )
 					.getBreakpointManager( )
 					.getBreakpoints( IScriptConstants.SCRIPT_DEBUG_MODEL );
@@ -116,9 +157,11 @@ public class ScriptLineBreakpointAdapter implements IToggleBreakpointsTarget
 
 	}
 
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.debug.ui.actions.IToggleBreakpointsTarget#toggleMethodBreakpoints(org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.debug.ui.actions.IToggleBreakpointsTarget#toggleMethodBreakpoints(org.eclipse.ui.IWorkbenchPart,
+	 *      org.eclipse.jface.viewers.ISelection)
 	 */
 	public void toggleMethodBreakpoints( IWorkbenchPart part,
 			ISelection selection ) throws CoreException
@@ -126,8 +169,11 @@ public class ScriptLineBreakpointAdapter implements IToggleBreakpointsTarget
 		// don't support
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.debug.ui.actions.IToggleBreakpointsTarget#toggleWatchpoints(org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.debug.ui.actions.IToggleBreakpointsTarget#toggleWatchpoints(org.eclipse.ui.IWorkbenchPart,
+	 *      org.eclipse.jface.viewers.ISelection)
 	 */
 	public void toggleWatchpoints( IWorkbenchPart part, ISelection selection )
 			throws CoreException
@@ -135,11 +181,11 @@ public class ScriptLineBreakpointAdapter implements IToggleBreakpointsTarget
 		// don't support
 	}
 
-	private ITextEditor getEditor( IWorkbenchPart part )
+	private DecoratedScriptEditor getEditor( IWorkbenchPart part )
 	{
 		if ( part instanceof DecoratedScriptEditor )
 		{
-			return (ITextEditor) part;
+			return (DecoratedScriptEditor) part;
 		}
 		return null;
 	}
