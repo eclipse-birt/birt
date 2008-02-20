@@ -96,7 +96,7 @@ public class BindingPage extends AttributePage
 			bindingProvider.setRefrenceSection( bindingGroupSection );
 			bindingGroupSection.setProvider( bindingProvider );
 			bindingGroupSection.setGridPlaceholder( 2, true );
-			bindingGroupSection.setWidth( 550 );
+//			bindingGroupSection.setWidth( 550 );
 			addSection( PageSectionId.BINDING_GROUP, bindingGroupSection );
 		}
 
