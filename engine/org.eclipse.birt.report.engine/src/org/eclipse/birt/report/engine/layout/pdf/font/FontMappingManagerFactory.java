@@ -135,6 +135,9 @@ public class FontMappingManagerFactory
 
 	protected FontMappingManagerFactory( )
 	{
+		// Register java fonts.
+		registerJavaFonts();
+		
 		// register the embedded font directorys
 		String embeddedFonts = getEmbededFontPath( );
 		if ( embeddedFonts != null )
@@ -164,6 +167,9 @@ public class FontMappingManagerFactory
 	public FontMappingManager createFontMappingManager(
 			FontMappingConfig config, Locale locale )
 	{
+		// Register the fonts defined in JRE fonts directory.
+		registerJavaFonts( );
+		
 		// register the fonts defined in the configuration
 		Iterator iter = config.fontPaths.iterator( );
 		while ( iter.hasNext( ) )
@@ -179,6 +185,14 @@ public class FontMappingManagerFactory
 		fontEncodings.putAll( config.fontEncodings );
 
 		return new FontMappingManager( this, null, config, locale );
+	}
+
+	private void registerJavaFonts( )
+	{
+		String javaHome = System.getProperty( "java.home" );
+		String fontsFolder = javaHome + File.separatorChar + "lib"
+				+ File.separatorChar + "fonts";
+		FontFactory.registerDirectory( fontsFolder );
 	}
 
 	protected FontMappingManager createFontMappingManager( String format,
