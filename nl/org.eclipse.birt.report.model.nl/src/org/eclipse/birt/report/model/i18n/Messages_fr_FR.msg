@@ -3338,6 +3338,7 @@ Error.ContentException.CONTENT_NAME_REQUIRED={0} ne peut pas être ajouté à l''em
 Error.ContentException.INVALID_TEMPLATE_ELEMENT=L''élément {0} ne possède pas de définition de paramètre de modèle explicite et ne peut donc pas être inséré dans l''emplacement ({2}) de {1}.
 Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN=L'élément n'est pas autorisé à être transformé en modèle.
 Error.ContentException.GROUPS_CHANGE_FORBIDDEN=L''élément "{0}" partage un élément d''état ; il est donc impossible d''ajouter, de supprimer ou de déplacer ses groupes.
+Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=The {0} is not allowed to be pasted into the {1}''s slot {2} because the copy is invalid.
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=La clé de ressource de la conversion doit être fournie.

@@ -3338,6 +3338,7 @@ Error.ContentException.CONTENT_NAME_REQUIRED={0} hat keinen Namen und darf Feld 
 Error.ContentException.INVALID_TEMPLATE_ELEMENT=Für {0} gibt es keine explizite Definition für Vorlagenparameter. Es kann daher nicht in Feld ({2}) von {1} eingefügt werden.
 Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN=Das Element darf nicht in eine Vorlage umgewandelt werden.
 Error.ContentException.GROUPS_CHANGE_FORBIDDEN=Element '{0}' gibt Berichtobjekte frei und kann seine Gruppen nicht hinzufügen, entfernen oder verschieben.
+Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=The {0} is not allowed to be pasted into the {1}''s slot {2} because the copy is invalid.
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=Der Ressourcenschlüssel der Übersetzung muss bereitgestellt werden.

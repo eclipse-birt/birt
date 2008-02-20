@@ -3338,6 +3338,7 @@ Error.ContentException.CONTENT_NAME_REQUIRED=由于 {0} 没有名称，不允许添加到 {1}
 Error.ContentException.INVALID_TEMPLATE_ELEMENT={0} 没有显式模板参数定义，因此不能插入到 {1} 的属性框 ({2}) 中。
 Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN=该元素不能转换为模板。
 Error.ContentException.GROUPS_CHANGE_FORBIDDEN=元素“{0}”具有报表项共享，不能添加、删除或移动其组。
+Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=The {0} is not allowed to be pasted into the {1}''s slot {2} because the copy is invalid.
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=必须提供转换的资源关键字。

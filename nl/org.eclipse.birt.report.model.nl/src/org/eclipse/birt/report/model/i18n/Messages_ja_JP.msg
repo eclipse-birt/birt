@@ -3338,6 +3338,7 @@ Error.ContentException.CONTENT_NAME_REQUIRED={0} には名前が付いていないため、{1}
 Error.ContentException.INVALID_TEMPLATE_ELEMENT={0} にはテンプレートのパラメタが明示的に定義されていないため、{1} のスロット ({2}) に挿入できません。
 Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN=この要素はテンプレートに変換できません。
 Error.ContentException.GROUPS_CHANGE_FORBIDDEN=要素 "{0}" には共有のレポート項目があるため、グループの追加、削除、移動は行えません。
+Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=The {0} is not allowed to be pasted into the {1}''s slot {2} because the copy is invalid.
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=変換情報のリソースキーが必要です。
