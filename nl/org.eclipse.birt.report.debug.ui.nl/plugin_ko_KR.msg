@@ -1,6 +1,13 @@
 report.debug=BIRT 보고서
 script.debug=보고서
-LaunchActionSet.label=보고서 Java 프로그램 실행 또는 디버깅
+LaunchActionSet.label=디버그 보고서
+Script.source.locator=Report Script Source Locator
+Debug.jsEditor=Report Debug JavaScript Editor
 javaSourceLocatorName=Java 원본 로케이터
-Watch.label=조사식
-ScriptLaunchShortcut.label=디버그 보고서
+Watch.label=Add to Watch
+ReportActionSet=Report Action Set
+Run=Run
+ScriptLaunchShortcut.label=보고서
+DebugReportLaunchShortcut.description=Debug a report
+EnableBreakpoint.label=Enable Breakpoint
+ToggleBreakpoint.label=Toggle Breakpoint

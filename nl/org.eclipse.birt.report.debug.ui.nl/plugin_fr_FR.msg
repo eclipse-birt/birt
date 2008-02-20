@@ -1,6 +1,13 @@
 report.debug=Etat BIRT
 script.debug=Etat
-LaunchActionSet.label=Exécuter ou déboguer un programme Java d'état
+LaunchActionSet.label=Déboguer le rapport
+Script.source.locator=Report Script Source Locator
+Debug.jsEditor=Report Debug JavaScript Editor
 javaSourceLocatorName=Localisateur de source Java
-Watch.label=Suivi
-ScriptLaunchShortcut.label=Déboguer le rapport
+Watch.label=Add to Watch
+ReportActionSet=Report Action Set
+Run=Run
+ScriptLaunchShortcut.label=Etat
+DebugReportLaunchShortcut.description=Debug a report
+EnableBreakpoint.label=Enable Breakpoint
+ToggleBreakpoint.label=Toggle Breakpoint

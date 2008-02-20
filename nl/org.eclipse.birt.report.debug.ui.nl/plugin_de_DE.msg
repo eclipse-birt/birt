@@ -1,6 +1,13 @@
 report.debug=BIRT-Bericht
 script.debug=Bericht
-LaunchActionSet.label=Java-Anwendung für Bericht ausführen oder debuggen
+LaunchActionSet.label=Bericht debuggen
+Script.source.locator=Report Script Source Locator
+Debug.jsEditor=Report Debug JavaScript Editor
 javaSourceLocatorName=Java Source Locator
-Watch.label=Überwachen
-ScriptLaunchShortcut.label=Bericht debuggen
+Watch.label=Add to Watch
+ReportActionSet=Report Action Set
+Run=Run
+ScriptLaunchShortcut.label=Bericht
+DebugReportLaunchShortcut.description=Debug a report
+EnableBreakpoint.label=Enable Breakpoint
+ToggleBreakpoint.label=Toggle Breakpoint
