@@ -10,6 +10,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.Group
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
+import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
@@ -25,7 +26,7 @@ public abstract class AbstractFormHandleProvider implements IFormProvider
 		this.input = input;
 
 	}
-
+	
 	public Object getInput( )
 	{
 		return input;
@@ -218,5 +219,10 @@ public abstract class AbstractFormHandleProvider implements IFormProvider
 	public boolean isDownEnable( )
 	{
 		return true;
+	}
+	
+	public boolean needRebuilded( NotificationEvent event )
+	{
+		return false;
 	}
 }

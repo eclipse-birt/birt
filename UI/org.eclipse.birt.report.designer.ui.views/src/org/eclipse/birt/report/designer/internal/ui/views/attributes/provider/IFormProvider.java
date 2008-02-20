@@ -165,6 +165,8 @@ public interface IFormProvider extends IDescriptorProvider
 	 * @return True needs refresh, false not need.
 	 */
 	boolean needRefreshed( NotificationEvent event );
+	
+	boolean needRebuilded( NotificationEvent event );
 
 	boolean isEnable( );
 	

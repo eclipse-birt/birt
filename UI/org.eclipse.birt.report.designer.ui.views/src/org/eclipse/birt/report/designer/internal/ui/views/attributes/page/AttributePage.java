@@ -11,16 +11,13 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.util.SortMap;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Section;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormWidgetFactory;
-import org.eclipse.birt.report.designer.ui.views.attributes.IPropertyDescriptor;
 import org.eclipse.birt.report.designer.ui.views.attributes.TabPage;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
@@ -51,8 +48,6 @@ public abstract class AttributePage extends TabPage implements
 	 */
 	protected HashMap propertiesMap = new HashMap( 7 );
 
-	protected List descriptorContainer = new ArrayList( );
-
 	/**
 	 * The current selection.
 	 */
@@ -60,14 +55,6 @@ public abstract class AttributePage extends TabPage implements
 
 	public void refresh( )
 	{
-		if ( this instanceof BindingPage )
-			for ( int i = 0; i < descriptorContainer.size( ); i++ )
-			{
-				IPropertyDescriptor descriptor = (IPropertyDescriptor) descriptorContainer.get( i );
-				descriptor.setInput( input );
-				descriptor.load( );
-			}
-
 		Section[] sectionArray = getSections( );
 		for ( int i = 0; i < sectionArray.length; i++ )
 		{
@@ -127,8 +114,7 @@ public abstract class AttributePage extends TabPage implements
 		sections.put( sectionKey, section );
 	}
 
-	public void addSectionAfter( String sectionKey, Section section,
-			String key )
+	public void addSectionAfter( String sectionKey, Section section, String key )
 	{
 		if ( sections == null )
 		{
@@ -141,8 +127,7 @@ public abstract class AttributePage extends TabPage implements
 			sections.put( sectionKey, section );
 	}
 
-	public void addSectionBefore( String sectionKey, Section section,
-			String key )
+	public void addSectionBefore( String sectionKey, Section section, String key )
 	{
 		if ( sections == null )
 		{
@@ -255,12 +240,6 @@ public abstract class AttributePage extends TabPage implements
 
 	public void postElementEvent( )
 	{
-		for ( int i = 0; i < descriptorContainer.size( ); i++ )
-		{
-			IPropertyDescriptor descriptor = (IPropertyDescriptor) descriptorContainer.get( i );
-			descriptor.load( );
-		}
-
 		Section[] sectionArray = getSections( );
 		for ( int i = 0; i < sectionArray.length; i++ )
 		{
@@ -273,5 +252,5 @@ public abstract class AttributePage extends TabPage implements
 	{
 		return null;
 	}
-	
+
 }

@@ -16,6 +16,7 @@ import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 
 public class FormPage extends AttributePage
 {
@@ -77,6 +78,18 @@ public class FormPage extends AttributePage
 		if ( sections == null )
 			sections = new SortMap( );
 		composite.setLayout( WidgetUtil.createGridLayout( 1 ) );
+
+		createFormSection( );
+
+		createSections( );
+		layoutSections( );
+
+		( (ScrolledComposite) container ).setContent( composite );
+
+	}
+
+	protected void createFormSection( )
+	{
 		formSection = new FormSection( provider.getDisplayName( ),
 				composite,
 				true,
@@ -86,12 +99,6 @@ public class FormPage extends AttributePage
 		formSection.setStyle( style );
 		formSection.setFillForm( true );
 		addSection( PageSectionId.FORM_FORM, formSection );
-
-		createSections( );
-		layoutSections( );
-
-		( (ScrolledComposite) container ).setContent( composite );
-
 	}
 
 	private void computeSize( )
@@ -124,7 +131,27 @@ public class FormPage extends AttributePage
 					&& !formSection.getFormControl( )
 							.getControl( )
 							.isDisposed( ) )
+			{
+				if ( provider.needRebuilded( ev ) )
+				{
+					rebuildUI( );
+					return;
+				}
 				formSection.getFormControl( ).addElementEvent( focus, ev );
+			}
+	}
+
+	protected void rebuildUI( )
+	{
+		Control[] children = composite.getChildren( );
+		for ( int i = 0; i < children.length; i++ )
+			children[i].dispose( );
+		sections.clear();
+		createFormSection( );
+		createSections( );
+		layoutSections( );
+		composite.layout( );
+		refresh( );
 	}
 
 	public void clear( )
