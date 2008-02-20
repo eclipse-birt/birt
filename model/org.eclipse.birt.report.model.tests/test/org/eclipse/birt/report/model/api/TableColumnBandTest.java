@@ -1410,8 +1410,16 @@ public class TableColumnBandTest extends BaseTestCase
 
 		table.insertColumn( 1, 1 );
 		save( );
-		saveOutputFile( "TableInsertColumnBandTest_rowSpan_out_1.xml" ); //$NON-NLS-1$
+		
 		assertTrue( compareFile( "TableInsertColumnBandTest_rowSpan_golden_1.xml" ) ); //$NON-NLS-1$
+		
+		openDesign( "TableInsertColumnBandTest_2.xml" ); //$NON-NLS-1$
+		table = (TableHandle) designHandle.findElement( "Table" ); //$NON-NLS-1$
+
+		table.insertColumn( 2, 1 );
+		save( );
+		assertTrue( compareFile( "TableInsertColumnBandTest_colSpan_golden_1.xml" ) ); //$NON-NLS-1$
+
 	}
 
 	/**
@@ -1419,7 +1427,7 @@ public class TableColumnBandTest extends BaseTestCase
 	 * 
 	 * @param tableHandle
 	 * @param indexMappings
-	 * @return <code>true</code> if the action preforms successfully.
+	 * @return <code>true</code> if the action performs successfully.
 	 * @throws SemanticException
 	 */
 

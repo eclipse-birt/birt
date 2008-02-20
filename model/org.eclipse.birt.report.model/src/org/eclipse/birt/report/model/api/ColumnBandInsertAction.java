@@ -37,7 +37,7 @@ class ColumnBandInsertAction extends ColumnBandCopyAction
 	 */
 
 	private static final int MIN_ROW_SPAN = 1;
-	
+
 	/**
 	 * 0-based column index.
 	 */
@@ -51,7 +51,7 @@ class ColumnBandInsertAction extends ColumnBandCopyAction
 	 */
 
 	private int rowSpanForModifiedCell = MIN_ROW_SPAN;
-	
+
 	/**
 	 * Constructs the insert action.
 	 * 
@@ -260,16 +260,18 @@ class ColumnBandInsertAction extends ColumnBandCopyAction
 				rowSpanForModifiedCell--;
 				return;
 			}
-			
+
 			CellHandle cell = findCell( row, columnIndex );
 			if ( cell == null )
 				return;
 
-			if ( cell.getColumnSpan( ) != 1 )
+			CellHandle nextCell = findCell( row, columnIndex + 1 );
+
+			if ( cell.getColumnSpan( ) != 1 && nextCell == cell )
 			{
 				cell.setColumnSpan( cell.getColumnSpan( ) + 1 );
 				rowSpanForModifiedCell = cell.getRowSpan( );
-				
+
 				return;
 			}
 
@@ -306,7 +308,7 @@ class ColumnBandInsertAction extends ColumnBandCopyAction
 		{
 			SlotHandle slot = group.getSlot( i );
 			resetRowSpanForModifiedCell( );
-			
+
 			for ( int j = 0; j < slot.getCount( ); j++ )
 			{
 				DesignElementHandle content = slot.get( j );
@@ -315,7 +317,7 @@ class ColumnBandInsertAction extends ColumnBandCopyAction
 			}
 		}
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -324,7 +326,7 @@ class ColumnBandInsertAction extends ColumnBandCopyAction
 	{
 		rowSpanForModifiedCell = MIN_ROW_SPAN;
 	}
-	
+
 	/**
 	 * Returns the cell resides in the row.
 	 * 
