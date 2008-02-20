@@ -55,7 +55,8 @@ public class ChartReportItemViewProvider extends ReportItemViewAdapter
 		cm.setSubType( "Side-by-side" );//$NON-NLS-1$
 		cm.setUnits( "Points" ); //$NON-NLS-1$
 		cm.setUnitSpacing( 50 );
-
+		cm.getTitle( ).getLabel( ).getCaption( ).setValue( "Bar Chart Title" ); //$NON-NLS-1$
+		
 		// Add base series
 		SeriesDefinition sdBase = SeriesDefinitionImpl.create( );
 		sdBase.getSeriesPalette( ).shift( 0 );
