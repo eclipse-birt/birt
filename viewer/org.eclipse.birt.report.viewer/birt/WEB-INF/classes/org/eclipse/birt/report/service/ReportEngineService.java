@@ -745,8 +745,7 @@ public class ReportEngineService
 				rtl, masterPage, format, new Boolean( svgFlag ),
 				ParameterAccessor.getParameter( request,
 						ParameterAccessor.PARAM_DESIGNER ) );
-		String resourceFolder = ParameterAccessor.getParameter( request,
-				ParameterAccessor.PARAM_RESOURCE_FOLDER );
+		String resourceFolder = ParameterAccessor.getResourceFolder( request );
 		handler.setResourceFolder( resourceFolder );
 		renderOption.setActionHandler( handler );
 
@@ -1112,8 +1111,7 @@ public class ReportEngineService
 							svgFlag ), ParameterAccessor.getParameter( request,
 							ParameterAccessor.PARAM_DESIGNER ) );
 		}
-		String resourceFolder = ParameterAccessor.getParameter( request,
-				ParameterAccessor.PARAM_RESOURCE_FOLDER );
+		String resourceFolder = ParameterAccessor.getResourceFolder( request );
 		handler.setResourceFolder( resourceFolder );
 		renderOption.setActionHandler( handler );
 
@@ -1368,8 +1366,7 @@ public class ReportEngineService
 					new Boolean( svgFlag ), ParameterAccessor.getParameter(
 							request, ParameterAccessor.PARAM_DESIGNER ) );
 		}
-		String resourceFolder = ParameterAccessor.getParameter( request,
-				ParameterAccessor.PARAM_RESOURCE_FOLDER );
+		String resourceFolder = ParameterAccessor.getResourceFolder( request );
 		handler.setResourceFolder( resourceFolder );
 		renderOption.setActionHandler( handler );
 
