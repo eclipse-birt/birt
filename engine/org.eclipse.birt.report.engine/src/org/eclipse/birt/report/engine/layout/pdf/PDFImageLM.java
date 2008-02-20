@@ -188,7 +188,7 @@ public class PDFImageLM extends PDFLeafItemLM
 		return null;
 	}
 
-	protected Dimension getSpecifiedDimension( IImageContent content )
+	protected Dimension getSpecifiedDimension( IImageContent content, int pWidth, boolean scale )
 	{
 		Dimension dim = new Dimension( DEFAULT_WIDHT, DEFAULT_HEIGHT );
 		try
@@ -199,8 +199,7 @@ public class PDFImageLM extends PDFLeafItemLM
 		{
 			logger.log( Level.SEVERE, e.getLocalizedMessage( ) );
 		}
-		boolean scale = false;
-		int specifiedWidth = getDimensionValue( content.getWidth( ) );
+		int specifiedWidth = getDimensionValue( content.getWidth( ), pWidth );
 		int specifiedHeight = getDimensionValue( content.getHeight( ) );
 		if ( intrinsic == null )
 		{
@@ -321,14 +320,7 @@ public class PDFImageLM extends PDFLeafItemLM
 	{
 		assert ( content instanceof IImageContent );
 		image = (IImageContent) content;
-
-		Dimension contentDimension = getSpecifiedDimension( image );
-		ImageArea imageArea = (ImageArea) AreaFactory.createImageArea( image );
-		imageArea.setWidth( contentDimension.getWidth( ) );
-		imageArea.setHeight( contentDimension.getHeight( ) );
 		
-		//root = (ContainerArea) createInlineContainer( image, true, true );
-		//root.addChild( imageArea );
 		if( PropertyUtil.isInlineElement(image) )
 		{
 			root = (ContainerArea)AreaFactory.createInlineContainer( image, true, true );
@@ -337,8 +329,19 @@ public class PDFImageLM extends PDFLeafItemLM
 		{
 			root = (ContainerArea)AreaFactory.createBlockContainer( image );
 		}
+		
+		//First, the width of root is set to its parent's max available width.
+		root.setAllocatedWidth( parent.getCurrentMaxContentWidth( ) );
+		
+		Dimension contentDimension = getSpecifiedDimension( image, root.getContentWidth( ), true );
+		ImageArea imageArea = (ImageArea) AreaFactory.createImageArea( image );
+		imageArea.setWidth( contentDimension.getWidth( ) );
+		imageArea.setHeight( contentDimension.getHeight( ) );
+		
 		root.addChild( imageArea );
 		imageArea.setPosition( root.getContentX( ), root.getContentY( ) );
+		
+		//Adjust the dimension of root.
 		root.setContentWidth( imageArea.getWidth( ) );
 		root.setContentHeight(imageArea.getHeight( ));
 		processChartLegend( image, imageArea );
