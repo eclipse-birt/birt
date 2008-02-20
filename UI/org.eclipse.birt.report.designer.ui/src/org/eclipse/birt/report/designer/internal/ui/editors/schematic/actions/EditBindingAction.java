@@ -61,6 +61,13 @@ public class EditBindingAction extends InsertRowAction
 
 		}
 		
+		if ( getTableMultipleEditPart( ) != null
+				&& getTableMultipleEditPart().getModel( ) instanceof ReportItemHandle )
+		{
+			return (ReportItemHandle) getTableMultipleEditPart( ).getModel( );
+
+		}
+			
 		if ( getListEditPart( ) != null
 				&& getListEditPart( ).getModel( ) instanceof ReportItemHandle )
 		{

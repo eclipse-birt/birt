@@ -6,6 +6,7 @@ package org.eclipse.birt.report.designer.internal.ui.command;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.DataBindingDialog;
@@ -32,8 +33,10 @@ public class EditBindingHandler extends SelectionHandler
 		TableEditPart editPart = getTableEditPart( );
 
 		ListEditPart listPart = getListEditPart( );
+		
+		ReportElementEditPart part = getTableMultipleEditPart( );
 
-		if ( editPart != null || listPart != null )
+		if ( editPart != null || listPart != null  || part != null)
 		{
 			CommandStack stack = SessionHandleAdapter.getInstance( )
 					.getCommandStack( );
@@ -63,6 +66,13 @@ public class EditBindingHandler extends SelectionHandler
 				&& getTableEditPart( ).getModel( ) instanceof ReportItemHandle )
 		{
 			return (ReportItemHandle) getTableEditPart( ).getModel( );
+
+		}
+		
+		if ( getTableMultipleEditPart( ) != null
+				&& getTableMultipleEditPart( ).getModel( ) instanceof ReportItemHandle )
+		{
+			return (ReportItemHandle) getTableMultipleEditPart( ).getModel( );
 
 		}
 

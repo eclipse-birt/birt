@@ -18,12 +18,16 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GridEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListBandEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.MultipleEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.CommandStack;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.expressions.IEvaluationContext;
@@ -69,6 +73,10 @@ public class InsertGroupHanlder extends SelectionHandler
 		{
 			retValue = getTableEditPart( ).insertGroup( position );
 		}
+		else if (getTableMultipleEditPart( ) != null)
+		{
+			retValue = UIUtil.createGroup( (DesignElementHandle)getTableMultipleEditPart( ).getModel( ), position );
+		}
 		else
 		{
 			retValue = getListEditPart( ).insertGroup( position );
@@ -84,7 +92,51 @@ public class InsertGroupHanlder extends SelectionHandler
 
 		return new Boolean( true );
 	}
+	
+	//fix bug 217589
+	protected ReportElementEditPart getTableMultipleEditPart( )
+	{
+		if ( getSelection( ) == null || getSelection( ).isEmpty( ) )
+			return null;
+		List list = getSelectedObjects( );
+		int size = list.size( );
+		ReportElementEditPart part = null;
+		for ( int i = 0; i < size; i++ )
+		{
+			Object obj = list.get( i );
+			if ( i == 0 && obj instanceof ReportElementEditPart )
+			{
+				currentModel = ( (ReportElementEditPart) obj ).getModel( );
+			}
 
+			ReportElementEditPart currentEditPart = null;
+			if ( obj instanceof MultipleEditPart && ((MultipleEditPart)obj).getModel( ) instanceof TableHandle)
+			{
+				currentEditPart = (ReportElementEditPart) obj;
+			}
+			
+			else if ( obj instanceof DummyEditpart )
+			{
+				continue;
+			}
+			if ( part == null )
+			{
+				part = currentEditPart;
+			}
+			// Check if select only one table
+			if ( currentEditPart == null
+					|| currentEditPart != null
+					&& part != currentEditPart )
+			{
+				return null;
+			}
+		}
+		// Only table permitted
+		if ( part instanceof GridEditPart )
+			return null;
+		return part;
+	}
+	
 	/**
 	 * Gets table edit part.
 	 * 

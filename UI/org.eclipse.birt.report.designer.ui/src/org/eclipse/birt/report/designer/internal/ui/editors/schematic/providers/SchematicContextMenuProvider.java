@@ -48,6 +48,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.LabelEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListBandEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.MultipleEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
@@ -94,6 +95,7 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
@@ -458,10 +460,10 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		{
 		}
 
-		if ( !getTableEditParts( ).isEmpty( ) )
+		if ( !getTableEditParts( ).isEmpty( ) || !getTableMultipleEditParts( ).isEmpty( ))
 		{
 			createInsertGroupMenu( menuManager, GEFActionConstants.GROUP_ADD );
-			if ( getTableEditParts( ).size( ) == 1 )
+			if ( getTableEditParts( ).size( ) == 1 || getTableMultipleEditParts( ).size( ) == 1)
 			{
 				createDeleteGroupMenus( menuManager,
 						GEFActionConstants.GROUP_ADD );
@@ -853,6 +855,11 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		{
 			parentHandle = (ListingHandle) ( (TableEditPart) getTableEditParts( ).get( 0 ) ).getModel( );
 		}
+		else if (!getTableMultipleEditParts( ).isEmpty( ))
+		{
+			parentHandle = (ListingHandle) ( (ReportElementEditPart) getTableMultipleEditParts( ).get( 0 ) ).getModel( );
+
+		}
 		else if ( !getListEditParts( ).isEmpty( ) )
 		{
 			parentHandle = (ListingHandle) ( (ListEditPart) getListEditParts( ).get( 0 ) ).getModel( );
@@ -999,6 +1006,33 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		return columnHandles;
 	}
 
+	//support the multiple view pop menu
+	
+	private List getTableMultipleEditParts()
+	{
+		List tableParts = new ArrayList( );
+		for ( Iterator itor = getSelectedObjects( ).iterator( ); itor.hasNext( ); )
+		{
+			Object obj = itor.next( );
+			if ( obj instanceof DummyEditpart )
+			{
+				// Column or Row indicators
+				// ignore, do nothing.
+			}
+			else if (obj instanceof MultipleEditPart && ((MultipleEditPart)obj).getModel( ) instanceof TableHandle) 
+			{
+				if ( !( tableParts.contains( obj ) ) )
+				{
+					tableParts.add( obj );
+				}
+			}
+			else
+			{
+				return Collections.EMPTY_LIST;
+			}
+		}
+		return tableParts;
+	}
 	/**
 	 * Gets table edit part.
 	 * 
@@ -1129,11 +1163,16 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		MenuManager subMenu = new MenuManager( DELETE_GROUP_MENU_ITEM_TEXT );
 		ListingHandle parentHandle = null;
 
-		if ( !getTableEditParts( ).isEmpty( ) )
+		if ( !getTableEditParts( ).isEmpty( ))
 
 		{
 			parentHandle = (ListingHandle) ( (TableEditPart) getTableEditParts( ).get( 0 ) ).getModel( );
 			editPart = (TableEditPart) getTableEditParts( ).get( 0 );
+		}
+		else if (!getTableMultipleEditParts( ).isEmpty( ))
+		{
+			parentHandle = (ListingHandle) ( (ReportElementEditPart) getTableMultipleEditParts( ).get( 0 ) ).getModel( );
+			editPart = (ReportElementEditPart) getTableMultipleEditParts( ).get( 0 );
 		}
 		else if ( !getListEditParts( ).isEmpty( ) )
 		{
@@ -1242,6 +1281,10 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		if ( !getTableEditParts( ).isEmpty( ) )
 		{
 			parentHandle = (ListingHandle) ( (TableEditPart) getTableEditParts( ).get( 0 ) ).getModel( );
+		}
+		else if ( !getTableMultipleEditParts().isEmpty( ) )
+		{
+			parentHandle = (ListingHandle) ( (ReportElementEditPart) getTableMultipleEditParts( ).get( 0 ) ).getModel( );
 		}
 		else
 		{

@@ -25,6 +25,8 @@ import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListBandEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ListEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.MultipleEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
@@ -33,6 +35,7 @@ import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -95,6 +98,29 @@ public class ContextSelectionAction extends SelectionAction
 			{
 				part = (TableEditPart) ( (TableCellEditPart) obj ).getParent( );
 			}
+		}
+		return part;
+	}
+	
+	/**
+	 * @return
+	 */
+	protected ReportElementEditPart getTableMultipleEditPart( )
+	{
+		List list = getSelectedObjects( );
+		if ( list.isEmpty( ) )
+		{
+			return null;
+		}
+		ReportElementEditPart part = null;
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			Object obj = list.get( i );
+			if ( obj instanceof MultipleEditPart && ((MultipleEditPart)obj).getModel( ) instanceof TableHandle)
+			{
+				part = (ReportElementEditPart) obj;
+			}
+			
 		}
 		return part;
 	}

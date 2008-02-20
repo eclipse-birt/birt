@@ -58,6 +58,10 @@ public class EditGroupMenuAction extends MenuUpdateAction
 		{
 			parentHandle = (ListingHandle) getListEditPart( ).getModel( );
 		}
+		else if (UIUtil.getTableMultipleEditPart(  getSelectedObjects( ) ) != null)
+		{
+			parentHandle = (ListingHandle) UIUtil.getTableMultipleEditPart(  getSelectedObjects( ) ).getModel( );
+		}
 		else
 		{
 			return new ArrayList( );
