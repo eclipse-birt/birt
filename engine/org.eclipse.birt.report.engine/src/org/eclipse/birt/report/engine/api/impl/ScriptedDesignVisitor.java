@@ -11,11 +11,17 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.extension.IReportItemPreparation;
+import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
+import org.eclipse.birt.report.engine.extension.internal.PreparationContext;
+import org.eclipse.birt.report.engine.extension.internal.ReportItemPreparationInfo;
 import org.eclipse.birt.report.engine.script.internal.AutoTextScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.CellScriptExecutor;
 import org.eclipse.birt.report.engine.script.internal.DataItemScriptExecutor;
@@ -47,6 +53,7 @@ import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
@@ -57,6 +64,8 @@ import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.simpleapi.IDesignElement;
 import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
@@ -175,11 +184,15 @@ class ScriptedDesignVisitor extends DesignVisitor
 			{
 				AutoTextScriptExecutor.handleOnPrepare(
 						( AutoTextHandle ) handle, executionContext );
-			} else if ( handle instanceof ExtendedItemHandle )
+			}
+			/*
+			else if ( handle instanceof ExtendedItemHandle )
 			{
 				ExtendedItemScriptExecutor.handleOnPrepare(
 						( ExtendedItemHandle ) handle, executionContext );
-			} else
+			}
+			*/
+			else
 			{
 				// if there's no ScriptExecutor available, execute javascript
 				// only
@@ -755,10 +768,52 @@ class ScriptedDesignVisitor extends DesignVisitor
 	 * 
 	 * @see org.eclipse.birt.report.model.api.DesignVisitor#visitExtendedItem(org.eclipse.birt.report.model.api.ExtendedItemHandle)
 	 */
-	protected void visitExtendedItem( ExtendedItemHandle obj )
+	protected void visitExtendedItem( ExtendedItemHandle handle )
 	{
-		// handleOnPrepare( handle );
+		String tagName = handle.getExtensionName( );
+		IReportItemPreparation itemPreparation = ExtensionManager.getInstance( )
+				.createPreparationItem( tagName );
+		if ( itemPreparation != null )
+		{
+			ReportItemPreparationInfo preparationInfo = new ReportItemPreparationInfo(
+					handle, new PreparationContext( executionContext, this ) );
 
+			itemPreparation.init( preparationInfo );
+			itemPreparation.prepare( );
+		}
+		else
+		{
+			ExtendedItemScriptExecutor.handleOnPrepare(
+				(ExtendedItemHandle) handle, executionContext );
+
+			Iterator propIter = handle.getPropertyIterator( );
+			while ( propIter.hasNext( ) )
+			{
+				PropertyHandle propHandle = (PropertyHandle) propIter.next( );
+				IElementPropertyDefn property = propHandle.getPropertyDefn( );
+				if ( property.getTypeCode( ) == IPropertyType.ELEMENT_TYPE )
+				{
+					Object children = propHandle.getValue( );
+					if ( children instanceof List )
+					{
+						List tempList = (List) children;
+						for ( int i = 0; tempList != null
+								&& i < tempList.size( ); i++ )
+						{
+							Object tempObj = tempList.get( i );
+							if ( tempObj instanceof ReportItemHandle )
+							{
+								apply( (ReportItemHandle) tempObj );
+							}
+						}
+					}
+					else if ( children instanceof ReportItemHandle )
+					{
+						apply( (ReportItemHandle) children );
+					}
+				}
+			}
+		}
 		// ExtendedItemDesign extendedItem = new ExtendedItemDesign( );
 		// setupReportItem( extendedItem, obj );
 	}

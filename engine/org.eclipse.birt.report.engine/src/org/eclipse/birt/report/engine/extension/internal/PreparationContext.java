@@ -12,24 +12,31 @@
 package org.eclipse.birt.report.engine.extension.internal;
 
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
-import org.eclipse.birt.report.engine.extension.IReportEventContext;
+import org.eclipse.birt.report.engine.extension.IPreparationContext;
 import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.DesignVisitor;
 
-/*
- * currently ReportEventContext just extends ReportContextImpl
- */
-public class ReportEventContext extends ReportContextImpl
+public class PreparationContext extends ReportContextImpl
 		implements
-			IReportEventContext
+			IPreparationContext
 {
 
-	public ReportEventContext( ExecutionContext context )
+	DesignVisitor visitor = null;
+
+	public PreparationContext( ExecutionContext context, DesignVisitor visitor )
 	{
 		super( context );
+		this.visitor = visitor;
 	}
 
 	public ClassLoader getApplicationClassLoader( )
 	{
 		return context.getApplicationClassLoader( );
+	}
+
+	public void prepare( DesignElementHandle handle )
+	{
+		visitor.apply( handle );
 	}
 }

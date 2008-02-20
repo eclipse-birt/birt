@@ -6,6 +6,7 @@
    <extension-point id="emitters" name="Emitters that Support Report Rendering" schema="schema/emitters.exsd"/>
    <extension-point id="reportitemQuery" name="Extended Item DTE Prepare-Time support" schema="schema/reportitemQuery.exsd"/>
    <extension-point id="reportEventHandler" name="Extended Item Java Event Handler" schema="schema/reportEventHandler.exsd"/>
+   <extension-point id="reportItemPreparation" name="Extended Item Preparation Support" schema="schema/reportItemPreparation.exsd"/>
    <extension
          id="ReportExecutor"
          name="BIRT Report Design Executor"

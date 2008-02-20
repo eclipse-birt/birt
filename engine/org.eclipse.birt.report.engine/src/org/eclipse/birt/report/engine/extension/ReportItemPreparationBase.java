@@ -11,10 +11,23 @@
 
 package org.eclipse.birt.report.engine.extension;
 
-import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 
-public interface IReportEventContext extends IReportContext
+public class ReportItemPreparationBase implements IReportItemPreparation
 {
 
-	public ClassLoader getApplicationClassLoader( );
+	protected IPreparationContext context;
+
+	protected DesignElementHandle handle;
+	
+	public void init(IReportItemPreparationInfo info)
+	{
+		context = info.getPreparationContext( );
+		handle = info.getModelObject( );
+	}
+
+	public void prepare( )
+	{
+
+	}
 }

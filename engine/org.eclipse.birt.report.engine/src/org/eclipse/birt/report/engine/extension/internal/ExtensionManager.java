@@ -29,6 +29,7 @@ import org.eclipse.birt.report.engine.executor.ExtendedGenerateExecutor;
 import org.eclipse.birt.report.engine.extension.IReportEventHandler;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.extension.IReportItemGeneration;
+import org.eclipse.birt.report.engine.extension.IReportItemPreparation;
 import org.eclipse.birt.report.engine.extension.IReportItemPresentation;
 import org.eclipse.birt.report.engine.extension.IReportItemQuery;
 
@@ -45,6 +46,7 @@ public class ExtensionManager
 	public final static String EXTENSION_POINT_PRESENTATION = "org.eclipse.birt.report.engine.reportitemPresentation"; //$NON-NLS-1$
 	public final static String EXTENSION_POINT_QUERY = "org.eclipse.birt.report.engine.reportitemQuery"; //$NON-NLS-1$
 	public final static String EXTENSION_POINT_EVENTHANDLER = "org.eclipse.birt.report.engine.reportEventHandler"; //$NON-NLS-1$
+	public final static String EXTENSION_POINT_PREPARATION = "org.eclipse.birt.report.engine.reportItemPreparation"; //$NON-NLS-1$
 	
 	/**
 	 * the singleton isntance
@@ -75,6 +77,11 @@ public class ExtensionManager
 	 * stores references to extended event handlers
 	 */
 	protected HashMap eventHandlerExtensions = new HashMap();
+	
+	/*
+	 * references to prepare extentions
+	 */
+	protected HashMap preparationExtensions = new HashMap();
 	
 	/**
 	 * stores all the mime types that are supported
@@ -116,6 +123,7 @@ public class ExtensionManager
 		loadQueryExtensionDefns();
 		loadEmitterExtensionDefns();
 		loadEventHandlerExtensionDefns();
+		loadPreparationExtensionDefns();
 	}
 	
 	/**
@@ -300,6 +308,25 @@ public class ExtensionManager
 			if ( object instanceof IReportEventHandler )
 			{
 				return (IReportEventHandler) object;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * @param itemType the type of the extended item, i.e., "chart"
+	 * @return an object that extended items use
+	 */
+	public IReportItemPreparation createPreparationItem( String itemType )
+	{
+		IConfigurationElement config = (IConfigurationElement) preparationExtensions
+				.get( itemType );
+		if ( config != null )
+		{
+			Object object = createObject( config, "class" );
+			if ( object instanceof IReportItemPreparation )
+			{
+				return (IReportItemPreparation) object;
 			}
 		}
 		return null;
@@ -497,7 +524,36 @@ public class ExtensionManager
 	}
 	
 	/**
-	 * @param format the output format
+	 * load prepare extensions
+	 */
+	protected void loadPreparationExtensionDefns( )
+	{
+		IExtensionRegistry registry = Platform.getExtensionRegistry( );
+		IExtensionPoint extPoint = registry
+				.getExtensionPoint( EXTENSION_POINT_PREPARATION );
+		if ( extPoint == null )
+			return;
+
+		IExtension[] exts = extPoint.getExtensions( );
+		logger.log( Level.FINE,
+				"Start load extension point: {0}", EXTENSION_POINT_PREPARATION ); //$NON-NLS-1$
+		for ( int i = 0; i < exts.length; i++ )
+		{
+			IConfigurationElement[] configs = exts[i]
+					.getConfigurationElements( );
+			for ( int j = 0; j < configs.length; j++ )
+			{
+				String itemName = configs[j].getAttribute( "name" ); //$NON-NLS-1$
+				preparationExtensions.put( itemName, configs[j] );
+				logger.log( Level.FINE,
+						"Load reportItemPrepare extension: {0}", itemName ); //$NON-NLS-1$
+			}
+		}
+	}
+	
+	/**
+	 * @param format
+	 *            the output format
 	 * @return the mime type for the specific format
 	 */
 	public String getMIMEType( String format )

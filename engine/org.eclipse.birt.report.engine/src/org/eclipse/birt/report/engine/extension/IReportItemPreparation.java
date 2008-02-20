@@ -11,10 +11,18 @@
 
 package org.eclipse.birt.report.engine.extension;
 
-import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 
-public interface IReportEventContext extends IReportContext
+/**
+ * IReportItemPreparation is initially designed for extended item, which handles
+ * its nested items. So it shouldn't prepare itself again, otherwise an infinite
+ * loop occurs.
+ * 
+ */
+public interface IReportItemPreparation
 {
 
-	public ClassLoader getApplicationClassLoader( );
+	public void init( IReportItemPreparationInfo info );
+
+	public void prepare( );
 }

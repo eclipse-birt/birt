@@ -3,17 +3,17 @@
 <schema targetNamespace="org.eclipse.birt.report.engine" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.eclipse.birt.report.engine" id="reportEventHandler" name="Extended Item Java Event Handler"/>
+         <meta.schema plugin="org.eclipse.birt.report.engine" id="reportItemPreparation" name="Extended Item Preparation Support"/>
       </appinfo>
       <documentation>
-         This extension point specifies how to process java events. In a server environment, the plugin registry uses this extension point registration to discover supported report event hander extensions.
+         This extension point specifies how the extended report item prepares its nested report elements. In a server environment, the plugin registry uses this extension point registration to discover supported report item extensions.
       </documentation>
    </annotation>
 
    <element name="extension">
       <complexType>
          <sequence>
-            <element ref="reportEventHandler"/>
+            <element ref="reportItem"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -34,30 +34,27 @@
                <documentation>
                   
                </documentation>
-               <appinfo>
-                  <meta.attribute translatable="true"/>
-               </appinfo>
             </annotation>
          </attribute>
       </complexType>
    </element>
 
-   <element name="reportEventHandler">
+   <element name="reportItem">
       <complexType>
-         <attribute name="name" type="string" use="required">
+         <attribute name="name" type="string">
             <annotation>
                <documentation>
-                  
+                  name of the extension item, such as &quot;chart&quot; for chart.
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="class" type="string" use="required">
+         <attribute name="class" type="string">
             <annotation>
                <documentation>
-                  
+                  class that implements IReportItemPreparation
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":org.eclipse.birt.report.engine.extension.IReportEventHandler"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.birt.report.engine.extension.IReportItemPreparation"/>
                </appinfo>
             </annotation>
          </attribute>
@@ -78,14 +75,14 @@
          <meta.section type="examples"/>
       </appinfo>
       <documentation>
-         The following is a sample usage of the reportEventHandler extension point:
+         The following is a sample usage of the reportItemPrepare extension point:
 
 &lt;p&gt;
 &lt;pre&gt;
-&lt;extension point=&quot;org.eclipse.birt.report.engine.reportEventHandler&quot; 
-name=&quot;chart event handler extension&quot;&gt;
+&lt;extension point=&quot;org.eclipse.birt.report.engine.reportItemPreparation&quot; 
+name=&quot;chart prepare extension&quot;&gt;
   &lt;reportItem name=&quot;org.eclipse.birt.chart&quot;    
-  class=&quot;an event hanndler implementation from org.eclipse.birt.report.engine.extension.IReportEventHandler&quot; /&gt;
+  class=&quot;an event hanndler implementation from org.eclipse.birt.report.engine.extension.IReportItemPreparation&quot; /&gt;
  &lt;/extension&gt;
  &lt;/pre&gt;
 &lt;/p&gt;
@@ -94,13 +91,12 @@ name=&quot;chart event handler extension&quot;&gt;
 
    <annotation>
       <appinfo>
-         <meta.section type="apiInfo"/>
+         <meta.section type="apiinfo"/>
       </appinfo>
       <documentation>
          [Enter API information here.]
       </documentation>
    </annotation>
-
 
    <annotation>
       <appinfo>
