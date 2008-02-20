@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Actuate Corporation.
+ * Copyright (c) 2004 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,39 +11,36 @@
 
 package org.eclipse.birt.chart.reportitem.ui.views.attributes.provider;
 
-import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider;
-import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.CrosstabFilterHandleProvider;
 
 
 /**
- * The class is used for chart sharing binding/filters case.
+ * The filter provider is used for cube set.
  * @since 2.3
  */
-public class ChartShareFiltersHandleProvider extends
-		FilterHandleProvider
+public class ChartCubeFilterHandleProvider extends
+		CrosstabFilterHandleProvider
 {
+	
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getElements(java.lang.Object)
+	 */
+	public Object[] getElements( Object inputElement )
+	{
+		Object[] elements = new Object[0];
+		return elements;
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider#isEditable()
 	 */
-	public boolean isEditable( )
+	public boolean isEditable()
 	{
-		if ( input == null )
-		{
-			return false;
-		}
-		
-		boolean editable = super.isEditable( );
-		
-		// Don't allow to edit filter in chart property page when chart is in multi-views, so return false.
-		if ( ChartReportItemUtil.isChildOfMultiViewsHandle( ( (ReportItemHandle) DEUtil.getInputFirstElement( input ) ) ) )
-		{
-			return false;
-		}
-		
-		return editable;
+		return false;
 	}
 	
 	/*

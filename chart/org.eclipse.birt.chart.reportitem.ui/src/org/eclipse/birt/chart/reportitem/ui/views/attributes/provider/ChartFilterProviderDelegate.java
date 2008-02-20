@@ -14,9 +14,8 @@ package org.eclipse.birt.chart.reportitem.ui.views.attributes.provider;
 import java.util.List;
 
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFormHandleProvider;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider;
-import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.CrosstabFilterHandleProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFilterHandleProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
@@ -30,15 +29,15 @@ import org.eclipse.swt.widgets.Table;
  *  
  * @since 2.3
  */
-public class ChartFilterProviderDelegate extends AbstractFormHandleProvider
+public class ChartFilterProviderDelegate extends AbstractFilterHandleProvider
 {
 	/* Filter provider handle. */
-	private AbstractFormHandleProvider fProvider;
+	private AbstractFilterHandleProvider fProvider;
 	
 	/**
 	 * @param provider
 	 */
-	public ChartFilterProviderDelegate( AbstractFormHandleProvider provider )
+	public ChartFilterProviderDelegate( AbstractFilterHandleProvider provider )
 	{
 		fProvider = provider;
 	}
@@ -120,6 +119,21 @@ public class ChartFilterProviderDelegate extends AbstractFormHandleProvider
 	 */
 	public Object[] getElements( Object input )
 	{
+		fProvider = createFilterProvider( input, fProvider.getInput( ) );
+		
+		return fProvider.getElements( input );
+	}
+
+	/**
+	 * Create filter provider by specified input.
+	 * 
+	 * @param input
+	 * @param providerInput
+	 * @return
+	 */
+	public static AbstractFilterHandleProvider createFilterProvider( Object input, Object providerInput )
+	{
+		AbstractFilterHandleProvider currentProvider = null;
 		Object handle = null;
 		if ( input instanceof List)
 		{
@@ -130,8 +144,6 @@ public class ChartFilterProviderDelegate extends AbstractFormHandleProvider
 			handle = input;
 		}
 		
-		Object providerInput = fProvider.getInput( );
-		
 		if ( handle instanceof ReportItemHandle
 				&& ((ReportItemHandle) handle ).getCube( ) != null )
 		{
@@ -139,11 +151,11 @@ public class ChartFilterProviderDelegate extends AbstractFormHandleProvider
 			if ( ChartReportItemUtil.isChildOfMultiViewsHandle( (DesignElementHandle) handle ) 
 					|| ((ReportItemHandle)handle).getDataBindingReference( ) != null )
 			{
-				fProvider = new ChartShareCrosstabFiltersHandleProvider();
+				currentProvider = new ChartShareCrosstabFiltersHandleProvider();
 			}
 			else
 			{
-				fProvider = new CrosstabFilterHandleProvider( );
+				currentProvider = new ChartCubeFilterHandleProvider( );
 			}
 		}
 		else
@@ -151,16 +163,16 @@ public class ChartFilterProviderDelegate extends AbstractFormHandleProvider
 			// sharing table/multi-view
 			if ( ChartReportItemUtil.isChildOfMultiViewsHandle( (DesignElementHandle) handle ) )
 			{
-				fProvider = new ChartShareFiltersHandleProvider();
+				currentProvider = new ChartShareFiltersHandleProvider();
 			}
 			else
 			{
-				fProvider = new FilterHandleProvider( );
+				currentProvider = new ChartFilterHandleProvider( );
 			}
 		}
-		fProvider.setInput( providerInput );
+		currentProvider.setInput( providerInput );
 		
-		return fProvider.getElements( input );
+		return currentProvider;
 	}
 
 	/* (non-Javadoc)
@@ -284,12 +296,27 @@ public class ChartFilterProviderDelegate extends AbstractFormHandleProvider
 		fProvider.setInput( input );
 	}
 
-	
 	/**
 	 * @param provider
 	 */
-	public void setProvider( AbstractFormHandleProvider provider )
+	public void setProvider( AbstractFilterHandleProvider provider )
 	{
 		fProvider = provider;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFilterHandleProvider#getConcreteFilterProvider()
+	 */
+	public IFormProvider getConcreteFilterProvider( )
+	{
+		return fProvider.getConcreteFilterProvider( );
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFormHandleProvider#needRebuilded(org.eclipse.birt.report.model.api.activity.NotificationEvent)
+	 */
+	public boolean needRebuilded( NotificationEvent event )
+	{
+		return fProvider.needRebuilded( event );
 	}
 }

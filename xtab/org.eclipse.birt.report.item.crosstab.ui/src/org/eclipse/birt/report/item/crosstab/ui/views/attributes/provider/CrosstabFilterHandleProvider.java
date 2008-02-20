@@ -15,7 +15,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFormHandleProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFilterHandleProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider;
 import org.eclipse.birt.report.item.crosstab.core.ILevelViewConstants;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.ListingHandle;
@@ -35,7 +36,7 @@ import org.eclipse.swt.widgets.Table;
  * 
  */
 
-public class CrosstabFilterHandleProvider extends AbstractFormHandleProvider
+public class CrosstabFilterHandleProvider extends AbstractFilterHandleProvider
 {
 	/**
 	 * The current selections in outline or Editor.
@@ -289,6 +290,14 @@ public class CrosstabFilterHandleProvider extends AbstractFormHandleProvider
 			}
 		}
 		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFilterHandleProvider#getConcreteFilterProvider()
+	 */
+	public IFormProvider getConcreteFilterProvider( )
+	{
+		return this;
 	}
 
 

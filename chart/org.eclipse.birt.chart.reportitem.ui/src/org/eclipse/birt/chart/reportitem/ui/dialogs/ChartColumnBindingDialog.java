@@ -70,6 +70,7 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 			btnEdit.setEnabled( false );
 			btnDel.setEnabled( false );
 			btnAddAgg.setEnabled( false );
+			btnRefresh.setEnabled( false );
 		}
 	}
 

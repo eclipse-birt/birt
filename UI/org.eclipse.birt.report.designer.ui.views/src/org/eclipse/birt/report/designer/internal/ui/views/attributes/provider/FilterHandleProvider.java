@@ -43,7 +43,7 @@ import org.eclipse.swt.widgets.Table;
 /**
  * Filter FormHandleProvider, provides Filter sensitive data and processes.
  */
-public class FilterHandleProvider extends AbstractFormHandleProvider
+public class FilterHandleProvider extends AbstractFilterHandleProvider
 {
 
 	/**
@@ -455,5 +455,13 @@ public class FilterHandleProvider extends AbstractFormHandleProvider
 			return false;
 		else
 			return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFilterHandleProvider#getConcreteFilterProvider()
+	 */
+	public IFormProvider getConcreteFilterProvider( )
+	{
+		return this;
 	}
 }

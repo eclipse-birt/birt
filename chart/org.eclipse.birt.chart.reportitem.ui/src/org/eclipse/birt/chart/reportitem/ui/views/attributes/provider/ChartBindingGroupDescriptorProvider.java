@@ -212,8 +212,8 @@ public class ChartBindingGroupDescriptorProvider extends
 			{
 				getReportItemHandle( ).setDataBindingReference( null );
 			}
-			getReportItemHandle( ).setCube( cubeHandle );
 			getReportItemHandle( ).setDataSet( null );
+			getReportItemHandle( ).setCube( cubeHandle );
 			if ( clearHistory )
 			{
 				getReportItemHandle( ).getColumnBindings( ).clearValue( );
@@ -281,8 +281,8 @@ public class ChartBindingGroupDescriptorProvider extends
 			{
 				getReportItemHandle( ).setDataBindingReference( null );
 			}
-			getReportItemHandle( ).setDataSet( dataSet );
 			getReportItemHandle( ).setCube( null );
+			getReportItemHandle( ).setDataSet( dataSet );
 			if ( clearHistory )
 			{
 				getReportItemHandle( ).getColumnBindings( ).clearValue( );

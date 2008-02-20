@@ -22,7 +22,7 @@ public class FormPage extends AttributePage
 {
 
 	private int style;
-	private IFormProvider provider;
+	protected IFormProvider provider;
 	private boolean withDialog = false;
 	private boolean isTabbed = false;
 	private FormSection formSection;
@@ -123,6 +123,7 @@ public class FormPage extends AttributePage
 		deRegisterEventManager( );
 	}
 
+	boolean needRebuild = false;
 	public void addElementEvent( DesignElementHandle focus, NotificationEvent ev )
 	{
 		if ( checkControl( formSection ) )
@@ -134,7 +135,7 @@ public class FormPage extends AttributePage
 			{
 				if ( provider.needRebuilded( ev ) )
 				{
-					rebuildUI( );
+					needRebuild = true;
 					return;
 				}
 				formSection.getFormControl( ).addElementEvent( focus, ev );
@@ -156,6 +157,7 @@ public class FormPage extends AttributePage
 
 	public void clear( )
 	{
+		needRebuild = false;
 		if ( checkControl( formSection ) )
 			formSection.getFormControl( ).clear( );
 	}
@@ -169,6 +171,11 @@ public class FormPage extends AttributePage
 
 	public void postElementEvent( )
 	{
+		if ( needRebuild )
+		{
+			rebuildUI( );
+			needRebuild = false;
+		}
 		if ( checkControl( formSection ) )
 			formSection.getFormControl( ).postElementEvent( );
 	}

@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.CrosstabFilterHandleProvider;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -88,5 +89,19 @@ public class ChartShareCrosstabFiltersHandleProvider extends
 	public boolean isEditable( )
 	{
 		return false;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.CrosstabFilterHandleProvider#getConcreteFilterProvider()
+	 */
+	public IFormProvider getConcreteFilterProvider( )
+	{
+		if ( input == null ) {
+			return this;
+		}
+
+		return ChartFilterProviderDelegate.createFilterProvider( input, getInput() );
 	}
 }
