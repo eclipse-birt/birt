@@ -656,8 +656,18 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 				}
 				else
 				{
-					List seriesDefns = ChartUIUtil.getOrthogonalSeriesDefinitions( getChart( ),
-							axisIndex );
+					List seriesDefns;
+					if ( getContext( ).isMoreAxesSupported( )
+							|| ChartUIUtil.getOrthogonalAxisNumber( getChart( ) ) > 2 )
+					{
+						seriesDefns = ChartUIUtil.getOrthogonalSeriesDefinitions( getChart( ),
+								0 );
+					}
+					else
+					{
+						seriesDefns = ChartUIUtil.getOrthogonalSeriesDefinitions( getChart( ),
+								axisIndex );
+					}
 					Series s = ( (SeriesDefinition) seriesDefns.get( 0 ) ).getDesignTimeSeries( );
 					if ( s != seriesDefn.getDesignTimeSeries( ) )
 					{

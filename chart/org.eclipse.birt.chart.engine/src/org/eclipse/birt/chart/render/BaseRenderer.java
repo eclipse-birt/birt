@@ -110,6 +110,9 @@ import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.util.EList;
 
+import com.ibm.icu.text.DateFormat;
+import com.ibm.icu.util.Calendar;
+
 /**
  * Provides a generic framework that initiates the rendering sequence of the
  * various chart components. Series type extensions could subclass this class if
@@ -2830,7 +2833,16 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					c = '&';
 					sb.append( URLValueImpl.encode( uv.getBaseParameterName( ) ) );
 					sb.append( '=' );
-					sb.append( URLValueImpl.encode( dph.getBaseDisplayValue( ) ) );
+					String urlValue = dph.getBaseDisplayValue( );
+					if ( dph.getBaseValue( ) instanceof Calendar )
+					{
+						// Bugzilla#215442 fix a parse issue to date
+						urlValue = DateFormat.getDateInstance( DateFormat.LONG,
+								rtc.getULocale( ) )
+								.format( dph.getBaseValue( ) );
+
+					}
+					sb.append( URLValueImpl.encode( urlValue ) );
 				}
 
 				if ( uv.getValueParameterName( ) != null
@@ -2840,7 +2852,16 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					c = '&';
 					sb.append( URLValueImpl.encode( uv.getValueParameterName( ) ) );
 					sb.append( '=' );
-					sb.append( URLValueImpl.encode( dph.getOrthogonalDisplayValue( ) ) );
+					String urlValue = dph.getOrthogonalDisplayValue( );
+					if ( dph.getOrthogonalValue( ) instanceof Calendar )
+					{
+						// Bugzilla#215442 fix a parse issue to date
+						urlValue = DateFormat.getDateInstance( DateFormat.LONG,
+								rtc.getULocale( ) )
+								.format( dph.getOrthogonalValue( ) );
+
+					}
+					sb.append( URLValueImpl.encode( urlValue ) );
 				}
 				if ( uv.getSeriesParameterName( ) != null
 						&& uv.getSeriesParameterName( ).length( ) > 0 )

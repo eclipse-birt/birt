@@ -487,7 +487,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 		else if ( e.widget.equals( cmbSeriesSelect ) )
 		{
 			// Check if needing to add a new series
-			if ( cmbSeriesSelect.getSelectionIndex( ) == cmbSeriesSelect.getItemCount( ) - 1 )
+			if ( cmbSeriesSelect.getSelectionIndex( ) == cmbSeriesSelect.getItemCount( ) - 1 && !isInXTab( ) )
 			{
 				addNewSeriesDefinition( );
 
@@ -693,9 +693,17 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 		{
 			itemList.add( selectionName + " " + i ); //$NON-NLS-1$
 		}
-		itemList.add( Messages.getString( "DataDefinitionSelector.Text.NewSeries" ) ); //$NON-NLS-1$
+		if( !isInXTab( ) )
+		{
+			itemList.add( Messages.getString( "DataDefinitionSelector.Text.NewSeries" ) ); //$NON-NLS-1$
+		}
 		cmbSeriesSelect.removeAll( );
 		cmbSeriesSelect.setItems( (String[]) itemList.toArray( new String[seriesSize] ) );
+	}
+	
+	private boolean isInXTab( )
+	{
+		return wizardContext.getDataServiceProvider( ).isInXTab( );
 	}
 
 	private void refreshAxisCombo( )
