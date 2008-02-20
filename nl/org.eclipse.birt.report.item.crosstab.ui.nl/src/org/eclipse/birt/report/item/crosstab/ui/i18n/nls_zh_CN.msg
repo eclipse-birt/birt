@@ -107,6 +107,7 @@ CrosstabPageGenerator.TabItem.Sorting=排序
 CrosstabGeneraPage.ForEmptyCell=对于空单元格，显示(&S):
 CrosstabGeneraPage.FormatOption=格式选项:
 LayoutMeasuresSection.DisplayName=方向:
+CrosstabGeneralPage.HideMeasureHeader=Hide Measure Header
 
 
 parameterBinding.title=数据集参数绑定...
