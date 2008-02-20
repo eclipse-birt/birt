@@ -54,7 +54,7 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 				ResourceEntryFilter filter = new ResourceEntryFilter( (ResourceFilter[]) ReportPlugin.getFilterMap( )
 						.values( )
 						.toArray( new ResourceFilter[0] ) );
-				if ( entity.getChildren( ).length > 0 )
+				if ( entity.hasChildren( ) )
 				{
 					return filter.accept( entity );
 				}
@@ -85,7 +85,7 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 						.values( )
 						.toArray( new ResourceFilter[0] ) );
 				
-				if ( entity.getChildren( ).length > 0 )
+				if ( entity.hasChildren( ) )
 				{
 					return filter.accept( entity );
 				}
@@ -112,7 +112,7 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 				ResourceEntryFilter filter = new ResourceEntryFilter( (ResourceFilter[]) ReportPlugin.getFilterMap( )
 						.values( )
 						.toArray( new ResourceFilter[0] ) );
-				if ( entity.getChildren( ).length > 0 )
+				if ( entity.hasChildren( ) )
 				{
 					return filter.accept( entity );
 				}
@@ -182,7 +182,7 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 		}
 		if ( element instanceof ResourceEntry )
 		{
-			return ( (ResourceEntry) element ).getChildren( ).length > 0;
+			return ( (ResourceEntry) element ).hasChildren( );
 		}
 		return false;
 	}

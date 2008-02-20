@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.samplesview.view;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
+import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry.Filter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
@@ -323,6 +325,11 @@ public class ReportExamples
 				return null;
 			}
 
+			public boolean hasChildren( )
+			{
+				return false;
+			}
+			
 			public ResourceEntry[] getChildren( )
 			{
 				return new ResourceEntry[0];
@@ -352,6 +359,7 @@ public class ReportExamples
 			{
 				return null;
 			}
+			
 		};
 
 		Object adapter = null;

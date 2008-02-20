@@ -38,7 +38,7 @@ public class ResourceEntryFilter implements Filter
 			else if ( filter.getType( )
 					.equals( ResourceFilter.FILTER_EMPTY_FOLDERS ) )
 			{
-				if ( !entity.isFile( ) && entity.getChildren( ).length == 0 )
+				if ( !entity.isFile( ) && !entity.hasChildren( ))
 					return false;
 			}
 			// TODO: case 4, add a getAdapte method in the interface

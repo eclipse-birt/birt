@@ -134,6 +134,11 @@ public class SampleReportsEntry implements ResourceEntry
 		return null;
 	}
 
+	public boolean hasChildren( )
+	{
+		return children.size( )>0;
+	}
+	
 	public ResourceEntry[] getChildren( )
 	{
 		return (ResourceEntry[]) this.children.toArray( new ResourceEntry[this.children.size( )] );
@@ -163,7 +168,7 @@ public class SampleReportsEntry implements ResourceEntry
 
 	public Image getImage( )
 	{
-		if ( this.isRoot || getChildren( ).length > 0 )
+		if ( this.isRoot || hasChildren( ) )
 		{
 			return PlatformUI.getWorkbench( )
 					.getSharedImages( )
@@ -209,7 +214,7 @@ public class SampleReportsEntry implements ResourceEntry
 	{
 		if ( adapter == ReportDesignHandle.class )
 		{
-			if ( getChildren( ).length == 0 && this.sampleReport == null )
+			if ( !hasChildren( ) && this.sampleReport == null )
 			{
 				try
 				{
@@ -231,5 +236,10 @@ public class SampleReportsEntry implements ResourceEntry
 	public boolean isRoot( )
 	{
 		return isRoot;
+	}
+	
+	public boolean hasChildren( Filter filter )
+	{
+		return getChildren( filter ).length > 0;
 	}
 }

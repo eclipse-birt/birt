@@ -60,6 +60,11 @@ public abstract class BaseResourceEntity implements ResourceEntry
 		return null;
 	}
 
+	public boolean hasChildren( Filter filter )
+	{
+		return getChildren( filter ).length > 0;
+	}
+
 	public ResourceEntry[] getChildren( Filter filter )
 	{
 		ResourceEntry[] children = getChildren( );

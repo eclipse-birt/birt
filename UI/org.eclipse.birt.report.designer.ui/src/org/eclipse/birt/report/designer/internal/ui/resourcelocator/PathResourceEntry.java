@@ -38,6 +38,7 @@ import org.eclipse.ui.PlatformUI;
  */
 public class PathResourceEntry extends BaseResourceEntity
 {
+
 	protected Logger logger = Logger.getLogger( PathResourceEntry.class.getName( ) );
 
 	private String path;
@@ -150,6 +151,22 @@ public class PathResourceEntry extends BaseResourceEntity
 		}
 	}
 
+	public boolean hasChildren( )
+	{
+		if ( this.isRoot && this.path == null )
+			initRoot( );
+		File file = new File( this.path );
+		if ( file.isDirectory( ) )
+		{
+			String[] list = file.list( );
+			if ( list == null )
+				return false;
+			return list.length > 0;
+		}
+		else
+			return false;
+	}
+
 	public ResourceEntry[] getChildren( )
 	{
 		if ( this.childrenList == null )
@@ -163,19 +180,21 @@ public class PathResourceEntry extends BaseResourceEntity
 				if ( file.isDirectory( ) )
 				{
 					File[] children = file.listFiles( filter );
-
-					for ( int i = 0; i < children.length; i++ )
+					if ( children != null )
 					{
-						PathResourceEntry child = new PathResourceEntry( children[i].getAbsolutePath( ),
-								children[i].getName( ),
-								this );
-						childrenList.add( child );
+						for ( int i = 0; i < children.length; i++ )
+						{
+							PathResourceEntry child = new PathResourceEntry( children[i].getAbsolutePath( ),
+									children[i].getName( ),
+									this );
+							childrenList.add( child );
+						}
 					}
 				}
 			}
 			catch ( Exception e )
 			{
-				logger.log(Level.SEVERE, e.getMessage(),e);
+				logger.log( Level.SEVERE, e.getMessage( ), e );
 			}
 		}
 		return (ResourceEntry[]) childrenList.toArray( new ResourceEntry[childrenList.size( )] );
@@ -299,21 +318,25 @@ public class PathResourceEntry extends BaseResourceEntity
 		return null;
 	}
 
-	
-
-	public boolean equals(Object object){
-		if(object == null)return false;
-		if(!(object instanceof PathResourceEntry))return false;
-		if(object == this)return true;
-		else{
-			PathResourceEntry temp = (PathResourceEntry)object;
-			if(temp.path.equals( this.path ))
+	public boolean equals( Object object )
+	{
+		if ( object == null )
+			return false;
+		if ( !( object instanceof PathResourceEntry ) )
+			return false;
+		if ( object == this )
+			return true;
+		else
+		{
+			PathResourceEntry temp = (PathResourceEntry) object;
+			if ( temp.path.equals( this.path ) )
 				return true;
 		}
 		return false;
 	}
-	
-	public int hashCode(){
+
+	public int hashCode( )
+	{
 		if ( this.path != null )
 			return this.path.hashCode( );
 		return super.hashCode( );

@@ -40,6 +40,8 @@ public interface ResourceEntry extends IAdaptable
 	ResourceEntry getParent( );
 
 	ResourceEntry[] getChildren( );
+	
+	boolean hasChildren( );
 
 	ResourceEntry[] getChildren( Filter filter );
 

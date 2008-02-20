@@ -96,7 +96,7 @@ public class FragmentResourceEntry extends BaseResourceEntity
 			URL element = (URL) enumeration.nextElement( );
 			String path = element.getPath( )
 					+ ( element.getRef( ) != null ? "#" + element.getRef( ) //$NON-NLS-1$
-							: "" ); //$NON-NLS-1$
+					: "" ); //$NON-NLS-1$
 			String[] pathtoken = path.split( "/" ); //$NON-NLS-1$
 			FragmentResourceEntry parent = this;
 			for ( int m = 0; m < pathtoken.length; m++ )
@@ -145,6 +145,11 @@ public class FragmentResourceEntry extends BaseResourceEntity
 		return null;
 	}
 
+	public boolean hasChildren( )
+	{
+		return children.size( ) > 0;
+	}
+
 	public ResourceEntry[] getChildren( )
 	{
 		return (ResourceEntry[]) this.children.toArray( new ResourceEntry[this.children.size( )] );
@@ -162,7 +167,7 @@ public class FragmentResourceEntry extends BaseResourceEntity
 
 	public Image getImage( )
 	{
-		if ( this.isRoot || getChildren( ).length > 0 )
+		if ( this.isRoot || hasChildren() )
 			return PlatformUI.getWorkbench( )
 					.getSharedImages( )
 					.getImage( ISharedImages.IMG_OBJ_FOLDER );
@@ -216,7 +221,7 @@ public class FragmentResourceEntry extends BaseResourceEntity
 	{
 		if ( adapter == LibraryHandle.class )
 		{
-			if ( getChildren( ).length == 0
+			if ( !hasChildren( )
 					&& this.library == null
 					&& getURL( ).toString( )
 							.toLowerCase( )

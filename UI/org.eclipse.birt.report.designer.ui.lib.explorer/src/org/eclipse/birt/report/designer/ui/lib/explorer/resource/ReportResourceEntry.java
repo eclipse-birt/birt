@@ -8,6 +8,7 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.report.designer.ui.lib.explorer.resource;
 
 import java.net.URL;
@@ -24,6 +25,11 @@ public abstract class ReportResourceEntry implements ResourceEntry
 	public void dispose( )
 	{
 
+	}
+
+	public boolean hasChildren( )
+	{
+		return false;
 	}
 
 	public ResourceEntry[] getChildren( )

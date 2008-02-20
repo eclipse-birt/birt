@@ -69,6 +69,11 @@ public class ResourceEntryWrapper implements ResourceEntry
 		return proxy.getName( );
 	}
 
+	public boolean hasChildren( )
+	{
+		return proxy.hasChildren( );
+	}
+	
 	public ResourceEntry getParent( )
 	{
 		return proxy.getParent( );
@@ -120,4 +125,5 @@ public class ResourceEntryWrapper implements ResourceEntry
 	{
 		return proxy;
 	}
+
 }
