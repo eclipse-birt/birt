@@ -40,6 +40,7 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -167,7 +168,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public ModuleHandle( Module module )
 	{
 		super( module );
-		
+
 		initializeSlotHandles( );
 		cachePropertyHandles( );
 	}
@@ -195,8 +196,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE );
 		}
 
-		if ( configVar != null &&
-				findConfigVariable( configVar.getName( ) ) != null )
+		if ( configVar != null
+				&& findConfigVariable( configVar.getName( ) ) != null )
 		{
 			throw new PropertyValueException( getElement( ), propDefn,
 					configVar.getName( ),
@@ -784,8 +785,8 @@ public abstract class ModuleHandle extends DesignElementHandle
 		{
 			EmbeddedImage image = (EmbeddedImage) iter.next( );
 
-			if ( image.getName( ) != null &&
-					image.getName( ).equalsIgnoreCase( name ) )
+			if ( image.getName( ) != null
+					&& image.getName( ).equalsIgnoreCase( name ) )
 			{
 				return i;
 			}
@@ -2788,6 +2789,28 @@ public abstract class ModuleHandle extends DesignElementHandle
 	}
 
 	/**
+	 * Removes the given included script.
+	 * 
+	 * @param includeScript
+	 *            the included script
+	 * @throws SemanticException
+	 */
+
+	public void dropIncludeScript( IncludeScript includeScript )
+			throws SemanticException
+	{
+		if ( includeScript == null )
+			return;
+
+		ElementPropertyDefn propDefn = module
+				.getPropertyDefn( INCLUDE_SCRIPTS_PROP );
+
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
+				getElement( ) );
+		cmd.removeItem( new CachedMemberRef( propDefn ), includeScript );
+	}
+
+	/**
 	 * Removes special script lib handle.
 	 * 
 	 * @param scriptLibHandle
@@ -2903,6 +2926,30 @@ public abstract class ModuleHandle extends DesignElementHandle
 	}
 
 	/**
+	 * Shifts included script from source position to destination position. For
+	 * example, if a list has A, B, C scriptLib in order, when move Am includeScript
+	 * to <code>newPosn</code> with the value 1, the sequence becomes B, A, C.
+	 * 
+	 * @param sourceIndex
+	 *            source position. The range is
+	 *            <code>sourceIndex &gt;= 0 && sourceIndex &lt; list.size()</code>
+	 * @param destIndex
+	 *            destination position.The range is
+	 *            <code> destIndex &gt;= 0 && destIndex &lt; list.size()</code>
+	 * @throws SemanticException
+	 */
+	 
+	public void shifIncludeScripts( int sourceIndex, int destIndex )
+			throws SemanticException
+	{
+		ElementPropertyDefn propDefn = module
+				.getPropertyDefn( INCLUDE_SCRIPTS_PROP );
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
+				getElement( ) );
+		cmd.moveItem( new CachedMemberRef( propDefn ), sourceIndex, destIndex );
+	}
+
+	/**
 	 * Add script lib
 	 * 
 	 * @param scriptLib
@@ -2916,6 +2963,24 @@ public abstract class ModuleHandle extends DesignElementHandle
 		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
 				getElement( ) );
 		cmd.addItem( new CachedMemberRef( propDefn ), scriptLib );
+	}
+
+	/**
+	 * Adds include script.
+	 * 
+	 * @param includeScript
+	 *            the include script
+	 * @throws SemanticException
+	 */
+
+	public void addIncludeScript( IncludeScript includeScript )
+			throws SemanticException
+	{
+		ElementPropertyDefn propDefn = module
+				.getPropertyDefn( INCLUDE_SCRIPTS_PROP );
+		ComplexPropertyCommand cmd = new ComplexPropertyCommand( getModule( ),
+				getElement( ) );
+		cmd.addItem( new CachedMemberRef( propDefn ), includeScript );
 	}
 
 	/**
@@ -3079,7 +3144,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 		String retVersion = module.getVersionManager( ).getVersion( );
 		return retVersion;
 	}
-	
+
 	/**
 	 * Returns the iterator over all included scripts. Each one is the instance
 	 * of <code>IncludeScriptHandle</code>

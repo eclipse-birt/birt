@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.api.core.IDisposeListener;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
@@ -506,8 +507,8 @@ public class ReportDesignHandleTest extends BaseTestCase
 		// hierarchy not in the tree, but can find dimension
 		// in this case name change in level
 
-		dimensionHandle = (DimensionHandle) dimensionHandle.copy( )
-				.getHandle( libraryHandle.getModule( ) );
+		dimensionHandle = (DimensionHandle) dimensionHandle.copy( ).getHandle(
+				libraryHandle.getModule( ) );
 
 		hierarchy = new TabularHierarchy( "NewTabularHierarchy" );//$NON-NLS-1$
 		hierarchyHandle = (HierarchyHandle) hierarchy.getHandle( libraryHandle
@@ -1310,6 +1311,49 @@ public class ReportDesignHandleTest extends BaseTestCase
 		assertEquals( "script first", script.getFileName( ) ); //$NON-NLS-1$
 		script = (IncludeScriptHandle) scriptIter.next( );
 		assertEquals( "script second", script.getFileName( ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Tests methods for include scripts values.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testIncludeScripts( ) throws Exception
+	{
+		openDesign( "ReportDesignIncludeScriptParseTest.xml", ULocale.ENGLISH ); //$NON-NLS-1$
+
+		IncludeScript includeScript = new IncludeScript( );
+		includeScript.setFileName( null );
+
+		try
+		{
+			designHandle.addIncludeScript( includeScript );
+			fail( "Not allowed set invalid value " );//$NON-NLS-1$
+		}
+		catch ( SemanticException e )
+		{
+			assertEquals(
+					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED, e
+							.getErrorCode( ) );
+		}
+
+		includeScript.setFileName( "third" ); //$NON-NLS-1$
+		designHandle.addIncludeScript( includeScript );
+
+		designHandle.shifIncludeScripts( 0, 2 );
+
+		Iterator iter1 = designHandle.includeScriptsIterator( );
+		IncludeScriptHandle scriptHandle = (IncludeScriptHandle) iter1.next( );
+		assertEquals( "second", scriptHandle.getFileName( ) );//$NON-NLS-1$
+		scriptHandle = (IncludeScriptHandle) iter1.next( );
+		assertEquals( "third", scriptHandle.getFileName( ) );//$NON-NLS-1$
+		scriptHandle = (IncludeScriptHandle) iter1.next( );
+		assertEquals( "first", scriptHandle.getFileName( ) );//$NON-NLS-1$
+
+		designHandle.dropIncludeScript( includeScript );
+		assertEquals( 2, designHandle.getListProperty(
+				ReportDesignHandle.INCLUDE_SCRIPTS_PROP ).size( ) );
 	}
 
 }
