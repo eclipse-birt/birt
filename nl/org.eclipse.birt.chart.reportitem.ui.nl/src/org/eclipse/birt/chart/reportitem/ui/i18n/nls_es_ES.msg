@@ -75,3 +75,7 @@ StandardChartDataSheet.Label.PlotAsValueSeries=Dibujar como serie del valor
 StandardChartDataSheet.Label.UseToGroupYSeries=Usar para agrupar serie Y
 StandardChartDataSheet.Label.EnableLivePreview=Activar la vista previa del diagrama en tiempo real
 StandardChartDataSheet.Label.UseToGroupValueSeries=Usar para agrupar serie del valor
+
+ChartBindingGroupDescriptorProvider.DataSets.Default=---Conjuntos de datos---
+ChartBindingGroupDescriptorProvider.DataCubes.Default=---Cubos de datos---
+BindingPage.Data.Label=Data:

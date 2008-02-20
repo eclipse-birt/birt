@@ -75,3 +75,7 @@ StandardChartDataSheet.Label.PlotAsValueSeries=绘制为值系列
 StandardChartDataSheet.Label.UseToGroupYSeries=用来将 Y 系列分组
 StandardChartDataSheet.Label.EnableLivePreview=启用实时图表预览
 StandardChartDataSheet.Label.UseToGroupValueSeries=用来将值系列分组
+
+ChartBindingGroupDescriptorProvider.DataSets.Default=---数据集---
+ChartBindingGroupDescriptorProvider.DataCubes.Default=---多维数据集---
+BindingPage.Data.Label=Data:

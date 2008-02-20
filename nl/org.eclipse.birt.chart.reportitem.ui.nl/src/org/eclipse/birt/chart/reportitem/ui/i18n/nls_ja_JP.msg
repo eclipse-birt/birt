@@ -75,3 +75,7 @@ StandardChartDataSheet.Label.PlotAsValueSeries=値系列としてプロットする
 StandardChartDataSheet.Label.UseToGroupYSeries=Y 系列のグループ化に使用する
 StandardChartDataSheet.Label.EnableLivePreview=ライブグラフプレビューの有効化
 StandardChartDataSheet.Label.UseToGroupValueSeries=値系列のグループ化に使用する
+
+ChartBindingGroupDescriptorProvider.DataSets.Default=---データセット---
+ChartBindingGroupDescriptorProvider.DataCubes.Default=---データキューブ---
+BindingPage.Data.Label=Data:

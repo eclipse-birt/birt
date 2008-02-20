@@ -75,3 +75,7 @@ StandardChartDataSheet.Label.PlotAsValueSeries=Tracer une série de valeurs
 StandardChartDataSheet.Label.UseToGroupYSeries=Utiliser la série verticale de groupes
 StandardChartDataSheet.Label.EnableLivePreview=Activer l'aperçu direct du graphique
 StandardChartDataSheet.Label.UseToGroupValueSeries=Utiliser la série de valeurs de groupes
+
+ChartBindingGroupDescriptorProvider.DataSets.Default=---Jeux de données---
+ChartBindingGroupDescriptorProvider.DataCubes.Default=---Cubes de données---
+BindingPage.Data.Label=Data:

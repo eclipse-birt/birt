@@ -75,3 +75,7 @@ StandardChartDataSheet.Label.PlotAsValueSeries=Als Wert-Datenreihe zeichnen
 StandardChartDataSheet.Label.UseToGroupYSeries=Zum Gruppieren von Datenreihe (auf Y-Achse) verwenden
 StandardChartDataSheet.Label.EnableLivePreview=Live-Diagrammvorschau aktivieren
 StandardChartDataSheet.Label.UseToGroupValueSeries=Zum Gruppieren von Wert-Datenreihen verwenden
+
+ChartBindingGroupDescriptorProvider.DataSets.Default=---Datensätze---
+ChartBindingGroupDescriptorProvider.DataCubes.Default=---Datenquader---
+BindingPage.Data.Label=Data:
