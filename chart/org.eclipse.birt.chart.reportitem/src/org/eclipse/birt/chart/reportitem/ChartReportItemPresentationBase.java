@@ -90,6 +90,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	private static List registeredDevices = null;
 
 	protected static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
+	
+	private Bounds boundsRuntime = null;
 
 	static
 	{
@@ -353,7 +355,10 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 				}
 
 				rtc = drtc;
-				cm = rtc.getScriptContext( ).getChartInstance( );
+				
+				// After performance fix, script context will return null model.
+				// cm = rtc.getScriptContext( ).getChartInstance( );
+				
 				// Set back the cm into the handle from the engine, so that the
 				// chart inside the
 				// reportdesignhandle is the same as the one used during
@@ -538,13 +543,14 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	 */
 	public Size getSize( )
 	{
-		if ( cm != null )
+		// Use actual bounds to set size
+		if ( boundsRuntime != null )
 		{
 			logger.log( ILogger.INFORMATION,
 					Messages.getString( "ChartReportItemPresentationImpl.log.getSizeStart" ) ); //$NON-NLS-1$
 			final Size sz = new Size( );
-			sz.setWidth( (float) cm.getBlock( ).getBounds( ).getWidth( ) );
-			sz.setHeight( (float) cm.getBlock( ).getBounds( ).getHeight( ) );
+			sz.setWidth( (float) boundsRuntime.getWidth( ) );
+			sz.setHeight( (float) boundsRuntime.getHeight( ) );
 			sz.setUnit( Size.UNITS_PT );
 			logger.log( ILogger.INFORMATION,
 					Messages.getString( "ChartReportItemPresentationImpl.log.getSizeEnd" ) ); //$NON-NLS-1$
@@ -737,12 +743,14 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 
 		initializeRuntimeContext( rowAdapter );
 
-		return Generator.instance( ).build( idr.getDisplayServer( ),
+		GeneratedChartState gcs = Generator.instance( ).build( idr.getDisplayServer( ),
 				cm,
 				bo,
 				externalContext,
 				rtc,
 				new ChartReportStyleProcessor( handle, this.style ) );
+		boundsRuntime = gcs.getChartModel( ).getBlock( ).getBounds( );
+		return gcs;
 	}
 
 	protected Object getImageToDisplay( )
