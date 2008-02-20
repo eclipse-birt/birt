@@ -120,7 +120,19 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 	 *         <code>AngleType.Z</code>
 	 */
 	abstract protected int getAxisAngleType( );
-
+	
+	protected boolean isChart3D( Axis ax )
+	{
+		if ( getChart( ) instanceof ChartWithAxes )
+		{
+			return ( getChart( ).getDimension( ) == ChartDimension.THREE_DIMENSIONAL_LITERAL );
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
 	public void createControl( Composite parent )
 	{
 		cmpContent = new Composite( parent, SWT.NONE );
@@ -301,10 +313,14 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 
 		cbStaggered = new Button( cmpLabel, SWT.CHECK );
 		{
-			cbStaggered.setSelection( getAxisForProcessing( ).isSetStaggered( )
-					&& getAxisForProcessing( ).isStaggered( ) );
+			Axis ax = getAxisForProcessing( );
+			boolean bStaggered = ax.isSetStaggered( ) && ax.isStaggered( );
+			boolean bNot3D = !isChart3D( ax );
+
+			cbStaggered.setSelection( bNot3D && bStaggered );
 			cbStaggered.setText( Messages.getString( "AbstractAxisSubtask.Label.Stagger" ) ); //$NON-NLS-1$
 			cbStaggered.addSelectionListener( this );
+			cbStaggered.setEnabled( bNot3D );
 		}
 
 		createButtonGroup( cmpContent );
@@ -323,10 +339,11 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 
 	private void setStateOfLabel( )
 	{
-		boolean isLabelEnabled = getAxisForProcessing( ).getLabel( )
+		Axis ax = getAxisForProcessing( );
+		boolean isLabelEnabled = ax.getLabel( )
 				.isVisible( );
 		fdcFont.setEnabled( isLabelEnabled );
-		cbStaggered.setEnabled( isLabelEnabled );
+		cbStaggered.setEnabled( !isChart3D( ax ) && isLabelEnabled );
 		setToggleButtonEnabled( BUTTON_LABEL, isLabelEnabled );
 	}
 

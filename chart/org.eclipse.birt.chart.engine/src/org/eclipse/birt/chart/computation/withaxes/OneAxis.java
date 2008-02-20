@@ -13,12 +13,16 @@ package org.eclipse.birt.chart.computation.withaxes;
 
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.factory.RunTimeContext;
+import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.attribute.ChartDimension;
 import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * This class provides an internal implementation of the axis class used by the
@@ -221,6 +225,28 @@ public final class OneAxis
 	{
 		return bTickBwteenCategories;
 	}
+	
+	public final Chart getChartModel( )
+	{
+		if ( axModel == null )
+		{
+			return null;
+		}
+
+		EObject ct = axModel.eContainer( );
+
+		while ( ct != null )
+		{
+			if ( ct instanceof ChartWithAxes )
+			{
+				return (Chart) ct;
+			}
+
+			ct = ct.eContainer( );
+		}
+
+		return null;
+	}
 
 	/**
 	 * @return
@@ -232,6 +258,18 @@ public final class OneAxis
 			return false;
 		}
 
+		ChartDimension dim = null;
+		Chart cm = getChartModel();
+		if ( cm != null )
+		{
+			dim = cm.getDimension( );
+		}
+		
+		if ( dim == ChartDimension.THREE_DIMENSIONAL_LITERAL )
+		{
+			return false;
+		}
+		
 		return axModel.isStaggered( );
 	}
 
