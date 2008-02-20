@@ -29,6 +29,8 @@ Element.RepeatColumnHeader=重复列标题
 Element.Mirrored=镜像
 Element.MirrorStartingLevel=镜像起始级别
 Element.HideMeasureHeader=隐藏度量头
+Element.SpanOverOnColumn=Span Over On Column
+Element.SpanOverOnRow=Span Over On Row
 
 Method.onPrepare=onPrepare
 Method.onCreate=onCreate

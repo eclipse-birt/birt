@@ -29,6 +29,8 @@ Element.RepeatColumnHeader=Repetir encabezado de columna
 Element.Mirrored=Reflejado
 Element.MirrorStartingLevel=Nivel de inicio reflejado
 Element.HideMeasureHeader=Encabezado Ocultar medidas
+Element.SpanOverOnColumn=Span Over On Column
+Element.SpanOverOnRow=Span Over On Row
 
 Method.onPrepare=onPrepare
 Method.onCreate=onCreate
