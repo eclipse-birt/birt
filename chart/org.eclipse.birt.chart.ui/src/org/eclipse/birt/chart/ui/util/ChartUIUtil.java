@@ -48,6 +48,7 @@ import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.BubbleSeries;
@@ -1762,6 +1763,99 @@ public class ChartUIUtil
 		if ( cGroupWarning.length( ) != 0 || yGroupWarning.length( ) != 0 )
 		{
 			WizardBase.showException( cGroupWarning + yGroupWarning );
+		}
+	}
+
+	/**
+	 * Check if default aggregation and value series aggregation are valid for
+	 * Gantt chart and show warning message in UI.
+	 * 
+	 * @param context
+	 * @param grouping
+	 * @param isCategoryGrouping
+	 * @return <code>true</code> if aggregation is valid.
+	 * @since 2.3
+	 * 
+	 */
+	public static boolean isValidAggregation( ChartWizardContext context,
+			SeriesGrouping grouping, boolean isCategoryGrouping )
+	{
+		if ( context == null || grouping == null )
+		{
+			return true;
+		}
+
+		if ( !ChartUIConstants.TYPE_GANTT.equals( context.getModel( ).getType( ) ) ||
+				!grouping.isEnabled( ) )
+		{
+			return true;
+		}
+
+		String aggName = grouping.getAggregateExpression( );
+		// Gantt chart only all First, Last, Min and Max aggregations.
+		if ( !( "First".equalsIgnoreCase( aggName ) //$NON-NLS-1$
+				||
+				"Last".equalsIgnoreCase( aggName ) //$NON-NLS-1$
+				||
+				"Min".equalsIgnoreCase( aggName ) //$NON-NLS-1$
+		|| "Max".equalsIgnoreCase( aggName ) ) ) //$NON-NLS-1$
+		{
+			String aggPlace = ""; //$NON-NLS-1$
+			if ( isCategoryGrouping )
+			{
+				aggPlace = Messages.getString( "ChartUIUtil.TaskSelectData.Warning.CheckAgg.DefaultAggregate" ); //$NON-NLS-1$
+			}
+			else
+			{
+				aggPlace = Messages.getString( "ChartUIUtil.TaskSelectData.Warning.CheckAgg.ValueSeriesAggregate" ); //$NON-NLS-1$
+			}
+			WizardBase.showException( Messages.getString( "ChartUIUtil.TaskSelectData.Warning.CheckAgg.GanttChart" ) + aggName + Messages.getString( "ChartUIUtil.TaskSelectData.Warning.CheckAggAs" ) + aggPlace + Messages.getString( "ChartUIUtil.TaskSelectData.Warning.CheckAgg.Aggregation" ) ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Check if default aggregation and value series aggregation are valid for
+	 * Gantt chart and show warning message in UI.
+	 * 
+	 * @param context
+	 * @since 2.3
+	 */
+	public static void checkAggregateType( ChartWizardContext context )
+	{
+		boolean isValidAgg = true;
+
+		for ( Iterator iter = ChartUIUtil.getOrthogonalSeriesDefinitions( context.getModel( ),
+				0 )
+				.iterator( ); iter.hasNext( ); )
+		{
+			if ( !isValidAgg )
+			{
+				return;
+			}
+
+			SeriesDefinition orthSD = (SeriesDefinition) iter.next( );
+			if ( orthSD.getGrouping( ) != null &&
+					orthSD.getGrouping( ).isEnabled( ) )
+			{
+				isValidAgg = isValidAggregation( context,
+						orthSD.getGrouping( ),
+						false );
+			}
+		}
+
+		if ( isValidAgg )
+		{
+			SeriesDefinition baseSD = (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( context.getModel( ) )
+					.get( 0 );
+			if ( baseSD.getGrouping( ) != null &&
+					baseSD.getGrouping( ).isEnabled( ) )
+			{
+				isValidAggregation( context, baseSD.getGrouping( ), true );
+			}
 		}
 	}
 }

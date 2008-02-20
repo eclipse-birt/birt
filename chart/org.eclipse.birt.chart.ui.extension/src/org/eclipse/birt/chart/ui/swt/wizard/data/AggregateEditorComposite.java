@@ -715,6 +715,8 @@ public class AggregateEditorComposite extends Composite implements
 				fSeriesDefi.setGrouping( fGrouping );
 				fSeriesDefi.getGrouping( ).eAdapters( ).addAll( fSeriesDefi.eAdapters( ) );
 				
+				ChartUIUtil.isValidAggregation( fChartContext, fGrouping, false );
+				
 				closeAggregateEditor( getShell( ) );
 			}
 			else if ( source == fBtnCancel )

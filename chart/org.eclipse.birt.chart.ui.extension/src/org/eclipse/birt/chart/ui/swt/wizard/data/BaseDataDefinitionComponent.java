@@ -437,7 +437,10 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 			setUIText( getInputControl( ), query.getDefinition( ) );
 			DataDefinitionTextManager.getInstance( )
 					.addDataDefinitionText( getInputControl( ), this );
-			fAggEditorComposite.setSeriesDefinition( seriesdefinition );
+			if (fAggEditorComposite !=  null )
+			{
+				fAggEditorComposite.setSeriesDefinition( seriesdefinition );
+			}
 		}
 		setColor( );
 	}
@@ -513,6 +516,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 					.eAdapters( )
 					.addAll( seriesdefinition.eAdapters( ) );
 			ChartUIUtil.checkGroupType( context, context.getModel( ) );
+			ChartUIUtil.isValidAggregation( context, seriesdefinition.getGrouping( ), true );
 		}
 	}
 
