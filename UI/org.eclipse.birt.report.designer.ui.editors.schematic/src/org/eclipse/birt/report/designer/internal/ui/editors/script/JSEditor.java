@@ -169,7 +169,7 @@ public class JSEditor extends EditorPart implements IColleague
 	public TreeViewPalettePage palettePage = new TreeViewPalettePage( );
 
 	/** the script editor, dosen't include controller. */
-	private final IScriptEditor scriptEditor;
+	private IScriptEditor scriptEditor;
 
 	/** the script validator */
 	private ScriptValidator scriptValidator = null;
@@ -328,6 +328,13 @@ public class JSEditor extends EditorPart implements IColleague
 		// .removeColleague( this );
 		selectionMap.clear( );
 		editingDomainEditor = null;
+		
+		if (scriptEditor != null)
+		{
+			scriptEditor.dispose( );
+			scriptEditor = null;
+		}
+		
 		super.dispose( );
 		// ( (ReportMultiPageEditorSite) getSite( ) ).dispose( );
 		( (MultiPageEditorSite) getSite( ) ).dispose( );

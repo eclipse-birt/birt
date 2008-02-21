@@ -46,19 +46,18 @@ import org.eclipse.core.runtime.IAdaptable;
 
 /**
  * Adapter factory class Populate HandleAdapter
- *  
+ * 
  */
 public class HandleAdapterFactory
 {
 
 	private static HandleAdapterFactory factory = null;
-	
 
 	private Map map;
 
 	/**
 	 * Constructor
-	 *
+	 * 
 	 */
 	private HandleAdapterFactory( )
 	{
@@ -69,35 +68,41 @@ public class HandleAdapterFactory
 	 * Get the design element handle adapter for specified report element handle
 	 * 
 	 * @param obj
-	 *  Given boject
+	 *            Given boject
 	 * @param mark
-	 *  Helper mark
+	 *            Helper mark
 	 * @return
 	 */
 	public DesignElementHandleAdapter getDesignElementHandleAdapter(
 			Object obj, IModelAdapterHelper mark )
 	{
 
-		if (obj instanceof IAdaptable)
+		if ( obj instanceof IAdaptable )
 		{
-			obj = ((IAdaptable)obj).getAdapter( DesignElementHandle.class );
+			Object adapter = ( (IAdaptable) obj ).getAdapter( DesignElementHandle.class );
+
+			if ( adapter != null )
+			{
+				obj = adapter;
+			}
 		}
-		
-		if (obj instanceof ReportItemHandle && mark instanceof IMultipleAdapterHelper)
+
+		if ( obj instanceof ReportItemHandle
+				&& mark instanceof IMultipleAdapterHelper )
 		{
 			return getMultipleAdapter( obj, mark );
 		}
 		if ( obj instanceof ReportDesignHandle )
 		{
-			return getReportDesignHandleAdapter( );
+			return getReportDesignHandleAdapter( obj, mark );
 		}
 		else if ( obj instanceof LibraryHandle )
 		{
-			return getLibraryHandleAdapter( );
+			return getLibraryHandleAdapter( obj, mark );
 		}
 		else if ( obj instanceof SimpleMasterPageHandle )
 		{
-			return getReportDesignHandleAdapter( );
+			return getReportDesignHandleAdapter( obj, mark );
 		}
 		else if ( obj instanceof TableHandle )
 		{
@@ -154,7 +159,7 @@ public class HandleAdapterFactory
 
 		return null;
 	}
-	
+
 	/**
 	 * Get TextData Item Handle Adapter
 	 * 
@@ -165,19 +170,21 @@ public class HandleAdapterFactory
 	 * 
 	 * @return TextData Handle Adapter
 	 */
-	private TextDataHandleAdapter getTextDataHandleAdapter( Object obj, IModelAdapterHelper mark )
+	private TextDataHandleAdapter getTextDataHandleAdapter( Object obj,
+			IModelAdapterHelper mark )
 	{
-			TextDataHandleAdapter retValue = (TextDataHandleAdapter) map.get( obj );
-			if ( retValue == null )
-			{
-				retValue = new TextDataHandleAdapter( (TextDataHandle) obj, mark );
-				map.put( obj, retValue );
-			}
-			return retValue;
+		TextDataHandleAdapter retValue = (TextDataHandleAdapter) map.get( obj );
+		if ( retValue == null )
+		{
+			retValue = new TextDataHandleAdapter( (TextDataHandle) obj, mark );
+			map.put( obj, retValue );
 		}
+		return retValue;
+	}
 
 	/**
 	 * Get extended item handle adapter
+	 * 
 	 * @param obj
 	 *            TextData instance
 	 * @param mark
@@ -187,8 +194,7 @@ public class HandleAdapterFactory
 	private ExtendedItemHandleAdapter getExtendedItemHandleAdapter( Object obj,
 			IModelAdapterHelper mark )
 	{
-		ExtendedItemHandleAdapter retValue = (ExtendedItemHandleAdapter) map
-				.get( obj );
+		ExtendedItemHandleAdapter retValue = (ExtendedItemHandleAdapter) map.get( obj );
 		if ( retValue == null )
 		{
 			retValue = new ExtendedItemHandleAdapter( (ExtendedItemHandle) obj,
@@ -276,31 +282,9 @@ public class HandleAdapterFactory
 		return factory;
 	}
 
-	/**
-	 * Get report design handle adapter
-	 * 
-	 * @return Design handle adapter
-	 */
-	public ReportDesignHandleAdapter getReportDesignHandleAdapter(Object obj )
+	public ReportDesignHandleAdapter getReportDesignHandleAdapter( Object obj )
 	{
-		ReportDesignHandleAdapter retValue = (ReportDesignHandleAdapter) map
-				.get( obj );
-		if ( retValue == null )
-		{
-			retValue = new ReportDesignHandleAdapter( (ModuleHandle)obj );
-			map.put( obj, retValue );
-		}
-		return retValue;
-	}
-	
-	/** 	
-	 * Get report design handle adapter
-	 * @return Design handle adapter
-	 */
-	public ReportDesignHandleAdapter getReportDesignHandleAdapter( )
-	{
-		return getReportDesignHandleAdapter(SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( ));
+		return getReportDesignHandleAdapter( obj, null );
 	}
 
 	/**
@@ -308,28 +292,66 @@ public class HandleAdapterFactory
 	 * 
 	 * @return Design handle adapter
 	 */
-	public LibraryHandleAdapter getLibraryHandleAdapter(Object obj )
+	public ReportDesignHandleAdapter getReportDesignHandleAdapter( Object obj,
+			IModelAdapterHelper mark )
 	{
-		LibraryHandleAdapter retValue = (LibraryHandleAdapter) map
-				.get( obj );
+		ReportDesignHandleAdapter retValue = (ReportDesignHandleAdapter) map.get( obj );
 		if ( retValue == null )
 		{
-			retValue = new LibraryHandleAdapter( (ModuleHandle)obj );
+			retValue = new ReportDesignHandleAdapter( (ModuleHandle) obj, mark );
 			map.put( obj, retValue );
 		}
 		return retValue;
 	}
-	
+
 	/**
-	 *  Get library handle adapter
+	 * Get report design handle adapter
+	 * 
+	 * @return Design handle adapter
+	 */
+	public ReportDesignHandleAdapter getReportDesignHandleAdapter( )
+	{
+		return getReportDesignHandleAdapter( SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( ) );
+	}
+
+	/**
+	 * Get report design handle adapter
+	 * 
+	 * @return Design handle adapter
+	 */
+	public LibraryHandleAdapter getLibraryHandleAdapter( Object obj )
+	{
+		return getLibraryHandleAdapter( obj, null );
+	}
+
+	/**
+	 * Get report design handle adapter
+	 * 
+	 * @return Design handle adapter
+	 */
+	public LibraryHandleAdapter getLibraryHandleAdapter( Object obj,
+			IModelAdapterHelper mark )
+	{
+		LibraryHandleAdapter retValue = (LibraryHandleAdapter) map.get( obj );
+		if ( retValue == null )
+		{
+			retValue = new LibraryHandleAdapter( (ModuleHandle) obj, mark );
+			map.put( obj, retValue );
+		}
+		return retValue;
+	}
+
+	/**
+	 * Get library handle adapter
+	 * 
 	 * @return LibraryHandleAdapter
-	 */  
+	 */
 	public LibraryHandleAdapter getLibraryHandleAdapter( )
 	{
-		return getLibraryHandleAdapter(SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( ));
+		return getLibraryHandleAdapter( SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( ) );
 	}
-	
 
 	/**
 	 * Get Table Handle Adapter
@@ -383,8 +405,7 @@ public class HandleAdapterFactory
 	public TableGroupHandleAdapter getTableGroupHandleAdapter( Object obj,
 			IModelAdapterHelper mark )
 	{
-		TableGroupHandleAdapter retValue = (TableGroupHandleAdapter) map
-				.get( obj );
+		TableGroupHandleAdapter retValue = (TableGroupHandleAdapter) map.get( obj );
 		if ( retValue == null )
 		{
 			retValue = new TableGroupHandleAdapter( (TableGroupHandle) obj,
@@ -551,14 +572,26 @@ public class HandleAdapterFactory
 	 */
 	public void remove( Object obj, IModelAdapterHelper mark )
 	{
+		if ( obj instanceof IAdaptable )
+		{
+			Object adapter = ( (IAdaptable) obj ).getAdapter( DesignElementHandle.class );
+
+			if ( adapter != null )
+			{
+				obj = adapter;
+			}
+		}
+
+		removeRelated( obj );
+
 		DesignElementHandleAdapter adapter = (DesignElementHandleAdapter) map.get( obj );
-		if (adapter != null && (mark == null || adapter.getModelAdaptHelper() == mark))
+		if ( adapter != null
+				&& ( mark == null || adapter.getModelAdaptHelper( ) == mark ) )
 		{
 			map.remove( obj );
-		}	
-		removeRelated(obj);
+		}
 	}
-	
+
 	/**
 	 * Remove cached adapter
 	 * 
@@ -578,19 +611,20 @@ public class HandleAdapterFactory
 	 */
 	private void removeRelated( Object obj )
 	{
-		Object handleAdaot = map.get(obj);
-		if (handleAdaot instanceof TableHandleAdapter)
+		Object handleAdaot = map.get( obj );
+		if ( handleAdaot instanceof TableHandleAdapter )
 		{
-			TableHandleAdapter adapt = (TableHandleAdapter)handleAdaot;
-			removeCollection(adapt.getRows());
-			removeCollection(adapt.getColumns());
+			TableHandleAdapter adapt = (TableHandleAdapter) handleAdaot;
+			removeCollection( adapt.getRows( ) );
+			removeCollection( adapt.getColumns( ) );
 		}
 	}
-	private void removeCollection(List list)
+
+	private void removeCollection( List list )
 	{
-		for (int i=0; i<list.size(); i++)
+		for ( int i = 0; i < list.size( ); i++ )
 		{
-			map.remove(list.get(i));
+			map.remove( list.get( i ) );
 		}
 	}
 
@@ -635,6 +669,7 @@ public class HandleAdapterFactory
 		}
 		return retValue;
 	}
+
 	/**
 	 * Get Lable Handle Adapter
 	 * 
@@ -682,7 +717,7 @@ public class HandleAdapterFactory
 	{
 		return getTextItemHandleAdapter( obj, null );
 	}
-	
+
 	/**
 	 * Get TextData Handle Adapter
 	 * 
@@ -695,7 +730,6 @@ public class HandleAdapterFactory
 	{
 		return getTextDataHandleAdapter( obj, null );
 	}
-
 
 	/**
 	 * Get Data Item Handle Adapter
@@ -729,9 +763,10 @@ public class HandleAdapterFactory
 	{
 		return getDataItemHandleAdapter( obj, null );
 	}
-	
-	
-	/**Gets the adapter from the obj
+
+	/**
+	 * Gets the adapter from the obj
+	 * 
 	 * @param obj
 	 * @param mark
 	 * @return
@@ -760,5 +795,4 @@ public class HandleAdapterFactory
 		return getMultipleAdapter( obj, null );
 	}
 
-	
 }

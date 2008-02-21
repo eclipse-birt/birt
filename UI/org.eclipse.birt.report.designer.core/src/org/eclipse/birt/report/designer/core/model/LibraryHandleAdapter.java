@@ -52,6 +52,18 @@ public class LibraryHandleAdapter extends ReportDesignHandleAdapter
 	}
 
 	/**
+	 * Constructor
+	 * 
+	 * @param handle
+	 *            The moudle handle
+	 */
+	public LibraryHandleAdapter( ModuleHandle handle, IModelAdapterHelper mark )
+	{
+		super( handle, mark );
+		setCurrentEditorModel( handle, CURRENTMODEL );
+	}
+
+	/**
 	 * Add listener
 	 * 
 	 * @param listener

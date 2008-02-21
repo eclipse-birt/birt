@@ -228,6 +228,9 @@ public abstract class MultiPageEditorActionBarContributor extends
 			}
 			subBarMap.clear( );
 		}
+		
+		currentActionBarDef.dispose( );
+		currentActionBarDef = null;
 		super.dispose( );
 	}
 
