@@ -85,7 +85,7 @@ public class WebViewer
 
 	/** Preference key for max cube fetch levels. */
 	public final static String PREVIEW_MAXCUBEROWLEVEL = "preview_maxrowlevelmember"; //$NON-NLS-1$
-	
+
 	public final static String PREVIEW_MAXCUBECOLUMNLEVEL = "preview_maxcolumnlevelmember"; //$NON-NLS-1$
 
 	/** Preference key for max in-memory cube size. */
@@ -99,6 +99,9 @@ public class WebViewer
 
 	// running model.
 	public static final String VIEWER_RUN = "run"; //$NON-NLS-1$
+
+	// document model
+	public static final String VIEWER_DOCUMENT = "document"; //$NON-NLS-1$
 
 	// parameter name constants for the URL
 
@@ -118,6 +121,11 @@ public class WebViewer
 	public final static String SERVLET_NAME_KEY = "SERVLET_NAME_KEY"; //$NON-NLS-1$
 
 	/**
+	 * Key to indicate the 'documentName' of the preview.
+	 */
+	public final static String DOCUMENT_NAME_KEY = "DOCUMENT_NAME_KEY"; //$NON-NLS-1$
+
+	/**
 	 * Key to indicate the 'resourceFolder'.
 	 */
 	public final static String RESOURCE_FOLDER_KEY = "RESOURCE_FOLDER_KEY"; //$NON-NLS-1$
@@ -131,7 +139,7 @@ public class WebViewer
 	 * Key to indicate the 'maxLevelMember'
 	 */
 	public final static String MAX_CUBE_ROW_LEVELS_KEY = "MAX_CUBE_ROW_LEVELS_KEY"; //$NON-NLS-1$
-	
+
 	public final static String MAX_CUBE_COLUMN_LEVELS_KEY = "MAX_CUBE_COLUMN_LEVELS_KEY"; //$NON-NLS-1$
 
 	/**
@@ -222,10 +230,31 @@ public class WebViewer
 
 		// max level member setting
 		String maxrowlevels = (String) params.get( MAX_CUBE_ROW_LEVELS_KEY );
-		String maxcolumnlevels = (String) params.get( MAX_CUBE_COLUMN_LEVELS_KEY );
+		String maxcolumnlevels = (String) params
+				.get( MAX_CUBE_COLUMN_LEVELS_KEY );
 
-		return createURL( servletName, report, format, true, resourceFolder,
-				maxrows, maxrowlevels, maxcolumnlevels );
+		String url = createURL( servletName, report, format, true,
+				resourceFolder, maxrows, maxrowlevels, maxcolumnlevels );
+
+		// if document mode, append document parameter in URL
+		String documentName = (String) params.get( DOCUMENT_NAME_KEY );
+		if ( documentName != null && VIEWER_DOCUMENT.equals( servletName ) )
+		{
+			// current opened report isn't document
+			if ( !isReportDocument( report ) )
+			{
+				try
+				{
+					String encodedDocumentName = URLEncoder.encode(
+							documentName, "utf-8" ); //$NON-NLS-1$
+					url += "&__document=" + encodedDocumentName; //$NON-NLS-1$
+				}
+				catch ( UnsupportedEncodingException e )
+				{
+				}
+			}
+		}
+		return url;
 	}
 
 	/**
@@ -247,7 +276,7 @@ public class WebViewer
 	 */
 	private static String createURL( String servletName, String report,
 			String format, boolean inDesigner, String resourceFolder,
-			String maxrows, String maxrowlevels, String maxcolumnlevels)
+			String maxrows, String maxrowlevels, String maxcolumnlevels )
 	{
 		String encodedReportName = null;
 
@@ -351,7 +380,8 @@ public class WebViewer
 						? "&__maxrows=" + maxrows : "" ) //$NON-NLS-1$ //$NON-NLS-2$
 				+ ( maxrowlevels != null && maxrowlevels.trim( ).length( ) > 0
 						? "&__maxrowlevels=" + maxrowlevels : "" ) //$NON-NLS-1$ //$NON-NLS-2$
-				+ ( maxcolumnlevels != null && maxcolumnlevels.trim( ).length( ) > 0
+				+ ( maxcolumnlevels != null
+						&& maxcolumnlevels.trim( ).length( ) > 0
 						? "&__maxcolumnlevels=" + maxcolumnlevels : "" ) //$NON-NLS-1$ //$NON-NLS-2$
 				+ ( cubeMemorySize != null
 						&& cubeMemorySize.trim( ).length( ) > 0
@@ -509,6 +539,7 @@ public class WebViewer
 	 *            SWT browser instance
 	 * @param servletName
 	 *            servlet name to viewer report
+	 * @deprecated
 	 */
 	public static void display( String report, String format, Browser browser,
 			String servletName )
@@ -580,7 +611,7 @@ public class WebViewer
 
 		return false;
 	}
-	
+
 	/**
 	 * Cancel the process
 	 * 
@@ -588,12 +619,13 @@ public class WebViewer
 	 */
 	public static void cancel( Browser browser )
 	{
-		if( browser == null )
+		if ( browser == null )
 			return;
-		
+
 		try
 		{
-			browser.execute( "try { if( birtProgressBar ){ birtProgressBar.cancel(); } } catch(e){}" ); //$NON-NLS-1$
+			browser
+					.execute( "try { if( birtProgressBar ){ birtProgressBar.cancel(); } } catch(e){}" ); //$NON-NLS-1$
 		}
 		catch ( Exception e )
 		{
