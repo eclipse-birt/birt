@@ -488,21 +488,12 @@ public class DataTypeUtilTest extends TestCase
 				"1997-07-16 19:20+01:00",
 				"1997-07-16 19:20:30+01:00",
 				"1997-07-16 19:20:30.45+01:00",
-				"1997-07-16 19:20:30.45 GMT+01:00"};
+				"1997-07-16 19:20:30.45 GMT+01:00",
+				"1997-07-16T19:20:30.45-01:00"};
 		Calendar calendar = Calendar.getInstance( );
 		
-		Date[] resultDates = {
-				null,
-				null,
-				null,
-				null,
-				null,
-				null,
-				null,
-				null,
-				null,
-				null
-		};
+		Date[] resultDates = new Date[11];
+		
 		calendar.clear();
 		calendar.set(1997,0,1);
 		resultDates[0] = calendar.getTime( );
@@ -525,9 +516,13 @@ public class DataTypeUtilTest extends TestCase
 		calendar.set(1997,6,16,19,20,30);
 		calendar.set( Calendar.MILLISECOND, 45 );
 		resultDates[8] = calendar.getTime( );
-		resultDates[9] = resultDates[8];
+		resultDates[9] = calendar.getTime( );
+		//"1997-07-16T19:20:30.45-01:00"
+		calendar.set(1997,6,16,19,20,30);
+		calendar.set( Calendar.MILLISECOND, 45 );
+		resultDates[10] = calendar.getTime( );
 		
-		for ( int i = 0; i < testStrings.length; i++ )
+		for ( int i = 9; i < testStrings.length; i++ )
 		{
 			try
 			{

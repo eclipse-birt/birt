@@ -86,7 +86,7 @@ public class DateFormatISO8601
 		{
 			return s.substring( 0, zoneIndex ).trim( );
 		}
-		zoneIndex = s.indexOf( '+' );
+		zoneIndex = getZoneIndex( s );
 		if ( zoneIndex > 0 )
 		{
 			return s.substring( 0, zoneIndex ).trim( );
@@ -95,6 +95,38 @@ public class DateFormatISO8601
 		return s;
 	}
 
+	/**
+	 * 
+	 * @param s
+	 * @return
+	 */
+	private static int getZoneIndex( String s )
+	{
+		int index = s.indexOf( '+' );
+		if ( index > 0 )
+		{
+			return index;
+		}
+		
+		index = s.indexOf( '-' ); //first '-'
+		if ( index > 0 )
+		{
+			index = s.indexOf( '-', index + 1 ); //second '-'
+		}
+		else
+		{
+			return index;
+		}
+		if ( index > 0 )
+		{
+			index = s.indexOf( '-', index + 1 ); //third '-'
+		}
+		else
+		{
+			return index;
+		}
+		return index;
+	}
 	
 
 }
