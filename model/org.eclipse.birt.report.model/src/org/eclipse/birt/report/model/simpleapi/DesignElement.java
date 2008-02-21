@@ -12,11 +12,14 @@
 package org.eclipse.birt.report.model.simpleapi;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.UserPropertyDefnHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.simpleapi.IDesignElement;
+import org.eclipse.birt.report.model.api.simpleapi.IReportDesign;
 import org.eclipse.birt.report.model.api.simpleapi.IStyle;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
@@ -117,6 +120,23 @@ public class DesignElement implements IDesignElement
 				type ) );
 
 		handle.addUserPropertyDefn( newProp );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IDesignElement#getReport()
+	 */
+	public IReportDesign getReport( )
+	{
+		if ( handle == null )
+			return null;
+
+		ModuleHandle root = handle.getRoot( );
+		if ( !( root instanceof ReportDesignHandle ) )
+			return null;
+
+		return new ReportDesign( (ReportDesignHandle) root );
 	}
 
 }

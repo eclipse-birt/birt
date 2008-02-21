@@ -206,4 +206,12 @@ public interface IReportDesign extends IDesignElement
 	 * @throws SemanticException
 	 */
 	void setTheme( String theme ) throws SemanticException;
+
+	/**
+	 * generic method to get report item by id
+	 * 
+	 * @param name
+	 * @return report element
+	 */
+	IReportElement getReportElementByID( long id );
 }

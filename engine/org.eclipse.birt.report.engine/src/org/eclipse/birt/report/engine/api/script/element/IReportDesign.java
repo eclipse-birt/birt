@@ -46,6 +46,14 @@ public interface IReportDesign extends IDesignElement
 	IReportElement getReportElement( String name );
 
 	/**
+	 * Generic method to get report item by id.
+	 * 
+	 * @param id
+	 * @return report element
+	 */
+	IReportElement getReportElementByID( long id );
+
+	/**
 	 * method to get a label item by name
 	 * 
 	 * @param name

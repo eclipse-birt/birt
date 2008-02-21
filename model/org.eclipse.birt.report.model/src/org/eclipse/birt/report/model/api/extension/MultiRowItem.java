@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.simpleapi.IFilterCondition;
 import org.eclipse.birt.report.model.api.simpleapi.IHideRule;
 import org.eclipse.birt.report.model.api.simpleapi.IHighlightRule;
 import org.eclipse.birt.report.model.api.simpleapi.IMultiRowItem;
+import org.eclipse.birt.report.model.api.simpleapi.IReportDesign;
 import org.eclipse.birt.report.model.api.simpleapi.IReportItem;
 import org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory;
 import org.eclipse.birt.report.model.api.simpleapi.ISortCondition;
@@ -308,7 +309,7 @@ public class MultiRowItem implements IMultiRowItem
 
 		return item.getY( );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -712,7 +713,7 @@ public class MultiRowItem implements IMultiRowItem
 
 		item.setUserProperty( name, value );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -726,4 +727,27 @@ public class MultiRowItem implements IMultiRowItem
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IDesignElement#getReport()
+	 */
+
+	public IReportDesign getReport( )
+	{
+		return item.getReport( );
+	}
+
+	/**
+	 * Gets the corresponding extension item that is wrapped by the
+	 * <code>MultiRowItem</code>.
+	 * 
+	 * @return the corresponding extension item in
+	 *         <code>simpleapi.IReportItem</code>
+	 */
+
+	public IReportItem getExtensionElement( )
+	{
+		return item;
+	}
 }

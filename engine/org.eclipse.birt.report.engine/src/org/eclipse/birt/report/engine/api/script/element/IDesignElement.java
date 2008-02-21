@@ -95,4 +95,11 @@ public interface IDesignElement
 	 * @return the parent
 	 */
 	IDesignElement getParent( );
+
+	/**
+	 * Gets the report.
+	 * 
+	 * @return the report
+	 */
+	public IReportDesign getReport( );
 }

@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.simpleapi.IDataBinding;
 import org.eclipse.birt.report.model.api.simpleapi.IDesignElement;
 import org.eclipse.birt.report.model.api.simpleapi.IHideRule;
 import org.eclipse.birt.report.model.api.simpleapi.IHighlightRule;
+import org.eclipse.birt.report.model.api.simpleapi.IReportDesign;
 import org.eclipse.birt.report.model.api.simpleapi.IReportItem;
 import org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory;
 import org.eclipse.birt.report.model.api.simpleapi.IStyle;
@@ -603,6 +604,16 @@ public class SimpleRowItem implements IReportItem
 	{
 		item.setCurrentView( viewElement );
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IDesignElement#getReport()
+	 */
+	public IReportDesign getReport( )
+	{
+		return item.getReport( );
 	}
 
 }

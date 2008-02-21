@@ -70,6 +70,23 @@ public class ReportDesign extends DesignElement implements IReportDesign
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IReportDesign#getReportElementByID(long)
+	 */
+	public IReportElement getReportElementByID( long id )
+	{
+		org.eclipse.birt.report.model.api.simpleapi.IReportElement tmpElement = ( (org.eclipse.birt.report.model.api.simpleapi.IReportDesign) designElementImpl )
+				.getReportElementByID( id );
+
+		IDesignElement retElement = ElementUtil.getElement( tmpElement );
+		if ( retElement instanceof IReportElement )
+			return (IReportElement) retElement;
+
+		return null;
+	}
+
 	public IDataItem getDataItem( String name )
 	{
 		return new DataItem(

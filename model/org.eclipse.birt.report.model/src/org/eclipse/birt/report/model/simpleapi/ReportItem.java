@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.extension.MultiRowItem;
 import org.eclipse.birt.report.model.api.simpleapi.IDataBinding;
 import org.eclipse.birt.report.model.api.simpleapi.IDesignElement;
 import org.eclipse.birt.report.model.api.simpleapi.IHideRule;
@@ -424,10 +425,17 @@ public class ReportItem extends ReportElement implements IReportItem
 			throws SemanticException
 	{
 		DesignElementHandle tmpElement = null;
-		if ( viewElement != null )
+		if ( viewElement instanceof MultiRowItem )
+		{
+			DesignElement reportItem = (DesignElement) ( (MultiRowItem) viewElement )
+					.getExtensionElement( );
+			tmpElement = reportItem.handle;
+		}
+		else if ( viewElement != null )
+		{
 			tmpElement = ( (DesignElement) viewElement ).handle;
+		}
 
 		( (ReportItemHandle) handle ).setCurrentView( tmpElement );
 	}
-
 }
