@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.engine.extension;
 
-import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.core.exception.BirtException;
 
 /**
  * IReportItemPreparation is initially designed for extended item, which handles
@@ -24,5 +24,5 @@ public interface IReportItemPreparation
 
 	public void init( IReportItemPreparationInfo info );
 
-	public void prepare( );
+	public void prepare( ) throws BirtException;
 }

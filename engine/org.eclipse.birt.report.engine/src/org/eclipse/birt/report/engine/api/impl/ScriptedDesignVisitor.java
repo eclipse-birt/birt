@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.api.impl;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -779,7 +780,17 @@ class ScriptedDesignVisitor extends DesignVisitor
 					handle, new PreparationContext( executionContext, this ) );
 
 			itemPreparation.init( preparationInfo );
-			itemPreparation.prepare( );
+			try
+			{
+				itemPreparation.prepare( );
+			}
+			catch ( BirtException ex )
+			{
+				logger.log( Level.WARNING,
+						"An error happens when preparing extended report item",
+						ex );
+				executionContext.addException( handle, ex );
+			}
 		}
 		else
 		{

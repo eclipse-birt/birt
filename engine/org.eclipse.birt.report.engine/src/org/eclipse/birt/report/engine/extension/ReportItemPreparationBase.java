@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.extension;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 
 public class ReportItemPreparationBase implements IReportItemPreparation
@@ -20,13 +21,19 @@ public class ReportItemPreparationBase implements IReportItemPreparation
 
 	protected DesignElementHandle handle;
 	
-	public void init(IReportItemPreparationInfo info)
+	public void init( IReportItemPreparationInfo info )
 	{
 		context = info.getPreparationContext( );
 		handle = info.getModelObject( );
 	}
 
-	public void prepare( )
+	public void prepare( ) throws BirtException
+	{
+		context.triggerEvent( handle );
+		prepareChildren( );
+	}
+
+	protected void prepareChildren( ) throws BirtException
 	{
 
 	}

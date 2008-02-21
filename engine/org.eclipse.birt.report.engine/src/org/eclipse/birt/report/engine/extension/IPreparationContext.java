@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.extension;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 
@@ -19,5 +20,7 @@ public interface IPreparationContext extends IReportContext
 
 	public ClassLoader getApplicationClassLoader( );
 
-	public void prepare( DesignElementHandle handle );
+	public void prepare( DesignElementHandle handle ) throws BirtException;
+
+	public void triggerEvent( DesignElementHandle handle ) throws BirtException;
 }

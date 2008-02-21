@@ -615,13 +615,16 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 
 				// the current executed cell is rowIndex, columnIndex
 				// get the span value of that cell.
-				CellDesign cellDesign = (CellDesign) cell.getGenerateBy( );
-				if ( cellDesign != null )
+				if ( cell.getGenerateBy( ) instanceof CellDesign )
 				{
-					String dropType = cellDesign.getDrop( );
-					if ( dropType != null && !"none".equals( dropType ) ) //$NON-NLS-1$
+					CellDesign cellDesign = (CellDesign) cell.getGenerateBy( );
+					if ( cellDesign != null )
 					{
-						rowSpan = createDropID( getGroupLevel( ), dropType );
+						String dropType = cellDesign.getDrop( );
+						if ( dropType != null && !"none".equals( dropType ) ) //$NON-NLS-1$
+						{
+							rowSpan = createDropID( getGroupLevel( ), dropType );
+						}
 					}
 				}
 

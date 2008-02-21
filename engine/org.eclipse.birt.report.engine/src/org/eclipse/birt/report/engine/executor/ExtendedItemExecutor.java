@@ -15,6 +15,7 @@ import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
+import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 
 /**
  * It is a wrapper of user created executor.
@@ -89,6 +90,21 @@ public class ExtendedItemExecutor extends ReportItemExecutor
 				{
 					iid = getInstanceID( );
 					content.setInstanceID( iid );
+				}
+				
+				//setup generate by
+				if (content.getGenerateBy( ) == null)
+				{
+					if (design == null)
+					{
+						//find the design through the instanceid's component
+						long componentId = content.getInstanceID( ).getComponentID( );
+						if (componentId != -1)
+						{
+							design = (ReportItemDesign)report.getDesign( ).getReportItemByID( componentId );
+						}
+					}
+					content.setGenerateBy( design );
 				}
 
 				if ( context.isInFactory( ) )
