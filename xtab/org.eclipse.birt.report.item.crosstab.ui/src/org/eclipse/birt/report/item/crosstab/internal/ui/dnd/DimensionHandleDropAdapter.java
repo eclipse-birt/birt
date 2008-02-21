@@ -26,6 +26,8 @@ import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
+import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellProviderWrapper;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -182,6 +184,13 @@ public class DimensionHandleDropAdapter implements IDropAdapter
 							.getEditDomain( )
 							.getCommandStack( )
 							.execute( command );
+
+					CrosstabReportItemHandle crosstab = getCrosstab( editPart );
+					if ( crosstab != null )
+					{
+						AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper( crosstab );
+						providerWrapper.updateAllAggregationCells( );
+					}
 					return true;
 				}
 				else
@@ -222,9 +231,18 @@ public class DimensionHandleDropAdapter implements IDropAdapter
 			{
 				axisType = ICrosstabConstants.ROW_AXIS_TYPE;
 			}
-			return createDimensionViewHandle( xtabHandle,
+			boolean ret = createDimensionViewHandle( xtabHandle,
 					dimensionHandle,
 					axisType );
+
+			if ( ret )
+			{
+				AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper( xtabHandle );
+				providerWrapper.updateAllAggregationCells( );
+
+			}
+
+			return ret;
 		}
 		return false;
 	}
@@ -272,4 +290,16 @@ public class DimensionHandleDropAdapter implements IDropAdapter
 
 	}
 
+	private CrosstabReportItemHandle getCrosstab( EditPart editPart )
+	{
+		CrosstabReportItemHandle crosstab = null;
+		Object tmp = editPart.getModel( );
+		if(!( tmp instanceof CrosstabCellAdapter))
+		{
+			return null;
+		}
+		crosstab = ((CrosstabCellAdapter)tmp).getCrosstabCellHandle( ).getCrosstab( );
+		return crosstab;
+
+	}
 }

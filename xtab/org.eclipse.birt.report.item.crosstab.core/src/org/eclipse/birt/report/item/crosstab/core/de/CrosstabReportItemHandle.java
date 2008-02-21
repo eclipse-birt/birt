@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.item.crosstab.core.de;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -23,9 +22,6 @@ import org.eclipse.birt.report.item.crosstab.core.de.internal.CrosstabModelUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.internal.CrosstabReportItemTask;
 import org.eclipse.birt.report.item.crosstab.core.i18n.MessageConstants;
 import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
-import org.eclipse.birt.report.item.crosstab.core.script.ICrosstabEventHandler;
-import org.eclipse.birt.report.item.crosstab.core.script.internal.CrosstabImpl;
-import org.eclipse.birt.report.item.crosstab.core.script.internal.CrosstabClassInfo;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
@@ -41,7 +37,6 @@ import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
-import org.eclipse.birt.report.model.api.simpleapi.IReportItem;
 
 /**
  * CrosstabReportItemHandle.

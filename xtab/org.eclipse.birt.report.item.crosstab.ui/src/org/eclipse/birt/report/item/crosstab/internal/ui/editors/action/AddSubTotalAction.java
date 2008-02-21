@@ -16,7 +16,6 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
@@ -31,6 +30,7 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDial
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDialog.SubTotalInfo;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
+import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellProviderWrapper;
 import org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -75,29 +75,11 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 		setImageDescriptor( ImageDescriptor.createFromImage( image ) );
 	}
 
-	private IAggregationCellViewProvider[] providers;
+	private AggregationCellProviderWrapper providerWrapper;
 
 	private void initializeProviders( )
 	{
-		if ( providers != null )
-		{
-			return;
-		}
-		Object obj = ElementAdapterManager.getAdapters( levelHandle.getCrosstab( )
-				.getModelHandle( ),
-				IAggregationCellViewProvider.class );
-		if ( obj instanceof Object[] )
-		{
-			Object arrays[] = (Object[]) obj;
-			providers = new IAggregationCellViewProvider[arrays.length + 1];
-			providers[0] = null;
-			for ( int i = 0; i < arrays.length; i++ )
-			{
-				IAggregationCellViewProvider tmp = (IAggregationCellViewProvider) arrays[i];
-				String viewName = tmp.getViewName( );
-				providers[i + 1] = tmp;
-			}
-		}
+		providerWrapper = new AggregationCellProviderWrapper((ExtendedItemHandle)levelHandle.getCrosstab( ).getModelHandle( ));
 	}
 
 	/*
@@ -293,6 +275,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 	private void switchViews( GrandOpration newOperation, int axisType )
 	{
 		int count = newOperation.getMeasures( ).size( );
+		boolean needUpdateView = false;
 		for ( int i = 0; i < count; i++ )
 		{
 			MeasureHandle tmpMeasure = (MeasureHandle) newOperation.getMeasures( )
@@ -342,15 +325,23 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 			if ( cell != null )
 			{
 				updateShowStatus( cell, expectedView );
+				needUpdateView = true;
 			}
 			
 		}
+		
+		if(needUpdateView)
+		{
+			providerWrapper.updateAllAggregationCells( );
+		}
+		
 
 	}
 
 	private void switchViews( SubOpration newOperation )
 	{
 		int count = newOperation.getMeasures( ).size( );
+		boolean needUpdateView = false;
 		for ( int i = 0; i < count; i++ )
 		{
 			MeasureHandle tmpMeasure = (MeasureHandle) newOperation.getMeasures( )
@@ -412,8 +403,14 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 			if ( cell != null )
 			{
 				updateShowStatus( cell, expectedView );
+				needUpdateView = true;
 			}
 
+		}
+		
+		if(needUpdateView)
+		{
+			providerWrapper.updateAllAggregationCells( );
 		}
 	}
 
@@ -437,41 +434,23 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 		{
 			return;
 		}
-		if ( providers == null || providers.length == 0 )
+
+		IAggregationCellViewProvider provider = providerWrapper.getMatchProvider( cell );
+		if(provider != null)
 		{
-			return;
+			// if current view is the same view with the expected one, then don't restore
+			if(! provider.getViewName( ).equals( expectedView ))
+			{
+				provider.restoreView( cell );
+			}
+		}
+		
+		provider = providerWrapper.getProvider( expectedView );
+		if(provider != null)
+		{
+			provider.switchView( cell );
 		}
 
-		for ( int i = 0; i < providers.length; i++ )
-		{
-			if ( providers[i] == null )
-			{
-				continue;
-			}
-			if ( providers[i].matchView( cell ) )
-			{
-				// if current view is the same view with the expected one, then don't restore
-				if(! providers[i].getViewName( ).equals( expectedView ))
-				{
-					providers[i].restoreView( cell );
-				}
-				
-				break;
-			}
-		}
-
-		for ( int i = 0; i < providers.length; i++ )
-		{
-			if ( providers[i] == null )
-			{
-				continue;
-			}
-			if ( providers[i].getViewName( ).equals( expectedView ) )
-			{
-				providers[i].switchView( cell );
-				break;
-			}
-		}
 	}
 
 	private void processOperation( SubOpration oriOperation,

@@ -16,6 +16,9 @@ import org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter;
 import org.eclipse.birt.report.designer.util.IVirtualValidator;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
+import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellProviderWrapper;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.gef.EditPart;
@@ -99,6 +102,12 @@ public class LevelHandleDropAdapter implements IDropAdapter
 							.getEditDomain( )
 							.getCommandStack( )
 							.execute( command );
+					CrosstabReportItemHandle crosstab = getCrosstab( editPart );
+					if ( crosstab != null )
+					{
+						AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper( crosstab );
+						providerWrapper.updateAllAggregationCells( );
+					}
 					return true;
 				}
 				else
@@ -108,4 +117,16 @@ public class LevelHandleDropAdapter implements IDropAdapter
 		return false;
 	}
 
+	private CrosstabReportItemHandle getCrosstab( EditPart editPart )
+	{
+		CrosstabReportItemHandle crosstab = null;
+		Object tmp = editPart.getModel( );
+		if(!( tmp instanceof CrosstabCellAdapter))
+		{
+			return null;
+		}
+		crosstab = ((CrosstabCellAdapter)tmp).getCrosstabCellHandle( ).getCrosstab( );
+		return crosstab;
+
+	}
 }

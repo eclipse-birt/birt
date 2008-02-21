@@ -15,6 +15,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
+import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellProviderWrapper;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -96,6 +97,8 @@ public class DeleteMeasureHandleAction extends AbstractCrosstabAction
 			{
 				reportItem.removeMeasure( measureViewHandle.getIndex( ) );
 				CrosstabAdaptUtil.processInvaildBindings( reportItem);
+				AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper((ExtendedItemHandle)reportItem.getModelHandle( ));
+				providerWrapper.updateAllAggregationCells( );
 			}
 			catch ( SemanticException e )
 			{
