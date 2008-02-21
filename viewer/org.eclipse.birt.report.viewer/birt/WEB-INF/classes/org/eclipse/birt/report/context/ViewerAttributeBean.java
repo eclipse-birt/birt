@@ -598,24 +598,11 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			reportDocumentInstance = ReportEngineService.getInstance( )
 					.openReportDocument( this.reportDesignName,
 							this.reportDocumentName, this.moduleOptions );
-			if ( reportDocumentInstance != null )
-			{
-				reportRunnable = reportDocumentInstance.getReportRunnable( );
-			}
 
 			// try to get runnable from design file
-			if ( reportRunnable == null )
+			if ( ParameterAccessor.isValidFilePath( ParameterAccessor
+					.getParameter( request, ParameterAccessor.PARAM_REPORT ) ) )
 			{
-				// check if the report path is valid
-				if ( !ParameterAccessor
-						.isValidFilePath( ParameterAccessor.getParameter(
-								request, ParameterAccessor.PARAM_REPORT ) ) )
-				{
-					throw new ViewerException(
-							ResourceConstants.GENERAL_EXCEPTION_REPORT_ACCESS_ERROR,
-							new String[]{this.reportDesignName} );
-				}
-
 				try
 				{
 					// get report runnable from design file
