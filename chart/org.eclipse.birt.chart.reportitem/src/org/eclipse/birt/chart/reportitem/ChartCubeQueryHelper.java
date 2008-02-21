@@ -66,7 +66,7 @@ import org.eclipse.emf.common.util.EList;
  * Query helper for cube query definition
  */
 
-class ChartCubeQueryHelper
+public class ChartCubeQueryHelper
 {
 
 	private final ExtendedItemHandle handle;
@@ -103,15 +103,34 @@ class ChartCubeQueryHelper
 
 	private String rowEdgeDimension;
 
+	/**
+	 * Indicates if used for Live preview in chart builder. In this case,
+	 * sub/nest query is not supported, and aggregateOn in measure binding
+	 * should be removed to make preview work.
+	 */
+	private boolean bLivePreview = false;
+
 	public ChartCubeQueryHelper( ExtendedItemHandle handle, Chart cm )
 	{
 		this.handle = handle;
 		this.cm = cm;
 	}
 
+	/**
+	 * Creates the cube query definition for chart. If parent definition is
+	 * null, it's usually used for Live preview in chart builder. If chart in
+	 * xtab, will return sub cube query definition.
+	 * 
+	 * @param parent
+	 * @return ICubeQueryDefinition for cube consuming or
+	 *         ISubCubeQueryDefinition for chart in xtab case
+	 * @throws BirtException
+	 */
 	public IBaseCubeQueryDefinition createCubeQuery( IDataQueryDefinition parent )
 			throws BirtException
 	{
+		bLivePreview = parent == null;
+
 		CubeHandle cubeHandle = handle.getCube( );
 		ICubeQueryDefinition cubeQuery = null;
 		if ( cubeHandle == null )
@@ -125,14 +144,18 @@ class ChartCubeQueryHelper
 						Messages.getString( "ChartCubeQueryHelper.Error.MustBindCube" ) ); //$NON-NLS-1$
 			}
 
-			ISubCubeQueryDefinition subQuery = createSubCubeQuery( );
-			if ( subQuery != null )
+			// Do not support sub query in Live preview.
+			if ( !bLivePreview )
 			{
-				// Adds min and max binding to parent query definition for
-				// shared scale.
-				// TODO blocked by DTE for multiple aggregations
-				// addMinMaxBinding( parent );
-				return subQuery;
+				ISubCubeQueryDefinition subQuery = createSubCubeQuery( );
+				if ( subQuery != null )
+				{
+					// Adds min and max binding to parent query definition for
+					// shared scale.
+					// TODO blocked by DTE for multiple aggregations
+					// addMinMaxBinding( parent );
+					return subQuery;
+				}
 			}
 		}
 
@@ -328,7 +351,10 @@ class ChartCubeQueryHelper
 			binding.setDataType( DataAdapterUtil.adaptModelDataType( column.getDataType( ) ) );
 			binding.setExpression( new ScriptExpression( column.getExpression( ) ) );
 			List lstAggOn = column.getAggregateOnList( );
-			if ( !lstAggOn.isEmpty( ) )
+
+			// Do not add aggregateOn to binding in Live preview case, because
+			// it doesn't use sub query.
+			if ( !bLivePreview && !lstAggOn.isEmpty( ) )
 			{
 				// Add aggregate on in binding
 				addAggregateOn( binding, lstAggOn, cubeQuery, cube );

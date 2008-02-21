@@ -33,7 +33,9 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.reportitem.AbstractChartBaseQueryGenerator;
+import org.eclipse.birt.chart.reportitem.BIRTCubeResultSetEvaluator;
 import org.eclipse.birt.chart.reportitem.BaseGroupedQueryResultSetEvaluator;
+import org.eclipse.birt.chart.reportitem.ChartCubeQueryHelper;
 import org.eclipse.birt.chart.reportitem.ChartMultiViewQueryHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
@@ -58,6 +60,9 @@ import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
+import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
@@ -68,6 +73,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
+import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -105,6 +111,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 {
 
 	private ExtendedItemHandle itemHandle;
+	
+	private ChartWizardContext context;
 
 	static final String OPTION_NONE = Messages.getString( "ReportDataServiceProvider.Option.None" ); //$NON-NLS-1$
 
@@ -120,6 +128,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		super( );
 		this.itemHandle = itemHandle;
 		project = UIUtil.getCurrentProject( );
+	}
+	
+	public void setWizardContext( ChartWizardContext context )
+	{
+		this.context = context;
 	}
 
 	private ModuleHandle getReportDesignHandle( )
@@ -724,11 +737,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return null;
 	}
 
-	public void setContext( Object context )
-	{
-		itemHandle = (ExtendedItemHandle) context;
-	}
-
 	void setDataSet( String datasetName )
 	{
 		try
@@ -1054,7 +1062,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 						.getPreferences( ChartReportItemUIActivator.getDefault( ),
 								project )
 						.getBoolean( ChartReportItemUIActivator.PREFERENCE_ENALBE_LIVE )
-				&& ( getReportDataSet( ) != null || getBoundDataSet( ) != null );
+				&& ( itemHandle.getDataBindingType( ) != ReportItemHandle.DATABINDING_TYPE_NONE || ChartReportItemUtil.getBindingHolder( itemHandle ) != null );
 	}
 
 	boolean isInvokingSupported( )
@@ -1296,16 +1304,24 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 		try
 		{
+			DataRequestSession session = prepareDataRequestSession( getMaxRow( ) );
+			
+			CubeHandle cube = ChartXTabUtil.getBindingCube( itemHandle );
+			if ( cube != null )
+			{
+				// Create evaluator for data cube
+				return createCubeEvaluator( cube, session );
+			}
+			
+			// Create evaluator for data set
 			IQueryResults actualResultSet = null;
 			if ( isSharedBinding( ) )
-			{
+			{			
 				// Now only create query for table shared binding.
 				// Create query definition.
 				QueryDefinition queryDefn = new QueryDefinition( );
 				int maxRow = getMaxRow( );
 				queryDefn.setMaxRows( maxRow );
-
-				DataRequestSession session = prepareDataRequestSession( getMaxRow( ) );
 
 				// Binding columns, aggregates, filters and sorts.
 				final Map bindingExprsMap = new HashMap( );
@@ -1355,15 +1371,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			}
 			else
 			{
-				DataRequestSession session = prepareDataRequestSession( getMaxRow( ) );
-
 				BaseQueryHelper cbqh = new BaseQueryHelper( itemHandle, cm );
 				QueryDefinition queryDefn = (QueryDefinition) cbqh.createBaseQuery( columnExpression );
 
-				// Iterate parameter bindings to check if its expression is a
-				// explicit
-				// value, otherwise use default value of parameter as its
-				// expression.
+				// Iterate parameter bindings to check if its expression is
+				// a explicit value, otherwise use default value of parameter as
+				// its expression.
 				resetParametersForDataPreview( getDataSetFromHandle( ),
 						queryDefn );
 
@@ -1399,6 +1412,45 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 
 		return null;
+	}
+	
+	/**
+	 * Creates the evaluator for Cube Live preview.
+	 * 
+	 * @param cube
+	 * @param session
+	 * @return
+	 * @throws BirtException
+	 */
+	private IDataRowExpressionEvaluator createCubeEvaluator( CubeHandle cube,
+			DataRequestSession session ) throws BirtException
+	{
+		// Use the chart model in context, because this model will be updated
+		// once UI changes it. On the contrary, the model in handle may be old.
+		IBaseCubeQueryDefinition qd = new ChartCubeQueryHelper( itemHandle,
+				context.getModel( ) ).createCubeQuery( null );
+
+		// TODO After DtE enhancement, there should be no define
+		// data.
+		session.defineCube( cube );
+		for ( Iterator iterator = itemHandle.getRoot( )
+				.getAllDataSources( )
+				.iterator( ); iterator.hasNext( ); )
+		{
+			session.defineDataSource( session.getModelAdaptor( )
+					.adaptDataSource( (DataSourceHandle) iterator.next( ) ) );
+		}
+		for ( Iterator iterator = itemHandle.getRoot( )
+				.getAllDataSets( )
+				.iterator( ); iterator.hasNext( ); )
+		{
+			session.defineDataSet( session.getModelAdaptor( )
+					.adaptDataSet( (DataSetHandle) iterator.next( ) ) );
+		}
+
+		// Always cube query returned
+		IPreparedCubeQuery ipcq = session.prepare( (ICubeQueryDefinition) qd );
+		return new BIRTCubeResultSetEvaluator( ipcq.execute( null, null ) );
 	}
 
 	/**

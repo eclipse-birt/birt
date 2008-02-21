@@ -22,7 +22,9 @@ import org.eclipse.birt.chart.factory.IGroupedDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
+import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 
 /**
@@ -39,7 +41,9 @@ public class BIRTCubeResultSetEvaluator
 
 	protected static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
-	final protected ICubeResultSet rs;
+	protected final ICubeResultSet rs;
+
+	protected final ICubeQueryResults qr;
 
 	protected ICubeCursor cubeCursor;
 
@@ -56,6 +60,13 @@ public class BIRTCubeResultSetEvaluator
 	public BIRTCubeResultSetEvaluator( ICubeResultSet rs )
 	{
 		this.rs = rs;
+		this.qr = null;
+	}
+
+	public BIRTCubeResultSetEvaluator( ICubeQueryResults qr )
+	{
+		this.rs = null;
+		this.qr = qr;
 	}
 
 	public int[] getGroupBreaks( int groupLevel )
@@ -101,10 +112,18 @@ public class BIRTCubeResultSetEvaluator
 				// performance
 				result = cubeCursor.getObject( bindingName );
 			}
-			else
+			else if ( rs != null )
 			{
 				// If not binding name, evaluate it via report engine
 				result = rs.evaluate( expression );
+			}
+			else
+			{
+				// In the case of Live preview, no engine's result set, use the
+				// binding name directly. This is a minor bug, but difficult to
+				// evaluate the expression in design time.
+				result = cubeCursor.getObject( ChartXTabUtil.getBindingName( expression,
+						true ) );
 			}
 		}
 		catch ( OLAPException e )
@@ -171,7 +190,21 @@ public class BIRTCubeResultSetEvaluator
 	 */
 	public void close( )
 	{
-		rs.close( );
+		if ( rs != null )
+		{
+			rs.close( );
+		}
+		if ( qr != null )
+		{
+			try
+			{
+				qr.close( );
+			}
+			catch ( BirtException e )
+			{
+				logger.log( e );
+			}
+		}
 	}
 
 	/*
@@ -200,14 +233,25 @@ public class BIRTCubeResultSetEvaluator
 		{
 			logger.log( e );
 		}
+		catch ( DataException e )
+		{
+			logger.log( e );
+		}
 		return false;
 	}
 
-	protected void initCubeCursor( ) throws OLAPException
+	protected void initCubeCursor( ) throws OLAPException, DataException
 	{
 		if ( cubeCursor == null )
 		{
-			cubeCursor = (ICubeCursor) rs.getCubeCursor( );
+			if ( rs != null )
+			{
+				cubeCursor = (ICubeCursor) rs.getCubeCursor( );
+			}
+			else
+			{
+				cubeCursor = qr.getCubeCursor( );
+			}
 
 			List edges = cubeCursor.getOrdinateEdge( );
 			if ( edges.size( ) <= 1 )

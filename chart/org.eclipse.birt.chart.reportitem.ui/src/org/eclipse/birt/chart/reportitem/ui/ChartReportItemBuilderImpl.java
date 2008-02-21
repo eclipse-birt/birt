@@ -171,6 +171,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 					this,
 					dataProvider,
 					dataSheet );
+			dataProvider.setWizardContext( context );
 			if ( dataProvider.isInXTab( ) )
 			{
 				// Disable some UI sections for xtab case
