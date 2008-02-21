@@ -907,8 +907,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 					// Get header and data in other thread.
 					final ColumnBindingInfo[] headers = getDataServiceProvider( ).getPreviewHeadersInfo( );
 					final List dataList = getDataServiceProvider( ).getPreviewData( );
-					getDataServiceProvider( ).setPredefinedExpressionsForTableSharedBinding( getContext( ),
-							headers );
+					getDataServiceProvider( ).setPredefinedExpressions( headers );
 
 					// Execute UI operation in UI thread.
 					Display.getDefault( ).syncExec( new Runnable( ) {
@@ -1481,7 +1480,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 					// Get all column bindings.
 					List dimensionExprs = new ArrayList( );
 					List measureExprs = new ArrayList( );
-					ReportItemHandle reportItemHandle = dataProvider.getReportItemHandleOfSharedBinding( );
+					ReportItemHandle reportItemHandle = dataProvider.getReportItemHandle( );
 					for ( Iterator iter = reportItemHandle.getColumnBindings( )
 							.iterator( ); iter.hasNext( ); )
 					{

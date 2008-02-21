@@ -55,6 +55,7 @@ import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.emf.common.util.EList;
 
 /**
  * The class is responsible to add group bindings of chart on query definition.
@@ -420,5 +421,71 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 			Query query, String bindName, String newExpr )
 	{
 		query.setDefinition( newExpr );
+	}
+	
+	/**
+	 * Returns all query experssion definitions on chart.
+	 * 
+	 * @param chart
+	 * @return
+	 * @since 2.3
+	 */
+	public static List getAllQueryExpressionDefinitions( Chart chart )
+	{
+		List queryList = new ArrayList();
+		if ( chart instanceof ChartWithAxes )
+		{
+			Axis xAxis = (Axis) ( (ChartWithAxes) chart ).getAxes( ).get( 0 );
+			// Add base series query
+			queryList.addAll( getQueries( xAxis.getSeriesDefinitions( ) ) );
+			
+			EList axisList = xAxis.getAssociatedAxes( );
+			for ( int i = 0; i < axisList.size( ); i++ )
+			{
+				EList sds = ( (Axis) axisList.get( i ) ).getSeriesDefinitions( );
+				
+				// Add Y grouping query.
+				Query q =  ((SeriesDefinition)sds.get( 0 )).getQuery( );
+				if ( q != null ) 
+				{
+					queryList.add( q );
+				}
+				
+				// Add value series querys.
+				queryList.addAll( getQueries( sds ));
+				
+			}
+		}
+		else if ( chart instanceof ChartWithoutAxes )
+		{
+			SeriesDefinition sdBase = (SeriesDefinition) ( (ChartWithoutAxes) chart ).getSeriesDefinitions( )
+					.get( 0 );
+			queryList.addAll( sdBase.getDesignTimeSeries( ).getDataDefinition( ) );
+			
+			Query q =  ((SeriesDefinition)sdBase.getSeriesDefinitions( ).get( 0 )).getQuery( );
+			if ( q != null ) 
+			{
+				queryList.add( q );
+			}
+			
+			queryList.addAll( getQueries( sdBase.getSeriesDefinitions( ) ) );
+		}
+		return queryList;
+	}
+	
+	/**
+	 * Returns queries of series definition.
+	 * 
+	 * @param seriesDefinitions
+	 * @return
+	 */
+	private static List getQueries( EList seriesDefinitions )
+	{
+		List querys = new ArrayList( );
+		for ( Iterator iter = seriesDefinitions.iterator( ); iter.hasNext( ); ) 
+		{
+			querys.addAll( ((SeriesDefinition)iter.next( )).getDesignTimeSeries( ).getDataDefinition( ) );
+		}
+		return querys;
 	}
 }

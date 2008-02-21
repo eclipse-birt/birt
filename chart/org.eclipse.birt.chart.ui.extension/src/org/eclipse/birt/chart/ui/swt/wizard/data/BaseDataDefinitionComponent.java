@@ -780,7 +780,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 			int exprIndex = getExprIndex( cmbDefinition, expression );
 			if ( exprIndex < 0 )
 			{
-				setQueryExpression( null );
+				setQueryExpression( expression );
 				return;
 			}
 			

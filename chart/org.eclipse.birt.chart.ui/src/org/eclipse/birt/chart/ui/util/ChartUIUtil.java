@@ -1663,10 +1663,7 @@ public class ChartUIUtil
 					return ( (ColumnBindingInfo) data[index] ).getExpression( );
 				}
 			}
-			else
-			{
-				return ((Combo)control).getText( );
-			}
+			return ((Combo)control).getText( );
 		}
 		return ""; //$NON-NLS-1$
 	}

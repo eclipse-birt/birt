@@ -35,6 +35,7 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.reportitem.AbstractChartBaseQueryGenerator;
 import org.eclipse.birt.chart.reportitem.BIRTCubeResultSetEvaluator;
 import org.eclipse.birt.chart.reportitem.BaseGroupedQueryResultSetEvaluator;
+import org.eclipse.birt.chart.reportitem.ChartBaseQueryHelper;
 import org.eclipse.birt.chart.reportitem.ChartCubeQueryHelper;
 import org.eclipse.birt.chart.reportitem.ChartMultiViewQueryHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
@@ -114,6 +115,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	
 	private ChartWizardContext context;
 
+	/** The helper handle is used to do things for share binding case. */
+	private final ShareBindingQueryHelper fShareBindingQueryHelper = new ShareBindingQueryHelper( );
+	
 	static final String OPTION_NONE = Messages.getString( "ReportDataServiceProvider.Option.None" ); //$NON-NLS-1$
 
 	/**
@@ -128,6 +132,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		super( );
 		this.itemHandle = itemHandle;
 		project = UIUtil.getCurrentProject( );
+		
 	}
 	
 	public void setWizardContext( ChartWizardContext context )
@@ -226,7 +231,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 		else
 		{
-			return getPreviewRowDataForTableSharedBinding( getPreviewHeadersInfo( ),
+			return fShareBindingQueryHelper.getPreviewRowData( getPreviewHeadersInfo( ),
 					-1,
 					true );
 		}
@@ -256,95 +261,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		ColumnBindingInfo[] columnHeaders = null;
 		if ( isTableSharedBinding( ) )
 		{
-			// Process grouping and aggregate on group case.
-			// Get groups.
-			List groupList = getGroupsOfSharedBinding( );
-
-			columnHeaders = new ColumnBindingInfo[columnList.size( )
-					+ groupList.size( )];
-			int index = 0;
-			for ( int i = 0; i < groupList.size( ); i++ )
-			{
-				GroupHandle gh = (GroupHandle) groupList.get( i );
-				String groupName = gh.getName( );
-				String groupKeyExpr = gh.getKeyExpr( );
-				String tooltip = Messages.getString( "ReportDataServiceProvider.Tooltip.GroupExpression" ) + groupKeyExpr; //$NON-NLS-1$
-				columnHeaders[index++] = new ColumnBindingInfo( groupName,
-						groupKeyExpr, // Use expression for group.
-						ColumnBindingInfo.GROUP_COLUMN,
-						"icons/obj16/group.gif", //$NON-NLS-1$
-						tooltip,
-						gh );
-
-				for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
-				{
-					ComputedColumnHandle cch = (ComputedColumnHandle) iter.next( );
-
-					String aggOn = cch.getAggregateOn( );
-					if ( groupName.equals( aggOn ) )
-					{
-						// Remove the column binding from list.
-						iter.remove( );
-
-						tooltip = Messages.getString( "ReportDataServiceProvider.Tooltip.Aggregate" ) + cch.getAggregateFunction( ) + "\n" + Messages.getString( "ReportDataServiceProvider.Tooltip.OnGroup" ) + groupName; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-						columnHeaders[index] = new ColumnBindingInfo( cch.getName( ),
-								ExpressionUtil.createJSRowExpression( cch.getName( ) ), // Use
-								// binding
-								// expression
-								// for
-								// aggregate.
-								ColumnBindingInfo.AGGREGATE_COLUMN,
-								ChartUIConstants.IMAGE_SIGMA,
-								tooltip,
-								cch );
-						columnHeaders[index].setChartAggExpression( ChartReportItemUtil.convertToChartAggExpression( cch.getAggregateFunction( ) ) );
-						index++;
-					}
-				}
-			}
-
-			// Process aggregate on whole table case.
-			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
-			{
-				ComputedColumnHandle cch = (ComputedColumnHandle) iter.next( );
-
-				if ( cch.getAggregateFunction( ) != null )
-				{
-					// Remove the column binding form list.
-					iter.remove( );
-
-					String tooltip = Messages.getString( "ReportDataServiceProvider.Tooltip.Aggregate" ) + cch.getAggregateFunction( ) + "\n" + Messages.getString( "ReportDataServiceProvider.Tooltip.OnGroup" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-					columnHeaders[index] = new ColumnBindingInfo( cch.getName( ),
-							ExpressionUtil.createJSRowExpression( cch.getName( ) ), // Use
-							// binding
-							// expression
-							// for
-							// aggregate.
-							ColumnBindingInfo.AGGREGATE_COLUMN,
-							ChartUIConstants.IMAGE_SIGMA,
-							tooltip,
-							cch );
-					columnHeaders[index].setChartAggExpression( ChartReportItemUtil.convertToChartAggExpression( cch.getAggregateFunction( ) ) );
-					index++;
-				}
-			}
-
-			// Process common bindings.
-			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
-			{
-				ComputedColumnHandle cch = (ComputedColumnHandle) iter.next( );
-				columnHeaders[index++] = new ColumnBindingInfo( cch.getName( ),
-						ExpressionUtil.createJSRowExpression( cch.getName( ) ), // Use
-						// binding
-						// expression
-						// for
-						// common
-						// binding.
-						ColumnBindingInfo.COMMON_COLUMN,
-						null,
-						null,
-						cch );
-			}
+			columnHeaders = fShareBindingQueryHelper.getPreviewHeadersInfo( columnList );
 		}
 		else
 		{
@@ -363,25 +280,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return columnHeaders;
 	}
 
-	/**
-	 * Returns groups in shared binding.
-	 * 
-	 * @return
-	 */
-	private List getGroupsOfSharedBinding( )
-	{
-		List groupList = new ArrayList( );
-		ReportItemHandle handle = getReportItemHandleOfSharedBinding( );
-		if ( handle instanceof TableHandle )
-		{
-			SlotHandle groups = ( (TableHandle) handle ).getGroups( );
-			for ( Iterator iter = groups.iterator( ); iter.hasNext( ); )
-			{
-				groupList.add( iter.next( ) );
-			}
-		}
-		return groupList;
-	}
 
 	private String[] getPreviewHeader( boolean isExpression )
 			throws ChartException
@@ -397,155 +295,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return exps;
 	}
 
-	/**
-	 * Returns preview row data for table shared binding, it will share table's
-	 * bindings and get them data.
-	 * 
-	 * @param headers
-	 * @param rowCount
-	 * @param isStringType
-	 * @return
-	 * @throws ChartException
-	 * @since 2.3
-	 */
-	protected List getPreviewRowDataForTableSharedBinding(
-			ColumnBindingInfo[] headers, int rowCount, boolean isStringType )
-			throws ChartException
-	{
-		ArrayList dataList = new ArrayList( );
-		// Set thread context class loader so Rhino can find POJOs in workspace
-		// projects
-		ClassLoader oldContextLoader = Thread.currentThread( )
-				.getContextClassLoader( );
-		ClassLoader parentLoader = oldContextLoader;
-		if ( parentLoader == null )
-			parentLoader = this.getClass( ).getClassLoader( );
-		ClassLoader newContextLoader = getCustomScriptClassLoader( parentLoader );
-		Thread.currentThread( ).setContextClassLoader( newContextLoader );
-
-		try
-		{
-			// Create query definition.
-			QueryDefinition queryDefn = new QueryDefinition( );
-			int maxRow = getMaxRow( );
-			queryDefn.setMaxRows( maxRow );
-
-			DataRequestSession session = prepareDataRequestSession( getMaxRow( ) );
-
-			// Binding columns, aggregates, filters and sorts.
-			List columns = generateTableSharedBindingQuery( headers,
-					queryDefn,
-					session,
-					new HashMap( ) );
-
-			IQueryResults actualResultSet = session.executeQuery( queryDefn,
-					null,
-					itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP )
-							.iterator( ),
-					null );
-
-			if ( actualResultSet != null )
-			{
-				int columnCount = columns.size( );
-				IResultIterator iter = actualResultSet.getResultIterator( );
-				while ( iter.next( ) )
-				{
-					if ( isStringType )
-					{
-						String[] record = new String[columnCount];
-						for ( int n = 0; n < columnCount; n++ )
-						{
-							// Bugzilla#190229, to get string with localized
-							// format
-							record[n] = DataTypeUtil.toString( iter.getValue( (String) columns.get( n ) ) );
-						}
-						dataList.add( record );
-					}
-					else
-					{
-						Object[] record = new Object[columnCount];
-						for ( int n = 0; n < columnCount; n++ )
-						{
-							record[n] = iter.getValue( (String) columns.get( n ) );
-						}
-						dataList.add( record );
-					}
-				}
-
-				actualResultSet.close( );
-			}
-		}
-		catch ( BirtException e )
-		{
-			throw new ChartException( ChartReportItemUIActivator.ID,
-					ChartException.DATA_BINDING,
-					e );
-		}
-		finally
-		{
-			// Restore old thread context class loader
-			Thread.currentThread( ).setContextClassLoader( oldContextLoader );
-		}
-		return dataList;
-	}
-
-	private List generateTableSharedBindingQuery( ColumnBindingInfo[] headers,
-			QueryDefinition queryDefn, DataRequestSession session,
-			Map bindingExprsMap ) throws AdapterException, DataException
-	{
-		List columns = new ArrayList( );
-		ReportItemHandle reportItemHandle = getReportItemHandleOfSharedBinding( );
-		queryDefn.setDataSetName( reportItemHandle.getDataSet( )
-				.getQualifiedName( ) );
-		for ( int i = 0; i < headers.length; i++ )
-		{
-			ColumnBindingInfo chi = headers[i];
-			int type = chi.getColumnType( );
-			switch ( type )
-			{
-				case ColumnBindingInfo.COMMON_COLUMN :
-				case ColumnBindingInfo.AGGREGATE_COLUMN :
-					IBinding binding = session.getModelAdaptor( )
-							.adaptBinding( (ComputedColumnHandle) chi.getObjectHandle( ) );
-					queryDefn.addBinding( binding );
-
-					columns.add( binding.getBindingName( ) );
-					// Use original binding expression as map key for aggregate
-					// and common binding.
-					bindingExprsMap.put( chi.getExpression( ),
-							binding.getBindingName( ) );
-
-					break;
-				case ColumnBindingInfo.GROUP_COLUMN :
-					GroupDefinition gd = session.getModelAdaptor( )
-							.adaptGroup( (GroupHandle) chi.getObjectHandle( ) );
-					queryDefn.addGroup( gd );
-
-					String name = StructureFactory.newComputedColumn( reportItemHandle,
-							gd.getName( ) )
-							.getName( );
-					binding = new Binding( name );
-					binding.setExpression( new ScriptExpression( gd.getKeyExpression( ) ) );
-					queryDefn.addBinding( binding );
-
-					columns.add( name );
-
-					// Use created binding expression as map key for group.
-					bindingExprsMap.put( ( (ScriptExpression) binding.getExpression( ) ).getText( ),
-							binding.getBindingName( ) );
-					break;
-			}
-		}
-		
-		// Add sorts.
-		if ( reportItemHandle instanceof ListingHandle )
-		{
-			queryDefn.getSorts( )
-					.addAll( ChartMultiViewQueryHelper.createSorts( ( (ListingHandle) reportItemHandle ).sortsIterator( ) ) );
-		}
-		
-		return columns;
-	}
 
 	protected final List getPreviewRowData( String[] columnExpression,
 			int rowCount, boolean isStringType ) throws ChartException
@@ -1317,66 +1066,17 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			IQueryResults actualResultSet = null;
 			if ( isSharedBinding( ) )
 			{			
-				// Now only create query for table shared binding.
-				// Create query definition.
-				QueryDefinition queryDefn = new QueryDefinition( );
-				int maxRow = getMaxRow( );
-				queryDefn.setMaxRows( maxRow );
-
-				// Binding columns, aggregates, filters and sorts.
-				final Map bindingExprsMap = new HashMap( );
-				generateTableSharedBindingQuery( getPreviewHeadersInfo( ),
-						queryDefn,
-						session,
-						bindingExprsMap );
-
-				actualResultSet = session.executeQuery( queryDefn,
-						null,
-						itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP )
-								.iterator( ),
-						null );
-
-				if ( actualResultSet != null )
-				{
-					return new BaseGroupedQueryResultSetEvaluator( actualResultSet.getResultIterator( ),
-							ChartReportItemUtil.hasAggregation( cm ) ) {
-
-						/*
-						 * (non-Javadoc)
-						 * 
-						 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluate(java.lang.String)
-						 */
-						public Object evaluate( String expression )
-						{
-							try
-							{
-								String newExpr = (String) bindingExprsMap.get( expression );
-								if ( newExpr != null )
-								{
-									return fResultIterator.getValue( newExpr );
-								}
-								else
-								{
-									return fResultIterator.getValue( expression );
-								}
-							}
-							catch ( BirtException e )
-							{
-								fLogger.log( e );
-							}
-							return null;
-						}
-					};
-				}
+				return fShareBindingQueryHelper.createShareBindingEvaluator( cm, session );
 			}
 			else
 			{
 				BaseQueryHelper cbqh = new BaseQueryHelper( itemHandle, cm );
 				QueryDefinition queryDefn = (QueryDefinition) cbqh.createBaseQuery( columnExpression );
 
-				// Iterate parameter bindings to check if its expression is
-				// a explicit value, otherwise use default value of parameter as
-				// its expression.
+				// Iterate parameter bindings to check if its expression is a
+				// explicit
+				// value, otherwise use default value of parameter as its
+				// expression.
 				resetParametersForDataPreview( getDataSetFromHandle( ),
 						queryDefn );
 
@@ -1585,143 +1285,14 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * Set predefined expressions for table shared binding, in table shared
 	 * binding case, the binding/expression is read only, so predefined them.
 	 * 
-	 * @param context
 	 * @param headers
 	 * @since 2.3
 	 */
-	public void setPredefinedExpressionsForTableSharedBinding(
-			ChartWizardContext context, ColumnBindingInfo[] headers )
+	public void setPredefinedExpressions( ColumnBindingInfo[] headers )
 	{
 		if ( isSharedBinding( ) )
 		{
-			Map commons = new LinkedHashMap( );
-			Map aggs = new LinkedHashMap( );
-			Map groups = new LinkedHashMap( );
-			Map groupsWithAgg = new LinkedHashMap( );
-			Map groupsWithoutAgg = new LinkedHashMap( );
-
-			for ( int i = 0; i < headers.length; i++ )
-			{
-				int type = headers[i].getColumnType( );
-				switch ( type )
-				{
-
-					case ColumnBindingInfo.COMMON_COLUMN :
-						commons.put( ExpressionUtil.createJSRowExpression( headers[i].getName( ) ),
-								headers[i] );
-						break;
-					case ColumnBindingInfo.AGGREGATE_COLUMN :
-						aggs.put( ExpressionUtil.createJSRowExpression( headers[i].getName( ) ),
-								headers[i] );
-						break;
-					case ColumnBindingInfo.GROUP_COLUMN :
-						groups.put( ExpressionUtil.createJSRowExpression( headers[i].getName( ) ),
-								headers[i] );
-						break;
-				}
-			}
-
-			groupsWithoutAgg = new LinkedHashMap( groups );
-			for ( Iterator iter = groupsWithoutAgg.entrySet( ).iterator( ); iter.hasNext( ); )
-			{
-				Entry entry = (Entry) iter.next( );
-				String groupName = ( (ColumnBindingInfo) entry.getValue( ) ).getName( );
-				Object[] aggsValues = aggs.values( ).toArray( );
-				
-				// Remove some groups defined aggregate.
-				for ( int j = 0; j < aggs.size( ); j++ )
-				{
-					if ( groupName.equals( ( (ComputedColumnHandle) ( (ColumnBindingInfo) aggsValues[j] ).getObjectHandle( ) ).getAggregateOn( ) ) )
-					{
-						iter.remove( );
-						groupsWithAgg.put( entry.getKey( ), entry.getValue( ) );
-						break;
-					}
-				}
-			}
-
-			// TODO
-			// ? Now(2008/02/18), for share binding case, we use following rules:
-			// 1. Y optional grouping just allow to use first grouping definition in table.
-			// 2. Category series allow to use all grouping definitions and binding.
-
-			// Prepare category items.
-			Object[][] categorys = new Object[groups.size( ) + commons.size( )][2];
-			int index = 0;
-			for ( Iterator iter = groups.entrySet( ).iterator( ); iter.hasNext( ); )
-			{
-				Entry entry = (Entry) iter.next( );
-				categorys[index][0] = entry.getKey( );
-				categorys[index][1] = entry.getValue( );
-				index++;
-			}
-			for ( Iterator iter = commons.entrySet( ).iterator( ); iter.hasNext( ); )
-			{
-				Entry entry = (Entry) iter.next( );
-				categorys[index][0] = entry.getKey( );
-				categorys[index][1] = entry.getValue( );
-				index++;
-			}
-
-			// Prepare Y optional items.
-//			int size = 0;
-//			if ( groupsWithAgg.size( ) > 0 )
-//			{
-//			    // Except inner most group, since the Y optional group is always not a inner most group.
-//				size = groupsWithAgg.size( ) - 1;
-//			}
-//			Object[][] optionals = new Object[groupsWithoutAgg.size( ) + size][2];
-//			index = 0;
-//			// add groups which don't include aggregate.
-//			for ( Iterator iter = groupsWithoutAgg.entrySet( ).iterator( ); iter.hasNext( ); )
-//			{
-//				Entry entry = (Entry) iter.next( );
-//				optionals[index][0] = entry.getKey( );
-//				optionals[index][1] = entry.getValue( );
-//				index++;
-//			}
-//			// Add groups which includes aggregate, except the inner most group.
-//			for ( Iterator iter = groupsWithAgg.entrySet( ).iterator( ); index < optionals.length
-//					&& iter.hasNext( ); )
-//			{
-//				Entry entry = (Entry) iter.next( );
-//				optionals[index][0] = entry.getKey( );
-//				optionals[index][1] = entry.getValue( );
-//				index++;
-//			}
-			
-			int size = ( groups.size( ) > 0 ) ? 1 : 0;
-			Object[][] optionals = new Object[size][2];
-			if ( groups.size( ) > 0 )
-			{
-				Entry entry = (Entry) groups.entrySet( ).iterator( ).next( );;
-				optionals[0][0] = entry.getKey( );
-				optionals[0][1] = entry.getValue( );
-			}
-
-			// Prepare value items.
-			Object[][] values = new Object[aggs.size( ) + commons.size( )][2];
-			index = 0;
-			for ( Iterator iter = aggs.entrySet( ).iterator( ); iter.hasNext( ); )
-			{
-				Entry entry = (Entry) iter.next( );
-				values[index][0] = entry.getKey( );
-				values[index][1] = entry.getValue( );
-				index++;
-			}
-			for ( Iterator iter = commons.entrySet( ).iterator( ); iter.hasNext( ); )
-			{
-				Entry entry = (Entry) iter.next( );
-				values[index][0] = entry.getKey( );
-				values[index][1] = entry.getValue( );
-				index++;
-			}
-
-			context.addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
-					categorys );
-			context.addPredefinedQuery( ChartUIConstants.QUERY_VALUE, values );
-			context.addPredefinedQuery( ChartUIConstants.QUERY_OPTIONAL,
-					optionals );
+			fShareBindingQueryHelper.setPredefinedExpressions( headers );
 		}
 		else
 		{
@@ -1732,11 +1303,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	}
 
 	/**
-	 * Returns report item handle of shared binding.
+	 * Returns report item handle.
 	 * 
 	 * @since 2.3
 	 */
-	public ReportItemHandle getReportItemHandleOfSharedBinding( )
+	public ReportItemHandle getReportItemHandle( )
 	{
 		if ( isSharedBinding( ) )
 		{
@@ -1776,5 +1347,552 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		
 		// Return null if it is crosstab sharing case.
 		return null;
+	}
+
+	
+	/**
+	 * The class declares some methods for processing query share with table.
+	 * 
+	 * @since 2.3
+	 */
+	class ShareBindingQueryHelper
+	{
+		/**
+		 * Set predefined expressions for UI selections.
+		 * 
+		 * @param headers
+		 */
+		private void setPredefinedExpressions( ColumnBindingInfo[] headers )
+		{
+			Map commons = new LinkedHashMap( );
+			Map aggs = new LinkedHashMap( );
+			Map groups = new LinkedHashMap( );
+			Map groupsWithAgg = new LinkedHashMap( );
+			Map groupsWithoutAgg = new LinkedHashMap( );
+
+			for ( int i = 0; i < headers.length; i++ )
+			{
+				int type = headers[i].getColumnType( );
+				switch ( type )
+				{
+
+					case ColumnBindingInfo.COMMON_COLUMN :
+						commons.put( ExpressionUtil.createJSRowExpression( headers[i].getName( ) ),
+								headers[i] );
+						break;
+					case ColumnBindingInfo.AGGREGATE_COLUMN :
+						aggs.put( ExpressionUtil.createJSRowExpression( headers[i].getName( ) ),
+								headers[i] );
+						break;
+					case ColumnBindingInfo.GROUP_COLUMN :
+						groups.put( ExpressionUtil.createJSRowExpression( headers[i].getName( ) ),
+								headers[i] );
+						break;
+				}
+			}
+
+			groupsWithoutAgg = new LinkedHashMap( groups );
+			for ( Iterator iter = groupsWithoutAgg.entrySet( ).iterator( ); iter.hasNext( ); )
+			{
+				Entry entry = (Entry) iter.next( );
+				String groupName = ( (ColumnBindingInfo) entry.getValue( ) ).getName( );
+				Object[] aggsValues = aggs.values( ).toArray( );
+
+				// Remove some groups defined aggregate.
+				for ( int j = 0; j < aggs.size( ); j++ )
+				{
+					if ( groupName.equals( ( (ComputedColumnHandle) ( (ColumnBindingInfo) aggsValues[j] ).getObjectHandle( ) ).getAggregateOn( ) ) )
+					{
+						iter.remove( );
+						groupsWithAgg.put( entry.getKey( ), entry.getValue( ) );
+						break;
+					}
+				}
+			}
+
+			// TODO
+			// ? Now(2008/02/18), for share binding case, we use following rules:
+			// 1. Y optional grouping just allow to use first grouping definition in table.
+			// 2. Category series allow to use all grouping definitions and binding.
+
+			// Prepare category items.
+			Object[][] categorys = new Object[groups.size( ) + commons.size( )][2];
+			int index = 0;
+			for ( Iterator iter = groups.entrySet( ).iterator( ); iter.hasNext( ); )
+			{
+				Entry entry = (Entry) iter.next( );
+				categorys[index][0] = entry.getKey( );
+				categorys[index][1] = entry.getValue( );
+				index++;
+			}
+			for ( Iterator iter = commons.entrySet( ).iterator( ); iter.hasNext( ); )
+			{
+				Entry entry = (Entry) iter.next( );
+				categorys[index][0] = entry.getKey( );
+				categorys[index][1] = entry.getValue( );
+				index++;
+			}
+
+			// Prepare Y optional items.
+//				int size = 0;
+//				if ( groupsWithAgg.size( ) > 0 )
+//				{
+//				    // Except inner most group, since the Y optional group is always not a inner most group.
+//					size = groupsWithAgg.size( ) - 1;
+//				}
+//				Object[][] optionals = new Object[groupsWithoutAgg.size( ) + size][2];
+//				index = 0;
+//				// add groups which don't include aggregate.
+//				for ( Iterator iter = groupsWithoutAgg.entrySet( ).iterator( ); iter.hasNext( ); )
+//				{
+//					Entry entry = (Entry) iter.next( );
+//					optionals[index][0] = entry.getKey( );
+//					optionals[index][1] = entry.getValue( );
+//					index++;
+//				}
+//				// Add groups which includes aggregate, except the inner most group.
+//				for ( Iterator iter = groupsWithAgg.entrySet( ).iterator( ); index < optionals.length
+//						&& iter.hasNext( ); )
+//				{
+//					Entry entry = (Entry) iter.next( );
+//					optionals[index][0] = entry.getKey( );
+//					optionals[index][1] = entry.getValue( );
+//					index++;
+//				}
+
+			int size = ( groups.size( ) > 0 ) ? 1 : 0;
+			Object[][] optionals = new Object[size][2];
+			if ( groups.size( ) > 0 )
+			{
+				Entry entry = (Entry) groups.entrySet( ).iterator( ).next( );;
+				optionals[0][0] = entry.getKey( );
+				optionals[0][1] = entry.getValue( );
+			}
+
+			// Prepare value items.
+			Object[][] values = new Object[aggs.size( ) + commons.size( )][2];
+			index = 0;
+			for ( Iterator iter = aggs.entrySet( ).iterator( ); iter.hasNext( ); )
+			{
+				Entry entry = (Entry) iter.next( );
+				values[index][0] = entry.getKey( );
+				values[index][1] = entry.getValue( );
+				index++;
+			}
+			for ( Iterator iter = commons.entrySet( ).iterator( ); iter.hasNext( ); )
+			{
+				Entry entry = (Entry) iter.next( );
+				values[index][0] = entry.getKey( );
+				values[index][1] = entry.getValue( );
+				index++;
+			}
+
+			context.addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
+					categorys );
+			context.addPredefinedQuery( ChartUIConstants.QUERY_VALUE, values );
+			context.addPredefinedQuery( ChartUIConstants.QUERY_OPTIONAL,
+					optionals );
+		}
+
+		/**
+		 * Prepare data expression evaluator for query share with table.
+		 * 
+		 * @param cm
+		 * @param session
+		 * @return
+		 * @throws BirtException
+		 * @throws AdapterException
+		 * @throws DataException
+		 * @throws ChartException
+		 */
+		private IDataRowExpressionEvaluator createShareBindingEvaluator(
+				Chart cm, DataRequestSession session ) throws BirtException, AdapterException,
+				DataException, ChartException
+		{
+			IQueryResults actualResultSet;
+			// Now only create query for table shared binding.
+			// Create query definition.
+			QueryDefinition queryDefn = new QueryDefinition( );
+			int maxRow = getMaxRow( );
+			queryDefn.setMaxRows( maxRow );
+
+			// Binding columns, aggregates, filters and sorts.
+			final Map bindingExprsMap = new HashMap( );
+
+			Iterator iterator = ChartReportItemUtil.getColumnDataBindings( itemHandle );
+			ArrayList columnList = new ArrayList( );
+			while ( iterator.hasNext( ) )
+			{
+				columnList.add( iterator.next( ) );
+			}
+
+			generateShareBindingsWithTable( getPreviewHeadersInfo( columnList ),
+					queryDefn,
+					session,
+					bindingExprsMap );
+
+			// Add custom expression of chart.
+			addCustomExpressions( queryDefn, cm, bindingExprsMap );
+
+			actualResultSet = session.executeQuery( queryDefn,
+					null,
+					itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP )
+							.iterator( ),
+					null );
+
+			if ( actualResultSet != null )
+			{
+				return new BaseGroupedQueryResultSetEvaluator( actualResultSet.getResultIterator( ),
+						ChartReportItemUtil.hasAggregation( cm ) ) {
+
+					/*
+					 * (non-Javadoc)
+					 * 
+					 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluate(java.lang.String)
+					 */
+					public Object evaluate( String expression )
+					{
+						try
+						{
+							String newExpr = (String) bindingExprsMap.get( expression );
+							if ( newExpr != null )
+							{
+								return fResultIterator.getValue( newExpr );
+							}
+							else
+							{
+								return fResultIterator.getValue( expression );
+							}
+						}
+						catch ( BirtException e )
+						{
+							fLogger.log( e );
+						}
+						return null;
+					}
+				};
+			}
+			return null;
+		}
+
+		/**
+		 * Add custom expressions of chart to query.
+		 * 
+		 * @param queryDefn
+		 * @param cm
+		 * @param bindingExprsMap
+		 * @throws DataException
+		 */
+		private void addCustomExpressions( QueryDefinition queryDefn, Chart cm,
+				final Map bindingExprsMap ) throws DataException
+		{
+			List queryList = ChartBaseQueryHelper.getAllQueryExpressionDefinitions( cm );
+			for ( int i = 0; i < queryList.size( ); i++ )
+			{
+				Query query = (Query) queryList.get( i );
+				String expr = query.getDefinition( );
+				if ( expr != null && !"".equals( expr ) && //$NON-NLS-1$
+						!bindingExprsMap.containsKey( expr ) )
+				{
+					String name = StructureFactory.newComputedColumn( itemHandle,
+							expr.replaceAll( "\"", "" ) ) //$NON-NLS-1$ //$NON-NLS-2$
+							.getName( );
+					queryDefn.addBinding( new Binding( name,
+							new ScriptExpression( expr ) ) );
+
+					bindingExprsMap.put( expr, name );
+				}
+			}
+		}
+
+		/**
+		 * Returns columns header info.
+		 * 
+		 * @throws ChartException
+		 * @since BIRT 2.3
+		 */
+		private final ColumnBindingInfo[] getPreviewHeadersInfo( List columnList )
+				throws ChartException
+		{
+			if ( columnList == null || columnList.size( ) == 0 )
+			{
+				return new ColumnBindingInfo[0];
+			}
+
+			ColumnBindingInfo[] columnHeaders = null;
+
+			// Process grouping and aggregate on group case.
+			// Get groups.
+			List groupList = fShareBindingQueryHelper.getGroupsOfSharedBinding( );
+
+			columnHeaders = new ColumnBindingInfo[columnList.size( ) +
+					groupList.size( )];
+			int index = 0;
+			for ( int i = 0; i < groupList.size( ); i++ )
+			{
+				GroupHandle gh = (GroupHandle) groupList.get( i );
+				String groupName = gh.getName( );
+				String groupKeyExpr = gh.getKeyExpr( );
+				String tooltip = Messages.getString( "ReportDataServiceProvider.Tooltip.GroupExpression" ) + groupKeyExpr; //$NON-NLS-1$
+				columnHeaders[index++] = new ColumnBindingInfo( groupName,
+						groupKeyExpr, // Use expression for group.
+						ColumnBindingInfo.GROUP_COLUMN,
+						"icons/obj16/group.gif", //$NON-NLS-1$
+						tooltip,
+						gh );
+
+				for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
+				{
+					ComputedColumnHandle cch = (ComputedColumnHandle) iter.next( );
+
+					String aggOn = cch.getAggregateOn( );
+					if ( groupName.equals( aggOn ) )
+					{
+						// Remove the column binding from list.
+						iter.remove( );
+
+						tooltip = Messages.getString( "ReportDataServiceProvider.Tooltip.Aggregate" ) + cch.getAggregateFunction( ) + "\n" + Messages.getString( "ReportDataServiceProvider.Tooltip.OnGroup" ) + groupName; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+						columnHeaders[index] = new ColumnBindingInfo( cch.getName( ),
+								ExpressionUtil.createJSRowExpression( cch.getName( ) ), // Use
+								// binding
+								// expression
+								// for
+								// aggregate.
+								ColumnBindingInfo.AGGREGATE_COLUMN,
+								ChartUIConstants.IMAGE_SIGMA,
+								tooltip,
+								cch );
+						columnHeaders[index].setChartAggExpression( ChartReportItemUtil.convertToChartAggExpression( cch.getAggregateFunction( ) ) );
+						index++;
+					}
+				}
+			}
+
+			// Process aggregate on whole table case.
+			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
+			{
+				ComputedColumnHandle cch = (ComputedColumnHandle) iter.next( );
+
+				if ( cch.getAggregateFunction( ) != null )
+				{
+					// Remove the column binding form list.
+					iter.remove( );
+
+					String tooltip = Messages.getString( "ReportDataServiceProvider.Tooltip.Aggregate" ) + cch.getAggregateFunction( ) + "\n" + Messages.getString( "ReportDataServiceProvider.Tooltip.OnGroup" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					columnHeaders[index] = new ColumnBindingInfo( cch.getName( ),
+							ExpressionUtil.createJSRowExpression( cch.getName( ) ), // Use
+							// binding
+							// expression
+							// for
+							// aggregate.
+							ColumnBindingInfo.AGGREGATE_COLUMN,
+							ChartUIConstants.IMAGE_SIGMA,
+							tooltip,
+							cch );
+					columnHeaders[index].setChartAggExpression( ChartReportItemUtil.convertToChartAggExpression( cch.getAggregateFunction( ) ) );
+					index++;
+				}
+			}
+
+			// Process common bindings.
+			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
+			{
+				ComputedColumnHandle cch = (ComputedColumnHandle) iter.next( );
+				columnHeaders[index++] = new ColumnBindingInfo( cch.getName( ),
+						ExpressionUtil.createJSRowExpression( cch.getName( ) ), // Use
+						// binding
+						// expression
+						// for
+						// common
+						// binding.
+						ColumnBindingInfo.COMMON_COLUMN,
+						null,
+						null,
+						cch );
+			}
+
+			return columnHeaders;
+		}
+
+		/**
+		 * Returns groups in shared binding.
+		 * 
+		 * @return
+		 */
+		private List getGroupsOfSharedBinding( )
+		{
+			List groupList = new ArrayList( );
+			ReportItemHandle handle = getReportItemHandle( );
+			if ( handle instanceof TableHandle )
+			{
+				SlotHandle groups = ( (TableHandle) handle ).getGroups( );
+				for ( Iterator iter = groups.iterator( ); iter.hasNext( ); )
+				{
+					groupList.add( iter.next( ) );
+				}
+			}
+			return groupList;
+		}
+
+		/**
+		 * Returns preview row data for table shared binding, it will share table's
+		 * bindings and get them data.
+		 * 
+		 * @param headers
+		 * @param rowCount
+		 * @param isStringType
+		 * @return
+		 * @throws ChartException
+		 * @since 2.3
+		 */
+		private List getPreviewRowData( ColumnBindingInfo[] headers,
+				int rowCount, boolean isStringType ) throws ChartException
+		{
+			ArrayList dataList = new ArrayList( );
+			// Set thread context class loader so Rhino can find POJOs in workspace
+			// projects
+			ClassLoader oldContextLoader = Thread.currentThread( )
+					.getContextClassLoader( );
+			ClassLoader parentLoader = oldContextLoader;
+			if ( parentLoader == null )
+				parentLoader = this.getClass( ).getClassLoader( );
+			ClassLoader newContextLoader = getCustomScriptClassLoader( parentLoader );
+			Thread.currentThread( ).setContextClassLoader( newContextLoader );
+
+			try
+			{
+				// Create query definition.
+				QueryDefinition queryDefn = new QueryDefinition( );
+				int maxRow = getMaxRow( );
+				queryDefn.setMaxRows( maxRow );
+
+				DataRequestSession session = prepareDataRequestSession( getMaxRow( ) );
+
+				// Binding columns, aggregates, filters and sorts.
+				List columns = generateShareBindingsWithTable( headers,
+						queryDefn,
+						session,
+						new HashMap( ) );
+
+				IQueryResults actualResultSet = session.executeQuery( queryDefn,
+						null,
+						itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP )
+								.iterator( ),
+						null );
+
+				if ( actualResultSet != null )
+				{
+					int columnCount = columns.size( );
+					IResultIterator iter = actualResultSet.getResultIterator( );
+					while ( iter.next( ) )
+					{
+						if ( isStringType )
+						{
+							String[] record = new String[columnCount];
+							for ( int n = 0; n < columnCount; n++ )
+							{
+								// Bugzilla#190229, to get string with localized
+								// format
+								record[n] = DataTypeUtil.toString( iter.getValue( (String) columns.get( n ) ) );
+							}
+							dataList.add( record );
+						}
+						else
+						{
+							Object[] record = new Object[columnCount];
+							for ( int n = 0; n < columnCount; n++ )
+							{
+								record[n] = iter.getValue( (String) columns.get( n ) );
+							}
+							dataList.add( record );
+						}
+					}
+
+					actualResultSet.close( );
+				}
+			}
+			catch ( BirtException e )
+			{
+				throw new ChartException( ChartReportItemUIActivator.ID,
+						ChartException.DATA_BINDING,
+						e );
+			}
+			finally
+			{
+				// Restore old thread context class loader
+				Thread.currentThread( )
+						.setContextClassLoader( oldContextLoader );
+			}
+			return dataList;
+		}
+
+		/**
+		 * Generate share bindings with table into query.
+		 *  
+		 * @param headers
+		 * @param queryDefn
+		 * @param session
+		 * @param bindingExprsMap
+		 * @return
+		 * @throws AdapterException
+		 * @throws DataException
+		 */
+		private List generateShareBindingsWithTable( ColumnBindingInfo[] headers,
+				QueryDefinition queryDefn, DataRequestSession session,
+				Map bindingExprsMap ) throws AdapterException, DataException
+		{
+			List columns = new ArrayList( );
+			ReportItemHandle reportItemHandle = getReportItemHandle( );
+			queryDefn.setDataSetName( reportItemHandle.getDataSet( )
+					.getQualifiedName( ) );
+			for ( int i = 0; i < headers.length; i++ )
+			{
+				ColumnBindingInfo chi = headers[i];
+				int type = chi.getColumnType( );
+				switch ( type )
+				{
+					case ColumnBindingInfo.COMMON_COLUMN :
+					case ColumnBindingInfo.AGGREGATE_COLUMN :
+						IBinding binding = session.getModelAdaptor( )
+								.adaptBinding( (ComputedColumnHandle) chi.getObjectHandle( ) );
+						queryDefn.addBinding( binding );
+
+						columns.add( binding.getBindingName( ) );
+						// Use original binding expression as map key for aggregate
+						// and common binding.
+						bindingExprsMap.put( chi.getExpression( ),
+								binding.getBindingName( ) );
+
+						break;
+					case ColumnBindingInfo.GROUP_COLUMN :
+						GroupDefinition gd = session.getModelAdaptor( )
+								.adaptGroup( (GroupHandle) chi.getObjectHandle( ) );
+						queryDefn.addGroup( gd );
+
+						String name = StructureFactory.newComputedColumn( reportItemHandle,
+								gd.getName( ) )
+								.getName( );
+						binding = new Binding( name );
+						binding.setExpression( new ScriptExpression( gd.getKeyExpression( ) ) );
+						queryDefn.addBinding( binding );
+
+						columns.add( name );
+
+						// Use created binding expression as map key for group.
+						bindingExprsMap.put( ( (ScriptExpression) binding.getExpression( ) ).getText( ),
+								binding.getBindingName( ) );
+						break;
+				}
+			}
+
+			// Add sorts.
+			if ( reportItemHandle instanceof ListingHandle )
+			{
+				queryDefn.getSorts( )
+						.addAll( ChartMultiViewQueryHelper.createSorts( ( (ListingHandle) reportItemHandle ).sortsIterator( ) ) );
+			}
+
+			return columns;
+		}
 	}
 }
