@@ -1002,7 +1002,8 @@ public final class LegendBuilder implements IConstants
 				}
 				else
 				{
-					if ( dY + dH > legendData.dAvailableHeight )
+					if ( dY + dH > legendData.dAvailableHeight +
+							legendData.dSafeSpacing )
 					{
 						legendData.legendItems.addAll( columnList );
 						columnList.clear( );
@@ -1155,7 +1156,8 @@ public final class LegendBuilder implements IConstants
 						}
 						else
 						{
-							if ( dY + dH > legendData.dAvailableHeight )
+							if ( dY + dH > legendData.dAvailableHeight +
+									legendData.dSafeSpacing )
 							{
 								legendData.legendItems.addAll( columnList );
 								columnList.clear( );
@@ -1377,7 +1379,8 @@ public final class LegendBuilder implements IConstants
 				}
 				else
 				{
-					if ( dX + dW > legendData.dAvailableWidth )
+					if ( dX + dW > legendData.dAvailableWidth +
+							legendData.dSafeSpacing )
 					{
 						legendData.legendItems.addAll( columnList );
 						columnList.clear( );
@@ -1511,7 +1514,8 @@ public final class LegendBuilder implements IConstants
 					}
 					else
 					{
-						if ( dX + dW > legendData.dAvailableWidth )
+						if ( dX + dW > legendData.dAvailableWidth +
+								legendData.dSafeSpacing )
 						{
 							legendData.legendItems.addAll( columnList );
 							columnList.clear( );
@@ -1732,19 +1736,17 @@ public final class LegendBuilder implements IConstants
 
 		laiLegend.checkEllipsis( getWidthLimit( dX, legendData ) );
 
-		dWidth = laiLegend.getWidth( );
+		dWidth = laiLegend.getWidth( ) + legendData.dHorizonalReservedSpace;
 		dHeight = legendData.insCa.getTop( )
 				+ laiLegend.getHeight( ) + legendData.insCa.getBottom( );
 
 		if ( bIsShowValue )
 		{
-			laiValue.checkEllipsis( getWidthLimit( dX, legendData ) );
+			laiValue.checkEllipsis( legendData.dAvailableWidth - dX );
 
 			dWidth = Math.max( dWidth, laiValue.getWidth( ) );
 			dHeight += laiValue.getHeight( ) + 2 * legendData.dScale;
 		}
-
-		dWidth += legendData.dHorizonalReservedSpace;
 
 		return new double[]{
 				dWidth, dHeight
@@ -1772,7 +1774,7 @@ public final class LegendBuilder implements IConstants
 	private static double getWidthLimit( double dX, LegendData legendData )
 	{
 		return legendData.dAvailableWidth
-				- legendData.dSafeSpacing - legendData.dHorizonalReservedSpace
+				- legendData.dHorizonalReservedSpace
 				- dX;
 	}
 
