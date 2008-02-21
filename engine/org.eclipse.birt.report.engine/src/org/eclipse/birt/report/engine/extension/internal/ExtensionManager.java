@@ -300,7 +300,7 @@ public class ExtensionManager
 	 */
 	public IReportEventHandler createEventHandler( String itemType )
 	{
-		IConfigurationElement config = (IConfigurationElement) queryExtensions
+		IConfigurationElement config = (IConfigurationElement) eventHandlerExtensions
 				.get( itemType );
 		if ( config != null )
 		{
