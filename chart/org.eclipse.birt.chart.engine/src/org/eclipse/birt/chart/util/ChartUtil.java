@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.util;
 
 import java.text.MessageFormat;
+import java.util.Iterator;
 
 import org.eclipse.birt.chart.aggregate.IAggregateFunction;
 import org.eclipse.birt.chart.computation.Polygon;
@@ -19,7 +20,9 @@ import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
+import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
@@ -34,9 +37,12 @@ import org.eclipse.birt.chart.model.attribute.ScaleUnitType;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
+import org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl;
+import org.eclipse.emf.common.util.EList;
 
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.ULocale;
@@ -807,4 +813,69 @@ public class ChartUtil
 				|| "Rank".equals( aggFunc ) //$NON-NLS-1$
 				|| "PercentRank".equals( aggFunc ); //$NON-NLS-1$
 	}
+	
+	
+	/**
+	 * Remove all invisible SeriesDefinitions from a EList of SeriesDefinitions.
+	 * This is a help function of the pruneInvisibleSeries. ( see below )
+	 * 
+	 * @param elSed
+	 *            (will be changed)
+	 * @since 2.3
+	 */
+	private static void pruneInvisibleSedsFromEList( EList elSed )
+	{
+		Iterator itSed = elSed.iterator( );
+
+		while ( itSed.hasNext( ) )
+		{
+			SeriesDefinition sed = (SeriesDefinition) itSed.next( );
+
+			if ( !sed.getDesignTimeSeries( ).isVisible( ) )
+			{
+				itSed.remove( );
+			}
+		}
+	}
+
+	/**
+	 * Remove all invisible SeriesDefinitions from the runtime chart model.
+	 * 
+	 * @param cm
+	 *            (will be changed)
+	 * @since 2.3
+	 */
+	public static void pruneInvisibleSeries( Chart cm )
+	{
+		if ( cm instanceof ChartWithAxes )
+		{
+			ChartWithAxes cmWithAxes = (ChartWithAxes) cm;
+			Axis[] axBaseAxis = cmWithAxes.getBaseAxes( );
+
+			for ( int j = 0; j < axBaseAxis.length; j++ )
+			{
+				Axis axBase = axBaseAxis[j];
+				Axis[] axis = cmWithAxes.getOrthogonalAxes( axBase, true );
+
+				for ( int i = 0; i < axis.length; i++ )
+				{
+					Axis ax = axis[i];
+					pruneInvisibleSedsFromEList( ax.getSeriesDefinitions( ) );
+				}
+			}
+		}
+		else if ( cm instanceof ChartWithoutAxes )
+		{
+			ChartWithoutAxes cmNoAxes = (ChartWithoutAxes) cm;
+			Iterator itCata = cmNoAxes.getSeriesDefinitions( ).iterator( );
+
+			while ( itCata.hasNext( ) )
+			{
+				SeriesDefinition sedCata = (SeriesDefinition) itCata.next( );
+				pruneInvisibleSedsFromEList( sedCata.getSeriesDefinitions( ) );
+			}
+		}
+	}
+	
+
 }

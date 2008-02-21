@@ -860,7 +860,9 @@ public final class Generator implements IGenerator
 		{
 			// re-init chart script context.
 			ChartScriptContext csc = new ChartScriptContext( );
-			csc.setChartInstance( (Chart) EcoreUtil.copy( cmDesignTime ) );	
+			Chart cmRunTime = (Chart) EcoreUtil.copy( cmDesignTime );
+			ChartUtil.pruneInvisibleSeries( cmRunTime );
+			csc.setChartInstance( cmRunTime );
 			csc.setExternalContext( externalContext );
 			csc.setULocale( rtc.getULocale( ) );
 			csc.setLogger( logger );

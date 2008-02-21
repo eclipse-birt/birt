@@ -206,6 +206,8 @@ public final class AutoScale extends Methods implements Cloneable
 	private FormatSpecifier fs = null;
 
 	private double dPrecision = 0;
+	
+	private int iMinUnit = 0;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/computation.withaxes" ); //$NON-NLS-1$
 
@@ -295,6 +297,7 @@ public final class AutoScale extends Methods implements Cloneable
 		sc.iLabelShowingInterval = iLabelShowingInterval;
 		sc.bTickBetweenCategories = bTickBetweenCategories;
 		sc.bLabelWithinAxes = bLabelWithinAxes;
+		sc.iMinUnit = iMinUnit;
 
 		return sc;
 	}
@@ -429,8 +432,11 @@ public final class AutoScale extends Methods implements Cloneable
 						if ( i == 0 ) // WE'RE AT THE FIRST ELEMENT IN THE
 						// DELTAS ARRAY
 						{
-							if ( icu == 0 )
+							// #217377
+							if ( icu <= iMinUnit )
+							{
 								return false; // CAN'T ZOOM ANYMORE THAN
+							}
 							// 1-SECOND INTERVALS (AT INDEX=0)
 							ia = iaCalendarDeltas[icu - 1]; // DOWNGRADE ARRAY
 							// TO PREVIOUS
@@ -2243,6 +2249,7 @@ public final class AutoScale extends Methods implements Cloneable
 			sc.oStep = new Integer( 1 );
 			sc.oStepNumber = oStepNumber;
 			sc.oUnit = new Integer( iUnit );
+			sc.iMinUnit = getMinUnitId( fs, rtc );
 			sc.setDirection( direction );
 			sc.fs = fs; // FORMAT SPECIFIER
 			sc.rtc = rtc; // LOCALE
@@ -2407,6 +2414,32 @@ public final class AutoScale extends Methods implements Cloneable
 		String sValue = dfDoulbeNormalized.format( dValue );
 		double dNewValue = Double.valueOf( sValue ).doubleValue( );
 		return dNewValue;
+	}
+	
+	/**
+	 * Determine the mininal datetime unit to limit zoom in so, that no duplicated axis labels 
+	 * will be created with the given FormatSpecifier.    
+	 * @param fs
+	 * @return
+	 */
+	private static int getMinUnitId( FormatSpecifier fs, RunTimeContext rtc ) throws ChartException
+	{
+		int iUnit = 0;
+		CDateTime cdt = new CDateTime( 7, 6, 5, 4, 3, 2 );
+		String sDate = ValueFormatter.format( cdt, fs, rtc.getULocale( ), null );
+		
+		for ( int i=0; i<iaCalendarUnits.length; i++)
+		{
+			cdt.set( iaCalendarUnits[i], 1 );
+			String sDatei = ValueFormatter.format( cdt, fs, rtc.getULocale( ), null );
+			if (!sDate.equals( sDatei ))
+			{
+				iUnit = i;
+				break;
+			}
+		}
+		
+		return iUnit;
 	}
 	
 	/**
