@@ -27,6 +27,7 @@ import org.eclipse.jface.text.source.LineNumberRulerColumn;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.PlatformUI;
@@ -54,25 +55,35 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor
 	/** The action registry */
 	private ActionRegistry actionRegistry = null;
 
+	/** The parent editor. */
+	private final IEditorPart parent;
+
 	/**
-	 * Constructs an script editor.
+	 * Constructs a script editor with the specified parent.
+	 * 
+	 * @param parent
+	 *            the parent editor.
 	 */
-	public ScriptEditor( )
+	public ScriptEditor( IEditorPart parent )
 	{
-		this( null );
+		this( parent, null );
 	}
 
 	/**
-	 * Constructs an script editor with the specified script.
+	 * Constructs a script editor with the specified parent and the specified
+	 * script.
 	 * 
+	 * @param parent
+	 *            the parent editor.
 	 * @param script
 	 *            the script to edit
 	 */
-	public ScriptEditor( String script )
+	public ScriptEditor( IEditorPart parent, String script )
 	{
 		super( );
+		this.parent = parent;
 		setSourceViewerConfiguration( new JSSourceViewerConfiguration( context ) );
-		setDocumentProvider( new JSDocumentProvider( ) );
+		setDocumentProvider( new JSDocumentProvider( parent ) );
 		setScript( script );
 	}
 
@@ -339,5 +350,15 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor
 			compositeRuler.addDecorator( 0, createLineNumberRulerColumn( ) );
 		}
 		return ruler;
+	}
+
+	/**
+	 * Returns the parent editor.
+	 * 
+	 * @return the parent editor.
+	 */
+	protected IEditorPart getParent( )
+	{
+		return parent;
 	}
 }

@@ -36,6 +36,7 @@ import org.eclipse.jface.text.source.projection.ProjectionSupport;
 import org.eclipse.jface.text.source.projection.ProjectionViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.PlatformUI;
@@ -71,25 +72,35 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 	/** The action registry */
 	private ActionRegistry actionRegistry = null;
 
+	/** The parent editor. */
+	private final IEditorPart parent;
+
 	/**
-	 * Constructs an script editor.
+	 * Constructs a decorated script editor with the specified parent.
+	 * 
+	 * @param parent
+	 *            the parent editor.
 	 */
-	public DecoratedScriptEditor( )
+	public DecoratedScriptEditor( IEditorPart parent )
 	{
-		this( null );
+		this( parent, null );
 	}
 
 	/**
-	 * Constructs an script editor with the specified script.
+	 * Constructs a decorated script editor with the specified parent and the
+	 * specified script.
 	 * 
+	 * @param parent
+	 *            the parent editor.
 	 * @param script
 	 *            the script to edit
 	 */
-	public DecoratedScriptEditor( String script )
+	public DecoratedScriptEditor( IEditorPart parent, String script )
 	{
 		super( );
+		this.parent = parent;
 		setSourceViewerConfiguration( new ScriptSourceViewerConfiguration( context ) );
-		setDocumentProvider( new ScriptDocumentProvider( ) );
+		setDocumentProvider( new ScriptDocumentProvider( parent ) );
 		setScript( script );
 	}
 
@@ -509,5 +520,15 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 		model.modifyAnnotations( null,
 				null,
 				(Annotation[]) modified.toArray( new Annotation[modified.size( )] ) );
+	}
+
+	/**
+	 * Returns the parent editor.
+	 * 
+	 * @return the parent editor.
+	 */
+	protected IEditorPart getParent( )
+	{
+		return parent;
 	}
 }

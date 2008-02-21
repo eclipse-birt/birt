@@ -20,6 +20,7 @@ import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.ISaveablePart;
 
 /**
  * Document provider specialized for
@@ -35,6 +36,17 @@ public class StorageDocumentProvider extends DocumentProvider
 	public StorageDocumentProvider( )
 	{
 		super( );
+	}
+
+	/**
+	 * Creates a new document provider with the specified saveable part.
+	 * 
+	 * @param part
+	 *            the saveable part.
+	 */
+	public StorageDocumentProvider( ISaveablePart part )
+	{
+		super( part );
 	}
 
 	/**

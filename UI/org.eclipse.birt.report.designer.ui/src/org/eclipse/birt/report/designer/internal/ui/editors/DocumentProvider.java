@@ -31,6 +31,7 @@ import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.ISaveablePart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.texteditor.AbstractDocumentProvider;
 import org.osgi.framework.Bundle;
@@ -47,13 +48,29 @@ public abstract class DocumentProvider extends AbstractDocumentProvider
 	 */
 	protected static final int DEFAULT_FILE_SIZE = 15 * 1024;
 
+
+	/** The saveable part. */
+	private final ISaveablePart part;
+
 	/**
 	 * Creates a new document provider.
 	 * 
 	 */
 	public DocumentProvider( )
 	{
+		this( null );
+	}
+
+	/**
+	 * Creates a new document provider with the specified saveable part.
+	 * 
+	 * @param part
+	 *            the saveable part.
+	 */
+	public DocumentProvider( ISaveablePart part )
+	{
 		super( );
+		this.part = part;
 	}
 
 	/**
@@ -240,6 +257,10 @@ public abstract class DocumentProvider extends AbstractDocumentProvider
 	protected void doSaveDocument( IProgressMonitor monitor, Object element,
 			IDocument document, boolean overwrite ) throws CoreException
 	{
+		if ( part != null )
+		{
+			part.doSave( monitor );
+		}
 	}
 
 	/**

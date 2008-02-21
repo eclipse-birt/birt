@@ -76,9 +76,6 @@ public class DecoratedScriptFormPage extends ReportScriptFormPage
 	{
 		private String fileName = "";//$NON-NLS-1$
 
-		/** The parent editor. */
-		private final IEditorPart parent;
-
 		/**
 		 * Constructs the editor with a specified parent.
 		 * 
@@ -87,7 +84,7 @@ public class DecoratedScriptFormPage extends ReportScriptFormPage
 		 */
 		public ReportDecoratedScriptEditor( IEditorPart parent )
 		{
-			this.parent = parent;
+			super( parent );
 			setRulerContextMenuId( "#ReportScriptRulerContext" ); //$NON-NLS-1$
 		}
 		
@@ -152,6 +149,8 @@ public class DecoratedScriptFormPage extends ReportScriptFormPage
 		{
 			if ( adapter == IReportScriptLocation.class )
 			{
+				IEditorPart parent = getParent( );
+
 				return parent == null ? null : parent.getAdapter( adapter );
 			}
 			return super.getAdapter( adapter );

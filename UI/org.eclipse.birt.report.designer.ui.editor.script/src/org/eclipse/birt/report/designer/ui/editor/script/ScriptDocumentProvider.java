@@ -17,6 +17,8 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.source.IAnnotationModel;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.ISaveablePart;
 import org.eclipse.ui.texteditor.ResourceMarkerAnnotationModel;
 
 /**
@@ -35,6 +37,19 @@ public class ScriptDocumentProvider extends JSDocumentProvider
 	public static final String FILENAME = "file name";//$NON-NLS-1$
 	private String id = ""; //$NON-NLS-1$
 	private String fileName = ""; //$NON-NLS-1$
+
+	/**
+	 * Creates a new script's document provider with the specified saveable
+	 * part.
+	 * 
+	 * @param part
+	 *            the saveable part.
+	 */
+	public ScriptDocumentProvider( ISaveablePart part )
+	{
+		super( part );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
