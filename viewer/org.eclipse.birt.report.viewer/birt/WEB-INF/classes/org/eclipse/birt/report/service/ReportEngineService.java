@@ -1288,18 +1288,8 @@ public class ReportEngineService
 		// add task into session
 		BirtUtility.addTask( request, renderTask );
 
-		HashMap context = new HashMap( );
-		context.put( EngineConstants.APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST,
-				request );
-		context.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
-				ReportEngineService.class.getClassLoader( ) );
-
-		// Client DPI setting
-		context.put( EngineConstants.APPCONTEXT_CHART_RESOLUTION,
-				ParameterAccessor.getDpi( request ) );
-
-		// Push user-defined application context
-		ParameterAccessor.pushAppContext( context, request );
+		// push appContext
+		Map context = BirtUtility.getAppContext( request );
 		renderTask.setAppContext( context );
 
 		// Render option
