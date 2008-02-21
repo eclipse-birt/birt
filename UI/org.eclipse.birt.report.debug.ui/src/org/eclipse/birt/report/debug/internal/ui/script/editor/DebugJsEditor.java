@@ -55,6 +55,8 @@ public class DebugJsEditor extends DecoratedScriptEditor
 	 */
 	public DebugJsEditor( )
 	{
+		super( null );
+
 		setRulerContextMenuId( "#ScriptRulerContext" ); //$NON-NLS-1$
 		setEditorContextMenuId( "#ScriptEditorContext" ); //$NON-NLS-1$
 		setSourceViewerConfiguration( new DebugScriptSourceViewerConfiguration( getContext( ) ) );
@@ -133,7 +135,7 @@ public class DebugJsEditor extends DecoratedScriptEditor
 		mainComsite.setLayoutData( GridDataFactory.fillDefaults( ).grab( true,
 				true ).create( ) );
 		mainComsite.setLayout( new FillLayout( ) );
-		
+
 		super.createPartControl( mainComsite );
 
 		if ( getEditorInput( ) != null && getViewer( ) != null )
