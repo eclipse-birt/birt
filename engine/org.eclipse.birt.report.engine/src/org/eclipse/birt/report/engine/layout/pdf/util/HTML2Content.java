@@ -281,7 +281,7 @@ public class HTML2Content
 			}
 			else if ( ele.getParentNode( ).getNodeName( ).equals( "ul" ) ) //$NON-NLS-1$
 			{
-				text.setText( new String( new char[]{'\u2022'} ) );
+				text.setText( new String( new char[]{'\u2022', ' ', ' ', ' ', ' '} ) );
 			}
 
 			text.setInlineStyle( style );
@@ -289,7 +289,9 @@ public class HTML2Content
 			IContainerContent childContainer = content.getReportContent( )
 					.createContainerContent( );
 			addChild( container, childContainer );
+			
 			childContainer.setInlineStyle( style );
+			
 			processNodes( ele, cssStyles, childContainer, action );
 		}
 		else if ( tagName.toLowerCase( ).equals( "dd" ) || tagName.toLowerCase( ).equals( "dt" ) ) //$NON-NLS-1$ //$NON-NLS-2$
