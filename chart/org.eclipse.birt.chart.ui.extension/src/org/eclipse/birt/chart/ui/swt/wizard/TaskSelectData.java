@@ -37,6 +37,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
+import org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent;
 import org.eclipse.birt.chart.ui.swt.wizard.data.SelectDataDynamicArea;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewUtil;
@@ -377,7 +378,7 @@ public class TaskSelectData extends SimpleTask
 
 	public void handleEvent( Event event )
 	{
-		if ( event.data == getDataSheet( ) )
+		if ( event.data == getDataSheet( ) || event.data instanceof BaseDataDefinitionComponent )
 		{
 			if ( event.type == IChartDataSheet.EVENT_PREVIEW )
 			{

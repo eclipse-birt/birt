@@ -32,6 +32,7 @@ import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.model.data.Query;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.reportitem.AbstractChartBaseQueryGenerator;
 import org.eclipse.birt.chart.reportitem.BIRTCubeResultSetEvaluator;
 import org.eclipse.birt.chart.reportitem.BaseGroupedQueryResultSetEvaluator;
@@ -47,6 +48,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -96,6 +98,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.api.util.CubeUtil;
 import org.eclipse.birt.report.model.metadata.PredefinedStyle;
 import org.eclipse.core.resources.IProject;
 
@@ -1922,5 +1925,92 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 			return columns;
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#update(java.lang.String,
+	 *      java.lang.Object)
+	 */
+	public boolean update( String type, Object value )
+	{
+		boolean isUpdated = false;
+
+		if ( ChartUIConstants.QUERY_VALUE.equals( type ) &&
+				getDataCube( ) != null &&
+				isSharedBinding( ) )
+		{
+			// Need to automated set category/Y optional bindings by value series
+			// binding.
+			// 1. Get all bindings.
+			Map bindingMap = new LinkedHashMap( );
+			for ( Iterator bindings = ChartReportItemUtil.getAllColumnBindingsIterator( itemHandle ); bindings.hasNext( ); )
+			{
+				ComputedColumnHandle column = (ComputedColumnHandle) bindings.next( );
+				bindingMap.put( column.getName( ), column );
+			}
+
+			// 2. Get value series bindings.
+			String bindingName = ChartXTabUtil.getBindingName( (String) value,
+					false );
+			ComputedColumnHandle computedBinding = (ComputedColumnHandle) bindingMap.get( bindingName );
+
+			// 3. Get all levels which value series binding aggregate on and set
+			// correct binding to category/ Y optional.
+			List aggOnList = computedBinding.getAggregateOnList( );
+			if ( aggOnList.size( ) > 0 )
+			{
+				String[] levelNames = CubeUtil.splitLevelName( (String) aggOnList.get( 0 ) );
+				String dimExpr = ExpressionUtil.createJSDimensionExpression( levelNames[0],
+						levelNames[1] );
+				List names = ChartXTabUtil.getRelatedBindingNames( dimExpr,
+						bindingMap.values( ) );
+				// Set category.
+				if ( names.size( ) > 0 )
+				{
+					SeriesDefinition sd = (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( context.getModel( ) )
+							.get( 0 );
+					( (Query) sd.getDesignTimeSeries( )
+							.getDataDefinition( )
+							.get( 0 ) ).setDefinition( ExpressionUtil.createJSDataExpression( (String) names.get( 0 ) ) );
+					isUpdated = true;
+				}
+			}
+
+			if ( aggOnList.size( ) > 1 )
+			{
+				String[] levelNames = CubeUtil.splitLevelName( (String) aggOnList.get( 1 ) );
+				String dimExpr = ExpressionUtil.createJSDimensionExpression( levelNames[0],
+						levelNames[1] );
+				List names = ChartXTabUtil.getRelatedBindingNames( dimExpr,
+						bindingMap.values( ) );
+				// Set Y optional.
+				int size = names.size( );
+				if ( size > 0 )
+				{
+					for ( Iterator iter = ChartUIUtil.getAllOrthogonalSeriesDefinitions( context.getModel( ) )
+							.iterator( ); iter.hasNext( ); )
+					{
+						SeriesDefinition sd = (SeriesDefinition) iter.next( );
+						sd.getQuery( )
+								.setDefinition( ExpressionUtil.createJSDataExpression( (String) names.get( 0 ) ) );
+						isUpdated = true;
+					}
+				}
+			}
+			else
+			{
+				for ( Iterator iter = ChartUIUtil.getAllOrthogonalSeriesDefinitions( context.getModel( ) )
+						.iterator( ); iter.hasNext( ); )
+				{
+					SeriesDefinition sd = (SeriesDefinition) iter.next( );
+					sd.getQuery( ).setDefinition( "" ); //$NON-NLS-1$
+					isUpdated = true;
+				}
+			}
+		}
+
+		return isUpdated;
 	}
 }

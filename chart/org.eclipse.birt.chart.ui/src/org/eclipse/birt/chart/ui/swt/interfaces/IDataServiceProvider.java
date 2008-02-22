@@ -109,4 +109,14 @@ public interface IDataServiceProvider
 	 * @since 2.3
 	 */
 	public boolean isSharedBinding( );
+	
+	/**
+	 * Update some custom data which is related with invoker.
+	 * 
+	 * @param type
+	 * @param value
+	 * @return
+	 * @since 2.3
+	 */
+	public boolean update( String type, Object value );
 }

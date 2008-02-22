@@ -27,6 +27,7 @@ import org.eclipse.birt.chart.ui.swt.IQueryExpressionManager;
 import org.eclipse.birt.chart.ui.swt.SimpleTextTransfer;
 import org.eclipse.birt.chart.ui.swt.composites.BaseGroupSortingDialog;
 import org.eclipse.birt.chart.ui.swt.composites.GroupSortingDialog;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
@@ -220,7 +221,27 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 
 				public void handleEvent( Event event )
 				{
+					String oldQuery = query.getDefinition( ) == null ? "" : query.getDefinition( ); //$NON-NLS-1$
+					
 					updateQuery( cmbDefinition.getText( ) );
+					
+					// Set category/Y optional expression by value series
+					// expression if it is crosstab sharing.
+					if ( !oldQuery.equals( cmbDefinition.getText( ) ) &&
+							queryType == ChartUIConstants.QUERY_VALUE )
+					{
+						if ( context.getDataServiceProvider( )
+								.update( ChartUIConstants.QUERY_VALUE,
+										cmbDefinition.getText( ) ) )
+						{
+							Event e = new Event();
+							e.data = BaseDataDefinitionComponent.this;
+							e.widget = cmbDefinition;
+							e.type = IChartDataSheet.EVENT_QUERY;
+							context.getDataSheet( ).notifyListeners( e );
+						}
+					}
+					
 					// Change direction once category query is changed in xtab
 					// case
 					if ( context.getDataServiceProvider( ).isInXTab( )

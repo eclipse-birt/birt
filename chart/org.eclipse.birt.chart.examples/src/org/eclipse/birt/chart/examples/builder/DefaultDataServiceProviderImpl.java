@@ -335,4 +335,13 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 	{
 		return false;
 	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#update(int, java.lang.Object)
+	 */
+	public boolean update( String type, Object value )
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
