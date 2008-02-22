@@ -509,29 +509,17 @@ public final class AutoScale extends Methods implements Cloneable
 					}
 					else
 					{
-						double dPower_r = Math.round( dPower );
-						
-						if ( ChartUtil.mathEqual( dPower, dPower_r ) )
-						{
-							dPower = dPower_r;
-						}
-						else
-						{
-//							dPower = Math.floor( dPower );
-						}
+						dPower = ChartUtil.alignWithInt( dPower );
 					}
+					
 					dPower = Math.pow( 10, dPower );
 					dStep /= dPower;
 					dStep = Math.round( dStep );
 					int n = iaLinearDeltas.length;
 					int i = 0;
+					
 					for ( ; i < n; i++ )
 					{
-//						if ( dStep < iaLinearDeltas[i] )
-//						{
-//							dStep = iaLinearDeltas[i] * dPower;
-//							break;
-//						}
 						if ( dStep == iaLinearDeltas[i] )
 						{
 							if ( i < n - 1 )
@@ -543,10 +531,7 @@ public final class AutoScale extends Methods implements Cloneable
 								dPower *= 20;
 								dStep = iaLinearDeltas[0] * dPower;
 							}
-							if ( dStep > 1 )
-							{
-								dStep = Math.round( dStep );
-							}
+
 							break;
 						}
 					}
@@ -566,13 +551,14 @@ public final class AutoScale extends Methods implements Cloneable
 						// Can not zoom any more, result is always the same;
 						return false;
 					}
-					oStep = new Double( dStep );
 				}
 				else
 				{
 					dStep *= 2;
-					oStep = new Double( dStep );
 				}
+				
+				dStep = ChartUtil.alignWithInt( dStep );
+				oStep = new Double( dStep );
 			}
 		}
 		else if ( ( iType & DATE_TIME ) == DATE_TIME )

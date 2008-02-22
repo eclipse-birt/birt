@@ -39,9 +39,9 @@ import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
+import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
-import org.eclipse.birt.chart.model.impl.ChartWithoutAxesImpl;
 import org.eclipse.emf.common.util.EList;
 
 import com.ibm.icu.util.Calendar;
@@ -830,8 +830,9 @@ public class ChartUtil
 		while ( itSed.hasNext( ) )
 		{
 			SeriesDefinition sed = (SeriesDefinition) itSed.next( );
-
-			if ( !sed.getDesignTimeSeries( ).isVisible( ) )
+			// Design time series may be null in API test
+			Series ds = sed.getDesignTimeSeries( );
+			if ( ds != null && !ds.isVisible( ) )
 			{
 				itSed.remove( );
 			}
@@ -877,5 +878,23 @@ public class ChartUtil
 		}
 	}
 	
+	/**
+	 * Aligns a double value with a int value, if the differance between the two
+	 * value is less than EPS
+	 * 
+	 * @param dValue
+	 * @return
+	 */
+	public static double alignWithInt( double dValue )
+	{
+		long lValue = Math.round( dValue );
+
+		if ( ChartUtil.mathEqual( dValue, lValue ) )
+		{
+			dValue = lValue;
+		}
+
+		return dValue;
+	}
 
 }
