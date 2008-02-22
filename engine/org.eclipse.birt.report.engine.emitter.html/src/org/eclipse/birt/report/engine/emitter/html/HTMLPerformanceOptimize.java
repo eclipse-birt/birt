@@ -135,8 +135,6 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 			styleBuffer.append( " display:table !important; display:inline;" );
 		}
 
-		// Table doesn¡¯t support shrink. The shrink of table is only used to
-		// judge outputting table-layout or not.
 		// height
 		DimensionType height = table.getHeight( );
 		if ( null != height )
@@ -151,7 +149,14 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 		}
 		else
 		{
-			styleBuffer.append( " width: 100%;" );
+			// Shrink table will not output the 100% as the default width in
+			// HTML.
+			// This is different with the PDF. PDF will use the 100% as the
+			// default width for a shrink table.
+			if ( !"true".equalsIgnoreCase( style.getCanShrink( ) ) )
+			{
+				styleBuffer.append( " width: 100%;" );
+			}
 		}
 
 		// implement table-layout
