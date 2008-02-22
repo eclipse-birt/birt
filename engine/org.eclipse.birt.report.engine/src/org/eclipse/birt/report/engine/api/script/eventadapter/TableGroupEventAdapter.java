@@ -22,6 +22,16 @@ public class TableGroupEventAdapter implements ITableGroupEventHandler
 	{
 		
 	}
+	
+	public void onCreate( IReportElementInstance tableGroup, IReportContext context )
+	{
+		
+	}
+	
+	public void onRender( IReportElementInstance tableGroup, IReportContext context )
+	{
+		
+	}
 
 	public void onPageBreak( IReportElementInstance tableGroup, IReportContext context )
 	{

@@ -22,6 +22,17 @@ public class ListGroupEventAdapter implements IListGroupEventHandler
 	{
 
 	}
+	
+	public void onCreate( IReportElementInstance listGroup, IReportContext context )
+	{
+		
+	}
+	
+	public void onRender( IReportElementInstance listGroup, IReportContext context )
+	{
+		
+	}
+	
 	public void onPageBreak( IReportElementInstance listGroup, IReportContext context )
 	{
 

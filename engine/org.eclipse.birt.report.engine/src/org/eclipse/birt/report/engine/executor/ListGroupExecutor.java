@@ -39,6 +39,12 @@ public class ListGroupExecutor extends GroupExecutor
 		handlePageBreakAfterOfGroup( );		
 		handlePageBreakAfterOfPreviousGroup( );
 		handlePageBreakBefore();
+		
+		if ( context.isInFactory( ) )
+		{
+			handleOnCreate( groupContent );
+		}
+		
 		startGroupTOCEntry( groupContent );
 
 		// prepare to execute the children

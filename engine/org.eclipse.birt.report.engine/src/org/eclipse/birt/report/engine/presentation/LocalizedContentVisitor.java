@@ -45,6 +45,7 @@ import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.content.IForeignContent;
+import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.ILabelContent;
 import org.eclipse.birt.report.engine.content.IListContent;
@@ -636,6 +637,12 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 				context.addException( design, ex );
 			}
 		}
+	}
+	
+	public Object visitGroup( IGroupContent group, Object value )
+	{
+		handleOnRender( group );
+		return group;
 	}
 
 	protected String getOutputFormat()

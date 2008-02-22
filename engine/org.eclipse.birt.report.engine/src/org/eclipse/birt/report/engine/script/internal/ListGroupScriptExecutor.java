@@ -40,6 +40,60 @@ public class ListGroupScriptExecutor extends ScriptExecutor
 		}
 	}
 	
+	public static void handleOnCreate( IListGroupContent content,
+			ExecutionContext context )
+	{
+		ReportItemDesign listGroupDesign = (ReportItemDesign) content
+				.getGenerateBy( );
+		if ( !needOnCreate( listGroupDesign ) )
+		{
+			return;
+		}
+		try
+		{
+			ReportElementInstance list = new ReportElementInstance( content,
+					context );
+			if ( handleJS( list, listGroupDesign.getOnCreate( ), context )
+					.didRun( ) )
+				return;
+			IListGroupEventHandler eh = getEventHandler( listGroupDesign,
+					context );
+			if ( eh != null )
+				eh.onCreate( list, context.getReportContext( ) );
+		}
+		catch ( Exception e )
+		{
+			addException( context, e, listGroupDesign.getHandle( ) );
+		}
+	}
+	
+	public static void handleOnRender( IListGroupContent content,
+			ExecutionContext context )
+	{
+		ReportItemDesign listGroupDesign = (ReportItemDesign) content
+				.getGenerateBy( );
+		if ( !needOnRender( listGroupDesign ) )
+		{
+			return;
+		}
+		try
+		{
+			ReportElementInstance list = new ReportElementInstance( content,
+					context );
+			if ( handleJS( list, listGroupDesign.getOnRender( ), context )
+					.didRun( ) )
+				return;
+			IListGroupEventHandler eh = getEventHandler( listGroupDesign,
+					context );
+			if ( eh != null )
+				eh.onRender( list, context.getReportContext( ) );
+		}
+		catch ( Exception e )
+		{
+			addException( context, e, listGroupDesign.getHandle( ) );
+		}
+	}
+	
 	public static void handleOnPageBreak( IListGroupContent content,
 			ExecutionContext context )
 	{

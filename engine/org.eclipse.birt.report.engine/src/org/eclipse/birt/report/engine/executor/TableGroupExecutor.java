@@ -37,6 +37,11 @@ public class TableGroupExecutor extends GroupExecutor
 		handlePageBreakAfterOfGroup( );
 		handlePageBreakAfterOfPreviousGroup( );
 		handlePageBreakBefore( );
+		
+		if ( context.isInFactory( ) )
+		{
+			handleOnCreate( groupContent );
+		}
 
 		startGroupTOCEntry( groupContent );
 

@@ -40,6 +40,60 @@ public class TableGroupScriptExecutor extends ScriptExecutor
 		}
 	}
 	
+	public static void handleOnCreate( ITableGroupContent content,
+			ExecutionContext context )
+	{
+		ReportItemDesign tableGroupDesign = (ReportItemDesign) content
+				.getGenerateBy( );
+		if ( !needOnCreate( tableGroupDesign ) )
+		{
+			return;
+		}
+		try
+		{
+			ReportElementInstance table = new ReportElementInstance( content,
+					context );
+			if ( handleJS( table, tableGroupDesign.getOnCreate( ), context )
+					.didRun( ) )
+				return;
+			ITableGroupEventHandler eh = getEventHandler( tableGroupDesign,
+					context );
+			if ( eh != null )
+				eh.onCreate( table, context.getReportContext( ) );
+		}
+		catch ( Exception e )
+		{
+			addException( context, e, tableGroupDesign.getHandle( ) );
+		}
+	}
+	
+	public static void handleOnRender( ITableGroupContent content,
+			ExecutionContext context )
+	{
+		ReportItemDesign tableGroupDesign = (ReportItemDesign) content
+				.getGenerateBy( );
+		if ( !needOnRender( tableGroupDesign ) )
+		{
+			return;
+		}
+		try
+		{
+			ReportElementInstance table = new ReportElementInstance( content,
+					context );
+			if ( handleJS( table, tableGroupDesign.getOnRender( ), context )
+					.didRun( ) )
+				return;
+			ITableGroupEventHandler eh = getEventHandler( tableGroupDesign,
+					context );
+			if ( eh != null )
+				eh.onRender( table, context.getReportContext( ) );
+		}
+		catch ( Exception e )
+		{
+			addException( context, e, tableGroupDesign.getHandle( ) );
+		}
+	}
+	
 	public static void handleOnPageBreak( ITableGroupContent content,
 			ExecutionContext context )
 	{

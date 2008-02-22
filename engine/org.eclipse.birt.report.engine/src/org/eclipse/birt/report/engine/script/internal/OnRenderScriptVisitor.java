@@ -20,8 +20,10 @@ import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.ILabelContent;
 import org.eclipse.birt.report.engine.content.IListContent;
+import org.eclipse.birt.report.engine.content.IListGroupContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
+import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.AutoTextItemDesign;
 import org.eclipse.birt.report.engine.ir.BandDesign;
@@ -138,7 +140,9 @@ public class OnRenderScriptVisitor extends DefaultReportItemVisitorImpl
 
 	public Object visitListGroup( ListGroupDesign group, Object value )
 	{
-		return visitReportItem( group, value );
+		ListGroupScriptExecutor.handleOnRender( (IListGroupContent) value,
+				context );
+		return value;
 	}
 
 	public Object visitListItem( ListItemDesign list, Object value )
@@ -172,7 +176,9 @@ public class OnRenderScriptVisitor extends DefaultReportItemVisitorImpl
 
 	public Object visitTableGroup( TableGroupDesign group, Object value )
 	{
-		return visitReportItem( group, value );
+		TableGroupScriptExecutor.handleOnRender( (ITableGroupContent) value,
+				context );
+		return value;
 	}
 
 	public Object visitTableItem( TableItemDesign table, Object value )

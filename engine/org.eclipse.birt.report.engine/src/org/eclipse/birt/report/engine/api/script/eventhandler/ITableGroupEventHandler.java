@@ -19,6 +19,10 @@ public interface ITableGroupEventHandler
 
 	void onPrepare( ITableGroup tableGroup, IReportContext context);
 	
+	void onCreate( IReportElementInstance tableGroup, IReportContext context );
+	
+	void onRender( IReportElementInstance tableGroup, IReportContext context );
+	
 	void onPageBreak( IReportElementInstance tableGroup, IReportContext context);
 	
 }

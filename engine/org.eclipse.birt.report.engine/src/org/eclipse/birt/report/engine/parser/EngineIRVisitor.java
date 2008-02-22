@@ -1521,6 +1521,7 @@ public class EngineIRVisitor extends DesignVisitor
 		group.setBookmark( bookmark );
 		
 		// TODO: review: group should support OnCreate and OnRender. But model didn't support it now. 
+		// FIXME: set up OnCreate and OnRender after MODEL supports them
 		String scriptText = handle.getOnPageBreak( );
 		if ( null != scriptText )
 		{
