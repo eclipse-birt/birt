@@ -47,7 +47,7 @@ import org.eclipse.swt.graphics.Image;
  */
 public class AddSubTotalAction extends AbstractCrosstabAction
 {
-
+	boolean needUpdateView = false;
 	LevelViewHandle levelHandle = null;
 	private static final String NAME = Messages.getString( "AddSubTotalAction.TransName" );//$NON-NLS-1$
 	private static final String ID = "add_subtotal";//$NON-NLS-1$
@@ -118,6 +118,10 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 				processGrandTotal( colGrandTotals,
 						(List) result[3],
 						ICrosstabConstants.COLUMN_AXIS_TYPE );
+				if(needUpdateView)
+				{
+					providerWrapper.updateAllAggregationCells( );
+				}
 			}
 		}
 		catch ( SemanticException e )
@@ -275,7 +279,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 	private void switchViews( GrandOpration newOperation, int axisType )
 	{
 		int count = newOperation.getMeasures( ).size( );
-		boolean needUpdateView = false;
+
 		for ( int i = 0; i < count; i++ )
 		{
 			MeasureHandle tmpMeasure = (MeasureHandle) newOperation.getMeasures( )
@@ -328,20 +332,14 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 				needUpdateView = true;
 			}
 			
-		}
-		
-		if(needUpdateView)
-		{
-			providerWrapper.updateAllAggregationCells( );
-		}
-		
+		}		
+
 
 	}
 
 	private void switchViews( SubOpration newOperation )
 	{
 		int count = newOperation.getMeasures( ).size( );
-		boolean needUpdateView = false;
 		for ( int i = 0; i < count; i++ )
 		{
 			MeasureHandle tmpMeasure = (MeasureHandle) newOperation.getMeasures( )
@@ -406,12 +404,8 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 				needUpdateView = true;
 			}
 
-		}
-		
-		if(needUpdateView)
-		{
-			providerWrapper.updateAllAggregationCells( );
-		}
+		}		
+
 	}
 
 	public static int getOppositeAxisType( int axisType )
@@ -445,11 +439,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 			}
 		}
 		
-		provider = providerWrapper.getProvider( expectedView );
-		if(provider != null)
-		{
-			provider.switchView( cell );
-		}
+		providerWrapper.swtichView( expectedView, cell );
 
 	}
 

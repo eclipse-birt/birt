@@ -3,6 +3,9 @@
  */
 package org.eclipse.birt.report.item.crosstab.internal.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
@@ -22,6 +25,7 @@ public class AggregationCellProviderWrapper
 	ExtendedItemHandle handle;
 	CrosstabReportItemHandle crosstab;
 	private IAggregationCellViewProvider[] providers;
+	private List filterCellList = new ArrayList();
 
 	/**
 	 * 
@@ -46,6 +50,7 @@ public class AggregationCellProviderWrapper
 		inilitializeProviders();
 	}
 	
+	
 	public AggregationCellProviderWrapper(CrosstabReportItemHandle crosstab)
 	{
 		this((ExtendedItemHandle)crosstab.getModelHandle( ));
@@ -65,6 +70,20 @@ public class AggregationCellProviderWrapper
 				providers[i + 1] = tmp;
 			}
 		}
+	}
+	
+	public boolean swtichView(String expectedView, AggregationCellHandle cell )
+	{
+		boolean ret = false;
+		IAggregationCellViewProvider provider = getProvider( expectedView );
+		if(provider == null)
+		{
+			return ret;
+		}
+		ret = true;		
+		provider.switchView( cell );
+		filterCellList.add( cell );
+		return ret;
 	}
 	
 	public IAggregationCellViewProvider getProvider(String viewName)
@@ -126,10 +145,16 @@ public class AggregationCellProviderWrapper
 			AggregationCellHandle cell = measure.getCell( );
 			updateAggregationCell(cell);
 			for(int j = 0; j < measure.getAggregationCount( ); j ++)
-			{
+			{				
 				cell = measure.getAggregationCell( j );
+				if(filterCellList.indexOf( cell ) >= 0)
+				{
+					continue;
+				}
 				updateAggregationCell(cell);
 			}
 		}
+		
+		filterCellList.clear( );
 	}
 }
