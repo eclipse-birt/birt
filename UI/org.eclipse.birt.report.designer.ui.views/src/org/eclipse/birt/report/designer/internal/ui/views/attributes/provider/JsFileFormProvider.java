@@ -17,12 +17,12 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.AddResourceFileFolderSelectionDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.IncludeScriptHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.ScriptLibHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
-import org.eclipse.birt.report.model.api.elements.structures.ScriptLib;
+import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Table;
@@ -30,13 +30,13 @@ import org.eclipse.swt.widgets.Table;
 /**
  * 
  */
-public class JarFileFormProvider extends AbstractFormHandleProvider
+public class JsFileFormProvider extends AbstractFormHandleProvider
 {
 
 	/**
 	 * 
 	 */
-	public JarFileFormProvider( )
+	public JsFileFormProvider( )
 	{
 		// TODO Auto-generated constructor stub
 	}
@@ -45,9 +45,9 @@ public class JarFileFormProvider extends AbstractFormHandleProvider
 		400
 	};
 	private static final String[] COLUMNS = new String[]{
-		Messages.getString( "JarFileFormProvider.Column.Name" ), //$NON-NLS-1$
+		Messages.getString( "JsFileFormProvider.Column.Name" ), //$NON-NLS-1$
 	};
-	private static final String TITLE = Messages.getString( "ReportPageGenerator.List.Resources.JarFile" ); //$NON-NLS-1$
+	private static final String TITLE = Messages.getString( "ReportPageGenerator.List.Resources.JsFile" ); //$NON-NLS-1$
 	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
 
 	private ModuleHandle inputElement;
@@ -74,7 +74,7 @@ public class JarFileFormProvider extends AbstractFormHandleProvider
 
 	public boolean doMoveItem( int oldPos, int newPos ) throws Exception
 	{
-		inputElement.shiftScriptLibs( oldPos, newPos );
+		inputElement.shifIncludeScripts( oldPos, newPos );
 		return true;
 	}
 
@@ -84,13 +84,13 @@ public class JarFileFormProvider extends AbstractFormHandleProvider
 		{
 			return false;
 		}
-		ScriptLibHandle scriptLibHandle = ( (ScriptLibHandle) getElements( inputElement )[pos] );
-		if ( ( scriptLibHandle != null )
-				&& ( scriptLibHandle.getStructure( ) != null )
-				&& ( scriptLibHandle.getStructure( ) instanceof ScriptLib ) )
+		IncludeScriptHandle includeScriptHandle = ( (IncludeScriptHandle) getElements( inputElement )[pos] );
+		if ( ( includeScriptHandle != null )
+				&& ( includeScriptHandle.getStructure( ) != null )
+				&& ( includeScriptHandle.getStructure( ) instanceof IncludeScript ) )
 		{
-			ScriptLib scriptLib = (ScriptLib) ( scriptLibHandle.getStructure( ) );
-			inputElement.dropScriptLib( scriptLib );
+			IncludeScript includeSript = (IncludeScript) ( includeScriptHandle.getStructure( ) );
+			inputElement.dropIncludeScript( includeSript );
 		}
 
 		return true;
@@ -99,10 +99,8 @@ public class JarFileFormProvider extends AbstractFormHandleProvider
 	public boolean doAddItem( int pos ) throws Exception
 	{
 
-		AddResourceFileFolderSelectionDialog dialog = new AddResourceFileFolderSelectionDialog( new String[]{
-		"*.jar"	},	new String[]{".jar"	});
-		dialog.setHelpDialogId( IHelpContextIds.ADD_JAR_FILES_DIALOG_ID );
-
+		AddResourceFileFolderSelectionDialog dialog = new AddResourceFileFolderSelectionDialog(new String[]{"*.js"},new String[]{".js"} );
+		dialog.setHelpDialogId( IHelpContextIds.ADD_JS_FILES_DIALOG_ID );
 		dialog.setExistFiles( getElmentNames( inputElement ) );
 
 		if ( dialog.open( ) != Window.OK )
@@ -114,9 +112,9 @@ public class JarFileFormProvider extends AbstractFormHandleProvider
 		for ( int i = 0; i < length; i++ )
 		{
 			String fileName = dialog.getPath( i );
-			ScriptLib lib = StructureFactory.createScriptLib( );
-			lib.setName( fileName );
-			inputElement.addScriptLib( lib );
+			IncludeScript script = StructureFactory.createIncludeScript( );
+			script.setFileName( fileName );
+			inputElement.addIncludeScript( script );
 		}
 		return true;
 	}
@@ -128,12 +126,12 @@ public class JarFileFormProvider extends AbstractFormHandleProvider
 
 	public String getColumnText( Object element, int columnIndex )
 	{
-		if ( element instanceof ScriptLibHandle )
+		if ( element instanceof IncludeScriptHandle )
 		{
-			ScriptLibHandle srcriptLibHandle = (ScriptLibHandle) element;
+			IncludeScriptHandle srcriptHandle = (IncludeScriptHandle) element;
 			if ( columnIndex == 0 )
 			{
-				return srcriptLibHandle.getName( );
+				return srcriptHandle.getFileName( );
 			}
 		}
 		return EMPTY_STRING;
@@ -154,10 +152,10 @@ public class JarFileFormProvider extends AbstractFormHandleProvider
 		if ( inputElement instanceof ModuleHandle )
 		{
 			this.inputElement = (ModuleHandle) inputElement;
-			list = (ArrayList) ( (ModuleHandle) inputElement ).getAllScriptLibs( );
+			list = (ArrayList) ( (ModuleHandle) inputElement ).getAllIncludeScripts( );
 			if ( list == null || list.size( ) == 0 )
 			{
-				return new ScriptLibHandle[0];
+				return new IncludeScriptHandle[0];
 			}
 		}
 
@@ -170,7 +168,7 @@ public class JarFileFormProvider extends AbstractFormHandleProvider
 		String[] names = new String[obj.length];
 		for ( int i = 0; i < names.length; i++ )
 		{
-			names[i] = ( (ScriptLibHandle) ( obj[i] ) ).getName( );
+			names[i] = ( (IncludeScriptHandle) ( obj[i] ) ).getFileName( );
 		}
 		return names;
 	}
@@ -199,7 +197,7 @@ public class JarFileFormProvider extends AbstractFormHandleProvider
 		}
 		PropertyEvent propertyEvent = (PropertyEvent) event;
 		if ( propertyEvent.getPropertyName( )
-				.equals( ModuleHandle.SCRIPTLIBS_PROP ) )
+				.equals( ModuleHandle.INCLUDE_SCRIPTS_PROP ) )
 		{
 			return true;
 		}

@@ -13,12 +13,13 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.NewResourceFileDialog;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.JarFileFormProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.JsFileFormProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TextPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.FormSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.SeperatorSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextAndButtonSection;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FileFormPropertyDescriptor;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormPropertyDescriptor;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.JarFileFormPropertyDescriptor;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -81,17 +82,33 @@ public class ResourcesPage extends AttributePage
 		FormSection jarFileSection = new FormSection( jarFileProvider.getDisplayName( ),
 				container,
 				true );
-		jarFileSection.setCustomForm( new JarFileFormPropertyDescriptor( true ) );
+		jarFileSection.setCustomForm( new FileFormPropertyDescriptor( true ) );
 		jarFileSection.setProvider( jarFileProvider );
 		jarFileSection.showDisplayLabel( true );
 		jarFileSection.setButtonWithDialog( true );
 		jarFileSection.setStyle( FormPropertyDescriptor.FULL_FUNCTION );
 		jarFileSection.setFillForm( true );
 		jarFileSection.setWidth( 500 );
-		jarFileSection.setHeight( 200 );
+		jarFileSection.setHeight( 120 );
 		jarFileSection.setDisplayLabelStyle( SWT.HORIZONTAL );
 		jarFileSection.setGridPlaceholder( 1, true );
 		addSection( PageSectionId.RESOURCE_JARFILE, jarFileSection );
+		
+		JsFileFormProvider jsFileProvider = new JsFileFormProvider( );
+		FormSection jsFileSection = new FormSection( jarFileProvider.getDisplayName( ),
+				container,
+				true );
+		jsFileSection.setCustomForm( new FileFormPropertyDescriptor( true ) );
+		jsFileSection.setProvider( jsFileProvider );
+		jsFileSection.showDisplayLabel( true );
+		jsFileSection.setButtonWithDialog( true );
+		jsFileSection.setStyle( FormPropertyDescriptor.FULL_FUNCTION );
+		jsFileSection.setFillForm( true );
+		jsFileSection.setWidth( 500 );
+		jsFileSection.setHeight( 120 );
+		jsFileSection.setDisplayLabelStyle( SWT.HORIZONTAL );
+		jsFileSection.setGridPlaceholder( 1, true );
+		addSection( PageSectionId.RESOURCE_JAVASCRIPTFILE, jsFileSection );
 
 		createSections( );
 		layoutSections( );

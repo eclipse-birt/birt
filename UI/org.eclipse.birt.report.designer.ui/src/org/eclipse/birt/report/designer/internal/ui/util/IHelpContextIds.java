@@ -162,6 +162,9 @@ public interface IHelpContextIds
 
 	public static final String ADD_JAR_FILES_DIALOG_ID = PREFIX
 			+ "AddJarResourceFileFolderSelectionDialog_ID"; //$NON-NLS-1$
+	
+	public static final String ADD_JS_FILES_DIALOG_ID = PREFIX
+	+ "AddJsResourceFileFolderSelectionDialog_ID"; //$NON-NLS-1$
 
 	public static final String ADD_IMAGE_FILES_DIALOG_ID = PREFIX
 			+ "AddImageResourceFileFolderSelectionDialog_ID"; //$NON-NLS-1$

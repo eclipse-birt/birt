@@ -155,7 +155,8 @@ public class PageSectionId
 	public final static String RESOURCE_INCLUDE = "RESOURCE_INCLUDE"; //$NON-NLS-1$
 	public final static String RESOURCE_SEPERATOR = "RESOURCE_SEPERATOR"; //$NON-NLS-1$
 	public final static String RESOURCE_JARFILE = "RESOURCE_JARFILE"; //$NON-NLS-1$
-
+	public final static String RESOURCE_JAVASCRIPTFILE = "RESOURCE_JSFILE"; //$NON-NLS-1$
+	
 	public final static String ROW_HEIGHT = "ROW_HEIGHT"; //$NON-NLS-1$
 	public final static String ROW_HORIZONTAL_ALIGN = "ROW_HORIZONTAL_ALIGN"; //$NON-NLS-1$
 	public final static String ROW_BACKGROUND_COLOR = "ROW_BACKGROUND_COLOR"; //$NON-NLS-1$
