@@ -1236,6 +1236,7 @@ public class ReportQueryBuilder
 			String name = columnBinding.getName( );
 			String expr = columnBinding.getExpression( );
 			String type = columnBinding.getDataType( );
+			String displayName = columnBinding.getDisplayName( );
 			int dbType = ModelDteApiAdapter.toDteDataType( type );
 			IBaseExpression dbExpr = new ScriptExpression( expr, dbType );
 			if ( columnBinding.getAggregateOn( ) != null )
@@ -1243,6 +1244,7 @@ public class ReportQueryBuilder
 				dbExpr.setGroupName( columnBinding.getAggregateOn( ) );
 			}
 			IBinding binding = new Binding( name, dbExpr );
+			binding.setDisplayName( displayName );
 			if ( columnBinding.getAggregateOn( ) != null )
 				binding.addAggregateOn( columnBinding.getAggregateOn( ) );
 			if ( columnBinding.getAggregateFunction( ) != null )
