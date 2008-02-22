@@ -501,11 +501,22 @@ public class DataRequestSessionImpl extends DataRequestSession
 	/*
 	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#defineCube(org.eclipse.birt.report.model.api.olap.CubeHandle)
 	 */
-	public void defineCube( CubeHandle cubeDesign ) throws BirtException
+	public void defineCube( CubeHandle cubeHandle ) throws BirtException
 	{
-		if ( !cubeHandleMap.containsKey( cubeDesign.getQualifiedName( ) ) )
+		Set involvedDataSets = getInvolvedDataSets((TabularCubeHandle)cubeHandle);
+		Iterator itr = involvedDataSets.iterator( );
+		while (itr.hasNext( ))
 		{
-			this.cubeHandleMap.put( cubeDesign.getQualifiedName( ), cubeDesign );
+			DataSetHandle dsHandle = (DataSetHandle) itr.next( );
+			BaseDataSourceDesign baseDataSource = this.modelAdaptor.adaptDataSource( dsHandle.getDataSource( ) );
+			BaseDataSetDesign baseDataSet = this.modelAdaptor.adaptDataSet( dsHandle );
+			this.defineDataSource( baseDataSource );
+			this.defineDataSet( baseDataSet );
+		}
+		
+		if ( !cubeHandleMap.containsKey( cubeHandle.getQualifiedName( ) ) )
+		{
+			this.cubeHandleMap.put( cubeHandle.getQualifiedName( ), cubeHandle );
 		}
 	}
 	
@@ -590,12 +601,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 			CubeMaterializer cubeMaterializer, Map appContext, StopSign stopSign )
 			throws IOException, BirtException, DataException
 	{
-		List dataSetList = this.needCachedDataSetToEnhancePerformance( cubeHandle );
-		Set involvedDataSet = new HashSet();
-		for( int i = 0; i < dataSetList.size( ); i++ )
-		{
-			involvedDataSet.add( dataSetList.get( i ) );
-		}
+		List dataSetList = this.getDataSetsToCache( cubeHandle );
+		Set involvedDataSet = new HashSet(dataSetList);
 		 
 		boolean doPerfTuning = ( involvedDataSet.size( ) != dataSetList.size( ) )&&
 				( appContext == null || ( appContext != null &&
@@ -747,7 +754,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @param cubeHandle
 	 * @return
 	 */
-	private List needCachedDataSetToEnhancePerformance( TabularCubeHandle cubeHandle )
+	private List getDataSetsToCache( TabularCubeHandle cubeHandle )
 	{
 		List list = new ArrayList( );
 		list.add( cubeHandle.getDataSet( ) );
@@ -763,6 +770,11 @@ public class DataRequestSessionImpl extends DataRequestSession
 				list.add( cubeHandle.getDataSet( ) );
 		}
 		return list;
+	}
+	
+	private Set getInvolvedDataSets(TabularCubeHandle cubeHandle)
+	{
+		return new HashSet(getDataSetsToCache(cubeHandle));
 	}
 	
 	/**
