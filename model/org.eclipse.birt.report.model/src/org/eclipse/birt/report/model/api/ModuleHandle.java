@@ -2927,8 +2927,9 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 	/**
 	 * Shifts included script from source position to destination position. For
-	 * example, if a list has A, B, C scriptLib in order, when move Am includeScript
-	 * to <code>newPosn</code> with the value 1, the sequence becomes B, A, C.
+	 * example, if a list has A, B, C scriptLib in order, when move Am
+	 * includeScript to <code>newPosn</code> with the value 1, the sequence
+	 * becomes B, A, C.
 	 * 
 	 * @param sourceIndex
 	 *            source position. The range is
@@ -2938,7 +2939,7 @@ public abstract class ModuleHandle extends DesignElementHandle
 	 *            <code> destIndex &gt;= 0 && destIndex &lt; list.size()</code>
 	 * @throws SemanticException
 	 */
-	 
+
 	public void shifIncludeScripts( int sourceIndex, int destIndex )
 			throws SemanticException
 	{
@@ -3158,5 +3159,17 @@ public abstract class ModuleHandle extends DesignElementHandle
 		PropertyHandle propHandle = getPropertyHandle( INCLUDE_SCRIPTS_PROP );
 		assert propHandle != null;
 		return propHandle.iterator( );
+	}
+
+	/**
+	 * Gets all included scripts. Includes those defined in the libraries.
+	 * 
+	 * @return the list of included script. Each item is an instance of
+	 *         <code>IncludeScriptHandle</code>.
+	 */
+
+	public List getAllIncludeScripts( )
+	{
+		return getStructureList( INCLUDE_SCRIPTS_PROP );
 	}
 }

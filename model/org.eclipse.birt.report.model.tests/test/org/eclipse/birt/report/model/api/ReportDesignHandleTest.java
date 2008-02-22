@@ -1338,6 +1338,9 @@ public class ReportDesignHandleTest extends BaseTestCase
 							.getErrorCode( ) );
 		}
 
+		List scriptList = designHandle.getAllIncludeScripts( );
+		assertEquals( 2, scriptList.size( ) );
+
 		includeScript.setFileName( "third" ); //$NON-NLS-1$
 		designHandle.addIncludeScript( includeScript );
 
