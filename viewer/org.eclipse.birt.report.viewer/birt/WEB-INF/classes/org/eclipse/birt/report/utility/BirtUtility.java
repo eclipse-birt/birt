@@ -993,6 +993,10 @@ public class BirtUtility
 			context.put( DataEngine.IN_MEMORY_CUBE_SIZE, new Integer(
 					cubeMemorySize ) );
 
+		// add resource path to app context
+		context.put( IBirtConstants.APPCONTEXT_BIRT_RESOURCE_PATH,
+				ParameterAccessor.getResourceFolder( request ) );
+
 		// Push user-defined application context
 		ParameterAccessor.pushAppContext( context, request );
 
