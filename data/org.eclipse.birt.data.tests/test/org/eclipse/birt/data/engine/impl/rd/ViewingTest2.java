@@ -546,8 +546,8 @@ public class ViewingTest2 extends RDTestCase
 		this.closeArchiveReader( );
 		this.closeArchiveWriter( );
 
-		DataEngineContext deContext3 = newContext( DataEngineContext.MODE_PRESENTATION,
-				fileName );
+		DataEngineContext deContext3 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName, fileName );
 		myPreDataEngine = DataEngine.newDataEngine( deContext3 );
 
 		//this.PRE_add_filter = 0;
@@ -916,7 +916,8 @@ public class ViewingTest2 extends RDTestCase
 		this.closeArchiveReader( );
 		this.closeArchiveWriter( );
 
-		DataEngineContext deContext3 = newContext( DataEngineContext.MODE_PRESENTATION,
+		DataEngineContext deContext3 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName,
 				fileName );
 		myPreDataEngine = DataEngine.newDataEngine( deContext3 );
 		this.PRE_add_filter = 2;
@@ -950,7 +951,8 @@ public class ViewingTest2 extends RDTestCase
 		this.closeArchiveReader( );
 		this.closeArchiveWriter( );
 
-		DataEngineContext deContext3 = newContext( DataEngineContext.MODE_PRESENTATION,
+		DataEngineContext deContext3 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName,
 				fileName );
 		myPreDataEngine = DataEngine.newDataEngine( deContext3 );
 		this.PRE_add_filter = 2;
@@ -1079,7 +1081,8 @@ public class ViewingTest2 extends RDTestCase
 		this.closeArchiveReader( );
 		this.closeArchiveWriter( );
 
-		DataEngineContext deContext3 = newContext( DataEngineContext.MODE_PRESENTATION,
+		DataEngineContext deContext3 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName,
 				fileName );
 		myPreDataEngine = DataEngine.newDataEngine( deContext3 );
 
@@ -1189,7 +1192,7 @@ public class ViewingTest2 extends RDTestCase
 		this.closeArchiveWriter();
 
 		DataEngineContext deContext3 = newContext(
-				DataEngineContext.MODE_PRESENTATION, fileName);
+				DataEngineContext.MODE_UPDATE, fileName, fileName);
 		myPreDataEngine = DataEngine.newDataEngine(deContext3);
 
 		this.PRE_execute_query = true;
@@ -1226,7 +1229,7 @@ public class ViewingTest2 extends RDTestCase
 		this.closeArchiveWriter();
 
 		DataEngineContext deContext3 = newContext(
-				DataEngineContext.MODE_PRESENTATION, fileName);
+				DataEngineContext.MODE_UPDATE, fileName, fileName);
 		myPreDataEngine = DataEngine.newDataEngine(deContext3);
 
 		this.PRE_execute_query = true;
@@ -1263,7 +1266,7 @@ public class ViewingTest2 extends RDTestCase
 		this.closeArchiveWriter();
 
 		DataEngineContext deContext3 = newContext(
-				DataEngineContext.MODE_PRESENTATION, fileName);
+				DataEngineContext.MODE_UPDATE, fileName, fileName);
 		myPreDataEngine = DataEngine.newDataEngine(deContext3);
 
 		this.PRE_execute_query = true;
@@ -1300,7 +1303,7 @@ public class ViewingTest2 extends RDTestCase
 		this.closeArchiveWriter();
 
 		DataEngineContext deContext3 = newContext(
-				DataEngineContext.MODE_PRESENTATION, fileName);
+				DataEngineContext.MODE_UPDATE, fileName, fileName);
 		myPreDataEngine = DataEngine.newDataEngine(deContext3);
 
 		this.PRE_execute_query = true;

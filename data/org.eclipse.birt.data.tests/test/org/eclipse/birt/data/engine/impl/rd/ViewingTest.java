@@ -113,8 +113,8 @@ public class ViewingTest extends RDTestCase
 		this.genBasicIV( );
 		this.closeArchiveWriter( );
 
-		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
-				fileName );
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName, fileName );
 		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
 
 		this.PRE_add_sort = true;		
@@ -134,8 +134,8 @@ public class ViewingTest extends RDTestCase
 		this.genBasicIV( );
 		this.closeArchiveWriter( );
 
-		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
-				fileName );
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName, fileName );
 		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
 
 		this.PRE_add_sort = true;
@@ -157,8 +157,8 @@ public class ViewingTest extends RDTestCase
 		this.genBasicIV( );
 		this.closeArchiveWriter( );
 
-		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
-				fileName );
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName, fileName );
 		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
 
 		this.PRE_add_filter = true;
@@ -180,8 +180,8 @@ public class ViewingTest extends RDTestCase
 		this.genBasicIV( );
 		this.closeArchiveWriter( );
 
-		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
-				fileName );
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName, fileName );
 		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
 
 		this.PRE_add_filter = true;
@@ -203,8 +203,8 @@ public class ViewingTest extends RDTestCase
 		this.genBasicIV();
 		this.closeArchiveWriter();
 
-		DataEngineContext deContext2 = newContext(
-				DataEngineContext.MODE_PRESENTATION, fileName);
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName, fileName );
 		myPreDataEngine = DataEngine.newDataEngine(deContext2);
 
 		this.PRE_add_filter = false;
@@ -212,8 +212,8 @@ public class ViewingTest extends RDTestCase
 		this.PRE_add_group = false;
 		this.preBasicIV();
 
-		DataEngineContext deContext3 = newContext(
-				DataEngineContext.MODE_PRESENTATION, fileName);
+		DataEngineContext deContext3 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName, fileName );
 		myPreDataEngine = DataEngine.newDataEngine(deContext3);
 		this.PRE_change_oldbinding = true;
 		this.preBasicIV();
@@ -438,9 +438,8 @@ public class ViewingTest extends RDTestCase
 		this._genBasicIVWithSubQuery( );
 		this.closeArchiveWriter( );
 
-		DataEngineContext deContext2 = newContext( 
-				DataEngineContext.MODE_PRESENTATION,
-				fileName );
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName, fileName );
 		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
 
 		this.PRE_add_filter = true;
