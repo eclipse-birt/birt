@@ -102,7 +102,7 @@ public class Column implements IColumn
 	
 	public void setColumnHeaderState( boolean isColumnHeader )
 	{
-		this.isColumnHeader = new Boolean( isColumnHeader );
+		this.isColumnHeader = Boolean.valueOf( isColumnHeader );
 	}
 	
 	/*
@@ -207,6 +207,7 @@ public class Column implements IColumn
 	final static int FIELD_INSTANCE_ID = 2;
 	final static int FIELD_VISIBLE_FORMAT = 3;
 	final static int FIELD_INLINESTYLE = 8;
+	final static int FIELD_ISCOLUMNHEADER = 9;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
@@ -239,6 +240,11 @@ public class Column implements IColumn
 				IOUtil.writeString( out, cssText );
 			}
 		}
+		if ( isColumnHeader != null )
+		{
+			IOUtil.writeInt( out, FIELD_ISCOLUMNHEADER );
+			IOUtil.writeBool( out, isColumnHeader.booleanValue( ) );
+		}
 	}
 
 	protected void readField( int version, int filedId, DataInputStream in,
@@ -267,6 +273,9 @@ public class Column implements IColumn
 					inlineStyle = new StyleDeclaration( cssEngine );
 					inlineStyle.setCssText( style );
 				}
+				break;
+			case FIELD_ISCOLUMNHEADER :
+				isColumnHeader = Boolean.valueOf( IOUtil.readBool( in ) );
 				break;
 		}
 	}
