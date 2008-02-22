@@ -51,6 +51,7 @@ import org.eclipse.birt.chart.render.AxesRenderer;
 import org.eclipse.birt.chart.render.IAxesDecorator;
 import org.eclipse.birt.chart.render.ISeriesRenderingHints;
 import org.eclipse.birt.chart.util.CDateTime;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.util.EList;
 
@@ -1240,7 +1241,10 @@ public final class PlotWith2DAxes extends PlotWithAxes
 							iTitleLocation,
 							laAxisTitle,
 							0,
-							0 ).getWidth( );
+							0,
+							ChartUtil.computeHeightOfOrthogonalAxisTitle( cwa,
+									getDisplayServer( ) )
+							).getWidth( );
 					laAxisTitle.getCaption( ).setValue( sPreviousValue );
 				}
 
@@ -1378,7 +1382,10 @@ public final class PlotWith2DAxes extends PlotWithAxes
 							iTitleLocation,
 							laAxisTitle,
 							0,
-							0 ).getHeight( );
+							0,
+							ChartUtil.computeHeightOfOrthogonalAxisTitle( cwa,
+									getDisplayServer( ) )
+							).getHeight( );
 					laAxisTitle.getCaption( ).setValue( sPreviousValue );
 				}
 
