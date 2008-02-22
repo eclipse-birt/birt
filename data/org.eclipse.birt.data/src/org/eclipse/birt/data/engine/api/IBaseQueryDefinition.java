@@ -67,6 +67,11 @@ public interface IBaseQueryDefinition extends IBaseTransform, IDataQueryDefiniti
 	public int getMaxRows( );
 	
 	/**
+	 * set the maximum number of detail rows that can be retrieved by this query
+	 */
+	public void setMaxRows( int maxRows );
+	
+	/**
 	 * Gets the expressions that needs to be available at the group/list, as an
 	 * Map of bound colum name to {@link org.eclipse.birt.data.engine.api.IBaseExpression} objects.
 	 * 
