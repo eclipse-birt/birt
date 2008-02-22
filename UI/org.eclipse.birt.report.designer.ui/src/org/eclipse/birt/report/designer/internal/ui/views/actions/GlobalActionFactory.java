@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.actions;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertRowAboveAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertRowBelowAction;
 import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
@@ -22,6 +25,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.ui.actions.ActionFactory;
 
@@ -58,28 +62,27 @@ public class GlobalActionFactory
 			GeneralInsertMenuAction.INSERT_DYNAMIC_TEXT_ID,
 	};
 
-	public final static String[] GLOBAL_PARAMETER_ACTIONS = {
-			NewParameterAction.INSERT_SCALAR_PARAMETER,
-			NewParameterAction.INSERT_CASCADING_PARAMETER_GROUP,
-			NewParameterAction.INSERT_PARAMETER_GROUP,
+	public final static String[] GLOBAL_PARAMETER_ACTIONS =
+	{
+		NewParameterAction.INSERT_SCALAR_PARAMETER,
+		NewParameterAction.INSERT_CASCADING_PARAMETER_GROUP,
+		NewParameterAction.INSERT_PARAMETER_GROUP,		
 	};
-
+	
 	public final static String[] GLOBAL_ELEMENT_ACTIONS = {
-			InsertRowAboveAction.ID, InsertRowBelowAction.ID,
+		InsertRowAboveAction.ID,
+		InsertRowBelowAction.ID,
 	};
 
 	public final static String[] GLOBAL_DATA_ACTIONS = {
-			NewDataSourceAction.ID,
-			NewDataSetAction.ID,
-			NewJointDataSetAction.ID
+			NewDataSourceAction.ID, NewDataSetAction.ID,NewJointDataSetAction.ID
 	};
 
 	public static IAction createSelectionAction( String id,
 			ISelectionProvider provider )
 	{
-		assert id != null;
-		assert provider != null;
-
+		Assert.isNotNull( id );
+		Assert.isNotNull( provider );
 		if ( COPY.equals( id ) )
 		{
 			return new GlobalCopyAction( provider );
@@ -103,8 +106,7 @@ public class GlobalActionFactory
 		else if ( NewDataSetAction.ID.equals( id ) )
 		{
 			return new NewDataSetAction( );
-		}
-		else if ( NewJointDataSetAction.ID.equals( id ) )
+		}else if ( NewJointDataSetAction.ID.equals( id ) )
 		{
 			return new NewJointDataSetAction( );
 		}
@@ -149,24 +151,26 @@ public class GlobalActionFactory
 		{
 			return new GlobalInsertRowAction( provider, id, InsertAction.BELOW );
 		}
-		else if ( NewParameterAction.INSERT_SCALAR_PARAMETER.equals( id ) )
+		else if (NewParameterAction.INSERT_SCALAR_PARAMETER.equals( id ))
 		{
-			// elementType = ReportDesignConstants.SCALAR_PARAMETER_ELEMENT;
-			return new NewParameterAction( id,
-					ReportDesignConstants.SCALAR_PARAMETER_ELEMENT );
+		//	elementType = ReportDesignConstants.SCALAR_PARAMETER_ELEMENT;
+			return new NewParameterAction(id,
+					ReportDesignConstants.SCALAR_PARAMETER_ELEMENT	
+			);
 		}
-		else if ( NewParameterAction.INSERT_CASCADING_PARAMETER_GROUP.equals( id ) )
+		else if (NewParameterAction.INSERT_CASCADING_PARAMETER_GROUP.equals( id ))
 		{
-			// elementType =
-			// ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT;
-			return new NewParameterAction( id,
-					ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT );
+		//	elementType = ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT;
+			return new NewParameterAction(id,
+					ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT	
+			);
 		}
-		else if ( NewParameterAction.INSERT_PARAMETER_GROUP.equals( id ) )
+		else if (NewParameterAction.INSERT_PARAMETER_GROUP.equals( id ))
 		{
-			// elementType = ReportDesignConstants.PARAMETER_GROUP_ELEMENT;
-			return new NewParameterAction( id,
-					ReportDesignConstants.PARAMETER_GROUP_ELEMENT );
+			//elementType = ReportDesignConstants.PARAMETER_GROUP_ELEMENT;
+			return new NewParameterAction(id,
+					ReportDesignConstants.PARAMETER_GROUP_ELEMENT	
+			);
 		}
 		else
 		{
@@ -189,76 +193,56 @@ public class GlobalActionFactory
 
 	public static IAction createStackAction( String id, CommandStack stack )
 	{
-		assert id != null;
-		assert stack != null;
-
-		GlobalStackAction action = null;
-
-		if ( UNDO.equals( id ) )
+		Assert.isNotNull( id );
+		Assert.isNotNull( stack );
+		GlobalStackActionEntry entry = (GlobalStackActionEntry) stackActionEntrys.get( stack );
+		if ( entry == null )
 		{
-			action = new GlobalUndoAction( stack );
+			entry = new GlobalStackActionEntry( stack );
+			stackActionEntrys.put( stack, entry );
 		}
-		else if ( REDO.equals( id ) )
-		{
-			action = new GlobalRedoAction( stack );
-		}
-
-		if ( action != null )
-		{
-			action.update( );
-		}
-
-		return action;
-
-		// GlobalStackActionEntry entry = (GlobalStackActionEntry)
-		// stackActionEntrys.get( stack );
-		// if ( entry == null )
-		// {
-		// entry = new GlobalStackActionEntry( stack );
-		// stackActionEntrys.put( stack, entry );
-		// }
-		// return entry.getAction( id );
+		return entry.getAction( id );
 	}
 
-	// private static Map stackActionEntrys = new HashMap( );
-	//
-	// private static class GlobalStackActionEntry
-	// {
-	//
-	// private GlobalUndoAction undoAction = null;
-	// private GlobalRedoAction redoAction = null;
-	// private CommandStack stack;
-	//
-	// public GlobalStackActionEntry( CommandStack stack )
-	// {
-	// this.stack = stack;
-	// }
-	//
-	// public GlobalStackAction getAction( String id )
-	// {
-	// GlobalStackAction action = null;
-	// if ( UNDO.equals( id ) )
-	// {
-	// if ( undoAction == null )
-	// {
-	// undoAction = new GlobalUndoAction( stack );
-	// }
-	// action = undoAction;
-	// }
-	// else if ( REDO.equals( id ) )
-	// {
-	// if ( redoAction == null )
-	// {
-	// redoAction = new GlobalRedoAction( stack );
-	// }
-	// action = redoAction;
-	// }
-	// if ( action != null )
-	// {
-	// action.update( );
-	// }
-	// return action;
-	// }
-	// }
+	private static Map stackActionEntrys = new HashMap( );
+
+	private static class GlobalStackActionEntry
+	{
+
+		private GlobalUndoAction undoAction = null;
+		private GlobalRedoAction redoAction = null;
+		private CommandStack stack;
+
+		public GlobalStackActionEntry( CommandStack stack )
+		{
+			this.stack = stack;
+		}
+
+		public GlobalStackAction getAction( String id )
+		{
+			GlobalStackAction action = null;
+			if ( UNDO.equals( id ) )
+			{
+				if ( undoAction == null )
+				{
+					undoAction = new GlobalUndoAction( stack );
+				}
+				action = undoAction;
+			}
+			else if ( REDO.equals( id ) )
+			{
+				if ( redoAction == null )
+				{
+					redoAction = new GlobalRedoAction( stack );
+				}
+				action = redoAction;
+			}
+			if ( action != null )
+			{
+				action.update( );
+			}
+			return action;
+		}
+	}
 
 }

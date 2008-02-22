@@ -102,7 +102,7 @@ public class HandleAdapterFactory
 		}
 		else if ( obj instanceof SimpleMasterPageHandle )
 		{
-			return getReportDesignHandleAdapter( obj, mark );
+			return getSimpleMasterPageHandleAdapter( obj, mark );
 		}
 		else if ( obj instanceof TableHandle )
 		{
@@ -280,6 +280,13 @@ public class HandleAdapterFactory
 			factory = new HandleAdapterFactory( );
 		}
 		return factory;
+	}
+
+	public ReportDesignHandleAdapter getSimpleMasterPageHandleAdapter(
+			Object obj, IModelAdapterHelper mark )
+	{
+	    //TODO change later
+		return getReportDesignHandleAdapter( );
 	}
 
 	public ReportDesignHandleAdapter getReportDesignHandleAdapter( Object obj )
