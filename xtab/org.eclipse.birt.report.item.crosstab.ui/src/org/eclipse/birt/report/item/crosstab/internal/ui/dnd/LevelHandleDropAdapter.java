@@ -16,9 +16,11 @@ import org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter;
 import org.eclipse.birt.report.designer.util.IVirtualValidator;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.AggregationCellProviderWrapper;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.gef.EditPart;
@@ -121,11 +123,21 @@ public class LevelHandleDropAdapter implements IDropAdapter
 	{
 		CrosstabReportItemHandle crosstab = null;
 		Object tmp = editPart.getModel( );
-		if(!( tmp instanceof CrosstabCellAdapter))
+		if ( !( tmp instanceof CrosstabCellAdapter ) )
 		{
 			return null;
 		}
-		crosstab = ((CrosstabCellAdapter)tmp).getCrosstabCellHandle( ).getCrosstab( );
+		if ( tmp instanceof VirtualCrosstabCellAdapter )
+		{
+			return ( (VirtualCrosstabCellAdapter) tmp ).getCrosstabReportItemHandle( );
+		}
+
+		CrosstabCellHandle handle = ( (CrosstabCellAdapter) tmp ).getCrosstabCellHandle( );
+		if ( handle != null )
+		{
+			crosstab = handle.getCrosstab( );
+		}
+
 		return crosstab;
 
 	}

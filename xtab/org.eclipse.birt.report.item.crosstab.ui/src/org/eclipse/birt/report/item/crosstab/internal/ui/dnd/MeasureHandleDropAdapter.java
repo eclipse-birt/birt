@@ -16,9 +16,11 @@ import org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter;
 import org.eclipse.birt.report.designer.util.IVirtualValidator;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.AggregationCellProviderWrapper;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.gef.EditPart;
@@ -58,9 +60,10 @@ public class MeasureHandleDropAdapter implements IDropAdapter
 		}
 		return DNDService.LOGIC_UNKNOW;
 	}
-	
+
 	/**
 	 * Allow drop multi MeasureHandle or single MeasureGroupHandle
+	 * 
 	 * @param transfer
 	 * @return
 	 */
@@ -76,22 +79,23 @@ public class MeasureHandleDropAdapter implements IDropAdapter
 			}
 			return true;
 		}
-		return transfer instanceof MeasureHandle || transfer instanceof MeasureGroupHandle;
+		return transfer instanceof MeasureHandle
+				|| transfer instanceof MeasureGroupHandle;
 	}
 
 	public boolean performDrop( Object transfer, Object target, int operation,
 			DNDLocation location )
 	{
-		//		if ( transfer instanceof Object[] )
-		//		{
-		//			Object[] objects = (Object[]) transfer;
-		//			for ( int i = 0; i < objects.length; i++ )
-		//			{
-		//				if ( !performDrop( objects[i], target, operation, location ) )
-		//					return false;
-		//			}
-		//			return true;
-		//		}
+		// if ( transfer instanceof Object[] )
+		// {
+		// Object[] objects = (Object[]) transfer;
+		// for ( int i = 0; i < objects.length; i++ )
+		// {
+		// if ( !performDrop( objects[i], target, operation, location ) )
+		// return false;
+		// }
+		// return true;
+		// }
 
 		if ( target instanceof EditPart )
 		{
@@ -111,7 +115,7 @@ public class MeasureHandleDropAdapter implements IDropAdapter
 							.getEditDomain( )
 							.getCommandStack( )
 							.execute( command );
-					
+
 					CrosstabReportItemHandle crosstab = getCrosstab( editPart );
 					if ( crosstab != null )
 					{
@@ -132,11 +136,21 @@ public class MeasureHandleDropAdapter implements IDropAdapter
 	{
 		CrosstabReportItemHandle crosstab = null;
 		Object tmp = editPart.getModel( );
-		if(!( tmp instanceof CrosstabCellAdapter))
+		if ( !( tmp instanceof CrosstabCellAdapter ) )
 		{
 			return null;
 		}
-		crosstab = ((CrosstabCellAdapter)tmp).getCrosstabCellHandle( ).getCrosstab( );
+		if ( tmp instanceof VirtualCrosstabCellAdapter )
+		{
+			return ( (VirtualCrosstabCellAdapter) tmp ).getCrosstabReportItemHandle( );
+		}
+
+		CrosstabCellHandle handle = ( (CrosstabCellAdapter) tmp ).getCrosstabCellHandle( );
+		if ( handle != null )
+		{
+			crosstab = handle.getCrosstab( );
+		}
+
 		return crosstab;
 
 	}

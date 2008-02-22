@@ -28,6 +28,7 @@ import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.AggregationCellProviderWrapper;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -294,11 +295,21 @@ public class DimensionHandleDropAdapter implements IDropAdapter
 	{
 		CrosstabReportItemHandle crosstab = null;
 		Object tmp = editPart.getModel( );
-		if(!( tmp instanceof CrosstabCellAdapter))
+		if ( !( tmp instanceof CrosstabCellAdapter ) )
 		{
 			return null;
 		}
-		crosstab = ((CrosstabCellAdapter)tmp).getCrosstabCellHandle( ).getCrosstab( );
+		if ( tmp instanceof VirtualCrosstabCellAdapter )
+		{
+			return ( (VirtualCrosstabCellAdapter) tmp ).getCrosstabReportItemHandle( );
+		}
+
+		CrosstabCellHandle handle = ( (CrosstabCellAdapter) tmp ).getCrosstabCellHandle( );
+		if ( handle != null )
+		{
+			crosstab = handle.getCrosstab( );
+		}
+
 		return crosstab;
 
 	}

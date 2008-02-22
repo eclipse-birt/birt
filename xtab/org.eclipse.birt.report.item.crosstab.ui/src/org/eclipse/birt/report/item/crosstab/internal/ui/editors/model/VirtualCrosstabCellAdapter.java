@@ -164,4 +164,8 @@ public class VirtualCrosstabCellAdapter extends CrosstabCellAdapter implements
 		this.crosstab = crosstab;
 	}
 
+	public CrosstabReportItemHandle getCrosstabReportItemHandle()
+	{
+		return this.crosstab;
+	}
 }
