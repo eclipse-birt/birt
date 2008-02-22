@@ -4,6 +4,7 @@
 designer.preview.previewtoolbarmenuaction.label=Bericht anzeigen
 designer.preview.previewcascadingmenugroup.label=&Bericht ausführen
 ActionSet.Preview=Vorschau
+Action.GenDocument=Generate &Document
 
 template.preview=Vor&schau
 design.preview=Vor&schau
