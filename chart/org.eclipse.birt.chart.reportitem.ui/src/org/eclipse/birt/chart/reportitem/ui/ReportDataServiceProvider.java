@@ -1623,7 +1623,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 			// Process grouping and aggregate on group case.
 			// Get groups.
-			List groupList = fShareBindingQueryHelper.getGroupsOfSharedBinding( );
+			List groupList = getGroupsOfSharedBinding( );
 
 			columnHeaders = new ColumnBindingInfo[columnList.size( ) +
 					groupList.size( )];
@@ -1723,6 +1723,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			List groupList = new ArrayList( );
 			ReportItemHandle handle = getReportItemHandle( );
+			handle = getSharedTableHandle( handle );
 			if ( handle instanceof TableHandle )
 			{
 				SlotHandle groups = ( (TableHandle) handle ).getGroups( );
@@ -1734,6 +1735,33 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			return groupList;
 		}
 
+		/**
+		 * Returns correct shared table handle when chart is sharing table's query.
+		 *  
+		 * @param itemHandle
+		 * @return
+		 */
+		private ReportItemHandle getSharedTableHandle( ReportItemHandle itemHandle )
+		{
+			if ( itemHandle instanceof TableHandle )
+			{
+				return itemHandle; 
+			}
+			
+			ReportItemHandle handle = itemHandle.getDataBindingReference( );
+			if ( handle != null )
+			{
+				return getSharedTableHandle( handle );
+			}
+			
+			if ( itemHandle.getContainer( ) instanceof MultiViewsHandle )
+			{
+				return getSharedTableHandle( (ReportItemHandle) itemHandle.getContainer( ).getContainer( ) );
+			}
+			
+			return null;
+		}
+		
 		/**
 		 * Returns preview row data for table shared binding, it will share table's
 		 * bindings and get them data.
