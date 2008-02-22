@@ -131,6 +131,11 @@ public class WebViewer
 	public final static String RESOURCE_FOLDER_KEY = "RESOURCE_FOLDER_KEY"; //$NON-NLS-1$
 
 	/**
+	 * Key to indicate whether close window after complete
+	 */
+	public final static String CLOSE_WINDOW_KEY = "CLOSE_WINDOW_KEY"; //$NON-NLS-1$
+
+	/**
 	 * Key to indicate the 'maxRows'
 	 */
 	public final static String MAX_ROWS_KEY = "MAX_ROWS_KEY"; //$NON-NLS-1$
@@ -248,6 +253,10 @@ public class WebViewer
 					String encodedDocumentName = URLEncoder.encode(
 							documentName, "utf-8" ); //$NON-NLS-1$
 					url += "&__document=" + encodedDocumentName; //$NON-NLS-1$
+
+					String isCloseWin = (String) params.get( CLOSE_WINDOW_KEY );
+					if ( isCloseWin != null )
+						url += "&__closewin=" + isCloseWin; //$NON-NLS-1$
 				}
 				catch ( UnsupportedEncodingException e )
 				{

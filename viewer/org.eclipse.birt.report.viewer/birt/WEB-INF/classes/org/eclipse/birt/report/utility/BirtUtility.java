@@ -547,8 +547,8 @@ public class BirtUtility
 				}
 
 				// push to parameter map
-				// FIXME: if list is empty or only contains null value, regard it
-				// as NULL object
+				// FIXME: if list is empty or only contains null value, regard
+				// it as NULL object
 				if ( values.size( ) == 0
 						|| ( values.size( ) == 1 && values.get( 0 ) == null ) )
 					parameterMap.put( paramName, null );
@@ -736,9 +736,10 @@ public class BirtUtility
 	 * @param out
 	 * @param message
 	 * @param msgType
+	 * @param isCloseWin
 	 */
 	public static void writeMessage( OutputStream out, String content,
-			String msgType ) throws IOException
+			String msgType, boolean isCloseWin ) throws IOException
 	{
 		String fontColor = "black"; //$NON-NLS-1$
 		if ( IBirtConstants.MSG_ERROR.equalsIgnoreCase( msgType ) )
@@ -748,7 +749,10 @@ public class BirtUtility
 				+ BirtResources.getMessage( "birt.viewer.title." + msgType ) //$NON-NLS-1$
 				+ "</title>"; //$NON-NLS-1$
 		message += "<META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=utf-8\"></head>"; //$NON-NLS-1$
-		message += "<body style=\"background-color: #ECE9D8;\"><div style=\"font-size:10pt;\"><font color=\"" + fontColor + "\">" //$NON-NLS-1$ //$NON-NLS-2$
+		message += "<body"; //$NON-NLS-1$
+		if ( isCloseWin )
+			message += " onload=\"javascript:window.close()\""; //$NON-NLS-1$
+		message += " style=\"background-color: #ECE9D8;\"><div style=\"font-size:10pt;\"><font color=\"" + fontColor + "\">" //$NON-NLS-1$ //$NON-NLS-2$
 				+ content + "</font></div></body></html>"; //$NON-NLS-1$
 		out.write( message.getBytes( ) );
 		out.flush( );
@@ -774,14 +778,14 @@ public class BirtUtility
 			writeMessage(
 					response.getOutputStream( ),
 					BirtResources
-							.getMessage( "birt.viewer.dialog.printserver.complete" ), IBirtConstants.MSG_COMPLETE ); //$NON-NLS-1$
+							.getMessage( "birt.viewer.dialog.printserver.complete" ), IBirtConstants.MSG_COMPLETE, true ); //$NON-NLS-1$
 		}
 		else
 		{
 			writeMessage(
 					response.getOutputStream( ),
 					BirtResources
-							.getMessage( "birt.viewer.dialog.printserver.error.noprinter" ), IBirtConstants.MSG_ERROR ); //$NON-NLS-1$					
+							.getMessage( "birt.viewer.dialog.printserver.error.noprinter" ), IBirtConstants.MSG_ERROR, false ); //$NON-NLS-1$					
 		}
 	}
 

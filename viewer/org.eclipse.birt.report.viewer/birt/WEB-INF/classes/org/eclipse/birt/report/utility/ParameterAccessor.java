@@ -302,6 +302,11 @@ public class ParameterAccessor
 	public static final String PARAM_IID = "iid"; //$NON-NLS-1$
 
 	/**
+	 * URL parameter name to indicate if close window after complete 
+	 */
+	public static final String PARAM_CLOSEWIN = "__closewin"; //$NON-NLS-1$
+	
+	/**
 	 * Parameter name that gives the result set names of the export data form.
 	 */
 	public static final String PARAM_RESULTSETNAME = "ResultSetName"; //$NON-NLS-1$
@@ -3048,5 +3053,21 @@ public class ParameterAccessor
 			return true;
 
 		return false;
+	}
+	
+	/**
+	 * Returns the flag to indicate whether close current window.
+	 * Currently, it is only used when output confirm information.
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static boolean isCloseWindow( HttpServletRequest request )
+	{
+		String isCloseWin = getParameter( request, PARAM_CLOSEWIN );
+		if ( "true".equalsIgnoreCase( isCloseWin ) ) //$NON-NLS-1$
+			return true;
+
+		return false;	
 	}
 }

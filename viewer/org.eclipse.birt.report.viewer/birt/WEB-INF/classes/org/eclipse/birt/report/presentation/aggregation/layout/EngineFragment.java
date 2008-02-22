@@ -182,7 +182,8 @@ public class EngineFragment extends BirtBaseFragment
 									out,
 									BirtResources
 											.getMessage( "birt.viewer.message.document.successful" ), //$NON-NLS-1$
-									IBirtConstants.MSG_COMPLETE );
+									IBirtConstants.MSG_COMPLETE,
+									ParameterAccessor.isCloseWindow( request ) );
 				}
 			}
 			else if ( ParameterAccessor.isGetImageOperator( request ) )
