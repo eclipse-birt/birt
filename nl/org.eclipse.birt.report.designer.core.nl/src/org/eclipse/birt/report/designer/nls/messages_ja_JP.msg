@@ -3689,6 +3689,8 @@ NamedExpressionsHandleProvier.Column.DefaultValue=デフォルト値
 Library.DND.messages.cannotApplyTheme=テーマを適用できません。
 
 JarFileFormProvider.Column.Name=名前
+JsFileFormProvider.Column.Name=名前
+ReportPageGenerator.List.Resources.JsFile=Javascript Files:
 
 ###########################################################
 #ClassFinder
@@ -3831,8 +3833,10 @@ TableArea.Button.Up=上へ(&U)
 ###########################################################
 #AddJarResourceFileFolderSelectionDialog
 AddJarResourceFileFolderSelectionDialog.ErrorMessage.Exist=すでに存在するファイルを選択しています。
-AddJarResourceFileFolderSelectionDialog.Message=JAR ファイルを選択してください :
-AddJarResourceFileFolderSelectionDialog.ErrorMessage.ExtError=ファイル名の拡張子は .jar にしてください。
+AddJarResourceFileFolderSelectionDialog.Message=Please select {0} files:
+AddJarResourceFileFolderSelectionDialog.ErrorMessage.ExtError=Filename must end with {0}.
+AddJarResourceFileFolderSelectionDialog.Message.Or=or
+
 
 ###########################################################
 #AddImageResourceFileFolderSelectionDialog

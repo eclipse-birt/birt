@@ -3689,6 +3689,8 @@ NamedExpressionsHandleProvier.Column.DefaultValue=Valeur par défaut
 Library.DND.messages.cannotApplyTheme=Le thème ne peut pas être appliqué.
 
 JarFileFormProvider.Column.Name=Nom
+JsFileFormProvider.Column.Name=Nom
+ReportPageGenerator.List.Resources.JsFile=Javascript Files:
 
 ###########################################################
 #ClassFinder
@@ -3831,8 +3833,10 @@ TableArea.Button.Up=&Vers le haut
 ###########################################################
 #AddJarResourceFileFolderSelectionDialog
 AddJarResourceFileFolderSelectionDialog.ErrorMessage.Exist=Un ou plusieurs fichiers existent déjà.
-AddJarResourceFileFolderSelectionDialog.Message=Sélectionnez les fichiers jar :
-AddJarResourceFileFolderSelectionDialog.ErrorMessage.ExtError=Le nom de fichier doit se terminer par .jar.
+AddJarResourceFileFolderSelectionDialog.Message=Please select {0} files:
+AddJarResourceFileFolderSelectionDialog.ErrorMessage.ExtError=Filename must end with {0}.
+AddJarResourceFileFolderSelectionDialog.Message.Or=or
+
 
 ###########################################################
 #AddImageResourceFileFolderSelectionDialog
