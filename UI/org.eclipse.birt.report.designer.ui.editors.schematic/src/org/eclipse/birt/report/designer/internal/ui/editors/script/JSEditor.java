@@ -289,7 +289,7 @@ public class JSEditor extends EditorPart implements IColleague
 	 */
 	protected IScriptEditor createScriptEditor( )
 	{
-		return new ScriptEditor( this );
+		return new ScriptEditor( getParentEditor( ) );
 	}
 
 	/**
