@@ -668,6 +668,7 @@ public class ReportQueryBuilder
 							try
 							{
 								IBaseQueryDefinition baseQuery = (IBaseQueryDefinition) query;
+								baseQuery.setMaxRows( maxRows );
 								transformExpressions( item, baseQuery, null );
 								
 								// Fix compatibility bug :211547. extended item may 
