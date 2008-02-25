@@ -170,16 +170,8 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 			soapURL = ParameterAccessor.getBaseURL( )
 					+ request.getContextPath( ) + request.getServletPath( );
 
-		if ( request.getQueryString( ) != null )
-		{
-			soapURL += "?" //$NON-NLS-1$
-					+ request.getQueryString( ) + builder.toString( );
-		}
-		else
-		{
-			builder.deleteCharAt( 0 );
-			soapURL += "?" + builder.toString( ); //$NON-NLS-1$
-		}
+		builder.deleteCharAt( 0 );
+		soapURL += "?" + builder.toString( ); //$NON-NLS-1$
 
 		request.setAttribute( "SoapURL", soapURL ); //$NON-NLS-1$
 
