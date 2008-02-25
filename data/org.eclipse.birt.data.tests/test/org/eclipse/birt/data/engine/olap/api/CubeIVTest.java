@@ -67,6 +67,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionFactory;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionForTest;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.LevelDefinition;
+import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeSortDefinition;
@@ -981,8 +982,8 @@ public class CubeIVTest extends BaseTestCase
 		
 		while ( it.next( ) )
 		{
-			if ( "55".equals( it.getValue( "column1" ).toString( ) )
-					|| "34".equals( it.getValue( "column1" ).toString( ) ) )
+			if ( ((Number)it.getValue( "column1" )).intValue( ) == 55 
+					||   ((Number)it.getValue( "column1" )).intValue( ) == 34)
 			{
 				this.testPrintln( "\nOUTER RESULT:"+ it.getValue( "column1" ).toString( ) );
 				cqd.setQueryResultsID( idMap.get( it.getValue( "column1" ).toString( ) ).toString( ) );
@@ -1030,7 +1031,9 @@ public class CubeIVTest extends BaseTestCase
 
 		dataSet.setDataSource( "ds" );
 
-		dataSet.addResultSetHint( new ColumnDefinition( "column1" ) );
+		ColumnDefinition col = new ColumnDefinition( "column1" );
+		col.setDataType( DataType.INTEGER_TYPE );
+		dataSet.addResultSetHint( col );
 
 		dataSet.setOpenScript( "i = 57;" );
 		dataSet.setFetchScript( " i--; if ( i < 27 ) return false; row.column1 = i; return true;" );

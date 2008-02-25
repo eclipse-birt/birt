@@ -3929,8 +3929,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IResultIterator it = queryResults.getResultIterator( );
 		while ( it.next( ) )
 		{
-			if ( "55".equals( it.getValue( "column1" ).toString( ) )
-					|| "34".equals( it.getValue( "column1" ).toString( ) ) )
+			if ( ((Number)it.getValue( "column1" )).intValue( ) == 55 
+					||   ((Number)it.getValue( "column1" )).intValue( ) == 34 )
 			{
 				this.testPrintln( "\nOUTER RESULT:"+ it.getValue( "column1" ).toString( ) );
 				IPreparedCubeQuery pcq = engine.prepare( cqd, null );
@@ -4021,8 +4021,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		IResultIterator it = queryResults.getResultIterator( );
 		while ( it.next( ) )
 		{
-			if ( "55".equals( it.getValue( "column1" ).toString( ) )
-					|| "34".equals( it.getValue( "column1" ).toString( ) ) )
+			if ( ((Number)it.getValue( "column1" )).intValue( ) == 55 
+					||   ((Number)it.getValue( "column1" )).intValue( ) == 34 )
 			{
 				this.testPrintln( "\nOUTER RESULT:"+it.getValue( "column1" ).toString( ) );
 				IPreparedCubeQuery pcq = engine.prepare( cqd, null );
@@ -4311,8 +4311,8 @@ public class CubeFeaturesTest extends BaseTestCase
 			IQueryResults subQueryResults = subIt.getQueryResults( );
 			while ( subIt.next( ) )
 			{
-				if ( "55".equals( subIt.getValue( "column1" ).toString( ) )
-						|| "34".equals( subIt.getValue( "column1" ).toString( ) ) )
+				if ( ((Number)it.getValue( "column1" )).intValue( ) == 55 
+						||   ((Number)it.getValue( "column1" )).intValue( ) == 34 )
 				{
 					this.testPrintln( "\nOUTER RESULT:"
 							+ subIt.getValue( "column1" ).toString( ) );
@@ -5393,7 +5393,9 @@ public class CubeFeaturesTest extends BaseTestCase
 
 		dataSet.setDataSource( "ds" );
 
-		dataSet.addResultSetHint( new ColumnDefinition( "column1" ) );
+		ColumnDefinition col = new ColumnDefinition( "column1" );
+		col.setDataType( DataType.INTEGER_TYPE );
+		dataSet.addResultSetHint( col );
 
 		dataSet.setOpenScript( "i = 57;" );
 		dataSet.setFetchScript( " i--; if ( i < 27 ) return false; row.column1 = i; return true;" );

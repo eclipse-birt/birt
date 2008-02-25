@@ -391,6 +391,45 @@ public class ViewingTest2 extends RDTestCase
 				
 	}
 	
+
+	/**
+	 * With filter
+	 * @throws BirtException
+	 */
+	public void testBasic5( ) throws Exception
+	{
+		this.GEN_add_filter = false;
+		this.GEN_print = true;
+		this.GEN_add_sort = false;
+		this.genBasicIV( );
+		this.closeArchiveWriter( );
+		
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName,
+				fileName );
+		deContext2.setTmpdir( this.getTempDir( ) );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		this.UPDATE_add_sort = true;
+		this.updatePreBasicIV( );
+		this.closeArchiveReader( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext3 = newContext( DataEngineContext.MODE_UPDATE,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext3 );
+
+		this.PRE_execute_query = true;
+		this.PRE_basedon_genfilter = true;
+		this.PRE_add_filter = -1;
+		this.PRE_add_sort = false;
+		this.preBasicIV( );
+		this.closeArchiveReader( );
+		this.closeArchiveWriter( );
+
+		this.checkOutputFile( );
+	}
+	
 	/**
 	 * Test the feature of Skip to
 	 * @throws Exception
@@ -2832,7 +2871,7 @@ public class ViewingTest2 extends RDTestCase
 			boolean sortNeeded, int groupNeeded, int mode )
 	{
 		QueryDefinition qd = new QueryDefinition( );
-		
+		qd.setDataSetName( "Dummy" );
 		// add basic column binding
 		IBaseExpression[] rowBeArray = getRowExpr( );
 		IBaseExpression[] totalBeArray = getAggrExpr( );

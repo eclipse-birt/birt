@@ -301,12 +301,22 @@ class PreparedQueryUtil
 		RDLoad rdLoad = RDUtil.newLoad( dataEngine.getSession( ).getTempDir( ), dataEngine.getContext( ),
 				queryResultInfo );
 
-		IBaseQueryDefinition rootQueryDefn = rdLoad.loadQueryDefn( StreamManager.ROOT_STREAM,
-						StreamManager.BASE_SCOPE );
+		//Please Note We should use parent scope here, for the new query should be compared to the query being executed 
+		//immediately behind it rather than the root query.
+		IBaseQueryDefinition previousQueryDefn = rdLoad.loadQueryDefn( StreamManager.ROOT_STREAM,
+						StreamManager.PARENT_SCOPE );
 	
-		if( QueryCompUtil.isIVQueryDefnEqual( rootQueryDefn, queryDefn ))
+		if( QueryCompUtil.isIVQueryDefnEqual( previousQueryDefn, queryDefn ))
 		{
 			return BASED_ON_PRESENTATION;
+		}
+		
+		if ( previousQueryDefn.getSorts( ) != null
+				&& previousQueryDefn.getSorts( ).size( ) > 0
+				&& ( queryDefn.getSorts( ) == null || queryDefn.getSorts( )
+						.size( ) == 0 ) )
+		{
+			return BASED_ON_DATASET;
 		}
 		
 		if( !queryDefn.usesDetails( ) )
@@ -331,14 +341,15 @@ class PreparedQueryUtil
 		if ( runningOnRS == false )
 			return BASED_ON_DATASET;
 		
-		runningOnRS = isCompatibleSubQuery( rootQueryDefn,
+		IBaseQueryDefinition qd = rdLoad.loadQueryDefn( StreamManager.ROOT_STREAM,
+				StreamManager.BASE_SCOPE );
+		
+		runningOnRS = isCompatibleSubQuery( qd,
 				queryDefn );
 
 		if ( runningOnRS == false )
 			return BASED_ON_DATASET;
-
-		IBaseQueryDefinition qd = rdLoad.loadQueryDefn( StreamManager.ROOT_STREAM,
-				StreamManager.BASE_SCOPE );
+		
 		List filters = qd.getFilters( );
 
 		if ( FilterDefnUtil.isConflictFilter( filters, queryDefn.getFilters( ) ) )
