@@ -133,7 +133,11 @@ public class AggregationCellProviderWrapper
 	public void updateAggregationCell(AggregationCellHandle cell)
 	{
 		IAggregationCellViewProvider provider = getMatchProvider(cell);
-		provider.updateView( cell );
+		if(provider != null)
+		{
+			provider.updateView( cell );
+		}
+		
 	}
 	
 	public void updateAllAggregationCells()
@@ -143,7 +147,11 @@ public class AggregationCellProviderWrapper
 		{
 			MeasureViewHandle measure = crosstab.getMeasure( i );
 			AggregationCellHandle cell = measure.getCell( );
-			updateAggregationCell(cell);
+			if(filterCellList.indexOf( cell ) < 0)
+			{
+				updateAggregationCell(cell);
+			}
+			
 			for(int j = 0; j < measure.getAggregationCount( ); j ++)
 			{				
 				cell = measure.getAggregationCell( j );
