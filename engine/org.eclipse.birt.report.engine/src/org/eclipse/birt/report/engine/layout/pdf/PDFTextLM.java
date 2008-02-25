@@ -33,7 +33,6 @@ import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontHandler;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.layout.pdf.hyphen.Hyphenation;
-import org.eclipse.birt.report.engine.layout.pdf.hyphen.ICUWordRecognizer;
 import org.eclipse.birt.report.engine.layout.pdf.hyphen.IWordRecognizer;
 import org.eclipse.birt.report.engine.layout.pdf.hyphen.Word;
 import org.eclipse.birt.report.engine.layout.pdf.text.Chunk;
@@ -343,7 +342,7 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 					currentPos = 0;
 					vestigeIndex = -1;
 					vestigeLength = 0;
-					wr = new ICUWordRecognizer(chunk.getText( ), context.getLocale( ));
+					wr = new WordRecognizerWrapper(chunk.getText( ), context.getLocale( ));
 				}
 				else
 				{
@@ -370,13 +369,13 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 
 			if (-1 == vestigeIndex)
 			{
-				currentWord = wr.getNextWord();
+				currentWord = wr.getNextWord( );
 				// The first word of the chunk is empty, so it means this chunk is a blank one. 
 				if (null == currentWord)
 				{
 					return;
 				}
-				str = currentWord.getValue();
+				str = currentWord.getValue( );
 				areaStartPos = chunk.getOffset() + currentWord.getStart();	
 			}
 			else
