@@ -136,12 +136,10 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 				action = action.replace( reg, "$1=" + this.__printFormat );
 			}
 			
-			// Delete page and pagerange settings in url if existed
-			reg = new RegExp( "([&|?]{1})" + Constants.PARAM_PAGE + "\s*=[^&|^#]*", "gi" );
-			action = action.replace( reg, "$1");
-			
-			reg = new RegExp( "([&|?]{1})" + Constants.PARAM_PAGERANGE + "\s*=[^&|^#]*", "gi" );
-			action = action.replace( reg, "$1");				
+			// Delete page, pagerange and parameterpage settings in url if existed
+			action = birtUtility.deleteURLParameter( action, Constants.PARAM_PAGE );
+			action = birtUtility.deleteURLParameter( action, Constants.PARAM_PAGERANGE );
+			action = birtUtility.deleteURLParameter( action, Constants.PARAM_PARAMETERPAGE );
 			
 			if( $( 'printPageCurrent' ).checked )
 			{

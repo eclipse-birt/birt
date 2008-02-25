@@ -220,23 +220,20 @@ BirtUtility.prototype =
 	},
 	
 	/**
-	 * Modify the URL to change to the new report identified by newReportPath. The original locale will be kept.
-	 * @param newReportPath - the path of the report to be opened, e.g., /iportal/bizRD/report1.webrptdesign
+	 * Deletes a parameter specified in the given URL.
+	 * If for example the given URL is the following http://localhost/myUrl?param1=2&param2=3&param3=4
+	 * and the value of parameterName is "param2", the resulting URL will be:
+	 * http://localhost/myUrl?param1=2&param3=4
+	 * @param url url to process
+	 * @param parameterName parameter to remove
+	 * @return processed url
 	 */
-	changeReport: function ( newReportPath )
+	deleteURLParameter : function(url, parameterName )
 	{
-		var url = document.location.href;
-		var parameterIndex = url.indexOf( "?" );
-	
-		if ( parameterIndex >= 0 )
-		{
-			localeString = this.getURLParameter( url, "__locale" );
-			iPortalIDString = this.getURLParameter( url, "iPortalID" );
-			url = url.substring( 0, parameterIndex ) + "?__report=" + newReportPath + localeString + iPortalIDString;
-			window.location = url;
-		}	
+		var reg = new RegExp( "([&|?]{1})" + escape(encodeURIComponent(parameterName)) + "\s*=[^&|^#]*", "gi" );
+		return url.replace( reg, "$1");		
 	},
-
+	
 	/**
 	 * Insert a string into the cursor position of a textarea.<b> 
 	 * textarea: DOM element of textarea to be inserted.

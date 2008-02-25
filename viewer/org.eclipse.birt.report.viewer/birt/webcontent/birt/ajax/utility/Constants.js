@@ -49,6 +49,7 @@ var Constants = {
 	PARAM_OVERWRITE : '__overwrite',
 	PARAM_PAGE : '__page',
 	PARAM_PAGERANGE : '__pagerange',
+	PARAM_PARAMETERPAGE : '__parameterpage',
 	PARAM_BOOKMARK : '__bookmark',
 	PARAM_SVG : '__svg',
 	PARAM_TASKID : '__taskid',
