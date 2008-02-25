@@ -666,6 +666,9 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		bo = bo.scaledInstance( dPointToPixel ); // CONVERSION
 		dSeriesThickness = ( ids.getDpiResolution( ) / 72d )
 				* cwa.getSeriesThickness( );
+		
+		// Fix Bugzilla#219292 render 2d+ only if plot is visible
+		dSeriesThickness = cwa.getPlot( ).getClientArea( ).isVisible( ) ? dSeriesThickness : 0;
 
 		// MAINTAIN IN LOCAL VARIABLES FOR PERFORMANCE/CONVENIENCE
 		double dX = bo.getLeft( ) + insCA.getLeft( );
