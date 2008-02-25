@@ -101,7 +101,7 @@ public class Regression_148761 extends BaseTestCase
 		// copy/pasted.
 
 		ReportDesignHandle newDesignHandle = session.createDesign( );
-		newDesignHandle.getBody( ).paste( text2.copy( ) );
+		newDesignHandle.getBody( ).paste( text2.copy( ).getHandle( design ) );
 
 		TextItemHandle pastedText = (TextItemHandle) newDesignHandle
 				.findElement( "t1" ); //$NON-NLS-1$
