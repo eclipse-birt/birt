@@ -47,6 +47,11 @@ public class ScriptContext
 	 * The JavaScript scope used for script execution
 	 */
 	protected Scriptable scope;
+	
+	/**
+	 * a cache storing ScriptExpression
+	 */
+	protected HashMap compiledScripts = new HashMap( );
 
 	/**
 	 * for BIRT globel varible "params"
@@ -110,6 +115,7 @@ public class ScriptContext
 		{
 			Context.exit( );
 			context = null;
+			compiledScripts.clear( );
 		}
 	}
 
@@ -200,7 +206,13 @@ public class ScriptContext
 	{
 		if ( null != source && source.length( ) > 0 )
 		{
-			ScriptExpression scriptExpression = new ScriptExpression( source );
+			ScriptExpression scriptExpression = (ScriptExpression) compiledScripts
+					.get( source );
+			if ( scriptExpression == null )
+			{
+				scriptExpression = new ScriptExpression( source );
+				compiledScripts.put( source, scriptExpression );
+			}
 			return eval( scriptExpression );
 		}
 		return null;
@@ -217,7 +229,6 @@ public class ScriptContext
 			return null;
 		}
 
-		//FIXME: use cached expr
 		Script script = expr.getCompiledScript( );
 		if ( script == null )
 		{
