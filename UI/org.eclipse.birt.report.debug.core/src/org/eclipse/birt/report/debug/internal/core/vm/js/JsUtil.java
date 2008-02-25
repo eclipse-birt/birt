@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.debug.internal.core.vm.js;
 
 import org.mozilla.javascript.Context;
-import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.debug.DebugFrame;
 import org.mozilla.javascript.debug.DebuggableScript;
 import org.mozilla.javascript.debug.Debugger;
@@ -54,9 +53,7 @@ class BreakableSourceChecker implements Debugger
 			cx.setGeneratingDebug( true );
 			cx.setOptimizationLevel( -1 );
 
-			cx.evaluateString( new ImporterTopLevel( ),
-					source,
-					"<check>", 1, null ); //$NON-NLS-1$
+			cx.compileString( source, "<check>", 1, null ); //$NON-NLS-1$
 
 			return checker.breakable;
 		}
