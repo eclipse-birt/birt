@@ -1167,10 +1167,19 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		DataSessionContext dsc = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
 				getReportDesignHandle( ) );
 
-		Map appContext = new HashMap( );
-		appContext.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT,
-				new Integer( maxRow ) );
-		dsc.setAppContext( appContext );
+		// Bugzilla #210225.
+		// If filter is set on report item handle of chart, here should not use
+		// data cache mode and get all valid data firstly, then set row limit on
+		// query(QueryDefinition.setMaxRows) to get required rows.
+		List filters = itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP )
+				.getListValue( );
+		if ( filters == null || filters.size( ) == 0 )
+		{
+			Map appContext = new HashMap( );
+			appContext.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT,
+					new Integer( maxRow ) );
+			dsc.setAppContext( appContext );
+		}
 
 		DataRequestSession session = DataRequestSession.newSession( dsc );
 		return session;
