@@ -51,18 +51,20 @@ public class Regression_121352 extends BaseTestCase
 	{
 		super.setUp( );
 		removeResource( );
-		
+
 		// retrieve two input files from tests-model.jar file
-		copyInputToFile ( INPUT_FOLDER + "/" + filename );
-		copyGoldenToFile ( GOLDEN_FOLDER + "/" + goldenfile );
+		copyInputToFile( INPUT_FOLDER + "/" + filename );
+		copyGoldenToFile( GOLDEN_FOLDER + "/" + goldenfile );
 	}
+
 	/**
 	 * @throws Exception
 	 */
 	public void test_regression_121352( ) throws Exception
 	{
 		openDesign( filename );
-		List bindingList = designHandle.getListProperty( Module.PROPERTY_BINDINGS_PROP );
+		List bindingList = designHandle
+				.getListProperty( Module.PROPERTY_BINDINGS_PROP );
 		assertEquals( 2, bindingList.size( ) );
 
 		// test list and member values
@@ -77,7 +79,6 @@ public class Regression_121352 extends BaseTestCase
 		assertEquals( 22, binding.getID( ).longValue( ) );
 		assertEquals( "params[p2]", binding.getValue( ) ); //$NON-NLS-1$
 
-		
 		// get the element based on the id and test getPropertyBinding method
 
 		DesignElementHandle tempHandle = designHandle.getElementByID( 23 );
@@ -102,11 +103,11 @@ public class Regression_121352 extends BaseTestCase
 		copyHandle = copy.handle( );
 		assertNotNull( copyHandle );
 
-		//makeOutputDir();
-		//saveAs( copyHandle, outfile );
-		//assertTrue( compareTextFile( goldenfile, outfile) );
+		// makeOutputDir();
+		// saveAs( copyHandle, outfile );
+		// assertTrue( compareTextFile( goldenfile, outfile) );
 
-		String TempFile=this.genOutputFile(outfile);
+		String TempFile = this.genOutputFile( outfile );
 		designHandle.saveAs( TempFile );
 		assertTrue( compareTextFile( goldenfile, outfile ) );
 	}

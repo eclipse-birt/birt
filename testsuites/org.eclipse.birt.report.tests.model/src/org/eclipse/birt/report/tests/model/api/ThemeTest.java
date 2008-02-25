@@ -7,17 +7,15 @@ import junit.framework.TestSuite;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.LabelHandle;
-import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
-import org.eclipse.birt.report.model.elements.Library;
-import org.eclipse.birt.report.model.elements.Style;
-import org.eclipse.birt.report.model.elements.Theme;
-import org.eclipse.birt.report.model.metadata.ColorPropertyType;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.util.ElementExportUtil;
+import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.elements.Style;
+import org.eclipse.birt.report.model.metadata.ColorPropertyType;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
@@ -307,12 +305,12 @@ public class ThemeTest extends BaseTestCase
 		ThemeHandle theme1 = libraryHandle.findTheme( "theme1" );
 		assertNotNull( defaulttheme );
 		assertNotNull( theme1 );
-		ThemeHandle defaultcopy = ( (Theme) defaulttheme.copy( ) ).handle( libraryHandle
+		ThemeHandle defaultcopy = (ThemeHandle) defaulttheme.copy( ).getHandle( libraryHandle
 				.getModule( ) );
-		ThemeHandle defaultcopy1 = ( (Theme) defaulttheme.copy( ) ).handle( libraryHandle
+		ThemeHandle defaultcopy1 = (ThemeHandle) defaulttheme.copy( ).getHandle( libraryHandle
 				.getModule( ) );
-		ThemeHandle theme1copy = ( (Theme) theme1.copy( ) ).handle( libraryHandle.getModule( ) );
-		ThemeHandle theme1copy1 = ( (Theme) theme1.copy( ) ).handle( libraryHandle.getModule( ) );
+		ThemeHandle theme1copy = (ThemeHandle) theme1.copy( ).getHandle( libraryHandle.getModule( ) );
+		ThemeHandle theme1copy1 = (ThemeHandle) theme1.copy( ).getHandle( libraryHandle.getModule( ) );
 
 		try
 		{

@@ -145,28 +145,26 @@ public class SlotHandleTest extends BaseTestCase
 
 		SessionHandle sessionHandle = DesignEngine.newSession( ULocale.ENGLISH );
 		ReportDesignHandle newDesignHandle = sessionHandle.createDesign( );
-		ReportDesign newDesign = newDesignHandle.getDesign( );
+		ReportDesign newDesign = (ReportDesign) newDesignHandle.getModule( );
 
-		OdaDataSet newDataSet = (OdaDataSet) dataset.copy( );
-		List errors = newDesignHandle.getDataSets( ).paste(
-				newDataSet.getHandle( newDesignHandle.getDesign( ) ) );
+		OdaDataSetHandle newDataSet = (OdaDataSetHandle) dataset.copy( )
+				.getHandle( newDesign );
+		List errors = newDesignHandle.getDataSets( ).paste( newDataSet );
 		assertEquals( 1, errors.size( ) );
-		assertEquals( SemanticError.DESIGN_EXCEPTION_INVALID_ELEMENT_REF, ( (ErrorDetail) errors
-				.get( 0 ) ).getErrorCode( ) );
+		assertEquals( SemanticError.DESIGN_EXCEPTION_INVALID_ELEMENT_REF,
+				( (ErrorDetail) errors.get( 0 ) ).getErrorCode( ) );
 
-		assertNull( ( (OdaDataSetHandle) newDataSet
-				.getHandle( newDesignHandle.getDesign( ) ) ).getDataSource( ) );
+		assertNull( newDataSet.getDataSource( ) );
 
 		// if copy/paste to the same report, no errors.
 
-		newDataSet = (OdaDataSet) dataset.copy( );
-		designHandle.rename( newDataSet.getHandle( design ) );
+		newDataSet = (OdaDataSetHandle) dataset.copy( ).getHandle( design );
+		designHandle.rename( newDataSet );
 		errors = designHandle.getDataSets( ).paste(
-				newDataSet.getHandle( design ) );
+				newDataSet );
 
 		assertEquals( 0, errors.size( ) );
-		assertNotNull( ( (OdaDataSetHandle) newDataSet
-				.getHandle( newDesignHandle.getDesign( ) ) ).getDataSource( ) );
+		assertNotNull( newDataSet.getDataSource( ) );
 
 		Iterator iter = designHandle.findDataSource( "DataSource1" ) //$NON-NLS-1$
 				.clientsIterator( );
@@ -180,25 +178,23 @@ public class SlotHandleTest extends BaseTestCase
 
 		// test on copy/paste for a styledElement and Style
 
-		TextItem newText = (TextItem) text.copy( );
-		errors = newDesignHandle.getBody( ).paste(
-				newText.getHandle( newDesign ) );
+		TextItemHandle newText = (TextItemHandle) text.copy( ).getHandle(
+				newDesign );
+		errors = newDesignHandle.getBody( ).paste( newText );
 		assertEquals( 1, errors.size( ) );
 		assertEquals( StyleException.DESIGN_EXCEPTION_NOT_FOUND,
 				( (ErrorDetail) errors.get( 0 ) ).getErrorCode( ) );
-		assertEquals( IColorConstants.BLACK, ( (TextItemHandle) newText
-				.getHandle( newDesignHandle.getDesign( ) ) )
+		assertEquals( IColorConstants.BLACK, newText
 				.getProperty( Style.COLOR_PROP ) );
 
 		//if copy/paste to the same report, no errors.
 
-		newText = (TextItem) text.copy( );
-		designHandle.rename( newText.getHandle( design ) );
-		errors = designHandle.getBody( ).paste( newText.getHandle( design ) );
+		newText = (TextItemHandle) text.copy( ).getHandle( design );
+		designHandle.rename( newText );
+		errors = designHandle.getBody( ).paste( newText );
 		assertEquals( 0, errors.size( ) );
 
-		assertEquals( IColorConstants.AQUA, ( (TextItemHandle) newText
-				.getHandle( newDesignHandle.getDesign( ) ) )
+		assertEquals( IColorConstants.AQUA, newText
 				.getProperty( Style.COLOR_PROP ) );
 
 		iter = style.clientsIterator( );

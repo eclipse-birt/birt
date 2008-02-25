@@ -50,7 +50,7 @@ public class Regression_135508 extends BaseTestCase
 {
 
 	/**
-	 * @throws SemanticException 
+	 * @throws SemanticException
 	 * 
 	 */
 
@@ -64,23 +64,24 @@ public class Regression_135508 extends BaseTestCase
 		DataSourceHandle ds = factory.newOdaDataSource( "dsource", null );//$NON-NLS-1$
 		ds.setDisplayName( "TestDisplayName" ); //$NON-NLS-1$
 		ds.setDisplayNameKey( "TestDisplayNameKey" ); //$NON-NLS-1$
-		
+
 		designHandle.getDataSources( ).add( ds );
-		
+
 		// copy and added to the tree.
-		
+
 		DataSourceHandle original = designHandle.findDataSource( "dsource" ); //$NON-NLS-1$
-		DataSourceHandle copy = (DataSourceHandle)original.copy( ).getHandle( designHandle.getModule( ) );
+		DataSourceHandle copy = (DataSourceHandle) original.copy( ).getHandle(
+				designHandle.getModule( ) );
 		designHandle.rename( copy );
 		designHandle.getDataSources( ).add( copy );
-	
-		
+
 		// ensure that name, display name and display label won't duplicate.
-		
-		DataSourceHandle secondDS = (DataSourceHandle)designHandle.getDataSources( ).get( 1 );
-		assertEquals( null, secondDS.getDisplayName( ) );
-		assertEquals( null, secondDS.getDisplayNameKey( ) );
+
+		DataSourceHandle secondDS = (DataSourceHandle) designHandle
+				.getDataSources( ).get( 1 );
+		assertEquals( "TestDisplayName", secondDS.getDisplayName( ) );
+		assertEquals( "TestDisplayNameKey", secondDS.getDisplayNameKey( ) );
 		assertEquals( "dsource1", secondDS.getName( ) ); //$NON-NLS-1$
-		assertEquals( "dsource1", secondDS.getDisplayLabel( ) ); //$NON-NLS-1$
+		assertEquals( "TestDisplayName", secondDS.getDisplayLabel( ) ); //$NON-NLS-1$
 	}
 }

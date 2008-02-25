@@ -19,8 +19,6 @@ import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
-import org.eclipse.birt.report.model.elements.Label;
-import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
@@ -55,14 +53,14 @@ public class Regression_116396 extends BaseTestCase
 		libHandle.getComponents( ).add( table );
 		libHandle.getComponents( ).add( label );
 		
-		TableItem copiedTable = (TableItem)libHandle.findElement( "table1" ).copy( ); //$NON-NLS-1$
-		Label copiedLabel = (Label)libHandle.findElement( "label1" ).copy( ); //$NON-NLS-1$
+		TableHandle copiedTable = (TableHandle)table.copy( ).getHandle( libHandle.getModule( ) ); //$NON-NLS-1$
+		LabelHandle copiedLabel = (LabelHandle)label.copy( ).getHandle( libHandle.getModule( ) ); //$NON-NLS-1$
 		
 		
 		// paste the copied one.
 		
-		DesignElementHandle copiedTableHandle = copiedTable.getHandle( libHandle.getModule( ) );
-		DesignElementHandle copiedLabelHandle = copiedLabel.getHandle( libHandle.getModule( ) );
+		DesignElementHandle copiedTableHandle = copiedTable;
+		DesignElementHandle copiedLabelHandle = copiedLabel;
 		
 		copiedTableHandle.setName( "copiedTable" ); //$NON-NLS-1$
 		copiedLabelHandle.setName( "copiedLabel" ); //$NON-NLS-1$
