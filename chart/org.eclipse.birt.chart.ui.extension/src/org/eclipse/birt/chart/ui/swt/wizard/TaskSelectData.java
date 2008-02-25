@@ -42,6 +42,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.data.SelectDataDynamicArea;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewUtil;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.ChartUtil;
@@ -396,6 +397,25 @@ public class TaskSelectData extends SimpleTask
 				// widgets info.
 				DataDefinitionTextManager.getInstance( ).refreshAll( );
 			}
+		}
+		if ( event.type == IChartDataSheet.EVENT_QUERY )
+		{
+			if ( ChartUIConstants.QUERY_CATEGORY.equals( event.data ) )
+			{
+				getCustomizeUI( ).refreshBottomBindingArea( );
+
+			}
+			else if ( ChartUIConstants.QUERY_OPTIONAL.equals( event.data ) )
+			{
+				getCustomizeUI( ).refreshRightBindingArea( );
+
+			}
+			else if ( ChartUIConstants.QUERY_VALUE.equals( event.data ) )
+			{
+				getCustomizeUI( ).refreshLeftBindingArea( );
+			}
+
+			DataDefinitionTextManager.getInstance( ).refreshAll( );
 		}
 		else if ( event.type == SWT.Resize )
 		{

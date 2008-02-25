@@ -553,8 +553,16 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 							getExpression( getInputControl( ) ),
 							context.getExtendedItem( ),
 							sTitle );
-			setUIText( getInputControl( ), sExpr );
+			boolean isSuccess = setUIText( getInputControl( ), sExpr );
 			query.setDefinition( sExpr );
+			
+			if ( !isSuccess )
+			{
+				Event event = new Event();
+				event.type = IChartDataSheet.EVENT_QUERY;
+				event.data = queryType;
+				context.getDataSheet( ).notifyListeners( event );
+			}
 		}
 		catch ( ChartException e1 )
 		{
@@ -738,8 +746,13 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		return ChartUIUtil.getActualExpression( control );
 	}
 
-	private void setUIText( Control control, String expression )
+	private boolean setUIText( Control control, String expression )
 	{
+		if ( control == null || control.isDisposed( ) )
+		{
+			return false;
+		}
+		
 		if ( control instanceof Text )
 		{
 			( (Text) control ).setText( expression );
@@ -755,6 +768,8 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 				( (Combo) control ).setText( expression );
 			}
 		}
+		
+		return true;
 	}
 
 	/**
