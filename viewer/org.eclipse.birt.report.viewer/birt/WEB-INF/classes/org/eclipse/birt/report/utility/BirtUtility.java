@@ -1225,4 +1225,33 @@ public class BirtUtility
 		{
 		}
 	}
+
+	/**
+	 * Returns the application classloader
+	 * 
+	 * @return ClassLoader
+	 */
+	public static ClassLoader getAppClassLoader( )
+	{
+		ClassLoader classLoader = null;
+
+		try
+		{
+			Class clz = Class
+					.forName( "org.eclipse.birt.report.viewer.utilities.WebViewer" ); //$NON-NLS-1$
+			if ( clz != null )
+			{
+				Method mt = clz.getMethod( "getAppClassLoader", new Class[]{//$NON-NLS-1$
+						} );
+				if ( mt != null )
+					classLoader = (ClassLoader) mt
+							.invoke( null, new Object[]{} );
+			}
+		}
+		catch ( Exception e )
+		{
+		}
+
+		return classLoader;
+	}
 }

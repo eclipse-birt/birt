@@ -13,6 +13,7 @@ package org.eclipse.birt.report.viewer.utilities;
 
 import java.awt.Toolkit;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Locale;
 import java.util.Map;
@@ -151,6 +152,11 @@ public class WebViewer
 	 * Property to indicate whether it is a report debug mode
 	 */
 	public final static String REPORT_DEBUT_MODE = "report_debug_mode"; //$NON-NLS-1$
+
+	/**
+	 * ClassLoader to reload workspace class
+	 */
+	private static ReloadableClassLoader reloadableClassLoader = null;
 
 	/**
 	 * locale mapping. Save some time.
@@ -403,7 +409,7 @@ public class WebViewer
 	/**
 	 * Start web application.
 	 */
-	private static void startWebApp( )
+	private synchronized static void startWebApp( )
 	{
 		try
 		{
@@ -412,8 +418,23 @@ public class WebViewer
 			String debugMode = System.getProperty( REPORT_DEBUT_MODE );
 			if ( debugMode == null )
 			{
-				// initialize workspace classpath
-				ViewerClassPathHelper.setWorkspaceClassPath( );
+				// get workspace classpath
+				String classpaths = ViewerClassPathHelper
+						.getWorkspaceClassPath( );
+
+				URL[] urls = ViewerClassPathHelper.parseURLs( classpaths );
+				if ( reloadableClassLoader == null )
+				{
+					// create ReloadableClassLoader
+					reloadableClassLoader = new ReloadableClassLoader( urls,
+							WebViewer.class.getClassLoader( ) );
+				}
+				else
+				{
+					// reload class
+					reloadableClassLoader.setUrls( urls );
+					reloadableClassLoader.reload( );
+				}
 			}
 
 			WebappAccessor.start( ViewerPlugin.WEBAPP_CONTEXT );
@@ -640,5 +661,15 @@ public class WebViewer
 		{
 			// Do nothing
 		}
+	}
+
+	/**
+	 * Returns the application classloader
+	 * 
+	 * @return
+	 */
+	public static ClassLoader getAppClassLoader( )
+	{
+		return reloadableClassLoader;
 	}
 }

@@ -11,10 +11,12 @@
 
 package org.eclipse.birt.report.viewer.utilities;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.Vector;
@@ -29,13 +31,15 @@ import org.osgi.framework.Bundle;
 public class ViewerClassPathHelper
 {
 
-	private static final String WORKSPACE_CLASSPATH_KEY = "workspace.projectclasspath"; //$NON-NLS-1$
+	public static final String WORKSPACE_CLASSPATH_KEY = "workspace.projectclasspath"; //$NON-NLS-1$
 	private static final String FINDER_BUNDLE_NAME = "org.eclipse.birt.report.debug.ui"; //$NON-NLS-1$
 	private static final String FINDER_CLASSNAME = "org.eclipse.birt.report.debug.internal.ui.launcher.util.WorkspaceClassPathFinder"; //$NON-NLS-1$
 
 	static protected boolean inDevelopmentMode = false;
 	static protected String[] devDefaultClasspath;
 	static protected Properties devProperties = null;
+
+	public static final String PROPERTYSEPARATOR = File.pathSeparator;
 
 	static
 	{
@@ -131,9 +135,11 @@ public class ViewerClassPathHelper
 	}
 
 	/**
-	 * Set workspace classpath
+	 * Gets the workspace classpath
+	 * 
+	 * @return
 	 */
-	public static void setWorkspaceClassPath( )
+	public static String getWorkspaceClassPath( )
 	{
 		try
 		{
@@ -147,7 +153,7 @@ public class ViewerClassPathHelper
 			}
 
 			if ( bundle == null )
-				return;
+				return null;
 
 			Class clz = bundle.loadClass( FINDER_CLASSNAME );
 
@@ -156,16 +162,45 @@ public class ViewerClassPathHelper
 					.newInstance( );
 			WorkspaceClasspathManager.registerClassPathFinder( finder );
 
-			// Set the classpath property
-			String projectClassPaths = WorkspaceClasspathManager.getClassPath( );
-			if ( projectClassPaths == null )
-				projectClassPaths = ""; //$NON-NLS-1$
-
-			System.setProperty( WORKSPACE_CLASSPATH_KEY, projectClassPaths );
+			// return the classpath property
+			return WorkspaceClasspathManager.getClassPath( );
 		}
 		catch ( Exception e )
 		{
 			e.printStackTrace( );
 		}
+
+		return null;
+	}
+
+	/**
+	 * parse the URLs by input path string
+	 * 
+	 * @param paths
+	 * @return
+	 */
+	public static URL[] parseURLs( String paths )
+	{
+		ArrayList urls = new ArrayList( );
+		String[] classpaths = paths.split( PROPERTYSEPARATOR, -1 );
+		if ( classpaths != null && classpaths.length != 0 )
+		{
+			for ( int j = 0; j < classpaths.length; j++ )
+			{
+				File file = new File( classpaths[j] );
+				try
+				{
+					urls.add( file.toURL( ) );
+				}
+				catch ( MalformedURLException e )
+				{
+					e.printStackTrace( );
+				}
+			}
+		}
+		
+		URL[] oUrls = new URL[urls.size( )];
+		urls.toArray( oUrls );
+		return oUrls;
 	}
 }

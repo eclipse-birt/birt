@@ -180,9 +180,11 @@ public class ReportEngineService
 				scriptlibClassPath );
 
 		// Set appcontext classloader to Engine config
+		ClassLoader appClassLoader = BirtUtility.getAppClassLoader( );
+		if ( appClassLoader == null )
+			appClassLoader = ReportEngineService.class.getClassLoader( );
 		config.getAppContext( ).put(
-				EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
-				ReportEngineService.class.getClassLoader( ) );
+				EngineConstants.APPCONTEXT_CLASSLOADER_KEY, appClassLoader );
 
 		config.setEngineHome( "" ); //$NON-NLS-1$
 
