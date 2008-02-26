@@ -182,23 +182,26 @@ public class ViewerClassPathHelper
 	public static URL[] parseURLs( String paths )
 	{
 		ArrayList urls = new ArrayList( );
-		String[] classpaths = paths.split( PROPERTYSEPARATOR, -1 );
-		if ( classpaths != null && classpaths.length != 0 )
+		if ( paths != null )
 		{
-			for ( int j = 0; j < classpaths.length; j++ )
+			String[] classpaths = paths.split( PROPERTYSEPARATOR, -1 );
+			if ( classpaths != null && classpaths.length != 0 )
 			{
-				File file = new File( classpaths[j] );
-				try
+				for ( int j = 0; j < classpaths.length; j++ )
 				{
-					urls.add( file.toURL( ) );
-				}
-				catch ( MalformedURLException e )
-				{
-					e.printStackTrace( );
+					File file = new File( classpaths[j] );
+					try
+					{
+						urls.add( file.toURL( ) );
+					}
+					catch ( MalformedURLException e )
+					{
+						e.printStackTrace( );
+					}
 				}
 			}
 		}
-		
+
 		URL[] oUrls = new URL[urls.size( )];
 		urls.toArray( oUrls );
 		return oUrls;
