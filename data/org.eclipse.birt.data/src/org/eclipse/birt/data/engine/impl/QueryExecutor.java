@@ -1000,7 +1000,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 	protected Collection resolveDataSetParameters( boolean evaluateValue )
 			throws DataException
 	{
-		return new ParameterUtil( this.tabularOuterResults,
+		return new ParameterUtil( this.tabularOuterResults == null ? null:this.tabularOuterResults.getQueryScope( ),
 				this.getDataSet( ),
 				(IQueryDefinition) this.baseQueryDefn,
 				this.getQueryScope( ) ).resolveDataSetParameters( evaluateValue );

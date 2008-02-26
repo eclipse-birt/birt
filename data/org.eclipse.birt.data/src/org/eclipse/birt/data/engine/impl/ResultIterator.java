@@ -59,6 +59,7 @@ import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
+import org.eclipse.birt.data.engine.script.DataExceptionMocker;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -580,6 +581,8 @@ public class ResultIterator implements IResultIterator
 		if ( exprValue instanceof BirtException )
 			throw (BirtException) exprValue;
 
+		if ( exprValue instanceof DataExceptionMocker )
+			throw ((DataExceptionMocker)exprValue).getCause( );
 		return exprValue;
 	}
 	

@@ -238,7 +238,8 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			Collection paramHints = null;
 			if ( getDataSetCacheManager()
 					.needsToCache( this.dataSet.getDesign( ), appContext ))
-				paramHints = new ParameterUtil( null,
+				paramHints = new ParameterUtil( this.tabularOuterResults == null
+						? null : this.tabularOuterResults.getQueryScope( ),
 						this.dataSet,
 						self.queryDefn,
 						this.getQueryScope( ) ).resolveDataSetParameters( true );

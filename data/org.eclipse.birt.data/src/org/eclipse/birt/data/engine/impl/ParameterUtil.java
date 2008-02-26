@@ -44,7 +44,7 @@ import com.ibm.icu.text.SimpleDateFormat;
  */
 class ParameterUtil
 {
-	private IQueryService outerResults;
+	private Scriptable outerScope;
 	private DataSetRuntime dsRT;
 	private IQueryDefinition queryDefn;
 	private Scriptable scope;
@@ -57,16 +57,16 @@ class ParameterUtil
 	 * @param queryDefn
 	 * @param scope
 	 */
-	ParameterUtil( IQueryService outerResults, DataSetRuntime dsRT,
+	ParameterUtil( Scriptable outerScope, DataSetRuntime dsRT,
 			IQueryDefinition queryDefn, Scriptable scope )
 	{
 		Object[] params = {
-				outerResults, dsRT, queryDefn, scope
+				outerScope, dsRT, queryDefn, scope
 		};
 		logger.entering( ParameterUtil.class.getName( ),
 				"ParameterUtil", //$NON-NLS-1$
 				params );
-		this.outerResults = outerResults;
+		this.outerScope = outerScope;
 		this.dsRT = dsRT;
 		this.queryDefn = queryDefn;
 		this.scope = scope;
@@ -306,8 +306,8 @@ class ParameterUtil
 		try
 		{
 			evaluateResult = ExprEvaluateUtil.evaluateRawExpression2( iParamBind.getExpr( ),
-					outerResults == null ? evaluateScope
-							: outerResults.getQueryScope( ) );
+					this.outerScope == null ? evaluateScope
+							: this.outerScope );
 		}
 		catch ( BirtException e )
 		{
