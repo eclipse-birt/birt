@@ -182,7 +182,7 @@ public class ViewerClassPathHelper
 	public static URL[] parseURLs( String paths )
 	{
 		ArrayList urls = new ArrayList( );
-		if ( paths != null )
+		if ( paths != null && paths.trim( ).length( ) > 0 )
 		{
 			String[] classpaths = paths.split( PROPERTYSEPARATOR, -1 );
 			if ( classpaths != null && classpaths.length != 0 )
