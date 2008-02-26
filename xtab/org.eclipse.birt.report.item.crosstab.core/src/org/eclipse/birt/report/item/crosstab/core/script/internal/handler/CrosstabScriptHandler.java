@@ -298,7 +298,7 @@ public final class CrosstabScriptHandler
 		try
 		{
 			logger.log( Level.INFO,
-					Messages.getString( "Info.try.load.crosstab.java.handler" ) ); //$NON-NLS-1$
+					Messages.getString( "CrosstabScriptHandler.info.try.load.crosstab.java.handler" ) ); //$NON-NLS-1$
 
 			Class<?> handlerClass = null;
 
@@ -334,13 +334,13 @@ public final class CrosstabScriptHandler
 				}
 
 				logger.log( Level.INFO,
-						Messages.getString( "Info.crosstab.java.handler.loaded", //$NON-NLS-1$
+						Messages.getString( "CrosstabScriptHandler.info.crosstab.java.handler.loaded", //$NON-NLS-1$
 								handlerClass ) );
 			}
 			else
 			{
 				logger.log( Level.WARNING,
-						Messages.getString( "Info.invalid.crosstab.java.handler", //$NON-NLS-1$
+						Messages.getString( "CrosstabScriptHandler.info.invalid.crosstab.java.handler", //$NON-NLS-1$
 								handlerClass ) );
 			}
 		}
@@ -350,7 +350,7 @@ public final class CrosstabScriptHandler
 			javahandler = null;
 
 			logger.log( Level.INFO,
-					Messages.getString( "Info.try.register.crosstab.javascript.content" ) ); //$NON-NLS-1$
+					Messages.getString( "CrosstabScriptHandler.info.try.register.crosstab.javascript.content" ) ); //$NON-NLS-1$
 
 			final Context cx = Context.enter( );
 			try
@@ -360,7 +360,7 @@ public final class CrosstabScriptHandler
 						sScriptName == null ? "<cmd>" : sScriptName, 1, null ); //$NON-NLS-1$
 
 				logger.log( Level.INFO,
-						Messages.getString( "Info.crosstab.javascript.content.registered" ) ); //$NON-NLS-1$
+						Messages.getString( "CrosstabScriptHandler.info.crosstab.javascript.content.registered" ) ); //$NON-NLS-1$
 
 				// prepare function name cache.
 				Object[] objs = scope.getIds( );
