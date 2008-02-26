@@ -88,7 +88,7 @@ plugin@org.w3c.dom.svg.source,1.1.0=GET,http://download.eclipse.org/tools/orbit/
 feature@org.apache.commons.codec=v20070920,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.apache.commons.codec.feature 
 
 feature@com.lowagie.itext=v20080225,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/com.lowagie.itext.feature
-plugin@com.lowagie.itext=v200802251,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/com.lowagie.itext
+plugin@com.lowagie.itext=v20080226,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/com.lowagie.itext
 
 feature@org.apache.derby.core=v20080128,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.apache.derby.core.feature
 plugin@org.apache.derby.core=v20080128,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.apache.derby.core
