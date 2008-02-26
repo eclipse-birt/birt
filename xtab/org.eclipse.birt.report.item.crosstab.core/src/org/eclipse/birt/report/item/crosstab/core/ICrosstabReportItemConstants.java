@@ -102,5 +102,5 @@ public interface ICrosstabReportItemConstants
 	/**
 	 * Name of the onPageBreak method
 	 */
-	String ON_PAGEBREAK_METHOD = "onPageBreak"; //$NON-NLS-1$
+	//String ON_PAGEBREAK_METHOD = "onPageBreak"; //$NON-NLS-1$
 }

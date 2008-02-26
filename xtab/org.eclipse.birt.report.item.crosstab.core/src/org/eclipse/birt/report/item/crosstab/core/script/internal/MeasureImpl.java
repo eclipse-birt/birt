@@ -21,12 +21,10 @@ import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 public class MeasureImpl implements IMeasure
 {
 
-	private MeasureViewHandle mv;
 	private MeasureHandle mh;
 
 	public MeasureImpl( MeasureViewHandle mv )
 	{
-		this.mv = mv;
 		if ( mv != null )
 		{
 			mh = mv.getCubeMeasure( );

@@ -107,7 +107,8 @@ public class CrosstabCellExecutor extends BaseCrosstabExecutor
 		DataID di = cubeRset == null ? null : new DataID( cubeRset.getID( ),
 				cubeRset.getCellIndex( ) );
 
-		InstanceID iid = new InstanceID( null, -1, di );
+		InstanceID iid = new InstanceID( null, cellHandle == null ? -1
+				: cellHandle.getModelHandle( ).getID( ), di );
 
 		content.setInstanceID( iid );
 

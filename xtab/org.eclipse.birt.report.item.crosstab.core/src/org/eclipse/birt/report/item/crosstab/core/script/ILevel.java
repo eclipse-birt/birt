@@ -13,7 +13,9 @@ package org.eclipse.birt.report.item.crosstab.core.script;
 
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement;
+import org.eclipse.birt.report.model.api.simpleapi.ISortCondition;
 
 /**
  * ILevel
@@ -27,14 +29,19 @@ public interface ILevel
 
 	List getFilterConditions( );
 
-	void removeAllFilterConditions( );
+	void removeAllFilterConditions( ) throws SemanticException;
 
-	void addFilterCondition( IFilterConditionElement filter );
+	void addFilterCondition( IFilterConditionElement filter )
+			throws SemanticException;
 
-	void removeFilterCondition( IFilterConditionElement filter );
+	void removeFilterCondition( IFilterConditionElement filter )
+			throws SemanticException;
 
-	// addSortConditions()
-	// removeAllSortConditions( )
-	// addSortCondition(ISortCondition )
-	// removeSortCondition(ISortCondition )
+	List getSortConditions( );
+
+	void removeAllSortConditions( ) throws SemanticException;
+
+	void addSortCondition( ISortCondition sort ) throws SemanticException;
+
+	void removeSortCondition( ISortCondition sort ) throws SemanticException;
 }

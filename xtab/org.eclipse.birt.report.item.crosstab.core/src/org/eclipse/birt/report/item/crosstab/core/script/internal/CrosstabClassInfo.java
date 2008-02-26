@@ -22,7 +22,7 @@ import org.eclipse.birt.report.model.api.scripts.ClassInfo;
 public class CrosstabClassInfo extends ClassInfo
 {
 
-	public CrosstabClassInfo( Class clazz )
+	public CrosstabClassInfo( Class<?> clazz )
 	{
 		super( clazz );
 	}

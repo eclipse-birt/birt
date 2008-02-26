@@ -9,10 +9,12 @@ Require-Bundle: org.eclipse.birt.data;visibility:=reexport,
  org.eclipse.birt.report.engine
 Export-Package: org.eclipse.birt.report.item.crosstab.core,
  org.eclipse.birt.report.item.crosstab.core.de,
- org.eclipse.birt.report.item.crosstab.core.i18n,
+ org.eclipse.birt.report.item.crosstab.core.de.internal,
  org.eclipse.birt.report.item.crosstab.core.re,
  org.eclipse.birt.report.item.crosstab.core.re.executor,
  org.eclipse.birt.report.item.crosstab.core.script,
+ org.eclipse.birt.report.item.crosstab.core.script.internal,
+ org.eclipse.birt.report.item.crosstab.core.script.internal.handler,
  org.eclipse.birt.report.item.crosstab.core.util
 Bundle-Vendor: Eclipse.org
-Bundle-RequiredExecutionEnvironment: J2SE-1.4
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

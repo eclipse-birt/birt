@@ -16,7 +16,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
-import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.item.crosstab.core.IAggregationCellConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
@@ -29,7 +28,6 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
-import org.eclipse.birt.report.item.crosstab.core.util.CrosstabQueryUtil;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
@@ -1202,22 +1200,4 @@ public class CrosstabModelUtil implements ICrosstabConstants
 		return false;
 	}
 
-	/**
-	 * 
-	 * @param crosstabItem
-	 * @return
-	 * @throws Exception
-	 */
-	public static ICubeQueryDefinition createBindingQuery(
-			CrosstabReportItemHandle crosstabItem ) throws Exception
-	{
-		return CrosstabQueryUtil.createCubeQuery( crosstabItem,
-				null,
-				false,
-				true,
-				true,
-				true,
-				false,
-				false );
-	}
 }

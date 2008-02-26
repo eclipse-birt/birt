@@ -23,15 +23,19 @@ public interface ICrosstabEventHandler
 
 	void onPrepareCell( ICrosstabCell cell, IReportContext reportContext );
 
-	void onCreateCrosstab( ICrosstabInstance crosstab );
+	void onCreateCrosstab( ICrosstabInstance crosstab,
+			IReportContext reportContext );
 
-	void onCreateCell( ICrosstabCellInstance cell );
+	void onCreateCell( ICrosstabCellInstance cell, IReportContext reportContext );
 
-	void onRenderCrosstab( ICrosstabInstance crosstab );
+	void onRenderCrosstab( ICrosstabInstance crosstab,
+			IReportContext reportContext );
 
-	void onRenderCell( ICrosstabCellInstance cell );
+	void onRenderCell( ICrosstabCellInstance cell, IReportContext reportContext );
 
-	void onCrosstabPageBreak( ICrosstabInstance crosstab );
-
-	void onCellPageBreak( ICrosstabCellInstance cell );
+	// void onCrosstabPageBreak( ICrosstabInstance crosstab,
+	// IReportContext reportContext );
+	//
+	// void onCellPageBreak( ICrosstabCellInstance cell,
+	// IReportContext reportContext );
 }

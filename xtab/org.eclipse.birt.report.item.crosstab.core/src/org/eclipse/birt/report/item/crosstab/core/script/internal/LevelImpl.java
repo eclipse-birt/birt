@@ -16,13 +16,17 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.item.crosstab.core.ILevelViewConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.script.ILevel;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
+import org.eclipse.birt.report.model.api.SortElementHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement;
 import org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory;
+import org.eclipse.birt.report.model.api.simpleapi.ISortCondition;
 import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
 
 /**
@@ -67,6 +71,7 @@ public class LevelImpl implements ILevel
 	}
 
 	public void addFilterCondition( IFilterConditionElement filter )
+			throws SemanticException
 	{
 		// TODO Auto-generated method stub
 
@@ -92,13 +97,53 @@ public class LevelImpl implements ILevel
 		return Collections.EMPTY_LIST;
 	}
 
-	public void removeAllFilterConditions( )
+	public void removeAllFilterConditions( ) throws SemanticException
+	{
+		lv.getModelHandle( )
+				.setProperty( ILevelViewConstants.FILTER_PROP, null );
+	}
+
+	public void removeFilterCondition( IFilterConditionElement filter )
+			throws SemanticException
 	{
 		// TODO Auto-generated method stub
 
 	}
 
-	public void removeFilterCondition( IFilterConditionElement filter )
+	public void addSortCondition( ISortCondition sort )
+			throws SemanticException
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	public List getSortConditions( )
+	{
+		List sorts = new ArrayList( );
+		ISimpleElementFactory factory = SimpleElementFactory.getInstance( );
+
+		for ( Iterator itr = lv.sortsIterator( ); itr.hasNext( ); )
+		{
+			SortElementHandle seh = (SortElementHandle) itr.next( );
+
+			sorts.add( factory.getElement( seh ) );
+		}
+
+		if ( sorts.size( ) > 0 )
+		{
+			return sorts;
+		}
+
+		return Collections.EMPTY_LIST;
+	}
+
+	public void removeAllSortConditions( ) throws SemanticException
+	{
+		lv.getModelHandle( ).setProperty( ILevelViewConstants.SORT_PROP, null );
+	}
+
+	public void removeSortCondition( ISortCondition sort )
+			throws SemanticException
 	{
 		// TODO Auto-generated method stub
 

@@ -13,19 +13,11 @@ package org.eclipse.birt.report.item.crosstab.ui.views.dialogs;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
-import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.querydefn.Binding;
-import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
-import org.eclipse.birt.report.data.adapter.api.CubeQueryUtil;
-import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IBindingMetaInfo;
@@ -41,24 +33,21 @@ import org.eclipse.birt.report.designer.ui.dialogs.SortkeyBuilder;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.item.crosstab.core.CrosstabException;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ILevelViewConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.widget.ExpressionValueCellEditor;
-import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
-import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.MemberValueHandle;
-import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.RuleHandle;
 import org.eclipse.birt.report.model.api.SortElementHandle;
@@ -67,7 +56,6 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
-import org.eclipse.birt.report.model.api.util.CubeUtil;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMemberValueModel;
 import org.eclipse.birt.report.model.elements.interfaces.ISortElementModel;
@@ -106,11 +94,11 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * 
+ * CrosstabSortKeyBuilder
  */
-
 public class CrosstabSortKeyBuilder extends SortkeyBuilder
 {
+
 	protected static final String VALUE_OF_THIS_DATA_ITEM = Messages.getString( "HighlightRuleBuilderDialog.choice.ValueOfThisDataItem" ); //$NON-NLS-1$
 
 	protected final String[] columns = new String[]{
@@ -135,7 +123,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 	protected List referencedLevelList;
 
 	protected Group group;
-	
+
 	public void setHandle( DesignElementHandle handle )
 	{
 		this.handle = handle;
@@ -191,7 +179,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			int index = getBindingIndex( input.getKey( ) );
 			if ( index != -1 )
 			{
-				textKey.setText( ExpressionUtil.createJSDataExpression( textKey.getItem( index )) );
+				textKey.setText( ExpressionUtil.createJSDataExpression( textKey.getItem( index ) ) );
 			}
 			else
 			{
@@ -235,7 +223,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		index = comboDirection.indexOf( direction );
 		CommandStack stack = SessionHandleAdapter.getInstance( )
 				.getCommandStack( );
-		stack.startTrans( title ); 
+		stack.startTrans( title );
 		try
 		{
 			if ( input == null )
@@ -243,7 +231,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 
 				SortElementHandle sortElement = DesignElementFactory.getInstance( )
 						.newSortElement( );
-				sortElement.setKey(  textKey.getText( ) );
+				sortElement.setKey( textKey.getText( ) );
 				if ( index >= 0 )
 				{
 					sortElement.setDirection( choice.getName( ) );
@@ -324,7 +312,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 				{
 					SortElementHandle sortElement = DesignElementFactory.getInstance( )
 							.newSortElement( );
-					sortElement.setKey(textKey.getText( ));
+					sortElement.setKey( textKey.getText( ) );
 					if ( index >= 0 )
 					{
 						sortElement.setDirection( choice.getName( ) );
@@ -414,7 +402,6 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		String groupLeveNames[] = (String[]) groupLevelNameList.toArray( new String[groupLevelNameList.size( )] );
 		comboGroupLevel.setItems( groupLeveNames );
 
-
 		Label labelKey = new Label( content, SWT.NONE );
 		labelKey.setText( Messages.getString( "SortkeyBuilder.DialogTitle.Label.Key" ) ); //$NON-NLS-1$
 		textKey = new Combo( content, SWT.BORDER );
@@ -422,8 +409,9 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		textKey.setLayoutData( gdata );
 		textKey.addListener( SWT.Selection, ComboKeySelection );
 		textKey.addModifyListener( new ModifyListener( ) {
+
 			public void modifyText( ModifyEvent e )
-			{			
+			{
 				updateMemberValues( );
 				updateButtons( );
 			}
@@ -444,7 +432,6 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			}
 		} );
 
-
 		Label labelDirection = new Label( content, SWT.NONE );
 		labelDirection.setText( Messages.getString( "SortkeyBuilder.DialogTitle.Label.Direction" ) ); //$NON-NLS-1$
 
@@ -459,7 +446,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		return content;
 	}
 
-	protected void editValue(Control control)
+	protected void editValue( Control control )
 	{
 		String initValue = null;
 		if ( control instanceof Text )
@@ -470,7 +457,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		{
 			initValue = ( (Combo) control ).getText( );
 		}
-			
+
 		ExpressionBuilder expressionBuilder = new ExpressionBuilder( getShell( ),
 				initValue );
 
@@ -486,21 +473,23 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 					{
 						return false;
 					}
-					
+
 					if ( ExpressionProvider.CURRENT_CUBE.equals( parentElement ) )
 					{
-						if(element instanceof PropertyHandle)
+						if ( element instanceof PropertyHandle )
 						{
 							PropertyHandle property = (PropertyHandle) element;
-							if(ICubeModel.DIMENSIONS_PROP.equals( property.getPropertyDefn( ).getName( )) )
+							if ( ICubeModel.DIMENSIONS_PROP.equals( property.getPropertyDefn( )
+									.getName( ) ) )
 							{
 								return true;
-							}else
+							}
+							else
 							{
 								return false;
 							}
-						}		
-						
+						}
+
 					}
 					return true;
 				}
@@ -523,11 +512,11 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		}
 		updateButtons( );
 	}
-	
+
 	protected Listener ComboGroupLeveModify = new Listener( ) {
 
 		public void handleEvent( Event e )
-		{			
+		{
 			updateBindings( );
 			updateMemberValues( );
 		}
@@ -538,14 +527,16 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		public void handleEvent( Event e )
 		{
 			String newValue = textKey.getText( );
-			if(newValue.length( ) > 0 && textKey.getItemCount( ) > 0 && textKey.indexOf( newValue ) != -1)
+			if ( newValue.length( ) > 0
+					&& textKey.getItemCount( ) > 0
+					&& textKey.indexOf( newValue ) != -1 )
 			{
 				String value = ExpressionUtil.createJSDataExpression( textKey.getText( ) );
 				if ( value != null )
 					newValue = value;
 				textKey.setText( newValue );
-			}			
-		
+			}
+
 			updateMemberValues( );
 			updateButtons( );
 		}
@@ -635,7 +626,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		}
 	};
 
-	//private String[] valueItems = new String[0];
+	// private String[] valueItems = new String[0];
 	private static final String dummyChoice = "dummy"; //$NON-NLS-1$
 	private IStructuredContentProvider contentProvider = new IStructuredContentProvider( ) {
 
@@ -752,7 +743,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			catch ( SemanticException e )
 			{
 				// TODO Auto-generated catch block
-				logger.log(Level.SEVERE, e.getMessage(),e);
+				logger.log( Level.SEVERE, e.getMessage( ), e );
 			}
 
 			dynamicViewer.refresh( );
@@ -770,15 +761,15 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		return true;
 	}
 
-//	private List getGroupLevelNameList( )
-//	{
-//		if ( groupLevelNameList != null || groupLevelNameList.size( ) == 0 )
-//		{
-//			return groupLevelNameList;
-//		}
-//		getLevels( );
-//		return groupLevelNameList;
-//	}
+	// private List getGroupLevelNameList( )
+	// {
+	// if ( groupLevelNameList != null || groupLevelNameList.size( ) == 0 )
+	// {
+	// return groupLevelNameList;
+	// }
+	// getLevels( );
+	// return groupLevelNameList;
+	// }
 
 	private List getLevels( )
 	{
@@ -797,7 +788,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		catch ( ExtendedElementException e )
 		{
 			// TODO Auto-generated catch block
-			logger.log(Level.SEVERE, e.getMessage(),e);
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 		if ( crossTab == null )
 		{
@@ -888,7 +879,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 
 		if ( textKey.indexOf( textKey.getText( ) ) < 0 )
 		{
-			textKey.setText( ExpressionUtil.createJSDataExpression( textKey.getItem( 0 )));
+			textKey.setText( ExpressionUtil.createJSDataExpression( textKey.getItem( 0 ) ) );
 		}
 	}
 
@@ -900,25 +891,24 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			memberValueTable.setEnabled( false );
 			return;
 		}
-		
-		
+
 		boolean enabled = false;
-		for(int i = 0; i < textKey.getItemCount( ); i ++)
+		for ( int i = 0; i < textKey.getItemCount( ); i++ )
 		{
-			
+
 			String value = textKey.getText( );
 			String tempValue = ExpressionUtil.createJSDataExpression( textKey.getItem( i ) );
-			if( value.equals( tempValue ))
+			if ( value.equals( tempValue ) )
 			{
 				enabled = true;
 			}
-		}		
-		if(enabled == false)
+		}
+		if ( enabled == false )
 		{
 			memberValueTable.setEnabled( false );
 			return;
 		}
-		
+
 		LevelViewHandle level = null;
 		if ( comboGroupLevel.getSelectionIndex( ) != -1
 				&& groupLevelList != null
@@ -933,16 +923,18 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		}
 
 		// fix bug 191080 to update Member value Label.
-		if(level.getAxisType( ) == ICrosstabConstants.COLUMN_AXIS_TYPE)
+		if ( level.getAxisType( ) == ICrosstabConstants.COLUMN_AXIS_TYPE )
 		{
 			group.setText( Messages.getString( "CrosstabSortKeyBuilder.Label.SelColumnMemberValue" ) ); //$NON-NLS-1$
-		}else
+		}
+		else
 		{
 			group.setText( Messages.getString( "CrosstabSortKeyBuilder.Label.SelRowMemberValue" ) ); //$NON-NLS-1$
 		}
-		
-		String bindingExpr = textKey.getText( ) ;
-		referencedLevelList = getReferencedLevels( level, bindingExpr );
+
+		String bindingExpr = textKey.getText( );
+		referencedLevelList = CrosstabUtil.getReferencedLevels( level,
+				bindingExpr );
 		if ( referencedLevelList == null || referencedLevelList.size( ) == 0 )
 		{
 			memberValueTable.setEnabled( false );
@@ -950,7 +942,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		}
 
 		editor.setReferencedLevelList( referencedLevelList );
-		
+
 		memberValueTable.setEnabled( true );
 		memberValueHandle = null;
 		if ( level == levelViewHandle )
@@ -969,320 +961,6 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		dynamicViewer.setInput( memList );
 	}
 
-	private List getReferencedLevels( LevelViewHandle level, String bindingExpr )
-	{
-		List retList = new ArrayList( );
-
-		if ( level.getCubeLevel( ) == null )
-		{
-			return retList;
-		}
-
-		// get targetLevel
-		DimensionHandle dimensionHandle = CrosstabAdaptUtil.getDimensionHandle( level.getCubeLevel( ) );
-		String targetLevel = ExpressionUtil.createJSDimensionExpression( dimensionHandle.getName( ),
-				level.getCubeLevel( ).getName( ) );
-
-		// get cubeQueryDefn
-		//ICubeQueryDefinition cubeQueryDefn = null;
-		//DataRequestSession session = null;
-		try
-		{
-//			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
-//			cubeQueryDefn = CrosstabUIHelper.createBindingQuery( level.getCrosstab( ) );
-//			retList = session.getCubeQueryUtil( )
-//					.getReferencedLevels( targetLevel,
-//							bindingExpr,
-//							cubeQueryDefn );
-			CrosstabReportItemHandle crosstab = level.getCrosstab( );
-			List bindings = getQueryBindings( crosstab );
-			List rowExpList = getRowColExpressionList( crosstab, ICrosstabConstants.ROW_AXIS_TYPE);
-			List colExpList = getRowColExpressionList( crosstab, ICrosstabConstants.COLUMN_AXIS_TYPE);
-			retList = CubeQueryUtil.getReferencedLevels( targetLevel,
-					bindingExpr,
-					bindings,
-					rowExpList,
-					colExpList );
-		}
-		catch ( Exception e )
-		{
-			// TODO Auto-generated catch block
-			logger.log(Level.SEVERE, e.getMessage(),e);
-		}
-
-		return retList;
-	}
-
-	
-	private List getRowColExpressionList(CrosstabReportItemHandle crosstab, int axis ) throws CrosstabException
-	{
-		List expList = new ArrayList( );
-		int count = crosstab.getDimensionCount( axis );
-		for(int i = 0; i < count; i ++)
-		{
-			DimensionViewHandle dv = crosstab.getDimension( axis,
-					i );
-			if ( dv.getCubeDimension( ) == null )
-			{
-				throw new CrosstabException( dv.getModelHandle( )
-						.getElement( ),
-						Messages.getString( "CrosstabQueryHelper.error.invalid.dimension.row", //$NON-NLS-1$
-								dv.getCubeDimensionName( ) ) );
-			}
-			for ( int j = 0; j < dv.getLevelCount( ); j++ )
-			{
-				LevelViewHandle lv = dv.getLevel( j );
-
-				if ( lv.getCubeLevel( ) == null )
-				{
-					throw new CrosstabException( lv.getModelHandle( )
-							.getElement( ),
-							Messages.getString( "CrosstabQueryHelper.error.invalid.level.row", //$NON-NLS-1$
-									lv.getCubeLevelName( ) ) );
-				}
-
-				String expression = ExpressionUtil.createJSDimensionExpression(dv.getCubeDimension( ).getName( ),lv.getCubeLevel( ).getName( ));
-				expList.add( expression );
-			}
-		}
-		return expList;
-	}
-
-
-	private List getQueryBindings( CrosstabReportItemHandle crosstabItem )
-			throws BirtException
-	{
-		List rowLevelNameList = new ArrayList( );
-		List columnLevelNameList = new ArrayList( );
-
-		List levelViewList = new ArrayList( );
-
-		// add row edge
-		if ( crosstabItem.getDimensionCount( ICrosstabConstants.ROW_AXIS_TYPE ) > 0 )
-		{
-			// TODO check visibility?
-
-			// LevelHandle mirrorLevel = crosstabItem.getMirroredStartingLevel(
-			// ROW_AXIS_TYPE );
-
-			for ( int i = 0; i < crosstabItem.getDimensionCount( ICrosstabConstants.ROW_AXIS_TYPE ); i++ )
-			{
-				DimensionViewHandle dv = crosstabItem.getDimension( ICrosstabConstants.ROW_AXIS_TYPE,
-						i );
-
-				if ( dv.getCubeDimension( ) == null )
-				{
-					throw new CrosstabException( dv.getModelHandle( )
-							.getElement( ),
-							Messages.getString( "CrosstabQueryHelper.error.invalid.dimension.row", //$NON-NLS-1$
-									dv.getCubeDimensionName( ) ) );
-				}
-
-				for ( int j = 0; j < dv.getLevelCount( ); j++ )
-				{
-					LevelViewHandle lv = dv.getLevel( j );
-
-					if ( lv.getCubeLevel( ) == null )
-					{
-						throw new CrosstabException( lv.getModelHandle( )
-								.getElement( ),
-								Messages.getString( "CrosstabQueryHelper.error.invalid.level.row", //$NON-NLS-1$
-										lv.getCubeLevelName( ) ) );
-					}
-
-					rowLevelNameList.add( lv.getCubeLevel( ).getFullName( ) );
-					levelViewList.add( lv );
-				}
-			}
-
-		}
-
-		// add column edge
-		if ( crosstabItem.getDimensionCount( ICrosstabConstants.COLUMN_AXIS_TYPE ) > 0 )
-		{
-			// TODO check visibility?
-
-			// LevelHandle mirrorLevel = crosstabItem.getMirroredStartingLevel(
-			// COLUMN_AXIS_TYPE );
-
-			for ( int i = 0; i < crosstabItem.getDimensionCount( ICrosstabConstants.COLUMN_AXIS_TYPE ); i++ )
-			{
-				DimensionViewHandle dv = crosstabItem.getDimension( ICrosstabConstants.COLUMN_AXIS_TYPE,
-						i );
-
-				if ( dv.getCubeDimension( ) == null )
-				{
-					throw new CrosstabException( dv.getModelHandle( )
-							.getElement( ),
-							Messages.getString( "CrosstabQueryHelper.error.invalid.dimension.column", //$NON-NLS-1$
-									dv.getCubeDimensionName( ) ) );
-				}
-
-				for ( int j = 0; j < dv.getLevelCount( ); j++ )
-				{
-					LevelViewHandle lv = dv.getLevel( j );
-
-					if ( lv.getCubeLevel( ) == null )
-					{
-						throw new CrosstabException( lv.getModelHandle( )
-								.getElement( ),
-								Messages.getString( "CrosstabQueryHelper.error.invalid.level.column", //$NON-NLS-1$
-										lv.getCubeLevelName( ) ) );
-					}
-
-					columnLevelNameList.add( lv.getCubeLevel( ).getFullName( ) );
-
-					// if ( mirrorLevel != null
-					// && mirrorLevel.getQualifiedName( )
-					// .equals( lv.getCubeLevelName( ) ) )
-					// {
-					// columnEdge.setMirrorStartingLevel( levelDef );
-					// }
-
-					levelViewList.add( lv );
-				}
-			}
-
-		}
-
-		List bindingList = new ArrayList( );
-		// add column binding
-		Iterator bindingItr = ( (ExtendedItemHandle) crosstabItem.getModelHandle( ) ).columnBindingsIterator( );
-		ModuleHandle module = ( (ExtendedItemHandle) crosstabItem.getModelHandle( ) ).getModuleHandle( );
-
-		if ( bindingItr != null )
-		{
-			Map cache = new HashMap( );
-
-			while ( bindingItr.hasNext( ) )
-			{
-				ComputedColumnHandle column = (ComputedColumnHandle) bindingItr.next( );
-
-				Binding binding = new Binding( column.getName( ) );
-				binding.setAggrFunction( column.getAggregateFunction( ) == null ? null
-						: DataAdapterUtil.adaptModelAggregationType( column.getAggregateFunction( ) ) );
-				binding.setExpression( new ScriptExpression( column.getExpression( ) ) );
-				binding.setDataType( DataAdapterUtil.adaptModelDataType( column.getDataType( ) ) );
-
-				if ( column.getFilterExpression( ) != null )
-				{
-					binding.setFilter( new ScriptExpression( column.getFilterExpression( ) ) );
-				}
-
-				for ( Iterator argItr = column.argumentsIterator( ); argItr.hasNext( ); )
-				{
-					AggregationArgumentHandle aah = (AggregationArgumentHandle) argItr.next( );
-
-					binding.addArgument( new ScriptExpression( aah.getValue( ) ) );
-				}
-
-				List aggrList = column.getAggregateOnList( );
-
-				if ( aggrList != null )
-				{
-					for ( Iterator aggrItr = aggrList.iterator( ); aggrItr.hasNext( ); )
-					{
-						String baseLevel = (String) aggrItr.next( );
-
-						addHierachyAggregateOn( module,
-								binding,
-								baseLevel,
-								rowLevelNameList,
-								columnLevelNameList,
-								cache );
-					}
-				}
-
-				bindingList.add( binding );binding.getAggregatOns( );
-			}
-		}
-
-		return bindingList;
-	}
-
-	private void addHierachyAggregateOn( ModuleHandle module, Binding binding,
-			String baseLevel, List rowLevelList, List columnLevelList, Map cache )
-			throws BirtException
-	{
-		if ( binding == null || baseLevel == null || module == null )
-		{
-			return;
-		}
-
-		int sindex = rowLevelList.indexOf( baseLevel );
-
-		if ( sindex != -1 )
-		{
-			for ( int i = 0; i <= sindex; i++ )
-			{
-				String levelName = (String) rowLevelList.get( i );
-				String cachedExpression = (String) cache.get( levelName );
-
-				if ( cachedExpression == null )
-				{
-					cachedExpression = createAggregateLevelExpression( levelName );
-					cache.put( levelName, cachedExpression );
-				}
-
-				if ( cachedExpression != null )
-				{
-					binding.addAggregateOn( cachedExpression );
-				}
-			}
-
-			// already found on row list, skip on column list
-			return;
-		}
-
-		sindex = columnLevelList.indexOf( baseLevel );
-
-		if ( sindex != -1 )
-		{
-			for ( int i = 0; i <= sindex; i++ )
-			{
-				String levelName = (String) columnLevelList.get( i );
-				String cachedExpression = (String) cache.get( levelName );
-
-				if ( cachedExpression == null )
-				{
-					cachedExpression = createAggregateLevelExpression( levelName );
-					cache.put( levelName, cachedExpression );
-				}
-
-				if ( cachedExpression != null )
-				{
-					binding.addAggregateOn( cachedExpression );
-				}
-			}
-
-			// already found on column list, skip next
-			return;
-		}
-
-		// This is possibly an invalid level name to reach here, but we still
-		// create the expression for validation.
-		String cachedExpression = (String) cache.get( baseLevel );
-
-		if ( cachedExpression == null )
-		{
-			cachedExpression = createAggregateLevelExpression( baseLevel );
-			cache.put( baseLevel, cachedExpression );
-		}
-
-		if ( cachedExpression != null )
-		{
-			binding.addAggregateOn( cachedExpression );
-		}
-	}
-
-	private static String createAggregateLevelExpression( String levelFullName )
-	{
-		String[] names = CubeUtil.splitLevelName( levelFullName );
-
-		return ExpressionUtil.createJSDimensionExpression( names[0], names[1] );
-	}
-	
-	
 	private List getReferableBindings( LevelViewHandle level )
 	{
 		List retList = new ArrayList( );;
@@ -1310,7 +988,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		catch ( Exception e )
 		{
 			// TODO Auto-generated catch block
-			logger.log(Level.SEVERE, e.getMessage(),e);
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 
 		return retList;
@@ -1321,7 +999,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		int ret = -1;
 		for ( int i = 0; i < textKey.getItemCount( ); i++ )
 		{
-			String expression = textKey.getItem( i ) ;
+			String expression = textKey.getItem( i );
 			if ( expression.equals( dataExpression ) )
 			{
 				return i;
@@ -1354,7 +1032,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		catch ( SemanticException e )
 		{
 			// TODO Auto-generated catch block
-			logger.log(Level.SEVERE, e.getMessage(),e);
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 	}
 
@@ -1379,7 +1057,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 				catch ( SemanticException e )
 				{
 					// TODO Auto-generated catch block
-					logger.log(Level.SEVERE, e.getMessage(),e);
+					logger.log( Level.SEVERE, e.getMessage( ), e );
 				}
 				break;
 			}
@@ -1411,7 +1089,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			catch ( SemanticException e )
 			{
 				// TODO Auto-generated catch block
-				logger.log(Level.SEVERE, e.getMessage(),e);
+				logger.log( Level.SEVERE, e.getMessage( ), e );
 			}
 
 			lastMemberValue = newValue;
@@ -1434,7 +1112,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 		catch ( ExtendedElementException e )
 		{
 			// TODO Auto-generated catch block
-			logger.log(Level.SEVERE, e.getMessage(),e);
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 		DimensionViewHandle dimension = crosstab.getDimension( dimensionName );
 		// LevelViewHandle level = getLevel(dimension, levelName );

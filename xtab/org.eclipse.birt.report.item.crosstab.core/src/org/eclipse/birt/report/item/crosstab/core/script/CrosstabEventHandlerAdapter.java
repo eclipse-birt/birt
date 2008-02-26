@@ -22,50 +22,40 @@ public class CrosstabEventHandlerAdapter implements ICrosstabEventHandler
 	public void onPrepareCrosstab( ICrosstab crosstab,
 			IReportContext reportContext )
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	public void onPrepareCell( ICrosstabCell cell, IReportContext reportContext )
 	{
-		// TODO Auto-generated method stub
-
 	}
 
-	public void onCreateCrosstab( ICrosstabInstance crosstab )
+	public void onCreateCrosstab( ICrosstabInstance crosstab,
+			IReportContext reportContext )
 	{
-		// TODO Auto-generated method stub
-
 	}
 
-	public void onCreateCell( ICrosstabCellInstance cell )
+	public void onCreateCell( ICrosstabCellInstance cell,
+			IReportContext reportContext )
 	{
-		// TODO Auto-generated method stub
-
 	}
 
-	public void onRenderCrosstab( ICrosstabInstance crosstab )
+	public void onRenderCrosstab( ICrosstabInstance crosstab,
+			IReportContext reportContext )
 	{
-		// TODO Auto-generated method stub
-
 	}
 
-	public void onRenderCell( ICrosstabCellInstance cell )
+	public void onRenderCell( ICrosstabCellInstance cell,
+			IReportContext reportContext )
 	{
-		// TODO Auto-generated method stub
-
 	}
 
-	public void onCrosstabPageBreak( ICrosstabInstance crosstab )
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	public void onCellPageBreak( ICrosstabCellInstance cell )
-	{
-		// TODO Auto-generated method stub
-
-	}
+	// public void onCrosstabPageBreak( ICrosstabInstance crosstab,
+	// IReportContext reportContext )
+	// {
+	// }
+	//
+	// public void onCellPageBreak( ICrosstabCellInstance cell,
+	// IReportContext reportContext )
+	// {
+	// }
 
 }

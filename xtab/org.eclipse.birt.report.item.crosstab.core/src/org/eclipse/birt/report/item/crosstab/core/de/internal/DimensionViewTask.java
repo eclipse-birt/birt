@@ -17,11 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
-import org.eclipse.birt.core.data.ExpressionUtil;
-import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
-import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
-import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
-import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.data.adapter.api.IDimensionLevel;
 import org.eclipse.birt.report.item.crosstab.core.CrosstabException;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ILevelViewConstants;
@@ -608,7 +604,8 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 			return;
 		}
 
-		List validatedLevelList = getReferencedLevels( levelView, expression );
+		List validatedLevelList = CrosstabUtil.getReferencedLevels( levelView,
+				expression );
 
 		MemberValueHandle oldMemberValue = (MemberValueHandle) item.getContent( memberValuePropName,
 				0 );
@@ -635,7 +632,7 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 		{
 			for ( int i = 0; i < validatedLevelList.size( ); i++ )
 			{
-				ILevelDefinition levelDefn = (ILevelDefinition) validatedLevelList.get( i );
+				IDimensionLevel levelDefn = (IDimensionLevel) validatedLevelList.get( i );
 				String levelName = getLevelHandle( levelDefn );
 				tempMember.setStringProperty( MemberValueHandle.LEVEL_PROP,
 						levelName );
@@ -677,59 +674,12 @@ public class DimensionViewTask extends AbstractCrosstabModelTask
 
 	}
 
-	/**
-	 * 
-	 * @param level
-	 * @param bindingExpr
-	 * @return
-	 */
-	private List getReferencedLevels( LevelViewHandle level, String bindingExpr )
-	{
-		List retList = new ArrayList( );;
-
-		LevelHandle levelHandle = level.getCubeLevel( );
-		if ( level.getCubeLevel( ) == null )
-		{
-			return retList;
-		}
-
-		// get targetLevel
-		DesignElementHandle hierarchyHandle = levelHandle.getContainer( );
-		DesignElementHandle dimensionHandle = hierarchyHandle == null ? null
-				: hierarchyHandle.getContainer( );
-		if ( dimensionHandle == null )
-			return retList;
-		String targetLevel = ExpressionUtil.createJSDimensionExpression( dimensionHandle.getName( ),
-				levelHandle.getName( ) );
-
-		// get cubeQueryDefn
-		ICubeQueryDefinition cubeQueryDefn = null;
-		DataRequestSession session = null;
-		try
-		{
-			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
-			cubeQueryDefn = CrosstabModelUtil.createBindingQuery( crosstab );
-			retList = session.getCubeQueryUtil( )
-					.getReferencedLevels( targetLevel,
-							bindingExpr,
-							cubeQueryDefn );
-		}
-		catch ( Exception e )
-		{
-			dimensionView.getLogger( ).log( Level.WARNING, e.getMessage( ), e );
-		}
-
-		return retList;
-	}
-
-	private String getLevelHandle( ILevelDefinition levelDefn )
+	private String getLevelHandle( IDimensionLevel levelDefn )
 	{
 		assert crosstab != null;
 
-		String levelName = levelDefn.getName( );
-		String dimensionName = levelDefn.getHierarchy( )
-				.getDimension( )
-				.getName( );
+		String levelName = levelDefn.getLevelName( );
+		String dimensionName = levelDefn.getDimensionName( );
 
 		DimensionViewHandle dimension = crosstab.getDimension( dimensionName );
 		assert dimension != null;

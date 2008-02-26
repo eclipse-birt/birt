@@ -79,4 +79,18 @@ public class CrosstabException extends SemanticException
 		super( element, values, errCode );
 		this.pluginId = CROSSTAB_PLUGIN_ID;
 	}
+
+	public CrosstabException( Throwable cause )
+	{
+		super( CROSSTAB_PLUGIN_ID,
+				cause.getLocalizedMessage( ),
+				(Object[]) null,
+				cause );
+	}
+
+	public CrosstabException( String errorMsg )
+	{
+		super( CROSSTAB_PLUGIN_ID, errorMsg, null );
+	}
+
 }
