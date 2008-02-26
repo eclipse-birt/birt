@@ -62,7 +62,8 @@ public class ScriptParser
 		if ( script != null && script.length( ) > 0 )
 		{
 			boolean inComment = false;
-			boolean inString = false;
+			boolean inDoubleString = false;
+			boolean inSingleString = false;
 			Position commentPosition = null;
 			Position methodPosition = null;
 			int length = script.length( );
@@ -71,12 +72,23 @@ public class ScriptParser
 
 			do
 			{
-				if ( !inString && !inComment && isCommentLine( i ) )
+				if ( !inDoubleString &&
+						!inSingleString &&
+						!inComment &&
+						isCommentLine( i ) )
 				{
 					while ( i < length && script.charAt( i++ ) != '\n' )
 					{
 					}
-					continue;
+
+					if ( i < length )
+					{
+						continue;
+					}
+					else
+					{
+						break;
+					}
 				}
 
 				char ch = script.charAt( i++ );
@@ -84,7 +96,8 @@ public class ScriptParser
 				switch ( ch )
 				{
 					case '/' :
-						if ( !inString &&
+						if ( !inDoubleString &&
+								!inSingleString &&
 								!inComment &&
 								i + 1 < length &&
 								script.charAt( i ) == '*' )
@@ -95,7 +108,8 @@ public class ScriptParser
 						break;
 
 					case '*' :
-						if ( !inString &&
+						if ( !inDoubleString &&
+								!inSingleString &&
 								inComment &&
 								i < length &&
 								script.charAt( i ) == '/' &&
@@ -126,22 +140,53 @@ public class ScriptParser
 						break;
 
 					case '"' :
-					case '\'' :
-						if ( !inComment )
+						if ( !inComment && !inSingleString )
 						{
 							if ( i - 2 >= 0 )
 							{
-								if ( script.charAt( i - 2 ) == '\\' )
+								int j = i - 2;
+								int n = 0;
+
+								while ( j >= 0 && script.charAt( j ) == '\\' )
+								{
+									j--;
+									n++;
+								}
+
+								if ( n % 2 == 1 )
 								{
 									break;
 								}
 							}
-							inString = !inString;
+							inDoubleString = !inDoubleString;
+						}
+						break;
+
+					case '\'' :
+						if ( !inComment && !inDoubleString )
+						{
+							if ( i - 2 >= 0 )
+							{
+								int j = i - 2;
+								int n = 0;
+
+								while ( j >= 0 && script.charAt( j ) == '\\' )
+								{
+									j--;
+									n++;
+								}
+
+								if ( n % 2 == 1 )
+								{
+									break;
+								}
+							}
+							inSingleString = !inSingleString;
 						}
 						break;
 
 					case 'f' :
-						if ( !inComment && !inString )
+						if ( !inComment && !inDoubleString && !inSingleString )
 						{
 							// When the value of 'i - 2' is less than 0, 'f' is
 							// the first char of the script.
@@ -149,7 +194,8 @@ public class ScriptParser
 							int end = begin +
 									"funciton".length( ) + ( i - 2 >= 0 ? 2 : 1 ); //$NON-NLS-1$
 
-							String keyword = script.substring( begin, end );
+							String keyword = script.substring( begin,
+									Math.min( length, end ) );
 
 							keyword = i - 2 >= 0 ? keyword : " " + keyword; //$NON-NLS-1$
 							if ( end <= script.length( ) &&
@@ -170,14 +216,20 @@ public class ScriptParser
 						break;
 
 					case '{' :
-						if ( !inComment && !inString && methodPosition != null )
+						if ( !inComment &&
+								!inDoubleString &&
+								!inSingleString &&
+								methodPosition != null )
 						{
 							leftMark++;
 						}
 						break;
 
 					case '}' :
-						if ( !inComment && !inString && methodPosition != null )
+						if ( !inComment &&
+								!inDoubleString &&
+								!inSingleString &&
+								methodPosition != null )
 						{
 							if ( --leftMark > 0 )
 							{
@@ -187,15 +239,17 @@ public class ScriptParser
 									methodPosition.getOffset( ),
 									i ) )
 							{
-								while ( i < length &&
-										script.charAt( i ) != '\n' )
+								int j = i;
+
+								while ( j < length &&
+										script.charAt( j ) != '\n' )
 								{
-									i++;
+									j++;
 								}
 
-								methodPosition.setLength( i -
+								methodPosition.setLength( j -
 										methodPosition.getOffset( ) +
-										1 );
+										( j < length ? 1 : 0 ) );
 
 								methodPositions.add( methodPosition );
 							}
