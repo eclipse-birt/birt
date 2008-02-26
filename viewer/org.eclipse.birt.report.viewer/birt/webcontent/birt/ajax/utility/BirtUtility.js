@@ -204,7 +204,9 @@ BirtUtility.prototype =
 	{
 		var paramString = "";
 		var paramStartIndex = url.indexOf( parameterName );
-		if ( paramStartIndex >= 0 )
+		var equalSign = url.charAt(paramStartIndex + parameterName.length);
+		
+		if ( paramStartIndex >= 0 && ( equalSign == "=" || equalSign == "&" ) )
 		{
 			var paramEndIndex = url.indexOf( "&", paramStartIndex );
 			if ( paramEndIndex >= 0 )

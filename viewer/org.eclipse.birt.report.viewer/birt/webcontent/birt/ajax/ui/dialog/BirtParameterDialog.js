@@ -1288,11 +1288,19 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			{
 				if( this.__mode == 'frameset' )
 				{
-					// reset the page number to 1
+					var targetPage = "1";					
+					var bookmark = birtUtility.getURLParameter(soapURL, "bookmark");
+					// if a bookmark is defined, reset the target page
+					// to force the server-side to use it
+					if ( bookmark && bookmark.length > 0 )
+					{
+						targetPage = "";
+					}
+					
 					var oPageNumber = $( 'pageNumber' );
 					if ( oPageNumber )
 					{
-						oPageNumber.innerHTML = "1";						
+						oPageNumber.innerHTML = targetPage;						
 					}
 					
 					birtEventDispatcher.broadcastEvent( birtEvent.__E_CHANGE_PARAMETER );
