@@ -34,10 +34,11 @@
 		<jar destfile="${basedir}/crosstabcoreapi.jar">
 			<fileset dir="@dot">
 				<include name="org/eclipse/birt/report/item/crosstab/core/*.class" />
-				<!-- include name="org/eclipse/birt/report/item/crosstab/core/de/**/*.class" /-->
-				<!--include name="org/eclipse/birt/report/item/crosstab/core/i18n/*.class" /-->
-				<!-- include name="org/eclipse/birt/report/item/crosstab/core/i18n/*.properties" /-->
-				<!--include name="org/eclipse/birt/report/item/crosstab/core/util/*.class" /-->
+				<include name="org/eclipse/birt/report/item/crosstab/core/de/**/*.class" />
+				<include name="org/eclipse/birt/report/item/crosstab/core/i18n/*.class" />
+				<include name="org/eclipse/birt/report/item/crosstab/core/i18n/*.properties" />
+				<include name="org/eclipse/birt/report/item/crosstab/core/script/*.class" />
+				<include name="org/eclipse/birt/report/item/crosstab/core/util/*.class" />
 			</fileset>
 		</jar>
 
