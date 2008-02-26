@@ -872,10 +872,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 */
 	public DataType getDataType( String expression )
 	{
-		// Do not check type for cube
 		if ( expression == null
-				|| expression.trim( ).length( ) == 0
-				|| ChartXTabUtil.getBindingCube( itemHandle ) != null )
+				|| expression.trim( ).length( ) == 0 )
 		{
 			return null;
 		}
@@ -921,6 +919,15 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		// Return null for unknown data type.
 		return null;
 	}
+	
+	private String getQueryStringForProcessing( String expression )
+	{
+		if ( expression.indexOf( "[\"" ) > 0 ) //$NON-NLS-1$
+		{
+			return expression.substring( expression.indexOf( "[\"" ) + 2, expression.indexOf( "\"]" ) ); //$NON-NLS-1$//$NON-NLS-2$
+		}
+		return null;
+	}
 
 	/**
 	 * Find data type of expression from specified item handle.
@@ -940,13 +947,13 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	{
 		Object[] returnObj = new Object[2];
 		returnObj[0] = new Boolean( false );
+		String columnName = getQueryStringForProcessing( expression );
 
 		Iterator iterator = ChartReportItemUtil.getAllColumnBindingsIterator( itemHandle );
 		while ( iterator.hasNext( ) )
 		{
 			ComputedColumnHandle cc = (ComputedColumnHandle) iterator.next( );
-			if ( expression.toUpperCase( )
-					.indexOf( cc.getName( ).toUpperCase( ) ) >= 0 )
+			if ( cc.getName( ).equalsIgnoreCase( columnName ) )
 			{
 				String dataType = cc.getDataType( );
 				if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING ) )

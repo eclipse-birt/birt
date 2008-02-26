@@ -62,8 +62,8 @@
 	<adaptable
        class="org.eclipse.birt.report.model.api.ExtendedItemHandle">
     <adapter
-          factory="org.eclipse.birt.report.designer.internal.ui.dialogs.BindingDialogFactory"
-          id="org.eclipse.birt.reportitem.ui.BindingDialog"
+          factory="org.eclipse.birt.chart.reportitem.ui.dialogs.ChartBindingDialogFactory"
+          id="org.eclipse.birt.chart.reportitem.ui.dialogs.ChartColumnBindingDialog"
           priority="1"
           singleton="false"
           type="org.eclipse.birt.report.designer.internal.ui.dialogs.IBindingDialogHelper">

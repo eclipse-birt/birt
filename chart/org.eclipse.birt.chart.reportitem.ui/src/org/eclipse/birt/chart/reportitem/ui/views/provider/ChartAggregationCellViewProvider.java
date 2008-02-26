@@ -180,6 +180,7 @@ public class ChartAggregationCellViewProvider
 		sdBase.getSeriesPalette( ).shift( 0 );
 		Series series = SeriesImpl.create( );
 		sdBase.getSeries( ).add( series );
+		cm.getBaseAxes( )[0].setCategoryAxis( true );
 		cm.getBaseAxes( )[0].getSeriesDefinitions( ).add( sdBase );
 		if ( exprCategory != null )
 		{

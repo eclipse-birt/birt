@@ -451,7 +451,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 		// super column binding dialog.
 		// ChartUIUtil.bindHelp( shell,
 		// ChartHelpContextIds.DIALOG_DATA_SET_COLUMN_BINDING );
-		ColumnBindingDialog page = new ChartColumnBindingDialog( shell );
+		ColumnBindingDialog page = new ChartColumnBindingDialog( shell, getContext( ) );
 
 		ExtendedItemHandle handle = getItemHandle( );
 		handle.getModuleHandle( ).getCommandStack( ).startTrans( null );

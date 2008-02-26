@@ -18,11 +18,13 @@ import java.util.List;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.ui.dialogs.ColumnBindingDialog;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -46,16 +48,39 @@ import org.eclipse.swt.widgets.Table;
 
 public class ChartColumnBindingDialog extends ColumnBindingDialog
 {
-
+	private ChartWizardContext context;
 	private Button btnAddAgg;
 	private Button btnRefresh;
 	
 	/** The field indicates if all bindings are read-only in chart. */
 	private boolean fIsReadOnly;
 
-	public ChartColumnBindingDialog( Shell parent )
+	public ChartColumnBindingDialog( Shell parent, ChartWizardContext context )
 	{
 		super( parent, false, false );
+		this.context = context;
+	}
+	
+	protected void handleEditEvent( )
+	{
+		ComputedColumnHandle bindingHandle = null;
+		int pos = bindingTable.getTable( ).getSelectionIndex( );
+		if ( pos > -1 )
+		{
+			bindingHandle = (ComputedColumnHandle) ( DEUtil.getBindingHolder( inputElement ) ).getColumnBindings( )
+					.getAt( pos );
+		}
+		if ( bindingHandle == null )
+			return;
+
+		DataColumnBindingDialog dialog = new DataColumnBindingDialog( false );
+		dialog.setInput( inputElement, bindingHandle, context );
+		dialog.setExpressionProvider( expressionProvider );
+		if ( dialog.open( ) == Dialog.OK )
+		{
+			if ( bindingTable != null )
+				bindingTable.getTable( ).setSelection( pos );
+		}
 	}
 	
 	/**
@@ -88,7 +113,7 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 			public void handleEvent( Event event )
 			{
 				DataColumnBindingDialog dialog = new DataColumnBindingDialog( true );
-				dialog.setInput( inputElement );
+				dialog.setInput( inputElement, null, context );
 				dialog.setExpressionProvider( expressionProvider );
 				dialog.setAggreate( true );
 				if ( dialog.open( ) == Dialog.OK )
