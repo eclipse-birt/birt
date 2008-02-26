@@ -19,7 +19,6 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDialog;
-import org.eclipse.birt.report.designer.internal.ui.swt.custom.CCombo;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -63,6 +62,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
@@ -78,76 +78,106 @@ import org.eclipse.ui.PlatformUI;
 public class ColumnBindingDialog extends BaseDialog
 {
 
-	private static final String MSG_ADD = Messages.getString( "ColumnBindingDialog.Text.Add" ); //$NON-NLS-1$
+	public static class BindingInfo
+	{
 
-	private static final String MSG_EDIT = Messages.getString( "ColumnBindingDialog.Text.Edit" ); //$NON-NLS-1$
+		private int bindingType;
+		private Object bindingValue;
 
-	private static final String MSG_DELETE = Messages.getString( "ColumnBindingDialog.Text.Del" ); //$NON-NLS-1$
+		public BindingInfo( )
+		{
+		}
 
-	private static final String dummyChoice = "dummy"; //$NON-NLS-1$
+		public BindingInfo( int type, Object value )
+		{
+			this.bindingType = type;
+			this.bindingValue = value;
+		}
 
-	public static final String DEFAULT_DLG_TITLE = Messages.getString( "ColumnBindingDialog.DialogTitle" ); //$NON-NLS-1$
+		public int getBindingType( )
+		{
+			return bindingType;
+		}
+
+		public Object getBindingValue( )
+		{
+			return bindingValue;
+		}
+
+		public void setBindingType( int bindingType )
+		{
+			this.bindingType = bindingType;
+		}
+
+		public void setBindingValue( Object bindingValue )
+		{
+			this.bindingValue = bindingValue;
+		}
+	}
 
 	private static final String ALL = Messages.getString( "ColumnBindingDialog.All" );//$NON-NLS-1$
 
-	private static final String NONE_AGGREGATEON = Messages.getString( "ColumnBindingDialog.AGGREGATEON.NONE" );//$NON-NLS-1$
-
 	private static final String CHOICE_DATASET_FROM_CONTAINER = Messages.getString( "ColumnBindingDialog.Choice.DatasetFromContainer" );//$NON-NLS-1$
-
-	private static final String CHOICE_REPORTITEM_FROM_CONTAINER = Messages.getString( "ColumnBindingDialog.Choice.ReportItemFromContainer" );//$NON-NLS-1$
 
 	private static final String CHOICE_NONE = Messages.getString( "ColumnBindingDialog.NONE" );//$NON-NLS-1$
 
-	private static final String LABEL_COLUMN_BINDINGS = Messages.getString( "ColumnBindingDialog.Label.DataSet" ); //$NON-NLS-1$
+	private static final String CHOICE_REPORTITEM_FROM_CONTAINER = Messages.getString( "ColumnBindingDialog.Choice.ReportItemFromContainer" );//$NON-NLS-1$
 
-	private static final String WARN_COLUMN_BINDINGS = Messages.getString( "ColumnBingingDialog.Label.Warn" ); //$NON-NLS-1$
+	private static final String COLUMN_AGGREGATEON = Messages.getString( "ColumnBindingDialog.Column.AggregateOn" ); //$NON-NLS-1$
+
+	private static final String COLUMN_DATATYPE = Messages.getString( "ColumnBindingDialog.Column.DataType" ); //$NON-NLS-1$
+
+	private static final String COLUMN_DISPLAYNAME = Messages.getString( "ColumnBindingDialog.Column.displayName" ); //$NON-NLS-1$
+
+	private static final String COLUMN_EXPRESSION = Messages.getString( "ColumnBindingDialog.Column.Expression" ); //$NON-NLS-1$
 
 	// private static final String BUTTON_GENERATE = Messages.getString(
 	// "ColumnBindingDialog.Button.Generate" ); //$NON-NLS-1$
 	private static final String COLUMN_NAME = Messages.getString( "ColumnBindingDialog.Column.Name" ); //$NON-NLS-1$
-
-	private static final String COLUMN_DISPLAYNAME = Messages.getString( "ColumnBindingDialog.Column.displayName" ); //$NON-NLS-1$
-
-	private static final String COLUMN_DATATYPE = Messages.getString( "ColumnBindingDialog.Column.DataType" ); //$NON-NLS-1$
-
-	private static final String COLUMN_EXPRESSION = Messages.getString( "ColumnBindingDialog.Column.Expression" ); //$NON-NLS-1$
-
-	private static final String COLUMN_AGGREGATEON = Messages.getString( "ColumnBindingDialog.Column.AggregateOn" ); //$NON-NLS-1$
-
-	private static final String INPUT_PROPMT = Messages.getString( "ColumnBindingDialog.InputPrompt" ); //$NON-NLS-1$
 
 	private static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
 			.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
 			.getMember( ComputedColumn.DATA_TYPE_MEMBER )
 			.getAllowedChoices( );
 
-	private boolean canSelect = false;
+	public static final String DEFAULT_DLG_TITLE = Messages.getString( "ColumnBindingDialog.DialogTitle" ); //$NON-NLS-1$
 
-	private boolean canAggregate = true;
+	private static final String dummyChoice = "dummy"; //$NON-NLS-1$
 
-	protected ReportItemHandle inputElement;
+	private static final String INPUT_PROPMT = Messages.getString( "ColumnBindingDialog.InputPrompt" ); //$NON-NLS-1$
 
-	// private List bindingList;
+	private static final String LABEL_COLUMN_BINDINGS = Messages.getString( "ColumnBindingDialog.Label.DataSet" ); //$NON-NLS-1$
+
+	private static final String MSG_ADD = Messages.getString( "ColumnBindingDialog.Text.Add" ); //$NON-NLS-1$
+
+	private static final String MSG_DELETE = Messages.getString( "ColumnBindingDialog.Text.Del" ); //$NON-NLS-1$
+
+	private static final String MSG_EDIT = Messages.getString( "ColumnBindingDialog.Text.Edit" ); //$NON-NLS-1$
+
+	private static final String NONE_AGGREGATEON = Messages.getString( "ColumnBindingDialog.AGGREGATEON.NONE" );//$NON-NLS-1$
+
+	private static final String WARN_COLUMN_BINDINGS = Messages.getString( "ColumnBingingDialog.Label.Warn" ); //$NON-NLS-1$
 
 	// private Button generateButton;
 	protected TableViewer bindingTable;
 
-	private String selectedColumnName = null;
+	protected Button btnAdd;
 
-	private String NullDatasetChoice = null;
+	// private List bindingList;
 
-	private String NullReportItemChoice = null;
+	protected Button btnDel;
 
-	private int selectIndex;
+	protected Button btnEdit;
+
+	private boolean canAggregate = true;
+
+	private boolean canSelect = false;
+
+	private Composite composite;
 
 	private IStructuredContentProvider contentProvider = new IStructuredContentProvider( ) {
 
 		public void dispose( )
-		{
-		}
-
-		public void inputChanged( Viewer viewer, Object oldInput,
-				Object newInput )
 		{
 		}
 
@@ -157,9 +187,38 @@ public class ColumnBindingDialog extends BaseDialog
 			// elementsList.add( dummyChoice );
 			return elementsList.toArray( );
 		}
+
+		public void inputChanged( Viewer viewer, Object oldInput,
+				Object newInput )
+		{
+		}
 	};
 
+	private Combo datasetCombo;
+
+	private Button datasetRadio;
+
+	private transient boolean enableAutoCommit = false;
+
+	protected ExpressionProvider expressionProvider;
+
+	private List groupList = Collections.EMPTY_LIST;
+
+	private String[] groups;
+
+	protected ReportItemHandle inputElement;
+
+	private boolean isDataSetVisible;
+
 	private ITableLabelProvider labelProvider = new ITableLabelProvider( ) {
+
+		public void addListener( ILabelProviderListener listener )
+		{
+		}
+
+		public void dispose( )
+		{
+		}
 
 		public Image getColumnImage( Object element, int columnIndex )
 		{
@@ -222,14 +281,6 @@ public class ColumnBindingDialog extends BaseDialog
 			return text;
 		}
 
-		public void addListener( ILabelProviderListener listener )
-		{
-		}
-
-		public void dispose( )
-		{
-		}
-
 		public boolean isLabelProperty( Object element, String property )
 		{
 			return false;
@@ -241,14 +292,23 @@ public class ColumnBindingDialog extends BaseDialog
 
 	};
 
+	private String NullDatasetChoice = null;
+
+	private String NullReportItemChoice = null;
+
+	private Combo reportItemCombo;
+
+	private Button reportItemRadio;
+
+	private String selectedColumnName = null;
+
+	private int selectIndex;
+
+	private CLabel warnLabel;
+
 	public ColumnBindingDialog( )
 	{
 		super( DEFAULT_DLG_TITLE );
-	}
-
-	public ColumnBindingDialog( String title )
-	{
-		super( title );
 	}
 
 	public ColumnBindingDialog( boolean canSelect )
@@ -276,37 +336,46 @@ public class ColumnBindingDialog extends BaseDialog
 		this.canAggregate = canAggregate;
 	}
 
-	/*
-	 * Set input for dialog
-	 */
-	public void setInput( ReportItemHandle input )
+	public ColumnBindingDialog( String title )
 	{
-		this.inputElement = input;
-		ReportItemHandle container = DEUtil.getBindingHolder( input.getContainer( ) );
-		if ( container != null
-				&& ( container.getDataSet( ) != null || container.columnBindingsIterator( )
-						.hasNext( ) ) )
-		{
-			NullDatasetChoice = CHOICE_DATASET_FROM_CONTAINER;
-		}
-		else
-		{
-			NullDatasetChoice = CHOICE_NONE;
-		}
+		super( title );
+	}
 
-		if ( container != null && container.getDataBindingReference( ) != null )
+	protected void addBinding( ComputedColumn column )
+	{
+		try
 		{
-			NullReportItemChoice = CHOICE_REPORTITEM_FROM_CONTAINER;
+			DEUtil.addColumn( DEUtil.getBindingHolder( inputElement ),
+					column,
+					false );
 		}
-		else
+		catch ( SemanticException e )
 		{
-			NullReportItemChoice = CHOICE_NONE;
+			ExceptionHandler.handle( e );
 		}
+	}
 
-		isDataSetVisible = DEUtil.getBindingHolder( inputElement )
-				.getElement( )
-				.getDefn( )
-				.isPropertyVisible( IReportItemModel.DATA_SET_PROP );
+	/**
+	 * Adds buttons in Button area.
+	 * 
+	 * @param cmp
+	 *            parent composite
+	 * @param table
+	 *            the Table widget affected by Buttons
+	 * @return the number of added buttons
+	 */
+	protected int addButtons( Composite cmp, Table table )
+	{
+		// To add buttons in subclass
+		return 0;
+	}
+
+	private void commit( )
+	{
+		if ( isEnableAutoCommit( ) )
+		{
+			getActionStack( ).commit( );
+		}
 	}
 
 	protected Control createDialogArea( Composite parent )
@@ -348,7 +417,7 @@ public class ColumnBindingDialog extends BaseDialog
 
 			} );
 
-			datasetCombo = new CCombo( composite, SWT.READ_ONLY | SWT.BORDER );
+			datasetCombo = new Combo( composite, SWT.READ_ONLY | SWT.BORDER );
 			datasetCombo.setBackground( PlatformUI.getWorkbench( )
 					.getDisplay( )
 					.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
@@ -395,7 +464,7 @@ public class ColumnBindingDialog extends BaseDialog
 						saveBinding( );
 				}
 			} );
-			reportItemCombo = new CCombo( composite, SWT.READ_ONLY | SWT.BORDER );
+			reportItemCombo = new Combo( composite, SWT.READ_ONLY | SWT.BORDER );
 			reportItemCombo.setBackground( PlatformUI.getWorkbench( )
 					.getDisplay( )
 					.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
@@ -685,142 +754,6 @@ public class ColumnBindingDialog extends BaseDialog
 		return parentComposite;
 	}
 
-	/**
-	 * Adds buttons in Button area.
-	 * 
-	 * @param cmp
-	 *            parent composite
-	 * @param table
-	 *            the Table widget affected by Buttons
-	 * @return the number of added buttons
-	 */
-	protected int addButtons( Composite cmp, Table table )
-	{
-		// To add buttons in subclass
-		return 0;
-	}
-
-	protected void setSelectionInTable( int selectedIndex )
-	{
-		this.selectIndex = selectedIndex;
-	}
-
-	protected void handleAddEvent( )
-	{
-		DataColumnBindingDialog dialog = new DataColumnBindingDialog( true );
-		dialog.setInput( inputElement );
-		dialog.setExpressionProvider( expressionProvider );
-		if ( dialog.open( ) == Dialog.OK )
-		{
-			if ( bindingTable != null )
-			{
-				refreshBindingTable( );
-				bindingTable.getTable( ).setSelection( bindingTable.getTable( )
-						.getItemCount( ) - 1 );
-			}
-		}
-
-	}
-
-	protected void handleEditEvent( )
-	{
-		ComputedColumnHandle bindingHandle = null;
-		int pos = bindingTable.getTable( ).getSelectionIndex( );
-		if ( pos > -1 )
-		{
-			bindingHandle = (ComputedColumnHandle) ( DEUtil.getBindingHolder( inputElement ) ).getColumnBindings( )
-					.getAt( pos );
-		}
-		if ( bindingHandle == null )
-			return;
-
-		String bindingName = bindingHandle.getName( );
-		DataColumnBindingDialog dialog = new DataColumnBindingDialog( false );
-		dialog.setInput( inputElement, bindingHandle );
-		dialog.setExpressionProvider( expressionProvider );
-		if ( dialog.open( ) == Dialog.OK )
-		{
-			if ( bindingTable != null )
-				bindingTable.getTable( ).setSelection( pos );
-			if ( selectedColumnName != null
-					&& selectedColumnName.equals( bindingName ) )
-				selectedColumnName = bindingHandle.getName( );
-		}
-	}
-
-	protected void handleDelEvent( )
-	{
-		int pos = bindingTable.getTable( ).getSelectionIndex( );
-		if ( pos > -1 )
-		{
-			try
-			{
-				ComputedColumnHandle handle = (ComputedColumnHandle) ( DEUtil.getBindingHolder( inputElement ) ).getColumnBindings( )
-						.getAt( pos );
-				deleteRow( handle );
-			}
-			catch ( Exception e1 )
-			{
-				ExceptionHandler.handle( e1 );
-			}
-		}
-	}
-
-	protected boolean initDialog( )
-	{
-		if ( canSelect )
-		{
-			if ( inputElement instanceof DataItemHandle )
-			{
-				selectedColumnName = ( (DataItemHandle) inputElement ).getResultSetColumn( );
-				updateSelection( );
-			}
-			else if ( inputElement instanceof ImageHandle )
-			{
-				selectedColumnName = getColumnName( ( (ImageHandle) inputElement ).getValueExpression( ) );
-				updateSelection( );
-			}
-		}
-		load( );
-		return super.initDialog( );
-	}
-
-	private String getColumnName( String expression )
-	{
-		List columnList = DEUtil.getVisiableColumnBindingsList( inputElement );
-		for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
-		{
-			ComputedColumnHandle cachedColumn = (ComputedColumnHandle) iter.next( );
-			String columnName = cachedColumn.getName( );
-			if ( DEUtil.getColumnExpression( columnName ).equals( expression ) )
-			{
-				return columnName;
-			}
-		}
-
-		return null;
-	}
-
-	protected void okPressed( )
-	{
-		if ( canSelect )
-		{
-			setResult( selectedColumnName );
-			if ( inputElement instanceof DataItemHandle )
-			{
-				try
-				{
-					( (DataItemHandle) inputElement ).setResultSetColumn( selectedColumnName );
-				}
-				catch ( SemanticException e )
-				{
-					ExceptionHandler.handle( e );
-				}
-			}
-		}
-		super.okPressed( );
-	}
-
 	private void deleteRow( ComputedColumnHandle handle )
 	{
 		try
@@ -850,63 +783,70 @@ public class ColumnBindingDialog extends BaseDialog
 		refreshBindingTable( );
 	}
 
-	protected void refreshBindingTable( )
+	/**
+	 * Gets the DE CommandStack instance
+	 * 
+	 * @return CommandStack instance
+	 */
+	private CommandStack getActionStack( )
 	{
-		bindingTable.refresh( );
-		if ( canSelect )
-		{
-			updateSelection( );
-		}
-		updateButtons( );
+		return SessionHandleAdapter.getInstance( ).getCommandStack( );
 	}
 
-	protected void updateButtons( )
+	public String[] getAvailableDatasetItems( )
 	{
-		boolean okEnable = false;
+		String[] dataSets = ChoiceSetFactory.getDataSets( );
+		String[] newList = new String[dataSets.length + 1];
+		newList[0] = NullDatasetChoice;
+		System.arraycopy( dataSets, 0, newList, 1, dataSets.length );
+		return newList;
+	}
 
-		if ( !canSelect || ( !isDataSetVisible && selectedColumnName != null )
-		// || ( selectedColumnName != null && getDataSetName( ) != null )
-				// || ( selectedColumnName != null && DEUtil.getBindingHolder(
-				// inputElement )
-				// .getDataSet( ) != null )
-				|| getSelectColumnHandle( ) != null )
-		{
-			okEnable = true;
-		}
-		getOkButton( ).setEnabled( okEnable );
-		int min = 0;
-		int max = bindingTable.getTable( ).getItemCount( ) - 1;
+	protected List getBindingList( DesignElementHandle inputElement )
+	{
+		return DEUtil.getVisiableColumnBindingsList( inputElement );
+	}
 
-		if ( ( min <= selectIndex ) && ( selectIndex <= max ) )
+	private String getColumnName( String expression )
+	{
+		List columnList = DEUtil.getVisiableColumnBindingsList( inputElement );
+		for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 		{
-			btnDel.setEnabled( true );
-			if ( btnEdit != null )
-				btnEdit.setEnabled( true );
+			ComputedColumnHandle cachedColumn = (ComputedColumnHandle) iter.next( );
+			String columnName = cachedColumn.getName( );
+			if ( DEUtil.getColumnExpression( columnName ).equals( expression ) )
+			{
+				return columnName;
+			}
 		}
-		else
+
+		return null;
+	}
+
+	private String getDataSetName( )
+	{
+		if ( inputElement.getDataSet( ) == null )
 		{
-			btnDel.setEnabled( false );
-			if ( btnEdit != null )
-				btnEdit.setEnabled( false );
+			return null;
 		}
-		bindingTable.getTable( ).select( selectIndex );
-		if ( DEUtil.getBindingHolder( inputElement ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA )
+		String dataSetName = inputElement.getDataSet( ).getQualifiedName( );
+		if ( StringUtil.isBlank( dataSetName ) )
 		{
-			btnAdd.setEnabled( true );
+			dataSetName = null;
 		}
-		else if ( DEUtil.getBindingHolder( inputElement ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_NONE
-				&& ( DEUtil.getBindingHolder( inputElement, true ) == null || DEUtil.getBindingHolder( inputElement,
-						true )
-						.getDataBindingType( ) != ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF ) )
+		return dataSetName;
+	}
+
+	public String[] getReferences( )
+	{
+		List referenceList = inputElement.getAvailableDataBindingReferenceList( );
+		String[] references = new String[referenceList.size( ) + 1];
+		references[0] = NullReportItemChoice;
+		for ( int i = 0; i < referenceList.size( ); i++ )
 		{
-			btnAdd.setEnabled( true );
+			references[i + 1] = ( (ReportItemHandle) referenceList.get( i ) ).getQualifiedName( );
 		}
-		else
-		{
-			btnAdd.setEnabled( false );
-			btnEdit.setEnabled( false );
-			btnDel.setEnabled( false );
-		}
+		return references;
 	}
 
 	private ComputedColumnHandle getSelectColumnHandle( )
@@ -925,195 +865,92 @@ public class ColumnBindingDialog extends BaseDialog
 		return null;
 	}
 
-	private void updateSelection( )
+	protected void handleAddEvent( )
+	{
+		DataColumnBindingDialog dialog = new DataColumnBindingDialog( true );
+		dialog.setInput( inputElement );
+		dialog.setExpressionProvider( expressionProvider );
+		if ( dialog.open( ) == Dialog.OK )
+		{
+			if ( bindingTable != null )
+			{
+				refreshBindingTable( );
+				bindingTable.getTable( ).setSelection( bindingTable.getTable( )
+						.getItemCount( ) - 1 );
+			}
+		}
+
+	}
+
+	protected void handleDelEvent( )
+	{
+		int pos = bindingTable.getTable( ).getSelectionIndex( );
+		if ( pos > -1 )
+		{
+			try
+			{
+				ComputedColumnHandle handle = (ComputedColumnHandle) ( DEUtil.getBindingHolder( inputElement ) ).getColumnBindings( )
+						.getAt( pos );
+				deleteRow( handle );
+			}
+			catch ( Exception e1 )
+			{
+				ExceptionHandler.handle( e1 );
+			}
+		}
+	}
+
+	protected void handleEditEvent( )
+	{
+		ComputedColumnHandle bindingHandle = null;
+		int pos = bindingTable.getTable( ).getSelectionIndex( );
+		if ( pos > -1 )
+		{
+			bindingHandle = (ComputedColumnHandle) ( DEUtil.getBindingHolder( inputElement ) ).getColumnBindings( )
+					.getAt( pos );
+		}
+		if ( bindingHandle == null )
+			return;
+
+		String bindingName = bindingHandle.getName( );
+		DataColumnBindingDialog dialog = new DataColumnBindingDialog( false );
+		dialog.setInput( inputElement, bindingHandle );
+		dialog.setExpressionProvider( expressionProvider );
+		if ( dialog.open( ) == Dialog.OK )
+		{
+			if ( bindingTable != null )
+				bindingTable.getTable( ).setSelection( pos );
+			if ( selectedColumnName != null
+					&& selectedColumnName.equals( bindingName ) )
+				selectedColumnName = bindingHandle.getName( );
+		}
+	}
+
+	protected boolean initDialog( )
 	{
 		if ( canSelect )
 		{
-			( (CheckboxTableViewer) bindingTable ).setAllChecked( false );
-			( (CheckboxTableViewer) bindingTable ).setGrayed( dummyChoice, true );
-			if ( getSelectColumnHandle( ) != null )
+			if ( inputElement instanceof DataItemHandle )
 			{
-				( (CheckboxTableViewer) bindingTable ).setChecked( getSelectColumnHandle( ),
-						true );
+				selectedColumnName = ( (DataItemHandle) inputElement ).getResultSetColumn( );
+				updateSelection( );
+			}
+			else if ( inputElement instanceof ImageHandle )
+			{
+				selectedColumnName = getColumnName( ( (ImageHandle) inputElement ).getValueExpression( ) );
+				updateSelection( );
 			}
 		}
+		load( );
+		return super.initDialog( );
 	}
 
-	protected void addBinding( ComputedColumn column )
-	{
-		try
-		{
-			DEUtil.addColumn( DEUtil.getBindingHolder( inputElement ),
-					column,
-					false );
-		}
-		catch ( SemanticException e )
-		{
-			ExceptionHandler.handle( e );
-		}
-	}
-
-	protected List getBindingList( DesignElementHandle inputElement )
-	{
-		return DEUtil.getVisiableColumnBindingsList( inputElement );
-	}
-
-	private String getDataSetName( )
-	{
-		if ( inputElement.getDataSet( ) == null )
-		{
-			return null;
-		}
-		String dataSetName = inputElement.getDataSet( ).getQualifiedName( );
-		if ( StringUtil.isBlank( dataSetName ) )
-		{
-			dataSetName = null;
-		}
-		return dataSetName;
-	}
-
-	private List groupList = Collections.EMPTY_LIST;
-
-	private String[] groups;
-
-	protected Button btnDel;
-
-	protected Button btnEdit;
-
-	protected Button btnAdd;
-
-	/*
-	 * Set data for Group List
+	/**
+	 * @return Returns the enableAutoCommit.
 	 */
-	public void setGroupList( List groupList )
+	public boolean isEnableAutoCommit( )
 	{
-		this.groupList = groupList;
-	}
-
-	protected ExpressionProvider expressionProvider;
-
-	private boolean isDataSetVisible;
-
-	private CCombo datasetCombo;
-
-	private CLabel warnLabel;
-
-	private Composite composite;
-
-	private Button datasetRadio;
-
-	public void setExpressionProvider( ExpressionProvider provider )
-	{
-		expressionProvider = provider;
-	}
-
-	public static class BindingInfo
-	{
-
-		private int bindingType;
-		private Object bindingValue;
-
-		public BindingInfo( int type, Object value )
-		{
-			this.bindingType = type;
-			this.bindingValue = value;
-		}
-
-		public BindingInfo( )
-		{
-		}
-
-		public int getBindingType( )
-		{
-			return bindingType;
-		}
-
-		public Object getBindingValue( )
-		{
-			return bindingValue;
-		}
-
-		public void setBindingType( int bindingType )
-		{
-			this.bindingType = bindingType;
-		}
-
-		public void setBindingValue( Object bindingValue )
-		{
-			this.bindingValue = bindingValue;
-		}
-	}
-
-	private void saveBinding( )
-	{
-		BindingInfo info = new BindingInfo( );
-		if ( datasetRadio.getSelection( ) )
-		{
-			info.setBindingType( ReportItemHandle.DATABINDING_TYPE_DATA );
-			info.setBindingValue( datasetCombo.getText( ) );
-		}
-		else
-		{
-			info.setBindingType( ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF );
-			info.setBindingValue( reportItemCombo.getText( ) );
-		}
-		try
-		{
-			save( info );
-		}
-		catch ( SemanticException e )
-		{
-			ExceptionHandler.handle( e );
-		}
-	}
-
-	private void refreshBinding( )
-	{
-		if ( datasetRadio.getSelection( ) )
-		{
-			datasetRadio.setSelection( true );
-			datasetCombo.setEnabled( true );
-			reportItemRadio.setSelection( false );
-			reportItemCombo.setEnabled( false );
-			if ( datasetCombo.getSelectionIndex( ) == -1 )
-			{
-				datasetCombo.setItems( getAvailableDatasetItems( ) );
-				datasetCombo.select( 0 );
-			}
-		}
-		else
-		{
-			datasetRadio.setSelection( false );
-			datasetCombo.setEnabled( false );
-			reportItemRadio.setSelection( true );
-			reportItemCombo.setEnabled( true );
-			if ( reportItemCombo.getSelectionIndex( ) == -1 )
-			{
-				reportItemCombo.setItems( getReferences( ) );
-				reportItemCombo.select( 0 );
-			}
-		}
-	}
-
-	public String[] getAvailableDatasetItems( )
-	{
-		String[] dataSets = ChoiceSetFactory.getDataSets( );
-		String[] newList = new String[dataSets.length + 1];
-		newList[0] = NullDatasetChoice;
-		System.arraycopy( dataSets, 0, newList, 1, dataSets.length );
-		return newList;
-	}
-
-	public String[] getReferences( )
-	{
-		List referenceList = inputElement.getAvailableDataBindingReferenceList( );
-		String[] references = new String[referenceList.size( ) + 1];
-		references[0] = NullReportItemChoice;
-		for ( int i = 0; i < referenceList.size( ); i++ )
-		{
-			references[i + 1] = ( (ReportItemHandle) referenceList.get( i ) ).getQualifiedName( );
-		}
-		return references;
+		return enableAutoCommit;
 	}
 
 	public void load( )
@@ -1129,37 +966,6 @@ public class ColumnBindingDialog extends BaseDialog
 			}
 		}
 		refreshBindingTable( );
-	}
-
-	private void refreshBindingInfo( BindingInfo info )
-	{
-		if ( canSelect )
-		{
-			int type = info.getBindingType( );
-			Object value = info.getBindingValue( );
-			datasetCombo.setItems( getAvailableDatasetItems( ) );
-			reportItemCombo.setItems( getReferences( ) );
-			if ( type == ReportItemHandle.DATABINDING_TYPE_NONE )
-				type = DEUtil.getBindingHolder( inputElement )
-						.getDataBindingType( );
-			switch ( type )
-			{
-				case ReportItemHandle.DATABINDING_TYPE_NONE :
-				case ReportItemHandle.DATABINDING_TYPE_DATA :
-					datasetRadio.setSelection( true );
-					datasetCombo.setEnabled( true );
-					datasetCombo.setText( value.toString( ) );
-					reportItemRadio.setSelection( false );
-					reportItemCombo.setEnabled( false );
-					break;
-				case ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF :
-					datasetRadio.setSelection( false );
-					datasetCombo.setEnabled( false );
-					reportItemRadio.setSelection( true );
-					reportItemCombo.setEnabled( true );
-					reportItemCombo.setText( value.toString( ) );
-			}
-		}
 	}
 
 	public Object loadValue( )
@@ -1194,6 +1000,172 @@ public class ColumnBindingDialog extends BaseDialog
 			return info;
 		}
 		return null;
+	}
+
+	protected void okPressed( )
+	{
+		if ( canSelect )
+		{
+			setResult( selectedColumnName );
+			if ( inputElement instanceof DataItemHandle )
+			{
+				try
+				{
+					( (DataItemHandle) inputElement ).setResultSetColumn( selectedColumnName );
+				}
+				catch ( SemanticException e )
+				{
+					ExceptionHandler.handle( e );
+				}
+			}
+		}
+		super.okPressed( );
+	}
+
+	private void refreshBinding( )
+	{
+		if ( datasetRadio.getSelection( ) )
+		{
+			datasetRadio.setSelection( true );
+			datasetCombo.setEnabled( true );
+			reportItemRadio.setSelection( false );
+			reportItemCombo.setEnabled( false );
+			if ( datasetCombo.getSelectionIndex( ) == -1 )
+			{
+				datasetCombo.setItems( getAvailableDatasetItems( ) );
+				datasetCombo.select( 0 );
+			}
+		}
+		else
+		{
+			datasetRadio.setSelection( false );
+			datasetCombo.setEnabled( false );
+			reportItemRadio.setSelection( true );
+			reportItemCombo.setEnabled( true );
+			if ( reportItemCombo.getSelectionIndex( ) == -1 )
+			{
+				reportItemCombo.setItems( getReferences( ) );
+				reportItemCombo.select( 0 );
+			}
+		}
+	}
+
+	private void refreshBindingInfo( BindingInfo info )
+	{
+		if ( canSelect )
+		{
+			int type = info.getBindingType( );
+			Object value = info.getBindingValue( );
+			datasetCombo.setItems( getAvailableDatasetItems( ) );
+			reportItemCombo.setItems( getReferences( ) );
+			if ( type == ReportItemHandle.DATABINDING_TYPE_NONE )
+				type = DEUtil.getBindingHolder( inputElement )
+						.getDataBindingType( );
+			switch ( type )
+			{
+				case ReportItemHandle.DATABINDING_TYPE_NONE :
+				case ReportItemHandle.DATABINDING_TYPE_DATA :
+					datasetRadio.setSelection( true );
+					datasetCombo.setEnabled( true );
+					datasetCombo.setText( value.toString( ) );
+					reportItemRadio.setSelection( false );
+					reportItemCombo.setEnabled( false );
+					break;
+				case ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF :
+					datasetRadio.setSelection( false );
+					datasetCombo.setEnabled( false );
+					reportItemRadio.setSelection( true );
+					reportItemCombo.setEnabled( true );
+					reportItemCombo.setText( value.toString( ) );
+			}
+		}
+	}
+
+	protected void refreshBindingTable( )
+	{
+		bindingTable.refresh( );
+		if ( canSelect )
+		{
+			updateSelection( );
+		}
+		updateButtons( );
+	}
+
+	private void resetDataSetReference( Object value, boolean clearHistory )
+	{
+		try
+		{
+			startTrans( "" ); //$NON-NLS-1$
+			inputElement.setDataBindingReference( null );
+			DataSetHandle dataSet = null;
+			if ( value != null )
+			{
+				dataSet = SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( )
+						.findDataSet( value.toString( ) );
+			}
+			if ( inputElement.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+			{
+				inputElement.setDataBindingReference( null );
+			}
+			inputElement.setDataSet( dataSet );
+			if ( clearHistory )
+			{
+				inputElement.getColumnBindings( ).clearValue( );
+				inputElement.getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
+						.clearValue( );
+			}
+			generateBindingColumns( );
+
+			selectedColumnName = null;
+			commit( );
+		}
+		catch ( SemanticException e )
+		{
+			rollback( );
+			ExceptionHandler.handle( e );
+		}
+		load( );
+	}
+
+	private void resetReference( Object value )
+	{
+		if ( value == null
+				&& inputElement.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA )
+		{
+			resetDataSetReference( null, true );
+		}
+		else
+		{
+			try
+			{
+				startTrans( "" ); //$NON-NLS-1$
+				ReportItemHandle element = null;
+				if ( value != null )
+				{
+					element = (ReportItemHandle) SessionHandleAdapter.getInstance( )
+							.getReportDesignHandle( )
+							.findElement( value.toString( ) );
+				}
+				inputElement.setDataBindingReference( element );
+				selectedColumnName = null;
+				commit( );
+			}
+			catch ( SemanticException e )
+			{
+				rollback( );
+				ExceptionHandler.handle( e );
+			}
+			load( );
+		}
+	}
+
+	private void rollback( )
+	{
+		if ( isEnableAutoCommit( ) )
+		{
+			getActionStack( ).rollback( );
+		}
 	}
 
 	public void save( Object saveValue ) throws SemanticException
@@ -1283,83 +1255,87 @@ public class ColumnBindingDialog extends BaseDialog
 		}
 	}
 
-	private void resetDataSetReference( Object value, boolean clearHistory )
+	private void saveBinding( )
 	{
-		try
+		BindingInfo info = new BindingInfo( );
+		if ( datasetRadio.getSelection( ) )
 		{
-			startTrans( "" ); //$NON-NLS-1$
-			inputElement.setDataBindingReference( null );
-			DataSetHandle dataSet = null;
-			if ( value != null )
-			{
-				dataSet = SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( )
-						.findDataSet( value.toString( ) );
-			}
-			if ( inputElement.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
-			{
-				inputElement.setDataBindingReference( null );
-			}
-			inputElement.setDataSet( dataSet );
-			if ( clearHistory )
-			{
-				inputElement.getColumnBindings( ).clearValue( );
-				inputElement.getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
-						.clearValue( );
-			}
-			generateBindingColumns( );
-
-			selectedColumnName = null;
-			commit( );
-		}
-		catch ( SemanticException e )
-		{
-			rollback( );
-			ExceptionHandler.handle( e );
-		}
-		load( );
-	}
-
-	private void resetReference( Object value )
-	{
-		if ( value == null
-				&& inputElement.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA )
-		{
-			resetDataSetReference( null, true );
+			info.setBindingType( ReportItemHandle.DATABINDING_TYPE_DATA );
+			info.setBindingValue( datasetCombo.getText( ) );
 		}
 		else
 		{
-			try
-			{
-				startTrans( "" ); //$NON-NLS-1$
-				ReportItemHandle element = null;
-				if ( value != null )
-				{
-					element = (ReportItemHandle) SessionHandleAdapter.getInstance( )
-							.getReportDesignHandle( )
-							.findElement( value.toString( ) );
-				}
-				inputElement.setDataBindingReference( element );
-				selectedColumnName = null;
-				commit( );
-			}
-			catch ( SemanticException e )
-			{
-				rollback( );
-				ExceptionHandler.handle( e );
-			}
-			load( );
+			info.setBindingType( ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF );
+			info.setBindingValue( reportItemCombo.getText( ) );
+		}
+		try
+		{
+			save( info );
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
 		}
 	}
 
 	/**
-	 * Gets the DE CommandStack instance
-	 * 
-	 * @return CommandStack instance
+	 * @param enableAutoCommit
+	 *            The enableAutoCommit to set.
 	 */
-	private CommandStack getActionStack( )
+	public void setEnableAutoCommit( boolean enableAutoCommit )
 	{
-		return SessionHandleAdapter.getInstance( ).getCommandStack( );
+		this.enableAutoCommit = enableAutoCommit;
+	}
+
+	public void setExpressionProvider( ExpressionProvider provider )
+	{
+		expressionProvider = provider;
+	}
+
+	/*
+	 * Set data for Group List
+	 */
+	public void setGroupList( List groupList )
+	{
+		this.groupList = groupList;
+	}
+
+	/*
+	 * Set input for dialog
+	 */
+	public void setInput( ReportItemHandle input )
+	{
+		this.inputElement = input;
+		ReportItemHandle container = DEUtil.getBindingHolder( input.getContainer( ) );
+		if ( container != null
+				&& ( container.getDataSet( ) != null || container.columnBindingsIterator( )
+						.hasNext( ) ) )
+		{
+			NullDatasetChoice = CHOICE_DATASET_FROM_CONTAINER;
+		}
+		else
+		{
+			NullDatasetChoice = CHOICE_NONE;
+		}
+
+		if ( container != null && container.getDataBindingReference( ) != null )
+		{
+			NullReportItemChoice = CHOICE_REPORTITEM_FROM_CONTAINER;
+		}
+		else
+		{
+			NullReportItemChoice = CHOICE_NONE;
+		}
+
+		isDataSetVisible = DEUtil.getBindingHolder( inputElement )
+				.getElement( )
+				.getDefn( )
+				.isPropertyVisible( IReportItemModel.DATA_SET_PROP );
+	}
+
+	protected void setSelectionInTable( int selectedIndex )
+	{
+		this.selectIndex = selectedIndex;
 	}
 
 	private void startTrans( String name )
@@ -1370,43 +1346,67 @@ public class ColumnBindingDialog extends BaseDialog
 		}
 	}
 
-	private void commit( )
+	protected void updateButtons( )
 	{
-		if ( isEnableAutoCommit( ) )
+		boolean okEnable = false;
+
+		if ( !canSelect || ( !isDataSetVisible && selectedColumnName != null )
+		// || ( selectedColumnName != null && getDataSetName( ) != null )
+				// || ( selectedColumnName != null && DEUtil.getBindingHolder(
+				// inputElement )
+				// .getDataSet( ) != null )
+				|| getSelectColumnHandle( ) != null )
 		{
-			getActionStack( ).commit( );
+			okEnable = true;
+		}
+		getOkButton( ).setEnabled( okEnable );
+		int min = 0;
+		int max = bindingTable.getTable( ).getItemCount( ) - 1;
+
+		if ( ( min <= selectIndex ) && ( selectIndex <= max ) )
+		{
+			btnDel.setEnabled( true );
+			if ( btnEdit != null )
+				btnEdit.setEnabled( true );
+		}
+		else
+		{
+			btnDel.setEnabled( false );
+			if ( btnEdit != null )
+				btnEdit.setEnabled( false );
+		}
+		bindingTable.getTable( ).select( selectIndex );
+		if ( DEUtil.getBindingHolder( inputElement ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA )
+		{
+			btnAdd.setEnabled( true );
+		}
+		else if ( DEUtil.getBindingHolder( inputElement ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_NONE
+				&& ( DEUtil.getBindingHolder( inputElement, true ) == null || DEUtil.getBindingHolder( inputElement,
+						true )
+						.getDataBindingType( ) != ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF ) )
+		{
+			btnAdd.setEnabled( true );
+		}
+		else
+		{
+			btnAdd.setEnabled( false );
+			btnEdit.setEnabled( false );
+			btnDel.setEnabled( false );
 		}
 	}
 
-	private void rollback( )
+	private void updateSelection( )
 	{
-		if ( isEnableAutoCommit( ) )
+		if ( canSelect )
 		{
-			getActionStack( ).rollback( );
+			( (CheckboxTableViewer) bindingTable ).setAllChecked( false );
+			( (CheckboxTableViewer) bindingTable ).setGrayed( dummyChoice, true );
+			if ( getSelectColumnHandle( ) != null )
+			{
+				( (CheckboxTableViewer) bindingTable ).setChecked( getSelectColumnHandle( ),
+						true );
+			}
 		}
-	}
-
-	private transient boolean enableAutoCommit = false;
-
-	private Button reportItemRadio;
-
-	private CCombo reportItemCombo;
-
-	/**
-	 * @return Returns the enableAutoCommit.
-	 */
-	public boolean isEnableAutoCommit( )
-	{
-		return enableAutoCommit;
-	}
-
-	/**
-	 * @param enableAutoCommit
-	 *            The enableAutoCommit to set.
-	 */
-	public void setEnableAutoCommit( boolean enableAutoCommit )
-	{
-		this.enableAutoCommit = enableAutoCommit;
 	}
 
 }
