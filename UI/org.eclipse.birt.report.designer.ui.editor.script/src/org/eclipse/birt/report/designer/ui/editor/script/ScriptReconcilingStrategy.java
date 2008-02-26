@@ -145,7 +145,8 @@ public class ScriptReconcilingStrategy implements IReconcilingStrategy
 		{
 			Annotation annotation = (Annotation) iterator.next( );
 
-			if ( !positions.remove( annotationModel.getPosition( annotation ) ) )
+			if ( annotation instanceof ScriptProjectionAnnotation &&
+					!positions.remove( annotationModel.getPosition( annotation ) ) )
 			{
 				annotationModel.removeAnnotation( annotation );
 			}
