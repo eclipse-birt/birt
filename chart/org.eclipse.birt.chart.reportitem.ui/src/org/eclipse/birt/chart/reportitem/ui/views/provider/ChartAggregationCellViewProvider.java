@@ -146,8 +146,7 @@ public class ChartAggregationCellViewProvider
 		cm.getLegend( ).setVisible( false );
 		cm.getTitle( ).setVisible( false );
 
-		String exprMeasure = ExpressionUtil.createJSDataExpression( ChartXTabUtil.generateComputedColumnName( cell ) );
-
+		String exprMeasure = ChartXTabUtil.generateComputedColumnName( cell );
 		String exprCategory = null;
 
 		// Compute the correct chart direction according to xtab
@@ -197,7 +196,7 @@ public class ChartAggregationCellViewProvider
 				.add( sdOrth );
 		if ( exprMeasure != null )
 		{
-			Query query = QueryImpl.create( exprMeasure );
+			Query query = QueryImpl.create( ExpressionUtil.createJSDataExpression( exprMeasure ) );
 			series.getDataDefinition( ).add( query );
 		}
 
@@ -217,6 +216,59 @@ public class ChartAggregationCellViewProvider
 		cm.setSampleData( sampleData );
 
 		return cm;
+	}
+
+	private void updateChartQueries( ChartWithAxes cm,
+			AggregationCellHandle cell )
+	{
+		// Replace the query expression in chart model
+		String exprMeasure = ChartXTabUtil.generateComputedColumnName( cell );
+		String exprCategory = null;
+
+		if ( cm.isTransposed( ) )
+		{
+			// Get the row dimension binding name as Category
+			// expression
+			Object content = getFirstContent( ChartXTabUtil.getInnermostLevelCell( cell.getCrosstab( ),
+					ICrosstabConstants.ROW_AXIS_TYPE ) );
+			if ( content instanceof DataItemHandle )
+			{
+				DataItemHandle dataItemHandle = (DataItemHandle) content;
+				exprCategory = dataItemHandle.getResultSetColumn( );
+			}
+		}
+		else
+		{
+			// Get the column dimension binding name as Category
+			// expression
+			Object content = getFirstContent( ChartXTabUtil.getInnermostLevelCell( cell.getCrosstab( ),
+					ICrosstabConstants.COLUMN_AXIS_TYPE ) );
+			if ( content instanceof DataItemHandle )
+			{
+				DataItemHandle dataItemHandle = (DataItemHandle) content;
+				exprCategory = dataItemHandle.getResultSetColumn( );
+			}
+		}
+
+		if ( exprCategory != null )
+		{
+			SeriesDefinition sdCategory = (SeriesDefinition) cm.getBaseAxes( )[0].getSeriesDefinitions( )
+					.get( 0 );
+			Query queryCategory = (Query) sdCategory.getDesignTimeSeries( )
+					.getDataDefinition( )
+					.get( 0 );
+			queryCategory.setDefinition( ExpressionUtil.createJSDataExpression( exprCategory ) );
+		}
+
+		if ( exprMeasure != null )
+		{
+			SeriesDefinition sdValue = (SeriesDefinition) cm.getOrthogonalAxes( cm.getBaseAxes( )[0],
+					true )[0].getSeriesDefinitions( ).get( 0 );
+			Query queryValue = (Query) sdValue.getDesignTimeSeries( )
+					.getDataDefinition( )
+					.get( 0 );
+			queryValue.setDefinition( ExpressionUtil.createJSDataExpression( exprMeasure ) );
+		}
 	}
 
 	private Object getFirstContent( CrosstabCellHandle cell )
@@ -286,5 +338,56 @@ public class ChartAggregationCellViewProvider
 				.getContainerPropertyHandle( )
 				.getPropertyDefn( )
 				.getName( ) );
+	}
+
+	public void updateView( AggregationCellHandle cell )
+	{
+		Object contentItem = ChartXTabUtil.getFirstContent( cell );
+
+		// Test if it's plot chart handle
+		if ( ChartReportItemUtil.isChartHandle( contentItem ) )
+		{
+			ExtendedItemHandle handle = (ExtendedItemHandle) contentItem;
+			// Test if it's plot chart
+			if ( handle.getProperty( ChartReportItemConstants.PROPERTY_HOST_CHART ) == null )
+			{
+				try
+				{
+					// Reset query expressions
+					ChartReportItemImpl reportItem = (ChartReportItemImpl) handle.getReportItem( );
+					ChartWithAxes cm = (ChartWithAxes) reportItem.getProperty( ChartReportItemConstants.PROPERTY_CHART );
+					if ( cm == null )
+					{
+						cm = createDefaultChart( cell );
+					}
+					else
+					{
+						updateChartQueries( cm, cell );
+					}
+					// Do not use setModel() to save cm since it has undo issue
+					reportItem.setProperty( ChartReportItemConstants.PROPERTY_CHART,
+							cm );
+
+					// Reset cell span
+					if ( cm.isTransposed( ) )
+					{
+
+						cell.setSpanOverOnRow( cell.getAggregationOnRow( ) );
+					}
+					else
+					{
+						cell.setSpanOverOnColumn( cell.getAggregationOnColumn( ) );
+					}
+				}
+				catch ( BirtException e )
+				{
+					ExceptionHandler.handle( e );
+				}
+			}
+		}
+		else if ( contentItem instanceof DataItemHandle )
+		{
+
+		}
 	}
 }
