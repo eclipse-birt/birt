@@ -44,28 +44,32 @@ class ReportDebuggerVMRunner implements IVMRunner
 
 		IProcess[] ps = launch.getProcesses( );
 
-		if ( runScript && ps != null && ps.length > 0 )
+		if ( ps != null && ps.length > 0 )
 		{
-			if ( monitor == null )
+			if ( runScript )
 			{
-				monitor = new NullProgressMonitor( );
+				if ( monitor == null )
+				{
+					monitor = new NullProgressMonitor( );
+				}
+
+				IProgressMonitor subMonitor = new SubProgressMonitor( monitor,
+						1 );
+				subMonitor.beginTask( "Launching VM...", 1 ); //$NON-NLS-1$
+
+				ReportVMClient vm = new ReportVMClient( );
+				ScriptDebugTarget target = new ScriptDebugTarget( launch,
+						vm,
+						null,
+						ps[0],
+						config.helper.requestPort,
+						config.helper.eventPort,
+						config.helper.tempFolder );
+				target.setFileName( config.helper.fileName );
+
+				subMonitor.worked( 1 );
+				subMonitor.done( );
 			}
-
-			IProgressMonitor subMonitor = new SubProgressMonitor( monitor, 1 );
-			subMonitor.beginTask( "Launching VM...", 1 ); //$NON-NLS-1$
-
-			ReportVMClient vm = new ReportVMClient( );
-			ScriptDebugTarget target = new ScriptDebugTarget( launch,
-					vm,
-					null,
-					ps[0],
-					config.helper.requestPort,
-					config.helper.eventPort,
-					config.helper.tempFolder );
-			target.setFileName( config.helper.fileName );
-
-			subMonitor.worked( 1 );
-			subMonitor.done( );
 
 			ReportLaunchHelper.handleProcessTermination( launch,
 					ps[0],
