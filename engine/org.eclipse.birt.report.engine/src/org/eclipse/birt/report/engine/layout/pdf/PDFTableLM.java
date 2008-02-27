@@ -179,13 +179,17 @@ public class PDFTableLM extends PDFBlockStackingLM
 		int rowSpan = cell.getRowSpan( );
 		if ( groupLevel >= 0 )
 		{
-			CellDesign cellDesign = (CellDesign) cell.getGenerateBy( );
-			if ( cellDesign != null )
+			Object generateBy = cell.getGenerateBy( );
+			if ( generateBy instanceof CellDesign )
 			{
-				String dropType = cellDesign.getDrop( );
-				if ( dropType != null && !"none".equals( dropType ) ) //$NON-NLS-1$
+				CellDesign cellDesign = (CellDesign) generateBy;
+				if ( cellDesign != null )
 				{
-					return createDropID( groupLevel, dropType );
+					String dropType = cellDesign.getDrop( );
+					if ( dropType != null && !"none".equals( dropType ) ) //$NON-NLS-1$
+					{
+						return createDropID( groupLevel, dropType );
+					}
 				}
 			}
 		}
