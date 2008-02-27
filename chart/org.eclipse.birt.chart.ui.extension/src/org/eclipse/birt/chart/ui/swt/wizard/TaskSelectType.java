@@ -425,6 +425,8 @@ public class TaskSelectType extends SimpleTask
 	 */
 	private void populateTypesTable( )
 	{
+		htTypes.clear( );
+		
 		Collection cTypes = ChartUIExtensionsImpl.instance( )
 				.getUIChartTypeExtensions( );
 		Iterator iterTypes = cTypes.iterator( );
