@@ -1,5 +1,5 @@
 birt.web.category.name=业务智能和报告工具
-birt.web.project.name=Web 项目图表
+birt.web.project.name=Web Project With Chart Runtime
 birt.web.project.description=创建包含 BIRT 图表组件的 Web 项目
 birt.web.actionsets.description=对 BIRT 图表 Web 项目的操作
 create.birt.web.module=创建 BIRT 图表 Web 模块
