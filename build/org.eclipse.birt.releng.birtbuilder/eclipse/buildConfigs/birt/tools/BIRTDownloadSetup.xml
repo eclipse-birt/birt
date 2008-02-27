@@ -232,7 +232,7 @@
 
 		<antcall target="createAllInOne" />
 
-		<!--<antcall target="createAllInOneHQ" />-->
+		<antcall target="createAllInOneHQ" />
 
 		<antcall target="createAllInOneForLinux" />
 		
@@ -247,11 +247,11 @@
 		<replace file="${OutputDir}\${birt.info}" token="#buildType#" value="Nightly"/>
 		<replace file="${OutputDir}\${birt.info}" token="#timeStamp#" value="${buildId}"/>
 		<replace file="${OutputDir}\${birt.info}" token="#branch#" value="${package.version}"/>
-		<replace file="${OutputDir}\${birt.info}" token="#ECLIPSEVERSION#" value="3.4 M4 SDK"/>
-		<replace file="${OutputDir}\${birt.info}" token="#EMFVERSION#" value="2.4 M4 EMF+SDO+XSD"/>
-		<replace file="${OutputDir}\${birt.info}" token="#GEFVERSION#" value="3.4 M4 runtime"/>
-		<replace file="${OutputDir}\${birt.info}" token="#DTPVERSION#" value="1.6 M5 Nightly" />
-		<replace file="${OutputDir}\${birt.info}" token="#WTPVERSION#" value="3.0 M4"/>
+		<replace file="${OutputDir}\${birt.info}" token="#ECLIPSEVERSION#" value="3.4 M5 SDK"/>
+		<replace file="${OutputDir}\${birt.info}" token="#EMFVERSION#" value="2.4 M5 EMF+XSD"/>
+		<replace file="${OutputDir}\${birt.info}" token="#GEFVERSION#" value="3.4 M5 runtime"/>
+		<replace file="${OutputDir}\${birt.info}" token="#DTPVERSION#" value="1.6 M6 Nightly" />
+		<replace file="${OutputDir}\${birt.info}" token="#WTPVERSION#" value="3.0 M5"/>
 	
 	</target>
 
@@ -981,36 +981,25 @@
 	</target>
 	
     <target name="createWTPIntegration" >
-        <!--  Replace plugin.xml for wtp.ui plugin -->
-    	<property file="${buildDirectory}/finalPluginsVersions.properties"/>
-    	<copy todir="${OutputDir}/${wtp.integration.zip.name}_tmp/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}">
-    		<fileset dir="${deposit}/eclipse/plugins/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}"/>
-    	</copy>
-	<copy tofile="${OutputDir}/${wtp.integration.zip.name}_tmp/org.eclipse.birt.integration.wtp.ui_${org.eclipse.birt.integration.wtp.ui}/plugin.xml"
-    	file="${buildDirectory}/plugins/org.eclipse.birt.integration.wtp.ui/plugin_sdk.xml" overwrite="true" />
-    	<!--  Make BIRT SDK ZIP file-->
-		<zip destfile="${OutputDir}/${wtp.integration.zip.name}">
-			<zipfileset dir="${deposit}/eclipse/plugins" prefix="${ZipPrefix}">
-				<include name="org.eclipse.birt.report.designer.ui.editor.xml.wtp*/**"/>
-				<include name="org.eclipse.birt.integration.wtp.source_*/**" />
-				<include name="org.eclipse.birt.chart.integration.wtp.ui_*/**" />
-				<include name="org.eclipse.birt.chart.integration.wtp.source_*/**" />
-			</zipfileset>
-			<zipfileset dir="${OutputDir}/${wtp.integration.zip.name}_tmp" prefix="${ZipPrefix}">
-				<include name="org.eclipse.birt.integration.wtp.ui_*/**" />
-			</zipfileset>
-			<zipfileset dir="${deposit}/eclipse/features" prefix="${FeautrePrefix}">
-				<include name="org.eclipse.birt.integration.wtp*/*" />
-				<include name="org.eclipse.birt.chart.integration.wtp*/*" />
-			</zipfileset>
-			<zipfileset dir="${template.dir}/legal" prefix="eclipse">
-				<include name="**/*" />
-				<exclude name="eclipse.ini" />
-			</zipfileset>
-		</zip>
 
-	<!-- delete tmp dir -->
-	<delete dir="${OutputDir}/${wtp.integration.zip.name}_tmp" failonerror="false"/>
+	<zip destfile="${OutputDir}/${wtp.integration.zip.name}">
+		<zipfileset dir="${deposit}/eclipse/plugins" prefix="${ZipPrefix}">
+			<include name="org.eclipse.birt.report.designer.ui.editor.xml.wtp*/**"/>
+			<include name="org.eclipse.birt.integration.wtp.source_*/**" />
+			<include name="org.eclipse.birt.chart.integration.wtp.ui_*/**" />
+			<include name="org.eclipse.birt.chart.integration.wtp.source_*/**" />
+			<include name="org.eclipse.birt.integration.wtp.ui_*/**" />
+		</zipfileset>
+		<zipfileset dir="${deposit}/eclipse/features" prefix="${FeautrePrefix}">
+			<include name="org.eclipse.birt.integration.wtp*/*" />
+			<include name="org.eclipse.birt.chart.integration.wtp*/*" />
+		</zipfileset>
+		<zipfileset dir="${template.dir}/legal" prefix="eclipse">
+			<include name="**/*" />
+			<exclude name="eclipse.ini" />
+		</zipfileset>
+	</zip>
+
     </target>
 
 	<target name="createChartDownload">
