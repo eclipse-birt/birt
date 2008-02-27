@@ -23,4 +23,4 @@ Export-Package: org.eclipse.birt.report.designer.ui.ide.navigator,
  org.eclipse.birt.report.designer.ui.preview,
  org.eclipse.birt.report.designer.ui.preview.editors
 Bundle-Vendor: Eclipse.org
-Bundle-RequiredExecutionEnvironment: J2SE-1.4
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
