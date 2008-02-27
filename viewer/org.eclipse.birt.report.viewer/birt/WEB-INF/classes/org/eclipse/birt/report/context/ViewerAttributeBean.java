@@ -461,10 +461,12 @@ public class ViewerAttributeBean extends BaseAttributeBean
 							}
 							else
 							{
+								Object varObj = DataUtil.convert( varValue,
+										parameter.getDataType( ) );
 								if ( parameter.isMultiValue( ) )
-									values.add( varValue );
+									values.add( varObj );
 								else
-									this.configMap.put( paramName, varValue );
+									this.configMap.put( paramName, varObj );
 							}
 						}
 					}
@@ -827,9 +829,9 @@ public class ViewerAttributeBean extends BaseAttributeBean
 				if ( paramObj instanceof List )
 				{
 					List list = (List) paramObj;
-					
-					// FIXME:if list is empty or only contains null value, regard it
-					// as NULL object
+
+					// FIXME:if list is empty or only contains null value,
+					// regard it as NULL object
 					if ( list.size( ) == 0
 							|| ( list.size( ) == 1 && list.get( 0 ) == null ) )
 						params.put( paramName, null );
@@ -854,8 +856,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 
 				if ( parameter.isMultiValue( ) )
 				{
-					// FIXME: if multi-value only contains null value, regard it as
-					// NULL object
+					// FIXME: if multi-value only contains null value, regard it
+					// as NULL object
 					if ( paramValueObj == null )
 						params.put( paramName, null );
 					else

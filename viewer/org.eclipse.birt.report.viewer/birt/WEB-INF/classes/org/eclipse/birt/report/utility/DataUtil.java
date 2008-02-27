@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.sql.Types;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -29,6 +30,8 @@ import org.eclipse.birt.report.model.api.metadata.ValidationValueException;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
+import com.ibm.icu.text.SimpleDateFormat;
+import com.ibm.icu.util.ULocale;
 
 /**
  * Provides data convert and format services
@@ -36,6 +39,23 @@ import org.eclipse.birt.report.resource.ResourceConstants;
  */
 public class DataUtil
 {
+
+	private static SimpleDateFormat datetimeFormatter = null;
+	private static SimpleDateFormat dateFormatter = null;
+	private static SimpleDateFormat timeFormatter = null;
+
+	static
+	{
+		// date-time formatter
+		datetimeFormatter = new SimpleDateFormat(
+				"yyyy-MM-dd HH:mm:ss.SSS", ULocale.US ); //$NON-NLS-1$
+
+		// date formatter
+		dateFormatter = new SimpleDateFormat( "yyyy-MM-dd", ULocale.US ); //$NON-NLS-1$
+
+		// time formatter
+		timeFormatter = new SimpleDateFormat( "HH:mm:ss", ULocale.US ); //$NON-NLS-1$
+	}
 
 	/**
 	 * Convert Object to String
@@ -541,5 +561,43 @@ public class DataUtil
 		}
 
 		return false;
+	}
+
+	/**
+	 * Save value in rptconfig cache file
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public static String getCachedDisplayValue( Object value )
+	{
+		if ( value == null )
+			return null;
+
+		if ( value instanceof Float || value instanceof Double
+				|| value instanceof BigDecimal
+				|| value instanceof com.ibm.icu.math.BigDecimal )
+		{
+			return value.toString( );
+		}
+		else if ( value instanceof Date
+				&& !( value instanceof java.sql.Date || value instanceof java.sql.Time ) )
+		{
+			return datetimeFormatter.format( (Date) value );
+		}
+		else if ( value instanceof java.sql.Date )
+		{
+			return dateFormatter.format( new Date( ( (java.sql.Date) value )
+					.getTime( ) ) );
+		}
+		else if ( value instanceof java.sql.Time )
+		{
+			return timeFormatter.format( new Date( ( (java.sql.Time) value )
+					.getTime( ) ) );
+		}
+		else
+		{
+			return ParameterValidationUtil.getDisplayValue( value );
+		}
 	}
 }
