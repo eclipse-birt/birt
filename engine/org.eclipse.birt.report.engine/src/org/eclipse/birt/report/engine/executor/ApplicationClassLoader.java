@@ -61,7 +61,7 @@ public class ApplicationClassLoader extends ClassLoader
 	{
 		try
 		{
-			return IReportEngine.class.getClassLoader( ).loadClass( className );
+			return ApplicationClassLoader.class.getClassLoader( ).loadClass( className );
 		}
 		catch ( ClassNotFoundException ex )
 		{
