@@ -421,15 +421,15 @@ public class ReportEngineHelper
 	public IReportDocument openReportDocument( String systemId,
 			IDocArchiveReader archive, Map options ) throws EngineException
 	{
-		ReportDocumentReader reader = new ReportDocumentReader( systemId,
-				engine, archive );
 		if ( options == null )
 		{
 			options = new HashMap( );
 		}
 		intializeModuleOptions( options );
-
-		reader.setModuleOptions( options );
+		
+		ReportDocumentReader reader = new ReportDocumentReader( systemId,
+				engine, archive, options);
+		
 		return reader;
 	}
 	

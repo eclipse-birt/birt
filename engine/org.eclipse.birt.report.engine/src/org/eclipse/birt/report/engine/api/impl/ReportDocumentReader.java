@@ -105,13 +105,14 @@ public class ReportDocumentReader
 	}
 
 	public ReportDocumentReader( String systemId, ReportEngine engine,
-			IDocArchiveReader archive ) throws EngineException
+			IDocArchiveReader archive, Map options) throws EngineException
 	{
-		this( systemId, engine, archive, false );
+		this( systemId, engine, archive, false, options );
 	}
 
 	public ReportDocumentReader( String systemId, ReportEngine engine,
-		IDocArchiveReader archive, boolean sharedArchive ) throws EngineException
+			IDocArchiveReader archive, boolean sharedArchive, Map options )
+			throws EngineException
 	{
 		this.engine = engine;
 		this.archive = archive;
@@ -120,6 +121,11 @@ public class ReportDocumentReader
 		this.moduleOptions = new HashMap( );
 		this.moduleOptions.put( ModuleOption.PARSER_SEMANTIC_CHECK_KEY,
 				Boolean.FALSE );
+		if ( options != null )
+		{
+			this.moduleOptions.putAll( options );
+		}
+		
 
 		try
 		{
@@ -132,17 +138,12 @@ public class ReportDocumentReader
 			throw new EngineException( "Failed to open the report document", ee );
 		}
 	}
-
-	/**
-	 * set the options used to parse the report design in the report document.
-	 * 
-	 * @param options
-	 *            options used to control the design parser.
-	 */
-	void setModuleOptions( Map options )
+	
+	public ReportDocumentReader( String systemId, ReportEngine engine,
+			IDocArchiveReader archive, boolean sharedArchive )
+			throws EngineException
 	{
-		moduleOptions = new HashMap( );
-		moduleOptions.putAll( options );
+		this( systemId, engine, archive, sharedArchive, null );
 	}
 
 	public IDocArchiveReader getArchive( )
