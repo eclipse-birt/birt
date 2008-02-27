@@ -344,4 +344,12 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#getStateInformation()
+	 */
+	public int getStateInformation( )
+	{
+		return 0;
+	}
 }

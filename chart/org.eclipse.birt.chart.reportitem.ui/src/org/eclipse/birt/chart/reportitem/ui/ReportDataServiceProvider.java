@@ -2029,4 +2029,34 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 		return isUpdated;
 	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#getStates()
+	 */
+	public int getStateInformation( )
+	{
+		int states = 0;
+		if ( getBoundDataSet( ) != null )
+		{
+			states |= IDataServiceProvider.HAS_DATA_SET;
+		}
+		if ( getDataCube( ) != null )
+		{
+			states |= IDataServiceProvider.HAS_CUBE;
+		}
+		if ( itemHandle.getDataBindingReference( ) != null )
+		{
+			states |= IDataServiceProvider.DATA_BINDING_REFERENCE;
+		}
+		if ( isInMultiView( ) )
+		{
+			states |= IDataServiceProvider.IN_MULTI_VIEWS;
+		}
+		if ( isSharedBinding( ) )
+		{
+			states |= IDataServiceProvider.IS_SHARING_QUERY;
+		}
+
+		return states;
+	}
 }

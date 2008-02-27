@@ -119,4 +119,22 @@ public interface IDataServiceProvider
 	 * @since 2.3
 	 */
 	public boolean update( String type, Object value );
+	
+	public static final int HAS_DATA_SET = 1;
+	
+	public static final int HAS_CUBE = 1 << 1;
+	
+	public static final int DATA_BINDING_REFERENCE = 1 << 2;
+	
+	public static final int IN_MULTI_VIEWS = 1 << 3;
+	
+	public static final int IS_SHARING_QUERY = 1 << 4;
+
+	/**
+	 * Returns state information of current data service provider.
+	 * 
+	 * @return
+	 * @since 2.3
+	 */
+	public int getStateInformation( );
 }

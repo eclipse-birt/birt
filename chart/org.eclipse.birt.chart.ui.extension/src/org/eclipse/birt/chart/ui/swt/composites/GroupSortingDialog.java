@@ -29,6 +29,7 @@ import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.model.data.impl.SeriesGroupingImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -400,6 +401,29 @@ public class GroupSortingDialog extends TrayDialog
 	}
 
 	/**
+	 * Check if Y grouping is enabled and current is using cube, only category
+	 * expression is allowed as category sort key.
+	 * 
+	 * @return
+	 * @since BIRT 2.3
+	 */
+	protected boolean onlyCategoryExprAsCategorySortKey( )
+	{
+		int stateInfo = wizardContext.getDataServiceProvider( )
+				.getStateInformation( );
+		boolean isCube = ( stateInfo & IDataServiceProvider.HAS_CUBE ) == IDataServiceProvider.HAS_CUBE &&
+				( stateInfo & IDataServiceProvider.IS_SHARING_QUERY ) != IDataServiceProvider.IS_SHARING_QUERY;
+
+		if ( isYGroupingEnabled( ) && !isCube )
+
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * check if Y grouping is set.
 	 * 
 	 * @return
@@ -436,7 +460,7 @@ public class GroupSortingDialog extends TrayDialog
 
 		return yGroupExpr != null && !"".equals( yGroupExpr ); //$NON-NLS-1$
 	}
-
+	
 	/**
 	 * Get expressions of base series.
 	 * 

@@ -37,7 +37,7 @@ public class BaseGroupSortingDialog extends GroupSortingDialog
 	{
 		super.createSortArea( parent );
 		
-		if ( isYGroupingEnabled() )
+		if ( onlyCategoryExprAsCategorySortKey() )
 		{
 			setSortKeySelectionState( false );
 		}
@@ -56,7 +56,7 @@ public class BaseGroupSortingDialog extends GroupSortingDialog
 		{
 			if ( !cmbSorting.getText( ).equals( UNSORTED_OPTION ) )
 			{
-				if ( isYGroupingEnabled() )
+				if ( onlyCategoryExprAsCategorySortKey() )
 				{
 					// Select base series expression.
 					cmbSortExpr.setText( (String) getBaseSeriesExpression().toArray( )[0] );
@@ -101,12 +101,12 @@ public class BaseGroupSortingDialog extends GroupSortingDialog
 		else
 		{
 			exprList.addAll( getBaseSeriesExpression( ) );
-			if ( !isYGroupingEnabled( ) )
+			if ( !onlyCategoryExprAsCategorySortKey( ) )
 			{
 				exprList.addAll( getValueSeriesExpressions( ) );
 			}
 
-			if ( !isYGroupingEnabled( ) )
+			if ( !onlyCategoryExprAsCategorySortKey( ) )
 			{
 				sortExpr = this.getSeriesDefinitionForProcessing( )
 						.getSortKey( )
