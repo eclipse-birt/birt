@@ -61,7 +61,7 @@ public class ApplicationClassLoader extends ClassLoader
 	{
 		try
 		{
-			return ApplicationClassLoader.class.getClassLoader( ).loadClass( className );
+			return IReportEngine.class.getClassLoader( ).loadClass( className );
 		}
 		catch ( ClassNotFoundException ex )
 		{
@@ -75,7 +75,7 @@ public class ApplicationClassLoader extends ClassLoader
 
 	public URL getResource( String name )
 	{
-		URL url = ApplicationClassLoader.class.getClassLoader( ).getResource(
+		URL url = IReportEngine.class.getClassLoader( ).getResource(
 				name );
 		if ( url == null )
 		{
