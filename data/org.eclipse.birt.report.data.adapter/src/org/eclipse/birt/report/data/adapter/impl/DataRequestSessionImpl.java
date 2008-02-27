@@ -510,7 +510,10 @@ public class DataRequestSessionImpl extends DataRequestSession
 			DataSetHandle dsHandle = (DataSetHandle) itr.next( );
 			BaseDataSourceDesign baseDataSource = this.modelAdaptor.adaptDataSource( dsHandle.getDataSource( ) );
 			BaseDataSetDesign baseDataSet = this.modelAdaptor.adaptDataSet( dsHandle );
-			this.defineDataSource( baseDataSource );
+			
+			//When the data set is joint data set, the data source does not exist.
+			if ( baseDataSource!= null )
+				this.defineDataSource( baseDataSource );
 			this.defineDataSet( baseDataSet );
 		}
 		
