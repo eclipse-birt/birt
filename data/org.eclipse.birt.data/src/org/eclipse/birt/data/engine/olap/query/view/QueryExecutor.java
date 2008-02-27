@@ -20,7 +20,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.birt.core.archive.FileArchiveReader;
-import org.eclipse.birt.core.archive.FileArchiveWriter;
+import org.eclipse.birt.core.archive.compound.ArchiveFile;
+import org.eclipse.birt.core.archive.compound.ArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBinding;
@@ -192,7 +193,10 @@ public class QueryExecutor
 				{
 					tmpDir.mkdirs( );
 				}
-				FileArchiveWriter writer = new FileArchiveWriter( executor.getSession( ).getTempDir( ) + "Cache");
+				ArchiveWriter writer = new ArchiveWriter( new ArchiveFile( executor.getSession( )
+						.getTempDir( )
+						+ "Cache",
+						"rw+" ) );
 				AggregationResultSetSaveUtil.save( id,
 						rs,
 						writer );
