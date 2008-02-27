@@ -28,6 +28,7 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.model.api.ConfigVariableHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
@@ -227,24 +228,9 @@ public class DataAdapterTopLevelScope extends ImporterTopLevel
 			return null;
 		}
 
-		// Convert default value to the correct data type
-		int typeNum = DataType.ANY_TYPE;
-		if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) )
-			typeNum = DataType.STRING_TYPE;
-		else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type ) )
-			typeNum = DataType.DOUBLE_TYPE;
-		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( type ) )
-			typeNum = DataType.DECIMAL_TYPE;
-		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
-			typeNum = DataType.DATE_TYPE;
-		else if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( type ) )
-			typeNum = DataType.BOOLEAN_TYPE;
-		else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( type ) )
-			typeNum = DataType.INTEGER_TYPE;
-
 		try
 		{
-			return DataTypeUtil.convert( defaultValue, typeNum );
+			return DataTypeUtil.convert( defaultValue, DataAdapterUtil.modelDataTypeToCoreDataType( type ) );
 		}
 		catch ( BirtException e )
 		{
@@ -321,9 +307,30 @@ public class DataAdapterTopLevelScope extends ImporterTopLevel
 					if ( parameterHandle.getParamType( )
 							.equals( DesignChoiceConstants.SCALAR_PARAM_TYPE_SIMPLE ) )
 					{
-						return values.get( 0 );
+						try
+						{
+							return DataTypeUtil.convert( 
+									values.get( 0 ), DataAdapterUtil.modelDataTypeToCoreDataType( parameterHandle.getDataType() ) );
+						}
+						catch ( BirtException e )
+						{
+							return null;
+						}
 					}
-					return values.toArray( );
+					
+					try {
+						Object[] reValues = new Object[values.size()];
+						for (int i = 0; i < reValues.length; i++)
+						{
+							reValues[i] = DataTypeUtil.convert( 
+									values.get(i), DataAdapterUtil.modelDataTypeToCoreDataType(parameterHandle.getDataType()));
+						}
+						return reValues;
+					}
+					catch (BirtException e)
+					{
+						return null;
+					}
 				}
 			}
 		}

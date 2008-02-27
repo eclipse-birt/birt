@@ -319,6 +319,29 @@ public class DataAdapterUtil
 				? ISortDefinition.SORT_DESC : ISortDefinition.SORT_ASC;
 	}
 	
+	/**
+	 * 
+	 * @param type
+	 * @return
+	 */
+	public static int modelDataTypeToCoreDataType( String type )
+	{
+		int typeNum = DataType.ANY_TYPE;
+		if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) )
+			typeNum = DataType.STRING_TYPE;
+		else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type ) )
+			typeNum = DataType.DOUBLE_TYPE;
+		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( type ) )
+			typeNum = DataType.DECIMAL_TYPE;
+		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
+			typeNum = DataType.DATE_TYPE;
+		else if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( type ) )
+			typeNum = DataType.BOOLEAN_TYPE;
+		else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( type ) )
+			typeNum = DataType.INTEGER_TYPE;
+		return typeNum;
+	}
+	
 	private static class JSResultIteratorObject extends ScriptableObject
 	{
 		/**
