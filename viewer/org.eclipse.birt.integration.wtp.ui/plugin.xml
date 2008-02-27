@@ -9,7 +9,7 @@
 	<extension point="org.eclipse.ui.newWizards">	
 		<wizard name="%birt.web.project.name" 
 				class="org.eclipse.birt.integration.wtp.ui.internal.wizards.BirtWebProjectWizard"
-				category="org.eclipse.birt.report.designer.ui.wizard.category"
+				category="org.eclipse.wst.web.ui"
 				id="org.eclipse.birt.integration.wtp.ui.internal.wizards.BirtWebProjectCreationWizard"
 				finalPerspective="org.eclipse.jst.j2ee.J2EEPerspective"
 				project="true"
