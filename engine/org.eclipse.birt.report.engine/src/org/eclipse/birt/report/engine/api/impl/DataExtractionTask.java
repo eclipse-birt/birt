@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
+import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IDataExtractionTask;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
@@ -172,6 +173,16 @@ public class DataExtractionTask implements IDataExtractionTask
 	public void setFilters( IFilterDefinition[] simpleFilterExpression )
 	{
 		task.setFilters( simpleFilterExpression );
+	}
+	
+	public void setSorts( ISortDefinition[] simpleSortExpression )
+	{
+		task.setSorts( simpleSortExpression );
+	}
+
+	public void setMaxRows( int maxRows )
+	{
+		task.setMaxRows( maxRows );
 	}
 
 	public void setInstanceID( InstanceID iid )

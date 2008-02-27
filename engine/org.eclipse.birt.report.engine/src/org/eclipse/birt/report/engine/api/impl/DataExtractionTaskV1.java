@@ -33,6 +33,7 @@ import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
@@ -96,6 +97,16 @@ public class DataExtractionTaskV1 extends EngineTask
 	 * simple filter expression
 	 */
 	protected IFilterDefinition[] filterExpressions = null;
+	
+	/**
+	 * simple sort expression
+	 */
+	protected ISortDefinition[] sortExpressions = null;
+
+	/**
+	 * maximum rows
+	 */
+	protected int maxRows = -1;
 
 	/**
 	 * have the metadata be prepared. meta data means rsetName2IdMapping and
@@ -590,7 +601,8 @@ public class DataExtractionTaskV1 extends EngineTask
 		if ( rsetId != null )
 		{
 			IQueryResults results = null;
-			if ( null == filterExpressions )
+			if ( null == filterExpressions && null == sortExpressions
+					&& maxRows == -1 )
 			{
 				results = dataSession.getQueryResults( rsetId );
 			}
@@ -606,11 +618,30 @@ public class DataExtractionTaskV1 extends EngineTask
 				}
 
 				// add filter
-				for ( int iNum = 0; iNum < filterExpressions.length; iNum++ )
+				if (filterExpressions != null)
 				{
-					newQuery.getFilters( ).add( filterExpressions[iNum] );
+					for ( int iNum = 0; iNum < filterExpressions.length; iNum++ )
+					{
+						newQuery.getFilters( ).add( filterExpressions[iNum] );
+					}
+					filterExpressions = null;
 				}
-				filterExpressions = null;
+
+				// add sort
+				if ( sortExpressions != null )
+				{
+					for ( int iNum = 0; iNum < sortExpressions.length; iNum++ )
+					{
+						newQuery.getSorts( ).add( sortExpressions[iNum] );
+					}
+					sortExpressions = null;
+				}
+
+				if ( maxRows != -1 )
+				{
+					query.setMaxRows( maxRows );
+					maxRows = -1;
+				}
 
 				// get new result
 				newQuery.setQueryResultsID( rsetId );
@@ -661,6 +692,24 @@ public class DataExtractionTaskV1 extends EngineTask
 					{
 						query.getFilters( ).add( filterExpressions[i] );
 					}
+					filterExpressions = null;
+				}
+				
+				if ( sortExpressions != null )
+				{
+					query = cloneQuery( query );
+					// add sort
+					for ( int i = 0; i < sortExpressions.length; i++ )
+					{
+						query.getSorts( ).add( sortExpressions[i] );
+					}
+					sortExpressions = null;
+				}
+
+				if ( maxRows != -1 )
+				{
+					query.setMaxRows( maxRows );
+					maxRows = -1;
 				}
 				
 				if(query instanceof IQueryDefinition)
@@ -866,4 +915,19 @@ public class DataExtractionTaskV1 extends EngineTask
 		filterExpressions = simpleFilterExpression;
 	}
 
+	/**
+	 * @param simpleSortExpression
+	 */
+	public void setSorts( ISortDefinition[] simpleSortExpression )
+	{
+		sortExpressions = simpleSortExpression;
+	}
+
+	/**
+	 * @param maxRows
+	 */
+	public void setMaxRows( int maxRows )
+	{
+		this.maxRows = maxRows;
+	}
 }

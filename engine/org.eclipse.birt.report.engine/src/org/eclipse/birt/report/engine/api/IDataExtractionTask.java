@@ -1,7 +1,9 @@
 package org.eclipse.birt.report.engine.api;
 
 import java.util.List;
+
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
+import org.eclipse.birt.data.engine.api.ISortDefinition;
 
 /**
  * an engine task that extracts data from a report. The task allows the return
@@ -79,6 +81,18 @@ public interface IDataExtractionTask extends IEngineTask
 	 *            name, only <, >, = and startWith is supported.
 	 */
 	public void setFilters( IFilterDefinition[] simpleFilterExpression );
+	
+	/**
+	 * @param simpleSortExpression
+	 *            add one sort condition to the extraction
+	 */
+	public void setSorts( ISortDefinition[] simpleSortExpression );
+
+	/**
+	 * @param maxRows
+	 *            set the maximum rows that are returned from ResultSet
+	 */
+	public void setMaxRows( int maxRows );
 	
 	/**
 	 * @param columnNames
