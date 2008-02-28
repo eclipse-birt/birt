@@ -25,6 +25,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.Mu
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.AbstractGuideHandle;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.MultipleGuideHandle;
 import org.eclipse.birt.report.designer.internal.ui.layout.MultipleLayout;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.command.ViewsContentEvent;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
@@ -148,6 +149,7 @@ public class MultipleEditPart extends ReportElementEditPart implements IMultiple
 		if (set.contains( IReportItemModel.MULTI_VIEWS_PROP ) && getMultipleAdapter( ).getViews( ).size( ) > 0)
 		{
 			refresh( );
+			UIUtil.resetViewSelection(getViewer(), true);
 			return;
 		}
 		super.propertyChange( info );

@@ -21,7 +21,9 @@ import org.eclipse.birt.report.designer.core.util.mediator.request.IRequestConve
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ISelectionHandlesEditPolicy;
+import org.eclipse.birt.report.engine.script.internal.element.ReportItem;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.draw2d.IFigure;
@@ -394,7 +396,14 @@ public class DeferredGraphicalViewer extends ScrollingGraphicalViewer
 						Object temp = ((IAdaptable)model).getAdapter( DesignElementHandle.class );
 						model = temp==null?model:temp;
 					}
-					
+					if (model instanceof ReportItemHandle)
+					{
+						ReportItemHandle handle = (ReportItemHandle)model;
+						if (handle.getCurrentView( ) != null)
+						{
+							model = handle.getCurrentView( );
+						}
+					}
 					retValue.add(model);
 					
 				}
