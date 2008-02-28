@@ -466,7 +466,8 @@ public final class AutoScale extends Methods implements Cloneable
 	 */
 	public final boolean zoomOut( )
 	{
-		if ( bStepFixed )
+		// Fix Bugzilla#220710 to avoid useless zoom out
+		if ( bStepFixed || this.getTickCordinates( ).size( ) < 3 )
 		{
 			return false;
 		}
