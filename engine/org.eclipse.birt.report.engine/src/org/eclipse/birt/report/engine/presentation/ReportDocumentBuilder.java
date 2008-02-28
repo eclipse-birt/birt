@@ -53,7 +53,6 @@ import org.eclipse.birt.report.engine.internal.document.v4.PageHintWriterV4;
 import org.eclipse.birt.report.engine.internal.presentation.ReportDocumentInfo;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
-import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.layout.CompositeLayoutPageHandler;
@@ -265,6 +264,10 @@ public class ReportDocumentBuilder
 		{
 			InstanceID pid = parent.getInstanceID( );
 			if ( pid == null || pid.getComponentID( ) == -1 )
+			{
+				return true;
+			}
+			if ( parent.getGenerateBy( ) instanceof ExtendedItemDesign )
 			{
 				return true;
 			}
