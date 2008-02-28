@@ -215,6 +215,13 @@ public class LibraryExplorerView extends PageBookView
 	 */
 	protected void doDestroyPage( IWorkbenchPart part, PageRec pageRecord )
 	{
+		if ( treeViewPage != null && prefs != null )
+		{
+			prefs.removePreferenceChangeListener( treeViewPage );
+		}
+		
+		this.resourceFolder = null;
+
 		IPage page = pageRecord.page;
 		page.dispose( );
 		pageRecord.dispose( );
