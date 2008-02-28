@@ -13,19 +13,13 @@ package org.eclipse.birt.report.designer.ui.lib.explorer;
 
 import java.io.File;
 import java.net.URL;
-import java.util.Collections;
-import java.util.List;
 
 import org.eclipse.birt.core.preference.IPreferenceChangeListener;
-import org.eclipse.birt.core.preference.IPreferences;
 import org.eclipse.birt.core.preference.PreferenceChangeEvent;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
-import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceLocator;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.ItemSorter;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -33,7 +27,6 @@ import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.lib.explorer.dnd.LibraryDragListener;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.DesignElementEntry;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ResourceEntryWrapper;
-import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.widget.TreeViewerBackup;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
@@ -83,8 +76,7 @@ import org.eclipse.swt.widgets.Widget;
 public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage implements
 		IValidationListener,
 		IPreferenceChangeListener,
-		IResourceChangeListener,
-		IColleague
+		IResourceChangeListener
 {
 
 	// private static final String LABEL_DOUBLE_CLICK = Messages.getString(
@@ -92,7 +84,6 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 	private static final String BUNDLE_PROTOCOL = "bundleresource://"; //$NON-NLS-1$
 
-	private IPreferences prefs;
 	private TreeViewer treeViewer;
 	private TreeViewerBackup libraryBackup;
 
@@ -253,14 +244,6 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 			}
 		} );
 
-		// Listen to preference change.
-		prefs = PreferenceFactory.getInstance( )
-				.getPreferences( ReportPlugin.getDefault( ),
-						UIUtil.getCurrentProject( ) );
-		prefs.addPreferenceChangeListener( this );
-		SessionHandleAdapter.getInstance( )
-				.getMediator( )
-				.addGlobalColleague( this );
 	}
 
 	/**
@@ -365,14 +348,9 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	 */
 	public void dispose( )
 	{
-		if ( prefs != null )
-			prefs.removePreferenceChangeListener( this );
 		SessionHandleAdapter.getInstance( )
 				.getSessionHandle( )
 				.removeResourceChangeListener( this );
-		SessionHandleAdapter.getInstance( )
-				.getMediator( )
-				.removeGlobalColleague( this );
 		libraryBackup.dispose( );
 		super.dispose( );
 	}
@@ -475,37 +453,6 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	public TreeViewer getTreeViewer( )
 	{
 		return treeViewer;
-	}
-
-	List requesList = Collections.EMPTY_LIST;
-
-	public void performRequest( ReportRequest request )
-	{
-		if ( ReportRequest.SELECTION.equals( request.getType( ) ) )
-		{
-			if ( !requesList.equals( request.getSelectionModelList( ) ) )
-			{
-				if ( requesList != null
-						& requesList.size( ) > 0
-						&& requesList.get( 0 ) != null
-						&& requesList.get( 0 ) instanceof ModuleHandle )
-				{
-					requesList = request.getSelectionModelList( );
-					prefs.removePreferenceChangeListener( this );
-					prefs = PreferenceFactory.getInstance( )
-							.getPreferences( ReportPlugin.getDefault( ),
-									UIUtil.getCurrentProject( ) );
-					prefs.addPreferenceChangeListener( this );
-					Display.getDefault( ).asyncExec( new Runnable( ) {
-
-						public void run( )
-						{
-							refreshRoot( );
-						}
-					} );
-				}
-			}
-		}
 	}
 
 }

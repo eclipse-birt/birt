@@ -11,10 +11,13 @@
 
 package org.eclipse.birt.report.designer.ui.lib.explorer;
 
+import org.eclipse.birt.core.preference.IPreferences;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.LibraryFileFilterAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.RefreshLibExplorerAction;
+import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.swt.widgets.Composite;
@@ -50,6 +53,8 @@ public class LibraryExplorerView extends PageBookView
 	private LibraryFileFilterAction filterAction;
 
 	private RefreshLibExplorerAction refreshAction;
+
+	private IPreferences prefs;
 
 	/**
 	 * default constructor
@@ -99,30 +104,37 @@ public class LibraryExplorerView extends PageBookView
 
 	protected PageRec getPageRec( IWorkbenchPart part )
 	{
-		if ( ReportPlugin.getDefault( ).getResourceFolder( ) != null
-				&& !ReportPlugin.getDefault( )
-						.getResourceFolder( )
-						.equals( this.resourceFolder ) )
+		PageRec rec = super.getPageRec( part );
+		if ( treeViewPage != null && !treeViewPage.isDisposed( ) )
 		{
-			// refresh viewer only resource folder changed.
-			if ( treeViewPage != null && !treeViewPage.isDisposed( ) )
+			if ( prefs != null )
+				prefs.removePreferenceChangeListener( treeViewPage );
+			prefs = PreferenceFactory.getInstance( )
+					.getPreferences( ReportPlugin.getDefault( ),
+							UIUtil.getCurrentProject( ) );
+			prefs.addPreferenceChangeListener( treeViewPage );
+			String currentResourceFolder = ReportPlugin.getDefault( )
+					.getResourceFolder( );
+			if ( currentResourceFolder != null
+					&& !currentResourceFolder.equals( this.resourceFolder ) )
 			{
 				treeViewPage.refreshRoot( );
+				this.resourceFolder = currentResourceFolder;
 			}
-			this.resourceFolder = ReportPlugin.getDefault( )
-					.getResourceFolder( );
 		}
-		return super.getPageRec( part );
+		return rec;
 	}
-	
-	public void partActivated(IWorkbenchPart part) {
+
+	public void partActivated( IWorkbenchPart part )
+	{
 		super.partActivated( part );
 		refreshAction.updateStatus( );
 		filterAction.updateStatus( );
 		getViewSite( ).getActionBars( ).updateActionBars( );
 	}
-	
-	public void partClosed(IWorkbenchPart part) {
+
+	public void partClosed( IWorkbenchPart part )
+	{
 		super.partClosed( part );
 		refreshAction.updateStatus( );
 		filterAction.updateStatus( );
@@ -269,6 +281,6 @@ public class LibraryExplorerView extends PageBookView
 	public void partBroughtToTop( IWorkbenchPart part )
 	{
 		super.partBroughtToTop( part );
-        partActivated(part);
+		partActivated( part );
 	}
 }
