@@ -88,18 +88,9 @@ public class ChartAggregationCellViewProvider
 			cell.addContent( chartHandle, 0 );
 
 			// Set span and add axis cell
-			if ( cm.isTransposed( ) )
-			{
-				ChartXTabUIUtil.addAxisChartInXTab( cell,
-						ICrosstabConstants.ROW_AXIS_TYPE,
-						chartHandle );
-			}
-			else
-			{
-				ChartXTabUIUtil.addAxisChartInXTab( cell,
-						ICrosstabConstants.COLUMN_AXIS_TYPE,
-						chartHandle );
-			}
+			ChartXTabUIUtil.addAxisChartInXTab( cell,
+					cm.isTransposed( ),
+					chartHandle );
 		}
 		catch ( BirtException e )
 		{
@@ -354,6 +345,7 @@ public class ChartAggregationCellViewProvider
 			{
 				try
 				{
+					// Update plot chart
 					// Reset query expressions
 					ChartReportItemImpl reportItem = (ChartReportItemImpl) handle.getReportItem( );
 					ChartWithAxes cm = (ChartWithAxes) reportItem.getProperty( ChartReportItemConstants.PROPERTY_CHART );
@@ -379,16 +371,18 @@ public class ChartAggregationCellViewProvider
 					{
 						cell.setSpanOverOnColumn( cell.getAggregationOnColumn( ) );
 					}
+
+					// Replace date item with axis chart
+					ChartXTabUIUtil.updateAxisChart( cell,
+							cm.isTransposed( ),
+							handle );
+
 				}
 				catch ( BirtException e )
 				{
 					ExceptionHandler.handle( e );
 				}
 			}
-		}
-		else if ( contentItem instanceof DataItemHandle )
-		{
-
 		}
 	}
 }

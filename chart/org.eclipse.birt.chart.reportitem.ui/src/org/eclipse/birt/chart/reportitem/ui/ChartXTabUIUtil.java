@@ -45,18 +45,18 @@ public class ChartXTabUIUtil
 	 * Adds Axis chart in XTab
 	 * 
 	 * @param cell
-	 * @param axisType
+	 * @param bTransposed
 	 * @param chartHandle
 	 * @throws BirtException
-	 * @see ICrosstabConstants#ROW_AXIS_TYPE
-	 * @see ICrosstabConstants#COLUMN_AXIS_TYPE
 	 * 
 	 */
 	public static void addAxisChartInXTab( AggregationCellHandle cell,
-			int axisType, ExtendedItemHandle hostChartHandle )
+			boolean bTransposed, ExtendedItemHandle hostChartHandle )
 			throws BirtException
 	{
-		if ( axisType == ICrosstabConstants.ROW_AXIS_TYPE )
+		int axisType = bTransposed ? ICrosstabConstants.ROW_AXIS_TYPE
+				: ICrosstabConstants.COLUMN_AXIS_TYPE;
+		if ( bTransposed )
 		{
 			// Set cell span
 			cell.setSpanOverOnRow( cell.getAggregationOnRow( ) );
@@ -124,7 +124,7 @@ public class ChartXTabUIUtil
 				hostChartHandle );
 
 		AggregationCellHandle grandTotalAggCell;
-		if ( axisType == ICrosstabConstants.ROW_AXIS_TYPE )
+		if ( bTransposed )
 		{
 			grandTotalAggCell = ( (MeasureViewHandle) cell.getContainer( ) ).getAggregationCell( null,
 					null,
@@ -146,6 +146,63 @@ public class ChartXTabUIUtil
 		grandTotalAggCell.addContent( axisChartHandle );
 	}
 
+	/**
+	 * Updates Axis chart in Xtab.
+	 * 
+	 * @param cell
+	 * @param bTransposed
+	 * @param hostChartHandle
+	 * @throws BirtException
+	 */
+	public static void updateAxisChart( AggregationCellHandle cell,
+			boolean bTransposed, ExtendedItemHandle hostChartHandle )
+			throws BirtException
+	{
+		int axisType = bTransposed ? ICrosstabConstants.ROW_AXIS_TYPE
+				: ICrosstabConstants.COLUMN_AXIS_TYPE;
+		if ( cell.getCrosstab( ).getGrandTotal( axisType ) != null )
+		{
+			// Create axis chart handle which references to host chart
+			String name = ReportPlugin.getDefault( )
+					.getCustomName( ChartReportItemConstants.CHART_EXTENSION_NAME );
+			ExtendedItemHandle axisChartHandle = cell.getCrosstabHandle( )
+					.getElementFactory( )
+					.newExtendedItem( name,
+							ChartReportItemConstants.CHART_EXTENSION_NAME );
+			axisChartHandle.setProperty( ChartReportItemConstants.PROPERTY_HOST_CHART,
+					hostChartHandle );
+
+			AggregationCellHandle grandTotalAggCell;
+			if ( bTransposed )
+			{
+				grandTotalAggCell = ( (MeasureViewHandle) cell.getContainer( ) ).getAggregationCell( null,
+						null,
+						cell.getDimensionName( ICrosstabConstants.COLUMN_AXIS_TYPE ),
+						cell.getLevelName( ICrosstabConstants.COLUMN_AXIS_TYPE ) );
+			}
+			else
+			{
+				grandTotalAggCell = ( (MeasureViewHandle) cell.getContainer( ) ).getAggregationCell( cell.getDimensionName( ICrosstabConstants.ROW_AXIS_TYPE ),
+						cell.getLevelName( ICrosstabConstants.ROW_AXIS_TYPE ),
+						null,
+						null );
+			}
+			Object content = ChartXTabUtil.getFirstContent( grandTotalAggCell );
+			if ( content instanceof DesignElementHandle )
+			{
+				( (DesignElementHandle) content ).dropAndClear( );
+			}
+			grandTotalAggCell.addContent( axisChartHandle );
+		}
+	}
+
+	/**
+	 * Removes Axis chart in Xtab.
+	 * 
+	 * @param cell
+	 * @param cmOld
+	 * @throws BirtException
+	 */
 	public static void removeAxisChartInXTab( AggregationCellHandle cell,
 			Chart cmOld ) throws BirtException
 	{
@@ -192,10 +249,9 @@ public class ChartXTabUIUtil
 		{
 			if ( cmNew instanceof ChartWithAxes )
 			{
-				int axisType = ( (ChartWithAxes) cmNew ).isTransposed( )
-						? ICrosstabConstants.ROW_AXIS_TYPE
-						: ICrosstabConstants.COLUMN_AXIS_TYPE;
-				addAxisChartInXTab( cell, axisType, hostChartHandle );
+				addAxisChartInXTab( cell,
+						( (ChartWithAxes) cmNew ).isTransposed( ),
+						hostChartHandle );
 			}
 		}
 		else if ( cmOld instanceof ChartWithAxes )
@@ -211,9 +267,7 @@ public class ChartXTabUIUtil
 				if ( bTransOld != bTransNew )
 				{
 					removeAxisChartInXTab( cell, cmOld );
-					int axisType = bTransNew ? ICrosstabConstants.ROW_AXIS_TYPE
-							: ICrosstabConstants.COLUMN_AXIS_TYPE;
-					addAxisChartInXTab( cell, axisType, hostChartHandle );
+					addAxisChartInXTab( cell, bTransNew, hostChartHandle );
 				}
 			}
 		}
