@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
@@ -709,8 +710,7 @@ public class DataSourceAndDataSet
 				&& isEqualString( pb.getName( ), pb2.getName( ) )
 				&& isEqualString( pb.getDefaultInputValue( ),
 						pb2.getDefaultInputValue( ) )
-				&& isEqualString( pb.getDataType( ).toString( ),
-						pb2.getDataType( ).toString( ) )
+				&& DataTypeUtil.toApiDataType( pb.getDataType( ) ) == DataTypeUtil.toApiDataType( pb2.getDataType( ) ) 
                 && pb.getNativeDataType() == pb2.getNativeDataType();
 	}
 
