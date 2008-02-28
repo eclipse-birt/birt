@@ -79,6 +79,7 @@ import org.eclipse.birt.chart.style.IStyleProcessor;
 import org.eclipse.birt.chart.style.SimpleProcessor;
 import org.eclipse.birt.chart.style.SimpleStyle;
 import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -484,6 +485,35 @@ public final class Generator implements IGenerator
 	 * @return All row expressions in a list of String instances.
 	 * @throws ChartException
 	 * 
+	 * @since 2.3
+	 */
+	public List getRowExpressions( Chart cm, IActionEvaluator iae, boolean needChangeValueExpr )
+			throws ChartException
+	{
+		if ( cm instanceof ChartWithAxes )
+		{
+			return getRowExpressions( (ChartWithAxes) cm, iae, needChangeValueExpr );
+		}
+		else if ( cm instanceof ChartWithoutAxes )
+		{
+			return getRowExpressions( (ChartWithoutAxes) cm, iae, needChangeValueExpr );
+		}
+		return null;
+	}
+
+	/**
+	 * This retrieves all the row expressions stored in the chart model. This is
+	 * useful to prepare a specific query for the chart. If the given
+	 * IActionEvaluator is not null, then it will also search available
+	 * expressions within the action.
+	 * 
+	 * @param cm
+	 *            The Chart model
+	 * @param iae
+	 *            An IActionEvaluator instance
+	 * @return All row expressions in a list of String instances.
+	 * @throws ChartException
+	 * 
 	 * @since 2.0
 	 */
 	public List getRowExpressions( Chart cm, IActionEvaluator iae )
@@ -491,15 +521,15 @@ public final class Generator implements IGenerator
 	{
 		if ( cm instanceof ChartWithAxes )
 		{
-			return getRowExpressions( (ChartWithAxes) cm, iae );
+			return getRowExpressions( (ChartWithAxes) cm, iae, true );
 		}
 		else if ( cm instanceof ChartWithoutAxes )
 		{
-			return getRowExpressions( (ChartWithoutAxes) cm, iae );
+			return getRowExpressions( (ChartWithoutAxes) cm, iae, true );
 		}
 		return null;
 	}
-
+	
 	/**
 	 * Binds a sql Resuset to a chart model. This is based on the assumption the
 	 * column names of the resultset match exactly the data query definitions
@@ -1451,7 +1481,7 @@ public final class Generator implements IGenerator
 	}
 
 	private static List getRowExpressions( ChartWithoutAxes cwoa,
-			IActionEvaluator iae ) throws ChartException
+			IActionEvaluator iae, boolean needChangeValueExpr ) throws ChartException
 	{
 		final ArrayList alExpressions = new ArrayList( 4 );
 		EList elSD = cwoa.getSeriesDefinitions( );
@@ -1464,8 +1494,8 @@ public final class Generator implements IGenerator
 		}
 
 		// PROJECT THE EXPRESSION ASSOCIATED WITH THE BASE SERIES DEFINITION
-		SeriesDefinition sd = (SeriesDefinition) elSD.get( 0 );
-		final Query qBaseSeriesDefinition = sd.getQuery( );
+		SeriesDefinition categorySD = (SeriesDefinition) elSD.get( 0 );
+		final Query qBaseSeriesDefinition = categorySD.getQuery( );
 		String sExpression = qBaseSeriesDefinition.getDefinition( );
 		if ( sExpression != null && sExpression.trim( ).length( ) > 0 )
 		{
@@ -1475,7 +1505,7 @@ public final class Generator implements IGenerator
 		}
 
 		// PROJECT THE EXPRESSION ASSOCIATED WITH THE BASE SERIES EXPRESSION
-		final Series seBase = sd.getDesignTimeSeries( );
+		final Series seBase = categorySD.getDesignTimeSeries( );
 		EList elBaseSeries = seBase.getDataDefinition( );
 		if ( elBaseSeries.size( ) != 1 )
 		{
@@ -1508,12 +1538,12 @@ public final class Generator implements IGenerator
 		Query qOrthogonalSeriesDefinition, qOrthogonalSeries;
 		Series seOrthogonal;
 		EList elOrthogonalSeries;
-		elSD = sd.getSeriesDefinitions( ); // ALL ORTHOGONAL SERIES DEFINITIONS
+		elSD = categorySD.getSeriesDefinitions( ); // ALL ORTHOGONAL SERIES DEFINITIONS
 		int iCount = 0;
 		boolean bAnyQueries;
 		for ( int k = 0; k < elSD.size( ); k++ )
 		{
-			sd = (SeriesDefinition) elSD.get( k );
+			SeriesDefinition sd = (SeriesDefinition) elSD.get( k );
 			qOrthogonalSeriesDefinition = sd.getQuery( );
 			if ( qOrthogonalSeriesDefinition == null )
 			{
@@ -1567,6 +1597,11 @@ public final class Generator implements IGenerator
 				}
 
 				sExpression = qOrthogonalSeries.getDefinition( );
+				if ( needChangeValueExpr )
+				{
+					sExpression = ChartUtil.createValueSeriesRowFullExpression( sExpression, sd, categorySD );
+				}
+				
 				if ( sExpression != null && sExpression.trim( ).length( ) > 0 )
 				{
 					bAnyQueries = true;
@@ -1607,7 +1642,7 @@ public final class Generator implements IGenerator
 	}
 
 	private static List getRowExpressions( ChartWithAxes cwa,
-			IActionEvaluator iae ) throws ChartException
+			IActionEvaluator iae, boolean needChangeValueExpr ) throws ChartException
 	{
 		final ArrayList alExpressions = new ArrayList( 4 );
 		final Axis axPrimaryBase = cwa.getPrimaryBaseAxes( )[0];
@@ -1621,8 +1656,8 @@ public final class Generator implements IGenerator
 		}
 
 		// PROJECT THE EXPRESSION ASSOCIATED WITH THE BASE SERIES DEFINITION
-		SeriesDefinition sd = (SeriesDefinition) elSD.get( 0 );
-		final Query qBaseSeriesDefinition = sd.getQuery( );
+		SeriesDefinition categorySD = (SeriesDefinition) elSD.get( 0 );
+		final Query qBaseSeriesDefinition = categorySD.getQuery( );
 		String sExpression = qBaseSeriesDefinition.getDefinition( );
 		if ( sExpression != null && sExpression.trim( ).length( ) > 0 )
 		{
@@ -1632,7 +1667,7 @@ public final class Generator implements IGenerator
 		}
 
 		// PROJECT THE EXPRESSION ASSOCIATED WITH THE BASE SERIES EXPRESSION
-		final Series seBase = sd.getDesignTimeSeries( );
+		final Series seBase = categorySD.getDesignTimeSeries( );
 		EList elBaseSeries = seBase.getDataDefinition( );
 		if ( elBaseSeries.size( ) != 1 )
 		{
@@ -1671,7 +1706,7 @@ public final class Generator implements IGenerator
 			elSD = axaOrthogonal[j].getSeriesDefinitions( );
 			for ( int k = 0; k < elSD.size( ); k++ )
 			{
-				sd = (SeriesDefinition) elSD.get( k );
+				SeriesDefinition sd = (SeriesDefinition) elSD.get( k );
 				qOrthogonalSeriesDefinition = sd.getQuery( );
 				if ( qOrthogonalSeriesDefinition == null )
 				{
@@ -1726,6 +1761,11 @@ public final class Generator implements IGenerator
 					}
 
 					sExpression = qOrthogonalSeries.getDefinition( );
+					if ( needChangeValueExpr )
+					{
+						sExpression = ChartUtil.createValueSeriesRowFullExpression( sExpression, sd, categorySD );
+					}
+					
 					if ( sExpression != null
 							&& sExpression.trim( ).length( ) > 0 )
 					{

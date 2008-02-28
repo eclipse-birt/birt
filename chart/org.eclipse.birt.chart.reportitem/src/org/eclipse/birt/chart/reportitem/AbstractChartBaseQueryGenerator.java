@@ -142,8 +142,13 @@ public abstract class AbstractChartBaseQueryGenerator
 				}
 				
 				// Get a unique name.
-				String name = generateUniqueBindingName( expr );
-
+				String name = ChartUtil.getValueSeriesFullExpression( expr, orthSD, baseSD );
+				if ( fNameSet.contains( name ) )
+				{
+					continue;
+				}
+				fNameSet.add( name );
+				
 				Binding colBinding = new Binding( name );
 
 				colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
@@ -169,7 +174,7 @@ public abstract class AbstractChartBaseQueryGenerator
 						.getAggregateFunction( aggName );
 				if ( aFunc.getParametersCount( ) > 0 )
 				{
-					Object[] parameters = getAggFunParameters( orthSD, baseSD );
+					Object[] parameters = ChartUtil.getAggFunParameters( orthSD, baseSD );
 
 					for ( int i = 0; i < parameters.length &&
 							i < aFunc.getParametersCount( ); i++ )
@@ -180,10 +185,6 @@ public abstract class AbstractChartBaseQueryGenerator
 				}
 
 				String newExpr = getExpressionForEvaluator( name );
-
-				updateQueryDefinitionForSortOnAggregateExpression( qry,
-						name,
-						newExpr );
 
 				try
 				{
@@ -323,11 +324,6 @@ public abstract class AbstractChartBaseQueryGenerator
 				String[] nameNewExprArray = (String[]) valueExprMap.get( baseSortExpr );
 				if ( nameNewExprArray != null && nameNewExprArray.length == 2 )
 				{
-					// Use new expression instead of old.
-					updateQueryDefinitionForSortOnAggregateExpression( categorySD.getSortKey( ),
-							nameNewExprArray[0],
-							nameNewExprArray[1] );
-
 					sd.setExpression( nameNewExprArray[1] );
 				}
 				else
@@ -474,7 +470,7 @@ public abstract class AbstractChartBaseQueryGenerator
 							.getAggregateFunction( aggFunc );
 					if ( aFunc.getParametersCount( ) > 0 )
 					{
-						Object[] parameters = getAggFunParameters( orthSD,
+						Object[] parameters = ChartUtil.getAggFunParameters( orthSD,
 								categorySD );
 
 						for ( int i = 0; i < parameters.length &&
@@ -581,28 +577,6 @@ public abstract class AbstractChartBaseQueryGenerator
 			return baseGroupDefinition;
 		}
 		return null;
-	}
-
-	protected Object[] getAggFunParameters( SeriesDefinition orthSD,
-			SeriesDefinition baseSD )
-	{
-		if ( baseSD.getGrouping( ) != null &&
-				baseSD.getGrouping( ).isSetEnabled( ) &&
-				baseSD.getGrouping( ).isEnabled( ) )
-		{
-			SeriesGrouping grouping = orthSD.getGrouping( );
-			if ( grouping.isSetEnabled( ) && grouping.isEnabled( ) )
-			{
-				// Set own group
-				return grouping.getAggregateParameters( ).toArray( );
-			}
-
-			return baseSD.getGrouping( ).getAggregateParameters( ).toArray( );
-		}
-		else
-		{
-			return orthSD.getGrouping( ).getAggregateParameters( ).toArray( );
-		}
 	}
 
 	/**
@@ -724,13 +698,4 @@ public abstract class AbstractChartBaseQueryGenerator
 	{
 		return ExpressionUtil.createJSRowExpression( expression );
 	}
-	
-	/**
-	 * Update query definition if the sort key is an aggregate expression.
-	 * 
-	 * @param query
-	 * @param expr
-	 */
-	protected abstract void updateQueryDefinitionForSortOnAggregateExpression(
-			Query query, String bindName, String newExpr );
 }

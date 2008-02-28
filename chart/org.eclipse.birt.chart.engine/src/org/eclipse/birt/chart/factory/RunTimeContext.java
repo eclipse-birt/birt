@@ -109,6 +109,12 @@ public final class RunTimeContext implements Serializable
 	 */
 	private transient ScaleContext sharedScale;
 
+	/** 
+     * The field indicates if current chart is sharing query with other module(table/crosstab...).
+     * @since 2.3
+     */
+	private boolean isSharingQuery = false;
+	
 	/**
 	 * A default zero-arg public constructor used for object creation.
 	 */
@@ -557,5 +563,17 @@ public final class RunTimeContext implements Serializable
 	public ScaleContext getScale( )
 	{
 		return this.sharedScale;
+	}
+
+	
+	public boolean isSharingQuery( )
+	{
+		return isSharingQuery;
+	}
+
+	
+	public void setSharingQuery( boolean isSharingQuery )
+	{
+		this.isSharingQuery = isSharingQuery;
 	}
 }

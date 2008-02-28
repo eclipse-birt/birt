@@ -48,6 +48,7 @@ import org.eclipse.birt.chart.script.internal.ChartWithoutAxesImpl;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IChoiceDefinition;
@@ -871,8 +872,17 @@ public final class ChartReportItemImpl extends ReportItem
 	{
 		try
 		{
+			boolean needChangeValueExpr = true;
+			if ( handle instanceof ExtendedItemHandle )
+			{
+				if ( ( (ExtendedItemHandle) handle ).getDataBindingReference( )  != null
+						|| handle.getContainer( ) instanceof MultiViewsHandle )
+				{
+					needChangeValueExpr = false;
+				}
+			}
 			return Generator.instance( ).getRowExpressions( cm,
-					new BIRTActionEvaluator( ) );
+					new BIRTActionEvaluator( ), needChangeValueExpr );
 		}
 		catch ( ChartException e )
 		{

@@ -413,15 +413,6 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 	{
 		throw new UnsupportedOperationException( "Don't be implemented in the class." ); //$NON-NLS-1$
 	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.reportitem.AbstractChartBaseQueryGenerator#updateQueryDefinitionForSortOnAggregateExpression(org.eclipse.birt.chart.model.data.Query, java.lang.String, java.lang.String)
-	 */
-	protected void updateQueryDefinitionForSortOnAggregateExpression(
-			Query query, String bindName, String newExpr )
-	{
-		query.setDefinition( newExpr );
-	}
 	
 	/**
 	 * Returns all query experssion definitions on chart.

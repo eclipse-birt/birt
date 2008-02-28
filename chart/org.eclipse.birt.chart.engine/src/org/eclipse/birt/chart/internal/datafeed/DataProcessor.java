@@ -320,7 +320,21 @@ public class DataProcessor
 		
 		// 2. WALK THROUGH RESULTS
 		List liResultSet = null;
-		List co =  lhmLookup.getExpressions( );
+		List co = null;
+		
+		// If current is sharing query, use original expressions. Else the value
+		// series expression will be transformed to a unique name which include
+		// aggregate information to ensure getting correct data when chart
+		// evaluates expression.
+		if ( rtc.isSharingQuery( ) )
+		{
+			co = lhmLookup.getExpressions( );
+		}
+		else
+		{
+			co = lhmLookup.getExpressionsForAggregate( );
+		}
+		
 		liResultSet = evaluateRowSet( idre,	co.toArray( ) );
 
 		// Prepare orthogonal grouping keys

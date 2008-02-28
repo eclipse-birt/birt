@@ -572,8 +572,8 @@ public class ChartUIUtil
 	public static void doLivePreview( Chart chart,
 			IDataServiceProvider dataProvider ) throws ChartException
 	{
-		final List expressions = Generator.instance( )
-				.getRowExpressions( chart, null );
+		boolean isSharingQuery = dataProvider.isSharedBinding( );
+		final List expressions = Generator.instance( ).getRowExpressions( chart, null, !isSharingQuery );
 
 		IDataRowExpressionEvaluator evaluator = dataProvider.prepareRowExpressionEvaluator( chart,
 				expressions,
@@ -582,6 +582,7 @@ public class ChartUIUtil
 
 		RunTimeContext context = new RunTimeContext( );
 		context.setULocale( ULocale.getDefault( ) );
+		context.setSharingQuery( isSharingQuery );
 		Generator.instance( ).bindData( evaluator, chart, context );
 
 		// Original live preview code: use sample data. See TaskSelectData

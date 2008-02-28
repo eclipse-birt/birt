@@ -55,6 +55,7 @@ import org.eclipse.birt.report.engine.extension.ReportItemPresentationBase;
 import org.eclipse.birt.report.engine.extension.Size;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
+import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
@@ -584,7 +585,19 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 			{
 				rtc.setScale( createSharedScale( resultSet ) );
 			}
-
+			
+			// Set sharing query flag.
+			boolean isSharingQuery = false;
+			if ( handle instanceof ExtendedItemHandle )
+			{
+				if ( ( (ExtendedItemHandle) handle ).getDataBindingReference( )  != null
+						|| handle.getContainer( ) instanceof MultiViewsHandle )
+				{
+					isSharingQuery = true;
+				}
+			}
+			rtc.setSharingQuery( isSharingQuery );
+			
 			// Update chart model if needed
 			updateChartModel( );
 
