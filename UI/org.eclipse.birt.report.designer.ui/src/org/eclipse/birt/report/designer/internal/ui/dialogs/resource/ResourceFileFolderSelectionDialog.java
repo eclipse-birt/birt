@@ -76,6 +76,9 @@ public class ResourceFileFolderSelectionDialog extends
 			{
 				return 1;
 			}
+			else if(element instanceof ResourceEntry && ((ResourceEntry)element).isFile( )){
+				return 1;
+			}
 			return 0;
 		}
 	}

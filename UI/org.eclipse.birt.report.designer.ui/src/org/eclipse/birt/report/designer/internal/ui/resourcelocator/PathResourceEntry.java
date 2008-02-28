@@ -264,7 +264,8 @@ public class PathResourceEntry extends BaseResourceEntity
 
 	public Object getAdapter( Class adapter )
 	{
-		if ( adapter == LibraryHandle.class )
+		if ( adapter == LibraryHandle.class
+				&& getURL( ).toString( ).toLowerCase( ).endsWith( "library" ) )
 		{
 			if ( !this.isFolder && this.library == null )
 			{

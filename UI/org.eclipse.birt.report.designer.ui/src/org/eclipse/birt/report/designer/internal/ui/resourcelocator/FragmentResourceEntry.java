@@ -167,7 +167,7 @@ public class FragmentResourceEntry extends BaseResourceEntity
 
 	public Image getImage( )
 	{
-		if ( this.isRoot || hasChildren() )
+		if ( this.isRoot || hasChildren( ) )
 			return PlatformUI.getWorkbench( )
 					.getSharedImages( )
 					.getImage( ISharedImages.IMG_OBJ_FOLDER );
@@ -219,13 +219,10 @@ public class FragmentResourceEntry extends BaseResourceEntity
 
 	public Object getAdapter( Class adapter )
 	{
-		if ( adapter == LibraryHandle.class )
+		if ( adapter == LibraryHandle.class
+				&& getURL( ).toString( ).toLowerCase( ).endsWith( "library" ) )
 		{
-			if ( !hasChildren( )
-					&& this.library == null
-					&& getURL( ).toString( )
-							.toLowerCase( )
-							.endsWith( ".rptlibrary" ) ) //$NON-NLS-1$
+			if ( !hasChildren( ) && this.library == null ) //$NON-NLS-1$
 			{
 				try
 				{
