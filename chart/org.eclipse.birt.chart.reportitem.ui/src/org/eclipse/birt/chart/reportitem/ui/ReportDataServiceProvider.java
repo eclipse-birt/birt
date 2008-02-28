@@ -51,6 +51,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.data.DataTypeUtil;
@@ -103,6 +104,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.api.util.CubeUtil;
 import org.eclipse.birt.report.model.metadata.PredefinedStyle;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.common.util.EList;
@@ -877,10 +879,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 */
 	public DataType getDataType( String expression )
 	{
-		// Do not check type for cube
 		if ( expression == null
-				|| expression.trim( ).length( ) == 0
-				|| ChartXTabUtil.getBindingCube( itemHandle ) != null )
+				|| expression.trim( ).length( ) == 0 )
 		{
 			return null;
 		}
@@ -926,6 +926,15 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		// Return null for unknown data type.
 		return null;
 	}
+	
+	private String getQueryStringForProcessing( String expression )
+	{
+		if ( expression.indexOf( "[\"" ) > 0 ) //$NON-NLS-1$
+		{
+			return expression.substring( expression.indexOf( "[\"" ) + 2, expression.indexOf( "\"]" ) ); //$NON-NLS-1$//$NON-NLS-2$
+		}
+		return null;
+	}
 
 	/**
 	 * Find data type of expression from specified item handle.
@@ -945,13 +954,13 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	{
 		Object[] returnObj = new Object[2];
 		returnObj[0] = new Boolean( false );
+		String columnName = getQueryStringForProcessing( expression );
 
 		Iterator iterator = ChartReportItemUtil.getAllColumnBindingsIterator( itemHandle );
 		while ( iterator.hasNext( ) )
 		{
 			ComputedColumnHandle cc = (ComputedColumnHandle) iterator.next( );
-			if ( expression.toUpperCase( )
-					.indexOf( cc.getName( ).toUpperCase( ) ) >= 0 )
+			if ( cc.getName( ).equalsIgnoreCase( columnName ) )
 			{
 				String dataType = cc.getDataType( );
 				if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING ) )
@@ -1172,10 +1181,19 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		DataSessionContext dsc = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
 				getReportDesignHandle( ) );
 
-		Map appContext = new HashMap( );
-		appContext.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT,
-				new Integer( maxRow ) );
-		dsc.setAppContext( appContext );
+		// Bugzilla #210225.
+		// If filter is set on report item handle of chart, here should not use
+		// data cache mode and get all valid data firstly, then set row limit on
+		// query(QueryDefinition.setMaxRows) to get required rows.
+		List filters = itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP )
+				.getListValue( );
+		if ( filters == null || filters.size( ) == 0 )
+		{
+			Map appContext = new HashMap( );
+			appContext.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT,
+					new Integer( maxRow ) );
+			dsc.setAppContext( appContext );
+		}
 
 		DataRequestSession session = DataRequestSession.newSession( dsc );
 		return session;
@@ -1236,16 +1254,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			generateGroupBindings( queryDefn );
 
 			return queryDefn;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.birt.chart.reportitem.AbstractChartBaseQueryGenerator#createBaseQuery(org.eclipse.birt.data.engine.api.IDataQueryDefinition)
-		 */
-		public IDataQueryDefinition createBaseQuery( IDataQueryDefinition parent )
-		{
-			throw new UnsupportedOperationException( "Don't be implemented in the class." ); //$NON-NLS-1$
 		}
 
 		/**
@@ -1354,7 +1362,16 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				}
 			}
 		}
-
+		
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.chart.reportitem.AbstractChartBaseQueryGenerator#createBaseQuery(org.eclipse.birt.data.engine.api.IDataQueryDefinition)
+		 */
+		public IDataQueryDefinition createBaseQuery( IDataQueryDefinition parent )
+		{
+			throw new UnsupportedOperationException( "Don't be implemented in the class." ); //$NON-NLS-1$
+		}
 	} // End of class BaseQueryHelper.
 
 	public boolean isInXTab( )
@@ -1726,7 +1743,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 			// Process grouping and aggregate on group case.
 			// Get groups.
-			List groupList = fShareBindingQueryHelper.getGroupsOfSharedBinding( );
+			List groupList = getGroupsOfSharedBinding( );
 
 			columnHeaders = new ColumnBindingInfo[columnList.size( ) +
 					groupList.size( )];
@@ -1826,6 +1843,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			List groupList = new ArrayList( );
 			ReportItemHandle handle = getReportItemHandle( );
+			handle = getSharedTableHandle( handle );
 			if ( handle instanceof TableHandle )
 			{
 				SlotHandle groups = ( (TableHandle) handle ).getGroups( );
@@ -1837,6 +1855,33 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			return groupList;
 		}
 
+		/**
+		 * Returns correct shared table handle when chart is sharing table's query.
+		 *  
+		 * @param itemHandle
+		 * @return
+		 */
+		private ReportItemHandle getSharedTableHandle( ReportItemHandle itemHandle )
+		{
+			if ( itemHandle instanceof TableHandle )
+			{
+				return itemHandle; 
+			}
+			
+			ReportItemHandle handle = itemHandle.getDataBindingReference( );
+			if ( handle != null )
+			{
+				return getSharedTableHandle( handle );
+			}
+			
+			if ( itemHandle.getContainer( ) instanceof MultiViewsHandle )
+			{
+				return getSharedTableHandle( (ReportItemHandle) itemHandle.getContainer( ).getContainer( ) );
+			}
+			
+			return null;
+		}
+		
 		/**
 		 * Returns preview row data for table shared binding, it will share table's
 		 * bindings and get them data.
@@ -1997,5 +2042,122 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 			return columns;
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#update(java.lang.String,
+	 *      java.lang.Object)
+	 */
+	public boolean update( String type, Object value )
+	{
+		boolean isUpdated = false;
+
+		if ( ChartUIConstants.QUERY_VALUE.equals( type ) &&
+				getDataCube( ) != null &&
+				isSharedBinding( ) )
+		{
+			// Need to automated set category/Y optional bindings by value series
+			// binding.
+			// 1. Get all bindings.
+			Map bindingMap = new LinkedHashMap( );
+			for ( Iterator bindings = ChartReportItemUtil.getAllColumnBindingsIterator( itemHandle ); bindings.hasNext( ); )
+			{
+				ComputedColumnHandle column = (ComputedColumnHandle) bindings.next( );
+				bindingMap.put( column.getName( ), column );
+			}
+
+			// 2. Get value series bindings.
+			String bindingName = ChartXTabUtil.getBindingName( (String) value,
+					false );
+			ComputedColumnHandle computedBinding = (ComputedColumnHandle) bindingMap.get( bindingName );
+
+			// 3. Get all levels which value series binding aggregate on and set
+			// correct binding to category/ Y optional.
+			List aggOnList = computedBinding.getAggregateOnList( );
+			if ( aggOnList.size( ) > 0 )
+			{
+				String[] levelNames = CubeUtil.splitLevelName( (String) aggOnList.get( 0 ) );
+				String dimExpr = ExpressionUtil.createJSDimensionExpression( levelNames[0],
+						levelNames[1] );
+				List names = ChartXTabUtil.getRelatedBindingNames( dimExpr,
+						bindingMap.values( ) );
+				// Set category.
+				if ( names.size( ) > 0 )
+				{
+					SeriesDefinition sd = (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( context.getModel( ) )
+							.get( 0 );
+					( (Query) sd.getDesignTimeSeries( )
+							.getDataDefinition( )
+							.get( 0 ) ).setDefinition( ExpressionUtil.createJSDataExpression( (String) names.get( 0 ) ) );
+					isUpdated = true;
+				}
+			}
+
+			if ( aggOnList.size( ) > 1 )
+			{
+				String[] levelNames = CubeUtil.splitLevelName( (String) aggOnList.get( 1 ) );
+				String dimExpr = ExpressionUtil.createJSDimensionExpression( levelNames[0],
+						levelNames[1] );
+				List names = ChartXTabUtil.getRelatedBindingNames( dimExpr,
+						bindingMap.values( ) );
+				// Set Y optional.
+				int size = names.size( );
+				if ( size > 0 )
+				{
+					for ( Iterator iter = ChartUIUtil.getAllOrthogonalSeriesDefinitions( context.getModel( ) )
+							.iterator( ); iter.hasNext( ); )
+					{
+						SeriesDefinition sd = (SeriesDefinition) iter.next( );
+						sd.getQuery( )
+								.setDefinition( ExpressionUtil.createJSDataExpression( (String) names.get( 0 ) ) );
+						isUpdated = true;
+					}
+				}
+			}
+			else
+			{
+				for ( Iterator iter = ChartUIUtil.getAllOrthogonalSeriesDefinitions( context.getModel( ) )
+						.iterator( ); iter.hasNext( ); )
+				{
+					SeriesDefinition sd = (SeriesDefinition) iter.next( );
+					sd.getQuery( ).setDefinition( "" ); //$NON-NLS-1$
+					isUpdated = true;
+				}
+			}
+		}
+
+		return isUpdated;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#getStates()
+	 */
+	public int getStateInformation( )
+	{
+		int states = 0;
+		if ( getBoundDataSet( ) != null )
+		{
+			states |= IDataServiceProvider.HAS_DATA_SET;
+		}
+		if ( getDataCube( ) != null )
+		{
+			states |= IDataServiceProvider.HAS_CUBE;
+		}
+		if ( itemHandle.getDataBindingReference( ) != null )
+		{
+			states |= IDataServiceProvider.DATA_BINDING_REFERENCE;
+		}
+		if ( isInMultiView( ) )
+		{
+			states |= IDataServiceProvider.IN_MULTI_VIEWS;
+		}
+		if ( isSharedBinding( ) )
+		{
+			states |= IDataServiceProvider.IS_SHARING_QUERY;
+		}
+
+		return states;
 	}
 }
